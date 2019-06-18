@@ -11,14 +11,14 @@
 
       <template v-slot:before>
         <q-img
-          src="https://cdn.quasar-framework.org/img/parallax1.jpg"
+          src="https://cdn.quasar.dev/img/parallax1.jpg"
           :ratio="16/9"
         />
       </template>
 
       <template v-slot:after>
         <q-img
-          src="https://cdn.quasar-framework.org/img/parallax1-inverted.jpg"
+          src="https://cdn.quasar.dev/img/parallax1-inverted.jpg"
           :ratio="16/9"
         />
       </template>

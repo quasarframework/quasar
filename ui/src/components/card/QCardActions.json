@@ -1,0 +1,28 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "align": {
+      "type": "String",
+      "desc": "Specify how to align the actions",
+      "default": "left (for horizontal mode) / stretch (for vertical mode)",
+      "values": [ "left", "center", "right", "between", "around", "stretch" ],
+      "examples": [ "between" ],
+      "category": "content"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Display actions one below the other",
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestions: QBtn"
+    }
+  }
+}

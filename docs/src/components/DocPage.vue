@@ -3,7 +3,7 @@ q-page.doc-page
 
   h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')")
     span {{ title }}
-    a.doc-page__top-link.float-right(:href="editHref", target="_blank", rel="noopener noreferrer")
+    a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
       q-icon(name="edit", @click.stop)
         q-tooltip Improve page
 
@@ -44,10 +44,10 @@ q-page.doc-page
             .doc-page-nav__name.text-weight-bold {{ link.name }}
 
   .doc-page-footer
-    q-separator
+    q-separator.q-mb-sm
 
-    .q-my-sm
-      | Caught a mistake? <doc-link :to="editHref">Suggest an edit on Github</doc-link>
+    .q-mb-sm(v-if="noEdit === false")
+      | Caught a mistake? <doc-link :to="editHref">Suggest an edit on GitHub</doc-link>
 
     .doc-page-footer__icons.row.items-center
       a(href="https://github.com/quasarframework/quasar", target="_blank")
@@ -59,10 +59,10 @@ q-page.doc-page
       a(href="https://medium.com/quasar-framework", target="_blank")
         q-icon(name="fab fa-medium")
 
-      a(href="https://discord.gg/5TDhbDg", target="_blank")
+      a(href="https://chat.quasar.dev", target="_blank")
         q-icon(name="fab fa-discord")
 
-      a(href="https://forum.quasar-framework.org/", target="_blank")
+      a(href="https://forum.quasar.dev/", target="_blank")
         q-icon(name="fas fa-comments")
 
       a(href="https://www.patreon.com/quasarframework", target="_blank")
@@ -78,18 +78,21 @@ q-page.doc-page
 <script>
 import { copyHeading } from 'assets/page-utils'
 
+const year = (new Date()).getFullYear()
+
 export default {
   name: 'DocPage',
 
   props: {
     title: String,
     related: Array,
-    nav: Array
+    nav: Array,
+    noEdit: Boolean
   },
 
   data () {
     return {
-      year: (new Date()).getFullYear()
+      year
     }
   },
 

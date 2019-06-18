@@ -1,0 +1,38 @@
+.q-select
+  &--without-input
+    .q-field__control
+      cursor pointer
+  &--with-input
+    .q-field__control
+      cursor text
+
+  &__input
+    border 0
+    outline 0 !important // needed for FF
+    background transparent
+    min-width 50px !important
+    padding 0
+    height 0
+    min-height 24px
+    line-height 24px
+
+    &--padding
+      padding-left 4px
+
+  &__dropdown-icon
+    cursor pointer
+
+  &__dialog
+    width 90vw !important
+    max-width 90vw !important
+    max-height calc(100vh - 70px) !important
+    background white
+    display flex
+    flex-direction column
+
+  &__menu--dark
+    color white
+    background $grey-9
+
+body.platform-ios .q-select__dialog
+  max-height 50vh !important

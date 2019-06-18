@@ -220,8 +220,51 @@ const message = 'This is content when we don\'t have "Feature X"'
 
 Possibilities are limited only by your imagination.
 
+## api.getPersistentConf
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Get the internal persistent config of this extension. Returns empty object if it has none.
+
+```js
+/**
+ * @return {object} cfg
+ */
+api.getPersistentConf()
+```
+
+## api.setPersistentConf
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Set the internal persistent config of this extension. If it already exists, it is overwritten.
+
+```js
+/**
+ * @param {object} cfg
+ */
+api.setPersistentConf({
+  // ....
+})
+```
+
+## api.mergePersistentConf
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.
+
+```js
+/**
+ * @param {object} cfg
+ */
+api.mergePersistentConf({
+  // ....
+})
+```
+
 ## api.onExitLog
-Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit.
+Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.
 
 ```js
 /**

@@ -45,8 +45,7 @@ Except for `src/index.js`, all the other files are optional. You can manually ad
 We need to create a Quasar project folder to be able to test it while we develop the extension:
 
 ```bash
-# "-b dev" is temporary until final 1.0 build
-$ quasar create test-app -b dev
+$ quasar create test-app
 ```
 
 ### Install and prompts scripts
@@ -76,6 +75,23 @@ $ quasar ext invoke my-ext
 ```
 
 This will trigger the installation of our new App Extension. You need to redo these two steps each time you make changes and you want to test them.
+
+Additionally, if you would like to have HMR (hot module reload) capabilities in your test app while developing your App Extension, then your `quasar.conf.js > devServer > watchOptions` would look like this:
+
+```js
+// quasar.conf.js
+devServer: {
+  watchOptions: {
+    ignored: [
+      'node_modules',
+      
+      // be sure to change <myextid> below to
+      // your App Extension name:
+      '!node_modules/quasar-app-extension-<myextid>'
+    ]
+  }
+}
+```
 
 ### Uninstall script
 

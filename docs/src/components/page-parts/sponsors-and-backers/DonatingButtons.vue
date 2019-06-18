@@ -2,10 +2,28 @@
   <div class="row q-gutter-sm">
     <q-btn
       push
+      color="black"
+      style="height: 65px; width: 250px;"
+      no-caps
+      type="a"
+      href="https://github.com/users/rstoenescu/sponsorship"
+      target="_blank"
+    >
+      <div class="row items-center no-wrap">
+        <q-icon left name="fab fa-github" />
+
+        <div class="text-center">
+          Github Sponsorship<br><strong>(recommended)</strong>
+        </div>
+      </div>
+    </q-btn>
+
+    <q-btn
+      push
       color="primary"
-      style="height: 50px;"
+      style="height: 65px; width: 250px;"
       icon="fab fa-patreon"
-      label="Become a Patron"
+      label="Patreon"
       no-caps
       type="a"
       href="https://www.patreon.com/quasarframework"
@@ -19,12 +37,18 @@
       <q-btn
         push
         color="secondary"
-        style="height: 50px;"
-        icon="fab fa-paypal"
-        label="One-time through Paypal"
+        style="height: 65px; width: 250px;"
         type="submit"
         no-caps
-      />
+      >
+        <div class="row items-center no-wrap">
+          <q-icon left name="fab fa-paypal" />
+
+          <div class="text-center">
+            Paypal<br>(one time)
+          </div>
+        </div>
+      </q-btn>
       <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
     </form>
   </div>

@@ -1,0 +1,544 @@
+{
+  "mixins": [ "components/field/__QField" ],
+
+  "props": {
+    "value": {
+      "type": [ "Number", "String", "Array" ],
+      "desc": "Model of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "required": true,
+      "examples": [ "v-model=\"myModel\"" ],
+      "category": "model"
+    },
+
+    "multiple": {
+      "type": "Boolean",
+      "desc": "Allow multiple selection; Model must be Array",
+      "category": "model|selection"
+    },
+
+    "display-value": {
+      "type": [ "Number", "String" ],
+      "desc": "Override default selection string, if not using 'selected' slot/scoped slot and if not using 'use-chips' prop",
+      "examples": [ "Options: x, y, z"],
+      "category": "selection"
+    },
+
+    "display-value-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render selected option(s); Use it when the selected option(s) might be unsafe (from user input); Does NOT apply when using 'selected' or 'selected-item' slots!",
+      "category": "selection"
+    },
+
+    "options": {
+      "type": "Array",
+      "desc": "Available options that the user can select from",
+      "default": "[]",
+      "examples": [
+        ":options=\"[ 'BMW', 'Samsung Phone' ]\"",
+        ":options=\"[ { label: 'BMW', value: 'car' }, { label: 'Samsung Phone', value: 'phone' } ]\""
+      ],
+      "category": "options"
+    },
+
+    "option-value": {
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which holds the 'value'",
+      "default": "value",
+      "examples": [
+        "option-value=\"modelNumber\"",
+        ":option-value=\"(item) => item === null ? null : item.modelNumber\""
+      ],
+      "category": "options"
+    },
+
+    "option-label": {
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which holds the 'label'",
+      "default": "label",
+      "examples": [
+        "option-label=\"itemName\"",
+        ":option-label=\"(item) => item === null ? 'Null value' : item.itemName\""
+      ],
+      "category": "options"
+    },
+
+    "option-disable": {
+      "type": [ "Function", "String" ],
+      "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean",
+      "default": "disable",
+      "examples": [
+        "option-disable=\"cannotSelect\"",
+        ":option-disable=\"(item) => item === null ? true : item.cannotSelect\""
+      ],
+      "category": "options"
+    },
+
+    "hide-selected": {
+      "type": "Boolean",
+      "desc": "Hides selection; Use the underlying input tag to hold the label (instead of showing it to the right of the input) of the selected option; Only works for non 'multiple' Selects",
+      "category": "selection"
+    },
+
+    "hide-dropdown-icon": {
+      "type": "Boolean",
+      "desc": "Hides dropdown icon",
+      "category": "content|behavior"
+    },
+
+    "dropdown-icon": {
+      "extends": "icon"
+    },
+
+    "max-values": {
+      "type": [ "Number", "String" ],
+      "desc": "Allow a maximum number of selections that the user can do",
+      "examples": [ "5" ],
+      "category": "selection"
+    },
+
+    "options-dense": {
+      "extends": "dense",
+      "desc": "Dense mode for options list; occupies less space",
+      "category": "options"
+    },
+
+    "options-dark": {
+      "type": "Boolean",
+      "desc": "Options menu will be colored with a dark color",
+      "category": "options"
+    },
+
+    "options-selected-class": {
+      "type": "String",
+      "desc": "CSS class name for options that are active/selected",
+      "examples": [ "text-orange" ],
+      "category": "options"
+    },
+
+    "options-cover": {
+      "type": "Boolean",
+      "desc": "Expanded menu will cover the component (will not work along with 'use-input' prop for obvious reasons)",
+      "category": "options"
+    },
+
+    "options-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT applies when using 'option' slot!",
+      "category": "options"
+    },
+
+    "popup-content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the popup content",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
+    },
+
+    "popup-content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the popup content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "use-input": {
+      "type": "Boolean",
+      "desc": "Use an input tag where users can type",
+      "category": "content"
+    },
+
+    "use-chips": {
+      "type": "Boolean",
+      "desc": "Use QChip to show what is currently selected",
+      "category": "selection"
+    },
+
+    "fill-input": {
+      "type": "Boolean",
+      "desc": "Fills the input with current value; Useful along with 'hide-selected'; Does NOT works along with 'multiple' selection",
+      "category": "behavior"
+    },
+
+    "new-value-mode": {
+      "type": "String",
+      "desc": "Enables creation of new values and defines behavior when a new value is added: 'add' means it adds the value (even if possible duplicate), 'add-unique' adds only unique values, and 'toggle' adds or removes the value (based on if it exists or not already); When using this prop then listening for @new-value becomes optional (only to override the behavior defined by 'new-value-mode')",
+      "values": [ "add", "add-unique", "toggle" ],
+      "category": "behavior"
+    },
+
+    "map-options": {
+      "type": "Boolean",
+      "desc": "Try to map labels of model from 'options' Array; has a small performance penalty",
+      "category": "options"
+    },
+
+    "emit-value": {
+      "type": "Boolean",
+      "desc": "Update model with the value of the selected option instead of the whole option",
+      "category": "model"
+    },
+
+    "input-debounce": {
+      "type": [ "Number", "String" ],
+      "desc": "Debounce the input model update with an amount of milliseconds",
+      "default": 500,
+      "examples": [ 650 ],
+      "category": "content"
+    },
+
+    "transition-show": {
+      "extends": "transition",
+      "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
+      "default": "fade",
+      "category": "behavior"
+    },
+
+    "transition-hide": {
+      "extends": "transition",
+      "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
+      "default": "fade",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "selected": {
+      "desc": "Override default selection slot; Suggestion: QChip"
+    },
+
+    "loading": {
+      "desc": "Override default spinner when component is in loading mode; Suggestion: spinners"
+    }
+  },
+
+  "scopedSlots": {
+    "no-option": {
+      "desc": "What should the menu display after filtering options and none are left to be displayed; Suggestion: <div>",
+      "scope": {
+        "inputValue": {
+          "type": "String",
+          "desc": "Input textfield value, if any (not QSelect model)",
+          "examples": [ "typed something" ]
+        }
+      }
+    },
+
+    "selected-item": {
+      "desc": "Override default selection slot; Suggestion: QChip",
+      "scope": {
+        "index": {
+          "type": "Number",
+          "desc": "Selection index",
+          "examples": [ 0 ]
+        },
+        "opt": {
+          "type": "Any",
+          "desc": "Selected option -- its value is taken from model",
+          "__exemption": [ "examples" ]
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "Always true -- passed down as prop to QItem (when using QItem)"
+        },
+        "removeAtIndex": {
+          "type": "Function",
+          "desc": "Remove selected option located at specific index",
+          "params": {
+            "index": {
+              "type": "Number",
+              "desc": "Index at which to remove selection",
+              "examples": [ 0 ]
+            }
+          },
+          "returns": null
+        },
+        "toggleOption": {
+          "type": "Function",
+          "desc": "Add/remove option from model",
+          "params": {
+            "opt": {
+              "type": "Any",
+              "desc": "Option to add to model",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "returns": null
+        },
+        "tabindex": {
+          "type": "Number",
+          "desc": "Tabindex HTML attribute value associated with respective option",
+          "values": [ 0, -1 ]
+        }
+      }
+    },
+
+    "option": {
+      "desc": "Customize how options are rendered; Suggestion: QItem",
+      "scope": {
+        "index": {
+          "type": "Number",
+          "desc": "Option index",
+          "examples": [ 0 ]
+        },
+        "opt": {
+          "type": "Any",
+          "desc": "Option -- its value is taken from 'options' prop",
+          "__exemption": [ "examples" ]
+        },
+        "selected": {
+          "type": "Boolean",
+          "desc": "Is option selected?"
+        },
+        "focused": {
+          "type": "Boolean",
+          "desc": "Is option focused?"
+        },
+        "toggleOption": {
+          "type": "Function",
+          "desc": "Add/remove option from model",
+          "params": {
+            "opt": {
+              "type": "Any",
+              "desc": "Option to add to model",
+              "__exemption": [ "examples" ]
+            }
+          },
+          "returns": null
+        },
+        "setOptionIndex": {
+          "type": "Function",
+          "desc": "Sets option from menu as 'focused'",
+          "params": {
+            "index": {
+              "type": "Number",
+              "desc": "Index of option from menu",
+              "examples": [ 10 ]
+            }
+          },
+          "returns": null
+        },
+        "itemProps": {
+          "type": "Object",
+          "desc": "Computed properties passed down to QItem",
+          "__exemption": [ "examples" ]
+        },
+        "itemEvents": {
+          "type": "Object",
+          "desc": "Computed events passed down to QItem",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+
+    "remove": {
+      "desc": "Emitted when an option is removed from selection",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Removal details",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "desc": "Model index at which removal took place",
+              "examples": [ 2 ]
+            },
+            "value": {
+              "type": "Any",
+              "desc": "The actual value that was removed",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      }
+    },
+
+    "add": {
+      "desc": "Emitted when an option is added to the selection",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Addition details",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "desc": "Model index at which addition took place",
+              "examples": [ 2 ]
+            },
+            "value": {
+              "type": "Any",
+              "desc": "The actual value that was added",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      }
+    },
+
+    "new-value": {
+      "desc": "Enables creation of new values; Emitted when a new value has been created; You can override 'new-value-mode' property with it",
+      "params": {
+        "inputValue": {
+          "type": "String",
+          "desc": "What the user typed",
+          "examples": [ "phone" ]
+        },
+        "doneFn": {
+          "type": "Function",
+          "desc": "Adds (optional) value to the model; Do not forget to call it after you validate the newly created value; Call it with no parameters if nothing should be added",
+          "params": {
+            "item": {
+              "type": "Any",
+              "desc": "Item to add",
+              "__exemption": [ "examples" ]
+            },
+            "mode": {
+              "type": "String",
+              "desc": "Override 'new-value-mode' (prop) behavior should you wish to",
+              "values": [ "add", "add-unique", "toggle" ],
+              "default": "add"
+            }
+          },
+          "returns": null
+        }
+      }
+    },
+
+    "filter": {
+      "desc": "Emitted when user wants to filter a value",
+      "params": {
+        "inputValue": {
+          "type": "String",
+          "desc": "What the user typed",
+          "examples": [ "phone" ]
+        },
+        "doneFn": {
+          "type": "Function",
+          "desc": "Supply a function which makes the necessary updates",
+          "params": {
+            "callbackFn": {
+              "type": "Function",
+              "desc": "Callback to call to make the actual updates",
+              "params": null,
+              "returns": null
+            }
+          },
+          "returns": null
+        },
+        "abortFn": {
+          "type": "Function",
+          "desc": "Call this function if something went wrong",
+          "params": null,
+          "returns": null
+        }
+      }
+    },
+
+    "filter-abort": {
+      "desc": "Emitted when a filtering was aborted; Probably a new one was requested?"
+    }
+  },
+
+  "methods": {
+    "focus": {
+      "desc": "Focus component"
+    },
+
+    "showPopup": {
+      "desc": "Focus and open popup"
+    },
+
+    "hidePopup": {
+      "desc": "Hide popup"
+    },
+
+    "removeAtIndex": {
+      "desc": "Remove selected option located at specific index",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Index at which to remove selection",
+          "required": true,
+          "examples": [ 0 ]
+        }
+      }
+    },
+
+    "add": {
+      "desc": "Adds option to model",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option to add to model",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "toggleOption": {
+      "desc": "Add/remove option from model",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option to add to model",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "setOptionIndex": {
+      "desc": "Sets option from menu as 'focused'",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Index of option from menu",
+          "required": true,
+          "examples": [ 10 ]
+        }
+      }
+    },
+
+    "filter": {
+      "desc": "Filter options",
+      "params": {
+        "value": {
+          "type": "String",
+          "desc": "String to filter with",
+          "required": true,
+          "examples": [ "car" ]
+        }
+      }
+    },
+
+    "updateMenuPosition": {
+      "desc": "Recomputes menu position"
+    },
+
+    "updateInputValue": {
+      "desc": "If 'use-input' is specified, this updates the value that it holds",
+      "params": {
+        "value": {
+          "type": "String",
+          "desc": "String to set the input value to",
+          "examples": [ "hotel" ]
+        },
+        "noFilter": {
+          "type": "Boolean",
+          "desc": "Set to true if you don't want the filter (if any) to be also triggered"
+        }
+      }
+    }
+  }
+}

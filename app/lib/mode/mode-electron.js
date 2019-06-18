@@ -5,15 +5,15 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:mode-electron'),
   warn = logger('app:mode-electron', 'red'),
-  spawn = require('../helpers/spawn'),
+  { spawnSync } = require('../helpers/spawn'),
   nodePackager = require('../helpers/node-packager')
 
 const
   electronDeps = {
-    'electron': '4.0.5',
-    'electron-debug': '2.1.0',
-    'electron-devtools-installer': '2.2.4',
-    'devtron': '1.4.0'
+    'electron': '^4.0.5',
+    'electron-debug': '^2.1.0',
+    'electron-devtools-installer': '^2.2.4',
+    'devtron': '^1.4.0'
   }
 
 class Mode {
@@ -21,7 +21,7 @@ class Mode {
     return fs.existsSync(appPaths.electronDir)
   }
 
-  add (params) {
+  add () {
     if (this.isInstalled) {
       warn(`Electron support detected already. Aborting.`)
       return
@@ -32,7 +32,7 @@ class Mode {
       : ['add', '--dev']
 
     log(`Installing Electron dependencies...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam.concat(Object.keys(electronDeps).map(dep => {
         return `${dep}@${electronDeps[dep]}`
@@ -57,10 +57,10 @@ class Mode {
 
     const cmdParam = nodePackager === 'npm'
       ? ['uninstall', '--save-dev']
-      : ['remove', '--dev']
+      : ['remove']
 
     log(`Uninstalling Electron dependencies...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam.concat(Object.keys(electronDeps)),
       appPaths.appDir,

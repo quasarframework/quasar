@@ -73,7 +73,7 @@ You can customize the filtering method by specifying the `filter-method` prop. T
 
 <doc-example title="Custom filter" file="QTree/FilterCustom" />
 
-## API
+## QTree API
 <doc-api file="QTree" />
 
 ### Nodes model structure

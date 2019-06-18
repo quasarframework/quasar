@@ -1,0 +1,81 @@
+{
+  "props": {
+    "thumb-style": {
+      "type": "Object",
+      "desc": "Object with CSS properties and values for styling the thumb of custom scrollbar",
+      "examples": [ ":thumb-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
+      "category": "style"
+    },
+
+    "content-style": {
+      "type": "Object",
+      "desc": "Object with CSS properties and values for styling the container of QScrollArea",
+      "examples": [ ":content-style=\"{ backgroundColor: '#C0C0C0' }\"" ],
+      "category": "style"
+    },
+
+    "content-active-style": {
+      "type": "Object",
+      "desc": "Object with CSS properties and values for styling the container of QScrollArea when scroll area becomes active (is mouse hovered)",
+      "examples": [ ":content-active-style=\"{ backgroundColor: 'white' }\"" ],
+      "category": "style"
+    },
+
+    "delay": {
+      "type": [ "Number", "String" ],
+      "desc": "When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars dissapear again (if component is not hovered)",
+      "default": 1000,
+      "examples": [ 500, ":delay=\"550\"" ],
+      "category": "behavior"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Register for horizontal scroll instead of vertical (which is default)",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "methods": {
+    "getScrollTarget": {
+      "desc": "Get the scrolling DOM element target",
+      "returns": {
+        "type": "Object",
+        "desc": "DOM element upon which scrolling takes place",
+        "__exemption": [ "examples" ]
+      }
+    },
+
+    "getScrollPosition": {
+      "desc": "Get current scroll position",
+      "returns": {
+        "type": "Number",
+        "desc": "Scroll position offset from top (in pixels)",
+        "examples": [ 110 ]
+      }
+    },
+
+    "setScrollPosition": {
+      "desc": "Set scroll position to an offset; If a duration (in milliseconds) is specified then the scroll is animated",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Scroll position offset from top (in pixels)",
+          "required": true,
+          "examples": [ 220 ]
+        },
+        "duration": {
+          "type": "Number",
+          "desc": "Duration (in milliseconds) enabling animated scroll",
+          "examples": [ 300 ]
+        }
+      }
+    }
+  }
+}

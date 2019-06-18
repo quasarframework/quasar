@@ -1,12 +1,15 @@
 ---
 title: Notify
 ---
-Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast.
+Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast or snackbar.
 
 ## Installation
 <doc-installation plugins="Notify" :config="{ notify: 'Notify' }" />
 
 ## Usage
+
+### Basic
+
 ``` js
 // outside of a Vue file
 import { Notify } from 'quasar'
@@ -29,11 +32,18 @@ this.$q.notify({...})
 If you define any actions, the notification will automatically be dismissed when the user picks it.
 :::
 
+### Positioning
+
 <doc-example title="Positioning & different options" file="Notify/Positioning" />
 
 ::: tip
 For a full list of options, check the API section.
 :::
+
+### Using HTML
+You can use HTML on message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
+
+<doc-example title="Unsafe HTML message" file="Notify/UnsafeHtml" />
 
 ### Programmatically closing
 Notifications are meant to be dismissed only by the user, however for exceptional cases you can do it programmatically. Especially useful when you set indefinite timeout (0).

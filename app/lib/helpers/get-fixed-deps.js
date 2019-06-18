@@ -8,8 +8,14 @@ module.exports = function (deps) {
   const appDeps = { ...deps }
 
   Object.keys(deps).forEach(name => {
-    const pkg = getPackageJson(name)
-    appDeps[name] = pkg ? pkg.version : deps[name]
+    // is it a URL?
+    if (/^[a-zA-Z]/.test(deps[name])) {
+      appDeps[name] = deps[name]
+    }
+    else {
+      const pkg = getPackageJson(name)
+      appDeps[name] = pkg ? pkg.version : deps[name]
+    }
   })
 
   return appDeps

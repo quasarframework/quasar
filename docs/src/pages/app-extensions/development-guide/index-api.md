@@ -19,7 +19,7 @@ Example: You might want to use one of the api methods if running for electron mo
 
 ```js
 if (api.ctx.dev === true && api.ctx.mode === 'electron') {
-  api.beforeDev(() => {
+  api.beforeDev((api) => {
     // do something when running quasar dev and
     // with Electron mode
   })
@@ -138,20 +138,17 @@ Extends quasar.conf.js
  * @param {function} fn
  *   (cfg: Object, ctx: Object) => undefined
  */
-api.extendQuasarConf ((cfg, ctx) => {
+api.extendQuasarConf ((cfg, ctx, api) => {
   // do something with quasar.conf.js:
   // add, change anything
 })
 ```
 
-### Registering boot and css files and a directive
+### Registering boot and css files
 
 ```js
 module.exports = function (api, ctx) {
-  api.extendQuasarConf((conf) => {
-    // make sure directives needed are compiled into app project
-    conf.framework.directives.push('CloseMenu')
-
+  api.extendQuasarConf((conf, api) => {
     // make sure my-ext boot file is registered
     conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
 
@@ -178,7 +175,7 @@ Chain webpack config
  * @param {function} fn
  *   (cfg: ChainObject, invoke: Object {isClient, isServer}) => undefined
  */
-api.chainWebpack((cfg, { isClient, isServer }) => {
+api.chainWebpack((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack chain Object)
 })
 ```
@@ -191,7 +188,7 @@ Extend webpack config
  * @param {function} fn
  *   (cfg: Object, invoke: Object {isClient, isServer}) => undefined
  */
-api.extendWebpack((cfg, { isClient, isServer }) => {
+api.extendWebpack((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack configuration Object)
 })
 ```
@@ -204,7 +201,7 @@ Chain webpack config of main electron process
  * @param {function} fn
  *   (cfg: ChainObject) => undefined
  */
-api.chainWebpackMainElectronProcess((cfg, { isClient, isServer }) => {
+api.chainWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack chain Object)
 })
 ```
@@ -217,7 +214,7 @@ Extend webpack config Object of main electron process
  * @param {function} fn
  *   (cfg: Object) => undefined
  */
-api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }) => {
+api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack configuration Object)
 })
 ```
@@ -229,14 +226,14 @@ Register a command that will become available as `quasar run <ext-id> <cmd> [arg
 /**
  * @param {string} commandName
  * @param {function} fn
- *   (args: { [ string ] }, params: {object} }) => ?Promise
+ *   ({ args: [ string, ... ], params: {object} }) => ?Promise
  */
-api.registerCommand('start', (args, params) => {
+api.registerCommand('start', ({ args, params }) => {
   // do something here
 
   // this registers the "start" command
   // and this handler is executed when running
-  // "$ quasar ext run <ext-id> start
+  // $ quasar run <ext-id> start
 })
 ```
 
@@ -272,18 +269,63 @@ For syntax of such a JSON file, look into `/node_modules/quasar/dist/api` (in yo
 Always test with the `quasar describe` command to ensure you got the syntax right and there are no errors.
 :::
 
+## api.getPersistentConf
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Get the internal persistent config of this extension. Returns empty object if it has none.
+
+```js
+/**
+ * @return {object} cfg
+ */
+api.getPersistentConf()
+```
+
+## api.setPersistentConf
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Set the internal persistent config of this extension. If it already exists, it is overwritten.
+
+```js
+/**
+ * @param {object} cfg
+ */
+api.setPersistentConf({
+  // ....
+})
+```
+
+## api.mergePersistentConf
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.
+
+```js
+/**
+ * @param {object} cfg
+ */
+api.mergePersistentConf({
+  // ....
+})
+```
+
 ## api.beforeDev
 
 <q-badge label="@quasar/app v1.0.0-beta.18+" />
 
 Prepare external services before `$ quasar dev` command runs, like starting some backend or any other service that the app relies on.
 
+Can use async/await or directly return a Promise.
+
 ```js
 /**
  * @param {function} fn
  *   () => ?Promise
  */
-api.beforeDev(() => {
+api.beforeDev((api) => {
   // do something
 })
 ```
@@ -294,27 +336,51 @@ api.beforeDev(() => {
 
 Run hook before Quasar builds app for production (`$ quasar build`). At this point, the distributables folder hasn't been created yet.
 
+Can use async/await or directly return a Promise.
+
 ```js
 /**
  * @param {function} fn
  *   () => ?Promise
  */
-api.beforeBuild(() => {
+api.beforeBuild((api) => {
   // do something
 })
 ```
 
 ## api.afterBuild
 
-
 Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it.
+
+Can use async/await or directly return a Promise.
 
 ```js
 /**
  * @param {function} fn
  *   () => ?Promise
  */
-api.afterBuild(() => {
+api.afterBuild((api) => {
+  // do something
+})
+```
+
+## api.onPublish
+
+<q-badge label="@quasar/app v1.0.0-rc.7+" />
+
+Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed.
+
+Can use async/await or directly return a Promise.
+
+```js
+/**
+ * @param {function} fn
+ *   () => ?Promise
+ * @param {object} opts
+ *   * arg - argument supplied to "--publish"/"-P" parameter
+ *   * distDir - folder where distributables were built
+ */
+api.onPublish((api, opts) => {
   // do something
 })
 ```

@@ -17,7 +17,7 @@ Infinite Scroll loads items in advance when less than `offset` (default = 500) p
 :::
 
 ::: tip
-In your `@load` function, don't forget to call the passed in `done()` function when you have finsihed loading more data.
+In your `@load` function, don't forget to call the passed in `done()` function when you have finished loading more data.
 :::
 
 Scroll to the bottom to see QInfiniteScroll in action.

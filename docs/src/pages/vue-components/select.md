@@ -4,6 +4,8 @@ title: Select
 
 The QSelect component has two types of selection: single or multiple. This component opens up a Popover for the selection list and action. A filter can also be used for longer lists.
 
+In case you are looking for a dropdown "button" instead of "input" use [Button Dropdown](/vue-components/button-dropdown) instead.
+
 ## Installation
 <doc-installation components="QSelect"/>
 
@@ -77,6 +79,10 @@ When `map-options` is used, the model can contain only the `value`, and it will 
 
 By default, QSelect looks at `label`, `value`, `disable` and `sanitize` props of each option from the options array Objects. But you can override those:
 
+::: warning
+If you use functions for custom props always check if the option is null. These functions are used both for options in the list and for the selected options.
+:::
+
 <doc-example title="Custom label, value and disable props" file="QSelect/OptionCustomProps" />
 
 ### Customizing menu options
@@ -107,7 +113,18 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ## Filtering and autocomplete
 
+### Native attributes with `use-input`
+
+All the attributes set on `QSelect` that are not in the list of `props` in the **API** will be passed to the native `input` field used for filtering / autocomplete / adding new value.
+
+Please check this resources for more informations about native attributes (for input check also the specific attributes for each type):
+
+* [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+* [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
+
 <doc-example title="Filtering options" file="QSelect/InputFilter" />
+
+<doc-example title="Basic autocomplete" file="QSelect/InputAutocomplete" />
 
 <doc-example title="Autocomplete on more than 2 chars" file="QSelect/InputFilterMin" />
 

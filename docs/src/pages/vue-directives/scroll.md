@@ -64,7 +64,7 @@ export default {
 ```
 
 ### Determining Scrolling Container
-Please read [here](/components/scroll-observer#Determining-Scrolling-Container) about how Quasar determines the container to attach scrolling events to.
+Please read [here](/vue-components/scroll-observer#Determining-Scrolling-Container) about how Quasar determines the container to attach scrolling events to.
 
-### API
+## API
 <doc-api file="Scroll" />

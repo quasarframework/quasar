@@ -8,10 +8,10 @@ Quasar's v1 version is now on a stable API.
 
 ## Upgrading from older v1 to latest v1
 
-### UMD
+### With UMD
 Simply replace the version string in all the CSS and JS tags that refer to Quasar to the newer version.
 
-### Quasar CLI
+### With Quasar CLI
 
 ```bash
 # run these commands inside
@@ -25,7 +25,11 @@ $ quasar upgrade
 $ quasar upgrade --install
 ```
 
-### Vue CLI
+::: warning Note for code editor terminals
+If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
+:::
+
+### With Vue CLI
 ```bash
 $ yarn upgrade quasar@latest
 ```
@@ -247,7 +251,23 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 ## Misc
 
 - `this.$q.i18n` was changed to `this.$q.lang`
+- `import(`quasar-framework/i18n/${lang}`) was changed to `import(`quasar/lang/${lang}`)` where `${lang}` would be `en-us` etc.
 - `this.$q.icons` was changed to `this.$q.iconSet`
+- In previous versions you would access an imported language packs isoName with:
+
+```js
+ import(`quasar/lang/${locale}`).then(lang => {
+   // Access the isoName with - lang.default.lang
+ })
+```
+
+This now needs changing to
+
+```js
+ import(`quasar/lang/${locale}`).then(lang => {
+   // Access the isoName with - lang.default.isoName
+ })
+```
 
 ## Color Palette
 
@@ -494,12 +514,12 @@ The structure looks the same, but some functions have been renamed.
 
 ### QActionSheet
 
-- **was dropped** in favor of directly using a QDialog with `position="bottom"`
+- **was dropped** in favor of [BottomSheet](/quasar-plugins/bottom-sheet) (from code) or using a [QDialog](/vue-components/dialog) with `position="bottom"` (from the template).
 
 ### QAlert
 
 - **replaced** by [QBanner](/vue-components/banner)
-- The properties `type` and `color` are now managed by a [background css class](https://v1.quasar-framework.org/style/color-palette#Using-as-CSS-Classes).
+- The properties `type` and `color` are now managed by a [background css class](/style/color-palette#Using-as-CSS-Classes).
 
 <div class="row">
   <div class="inline-block q-pa-md">
@@ -536,7 +556,7 @@ The structure looks the same, but some functions have been renamed.
 
 ### QAutocomplete
 
-- **removed**, built into [QSelect](/vue-components/select)
+- **removed**, built into [QSelect](/vue-components/select#Filtering-and-autocomplete), which is far more powerfull and offers a lot more options for your autocomplete needs; make sure you get accustomed to all the features of QSelect
 
 ### QBreadcrumbs
 
@@ -1321,7 +1341,6 @@ Replace `:handler` with `@load`.
 
 |Legacy|v1|
 |-|-|
-|`blur()`||
 |`clear()`||
 |`select()`||
 |`togglePass()`||
@@ -1840,6 +1859,7 @@ Replace `:handler` with `@load`.
 
 - Type of `stack-label` was changed from `string` to `boolean`
 - Type of `display-value` was changed from `string` to `string|number`
+- When the option list is an array of objects (as opposed to simple strings or numbers), upgraders may want to turn on the `emit-value` and `map-options` flags to preserve the behavior of previous versions. 1.0 defaults to emitting the entire object, not just the `value` property, upon selection.
 
 <div class="row">
   <div class="inline-block q-pa-md">
@@ -2189,7 +2209,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 ### QToggle
 
 - Type of `val` was changed from `object` to `any`
-- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](https://v1.quasar-framework.org/vue-components/toggle#Example--Icons).
+- `checked-icon` and `indeterminate-icon` were dropped to make `QCheckbox` more compliant with Material Standards. If you still need similar functionality, consider using `QToggle` with [icons](/vue-components/toggle#Example--Icons).
 
 <div class="row">
   <div class="inline-block q-pa-md">
@@ -2325,7 +2345,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 |Legacy|v1|
 |-|-|
-|`additional-fields`|`fields`|
+|`additional-fields`|`form-fields`|
 |`after`||
 |`align`||
 |`auto-expand`||
@@ -2337,7 +2357,7 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 |`extensions`||
 |`float-label`||
 |`hide-underline`||
-|`hide-upload-button`||
+|`hide-upload-button`|`hide-upload-btn`|
 |`hide-upload-progress`||
 |`inverted`||
 |`inverted-light`||
@@ -2346,19 +2366,17 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 |`no-parent-field`||
 |`placeholder`||
 |`prefix`||
-|`send-raw`||
 |`stack-label`||
 |`suffix`||
 |`upload-factory`||
 |`url-factory`||
 |`warning`||
-|`with-credentials`||
 ||`accept`|
 ||`auto-upload`|
+||`factory`|
 ||`batch`|
 ||`bordered`|
 ||`field-name`|
-||`fields`|
 ||`label`|
 ||`flat`|
 ||`max-file-size`|
@@ -2373,14 +2391,12 @@ Remove `slot="title"` from all tabs. It's not needed anymore. If you use QTabs w
 
 |Legacy|v1|
 |-|-|
-|`@fail(file, xhr)`|`@failed(files, xhr)`|
-|`@finish()`||
+|`@fail(file, xhr)`|`@failed({ files, xhr })`|
 |`@remove:abort(file)`||
 |`@remove:cancel(file)`||
 |`@remove:done(file)`||
-|`@start()`||
-|`@uploaded(file, xhr)`|`@uploaded(files, xhr)`|
-||`@uploading(files, xhr)`|
+|`@uploaded(file, xhr)`|`@uploaded({ files, xhr })`|
+||`@uploading({ files, xhr })`|
 
   </div>
   <div class="inline-block q-pa-md">

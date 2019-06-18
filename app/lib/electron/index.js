@@ -1,11 +1,13 @@
+const webpack = require('webpack')
+
 const
-  spawn = require('../helpers/spawn'),
-  webpack = require('webpack'),
   logger = require('../helpers/logger'),
   log = logger('app:electron'),
   warn = logger('app:electron', 'red'),
+  { spawn } = require('../helpers/spawn'),
   appPaths = require('../app-paths'),
-  nodePackager = require('../helpers/node-packager')
+  nodePackager = require('../helpers/node-packager'),
+  getPackageJson = require('../helpers/get-package-json')
 
 class ElectronRunner {
   constructor () {
@@ -108,8 +110,16 @@ class ElectronRunner {
         log(`Bundling app with electron-${bundlerName}...`)
         log()
 
+        if (cfg.ctx.debug) {
+          console.log(`DEBUG MODE - bundlerConfig:`)
+          console.log(bundlerConfig)
+        }        
+        
         const bundlePromise = bundlerName === 'packager'
-          ? bundler(bundlerConfig)
+          ? bundler({
+            ...bundlerConfig,
+            electronVersion: getPackageJson('electron').version
+          })
           : bundler.build(bundlerConfig)
 
         bundlePromise

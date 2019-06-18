@@ -22,7 +22,7 @@ extras: [
 ]
 ```
 
-Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
+Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
 Adding more than one set (showing all options):
 ```js
@@ -112,10 +112,6 @@ import '@fortawesome/fontawesome-pro/css/light.min.css'
 // import '@fortawesome/fontawesome-pro/css/brands.min.css'
 // import '@fortawesome/fontawesome-pro/css/solid.min.css'
 // import '@fortawesome/fontawesome-pro/css/regular.min.css'
-
-export default () => {
-  // Leave blank or make something cool.
-}
 ```
 7. (Optional) Override default icons:
 
@@ -123,14 +119,14 @@ Since the default `font-weight` for fontawesome-pro is `light` or `fal`, some ic
 
 For instance, to override the `fal` version of the close icon for chips, do this:
 
-_First_, find the icon used for chip close in Quasar's `quasar/icons/fontawesome-v5-pro.js`
+_First_, find the icon used for chip close in Quasar Fontawesome v5 Pro [icon-set source](https://github.com/quasarframework/quasar/blob/dev/ui/icon-set/fontawesome-v5-pro.js).
 
 (Alternatively, you can check inside the render function of the component you are overriding.)
 
 ```js
+// example
 chip: {
-  close: 'fal fa-times-circle'
-},
+  remove: 'fal fa-times-circle'
 ```
 
 _Then_, override it in your `/src/boot/fontawesome-pro.js`
@@ -140,6 +136,7 @@ import '@fortawesome/fontawesome-pro/css/solid.min.css'
 import '@fortawesome/fontawesome-pro/css/light.min.css'
 
 export default ({ Vue }) => {
-  Vue.prototype.$q.iconSet.chip.close = 'fas fa-times-circle'
+  // example
+  Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
 }
 ```

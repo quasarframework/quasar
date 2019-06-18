@@ -35,7 +35,7 @@
         November, 2017
       </q-timeline-entry>
 
-      <q-timeline-entry>
+      <q-timeline-entry avatar="https://cdn.quasar.dev/img/avatar5.jpg">
         <template v-slot:title>
           Event Title
         </template>
