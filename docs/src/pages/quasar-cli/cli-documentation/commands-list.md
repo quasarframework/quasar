@@ -420,7 +420,7 @@ $ quasar inspect -h
 ```
 
 ## ext
-This command is used to manage [App Extensions](/quasar-cli/app-extensions/introduction).
+This command is used to manage [App Extensions](/app-extensions/introduction).
 
 ```bash
 $ quasar ext -h
@@ -452,7 +452,7 @@ $ quasar ext -h
 ```
 
 ## run
-This command is used to run commands supplied by the [App Extensions](/quasar-cli/app-extensions/introduction) that you've installed into your project folder.
+This command is used to run commands supplied by the [App Extensions](/app-extensions/introduction) that you've installed into your project folder.
 
 ```bash
 $ quasar run -h
