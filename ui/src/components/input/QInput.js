@@ -40,6 +40,18 @@ export default Vue.extend({
       }
       else if (this.innerValue !== v) {
         this.innerValue = v
+
+        if (
+          this.type === 'number' &&
+          this.hasOwnProperty('tempValue') === true
+        ) {
+          if (this.typedNumber === true) {
+            this.typedNumber = false
+          }
+          else {
+            delete this.tempValue
+          }
+        }
       }
 
       // textarea only
@@ -105,13 +117,22 @@ export default Vue.extend({
 
     __emitValue (val, stopWatcher) {
       const fn = () => {
-        if (this.hasOwnProperty('tempValue') === true) {
+        if (
+          this.type !== 'number' &&
+          this.hasOwnProperty('tempValue') === true
+        ) {
           delete this.tempValue
         }
+
         if (this.value !== val) {
           stopWatcher === true && (this.stopValueWatcher = true)
           this.$emit('input', val)
         }
+      }
+
+      if (this.type === 'number') {
+        this.typedNumber = true
+        this.tempValue = val
       }
 
       if (this.debounce !== void 0) {
@@ -147,12 +168,11 @@ export default Vue.extend({
         tabindex: 0,
         autofocus: this.autofocus,
         rows: this.type === 'textarea' ? 6 : void 0,
-        ...this.$attrs,
         'aria-label': this.label,
+        ...this.$attrs,
         type: this.type,
         maxlength: this.maxlength,
-        disabled: this.disable,
-        readonly: this.readonly
+        disabled: this.editable !== true
       }
 
       if (this.autogrow === true) {

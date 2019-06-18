@@ -18,7 +18,7 @@
 | Roboto Font Latin Extended | `roboto-font-latin-ext` | CDN v19 | Recommended font along Material theme |
 | [Material Icons](https://material.io/icons/) | `material-icons` | CDN v47 | Material icons font |
 | [MDI](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v3` | 3.6.95 | Extended Material Design icons font |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.8.1 | Fontawesome icons font |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.9.0 | Fontawesome icons font |
 | [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.5.5 | Ionicons font |
 | [Eva Icons](https://akveo.github.io/eva-icons) | `eva-icons` | 1.1.1 | Eva Icons font |
 | [Themify Icons](https://themify.me/themify-icons) | `themify` | 1.0.0 | Themify Icons font |
@@ -27,7 +27,9 @@
 Why this package? Because it strips down unnecessary package files (so faster download times), all in one place, tested and ready to use with Quasar. One other reason is that the material icons npm package sometimes fails to be downloaded by NPM.
 
 ## Supporting Quasar
-Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).
+Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
+
+**Please read our manifest on [Why donations are important](https://quasar.dev/why-donate)**. If you'd like to become a donator, check out [Quasar Framework's Donator campaign](https://donate.quasar.dev).
 
 ## Documentation
 

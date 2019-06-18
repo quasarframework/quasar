@@ -4,7 +4,8 @@ const
     center: 'center',
     right: 'end',
     between: 'between',
-    around: 'around'
+    around: 'around',
+    stretch: 'stretch'
   },
   alignValues = Object.keys(alignMap)
 
@@ -12,14 +13,17 @@ export default {
   props: {
     align: {
       type: String,
-      default: 'left',
       validator: v => alignValues.includes(v)
     }
   },
 
   computed: {
     alignClass () {
-      return `justify-${alignMap[this.align]}`
+      const align = this.align === void 0
+        ? (this.vertical === true ? 'stretch' : 'left')
+        : this.align
+
+      return `${this.vertical === true ? 'items' : 'justify'}-${alignMap[align]}`
     }
   }
 }

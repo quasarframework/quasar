@@ -12,7 +12,7 @@ There are three ways of using Quasar. Pick the one that suits you best:
 
 Here's a quick comparison:
 
-| Feature                                                                                    | UMD     | Quasar CLI | Vue CLI 3 Plugin              |
+| Feature                                                                                    | Quasar UMD | Quasar CLI | Vue CLI 3 Plugin              |
 | ------------------------------------------------------------------------------------------ | ------- | ---------- | ----------------------------- |
 | Ability to embed into an existing project                                                  | **Yes** | -          | **Yes, if it is Vue CLI app** |
 | Progressive integration of Quasar                                                          | **Yes** | -          | -                             |

@@ -15,7 +15,6 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     height 56px
     color rgba(0, 0, 0, .54)
     font-size 24px
-    transition color $field-transition
 
     > * + *
       margin-left 2px
@@ -115,6 +114,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       line-height 1em // needed for Chrome type="file"
   &__prefix, &__suffix
     transition opacity $field-transition
+    white-space nowrap
   &__prefix
     padding-right 4px
   &__suffix
@@ -123,6 +123,15 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
   &--readonly, &--disabled
     .q-field__control
       pointer-events none
+    .q-placeholder // override "disable" CSS on it
+      opacity 1 !important
+
+  &--disabled
+    .q-field__control > div
+      opacity .6 !important
+
+      &, * // @stylint ignore
+        outline 0 !important
 
   &__label
     left 0
@@ -136,7 +145,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     text-decoration inherit
     text-transform inherit
     transform-origin left top
-    transition transform $field-transition, color $field-transition
+    transition transform $field-transition
 
   &--float .q-field__label
     transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
@@ -193,17 +202,17 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
         &:after
           transform scale3d(1, 1, 1)
 
-    &.q-field--readonly
-      .q-field__control:before
-        opacity 1
-        background transparent
-        border-bottom-style dashed
-
     &.q-field--dark
       .q-field__control, .q-field__control:before
         background rgba(255, 255, 255, .07)
       &.q-field--focused .q-field__control:before
         background rgba(255, 255, 255, .1)
+
+    &.q-field--readonly
+      .q-field__control:before
+        opacity 1
+        background transparent
+        border-bottom-style dashed
 
   &--outlined
 

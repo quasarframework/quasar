@@ -126,14 +126,17 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Flippen Group
 - Ryan Hill
 
-### $10+
+### $25+
 
 - David Watson ($30)
 - 上田 進也(合同会社サンドボックス) (Sandbox Gmbh) ($30)
-- Valerian Cure ($25)
-- Shawn Makinson ($25)
-- Jim O'Quinn ($25)
-- Agilus Informática ($25)
+- Valerian Cure
+- Shawn Makinson
+- Jim O'Quinn
+- Agilus Informática
+
+### $15+
+
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
@@ -144,9 +147,13 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Martin Thompson ($20)
 - Shapovalov Pavel ($20)
 - RAKOTOSEHENO Alain ($20)
-- Shone Radulovic ($15)
-- Sam Cassar ($15)
-- Francis Vithayathil ($15)
+- Shone Radulovic
+- Sam Cassar
+- Francis Vithayathil
+- Michael Svendsen
+
+### $10+
+
 - Vaidotas Beržinskas ($13.37)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
@@ -265,6 +272,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ioan Mircea Ciuchea
 - Elad Yaniv
 - Robert Willie
+- Noel Costa
+- Ievgen Iaroslavtsev
 
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
