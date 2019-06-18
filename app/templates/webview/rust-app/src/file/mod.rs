@@ -10,5 +10,5 @@ pub fn read_file(file:String) -> String {
     let mut contents = String::new();
     file.read_to_string(&mut contents)
         .expect("Unable to read the file");
-    return serde_json::to_string(&contents).unwrap().to_string();
+    return contents;
 }

@@ -44,16 +44,20 @@ fn main() {
     
     let content;
     let debug;
+    let mut js_files: Vec<dir::DiskEntry> = vec![];
+    // let mut js: Vec<string> = vec![];
     if dev {
         content = Content::Url(matches.value_of("url").unwrap());
         debug = true;
     }
     else {
-        content = Content::Html("../../../dist/webview/index.html");
+        content = Content::Html(include_str!("../../../dist/webview/index.html"));
         debug = matches.is_present("debug");
+        let dirr = "../../dist/webview/js";
+        js_files = dir::list_dir_contents(&format!("{}", dirr));
     }
 
-    web_view::builder()
+    let webview = web_view::builder()
         .title("MyAppTitle")
         .content(content)
         .size(2068, 1024) // TODO:Resolution is fixed right now, change this later to be dynamic
@@ -66,7 +70,7 @@ fn main() {
                 Init => (),
                 Read { file } => {
                     let _path = file.clone();
-                    let contents = file::read_file(file);
+                    let contents = serde_json::to_string(&file::read_file(file)).unwrap().to_string();
                     let cb = "load_file".to_string();
                     let formatted_string = rpc::format_callback(cb, contents, _path);
                     _webview.eval(&formatted_string).expect("Unable to eval webview");
@@ -75,28 +79,31 @@ fn main() {
                     let mut f = File::create(file).unwrap();
                     f.write_all(contents.as_bytes()).expect("Unable to write file");
                 }
-                ListDirs{cb, home, path} => {
+                ListDirs{cb, path} => {
                     let mut json_dir_listing:String;
-                    dir::list_home_dir_contents();
-                    if home == true {
-                        println!("Listing Home!");
-                        json_dir_listing = dir::list_home_dir_contents();
-                    } else {
-                        println!("Listing {}", path);
-                        json_dir_listing = dir::list_dir_contents(&path);
-                    }
+                     println!("Listing {}", path);
+                    json_dir_listing = serde_json::to_string(&dir::list_dir_contents(&path)).unwrap();
                     let eval_string = rpc::format_callback(cb, json_dir_listing, path);
                     _webview.eval(eval_string.as_str()).expect("Unable to eval webview");
                 }
                 List { path, cb } => {
                     let path_copy = &path.clone();
-                    let listing_json = dir::walk_dir(path_copy.to_string());
+                    let listing_json = serde_json::to_string(&dir::walk_dir(path_copy.to_string())).unwrap();
                     let formatted_string = rpc::format_callback(cb, listing_json, path_copy.to_string());
                     _webview.eval(formatted_string.as_str()).expect("Unable to eval webview");
                 }
             }
             Ok(())
         })
-        .run()
-        .unwrap();
+        .build().unwrap();
+
+    let handle = webview.handle();
+    handle.dispatch(move |webview| {
+        for entry in js_files {
+            webview.eval(&file::read_file(entry.path)).unwrap();
+        }
+        Ok(())
+    }).unwrap();
+
+    webview.run().unwrap();
 }
