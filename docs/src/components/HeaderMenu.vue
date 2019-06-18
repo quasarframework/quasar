@@ -44,17 +44,17 @@ div
 
       q-item-label.q-mt-md(header) Playground
 
-      q-item(clickable, tag="a", href="https://codepen.io/rstoenescu/pen/VgQbdx", target="_blank")
+      q-item(clickable, tag="a", href="https://codepen.quasar.dev", target="_blank")
         q-item-section.text-brown-5(avatar)
           q-icon(name="fab fa-codepen")
         q-item-section Codepen
 
-      q-item(clickable, tag="a", href="https://jsfiddle.net/rstoenescu/rmaodk0f", target="_blank")
+      q-item(clickable, tag="a", href="https://jsfiddle.quasar.dev", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(name="fab fa-jsfiddle")
         q-item-section jsFiddle
 
-      q-item(clickable, tag="a", href="https://codesandbox.io/s/github/quasarframework/quasar-codesandbox", target="_blank")
+      q-item(clickable, tag="a", href="https://codesandbox.quasar.dev", target="_blank")
         q-item-section.text-black(avatar)
           q-icon(name="fas fa-cubes")
         q-item-section Codesandbox
