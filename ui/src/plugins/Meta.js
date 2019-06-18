@@ -3,6 +3,8 @@ import Vue from 'vue'
 import { isSSR, fromSSR } from './Platform.js'
 import extend from '../utils/extend.js'
 
+import WebView from '../utils/webview.js'
+
 let updateId, ssrTakeover
 
 function normalize (meta) {
@@ -97,8 +99,8 @@ function diff (meta, other) {
 function apply ({ add, remove }) {
   if (add.title) {
     document.title = add.title
-    if (webview !== void 0) {
-      webview.setTitle(add.title)
+    if (WebView.isRunning()) {
+      WebView.setTitle(add.title)
     }
   }
 

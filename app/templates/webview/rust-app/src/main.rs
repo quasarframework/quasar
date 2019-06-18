@@ -92,6 +92,9 @@ fn main() {
                     let formatted_string = rpc::format_callback(cb, listing_json, path_copy.to_string());
                     _webview.eval(formatted_string.as_str()).expect("Unable to eval webview");
                 }
+                SetTitle { title } => {
+                    _webview.set_title(&title).unwrap();
+                }
             }
             Ok(())
         })
