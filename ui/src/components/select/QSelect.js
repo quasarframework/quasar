@@ -297,7 +297,7 @@ export default Vue.extend({
       this.multiple !== true && this.updateInputValue(
         this.fillInput === true ? this.__getOptionLabel(opt) : '', true
       )
-      this.focus()
+      this.__focus()
 
       if (this.multiple !== true) {
         this.hidePopup()
