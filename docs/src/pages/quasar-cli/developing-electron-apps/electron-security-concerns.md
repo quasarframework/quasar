@@ -25,7 +25,7 @@ The Electron team itself makes the following recommendations:
 11.  [Disable or limit navigation](https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation)
 12.  [Disable or limit creation of new windows](https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows)
 
-Except for items 3, 4 & 5 above, Electron will put a warning in the dev console if one of the these issues have been detected.
+Except for items 3 and 4 above, Electron will put a warning in the dev console if one of the these issues have been detected.
 
 
 ## Tips and Tricks
