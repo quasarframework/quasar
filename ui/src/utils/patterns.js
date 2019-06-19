@@ -1,3 +1,5 @@
+// file referenced from docs
+
 const
   hex = /^#[0-9a-fA-F]{3}([0-9a-fA-F]{3})?$/,
   hexa = /^#[0-9a-fA-F]{4}([0-9a-fA-F]{4})?$/,

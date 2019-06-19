@@ -226,14 +226,14 @@ Register a command that will become available as `quasar run <ext-id> <cmd> [arg
 /**
  * @param {string} commandName
  * @param {function} fn
- *   (args: { [ string ] }, params: {object} }) => ?Promise
+ *   ({ args: [ string, ... ], params: {object} }) => ?Promise
  */
-api.registerCommand('start', (args, params) => {
+api.registerCommand('start', ({ args, params }) => {
   // do something here
 
   // this registers the "start" command
   // and this handler is executed when running
-  // "$ quasar ext run <ext-id> start
+  // $ quasar run <ext-id> start
 })
 ```
 
@@ -318,6 +318,8 @@ api.mergePersistentConf({
 
 Prepare external services before `$ quasar dev` command runs, like starting some backend or any other service that the app relies on.
 
+Can use async/await or directly return a Promise.
+
 ```js
 /**
  * @param {function} fn
@@ -334,6 +336,8 @@ api.beforeDev((api) => {
 
 Run hook before Quasar builds app for production (`$ quasar build`). At this point, the distributables folder hasn't been created yet.
 
+Can use async/await or directly return a Promise.
+
 ```js
 /**
  * @param {function} fn
@@ -348,12 +352,35 @@ api.beforeBuild((api) => {
 
 Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it.
 
+Can use async/await or directly return a Promise.
+
 ```js
 /**
  * @param {function} fn
  *   () => ?Promise
  */
 api.afterBuild((api) => {
+  // do something
+})
+```
+
+## api.onPublish
+
+<q-badge label="@quasar/app v1.0.0-rc.7+" />
+
+Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed.
+
+Can use async/await or directly return a Promise.
+
+```js
+/**
+ * @param {function} fn
+ *   () => ?Promise
+ * @param {object} opts
+ *   * arg - argument supplied to "--publish"/"-P" parameter
+ *   * distDir - folder where distributables were built
+ */
+api.onPublish((api, opts) => {
   // do something
 })
 ```

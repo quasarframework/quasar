@@ -332,6 +332,29 @@
         <q-route-tab v-if="loose" key="14" :to="{ name: 'r.3' }" label="r.3 *" />
       </q-tabs>
 
+      <h4>Tabs model (respect model): {{ tabModel }}</h4>
+      <q-tabs :dense="dense" :value="tabModel" @input="onChangeTab1" class="bg-grey-1 text-teal">
+        <q-tab name="one" label="One" />
+        <q-tab name="two" label="Two -> One" />
+        <q-tab name="three" label="Three (no way)" />
+        <q-tab name="four" label="Four" />
+        <q-tab name="five" label="Five" />
+      </q-tabs>
+      <q-tabs :dense="dense" :value="tabModel" @input="onChangeTab2" class="bg-grey-1 text-teal">
+        <q-tab name="one" label="One -> Two" />
+        <q-tab name="two" label="Two" />
+        <q-tab name="three" label="Three" />
+        <q-tab name="four" label="Four (no way)" />
+        <q-tab name="five" label="Five" />
+      </q-tabs>
+      <q-tabs :dense="dense" v-model="tabModel" class="bg-grey-1 text-teal">
+        <q-tab name="one" label="One" />
+        <q-tab name="two" label="Two" />
+        <q-tab name="three" label="Three" />
+        <q-tab name="four" label="Four" />
+        <q-tab name="five" label="Five" />
+      </q-tabs>
+
       <h4>Tabs content (animated, swipeable)</h4>
       <q-option-group
         type="radio"
@@ -458,6 +481,7 @@ export default {
       text: '',
       dense: false,
       tab: 'one',
+      tabModel: null,
       vtab: 'one',
       panelTest: false,
       some: false,
@@ -467,7 +491,23 @@ export default {
   },
 
   methods: {
-    //
+    onChangeTab1 (val) {
+      if (val === 'two') {
+        this.tabModel = 'one'
+      }
+      else if (val !== 'three') {
+        this.tabModel = val
+      }
+    },
+
+    onChangeTab2 (val) {
+      if (val === 'one') {
+        this.tabModel = 'two'
+      }
+      else if (val !== 'four') {
+        this.tabModel = val
+      }
+    }
   }
 }
 </script>

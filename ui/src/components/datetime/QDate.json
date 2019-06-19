@@ -8,6 +8,7 @@
   "props": {
     "value": {
       "extends": "value",
+      "required": true,
       "desc": "Date of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [
         "v-model=\"myDate\""

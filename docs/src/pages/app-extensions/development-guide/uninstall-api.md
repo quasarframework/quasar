@@ -90,7 +90,7 @@ api.getPersistentConf()
 ```
 
 ## api.onExitLog
-Adds a message to be printed after App CLI finishes up uninstalling the App Extension and is about to exit.
+Adds a message to be printed after App CLI finishes up uninstalling the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.
 
 ```js
 /**

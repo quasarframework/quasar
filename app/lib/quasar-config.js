@@ -561,9 +561,17 @@ class QuasarConfig {
         }
       }
 
-      if (cfg.devServer.open && cfg.devServer.open !== true) {
-        cfg.__openOptions = cfg.devServer.open
-        cfg.devServer.open = true
+      if (cfg.devServer.open) {
+        cfg.__devServer = {
+          open: !!cfg.devServer.open,
+          openOptions: cfg.devServer.open !== true
+            ? cfg.devServer.open
+            : false
+        }
+        cfg.devServer.open = false
+      }
+      else {
+        cfg.__devServer = {}
       }
     }
 
@@ -742,6 +750,10 @@ class QuasarConfig {
             platform: cfg.ctx.targetName,
             arch: cfg.ctx.archName,
             config: cfg.electron.builder
+          }
+
+          if (cfg.ctx.publish) {
+            cfg.electron.builder.publish = cfg.ctx.publish
           }
 
           bundler.ensureBuilderCompatibility()

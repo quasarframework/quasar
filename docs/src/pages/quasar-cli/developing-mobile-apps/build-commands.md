@@ -49,6 +49,8 @@ The above applies also if you want to specify the build type in your "build.json
 ## Building for Production
 ```bash
 $ quasar build -m cordova -T [ios|android]
+# or the short form:
+$ quasar build -m [android|ios]
 
 # ..or the longer form:
 $ quasar build --mode cordova -T [ios|android]

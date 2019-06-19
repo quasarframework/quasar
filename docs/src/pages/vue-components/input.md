@@ -58,7 +58,17 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 ## Basic features
 
+### Native attributes
+
+All the attributes set on `QInput` that are not in the list of `props` in the **API** will be passed to the native field (`input` or `textarea`).
+
+Please check this resources for more informations about native attributes (for input check also the specific attributes for each type):
+
+* [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
+* [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
+
 ### Clearable
+
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon. The second QInput in the example below is the equivalent of using `clearable`.
 
 <doc-example title="Clearable" file="QInput/Clearable" />
@@ -133,6 +143,8 @@ Below are mask tokens:
 | `X` | Alphanumeric, transformed to uppercase for letters |
 | `x` | Alphanumeric, transformed to lowercase for letters |
 
+There are **helpers** for QInput `mask` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/mixins/mask.js#L2). You can use these for convenience (examples: "phone", "card") or write the string specifying your custom needs.
+
 <doc-example title="Basic" file="QInput/MaskBasic" />
 
 <doc-example title="Filling the mask" file="QInput/MaskFill" />
@@ -162,6 +174,8 @@ value => value.includes('Hello') || 'Field must contain word Hello'
 ```
 
 You can reset the validation by calling `resetValidation()` method on the QInput.
+
+There are **helpers** for QInput `rules` prop: [full list](https://github.com/quasarframework/quasar/blob/dev/ui/src/utils/patterns.js). You can use these for convenience (examples: "date", "time", "hexColor", "rgbOrRgbaColor", "anyColor") or write the string specifying your custom needs.
 
 <doc-example title="Basic" file="QInput/ValidationRequired" />
 

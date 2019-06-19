@@ -643,7 +643,6 @@ export default Vue.extend({
       this.monthDirection = offset > 0 ? 'left' : 'right'
       this.yearDirection = yearDir
       this.innerModel.month = month
-
       this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
@@ -712,6 +711,27 @@ export default Vue.extend({
 
       if (val !== this.value) {
         this.$emit('input', val, reason, date)
+      }
+      else if (reason === 'today') {
+        const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
+        const curHash = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(this.innerModel.day)
+
+        if (newHash !== curHash) {
+          this.monthDirection = curHash < newHash ? 'left' : 'right'
+          if (date.year !== this.innerModel.year) {
+            this.yearDirection = this.monthDirection
+          }
+
+          this.$nextTick(() => {
+            this.startYear = date.year - date.year % yearsInterval
+            Object.assign(this.innerModel, {
+              year: date.year,
+              month: date.month,
+              day: date.day,
+              dateHash: newHash
+            })
+          })
+        }
       }
     }
   },

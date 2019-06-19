@@ -17,7 +17,10 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 600,
-    useContentSize: true
+    useContentSize: true,
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   mainWindow.loadURL(process.env.APP_URL)

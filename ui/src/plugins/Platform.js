@@ -79,7 +79,7 @@ function getPlatform (userAgent) {
     browser['windows phone']
 
   // These are all considered mobile platforms, meaning they run a mobile browser
-  if (knownMobiles === true || /mobile|opera\s*mobi/.test(userAgent) === true) {
+  if (knownMobiles === true || userAgent.indexOf('mobile') > -1) {
     browser.mobile = true
   }
   // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
@@ -215,7 +215,9 @@ export function hasWebStorage () {
 function getClientProperties () {
   return {
     has: {
-      touch: (() => !!('ontouchstart' in document.documentElement) || window.navigator.msMaxTouchPoints > 0)(),
+      touch: (() => 'ontouchstart' in window ||
+        window.navigator.maxTouchPoints > 0
+      )(),
       webStorage: hasWebStorage()
     },
     within: {

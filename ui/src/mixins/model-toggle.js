@@ -38,11 +38,23 @@ export default {
       }
 
       this.$emit('before-show', evt)
-      this.showing = true
+
+      if (this.$q.platform.is.ie === true) {
+        // IE sometimes performs a focus on body after click;
+        // the delay prevents the click-outside to trigger on this focus
+        setTimeout(() => {
+          this.showing = true
+        }, 0)
+      }
+      else {
+        this.showing = true
+      }
+
       this.$emit('input', true)
 
       if (this.$options.modelToggle !== void 0 && this.$options.modelToggle.history === true) {
         this.__historyEntry = {
+          condition: () => { return this.persistent !== true },
           handler: this.hide
         }
         History.add(this.__historyEntry)

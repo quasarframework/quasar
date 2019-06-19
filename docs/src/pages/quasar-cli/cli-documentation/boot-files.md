@@ -114,7 +114,40 @@ The last step is to tell Quasar to use your new boot file. For this to happen yo
 
 ```js
 boot: [
-  '<name>' // references /src/boot/<name>.js
+  // references /src/boot/<name>.js
+  '<name>'
+]
+```
+
+When building a SSR app, you may want some boot files to run only on the server or only on the client, in which case you can do so like below:
+
+```js
+boot: [
+  {
+    server: false, // run on client-side only!
+    path: '<name>' // references /src/boot/<name>.js
+  },
+  {
+    client: false, // run on server-side only!
+    path: '<name>' // references /src/boot/<name>.js
+  }
+]
+```
+
+In case you want to specify boot files from node_modules, you can do so by prepending the path with `~` (tilde) character:
+
+```js
+boot: [
+  // boot file from an npm package
+  '~my-npm-package/some/file'
+]
+```
+
+If you want a boot file to be injected into your app only for a specific build type:
+
+```js
+boot: [
+  ctx.mode.electron ? 'some-file' : ''
 ]
 ```
 
@@ -194,7 +227,7 @@ Let's take the example of Axios. Sometimes you want to access your Axios instanc
 Consider the following boot file for axios:
 
 ```js
-// axios boot file file (src/boot/axios.js)
+// axios boot file (src/boot/axios.js)
 
 import axios from 'axios'
 

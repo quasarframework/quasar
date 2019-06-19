@@ -1,15 +1,15 @@
 {
   "name": "@quasar/babel-preset-app",
-  "version": "1.0.3",
+  "version": "1.1.2",
   "description": "Babel preset for Quasar CLI",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@babel/core": "7.4.0",
-    "@babel/plugin-proposal-class-properties": "7.4.0",
-    "@babel/plugin-proposal-decorators": "7.4.0",
+    "@babel/core": "7.4.5",
+    "@babel/plugin-proposal-class-properties": "7.4.4",
+    "@babel/plugin-proposal-decorators": "7.4.4",
     "@babel/plugin-proposal-export-namespace-from": "7.2.0",
     "@babel/plugin-proposal-function-sent": "7.2.0",
     "@babel/plugin-proposal-json-strings": "7.2.0",
@@ -17,11 +17,15 @@
     "@babel/plugin-proposal-throw-expressions": "7.2.0",
     "@babel/plugin-syntax-dynamic-import": "7.2.0",
     "@babel/plugin-syntax-import-meta": "7.2.0",
-    "@babel/plugin-transform-runtime": "7.4.0",
-    "@babel/preset-env": "7.4.2",
-    "@babel/runtime": "7.4.2",
+    "@babel/plugin-transform-runtime": "7.4.4",
+    "@babel/preset-env": "7.4.5",
+    "@babel/runtime": "7.4.5",
+    "@babel/runtime-corejs2": "7.4.5",
+    "@babel/runtime-corejs3": "7.4.5",
+    "babel-loader": "8.0.6",
     "babel-plugin-dynamic-import-node": "2.2.0",
-    "core-js": "2.6.5"
+    "babel-plugin-module-resolver": "3.2.0",
+    "babel-plugin-transform-imports": "1.5.1"
   },
   "keywords": [
     "quasar",

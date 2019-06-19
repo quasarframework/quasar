@@ -46,7 +46,7 @@
       "default": "value",
       "examples": [
         "option-value=\"modelNumber\"",
-        ":option-value=\"(item) => item.modelNumber\""
+        ":option-value=\"(item) => item === null ? null : item.modelNumber\""
       ],
       "category": "options"
     },
@@ -57,7 +57,7 @@
       "default": "label",
       "examples": [
         "option-label=\"itemName\"",
-        ":option-label=\"(item) => item.itemName\""
+        ":option-label=\"(item) => item === null ? 'Null value' : item.itemName\""
       ],
       "category": "options"
     },
@@ -68,7 +68,7 @@
       "default": "disable",
       "examples": [
         "option-disable=\"cannotSelect\"",
-        ":option-disable=\"(item) => item.cannotSelect\""
+        ":option-disable=\"(item) => item === null ? true : item.cannotSelect\""
       ],
       "category": "options"
     },
@@ -117,7 +117,7 @@
 
     "options-cover": {
       "type": "Boolean",
-      "desc": "Expanded menu will cover the component",
+      "desc": "Expanded menu will cover the component (will not work along with 'use-input' prop for obvious reasons)",
       "category": "options"
     },
 
@@ -193,14 +193,14 @@
 
     "transition-show": {
       "extends": "transition",
-      "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
+      "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
       "default": "fade",
       "category": "behavior"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"cover-options\" is not used",
+      "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
       "default": "fade",
       "category": "behavior"
     }
