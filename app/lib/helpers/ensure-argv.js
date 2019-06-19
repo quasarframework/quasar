@@ -1,8 +1,6 @@
-const warn = require('./logger')('app:ensure-argv', 'red')
+﻿const warn = require('./logger')('app:ensure-argv', 'red')
 
 module.exports = function (argv, cmd) {
-  if (!['spa', 'pwa', 'cordova', 'electron', 'ssrcludes(argv.mode)) {
-  if (!['spa', 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.mode)) {
   if (argv.mode) {
     if (argv.mode === 'ios') {
       argv.m = argv.mode = 'cordova'
