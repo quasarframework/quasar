@@ -100,13 +100,18 @@ fn main() {
         })
         .build().unwrap();
 
-    let handle = webview.handle();
-    handle.dispatch(move |webview| {
-        for entry in js_files {
-            webview.eval(&file::read_file(entry.path)).unwrap();
-        }
-        Ok(())
-    }).unwrap();
+    if js_files.len() != 0 {
+        let handle = webview.handle();
+        handle.dispatch(move |webview| {
+            for entry in js_files {
+                if entry.path.contains("ie.polyfills") && !cfg!(windows) {
+                    continue;
+                }
+                webview.eval(&file::read_file(entry.path)).unwrap();
+            }
+            Ok(())
+        }).unwrap();
+    }
 
     webview.run().unwrap();
 }
