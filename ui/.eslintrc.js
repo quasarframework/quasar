@@ -21,8 +21,7 @@ module.exports = {
   globals: {
     'cordova': true,
     '__THEME__': true,
-    '__statics': true,
-    'webview': true
+    '__statics': true
   },
   // add your custom rules here
   'rules': {
