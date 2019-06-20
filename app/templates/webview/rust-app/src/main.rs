@@ -4,57 +4,51 @@ extern crate serde_json;
 extern crate web_view;
 extern crate dirs;
 extern crate clap;
-use web_view::*;
 use std::fs::File;
 use std::io::Write;
+
+#[cfg(feature = "dev")]
 use clap::{Arg, App};
+#[cfg(feature = "prod")]
+use std::env;
 
 mod dir;
 mod file;
 mod rpc;
 mod cmd;
 
-fn main() {
-    let dev = cfg!(feature = "dev");
+include!(concat!(env!("OUT_DIR"), "/data.rs"));
 
-    let arg;
-    if dev {
-        arg = Arg::with_name("url")
-            .short("u")
-            .long("url")
-            .value_name("URL")
-            .help("Loads the specified URL into webview")
-            .required(true)
-            .takes_value(true);
-    }
-    else {
-        arg = Arg::with_name("debug")
-            .short("d")
-            .long("debug")
-            .value_name("DEBUG")
-            .help("Loads the webview with debug enabled");
-    }
-    let app = App::new("app")
-        .version("1.0.0")
-        .author("Author")
-        .about("About")
-        .arg(arg);
-    
-    let matches = app.get_matches();
-    
-    let content;
+fn main() {
     let debug;
-    let mut js_files: Vec<dir::DiskEntry> = vec![];
-    // let mut js: Vec<string> = vec![];
-    if dev {
-        content = Content::Url(matches.value_of("url").unwrap());
+    let content;
+    let _matches: clap::ArgMatches;
+
+    #[cfg(feature = "dev")]
+    {
+        let app = App::new("app")
+            .version("1.0.0")
+            .author("Author")
+            .about("About")
+            .arg(Arg::with_name("url")
+                .short("u")
+                .long("url")
+                .value_name("URL")
+                .help("Loads the specified URL into webview")
+                .required(true)
+                .takes_value(true)
+            );
+    
+        _matches = app.get_matches();
+        content = web_view::Content::Url(_matches.value_of("url").unwrap());
         debug = true;
     }
-    else {
-        content = Content::Html(include_str!("../../../dist/webview/index.html"));
-        debug = matches.is_present("debug");
-        let dirr = "../../dist/webview/js";
-        js_files = dir::list_dir_contents(&format!("{}", dirr));
+    #[cfg(feature="prod")]
+    {
+        // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
+        let html = include_str!("../../../dist/webview/index.html");
+        content = web_view::Content::Html(html);
+        debug = false;
     }
 
     let webview = web_view::builder()
@@ -100,14 +94,15 @@ fn main() {
         })
         .build().unwrap();
 
-    if js_files.len() != 0 {
+    #[cfg(feature="prod")]
+    {
+        ASSETS.set_passthrough(env::var_os("PASSTHROUGH").is_some());
         let handle = webview.handle();
         handle.dispatch(move |webview| {
-            for entry in js_files {
-                if entry.path.contains("ie.polyfills") && !cfg!(windows) {
-                    continue;
-                }
-                webview.eval(&file::read_file(entry.path)).unwrap();
+            let mut files = ASSETS.file_names().collect::<Vec<_>>();
+            files.sort();
+            for name in files {
+                webview.eval(&String::from_utf8(ASSETS.get(name).unwrap().into_owned()).unwrap()).unwrap();
             }
             Ok(())
         }).unwrap();

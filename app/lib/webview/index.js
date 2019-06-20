@@ -44,11 +44,10 @@ class WebViewRunner {
   build(quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
 
-    // TODO: pass index filename to the executable
     return this.__runWebViewCommand(
       cfg,
-      ['build'],
-      cfg.ctx.debug ? ['--debug'] : []
+      ['build', '--features', 'prod'],
+      []
     )
   }
 
