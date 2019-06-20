@@ -1,8 +1,4 @@
 export default class WebView {
-  static isRunning () {
-    return external !== void 0 && external.invoke !== void 0
-  }
-
   static invoke (command) {
     external.invoke(JSON.stringify(command));
   }

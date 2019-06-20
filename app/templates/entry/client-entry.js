@@ -70,6 +70,11 @@ import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
 
+<% if (ctx.mode.webview) { %>
+import webview from 'quasar/src/webview.js'
+Vue.prototype.$q.webview = window.webview = webview
+<% } %>
+
 <% if (ctx.dev) { %>
 Vue.config.devtools = true
 Vue.config.productionTip = false
