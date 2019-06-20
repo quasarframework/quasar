@@ -38,7 +38,7 @@ It takes a string of tokens and replaces them with their corresponding date valu
 ``` js
 import { date } from 'quasar'
 
-let timeStamp = Date.now()
+let timeStamp = date.now()
 let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
 ```
 
