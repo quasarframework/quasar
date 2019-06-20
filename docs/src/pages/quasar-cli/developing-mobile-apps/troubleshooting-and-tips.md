@@ -187,3 +187,14 @@ When building an iOS app with Cordova and you want to [disable the rubber band e
 ``` xml
 <preference name = "DisallowOverscroll" value = "true" />
 ```
+
+### Accept Licenses
+If you are having problems getting Android builds to finish and you see a message like:
+```
+> Failed to install the following Android SDK packages as some licences have not been accepted.
+```
+If this is the case you need to accept ALL the licenses. Thankfully there is a tool for this:
+
+Linux: `sdkmanager --licenses`
+macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
+Windows: `%ANDROID_HOME%/tools/bin/sdkmanager --licenses`
