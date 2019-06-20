@@ -220,7 +220,7 @@ api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
 ```
 
 ## api.registerCommand
-Register a command that will become available as `quasar run <ext-id> <cmd> [args]`.
+Register a command that will become available as `quasar run <ext-id> <cmd> [args]` (or the short form: `quasar <ext-id> <cmd> [args]`).
 
 ```js
 /**

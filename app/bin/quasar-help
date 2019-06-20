@@ -46,7 +46,6 @@ console.log(`
 `)
 
 if (global.quasarCli) {
-  console.log(`
-  Commands supplied by @quasar/cli global installation:`)
+  console.log(`  Commands supplied by @quasar/cli global installation:`)
   console.log(global.quasarCli.help)
 }
