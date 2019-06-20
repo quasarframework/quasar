@@ -176,16 +176,20 @@ export default Vue.extend({
         return
       }
 
-      let target = this.$refs.target
-      if (target !== void 0) {
-        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target.focus()
-      }
+      this.__focus()
     },
 
     blur () {
       const el = document.activeElement
       this.$el.contains(el) && el.blur()
+    },
+
+    __focus () {
+      let target = this.$refs.target
+      if (target !== void 0) {
+        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target !== null && target.focus()
+      }
     },
 
     __getContent (h) {
@@ -202,6 +206,13 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
         }, this.__getControlContainer(h))
+      )
+
+      this.$scopedSlots.append !== void 0 && node.push(
+        h('div', {
+          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+          key: 'append'
+        }, this.$scopedSlots.append())
       )
 
       this.hasError === true && this.noErrorIcon === false && node.push(
@@ -221,8 +232,7 @@ export default Vue.extend({
           )
         )
       }
-
-      if (this.clearable === true && this.hasValue === true && this.editable === true) {
+      else if (this.clearable === true && this.hasValue === true && this.editable === true) {
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
             h(QIcon, {
@@ -235,13 +245,6 @@ export default Vue.extend({
           ])
         )
       }
-
-      this.$scopedSlots.append !== void 0 && node.push(
-        h('div', {
-          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-          key: 'append'
-        }, this.$scopedSlots.append())
-      )
 
       this.__getInnerAppend !== void 0 && node.push(
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
@@ -358,23 +361,35 @@ export default Vue.extend({
     },
 
     __getInnerAppendNode (h, key, content) {
-      return h('div', {
+      return content === null ? null : h('div', {
         staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
         key
       }, content)
     },
 
+    __onControlPopupShow (e) {
+      this.hasPopupOpen = true
+      this.__onControlFocusin(e)
+    },
+
+    __onControlPopupHide (e) {
+      this.hasPopupOpen = false
+      this.__onControlFocusout(e)
+    },
+
     __onControlFocusin (e) {
       if (this.editable === true && this.focused === false) {
         this.focused = true
-        this.$listeners.focus !== void 0 && this.$emit('focus', e)
+        this.$emit('focus', e)
       }
     },
 
-    __onControlFocusout (e) {
-      setTimeout(() => {
+    __onControlFocusout (e, then) {
+      clearTimeout(this.focusoutTimer)
+      this.focusoutTimer = setTimeout(() => {
         if (
           document.hasFocus() === true && (
+            this.hasPopupOpen === true ||
             this.$refs === void 0 ||
             this.$refs.control === void 0 ||
             this.$refs.control.contains(document.activeElement) !== false
@@ -385,8 +400,10 @@ export default Vue.extend({
 
         if (this.focused === true) {
           this.focused = false
-          this.$listeners.blur !== void 0 && this.$emit('blur', e)
+          this.$emit('blur', e)
         }
+
+        then !== void 0 && then()
       })
     },
 
@@ -438,11 +455,17 @@ export default Vue.extend({
       : {
         focus: this.focus,
         focusin: this.__onControlFocusin,
-        focusout: this.__onControlFocusout
+        focusout: this.__onControlFocusout,
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': this.__onControlPopupHide
       }
   },
 
   mounted () {
     this.autofocus === true && setTimeout(this.focus)
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.focusoutTimer)
   }
 })

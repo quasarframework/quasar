@@ -37,6 +37,10 @@ export function normalizeToInterval (v, min, max) {
 }
 
 export function pad (v, length = 2, char = '0') {
+  if (v === void 0 || v === null) {
+    return v
+  }
+
   let val = '' + v
   return val.length >= length
     ? val

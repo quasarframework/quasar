@@ -6,7 +6,7 @@ If you are not vigilant when building Electron apps, you will probably be placin
 Especially when working "in the open", i.e. as an open-source project, you will definitely want to consider hardening your application with code-signing and integrity checking. (See "Tips" section)
 
 ::: danger
-Under no circumstances should you load and execute remote code with Node.js integration enabled. Instead, use only local files (packaged together with your application) to execute Node.js code. To display remote content, use the `<webview>` tag and make sure to disable the nodeIntegration.
+Under no circumstances should you load and execute remote code with Node.js integration enabled. Instead, use only local files (packaged together with your application) to execute Node.js code.
 :::
 
 ## Checklist: Security Recommendations
@@ -14,19 +14,18 @@ The Electron team itself makes the following recommendations:
 
 1.  [Only load secure content](https://electronjs.org/docs/tutorial/security#1-only-load-secure-content)
 2.  [Disable the Node.js integration in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#2-disable-nodejs-integration-for-remote-content)
-3.  [Enable context isolation in all renderers that display remote content](https://electronjs.org/docs/tutorial/security#3-enable-context-isolation-for-remote-content)
-4.  [Use  `ses.setPermissionRequestHandler()`  in all sessions that load remote content](https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content)
-5.  [Define a  `Content-Security-Policy`](https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy)  and use restrictive rules (i.e.  `script-src 'self'`)
-6.  [Do not disable  `webSecurity`](https://electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)
-7.  [Do not set  `allowRunningInsecureContent`  to  `true`](https://electronjs.org/docs/tutorial/security#7-do-not-set-allowrunninginsecurecontent-to-true)
-8.  [Do not enable experimental features](https://electronjs.org/docs/tutorial/security#8-do-not-enable-experimental-features)
-9.  [Do not use  `enableBlinkFeatures`](https://electronjs.org/docs/tutorial/security#9-do-not-use-enableblinkfeatures)
-10.  [`<webview>`: Do not use  `allowpopups`](https://electronjs.org/docs/tutorial/security#10-do-not-use-allowpopups)
-11.  [`<webview>`: Verify options and params](https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation)
-12.  [Disable or limit navigation](https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation)
-13.  [Disable or limit creation of new windows](https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows)
+3.  [Use  `ses.setPermissionRequestHandler()`  in all sessions that load remote content](https://electronjs.org/docs/tutorial/security#4-handle-session-permission-requests-from-remote-content)
+4.  [Define a  `Content-Security-Policy`](https://electronjs.org/docs/tutorial/security#6-define-a-content-security-policy)  and use restrictive rules (i.e.  `script-src 'self'`)
+5.  [Do not disable  `webSecurity`](https://electronjs.org/docs/tutorial/security#5-do-not-disable-websecurity)
+6.  [Do not set  `allowRunningInsecureContent`  to  `true`](https://electronjs.org/docs/tutorial/security#7-do-not-set-allowrunninginsecurecontent-to-true)
+7.  [Do not enable experimental features](https://electronjs.org/docs/tutorial/security#8-do-not-enable-experimental-features)
+8.  [Do not use  `enableBlinkFeatures`](https://electronjs.org/docs/tutorial/security#9-do-not-use-enableblinkfeatures)
+9.  [`<webview>`: Do not use  `allowpopups`](https://electronjs.org/docs/tutorial/security#10-do-not-use-allowpopups)
+10.  [`<webview>`: Verify options and params](https://electronjs.org/docs/tutorial/security#11-verify-webview-options-before-creation)
+11.  [Disable or limit navigation](https://electronjs.org/docs/tutorial/security#12-disable-or-limit-navigation)
+12.  [Disable or limit creation of new windows](https://electronjs.org/docs/tutorial/security#13-disable-or-limit-creation-of-new-windows)
 
-Except for items 3, 4 & 5 above, Electron will put a warning in the dev console if one of the these issues have been detected.
+Except for items 3 and 4 above, Electron will put a warning in the dev console if one of the these issues have been detected.
 
 
 ## Tips and Tricks

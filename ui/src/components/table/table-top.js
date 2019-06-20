@@ -22,7 +22,9 @@ export default {
         topLeft = this.$scopedSlots['top-left'],
         topRight = this.$scopedSlots['top-right'],
         topSelection = this.$scopedSlots['top-selection'],
-        hasSelection = this.hasSelectionMode && topSelection && this.rowsSelectedNumber > 0,
+        hasSelection = this.hasSelectionMode === true &&
+          topSelection !== void 0 &&
+          this.rowsSelectedNumber > 0,
         staticClass = 'q-table__top relative-position row items-center',
         child = []
 

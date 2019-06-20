@@ -1,7 +1,20 @@
+import { toJalaali } from '../../utils/date-persian.js'
+
 export default {
   props: {
     value: {
       required: true
+    },
+
+    mask: {
+      type: String
+    },
+    locale: Object,
+
+    calendar: {
+      type: String,
+      validator: v => ['gregorian', 'persian'].includes(v),
+      default: 'gregorian'
     },
 
     landscape: Boolean,
@@ -12,6 +25,20 @@ export default {
 
     readonly: Boolean,
     disable: Boolean
+  },
+
+  watch: {
+    mask () {
+      this.$nextTick(() => {
+        this.__updateValue({}, /* reason for QDate only */ 'mask')
+      })
+    },
+
+    computedLocale () {
+      this.$nextTick(() => {
+        this.__updateValue({}, /* reason for QDate only */ 'locale')
+      })
+    }
   },
 
   computed: {
@@ -36,21 +63,46 @@ export default {
       this.color !== void 0 && cls.push(`bg-${this.color}`)
       this.textColor !== void 0 && cls.push(`text-${this.textColor}`)
       return cls.join(' ')
+    },
+
+    computedLocale () {
+      return this.__getComputedLocale()
     }
   },
 
   methods: {
-    __pad (text) {
-      const unit = parseInt(text, 10)
-      return (unit < 10 ? '0' : '') + unit
+    __getComputedLocale () {
+      return this.locale || this.$q.lang.date
     },
 
-    __padYear (text) {
-      const unit = parseInt(text, 10)
-      if (unit < 0 || unit > 9999) {
-        return '' + unit
+    __getCurrentDate () {
+      const d = new Date()
+
+      if (this.calendar === 'persian') {
+        const jDate = toJalaali(d)
+        return {
+          year: jDate.jy,
+          month: jDate.jm,
+          day: jDate.jd
+        }
       }
-      return ('000' + unit).slice(-4)
+
+      return {
+        year: d.getFullYear(),
+        month: d.getMonth() + 1,
+        day: d.getDate()
+      }
+    },
+
+    __getCurrentTime () {
+      const d = new Date()
+
+      return {
+        hour: d.getHours(),
+        minute: d.getMinutes(),
+        second: d.getSeconds(),
+        millisecond: d.getMilliseconds()
+      }
     }
   }
 }

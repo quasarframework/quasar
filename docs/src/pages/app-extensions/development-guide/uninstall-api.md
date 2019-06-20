@@ -76,8 +76,21 @@ api.removePath('my-folder')
 
 The above example deletes "my-folder" from the root of the app.
 
+## api.getPersistentConf
+
+<q-badge label="@quasar/app v1.0.0-beta.25+" />
+
+Get the internal persistent config of this extension. Returns empty object if it has none.
+
+```js
+/**
+ * @return {object} cfg
+ */
+api.getPersistentConf()
+```
+
 ## api.onExitLog
-Adds a message to be printed after App CLI finishes up uninstalling the App Extension and is about to exit.
+Adds a message to be printed after App CLI finishes up uninstalling the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.
 
 ```js
 /**

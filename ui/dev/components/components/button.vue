@@ -33,7 +33,7 @@
       <div class="q-gutter-sm">
         <q-btn icon="fas fa-address-book" color="primary" />
         <q-btn round icon="fas fa-address-book" color="primary" />
-        <q-btn icon="phone" label="Phone" stack color="primary" />
+        <q-btn icon="phone" label="Phone" stack color="primary" style="width: 300px" />
       </div>
       <q-toolbar color="secondary" style="width: 500px">
         <q-btn :type="tag" flat dense round icon="menu" />
@@ -695,6 +695,7 @@ export default {
       this.interval = setInterval(() => {
         this.percentage += Math.floor(Math.random() * 8 + 10)
         if (this.percentage >= 100) {
+          this.percentage = 0
           clearInterval(this.interval)
           this.loading2 = false
         }

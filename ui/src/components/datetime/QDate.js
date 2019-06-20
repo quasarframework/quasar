@@ -3,9 +3,9 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from './datetime-mixin.js'
 
-import { splitDate } from '../../utils/date.js'
-import { isDeepEqual } from '../../utils/is.js'
-import { jalaaliMonthLength, toJalaali, toGregorian } from './persian'
+import { formatDate, __splitDate } from '../../utils/date.js'
+import { pad } from '../../utils/format.js'
+import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 
 const yearsInterval = 20
 
@@ -15,17 +15,20 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
+    title: String,
+    subtitle: String,
+
     emitImmediately: Boolean,
+
+    mask: {
+      // this mask is forced
+      // when using persian calendar
+      default: 'YYYY/MM/DD'
+    },
 
     defaultYearMonth: {
       type: String,
       validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
-    },
-
-    calendar: {
-      type: String,
-      validator: v => ['gregorian', 'persian'].includes(v),
-      default: 'gregorian'
     },
 
     events: [Array, Function],
@@ -44,30 +47,39 @@ export default Vue.extend({
   },
 
   data () {
+    const { inner, external } = this.__getModels(this.value, this.mask, this.__getComputedLocale())
     return {
       view: this.defaultView,
       monthDirection: 'left',
       yearDirection: 'left',
-      innerModel: this.__getInnerModel(this.value)
+      startYear: inner.year - inner.year % yearsInterval,
+      innerModel: inner,
+      extModel: external
     }
   },
 
   watch: {
     value (v) {
-      const model = this.__getInnerModel(v)
+      const { inner, external } = this.__getModels(v, this.mask, this.__getComputedLocale())
 
-      if (isDeepEqual(model, this.innerModel) === true) {
-        return
+      if (
+        this.extModel.dateHash !== external.dateHash ||
+        this.extModel.timeHash !== external.timeHash
+      ) {
+        this.extModel = external
       }
 
-      this.monthDirection = this.innerModel.string < v ? 'left' : 'right'
-      if (model.year !== this.innerModel.year) {
-        this.yearDirection = this.monthDirection
-      }
+      if (inner.dateHash !== this.innerModel.dateHash) {
+        this.monthDirection = this.innerModel.dateHash < inner.dateHash ? 'left' : 'right'
+        if (inner.year !== this.innerModel.year) {
+          this.yearDirection = this.monthDirection
+        }
 
-      this.$nextTick(() => {
-        this.innerModel = model
-      })
+        this.$nextTick(() => {
+          this.startYear = inner.year - inner.year % yearsInterval
+          this.innerModel = inner
+        })
+      }
     },
 
     view () {
@@ -84,24 +96,13 @@ export default Vue.extend({
         (this.disable === true ? ' disabled' : '')
     },
 
-    extModel () {
-      const v = this.value
-
-      if (this.__isInvalid(v) === true) {
-        return {
-          value: null,
-          year: null,
-          month: null,
-          day: null
-        }
+    headerTitle () {
+      if (this.title !== void 0 && this.title !== null && this.title.length > 0) {
+        return this.title
       }
 
-      return splitDate(v)
-    },
-
-    headerTitle () {
       const model = this.extModel
-      if (model.value === null) { return ' --- ' }
+      if (model.dateHash === null) { return ' --- ' }
 
       let date
 
@@ -113,21 +114,25 @@ export default Vue.extend({
         date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
       }
 
-      if (isNaN(date.valueOf())) { return ' --- ' }
+      if (isNaN(date.valueOf()) === true) { return ' --- ' }
 
-      if (this.$q.lang.date.headerTitle !== void 0) {
-        return this.$q.lang.date.headerTitle(date, model)
+      if (this.computedLocale.headerTitle !== void 0) {
+        return this.computedLocale.headerTitle(date, model)
       }
 
-      return this.$q.lang.date.daysShort[ date.getDay() ] + ', ' +
-        this.$q.lang.date.monthsShort[ model.month - 1 ] + ' ' +
+      return this.computedLocale.daysShort[ date.getDay() ] + ', ' +
+        this.computedLocale.monthsShort[ model.month - 1 ] + ' ' +
         model.day
     },
 
     headerSubtitle () {
-      return this.extModel.year !== null
-        ? this.extModel.year
-        : ' --- '
+      return this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0
+        ? this.subtitle
+        : (
+          this.extModel.year !== null
+            ? this.extModel.year
+            : ' --- '
+        )
     },
 
     dateArrow () {
@@ -138,12 +143,12 @@ export default Vue.extend({
     computedFirstDayOfWeek () {
       return this.firstDayOfWeek !== void 0
         ? Number(this.firstDayOfWeek)
-        : this.$q.lang.date.firstDayOfWeek
+        : this.computedLocale.firstDayOfWeek
     },
 
     daysOfWeek () {
       const
-        days = this.$q.lang.date.daysShort,
+        days = this.computedLocale.daysShort,
         first = this.computedFirstDayOfWeek
 
       return first > 0
@@ -156,22 +161,7 @@ export default Vue.extend({
     },
 
     today () {
-      const d = new Date()
-
-      if (this.calendar === 'persian') {
-        const jDate = toJalaali(d)
-        return {
-          year: jDate.jy,
-          month: jDate.jm,
-          day: jDate.jd
-        }
-      }
-
-      return {
-        year: d.getFullYear(),
-        month: d.getMonth() + 1,
-        day: d.getDate()
-      }
+      return this.__getCurrentDate()
     },
 
     evtFn () {
@@ -224,10 +214,10 @@ export default Vue.extend({
 
       const
         index = res.length,
-        prefix = this.innerModel.year + '/' + this.__pad(this.innerModel.month) + '/'
+        prefix = this.innerModel.year + '/' + pad(this.innerModel.month) + '/'
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        const day = prefix + this.__pad(i)
+        const day = prefix + pad(i)
 
         if (this.options !== void 0 && this.isInSelection(day) !== true) {
           res.push({ i })
@@ -268,51 +258,50 @@ export default Vue.extend({
   },
 
   methods: {
-    __isInvalid (v) {
-      return v === void 0 || v === null || v === '' || typeof v !== 'string'
+    __getModels (val, mask, locale) {
+      const external = __splitDate(
+        val,
+        this.calendar === 'persian' ? 'YYYY/MM/DD' : mask,
+        locale,
+        this.calendar
+      )
+
+      return {
+        external,
+        inner: external.dateHash === null
+          ? this.__getDefaultModel()
+          : { ...external }
+      }
     },
 
-    __getInnerModel (v) {
-      let string, year, month, day
+    __getDefaultModel () {
+      let year, month
 
-      if (this.__isInvalid(v) === true) {
-        day = 1
-
-        if (this.defaultYearMonth !== void 0) {
-          const d = this.defaultYearMonth.split('/')
-          year = parseInt(d[0], 10)
-          month = parseInt(d[1], 10)
-        }
-        else {
-          const d = new Date()
-          year = d.getFullYear()
-          month = d.getMonth() + 1
-
-          if (this.calendar === 'persian') {
-            const jDate = toJalaali(year, month, d.getDate())
-            year = jDate.jy
-            month = jDate.jm
-          }
-        }
-
-        string = this.__padYear(year) + '/' + this.__pad(month) + '/' + this.__pad(day)
+      if (this.defaultYearMonth !== void 0) {
+        const d = this.defaultYearMonth.split('/')
+        year = parseInt(d[0], 10)
+        month = parseInt(d[1], 10)
       }
       else {
-        const d = splitDate(v)
-
-        string = v
+        // may come from data() where computed
+        // props are not yet available
+        const d = this.today !== void 0
+          ? this.today
+          : this.__getCurrentDate()
 
         year = d.year
         month = d.month
-        day = d.day
       }
 
       return {
-        string,
-        startYear: year - year % yearsInterval,
         year,
         month,
-        day
+        day: 1,
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0,
+        dateHash: year + '/' + pad(month) + '/01'
       }
     },
 
@@ -356,12 +345,12 @@ export default Vue.extend({
               }
             }, [
               h('div', {
-                key: this.value,
+                key: 'h-sub' + this.headerTitle,
                 staticClass: 'q-date__header-title-label q-date__header-link',
                 class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
                 on: {
-                  click: e => { this.view = 'Calendar' },
+                  click: () => { this.view = 'Calendar' },
                   keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
                 }
               }, [ this.headerTitle ])
@@ -459,7 +448,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-date__navigation row items-center no-wrap'
           }, this.__getNavigation(h, {
-            label: this.$q.lang.date.months[ this.innerModel.month - 1 ],
+            label: this.computedLocale.months[ this.innerModel.month - 1 ],
             view: 'Months',
             key: this.innerModel.month,
             dir: this.monthDirection,
@@ -521,7 +510,7 @@ export default Vue.extend({
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
 
-      const content = this.$q.lang.date.monthsShort.map((month, i) => {
+      const content = this.computedLocale.monthsShort.map((month, i) => {
         const active = this.innerModel.month === i + 1
 
         return h('div', {
@@ -556,7 +545,7 @@ export default Vue.extend({
 
     __getYearsView (h) {
       const
-        start = this.innerModel.startYear,
+        start = this.startYear,
         stop = start + yearsInterval,
         years = []
 
@@ -601,7 +590,7 @@ export default Vue.extend({
               tabindex: this.computedTabindex
             },
             on: {
-              click: () => { this.innerModel.startYear -= yearsInterval }
+              click: () => { this.startYear -= yearsInterval }
             }
           })
         ]),
@@ -622,7 +611,7 @@ export default Vue.extend({
               tabindex: this.computedTabindex
             },
             on: {
-              click: () => { this.innerModel.startYear += yearsInterval }
+              click: () => { this.startYear += yearsInterval }
             }
           })
         ])
@@ -654,45 +643,47 @@ export default Vue.extend({
       this.monthDirection = offset > 0 ? 'left' : 'right'
       this.yearDirection = yearDir
       this.innerModel.month = month
-
-      this.emitImmediately === true && this.__updateValue('month', {})
+      this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
     __goToYear (offset) {
       this.monthDirection = this.yearDirection = offset > 0 ? 'left' : 'right'
       this.innerModel.year = Number(this.innerModel.year) + offset
-      this.emitImmediately === true && this.__updateValue('year', {})
+      this.emitImmediately === true && this.__updateValue({}, 'year')
     },
 
     __setYear (year) {
       this.innerModel.year = year
-      this.emitImmediately === true && this.__updateValue('year', { year })
+      this.emitImmediately === true && this.__updateValue({ year }, 'year')
       this.view = 'Calendar'
     },
 
     __setMonth (month) {
       this.innerModel.month = month
-      this.emitImmediately === true && this.__updateValue('month', { month })
+      this.emitImmediately === true && this.__updateValue({ month }, 'month')
       this.view = 'Calendar'
     },
 
     __setDay (day) {
-      this.__updateValue('day', { day })
+      this.__updateValue({ day }, 'day')
     },
 
     __setToday () {
-      this.__updateValue('today', { ...this.today })
+      this.__updateValue({ ...this.today }, 'today')
       this.view = 'Calendar'
     },
 
-    __updateValue (reason, date) {
+    __updateValue (date, reason) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
       }
       if (date.month === void 0) {
         date.month = this.innerModel.month
       }
-      if (date.day === void 0 || (this.emitImmediately === true && reason !== 'day')) {
+      if (
+        date.day === void 0 ||
+        (this.emitImmediately === true && (reason === 'year' || reason === 'month'))
+      ) {
         date.day = this.innerModel.day
         const maxDay = this.emitImmediately === true
           ? this.__getDaysInMonth(date)
@@ -701,12 +692,46 @@ export default Vue.extend({
         date.day = Math.min(date.day, maxDay)
       }
 
-      const val = this.__padYear(date.year) + '/' +
-        this.__pad(date.month) + '/' +
-        this.__pad(date.day)
+      const val = this.calendar === 'persian'
+        ? date.year + '/' + pad(date.month) + '/' + pad(date.day)
+        : formatDate(
+          new Date(
+            date.year,
+            date.month - 1,
+            date.day,
+            this.extModel.hour,
+            this.extModel.minute,
+            this.extModel.second,
+            this.extModel.millisecond
+          ),
+          this.mask,
+          this.computedLocale,
+          date.year
+        )
 
       if (val !== this.value) {
         this.$emit('input', val, reason, date)
+      }
+      else if (reason === 'today') {
+        const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
+        const curHash = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(this.innerModel.day)
+
+        if (newHash !== curHash) {
+          this.monthDirection = curHash < newHash ? 'left' : 'right'
+          if (date.year !== this.innerModel.year) {
+            this.yearDirection = this.monthDirection
+          }
+
+          this.$nextTick(() => {
+            this.startYear = date.year - date.year % yearsInterval
+            Object.assign(this.innerModel, {
+              year: date.year,
+              month: date.month,
+              day: date.day,
+              dateHash: newHash
+            })
+          })
+        }
       }
     }
   },

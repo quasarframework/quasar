@@ -3,8 +3,9 @@
 const parseArgs = require('minimist')
 
 const
-  log = require('../lib/helpers/logger')('app:mode')
-  appPaths = require('../lib/app-paths')
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:mode'),
+  warn = logger('app:mode', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -13,12 +14,13 @@ const argv = parseArgs(process.argv.slice(2), {
   boolean: ['h']
 })
 
-if (argv.help) {
+function showHelp() {
   console.log(`
   Description
     Add/Remove support for PWA / Cordova / Electron modes.
+
   Usage
-    $ quasar mode [add|remove pwa|ssr|cordova|electron]
+    $ quasar mode [add|remove] [pwa|ssr|cordova|electron]
 
     # determine what modes are currently installed:
     $ quasar mode
@@ -27,6 +29,11 @@ if (argv.help) {
     --help, -h    Displays this message
   `)
   process.exit(0)
+}
+
+if (argv.help) {
+  showHelp()
+  process.exit(1)
 }
 
 if (argv._.length !== 0 && argv._.length !== 2) {
@@ -51,12 +58,7 @@ if (argv._.length === 2) {
   }
 
   if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(mode)) {
-    warn(`⚠️  Unknown mode "${ mode }" to add`)
-    warn()
-    process.exit(1)
-  }
-  if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(mode)) {
-    warn(`⚠️  Unknown mode "${ mode }" to remove`)
+    warn(`⚠️  Unknown mode "${ mode }" to ${action}`)
     warn()
     process.exit(1)
   }

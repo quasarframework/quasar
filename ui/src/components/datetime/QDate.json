@@ -8,6 +8,7 @@
   "props": {
     "value": {
       "extends": "value",
+      "required": true,
       "desc": "Date of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [
         "v-model=\"myDate\""
@@ -15,17 +16,23 @@
       "category": "model"
     },
 
+    "title": {
+      "type": "String",
+      "desc": "When specified, it overrides the default header title; Makes sense when not in 'minimal' mode",
+      "examples": [ "Birthday" ],
+      "category": "content"
+    },
+
+    "subtitle": {
+      "type": "String",
+      "desc": "When specified, it overrides the default header subtitle; Makes sense when not in 'minimal' mode",
+      "examples": [ "John Doe" ],
+      "category": "content"
+    },
+
     "emit-immediately": {
       "type": "Boolean",
       "desc": "Emit model when user browses month and year too",
-      "category": "model"
-    },
-
-    "calendar": {
-      "type": "String",
-      "desc": "Specify calendar type",
-      "default": "gregorian",
-      "values": [ "gregorian", "persian" ],
       "category": "model"
     },
 
@@ -36,6 +43,11 @@
         "1986/02"
       ],
       "category": "model"
+    },
+
+    "mask": {
+      "default": "YYYY/MM/DD",
+      "examples": [ "YYYY-MM-DD", "MMMM Do, YYYY", "YYYY-MM-DD HH:mm:ss" ]
     },
 
     "default-view": {
@@ -111,7 +123,7 @@
         "reason": {
           "type": "String",
           "desc": "Reason of the user interaction (what was picked)",
-          "values": [ "year", "month", "day", "today" ]
+          "values": [ "year", "month", "day", "today", "locale", "mask" ]
         },
         "details": {
           "type": "Object",

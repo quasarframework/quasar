@@ -30,6 +30,16 @@
           landscape
           @input="inputLog"
         />
+
+        <q-date
+          title="Title"
+          subtitle="Subtitle"
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          emit-immediately
+          @input="inputLog"
+        />
       </div>
 
       <div class="text-h6">
@@ -161,6 +171,24 @@
         </q-input>
       </div>
 
+      <div class="text-h6 q-mt-xl q-mb-none">
+        ParseFormat: {{ dateParse }}
+      </div>
+      <div class="q-gutter-md column">
+        <q-input :dark="dark" filled v-model="mask" label="Mask" />
+        <q-select :dark="dark" filled v-model="locale" label="Locale" :options="localeOptions" emit-value map-options clearable />
+
+        <q-date
+          v-model="dateParse"
+          :mask="mask"
+          :locale="localeComputed"
+          v-bind="props"
+          :style="style"
+        />
+
+        <q-input :dark="dark" filled v-model="dateParse" />
+      </div>
+
       <div class="text-h6">
         Input: {{ input }}
       </div>
@@ -182,17 +210,30 @@
         Input with close on selection: {{ input }}
       </div>
       <div class="q-gutter-md column">
-        <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
-          <q-icon slot="append" name="event" class="cursor-pointer">
-            <q-popup-proxy ref="qDateProxy">
-              <q-date
-                v-model="input"
-                v-bind="props"
-                :style="style"
-                @input="() => $refs.qDateProxy.hide()"
-              />
-            </q-popup-proxy>
-          </q-icon>
+        <q-input :dark="dark" filled v-model="inputFull">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy ref="qDateProxy1">
+                <q-date
+                  v-model="inputFull"
+                  v-bind="props"
+                  mask="YYYY-MM-DD HH:mm"
+                  today-btn
+                  :style="style"
+                  @input="() => $refs.qDateProxy1.hide()"
+                />
+              </q-popup-proxy>
+            </q-icon>
+            <q-icon name="access_time" class="cursor-pointer">
+              <q-popup-proxy ref="qDateProxy2">
+                <q-time
+                  v-model="inputFull"
+                  mask="YYYY-MM-DD HH:mm"
+                  @input="() => $refs.qDateProxy2.hide()"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
       </div>
     </div>
@@ -200,6 +241,13 @@
 </template>
 
 <script>
+import languages from '../../../lang/index.json'
+
+const localeOptions = languages.map(lang => ({
+  label: lang.nativeName,
+  value: require(`../../../lang/${lang.isoName}.js`).default
+}))
+
 export default {
   data () {
     return {
@@ -211,7 +259,10 @@ export default {
       minimal: false,
       todayBtn: false,
 
+      mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
+
       date: '2018/11/03',
+      dateParse: 'Month: Aug, Day: 28th, Year: 2018',
       dateNeg: '-13/11/03',
       nullDate: null,
       nullDate2: null,
@@ -219,7 +270,11 @@ export default {
 
       persian: false,
 
-      input: null
+      input: null,
+      inputFull: null,
+
+      locale: null,
+      localeOptions
     }
   },
 
@@ -257,6 +312,10 @@ export default {
         style += 'height: 650px'
       }
       return style
+    },
+
+    localeComputed () {
+      return this.locale ? this.locale.date : this.$q.lang.date
     }
   },
   watch: {

@@ -3,7 +3,7 @@
     q-card-section.quasar-sponsor__title {{ name }}
     q-separator
     q-card-section.quasar-sponsor__logo.flex.flex-center(v-if="img")
-      q-img(alt="name", :src="`https://cdn.quasar-framework.org/sponsors/${img}`")
+      q-img(alt="name", :src="`https://cdn.quasar.dev/sponsors/${img}`")
 </template>
 
 <script>

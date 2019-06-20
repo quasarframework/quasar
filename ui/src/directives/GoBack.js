@@ -4,21 +4,29 @@ export default {
   name: 'go-back',
 
   bind (el, { value, modifiers }, vnode) {
-    let ctx = { value, position: window.history.length - 1, single: modifiers.single }
+    const ctx = {
+      value,
 
-    if (Platform.is.cordova) {
-      ctx.goBack = () => {
-        vnode.context.$router.go(ctx.single ? -1 : ctx.position - window.history.length)
-      }
-    }
-    else {
-      ctx.goBack = () => {
-        vnode.context.$router.replace(ctx.value)
-      }
-    }
-    ctx.goBackKey = ev => {
-      if (ev.keyCode === 13) {
-        ctx.goBack(ev)
+      position: window.history.length - 1,
+      single: modifiers.single,
+
+      goBack () {
+        const router = vnode.context.$router
+
+        if (ctx.single) {
+          router.go(-1)
+        }
+        else if (Platform.is.cordova === true) {
+          router.go(ctx.position - window.history.length)
+        }
+        else {
+          router.replace(ctx.value)
+        }
+      },
+
+      goBackKey (e) {
+        // ENTER
+        e.keyCode === 13 && ctx.goBack()
       }
     }
 

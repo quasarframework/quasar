@@ -6,7 +6,7 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { stop, stopAndPrevent } from '../../utils/event.js'
+import { create, stop, stopAndPrevent } from '../../utils/event.js'
 
 let maximizedModals = 0
 
@@ -135,7 +135,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      let node = this.__getInnerNode()
 
       if (node === void 0 || node.contains(document.activeElement) === true) {
         return
@@ -155,7 +155,7 @@ export default Vue.extend({
     shake () {
       this.focus()
 
-      const node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      const node = this.__getInnerNode()
 
       if (node !== void 0) {
         node.classList.remove('q-animate--scale')
@@ -167,12 +167,20 @@ export default Vue.extend({
       }
     },
 
+    __getInnerNode () {
+      return this.__portal !== void 0 && this.__portal.$refs !== void 0
+        ? this.__portal.$refs.inner
+        : void 0
+    },
+
     __show (evt) {
       clearTimeout(this.timer)
 
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
         : void 0
+
+      this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
       this.__updateState(true, this.maximized)
 
@@ -210,11 +218,13 @@ export default Vue.extend({
     __hide (evt) {
       this.__cleanup(true)
 
-      this.timer = setTimeout(() => {
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.focus()
-        }
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.focus()
+      }
 
+      this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
+
+      this.timer = setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
@@ -267,14 +277,16 @@ export default Vue.extend({
     },
 
     __onFocusChange (e) {
+      const node = this.__getInnerNode()
+
       if (
-        this.__portal !== void 0 &&
+        node !== void 0 &&
         this.__portal.$el !== void 0 &&
         // we don't have another portal opened:
         this.__portal.$el.nextElementSibling === null &&
         this.__portal.$el.contains(e.target) !== true
       ) {
-        this.__portal.$refs.inner.focus()
+        node.focus()
       }
     },
 

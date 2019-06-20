@@ -72,8 +72,6 @@ export default Vue.extend({
     leftIcon: String,
     rightIcon: String,
 
-    // TODO remove in v1 final
-    topIndicator: Boolean,
     switchIndicator: Boolean,
 
     narrowIndicator: Boolean,
@@ -91,7 +89,7 @@ export default Vue.extend({
         activeBgColor: this.activeBgColor,
         indicatorClass: getIndicatorClass(
           this.indicatorColor,
-          this.topIndicator || this.switchIndicator,
+          this.switchIndicator,
           this.vertical
         ),
         narrowIndicator: this.narrowIndicator,
@@ -107,7 +105,7 @@ export default Vue.extend({
 
   watch: {
     value (name) {
-      this.__activateTab(name)
+      this.__activateTab(name, true, true)
     },
 
     activeColor (v) {
@@ -119,16 +117,11 @@ export default Vue.extend({
     },
 
     vertical (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicatorPos, v)
+      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicator, v)
     },
 
     indicatorColor (v) {
-      this.tabs.indicatorClass = getIndicatorClass(v, this.switchIndicatorPos, this.vertical)
-    },
-
-    // TODO remove in v1 final
-    topIndicator (v) {
-      this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, v, this.vertical)
+      this.tabs.indicatorClass = getIndicatorClass(v, this.switchIndicator, this.vertical)
     },
 
     switchIndicator (v) {
@@ -162,20 +155,17 @@ export default Vue.extend({
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
         (this.vertical === true ? ' q-tabs--vertical' : '')
-    },
-
-    // TODO remove in v1 final, directly use switchIndicator
-    switchIndicatorPos () {
-      return this.topIndicator || this.switchIndicator
     }
   },
 
   methods: {
-    __activateTab (name) {
+    __activateTab (name, setCurrent, skipEmit) {
       if (this.tabs.current !== name) {
-        this.__animate(this.tabs.current, name)
-        this.tabs.current = name
-        this.$emit('input', name)
+        skipEmit !== true && this.$emit('input', name)
+        if (setCurrent === true || this.$listeners.input === void 0) {
+          this.__animate(this.tabs.current, name)
+          this.tabs.current = name
+        }
       }
     },
 
@@ -205,7 +195,7 @@ export default Vue.extend({
           }
 
           tabs.sort(bufferPrioritySort)
-          this.__activateTab(tabs.length === 0 ? null : tabs[0].name)
+          this.__activateTab(tabs.length === 0 ? null : tabs[0].name, true)
           this.buffer = this.buffer.map(bufferCleanSelected)
           this.bufferTimer = void 0
         }, 1)
@@ -214,8 +204,8 @@ export default Vue.extend({
 
     __updateContainer ({ width, height }) {
       const scroll = this.vertical === true
-        ? this.$refs.content.scrollHeight > height
-        : this.$refs.content.scrollWidth > width
+        ? this.$refs.content.scrollHeight > height + 1
+        : this.$refs.content.scrollWidth > width + 1
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
@@ -351,16 +341,6 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
-  },
-
-  // TODO remove in v1 final
-  mounted () {
-    if (this.topIndicator === true) {
-      const p = process.env
-      if (p.PROD !== true) {
-        console.info('\n\n[Quasar] QTabs info: please rename top-indicator to switch-indicator prop')
-      }
-    }
   },
 
   beforeDestroy () {

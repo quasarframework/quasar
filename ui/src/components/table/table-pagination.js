@@ -56,10 +56,9 @@ export default {
     },
 
     isLastPage () {
-      if (this.lastRowIndex === 0) {
-        return true
-      }
-      return this.computedPagination.page >= this.pagesNumber
+      return this.lastRowIndex === 0
+        ? true
+        : this.computedPagination.page >= this.pagesNumber
     },
 
     computedRowsPerPageOptions () {

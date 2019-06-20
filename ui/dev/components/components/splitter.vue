@@ -77,14 +77,12 @@
           @click="separatorLog"
         />
         <q-splitter
-          :value="50"
+          v-model="innerSeparatorSplitModel"
           vertical
           :disable="disable"
           separator-class="bg-deep-orange"
           class="bg-white rounded-borders"
           style="width: 50vw; height: 30vh"
-          @mousedown.stop
-          @touchstart.stop
         >
           <div slot="before" class="q-layout-padding">
             <div v-for="n in 20" :key="n" class="q-my-md">
@@ -145,6 +143,7 @@ export default {
     return {
       model: 50,
       insideModel: 50,
+      innerSeparatorSplitModel: 50,
       funkyLimits: false,
       limits: [10, 90],
       horizontal: false,

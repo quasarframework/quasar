@@ -98,7 +98,12 @@ export default Vue.extend({
     innerValue: {
       handler () {
         if (
-          this.useInput === true && this.fillInput === true && this.multiple !== true &&
+          this.useInput === true &&
+          this.fillInput === true &&
+          this.multiple !== true &&
+          // Prevent re-entering in filter while filtering
+          // Also prevent clearing inputValue while filtering
+          this.innerLoading !== true &&
           ((this.dialog !== true && this.menu !== true) || this.hasValue !== true)
         ) {
           this.__resetInputValue()
@@ -289,8 +294,10 @@ export default Vue.extend({
 
       const optValue = this.__getOptionValue(opt)
 
-      this.multiple !== true && this.updateInputValue(this.fillInput === true ? optValue : '', true)
-      this.focus()
+      this.multiple !== true && this.updateInputValue(
+        this.fillInput === true ? this.__getOptionLabel(opt) : '', true
+      )
+      this.__focus()
 
       if (this.multiple !== true) {
         this.hidePopup()
@@ -465,7 +472,6 @@ export default Vue.extend({
         return
       }
 
-      // below is meant for multiple mode only
       if (
         this.inputValue.length > 0 &&
         (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
@@ -488,11 +494,15 @@ export default Vue.extend({
             )
           }
 
-          this.updateInputValue('')
+          this.updateInputValue('', this.multiple !== true)
         }
 
         if (this.$listeners['new-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
+
+          if (this.multiple !== true) {
+            return
+          }
         }
         else {
           done(this.inputValue)
@@ -590,7 +600,7 @@ export default Vue.extend({
     },
 
     __getControl (h, fromDialog) {
-      let data = {}
+      let data = { attrs: {} }
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
@@ -601,8 +611,7 @@ export default Vue.extend({
           ref: 'target',
           attrs: {
             tabindex: 0,
-            autofocus: this.autofocus,
-            ...this.$attrs
+            autofocus: this.autofocus
           },
           on: {
             keydown: this.__onTargetKeydown
@@ -610,6 +619,7 @@ export default Vue.extend({
         }
       }
 
+      Object.assign(data.attrs, this.$attrs)
       data.staticClass = 'q-field__native row items-center'
 
       return h('div', data, child)
@@ -636,7 +646,7 @@ export default Vue.extend({
     },
 
     __getInnerAppend (h) {
-      return this.hideDropdownIcon !== true
+      return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
         ? [
           h(QIcon, {
             staticClass: 'q-select__dropdown-icon',
@@ -673,7 +683,7 @@ export default Vue.extend({
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
-          this.filter(this.inputValue)
+          this.filter(this.inputValue, true)
         }, this.inputDebounce)
       }
     },
@@ -688,7 +698,7 @@ export default Vue.extend({
       }
     },
 
-    filter (val) {
+    filter (val, userInput) {
       if (this.$listeners.filter === void 0 || this.focused !== true) {
         return
       }
@@ -704,6 +714,7 @@ export default Vue.extend({
         val !== '' &&
         this.multiple !== true &&
         this.innerValue.length > 0 &&
+        userInput !== true &&
         val === this.__getOptionLabel(this.innerValue[0])
       ) {
         val = ''
@@ -744,15 +755,23 @@ export default Vue.extend({
     },
 
     __getControlEvents () {
+      const focusout = e => {
+        this.__onControlFocusout(e, () => {
+          this.__resetInputValue()
+          this.__closeMenu()
+        })
+      }
+
       return {
         focus: e => {
           this.hasDialog !== true && this.focus(e)
         },
-        focusin: e => {
-          this.hasDialog !== true && this.__onControlFocusin(e)
-        },
-        focusout: e => {
-          this.hasDialog !== true && this.__onControlFocusout(e)
+        focusin: this.__onControlFocusin,
+        focusout,
+        'popup-show': this.__onControlPopupShow,
+        'popup-hide': e => {
+          this.hasPopupOpen = false
+          focusout(e)
         },
         click: e => {
           if (this.hasDialog !== true && this.menu === true) {
@@ -763,53 +782,6 @@ export default Vue.extend({
           }
         }
       }
-    },
-
-    __hasInnerFocus () {
-      let menu
-
-      return (
-        document.hasFocus() === true &&
-        this.$refs !== void 0 && (
-          (this.$refs.control !== void 0 && this.$refs.control.contains(document.activeElement) !== false) ||
-          ((menu = this.__getMenuContentEl()) !== void 0 && menu.contains !== void 0 && menu.contains(document.activeElement) !== false)
-        )
-      )
-    },
-
-    __onControlFocusin (e) {
-      if (this.editable !== true || this.focused === true) {
-        return
-      }
-
-      if (this.__hasInnerFocus() === false) {
-        return
-      }
-
-      clearTimeout(this.focusoutTimer)
-
-      this.focused = true
-      this.$emit('focus', e)
-    },
-
-    __onControlFocusout (e) {
-      clearTimeout(this.focusoutTimer)
-
-      this.focusoutTimer = setTimeout(() => {
-        clearTimeout(this.inputTimer)
-
-        if (this.__hasInnerFocus() === true) {
-          return
-        }
-
-        if (this.focused === true) {
-          this.focused = false
-          this.$emit('blur', e)
-        }
-
-        this.__resetInputValue()
-        this.__closeMenu()
-      }, 100)
     },
 
     __getPopup (h) {
@@ -864,7 +836,8 @@ export default Vue.extend({
             dark: this.optionsDark,
             square: true,
             loading: this.innerLoading,
-            filled: true
+            filled: true,
+            stackLabel: this.inputValue.length > 0
           },
           on: {
             ...this.$listeners,
@@ -943,13 +916,8 @@ export default Vue.extend({
     },
 
     showPopup (e) {
-      clearTimeout(this.focusoutTimer)
-
       if (this.hasDialog === true) {
-        if (this.focused === false) {
-          this.$emit('focus', e)
-        }
-        this.focused = true
+        this.__onControlFocusin(e)
         this.dialog = true
       }
       else {
@@ -1003,11 +971,14 @@ export default Vue.extend({
       if (this.dialog === false && this.$refs.menu !== void 0) {
         this.$refs.menu.updatePosition()
       }
+    },
+
+    updateMenuPosition () {
+      this.__onPostRender()
     }
   },
 
   beforeDestroy () {
     clearTimeout(this.inputTimer)
-    clearTimeout(this.focusoutTimer)
   }
 })

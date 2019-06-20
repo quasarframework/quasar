@@ -3,7 +3,8 @@ const
   log = logger('app:extension'),
   warn = logger('app:extension', 'red'),
   appPaths = require('../app-paths'),
-  { spawnSync } = require('../helpers/spawn')
+  { spawnSync } = require('../helpers/spawn'),
+  extensionJson = require('./extension-json')
 
 async function renderFolders ({ source, rawCopy, scope }) {
   const
@@ -156,11 +157,10 @@ module.exports = class Extension {
 
     const prompts = await this.__getPrompts()
 
+    extensionJson.set(this.extId, prompts)
+
     // run extension install
     const hooks = await this.__runInstallScript(prompts)
-
-    const extensionJson = require('./extension-json')
-    extensionJson.add(this.extId, prompts)
 
     log(`Quasar App Extension "${this.extId}" successfully installed.`)
     log()
@@ -193,9 +193,7 @@ module.exports = class Extension {
       }
     }
 
-    const extensionJson = require('./extension-json')
-    const prompts = extensionJson.get(this.extId)
-
+    const prompts = extensionJson.getPrompts(this.extId)
     const hooks = await this.__runUninstallScript(prompts)
 
     extensionJson.remove(this.extId)
@@ -222,11 +220,10 @@ module.exports = class Extension {
 
     const script = this.__getScript('index', true)
     const IndexAPI = require('./IndexAPI')
-    const extensionJson = require('./extension-json')
 
     const api = new IndexAPI({
       extId: this.extId,
-      prompts: extensionJson.get(this.extId),
+      prompts: extensionJson.getPrompts(this.extId),
       ctx
     })
 

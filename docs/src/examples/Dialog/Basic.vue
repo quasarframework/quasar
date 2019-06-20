@@ -26,6 +26,7 @@ export default {
       this.$q.dialog({
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
+        cancel: true,
         persistent: true
       }).onOk(() => {
         console.log('>>>> OK')

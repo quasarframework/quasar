@@ -4,8 +4,8 @@
       <router-view />
     </transition>
     <div
-      style="padding: 10px; right: 10px; bottom: 10px"
-      class="rounded-borders bg-white shadow-4 fixed z-top"
+      style="padding: 10px; right: 10px; bottom: 10px; z-index: 6000"
+      class="rounded-borders bg-white shadow-4 fixed"
     >
       <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
       <template v-if="showSelector">

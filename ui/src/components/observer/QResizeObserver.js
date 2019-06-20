@@ -70,7 +70,9 @@ export default Vue.extend({
       },
       on: {
         load: () => {
-          this.$el.contentDocument.defaultView.addEventListener('resize', this.trigger, listenOpts.passive)
+          if (this.$el.contentDocument) {
+            this.$el.contentDocument.defaultView.addEventListener('resize', this.trigger, listenOpts.passive)
+          }
           this.trigger(true)
         }
       }

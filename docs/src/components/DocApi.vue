@@ -53,7 +53,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
               class="inner-tab"
               :name="category"
             )
-              .row.no-wrap.items-center
+              .row.no-wrap.items-center.self-start
                 q-badge(v-if="apiCount(tab, category)") {{ formattedApiCount(tab, category) }}
                 span.q-ml-xs.text-capitalize.text-weight-medium {{ category }}
 

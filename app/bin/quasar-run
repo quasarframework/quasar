@@ -13,7 +13,7 @@ const argv = parseArgs(process.argv.slice(2), {
 const extId = argv._[0]
 const cmd = argv._[1]
 
-if (!extId || argv.help) {
+if (!extId && argv.help) {
   console.log(`
   Description
     Run app extension provided commands
@@ -22,13 +22,13 @@ if (!extId || argv.help) {
     $ quasar run <extension-id> <cmd> [args, params]
     $ quasar <extension-id> <cmd> [args, params]
 
-    $ quasar run iconify create -s 
-    $ quasar iconify create -s
+    $ quasar run iconify create pic -s --mark some_file
+    $ quasar iconify create pic -s --mark some_file
         # Note: "iconify" is an example and not a real extension.
         # Looks for installed extension called "iconify"
         # (quasar-app-extension-iconify extension package)
         # and runs its custom defined "create" command
-        # with "-s --mark some_file" params
+        # with "pic" argument and "-s --mark some_file" params
 
   Options
     --help, -h       Displays this message

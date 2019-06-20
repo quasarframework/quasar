@@ -9,7 +9,8 @@ const
   logger = require('../helpers/logger'),
   warn = logger('app:extension(install)', 'red'),
   getPackageJson = require('../helpers/get-package-json'),
-  getCallerPath = require('../helpers/get-caller-path')
+  getCallerPath = require('../helpers/get-caller-path'),
+  extensionJson = require('./extension-json')
 
 /**
  * API for extension's /install.js script
@@ -26,6 +27,38 @@ module.exports = class InstallAPI {
       renderFolders: [],
       exitLog: []
     }
+  }
+
+  /**
+   * Get the internal persistent config of this extension.
+   * Returns empty object if it has none.
+   *
+   * @return {object} cfg
+   */
+  getPersistentConf () {
+    return extensionJson.getInternal(this.extId)
+  }
+
+  /**
+   * Set the internal persistent config of this extension.
+   * If it already exists, it is overwritten.
+   *
+   * @param {object} cfg
+   */
+  setPersistentConf (cfg) {
+    extensionJson.setInternal(this.extId, cfg || {})
+  }
+
+  /**
+   * Deep merge into the internal persistent config of this extension.
+   * If extension does not have any config already set, this is
+   * essentially equivalent to setting it for the first time.
+   *
+   * @param {object} cfg
+   */
+  mergePersistentConf (cfg = {}) {
+    const currentCfg = this.getPersistentConf()
+    this.setPersistentConf(merge(currentCfg, cfg))
   }
 
   /**
@@ -54,18 +87,6 @@ module.exports = class InstallAPI {
       warn(`⚠️  Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
       process.exit(1)
     }
-  }
-
-  /**
-   * DEPRECATED
-   * Alias to compatibleWith('@quasar/app', semverCondition)
-   * TODO: remove in rc.1
-   *
-   * @param {string} semverCondition
-   */
-  compatibleWithQuasarApp (semverCondition) {
-    warn(`⚠️  Extension(${this.extId}): using deprecated compatibleWithQuasarApp() instead of compatibleWith()`)
-    this.compatibleWith('@quasar/app', semverCondition)
   }
 
   /**
@@ -99,7 +120,6 @@ module.exports = class InstallAPI {
    * @return {boolean} has the extension installed & invoked
    */
   hasExtension (extId) {
-    const extensionJson = require('./extension-json')
     return extensionJson.has(extId)
   }
 

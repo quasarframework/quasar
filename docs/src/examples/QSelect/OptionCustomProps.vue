@@ -23,9 +23,9 @@
         filled
         v-model="model"
         :options="options"
-        :option-value="opt => opt.id"
-        :option-label="opt => opt.desc"
-        :option-disable="opt => opt.inactive"
+        :option-value="opt => opt === null ? null : opt.id"
+        :option-label="opt => opt === null ? '- Null -' : opt.desc"
+        :option-disable="opt => opt === null ? true : opt.inactive"
         emit-value
         map-options
         style="min-width: 250px; max-width: 300px"

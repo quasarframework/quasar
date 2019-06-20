@@ -8,7 +8,7 @@ import TransitionMixin from '../../mixins/transition.js'
 import ClickOutside from './ClickOutside.js'
 import uid from '../../utils/uid.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { stop, position, listenOpts } from '../../utils/event.js'
+import { create, stop, position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
@@ -132,8 +132,10 @@ export default Vue.extend({
       }
 
       EscapeKey.register(this, () => {
-        this.$emit('escape-key')
-        this.hide()
+        if (this.persistent !== true) {
+          this.$emit('escape-key')
+          this.hide()
+        }
       })
 
       this.__showPortal()
@@ -156,6 +158,8 @@ export default Vue.extend({
           this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
         }
 
+        this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
+
         if (this.noFocus !== true) {
           document.activeElement.blur()
 
@@ -173,11 +177,13 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup(true)
 
-      this.timer = setTimeout(() => {
-        if (this.__refocusTarget !== void 0) {
-          this.__refocusTarget.focus()
-        }
+      if (this.__refocusTarget !== void 0) {
+        this.__refocusTarget.focus()
+      }
 
+      this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
+
+      this.timer = setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
@@ -270,6 +276,15 @@ export default Vue.extend({
 
     __onPortalClose () {
       closeRootMenu(this.menuId)
+    }
+  },
+
+  beforeDestroy () {
+    // When the menu is destroyed while open we can only emit the event on anchorEl
+    if (this.showing === true && this.anchorEl !== void 0) {
+      this.anchorEl.dispatchEvent(
+        create('popup-hide', { bubbles: true })
+      )
     }
   }
 })

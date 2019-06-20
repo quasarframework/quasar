@@ -310,6 +310,8 @@
             v-bind="props"
             v-model="minFilterInput"
             use-input
+            hide-selected
+            fill-input
             input-debounce="0"
             label="Simple filter - min 2 chars"
             :options="minFilterInputOptions"

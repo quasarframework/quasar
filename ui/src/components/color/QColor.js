@@ -41,7 +41,7 @@ export default Vue.extend({
     defaultView: {
       type: String,
       default: 'spectrum',
-      validator: v => ['spectrum', 'tune', 'palette']
+      validator: v => ['spectrum', 'tune', 'palette'].includes(v)
     },
 
     formatModel: {
@@ -331,9 +331,7 @@ export default Vue.extend({
               modifiers: {
                 prevent: true,
                 stop: true,
-                mouse: true,
-                mousePrevent: true,
-                mouseStop: true
+                mouse: true
               },
               value: this.__spectrumPan
             }]

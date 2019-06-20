@@ -19,7 +19,7 @@ if (argv.help) {
     Works only in a project folder by upgrading to latest minor versions
     of all quasar related packages.
 
-    This will not upgrade official Quasar App Extensions though.
+    This will also upgrade official Quasar App Extensions.
 
   Usage
     # checks for upgrades only

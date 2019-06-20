@@ -14,6 +14,7 @@
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
         <q-btn label="Custom component" flat color="primary" @click="customComponent" />
+        <q-btn label="With HTML" flat color="primary" @click="unsafe" />
       </div>
     </div>
 
@@ -251,6 +252,24 @@ export default {
         component: DialogComponent,
         // props forwarded to component:
         text: 'gigi'
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+
+    unsafe () {
+      this.dialogHandler = this.$q.dialog({
+        title: 'Alert <span class="text-red">me</span>',
+        message: 'Some <strong>unsafe</strong> <em>message</em>',
+        html: true,
+        dark: this.dark,
+        ok: {
+          color: 'black'
+        }
       }).onOk(() => {
         console.log('OK')
       }).onCancel(() => {

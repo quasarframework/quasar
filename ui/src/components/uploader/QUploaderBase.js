@@ -32,6 +32,12 @@ export default {
     readonly: Boolean
   },
 
+  provide () {
+    return {
+      __qUploaderGetInput: this.__getInputControl
+    }
+  },
+
   data () {
     return {
       files: [],
@@ -65,8 +71,15 @@ export default {
 
     canUpload () {
       return this.editable === true &&
+        this.isBusy !== true &&
         this.isUploading !== true &&
         this.queuedFiles.length > 0
+    },
+
+    canAddFiles () {
+      return this.editable &&
+        this.isUploading !== true &&
+        (this.multiple === true || this.queuedFiles.length === 0)
     },
 
     extensions () {
@@ -113,8 +126,11 @@ export default {
   },
 
   methods: {
-    pickFiles () {
-      this.editable && this.$refs.input.click()
+    pickFiles (e) {
+      if (this.editable) {
+        const input = this.__getFileInput()
+        input && input.click(e)
+      }
     },
 
     addFiles (files) {
@@ -178,6 +194,11 @@ export default {
       this.$emit('removed', [ file ])
     },
 
+    __getFileInput () {
+      return this.$refs.input ||
+        this.$el.getElementsByClassName('q-uploader__input')[0]
+    },
+
     __getProgressLabel (p) {
       return (p * 100).toFixed(2) + '%'
     },
@@ -211,7 +232,7 @@ export default {
 
     __addFiles (e, files) {
       files = Array.prototype.slice.call(files || e.target.files)
-      this.$refs.input.value = ''
+      this.__getFileInput().value = ''
 
       // make sure we don't duplicate files
       files = files.filter(file => !this.files.some(f => file.name === f.name))
@@ -232,6 +253,13 @@ export default {
       if (this.maxFileSize !== void 0) {
         files = Array.prototype.filter.call(files, file => file.size <= this.maxFileSize)
         if (files.length === 0) { return }
+      }
+
+      // Cordova/iOS allows selecting multiple files even when the
+      // multiple attribute is not specified. We also normalize drag'n'dropped
+      // files here:
+      if (this.multiple !== true) {
+        files = [ files[0] ]
       }
 
       if (this.maxTotalSize !== void 0) {
@@ -304,7 +332,6 @@ export default {
       let files = e.dataTransfer.files
 
       if (files.length > 0) {
-        files = this.multiple ? files : [ files[0] ]
         this.__addFiles(null, files)
       }
 
@@ -315,13 +342,32 @@ export default {
       if (show === true) {
         return h(QBtn, {
           props: {
+            type: 'a',
             icon: this.$q.iconSet.uploader[icon],
             flat: true,
             dense: true
           },
-          on: { click: fn }
-        })
+          on: icon === 'add' ? null : { click: fn }
+        }, icon === 'add' ? this.__getInputControl(h) : null)
       }
+    },
+
+    __getInputControl (h) {
+      return [
+        h('input', {
+          ref: 'input',
+          staticClass: 'q-uploader__input overflow-hidden absolute-full',
+          attrs: {
+            type: 'file',
+            title: '', // try to remove default tooltip
+            accept: this.accept,
+            ...(this.multiple === true ? { multiple: true } : {})
+          },
+          on: {
+            change: this.__addFiles
+          }
+        })
+      ]
     },
 
     __getHeader (h) {
@@ -349,9 +395,9 @@ export default {
           ])
         ]),
 
-        this.__getBtn(h, this.editable && this.isUploading !== true && (this.multiple || this.queuedFiles.length === 0), 'add', this.pickFiles),
-        this.__getBtn(h, this.editable && this.hideUploadBtn === false && this.queuedFiles.length > 0, 'upload', this.upload),
-        this.__getBtn(h, this.editable && this.isUploading === true, 'clear', this.abort)
+        this.__getBtn(h, this.canAddFiles, 'add', this.pickFiles),
+        this.__getBtn(h, this.hideUploadBtn === false && this.canUpload === true, 'upload', this.upload),
+        this.__getBtn(h, this.isUploading, 'clear', this.abort)
       ])
     },
 
@@ -420,7 +466,6 @@ export default {
   },
 
   beforeDestroy () {
-    this.isDestroyed = true
     this.isUploading === true && this.abort()
   },
 
@@ -438,19 +483,6 @@ export default {
         ? { dragover: this.__onDragOver }
         : null
     }, [
-      h('input', {
-        ref: 'input',
-        staticClass: 'q-uploader__input',
-        attrs: {
-          type: 'file',
-          accept: this.accept,
-          ...(this.multiple ? { multiple: true } : {})
-        },
-        on: {
-          change: this.__addFiles
-        }
-      }),
-
       h('div', {
         staticClass: 'q-uploader__header',
         class: this.colorClass

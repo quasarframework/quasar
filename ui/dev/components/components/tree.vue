@@ -65,7 +65,7 @@
             <div class="row items-center">
               <q-icon :name="prop.node.icon" class="q-tree__icon q-mr-sm" />
               <q-avatar class="q-mr-sm">
-                <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+                <img src="https://cdn.quasar.dev/img/boy-avatar.png">
               </q-avatar>
               <div>
                 <div class="row items-center">
@@ -134,7 +134,7 @@ export default {
           children: [
             {
               label: 'Node 1.1 - accordion test on children',
-              avatar: 'https://cdn.quasar-framework.org/img/boy-avatar.png',
+              avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
               children: [
                 {
                   label: 'Node 1.1.1 - tick strategy leaf-filtered',
@@ -177,7 +177,7 @@ export default {
             },
             {
               label: 'Node 1.3 - tap on me!',
-              img: 'https://cdn.quasar-framework.org/img/mountains.jpg',
+              img: 'https://cdn.quasar.dev/img/mountains.jpg',
               handler: () => {
                 this.$q.notify('Tapped on node 1.3')
               }

@@ -109,7 +109,7 @@ Define the path where the cookie is valid. By default the path of the cookie is 
 
 ### Option: domain
 ``` js
-domain: 'quasar-framework.org'
+domain: 'quasar.dev'
 ```
 Define the domain where the cookie is valid. Default: domain of page where the cookie was created.
 

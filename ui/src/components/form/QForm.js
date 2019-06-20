@@ -8,7 +8,9 @@ export default Vue.extend({
   name: 'QForm',
 
   props: {
-    autofocus: Boolean
+    autofocus: Boolean,
+    noErrorFocus: Boolean,
+    noResetFocus: Boolean
   },
 
   mounted () {
@@ -17,8 +19,11 @@ export default Vue.extend({
   },
 
   methods: {
-    validate () {
+    validate (shouldFocus) {
       const promises = []
+      const focus = typeof shouldFocus === 'boolean'
+        ? shouldFocus
+        : this.noErrorFocus !== true
 
       this.validateIndex++
 
@@ -43,7 +48,11 @@ export default Vue.extend({
           }
           else if (valid !== true) {
             emit(false)
-            typeof comp.focus === 'function' && comp.focus()
+
+            if (focus === true && typeof comp.focus === 'function') {
+              comp.focus()
+            }
+
             return Promise.resolve(false)
           }
         }
@@ -60,8 +69,17 @@ export default Vue.extend({
         res => {
           if (index === this.validateIndex) {
             const { valid, comp } = res[0]
+
             emit(valid)
-            valid !== true && typeof comp.focus === 'function' && comp.focus()
+
+            if (
+              focus === true &&
+              valid !== true &&
+              typeof comp.focus === 'function'
+            ) {
+              comp.focus()
+            }
+
             return valid
           }
         }
@@ -93,7 +111,9 @@ export default Vue.extend({
 
       this.$nextTick(() => { // allow userland to reset values before
         this.resetValidation()
-        this.autofocus === true && this.focus()
+        if (this.autofocus === true && this.noResetFocus !== true) {
+          this.focus()
+        }
       })
     },
 
