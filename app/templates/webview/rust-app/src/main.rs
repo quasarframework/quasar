@@ -60,11 +60,11 @@ fn main() {
                 router!(request,
                     (GET) (/) => {
                         // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
-                        rouille::Response::html(include_str!("../../../dist/webview/index.html"))
+                        rouille::Response::html(include_str!("../../dist/webview/index.html"))
                     },
 
                     (GET) (/js/{id: String}) => {
-                        rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../../dist/webview/js/{}", id)).unwrap().into_owned()).expect("ops"))
+                        rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../dist/webview/js/{}", id)).unwrap().into_owned()).expect("ops"))
                     },
                     _ => rouille::Response::empty_404()
                 )

@@ -19,7 +19,7 @@ class Mode {
     log('Creating WebView source folder...')
 
     fs.mkdirSync(appPaths.webviewDir)
-    fse.copySync(appPaths.resolve.cli('templates/webview'), appPaths.webviewDir)
+    fse.copySync(appPaths.resolve.cli('templates/webview/rust-app'), appPaths.webviewDir)
 
     log(`WebView support was installed`)
   }
