@@ -218,9 +218,9 @@ module.exports = function (cfg, configName) {
     chain
       .plugin('named-chunks')
         .use(webpack.NamedChunksPlugin, [
-          chunk => chunk.name || hash(
+          chunk => chunk.name || ('_' + hash(
             Array.from(chunk.modulesIterable, m => m.id).join('_')
-          )
+          ))
         ])
 
     if (configName !== 'Server') {

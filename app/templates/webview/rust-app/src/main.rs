@@ -4,13 +4,19 @@ extern crate serde_json;
 extern crate web_view;
 extern crate dirs;
 extern crate clap;
+
+#[cfg(feature = "prod")]
+#[macro_use]
+extern crate rouille;
+
 use std::fs::File;
 use std::io::Write;
 
 #[cfg(feature = "dev")]
 use clap::{Arg, App};
+
 #[cfg(feature = "prod")]
-use std::env;
+use std::thread;
 
 mod dir;
 mod file;
@@ -45,10 +51,25 @@ fn main() {
     }
     #[cfg(feature="prod")]
     {
-        // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
-        let html = include_str!("../../../dist/webview/index.html");
-        content = web_view::Content::Html(html);
+        let server_url = "0.0.0.0:5000";
+        content = web_view::Content::Url(format!("http://{}", server_url));
         debug = cfg!(debug_assertions);
+        
+        thread::spawn(move || {
+            rouille::start_server("0.0.0.0:5000", move |request| {
+                router!(request,
+                    (GET) (/) => {
+                        // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
+                        rouille::Response::html(include_str!("../../../dist/webview/index.html"))
+                    },
+
+                    (GET) (/js/{id: String}) => {
+                        rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../../dist/webview/js/{}", id)).unwrap().into_owned()).expect("ops"))
+                    },
+                    _ => rouille::Response::empty_404()
+                )
+            });
+        });
     }
 
     let webview = web_view::builder()
@@ -93,23 +114,6 @@ fn main() {
             Ok(())
         })
         .build().unwrap();
-
-    #[cfg(feature="prod")]
-    {
-        ASSETS.set_passthrough(env::var_os("PASSTHROUGH").is_some());
-        let handle = webview.handle();
-        handle.dispatch(move |webview| {
-            let mut files = ASSETS.file_names().collect::<Vec<_>>();
-            files.sort();
-            for name in files {
-                 if name.contains("ie.polyfills") && !cfg!(target_os = "windows") {
-                    continue;
-                }
-                webview.eval(&String::from_utf8(ASSETS.get(name).unwrap().into_owned()).unwrap()).unwrap();
-            }
-            Ok(())
-        }).unwrap();
-    }
 
     webview.run().unwrap();
 }

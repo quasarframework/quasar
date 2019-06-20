@@ -18,6 +18,7 @@ ignore = "0.4.7"
 clap = {version = "2.33", features = ["yaml"]}
 phf = "0.7.21"
 includedir = "0.5.0"
+rouille = "3.0.0"
 
 [build-dependencies]
 includedir_codegen = "0.5.0"
