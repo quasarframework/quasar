@@ -48,7 +48,7 @@ fn main() {
         // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
         let html = include_str!("../../../dist/webview/index.html");
         content = web_view::Content::Html(html);
-        debug = false;
+        debug = cfg!(debug_assertions);
     }
 
     let webview = web_view::builder()
@@ -102,6 +102,9 @@ fn main() {
             let mut files = ASSETS.file_names().collect::<Vec<_>>();
             files.sort();
             for name in files {
+                 if name.contains("ie.polyfills") && !cfg!(target_os = "windows") {
+                    continue;
+                }
                 webview.eval(&String::from_utf8(ASSETS.get(name).unwrap().into_owned()).unwrap()).unwrap();
             }
             Ok(())

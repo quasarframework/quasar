@@ -698,6 +698,12 @@ class QuasarConfig {
       cfg.build.env.__statics = `"${this.ctx.dev ? '/' : cfg.build.publicPath || '/'}statics"`
     }
 
+    if (this.ctx.mode.webview) {
+      cfg.webview = {
+        release: false
+      }
+    }
+
     appFilesValidations(cfg)
 
     if (this.ctx.mode.electron) {
