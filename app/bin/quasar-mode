@@ -74,7 +74,7 @@ const info = []
   const QuasarMode = getMode(mode)
   info.push([
     `Mode ${mode.toUpperCase()}`,
-    getMode(mode).isInstalled ? green('yes') : grey('no')
+    QuasarMode.isInstalled ? green('yes') : grey('no')
   ])
 })
 
