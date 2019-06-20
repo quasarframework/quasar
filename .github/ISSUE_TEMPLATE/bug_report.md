@@ -10,7 +10,7 @@ assignees: ''
 **Describe the bug**
 A clear and concise description of what the bug is.
 
-**Codepen/jsFiddle (required)**
+**Codepen/jsFiddle/Codesandbox (required)**
 Fork a Codepen (https://codepen.quasar.dev) or a jsFiddle (https://jsfiddle.quasar.dev) or a Codesandbox (https://codesandbox.quasar.dev) and hit save then copy-paste link here.
 
 **To Reproduce**
