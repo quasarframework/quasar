@@ -87,6 +87,50 @@
       </div>
 
       <div class="text-h6">
+        Custom palette
+      </div>
+      <div>
+        <q-chip>{{ hex }}</q-chip>
+        <q-chip>{{ hexa }}</q-chip>
+        <q-chip>{{ rgb }}</q-chip>
+        <q-chip>{{ rgba }}</q-chip>
+      </div>
+      <div class="row q-gutter-md">
+        <q-color
+          v-bind="props"
+          :palette="customPalette"
+          v-model="hex"
+          default-view="palette"
+          no-header
+          no-footer
+        />
+        <q-color
+          v-bind="props"
+          :palette="customPalette"
+          v-model="hexa"
+          default-view="palette"
+          no-header
+          no-footer
+        />
+        <q-color
+          v-bind="props"
+          :palette="customPalette"
+          v-model="rgb"
+          default-view="palette"
+          no-header
+          no-footer
+        />
+        <q-color
+          v-bind="props"
+          :palette="customPalette"
+          v-model="rgba"
+          default-view="palette"
+          no-header
+          no-footer
+        />
+      </div>
+
+      <div class="text-h6">
         Input: {{ inputModelHex }}
       </div>
       <div class="q-gutter-md">
@@ -120,6 +164,8 @@ export default {
       nullHexa: null,
       nullRgb: null,
       nullRgba: null,
+
+      customPalette: ['#ff0000', '#ffff00', '#0000f5', 'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,0,245)', 'rgba(255,0,0,0.5)'],
 
       inputModelHex: '#FF00FF'
     }

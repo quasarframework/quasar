@@ -50,6 +50,8 @@ export default Vue.extend({
       validator: v => ['auto', 'hex', 'rgb', 'hexa', 'rgba'].includes(v)
     },
 
+    palette: Array,
+
     noHeader: Boolean,
     noFooter: Boolean,
 
@@ -157,6 +159,12 @@ export default Vue.extend({
         inp.push('a')
       }
       return inp
+    },
+
+    computedPalette () {
+      return this.palette !== void 0 && this.palette.length > 0
+        ? this.palette
+        : palette
     }
   },
 
@@ -516,9 +524,11 @@ export default Vue.extend({
     __getPaletteTab (h) {
       return [
         h('div', {
-          staticClass: 'row items-center',
-          class: this.editable ? 'cursor-pointer' : null
-        }, palette.map(color => h('div', {
+          staticClass: 'row items-center q-color-picker__palette-rows',
+          class: this.editable === true
+            ? 'q-color-picker__palette-rows--editable'
+            : null
+        }, this.computedPalette.map(color => h('div', {
           staticClass: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },
           on: this.editable ? {
@@ -706,19 +716,16 @@ export default Vue.extend({
     },
 
     __onPalettePick (color) {
-      const model = color.substring(4, color.length - 1).split(',')
+      const def = this.__parseModel(color)
+      const rgb = { r: def.r, g: def.g, b: def.b, a: def.a }
 
-      const rgb = {
-        r: parseInt(model[0], 10),
-        g: parseInt(model[1], 10),
-        b: parseInt(model[2], 10),
-        a: this.model.a
+      if (rgb.a === void 0) {
+        rgb.a = this.model.a
       }
 
-      const hsv = rgbToHsv(rgb)
-      this.model.h = hsv.h
-      this.model.s = hsv.s
-      this.model.v = hsv.v
+      this.model.h = def.h
+      this.model.s = def.s
+      this.model.v = def.v
 
       this.__update(rgb, true)
     },
