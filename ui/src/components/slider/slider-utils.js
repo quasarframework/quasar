@@ -118,7 +118,8 @@ export let SliderMixin = {
       if (event.isFinal) {
         if (this.dragging) {
           this.__updatePosition(event.evt)
-          this.__updateValue(true)
+          // only if touch, because we also have mousedown/up:
+          event.touch === true && this.__updateValue(true)
           this.dragging = false
         }
         this.active = false
