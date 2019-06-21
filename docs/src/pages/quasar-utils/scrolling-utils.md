@@ -73,9 +73,9 @@ import { scroll } from 'quasar'
 const { getScrollTarget, setScrollPosition } = scroll
 // takes an element object
 function scrollToElement (el) {
-  let target = getScrollTarget(el)
-  let offset = el.offsetTop
-  let duration = 1000
+  const target = getScrollTarget(el)
+  const offset = el.offsetTop
+  const duration = 1000
   setScrollPosition(target, offset, duration)
 }
 ```
