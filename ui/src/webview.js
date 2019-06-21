@@ -16,6 +16,7 @@ export default class WebView {
     return new Promise((resolve, reject) => {
       this.invoke({
         callback: this.transformCallback(resolve),
+        error: this.transformCallback(reject),
         ...args
       })
     })

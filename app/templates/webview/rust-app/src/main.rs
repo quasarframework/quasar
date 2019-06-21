@@ -83,27 +83,96 @@ fn main() {
             use cmd::Cmd::*;
             match serde_json::from_str(arg).unwrap() {
                 Init => (),
-                Read { path, callback } => {
+                Read { path, callback, error } => {
                     let _path = path.clone();
-                    let contents = serde_json::to_string(&file::read_file(_path)).unwrap().to_string();
-                    let formatted_string = rpc::format_callback(callback, contents);
+                    let callback_fn;
+                    let arg;
+
+                    match file::read_file(_path)
+                        .and_then(|f| {
+                            serde_json::to_string(&f)
+                                .map_err(|err| err.to_string())
+                                .map(|s| s.to_string())
+                        }) {
+                            Ok(f) => {
+                                callback_fn = callback;
+                                arg = f;
+                            },
+                            Err(err) => {
+                                callback_fn = error;
+                                arg = format!("\"{}\"", err);
+                            }
+                        }
+
+                    let formatted_string = rpc::format_callback(callback_fn, arg);
                     _webview.eval(&formatted_string).expect("Unable to eval webview");
                 }
-                Write { file, contents } => {
-                    let mut f = File::create(file).unwrap();
-                    f.write_all(contents.as_bytes()).expect("Unable to write file");
-                }
-                ListDirs{ path, callback } => {
-                    let mut json_dir_listing:String;
-                     println!("Listing {}", path);
-                    json_dir_listing = serde_json::to_string(&dir::list_dir_contents(&path)).unwrap();
-                    let eval_string = rpc::format_callback(callback, json_dir_listing);
+                Write { file, contents, callback, error } => {
+                    let callback_fn;
+                    let arg;
+                    match File::create(file)
+                        .map_err(|err|  err.to_string())
+                        .and_then(|mut f| {
+                            f.write_all(contents.as_bytes())
+                                .map_err(|err| err.to_string())
+                        }) {
+                            Ok(_) => {
+                                callback_fn = callback;
+                                arg = "".to_string();
+                            },
+                            Err(err) => {
+                                callback_fn = error;
+                                arg = format!("\"{}\"", err);
+                            }
+                        }
+
+                     let eval_string = rpc::format_callback(callback_fn, arg);
                     _webview.eval(eval_string.as_str()).expect("Unable to eval webview");
                 }
-                List { path, callback } => {
+                ListDirs{ path, callback, error } => {
+                    let arg;
+                    let callback_fn;
+
+                    match dir::list_dir_contents(&path)
+                        .and_then(|f| {
+                            serde_json::to_string(&f)
+                                .map_err(|err| err.to_string())
+                        }) {
+                            Ok(f) => {
+                                callback_fn = callback;
+                                arg = f;
+                            },
+                            Err(err) => {
+                                callback_fn = error;
+                                arg = format!("\"{}\"", err);
+                            }
+                        }
+
+                     println!("Listing {}", path);
+                    let eval_string = rpc::format_callback(callback_fn, arg);
+                    _webview.eval(eval_string.as_str()).expect("Unable to eval webview");
+                }
+                List { path, callback, error } => {
                     let path_copy = &path.clone();
-                    let listing_json = serde_json::to_string(&dir::walk_dir(path_copy.to_string())).unwrap();
-                    let formatted_string = rpc::format_callback(callback, listing_json);
+                    let callback_fn;
+                    let arg;
+
+                    match dir::walk_dir(path_copy.to_string())
+                        .and_then(|f| {
+                            serde_json::to_string(&f)
+                                .map_err(|err| err.to_string())
+                        })  {
+                            Ok(f) => {
+                                callback_fn = callback;
+                                arg = f;
+                            },
+                            Err(err) => {
+                                callback_fn = error;
+                                arg = format!("\"{}\"", err);
+                            }
+                        }
+
+                    let formatted_string = rpc::format_callback(callback_fn, arg.to_string());
                     _webview.eval(formatted_string.as_str()).expect("Unable to eval webview");
                 }
                 SetTitle { title } => {
