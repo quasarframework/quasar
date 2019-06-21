@@ -14,6 +14,38 @@
         <q-chip>{{ rgb }}</q-chip>
         <q-chip>{{ rgba }}</q-chip>
       </div>
+      <p>
+        v-model + @change
+      </p>
+      <div class="row items-start q-gutter-md">
+        <q-color v-bind="props" v-model="hex" @change="onChange" />
+        <q-color v-bind="props" v-model="hexa" @change="onChange" />
+        <q-color v-bind="props" v-model="rgb" @change="onChange" />
+        <q-color v-bind="props" v-model="rgba" @change="onChange" />
+      </div>
+
+      <div>
+        <q-chip>{{ hex }}</q-chip>
+        <q-chip>{{ hexa }}</q-chip>
+        <q-chip>{{ rgb }}</q-chip>
+        <q-chip>{{ rgba }}</q-chip>
+      </div>
+      <p>
+        :value + @change
+      </p>
+      <div class="row items-start q-gutter-md">
+        <q-color v-bind="props" :value="hex" @change="val => { hex = val; onChange(val) }" />
+        <q-color v-bind="props" :value="hexa" @change="val => { hexa = val; onChange(val) }" />
+        <q-color v-bind="props" :value="rgb" @change="val => { rgb = val; onChange(val) }" />
+        <q-color v-bind="props" :value="rgba" @change="val => { rgba = val; onChange(val) }" />
+      </div>
+
+      <div>
+        <q-chip>{{ hex }}</q-chip>
+        <q-chip>{{ hexa }}</q-chip>
+        <q-chip>{{ rgb }}</q-chip>
+        <q-chip>{{ rgba }}</q-chip>
+      </div>
       <div class="q-gutter-md">
         <q-color v-bind="props" v-model="hex" />
         <q-color v-bind="props" v-model="hexa" />
@@ -107,6 +139,11 @@ export default {
   methods: {
     setNull () {
       this.nullHex = this.nullHexa = this.nullRgb = this.nullRgba = null
+    },
+
+    onChange (val) {
+      console.log('@change', JSON.stringify(val))
+      this.$q.notify('@change ' + JSON.stringify(val))
     }
   }
 }

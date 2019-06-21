@@ -362,7 +362,7 @@ export default Vue.extend({
               },
               on: {
                 input: this.__onHueChange,
-                dragend: val => this.__onHueChange(val, true)
+                change: val => this.__onHueChange(val, true)
               }
             })
           ]),
@@ -378,7 +378,7 @@ export default Vue.extend({
                 },
                 on: {
                   input: value => this.__onNumericChange({ target: { value } }, 'a', 100),
-                  dragend: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
+                  change: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
                 }
               })
             ])
@@ -401,7 +401,8 @@ export default Vue.extend({
               readonly: !this.editable
             },
             on: {
-              input: value => this.__onNumericChange({ target: { value } }, 'r', 255)
+              input: value => this.__onNumericChange({ target: { value } }, 'r', 255),
+              change: value => this.__onNumericChange({ target: { value } }, 'r', 255, true)
             }
           }),
           h('input', {
@@ -431,7 +432,8 @@ export default Vue.extend({
               readonly: !this.editable
             },
             on: {
-              input: value => this.__onNumericChange({ target: { value } }, 'g', 255)
+              input: value => this.__onNumericChange({ target: { value } }, 'g', 255),
+              change: value => this.__onNumericChange({ target: { value } }, 'g', 255, true)
             }
           }),
           h('input', {
@@ -461,7 +463,8 @@ export default Vue.extend({
               dark: this.dark
             },
             on: {
-              input: value => this.__onNumericChange({ target: { value } }, 'b', 255)
+              input: value => this.__onNumericChange({ target: { value } }, 'b', 255),
+              change: value => this.__onNumericChange({ target: { value } }, 'b', 255, true)
             }
           }),
           h('input', {
@@ -489,7 +492,8 @@ export default Vue.extend({
               dark: this.dark
             },
             on: {
-              input: value => this.__onNumericChange({ target: { value } }, 'a', 100)
+              input: value => this.__onNumericChange({ target: { value } }, 'a', 100),
+              change: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
             }
           }),
           h('input', {
@@ -732,7 +736,7 @@ export default Vue.extend({
 
       // emit new value
       this.$emit('input', value)
-      change && value !== this.value && this.$emit('change', value)
+      change === true && this.$emit('change', value)
     },
 
     __updateErrorIcon (val) {
