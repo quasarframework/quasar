@@ -18,6 +18,13 @@
       label
       @change="val => { modelXSimple = val; onXChange(val) }"
     />
+    <q-slider
+      v-model="modelXSimple"
+      :min="0"
+      :max="50"
+      label
+      @change="onXChange"
+    />
     <div>
       {{ modelX }}
     </div>
@@ -35,6 +42,13 @@
       :max="50"
       label
       @change="val => { modelX = val; onXChange(val) }"
+    />
+    <q-range
+      v-model="modelX"
+      :min="0"
+      :max="50"
+      label
+      @change="onXChange"
     />
   </div>
 </template>
