@@ -971,6 +971,7 @@ module.exports = [
   },
   {
     name: 'Meet the Team',
+    badge: 'new',
     icon: 'people',
     path: 'meet-the-team'
   },
