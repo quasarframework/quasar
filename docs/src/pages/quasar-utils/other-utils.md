@@ -44,6 +44,16 @@ window.addEventListener(
 )
 ```
 
+Or calling as a method in a .vue file:
+
+```js
+methods: {
+  myFunction: debounce(function () { // Do not use an arrow function here
+    .... things to do ....
+  }, 500)
+}
+```
+
 There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).
 
 ``` js
@@ -75,6 +85,16 @@ window.addEventListener(
     .... things to do ...
   }, 300 /* execute at most once every 0.3s */)
 )
+```
+
+Or calling as a method in a .vue file:
+
+```js
+methods: {
+  myFunction: throttle(function () { // Do not use an arrow function here
+    .... things to do ....
+  }, 500)
+}
 ```
 
 ## (Deep) Copy Objects
