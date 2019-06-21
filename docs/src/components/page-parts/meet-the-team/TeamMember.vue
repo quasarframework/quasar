@@ -1,24 +1,24 @@
 <template lang="pug">
-  div.team-member
-    div.inner-team-member(@mouseover="visible = 1", @mouseout="visible = 0" @click="visible = !visible")
+  .team-member
+    .inner-team-member(@mouseover="visible = 1", @mouseout="visible = 0" @click="visible = !visible")
       q-avatar.profile-pic(square,size="14rem")
         img(:src="image ? image : 'https://cdn.quasar-framework.org/img/boy-avatar.png'")
 
       q-slide-transition(v-show="visible")
         q-card.profile-card.text-white(square, @click="visible = false")
             q-card-section
-              div.text-h6(v-if="name")
+              .text-h6(v-if="name")
                 center {{ name }}
-              div.text-subtitle2(v-if="alias")
+              .text-subtitle2(v-if="alias")
                 center @{{ alias }}
-              div.text-h6(v-if="role")
+              .text-h6(v-if="role")
                 center {{ role }}
 
             q-card-section
               slot
 
             q-card-section
-              div.row.justify-around
+              .row.justify-around
                 q-btn(v-if="twitter", @click="openTwitter" round, color="primary", icon="fab fa-twitter")
                 q-btn(v-if="github", @click="openGithub" round, color="primary", icon="fab fa-github")
                 q-btn(v-if="website", @click="openWebsite" round, color="primary", icon="fas fa-home")
@@ -61,8 +61,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@import '~quasar-variables'
-
 .team-member
   position relative
   display inline-block
