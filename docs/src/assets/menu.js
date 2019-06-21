@@ -970,6 +970,11 @@ module.exports = [
     path: 'why-donate'
   },
   {
+    name: 'Meet the Team',
+    icon: 'people',
+    path: 'meet-the-team'
+  },
+  {
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'start',
