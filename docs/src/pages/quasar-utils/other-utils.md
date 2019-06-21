@@ -48,9 +48,11 @@ Or calling as a method in a .vue file:
 
 ```js
 methods: {
-  myFunction: debounce(function () { // Do not use an arrow function here
-    .... things to do ....
-  }, 500)
+  myMethod () { .... }
+},
+
+created () {
+  this.myMethod = debounce(this.myMethod, 500)
 }
 ```
 
@@ -91,11 +93,17 @@ Or calling as a method in a .vue file:
 
 ```js
 methods: {
-  myFunction: throttle(function () { // Do not use an arrow function here
-    .... things to do ....
-  }, 500)
+  myMethod () { .... }
+},
+
+created () {
+  this.myMethod = throttle(this.myMethod, 500)
 }
 ```
+
+:::warning
+Debouncing or Throttling your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean `myMethod` will be shared between *all* instances of this component. This should be avoided.
+:::
 
 ## (Deep) Copy Objects
 A basic respawn of `jQuery.extend()`. Takes same parameters:
