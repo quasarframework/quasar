@@ -1,0 +1,91 @@
+{
+  "props": {
+    "offset": {
+      "type": "Number",
+      "desc": "Offset (pixels) to bottom of Infinite Scroll container from which the component should start loading more content in advance",
+      "default": 500,
+      "examples": [ ":offset=\"250\"" ],
+      "category": "behavior"
+    },
+
+    "scrollTarget": {
+      "type": [ "Element", "String" ],
+      "desc": "CSS selector or DOM element to be used as scroll container instead of the auto detected one",
+      "examples": [
+        ":scroll-target=\"$refs.scrollTarget\"",
+        "scroll-target=\"scroll-target\""
+      ],
+      "category": "behavior"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Scroll area should behave like a messenger - starting scrolled to bottom and loading when reaching the top",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    },
+
+    "loading": {
+      "desc": "Slot displaying something while loading content; Example: QSpinner"
+    }
+  },
+
+  "events": {
+    "load": {
+      "desc": "Emitted when Infinite Scroll needs to load more data",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "The index parameter can be used to make some sort of pagination on the content you load. It takes numeric values starting with 1 and incrementing with each call",
+          "examples": [ 12 ]
+        },
+        "done": {
+          "type": "Function",
+          "desc": "Function to call when you made all necessary updates. DO NOT forget to call it otherwise your loading message will continue to be displayed",
+          "params": {
+            "stop": {
+              "type": "Boolean",
+              "desc": "Stops QInfiniteScroll if it's Boolean 'true'; Specify it in case there's nothing more to load"
+            }
+          },
+          "returns": null
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "poll": {
+      "desc": "Checks scroll position and loads more content if necessary"
+    },
+
+    "trigger": {
+      "desc": "Tells Infinite Scroll to load more content, regardless of the scroll position"
+    },
+
+    "reset": {
+      "desc": "Resets calling index to 0"
+    },
+
+    "stop": {
+      "desc": "Stops working, regardless of scroll position"
+    },
+
+    "resume": {
+      "desc": "Starts working. Checks scroll position upon call and if trigger is hit, it loads more content"
+    },
+
+    "updateScrollTarget": {
+      "desc": "Updates the scroll target; Useful when the parent elements change so that the scrolling target also changes"
+    }
+  }
+}

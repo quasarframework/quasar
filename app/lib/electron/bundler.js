@@ -1,7 +1,8 @@
 const fs = require('fs')
 const
   appPath = require('../app-paths'),
-  packagerVersion = '12.0.1',
+  packagerVersion = '13.1.0',
+  getPackageJson = require('../helpers/get-package-json')
   log = require('../helpers/logger')('app:electron-bundle')
 
 function isValidName (bundlerName) {
@@ -10,7 +11,7 @@ function isValidName (bundlerName) {
 
 function installBundler (bundlerName) {
   const
-    spawn = require('../helpers/spawn'),
+    { spawnSync } = require('../helpers/spawn'),
     nodePackager = require('../helpers/node-packager'),
     version = bundlerName === 'packager' ? `^${packagerVersion}` : 'latest',
     cmdParam = nodePackager === 'npm'
@@ -18,16 +19,16 @@ function installBundler (bundlerName) {
       : ['add', '--dev']
 
   log(`Installing required Electron bundler (electron-${bundlerName})...`)
-  spawn.sync(
+  spawnSync(
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${version}`]),
-    appPaths.appDir,
+    appPath.appDir,
     () => warn(`Failed to install electron-${bundlerName}`)
   )
 }
 
 function isInstalled (bundlerName) {
-  return fs.existsSync(appPath.resolve.app(`node_modules/electron-${bundlerName}`))
+  return getPackageJson(`electron-${bundlerName}`) !== void 0
 }
 
 module.exports.ensureInstall = function (bundlerName) {
@@ -41,7 +42,7 @@ module.exports.ensureInstall = function (bundlerName) {
     if (isInstalled('packager')) {
       const
         semver = require('semver'),
-        pkg = require(appPath.resolve.app(`node_modules/electron-${bundlerName}/package.json`))
+        pkg = getPackageJson(`electron-${bundlerName}`)
 
       if (semver.satisfies(pkg.version, `>= ${packagerVersion}`)) {
         return
@@ -72,7 +73,7 @@ module.exports.getBundler = function (bundlerName) {
 }
 
 module.exports.ensureBuilderCompatibility = function () {
-  if (fs.existsSync(appPaths.resolve.electron('icons/linux-256x256.png'))) {
+  if (fs.existsSync(appPath.resolve.electron('icons/linux-256x256.png'))) {
     console.log()
     console.log(`\n⚠️  electron-builder requires a change to your src-electron/icons folder:
   * replace linux-256x256.png with a 512x512 px png file named "linux-512x512.png"

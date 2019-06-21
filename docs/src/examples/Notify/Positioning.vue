@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md q-gutter-sm column items-center">
+  <div class="q-pa-md q-gutter-y-sm column items-center">
     <div>
       <div class="row q-gutter-sm">
         <q-btn round size="sm" color="secondary" @click="showNotif('top-left')">
@@ -62,7 +62,7 @@ const alerts = [
   { message: 'You need to know about this!', icon: 'warning' },
   { message: 'Wow! Nice job!', icon: 'thumb_up' },
   { color: 'teal', message: 'Quasar is cool! Right?', icon: 'tag_faces' },
-  { color: 'purple', message: 'Jim just pinged you', avatar: 'https://cdn.quasar-framework.org/img/boy-avatar.png' },
+  { color: 'purple', message: 'Jim just pinged you', avatar: 'https://cdn.quasar.dev/img/boy-avatar.png' },
   { multiLine: true, message: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quisquam non ad sit assumenda consequuntur esse inventore officia. Corrupti reiciendis impedit vel, fugit odit quisquam quae porro exercitationem eveniet quasi.' }
 ]
 

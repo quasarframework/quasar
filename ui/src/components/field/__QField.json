@@ -1,0 +1,194 @@
+{
+  "mixins": [ "mixins/validate" ],
+
+  "props": {
+    "label": {
+      "type": "String",
+      "desc": "A text label that will “float” up above the input field, once the field gets focus",
+      "examples": [ "Username" ],
+      "category": "content"
+    },
+
+    "stack-label": {
+      "type": "Boolean",
+      "desc": "Label will be always shown above the field regardless of field content (if any)",
+      "category": "content"
+    },
+
+    "hint": {
+      "type": "String",
+      "desc": "Helper (hint) text which gets placed below your wrapped form component",
+      "examples": [ "Fill in between 3 and 12 characters" ],
+      "category": "content"
+    },
+
+    "hide-hint": {
+      "type": "Boolean",
+      "desc": "Hide the helper (hint) text when field doesn't have focus",
+      "category": "content"
+    },
+
+    "prefix": {
+      "type": "String",
+      "desc": "Prefix",
+      "examples": [ "$" ],
+      "category": "content"
+    },
+
+    "suffix": {
+      "type": "String",
+      "desc": "Suffix",
+      "examples": [ "@gmail.com" ],
+      "category": "content"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "bg-color": {
+      "extends": "color"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "loading": {
+      "type": "Boolean",
+      "desc": "Signals the user a process is in progress by displaying a spinner; Spinner can be customized by using the 'loading' slot.",
+      "category": "behavior|content"
+    },
+
+    "clearable": {
+      "type": "Boolean",
+      "desc": "Appends clearable icon when a value (not undefined or null) is set; When clicked, model becomes null",
+      "category": "behavior|content"
+    },
+
+    "clear-icon": {
+      "type": "String",
+      "desc": "Custom icon to use for the clear button when using along with 'clearable' prop",
+      "examples": [ "close" ],
+      "category": "content"
+    },
+
+    "filled": {
+      "type": "Boolean",
+      "desc": "Use 'filled' design for the field",
+      "category": "style"
+    },
+
+    "outlined": {
+      "type": "Boolean",
+      "desc": "Use 'outlined' design for the field",
+      "category": "style"
+    },
+
+    "borderless": {
+      "type": "Boolean",
+      "desc": "Use 'borderless' design for the field",
+      "category": "style"
+    },
+
+    "standout": {
+      "type": [ "Boolean", "String" ],
+      "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
+      "examples": [
+        "standout",
+        "standout=\"bg-primary text-white\""
+      ],
+      "category": "style"
+    },
+
+    "bottom-slots": {
+      "type": "Boolean",
+      "desc": "Enables bottom slots ('error', 'hint', 'counter')",
+      "category": "content"
+    },
+
+    "hide-bottom-space": {
+      "type": "Boolean",
+      "desc": "Does not reserves space for hint/error/counter anymore when these are not used; as a result, it also disables the animation for those",
+      "category": "style"
+    },
+
+    "counter": {
+      "type": "Boolean",
+      "desc": "Show an automatic counter on bottom right",
+      "category": "content"
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop",
+      "category": "style"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "items-aligned": {
+      "type": "Boolean",
+      "desc": "Align content to match QItem",
+      "category": "content"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "autofocus": {
+      "type": "Boolean",
+      "desc": "Focus field on initial component render",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Field main content"
+    },
+
+    "prepend": {
+      "desc": "Prepend inner field; Suggestions: QIcon, QBtn"
+    },
+
+    "append": {
+      "desc": "Append to inner field; Suggestions: QIcon, QBtn"
+    },
+
+    "before": {
+      "desc": "Prepend outer field; Suggestions: QIcon, QBtn"
+    },
+
+    "after": {
+      "desc": "Append outer field; Suggestions: QIcon, QBtn"
+    },
+
+    "error": {
+      "desc": "Slot for errors; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>"
+    },
+
+    "hint": {
+      "desc": "Slot for hint text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>"
+    },
+
+    "counter": {
+      "desc": "Slot for counter text; Enabled only if 'bottom-slots' prop is used; Suggestion: <div>"
+    },
+
+    "loading": {
+      "desc": "Override default spinner when component is in loading mode; Use in conjunction with 'loading' prop"
+    }
+  }
+}

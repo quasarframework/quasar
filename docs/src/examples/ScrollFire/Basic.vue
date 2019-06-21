@@ -10,7 +10,7 @@
     <p class="text-center">
       <img
         v-scroll-fire="bounceImage"
-        src="https://cdn.quasar-framework.org/img/quasar-logo.png"
+        src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg"
       >
     </p>
 

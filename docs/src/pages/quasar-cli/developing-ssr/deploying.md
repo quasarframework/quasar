@@ -16,7 +16,11 @@ You'll notice that it contains a `package.json` file of its own. It has an npm s
 }
 ```
 
-So what you need to do when deploying is to copy this distributables folder on your server, yarn/npm install the dependencies inside it, then run `$ yarn start` or `$ npm run start`. This boots up the webserver and starts listening for connections.
+So what you need to do when deploying is to copy this distributables folder on your server, yarn/npm install the dependencies inside it, then run `$ yarn start`. This boots up the webserver and starts listening for connections.
+
+::: tip
+The distributables folder generated after building your app is standalone. It does NOT require the rest of your project folder to work and it does NOT depend on `@quasar/cli` being installed.
+:::
 
 ## Enhancing Performance
 By default, the webserver runs on only one of the available server's cores. What you could do is make it use all cores. There is a solution for this: [PM2](http://pm2.keymetrics.io/).
@@ -36,6 +40,20 @@ $ npm install -g now
 $ now login
 ```
 
-Then, you cd into the distributables folder and run `$ now`. You might want to use a "now alias" or connect your domain to Now. And you're done!
+There are several ways to use the v1 of now's services:
 
-`Now.sh` will npm install the dependencies automatically then run `$ npm run start`. Your website will be up and running on an HTTPS connection in a matter of seconds!
+The robust way is to add the following file to `/dist/ssr/now.json` , and it should look like this:
+```
+{
+  "name": "Your Project Name",
+  "version": 1
+}
+```
+
+And then cd into the distributables folder and run `$ now`. If you do it this way, then you can also execute directly from a github repo, but we'll leave the details of setting that up to you.
+
+If you prefer, however, to set the version from the command line, you can also run `now -V 1`.
+
+At any rate, you might want to use a "now alias" or connect your domain to Now. And you're done!
+
+`Now.sh` will install the dependencies automatically then run `$ yarn start`. Your website will be up and running on an HTTPS connection in a matter of seconds!

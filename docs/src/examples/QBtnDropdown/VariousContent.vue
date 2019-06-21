@@ -16,7 +16,7 @@
 
         <div class="column items-center">
           <q-avatar size="72px">
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
 
           <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
@@ -26,7 +26,7 @@
             label="Logout"
             push
             size="sm"
-            v-close-menu
+            v-close-popup
           />
         </div>
       </div>

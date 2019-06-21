@@ -1,6 +1,6 @@
 <template lang="pug">
-  q-card
-    .q-pa-md.bg-primary.text-white.text-center
+  q-card(flat, bordered)
+    .q-pa-md.text-center
       q-btn(push, color="orange", label="Test me", style="width: 200px")
         q-menu(
           :fit="fit"

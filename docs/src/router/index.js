@@ -1,6 +1,7 @@
+/* global gtag */
+
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { sync } from 'vuex-router-sync'
 
 import routes from './routes'
 
@@ -18,7 +19,7 @@ export default function ({ store }) {
     scrollBehavior (to, _, savedPosition) {
       return new Promise(resolve => {
         setTimeout(() => {
-          if (to.hash !== void 0) {
+          if (to.hash !== void 0 && to.hash !== '') {
             const el = document.getElementById(to.hash.substring(1))
 
             if (el !== null) {
@@ -27,9 +28,7 @@ export default function ({ store }) {
             }
           }
 
-          if (savedPosition) {
-            resolve(savedPosition)
-          }
+          resolve(savedPosition || { x: 0, y: 0 })
         }, 100)
       })
     },
@@ -40,7 +39,11 @@ export default function ({ store }) {
     base: process.env.VUE_ROUTER_BASE
   })
 
-  sync(store, Router)
+  process.env.CLIENT === true && Router.afterEach(to => {
+    gtag('config', 'UA-6317975-6', {
+      page_path: to.path
+    })
+  })
 
   return Router
 }

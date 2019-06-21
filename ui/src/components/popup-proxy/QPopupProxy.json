@@ -1,0 +1,61 @@
+{
+  "mixins": [ "mixins/anchor" ],
+
+  "props": {
+    "value": {
+      "type": "Boolean",
+      "desc": "Defines the state of the component (shown/hidden); Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "category": "model"
+    },
+
+    "breakpoint": {
+      "type": [ "Number", "String" ],
+      "desc": "Breakpoint (in pixels) of window width from where a Menu will get to be used instead of a Dialog",
+      "default": 450,
+      "examples": [ 992, ":breakpoint=\"1024\"" ],
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    },
+
+    "before-show": {
+      "extends": "before-show"
+    },
+
+    "show": {
+      "extends": "show"
+    },
+
+    "before-hide": {
+      "extends": "before-hide"
+    },
+
+    "hide": {
+      "extends": "hide"
+    }
+  },
+
+  "methods": {
+    "show": {
+      "extends": "show"
+    },
+
+    "hide": {
+      "extends": "hide"
+    },
+
+    "toggle": {
+      "extends": "toggle"
+    }
+  }
+}

@@ -2,6 +2,7 @@
   <div class="q-pa-md q-gutter-sm">
     <q-editor
       v-model="qeditor"
+      :dense="$q.screen.lt.md"
       :toolbar="[
         [
           {

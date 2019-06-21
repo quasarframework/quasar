@@ -1,5 +1,7 @@
 ---
 title: Supporting IE
+related:
+  - /quasar-cli/quasar-conf-js
 ---
 If you are building a website, you might want to support IE 11+. This support is not added by default to your website. Quasar CLI provides it on demand only.
 
@@ -27,3 +29,12 @@ Quasar CLI is smart enough to include the IE polyfills only if it is really need
 ::: warning
 Running dev server on a Windows machine and consuming the output in IE11 might result in an error (ansi-strip package related used by webpack-dev-server). This is why you need to keep the strict dependency `"strip-ansi": "=3.0.1"` in your package.json (Quasar offers this out of the box).
 :::
+
+### UMD IE11 support
+
+If you are developing for UMD and want IE 11 support you will need to add the following HTML tag before the Vue and Quasar tags:
+
+```
+<!-- replace 1.0.0-beta.16 with your version of Quasar -->
+<script src="https://cdn.jsdelivr.net/npm/quasar@1.0.0-beta.16/dist/quasar.ie.polyfills.umd.min.js"></script>
+```

@@ -10,7 +10,7 @@ const
   logger = require('./helpers/logger'),
   log = logger('app:quasar-conf'),
   warn = logger('app:quasar-conf', 'red'),
-  legacyValidations = require('./legacy-validations'),
+  appFilesValidations = require('./app-files-validations'),
   extensionRunner = require('./app-extension/extensions-runner')
 
 function encode (obj) {
@@ -45,6 +45,35 @@ function parseBuildEnv (env) {
     }
   })
   return obj
+}
+
+function parseAssetProperty (prefix) {
+  return asset => {
+    if (typeof asset === 'string') {
+      return {
+        path: asset[0] === '~' ? asset.substring(1) : prefix + `/${asset}`
+      }
+    }
+
+    return {
+      ...asset,
+      path: typeof asset.path === 'string'
+        ? (asset.path[0] === '~' ? asset.path.substring(1) : prefix + `/${asset.path}`)
+        : asset.path
+    }
+  }
+}
+
+function uniqueFilter (value, index, self) {
+  return self.indexOf(value) === index
+}
+
+function uniquePathFilter (value, index, self) {
+  return self.map(obj => obj.path).indexOf(value.path) === index
+}
+
+function uniqueRegexFilter (value, index, self) {
+  return self.map(regex => regex.toString()).indexOf(value.toString()) === index
 }
 
 /*
@@ -82,7 +111,7 @@ class QuasarConfig {
           return
         }
 
-        this.compile()
+        await this.compile()
 
         if (this.webpackConfigChanged) {
           opts.onBuildChange()
@@ -93,28 +122,27 @@ class QuasarConfig {
       }, 1000))
 
       if (this.ctx.mode.ssr) {
-        this.ssrExtensionFile = appPaths.resolve.ssr('extension.js')
+        const SsrExtension = require('./ssr/ssr-extension')
+
+        if (!SsrExtension.isValid()) {
+          process.exit(1)
+        }
 
         chokidar
-        .watch(this.ssrExtensionFile, { watchers: { chokidar: { ignoreInitial: true } } })
+        .watch(appPaths.ssrDir, { watchers: { chokidar: { ignoreInitial: true } } })
         .on('change', debounce(async () => {
           console.log()
-          log(`src-ssr/extension.js changed`)
+          log(`src-ssr/* changed`)
 
-          try {
-            this.readSSRextension()
+          SsrExtension.deleteCache()
+
+          if (SsrExtension.isValid()) {
+            // trigger build update
+            opts.onBuildChange()
           }
-          catch (e) {
-            if (e.message !== 'NETWORK_ERROR') {
-              console.log(e)
-              warn(`src-ssr/extension.js has JS errors. Please fix them then save file again.`)
-              warn()
-            }
-
-            return
+          else {
+            warn(`⚠️  [FAIL] Please fix the error then save the file so we can continue.`)
           }
-
-          opts.onBuildChange()
         }, 1000))
       }
     }
@@ -124,16 +152,46 @@ class QuasarConfig {
   async prepare () {
     this.readConfig()
 
-    if (this.watch && this.ctx.mode.ssr) {
-      this.readSSRextension()
-    }
-
     const cfg = merge({
       ctx: this.ctx,
       css: [],
       boot: [],
+      vendor: {
+        add: [],
+        remove: []
+      },
+      build: {
+        transpileDependencies: [],
+        stylusLoaderOptions: {},
+        sassLoaderOptions: {},
+        scssLoaderOptions: {},
+        lessLoaderOptions: {},
+        env: {},
+        uglifyOptions: {
+          compress: {},
+          mangle: {}
+        }
+      },
+      devServer: {},
       animations: [],
-      extras: []
+      extras: [],
+      sourceFiles: {},
+      ssr: {
+        componentCache: {}
+      },
+      pwa: {
+        workboxOptions: {},
+        manifest: {
+          icons: []
+        },
+        metaVariables: {}
+      },
+      electron: {
+        packager: {},
+        builder: {}
+      },
+      cordova: {},
+      htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
     if (cfg.framework === void 0 || cfg.framework === 'all') {
@@ -141,11 +199,20 @@ class QuasarConfig {
         all: true
       }
     }
-    cfg.framework.config = cfg.framework.config || {}
+    if (!cfg.framework.components) {
+      cfg.framework.components = []
+    }
+    if (!cfg.framework.directives) {
+      cfg.framework.directives = []
+    }
+    if (!cfg.framework.plugins) {
+      cfg.framework.plugins = []
+    }
+    if (!cfg.framework.config) {
+      cfg.framework.config = {}
+    }
 
     if (this.ctx.dev) {
-      cfg.devServer = cfg.devServer || {}
-
       if (this.opts.host) {
         cfg.devServer.host = this.opts.host
       }
@@ -217,25 +284,12 @@ class QuasarConfig {
     }
   }
 
-  readSSRextension () {
-    log(`Reading src-ssr/extension.js`)
-
-    if (fs.existsSync(this.ssrExtensionFile)) {
-      delete require.cache[this.ssrExtensionFile]
-      this.ssrExtension = require(this.ssrExtensionFile)
-    }
-    else {
-      warn(`⚠️  [FAIL] Could not load src-ssr/extension.js file`)
-      process.exit(1)
-    }
-  }
-
-  compile () {
+  async compile () {
     let cfg = this.quasarConfig
 
-    extensionRunner.runHook('extendQuasarConf', hook => {
-      log(`Extension(${hook.extId}): Extending quasar.conf...`)
-      hook.fn(cfg)
+    await extensionRunner.runHook('extendQuasarConf', async hook => {
+      log(`Extension(${hook.api.extId}): Extending quasar.conf...`)
+      await hook.fn(cfg, hook.api)
     })
 
     // if watching for changes,
@@ -262,39 +316,37 @@ class QuasarConfig {
       ? false
       : (cfg.supportIE || false)
 
-    cfg.vendor = merge({
-      vendor: {
-        add: false,
-        remove: false
-      }
-    }, cfg.vendor || {})
-
+    cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
     if (cfg.vendor.add) {
-      cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
-      if (cfg.vendor.add) {
-        cfg.vendor.add = new RegExp(cfg.vendor.add)
-      }
+      cfg.vendor.add = new RegExp(cfg.vendor.add)
     }
+
+    cfg.vendor.remove = cfg.vendor.remove.filter(v => v).join('|')
     if (cfg.vendor.remove) {
-      cfg.vendor.remove = cfg.vendor.remove.filter(v => v).join('|')
-      if (cfg.vendor.remove) {
-        cfg.vendor.remove = new RegExp(cfg.vendor.remove)
-      }
+      cfg.vendor.remove = new RegExp(cfg.vendor.remove)
     }
 
     if (cfg.css.length > 0) {
-      cfg.css = cfg.css.filter(_ => _).map(
-        asset => asset[0] === '~' ? asset.substring(1) : `src/css/${asset}`
-      )
+      cfg.css = cfg.css.filter(_ => _)
+        .map(parseAssetProperty('src/css'))
+        .filter(asset => asset.path)
+        .filter(uniquePathFilter)
     }
 
     if (cfg.boot.length > 0) {
-      cfg.boot = cfg.boot.filter(_ => _).map(asset => {
-        return typeof asset === 'string'
-          ? { path: asset }
-          : asset
-      }).filter(asset => asset.path)
+      cfg.boot = cfg.boot.filter(_ => _)
+        .map(parseAssetProperty('boot'))
+        .filter(asset => asset.path)
+        .filter(uniquePathFilter)
     }
+
+    if (cfg.extras.length > 0) {
+      cfg.extras = cfg.extras.filter(uniqueFilter)
+    }
+
+    cfg.framework.components = cfg.framework.components.filter(uniqueFilter)
+    cfg.framework.directives = cfg.framework.directives.filter(uniqueFilter)
+    cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
 
     cfg.build = merge({
       showProgress: true,
@@ -309,7 +361,7 @@ class QuasarConfig {
       webpackManifest: this.ctx.prod,
       vueRouterMode: 'hash',
       preloadChunks: true,
-      transpileDependencies: [],
+      // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
         ? '#cheap-module-eval-source-map'
         : '#source-map',
@@ -357,19 +409,21 @@ class QuasarConfig {
           safari10: true
         }
       }
-    }, cfg.build || {})
+    }, cfg.build)
 
-    cfg.build.transpileDependencies.push(/[\\/]node_modules[\\/]quasar[\\/]/)
+    cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
 
-    cfg.__loadingBar = cfg.framework.all || (cfg.framework.plugins && cfg.framework.plugins.includes('LoadingBar'))
-    cfg.__meta = cfg.framework.all || (cfg.framework.plugins && cfg.framework.plugins.includes('Meta'))
+    cfg.__loadingBar = cfg.framework.all || cfg.framework.plugins.includes('LoadingBar')
+    cfg.__meta = cfg.framework.all || cfg.framework.plugins.includes('Meta')
 
     if (this.ctx.dev || this.ctx.debug) {
       Object.assign(cfg.build, {
         minify: false,
-        extractCSS: false,
         gzip: false
       })
+    }
+    if (this.ctx.dev) {
+      cfg.build.extractCSS = false
     }
     if (this.ctx.debug) {
       cfg.build.sourceMap = true
@@ -385,7 +439,6 @@ class QuasarConfig {
     }
     else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
       Object.assign(cfg.build, {
-        extractCSS: false,
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
         gzip: false,
@@ -415,18 +468,23 @@ class QuasarConfig {
 
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
-      router: 'src/router/index.js',
-      store: 'src/store/index.js',
+      router: 'src/router/index',
+      store: 'src/store/index',
       indexHtmlTemplate: 'src/index.template.html',
       registerServiceWorker: 'src-pwa/register-service-worker.js',
       serviceWorker: 'src-pwa/custom-service-worker.js',
       electronMainDev: 'src-electron/main-process/electron-main.dev.js',
       electronMainProd: 'src-electron/main-process/electron-main.js',
       ssrServerIndex: 'src-ssr/index.js'
-    }, cfg.sourceFiles || {})
+    }, cfg.sourceFiles)
 
     // do we got vuex?
-    cfg.store = fs.existsSync(appPaths.resolve.app(cfg.sourceFiles.store))
+    const storePath = appPaths.resolve.app(cfg.sourceFiles.store)
+    cfg.store = (
+      fs.existsSync(storePath) ||
+      fs.existsSync(storePath + '.js') ||
+      fs.existsSync(storePath + '.ts')
+    )
 
     //make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
@@ -442,7 +500,7 @@ class QuasarConfig {
           max: 1000,
           maxAge: 1000 * 60 * 15
         }
-      }, cfg.ssr || {})
+      }, cfg.ssr)
 
       cfg.ssr.debug = this.ctx.debug
 
@@ -459,15 +517,9 @@ class QuasarConfig {
         require('./mode/install-missing')('pwa')
       }
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa !== false
-
-      this.watch && (cfg.__ssrExtension = this.ssrExtension)
     }
 
     if (this.ctx.dev) {
-      const
-        initialPort = cfg.devServer && cfg.devServer.port,
-        initialHost = cfg.devServer && cfg.devServer.host
-
       cfg.devServer = merge({
         publicPath: cfg.build.publicPath,
         hot: true,
@@ -479,7 +531,7 @@ class QuasarConfig {
         disableHostCheck: true,
         compress: true,
         open: true
-      }, cfg.devServer || {}, {
+      }, cfg.devServer, {
         contentBase: [ appPaths.srcDir ]
       })
 
@@ -487,10 +539,11 @@ class QuasarConfig {
         cfg.devServer.contentBase = false
       }
       else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
-        Object.assign(cfg.devServer, {
-          https: false,
-          open: false
-        })
+        cfg.devServer.open = false
+
+        if (this.ctx.mode.electron) {
+          cfg.devServer.https = false
+        }
       }
 
       if (this.ctx.mode.cordova) {
@@ -504,6 +557,19 @@ class QuasarConfig {
         if (isMinimalTerminal) {
           cfg.devServer.open = false
         }
+      }
+
+      if (cfg.devServer.open) {
+        cfg.__devServer = {
+          open: !!cfg.devServer.open,
+          openOptions: cfg.devServer.open !== true
+            ? cfg.devServer.open
+            : false
+        }
+        cfg.devServer.open = false
+      }
+      else {
+        cfg.__devServer = {}
       }
     }
 
@@ -539,8 +605,26 @@ class QuasarConfig {
           description: this.pkg.description,
           display: 'standalone',
           start_url: '.'
+        },
+        metaVariables: {
+          appleMobileWebAppCapable: 'yes',
+          appleMobileWebAppStatusBarStyle: 'default',
+          appleTouchIcon120: 'statics/icons/apple-icon-120x120.png',
+          appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
+          appleTouchIcon152: 'statics/icons/apple-icon-152x152.png',
+          appleTouchIcon167: 'statics/icons/apple-icon-167x167.png',
+          appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
+          msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
+          msapplicationTileColor: '#000000'
         }
-      }, cfg.pwa || {})
+      }, cfg.pwa)
+
+      if (cfg.pwa.manifest.icons.length === 0) {
+        console.log()
+        console.log(`⚠️  PWA manifest in quasar.conf.js > pwa > manifest is missing "icons" prop.`)
+        console.log()
+        process.exit(1)
+      }
 
       if (!['GenerateSW', 'InjectManifest'].includes(cfg.pwa.workboxPluginMode)) {
         console.log()
@@ -589,7 +673,7 @@ class QuasarConfig {
       cfg.build.APP_URL = `file://" + __dirname + "/index.html`
     }
 
-    cfg.build.env = merge(cfg.build.env || {}, {
+    cfg.build.env = merge(cfg.build.env, {
       VUE_ROUTER_MODE: `"${cfg.build.vueRouterMode}"`,
       VUE_ROUTER_BASE: `"${cfg.build.publicPath}"`,
       APP_URL: `"${cfg.build.APP_URL}"`
@@ -612,11 +696,7 @@ class QuasarConfig {
       cfg.build.env.__statics = `"${this.ctx.dev ? '/' : cfg.build.publicPath || '/'}statics"`
     }
 
-    legacyValidations(cfg)
-
-    if (this.ctx.mode.cordova && !cfg.cordova) {
-      cfg.cordova = {}
-    }
+    appFilesValidations(cfg)
 
     if (this.ctx.mode.electron) {
       if (this.ctx.prod) {
@@ -635,7 +715,7 @@ class QuasarConfig {
               buildResources: appPaths.resolve.electron('')
             }
           }
-        }, cfg.electron || {}, {
+        }, cfg.electron, {
           packager: {
             dir: cfg.build.distDir,
             out: cfg.build.packagedElectronDist
@@ -670,6 +750,10 @@ class QuasarConfig {
             config: cfg.electron.builder
           }
 
+          if (cfg.ctx.publish) {
+            cfg.electron.builder.publish = cfg.ctx.publish
+          }
+
           bundler.ensureBuilderCompatibility()
         }
 
@@ -678,14 +762,16 @@ class QuasarConfig {
     }
 
     cfg.__html = {
-      variables: Object.assign({
+      variables: {
         ctx: cfg.ctx,
         process: {
           env: parseBuildEnv(cfg.build.env['process.env'])
         },
         productName: cfg.build.productName,
-        productDescription: cfg.build.productDescription
-      }, cfg.htmlVariables || {}),
+        productDescription: cfg.build.productDescription,
+
+        ...cfg.htmlVariables
+      },
       minifyOptions: cfg.build.minify
         ? {
           removeComments: true,
@@ -697,7 +783,7 @@ class QuasarConfig {
         : undefined
     }
 
-    this.webpackConfig = require('./webpack')(cfg)
+    this.webpackConfig = await require('./webpack')(cfg)
     this.buildConfig = cfg
   }
 }

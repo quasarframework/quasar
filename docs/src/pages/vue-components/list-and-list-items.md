@@ -1,5 +1,9 @@
 ---
 title: List and List Items
+related:
+  - /vue-components/expansion-item
+  - /vue-components/slide-item
+  - /vue-components/separator
 ---
 
 The QList and QItem are a group of components which can work together to present multiple line items vertically as a single continuous element. They are best suited for displaying similar data types as rows of information, such as a contact list, a playlist or menu. Each row is called an Item. QItem can also be used outside of a QList too.
@@ -70,7 +74,7 @@ For more complex menus, consider also using [QExpansionItem](/vue-components/exp
 You can use QItems together with Vue Router through `<router-link>` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.
 
 ```vue
-<q-item to="/inbox" exact />
+<q-item to="/inbox" exact>
   <q-item-section avatar>
     <q-icon name="inbox" />
   </q-item-section>

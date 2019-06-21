@@ -1,17 +1,20 @@
 ---
 title: Boot files
+related:
+  - /quasar-cli/quasar-conf-js
 ---
-A common use case for Quasar applications is to run code before the root Vue instance is instantiated.
-Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
+A common use case for Quasar applications is to **run code before the root Vue app instance is instantiated**, like injecting and initializing your own dependencies (examples: Vue components, libraries...) or simply configuring some startup code of your app.
+
+Since you won't be having access to any `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
 
 In earlier Quasar versions, to run code before the root Vue instance was instantiated, you could alter the `/src/main.js` file and add any code you needed to execute.
 
-There is a major problem with this approach: With a growing project, your `main.js` file was very likely to get cluttered and challenging to maintain, which breaks with Quasar's concept of encouraging developers to write maintainable and elegant cross-platform applications.
+There is a major problem with this approach: with a growing project, your `main.js` file was very likely to get cluttered and challenging to maintain, which breaks with Quasar's concept of encouraging developers to write maintainable and elegant cross-platform applications.
 
-With boot files, it is possible to split each of your dependencies into a self-contained, easy to maintain files. It is also trivial to disable any of the boot files or even contextually determine which of the boot files get into the build through `quasar.conf.js` configuration.
+With boot files, it is possible to split each of your dependencies into self-contained, easy to maintain files. It is also trivial to disable any of the boot files or even contextually determine which of the boot files get into the build through `quasar.conf.js` configuration.
 
-## Anatomy of an boot file
-A boot file is a simple JavaScript file which needs to export a function. Quasar will then call the exported function when it boots the application and additionally pass **an object** with the following properties to the function:
+## Anatomy of a boot file
+A boot file is a simple JavaScript file which can optionally export a function. Quasar will then call the exported function when it boots the application and additionally pass **an object** with the following properties to the function:
 
 | Prop name | Description |
 | --- | --- |
@@ -40,6 +43,30 @@ Notice we are using the [ES6 destructuring assignment](https://developer.mozilla
 ::: danger
 Never call `new Vue(App)` in your boot files as this will completely break your website/app. You don't need it since Quasar CLI takes care of instantiating your App with Vue.
 :::
+
+You may ask yourself why we need to export a function. This is actually optional, but before you decide to remove the default export, you need to understand when you need it:
+
+```js
+// Outside of default export:
+//  - Code here gets executed immediately,
+//  - Good place for import statements,
+//  - No access to router, Vuex store, ...
+
+export default async ({ app, router, store, Vue }) => {
+  // Code here has access to the Object param above, connecting
+  // with other parts of your app;
+
+  // Code here can be async (use async/await or directly return a Promise);
+
+  // Code here gets executed by Quasar CLI at the correct time in app's lifecycle:
+  //  - we have a Router instantiated,
+  //  - we have the optional Vuex store instantiated,
+  //  - we have the root app's component ["app" prop in Object param] Object with
+  //      which Quasar will instantiate the Vue app
+  //      ("new Vue(app)" -- do NOT call this by yourself),
+  //  - ...
+}
+```
 
 ## When to use boot files
 ::: warning
@@ -72,8 +99,8 @@ This command creates a new file: `/src/boot/<name>.js` with the following conten
 ```js
 // import something here
 
-// leave the export, even if you don't use it
-export default ({ app, router, store, Vue }) => {
+// "async" is optional
+export default async ({ /* app, router, store, Vue */ }) => {
   // something to do
 }
 ```
@@ -87,7 +114,40 @@ The last step is to tell Quasar to use your new boot file. For this to happen yo
 
 ```js
 boot: [
-  '<name>' // references /src/boot/<name>.js
+  // references /src/boot/<name>.js
+  '<name>'
+]
+```
+
+When building a SSR app, you may want some boot files to run only on the server or only on the client, in which case you can do so like below:
+
+```js
+boot: [
+  {
+    server: false, // run on client-side only!
+    path: '<name>' // references /src/boot/<name>.js
+  },
+  {
+    client: false, // run on server-side only!
+    path: '<name>' // references /src/boot/<name>.js
+  }
+]
+```
+
+In case you want to specify boot files from node_modules, you can do so by prepending the path with `~` (tilde) character:
+
+```js
+boot: [
+  // boot file from an npm package
+  '~my-npm-package/some/file'
+]
+```
+
+If you want a boot file to be injected into your app only for a specific build type:
+
+```js
+boot: [
+  ctx.mode.electron ? 'some-file' : ''
 ]
 ```
 
@@ -167,7 +227,7 @@ Let's take the example of Axios. Sometimes you want to access your Axios instanc
 Consider the following boot file for axios:
 
 ```js
-// axios boot file file (src/boot/axios.js)
+// axios boot file (src/boot/axios.js)
 
 import axios from 'axios'
 

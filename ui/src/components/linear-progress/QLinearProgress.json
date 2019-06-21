@@ -1,0 +1,69 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "value": {
+      "type": "Number",
+      "desc": "Progress value (0.0 < x < 1.0)",
+      "default": 0,
+      "examples": [ ":value=\"0.28\"" ],
+      "category": "model"
+    },
+
+    "buffer": {
+      "type": "Number",
+      "desc": "Optional buffer value (0.0 < x < 1.0)",
+      "examples": [ ":buffer=\"0.78\"" ],
+      "category": "behavior"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "track-color": {
+      "extends": "color",
+      "desc": "Color name for component's track from the Quasar Color Palette"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "reverse":  {
+      "type": "Boolean",
+      "desc": "Reverse direction of progress",
+      "category": "behavior"
+    },
+
+    "stripe": {
+      "type": "Boolean",
+      "desc":  "Draw stripes; For determinate state only (for performance reasons)",
+      "category": "content"
+    },
+
+    "indeterminate": {
+      "type": "Boolean",
+      "desc": "Put component into indeterminate mode",
+      "category": "behavior"
+    },
+
+    "query": {
+      "type": "Boolean",
+      "desc": "Put component into query mode",
+      "category": "behavior"
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QTooltip"
+    }
+  }
+}

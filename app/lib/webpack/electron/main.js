@@ -1,7 +1,4 @@
 const
-  fs = require('fs'),
-  path = require('path'),
-  chalk = require('chalk'),
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
   WebpackProgress = require('../plugin.progress')
@@ -16,6 +13,7 @@ module.exports = function (cfg, configName) {
 
   const chain = new WebpackChain()
   const resolveModules = [
+    'node_modules',
     appPaths.resolve.app('node_modules'),
     appPaths.resolve.cli('node_modules')
   ]
@@ -75,8 +73,10 @@ module.exports = function (cfg, configName) {
   chain.optimization
     .noEmitOnErrors(true)
 
-  chain.plugin('progress')
-    .use(WebpackProgress, [{ name: configName }])
+  if (cfg.build.showProgress) {
+    chain.plugin('progress')
+      .use(WebpackProgress, [{ name: configName }])
+  }
 
   chain.plugin('define')
     .use(webpack.DefinePlugin, [ cfg.build.env ])
@@ -100,6 +100,28 @@ module.exports = function (cfg, configName) {
     // write package.json file
     chain.plugin('package-json')
       .use(ElectronPackageJson)
+
+    const
+      fs = require('fs'),
+      copyArray = [],
+      npmrc = appPaths.resolve.app('.npmrc')
+      yarnrc = appPaths.resolve.app('.yarnrc')
+
+    fs.existsSync(npmrc) && copyArray.push({
+      from: npmrc,
+      to: '.'
+    })
+
+    fs.existsSync(yarnrc) && copyArray.push({
+      from: yarnrc,
+      to: '.'
+    })
+
+    if (copyArray.length > 0) {
+      const CopyWebpackPlugin = require('copy-webpack-plugin')
+      chain.plugin('copy-webpack')
+        .use(CopyWebpackPlugin, [ copyArray ])
+    }
   }
 
   return chain

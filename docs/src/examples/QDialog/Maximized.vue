@@ -19,7 +19,7 @@
           <q-btn dense flat icon="crop_square" @click="maximizedToggle = true" :disable="maximizedToggle">
             <q-tooltip v-if="!maximizedToggle" content-class="bg-white text-primary">Maximize</q-tooltip>
           </q-btn>
-          <q-btn dense flat icon="close" v-close-dialog>
+          <q-btn dense flat icon="close" v-close-popup>
             <q-tooltip content-class="bg-white text-primary">Close</q-tooltip>
           </q-btn>
         </q-bar>

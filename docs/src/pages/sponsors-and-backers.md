@@ -1,89 +1,31 @@
 ---
-title: Docs
+title: Sponsors and Backers
+components:
+  - sponsors-and-backers/SponsorList
+  - sponsors-and-backers/DonatingButtons
 ---
 
-[Internal Link](/docs), [External Link](https://vuejs.org)
+::: tip Founder of Quasar Framework
+*Quasar was born because I felt that a full featured framework to build responsive websites, PWAs (Progressive Web Apps), Mobile Apps (Android, iOS) and Electron apps simultaneously (using same code-base) was missing. So I quit my job to make this idea a reality. **-- Razvan Stoenescu***, Mon 25th Oct 2015
+:::
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer non laoreet eros. `token` Morbi non ipsum ac purus dignissim rutrum. Nulla nec ante congue, rutrum tortor facilisis, aliquet ligula. Fusce vitae odio elit. `/quasar.conf.js`
+Like most open source products, Quasar can't do it alone. We rely on *sponsors, backers and supporters* to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!
 
-## Heading 2
-### Heading 3
-#### Heading 4
-##### Heading 5
-###### Heading 6
+Please read our manifesto on [Why donations are important](/why-donate).
 
-```
-const m = 'lala'
-```
+## Donating
+You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.
 
-```html
-<div>
-  <q-btn @click="doSomething">Do something</q-btn>
-  <q-icon name="alarm" />
-</div>
-```
+Donating through the **Github Sponsorship is recommended** because Github will also match your donation (making it worth double your amount).
 
-```vue
-<template>
-  <!-- you define your Vue template here -->
-</template>
+<donating-buttons />
 
-<script>
-// This is where your Javascript goes
-// to define your Vue component, which
-// can be a Layout, a Page or your own
-// component used throughout the app.
-
-export default {
-  //
-}
-</script>
-
-<style>
-/* This is where your CSS goes */
-</style>
-```
-
-<doc-example title="Standard" file="QRadio/Standard" />
-
-<doc-example title="Dark" file="QRadio/OnDarkBackground" dark />
-
-| Table Example | Type | Description |
-| --- | --- | --- |
-| infinite | Boolean | Infinite slides scrolling |
-| size | String | Thickness of loading bar. |
-
-> URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. [Quasar](/docs) provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
+All donations are used for Quasar Development purposes exclusively.
 
 ::: tip
-URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. [Quasar](/docs) provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
+For a full list of our wonderful people who make Quasar happen, visit the [Backers](https://github.com/quasarframework/quasar/blob/dev/backers.md) page.
 :::
 
-::: warning
-URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. [Quasar](/docs) provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
-:::
+## Silver, Gold and Platinum Sponsors
 
-::: danger
-URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. [Quasar](/docs) provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
-:::
-
-::: warning CUSTOM TITLE
-Some tip
-:::
-
-* Something
-  * something
-  * else
-* Back
-  * wee
-
-## Installation
-<doc-installation components="QBtn" :plugins="['Meta', 'Cookies']" directives="Ripple" :config="{ notify: 'Notify' }" />
-
-## Usage
-<doc-example title="Standard" file="QRadio/Standard" />
-
-<doc-example title="Dark" file="QRadio/OnDarkBackground" dark />
-
-## API
-<doc-api file="QTh" />
+<sponsor-list />

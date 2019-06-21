@@ -1,5 +1,6 @@
 <template>
   <div class="q-pa-md q-gutter-sm">
+    <q-btn label="Custom Buttons" color="primary" @click="customBtn" />
     <q-btn label="Positioned" color="primary" @click="positioned" />
     <q-btn label="Stacked Buttons" color="primary" @click="stacked" />
     <q-btn label="Auto Closing" color="primary" @click="autoClose" />
@@ -9,6 +10,27 @@
 <script>
 export default {
   methods: {
+    customBtn () {
+      this.$q.dialog({
+        title: 'Confirm',
+        message: 'Would you like to turn on the wifi?',
+        ok: {
+          push: true
+        },
+        cancel: {
+          push: true,
+          color: 'negative'
+        },
+        persistent: true
+      }).onOk(() => {
+        console.log('>>>> OK')
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        console.log('I am triggered on both OK and Cancel')
+      })
+    },
+
     positioned () {
       this.$q.dialog({
         title: 'Positioned',
@@ -31,10 +53,11 @@ export default {
         message: 'Autoclosing in 3 seconds.'
       }).onOk(() => {
         console.log('OK')
-        clearTimeout(timer)
       }).onCancel(() => {
         console.log('Cancel')
+      }).onDismiss(() => {
         clearTimeout(timer)
+        console.log('I am triggered on both OK and Cancel')
       })
 
       const timer = setTimeout(() => {

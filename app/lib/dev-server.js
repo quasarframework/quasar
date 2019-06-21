@@ -4,13 +4,36 @@ const
 
 const
   appPaths = require('./app-paths'),
-  log = require('./helpers/logger')('app:dev-server')
+  logger = require('./helpers/logger')
+  log = logger('app:dev-server'),
+  warn = logger('app:dev-server', 'red')
 
 let alreadyNotified = false
 
-function openBrowser (url) {
-  const opn = require('opn')
-  opn(url)
+function openBrowser (url, opts) {
+  const open = require('open')
+
+  const openDefault = () => {
+    log('Opening default browser at ' + url)
+    log()
+    open(url, { wait: true }).catch(() => {
+      warn(`⚠️  Failed to open default browser`)
+      warn()
+    })
+  }
+
+  if (opts) {
+    log('Opening browser at ' + url + ' with options: ' + opts)
+    log()
+    open(url, { app: opts, wait: true }).catch(() => {
+      warn(`⚠️  Failed to open specific browser`)
+      warn()
+      openDefault()
+    })
+  }
+  else {
+    openDefault()
+  }
 }
 
 module.exports = class DevServer {
@@ -52,8 +75,8 @@ module.exports = class DevServer {
         if (alreadyNotified) { return }
         alreadyNotified = true
 
-        if (cfg.devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL)
+        if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
+          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
         }
       })
     })
@@ -76,13 +99,16 @@ module.exports = class DevServer {
       express = require('express'),
       chokidar = require('chokidar'),
       { createBundleRenderer } = require('vue-server-renderer'),
-      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
+      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance(),
+      SsrExtension = require('./ssr/ssr-extension')
 
     let renderer
 
     function createRenderer (bundle, options) {
       // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
-      return createBundleRenderer(bundle, Object.assign(options, {
+      return createBundleRenderer(bundle, {
+        ...options,
+
         // for component caching
         cache: new LRU({
           max: 1000,
@@ -90,7 +116,7 @@ module.exports = class DevServer {
         }),
         // recommended for performance
         runInNewContext: false
-      }))
+      })
     }
 
     function render (req, res) {
@@ -211,37 +237,36 @@ module.exports = class DevServer {
     const serverCompilerWatcher = serverCompiler.watch({}, () => {})
 
     // start building & launch server
-    const server = new WebpackDevServer(clientCompiler, Object.assign(
-      {
-        after: app => {
-          if (cfg.ctx.mode.pwa) {
-            app.use('/manifest.json', (req, res) => {
-              res.setHeader('Content-Type', 'application/json')
-              res.send(pwa.manifest)
-            })
-            app.use('/service-worker.js', (req, res) => {
-              res.setHeader('Content-Type', 'text/javascript')
-              res.send(pwa.serviceWorker)
-            })
-          }
-
-          app.use('/statics', express.static(appPaths.resolve.src('statics'), {
-            maxAge: 0
-          }))
-
-          cfg.__ssrExtension.extendApp({ app })
-
-          app.get('*', render)
+    const server = new WebpackDevServer(clientCompiler, {
+      after: app => {
+        if (cfg.ctx.mode.pwa) {
+          app.use('/manifest.json', (req, res) => {
+            res.setHeader('Content-Type', 'application/json')
+            res.send(pwa.manifest)
+          })
+          app.use('/service-worker.js', (req, res) => {
+            res.setHeader('Content-Type', 'text/javascript')
+            res.send(pwa.serviceWorker)
+          })
         }
+
+        app.use('/statics', express.static(appPaths.resolve.src('statics'), {
+          maxAge: 0
+        }))
+
+        SsrExtension.getModule().extendApp({ app })
+
+        app.get('*', render)
       },
-      cfg.devServer
-    ))
+
+      ...cfg.devServer
+    })
 
     readyPromise.then(() => {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
-        if (cfg.devServer.open) {
-          openBrowser(cfg.build.APP_URL)
+        if (cfg.__devServer.open) {
+          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
         }
       })
     })

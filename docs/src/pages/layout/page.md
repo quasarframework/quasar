@@ -1,5 +1,7 @@
 ---
 title: Layout Page
+related:
+  - /layout/layout
 ---
 
 We will be talking about encapsulating pages within a QLayout. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
@@ -12,16 +14,7 @@ Pick only what you are using from the list below.
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn
-  push
-  color="primary"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
+<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 

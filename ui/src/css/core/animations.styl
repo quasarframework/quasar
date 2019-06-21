@@ -1,0 +1,43 @@
+/*
+ * Animate.css additions
+ */
+
+.animated
+  animation-duration .3s
+  animation-fill-mode both
+
+.animated.infinite
+  animation-iteration-count infinite
+.animated.hinge
+  animation-duration 2s
+
+.animated.flipOutX,
+.animated.flipOutY,
+.animated.bounceIn,
+.animated.bounceOut
+  animation-duration .3s
+
+/*
+ * Quasar animations
+ */
+
+.q-animate--scale
+  animation q-scale .15s
+  animation-timing-function cubic-bezier(.25, .8, .25, 1)
+
+@keyframes q-scale
+  0%
+    transform scale3d(1, 1, 1)
+  50%
+    transform scale3d(1.04, 1.04, 1)
+  100%
+    transform scale3d(1, 1, 1)
+
+.q-animate--fade
+  animation q-fade .2s /* rtl:ignore */
+
+@keyframes q-fade
+  0%
+    opacity 0
+  100%
+    opacity 1

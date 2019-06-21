@@ -8,7 +8,7 @@ const
  * Prefix.
  */
 
-const prefix = '   Quasar CLI'
+const prefix = '  Quasar CLI'
 const sep = chalk.gray('·')
 
 /**

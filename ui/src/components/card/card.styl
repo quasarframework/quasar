@@ -1,0 +1,70 @@
+.q-card
+  box-shadow $shadow-2
+  border-radius $generic-border-radius
+  vertical-align top
+  background white
+  position relative
+
+  > div, > img
+    &:first-child
+      border-top 0
+      border-top-left-radius inherit
+      border-top-right-radius inherit
+  > div, > img
+    &:last-child
+      border-bottom 0
+      border-bottom-left-radius inherit
+      border-bottom-right-radius inherit
+  > div, > img
+    &:not(:first-child)
+      border-top-left-radius 0
+      border-top-right-radius 0
+  > div, > img
+    &:not(:last-child)
+      border-bottom-left-radius 0
+      border-bottom-right-radius 0
+  > div
+    border-left 0
+    border-right 0
+    box-shadow none
+
+  &--bordered
+    border 1px solid $separator-color
+
+  &--dark
+    color white
+    border-color $separator-dark-color
+
+  &__section
+    position relative
+    padding 16px
+
+  &__actions
+    padding 8px
+
+    .q-btn
+      padding 0 8px
+
+    &--horiz
+      > .q-btn-item + .q-btn-item
+      > .q-btn-group + .q-btn-item
+      > .q-btn-item + .q-btn-group
+        margin-left 8px
+    &--vert
+      > .q-btn-item + .q-btn-item
+      > .q-btn-group + .q-btn-item
+      > .q-btn-item + .q-btn-group
+        margin-top 4px
+
+      > .q-btn-group > .q-btn-item
+        flex-grow 1
+
+
+  &__section + &__section
+    padding-top 0
+
+  > img
+    display block
+    width 100%
+    max-width 100%
+    border 0

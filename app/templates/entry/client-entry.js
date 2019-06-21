@@ -21,10 +21,16 @@ import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
-import 'quasar-styl'
+// We load Quasar stylus files
+import 'quasar/dist/quasar.styl'
 
-<% css.length > 0 && css.forEach(asset => { %>
-import '<%= asset %>'
+<% if (framework.cssAddon) { %>
+// We add Quasar addons, if they were requested
+import 'quasar/src/css/flex-addon.styl'
+<% } %>
+
+<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
+import '<%= asset.path %>'
 <% }) %>
 
 import Vue from 'vue'
@@ -42,10 +48,10 @@ if (boot.length > 0) {
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
   boot.filter(asset => asset.client !== false).forEach(asset => {
-    let importName = 'b_' + hash(asset.path)
+    let importName = 'qboot_' + hash(asset.path)
     bootNames.push(importName)
 %>
-import <%= importName %> from 'boot/<%= asset.path %>'
+import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
 <% if (preFetch) { %>
@@ -91,6 +97,10 @@ async function start () {
   <% if (bootNames.length > 0) { %>
   const bootFiles = [<%= bootNames.join(',') %>]
   for (let i = 0; i < bootFiles.length; i++) {
+    if (typeof bootFiles[i] !== 'function') {
+      continue
+    }
+
     try {
       await bootFiles[i]({
         app,

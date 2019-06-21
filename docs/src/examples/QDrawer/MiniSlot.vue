@@ -11,7 +11,7 @@
       <q-drawer
         v-model="drawer"
 
-        :mini="miniState"
+        :mini="!drawer || miniState"
         @click.capture="drawerClick"
 
         :width="200"
@@ -20,16 +20,18 @@
         bordered
         content-class="bg-grey-3"
       >
-        <q-scroll-area class="fit mini-slot cursor-pointer" slot="mini">
-          <div class="q-py-lg">
-            <div class="column">
-              <q-icon name="inbox" color="blue" class="mini-icon" />
-              <q-icon name="star" color="orange" class="mini-icon" />
-              <q-icon name="send" color="purple" class="mini-icon" />
-              <q-icon name="drafts" color="teal" class="mini-icon" />
+        <template v-slot:mini>
+          <q-scroll-area class="fit mini-slot cursor-pointer">
+            <div class="q-py-lg">
+              <div class="column items-center">
+                <q-icon name="inbox" color="blue" class="mini-icon" />
+                <q-icon name="star" color="orange" class="mini-icon" />
+                <q-icon name="send" color="purple" class="mini-icon" />
+                <q-icon name="drafts" color="teal" class="mini-icon" />
+              </div>
             </div>
-          </div>
-        </q-scroll-area>
+          </q-scroll-area>
+        </template>
 
         <q-scroll-area class="fit">
           <q-list padding>

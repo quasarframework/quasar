@@ -1,11 +1,14 @@
 ---
 title: Touch Hold Directive
+related:
+  - /vue-directives/touch-pan
+  - /vue-directives/touch-swipe
 ---
 Quasar offers full-featured Vue directives that can totally replace libraries like Hammerjs: `v-touch-pan`, `v-touch-swipe`, `v-touch-hold` and even `v-touch-repeat`.
 
 > **These directives also work with mouse events, not only touch events**, so you are able to build cool functionality for your App on desktops too.
 
-We will be describing `v-touch-hold` on the lines below.
+We will be describing `v-touch-hold` directive on the lines below.
 
 ## Installation
 <doc-installation directives="TouchHold" />
@@ -13,23 +16,46 @@ We will be describing `v-touch-hold` on the lines below.
 ## Usage
 <doc-example title="Basic" file="TouchHold/Basic" />
 
+The default wait time is 600ms, but you can change it:
+
 <doc-example title="Custom wait time" file="TouchHold/CustomTimer" />
 
-### Avoid Capturing Mouse Events
-When you don't want to capture mouse actions too, use the `noMouse` modifier:
+::: tip
+TouchHold also has a default sensitivity of 5px for touch events and 7px for mouse events, which means that it allows a slight movement of the finger or mouse without aborting, improving the user experience.
+:::
+
+However, you can change this sensitivity too (notice the directive argument below - `600:12:15` - 600ms wait time, 12px sensitivity for touch events, 15px sensitivity for mouse events):
+
+<doc-example title="Custom sensitivity" file="TouchHold/CustomSensitivity" />
+
+### Handling Mouse Events
+When you want to also handle mouse events too, use the `mouse` modifier:
+
 ``` html
-<!--
-  directive won't be triggered by mouse actions;
-  it's exclusively triggered by touch actions now:
--->
-<div v-touch-hold.noMouse="userHasHold">...</div>
+<div v-touch-hold.mouse="userHasHold">...</div>
 ```
 
-### Preventing Scroll (on touch capable devices)
-By default, the directive does not block page scrolling. If you want to prevent scrolling, then use the `prevent` modifier.
+### Inhibiting TouchHold
+When you want to inhibit TouchHold, you can do so by stopping propagation of the `touchstart`/`mousedown` events from the inner content:
+
 ``` html
-<div v-touch-hold.prevent="userHasHold">...</div>
+<div v-touch-hold.mouse="userHasHold">
+  <!-- ...content -->
+  <div @touchstart.stop @mousedown.stop>
+    <!--
+      TouchHold will not apply here because
+      we are calling stopPropagation() on touchstart
+      and mousedown events
+    -->
+  </div>
+  <!-- ...content -->
+</div>
 ```
+
+However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchHold will still trigger.
+
+### Note on HMR
+Due to performance reasons, when doing HMR updates, the modifiers are NOT updated, so you will require a window refresh.
 
 ## API
 <doc-api file="TouchHold" />

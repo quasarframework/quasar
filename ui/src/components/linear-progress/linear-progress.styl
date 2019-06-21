@@ -1,0 +1,67 @@
+.q-linear-progress
+  position relative
+  width 100%
+  overflow hidden
+  height 4px
+  color $primary
+  color var(--q-color-primary)
+
+  &--reverse
+    transform scale3d(-1, 1, 1)
+
+  &__model, &__track
+    transform-origin 0 0
+    transition transform .3s
+
+  &__model
+
+    &--determinate
+      background currentColor
+
+    &--indeterminate, &--query
+      transition none
+
+      &:before, &:after
+        background currentColor
+        content ''
+        position absolute
+        top 0
+        right 0
+        bottom 0
+        left 0
+        transform-origin 0 0
+
+      &:before
+        animation q-linear-progress--indeterminate 2.1s cubic-bezier(.65, .815, .735, .395) infinite
+      &:after
+        transform translate3d(-101%, 0, 0) scale3d(1, 1, 1)
+        animation q-linear-progress--indeterminate-short 2.1s cubic-bezier(.165, .84, .44, 1) infinite
+        animation-delay 1.15s
+
+  &__track
+    opacity 0.4
+    &--light
+      background rgba(0, 0, 0, .26)
+    &--dark
+      background rgba(255, 255, 255, .6)
+
+  &__stripe
+    transition width .3s
+    background-image linear-gradient(45deg, rgba(255, 255, 255, .15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%, rgba(255, 255, 255, .15) 75%, transparent 75%, transparent) !important
+    background-size 40px 40px !important
+
+@keyframes q-linear-progress--indeterminate
+  0%
+    transform translate3d(-35%, 0, 0) scale3d(.35, 1, 1)
+  60%
+    transform translate3d(100%, 0, 0) scale3d(.9, 1, 1)
+  100%
+    transform translate3d(100%, 0, 0) scale3d(.9, 1, 1)
+
+@keyframes q-linear-progress--indeterminate-short
+  0%
+    transform translate3d(-101%, 0, 0) scale3d(1, 1, 1)
+  60%
+    transform translate3d(107%, 0, 0) scale3d(0.01, 1, 1)
+  100%
+    transform translate3d(107%, 0, 0) scale3d(0.01, 1, 1)

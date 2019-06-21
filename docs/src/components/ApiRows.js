@@ -49,6 +49,7 @@ export default {
 
   props: {
     which: String,
+    apiKey: String,
     api: Object
   },
 
@@ -259,8 +260,20 @@ export default {
       return child
     },
 
-    events (h, events) {
+    events (h, { $listeners, ...events }) {
       const child = []
+
+      if ($listeners !== void 0) {
+        child.push(
+          h('div', { staticClass: 'api-row api-row__value api-row--big-padding' }, [
+            $listeners.desc
+          ])
+        )
+      }
+
+      if (events === void 0) {
+        return child
+      }
 
       for (let eventName in events) {
         const event = events[eventName]
@@ -426,7 +439,7 @@ export default {
   },
 
   render (h) {
-    const api = this.api[this.which]
+    const api = this.api[this.apiKey || this.which]
 
     const content = Object.keys(api).length !== 0
       ? this[this.which](h, api)

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width">
+
+    <title>Quasar UMD test</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet" type="text/css">
+    <link href="dist/quasar.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <div id="q-app">
+      <q-layout view="lHh Lpr fff">
+        <q-header class="glossy bg-primary">
+          <q-toolbar>
+            <q-btn flat round dense @click="drawerState = !drawerState" icon="menu"></q-btn>
+
+            <q-toolbar-title>
+              Quasar App
+            </q-toolbar-title>
+
+            <div>Quasar v{{ $q.version }}</div>
+          </q-toolbar>
+        </q-header>
+
+        <q-drawer
+          v-model="drawerState"
+          bordered
+          content-class="bg-grey-2"
+        >
+          <q-list>
+            <q-item-label header>Essential Links</q-item-label>
+            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
+              <q-item-section avatar>
+                <q-icon name="school"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Docs</q-item-label>
+                <q-item-label caption>quasar.dev</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable tag="a" target="_blank" href="https://github.com/quasarframework/">
+              <q-item-section avatar>
+                <q-icon name="code"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>GitHub</q-item-label>
+                <q-item-label caption>github.com/quasarframework</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
+              <q-item-section avatar>
+                <q-icon name="chat"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Discord Chat Channel</q-item-label>
+                <q-item-label caption>chat.quasar.dev</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
+              <q-item-section avatar>
+                <q-icon name="forum"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Forum</q-item-label>
+                <q-item-label caption>forum.quasar.dev</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable tag="a" target="_blank" href="https://twitter.com/quasarframework">
+              <q-item-section avatar>
+                <q-icon name="rss_feed"></q-icon>
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>Twitter</q-item-label>
+                <q-item-label caption>@quasarframework</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-drawer>
+
+        <q-page-container>
+          <q-page padding>
+
+            <!-- page content; replace this entirely -->
+            <div class="column flex-center absolute-full">
+              <div>"yarn dev:umd"</div>
+              <div>You need to build & refresh page on each change on Quasar</div>
+              <div>Do not include index.mat.umd.html in your commits</div>
+              <br>
+              <div>$q.lang.label.update: {{ $q.lang.label.update }}</div>
+            </div>
+
+          </q-page>
+        </q-page-container>
+      </q-layout>
+    </div>
+
+    <script src="dist/quasar.ie.polyfills.umd.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script>
+      // optional
+      window.quasarConfig = {
+        brand: {
+          primary: '#ff0000'
+        }
+      }
+    </script>
+    <script src="dist/quasar.umd.js"></script>
+    <script src="dist/lang/es.umd.min.js"></script>
+    <script src="dist/icon-set/fontawesome-v5.umd.min.js"></script>
+
+    <script>
+      Quasar.lang.set(Quasar.lang.es)
+      console.log(Quasar.iconSet.fontawesomeV5)
+      Quasar.plugins.Notify.create('Startup notification')
+
+      new Vue({
+        el: '#q-app',
+        data: function () {
+          return {
+            version: Quasar.version,
+            drawerState: true
+          }
+        },
+        methods: {
+          launch: function (url) {
+            Quasar.utils.openURL(url)
+          }
+        },
+        mounted () {
+          window.Quasar = Quasar
+        }
+      })
+    </script>
+  </body>
+</html>

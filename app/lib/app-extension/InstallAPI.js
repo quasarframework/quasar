@@ -2,13 +2,15 @@ const
   fs = require('fs-extra'),
   path = require('path'),
   merge = require('webpack-merge'),
-  compileTemplate = require('lodash.template')
+  semver = require('semver')
 
 const
   appPaths = require('../app-paths'),
   logger = require('../helpers/logger'),
   warn = logger('app:extension(install)', 'red'),
-  quasarAppVersion = require('../../package.json').version
+  getPackageJson = require('../helpers/get-package-json'),
+  getCallerPath = require('../helpers/get-caller-path'),
+  extensionJson = require('./extension-json')
 
 /**
  * API for extension's /install.js script
@@ -16,20 +18,52 @@ const
 module.exports = class InstallAPI {
   constructor ({ extId, prompts }) {
     this.extId = extId
-    this.quasarAppVersion = quasarAppVersion
     this.prompts = prompts
     this.resolve = appPaths.resolve
     this.appDir = appPaths.appDir
 
     this.__needsNodeModulesUpdate = false
     this.__hooks = {
+      renderFolders: [],
       exitLog: []
     }
   }
 
   /**
+   * Get the internal persistent config of this extension.
+   * Returns empty object if it has none.
+   *
+   * @return {object} cfg
+   */
+  getPersistentConf () {
+    return extensionJson.getInternal(this.extId)
+  }
+
+  /**
+   * Set the internal persistent config of this extension.
+   * If it already exists, it is overwritten.
+   *
+   * @param {object} cfg
+   */
+  setPersistentConf (cfg) {
+    extensionJson.setInternal(this.extId, cfg || {})
+  }
+
+  /**
+   * Deep merge into the internal persistent config of this extension.
+   * If extension does not have any config already set, this is
+   * essentially equivalent to setting it for the first time.
+   *
+   * @param {object} cfg
+   */
+  mergePersistentConf (cfg = {}) {
+    const currentCfg = this.getPersistentConf()
+    this.setPersistentConf(merge(currentCfg, cfg))
+  }
+
+  /**
    * Ensure the App Extension is compatible with
-   * locally installed @quasar/app through a
+   * host app installed package through a
    * semver condition.
    *
    * If the semver condition is not met, then
@@ -38,73 +72,167 @@ module.exports = class InstallAPI {
    * Example of semver condition:
    *   '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
    *
+   * @param {string} packageName
    * @param {string} semverCondition
    */
-  compatibleWithQuasarApp (semverCondition) {
-    const semver = require('semver')
+  compatibleWith (packageName, semverCondition) {
+    const json = getPackageJson(packageName)
 
-    if (!semver.satisfies(quasarAppVersion, semverCondition)) {
-      warn(`⚠️  Extension(${this.extId}): is not compatible with @quasar/app v${quasarAppVersion}`)
+    if (json === void 0) {
+      warn(`⚠️  Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`)
+      process.exit(1)
+    }
+
+    if (!semver.satisfies(json.version, semverCondition)) {
+      warn(`⚠️  Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
       process.exit(1)
     }
   }
 
   /**
+   * Check if an app package is installed. Can also
+   * check its version against specific semver condition.
+   *
+   * Example of semver condition:
+   *   '1.x || >=2.5.0 || 5.0.0 - 7.2.3'
+   *
+   * @param {string} packageName
+   * @param {string} (optional) semverCondition
+   * @return {boolean} package is installed and meets optional semver condition
+   */
+  hasPackage (packageName, semverCondition) {
+    const json = getPackageJson(packageName)
+
+    if (json === void 0) {
+      return false
+    }
+
+    return semverCondition !== void 0
+      ? semver.satisfies(json.version, semverCondition)
+      : true
+  }
+
+  /**
    * Check if another app extension is installed
+   * (app extension npm package is installed and it was invoked)
    *
    * @param {string} extId
-   * @return {boolean} has the extension installed.
+   * @return {boolean} has the extension installed & invoked
    */
   hasExtension (extId) {
-    const extensionJson = require('./extension-json')
     return extensionJson.has(extId)
+  }
+
+  /**
+   * Get the version of an an app's package.
+   *
+   * @param {string} packageName
+   * @return {string|undefined} version of app's package
+   */
+  getPackageVersion (packageName) {
+    const json = getPackageJson(packageName)
+    return json !== void 0
+      ? json.version
+      : void 0
   }
 
   /**
    * Extend package.json with new props.
    * If specifying existing props, it will override them.
    *
-   * @param {object} extPkg
+   * @param {object|string} extPkg - Object to extend with or relative path to a JSON file
    */
   extendPackageJson (extPkg) {
-    if (extPkg !== void 0 && Object(extPkg) === extPkg && Object.keys(extPkg).length > 0) {
+    if (!extPkg) {
+      return
+    }
+
+    if (typeof extPkg === 'string') {
       const
-        filePath = appPaths.resolve.app('package.json'),
-        pkg = merge(require(filePath), extPkg)
+        dir = getCallerPath(),
+        source = path.resolve(dir, extPkg)
+
+      if (!fs.existsSync(source)) {
+        warn()
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - cannot locate ${extPkg}. Skipping...`)
+        warn()
+        return
+      }
+      if (fs.lstatSync(source).isDirectory()) {
+        warn()
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - "${extPkg}" is a folder instead of file. Skipping...`)
+        warn()
+        return
+      }
+
+      try {
+        extPkg = require(source)
+      }
+      catch (e) {
+        warn(`⚠️  Extension(${this.extId}): extendPackageJson() - "${extPkg}" is malformed`)
+        warn()
+        process.exit(1)
+      }
+    }
+
+    if (Object(extPkg) !== extPkg || Object.keys(extPkg).length === 0) {
+      return
+    }
+
+    const
+      filePath = appPaths.resolve.app('package.json'),
+      pkg = merge(require(filePath), extPkg)
+
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify(pkg, null, 2),
+      'utf-8'
+    )
+
+    if (
+      extPkg.dependencies ||
+      extPkg.devDependencies ||
+      extPkg.optionalDependencies ||
+      extPkg.bundleDependencies ||
+      extPkg.peerDependencies
+    ) {
+      this.__needsNodeModulesUpdate = true
+    }
+  }
+
+  /**
+   * Extend a JSON file with new props (deep merge).
+   * If specifying existing props, it will override them.
+   *
+   * @param {string} file (relative path to app root folder)
+   * @param {object} newData (Object to merge in)
+   */
+  extendJsonFile (file, newData) {
+    if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
+      const
+        filePath = appPaths.resolve.app(file),
+        data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
 
       fs.writeFileSync(
-        appPaths.resolve.app('package.json'),
-        JSON.stringify(pkg, null, 2),
+        appPaths.resolve.app(file),
+        JSON.stringify(data, null, 2),
         'utf-8'
       )
-
-      if (
-        extPkg.dependencies ||
-        extPkg.devDependencies ||
-        extPkg.optionalDependencies ||
-        extPkg.bundleDependencies ||
-        extPkg.peerDependencies
-      ) {
-        this.__needsNodeModulesUpdate = true
-      }
     }
   }
 
   /**
    * Render a folder from extension templates into devland.
-   * Needs a relative path to extension's /install.js script.
+   * Needs a relative path to the folder of the file calling render().
    *
-   * @param {string} templatePath
-   * @param {boolean} rawCopy (copy file/folder as is, don't interpret prompts)
-   * @param {object} additionalOpts (rendering opts)
+   * @param {string} templatePath (relative path to folder to render in app)
+   * @param {object} scope (optional; rendering scope variables)
    */
-  render (templatePath, additionalOpts, rawCopy = false) {
+  render (templatePath, scope) {
     const
       dir = getCallerPath(),
       source = path.resolve(dir, templatePath),
-      scope = additionalOpts
-        ? Object.assign({}, this.prompts, additionalOpts || {})
-        : this.prompts
+      rawCopy = !scope || Object.keys(scope).length === 0
 
     if (!fs.existsSync(source)) {
       warn()
@@ -119,38 +247,11 @@ module.exports = class InstallAPI {
       return
     }
 
-    const
-      fglob = require('fast-glob'),
-      isBinary = require('isbinaryfile').isBinaryFileSync
-
-    const files = fglob.sync(['**/*'], { cwd: source })
-
-    for (const rawPath of files) {
-      const targetRelativePath = rawPath.split('/').map(name => {
-        // dotfiles are ignored when published to npm, therefore in templates
-        // we need to use underscore instead (e.g. "_gitignore")
-        if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
-          return `.${name.slice(1)}`
-        }
-        if (name.charAt(0) === '_' && name.charAt(1) === '_') {
-          return `${name.slice(1)}`
-        }
-        return name
-      }).join('/')
-
-      const targetPath = appPaths.resolve.app(targetRelativePath)
-      const sourcePath = path.resolve(source, rawPath)
-
-      if (rawCopy || isBinary(sourcePath)) {
-        fs.ensureFileSync(targetPath)
-        fs.copyFileSync(sourcePath, targetPath)
-      }
-      else {
-        const rawContent = fs.readFileSync(sourcePath, 'utf-8')
-        const template = compileTemplate(rawContent)
-        fs.writeFileSync(targetPath, template(scope), 'utf-8')
-      }
-    }
+    this.__hooks.renderFolders.push({
+      source,
+      rawCopy,
+      scope
+    })
   }
 
   /**
@@ -169,12 +270,4 @@ module.exports = class InstallAPI {
   __getHooks () {
     return this.__hooks
   }
-}
-
-function getCallerPath () {
-  const _prepareStackTrace = Error.prepareStackTrace
-	Error.prepareStackTrace = (_, stack) => stack
-	const stack = new Error().stack.slice(1)
-  Error.prepareStackTrace = _prepareStackTrace
-  return path.dirname(stack[1].getFileName())
 }

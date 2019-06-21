@@ -17,16 +17,23 @@ import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
-import 'quasar-styl'
+// We load Quasar stylus files
+import 'quasar/dist/quasar.styl'
 
-<% css.length > 0 && css.forEach(asset => { %>
-import '<%= asset %>'
+<% if (framework.cssAddon) { %>
+// We add Quasar addons, if they were requested
+import 'quasar/src/css/flex-addon.styl'
+<% } %>
+
+<% css.length > 0 && css.filter(asset => asset.server !== false).forEach(asset => { %>
+import '<%= asset.path %>'
 <% }) %>
 
 import createApp from './app.js'
 import Vue from 'vue'
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
+const appOptions = App.options || App
 <% } %>
 
 <%
@@ -37,10 +44,10 @@ if (boot.length > 0) {
     return name.charAt(0).toUpperCase() + name.slice(1)
   }
   boot.filter(asset => asset.server !== false).forEach(asset => {
-    let importName = 'plugin' + hash(asset.path)
+    let importName = 'qboot_' + hash(asset.path)
     bootNames.push(importName)
 %>
-import <%= importName %> from 'boot/<%= asset.path %>'
+import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
 // This exported function will be called by `bundleRenderer`.
@@ -55,6 +62,10 @@ export default context => {
     <% if (bootNames.length > 0) { %>
     const bootFiles = [<%= bootNames.join(',') %>]
     for (let i = 0; i < bootFiles.length; i++) {
+      if (typeof bootFiles[i] !== 'function') {
+        continue
+      }
+
       try {
         await bootFiles[i]({
           app,
@@ -85,6 +96,8 @@ export default context => {
     // wait until router has resolved possible async hooks
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
+        .map(m => m.options /* Vue.extend() */ || m)
+
       // no matched routes
       if (!matchedComponents.length) {
         return reject({ code: 404 })
@@ -97,7 +110,8 @@ export default context => {
         routeUnchanged = false
         reject({ url })
       }
-      App.preFetch && matchedComponents.unshift(App)
+
+      appOptions.preFetch && matchedComponents.unshift(appOptions)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,

@@ -3,7 +3,7 @@
     <q-toolbar class="bg-primary text-white">
       <q-btn flat round dense icon="menu" class="q-mr-sm" />
       <q-avatar>
-        <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+        <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
       </q-avatar>
 
       <q-toolbar-title>Quasar Framework</q-toolbar-title>

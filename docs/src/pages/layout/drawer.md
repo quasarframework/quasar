@@ -1,8 +1,13 @@
 ---
 title: Layout Drawer
+related:
+  - /layout/layout
+  - /vue-components/list-and-list-items
 ---
 
 QLayout allows you to configure your views as a 3x3 matrix, containing optional left-side and/or right-side Drawers. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
+
+QDrawer is the sidebar part of your QLayout.
 
 ## Installation
 <doc-installation components="QDrawer" />
@@ -10,20 +15,15 @@ QLayout allows you to configure your views as a 3x3 matrix, containing optional 
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
-<q-btn
-  push
-  color="primary"
-  icon-right="launch"
-  label="Layout Builder"
-  type="a"
-  href="/layout-builder"
-  target="_blank"
-  rel="noopener noreferrer"
-/>
+<q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 ::: tip
 Since QDrawer needs a layout and QLayout by default manages the entire window, then for demoing purposes we are going to use containerized QLayouts. But remember that by no means you are required to use containerized QLayouts for QDrawer.
+:::
+
+::: danger
+By default, QDrawer has touch actions attached to it. If this interferes with your drawer content components, disable it by specifying the Boolean `no-swipe-close` property.
 :::
 
 ### Basic
@@ -40,10 +40,10 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 
 ### Mini-mode
 
-Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QLayoutDrawer. 
+Drawer can operate in two modes: 'normal' and 'mini', and you can switch between them by using the Boolean `mini` property on QLayoutDrawer.
 
 ::: warning
-Please note that **`mini` mode** does not apply when in **mobile** behavior. 
+Please note that **`mini` mode** does not apply when in **mobile** behavior.
 :::
 
 There are some CSS classes that will help you customize the drawer when dealing with "mini" mode. These are very useful especially when using the "click" trigger:

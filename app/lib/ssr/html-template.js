@@ -70,10 +70,11 @@ module.exports.getIndexHtml = function (template, cfg) {
 
   if (cfg.build.minify) {
     const { minify } = require('html-minifier')
-    html = minify(html, Object.assign({}, cfg.__html.minifyOptions, {
+    html = minify(html, {
+      ...cfg.__html.minifyOptions,
       ignoreCustomComments: [ /vue-ssr-outlet/ ],
       ignoreCustomFragments: [ /{{ [\s\S]*? }}/ ]
-    }))
+    })
   }
 
   return html

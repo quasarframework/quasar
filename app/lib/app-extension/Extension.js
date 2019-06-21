@@ -2,7 +2,81 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:extension'),
   warn = logger('app:extension', 'red'),
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  { spawnSync } = require('../helpers/spawn'),
+  extensionJson = require('./extension-json')
+
+async function renderFolders ({ source, rawCopy, scope }) {
+  const
+    fs = require('fs-extra'),
+    path = require('path'),
+    fglob = require('fast-glob'),
+    isBinary = require('isbinaryfile').isBinaryFileSync,
+    inquirer = require('inquirer'),
+    compileTemplate = require('lodash.template')
+
+  let overwrite
+  const files = fglob.sync(['**/*'], { cwd: source })
+
+  for (const rawPath of files) {
+    const targetRelativePath = rawPath.split('/').map(name => {
+      // dotfiles are ignored when published to npm, therefore in templates
+      // we need to use underscore instead (e.g. "_gitignore")
+      if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
+        return `.${name.slice(1)}`
+      }
+      if (name.charAt(0) === '_' && name.charAt(1) === '_') {
+        return `${name.slice(1)}`
+      }
+      return name
+    }).join('/')
+
+    const targetPath = appPaths.resolve.app(targetRelativePath)
+    const sourcePath = path.resolve(source, rawPath)
+
+    if (overwrite !== 'overwriteAll' && fs.existsSync(targetPath)) {
+      if (overwrite === 'skipAll') {
+        continue
+      }
+      else {
+        const answer = await inquirer.prompt([{
+          name: 'action',
+          type: 'list',
+          message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
+          choices: [
+            { name: 'Overwrite', value: 'overwrite' },
+            { name: 'Overwrite all', value: 'overwriteAll' },
+            { name: 'Skip (might break extension)', value: 'skip' },
+            { name: 'Skip all (might break extension)', value: 'skipAll' }
+          ],
+          default: 'overwrite'
+        }])
+
+        if (answer.action === 'overwriteAll') {
+          overwrite = 'overwriteAll'
+        }
+        else if (answer.action === 'skipAll') {
+          overwrite = 'skipAll'
+          continue
+        }
+        else if (answer.action === 'skip') {
+          continue
+        }
+      }
+    }
+
+    fs.ensureFileSync(targetPath)
+
+    if (rawCopy || isBinary(sourcePath)) {
+      fs.copyFileSync(sourcePath, targetPath)
+    }
+    else {
+      const rawContent = fs.readFileSync(sourcePath, 'utf-8')
+      const template = compileTemplate(rawContent)
+      fs.writeFileSync(targetPath, template(scope), 'utf-8')
+    }
+  }
+}
 
 module.exports = class Extension {
   constructor (name) {
@@ -41,21 +115,40 @@ module.exports = class Extension {
   }
 
   async install (skipPkgInstall) {
-    log(`Installing "${this.extId}" Quasar App Extension`)
+    if (/quasar-app-extension-/.test(this.extId)) {
+      this.extId = this.extId.replace('quasar-app-extension-', '')
+      log(
+        `When using an extension, "quasar-app-extension-" is added automatically. Just run "quasar ext --add ${
+          this.extId
+        }"`
+      )
+    }
+
+    log(`${skipPkgInstall ? 'Invoking' : 'Installing'} "${this.extId}" Quasar App Extension`)
     log()
 
-    // verify if already installed
-    if (skipPkgInstall !== true && this.isInstalled()) {
-      const inquirer = require('inquirer')
-      const answer = await inquirer.prompt([{
-        name: 'reinstall',
-        type: 'confirm',
-        message: `Already installed. Reinstall?`,
-        default: false
-      }])
+    const isInstalled = this.isInstalled()
 
-      if (!answer.reinstall) {
-        return
+    // verify if already installed
+    if (skipPkgInstall === true) {
+      if (!isInstalled) {
+        warn(`⚠️  Tried to invoke App Extension "${this.extId}" but it's npm package is not installed`)
+        process.exit(1)
+      }
+    }
+    else {
+      if (isInstalled) {
+        const inquirer = require('inquirer')
+        const answer = await inquirer.prompt([{
+          name: 'reinstall',
+          type: 'confirm',
+          message: `Already installed. Reinstall?`,
+          default: false
+        }])
+
+        if (!answer.reinstall) {
+          return
+        }
       }
     }
 
@@ -64,11 +157,10 @@ module.exports = class Extension {
 
     const prompts = await this.__getPrompts()
 
+    extensionJson.set(this.extId, prompts)
+
     // run extension install
     const hooks = await this.__runInstallScript(prompts)
-
-    const extensionJson = require('./extension-json')
-    extensionJson.add(this.extId, prompts)
 
     log(`Quasar App Extension "${this.extId}" successfully installed.`)
     log()
@@ -82,18 +174,26 @@ module.exports = class Extension {
   }
 
   async uninstall (skipPkgUninstall) {
-    log(`Uninstalling "${this.extId}" App Extension`)
+    log(`${skipPkgUninstall ? 'Uninvoking' : 'Uninstalling'} "${this.extId}" Quasar App Extension`)
     log()
 
-    // verify if installed
-    if (skipPkgUninstall !== true && !this.isInstalled()) {
-      warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
-      return
+    const isInstalled = this.isInstalled()
+
+    // verify if already installed
+    if (skipPkgUninstall === true) {
+      if (!isInstalled) {
+        warn(`⚠️  Tried to uninvoke App Extension "${this.extId}" but there's no npm package installed for it.`)
+        process.exit(1)
+      }
+    }
+    else {
+      if (!isInstalled) {
+        warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
+        return
+      }
     }
 
-    const extensionJson = require('./extension-json')
-    const prompts = extensionJson.get(this.extId)
-
+    const prompts = extensionJson.getPrompts(this.extId)
     const hooks = await this.__runUninstallScript(prompts)
 
     extensionJson.remove(this.extId)
@@ -115,21 +215,20 @@ module.exports = class Extension {
   async run (ctx) {
     if (!this.isInstalled()) {
       warn(`⚠️  Quasar App Extension "${this.extId}" is missing...`)
-      process.exit(1)
+      process.exit(1, 'ext-missing')
     }
 
     const script = this.__getScript('index', true)
     const IndexAPI = require('./IndexAPI')
-    const extensionJson = require('./extension-json')
 
     const api = new IndexAPI({
       extId: this.extId,
-      prompts: extensionJson.get(this.extId),
+      prompts: extensionJson.getPrompts(this.extId),
       ctx
     })
 
     log(`Running "${this.extId}" Quasar App Extension...`)
-    await script(api, ctx)
+    await script(api)
 
     return api.__getHooks()
   }
@@ -158,14 +257,13 @@ module.exports = class Extension {
 
   __installPackage () {
     const
-      spawn = require('../helpers/spawn'),
       nodePackager = require('../helpers/node-packager'),
       cmdParam = nodePackager === 'npm'
         ? ['install', '--save-dev']
         : ['add', '--dev']
 
     log(`Retrieving "${this.packageFullName}"...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam.concat(this.packageFullName),
       appPaths.appDir,
@@ -175,14 +273,13 @@ module.exports = class Extension {
 
   __uninstallPackage () {
     const
-      spawn = require('../helpers/spawn'),
       nodePackager = require('../helpers/node-packager'),
       cmdParam = nodePackager === 'npm'
         ? ['uninstall', '--save-dev']
         : ['remove']
 
     log(`Uninstalling "${this.packageName}"...`)
-    spawn.sync(
+    spawnSync(
       nodePackager,
       cmdParam.concat(this.packageName),
       appPaths.appDir,
@@ -194,7 +291,7 @@ module.exports = class Extension {
     let script
 
     try {
-      script = require.resolve(this.packageName + '/' + scriptName, {
+      script = require.resolve(this.packageName + '/src/' + scriptName, {
         paths: [ appPaths.appDir ]
       })
     }
@@ -228,16 +325,23 @@ module.exports = class Extension {
 
     await script(api)
 
+    const hooks = api.__getHooks()
+
+    if (hooks.renderFolders.length > 0) {
+      for (let entry of hooks.renderFolders) {
+        await renderFolders(entry)
+      }
+    }
+
     if (api.__needsNodeModulesUpdate) {
       const
-        spawn = require('../helpers/spawn'),
         nodePackager = require('../helpers/node-packager'),
         cmdParam = nodePackager === 'npm'
           ? ['install']
           : []
 
       log(`Updating dependencies...`)
-      spawn.sync(
+      spawnSync(
         nodePackager,
         cmdParam,
         appPaths.appDir,
@@ -245,7 +349,7 @@ module.exports = class Extension {
       )
     }
 
-    return api.__getHooks()
+    return hooks
   }
 
   async __runUninstallScript (prompts) {

@@ -1,5 +1,10 @@
 ---
 title: Tabs
+related:
+  - /vue-components/tab-panels
+  - /vue-components/button-toggle
+  - /vue-components/icon
+  - /vue-components/badge
 ---
 Tabs are a way of displaying more information using less window real estate. This page describes the tab selection part through QTabs, QTab and QRouteTab.
 
@@ -26,6 +31,8 @@ QTabs can be scrolled horizontally when the width is longer than the container w
 
 <doc-example title="Basic" file="QTabs/Basic" />
 
+<doc-example title="Vertical (example with QSplitter)" file="QTabs/Vertical" />
+
 <doc-example title="Dense" file="QTabs/Dense" />
 
 <doc-example title="Individual colors" file="QTabs/IndividualColor" />
@@ -45,6 +52,12 @@ QTabs are responsive and the `align` prop (see below) becomes active when the co
 In the second QTabs from the example below, if window width is below 1024px then the "Movies" and "Photos" tabs will be replaced by a "More..." dropdown.
 
 <doc-example title="With a dropdown" file="QTabs/Dropdown" />
+
+## Using along QToolbar
+
+Notice we need to specify the `shrink` prop. By default, QTabs tries to expand to all the available horizontal space, but in this case we are using it as a child of QToolbar so we don't want that.
+
+<doc-example title="Tabs in a QToolbar" file="QTabs/TabsInToolbar" />
 
 ## Using along QTabsPanel
 

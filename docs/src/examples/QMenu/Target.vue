@@ -10,20 +10,20 @@
       </div>
     </div>
     <div class="row justify-center">
-      <q-img src="https://cdn.quasar-framework.org/img/material.png" id="target-img-1" style="height: 100px">
-        <div class="absolute-bottom-right">#target-img-1</div>
+      <q-img src="https://cdn.quasar.dev/img/material.png" id="target-img-1" style="height: 100px">
+        <div class="absolute-bottom-right" style="border-top-left-radius: 5px">#target-img-11</div>
       </q-img>
-      <q-img src="https://cdn.quasar-framework.org/img/parallax2.jpg" id="target-img-2" style="height: 100px">
-        <div class="absolute-bottom-right">#target-img-2</div>
+      <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" id="target-img-2" style="height: 100px">
+        <div class="absolute-bottom-right" style="border-top-left-radius: 5px">#target-img-2</div>
       </q-img>
-      <q-img src="https://cdn.quasar-framework.org/img/blueish.jpg" style="height: 100px">
-        <div class="absolute-bottom-right">Original parent</div>
+      <q-img src="https://cdn.quasar.dev/img/blueish.jpg" style="height: 100px">
+        <div class="absolute-bottom-right" style="border-top-left-radius: 5px">Original parent</div>
         <q-menu touch-position :target="targetEl">
           <q-list>
             <q-item
               v-for="n in 5"
               :key="n"
-              v-close-menu
+              v-close-popup
               clickable
             >
               <q-item-section>Label</q-item-section>

@@ -1,0 +1,93 @@
+{
+  "props": {
+    "sent": {
+      "type": "Boolean",
+      "desc": "Render as a sent message (so from current user)",
+      "category": "content"
+    },
+
+    "label": {
+      "type": "String",
+      "desc": "Renders a label header/section only",
+      "examples": [ "Friday, 18th" ],
+      "category": "content"
+    },
+
+    "bg-color": {
+      "extends": "color",
+      "desc": "Color name (from the Quasar Color Palette) for chat bubble background",
+      "category": "style"
+    },
+
+    "text-color": {
+      "extends": "text-color",
+      "desc": "Color name (from the Quasar Color Palette) for chat bubble text",
+      "category": "style"
+    },
+
+    "name": {
+      "type": "String",
+      "desc": "Author's name",
+      "examples": [ "John Doe" ],
+      "category": "content"
+    },
+
+    "avatar": {
+      "type": "String",
+      "desc": "URL to the avatar image of the author; Suggestion: use a static resource",
+      "examples": [ "statics/boy-avatar.png", "statics/linux-avatar.png" ],
+      "category": "content"
+    },
+
+    "text": {
+      "type": "String",
+      "desc": "Array of strings that are the message body. Strings are not sanitized (see details in docs)",
+      "examples": [ ":text=\"['How are you?']\"", ":text=\"['I\\'m good, thank you!', 'And you?']\"" ],
+      "category": "content"
+    },
+
+    "stamp": {
+      "type": "String",
+      "desc": "Creation timestamp",
+      "examples": [ "13:55", "Yesterday at 13:51" ],
+      "category": "content"
+    },
+
+    "size": {
+      "type": "String",
+      "desc": "1-12 out of 12 (same as col-*)",
+      "examples": [ "4", "6", "12" ],
+      "category": "style"
+    },
+
+    "label-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render label; Use it when the label might be unsafe (from user input)"
+    },
+
+    "name-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render name; Use it when the name might be unsafe (from user input)"
+    },
+
+    "text-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)"
+    },
+
+    "stamp-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render stamp; Use it when the stamp might be unsafe (from user input)"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "You can use this slot to define a custom message (overrides props)"
+    },
+
+    "avatar": {
+      "desc": "Slot for avatar; Suggestion: QAvatar, img"
+    }
+  }
+}

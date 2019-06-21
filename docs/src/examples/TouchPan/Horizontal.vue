@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
-      v-touch-pan.horizontal.prevent="handlePan"
+      v-touch-pan.horizontal.prevent.mouse="handlePan"
       class="custom-area cursor-pointer bg-primary text-white shadow-2 relative-position row flex-center"
     >
       <div v-if="info" class="custom-info">
@@ -49,12 +49,13 @@ export default {
 
 <style lang="stylus" scoped>
 .custom-area
-  width 80%
-  height 450px
+  width 90%
+  height 480px
   border-radius 3px
+  padding 8px
 
 .custom-info pre
-  width 250px
+  width 180px
   font-size 12px
 
 .touch-signal

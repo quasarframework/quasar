@@ -1,0 +1,108 @@
+{
+  "mixins": [ "components/datetime/datetime-mixin" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "value": {
+      "extends": "value",
+      "required": true,
+      "desc": "Time of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [
+        "v-model=\"currentTime\""
+      ],
+      "category": "model"
+    },
+
+    "format24h": {
+      "type": "Boolean",
+      "desc": "Forces 24 hour time display instead of AM/PM system",
+      "default": "(based on Quasar lang language being used)",
+      "category": "behavior"
+    },
+
+    "mask": {
+      "default": "HH:mm",
+      "examples": [ "HH:mm:ss", "YYYY-MM-DD HH:mm:ss", "HH:mm MMMM Do, YYYY" ]
+    },
+
+    "options": {
+      "type": "Function",
+      "desc": "Optionally configure what time is the user allowed to set; Overriden by 'hour-options', 'minute-options' and 'second-options' if those are set",
+      "params": {
+        "hr": {
+          "type": "Number",
+          "desc": "Hour",
+          "examples": [ 15 ]
+        },
+        "min": {
+          "type": "Number",
+          "desc": "Minutes",
+          "examples": [ 38 ]
+        },
+        "sec": {
+          "type": "Number",
+          "desc": "Seconds",
+          "examples": [ 12 ]
+        }
+      },
+      "returns": null,
+      "examples": [
+        ":options=\"(hr, min, sec) => hr <= 6\""
+      ],
+      "category": "behavior"
+    },
+
+    "hour-options": {
+      "type": "Array",
+      "desc": "Optionally configure what hours is the user allowed to set; Overrides 'options' prop if that is also set",
+      "examples": [
+        ":hour-options=\"[3, 6, 9]\""
+      ],
+      "category": "behavior"
+    },
+
+    "minute-options": {
+      "type": "Array",
+      "desc": "Optionally configure what minutes is the user allowed to set; Overrides 'options' prop if that is also set",
+      "examples": [
+        ":minute-options=\"[0, 15, 30, 45]\""
+      ],
+      "category": "behavior"
+    },
+
+    "second-options": {
+      "type": "Array",
+      "desc": "Optionally configure what seconds is the user allowed to set; Overrides 'options' prop if that is also set",
+      "examples": [
+        ":second-options=\"[0, 7, 10, 23]\""
+      ],
+      "category": "behavior"
+    },
+
+    "with-seconds": {
+      "type": "Boolean",
+      "desc": "Allow the time to be set with seconds",
+      "category": "model|behavior"
+    },
+
+    "now-btn": {
+      "type": "Boolean",
+      "desc": "Display a button that selects the current time",
+      "category": "content"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input",
+      "params": {
+        "value": {
+          "type": "String"
+        }
+      }
+    }
+  }
+}

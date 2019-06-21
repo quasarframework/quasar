@@ -1,5 +1,4 @@
 const
-  appPaths = require('../../app-paths'),
   injectHtml = require('../inject.html'),
   injectClientSpecifics = require('../inject.client-specifics'),
   injectHotUpdate = require('../inject.hot-update')

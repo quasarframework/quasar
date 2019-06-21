@@ -12,7 +12,7 @@
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
@@ -34,6 +34,8 @@
           header-nav
           flat
           bordered
+          alternative-labels
+          :contracted="isContracted"
           color="secondary"
           v-model="step"
           ref="stepper"
@@ -167,7 +169,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -196,7 +198,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -225,7 +227,7 @@
                       map-options
                       emit-value
                       :options="drawerBehaviorOptions"
-
+                      options-cover
                       style="width: 145px"
                     />
                   </q-item-section>
@@ -241,7 +243,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -270,7 +272,7 @@
                       map-options
                       emit-value
                       :options="drawerBehaviorOptions"
-
+                      options-cover
                       style="width: 145px"
                     />
                   </q-item-section>
@@ -286,7 +288,7 @@
                       map-options
                       emit-value
                       :options="sepOptions"
-
+                      options-cover
                       style="width: 100px"
                     />
                   </q-item-section>
@@ -305,11 +307,19 @@
             </div>
           </q-step>
 
-          <q-stepper-navigation slot="navigation">
-            <q-separator spaced />
-            <q-btn v-if="step !== 'play'" color="primary" class="q-mr-sm" @click="$refs.stepper.next()" label="Continue" />
-            <q-btn color="black" label="Export Layout" @click="exportDialog = true" />
-          </q-stepper-navigation>
+          <template v-slot:navigation>
+            <q-stepper-navigation>
+              <q-separator spaced />
+              <div class="row q-col-gutter-sm">
+                <div v-if="step !== 'play'" class="col-12 col-sm-auto">
+                  <q-btn class="full-width" color="primary" @click="$refs.stepper.next()" label="Continue" />
+                </div>
+                <div class="col-12 col-sm-auto">
+                  <q-btn class="full-width" color="black" label="Export Layout" @click="exportDialog = true" />
+                </div>
+              </div>
+            </q-stepper-navigation>
+          </template>
         </q-stepper>
 
         <q-dialog v-model="exportDialog">
@@ -321,7 +331,7 @@
             <q-separator />
 
             <q-card-actions align="right">
-              <q-btn color="primary" flat label="Close" v-close-dialog />
+              <q-btn color="primary" flat label="Close" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -335,6 +345,7 @@
       :overlay="cfg.leftOverlay"
       :elevated="cfg.leftSep === 'elevated'"
       :bordered="cfg.leftSep === 'bordered'"
+      :breakpoint="1023"
     >
       <q-scroll-area class="fit">
         <q-item-label header>Left Drawer</q-item-label>
@@ -354,6 +365,7 @@
       :overlay="cfg.rightOverlay"
       :elevated="cfg.rightSep === 'elevated'"
       :bordered="cfg.rightSep === 'bordered'"
+      :breakpoint="1023"
     >
       <q-scroll-area style="height: calc(100% - 204px); margin-top: 204px">
         <q-item-label header>Right Drawer</q-item-label>
@@ -364,10 +376,10 @@
         </div>
       </q-scroll-area>
 
-      <q-img class="absolute-top" src="https://cdn.quasar-framework.org/img/material.png" style="height: 204px">
+      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           <div class="text-weight-bold">Razvan Stoenescu</div>
           <div>@rstoenescu</div>
@@ -461,6 +473,10 @@ export default {
   },
 
   computed: {
+    isContracted () {
+      return this.$q.screen.lt.sm || (this.$q.screen.md && this.play.left && this.play.right)
+    },
+
     bgTopL () {
       return this.topL === 'h' ? 'bg-primary' : 'bg-orange'
     },
@@ -499,7 +515,7 @@ export default {
 ` : ''}
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${this.pick.right ? `
@@ -524,7 +540,7 @@ export default {
 `
       }
 
-      if (this.pick.left) {
+      if (this.pick.right) {
         code += `
     <q-drawer v-model="right" side="right"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
       <!-- drawer content -->
@@ -544,7 +560,7 @@ export default {
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>

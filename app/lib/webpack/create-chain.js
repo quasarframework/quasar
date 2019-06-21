@@ -3,7 +3,8 @@ const
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
-  WebpackProgress = require('./plugin.progress')
+  WebpackProgress = require('./plugin.progress'),
+  BootDefaultExport = require('./plugin.boot-default-export')
 
 const
   appPaths = require('../app-paths'),
@@ -53,14 +54,7 @@ module.exports = function (cfg, configName) {
       layouts: appPaths.resolve.src(`layouts`),
       pages: appPaths.resolve.src(`pages`),
       assets: appPaths.resolve.src(`assets`),
-      boot: appPaths.resolve.src(`boot`),
-      'quasar-variables': appPaths.resolve.app(`.quasar/app.quasar-variables.styl`),
-
-      // CLI/App using this one:
-      'quasar-styl': appPaths.resolve.app(`.quasar/app.quasar.styl`),
-      'quasar-addon-styl': cfg.framework.cssAddon
-        ? `quasar/src/css/flex-addon.styl`
-        : appPaths.resolve.app(`.quasar/empty.styl`)
+      boot: appPaths.resolve.src(`boot`)
     })
 
   if (cfg.framework.all === true) {
@@ -101,6 +95,19 @@ module.exports = function (cfg, configName) {
           return false
         }
 
+        if (filepath.match(/[\\/]node_modules[\\/]quasar[\\/]/)) {
+          if (configName === 'Server') {
+            // transpile only if not from 'quasar/dist' folder
+            if (!filepath.match(/[\\/]node_modules[\\/]quasar[\\/]dist/)) {
+              return false
+            }
+          }
+          else {
+            // always transpile Quasar
+            return false
+          }
+        }
+
         if (cfg.build.transpileDependencies.some(dep => filepath.match(dep))) {
           return false
         }
@@ -113,7 +120,7 @@ module.exports = function (cfg, configName) {
       .loader('babel-loader')
         .options({
           extends: appPaths.resolve.app('babel.config.js'),
-          plugins: cfg.framework.all !== true ? [
+          plugins: cfg.framework.all !== true && configName !== 'Server' ? [
             [
               'transform-imports', {
                 quasar: {
@@ -156,9 +163,11 @@ module.exports = function (cfg, configName) {
     rtl: cfg.build.rtl,
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
-    minify: cfg.build.minify
-      ? !cfg.build.extractCSS
-      : false
+    minify: cfg.build.minify,
+    stylusLoaderOptions: cfg.build.stylusLoaderOptions,
+    sassLoaderOptions: cfg.build.sassLoaderOptions,
+    scssLoaderOptions: cfg.build.scssLoaderOptions,
+    lessLoaderOptions: cfg.build.lessLoaderOptions
   })
 
   chain.plugin('vue-loader')
@@ -171,6 +180,9 @@ module.exports = function (cfg, configName) {
     chain.plugin('progress')
       .use(WebpackProgress, [{ name: configName }])
   }
+
+  chain.plugin('boot-default-export')
+    .use(BootDefaultExport)
 
   chain.performance
     .hints(false)
@@ -225,11 +237,11 @@ module.exports = function (cfg, configName) {
               chunks: 'initial',
               priority: -10,
               // a module is extracted into the vendor chunk if...
-              test: add || rem
+              test: add.length > 0 || rem.length > 0
                 ? module => {
                   if (module.resource) {
-                    if (add && add.test(module.resource)) { return true }
-                    if (rem && rem.test(module.resource)) { return false }
+                    if (add.length > 0 && add.test(module.resource)) { return true }
+                    if (rem.length > 0 && rem.test(module.resource)) { return false }
                   }
                   return regex.test(module.resource)
                 }
@@ -271,7 +283,7 @@ module.exports = function (cfg, configName) {
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer
-      chain.optimization.minimizer.clear()
+      chain.optimization.minimizers.delete('js')
     }
     else if (cfg.build.minify) {
       const TerserPlugin = require('terser-webpack-plugin')
@@ -302,8 +314,7 @@ module.exports = function (cfg, configName) {
 
         const cssProcessorOptions = {
           parser: require('postcss-safe-parser'),
-          autoprefixer: { disable: true },
-          mergeLonghand: false
+          autoprefixer: { disable: true }
         }
         if (cfg.build.sourceMap) {
           cssProcessorOptions.map = { inline: false }
@@ -315,7 +326,14 @@ module.exports = function (cfg, configName) {
           .use(OptimizeCSSPlugin, [{
             canPrint: false,
             cssProcessor: require('cssnano'),
-            cssProcessorOptions
+            cssProcessorOptions,
+            cssProcessorPluginOptions: {
+              preset: ['default', {
+                mergeLonghand: false,
+                cssDeclarationSorter: false,
+                reduceTransforms: false
+              }]
+            }
           }])
       }
     }

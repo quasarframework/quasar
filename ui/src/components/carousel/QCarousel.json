@@ -1,0 +1,82 @@
+{
+  "mixins": [ "mixins/panel-parent", "mixins/fullscreen" ],
+
+  "props": {
+    "transition-prev": {
+      "default": "fade",
+      "category": "behavior"
+    },
+
+    "transition-next": {
+      "default": "fade",
+      "category": "behavior"
+    },
+
+    "height": {
+      "extends": "size",
+      "desc": "Height of Carousel in CSS units, including unit name"
+    },
+
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a default padding to each slide, according to the usage of 'arrows' and 'navigation' props",
+      "category": "content"
+    },
+
+    "control-color": {
+      "extends": "color"
+    },
+
+    "autoplay": {
+      "type": [ "Number", "Boolean" ],
+      "desc": "Jump to next slide at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
+      "default": false,
+      "examples": [
+        ":autoplay=\"2500\"",
+        true,
+        false
+      ],
+      "category": "behavior"
+    },
+
+    "arrows": {
+      "type": "Boolean",
+      "desc": "Show navigation arrow buttons",
+      "category": "content"
+    },
+
+    "prev-icon": {
+      "extends": "icon"
+    },
+
+    "next-icon": {
+      "extends": "icon"
+    },
+
+    "navigation": {
+      "type": "Boolean",
+      "desc": "Show navigation dots",
+      "category": "content"
+    },
+
+    "navigation-icon": {
+      "extends": "icon"
+    },
+
+    "thumbnails": {
+      "type": "Boolean",
+      "desc": "Show thumbnails",
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QCarouselSlide"
+    },
+
+    "control": {
+      "desc": "Slot specific for QCarouselControl"
+    }
+  }
+}

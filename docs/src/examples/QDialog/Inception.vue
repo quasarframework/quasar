@@ -14,7 +14,7 @@
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Open another dialog" @click="secondDialog = true" />
-          <q-btn flat label="Close" v-close-dialog />
+          <q-btn flat label="Close" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -30,7 +30,7 @@
         </q-card-section>
 
         <q-card-actions align="right" class="bg-white text-teal">
-          <q-btn flat label="OK" v-close-dialog />
+          <q-btn flat label="OK" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>

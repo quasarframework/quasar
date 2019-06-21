@@ -4,7 +4,7 @@
     <q-input
       filled
       color="teal"
-      hint="Type Enter above"
+      hint="Type then hit Enter key above"
       v-model="test"
     />
 
@@ -16,12 +16,13 @@
       <q-btn
         type="submit"
         :loading="submitting"
-        @click="simulateSubmit"
         label="Save"
         class="q-mt-md"
         color="teal"
       >
-        <q-spinner-facebook slot="loading" />
+        <template v-slot:loading>
+          <q-spinner-facebook />
+        </template>
       </q-btn>
     </div>
   </form>

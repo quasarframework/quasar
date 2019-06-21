@@ -1,5 +1,7 @@
 ---
 title: Tab Panels
+related:
+  - /vue-components/tabs
 ---
 Tab panels are a way of displaying more information using less window real estate.
 
@@ -18,6 +20,10 @@ Works great along with [QTabs](/vue-components/tabs), a component which offers a
 
 ::: warning IMPORTANT
 Do not be mistaken by the "QTabPanels" component name. Panels do not require QTabs. They can be used as standalone too.
+:::
+
+::: danger
+Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
 :::
 
 <doc-example title="Basic" file="QTabPanels/Basic" />

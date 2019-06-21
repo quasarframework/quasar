@@ -2,6 +2,9 @@
 title: Cordova Troubleshooting and Tips
 ---
 
+## $q.cordova
+While you are developing a Mobile App with Cordova Mode, you can access `this.$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
+
 ## Browser Simulator
 Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You can select which device to emulate, but keep in mind that it's an *emulator* and not the real deal.
 
@@ -9,17 +12,30 @@ Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You ca
 If you change from desktop to mobile emulator or backwards, hit the refresh button as Quasar Platform detection is not dynamic (nor it should be).
 :::
 
-![Google Chrome emulator](https://cdn.quasar-framework.org/img/browser-simulator.png "Google Chrome emulator")
+![Google Chrome emulator](https://cdn.quasar.dev/img/browser-simulator.png "Google Chrome emulator")
 
 ## Android Tips
 
-### Remote Debugging
+### Android remote debugging
 If you are debugging Android Apps, you can use Google Chrome [Remote Debugging](https://developers.google.com/web/tools/chrome-devtools/debug/remote-debugging/remote-debugging?hl=en) through a USB cable attached to your Android phone/tablet. It can be used for emulator too.
 
 This way you have Chrome Dev Tools directly for your App running on the emulator/phone/table. Inspect elements, check console output, and so on and so forth.
 
-![Android Remote Debugging](https://cdn.quasar-framework.org/img/remote-debug.png "Android Remote Debugging")
-![Android Remote Debugging](https://cdn.quasar-framework.org/img/remote-debug-2.png "Android Remote Debugging")
+![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug.png "Android Remote Debugging")
+![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug-2.png "Android Remote Debugging")
+
+### Accept Licenses
+If you are having problems getting Android builds to finish and you see a message like:
+
+```
+> Failed to install the following Android SDK packages as some licences have not been accepted.
+```
+
+If this is the case you need to accept ALL the licenses. Thankfully there is a tool for this:
+
+Linux: `sdkmanager --licenses`
+macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
+Windows: `%ANDROID_HOME%/tools/bin/sdkmanager --licenses`
 
 ### Android SDK not found after installation of the SDK
 Some newer Debian-based OS (e.g. ubuntu, elementary OS) might leave you with a `Android SDK not found.` after you installed and (correctly) configured the environment. The output might look similar to this:
@@ -65,7 +81,7 @@ The output should contain each one entry for the Android SDK 'tools'-folder and 
 
 > If you ensured your paths are set correctly and still get the error on `cordova requirements` you can try the following fix: [Replacing the Android Studio 'tools' folder manually](https://github.com/meteor/meteor/issues/8464#issuecomment-288112504)
 
-### Setting Up Device on Linux
+### Setting up device on Linux
 
 You may bump into `?????? no permissions` problem when trying to run your App directly on an Android phone/tablet.
 
@@ -121,7 +137,32 @@ Now running `adb devices` should discover your device.
 
 ## iOS Tips
 
-### Remote Debugging
+### Device type not found
+If you get this error while running `$ quasar dev -m cordova -T ios`:
+
+```
+No target specified for emulator. Deploying to undefined simulator
+Device type "com.apple.CoreSimulator.SimDeviceType.undefined" could not be found.
+```
+
+Then it means you need to specify an emulator. Example:
+
+```bash
+$ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
+```
+
+### Enabling modern build
+By default, Xcode modern build for iOS is disabled due to Cordova issues. However, if you know what you are doing and you want to enable it, do so from `/quasar.conf.js`:
+
+```js
+cordova: {
+  noIosLegacyBuildFlag: true
+}
+```
+
+The above applies also if you want to specify the build type in your "build.json".
+
+### iOS remote debugging
 If you are debugging iOS Apps, you can use the Safari developer tools to remotely debug through a USB cable attached to your iOS phone/tablet. It can be used for emulator too.
 
 This way you have Safari developer tools directly for your App running on the emulator/phone/table. Inspect elements, check console output, and so on and so forth.

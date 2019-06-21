@@ -9,11 +9,13 @@ To generate a release build for Android, we can use the following Quasar CLI com
 
 ```bash
 $ quasar build -m cordova -T android
+# or the short form:
+$ quasar build -m android
 ```
 
 This will generate a release build based on the settings in your `/src-cordova/config.xml`.
 
-Next, we can find our unsigned APK file in `/src-cordova/platforms/android/build/outputs/apk`. Filename usually ends with "-release-unsigned.apk". Now, we need to sign the unsigned APK and run an alignment utility on it to optimize it and prepare it for the app store. If you already have a signing key, skip these steps and use that one instead.
+Next, we can find our unsigned APK file in "/src-cordova/platforms/android/app/build/outputs/apk/release" or equivalent path (written in the output of terminal). Filename usually ends with "-release-unsigned.apk". Now, we need to sign the unsigned APK and run an alignment utility on it to optimize it and prepare it for the app store. If you already have a signing key, skip these steps and use that one instead.
 
 Let’s generate our private key using the keytool command that comes with the JDK. If this tool isn’t found, refer to the installation guide:
 
@@ -97,7 +99,9 @@ You can learn more about managing your app in iTunes Connect from the [official 
 ### Building the app for production
 
 ```bash
-$ quasar build -m cordova -T [android|ios]
+$ quasar build -m cordova -T ios
+# or the short form:
+$ quasar build -m ios
 ```
 
 If everything went well you’ll see the `BUILD SUCCEEDED` output in the console.

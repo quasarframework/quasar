@@ -1,0 +1,99 @@
+{
+  "mixins": [ "mixins/panel-parent" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "dark": {
+      "extends": "dark"
+    },
+
+    "flat": {
+      "extends": "flat"
+    },
+
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Put Stepper in vertical mode (instead of horizontal by default)",
+      "category": "behavior"
+    },
+
+    "alternative-labels": {
+      "type": "Boolean",
+      "desc": "Use alternative labels (applies only to horizontal stepper)",
+      "category": "header"
+    },
+
+    "header-nav": {
+      "type": "Boolean",
+      "desc": "Allow navigation through the header",
+      "category": "behavior"
+    },
+
+    "contracted": {
+      "type": "Boolean",
+      "desc": "Hide header labels on narrow windows",
+      "category": "header|behavior"
+    },
+
+    "inactive-icon": {
+      "extends": "icon",
+      "category": "header"
+    },
+
+    "inactive-color": {
+      "extends": "color",
+      "category": "header"
+    },
+
+    "done-icon": {
+      "extends": "icon",
+      "category": "header"
+    },
+
+    "done-color": {
+      "extends": "color",
+      "category": "header"
+    },
+
+    "active-icon": {
+      "extends": "icon",
+      "category": "header"
+    },
+
+    "active-color": {
+      "extends": "color",
+      "category": "header"
+    },
+
+    "error-icon": {
+      "extends": "icon",
+      "category": "header"
+    },
+
+    "error-color": {
+      "extends": "color",
+      "category": "header"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QStep"
+    },
+
+    "navigation": {
+      "desc": "Slot specific for the global navigation; Suggestion: QStepperNavigation"
+    },
+
+    "message": {
+      "desc": "Slot specific for putting a message on top of each step (if horizontal stepper) or above steps (if vertical); Suggestion: QBanner, div.q-pa-lg"
+    }
+  }
+}

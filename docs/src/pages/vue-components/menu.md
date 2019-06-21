@@ -1,20 +1,24 @@
 ---
 title: QMenu
+related:
+  - /vue-directives/close-popup
+  - /options/transitions
+  - /vue-components/popup-proxy
 components:
   - menu/MenuPositioning
 ---
 
-The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/lists-and-list-items) as dropdown content, but it's by no means limited to it.
+The QMenu component is a convenient way to show menus. Goes very well with [QList](/vue-components/list-and-list-items) as dropdown content, but it's by no means limited to it.
 
 ## Installation
-<doc-installation components="QMenu" directives="CloseMenu" />
+<doc-installation components="QMenu" directives="ClosePopup" />
 
 ## Usage
 
 The idea with QMenu is to place it inside your DOM element / component that you want to be the trigger as direct child. Don’t worry about QMenu content inheriting CSS from the container as the QMenu will be injected as a direct child of `<body>` through a Quasar Portal.
 
 ::: tip
-Don't forget to use the directive `v-close-menu` in your clickable menu items if you want the menu to close automatically.
+Don't forget to use the directive `v-close-popup` in your clickable menu items if you want the menu to close automatically.
 Alternatively, you can use the QMenu's property `auto-close` or handle closing the menu yourself through its v-model.
 :::
 

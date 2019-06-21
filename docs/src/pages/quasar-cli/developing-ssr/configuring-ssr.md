@@ -1,5 +1,7 @@
 ---
 title: Configuring SSR
+related:
+  - /quasar-cli/quasar-conf-js
 ---
 
 We’ll be using Quasar CLI to develop and build a SSR website. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the “mode” parameter in “quasar dev” and “quasar build” commands.
@@ -7,7 +9,7 @@ We’ll be using Quasar CLI to develop and build a SSR website. The difference b
 ## Installation
 In order to build a SSR website, we first need to add the SSR mode to our Quasar project:
 ```bash
-$ quasar mode -a ssr
+$ quasar mode add ssr
 ```
 
 If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
@@ -40,7 +42,7 @@ build: {
 }
 ```
 
-If you want more information, please see this page that goes into more detail about [extending webpack](/quasar-cli/cli-documentation/quasar-conf-js#Extending-Webpack-Config-Object) in the `quasar.conf.js` file.
+If you want more information, please see this page that goes into more detail about [extending webpack](/quasar-cli/quasar-conf-js#Extending-Webpack-Config-Object) in the `quasar.conf.js` file.
 
 ## Nodejs Server
 Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files which define your production Node webserver:
@@ -58,7 +60,7 @@ Notice a few things:
 1. These files run in a Node context (they are NOT transpiled by Babel), so use only the ES6 features that are supported by your Node version. (https://node.green/)
 
 2. All content of this folder will be copied as is to the output folder. So only import:
-  - node_modules (and yarn/npm install your dependencies -- NOT as devDependecies though)
+  - node_modules (and yarn install your dependencies -- NOT as devDependecies though)
   - create files in this folder and import only those with the relative path
 
 3. Do not change the names of these two files. You can however add any additional files that you may need. Just take into consideration that if you want common configuration of the Node webserver for both production & development, you need to add that to `/src-ssr/extension.js` file.
@@ -77,7 +79,7 @@ However, there are cases where you only want some boot files to run only on the 
 // quasar.conf.js
 return {
   // ...
-  plugins: [
+  boot: [
     'some-boot-file', // runs on both server and client
     { path: 'some-other', server: false } // this boot file gets embedded only on client-side
     { path: 'third', client: false } // this boot file gets embedded only on server-side

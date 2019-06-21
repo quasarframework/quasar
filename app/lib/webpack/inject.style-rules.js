@@ -1,10 +1,13 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
 
 const
+  { join } = require('path'),
   appPaths = require('../app-paths'),
   postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
 
-function injectRule ({ chain, pref }, lang, test, loader, options) {
+const QuasarStylusVariablesLoader = join(__dirname, 'loader.quasar-stylus-variables')
+
+function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
 
   // rules for <style lang="module">
@@ -33,14 +36,19 @@ function injectRule ({ chain, pref }, lang, test, loader, options) {
     }
 
     const cssLoaderOptions = {
-      importLoaders: 2 + (loader ? 1 : 0),
+      importLoaders:
+        1 + // stylePostLoader injected by vue-loader
+        1 + // postCSS loader
+        (!pref.extract && pref.minify ? 1 : 0) + // postCSS with cssnano
+        (loader ? (loader === 'stylus-loader' ? 2 : 1) : 0),
       sourceMap: pref.sourceMap
     }
 
     if (modules) {
       Object.assign(cssLoaderOptions, {
-        modules,
-        localIdentName: '[name]_[local]_[hash:base64:5]'
+        modules: {
+          localIdentName: '[name]_[local]_[hash:base64:5]'
+        }
       })
     }
 
@@ -48,18 +56,30 @@ function injectRule ({ chain, pref }, lang, test, loader, options) {
       .loader('css-loader')
       .options(cssLoaderOptions)
 
-    const
-      postCssOpts = Object.assign({ sourceMap: pref.sourceMap }, postCssConfig),
-      rtlOptions = pref.rtl === true ? {} : pref.rtl
-
-    if (pref.rtl || pref.minify) {
-      pref.rtl && postCssOpts.plugins.push(
-        require('postcss-rtl')(rtlOptions)
-      )
-      pref.minify && postCssOpts.plugins.push(
-        require('cssnano')
-      )
+    if (!pref.extract && pref.minify) {
+      // needs to be applied separately,
+      // otherwise it messes up RTL
+      rule.use('cssnano')
+        .loader('postcss-loader')
+        .options({
+          sourceMap: pref.sourceMap,
+          plugins: [
+            require('cssnano')({
+              preset: ['default', {
+                mergeLonghand: false,
+                cssDeclarationSorter: false,
+                reduceTransforms: false
+              }]
+            })
+          ]
+        })
     }
+
+    const postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
+
+    pref.rtl && postCssOpts.plugins.push(
+      require('postcss-rtl')(pref.rtl === true ? {} : pref.rtl)
+    )
 
     rule.use('postcss-loader')
       .loader('postcss-loader')
@@ -68,27 +88,29 @@ function injectRule ({ chain, pref }, lang, test, loader, options) {
     if (loader) {
       rule.use(loader)
         .loader(loader)
-        .options(Object.assign(
-          { sourceMap: pref.sourceMap },
-          options
-        ))
+        .options({
+          sourceMap: pref.sourceMap,
+          ...loaderOptions
+        })
+
+      if (loader === 'stylus-loader') {
+        rule.use('quasar-stylus-variables-loader')
+          .loader(QuasarStylusVariablesLoader)
+      }
     }
   }
 }
 
-module.exports = function (chain, options) {
-  const meta = {
-    chain,
-    pref: options
-  }
-
-  injectRule(meta, 'css', /\.css$/)
-  injectRule(meta, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
-    preferPathResolver: 'webpack'
+module.exports = function (chain, pref) {
+  injectRule(chain, pref, 'css', /\.css$/)
+  injectRule(chain, pref, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
+    preferPathResolver: 'webpack',
+    ...pref.stylusLoaderOptions
   })
-  injectRule(meta, 'scss', /\.scss$/, 'sass-loader')
-  injectRule(meta, 'sass', /\.sass$/, 'sass-loader', {
-    indentedSyntax: true
+  injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', pref.scssLoaderOptions)
+  injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', {
+    indentedSyntax: true,
+    ...pref.sassLoaderOptions
   })
-  injectRule(meta, 'less', /\.less$/, 'less-loader')
+  injectRule(chain, pref, 'less', /\.less$/, 'less-loader', pref.lessLoaderOptions)
 }

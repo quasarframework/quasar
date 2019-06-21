@@ -1,0 +1,44 @@
+export default {
+  name: 'close-popup',
+
+  bind (el, { value }, vnode) {
+    const ctx = {
+      enabled: value !== false,
+
+      handler (evt) {
+        // allow @click to be emitted
+        ctx.enabled !== false && setTimeout(() => {
+          const vm = (vnode.componentInstance || vnode.context).$root
+          vm.__qClosePopup !== void 0 && vm.__qClosePopup(evt)
+        })
+      },
+
+      handlerKey (evt) {
+        evt.keyCode === 13 && ctx.handler(evt)
+      }
+    }
+
+    if (el.__qclosepopup !== void 0) {
+      el.__qclosepopup_old = el.__qclosepopup
+    }
+
+    el.__qclosepopup = ctx
+    el.addEventListener('click', ctx.handler)
+    el.addEventListener('keyup', ctx.handlerKey)
+  },
+
+  update (el, { value }) {
+    if (el.__qclosepopup !== void 0) {
+      el.__qclosepopup.enabled = value !== false
+    }
+  },
+
+  unbind (el) {
+    const ctx = el.__qclosepopup_old || el.__qclosepopup
+    if (ctx !== void 0) {
+      el.removeEventListener('click', ctx.handler)
+      el.removeEventListener('keyup', ctx.handlerKey)
+      delete el[el.__qclosepopup_old ? '__qclosepopup_old' : '__qclosepopup']
+    }
+  }
+}

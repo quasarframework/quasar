@@ -2,6 +2,7 @@ const
   fs = require('fs'),
   logger = require('../helpers/logger'),
   log = logger('app:extension-manager'),
+  warn = logger('app:extension-manager', 'red'),
   chalk = require('chalk'),
   appPaths = require('../app-paths')
 
@@ -9,11 +10,18 @@ const extensionPath = appPaths.resolve.app('quasar.extensions.json')
 
 class ExtensionJson {
   constructor () {
+    if (!fs.existsSync(extensionPath)) {
+      this.extensions = {}
+      return
+    }
+
     try {
       this.extensions = require(extensionPath)
     }
     catch (e) {
-      this.extensions = {}
+      console.log(e)
+      warn(`⚠️  [FAIL] quasar.extensions.json is malformed`)
+      process.exit(1)
     }
   }
 
@@ -28,8 +36,8 @@ class ExtensionJson {
     log()
 
     for (let ext in this.extensions) {
-      console.log(' Extension name: ' + chalk.green(ext))
-      console.log(' Extension prompts: ' + JSON.stringify(this.extensions[ext], null, 2))
+      console.log('Extension name: ' + chalk.green(ext))
+      console.log('Extension prompts: ' + JSON.stringify(this.extensions[ext], null, 2))
       console.log()
     }
   }
@@ -38,15 +46,21 @@ class ExtensionJson {
     return this.extensions
   }
 
-  add (extId, opts) {
-    log(`Adding "${extId}" extension prompts to /quasar.extensions.json ...`)
+  set (extId, opts) {
+    log(`Updating /quasar.extensions.json for "${extId}" extension ...`)
     this.extensions[extId] = opts
     this.__save()
   }
 
+  setInternal (extId, opts) {
+    const cfg = this.get(extId)
+    cfg.__internal = opts
+    this.set(extId, cfg)
+  }
+
   remove (extId) {
     if (this.has(extId)) {
-      log(`Removing "${extId}" extension prompts from /quasar.extensions.json ...`)
+      log(`Removing "${extId}" extension from /quasar.extensions.json ...`)
       delete this.extensions[extId]
       this.__save()
     }
@@ -54,6 +68,16 @@ class ExtensionJson {
 
   get (extId) {
     return this.extensions[extId] || {}
+  }
+
+  getPrompts (extId) {
+    const { __internal, ...prompts } = this.get(extId)
+    return prompts
+  }
+
+  getInternal (extId) {
+    const cfg = this.get(extId)
+    return cfg.__internal || {}
   }
 
   has (extId) {

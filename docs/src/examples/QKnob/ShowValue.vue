@@ -59,7 +59,7 @@
       track-color="grey-3"
     >
       <q-avatar size="60px">
-        <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+        <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
       </q-avatar>
     </q-knob>
   </div>

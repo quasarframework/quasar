@@ -31,6 +31,11 @@ Quasar has some smart algorithms behind the curtains which ensure that no matter
 <img src="/statics/logo.png">
 ```
 
+::: tip Assets vs Statics
+Files in the "assets" folder are only included in your build if they have a literal reference in one of your Vue files.
+Every file and folder from the "statics" folder are copied into your production build as-is, no matter what.
+:::
+
 ## Vue Binding Requires Statics Only
 Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the statics folder. The reason is simple: the URL is dynamic, so Webpack (which packs up assets at compile time) doesn't know which file you'll be referencing at runtime, so it won't process the URL.
 
@@ -55,7 +60,7 @@ export default {
 </script>
 ```
 
-You can force serving static assets by binding `src` to a value with Vue. Instead of `src="statics/path/to/image"` use `:src="'statics/path/to/image'"`. Please note the usage of single and double quotes.
+You can force serving static assets by binding `src` to a value with Vue. Instead of `src="statics/path/to/image"` use `:src=" 'statics/path/to/image' "` or `:src="imageSrc"`. Please note the usage of single quotes within double quotes on the second code example (spaces have been added to see this visually on the documentation website - normally you would not have the spaces).
 
 ## Getting Asset Paths in JavaScript
 

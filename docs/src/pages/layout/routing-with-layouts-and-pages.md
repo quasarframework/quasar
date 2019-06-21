@@ -9,7 +9,7 @@ To make it more clear, let's take an example. We have one layout ('user') and tw
 
 ## Creating Files
 
-**Quasar does not enforce a specific folder structure**. The following is just an example. You can put layouts and pages together in a folder, or put pages in your specific folder structure of choice, or create your own layout and page folders. It doesn't matter for Quasar. All it matters is that you reference them correctly in `/src/router/routes.js`.
+**Quasar does not enforce a specific folder structure**. The following is just an example. You can put layouts and pages together in a folder, or put pages in your specific folder structure of choice, or create your own layout and page folders. It doesn't matter for Quasar. All that matters is that you reference them correctly in `/src/router/routes.js`.
 
 Let's create the layout and page files. You can use a helper command of Quasar CLI or simply create them yourself.
 

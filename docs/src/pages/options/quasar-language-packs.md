@@ -1,5 +1,8 @@
 ---
 title: Quasar Language Packs
+related:
+  - /options/rtl-support
+  - /options/app-internationalization
 ---
 A Quasar Language Pack refers to the internationalization of Quasar's own components, some of which have labels.
 
@@ -10,7 +13,7 @@ It should be noted that what is described below is the internationalization of Q
 As mentioned above, some Quasar components have their own labels. When it comes to internationalization, one option is to configure labels through the label properties on each instance of Quasar components (like QTable). This is how you can customize the text to match the selected language. This however, takes time and adds unnecessary complexity to your website/app. **Instead**, you can use the Quasar Language Packs which have a number of standard label definitions translated for you, like "Cancel", "Clear", "Select", "Update", etc. No need to translate these again! And it comes out of the box.
 
 ::: tip
-For a complete list of available Quasar Languages, check [Quasar Languages on Github](https://github.com/quasarframework/quasar/tree/dev/quasar/lang).
+For a complete list of available Quasar Languages, check [Quasar Languages on GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang).
 <br><br>**If your desired language is not on that list**, then feel free to submit a PR to add it. It takes from 5 to 10 minutes at most. We kindly welcome any language!
 :::
 
@@ -64,7 +67,7 @@ Check what tags you need to include in your HTML files by generating a sample wi
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
 
 ```js
-// for when you don't specify quasar.conf > framework: 'all'
+// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
 // OTHERWISE:
 import Quasar from 'quasar'
@@ -79,7 +82,7 @@ export default async () => {
       })
   }
   catch (err) {
-    // Requested Quasar Language Pack does not exists,
+    // Requested Quasar Language Pack does not exist,
     // let's not break the app, so catching error
   }
 }
@@ -145,14 +148,14 @@ Although the Quasar Language Packs **are designed only for Quasar components int
 {{ $q.lang.label.close }}
 ```
 
-Check a Quasar Language Pack on [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/lang) to see the structure of `$q.lang`.
+Check a Quasar Language Pack on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang) to see the structure of `$q.lang`.
 
 ## Detecting Locale
 There's also a method to determine user locale which is supplied by Quasar out of the box:
 ```js
 // outside of a Vue file
 
-// for when you don't specify quasar.conf > framework: 'all'
+// for when you don't specify quasar.conf.js > framework: 'all'
 import { Quasar } from 'quasar'
 // OTHERWISE:
 import Quasar from 'quasar'

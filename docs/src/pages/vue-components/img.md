@@ -1,7 +1,10 @@
 ---
 title: QImg
+related:
+  - /vue-components/spinners
+  - /options/transitions
 ---
-The QImg component makes working with images easy and also adds a nice loading effect to it along with many other features (example: the ability to set an aspect ratio).
+The QImg component makes working with images (any picture format) easy and also adds a nice loading effect to it along with many other features (example: the ability to set an aspect ratio).
 
 ## Installation
 <doc-installation components="QImg" />

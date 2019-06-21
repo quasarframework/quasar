@@ -1,0 +1,39 @@
+{
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a default responsive page padding",
+      "category": "content"
+    },
+
+    "style-fn": {
+      "type": "Function",
+      "desc": "Override default CSS style applied to the component (sets minHeight); Function(offset: Number) => CSS props/value: Object",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Header + Footer height (in pixels)",
+          "examples": [ 152 ]
+        }
+      },
+      "returns": {
+        "type": "Object",
+        "desc": "Object with CSS properties to apply to Page DOM element",
+        "__exemption": [ "examples" ]
+      },
+      "default": "(see source code)",
+      "examples": [ "(see source code)" ],
+      "category": "style"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

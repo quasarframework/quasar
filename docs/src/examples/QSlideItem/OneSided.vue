@@ -3,12 +3,14 @@
     <q-list bordered separator>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="left" name="done" />
+        <template v-slot:left>
+          <q-icon name="done" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar-framework.org/img/avatar2.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
             </q-avatar>
           </q-item-section>
           <q-item-section>Only left action</q-item-section>
@@ -16,12 +18,14 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="right" name="alarm" />
+        <template v-slot:right>
+          <q-icon name="alarm" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar-framework.org/img/avatar3.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar3.jpg">
             </q-avatar>
           </q-item-section>
           <q-item-section>Only right action</q-item-section>
@@ -32,7 +36,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar-framework.org/img/avatar5.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar5.jpg">
             </q-avatar>
           </q-item-section>
           <q-item-section>No actions</q-item-section>

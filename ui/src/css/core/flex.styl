@@ -1,0 +1,160 @@
+fr(selector, name, i = '')
+  unquote(replace(unquote('<i>'), unquote(i), replace(unquote('<name>'), unquote(name), unquote(selector))))
+
+fe(selector, name, noProc, i = '')
+  if noProc
+    return fr(selector, name, i)
+  return unquote(join(',', fr(selector, '', i) fr(selector, name, i)))
+
+fg($name, $size)
+  $noProcNotZero = $size > 0
+  @media (min-width $size)
+    {fe('.col<name>', $name, $noProcNotZero)}
+      &, &-auto, &-grow, &-shrink
+        .row > &, .flex > &
+          width auto
+          min-width 0
+          max-width 100%
+        .column > &, .flex > &
+          height auto
+          min-height 0
+          max-height 100%
+      &
+        flex 10**4 1 0%
+      &-auto
+        flex 0 0 auto
+      &-grow
+        flex 1 0 auto
+      &-shrink
+        flex 0 1 auto
+
+    for $i in (0..$flex-cols)
+      $ic = s('%s', $i)
+      {fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
+        @extends .col{$name}-auto
+      .row
+        {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+          height auto
+          width (round($i / $flex-cols * 100, 4))%
+        if $i != 0 || $name != ''
+          {fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
+            margin-left (round($i / $flex-cols * 100, 4))%
+      .column
+        {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+          height (round($i / $flex-cols * 100, 4))%
+          width auto
+      if $size == 0
+        if $i == $flex-cols
+          .row > .col-all
+            height auto
+            flex 0 0 100%
+
+.row, .column, .flex
+  display flex
+  flex-wrap wrap
+  &.inline
+    display inline-flex
+
+.row.reverse
+  flex-direction row-reverse
+
+.column
+  flex-direction column
+  &.reverse
+    flex-direction column-reverse
+
+.wrap
+  flex-wrap wrap
+.no-wrap
+  flex-wrap nowrap
+.reverse-wrap
+  flex-wrap wrap-reverse
+
+.order-
+  &first
+    order -10000
+  &last
+    order 10000
+  &none
+    order 0
+
+.justify-
+  &start
+    justify-content flex-start
+  &end
+    justify-content flex-end
+  &center
+    justify-content center
+  &between
+    justify-content space-between
+  &around
+    justify-content space-around
+
+.items-
+  &start
+    align-items flex-start
+  &end
+    align-items flex-end
+  &center
+    align-items center
+  &baseline
+    align-items baseline
+  &stretch
+    align-items stretch
+
+.content-
+  &start
+    align-content flex-start
+  &end
+    align-content flex-end
+  &center
+    align-content center
+  &stretch
+    align-content stretch
+  &between
+    align-content space-between
+  &around
+    align-content space-around
+
+.self-
+  &start
+    align-self flex-start
+  &end
+    align-self flex-end
+  &center
+    align-self center
+  &baseline
+    align-self baseline
+  &stretch
+    align-self stretch
+
+.flex-center
+  @extends .items-center
+  @extends .justify-center
+
+for $name, $size in $flex-gutter
+  .q-gutter
+    &-x-{$name}
+      margin-left (- $size)
+      > *
+        margin-left $size
+    &-y-{$name}
+      margin-top (- $size)
+      > *
+        margin-top $size
+    &-{$name}
+      @extends .q-gutter-x-{$name}, .q-gutter-y-{$name}
+  .q-col-gutter
+    &-x-{$name}
+      margin-left (- $size)
+      > *
+        padding-left ($size)
+    &-y-{$name}
+      margin-top (- $size)
+      > *
+        padding-top ($size)
+    &-{$name}
+      @extends .q-col-gutter-x-{$name}, .q-col-gutter-y-{$name}
+
+for $name, $size in $sizes
+  fg(s('-%s', unquote($name)), $size)

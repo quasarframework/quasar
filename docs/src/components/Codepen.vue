@@ -31,6 +31,7 @@ export default {
 
   props: {
     title: String,
+    slugifiedTitle: String,
     parts: Object
   },
 
@@ -70,10 +71,13 @@ export default {
       return (this.parts.template || '')
         .replace(/(<template>|<\/template>$)/g, '')
         .replace(/\n/g, '\n  ')
-        .replace(/<([\w-]+)([^>]*?(?=\/>))\/>/gs, '<$1$2></$1>')
+        .replace(/([\w]+=")([^"]*?)(")/gs, function (match, p1, p2, p3) {
+          return p1 + p2.replace(/>/g, '___TEMP_REPLACEMENT___') + p3
+        })
+        .replace(/<(q-[\w-]+)([^>]+?)\/>/gs, '<$1$2></$1>')
+        .replace(/___TEMP_REPLACEMENT___/gs, '>')
         .trim()
     },
-
     editors () {
       const flag = (this.html && 0b100) | (this.css && 0b010) | (this.js && 0b001)
       return flag.toString(2)
@@ -99,7 +103,11 @@ export default {
       const data = {
         title: this.computedTitle,
         html:
-          `<div id="q-app">
+          `<!--
+  Forked from:
+  ${window.location.origin + window.location.pathname}#${this.slugifiedTitle}
+-->
+<div id="q-app">
   ${this.html}
 </div>`,
         css: this.css,

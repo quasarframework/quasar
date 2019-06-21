@@ -1,0 +1,13 @@
+{
+  "mixins": [ "mixins/panel-parent" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

@@ -49,7 +49,7 @@ this.$q.cookies.get('cookie_name')
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
-var cookies = Cookies.getAll()
+const cookies = Cookies.getAll()
 ```
 `cookies` variable will be an object with key-value pairs (cookie_name : cookie_value).
 
@@ -109,7 +109,7 @@ Define the path where the cookie is valid. By default the path of the cookie is 
 
 ### Option: domain
 ``` js
-domain: 'quasar-framework.org'
+domain: 'quasar.dev'
 ```
 Define the domain where the cookie is valid. Default: domain of page where the cookie was created.
 
@@ -132,5 +132,5 @@ Cookies.remove('cookie_name')
 this.$q.cookies.remove('cookie_name')
 ```
 
-## API
+## Cookies API
 <doc-api file="Cookies" />

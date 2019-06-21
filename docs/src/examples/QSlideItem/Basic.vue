@@ -3,8 +3,12 @@
     <q-list bordered separator>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="left" name="done" />
-        <q-icon slot="right" name="alarm" />
+        <template v-slot:left>
+          <q-icon name="done" />
+        </template>
+        <template v-slot:right>
+          <q-icon name="alarm" />
+        </template>
 
         <q-item>
           <q-item-section avatar>
@@ -15,13 +19,17 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <div slot="left">Left</div>
-        <div slot="right">Right content.. long</div>
+        <template v-slot:left>
+          Left
+        </template>
+        <template v-slot:right>
+          Right content.. long
+        </template>
 
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar-framework.org/img/avatar6.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar6.jpg">
             </q-avatar>
           </q-item-section>
           <q-item-section>Text only</q-item-section>
@@ -29,17 +37,21 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <div slot="left" class="row items-center">
-          <q-icon left name="done" /> Left
-        </div>
-        <div slot="right" class="row items-center">
-          Right content.. long <q-icon right name="alarm" />
-        </div>
+        <template v-slot:left>
+          <div class="row items-center">
+            <q-icon left name="done" /> Left
+          </div>
+        </template>
+        <template v-slot:right>
+          <div class="row items-center">
+            Right content.. long <q-icon right name="alarm" />
+          </div>
+        </template>
 
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar-framework.org/img/avatar4.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar4.jpg">
             </q-avatar>
           </q-item-section>
           <q-item-section>Text and icons</q-item-section>

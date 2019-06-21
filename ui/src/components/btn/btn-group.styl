@@ -1,0 +1,62 @@
+.q-btn-group
+  border-radius $button-border-radius
+  box-shadow $button-shadow
+  vertical-align middle
+
+  > .q-btn-item
+    box-shadow none
+  > .q-btn-group
+    > .q-btn:first-child
+      border-top-left-radius inherit
+      border-bottom-left-radius inherit
+    > .q-btn:last-child
+      border-top-right-radius inherit
+      border-bottom-right-radius inherit
+  > .q-btn-group:not(:first-child) > .q-btn:first-child
+    border-left 0
+  > .q-btn-group:not(:last-child) > .q-btn:last-child
+    border-right 0
+  > .q-btn-item:not(:last-child)
+    border-top-right-radius 0
+    border-bottom-right-radius 0
+  > .q-btn-item + .q-btn-item
+    border-top-left-radius 0
+    border-bottom-left-radius 0
+
+  &--push
+    border-radius $button-push-border-radius
+    > .q-btn--push
+      .q-btn__content
+        transition $button-transition
+      &:active,
+      &.q-btn--active
+        &:not(.disabled)
+          border-bottom-width 3px
+          transform none
+          .q-btn__content
+            transform translate3d(0, 3px, 0)
+  &--rounded
+    border-radius $button-rounded-border-radius
+  &--flat, &--outline, &--unelevated
+    box-shadow none
+    > .q-btn-item
+      box-shadow none
+  &--outline
+    > .q-btn-item + .q-btn-item
+      border-left 0
+    > .q-btn-item:not(:last-child)
+      border-right 0
+  &--stretch
+    align-self stretch
+  &--glossy
+    > .q-btn-item
+      background-image linear-gradient(to bottom, rgba(white, .3), rgba(white, 0) 50%, rgba(black, .12) 51%, rgba(black, .04)) !important
+
+  &--spread
+    > .q-btn-group
+      display flex !important
+    > .q-btn-item, > .q-btn-group > .q-btn-item:not(.q-btn-dropdown__arrow-container)
+      width auto
+      min-width 0
+      max-width 100%
+      flex 10000 1 0%
