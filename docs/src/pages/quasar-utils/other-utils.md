@@ -56,6 +56,10 @@ created () {
 }
 ```
 
+::: warning
+Debouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between *all* rendered instances of this component, so debouncing is also shared. This should be avoided by following the code snippet above.
+:::
+
 There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).
 
 ``` js
@@ -101,8 +105,8 @@ created () {
 }
 ```
 
-:::warning
-Debouncing or Throttling your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean `myMethod` will be shared between *all* instances of this component. This should be avoided.
+::: warning
+Throttling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between *all* rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.
 :::
 
 ## (Deep) Copy Objects
