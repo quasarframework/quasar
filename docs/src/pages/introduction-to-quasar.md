@@ -51,7 +51,7 @@ Quasar takes care of all these web develoment best parctices and more - **with n
 #### App extensions support
 Quasar App Extensions are a way to painlessly inject complicated (or simple) setups into your websites/apps. And also, it's a way for our big community to contribute and to help you get up to speed even faster. **The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there** - limited only by your imagination and innovation.
 
-One example is our official Icon Factory app extension with which you get the ability to seamlessly auto-generate all website/app icons (sometimes 80+ at different sizes and formats to cover latest standards for SPA, SSR, PWA, Cordova and Electron).
+One example is our official Icon Genie app extension with which you get the ability to seamlessly auto-generate all website/app icons (sometimes 80+ at different sizes and formats to cover latest standards for SPA, SSR, PWA, Cordova and Electron).
 
 #### Full RTL Support
 RTL (right to left) support for both Quasar components & the developer’s own code. Developer-written website/app CSS code gets automatically converted to RTL if an RTL language pack is used.
