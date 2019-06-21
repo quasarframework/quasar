@@ -83,28 +83,27 @@ fn main() {
             use cmd::Cmd::*;
             match serde_json::from_str(arg).unwrap() {
                 Init => (),
-                Read { file } => {
-                    let _path = file.clone();
-                    let contents = serde_json::to_string(&file::read_file(file)).unwrap().to_string();
-                    let cb = "load_file".to_string();
-                    let formatted_string = rpc::format_callback(cb, contents, _path);
+                Read { path, callback } => {
+                    let _path = path.clone();
+                    let contents = serde_json::to_string(&file::read_file(_path)).unwrap().to_string();
+                    let formatted_string = rpc::format_callback(callback, contents);
                     _webview.eval(&formatted_string).expect("Unable to eval webview");
                 }
                 Write { file, contents } => {
                     let mut f = File::create(file).unwrap();
                     f.write_all(contents.as_bytes()).expect("Unable to write file");
                 }
-                ListDirs{cb, path} => {
+                ListDirs{ path, callback } => {
                     let mut json_dir_listing:String;
                      println!("Listing {}", path);
                     json_dir_listing = serde_json::to_string(&dir::list_dir_contents(&path)).unwrap();
-                    let eval_string = rpc::format_callback(cb, json_dir_listing, path);
+                    let eval_string = rpc::format_callback(callback, json_dir_listing);
                     _webview.eval(eval_string.as_str()).expect("Unable to eval webview");
                 }
-                List { path, cb } => {
+                List { path, callback } => {
                     let path_copy = &path.clone();
                     let listing_json = serde_json::to_string(&dir::walk_dir(path_copy.to_string())).unwrap();
-                    let formatted_string = rpc::format_callback(cb, listing_json, path_copy.to_string());
+                    let formatted_string = rpc::format_callback(callback, listing_json);
                     _webview.eval(formatted_string.as_str()).expect("Unable to eval webview");
                 }
                 SetTitle { title } => {

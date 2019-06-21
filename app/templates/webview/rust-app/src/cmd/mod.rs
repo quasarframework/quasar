@@ -2,9 +2,9 @@
 #[serde(tag = "cmd", rename_all = "camelCase")]
 pub enum Cmd {
     Init,
-    Read { file: String },
+    Read { path: String, callback: String },
     Write { file: String, contents: String },
-    List { path: String, cb: String },
-    ListDirs { cb: String, path: String },
+    List { path: String, callback: String },
+    ListDirs { path: String, callback: String },
     SetTitle { title: String }
 }
