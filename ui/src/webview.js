@@ -1,10 +1,12 @@
+import { uid } from 'quasar'
+
 export default class WebView {
   static invoke (args) {
     external.invoke(JSON.stringify(args))
   }
 
   static transformCallback (callback) {
-    const identifier = '_' + new Date().getTime()
+    const identifier = uid()
     window[identifier] = (result) => {
       delete window[identifier]
       callback(result)
