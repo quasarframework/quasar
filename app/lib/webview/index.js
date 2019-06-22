@@ -5,8 +5,7 @@ const
   } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../app-paths'),
-  fse = require('fs-extra'),
-  fglob = require('fast-glob')
+  touch = require('touch')
 
 class WebViewRunner {
   constructor() {
@@ -44,14 +43,7 @@ class WebViewRunner {
   build(quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
 
-    // TODO this shouldn't have the project name embedded
-    const buildDirs = fglob.sync(['target/*/build/rust-app*'], {
-      cwd: appPaths.webviewDir,
-      onlyDirectories: true
-    })
-    for (const buildDir of buildDirs) {
-      fse.removeSync(buildDir)
-    }
+    touch.sync(appPaths.resolve.webview('build.rs'))
 
     return this.__runWebViewCommand(
       cfg,
