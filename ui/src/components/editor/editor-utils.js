@@ -222,7 +222,7 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
 }
 
 export function getLinkEditor (h, vm) {
-  if (vm.caret) {
+  if (vm.caret && vm.caret.hasSelection) {
     const color = vm.toolbarColor || vm.toolbarTextColor
     let link = vm.editLinkUrl
     const updateLink = () => {

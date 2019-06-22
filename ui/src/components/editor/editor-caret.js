@@ -242,7 +242,9 @@ export class Caret {
   }
 
   selectWord (sel) {
-    if (!sel.isCollapsed) {
+    if (!this.hasSelection) return
+
+    if (sel && !sel.isCollapsed) {
       return sel
     }
 
