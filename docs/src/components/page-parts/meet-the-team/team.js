@@ -116,5 +116,13 @@ export default [
     avatar: 'ross_ball.jpeg',
     github: 'rossity',
     desc: 'Quasar Theme app extensions'
+  },
+
+  {
+    name: 'James Gilchrist',
+    role: 'Community Staff',
+    avatar: 'james_gilchrist.png',
+    github: 'jpgilchrist',
+    desc: 'Help desk'
   }
 ]
