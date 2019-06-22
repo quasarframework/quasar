@@ -25,7 +25,7 @@ export default [
     email: 'denjell@quasar.dev',
     twitter: 'nothingismagick',
     github: 'nothingismagick',
-    desc: 'Tooling and rigging app extensions, Product Development, Quasar Radio Show and community manager.'
+    desc: 'Tooling and rigging app extensions, product development, Quasar Radio Show, community manager. Also writes articles.'
   },
 
   {
@@ -59,7 +59,7 @@ export default [
     role: 'DevOps / Community Staff',
     avatar: 'scott_molinari.jpg',
     github: 'smolinari',
-    desc: 'Helps with docs, bug reports, external systems and community support.'
+    desc: 'Helps with docs, bug reports, external systems, writes articles and offers community support.'
   },
 
   {
@@ -112,10 +112,10 @@ export default [
 
   {
     name: 'Ross Ball',
-    role: 'Partner / Community Staff',
+    role: 'Designer / Community Staff',
     avatar: 'ross_ball.jpeg',
     github: 'rossity',
-    desc: 'Quasar Theme app extensions'
+    desc: 'Quasar Themes'
   },
 
   {
@@ -123,6 +123,14 @@ export default [
     role: 'Community Staff',
     avatar: 'james_gilchrist.png',
     github: 'jpgilchrist',
+    desc: 'Help desk'
+  },
+
+  {
+    name: 'Ben Coughenour',
+    role: 'Community Staff',
+    avatar: 'ben_coughenour.jpg',
+    github: 'sskwrl',
     desc: 'Help desk'
   }
 ]
