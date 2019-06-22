@@ -11,8 +11,7 @@ const argv = parseArgs(process.argv.slice(2), {
     s: 'skip-pkg',
     d: 'debug',
     h: 'help',
-    P: 'publish',
-    r: 'release'
+    P: 'publish'
   },
   boolean: ['h', 'd', 'u', 'r'],
   string: ['m', 'T', 'P'],
@@ -69,9 +68,6 @@ if (argv.help) {
     --publish, -P  Publish options [onTag|onTagOrDraft|always|never]
                      - see https://www.electron.build/configuration/publish
 
-    ONLY for webview
-    --release Generates binary with the release flag
-
   `)
   process.exit(0)
 }
@@ -121,7 +117,6 @@ function finalize (mode, quasarConfig) {
       return require('../lib/electron').build(quasarConfig)
     }
     if (mode === 'webview') {
-      quasarConfig.getBuildConfig().webview.release = argv.release
       return require('../lib/webview').build(quasarConfig)
     }
   }

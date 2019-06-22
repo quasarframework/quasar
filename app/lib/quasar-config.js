@@ -699,9 +699,7 @@ class QuasarConfig {
     }
 
     if (this.ctx.mode.webview) {
-      cfg.webview = {
-        release: false
-      }
+      cfg.webview = {}
     }
 
     appFilesValidations(cfg)

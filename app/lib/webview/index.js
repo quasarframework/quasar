@@ -55,7 +55,7 @@ class WebViewRunner {
 
     return this.__runWebViewCommand(
       cfg,
-      (cfg.webview.release ? ['build', '--release'] : ['build']).concat(['--features', 'prod']),
+      (cfg.ctx.debug ? ['build'] : ['build', '--release']).concat(['--features', 'prod']),
       []
     )
   }
