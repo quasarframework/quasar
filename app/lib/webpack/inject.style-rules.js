@@ -46,8 +46,9 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
     if (modules) {
       Object.assign(cssLoaderOptions, {
-        modules,
-        localIdentName: '[name]_[local]_[hash:base64:5]'
+        modules: {
+          localIdentName: '[name]_[local]_[hash:base64:5]'
+        }
       })
     }
 

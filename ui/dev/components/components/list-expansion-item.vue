@@ -53,7 +53,7 @@
           </q-card>
         </q-expansion-item>
 
-        <q-expansion-item header-inset expand-separator label="With header inset">
+        <q-expansion-item :header-inset-level="1" expand-separator label="With header inset">
           <q-card>
             <q-card-section>
               {{ lorem }}
@@ -61,7 +61,7 @@
           </q-card>
         </q-expansion-item>
 
-        <q-expansion-item content-inset expand-separator icon="map" label="With content inset">
+        <q-expansion-item :content-inset-level="1" expand-separator icon="map" label="With content inset">
           <div class="q-py-md q-pr-md">
             {{ lorem }}
           </div>

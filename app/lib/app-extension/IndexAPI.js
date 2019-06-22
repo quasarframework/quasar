@@ -31,6 +31,7 @@ module.exports = class IndexAPI {
       beforeDev: [],
       beforeBuild: [],
       afterBuild: [],
+      onPublish: [],
       commands: {},
       describeApi: {}
     }
@@ -195,11 +196,11 @@ module.exports = class IndexAPI {
 
   /**
    * Register a command that will become available as
-   * `quasar run <ext-id> <cmd> [args]`.
+   * `quasar run <ext-id> <cmd> [args]` and `quasar <ext-id> <cmd> [args]`
    *
    * @param {string} commandName
    * @param {function} fn
-   *   (args: { [ string ] }, params: {object} }) => ?Promise
+   *   ({ args: [ string, ... ], params: {object} }) => ?Promise
    */
   registerCommand (commandName, fn) {
     this.__hooks.commands[commandName] = fn
@@ -248,6 +249,21 @@ module.exports = class IndexAPI {
    */
   afterBuild (fn) {
     this.__addHook('afterBuild', fn)
+  }
+
+  /**
+   * Run hook if publishing was requested ("$ quasar build -P"),
+   * after Quasar built app for production and the afterBuild
+   * hook (if specified) was executed.
+   *
+   * @param {function} fn
+   *   () => ?Promise
+   * @param {object} opts
+   *   * arg - argument supplied to "--publish"/"-P" parameter
+   *   * distDir - folder where distributables were built
+   */
+  onPublish (fn) {
+    this.__addHook('onPublish', fn)
   }
 
   /**

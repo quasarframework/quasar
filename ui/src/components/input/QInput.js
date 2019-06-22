@@ -168,8 +168,8 @@ export default Vue.extend({
         tabindex: 0,
         autofocus: this.autofocus,
         rows: this.type === 'textarea' ? 6 : void 0,
-        ...this.$attrs,
         'aria-label': this.label,
+        ...this.$attrs,
         type: this.type,
         maxlength: this.maxlength,
         disabled: this.editable !== true

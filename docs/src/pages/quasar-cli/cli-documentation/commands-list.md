@@ -13,8 +13,6 @@ $ quasar
 | |_| | |_| | (_| \__ \ (_| | |
  \__\_\\__,_|\__,_|___/\__,_|_|
 
-
-
   Example usage
     $ quasar <command> <options>
 
@@ -42,6 +40,8 @@ $ quasar
     info, i       Display info about your machine and your App
     help, h       Displays this message
 
+  If the specified command is not found, then "quasar run"
+  will be executed with the provided arguments.
 
   Commands supplied by @quasar/cli global installation:
 
@@ -98,8 +98,19 @@ $ quasar dev -h
   Description
     Starts the app in development mode (hot-code reloading, error
     reporting, etc)
+
   Usage
+    $ quasar dev
     $ quasar dev -p <port number>
+
+    $ quasar dev -m ssr
+
+    # alias for "quasar dev -m cordova -T ios"
+    $ quasar dev -m ios
+
+    # alias for "quasar dev -m cordova -T android"
+    $ quasar dev -m android
+
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --port, -p       A port number on which to start the application
@@ -110,7 +121,8 @@ $ quasar dev -h
     --target, -T     (required) App target
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
     --emulator, -e   (optional) Emulator name
-                        Example: iPhone-7, iPhone-X
+                        Examples: iPhone-7, iPhone-X
+                        iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
 ```
 
 The Quasar development server allows you to develop your App by compiling and maintaining code in-memory. A web server will serve your App while offering hot-reload out of the box. Running in-memory offers faster rebuilds when you change your code.
@@ -133,6 +145,8 @@ $ quasar dev -m pwa
 
 # Developing a Mobile App (through Cordova)
 $ quasar dev -m cordova -T [android|ios]
+# or the short form:
+$ quasar dev -m [android|ios]
 
 # Developing an Electron App
 $ quasar dev -m electron
@@ -165,14 +179,25 @@ If there appears to be an issue with hot reload, you can try two fixes:
   sudo quasar dev
   ```
 
-## build / clean
+## build
 ```bash
 $ quasar build -h
 
   Description
     Builds distributables of your app.
+
   Usage
+    $ quasar build
     $ quasar build -p <port number>
+
+    $ quasar build -m ssr
+
+    # alias for "quasar build -m cordova -T ios"
+    $ quasar build -m ios
+
+    # alias for "quasar build -m cordova -T android"
+    $ quasar build -m android
+
   Options
     --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --target, -T    App target
@@ -182,6 +207,9 @@ $ quasar build -h
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
+    --publish, -P   Also trigger publishing hooks (if any are specified)
+                      - Has special meaning when building with Electron mode and using
+                        electron-builder as bundler
     --debug, -d     Build for debugging purposes
     --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
@@ -196,23 +224,41 @@ $ quasar build -h
                           [ia32|x64|armv7l|arm64|mips64el|all]
                       - with "electron-builder" bundler:
                           [ia32|x64|armv7l|arm64|all]
+
+    ONLY for electron-builder (when using "publish" parameter):
+    --publish, -P  Publish options [onTag|onTagOrDraft|always|never]
+                     - see https://www.electron.build/configuration/publish
 ```
 
 The Quasar CLI can pack everything together and optimize your App for production. It minifies source code, extracts vendor components, leverages browser cache and much more.
 
 ``` bash
-# build for production
+# Build a SPA for production
 $ quasar build
+# ...or
+$ quasar build -m spa
 
-# build a PWA (check other modes as well)
+# Build a SSR for production
+$ quasar build -m ssr
+
+# Build a PWA for production
 $ quasar build -m pwa
 
-# create a production build with ability to debug it
+# Build a Mobile App (through Cordova)
+$ quasar build -m cordova -T [android|ios]
+# or the short form:
+$ quasar build -m [android|ios]
+
+# Build an Electron App for production
+$ quasar build -m electron
+
+# Create a production build with ability to debug it
 # (has source-maps and code is NOT minified)
-$ quasar build -d
+$ quasar build -d [-m <mode>]
 ```
 
-You can also clean up all the build assets:
+## clean
+Cleans up all the build assets:
 ``` bash
 $ quasar clean
 ```
@@ -401,7 +447,7 @@ $ quasar inspect -h
 ```
 
 ## ext
-This command is used to manage [App Extensions](/quasar-cli/app-extensions/introduction).
+This command is used to manage [App Extensions](/app-extensions/introduction).
 
 ```bash
 $ quasar ext -h
@@ -433,7 +479,7 @@ $ quasar ext -h
 ```
 
 ## run
-This command is used to run commands supplied by the [App Extensions](/quasar-cli/app-extensions/introduction) that you've installed into your project folder.
+This command is used to run commands supplied by the [App Extensions](/app-extensions/introduction) that you've installed into your project folder.
 
 ```bash
 $ quasar run -h
@@ -443,13 +489,15 @@ $ quasar run -h
 
   Usage
     $ quasar run <extension-id> <cmd> [args, params]
+    $ quasar <extension-id> <cmd> [args, params]
 
-    $ quasar run iconify create -s
+    $ quasar run iconify create pic -s --mark some_file
+    $ quasar iconify create pic -s --mark some_file
         # Note: "iconify" is an example and not a real extension.
         # Looks for installed extension called "iconify"
         # (quasar-app-extension-iconify extension package)
         # and runs its custom defined "create" command
-        # with "-s --mark some_file" params
+        # with "pic" argument and "-s --mark some_file" params
 
   Options
     --help, -h       Displays this message

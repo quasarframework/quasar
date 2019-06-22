@@ -114,6 +114,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       line-height 1em // needed for Chrome type="file"
   &__prefix, &__suffix
     transition opacity $field-transition
+    white-space nowrap
   &__prefix
     padding-right 4px
   &__suffix
@@ -144,10 +145,11 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     text-decoration inherit
     text-transform inherit
     transform-origin left top
-    transition transform $field-transition
+    transition transform $field-transition, right $field-transition
 
   &--float .q-field__label
     transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+    right calc(-100% / 3)
 
   .q-field__native, .q-select__input
     &:-webkit-autofill

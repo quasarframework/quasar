@@ -19,6 +19,14 @@ When using Quasar, you won't need additional heavy libraries like Hammerjs, Mome
 ## Why Quasar?
 Because of the simplicity and power offered to you out of the box. Quasar, with its CLI, is packed full of features, all built to make your developer life easier.
 
+::: tip Food for thought
+<br>
+Quasar is looking into the future and sets its own high and modern standards. And yes, in order to make progress in web development we need to break the current establishment. Otherwise we’d all be continuing to write websites in cgi-bin / perl today too, because many years ago that’s what developers were accustomed to. And what most developers are accustomed to at one point in time doesn’t actually mean it’s the best solution or the “definite” solution, and Quasar will never bend into choosing what we believe is not the optimal path to high quality work, not even over money.
+<br><br>
+
+*What we want to achieve with Quasar is to raise the bar for web development as a whole. Make it go forward, evolve. Change minds. Point out when there’s a better alternative.*
+:::
+
 Below is a non-exhaustive list of Quasar's great aspects and features.
 
 #### All Platforms in One Go
@@ -43,7 +51,7 @@ Quasar takes care of all these web develoment best parctices and more - **with n
 #### App extensions support
 Quasar App Extensions are a way to painlessly inject complicated (or simple) setups into your websites/apps. And also, it's a way for our big community to contribute and to help you get up to speed even faster. **The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there** - limited only by your imagination and innovation.
 
-One example is our official Icon Factory app extension with which you get the ability to seamlessly auto-generate all website/app icons (sometimes 80+ at different sizes and formats to cover latest standards for SPA, SSR, PWA, Cordova and Electron).
+One example is our official Icon Genie app extension with which you get the ability to seamlessly auto-generate all website/app icons (sometimes 80+ at different sizes and formats to cover latest standards for SPA, SSR, PWA, Cordova and Electron).
 
 #### Full RTL Support
 RTL (right to left) support for both Quasar components & the developer’s own code. Developer-written website/app CSS code gets automatically converted to RTL if an RTL language pack is used.
@@ -65,8 +73,11 @@ When using Quasar’s CLI, developers benefit from:
 #### Get up to speed fast
 The top-class project intitialization feature of the CLI makes getting started very easy for you, as a developer. You can get your idea to reality in record time. In other words, Quasar does the heavy lifting for you, so you are free to focus on your features and not on boilerplate.
 
-#### Automated testing & Audit
-Quasar projects have the ability to add Unit and End to End testing harnesses out of the box, as well as an ever-growing suite of product quality auditing tools. All this to ensure that your websites/apps have the highest quality possible.
+#### Automated testing & audit
+Quasar projects have the ability to add Unit and End to End testing harnesses out of the box, as well as an ever-growing suite of product quality and security auditing tools. All this to ensure that your websites/apps have the highest quality possible.
+
+#### We care deeply about Security
+We are always paranoid about the security of Quasar and the security of apps built with Quasar. We are on a constant lookout to inform you about any security threats that you might need to know about. We have Security guidelines and we are even offering our security expertise through the Quasar Audit program.
 
 #### Awesome ever-growing community
 When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar.dev/) or our [Discord chat server](https://chat.quasar.dev). The community is there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.com/quasarframework). You can also get special service as a [Patreon](https://www.patreon.com/quasarframework) and help make sure Quasar stays relevant for you in the future too!
@@ -81,7 +92,7 @@ Quasar comes equipped with over 40 language packs out of the box. On top of that
 And finally, it’s worth mentioning the significant amount of time taken to write great, bloat-free, focused and complete documentation, so that developers can quickly pick up Quasar. We put special effort into our documentation to be sure there is no confusion.
 
 ## Underlying technologies
-[Vue](https://vuejs.org/), [Babel](https://babeljs.io/), [Webpack](https://webpack.js.org/), [Cordova](https://cordova.apache.org/), [Electron](https://electronjs.org/).
+[Vue](https://vuejs.org/), [Nodejs](https://nodejs.org/), [Webpack](https://webpack.js.org/), [Cordova](https://cordova.apache.org/), [Electron](https://electronjs.org/).
 
 Except for Vue, which takes half a day to pick up and will change you forever, there is no requirement for you to know the other technologies. They are all integrated and configured in Quasar for you.
 

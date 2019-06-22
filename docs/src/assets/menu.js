@@ -894,6 +894,7 @@ const appExtensions = [
   },
   {
     name: 'Discover App Extensions',
+    badge: 'new',
     path: 'discover'
   },
   {
@@ -967,6 +968,12 @@ module.exports = [
     name: 'Why Donations Are Important',
     icon: 'assignment_late',
     path: 'why-donate'
+  },
+  {
+    name: 'Meet the Team',
+    badge: 'new',
+    icon: 'people',
+    path: 'meet-the-team'
   },
   {
     name: 'Getting Started',
