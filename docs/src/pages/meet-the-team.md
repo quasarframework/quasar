@@ -1,45 +1,11 @@
 ---
 title: Meet the Team
 components:
-  - meet-the-team/TeamMember
+  - meet-the-team/TeamListing
 ---
 
-<team-member name="Razvan Stoenescu" alias="rstoenescu" role="Founder" twitter="quasarframework" github="quasarframework" website="https://quasar-framework.org" image="https://avatars2.githubusercontent.com/u/4665641?s=460&v=4" >
-  Creator of Quasar Framework. Build responsive Single Page Apps, SSR Apps, PWAs, Hybrid Mobile Apps and Electron Apps, all using the same codebase!
-</team-member>
+Hailing from all around the planet, the Quasar Team is not only international but full of people with a vast range of fields of expertise. From real rocket engineers to Fortune 500 developers, the unifying factor among us is our dedication to quality and the love for our community of contributors and developers.
 
-<team-member name=" Denjell" alias="nothingismagick" role="Sr. Staff" github="nothingismagick" website="https://testing.quasar-framework.org/" image="https://avatars2.githubusercontent.com/u/35242872?s=400&v=4" >
-  Developer, Systems Architect and IT Strategist
-</team-member>
+With hundreds of contributors to Quasar, **the list of people you can meet below is by no means exhaustive**. Just remember to thank everyone using Quasar and supporting us, because together we all help you push your products light-years ahead of your competition. A great way to do that is to [donate](https://donate.quasar.dev).
 
-<team-member name="Jeff Galbraith" alias="Hawkeye64" role="Staff" twitter="jgalbraith64" github="hawkeye64" image="https://avatars1.githubusercontent.com/u/10262924?s=400&u=9f601b344d597ed76581e3a6a10f3c149cb5f6dc&v=4" >
-  Software Engineer, mentor, architect, problem solver since 1988.
-</team-member>
-
-<team-member name="Some One" alias="someone" role="Contributor">
-  description of person
-</team-member>
-
-<team-member name="No Body" alias="nobody" role="Contributor">
-  description of person
-</team-member>
-
-<team-member name="No Body" alias="nobody" role="Contributor">
-  description of person
-</team-member>
-
-<team-member name="No Body" alias="nobody" role="Contributor">
-  description of person
-</team-member>
-
-<team-member name="No Body" alias="nobody" role="Contributor">
-  description of person
-</team-member>
-
-<team-member name="No Body" alias="nobody" role="Contributor">
-  description of person
-</team-member>
-
-<team-member name="No Body" alias="nobody" role="Contributor">
-  description of person
-</team-member>
+<team-listing class="q-mt-xl" />

@@ -1,90 +1,61 @@
 <template lang="pug">
-  .team-member
-    .inner-team-member(@mouseover="visible = 1", @mouseout="visible = 0" @click="visible = !visible")
-      q-avatar.profile-pic(square,size="14rem")
-        img(:src="image ? image : 'https://cdn.quasar-framework.org/img/boy-avatar.png'")
+  q-card.quasar-member.column(flat, bordered)
+    q-card-section
+      .text-bold {{ name }}
+      div(v-if="github") @{{ github }}
 
-      q-slide-transition(v-show="visible")
-        q-card.profile-card.text-white(square, @click="visible = false")
-            q-card-section
-              .text-h6(v-if="name")
-                center {{ name }}
-              .text-subtitle2(v-if="alias")
-                center @{{ alias }}
-              .text-h6(v-if="role")
-                center {{ role }}
+    q-img(v-if="avatar", alt="avatar", :src="url.avatar", :ratio="1")
 
-            q-card-section
-              slot
+    q-card-section.quasar-member__front.col
+      div.text-grey.text-italic.q-mt-xs.quasar-member__role {{ role }}
+      div.q-mt-xs {{ desc }}
 
-            q-card-section
-              .row.justify-around
-                q-btn(v-if="twitter", @click="openTwitter" round, color="primary", icon="fab fa-twitter")
-                q-btn(v-if="github", @click="openGithub" round, color="primary", icon="fab fa-github")
-                q-btn(v-if="website", @click="openWebsite" round, color="primary", icon="fas fa-home")
+    q-separator(style="height: 1px")
 
+    q-card-actions(align="around")
+      div(v-if="twitter")
+        q-btn(type="a", :href="url.twitter", target="_blank", round, flat, icon="fab fa-twitter")
+      div(v-if="github")
+        q-btn(type="a", :href="url.github", target="_blank", round, flat, icon="fab fa-github")
+      div(v-if="email")
+        q-btn(type="a", :href="url.email", target="_blank", round, flat, icon="mail")
 </template>
 
 <script>
-import { openURL } from 'quasar'
 export default {
-  name: 'TeamMember',
+  name: 'Sponsor',
 
   props: {
-    image: String,
     name: String,
-    alias: String,
+    avatar: String,
     role: String,
     twitter: String,
     github: String,
-    website: String
+    email: String,
+    desc: String
   },
 
-  data () {
-    return {
-      visible: 0
-    }
-  },
-
-  methods: {
-    openTwitter () {
-      this.twitter && openURL('https://twitter.com/' + this.twitter)
-    },
-    openGithub () {
-      this.github && openURL('https://github.com/' + this.github)
-    },
-    openWebsite () {
-      this.website && openURL(this.website)
+  computed: {
+    url () {
+      return {
+        avatar: 'https://cdn.quasar.dev/team/' + this.avatar,
+        twitter: 'https://twitter.com/' + this.twitter,
+        github: 'https://github.com/' + this.github,
+        email: 'mailto:' + this.email
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus">
-.team-member
-  position relative
-  display inline-block
+.quasar-member
   width 100%
-  max-width 14rem
-  min-height: 14rem
-  max-height: 14rem
-  margin 5px
+  max-width 12.2rem
 
-.inner-team-member
-  position absolute
+  &__role
+    height 42px
 
-.profile-pic
-  margin 0
-  img
-    border-style solid
-    border-color $primary
-
-.profile-card
-  position absolute
-  background radial-gradient(circle, #35a2ff 0%, #014a88 100%)
-  top 100%
-  left 0
-  width 100%
-  max-width 14rem
-  z-index 100
+  .q-img__image
+    filter grayscale(100%)
 </style>

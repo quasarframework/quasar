@@ -90,10 +90,10 @@ div
           q-icon(name="fab fa-stack-overflow")
         q-item-section Stack Overflow
 
-      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank")
+      q-item(clickable, tag="a", href="https://github.com/quasarframework", target="_blank")
         q-item-section(avatar)
           q-icon(name="fab fa-github")
-        q-item-section Github
+        q-item-section Github Repositories
 
       q-item-label.q-mt-md(header) Social
 
