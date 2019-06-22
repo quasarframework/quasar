@@ -7,5 +7,6 @@ pub enum Cmd {
     Write { file: String, contents: String, callback: String, error: String },
     List { path: String, callback: String, error: String },
     ListDirs { path: String, callback: String, error: String },
-    SetTitle { title: String }
+    SetTitle { title: String },
+    Call { command: String, args: Vec<String>, callback: String, error: String }
 }

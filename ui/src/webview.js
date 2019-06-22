@@ -47,4 +47,8 @@ export default class WebView {
   static setTitle (title) {
     this.invoke({ cmd: 'setTitle', title })
   }
+
+  static execute (command, args) {
+    return this.promisified({ cmd: 'call', command, args: typeof (args) === 'string' ? [args] : args })
+  }
 }

@@ -22,6 +22,7 @@ mod dir;
 mod file;
 mod rpc;
 mod cmd;
+mod api;
 
 include!(concat!(env!("OUT_DIR"), "/data.rs"));
 
@@ -92,7 +93,7 @@ fn main() {
                                 .map(|s| s.to_string())
                         }), callback, error);
 
-                    _webview.eval(callback_string.as_str()).expect("Unable to eval webview");
+                    _webview.eval(callback_string.as_str()).unwrap();
                 }
                 ReadAsBinary { path, callback, error } => {
                     let _path = path.clone();
@@ -103,7 +104,7 @@ fn main() {
                                 .map(|s| s.to_string())
                         }), callback, error);
 
-                    _webview.eval(callback_string.as_str()).expect("Unable to eval webview");
+                    _webview.eval(callback_string.as_str()).unwrap();
                 }
                 Write { file, contents, callback, error } => {
                     let callback_string = rpc::format_callback_result(File::create(file)
@@ -114,7 +115,7 @@ fn main() {
                                 .map(|_| "".to_string())
                         }), callback, error);
 
-                    _webview.eval(callback_string.as_str()).expect("Unable to eval webview");
+                    _webview.eval(callback_string.as_str()).unwrap();
                 }
                 ListDirs{ path, callback, error } => {
                     let callback_string = rpc::format_callback_result(dir::list_dir_contents(&path)
@@ -124,7 +125,7 @@ fn main() {
                         }), callback, error);
 
                     println!("Listing {}", path);
-                    _webview.eval(callback_string.as_str()).expect("Unable to eval webview");
+                    _webview.eval(callback_string.as_str()).unwrap();
                 }
                 List { path, callback, error } => {
                     let path_copy = &path.clone();
@@ -134,10 +135,19 @@ fn main() {
                                 .map_err(|err| err.to_string())
                         }), callback, error);
 
-                    _webview.eval(callback_string.as_str()).expect("Unable to eval webview");
+                    _webview.eval(callback_string.as_str()).unwrap();
                 }
                 SetTitle { title } => {
                     _webview.set_title(&title).unwrap();
+                }
+                Call { command, args, callback, error } => {
+                    let callback_string = rpc::format_callback_result(
+                        api::call(command, args)
+                            .map_err(|err| format!("`{}`", err))
+                            .map(|output| format!("`{}`", output)),
+                        callback, error
+                    );
+                     _webview.eval(callback_string.as_str()).unwrap();
                 }
             }
             Ok(())
