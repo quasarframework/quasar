@@ -83,9 +83,20 @@ fn main() {
             use cmd::Cmd::*;
             match serde_json::from_str(arg).unwrap() {
                 Init => (),
-                Read { path, callback, error } => {
+                ReadAsString { path, callback, error } => {
                     let _path = path.clone();
-                    let callback_string = rpc::format_callback_result(file::read_file(_path)
+                    let callback_string = rpc::format_callback_result(file::read_string(_path)
+                        .and_then(|f| {
+                            serde_json::to_string(&f)
+                                .map_err(|err| err.to_string())
+                                .map(|s| s.to_string())
+                        }), callback, error);
+
+                    _webview.eval(callback_string.as_str()).expect("Unable to eval webview");
+                }
+                ReadAsBinary { path, callback, error } => {
+                    let _path = path.clone();
+                    let callback_string = rpc::format_callback_result(file::read_binary(_path)
                         .and_then(|f| {
                             serde_json::to_string(&f)
                                 .map_err(|err| err.to_string())

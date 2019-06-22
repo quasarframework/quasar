@@ -24,8 +24,12 @@ export default class WebView {
     })
   }
 
-  static readFile (path) {
-    return this.promisified({ cmd: 'read', path })
+  static readTextFile (path) {
+    return this.promisified({ cmd: 'readAsString', path })
+  }
+
+  static readBinaryFile (path) {
+    return this.promisified({ cmd: 'readAsBinary', path })
   }
 
   static writeFile (cfg) {
