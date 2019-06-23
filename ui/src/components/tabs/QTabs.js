@@ -65,6 +65,7 @@ export default Vue.extend({
 
     vertical: Boolean,
     shrink: Boolean,
+    stretch: Boolean,
 
     activeColor: String,
     activeBgColor: String,
@@ -154,6 +155,7 @@ export default Vue.extend({
       return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
+        (this.stretch === true ? ' self-stretch' : '') +
         (this.vertical === true ? ' q-tabs--vertical' : '')
     }
   },
@@ -377,7 +379,7 @@ export default Vue.extend({
 
       h('div', {
         ref: 'content',
-        staticClass: 'q-tabs__content row no-wrap items-center',
+        staticClass: 'q-tabs__content row no-wrap items-center self-stretch',
         class: this.alignClass
       }, slot(this, 'default')),
 
