@@ -107,7 +107,8 @@ export default Vue.extend({
         props: {
           ...this.$props,
           disable: this.disable === true || this.disableMainBtn === true,
-          noWrap: true
+          noWrap: true,
+          round: false
         },
         on: {
           click: e => {
