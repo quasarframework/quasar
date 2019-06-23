@@ -107,7 +107,9 @@ export default {
               this.computedRows,
               val
             )
-          }
+          },
+          configurable: true,
+          enumerable: true
         })
         data.partialSelected = this.someRowsSelected
         data.multipleSelect = true
