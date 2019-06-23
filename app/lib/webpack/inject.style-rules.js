@@ -67,6 +67,7 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
             require('cssnano')({
               preset: ['default', {
                 mergeLonghand: false,
+                convertValues: false,
                 cssDeclarationSorter: false,
                 reduceTransforms: false
               }]
