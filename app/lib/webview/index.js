@@ -5,6 +5,8 @@ const
   } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../app-paths'),
+  fse = require('fs-extra'),
+  readline = require('readline'),
   touch = require('touch')
 
 class WebViewRunner {
@@ -41,15 +43,53 @@ class WebViewRunner {
   }
 
   build(quasarConfig) {
-    const cfg = quasarConfig.getBuildConfig()
+    const cfg = quasarConfig.getBuildConfig(),
+      targets = []
 
     touch.sync(appPaths.resolve.webview('build.rs'))
 
-    return this.__runWebViewCommand(
+    const buildFn = target => this.__runWebViewCommand(
       cfg,
-      (cfg.ctx.debug ? ['build'] : ['build', '--release']).concat(['--features', 'prod']),
+      ['build']
+        .concat(cfg.ctx.debug ? [] : ['--release'])
+        .concat(['--features', 'prod'])
+        .concat(target ? ['--target', target] : []),
       []
     )
+
+    const cargoConfig = fse.createReadStream(appPaths.resolve.webview('.cargo/config'))
+    const rl = readline.createInterface({
+      input: cargoConfig,
+      output: () => {}
+    })
+
+    rl.on('line', line => {
+      let matches = line.match(/\[target\.(\S+)\]/i)
+      if (matches) {
+        targets.push(matches[1])
+      }
+    })
+
+    if (cfg.ctx.debug) // on debug mode, build only for the current platform
+      return buildFn()
+
+    return new Promise(resolve => {
+      // if the .cargo/config file is not found, build for the current platform
+      cargoConfig.on('error', async () => {
+        await buildFn()
+        resolve()
+      })
+
+      // build for all targets AND current platform, 
+      // since it doesn't need to be configured on .cargo/config file 
+      rl.on('close', async () => {
+        await buildFn()
+        for (const target of targets) {
+          await buildFn(target)
+        }
+        resolve()
+      })
+    })
   }
 
   stop() {
@@ -69,7 +109,6 @@ class WebViewRunner {
         buildArgs.concat(['--']).concat(args),
         appPaths.webviewDir,
         code => {
-          this.__cleanup()
           if (code) {
             warn(`⚠️  [FAIL] WebView CLI has failed`)
             process.exit(1)
