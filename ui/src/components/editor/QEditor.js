@@ -80,6 +80,7 @@ export default Vue.extend({
         this.toolbarPush !== true
 
       return {
+        type: 'a',
         flat,
         noWrap: true,
         outline: this.toolbarOutline,
@@ -106,7 +107,7 @@ export default Vue.extend({
         ordered: { cmd: 'insertOrderedList', icon: i.orderedList, tip: e.orderedList },
         subscript: { cmd: 'subscript', icon: i.subscript, tip: e.subscript, htmlTip: 'x<subscript>2</subscript>' },
         superscript: { cmd: 'superscript', icon: i.superscript, tip: e.superscript, htmlTip: 'x<superscript>2</superscript>' },
-        link: { cmd: 'link', icon: i.hyperlink, tip: e.hyperlink, key: 76 },
+        link: { cmd: 'link', disable: vm => vm.caret && !vm.caret.can('link'), icon: i.hyperlink, tip: e.hyperlink, key: 76 },
         fullscreen: { cmd: 'fullscreen', icon: i.toggleFullscreen, tip: e.toggleFullscreen, key: 70 },
 
         quote: { cmd: 'formatBlock', param: 'BLOCKQUOTE', icon: i.quote, tip: e.quote, key: 81 },
