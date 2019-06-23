@@ -395,11 +395,15 @@ export default Vue.extend({
 
       Object.defineProperty(scope, 'expanded', {
         get: () => { return meta.expanded },
-        set: val => { val !== meta.expanded && this.setExpanded(key, val) }
+        set: val => { val !== meta.expanded && this.setExpanded(key, val) },
+        configurable: true,
+        enumerable: true
       })
       Object.defineProperty(scope, 'ticked', {
         get: () => { return meta.ticked },
-        set: val => { val !== meta.ticked && this.setTicked([ key ], val) }
+        set: val => { val !== meta.ticked && this.setTicked([ key ], val) },
+        configurable: true,
+        enumerable: true
       })
 
       return scope
