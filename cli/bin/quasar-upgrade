@@ -54,6 +54,17 @@ if (!fs.existsSync(path.join(root, 'node_modules'))) {
 
 const pkg = require(path.join(root, 'package.json'))
 
+function getPackageLocation(packageName, upperPaths = 0) {
+  const baseFile = upperPaths ?
+    path.join(root, ...Array(upperPaths).fill('..'), 'node_modules', packageName, 'package.json')
+    : path.join(root, 'node_modules', packageName, 'package.json')
+
+  return !fs.existsSync(baseFile)
+    ? getPackageLocation(packageName, upperPaths + 1)
+    : baseFile
+}
+
+
 function getLatestVersion (packager, packageName, curVersion) {
   let versions
 
@@ -108,7 +119,7 @@ function upgradeQuasar () {
         continue
       }
 
-      const json = path.join(root, 'node_modules', packageName, 'package.json')
+      const json = getPackageLocation(packageName)
       const curVersion = fs.existsSync(json)
         ? require(json).version
         : null
@@ -163,7 +174,7 @@ function upgradeQuasar () {
     deps[type].forEach(dep => {
       // need to delete tha package otherwise
       // installing the new version might fail on Windows
-      removeSync(path.join(root, 'node_modules', dep.packageName))
+      removeSync(getPackageLocation(dep.packageName))
 
       params.push(`${dep.packageName}@^${dep.latestVersion}`)
     })
