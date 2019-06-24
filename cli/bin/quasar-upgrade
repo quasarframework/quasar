@@ -55,11 +55,13 @@ if (!fs.existsSync(path.join(root, 'node_modules'))) {
 const pkg = require(path.join(root, 'package.json'))
 
 function getPackageLocation(packageName, upperPaths = 0) {
-  const baseFile = upperPaths ?
-    path.join(root, ...Array(upperPaths).fill('..'), 'node_modules', packageName, 'package.json')
+  const fill = Array(upperPaths).fill('..')
+
+  const baseFile = upperPaths || !fs.existsSync(path.join(root, ...fill, 'package.json'))
+    ? path.join(root, ...fill, 'node_modules', packageName, 'package.json')
     : path.join(root, 'node_modules', packageName, 'package.json')
 
-  return !fs.existsSync(baseFile)
+  return !fs.existsSync(baseFile) && upperPaths <= 10
     ? getPackageLocation(packageName, upperPaths + 1)
     : baseFile
 }
