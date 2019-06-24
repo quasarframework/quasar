@@ -22,7 +22,7 @@ function encode (obj) {
 }
 
 function formatPublicPath (path) {
-  if (!path) {
+  if (!path || path.startsWith('http')) {
     return path
   }
   if (!path.startsWith('/')) {

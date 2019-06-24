@@ -330,6 +330,7 @@ module.exports = function (cfg, configName) {
             cssProcessorPluginOptions: {
               preset: ['default', {
                 mergeLonghand: false,
+                convertValues: false,
                 cssDeclarationSorter: false,
                 reduceTransforms: false
               }]
