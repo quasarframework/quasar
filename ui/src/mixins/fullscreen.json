@@ -8,6 +8,12 @@
         ":fullscreen.sync=\"isFullscreen\""
       ],
       "category": "behavior"
+    },
+    "exit-fullscreen-on-route-change": {
+      "type": "Boolean",
+      "default": true,
+      "desc": "Exit fullscreen when route changes",
+      "category": "behavior"
     }
   },
 
