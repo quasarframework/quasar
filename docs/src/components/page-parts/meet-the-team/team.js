@@ -133,6 +133,7 @@ export default [
     github: 'sskwrl',
     desc: 'Help desk'
   },
+
   {
     name: 'Heitor Ribeiro',
     role: 'Community Staff',
