@@ -132,5 +132,12 @@ export default [
     avatar: 'ben_coughenour.jpg',
     github: 'sskwrl',
     desc: 'Help desk'
+  },
+  {
+    name: 'Heitor Ribeiro',
+    role: 'Community Staff',
+    avatar: 'heitor_ribeiro.jpg',
+    github: 'bloodf',
+    desc: 'Writes some articles and offers community support.'
   }
 ]
