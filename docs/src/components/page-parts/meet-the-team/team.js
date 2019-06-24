@@ -140,5 +140,13 @@ export default [
     avatar: 'heitor_ribeiro.jpg',
     github: 'bloodf',
     desc: 'Writes some articles and offers community support.'
+  },
+
+  {
+    name: 'Steve Clarke',
+    role: 'Community Staff',
+    avatar: 'steve_clarke.jpg',
+    github: 'steveclarke',
+    desc: 'Help desk'
   }
 ]
