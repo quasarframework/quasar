@@ -176,16 +176,20 @@ export default Vue.extend({
         return
       }
 
-      let target = this.$refs.target
-      if (target !== void 0) {
-        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target.focus()
-      }
+      this.__focus()
     },
 
     blur () {
       const el = document.activeElement
       this.$el.contains(el) && el.blur()
+    },
+
+    __focus () {
+      let target = this.$refs.target
+      if (target !== void 0) {
+        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target !== null && target.focus()
+      }
     },
 
     __getContent (h) {

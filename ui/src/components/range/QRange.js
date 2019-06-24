@@ -3,7 +3,8 @@ import Vue from 'vue'
 import {
   getRatio,
   getModel,
-  SliderMixin
+  SliderMixin,
+  keyCodes
 } from '../slider/slider-utils.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
@@ -193,8 +194,8 @@ export default Vue.extend({
     __updateValue (change) {
       if (this.model.min !== this.value.min || this.model.max !== this.value.max) {
         this.$emit('input', this.model)
-        change === true && this.$emit('change', this.model)
       }
+      change === true && this.$emit('change', this.model)
     },
 
     __getDragging (event) {
@@ -331,8 +332,7 @@ export default Vue.extend({
     },
 
     __keydown (evt) {
-      // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
-      if (![34, 37, 40, 33, 39, 38].includes(evt.keyCode)) {
+      if (!keyCodes.includes(evt.keyCode)) {
         return
       }
 
@@ -345,22 +345,31 @@ export default Vue.extend({
       if (this.dragOnlyRange) {
         const interval = this.dragOnlyRange ? this.model.max - this.model.min : 0
 
-        this.model.min = between(
+        const min = between(
           parseFloat((this.model.min + offset).toFixed(this.decimals)),
           this.min,
           this.max - interval
         )
 
-        this.model.max = parseFloat((this.model.min + interval).toFixed(this.decimals))
+        this.model = {
+          min,
+          max: parseFloat((min + interval).toFixed(this.decimals))
+        }
+      }
+      else if (this.focus === false) {
+        return
       }
       else {
         const which = this.focus
 
-        this.model[which] = between(
-          parseFloat((this.model[which] + offset).toFixed(this.decimals)),
-          which === 'min' ? this.min : this.model.min,
-          which === 'max' ? this.max : this.model.max
-        )
+        this.model = {
+          ...this.model,
+          [which]: between(
+            parseFloat((this.model[which] + offset).toFixed(this.decimals)),
+            which === 'min' ? this.min : this.model.min,
+            which === 'max' ? this.max : this.model.max
+          )
+        }
       }
 
       this.__updateValue()

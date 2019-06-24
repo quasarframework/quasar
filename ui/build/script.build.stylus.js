@@ -9,6 +9,17 @@ const
   buildUtils = require('./build.utils'),
   pathList = [path.join(__dirname, '../src/css/')]
 
+const nano = postcss([
+  cssnano({
+    preset: ['default', {
+      mergeLonghand: false,
+      convertValues: false,
+      cssDeclarationSorter: false,
+      reduceTransforms: false
+    }]
+  })
+])
+
 Promise
   .all([
     generateBase(),
@@ -62,7 +73,7 @@ function generateFiles ({ sources, name = '', styl }) {
 
 function generateUMD (name, code, ext = '') {
   return buildUtils.writeFile(`dist/quasar${name}${ext}.css`, code, true)
-    .then(code => cssnano.process(code, { from: void 0 }))
+    .then(code => nano.process(code, { from: void 0 }))
     .then(code => buildUtils.writeFile(`dist/quasar${name}${ext}.min.css`, code.css, true))
 }
 

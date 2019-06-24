@@ -97,8 +97,8 @@ export default Vue.extend({
     __updateValue (change) {
       if (this.model !== this.value) {
         this.$emit('input', this.model)
-        change === true && this.$emit('change', this.model)
       }
+      change === true && this.$emit('change', this.model)
     },
 
     __getDragging () {

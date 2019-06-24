@@ -81,20 +81,26 @@ export default {
         get: () => this.isRowSelected(data.key),
         set: adding => {
           this.__updateSelection([data.key], [data.row], adding)
-        }
+        },
+        configurable: true,
+        enumerable: true
       })
 
       Object.defineProperty(data, 'expand', {
         get: () => this.rowsExpanded[data.key] === true,
         set: val => {
           this.$set(this.rowsExpanded, data.key, val)
-        }
+        },
+        configurable: true,
+        enumerable: true
       })
 
       data.cols = data.cols.map(col => {
         const c = { ...col }
         Object.defineProperty(c, 'value', {
-          get: () => this.getCellValue(col, data.row)
+          get: () => this.getCellValue(col, data.row),
+          configurable: true,
+          enumerable: true
         })
         return c
       })
@@ -104,7 +110,9 @@ export default {
 
     addBodyCellMetaData (data) {
       Object.defineProperty(data, 'value', {
-        get: () => this.getCellValue(data.col, data.row)
+        get: () => this.getCellValue(data.col, data.row),
+        configurable: true,
+        enumerable: true
       })
       return data
     },

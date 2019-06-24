@@ -171,6 +171,9 @@ export class Caret {
       }
       return false
     }
+    if (name === 'link') {
+      return this.selection || this.is('link')
+    }
   }
 
   apply (cmd, param, done = () => {}) {
@@ -210,14 +213,16 @@ export class Caret {
         if (!url.length) {
           return
         }
-        this.vm.editLinkUrl = urlRegex.test(url) ? url : ''
-        document.execCommand('createLink', false, this.vm.editLinkUrl === '' ? ' ' : this.vm.editLinkUrl)
+        this.vm.editLinkUrl = urlRegex.test(url) ? url : 'https://'
+        document.execCommand('createLink', false, this.vm.editLinkUrl)
       }
       else {
         this.vm.editLinkUrl = link
       }
-      this.range.selectNodeContents(this.parent)
-      this.save()
+      this.vm.$nextTick(() => {
+        this.range.selectNodeContents(this.parent)
+        this.save()
+      })
       return
     }
     else if (cmd === 'fullscreen') {
@@ -242,7 +247,7 @@ export class Caret {
   }
 
   selectWord (sel) {
-    if (!sel.isCollapsed) {
+    if (!sel || !sel.isCollapsed) {
       return sel
     }
 

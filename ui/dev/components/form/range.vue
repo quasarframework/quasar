@@ -110,6 +110,7 @@
         </span>
       </p>
       <q-range :dark="dark" :dense="dense" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label />
+      <q-range :dark="dark" :dense="dense" :value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label />
 
       <p class="caption">
         Readonly State
