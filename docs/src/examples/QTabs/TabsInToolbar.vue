@@ -8,7 +8,7 @@
         notice shrink property since we are placing it
         as child of QToolbar
       -->
-      <q-tabs v-model="tab" shrink>
+      <q-tabs v-model="tab" shrink stretch>
         <q-tab name="tab1" label="Tab 1" />
         <q-tab name="tab2" label="Tab 2" />
         <q-tab name="tab3" label="Tab 3" />

@@ -38,7 +38,7 @@ export default {
             return sortDate(A, B) * dir
           }
           if (typeof A === 'boolean' && typeof B === 'boolean') {
-            return (a - b) * dir
+            return (A - B) * dir
           }
 
           [A, B] = [A, B].map(s => (s + '').toLocaleString().toLowerCase())

@@ -2,7 +2,25 @@
 div
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, :label="`v${$q.version}`", auto-close)
     q-list(dense padding)
-      q-item-label(header) Older docs
+      q-item-label(header) Latest (v{{ $q.version }})
+      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/releases", target="_blank")
+          q-item-section.text-teal(avatar)
+            q-icon(name="assignment")
+          q-item-section Release notes
+
+      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/issues", target="_blank")
+          q-item-section.text-purple(avatar)
+            q-icon(name="bug_report")
+          q-item-section Report a bug
+
+      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank")
+          q-item-section(avatar)
+            q-icon(name="fab fa-github")
+          q-item-section Repository
+
+      q-separator.q-mb-sm.q-mt-md
+
+      q-item-label(header) Older Releases
       q-item(
         v-for="version in ['17', '16', '15', '14', '13']"
         :key="version"
@@ -11,26 +29,21 @@ div
         :href="`https://v0-${version}.quasar-framework.org/`"
         target="_blank"
       )
-        q-item-section {{ `v0.${version}` }}
+        q-item-section {{ `v0.${version}` }} docs
 
-  q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Links", auto-close)
+  q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Tools", auto-close)
     q-list(dense padding)
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar-awesome", target="_blank")
         q-item-section.text-yellow-9(avatar)
           q-icon(name="flare")
-        q-item-section Awesome Quasar
+        q-item-section Awesome List
 
-      q-item(clickable, tag="a", href="https://blog.quasar.dev", target="_blank")
+      q-item(to="/app-extensions/discover")
         q-item-section.text-primary(avatar)
-          q-icon(name="fab fa-medium")
-        q-item-section Quasar Blog
+          q-icon(name="note_add")
+        q-item-section App Extensions
 
-      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank")
-        q-item-section(avatar)
-          q-icon(name="fab fa-github")
-        q-item-section GitHub
-
-      q-item-label.q-mt-md(header) Quick Tools
+      q-item-label.q-mt-md(header) Helpers
 
       q-item(clickable, to="/style/theme-builder")
         q-item-section.text-teal(avatar)
@@ -59,25 +72,13 @@ div
           q-icon(name="fas fa-cubes")
         q-item-section Codesandbox
 
-      q-item-label.q-mt-md(header) Social
-
-      q-item(clickable, tag="a", href="https://forum.quasar.dev/category/1/announcements", target="_blank")
-        q-item-section.text-purple(avatar)
-          q-icon(name="announcement")
-        q-item-section Announcements
-
-      q-item(clickable, tag="a", href="https://twitter.com/quasarframework", target="_blank")
-        q-item-section.text-blue(avatar)
-          q-icon(name="fab fa-twitter")
-        q-item-section Twitter
-
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Support", auto-close)
     q-list(dense padding)
 
       q-item(clickable, tag="a", href="https://chat.quasar.dev", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(name="fab fa-discord")
-        q-item-section Chat
+        q-item-section Discord Chat
 
       q-item(clickable, tag="a", href="https://forum.quasar.dev/", target="_blank")
         q-item-section.text-secondary(avatar)
@@ -89,7 +90,29 @@ div
           q-icon(name="fab fa-stack-overflow")
         q-item-section Stack Overflow
 
-      q-separator.q-my-sm
+      q-item(clickable, tag="a", href="https://github.com/quasarframework", target="_blank")
+        q-item-section(avatar)
+          q-icon(name="fab fa-github")
+        q-item-section Github Repositories
+
+      q-item-label.q-mt-md(header) Social
+
+      q-item(clickable, tag="a", href="https://blog.quasar.dev", target="_blank")
+        q-item-section.text-primary(avatar)
+          q-icon(name="fab fa-medium")
+        q-item-section Blog
+
+      q-item(clickable, tag="a", href="https://forum.quasar.dev/category/1/announcements", target="_blank")
+        q-item-section.text-purple(avatar)
+          q-icon(name="announcement")
+        q-item-section Announcements
+
+      q-item(clickable, tag="a", href="https://twitter.com/quasarframework", target="_blank")
+        q-item-section.text-blue(avatar)
+          q-icon(name="fab fa-twitter")
+        q-item-section Twitter
+
+      q-item-label.q-mt-md(header) Donate
 
       q-item(clickable, tag="a", href="https://github.com/users/rstoenescu/sponsorship", target="_blank")
         q-item-section(avatar)

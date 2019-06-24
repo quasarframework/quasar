@@ -25,6 +25,8 @@ $ quasar dev -m pwa
 
 # Mobile App
 $ quasar dev -m cordova -T [android|ios]
+# or the shorter form:
+$ quasar dev -m [android|ios]
 
 # Electron App
 $ quasar dev -m electron

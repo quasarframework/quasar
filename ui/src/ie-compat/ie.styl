@@ -41,6 +41,13 @@ ie_style = @block
           flex-basis auto
           min-width 0%
 
+  /* QItem */
+  .q-item
+    &__section
+      &--avatar
+        // overwritten above by min-width 0%
+        min-width 56px
+
   /* QBtn */
   .q-btn
     &:not(.disabled):active,
