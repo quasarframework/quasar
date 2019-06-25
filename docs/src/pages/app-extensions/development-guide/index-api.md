@@ -330,6 +330,22 @@ api.beforeDev((api) => {
 })
 ```
 
+## api.afterDev
+
+Run hook after Quasar dev server is started (`$ quasar build`). At this point, the dev server has been started and is available should you wish to do something with it.
+
+Can use async/await or directly return a Promise.
+
+```js
+/**
+ * @param {function} fn
+ *   () => ?Promise
+ */
+api.afterDev((api) => {
+  // do something
+})
+```
+
 ## api.beforeBuild
 
 <q-badge label="@quasar/app v1.0.0-beta.16+" />
