@@ -150,7 +150,7 @@ api.extendQuasarConf ((cfg, ctx, api) => {
 module.exports = function (api, ctx) {
   api.extendQuasarConf((conf, api) => {
     // make sure my-ext boot file is registered
-    conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
+    conf.boot.push('~quasar-app-extension-my-ext/src/boot/my-ext-bootfile.js')
 
     // make sure boot file transpiles
     conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
@@ -158,7 +158,7 @@ module.exports = function (api, ctx) {
     // the regex above matches those files too!
 
     // make sure my-ext css goes through webpack
-    conf.css.push('~quasar-app-extension-qmarkdown/src/component/my-ext.styl')
+    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.styl')
   })
 }
 ```

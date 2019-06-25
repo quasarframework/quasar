@@ -474,12 +474,6 @@ $blue-grey-12 ?= #b0bec5
 $blue-grey-13 ?= #78909c
 $blue-grey-14 ?= #455a64
 
-max(value1, value2)
-  if value1 <= value2
-    value2
-  else
-    value1
-
 $ios-statusbar-height ?= 20px
 
 $z-fab                ?= 990
@@ -495,7 +489,7 @@ $z-max                ?= 9998
 
 $shadow-color         ?= black
 $shadow-transition    ?= box-shadow .28s cubic-bezier(.4, 0, .2, 1)
-$inset-shadow         ?= 0 7px 9px -7px alpha($shadow-color, .7) inset
+$inset-shadow         ?= 0 7px 9px -7px rgba($shadow-color, .7) inset
 
 $elevation-umbra      ?= rgba($shadow-color, .2)
 $elevation-penumbra   ?= rgba($shadow-color, .14)
