@@ -95,7 +95,7 @@ export default [
   },
 
   {
-    name: 'Matyas Panstromek',
+    name: 'Matyáš Racek',
     role: 'Community Staff',
     avatar: 'matyas_panstromek.jpeg',
     github: 'panstromek',
@@ -139,6 +139,6 @@ export default [
     role: 'Community Staff',
     avatar: 'heitor_ribeiro.jpg',
     github: 'bloodf',
-    desc: 'Writes some articles and offers community support.'
+    desc: 'Writes articles and offers community support.'
   }
 ]
