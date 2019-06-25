@@ -56,10 +56,18 @@ export default [
 
   {
     name: 'Scott Molinari',
-    role: 'DevOps / Community Staff',
+    role: 'DevOps / Senior Developer',
     avatar: 'scott_molinari.jpg',
     github: 'smolinari',
     desc: 'Helps with docs, bug reports, external systems, writes articles and offers community support.'
+  },
+
+  {
+    name: 'Tobias Mesquita',
+    role: 'Senior Developer',
+    avatar: 'tobias_mesquita.jpg',
+    github: 'TobyMosque',
+    desc: 'Help desk'
   },
 
   {
@@ -76,14 +84,6 @@ export default [
     avatar: 'noah_klayman.jpeg',
     github: 'nklayman',
     desc: 'GraphQL, App Extensions'
-  },
-
-  {
-    name: 'Tobias Mesquita',
-    role: 'Community Staff',
-    avatar: 'tobias_mesquita.jpg',
-    github: 'TobyMosque',
-    desc: 'Help desk'
   },
 
   {
