@@ -210,13 +210,13 @@ async function build () {
       banner(argv, 'build', { outputFolder })
 
       if (typeof buildConfig.build.afterBuild === 'function') {
-        await buildConfig.build.afterBuild()
+        await buildConfig.build.afterBuild(buildConfig)
       }
 
       // run possible beforeBuild hooks
       await extensionRunner.runHook('afterBuild', async hook => {
         log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
-        await hook.fn(hook.api)
+        await hook.fn(hook.api, buildConfig)
       })
 
       if (argv.publish !== void 0) {

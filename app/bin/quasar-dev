@@ -198,12 +198,12 @@ async function goLive () {
   let dev = startDev()
     .then(async () => {
       if (typeof buildConfig.build.afterDev === 'function') {
-        await buildConfig.build.afterDev()
+        await buildConfig.build.afterDev(buildConfig)
       }
       // run possible afterDev hooks
       await extensionRunner.runHook('afterDev', async hook => {
         log(`Extension(${hook.api.extId}): Running afterDev hook...`)
-        await hook.fn(hook.api)
+        await hook.fn(hook.api, buildConfig)
       })
     })
 }

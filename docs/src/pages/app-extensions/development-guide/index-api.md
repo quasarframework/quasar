@@ -340,8 +340,9 @@ Can use async/await or directly return a Promise.
 /**
  * @param {function} fn
  *   () => ?Promise
+ * @param {object} cfg Quasar config object
  */
-api.afterDev((api) => {
+api.afterDev((api, cfg) => {
   // do something
 })
 ```
@@ -374,8 +375,9 @@ Can use async/await or directly return a Promise.
 /**
  * @param {function} fn
  *   () => ?Promise
+ * @param {object} cfg Quasar config object
  */
-api.afterBuild((api) => {
+api.afterBuild((api, cfg) => {
   // do something
 })
 ```

@@ -236,6 +236,7 @@ module.exports = class IndexAPI {
    *
    * @param {function} fn
    *   () => ?Promise
+   * @param {object} cfg Quasar config object
    */
   afterDev(fn) {
     this.__addHook('afterDev', fn)
@@ -259,6 +260,7 @@ module.exports = class IndexAPI {
    *
    * @param {function} fn
    *   () => ?Promise
+   * @param {object} cfg Quasar config object
    */
   afterBuild (fn) {
     this.__addHook('afterBuild', fn)
