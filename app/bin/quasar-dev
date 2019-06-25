@@ -43,7 +43,7 @@ if (argv.help) {
     $ quasar dev -m android
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|electron|capacitor] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -51,6 +51,9 @@ if (argv.help) {
     Only for Cordova mode:
     --target, -T     (required) App target
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+    Only for Capacitor mode:
+    --target, -T     (required) App target
+                        [android|ios]
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
