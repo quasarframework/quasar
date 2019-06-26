@@ -324,8 +324,10 @@ Can use async/await or directly return a Promise.
 /**
  * @param {function} fn
  *   () => ?Promise
+ * @param {object}
+ *     - quasarConf Quasar config object
  */
-api.beforeDev((api) => {
+api.beforeDev((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -340,9 +342,10 @@ Can use async/await or directly return a Promise.
 /**
  * @param {function} fn
  *   () => ?Promise
- * @param {object} cfg Quasar config object
+ * @param {object}
+ *     - quasarConf Quasar config object
  */
-api.afterDev((api, cfg) => {
+api.afterDev((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -359,8 +362,10 @@ Can use async/await or directly return a Promise.
 /**
  * @param {function} fn
  *   () => ?Promise
+ * @param {object}
+ *     - quasarConf Quasar config object
  */
-api.beforeBuild((api) => {
+api.beforeBuild((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -375,9 +380,10 @@ Can use async/await or directly return a Promise.
 /**
  * @param {function} fn
  *   () => ?Promise
- * @param {object} cfg Quasar config object
+ * @param {object}
+ *     - quasarConf Quasar config object
  */
-api.afterBuild((api, cfg) => {
+api.afterBuild((api, { quasarConf }) => {
   // do something
 })
 ```
