@@ -223,7 +223,7 @@ module.exports = class IndexAPI {
    * Prepare external services before dev command runs.
    *
    * @param {function} fn
-   *   () => ?Promise
+   *   (api, { quasarConf }) => ?Promise
    */
   beforeDev (fn) {
     this.__addHook('beforeDev', fn)
@@ -235,8 +235,7 @@ module.exports = class IndexAPI {
    * should you wish to do something with it.
    *
    * @param {function} fn
-   *   () => ?Promise
-   * @param {object} cfg Quasar config object
+   *   (api, { quasarConf }) => ?Promise
    */
   afterDev(fn) {
     this.__addHook('afterDev', fn)
@@ -247,7 +246,7 @@ module.exports = class IndexAPI {
    * At this point, the distributables folder hasn't been created yet.
    *
    * @param {function} fn
-   *   () => ?Promise
+   *   (api, { quasarConf }) => ?Promise
    */
   beforeBuild (fn) {
     this.__addHook('beforeBuild', fn)
@@ -259,8 +258,7 @@ module.exports = class IndexAPI {
    * should you wish to do something with it.
    *
    * @param {function} fn
-   *   () => ?Promise
-   * @param {object} cfg Quasar config object
+   *   (api, { quasarConf }) => ?Promise
    */
   afterBuild (fn) {
     this.__addHook('afterBuild', fn)
@@ -272,10 +270,10 @@ module.exports = class IndexAPI {
    * hook (if specified) was executed.
    *
    * @param {function} fn
-   *   () => ?Promise
-   * @param {object} opts
-   *   * arg - argument supplied to "--publish"/"-P" parameter
-   *   * distDir - folder where distributables were built
+   *   ({ arg, ...}) => ?Promise
+   *      * arg - argument supplied to "--publish"/"-P" parameter
+   *      * quasarConf - quasar.conf config object
+   *      * distDir - folder where distributables were built
    */
   onPublish (fn) {
     this.__addHook('onPublish', fn)
