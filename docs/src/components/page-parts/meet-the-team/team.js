@@ -56,10 +56,18 @@ export default [
 
   {
     name: 'Scott Molinari',
-    role: 'DevOps / Community Staff',
+    role: 'DevOps / Senior Developer',
     avatar: 'scott_molinari.jpg',
     github: 'smolinari',
     desc: 'Helps with docs, bug reports, external systems, writes articles and offers community support.'
+  },
+
+  {
+    name: 'Tobias Mesquita',
+    role: 'Senior Developer',
+    avatar: 'tobias_mesquita.jpg',
+    github: 'TobyMosque',
+    desc: 'Help desk'
   },
 
   {
@@ -79,14 +87,6 @@ export default [
   },
 
   {
-    name: 'Tobias Mesquita',
-    role: 'Community Staff',
-    avatar: 'tobias_mesquita.jpg',
-    github: 'TobyMosque',
-    desc: 'Help desk'
-  },
-
-  {
     name: 'Aldrin Marquez',
     role: 'Community Staff',
     avatar: 'aldrin_marquez.jpg',
@@ -95,7 +95,7 @@ export default [
   },
 
   {
-    name: 'Matyas Panstromek',
+    name: 'Matyáš Racek',
     role: 'Community Staff',
     avatar: 'matyas_panstromek.jpeg',
     github: 'panstromek',
@@ -139,6 +139,6 @@ export default [
     role: 'Community Staff',
     avatar: 'heitor_ribeiro.jpg',
     github: 'bloodf',
-    desc: 'Writes some articles and offers community support.'
+    desc: 'Writes articles and offers community support.'
   }
 ]
