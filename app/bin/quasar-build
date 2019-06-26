@@ -159,13 +159,13 @@ async function build () {
   generator.build()
 
   if (typeof buildConfig.build.beforeBuild === 'function') {
-    await buildConfig.build.beforeBuild()
+    await buildConfig.build.beforeBuild({ quasarConf: buildConfig })
   }
 
   // run possible beforeBuild hooks
   await extensionRunner.runHook('beforeBuild', async hook => {
     log(`Extension(${hook.api.extId}): Running beforeBuild hook...`)
-    await hook.fn(hook.api)
+    await hook.fn(hook.api, { quasarConf: buildConfig })
   })
 
   log(chalk.bold(`Building...`))
@@ -210,19 +210,20 @@ async function build () {
       banner(argv, 'build', { outputFolder })
 
       if (typeof buildConfig.build.afterBuild === 'function') {
-        await buildConfig.build.afterBuild()
+        await buildConfig.build.afterBuild({ quasarConf: buildConfig })
       }
 
       // run possible beforeBuild hooks
       await extensionRunner.runHook('afterBuild', async hook => {
         log(`Extension(${hook.api.extId}): Running afterBuild hook...`)
-        await hook.fn(hook.api)
+        await hook.fn(hook.api, { quasarConf: buildConfig })
       })
 
       if (argv.publish !== void 0) {
         const opts = {
           arg: argv.publish,
-          distDir: outputFolder
+          distDir: outputFolder,
+          quasarConf: buildConfig
         }
 
         if (typeof buildConfig.build.onPublish === 'function') {

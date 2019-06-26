@@ -323,9 +323,9 @@ Can use async/await or directly return a Promise.
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.beforeDev((api) => {
+api.beforeDev((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -339,9 +339,9 @@ Can use async/await or directly return a Promise.
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.afterDev((api) => {
+api.afterDev((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -357,9 +357,9 @@ Can use async/await or directly return a Promise.
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.beforeBuild((api) => {
+api.beforeBuild((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -373,9 +373,9 @@ Can use async/await or directly return a Promise.
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.afterBuild((api) => {
+api.afterBuild((api, { quasarConf }) => {
   // do something
 })
 ```
