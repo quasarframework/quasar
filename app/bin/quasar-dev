@@ -196,7 +196,7 @@ async function goLive () {
   }
 
   let dev = startDev()
-    .then(async () => {
+    .then(async (devServer) => {
       if (typeof buildConfig.build.afterDev === 'function') {
         await buildConfig.build.afterDev()
       }
@@ -205,6 +205,8 @@ async function goLive () {
         log(`Extension(${hook.api.extId}): Running afterDev hook...`)
         await hook.fn(hook.api)
       })
+
+      return devServer
     })
 }
 
