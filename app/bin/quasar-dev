@@ -168,13 +168,13 @@ async function goLive () {
   buildConfig = quasarConfig.getBuildConfig()
 
   if (typeof buildConfig.build.beforeDev === 'function') {
-    await buildConfig.build.beforeDev()
+    await buildConfig.build.beforeDev({ quasarConf: buildConfig })
   }
 
   // run possible beforeDev hooks
   await extensionRunner.runHook('beforeDev', async hook => {
     log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
-    await hook.fn(hook.api)
+    await hook.fn(hook.api, { quasarConf: buildConfig })
   })
 
   const
@@ -198,12 +198,12 @@ async function goLive () {
   let dev = startDev()
     .then(async (devServer) => {
       if (typeof buildConfig.build.afterDev === 'function') {
-        await buildConfig.build.afterDev()
+        await buildConfig.build.afterDev({ quasarConf: buildConfig })
       }
       // run possible afterDev hooks
       await extensionRunner.runHook('afterDev', async hook => {
         log(`Extension(${hook.api.extId}): Running afterDev hook...`)
-        await hook.fn(hook.api)
+        await hook.fn(hook.api, { quasarConf: buildConfig })
       })
 
       return devServer
