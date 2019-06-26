@@ -78,7 +78,7 @@ async function parseAddress ({ host, port }) {
     if (host && ['localhost', '127.0.0.1', '::1'].includes(host.toLowerCase())) {
       host = '0.0.0.0'
     }
-    if (argv.mode === 'cordova' && (!host || host === '0.0.0.0')) {
+    if ((argv.mode === 'cordova' || argv.mode === 'capacitor' )&& (!host || host === '0.0.0.0')) {
       const getExternalIP = require('../lib/helpers/get-external-ip')
       host = await getExternalIP()
       this.chosenHost = host
@@ -183,6 +183,7 @@ async function goLive () {
   const
     generator = new Generator(quasarConfig),
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
+    Capacitor = argv.mode === 'capacitor' ? require('../lib/capacitor') : false,
     Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
   function startDev (oldDevServer) {
@@ -194,6 +195,7 @@ async function goLive () {
       .then(() => generator.build()) // Update generated files
       .then(() => devServer.listen()) // Start listening
       .then(() => Electron && Electron.run(quasarConfig))
+      .then(() => Capacitor && Capacitor.run(quasarConfig))
       .then(() => Cordova && Cordova.run(quasarConfig))
       .then(() => devServer) // Pass new builder to watch chain
   }
