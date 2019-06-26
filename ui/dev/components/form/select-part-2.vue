@@ -424,10 +424,58 @@
             @blur="onBlur"
           />
 
+          <div class="text-h6">
+            Heavy test - Variable size (10k options)
+          </div>
           <q-select
             v-bind="props"
             v-model="heavyModel"
             label="Heavy"
+            multiple
+            use-input
+            use-chips
+            :options="heavyFilterInputOptions"
+            @filter="heavyFilterInputFn"
+            @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
+          >
+            <template v-slot:option="scope">
+              <div>
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents"
+                  :key="scope.index"
+                >
+                  <q-item-section>
+                    <q-item-label>
+                      Option - {{ scope.opt.label }} - {{ scope.index }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-sm" v-if="(scope.index % 5) === 0">
+                      {{ scope.opt.label }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-md text-negative" v-if="(scope.index % 3) === 0">
+                      {{ scope.opt.value }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-lg text-positive" v-if="(scope.index % 4) === 0">
+                      {{ scope.index }} - {{ scope.opt.label }} - {{ scope.opt.value }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-separator />
+              </div>
+            </template>
+          </q-select>
+
+          <q-select
+            ref="prefilter1"
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy multiple with search"
             multiple
             use-chips
             use-input
@@ -437,6 +485,23 @@
             @focus="onFocus"
             @blur="onBlur"
           />
+
+          <q-btn label="Prefilter Heavy multiple with 123" @click="() => prefilter('prefilter1')" />
+
+          <q-select
+            ref="prefilter2"
+            v-bind="props"
+            v-model="heavyModelSingle"
+            label="Heavy single with search"
+            use-input
+            :options="heavyFilterInputOptions"
+            @filter="heavyFilterInputFn"
+            @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
+          />
+
+          <q-btn label="Prefilter Heavy single with 123" @click="() => prefilter('prefilter2')" />
 
           <div style="height: 400px">
             Scroll on purpose
@@ -571,6 +636,7 @@ export default {
       ],
 
       heavyModel: [],
+      heavyModelSingle: null,
       heavyFilterInputOptions: null
     }
   },
@@ -695,6 +761,7 @@ export default {
     },
 
     heavyFilterInputFn (val, update) {
+      console.log(val)
       if (val === '') {
         update(() => {
           this.heavyFilterInputOptions = heavyOptions
@@ -710,6 +777,11 @@ export default {
 
     delayedAbort () {
       console.log('delayed filter aborted')
+    },
+
+    prefilter (ref) {
+      this.$refs[ref].updateInputValue('123')
+      this.$refs[ref].showPopup()
     },
 
     onSubmit () {
