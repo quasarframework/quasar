@@ -95,7 +95,6 @@ build: {
       loader: 'eslint-loader',
       exclude: /[\\/]node_modules[\\/]/,
       options: {
-        failOnError: true,
         formatter: require('eslint').CLIEngine.getFormatter('stylish')
       }
     })
