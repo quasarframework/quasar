@@ -3,7 +3,7 @@ const log = require('../helpers/logger')('app:capacitor'),
   fse = require('fs-extra'),
   path = require('path'),
   { spawn } = require('../helpers/spawn'),
-  onShutdown = require('../helpers/on-shutdown'),
+  getCapacitorBinaryBath = require('../capacitor/getCapacitorBinaryPath'),
   appPaths = require('../app-paths')
 
 class CapacitorRunner {
@@ -101,7 +101,7 @@ class CapacitorRunner {
 
   __runCapacitorCommand(args) {
     return new Promise(resolve => {
-      spawn('node_modules/.bin/capacitor', args, appPaths.appDir, code => {
+      spawn(getCapacitorBinaryBath(), args, appPaths.appDir, code => {
         if (code) {
           warn(`⚠️  [FAIL] Capacitor CLI has failed`)
           process.exit(1)

@@ -1,6 +1,8 @@
 const fs = require('fs'),
   fse = require('fs-extra'),
   appPaths = require('../app-paths'),
+  path = require('path'),
+  getCapacitorBinaryBath = require('../capacitor/getCapacitorBinaryPath'),
   logger = require('../helpers/logger'),
   log = logger('app:mode-capacitor'),
   warn = logger('app:mode-capacitor', 'red'),
@@ -55,7 +57,7 @@ class Mode {
     )
 
     log(`Initializing capacitor...`)
-    spawnSync('node_modules/.bin/cap', [
+    spawnSync(getCapacitorBinaryBath(), [
       'init',
       '--web-dir',
       'dist/capacitor',
