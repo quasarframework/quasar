@@ -30,7 +30,7 @@ Quasar Framework is an MIT licensed open source project and completely free to u
 
 # Backers
 
-You can join them in supporting Quasar development by [pledging on Github](https://github.com/users/rstoenescu/sponsorship)! Backers in the same pledge level appear in the order of pledge date.
+You can join them in [supporting Quasar](https://donate.quasar.dev) development! Backers in the same pledge level appear in the order of pledge date.
 
 ### $500
 
