@@ -13,6 +13,7 @@ import QDialog from '../dialog/QDialog.js'
 
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+import debounce from '../../utils/debounce'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
@@ -1116,7 +1117,9 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.__setOptionsSliceRange = frameDebounce(this.__setOptionsSliceRange)
+    this.__setOptionsSliceRange = this.$q.platform.is.android === true
+      ? debounce(this.__setOptionsSliceRange, 50)
+      : frameDebounce(this.__setOptionsSliceRange)
   },
 
   beforeDestroy () {
