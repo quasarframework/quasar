@@ -69,7 +69,7 @@
         :reverse-fill-mask="fillRight"
         :fill-mask="fillMaskComp"
         :unmasked-value="fillUnmask"
-        v-model="textMask"
+        v-model.number="textMask"
         filled
         label="Masked input"
         :input-class="{ 'text-right': fillRight }"
@@ -94,7 +94,7 @@ export default {
 
       // mask: '(###) ###S - (###)',
       mask: '#.##',
-      textMask: '123.50',
+      textMask: 123.45,
 
       fillRight: true,
       fillMask: true,
