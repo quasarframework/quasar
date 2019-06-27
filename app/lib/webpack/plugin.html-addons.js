@@ -39,7 +39,7 @@ module.exports.plugin = class HtmlAddonsPlugin {
         if (this.cfg.ctx.mode.electron && this.cfg.ctx.dev) {
           data.head.push(
             makeScriptTag(`
-              require('module').globalPaths.push('${appPaths.resolve.app('node_modules').replace(/\\/g, '\\\\')}')
+              require('module').globalPaths.push('${appPaths.appDir.replace(/\\/g, '\\\\')}')
             `)
           )
         }
