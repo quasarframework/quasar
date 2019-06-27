@@ -20,7 +20,7 @@ If you want to open the telephone dialer in a Cordova app, don't use `openURL()`
 :::
 
 ## Debounce Function
-If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.
+If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it breaks browser performance. Debouncing a function limits the rate at which the function can fire.
 
 Debouncing enforces that a function not be called again until a certain amount of time has passed without it being called. As in "execute this function only if 100 milliseconds have passed without it being called."
 
