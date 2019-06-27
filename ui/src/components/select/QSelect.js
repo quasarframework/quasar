@@ -13,7 +13,7 @@ import QDialog from '../dialog/QDialog.js'
 
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
-import debounce from '../../utils/debounce.js'
+import frameDebounce from '../../utils/frame-debounce.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
@@ -609,7 +609,7 @@ export default Vue.extend({
         this.optionsSliceRange = { from, to }
       }
 
-      requestAnimationFrame(() => {
+      this.$nextTick(() => {
         const content = target === void 0 ? null : target.querySelector('.q-select__options--content')
 
         if (content === null) {
@@ -1116,7 +1116,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.__setOptionsSliceRange = debounce(this.__setOptionsSliceRange, 50)
+    this.__setOptionsSliceRange = frameDebounce(this.__setOptionsSliceRange)
   },
 
   beforeDestroy () {
