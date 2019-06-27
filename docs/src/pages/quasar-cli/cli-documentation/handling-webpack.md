@@ -20,7 +20,6 @@ build: {
       loader: 'eslint-loader',
       exclude: /(node_modules|quasar)/,
       options: {
-        failOnError: true,
         formatter: require('eslint').CLIEngine.getFormatter('stylish')
       }
     })
