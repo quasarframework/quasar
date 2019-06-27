@@ -36,7 +36,8 @@ class CapacitorRunner {
         }
       }
       await this.__runCapacitorCommand(['open', cfg.ctx.targetName])
-      if (!/^192/.test(url)) {
+      // TODO: Properly determine if dev server is hosted on local network
+      if (!/^https?:\/\/192/.test(url)) {
         warn(
           'It appears your dev server is not hosted on your local network. You will only be able to run your app on an emulator.'
         )
