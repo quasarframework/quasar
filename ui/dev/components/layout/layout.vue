@@ -342,7 +342,7 @@
             <q-toggle dense v-model="leftMiniToOverlay" label="Left Mini to Overlay" />
           </div>
           <div>
-            <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" />
+            <q-select emit-value v-model="leftBehavior" :options="drawerBehaviorOptions" />
           </div>
           <div>
             <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" />
@@ -365,7 +365,7 @@
             <q-toggle dense v-model="rightMiniToOverlay" label="Right Mini to Overlay" />
           </div>
           <div>
-            <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" />
+            <q-select emit-value v-model="rightBehavior" :options="drawerBehaviorOptions" />
           </div>
           <div>
             <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" />
