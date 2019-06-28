@@ -37,6 +37,7 @@ export default Vue.extend({
       default: 300
     },
     mini: Boolean,
+    miniToOverlay: Boolean,
     miniWidth: {
       type: Number,
       default: 57
@@ -137,12 +138,12 @@ export default Vue.extend({
     },
 
     offset (val) {
-      this.__update('offset', val)
+      this.__update('offset', this.miniToOverlay ? this.miniWidth : val)
     },
 
     onLayout (val) {
       this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', val)
-      this.__update('space', val)
+      this.__update('space', this.miniToOverlay ? this.value : val)
     },
 
     $route () {
@@ -160,7 +161,7 @@ export default Vue.extend({
 
     size (val) {
       this.applyPosition()
-      this.__update('size', val)
+      this.__update('size', this.miniToOverlay ? this.miniWidth : val)
     },
 
     '$q.lang.rtl' () {
@@ -260,9 +261,9 @@ export default Vue.extend({
           this.mobileView === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
             : ` q-drawer--${this.isMini === true ? 'mini' : 'standard'}` +
-              (this.fixed === true || this.onLayout !== true ? ' fixed' : '') +
-              (this.overlay === true ? ' q-drawer--on-top' : '') +
-              (this.headerSlot === true ? ' q-drawer--top-padding' : '')
+            (this.fixed === true || this.onLayout !== true ? ' fixed' : '') +
+            (this.overlay === true || this.miniToOverlay === true ? ' q-drawer--on-top' : '') +
+            (this.headerSlot === true ? ' q-drawer--top-padding' : '')
         )
     },
 
