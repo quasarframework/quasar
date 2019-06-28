@@ -7,7 +7,8 @@ const
   { spawn } = require('../helpers/spawn'),
   appPaths = require('../app-paths'),
   nodePackager = require('../helpers/node-packager'),
-  getPackageJson = require('../helpers/get-package-json')
+  getPackageJson = require('../helpers/get-package-json'),
+  getPackage = require('../helpers/get-package')
 
 class ElectronRunner {
   constructor () {
@@ -113,8 +114,8 @@ class ElectronRunner {
         if (cfg.ctx.debug) {
           console.log(`DEBUG MODE - bundlerConfig:`)
           console.log(bundlerConfig)
-        }        
-        
+        }
+
         const bundlePromise = bundlerName === 'packager'
           ? bundler({
             ...bundlerConfig,
@@ -159,7 +160,7 @@ class ElectronRunner {
   __startElectron () {
     log(`Booting up Electron process...`)
     this.pid = spawn(
-      require(appPaths.resolve.app('node_modules/electron')),
+      getPackage('electron'),
       [
         '--inspect=5858',
         appPaths.resolve.app('.quasar/electron/electron-main.js')

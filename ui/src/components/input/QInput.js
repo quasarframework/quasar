@@ -152,10 +152,35 @@ export default Vue.extend({
       inp.style.height = inp.scrollHeight + 'px'
     },
 
+    __onCompositionStart (e) {
+      e.target.composing = true
+    },
+
+    __onCompositionEnd (e) {
+      if (!e.target.composing) { return }
+      e.target.composing = false
+
+      const evt = document.createEvent('HTMLEvents')
+      evt.initEvent('input', true, true)
+      e.target.dispatchEvent(e)
+    },
+
+    __onChange (e) {
+      this.__onCompositionEnd(e)
+      this.$emit('change', e)
+    },
+
     __getControl (h) {
       const on = {
         ...this.$listeners,
         input: this.__onInput,
+        // Safari < 10.2 & UIWebView doesn't fire compositionend when
+        // switching focus before confirming composition choice
+        // this also fixes the issue where some browsers e.g. iOS Chrome
+        // fires "change" instead of "input" on autocomplete.
+        change: this.__onChange,
+        compositionstart: this.__onCompositionStart,
+        compositionend: this.__onCompositionEnd,
         focus: stop,
         blur: stop
       }
@@ -179,7 +204,7 @@ export default Vue.extend({
         attrs.rows = 1
       }
 
-      return h(this.isTextarea ? 'textarea' : 'input', {
+      return h(this.isTextarea === true ? 'textarea' : 'input', {
         ref: 'input',
         staticClass: 'q-field__native q-placeholder',
         style: this.inputStyle,
