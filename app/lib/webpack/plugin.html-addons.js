@@ -36,14 +36,6 @@ module.exports.plugin = class HtmlAddonsPlugin {
       compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync('webpack-plugin-html-addons', (data, callback) => {
         fillHtmlTags(data, this.cfg)
 
-        if (this.cfg.ctx.mode.electron && this.cfg.ctx.dev) {
-          data.head.push(
-            makeScriptTag(`
-              require('module').globalPaths.push('${appPaths.appDir.replace(/\\/g, '\\\\')}')
-            `)
-          )
-        }
-
         if (this.cfg.ctx.mode.cordova) {
           data.body.unshift(
             makeTag('script', { src: 'cordova.js' }, true)
