@@ -55,7 +55,7 @@ div
           q-icon(name="dashboard")
         q-item-section Layout Builder
 
-      q-item(clickable, tag="a", href="/layout-builder", target="_blank")
+      q-item(clickable, to="/layout/gallery")
         q-item-section.text-orange-8(avatar)
           q-icon(name="shop_two")
         q-item-section Layout Gallery
