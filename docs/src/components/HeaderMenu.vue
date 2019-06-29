@@ -55,6 +55,11 @@ div
           q-icon(name="dashboard")
         q-item-section Layout Builder
 
+      q-item(clickable, tag="a", href="/layout-builder", target="_blank")
+        q-item-section.text-orange-8(avatar)
+          q-icon(name="shop_two")
+        q-item-section Layout Gallery
+
       q-item-label.q-mt-md(header) Playground
 
       q-item(clickable, tag="a", href="https://codepen.quasar.dev", target="_blank")

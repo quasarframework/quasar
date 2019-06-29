@@ -44,13 +44,29 @@ export default {
         )
       }
 
+      const props = {
+        to: path,
+        dense: level > 0,
+        insetLevel: level > 1 ? 1.2 : level
+      }
+
+      const attrs = {}
+
+      if (menu.external === true) {
+        Object.assign(props, {
+          to: void 0,
+          clickable: true,
+          tag: 'a'
+        })
+
+        attrs.href = menu.path
+        attrs.target = '_blank'
+      }
+
       return h('q-item', {
         ref: path,
-        props: {
-          to: path,
-          dense: level > 0,
-          insetLevel: level > 1 ? 1.2 : level
-        },
+        props,
+        attrs,
         staticClass: 'app-menu-entry non-selectable'
       }, [
         menu.icon !== void 0

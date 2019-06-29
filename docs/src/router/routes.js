@@ -1,6 +1,7 @@
 import Layout from 'layouts/Layout.vue'
 import getListingComponent from 'components/getListingComponent.js'
 import menu from 'assets/menu.js'
+import layoutGallery from 'assets/layout-gallery.js'
 
 const docsPages = []
 
@@ -73,7 +74,22 @@ const routes = [
   {
     path: '/layout-builder',
     component: () => import('layouts/LayoutBuilder.vue')
-  }
+  },
+
+  ...layoutGallery.map(layout => ({
+    path: layout.demoLink,
+    component: () => import(`layouts/gallery/${layout.path}.vue`),
+    children: [
+      {
+        path: '',
+        component: () => import(`components/page-parts/layout/LayoutGalleryPage.vue`),
+        meta: {
+          screenshot: layout.screenshot,
+          sourceLink: layout.sourceLink
+        }
+      }
+    ]
+  }))
 ]
 
 // Always leave this as last one
