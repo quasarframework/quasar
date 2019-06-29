@@ -1,7 +1,7 @@
 const fs = require('fs'),
   fse = require('fs-extra'),
   appPaths = require('../app-paths'),
-  path = require('path'),
+  inquirer = require('inquirer'),
   getCapacitorBinaryBath = require('../capacitor/getCapacitorBinaryPath'),
   logger = require('../helpers/logger'),
   log = logger('app:mode-capacitor'),
@@ -16,20 +16,29 @@ const capacitorDeps = {
 
 class Mode {
   get isInstalled() {
-    return (
-      fs.existsSync(appPaths.capacitorAndroidDir) ||
-      fs.existsSync(appPaths.capacitorIosDir) ||
-      fs.existsSync(appPaths.resolve.app('capacitor.config.json'))
-    )
+    return fs.existsSync(appPaths.capacitorDir)
   }
 
-  add() {
+  async add() {
     if (this.isInstalled) {
       warn(`Capacitor support detected already. Aborting.`)
       return
     }
+    const { platforms } = await inquirer.prompt([
+      {
+        type: 'checkbox',
+        choices: ['android', 'ios'],
+        name: 'platforms',
+        message: 'What platforms would you like to install?'
+      }
+    ])
 
-    const pkg = require(appPaths.resolve.app('package.json')),
+    platforms.forEach(platform => {
+      capacitorDeps[`@capacitor/${platform}`] = '^1.0.0'
+    })
+
+    const pkgPath = appPaths.resolve.app('package.json'),
+      pkg = require(pkgPath),
       appName = pkg.productName || pkg.name || 'Quasar App'
 
     // TODO: determine if this is necessary
@@ -56,14 +65,42 @@ class Mode {
       () => warn('Failed to install Capacitor dependencies')
     )
 
+    fse.ensureDirSync(appPaths.capacitorDir)
     log(`Initializing capacitor...`)
-    spawnSync(getCapacitorBinaryBath(), [
-      'init',
-      '--web-dir',
-      'dist/capacitor',
-      appName,
-      pkg.cordovaId || 'org.quasar.capacitor.app'
-    ])
+    spawnSync(
+      getCapacitorBinaryBath(),
+      [
+        'init',
+        '--web-dir',
+        '../dist/capacitor',
+        appName,
+        pkg.cordovaId || 'org.quasar.capacitor.app'
+      ],
+      appPaths.capacitorDir
+    )
+    // Adding platforms will fail if there is no index
+    fse.ensureFileSync(appPaths.resolve.app('dist/capacitor/index.html'))
+    // Copy package.json to prevent capacitor from reinstalling deps
+    fse.copySync(pkgPath, appPaths.resolve.capacitor('package.json'))
+    platforms.forEach(platform => {
+      spawnSync(
+        getCapacitorBinaryBath(),
+        ['add', platform],
+        appPaths.capacitorDir
+      )
+    })
+    if (platforms.includes('android')) {
+      const androidManifestPath = appPaths.resolve.capacitor(
+        'android/app/src/main/AndroidManifest.xml'
+      )
+      // Enable cleartext support in manifest
+      let androidManifest = fse.readFileSync(androidManifestPath, 'utf8')
+      androidManifest = androidManifest.replace(
+        '<application',
+        '<application\n        android:usesCleartextTraffic="true"'
+      )
+      fse.writeFileSync(androidManifestPath, androidManifest)
+    }
     log(`Capacitor support was added`)
   }
 
@@ -73,19 +110,8 @@ class Mode {
       return
     }
 
-    log(`Removing Capacitor config`)
-    fse.removeSync(appPaths.resolve.app('capacitor.config.json'))
-
-    if (fse.existsSync(appPaths.capacitorAndroidDir)) {
-      log(`Removing Android dir`)
-      fse.removeSync(appPaths.capacitorAndroidDir)
-      capacitorDeps['@capacitor/android'] = '^1.0.0'
-    }
-    if (fse.existsSync(appPaths.capacitorIosDir)) {
-      log(`Removing Ios dir`)
-      fse.removeSync(appPaths.capacitorIosDir)
-      capacitorDeps['@capacitor/ios'] = '^1.0.0'
-    }
+    log(`Removing Capacitor dir`)
+    fse.removeSync(appPaths.cordovaDir)
 
     const cmdParam =
       nodePackager === 'npm' ? ['uninstall', '--save-dev'] : ['remove']

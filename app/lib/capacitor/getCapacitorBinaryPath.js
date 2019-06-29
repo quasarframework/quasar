@@ -6,6 +6,6 @@ module.exports = () => {
     return path.join(require.resolve('@capacitor/cli'), '../../bin/capacitor')
   } catch (e) {
     // For development with `yarn link`
-    return 'node_modules/.bin/capacitor'
+    return '../node_modules/.bin/capacitor'
   }
 }

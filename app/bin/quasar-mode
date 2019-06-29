@@ -63,23 +63,29 @@ if (argv._.length === 2) {
     process.exit(1)
   }
 
-  getMode(mode)[action]()
-  process.exit(0)
+  const possiblePromise = getMode(mode)[action]()
+  if (possiblePromise.then && typeof possiblePromise.then === 'function') {
+    possiblePromise.then(() => {
+      process.exit(0)
+    })
+  } else {
+    process.exit(0)
+  }
+} else {
+  log(`Detecting installed modes...`)
+
+  const info = []
+  ;['pwa', 'ssr', 'cordova', 'electron', 'capacitor'].forEach(mode => {
+    const QuasarMode = getMode(mode)
+    info.push([
+      `Mode ${mode.toUpperCase()}`,
+      getMode(mode).isInstalled ? green('yes') : grey('no')
+    ])
+  })
+
+  console.log(
+    '\n' +
+    info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
+    '\n'
+  )
 }
-
-log(`Detecting installed modes...`)
-
-const info = []
-;['pwa', 'ssr', 'cordova', 'electron', 'capacitor'].forEach(mode => {
-  const QuasarMode = getMode(mode)
-  info.push([
-    `Mode ${mode.toUpperCase()}`,
-    getMode(mode).isInstalled ? green('yes') : grey('no')
-  ])
-})
-
-console.log(
-  '\n' +
-  info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
-  '\n'
-)

@@ -20,7 +20,9 @@ class CapacitorRunner {
       // Make sure cleartext is enabled
       if (cfg.ctx.targetName === 'android') {
         const androidManifest = fse.readFileSync(
-          appPaths.resolve.capacitorAndroid('app/src/main/AndroidManifest.xml'),
+          appPaths.resolve.capacitor(
+            'android/app/src/main/AndroidManifest.xml'
+          ),
           'utf8'
         )
         if (!androidManifest.match('android:usesCleartextTraffic="true"')) {
@@ -28,7 +30,7 @@ class CapacitorRunner {
             'Cleartext must be enabled to connect to the dev server on Android!'
           )
           warn(
-            'Add `android:usesCleartextTraffic="true"` to android/app/src/main/AndroidManifest.xml in the `application` tag'
+            'Add `android:usesCleartextTraffic="true"` to src-capacitor/android/app/src/main/AndroidManifest.xml in the `application` tag'
           )
           // TODO: actual url with instructions
           warn('See [need url] for more instructions')
@@ -63,8 +65,8 @@ class CapacitorRunner {
       ) {
         return this.__runCapacitorCommand(['open', cfg.ctx.targetName])
       } else {
-        const basePath = appPaths.resolve.capacitorAndroid(
-          'app/build/outputs/apk/release'
+        const basePath = appPaths.resolve.capacitor(
+          'android/app/build/outputs/apk/release'
         )
         // Remove old build output
         fse.removeSync(basePath)
@@ -72,7 +74,7 @@ class CapacitorRunner {
         spawn(
           `./gradlew${process.platform === 'win32' ? '.bat' : ''}`,
           ['assembleRelease'],
-          appPaths.capacitorAndroidDir,
+          appPaths.resolve.capacitor('android'),
           () => {
             // Copy built apk to dist folder
             const unsignedPath = path.join(basePath, 'app-release-unsigned.apk')
@@ -102,7 +104,7 @@ class CapacitorRunner {
 
   __runCapacitorCommand(args) {
     return new Promise(resolve => {
-      spawn(getCapacitorBinaryBath(), args, appPaths.appDir, code => {
+      spawn(getCapacitorBinaryBath(), args, appPaths.capacitorDir, code => {
         if (code) {
           warn(`⚠️  [FAIL] Capacitor CLI has failed`)
           process.exit(1)
@@ -123,7 +125,7 @@ class CapacitorRunner {
       configPath = './capacitor.config.json'
     }
     const capacitorConfig = JSON.parse(
-      fse.readFileSync(appPaths.resolve.app(configPath), 'utf8')
+      fse.readFileSync(appPaths.resolve.capacitor(configPath), 'utf8')
     )
     if (serverUrl) {
       capacitorConfig.server = capacitorConfig.server || {}
@@ -134,7 +136,7 @@ class CapacitorRunner {
     }
     // Write updated config
     fse.writeFileSync(
-      appPaths.resolve.app(configPath),
+      appPaths.resolve.capacitor(configPath),
       JSON.stringify(capacitorConfig)
     )
   }

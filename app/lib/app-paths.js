@@ -32,8 +32,7 @@ const
   ssrDir = resolve(appDir, 'src-ssr'),
   cordovaDir = resolve(appDir, 'src-cordova'),
   electronDir = resolve(appDir, 'src-electron'),
-  capacitorAndroidDir = resolve(appDir, 'android'),
-  capacitorIosDir = resolve(appDir, 'ios')
+  capacitorDir = resolve(appDir, 'src-capacitor')
 
 module.exports = {
   cliDir,
@@ -43,8 +42,7 @@ module.exports = {
   ssrDir,
   cordovaDir,
   electronDir,
-  capacitorAndroidDir,
-  capacitorIosDir,
+  capacitorDir,
 
   resolve: {
     cli: dir => join(cliDir, dir),
@@ -54,7 +52,6 @@ module.exports = {
     ssr: dir => join(ssrDir, dir),
     cordova: dir => join(cordovaDir, dir),
     electron: dir => join(electronDir, dir),
-    capacitorAndroid: dir => join(capacitorAndroidDir, dir),
-    capacitorIos: dir => join(capacitorIosDir, dir)
+    capacitor: dir => join(capacitorDir, dir)
   }
 }
