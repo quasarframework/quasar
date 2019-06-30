@@ -29,15 +29,21 @@ Examples: "hexColor", "rgbOrRgbaColor", "anyColor".
 
 More info: [QInput](/vue-components/input).
 
-### Custom behavior
+### No header or footer
 
 You can choose if you don't want to render the header and/or footer, like in example below:
 
 <doc-example title="No header/footer" file="QColor/NoHeaderFooter" />
 
+### Custom default view
+
 You can also pick the default view, like in example below, where we also specify we don't want to render the header and footer. The end result generates a nice color palette that the user can pick from:
 
 <doc-example title="Custom default view" file="QColor/CustomDefaultView" />
+
+### Custom palette
+
+<doc-example title="Custom palette" file="QColor/CustomPalette" />
 
 ### Dark mode
 

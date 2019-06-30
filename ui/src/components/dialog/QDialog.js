@@ -135,7 +135,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      let node = this.__getInnerNode()
 
       if (node === void 0 || node.contains(document.activeElement) === true) {
         return
@@ -155,7 +155,7 @@ export default Vue.extend({
     shake () {
       this.focus()
 
-      const node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      const node = this.__getInnerNode()
 
       if (node !== void 0) {
         node.classList.remove('q-animate--scale')
@@ -165,6 +165,12 @@ export default Vue.extend({
           node.classList.remove('q-animate--scale')
         }, 170)
       }
+    },
+
+    __getInnerNode () {
+      return this.__portal !== void 0 && this.__portal.$refs !== void 0
+        ? this.__portal.$refs.inner
+        : void 0
     },
 
     __show (evt) {
@@ -271,14 +277,16 @@ export default Vue.extend({
     },
 
     __onFocusChange (e) {
+      const node = this.__getInnerNode()
+
       if (
-        this.__portal !== void 0 &&
+        node !== void 0 &&
         this.__portal.$el !== void 0 &&
         // we don't have another portal opened:
         this.__portal.$el.nextElementSibling === null &&
         this.__portal.$el.contains(e.target) !== true
       ) {
-        this.__portal.$refs.inner.focus()
+        node.focus()
       }
     },
 

@@ -485,6 +485,17 @@ const layout = [
     path: 'page'
   },
   {
+    name: 'Layout Builder',
+    badge: 'new',
+    external: true,
+    path: '/layout-builder'
+  },
+  {
+    name: 'Layout Gallery',
+    badge: 'new',
+    path: 'gallery'
+  },
+  {
     name: 'Page Sticky',
     path: 'page-sticky'
   },
@@ -968,6 +979,12 @@ module.exports = [
     name: 'Why Donations Are Important',
     icon: 'assignment_late',
     path: 'why-donate'
+  },
+  {
+    name: 'Meet the Team',
+    badge: 'new',
+    icon: 'people',
+    path: 'meet-the-team'
   },
   {
     name: 'Getting Started',

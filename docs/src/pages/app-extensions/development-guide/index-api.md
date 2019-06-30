@@ -30,7 +30,7 @@ if (api.ctx.dev === true && api.ctx.mode === 'electron') {
 Contains the `ext-id` (String) of this App Extension.
 
 ## api.prompts
-Is an Object which has the answers to the prompts when this App Extension got installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts).
+Is an Object which has the answers to the prompts when this App Extension got installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ## api.resolve
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
@@ -150,7 +150,7 @@ api.extendQuasarConf ((cfg, ctx, api) => {
 module.exports = function (api, ctx) {
   api.extendQuasarConf((conf, api) => {
     // make sure my-ext boot file is registered
-    conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
+    conf.boot.push('~quasar-app-extension-my-ext/src/boot/my-ext-bootfile.js')
 
     // make sure boot file transpiles
     conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
@@ -158,7 +158,7 @@ module.exports = function (api, ctx) {
     // the regex above matches those files too!
 
     // make sure my-ext css goes through webpack
-    conf.css.push('~quasar-app-extension-qmarkdown/src/component/my-ext.styl')
+    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.styl')
   })
 }
 ```
@@ -220,7 +220,7 @@ api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
 ```
 
 ## api.registerCommand
-Register a command that will become available as `quasar run <ext-id> <cmd> [args]`.
+Register a command that will become available as `quasar run <ext-id> <cmd> [args]` (or the short form: `quasar <ext-id> <cmd> [args]`).
 
 ```js
 /**
@@ -323,9 +323,25 @@ Can use async/await or directly return a Promise.
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.beforeDev((api) => {
+api.beforeDev((api, { quasarConf }) => {
+  // do something
+})
+```
+
+## api.afterDev
+
+Run hook after Quasar dev server is started (`$ quasar build`). At this point, the dev server has been started and is available should you wish to do something with it.
+
+Can use async/await or directly return a Promise.
+
+```js
+/**
+ * @param {function} fn
+ *   (api, { quasarConf }) => ?Promise
+ */
+api.afterDev((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -341,9 +357,9 @@ Can use async/await or directly return a Promise.
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.beforeBuild((api) => {
+api.beforeBuild((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -357,9 +373,9 @@ Can use async/await or directly return a Promise.
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.afterBuild((api) => {
+api.afterBuild((api, { quasarConf }) => {
   // do something
 })
 ```

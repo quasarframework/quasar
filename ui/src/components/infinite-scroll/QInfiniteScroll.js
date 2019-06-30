@@ -75,7 +75,7 @@ export default Vue.extend({
 
       const heightBefore = getScrollHeight(this.scrollContainer)
 
-      this.$emit('load', this.index, () => {
+      this.$emit('load', this.index, stop => {
         if (this.working === true) {
           this.fetching = false
           this.$nextTick(() => {
@@ -88,7 +88,12 @@ export default Vue.extend({
               this.scrollContainer.scrollTop = scrollPosition + heightDifference
             }
 
-            this.$el.closest('body') && this.poll()
+            if (stop === true) {
+              this.stop()
+            }
+            else {
+              this.$el.closest('body') && this.poll()
+            }
           })
         }
       })

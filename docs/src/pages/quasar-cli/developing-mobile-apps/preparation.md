@@ -111,6 +111,10 @@ If you want to jump right in and start developing, you can skip step #2 and #3 c
 
 ```bash
 $ quasar dev -m cordova -T [android|ios]
+
+# passing extra parameters and/or options to
+# underlying "cordova" executable:
+$ quasar dev -m ios -- some params --and options --here
 ```
 
 This will add Cordova mode and project automatically, if it is missing.
