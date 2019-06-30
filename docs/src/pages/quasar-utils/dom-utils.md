@@ -1,6 +1,6 @@
 ---
 title: DOM Utils
-desc: Utilities for DOM elements, such as offset on screen viewport, get and set styles, and wait for the DOM to be ready.
+desc: A set of Quasar methods for DOM elements which helps you in retriving the offset on screen viewport, getting and setting styles and waiting for the DOM to be ready.
 ---
 
 ### Helping Tree-Shake
