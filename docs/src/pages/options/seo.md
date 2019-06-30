@@ -1,5 +1,5 @@
 ---
-title: SEO
+title: SEO with Quasar
 desc: Managing the search engine optimizations in a Quasar app.
 ---
 

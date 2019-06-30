@@ -1,5 +1,6 @@
 ---
 title: Writing Universal Code
+desc: Guide on how to write code for a Quasar server-side rendered app.
 ---
 
 Writing `universal` code (also called `isomorphic`) means writing code that runs on both the server and the client. Due to use-case and platform API differences, the behavior of our code will not be exactly the same when running in different environments. Here we will go over the key things you need to be aware of.

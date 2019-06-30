@@ -1,5 +1,6 @@
 ---
 title: Mobile App Preparation
+desc: What you need to do before developing a Quasar hybrid mobile app with Cordova.
 ---
 Before we dive in to the actual development, we need to do some preparation work. Here we will go over Android as the target platform.
 

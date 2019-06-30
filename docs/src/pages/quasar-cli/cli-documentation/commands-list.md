@@ -1,5 +1,6 @@
 ---
 title: Commands List
+desc: The entire list of Quasar CLI commands.
 ---
 
 Familiarize yourself with the list of available commands inside a Quasar project:

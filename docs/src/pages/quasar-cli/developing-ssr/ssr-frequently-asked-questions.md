@@ -1,5 +1,6 @@
 ---
 title: SSR FAQ
+desc: Tips and tricks for a Quasar server-side rendered app.
 ---
 
 ## Why am I getting hydration errors?
