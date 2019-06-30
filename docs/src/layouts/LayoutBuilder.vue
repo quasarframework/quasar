@@ -422,6 +422,10 @@ export default {
     ]
   },
 
+  meta: {
+    title: 'Layout Builder | Quasar Framework'
+  },
+
   data () {
     return {
       topL: 'h',

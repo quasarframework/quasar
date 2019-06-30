@@ -84,6 +84,7 @@ const routes = [
         path: '',
         component: () => import(`components/page-parts/layout/LayoutGalleryPage.vue`),
         meta: {
+          title: layout.name,
           screenshot: layout.screenshot,
           sourceLink: layout.sourceLink
         }

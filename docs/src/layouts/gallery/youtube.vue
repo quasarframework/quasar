@@ -12,7 +12,7 @@
         />
 
         <q-btn flat no-caps no-wrap class="q-ml-xs">
-          <q-icon name="fab fa-youtube" color="red" />
+          <q-icon name="fab fa-youtube" color="red" size="28px" />
           <q-toolbar-title shrink class="text-weight-bold">
             YouTube
           </q-toolbar-title>
@@ -20,12 +20,10 @@
 
         <q-space />
 
-        <q-input square outlined dense v-model="search" input-class="text-left" placeholder="Search" style="width: 35%;">
-          <template v-slot:append>
-            <q-icon v-if="search === ''" name="search" />
-            <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
-          </template>
-        </q-input>
+        <div class="row no-wrap" style="min-width: 100px; width: 35%">
+          <q-input dense outlined square v-model="search" placeholder="Search" class="bg-white col" />
+          <q-btn color="grey-3" text-color="grey-8" icon="search" unelevated style="border-radius: 0; border-style: solid; border-width: 1px 1px 1px 0; border-color: rgba(0,0,0,.24); max-width: 60px; width: 100%;"/>
+        </div>
 
         <q-space />
 
@@ -49,7 +47,7 @@
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
-            <q-tooltip>Google Account</q-tooltip>
+            <q-tooltip>Account</q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
@@ -63,7 +61,7 @@
     >
       <q-scroll-area class="fit">
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" v-ripple clickable tag="a" target="_blank" href="javascript:void(0)">
+          <q-item v-for="link in links1" :key="link.text" v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -74,7 +72,7 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links2" :key="link.text" v-ripple clickable tag="a" target="_blank" href="javascript:void(0)">
+          <q-item v-for="link in links2" :key="link.text" v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -89,7 +87,7 @@
             MORE FROM YOUTUBE
           </q-item-label>
 
-          <q-item v-for="link in links3" :key="link.text" v-ripple clickable tag="a" target="_blank" href="javascript:void(0)">
+          <q-item v-for="link in links3" :key="link.text" v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -100,7 +98,7 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links4" :key="link.text" v-ripple clickable tag="a" target="_blank" href="javascript:void(0)">
+          <q-item v-for="link in links4" :key="link.text" v-ripple clickable>
             <q-item-section avatar>
               <q-icon color="grey" :name="link.icon" />
             </q-item-section>
@@ -130,6 +128,7 @@
 <script>
 export default {
   name: 'MyLayout',
+
   data () {
     return {
       leftDrawerOpen: this.$q.platform.is.desktop,
@@ -176,6 +175,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>

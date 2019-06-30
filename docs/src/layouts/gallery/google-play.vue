@@ -24,7 +24,7 @@
         <q-space />
 
         <div class="q-pa-md q-gutter-sm row no-wrap items-center">
-          <q-btn round dense flat :ripple="false" color="grey-8" size="14px" icon="apps">
+          <q-btn round dense flat color="grey-8" size="14px" icon="apps">
             <q-tooltip>Google Apps</q-tooltip>
           </q-btn>
 
@@ -39,7 +39,7 @@
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
-            <q-tooltip>Google Account</q-tooltip>
+            <q-tooltip>Account</q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
@@ -53,7 +53,7 @@
     >
       <q-list>
 
-        <q-item clickable tag="a" target="_blank" href="javascript:void(0)" class="bg-grey-10 text-grey-3">
+        <q-item clickable class="bg-grey-10 text-grey-3">
           <q-item-section avatar class="apps-icon adjust-icon text-grey-1">
             <q-icon name="weekend" />
           </q-item-section>
@@ -62,7 +62,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable class="apps" tag="a" target="_blank" href="javascript:void(0)">
+        <q-item clickable class="apps">
           <q-item-section avatar class="apps-icon bg-green-7 text-grey-1 text-center adjust-icon">
             <q-icon name="android" />
           </q-item-section>
@@ -71,7 +71,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable class="movies" tag="a" target="_blank" href="javascript:void(0)">
+        <q-item clickable class="movies">
           <q-item-section avatar class="movies-icon bg-red-7 text-grey-1 text-center adjust-icon">
             <q-icon name="local_movies" />
           </q-item-section>
@@ -80,7 +80,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable class="music" tag="a" target="_blank" href="javascript:void(0)">
+        <q-item clickable class="music">
           <q-item-section avatar class="music-icon bg-orange-7 text-grey-1 text-center adjust-icon">
             <q-avatar size="22px" color="white" text-color="orange-7" icon="music_note" />
           </q-item-section>
@@ -89,7 +89,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable class="books" tag="a" target="_blank" href="javascript:void(0)">
+        <q-item clickable class="books">
           <q-item-section avatar class="books-icon bg-blue-7 text-grey-1 text-center adjust-icon">
             <q-icon name="book" />
           </q-item-section>
@@ -98,7 +98,7 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable class="devices" tag="a" target="_blank" href="javascript:void(0)">
+        <q-item clickable class="devices">
           <q-item-section avatar class="devices-icon bg-blue-grey-7 text-grey-1 text-center adjust-icon">
             <q-icon name="devices" />
           </q-item-section>
@@ -109,7 +109,7 @@
 
         <q-separator class="q-mb-md" />
 
-        <q-item v-for="link in links1" :key="link.text" dense clickable tag="a" target="_blank" href="javascript:void(0)" style="padding: 6px 12px 6px 23px">
+        <q-item v-for="link in links1" :key="link.text" dense clickable style="padding: 6px 12px 6px 23px">
           <q-item-section class="text-grey-8">
             <q-item-label>{{ link.text }}</q-item-label>
           </q-item-section>

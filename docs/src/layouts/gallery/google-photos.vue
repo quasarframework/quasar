@@ -32,7 +32,7 @@
               <q-item aria-hidden="true">
                 <q-item-section class="text-uppercase text-grey-7" style="font-size: 0.7rem">Create New</q-item-section>
               </q-item>
-              <q-item v-for="menu in createMenu" :key="menu.text" clickable v-close-menu aria-hidden="true">
+              <q-item v-for="menu in createMenu" :key="menu.text" clickable v-close-popup aria-hidden="true">
                 <q-item-section avatar>
                   <q-icon :name="menu.icon" />
                 </q-item-section>
@@ -59,7 +59,7 @@
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
-            <q-tooltip>Google Account</q-tooltip>
+            <q-tooltip>Account</q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
@@ -80,7 +80,7 @@
         </q-toolbar>
 
         <q-list padding>
-          <q-item v-for="link in links1" :key="link.text" clickable tag="a" target="_blank" href="javascript:void(0)" class="my-drawer-item">
+          <q-item v-for="link in links1" :key="link.text" clickable class="my-drawer-item">
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -91,7 +91,7 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links2" :key="link.text" clickable tag="a" target="_blank" href="javascript:void(0)" class="my-drawer-item">
+          <q-item v-for="link in links2" :key="link.text" clickable class="my-drawer-item">
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -102,7 +102,7 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item v-for="link in links3" :key="link.text" clickable tag="a" target="_blank" href="javascript:void(0)" class="my-drawer-item">
+          <q-item v-for="link in links3" :key="link.text" clickable class="my-drawer-item">
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -113,7 +113,7 @@
 
           <q-separator class="q-my-md" />
 
-          <q-item clickable tag="a" target="_blank" href="javascript:void(0)" class="my-drawer-item my-drawer-item--storage">
+          <q-item clickable class="my-drawer-item my-drawer-item--storage">
             <q-item-section avatar>
               <q-icon name="cloud" />
             </q-item-section>
@@ -204,8 +204,7 @@ export default {
 
 <style lang="stylus">
 .my-drawer-item
-  // color #f1f3f4
-  line-height: 24px
+  line-height 24px
   border-radius 0 24px 24px 0
   margin-right 12px
 
@@ -216,10 +215,10 @@ export default {
 
   .q-item__label:not(.q-item__label--caption)
     color #3c4043
-    letter-spacing: .01785714em;
-    font-size: .875rem;
-    font-weight: 500;
-    line-height: 1.25rem
+    letter-spacing .01785714em
+    font-size .875rem
+    font-weight 500
+    line-height 1.25rem
 
   &--storage
     border-radius 0
@@ -229,8 +228,8 @@ export default {
 
 .side-btn
   &__label
-    font-size: 12px;
-    line-height: 24px
-    letter-spacing: .01785714em
-    font-weight: 500
+    font-size 12px
+    line-height 24px
+    letter-spacing .01785714em
+    font-weight 500
 </style>

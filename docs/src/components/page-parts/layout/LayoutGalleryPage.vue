@@ -4,8 +4,9 @@
       icon="code"
       label="Source code"
       no-caps
-      outline
-      color="primary"
+      push
+      color="white"
+      text-color="primary"
       type="a"
       :href="sourceLink"
       target="_blank"
@@ -15,6 +16,12 @@
 <script>
 export default {
   name: 'LayoutGalleryPage',
+
+  meta () {
+    return {
+      title: this.$route.meta.title + ' Layout | Quasar Framework'
+    }
+  },
 
   created () {
     this.sourceLink = this.$route.meta.sourceLink

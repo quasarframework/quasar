@@ -16,7 +16,7 @@
           <template v-slot:no-option>
             <q-item>
               <q-item-section>
-                <div style="text-align: center">
+                <div class="text-center">
                   <q-spinner-pie
                     color="grey-5"
                     size="24px"
@@ -68,8 +68,9 @@
         <div class="q-pa-xs q-gutter-sm row items-center no-wrap">
           <q-btn dense round size="sm" icon="notifications" />
           <q-btn dense flat>
-            <div class="row no-wrap">
-              <q-icon name="add" size="20px" /><q-icon name="arrow_drop_down" size="16px" style="margin-left: -2px" />
+            <div class="row items-center no-wrap">
+              <q-icon name="add" size="20px" />
+              <q-icon name="arrow_drop_down" size="16px" style="margin-left: -2px" />
             </div>
             <q-menu auto-close>
               <q-list dense style="min-width: 100px">
@@ -93,11 +94,13 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn dense flat class="row">
+
+          <q-btn dense flat>
             <q-avatar rounded size="20px">
               <img src="https://cdn.quasar.dev/img/guy-avatar.png">
             </q-avatar>
             <q-icon name="arrow_drop_down" size="16px" />
+
             <q-menu auto-close>
               <q-list dense>
                 <q-item clickable class="signed-in-menu-link">
@@ -161,6 +164,7 @@ const stringOptions = [
 
 export default {
   name: 'MyLayout',
+
   data () {
     return {
       text: '',
@@ -168,6 +172,7 @@ export default {
       filteredOptions: []
     }
   },
+
   methods: {
     filter (val, update) {
       if (this.options === null) {
@@ -208,7 +213,6 @@ export default {
 </script>
 
 <style lang="stylus">
-
 .icon
   background #24292e
 
@@ -218,7 +222,6 @@ export default {
 
 .search-menu-link:hover
   background #0366d6
-  // *
   color white
   .search-menu-icon
     color white
@@ -239,7 +242,7 @@ export default {
 .signed-in-menu-link
 .set-status-menu-link
   &:hover
-    &>div
+    & > div
       background white !important
 
 .set-status-menu-link

@@ -4,7 +4,8 @@ const list = [
   { name: 'Github', path: 'github' },
   { name: 'Google Photos', path: 'google-photos' },
   { name: 'Google News', path: 'google-news' },
-  { name: 'Quasar Default', path: 'quasar-default' }
+  { name: 'Quasar Classic', path: 'quasar-classic' },
+  { name: 'Quasar Classic (Dark)', path: 'quasar-classic-dark' }
 ]
 
 export default list.map(layout => ({

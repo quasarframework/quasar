@@ -67,11 +67,10 @@
                       <q-input dense v-model="byWebsite" />
                     </div>
 
-                    <div class="col-12 q-pt-lg">
-                      <q-btn flat dense no-caps color="grey-7" size="md" class="float-right" style="min-width: 68px;">Search</q-btn>
-                      <q-btn flat dense no-caps color="grey-7" size="md" class="float-right" style="min-width: 68px;" @click="onClear">Clear</q-btn>
+                    <div class="col-12 q-pt-lg row justify-end">
+                      <q-btn flat dense no-caps color="grey-7" size="md" style="min-width: 68px;" label="Search" v-close-popup />
+                      <q-btn flat dense no-caps color="grey-7" size="md" style="min-width: 68px;" @click="onClear" label="Clear" v-close-popup />
                     </div>
-
                   </div>
                 </div>
               </q-menu>
@@ -95,7 +94,7 @@
             <q-avatar size="26px">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
-            <q-tooltip>Google Account</q-tooltip>
+            <q-tooltip>Account</q-tooltip>
           </q-btn>
         </div>
       </q-toolbar>
@@ -109,7 +108,7 @@
     >
       <q-scroll-area class="fit">
         <q-list padding class="text-grey-8">
-          <q-item class="my-drawer-item" v-ripple v-for="link in links1" :key="link.text" clickable tag="a" target="_blank" href="javascript:void(0)">
+          <q-item class="my-drawer-item" v-ripple v-for="link in links1" :key="link.text" clickable>
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -120,7 +119,7 @@
 
           <q-separator inset class="q-my-sm" />
 
-          <q-item class="my-drawer-item" v-ripple v-for="link in links2" :key="link.text" clickable tag="a" target="_blank" href="javascript:void(0)">
+          <q-item class="my-drawer-item" v-ripple v-for="link in links2" :key="link.text" clickable>
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -131,7 +130,7 @@
 
           <q-separator inset class="q-my-sm" />
 
-          <q-item class="my-drawer-item" v-ripple v-for="link in links3" :key="link.text" clickable tag="a" target="_blank" href="javascript:void(0)">
+          <q-item class="my-drawer-item" v-ripple v-for="link in links3" :key="link.text" clickable>
             <q-item-section>
               <q-item-label>{{ link.text }} <q-icon v-if="link.icon" :name="link.icon" /></q-item-label>
             </q-item-section>
