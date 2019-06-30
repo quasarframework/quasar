@@ -1,5 +1,6 @@
 ---
 title: Get Help!
+desc: Apply for a security audition from Quasar team's security experts.
 ---
 
 We take security seriously, but it is a perpetual challenge. If your company is interested in profiting from our deep framework knowledge and unpublished vulnerability research, please reach out to our team at the email address below.
