@@ -1,5 +1,6 @@
 ---
 title: Vue CLI 3 Quasar Plugin
+desc: How to use Quasar as a Vue CLI 3 plugin.
 ---
 
 ::: warning
