@@ -1,5 +1,6 @@
 ---
 title: Typography
+desc: Typography helpers supplied by Quasar.
 components:
   - typography/TypographyHeadings
   - typography/TypographyWeights

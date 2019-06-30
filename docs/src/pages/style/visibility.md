@@ -1,5 +1,6 @@
 ---
 title: CSS Visibility
+desc: CSS classes to manage responsive visibility of DOM elements.
 ---
 There are some CSS classes that you can use out of the box for common functionality.
 

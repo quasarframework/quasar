@@ -1,5 +1,6 @@
 ---
 title: Theming
+desc: Theme builder for your app brand colors.
 components:
   - theming/ThemeBuilder
 ---
