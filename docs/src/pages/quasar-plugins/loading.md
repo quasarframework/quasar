@@ -1,6 +1,6 @@
 ---
 title: Loading Plugin
-desc: A plugin to put your app in loading state, displaying an overlay with a spinner on top of your app's content.
+desc: A Quasar plugin which can display a loading state for your app through an overlay with a spinner and a message.
 related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress
