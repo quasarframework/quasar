@@ -1,5 +1,6 @@
 ---
 title: Linear Progress
+desc: How to use the QLinearProgress Vue component which displays a colored loading bar.
 related:
   - /vue-components/circular-progress
   - /vue-components/inner-loading

@@ -1,5 +1,6 @@
 ---
 title: Markup Table
+desc: How to use the QMarkupTable Vue component which simply styles a native table.
 related:
   - /vue-components/table
 ---

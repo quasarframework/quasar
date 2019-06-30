@@ -1,6 +1,6 @@
 ---
 title: Breadcrumbs
-desc: How to use the QBreadcrumbs component, a navigational aid for your UI.
+desc: How to use the QBreadcrumbs Vue component which is a navigational aid for your UI.
 ---
 
 The QBreadcrumbs component is used as a navigational aid in UI. It allows users to keep track of their location within programs, documents, or websites. Most common use is it's in a [QToolbar](/vue-components/toolbar), but it's not limited to it.

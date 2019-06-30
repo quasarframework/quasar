@@ -1,5 +1,6 @@
 ---
 title: Knob
+desc: How to use the QKnob Vue component which is used to take a number input through mouse or touch panning.
 related:
   - /vue-components/circular-progress
 ---

@@ -1,6 +1,6 @@
 ---
 title: Avatar
-desc: How to use the QAvatar component, which creates an element that can have text, icon or image within its shape. 
+desc: How to use the QAvatar Vue component which creates an element that can have text, icon or image within its shape. 
 ---
 The QAvatar component creates a scalable, color-able element that can have text, icon or image within its shape. By default it is circular, but it can also be square or have a border-radius applied to give rounded corners to the square shape.
 

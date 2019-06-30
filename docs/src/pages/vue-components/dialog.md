@@ -1,5 +1,6 @@
 ---
 title: Dialog
+desc: How to use the QDialog component, which provides an UI for modals with functionalities like positioning, styling, maximizing and more.
 related:
   - /quasar-plugins/dialog
   - /vue-directives/close-popup
