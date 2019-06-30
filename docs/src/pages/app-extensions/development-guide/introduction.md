@@ -1,5 +1,6 @@
 ---
 title: App Extension Development
+desc: How to setup your machine for a Quasar App Extension development and getting started quickly.
 ---
 
 This section of the docs deals with creating your own App Extensions.
