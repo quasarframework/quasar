@@ -1,5 +1,6 @@
 ---
 title: Color Palette
+desc: How to use and customize the Quasar Color Palette.
 components:
   - color-palette/BrandColors
   - color-palette/ColorList
