@@ -1,6 +1,6 @@
 ---
 title: Fullscreen Plugin
-desc: A plugin to toggle fullscreen state of your website or App through the Web Fullscreen API.
+desc: A Quasar plugin to toggle the fullscreen state of your app through the Web Fullscreen API.
 ---
 There are times when you want your website or App to run in fullscreen.
 Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
