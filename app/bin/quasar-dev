@@ -5,8 +5,7 @@ const parseArgs = require('minimist')
 const
   logger = require('../lib/helpers/logger'),
   log = logger('app:dev'),
-  warn = logger('app:dev', 'red'),
-  appPaths = require('../lib/app-paths')
+  warn = logger('app:dev', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -41,6 +40,11 @@ if (argv.help) {
 
     # alias for "quasar dev -m cordova -T android"
     $ quasar dev -m android
+
+    # passing extra parameters and/or options to
+    # underlying "cordova" or "electron" executables:
+    $ quasar dev -m ios -- some params --and options --here
+    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
@@ -190,8 +194,8 @@ async function goLive () {
       .then(() => generator.build()) // Update generated files
       .then(() => devServer = new DevServer(quasarConfig))
       .then(() => devServer.listen()) // Start listening
-      .then(() => Electron && Electron.run(quasarConfig))
-      .then(() => Cordova && Cordova.run(quasarConfig))
+      .then(() => Electron && Electron.run(quasarConfig, argv._))
+      .then(() => Cordova && Cordova.run(quasarConfig, argv._))
       .then(() => devServer) // Pass new builder to watch chain
   }
 

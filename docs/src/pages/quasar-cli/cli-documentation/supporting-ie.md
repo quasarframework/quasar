@@ -1,5 +1,6 @@
 ---
 title: Supporting IE
+desc: How to enable support for IE 11 in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
 ---

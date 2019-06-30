@@ -1,5 +1,6 @@
 ---
 title: Lazy Loading / Code Splitting
+desc: How to create Webpack chunks in a Quasar app.
 ---
 When your website/app is small, you can load all layouts/pages/components into the initial bundle and serve everything at startup. But when your code gets complex and has many layouts/pages/components, it won't be optimal to do this as it will massively impact loading time. Fortunately, there is a way to solve this.
 

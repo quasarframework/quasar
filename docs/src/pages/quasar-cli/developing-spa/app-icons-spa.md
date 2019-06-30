@@ -1,5 +1,6 @@
 ---
 title: App Icons for SPA
+desc: How to manage the app icons for a Quasar Single Page Application.
 ---
 
 This build target includes a variety of special icons for individual browsers and operating systems. You need all of them - and if you discover one that is new or missing, please open an issue.

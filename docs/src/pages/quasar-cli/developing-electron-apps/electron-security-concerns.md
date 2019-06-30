@@ -1,5 +1,6 @@
 ---
 title: Electron Security Concerns
+desc: The things you should know about security in a Quasar desktop app.
 ---
 If you are not vigilant when building Electron apps, you will probably be placing the users of your app in tangible digital danger. Things like XSS (Cross Site Scripting) and remote code execution can literally enable attackers to get deep access to the data in your app - and potentially even the underlying operating system.
 

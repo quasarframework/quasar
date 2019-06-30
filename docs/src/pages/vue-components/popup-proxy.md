@@ -1,5 +1,6 @@
 ---
 title: Popup Proxy
+desc: The QPopupProxy is a Vue component that should be used when you need either a QMenu or a QDialog (on smaller screens) to be displayed.
 related:
   - /vue-components/menu
   - /vue-components/dialog

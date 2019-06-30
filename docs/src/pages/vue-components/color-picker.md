@@ -1,5 +1,6 @@
 ---
 title: Color Picker
+desc: The QColorPicker Vue component provides a way for the user to input colors.
 related:
   - /quasar-utils/color-utils
 ---

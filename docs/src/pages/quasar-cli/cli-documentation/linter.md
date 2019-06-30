@@ -1,5 +1,6 @@
 ---
 title: App Linter
+desc: How to configure a code linter in a Quasar app.
 ---
 Having a code linter in place is highly recommended and ensures your code looks legible. It also helps you capture some errors before even running the code.
 

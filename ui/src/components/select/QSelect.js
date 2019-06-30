@@ -793,12 +793,10 @@ export default Vue.extend({
     },
 
     __onCompositionEnd (e) {
-      if (!e.target.composing) { return }
+      if (e.target.composing !== true) { return }
       e.target.composing = false
 
-      const evt = document.createEvent('HTMLEvents')
-      evt.initEvent('input', true, true)
-      e.target.dispatchEvent(e)
+      this.__onInputValue(e)
     },
 
     __getInput (h) {
@@ -831,6 +829,11 @@ export default Vue.extend({
 
     __onInputValue (e) {
       clearTimeout(this.inputTimer)
+
+      if (e && e.target && e.target.composing === true) {
+        return
+      }
+
       this.inputValue = e.target.value || ''
 
       if (this.$listeners.filter !== void 0) {

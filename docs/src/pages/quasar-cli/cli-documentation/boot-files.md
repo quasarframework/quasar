@@ -1,5 +1,6 @@
 ---
 title: Boot files
+desc: Managing your startup code in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
 ---

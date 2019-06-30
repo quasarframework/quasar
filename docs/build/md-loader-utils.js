@@ -28,7 +28,21 @@ module.exports.getVueComponent = function (rendered, data, toc) {
     ${data.components !== void 0 ? getComponentsImport(data.components) : ''}
     export default {
       meta: {
-        title: \`${data.title}\`
+        title: \`${data.title}\`${data.desc !== void 0 ? `,
+        meta: {
+          ogTitle: {
+            name: 'og:title', content: \`${data.title} | Quasar Framework\`
+          },
+          description: {
+            name: 'description', content: \`${data.desc}\`
+          },
+          twitterDesc: {
+            name: 'twitter:description', content: \`${data.desc}\`
+          },
+          ogDesc: {
+            name: 'og:description', content: \`${data.desc}\`
+          }
+        }` : ''}
       },
       preFetch ({ store }) {
         store.commit('updateToc', ${toc})

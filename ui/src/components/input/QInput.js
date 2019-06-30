@@ -96,6 +96,10 @@ export default Vue.extend({
     },
 
     __onInput (e) {
+      if (e && e.target && e.target.composing === true) {
+        return
+      }
+
       if (this.type === 'file') {
         this.$emit('input', e.target.files)
         return
@@ -157,12 +161,10 @@ export default Vue.extend({
     },
 
     __onCompositionEnd (e) {
-      if (!e.target.composing) { return }
+      if (e.target.composing !== true) { return }
       e.target.composing = false
 
-      const evt = document.createEvent('HTMLEvents')
-      evt.initEvent('input', true, true)
-      e.target.dispatchEvent(e)
+      this.__onInput(e)
     },
 
     __onChange (e) {

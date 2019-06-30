@@ -37,6 +37,10 @@ if (argv.help) {
     # alias for "quasar build -m cordova -T android"
     $ quasar build -m android
 
+    # passing extra parameters and/or options to
+    # underlying "cordova" executable:
+    $ quasar build -m ios -- some params --and options --here
+
   Options
     --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --target, -T    App target
@@ -111,7 +115,7 @@ function parseWebpackConfig (webpackConfig, mode) {
 function finalize (mode, quasarConfig) {
   if (argv['skip-pkg'] !== true) {
     if (mode === 'cordova') {
-      return require('../lib/cordova').build(quasarConfig)
+      return require('../lib/cordova').build(quasarConfig, argv._)
     }
     if (mode === 'electron') {
       return require('../lib/electron').build(quasarConfig)
