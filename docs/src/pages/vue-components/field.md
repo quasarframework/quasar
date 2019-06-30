@@ -1,5 +1,6 @@
 ---
 title: Field
+desc: How to use the QField Vue component which is used to provide common functionality and aspect to form components.
 ---
 
 The QField component is used to provide common functionality and aspect to form components. It uses `:value` (or `v-model` if you want to use `clearable` property) to have knowledge of the model of the component inside. It has support for labels, hints, errors, validation, and comes in a variety of styles and colors.

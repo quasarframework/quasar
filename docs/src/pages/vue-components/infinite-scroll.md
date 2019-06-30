@@ -1,5 +1,6 @@
 ---
 title: Infinite Scroll
+desc: How to use the QInfiniteScroll Vue component which allows you to load new content as the user scrolls the page.
 related:
   - /vue-components/spinners
   - /vue-components/pull-to-refresh

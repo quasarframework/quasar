@@ -1,5 +1,6 @@
 ---
 title: Dropdown Button
+desc: How to use QBtnDropdown Vue component which is used to display dropdown content as buttons.
 related:
   - /vue-components/button
   - /vue-components/button-group
