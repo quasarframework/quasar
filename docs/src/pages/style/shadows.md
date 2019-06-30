@@ -1,6 +1,6 @@
 ---
 title: CSS Shadows (Elevation)
-desc: CSS classes for defining elevation on DOM elements.
+desc: The list of CSS classes supplied by Quasar for defining elevation on DOM elements.
 ---
 Simple yet effective way to add shadows to create a depth/elevation effect.
 The shadows are in accordance to Material Design specifications (24 levels of depth).
