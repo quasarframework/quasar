@@ -50,7 +50,7 @@
       <q-drawer
         v-model="leftDrawerOpen"
         bordered :breakpoint="0"
-        width="350"
+        :width="350"
       >
         <q-toolbar class="bg-grey-3">
           <q-avatar class="cursor-pointer">
