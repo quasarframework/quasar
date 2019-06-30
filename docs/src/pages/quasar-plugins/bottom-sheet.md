@@ -1,5 +1,6 @@
 ---
 title: Bottom Sheet Plugin
+desc: A plugin for Bottom Sheets, component that slides up from the bottom edge of the device screen and displays a set of options.
 related:
   - /quasar-plugins/dialog
   - /vue-components/dialog

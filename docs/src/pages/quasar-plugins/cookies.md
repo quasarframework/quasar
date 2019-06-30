@@ -1,5 +1,6 @@
 ---
 title: Cookies
+desc: Wrapper plugin over the standardized 'document.cookie', making easy to read and write cookies even with SSR apps.
 ---
 This is a wrapper over the standardized `document.cookie`.
 

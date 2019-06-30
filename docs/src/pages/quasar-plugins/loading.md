@@ -1,5 +1,6 @@
 ---
 title: Loading Plugin
+desc: A plugin to put your app in loading state, displaying an overlay with a spinner on top of your app's content.
 related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress
