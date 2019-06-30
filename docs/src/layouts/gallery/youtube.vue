@@ -11,7 +11,7 @@
           icon="menu"
         />
 
-        <q-btn flat no-caps no-wrap class="q-ml-xs">
+        <q-btn flat no-caps no-wrap class="q-ml-xs" v-if="$q.screen.gt.xs">
           <q-icon name="fab fa-youtube" color="red" size="28px" />
           <q-toolbar-title shrink class="text-weight-bold">
             YouTube
@@ -20,21 +20,21 @@
 
         <q-space />
 
-        <div class="row no-wrap" style="min-width: 100px; width: 35%">
+        <div class="YL__toolbar-input-container row no-wrap">
           <q-input dense outlined square v-model="search" placeholder="Search" class="bg-white col" />
-          <q-btn color="grey-3" text-color="grey-8" icon="search" unelevated style="border-radius: 0; border-style: solid; border-width: 1px 1px 1px 0; border-color: rgba(0,0,0,.24); max-width: 60px; width: 100%;"/>
+          <q-btn class="YL__toolbar-input-btn" color="grey-3" text-color="grey-8" icon="search" unelevated />
         </div>
 
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="grey-8" icon="video_call">
+          <q-btn round dense flat color="grey-8" icon="video_call" v-if="$q.screen.gt.sm">
             <q-tooltip>Create a video or post</q-tooltip>
           </q-btn>
-          <q-btn round dense flat color="grey-8" icon="apps">
+          <q-btn round dense flat color="grey-8" icon="apps" v-if="$q.screen.gt.sm">
             <q-tooltip>Apps</q-tooltip>
           </q-btn>
-          <q-btn round dense flat color="grey-8" icon="message">
+          <q-btn round dense flat color="grey-8" icon="message" v-if="$q.screen.gt.sm">
             <q-tooltip>Messages</q-tooltip>
           </q-btn>
           <q-btn round dense flat color="grey-8" icon="notifications">
@@ -56,6 +56,7 @@
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
+      show-if-above
       content-class="bg-grey-2"
       :width="240"
     >
@@ -83,8 +84,8 @@
 
           <q-separator class="q-mt-md q-mb-xs" />
 
-          <q-item-label header class="text-weight-bold">
-            MORE FROM YOUTUBE
+          <q-item-label header class="text-weight-bold text-uppercase">
+            More from Youtube
           </q-item-label>
 
           <q-item v-for="link in links3" :key="link.text" v-ripple clickable>
@@ -107,13 +108,31 @@
             </q-item-section>
           </q-item>
 
-          <q-separator class="q-my-md" />
+          <q-separator class="q-mt-md q-mb-lg" />
 
           <div class="q-px-md text-grey-9">
-            <q-btn v-for="button in buttons1" :key="button.text" dense flat no-caps :ripple="false" :label="button.text" size="0.8rem" />
+            <div class="row items-center q-gutter-x-sm q-gutter-y-xs">
+              <a
+                v-for="button in buttons1"
+                :key="button.text"
+                class="YL__drawer-footer-link"
+                href="javascript:void(0)"
+              >
+                {{ button.text }}
+              </a>
+            </div>
           </div>
-          <div class="q-px-md text-grey-9">
-            <q-btn v-for="button in buttons2" :key="button.text" dense flat no-caps :ripple="false" :label="button.text" size="0.8rem" />
+          <div class="q-py-md q-px-md text-grey-9">
+            <div class="row items-center q-gutter-x-sm q-gutter-y-xs">
+              <a
+                v-for="button in buttons2"
+                :key="button.text"
+                class="YL__drawer-footer-link"
+                href="javascript:void(0)"
+              >
+                {{ button.text }}
+              </a>
+            </div>
           </div>
         </q-list>
       </q-scroll-area>
@@ -131,7 +150,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop,
+      leftDrawerOpen: false,
       search: '',
       links1: [
         { icon: 'home', text: 'Home' },
@@ -175,3 +194,28 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.YL
+
+  &__toolbar-input-container
+    min-width 100px
+    width 55%
+
+  &__toolbar-input-btn
+    border-radius 0
+    border-style solid
+    border-width 1px 1px 1px 0
+    border-color rgba(0,0,0,.24)
+    max-width 60px
+    width 100%
+
+  &__drawer-footer-link
+    color inherit
+    text-decoration none
+    font-weight 500
+    font-size .75rem
+
+    &:hover
+      color #000
+</style>
