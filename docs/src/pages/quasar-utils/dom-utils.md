@@ -1,5 +1,6 @@
 ---
 title: DOM Utils
+desc: Utilities for DOM elements, such as offset on screen viewport, get and set styles, and wait for the DOM to be ready.
 ---
 
 ### Helping Tree-Shake

@@ -1,5 +1,6 @@
 ---
 title: Other Utils
+desc: Miscellaneous utilities for functionalities like debounce, throttle, copy objects, cross-platform URL opening and event checking. 
 ---
 
 ::: tip

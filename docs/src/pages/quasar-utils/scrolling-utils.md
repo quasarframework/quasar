@@ -1,5 +1,6 @@
 ---
 title: Scrolling Utils
+desc: Utilities for scrolling features like get scroll target and change scroll position.
 ---
 
 ::: tip
