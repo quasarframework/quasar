@@ -1,6 +1,6 @@
 ---
 title: Theming
-desc: Theme builder for your app brand colors.
+desc: Theme builder for a Quasar app with which you can play with the brand colors.
 components:
   - theming/ThemeBuilder
 ---
