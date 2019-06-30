@@ -1,5 +1,6 @@
 ---
 title: Carousel
+desc: How to use the QCarousel component, which allows you to display a series of slides, useful for wizards or an image gallery.
 ---
 
 The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.

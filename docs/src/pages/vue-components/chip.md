@@ -1,5 +1,6 @@
 ---
 title: Chip
+desc: How to use QChip component, a simple UI block entity with predefined shapes.
 related:
   - /vue-components/avatar
   - /vue-components/icon

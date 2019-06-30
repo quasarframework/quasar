@@ -1,5 +1,6 @@
 ---
 title: Checkbox
+desc: How to use QCheckbox, a checkbox with features like coloring, ripple and indeterminate state.
 related:
   - /vue-components/toggle
   - /vue-components/option-group

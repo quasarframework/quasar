@@ -1,5 +1,6 @@
 ---
 title: Card
+desc: How to use the QCard component, a great way to display important pieces of grouped content.
 related:
   - /vue-components/separator
 ---

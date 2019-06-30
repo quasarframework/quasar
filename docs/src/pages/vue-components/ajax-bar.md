@@ -1,5 +1,6 @@
 ---
 title: Ajax Bar
+desc: How to use the QAjaxBar component, which displays a loading bar whenever an Ajax call is in progress.
 related:
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar

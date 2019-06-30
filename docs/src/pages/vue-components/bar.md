@@ -1,5 +1,6 @@
 ---
 title: Bar
+desc: How to use QBar, a small component for creating the top bar on different platforms.
 related:
   - /quasar-cli/developing-electron-apps/frameless-electron-window
 ---

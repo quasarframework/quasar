@@ -1,5 +1,6 @@
 ---
 title: Button Toggle
+desc: How to use the QBtnToggle component, a basic element for user input through button choices.
 related:
   - /vue-components/button
   - /vue-components/tabs
