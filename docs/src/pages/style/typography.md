@@ -1,6 +1,6 @@
 ---
 title: Typography
-desc: Typography helpers supplied by Quasar.
+desc: The typography of a Quasar app and its helper CSS classes.
 components:
   - typography/TypographyHeadings
   - typography/TypographyWeights
