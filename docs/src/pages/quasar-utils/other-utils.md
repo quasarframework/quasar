@@ -1,6 +1,6 @@
 ---
 title: Other Utils
-desc: Miscellaneous utilities for functionalities like debounce, throttle, copy objects, cross-platform URL opening and event checking. 
+desc: A set of miscellaneous Quasar methods for debouncing or throttling functions, deep copying objects, cross-platform URL opening or handling DOM events. 
 ---
 
 ::: tip
