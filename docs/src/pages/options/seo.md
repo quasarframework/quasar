@@ -1,5 +1,6 @@
 ---
 title: SEO
+desc: Managing the search engine optimizations in a Quasar app.
 ---
 
 The term SEO refers to Search Engine Optimization. And Quasar covers this aspect too through the [Quasar Meta Plugin](/quasar-plugins/meta).

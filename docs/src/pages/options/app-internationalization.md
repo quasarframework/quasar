@@ -1,5 +1,6 @@
 ---
 title: App Internationalization (I18n)
+desc: How to use vue-i18n in a Quasar app.
 related:
   - /options/rtl-support
   - /options/quasar-language-packs

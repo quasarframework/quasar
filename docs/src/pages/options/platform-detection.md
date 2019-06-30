@@ -1,5 +1,6 @@
 ---
 title: Platform Detection
+desc: How to detect the platform under which a Quasar app is running.
 ---
 
 Helpers are built into Quasar to detect the Platform (and its capabilities) within the context of which the code is running.
