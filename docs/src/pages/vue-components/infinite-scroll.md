@@ -5,7 +5,7 @@ related:
   - /vue-components/pull-to-refresh
 ---
 
-The QInfiteScroll component allows you to load new content as the user scrolls down the page.
+The QInfiteScroll component allows you to load new content as the user scrolls the page.
 
 ## Installation
 <doc-installation components="QInfiniteScroll" />
