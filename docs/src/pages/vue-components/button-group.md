@@ -1,6 +1,6 @@
 ---
 title: Button Group
-desc: How to use the QBtnGroup, a Vue component that groups QBtn and QBtnDropdown elements.
+desc: How to use the QBtnGroup Vue component which groups QBtn and QBtnDropdown elements.
 related:
   - /vue-components/button
   - /vue-components/button-dropdown
