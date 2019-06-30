@@ -1,6 +1,6 @@
 ---
 title: Scrolling Utils
-desc: Utilities for scrolling features like get scroll target and change scroll position.
+desc: A set of Quasar methods related to scrolling, like getting scroll target or changing the scroll position of a page.
 ---
 
 ::: tip
