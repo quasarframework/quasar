@@ -1,6 +1,6 @@
 ---
 title: Quasar Roadmap
-desc: What's next for Quasar framework.
+desc: What's next for Quasar Framework.
 ---
 
 Where will Quasar be in one year, five years or ten years? It's up to you, the developers using Quasar.
