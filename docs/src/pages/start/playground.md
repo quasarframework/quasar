@@ -1,6 +1,6 @@
 ---
 title: Quasar Playground
-desc: Play with Quasar from jsFiddle, Codepen and Codesandbox templates.
+desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
 ---
 
 You can fork and use these links for reporting issues on GitHub too. These links (obviously) use the Quasar UMD version.
