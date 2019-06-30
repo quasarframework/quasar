@@ -1,5 +1,6 @@
 ---
 title: App Extension Install API
+meta: The Quasar API for the installation of an App Extension, providing access to prompt for user information, rendering files in app space and more.
 ---
 
 This page refers to `src/install.js` file which is executed on the installation of the App Extension only. Not all App Extensions will need an install -- this is an optional step.

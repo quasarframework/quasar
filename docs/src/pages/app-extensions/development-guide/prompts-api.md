@@ -1,5 +1,6 @@
 ---
 title: App Extension Prompts API
+meta: The Quasar API to prompt for user information.
 ---
 
 This page refers to `src/prompts.js` file which handles the prompts when installing the App Extension. Not all App Extensions will need prompts -- this is an optional step.

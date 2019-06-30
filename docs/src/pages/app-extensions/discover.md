@@ -1,5 +1,6 @@
 ---
 title: Discover App Extensions
+meta: Search for official and community App Extensions available.
 ---
 
 <app-extension-discover />

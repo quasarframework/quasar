@@ -1,5 +1,6 @@
 ---
 title: App Extension Development
+meta: Setup your machine for an App Extension development and get started quickly.
 ---
 
 This section of the docs deals with creating your own App Extensions.
