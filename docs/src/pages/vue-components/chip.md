@@ -1,6 +1,6 @@
 ---
 title: Chip
-desc: How to use QChip Vue component which is a simple UI block entity with predefined shapes.
+desc: The QChip Vue component is a simple UI block entity, representing for example more advanced underlying data, such as a contact, but in a compact way.
 related:
   - /vue-components/avatar
   - /vue-components/icon

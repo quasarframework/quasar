@@ -1,6 +1,6 @@
 ---
 title: Button Toggle
-desc: How to use the QBtnToggle Vue component which is a basic element for user input through button choices.
+desc: The QBtnToggle Vue component is a basic element for user input, similar to QRadio but with buttons.
 related:
   - /vue-components/button
   - /vue-components/tabs

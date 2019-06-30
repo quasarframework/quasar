@@ -1,6 +1,6 @@
 ---
 title: QMenu
-desc: How to use the QMenu Vue component to display popover menus.
+desc: The QMenu Vue component is a convenient way to show menus.
 related:
   - /vue-directives/close-popup
   - /options/transitions

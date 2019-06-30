@@ -1,6 +1,6 @@
 ---
 title: Ajax Bar
-desc: How to use the QAjaxBar Vue component which displays a loading bar whenever an Ajax call is in progress.
+desc: The QAjaxBar Vue component displays a loading bar whenever an Ajax call is in progress.
 related:
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar

@@ -1,6 +1,6 @@
 ---
 title: Form
-desc: How to use QForm Vue component which is a form integrated with child Quasar form components.
+desc: The QForm Vue component renders a form and allows easy validation of child form components like QInput, QSelect or QField.
 related:
   - /vue-components/input
   - /vue-components/select

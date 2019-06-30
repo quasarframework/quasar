@@ -1,6 +1,6 @@
 ---
 title: Circular Progress
-desc: How to use the QCircularProgress Vue component which displays a colored circular loading indicator.
+desc: The QCircularProgress Vue component displays a colored circular loading indicator. The bar can either have a determinate progress, or an indeterminate animation.
 related:
   - /vue-components/linear-progress
   - /vue-components/inner-loading

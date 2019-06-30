@@ -1,6 +1,6 @@
 ---
 title: Icon
-desc: How to use QIcon Vue component which allows you to display icons for various icon sets.
+desc: The QIcon Vue component allows you to insert icons within other components or any other area of your pages.
 related:
   - /options/installing-icon-libraries
   - /options/quasar-icon-sets

@@ -1,6 +1,6 @@
 ---
 title: QImg
-desc: How to use the QImg Vue component which simplifies usage of responsive images with custom aspect ratio, captions, animations, loading state and more.
+desc: The QImg Vue component makes working with responsive images easy and also adds a nice loading effect to them along with many other features like custom aspect ratio and captions.
 related:
   - /vue-components/spinners
   - /options/transitions

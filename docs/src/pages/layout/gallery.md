@@ -1,6 +1,6 @@
 ---
 title: Layout Gallery
-desc: Gallery of a few layouts for your Quasar apps
+desc: Gallery of a few layouts for your Quasar apps.
 related:
   - /layout/layout
   - /layout/header-and-footer

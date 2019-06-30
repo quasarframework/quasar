@@ -1,6 +1,6 @@
 ---
 title: Chat Message
-desc: How to use the QChatMessage Vue component which is a chat entry for a message.
+desc: The QChatMessage Vue component displays a chat entry containing one or more user messages.
 ---
 
 Quasar supplies a chat component called QChatMessage which is really a chat entry that renders the data given by the props.
