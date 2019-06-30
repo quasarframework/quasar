@@ -12,7 +12,7 @@ console.log()
 console.log(` ☕️ Preparing for Quasar v${env.quasarVersion}`)
 console.log()
 console.log(` 🚀 Starting dev server...`)
-console.log(`    Will listen at ${env.uri}`)
+console.log(`    Will listen at ${env.displayURI}`)
 console.log(`    Browser will open when build is ready.\n`)
 
 const compiler = webpack(webpackConfig)
@@ -28,7 +28,7 @@ compiler.hooks.done.tap('dev-server-done-compiling', compiler => {
   this.__started = true
 
   server.listen(env.port, env.host, () => {
-    require('open')(env.uri)
+    require('open')(env.displayURI)
   })
 })
 

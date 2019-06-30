@@ -28,7 +28,7 @@ export default {
     meta: {
       description: { name: 'description', content: 'Page 1' },
       keywords: { name: 'keywords', content: 'Quasar website' },
-      equiv: { 'http-equiv': 'Content-Type' content: 'text/html; charset=UTF-8' }
+      equiv: { 'http-equiv': 'Content-Type', content: 'text/html; charset=UTF-8' }
     },
 
     // CSS tags

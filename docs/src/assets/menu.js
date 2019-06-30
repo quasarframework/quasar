@@ -485,6 +485,17 @@ const layout = [
     path: 'page'
   },
   {
+    name: 'Layout Builder',
+    badge: 'new',
+    external: true,
+    path: '/layout-builder'
+  },
+  {
+    name: 'Layout Gallery',
+    badge: 'new',
+    path: 'gallery'
+  },
+  {
     name: 'Page Sticky',
     path: 'page-sticky'
   },

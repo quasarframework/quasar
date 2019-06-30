@@ -128,7 +128,9 @@ Ask questions at the official community forum: [https://forum.quasar.dev](https:
 
 ## Contributing
 
-I'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature).
+Please make sure to read the [Contributing Guide](./.github/CONTRIBUTING.md) before making a pull request. If you have a Quasar-related project/component/tool, add it with a pull request to [this curated list](https://github.com/quasarframework/quasar-awesome)!
+
+Thank you to all the people who already <a href="https://github.com/quasarframework/quasar/graphs/contributors">contributed to Quasar</a>!
 
 ## Semver
 Quasar is following [Semantic Versioning 2.0](https://semver.org/).

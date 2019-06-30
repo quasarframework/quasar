@@ -15,12 +15,6 @@ function isInstalled (cmd) {
 }
 
 function getPackager () {
-  if (!fs.existsSync(appPaths.resolve.app('node_modules'))) {
-    warn('⚠️  Please run "yarn" / "npm install" first')
-    warn()
-    process.exit(1)
-  }
-
   if (fs.existsSync(appPaths.resolve.app('yarn.lock'))) {
     return 'yarn'
   }

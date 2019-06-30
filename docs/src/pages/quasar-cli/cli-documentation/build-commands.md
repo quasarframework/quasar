@@ -30,6 +30,11 @@ $ quasar dev -m [android|ios]
 
 # Electron App
 $ quasar dev -m electron
+
+# passing extra parameters and/or options to
+# underlying "cordova" or "electron" executables:
+$ quasar dev -m ios -- some params --and options --here
+$ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
 
 While developing with the Dev Server you will have:
@@ -59,6 +64,10 @@ $ quasar build -m pwa
 $ quasar build -m cordova -T [android|ios]
 # or the short form:
 $ quasar build -m [android|ios]
+
+# passing extra parameters and/or options to
+# underlying "cordova" executable:
+$ quasar build -m ios -- some params --and options --here
 
 # Electron App
 $ quasar build -m electron
