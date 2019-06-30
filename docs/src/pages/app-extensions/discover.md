@@ -1,6 +1,6 @@
 ---
 title: Discover App Extensions
-desc: Search for official and community App Extensions available.
+desc: Look up official and community Quasar App Extensions.
 ---
 
 <app-extension-discover />
