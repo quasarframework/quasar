@@ -1,6 +1,6 @@
 ---
 title: Color Utils
-desc: A set of methods for changing app brand colors and manipulating color strings.
+desc: A set of Quasar methods for changing app brand colors and manipulating color strings.
 ---
 
 Quasar provides a set of useful functions to manipulate colors easily in most use cases, without the high additional cost of integrating dedicated libraries.
