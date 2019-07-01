@@ -141,7 +141,7 @@ export default [
     github: 'bloodf',
     desc: 'Writes articles and offers community support.'
   },
-  
+
   {
     name: 'David Watson',
     role: 'Community Staff',
