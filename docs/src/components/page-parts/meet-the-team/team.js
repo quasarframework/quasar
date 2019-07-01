@@ -142,7 +142,7 @@ export default [
     desc: 'Writes articles and offers community support.'
   },
   
-    {
+  {
     name: 'David Watson',
     role: 'Community Staff',
     avatar: 'david_watson.jpg',
