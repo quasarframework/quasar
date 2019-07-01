@@ -271,6 +271,7 @@ export default Vue.extend({
     },
 
     __onKeydown (e) {
+      this.$listeners.keydown !== void 0 && this.$emit('keydown', e)
       if (!e.ctrlKey) {
         this.refreshToolbar()
         this.$q.platform.is.ie && this.$nextTick(this.__onInput)
@@ -386,11 +387,16 @@ export default Vue.extend({
               ? { innerHTML: this.value }
               : undefined,
             on: {
+              ...this.$listeners,
               input: this.__onInput,
               keydown: this.__onKeydown,
-              click: this.refreshToolbar,
+              click: e => {
+                this.refreshToolbar()
+                this.$listeners.click !== void 0 && this.$emit('click', e)
+              },
               blur: () => {
                 this.caret.save()
+                this.$listeners.blur !== void 0 && this.$emit('blur')
               }
             }
           }
