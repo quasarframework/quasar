@@ -150,7 +150,7 @@
         sponsor(img="wallaby.png" name="Wallabyjs" url="https://wallabyjs.com/")
         sponsor(img="snyk.png" name="Snyk" url="https://snyk.io/")
 
-  section.landing__footer
+  section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center
         a(href="https://github.com/quasarframework/quasar", target="_blank")
@@ -175,6 +175,7 @@
         | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
       div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
+    register-interest
 
   section.fixed-top.landing__toolbar.text-white
     q-toolbar.q-pa-none
@@ -195,13 +196,15 @@
 <script>
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
+import RegisterInterest from 'components/RegisterInterest'
 
 export default {
   name: 'Landing',
 
   components: {
     Sponsor,
-    SponsorList
+    SponsorList,
+    RegisterInterest
   },
 
   meta: {

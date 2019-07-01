@@ -17,6 +17,7 @@
   "dependencies": {
     "@quasar/extras": "^1.1.2",
     "docsearch.js": "^2.6.2",
+    "firebase": "^6.2.4",
     "prismjs": "^1.15.0",
     "quasar": "^1.0.0-beta.0",
     "vuex": "^3.0.1"
