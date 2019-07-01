@@ -288,6 +288,16 @@ export default Vue.extend({
       }
     },
 
+    __onClick (e) {
+      this.refreshToolbar()
+      this.$emit('click', e)
+    },
+
+    __onBlur (e) {
+      this.caret.save()
+      this.$emit('blur')
+    },
+
     runCmd (cmd, param, update = true) {
       this.focus()
       this.caret.apply(cmd, param, () => {
@@ -391,14 +401,8 @@ export default Vue.extend({
               ...this.$listeners,
               input: this.__onInput,
               keydown: this.__onKeydown,
-              click: e => {
-                this.refreshToolbar()
-                this.$emit('click', e)
-              },
-              blur: () => {
-                this.caret.save()
-                this.$emit('blur')
-              }
+              click: this.__onClick,
+              blur: this.__onBlur
             }
           }
         )
