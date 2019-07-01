@@ -293,7 +293,7 @@ export default Vue.extend({
       this.$emit('click', e)
     },
 
-    __onBlur (e) {
+    __onBlur () {
       this.caret.save()
       this.$emit('blur')
     },
