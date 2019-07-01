@@ -121,7 +121,7 @@ export default Vue.extend({
           style: this.targetStyle
         }, [
           h('div', {
-            staticClass: 'overflow-auto',
+            staticClass: 'scroll',
             style: this.targetChildStyle
           }, [ layout ])
         ])
