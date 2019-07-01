@@ -140,5 +140,21 @@ export default [
     avatar: 'heitor_ribeiro.jpg',
     github: 'bloodf',
     desc: 'Writes articles and offers community support.'
+  },
+  
+  {
+    name: 'David Watson',
+    role: 'Community Staff',
+    avatar: 'david_watson.jpg',
+    github: 'realtimeappsolutions',
+    desc: 'Marketing and PR.'
+  },
+
+  {
+    name: 'Stanislav Valasek',
+    role: 'Community Staff',
+    avatar: 'stanislav_valasek.jpg',
+    github: 'valasek',
+    desc: 'Marketing, Open Source Compliance, Community experience.'
   }
 ]
