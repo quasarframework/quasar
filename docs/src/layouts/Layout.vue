@@ -104,11 +104,6 @@ import HeaderMenu from 'components/HeaderMenu'
 export default {
   name: 'Layout',
 
-  meta: {
-    title: 'Welcome!',
-    titleTemplate: title => `${title} | Quasar Framework`
-  },
-
   components: {
     AppMenu,
     HeaderMenu

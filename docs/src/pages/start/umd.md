@@ -1,5 +1,6 @@
 ---
 title: Quasar UMD - CDN install
+desc: How to use the Unified Module Definition form of Quasar.
 ---
 If you want to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
 

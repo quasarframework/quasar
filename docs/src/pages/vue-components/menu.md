@@ -1,5 +1,6 @@
 ---
 title: QMenu
+desc: The QMenu Vue component is a convenient way to show menus.
 related:
   - /vue-directives/close-popup
   - /options/transitions

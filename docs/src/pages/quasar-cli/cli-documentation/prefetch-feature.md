@@ -1,5 +1,6 @@
 ---
 title: PreFetch Feature
+desc: How to prefetch data and initialize your Vuex store, validate the route and redirect to another page in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
 ---

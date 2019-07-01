@@ -1,5 +1,6 @@
 ---
 title: Build Commands
+desc: Quasar CLI list of commands for developing and building a Quasar app.
 ---
 We will be covering Development and Production build commands.
 

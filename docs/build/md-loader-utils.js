@@ -18,6 +18,8 @@ function getComponentsDeclaration (comp) {
   return `components: { ${list} },`
 }
 
+// Make sure to keep in sync with /src/assets/get-meta.js
+
 module.exports.getVueComponent = function (rendered, data, toc) {
   return `
     <template>
@@ -26,9 +28,37 @@ module.exports.getVueComponent = function (rendered, data, toc) {
     <script>
     import { copyHeading } from 'assets/page-utils'
     ${data.components !== void 0 ? getComponentsImport(data.components) : ''}
+    ${data.desc !== void 0 ? `const title = \`${data.title} | Quasar Framework\`, desc = \`${data.desc}\`` : ''}
     export default {
       meta: {
-        title: \`${data.title}\`
+        title: \`${data.title}\`${data.desc !== void 0 ? `,
+        meta: {
+          title: {
+            name: 'title',
+            content: title
+          },
+          ogTitle: {
+            name: 'og:title',
+            content: title
+          },
+          twitterTitle: {
+            name: 'twitter:title',
+            content: title
+          },
+
+          description: {
+            name: 'description',
+            content: desc
+          },
+          ogDesc: {
+            name: 'og:description',
+            content: desc
+          },
+          twitterDesc: {
+            name: 'twitter:description',
+            content: desc
+          }
+        }` : ''}
       },
       preFetch ({ store }) {
         store.commit('updateToc', ${toc})

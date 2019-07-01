@@ -1,5 +1,6 @@
 ---
 title: Electron Preparation
+desc: How to manage Electron mode into a Quasar app.
 ---
 Before we dive in to the actual development, we need to do some preparation work.
 

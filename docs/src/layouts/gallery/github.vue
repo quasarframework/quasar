@@ -1,16 +1,19 @@
 <template>
-  <q-layout style="min-width: 1012px">
+  <q-layout>
     <q-header elevated class="text-white" style="background: #24292e">
       <q-toolbar class="q-py-sm q-px-md">
-        <q-btn round dense flat :ripple="false" icon="fab fa-github" size="19px" color="white" class="icon q-mr-sm" no-caps />
+        <q-btn round dense flat :ripple="false" icon="fab fa-github" size="19px" color="white" class="q-mr-sm" no-caps />
 
-        <q-select ref="search" dark dense standout use-input hide-selected
+        <q-select
+          ref="search" dark dense standout use-input hide-selected
+          class="GL__toolbar-select"
           color="black" :stack-label="false" label="Search or jump to..."
           v-model="text" :options="filteredOptions" @filter="filter"
-          style="width: 300px">
+          style="width: 300px"
+        >
 
           <template v-slot:append>
-            <img src="https://github.githubassets.com/images/search-key-slash.svg">
+            <img src="https://cdn.quasar.dev/img/layout-gallery/img-github-search-key-slash.svg">
           </template>
 
           <template v-slot:no-option>
@@ -30,9 +33,9 @@
             <q-item
               v-bind="scope.itemProps"
               v-on="scope.itemEvents"
-              class="search-menu-link"
+              class="GL__select-GL__menu-link"
             >
-              <q-item-section side class="search-menu-icon">
+              <q-item-section side>
                 <q-icon name="collections_bookmark" />
               </q-item-section>
               <q-item-section>
@@ -48,7 +51,7 @@
           </template>
         </q-select>
 
-        <div class="nav-items q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap">
+        <div v-if="$q.screen.gt.sm" class="GL__toolbar-link q-ml-xs q-gutter-md text-body2 text-weight-bold row items-center no-wrap">
           <a href="javascript:void(0)" class="text-white">
             Pull requests
           </a>
@@ -65,51 +68,51 @@
 
         <q-space />
 
-        <div class="q-pa-xs q-gutter-sm row items-center no-wrap">
-          <q-btn dense round size="sm" icon="notifications" />
-          <q-btn dense flat>
+        <div class="q-pl-sm q-gutter-sm row items-center no-wrap">
+          <q-btn v-if="$q.screen.gt.xs" dense flat round size="sm" icon="notifications" />
+          <q-btn v-if="$q.screen.gt.xs" dense flat>
             <div class="row items-center no-wrap">
               <q-icon name="add" size="20px" />
               <q-icon name="arrow_drop_down" size="16px" style="margin-left: -2px" />
             </div>
             <q-menu auto-close>
               <q-list dense style="min-width: 100px">
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>New repository</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Import repository</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>New gist</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>New organization</q-item-section>
                 </q-item>
                 <q-separator />
                 <q-item-label header>This repository</q-item-label>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>New issue</q-item-section>
                 </q-item>
               </q-list>
             </q-menu>
           </q-btn>
 
-          <q-btn dense flat>
+          <q-btn dense flat no-wrap>
             <q-avatar rounded size="20px">
-              <img src="https://cdn.quasar.dev/img/guy-avatar.png">
+              <img src="https://cdn.quasar.dev/img/avatar3.jpg">
             </q-avatar>
             <q-icon name="arrow_drop_down" size="16px" />
 
             <q-menu auto-close>
               <q-list dense>
-                <q-item clickable class="signed-in-menu-link">
+                <q-item class="GL__menu-link-signed-in">
                   <q-item-section>
-                    <div>Signed in as <strong>Jeff</strong></div>
+                    <div>Signed in as <strong>Mary</strong></div>
                   </q-item-section>
                 </q-item>
                 <q-separator />
-                <q-item clickable class="set-status-menu-link">
+                <q-item clickable class="GL__menu-link-status">
                   <q-item-section>
                     <div>
                       <q-icon name="tag_faces" color="blue-9" size="18px" />
@@ -118,29 +121,29 @@
                   </q-item-section>
                 </q-item>
                 <q-separator />
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Your profile</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Your repositories</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Your projects</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Your stars</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Your gists</q-item-section>
                 </q-item>
                 <q-separator />
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Help</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Settings</q-item-section>
                 </q-item>
-                <q-item clickable class="menu-link">
+                <q-item clickable class="GL__menu-link">
                   <q-item-section>Sign out</q-item-section>
                 </q-item>
               </q-list>
@@ -213,45 +216,43 @@ export default {
 </script>
 
 <style lang="stylus">
-.icon
-  background #24292e
+.GL
+  &__select-GL__menu-link
+    .default-type
+      visibility hidden
 
-.search-menu-link
-  .default-type
-    visibility hidden
-
-.search-menu-link:hover
-  background #0366d6
-  color white
-  .search-menu-icon
-    color white
-  .default-type
-    visibility visible
-
-.nav-items
-  a
-    color white
-    text-decoration none
     &:hover
-      opacity 0.7
+      background #0366d6
+      color white
+      .q-item__section--side
+        color white
+      .default-type
+        visibility visible
 
-.menu-link:hover
-  background #0366d6
-  color white
+  &__toolbar-link
+    a
+      color white
+      text-decoration none
+      &:hover
+        opacity 0.7
 
-.signed-in-menu-link
-.set-status-menu-link
-  &:hover
-    & > div
-      background white !important
+  &__menu-link:hover
+    background #0366d6
+    color white
 
-.set-status-menu-link
-  color $blue-grey-6
-  &:hover
-    color $light-blue-9
+  &__menu-link-signed-in
+  &__menu-link-status
+    &:hover
+      & > div
+        background white !important
 
-.q-field--focused
-  width 450px !important
-  .q-field__append
-    display none
+  &__menu-link-status
+    color $blue-grey-6
+    &:hover
+      color $light-blue-9
+
+  &__toolbar-select.q-field--focused
+    width 450px !important
+    .q-field__append
+      display none
 </style>

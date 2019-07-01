@@ -56,7 +56,7 @@ div
         q-item-section Layout Builder
 
       q-item(clickable, to="/layout/gallery")
-        q-item-section.text-orange-8(avatar)
+        q-item-section.text-purple(avatar)
           q-icon(name="shop_two")
         q-item-section Layout Gallery
 

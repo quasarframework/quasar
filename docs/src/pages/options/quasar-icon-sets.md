@@ -1,5 +1,6 @@
 ---
 title: Quasar Icon Sets
+desc: How to configure icon sets for Quasar components.
 related:
   - /options/installing-icon-libraries
   - /vue-components/icon

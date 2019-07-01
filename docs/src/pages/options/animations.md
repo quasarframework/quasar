@@ -1,5 +1,6 @@
 ---
 title: Animations
+desc: Helper CSS animations supplied by Animate.css for a Quasar app.
 ---
 
 CSS Transitions can be handled by the [Vue Transition Component](https://vuejs.org/v2/guide/transitions.html). The transitions are used for entering (appearing) or leaving (disappearing) animations.

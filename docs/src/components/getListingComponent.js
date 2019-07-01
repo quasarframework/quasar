@@ -3,9 +3,20 @@ import { QIcon } from 'quasar'
 import DocPage from './DocPage.vue'
 import DocLink from './DocLink.vue'
 
+import getMeta from 'assets/get-meta.js'
+
 export default function (title, links) {
   return {
     name: 'DocListingPage',
+
+    meta: {
+      title: `${title} listing`,
+
+      meta: getMeta(
+        `${title} | Quasar Framework`,
+        `List of pages under the '${title}' section`
+      )
+    },
 
     render (h) {
       return h(DocPage, {

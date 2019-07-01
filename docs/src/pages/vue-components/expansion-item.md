@@ -1,5 +1,6 @@
 ---
 title: Expansion Item
+desc: The QExpansionItem Vue component allows visibility toggling like an accordion.
 related:
   - /vue-components/list-and-list-items
   - /vue-components/slide-item
