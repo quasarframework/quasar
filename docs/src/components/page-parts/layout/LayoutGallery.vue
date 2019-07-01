@@ -5,13 +5,18 @@
       :key="layout.name"
     )
       q-card(flat, bordered)
-        q-card-section {{ layout.name }}
+        .row.items-center.no-wrap.q-px-md.q-py-sm
+          div {{ layout.name }}
+          q-space
+          q-btn(type="a", :href="layout.demoLink", target="_blank", size="12px" flat, round, color="primary", icon="open_in_new")
+          q-btn(type="a", :href="layout.sourceLink", , target="_blank", size="12px" flat, round, icon="code")
 
-        q-img(alt="Layout Screenshot", :src="layout.screenshot", :ratio="1")
+        q-separator
 
-        q-card-actions(align="right")
-          q-btn(type="a", :href="layout.demoLink", target="_blank", flat, round, icon="open_in_new")
-          q-btn(type="a", :href="layout.sourceLink", , target="_blank", flat, round, icon="code")
+        .overflow-hidden
+          a(:href="layout.demoLink", target="_blank")
+            q-img(alt="Layout Screenshot", :src="layout.screenshot", :ratio="1.95")
+
 </template>
 
 <script>

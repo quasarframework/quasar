@@ -14,12 +14,21 @@
 </template>
 
 <script>
+import getMeta from 'assets/get-meta.js'
+
 export default {
   name: 'LayoutGalleryPage',
 
   meta () {
+    const title = this.$route.meta.title + ' Layout'
+
     return {
-      title: this.$route.meta.title + ' Layout | Quasar Framework'
+      title,
+
+      meta: getMeta(
+        title + ' | Quasar Framework',
+        `Example of a Quasar layout that looks like ${this.$route.meta.title}`
+      )
     }
   },
 

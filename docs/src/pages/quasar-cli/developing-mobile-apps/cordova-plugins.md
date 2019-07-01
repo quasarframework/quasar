@@ -1,5 +1,6 @@
 ---
 title: Cordova Plugins
+desc: How to use the Cordova plugins in a Quasar app.
 ---
 You can hook into the native device APIs by using [Cordova Plugins](https://cordova.apache.org/docs/en/latest/#plugin-apis).
 

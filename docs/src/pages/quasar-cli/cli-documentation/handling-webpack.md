@@ -1,5 +1,6 @@
 ---
 title: Handling Webpack
+desc: How to manage Webpack in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
 ---

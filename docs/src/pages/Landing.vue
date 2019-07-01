@@ -205,7 +205,8 @@ export default {
   },
 
   meta: {
-    title: 'Quasar Framework'
+    title: 'Quasar Framework',
+    titleTemplate: ''
   },
 
   created () {

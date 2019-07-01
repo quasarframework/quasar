@@ -1,5 +1,6 @@
 ---
 title: App Extension Uninstall API
+desc: The API for the uninstall script of a Quasar App Extension.
 ---
 
 This page refers to `src/uninstall.js` file which is executed when the App Extension is uninstalled. Not all App Extensions will need an uninstall -- this is an optional step.

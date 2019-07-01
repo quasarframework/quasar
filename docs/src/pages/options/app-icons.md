@@ -1,5 +1,6 @@
 ---
 title: App Icons
+desc: How to manage all the required icons of a Quasar app.
 ---
 
 You love the Quasar logo probably as much as the team does, but you just spent what feels like a lifetime making your own pixel-perfect representation of the soul of your application.

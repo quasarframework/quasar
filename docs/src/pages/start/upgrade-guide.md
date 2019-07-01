@@ -1,5 +1,6 @@
 ---
 title: Upgrade Guide
+desc: How to upgrade Quasar from older versions.
 ---
 
 :::tip

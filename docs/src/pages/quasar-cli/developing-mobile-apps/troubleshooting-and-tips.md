@@ -1,5 +1,6 @@
 ---
 title: Cordova Troubleshooting and Tips
+desc: Tips and tricks for a Quasar hybrid mobile app.
 ---
 
 ## $q.cordova
