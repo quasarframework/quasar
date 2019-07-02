@@ -14,7 +14,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
+      q-btn.q-ml-xs(flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu" v-show="$store.state.toc !== void 0")
         q-icon(name="assignment")
 
   q-drawer(
@@ -60,6 +60,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
   q-drawer(
     v-model="rightDrawerState"
+    v-if="$store.state.toc && $store.state.toc.length"
     side="right"
     content-class="bg-grey-1"
     :width="180"
