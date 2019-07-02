@@ -423,6 +423,10 @@ const style = [
     path: 'shadows'
   },
   {
+    name: 'Breakpoints',
+    path: 'breakpoints'
+  },
+  {
     name: 'Visibility',
     path: 'visibility'
   },
@@ -989,7 +993,7 @@ module.exports = [
   {
     name: 'Newsletter',
     badge: 'new',
-    icon: 'newspaper',
+    icon: 'email',
     path: 'newsletter'
   },
   {

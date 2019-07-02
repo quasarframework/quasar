@@ -40,6 +40,12 @@ module.exports = function (chain, cfg) {
       opts.directoryIndex = '/'
     }
 
+    if (!opts.exclude) {
+      opts.exclude = []
+    }
+
+    opts.exclude.push('../vue-ssr-client-manifest.json')
+
     // if Object form:
     if (cfg.ssr.pwa && cfg.ssr.pwa !== true) {
       const merge = require('webpack-merge')
