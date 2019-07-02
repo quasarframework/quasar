@@ -31,6 +31,7 @@ app.use(compression({ threshold: 0 }))
 // serve this with no cache, if built with PWA:
 if (ssr.settings.pwa) {
   app.use('/service-worker.js', serve('service-worker.js'))
+  app.use('/vue-ssr-client-manifest.json', serve('../vue-ssr-client-manifest.json', true))
 }
 
 // serve "www" folder
