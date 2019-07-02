@@ -1,57 +1,24 @@
 <template>
-  <div class="text-center text-white z-top q-pa-md z-top">
-    <!-- Start Aweber Form Code -->
-    <form method="post" action="http://www.aweber.com/scripts/addlead.pl" class="form-horizontal hidden">
-      <div style="display:none;">
-        <!-- REPLACE ALL HIDDEN INPUT FIELDS WITH YOUR OWN -->
-        <input type="hidden" name="meta_web_form_id" value="733048659">
-        <input type="hidden" name="meta_split_id" value="">
-        <input type="hidden" name="listname" value="awlist5374055">
-        <input type="hidden" name="redirect" value="https://quasar.dev?newsletter=done" id="redirect_470c7ee25a0266375f7208bf72b72afc" />
-        <input type="hidden" name="meta_adtracking" value="QuasarNewsletter">
-        <input type="hidden" name="meta_message" value="1">
-        <input type="hidden" name="meta_required" value="email">
-        <input type="hidden" name="meta_tooltip" value="">
-      </div>
-      <div class="" style="margin-left:50px;margin-right:50px;">
-        <div class="form-group ">
-          <div class="input-group   margin-bottom-sm">
-                            <span class="input-group-addon">
-                              <i class="fa fa-envelope-o fa-2x fa-fw"></i>
-                            </span>
-            <input id="awf_field-78882583" type="text" name="email" class="form-control text" v-model="email" placeholder="Enter Your Email Address" tabindex="501">
-          </div>
-        </div>
-        <div class="clear"></div>
-      </div>
-      <div class="" style="margin-left:50px;margin-right:50px;">
-        <div class="buttonContainer">
-          <div class="form-group">
-            <input ref="newsletterFormBtn" class="btn btn-primary btn-block submit" type="submit" name="submit" value="YES, send it to me now." tabindex="502">
-          </div>
-          <div class="clear"></div>
-        </div>
-      </div>
-
-      <div style="display: none;">
-        <img src="https://forms.aweber.com/form/displays.htm?id=7MzMDCwcbKyc" alt="" />
-      </div>
-    </form>
-    <!-- End Aweber Form Code -->
-
+  <div>
+    <!--
     <q-form
       ref="myForm"
       class="flex flex-center"
       @submit="registerEmail"
+      method="POST"
+      action="https://sibforms.com/serve/MUIEADG6z0wl6_1-9yC8nQLvyzJ0xyfsQ5b34LhN7Ptf3005mmPPmClSZYF_p77q2Ev5PvwPjqv6Dglwpdf7elKB_1Z4Et3w6o2ybRbBZyz7gzeR_pPh3GGrO5t7-j6MdbLNk2l3EubpW4E6m72gkgNmI_JVJuG9BXAiQjuKX7uSVhrwjL6RUjWI7Ba0d1Lt4psPSB2KOZ6M7FrY"
+      target="frame"
     >
 
       <q-input
         v-model="email"
         placeholder="Email address..."
-        class="bg-white rounded-borders q-px-md col on-left col-xs-6 col-sm-8 col-md-6 col-lg-5 col-xl-3"
+        class="rounded-borders q-px-md col on-left col-xs-6 col-sm-8 col-md-6 col-lg-5 col-xl-3"
         ref="emailInput"
-        borderless
+        color="black"
+        outlined
         dense
+        maxlength="200" type="email" id="EMAIL" name="EMAIL"
       />
 
       <q-btn color="primary" class="col-auto q-py-sm" type="submit">Hook me up!</q-btn>
@@ -61,9 +28,10 @@
       <q-checkbox
         v-model="acceptTerms"
         :color="termsColor"
-        :class="termsClass"
+        :class="`text-${termsClass}`"
         ref="acceptTerms"
         keep-color
+        :dark="false"
       >
         By submitting your email address you agree to the terms set out in our
         <a
@@ -73,6 +41,9 @@
           Privacy Policy
         </a>
       </q-checkbox>
+      <input type="text" name="email_address_check" value="" class="hidden">
+      <input type="hidden" name="locale" value="en">
+      <input type="hidden" name="html_type" value="simple">
     </q-form>
 
     <q-dialog
@@ -83,12 +54,14 @@
       <div class="bg-white z-top q-pa-xs">
         <iframe
           id="tc__frame"
-          src="https://www.iubenda.com/privacy-policy/41302963"
+          src="https://www.iubenda.com/privacy-policy/40685560"
           height="500"
           frameborder="0"
         ></iframe>
       </div>
     </q-dialog>
+        -->
+
   </div>
 </template>
 
@@ -106,7 +79,7 @@ export default {
       acceptTerms: false,
       showTermsAndConditions: false,
       termsColor: 'primary',
-      termsClass: ''
+      termsClass: 'black'
     }
   },
 
@@ -147,24 +120,28 @@ export default {
         this.termsColor = 'primary'
         this.email = this.email.toLowerCase()
         this.$q.loading.show()
-        const addEmailSubscriber = this.$firebase.functions().httpsCallable('addEmailSubscriber')
-        addEmailSubscriber({
-          email: this.email
-        }).then(res => {
-          if (res.data.status === 'info') {
-            this.doGoodResponse(res.data)
-          }
-          else {
-            this.$refs.newsletterFormBtn.click()
-          }
-        }).catch(e => {
-          this.$q.loading.hide()
-          this.$q.notify({
-            message: `Something went wrong: ${e.message}`,
-            color: 'negative',
-            position: 'top'
+
+        /* const addEmailSubscriber = this.$firebase.functions().httpsCallable('addEmailSubscriber')
+
+          addEmailSubscriber({
+            email: this.email
+          }).then(res => {
+            if (res.data.status === 'info') {
+              this.doGoodResponse(res.data)
+            }
+            else {
+              this.$refs.newsletterFormBtn.click()
+            }
+          }).catch(e => {
+            this.$q.loading.hide()
+            this.$q.notify({
+              message: `Something went wrong: ${e.message}`,
+              color: 'negative',
+              position: 'top'
+            })
           })
-        })
+
+       */
       }
     },
 

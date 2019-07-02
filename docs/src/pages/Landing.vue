@@ -11,16 +11,23 @@
 
         .flex.justify-end
           .q-gutter-sm
-            .text-h1
-              div.text-weight-bold Quasar
-              div Framework
+            .col
+              .text-h1
+                div.text-weight-bold Quasar
+                div Framework
+              .q-pt-md.q-pl-sm
+                .landing__hero-btns.q-gutter-md.row.items-center
+                  q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
+                  q-btn(push, color="white", text-color="primary", to="/start", label="Docs")
+                  q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
+                  .text-body2 v{{ $q.version }}
 
-            .text-subtitle1.text-italic.q-pl-sm High performance, <strong>Material Design 2</strong>, full front end stack with <strong>Vuejs</strong>
-            .q-pt-md.q-pl-sm
-              .landing__hero-btns.q-gutter-md.row.items-center
-                q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
-                q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
-                .text-body2 v{{ $q.version }}
+        .flex-center
+          .flex.q-pa-xl.q-mx-xl.text-center(style="background:rgba(0,0,0,0.5);border-radius:15px")
+            .text-subtitle1.text-italic High performance, Material Design 2, full front end stack with <strong>VueJS</strong>
+            .text-subtitle1.text-italic A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today
+            .text-subtitle1.text-italic Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it) ... following all of the latest and greatest <strong>best web practices</strong>
+            .text-subtitle1.text-italic <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong> ... (yes, it's that easy to get started!)
 
       .landing__arrow.absolute-bottom.text-center
         q-icon(name="expand_more").text-h2.text-white
@@ -175,7 +182,6 @@
         | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
       div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
-    register-interest
 
   section.fixed-top.landing__toolbar.text-white
     q-toolbar.q-pa-none
@@ -196,15 +202,13 @@
 <script>
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
-import RegisterInterest from 'components/RegisterInterest'
 
 export default {
   name: 'Landing',
 
   components: {
     Sponsor,
-    SponsorList,
-    RegisterInterest
+    SponsorList
   },
 
   meta: {
