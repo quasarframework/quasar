@@ -23,10 +23,10 @@
                   .text-body2 v{{ $q.version }}
 
         .flex-center
-          .flex.q-pa-xl.q-mx-xl.text-center(style="background:rgba(0,0,0,0.5);border-radius:15px")
-            .text-subtitle1.text-italic High performance, Material Design 2, full front end stack with <strong>VueJS</strong>
-            .text-subtitle1.text-italic A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today
-            .text-subtitle1.text-italic Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it) ... following all of the latest and greatest <strong>best web practices</strong>
+          .flex.q-pa-xl.q-mx-xl.full-width.text-center(style="background:rgba(0,0,0,0.5);border-radius:15px")
+            .text-subtitle1.text-italic.full-width High performance, Material Design 2 compliant, full front end stack with <strong>VueJS</strong>
+            .text-subtitle1.text-italic.full-width A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today
+            .text-subtitle1.text-italic.full-width Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it) ... following all of the latest and greatest <strong>best web practices</strong>
             .text-subtitle1.text-italic <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong> ... (yes, it's that easy to get started!)
 
       .landing__arrow.absolute-bottom.text-center
@@ -178,6 +178,9 @@
         a(href="https://donate.quasar.dev", target="_blank")
           q-icon(name="fas fa-heart")
 
+        a(href="/newsletter")
+          q-icon(name="email")
+
       div.q-mt-md
         | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
@@ -197,6 +200,8 @@
       q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank")
       q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank")
       q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank")
+      q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter")
+
 </template>
 
 <script>

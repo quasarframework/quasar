@@ -989,7 +989,7 @@ module.exports = [
   {
     name: 'Newsletter',
     badge: 'new',
-    icon: 'newspaper',
+    icon: 'email',
     path: 'newsletter'
   },
   {
