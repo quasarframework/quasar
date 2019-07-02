@@ -1,5 +1,7 @@
 ---
 title: The Q-News
+heading: false
+toc: false
 desc: Signup for the Quasar Newsletter.
 ---
 

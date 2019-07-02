@@ -56,7 +56,7 @@ module.exports = function (source) {
   const res = getVueComponent(
     rendered,
     data,
-    '[' + toc.join(',') + ']'
+    data.toc !== false ? '[' + toc.join(',') + ']' : void 0
   )
 
   cache.set(key, res)

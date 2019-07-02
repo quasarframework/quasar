@@ -1,7 +1,7 @@
 <template lang="pug">
 q-page.doc-page
 
-  h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')")
+  h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyHeading('Introduction')")
     span {{ title }}
     a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
       q-icon(name="edit", @click.stop)
