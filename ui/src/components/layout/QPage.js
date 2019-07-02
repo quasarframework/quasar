@@ -29,11 +29,11 @@ export default Vue.extend({
         return this.styleFn(offset)
       }
 
-      const minHeight = this.layout.container === true
-        ? (this.layout.containerHeight - offset) + 'px'
-        : (offset !== 0 ? `calc(100vh - ${offset}px)` : `100vh`)
+      const height = this.layout.container === true
+        ? this.layout.containerHeight
+        : this.$q.screen.height
 
-      return { minHeight }
+      return { minHeight: (height - offset) + 'px' }
     },
 
     classes () {
