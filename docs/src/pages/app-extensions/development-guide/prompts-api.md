@@ -1,5 +1,6 @@
 ---
 title: App Extension Prompts API
+desc: Syntax of the questions that the user is going to be asked in order to configure the Quasar App Extension.
 ---
 
 This page refers to `src/prompts.js` file which handles the prompts when installing the App Extension. Not all App Extensions will need prompts -- this is an optional step.

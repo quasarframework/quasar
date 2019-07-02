@@ -1,5 +1,6 @@
 ---
 title: Sponsors and Backers
+desc: The list of sponsors and backers who are donating to Quasar Framework development.
 components:
   - sponsors-and-backers/SponsorList
   - sponsors-and-backers/DonatingButtons

@@ -1,5 +1,6 @@
 ---
 title: What is a PWA
+desc: Introduction on what a Progressive Web App is and how it can be configured in a Quasar app.
 ---
 A Progressive Web App (PWA) is a web app that uses modern web capabilities to deliver an app-like experience to users. These apps meet certain requirements (see below), are deployed to web servers and accessible through URLs (on HTTPS protocol).
 

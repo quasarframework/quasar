@@ -407,6 +407,8 @@
 </template>
 
 <script>
+import getMeta from 'assets/get-meta.js'
+
 export default {
   created () {
     this.drawerBehaviorOptions = [
@@ -423,7 +425,12 @@ export default {
   },
 
   meta: {
-    title: 'Layout Builder | Quasar Framework'
+    title: 'Layout Builder',
+
+    meta: getMeta(
+      'Layout Builder | Quasar Framework',
+      'Tool to build Quasar layouts. Configure the layout parts then export the code.'
+    )
   },
 
   data () {

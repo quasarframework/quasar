@@ -1,5 +1,6 @@
 ---
 title: Bar
+desc: The QBar Vue component which is used to create the top bar on different platforms.
 related:
   - /quasar-cli/developing-electron-apps/frameless-electron-window
 ---

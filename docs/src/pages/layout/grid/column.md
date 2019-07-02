@@ -1,5 +1,6 @@
 ---
 title: Grid Column
+desc: How to use the Quasar grid for columns.
 ---
 
 In the hope that you've previously read the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox) theory, let's get deeper into Columns.

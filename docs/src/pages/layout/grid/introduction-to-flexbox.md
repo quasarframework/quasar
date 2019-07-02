@@ -1,5 +1,6 @@
 ---
 title: Introduction to Flexbox
+desc: What the flexbox CSS is and how it can be used in a Quasar App.
 related:
   - /style/spacing
   - /style/visibility

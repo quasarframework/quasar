@@ -1,5 +1,6 @@
 ---
 title: App Routing
+desc: How to use the Vue Router in a Quasar app.
 ---
 
 You'll notice that your Quasar project contains a `/src/router` folder. This holds the routing configuration of your website/app:

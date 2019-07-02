@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-header elevated class="bg-white text-grey-8">
-      <q-toolbar style="height: 64px">
+      <q-toolbar class="GNL__toolbar">
         <q-btn
           flat
           dense
@@ -12,14 +12,14 @@
           class="q-mr-sm"
         />
 
-        <q-toolbar-title shrink class="row items-center">
+        <q-toolbar-title v-if="$q.screen.gt.xs" shrink class="row items-center no-wrap">
           <img src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg">
           <span class="q-ml-sm">News</span>
         </q-toolbar-title>
 
         <q-space />
 
-        <q-input outlined dense v-model="search" color="bg-grey-7 shadow-1" placeholder="Search for topics, locations & sources" style="width: 40%;">
+        <q-input class="GNL__toolbar-input" outlined dense v-model="search" color="bg-grey-7 shadow-1" placeholder="Search for topics, locations & sources">
           <template v-slot:prepend>
             <q-icon v-if="search === ''" name="search" />
             <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
@@ -81,7 +81,7 @@
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="text-grey-7" icon="apps">
+          <q-btn v-if="$q.screen.gt.sm" round dense flat color="text-grey-7" icon="apps">
             <q-tooltip>Google Apps</q-tooltip>
           </q-btn>
           <q-btn round dense flat color="grey-8" icon="notifications">
@@ -103,12 +103,13 @@
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
+      show-if-above
       content-class="bg-white"
       :width="280"
     >
       <q-scroll-area class="fit">
         <q-list padding class="text-grey-8">
-          <q-item class="my-drawer-item" v-ripple v-for="link in links1" :key="link.text" clickable>
+          <q-item class="GNL__drawer-item" v-ripple v-for="link in links1" :key="link.text" clickable>
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -119,7 +120,7 @@
 
           <q-separator inset class="q-my-sm" />
 
-          <q-item class="my-drawer-item" v-ripple v-for="link in links2" :key="link.text" clickable>
+          <q-item class="GNL__drawer-item" v-ripple v-for="link in links2" :key="link.text" clickable>
             <q-item-section avatar>
               <q-icon :name="link.icon" />
             </q-item-section>
@@ -130,7 +131,7 @@
 
           <q-separator inset class="q-my-sm" />
 
-          <q-item class="my-drawer-item" v-ripple v-for="link in links3" :key="link.text" clickable>
+          <q-item class="GNL__drawer-item" v-ripple v-for="link in links3" :key="link.text" clickable>
             <q-item-section>
               <q-item-label>{{ link.text }} <q-icon v-if="link.icon" :name="link.icon" /></q-item-label>
             </q-item-section>
@@ -138,16 +139,15 @@
 
           <div class="q-mt-md">
             <div class="flex flex-center q-gutter-xs">
-              <q-btn flat dense no-caps aria-label="Privacy" size="sm">Privacy</q-btn>
+              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="Privacy">Privacy</a>
               <span> · </span>
-              <q-btn flat dense no-caps aria-label="Terms" size="sm">Terms</q-btn>
+              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="Terms">Terms</a>
               <span> · </span>
-              <q-btn flat dense no-caps aria-label="About" size="sm">About Google</q-btn>
+              <a class="GNL__drawer-footer-link" href="javascript:void(0)" aria-label="About">About Google</a>
             </div>
           </div>
         </q-list>
       </q-scroll-area>
-
     </q-drawer>
 
     <q-page-container>
@@ -158,7 +158,8 @@
 
 <script>
 export default {
-  name: 'MyLayout',
+  name: 'GoogleNewsLayout',
+
   data () {
     return {
       leftDrawerOpen: false,
@@ -197,6 +198,7 @@ export default {
       ]
     }
   },
+
   methods: {
     onClear () {
       this.exactPhrase = ''
@@ -205,48 +207,46 @@ export default {
       this.byWebsite = ''
       this.byDate = 'Any time'
     },
+
     changeDate (option) {
       this.byDate = option
       this.showDateOptions = false
-    }
-  },
-  mounted () {
-    this.leftDrawerOpen = this.$q.platform.is.desktop
-  },
-  watch: {
-    showDateOptions (val) {
-      console.log('showDateOptions', this.showDateOptions)
     }
   }
 }
 </script>
 
 <style lang="stylus">
-.drawer-title
-  -webkit-box-flex: 1;
-  -ms-flex: 1 1 0%;
-  flex: 1 1 0%;
-  min-width: 1px;
-  max-width: 100%;
-  font-size: 21px;
-  font-weight: normal;
-  letter-spacing: 0.01em;
+.GNL
 
-.my-drawer-item
-  // color #f1f3f4
-  line-height: 24px
-  border-radius 0 24px 24px 0
-  margin-right 12px
+  &__toolbar
+    height 64px
 
-  .q-item__section--avatar
-    // padding-left 12px
-    .q-icon
-      color #5f6368
+  &__toolbar-input
+    width 55%
 
-  .q-item__label
-    color #3c4043
-    letter-spacing: .01785714em;
-    font-size: .875rem;
-    font-weight: 500;
-    line-height: 1.25rem
+  &__drawer-item
+    line-height 24px
+    border-radius 0 24px 24px 0
+    margin-right 12px
+
+    .q-item__section--avatar
+      .q-icon
+        color #5f6368
+
+    .q-item__label
+      color #3c4043
+      letter-spacing .01785714em
+      font-size .875rem
+      font-weight 500
+      line-height 1.25rem
+
+  &__drawer-footer-link
+    color inherit
+    text-decoration none
+    font-weight 500
+    font-size .75rem
+
+    &:hover
+      color #000
 </style>

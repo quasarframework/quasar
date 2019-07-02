@@ -1,5 +1,6 @@
 ---
 title: Introduction to Quasar Framework
+desc: What Quasar is and how it can considerably reduce your development time and costs.
 ---
 
 ![Quasar - Empowering your websites and apps](https://cdn.quasar.dev/img/responsive.png)
