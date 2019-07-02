@@ -62,6 +62,12 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 
 <doc-example title="Mini-mode with mouseover/mouseout trigger" file="QDrawer/MiniMouseEvents" />
 
+#### Mini to overlay
+
+The `mini-to-overlay` Boolean property will always set your drawer with fixed position, regardless of your configuration from the `view` prop, but will occupy space on the layout only as wide as when in mini-mode.
+
+<doc-example title="Mini to overlay" file="QDrawer/MiniToOverlay" />
+
 #### Click trigger
 In the example below, when in "mini" mode, if the user clicks on Drawer then we switch to normal mode.
 
