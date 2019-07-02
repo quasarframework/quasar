@@ -29,7 +29,7 @@ For devs in this situation, we provide the option for you to install the Icon Ge
 
 ```bash
 $ npm install --global @quasar/app-extension-icon-genie
-$ iconfactory -p=kitchensink -s=icon-1280x1280.png -t=./outputFolder -m=pngquant
+$ icongenie -p=kitchensink -s=icon-1280x1280.png -t=./outputFolder -m=pngquant
 ```
 
 Full details about this type of usage can be found at the app-extension repository.
