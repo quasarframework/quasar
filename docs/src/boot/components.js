@@ -8,7 +8,7 @@ import DocLink from 'components/DocLink.vue'
 import DocPage from 'components/DocPage.vue'
 
 import AppExtensionDiscover from 'components/AppExtensionDiscover.vue'
-import RegisterInterest from 'components/RegisterInterest'
+// import RegisterInterest from 'components/RegisterInterest'
 
 // leave the export, even if you don't use it
 export default async ({ Vue }) => {
@@ -21,5 +21,5 @@ export default async ({ Vue }) => {
   Vue.component('DocPage', DocPage)
 
   Vue.component('AppExtensionDiscover', AppExtensionDiscover)
-  Vue.component('RegisterInterest', RegisterInterest)
+  // Vue.component('RegisterInterest', RegisterInterest)
 }
