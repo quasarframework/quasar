@@ -177,7 +177,7 @@ export default Vue.extend({
     },
 
     __updateScrollbarWidth () {
-      if (this.container) {
+      if (this.container === true) {
         const width = this.height > this.containerHeight
           ? getScrollbarWidth()
           : 0

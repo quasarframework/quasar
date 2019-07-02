@@ -142,7 +142,7 @@ export default Vue.extend({
     },
 
     onLayout (val) {
-      this.$emit('on-layout', val)
+      this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', val)
       this.__update('space', val)
     },
 
@@ -489,7 +489,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.$emit('on-layout', this.onLayout)
+    this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', this.onLayout)
     this.applyPosition(this.showing === true ? 0 : void 0)
   },
 
