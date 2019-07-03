@@ -1,5 +1,6 @@
 ---
 title: App Icons for Electron
+desc: How to manage the app icons for a Desktop Quasar app.
 ---
 
 These images are used to display the icon of the application in the desktop operating system in the tray, on the desktop, in the file-browser and in relevant stores. The `icon.ico` file is for Windows and `icon.icns` is for MacOS. If you discover any that are missing, please file an issue.
@@ -32,8 +33,8 @@ src-electron/
 
 <img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
 
-## The Icon Factory
+## The Icon Genie
 
 ::: tip
-We highly recommend using our official [Icon Factory](https://github.com/quasarframework/app-extension-icon-factory/) app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
+We highly recommend using our official [Icon Genie](https://github.com/quasarframework/app-extension-icon-genie/) app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
 :::

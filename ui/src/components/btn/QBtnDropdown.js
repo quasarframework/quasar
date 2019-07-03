@@ -107,7 +107,8 @@ export default Vue.extend({
         props: {
           ...this.$props,
           disable: this.disable === true || this.disableMainBtn === true,
-          noWrap: true
+          noWrap: true,
+          round: false
         },
         on: {
           click: e => {
@@ -123,7 +124,8 @@ export default Vue.extend({
         ...this.$props,
         disable: this.disable === true || this.disableMainBtn === true,
         noWrap: true,
-        iconRight: this.iconRight
+        iconRight: this.iconRight,
+        round: false
       },
       on: {
         click: e => {

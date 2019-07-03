@@ -1,5 +1,6 @@
 ---
 title: Quasar UMD - CDN install
+desc: How to use the Unified Module Definition form of Quasar.
 ---
 If you want to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
 
@@ -113,8 +114,8 @@ You can fork and use these links for reporting issues on GitHub too:
 
 | Supplier | URL |
 | --- | --- |
-| jsFiddle | [https://jsfiddle.net/rstoenescu/rmaodk0f/](https://jsfiddle.net/rstoenescu/rmaodk0f/) |
-| Codepen | [https://codepen.io/rstoenescu/pen/VgQbdx](https://codepen.io/rstoenescu/pen/VgQbdx) |
+| jsFiddle | [https://jsfiddle.quasar.dev](https://jsfiddle.quasar.dev) |
+| Codepen | [https://codepen.quasar.dev](https://codepen.quasar.dev) |
 
 These links (obviously) use the Quasar UMD version.
 

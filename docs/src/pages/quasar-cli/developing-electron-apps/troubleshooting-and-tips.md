@@ -1,6 +1,25 @@
 ---
 title: Troubleshooting and Tips
+desc: Tips and tricks for a Quasar desktop app with Electron.
 ---
+
+## Upgrading to Electron v5+
+If you are upgrading from Electron < 5 then you will need to edit your `src-electron/main-process/main.js` at this location:
+
+```js
+mainWindow = new BrowserWindow({
+  width: 1000,
+  height: 600,
+  useContentSize: true,
+
+  /**********************
+   * ADD THE FOLLOWING: *
+   **********************/
+  webPreferences: {
+    nodeIntegration: true
+  }
+})
+```
 
 ## $q.electron
 While you are developing with Electron Mode, you can access `this.$q.electron` in your Vue files. This is an alias to the `electron` Object when imported.

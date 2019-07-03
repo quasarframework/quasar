@@ -51,7 +51,12 @@
         "done": {
           "type": "Function",
           "desc": "Function to call when you made all necessary updates. DO NOT forget to call it otherwise your loading message will continue to be displayed",
-          "params": null,
+          "params": {
+            "stop": {
+              "type": "Boolean",
+              "desc": "Stops QInfiniteScroll if it's Boolean 'true'; Specify it in case there's nothing more to load"
+            }
+          },
           "returns": null
         }
       }

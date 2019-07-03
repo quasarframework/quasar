@@ -37,6 +37,7 @@ export default Vue.extend({
       default: 300
     },
     mini: Boolean,
+    miniToOverlay: Boolean,
     miniWidth: {
       type: Number,
       default: 57
@@ -160,7 +161,11 @@ export default Vue.extend({
 
     size (val) {
       this.applyPosition()
-      this.__update('size', val)
+      this.__updateSizeOnLayout(this.miniToOverlay, val)
+    },
+
+    miniToOverlay (val) {
+      this.__updateSizeOnLayout(val, this.size)
     },
 
     '$q.lang.rtl' () {
@@ -182,16 +187,20 @@ export default Vue.extend({
 
     offset () {
       return this.showing === true && this.mobileOpened === false && this.overlay === false
-        ? this.size
+        ? (this.miniToOverlay === true ? this.miniWidth : this.size)
         : 0
     },
 
     size () {
-      return this.isMini === true ? this.miniWidth : this.width
+      return this.isMini === true
+        ? this.miniWidth
+        : this.width
     },
 
     fixed () {
-      return this.overlay === true || this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
+      return this.overlay === true ||
+        this.miniToOverlay === true ||
+        this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
     },
 
     onLayout () {
@@ -260,9 +269,9 @@ export default Vue.extend({
           this.mobileView === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
             : ` q-drawer--${this.isMini === true ? 'mini' : 'standard'}` +
-              (this.fixed === true || this.onLayout !== true ? ' fixed' : '') +
-              (this.overlay === true ? ' q-drawer--on-top' : '') +
-              (this.headerSlot === true ? ' q-drawer--top-padding' : '')
+            (this.fixed === true || this.onLayout !== true ? ' fixed' : '') +
+            (this.overlay === true || this.miniToOverlay === true ? ' q-drawer--on-top' : '') +
+            (this.headerSlot === true ? ' q-drawer--top-padding' : '')
         )
     },
 
@@ -465,12 +474,16 @@ export default Vue.extend({
       if (this[prop] !== val) {
         this[prop] = val
       }
+    },
+
+    __updateSizeOnLayout (miniToOverlay, size) {
+      this.__update('size', miniToOverlay === true ? this.miniWidth : size)
     }
   },
 
   created () {
     this.layout.instances[this.side] = this
-    this.__update('size', this.size)
+    this.__updateSizeOnLayout(this.miniToOverlay, this.size)
     this.__update('space', this.onLayout)
     this.__update('offset', this.offset)
   },

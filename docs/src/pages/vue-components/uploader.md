@@ -1,5 +1,6 @@
 ---
 title: Uploader
+desc: The QUploader Vue component is a way for the user to upload files to a backend server.
 ---
 Quasar supplies a way for you to upload files through the QUploader component.
 

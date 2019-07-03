@@ -1,5 +1,6 @@
 ---
 title: Discover App Extensions
+desc: Look up official and community Quasar App Extensions.
 ---
 
 <app-extension-discover />
@@ -27,7 +28,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | --- | --- |
 | [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) | A slightly opinionated management tool to use dotenv in your application |
 | [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propagate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application |
-| [@quasar/icon-factory](https://github.com/quasarframework/app-extension-icon-factory) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
+| [@quasar/icon-genie](https://github.com/quasarframework/app-extension-icon-genie) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
 
 ### Components
 

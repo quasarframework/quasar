@@ -1,5 +1,6 @@
 ---
 title: Electron Build Commands
+desc: The Quasar CLI list of commands when developing or building a desktop app.
 ---
 [Quasar CLI](/start/quasar-cli) makes it incredibly simple to develop or build the final distributables from your source code.
 
@@ -9,6 +10,10 @@ $ quasar dev -m electron
 
 # ..or the longer form:
 $ quasar dev --mode electron
+
+# passing extra parameters and/or options to
+# underlying "electron" executable:
+$ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
 
 It opens up an Electron window with dev-tools included. You have HMR for the renderer process and changes to main process are also picked up (but the latter restarts the Electron window on each change).
@@ -30,7 +35,7 @@ If you want to build for Windows with a custom icon using a non-Windows platform
 
 ## Publishing (electron-builder only)
 ```bash
-$ quasar build -m electron -P always 
+$ quasar build -m electron -P always
 
 # ..or the longer form:
 $ quasar dev --mode electron --publish always
@@ -56,7 +61,7 @@ electron: {
     },
     publish: {
       'provider': 's3',
-      'bucket': 'myS3bucket'        
+      'bucket': 'myS3bucket'
     }
   }
 ```

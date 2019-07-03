@@ -1,5 +1,6 @@
 ---
 title: Cordova Troubleshooting and Tips
+desc: Tips and tricks for a Quasar hybrid mobile app.
 ---
 
 ## $q.cordova
@@ -23,6 +24,19 @@ This way you have Chrome Dev Tools directly for your App running on the emulator
 
 ![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug.png "Android Remote Debugging")
 ![Android Remote Debugging](https://cdn.quasar.dev/img/remote-debug-2.png "Android Remote Debugging")
+
+### Accept Licenses
+If you are having problems getting Android builds to finish and you see a message like:
+
+```
+> Failed to install the following Android SDK packages as some licences have not been accepted.
+```
+
+If this is the case you need to accept ALL the licenses. Thankfully there is a tool for this:
+
+Linux: `sdkmanager --licenses`
+macOS: `~/Library/Android/sdk/tools/bin/sdkmanager --licenses`
+Windows: `%ANDROID_HOME%/tools/bin/sdkmanager --licenses`
 
 ### Android SDK not found after installation of the SDK
 Some newer Debian-based OS (e.g. ubuntu, elementary OS) might leave you with a `Android SDK not found.` after you installed and (correctly) configured the environment. The output might look similar to this:

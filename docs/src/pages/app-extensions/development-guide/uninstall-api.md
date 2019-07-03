@@ -1,5 +1,6 @@
 ---
 title: App Extension Uninstall API
+desc: The API for the uninstall script of a Quasar App Extension.
 ---
 
 This page refers to `src/uninstall.js` file which is executed when the App Extension is uninstalled. Not all App Extensions will need an uninstall -- this is an optional step.
@@ -17,7 +18,7 @@ module.exports = function (api) {
 Contains the `ext-id` (String) of this App Extension.
 
 ## api.prompts
-Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts).
+Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ## api.resolve
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.

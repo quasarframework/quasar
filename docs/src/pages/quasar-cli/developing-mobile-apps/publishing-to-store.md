@@ -1,5 +1,6 @@
 ---
 title: Publishing to Store
+desc: How to publish a Quasar hybrid mobile app to Google Play Store and to Apple App Store.
 ---
 
 So, you've finished working on your Mobile App. Now it's time to deploy it. Let's learn how.
@@ -102,6 +103,10 @@ You can learn more about managing your app in iTunes Connect from the [official 
 $ quasar build -m cordova -T ios
 # or the short form:
 $ quasar build -m ios
+
+# passing extra parameters and/or options to
+# underlying "cordova" executable:
+$ quasar build -m ios -- some params --and options --here
 ```
 
 If everything went well you’ll see the `BUILD SUCCEEDED` output in the console.
