@@ -1,7 +1,7 @@
 <template lang="pug">
 q-page.doc-page
 
-  h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')")
+  h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyHeading('Introduction')")
     span {{ title }}
     a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
       q-icon(name="edit", @click.stop)
@@ -68,6 +68,8 @@ q-page.doc-page
       a(href="https://donate.quasar.dev", target="_blank")
         q-icon(name="fas fa-heart")
 
+      a(href="/newsletter")
+        q-icon(name="email")
     div
       | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
