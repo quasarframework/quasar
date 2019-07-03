@@ -23,7 +23,7 @@ function getComponentsDeclaration (comp) {
 module.exports.getVueComponent = function (rendered, data, toc) {
   return `
     <template>
-      <doc-page title="${data.title}"${data.related !== void 0 ? ` :related="related"` : ''}${data.nav !== void 0 ? ` :nav="nav"` : ''}>${rendered}</doc-page>
+      <doc-page title="${data.heading !== false ? data.title : ''}"${data.related !== void 0 ? ` :related="related"` : ''}${data.nav !== void 0 ? ` :nav="nav"` : ''}>${rendered}</doc-page>
     </template>
     <script>
     import { copyHeading } from 'assets/page-utils'
