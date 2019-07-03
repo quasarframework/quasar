@@ -176,12 +176,11 @@
           q-icon(name="fas fa-comments")
 
         a(href="https://donate.quasar.dev", target="_blank")
-          q-icon(name="fas fa-heart")
-
-        a(href="/newsletter")
-          q-icon(name="email")
+          q-icon(name="fas fa-medkit")
 
       div.q-mt-md
+        | Subscribe to our <doc-link to="/newsletter">Newsletter</doc-link>.
+      div.q-mt-sm
         | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
       div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
