@@ -160,22 +160,22 @@
   section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center
-        a(href="https://github.com/quasarframework/quasar", target="_blank")
+        a(href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
           q-icon(name="fab fa-github")
 
-        a(href="https://twitter.com/quasarframework", target="_blank")
+        a(href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
           q-icon(name="fab fa-twitter")
 
-        a(href="https://medium.com/quasar-framework", target="_blank")
+        a(href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
           q-icon(name="fab fa-medium")
 
-        a(href="https://chat.quasar.dev", target="_blank")
+        a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-discord")
 
-        a(href="https://forum.quasar.dev/", target="_blank")
+        a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
           q-icon(name="fas fa-comments")
 
-        a(href="https://donate.quasar.dev", target="_blank")
+        a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fas fa-medkit")
 
       div.q-mt-md
@@ -194,13 +194,12 @@
 
       q-space
 
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank")
-      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank")
-      q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter")
-
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank", rel="noopener")
+      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+      q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter", rel="noopener")
 </template>
 
 <script>

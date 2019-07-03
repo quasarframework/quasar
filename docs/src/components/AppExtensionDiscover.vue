@@ -36,6 +36,7 @@
         tag="a"
         :href="item.links"
         target="_blank"
+        rel="noopener"
       >
         <q-item-section>
           <q-item-label class="q-gutter-sm">
