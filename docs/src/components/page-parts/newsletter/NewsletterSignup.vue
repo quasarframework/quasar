@@ -14,7 +14,7 @@ export default {
   name: 'NewsletterSignup',
 
   created () {
-    this.url = 'https://sibforms.com/serve/MUIEAEDFbXuZGDn5sOlNHS0o73EmiAjGmXr8wd6BaBUFgqAfL-fZKS5uuLpMUom-kuPYJCOG0gTJvHX19cW4Yn60PIS8MKjVlf6jVtfgDgUs9tftbUddH7rQvK-X1KZrxvzDwQDObsDqGa8bzpYV7dOSfevMBzxz31rCauibV2VxSuWoRg1D0d_y0EmmUkGLVXBVyrxTpZjKsPmm'
+    this.url = 'https://sibforms.com/serve/MUIEACnh32O4Z86KTHIgIEvDLZcePEOj4VjDves7rQLmnzjOtXt7RrjeHT233EEjw2wT2Ifj_eGOTq48NXbW6mS9eOhaRG6rFMS4pf00KHxIiG0dNGSriXcietfuo9GTfYPz2k3PktHwJ_AP1kHgF9Tfv0ODnE1SqtndDhyoB6LJ_0xabjKBUov6pcGIjRmpJiK5FMGs-o6O3DO2'
   }
 }
 </script>
