@@ -1,7 +1,7 @@
 {
   "name": "quasar",
-  "version": "1.0.0-rc.5",
-  "description": "High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
+  "version": "1.0.0",
+  "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "module": "src/index.esm.js",
   "typings": "dist/types/index.d.ts",
   "main": "dist/quasar.common.js",
