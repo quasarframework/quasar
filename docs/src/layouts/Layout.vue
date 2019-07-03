@@ -14,7 +14,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(v-show="$store.state.toc.length > 0", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
+      q-btn.q-ml-xs(v-show="hasRightDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
 
   q-drawer(
@@ -61,7 +61,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
   q-drawer(
     v-model="rightDrawerState"
-    v-if="$store.state.toc.length > 0"
+    v-if="hasRightDrawer"
     side="right"
     content-class="bg-grey-1"
     :width="180"
@@ -146,6 +146,10 @@ export default {
       set (val) {
         this.$store.commit('updateRightDrawerState', val)
       }
+    },
+
+    hasRightDrawer () {
+      return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
     }
   },
 
