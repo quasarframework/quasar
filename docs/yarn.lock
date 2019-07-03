@@ -3098,9 +3098,9 @@ eslint-import-resolver-node@^0.3.2:
     resolve "^1.5.0"
 
 eslint-loader@^2.1.1:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-2.1.2.tgz#453542a1230d6ffac90e4e7cb9cadba9d851be68"
-  integrity sha512-rA9XiXEOilLYPOIInvVH5S/hYfyTPyxag6DZhoQOduM+3TkghAEQ3VcFO8VnX4J4qg/UIBzp72aOf/xvYmpmsg==
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-loader/-/eslint-loader-2.2.0.tgz#e2322b46fc5584ebbffd13c78089cd27d63565a9"
+  integrity sha512-O7zOQw6HS1t8H08O8DsAXPccSIu3xduku/aqdjQwPHp/NzIT/nwwkq+Ly5EtGfXo931/yTwiCuB9kjg/0D2sTg==
   dependencies:
     loader-fs-cache "^1.0.0"
     loader-utils "^1.0.2"
