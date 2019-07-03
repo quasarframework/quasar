@@ -58,5 +58,16 @@ However, if you are using `capture` or `mouseCapture` modifiers then events will
 ### Note on HMR
 Due to performance reasons, when doing HMR updates, the modifiers are NOT updated, so you will require a window refresh.
 
+### Detect mouseup / touchend
+
+If you need to detect when the user stops touching or clicking, you can add additional listeners inside the `created` hook of your Vue component like so:
+
+```js
+created () {
+  this.$el.addEventListener('mouseup', () => { /* do something */ })
+  this.$el.addEventListener('touchend', () => { /* do something */ })
+}
+```
+
 ## API
 <doc-api file="TouchHold" />
