@@ -29,6 +29,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           type="a"
           href="https://github.com/users/rstoenescu/sponsorship"
           target="_blank"
+          rel="noopener"
           size="13px"
           color="primary"
           icon="favorite_border"

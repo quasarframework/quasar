@@ -10,6 +10,7 @@
       type="a"
       :href="sourceLink"
       target="_blank"
+      rel="noopener"
     )
 </template>
 
