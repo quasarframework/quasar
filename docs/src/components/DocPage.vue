@@ -65,7 +65,7 @@ q-page.doc-page
       a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
         q-icon(name="fas fa-comments")
 
-      a(href="https://donate.quasar.dev", rel="noopener", rel="noopener", target="_blank")
+      a(href="https://donate.quasar.dev", rel="noopener", target="_blank")
         q-icon(name="fas fa-heart")
 
     div
