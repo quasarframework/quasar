@@ -15,6 +15,7 @@
               .text-h1
                 div.text-weight-bold Quasar
                 div Framework
+              .text-subtitle1.text-italic.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
               .q-pt-md.q-pl-sm
                 .landing__hero-btns.q-gutter-md.row.items-center
                   q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
@@ -23,11 +24,10 @@
                   .text-body2 v{{ $q.version }}
 
         .flex-center
-          .flex.q-pa-xl.q-mx-xl.full-width.text-center(style="background:rgba(0,0,0,0.5);border-radius:15px")
-            .text-subtitle1.text-italic.full-width High performance, Material Design 2 compliant, full front end stack with <strong>VueJS</strong>
-            .text-subtitle1.text-italic.full-width A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today
-            .text-subtitle1.text-italic.full-width Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it) ... following all of the latest and greatest <strong>best web practices</strong>
-            .text-subtitle1.text-italic <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong> ... (yes, it's that easy to get started!)
+          .flex.q-pa-xl.q-mx-xl.full-width(style="background:rgba(0,0,0,0.5);border-radius:15px")
+            .text-subtitle1 A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
+            .text-subtitle1 Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
+            .text-subtitle1 <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
 
       .landing__arrow.absolute-bottom.text-center
         q-icon(name="expand_more").text-h2.text-white
