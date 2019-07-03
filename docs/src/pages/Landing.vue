@@ -24,10 +24,10 @@
                   .text-body2 v{{ $q.version }}
 
         .flex-center
-          .flex.q-pa-xl.q-mx-xl.full-width(style="background:rgba(0,0,0,0.5);border-radius:15px")
-            .text-subtitle2.q-pb-sm A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
-            .text-subtitle2.q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
-            .text-subtitle2 <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
+          .flex.q-pa-xl.q-mx-xl.full-width(style="font-size: 14px;background:rgba(0,0,0,0.5);border-radius:15px")
+            .q-pb-sm A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
+            .q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
+            div <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
 
       .landing__arrow.absolute-bottom.text-center
         q-icon(name="expand_more").text-h2.text-white
