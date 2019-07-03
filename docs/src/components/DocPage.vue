@@ -74,7 +74,6 @@ q-page.doc-page
       | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
     div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
-
 </template>
 
 <script>

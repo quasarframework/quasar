@@ -49,14 +49,16 @@ module.exports = function (source) {
   }
 
   const rendered = md.render(content)
-  const toc = md.$data.toc
+  const toc = data.toc !== false
+    ? md.$data.toc
+    : []
 
   md.$data = {}
 
   const res = getVueComponent(
     rendered,
     data,
-    data.toc !== false ? '[' + toc.join(',') + ']' : void 0
+    '[' + toc.join(',') + ']'
   )
 
   cache.set(key, res)
