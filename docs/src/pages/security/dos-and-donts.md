@@ -75,7 +75,6 @@ Archive decompression attacks for directory traversal are a real security issue 
 ## Cryptography
  - **DON'T** create your own cryptographic solution
  - **DON'T** store personal information in plaintext
- - **DON'T** create your own cryptographic solution
  - **DON'T** ignore any aspect of implementation details
  - **DON'T** create your own cryptographic solution
  - **DON'T** use MD5 or SHA1
