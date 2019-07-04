@@ -14,6 +14,8 @@ class CapacitorRunner {
         platform = cfg.ctx.targetName
       // Make sure there is an index.html, otherwise Capacitor will crash
       fse.ensureFileSync(appPaths.resolve.app('./dist/capacitor/index.html'))
+      // Copy package.json
+      this.__copyPackageJson()
       // Copy app data
       await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
       this.__setCapacitorConfig(platform, url)
@@ -57,6 +59,7 @@ class CapacitorRunner {
     return new Promise(async resolve => {
       const cfg = quasarConfig.getBuildConfig()
 
+      this.__copyPackageJson()
       await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
 
       if (
@@ -100,6 +103,10 @@ class CapacitorRunner {
         )
       }
     })
+  }
+
+  __copyPackageJson() {
+    fse.copySync(appPaths.resolve.app('package.json'), appPaths.resolve.capacitor('package.json'))
   }
 
   __runCapacitorCommand(args) {
