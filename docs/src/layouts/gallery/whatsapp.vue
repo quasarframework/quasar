@@ -1,5 +1,5 @@
 <template>
-  <div class="WAL position-relative bg-grey-4">
+  <div class="WAL position-relative bg-grey-4" :style="style">
     <q-layout view="lHh Lpr lFf" class="WAL__layout shadow-3" container>
       <q-header elevated>
         <q-toolbar class="bg-grey-3 text-black">
@@ -212,6 +212,12 @@ export default {
   computed: {
     currentConversation () {
       return this.conversations[this.currentConversationIndex]
+    },
+
+    style () {
+      return {
+        height: this.$q.screen.height + 'px'
+      }
     }
   },
 

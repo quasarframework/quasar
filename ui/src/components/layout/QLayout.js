@@ -73,7 +73,9 @@ export default Vue.extend({
     },
 
     style () {
-      return { minHeight: this.$q.screen.height + 'px' }
+      return this.container === true
+        ? null
+        : { minHeight: this.$q.screen.height + 'px' }
     },
 
     // used by container only
