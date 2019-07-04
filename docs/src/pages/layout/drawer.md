@@ -62,6 +62,12 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 
 <doc-example title="Mini-mode with mouseover/mouseout trigger" file="QDrawer/MiniMouseEvents" />
 
+#### Mini to overlay
+
+The `mini-to-overlay` Boolean property will always set your drawer with fixed position, regardless of your configuration from the `view` prop, but will occupy space on the layout only as wide as when in mini-mode.
+
+<doc-example title="Mini to overlay" file="QDrawer/MiniToOverlay" />
+
 #### Click trigger
 In the example below, when in "mini" mode, if the user clicks on Drawer then we switch to normal mode.
 
@@ -73,6 +79,13 @@ Consider using QItems with routing props (like `to`) below. For demoing purposes
 By default, when in "mini" mode, Quasar CSS hides a few DOM elements to provide a neat narrow drawer. But there may certainly be use-cases where you need a deep tweak. You can use the "mini" Vue slot of QLayoutDrawer just for that. The content of this slot will replace your drawer's default content when in "mini" mode.
 
 <doc-example title="Mini-mode with slot" file="QDrawer/MiniSlot" />
+
+### Overlay mode
+The overlay mode makes the drawer not to occupy space on the layout and rather hover over the page instead. This will always set your drawer with fixed position, regardless of your configuration from the `view` prop.
+
+On the example below, click the menu icon to see the drawer in action. It's best viewed on a desktop with a window of at least 500px width (this is the breakpoint that is set on this demo).
+
+<doc-example title="Overlay mode" file="QDrawer/OverlayMode" />
 
 ## QDrawer API
 <doc-api file="QDrawer" />

@@ -94,11 +94,9 @@ const routes = [
 ]
 
 // Always leave this as last one
-if (process.env.MODE !== 'ssr') {
-  routes.push({
-    path: '*',
-    component: () => import('pages/Error404.vue')
-  })
-}
+routes.push({
+  path: process.env.MODE === 'ssr' ? '/not-found' : '*',
+  component: () => import('pages/Error404.vue')
+})
 
 export default routes

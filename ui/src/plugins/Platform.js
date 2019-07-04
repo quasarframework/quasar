@@ -235,7 +235,7 @@ export default {
 
   parseSSR (/* ssrContext */ ssr) {
     return ssr ? {
-      is: getPlatform(ssr.req.headers['user-agent']),
+      is: getPlatform(ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent']),
       has: this.has,
       within: this.within
     } : {

@@ -11,16 +11,23 @@
 
         .flex.justify-end
           .q-gutter-sm
-            .text-h1
-              div.text-weight-bold Quasar
-              div Framework
+            .col
+              .text-h1
+                div.text-weight-bold Quasar
+                div Framework
+              .text-subtitle1.text-italic.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+              .q-pt-md.q-pl-sm
+                .landing__hero-btns.q-gutter-md.row.items-center
+                  q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
+                  q-btn(push, color="white", text-color="primary", to="/start", label="Docs")
+                  q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
+                  .text-body2 v{{ $q.version }}
 
-            .text-subtitle1.text-italic.q-pl-sm High performance, <strong>Material Design 2</strong>, full front end stack with <strong>Vuejs</strong>
-            .q-pt-md.q-pl-sm
-              .landing__hero-btns.q-gutter-md.row.items-center
-                q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
-                q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
-                .text-body2 v{{ $q.version }}
+        .flex-center
+          .flex.q-pa-xl.q-mx-xl.full-width(style="font-size: 14px;background:rgba(0,0,0,0.5);border-radius:15px")
+            .q-pb-sm A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
+            .q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
+            div <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
 
       .landing__arrow.absolute-bottom.text-center
         q-icon(name="expand_more").text-h2.text-white
@@ -150,28 +157,30 @@
         sponsor(img="wallaby.png" name="Wallabyjs" url="https://wallabyjs.com/")
         sponsor(img="snyk.png" name="Snyk" url="https://snyk.io/")
 
-  section.landing__footer
+  section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center
-        a(href="https://github.com/quasarframework/quasar", target="_blank")
+        a(href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
           q-icon(name="fab fa-github")
 
-        a(href="https://twitter.com/quasarframework", target="_blank")
+        a(href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
           q-icon(name="fab fa-twitter")
 
-        a(href="https://medium.com/quasar-framework", target="_blank")
+        a(href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
           q-icon(name="fab fa-medium")
 
-        a(href="https://chat.quasar.dev", target="_blank")
+        a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-discord")
 
-        a(href="https://forum.quasar.dev/", target="_blank")
+        a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
           q-icon(name="fas fa-comments")
 
-        a(href="https://donate.quasar.dev", target="_blank")
-          q-icon(name="fas fa-heart")
+        a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="fas fa-medkit")
 
       div.q-mt-md
+        | Subscribe to our <doc-link to="/newsletter">Newsletter</doc-link>.
+      div.q-mt-sm
         | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
       div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
@@ -185,11 +194,12 @@
 
       q-space
 
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank")
-      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank", rel="noopener")
+      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+      q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter", rel="noopener")
 </template>
 
 <script>
