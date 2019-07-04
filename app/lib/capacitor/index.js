@@ -2,23 +2,25 @@ const log = require('../helpers/logger')('app:capacitor'),
   warn = require('../helpers/logger')('app:capacitor', 'red'),
   fse = require('fs-extra'),
   path = require('path'),
-  { spawn } = require('../helpers/spawn'),
+  { spawn, spawnSync } = require('../helpers/spawn'),
   getCapacitorBinaryBath = require('../capacitor/getCapacitorBinaryPath'),
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  nodePackager = require('../helpers/node-packager')
 
 class CapacitorRunner {
   run(quasarConfig) {
     return new Promise(async resolve => {
       const cfg = quasarConfig.getBuildConfig(),
         url = cfg.build.APP_URL,
-        platform = cfg.ctx.targetName
+        targetPlatform = cfg.ctx.targetName
+      await this.__installPlatformIfMissing(targetPlatform)
       // Make sure there is an index.html, otherwise Capacitor will crash
       fse.ensureFileSync(appPaths.resolve.app('./dist/capacitor/index.html'))
       // Copy package.json
       this.__copyPackageJson()
       // Copy app data
       await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
-      this.__setCapacitorConfig(platform, url)
+      this.__setCapacitorConfig(targetPlatform, url)
       // Make sure cleartext is enabled
       if (cfg.ctx.targetName === 'android') {
         const androidManifest = fse.readFileSync(
@@ -48,7 +50,7 @@ class CapacitorRunner {
       }
       log(
         `Launching ${
-          platform === 'android' ? 'Android Studio' : 'XCode'
+          targetPlatform === 'android' ? 'Android Studio' : 'XCode'
         }. Run your app here, and it will automatically connect to the dev server.\n`
       )
       resolve()
@@ -57,16 +59,16 @@ class CapacitorRunner {
 
   build(quasarConfig) {
     return new Promise(async resolve => {
-      const cfg = quasarConfig.getBuildConfig()
+      const cfg = quasarConfig.getBuildConfig(),
+        targetPlatform = cfg.ctx.targetName
+
+      await this.__installPlatformIfMissing(targetPlatform)
 
       this.__copyPackageJson()
-      await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
+      await this.__runCapacitorCommand(['sync', targetPlatform])
 
-      if (
-        process.argv.includes('--openIde') ||
-        cfg.ctx.targetName !== 'android'
-      ) {
-        return this.__runCapacitorCommand(['open', cfg.ctx.targetName])
+      if (process.argv.includes('--openIde') || targetPlatform !== 'android') {
+        return this.__runCapacitorCommand(['open', targetPlatform])
       } else {
         const basePath = appPaths.resolve.capacitor(
           'android/app/build/outputs/apk/release'
@@ -106,7 +108,10 @@ class CapacitorRunner {
   }
 
   __copyPackageJson() {
-    fse.copySync(appPaths.resolve.app('package.json'), appPaths.resolve.capacitor('package.json'))
+    fse.copySync(
+      appPaths.resolve.app('package.json'),
+      appPaths.resolve.capacitor('package.json')
+    )
   }
 
   __runCapacitorCommand(args) {
@@ -119,6 +124,36 @@ class CapacitorRunner {
         resolve(code)
       })
     })
+  }
+
+  async __installPlatformIfMissing(targetPlatform) {
+    if (!fse.existsSync(appPaths.resolve.capacitor(targetPlatform))) {
+      // Platform not installed, install deps and add it
+      const cmdParam =
+        nodePackager === 'npm' ? ['install', '--save-dev'] : ['add', '--dev']
+
+      log(`Installing Capacitor dependencies...`)
+      spawnSync(
+        nodePackager,
+        cmdParam.concat([`@capacitor/${targetPlatform}`]),
+        appPaths.appDir,
+        () => warn('Failed to install Capacitor dependencies')
+      )
+      this.__copyPackageJson()
+      await this.__runCapacitorCommand(['add', targetPlatform])
+      if (targetPlatform === 'android') {
+        // Enable cleartext support in manifest
+        const androidManifestPath = appPaths.resolve.capacitor(
+          'android/app/src/main/AndroidManifest.xml'
+        )
+        let androidManifest = fse.readFileSync(androidManifestPath, 'utf8')
+        androidManifest = androidManifest.replace(
+          '<application',
+          '<application\n        android:usesCleartextTraffic="true"'
+        )
+        fse.writeFileSync(androidManifestPath, androidManifest)
+      }
+    }
   }
 
   __setCapacitorConfig(platform, serverUrl, webDir) {
