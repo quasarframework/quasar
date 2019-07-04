@@ -23,7 +23,7 @@
 
 <script>
 export default {
-  name: 'Sponsor',
+  name: 'TeamMember',
 
   props: {
     name: String,
@@ -50,12 +50,18 @@ export default {
 
 <style lang="stylus">
 .quasar-member
-  width 100%
-  max-width 12.2rem
+  width 12.2rem
 
   &__role
     height 42px
 
   .q-img__image
     filter grayscale(100%)
+
+  &__front
+    min-height 300px
+
+  @media (max-width $breakpoint-xs-max)
+    width 100%
+    min-height 640px
 </style>
