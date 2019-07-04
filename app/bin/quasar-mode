@@ -64,7 +64,7 @@ if (argv._.length === 2) {
   }
 
   const possiblePromise = getMode(mode)[action]()
-  if (possiblePromise.then && typeof possiblePromise.then === 'function') {
+  if (possiblePromise && possiblePromise.then && typeof possiblePromise.then === 'function') {
     possiblePromise.then(() => {
       process.exit(0)
     })
