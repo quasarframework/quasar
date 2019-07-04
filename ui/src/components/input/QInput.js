@@ -64,7 +64,7 @@ export default Vue.extend({
         this.$nextTick(this.__adjustHeightDebounce)
       }
       // if it has a number of rows set respect it
-      else if (this.$attrs.rows > 0) {
+      else if (this.$attrs.rows > 0 && this.$refs.input) {
         const inp = this.$refs.input
         inp.style.height = 'auto'
       }
@@ -88,11 +88,11 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      this.$refs.input.focus()
+      this.$refs.input && this.$refs.input.focus()
     },
 
     select () {
-      this.$refs.input.select()
+      this.$refs.input && this.$refs.input.select()
     },
 
     __onInput (e) {
@@ -151,9 +151,11 @@ export default Vue.extend({
 
     // textarea only
     __adjustHeight () {
-      const inp = this.$refs.input
-      inp.style.height = '1px'
-      inp.style.height = inp.scrollHeight + 'px'
+      if (this.$refs.input) {
+        const inp = this.$refs.input
+        inp.style.height = '1px'
+        inp.style.height = inp.scrollHeight + 'px'
+      }
     },
 
     __onCompositionStart (e) {
