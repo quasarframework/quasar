@@ -14,16 +14,16 @@
 
     q-card-actions(align="around")
       div(v-if="twitter")
-        q-btn(type="a", :href="url.twitter", target="_blank", round, flat, icon="fab fa-twitter")
+        q-btn(type="a", :href="url.twitter", target="_blank", rel="noopener", round, flat, icon="fab fa-twitter")
       div(v-if="github")
-        q-btn(type="a", :href="url.github", target="_blank", round, flat, icon="fab fa-github")
+        q-btn(type="a", :href="url.github", target="_blank", rel="noopener", round, flat, icon="fab fa-github")
       div(v-if="email")
-        q-btn(type="a", :href="url.email", target="_blank", round, flat, icon="mail")
+        q-btn(type="a", :href="url.email", target="_blank", rel="noopener", round, flat, icon="mail")
 </template>
 
 <script>
 export default {
-  name: 'Sponsor',
+  name: 'TeamMember',
 
   props: {
     name: String,
@@ -50,12 +50,18 @@ export default {
 
 <style lang="stylus">
 .quasar-member
-  width 100%
-  max-width 12.2rem
+  width 12.2rem
 
   &__role
     height 42px
 
   .q-img__image
     filter grayscale(100%)
+
+  &__front
+    min-height 300px
+
+  @media (max-width $breakpoint-xs-max)
+    width 100%
+    min-height 640px
 </style>

@@ -7,7 +7,7 @@ components:
   - newsletter/NewsletterSignup
 ---
 
-<h2 class="text-weight-bolder">Do you want to become a Quasar Superstar?</h2>
+<h2 class="text-weight-bold">Do you want to become a Quasar Superstar?</h2>
 
 ## Profit from our experts
 

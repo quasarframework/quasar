@@ -16,3 +16,26 @@ Quasar uses the following CSS breakpoints:
 To learn how to use them, please visit the [Visibility](/style/visibility) page.
 
 You might also want to take a look at the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox#Responsive-Design) on the "Responsive Design" section.
+
+### Stylus
+
+You can also use the breakpoints in Stylus:
+
+```
+@media (max-width $breakpoint-xs-max)
+  font-size 10px
+```
+
+The syntax for these variables is shown below, where `<breakpoint>` is to be replaced by "xs", "sm", "md", "lg" or "xl":
+
+```
+$breakpoint-<breakpoint>-min
+$breakpoint-<breakpoint>-max
+```
+
+There's also:
+
+```
+$sizes.<breakpoint>
+// replace <breakpoint> with xs, sm, md, lg or xl
+```

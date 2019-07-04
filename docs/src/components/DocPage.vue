@@ -50,22 +50,22 @@ q-page.doc-page
       | Caught a mistake? <doc-link :to="editHref">Suggest an edit on GitHub</doc-link>
 
     .doc-page-footer__icons.row.items-center
-      a(href="https://github.com/quasarframework/quasar", target="_blank")
+      a(href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
         q-icon(name="fab fa-github")
 
-      a(href="https://twitter.com/quasarframework", target="_blank")
+      a(href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
         q-icon(name="fab fa-twitter")
 
-      a(href="https://medium.com/quasar-framework", target="_blank")
+      a(href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
         q-icon(name="fab fa-medium")
 
-      a(href="https://chat.quasar.dev", target="_blank")
+      a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
         q-icon(name="fab fa-discord")
 
-      a(href="https://forum.quasar.dev/", target="_blank")
+      a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
         q-icon(name="fas fa-comments")
 
-      a(href="https://donate.quasar.dev", target="_blank")
+      a(href="https://donate.quasar.dev", rel="noopener", target="_blank")
         q-icon(name="fas fa-medkit")
 
     div.q-mt-md

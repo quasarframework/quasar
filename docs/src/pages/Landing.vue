@@ -24,10 +24,10 @@
                   .text-body2 v{{ $q.version }}
 
         .flex-center
-          .flex.q-pa-xl.q-mx-xl.full-width(style="background:rgba(0,0,0,0.5);border-radius:15px")
-            .text-subtitle1 A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
-            .text-subtitle1 Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
-            .text-subtitle1 <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
+          .flex.q-pa-xl.q-mx-xl.full-width(style="font-size: 14px;background:rgba(0,0,0,0.5);border-radius:15px")
+            .q-pb-sm A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
+            .q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
+            div <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
 
       .landing__arrow.absolute-bottom.text-center
         q-icon(name="expand_more").text-h2.text-white
@@ -160,22 +160,22 @@
   section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center
-        a(href="https://github.com/quasarframework/quasar", target="_blank")
+        a(href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
           q-icon(name="fab fa-github")
 
-        a(href="https://twitter.com/quasarframework", target="_blank")
+        a(href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
           q-icon(name="fab fa-twitter")
 
-        a(href="https://medium.com/quasar-framework", target="_blank")
+        a(href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
           q-icon(name="fab fa-medium")
 
-        a(href="https://chat.quasar.dev", target="_blank")
+        a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-discord")
 
-        a(href="https://forum.quasar.dev/", target="_blank")
+        a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
           q-icon(name="fas fa-comments")
 
-        a(href="https://donate.quasar.dev", target="_blank")
+        a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fas fa-medkit")
 
       div.q-mt-md
@@ -194,13 +194,12 @@
 
       q-space
 
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank")
-      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank")
-      q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter")
-
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank", rel="noopener")
+      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+      q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter", rel="noopener")
 </template>
 
 <script>

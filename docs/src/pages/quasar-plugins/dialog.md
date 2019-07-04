@@ -137,7 +137,7 @@ export default {
       // required to be emitted
       // when QDialog emits "hide" event
       this.$emit('hide')
-    }
+    },
 
     onOKClick () {
       // on OK, it is REQUIRED to

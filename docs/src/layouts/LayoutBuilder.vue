@@ -485,7 +485,13 @@ export default {
 
   computed: {
     isContracted () {
-      return this.$q.screen.lt.sm || (this.$q.screen.md && this.play.left && this.play.right)
+      return this.$q.screen.lt.sm === true || (
+        this.$q.screen.md === true &&
+        this.play.left === true &&
+        this.cfg.leftOverlay === false &&
+        this.play.right === true &&
+        this.cfg.rightOverlay === false
+      )
     },
 
     bgTopL () {
