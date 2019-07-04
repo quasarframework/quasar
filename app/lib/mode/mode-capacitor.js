@@ -29,7 +29,10 @@ class Mode {
         type: 'checkbox',
         choices: ['android', 'ios'],
         name: 'platforms',
-        message: 'What platforms would you like to install?'
+        message:
+          'What platforms would you like to install? Choose at least one.',
+        default: ['android'],
+        validate: options => options.length > 0
       }
     ])
 
