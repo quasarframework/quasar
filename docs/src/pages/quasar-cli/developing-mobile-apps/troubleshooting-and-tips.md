@@ -1,5 +1,6 @@
 ---
 title: Cordova Troubleshooting and Tips
+desc: Tips and tricks for a Quasar hybrid mobile app.
 ---
 
 ## $q.cordova
@@ -198,5 +199,5 @@ body.cordova .my-selector
 When building an iOS app with Cordova and you want to [disable the rubber band effect](https://www.youtube.com/watch?v=UjuNGpU29Mk), add this to your `/src-cordova/config.xml`:
 
 ``` xml
-<preference name = "DisallowOverscroll" value = "true" />
+<preference name="DisallowOverscroll" value="true" />
 ```

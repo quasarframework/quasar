@@ -1,5 +1,6 @@
 ---
 title: QParallax
+desc: The QParallax Vue component makes it easy to embed a parallax scrolling effect into a page.
 related:
   - /vue-components/video
 ---

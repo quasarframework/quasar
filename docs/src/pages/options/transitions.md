@@ -1,5 +1,6 @@
 ---
 title: Quasar Components Transitions
+desc: Out of the box CSS transitions for Quasar components.
 components:
   - transitions/TransitionList
 ---

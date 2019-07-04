@@ -1,5 +1,6 @@
 ---
 title: Upgrade Guide
+desc: How to upgrade Quasar from older versions.
 ---
 
 :::tip
@@ -52,7 +53,7 @@ Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you s
 7) Use `git` for repository management and make regular commits, it is like taking notes on the process and lets you revert to a previous state in case you get stuck.
 8) Use Quasar boot files for any pre-mounting app routines.
 9) Be very cautious when using other libraries - Quasar can't ensure they will be fully compatible
-10) Finally, become a [Quasar Patreon](https://www.patreon.com/quasarframework) and get access to the special Discord support chat room for priority support.
+10) Finally, become a [backer/sponsor](https://donate.quasar.dev) and get access to the special Discord support chat room for priority support.
 
 ## Introduction to Upgrading
 

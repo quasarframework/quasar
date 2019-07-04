@@ -1,5 +1,6 @@
 ---
 title: Scroll Area
+desc: The QScrollArea Vue component offers a way of customizing the scrollbars for all desktop browsers.
 related:
   - /layout/drawer
 ---

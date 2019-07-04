@@ -9,7 +9,7 @@
     v-else
     :href="to"
     target="_blank"
-    rel="noopener noreferrer"
+    rel="noopener"
   )
     slot
     q-icon(name="launch")

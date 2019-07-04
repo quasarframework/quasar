@@ -5,8 +5,7 @@ const parseArgs = require('minimist')
 const
   logger = require('../lib/helpers/logger'),
   log = logger('app:dev'),
-  warn = logger('app:dev', 'red'),
-  appPaths = require('../lib/app-paths')
+  warn = logger('app:dev', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -41,6 +40,11 @@ if (argv.help) {
 
     # alias for "quasar dev -m cordova -T android"
     $ quasar dev -m android
+
+    # passing extra parameters and/or options to
+    # underlying "cordova" or "electron" executables:
+    $ quasar dev -m ios -- some params --and options --here
+    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron|capacitor] (default: spa)
@@ -171,13 +175,13 @@ async function goLive () {
   buildConfig = quasarConfig.getBuildConfig()
 
   if (typeof buildConfig.build.beforeDev === 'function') {
-    await buildConfig.build.beforeDev()
+    await buildConfig.build.beforeDev({ quasarConf: buildConfig })
   }
 
   // run possible beforeDev hooks
   await extensionRunner.runHook('beforeDev', async hook => {
     log(`Extension(${hook.api.extId}): Running beforeDev hook...`)
-    await hook.fn(hook.api)
+    await hook.fn(hook.api, { quasarConf: buildConfig })
   })
 
   const
@@ -190,26 +194,28 @@ async function goLive () {
     let devServer
 
     return Promise.resolve()
-      .then(() => devServer = new DevServer(quasarConfig))
       .then(() => oldDevServer && oldDevServer.stop())
       .then(() => generator.build()) // Update generated files
+      .then(() => devServer = new DevServer(quasarConfig))
       .then(() => devServer.listen()) // Start listening
-      .then(() => Electron && Electron.run(quasarConfig))
-      .then(() => Capacitor && Capacitor.run(quasarConfig))
-      .then(() => Cordova && Cordova.run(quasarConfig))
+      .then(() => Electron && Electron.run(quasarConfig, argv._))
+      .then(() => Cordova && Cordova.run(quasarConfig, argv._))
+      .then(() => Capacitor && Capacitor.run(quasarConfig, argv._))
       .then(() => devServer) // Pass new builder to watch chain
   }
 
   let dev = startDev()
-    .then(async () => {
+    .then(async (devServer) => {
       if (typeof buildConfig.build.afterDev === 'function') {
-        await buildConfig.build.afterDev()
+        await buildConfig.build.afterDev({ quasarConf: buildConfig })
       }
       // run possible afterDev hooks
       await extensionRunner.runHook('afterDev', async hook => {
         log(`Extension(${hook.api.extId}): Running afterDev hook...`)
-        await hook.fn(hook.api)
+        await hook.fn(hook.api, { quasarConf: buildConfig })
       })
+
+      return devServer
     })
 }
 

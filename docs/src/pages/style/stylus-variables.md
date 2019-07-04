@@ -1,5 +1,6 @@
 ---
 title: Stylus Variables
+desc: How to use the Stylus variables defined by Quasar.
 components:
   - style/StylusVariables
 ---

@@ -1,5 +1,6 @@
 ---
 title: Ajax Requests
+desc: Using Axios for fetching data in a Quasar app.
 ---
 
 > Quasar recommends Axios during project initialization: `Use Axios for Ajax calls? (Y/n)`

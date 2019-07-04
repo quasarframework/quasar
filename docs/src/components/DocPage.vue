@@ -1,7 +1,7 @@
 <template lang="pug">
 q-page.doc-page
 
-  h1.doc-heading.doc-h1#Introduction(@click="copyHeading('Introduction')")
+  h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyHeading('Introduction')")
     span {{ title }}
     a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
       q-icon(name="edit", @click.stop)
@@ -50,29 +50,30 @@ q-page.doc-page
       | Caught a mistake? <doc-link :to="editHref">Suggest an edit on GitHub</doc-link>
 
     .doc-page-footer__icons.row.items-center
-      a(href="https://github.com/quasarframework/quasar", target="_blank")
+      a(href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
         q-icon(name="fab fa-github")
 
-      a(href="https://twitter.com/quasarframework", target="_blank")
+      a(href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
         q-icon(name="fab fa-twitter")
 
-      a(href="https://medium.com/quasar-framework", target="_blank")
+      a(href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
         q-icon(name="fab fa-medium")
 
-      a(href="https://chat.quasar.dev", target="_blank")
+      a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
         q-icon(name="fab fa-discord")
 
-      a(href="https://forum.quasar.dev/", target="_blank")
+      a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
         q-icon(name="fas fa-comments")
 
-      a(href="https://www.patreon.com/quasarframework", target="_blank")
-        q-icon(name="fab fa-patreon")
+      a(href="https://donate.quasar.dev", rel="noopener", target="_blank")
+        q-icon(name="fas fa-medkit")
 
-    div
+    div.q-mt-md
+      | Please subscribe to our <doc-link to="/newsletter">Newsletter</doc-link> to stay updated.
+    div.q-mt-md
       | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
 
     div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
-
 </template>
 
 <script>

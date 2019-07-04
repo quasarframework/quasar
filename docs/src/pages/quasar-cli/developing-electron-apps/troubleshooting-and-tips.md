@@ -1,5 +1,6 @@
 ---
 title: Troubleshooting and Tips
+desc: Tips and tricks for a Quasar desktop app with Electron.
 ---
 
 ## Upgrading to Electron v5+

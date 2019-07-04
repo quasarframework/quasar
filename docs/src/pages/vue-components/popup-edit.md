@@ -1,5 +1,6 @@
 ---
 title: Popup Edit
+desc: The QPopupEdit Vue component can be used to edit a value 'in place', like for example on a cell in QTable.
 related:
   - /vue-components/input
   - /vue-components/menu

@@ -1,5 +1,6 @@
 ---
 title: How To Use Vue
+desc: Quick tutorial about Vue principles and how to use it with Quasar.
 ---
 Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue documentation](https://vuejs.org/v2/guide/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
 
@@ -100,12 +101,12 @@ framework: {
 ```
 
 ## Using Quasar Plugins
-Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, ActionSheet, AppVisibility and so on.
+Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.
 
 In order to use them, you need to add a reference to them in `/quasar.conf.js`:
 ```js
 framework: {
-  plugins: ['Notify', 'ActionSheet']
+  plugins: ['Notify', 'BottomSheet']
 }
 ```
 

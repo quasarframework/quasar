@@ -423,6 +423,10 @@ const style = [
     path: 'shadows'
   },
   {
+    name: 'Breakpoints',
+    path: 'breakpoints'
+  },
+  {
     name: 'Visibility',
     path: 'visibility'
   },
@@ -483,6 +487,17 @@ const layout = [
   {
     name: 'Layout Page',
     path: 'page'
+  },
+  {
+    name: 'Layout Builder',
+    badge: 'new',
+    external: true,
+    path: '/layout-builder'
+  },
+  {
+    name: 'Layout Gallery',
+    badge: 'new',
+    path: 'gallery'
   },
   {
     name: 'Page Sticky',
@@ -974,6 +989,12 @@ module.exports = [
     badge: 'new',
     icon: 'people',
     path: 'meet-the-team'
+  },
+  {
+    name: 'Newsletter',
+    badge: 'new',
+    icon: 'email',
+    path: 'newsletter'
   },
   {
     name: 'Getting Started',

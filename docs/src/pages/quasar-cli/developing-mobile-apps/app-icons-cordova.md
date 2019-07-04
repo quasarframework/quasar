@@ -1,5 +1,6 @@
 ---
 title: App Icons for Cordova
+desc: How to manage the app icons for a Quasar hybrid mobile app.
 ---
 
 

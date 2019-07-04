@@ -13,9 +13,16 @@ import QDialog from '../dialog/QDialog.js'
 
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
+import debounce from '../../utils/debounce'
+import frameDebounce from '../../utils/frame-debounce.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
+
+const
+  optionsSliceSize = 31,
+  optionDefaultHeight = 24,
+  optionsListMaxPadding = 100000
 
 export default Vue.extend({
   name: 'QSelect',
@@ -89,7 +96,7 @@ export default Vue.extend({
       menu: false,
       dialog: false,
       optionIndex: -1,
-      optionsToShow: 20,
+      optionsSliceRange: { from: 0, to: 0 },
       inputValue: ''
     }
   },
@@ -117,6 +124,16 @@ export default Vue.extend({
 
     menu (show) {
       this.__updateMenu(show)
+    },
+
+    options: {
+      handler (options) {
+        const optionsLength = Array.isArray(options) === false ? 0 : options.length
+        this.optionsHeights = Array.from(Array(optionsLength), () => optionDefaultHeight)
+        this.optionsHeight = optionsLength * optionDefaultHeight
+        this.optionsMarginTop = this.optionsHeight
+      },
+      immediate: true
     }
   },
 
@@ -180,8 +197,9 @@ export default Vue.extend({
     },
 
     optionScope () {
-      return this.options.slice(0, this.optionsToShow).map((opt, i) => {
+      return this.options.slice(this.optionsSliceRange.from, this.optionsSliceRange.to).map((opt, i) => {
         const disable = this.__isDisabled(opt)
+        const index = this.optionsSliceRange.from + i
 
         const itemProps = {
           clickable: true,
@@ -197,7 +215,7 @@ export default Vue.extend({
 
         if (disable !== true) {
           this.__isSelected(opt) === true && (itemProps.active = true)
-          this.optionIndex === i && (itemProps.focused = true)
+          this.optionIndex === index && (itemProps.focused = true)
         }
 
         const itemEvents = {
@@ -205,11 +223,11 @@ export default Vue.extend({
         }
 
         if (this.$q.platform.is.desktop === true) {
-          itemEvents.mousemove = () => { this.setOptionIndex(i) }
+          itemEvents.mousemove = () => { this.setOptionIndex(index) }
         }
 
         return {
-          index: i,
+          index,
           opt,
           sanitize: this.optionsSanitize === true || opt.sanitize === true,
           selected: itemProps.active,
@@ -295,7 +313,8 @@ export default Vue.extend({
       const optValue = this.__getOptionValue(opt)
 
       this.multiple !== true && this.updateInputValue(
-        this.fillInput === true ? this.__getOptionLabel(opt) : '', true
+        this.fillInput === true ? this.__getOptionLabel(opt) : '',
+        true
       )
       this.__focus()
 
@@ -339,7 +358,7 @@ export default Vue.extend({
     setOptionIndex (index) {
       if (this.$q.platform.is.desktop !== true) { return }
 
-      const val = index >= -1 && index < this.optionsToShow
+      const val = index > -1 && index < this.options.length
         ? index
         : -1
 
@@ -426,6 +445,8 @@ export default Vue.extend({
       }
 
       // up, down
+      const optionsLength = this.options.length
+
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
 
@@ -435,30 +456,18 @@ export default Vue.extend({
             index = normalizeToInterval(
               index + (e.keyCode === 38 ? -1 : 1),
               -1,
-              Math.min(this.optionsToShow, this.options.length) - 1
+              optionsLength - 1
             )
-
-            if (index === -1) {
-              this.optionIndex = -1
-              return
-            }
           }
-          while (index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
+          while (index !== -1 && index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
 
-          const dir = index > this.optionIndex ? 1 : -1
-          this.optionIndex = index
+          if (this.optionIndex !== index) {
+            this.__setPreventNextScroll()
 
-          this.$nextTick(() => {
-            const el = this.__getMenuContentEl().querySelector('.q-manual-focusable--focused')
-            if (el !== null && el.scrollIntoView !== void 0) {
-              if (el.scrollIntoViewIfNeeded !== void 0) {
-                el.scrollIntoViewIfNeeded(false)
-              }
-              else {
-                el.scrollIntoView(dir === -1)
-              }
-            }
-          })
+            this.optionIndex = index
+
+            this.__hydrateOptions({ target: this.__getMenuContentEl() }, index)
+          }
         }
       }
 
@@ -467,7 +476,7 @@ export default Vue.extend({
 
       stopAndPrevent(e)
 
-      if (this.optionIndex > -1 && this.optionIndex < this.optionsToShow) {
+      if (this.optionIndex > -1 && this.optionIndex < optionsLength) {
         this.toggleOption(this.options[this.optionIndex])
         return
       }
@@ -527,21 +536,130 @@ export default Vue.extend({
         )
     },
 
-    __hydrateOptions () {
-      if (this.avoidScroll !== true) {
-        if (this.optionsToShow < this.options.length) {
-          const el = this.__getMenuContentEl()
+    __hydrateOptions (ev, toIndex) {
+      clearTimeout(this.hidrateTimer)
 
-          if (el.scrollHeight - el.scrollTop - el.clientHeight < 200) {
-            this.optionsToShow += 20
-            this.avoidScroll = true
-            this.$nextTick(() => {
-              this.avoidScroll = false
-              this.__hydrateOptions()
-            })
-          }
+      if (ev === void 0 || (this.preventNextScroll === true && toIndex === void 0)) {
+        return
+      }
+
+      const
+        delayNextScroll = this.delayNextScroll === true && toIndex === void 0,
+        target = delayNextScroll === true || ev.target === void 0 || ev.target.nodeType === 8 ? void 0 : ev.target,
+        content = target === void 0 ? null : target.querySelector('.q-select__options--content')
+
+      if (content === null) {
+        this.hidrateTimer = setTimeout(() => {
+          this.__hydrateOptions({ target: this.__getMenuContentEl() }, toIndex)
+        }, 10)
+
+        return
+      }
+
+      const
+        scrollTop = target.scrollTop,
+        viewHeight = target.clientHeight,
+        child = content.children[toIndex - this.optionsSliceRange.from],
+        childPosTop = child === void 0 ? -1 : content.offsetTop + child.offsetTop,
+        childPosBottom = child === void 0 ? -1 : childPosTop + child.clientHeight,
+        fromScroll = toIndex === void 0
+
+      if (fromScroll === true) {
+        const toIndexMax = this.options.length - 1
+
+        toIndex = -1
+        for (let i = Math.trunc(scrollTop + viewHeight / 2); i >= 0 && toIndex < toIndexMax;) {
+          toIndex++
+          i -= this.optionsHeights[toIndex]
         }
       }
+
+      toIndex = toIndex < 0 ? 0 : toIndex
+
+      // destination option is not in view
+      if (childPosTop < scrollTop || childPosBottom > scrollTop + viewHeight) {
+        this.__setOptionsSliceRange(toIndex, target, fromScroll)
+      }
+    },
+
+    __setPreventNextScroll (delay) {
+      clearTimeout(this.preventNextScrollTimer)
+
+      this.preventNextScroll = delay !== true
+      this.delayNextScroll = delay === true
+
+      this.preventNextScrollTimer = setTimeout(() => {
+        this.preventNextScroll = false
+        this.delayNextScroll = false
+      }, 10)
+    },
+
+    __setOptionsSliceRange (toIndex, target, fromScroll) {
+      const
+        from = Math.max(0, Math.min(toIndex - Math.round(optionsSliceSize / 2), this.options.length - optionsSliceSize)),
+        to = from + optionsSliceSize,
+        repositionScroll = fromScroll !== true || from < this.optionsSliceRange.from
+
+      if (from === this.optionsSliceRange.from && to === this.optionsSliceRange.to) {
+        if (fromScroll === true) {
+          return
+        }
+      }
+      else {
+        this.__setPreventNextScroll(fromScroll)
+        this.optionsSliceRange = { from, to }
+      }
+
+      this.$nextTick(() => {
+        const content = target === void 0 ? null : target.querySelector('.q-select__options--content')
+
+        if (content === null) {
+          return
+        }
+
+        const children = content.children
+
+        let marginTopDiff = 0
+
+        for (let i = children.length - 1; i >= 0; i--) {
+          const diff = children[i].clientHeight - this.optionsHeights[from + i]
+
+          if (diff !== 0) {
+            marginTopDiff += diff
+            this.optionsHeights[from + i] += diff
+          }
+        }
+
+        const
+          marginTop = this.optionsHeights.slice(from).reduce((acc, h) => acc + h, 0),
+          height = marginTop + this.optionsHeights.slice(0, from).reduce((acc, h) => acc + h, 0),
+          padding = this.optionsHeight % optionsListMaxPadding + height - this.optionsHeight
+
+        if (this.optionsMarginTop !== marginTop || this.optionsHeight !== height) {
+          this.optionsMarginTop = marginTop
+          this.optionsHeight = height
+
+          this.__setPreventNextScroll(fromScroll)
+          // content.previousSibling is the last padding block
+          content.previousSibling.style.cssText = padding >= 0 ? `height: ${padding}px; margin-top: 0px` : `height: 0px; margin-top: ${padding}px`
+          content.style.marginTop = `-${marginTop}px`
+        }
+
+        if (repositionScroll === true) {
+          if (fromScroll !== true) {
+            this.__setPreventNextScroll(fromScroll)
+            target.scrollTop = this.optionsHeights.slice(0, toIndex).reduce((acc, h) => acc + h, 0) + (
+              this.$q.platform.is.mobile === true
+                ? 0
+                : Math.trunc(this.optionsHeights[toIndex] / 2 - target.clientHeight / 2)
+            )
+          }
+          else if (marginTopDiff !== 0) {
+            this.__setPreventNextScroll(fromScroll)
+            target.scrollTop += marginTopDiff
+          }
+        }
+      })
     },
 
     __getSelection (h, fromDialog) {
@@ -642,7 +760,21 @@ export default Vue.extend({
           ])
         ])
 
-      return this.optionScope.map(fn)
+      const list = []
+
+      for (let i = Math.trunc(this.optionsHeight / optionsListMaxPadding); i > 0; i--) {
+        list.push(h('div', { staticClass: 'q-select__options--padding', style: { height: `${optionsListMaxPadding}px` } }))
+      }
+      list.push(h('div', { staticClass: 'q-select__options--padding', style: { height: `${this.optionsHeight % optionsListMaxPadding}px` } }))
+
+      list.push(h('div', {
+        staticClass: 'q-select__options--content',
+        style: {
+          marginTop: `-${this.optionsMarginTop}px`
+        }
+      }, this.optionScope.map(fn)))
+
+      return list
     },
 
     __getInnerAppend (h) {
@@ -654,6 +786,17 @@ export default Vue.extend({
           })
         ]
         : null
+    },
+
+    __onCompositionStart (e) {
+      e.target.composing = true
+    },
+
+    __onCompositionEnd (e) {
+      if (e.target.composing !== true) { return }
+      e.target.composing = false
+
+      this.__onInputValue(e)
     },
 
     __getInput (h) {
@@ -672,6 +815,13 @@ export default Vue.extend({
         },
         on: {
           input: this.__onInputValue,
+          // Safari < 10.2 & UIWebView doesn't fire compositionend when
+          // switching focus before confirming composition choice
+          // this also fixes the issue where some browsers e.g. iOS Chrome
+          // fires "change" instead of "input" on autocomplete.
+          change: this.__onCompositionEnd,
+          compositionstart: this.__onCompositionStart,
+          compositionend: this.__onCompositionEnd,
           keydown: this.__onTargetKeydown
         }
       })
@@ -679,6 +829,11 @@ export default Vue.extend({
 
     __onInputValue (e) {
       clearTimeout(this.inputTimer)
+
+      if (e && e.target && e.target.composing === true) {
+        return
+      }
+
       this.inputValue = e.target.value || ''
 
       if (this.$listeners.filter !== void 0) {
@@ -736,7 +891,7 @@ export default Vue.extend({
             this.$nextTick(() => {
               this.innerLoading = false
               if (this.menu === true) {
-                this.__updateMenu(true)
+                this.__updateMenu()
               }
               else {
                 this.menu = true
@@ -947,14 +1102,20 @@ export default Vue.extend({
     },
 
     __updateMenu (show) {
-      this.optionIndex = -1
+      let optionIndex = -1
 
       if (show === true) {
-        this.optionsToShow = 20
-        this.$nextTick(() => {
-          this.__hydrateOptions()
-        })
+        if (this.innerValue.length > 0) {
+          const val = this.__getOptionValue(this.innerValue[0])
+          optionIndex = this.options.findIndex(v => isDeepEqual(this.__getOptionValue(v), val))
+        }
+
+        this.__setPreventNextScroll(true)
+        this.optionsSliceRange = { from: 0, to: 0 }
+        this.__hydrateOptions({ target: this.__getMenuContentEl() }, optionIndex)
       }
+
+      this.optionIndex = optionIndex
     },
 
     __onPreRender () {
@@ -978,7 +1139,14 @@ export default Vue.extend({
     }
   },
 
+  mounted () {
+    this.__setOptionsSliceRange = this.$q.platform.is.android === true
+      ? debounce(this.__setOptionsSliceRange, 50)
+      : frameDebounce(this.__setOptionsSliceRange)
+  },
+
   beforeDestroy () {
     clearTimeout(this.inputTimer)
+    clearTimeout(this.hidrateTimer)
   }
 })
