@@ -92,6 +92,19 @@ async function getElectron (cfg) {
   }
 }
 
+async function getProton (cfg) {
+  const chain = createChain(cfg, 'Proton')
+  require('./proton')(chain, cfg)
+  return await getWebpackConfig(chain, cfg, {
+    name: 'Proton',
+    hot: true,
+    invokeParams: {
+      isClient: true,
+      isServer: false
+    }
+  })
+}
+
 async function getSSR (cfg) {
   const
     client = createChain(cfg, 'Client'),
@@ -125,6 +138,9 @@ module.exports = async function (cfg) {
   }
   else if (mode.electron) {
     return await getElectron(cfg)
+  }
+  else if (mode.proton) {
+    return await getProton(cfg)
   }
   else if (mode.cordova) {
     return await getCordova(cfg)

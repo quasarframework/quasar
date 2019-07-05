@@ -57,7 +57,7 @@ if (argv._.length === 2) {
     process.exit(1)
   }
 
-  if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(mode)) {
+  if (![undefined, 'pwa', 'cordova', 'electron', 'proton', 'ssr'].includes(mode)) {
     warn(`⚠️  Unknown mode "${ mode }" to ${action}`)
     warn()
     process.exit(1)
@@ -70,8 +70,7 @@ if (argv._.length === 2) {
 log(`Detecting installed modes...`)
 
 const info = []
-;['pwa', 'ssr', 'cordova', 'electron'].forEach(mode => {
-  const QuasarMode = getMode(mode)
+;['pwa', 'ssr', 'cordova', 'electron', 'proton'].forEach(mode => {
   info.push([
     `Mode ${mode.toUpperCase()}`,
     getMode(mode).isInstalled ? green('yes') : grey('no')
