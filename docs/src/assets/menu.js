@@ -301,7 +301,37 @@ const cli = [
   },
   {
     name: 'Developing Mobile Apps',
-    path: 'developing-mobile-apps',
+    path: 'developing-mobile-apps'
+  },
+  {
+    name: 'Developing Capacitor',
+    path: 'developing-capacitor',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
+  },
+  {
+    name: 'Developing Cordova',
+    path: 'developing-cordova',
     children: [
       {
         name: 'Introduction',
