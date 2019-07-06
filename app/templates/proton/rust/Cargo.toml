@@ -1,5 +1,5 @@
 [package]
-name = "rust-app"
+name = "app"
 version = "0.1.0"
 authors = ["Lucas Fernandes Nogueira <lucasfernandesnog@gmail.com>"]
 edition = "2018"

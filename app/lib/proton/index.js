@@ -63,7 +63,9 @@ const
     }
 
     // TODO
-    const cargoConfig = fse.createReadStream(appPaths.resolve.proton('.cargo/config'))
+    const cargoConfig = fse.createReadStream(
+      appPaths.resolve.proton('.cargo/config')
+    )
     const rl = readline.createInterface({
       input: cargoConfig,
       output: () => {}
