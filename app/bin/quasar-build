@@ -160,7 +160,9 @@ async function build () {
     webpackConfig = quasarConfig.getWebpackConfig(),
     buildConfig = quasarConfig.getBuildConfig()
 
-  let outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
+  let outputFolder = buildConfig.build.packagedElectronDist ||
+    buildConfig.build.packagedProtonDist ||
+    buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
   generator.build()

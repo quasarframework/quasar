@@ -38,7 +38,7 @@ fn main() {
                 .required(true)
                 .takes_value(true)
             );
-    
+
         _matches = app.get_matches();
         content = web_view::Content::Url(_matches.value_of("url").unwrap());
         debug = true;
@@ -48,17 +48,17 @@ fn main() {
         let server_url = "0.0.0.0:5000";
         content = web_view::Content::Url(format!("http://{}", server_url));
         debug = cfg!(debug_assertions);
-        
+
         thread::spawn(move || {
             rouille::start_server("0.0.0.0:5000", move |request| {
                 router!(request,
                     (GET) (/) => {
                         // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
-                        rouille::Response::html(include_str!("../../dist/webview/index.html"))
+                        rouille::Response::html(include_str!("../../dist/proton/UnPackaged/index.html"))
                     },
 
                     (GET) (/js/{id: String}) => {
-                        rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../dist/webview/js/{}", id)).unwrap().into_owned()).expect("ops"))
+                        rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../dist/proton/UnPackaged/js/{}", id)).unwrap().into_owned()).expect("ops"))
                     },
                     _ => rouille::Response::empty_404()
                 )
@@ -69,7 +69,7 @@ fn main() {
     let webview = web_view::builder()
         .title("MyAppTitle")
         .content(content)
-        .size(2068, 1024) // TODO:Resolution is fixed right now, change this later to be dynamic
+        .size(800, 600) // TODO:Resolution is fixed right now, change this later to be dynamic
         .resizable(true)
         .debug(debug)
         .user_data(())

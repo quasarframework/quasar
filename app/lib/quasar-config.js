@@ -455,7 +455,7 @@ class QuasarConfig {
         gzip: false
       })
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.proton) {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
@@ -473,6 +473,10 @@ class QuasarConfig {
 
     if (this.ctx.mode.electron) {
       cfg.build.packagedElectronDist = cfg.build.distDir
+      cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
+    }
+    else if (this.ctx.mode.proton) {
+      cfg.build.packagedProtonDist = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
 
