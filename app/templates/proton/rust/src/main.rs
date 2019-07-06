@@ -49,12 +49,11 @@ fn main() {
             let server_url = format!("{}:{}", "0.0.0.0", available_port);
             content = web_view::Content::Url(format!("http://{}", server_url));
             debug = cfg!(debug_assertions);
-            
+
             thread::spawn(move || {
                 rouille::start_server(server_url, move |request| {
                     router!(request,
                         (GET) (/) => {
-                            // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
                             rouille::Response::html(String::from_utf8(ASSETS.get("../dist/proton/UnPackaged/index.html").unwrap().into_owned()).unwrap())
                         },
 
@@ -66,6 +65,12 @@ fn main() {
                             rouille::Response::from_data("text/css;charset=utf-8", ASSETS.get(&format!("../dist/proton/UnPackaged/css/{}", id)).unwrap().into_owned())
                         },
 
+                        // webpack managed assets
+                        (GET) (/img/{id: String}) => {
+                            rouille::Response::from_data("application/octet-stream", ASSETS.get(&format!("../dist/proton/UnPackaged/img/{}", id)).unwrap().into_owned())
+                        },
+
+                        // static assets
                         (GET) (/statics/{id: String}) => {
                             rouille::Response::from_data("application/octet-stream", ASSETS.get(&format!("../dist/proton/UnPackaged/statics/{}", id)).unwrap().into_owned())
                         },
@@ -77,7 +82,7 @@ fn main() {
                         _ => rouille::Response::empty_404()
                     )
                 });
-            });   
+            });
         }
         else
         {

@@ -2,15 +2,13 @@ use std::net::TcpListener;
 
 extern crate rand;
 
-use rand::Rng;
 use rand::distributions::{Distribution, Uniform};
 
 pub fn get_available_port() -> Option<u16> {
     let mut rng = rand::thread_rng();
     let die = Uniform::from(8000..9000);
-    let count = 0;
 
-    for i in 0..100 {
+    for _i in 0..100 {
         let port = die.sample(&mut rng);
         if port_is_available(port)
         {
