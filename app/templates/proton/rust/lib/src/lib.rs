@@ -1,10 +1,13 @@
 extern crate threadpool;
+#[macro_use]
+extern crate serde_derive;
 
 pub mod command;
 pub mod file_system;
 pub mod dir;
 pub mod file;
 pub mod rpc;
+pub mod tcp;
 
 extern crate web_view;
 use web_view::WebView;

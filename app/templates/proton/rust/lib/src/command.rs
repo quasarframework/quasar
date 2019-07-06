@@ -3,7 +3,7 @@ use web_view::WebView;
 
 use std::process::Command;
 
-use crate::portal;
+use super::{run_async};
 
 pub fn call_command(cmd: String, args: Vec<String>) -> Result<String, String> {
      Command::new(cmd).args(args).output()
@@ -19,7 +19,7 @@ pub fn call_command(cmd: String, args: Vec<String>) -> Result<String, String> {
 }
 
 pub fn call<T: 'static>(webview: &mut WebView<T>, command: String, args: Vec<String>, callback: String, error: String) {
-    portal::run_async(webview, || {
+    run_async(webview, || {
         call_command(command, args)
             .map_err(|err| format!("`{}`", err))
             .map(|output| format!("`{}`", output))

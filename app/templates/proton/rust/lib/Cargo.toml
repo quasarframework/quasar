@@ -1,0 +1,16 @@
+[package]
+name = "proton"
+version = "0.1.0"
+authors = ["Lucas Fernandes Gonçalves Nogueira <lucas@quasar.dev>"]
+edition = "2018"
+
+[dependencies]
+web-view = { git = "https://github.com/Boscop/web-view" }
+serde_json = "1.0.39"
+serde = "1.0"
+serde_derive = "1.0"
+dirs = "1.0"
+ignore = "0.4.7"
+phf = "0.7.21"
+threadpool = "1.7"
+rand = "0.7"

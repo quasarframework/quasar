@@ -3,6 +3,7 @@ use utils::get_dir_name_from_path;
 use std::fs::metadata;
 use ignore::Walk;
 use std::fs;
+
 extern crate dirs;
 
 #[derive(Serialize)]
