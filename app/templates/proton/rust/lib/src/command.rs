@@ -3,7 +3,7 @@ use web_view::WebView;
 
 use std::process::{Command, Stdio, Child};
 
-use crate::portal;
+use super::run_async;
 
 pub fn get_output(cmd: String, args: Vec<String>, stdout: Stdio) -> Result<String, String> {
      Command::new(cmd)
@@ -49,7 +49,7 @@ pub fn spawn_relative_command(command: String, args: Vec<String>, stdout: Stdio)
 }
 
 pub fn call<T: 'static>(webview: &mut WebView<T>, command: String, args: Vec<String>, callback: String, error: String) {
-    portal::run_async(webview, || {
+    run_async(webview, || {
         get_output(command, args, Stdio::piped())
             .map_err(|err| format!("`{}`", err))
             .map(|output| format!("`{}`", output))

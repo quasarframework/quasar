@@ -24,7 +24,6 @@ impl std::error::Error for Error {
         use Error::*;
         Some(match *self {
             SemVer(ref e) => e,
-            _ => return None,
         })
     }
 }
