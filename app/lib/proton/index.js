@@ -11,7 +11,7 @@ const
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../app-paths')
 
-class protonRunner {
+class ProtonRunner {
   constructor() {
     this.pid = 0
 
@@ -174,4 +174,4 @@ class protonRunner {
   }
 }
 
-module.exports = new protonRunner()
+module.exports = new ProtonRunner()
