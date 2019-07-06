@@ -52,9 +52,8 @@ class protonRunner {
     fs.utimes(buildRsFile, now, now, function (err) { if (err) throw err })
 
     const buildFn = target => this.__runCargoCommand(
-      ['build']
+      ['bundle']
         .concat(cfg.ctx.debug ? [] : ['--release'])
-        .concat(['--features', 'prod'])
         .concat(target ? ['--target', target] : [])
     )
 
