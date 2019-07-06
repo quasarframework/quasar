@@ -81,6 +81,8 @@ class Mode {
       ],
       appPaths.capacitorDir
     )
+    // Add copied package.json to .gitignore as it is auto-generated
+    fse.writeFileSync(appPaths.resolve.capacitor('.gitignore'), 'package.json')
     // Adding platforms will fail if there is no index
     fse.ensureFileSync(appPaths.resolve.app('dist/capacitor/index.html'))
     // Copy package.json to prevent capacitor from reinstalling deps
