@@ -1,17 +1,17 @@
 const
   fs = require('fs'),
   fse = require('fs-extra'),
-  readline = require('readline')
+  readline = require('readline'),
+  chokidar = require('chokidar'),
+  debounce = require('lodash.debounce')
 
 const
   log = require('../helpers/logger')('app:proton'),
   { spawn } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths'),
-  chokidar = require('chokidar'),
-  debounce = require('lodash.debounce')
+  appPaths = require('../app-paths')
 
-class protonRunner {
+class ProtonRunner {
   constructor() {
     this.pid = 0
     this.protonWatcher = null
@@ -176,4 +176,4 @@ class protonRunner {
   }
 }
 
-module.exports = new protonRunner()
+module.exports = new ProtonRunner()
