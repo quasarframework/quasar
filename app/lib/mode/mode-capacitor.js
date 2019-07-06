@@ -114,7 +114,7 @@ class Mode {
     }
 
     log(`Removing Capacitor dir`)
-    fse.removeSync(appPaths.cordovaDir)
+    fse.removeSync(appPaths.capacitorDir)
 
     const cmdParam =
       nodePackager === 'npm' ? ['uninstall', '--save-dev'] : ['remove']
