@@ -9,39 +9,40 @@ const
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../app-paths')
 
- class protonRunner {
+class protonRunner {
   constructor() {
     this.pid = 0
 
-     onShutdown(() => {
+    onShutdown(() => {
       this.stop()
     })
   }
 
-   run(quasarConfig) {
+  async run(quasarConfig) {
     const
       cfg = quasarConfig.getBuildConfig(),
       url = cfg.build.APP_URL
 
-     if (this.url === url) {
-      return
+    if (this.pid) {
+      if (this.url !== url) {
+        await this.stop()
+      }
+      else {
+        return
+      }
     }
 
-     if (this.pid) {
-      this.stop()
-    }
+    this.url = url
 
-     this.url = url
+    const args = ['--url', url]
 
-     const args = ['--url', url]
-
-     return this.__runCargoCommand(
+    return this.__runCargoCommand(
       ['run', '--features', 'dev'],
       args
     )
   }
 
-   build(quasarConfig) {
+  build(quasarConfig) {
     const
       cfg = quasarConfig.getBuildConfig(),
       targets = [],
@@ -99,11 +100,7 @@ const
 
   stop() {
     return new Promise((resolve, reject) => {
-      const finalize = () => {
-        this.__stopCargo().then(resolve)
-      }
-
-      finalize()
+      this.__stopCargo().then(resolve)
     })
   }
 
@@ -115,10 +112,22 @@ const
         appPaths.protonDir,
         code => {
           if (code) {
+            warn()
             warn(`⚠️  [FAIL] Cargo CLI has failed`)
+            warn()
             process.exit(1)
           }
-          resolve(code)
+
+          if (this.killPromise) {
+            this.killPromise()
+            this.killPromise = null
+          }
+          else { // else it wasn't killed by us
+            warn()
+            warn('Electron process was killed. Exiting...')
+            warn()
+            process.exit(0)
+          }
         }
       )
     })
