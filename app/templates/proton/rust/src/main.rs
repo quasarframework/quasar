@@ -55,12 +55,25 @@ fn main() {
                     router!(request,
                         (GET) (/) => {
                             // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
-                            rouille::Response::html(include_str!("../../dist/proton/UnPackaged/index.html"))
+                            rouille::Response::html(String::from_utf8(ASSETS.get("../dist/proton/UnPackaged/index.html").unwrap().into_owned()).unwrap())
                         },
 
                         (GET) (/js/{id: String}) => {
-                            rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../dist/proton/UnPackaged/js/{}", id)).unwrap().into_owned()).expect("ops"))
+                            rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../dist/proton/UnPackaged/js/{}", id)).unwrap().into_owned()).unwrap())
                         },
+
+                        (GET) (/css/{id: String}) => {
+                            rouille::Response::from_data("text/css;charset=utf-8", ASSETS.get(&format!("../dist/proton/UnPackaged/css/{}", id)).unwrap().into_owned())
+                        },
+
+                        (GET) (/statics/{id: String}) => {
+                            rouille::Response::from_data("application/octet-stream", ASSETS.get(&format!("../dist/proton/UnPackaged/statics/{}", id)).unwrap().into_owned())
+                        },
+
+                        (GET) (/fonts/{id: String}) => {
+                            rouille::Response::from_data("application/octet-stream", ASSETS.get(&format!("../dist/proton/UnPackaged/fonts/{}", id)).unwrap().into_owned())
+                        },
+
                         _ => rouille::Response::empty_404()
                     )
                 });
