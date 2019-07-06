@@ -1,7 +1,9 @@
 const
   fs = require('fs'),
   fse = require('fs-extra'),
-  readline = require('readline')
+  readline = require('readline'),
+  chokidar = require('chokidar'),
+  debounce = require('lodash.debounce')
 
 const
   log = require('../helpers/logger')('app:proton'),
@@ -9,9 +11,10 @@ const
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../app-paths')
 
-class protonRunner {
+class ProtonRunner {
   constructor() {
     this.pid = 0
+    this.protonWatcher = null
 
     onShutdown(() => {
       this.stop()
@@ -36,10 +39,33 @@ class protonRunner {
 
     const args = ['--url', url]
 
-    return this.__runCargoCommand(
-      ['run', '--features', 'dev'],
-      args
-    )
+    const startDevProton = () => {
+      return this.__runCargoCommand(
+        ['run', '--features', 'dev'],
+        args
+      )
+    }
+
+    // Start watching for proton app changes
+    this.protonWatcher = chokidar
+      .watch([
+        appPaths.resolve.proton('src'),
+        appPaths.resolve.proton('lib'), // TODO remove this when the lib is isolated from template
+        appPaths.resolve.proton('Cargo.toml'),
+        appPaths.resolve.proton('build.rs')
+      ], {
+        watchers: {
+          chokidar: {
+            ignoreInitial: true
+          }
+        }
+      })
+      .on('change', debounce(async () => {
+        await this.__stopCargo()
+        startDevProton()
+      }, 1000))
+
+    return startDevProton()
   }
 
   build(quasarConfig) {
@@ -100,6 +126,7 @@ class protonRunner {
 
   stop() {
     return new Promise((resolve, reject) => {
+      this.protonWatcher && this.protonWatcher.close()
       this.__stopCargo().then(resolve)
     })
   }
@@ -124,18 +151,18 @@ class protonRunner {
           }
           else { // else it wasn't killed by us
             warn()
-            warn('Electron process was killed. Exiting...')
+            warn('Cargo process was killed. Exiting...')
             warn()
             process.exit(0)
           }
         }
       )
+      resolve()
     })
   }
 
   __stopCargo () {
     const pid = this.pid
-
     if (!pid) {
       return Promise.resolve()
     }
@@ -149,4 +176,4 @@ class protonRunner {
   }
 }
 
-module.exports = new protonRunner()
+module.exports = new ProtonRunner()
