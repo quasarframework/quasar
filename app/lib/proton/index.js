@@ -7,7 +7,9 @@ const
   log = require('../helpers/logger')('app:proton'),
   { spawn } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  chokidar = require('chokidar'),
+  debounce = require('lodash.debounce')
 
 class protonRunner {
   constructor() {
@@ -36,10 +38,33 @@ class protonRunner {
 
     const args = ['--url', url]
 
-    return this.__runCargoCommand(
-      ['run', '--features', 'dev'],
-      args
-    )
+    const startDevProton = () => {
+      return this.__runCargoCommand(
+        ['run', '--features', 'dev'],
+        args
+      )
+    }
+
+    // Start watching for proton app changes
+    chokidar
+      .watch([
+        appPaths.resolve.proton('src'),
+        appPaths.resolve.proton('lib'), // TODO remove this when the lib is isolated from template
+        appPaths.resolve.proton('Cargo.toml'),
+        appPaths.resolve.proton('build.rs')
+      ], {
+        watchers: {
+          chokidar: {
+            ignoreInitial: true
+          }
+        }
+      })
+      .on('change', debounce(async () => {
+        await this.__stopCargo()
+        startDevProton()
+      }, 1000))
+
+    return startDevProton()
   }
 
   build(quasarConfig) {
@@ -124,18 +149,18 @@ class protonRunner {
           }
           else { // else it wasn't killed by us
             warn()
-            warn('Electron process was killed. Exiting...')
+            warn('Cargo process was killed. Exiting...')
             warn()
             process.exit(0)
           }
         }
       )
+      resolve()
     })
   }
 
   __stopCargo () {
     const pid = this.pid
-
     if (!pid) {
       return Promise.resolve()
     }
