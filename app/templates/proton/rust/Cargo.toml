@@ -25,7 +25,3 @@ includedir_codegen = "0.5.0"
 [features]
 dev = [] # has no explicit dependencies
 prod = [] # has no explicit dependencies
-
-[[bin]]
-name = "app"
-path = "src/app.rs"
