@@ -3,6 +3,7 @@ extern crate serde_derive;
 extern crate serde_json;
 extern crate web_view;
 extern crate clap;
+extern crate proton;
 
 #[cfg(feature = "prod")]
 #[macro_use]
@@ -14,7 +15,6 @@ use clap::{Arg, App};
 #[cfg(feature = "prod")]
 use std::thread;
 
-mod portal;
 mod cmd;
 
 include!(concat!(env!("OUT_DIR"), "/data.rs"));
@@ -45,25 +45,31 @@ fn main() {
     }
     #[cfg(feature="prod")]
     {
-        let server_url = "0.0.0.0:5000";
-        content = web_view::Content::Url(format!("http://{}", server_url));
-        debug = cfg!(debug_assertions);
+        if let Some(available_port) = proton::tcp::get_available_port() {
+            let server_url = format!("{}:{}", "0.0.0.0", available_port);
+            content = web_view::Content::Url(format!("http://{}", server_url));
+            debug = cfg!(debug_assertions);
+            
+            thread::spawn(move || {
+                rouille::start_server(server_url, move |request| {
+                    router!(request,
+                        (GET) (/) => {
+                            // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
+                            rouille::Response::html(include_str!("../../dist/proton/UnPackaged/index.html"))
+                        },
 
-        thread::spawn(move || {
-            rouille::start_server("0.0.0.0:5000", move |request| {
-                router!(request,
-                    (GET) (/) => {
-                        // TODO load the correct html index file (the filename is configurable through quasar.conf.js) (include the html into assets?)
-                        rouille::Response::html(include_str!("../../dist/proton/UnPackaged/index.html"))
-                    },
-
-                    (GET) (/js/{id: String}) => {
-                        rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../dist/proton/UnPackaged/js/{}", id)).unwrap().into_owned()).expect("ops"))
-                    },
-                    _ => rouille::Response::empty_404()
-                )
-            });
-        });
+                        (GET) (/js/{id: String}) => {
+                            rouille::Response::text(String::from_utf8(ASSETS.get(&format!("../dist/proton/UnPackaged/js/{}", id)).unwrap().into_owned()).expect("ops"))
+                        },
+                        _ => rouille::Response::empty_404()
+                    )
+                });
+            });   
+        }
+        else
+        {
+            panic!("Could not find an open port");
+        }
     }
 
     let webview = web_view::builder()
@@ -78,26 +84,26 @@ fn main() {
             match serde_json::from_str(arg).unwrap() {
                 Init => (),
                 ReadAsString { path, callback, error } => {
-                    portal::file_system::read_text_file(_webview, path, callback, error);
+                    proton::file_system::read_text_file(_webview, path, callback, error);
                 }
                 ReadAsBinary { path, callback, error } => {
-                    portal::file_system::read_binary_file(_webview, path, callback, error);
+                    proton::file_system::read_binary_file(_webview, path, callback, error);
                 }
                 Write { file, contents, callback, error } => {
-                    portal::file_system::write_file(_webview, file, contents, callback, error);
+                    proton::file_system::write_file(_webview, file, contents, callback, error);
                 }
                 ListDirs { path, callback, error } => {
-                    portal::file_system::list_dirs(_webview, path, callback, error);
+                    proton::file_system::list_dirs(_webview, path, callback, error);
 
                 }
                 List { path, callback, error } => {
-                    portal::file_system::list(_webview, path, callback, error);
+                    proton::file_system::list(_webview, path, callback, error);
                 }
                 SetTitle { title } => {
                     _webview.set_title(&title).unwrap();
                 }
                 Call { command, args, callback, error } => {
-                    portal::command::call(_webview, command, args, callback, error);
+                    proton::command::call(_webview, command, args, callback, error);
                 }
             }
             Ok(())

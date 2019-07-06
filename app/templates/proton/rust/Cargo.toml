@@ -13,13 +13,11 @@ web-view = { git = "https://github.com/Boscop/web-view" }
 serde_json = "1.0.39"
 serde = "1.0"
 serde_derive = "1.0"
-dirs = "1.0"
-ignore = "0.4.7"
+rouille = "3.0.0"
 clap = {version = "2.33", features = ["yaml"]}
 phf = "0.7.21"
 includedir = "0.5.0"
-rouille = "3.0.0"
-threadpool = "1.7"
+proton = { path = "./lib" }
 
 [build-dependencies]
 includedir_codegen = "0.5.0"
