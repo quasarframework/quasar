@@ -14,6 +14,7 @@ const
 class protonRunner {
   constructor() {
     this.pid = 0
+    this.protonWatcher = null
 
     onShutdown(() => {
       this.stop()
@@ -46,7 +47,7 @@ class protonRunner {
     }
 
     // Start watching for proton app changes
-    chokidar
+    this.protonWatcher = chokidar
       .watch([
         appPaths.resolve.proton('src'),
         appPaths.resolve.proton('lib'), // TODO remove this when the lib is isolated from template
@@ -125,6 +126,7 @@ class protonRunner {
 
   stop() {
     return new Promise((resolve, reject) => {
+      this.protonWatcher && this.protonWatcher.close()
       this.__stopCargo().then(resolve)
     })
   }
