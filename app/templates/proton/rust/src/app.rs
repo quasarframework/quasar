@@ -24,6 +24,13 @@ fn main() {
     let content;
     let _matches: clap::ArgMatches;
 
+    #[cfg(not(feature="dev"))]
+    {
+        thread::spawn(|| {
+            proton::command::spawn_relative_command("updater".to_string(), Vec::new(), std::process::Stdio::inherit()).unwrap();
+        });
+    }
+
     #[cfg(feature = "dev")]
     {
         let app = App::new("app")
