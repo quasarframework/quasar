@@ -5,14 +5,14 @@ extern crate web_view;
 extern crate clap;
 extern crate proton;
 
-#[cfg(feature = "prod")]
+#[cfg(not(feature = "dev"))]
 #[macro_use]
 extern crate rouille;
 
 #[cfg(feature = "dev")]
 use clap::{Arg, App};
 
-#[cfg(feature = "prod")]
+#[cfg(not(feature = "dev"))]
 use std::thread;
 
 mod cmd;
@@ -43,7 +43,7 @@ fn main() {
         content = web_view::Content::Url(_matches.value_of("url").unwrap());
         debug = true;
     }
-    #[cfg(feature="prod")]
+    #[cfg(not(feature="dev"))]
     {
         if let Some(available_port) = proton::tcp::get_available_port() {
             let server_url = format!("{}:{}", "0.0.0.0", available_port);
