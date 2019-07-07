@@ -6,7 +6,6 @@ extern crate clap;
 extern crate proton;
 
 #[cfg(not(feature = "dev"))]
-#[macro_use]
 extern crate actix_web;
 
 #[cfg(not(feature = "dev"))]
