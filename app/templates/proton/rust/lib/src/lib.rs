@@ -16,6 +16,7 @@ pub mod platform;
 pub mod version;
 pub mod updater;
 pub mod process;
+pub mod api;
 
 extern crate web_view;
 use web_view::WebView;
