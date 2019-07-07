@@ -111,32 +111,24 @@ fn main() {
         .debug(debug)
         .user_data(())
         .invoke_handler(|_webview, arg| {
-            use cmd::Cmd::*;
-            match serde_json::from_str(arg).unwrap() {
-                Init => (),
-                ReadAsString { path, callback, error } => {
-                    proton::file_system::read_text_file(_webview, path, callback, error);
-                }
-                ReadAsBinary { path, callback, error } => {
-                    proton::file_system::read_binary_file(_webview, path, callback, error);
-                }
-                Write { file, contents, callback, error } => {
-                    proton::file_system::write_file(_webview, file, contents, callback, error);
-                }
-                ListDirs { path, callback, error } => {
-                    proton::file_system::list_dirs(_webview, path, callback, error);
-
-                }
-                List { path, callback, error } => {
-                    proton::file_system::list(_webview, path, callback, error);
-                }
-                SetTitle { title } => {
-                    _webview.set_title(&title).unwrap();
-                }
-                Call { command, args, callback, error } => {
-                    proton::command::call(_webview, command, args, callback, error);
+            // leave this as is to use the proton API from your JS code
+            if !proton::api::handler(_webview, arg)
+            {
+                use cmd::Cmd::*;
+                match serde_json::from_str(arg) {
+                    Err(_) => {},
+                    Ok(command) => {
+                        match command {
+                            // definitions for your custom commands from Cmd here
+                            MyCustomCommand { argument } => {
+                                //  your command code
+                                println!("{}", argument);
+                            }
+                        }
+                    }
                 }
             }
+            
             Ok(())
         })
         .build().unwrap();
