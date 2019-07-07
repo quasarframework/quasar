@@ -1,10 +1,13 @@
+extern crate tempfile;
+extern crate dirs;
+
 mod utils;
 use utils::get_dir_name_from_path;
 use std::fs::metadata;
 use ignore::Walk;
 use std::fs;
 
-extern crate dirs;
+use tempfile::tempdir;
 
 #[derive(Serialize)]
 pub struct DiskEntry {
@@ -62,4 +65,11 @@ pub fn list_dir_contents(dir_path: &String) -> Result<Vec<DiskEntry>, String> {
             }
             Ok(dirs)
         })
+}
+
+pub fn with_temp_dir<F: FnOnce(&tempfile::TempDir) -> ()>(callback: F) -> Result<(), std::io::Error> {
+    let dir = tempdir()?;
+    callback(&dir);
+    dir.close()?;
+    Ok(())
 }

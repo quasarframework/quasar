@@ -29,3 +29,11 @@ dev = [] # has no explicit dependencies
 [package.metadata.bundle]
 identifier = "com.quasar.dev"
 icon = ["icon.png"]
+
+[[bin]]
+name = "updater"
+path = "src/updater.rs"
+
+[[bin]]
+name = "app"
+path = "src/main.rs"

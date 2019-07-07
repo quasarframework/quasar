@@ -41,7 +41,7 @@ class ProtonRunner {
 
     const startDevProton = () => {
       return this.__runCargoCommand({
-        cargoArgs: ['run', '--features', 'dev'],
+        cargoArgs: ['run', '--features', 'dev', '--bin', 'app'],
         extraArgs: args
       })
     }

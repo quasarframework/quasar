@@ -2,12 +2,20 @@ extern crate threadpool;
 #[macro_use]
 extern crate serde_derive;
 
+#[macro_use]
+mod macros;
+
 pub mod command;
 pub mod file_system;
 pub mod dir;
 pub mod file;
 pub mod rpc;
 pub mod tcp;
+pub mod http;
+pub mod platform;
+pub mod version;
+pub mod updater;
+pub mod process;
 
 extern crate web_view;
 use web_view::WebView;
