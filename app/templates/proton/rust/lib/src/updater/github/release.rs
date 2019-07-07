@@ -1,4 +1,4 @@
-use super::error::*;
+use super::super::error::*;
 use serde_json;
 use hyper_old_types::header::{LinkValue, RelationType};
 

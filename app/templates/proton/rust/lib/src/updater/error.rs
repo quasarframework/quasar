@@ -1,9 +1,9 @@
 use std;
 use zip::result::ZipError;
 use reqwest;
-use super::super::super::file;
-use super::super::super::http;
-use super::super::super::version;
+use super::super::file;
+use super::super::http;
+use super::super::version;
 
 #[derive(Debug)]
 pub enum Error {
@@ -21,10 +21,10 @@ impl std::fmt::Display for Error {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         use Error::*;
         match *self {
-            Updater(ref s) => write!(f, "Github UpdaterError: {}", s),
-            Release(ref s) => write!(f, "Github ReleaseError: {}", s),
-            Network(ref s) => write!(f, "Github NetworkError: {}", s),
-            Config(ref s) => write!(f, "Github ConfigError: {}", s),
+            Updater(ref s) => write!(f, "UpdaterError: {}", s),
+            Release(ref s) => write!(f, "ReleaseError: {}", s),
+            Network(ref s) => write!(f, "NetworkError: {}", s),
+            Config(ref s) => write!(f, "ConfigError: {}", s),
             Io(ref e) => write!(f, "IoError: {}", e),
             Zip(ref e) => write!(f, "ZipError: {}", e),
             File(ref e) => write!(f, "FileError: {}", e),
@@ -35,7 +35,7 @@ impl std::fmt::Display for Error {
 
 impl std::error::Error for Error {
     fn description(&self) -> &str {
-        "Github Updater Error"
+        "Updater Error"
     }
 
     fn cause(&self) -> Option<&std::error::Error> {
