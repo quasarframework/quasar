@@ -32,4 +32,4 @@ path = "src/updater.rs"
 
 [[bin]]
 name = "app"
-path = "src/app.rs"
+path = "src/main.rs"
