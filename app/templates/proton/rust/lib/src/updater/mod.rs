@@ -49,8 +49,8 @@ impl Status {
 
 #[derive(Clone, Debug)]
 pub struct Release {
-    pub name: String,
     pub version: String,
+    pub asset_name: String,
     pub download_url: String,
 }
 
@@ -231,7 +231,6 @@ impl Update {
         if self.show_output{
             println!("\n{} release status:", self.bin_name);
             println!("  * Current exe: {:?}", self.bin_install_path);
-            println!("  * New exe release: {:?}", self.release.name);
             println!("  * New exe download url: {:?}", self.release.download_url);
             println!("\nThe new release will be downloaded/extracted and the existing binary will be replaced.");
         }
@@ -242,7 +241,7 @@ impl Update {
             .ok_or_else(|| Error::Updater("Failed to determine parent dir".into()))?;
         let tmp_dir =
             tempdir::TempDir::new_in(&tmp_dir_parent, &format!("{}_download", self.bin_name))?;
-        let tmp_archive_path = tmp_dir.path().join(&self.release.name);
+        let tmp_archive_path = tmp_dir.path().join(&self.release.asset_name);
         let mut tmp_archive = fs::File::create(&tmp_archive_path)?;
 
         self.println("Downloading...");

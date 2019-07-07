@@ -10,9 +10,9 @@ fn update() -> Result<(), String> {
     match github_release.asset_for(&target) {
         Some(github_release_asset) => {
             let release = proton::updater::Release {
-                name: github_release.name,
                 version: github_release.tag.trim_start_matches('v').to_string(),
-                download_url: github_release_asset.download_url
+                download_url: github_release_asset.download_url,
+                asset_name: github_release_asset.name
             };
 
             let status = proton::updater::Update::configure().unwrap()
@@ -46,7 +46,6 @@ fn restart_app(app_command: String) -> Result<(), String>
     if parent_process.name() == "app" {
         parent_process.kill(Signal::Kill);
         std::thread::sleep(std::time::Duration::from_secs(1));
-        println!("cmd {}", app_command);
         std::process::Command::new(app_command).spawn().map_err(|_| "Could not start app")?;
     }
     Ok(())
