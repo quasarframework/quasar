@@ -40,10 +40,10 @@ class ProtonRunner {
     const args = ['--url', url]
 
     const startDevProton = () => {
-      return this.__runCargoCommand(
-        ['run', '--features', 'dev'],
-        args
-      )
+      return this.__runCargoCommand({
+        cargoArgs: ['run', '--features', 'dev'],
+        extraArgs: args
+      })
     }
 
     // Start watching for proton app changes
@@ -77,18 +77,17 @@ class ProtonRunner {
 
     fs.utimes(buildRsFile, now, now, function (err) { if (err) throw err })
 
-    const buildFn = target => this.__runCargoCommand(
-      ['bundle']
+    const buildFn = target => this.__runCargoCommand({
+      cargoArgs: ['bundle']
         .concat(cfg.ctx.debug ? [] : ['--release'])
         .concat(target ? ['--target', target] : [])
-    )
+    })
 
     if (cfg.ctx.debug) {
       // on debug mode, build only for the current platform
       return buildFn()
     }
 
-    // TODO
     const cargoConfig = fse.createReadStream(
       appPaths.resolve.proton('.cargo/config')
     )
@@ -130,12 +129,17 @@ class ProtonRunner {
     })
   }
 
-  __runCargoCommand(buildArgs, extraArgs) {
+  __runCargoCommand({ cargoArgs, extraArgs }) {
     return new Promise(resolve => {
       this.pid = spawn(
         'cargo',
-        buildArgs.concat(['--']).concat(extraArgs || []),
+
+        extraArgs
+          ? cargoArgs.concat(['--']).concat(extraArgs)
+          : cargoArgs,
+
         appPaths.protonDir,
+
         code => {
           if (code) {
             warn()
@@ -156,18 +160,21 @@ class ProtonRunner {
           }
         }
       )
+
       resolve()
     })
   }
 
   __stopCargo () {
     const pid = this.pid
+
     if (!pid) {
       return Promise.resolve()
     }
 
     log('Shutting down proton process...')
     this.pid = 0
+
     return new Promise((resolve, reject) => {
       this.killPromise = resolve
       process.kill(pid)
