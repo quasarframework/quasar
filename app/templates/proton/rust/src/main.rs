@@ -7,7 +7,10 @@ extern crate proton;
 
 #[cfg(not(feature = "dev"))]
 #[macro_use]
-extern crate rouille;
+extern crate actix_web;
+
+#[cfg(not(feature = "dev"))]
+use actix_web::{web, App, HttpServer};
 
 #[cfg(feature = "dev")]
 use clap::{Arg, App};
@@ -16,8 +19,7 @@ use clap::{Arg, App};
 use std::thread;
 
 mod cmd;
-
-include!(concat!(env!("OUT_DIR"), "/data.rs"));
+mod server;
 
 fn main() {
     let debug;
@@ -27,7 +29,7 @@ fn main() {
     #[cfg(not(feature="dev"))]
     {
         thread::spawn(|| {
-            proton::command::spawn_relative_command("updater".to_string(), Vec::new(), std::process::Stdio::inherit()).unwrap();
+            //proton::command::spawn_relative_command("updater".to_string(), Vec::new(), std::process::Stdio::inherit()).unwrap();
         });
     }
 
@@ -58,43 +60,17 @@ fn main() {
             debug = cfg!(debug_assertions);
 
             thread::spawn(move || {
-                rouille::start_server(server_url, move |request| {
-                    let url = request.url();
-                    if url.starts_with("/statics/") || url.starts_with("/img/")
-                    {
-                        let asset = ASSETS.get(&format!("./target/compiled-web{}", url)).unwrap().into_owned();
-                        if url.ends_with(".svg")
-                        {
-                            rouille::Response::svg(String::from_utf8(asset).unwrap())
-                        }
-                        else
-                        {
-                            rouille::Response::from_data("application/octet-stream", asset)
-                        }
-                    }
-                    else
-                    {
-                        router!(request,
-                            (GET) (/) => {
-                                rouille::Response::html(String::from_utf8(ASSETS.get("./target/compiled-web/index.html").unwrap().into_owned()).unwrap())
-                            },
-
-                            (GET) (/js/{id: String}) => {
-                                rouille::Response::text(String::from_utf8(ASSETS.get(&format!("./target/compiled-web/js/{}", id)).unwrap().into_owned()).unwrap())
-                            },
-
-                            (GET) (/css/{id: String}) => {
-                                rouille::Response::from_data("text/css;charset=utf-8", ASSETS.get(&format!("./target/compiled-web/css/{}", id)).unwrap().into_owned())
-                            },
-
-                            (GET) (/fonts/{id: String}) => {
-                                rouille::Response::from_data("application/octet-stream", ASSETS.get(&format!("./target/compiled-web/fonts/{}", id)).unwrap().into_owned())
-                            },
-
-                            _ => rouille::Response::empty_404()
-                    )
-                    }
-                });
+                HttpServer::new(|| {
+                    App::new()
+                        .service(web::resource("/").to(server::index))
+                        .service(web::resource("/js/{path:.*}").to(server::js))
+                        .service(web::resource("/css/{path:.*}").to(server::css))
+                        .service(web::resource("/statics/{path:.*}").to(server::statics))
+                        .service(web::resource("/img/{path:.*}").to(server::img))
+                        .service(web::resource("/fonts/{path:.*}").to(server::fonts))
+                })
+                .bind(server_url).unwrap()
+                .run().unwrap();
             });
         }
         else
