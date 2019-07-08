@@ -66,7 +66,7 @@ If you get stuck, check out the forums and visit Discord server for help. Not ju
 Whichever path you take, good luck!
 
 ::: warning Info
-It should be noted that we have tried our hardest to make sure everything in the Upgrade documenation is correct. However, because this has been a manual process there are likely errors. If you find any, don't be afraid to make a PR and propose a change to that which needs to be corrected.
+It should be noted that we have tried our hardest to make sure everything in the Upgrade documentation is correct. However, because this has been a manual process there are likely errors. If you find any, don't be afraid to make a PR and propose a change to that which needs to be corrected.
 :::
 
 ## Initial Steps

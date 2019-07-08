@@ -14,23 +14,10 @@
         <q-icon left name="fab fa-github" />
 
         <div class="text-center">
-          Github Sponsorship<br><strong>(recommended)</strong>
+          Github Sponsorship
         </div>
       </div>
     </q-btn>
-
-    <q-btn
-      push
-      color="primary"
-      style="height: 65px; width: 250px;"
-      icon="fab fa-patreon"
-      label="Patreon"
-      no-caps
-      type="a"
-      href="https://www.patreon.com/quasarframework"
-      target="_blank"
-      rel="noopener"
-    />
 
     <form class="inline-block" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" rel="noopener">
       <input type="hidden" name="cmd" value="_s-xclick">

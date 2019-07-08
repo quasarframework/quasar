@@ -9,7 +9,7 @@ export let fromSSR = false
 export let onSSR = isSSR
 
 function getMatch (userAgent, platformMatch) {
-  const match = /(edge)\/([\w.]+)/.exec(userAgent) ||
+  const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
     /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
     /(chrome)[\/]([\w.]+)/.exec(userAgent) ||
@@ -31,6 +31,10 @@ function getMatch (userAgent, platformMatch) {
   }
 }
 
+function getClientUserAgent () {
+  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+}
+
 function getPlatformMatch (userAgent) {
   return /(ipad)/.exec(userAgent) ||
     /(ipod)/.exec(userAgent) ||
@@ -50,8 +54,6 @@ function getPlatformMatch (userAgent) {
 }
 
 function getPlatform (userAgent) {
-  userAgent = (userAgent || navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
-
   const
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
@@ -68,6 +70,7 @@ function getPlatform (userAgent) {
   }
 
   const knownMobiles = browser.android ||
+    browser.ios ||
     browser.bb ||
     browser.blackberry ||
     browser.ipad ||
@@ -81,6 +84,10 @@ function getPlatform (userAgent) {
   // These are all considered mobile platforms, meaning they run a mobile browser
   if (knownMobiles === true || userAgent.indexOf('mobile') > -1) {
     browser.mobile = true
+
+    if (browser.edga || browser.edgios) {
+      browser.edge = true
+    }
   }
   // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
   // It's a workaround for anonymized user agents
@@ -234,12 +241,20 @@ export default {
   within: { iframe: false },
 
   parseSSR (/* ssrContext */ ssr) {
-    return ssr ? {
-      is: getPlatform(ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent']),
-      has: this.has,
-      within: this.within
-    } : {
-      is: getPlatform(),
+    if (ssr) {
+      const userAgent = (ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || '').toLowerCase()
+      return {
+        userAgent,
+        is: getPlatform(userAgent),
+        has: this.has,
+        within: this.within
+      }
+    }
+
+    const userAgent = getClientUserAgent()
+    return {
+      userAgent,
+      is: getPlatform(userAgent),
       ...getClientProperties()
     }
   },
@@ -252,7 +267,8 @@ export default {
       return
     }
 
-    this.is = getPlatform()
+    this.userAgent = getClientUserAgent()
+    this.is = getPlatform(this.userAgent)
 
     if (fromSSR === true) {
       queues.takeover.push(q => {
