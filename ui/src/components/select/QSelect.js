@@ -129,7 +129,13 @@ export default Vue.extend({
     options: {
       handler (options) {
         const optionsLength = Array.isArray(options) === false ? 0 : options.length
-        this.optionsHeights = Array.from(Array(optionsLength), () => optionDefaultHeight)
+        const optionsHeights = new Array(optionsLength)
+
+        for (let i = optionsLength - 1; i >= 0; i--) {
+          optionsHeights[i] = optionDefaultHeight
+        }
+
+        this.optionsHeights = optionsHeights
         this.optionsHeight = optionsLength * optionDefaultHeight
         this.optionsMarginTop = this.optionsHeight
       },
@@ -1140,9 +1146,9 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.__setOptionsSliceRange = this.$q.platform.is.android === true
-      ? debounce(this.__setOptionsSliceRange, 50)
-      : frameDebounce(this.__setOptionsSliceRange)
+    this.__setOptionsSliceRange = this.$q.platform.is.ios === true || this.$q.platform.is.safari === true
+      ? frameDebounce(this.__setOptionsSliceRange)
+      : debounce(this.__setOptionsSliceRange, 50)
   },
 
   beforeDestroy () {
