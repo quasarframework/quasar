@@ -28,7 +28,7 @@ fn main() {
     #[cfg(not(feature="dev"))]
     {
         thread::spawn(|| {
-            //proton::command::spawn_relative_command("updater".to_string(), Vec::new(), std::process::Stdio::inherit()).unwrap();
+            proton::command::spawn_relative_command("updater".to_string(), Vec::new(), std::process::Stdio::inherit()).unwrap();
         });
     }
 
