@@ -27,6 +27,7 @@ export default Vue.extend({
 
     caption: String,
     captionLines: [ Number, String ],
+    captionStyle: Boolean,
 
     dark: Boolean,
     dense: Boolean,
@@ -157,7 +158,7 @@ export default Vue.extend({
 
             this.caption
               ? h(QItemLabel, {
-                props: { lines: this.captionLines, caption: true }
+                props: { lines: this.captionLines, caption: this.captionStyle }
               }, [ this.caption ])
               : null
           ])
