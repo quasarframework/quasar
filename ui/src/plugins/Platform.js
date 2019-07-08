@@ -12,10 +12,11 @@ function getMatch (userAgent, platformMatch) {
   const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
     /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
-    /(chrome)[\/]([\w.]+)/.exec(userAgent) ||
+    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent) ||
     /(iemobile)[\/]([\w.]+)/.exec(userAgent) ||
     /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
     /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
+    /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
     /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
     /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
     /(msie) ([\w.]+)/.exec(userAgent) ||
@@ -87,6 +88,15 @@ function getPlatform (userAgent) {
 
     if (browser.edga || browser.edgios) {
       browser.edge = true
+      matched.browser = 'edge'
+    }
+    else if (browser.crios) {
+      browser.chrome = true
+      matched.browser = 'chrome'
+    }
+    else if (browser.fxios) {
+      browser.firefox = true
+      matched.browser = 'firefox'
     }
   }
   // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
@@ -126,12 +136,6 @@ function getPlatform (userAgent) {
   if (browser.rv || browser.iemobile) {
     matched.browser = 'ie'
     browser.ie = true
-  }
-
-  // Edge is officially known as Microsoft Edge, so rewrite the key to match
-  if (browser.edge) {
-    matched.browser = 'edge'
-    browser.edge = true
   }
 
   // Blackberry browsers are marked as Safari on BlackBerry
