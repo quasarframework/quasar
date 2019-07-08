@@ -3,7 +3,7 @@ title: Platform Detection
 desc: How to detect the platform under which a Quasar app is running.
 ---
 
-Helpers are built into Quasar to detect the Platform (and its capabilities) within the context of which the code is running.
+Helpers built into Quasar to detect the Platform (and its capabilities) within the context of which the code is running.
 
 ::: tip
 Based on your needs, you might also want to check the [Style & Identity &gt; Visibility](/style/visibility) page to see how you can achieve the same effect using CSS alone. This latter method will render your DOM elements or components regardless of platform though, so choose wisely on how you want to handle the performance of your app.
