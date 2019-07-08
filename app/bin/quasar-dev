@@ -69,7 +69,11 @@ require('../lib/helpers/ensure-argv')(argv, 'dev')
 require('../lib/helpers/banner')(argv, 'dev')
 
 if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
+  require('../lib/mode/install-missing')(argv.mode, argv.target).then(() => {
+    goLive()
+  })
+} else {
+  goLive()
 }
 
 const findPort = require('../lib/helpers/net').findClosestOpenPort
@@ -218,5 +222,3 @@ async function goLive () {
       return devServer
     })
 }
-
-goLive()
