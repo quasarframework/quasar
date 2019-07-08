@@ -31,6 +31,10 @@ function getMatch (userAgent, platformMatch) {
   }
 }
 
+function getClientUserAgent () {
+  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+}
+
 function getPlatformMatch (userAgent) {
   return /(ipad)/.exec(userAgent) ||
     /(ipod)/.exec(userAgent) ||
@@ -50,12 +54,10 @@ function getPlatformMatch (userAgent) {
 }
 
 function getPlatform (userAgent) {
-  userAgent = (userAgent || navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
-
   const
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
-    browser = { userAgent }
+    browser = {}
 
   if (matched.browser) {
     browser[matched.browser] = true
@@ -239,12 +241,20 @@ export default {
   within: { iframe: false },
 
   parseSSR (/* ssrContext */ ssr) {
-    return ssr ? {
-      is: getPlatform(ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent']),
-      has: this.has,
-      within: this.within
-    } : {
-      is: getPlatform(),
+    if (ssr) {
+      const userAgent = (ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || '').toLowerCase()
+      return {
+        userAgent,
+        is: getPlatform(userAgent),
+        has: this.has,
+        within: this.within
+      }
+    }
+
+    const userAgent = getClientUserAgent()
+    return {
+      userAgent,
+      is: getPlatform(userAgent),
       ...getClientProperties()
     }
   },
@@ -257,7 +267,8 @@ export default {
       return
     }
 
-    this.is = getPlatform()
+    this.userAgent = getClientUserAgent()
+    this.is = getPlatform(this.userAgent)
 
     if (fromSSR === true) {
       queues.takeover.push(q => {

@@ -5,6 +5,10 @@
         Based on the device you are using to view this, Quasar detects the following:
       </p>
 
+      <p>
+        User agent: "<strong>{{ $q.platform.userAgent }}</strong>"
+      </p>
+
       <table class="q-table striped">
         <thead>
           <tr>
