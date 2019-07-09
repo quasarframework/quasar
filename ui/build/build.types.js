@@ -92,19 +92,19 @@ function getMethodDefinition (key, methodDef, required) {
   return def
 }
 
-function getObjectParamDefinition (def) {
+function getObjectParamDefinition (def, required) {
   let res = []
 
   Object.keys(def).forEach(propName => {
     const propDef = def[propName]
     if (propDef.type && propDef.type === 'Function') {
       res.push(
-        getMethodDefinition(propName, propDef, true)
+        getMethodDefinition(propName, propDef, required)
       )
     }
     else {
       res.push(
-        getPropDefinition(propName, def[propName], true)
+        getPropDefinition(propName, propDef, required)
       )
     }
   })
@@ -150,7 +150,7 @@ function copyPredefinedTypes (dir, parentDir) {
   })
 }
 
-function addToExtraInterfaces (def) {
+function addToExtraInterfaces (def, required) {
   if (
     def !== void 0 &&
     def.tsType !== void 0 &&
@@ -158,7 +158,7 @@ function addToExtraInterfaces (def) {
     def.definition !== void 0
   ) {
     extraInterfaces[def.tsType] = getObjectParamDefinition(
-      def.definition
+      def.definition, required
     )
   }
 }
@@ -198,7 +198,7 @@ function writeIndexDTS (apis) {
       const returns = method.returns
       writeLine(contents, `): ${returns ? getTypeVal(returns, content.type === 'plugin') : 'void'}`)
 
-      addToExtraInterfaces(returns)
+      addToExtraInterfaces(returns, true)
     }
 
     // Close class declaration
