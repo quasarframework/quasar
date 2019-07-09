@@ -1,3 +1,5 @@
+import Platform from '../plugins/Platform.js'
+
 export const listenOpts = {
   hasPassive: false,
   passiveCapture: true,
@@ -103,6 +105,23 @@ export function prevent (e) {
 export function stopAndPrevent (e) {
   e.cancelable !== false && e.preventDefault()
   e.stopPropagation()
+}
+
+export function preventDraggable (el, status) {
+  if (el === void 0 || Platform.is.firefox !== true || (status === true && el.__dragPrevented === true)) {
+    return
+  }
+
+  el.querySelectorAll('a, img').forEach(status === true
+    ? el => {
+      el.__dragPrevented = true
+      el.addEventListener('dragstart', prevent)
+    }
+    : el => {
+      delete el.__dragPrevented
+      el.removeEventListener('dragstart', prevent)
+    }
+  )
 }
 
 export function create (name, { bubbles = false, cancelable = false } = {}) {

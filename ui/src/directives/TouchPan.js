@@ -1,6 +1,6 @@
 import Platform from '../plugins/Platform.js'
 import { setObserver, removeObserver, getModifierDirections, updateModifiers } from '../utils/touch.js'
-import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent } from '../utils/event.js'
+import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function getChanges (evt, ctx, isFinal) {
@@ -147,6 +147,8 @@ export default {
       },
 
       start (evt, mouseEvent) {
+        preventDraggable(el, true)
+
         removeObserver(ctx)
         mouseEvent !== true && setObserver(el, evt, ctx)
 
@@ -234,6 +236,8 @@ export default {
       },
 
       end (evt) {
+        preventDraggable(el, false)
+
         if (ctx.event === void 0) {
           return
         }
@@ -284,6 +288,8 @@ export default {
 
   unbind (el, { modifiers }) {
     let ctx = el.__qtouchpan_old || el.__qtouchpan
+
+    preventDraggable(el, false)
 
     if (ctx !== void 0) {
       removeObserver(ctx)

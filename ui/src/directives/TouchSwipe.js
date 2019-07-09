@@ -1,6 +1,6 @@
 import Platform from '../plugins/Platform.js'
 import { setObserver, removeObserver, getModifierDirections, updateModifiers } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent, listenOpts } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent, listenOpts, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function parseArg (arg) {
@@ -54,6 +54,8 @@ export default {
       },
 
       start (evt, mouseEvent) {
+        preventDraggable(el, true)
+
         removeObserver(ctx)
         mouseEvent !== true && setObserver(el, evt, ctx)
 
@@ -187,6 +189,8 @@ export default {
       },
 
       end (evt) {
+        preventDraggable(el, false)
+
         if (ctx.event === void 0) {
           return
         }
@@ -227,6 +231,8 @@ export default {
   },
 
   unbind (el, { modifiers }) {
+    preventDraggable(el, false)
+
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
 
     if (ctx !== void 0) {
