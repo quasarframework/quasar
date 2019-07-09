@@ -62,6 +62,7 @@ function getPropDefinition (key, propDef, required) {
 
   if (!propName.startsWith('...')) {
     const propType = getTypeVal(propDef, required)
+    addToExtraInterfaces(propDef)
     return `${propName}${!propDef.required && !required ? '?' : ''} : ${propType}`
   }
 }
@@ -91,13 +92,21 @@ function getMethodDefinition (key, methodDef, required) {
   return def
 }
 
-function getObjectFunctionsDefinition (def) {
+function getObjectParamDefinition (def) {
   let res = []
 
   Object.keys(def).forEach(propName => {
-    res.push(
-      getMethodDefinition(propName, def[propName], true)
-    )
+    const propDef = def[propName]
+    if (propDef.type && propDef.type === 'Function') {
+      res.push(
+        getMethodDefinition(propName, propDef, true)
+      )
+    }
+    else {
+      res.push(
+        getPropDefinition(propName, def[propName], true)
+      )
+    }
   })
 
   return res
@@ -141,6 +150,19 @@ function copyPredefinedTypes (dir, parentDir) {
   })
 }
 
+function addToExtraInterfaces (def) {
+  if (
+    def !== void 0 &&
+    def.tsType !== void 0 &&
+    extraInterfaces[def.tsType] === void 0 &&
+    def.definition !== void 0
+  ) {
+    extraInterfaces[def.tsType] = getObjectParamDefinition(
+      def.definition
+    )
+  }
+}
+
 function writeIndexDTS (apis) {
   var contents = []
   var quasarTypeContents = []
@@ -176,16 +198,7 @@ function writeIndexDTS (apis) {
       const returns = method.returns
       writeLine(contents, `): ${returns ? getTypeVal(returns, content.type === 'plugin') : 'void'}`)
 
-      if (
-        returns !== void 0 &&
-        returns.tsType !== void 0 &&
-        extraInterfaces[returns.tsType] === void 0 &&
-        returns.definition !== void 0
-      ) {
-        extraInterfaces[returns.tsType] = getObjectFunctionsDefinition(
-          returns.definition
-        )
-      }
+      addToExtraInterfaces(returns)
     }
 
     // Close class declaration
