@@ -300,8 +300,8 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Mobile Apps',
-    path: 'developing-mobile-apps',
+    name: 'Developing Cordova Apps',
+    path: 'developing-cordova-apps',
     children: [
       {
         name: 'Introduction',
@@ -387,6 +387,57 @@ const cli = [
       {
         name: 'Troubleshooting and Tips',
         path: 'troubleshooting-and-tips'
+      }
+    ]
+  },
+  {
+    name: 'Developing Proton Apps',
+    path: 'developing-proton-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction',
+        badge: 'new'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation',
+        badge: 'new'
+      },
+      {
+        name: 'Configuring Proton',
+        path: 'configuring-proton',
+        badge: 'new'
+      },
+      {
+        name: 'App Icons for Proton',
+        path: 'app-icons-proton',
+        badge: 'new'
+      },
+      {
+        name: 'Rust Bindings',
+        path: 'rust-bindings',
+        badge: 'new'
+      },
+      {
+        name: 'Other Bindings',
+        path: 'other-bindings',
+        badge: 'new'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands',
+        badge: 'new'
+      },
+      {
+        name: 'Proton API',
+        path: 'api',
+        badge: 'new'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips',
+        badge: 'new'
       }
     ]
   },
