@@ -109,7 +109,7 @@ export function preventDraggable (el, status) {
   if (el === void 0 || (status === true && el.__dragPrevented === true)) {
     return
   }
-  
+
   const fn = status === true
     ? el => {
       el.__dragPrevented = true
