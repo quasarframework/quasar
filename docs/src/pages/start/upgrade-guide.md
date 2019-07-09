@@ -41,7 +41,7 @@ You may also want to make sure you have the latest of `@quasar/extras` package t
 $ yarn add @quasar/extras@latest
 ```
 
-## Best Practices
+## Upgrading from 0.x to v1
 
 Before you start down this journey of upgrading Quasar Legacy to Quasar v1 you should know a few things:
 1) Read the documentation before asking questions on Discord server or forums.
