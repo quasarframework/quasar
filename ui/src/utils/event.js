@@ -107,6 +107,7 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
+// designed for Firefox only
 export function preventDraggable (el, status) {
   if (
     el === void 0 ||
@@ -152,5 +153,6 @@ export default {
   stop,
   prevent,
   stopAndPrevent,
+  preventDraggable,
   create
 }
