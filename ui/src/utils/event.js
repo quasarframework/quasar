@@ -1,5 +1,3 @@
-import Platform from '../plugins/Platform.js'
-
 export const listenOpts = {
   hasPassive: false,
   passiveCapture: true,
@@ -107,13 +105,8 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
-// designed for Firefox only
 export function preventDraggable (el, status) {
-  if (
-    el === void 0 ||
-    Platform.is.firefox !== true ||
-    (status === true && el.__dragPrevented === true)
-  ) {
+  if (el === void 0 || (status === true && el.__dragPrevented === true)) {
     return
   }
   
