@@ -129,7 +129,13 @@ export default Vue.extend({
     options: {
       handler (options) {
         const optionsLength = Array.isArray(options) === false ? 0 : options.length
-        this.optionsHeights = Array.from(Array(optionsLength), () => optionDefaultHeight)
+        const optionsHeights = new Array(optionsLength)
+
+        for (let i = optionsLength - 1; i >= 0; i--) {
+          optionsHeights[i] = optionDefaultHeight
+        }
+
+        this.optionsHeights = optionsHeights
         this.optionsHeight = optionsLength * optionDefaultHeight
         this.optionsMarginTop = this.optionsHeight
       },
@@ -792,6 +798,12 @@ export default Vue.extend({
       e.target.composing = true
     },
 
+    __onCompositionUpdate (e) {
+      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
+        e.target.composing = false
+      }
+    },
+
     __onCompositionEnd (e) {
       if (e.target.composing !== true) { return }
       e.target.composing = false
@@ -800,6 +812,22 @@ export default Vue.extend({
     },
 
     __getInput (h) {
+      const on = {
+        input: this.__onInputValue,
+        // Safari < 10.2 & UIWebView doesn't fire compositionend when
+        // switching focus before confirming composition choice
+        // this also fixes the issue where some browsers e.g. iOS Chrome
+        // fires "change" instead of "input" on autocomplete.
+        change: this.__onCompositionEnd,
+        compositionstart: this.__onCompositionStart,
+        compositionend: this.__onCompositionEnd,
+        keydown: this.__onTargetKeydown
+      }
+
+      if (this.$q.platform.is.android === true) {
+        on.compositionupdate = this.__onCompositionUpdate
+      }
+
       return h('input', {
         ref: 'target',
         staticClass: 'q-select__input q-placeholder col',
@@ -813,17 +841,7 @@ export default Vue.extend({
           ...this.$attrs,
           disabled: this.editable !== true
         },
-        on: {
-          input: this.__onInputValue,
-          // Safari < 10.2 & UIWebView doesn't fire compositionend when
-          // switching focus before confirming composition choice
-          // this also fixes the issue where some browsers e.g. iOS Chrome
-          // fires "change" instead of "input" on autocomplete.
-          change: this.__onCompositionEnd,
-          compositionstart: this.__onCompositionStart,
-          compositionend: this.__onCompositionEnd,
-          keydown: this.__onTargetKeydown
-        }
+        on
       })
     },
 
@@ -1140,9 +1158,9 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.__setOptionsSliceRange = this.$q.platform.is.android === true
-      ? debounce(this.__setOptionsSliceRange, 50)
-      : frameDebounce(this.__setOptionsSliceRange)
+    this.__setOptionsSliceRange = this.$q.platform.is.ios === true || this.$q.platform.is.safari === true
+      ? frameDebounce(this.__setOptionsSliceRange)
+      : debounce(this.__setOptionsSliceRange, 50)
   },
 
   beforeDestroy () {
