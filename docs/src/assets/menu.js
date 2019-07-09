@@ -300,8 +300,8 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Mobile Apps',
-    path: 'developing-mobile-apps',
+    name: 'Developing Cordova Apps',
+    path: 'developing-cordova-apps',
     children: [
       {
         name: 'Introduction',
@@ -421,6 +421,10 @@ const style = [
   {
     name: 'Shadows',
     path: 'shadows'
+  },
+  {
+    name: 'Breakpoints',
+    path: 'breakpoints'
   },
   {
     name: 'Visibility',
@@ -985,6 +989,12 @@ module.exports = [
     badge: 'new',
     icon: 'people',
     path: 'meet-the-team'
+  },
+  {
+    name: 'Newsletter',
+    badge: 'new',
+    icon: 'email',
+    path: 'newsletter'
   },
   {
     name: 'Getting Started',

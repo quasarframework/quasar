@@ -101,12 +101,12 @@ framework: {
 ```
 
 ## Using Quasar Plugins
-Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, ActionSheet, AppVisibility and so on.
+Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.
 
 In order to use them, you need to add a reference to them in `/quasar.conf.js`:
 ```js
 framework: {
-  plugins: ['Notify', 'ActionSheet']
+  plugins: ['Notify', 'BottomSheet']
 }
 ```
 

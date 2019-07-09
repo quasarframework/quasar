@@ -146,9 +146,11 @@ No target specified for emulator. Deploying to undefined simulator
 Device type "com.apple.CoreSimulator.SimDeviceType.undefined" could not be found.
 ```
 
-Then it means you need to specify an emulator. Example:
+Then it means you need to specify an emulator. Depending on your Cordova CLI version, here are some examples:
 
 ```bash
+$ quasar dev -m cordova -T ios -e iPhone-X,12.2
+# or whith older versions of Cordova CLI installed on your machine:
 $ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
 ```
 
@@ -199,5 +201,5 @@ body.cordova .my-selector
 When building an iOS app with Cordova and you want to [disable the rubber band effect](https://www.youtube.com/watch?v=UjuNGpU29Mk), add this to your `/src-cordova/config.xml`:
 
 ``` xml
-<preference name = "DisallowOverscroll" value = "true" />
+<preference name="DisallowOverscroll" value="true" />
 ```

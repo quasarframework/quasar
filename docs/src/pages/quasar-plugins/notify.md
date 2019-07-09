@@ -88,7 +88,7 @@ We could also set the defaults in some Vue file:
 
 ```js
 // inside of a Vue component
-this.$q.setDefaults({
+this.$q.notify.setDefaults({
   position: 'top-right',
   timeout: 2500,
   textColor: 'white',
