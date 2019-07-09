@@ -300,8 +300,8 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Cordova Apps',
-    path: 'developing-cordova-apps',
+    name: 'Developing Mobile Apps',
+    path: 'developing-mobile-apps',
     children: [
       {
         name: 'Introduction',
