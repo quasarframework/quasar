@@ -29,9 +29,6 @@
             .q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
             div <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
 
-      .landing__arrow.absolute-bottom.text-center
-        q-icon(name="expand_more").text-h2.text-white
-
   section.padding.landing__front.text-center
     div
       div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
@@ -256,10 +253,6 @@ export default {
 
   &__hero
     min-height 100vh
-
-  &__arrow
-    bottom 8px
-    opacity .4
 
   &__front
     background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
