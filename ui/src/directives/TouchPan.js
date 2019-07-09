@@ -235,12 +235,11 @@ export default {
       },
 
       end (evt) {
-        Platform.is.firefox === true && preventDraggable(el, false)
-
         if (ctx.event === void 0) {
           return
         }
 
+        Platform.is.firefox === true && preventDraggable(el, false)
         ctx.event.mouse !== true && removeObserver(ctx)
 
         document.documentElement.style.cursor = ''
@@ -288,9 +287,8 @@ export default {
   unbind (el, { modifiers }) {
     let ctx = el.__qtouchpan_old || el.__qtouchpan
 
-    preventDraggable(el, false)
-
     if (ctx !== void 0) {
+      Platform.is.firefox === true && preventDraggable(el, false)
       removeObserver(ctx)
 
       document.documentElement.style.cursor = ''
