@@ -14,7 +14,7 @@ web-view = { git = "https://github.com/Boscop/web-view" }
 serde_json = "1.0.39"
 serde = "1.0"
 serde_derive = "1.0"
-rouille = "3.0.0"
+tiny_http = "0.6"
 clap = {version = "2.33", features = ["yaml"]}
 phf = "0.7.21"
 includedir = "0.5.0"
