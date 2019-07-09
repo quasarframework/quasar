@@ -108,11 +108,15 @@ export function stopAndPrevent (e) {
 }
 
 export function preventDraggable (el, status) {
-  if (el === void 0 || Platform.is.firefox !== true || (status === true && el.__dragPrevented === true)) {
+  if (
+    el === void 0 ||
+    Platform.is.firefox !== true ||
+    (status === true && el.__dragPrevented === true)
+  ) {
     return
   }
-
-  el.querySelectorAll('a, img').forEach(status === true
+  
+  const fn = status === true
     ? el => {
       el.__dragPrevented = true
       el.addEventListener('dragstart', prevent)
@@ -121,7 +125,8 @@ export function preventDraggable (el, status) {
       delete el.__dragPrevented
       el.removeEventListener('dragstart', prevent)
     }
-  )
+
+  el.querySelectorAll('a, img').forEach(fn)
 }
 
 export function create (name, { bubbles = false, cancelable = false } = {}) {
