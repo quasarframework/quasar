@@ -147,8 +147,7 @@ export default {
       },
 
       start (evt, mouseEvent) {
-        preventDraggable(el, true)
-
+        Platform.is.firefox === true && preventDraggable(el, true)
         removeObserver(ctx)
         mouseEvent !== true && setObserver(el, evt, ctx)
 
@@ -236,7 +235,7 @@ export default {
       },
 
       end (evt) {
-        preventDraggable(el, false)
+        Platform.is.firefox === true && preventDraggable(el, false)
 
         if (ctx.event === void 0) {
           return
