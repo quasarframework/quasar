@@ -44,17 +44,20 @@
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
-        .feature-item.q-mx-md
-          img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
+        img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
       .col-12.text-center
         .q-gutter-lg
           q-icon(name="fab fa-apple")
           q-icon(name="fab fa-windows")
-          q-icon(name="fab fa-android")
           q-icon(name="fab fa-linux")
+          q-icon(name="fab fa-android")
+          q-icon(name="fab fa-chrome")
+          q-icon(name="fab fa-firefox")
+          q-icon(name="fab fa-edge")
+          q-icon(name="fab fa-safari")
       .col-12.text-center
         h4 All Platforms in One Go
-        p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
+        p One source code for all platforms simultaneously through Quasar CLI with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
 
   section.padding.bg-primary.landing__swirl-bg
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
