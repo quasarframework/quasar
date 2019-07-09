@@ -118,7 +118,7 @@ Another example with a visual representation below it:
 ```
 ![Flexbox Grow](https://cdn.quasar.dev/img/flexbox-grow.svg)
 
-There's also the possible to offset a cell. Example: `offset-4` which offsets a third of space (4/12 = 1/3 = 33%).
+It is also possible to offset a cell. For example: `offset-4` offsets a third of space (4/12 = 1/3 = 33%).
 
 ### Wrapping
 Wrapping is a key feature in understanding Flex CSS classes. You are not bound to use exactly 12 points per row. You can use less or even more.
