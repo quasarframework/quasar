@@ -105,6 +105,24 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
+export function preventDraggable (el, status) {
+  if (el === void 0 || (status === true && el.__dragPrevented === true)) {
+    return
+  }
+
+  const fn = status === true
+    ? el => {
+      el.__dragPrevented = true
+      el.addEventListener('dragstart', prevent)
+    }
+    : el => {
+      delete el.__dragPrevented
+      el.removeEventListener('dragstart', prevent)
+    }
+
+  el.querySelectorAll('a, img').forEach(fn)
+}
+
 export function create (name, { bubbles = false, cancelable = false } = {}) {
   try {
     return new Event(name, { bubbles, cancelable })
@@ -128,5 +146,6 @@ export default {
   stop,
   prevent,
   stopAndPrevent,
+  preventDraggable,
   create
 }

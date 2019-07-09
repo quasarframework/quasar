@@ -9,7 +9,7 @@
       >
         <template v-slot:no-option>
           <q-item>
-            <q-item-section>
+            <q-item-section class="text-italic text-grey">
               No options slot
             </q-item-section>
           </q-item>
