@@ -37,6 +37,10 @@ Files in the "assets" folder are only included in your build if they have a lite
 Every file and folder from the "statics" folder are copied into your production build as-is, no matter what.
 :::
 
+::: danger
+When not building a SPA/PWA/SSR, then `/src/statics/icons/*` and `/src/statics/app-logo-128x128.png` will NOT be embedded into your app because they would not serve any purpose. For example, an Electron or Cordova apps do not require those files.
+:::
+
 ## Vue Binding Requires Statics Only
 Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the statics folder. The reason is simple: the URL is dynamic, so Webpack (which packs up assets at compile time) doesn't know which file you'll be referencing at runtime, so it won't process the URL.
 
