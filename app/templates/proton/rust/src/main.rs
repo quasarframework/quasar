@@ -15,6 +15,8 @@ use clap::{Arg, App};
 use std::thread;
 
 mod cmd;
+
+#[cfg(not(feature = "dev"))]
 mod server;
 
 fn main() {
