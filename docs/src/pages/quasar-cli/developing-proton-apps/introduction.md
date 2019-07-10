@@ -33,7 +33,7 @@ aims to be acceptable for the Free Software Foundation and palatable to all free
 One of the biggest complaints that we hear about Electron is that the production asset is very large and consumes a lot of memory. Large files consume storage, have real transit costs and just slow down everything. 
 
 ::: tip Proton 
-app binaries are generally less than 10MB.
+app binaries are generally less than 5MB.
 :::
 
 ### Security Risks
@@ -46,8 +46,8 @@ bindings of essential security character have been forked so that they are under
 ### Comparison
 |  | Proton | Electron |
 |--|--------|----------|
-| Binary Size † | TODO | TODO |
-| Memory Consumption † | TODO | TODO |
+| Binary Size MacOS | 3.6 MB | 148.7 MB |
+| Memory Consumption MacOS | 13 MB | 34.1 MB |
 | Benchmark FPS † | TODO | TODO |
 | Interface Service Provider | Varies | Chromium |
 | Quasar UI | VueJS | VueJS |
@@ -55,6 +55,7 @@ bindings of essential security character have been forked so that they are under
 | Underlying Engine | C/C++ | V8 (C/C++) |
 | FLOSS | Yes | No |
 | Multithreading | Yes | No |
+| Bytecode Delivery | Yes | No |
 | GPU Support | Yes | No |
 | Geolocation | Yes | No |
 | WebAPI | Yes | No |
