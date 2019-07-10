@@ -47,7 +47,7 @@ Quasar was also built to encourage developers to follow web development best pra
  - Linting code
  - Accessibility features
 
-Quasar takes care of all these web develoment best parctices and more - **with no configuration needed**.
+Quasar takes care of all these web development best practices and more - **with no configuration needed**.
 
 #### App extensions support
 Quasar App Extensions are a way to painlessly inject complicated (or simple) setups into your websites/apps. And also, it's a way for our big community to contribute and to help you get up to speed even faster. **The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there** - limited only by your imagination and innovation.
