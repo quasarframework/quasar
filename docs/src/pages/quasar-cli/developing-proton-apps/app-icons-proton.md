@@ -21,7 +21,6 @@ src-proton/
     128x128@2x.png        
     icon.ico              # for Windows MSI
     icon.icns             # for MacOS .app
-
 ```
 
 <img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />

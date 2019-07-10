@@ -2,7 +2,8 @@
 title: Proton Preparation
 desc: How to manage Proton mode in a Quasar app.
 ---
-Before we dive in to the actual development, we need to do some preparation work. This setup shows how to get up and running with Proton and Rust.
+
+Before we dive into the actual development, we need to do some preparation work. This setup shows how to get up and running with Proton and Rust.
 
 ::: warning HERE BE DRAGONS
 Although we have confirmed that the approach described here works for Mac, Windows and Linux, we have not tested all possible operating systems, versions and hardware. Please feel motivated to help us make this guide more accurate.
@@ -67,9 +68,6 @@ $ cargo install cargo-bundle
 - [SUBLIME](https://github.com/rust-lang/rust-enhanced)
 - [VIM](https://github.com/rust-lang/rust.vim)
 - [EMACS](https://github.com/rust-lang/rust-mode)
-
-
-
 
 The new folder has the following structure:
 ```bash

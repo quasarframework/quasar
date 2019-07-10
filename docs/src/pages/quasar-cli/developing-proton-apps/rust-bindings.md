@@ -17,10 +17,6 @@ You don't need to know Rust at all to use Proton - but as with all things, the r
 At some point, learning about Rust will require a visit to the manual. Check it out:
 - [Rust 1.31.0+](https://doc.rust-lang.org/stable/book/) by Steve Klabnik & Carol Nichols
 
-## Setting up
-
-
-
 ## Introduction
 Much like the Node ecosystem, there are a number of "modules" called crates that can be delivered via cargo. 
 
