@@ -40,6 +40,7 @@ const gettingStarted = [
   },
   {
     name: 'Contribution Guide',
+    badge: 'new',
     path: 'contribution-guide'
   },
   {

@@ -15,19 +15,18 @@ After reading this guide, you will know:
 * How to clone master and run the test suite.
 * How to help resolve existing issues.
 * How to contribute to the Quasar documentation.
-* How to create Quasar app extension.
+* How to create a Quasar App Extension.
 * How to contribute to the Quasar code.
 
 Quasar is not "someone else's framework". Many people have contributed to Quasar ranging from a single character to massive architectural changes or significant documentation - all with the goal of making Quasar better for everyone. Even if you don't feel up to writing code or documentation yet, there are a variety of other ways that you can contribute, from reporting issues to testing patches.
 
 ## Help with Support
 
-One of the easiest ways to contribute is to answer questions in the different Q&A systems we have. Be a supportive and positive member of the Quasar community by answering questions you know answers to, or even by adding your best guess. Being a part of such discussions can also be a good learning experience. It's a win-win! 
+One of the easiest ways to contribute is to answer questions in the different Q&A systems we have. Be a supportive and positive member of the Quasar community by answering questions you know answers to, or even by adding your best guess. Being a part of such discussions can also be a good learning experience. It's a win-win!
 
-Here are our discussion/ Q&A venues:
+Here are our discussion/Q&A venues:
 
-* [Forum](https://forum.quasar-framework.org/): The best place to ask questions and get answers about Quasar and its ecosystem.
-* [Stack Overflow](https://stackoverflow.com/search?q=quasarframework): The place to ask questions and get answers about Quasar and its ecosystem.
+* [Forum](https://forum.quasar.dev/): The best place to ask questions and get answers about Quasar and its ecosystem.
 * [Chat](https://chat.quasar.dev/): A place for Quasar devs to meet and chat in real time.
 
 ## Share (and Build) Your Experience
@@ -39,7 +38,7 @@ Apart from answering questions and sharing resources in the forum and chat, ther
 
 ## Reporting an Issue
 
-* [GitHub](https://github.com/quasarframework/quasar): If you have a bug to report or feature to request, that’s what the GitHub issues are for. Please make sure to select the most appropriate repo for the issue.
+* [GitHub](https://github.com/quasarframework/quasar/issues): If you have a bug to report or feature to request, that’s what the GitHub issues are for.
 
 ::: danger Reporting a vulnerability
 Please do not report security vulnerabilities with public GitHub issue reports. Follow the [Report a vulnerability](security/report-a-vulnerability) steps for security issues.
@@ -47,7 +46,7 @@ Please do not report security vulnerabilities with public GitHub issue reports. 
 
 If you've found a problem in Quasar which is not a security risk, do a search on GitHub under [Issues](https://github.com/quasarframework/quasar/issues) to check if it is already answered or even fixed in the development branch (`dev`).
 
-- The issue list of this repo is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
+- The issue list of the [main repo](https://github.com/quasarframework/quasar) is **exclusively** for bug reports and feature requests. Non-conforming issues will be closed immediately.
 
   - For simple beginner questions, you can get quick answers from the [Quasar Discord chat](https://chat.quasar.dev).
 
@@ -59,15 +58,15 @@ If you've found a problem in Quasar which is not a security risk, do a search on
 
 - Use only the minimum amount of code necessary to reproduce the unexpected behavior. A good bug report should isolate specific methods that exhibit unexpected behavior and precisely define how expectations were violated. What did you expect the method or methods to do, and how did the observed behavior differ? The more precisely you isolate the issue, the faster we can investigate.
 
-- Issues with no clear repro steps will not be triaged. If an issue labeled "need repro" receives no further input from the issue author for more than 5 days, it will be closed.
+- Issues with no clear reproduction steps will not be triaged. If an issue labeled "need repro" receives no further input from the issue author for more than 5 days, it will be closed.
 
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
 
-- Most importantly, we beg your patience: the team must balance your request against many other responsibilities — fixing other bugs, answering other questions, new features, new documentation, etc. The issue list is not paid support and we cannot make guarantees about how fast your issue can be resolved.
+- Most importantly, we beg your patience: the team must balance your request against many other responsibilities — fixing other bugs, answering other questions, new features, new documentation, etc. The issue list is not paid support and we cannot make guarantees about how fast your issue can be resolved, although we do our very best.
 
 ## Helping to Resolve Existing Issues
 
-As a next step beyond reporting issues, you can help the core team resolve existing ones by providing feedback about them. If you are new to Quasar  development, that might be a great way to walk your first steps, you'll get familiar with the code base and the processes.
+As a next step beyond reporting issues, you can help the Quasar Team resolve existing ones by providing feedback about them. If you are new to Quasar  development, that might be a great way to walk your first steps, you'll get familiar with the code base and the processes.
 
 If you check the issues list in [GitHub Issues](https://github.com/quasarframework/quasar/issues), you'll find lots of issues already requiring attention. What can you do for these? Quite a bit, actually:
 
@@ -126,6 +125,7 @@ Make sure you have `dev` branch selected and this is where all the work is done.
 
 #### Clone the forked repository
 To be able to change the documentation, you need to clone forked repository:
+
 ```bash
 $ git clone https://github.com/your-user-name/quasar.git
 ```
@@ -134,14 +134,14 @@ $ git clone https://github.com/your-user-name/quasar.git
 
 Install the required dependencies.
 ```bash
-$ cd quasar
+$ cd quasar/docs
 $ yarn # or npm install
 ```
 
 #### Running documentation against your local repository
 
 ```bash
-$ quasar dev
+$ quasar dev # or quasar dev -m ssr
 ```
 
 The documentation runs against your local cloned repository.
@@ -151,6 +151,7 @@ The documentation runs against your local cloned repository.
 #### Commit your changes
 
 When you're happy with the change  on your computer, you need to commit the changes to Git:
+
 ```bash
 $ git commit -a
 ```
@@ -162,6 +163,7 @@ This should fire up your editor to write a commit message. When you have finishe
 It's pretty likely that other changes to master have happened while you were working. Go get them.
 
 1. Add a remote Quasar repository as an upstream
+
 ```bash
 $ git remote add upstream https://github.com/quasarframework/quasar.git
 ```
@@ -191,9 +193,9 @@ Ensure the changesets you introduced are included. Fill in some details about yo
 
 An easy way to start to contribute to Quasar is to generalize the code you have created on your project and publish it as a Quasar App Extension. Follow this guide on how to [create a new extension](../app-extensions/development-guide/introduction).
 
-When done, submit a PR on [Quasar Awesome](https://github.com/quasarframework/quasar-awesome/blob/master/README.md#community-app-extensions), share your achievement via [Quasar Forum](https://forum.quasar-framework.org/category/15/v1-app-extensions). After the review we will [publish your extension](../app-extensions/discover).
+When done, submit a PR on [Quasar Awesome](https://github.com/quasarframework/quasar-awesome/blob/master/README.md#community-app-extensions), share your achievement via [Quasar Forum](https://forum.quasar-framework.org/category/15/v1-app-extensions).
 
-## Contributing to the Quasar Core Source Code
+## Contributing to the Quasar UI Source Code
 
 As with any project, there are rules to contributing. Ours are written here, please read them carefully. After that, read the [Quasar code of conduct](https://github.com/quasarframework/quasar/blob/dev/.github/CODE_OF_CONDUCT.md) and you’ll be ready to contribute to Quasars’s core repositories.
 
@@ -210,19 +212,20 @@ An article [Look at the source code](https://medium.com/quasar-framework/wip-loo
 - It's OK to have multiple small commits as you work on the PR - we will let GitHub automatically squash it before merging.
 
 - If adding new feature:
-  - Provide convincing reason to add this feature. Ideally you should open a suggestion issue first and have it greenlighted before working on it.
+  * Provide convincing reason to add this feature. Ideally you should open a suggestion issue first and have it greenlighted before working on it.
 
 - If fixing a bug:
-  - If you are resolving a special issue, add `(fix: #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `fix: update entities encoding/decoding (fix #3899)`.
-  - Provide detailed description of the bug in the PR. Live demo preferred.
+  * If you are resolving a special issue, add `(fix: #xxxx[,#xxx])` (#xxxx is the issue id) in your PR title for a better release log, e.g. `fix: update entities encoding/decoding (fix #3899)`.
+  * Provide detailed description of the bug in the PR. Live demo preferred.
 
 #### Development Setup
 
-You will need [Node.js](http://nodejs.org) **version 8.9+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
+You will need [Node.js](http://nodejs.org) version **8.9+** along [Yarn](https://yarnpkg.com/) or [NPM](https://docs.npmjs.com/getting-started/installing-node). Read `package.json` and take notice of the scripts you can use.
 
-After cloning the repo, in each subfolder run:
+After cloning the repo run:
 
 ``` bash
+$ cd ui
 $ yarn # or: npm install
 ```
 
@@ -231,7 +234,7 @@ $ yarn # or: npm install
 ``` bash
 # Start dev server with a demo app. This app has Quasar source code linked directly so any change will trigger HMR (Hot Module Reload) on the dev server.
 # There's a section for each feature where tests are made.
-$ yarn dev [theme] # or: npm run dev [theme]
+$ yarn dev # or: npm run dev
 
 # build all dist files, including npm packages
 $ yarn build      # or: npm run build
@@ -250,17 +253,19 @@ $ yarn lint # or: npm run lint
 
 - **`src`**: contains the source code, obviously. The codebase is written in ES2015.
 
-  - **`components`**: JS and Stylus files (one for each theme) for Quasar Vue components
+  - **`components`**: JS, Stylus and JSON (API) files for Quasar Vue components
 
   - **`directives`**: Vue directives supplied by Quasar
 
-  - **`features`**: code for global features outside of the components
+  - **`plugins`**: Quasar plugins
 
   - **`css`**: Stylus definitions and core code for Quasar themes
 
+  - **`mixins`**: code for global mixins that are internal to Quasar
+
   - **`utils`**: utilities used by the framework and exported to the public API
 
-  - **`index.js`**: starting point for Quasar
+  - **`ie-compat`**: code for IE11 compatibility
 
 - **`lang`**: Quasar language packs
 
