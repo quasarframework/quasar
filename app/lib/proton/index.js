@@ -1,7 +1,4 @@
 const
-  fs = require('fs'),
-  fse = require('fs-extra'),
-  readline = require('readline'),
   chokidar = require('chokidar'),
   debounce = require('lodash.debounce')
 
@@ -68,14 +65,8 @@ class ProtonRunner {
     return startDevProton()
   }
 
-  build(quasarConfig) {
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      targets = [],
-      buildRsFile = appPaths.resolve.proton('build.rs'),
-      now = Date.now()
-
-    fs.utimes(buildRsFile, now, now, function (err) { if (err) throw err })
+  async build(quasarConfig) {
+    const cfg = quasarConfig.getBuildConfig()
 
     const buildFn = target => this.__runCargoCommand({
       cargoArgs: ['bundle']
@@ -83,43 +74,17 @@ class ProtonRunner {
         .concat(target ? ['--target', target] : [])
     })
 
-    if (cfg.ctx.debug) {
-      // on debug mode, build only for the current platform
+    if (cfg.ctx.debug || !cfg.ctx.targetName) {
+      // on debug mode or if not arget specified,
+      // build only for the current platform
       return buildFn()
     }
 
-    const cargoConfig = fse.createReadStream(
-      appPaths.resolve.proton('.cargo/config')
-    )
-    const rl = readline.createInterface({
-      input: cargoConfig,
-      output: () => {}
-    })
+    const targets = cfg.ctx.target.split(',')
 
-    rl.on('line', line => {
-      let matches = line.match(/\[target\.(\S+)\]/i)
-      if (matches) {
-        targets.push(matches[1])
-      }
-    })
-
-    return new Promise(resolve => {
-      // if the .cargo/config file is not found, build for the current platform
-      cargoConfig.on('error', async () => {
-        await buildFn()
-        resolve()
-      })
-
-      // build for all targets AND current platform,
-      // since it doesn't need to be configured on .cargo/config file
-      rl.on('close', async () => {
-        await buildFn()
-        for (const target of targets) {
-          await buildFn(target)
-        }
-        resolve()
-      })
-    })
+    for (const target of targets) {
+      await buildFn(target)
+    }
   }
 
   stop() {
