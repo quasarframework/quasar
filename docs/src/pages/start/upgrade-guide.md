@@ -996,12 +996,9 @@ The structure looks the same, but some functions have been renamed.
 
 - **replaced** by [QColor](/vue-components/color)
 - Type of `default-value` was changed from `string|object` to `string`
-
 <div class="row">
   <div class="inline-block q-pa-md">
-
 **QColor Properties**
-
 |Legacy|v1|
 |-|-|
 |`after`||
@@ -1026,28 +1023,21 @@ The structure looks the same, but some functions have been renamed.
 |`stack-label`||
 |`suffix`||
 |`warning`||
-
   </div>
   <div class="inline-block q-pa-md">
-
 **QColor Events**
-
 |Legacy|v1|
 |-|-|
 |`@clear(clearVal)`||
-
   </div>
   <div class="inline-block q-pa-md">
-
 **QColor Methods**
-
 |Legacy|v1|
 |-|-|
 |`clear()`||
 |`hide()`||
 |`show()`||
 |`toggle()`||
-
   </div>
 </div>
 

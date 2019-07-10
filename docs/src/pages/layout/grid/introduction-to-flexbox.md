@@ -11,7 +11,7 @@ Quasar provides lots of CSS classes to help you build your UI easily with the he
 Flexbox (upon which Quasar Flex CSS classes are based on) module aims at providing a more efficient way to lay out, align and distribute space among items in a container, even when their size is unknown and/or dynamic (thus the word “flex”).
 
 ::: tip
-This page covers the basic theory of Quasar Flex CSS classes and prepares you for the in-depth pages on [Grid Row](/layout/grid/row), [Grid Column](/layout/grid/column) and [Grid Gutter](/layouts/grid/gutter).
+This page covers the basic theory of Quasar Flex CSS classes and prepares you for the in-depth pages on [Grid Row](/layout/grid/row), [Grid Column](/layout/grid/column) and [Grid Gutter](/layout/grid/gutter).
 :::
 
 ## Key concept
