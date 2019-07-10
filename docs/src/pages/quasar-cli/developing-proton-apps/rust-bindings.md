@@ -19,31 +19,6 @@ At some point, learning about Rust will require a visit to the manual. Check it 
 
 ## Setting up
 
-### Installing Rust & Cargo
-It's pretty simple to get Rust and its dependency manager installed.
-
-#### *nix (MacOS, Linux) using bash
-```bash
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-::: warning
-We have audited this bash script, and it does what it says it is supposed to do. Nevertheless, before blindly curl-banging a script, it is always wise to look at it first. Here is file as a mere [download link](https://sh.rustup.rs).
-:::
-
-Make sure that `rustc` and `cargo` are in your $PATH.
-
-#### Windows 64 or 32 bit
-If you are running Windows 64-bit, download and run [rustup‑init.exe](https://win.rustup.rs/x86_64) and then follow the onscreen instructions.
-
-If you are running Windows 32-bit, download and run [rustup‑init.exe](https://win.rustup.rs/i686) and then follow the onscreen instructions.
-
-### IDE Integration
-- [VS Code](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust)
-- [IntelliJ](https://plugins.jetbrains.com/plugin/8182-rust)
-- [ATOM](https://github.com/rust-lang/atom-ide-rust)
-- [SUBLIME](https://github.com/rust-lang/rust-enhanced)
-- [VIM](https://github.com/rust-lang/rust.vim)
-- [EMACS](https://github.com/rust-lang/rust-mode)
 
 
 ## Introduction
