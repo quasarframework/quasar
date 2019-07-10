@@ -992,7 +992,7 @@ The structure looks the same, but some functions have been renamed.
   </div>
 </div>
 
-### QColorPicker
+#### QColorPicker
 - **replaced** by [QColor](/vue-components/color)
 - Type of `default-value` was changed from `string|object` to `string`
 <div class="row">
