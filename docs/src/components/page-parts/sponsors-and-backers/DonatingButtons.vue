@@ -6,7 +6,7 @@
       style="height: 65px; width: 250px;"
       no-caps
       type="a"
-      href="https://github.com/users/rstoenescu/sponsorship"
+      href="https://donate.quasar.dev"
       target="_blank"
       rel="noopener"
     >
