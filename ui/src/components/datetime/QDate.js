@@ -167,7 +167,7 @@ export default Vue.extend({
     evtFn () {
       return typeof this.events === 'function'
         ? this.events
-        : date => this.events.includes(date)
+        : date => this.events.includes(this.mask === 'YYYY/MM/DD' ? date : formatDate(new Date(date), this.mask))
     },
 
     evtColor () {
