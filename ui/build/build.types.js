@@ -57,21 +57,21 @@ function getTypeVal (def, required) {
     : convertTypeVal(def.type, def, required)
 }
 
-function getPropDefinition (key, propDef, required) {
+function getPropDefinition (key, propDef, required, isReadOnly = false) {
   const propName = toCamelCase(key)
 
   if (!propName.startsWith('...')) {
     const propType = getTypeVal(propDef, required)
     addToExtraInterfaces(propDef)
-    return `${propName}${!propDef.required && !required ? '?' : ''} : ${propType}`
+    return `${isReadOnly ? 'readonly ' : ''}${propName}${!propDef.required && !required ? '?' : ''} : ${propType}`
   }
 }
 
-function getPropDefinitions (propDefs, required) {
+function getPropDefinitions (propDefs, required, isReadOnly = false) {
   const defs = []
 
   for (const key in propDefs) {
-    const def = getPropDefinition(key, propDefs[key], required)
+    const def = getPropDefinition(key, propDefs[key], required, isReadOnly)
     def && defs.push(def)
   }
 
@@ -200,6 +200,10 @@ function writeIndexDTS (apis) {
 
       addToExtraInterfaces(returns, true)
     }
+
+    // Write Computed Props
+    const computed = getPropDefinitions(content.computed, content.type === 'plugin', true)
+    computed.forEach(comp => writeLine(contents, comp, 1))
 
     // Close class declaration
     writeLine(contents, `}`)

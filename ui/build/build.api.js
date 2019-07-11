@@ -35,9 +35,9 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
-  plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
-  directive: [ 'value', 'arg', 'modifiers' ]
+  plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods', 'computed' ],
+  component: [ 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods', 'computed' ],
+  directive: [ 'value', 'arg', 'modifiers', 'computed' ]
 }
 
 const objectTypes = {
@@ -140,6 +140,12 @@ const objectTypes = {
     props: [ 'tsInjectionPoint', 'desc', 'link', 'params', 'returns' ],
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint' ],
+    isObject: [ 'params', 'returns' ]
+  },
+
+  computed: {
+    props: [ 'desc', 'link', 'params', 'returns', 'category', 'type' ],
+    required: [ 'desc', 'type' ],
     isObject: [ 'params', 'returns' ]
   },
 
@@ -273,7 +279,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
     })
   }
 
-  ;[ 'params', 'definition', 'scope', 'props' ].forEach(prop => {
+  ;[ 'params', 'definition', 'scope', 'props', 'computed' ].forEach(prop => {
     if (!obj[prop]) { return }
 
     for (let item in obj[prop]) {
