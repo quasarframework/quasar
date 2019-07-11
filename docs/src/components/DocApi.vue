@@ -119,7 +119,8 @@ export default {
         props: null
       },
       filter: '',
-      filteredApi: {}
+      filteredApi: {},
+      api: {}
     }
   },
 

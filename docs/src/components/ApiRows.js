@@ -233,6 +233,18 @@ export default {
       return child
     },
 
+    computed (h, computed) {
+      const child = []
+
+      for (let propName in computed) {
+        child.push(
+          this.getProp(h, computed[propName], propName)
+        )
+      }
+
+      return child
+    },
+
     slots (h, slots) {
       const child = []
 
