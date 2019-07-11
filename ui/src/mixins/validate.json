@@ -2,7 +2,7 @@
   "props": {
     "error": {
       "type": "Boolean",
-      "desc": "Does field have validation errors?",
+      "desc": "External validation error trigger",
       "category": "behavior"
     },
 
@@ -35,6 +35,12 @@
       "category": "behavior"
     }
   },
+  
+  "computed": {
+    "hasError": {
+      "desc": "True if it fails the validation test"
+    }
+  }
 
   "methods": {
     "resetValidation": {
