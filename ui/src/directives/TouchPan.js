@@ -1,6 +1,6 @@
 import Platform from '../plugins/Platform.js'
 import { setObserver, removeObserver, getModifierDirections, updateModifiers } from '../utils/touch.js'
-import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent } from '../utils/event.js'
+import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function getChanges (evt, ctx, isFinal) {
@@ -147,6 +147,7 @@ export default {
       },
 
       start (evt, mouseEvent) {
+        Platform.is.firefox === true && preventDraggable(el, true)
         removeObserver(ctx)
         mouseEvent !== true && setObserver(el, evt, ctx)
 
@@ -238,6 +239,7 @@ export default {
           return
         }
 
+        Platform.is.firefox === true && preventDraggable(el, false)
         ctx.event.mouse !== true && removeObserver(ctx)
 
         document.documentElement.style.cursor = ''
@@ -286,6 +288,7 @@ export default {
     let ctx = el.__qtouchpan_old || el.__qtouchpan
 
     if (ctx !== void 0) {
+      Platform.is.firefox === true && preventDraggable(el, false)
       removeObserver(ctx)
 
       document.documentElement.style.cursor = ''

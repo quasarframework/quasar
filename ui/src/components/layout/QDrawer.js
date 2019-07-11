@@ -534,7 +534,7 @@ export default Vue.extend({
 
       this.mobileView === true ? h('div', {
         ref: 'backdrop',
-        staticClass: 'fullscreen q-drawer__backdrop q-layout__section--animate',
+        staticClass: 'fullscreen q-drawer__backdrop',
         class: this.backdropClass,
         style: this.lastBackdropBg !== void 0
           ? { backgroundColor: this.lastBackdropBg }
@@ -565,7 +565,7 @@ export default Vue.extend({
     }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-drawer q-layout__section--animate`,
+        staticClass: `q-drawer`,
         class: this.classes,
         style: this.style,
         on: this.onNativeEvents,

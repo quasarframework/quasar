@@ -29,9 +29,6 @@
             .q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
             div <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
 
-      .landing__arrow.absolute-bottom.text-center
-        q-icon(name="expand_more").text-h2.text-white
-
   section.padding.landing__front.text-center
     div
       div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
@@ -47,17 +44,20 @@
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
-        .feature-item.q-mx-md
-          img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
+        img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
       .col-12.text-center
         .q-gutter-lg
           q-icon(name="fab fa-apple")
           q-icon(name="fab fa-windows")
-          q-icon(name="fab fa-android")
           q-icon(name="fab fa-linux")
+          q-icon(name="fab fa-android")
+          q-icon(name="fab fa-chrome")
+          q-icon(name="fab fa-firefox")
+          q-icon(name="fab fa-edge")
+          q-icon(name="fab fa-safari")
       .col-12.text-center
         h4 All Platforms in One Go
-        p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
+        p One source code for all platforms simultaneously through Quasar CLI with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
 
   section.padding.bg-primary.landing__swirl-bg
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
@@ -160,13 +160,10 @@
   section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center
-        a(href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
+        a(href="https://github.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-github")
 
-        a(href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
-          q-icon(name="fab fa-twitter")
-
-        a(href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
+        a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-medium")
 
         a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
@@ -174,6 +171,12 @@
 
         a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
           q-icon(name="fas fa-comments")
+
+        a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="fab fa-twitter")
+
+        a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="fab fa-facebook")
 
         a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fas fa-medkit")
@@ -194,11 +197,12 @@
 
       q-space
 
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.quasar.dev", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://blog.quasar.dev", target="_blank", rel="noopener")
       q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank", rel="noopener")
-      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.quasar.dev", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-facebook", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
       q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter", rel="noopener")
 </template>
 
@@ -256,10 +260,6 @@ export default {
 
   &__hero
     min-height 100vh
-
-  &__arrow
-    bottom 8px
-    opacity .4
 
   &__front
     background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)

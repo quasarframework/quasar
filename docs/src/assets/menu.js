@@ -39,6 +39,11 @@ const gettingStarted = [
     path: 'roadmap'
   },
   {
+    name: 'Contribution Guide',
+    badge: 'new',
+    path: 'contribution-guide'
+  },
+  {
     name: 'Upgrade guide',
     path: 'upgrade-guide'
   }

@@ -47,7 +47,7 @@ Quasar was also built to encourage developers to follow web development best pra
  - Linting code
  - Accessibility features
 
-Quasar takes care of all these web develoment best parctices and more - **with no configuration needed**.
+Quasar takes care of all these web development best practices and more - **with no configuration needed**.
 
 #### App extensions support
 Quasar App Extensions are a way to painlessly inject complicated (or simple) setups into your websites/apps. And also, it's a way for our big community to contribute and to help you get up to speed even faster. **The patterns for development literally open the floodgates to making Quasar one of the most extensible and powerful frameworks out there** - limited only by your imagination and innovation.
@@ -81,7 +81,7 @@ Quasar projects have the ability to add Unit and End to End testing harnesses ou
 We are always paranoid about the security of Quasar and the security of apps built with Quasar. We are on a constant lookout to inform you about any security threats that you might need to know about. We have Security guidelines and we are even offering our security expertise through the Quasar Audit program.
 
 #### Awesome ever-growing community
-When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar.dev/) or our [Discord chat server](https://chat.quasar.dev). The community is there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.com/quasarframework). You can also get special service as a [backer/sponsor](https://donate.quasar.dev) and help make sure Quasar stays relevant for you in the future too!
+When developers encounter a problem they can’t solve, they can visit the Quasar [forum](https://forum.quasar.dev/) or our [Discord chat server](https://chat.quasar.dev). The community is there to help you. You can also get updates on new versions and features by following us on [Twitter](https://twitter.quasar.dev). You can also get special service as a [backer/sponsor](https://donate.quasar.dev) and help make sure Quasar stays relevant for you in the future too!
 
 #### A wide range of platform support
 Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry, MacOS, Linux, Windows.

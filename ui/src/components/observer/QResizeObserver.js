@@ -57,7 +57,7 @@ export default Vue.extend({
     __cleanup () {
       if (this.curDocView !== void 0) {
         this.curDocView.removeEventListener('resize', this.trigger, listenOpts.passive)
-        this.curDocView = null
+        this.curDocView = void 0
       }
     },
 

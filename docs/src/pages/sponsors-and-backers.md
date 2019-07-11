@@ -27,6 +27,6 @@ All donations are used for Quasar Development purposes exclusively.
 For a full list of our wonderful people who make Quasar happen, visit the [Backers](https://github.com/quasarframework/quasar/blob/dev/backers.md) page.
 :::
 
-## Silver, Gold and Platinum Sponsors
+## Platinum, Gold and Silver Sponsors
 
 <sponsor-list />
