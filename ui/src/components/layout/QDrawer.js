@@ -100,10 +100,10 @@ export default Vue.extend({
           this.largeScreenState = this.showing
         }
         // ensure we close it for small screen
-        this.hide(false)
+        this.__forceHide(false)
       }
       else if (this.overlay === false) { // from xs to lg
-        this[this.largeScreenState ? 'show' : 'hide'](false)
+        this[this.largeScreenState ? 'show' : '__forceHide'](false)
       }
     },
 
@@ -151,7 +151,7 @@ export default Vue.extend({
         this.persistent !== true &&
         (this.mobileOpened === true || this.onScreenOverlay === true)
       ) {
-        this.hide()
+        this.__forceHide()
       }
     },
 
@@ -361,6 +361,7 @@ export default Vue.extend({
           this.applyBackdrop(0)
           this.applyPosition(this.stateDirection * width)
           el.classList.remove('q-drawer--delimiter')
+          this.__forceHide()
         }
 
         return
@@ -398,9 +399,10 @@ export default Vue.extend({
           this.layout.__animate()
           this.applyBackdrop(1)
           this.applyPosition(0)
+          this.show()
         }
         else {
-          this.hide()
+          this.__forceHide()
         }
 
         return
@@ -420,7 +422,7 @@ export default Vue.extend({
 
       const otherSide = this.layout.instances[this.rightSide === true ? 'left' : 'right']
       if (otherSide !== void 0 && otherSide.mobileOpened === true) {
-        otherSide.hide(false)
+        otherSide.__forceHide(false)
       }
 
       if (this.belowBreakpoint === true) {
@@ -439,6 +441,15 @@ export default Vue.extend({
         this.__setScrollable(false)
         this.$emit('show', evt)
       }, duration)
+    },
+
+    __forceHide (evt = true) {
+      if (this.showing === true) {
+        this.hide(evt)
+      }
+      else {
+        this.__hide(evt)
+      }
     },
 
     __hide (evt = true) {
@@ -539,7 +550,7 @@ export default Vue.extend({
         style: this.lastBackdropBg !== void 0
           ? { backgroundColor: this.lastBackdropBg }
           : null,
-        on: { click: this.hide },
+        on: { click: this.__forceHide },
         directives
       }) : null
     ]
