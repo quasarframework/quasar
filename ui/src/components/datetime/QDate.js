@@ -179,7 +179,7 @@ export default Vue.extend({
     isInSelection () {
       return typeof this.options === 'function'
         ? this.options
-        : date => this.options.includes(date)
+        : date => this.options.includes(this.mask === 'YYYY/MM/DD' ? date : formatDate(new Date(date), this.mask))
     },
 
     days () {
