@@ -72,7 +72,7 @@ When using Quasar’s CLI, developers benefit from:
  - And many more leading-edge developer tools and techniques
 
 #### Get up to speed fast
-The top-class project intitialization feature of the CLI makes getting started very easy for you, as a developer. You can get your idea to reality in record time. In other words, Quasar does the heavy lifting for you, so you are free to focus on your features and not on boilerplate.
+The top-class project initialization feature of the CLI makes getting started very easy for you, as a developer. You can get your idea to reality in record time. In other words, Quasar does the heavy lifting for you, so you are free to focus on your features and not on boilerplate.
 
 #### Automated testing & audit
 Quasar projects have the ability to add Unit and End to End testing harnesses out of the box, as well as an ever-growing suite of product quality and security auditing tools. All this to ensure that your websites/apps have the highest quality possible.
