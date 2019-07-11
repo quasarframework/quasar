@@ -36,8 +36,26 @@
       </div>
 
       <q-tabs :dense="dense">
-        <q-tab label="Item one" />
-        <q-tab label="Item two" />
+        <q-tab label="Item one - tooltip">
+          <q-tooltip>
+            <q-icon name="wifi" /> Wifi
+          </q-tooltip>
+        </q-tab>
+        <q-tab label="Item two - menu">
+          <q-menu transition-show="jump-down">
+            <input v-model="gigi">
+            <q-list padding style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-popup
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-tab>
         <q-tab label="Item three" />
         <q-btn-dropdown stretch flat label="Dropdown">
           <q-list link>
