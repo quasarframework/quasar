@@ -27,6 +27,9 @@
           borderless
           :options="[
             { label: 'Material', value: 'material-icons' }
+            ,{ label: 'Material Outlined', value: 'material-icons-outlined' }
+            ,{ label: 'Material Round', value: 'material-icons-round' }
+            ,{ label: 'Material Sharp', value: 'material-icons-sharp' }
             ,{ label: 'MDI v3', value: 'mdi-v3' }
             ,{ label: 'Ionicons v4', value: 'ionicons-v4' }
             ,{ label: 'Fontawesome v5', value: 'fontawesome-v5' }

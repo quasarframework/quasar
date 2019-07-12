@@ -800,10 +800,10 @@
     babel-plugin-module-resolver "^3.2.0"
     babel-plugin-transform-imports "^1.5.1"
 
-"@quasar/extras@^1.1.4":
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.1.4.tgz#a51efa11b2dced4d4d99b1f0e0410254f2593852"
-  integrity sha512-W+BrplCY+UeEN4Lwy2GcQH5CR92CrqhD2YjlcoCSbCEkSna0A35Be3kJ23qqLUMh4iuyG3jLFI1y9nUENTZqTg==
+"@quasar/extras@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.2.0.tgz#46520c283aa82cc4bb65c7a7b6a6e048fb356335"
+  integrity sha512-DUo4KRayuwnMwzRK4vYjd6q6e6sGOkt5moD2Lz/q5PiPqvEjoNeQd9vcNPTqpSjWk7AUDVW4meDR2ThHyQMzAQ==
 
 "@types/estree@0.0.39":
   version "0.0.39"
