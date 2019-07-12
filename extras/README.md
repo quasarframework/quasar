@@ -29,6 +29,24 @@
 
 Why this package? Because it strips down unnecessary package files (so faster download times), all in one place, tested and ready to use with Quasar. One other reason is that the material icons npm package sometimes fails to be downloaded by NPM.
 
+### QIcon cheatsheet
+
+```html
+<q-icon name="..." />
+```
+
+| Name | Prefix | Examples | Notes |
+| --- | --- | --- | --- |
+| material-icons | *None* | thumb_up | Notice the underline character instead of dash or space |
+| material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space |
+| material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space |
+| material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space |
+| ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
+| fontawesome-v5 | fa[s,r,l,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
+| mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters |
+| eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
+| themify | ti- | ti-hand-point-up | Notice the use of dash characters |
+
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/quasarframework/quasar/blob/dev/backers.md).
 
