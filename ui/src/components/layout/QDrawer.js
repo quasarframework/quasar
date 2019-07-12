@@ -342,6 +342,12 @@ export default Vue.extend({
     },
 
     __openByTouch (evt) {
+      if (this.showing !== false) {
+        // some browsers might capture and trigger this
+        // even if Drawer has just been opened (but animation is still pending)
+        return
+      }
+
       const
         width = this.size,
         position = between(evt.distance.x, 0, width)
@@ -383,6 +389,12 @@ export default Vue.extend({
     },
 
     __closeByTouch (evt) {
+      if (this.showing !== true) {
+        // some browsers might capture and trigger this
+        // even if Drawer has just been closed (but animation is still pending)
+        return
+      }
+
       const
         width = this.size,
         dir = evt.direction === this.side,
