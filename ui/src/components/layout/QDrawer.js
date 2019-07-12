@@ -288,7 +288,9 @@ export default Vue.extend({
         return {
           '!click': e => { this.$emit('click', e) },
           mouseover: e => { this.$emit('mouseover', e) },
-          mouseout: e => { this.$emit('mouseout', e) }
+          mouseout: e => { this.$emit('mouseout', e) },
+          mouseenter: e => { this.$emit('mouseenter', e) },
+          mouseleave: e => { this.$emit('mouseleave', e) }
         }
       }
     }

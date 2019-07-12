@@ -43,12 +43,19 @@
         <div v-show="outerCondition">
           <div>Outer block</div>
           <q-slide-transition>
-            <div v-if="innerCondition">
-              Inner Block
+            <div v-show="innerCondition">
+              <img
+                class="responsive"
+                src="~assets/quasar.jpg"
+              >
             </div>
           </q-slide-transition>
         </div>
       </q-slide-transition>
+
+      <div style="height: 500px">
+        Scroll on purpose
+      </div>
     </div>
   </div>
 </template>
