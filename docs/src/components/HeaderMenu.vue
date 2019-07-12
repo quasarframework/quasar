@@ -91,11 +91,6 @@ div
           q-icon(name="fas fa-comments")
         q-item-section Forum
 
-      q-item(clickable, tag="a", href="https://stackoverflow.com/search?q=quasarframework", rel="noopener", target="_blank")
-        q-item-section.text-red(avatar)
-          q-icon(name="fab fa-stack-overflow")
-        q-item-section Stack Overflow
-
       q-item(clickable, tag="a", href="https://github.com/quasarframework", rel="noopener", target="_blank")
         q-item-section(avatar)
           q-icon(name="fab fa-github")

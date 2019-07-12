@@ -52,7 +52,7 @@
   "devDependencies": {
     "@babel/core": "^7.5.4",
     "@quasar/babel-preset-app": "^1.1.4",
-    "@quasar/extras": "^1.1.4",
+    "@quasar/extras": "^1.2.0",
     "autoprefixer": "^9.6.1",
     "babel-eslint": "^10.0.2",
     "babel-loader": "^8.0.6",
