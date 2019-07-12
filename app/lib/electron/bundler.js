@@ -2,7 +2,8 @@ const fs = require('fs')
 const
   appPath = require('../app-paths'),
   packagerVersion = '13.1.0',
-  getPackageJson = require('../helpers/get-package-json')
+  getPackageJson = require('../helpers/get-package-json'),
+  getPackage = require('../helpers/get-package'),
   log = require('../helpers/logger')('app:electron-bundle')
 
 function isValidName (bundlerName) {
@@ -22,7 +23,7 @@ function installBundler (bundlerName) {
   spawnSync(
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${version}`]),
-    appPaths.appDir,
+    appPath.appDir,
     () => warn(`Failed to install electron-${bundlerName}`)
   )
 }
@@ -69,11 +70,11 @@ module.exports.getDefaultName = function () {
 }
 
 module.exports.getBundler = function (bundlerName) {
-  return require(appPath.resolve.app(`node_modules/electron-${bundlerName}`))
+  return getPackage(`electron-${bundlerName}`)
 }
 
 module.exports.ensureBuilderCompatibility = function () {
-  if (fs.existsSync(appPaths.resolve.electron('icons/linux-256x256.png'))) {
+  if (fs.existsSync(appPath.resolve.electron('icons/linux-256x256.png'))) {
     console.log()
     console.log(`\n⚠️  electron-builder requires a change to your src-electron/icons folder:
   * replace linux-256x256.png with a 512x512 px png file named "linux-512x512.png"

@@ -29,6 +29,9 @@ export default Vue.extend({
     },
     textColor: String,
 
+    inputStyle: [Array, String, Object],
+    inputClass: [Array, String, Object],
+
     size: String,
 
     disable: Boolean,
@@ -207,9 +210,10 @@ export default Vue.extend({
           type: 'number',
           dense: true,
           value: this.newPage,
-          color: this.color,
           disable: this.disable,
-          borderless: true
+          borderless: true,
+          inputClass: this.inputClass,
+          inputStyle: this.inputStyle
         },
         attrs: {
           placeholder: this.inputPlaceholder,

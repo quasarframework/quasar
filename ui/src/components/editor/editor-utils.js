@@ -255,7 +255,9 @@ export function getLinkEditor (h, vm) {
               case 27: // ESCAPE key
                 prevent(event)
                 vm.caret.restore()
-                !vm.editLinkUrl && document.execCommand('unlink')
+                if (!vm.editLinkUrl || vm.editLinkUrl === 'https://') {
+                  document.execCommand('unlink')
+                }
                 vm.editLinkUrl = null
                 break
             }

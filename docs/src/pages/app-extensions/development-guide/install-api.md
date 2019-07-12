@@ -1,5 +1,6 @@
 ---
 title: App Extension Install API
+desc: The API for the install script of a Quasar App Extension. Initializes the app space by rendering or changing files and more.
 ---
 
 This page refers to `src/install.js` file which is executed on the installation of the App Extension only. Not all App Extensions will need an install -- this is an optional step.
@@ -17,7 +18,7 @@ module.exports = function (api) {
 Contains the `ext-id` (String) of this App Extension.
 
 ## api.prompts
-Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts).
+Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ## api.resolve
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
@@ -264,7 +265,7 @@ api.mergePersistentConf({
 ```
 
 ## api.onExitLog
-Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit.
+Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.
 
 ```js
 /**

@@ -14,7 +14,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
+      q-btn.q-ml-xs(v-show="hasRightDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
 
   q-drawer(
@@ -27,12 +27,13 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       .row.justify-center.q-my-lg
         q-btn(
           type="a"
-          href="https://www.patreon.com/quasarframework"
+          href="https://donate.quasar.dev"
           target="_blank"
+          rel="noopener"
           size="13px"
           color="primary"
-          icon="fab fa-patreon"
-          label="Become a Patron"
+          icon="favorite_border"
+          label="Donate to Quasar"
         )
 
       app-menu.q-my-lg
@@ -60,6 +61,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
   q-drawer(
     v-model="rightDrawerState"
+    v-if="hasRightDrawer"
     side="right"
     content-class="bg-grey-1"
     :width="180"
@@ -104,11 +106,6 @@ import HeaderMenu from 'components/HeaderMenu'
 export default {
   name: 'Layout',
 
-  meta: {
-    title: 'Welcome!',
-    titleTemplate: title => `${title} | Quasar Framework`
-  },
-
   components: {
     AppMenu,
     HeaderMenu
@@ -149,6 +146,10 @@ export default {
       set (val) {
         this.$store.commit('updateRightDrawerState', val)
       }
+    },
+
+    hasRightDrawer () {
+      return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
     }
   },
 

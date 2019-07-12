@@ -366,6 +366,39 @@
         </template>
       </q-select>
     </div>
+
+    <div class="q-my-md">
+      Label size
+    </div>
+    <div class="row q-col-gutter-y-sm">
+      <q-input style="width: 300px" v-bind="props" v-model="text" :label="longLabel" />
+      <q-separator vertical spaced inset />
+      <q-input style="width: 300px" v-bind="props" v-model="text" :label="longLabel">
+        <template #before>
+          <q-icon name="event" />
+        </template>
+
+        <template #prepend>
+          <q-icon name="event" />
+        </template>
+
+        <template #append>
+          <q-icon name="search" />
+        </template>
+
+        <template #after>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+      <q-separator vertical spaced inset />
+      <q-select style="width: 300px" v-bind="props" v-model="text" :options="options" :label="longLabel" hide-dropdown-icon />
+      <q-separator vertical spaced inset />
+      <q-select style="width: 300px" v-bind="props" v-model="text" :options="options" :label="longLabel" clearable hide-dropdown-icon />
+      <q-separator vertical spaced inset />
+      <q-select style="width: 300px" v-bind="props" v-model="text" :options="options" :label="longLabel" clearable />
+      <q-separator vertical spaced inset />
+      <q-select style="width: 300px" v-bind="props" v-model="text" :options="options" :label="longLabel" />
+    </div>
   </div>
 </template>
 
@@ -394,7 +427,9 @@ export default {
       fontSize: 14,
 
       text: '$$TSP',
-      options: ['$$TSP', '$$$$$']
+      options: ['$$TSP', '$$$$$'],
+
+      longLabel: 'A long label - 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     }
   },
 

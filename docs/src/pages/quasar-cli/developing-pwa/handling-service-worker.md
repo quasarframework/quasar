@@ -1,5 +1,6 @@
 ---
 title: Handling Service Worker
+desc: How to configure the service worker in a Quasar Progressive Web App.
 ---
 Here you'll learn how to interact with the Service Worker from within your website/app space. Remember, **service workers MUST be served over HTTPS**.
 
@@ -51,7 +52,7 @@ This file is automatically bundled into your website/app by Quasar CLI because i
 
 ## SSL certificate
 
-You may notice in some dev environments, that Workbox will not load your service workers during `quasar dev` if you are not using HTTPS to serve - even on localhost. You will see that there are two scripts that can't load. The Chrome browser console is relatively tight-lipped about this, but Firefox tells you what is going on. The three options you have are: 
+You may notice in some dev environments, that Workbox will not load your service workers during `quasar dev` if you are not using HTTPS to serve - even on localhost. You will see that there are two scripts that can't load. The Chrome browser console is relatively tight-lipped about this, but Firefox tells you what is going on. The three options you have are:
  - set quasar.conf.js > devServer > `https: true`
  - setup a loopback from localhost to 127.0.0.1 (but this is not without security implications)
  - serve your localhost over ngrok and use the https address that ngrok provides

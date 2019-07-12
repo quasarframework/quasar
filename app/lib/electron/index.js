@@ -7,7 +7,8 @@ const
   { spawn } = require('../helpers/spawn'),
   appPaths = require('../app-paths'),
   nodePackager = require('../helpers/node-packager'),
-  getPackageJson = require('../helpers/get-package-json')
+  getPackageJson = require('../helpers/get-package-json'),
+  getPackage = require('../helpers/get-package')
 
 class ElectronRunner {
   constructor () {
@@ -15,7 +16,7 @@ class ElectronRunner {
     this.watcher = null
   }
 
-  async run (quasarConfig) {
+  async run (quasarConfig, extraParams) {
     const url = quasarConfig.getBuildConfig().build.APP_URL
 
     if (this.pid) {
@@ -56,7 +57,7 @@ class ElectronRunner {
         }
 
         await this.__stopElectron()
-        this.__startElectron()
+        this.__startElectron(extraParams)
 
         resolve()
       })
@@ -151,14 +152,14 @@ class ElectronRunner {
     })
   }
 
-  __startElectron () {
+  __startElectron (extraParams) {
     log(`Booting up Electron process...`)
     this.pid = spawn(
-      require(appPaths.resolve.app('node_modules/electron')),
+      getPackage('electron'),
       [
         '--inspect=5858',
         appPaths.resolve.app('.quasar/electron/electron-main.js')
-      ],
+      ].concat(extraParams),
       appPaths.appDir,
       code => {
         if (code) {

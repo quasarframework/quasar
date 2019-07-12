@@ -25,13 +25,29 @@ function formatPublicPath (path) {
   if (!path) {
     return path
   }
-  if (!path.startsWith('/')) {
-    path = `/${path}`
-  }
+
   if (!path.endsWith('/')) {
     path = `${path}/`
   }
+
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    return path
+  }
+
+  if (!path.startsWith('/')) {
+    path = `/${path}`
+  }
+
   return path
+}
+
+function formatRouterBase (publicPath) {
+  if (!publicPath || !publicPath.startsWith('http')) {
+    return publicPath
+  }
+
+  const match = publicPath.match(/^(https?\:)\/\/(([^:\/?#]*)(?:\:([0-9]+))?)([\/]{0,1}[^?#]*)(\?[^#]*|)(#.*|)$/)
+  return formatPublicPath(match[5] || '')
 }
 
 function parseBuildEnv (env) {
@@ -462,6 +478,9 @@ class QuasarConfig {
       this.ctx.prod && cfg.build.publicPath && ['spa', 'pwa'].includes(this.ctx.modeName)
         ? formatPublicPath(cfg.build.publicPath)
         : (cfg.build.vueRouterMode !== 'hash' ? '/' : '')
+
+    cfg.build.vueRouterBase = formatRouterBase(cfg.build.publicPath)
+
     cfg.build.appBase = cfg.build.vueRouterMode === 'history'
       ? cfg.build.publicPath
       : ''
@@ -675,7 +694,7 @@ class QuasarConfig {
 
     cfg.build.env = merge(cfg.build.env, {
       VUE_ROUTER_MODE: `"${cfg.build.vueRouterMode}"`,
-      VUE_ROUTER_BASE: `"${cfg.build.publicPath}"`,
+      VUE_ROUTER_BASE: `"${cfg.build.vueRouterBase}"`,
       APP_URL: `"${cfg.build.APP_URL}"`
     })
 
@@ -748,6 +767,10 @@ class QuasarConfig {
             platform: cfg.ctx.targetName,
             arch: cfg.ctx.archName,
             config: cfg.electron.builder
+          }
+
+          if (cfg.ctx.publish) {
+            cfg.electron.builder.publish = cfg.ctx.publish
           }
 
           bundler.ensureBuilderCompatibility()

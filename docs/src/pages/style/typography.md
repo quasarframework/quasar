@@ -1,5 +1,6 @@
 ---
 title: Typography
+desc: The typography of a Quasar app and its helper CSS classes.
 components:
   - typography/TypographyHeadings
   - typography/TypographyWeights
@@ -19,10 +20,10 @@ We'll handle the typography supplied by Quasar in the sections below.
 | `text-left` | Align text to the left |
 | `text-center` | Align text to the center |
 | `text-justify` | Text will be justified |
-| `text-truncate` | Applies all CSS tweaks to truncate text when container is too small |
 | `text-bold` | Text will be in bold |
 | `text-italic` | Text will be in italic |
 | `text-no-wrap` | Non wrapable text (applies `white-space: nowrap`) |
+| `text-strike` | Applies `text-decoration: line-through` |
 | `text-uppercase` | Transform text to uppercase |
 | `text-lowercase` | Transform text to lowercase |
 | `text-capitalize` | Capitalize first letter of the text |

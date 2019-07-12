@@ -39,6 +39,11 @@ const gettingStarted = [
     path: 'roadmap'
   },
   {
+    name: 'Contribution Guide',
+    badge: 'new',
+    path: 'contribution-guide'
+  },
+  {
     name: 'Upgrade guide',
     path: 'upgrade-guide'
   }
@@ -300,8 +305,8 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Mobile Apps',
-    path: 'developing-mobile-apps',
+    name: 'Developing Cordova Apps',
+    path: 'developing-cordova-apps',
     children: [
       {
         name: 'Introduction',
@@ -423,6 +428,10 @@ const style = [
     path: 'shadows'
   },
   {
+    name: 'Breakpoints',
+    path: 'breakpoints'
+  },
+  {
     name: 'Visibility',
     path: 'visibility'
   },
@@ -483,6 +492,17 @@ const layout = [
   {
     name: 'Layout Page',
     path: 'page'
+  },
+  {
+    name: 'Layout Builder',
+    badge: 'new',
+    external: true,
+    path: '/layout-builder'
+  },
+  {
+    name: 'Layout Gallery',
+    badge: 'new',
+    path: 'gallery'
   },
   {
     name: 'Page Sticky',
@@ -894,6 +914,7 @@ const appExtensions = [
   },
   {
     name: 'Discover App Extensions',
+    badge: 'new',
     path: 'discover'
   },
   {
@@ -967,6 +988,18 @@ module.exports = [
     name: 'Why Donations Are Important',
     icon: 'assignment_late',
     path: 'why-donate'
+  },
+  {
+    name: 'Meet the Team',
+    badge: 'new',
+    icon: 'people',
+    path: 'meet-the-team'
+  },
+  {
+    name: 'Newsletter',
+    badge: 'new',
+    icon: 'email',
+    path: 'newsletter'
   },
   {
     name: 'Getting Started',

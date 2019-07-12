@@ -1,5 +1,6 @@
 ---
 title: Handling Webpack
+desc: How to manage Webpack in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
 ---
@@ -18,7 +19,10 @@ build: {
       enforce: 'pre',
       test: /\.(js|vue)$/,
       loader: 'eslint-loader',
-      exclude: /(node_modules|quasar)/
+      exclude: /(node_modules|quasar)/,
+      options: {
+        formatter: require('eslint').CLIEngine.getFormatter('stylish')
+      }
     })
   }
 }

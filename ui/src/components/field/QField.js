@@ -176,16 +176,20 @@ export default Vue.extend({
         return
       }
 
-      let target = this.$refs.target
-      if (target !== void 0) {
-        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target.focus()
-      }
+      this.__focus()
     },
 
     blur () {
       const el = document.activeElement
       this.$el.contains(el) && el.blur()
+    },
+
+    __focus () {
+      let target = this.$refs.target
+      if (target !== void 0) {
+        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target !== null && target.focus()
+      }
     },
 
     __getContent (h) {
@@ -202,6 +206,13 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
         }, this.__getControlContainer(h))
+      )
+
+      this.$scopedSlots.append !== void 0 && node.push(
+        h('div', {
+          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+          key: 'append'
+        }, this.$scopedSlots.append())
       )
 
       this.hasError === true && this.noErrorIcon === false && node.push(
@@ -221,8 +232,7 @@ export default Vue.extend({
           )
         )
       }
-
-      if (this.clearable === true && this.hasValue === true && this.editable === true) {
+      else if (this.clearable === true && this.hasValue === true && this.editable === true) {
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
             h(QIcon, {
@@ -235,13 +245,6 @@ export default Vue.extend({
           ])
         )
       }
-
-      this.$scopedSlots.append !== void 0 && node.push(
-        h('div', {
-          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-          key: 'append'
-        }, this.$scopedSlots.append())
-      )
 
       this.__getInnerAppend !== void 0 && node.push(
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
@@ -358,7 +361,7 @@ export default Vue.extend({
     },
 
     __getInnerAppendNode (h, key, content) {
-      return h('div', {
+      return content === null ? null : h('div', {
         staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
         key
       }, content)

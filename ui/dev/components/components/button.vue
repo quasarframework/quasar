@@ -33,7 +33,7 @@
       <div class="q-gutter-sm">
         <q-btn icon="fas fa-address-book" color="primary" />
         <q-btn round icon="fas fa-address-book" color="primary" />
-        <q-btn icon="phone" label="Phone" stack color="primary" />
+        <q-btn icon="phone" label="Phone" stack color="primary" style="width: 300px" />
       </div>
       <q-toolbar color="secondary" style="width: 500px">
         <q-btn :type="tag" flat dense round icon="menu" />

@@ -1,5 +1,6 @@
 ---
 title: Scroll Fire Directive
+desc: Vue directive that triggers an event when user scrolls and brings a component into view.
 related:
   - /vue-directives/scroll
 ---
@@ -21,7 +22,7 @@ For performance purposes, the scroll listener function injected is by default de
 :::
 
 ### Determining Scrolling Container
-Please read [here](/components/scroll-observer#Determining-Scrolling-Container) about how Quasar determines the container to attach scrolling events to.
+Please read [here](/vue-components/scroll-observer#Determining-Scrolling-Container) about how Quasar determines the container to attach scrolling events to.
 
 ## API
 <doc-api file="ScrollFire" />

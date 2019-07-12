@@ -1,5 +1,6 @@
 ---
 title: Boot files
+desc: Managing your startup code in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
 ---
@@ -78,6 +79,7 @@ Boot files fulfill one special purpose: they run code **before** the App's Vue r
 ### Examples of appropriate usage of boot files
 * Your Vue plugin has installation instructions, like needing to call `Vue.use()` on it.
 * Your Vue plugin requires instantiation of data that is added to the root instance - An example would be [vue-i18n](https://github.com/kazupon/vue-i18n/).
+* You want to add a global mixin using `Vue.mixin()`.
 * You want to add something to the Vue prototype for convenient access - An example would be to conveniently use `this.$axios` inside your Vue files instead of importing Axios in each such file.
 * You want to interfere with the router - An example would be to use `router.beforeEach` for authentication
 * You want to interfere with the Vuex store instance - An example would be to use `vuex-router-sync` package
@@ -114,7 +116,40 @@ The last step is to tell Quasar to use your new boot file. For this to happen yo
 
 ```js
 boot: [
-  '<name>' // references /src/boot/<name>.js
+  // references /src/boot/<name>.js
+  '<name>'
+]
+```
+
+When building a SSR app, you may want some boot files to run only on the server or only on the client, in which case you can do so like below:
+
+```js
+boot: [
+  {
+    server: false, // run on client-side only!
+    path: '<name>' // references /src/boot/<name>.js
+  },
+  {
+    client: false, // run on server-side only!
+    path: '<name>' // references /src/boot/<name>.js
+  }
+]
+```
+
+In case you want to specify boot files from node_modules, you can do so by prepending the path with `~` (tilde) character:
+
+```js
+boot: [
+  // boot file from an npm package
+  '~my-npm-package/some/file'
+]
+```
+
+If you want a boot file to be injected into your app only for a specific build type:
+
+```js
+boot: [
+  ctx.mode.electron ? 'some-file' : ''
 ]
 ```
 
@@ -194,7 +229,7 @@ Let's take the example of Axios. Sometimes you want to access your Axios instanc
 Consider the following boot file for axios:
 
 ```js
-// axios boot file file (src/boot/axios.js)
+// axios boot file (src/boot/axios.js)
 
 import axios from 'axios'
 

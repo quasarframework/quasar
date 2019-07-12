@@ -30,9 +30,30 @@
     display flex
     flex-direction column
 
+    > .scroll
+      position relative
+      background inherit
+
   &__menu--dark
     color white
     background $grey-9
+
+  &__options
+    &--content
+      position relative
+      background-color inherit
+
+    &--padding
+      background linear-gradient(
+        transparent,
+        transparent 20%,
+        rgba(128, 128, 128, .03) 20%,
+        rgba(128, 128, 128, .08) 50%,
+        rgba(128, 128, 128, .03) 80%,
+        transparent 80%,
+        transparent
+      )
+      background-size 100% 50px
 
 body.platform-ios .q-select__dialog
   max-height 50vh !important

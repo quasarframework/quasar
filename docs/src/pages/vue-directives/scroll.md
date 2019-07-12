@@ -1,5 +1,6 @@
 ---
 title: Directive v-scroll
+desc: Vue directive which triggers an event when user scrolls.
 related:
   - /vue-directives/scroll-fire
   - /vue-components/scroll-observer
@@ -64,7 +65,7 @@ export default {
 ```
 
 ### Determining Scrolling Container
-Please read [here](/components/scroll-observer#Determining-Scrolling-Container) about how Quasar determines the container to attach scrolling events to.
+Please read [here](/vue-components/scroll-observer#Determining-Scrolling-Container) about how Quasar determines the container to attach scrolling events to.
 
 ## API
 <doc-api file="Scroll" />

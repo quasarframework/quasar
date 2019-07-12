@@ -2,11 +2,14 @@ const
   host = process.env.HOST || '0.0.0.0',
   port = process.env.PORT || (process.env.QUASAR_SSR ? 8554 : 8080)
 
+const uri = `http://${host}:${port}`
+
 module.exports = {
   quasarVersion: require('../package.json').version,
   host,
   port,
-  uri: `http://${host}:${port}`,
+  uri,
+  displayURI: uri.replace(`//0.0.0.0:`, `//localhost:`),
   rtl: process.env.QUASAR_RTL !== void 0,
   devServerConfig: {
     publicPath: '/',

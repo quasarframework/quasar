@@ -1,5 +1,6 @@
 ---
 title: Why Donate?
+desc: Quasar Team's manifest on why it is essential to donate towards the development of the framework.
 components:
   - sponsors-and-backers/DonatingButtons
 ---
@@ -63,9 +64,11 @@ Even a small donation could mean a huge difference to them, not least because it
 ## Donating
 You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.
 
+Donating through the **Github Sponsorship is recommended** because Github will also match your donation (making it worth double your amount).
+
 <donating-buttons />
 
-All of your donations are used for Quasar Development purposes exclusively.
+All donations are used for Quasar Development purposes exclusively.
 
 ::: tip
 For a full list of our wonderful people who make Quasar happen, visit the [Backers](https://github.com/quasarframework/quasar/blob/dev/backers.md) page.

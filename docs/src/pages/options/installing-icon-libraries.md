@@ -1,5 +1,6 @@
 ---
 title: Installing Icon Libraries
+desc: How to use icon libraries in a Quasar app.
 related:
   - /options/quasar-icon-sets
   - /vue-components/icon
@@ -22,12 +23,15 @@ extras: [
 ]
 ```
 
-Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
+Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
 Adding more than one set (showing all options):
 ```js
 extras: [
   'material-icons',
+  'material-icons-outlined',
+  'material-icons-round',
+  'material-icons-sharp',
   'mdi-v3',
   'ionicons-v4',
   'eva-icons',
@@ -54,6 +58,12 @@ The example link tag below would include Fontawesome v5.6.3 icons. Do a Google s
   <!-- CDN example for Material Icons -->
   <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  >
+
+  <!-- CDN example for Material Icons Outlined (similar thing for Round and Sharp versions) -->
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
     rel="stylesheet"
   >
 

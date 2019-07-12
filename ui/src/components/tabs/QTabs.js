@@ -65,6 +65,7 @@ export default Vue.extend({
 
     vertical: Boolean,
     shrink: Boolean,
+    stretch: Boolean,
 
     activeColor: String,
     activeBgColor: String,
@@ -105,7 +106,7 @@ export default Vue.extend({
 
   watch: {
     value (name) {
-      this.__activateTab(name)
+      this.__activateTab(name, true, true)
     },
 
     activeColor (v) {
@@ -154,16 +155,19 @@ export default Vue.extend({
       return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
+        (this.stretch === true ? ' self-stretch' : '') +
         (this.vertical === true ? ' q-tabs--vertical' : '')
     }
   },
 
   methods: {
-    __activateTab (name) {
+    __activateTab (name, setCurrent, skipEmit) {
       if (this.tabs.current !== name) {
-        this.__animate(this.tabs.current, name)
-        this.tabs.current = name
-        this.$emit('input', name)
+        skipEmit !== true && this.$emit('input', name)
+        if (setCurrent === true || this.$listeners.input === void 0) {
+          this.__animate(this.tabs.current, name)
+          this.tabs.current = name
+        }
       }
     },
 
@@ -193,7 +197,7 @@ export default Vue.extend({
           }
 
           tabs.sort(bufferPrioritySort)
-          this.__activateTab(tabs.length === 0 ? null : tabs[0].name)
+          this.__activateTab(tabs.length === 0 ? null : tabs[0].name, true)
           this.buffer = this.buffer.map(bufferCleanSelected)
           this.bufferTimer = void 0
         }, 1)
@@ -202,8 +206,8 @@ export default Vue.extend({
 
     __updateContainer ({ width, height }) {
       const scroll = this.vertical === true
-        ? this.$refs.content.scrollHeight > height
-        : this.$refs.content.scrollWidth > width
+        ? this.$refs.content.scrollHeight > height + 1
+        : this.$refs.content.scrollWidth > width + 1
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
@@ -375,7 +379,7 @@ export default Vue.extend({
 
       h('div', {
         ref: 'content',
-        staticClass: 'q-tabs__content row no-wrap items-center',
+        staticClass: 'q-tabs__content row no-wrap items-center self-stretch',
         class: this.alignClass
       }, slot(this, 'default')),
 

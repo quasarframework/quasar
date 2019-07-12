@@ -130,7 +130,7 @@ export default Vue.extend({
     )
 
     return h('header', {
-      staticClass: 'q-header q-layout__section--marginal q-layout__section--animate',
+      staticClass: 'q-header q-layout__section--marginal',
       class: this.classes,
       style: this.style,
       on: {

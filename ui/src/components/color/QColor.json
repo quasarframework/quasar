@@ -8,7 +8,7 @@
 
     "default-value": {
       "type": "String",
-      "desc": "The default value to show when the model doesn't has one",
+      "desc": "The default value to show when the model doesn't have one",
       "examples": [ "default-value=\"#c0c0c0\"" ],
       "category": "model"
     },
@@ -23,23 +23,33 @@
 
     "format-model": {
       "type": "String",
-      "default": "auto",
       "desc": "Forces a certain model format upon the model",
+      "default": "auto",
       "values": [ "auto", "hex", "rgb", "hexa", "rgba" ],
       "examples": [ "hex" ],
       "category": "model"
     },
 
+    "palette": {
+      "type": "Array",
+      "desc": "Use a custom palette of colors for the palette tab",
+      "default": "(hard-coded palette)",
+      "examples": [
+        ":palette=\"[ '#019A9D', '#D9B801', 'rgb(23,120,0)', '#B2028A' ]\""
+      ],
+      "category": "content"
+    },
+
     "no-header": {
       "type": "Boolean",
       "desc": "Do not render header",
-      "category": "behavior"
+      "category": "content"
     },
 
     "no-footer": {
       "type": "Boolean",
       "desc": "Do not render footer; Useful when you want a specific view ('default-view' prop) and don't want the user to be able to switch it",
-      "category": "behavior"
+      "category": "content"
     },
 
     "disable": {

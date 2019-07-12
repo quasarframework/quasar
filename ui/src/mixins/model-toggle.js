@@ -54,6 +54,7 @@ export default {
 
       if (this.$options.modelToggle !== void 0 && this.$options.modelToggle.history === true) {
         this.__historyEntry = {
+          condition: () => { return this.persistent !== true },
           handler: this.hide
         }
         History.add(this.__historyEntry)

@@ -1,7 +1,8 @@
 ---
 title: Sponsors and Backers
+desc: The list of sponsors and backers who are donating to Quasar Framework development.
 components:
-  - sponsors-and-backers/Sponsor
+  - sponsors-and-backers/SponsorList
   - sponsors-and-backers/DonatingButtons
 ---
 
@@ -14,42 +15,18 @@ Like most open source products, Quasar can't do it alone. We rely on *sponsors, 
 Please read our manifesto on [Why donations are important](/why-donate).
 
 ## Donating
-You can help Quasar Development by making a monthly pledge through Patreon or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com`.
+You can help Quasar Development by making a monthly pledge through Github Sponsorship or send a one-time donation through Paypal. If you are representing a company who wants to become a **Sponsor** and need an invoice for your donations, please send an email to `razvan.stoenescu [at] gmail [dot] com` instead (or directly contact Razvan on our Discord).
+
+**For every $1 donated through Github Sponsorship, Github will also match your donation (making it worth double your amount) in our first year on the program, which will end in June 2020.**
 
 <donating-buttons />
 
-All of your donations are used for Quasar Development purposes exclusively.
+All donations are used for Quasar Development purposes exclusively.
 
 ::: tip
 For a full list of our wonderful people who make Quasar happen, visit the [Backers](https://github.com/quasarframework/quasar/blob/dev/backers.md) page.
 :::
 
-## Platinum Sponsors
+## Platinum, Gold and Silver Sponsors
 
-<div class="q-gutter-sm row items-start">
-  <sponsor img="think-health-data.png" name="Think Health Data" />
-
-  <sponsor img="truelogic.png" name="Truelogic" url="https://truelogic.com/" />
-
-  <sponsor img="taylored-technology.jpeg" name="Taylored Technology" url="https://tayloredtechnology.net/" />
-</div>
-
-## Gold Backers
-
-<div class="q-gutter-sm row">
-  <sponsor img="campus-cloud-services.png" name="Campus Cloud Services" url="http://campuscloudservices.com/" />
-
-  <sponsor img="juggle-street.png" name="Juggle Street" url="https://www.jugglestreet.com.au/" />
-
-  <sponsor img="com-com-services.png" name="Com Com Services" url="http://comcomservices.com/" />
-
-  <sponsor img="kalisio.png" name="Kalisio" url="https://kalisio.com/" />
-
-  <sponsor img="platform-purple.png" name="Platform Purple" url="https://platformpurple.com/" />
-
-  <sponsor img="bgasoft.png" name="BGASoft" url="https://www.bgasoft.com/" />
-
-  <sponsor img="letsbutterfly.png" name="LetsButterfly" url="https://www.letsbutterfly.com/" />
-
-  <sponsor img="project-finance.png" name="Project Finance" url="https://www.projectfinance.io/" />
-</div>
+<sponsor-list />

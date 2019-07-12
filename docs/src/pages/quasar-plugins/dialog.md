@@ -1,5 +1,6 @@
 ---
 title: Dialog Plugin
+desc: A Quasar plugin that provides an easy way to display a prompt, choice, confirmation or alert in the form of a dialog. 
 related:
   - /vue-components/dialog
   - /quasar-plugins/bottom-sheet
@@ -55,6 +56,11 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 <doc-example title="Radios, Checkboxes, Toggles" file="Dialog/Pickers" />
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
+
+### Using HTML
+You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
+
+<doc-example title="Unsafe HTML message" file="Dialog/UnsafeHtml" />
 
 ### Invoking custom component
 
@@ -131,7 +137,7 @@ export default {
       // required to be emitted
       // when QDialog emits "hide" event
       this.$emit('hide')
-    }
+    },
 
     onOKClick () {
       // on OK, it is REQUIRED to

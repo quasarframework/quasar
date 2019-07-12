@@ -407,6 +407,8 @@
 </template>
 
 <script>
+import getMeta from 'assets/get-meta.js'
+
 export default {
   created () {
     this.drawerBehaviorOptions = [
@@ -420,6 +422,15 @@ export default {
       { label: 'Elevated', value: 'elevated' },
       { label: 'Bordered', value: 'bordered' }
     ]
+  },
+
+  meta: {
+    title: 'Layout Builder',
+
+    meta: getMeta(
+      'Layout Builder | Quasar Framework',
+      'Tool to build Quasar layouts. Configure the layout parts then export the code.'
+    )
   },
 
   data () {
@@ -474,7 +485,13 @@ export default {
 
   computed: {
     isContracted () {
-      return this.$q.screen.lt.sm || (this.$q.screen.md && this.play.left && this.play.right)
+      return this.$q.screen.lt.sm === true || (
+        this.$q.screen.md === true &&
+        this.play.left === true &&
+        this.cfg.leftOverlay === false &&
+        this.play.right === true &&
+        this.cfg.rightOverlay === false
+      )
     },
 
     bgTopL () {

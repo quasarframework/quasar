@@ -1,5 +1,6 @@
 ---
 title: Icon
+desc: The QIcon Vue component allows you to insert icons within other components or any other area of your pages.
 related:
   - /options/installing-icon-libraries
   - /options/quasar-icon-sets
@@ -22,9 +23,16 @@ Make sure that you [installed the icon library](/options/installing-icon-librari
 
 ### Icons name cheatsheet
 
+```html
+<q-icon name="..." />
+```
+
 | Name | Prefix | Examples | Notes |
 | --- | --- | --- | --- |
 | material-icons | *None* | thumb_up | Notice the underline character instead of dash or space |
+| material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space; **Requires Quasar 1.0.5+** |
+| material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space; **Requires Quasar 1.0.5+** |
+| material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Requires Quasar 1.0.5+** |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v5 | fa[s,r,l,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
 | mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters |
