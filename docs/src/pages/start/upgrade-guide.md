@@ -474,9 +474,7 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Directives
 
-#### Back to Top
-
-- **was dropped** in favor of [Page Scroller](/layout/page-scroller)
+- BackToTop **was dropped** in favor of [Page Scroller](/layout/page-scroller).
 
 <div class="row">
   <div class="inline-block q-pa-md">
