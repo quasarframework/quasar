@@ -1,5 +1,3 @@
-$layout-transition = all .12s ease-in
-
 .q-layout
   width 100%
 
@@ -145,8 +143,18 @@ body.q-ios-padding
     padding-bottom env(safe-area-inset-bottom)
     min-height "calc(env(safe-area-inset-bottom) + %s)" % $toolbar-min-height
 
-.q-body--layout-animate .q-layout__section--animate
-  transition $layout-transition !important
+.q-body--layout-animate
+  .q-drawer__backdrop
+    transition background-color .12s !important
+  .q-drawer
+    transition transform .12s, width .12s, top .12s, bottom .12s !important
+  .q-layout__section--marginal
+    transition transform .12s, left .12s, right .12s !important
+  .q-page-container
+    transition padding-top .12s, padding-right .12s, padding-bottom .12s, padding-left .12s !important
+  .q-page-sticky
+    transition transform .12s, left .12s, right .12s, top .12s, bottom .12s !important
+
 .q-body--drawer-toggle
   overflow-x hidden !important
 

@@ -15,7 +15,7 @@ Since these assets may be inlined/copied/renamed during build, they are essentia
 
 ### Asset Resolving Rules
 
-Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependency. They will be replaced with a auto-generated URL based on your Webpack output configuration.
+Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependency. They will be replaced with an auto-generated URL based on your Webpack output configuration.
 
 URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. Quasar provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
 
@@ -35,6 +35,10 @@ Quasar has some smart algorithms behind the curtains which ensure that no matter
 ::: tip Assets vs Statics
 Files in the "assets" folder are only included in your build if they have a literal reference in one of your Vue files.
 Every file and folder from the "statics" folder are copied into your production build as-is, no matter what.
+:::
+
+::: danger
+When not building a SPA/PWA/SSR, then `/src/statics/icons/*` and `/src/statics/app-logo-128x128.png` will NOT be embedded into your app because they would not serve any purpose. For example, an Electron or Cordova apps do not require those files.
 :::
 
 ## Vue Binding Requires Statics Only

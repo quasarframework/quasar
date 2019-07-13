@@ -163,11 +163,32 @@ function addToExtraInterfaces (def, required) {
   }
 }
 
+function writeQuasarPluginProps (contents, nameName, props, isLast) {
+  writeLine(contents, `${nameName}: {`, 1)
+  props.forEach(prop => writeLine(contents, prop, 2))
+  writeLine(contents, `}${isLast ? '' : ','}`, 1)
+}
+
+function addQuasarPluginOptions (contents, components, directives, plugins) {
+  writeLine(contents, `export interface QuasarPluginOptions {`)
+  writeLine(contents, `lang: any,`, 1)
+  writeLine(contents, `config: any,`, 1)
+  writeLine(contents, `iconSet: any,`, 1)
+  writeQuasarPluginProps(contents, 'components', components)
+  writeQuasarPluginProps(contents, 'directives', directives)
+  writeQuasarPluginProps(contents, 'plugins', plugins, true)
+  writeLine(contents, `}`)
+  writeLine(contents)
+}
+
 function writeIndexDTS (apis) {
   var contents = []
   var quasarTypeContents = []
+  var components = []
+  var directives = []
+  var plugins = []
 
-  writeLine(contents, `import Vue, { VueConstructor } from 'vue'`)
+  writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)
@@ -178,8 +199,21 @@ function writeIndexDTS (apis) {
     const content = data.api
     const typeName = data.name
 
-    // Declare class
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
+    const typeValue = `${extendsVue ? `VueConstructor<${typeName}>` : typeName}`
+    // Add Type to the appropriate section of types
+    const propTypeDef = `${typeName}?: ${typeValue}`
+    if (content.type === 'component') {
+      write(components, propTypeDef)
+    }
+    else if (content.type === 'directive') {
+      write(directives, propTypeDef)
+    }
+    else if (content.type === 'plugin') {
+      write(plugins, propTypeDef)
+    }
+
+    // Declare class
     writeLine(quasarTypeContents, `export const ${typeName}: ${extendsVue ? `VueConstructor<${typeName}>` : typeName}`)
     writeLine(contents, `export interface ${typeName} ${extendsVue ? 'extends Vue ' : ''}{`)
 
@@ -255,7 +289,12 @@ function writeIndexDTS (apis) {
     writeLine(contents, '}')
   }
 
+  addQuasarPluginOptions(contents, components, directives, plugins)
+
   quasarTypeContents.forEach(line => write(contents, line))
+
+  writeLine(contents, `export const Quasar: PluginObject<Partial<QuasarPluginOptions>>`)
+  writeLine(contents)
 
   writeLine(contents, `import './vue'`)
 
