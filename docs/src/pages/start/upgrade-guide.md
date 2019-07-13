@@ -474,12 +474,15 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Directives
 
+- BackToTop **was dropped** in favor of [Page Scroller](/layout/page-scroller).
+
 <div class="row">
   <div class="inline-block q-pa-md">
 
 |Legacy|v1|
 |-|-|
 |`v-close-overlay`|`v-close-popup`|
+|`v-back-to-top`||
 
   </div>
 </div>
