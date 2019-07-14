@@ -19,7 +19,24 @@ class Mode {
     log('Creating Proton source folder...')
 
     fs.mkdirSync(appPaths.protonDir)
-    fse.copySync(appPaths.resolve.cli('templates/proton/rust'), appPaths.protonDir)
+    fse.copySync(appPaths.resolve.protonPackage('templates/rust'), appPaths.protonDir)
+    const files = require('fast-glob').sync(['**/_*'], {
+      cwd: appPaths.protonDir
+    })
+    for (const rawPath of files) {
+      const targetRelativePath = rawPath.split('/').map(name => {
+        // dotfiles are ignored when published to npm, therefore in templates
+        // we need to use underscore instead (e.g. "_gitignore")
+        if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
+          return `.${name.slice(1)}`
+        }
+        if (name.charAt(0) === '_' && name.charAt(1) === '_') {
+          return `${name.slice(1)}`
+        }
+        return name
+      }).join('/')
+      fse.renameSync(appPaths.resolve.proton(rawPath), appPaths.resolve.proton(targetRelativePath))
+    }
 
     log(`Proton support was installed`)
   }

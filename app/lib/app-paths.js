@@ -52,6 +52,7 @@ module.exports = {
     ssr: dir => join(ssrDir, dir),
     cordova: dir => join(cordovaDir, dir),
     electron: dir => join(electronDir, dir),
-    proton: dir => join(protonDir, dir)
+    proton: dir => join(protonDir, dir),
+    protonPackage: dir => join(cliDir, 'node_modules/@quasar/proton', dir)
   }
 }
