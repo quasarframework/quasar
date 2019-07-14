@@ -32,7 +32,7 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
         },
         {
             "language": "html",
-            "autoFix": true"
+            "autoFix": true
         },
         {
             "language": "javascript",
@@ -91,7 +91,7 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
         },
         {
             "language": "html",
-            "autoFix": true"
+            "autoFix": true
         },
         {
             "language": "javascript",
