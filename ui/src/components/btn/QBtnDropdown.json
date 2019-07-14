@@ -14,6 +14,12 @@
       "category": "content|behavior"
     },
 
+    "hover-reveal": {
+      "type": "Boolean",
+      "desc": "Reveals the dropdown when the button is hovered (ignored when 'split' prop is used)",
+      "category": "behavior"
+    },
+
     "disable-main-btn": {
       "type": "Boolean",
       "desc": "Disable main button (useful along with 'split' prop)",
