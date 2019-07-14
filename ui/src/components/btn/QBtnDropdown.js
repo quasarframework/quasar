@@ -183,7 +183,7 @@ export default Vue.extend({
 
   methods: {
     toggle (evt) {
-      if(this.$refs.menu){
+      if (this.$refs.menu) {
         this.$refs.menu.toggle(evt)
       }
     },
@@ -194,18 +194,18 @@ export default Vue.extend({
       this.$refs.menu && this.$refs.menu.hide(evt)
     },
     hoverShow (evt) {
-      if(this.hoverReveal === true){
-        clearTimeout(this.timeout);
+      if (this.hoverReveal === true) {
+        clearTimeout(this.timeout)
         this.timeout = setTimeout(() => {
-          this.show(e)
-        }, 0);
+          this.show(evt)
+        }, 0)
       }
     },
     hoverHide (evt) {
-      if(this.hoverReveal === true){
-        clearTimeout(this.timeout);
+      if (this.hoverReveal === true) {
+        clearTimeout(this.timeout)
         this.timeout = setTimeout(() => {
-          this.hide(e)
+          this.hide(evt)
         }, 0)
       }
     }
