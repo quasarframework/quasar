@@ -38,6 +38,28 @@
       </q-list>
     </q-btn-dropdown>
 
+    <q-btn-dropdown hover-reveal label="Hover to reveal" style="margin: 15px">
+      <q-list>
+        <q-item clickable v-close-popup @click="showNotification">
+          <q-item-section>
+            <q-item-label>Photos</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup @click="showNotification">
+          <q-item-section>
+            <q-item-label>Videos</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item clickable v-close-popup @click="showNotification">
+          <q-item-section>
+            <q-item-label>Articles</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
+
     <q-btn-dropdown no-caps @show="log('open')" @hide="log('close')" @click="log('click')" color="primary" glossy style="margin: 15px">
       <template v-slot:label>
         <div class="row items-center no-wrap">
