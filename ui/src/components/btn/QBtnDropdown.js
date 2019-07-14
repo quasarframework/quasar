@@ -17,6 +17,7 @@ export default Vue.extend({
   props: {
     value: Boolean,
     split: Boolean,
+    hoverReveal: Boolean,
 
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
@@ -39,7 +40,8 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: this.value
+      showing: this.value,
+      timeout: null
     }
   },
 
@@ -96,6 +98,12 @@ export default Vue.extend({
           hide: e => {
             this.$emit('hide', e)
             this.$emit('input', false)
+          },
+          'mouse-enter': e => {
+            this.hoverShow(e)
+          },
+          'mouse-leave': e => {
+            this.hoverHide(e)
           }
         }
       }, slot(this, 'default'))
@@ -113,6 +121,12 @@ export default Vue.extend({
         on: {
           click: e => {
             this.$emit('click', e)
+          },
+          'mouse-over': e => {
+            this.hoverShow(e)
+          },
+          'mouse-leave': e => {
+            this.hoverHide(e)
           }
         }
       }, label.concat(Arrow))
@@ -169,13 +183,31 @@ export default Vue.extend({
 
   methods: {
     toggle (evt) {
-      this.$refs.menu && this.$refs.menu.toggle(evt)
+      if(this.$refs.menu){
+        this.$refs.menu.toggle(evt)
+      }
     },
     show (evt) {
       this.$refs.menu && this.$refs.menu.show(evt)
     },
     hide (evt) {
       this.$refs.menu && this.$refs.menu.hide(evt)
+    },
+    hoverShow (evt) {
+      if(this.hoverReveal === true){
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+          this.show(e)
+        }, 0);
+      }
+    },
+    hoverHide (evt) {
+      if(this.hoverReveal === true){
+        clearTimeout(this.timeout);
+        this.timeout = setTimeout(() => {
+          this.hide(e)
+        }, 0)
+      }
     }
   },
 
