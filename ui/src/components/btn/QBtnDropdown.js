@@ -99,10 +99,10 @@ export default Vue.extend({
             this.$emit('hide', e)
             this.$emit('input', false)
           },
-          'mouse-enter': e => {
+          mouseenter: e => {
             this.hoverShow(e)
           },
-          'mouse-leave': e => {
+          mouseleave: e => {
             this.hoverHide(e)
           }
         }
@@ -122,10 +122,10 @@ export default Vue.extend({
           click: e => {
             this.$emit('click', e)
           },
-          'mouse-over': e => {
+          mouseover: e => {
             this.hoverShow(e)
           },
-          'mouse-leave': e => {
+          mouseleave: e => {
             this.hoverHide(e)
           }
         }
