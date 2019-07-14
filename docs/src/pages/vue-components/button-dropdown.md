@@ -20,6 +20,8 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 
 <doc-example title="Split" file="QBtnDropdown/Split" />
 
+<doc-example title="Hover to reveal" file="QBtnDropdown/HoverReveal" />
+
 <doc-example title="Custom button" file="QBtnDropdown/CustomButton" />
 
 <doc-example title="Label slot" file="QBtnDropdown/LabelSlot" />
