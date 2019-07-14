@@ -1,4 +1,4 @@
-import QIcon from './QIcon.js'
+import QIcon from './QIcon-su.js'
 
 export {
   QIcon
