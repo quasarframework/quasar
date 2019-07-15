@@ -20,6 +20,22 @@
 .fixed-bottom-right
   position fixed
 
+@supports (-webkit-overflow-scrolling: touch)
+  /* CSS specific to iOS devices */
+  .fixed,
+  .fixed-full,
+  .fullscreen,
+  .fixed-center,
+  .fixed-bottom,
+  .fixed-left,
+  .fixed-right,
+  .fixed-top,
+  .fixed-top-left,
+  .fixed-top-right,
+  .fixed-bottom-left,
+  .fixed-bottom-right
+    transform: translate3d(0, 0, 0)
+
 .absolute,
 .absolute-full,
 .absolute-center,
