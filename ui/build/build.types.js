@@ -202,7 +202,7 @@ function writeIndexDTS (apis) {
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
     const typeValue = `${extendsVue ? `VueConstructor<${typeName}>` : typeName}`
     // Add Type to the appropriate section of types
-    const propTypeDef = `${typeName}: ${typeValue}`
+    const propTypeDef = `${typeName}?: ${typeValue}`
     if (content.type === 'component') {
       write(components, propTypeDef)
     }
@@ -293,7 +293,7 @@ function writeIndexDTS (apis) {
 
   quasarTypeContents.forEach(line => write(contents, line))
 
-  writeLine(contents, `export const Quasar: PluginObject<QuasarPluginOptions>`)
+  writeLine(contents, `export const Quasar: PluginObject<Partial<QuasarPluginOptions>>`)
   writeLine(contents)
 
   writeLine(contents, `import './vue'`)

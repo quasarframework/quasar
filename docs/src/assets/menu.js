@@ -46,6 +46,11 @@ const gettingStarted = [
   {
     name: 'Upgrade guide',
     path: 'upgrade-guide'
+  },
+  {
+    name: 'VS Code Configuration',
+    badge: 'new',
+    path: 'vs-code-configuration'
   }
 ]
 

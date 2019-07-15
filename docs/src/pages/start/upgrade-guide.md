@@ -252,7 +252,7 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 ### Misc
 
 - `this.$q.i18n` was changed to `this.$q.lang`
-- `import(`quasar-framework/i18n/${lang}`) was changed to `import(`quasar/lang/${lang}`)` where `${lang}` would be `en-us` etc.
+- ```import(`quasar-framework/i18n/${lang}`)``` was changed to ```import(`quasar/lang/${lang}`)``` where `${lang}` would be `en-us` etc.
 - `this.$q.icons` was changed to `this.$q.iconSet`
 - In previous versions you would access an imported language packs isoName with:
 
@@ -375,10 +375,6 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 |`.capitalize`|`.text-capitalize`|
 |`.lowercase`|`.text-lowercase`|
 |`.uppercase`|`.text-uppercase`|
-|`.round-borders`|`.rounded-borders`|
-||`.no-border`|
-||`.no-border-radius`|
-||`.no-box-shadow`|
 
   </div>
   <div class="inline-block q-pa-md">
@@ -412,6 +408,9 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 |Legacy|v1|
 |-|-|
 |`.round-borders`|`.rounded-borders`|
+||`.no-border`|
+||`.no-border-radius`|
+||`.no-box-shadow`|
 
   </div>
 </div>
@@ -474,12 +473,15 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Directives
 
+- BackToTop **was dropped** in favor of [Page Scroller](/layout/page-scroller).
+
 <div class="row">
   <div class="inline-block q-pa-md">
 
 |Legacy|v1|
 |-|-|
 |`v-close-overlay`|`v-close-popup`|
+|`v-back-to-top`||
 
   </div>
 </div>
