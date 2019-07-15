@@ -375,10 +375,6 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 |`.capitalize`|`.text-capitalize`|
 |`.lowercase`|`.text-lowercase`|
 |`.uppercase`|`.text-uppercase`|
-|`.round-borders`|`.rounded-borders`|
-||`.no-border`|
-||`.no-border-radius`|
-||`.no-box-shadow`|
 
   </div>
   <div class="inline-block q-pa-md">
@@ -412,6 +408,9 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 |Legacy|v1|
 |-|-|
 |`.round-borders`|`.rounded-borders`|
+||`.no-border`|
+||`.no-border-radius`|
+||`.no-box-shadow`|
 
   </div>
 </div>
