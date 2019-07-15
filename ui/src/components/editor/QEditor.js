@@ -130,7 +130,7 @@ export default Vue.extend({
         h4: { cmd: 'formatBlock', param: 'H4', icon: i.header, tip: e.header4, htmlTip: `<h4 class="q-ma-none">${e.header4}</h4>` },
         h5: { cmd: 'formatBlock', param: 'H5', icon: i.header, tip: e.header5, htmlTip: `<h5 class="q-ma-none">${e.header5}</h5>` },
         h6: { cmd: 'formatBlock', param: 'H6', icon: i.header, tip: e.header6, htmlTip: `<h6 class="q-ma-none">${e.header6}</h6>` },
-        p: { cmd: 'formatBlock', param: 'DIV', icon: i.header, tip: e.paragraph },
+        p: { cmd: 'formatBlock', param: 'P', icon: i.header, tip: e.paragraph },
         code: { cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${e.code}</code>` },
 
         'size-1': { cmd: 'fontSize', param: '1', icon: i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>` },
