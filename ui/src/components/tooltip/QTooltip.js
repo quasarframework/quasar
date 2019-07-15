@@ -56,12 +56,6 @@ export default Vue.extend({
     }
   },
 
-  watch: {
-    $route () {
-      this.hide()
-    }
-  },
-
   computed: {
     anchorOrigin () {
       return parsePosition(this.anchor)
@@ -76,12 +70,6 @@ export default Vue.extend({
     __show (evt) {
       clearTimeout(this.timer)
 
-      this.scrollTarget = getScrollTarget(this.anchorEl)
-      this.scrollTarget.addEventListener('scroll', this.hide, listenOpts.passive)
-      if (this.scrollTarget !== window) {
-        window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
-      }
-
       this.__showPortal()
 
       this.timer = setTimeout(() => {
@@ -89,6 +77,7 @@ export default Vue.extend({
 
         this.timer = setTimeout(() => {
           this.$emit('show', evt)
+          this.__configureScrollTarget()
         }, 300)
       }, 0)
     },
@@ -104,13 +93,7 @@ export default Vue.extend({
 
     __anchorCleanup () {
       clearTimeout(this.timer)
-
-      if (this.scrollTarget) {
-        this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        if (this.scrollTarget !== window) {
-          window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        }
-      }
+      this.__unconfigureScrollTarget()
     },
 
     updatePosition () {
@@ -122,6 +105,8 @@ export default Vue.extend({
         }, 25)
         return
       }
+
+      if (this.anchorEl === void 0) { return }
 
       setPosition({
         el,
@@ -166,6 +151,8 @@ export default Vue.extend({
     },
 
     __configureAnchorEl () {
+      if (this.noParentEvent === true) { return }
+
       // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile) {
         this.anchorEl.addEventListener('touchstart', this.__delayShow)
@@ -179,6 +166,26 @@ export default Vue.extend({
 
       if (this.$q.platform.is.ios !== true) {
         this.anchorEl.addEventListener('mouseleave', this.__delayHide)
+      }
+    },
+
+    __unconfigureScrollTarget () {
+      if (this.scrollTarget !== void 0) {
+        this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
+        window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
+        this.scrollTarget = void 0
+      }
+    },
+
+    __configureScrollTarget () {
+      if (this.anchorEl !== void 0) {
+        this.scrollTarget = getScrollTarget(this.anchorEl)
+        if (this.noParentEvent !== true) {
+          this.scrollTarget.addEventListener('scroll', this.hide, listenOpts.passive)
+        }
+        if (this.noParentEvent === true || this.scrollTarget !== window) {
+          window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
+        }
       }
     },
 

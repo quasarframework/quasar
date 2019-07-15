@@ -31,7 +31,6 @@ export default Vue.extend({
     persistent: Boolean,
     autoClose: Boolean,
 
-    noParentEvent: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
 
@@ -95,19 +94,6 @@ export default Vue.extend({
     }
   },
 
-  watch: {
-    noParentEvent (val) {
-      if (this.anchorEl !== void 0) {
-        if (val === true) {
-          this.__unconfigureAnchorEl()
-        }
-        else {
-          this.__configureAnchorEl()
-        }
-      }
-    }
-  },
-
   methods: {
     focus () {
       let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
@@ -125,12 +111,6 @@ export default Vue.extend({
         ? document.activeElement
         : void 0
 
-      this.scrollTarget = getScrollTarget(this.anchorEl)
-      this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
-      if (this.scrollTarget !== window) {
-        window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
-      }
-
       EscapeKey.register(this, () => {
         if (this.persistent !== true) {
           this.$emit('escape-key')
@@ -140,6 +120,7 @@ export default Vue.extend({
 
       this.__showPortal()
       this.__registerTree()
+      this.__configureScrollTarget()
 
       this.timer = setTimeout(() => {
         const { top, left } = this.anchorEl.getBoundingClientRect()
@@ -201,10 +182,25 @@ export default Vue.extend({
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
         this.__unregisterTree()
+        this.__unconfigureScrollTarget()
+      }
+    },
 
+    __unconfigureScrollTarget () {
+      if (this.scrollTarget !== void 0) {
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
         if (this.scrollTarget !== window) {
           window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
+        }
+      }
+    },
+
+    __configureScrollTarget () {
+      if (this.anchorEl !== void 0) {
+        this.scrollTarget = getScrollTarget(this.anchorEl)
+        this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
+        if (this.scrollTarget !== window) {
+          window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
         }
       }
     },

@@ -49,12 +49,6 @@
       "category": "position"
     },
 
-    "no-parent-event":{
-      "type": "Boolean",
-      "desc": "Skips attaching events to the target DOM element (that trigger the menu to get shown)",
-      "category": "behavior"
-    },
-
     "touch-position": {
       "type": "Boolean",
       "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",

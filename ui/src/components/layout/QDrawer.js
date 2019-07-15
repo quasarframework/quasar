@@ -146,15 +146,6 @@ export default Vue.extend({
       this.__update('space', val)
     },
 
-    $route () {
-      if (
-        this.persistent !== true &&
-        (this.mobileOpened === true || this.onScreenOverlay === true)
-      ) {
-        this.hide()
-      }
-    },
-
     rightSide () {
       this.applyPosition()
     },
@@ -293,6 +284,11 @@ export default Vue.extend({
           mouseleave: e => { this.$emit('mouseleave', e) }
         }
       }
+    },
+
+    navigationHideCondition () {
+      return this.persistent !== true &&
+        (this.mobileOpened === true || this.onScreenOverlay === true)
     }
   },
 

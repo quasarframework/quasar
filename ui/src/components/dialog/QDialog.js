@@ -77,13 +77,6 @@ export default Vue.extend({
   },
 
   watch: {
-    $route () {
-      this.persistent !== true &&
-        this.noRouteDismiss !== true &&
-        this.seamless !== true &&
-        this.hide()
-    },
-
     showing (val) {
       if (this.position !== 'standard' || this.transitionShow !== this.transitionHide) {
         this.$nextTick(() => {
@@ -130,6 +123,12 @@ export default Vue.extend({
 
     useBackdrop () {
       return this.showing === true && this.seamless !== true
+    },
+
+    navigationHideCondition () {
+      return this.persistent !== true &&
+        this.noRouteDismiss !== true &&
+        this.seamless !== true
     }
   },
 
@@ -335,10 +334,6 @@ export default Vue.extend({
     __onPortalClose (evt) {
       this.hide(evt)
     }
-  },
-
-  mounted () {
-    this.value === true && this.show()
   },
 
   beforeDestroy () {
