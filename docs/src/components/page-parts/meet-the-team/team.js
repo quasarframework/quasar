@@ -156,5 +156,14 @@ export default [
     avatar: 'stanislav_valasek.jpg',
     github: 'valasek',
     desc: 'Marketing, Open Source Compliance, Community experience.'
+  },
+
+  {
+    name: 'Patrick Monteiro',
+    role: 'Community Staff',
+    avatar: 'patrick_monteiro.png',
+    github: 'patrickmonteiro',
+    twitter: 'monteiropatrick',
+    desc: 'Help Desk e writes articles.'
   }
 ]
