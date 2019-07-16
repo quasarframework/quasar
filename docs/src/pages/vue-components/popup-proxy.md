@@ -30,5 +30,9 @@ Keep in mind that all props from both [QMenu](/vue-components/menu) and [QDialog
 
 <doc-example title="Props from QMenu or QDialog" file="QPopupProxy/Passthrough" />
 
+::: warning
+QPopupProxy treats some components ([QDate](/vue-components/date), [QTime](/vue-components/time), [QCarousel](/vue-components/carousel) and [QColor](/vue-components/color-picker)) as special ones and forces `cover: true` and `maxHeight: '99vh'` on them. If you don't want this behavior just place a `div` as the first level child of QPopupProxy.
+:::
+
 ## QPopupProxy API
 <doc-api file="QPopupProxy" />
