@@ -764,9 +764,23 @@ class QuasarConfig {
         }
         else {
           cfg.electron.builder = {
-            platform: cfg.ctx.targetName,
-            arch: cfg.ctx.archName,
             config: cfg.electron.builder
+          }
+
+          if (cfg.ctx.targetName === 'mac' || cfg.ctx.targetName === 'darwin' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.mac = []
+          }
+
+          if (cfg.ctx.targetName === 'linux' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.linux = []
+          }
+
+          if (cfg.ctx.targetName === 'win' || cfg.ctx.targetName === 'win32' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.win = []
+          }
+
+          if (cfg.ctx.archName) {
+            cfg.electron.builder[cfg.ctx.archName] = true
           }
 
           if (cfg.ctx.publish) {
