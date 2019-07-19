@@ -33,7 +33,7 @@ Let’s take an example of configuring the `columns` property. We are going to t
 columns: [ // array of Objects
   // column Object definition
   {
-    // unique id (used by row-key, pagination.sortBy, ...)
+    // unique id (used by pagination.sortBy, QTable slot "body-cell-[name]", ...)
     name: 'desc',
 
     // label for header
