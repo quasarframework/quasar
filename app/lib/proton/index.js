@@ -68,8 +68,14 @@ class ProtonRunner {
   async build(quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
 
+    const features = []
+    if (cfg.proton.serverless) {
+      features.push('serverless')
+    }
+
     const buildFn = target => this.__runCargoCommand({
-      cargoArgs: ['bundle']
+      cargoArgs: [cfg.proton.bundle ? 'bundle' : 'build']
+        .concat(features.length ? ['--features', ...features] : [])
         .concat(cfg.ctx.debug ? [] : ['--release'])
         .concat(target ? ['--target', target] : [])
     })

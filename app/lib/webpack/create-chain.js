@@ -34,7 +34,7 @@ module.exports = function (cfg, configName) {
           : cfg.build.distDir
       )
       .publicPath(cfg.build.publicPath)
-      .filename(`js/[name]${fileHash}.js`)
+      .filename(cfg.ctx.mode.proton && cfg.proton.serverless ? `js/app.js` : `js/[name]${fileHash}.js`)
       .chunkFilename(`js/[name]${chunkHash}.js`)
   }
 
@@ -120,7 +120,7 @@ module.exports = function (cfg, configName) {
       .loader('babel-loader')
         .options({
           extends: appPaths.resolve.app('babel.config.js'),
-          plugins: cfg.framework.all !== true && configName !== 'Server' ? [
+          plugins: (cfg.framework.all !== true && configName !== 'Server' ? [
             [
               'transform-imports', {
                 quasar: {
@@ -129,7 +129,13 @@ module.exports = function (cfg, configName) {
                 }
               }
             ]
-          ] : []
+          ] : []).concat(cfg.ctx.mode.proton ? [
+            [
+              'system-import-transformer', {
+                modules: 'common'
+              }
+            ]
+          ] : [])
         })
 
   chain.module.rule('images')
@@ -229,33 +235,60 @@ module.exports = function (cfg, configName) {
         rem = cfg.vendor.remove,
         regex = /[\\/]node_modules[\\/]/
 
-      chain.optimization
-        .splitChunks({
-          cacheGroups: {
-            vendors: {
-              name: 'vendor',
-              chunks: 'initial',
-              priority: -10,
-              // a module is extracted into the vendor chunk if...
-              test: add.length > 0 || rem.length > 0
-                ? module => {
-                  if (module.resource) {
-                    if (add.length > 0 && add.test(module.resource)) { return true }
-                    if (rem.length > 0 && rem.test(module.resource)) { return false }
-                  }
-                  return regex.test(module.resource)
-                }
-                : module => regex.test(module.resource)
-            },
-            common: {
-              name: `chunk-common`,
-              minChunks: 2,
-              priority: -20,
-              chunks: 'initial',
-              reuseExistingChunk: true
+      if (cfg.ctx.mode.proton) {
+        chain.optimization.splitChunks({
+          chunks: 'all',
+            minSize: 0,
+            maxSize: Infinity,
+            maxAsyncRequests: 1,
+            maxInitialRequests: 1,
+            automaticNameDelimiter: '~',
+            name: true,
+            cacheGroups: {
+              styles: {
+                name: 'styles',
+                chunks: 'all'
+              },
+              commons: {
+                name: 'vendors',
+                chunks: 'all'
+              }
             }
-          }
         })
+      }
+      else {
+        chain.optimization
+          .splitChunks({
+            cacheGroups: {
+              vendors: {
+                name: 'vendor',
+                chunks: 'initial',
+                priority: -10,
+                // a module is extracted into the vendor chunk if...
+                test: add.length > 0 || rem.length > 0 ?
+                  module => {
+                    if (module.resource) {
+                      if (add.length > 0 && add.test(module.resource)) {
+                        return true
+                      }
+                      if (rem.length > 0 && rem.test(module.resource)) {
+                        return false
+                      }
+                    }
+                    return regex.test(module.resource)
+                  } :
+                  module => regex.test(module.resource)
+              },
+              common: {
+                name: `chunk-common`,
+                minChunks: 2,
+                priority: -20,
+                chunks: 'initial',
+                reuseExistingChunk: true
+              }
+            }
+          })
+      }
 
       // extract webpack runtime and module manifest to its own file in order to
       // prevent vendor hash from being updated whenever app bundle is updated
@@ -305,7 +338,7 @@ module.exports = function (cfg, configName) {
       // extract css into its own file
       chain.plugin('mini-css-extract')
         .use(MiniCssExtractPlugin, [{
-          filename: 'css/[name].[contenthash:8].css'
+          filename: cfg.ctx.mode.proton && cfg.proton.serverless ? 'css/app.css' : 'css/[name].[contenthash:8].css'
         }])
 
       // dedupe & minify CSS (only if extracted)

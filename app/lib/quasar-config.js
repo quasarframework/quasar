@@ -617,6 +617,13 @@ class QuasarConfig {
       }, gzip)
     }
 
+    if (this.ctx.mode.proton) {
+      cfg.proton = merge({
+        serverless: false,
+        bundle: true
+      }, cfg.proton)
+    }
+
     if (this.ctx.mode.pwa) {
       cfg.build.webpackManifest = false
 
