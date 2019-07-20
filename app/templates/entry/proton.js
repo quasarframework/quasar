@@ -1,6 +1,6 @@
 import { uid } from 'quasar'
 
-export default class WebView {
+export default class Proton {
   static invoke (args) {
     external.invoke(JSON.stringify(args))
   }
