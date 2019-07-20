@@ -117,6 +117,17 @@ async function getSSR (cfg) {
   }
 }
 
+async function getBEx (cfg) {
+  const chain = createChain(cfg, 'BEx')
+  require('./bex')(chain, cfg) //Before SPA so we can set some vars
+  require('./spa')(chain, cfg) // extending a SPA
+  return await getWebpackConfig(chain, cfg, {
+    name: 'BEx',
+    hot: true,
+    invokeParams: { isClient: true, isServer: false }
+  })
+}
+
 module.exports = async function (cfg) {
   const mode = cfg.ctx.mode
 
@@ -131,6 +142,9 @@ module.exports = async function (cfg) {
   }
   else if (mode.pwa) {
     return await getPWA(cfg)
+  }
+  else if (mode.bex) {
+    return await getBEx(cfg)
   }
   else {
     return await getSPA(cfg)

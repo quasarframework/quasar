@@ -37,6 +37,7 @@
   "dependencies": {
     "@quasar/babel-preset-app": "1.1.4",
     "@vue/preload-webpack-plugin": "1.1.0",
+    "archiver": "^3.0.0",
     "autoprefixer": "9.6.1",
     "chalk": "2.4.2",
     "chokidar": "3.0.2",

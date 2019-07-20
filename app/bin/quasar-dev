@@ -79,7 +79,7 @@ async function parseAddress ({ host, port }) {
     if (host && ['localhost', '127.0.0.1', '::1'].includes(host.toLowerCase())) {
       host = '0.0.0.0'
     }
-    if (argv.mode === 'cordova' && (!host || host === '0.0.0.0')) {
+    if (['cordova', 'bex'].includes(argv.mode) && (!host || host === '0.0.0.0')) {
       const getExternalIP = require('../lib/helpers/get-external-ip')
       host = await getExternalIP()
       this.chosenHost = host

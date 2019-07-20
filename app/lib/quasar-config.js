@@ -207,6 +207,7 @@ class QuasarConfig {
         builder: {}
       },
       cordova: {},
+      bex: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
@@ -453,7 +454,7 @@ class QuasarConfig {
         gzip: false
       })
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.bex) {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
@@ -685,7 +686,7 @@ class QuasarConfig {
       const urlPath = `${cfg.build.vueRouterMode === 'hash' ? (cfg.build.htmlFilename !== 'index.html' ? cfg.build.htmlFilename : '') : ''}`
       cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${host}:${cfg.devServer.port}/${urlPath}`
     }
-    else if (this.ctx.mode.cordova) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.bex) {
       cfg.build.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {
