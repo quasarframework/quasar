@@ -143,7 +143,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: 10000,
+        limit: cfg.ctx.mode.proton && cfg.proton.serverless ? undefined : 10000,
         name: `img/[name]${fileHash}.[ext]`
       })
 
@@ -152,7 +152,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: 10000,
+        limit: cfg.ctx.mode.proton && cfg.proton.serverless ? undefined : 10000,
         name: `fonts/[name]${fileHash}.[ext]`
       })
 
@@ -161,7 +161,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: 10000,
+        limit: cfg.ctx.mode.proton && cfg.proton.serverless ? undefined : 10000,
         name: `media/[name]${fileHash}.[ext]`
       })
 
