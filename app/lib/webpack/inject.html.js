@@ -18,7 +18,7 @@ module.exports = function (chain, cfg) {
 
       chunksSortMode: 'none',
       // inject script tags for bundle
-      inject: !(cfg.ctx.mode.proton && cfg.proton.serverless),
+      inject: !(cfg.ctx.mode.proton && cfg.ctx.prod && cfg.proton.serverless),
       cache: true
     }])
 
