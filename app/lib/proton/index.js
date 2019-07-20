@@ -74,7 +74,7 @@ class ProtonRunner {
     }
 
     const buildFn = target => this.__runCargoCommand({
-      cargoArgs: [cfg.proton.bundle ? 'bundle' : 'build']
+      cargoArgs: [cfg.proton.bundle ? 'proton-bundle' : 'build']
         .concat(features.length ? ['--features', ...features] : [])
         .concat(cfg.ctx.debug ? [] : ['--release'])
         .concat(target ? ['--target', target] : [])
