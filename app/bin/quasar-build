@@ -164,7 +164,6 @@ async function build () {
     buildConfig = quasarConfig.getBuildConfig()
 
   let outputFolder = buildConfig.build.packagedElectronDist ||
-    buildConfig.build.packagedProtonDist ||
     buildConfig.build.distDir
 
   artifacts.clean(outputFolder)

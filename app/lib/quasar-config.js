@@ -475,7 +475,6 @@ class QuasarConfig {
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
     else if (this.ctx.mode.proton) {
-      cfg.build.packagedProtonDist = appPaths.resolve.app('src-proton/target')
       cfg.build.distDir = appPaths.resolve.app('src-proton/target/compiled-web')
     }
 
