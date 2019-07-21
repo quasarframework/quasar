@@ -35,6 +35,7 @@
   "bugs": "https://github.com/quasarframework/quasar/issues",
   "homepage": "https://quasar.dev",
   "dependencies": {
+    "@iarna/toml": "^2.2.3",
     "@quasar/babel-preset-app": "1.1.4",
     "@quasar/proton": "link:../../../../proton",
     "@vue/preload-webpack-plugin": "1.1.0",
