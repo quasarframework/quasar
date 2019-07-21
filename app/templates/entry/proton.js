@@ -18,8 +18,6 @@
 
 import { uid } from 'quasar'
 
-Object.freeze(proton) // freeze proton so no tampering
-
 <% if (ctx.dev) { %>
 /**
  * @name __whitelistWarning
