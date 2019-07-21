@@ -101,7 +101,7 @@ export default class Proton {
   static readTextFile (path) {
   <% if (proton.whitelist.readTextFile === true || proton.whitelist.all === true) { %>
     Object.freeze(path)
-    return this.promisified({ cmd: 'readAsString', path })
+    return this.promisified({ cmd: 'readTextFile', path })
       <% } else { %>
   <% if (ctx.dev) { %>
       __whitelistWarning('readTextFile')
@@ -122,7 +122,7 @@ export default class Proton {
   static readBinaryFile (path) {
   <% if (proton.whitelist.readBinaryFile === true || proton.whitelist.all === true) { %>
     Object.freeze(path)
-    return this.promisified({ cmd: 'readAsBinary', path })
+    return this.promisified({ cmd: 'readBinaryFile', path })
       <% } else { %>
   <% if (ctx.dev) { %>
       __whitelistWarning('readBinaryFile')
@@ -144,7 +144,7 @@ export default class Proton {
   static writeFile (cfg) {
   Object.freeze(cfg)
   <% if (proton.whitelist.writeFile === true || proton.whitelist.all === true) { %>
-    this.invoke({ cmd: 'write', file: cfg.file, contents: cfg.contents })
+    this.invoke({ cmd: 'writeFile', file: cfg.file, contents: cfg.contents })
     <% } else { %>
   <% if (ctx.dev) { %>
       __whitelistWarning('writeFile')
@@ -164,7 +164,7 @@ export default class Proton {
   static listFiles (path) {
   <% if (proton.whitelist.listFiles === true || proton.whitelist.all === true) { %>
     Object.freeze(path)
-    return this.promisified({ cmd: 'list', path })
+    return this.promisified({ cmd: 'listFiles', path })
       <% } else { %>
   <% if (ctx.dev) { %>
       __whitelistWarning('listFiles')
@@ -185,7 +185,7 @@ export default class Proton {
   static listDirs (path) {
   <% if (proton.whitelist.listDirs === true || proton.whitelist.all === true) { %>
     Object.freeze(path)
-    return this.promisified({ cmd: 'read', path })
+    return this.promisified({ cmd: 'listDirs', path })
       <% } else { %>
   <% if (ctx.dev) { %>
       __whitelistWarning('listDirs')
@@ -253,7 +253,7 @@ export default class Proton {
   static bridge (command, payload) {
 <% if (proton.whitelist.bridge === true || proton.whitelist.all === true) { %>
     Object.freeze(command)
-    if (typeof args === 'string' || typeof args === 'object') {
+    if (typeof payload === 'string' || typeof payload === 'object') {
       Object.freeze(payload)
     }
     return this.promisified({ cmd: 'bridge', command, payload: typeof (payload) === 'object' ? [payload] : payload })
