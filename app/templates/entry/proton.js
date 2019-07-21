@@ -229,7 +229,7 @@ export default class Proton {
     if (typeof args === 'string' || typeof args === 'object') {
       Object.freeze(args)
     }
-    return this.promisified({ cmd: 'call', command, args: typeof (args) === 'string' ? [args] : args })
+    return this.promisified({ cmd: 'execute', command, args: typeof (args) === 'string' ? [args] : args })
   <% } else { %>
   <% if (ctx.dev) { %>
     __whitelistWarning('execute')
