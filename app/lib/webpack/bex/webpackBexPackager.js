@@ -5,7 +5,7 @@ const
 
 
 class WebpackBexPackager {
-  constructor(options) {
+  constructor (options) {
     this.options = options
     this.chromeDir = path.join(options.dest, 'chrome')
     this.firefoxDir = path.join(options.dest, 'firefox')
@@ -21,13 +21,8 @@ class WebpackBexPackager {
   
   setupDirectories () {
     const mkdirp = require('mkdirp')
-    return new Promise(resolve => {
-      mkdirp(this.chromeDir, () => {
-        mkdirp(this.firefoxDir, () => {
-          resolve()
-        })
-      })
-    })
+    mkdirp.sync(this.chromeDir)
+    mkdirp.sync(this.firefoxDir)
   }
   
   bundleChrome () {

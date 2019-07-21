@@ -207,7 +207,9 @@ class QuasarConfig {
         builder: {}
       },
       cordova: {},
-      bex: {},
+      bex: {
+        extensionBuildKey: '__chrome_ext_id__'
+      },
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 

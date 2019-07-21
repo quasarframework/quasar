@@ -1858,6 +1858,11 @@ chrome-trace-event@^1.0.0:
   dependencies:
     tslib "^1.9.0"
 
+chunks-2-json-webpack-plugin@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/chunks-2-json-webpack-plugin/-/chunks-2-json-webpack-plugin-1.0.1.tgz#f29216f8d85f3becfe4c159e3dd2a754f8336253"
+  integrity sha512-WKIpR8z+99XdNz28ILNdT/ZR+o5fVoixMhNyB9nBtUt1pyvfJfdsVgNelVNEI4I4Op2zXNdGLJT553w4ikZkdQ==
+
 ci-info@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-2.0.0.tgz#67a9e964be31a51e15e5010d58e6f12834002f46"

@@ -1,4 +1,5 @@
 {
+  "key": "abhijjokpchegeknbmnkmlmjikocidkd",
   "name": "quasar-browser-extension",
   "description": "A Quasar web extension",
   "version": "1.0.0",
@@ -10,16 +11,38 @@
   },
   "browser_action": {
     "default_title": "quasar-browser-extension",
-    "default_popup": "www/index.html"
+    "default_popup": "www/index.html#/toolbar"
   },
   "background": {
     "scripts": [
-      "background.js"
+      "js/background.js"
     ]
   },
   "options_ui": {
     "page": "www/index.html#/options",
-    "chrome_style": true
+    "chrome_style": false,
+    "open_in_tab": false
   },
+  "content_scripts": [{
+    "matches": ["https://forum.quasar-framework.org/*"],
+    "js": [
+      "js/init.js",
+      "js/contentScript.js"
+    ],
+    "css": [
+      "css/contentCss.css"
+    ]
+  }],
+  "permissions": [
+    "activeTab"
+  ],
+  "web_accessible_resources": [
+    "www/index.html",
+    "www/img/*",
+    "www/fonts/*",
+    "www/*",
+    "js/*",
+    "css/*"
+  ],
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
