@@ -6,7 +6,8 @@ const
   log = require('../helpers/logger')('app:proton'),
   { spawn } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  fse = require('fs-extra')
 
 class ProtonRunner {
   constructor() {
@@ -32,6 +33,10 @@ class ProtonRunner {
       }
     }
 
+    this.__manipulateToml(toml => {
+      this.__whitelistApi(cfg, toml)
+    })
+
     this.url = url
 
     const args = ['--url', url]
@@ -47,7 +52,6 @@ class ProtonRunner {
     this.protonWatcher = chokidar
       .watch([
         appPaths.resolve.proton('src'),
-        appPaths.resolve.proton('lib'), // TODO remove this when the lib is isolated from template
         appPaths.resolve.proton('Cargo.toml'),
         appPaths.resolve.proton('build.rs')
       ], {
@@ -67,6 +71,10 @@ class ProtonRunner {
 
   async build(quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
+
+    this.__manipulateToml(toml => {
+      this.__whitelistApi(cfg, toml)
+    })
 
     const features = []
     if (cfg.proton.serverless) {
@@ -151,6 +159,39 @@ class ProtonRunner {
       process.kill(pid)
     })
   }
+
+   __manipulateToml(callback) {
+     const toml = require('@iarna/toml'),
+       tomlPath = appPaths.resolve.proton('Cargo.toml'),
+       tomlFile = fse.readFileSync(tomlPath),
+       tomlContents = toml.parse(tomlFile)
+
+     callback(tomlContents)
+
+     const output = toml.stringify(tomlContents)
+     fse.writeFileSync(tomlPath, output)
+   }
+
+   __whitelistApi(cfg, tomlContents) {
+     if (!tomlContents.dependencies.proton.features) {
+       tomlContents.dependencies.proton.features = []
+     }
+
+     if (cfg.proton.whitelist.all) {
+       if (!tomlContents.dependencies.proton.features.includes('api')) {
+         tomlContents.dependencies.proton.features.push('api')
+       }
+       if (!tomlContents.dependencies.proton.features.includes('all-api')) {
+         tomlContents.dependencies.proton.features.push('all-api')
+       }
+     } else {
+       const whitelist = Object.keys(cfg.proton.whitelist).filter(w => cfg.proton.whitelist[w] === true)
+       tomlContents.dependencies.proton.features = whitelist.concat(tomlContents.dependencies.proton.features.filter(f => f === 'api' || cfg.proton.whitelist[f] === true))
+       if (whitelist.length) {
+         tomlContents.dependencies.proton.features.unshift('api')
+       }
+     }
+   }
 }
 
 module.exports = new ProtonRunner()
