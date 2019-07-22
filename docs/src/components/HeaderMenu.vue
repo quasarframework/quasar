@@ -34,7 +34,7 @@ div
 
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Tools", auto-close)
     q-list(dense padding)
-      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar-awesome", rel="noopener", target="_blank")
+      q-item(clickable, tag="a", href="https://awesome.quasar.dev", rel="noopener", target="_blank")
         q-item-section.text-yellow-9(avatar)
           q-icon(name="flare")
         q-item-section Awesome List
@@ -91,11 +91,6 @@ div
           q-icon(name="fas fa-comments")
         q-item-section Forum
 
-      q-item(clickable, tag="a", href="https://stackoverflow.com/search?q=quasarframework", rel="noopener", target="_blank")
-        q-item-section.text-red(avatar)
-          q-icon(name="fab fa-stack-overflow")
-        q-item-section Stack Overflow
-
       q-item(clickable, tag="a", href="https://github.com/quasarframework", rel="noopener", target="_blank")
         q-item-section(avatar)
           q-icon(name="fab fa-github")
@@ -113,14 +108,22 @@ div
           q-icon(name="announcement")
         q-item-section Announcements
 
-      q-item(clickable, tag="a", href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://twitter.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-blue(avatar)
           q-icon(name="fab fa-twitter")
         q-item-section Twitter
 
+      q-item(clickable, tag="a", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
+        q-item-section.text-primary(avatar)
+          q-icon(name="fab fa-facebook")
+        q-item-section
+          .row.no-wrap.items-center
+            span Facebook
+            q-badge.q-ml-sm new
+
       q-item-label.q-mt-md(header) Donate
 
-      q-item(clickable, tag="a", href="https://github.com/users/rstoenescu/sponsorship", target="_blank", rel="noopener")
+      q-item(clickable, tag="a", href="https://donate.quasar.dev", target="_blank", rel="noopener")
         q-item-section(avatar)
           q-icon(name="fab fa-github")
         q-item-section Github Sponsorship

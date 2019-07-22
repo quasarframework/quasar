@@ -39,8 +39,18 @@ const gettingStarted = [
     path: 'roadmap'
   },
   {
+    name: 'Contribution Guide',
+    badge: 'new',
+    path: 'contribution-guide'
+  },
+  {
     name: 'Upgrade guide',
     path: 'upgrade-guide'
+  },
+  {
+    name: 'VS Code Configuration',
+    badge: 'new',
+    path: 'vs-code-configuration'
   }
 ]
 
@@ -300,8 +310,8 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Mobile Apps',
-    path: 'developing-mobile-apps',
+    name: 'Developing Cordova Apps',
+    path: 'developing-cordova-apps',
     children: [
       {
         name: 'Introduction',

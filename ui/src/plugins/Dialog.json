@@ -9,6 +9,7 @@
       "params": {
         "opts": {
           "desc": "Dialog options",
+          "tsType": "QDialogOptions",
           "definition": {
             "title": {
               "type": "String",

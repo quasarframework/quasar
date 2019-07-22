@@ -1,6 +1,6 @@
 import Platform from '../plugins/Platform.js'
 import { setObserver, removeObserver, getModifierDirections, updateModifiers } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent, listenOpts } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent, listenOpts, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function parseArg (arg) {
@@ -54,6 +54,7 @@ export default {
       },
 
       start (evt, mouseEvent) {
+        Platform.is.firefox === true && preventDraggable(el, true)
         removeObserver(ctx)
         mouseEvent !== true && setObserver(el, evt, ctx)
 
@@ -191,6 +192,7 @@ export default {
           return
         }
 
+        Platform.is.firefox === true && preventDraggable(el, false)
         removeObserver(ctx)
 
         if (ctx.event.abort === false && ctx.event.dir !== false) {
@@ -230,6 +232,7 @@ export default {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
 
     if (ctx !== void 0) {
+      Platform.is.firefox === true && preventDraggable(el, false)
       removeObserver(ctx)
       document.body.classList.remove('no-pointer-events')
 

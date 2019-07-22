@@ -101,7 +101,7 @@ Let's take each option one by one:
 | devServer | Object | Webpack dev server [options](https://webpack.js.org/configuration/dev-server/). Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
 | build | Object | Build configuration options. |
 | sourceFiles | Object | Change the default name of parts of your app. |
-| cordova | Object | Cordova specific [config](/quasar-cli/developing-mobile-apps/configuring-cordova). |
+| cordova | Object | Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). |
 | pwa | Object | PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). |
 | ssr | Object | SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). |
 | electron | Object | Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). |

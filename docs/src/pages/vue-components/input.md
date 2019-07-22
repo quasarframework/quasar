@@ -61,9 +61,9 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 
 ### Native attributes
 
-All the attributes set on `QInput` that are not in the list of `props` in the **API** will be passed to the native field (`input` or `textarea`).
+All the attributes set on `QInput` that are not in the list of `props` in the **API** will be passed to the native field (`input` or `textarea`). Some examples: autocomplete, placeholder.
 
-Please check this resources for more informations about native attributes (for input check also the specific attributes for each type):
+Please check these resources for more information about native attributes (for input check also the specific attributes for each type):
 
 * [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
 * [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
