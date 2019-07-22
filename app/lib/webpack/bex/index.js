@@ -74,7 +74,7 @@ module.exports = function (chain, cfg) {
           to: unpackedBuildDir,
           exclude: [appPaths.bexDir, path.join(chunkManifest)]
         },
-        {
+        { // TODO: Shouldn't statics copy automatically?
           from: path.join(appPaths.srcDir, 'statics'),
           to: path.join(unpackedBuildDir, 'www', 'statics')
         }],
