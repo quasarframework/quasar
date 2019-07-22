@@ -34,7 +34,7 @@ function addCss (src) {
 
 window.onload = function () {
   const div = document.createElement('div')
-  div.id = 'q-app'
+  div.id = 'q-bex-app'
   document.body.prepend(div)
   document.body.classList.add('q-app-injected')
   
@@ -61,8 +61,10 @@ window.onload = function () {
     }
   }
   
-  if (chunks.app.css) {
-    addCss(chunks.app.css[0])
+  if (chunks.app) {
+    if (chunks.app.css) {
+      addCss(chunks.app.css[0])
+    }
     loadScript(`www/${chunks.app.js[0]}`, () => {})
   }
 }
