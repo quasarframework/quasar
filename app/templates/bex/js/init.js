@@ -44,7 +44,6 @@ window.onload = function () {
     if (chunkKey !== 'app') {
       if (chunks[chunkKey].css) {
         for (let file of chunks[chunkKey].css) {
-          console.log('Loading CSS: ', `www/${file}`)
           addCss(file)
         }
       }
@@ -54,9 +53,7 @@ window.onload = function () {
   for (let chunkKey of Object.keys(chunks)) {
     if (chunkKey !== 'app') {
       for (let file of chunks[chunkKey].js) {
-        console.log('Loading script: ', `www/${file}`)
-        loadScript(`www/${file}`, () => {
-        })
+        loadScript(`www/${file}`, () => {})
       }
     }
   }
