@@ -1,4 +1,4 @@
-const BEXChunkData={"null":{"js":["0.js","1.js","2.js","3.js","4.js","5.js"]},"app":{"js":["app.js"]}};/* eslint-disable no-undef */
+/* eslint-disable no-undef */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
@@ -19,7 +19,7 @@ function loadScript (url, callback) {
       callback()
     }
   }
-
+  
   script.src = chrome.extension.getURL(url)
   document.getElementsByTagName('head')[0].appendChild(script)
 }
@@ -37,9 +37,9 @@ window.onload = function () {
   div.id = 'q-app'
   document.body.prepend(div)
   document.body.classList.add('q-app-injected')
-
+  
   const chunks = BEXChunkData
-
+  
   for (let chunkKey of Object.keys(chunks)) {
     if (chunkKey !== 'app') {
       if (chunks[chunkKey].css) {
@@ -50,7 +50,7 @@ window.onload = function () {
       }
     }
   }
-
+  
   for (let chunkKey of Object.keys(chunks)) {
     if (chunkKey !== 'app') {
       for (let file of chunks[chunkKey].js) {
@@ -60,24 +60,9 @@ window.onload = function () {
       }
     }
   }
-
+  
   if (chunks.app.css) {
     addCss(chunks.app.css[0])
+    loadScript(`www/${chunks.app.js[0]}`, () => {})
   }
-
-  loadScript(`www/${chunks.app.js[0]}`, () => {
-    /*
-    const head = document.getElementsByTagName('head')[0]
-    head.innerHTML = head.innerHTML.replace(/__chrome_ext_id__/g, chrome.runtime.id)
-
-    const images = document.getElementsByTagName('img')
-    for (let image of images) {
-      if (image.src.indexOf('__chrome_ext_id__') > -1) {
-        image.src = image.src.replace('__chrome_ext_id__', chrome.runtime.id)
-      } else if (image.src.indexOf('/statics/') > -1) {
-        image.src = chrome.extension.getURL('www' + '/' + image.src.substring(image.src.indexOf('statics/')))
-      }
-    }
-    */
-  })
 }
