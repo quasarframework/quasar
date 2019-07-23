@@ -6,7 +6,13 @@ const
 module.exports = function (chain, cfg) {
   const
     chunkManifest = 'chunk-manifest.json',
-    extensionBuildKey = cfg.bex.extensionBuildKey
+    unpackedBuildDir = path.join(cfg.build.distDir, 'unpacked'),
+    outputPath = cfg.ctx.dev
+      ? path.join(appPaths.bexDir, 'www')
+      : path.join(unpackedBuildDir, 'www')
+  
+  chain.output
+    .path(outputPath) // Output to our src-bex/www folder.
   
   // Generate a log of all chunks so they can be manually added to the
   // web browser for in page extensions.
@@ -18,35 +24,33 @@ module.exports = function (chain, cfg) {
       filename: chunkManifest
     }])
   
+  // Copy statics
+  const CopyWebpackPlugin = require('copy-webpack-plugin')
+  chain.plugin('copy-webpack')
+    .use(CopyWebpackPlugin, [
+      [{
+        from: path.join(appPaths.srcDir, 'statics'),
+        to: path.join(outputPath, 'statics')
+      }]
+    ])
+  
   if (cfg.ctx.dev) {
-    const outputPath = path.join(appPaths.bexDir, 'www')
-    // clean up
+    // Clean old dir
     fse.removeSync(outputPath)
+    
+    // Public path on dev so we can hijack and re-map to an extension URL
+    chain.output.publicPath(`http://127.0.0.1/__q-bex_ext_id__`)
     
     // Extensions need to be manually added to the browser
     // so we need the dev files available for them to be targeted.
     cfg.devServer.writeToDisk = true
-    
-    chain.output
-      .path(outputPath) // Output to our src-bex/www folder.
-      .publicPath(`chrome-extension://${extensionBuildKey}/www/`) // Required for paths
-  
-    // Copy statics
-    const CopyWebpackPlugin = require('copy-webpack-plugin')
-    chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [
-        [{
-          from: path.join(appPaths.srcDir, 'statics'),
-          to: path.join(appPaths.bexDir, 'www', 'statics')
-        }]
-      ])
   
     // Don't watch our manifest file as this'll cause loops.
     const webpack = require('webpack')
     chain.plugin('watch-ignore')
       .use(webpack.WatchIgnorePlugin, [[path.join(appPaths.bexDir, chunkManifest)]])
   
-    const TransformInit = require('./transformInit')
+    const TransformInit = require('./initTransformer')
     chain.plugin('webpack-transform-init')
       .use(TransformInit, [{
         src: appPaths.bexDir,
@@ -54,16 +58,11 @@ module.exports = function (chain, cfg) {
       }])
   } else {
     const
-      unpackedBuildDir = path.join(cfg.build.distDir, 'unpacked'),
       packedBuildDir = path.join(cfg.build.distDir, 'packed'),
       packageName = require(path.join(appPaths.appDir, 'package.json')).name
   
     // We need this bundled in with the rest of the source to match the manifest instructions.
     cfg.build.htmlFilename = path.join('unpacked', 'www', 'index.html')
-  
-    chain.output
-      .path(path.join(unpackedBuildDir, 'www'))
-      .publicPath(`chrome-extension://${extensionBuildKey}/www/`) // Required for paths
   
     // Copy manifest / background.js to dist
     const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -73,10 +72,6 @@ module.exports = function (chain, cfg) {
           from: appPaths.bexDir,
           to: unpackedBuildDir,
           exclude: [appPaths.bexDir, path.join(chunkManifest)]
-        },
-        { // TODO: Shouldn't statics copy automatically?
-          from: path.join(appPaths.srcDir, 'statics'),
-          to: path.join(unpackedBuildDir, 'www', 'statics')
         }],
         {
           ignore: [{
@@ -86,10 +81,10 @@ module.exports = function (chain, cfg) {
         }
       ])
   
-    const TransformInit = require('./transformInit')
-    chain.plugin('webpack-transform-init')
-      .use(TransformInit, [{
-        src: path.join(cfg.build.distDir, 'unpacked'),
+    const InitTransformer = require('./initTransformer')
+    chain.plugin('webpack-init-transformer')
+      .use(InitTransformer, [{
+        src: unpackedBuildDir,
         chunkManifest: path.join(appPaths.bexDir, chunkManifest)
       }])
   

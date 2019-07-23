@@ -3,16 +3,13 @@ const
   path = require('path')
 
 
-class TransformInit {
+class InitTransformer {
   constructor (options) {
     this.options = options
   }
   
   apply (compiler) {
     compiler.hooks.done.tap('done-compiling', async () => {
-      console.log('Editing: ', this.options.chunkManifest)
-      console.log('Writing to source: ', this.options.src)
-      
       const manData = fse.readFileSync(this.options.chunkManifest)
       const data = fse.readFileSync(path.join(this.options.src, 'js', 'init.js'))
       const varData = `const BEXChunkData=${manData.toString()};`
@@ -24,4 +21,4 @@ class TransformInit {
   }
 }
 
-module.exports = TransformInit
+module.exports = InitTransformer

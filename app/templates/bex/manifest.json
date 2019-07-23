@@ -15,7 +15,8 @@
   "background": {
     "scripts": [
       "js/background.js"
-    ]
+    ],
+    "persistent": true
   },
   "options_ui": {
     "page": "www/index.html#/options",
@@ -33,15 +34,15 @@
     ]
   }],
   "permissions": [
-    "activeTab"
+    "activeTab",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
   ],
   "web_accessible_resources": [
-    "www/index.html",
-    "www/img/*",
-    "www/fonts/*",
     "www/*",
     "js/*",
     "css/*"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval' http://127.0.0.1; object-src 'self'"
 }

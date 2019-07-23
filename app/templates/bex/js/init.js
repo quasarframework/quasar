@@ -1,3 +1,4 @@
+const BEXChunkData={"null":{"js":["0.js","1.js","2.js","3.js","4.js","5.js"]},"app":{"js":["app.js"]}};
 /* eslint-disable no-undef */
 /**
  * THIS FILE IS GENERATED AUTOMATICALLY.
@@ -20,7 +21,7 @@ function loadScript (url, callback) {
     }
   }
   
-  script.src = chrome.extension.getURL(url)
+  script.src = chrome.extension.getURL(`www/${url}`)
   document.getElementsByTagName('head')[0].appendChild(script)
 }
 
@@ -53,7 +54,7 @@ window.onload = function () {
   for (let chunkKey of Object.keys(chunks)) {
     if (chunkKey !== 'app') {
       for (let file of chunks[chunkKey].js) {
-        loadScript(`www/${file}`, () => {})
+        loadScript(file, () => {})
       }
     }
   }
@@ -62,6 +63,6 @@ window.onload = function () {
     if (chunks.app.css) {
       addCss(chunks.app.css[0])
     }
-    loadScript(`www/${chunks.app.js[0]}`, () => {})
+    loadScript(chunks.app.js[0], () => {})
   }
-}
+}()
