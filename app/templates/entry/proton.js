@@ -213,6 +213,25 @@ export default class Proton {
       <% } %>
   }
 
+  <% if (ctx.dev) { %>
+  /**
+   * @name open
+   * @description Open an URI
+   * @param {String} uri
+   */
+<% } %>
+  static open (uri) {
+    <% if (proton.whitelist.open === true || proton.whitelist.all === true) { %>
+    Object.freeze(uri)
+    this.invoke({ cmd: 'open', uri })
+      <% } else { %>
+  <% if (ctx.dev) { %>
+      __whitelistWarning('open')
+      <% } %>
+    return __reject
+      <% } %>
+  }
+
 <% if (ctx.dev) { %>
   /**
    * @name execute
