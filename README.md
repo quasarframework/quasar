@@ -137,6 +137,6 @@ Quasar is following [Semantic Versioning 2.0](https://semver.org/).
 
 ## License
 
-Copyright (c) 2015-present Razvan Stoenescu
+Copyright (c) 2015-present Razvan Stoenescu & Contributors
 
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
