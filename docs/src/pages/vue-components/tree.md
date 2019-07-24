@@ -74,6 +74,11 @@ You can customize the filtering method by specifying the `filter-method` prop. T
 
 <doc-example title="Custom filter" file="QTree/FilterCustom" />
 
+### Change route or open url when click on tree node
+You can change route or open url when click on tree node by using `handler`:
+
+Example https://jsfiddle.net/s8pqkq8d/21/
+
 ## QTree API
 <doc-api file="QTree" />
 
