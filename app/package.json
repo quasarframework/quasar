@@ -41,7 +41,6 @@
     "autoprefixer": "9.6.1",
     "chalk": "2.4.2",
     "chokidar": "3.0.2",
-    "chunks-2-json-webpack-plugin": "^1.0.1",
     "ci-info": "2.0.0",
     "compression-webpack-plugin": "3.0.0",
     "copy-webpack-plugin": "5.0.3",
