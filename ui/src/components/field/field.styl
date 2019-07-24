@@ -148,7 +148,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     transition transform $field-transition, right $field-transition
 
   &--float .q-field__label
-    transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+    transform translate3d(0, -40%, 0) scale3d(.75, .75, 1)
     right calc(-100% / 3)
 
   .q-field__native, .q-select__input
@@ -157,9 +157,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       -webkit-animation-fill-mode both
 
     &:-webkit-autofill + .q-field__label
-      transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+      transform translate3d(0, -40%, 0) scale3d(.75, .75, 1)
     &[type="number"]:invalid + .q-field__label
-      transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+      transform translate3d(0, -40%, 0) scale3d(.75, .75, 1)
 
     &:invalid
       box-shadow none
@@ -381,13 +381,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       font-size 24px
 
     &.q-field--float .q-field__label
-      transform translate3d(0, -30%, 0) scale3d(.75, .75, .75)
+      transform translate3d(0, -30%, 0) scale3d(.75, .75, 1)
 
     .q-field__native, .q-select__input
       &:-webkit-autofill + .q-field__label
-        transform translate3d(0, -30%, 0) scale3d(.75, .75, .75)
+        transform translate3d(0, -30%, 0) scale3d(.75, .75, 1)
       &[type="number"]:invalid + .q-field__label
-        transform translate3d(0, -30%, 0) scale3d(.75, .75, .75)
+        transform translate3d(0, -30%, 0) scale3d(.75, .75, 1)
 
   &--borderless, &--standard
 
