@@ -10,6 +10,7 @@
             <q-radio :dark="dark" v-model="type" val="standout" label="Standout" />
             <q-radio :dark="dark" v-model="type" val="standard" label="Standard" />
             <q-radio :dark="dark" v-model="type" val="borderless" label="Borderless" />
+            <q-checkbox v-model="forceMenu" toggle-indeterminate :label="forceMenuLabel" />
           </div>
           <div>
             <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
@@ -637,7 +638,9 @@ export default {
 
       heavyModel: [],
       heavyModelSingle: null,
-      heavyFilterInputOptions: null
+      heavyFilterInputOptions: null,
+
+      forceMenu: null
     }
   },
 
@@ -806,8 +809,19 @@ export default {
         dark: this.dark,
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
-        optionsCover: this.optionsCover
+        optionsCover: this.optionsCover,
+        behavior: this.forceMenu === null
+          ? 'default'
+          : (this.forceMenu === true ? 'menu' : 'dialog')
       }
+    },
+
+    forceMenuLabel () {
+      if (this.forceMenu === true) {
+        return 'Force menu'
+      }
+
+      return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
     }
   }
 }

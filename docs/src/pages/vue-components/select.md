@@ -46,6 +46,17 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 <doc-example title="Menu transitions" file="QSelect/MenuTransitions" />
 
+### Options list display mode
+By default QSelect shows the list of options as a menu on desktop and as a dialog on mobiles. You can force one behavior by using the `behavior` property.
+
+::: warning
+Please note that on iOS menu behavior might generate problems, especially when used in combination with `use-input` prop. You can use a conditional `behavior` prop like `:behavior="$q.platform.is.ios === true ? 'dialog' : 'menu'"` to use dialog mode only on iOS.
+:::
+
+<doc-example title="Show options in menu" file="QSelect/BehaviorMenu" />
+
+<doc-example title="Show options in dialog" file="QSelect/BehaviorDialog" />
+
 ## The model
 
 ::: danger
