@@ -32,7 +32,8 @@ const
   ssrDir = resolve(appDir, 'src-ssr'),
   cordovaDir = resolve(appDir, 'src-cordova'),
   electronDir = resolve(appDir, 'src-electron'),
-  protonDir = resolve(appDir, 'src-proton')
+  protonDir = resolve(appDir, 'src-proton'),
+  protonPackage = resolve(appDir, 'node_modules/@quasar/proton')
 
 module.exports = {
   cliDir,
@@ -43,6 +44,7 @@ module.exports = {
   cordovaDir,
   electronDir,
   protonDir,
+  protonPackage,
 
   resolve: {
     cli: dir => join(cliDir, dir),

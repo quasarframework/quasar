@@ -10,7 +10,7 @@ const
 
 class Generator {
   constructor (quasarConfig) {
-    const { ctx, preFetch } = quasarConfig.getBuildConfig()
+    const { ctx, preFetch, ...cfg } = quasarConfig.getBuildConfig()
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig
@@ -21,6 +21,8 @@ class Generator {
       'import-quasar.js'
     ]
 
+    this.files = []
+
     if (preFetch) {
       paths.push('client-prefetch.js')
     }
@@ -29,9 +31,25 @@ class Generator {
     }
     if (ctx.mode.proton) {
       paths.push('proton.js')
+
+      let protonFolder = appPaths.protonPackage
+      if (fs.lstatSync(protonFolder).isSymbolicLink) {
+        protonFolder = path.dirname(require.resolve("@quasar/proton/package.json"))
+      }
+
+      const {bundle, ...protonCfg} = cfg.proton
+      this.files = this.files.concat([{
+        filename: 'config.json',
+        dest: path.join(protonFolder, 'config.json'),
+        template: compileTemplate(JSON.stringify(protonCfg))
+      }, {
+        filename: 'bundle.json',
+          dest: path.join(protonFolder, 'bundle.json'),
+          template: compileTemplate(JSON.stringify(bundle === false ? {} : bundle))
+      }])
     }
 
-    this.files = paths.map(file => {
+    this.files = this.files.concat(paths.map(file => {
       const
         content = fs.readFileSync(
           appPaths.resolve.cli(`templates/entry/${file}`),
@@ -44,7 +62,7 @@ class Generator {
         dest: path.join(quasarFolder, filename),
         template: compileTemplate(content)
       }
-    })
+    }))
   }
 
   build () {
@@ -52,7 +70,7 @@ class Generator {
     const data = this.quasarConfig.getBuildConfig()
 
     // ensure .quasar folder
-    if (!fs.existsSync(quasarFolder)){
+    if (!fs.existsSync(quasarFolder)) {
       fs.mkdirSync(quasarFolder)
     }
 
