@@ -189,7 +189,10 @@ export default Vue.extend({
         this.showing === true ? h('div', {
           staticClass: 'q-tooltip no-pointer-events',
           class: this.contentClass,
-          style: this.contentStyle
+          style: this.contentStyle,
+          attrs: {
+            role: 'complementary'
+          }
         }, slot(this, 'default')) : null
       ])
     }
