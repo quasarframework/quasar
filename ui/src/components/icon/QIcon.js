@@ -16,7 +16,7 @@ export default Vue.extend({
   computed: {
     type () {
       let cls
-      const icon = this.name
+      let icon = this.name
 
       if (!icon) {
         return {
@@ -65,6 +65,20 @@ export default Vue.extend({
       }
       else {
         cls = 'material-icons'
+
+        if (icon.startsWith('o_') === true) {
+          icon = icon.substring(2)
+          cls += '-outlined'
+        }
+        else if (icon.startsWith('r_') === true) {
+          icon = icon.substring(2)
+          cls += '-round'
+        }
+        else if (icon.startsWith('s_') === true) {
+          icon = icon.substring(2)
+          cls += '-sharp'
+        }
+
         content = icon
       }
 

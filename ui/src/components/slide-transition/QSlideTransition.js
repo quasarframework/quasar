@@ -39,6 +39,7 @@ export default Vue.extend({
       this.animating = false
 
       clearTimeout(this.timer)
+      clearTimeout(this.timerFallback)
       this.el.removeEventListener('transitionend', this.animListener)
       this.animListener = null
     }
@@ -75,6 +76,7 @@ export default Vue.extend({
               this.__end(el, 'show')
             }
             el.addEventListener('transitionend', this.animListener)
+            this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
           }, 100)
         },
         leave: (el, done) => {
@@ -97,6 +99,7 @@ export default Vue.extend({
               this.__end(el, 'hide')
             }
             el.addEventListener('transitionend', this.animListener)
+            this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
           }, 100)
         }
       }

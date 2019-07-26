@@ -616,6 +616,12 @@
           General
         </q-item-label>
 
+        <q-item>
+          <q-item-section class="scroll">
+            <q-input v-model="text" label="Text field label - Text field label - Text field label - Text field label - Text field label - Text field label" filled />
+          </q-item-section>
+        </q-item>
+
         <q-item tag="label">
           <q-item-section side>
             <q-checkbox :dark="dark" v-model="check1" />
@@ -771,7 +777,9 @@ export default {
 
       check1: true,
       check2: false,
-      check3: false
+      check3: false,
+
+      text: 'text'
     }
   },
 

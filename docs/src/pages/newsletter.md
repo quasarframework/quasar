@@ -15,4 +15,4 @@ components:
 * Frequent bite-sized nuggets of information direct to your inbox
 * Plus a monthly newsletter packed with goodness
 
-<newsletter-signup />
+<newsletter-signup class="q-mt-lg" />
