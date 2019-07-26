@@ -37,7 +37,7 @@
   "dependencies": {
     "@iarna/toml": "^2.2.3",
     "@quasar/babel-preset-app": "1.1.4",
-    "@quasar/proton": "link:../proton",
+    "@quasar/proton": "link:../../proton",
     "@vue/preload-webpack-plugin": "1.1.0",
     "autoprefixer": "9.6.0",
     "babel-plugin-system-import-transformer": "^4.0.0",
