@@ -1,5 +1,5 @@
 import attachHooks from '../../backgroundHooks'
-import Bridge from '../init/bridge'
+import Bridge from '../bridge'
 let bridge = null
 
 chrome.browserAction.onClicked.addListener((tab) => { // eslint-disable-line no-unused-vars
