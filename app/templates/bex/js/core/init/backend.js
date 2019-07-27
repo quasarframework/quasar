@@ -3,19 +3,14 @@ import attachHooks from '../../backendHooks'
 
 let bridge = null
 let listeners = []
-const hook = window.__Q_BEX_HOOK__
 
 export function initBackend () {
-  buildBridge()
-
-  if (hook.Vue) {
-    connect(hook.Vue)
-  } else {
-    hook.once('init', connect)
-  }
+  const hook = window.__Q_BEX_HOOK__
+  buildBridge(hook)
+  connect(hook)
 }
 
-function buildBridge () {
+function buildBridge (hook) {
   bridge = new Bridge({
     listen (fn) {
       const listener = evt => {
@@ -45,7 +40,7 @@ function buildBridge () {
   attachHooks(bridge, hook.Vue)
 }
 
-function connect (Vue) {
+function connect (hook) {
   bridge.log('Backend ready..')
-  bridge.send('ready', { v: Vue.version })
+  bridge.send('ready', { v: hook.Vue.version })
 }
