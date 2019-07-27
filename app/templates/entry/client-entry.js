@@ -154,10 +154,24 @@ async function start () {
     Vue.prototype.$q.cordova = window.cordova
     <% } %>
 
+    <% if (!ctx.mode.bex) { %>
       new Vue(app)
+    <% } %>
 
     <% if (ctx.mode.cordova) { %>
     }, false) // on deviceready
+    <% } %>
+
+    <% if (ctx.mode.bex) { %>
+      let vApp = null
+      window.QBexInit = function (shell) {
+        shell.connect(bridge => {
+          window.QBexBridge = bridge
+          Vue.prototype.$q.bex = window.QBexBridge
+          vApp = new Vue(app)
+          window.__Q_BEX_HOOK__.emit('init', vApp)
+        })
+      }
     <% } %>
 
   <% } // end of Non SSR %>

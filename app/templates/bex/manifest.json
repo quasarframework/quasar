@@ -9,22 +9,17 @@
     "128": "icons/icon128x128.png"
   },
   "browser_action": {
-    "default_title": "quasar-browser-extension",
-    "default_popup": "www/index.html"
+    "default_title": "quasar-browser-extension"
   },
   "background": {
     "scripts": [
+      "www/bex-background.js",
       "js/background.js"
     ],
     "persistent": true
   },
-  "options_ui": {
-    "page": "www/index.html",
-    "chrome_style": false,
-    "open_in_tab": false
-  },
   "content_scripts": [{
-    "matches": ["https://forum.quasar-framework.org/*"],
+    "matches": ["<all_urls>"],
     "js": [
       "js/contentScript.js"
     ],
@@ -33,12 +28,16 @@
     ]
   }],
   "permissions": [
+    "<all_urls>",
+    "storage",
+    "tabs",
     "activeTab"
   ],
   "web_accessible_resources": [
     "www/*",
     "js/*",
-    "css/*"
+    "css/*",
+    "<all_urls>"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' 'unsafe-eval' http://127.0.0.1; object-src 'self'"
 }

@@ -23,6 +23,12 @@ module.exports = function (chain, cfg) {
       }]
     ])
 
+  chain.entry('bex-init')
+    .add(appPaths.resolve.bex('js/core/init/index.js'))
+
+  chain.entry('bex-background')
+  .add(appPaths.resolve.bex('js/core/background/background.js'))
+
   if (cfg.ctx.dev) {
     // Clean old dir
     fse.removeSync(outputPath)
