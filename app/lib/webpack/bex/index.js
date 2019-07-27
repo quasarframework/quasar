@@ -3,6 +3,13 @@ const
   path = require('path'),
   fse = require('fs-extra')
 
+// TODO: Use this to copy app/temaplate/bex files which the user
+// shouldn't be editing to make sure we get the latest versions.
+const renderFile = function (fileName, api) {
+  console.log(chalk.yellow(`    Copying ${fileName}`))
+  fse.copySync(path.join(__dirname, 'templates', 'src-bex', 'js', fileName), path.join(api.resolve.bex('js'), fileName))
+}
+
 module.exports = function (chain, cfg) {
   const
     unpackedBuildDir = path.join(cfg.build.distDir, 'unpacked'),

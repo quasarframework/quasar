@@ -1,5 +1,4 @@
-import Bridge from './bridge'
-import { initBackend } from './backend'
+import Bridge from '../bridge'
 
 export default function connect () {
   window.QBexInit({
@@ -26,7 +25,6 @@ export default function connect () {
         })
 
         cb(bridge)
-        initBackend()
       })
     },
     onReload (reloadFn) {
