@@ -41,6 +41,9 @@ const __whitelistWarning = function (func) {
  */
 const __reject = new Promise((reject) => { reject })
 
+// eventName -> listeners map
+window.protonEventHandlers = {}
+
 export default class Proton {
 <% if (ctx.dev) { %>
   /**
@@ -52,6 +55,21 @@ export default class Proton {
   static invoke (args) {
   Object.freeze(args)
     external.invoke(JSON.stringify(args))
+  }
+
+<% if (ctx.dev) { %>
+  /**
+   * @name addEventListener
+   * @description Add an event listener to Proton back end
+   * @param {String} event
+   * @param {Function} handler
+   */
+<% } %>
+  static addEventListener (event, handler) {
+    if (window.protonEventHandlers[event] === void 0) {
+      window.protonEventHandlers[event] = []
+    }
+    window.protonEventHandlers[event].push(handler)
   }
 
 <% if (ctx.dev) { %>
