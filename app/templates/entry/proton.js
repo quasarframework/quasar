@@ -63,14 +63,18 @@ export default class Proton {
    * @description Add an event listener to Proton back end
    * @param {String} event
    * @param {Function} handler
+   * @param {Function} onAnswer
+   * @param {Function} onFailedAnswer
    * @param {Boolean} once
    */
 <% } %>
-  static addEventListener (event, handler, once = false) {
+  static addEventListener(event, handler, onAnswer, onFailedAnswer, once = false) {
     this.invoke({
       cmd: 'addEventListener',
       event,
       handler: this.transformCallback(handler, once),
+      on_answer: this.transformCallback(onAnswer, once),
+      on_failed_answer: this.transformCallback(onFailedAnswer, once),
       once
     })
   }
@@ -90,7 +94,7 @@ export default class Proton {
       if (once) {
         delete window[identifier]
       }
-      return callback(result)
+      return callback && callback(result)
     }
     return identifier
   }
