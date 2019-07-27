@@ -68,13 +68,11 @@ export default class Proton {
    * @param {Boolean} once
    */
 <% } %>
-  static addEventListener(event, handler, onAnswer, onFailedAnswer, once = false) {
+  static addEventListener(event, handler, once = false) {
     this.invoke({
       cmd: 'addEventListener',
       event,
       handler: this.transformCallback(handler, once),
-      on_answer: this.transformCallback(onAnswer, once),
-      on_failed_answer: this.transformCallback(onFailedAnswer, once),
       once
     })
   }
