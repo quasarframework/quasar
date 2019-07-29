@@ -72,24 +72,6 @@ Vue.prototype.$q.electron = electron
 
 <% if (ctx.mode.proton) { %>
 import proton from './proton.js'
-window.queue = []
-window.listeners = []
-window.emit = (payload, salt, ignoreQueue) => {
-   const listeners = (window['listeners'] && window['listeners'][payload.type]) || []
-
-   if (!ignoreQueue && listeners.length === 0) {
-     window['queue'].push({
-       payload: payload,
-       salt: salt
-     })
-   }
-   for (let i = listeners.length - 1; i >= 0; i--) {
-     const listener = listeners[i]
-     if (listener.once)
-       listeners.splice(i, 1)
-     listener.handler(payload)
-   }
-}
 Vue.prototype.$q.proton = window.proton = proton
 
 document.querySelector('body').addEventListener(
