@@ -1,6 +1,9 @@
-import attachHooks from '../../backgroundHooks'
+import attachActivatedBackgroundHooks from '../../activatedBackgroundHooks'
+import attachGlobalBackgroundHooks from '../../globalBackgroundHooks'
 import Bridge from '../bridge'
 let bridge = null
+
+attachGlobalBackgroundHooks(chrome)
 
 chrome.runtime.onConnect.addListener(port => {
   let disconnected = false
@@ -19,5 +22,5 @@ chrome.runtime.onConnect.addListener(port => {
     }
   })
 
-  attachHooks(chrome, bridge)
+  attachActivatedBackgroundHooks(chrome, bridge)
 })

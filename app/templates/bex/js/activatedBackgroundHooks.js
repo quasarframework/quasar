@@ -1,14 +1,6 @@
-// This file is where you will put your chrome listeners and respond by sending them to your BEX
+// Hooks added here have a bridge to your BEX allowing communication.
 
-export default function attachHooks (chrome, bridge) {
-  chrome.browserAction.onClicked.addListener((tab) => { // eslint-disable-line no-unused-vars
-    chrome.tabs.create({
-      url: chrome.extension.getURL('www/index.html')
-    }, (newTab) => { // eslint-disable-line no-unused-vars
-      // Tab opened.
-    })
-  })
-
+export default function attachActivatedBackgroundHooks (chrome, bridge) {
   /*
   // EXAMPLES
   // Listen to a message from the client
