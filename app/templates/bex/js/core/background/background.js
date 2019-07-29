@@ -2,14 +2,6 @@ import attachHooks from '../../backgroundHooks'
 import Bridge from '../bridge'
 let bridge = null
 
-chrome.browserAction.onClicked.addListener((tab) => { // eslint-disable-line no-unused-vars
-  chrome.tabs.create({
-    url: chrome.extension.getURL('www/index.html')
-  }, (newTab) => { // eslint-disable-line no-unused-vars
-    // Tab opened.
-  })
-})
-
 chrome.runtime.onConnect.addListener(port => {
   let disconnected = false
   port.onDisconnect.addListener(() => {
