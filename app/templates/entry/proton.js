@@ -50,7 +50,6 @@ export default class Proton {
    */
 <% } %>
   static invoke (args) {
-    console.log('invoking', JSON.stringify(args))
   Object.freeze(args)
     external.invoke(JSON.stringify(args))
   }
