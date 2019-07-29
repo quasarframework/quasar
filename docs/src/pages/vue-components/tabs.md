@@ -87,6 +87,8 @@ This component inherits everything from QTab, however it also has `router-link` 
     exact
   />
 </q-tabs>
+<router-view>
+</router-view>
 ```
 
 ::: warning
