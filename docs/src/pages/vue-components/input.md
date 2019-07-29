@@ -150,7 +150,7 @@ There are **helpers** for QInput `mask` prop: [full list](https://github.com/qua
 
 <doc-example title="Filling the mask" file="QInput/MaskFill" />
 
-The `unmask-value` is useful if for example you want to force the user type a certain format, but you want the model to contain the raw value:
+The `unmasked-value` is useful if for example you want to force the user type a certain format, but you want the model to contain the raw value:
 
 <doc-example title="Unmasked model" file="QInput/MaskUnmaskedModel" />
 
