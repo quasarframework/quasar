@@ -559,7 +559,7 @@ export default {
 
       if (this.pick.right) {
         code += `
-    <q-drawer v-model="right" side="right"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
+    <q-drawer v-model="right" side="right"${this.cfg.rightOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
