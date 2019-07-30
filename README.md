@@ -89,11 +89,6 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
   <tbody>
     <tr>
       <td align="center" valign="middle">
-        <a href="https://utopian.io" target="_blank">
-          <img width="222px" src="https://cdn.quasar.dev/sponsors/utopian.png">
-        </a>
-      </td>
-      <td align="center" valign="middle">
         <a href="https://wallabyjs.com/" target="_blank">
           <img width="222px" src="https://cdn.quasar.dev/sponsors/wallaby.png">
         </a>
