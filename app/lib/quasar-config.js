@@ -619,7 +619,9 @@ class QuasarConfig {
     if (this.ctx.mode.proton) {
       cfg.proton = merge({
         serverless: false,
-        bundle: true,
+        bundle: {
+          active: true
+        },
         whitelist: {},
         window: {
           title: require(appPaths.resolve.app('package.json')).productName
