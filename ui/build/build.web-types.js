@@ -19,7 +19,7 @@ function resolveType (type) {
 module.exports.generate = function (data) {
   try {
     const webtypes = JSON.stringify({
-      $schema: '../../schema/web-types.schema.json',
+      $schema: '',
       framework: 'vue',
       name: 'quasar',
       version: process.env.VERSION || require('../package.json').version,
