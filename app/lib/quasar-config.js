@@ -629,6 +629,9 @@ class QuasarConfig {
           title: require(appPaths.resolve.app('package.json')).productName
         }
       }, cfg.proton)
+      if (cfg.proton.embeddedServer.port != null) {
+        cfg.proton.embeddedServer.port = cfg.proton.embeddedServer.port.toString()
+      }
     }
 
     if (this.ctx.mode.pwa) {
