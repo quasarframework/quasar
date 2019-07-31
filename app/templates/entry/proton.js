@@ -56,17 +56,54 @@ export default class Proton {
 
 <% if (ctx.dev) { %>
   /**
+   * @name addEventListener
+   * @description Add an event listener to Proton back end
+   * @param {String} event
+   * @param {Function} handler
+   * @param {Boolean} once
+   */
+<% } %>
+  static addEventListener(event, handler, once = false) {
+    this.invoke({
+      cmd: 'addEventListener',
+      event,
+      handler: this.transformCallback(handler, once),
+      once
+    })
+  }
+
+<% if (ctx.dev) { %>
+  /**
+   * @name emit
+   * @description Emits an event to the Proton back end
+   * @param {String} event
+   * @param {Object} payload
+   */
+<% } %>
+  static emit(event, payload) {
+  this.invoke({
+    cmd: 'emit',
+    event,
+    payload
+  })
+}
+
+<% if (ctx.dev) { %>
+  /**
    * @name transformCallback
    * @description Registers a callback with a uid
    * @param {Function} callback
+   * @param {Boolean} once
    * @returns {*}
    */
 <% } %>
-  static transformCallback (callback) {
+  static transformCallback (callback, once = true) {
     const identifier = Object.freeze(uid())
     window[identifier] = (result) => {
-      delete window[identifier]
-      callback(result)
+      if (once) {
+        delete window[identifier]
+      }
+      return callback && callback(result)
     }
     return identifier
   }

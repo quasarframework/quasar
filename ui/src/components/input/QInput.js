@@ -162,6 +162,12 @@ export default Vue.extend({
       e.target.composing = true
     },
 
+    __onCompositionUpdate (e) {
+      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
+        e.target.composing = false
+      }
+    },
+
     __onCompositionEnd (e) {
       if (e.target.composing !== true) { return }
       e.target.composing = false
@@ -187,6 +193,10 @@ export default Vue.extend({
         compositionend: this.__onCompositionEnd,
         focus: stop,
         blur: stop
+      }
+
+      if (this.$q.platform.is.android === true) {
+        on.compositionupdate = this.__onCompositionUpdate
       }
 
       if (this.hasMask === true) {

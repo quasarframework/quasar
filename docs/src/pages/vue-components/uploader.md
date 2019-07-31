@@ -155,6 +155,8 @@ app.listen(port, () => {
 ## Supporting other services
 QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
+### Instructions
+
 Below is an example with the API that you need to supply. You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.
 
 ::: tip
@@ -164,6 +166,8 @@ For the default XHR implementation, check out [source code](https://github.com/q
 ::: warning Help appreciated
 We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit.
 :::
+
+For the UMD version, you can extend `Quasar.components.QUploaderBase`.
 
 ```js
 // MyUploader.js
@@ -210,7 +214,79 @@ export default {
 }
 ```
 
-For the UMD version, you can extend `Quasar.components.QUploaderBase`.
+### ASP.NET MVC/Core
+QUploader seamlessly integrates with a Microsoft ASP.NET MVC/Core 2.x Web API backend.
+In your Vue file, configure the QUploader component with the desired Web API endpoint:
+
+```vue
+<q-uploader
+  url="http://localhost:4444/fileuploader/upload"
+  label="Upload"
+  style="max-width: 300px"
+/>
+```
+
+If your server requires authentication such as a JWT token, use QUploader's factory function to specify the xhr header that will be used by QUploader. For example:
+
+```html
+<template>
+  <q-uploader
+    label="Upload"
+    :factory="factoryFn"
+    style="max-width: 300px"
+  />
+</template>
+
+<script>
+export default {
+  methods: {
+    factoryFn (file) {
+      return new Promise((resolve, reject) => {
+        // Retrieve JWT token from your store.
+        const token = "myToken";
+        resolve({
+          url: http://localhost:4444/fileuploader/upload,
+          method: 'POST',
+          headers: [
+            { name: 'Content-Type', value: 'application/json-patch+json'},
+            { name: 'Authorization', value: `Bearer ${token}` }
+          ]
+        })
+      })
+    }
+  }
+}
+</script>
+```
+
+The file(s) payload of QUploader will be a properly formed ```IFormFileCollection``` object that you can read via your ASP.NET Web API controller's ```.Request``` property.
+ASP.NET Core 2.2 Controller:
+
+```
+[Route("api/[controller]")]
+[ApiController]
+public class FileUploaderController : ControllerBase
+{
+    [HttpPost]
+    public async Task upload()
+    {
+        // Request's .Form.Files property will
+        // contain QUploader's files.
+        var files = this.Request.Form.Files;
+        foreach (var file in files)
+        {
+            if (file == null || file.Length == 0)
+                continue;
+
+            // Do something with the file.
+            var fileName = file.FileName;
+            var fileSize = file.Length;
+            // save to server...
+            // ...
+        }
+    }
+}
+```
 
 ## QUploader API
 <doc-api file="QUploader" />

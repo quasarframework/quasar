@@ -178,18 +178,12 @@ class ProtonRunner {
      }
 
      if (cfg.proton.whitelist.all) {
-       if (!tomlContents.dependencies.proton.features.includes('api')) {
-         tomlContents.dependencies.proton.features.push('api')
-       }
        if (!tomlContents.dependencies.proton.features.includes('all-api')) {
          tomlContents.dependencies.proton.features.push('all-api')
        }
      } else {
        const whitelist = Object.keys(cfg.proton.whitelist).filter(w => cfg.proton.whitelist[w] === true)
        tomlContents.dependencies.proton.features = whitelist.concat(tomlContents.dependencies.proton.features.filter(f => f !== 'api' && cfg.proton.whitelist[f] !== true))
-       if (whitelist.length) {
-         tomlContents.dependencies.proton.features.unshift('api')
-       }
      }
    }
 }

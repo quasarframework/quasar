@@ -288,7 +288,9 @@ export default Vue.extend({
         return {
           '!click': e => { this.$emit('click', e) },
           mouseover: e => { this.$emit('mouseover', e) },
-          mouseout: e => { this.$emit('mouseout', e) }
+          mouseout: e => { this.$emit('mouseout', e) },
+          mouseenter: e => { this.$emit('mouseenter', e) },
+          mouseleave: e => { this.$emit('mouseleave', e) }
         }
       }
     }
@@ -342,6 +344,12 @@ export default Vue.extend({
     },
 
     __openByTouch (evt) {
+      if (this.showing !== false) {
+        // some browsers might capture and trigger this
+        // even if Drawer has just been opened (but animation is still pending)
+        return
+      }
+
       const
         width = this.size,
         position = between(evt.distance.x, 0, width)
@@ -383,6 +391,12 @@ export default Vue.extend({
     },
 
     __closeByTouch (evt) {
+      if (this.showing !== true) {
+        // some browsers might capture and trigger this
+        // even if Drawer has just been closed (but animation is still pending)
+        return
+      }
+
       const
         width = this.size,
         dir = evt.direction === this.side,
@@ -534,7 +548,7 @@ export default Vue.extend({
 
       this.mobileView === true ? h('div', {
         ref: 'backdrop',
-        staticClass: 'fullscreen q-drawer__backdrop q-layout__section--animate',
+        staticClass: 'fullscreen q-drawer__backdrop',
         class: this.backdropClass,
         style: this.lastBackdropBg !== void 0
           ? { backgroundColor: this.lastBackdropBg }
@@ -565,7 +579,7 @@ export default Vue.extend({
     }, child.concat([
       h('aside', {
         ref: 'content',
-        staticClass: `q-drawer q-layout__section--animate`,
+        staticClass: `q-drawer`,
         class: this.classes,
         style: this.style,
         on: this.onNativeEvents,

@@ -71,7 +71,7 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
     // if you want Quasar components to use a specific icon library
     // other than the default Material Icons;
     // requires the icon set style tag from above
-    Quasar.icons.set(Quasar.iconSet.fontawesomeV5) // fontawesomeV5 is just an example
+    Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5) // fontawesomeV5 is just an example
 
     /*
       Example kicking off the UI.
