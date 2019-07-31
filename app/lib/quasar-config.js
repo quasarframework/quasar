@@ -620,7 +620,10 @@ class QuasarConfig {
       cfg.proton = merge({
         serverless: false,
         bundle: true,
-        whitelist: {}
+        whitelist: {},
+        window: {
+          title: require(appPaths.resolve.app('package.json')).productName
+        }
       }, cfg.proton)
     }
 
