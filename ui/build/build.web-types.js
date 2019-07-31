@@ -30,7 +30,7 @@ module.exports.generate = function (data) {
             let result = {
               name,
               // TODO source file can be wrong - this is just a guess for now
-              'source-file': `./quasar/src/components/${kebabCase(name.substr(1))}/${name}.js`,
+              'source-file': `./src/components/${kebabCase(name.substr(1))}/${name}.js`,
               attributes: props && Object.entries(props).map(([name, propApi]) => {
                 let result = {
                   name,
@@ -87,7 +87,7 @@ module.exports.generate = function (data) {
           attributes: data.directives.map(directiveApi => {
             return {
               name: 'v-' + kebabCase(directiveApi.name),
-              'source-file': `./node_modules/quasar/src/directives/${directiveApi.name}.js`,
+              'source-file': `./src/directives/${directiveApi.name}.js`,
               type: resolveType(directiveApi.api.value.type),
               description: `${directiveApi.name} - Quasar directive`,
               'doc-url': 'https://quasar.dev'
