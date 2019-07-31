@@ -618,7 +618,9 @@ class QuasarConfig {
 
     if (this.ctx.mode.proton) {
       cfg.proton = merge({
-        serverless: false,
+        embeddedServer: {
+          active: true
+        },
         bundle: {
           active: true
         },

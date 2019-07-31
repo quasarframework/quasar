@@ -77,8 +77,8 @@ class ProtonRunner {
     })
 
     const features = []
-    if (cfg.proton.serverless) {
-      features.push('serverless')
+    if (cfg.proton.embeddedServer.active) {
+      features.push('embedded-server')
     }
 
     const buildFn = target => this.__runCargoCommand({
