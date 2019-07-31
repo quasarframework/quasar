@@ -78,6 +78,9 @@ const Notifications = {
 
       const actions =
         (config.actions || []).concat(defaults.actions || [])
+      if (config.actions === null || (Array.isArray(config.actions) && config.actions.length === 0)) {
+        actions.splice(0, actions.length)
+      }
 
       if (actions.length > 0) {
         notif.actions = actions.map(item => {
