@@ -20,6 +20,8 @@ export default {
 
     disable: Boolean,
     tabindex: [String, Number]
+    
+    noKeyDown: Boolean, 
   },
 
   computed: {
@@ -83,6 +85,9 @@ export default {
     },
 
     __keyDown (e) {
+      if(this.noKeyDown){
+        return
+      }
       if (e.keyCode === 13 || e.keyCode === 32) {
         this.toggle(e)
       }
