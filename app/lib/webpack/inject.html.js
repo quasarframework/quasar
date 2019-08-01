@@ -18,7 +18,8 @@ module.exports = function (chain, cfg) {
 
       chunksSortMode: 'none',
       // inject script tags for bundle
-      inject: !(cfg.ctx.mode.proton && cfg.ctx.prod && !cfg.proton.embeddedServer.active),
+      inject: true,
+      inlineSource: cfg.ctx.mode.proton && cfg.ctx.prod && !cfg.proton.embeddedServer.active ? '.(js|css)$' : undefined,
       cache: true
     }])
 

@@ -627,6 +627,9 @@ class QuasarConfig {
         whitelist: {},
         window: {
           title: require(appPaths.resolve.app('package.json')).productName
+        },
+        security: {
+          csp: 'default-src data: filesystem: ws: http: https: \'unsafe-eval\' \'unsafe-inline\''
         }
       }, cfg.proton)
       if (cfg.proton.embeddedServer.port != null) {

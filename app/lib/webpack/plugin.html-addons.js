@@ -51,6 +51,15 @@ module.exports.plugin = class HtmlAddonsPlugin {
           data.body.push(
             makeScriptTag(bodyScript)
           )
+        } else if (this.cfg.ctx.mode.proton) {
+          if (this.cfg.proton.security.csp) {
+            data.head.push(
+              makeTag('meta', {
+                'http-equiv': 'Content-Security-Policy',
+                content: this.cfg.proton.security.csp
+              })
+            )
+          }
         }
 
         // finally, inform Webpack that we're ready
