@@ -23,12 +23,10 @@ export function getVm (root, vm) {
   return new Vue(inject !== void 0 ? { ...inject, ...vm } : vm)
 }
 
-export function getAllChildren (vm) {
-  let children = vm.$children
-  vm.$children.forEach(child => {
-    if (child.$children.length > 0) {
-      children = children.concat(getAllChildren(child))
-    }
+export function getAllChildren (vm, children = []) {
+  vm.$children.forEach(function (child) {
+    children.push(child)
+    child.$children.length > 0 && getAllChildren(child, children)
   })
   return children
 }
