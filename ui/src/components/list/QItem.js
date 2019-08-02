@@ -3,11 +3,12 @@ import Vue from 'vue'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import slot from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import TransitionMixin from '../../mixins/transition.js'
 
 export default Vue.extend({
   name: 'QItem',
 
-  mixins: [ RouterLinkMixin ],
+  mixins: [ RouterLinkMixin, TransitionMixin ],
 
   props: {
     active: Boolean,
@@ -124,10 +125,13 @@ export default Vue.extend({
       return h('router-link', data, this.__getContent(h))
     }
 
-    return h(
-      this.tag,
-      data,
-      this.__getContent(h)
+    return h('transition', {
+      props: { name: this.transition }
+    }, [h(
+        this.tag,
+        data,
+        this.__getContent(h)
+      )]
     )
   }
 })
