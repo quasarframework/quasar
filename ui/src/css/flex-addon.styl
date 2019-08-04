@@ -53,13 +53,6 @@ fg($name, $size)
       .q-my{$name}-{$space}
         @extends .q-mt{$name}-{$space}, .q-mb{$name}-{$space}
 
-    .q-ml{$name}-auto
-      margin-left auto
-    .q-mr{$name}-auto
-      margin-right auto
-    .q-mx{$name}-auto
-      @extends .q-ml{$name}-auto, .q-mr{$name}-auto
-
     .row, .column, .flex
       if $noProcNotZero
         {fr('&.inline<name>', $name)}
