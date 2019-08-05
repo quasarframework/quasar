@@ -24,7 +24,7 @@ module.exports = function (chain, cfg) {
   chain.output
     .path(outputPath) // Output to our src-bex/www folder.
 
-  // Copy statics
+  // Copy statics (shouldn't this happen automatically?!)
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   chain.plugin('copy-webpack')
     .use(CopyWebpackPlugin, [
@@ -34,6 +34,7 @@ module.exports = function (chain, cfg) {
       }]
     ])
 
+  // Bundle our bex files for inclusion via the manifest.json
   chain.entry('bex-init')
     .add(appPaths.resolve.bex('js/core/init/index.js'))
 
@@ -59,7 +60,9 @@ module.exports = function (chain, cfg) {
     cfg.build.htmlFilename = path.join('unpacked', 'www', 'index.html')
 
     // This is required for some reason. Without it, the splitChunks causes issues with the connection
-    // between the client and the background script.
+    // between the client and the background script. I assume because it's expecting a chunk to be available
+    // via traditional loading methods but we only specify one file for background in the manifest so it needs
+    // to container EVERYTHING it needs.
     chain.optimization.splitChunks(undefined)
 
     // Copy manifest / background.js to dist
