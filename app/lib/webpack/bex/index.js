@@ -1,7 +1,11 @@
 const
   appPaths = require('../../app-paths'),
   path = require('path'),
-  fse = require('fs-extra')
+  fse = require('fs-extra'),
+  HtmlWebpackPlugin = require('html-webpack-plugin'),
+  injectClientSpecifics = require('../inject.client-specifics'),
+  injectHotUpdate = require('../inject.hot-update'),
+  injectPreload = require('../inject.preload')
 
 // TODO: Use this to copy app/temaplate/bex files which the user
 // shouldn't be editing to make sure we get the latest versions.
@@ -34,7 +38,10 @@ module.exports = function (chain, cfg) {
     .add(appPaths.resolve.bex('js/core/init/index.js'))
 
   chain.entry('bex-background')
-  .add(appPaths.resolve.bex('js/core/background/background.js'))
+    .add(appPaths.resolve.bex('js/core/background/background.js'))
+
+  chain.entry('bex-contentScript')
+    .add(appPaths.resolve.bex('js/core/content/contentScript.js'))
 
   if (cfg.ctx.dev) {
     // Clean old dir
@@ -50,6 +57,10 @@ module.exports = function (chain, cfg) {
 
     // We need this bundled in with the rest of the source to match the manifest instructions.
     cfg.build.htmlFilename = path.join('unpacked', 'www', 'index.html')
+
+    // This is required for some reason. Without it, the splitChunks causes issues with the connection
+    // between the client and the background script.
+    chain.optimization.splitChunks(undefined)
 
     // Copy manifest / background.js to dist
     const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -77,4 +88,28 @@ module.exports = function (chain, cfg) {
       }])
 
   }
+
+  // TODO: I don't like this at all. I just need to exclude bex-contentScript.js
+  // and bex-background.js from the final output file but can't find another way
+  // than using my own template, setting inject: false and manually adding the files.
+  // I could edit the file manually on bundle complete but that seems just as nasty
+  // RAZVAN - some guidance would be great.
+  chain.plugin('html-webpack')
+    .use(HtmlWebpackPlugin, [{
+      ...cfg.__html.variables,
+
+      filename: cfg.ctx.dev
+        ? 'index.html'
+        : path.join(cfg.build.distDir, cfg.build.htmlFilename),
+      template: path.join(__dirname, 'bex.index.html'),
+      minify: cfg.__html.minifyOptions,
+      chunksSortMode: 'none',
+      // inject script tags for bundle
+      inject: false,
+      cache: true
+    }])
+
+  injectClientSpecifics(chain, cfg)
+  injectHotUpdate(chain, cfg)
+  injectPreload(chain, cfg)
 }

@@ -119,8 +119,7 @@ async function getSSR (cfg) {
 
 async function getBEx (cfg) {
   const chain = createChain(cfg, 'BEx')
-  require('./bex')(chain, cfg) //Before SPA so we can set some vars
-  require('./spa')(chain, cfg) // extending a SPA
+  require('./bex')(chain, cfg)
   return await getWebpackConfig(chain, cfg, {
     name: 'BEx',
     hot: true,

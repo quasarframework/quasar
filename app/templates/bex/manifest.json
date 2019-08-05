@@ -21,6 +21,7 @@
   "content_scripts": [{
     "matches": ["<all_urls>"],
     "js": [
+      "www/bex-contentScript.js",
       "js/contentScript.js"
     ],
     "css": [
