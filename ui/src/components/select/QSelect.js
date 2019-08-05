@@ -157,7 +157,7 @@ export default Vue.extend({
       const
         mapNull = this.mapOptions === true && this.multiple !== true,
         val = this.value !== void 0 && (this.value !== null || mapNull === true)
-          ? (this.multiple === true ? this.value : [ this.value ])
+          ? (this.multiple === true && Array.isArray(this.value) ? this.value : [ this.value ])
           : []
 
       return this.mapOptions === true && Array.isArray(this.options) === true
