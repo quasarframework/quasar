@@ -69,6 +69,18 @@ This is not restricted to SVG only. You can use whatever image type you want (pn
 <q-input clearable clear-icon="img:statics/bla/bla/my.gif" ... />
 ```
 
+It is also possible to inline the image (svg, png, jpeg, gif...) and dynamically change it's style (svg):
+
+```html
+<q-icon name="img:data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" height="140" width="500"><ellipse cx="200" cy="80" rx="100" ry="50" style="fill:yellow;stroke:purple;stroke-width:2" /></svg>" />
+<q-btn icon="
+img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" ... />
+
+A working example demo can be found here:
+https://jsfiddle.net/Zireael/7vzxc926/27/
+```
+
+
 All `icon` related props from Quasar components can make use of this.
 
 ::: tip
