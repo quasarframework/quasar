@@ -251,7 +251,7 @@ export default Vue.extend({
   render (h) {
     if (this.$q.platform.is.desktop !== true) {
       return h('div', {
-        staticClass: 'q-scroll-area',
+        staticClass: 'q-scrollarea',
         style: this.contentStyle
       }, [
         h('div', {
