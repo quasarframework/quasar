@@ -3,7 +3,10 @@ import History from '../history.js'
 export default {
   props: {
     fullscreen: Boolean,
-    exitFullscreenOnRouteChange: true
+    exitFullscreenOnRouteChange: {
+      type: Boolean,
+      default: true
+    }
   },
 
   data () {
