@@ -1,5 +1,6 @@
 ---
 title: Grid Gutter
+desc: How to use the Quasar grid for gutter spaces.
 ---
 
 In the hope that you've previously read the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox) theory, let's get deeper into Gutters.

@@ -1,5 +1,6 @@
 ---
 title: Range
+desc: The QRange Vue component offers a way for the user to select from a sub-range of values between a maximum and maximum value, with optional steps.
 related:
   - /vue-components/slider
   - /vue-components/field

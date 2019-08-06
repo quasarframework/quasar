@@ -1,5 +1,6 @@
 ---
 title: Global Event Bus
+desc: How to use a global event bus in a Quasar app.
 ---
 Sometimes you need an event bus or a publish/subscribe channel. Vue already has an event bus for each component. For convenience, you can use the root Vue component for this through `this.$root` to register and listen for events.
 

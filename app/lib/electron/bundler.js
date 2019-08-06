@@ -2,7 +2,8 @@ const fs = require('fs')
 const
   appPath = require('../app-paths'),
   packagerVersion = '13.1.0',
-  getPackageJson = require('../helpers/get-package-json')
+  getPackageJson = require('../helpers/get-package-json'),
+  getPackage = require('../helpers/get-package'),
   log = require('../helpers/logger')('app:electron-bundle')
 
 function isValidName (bundlerName) {
@@ -69,7 +70,7 @@ module.exports.getDefaultName = function () {
 }
 
 module.exports.getBundler = function (bundlerName) {
-  return require(appPath.resolve.app(`node_modules/electron-${bundlerName}`))
+  return getPackage(`electron-${bundlerName}`)
 }
 
 module.exports.ensureBuilderCompatibility = function () {

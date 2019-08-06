@@ -72,6 +72,12 @@ export default Vue.extend({
       }
     },
 
+    style () {
+      return this.container === true
+        ? null
+        : { minHeight: this.$q.screen.height + 'px' }
+    },
+
     // used by container only
     targetStyle () {
       if (this.scrollbarWidth !== 0) {
@@ -97,7 +103,8 @@ export default Vue.extend({
   render (h) {
     const layout = h('div', {
       staticClass: 'q-layout q-layout--' +
-        (this.container === true ? 'containerized' : 'standard')
+        (this.container === true ? 'containerized' : 'standard'),
+      style: this.style
     }, [
       h(QScrollObserver, {
         on: { scroll: this.__onPageScroll }
@@ -121,7 +128,7 @@ export default Vue.extend({
           style: this.targetStyle
         }, [
           h('div', {
-            staticClass: 'overflow-auto',
+            staticClass: 'scroll',
             style: this.targetChildStyle
           }, [ layout ])
         ])
@@ -177,7 +184,7 @@ export default Vue.extend({
     },
 
     __updateScrollbarWidth () {
-      if (this.container) {
+      if (this.container === true) {
         const width = this.height > this.containerHeight
           ? getScrollbarWidth()
           : 0

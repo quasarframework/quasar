@@ -2,7 +2,7 @@
   "props": {
     "error": {
       "type": "Boolean",
-      "desc": "Does field has validation errors?",
+      "desc": "Does field have validation errors?",
       "category": "behavior"
     },
 

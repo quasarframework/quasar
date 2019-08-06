@@ -1,5 +1,6 @@
 ---
 title: Vue Prototype Injections
+desc: Injections into the Vue prototype supplied by Quasar.
 ---
 Quasar injects Vue prototype with `$q` object:
 

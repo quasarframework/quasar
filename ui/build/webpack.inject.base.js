@@ -6,7 +6,8 @@ const
 
 const
   env = require('./env'),
-  projectRoot = path.resolve(__dirname, '../')
+  projectRoot = path.resolve(__dirname, '../'),
+  postCssConfig = require(path.resolve(__dirname, '../.postcssrc.js'))
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -147,20 +148,13 @@ function injectRule (chain, lang, test, loader, options) {
     })
 
   const postCssOpts = {
-    sourceMap: true
+    sourceMap: true,
+    ...postCssConfig
   }
 
-  if (env.rtl) {
-    const rtlOptions = env.rtl === true
-      ? {}
-      : env.rtl
-
-    postCssOpts.plugins = () => {
-      return [
-        require('postcss-rtl')(rtlOptions)
-      ]
-    }
-  }
+  env.rtl && postCssOpts.plugins.push(
+    require('postcss-rtl')(env.rtl === true ? {} : env.rtl)
+  )
 
   rule.use('postcss-loader')
     .loader('postcss-loader')

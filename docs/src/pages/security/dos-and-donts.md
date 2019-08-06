@@ -1,5 +1,6 @@
 ---
 title: Security DO's and DON'Ts
+desc: The list of Quasar security recommendations.
 ---
 **DO** periodically review the security of your application, because any lapse may be putting yourself, your team, your users and even your server at risk of serious exploitation. **DON'T** ignore this page because you think you know everything.
 

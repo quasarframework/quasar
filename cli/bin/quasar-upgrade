@@ -94,6 +94,7 @@ function upgradeQuasar () {
   }
 
   const packager = require('../lib/node-packager')(root)
+  const getPackageJson = require('../lib/get-package-json')(root)
 
   console.log()
   log(`Gathering information with ${packager}...`)
@@ -108,9 +109,9 @@ function upgradeQuasar () {
         continue
       }
 
-      const json = path.join(root, 'node_modules', packageName, 'package.json')
-      const curVersion = fs.existsSync(json)
-        ? require(json).version
+      const json = getPackageJson(packageName)
+      const curVersion = json !== null
+        ? json.version
         : null
 
       const latestVersion = getLatestVersion(packager, packageName, curVersion)

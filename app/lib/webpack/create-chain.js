@@ -58,7 +58,7 @@ module.exports = function (cfg, configName) {
     })
 
   if (cfg.framework.all === true) {
-    chain.resolve.alias.set('quasar$', appPaths.resolve.app(`node_modules/quasar/dist/quasar.esm.js`))
+    chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.esm.js')
   }
   if (cfg.build.vueCompiler) {
     chain.resolve.alias.set('vue$', 'vue/dist/vue.esm.js')
@@ -270,7 +270,13 @@ module.exports = function (cfg, configName) {
           [{
             from: appPaths.resolve.src('statics'),
             to: 'statics',
-            ignore: ['.*']
+            ignore: ['.*'],
+            ignore: ['.*'].concat(
+              // avoid useless files to be copied
+              ['electron', 'proton', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+                ? [ 'icons/*', 'app-logo-128x128.png' ]
+                : []
+            )
           }]
         ])
     }

@@ -1,5 +1,6 @@
 ---
 title: Card
+desc: The QCard Vue component is a great way to display important pieces of grouped content. It assists the viewer by containing and organizing information, while also setting up predictable expectations.
 related:
   - /vue-components/separator
 ---

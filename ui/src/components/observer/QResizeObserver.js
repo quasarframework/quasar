@@ -52,6 +52,24 @@ export default Vue.extend({
 
       this.size = size
       this.$emit('resize', this.size)
+    },
+
+    __cleanup () {
+      if (this.curDocView !== void 0) {
+        this.curDocView.removeEventListener('resize', this.trigger, listenOpts.passive)
+        this.curDocView = void 0
+      }
+    },
+
+    __onObjLoad () {
+      this.__cleanup()
+
+      if (this.$el.contentDocument) {
+        this.curDocView = this.$el.contentDocument.defaultView
+        this.curDocView.addEventListener('resize', this.trigger, listenOpts.passive)
+      }
+
+      this.trigger(true)
     }
   },
 
@@ -69,12 +87,7 @@ export default Vue.extend({
         'aria-hidden': true
       },
       on: {
-        load: () => {
-          if (this.$el.contentDocument) {
-            this.$el.contentDocument.defaultView.addEventListener('resize', this.trigger, listenOpts.passive)
-          }
-          this.trigger(true)
-        }
+        load: this.__onObjLoad
       }
     })
   },
@@ -97,10 +110,12 @@ export default Vue.extend({
       return
     }
 
-    this.trigger(true)
-
     if (this.$q.platform.is.ie) {
       this.url = 'about:blank'
+      this.trigger(true)
+    }
+    else {
+      this.__onObjLoad()
     }
   },
 
@@ -112,8 +127,6 @@ export default Vue.extend({
       return
     }
 
-    if (this.$el.contentDocument) {
-      this.$el.contentDocument.defaultView.removeEventListener('resize', this.trigger, listenOpts.passive)
-    }
+    this.__cleanup()
   }
 })

@@ -1,5 +1,6 @@
 ---
 title: Quasar CLI
+desc: How to use the Quasar CLI, the premium developer experience for free.
 ---
 
 Quasar CLI is the pride of Quasar Framework. You can seamlessly build:

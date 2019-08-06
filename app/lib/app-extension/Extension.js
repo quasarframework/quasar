@@ -72,7 +72,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
     }
     else {
       const rawContent = fs.readFileSync(sourcePath, 'utf-8')
-      const template = compileTemplate(rawContent)
+      const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
       fs.writeFileSync(targetPath, template(scope), 'utf-8')
     }
   }

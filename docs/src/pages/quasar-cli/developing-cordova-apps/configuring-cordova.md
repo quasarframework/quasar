@@ -1,5 +1,6 @@
 ---
 title: Configuring Cordova
+desc: How to manage your Cordova apps with Quasar CLI.
 related:
   - /quasar-cli/quasar-conf-js
 ---

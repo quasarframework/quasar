@@ -1,5 +1,6 @@
 ---
 title: Handling Back Button
+desc: How to manage the back button in a Quasar app.
 ---
 When writing reusable code for building a mobile App and a website, it's important to know how to handle the "Back" button. More specifically, how to manage buttons on your layout/page that should make your App's "go back" to the previous page.
 

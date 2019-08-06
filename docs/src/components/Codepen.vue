@@ -4,6 +4,7 @@ form(
   method="POST"
   action="https://codepen.io/pen/define/"
   target="_blank"
+  rel="noopener"
   class="hidden"
 )
   input(

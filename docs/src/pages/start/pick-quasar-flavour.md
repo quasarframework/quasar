@@ -1,5 +1,6 @@
 ---
 title: Getting Started - Pick a Quasar Flavour
+desc: 'Get started with Quasar by picking one of its flavours: Quasar CLI, Vue CLI or UMD'
 ---
 
 **If you'd like to learn more about what Quasar can do for you**, read the [Introduction to Quasar](/introduction-to-quasar). Otherwise, let's get started by choosing how you'd like to use Quasar.

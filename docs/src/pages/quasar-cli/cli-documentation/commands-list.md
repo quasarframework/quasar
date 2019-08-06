@@ -1,5 +1,6 @@
 ---
 title: Commands List
+desc: The entire list of Quasar CLI commands.
 ---
 
 Familiarize yourself with the list of available commands inside a Quasar project:
@@ -111,6 +112,11 @@ $ quasar dev -h
     # alias for "quasar dev -m cordova -T android"
     $ quasar dev -m android
 
+    # passing extra parameters and/or options to
+    # underlying "cordova" or "electron" executables:
+    $ quasar dev -m ios -- some params --and options --here
+    $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
+
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --port, -p       A port number on which to start the application
@@ -150,6 +156,11 @@ $ quasar dev -m [android|ios]
 
 # Developing an Electron App
 $ quasar dev -m electron
+
+# passing extra parameters and/or options to
+# underlying "cordova" or "electron" executables:
+$ quasar dev -m ios -- some params --and options --here
+$ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
 
 If you wish to change the hostname or port serving your App you have 3 options:
@@ -197,6 +208,10 @@ $ quasar build -h
 
     # alias for "quasar build -m cordova -T android"
     $ quasar build -m android
+
+    # passing extra parameters and/or options to
+    # underlying "cordova" executable:
+    $ quasar build -m ios -- some params --and options --here
 
   Options
     --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
@@ -251,6 +266,10 @@ $ quasar build -m [android|ios]
 
 # Build an Electron App for production
 $ quasar build -m electron
+
+# passing extra parameters and/or options to
+# underlying "cordova" executable:
+$ quasar build -m ios -- some params --and options --here
 
 # Create a production build with ability to debug it
 # (has source-maps and code is NOT minified)

@@ -100,7 +100,7 @@ export default Vue.extend({
       evt !== void 0 && stopAndPrevent(evt)
 
       this.validate().then(val => {
-        val === true && this.$emit('submit')
+        val === true && this.$emit('submit', evt)
       })
     },
 

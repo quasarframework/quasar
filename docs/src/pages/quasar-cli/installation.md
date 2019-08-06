@@ -1,5 +1,6 @@
 ---
 title: Quasar CLI Installation
+desc: How to install the Quasar CLI on your development machine.
 ---
 
 Make sure you have Node >=8 and NPM >=5 installed on your machine.

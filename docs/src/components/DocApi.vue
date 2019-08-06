@@ -37,7 +37,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
       .row.no-wrap.api-container(v-if="aggregationModel[tab]")
-        .col-auto.row.items-center.bg-grey-1.text-grey-7.q-py-lg
+        .col-auto.row.no-wrap.bg-grey-1.text-grey-7.q-py-lg
           q-tabs(
             v-model="currentInnerTab[tab]",
             active-color="primary",

@@ -15,7 +15,7 @@ class CordovaRunner {
     })
   }
 
-  run (quasarConfig) {
+  run (quasarConfig, extraParams) {
     const
       cfg = quasarConfig.getBuildConfig(),
       url = cfg.build.APP_URL
@@ -38,16 +38,17 @@ class CordovaRunner {
 
     return this.__runCordovaCommand(
       cfg,
-      args
+      args.concat(extraParams)
     )
   }
 
-  build (quasarConfig) {
+  build (quasarConfig, extraParams) {
     const cfg = quasarConfig.getBuildConfig()
+    const args = ['build', cfg.ctx.debug ? '--debug' : '--release', cfg.ctx.targetName]
 
     return this.__runCordovaCommand(
       cfg,
-      ['build', cfg.ctx.debug ? '--debug' : '--release', cfg.ctx.targetName]
+      args.concat(extraParams)
     )
   }
 

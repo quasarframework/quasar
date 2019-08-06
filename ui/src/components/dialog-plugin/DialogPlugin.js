@@ -118,7 +118,7 @@ export default Vue.extend({
             input: v => { this.prompt.model = v },
             keyup: evt => {
               // if ENTER key
-              if (evt.keyCode === 13) {
+              if (this.prompt.type !== 'textarea' && evt.keyCode === 13) {
                 this.onOk()
               }
             }

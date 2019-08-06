@@ -26,7 +26,7 @@ console.log()
 console.log(` ☕️ Preparing for Quasar v${env.quasarVersion} on SSR`)
 console.log()
 console.log(` 🚀 Starting SSR dev server...`)
-console.log(`    Will listen at ${env.uri}`)
+console.log(`    Will listen at ${env.displayURI}`)
 console.log(`    Browser will open when build is ready.`)
 
 const readFile = (fs, file) => {
@@ -120,7 +120,7 @@ function setupDevServer (app, templatePath, cb) {
   ]).then(() => {
     app.listen(env.port, env.host, () => {
       showBanner()
-      require('open')(env.uri)
+      require('open')(env.displayURI)
     })
   })
 

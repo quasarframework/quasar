@@ -1,5 +1,6 @@
 ---
 title: Scroll Fire Directive
+desc: Vue directive that triggers an event when user scrolls and brings a component into view.
 related:
   - /vue-directives/scroll
 ---

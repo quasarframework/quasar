@@ -1,5 +1,6 @@
 ---
 title: Mobile App Build Commands
+desc: The Quasar CLI list of commands when developing or building a hybrid mobile app.
 ---
 [Quasar CLI](/quasar-cli/installation) makes it incredibly simple to develop or build the final distributables from your source code.
 
@@ -20,6 +21,10 @@ $ quasar dev --mode cordova -T [ios|android]
 $ quasar dev -m cordova -T ios -e iPhone-7
 # or
 $ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
+
+# passing extra parameters and/or options to
+# underlying "cordova" executable:
+$ quasar dev -m ios -- some params --and options --here
 ```
 
 In order for you to be able to develop on a device emulator or directly on a phone (with Hot Module Reload included), Quasar CLI follows these steps:
@@ -57,6 +62,10 @@ $ quasar build --mode cordova -T [ios|android]
 
 # this skips .app or .apk creation and just fills in /src-cordova/www
 $ quasar build -m cordova -T [ios|android] --skip-pkg
+
+# passing extra parameters and/or options to
+# underlying "cordova" executable:
+$ quasar build -m ios -- some params --and options --here
 ```
 
 These commands parse and build your `/src` folder then overwrite `/src-cordova/www` then, unless `--skip-pkg` was specified, defer to Cordova CLI to trigger the actual native app creation.

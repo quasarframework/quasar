@@ -1,5 +1,6 @@
 ---
 title: Formatter Utils
+desc: A set of Quasar methods for formatting values. Capitalizing, padding, normalizing and more. 
 ---
 
 ### Helping Tree-Shake

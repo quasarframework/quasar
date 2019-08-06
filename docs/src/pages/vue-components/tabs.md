@@ -1,5 +1,6 @@
 ---
 title: Tabs
+desc: The QTabs, QTab and QRouteTab Vue components are a way of helping the user navigate between pages or tab panels.
 related:
   - /vue-components/tab-panels
   - /vue-components/button-toggle

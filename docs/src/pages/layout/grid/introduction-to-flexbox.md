@@ -1,5 +1,6 @@
 ---
 title: Introduction to Flexbox
+desc: What the flexbox CSS is and how it can be used in a Quasar App.
 related:
   - /style/spacing
   - /style/visibility
@@ -10,7 +11,7 @@ Quasar provides lots of CSS classes to help you build your UI easily with the he
 Flexbox (upon which Quasar Flex CSS classes are based on) module aims at providing a more efficient way to lay out, align and distribute space among items in a container, even when their size is unknown and/or dynamic (thus the word “flex”).
 
 ::: tip
-This page covers the basic theory of Quasar Flex CSS classes and prepares you for the in-depth pages on [Grid Row](/layout/grid/row), [Grid Column](/layout/grid/column) and [Grid Gutter](/layouts/grid/gutter).
+This page covers the basic theory of Quasar Flex CSS classes and prepares you for the in-depth pages on [Grid Row](/layout/grid/row), [Grid Column](/layout/grid/column) and [Grid Gutter](/layout/grid/gutter).
 :::
 
 ## Key concept
@@ -117,7 +118,7 @@ Another example with a visual representation below it:
 ```
 ![Flexbox Grow](https://cdn.quasar.dev/img/flexbox-grow.svg)
 
-There's also the possible to offset a cell. Example: `offset-4` which offsets a third of space (4/12 = 1/3 = 33%).
+It is also possible to offset a cell. For example: `offset-4` offsets a third of space (4/12 = 1/3 = 33%).
 
 ### Wrapping
 Wrapping is a key feature in understanding Flex CSS classes. You are not bound to use exactly 12 points per row. You can use less or even more.
@@ -230,7 +231,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 .reverse-<bp>
 .(wrap|no-wrap|reverse-wrap)-<bp>
 .order-<bp>-(first|last|none)
-.justify-<bp>-(start|end|center|between|around)
+.justify-<bp>-(start|end|center|between|around|evenly)
 .items-<bp>-(start|end|center|baseline|stretch)
 .content-<bp>-(start|end|center|between|around)
 .self-<bp>-(start|end|center|baseline|stretch)

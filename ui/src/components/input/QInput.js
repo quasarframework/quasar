@@ -64,7 +64,7 @@ export default Vue.extend({
         this.$nextTick(this.__adjustHeightDebounce)
       }
       // if it has a number of rows set respect it
-      else if (this.$attrs.rows > 0) {
+      else if (this.$attrs.rows > 0 && this.$refs.input !== void 0) {
         const inp = this.$refs.input
         inp.style.height = 'auto'
       }
@@ -88,14 +88,18 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      this.$refs.input.focus()
+      this.$refs.input !== void 0 && this.$refs.input.focus()
     },
 
     select () {
-      this.$refs.input.select()
+      this.$refs.input !== void 0 && this.$refs.input.select()
     },
 
     __onInput (e) {
+      if (e && e.target && e.target.composing === true) {
+        return
+      }
+
       if (this.type === 'file') {
         this.$emit('input', e.target.files)
         return
@@ -148,16 +152,51 @@ export default Vue.extend({
     // textarea only
     __adjustHeight () {
       const inp = this.$refs.input
-      inp.style.height = '1px'
-      inp.style.height = inp.scrollHeight + 'px'
+      if (inp !== void 0) {
+        inp.style.height = '1px'
+        inp.style.height = inp.scrollHeight + 'px'
+      }
+    },
+
+    __onCompositionStart (e) {
+      e.target.composing = true
+    },
+
+    __onCompositionUpdate (e) {
+      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
+        e.target.composing = false
+      }
+    },
+
+    __onCompositionEnd (e) {
+      if (e.target.composing !== true) { return }
+      e.target.composing = false
+
+      this.__onInput(e)
+    },
+
+    __onChange (e) {
+      this.__onCompositionEnd(e)
+      this.$emit('change', e)
     },
 
     __getControl (h) {
       const on = {
         ...this.$listeners,
         input: this.__onInput,
+        // Safari < 10.2 & UIWebView doesn't fire compositionend when
+        // switching focus before confirming composition choice
+        // this also fixes the issue where some browsers e.g. iOS Chrome
+        // fires "change" instead of "input" on autocomplete.
+        change: this.__onChange,
+        compositionstart: this.__onCompositionStart,
+        compositionend: this.__onCompositionEnd,
         focus: stop,
         blur: stop
+      }
+
+      if (this.$q.platform.is.android === true) {
+        on.compositionupdate = this.__onCompositionUpdate
       }
 
       if (this.hasMask === true) {
@@ -179,7 +218,7 @@ export default Vue.extend({
         attrs.rows = 1
       }
 
-      return h(this.isTextarea ? 'textarea' : 'input', {
+      return h(this.isTextarea === true ? 'textarea' : 'input', {
         ref: 'input',
         staticClass: 'q-field__native q-placeholder',
         style: this.inputStyle,

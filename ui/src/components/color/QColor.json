@@ -8,7 +8,7 @@
 
     "default-value": {
       "type": "String",
-      "desc": "The default value to show when the model doesn't has one",
+      "desc": "The default value to show when the model doesn't have one",
       "examples": [ "default-value=\"#c0c0c0\"" ],
       "category": "model"
     },

@@ -39,6 +39,12 @@
       "category": "style"
     },
 
+    "mini-to-overlay": {
+      "type": "Boolean",
+      "desc": "Mini mode will expand as an overlay",
+      "category": "behavior"
+    },
+
     "breakpoint": {
       "type": "Number",
       "desc": "Breakpoint (in pixels) of layout width up to which mobile mode is used",

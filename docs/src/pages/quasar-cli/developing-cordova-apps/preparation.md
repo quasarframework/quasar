@@ -1,5 +1,6 @@
 ---
 title: Mobile App Preparation
+desc: What you need to do before developing a Quasar hybrid mobile app with Cordova.
 ---
 Before we dive in to the actual development, we need to do some preparation work. Here we will go over Android as the target platform.
 
@@ -66,7 +67,7 @@ To verify that everything is in order, type:
 $ cordova requirements
 ```
 
-> On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-mobile-apps/troubleshooting-and-tips#Android-SDK-not-found-after-installation-of-the-SDK) section for assistance.
+> On some newer Debian-based operating systems you might face a very persistent problem when running `cordova requirements`. Please see the ["Android SDK not found" after installation](/quasar-cli/developing-cordova-apps/troubleshooting-and-tips#Android-SDK-not-found-after-installation-of-the-SDK) section for assistance.
 
 ### Switching to iOS WkWebView
 
@@ -111,6 +112,10 @@ If you want to jump right in and start developing, you can skip step #2 and #3 c
 
 ```bash
 $ quasar dev -m cordova -T [android|ios]
+
+# passing extra parameters and/or options to
+# underlying "cordova" executable:
+$ quasar dev -m ios -- some params --and options --here
 ```
 
 This will add Cordova mode and project automatically, if it is missing.

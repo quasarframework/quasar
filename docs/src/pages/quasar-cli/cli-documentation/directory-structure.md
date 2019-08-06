@@ -1,5 +1,6 @@
 ---
 title: Directory Structure
+desc: The structure of a Quasar app with explanations for each folder and file.
 ---
 This is the structure of a project with all modes installed. There's no reason to be intimidated though!
 

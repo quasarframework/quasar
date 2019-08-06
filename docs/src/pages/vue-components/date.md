@@ -1,5 +1,6 @@
 ---
 title: QDate
+desc: The QDate Vue component provides a method to input dates from Gregorian or Persian calendars.
 related:
   - /vue-components/time
   - /quasar-utils/date-utils

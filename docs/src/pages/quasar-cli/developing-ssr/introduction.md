@@ -1,5 +1,6 @@
 ---
 title: What is SSR
+desc: Introduction on server-side rendered apps with Quasar CLI.
 ---
 
 Quasar and Vue.js are frameworks for building client-side applications. By default, Quasar Vue components produce and manipulate DOM in the browser as output. However, it is also possible to render the same components into HTML strings on the server, send them directly to the browser, and finally "hydrate" the static markup into a fully interactive app on the client.

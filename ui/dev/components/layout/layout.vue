@@ -74,6 +74,8 @@
         :overlay="rightOverlay"
         :behavior="rightBehavior"
         :breakpoint="rightBreakpoint"
+        :mini="rightMini"
+        :mini-to-overlay="rightMiniToOverlay"
         :content-class="drawerClass"
         @on-layout="drawerOnLayout"
       >
@@ -161,6 +163,7 @@
           :overlay="leftOverlay"
           :behavior="leftBehavior"
           :breakpoint="leftBreakpoint"
+          :mini-to-overlay="leftMiniToOverlay"
           :content-class="drawerClass"
         >
           <!--
@@ -336,7 +339,10 @@
             <q-toggle dense v-model="leftOverlay" label="Left as Overlay" />
           </div>
           <div>
-            <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" />
+            <q-toggle dense v-model="leftMiniToOverlay" label="Left Mini to Overlay" />
+          </div>
+          <div>
+            <q-select emit-value v-model="leftBehavior" :options="drawerBehaviorOptions" />
           </div>
           <div>
             <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" />
@@ -356,7 +362,10 @@
             <q-toggle dense v-model="rightOverlay" label="Right as Overlay" />
           </div>
           <div>
-            <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" />
+            <q-toggle dense v-model="rightMiniToOverlay" label="Right Mini to Overlay" />
+          </div>
+          <div>
+            <q-select emit-value v-model="rightBehavior" :options="drawerBehaviorOptions" />
           </div>
           <div>
             <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" />
@@ -486,7 +495,9 @@ export default {
       leftBreakpoint: 992,
       rightBreakpoint: 992,
       leftMini: true,
+      leftMiniToOverlay: true,
       rightMini: false,
+      rightMiniToOverlay: false,
 
       bordered: false,
       elevated: false,
@@ -531,7 +542,7 @@ export default {
     drawerClass () {
       return this.whiteLayout
         ? 'bg-white'
-        : 'bg-grey-3'
+        : 'bg-grey-5'
     }
   },
   watch: {

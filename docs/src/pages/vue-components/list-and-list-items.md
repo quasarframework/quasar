@@ -1,5 +1,6 @@
 ---
 title: List and List Items
+desc: How to use the QList, QItem, QItemSection and QItemLabel Vue components.
 related:
   - /vue-components/expansion-item
   - /vue-components/slide-item

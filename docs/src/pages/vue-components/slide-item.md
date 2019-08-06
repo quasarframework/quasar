@@ -1,5 +1,6 @@
 ---
 title: Slide Item
+desc: The QSlideItem Vue component is essentially a QItem with two additional slots (left and right) which allows the user to drag it to one of the sides in order to apply a specific action.
 related:
   - /vue-components/list-and-list-items
   - /vue-components/expansion-item

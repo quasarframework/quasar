@@ -14,7 +14,7 @@
       v-if="show"
       :autofocus="autofocus"
       ref="form"
-      @submit="onSubmit"
+      @submit.prevent.stop="onSubmit"
       @reset="onReset"
       @validation-success="onValidationSuccess"
       @validation-error="onValidationError"

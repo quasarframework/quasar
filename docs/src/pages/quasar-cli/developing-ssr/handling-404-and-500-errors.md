@@ -1,5 +1,6 @@
 ---
 title: SSR Handling of 404 and 500 Errors
+desc: Managing the common 404 and 500 HTTP errors in a Quasar server-side rendered app.
 ---
 The handling of the 404 & 500 errors on SSR is a bit different than on the other modes (like SPA). If you check out `/src-ssr/index.js` (which is your production webserver), you will notice the following section:
 

@@ -1,5 +1,6 @@
 ---
 title: Deploying a SPA
+desc: How to publish a Single Page App built by Quasar CLI.
 ---
 
 There exist many services that allow deploying applications with ease.
