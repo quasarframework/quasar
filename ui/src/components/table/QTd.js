@@ -17,12 +17,12 @@ export default Vue.extend({
       }, slot(this, 'default'))
     }
 
-    let col = this.props.col
     const name = this.$vnode.key
+    
+    const col = this.props.colsMap !== void 0 && name
+      ? this.props.colsMap[name]
+      : this.props.col
 
-    if (this.props.colsMap !== void 0 && name) {
-      col = this.props.colsMap[name]
-    }
     if (col === void 0) { return }
 
     return h('td', {
