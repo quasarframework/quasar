@@ -95,6 +95,10 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
   ```bash
   $ yarn add @fortawesome/fontawesome-pro
   ```
+  Or
+  ```bash
+  $ npm add @fortawesome/fontawesome-pro
+  ```
 4. Create new boot file:
   ```bash
   $ quasar new boot fontawesome-pro
@@ -116,12 +120,12 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
 6. Edit `/src/boot/fontawesome-pro.js`:
 ```js
 // required
-import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
-import '@fortawesome/fontawesome-pro/css/light.min.css'
+import '@fortawesome/fontawesome-pro/css/fontawesome.css'
+import '@fortawesome/fontawesome-pro/css/light.css'
 // do you want these too?
-// import '@fortawesome/fontawesome-pro/css/brands.min.css'
-// import '@fortawesome/fontawesome-pro/css/solid.min.css'
-// import '@fortawesome/fontawesome-pro/css/regular.min.css'
+// import '@fortawesome/fontawesome-pro/css/brands.css'
+// import '@fortawesome/fontawesome-pro/css/solid.css'
+// import '@fortawesome/fontawesome-pro/css/regular.css'
 ```
 7. (Optional) Override default icons:
 
