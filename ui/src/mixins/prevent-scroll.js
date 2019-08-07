@@ -43,10 +43,21 @@ function shouldPreventScroll (e) {
 }
 
 function prevent (register) {
-  registered += register ? 1 : -1
-  if (registered > 1) { return }
+  let action = 'add'
 
-  const action = register ? 'add' : 'remove'
+  if (register === true) {
+    if (registered > 0) {
+      return
+    }
+    registered++
+  }
+  else {
+    if (registered < 1) {
+      return
+    }
+    registered--
+    action = 'remove'
+  }
 
   if (Platform.is.mobile) {
     document.body.classList[action]('q-body--prevent-scroll')
