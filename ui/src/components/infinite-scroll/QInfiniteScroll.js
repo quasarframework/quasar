@@ -151,12 +151,12 @@ export default Vue.extend({
     },
 
     __setDebounce (val) {
-      val = isNaN(val) === true ? 100 : parseInt(val, 10)
+      val = parseInt(val, 10)
       if (val <= 0) {
         this.poll = this.immediatePoll
       }
       else {
-        this.poll = debounce(this.immediatePoll, val)
+        this.poll = debounce(this.immediatePoll, isNaN(val) === true ? 100 : val)
       }
     }
   },
