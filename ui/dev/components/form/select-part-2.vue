@@ -380,12 +380,14 @@
             @blur="onBlur"
           >
             <template #loading>
-              Click for menu
-              <q-menu fit>
-                <div class="q-pa-md text-center">
-                  Menu
-                </div>
-              </q-menu>
+              <div class="q-anchor--skip" @click.prevent>
+                Click for menu
+                <q-menu fit>
+                  <div class="q-pa-md text-center">
+                    Menu
+                  </div>
+                </q-menu>
+              </div>
             </template>
 
             <template v-slot:no-option>

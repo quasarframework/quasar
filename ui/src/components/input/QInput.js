@@ -88,7 +88,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      this.$refs.input !== void 0 && this.$refs.input.focus()
+      this.$refs.input !== void 0 && this.$refs.input !== document.activeElement && document.activeElement.id !== this.targetUid && this.$refs.input.focus()
     },
 
     select () {
@@ -209,6 +209,7 @@ export default Vue.extend({
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         ...this.$attrs,
+        id: this.targetUid,
         type: this.type,
         maxlength: this.maxlength,
         disabled: this.editable !== true

@@ -12,6 +12,9 @@
       <q-btn label="Show 2" @click="$refs.sel2.showPopup()" />
       <q-checkbox v-model="forceMenu" toggle-indeterminate :label="forceMenuLabel" />
 
+      <q-btn label="Focus 3" @click="e => { $refs.sel3.focus(e) }" />
+      <q-btn label="Show 3" @click="$refs.sel3.showPopup()" />
+
       <q-select
         filled
         ref="sel1"
