@@ -15,9 +15,6 @@ If you change from desktop to mobile emulator or backwards, hit the refresh butt
 
 ![Google Chrome emulator](https://cdn.quasar.dev/img/browser-simulator.png "Google Chrome emulator")
 
-### Avoid blank/empty files
-Don't allow webpack to build empty CSS or JS files. Be careful for `<style>` tags (especially using Stylus) in your project with no actual (non-comment) content. Cordova `dev` builds may not be problematic but Cordova `build` builds will.
-
 ## Android Tips
 
 ### Android remote debugging
@@ -147,8 +144,10 @@ There are intermediate states to help with debugging, between `quasar dev` and d
 * open Android Studio and watch the Logcat
   * Here you can watch everything related to the app and its interaction with the underlying Android OS. After opening your Cordova project in Android Studio, go to `Run`...`Debug` from the top menu. Android Studio will ask you to confirm the device or emulator, then will deploy the app. In the bottom window, choose `Logcat` You may want to use the filters to reduce the volume of messages. You should see `[your app id].MainActivity.onCreate()` signifying the app launch, then various messages related to your app functionality.
   * Note: this should be for experienced Android developers only. If your app is not functioning properly, it is much more likely that `quasar dev` or `cordova run` can reveal the issue.
-  
-**Important**: if you find a bug using one of the above methods, do not edit the output files (probably the `www` folder) directly, as they will soon be overwritten. Go back to your quasar source, fix the bug, then re-run `quasar build`.
+
+::: danger Important!
+If you find a bug using one of the above methods, do not edit the output files (probably the `www` folder) directly, as they will soon be overwritten. Go back to your quasar source, fix the bug, then re-run `quasar build`.
+:::
 
 ## iOS Tips
 
