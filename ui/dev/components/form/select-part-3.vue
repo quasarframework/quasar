@@ -10,6 +10,7 @@
 
       <q-btn label="Focus 2" @click="e => { $refs.sel2.focus(e) }" />
       <q-btn label="Show 2" @click="$refs.sel2.showPopup()" />
+      <q-checkbox v-model="forceMenu" toggle-indeterminate :label="forceMenuLabel" />
 
       <q-select
         filled
@@ -24,6 +25,7 @@
         @filter="filterFn"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -46,6 +48,7 @@
         :options="options"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -64,6 +67,7 @@
         :options="options"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -87,6 +91,7 @@
         @filter="filterObjectFn"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -110,6 +115,7 @@
         @filter="filterLotsFn"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -163,7 +169,24 @@ export default {
       model3: null,
       options: stringOptions,
       objectOptions: objectOptions(),
-      lotsOptions: lotsOptions()
+      lotsOptions: lotsOptions(),
+      forceMenu: null
+    }
+  },
+
+  computed: {
+    behavior () {
+      return this.forceMenu === null
+        ? 'default'
+        : (this.forceMenu === true ? 'menu' : 'dialog')
+    },
+
+    forceMenuLabel () {
+      if (this.forceMenu === true) {
+        return 'Force menu'
+      }
+
+      return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
     }
   },
 

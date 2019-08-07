@@ -203,6 +203,19 @@
       "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
       "default": "fade",
       "category": "behavior"
+    },
+
+    "behavior": {
+      "type": "String",
+      "desc": "Overrides the default dynamic mode of showing as menu on desktop and dialog on mobiles",
+      "values": [
+        "default", "menu", "dialog"
+      ],
+      "default": "default",
+      "examples": [
+        "mobile"
+      ],
+      "category": "behavior"
     }
   },
 

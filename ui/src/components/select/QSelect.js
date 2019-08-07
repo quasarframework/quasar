@@ -88,6 +88,12 @@ export default Vue.extend({
     transitionHide: {
       type: String,
       default: 'fade'
+    },
+
+    behavior: {
+      type: String,
+      validator: v => ['default', 'menu', 'dialog'].includes(v),
+      default: 'default'
     }
   },
 
@@ -532,7 +538,7 @@ export default Vue.extend({
       }
 
       if (this.menu === true) {
-        this.dialog !== true && this.__closeMenu()
+        this.__closeMenu()
       }
       else if (this.innerLoading !== true) {
         this.showPopup()
@@ -662,7 +668,7 @@ export default Vue.extend({
           if (fromScroll !== true) {
             this.__setPreventNextScroll(fromScroll)
             target.scrollTop = this.optionsHeights.slice(0, toIndex).reduce((acc, h) => acc + h, 0) + (
-              this.$q.platform.is.mobile === true
+              this.hasDialog === true
                 ? 0
                 : Math.trunc(this.optionsHeights[toIndex] / 2 - target.clientHeight / 2)
             )
@@ -1082,6 +1088,10 @@ export default Vue.extend({
     },
 
     __closeMenu () {
+      if (this.dialog === true) {
+        return
+      }
+
       this.menu = false
 
       if (this.focused === false) {
@@ -1144,9 +1154,9 @@ export default Vue.extend({
     },
 
     __onPreRender () {
-      this.hasDialog = this.$q.platform.is.mobile !== true
+      this.hasDialog = this.$q.platform.is.mobile !== true && this.behavior !== 'dialog'
         ? false
-        : (
+        : this.behavior !== 'menu' && (
           this.useInput === true
             ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0
             : true
