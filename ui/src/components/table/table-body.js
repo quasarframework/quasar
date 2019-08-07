@@ -36,7 +36,7 @@ export default {
               : this.computedCols.map(col => {
                 const slot = this.$scopedSlots[`body-cell-${col.name}`]
                 return slot !== void 0
-                  ? slot(this.addBodyCellMetaData({ row, col: col }))
+                  ? slot(this.addBodyCellMetaData({ row, col }))
                   : h('td', {
                     staticClass: col.__tdClass,
                     style: col.style,
