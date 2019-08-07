@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/ripple" ],
+  "mixins": [ "mixins/ripple", "mixins/size" ],
 
   "props": {
     "type":{
@@ -85,13 +85,6 @@
     "glossy": {
       "type": "Boolean",
       "desc": "Applies a glossy effect",
-      "category": "style"
-    },
-
-    "size": {
-      "type": "String",
-      "desc": "Button size name or a CSS unit including unit name",
-      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
       "category": "style"
     },
 

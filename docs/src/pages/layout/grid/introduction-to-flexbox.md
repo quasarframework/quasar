@@ -231,7 +231,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 .reverse-<bp>
 .(wrap|no-wrap|reverse-wrap)-<bp>
 .order-<bp>-(first|last|none)
-.justify-<bp>-(start|end|center|between|around)
+.justify-<bp>-(start|end|center|between|around|evenly)
 .items-<bp>-(start|end|center|baseline|stretch)
 .content-<bp>-(start|end|center|between|around)
 .self-<bp>-(start|end|center|baseline|stretch)

@@ -33,6 +33,32 @@
         </div>
       </q-slide-transition>
 
+      <div class="q-mt-xl q-mb-xs">
+        <q-toggle v-model="visibleVShow2" label="Visible with v-show - with animated elements inside" />
+      </div>
+      <q-slide-transition @show="log('show')" @hide="log('hide')" :duration="5000">
+        <div v-show="visibleVShow2" style="margin: 0">
+          <q-btn label="Toggle - Button with animation" color="primary" class="q-ma-lg" @click="visibleVShow2 = !visibleVShow2" />
+          <img
+            class="responsive"
+            src="~assets/quasar.jpg"
+          >
+        </div>
+      </q-slide-transition>
+
+      <div class="q-mt-xl q-mb-xs">
+        <q-toggle v-model="visibleVIf2" label="Visible with v-if - with animated elements inside" />
+      </div>
+      <q-slide-transition @show="log('show')" @hide="log('hide')" :duration="5000">
+        <div v-if="visibleVIf2" style="margin: 0">
+          <q-btn label="Toggle - Button with animation" color="primary" class="q-ma-lg" @click="visibleVIf2 = !visibleVIf2" />
+          <img
+            class="responsive"
+            src="~assets/quasar.jpg"
+          >
+        </div>
+      </q-slide-transition>
+
       <div class="caption row col-gutter-sm items-center">
         V-Show test (height 0) - enable first Inner and then Outer
         <q-toggle v-model="outerCondition" label="Outer block" />
@@ -66,6 +92,8 @@ export default {
     return {
       visibleVShow: true,
       visibleVIf: true,
+      visibleVShow2: true,
+      visibleVIf2: true,
       outerCondition: false,
       innerCondition: false
     }

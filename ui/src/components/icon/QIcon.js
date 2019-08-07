@@ -1,14 +1,16 @@
 import Vue from 'vue'
 
+import SizeMixin from '../../mixins/size.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIcon',
 
+  mixins: [ SizeMixin ],
+
   props: {
     name: String,
     color: String,
-    size: String,
     left: Boolean,
     right: Boolean
   },
@@ -87,12 +89,6 @@ export default Vue.extend({
           (this.color !== void 0 ? ` text-${this.color}` : ''),
         content
       }
-    },
-
-    style () {
-      if (this.size !== void 0) {
-        return { fontSize: this.size }
-      }
     }
   },
 
@@ -100,13 +96,13 @@ export default Vue.extend({
     return this.type.img === true
       ? h('img', {
         staticClass: this.type.cls,
-        style: this.style,
+        style: this.sizeStyle,
         on: this.$listeners,
         attrs: { src: this.type.src }
       })
       : h('i', {
         staticClass: this.type.cls,
-        style: this.style,
+        style: this.sizeStyle,
         on: this.$listeners,
         attrs: { 'aria-hidden': true }
       }, [

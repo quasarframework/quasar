@@ -14,8 +14,8 @@ export default Vue.extend({
       on: this.$listeners,
       attrs: {
         'stroke': 'currentColor',
-        'width': this.size,
-        'height': this.size,
+        'width': this.cSize,
+        'height': this.cSize,
         'viewBox': '0 0 45 45',
         'xmlns': 'http://www.w3.org/2000/svg'
       }

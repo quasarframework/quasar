@@ -325,9 +325,11 @@ export default Vue.extend({
     },
 
     __setScrollable (v) {
-      if (this.layout.container !== true) {
-        document.body.classList[v === true ? 'add' : 'remove']('q-body--drawer-toggle')
-      }
+      const action = v === true
+        ? 'remove'
+        : (this.layout.container !== true ? 'add' : '')
+
+      action !== '' && document.body.classList[action]('q-body--drawer-toggle')
     },
 
     __animateMini () {
@@ -445,12 +447,12 @@ export default Vue.extend({
         }
       }
       else {
-        this.__setScrollable(true)
+        this.__setScrollable(false)
       }
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        this.__setScrollable(false)
+        this.__setScrollable(true)
         this.$emit('show', evt)
       }, duration)
     },
@@ -475,7 +477,7 @@ export default Vue.extend({
 
     __cleanup () {
       this.__preventScroll(false)
-      this.__setScrollable(false)
+      this.__setScrollable(true)
     },
 
     __update (prop, val) {

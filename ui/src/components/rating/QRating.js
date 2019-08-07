@@ -3,9 +3,12 @@ import Vue from 'vue'
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
+import SizeMixin from '../../mixins/size.js'
 
 export default Vue.extend({
   name: 'QRating',
+
+  mixins: [ SizeMixin ],
 
   props: {
     value: {
@@ -20,7 +23,6 @@ export default Vue.extend({
 
     icon: String,
     color: String,
-    size: String,
 
     noReset: Boolean,
 
@@ -43,12 +45,6 @@ export default Vue.extend({
       return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
         (this.disable === true ? ' disabled' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')
-    },
-
-    style () {
-      if (this.size !== void 0) {
-        return { fontSize: this.size }
-      }
     }
   },
 
@@ -125,7 +121,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-rating row inline items-center',
       class: this.classes,
-      style: this.style,
+      style: this.sizeStyle,
       on: this.$listeners
     }, child)
   }

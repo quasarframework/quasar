@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/size" ],
+
   "behavior": {
     "$listeners": true
   },

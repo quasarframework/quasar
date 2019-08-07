@@ -437,7 +437,7 @@
           "desc": "Is row selected? Can directly be assigned new Boolean value which changes selection state",
           "reactive": true
         },
-        "expanded": {
+        "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
           "reactive": true
@@ -478,7 +478,7 @@
           "desc": "Is row selected? Can directly be assigned new Boolean value which changes selection state",
           "reactive": true
         },
-        "expanded": {
+        "expand": {
           "type": "Boolean",
           "desc": "Is row expanded? Can directly be assigned new Boolean value which changes expanded state",
           "reactive": true
