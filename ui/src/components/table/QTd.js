@@ -18,7 +18,7 @@ export default Vue.extend({
     }
 
     const name = this.$vnode.key
-    
+
     const col = this.props.colsMap !== void 0 && name
       ? this.props.colsMap[name]
       : this.props.col
