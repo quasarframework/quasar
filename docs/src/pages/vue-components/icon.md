@@ -52,6 +52,8 @@ For `icon` properties on different Quasar components you won't have the means to
 />
 ```
 
+<doc-example title="Standard sizes" file="QIcon/StandardSizes" />
+
 ### Images instead of webfont
 You can also make an icon point to an image URL instead of relying on any webfont, by using the `img:` prefix.
 
