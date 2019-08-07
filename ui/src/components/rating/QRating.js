@@ -21,7 +21,8 @@ export default Vue.extend({
       default: 5
     },
 
-    icon: String,
+    icon: [String, Array],
+    iconSelected: [String, Array],
     color: String,
 
     noReset: Boolean,
@@ -91,20 +92,31 @@ export default Vue.extend({
   render (h) {
     const
       child = [],
-      tabindex = this.editable === true ? 0 : null
+      tabindex = this.editable === true ? 0 : null,
+      iconLength = Array.isArray(this.icon) ? this.icon.length : 0,
+      iconSelectedLength = Array.isArray(this.iconSelected) ? this.iconSelected.length : 0,
+      icon = iconLength > 0 ? this.icon[iconLength - 1] : this.icon,
+      iconSelected = iconSelectedLength > 0 ? this.iconSelected[iconSelectedLength - 1] : this.iconSelected
 
     for (let i = 1; i <= this.max; i++) {
+      const
+        iconActive = (!this.mouseModel && this.value >= i) || (this.mouseModel && this.mouseModel >= i),
+        iconExSelected = this.mouseModel && this.value >= i && this.mouseModel < i,
+        iconName = (iconActive === true || iconExSelected === true) && iconSelected !== void 0
+          ? i <= iconSelectedLength ? this.iconSelected[i - 1] : iconSelected
+          : i <= iconLength ? this.icon[i - 1] : icon
+
       child.push(
         h(QIcon, {
           key: i,
           ref: `rt${i}`,
           staticClass: 'q-rating__icon',
           class: {
-            'q-rating__icon--active': (!this.mouseModel && this.value >= i) || (this.mouseModel && this.mouseModel >= i),
-            'q-rating__icon--exselected': this.mouseModel && this.value >= i && this.mouseModel < i,
+            'q-rating__icon--active': iconActive,
+            'q-rating__icon--exselected': iconExSelected,
             'q-rating__icon--hovered': this.mouseModel === i
           },
-          props: { name: this.icon || this.$q.iconSet.rating.icon },
+          props: { name: iconName || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
           on: {
             click: () => this.__set(i),
