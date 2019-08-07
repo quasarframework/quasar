@@ -95,10 +95,6 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
   ```bash
   $ yarn add @fortawesome/fontawesome-pro
   ```
-  Or
-  ```bash
-  $ npm add @fortawesome/fontawesome-pro
-  ```
 4. Create new boot file:
   ```bash
   $ quasar new boot fontawesome-pro
