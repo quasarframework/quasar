@@ -5,8 +5,12 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import BtnMixin from './btn-mixin.js'
 
+import Platform from '../../plugins/Platform.js'
+
 import slot from '../../utils/slot.js'
-import { stopAndPrevent } from '../../utils/event.js'
+import { stopAndPrevent, listenOpts } from '../../utils/event.js'
+
+const { passiveCapture } = listenOpts
 
 export default Vue.extend({
   name: 'QBtn',
@@ -29,34 +33,28 @@ export default Vue.extend({
 
   methods: {
     click (e) {
-      if (this.pressed === true) { return }
+      if (this.keyboardTarget === true || e.defaultPrevented === true) {
+        return
+      }
 
       if (e !== void 0) {
+        const el = document.activeElement
         // focus button if it came from ENTER on form
         // prevent the new submit (already done)
-        if (this.type === 'submit') {
-          const el = document.activeElement
-
-          if (
+        if (
+          this.type === 'submit' &&
+          (
+            (this.$q.platform.is.ie === true && (e.clientX < 0 || e.clientY < 0)) ||
             (
               el !== document.body &&
               this.$el.contains(el) === false &&
               // required for iOS and desktop Safari
               el.contains(this.$el) === false
-            ) ||
-            (this.$q.platform.is.ie === true && (e.clientX < 0 || e.clientY < 0))
-          ) {
-            stopAndPrevent(e)
-            this.$el.focus()
-            return
-          }
-        }
-
-        if (e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
-          this.$refs.blurTarget.focus()
-        }
-
-        if (e.defaultPrevented === true) {
+            )
+          )
+        ) {
+          stopAndPrevent(e)
+          this.$el.focus()
           return
         }
 
@@ -78,10 +76,11 @@ export default Vue.extend({
 
         stopAndPrevent(e)
 
-        if (this.pressed !== true) {
-          this.pressed = true
+        if (this.keyboardTarget !== true) {
+          this.keyboardTarget = true
           this.$el.classList.add('q-btn--active')
-          document.addEventListener('keyup', this.__onKeyupAbort)
+          document.addEventListener('keyup', this.__onPressEnd, passiveCapture)
+          this.$el.addEventListener('blur', this.__onPressEnd, passiveCapture)
         }
       }
 
@@ -90,7 +89,7 @@ export default Vue.extend({
 
     __onKeyup (e) {
       if ([13, 32].includes(e.keyCode) === true) {
-        this.__onKeyupAbort()
+        this.__onPressEnd()
 
         // for click trigger
         const evt = new MouseEvent('click', e)
@@ -107,15 +106,63 @@ export default Vue.extend({
       this.$emit('keyup', e)
     },
 
-    __onKeyupAbort () {
-      this.pressed = false
-      document.removeEventListener('keyup', this.__onKeyupAbort)
-      this.$el && this.$el.classList.remove('q-btn--active')
+    __onTouchstart (e) {
+      const touchTarget = e.target
+      this.touchTarget = touchTarget
+      touchTarget.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
+      touchTarget.addEventListener('touchend', this.__onPressEnd, passiveCapture)
+
+      this.$emit('touchstart', e)
+    },
+
+    __onMousedown (e) {
+      this.mouseTarget = true
+      document.addEventListener('mouseup', this.__onPressEnd, passiveCapture)
+
+      this.$emit('mousedown', e)
+    },
+
+    __onPressEnd () {
+      const touchTarget = this.touchTarget
+      // e.qKeyEvent !== true &&
+      if (
+        (touchTarget !== void 0 || this.mouseTarget === true) &&
+        this.$refs.blurTarget !== void 0 &&
+        this.$refs.blurTarget !== document.activeElement
+      ) {
+        this.$refs.blurTarget.focus()
+      }
+      if (touchTarget !== void 0) {
+        this.touchTarget = void 0
+        touchTarget.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
+        touchTarget.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
+      }
+      if (this.mouseTarget === true) {
+        this.mouseTarget = void 0
+        document.removeEventListener('mouseup', this.__onPressEnd, passiveCapture)
+      }
+      if (this.keyboardTarget === true) {
+        this.keyboardTarget = void 0
+        document.removeEventListener('keyup', this.__onPressEnd, passiveCapture)
+        this.$el !== void 0 && this.$el.removeEventListener('blur', this.__onPressEnd, passiveCapture)
+      }
+      this.$el !== void 0 && this.$el.classList.remove('q-btn--active')
     }
   },
 
   beforeDestroy () {
-    document.removeEventListener('keyup', this.__onKeyupAbort)
+    const touchTarget = this.touchTarget
+    if (touchTarget !== void 0) {
+      touchTarget.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
+      touchTarget.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
+    }
+    if (this.mouseTarget === true) {
+      document.removeEventListener('mouseup', this.__onPressEnd, passiveCapture)
+    }
+    if (this.keyboardTarget === true) {
+      document.removeEventListener('keyup', this.__onPressEnd, passiveCapture)
+      this.$el !== void 0 && this.$el.removeEventListener('blur', this.__onPressEnd, passiveCapture)
+    }
   },
 
   render (h) {
@@ -133,7 +180,12 @@ export default Vue.extend({
         ...this.$listeners,
         click: this.click,
         keydown: this.__onKeydown,
-        keyup: this.__onKeyup
+        keyup: this.__onKeyup,
+        mousedown: this.__onMousedown
+      }
+
+      if (Platform.has.touch === true) {
+        data.on.touchstart = this.__onTouchstart
       }
 
       if (this.ripple !== false) {
