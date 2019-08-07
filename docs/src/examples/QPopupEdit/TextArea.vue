@@ -16,6 +16,7 @@
               <q-input v-model="props.row.name" dense autofocus counter />
             </q-popup-edit>
           </q-td>
+
           <q-td key="comment" :props="props">
             {{ props.row.comment }}
             <q-popup-edit
@@ -31,12 +32,14 @@
               />
             </q-popup-edit>
           </q-td>
+
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
             <q-popup-edit v-model="props.row.calories">
               <q-input v-model="props.row.calories" dense autofocus />
             </q-popup-edit>
           </q-td>
+
           <q-td key="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
             <q-popup-edit v-model="props.row.fat">
