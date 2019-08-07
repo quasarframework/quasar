@@ -46,10 +46,10 @@ function prevent (register) {
   let action = 'add'
 
   if (register === true) {
-    if (registered > 0) {
+    registered++
+    if (registered > 1) {
       return
     }
-    registered++
   }
   else {
     if (registered < 1) {
