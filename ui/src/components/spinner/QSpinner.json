@@ -1,13 +1,11 @@
 {
+  "mixins": [ "mixins/size" ],
+
   "behavior": {
     "$listeners": true
   },
 
   "props": {
-    "size": {
-      "extends": "size"
-    },
-
     "color": {
       "extends": "color"
     },

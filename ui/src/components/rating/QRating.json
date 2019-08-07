@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/size" ],
+
   "behavior": {
     "$listeners": true
   },
@@ -24,10 +26,6 @@
 
     "color": {
       "extends": "color"
-    },
-
-    "size": {
-      "extends": "size"
     },
 
     "no-reset": {
