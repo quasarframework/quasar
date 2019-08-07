@@ -473,6 +473,13 @@ export default Vue.extend({
             this.optionIndex = index
 
             this.__hydrateOptions({ target: this.__getMenuContentEl() }, index)
+
+            if (index >= 0 && this.useInput === true && this.fillInput === true) {
+              const inputValue = this.__getOptionLabel(this.options[index])
+              if (this.inputValue !== inputValue) {
+                this.inputValue = inputValue
+              }
+            }
           }
         }
       }
