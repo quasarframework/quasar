@@ -169,7 +169,6 @@ async function start () {
           window.QBexBridge = bridge
           Vue.prototype.$q.bex = window.QBexBridge
           vApp = new Vue(app)
-          window.__Q_BEX_HOOK__.emit('init', vApp)
         })
       }
     <% } %>

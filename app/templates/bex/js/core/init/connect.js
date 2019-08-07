@@ -1,3 +1,8 @@
+/**
+ * THIS FILE WILL BE OVERWRITTEN.
+ * DO NOT EDIT.
+ **/
+
 import Bridge from '../bridge'
 
 export default function connect () {

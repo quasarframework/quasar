@@ -1,3 +1,11 @@
+/**
+ * THIS FILE WILL BE OVERWRITTEN.
+ * DO NOT EDIT.
+ *
+ * You are probably looking into adding hooks in your code. This should be done by means of
+ * src-bex/activatedContentHooks (which have access to the browser instance and communication bridge)
+ **/
+
 import Bridge from '../bridge'
 import attachActivatedContentHooks from '../../activatedContentHooks'
 

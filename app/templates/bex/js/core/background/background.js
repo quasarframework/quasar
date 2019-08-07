@@ -1,3 +1,12 @@
+/**
+ * THIS FILE WILL BE OVERWRITTEN.
+ * DO NOT EDIT.
+ *
+ * You are probably looking into adding hooks in your code. This should be done by means of
+ * src-bex/activatedBackgroundHooks (which have access to the browser instance and communication bridge) or
+ * src-bex/globalBackgroundHooks (which have access to the browser instance)
+ **/
+
 import attachActivatedBackgroundHooks from '../../activatedBackgroundHooks'
 import attachGlobalBackgroundHooks from '../../globalBackgroundHooks'
 import Bridge from '../bridge'

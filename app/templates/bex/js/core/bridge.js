@@ -1,3 +1,8 @@
+/**
+ * THIS FILE WILL BE OVERWRITTEN.
+ * DO NOT EDIT.
+ **/
+
 // https://github.com/vuejs/vue-devtools/blob/dev/src/bridge.js
 
 import { EventEmitter } from 'events'

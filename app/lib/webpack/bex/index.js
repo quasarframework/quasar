@@ -7,11 +7,8 @@ const
   injectHotUpdate = require('../inject.hot-update'),
   injectPreload = require('../inject.preload')
 
-// TODO: Use this to copy app/temaplate/bex files which the user
-// shouldn't be editing to make sure we get the latest versions.
-const renderFile = function (fileName, api) {
-  console.log(chalk.yellow(`    Copying ${fileName}`))
-  fse.copySync(path.join(__dirname, 'templates', 'src-bex', 'js', fileName), path.join(api.resolve.bex('js'), fileName))
+const renderFile = function (fileName) {
+  fse.copySync(path.join(appPaths.cliDir, 'templates', 'bex', 'js', 'core', fileName), path.join(appPaths.resolve.bex('js/core'), fileName))
 }
 
 module.exports = function (chain, cfg) {
@@ -21,10 +18,19 @@ module.exports = function (chain, cfg) {
       ? path.join(appPaths.bexDir, 'www')
       : path.join(unpackedBuildDir, 'www')
 
+  // Make sure we always have the latest BEX files in the src-bex folder (to get bug fixes etc)
+  // These files are marked with DO NOT EDIT so the users have been warned.
+  renderFile(path.join('background', 'background.js'))
+  renderFile(path.join('content', 'contentScript.js'))
+  renderFile(path.join('init', 'connect.js'))
+  renderFile(path.join('init', 'index.js'))
+  renderFile('bridge.js')
+
   chain.output
     .path(outputPath) // Output to our src-bex/www folder.
 
   // Copy statics (shouldn't this happen automatically?!)
+  // RAZVAN - some guidance would be great.
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   chain.plugin('copy-webpack')
     .use(CopyWebpackPlugin, [
@@ -59,13 +65,12 @@ module.exports = function (chain, cfg) {
     // We need this bundled in with the rest of the source to match the manifest instructions.
     cfg.build.htmlFilename = path.join('unpacked', 'www', 'index.html')
 
-    // This is required for some reason. Without it, the splitChunks causes issues with the connection
-    // between the client and the background script. I assume because it's expecting a chunk to be available
-    // via traditional loading methods but we only specify one file for background in the manifest so it needs
-    // to container EVERYTHING it needs.
+    // splitChunks causes issues with the connection between the client and the background script.
+    // This is  because it's expecting a chunk to be available via traditional loading methods but
+    // we only specify one file for background in the manifest so it needs to container EVERYTHING it needs.
     chain.optimization.splitChunks(undefined)
 
-    // Copy manifest / background.js to dist
+    // Copy our BEX src files which the user has edited.
     const CopyWebpackPlugin = require('copy-webpack-plugin')
     chain.plugin('copy-webpack')
       .use(CopyWebpackPlugin, [
@@ -81,7 +86,7 @@ module.exports = function (chain, cfg) {
         }
       ])
 
-    // Register out plugin and package the browser extensions.
+    // Register our plugin, update the manifest and package the browser extension.
     const WebpackBexPackager = require('./webpackBexPackager')
     chain.plugin('webpack-bex-packager')
       .use(WebpackBexPackager, [{

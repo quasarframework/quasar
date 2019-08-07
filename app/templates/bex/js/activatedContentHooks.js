@@ -5,7 +5,12 @@ export default function attachActivatedContentHooks (window, chrome, bridge) {
   /*
   bridge.on('some.event', payload => {
     if (payload.yourProp) {
-      // Do something
+      // Access a DOM element from here.
+      // Document in this instance is the underlying website the contentScript runs on
+      const el = document.getElementById('some-id')
+      if (el) {
+        el.value = 'Quasar Rocks!'
+      }
     }
   })
    */
