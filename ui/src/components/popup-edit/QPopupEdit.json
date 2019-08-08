@@ -90,12 +90,65 @@
   },
 
   "slots": {
-    "default": {
-      "desc": "Used for injecting the form component"
-    },
-
     "title": {
       "desc": "Slot for custom title (overrides 'title' prop when used)"
+    }
+  },
+
+  "scopedSlots": {
+    "default": {
+      "desc": "Used for injecting the form component",
+      "scope": {
+        "initialValue": {
+          "type": "Any",
+          "desc": "Initial value",
+          "examples": [ 0.241, "Text" ]
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Current value",
+          "examples": [ 0.241, "Text" ]
+        },
+        "emitValue": {
+          "type": "Function",
+          "desc": "Function that emits an @input event in the context of the popup edit",
+          "params": {
+            "value": {
+              "type": "Any",
+              "desc": "Value to be emited",
+              "examples": [ 0, "Changed text" ]
+            }
+          },
+          "returns": null
+        },
+        "validate": {
+          "type": "Function",
+          "desc": "Function that checks if the value is valid",
+          "params": {
+            "value": {
+              "type": "Any",
+              "desc": "Value to be checked",
+              "examples": [ 0, "Changed text" ]
+            }
+          },
+          "returns": {
+            "type": "Boolean",
+            "desc": "Checked value is valid or not"
+          }
+        },
+        "set": {
+          "type": "Function",
+          "desc": "Function that sets the value and closes the popup",
+          "params": null,
+          "returns": null
+        },
+        "cancel": {
+          "type": "Function",
+          "desc": "Function that cancels the editing and reverts the value to the initialValue",
+          "params": null,
+          "returns": null
+        }
+      }
     }
   },
 
