@@ -96,7 +96,7 @@
   },
 
   "scopedSlots": {
-    "control": {
+    "default": {
       "desc": "Used for injecting the form component",
       "scope": {
         "initialValue": {
