@@ -22,6 +22,16 @@
   &__dropdown-icon
     cursor pointer
 
+  &.q-field--readonly
+    .q-field__control, .q-select__dropdown-icon
+      cursor default
+    &.q-field--labeled
+      .q-select__input
+        cursor default
+    &.q-field--float
+      .q-select__input
+        cursor text
+
   &__dialog
     width 90vw !important
     max-width 90vw !important

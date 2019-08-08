@@ -860,7 +860,8 @@ export default Vue.extend({
           autofocus: this.autofocus,
           ...this.$attrs,
           id: this.targetUid,
-          disabled: this.editable !== true
+          disabled: this.disable === true,
+          readonly: this.readonly === true
         },
         on
       })

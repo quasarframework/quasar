@@ -137,7 +137,7 @@ export default Vue.extend({
         'q-field--with-bottom': this.hideBottomSpace !== true && this.shouldRenderBottom === true,
         'q-field--error': this.hasError,
 
-        'q-field--readonly': this.readonly,
+        'q-field--readonly': this.readonly === true && this.disable !== true,
         'q-field--disabled': this.disable
       }
     },
