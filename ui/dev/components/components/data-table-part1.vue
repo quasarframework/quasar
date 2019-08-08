@@ -191,7 +191,7 @@
             <q-td key="sodium" :props="props">
               {{ props.row.sodium }}
               <q-popup-edit persistent v-model="props.row.sodium" :validate="val => val > 10">
-                <template v-slot:default="{ initialValue, value, emitValue, validate, set, cancel }">
+                <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
                   <q-input
                     autofocus
                     dense
