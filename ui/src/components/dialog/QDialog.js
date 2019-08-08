@@ -4,6 +4,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
+import { focusIsBeforeEl } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
 import { create, stop, stopAndPrevent } from '../../utils/event.js'
@@ -206,7 +207,7 @@ export default Vue.extend({
       }
 
       if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
-        document.body.addEventListener('focusin', this.__onFocusChange)
+        document.addEventListener('focusin', this.__onFocusChange)
       }
 
       this.timer = setTimeout(() => {
@@ -280,10 +281,8 @@ export default Vue.extend({
 
       if (
         node !== void 0 &&
-        this.__portal.$el !== void 0 &&
-        // we don't have another portal opened:
-        this.__portal.$el.nextElementSibling === null &&
-        this.__portal.$el.contains(e.target) !== true
+        // the focus is not in a portal after the current one
+        focusIsBeforeEl(this.__portal.$el, e.target) === true
       ) {
         node.focus()
       }

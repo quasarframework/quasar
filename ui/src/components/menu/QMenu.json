@@ -6,6 +6,12 @@
   },
 
   "props": {
+    "submenu": {
+      "type": "Boolean",
+      "desc": "The menu is a submenu and on close it should close from the root (if not specified otherwise)",
+      "category": "behavior"
+    },
+
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",

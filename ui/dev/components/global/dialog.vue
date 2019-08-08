@@ -33,6 +33,7 @@
           <div class="text-h6">
             Alert
           </div>
+          <test />
         </q-card-section>
 
         <q-card-section>
@@ -49,7 +50,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog attr="test" :value="alert" content-class="test-class" no-esc-dismiss seamless position="bottom">
+    <q-dialog :value="alert" content-class="test-class" no-esc-dismiss seamless position="bottom">
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -69,6 +70,10 @@
           <q-btn flat label="OK" color="primary" v-close-popup="!preventCloseToggle" :disable="preventCloseToggle" />
         </q-card-actions>
       </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="alert" content-class="test-class" seamless position="top">
+      <test />
     </q-dialog>
 
     <q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
@@ -456,10 +461,30 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Open another dialog" @click="persistent = true" />
+          <q-btn flat label="Open dialog" @click="persistent = true" />
+          <q-btn flat label="Open child dialog" @click="persistent2 = true" />
           <q-btn flat label="Close" v-close-popup />
         </q-card-actions>
       </q-card>
+
+      <q-dialog v-model="persistent2" persistent transition-show="scale" transition-hide="scale">
+        <q-card class="bg-teal text-white" style="width: 300px">
+          <q-card-section>
+            <div class="text-h6">
+              Persistent
+            </div>
+          </q-card-section>
+
+          <q-card-section>
+            Click/Tap on the backdrop.
+          </q-card-section>
+
+          <q-card-actions align="right" class="bg-white text-teal">
+            <q-btn flat label="Close me and parent" v-close-popup="2" />
+            <q-btn flat label="Close me" v-close-popup />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
     </q-dialog>
 
     <q-dialog v-model="nonStandard">
@@ -739,10 +764,31 @@
 
 <script>
 export default {
+  components: {
+    test: {
+      inject: {
+        providedTest: {
+          default: 'I couldn\'t find the provided text'
+        }
+      },
+
+      render (h) {
+        return h('div', {
+          staticClass: 'bg-white q-pa-xl'
+        }, this.providedTest)
+      }
+    }
+  },
+
+  provide: {
+    providedTest: 'Text provided from above'
+  },
+
   data () {
     return {
       alert: true,
       persistent: false,
+      persistent2: false,
       confirm: false,
       prompt: false,
       icon: false,

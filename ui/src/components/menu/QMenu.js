@@ -30,6 +30,7 @@ export default Vue.extend({
   props: {
     persistent: Boolean,
     autoClose: Boolean,
+    submenu: Boolean,
 
     noRefocus: Boolean,
     noFocus: Boolean,
@@ -211,7 +212,7 @@ export default Vue.extend({
 
     __onAutoClose (e) {
       closeRootMenu(this.menuId)
-      this.$emit('click', e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     updatePosition () {
@@ -270,12 +271,8 @@ export default Vue.extend({
       ])
     },
 
-    __onPortalCreated (vm) {
-      vm.menuParentId = this.menuId
-    },
-
-    __onPortalClose () {
-      closeRootMenu(this.menuId)
+    __onPortalClose (evt) {
+      this.hide(evt)
     }
   },
 

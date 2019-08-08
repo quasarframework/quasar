@@ -1,10 +1,12 @@
 {
   "value": {
-    "type": "Boolean",
-    "desc": "If value is 'false' then directive is disabled, otherwise any other value enables it",
+    "type": [ "Boolean", "Number", "String" ],
+    "desc": "If value is 'false' or 0 then directive is disabled. If value is true then close the current popup or the root of the menu (if it's a submenu). Otherwise it closes that many popups",
     "examples": [
       "v-close-popup",
-      "v-close-popup=\"booleanState\""
+      "v-close-popup=\"booleanState\"",
+      "v-close-popup=\"1\"",
+      "v-close-popup=\"3\""
     ]
   }
 }

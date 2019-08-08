@@ -132,12 +132,12 @@
                       <q-item-section side>
                         <q-icon name="keyboard_arrow_right" />
                       </q-item-section>
-                      <q-menu anchor="top right" self="top left">
+                      <q-menu submenu anchor="top right" self="top left">
                         <q-list>
                           <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                             <q-item-section>Menu Item {{ n }}</q-item-section>
                           </q-item>
-                          <q-item clickable v-close-popup:2>
+                          <q-item clickable v-close-popup="3">
                             <q-item-section>Close dialog</q-item-section>
                           </q-item>
                         </q-list>
@@ -398,7 +398,7 @@
                     <q-icon name="keyboard_arrow_right" />
                   </q-item-section>
 
-                  <q-menu anchor="top right" self="top left">
+                  <q-menu submenu anchor="top right" self="top left">
                     <q-list>
                       <q-item
                         v-close-popup
@@ -416,14 +416,15 @@
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
                         </q-item-section>
-                        <q-menu auto-close anchor="top right" self="top left">
+                        <q-menu submenu :auto-close="x > 1" anchor="top right" self="top left">
                           <q-list>
                             <q-item
                               v-for="y in 3"
                               :key="y"
                               clickable
+                              v-close-popup="x > 1 ? false : (y === 1 ? 1 : true)"
                             >
-                              <q-item-section>3rd level Label</q-item-section>
+                              <q-item-section>3rd level Label - {{ x > 1 ? 'AutoClose Tree' : (y === 1 ? 'VClosePopup Me' : 'VClosePopup Tree') }}</q-item-section>
                             </q-item>
                           </q-list>
                         </q-menu>

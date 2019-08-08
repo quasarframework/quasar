@@ -1,4 +1,4 @@
-import { getVm } from '../utils/vm.js'
+import Vue from 'vue'
 
 export default {
   inheritAttrs: false,
@@ -29,30 +29,28 @@ export default {
   },
 
   beforeMount () {
+    const setPortalVNode = () => {
+      if (this.__portal !== void 0 && this.__portal.$el !== void 0) {
+        this.__portal.$el.__qPortalVM = this
+      }
+    }
+
     const obj = {
+      name: 'QPortal',
+
       inheritAttrs: false,
+
+      mounted: setPortalVNode,
+      updated: setPortalVNode,
 
       render: h => this.__render(h),
 
       components: this.$options.components,
-      directives: this.$options.directives
+      directives: this.$options.directives,
+      parent: this
     }
 
-    if (this.__onPortalClose !== void 0) {
-      obj.methods = {
-        __qClosePopup: this.__onPortalClose
-      }
-    }
-
-    const onCreated = this.__onPortalCreated
-
-    if (onCreated !== void 0) {
-      obj.created = function () {
-        onCreated(this)
-      }
-    }
-
-    this.__portal = getVm(this, obj).$mount()
+    this.__portal = (new Vue(obj)).$mount()
   },
 
   beforeDestroy () {

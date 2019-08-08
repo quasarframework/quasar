@@ -32,19 +32,34 @@ export function closeRootMenu (id) {
 export const MenuTreeMixin = {
   methods: {
     __registerTree () {
+      let menuParentId, menuRootId
+
       tree[this.menuId] = true
 
-      if (this.$root.menuParentId === void 0) {
+      for (let vm = this; vm !== vm.$root; vm = vm.$parent) {
+        if (vm.$options.name === 'QMenu') {
+          menuRootId = vm.menuId
+          if (menuParentId === void 0 && menuRootId !== this.menuId) {
+            menuParentId = menuRootId
+          }
+          if (vm.submenu !== true) {
+            break
+          }
+        }
+      }
+
+      if (menuRootId === this.menuId) {
         rootHide[this.menuId] = this.hide
+
         return
       }
 
-      if (tree[this.$root.menuParentId] !== true) {
-        bus.$emit('hide', tree[this.$root.menuParentId])
+      if (tree[menuParentId] !== true) {
+        bus.$emit('hide', tree[menuParentId])
       }
 
       bus.$on('hide', this.__processEvent)
-      tree[this.$root.menuParentId] = this.menuId
+      tree[menuParentId] = this.menuId
     },
 
     __unregisterTree () {
@@ -53,9 +68,10 @@ export const MenuTreeMixin = {
         return
       }
 
-      delete rootHide[this.menuId]
-
-      if (this.$root.menuParentId !== void 0) {
+      if (rootHide[this.menuId] !== void 0) {
+        delete rootHide[this.menuId]
+      }
+      else {
         bus.$off('hide', this.__processEvent)
       }
 

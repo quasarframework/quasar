@@ -46,6 +46,20 @@ export function ready (fn) {
   document.addEventListener('DOMContentLoaded', fn, false)
 }
 
+export function focusIsBeforeEl (el, focusedEl) {
+  if (el === void 0 || el.contains(focusedEl) === true) {
+    return false
+  }
+
+  for (let next = el.nextElementSibling; next !== null; next = next.nextElementSibling) {
+    if (next.contains(focusedEl)) {
+      return false
+    }
+  }
+
+  return true
+}
+
 export default {
   offset,
   style,
@@ -53,5 +67,6 @@ export default {
   width,
   css,
   cssBatch,
-  ready
+  ready,
+  focusIsBeforeEl
 }

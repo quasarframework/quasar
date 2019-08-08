@@ -100,18 +100,18 @@
                     <q-item-section side>
                       <q-icon name="keyboard_arrow_right" />
                     </q-item-section>
-                    <q-menu anchor="top right" self="top left">
+                    <q-menu submenu anchor="top right" self="top left">
                       <q-list>
-                        <q-item v-for="n in 5" :key="n" v-close-popup clickable>
-                          <q-item-section>Menu Item {{ n }}</q-item-section>
+                        <q-item v-for="n in 5" :key="n" v-close-popup="n === 1 ? 1 : true" clickable>
+                          <q-item-section>Menu Item {{ n }} - close {{ n === 1 ? 'only me' : 'menu' }}</q-item-section>
                         </q-item>
-                        <q-item clickable v-close-popup:2>
+                        <q-item clickable v-close-popup="3">
                           <q-item-section>Close dialog</q-item-section>
                         </q-item>
                       </q-list>
                     </q-menu>
                   </q-item>
-                  <q-item clickable v-close-popup:2>
+                  <q-item clickable v-close-popup="2">
                     <q-item-section>Close dialog</q-item-section>
                   </q-item>
                 </q-list>

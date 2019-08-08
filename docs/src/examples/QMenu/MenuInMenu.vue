@@ -18,7 +18,7 @@
                 <q-icon name="keyboard_arrow_right" />
               </q-item-section>
 
-              <q-menu anchor="top right" self="top left">
+              <q-menu submenu anchor="top right" self="top left">
                 <q-list>
                   <q-item
                     v-for="n in 3"
@@ -30,7 +30,7 @@
                     <q-item-section side>
                       <q-icon name="keyboard_arrow_right" />
                     </q-item-section>
-                    <q-menu auto-close anchor="top right" self="top left">
+                    <q-menu submenu auto-close anchor="top right" self="top left">
                       <q-list>
                         <q-item
                           v-for="n in 3"
@@ -73,7 +73,7 @@
                   <q-icon name="keyboard_arrow_right" />
                 </q-item-section>
 
-                <q-menu anchor="top right" self="top left">
+                <q-menu submenu anchor="top right" self="top left">
                   <q-list dense>
                     <q-item
                       v-for="n in 3"
@@ -84,7 +84,7 @@
                       <q-item-section side>
                         <q-icon name="keyboard_arrow_right" />
                       </q-item-section>
-                      <q-menu auto-close anchor="top right" self="top left">
+                      <q-menu submenu auto-close anchor="top right" self="top left">
                         <q-list dense>
                           <q-item
                             v-for="n in 3"

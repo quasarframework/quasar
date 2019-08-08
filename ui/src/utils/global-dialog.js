@@ -74,6 +74,8 @@ export default function (DefaultComponent) {
     let vm = getVm(root, {
       el: node,
 
+      name: 'QGlobalDialog',
+
       render (h) {
         return h(DialogComponent, {
           ref: 'dialog',

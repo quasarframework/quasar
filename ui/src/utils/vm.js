@@ -1,26 +1,34 @@
 import Vue from 'vue'
 
-let inject
+let
+  inject = {},
+  skip
 
-function fillInject (root) {
-  const
-    options = (new Vue()).$root.$options,
-    skip = [ 'el', 'methods', 'render', 'mixins' ]
+function fillInject (rootOptions) {
+  if (skip === void 0) {
+    const options = (new Vue()).$root.$options
+
+    skip = ['el', 'methods', 'render', 'mixins']
       .concat(Vue.config._lifecycleHooks)
       .concat(Object.keys(options).filter(key => options[key] !== null))
+  }
 
-  inject = {}
-
-  Object.keys(root)
-    .filter(name => skip.includes(name) === false)
-    .forEach(p => {
-      inject[p] = root[p]
-    })
+  inject[rootOptions] = Object.keys(rootOptions)
+    .filter(name => skip.indexOf(name) === -1)
+    .reduce((acc, p) => {
+      acc[p] = rootOptions[p]
+    }, {})
 }
 
 export function getVm (root, vm) {
-  inject === void 0 && root !== void 0 && fillInject(root.$root.$options)
-  return new Vue(inject !== void 0 ? { ...inject, ...vm } : vm)
+  if (root !== void 0) {
+    const rootOptions = root.$options
+    inject[rootOptions] === void 0 && fillInject(rootOptions)
+
+    return new Vue({ ...inject[rootOptions], ...vm })
+  }
+
+  return new Vue(vm)
 }
 
 export function getAllChildren (vm, children = []) {
