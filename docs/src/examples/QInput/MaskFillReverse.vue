@@ -3,7 +3,7 @@
     <div class="q-gutter-md">
       <q-input
         filled
-        v-model.number="price"
+        v-model="price"
         label="Price with 2 decimals"
         mask="#.##"
         fill-mask="0"
