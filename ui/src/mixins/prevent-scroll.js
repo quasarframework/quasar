@@ -1,5 +1,5 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
-import { hasScrollbar } from '../utils/scroll.js'
+import { hasScrollbar, getScrollPosition } from '../utils/scroll.js'
 import Platform from '../plugins/Platform.js'
 
 let
@@ -71,7 +71,7 @@ function prevent (register) {
   const body = document.body
 
   if (register === true) {
-    scrollPosition = window.pageYOffset || window.scrollY || body.scrollTop || 0
+    scrollPosition = getScrollPosition(window)
     bodyTop = body.style.top
 
     body.style.top = `-${scrollPosition}px`
