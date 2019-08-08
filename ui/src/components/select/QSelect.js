@@ -605,7 +605,7 @@ export default Vue.extend({
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
-        child.push(this.__getInput(h))
+        child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
         data = {
@@ -679,7 +679,7 @@ export default Vue.extend({
       this.__onInputValue(e)
     },
 
-    __getInput (h) {
+    __getInput (h, fromDialog) {
       const on = {
         input: this.__onInputValue,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
@@ -713,7 +713,7 @@ export default Vue.extend({
           tabindex: 0,
           autofocus: this.autofocus,
           ...this.$attrs,
-          id: this.targetUid,
+          id: fromDialog === true && this.dialog !== true ? void 0 : this.targetUid,
           disabled: this.disable === true,
           readonly: this.readonly === true
         },
