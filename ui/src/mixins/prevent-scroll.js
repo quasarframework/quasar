@@ -70,7 +70,7 @@ function prevent (register) {
 
   const body = document.body
 
-  if (register === true && typeof window !== 'undefined') {
+  if (register === true) {
     scrollPosition = window.pageYOffset || window.scrollY || body.scrollTop || 0
     bodyTop = body.style.top
 
@@ -87,7 +87,7 @@ function prevent (register) {
     window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
   }
 
-  if (register !== true && typeof window !== 'undefined') {
+  if (register !== true) {
     Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
 
     body.classList.remove('q-body--force-scrollbar')
