@@ -6,7 +6,7 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { create, stop } from '../../utils/event.js'
+import { create, stop, stopAndPrevent } from '../../utils/event.js'
 
 let maximizedModals = 0
 
@@ -311,6 +311,7 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
+              touchmove: stopAndPrevent, // prevent iOS page scroll
               click: this.__onBackdropClick
             }
           })
