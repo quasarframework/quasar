@@ -283,7 +283,7 @@ export default Vue.extend({
 
     __removeAtIndexAndFocus (index) {
       this.removeAtIndex(index)
-      this.focus()
+      this.__focus()
     },
 
     add (opt, unique) {
@@ -324,13 +324,12 @@ export default Vue.extend({
 
       const optValue = this.__getOptionValue(opt)
 
-      this.multiple !== true && this.updateInputValue(
-        this.fillInput === true ? this.__getOptionLabel(opt) : '',
-        true
-      )
-      this.__focus()
-
       if (this.multiple !== true) {
+        this.updateInputValue(
+          this.fillInput === true ? this.__getOptionLabel(opt) : '',
+          true
+        )
+
         this.hidePopup()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
@@ -338,6 +337,8 @@ export default Vue.extend({
         }
         return
       }
+
+      this.__focus()
 
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
@@ -841,6 +842,10 @@ export default Vue.extend({
         on.compositionupdate = this.__onCompositionUpdate
       }
 
+      if (this.hasDialog === true) {
+        on.click = stop
+      }
+
       return h('input', {
         ref: 'target',
         staticClass: 'q-select__input q-placeholder col',
@@ -849,9 +854,12 @@ export default Vue.extend({
           : null,
         domProps: { value: this.inputValue },
         attrs: {
+          // required for Android in order to show ENTER key when in form
+          type: 'search',
           tabindex: 0,
           autofocus: this.autofocus,
           ...this.$attrs,
+          id: this.targetUid,
           disabled: this.editable !== true
         },
         on
@@ -949,9 +957,6 @@ export default Vue.extend({
       }
 
       return {
-        focus: e => {
-          this.hasDialog !== true && this.focus(e)
-        },
         focusin: this.__onControlFocusin,
         focusout,
         'popup-show': this.__onControlPopupShow,
@@ -960,6 +965,14 @@ export default Vue.extend({
           focusout(e)
         },
         click: e => {
+          // label from QField will propagate click on the input (except IE)
+          if (
+            this.hasDialog !== true &&
+            this.useInput === true &&
+            e.target.classList.contains('q-select__input') !== true
+          ) {
+            return
+          }
           if (this.hasDialog !== true && this.menu === true) {
             this.__closeMenu()
           }
@@ -1077,7 +1090,7 @@ export default Vue.extend({
             this.__resetInputValue()
           },
           show: () => {
-            this.$refs.target.focus()
+            document.activeElement.id !== this.targetUid && this.$refs.target !== document.activeElement && this.$refs.target.focus()
           }
         }
       }, [
@@ -1111,7 +1124,7 @@ export default Vue.extend({
         this.dialog = true
       }
       else {
-        this.focus(e)
+        this.__focus()
       }
 
       if (this.$listeners.filter !== void 0) {
@@ -1158,7 +1171,7 @@ export default Vue.extend({
         ? false
         : this.behavior !== 'menu' && (
           this.useInput === true
-            ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0
+            ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0 || this.noOptions === false
             : true
         )
     },
