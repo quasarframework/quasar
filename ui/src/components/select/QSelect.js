@@ -138,9 +138,13 @@ export default Vue.extend({
       return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
     },
 
-    menuClass () {
-      return (this.optionsDark === true ? 'q-select__menu--dark' : '') +
+    menuContentClass () {
+      return (this.virtualListHorizontal === true ? 'q-virtual-list--horizontal' : '') +
         (this.popupContentClass ? ' ' + this.popupContentClass : '')
+    },
+
+    menuClass () {
+      return this.menuContentClass + (this.optionsDark === true ? ' q-select__menu--dark' : '')
     },
 
     innerValue () {
@@ -649,7 +653,7 @@ export default Vue.extend({
           ])
         ])
 
-      return this.__padVirtualList(h, this.optionScope.map(fn), true)
+      return this.__padVirtualList(h, this.optionScope.map(fn))
     },
 
     __getInnerAppend (h) {
@@ -912,7 +916,7 @@ export default Vue.extend({
         h('div', {
           ref: 'menuContent',
           staticClass: 'scroll',
-          class: this.popupContentClass,
+          class: this.menuContentClass,
           style: this.popupContentStyle,
           on: {
             click: prevent,

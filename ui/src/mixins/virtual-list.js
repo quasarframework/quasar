@@ -67,7 +67,7 @@ function setScroll (parent, scroll, horizontal) {
 
 export default {
   props: {
-    horizontal: Boolean,
+    virtualListHorizontal: Boolean,
 
     virtualListSliceSize: {
       type: Number,
@@ -87,14 +87,14 @@ export default {
   },
 
   watch: {
-    horizontal () {
+    virtualListHorizontal () {
       this.__setVirtualListSize()
     }
   },
 
   methods: {
-    scrollTo (toIndex, scrollUp) {
-      this.__setVirtualListSliceRange(Math.min(this.virtualListLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)), scrollUp === true ? 'end' : 'start')
+    scrollTo (toIndex, scrollTowardsEnd) {
+      this.__setVirtualListSliceRange(Math.min(this.virtualListLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)), scrollTowardsEnd === true ? 'end' : 'start')
     },
 
     __onVirtualListScroll () {
@@ -110,7 +110,7 @@ export default {
         scrollMaxSize,
         offsetStart,
         offsetEnd
-      } = getScrollDetails(scrollEl, this.__getVirtualListEl(), this.horizontal)
+      } = getScrollDetails(scrollEl, this.__getVirtualListEl(), this.virtualListHorizontal)
 
       if (scrollStart <= offsetStart) {
         this.__setVirtualListSliceRange(0)
@@ -146,7 +146,7 @@ export default {
         prevFrom = this.virtualListSliceRange.from,
         prevTo = this.virtualListSliceRange.to,
         // this needs to be captured before rendering
-        { scrollStart } = getScrollDetails(scrollEl, void 0, this.horizontal)
+        { scrollStart } = getScrollDetails(scrollEl, void 0, this.virtualListHorizontal)
 
       let
         from = Math.max(0, Math.floor(toIndex - this.virtualListSliceSizeComputed / 2)),
@@ -171,7 +171,7 @@ export default {
             contentEl = this.$refs.content,
             beforeEl = this.$refs.before,
             afterEl = this.$refs.after,
-            paddingSize = this.horizontal === true ? 'width' : 'height'
+            paddingSize = this.virtualListHorizontal === true ? 'width' : 'height'
 
           if (contentEl !== void 0) {
             const children = contentEl.children
@@ -179,7 +179,7 @@ export default {
             for (let i = children.length - 1; i >= 0; i--) {
               const
                 index = from + i,
-                diff = children[i][this.horizontal === true ? 'offsetWidth' : 'offsetHeight'] - this.virtualListSizes[index]
+                diff = children[i][this.virtualListHorizontal === true ? 'offsetWidth' : 'offsetHeight'] - this.virtualListSizes[index]
 
               if (diff !== 0) {
                 if (index < prevFrom) {
@@ -215,7 +215,7 @@ export default {
         return
       }
 
-      const { scrollViewSize, offsetStart } = getScrollDetails(scrollEl, this.__getVirtualListEl(), this.horizontal)
+      const { scrollViewSize, offsetStart } = getScrollDetails(scrollEl, this.__getVirtualListEl(), this.virtualListHorizontal)
 
       posStart += offsetStart
       posEnd += offsetStart
@@ -226,7 +226,7 @@ export default {
         setScroll(
           scrollEl,
           keepScroll === true ? scrollStart : (align === 'end' ? posEnd - scrollViewSize : posStart),
-          this.horizontal
+          this.virtualListHorizontal
         )
       }
     },
@@ -259,7 +259,7 @@ export default {
     },
 
     __setVirtualListSize () {
-      if (this.horizontal === true) {
+      if (this.virtualListHorizontal === true) {
         this.virtualListSliceSizeComputed = typeof window === 'undefined'
           ? this.virtualListSliceSize
           : Math.max(this.virtualListSliceSize, Math.ceil(window.innerWidth / this.virtualListItemDefaultSize * 1.5))
@@ -271,14 +271,13 @@ export default {
       }
     },
 
-    __padVirtualList (h, content, useBg) {
+    __padVirtualList (h, content) {
       const
         list = [],
-        staticClass = 'q-virtual-list__padding' + (useBg === true ? ' q-virtual-list__padding--bg' : ''),
-        paddingSize = this.horizontal === true ? 'width' : 'height'
+        paddingSize = this.virtualListHorizontal === true ? 'width' : 'height'
 
       list.push(h('div', {
-        staticClass,
+        staticClass: 'q-virtual-list__padding',
         ref: 'before',
         style: { [paddingSize]: `${this.virtualListPaddingBefore}px` }
       }))
@@ -289,7 +288,7 @@ export default {
       }, content))
 
       list.push(h('div', {
-        staticClass,
+        staticClass: 'q-virtual-list__padding',
         ref: 'after',
         style: { [paddingSize]: `${this.virtualListPaddingAfter}px` }
       }))

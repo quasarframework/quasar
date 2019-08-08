@@ -5,7 +5,7 @@
         <div class="text-h6 q-my-lg q-pa-lg bg-grey-10 text-white" style="height: 500px">
           Before list
         </div>
-        <q-virtual-list component="q-list" :items="heavyList" separator bg-placeholder scroll-target="body">
+        <q-virtual-list component="q-list" :items="heavyList" separator scroll-target="body">
           <template v-slot="{ item, index }">
             <q-item
               v-if="(index % 3) === 0"

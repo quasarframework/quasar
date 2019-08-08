@@ -128,6 +128,31 @@
           </q-item>
         </template>
       </q-select>
+
+      <q-select
+        filled
+        v-model="model3"
+        use-input
+        hide-selected
+        fill-input
+        emit-value
+        map-options
+        label="Lots of options - horizontal"
+        :options="lotsOptions"
+        @filter="filterLotsFn"
+        style="width: 250px"
+        clearable
+        :behavior="behavior"
+        virtual-list-horizontal
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
     </div>
   </div>
 </template>
@@ -159,7 +184,7 @@ const
       value: 5
     }
   ]),
-  lotsOptions = () => Array(50).fill(0).map((item, i) => ({
+  lotsOptions = () => Array(5000).fill(0).map((item, i) => ({
     value: i,
     label: `Item ${i}`
   }))
@@ -172,7 +197,7 @@ export default {
       model3: null,
       options: stringOptions,
       objectOptions: objectOptions(),
-      lotsOptions: lotsOptions(),
+      lotsOptions: Object.freeze(lotsOptions()),
       forceMenu: null
     }
   },
@@ -230,14 +255,14 @@ export default {
       console.log('filterLotsFn', val)
       if (val === '') {
         update(() => {
-          this.lotsOptions = lotsOptions()
+          this.lotsOptions = Object.freeze(lotsOptions())
         })
         return
       }
 
       update(() => {
         const needle = val.toLowerCase()
-        this.lotsOptions = lotsOptions().filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        this.lotsOptions = Object.freeze(lotsOptions().filter(v => v.label.toLowerCase().indexOf(needle) > -1))
       })
     }
   }

@@ -21,7 +21,6 @@
           <q-virtual-list
             style="max-height: 300px;"
             :items="heavyList"
-            bg-placeholder
           >
             <template v-slot="{ item, index }">
               <q-item
@@ -67,7 +66,7 @@
             @change="$refs.vList.scrollTo(scrollTo)"
           />
         </div>
-        <q-virtual-list component="q-list" ref="vList" :items="heavyList" bg-placeholder separator class="q-my-md bg-white" style="max-height: 300px;">
+        <q-virtual-list component="q-list" ref="vList" :items="heavyList" separator class="q-my-md" style="max-height: 300px;">
           <template v-slot="{ item, index }">
             <q-item :key="index">
               <q-item-section>
@@ -106,7 +105,7 @@
             @change="$refs.vListH.scrollTo(scrollToH)"
           />
         </div>
-        <q-virtual-list ref="vListH" horizontal :items="heavyList" bg-placeholder class="q-my-md bg-white" style="max-width: 80vw; margin-bottom: 200vh;">
+        <q-virtual-list ref="vListH" virtual-list-horizontal :items="heavyList" class="q-my-md" style="max-width: 80vw; margin-bottom: 200vh;">
           <template v-slot="{ item, index }">
             <div class="row no-wrap items-center" :key="index">
               <q-avatar square color="warning" text-color="negative">
