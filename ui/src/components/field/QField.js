@@ -171,7 +171,7 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      if (this.showPopup !== void 0 && this.$q.platform.is.desktop !== true) {
+      if (this.showPopup !== void 0 && this.hasDialog === true) {
         this.showPopup()
         return
       }

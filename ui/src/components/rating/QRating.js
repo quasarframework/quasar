@@ -21,7 +21,9 @@ export default Vue.extend({
       default: 5
     },
 
-    icon: String,
+    icon: [String, Array],
+    iconSelected: [String, Array],
+
     color: String,
 
     noReset: Boolean,
@@ -45,6 +47,19 @@ export default Vue.extend({
       return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
         (this.disable === true ? ' disabled' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')
+    },
+
+    iconData () {
+      const
+        len = Array.isArray(this.icon) ? this.icon.length : 0,
+        selectedLen = Array.isArray(this.iconSelected) ? this.iconSelected.length : 0
+
+      return {
+        len,
+        selectedLen,
+        icon: len > 0 ? this.icon[len - 1] : this.icon,
+        selected: selectedLen > 0 ? this.iconSelected[selectedLen - 1] : this.iconSelected
+      }
     }
   },
 
@@ -91,20 +106,28 @@ export default Vue.extend({
   render (h) {
     const
       child = [],
-      tabindex = this.editable === true ? 0 : null
+      tabindex = this.editable === true ? 0 : null,
+      icons = this.iconData
 
     for (let i = 1; i <= this.max; i++) {
+      const
+        active = (!this.mouseModel && this.value >= i) || (this.mouseModel && this.mouseModel >= i),
+        exSelected = this.mouseModel && this.value >= i && this.mouseModel < i,
+        name = icons.selected !== void 0 && (active === true || exSelected === true)
+          ? (i <= icons.selectedLen ? this.iconSelected[i - 1] : icons.selected)
+          : (i <= icons.len ? this.icon[i - 1] : icons.icon)
+
       child.push(
         h(QIcon, {
           key: i,
           ref: `rt${i}`,
           staticClass: 'q-rating__icon',
           class: {
-            'q-rating__icon--active': (!this.mouseModel && this.value >= i) || (this.mouseModel && this.mouseModel >= i),
-            'q-rating__icon--exselected': this.mouseModel && this.value >= i && this.mouseModel < i,
+            'q-rating__icon--active': active,
+            'q-rating__icon--exselected': exSelected,
             'q-rating__icon--hovered': this.mouseModel === i
           },
-          props: { name: this.icon || this.$q.iconSet.rating.icon },
+          props: { name: name || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
           on: {
             click: () => this.__set(i),
