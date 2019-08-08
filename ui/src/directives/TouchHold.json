@@ -49,7 +49,7 @@
   },
 
   "arg": {
-    "type": "Number",
+    "type": "String",
     "desc": "x:y:z, where x is the amount of time to wait (in milliseconds), y is the touch event sensitivity (in pixels) and z is the mouse event sensitivity (in pixels)",
     "default": "600:5:7",
     "examples": [
