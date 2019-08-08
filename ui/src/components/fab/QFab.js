@@ -31,12 +31,6 @@ export default Vue.extend({
     persistent: Boolean
   },
 
-  watch: {
-    $route () {
-      this.persistent !== true && this.hide()
-    }
-  },
-
   render (h) {
     const tooltip = this.$scopedSlots.tooltip !== void 0
       ? this.$scopedSlots.tooltip()
@@ -73,11 +67,5 @@ export default Vue.extend({
         class: `q-fab__actions--${this.direction}`
       }, slot(this, 'default'))
     ])
-  },
-
-  created () {
-    if (this.value === true && this.disable !== true) {
-      this.showing = true
-    }
   }
 })
