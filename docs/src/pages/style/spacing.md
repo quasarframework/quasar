@@ -20,7 +20,7 @@ D - direction
 S - size
   - values:
       none,
-      auto (just for margin),
+      auto (ONLY for specific margins: q-ml-*, q-mr-*, q-mx-*),
       xs (extra small),
       sm (small),
       md (medium),
