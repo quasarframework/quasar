@@ -1,45 +1,38 @@
-import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
-import { hasScrollbar } from '../utils/scroll.js'
+import { listenOpts } from '../utils/event.js'
 import Platform from '../plugins/Platform.js'
 
-let registered = 0
+let
+  registered = 0,
+  needReposition = false,
+  scrollPosition,
+  bodyTop
 
-function onWheel (e) {
-  if (shouldPreventScroll(e)) {
-    stopAndPrevent(e)
-  }
-}
+function onIOSScroll (e) {
+  const target = e.target
 
-function shouldPreventScroll (e) {
-  if (e.target === document.body || e.target.classList.contains('q-layout__backdrop')) {
-    return true
-  }
-
-  const
-    path = getEventPath(e),
-    shift = e.shiftKey && !e.deltaX,
-    scrollY = !shift && Math.abs(e.deltaX) <= Math.abs(e.deltaY),
-    delta = shift || scrollY ? e.deltaY : e.deltaX
-
-  for (let index = 0; index < path.length; index++) {
-    const el = path[index]
-
-    if (hasScrollbar(el, scrollY)) {
-      return scrollY
-        ? (
-          delta < 0 && el.scrollTop === 0
-            ? true
-            : delta > 0 && el.scrollTop + el.clientHeight === el.scrollHeight
-        )
-        : (
-          delta < 0 && el.scrollLeft === 0
-            ? true
-            : delta > 0 && el.scrollLeft + el.clientWidth === el.scrollWidth
-        )
-    }
+  if (target === document) {
+    document.scrollingElement.scrollTop = 0
+    return
   }
 
-  return true
+  const { scrollTop, scrollHeight, offsetHeight } = target
+
+  if (scrollTop <= 0 || scrollTop >= scrollHeight - offsetHeight) {
+    needReposition = true
+    target.classList.add('q-ios-overflow-scroll-auto')
+    target.scrollTop = scrollTop <= 0 ? 1 : target.scrollHeight - target.offsetHeight - 1
+
+    setTimeout(() => {
+      target.classList.remove('q-ios-overflow-scroll-auto')
+      if (needReposition === true) {
+        target.scrollTop = scrollTop <= 0 ? 0 : target.scrollHeight - target.offsetHeight
+        needReposition = false
+      }
+    }, 0)
+  }
+  else {
+    needReposition = false
+  }
 }
 
 function prevent (register) {
@@ -59,12 +52,26 @@ function prevent (register) {
     action = 'remove'
   }
 
-  if (Platform.is.mobile) {
-    document.body.classList[action]('q-body--prevent-scroll')
+  const body = document.body
+
+  if (register === true && typeof window !== 'undefined') {
+    scrollPosition = window.pageYOffset || window.scrollY || body.scrollTop || 0
+    bodyTop = body.style.top
+
+    body.style.top = `-${scrollPosition}px`
+    body.scrollHeight > window.innerHeight && body.classList.add('q-body--force-scrollbar')
+
+    Platform.is.ios === true && window.addEventListener('scroll', onIOSScroll, listenOpts.passiveCapture)
   }
-  else if (Platform.is.desktop) {
-    // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
-    window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
+
+  body.classList[action]('q-body--prevent-scroll')
+
+  if (register !== true && typeof window !== 'undefined') {
+    Platform.is.ios === true && window.removeEventListener('scroll', onIOSScroll, listenOpts.passiveCapture)
+
+    body.classList.remove('q-body--force-scrollbar')
+    body.style.top = bodyTop
+    window.scrollTo(0, scrollPosition)
   }
 }
 
