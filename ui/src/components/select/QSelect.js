@@ -75,15 +75,9 @@ export default Vue.extend({
       default: 500
     },
 
-    transitionShow: {
-      type: String,
-      default: 'fade'
-    },
+    transitionShow: String,
 
-    transitionHide: {
-      type: String,
-      default: 'fade'
-    },
+    transitionHide: String,
 
     behavior: {
       type: String,
@@ -876,8 +870,8 @@ export default Vue.extend({
           noRefocus: true,
           noFocus: true,
           square: this.squaredMenu,
-          transitionShow: this.transitionShow,
-          transitionHide: this.transitionHide
+          transitionShow: this.transitionShowComputed,
+          transitionHide: this.transitionHideComputed
         },
         on: {
           '&scroll': this.__onVirtualListScroll,
@@ -938,7 +932,9 @@ export default Vue.extend({
           value: this.dialog,
           noRefocus: true,
           noFocus: true,
-          position: this.useInput === true ? 'top' : void 0
+          position: this.useInput === true ? 'top' : void 0,
+          transitionShow: this.transitionShowComputed,
+          transitionHide: this.transitionHideComputed
         },
         on: {
           'before-hide': () => {
@@ -1032,6 +1028,11 @@ export default Vue.extend({
             ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0 || this.noOptions === false
             : true
         )
+
+      this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
+        ? 'fade'
+        : this.transitionShow
+      this.transitionHideComputed = this.transitionHide
     },
 
     __onPostRender () {
