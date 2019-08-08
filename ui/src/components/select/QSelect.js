@@ -75,15 +75,9 @@ export default Vue.extend({
       default: 500
     },
 
-    transitionShow: {
-      type: String,
-      default: 'fade'
-    },
+    transitionShow: String,
 
-    transitionHide: {
-      type: String,
-      default: 'fade'
-    },
+    transitionHide: String,
 
     behavior: {
       type: String,
@@ -938,7 +932,9 @@ export default Vue.extend({
           value: this.dialog,
           noRefocus: true,
           noFocus: true,
-          position: this.useInput === true ? 'top' : void 0
+          position: this.useInput === true ? 'top' : void 0,
+          transitionShow: this.transitionShow,
+          transitionHide: this.transitionHide
         },
         on: {
           'before-hide': () => {

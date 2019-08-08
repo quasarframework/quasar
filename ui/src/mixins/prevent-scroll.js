@@ -61,10 +61,11 @@ function prevent (register) {
     }
   }
   else {
-    if (registered < 1) {
+    registered--
+    if (registered > 0) {
       return
     }
-    registered--
+    registered = 0
     action = 'remove'
   }
 
