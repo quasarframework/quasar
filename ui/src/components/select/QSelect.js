@@ -612,6 +612,7 @@ export default Vue.extend({
           ref: 'target',
           attrs: {
             tabindex: 0,
+            id: this.dialog === true ? void 0 : this.targetUid,
             autofocus: this.autofocus
           },
           on: {
@@ -871,7 +872,7 @@ export default Vue.extend({
           noFocus: true,
           square: this.squaredMenu,
           transitionShow: this.transitionShowComputed,
-          transitionHide: this.transitionHideComputed
+          transitionHide: this.transitionHide
         },
         on: {
           '&scroll': this.__onVirtualListScroll,
@@ -934,7 +935,7 @@ export default Vue.extend({
           noFocus: true,
           position: this.useInput === true ? 'top' : void 0,
           transitionShow: this.transitionShowComputed,
-          transitionHide: this.transitionHideComputed
+          transitionHide: this.transitionHide
         },
         on: {
           'before-hide': () => {
@@ -1032,7 +1033,6 @@ export default Vue.extend({
       this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
         ? 'fade'
         : this.transitionShow
-      this.transitionHideComputed = this.transitionHide
     },
 
     __onPostRender () {
