@@ -605,14 +605,13 @@ export default Vue.extend({
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
-        child.push(this.__getInput(h, fromDialog))
+        child.push(this.__getInput(h))
       }
       else if (this.editable === true) {
         data = {
           ref: 'target',
           attrs: {
             tabindex: 0,
-            id: this.dialog === true ? void 0 : this.targetUid,
             autofocus: this.autofocus
           },
           on: {
@@ -679,7 +678,7 @@ export default Vue.extend({
       this.__onInputValue(e)
     },
 
-    __getInput (h, fromDialog) {
+    __getInput (h) {
       const on = {
         input: this.__onInputValue,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
@@ -713,7 +712,7 @@ export default Vue.extend({
           tabindex: 0,
           autofocus: this.autofocus,
           ...this.$attrs,
-          id: fromDialog === true && this.dialog !== true ? void 0 : this.targetUid,
+          id: this.targetUid,
           disabled: this.disable === true,
           readonly: this.readonly === true
         },
@@ -871,7 +870,7 @@ export default Vue.extend({
           noRefocus: true,
           noFocus: true,
           square: this.squaredMenu,
-          transitionShow: this.transitionShowComputed,
+          transitionShow: this.transitionShow,
           transitionHide: this.transitionHide
         },
         on: {
@@ -934,7 +933,7 @@ export default Vue.extend({
           noRefocus: true,
           noFocus: true,
           position: this.useInput === true ? 'top' : void 0,
-          transitionShow: this.transitionShowComputed,
+          transitionShow: this.transitionShow,
           transitionHide: this.transitionHide
         },
         on: {
@@ -1029,10 +1028,6 @@ export default Vue.extend({
             ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0 || this.noOptions === false
             : true
         )
-
-      this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
-        ? 'fade'
-        : this.transitionShow
     },
 
     __onPostRender () {
