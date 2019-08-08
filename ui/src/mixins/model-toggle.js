@@ -21,12 +21,6 @@ export default {
     }
   },
 
-  computed: {
-    navigationHideCondition () {
-      return this.persistent !== true
-    }
-  },
-
   methods: {
     toggle (evt) {
       this[this.showing === true ? 'hide' : 'show'](evt)
@@ -65,7 +59,7 @@ export default {
 
       if (this.$options.modelToggle !== void 0 && this.$options.modelToggle.history === true) {
         this.__historyEntry = {
-          condition: () => { return this.navigationHideCondition },
+          condition: () => { return this.navigationHideCondition === true },
           handler: this.hide
         }
         History.add(this.__historyEntry)
