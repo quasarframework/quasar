@@ -12,7 +12,6 @@
           :items-size="size"
           :items-fn="getItems"
           :virtual-list-item-default-size="5"
-          bg-placeholder
           separator
           ref="list"
         >
@@ -73,7 +72,7 @@ export default {
         })
       }
 
-      return items
+      return Object.freeze(items)
     }
   },
 

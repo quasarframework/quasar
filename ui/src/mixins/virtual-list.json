@@ -1,6 +1,6 @@
 {
   "props": {
-    "horizontal": {
+    "virtual-list-horizontal": {
       "type": "Boolean",
       "desc": "Make virtual list work in horizontal mode",
       "category": "behavior"

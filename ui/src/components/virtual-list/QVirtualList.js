@@ -28,8 +28,6 @@ export default Vue.extend({
       type: Number
     },
 
-    bgPlaceholder: Boolean,
-
     scrollTarget: {
       default: void 0
     }
@@ -60,7 +58,7 @@ export default Vue.extend({
     },
 
     classes () {
-      return 'q-virtual-list' + (this.horizontal === true ? '--horizontal' : '--vertical') +
+      return 'q-virtual-list' + (this.virtualListHorizontal === true ? '--horizontal' : '--vertical') +
         (this.scrollTarget !== void 0 ? '' : ' scroll')
     },
 
@@ -141,6 +139,6 @@ export default Vue.extend({
       attrs: this.attrs,
       props: this.$attrs,
       on: this.$listeners
-    }, this.__padVirtualList(h, this.virtualListScope.map(this.$scopedSlots.default), this.bgPlaceholder))
+    }, this.__padVirtualList(h, this.virtualListScope.map(this.$scopedSlots.default)))
   }
 })

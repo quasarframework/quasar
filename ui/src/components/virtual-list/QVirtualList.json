@@ -58,12 +58,6 @@
       "category": "content"
     },
 
-    "bg-placeholder": {
-      "type": "Boolean",
-      "desc": "The list will show a background simulating scroll while rendering new list items. Requires a background color to be set on the virtual list or on its parent",
-      "category": "style"
-    },
-
     "scroll-target": {
       "type": [ "Element", "String" ],
       "desc": "CSS selector or DOM element to be used as scroll container instead of the root element of virtual list",
