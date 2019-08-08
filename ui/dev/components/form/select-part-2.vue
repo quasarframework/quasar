@@ -35,6 +35,9 @@
             @filter="simpleFilterFn"
             @focus="onFocus"
             @blur="onBlur"
+            options-cover
+            transition-show="flip-left"
+            transition-hide="flip-left"
           >
             <q-item slot="no-option">
               <q-item-section class="text-grey">
@@ -59,6 +62,9 @@
             @focus="onFocus"
             @blur="onBlur"
             clearable
+            options-cover
+            transition-show="flip-left"
+            transition-hide="flip-left"
           >
             <q-item slot="no-option">
               <q-item-section class="text-grey">
