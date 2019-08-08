@@ -212,9 +212,6 @@
         "default", "menu", "dialog"
       ],
       "default": "default",
-      "examples": [
-        "mobile"
-      ],
       "category": "behavior"
     }
   },
