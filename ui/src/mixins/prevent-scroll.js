@@ -45,7 +45,6 @@ function shouldPreventScroll (e) {
 function prevent (register) {
   let action = 'add'
 
-  console.log('prevent', register, registered)
   if (register === true) {
     registered++
     if (registered > 1) {
