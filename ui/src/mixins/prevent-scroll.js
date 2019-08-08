@@ -71,11 +71,15 @@ function prevent (register) {
   const body = document.body
 
   if (register === true) {
+    const overflowY = window.getComputedStyle(body).overflowY
+
     scrollPosition = getScrollPosition(window)
     bodyTop = body.style.top
 
     body.style.top = `-${scrollPosition}px`
-    body.scrollHeight > window.innerHeight && body.classList.add('q-body--force-scrollbar')
+    if (overflowY !== 'hidden' && (overflowY === 'scroll' || body.scrollHeight > window.innerHeight)) {
+      body.classList.add('q-body--force-scrollbar')
+    }
 
     Platform.is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
   }
