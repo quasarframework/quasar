@@ -159,7 +159,7 @@ export default {
 
   created () {
     if (typeof this.__configureScrollTarget === 'function' && typeof this.__unconfigureScrollTarget === 'function') {
-      this.$watch('noParentEvent', () => {
+      this.noParentEventWatcher = this.$watch('noParentEvent', () => {
         if (this.scrollTarget !== void 0) {
           this.__unconfigureScrollTarget()
           this.__configureScrollTarget()
@@ -179,6 +179,7 @@ export default {
 
   beforeDestroy () {
     clearTimeout(this.touchTimer)
+    this.noParentEventWatcher !== void 0 && this.noParentEventWatcher()
     this.__anchorCleanup !== void 0 && this.__anchorCleanup()
 
     if (this.anchorEl !== void 0) {
