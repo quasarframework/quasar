@@ -91,6 +91,10 @@ export default Vue.extend({
 
     menuClass () {
       return this.square === true ? ' q-menu--square' : ''
+    },
+
+    navigationHideCondition () {
+      return this.persistent !== true
     }
   },
 

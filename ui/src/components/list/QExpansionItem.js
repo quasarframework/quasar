@@ -82,10 +82,6 @@ export default Vue.extend({
 
     activeToggleIcon () {
       return this.disable !== true && (this.hasRouterLink === true || this.expandIconToggle === true)
-    },
-
-    navigationHideCondition () {
-      return false
     }
   },
 

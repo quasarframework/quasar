@@ -31,6 +31,12 @@ export default Vue.extend({
     persistent: Boolean
   },
 
+  computed: {
+    navigationHideCondition () {
+      return this.persistent !== true
+    }
+  },
+
   render (h) {
     const tooltip = this.$scopedSlots.tooltip !== void 0
       ? this.$scopedSlots.tooltip()

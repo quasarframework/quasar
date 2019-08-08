@@ -63,6 +63,10 @@ export default Vue.extend({
 
     selfOrigin () {
       return parsePosition(this.self)
+    },
+
+    navigationHideCondition () {
+      return this.persistent !== true
     }
   },
 
