@@ -3,7 +3,6 @@ import Platform from '../plugins/Platform.js'
 
 let
   registered = 0,
-  needReposition = false,
   scrollPosition,
   bodyTop
 
