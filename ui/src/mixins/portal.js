@@ -1,4 +1,4 @@
-import { getVm } from '../utils/vm.js'
+import Vue from 'vue'
 
 export default {
   inheritAttrs: false,
@@ -30,6 +30,9 @@ export default {
 
   beforeMount () {
     const obj = {
+      name: 'QPortal',
+      parent: this,
+
       inheritAttrs: false,
 
       render: h => this.__render(h),
@@ -52,7 +55,7 @@ export default {
       }
     }
 
-    this.__portal = getVm(this, obj).$mount()
+    this.__portal = new Vue(obj).$mount()
   },
 
   beforeDestroy () {

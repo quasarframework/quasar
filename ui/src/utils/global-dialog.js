@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
-import { getVm } from './vm.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
@@ -71,8 +70,11 @@ export default function (DefaultComponent) {
       ? props
       : void 0
 
-    let vm = getVm(root, {
+    let vm = new Vue({
+      name: 'QGlobalDialog',
+
       el: node,
+      parent: root,
 
       render (h) {
         return h(DialogComponent, {
