@@ -1,28 +1,28 @@
 import Vue from 'vue'
 
 export function closePortalMenus (vm, evt) {
-  let closed = 0
-
   do {
     if (vm.$options.name === 'QMenu') {
-      closed = 1
       vm.hide(evt)
+    }
+    else if (vm.__hasPortal === true || vm.$options.name === 'QPopupProxy') {
+      return vm
     }
     vm = vm.$parent
   } while (vm !== void 0)
-
-  return closed
 }
 
 export function closePortals (vm, evt, depth) {
-  if (depth !== 0) {
-    depth -= closePortalMenus(vm, evt)
-  }
-
   while (depth !== 0 && vm !== void 0) {
-    if (vm.__hasPortal === true && vm.$options.name !== 'QMenu') {
-      vm.hide(evt)
+    if (vm.__hasPortal === true) {
       depth--
+
+      if (vm.$options.name === 'QMenu') {
+        vm = closePortalMenus(vm, evt)
+        continue
+      }
+
+      vm.hide(evt)
     }
 
     vm = vm.$parent

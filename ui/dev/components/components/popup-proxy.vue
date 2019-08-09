@@ -105,13 +105,13 @@
                         <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                           <q-item-section>Menu Item {{ n }}</q-item-section>
                         </q-item>
-                        <q-item clickable v-close-popup:2>
+                        <q-item clickable v-close-popup="2">
                           <q-item-section>Close dialog</q-item-section>
                         </q-item>
                       </q-list>
                     </q-menu>
                   </q-item>
-                  <q-item clickable v-close-popup:2>
+                  <q-item clickable v-close-popup="2">
                     <q-item-section>Close dialog</q-item-section>
                   </q-item>
                 </q-list>
