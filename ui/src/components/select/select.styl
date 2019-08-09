@@ -35,7 +35,7 @@
   &__dialog
     width 90vw !important
     max-width 90vw !important
-    max-height calc(100vh - 70px) !important
+    max-height calc(100vh - 80px) !important
     background white
     display flex
     flex-direction column
@@ -48,5 +48,8 @@
     color white
     background $grey-9
 
-body.platform-ios .q-select__dialog
+body.cordova .q-select__dialog
+  max-height calc(100vh - 70px) !important
+
+body.platform-ios .q-dialog__inner--top .q-select__dialog
   max-height 50vh !important
