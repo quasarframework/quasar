@@ -209,7 +209,7 @@ If you use `selected` or `selected-item` slots, then you are responsible for san
 The render performance is NOT affected much by the number of options, unless `map-options` is used on a large set.
 Notice the infinite scroll in place which renders additional options as the user scrolls through the list.
 
-<doc-example title="10k options" file="QSelect/Render10k" />
+<doc-example title="100k options" file="QSelect/RenderPerf" />
 
 ## QSelect API
 <doc-api file="QSelect" />
