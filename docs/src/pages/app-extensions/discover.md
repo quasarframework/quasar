@@ -46,6 +46,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qplaceholder](https://github.com/quasarframework/app-extension-qplaceholder) | Display a placeholder before your data arrives |
 | [@quasar/qiconpicker](https://github.com/quasarframework/app-extension-qiconpicker) | Icon Picker for your Quasar apps |
 | [@quasar/qribbon](https://github.com/quasarframework/app-extension-qribbon) | QRibbon UI component for your Quasar apps |
+| [@quasar/qzoom](https://github.com/quasarframework/app-extension-qzoom) | Zoom any content (image, video, text, components, ...) |
 
 ### In Development
 

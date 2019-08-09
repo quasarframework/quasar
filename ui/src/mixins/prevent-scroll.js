@@ -1,8 +1,11 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
-import { hasScrollbar } from '../utils/scroll.js'
+import { hasScrollbar, getScrollPosition } from '../utils/scroll.js'
 import Platform from '../plugins/Platform.js'
 
-let registered = 0
+let
+  registered = 0,
+  scrollPosition,
+  bodyTop
 
 function onWheel (e) {
   if (shouldPreventScroll(e)) {
@@ -42,6 +45,12 @@ function shouldPreventScroll (e) {
   return true
 }
 
+function onAppleScroll (e) {
+  if (e.target === document) {
+    document.scrollingElement.scrollTop = 0
+  }
+}
+
 function prevent (register) {
   let action = 'add'
 
@@ -52,19 +61,43 @@ function prevent (register) {
     }
   }
   else {
-    if (registered < 1) {
+    registered--
+    if (registered > 0) {
       return
     }
-    registered--
+    registered = 0
     action = 'remove'
   }
 
-  if (Platform.is.mobile) {
-    document.body.classList[action]('q-body--prevent-scroll')
+  const body = document.body
+
+  if (register === true) {
+    const overflowY = window.getComputedStyle(body).overflowY
+
+    scrollPosition = getScrollPosition(window)
+    bodyTop = body.style.top
+
+    body.style.top = `-${scrollPosition}px`
+    if (overflowY !== 'hidden' && (overflowY === 'scroll' || body.scrollHeight > window.innerHeight)) {
+      body.classList.add('q-body--force-scrollbar')
+    }
+
+    Platform.is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
   }
-  else if (Platform.is.desktop) {
+
+  body.classList[action]('q-body--prevent-scroll')
+
+  if (Platform.is.desktop === true && Platform.is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
     window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
+  }
+
+  if (register !== true) {
+    Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+
+    body.classList.remove('q-body--force-scrollbar')
+    body.style.top = bodyTop
+    window.scrollTo(0, scrollPosition)
   }
 }
 

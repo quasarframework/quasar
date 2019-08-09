@@ -92,7 +92,7 @@ export default Vue.extend({
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
         (this.dark === true ? ' q-date--dark' : '') +
-        (this.readonly === true ? ' q-date--readonly' : '') +
+        (this.readonly === true && this.disable !== true ? ' q-date--readonly' : '') +
         (this.disable === true ? ' disabled' : '')
     },
 

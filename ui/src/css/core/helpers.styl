@@ -29,7 +29,10 @@
 
 /* body */
 .q-body--fullscreen-mixin, .q-body--prevent-scroll
-  overflow hidden !important
+  position fixed !important
+
+.q-body--force-scrollbar
+  overflow-y scroll
 
 .q-no-input-spinner
   -moz-appearance textfield !important

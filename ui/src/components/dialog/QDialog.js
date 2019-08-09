@@ -19,10 +19,11 @@ const positionClass = {
 }
 
 const transitions = {
-  top: ['down', 'up'],
-  bottom: ['up', 'down'],
-  right: ['left', 'right'],
-  left: ['right', 'left']
+  standard: ['scale', 'scale'],
+  top: ['slide-down', 'slide-up'],
+  bottom: ['slide-up', 'slide-down'],
+  right: ['slide-left', 'slide-right'],
+  left: ['slide-right', 'slide-left']
 }
 
 export default Vue.extend({
@@ -60,14 +61,8 @@ export default Vue.extend({
       }
     },
 
-    transitionShow: {
-      type: String,
-      default: 'scale'
-    },
-    transitionHide: {
-      type: String,
-      default: 'scale'
-    }
+    transitionShow: String,
+    transitionHide: String
   },
 
   data () {
@@ -77,15 +72,8 @@ export default Vue.extend({
   },
 
   watch: {
-    $route () {
-      this.persistent !== true &&
-        this.noRouteDismiss !== true &&
-        this.seamless !== true &&
-        this.hide()
-    },
-
     showing (val) {
-      if (this.position !== 'standard' || this.transitionShow !== this.transitionHide) {
+      if (this.transitionShowComputed !== this.transitionHideComputed) {
         this.$nextTick(() => {
           this.transitionState = val
         })
@@ -120,16 +108,28 @@ export default Vue.extend({
         (this.square === true ? ' q-dialog__inner--square' : '')
     },
 
+    transitionShowComputed () {
+      return 'q-transition--' + (this.transitionShow === void 0 ? transitions[this.position][0] : this.transitionShow)
+    },
+
+    transitionHideComputed () {
+      return 'q-transition--' + (this.transitionHide === void 0 ? transitions[this.position][1] : this.transitionHide)
+    },
+
     transition () {
-      return 'q-transition--' + (
-        this.position === 'standard'
-          ? (this.transitionState === true ? this.transitionHide : this.transitionShow)
-          : 'slide-' + transitions[this.position][this.transitionState === true ? 1 : 0]
-      )
+      return this.transitionState === true
+        ? this.transitionHideComputed
+        : this.transitionShowComputed
     },
 
     useBackdrop () {
       return this.showing === true && this.seamless !== true
+    },
+
+    navigationHideCondition () {
+      return this.persistent !== true &&
+        this.noRouteDismiss !== true &&
+        this.seamless !== true
     }
   },
 
@@ -139,13 +139,6 @@ export default Vue.extend({
 
       if (node === void 0 || node.contains(document.activeElement) === true) {
         return
-      }
-
-      if (this.$q.platform.is.ios) {
-        // workaround the iOS hover/touch issue
-        this.avoidAutoClose = true
-        node.click()
-        this.avoidAutoClose = false
       }
 
       node = node.querySelector('[autofocus]') || node
@@ -261,10 +254,8 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      if (this.avoidAutoClose !== true) {
-        this.hide(e)
-        this.$listeners.click !== void 0 && this.$emit('click', e)
-      }
+      this.hide(e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     __onBackdropClick (e) {
@@ -335,10 +326,6 @@ export default Vue.extend({
     __onPortalClose (evt) {
       this.hide(evt)
     }
-  },
-
-  mounted () {
-    this.value === true && this.show()
   },
 
   beforeDestroy () {

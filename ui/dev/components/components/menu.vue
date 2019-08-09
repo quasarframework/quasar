@@ -31,6 +31,31 @@
           </q-menu>
         </q-btn>
 
+        <q-btn color="primary" label="Decoupled">
+          <q-menu
+            :value="toggle"
+            ref="popover11"
+            persistent
+            transition-show="jump-up"
+            anchor="top right"
+            @show="log('@show popover11 decoupled')"
+            @hide="log('@hide popover11 decoupled')"
+          >
+            <input v-model="gigi">
+            <q-list padding style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-popup
+                @click="showNotify()"
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+
         <q-btn color="primary" icon="map">
           <q-menu @show="log('@show popover_map')" @hide="log('@hide popover_map')">
             <q-list style="min-width: 100px">
@@ -466,7 +491,7 @@ export default {
       gigi: '',
       fit: false,
       cover: false,
-      toggle: false,
+      toggle: true,
       anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
       selfOrigin: { vertical: 'top', horizontal: 'left' },
       terms: '',

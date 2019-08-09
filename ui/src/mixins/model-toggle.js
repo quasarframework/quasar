@@ -13,14 +13,11 @@ export default {
 
   watch: {
     value (val) {
-      if (this.disable === true && val === true) {
-        this.$emit('input', false)
-        return
-      }
+      this.__processModelChange(val)
+    },
 
-      if (val !== this.showing) {
-        this[val ? 'show' : 'hide']()
-      }
+    $route () {
+      this.navigationHideCondition === true && this.hide()
     }
   },
 
@@ -37,24 +34,32 @@ export default {
         return
       }
 
-      this.$emit('before-show', evt)
+      const fn = typeof this.$listeners.input === 'function'
+        ? () => { this.value !== true && this.$emit('input', true) }
+        : () => { this.__processShow(evt) }
 
       if (this.$q.platform.is.ie === true) {
         // IE sometimes performs a focus on body after click;
         // the delay prevents the click-outside to trigger on this focus
-        setTimeout(() => {
-          this.showing = true
-        }, 0)
+        setTimeout(fn, 0)
       }
       else {
-        this.showing = true
+        fn()
+      }
+    },
+
+    __processShow (evt) {
+      if (this.showing === true) {
+        return
       }
 
-      this.$emit('input', true)
+      this.showing = true
+
+      this.$emit('before-show', evt)
 
       if (this.$options.modelToggle !== void 0 && this.$options.modelToggle.history === true) {
         this.__historyEntry = {
-          condition: () => { return this.persistent !== true },
+          condition: () => { return this.navigationHideCondition === true },
           handler: this.hide
         }
         History.add(this.__historyEntry)
@@ -73,9 +78,22 @@ export default {
         return
       }
 
-      this.$emit('before-hide', evt)
+      if (typeof this.$listeners.input === 'function') {
+        this.value !== false && this.$emit('input', false)
+      }
+      else {
+        this.__processHide(evt)
+      }
+    },
+
+    __processHide (evt) {
+      if (this.showing === false) {
+        return
+      }
+
       this.showing = false
-      this.value !== false && this.$emit('input', false)
+
+      this.$emit('before-hide', evt)
 
       this.__removeHistory()
 
@@ -92,7 +110,20 @@ export default {
         History.remove(this.__historyEntry)
         this.__historyEntry = void 0
       }
+    },
+
+    __processModelChange (val) {
+      if (this.disable === true && val === true) {
+        this.$emit('input', false)
+      }
+      else if (val !== this.showing) {
+        this[val ? '__processShow' : '__processHide']()
+      }
     }
+  },
+
+  mounted () {
+    this.__processModelChange(this.value)
   },
 
   beforeDestroy () {

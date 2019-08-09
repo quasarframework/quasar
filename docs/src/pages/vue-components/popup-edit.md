@@ -33,6 +33,11 @@ You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the de
 
 <doc-example title="Persistent edit, and with buttons" file="QPopupEdit/WithButtons" />
 
+### Default scoped slot
+You can use also use the default scoped slot with parameters too (as opposed to all other examples on this page which use the default scoped slot without any parameters) should you wish to fully customize your QPopupEdit content:
+
+<doc-example title="Default scoped slot parameters" file="QPopupEdit/DefaultScopedSlotParameters" />
+
 ### Textarea / QEditor
 Since QPopupEdit wraps QInput, you can basically use any type of QInput. For instance, you can also use a text area as shown below in the "Comments" column.
 
