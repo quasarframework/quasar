@@ -22,7 +22,7 @@ export default {
     return {
       model: null,
 
-      options
+      options: Object.freeze(options)
     }
   }
 }
