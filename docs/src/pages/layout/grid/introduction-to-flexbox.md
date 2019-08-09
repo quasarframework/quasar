@@ -64,7 +64,7 @@ Also, if you want to wrap in reverse order, then `reverse-wrap` is available.
 
 **For alignment along the main axis**, use classes below. It helps distribute extra free space left over when either all the flex items on a line are inflexible, or are flexible but have reached their maximum size. It also exerts some control over the alignment of items when they overflow the line.
 
-![Flexbox Justify Content](https://cdn.quasar.dev/img/flexbox-main-axis-align.svg)
+![Flexbox Justify Content](https://cdn.quasar.dev/img/flexbox-main-axis-align---2.svg)
 
 **For alignment perpendicular to the main axis**, use classes below. This defines the default behavior for how flex items are laid out along the cross axis on the current line. Think of it as the horizontal-* version for the cross-axis (perpendicular to the main-axis).
 
