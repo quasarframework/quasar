@@ -3,12 +3,6 @@
     <q-btn color="primary" icon="map">
       <q-menu>
         <q-list separator class="scroll" style="min-width: 100px">
-          <!--<q-item
-            v-close-overlay
-            @click.native="showNotify"
-          >
-            <q-item-main label="Closable" sublabel="Closes" />
-          </q-item>-->
           <q-btn color="primary" v-close-popup label="Shut up" icon="map" />
           <q-item clickable @click="showNotify">
             <q-item-section>
