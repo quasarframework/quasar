@@ -30,7 +30,7 @@
     &--minimized
       padding 24px
       > div
-        max-height calc(100vh - 108px)
+        max-height calc(100vh - 48px)
 
     &--maximized
       > div
@@ -74,8 +74,8 @@
     pointer-events all
     background $dimmed-background
 
-body.cordova .q-dialog__inner--minimized > div
-  max-height calc(100vh - 48px)
+body.mobile:not(cordova) .q-dialog__inner--minimized > div
+  max-height calc(100vh - 108px)
 
 body.q-ios-padding .q-dialog__inner
   padding-top $ios-statusbar-height !important
