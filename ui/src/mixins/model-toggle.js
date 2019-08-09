@@ -117,7 +117,7 @@ export default {
         this.$emit('input', false)
       }
       else if (val !== this.showing) {
-        this[val ? '__processShow' : '__processHide']()
+        this[`__process${val === true ? 'Show' : 'Hide'}`]()
       }
     }
   },

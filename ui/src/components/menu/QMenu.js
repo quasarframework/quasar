@@ -2,15 +2,13 @@ import Vue from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import PortalMixin from '../../mixins/portal.js'
+import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
-import uid from '../../utils/uid.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { create, stop, position, listenOpts } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
-import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
 import slot from '../../utils/slot.js'
 
@@ -21,7 +19,7 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, MenuTreeMixin, TransitionMixin ],
+  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   directives: {
     ClickOutside
@@ -61,12 +59,6 @@ export default Vue.extend({
     maxWidth: {
       type: String,
       default: null
-    }
-  },
-
-  data () {
-    return {
-      menuId: uid()
     }
   },
 
@@ -123,7 +115,6 @@ export default Vue.extend({
       })
 
       this.__showPortal()
-      this.__registerTree()
       this.__configureScrollTarget()
 
       this.timer = setTimeout(() => {
@@ -185,7 +176,6 @@ export default Vue.extend({
 
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
-        this.__unregisterTree()
         this.__unconfigureScrollTarget()
       }
     },
@@ -210,7 +200,7 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      closeRootMenu(this.menuId)
+      closePortalMenus(this, e)
       this.$emit('click', e)
     },
 
@@ -268,14 +258,6 @@ export default Vue.extend({
           }] : null
         }, slot(this, 'default')) : null
       ])
-    },
-
-    __onPortalCreated (vm) {
-      vm.menuParentId = this.menuId
-    },
-
-    __onPortalClose () {
-      closeRootMenu(this.menuId)
     }
   },
 

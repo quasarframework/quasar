@@ -1,5 +1,34 @@
 import Vue from 'vue'
 
+export function closePortalMenus (vm, evt) {
+  let closed = 0
+
+  do {
+    if (vm.$options.name === 'QMenu') {
+      closed = 1
+      vm.hide(evt)
+    }
+    vm = vm.$parent
+  } while (vm !== void 0)
+
+  return closed
+}
+
+export function closePortals (vm, evt, depth) {
+  if (depth !== 0) {
+    depth -= closePortalMenus(vm, evt)
+  }
+
+  while (depth !== 0 && vm !== void 0) {
+    if (vm.__hasPortal === true && vm.$options.name !== 'QMenu') {
+      vm.hide(evt)
+      depth--
+    }
+
+    vm = vm.$parent
+  }
+}
+
 export default {
   inheritAttrs: false,
 
@@ -29,6 +58,8 @@ export default {
   },
 
   beforeMount () {
+    this.__hasPortal = true
+
     const obj = {
       name: 'QPortal',
       parent: this,
@@ -39,20 +70,6 @@ export default {
 
       components: this.$options.components,
       directives: this.$options.directives
-    }
-
-    if (this.__onPortalClose !== void 0) {
-      obj.methods = {
-        __qClosePopup: this.__onPortalClose
-      }
-    }
-
-    const onCreated = this.__onPortalCreated
-
-    if (onCreated !== void 0) {
-      obj.created = function () {
-        onCreated(this)
-      }
     }
 
     this.__portal = new Vue(obj).$mount()
