@@ -34,17 +34,11 @@ export default {
         return
       }
 
-      const fn = typeof this.$listeners.input === 'function'
-        ? () => { this.value !== true && this.$emit('input', true) }
-        : () => { this.__processShow(evt) }
-
-      if (this.$q.platform.is.ie === true) {
-        // IE sometimes performs a focus on body after click;
-        // the delay prevents the click-outside to trigger on this focus
-        setTimeout(fn, 0)
+      if (typeof this.$listeners.input === 'function') {
+        this.value !== true && this.$emit('input', true)
       }
       else {
-        fn()
+        this.__processShow(evt)
       }
     },
 
