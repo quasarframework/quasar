@@ -17,11 +17,11 @@ export default {
 
         if (evt.type === 'focusin') {
           ctx.timer = setTimeout(() => {
-            ctx.processor(evt)
+            ctx.process(evt)
           }, 200)
         }
         else {
-          ctx.processor(evt)
+          ctx.process(evt)
         }
       },
 
@@ -35,7 +35,7 @@ export default {
         document.removeEventListener('click', ctx.onClick, notPassiveCapture)
       },
 
-      processor (evt) {
+      process (evt) {
         const target = evt.target
 
         if (
