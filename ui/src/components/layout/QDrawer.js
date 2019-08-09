@@ -126,6 +126,10 @@ export default Vue.extend({
       ))
     },
 
+    'layout.container' (val) {
+      this.showing === true && this.__preventScroll(val !== true)
+    },
+
     'layout.width' (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
@@ -438,9 +442,7 @@ export default Vue.extend({
       if (this.belowBreakpoint === true) {
         this.mobileOpened = true
         this.applyBackdrop(1)
-        if (this.layout.container !== true) {
-          this.__preventScroll(true)
-        }
+        this.layout.container !== true && this.__preventScroll(true)
       }
       else {
         this.__setScrollable(false)

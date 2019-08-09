@@ -117,37 +117,34 @@ export default Vue.extend({
       this.__showPortal()
       this.__configureScrollTarget()
 
-      this.timer = setTimeout(() => {
-        const { top, left } = this.anchorEl.getBoundingClientRect()
+      const { top, left } = this.anchorEl.getBoundingClientRect()
 
-        if (this.touchPosition || this.contextMenu) {
-          const pos = position(evt)
-          this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
-        }
-        else {
-          this.absoluteOffset = void 0
-        }
+      if (this.touchPosition || this.contextMenu) {
+        const pos = position(evt)
+        this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
+      }
+      else {
+        this.absoluteOffset = void 0
+      }
 
+      if (this.unwatch === void 0) {
+        this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
+      }
+
+      this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
+
+      if (this.noFocus !== true) {
+        document.activeElement.blur()
+      }
+
+      this.$nextTick(() => {
         this.updatePosition()
+        this.noFocus !== true && this.focus()
+      })
 
-        if (this.unwatch === void 0) {
-          this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
-        }
-
-        this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
-
-        if (this.noFocus !== true) {
-          document.activeElement.blur()
-
-          this.$nextTick(() => {
-            this.focus()
-          })
-        }
-
-        this.timer = setTimeout(() => {
-          this.$emit('show', evt)
-        }, 300)
-      }, 0)
+      this.timer = setTimeout(() => {
+        this.$emit('show', evt)
+      }, 300)
     },
 
     __hide (evt) {
@@ -201,7 +198,7 @@ export default Vue.extend({
 
     __onAutoClose (e) {
       closePortalMenus(this, e)
-      this.$emit('click', e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     updatePosition () {

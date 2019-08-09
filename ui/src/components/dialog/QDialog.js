@@ -4,6 +4,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
+import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
 import { create, stop, stopAndPrevent } from '../../utils/event.js'
@@ -87,15 +88,9 @@ export default Vue.extend({
       }
     },
 
-    seamless (v) {
-      this.showing === true && this.__preventScroll(!v)
-    },
-
     useBackdrop (v) {
-      if (this.$q.platform.is.desktop === true) {
-        const action = `${v === true ? 'add' : 'remove'}EventListener`
-        document.body[action]('focusin', this.__onFocusChange)
-      }
+      this.__preventScroll(v)
+      this.__preventFocusout(v)
     }
   },
 
@@ -199,10 +194,6 @@ export default Vue.extend({
         })
       }
 
-      if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
-        document.body.addEventListener('focusin', this.__onFocusChange)
-      }
-
       this.timer = setTimeout(() => {
         this.$emit('show', evt)
       }, 300)
@@ -227,21 +218,17 @@ export default Vue.extend({
       clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
-      if (this.$q.platform.is.desktop === true && this.seamless !== true) {
-        document.body.removeEventListener('focusin', this.__onFocusChange)
-      }
-
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
         this.__updateState(false, this.maximized)
+        if (this.useBackdrop === true) {
+          this.__preventScroll(false)
+          this.__preventFocusout(false)
+        }
       }
     },
 
     __updateState (opening, maximized) {
-      if (this.seamless !== true) {
-        this.__preventScroll(opening)
-      }
-
       if (maximized === true) {
         if (opening === true) {
           maximizedModals < 1 && document.body.classList.add('q-body--dialog')
@@ -250,6 +237,13 @@ export default Vue.extend({
           document.body.classList.remove('q-body--dialog')
         }
         maximizedModals += opening === true ? 1 : -1
+      }
+    },
+
+    __preventFocusout (state) {
+      if (this.$q.platform.is.desktop === true) {
+        const action = `${state === true ? 'add' : 'remove'}EventListener`
+        document.body[action]('focusin', this.__onFocusChange)
       }
     },
 
@@ -272,10 +266,8 @@ export default Vue.extend({
 
       if (
         node !== void 0 &&
-        this.__portal.$el !== void 0 &&
-        // we don't have another portal opened:
-        this.__portal.$el.nextElementSibling === null &&
-        this.__portal.$el.contains(e.target) !== true
+        // the focus is not in a vue child component
+        childHasFocus(this.__portal.$el, e.target) !== true
       ) {
         node.focus()
       }

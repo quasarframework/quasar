@@ -382,7 +382,7 @@
             <template #loading>
               <div class="q-anchor--skip" @click.prevent>
                 Click for menu
-                <q-menu fit>
+                <q-menu fit no-focus>
                   <div class="q-pa-md text-center">
                     Menu
                   </div>

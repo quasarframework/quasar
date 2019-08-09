@@ -76,14 +76,14 @@ export default Vue.extend({
 
       this.__showPortal()
 
-      this.timer = setTimeout(() => {
+      this.$nextTick(() => {
         this.updatePosition()
+        this.__configureScrollTarget()
+      })
 
-        this.timer = setTimeout(() => {
-          this.$emit('show', evt)
-          this.__configureScrollTarget()
-        }, 300)
-      }, 0)
+      this.timer = setTimeout(() => {
+        this.$emit('show', evt)
+      }, 300)
     },
 
     __hide (evt) {
@@ -101,6 +101,8 @@ export default Vue.extend({
     },
 
     updatePosition () {
+      if (this.anchorEl === void 0) { return }
+
       const el = this.__portal.$el
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
@@ -109,8 +111,6 @@ export default Vue.extend({
         }, 25)
         return
       }
-
-      if (this.anchorEl === void 0) { return }
 
       setPosition({
         el,
@@ -140,17 +140,17 @@ export default Vue.extend({
     __unconfigureAnchorEl () {
       // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile) {
-        this.anchorEl.removeEventListener('touchstart', this.__delayShow)
+        this.anchorEl.removeEventListener('touchstart', this.__delayShow, listenOpts.passive)
         ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
-          this.anchorEl.removeEventListener(evt, this.__delayHide)
+          this.anchorEl.removeEventListener(evt, this.__delayHide, listenOpts.passive)
         })
       }
       else {
-        this.anchorEl.removeEventListener('mouseenter', this.__delayShow)
+        this.anchorEl.removeEventListener('mouseenter', this.__delayShow, listenOpts.passive)
       }
 
       if (this.$q.platform.is.ios !== true) {
-        this.anchorEl.removeEventListener('mouseleave', this.__delayHide)
+        this.anchorEl.removeEventListener('mouseleave', this.__delayHide, listenOpts.passive)
       }
     },
 
@@ -159,17 +159,17 @@ export default Vue.extend({
 
       // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile) {
-        this.anchorEl.addEventListener('touchstart', this.__delayShow)
+        this.anchorEl.addEventListener('touchstart', this.__delayShow, listenOpts.passive)
         ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
-          this.anchorEl.addEventListener(evt, this.__delayHide)
+          this.anchorEl.addEventListener(evt, this.__delayHide, listenOpts.passive)
         })
       }
       else {
-        this.anchorEl.addEventListener('mouseenter', this.__delayShow)
+        this.anchorEl.addEventListener('mouseenter', this.__delayShow, listenOpts.passive)
       }
 
       if (this.$q.platform.is.ios !== true) {
-        this.anchorEl.addEventListener('mouseleave', this.__delayHide)
+        this.anchorEl.addEventListener('mouseleave', this.__delayHide, listenOpts.passive)
       }
     },
 
