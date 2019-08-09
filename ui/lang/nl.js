@@ -25,7 +25,7 @@ export default {
     format24h: true
   },
   table: {
-    noData: 'Geen gegevens bechikbaar',
+    noData: 'Geen gegevens beschikbaar',
     noResults: 'Geen records gevonden',
     loading: 'Laden...',
     selectedRecords: function (rows) {
