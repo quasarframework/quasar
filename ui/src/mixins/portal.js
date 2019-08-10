@@ -1,15 +1,15 @@
 import Vue from 'vue'
 
-export function closePortalMenus (vm, evt) {
-  do {
-    if (vm.$options.name === 'QMenu') {
-      vm.hide(evt)
+function closePortalMenus (vm, evt) {
+  while (vm !== void 0) {
+    if (vm.__hasPortal === true && vm.closeAsTree !== true) {
+      return vm.$options.name === 'QMenu' || (vm.$parent !== void 0 && vm.$parent.$options.name === 'QPopupProxy')
+        ? vm.hide(evt)
+        : vm
     }
-    else if (vm.__hasPortal === true || vm.$options.name === 'QPopupProxy') {
-      return vm
-    }
-    vm = vm.$parent
-  } while (vm !== void 0)
+
+    vm = vm.__hasPortal === true ? vm.hide(evt) : vm.$parent
+  }
 }
 
 export function closePortals (vm, evt, depth) {
@@ -17,15 +17,13 @@ export function closePortals (vm, evt, depth) {
     if (vm.__hasPortal === true) {
       depth--
 
-      if (vm.$options.name === 'QMenu') {
-        vm = closePortalMenus(vm, evt)
-        continue
-      }
-
-      vm.hide(evt)
+      vm = vm.closeAsTree === true
+        ? closePortalMenus(vm, evt)
+        : vm.hide(evt)
     }
-
-    vm = vm.$parent
+    else {
+      vm = vm.$parent
+    }
   }
 }
 

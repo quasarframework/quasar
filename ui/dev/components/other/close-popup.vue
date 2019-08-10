@@ -170,6 +170,656 @@
         </q-dialog>
       </q-card>
     </q-dialog>
+
+    <div>
+      <q-btn-dropdown color="primary" label="Dropdown Button">
+        <q-list class="bg-white" separator clickable>
+          <q-item v-close-popup>
+            <q-item-section>v-close-popup</q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section>Submenu (QMenu)</q-item-section>
+            <q-item-section side>
+              <q-icon name="keyboard_arrow_right" />
+            </q-item-section>
+            <q-menu>
+              <q-list class="bg-white" separator clickable>
+                <q-item v-close-popup>
+                  <q-item-section>v-close-popup</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-item>
+
+          <q-item>
+            <q-item-section>Submenu (QMenu)</q-item-section>
+            <q-item-section side>
+              <q-icon name="keyboard_arrow_right" />
+            </q-item-section>
+            <q-menu auto-close>
+              <q-list class="bg-white" separator clickable>
+                <q-item>
+                  <q-item-section>auto-close</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-item>
+
+          <q-item>
+            <q-item-section>Submenu (QPopupProxy)</q-item-section>
+            <q-item-section side>
+              <q-icon name="keyboard_arrow_right" />
+            </q-item-section>
+            <q-popup-proxy>
+              <q-list class="bg-white" separator clickable>
+                <q-item v-close-popup>
+                  <q-item-section>v-close-popup</q-item-section>
+                </q-item>
+                <q-item>
+                  <q-item-section>Submenu (QMenu)</q-item-section>
+                  <q-item-section side>
+                    <q-icon name="keyboard_arrow_right" />
+                  </q-item-section>
+                  <q-menu>
+                    <q-list class="bg-white" separator clickable>
+                      <q-item v-close-popup>
+                        <q-item-section>v-close-popup</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-item>
+                <q-item>
+                  <q-item-section>Submenu (QMenu)</q-item-section>
+                  <q-item-section side>
+                    <q-icon name="keyboard_arrow_right" />
+                  </q-item-section>
+                  <q-menu auto-close>
+                    <q-list class="bg-white" separator clickable>
+                      <q-item>
+                        <q-item-section>auto-close</q-item-section>
+                      </q-item>
+                    </q-list>
+                  </q-menu>
+                </q-item>
+              </q-list>
+            </q-popup-proxy>
+          </q-item>
+
+          <q-item v-close-popup>
+            <q-item-section side>
+              <q-icon name="close" />
+            </q-item-section>
+
+            <q-item-section @click.stop>
+              <q-select v-model="selection" :options="options" label="Select" />
+            </q-item-section>
+          </q-item>
+
+          <q-item v-close-popup>
+            <q-item-section side>
+              <q-icon name="close" />
+            </q-item-section>
+
+            <q-item-section @click.stop>
+              <q-input v-model="text" label="Option" />
+            </q-item-section>
+
+            <q-item-section side @click.stop>
+              <q-avatar>
+                1
+                <q-menu>
+                  <q-list class="bg-white" separator clickable>
+                    <q-item v-close-popup>
+                      <q-item-section @click="text = 'QMenu - v-close-popup'">
+                        QMenu - v-close-popup
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section side @click.stop>
+              <q-avatar>
+                2
+                <q-menu auto-close>
+                  <q-list class="bg-white" separator clickable>
+                    <q-item>
+                      <q-item-section @click="text = 'QMenu - auto-close'">
+                        QMenu - auto-close
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section side @click.stop>
+              <q-avatar>
+                3
+                <q-menu :close-as-tree="false">
+                  <q-list class="bg-white" separator clickable>
+                    <q-item v-close-popup>
+                      <q-item-section @click="text = 'QMenu - !close-as-tree - v-close-popup'">
+                        QMenu - !close-as-tree - v-close-popup
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section side @click.stop>
+              <q-avatar>
+                4
+                <q-menu :close-as-tree="false" auto-close>
+                  <q-list class="bg-white" separator clickable>
+                    <q-item>
+                      <q-item-section @click="text = 'QMenu - !close-as-tree - auto-close'">
+                        QMenu - !close-as-tree - auto-close
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section side @click.stop>
+              <q-avatar>
+                5
+                <q-popup-proxy>
+                  <q-list class="bg-white" separator clickable>
+                    <q-item v-close-popup>
+                      <q-item-section @click="text = 'QPopupProxy - v-close-popup'">
+                        QPopupProxy - v-close-popup
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-popup-proxy>
+              </q-avatar>
+            </q-item-section>
+
+            <q-item-section side @click.stop>
+              <q-avatar>
+                6
+                <q-popup-proxy auto-close>
+                  <q-list class="bg-white" separator clickable>
+                    <q-item>
+                      <q-item-section @click="text = 'QPopupProxy - auto-close'">
+                        QPopupProxy - auto-close
+                      </q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-popup-proxy>
+              </q-avatar>
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section>
+              <q-btn-dropdown color="primary" label="Dropdown Button">
+                <q-list class="bg-white" separator clickable>
+                  <q-item v-close-popup>
+                    <q-item-section>v-close-popup</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section>Submenu (QMenu)</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="keyboard_arrow_right" />
+                    </q-item-section>
+                    <q-menu>
+                      <q-list class="bg-white" separator clickable>
+                        <q-item v-close-popup>
+                          <q-item-section>v-close-popup</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section>Submenu (QMenu)</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="keyboard_arrow_right" />
+                    </q-item-section>
+                    <q-menu auto-close>
+                      <q-list class="bg-white" separator clickable>
+                        <q-item>
+                          <q-item-section>auto-close</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section>Submenu (QPopupProxy)</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="keyboard_arrow_right" />
+                    </q-item-section>
+                    <q-popup-proxy>
+                      <q-list class="bg-white" separator clickable>
+                        <q-item v-close-popup>
+                          <q-item-section>v-close-popup</q-item-section>
+                        </q-item>
+                        <q-item>
+                          <q-item-section>Submenu (QMenu)</q-item-section>
+                          <q-item-section side>
+                            <q-icon name="keyboard_arrow_right" />
+                          </q-item-section>
+                          <q-menu>
+                            <q-list class="bg-white" separator clickable>
+                              <q-item v-close-popup>
+                                <q-item-section>v-close-popup</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </q-item>
+                        <q-item>
+                          <q-item-section>Submenu (QMenu)</q-item-section>
+                          <q-item-section side>
+                            <q-icon name="keyboard_arrow_right" />
+                          </q-item-section>
+                          <q-menu auto-close>
+                            <q-list class="bg-white" separator clickable>
+                              <q-item>
+                                <q-item-section>auto-close</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </q-item>
+                      </q-list>
+                    </q-popup-proxy>
+                  </q-item>
+
+                  <q-item v-close-popup>
+                    <q-item-section side>
+                      <q-icon name="close" />
+                    </q-item-section>
+
+                    <q-item-section @click.stop>
+                      <q-input v-model="text" label="Option" />
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        1
+                        <q-menu>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item v-close-popup>
+                              <q-item-section @click="text = 'QMenu - v-close-popup'">
+                                QMenu - v-close-popup
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        2
+                        <q-menu auto-close>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item>
+                              <q-item-section @click="text = 'QMenu - auto-close'">
+                                QMenu - auto-close
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        3
+                        <q-menu :close-as-tree="false">
+                          <q-list class="bg-white" separator clickable>
+                            <q-item v-close-popup>
+                              <q-item-section @click="text = 'QMenu - !close-as-tree - v-close-popup'">
+                                QMenu - !close-as-tree - v-close-popup
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        4
+                        <q-menu :close-as-tree="false" auto-close>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item>
+                              <q-item-section @click="text = 'QMenu - !close-as-tree - auto-close'">
+                                QMenu - !close-as-tree - auto-close
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        5
+                        <q-popup-proxy>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item v-close-popup>
+                              <q-item-section @click="text = 'QPopupProxy - v-close-popup'">
+                                QPopupProxy - v-close-popup
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-popup-proxy>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        6
+                        <q-popup-proxy auto-close>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item>
+                              <q-item-section @click="text = 'QPopupProxy - auto-close'">
+                                QPopupProxy - auto-close
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-popup-proxy>
+                      </q-avatar>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </q-item-section>
+          </q-item>
+
+          <q-item>
+            <q-item-section>
+              <q-btn-dropdown persistent color="primary" label="Persistent Dropdown Button">
+                <q-list class="bg-white" separator clickable>
+                  <q-item v-close-popup>
+                    <q-item-section>v-close-popup</q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section>Submenu (QMenu)</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="keyboard_arrow_right" />
+                    </q-item-section>
+                    <q-menu>
+                      <q-list class="bg-white" separator clickable>
+                        <q-item v-close-popup>
+                          <q-item-section>v-close-popup</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section>Submenu (QMenu)</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="keyboard_arrow_right" />
+                    </q-item-section>
+                    <q-menu auto-close>
+                      <q-list class="bg-white" separator clickable>
+                        <q-item>
+                          <q-item-section>auto-close</q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section>Submenu (QPopupProxy)</q-item-section>
+                    <q-item-section side>
+                      <q-icon name="keyboard_arrow_right" />
+                    </q-item-section>
+                    <q-popup-proxy>
+                      <q-list class="bg-white" separator clickable>
+                        <q-item v-close-popup>
+                          <q-item-section>v-close-popup</q-item-section>
+                        </q-item>
+                        <q-item>
+                          <q-item-section>Submenu (QMenu)</q-item-section>
+                          <q-item-section side>
+                            <q-icon name="keyboard_arrow_right" />
+                          </q-item-section>
+                          <q-menu>
+                            <q-list class="bg-white" separator clickable>
+                              <q-item v-close-popup>
+                                <q-item-section>v-close-popup</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </q-item>
+                        <q-item>
+                          <q-item-section>Submenu (QMenu)</q-item-section>
+                          <q-item-section side>
+                            <q-icon name="keyboard_arrow_right" />
+                          </q-item-section>
+                          <q-menu auto-close>
+                            <q-list class="bg-white" separator clickable>
+                              <q-item>
+                                <q-item-section>auto-close</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </q-item>
+                      </q-list>
+                    </q-popup-proxy>
+                  </q-item>
+
+                  <q-item v-close-popup>
+                    <q-item-section side>
+                      <q-icon name="close" />
+                    </q-item-section>
+
+                    <q-item-section @click.stop>
+                      <q-input v-model="text" label="Option" />
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        1
+                        <q-menu>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item v-close-popup>
+                              <q-item-section @click="text = 'QMenu - v-close-popup'">
+                                QMenu - v-close-popup
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        2
+                        <q-menu auto-close>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item>
+                              <q-item-section @click="text = 'QMenu - auto-close'">
+                                QMenu - auto-close
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        3
+                        <q-menu :close-as-tree="false">
+                          <q-list class="bg-white" separator clickable>
+                            <q-item v-close-popup>
+                              <q-item-section @click="text = 'QMenu - !close-as-tree - v-close-popup'">
+                                QMenu - !close-as-tree - v-close-popup
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        4
+                        <q-menu :close-as-tree="false" auto-close>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item>
+                              <q-item-section @click="text = 'QMenu - !close-as-tree - auto-close'">
+                                QMenu - !close-as-tree - auto-close
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        5
+                        <q-popup-proxy>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item v-close-popup>
+                              <q-item-section @click="text = 'QPopupProxy - v-close-popup'">
+                                QPopupProxy - v-close-popup
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-popup-proxy>
+                      </q-avatar>
+                    </q-item-section>
+
+                    <q-item-section side @click.stop>
+                      <q-avatar>
+                        6
+                        <q-popup-proxy auto-close>
+                          <q-list class="bg-white" separator clickable>
+                            <q-item>
+                              <q-item-section @click="text = 'QPopupProxy - auto-close'">
+                                QPopupProxy - auto-close
+                              </q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-popup-proxy>
+                      </q-avatar>
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-btn-dropdown>
+    </div>
+
+    <div>
+      <q-btn label="Menu">
+        <q-menu>
+          <q-list class="bg-white">
+            <q-item>
+              <q-item-section @click="dialog3 = true">
+                Open dialog
+              </q-item-section>
+              <q-dialog v-model="dialog3">
+                <div class="bg-white q-pa-lg">
+                  <q-btn label="Menu">
+                    <q-menu>
+                      <q-list class="bg-white">
+                        <q-item v-close-popup>
+                          <q-item-section>v-close-popup</q-item-section>
+                        </q-item>
+                        <q-item>
+                          <q-item-section>Submenu (QMenu)</q-item-section>
+                          <q-item-section side>
+                            <q-icon name="keyboard_arrow_right" />
+                          </q-item-section>
+                          <q-menu>
+                            <q-list class="bg-white" separator clickable>
+                              <q-item v-close-popup>
+                                <q-item-section>v-close-popup</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </q-item>
+                        <q-item>
+                          <q-item-section @click="dialog3 = false">
+                            close dialog (model)
+                          </q-item-section>
+                        </q-item>
+                        <q-item>
+                          <q-item-section v-close-popup="2">
+                            close dialog (v-close-popup="2")
+                          </q-item-section>
+                        </q-item>
+                        <q-item>
+                          <q-item-section v-close-popup="3">
+                            close dialog and menu (v-close-popup="3")
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-btn>
+                </div>
+              </q-dialog>
+            </q-item>
+
+            <q-item>
+              <q-item-section @click="dialog4 = true">
+                Open dialog - persistent
+              </q-item-section>
+              <q-dialog v-model="dialog4" persistent>
+                <div class="bg-white q-pa-lg">
+                  <q-btn label="Menu">
+                    <q-menu>
+                      <q-list class="bg-white">
+                        <q-item v-close-popup>
+                          <q-item-section>v-close-popup</q-item-section>
+                        </q-item>
+                        <q-item>
+                          <q-item-section>Submenu (QMenu)</q-item-section>
+                          <q-item-section side>
+                            <q-icon name="keyboard_arrow_right" />
+                          </q-item-section>
+                          <q-menu>
+                            <q-list class="bg-white" separator clickable>
+                              <q-item v-close-popup>
+                                <q-item-section>v-close-popup</q-item-section>
+                              </q-item>
+                            </q-list>
+                          </q-menu>
+                        </q-item>
+                        <q-item>
+                          <q-item-section @click="dialog4 = false">
+                            close dialog (model)
+                          </q-item-section>
+                        </q-item>
+                        <q-item>
+                          <q-item-section v-close-popup="2">
+                            try to close dialog (v-close-popup="2")
+                          </q-item-section>
+                        </q-item>
+                        <q-item>
+                          <q-item-section v-close-popup="3">
+                            try to close dialog and menu (v-close-popup="3")
+                          </q-item-section>
+                        </q-item>
+                      </q-list>
+                    </q-menu>
+                  </q-btn>
+                </div>
+              </q-dialog>
+            </q-item>
+          </q-list>
+        </q-menu>
+      </q-btn>
+    </div>
   </div>
 </template>
 
@@ -180,7 +830,14 @@ export default {
       menu: false,
 
       dialog: false,
-      dialog2: false
+      dialog2: false,
+      dialog3: false,
+      dialog4: false,
+
+      text: 'text',
+
+      selection: 'item 1',
+      options: ['item 1', 'item 2']
     }
   },
   methods: {

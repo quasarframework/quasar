@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
+import PortalMixin, { closePortals } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
@@ -28,6 +28,11 @@ export default Vue.extend({
   props: {
     persistent: Boolean,
     autoClose: Boolean,
+
+    closeAsTree: {
+      type: Boolean,
+      default: true
+    },
 
     noRefocus: Boolean,
     noFocus: Boolean,
@@ -197,7 +202,7 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      closePortalMenus(this, e)
+      closePortals(this, e, 1)
       this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
@@ -248,11 +253,14 @@ export default Vue.extend({
             ...this.$attrs
           },
           on,
-          directives: this.persistent !== true ? [{
+          directives: [{
             name: 'click-outside',
-            value: this.hide,
-            arg: [ this.anchorEl ]
-          }] : null
+            value: e => {
+              const vm = this.persistent === true ? void 0 : this.hide(e)
+
+              return this.closeAsTree === true ? vm : void 0
+            }
+          }]
         }, slot(this, 'default')) : null
       ])
     }

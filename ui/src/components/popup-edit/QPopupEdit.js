@@ -143,7 +143,8 @@ export default Vue.extend({
         contentClass: this.classes,
         contentStyle: this.contentStyle,
         cover: true,
-        persistent: this.persistent
+        persistent: this.persistent,
+        closeAsTree: false
       },
       on: {
         show: () => {

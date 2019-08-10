@@ -67,6 +67,13 @@
       "category": "behavior"
     },
 
+    "close-as-tree": {
+      "type": "Boolean",
+      "default": true,
+      "desc": "Close the menu and all of it's parents (as in a submenu)",
+      "category": "behavior"
+    },
+
     "square": {
       "type": "Boolean",
       "desc": "Forces content to have squared borders",
