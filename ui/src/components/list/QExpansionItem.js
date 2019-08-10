@@ -66,8 +66,9 @@ export default Vue.extend({
 
     contentStyle () {
       if (this.contentInsetLevel !== void 0) {
+        const dir = this.$q.lang.rtl === true ? 'Right' : 'Left'
         return {
-          paddingLeft: (this.contentInsetLevel * 56) + 'px'
+          ['padding' + dir]: (this.contentInsetLevel * 56) + 'px'
         }
       }
     },
