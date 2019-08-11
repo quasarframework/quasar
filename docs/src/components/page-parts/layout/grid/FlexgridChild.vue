@@ -46,7 +46,7 @@ export default {
     return {
       width: '',
       height: '',
-      widthGroup: 'none',
+      widthGroup: '',
       widthOptions: [
         { label: 'none', value: '' },
         { label: 'col', value: 'col' },

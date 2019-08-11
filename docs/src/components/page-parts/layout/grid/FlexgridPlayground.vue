@@ -121,7 +121,8 @@ export default {
         ' ' + this.justifyGroup +
         ' ' + this.itemsGroup +
         ' ' + this.contentGroup)
-        .replace('  ', ' ')
+        .replace(/,/g, ' ')
+        .replace(/' '/g, ' ')
     }
   },
   methods: {
