@@ -365,7 +365,7 @@
 
           <q-item>
             <q-item-section>
-              <q-btn-dropdown color="primary" label="Dropdown Button">
+              <q-btn-dropdown color="primary" label="Regular">
                 <q-list class="bg-white" separator clickable>
                   <q-item clickable v-close-popup>
                     <q-item-section>v-close-popup</q-item-section>
@@ -545,7 +545,7 @@
 
           <q-item>
             <q-item-section>
-              <q-btn-dropdown persistent color="primary" label="Persistent Dropdown Button">
+              <q-btn-dropdown persistent color="primary" label="Persistent">
                 <q-list class="bg-white" separator clickable>
                   <q-item clickable v-close-popup>
                     <q-item-section>v-close-popup</q-item-section>
