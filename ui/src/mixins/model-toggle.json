@@ -27,12 +27,7 @@
     },
 
     "hide": {
-      "extends": "hide",
-      "returns": {
-        "type": "Object",
-        "desc": "Parent node if the hide is successful, void 0 otherwise",
-        "__exemption": [ "examples" ]
-      }
+      "extends": "hide"
     },
 
     "before-hide": {
@@ -46,7 +41,12 @@
     },
 
     "hide": {
-      "extends": "hide"
+      "extends": "hide",
+      "returns": {
+        "type": "Object",
+        "desc": "Parent node if the hide is successful, void 0 otherwise",
+        "__exemption": [ "examples" ]
+      }
     },
 
     "toggle": {

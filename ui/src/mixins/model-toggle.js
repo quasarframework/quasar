@@ -72,8 +72,6 @@ export default {
         return
       }
 
-      const parent = this.$parent
-
       if (typeof this.$listeners.input === 'function') {
         this.value !== false && this.$emit('input', false)
       }
@@ -81,7 +79,7 @@ export default {
         this.__processHide(evt)
       }
 
-      return parent
+      return this.$parent
     },
 
     __processHide (evt) {
