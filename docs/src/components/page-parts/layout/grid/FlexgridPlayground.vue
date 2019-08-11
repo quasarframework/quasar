@@ -3,22 +3,22 @@
     <div class="text-subtitle2 q-pb-md">Parent Properties (container)</div>
     <div class="row wrap justify-start content-stretch">
       <div class="col-lg-2 col-xs-6">
-        <q-select color="purple-12" v-model="containerGroup" :options="containerOptions" label="Container" emit-value map-options dense options-dense />
+        <q-select color="blue-12" v-model="containerGroup" :options="containerOptions" label="Container" emit-value map-options dense options-dense />
       </div>
       <div class="col-lg-2 col-xs-6">
-        <q-select color="purple-12" v-model="directionGroup" :options="directionOptions" label="Direction" emit-value map-options dense options-dense />
+        <q-select color="blue-12" v-model="directionGroup" :options="directionOptions" label="Direction" emit-value map-options dense options-dense />
       </div>
       <div class="col-lg-2 col-xs-6">
-        <q-select color="purple-12" v-model="wrapGroup" :options="wrapOptions" label="Wrap" emit-value map-options dense options-dense />
+        <q-select color="blue-12" v-model="wrapGroup" :options="wrapOptions" label="Wrap" emit-value map-options dense options-dense />
       </div>
       <div class="col-lg-2 col-xs-6">
-        <q-select color="purple-12" v-model="justifyGroup" :options="justifyOptions" label="Justify Content" emit-value map-options dense options-dense />
+        <q-select color="blue-12" v-model="justifyGroup" :options="justifyOptions" label="Justify Content" emit-value map-options dense options-dense />
       </div>
       <div class="col-lg-2 col-xs-6">
-        <q-select color="purple-12" v-model="itemsGroup" :options="itemsOptions" label="Align Items" emit-value map-options dense options-dense />
+        <q-select color="blue-12" v-model="itemsGroup" :options="itemsOptions" label="Align Items" emit-value map-options dense options-dense />
       </div>
       <div class="col-lg-2 col-xs-6">
-        <q-select color="purple-12" v-model="contentGroup" :options="contentOptions" label="Align Content" emit-value map-options dense options-dense />
+        <q-select color="blue-12" v-model="contentGroup" :options="contentOptions" label="Align Content" emit-value map-options dense options-dense />
       </div>
     </div>
     <div class="text-weight-medium q-mt-sm">Container Classes</div>
@@ -147,16 +147,16 @@ export default {
 <style lang="stylus" scoped>
 .row > div
   padding 8px
-  background rgba(86,61,124,.15)
-  border 1px solid rgba(86,61,124,.2)
+  background rgba(227,242,253,.6)
+  border 1px solid rgba(187,222,251,.9)
 
 .row + .row
   margin-top 1rem
 
 .column > div
-  padding 10px 15px
-  background rgba(86,61,124,.15)
-  border 1px solid rgba(86,61,124,.2)
+  padding 8px
+  background rgba(227,242,253,.6)
+  border 1px solid rgba(187,222,251,.9)
 
 // .column + .column
 //   margin-top 1rem

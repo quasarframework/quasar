@@ -15,20 +15,20 @@
         <q-btn icon="clear" size="xs" flat dense @click="height = ''"/>
       </template>
     </q-input>
-    <q-select color="purple-12" v-model="widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @input="emitChange" />
-    <q-select color="purple-12" v-model="breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options dense options-dense @input="emitChange">
+    <q-select color="blue-12" v-model="widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @input="emitChange" />
+    <q-select color="blue-12" v-model="breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options dense options-dense @input="emitChange">
       <template v-if="breakpointGroup" v-slot:append>
         <q-icon name="cancel" @click.stop="breakpointGroup = null" class="cursor-pointer" />
       </template>
     </q-select>
-    <q-select color="purple-12" v-model="alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @input="emitChange" />
-    <q-select color="purple-12" v-model="offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @input="emitChange" />
-    <q-select color="purple-12" v-model="gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
+    <q-select color="blue-12" v-model="alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @input="emitChange" />
+    <q-select color="blue-12" v-model="offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @input="emitChange" />
+    <q-select color="blue-12" v-model="gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
       <template v-if="gutterGroup" v-slot:append>
         <q-icon name="cancel" @click.stop="gutterGroup = null" class="cursor-pointer" />
       </template>
     </q-select>
-    <q-select color="purple-12" v-model="colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
+    <q-select color="blue-12" v-model="colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
       <template v-if="colGutterGroup" v-slot:append>
         <q-icon name="cancel" @click.stop="colGutterGroup = null" class="cursor-pointer" />
       </template>
@@ -197,7 +197,7 @@ export default {
   },
   computed: {
     buttonClasses () {
-      return 'text-white ' + (this.index === this.selectedIndex ? 'bg-primary' : 'bg-purple')
+      return 'text-white ' + (this.index === this.selectedIndex ? 'bg-primary' : 'bg-grey')
     },
     styles () {
       return '' +
