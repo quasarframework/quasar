@@ -52,5 +52,18 @@
 body.mobile:not(.cordova) .q-select__dialog
   max-height calc(100vh - 108px) !important
 
-body.platform-ios .q-dialog__inner--top .q-select__dialog
-  max-height 50vh !important
+body.platform-android
+
+  &.cordova .q-dialog__inner--top .q-select__dialog
+    max-height calc(100vh - 24px) !important
+
+  &:not(.cordova) .q-dialog__inner--top .q-select__dialog
+    max-height calc(100vh - 80px) !important
+
+body.platform-ios
+
+  &.cordova .q-dialog__inner--top .q-select__dialog
+    max-height 32vh !important
+
+  &:not(.cordova) .q-dialog__inner--top .q-select__dialog
+    max-height 50vh !important
