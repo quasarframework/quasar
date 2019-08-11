@@ -4,12 +4,23 @@ export function closePortalMenus (vm, evt) {
   do {
     if (vm.$options.name === 'QMenu') {
       vm.hide(evt)
+
+      // is this a point of separation?
       if (vm.separateClosePopup === true) {
         return vm.$parent
       }
     }
     else if (vm.__hasPortal === true) {
-      return vm
+      // treat it as point of separation if parent is QPopupProxy
+      // (so mobile matches desktop behavior)
+      // and hide it too
+      if (vm.$parent !== void 0 && vm.$parent.$options.name === 'QPopupProxy') {
+        vm.hide(evt)
+        return vm.$parent
+      }
+      else {
+        return vm
+      }
     }
     vm = vm.$parent
   } while (vm !== void 0)
