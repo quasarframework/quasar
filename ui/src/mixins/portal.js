@@ -4,8 +4,11 @@ export function closePortalMenus (vm, evt) {
   do {
     if (vm.$options.name === 'QMenu') {
       vm.hide(evt)
+      if (vm.separateClosePopup === true) {
+        return vm.$parent
+      }
     }
-    else if (vm.__hasPortal === true || vm.$options.name === 'QPopupProxy') {
+    else if (vm.__hasPortal === true) {
       return vm
     }
     vm = vm.$parent

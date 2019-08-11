@@ -1,7 +1,35 @@
-import { listenOpts, stopAndPrevent } from '../../utils/event.js'
+import { listenOpts } from '../../utils/event.js'
 import Platform from '../../plugins/Platform.js'
 
-const { notPassiveCapture, passiveCapture } = listenOpts
+let timer
+
+const
+  { notPassiveCapture, passiveCapture } = listenOpts,
+  handlers = {
+    click: [],
+    focus: []
+  }
+
+function execHandlers (list, evt) {
+  for (let i = list.length - 1; i >= 0; i--) {
+    if (list[i](evt) === void 0) {
+      return
+    }
+  }
+}
+
+function globalHandler (evt) {
+  clearTimeout(timer)
+
+  if (evt.type === 'focusin') {
+    timer = setTimeout(() => {
+      execHandlers(handlers.focus, evt)
+    }, 200)
+  }
+  else {
+    execHandlers(handlers.click, evt)
+  }
+}
 
 export default {
   name: 'click-outside',
@@ -11,50 +39,21 @@ export default {
 
     const ctx = {
       trigger: value,
+      toggleEl: arg,
 
       handler (evt) {
-        clearTimeout(ctx.timer)
-
-        if (evt.type === 'focusin') {
-          ctx.timer = setTimeout(() => {
-            ctx.process(evt)
-          }, 200)
-        }
-        else {
-          ctx.process(evt)
-        }
-      },
-
-      onMouseup () {
-        document.removeEventListener('mouseup', ctx.onMouseup, passiveCapture)
-        setTimeout(() => { ctx.onClick() }, 50)
-      },
-
-      onClick (e) {
-        stopAndPrevent(e)
-        document.removeEventListener('click', ctx.onClick, notPassiveCapture)
-      },
-
-      process (evt) {
         const target = evt.target
 
-        if (
-          target === void 0 ||
-          target.nodeType === 8
-        ) {
+        if (target === void 0 || target.nodeType === 8 || (ctx.toggleEl !== void 0 && ctx.toggleEl.contains(target))) {
           return
         }
 
         if (target !== document.body) {
-          const related = arg !== void 0 ? [...arg, el] : [el]
-
-          for (let i = related.length - 1; i >= 0; i--) {
-            if (related[i].contains(target)) {
+          for (let node = target; node !== null; node = node.parentNode) {
+            // node.__vue__ can be null if the instance was destroyed
+            if (node.__vue__ === null) {
               return
             }
-          }
-
-          for (let node = target; node !== document.body; node = node.parentNode) {
             if (node.__vue__ !== void 0) {
               for (let vm = node.__vue__; vm !== void 0; vm = vm.$parent) {
                 if (vmEl === vm) {
@@ -66,17 +65,7 @@ export default {
           }
         }
 
-        // prevent accidental click/tap on something else
-        // that has a trigger --> improves UX
-        if (Platform.is.desktop !== true) {
-          stopAndPrevent(evt)
-        }
-        else if (evt.type === 'mousedown' && target.classList.contains('q-dialog__backdrop') === true) {
-          document.addEventListener('mouseup', ctx.onMouseup, passiveCapture)
-          document.addEventListener('click', ctx.onClick, notPassiveCapture)
-        }
-
-        ctx.trigger(evt)
+        return ctx.trigger(evt)
       }
     }
 
@@ -85,30 +74,51 @@ export default {
     }
 
     el.__qclickoutside = ctx
-    document.addEventListener('mousedown', ctx.handler, notPassiveCapture)
-    document.addEventListener('touchstart', ctx.handler, notPassiveCapture)
+
+    if (handlers.click.length === 0) {
+      document.addEventListener('mousedown', globalHandler, notPassiveCapture)
+      document.addEventListener('touchstart', globalHandler, notPassiveCapture)
+      Platform.is.desktop === true && document.addEventListener('focusin', globalHandler, passiveCapture)
+    }
+
+    handlers.click.push(ctx.handler)
+
     if (Platform.is.desktop === true) {
       ctx.timerFocusin = setTimeout(() => {
-        document.addEventListener('focusin', ctx.handler, passiveCapture)
+        handlers.focus.push(ctx.handler)
       }, 500)
     }
   },
 
-  update (el, { value, oldValue }) {
+  update (el, { value, oldValue, arg }) {
+    const ctx = el.__qclickoutside
+
     if (value !== oldValue) {
-      el.__qclickoutside.trigger = value
+      ctx.trigger = value
+    }
+    if (arg !== ctx.arg) {
+      ctx.toggleEl = arg
     }
   },
 
   unbind (el) {
     const ctx = el.__qclickoutside_old || el.__qclickoutside
     if (ctx !== void 0) {
-      clearTimeout(ctx.timer)
       clearTimeout(ctx.timerFocusin)
 
-      document.removeEventListener('mousedown', ctx.handler, notPassiveCapture)
-      document.removeEventListener('touchstart', ctx.handler, notPassiveCapture)
-      Platform.is.desktop === true && document.removeEventListener('focusin', ctx.handler, passiveCapture)
+      const
+        indexClick = handlers.click.findIndex(h => h === ctx.handler),
+        indexFocus = handlers.focus.findIndex(h => h === ctx.handler)
+
+      indexClick > -1 && handlers.click.splice(indexClick, 1)
+      indexFocus > -1 && handlers.focus.splice(indexFocus, 1)
+
+      if (handlers.click.length === 0) {
+        clearTimeout(timer)
+        document.removeEventListener('mousedown', globalHandler, notPassiveCapture)
+        document.removeEventListener('touchstart', globalHandler, notPassiveCapture)
+        Platform.is.desktop === true && document.removeEventListener('focusin', globalHandler, passiveCapture)
+      }
 
       delete el[el.__qclickoutside_old ? '__qclickoutside_old' : '__qclickoutside']
     }

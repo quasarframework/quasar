@@ -7,7 +7,7 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { create, stop, position, listenOpts } from '../../utils/event.js'
+import { create, stop, position, listenOpts, stopAndPrevent } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
 import slot from '../../utils/slot.js'
@@ -28,6 +28,7 @@ export default Vue.extend({
   props: {
     persistent: Boolean,
     autoClose: Boolean,
+    separateClosePopup: Boolean,
 
     noRefocus: Boolean,
     noFocus: Boolean,
@@ -225,6 +226,14 @@ export default Vue.extend({
       })
     },
 
+    __onClickOutside (e) {
+      if (this.persistent !== true && this.showing === true) {
+        this.hide(e)
+        stopAndPrevent(e)
+        return true
+      }
+    },
+
     __render (h) {
       const on = {
         ...this.$listeners,
@@ -248,11 +257,11 @@ export default Vue.extend({
             ...this.$attrs
           },
           on,
-          directives: this.persistent !== true ? [{
+          directives: [{
             name: 'click-outside',
-            value: this.hide,
-            arg: [ this.anchorEl ]
-          }] : null
+            value: this.__onClickOutside,
+            arg: this.anchorEl
+          }]
         }, slot(this, 'default')) : null
       ])
     }

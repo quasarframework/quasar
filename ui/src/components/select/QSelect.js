@@ -877,7 +877,8 @@ export default Vue.extend({
           noFocus: true,
           square: this.squaredMenu,
           transitionShow: this.transitionShow,
-          transitionHide: this.transitionHide
+          transitionHide: this.transitionHide,
+          separateClosePopup: true
         },
         on: {
           '&scroll': this.__onVirtualListScroll,
