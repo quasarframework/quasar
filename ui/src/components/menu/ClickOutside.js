@@ -8,46 +8,50 @@ const
   handlers = {
     click: [],
     focus: []
-  },
-  onClick = e => {
-    stopAndPrevent(e)
+  }
+
+function onClick (e) {
+  stopAndPrevent(e)
+  document.removeEventListener('click', onClick, notPassiveCapture)
+}
+
+function onMouseup () {
+  document.removeEventListener('mouseup', onMouseup, passiveCapture)
+  setTimeout(() => {
     document.removeEventListener('click', onClick, notPassiveCapture)
-  },
-  onMouseup = () => {
-    document.removeEventListener('mouseup', onMouseup, passiveCapture)
-    setTimeout(() => {
-      document.removeEventListener('click', onClick, notPassiveCapture)
-    }, 50)
-  },
-  execHandlers = (list, evt) => {
-    for (let i = list.length - 1; i >= 0; i--) {
-      if (list[i](evt) === void 0) {
-        return
-      }
-    }
-  },
-  globalHandler = evt => {
-    clearTimeout(timer)
+  }, 50)
+}
 
-    if (evt.type === 'focusin') {
-      timer = setTimeout(() => {
-        execHandlers(handlers.focus, evt)
-      }, 200)
-    }
-    else {
-      execHandlers(handlers.click, evt)
-
-      // prevent accidental click/tap on something else
-      // that has a trigger --> improves UX
-      if (Platform.is.desktop !== true) {
-        stopAndPrevent(evt)
-      }
-      else if (evt.type === 'mousedown' && evt.target.classList.contains('q-dialog__backdrop') === true) {
-        document.addEventListener('mouseup', onMouseup, passiveCapture)
-        document.addEventListener('click', onClick, notPassiveCapture)
-      }
+function execHandlers (list, evt) {
+  for (let i = list.length - 1; i >= 0; i--) {
+    if (list[i](evt) === void 0) {
+      return
     }
   }
+}
+
+function globalHandler (evt) {
+  clearTimeout(timer)
+
+  if (evt.type === 'focusin') {
+    timer = setTimeout(() => {
+      execHandlers(handlers.focus, evt)
+    }, 200)
+  }
+  else {
+    execHandlers(handlers.click, evt)
+
+    // prevent accidental click/tap on something else
+    // that has a trigger --> improves UX
+    if (Platform.is.desktop !== true) {
+      stopAndPrevent(evt)
+    }
+    else if (evt.type === 'mousedown' && evt.target.classList.contains('q-dialog__backdrop') === true) {
+      document.addEventListener('mouseup', onMouseup, passiveCapture)
+      document.addEventListener('click', onClick, notPassiveCapture)
+    }
+  }
+}
 
 export default {
   name: 'click-outside',
@@ -61,10 +65,7 @@ export default {
       handler (evt) {
         const target = evt.target
 
-        if (
-          target === void 0 ||
-          target.nodeType === 8
-        ) {
+        if (target === void 0 || target.nodeType === 8) {
           return
         }
 
@@ -102,6 +103,7 @@ export default {
     }
 
     handlers.click.push(ctx.handler)
+
     if (Platform.is.desktop === true) {
       ctx.timerFocusin = setTimeout(() => {
         handlers.focus.push(ctx.handler)
