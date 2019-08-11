@@ -65,6 +65,27 @@ export default {
   },
   */
 
+  mounted () {
+    this.$q.loading.setDefaults({
+      spinnerColor: 'amber'
+    })
+    this.$q.loading.show({
+      message: 'With defaults'
+    })
+    setTimeout(() => {
+      this.$q.loading.show({
+        message: 'Discarded defaults',
+        ignoreDefaults: true
+      })
+      setTimeout(() => {
+        this.$q.loading.hide()
+        this.$q.loading.setDefaults({
+          spinnerColor: void 0
+        })
+      }, 1000)
+    }, 1000)
+  },
+
   methods: {
     noMessage () {
       show()

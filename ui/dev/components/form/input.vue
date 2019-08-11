@@ -45,7 +45,7 @@
         <q-icon slot="append" name="delete">
           <q-tooltip>Tooltip</q-tooltip>
         </q-icon>
-        <q-menu fit>
+        <q-menu fit no-focus>
           <div class="q-pa-md text-center">
             Menu
           </div>
@@ -405,7 +405,7 @@
       </q-input>
 
       <q-input :dark="dark" v-model="text" filled hint="With menu" style="margin-bottom: 100px">
-        <q-menu fit auto-close>
+        <q-menu fit auto-close no-focus>
           <q-list padding style="min-width: 100px">
             <q-item
               v-for="n in 2"

@@ -604,7 +604,7 @@ export default Vue.extend({
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
-        child.push(this.__getInput(h))
+        child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
         data = {
@@ -677,7 +677,7 @@ export default Vue.extend({
       this.__onInputValue(e)
     },
 
-    __getInput (h) {
+    __getInput (h, fromDialog) {
       const on = {
         input: this.__onInputValue,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
@@ -697,6 +697,13 @@ export default Vue.extend({
       if (this.hasDialog === true) {
         on.click = stop
       }
+      else if (this.useInput === true && this.$q.platform.is.mobile === true) {
+        on.focus = () => {
+          setTimeout(() => {
+            this.$el !== void 0 && this.$el.scrollIntoView(true)
+          }, 300)
+        }
+      }
 
       return h('input', {
         ref: 'target',
@@ -708,9 +715,9 @@ export default Vue.extend({
         attrs: {
           // required for Android in order to show ENTER key when in form
           type: 'search',
-          tabindex: 0,
-          autofocus: this.autofocus,
           ...this.$attrs,
+          tabindex: 0,
+          autofocus: fromDialog === true ? false : this.autofocus,
           id: this.targetUid,
           disabled: this.disable === true,
           readonly: this.readonly === true
@@ -870,7 +877,8 @@ export default Vue.extend({
           noFocus: true,
           square: this.squaredMenu,
           transitionShow: this.transitionShow,
-          transitionHide: this.transitionHide
+          transitionHide: this.transitionHide,
+          separateClosePopup: true
         },
         on: {
           '&scroll': this.__onVirtualListScroll,
@@ -932,7 +940,7 @@ export default Vue.extend({
           noRefocus: true,
           noFocus: true,
           position: this.useInput === true ? 'top' : void 0,
-          transitionShow: this.transitionShow,
+          transitionShow: this.transitionShowComputed,
           transitionHide: this.transitionHide
         },
         on: {
@@ -1027,6 +1035,10 @@ export default Vue.extend({
             ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0 || this.noOptions === false
             : true
         )
+
+      this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
+        ? 'fade'
+        : this.transitionShow
     },
 
     __onPostRender () {

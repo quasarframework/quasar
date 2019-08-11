@@ -946,6 +946,11 @@ const appExtensions = [
       {
         name: 'Uninstall API',
         path: 'uninstall-api'
+      },
+      {
+        name: 'Tips and tricks',
+        badge: 'new',
+        path: 'tips-and-tricks'
       }
     ]
   }

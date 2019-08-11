@@ -53,8 +53,19 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-popup />
+          <q-btn flat no-caps label="ClosePopup" color="primary" v-close-popup />
+          <q-btn flat no-caps label="Direct close" color="primary" @click="alert = false" />
         </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <q-btn class="q-ml-md" label="Dialog" @click="inject = true" />
+
+    <q-dialog some="attribute" v-model="inject">
+      <q-card>
+        <q-card-section>
+          <test-component />
+        </q-card-section>
       </q-card>
     </q-dialog>
   </div>
@@ -62,11 +73,32 @@
 
 <script>
 export default {
-  data () {
-    return {
-      alert: false
+  provide: {
+    providedTest: 'Provide/Inject works!'
+  },
+
+  components: {
+    TestComponent: {
+      inject: {
+        providedTest: {
+          default: 'Provide/Inject DOES NOT WORKS'
+        }
+      },
+      render (h) {
+        return h('div', {
+          staticClass: 'bg-white q-pa-xl'
+        }, this.providedTest)
+      }
     }
   },
+
+  data () {
+    return {
+      alert: false,
+      inject: false
+    }
+  },
+
   methods: {
   }
 }

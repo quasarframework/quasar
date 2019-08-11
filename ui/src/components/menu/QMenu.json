@@ -67,6 +67,12 @@
       "category": "behavior"
     },
 
+    "separate-close-popup": {
+      "type": "Boolean",
+      "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
+      "category": "behavior"
+    },
+
     "square": {
       "type": "Boolean",
       "desc": "Forces content to have squared borders",

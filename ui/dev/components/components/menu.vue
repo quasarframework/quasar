@@ -137,7 +137,7 @@
                           <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                             <q-item-section>Menu Item {{ n }}</q-item-section>
                           </q-item>
-                          <q-item clickable v-close-popup:2>
+                          <q-item clickable v-close-popup="2">
                             <q-item-section>Close dialog</q-item-section>
                           </q-item>
                         </q-list>
@@ -412,7 +412,7 @@
                         :key="x"
                         clickable
                       >
-                        <q-item-section>Submenu Label</q-item-section>
+                        <q-item-section>Submenu autoclose</q-item-section>
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
                         </q-item-section>
@@ -422,6 +422,25 @@
                               v-for="y in 3"
                               :key="y"
                               clickable
+                            >
+                              <q-item-section>3rd level Label</q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-item>
+
+                      <q-item clickable>
+                        <q-item-section>Submenu closepopup</q-item-section>
+                        <q-item-section side>
+                          <q-icon name="keyboard_arrow_right" />
+                        </q-item-section>
+                        <q-menu anchor="top right" self="top left">
+                          <q-list>
+                            <q-item
+                              v-for="y in 3"
+                              :key="y"
+                              clickable
+                              v-close-popup
                             >
                               <q-item-section>3rd level Label</q-item-section>
                             </q-item>

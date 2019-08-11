@@ -2,15 +2,13 @@ import Vue from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import PortalMixin from '../../mixins/portal.js'
+import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
-import uid from '../../utils/uid.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { create, stop, position, listenOpts } from '../../utils/event.js'
+import { create, stop, position, listenOpts, stopAndPrevent } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
-import { MenuTreeMixin, closeRootMenu } from './menu-tree.js'
 
 import slot from '../../utils/slot.js'
 
@@ -21,7 +19,7 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, MenuTreeMixin, TransitionMixin ],
+  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   directives: {
     ClickOutside
@@ -30,6 +28,7 @@ export default Vue.extend({
   props: {
     persistent: Boolean,
     autoClose: Boolean,
+    separateClosePopup: Boolean,
 
     noRefocus: Boolean,
     noFocus: Boolean,
@@ -61,12 +60,6 @@ export default Vue.extend({
     maxWidth: {
       type: String,
       default: null
-    }
-  },
-
-  data () {
-    return {
-      menuId: uid()
     }
   },
 
@@ -123,40 +116,36 @@ export default Vue.extend({
       })
 
       this.__showPortal()
-      this.__registerTree()
       this.__configureScrollTarget()
 
-      this.timer = setTimeout(() => {
-        const { top, left } = this.anchorEl.getBoundingClientRect()
+      const { top, left } = this.anchorEl.getBoundingClientRect()
 
-        if (this.touchPosition || this.contextMenu) {
-          const pos = position(evt)
-          this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
-        }
-        else {
-          this.absoluteOffset = void 0
-        }
+      if (this.touchPosition || this.contextMenu) {
+        const pos = position(evt)
+        this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
+      }
+      else {
+        this.absoluteOffset = void 0
+      }
 
+      if (this.unwatch === void 0) {
+        this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
+      }
+
+      this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
+
+      if (this.noFocus !== true) {
+        document.activeElement.blur()
+      }
+
+      this.$nextTick(() => {
         this.updatePosition()
+        this.noFocus !== true && this.focus()
+      })
 
-        if (this.unwatch === void 0) {
-          this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
-        }
-
-        this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
-
-        if (this.noFocus !== true) {
-          document.activeElement.blur()
-
-          this.$nextTick(() => {
-            this.focus()
-          })
-        }
-
-        this.timer = setTimeout(() => {
-          this.$emit('show', evt)
-        }, 300)
-      }, 0)
+      this.timer = setTimeout(() => {
+        this.$emit('show', evt)
+      }, 300)
     },
 
     __hide (evt) {
@@ -185,7 +174,6 @@ export default Vue.extend({
 
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
-        this.__unregisterTree()
         this.__unconfigureScrollTarget()
       }
     },
@@ -210,8 +198,8 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      closeRootMenu(this.menuId)
-      this.$emit('click', e)
+      closePortalMenus(this, e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     updatePosition () {
@@ -238,6 +226,14 @@ export default Vue.extend({
       })
     },
 
+    __onClickOutside (e) {
+      if (this.persistent !== true && this.showing === true) {
+        this.hide(e)
+        stopAndPrevent(e)
+        return true
+      }
+    },
+
     __render (h) {
       const on = {
         ...this.$listeners,
@@ -261,21 +257,13 @@ export default Vue.extend({
             ...this.$attrs
           },
           on,
-          directives: this.persistent !== true ? [{
+          directives: [{
             name: 'click-outside',
-            value: this.hide,
-            arg: [ this.anchorEl ]
-          }] : null
+            value: this.__onClickOutside,
+            arg: this.anchorEl
+          }]
         }, slot(this, 'default')) : null
       ])
-    },
-
-    __onPortalCreated (vm) {
-      vm.menuParentId = this.menuId
-    },
-
-    __onPortalClose () {
-      closeRootMenu(this.menuId)
     }
   },
 
