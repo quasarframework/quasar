@@ -1,4 +1,5 @@
 import History from '../history.js'
+import { isSSR } from '../plugins/Platform.js'
 
 export default {
   props: {
@@ -27,17 +28,15 @@ export default {
     },
 
     show (evt) {
-      if (this.disable === true || this.showing === true) {
-        return
-      }
-      if (this.__showCondition !== void 0 && this.__showCondition(evt) !== true) {
+      if (this.disable === true || (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)) {
         return
       }
 
       if (typeof this.$listeners.input === 'function') {
-        this.value !== true && this.$emit('input', true)
+        this.$emit('input', true)
+        isSSR === true && this.showing !== true && this.__processShow(evt)
       }
-      else {
+      else if (this.showing !== true) {
         this.__processShow(evt)
       }
     },
@@ -68,14 +67,15 @@ export default {
     },
 
     hide (evt) {
-      if (this.disable === true || this.showing === false) {
+      if (this.disable === true) {
         return
       }
 
       if (typeof this.$listeners.input === 'function') {
-        this.value !== false && this.$emit('input', false)
+        this.$emit('input', false)
+        isSSR === true && this.showing !== false && this.__processHide(evt)
       }
-      else {
+      else if (this.showing !== false) {
         this.__processHide(evt)
       }
     },
@@ -108,7 +108,7 @@ export default {
 
     __processModelChange (val) {
       if (this.disable === true && val === true) {
-        this.$emit('input', false)
+        typeof this.$listeners.input === 'function' && this.$emit('input', false)
       }
       else if (val !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`]()
@@ -117,7 +117,7 @@ export default {
   },
 
   mounted () {
-    this.__processModelChange(this.value)
+    this.value === true && this.__processModelChange(this.value)
   },
 
   beforeDestroy () {
