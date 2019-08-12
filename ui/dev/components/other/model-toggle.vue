@@ -215,7 +215,6 @@ export default {
       const len = seq.length
 
       for (let i = 0; i < len; i++) {
-        console.log(i, seq[i])
         if (seq[i] === 't') {
           this.$nextTick(() => {
             this.runSequence(ref, seq.slice(i + 1))
