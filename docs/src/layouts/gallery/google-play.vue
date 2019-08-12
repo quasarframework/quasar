@@ -51,7 +51,6 @@
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
-      show-if-above
       content-class="bg-grey-3 text-grey-7"
       :width="200"
     >
@@ -141,7 +140,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: false,
+      leftDrawerOpen: this.$q.screen.width >= 992,
       search: '',
       storage: 0.26,
       links1: [

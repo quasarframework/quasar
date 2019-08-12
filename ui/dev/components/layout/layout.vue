@@ -483,8 +483,8 @@ export default {
       toggle: false,
       header: true,
       footer: true,
-      left: true,
-      right: true,
+      left: this.$q.screen.width >= 992,
+      right: this.$q.screen.width >= 992,
 
       headerReveal: false,
       footerReveal: false,
@@ -494,8 +494,8 @@ export default {
       rightBehavior: 'default',
       leftBreakpoint: 992,
       rightBreakpoint: 992,
-      leftMini: true,
-      leftMiniToOverlay: true,
+      leftMini: false,
+      leftMiniToOverlay: false,
       rightMini: false,
       rightMiniToOverlay: false,
 

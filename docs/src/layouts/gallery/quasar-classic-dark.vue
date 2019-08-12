@@ -92,7 +92,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: this.$q.screen.width >= 992
     }
   }
 }

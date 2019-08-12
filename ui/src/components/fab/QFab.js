@@ -31,6 +31,12 @@ export default Vue.extend({
     persistent: Boolean
   },
 
+  data () {
+    return {
+      showing: this.value
+    }
+  },
+
   computed: {
     navigationHideCondition () {
       return this.persistent !== true

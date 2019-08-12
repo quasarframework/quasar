@@ -12,7 +12,6 @@
         v-model="drawer"
         :width="200"
         :breakpoint="500"
-        show-if-above
       >
         <q-scroll-area class="fit">
           <q-list padding class="menu-list">
@@ -74,7 +73,7 @@
 export default {
   data () {
     return {
-      drawer: true
+      drawer: this.$q.screen.width >= 500
     }
   }
 }

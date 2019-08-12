@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
@@ -30,11 +31,7 @@ const transitions = {
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
-
-  modelToggle: {
-    history: true
-  },
+  mixins: [ HistoryMixin, ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 
   props: {
     persistent: Boolean,
@@ -162,6 +159,8 @@ export default Vue.extend({
     },
 
     __show (evt) {
+      this.__addHistory()
+
       clearTimeout(this.timer)
 
       this.__refocusTarget = this.noRefocus === false
@@ -200,6 +199,7 @@ export default Vue.extend({
     },
 
     __hide (evt) {
+      this.__removeHistory()
       this.__cleanup(true)
 
       if (this.__refocusTarget !== void 0) {
@@ -314,6 +314,10 @@ export default Vue.extend({
         ])
       ])
     }
+  },
+
+  mounted () {
+    this.__processModelChange(this.value)
   },
 
   beforeDestroy () {
