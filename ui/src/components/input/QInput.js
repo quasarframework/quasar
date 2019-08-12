@@ -180,6 +180,13 @@ export default Vue.extend({
       this.$emit('change', e)
     },
 
+    __getInnerValue () {
+      if (this.hasMask === true && this.fillMask !== false) {
+        return this.__unmask(this.innerValue)
+      }
+      return this.innerValue
+    },
+
     __getControl (h) {
       const on = {
         ...this.$listeners,
