@@ -131,7 +131,7 @@
 
       <q-card class="q-mt-lg">
         <q-card-section>
-          <q-input v-model="showHideSequence" label="Show/hide sequence (s/h)" />
+          <q-input v-model="showHideSequence" label="Sequence of show/hide/$nextTick (s/h/t)" />
         </q-card-section>
         <q-card-actions vertical>
           <q-btn :label="`Run on ExpansionItem - should end up ${showHideSequenceEndStatus}`" @click="runSequence($refs.refExpansionItem)" />
@@ -170,7 +170,7 @@
         <q-dialog ref="refDialogModel" v-model="seqModelDialog">
           <q-card class="bg-white">
             <q-card-section>
-              <q-input v-model="showHideSequence" label="Show/hide sequence (s/h)" />
+              <q-input v-model="showHideSequence" label="Sequence of show/hide/$nextTick (s/h/t)" />
             </q-card-section>
             <q-card-actions vertical>
               <q-btn :label="`Run on Dialog - model [${seqModelDialog}] - should end up ${showHideSequenceEndStatus}`" @click="runSequence($refs.refDialogModel)" />
@@ -192,7 +192,7 @@ export default {
       expModelClosed2: false,
       changingGroup: 'group1',
 
-      showHideSequence: 'hs',
+      showHideSequence: 'htshs',
       seqModelExpansionItem: true,
       seqModelDialog: true,
 
@@ -201,20 +201,30 @@ export default {
   },
   computed: {
     showHideSequenceArr () {
-      return this.showHideSequence.toLowerCase().split('').filter(v => v === 's' || v === 'h')
+      return this.showHideSequence.toLowerCase().split('').filter(v => ['s', 'h', 't'].indexOf(v) > -1)
     },
     showHideSequenceEndStatus () {
-      const len = this.showHideSequenceArr.length
+      const len = this.showHideSequenceArr.filter(v => v !== 't').length
       return len === 0
         ? 'N/A'
         : (this.showHideSequenceArr[len - 1] === 's' ? 'opened' : 'closed')
     }
   },
   methods: {
-    runSequence (ref) {
-      this.showHideSequenceArr.forEach(v => {
-        ref[v === 's' ? 'show' : 'hide']()
-      })
+    runSequence (ref, seq = this.showHideSequenceArr) {
+      const len = seq.length
+
+      for (let i = 0; i < len; i++) {
+        console.log(i, seq[i])
+        if (seq[i] === 't') {
+          this.$nextTick(() => {
+            this.runSequence(ref, seq.slice(i + 1))
+          })
+
+          return
+        }
+        ref[seq[i] === 's' ? 'show' : 'hide']()
+      }
     }
   }
 }
