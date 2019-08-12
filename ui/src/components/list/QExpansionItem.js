@@ -51,9 +51,27 @@ export default Vue.extend({
   },
 
   watch: {
-    showing (val) {
-      if (val === true && this.group) {
-        this.$root.$emit(eventName, this)
+    showing (showing) {
+      if (this.group !== void 0) {
+        if (showing === true) {
+          this.$root.$emit(eventName, this)
+          this.$root.$on(eventName, this.__eventHandler)
+        }
+        else {
+          this.$root.$off(eventName, this.__eventHandler)
+        }
+      }
+    },
+
+    group (group, oldGroup) {
+      if (group !== void 0) {
+        if (this.showing === true) {
+          this.$root.$emit(eventName, this)
+          oldGroup === void 0 && this.$root.$on(eventName, this.__eventHandler)
+        }
+      }
+      else {
+        this.$root.$off(eventName, this.__eventHandler)
       }
     }
   },
@@ -103,9 +121,7 @@ export default Vue.extend({
     },
 
     __eventHandler (comp) {
-      if (this.group && this !== comp && comp.group === this.group) {
-        this.hide()
-      }
+      this !== comp && this.group === comp.group && this.hide()
     },
 
     __getToggleIcon (h) {
@@ -256,14 +272,10 @@ export default Vue.extend({
   },
 
   created () {
-    this.$root.$on(eventName, this.__eventHandler)
-
-    if (this.value !== true && this.defaultOpened === true) {
-      this.show()
-    }
+    this.defaultOpened === true && this.show()
   },
 
   beforeDestroy () {
-    this.$root.$off(eventName, this.__eventHandler)
+    this.showing === true && this.group !== void 0 && this.$root.$off(eventName, this.__eventHandler)
   }
 })
