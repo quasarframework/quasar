@@ -74,7 +74,7 @@ export default Vue.extend({
     },
 
     hasValue () {
-      const value = this.__getControl === void 0 ? this.value : this.innerValue
+      const value = this.__getControl === void 0 ? this.value : this.__getInnerValue === void 0 ? this.innerValue : this.__getInnerValue()
 
       return value !== void 0 &&
         value !== null &&
