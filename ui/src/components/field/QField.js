@@ -97,6 +97,9 @@ export default Vue.extend({
         this.stackLabel === true ||
         this.focused === true ||
         (
+          this.hasMask === true && this.fillMask !== false
+        ) ||
+        (
           this.inputValue !== void 0 && this.hideSelected === true
             ? this.inputValue.length > 0
             : this.hasValue === true
