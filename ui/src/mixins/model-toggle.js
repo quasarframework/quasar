@@ -1,4 +1,5 @@
 import History from '../history.js'
+import { isSSR } from '../plugins/Platform.js'
 
 export default {
   props: {
@@ -33,6 +34,7 @@ export default {
 
       if (typeof this.$listeners.input === 'function') {
         this.$emit('input', true)
+        isSSR === true && this.showing !== true && this.__processShow(evt)
       }
       else if (this.showing !== true) {
         this.__processShow(evt)
@@ -71,6 +73,7 @@ export default {
 
       if (typeof this.$listeners.input === 'function') {
         this.$emit('input', false)
+        isSSR === true && this.showing !== false && this.__processHide(evt)
       }
       else if (this.showing !== false) {
         this.__processHide(evt)
