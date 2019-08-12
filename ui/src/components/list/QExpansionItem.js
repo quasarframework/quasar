@@ -50,27 +50,22 @@ export default Vue.extend({
     headerClass: [Array, String, Object]
   },
 
+  data () {
+    return {
+      showing: this.defaultOpened || this.value
+    }
+  },
+
   watch: {
-    showing (showing) {
-      if (this.group !== void 0) {
-        if (showing === true) {
-          this.$root.$emit(eventName, this)
-          this.$root.$on(eventName, this.__eventHandler)
-        }
-        else {
-          this.$root.$off(eventName, this.__eventHandler)
-        }
-      }
+    showing (val) {
+      val === true && this.group !== void 0 && this.$root.$emit(eventName, this)
     },
 
-    group (group, oldGroup) {
-      if (group !== void 0) {
-        if (this.showing === true) {
-          this.$root.$emit(eventName, this)
-          oldGroup === void 0 && this.$root.$on(eventName, this.__eventHandler)
-        }
+    group (newVal, oldVal) {
+      if (newVal !== void 0 && oldVal === void 0) {
+        this.$root.$on(eventName, this.__eventHandler)
       }
-      else {
+      else if (newVal === void 0 && oldVal !== void 0) {
         this.$root.$off(eventName, this.__eventHandler)
       }
     }
@@ -272,10 +267,10 @@ export default Vue.extend({
   },
 
   created () {
-    this.defaultOpened === true && this.show()
+    this.group !== void 0 && this.$root.$on(eventName, this.__eventHandler)
   },
 
   beforeDestroy () {
-    this.showing === true && this.group !== void 0 && this.$root.$off(eventName, this.__eventHandler)
+    this.group !== void 0 && this.$root.$off(eventName, this.__eventHandler)
   }
 })
