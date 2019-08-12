@@ -207,5 +207,9 @@ export default Vue.extend({
         }, slot(this, 'default')) : null
       ])
     }
+  },
+
+  mounted () {
+    this.__processModelChange(this.value)
   }
 })

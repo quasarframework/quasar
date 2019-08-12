@@ -32,10 +32,6 @@ export default Vue.extend({
 
   mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 
-  modelToggle: {
-    history: true
-  },
-
   props: {
     persistent: Boolean,
     autoClose: Boolean,
@@ -314,6 +310,10 @@ export default Vue.extend({
         ])
       ])
     }
+  },
+
+  mounted () {
+    this.__processModelChange(this.value)
   },
 
   beforeDestroy () {

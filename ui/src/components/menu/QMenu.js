@@ -267,6 +267,10 @@ export default Vue.extend({
     }
   },
 
+  mounted () {
+    this.__processModelChange(this.value)
+  },
+
   beforeDestroy () {
     // When the menu is destroyed while open we can only emit the event on anchorEl
     if (this.showing === true && this.anchorEl !== void 0) {
