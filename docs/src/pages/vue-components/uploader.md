@@ -98,6 +98,8 @@ For the file picker to work on IE11 when wrapping QUploaderAddTrigger with a QBt
 
 <doc-example title="Custom files list" file="QUploader/SlotList" />
 
+<doc-example title="Error Icon" file="QUploader/SlotErrorIcon" />
+
 ## Server endpoint
 
 QUploader works by default with the HTTP(S) protocol to upload files (but it's not limited to it as you'll see in the section following this one).

@@ -231,6 +231,11 @@
     "list": {
       "desc": "Slot for custom list; Scope is the QUploader instance itself",
       "__exemption": [ "scope" ]
+    },
+
+    "error-icon": {
+      "desc": "Slot for custom error icon; Scope is the file data instance",
+      "__exemption": [ "scope" ]
     }
   },
 

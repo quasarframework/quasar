@@ -405,6 +405,7 @@ export default {
       if (this.$scopedSlots.list !== void 0) {
         return this.$scopedSlots.list(this)
       }
+      let errorIconSlot = this.$scopedSlots['error-icon']
 
       return this.files.map(file => h('div', {
         key: file.name,
@@ -422,7 +423,7 @@ export default {
           staticClass: 'q-uploader__file-header row flex-center no-wrap'
         }, [
           file.__status === 'failed'
-            ? h(QIcon, {
+            ? errorIconSlot(file) || h(QIcon, {
               staticClass: 'q-uploader__file-status',
               props: {
                 name: this.$q.iconSet.type.negative,
