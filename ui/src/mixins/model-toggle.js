@@ -1,4 +1,3 @@
-import History from '../history.js'
 import { isSSR } from '../plugins/Platform.js'
 
 export default {
@@ -32,11 +31,11 @@ export default {
         return
       }
 
-      if (typeof this.$listeners.input === 'function') {
+      if (typeof this.$listeners.input === 'function' && isSSR === false) {
         this.$emit('input', true)
-        isSSR === true && this.showing !== true && this.__processShow(evt)
+        this.payload = evt
       }
-      else if (this.showing !== true) {
+      else {
         this.__processShow(evt)
       }
     },
@@ -49,14 +48,6 @@ export default {
       this.showing = true
 
       this.$emit('before-show', evt)
-
-      if (this.$options.modelToggle !== void 0 && this.$options.modelToggle.history === true) {
-        this.__historyEntry = {
-          condition: () => { return this.navigationHideCondition === true },
-          handler: this.hide
-        }
-        History.add(this.__historyEntry)
-      }
 
       if (this.__show !== void 0) {
         this.__show(evt)
@@ -71,11 +62,11 @@ export default {
         return
       }
 
-      if (typeof this.$listeners.input === 'function') {
+      if (typeof this.$listeners.input === 'function' && isSSR === false) {
         this.$emit('input', false)
-        isSSR === true && this.showing !== false && this.__processHide(evt)
+        this.payload = evt
       }
-      else if (this.showing !== false) {
+      else {
         this.__processHide(evt)
       }
     },
@@ -89,8 +80,6 @@ export default {
 
       this.$emit('before-hide', evt)
 
-      this.__removeHistory()
-
       if (this.__hide !== void 0) {
         this.__hide(evt)
       }
@@ -99,28 +88,14 @@ export default {
       }
     },
 
-    __removeHistory () {
-      if (this.__historyEntry !== void 0) {
-        History.remove(this.__historyEntry)
-        this.__historyEntry = void 0
-      }
-    },
-
     __processModelChange (val) {
       if (this.disable === true && val === true) {
         typeof this.$listeners.input === 'function' && this.$emit('input', false)
       }
       else if (val !== this.showing) {
-        this[`__process${val === true ? 'Show' : 'Hide'}`]()
+        this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)
+        this.payload = void 0
       }
     }
-  },
-
-  mounted () {
-    this.value === true && this.__processModelChange(this.value)
-  },
-
-  beforeDestroy () {
-    this.showing === true && this.__removeHistory()
   }
 }
