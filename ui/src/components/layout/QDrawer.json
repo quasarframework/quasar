@@ -82,12 +82,6 @@
       "category": "behavior"
     },
 
-    "show-if-above": {
-      "type": "Boolean",
-      "desc": "Force drawer to be shown on screen on initial render if the layout width is above breakpoint",
-      "category": "behavior"
-    },
-
     "content-class": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Class definitions to be attributed to the drawer",

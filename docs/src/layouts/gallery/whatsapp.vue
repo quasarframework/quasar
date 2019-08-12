@@ -57,7 +57,6 @@
       <q-drawer
         v-model="leftDrawerOpen"
         bordered
-        show-if-above
         :breakpoint="690"
       >
         <q-toolbar class="bg-grey-3">
@@ -168,7 +167,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: false,
+      leftDrawerOpen: this.$q.screen.width >= 690,
       search: '',
       message: '',
       currentConversationIndex: 0,

@@ -17,7 +17,6 @@
 
         :width="200"
         :breakpoint="500"
-        show-if-above
         bordered
         content-class="bg-grey-3"
       >
@@ -83,7 +82,7 @@
 export default {
   data () {
     return {
-      drawer: true,
+      drawer: this.$q.screen.width >= 500,
       miniState: true
     }
   }

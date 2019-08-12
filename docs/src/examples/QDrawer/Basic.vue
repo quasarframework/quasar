@@ -13,7 +13,6 @@
         v-model="drawerLeft"
         :width="200"
         :breakpoint="700"
-        show-if-above
         elevated
         content-class="bg-primary text-white"
       >
@@ -54,7 +53,7 @@
 export default {
   data () {
     return {
-      drawerLeft: false,
+      drawerLeft: this.$q.screen.width >= 700,
       drawerRight: true
     }
   }
