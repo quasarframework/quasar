@@ -914,6 +914,10 @@ const components = [
   {
     name: 'Video',
     path: 'video'
+  },
+  {
+    name: 'Virtual List',
+    path: 'virtual-list'
   }
 ]
 
