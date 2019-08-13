@@ -200,7 +200,8 @@ export default Vue.extend({
       this.__removeHistory()
       this.__cleanup(true)
 
-      if (this.__refocusTarget !== void 0) {
+      // check null for IE
+      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
         this.__refocusTarget.focus()
       }
 
