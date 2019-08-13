@@ -53,7 +53,7 @@
 export default {
   data () {
     return {
-      drawerLeft: this.$q.screen.width >= 700,
+      drawerLeft: this.$q.screen.width > 700,
       drawerRight: true
     }
   }

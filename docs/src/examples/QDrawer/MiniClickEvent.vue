@@ -95,7 +95,7 @@
 export default {
   data () {
     return {
-      drawer: this.$q.screen.width >= 500,
+      drawer: this.$q.screen.width > 500,
       miniState: false
     }
   },

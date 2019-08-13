@@ -111,8 +111,8 @@ export default {
 
   watch: {
     $route () {
-      this.leftDrawerState = this.$q.screen.width >= 992
-      this.rightDrawerState = this.$q.screen.width >= 992
+      this.leftDrawerState = this.$q.screen.width > 1023
+      this.rightDrawerState = this.$q.screen.width > 1023
       this.$nextTick(() => {
         this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
       })

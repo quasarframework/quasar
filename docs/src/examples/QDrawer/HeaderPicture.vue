@@ -83,7 +83,7 @@
 export default {
   data () {
     return {
-      drawer: this.$q.screen.width >= 400
+      drawer: this.$q.screen.width > 400
     }
   }
 }

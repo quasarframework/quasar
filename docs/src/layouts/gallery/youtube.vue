@@ -149,7 +149,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: this.$q.screen.width >= 992,
+      leftDrawerOpen: this.$q.screen.width > 1023,
       search: '',
       links1: [
         { icon: 'home', text: 'Home' },

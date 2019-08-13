@@ -167,7 +167,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: this.$q.screen.width >= 690,
+      leftDrawerOpen: this.$q.screen.width > 690,
       search: '',
       message: '',
       currentConversationIndex: 0,

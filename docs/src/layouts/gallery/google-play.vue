@@ -140,7 +140,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: this.$q.screen.width >= 992,
+      leftDrawerOpen: this.$q.screen.width > 1023,
       search: '',
       storage: 0.26,
       links1: [

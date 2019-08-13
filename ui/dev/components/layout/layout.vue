@@ -345,7 +345,7 @@
             <q-select emit-value v-model="leftBehavior" :options="drawerBehaviorOptions" />
           </div>
           <div>
-            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" />
+            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model.number="leftBreakpoint" />
           </div>
         </div>
         <div class="col q-ma-xs">
@@ -368,7 +368,7 @@
             <q-select emit-value v-model="rightBehavior" :options="drawerBehaviorOptions" />
           </div>
           <div>
-            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" />
+            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model.number="rightBreakpoint" />
           </div>
         </div>
       </div>
@@ -483,8 +483,8 @@ export default {
       toggle: false,
       header: true,
       footer: true,
-      left: true, // this.$q.screen.width >= 992,
-      right: this.$q.screen.width >= 992,
+      left: true, // this.$q.screen.width > 1023,
+      right: this.$q.screen.width > 1023,
 
       headerReveal: false,
       footerReveal: false,

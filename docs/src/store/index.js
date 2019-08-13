@@ -13,8 +13,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     state: {
-      leftDrawerState: Screen.width >= 992,
-      rightDrawerState: Screen.width >= 992,
+      leftDrawerState: Screen.width > 1023,
+      rightDrawerState: Screen.width > 1023,
       toc: []
     },
 
