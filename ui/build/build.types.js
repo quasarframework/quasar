@@ -272,7 +272,7 @@ function writeIndexDTS (apis) {
       const injectionName = `${key.toUpperCase().replace('$', '')}VueGlobals`
       writeLine(contents, `import { ${injectionName} } from "./globals";`)
       writeLine(contents, `declare module "./globals" {`)
-      writeLine(contents, `export interface ${key.toUpperCase().replace('$', '')}VueGlobals {`)
+      writeLine(contents, `export interface ${injectionName} {`)
       for (const defKey in injectionDefs) {
         writeLine(contents, injectionDefs[defKey], 1)
       }
