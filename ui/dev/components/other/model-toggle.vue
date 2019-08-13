@@ -204,10 +204,12 @@ export default {
       return this.showHideSequence.toLowerCase().split('').filter(v => ['s', 'h', 't'].indexOf(v) > -1)
     },
     showHideSequenceEndStatus () {
-      const len = this.showHideSequenceArr.filter(v => v !== 't').length
+      const
+        filtered = this.showHideSequenceArr.filter(v => v !== 't'),
+        len = filtered.length
       return len === 0
         ? 'N/A'
-        : (this.showHideSequenceArr[len - 1] === 's' ? 'opened' : 'closed')
+        : (filtered[len - 1] === 's' ? 'opened' : 'closed')
     }
   },
   methods: {
