@@ -4,7 +4,7 @@ export default {
   methods: {
     __addHistory () {
       this.__historyEntry = {
-        condition: () => { return this.navigationHideCondition === true },
+        condition: () => { return this.hideOnRouteChange === true },
         handler: this.hide
       }
       History.add(this.__historyEntry)

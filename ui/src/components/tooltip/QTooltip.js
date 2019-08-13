@@ -65,7 +65,7 @@ export default Vue.extend({
       return parsePosition(this.self)
     },
 
-    navigationHideCondition () {
+    hideOnRouteChange () {
       return this.persistent !== true
     }
   },

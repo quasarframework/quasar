@@ -33,19 +33,28 @@ function getScrollDetails (parent, child, horizontal) {
     details.scrollMaxSize = parentCalc.scrollHeight
   }
 
-  if (child !== void 0 && child !== null && child.nodeType !== 8) {
+  if (child === parent || child === void 0 || child === null || child.nodeType === 8) {
+    details.offsetStart = 0
+    details.offsetEnd = 0
+  }
+  else {
     const
       parentRect = parentCalc.getBoundingClientRect(),
-      clientRect = child.getBoundingClientRect()
+      childRect = child.getBoundingClientRect()
 
     if (horizontal === true) {
-      details.offsetStart = clientRect.left - parentRect.left
-      details.offsetEnd = parentRect.right - clientRect.right
+      details.offsetStart = childRect.left - parentRect.left
+      details.offsetEnd = -childRect.width
     }
     else {
-      details.offsetStart = clientRect.top - parentRect.top
-      details.offsetEnd = parentRect.bottom - clientRect.bottom
+      details.offsetStart = childRect.top - parentRect.top
+      details.offsetEnd = -childRect.height
     }
+
+    if (parent !== window) {
+      details.offsetStart += details.scrollStart
+    }
+    details.offsetEnd += details.scrollMaxSize - details.offsetStart
   }
 
   return details
@@ -94,13 +103,24 @@ export default {
 
   methods: {
     scrollTo (toIndex, scrollTowardsEnd) {
-      this.__setVirtualListSliceRange(Math.min(this.virtualListLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)), scrollTowardsEnd === true ? 'end' : 'start')
+      clearTimeout(this.__preventNextScroll)
+      this.__preventNextScroll = setTimeout(() => {
+        this.__preventNextScroll = void 0
+      }, 500)
+
+      toIndex = Math.min(this.virtualListLength - 1, Math.max(0, parseInt(toIndex, 10) || 0))
+      this.__setVirtualListSliceRange(toIndex, scrollTowardsEnd === true ? 'end' : 'start')
+
+      this.__emitScroll(toIndex)
     },
 
     __onVirtualListScroll () {
       const scrollEl = this.__getVirtualListScrollTarget()
 
-      if (scrollEl === void 0 || scrollEl === null || scrollEl.nodeType === 8) {
+      if (this.__preventNextScroll !== void 0 || scrollEl === void 0 || scrollEl === null || scrollEl.nodeType === 8) {
+        clearTimeout(this.__preventNextScroll)
+        this.__preventNextScroll = void 0
+
         return
       }
 
@@ -161,8 +181,6 @@ export default {
         this.virtualListSliceRange = { from, to }
       }
 
-      this.$listeners.scroll !== void 0 && this.$emit('scroll', toIndex)
-
       this.$nextTick(() => {
         let scrollDiff = 0
 
@@ -204,7 +222,15 @@ export default {
             posOriginal = scrollDiff + scrollStart
 
           this.__setVirtualListScroll(posOriginal, posStart, posEnd, align)
+
+          if (from > prevTo && this.virtualListScrollSafari !== true) {
+            this.__onVirtualListScroll()
+
+            return
+          }
         }
+
+        this.__emitScroll(toIndex)
       })
     },
 
@@ -269,6 +295,8 @@ export default {
           ? this.virtualListSliceSize
           : Math.max(this.virtualListSliceSize, Math.ceil(window.innerHeight / this.virtualListItemDefaultSize * 1.5))
       }
+
+      this.prevToIndex = -1
     },
 
     __padVirtualList (h, content) {
@@ -294,6 +322,19 @@ export default {
       }))
 
       return list
+    },
+
+    __emitScroll (index) {
+      if (this.prevToIndex !== index) {
+        this.$listeners['virtual-scroll'] !== void 0 && this.$emit('virtual-scroll', {
+          index,
+          from: this.virtualListSliceRange.from,
+          to: this.virtualListSliceRange.to - 1,
+          direction: index < this.prevToIndex ? 'decrease' : 'increase'
+        })
+
+        this.prevToIndex = index
+      }
     }
   },
 
@@ -309,5 +350,9 @@ export default {
       : debounce(this.__onVirtualListScroll, 70)
 
     this.__setVirtualListSize()
+  },
+
+  beforeDestroy () {
+    clearTimeout(this.__preventNextScroll)
   }
 }

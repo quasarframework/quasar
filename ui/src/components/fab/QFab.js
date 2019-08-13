@@ -38,7 +38,7 @@ export default Vue.extend({
   },
 
   computed: {
-    navigationHideCondition () {
+    hideOnRouteChange () {
       return this.persistent !== true
     }
   },

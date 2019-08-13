@@ -218,19 +218,6 @@ export default {
         height: this.$q.screen.height + 'px'
       }
     }
-  },
-
-  watch: {
-    leftDrawerOpen (val) {
-      // if user opens drawer in mobile mode
-      // then widens the window and closes drawer,
-      // we should still show drawer on page in standard mode
-      if (val === false && this.$q.screen.width >= 690) {
-        this.$nextTick(() => {
-          this.leftDrawerOpen = true
-        })
-      }
-    }
   }
 }
 </script>
