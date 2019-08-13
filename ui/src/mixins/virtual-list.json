@@ -47,15 +47,34 @@
   },
 
   "events": {
-    "scroll": {
+    "virtual-scroll": {
       "desc": "Emitted when the virtual list scrolls",
       "params": {
-        "index": {
-          "type": "Number",
-          "desc": "Index of the list item that was scrolled into view (0 based)",
-          "examples": [
-            10
-          ]
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new scroll position",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "desc": "Index of the list item that was scrolled into view (0 based)",
+              "examples": [ 30 ]
+            },
+            "from": {
+              "type": "Number",
+              "desc": "The index of the first list item that is rendered (0 based)",
+              "examples": [ 10 ]
+            },
+            "to": {
+              "type": "Number",
+              "desc": "The index of the last list item that is rendered (0 based)",
+              "examples": [ 50 ]
+            },
+            "direction": {
+              "type": "String",
+              "desc": "Direction of change",
+              "values": [ "increase", "decrease" ]
+            }
+          }
         }
       }
     }
