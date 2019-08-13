@@ -72,7 +72,7 @@ module.exports = function (chain, cfg) {
 
     // Strictly speaking, best practice would be to *not* minify but leave it up to the user.
     // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
-    chain.optimization.minimize(!cfg.build.minimize)
+    chain.optimization.minimize(cfg.build.minimize)
 
     // Copy our BEX src files which the user has edited.
     const CopyWebpackPlugin = require('copy-webpack-plugin')
