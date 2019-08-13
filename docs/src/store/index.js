@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import { Screen } from 'quasar'
+
 Vue.use(Vuex)
 
 /*
@@ -11,8 +13,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     state: {
-      leftDrawerState: true,
-      rightDrawerState: true,
+      leftDrawerState: Screen.width >= 992,
+      rightDrawerState: Screen.width >= 992,
       toc: []
     },
 
