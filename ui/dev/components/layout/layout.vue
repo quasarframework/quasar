@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-layout :view="view" @scroll="onScroll">
-      <q-header v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
+      <q-header height-hint="204" v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
         <q-bar>
           <q-icon name="network_wifi" />
           <div>9:34</div>
@@ -49,7 +49,7 @@
         </q-tabs>
       </q-header>
 
-      <q-footer v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
+      <q-footer height-hint="100" v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
@@ -483,7 +483,7 @@ export default {
       toggle: false,
       header: true,
       footer: true,
-      left: this.$q.screen.width >= 992,
+      left: true, // this.$q.screen.width >= 992,
       right: this.$q.screen.width >= 992,
 
       headerReveal: false,

@@ -86,7 +86,7 @@ export default Vue.extend({
       return this.square === true ? ' q-menu--square' : ''
     },
 
-    navigationHideCondition () {
+    hideOnRouteChange () {
       return this.persistent !== true
     }
   },

@@ -17,7 +17,7 @@ export default {
     },
 
     $route () {
-      this.navigationHideCondition === true && this.hide()
+      this.hideOnRouteChange === true && this.hide()
     }
   },
 

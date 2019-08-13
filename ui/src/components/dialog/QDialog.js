@@ -118,7 +118,7 @@ export default Vue.extend({
       return this.showing === true && this.seamless !== true
     },
 
-    navigationHideCondition () {
+    hideOnRouteChange () {
       return this.persistent !== true &&
         this.noRouteDismiss !== true &&
         this.seamless !== true
