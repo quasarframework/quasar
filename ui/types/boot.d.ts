@@ -11,11 +11,9 @@ export interface QSsrContext {
 }
 
 export interface BootFileParams<TStore = any> {
-    app?: Vue;
-    Vue?: VueConstructor<Vue>;
-    store?: TStore;
-    router?: VueRouter;
+    app: Vue;
+    Vue: VueConstructor<Vue>;
+    store: TStore;
+    router: VueRouter;
     ssrContext?: QSsrContext | null;
 }
-
-export type BootFile = (params: BootFileParams) => void

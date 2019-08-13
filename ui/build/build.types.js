@@ -269,10 +269,14 @@ function writeIndexDTS (apis) {
   for (const key in injections) {
     const injectionDefs = injections[key]
     if (injectionDefs) {
+      const injectionName = `${key.toUpperCase().replace('$', '')}VueGlobals`
+      writeLine(contents, `import { ${injectionName} } from "./globals";`)
+      writeLine(contents, `declare module "./globals" {`)
       writeLine(contents, `export interface ${key.toUpperCase().replace('$', '')}VueGlobals {`)
       for (const defKey in injectionDefs) {
         writeLine(contents, injectionDefs[defKey], 1)
       }
+      writeLine(contents, '}')
       writeLine(contents, '}')
     }
   }
