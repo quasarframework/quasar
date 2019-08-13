@@ -31,7 +31,7 @@ export default {
         return
       }
 
-      if (typeof this.$listeners.input === 'function' && isSSR === false) {
+      if (this.$listeners.input !== void 0 && isSSR === false) {
         this.$emit('input', true)
         this.payload = evt
         this.$nextTick(() => {
@@ -65,7 +65,7 @@ export default {
         return
       }
 
-      if (typeof this.$listeners.input === 'function' && isSSR === false) {
+      if (this.$listeners.input !== void 0 && isSSR === false) {
         this.$emit('input', false)
         this.payload = evt
         this.$nextTick(() => {
@@ -96,7 +96,7 @@ export default {
 
     __processModelChange (val) {
       if (this.disable === true && val === true) {
-        typeof this.$listeners.input === 'function' && this.$emit('input', false)
+        this.$listeners.input !== void 0 && this.$emit('input', false)
       }
       else if (val !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)
