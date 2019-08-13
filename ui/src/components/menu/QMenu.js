@@ -151,7 +151,8 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup(true)
 
-      if (this.__refocusTarget !== void 0) {
+      // check null for IE
+      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
         this.__refocusTarget.focus()
       }
 
