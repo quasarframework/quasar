@@ -18,7 +18,10 @@ export default Vue.extend({
       type: Number,
       validator: v => v >= 0 && v <= 100
     },
-    darkPercentage: Boolean
+    darkPercentage: Boolean,
+
+    contentClass: [Array, String, Object],
+    contentStyle: [Array, String, Object]
   },
 
   computed: {
@@ -147,7 +150,10 @@ export default Vue.extend({
 
     if (this.hasLabel === true) {
       inner.unshift(
-        h('div', [ this.label ])
+        h('div', {
+          class: this.contentClass,
+          style: this.contentStyle
+        }, [ this.label ])
       )
     }
 

@@ -17,6 +17,26 @@
       "type": "Boolean",
       "desc": "Progress bar on the background should have dark color; To be used along with 'percentage' and 'loading' props",
       "category": "behavior"
+    },
+
+    "content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the label",
+      "examples": [
+        "text-align: justify",
+        ":content-style=\"{ textAlign: 'justify' }\""
+      ],
+      "category": "style"
+    },
+
+    "content-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the label",
+      "examples": [
+        "text-left",
+        ":content-class=\"{ 'text-left': <condition> }\""
+      ],
+      "category": "style"
     }
   },
 

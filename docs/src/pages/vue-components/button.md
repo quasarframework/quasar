@@ -34,6 +34,10 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Button size" file="QBtn/ButtonSize" />
 
+The `content-class` and `content-style` properties are applied directly to the content of the `label` property. In normal circumstances, you do not need to use these properties. However, under certain conditions, you may need to apply them. One such case is when the length of the label text in the button wraps.
+
+<doc-example title="Button content class & style" file="QBtn/ButtonContentClassStyle" />
+
 ### Progress related
 
 Some button actions involve contacting a server, so an asynchronous response. It’s best that you inform the user about a background process taking place until the asynchronous response is ready. QBtn offers this possibility through the `loading` prop. This property will display a QSpinner (by default) instead of the icon and/or label of the button. Custom loading content can also be used (not only text or spinners).
