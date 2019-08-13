@@ -88,7 +88,7 @@
         <q-expansion-item
           group="group1"
           default-opened
-          label="Expansion Item - Accordion (group1) - defaultOpened - should start closed because of the next defaultOpened"
+          label="Expansion Item - Accordion (group1) - defaultOpened - should start open even if next defaultOpened"
         >
           <q-card>
             <q-card-section>{{ lorem }}</q-card-section>
