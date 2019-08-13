@@ -1,18 +1,18 @@
 ---
-title: Proton Preparation
-desc: How to manage Proton mode in a Quasar app.
+title: Tauri Preparation
+desc: How to manage Tauri mode in a Quasar app.
 ---
 
-Before we dive into the actual development, we need to do some preparation work. This setup shows how to get up and running with Proton and Rust.
+Before we dive into the actual development, we need to do some preparation work. This setup shows how to get up and running with Tauri and Rust.
 
 ::: warning HERE BE DRAGONS
 Although we have confirmed that the approach described here works for Mac, Windows and Linux, we have not tested all possible operating systems, versions and hardware. Please feel motivated to help us make this guide more accurate.
 :::
 
-## 1. Add Quasar Proton Mode
-In order to develop/build a Quasar Proton app, we need to add the Proton mode to our Quasar project. What this does is that it yarn installs some Proton packages and creates `/src-proton` folder.
+## 1. Add Quasar Tauri Mode
+In order to develop/build a Quasar Tauri app, we need to add the Tauri mode to our Quasar project. What this does is that it yarn installs some Tauri packages and creates `/src-tauri` folder.
 ```bash
-$ quasar mode add proton
+$ quasar mode add tauri
 ```
 
 ## 2. Add Rust and Build Toolchain
@@ -72,7 +72,7 @@ $ cargo install cargo-bundle
 The new folder has the following structure:
 ```bash
 .
-└── src-proton/
+└── src-tauri/
     ├── icons/                    # Icons of your app for all platforms
     |   ├── icon.icns             # Icon file for Darwin (MacOS) platform
     |   ├── icon.ico              # Icon file for win32 (Windows) platform
@@ -112,8 +112,8 @@ At this point things should successfully install, but if not then you will need 
 If you want to jump right in and start developing, you can skip the previous step with "quasar mode" command and issue:
 
 ```bash
-$ quasar dev -m proton
+$ quasar dev -m tauri
 ```
 
-This will add the Proton mode automatically, if it is missing.
-It will open up a Proton window that will render your app.
+This will add the Tauri mode automatically, if it is missing.
+It will open up a Tauri window that will render your app.

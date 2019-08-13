@@ -13,7 +13,7 @@ const
 module.exports = function (cfg, configName) {
   const
     chain = new WebpackChain(),
-    needsHash = !cfg.ctx.dev && !['electron', 'proton', 'cordova'].includes(cfg.ctx.modeName),
+    needsHash = !cfg.ctx.dev && !['electron', 'tauri', 'cordova'].includes(cfg.ctx.modeName),
     fileHash = needsHash ? '.[hash:8]' : '',
     chunkHash = needsHash ? '.[contenthash:8]' : '',
     resolveModules = [
@@ -34,7 +34,7 @@ module.exports = function (cfg, configName) {
           : cfg.build.distDir
       )
       .publicPath(cfg.build.publicPath)
-      .filename(cfg.ctx.mode.proton && cfg.proton.serverless ? `js/app.js` : `js/[name]${fileHash}.js`)
+      .filename(cfg.ctx.mode.tauri && cfg.tauri.serverless ? `js/app.js` : `js/[name]${fileHash}.js`)
       .chunkFilename(`js/[name]${chunkHash}.js`)
   }
 
@@ -129,7 +129,7 @@ module.exports = function (cfg, configName) {
                 }
               }
             ]
-          ] : []).concat(cfg.ctx.mode.proton ? [
+          ] : []).concat(cfg.ctx.mode.tauri ? [
             [
               'system-import-transformer', {
                 modules: 'common'
@@ -143,7 +143,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.proton && cfg.proton.serverless ? undefined : 10000,
+        limit: cfg.ctx.mode.tauri && cfg.tauri.serverless ? undefined : 10000,
         name: `img/[name]${fileHash}.[ext]`
       })
 
@@ -152,7 +152,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.proton && cfg.proton.serverless ? undefined : 10000,
+        limit: cfg.ctx.mode.tauri && cfg.tauri.serverless ? undefined : 10000,
         name: `fonts/[name]${fileHash}.[ext]`
       })
 
@@ -161,7 +161,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.proton && cfg.proton.serverless ? undefined : 10000,
+        limit: cfg.ctx.mode.tauri && cfg.tauri.serverless ? undefined : 10000,
         name: `media/[name]${fileHash}.[ext]`
       })
 
@@ -235,7 +235,7 @@ module.exports = function (cfg, configName) {
         rem = cfg.vendor.remove,
         regex = /[\\/]node_modules[\\/]/
 
-      if (cfg.ctx.mode.proton) {
+      if (cfg.ctx.mode.tauri) {
         chain.optimization.splitChunks({
           chunks: 'all',
             minSize: 0,
@@ -306,7 +306,7 @@ module.exports = function (cfg, configName) {
             ignore: ['.*'],
             ignore: ['.*'].concat(
               // avoid useless files to be copied
-              ['electron', 'proton', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+              ['electron', 'tauri', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
                 ? [ 'icons/*', 'app-logo-128x128.png' ]
                 : []
             )
@@ -344,7 +344,7 @@ module.exports = function (cfg, configName) {
       // extract css into its own file
       chain.plugin('mini-css-extract')
         .use(MiniCssExtractPlugin, [{
-          filename: cfg.ctx.mode.proton && cfg.proton.serverless ? 'css/app.css' : 'css/[name].[contenthash:8].css'
+          filename: cfg.ctx.mode.tauri && cfg.tauri.serverless ? 'css/app.css' : 'css/[name].[contenthash:8].css'
         }])
 
       // dedupe & minify CSS (only if extracted)

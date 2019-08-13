@@ -1,4 +1,4 @@
 ---
-title: Proton API 
+title: Tauri API 
 desc: API documentation 
 ---

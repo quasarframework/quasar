@@ -1,7 +1,7 @@
 const warn = require('../helpers/logger')('app:quasar-mode', 'red')
 
 module.exports = function (mode) {
-  if (!['pwa', 'cordova', 'electron', 'proton', 'ssr'].includes(mode)) {
+  if (!['pwa', 'cordova', 'electron', 'tauri', 'ssr'].includes(mode)) {
     warn(`⚠️  Unknown mode specified: ${mode}`)
     process.exit(1)
   }

@@ -401,8 +401,8 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Proton Apps',
-    path: 'developing-proton-apps',
+    name: 'Developing Tauri Apps',
+    path: 'developing-tauri-apps',
     children: [
       {
         name: 'Introduction',
@@ -415,13 +415,13 @@ const cli = [
         badge: 'new'
       },
       {
-        name: 'Configuring Proton',
-        path: 'configuring-proton',
+        name: 'Configuring Tauri',
+        path: 'configuring-tauri',
         badge: 'new'
       },
       {
-        name: 'App Icons for Proton',
-        path: 'app-icons-proton',
+        name: 'App Icons for Tauri',
+        path: 'app-icons-tauri',
         badge: 'new'
       },
       {
@@ -440,7 +440,7 @@ const cli = [
         badge: 'new'
       },
       {
-        name: 'Proton API',
+        name: 'Tauri API',
         path: 'api',
         badge: 'new'
       },

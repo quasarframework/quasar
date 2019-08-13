@@ -2,26 +2,26 @@ const fs = require('fs'),
   fse = require('fs-extra'),
   appPaths = require('../app-paths'),
   logger = require('../helpers/logger'),
-  log = logger('app:mode-proton'),
-  warn = logger('app:mode-proton', 'red')
+  log = logger('app:mode-tauri'),
+  warn = logger('app:mode-tauri', 'red')
 
 class Mode {
   get isInstalled() {
-    return fs.existsSync(appPaths.protonDir)
+    return fs.existsSync(appPaths.tauriDir)
   }
 
   add() {
     if (this.isInstalled) {
-      warn(`Proton support detected already. Aborting.`)
+      warn(`Tauri support detected already. Aborting.`)
       return
     }
 
-    log('Creating Proton source folder...')
+    log('Creating Tauri source folder...')
 
-    fs.mkdirSync(appPaths.protonDir)
-    fse.copySync(appPaths.resolve.protonPackage('templates/rust'), appPaths.protonDir)
+    fs.mkdirSync(appPaths.tauriDir)
+    fse.copySync(appPaths.resolve.tauriPackage('templates/rust'), appPaths.tauriDir)
     const files = require('fast-glob').sync(['**/_*'], {
-      cwd: appPaths.protonDir
+      cwd: appPaths.tauriDir
     })
     for (const rawPath of files) {
       const targetRelativePath = rawPath.split('/').map(name => {
@@ -35,20 +35,20 @@ class Mode {
         }
         return name
       }).join('/')
-      fse.renameSync(appPaths.resolve.proton(rawPath), appPaths.resolve.proton(targetRelativePath))
+      fse.renameSync(appPaths.resolve.tauri(rawPath), appPaths.resolve.tauri(targetRelativePath))
     }
 
-    log(`Proton support was installed`)
+    log(`Tauri support was installed`)
   }
 
   remove() {
     if (!this.isInstalled) {
-      warn(`No Proton support detected. Aborting.`)
+      warn(`No Tauri support detected. Aborting.`)
       return
     }
 
-    fse.removeSync(appPaths.protonDir)
-    log(`Proton support was removed`)
+    fse.removeSync(appPaths.tauriDir)
+    log(`Tauri support was removed`)
   }
 }
 

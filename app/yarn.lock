@@ -944,7 +944,7 @@
     babel-plugin-module-resolver "^3.2.0"
     babel-plugin-transform-imports "^1.5.1"
 
-"@quasar/proton@link:../../../../proton":
+"@quasar/tauri@link:../../tauri":
   version "0.0.0"
   uid ""
 

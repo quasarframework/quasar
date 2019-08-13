@@ -207,7 +207,7 @@ class QuasarConfig {
         packager: {},
         builder: {}
       },
-      proton: {},
+      tauri: {},
       cordova: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
@@ -320,7 +320,7 @@ class QuasarConfig {
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
         cfg.electron ? encode(cfg.electron) : '',
-        cfg.proton ? encode(cfg.proton) : ''
+        cfg.tauri ? encode(cfg.tauri) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -454,7 +454,7 @@ class QuasarConfig {
         gzip: false
       })
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.proton) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.tauri) {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
@@ -474,8 +474,8 @@ class QuasarConfig {
       cfg.build.packagedElectronDist = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
-    else if (this.ctx.mode.proton) {
-      cfg.build.distDir = appPaths.resolve.app('src-proton/target/compiled-web')
+    else if (this.ctx.mode.tauri) {
+      cfg.build.distDir = appPaths.resolve.app('src-tauri/target/compiled-web')
     }
 
     cfg.build.publicPath =
@@ -561,10 +561,10 @@ class QuasarConfig {
       if (this.ctx.mode.ssr) {
         cfg.devServer.contentBase = false
       }
-      else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.proton) {
+      else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.tauri) {
         cfg.devServer.open = false
 
-        if (this.ctx.mode.electron || this.ctx.mode.proton) {
+        if (this.ctx.mode.electron || this.ctx.mode.tauri) {
           cfg.devServer.https = false
         }
       }
@@ -616,12 +616,12 @@ class QuasarConfig {
       }, gzip)
     }
 
-    if (this.ctx.mode.proton) {
-      cfg.proton = merge({
+    if (this.ctx.mode.tauri) {
+      cfg.tauri = merge({
         serverless: false,
         bundle: true,
         whitelist: {}
-      }, cfg.proton)
+      }, cfg.tauri)
     }
 
     if (this.ctx.mode.pwa) {

@@ -70,9 +70,9 @@ import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
 
-<% if (ctx.mode.proton) { %>
-import proton from './proton.js'
-Vue.prototype.$q.proton = window.proton = proton
+<% if (ctx.mode.tauri) { %>
+import tauri from './tauri.js'
+Vue.prototype.$q.tauri = window.tauri = tauri
 
 document.querySelector('body').addEventListener(
   'click',
@@ -80,7 +80,7 @@ document.querySelector('body').addEventListener(
     let target = e.target
     while (target != null) {
       if (target.matches ? target.matches('a') : target.msMatchesSelector('a')) {
-        proton.open(target.href)
+        tauri.open(target.href)
         break
       }
       target = target.parentElement

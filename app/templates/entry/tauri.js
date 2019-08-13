@@ -7,7 +7,7 @@
  **/
 
 /**
- * @module proton
+ * @module tauri
  * @description This API interface makes powerful interactions available
  * to be run on client side applications. They are opt-in features, and
  * must be enabled in quasar.conf.js
@@ -27,13 +27,13 @@ import { uid } from 'quasar'
  * @private
  */
 const __whitelistWarning = function (func) {
-  console.warn('%c[Proton] Danger \nproton.' + func + ' not whitelisted 💣\n%c\nAdd to quasar.conf.js: \n\nproton: \n  whitelist: { \n    ' + func + ': true \n\nReference: https://quasar.dev/quasar-cli/creating-proton-apps/api#' + func , 'background: red; color: white; font-weight: 800; padding: 2px; font-size:1.5em', ' ')
+  console.warn('%c[Tauri] Danger \ntauri.' + func + ' not whitelisted 💣\n%c\nAdd to quasar.conf.js: \n\ntauri: \n  whitelist: { \n    ' + func + ': true \n\nReference: https://quasar.dev/quasar-cli/creating-tauri-apps/api#' + func , 'background: red; color: white; font-weight: 800; padding: 2px; font-size:1.5em', ' ')
 }
 <% } %>
 
 /**
  * @name __reject
- * @description is a private promise used to deflect un-whitelisted proton API calls
+ * @description is a private promise used to deflect un-whitelisted tauri API calls
  * Its only purpose is to maintain thenable structure in client code without
  * breaking the application
  *  * @type {Promise<any>}
@@ -41,7 +41,7 @@ const __whitelistWarning = function (func) {
  */
 const __reject = new Promise((reject) => { reject })
 
-export default class Proton {
+export default class Tauri {
 <% if (ctx.dev) { %>
   /**
    * @name invoke
@@ -57,7 +57,7 @@ export default class Proton {
 <% if (ctx.dev) { %>
   /**
    * @name addEventListener
-   * @description Add an event listener to Proton back end
+   * @description Add an event listener to Tauri back end
    * @param {String} event
    * @param {Function} handler
    * @param {Boolean} once
@@ -75,7 +75,7 @@ export default class Proton {
 <% if (ctx.dev) { %>
   /**
    * @name emit
-   * @description Emits an event to the Proton back end
+   * @description Emits an event to the Tauri back end
    * @param {String} event
    * @param {Object} payload
    */
@@ -136,7 +136,7 @@ export default class Proton {
    */
 <% } %>
   static readTextFile (path) {
-  <% if (proton.whitelist.readTextFile === true || proton.whitelist.all === true) { %>
+  <% if (tauri.whitelist.readTextFile === true || tauri.whitelist.all === true) { %>
     Object.freeze(path)
     return this.promisified({ cmd: 'readTextFile', path })
       <% } else { %>
@@ -157,7 +157,7 @@ export default class Proton {
    */
 <% } %>
   static readBinaryFile (path) {
-  <% if (proton.whitelist.readBinaryFile === true || proton.whitelist.all === true) { %>
+  <% if (tauri.whitelist.readBinaryFile === true || tauri.whitelist.all === true) { %>
     Object.freeze(path)
     return this.promisified({ cmd: 'readBinaryFile', path })
       <% } else { %>
@@ -180,7 +180,7 @@ export default class Proton {
 <% } %>
   static writeFile (cfg) {
   Object.freeze(cfg)
-  <% if (proton.whitelist.writeFile === true || proton.whitelist.all === true) { %>
+  <% if (tauri.whitelist.writeFile === true || tauri.whitelist.all === true) { %>
     this.invoke({ cmd: 'writeFile', file: cfg.file, contents: cfg.contents })
     <% } else { %>
   <% if (ctx.dev) { %>
@@ -199,7 +199,7 @@ export default class Proton {
    */
 <% } %>
   static listFiles (path) {
-  <% if (proton.whitelist.listFiles === true || proton.whitelist.all === true) { %>
+  <% if (tauri.whitelist.listFiles === true || tauri.whitelist.all === true) { %>
     Object.freeze(path)
     return this.promisified({ cmd: 'listFiles', path })
       <% } else { %>
@@ -220,7 +220,7 @@ export default class Proton {
    */
 <% } %>
   static listDirs (path) {
-  <% if (proton.whitelist.listDirs === true || proton.whitelist.all === true) { %>
+  <% if (tauri.whitelist.listDirs === true || tauri.whitelist.all === true) { %>
     Object.freeze(path)
     return this.promisified({ cmd: 'listDirs', path })
       <% } else { %>
@@ -239,7 +239,7 @@ export default class Proton {
    */
 <% } %>
   static setTitle (title) {
-    <% if (proton.whitelist.setTitle === true || proton.whitelist.all === true) { %>
+    <% if (tauri.whitelist.setTitle === true || tauri.whitelist.all === true) { %>
     Object.freeze(title)
     this.invoke({ cmd: 'setTitle', title })
       <% } else { %>
@@ -258,7 +258,7 @@ export default class Proton {
    */
 <% } %>
   static open (uri) {
-    <% if (proton.whitelist.open === true || proton.whitelist.all === true) { %>
+    <% if (tauri.whitelist.open === true || tauri.whitelist.all === true) { %>
     Object.freeze(uri)
     this.invoke({ cmd: 'open', uri })
       <% } else { %>
@@ -280,7 +280,7 @@ export default class Proton {
    */
 <% } %>
   static execute (command, args) {
-    <% if (proton.whitelist.execute === true || proton.whitelist.all === true) { %>
+    <% if (tauri.whitelist.execute === true || tauri.whitelist.all === true) { %>
     Object.freeze(command)
     if (typeof args === 'string' || typeof args === 'object') {
       Object.freeze(args)
@@ -299,7 +299,7 @@ export default class Proton {
    * @name bridge
    * @description Securely pass a message to the backend.
    * @example
-   *  this.$q.proton.bridge('QBP/1/ping/client-1', 'pingback')
+   *  this.$q.tauri.bridge('QBP/1/ping/client-1', 'pingback')
    * @param {String} command - a compressed, slash-delimited and
    * versioned API call to the backend.
    * @param {String|Object}payload
@@ -307,7 +307,7 @@ export default class Proton {
    */
 <% } %>
   static bridge (command, payload) {
-<% if (proton.whitelist.bridge === true || proton.whitelist.all === true) { %>
+<% if (tauri.whitelist.bridge === true || tauri.whitelist.all === true) { %>
     Object.freeze(command)
     if (typeof payload === 'string' || typeof payload === 'object') {
       Object.freeze(payload)

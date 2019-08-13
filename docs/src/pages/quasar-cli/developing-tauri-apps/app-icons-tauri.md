@@ -1,6 +1,6 @@
 ---
-title: App Icons for Proton
-desc: How to manage the app icons for a Quasar Proton app.
+title: App Icons for Tauri
+desc: How to manage the app icons for a Quasar Tauri app.
 ---
 
 These images are used to display the icon of the application in the desktop operating system in the tray, on the desktop, in the file-browser and in relevant stores. The `icon.ico` file is for Windows and `icon.icns` is for MacOS. If you discover any that are missing, please file an issue.
@@ -13,7 +13,7 @@ icon = ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/i
 
 
 ```
-src-proton/
+src-tauri/
   Cargo.toml              # define the icons here
   icons/
     32x32.png

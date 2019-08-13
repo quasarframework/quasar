@@ -1,9 +1,9 @@
 ---
-title: Other Proton Bindings
-desc: Introduction to the technology behind Quasar Proton apps.
+title: Other Tauri Bindings
+desc: Introduction to the technology behind Quasar Tauri apps.
 ---
 
-There are tons of excellent programming languages - and definitely reasons to choose one over the other. Since the Quasar Team's resources are finite, we made the decision to ship Rust as the default language for bindings. See [Rust Bindings](/quasar-cli/developing-proton-apps/rust-bindings) to discover why we made this decision.
+There are tons of excellent programming languages - and definitely reasons to choose one over the other. Since the Quasar Team's resources are finite, we made the decision to ship Rust as the default language for bindings. See [Rust Bindings](/quasar-cli/developing-tauri-apps/rust-bindings) to discover why we made this decision.
 
 If you are interested in working with us to bring one of these (or other) bindings into Quasar Core - or sponsoring the work needed to introduce one of them - please reach out via one of the appropriate channels.
 

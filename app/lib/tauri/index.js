@@ -3,16 +3,16 @@ const
   debounce = require('lodash.debounce')
 
 const
-  log = require('../helpers/logger')('app:proton'),
+  log = require('../helpers/logger')('app:tauri'),
   { spawn } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
   appPaths = require('../app-paths'),
   fse = require('fs-extra')
 
-class ProtonRunner {
+class TauriRunner {
   constructor() {
     this.pid = 0
-    this.protonWatcher = null
+    this.tauriWatcher = null
 
     onShutdown(() => {
       this.stop()
@@ -41,19 +41,19 @@ class ProtonRunner {
 
     const args = ['--url', url]
 
-    const startDevProton = () => {
+    const startDevTauri = () => {
       return this.__runCargoCommand({
         cargoArgs: ['run', '--features', 'dev', '--bin', 'app'],
         extraArgs: args
       })
     }
 
-    // Start watching for proton app changes
-    this.protonWatcher = chokidar
+    // Start watching for tauri app changes
+    this.tauriWatcher = chokidar
       .watch([
-        appPaths.resolve.proton('src'),
-        appPaths.resolve.proton('Cargo.toml'),
-        appPaths.resolve.proton('build.rs')
+        appPaths.resolve.tauri('src'),
+        appPaths.resolve.tauri('Cargo.toml'),
+        appPaths.resolve.tauri('build.rs')
       ], {
         watchers: {
           chokidar: {
@@ -63,10 +63,10 @@ class ProtonRunner {
       })
       .on('change', debounce(async () => {
         await this.__stopCargo()
-        startDevProton()
+        startDevTauri()
       }, 1000))
 
-    return startDevProton()
+    return startDevTauri()
   }
 
   async build(quasarConfig) {
@@ -77,12 +77,12 @@ class ProtonRunner {
     })
 
     const features = []
-    if (cfg.proton.serverless) {
+    if (cfg.tauri.serverless) {
       features.push('serverless')
     }
 
     const buildFn = target => this.__runCargoCommand({
-      cargoArgs: [cfg.proton.bundle ? 'proton-bundle' : 'build']
+      cargoArgs: [cfg.tauri.bundle ? 'tauri-bundle' : 'build']
         .concat(features.length ? ['--features', ...features] : [])
         .concat(cfg.ctx.debug ? [] : ['--release'])
         .concat(target ? ['--target', target] : [])
@@ -103,7 +103,7 @@ class ProtonRunner {
 
   stop() {
     return new Promise((resolve, reject) => {
-      this.protonWatcher && this.protonWatcher.close()
+      this.tauriWatcher && this.tauriWatcher.close()
       this.__stopCargo().then(resolve)
     })
   }
@@ -117,7 +117,7 @@ class ProtonRunner {
           ? cargoArgs.concat(['--']).concat(extraArgs)
           : cargoArgs,
 
-        appPaths.protonDir,
+        appPaths.tauriDir,
 
         code => {
           if (code) {
@@ -151,7 +151,7 @@ class ProtonRunner {
       return Promise.resolve()
     }
 
-    log('Shutting down proton process...')
+    log('Shutting down tauri process...')
     this.pid = 0
 
     return new Promise((resolve, reject) => {
@@ -162,7 +162,7 @@ class ProtonRunner {
 
    __manipulateToml(callback) {
      const toml = require('@iarna/toml'),
-       tomlPath = appPaths.resolve.proton('Cargo.toml'),
+       tomlPath = appPaths.resolve.tauri('Cargo.toml'),
        tomlFile = fse.readFileSync(tomlPath),
        tomlContents = toml.parse(tomlFile)
 
@@ -173,19 +173,19 @@ class ProtonRunner {
    }
 
    __whitelistApi(cfg, tomlContents) {
-     if (!tomlContents.dependencies.proton.features) {
-       tomlContents.dependencies.proton.features = []
+     if (!tomlContents.dependencies.tauri.features) {
+       tomlContents.dependencies.tauri.features = []
      }
 
-     if (cfg.proton.whitelist.all) {
-       if (!tomlContents.dependencies.proton.features.includes('all-api')) {
-         tomlContents.dependencies.proton.features.push('all-api')
+     if (cfg.tauri.whitelist.all) {
+       if (!tomlContents.dependencies.tauri.features.includes('all-api')) {
+         tomlContents.dependencies.tauri.features.push('all-api')
        }
      } else {
-       const whitelist = Object.keys(cfg.proton.whitelist).filter(w => cfg.proton.whitelist[w] === true)
-       tomlContents.dependencies.proton.features = whitelist.concat(tomlContents.dependencies.proton.features.filter(f => f !== 'api' && cfg.proton.whitelist[f] !== true))
+       const whitelist = Object.keys(cfg.tauri.whitelist).filter(w => cfg.tauri.whitelist[w] === true)
+       tomlContents.dependencies.tauri.features = whitelist.concat(tomlContents.dependencies.tauri.features.filter(f => f !== 'api' && cfg.tauri.whitelist[f] !== true))
      }
    }
 }
 
-module.exports = new ProtonRunner()
+module.exports = new TauriRunner()

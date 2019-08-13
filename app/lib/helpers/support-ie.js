@@ -1,5 +1,5 @@
 module.exports = function (userValue, ctx) {
-  if (ctx.mode.proton) {
+  if (ctx.mode.tauri) {
     return ctx.targetName
       ? ctx.targetName.indexOf('win32') > -1
       : process.platform === 'win32'

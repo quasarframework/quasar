@@ -32,7 +32,7 @@ const
   ssrDir = resolve(appDir, 'src-ssr'),
   cordovaDir = resolve(appDir, 'src-cordova'),
   electronDir = resolve(appDir, 'src-electron'),
-  protonDir = resolve(appDir, 'src-proton')
+  tauriDir = resolve(appDir, 'src-tauri')
 
 module.exports = {
   cliDir,
@@ -42,7 +42,7 @@ module.exports = {
   ssrDir,
   cordovaDir,
   electronDir,
-  protonDir,
+  tauriDir,
 
   resolve: {
     cli: dir => join(cliDir, dir),
@@ -52,7 +52,7 @@ module.exports = {
     ssr: dir => join(ssrDir, dir),
     cordova: dir => join(cordovaDir, dir),
     electron: dir => join(electronDir, dir),
-    proton: dir => join(protonDir, dir),
-    protonPackage: dir => join(cliDir, 'node_modules/@quasar/proton', dir)
+    tauri: dir => join(tauriDir, dir),
+    tauriPackage: dir => join(cliDir, 'node_modules/@quasar/tauri', dir)
   }
 }

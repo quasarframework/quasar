@@ -27,8 +27,8 @@ class Generator {
     if (ctx.mode.ssr) {
       paths.push('server-entry.js')
     }
-    if (ctx.mode.proton) {
-      paths.push('proton.js')
+    if (ctx.mode.tauri) {
+      paths.push('tauri.js')
     }
 
     this.files = paths.map(file => {
