@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import { fromSSR } from '../../plugins/Platform.js'
 import HistoryMixin from '../../mixins/history.js'
 import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
@@ -63,7 +64,7 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: this.value,
+      showing: fromSSR === false ? this.value : false,
       belowBreakpoint: (
         this.behavior === 'mobile' ||
         (this.behavior !== 'desktop' && this.layout.width <= this.breakpoint)
@@ -408,7 +409,7 @@ export default Vue.extend({
       }
     },
 
-    __show (evt = true) {
+    __show (evt = true, noEvent) {
       this.__addHistory()
 
       evt !== false && this.layout.__animate()
@@ -422,16 +423,16 @@ export default Vue.extend({
       if (this.belowBreakpoint === true) {
         this.mobileOpened = true
         this.applyBackdrop(1)
-        this.layout.container !== true && this.__preventScroll(true)
+        evt !== false && this.layout.container !== true && this.__preventScroll(true)
       }
       else {
-        this.__setScrollable(false)
+        evt !== false && this.__setScrollable(false)
       }
 
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
-        this.__setScrollable(true)
-        this.$emit('show', evt)
+        evt !== false && this.__setScrollable(true)
+        noEvent !== true && this.$emit('show', evt)
       }, duration)
     },
 
@@ -486,8 +487,22 @@ export default Vue.extend({
 
   mounted () {
     this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', this.onLayout)
-    this.applyPosition(this.showing === true ? 0 : void 0)
-    this.showing === true && this.mobileView === true && this.applyBackdrop(1)
+
+    if (this.value === true) {
+      if (fromSSR === true) {
+        // allow SSR takeover to take place
+        // so we have updated Screen plugin values
+        this.$nextTick(() => {
+          this.value === true && this.__processModelChange(true)
+        })
+      }
+      else {
+        // model is initialized directly
+        // but we still need to do apply some CSS
+        // according to the QDrawer state
+        this.__show(false, true)
+      }
+    }
   },
 
   beforeDestroy () {
