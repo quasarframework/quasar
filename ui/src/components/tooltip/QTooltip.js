@@ -76,7 +76,7 @@ export default Vue.extend({
 
       this.__showPortal()
 
-      this.$nextTick(() => {
+      this.__nextModelTick(() => {
         this.updatePosition()
         this.__configureScrollTarget()
       })

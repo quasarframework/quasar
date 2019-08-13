@@ -138,7 +138,7 @@ export default Vue.extend({
         document.activeElement.blur()
       }
 
-      this.$nextTick(() => {
+      this.__nextModelTick(() => {
         this.updatePosition()
         this.noFocus !== true && this.focus()
       })
