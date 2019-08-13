@@ -161,8 +161,6 @@ export default Vue.extend({
     __show (evt) {
       this.__addHistory()
 
-      clearTimeout(this.timer)
-
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
         : void 0
@@ -188,12 +186,12 @@ export default Vue.extend({
       if (this.noFocus !== true) {
         document.activeElement.blur()
 
-        this.__nextModelTick(() => {
+        this.__nextTick(() => {
           this.focus()
         })
       }
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.$emit('show', evt)
       }, 300)
     },
@@ -208,14 +206,13 @@ export default Vue.extend({
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
     },
 
     __cleanup (hiding) {
-      clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
       if (hiding === true || this.showing === true) {

@@ -1,6 +1,9 @@
 import { isSSR } from '../plugins/Platform.js'
+import TimeoutMixin from './timeout.js'
 
 export default {
+  mixins: [ TimeoutMixin ],
+
   props: {
     value: Boolean
   },
@@ -53,9 +56,9 @@ export default {
       this.$emit('before-show', evt)
 
       if (this.__show !== void 0) {
-        this.__clearModelTick()
+        this.__clearTick()
         this.__show(evt)
-        this.__prepareModelTick()
+        this.__prepareTick()
       }
       else {
         this.$emit('show', evt)
@@ -89,9 +92,9 @@ export default {
       this.$emit('before-hide', evt)
 
       if (this.__hide !== void 0) {
-        this.__clearModelTick()
+        this.__clearTick()
         this.__hide(evt)
-        this.__prepareModelTick()
+        this.__prepareTick()
       }
       else {
         this.$emit('hide', evt)
@@ -105,30 +108,6 @@ export default {
       else if (val !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)
       }
-    },
-
-    __nextModelTick (fn) {
-      this.nextModelTick = fn
-    },
-
-    __prepareModelTick () {
-      if (this.nextModelTick !== void 0) {
-        const fn = this.nextModelTick
-        this.$nextTick(() => {
-          if (this.nextModelTick === fn) {
-            this.nextModelTick()
-            this.nextModelTick = void 0
-          }
-        })
-      }
-    },
-
-    __clearModelTick () {
-      this.nextModelTick = void 0
     }
-  },
-
-  beforeDestroy () {
-    this.nextModelTick = void 0
   }
 }

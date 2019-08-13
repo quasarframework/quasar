@@ -420,8 +420,7 @@ export default Vue.extend({
         evt !== false && this.__setScrollable(false)
       }
 
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         evt !== false && this.__setScrollable(true)
         noEvent !== true && this.$emit('show', evt)
       }, duration)
@@ -437,13 +436,12 @@ export default Vue.extend({
 
       this.__cleanup()
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.$emit('hide', evt)
       }, duration)
     },
 
     __cleanup () {
-      clearTimeout(this.timer)
       this.__preventScroll(false)
       this.__setScrollable(true)
     },
@@ -493,7 +491,6 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
-    clearTimeout(this.timer)
     clearTimeout(this.timerMini)
 
     this.showing === true && this.__cleanup()
