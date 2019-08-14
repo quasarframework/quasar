@@ -8,6 +8,7 @@ export default function (fn) {
     wait = true
     frame = requestAnimationFrame(() => {
       fn.apply(this, callArgs)
+      callArgs = void 0
       wait = false
     })
   }
