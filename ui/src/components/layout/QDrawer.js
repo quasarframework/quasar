@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { fromSSR } from '../../plugins/Platform.js'
+import { isSSR, fromSSR } from '../../plugins/Platform.js'
 import HistoryMixin from '../../mixins/history.js'
 import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
@@ -59,12 +59,19 @@ export default Vue.extend({
     contentStyle: [String, Object, Array],
     contentClass: [String, Object, Array],
     noSwipeOpen: Boolean,
-    noSwipeClose: Boolean
+    noSwipeClose: Boolean,
+    showIfAbove: Boolean
   },
 
   data () {
     return {
-      showing: fromSSR === true ? false : this.value,
+      showing: isSSR === true || fromSSR === true
+        ? false
+        : (
+          this.showIfAbove === true && this.$q.screen.width > this.breakpoint && this.behavior !== 'mobile'
+            ? true
+            : this.value
+        ),
       belowBreakpoint: (
         this.behavior === 'mobile' ||
         (this.behavior !== 'desktop' && this.layout.width <= this.breakpoint)
@@ -78,7 +85,6 @@ export default Vue.extend({
         this.hide(false)
       }
       else if (this.overlay === false && this.behavior !== 'mobile') { // from xs to lg
-        this.__applyBackdrop(0)
         this.show(false)
       }
     },
@@ -91,14 +97,14 @@ export default Vue.extend({
     behavior (val) {
       this.__updateLocal('belowBreakpoint', (
         val === 'mobile' ||
-        (val !== 'desktop' && this.breakpoint >= this.layout.width)
+        (val !== 'desktop' && this.layout.width <= this.breakpoint)
       ))
     },
 
     breakpoint (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && val >= this.layout.width)
+        (this.behavior !== 'desktop' && this.layout.width <= val)
       ))
     },
 
@@ -109,8 +115,14 @@ export default Vue.extend({
     'layout.width' (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && this.breakpoint >= val)
+        (this.behavior !== 'desktop' && val <= this.breakpoint)
       ))
+
+      // required, otherwise we bump into scenarios with two drawers
+      // and one might close the below breakpoint currently opened one
+      if (this.showing === true && this.belowBreakpoint === true) {
+        this.hide(false)
+      }
     },
 
     'layout.scrollbarWidth' () {
@@ -417,6 +429,7 @@ export default Vue.extend({
         evt !== false && this.layout.container !== true && this.__preventScroll(true)
       }
       else {
+        this.__applyBackdrop(0)
         evt !== false && this.__setScrollable(false)
       }
 
@@ -432,7 +445,6 @@ export default Vue.extend({
       evt !== false && this.layout.__animate()
 
       this.__applyPosition(this.stateDirection * this.size)
-      this.__applyBackdrop(0)
 
       this.__cleanup()
 
@@ -442,6 +454,7 @@ export default Vue.extend({
     },
 
     __cleanup () {
+      this.__applyBackdrop(0)
       this.__preventScroll(false)
       this.__setScrollable(true)
     },
@@ -468,6 +481,16 @@ export default Vue.extend({
     this.__updateSizeOnLayout(this.miniToOverlay, this.size)
     this.__update('space', this.onLayout)
     this.__update('offset', this.offset)
+
+    if (
+      fromSSR === false &&
+      this.showIfAbove === true &&
+      this.value === false &&
+      this.showing === true &&
+      this.$listeners.input !== void 0
+    ) {
+      this.$emit('input', true)
+    }
   },
 
   mounted () {
@@ -487,6 +510,11 @@ export default Vue.extend({
         // according to the QDrawer state
         this.__show(false, true)
       }
+    }
+    else if (fromSSR === false && this.showing === true) {
+      // means we used show-if-above which changed
+      // the internal state, so we need to update CSS
+      this.__show(false, true)
     }
   },
 

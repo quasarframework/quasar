@@ -19,6 +19,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
   q-drawer(
     v-model="leftDrawerState"
+    show-if-above
     bordered
     content-class="doc-left-drawer"
   )
@@ -59,8 +60,9 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
             )
 
   q-drawer(
-    v-model="rightDrawerState"
     v-if="hasRightDrawer"
+    v-model="rightDrawerState"
+    show-if-above
     side="right"
     content-class="bg-grey-1"
     :width="180"
