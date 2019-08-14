@@ -698,13 +698,6 @@ export default Vue.extend({
       if (this.hasDialog === true) {
         on.click = stop
       }
-      else if (this.useInput === true && this.$q.platform.is.mobile === true) {
-        on.focus = () => {
-          setTimeout(() => {
-            this.$el !== void 0 && this.$el.scrollIntoView(true)
-          }, 300)
-        }
-      }
 
       return h('input', {
         ref: 'target',
