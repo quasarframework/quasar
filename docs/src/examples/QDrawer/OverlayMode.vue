@@ -88,7 +88,7 @@ const menuList = [
 export default {
   data () {
     return {
-      drawer: false,
+      drawer: true,
       menuList
     }
   }
