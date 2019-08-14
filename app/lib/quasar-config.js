@@ -618,10 +618,23 @@ class QuasarConfig {
 
     if (this.ctx.mode.tauri) {
       cfg.tauri = merge({
-        serverless: false,
-        bundle: true,
-        whitelist: {}
+        embeddedServer: {
+          active: true
+        },
+        bundle: {
+          active: true
+        },
+        whitelist: {},
+        window: {
+          title: require(appPaths.resolve.app('package.json')).productName
+        },
+        security: {
+          csp: 'default-src data: filesystem: ws: http: https: \'unsafe-eval\' \'unsafe-inline\''
+        }
       }, cfg.tauri)
+      if (cfg.tauri.embeddedServer.port != null) {
+        cfg.tauri.embeddedServer.port = cfg.tauri.embeddedServer.port.toString()
+      }
     }
 
     if (this.ctx.mode.pwa) {

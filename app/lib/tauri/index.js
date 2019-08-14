@@ -27,8 +27,7 @@ class TauriRunner {
     if (this.pid) {
       if (this.url !== url) {
         await this.stop()
-      }
-      else {
+      } else {
         return
       }
     }
@@ -77,12 +76,12 @@ class TauriRunner {
     })
 
     const features = []
-    if (cfg.tauri.serverless) {
-      features.push('serverless')
+    if (cfg.tauri.embeddedServer.active) {
+      features.push('embedded-server')
     }
 
     const buildFn = target => this.__runCargoCommand({
-      cargoArgs: [cfg.tauri.bundle ? 'tauri-bundle' : 'build']
+      cargoArgs: [cfg.tauri.bundle.active ? 'tauri-bundle' : 'build']
         .concat(features.length ? ['--features', ...features] : [])
         .concat(cfg.ctx.debug ? [] : ['--release'])
         .concat(target ? ['--target', target] : [])
@@ -108,14 +107,17 @@ class TauriRunner {
     })
   }
 
-  __runCargoCommand({ cargoArgs, extraArgs }) {
+  __runCargoCommand({
+    cargoArgs,
+    extraArgs
+  }) {
     return new Promise(resolve => {
       this.pid = spawn(
         'cargo',
 
-        extraArgs
-          ? cargoArgs.concat(['--']).concat(extraArgs)
-          : cargoArgs,
+        extraArgs ?
+        cargoArgs.concat(['--']).concat(extraArgs) :
+        cargoArgs,
 
         appPaths.tauriDir,
 
@@ -130,8 +132,7 @@ class TauriRunner {
           if (this.killPromise) {
             this.killPromise()
             this.killPromise = null
-          }
-          else { // else it wasn't killed by us
+          } else { // else it wasn't killed by us
             warn()
             warn('Cargo process was killed. Exiting...')
             warn()
@@ -144,7 +145,7 @@ class TauriRunner {
     })
   }
 
-  __stopCargo () {
+  __stopCargo() {
     const pid = this.pid
 
     if (!pid) {
@@ -160,32 +161,32 @@ class TauriRunner {
     })
   }
 
-   __manipulateToml(callback) {
-     const toml = require('@iarna/toml'),
-       tomlPath = appPaths.resolve.tauri('Cargo.toml'),
-       tomlFile = fse.readFileSync(tomlPath),
-       tomlContents = toml.parse(tomlFile)
+  __manipulateToml(callback) {
+    const toml = require('@iarna/toml'),
+      tomlPath = appPaths.resolve.tauri('Cargo.toml'),
+      tomlFile = fse.readFileSync(tomlPath),
+      tomlContents = toml.parse(tomlFile)
 
-     callback(tomlContents)
+    callback(tomlContents)
 
-     const output = toml.stringify(tomlContents)
-     fse.writeFileSync(tomlPath, output)
-   }
+    const output = toml.stringify(tomlContents)
+    fse.writeFileSync(tomlPath, output)
+  }
 
-   __whitelistApi(cfg, tomlContents) {
-     if (!tomlContents.dependencies.tauri.features) {
-       tomlContents.dependencies.tauri.features = []
-     }
+  __whitelistApi(cfg, tomlContents) {
+    if (!tomlContents.dependencies.tauri.features) {
+      tomlContents.dependencies.tauri.features = []
+    }
 
-     if (cfg.tauri.whitelist.all) {
-       if (!tomlContents.dependencies.tauri.features.includes('all-api')) {
-         tomlContents.dependencies.tauri.features.push('all-api')
-       }
-     } else {
-       const whitelist = Object.keys(cfg.tauri.whitelist).filter(w => cfg.tauri.whitelist[w] === true)
-       tomlContents.dependencies.tauri.features = whitelist.concat(tomlContents.dependencies.tauri.features.filter(f => f !== 'api' && cfg.tauri.whitelist[f] !== true))
-     }
-   }
+    if (cfg.tauri.whitelist.all) {
+      if (!tomlContents.dependencies.tauri.features.includes('all-api')) {
+        tomlContents.dependencies.tauri.features.push('all-api')
+      }
+    } else {
+      const whitelist = Object.keys(cfg.tauri.whitelist).filter(w => cfg.tauri.whitelist[w] === true)
+      tomlContents.dependencies.tauri.features = whitelist.concat(tomlContents.dependencies.tauri.features.filter(f => f !== 'api' && cfg.tauri.whitelist[f] !== true))
+    }
+  }
 }
 
 module.exports = new TauriRunner()

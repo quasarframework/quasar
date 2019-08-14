@@ -18,7 +18,8 @@ module.exports = function (chain, cfg) {
 
       chunksSortMode: 'none',
       // inject script tags for bundle
-      inject: !(cfg.ctx.mode.tauri && cfg.ctx.prod && cfg.tauri.serverless),
+      inject: true,
+      inlineSource: cfg.ctx.mode.tauri && cfg.ctx.prod && !cfg.tauri.embeddedServer.active ? '.(js|css)$' : undefined,
       cache: true
     }])
 

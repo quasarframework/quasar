@@ -34,7 +34,7 @@ module.exports = function (cfg, configName) {
           : cfg.build.distDir
       )
       .publicPath(cfg.build.publicPath)
-      .filename(cfg.ctx.mode.tauri && cfg.tauri.serverless ? `js/app.js` : `js/[name]${fileHash}.js`)
+      .filename(cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? `js/app.js` : `js/[name]${fileHash}.js`)
       .chunkFilename(`js/[name]${chunkHash}.js`)
   }
 
@@ -143,7 +143,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.tauri && cfg.tauri.serverless ? undefined : 10000,
+        limit: cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? undefined : 10000,
         name: `img/[name]${fileHash}.[ext]`
       })
 
@@ -152,7 +152,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.tauri && cfg.tauri.serverless ? undefined : 10000,
+        limit: cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? undefined : 10000,
         name: `fonts/[name]${fileHash}.[ext]`
       })
 
@@ -161,7 +161,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.tauri && cfg.tauri.serverless ? undefined : 10000,
+        limit: cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? undefined : 10000,
         name: `media/[name]${fileHash}.[ext]`
       })
 
@@ -344,7 +344,7 @@ module.exports = function (cfg, configName) {
       // extract css into its own file
       chain.plugin('mini-css-extract')
         .use(MiniCssExtractPlugin, [{
-          filename: cfg.ctx.mode.tauri && cfg.tauri.serverless ? 'css/app.css' : 'css/[name].[contenthash:8].css'
+          filename: cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? 'css/app.css' : 'css/[name].[contenthash:8].css'
         }])
 
       // dedupe & minify CSS (only if extracted)
