@@ -35,7 +35,7 @@
   "bugs": "https://github.com/quasarframework/quasar/issues",
   "homepage": "https://quasar.dev",
   "dependencies": {
-    "@quasar/babel-preset-app": "1.1.5",
+    "@quasar/babel-preset-app": "1.1.6",
     "@quasar/fastclick": "1.1.1",
     "@vue/preload-webpack-plugin": "1.1.1",
     "autoprefixer": "9.6.1",

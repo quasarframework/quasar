@@ -1,6 +1,6 @@
 {
   "name": "@quasar/babel-preset-app",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Babel preset for Quasar CLI",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.3.0",
     "babel-plugin-module-resolver": "^3.2.0",
-    "babel-plugin-transform-imports": "^2.0.0"
+    "babel-plugin-transform-imports": "^1.0.0"
   },
   "keywords": [
     "quasar",
