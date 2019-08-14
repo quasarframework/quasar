@@ -62,7 +62,7 @@ import { addPreFetchHooks } from './client-prefetch.js'
 const needsFastClick = ctx.mode.pwa || (ctx.mode.cordova && ctx.target.ios)
 if (needsFastClick) {
 %>
-import FastClick from 'fastclick'
+import FastClick from '@quasar/fastclick'
 <% } %>
 
 <% if (ctx.mode.electron) { %>
