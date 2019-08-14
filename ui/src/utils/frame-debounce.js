@@ -1,12 +1,13 @@
 export default function (fn) {
-  let wait = false, frame
+  let wait = false, frame, callArgs
 
   function debounced (...args) {
-    if (wait) { return }
+    callArgs = args
+    if (wait === true) { return }
 
     wait = true
     frame = requestAnimationFrame(() => {
-      fn.apply(this, args)
+      fn.apply(this, callArgs)
       wait = false
     })
   }
