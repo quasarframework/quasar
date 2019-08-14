@@ -64,7 +64,7 @@ export default Vue.extend({
       // used internally by validation for QInput
       // or menu handling for QSelect
       innerLoading: false,
-      targetUid: 'qf_' + uid()
+      targetUid: this.$attrs.for === void 0 ? 'qf_' + uid() : this.$attrs.for
     }
   },
 
