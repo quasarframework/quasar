@@ -975,10 +975,9 @@ export default Vue.extend({
         }
       }, [
         h('div', {
-          staticClass: 'q-select__dialog' + (this.optionsDark === true ? ' q-select__menu--dark' : ''),
-          class: {
-            'q-select__dialog--focused': this.dialogFieldFocused
-          }
+          staticClass: 'q-select__dialog' +
+            (this.optionsDark === true ? ' q-select__menu--dark' : '') +
+            (this.dialogFieldFocused === true ? ' q-select__dialog--focused' ; '')
         }, content)
       ])
     },
