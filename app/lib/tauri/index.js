@@ -42,7 +42,7 @@ class TauriRunner {
 
     const startDevTauri = () => {
       return this.__runCargoCommand({
-        cargoArgs: ['run', '--features', 'dev', '--bin', 'app'],
+        cargoArgs: ['run', '--features', 'dev'],
         extraArgs: args
       })
     }
