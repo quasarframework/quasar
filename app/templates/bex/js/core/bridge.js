@@ -3,11 +3,19 @@
  * DO NOT EDIT.
  **/
 
-// https://github.com/vuejs/vue-devtools/blob/dev/src/bridge.js
-
 import { EventEmitter } from 'events'
 
-const BATCH_DURATION = 100
+const
+  typeSizes = {
+    'undefined': () => 0,
+    'boolean': () => 4,
+    'number': () => 8,
+    'string': item => 2 * item.length,
+    'object': item => !item ? 0 : Object
+    .keys(item)
+    .reduce((total, key) => sizeOf(key) + sizeOf(item[key]) + total, 0)
+  },
+  sizeOf = value => typeSizes[typeof value](value)
 
 export default class Bridge extends EventEmitter {
   constructor (wall) {
@@ -21,64 +29,22 @@ export default class Bridge extends EventEmitter {
         this._emit(messages)
       }
     })
-    this._batchingQueue = []
+
     this._sendingQueue = []
     this._receivingQueue = []
     this._sending = false
-    this._time = null
+    this._maxMessageSize = 32 * 1024 * 1024 // 32mb
   }
 
   /**
    * Send an event.
    *
-   * @param {String} event
-   * @param {*} payload
+   * @param event
+   * @param payload
+   * @returns Promise<>
    */
-
   send (event, payload) {
-    if (Array.isArray(payload)) {
-      const lastIndex = payload.length - 1
-      payload.forEach((chunk, index) => {
-        this._send({
-          event,
-          _chunk: chunk,
-          last: index === lastIndex
-        })
-      })
-      this._flush()
-    } else if (this._time === null) {
-      this._send([{ event, payload }])
-      this._time = Date.now()
-    } else {
-      this._batchingQueue.push({
-        event,
-        payload
-      })
-
-      const now = Date.now()
-      if (now - this._time > BATCH_DURATION) {
-        this._flush()
-      } else {
-        this._timer = setTimeout(() => this._flush(), BATCH_DURATION)
-      }
-    }
-  }
-
-  /**
-   * Log a message to the devtools background page.
-   *
-   * @param {String} message
-   */
-
-  log (message) {
-    this.send('log', message)
-  }
-
-  _flush () {
-    if (this._batchingQueue.length) this._send(this._batchingQueue)
-    clearTimeout(this._timer)
-    this._batchingQueue = []
-    this._time = null
+    return this._send([{ event, payload }])
   }
 
   _emit (message) {
@@ -97,21 +63,80 @@ export default class Bridge extends EventEmitter {
 
   _send (messages) {
     this._sendingQueue.push(messages)
-    this._nextSend()
+    return this._nextSend()
   }
 
   _nextSend () {
-    if (!this._sendingQueue.length || this._sending) return
+    if (!this._sendingQueue.length || this._sending) return Promise.resolve()
     this._sending = true
-    const messages = this._sendingQueue.shift()
-    try {
-      this.wall.send(messages)
-    } catch (err) {
-      if (err.message === 'Message length exceeded maximum allowed length.') {
-        this._sendingQueue.splice(0, 0, messages.map(message => [message]))
+
+    const
+      messages = this._sendingQueue.shift(),
+      currentMessage = messages[0]
+
+    return new Promise((resolve, reject) => {
+      let allChunks = []
+
+      const fn = (r) => {
+        // If this is a split message then keep listening for the chunks and build a list to resolve
+        if (r !== void 0 && r._chunkSplit) {
+          const chunkData = r._chunkSplit
+          allChunks = [...allChunks, ...r.data]
+
+          // Last chunk received so resolve the promise.
+          if (chunkData.lastChunk) {
+            this.off(currentMessage.event + '.result', fn)
+            resolve(allChunks)
+          }
+        } else {
+          this.off(currentMessage.event + '.result', fn)
+          resolve(r)
+        }
       }
-    }
-    this._sending = false
-    requestAnimationFrame(() => this._nextSend())
+
+      this.on(currentMessage.event + '.result', fn)
+
+      try {
+        this.wall.send(messages)
+      } catch (err) {
+        const errorMessage = 'Message length exceeded maximum allowed length.'
+
+        if (err.message === errorMessage) {
+          // If the payload is an array and too big then split it into chunks and send to the clients bridge
+          // the client bridge will then resolve the promise.
+          if (!Array.isArray(currentMessage.payload)) {
+            if (process.env.NODE_ENV !== 'production') {
+              console.error(errorMessage + ' Note: The bridge can deal with this is if the payload is an Array.')
+            }
+          } else {
+            const objectSize = sizeOf(currentMessage)
+
+            if (objectSize > this._maxMessageSize) {
+              const
+                chunksRequired = Math.ceil(objectSize / this._maxMessageSize),
+                arrayItemCount = Math.ceil(currentMessage.payload.length / chunksRequired)
+
+              let data = currentMessage.payload
+              for (let i = 0; i < chunksRequired; i++) {
+                let take = Math.min(data.length, arrayItemCount)
+
+                this.wall.send([{
+                  event: currentMessage.event,
+                  payload: {
+                    _chunkSplit: {
+                      count: chunksRequired,
+                      lastChunk: i === chunksRequired - 1
+                    },
+                    data: data.splice(0, take)
+                  }
+                }])
+              }
+            }
+          }
+        }
+      }
+      this._sending = false
+      requestAnimationFrame(() => { return this._nextSend() })
+    })
   }
 }
