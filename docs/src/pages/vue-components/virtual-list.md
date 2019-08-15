@@ -22,7 +22,7 @@ The QVirtualList component (also known as "virtual scroll") allows you to displa
 :::
 
 ::: warning
-* There is a maximum height of the scrolling container, imposed by the browser. In IE11 this is around 1,000,000px, while in the rest of the browsers it much more, but still limited.
+* There is a maximum height of the scrolling container, imposed by the browser. In IE11 this is around 1,000,000px, while in the rest of the browsers it's much more, but still limited.
 * When emulating an Apple device on a non-Apple platform the scroll will malfunction when scrolling down. Just scroll back up to stop the scrolling.
 :::
 
