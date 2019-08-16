@@ -24,75 +24,13 @@ According to [Google](https://developers.google.com/mobile/articles/fast_buttons
 
 ## Compatibility ##
 
-The library has been deployed as part of the [FT Web App](http://app.ft.com/) and is tried and tested on the following mobile browsers:
-
-* Mobile Safari on iOS 3 and upwards
-* Chrome on iOS 5 and upwards
-* Chrome on Android (ICS)
-* Opera Mobile 11.5 and upwards
-* Android Browser since Android 2
-* PlayBook OS 1 and upwards
-
-## When it isn't needed ##
-
-FastClick doesn't attach any listeners on desktop browsers.
-
-Chrome 32+ on Android with `width=device-width` in the [viewport meta tag](https://developer.mozilla.org/en-US/docs/Mobile/Viewport_meta_tag) doesn't have a 300ms delay, therefore listeners aren't attached.
-
-```html
-<meta name="viewport" content="width=device-width, initial-scale=1">
-```
-
-Same goes for Chrome on Android (all versions) with `user-scalable=no` in the viewport meta tag. But be aware that `user-scalable=no` also disables pinch zooming, which may be an accessibility concern.
-
-For IE11+, you can use `touch-action: manipulation;` to disable double-tap-to-zoom on certain elements (like links and buttons).  For IE10 use `-ms-touch-action: manipulation`.
+* iOS 7+ platform, on a Quasar PWA or Quasar Cordova
 
 ## Usage ##
 
-Include fastclick.js in your JavaScript bundle or add it to your HTML page like this:
-
-```html
-<script type='application/javascript' src='/path/to/fastclick.js'></script>
-```
-
-The script must be loaded prior to instantiating FastClick on any element of the page.
-
-To instantiate FastClick on the `body`, which is the recommended method of use:
-
 ```js
-if ('addEventListener' in document) {
-	document.addEventListener('DOMContentLoaded', function() {
-		FastClick.attach(document.body);
-	}, false);
-}
-```
-
-Or, if you're using jQuery:
-
-```js
-$(function() {
-	FastClick.attach(document.body);
-});
-```
-
-If you're using Browserify or another CommonJS-style module system, the `FastClick.attach` function will be returned when you call `require('@quasar/fastclick')`. As a result, the easiest way to use FastClick with these loaders is as follows:
-
-```js
-var attachFastClick = require('@quasar/fastclick');
-attachFastClick(document.body);
-```
-
-### Minified ###
-
-Run `make` to build a minified version of FastClick using the Closure Compiler REST API. The minified file is saved to `build/fastclick.min.js`.
-
-### AMD ###
-
-FastClick has AMD (Asynchronous Module Definition) support. This allows it to be lazy-loaded with an AMD loader, such as [RequireJS](http://requirejs.org/). Note that when using the AMD style require, the full `FastClick` object will be returned, _not_ `FastClick.attach`
-
-```js
-var FastClick = require('@quasar/fastclick');
-FastClick.attach(document.body, options);
+import Fastclick from '@quasar/fastclick'
+FastClick()
 ```
 
 ## Advanced ##
@@ -125,10 +63,6 @@ FastClick is designed to cope with many different browser oddities. Here are som
 * [basic use](http://ftlabs.github.com/fastclick/examples/layer.html) showing the increase in perceived responsiveness
 * [triggering focus](http://ftlabs.github.com/fastclick/examples/focus.html) on an input element from a `click` handler
 * [input element](http://ftlabs.github.com/fastclick/examples/input.html) which never receives clicks but gets fast focus
-
-## Tests ##
-
-There are no automated tests. The files in `tests/` are manual reduced test cases. We've had a think about how best to test these cases, but they tend to be very browser/device specific and sometimes subjective which means it's not so trivial to test.
 
 ## Credits and collaboration ##
 
