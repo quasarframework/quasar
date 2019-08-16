@@ -118,7 +118,7 @@ module.exports = class Extension {
     if (/quasar-app-extension-/.test(this.extId)) {
       this.extId = this.extId.replace('quasar-app-extension-', '')
       log(
-        `When using an extension, "quasar-app-extension-" is added automatically. Just run "quasar ext --add ${
+        `When using an extension, "quasar-app-extension-" is added automatically. Just run "quasar ext add ${
           this.extId
         }"`
       )
