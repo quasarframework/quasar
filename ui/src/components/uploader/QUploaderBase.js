@@ -338,6 +338,13 @@ export default {
       this.dnd = false
     },
 
+    __onIEPickFiles (e) {
+      if (this.editable) {
+        const input = this.__getFileInput()
+        input && input.click(e) && input.click(e)
+      }
+    },
+
     __getBtn (h, show, icon, fn) {
       if (show === true) {
         return h(QBtn, {
@@ -347,7 +354,7 @@ export default {
             flat: true,
             dense: true
           },
-          on: icon === 'add' ? null : { click: fn }
+          on: icon === 'add' ? (this.$q.platform.is.ie ? { click: this.__onIEPickFiles } : null) : { click: fn }
         }, icon === 'add' ? this.__getInputControl(h) : null)
       }
     },
