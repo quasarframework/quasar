@@ -8,20 +8,6 @@
 
 FastClick is a simple, easy-to-use library for eliminating the 300ms delay between a physical tap and the firing of a `click` event on mobile browsers. The aim is to make your application feel less laggy and more responsive while avoiding any interference with your current logic.
 
-FastClick is developed by [FT Labs](http://labs.ft.com/), part of the Financial Times.
-
-*Note: As of late 2015 most mobile browsers - notably Chrome and Safari - no longer have a 300ms touch delay, so fastclick offers no benefit on newer browsers, and risks introducing [bugs](https://github.com/ftlabs/fastclick/issues) into your application. Consider carefully whether you really need to use it.*
-
-[Explication en français](http://maxime.sh/2013/02/supprimer-le-lag-des-clics-sur-mobile-avec-fastclick/).
-
-[日本語で説明](https://developer.mozilla.org/ja/docs/Mozilla/Firefox_OS/Apps/Tips_and_techniques#Make_events_immediate)。
-
-## Why does the delay exist? ##
-
-According to [Google](https://developers.google.com/mobile/articles/fast_buttons):
-
-> ...mobile browsers will wait approximately 300ms from the time that you tap the button to fire the click event. The reason for this is that the browser is waiting to see if you are actually performing a double tap.
-
 ## Compatibility ##
 
 * iOS 7+ platform, on a Quasar PWA or Quasar Cordova
