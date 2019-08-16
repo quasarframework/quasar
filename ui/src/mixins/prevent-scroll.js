@@ -6,7 +6,7 @@ let
   registered = 0,
   scrollPosition,
   bodyTop,
-  preventRemoveTimer
+  closeTimer
 
 function onWheel (e) {
   if (shouldPreventScroll(e)) {
@@ -52,16 +52,6 @@ function onAppleScroll (e) {
   }
 }
 
-function clearPrevent () {
-  const body = document.body
-
-  body.classList.remove('q-body--force-scrollbar')
-  body.style.top = bodyTop
-  window.scrollTo(0, scrollPosition)
-
-  preventRemoveTimer = void 0
-}
-
 function prevent (register) {
   let action = 'add'
 
@@ -82,11 +72,7 @@ function prevent (register) {
 
   const body = document.body
 
-  clearTimeout(preventRemoveTimer)
-
   if (register === true) {
-    preventRemoveTimer !== void 0 && clearPrevent()
-
     const overflowY = window.getComputedStyle(body).overflowY
 
     scrollPosition = getScrollPosition(window)
@@ -110,7 +96,9 @@ function prevent (register) {
   if (register !== true) {
     Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
 
-    preventRemoveTimer = setTimeout(clearPrevent, 300)
+    body.classList.remove('q-body--force-scrollbar')
+    body.style.top = bodyTop
+    window.scrollTo(0, scrollPosition)
   }
 }
 
@@ -123,6 +111,24 @@ export default {
 
       if (state !== this.preventedScroll) {
         this.preventedScroll = state
+
+        // prevent(false) needs to be called with delay,
+        // otherwise iOS keyboard ruins everything
+        if (Platform.is.ios === true && Platform.is.cordova === true) {
+          clearTimeout(closeTimer)
+
+          if (state === false) {
+            closeTimer = setTimeout(() => {
+              prevent(state)
+              closeTimer = void 0
+            }, 100)
+            return
+          }
+          else if (closeTimer !== void 0) {
+            return
+          }
+        }
+
         prevent(state)
       }
     }
