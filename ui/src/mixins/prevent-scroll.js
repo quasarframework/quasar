@@ -109,26 +109,36 @@ export default {
         return
       }
 
-      if (state !== this.preventedScroll) {
-        this.preventedScroll = state
-
-        // prevent(false) needs to be called with delay,
-        // otherwise iOS keyboard ruins everything
-        if (Platform.is.ios === true && Platform.is.cordova === true) {
+      // prevent(false) needs to be called with delay,
+      // otherwise iOS keyboard ruins everything
+      if (Platform.is.ios === true && Platform.is.cordova === true) {
+        if (state === true) {
           clearTimeout(closeTimer)
+          closeTimer = void 0
 
-          if (state === false) {
-            closeTimer = setTimeout(() => {
-              prevent(state)
-              closeTimer = void 0
-            }, 100)
-            return
-          }
-          else if (closeTimer !== void 0) {
-            return
+          if (this.preventedScroll !== state) {
+            this.preventedScroll = state
+            prevent(state)
           }
         }
-
+        else {
+          if (this.preventedScroll === state) {
+            if (closeTimer !== void 0) {
+              clearTimeout(closeTimer)
+              closeTimer = void 0
+            }
+          }
+          else if (closeTimer === void 0) {
+            closeTimer = setTimeout(() => {
+              closeTimer = void 0
+              this.preventedScroll = state
+              prevent(state)
+            }, 100)
+          }
+        }
+      }
+      else if (state !== this.preventedScroll) {
+        this.preventedScroll = state
         prevent(state)
       }
     }
