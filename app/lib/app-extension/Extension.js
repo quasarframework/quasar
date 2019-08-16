@@ -132,7 +132,7 @@ module.exports = class Extension {
     // verify if already installed
     if (skipPkgInstall === true) {
       if (!isInstalled) {
-        warn(`⚠️  Tried to invoke App Extension "${this.extId}" but it's npm package is not installed`)
+        warn(`⚠️  Tried to invoke App Extension "${this.extId}" but its npm package is not installed`)
         process.exit(1)
       }
     }
