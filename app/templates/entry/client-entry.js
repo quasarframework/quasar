@@ -87,9 +87,7 @@ const { app, <%= store ? 'store, ' : '' %>router } = createApp()
 // Needed only for iOS PWAs
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
 <% } %>
-  document.addEventListener('DOMContentLoaded', () => {
-    FastClick.attach(document.body)
-  }, false)
+  FastClick()
 <% if (ctx.mode.pwa) { %>}<% } %>
 <% } %>
 
