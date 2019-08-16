@@ -78,7 +78,7 @@ export default Vue.extend({
       belowBreakpoint,
       showing: this.showIfAbove === true && belowBreakpoint === false
         ? true
-        : this.value
+        : this.value === true
     }
   },
 
@@ -487,7 +487,7 @@ export default Vue.extend({
 
     if (
       this.showIfAbove === true &&
-      this.value === false &&
+      this.value !== true &&
       this.showing === true &&
       this.$listeners.input !== void 0
     ) {

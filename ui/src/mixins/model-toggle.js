@@ -5,7 +5,10 @@ export default {
   mixins: [ TimeoutMixin ],
 
   props: {
-    value: Boolean
+    value: {
+      type: Boolean,
+      default: void 0
+    }
   },
 
   data () {
@@ -41,7 +44,7 @@ export default {
           this.payload = void 0
         })
       }
-      else {
+      if (this.value === void 0 || this.$listeners.input === void 0) {
         this.__processShow(evt)
       }
     },
@@ -77,7 +80,7 @@ export default {
           this.payload = void 0
         })
       }
-      else {
+      if (this.value === void 0 || this.$listeners.input === void 0) {
         this.__processHide(evt)
       }
     },
@@ -105,7 +108,7 @@ export default {
       if (this.disable === true && val === true) {
         this.$listeners.input !== void 0 && this.$emit('input', false)
       }
-      else if (val !== this.showing) {
+      else if ((val === true) !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)
       }
     }
