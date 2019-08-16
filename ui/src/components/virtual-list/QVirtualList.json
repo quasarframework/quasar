@@ -1,0 +1,89 @@
+{
+  "mixins": [ "mixins/virtual-list" ],
+
+  "props": {
+    "component": {
+      "type": "String",
+      "desc": "HTML component to render as container",
+      "default": "div",
+      "examples": [ "div", "q-list" ],
+      "category": "content"
+    },
+
+    "items": {
+      "type": "Array",
+      "desc": "Available list items that will be passed to the scoped slot. For best performance freeze the list of items. Required if itemsFn is not supplied.",
+      "default": "[]",
+      "examples": [
+        ":items=\"[ 'BMW', 'Samsung Phone' ]\"",
+        ":items=\"[ { label: 'BMW', value: 'car' }, { label: 'Samsung Phone', value: 'phone' } ]\""
+      ],
+      "category": "content"
+    },
+
+    "items-size": {
+      "type": [ "String", "Number"],
+      "desc": "Number of available items in the list. Required and used only is itemsFn is provided.",
+      "default": "void 0",
+      "examples": [
+        "items-size=\"100000\"",
+        ":items-size=\"500\""
+      ],
+      "category": "content"
+    },
+
+    "items-fn": {
+      "type": "Function",
+      "desc": "Function to return the scope for the items to be displayed. Should return an array for items starting from `from` index for size length.",
+      "params": {
+        "from": {
+          "type": "Number",
+          "desc": "Index of the first item (0 based)",
+          "examples": [ 15 ]
+        },
+        "size": {
+          "type": "Number",
+          "desc": "Number of items to return",
+          "examples": [ 38 ]
+        }
+      },
+      "returns": {
+        "type": "Array",
+        "desc": "List of scope for items to be displayed",
+        "__exemption": [ "examples" ]
+      },
+      "examples": [
+        ":items-fn=\"(from, size) => { const items = []; for (let i = 0; i < size; i++) { items.push(`Item ${i}`) }; return items }\""
+      ],
+      "category": "content"
+    },
+
+    "scroll-target": {
+      "type": [ "Element", "String" ],
+      "desc": "CSS selector or DOM element to be used as scroll container instead of the root element of virtual list",
+      "examples": [
+        ":scroll-target=\"$refs.scrollTarget\"",
+        "scroll-target=\"body\""
+      ],
+      "category": "behavior"
+    }
+  },
+
+  "scopedSlots": {
+    "default": {
+      "desc": "Template slot for defining the list item; Suggestion: QItem",
+      "scope": {
+        "index": {
+          "type": "Number",
+          "desc": "Item index in the options list",
+          "examples": [ 0 ]
+        },
+        "item": {
+          "type": "Any",
+          "desc": "Item data -- its value is taken from 'options' prop",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  }
+}

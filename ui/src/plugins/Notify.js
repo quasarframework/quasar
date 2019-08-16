@@ -40,9 +40,14 @@ const Notifications = {
         return false
       }
 
-      const notif = Object.assign(
-        { textColor: 'white' },
-        defaults,
+      const notif = { textColor: 'white' }
+
+      if (typeof config === 'string' || config.ignoreDefaults !== true) {
+        Object.assign(notif, defaults)
+      }
+
+      Object.assign(
+        notif,
         typeof config === 'string'
           ? { message: config }
           : clone(config)

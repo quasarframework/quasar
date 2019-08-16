@@ -8,7 +8,7 @@ let
   vm = null,
   timeout,
   props = {},
-  defaults = {
+  originalDefaults = {
     delay: 0,
     message: false,
     spinnerSize: 80,
@@ -17,7 +17,8 @@ let
     backgroundColor: 'black',
     spinner: QSpinner,
     customClass: ''
-  }
+  },
+  defaults = { ...originalDefaults }
 
 export default {
   isActive: false,
@@ -25,7 +26,10 @@ export default {
   show (opts) {
     if (isSSR === true) { return }
 
-    props = { ...defaults, ...opts }
+    props = opts === Object(opts) && opts.ignoreDefaults === true
+      ? { ...originalDefaults, ...opts }
+      : { ...defaults, ...opts }
+
     props.customClass += ` text-${props.backgroundColor}`
 
     if (this.isActive) {

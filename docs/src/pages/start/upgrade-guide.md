@@ -1153,7 +1153,7 @@ The structure looks the same, but some functions have been renamed.
   </div>
   <div class="inline-block q-pa-md">
 
-**QDialog**
+**QDialog Slots**
 
 |Legacy|v1|
 |-|-|
@@ -1474,7 +1474,7 @@ Replace `:handler` with `@load`.
 |-|-|
 |`@resize()`|`@resize(size)`|
 |`@scroll()`|`@scroll(details)`|
-|`@scrollHeight()`|`@scroll-height(height)`|
+|`@scroll-height()`|`@scroll-height(height)`|
 
   </div>
 </div>

@@ -13,8 +13,8 @@ export default Vue.extend({
       class: this.classes,
       on: this.$listeners,
       attrs: {
-        'width': this.size,
-        'height': this.size,
+        'width': this.cSize,
+        'height': this.cSize,
         'stroke': 'currentColor',
         'fill': 'currentColor',
         'viewBox': '0 0 64 64'

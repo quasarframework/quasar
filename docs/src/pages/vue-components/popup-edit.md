@@ -33,14 +33,21 @@ You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the de
 
 <doc-example title="Persistent edit, and with buttons" file="QPopupEdit/WithButtons" />
 
-### Textarea
+### Default scoped slot
+You can use also use the default scoped slot with parameters too (as opposed to all other examples on this page which use the default scoped slot without any parameters) should you wish to fully customize your QPopupEdit content:
+
+<doc-example title="Default scoped slot parameters" file="QPopupEdit/DefaultScopedSlotParameters" />
+
+### Textarea / QEditor
 Since QPopupEdit wraps QInput, you can basically use any type of QInput. For instance, you can also use a text area as shown below in the "Comments" column.
 
 ::: tip
-When using a text area for input, you'll need to also use `@keyup.enter.stop` in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too.
+When using a multi-line control (textarea, QEditor) for input, you'll need to also use `@keyup.enter.stop` on the component in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too.
 :::
 
-<doc-example title="Text area edit" file="QPopupEdit/TextArea" />
+<doc-example title="QInput textarea" file="QPopupEdit/TextArea" />
+
+<doc-example title="QEditor" file="QPopupEdit/QEditor" />
 
 ### Validation
 QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is **demonstrated in the "Protein" column** below.

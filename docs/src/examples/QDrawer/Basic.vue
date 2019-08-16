@@ -11,9 +11,9 @@
 
       <q-drawer
         v-model="drawerLeft"
+        show-if-above
         :width="200"
         :breakpoint="700"
-        show-if-above
         elevated
         content-class="bg-primary text-white"
       >
@@ -27,6 +27,7 @@
       <q-drawer
         side="right"
         v-model="drawerRight"
+        show-if-above
         bordered
         :width="200"
         :breakpoint="500"
@@ -55,7 +56,7 @@ export default {
   data () {
     return {
       drawerLeft: false,
-      drawerRight: true
+      drawerRight: false
     }
   }
 }

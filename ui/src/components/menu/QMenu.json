@@ -49,12 +49,6 @@
       "category": "position"
     },
 
-    "no-parent-event":{
-      "type": "Boolean",
-      "desc": "Skips attaching events to the target DOM element (that trigger the menu to get shown)",
-      "category": "behavior"
-    },
-
     "touch-position": {
       "type": "Boolean",
       "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",
@@ -70,6 +64,12 @@
     "auto-close": {
       "type": "Boolean",
       "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap",
+      "category": "behavior"
+    },
+
+    "separate-close-popup": {
+      "type": "Boolean",
+      "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
       "category": "behavior"
     },
 

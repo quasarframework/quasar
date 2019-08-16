@@ -1,15 +1,12 @@
 import Vue from 'vue'
 
 import QResizeObserver from '../observer/QResizeObserver.js'
-import CanRenderMixin from '../../mixins/can-render.js'
 import { onSSR } from '../../plugins/Platform.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QFooter',
-
-  mixins: [ CanRenderMixin ],
 
   inject: {
     layout: {
@@ -26,12 +23,17 @@ export default Vue.extend({
     },
     reveal: Boolean,
     bordered: Boolean,
-    elevated: Boolean
+    elevated: Boolean,
+
+    heightHint: {
+      type: [String, Number],
+      default: 50
+    }
   },
 
   data () {
     return {
-      size: 0,
+      size: parseInt(this.heightHint, 10),
       revealed: true,
       windowHeight: onSSR || this.layout.container ? 0 : window.innerHeight
     }
@@ -88,7 +90,7 @@ export default Vue.extend({
     },
 
     offset () {
-      if (this.canRender !== true || this.value !== true) {
+      if (this.value !== true) {
         return 0
       }
       if (this.fixed === true) {
@@ -104,7 +106,7 @@ export default Vue.extend({
         (this.value === true || this.fixed === true ? '' : ' hidden') +
         (this.bordered === true ? ' q-footer--bordered' : '') +
         (
-          this.canRender !== true || this.value !== true || (this.fixed === true && this.revealed !== true)
+          this.value !== true || (this.fixed === true && this.revealed !== true)
             ? ' q-footer--hidden'
             : ''
         )
@@ -153,6 +155,7 @@ export default Vue.extend({
 
   created () {
     this.layout.instances.footer = this
+    this.value === true && this.__update('size', this.size)
     this.__update('space', this.value)
     this.__update('offset', this.offset)
   },

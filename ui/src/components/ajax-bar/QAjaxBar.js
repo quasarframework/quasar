@@ -116,7 +116,7 @@ export default Vue.extend({
       return [
         `q-loading-bar--${this.position}`,
         `bg-${this.color}`,
-        this.animate ? '' : 'no-transition'
+        this.animate === true ? '' : 'no-transition'
       ]
     },
 

@@ -473,7 +473,7 @@ export default {
 
     __unmask (val) {
       return typeof val !== 'string' || this.computedUnmask === void 0
-        ? val
+        ? (typeof val === 'number' ? this.computedUnmask('' + val) : val)
         : this.computedUnmask(val)
     },
 

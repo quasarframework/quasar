@@ -223,10 +223,10 @@ export default Vue.extend({
 
     __animate (oldName, newName) {
       const
-        oldTab = oldName
+        oldTab = oldName !== void 0 && oldName !== null && oldName !== ''
           ? this.$children.find(tab => tab.name === oldName)
           : null,
-        newTab = newName
+        newTab = newName !== void 0 && newName !== null && newName !== ''
           ? this.$children.find(tab => tab.name === newName)
           : null
 

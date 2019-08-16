@@ -38,7 +38,7 @@ If you want to build for Windows with a custom icon using a non-Windows platform
 $ quasar build -m electron -P always
 
 # ..or the longer form:
-$ quasar dev --mode electron --publish always
+$ quasar build --mode electron --publish always
 ```
 
 You can specify using `electron-builder` to build your app either directly on the command line (`--bundler builder`) or by setting it explicitly within `quasar.conf.js` at `electron.bundler`. This flag has no effect when using `electron-packager`.

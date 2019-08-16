@@ -10,6 +10,10 @@
 
       <q-btn label="Focus 2" @click="e => { $refs.sel2.focus(e) }" />
       <q-btn label="Show 2" @click="$refs.sel2.showPopup()" />
+      <q-checkbox v-model="forceMenu" toggle-indeterminate :label="forceMenuLabel" />
+
+      <q-btn label="Focus 3" @click="e => { $refs.sel3.focus(e) }" />
+      <q-btn label="Show 3" @click="$refs.sel3.showPopup()" />
 
       <q-select
         filled
@@ -24,6 +28,7 @@
         @filter="filterFn"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -46,6 +51,7 @@
         :options="options"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -64,6 +70,7 @@
         :options="options"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -87,6 +94,7 @@
         @filter="filterObjectFn"
         style="width: 250px"
         clearable
+        :behavior="behavior"
       >
         <template v-slot:no-option>
           <q-item>
@@ -110,6 +118,32 @@
         @filter="filterLotsFn"
         style="width: 250px"
         clearable
+        :behavior="behavior"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <q-select
+        filled
+        v-model="model3"
+        use-input
+        hide-selected
+        fill-input
+        emit-value
+        map-options
+        label="Lots of options - horizontal"
+        :options="lotsOptions"
+        @filter="filterLotsFn"
+        style="width: 250px"
+        clearable
+        :behavior="behavior"
+        virtual-list-horizontal
       >
         <template v-slot:no-option>
           <q-item>
@@ -150,7 +184,7 @@ const
       value: 5
     }
   ]),
-  lotsOptions = () => Array(50).fill(0).map((item, i) => ({
+  lotsOptions = () => Array(5000).fill(0).map((item, i) => ({
     value: i,
     label: `Item ${i}`
   }))
@@ -163,7 +197,24 @@ export default {
       model3: null,
       options: stringOptions,
       objectOptions: objectOptions(),
-      lotsOptions: lotsOptions()
+      lotsOptions: Object.freeze(lotsOptions()),
+      forceMenu: null
+    }
+  },
+
+  computed: {
+    behavior () {
+      return this.forceMenu === null
+        ? 'default'
+        : (this.forceMenu === true ? 'menu' : 'dialog')
+    },
+
+    forceMenuLabel () {
+      if (this.forceMenu === true) {
+        return 'Force menu'
+      }
+
+      return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
     }
   },
 
@@ -204,14 +255,14 @@ export default {
       console.log('filterLotsFn', val)
       if (val === '') {
         update(() => {
-          this.lotsOptions = lotsOptions()
+          this.lotsOptions = Object.freeze(lotsOptions())
         })
         return
       }
 
       update(() => {
         const needle = val.toLowerCase()
-        this.lotsOptions = lotsOptions().filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        this.lotsOptions = Object.freeze(lotsOptions().filter(v => v.label.toLowerCase().indexOf(needle) > -1))
       })
     }
   }
