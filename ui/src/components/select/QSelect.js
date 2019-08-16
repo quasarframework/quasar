@@ -90,7 +90,8 @@ export default Vue.extend({
       menu: false,
       dialog: false,
       optionIndex: -1,
-      inputValue: ''
+      inputValue: '',
+      dialogFieldFocused: false
     }
   },
 
@@ -325,7 +326,7 @@ export default Vue.extend({
         return
       }
 
-      this.__focus()
+      this.dialogFieldFocused === true && this.__focus()
 
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
@@ -697,13 +698,6 @@ export default Vue.extend({
       if (this.hasDialog === true) {
         on.click = stop
       }
-      else if (this.useInput === true && this.$q.platform.is.mobile === true) {
-        on.focus = () => {
-          setTimeout(() => {
-            this.$el !== void 0 && this.$el.scrollIntoView(true)
-          }, 300)
-        }
-      }
 
       return h('input', {
         ref: 'target',
@@ -887,10 +881,26 @@ export default Vue.extend({
       }, child)
     },
 
+    __onDialogFieldFocus (e) {
+      stop(e)
+      this.dialogFieldFocused = true
+      window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, 0)
+    },
+
+    __onDialogFieldBlur (e) {
+      stop(e)
+      this.$nextTick(() => {
+        this.dialogFieldFocused = false
+      })
+    },
+
     __getDialog (h) {
       const content = [
         h(QField, {
           staticClass: `col-auto ${this.fieldClass}`,
+          attrs: {
+            for: this.targetUid
+          },
           props: {
             ...this.$props,
             dark: this.optionsDark,
@@ -901,8 +911,8 @@ export default Vue.extend({
           },
           on: {
             ...this.$listeners,
-            focus: stop,
-            blur: stop
+            focus: this.__onDialogFieldFocus,
+            blur: this.__onDialogFieldBlur
           },
           scopedSlots: {
             ...this.$scopedSlots,
@@ -958,7 +968,9 @@ export default Vue.extend({
         }
       }, [
         h('div', {
-          staticClass: 'q-select__dialog' + (this.optionsDark === true ? ' q-select__menu--dark' : '')
+          staticClass: 'q-select__dialog' +
+            (this.optionsDark === true ? ' q-select__menu--dark' : '') +
+            (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
         }, content)
       ])
     },

@@ -26,9 +26,9 @@ export default {
   show (opts) {
     if (isSSR === true) { return }
 
-    props = opts.ignoreDefaults !== true
-      ? { ...defaults, ...opts }
-      : { ...originalDefaults, ...opts }
+    props = opts === Object(opts) && opts.ignoreDefaults === true
+      ? { ...originalDefaults, ...opts }
+      : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
 

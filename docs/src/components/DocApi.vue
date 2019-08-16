@@ -53,9 +53,10 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
               class="inner-tab"
               :name="category"
             )
-              .row.no-wrap.items-center.self-start
+              .row.no-wrap.items-center.self-stretch
+                span.q-mr-xs.text-capitalize.text-weight-medium {{ category }}
+                .col
                 q-badge(v-if="apiCount(tab, category)") {{ formattedApiCount(tab, category) }}
-                span.q-ml-xs.text-capitalize.text-weight-medium {{ category }}
 
         q-separator(vertical)
 
@@ -275,6 +276,8 @@ export default {
 
   .inner-tab
     justify-content left
+    .q-tab__content
+      width 100%
 
   .api-container
     max-height 600px

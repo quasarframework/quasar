@@ -84,7 +84,7 @@
 
     "show-if-above": {
       "type": "Boolean",
-      "desc": "Force drawer to be shown on screen on initial render if the layout width is above breakpoint",
+      "desc": "Force drawer to be shown on screen on initial render if the layout width is above breakpoint, regardless of v-model; This is the default behavior when SSR is taken over by client on initial render",
       "category": "behavior"
     },
 

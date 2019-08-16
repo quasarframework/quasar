@@ -31,7 +31,6 @@ const gettingStarted = [
   },
   {
     name: 'Release notes',
-    badge: 'new',
     path: 'release-notes'
   },
   {
@@ -61,13 +60,11 @@ const options = [
   },
   {
     name: 'App Icons',
-    path: 'app-icons',
-    badge: 'new'
+    path: 'app-icons'
   },
   {
     name: 'SEO',
-    path: 'seo',
-    badge: 'new'
+    path: 'seo'
   },
   {
     name: 'Quasar Language Packs',
@@ -137,8 +134,7 @@ const cli = [
   },
   {
     name: 'App Icons',
-    path: 'app-icons',
-    badge: 'new'
+    path: 'app-icons'
   },
   {
     name: 'Testing & Auditing',
@@ -190,8 +186,7 @@ const cli = [
       },
       {
         name: 'Handling process.env',
-        path: 'handling-process-env',
-        badge: 'new'
+        path: 'handling-process-env'
       },
       {
         name: 'Vuex Store',
@@ -217,8 +212,7 @@ const cli = [
       },
       {
         name: 'App Icons for SPA',
-        path: 'app-icons-spa',
-        badge: 'new'
+        path: 'app-icons-spa'
       },
       {
         name: 'Build Commands',
@@ -248,13 +242,11 @@ const cli = [
       },
       {
         name: 'App Icons for SSR',
-        path: 'app-icons-ssr',
-        badge: 'new'
+        path: 'app-icons-ssr'
       },
       {
         name: 'SEO for SSR',
-        path: 'seo-for-ssr',
-        badge: 'new'
+        path: 'seo-for-ssr'
       },
       {
         name: 'Client Side Hydration',
@@ -296,8 +288,7 @@ const cli = [
       },
       {
         name: 'App Icons for PWA',
-        path: 'app-icons-pwa',
-        badge: 'new'
+        path: 'app-icons-pwa'
       },
       {
         name: 'Handling Service Worker',
@@ -327,8 +318,7 @@ const cli = [
       },
       {
         name: 'App Icons for Cordova',
-        path: 'app-icons-cordova',
-        badge: 'new'
+        path: 'app-icons-cordova'
       },
       {
         name: 'Cordova Plugins',
@@ -370,8 +360,7 @@ const cli = [
       },
       {
         name: 'App Icons for Electron',
-        path: 'app-icons-electron',
-        badge: 'new'
+        path: 'app-icons-electron'
       },
       {
         name: 'Electron Packages',
@@ -387,8 +376,7 @@ const cli = [
       },
       {
         name: 'Frameless Electron Window',
-        path: 'frameless-electron-window',
-        badge: 'new'
+        path: 'frameless-electron-window'
       },
       {
         name: 'Electron Security Concerns',
@@ -520,8 +508,7 @@ const layout = [
   },
   {
     name: 'Page Scroller',
-    path: 'page-scroller',
-    badge: 'new'
+    path: 'page-scroller'
   },
   {
     name: 'Floating Action Button',
@@ -532,8 +519,7 @@ const layout = [
 const directives = [
   {
     name: 'Close Popup',
-    path: 'close-popup',
-    badge: 'new'
+    path: 'close-popup'
   },
   {
     name: 'Go Back (Handling Back Button)',
@@ -561,8 +547,7 @@ const directives = [
   },
   {
     name: 'Touch Repeat',
-    path: 'touch-repeat',
-    badge: 'new'
+    path: 'touch-repeat'
   },
   {
     name: 'Touch Swipe',
@@ -624,23 +609,19 @@ const components = [
   },
   {
     name: 'Avatar',
-    path: 'avatar',
-    badge: 'new'
+    path: 'avatar'
   },
   {
     name: 'Badge',
-    path: 'badge',
-    badge: 'new'
+    path: 'badge'
   },
   {
     name: 'Banner',
-    path: 'banner',
-    badge: 'new'
+    path: 'banner'
   },
   {
     name: 'Bar',
-    path: 'bar',
-    badge: 'new'
+    path: 'bar'
   },
   {
     name: 'Breadcrumbs',
@@ -682,8 +663,7 @@ const components = [
   },
   {
     name: 'Circular Progress',
-    path: 'circular-progress',
-    badge: 'new'
+    path: 'circular-progress'
   },
   {
     name: 'Color Picker',
@@ -715,12 +695,10 @@ const components = [
       },
       {
         name: 'Form',
-        badge: 'new',
         path: 'form'
       },
       {
         name: 'Field (wrapper)',
-        badge: 'new',
         path: 'field'
       },
       {
@@ -767,8 +745,7 @@ const components = [
   },
   {
     name: 'Img',
-    path: 'img',
-    badge: 'new'
+    path: 'img'
   },
   {
     name: 'Infinite Scroll',
@@ -792,8 +769,7 @@ const components = [
   },
   {
     name: 'Markup Table',
-    path: 'markup-table',
-    badge: 'new'
+    path: 'markup-table'
   },
   {
     name: 'Menu',
@@ -831,8 +807,7 @@ const components = [
   },
   {
     name: 'Popup Proxy',
-    path: 'popup-proxy',
-    badge: 'new'
+    path: 'popup-proxy'
   },
   {
     name: 'Pull to refresh',
@@ -848,13 +823,11 @@ const components = [
   },
   {
     name: 'Separator',
-    path: 'separator',
-    badge: 'new'
+    path: 'separator'
   },
   {
     name: 'Slide Item',
-    path: 'slide-item',
-    badge: 'new'
+    path: 'slide-item'
   },
   {
     name: 'Slide Transition',
@@ -862,8 +835,7 @@ const components = [
   },
   {
     name: 'Space',
-    path: 'space',
-    badge: 'new'
+    path: 'space'
   },
   {
     name: 'Spinners',
@@ -871,8 +843,7 @@ const components = [
   },
   {
     name: 'Splitter',
-    path: 'splitter',
-    badge: 'new'
+    path: 'splitter'
   },
   {
     name: 'Stepper',
@@ -888,8 +859,7 @@ const components = [
   },
   {
     name: 'Tab Panels',
-    path: 'tab-panels',
-    badge: 'new'
+    path: 'tab-panels'
   },
   {
     name: 'Timeline',
@@ -914,6 +884,11 @@ const components = [
   {
     name: 'Video',
     path: 'video'
+  },
+  {
+    name: 'Virtual List',
+    badge: 'new',
+    path: 'virtual-list'
   }
 ]
 
@@ -924,7 +899,6 @@ const appExtensions = [
   },
   {
     name: 'Discover App Extensions',
-    badge: 'new',
     path: 'discover'
   },
   {
@@ -1006,13 +980,11 @@ module.exports = [
   },
   {
     name: 'Meet the Team',
-    badge: 'new',
     icon: 'people',
     path: 'meet-the-team'
   },
   {
     name: 'Newsletter',
-    badge: 'new',
     icon: 'email',
     path: 'newsletter'
   },

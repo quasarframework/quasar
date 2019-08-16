@@ -29,7 +29,6 @@
         v-model="drawerLeft"
         :width="150"
         :breakpoint="700"
-        show-if-above
         behavior="desktop"
         bordered
         content-class="bg-grey-3"
@@ -47,7 +46,6 @@
         bordered
         :width="150"
         :breakpoint="500"
-        show-if-above
         behavior="desktop"
         content-class="bg-grey-3"
       >
@@ -99,8 +97,8 @@
 export default {
   data () {
     return {
-      drawerLeft: true,
-      drawerRight: true
+      drawerLeft: this.$q.screen.width > 700,
+      drawerRight: this.$q.screen.width > 500
     }
   }
 }

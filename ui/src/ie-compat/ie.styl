@@ -10,11 +10,26 @@ fe(selector, name, noProc, i = '')
 ie_style = @block
 
   /* Min Height */
-  .q-toolbar:after
-    content ''
-    display block
-    min-height inherit
-    font-size 0
+  .row, .flex
+    &:after
+      content ''
+      display block
+      font-size 0
+      min-height inherit
+
+  .q-notification,
+  .q-banner,
+  .q-field__native, .q-field__control
+    &:after
+      min-height 0 !important
+
+  .q-item
+    &:after
+      min-height 32px !important
+
+  .q-list--dense > .q-item, .q-item--dense
+    &:after
+      min-height 24px !important
 
   /* Flex Basis */
   .q-btn__content
@@ -23,12 +38,13 @@ ie_style = @block
   .q-menu .q-item__section--main
     flex-basis auto
 
+  .q-banner__content,
+  .q-notification__message
+    flex-basis 0 !important
+
   .q-tab__content
     flex-basis auto
     min-width 100%
-
-  .row, .flex
-    min-height 0%
 
   .column
     min-width 0%

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
@@ -30,11 +31,7 @@ const transitions = {
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
-
-  modelToggle: {
-    history: true
-  },
+  mixins: [ HistoryMixin, ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 
   props: {
     persistent: Boolean,
@@ -121,7 +118,7 @@ export default Vue.extend({
       return this.showing === true && this.seamless !== true
     },
 
-    navigationHideCondition () {
+    hideOnRouteChange () {
       return this.persistent !== true &&
         this.noRouteDismiss !== true &&
         this.seamless !== true
@@ -162,7 +159,7 @@ export default Vue.extend({
     },
 
     __show (evt) {
-      clearTimeout(this.timer)
+      this.__addHistory()
 
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
@@ -189,33 +186,34 @@ export default Vue.extend({
       if (this.noFocus !== true) {
         document.activeElement.blur()
 
-        this.$nextTick(() => {
+        this.__nextTick(() => {
           this.focus()
         })
       }
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.$emit('show', evt)
       }, 300)
     },
 
     __hide (evt) {
+      this.__removeHistory()
       this.__cleanup(true)
 
-      if (this.__refocusTarget !== void 0) {
+      // check null for IE
+      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
         this.__refocusTarget.focus()
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
     },
 
     __cleanup (hiding) {
-      clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
       if (hiding === true || this.showing === true) {
@@ -314,6 +312,10 @@ export default Vue.extend({
         ])
       ])
     }
+  },
+
+  mounted () {
+    this.__processModelChange(this.value)
   },
 
   beforeDestroy () {

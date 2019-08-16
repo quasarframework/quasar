@@ -86,7 +86,7 @@ export default Vue.extend({
       return this.square === true ? ' q-menu--square' : ''
     },
 
-    navigationHideCondition () {
+    hideOnRouteChange () {
       return this.persistent !== true
     }
   },
@@ -102,8 +102,6 @@ export default Vue.extend({
     },
 
     __show (evt) {
-      clearTimeout(this.timer)
-
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
         : void 0
@@ -138,12 +136,12 @@ export default Vue.extend({
         document.activeElement.blur()
       }
 
-      this.$nextTick(() => {
+      this.__nextTick(() => {
         this.updatePosition()
         this.noFocus !== true && this.focus()
       })
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.$emit('show', evt)
       }, 300)
     },
@@ -151,20 +149,20 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup(true)
 
-      if (this.__refocusTarget !== void 0) {
+      // check null for IE
+      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
         this.__refocusTarget.focus()
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
     },
 
     __anchorCleanup (hiding) {
-      clearTimeout(this.timer)
       this.absoluteOffset = void 0
 
       if (this.unwatch !== void 0) {
@@ -265,6 +263,10 @@ export default Vue.extend({
         }, slot(this, 'default')) : null
       ])
     }
+  },
+
+  mounted () {
+    this.__processModelChange(this.value)
   },
 
   beforeDestroy () {

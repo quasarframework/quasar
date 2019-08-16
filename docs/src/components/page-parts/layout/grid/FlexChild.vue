@@ -38,10 +38,13 @@
 
 <script>
 export default {
+  name: 'FlexChild',
+
   props: {
     index: Number,
     selectedIndex: Number
   },
+
   data () {
     return {
       width: '',
@@ -192,18 +195,22 @@ export default {
       ]
     }
   },
+
   mounted () {
     this.emitChange()
   },
+
   computed: {
     buttonClasses () {
       return 'text-white ' + (this.index === this.selectedIndex ? 'bg-primary' : 'bg-grey')
     },
+
     styles () {
       return '' +
         (this.height ? ('min-height: ' + this.height + '; max-height: ' + this.height + '; ') : '') +
         (this.width ? ('min-width: ' + this.width + '; max-width: ' + this.width + ';') : '')
     },
+
     classes () {
       return (this.widthGroup +
         ' ' + (this.breakpointGroup === null ? '' : this.breakpointGroup) +
