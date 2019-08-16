@@ -26,7 +26,7 @@ export default {
   show (opts) {
     if (isSSR === true) { return }
 
-    props = opts.ignoreDefaults !== true
+    props = opts === Object(opts) && opts.ignoreDefaults !== true
       ? { ...defaults, ...opts }
       : { ...originalDefaults, ...opts }
 
