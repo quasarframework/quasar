@@ -858,10 +858,10 @@
     babel-plugin-module-resolver "^3.2.0"
     babel-plugin-transform-imports "^1.0.0"
 
-"@quasar/fastclick@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@quasar/fastclick/-/fastclick-1.1.2.tgz#d4ce5914b3202251782f9dbc83b2fb918e85154b"
-  integrity sha512-raA826yuQKu2JoLyaVNHEKaTifmxJcIceD5jVkz4EXBvp3+UiCAOe8sVNHE2q6Zx5Q+iFxRcjrTY9smoSxtyLA==
+"@quasar/fastclick@1.1.3":
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/@quasar/fastclick/-/fastclick-1.1.3.tgz#dee340717478ad07eed0a2c888a15f6eac40e4a4"
+  integrity sha512-XBIu6uDdRVe7gC0Ai9RDKmx+7WHT6sBtJPhOeFV1/gfsQmx1m4c8Q5fpNpOeJr38lOK4szqapPj/R4TZXResCQ==
 
 "@types/events@*":
   version "3.0.0"
