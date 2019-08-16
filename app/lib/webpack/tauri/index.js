@@ -9,7 +9,7 @@ module.exports = function (chain, cfg) {
   injectClientSpecifics(chain, cfg)
   injectHotUpdate(chain, cfg)
 
-  if (cfg.ctx.mode.proton && cfg.ctx.prod && !cfg.proton.embeddedServer.active) {
+  if (cfg.ctx.mode.tauri && cfg.ctx.prod && !cfg.tauri.embeddedServer.active) {
     chain.plugin('html-webpack-inline-source')
       .use(HtmlWebpackInlineSourcePlugin)
   }
