@@ -1,8 +1,8 @@
 ![Quasar Framework logo](https://cdn.quasar.dev/logo/svg/quasar-logo-full-inline.svg)
 
 # Fastclick for Quasar Framework
-> This is a fork of the original Fastclick and is being used and maintained by Quasar Framework.
-> This is injected only for iOS platform (PWA or Cordova).
+> This is a fork of the original Fastclick and is being used and maintained by Quasar Framework.<br>
+> **This is injected only for iOS platform (PWA or Cordova) and assumes you're already on that platform.**
 
 FastClick is a simple, easy-to-use library for eliminating the 300ms delay between a physical tap and the firing of a `click` event on mobile browsers. The aim is to make your application feel less laggy and more responsive while avoiding any interference with your current logic.
 
