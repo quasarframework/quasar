@@ -97,8 +97,8 @@
 export default {
   data () {
     return {
-      drawerLeft: this.$q.screen.width >= 700,
-      drawerRight: this.$q.screen.width >= 500
+      drawerLeft: this.$q.screen.width > 700,
+      drawerRight: this.$q.screen.width > 500
     }
   }
 }

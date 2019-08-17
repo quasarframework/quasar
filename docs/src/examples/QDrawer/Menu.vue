@@ -10,6 +10,7 @@
 
       <q-drawer
         v-model="drawer"
+        show-if-above
         :width="200"
         :breakpoint="500"
         bordered
@@ -87,7 +88,7 @@ const menuList = [
 export default {
   data () {
     return {
-      drawer: this.$q.screen.width >= 500,
+      drawer: false,
       menuList
     }
   }

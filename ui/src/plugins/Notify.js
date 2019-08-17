@@ -42,7 +42,7 @@ const Notifications = {
 
       const notif = { textColor: 'white' }
 
-      if (config.ignoreDefaults !== true) {
+      if (typeof config === 'string' || config.ignoreDefaults !== true) {
         Object.assign(notif, defaults)
       }
 

@@ -191,7 +191,8 @@ export default Vue.extend({
         change: this.__onChange,
         compositionstart: this.__onCompositionStart,
         compositionend: this.__onCompositionEnd,
-        blur: stop
+        blur: stop,
+        focus: stop
       }
 
       if (this.$q.platform.is.android === true) {
@@ -200,18 +201,6 @@ export default Vue.extend({
 
       if (this.hasMask === true) {
         on.keydown = this.__onMaskedKeydown
-      }
-
-      if (this.editable === true && this.$q.platform.is.mobile === true) {
-        on.focus = e => {
-          stop(e)
-          setTimeout(() => {
-            this.$el !== void 0 && this.$el.scrollIntoView(true)
-          }, 300)
-        }
-      }
-      else {
-        on.focus = stop
       }
 
       const attrs = {

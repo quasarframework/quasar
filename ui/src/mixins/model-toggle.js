@@ -1,6 +1,9 @@
 import { isSSR } from '../plugins/Platform.js'
+import TimeoutMixin from './timeout.js'
 
 export default {
+  mixins: [ TimeoutMixin ],
+
   props: {
     value: Boolean
   },
@@ -31,7 +34,7 @@ export default {
         return
       }
 
-      if (typeof this.$listeners.input === 'function' && isSSR === false) {
+      if (this.$listeners.input !== void 0 && isSSR === false) {
         this.$emit('input', true)
         this.payload = evt
         this.$nextTick(() => {
@@ -53,7 +56,9 @@ export default {
       this.$emit('before-show', evt)
 
       if (this.__show !== void 0) {
+        this.__clearTick()
         this.__show(evt)
+        this.__prepareTick()
       }
       else {
         this.$emit('show', evt)
@@ -65,7 +70,7 @@ export default {
         return
       }
 
-      if (typeof this.$listeners.input === 'function' && isSSR === false) {
+      if (this.$listeners.input !== void 0 && isSSR === false) {
         this.$emit('input', false)
         this.payload = evt
         this.$nextTick(() => {
@@ -87,7 +92,9 @@ export default {
       this.$emit('before-hide', evt)
 
       if (this.__hide !== void 0) {
+        this.__clearTick()
         this.__hide(evt)
+        this.__prepareTick()
       }
       else {
         this.$emit('hide', evt)
@@ -96,7 +103,7 @@ export default {
 
     __processModelChange (val) {
       if (this.disable === true && val === true) {
-        typeof this.$listeners.input === 'function' && this.$emit('input', false)
+        this.$listeners.input !== void 0 && this.$emit('input', false)
       }
       else if (val !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)

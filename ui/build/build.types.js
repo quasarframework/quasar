@@ -192,6 +192,8 @@ function writeIndexDTS (apis) {
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)
+  writeLine(quasarTypeContents, `export * from './globals'`)
+  writeLine(quasarTypeContents, `export * from './boot'`)
 
   const injections = {}
 
@@ -267,10 +269,14 @@ function writeIndexDTS (apis) {
   for (const key in injections) {
     const injectionDefs = injections[key]
     if (injectionDefs) {
-      writeLine(contents, `export interface ${key.toUpperCase().replace('$', '')}VueGlobals {`)
+      const injectionName = `${key.toUpperCase().replace('$', '')}VueGlobals`
+      writeLine(contents, `import { ${injectionName} } from "./globals";`)
+      writeLine(contents, `declare module "./globals" {`)
+      writeLine(contents, `export interface ${injectionName} {`)
       for (const defKey in injectionDefs) {
         writeLine(contents, injectionDefs[defKey], 1)
       }
+      writeLine(contents, '}')
       writeLine(contents, '}')
     }
   }

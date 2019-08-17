@@ -1,0 +1,5 @@
+.gitignore
+.npmignore
+examples
+Makefile
+tests

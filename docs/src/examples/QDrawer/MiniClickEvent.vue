@@ -10,6 +10,7 @@
 
       <q-drawer
         v-model="drawer"
+        show-if-above
 
         :mini="!drawer || miniState"
         @click.capture="drawerClick"
@@ -95,7 +96,7 @@
 export default {
   data () {
     return {
-      drawer: this.$q.screen.width >= 500,
+      drawer: false,
       miniState: false
     }
   },

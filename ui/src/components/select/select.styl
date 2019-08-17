@@ -62,8 +62,12 @@ body.platform-android
 
 body.platform-ios
 
-  &.cordova .q-dialog__inner--top .q-select__dialog
-    max-height 32vh !important
+  &.cordova .q-dialog__inner--top
+    > div
+      border-radius $generic-border-radius
 
-  &:not(.cordova) .q-dialog__inner--top .q-select__dialog
+    .q-select__dialog--focused
+      max-height 47vh !important
+
+  &:not(.cordova) .q-dialog__inner--top .q-select__dialog--focused
     max-height 50vh !important

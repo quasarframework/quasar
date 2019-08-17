@@ -72,16 +72,14 @@ export default Vue.extend({
 
   methods: {
     __show (evt) {
-      clearTimeout(this.timer)
-
       this.__showPortal()
 
-      this.$nextTick(() => {
+      this.__nextTick(() => {
         this.updatePosition()
         this.__configureScrollTarget()
       })
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.$emit('show', evt)
       }, 300)
     },
@@ -89,14 +87,13 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup()
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
     },
 
     __anchorCleanup () {
-      clearTimeout(this.timer)
       this.__unconfigureScrollTarget()
     },
 
@@ -124,15 +121,14 @@ export default Vue.extend({
     },
 
     __delayShow (evt) {
-      clearTimeout(this.timer)
       this.$q.platform.is.mobile === true && document.body.classList.add('non-selectable')
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.show(evt)
       }, this.delay)
     },
 
     __delayHide (evt) {
-      clearTimeout(this.timer)
+      this.__clearTimeout()
       this.$q.platform.is.mobile === true && document.body.classList.remove('non-selectable')
       this.hide(evt)
     },

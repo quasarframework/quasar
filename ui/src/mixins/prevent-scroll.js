@@ -5,7 +5,8 @@ import Platform from '../plugins/Platform.js'
 let
   registered = 0,
   scrollPosition,
-  bodyTop
+  bodyTop,
+  closeTimer
 
 function onWheel (e) {
   if (shouldPreventScroll(e)) {
@@ -51,27 +52,10 @@ function onAppleScroll (e) {
   }
 }
 
-function prevent (register) {
-  let action = 'add'
-
-  if (register === true) {
-    registered++
-    if (registered > 1) {
-      return
-    }
-  }
-  else {
-    registered--
-    if (registered > 0) {
-      return
-    }
-    registered = 0
-    action = 'remove'
-  }
-
+function apply (action) {
   const body = document.body
 
-  if (register === true) {
+  if (action === 'add') {
     const overflowY = window.getComputedStyle(body).overflowY
 
     scrollPosition = getScrollPosition(window)
@@ -92,7 +76,7 @@ function prevent (register) {
     window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
   }
 
-  if (register !== true) {
+  if (action === 'remove') {
     Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
 
     body.classList.remove('q-body--force-scrollbar')
@@ -101,14 +85,56 @@ function prevent (register) {
   }
 }
 
+function prevent (state) {
+  let action = 'add'
+
+  if (state === true) {
+    registered++
+
+    if (closeTimer !== void 0) {
+      clearTimeout(closeTimer)
+      closeTimer = void 0
+      return
+    }
+
+    if (registered > 1) {
+      return
+    }
+  }
+  else {
+    if (registered === 0) {
+      return
+    }
+
+    registered--
+
+    if (registered > 0) {
+      return
+    }
+
+    action = 'remove'
+
+    if (Platform.is.ios === true && Platform.is.cordova === true) {
+      clearTimeout(closeTimer)
+
+      closeTimer = setTimeout(() => {
+        apply(action)
+        closeTimer = void 0
+      }, 100)
+      return
+    }
+  }
+
+  apply(action)
+}
+
 export default {
   methods: {
     __preventScroll (state) {
-      if (this.preventedScroll === void 0 && state !== true) {
-        return
-      }
-
-      if (state !== this.preventedScroll) {
+      if (
+        state !== this.preventedScroll &&
+        (this.preventedScroll !== void 0 || state === true)
+      ) {
         this.preventedScroll = state
         prevent(state)
       }

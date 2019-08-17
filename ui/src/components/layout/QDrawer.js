@@ -1,6 +1,5 @@
 import Vue from 'vue'
 
-import { fromSSR } from '../../plugins/Platform.js'
 import HistoryMixin from '../../mixins/history.js'
 import TouchPan from '../../directives/TouchPan.js'
 import { between } from '../../utils/format.js'
@@ -28,59 +27,82 @@ export default Vue.extend({
   },
 
   props: {
-    overlay: Boolean,
     side: {
       type: String,
       default: 'left',
       validator: v => ['left', 'right'].includes(v)
     },
+
     width: {
       type: Number,
       default: 300
     },
+
     mini: Boolean,
     miniToOverlay: Boolean,
     miniWidth: {
       type: Number,
       default: 57
     },
+
     breakpoint: {
       type: Number,
       default: 1023
     },
+    showIfAbove: Boolean,
+
     behavior: {
       type: String,
       validator: v => ['default', 'desktop', 'mobile'].includes(v),
       default: 'default'
     },
+
     bordered: Boolean,
     elevated: Boolean,
-    persistent: Boolean,
     contentStyle: [String, Object, Array],
     contentClass: [String, Object, Array],
+
+    overlay: Boolean,
+    persistent: Boolean,
     noSwipeOpen: Boolean,
     noSwipeClose: Boolean
   },
 
   data () {
+    const belowBreakpoint = (
+      this.behavior === 'mobile' ||
+      (this.behavior !== 'desktop' && this.layout.width <= this.breakpoint)
+    )
+
     return {
-      showing: fromSSR === true ? false : this.value,
-      belowBreakpoint: (
-        this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && this.layout.width <= this.breakpoint)
-      )
+      belowBreakpoint,
+      showing: this.showIfAbove === true && belowBreakpoint === false
+        ? true
+        : this.value
     }
   },
 
   watch: {
     belowBreakpoint (val) {
       if (val === true) { // from lg to xs
-        this.hide(false)
+        this.showing === true && this.hide(false)
       }
       else if (this.overlay === false && this.behavior !== 'mobile') { // from xs to lg
-        this.__applyBackdrop(0)
-        this.show(false)
+        if (this.showing === true) {
+          this.__applyBackdrop(0)
+          this.__cleanup()
+        }
+        else {
+          this.show(false)
+        }
       }
+    },
+
+    'layout.width' (val) {
+      this.__updateLocal('belowBreakpoint', (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && val <= this.breakpoint)
+      ))
     },
 
     side (_, oldSide) {
@@ -91,26 +113,19 @@ export default Vue.extend({
     behavior (val) {
       this.__updateLocal('belowBreakpoint', (
         val === 'mobile' ||
-        (val !== 'desktop' && this.breakpoint >= this.layout.width)
+        (val !== 'desktop' && this.layout.width <= this.breakpoint)
       ))
     },
 
     breakpoint (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && val >= this.layout.width)
+        (this.behavior !== 'desktop' && this.layout.width <= val)
       ))
     },
 
     'layout.container' (val) {
       this.showing === true && this.__preventScroll(val !== true)
-    },
-
-    'layout.width' (val) {
-      this.__updateLocal('belowBreakpoint', (
-        this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && this.breakpoint >= val)
-      ))
     },
 
     'layout.scrollbarWidth' () {
@@ -401,49 +416,48 @@ export default Vue.extend({
       }
     },
 
-    __show (evt = true, noEvent) {
+    __show (evt, noEvent) {
       this.__addHistory()
 
       evt !== false && this.layout.__animate()
       this.__applyPosition(0)
 
-      const otherSide = this.layout.instances[this.rightSide === true ? 'left' : 'right']
-      if (otherSide !== void 0 && otherSide.belowBreakpoint === true) {
-        otherSide.hide(false)
-      }
-
       if (this.belowBreakpoint === true) {
+        const otherSide = this.layout.instances[this.rightSide === true ? 'left' : 'right']
+        if (otherSide !== void 0 && otherSide.belowBreakpoint === true) {
+          otherSide.hide(false)
+        }
+
         this.__applyBackdrop(1)
-        evt !== false && this.layout.container !== true && this.__preventScroll(true)
+        this.layout.container !== true && this.__preventScroll(true)
       }
       else {
+        this.__applyBackdrop(0)
         evt !== false && this.__setScrollable(false)
       }
 
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         evt !== false && this.__setScrollable(true)
         noEvent !== true && this.$emit('show', evt)
       }, duration)
     },
 
-    __hide (evt = true) {
+    __hide (evt, noEvent) {
       this.__removeHistory()
 
       evt !== false && this.layout.__animate()
 
-      this.__applyPosition(this.stateDirection * this.size)
       this.__applyBackdrop(0)
+      this.__applyPosition(this.stateDirection * this.size)
 
       this.__cleanup()
 
-      this.timer = setTimeout(() => {
+      noEvent !== true && this.__setTimeout(() => {
         this.$emit('hide', evt)
       }, duration)
     },
 
     __cleanup () {
-      clearTimeout(this.timer)
       this.__preventScroll(false)
       this.__setScrollable(true)
     },
@@ -470,30 +484,49 @@ export default Vue.extend({
     this.__updateSizeOnLayout(this.miniToOverlay, this.size)
     this.__update('space', this.onLayout)
     this.__update('offset', this.offset)
+
+    if (
+      this.showIfAbove === true &&
+      this.value === false &&
+      this.showing === true &&
+      this.$listeners.input !== void 0
+    ) {
+      this.$emit('input', true)
+    }
   },
 
   mounted () {
     this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', this.onLayout)
 
-    if (this.value === true) {
-      if (fromSSR === true) {
-        // allow SSR takeover to take place
-        // so we have updated Screen plugin values
-        this.$nextTick(() => {
-          this.value === true && this.__processModelChange(true)
-        })
-      }
-      else {
-        // model is initialized directly
-        // but we still need to do apply some CSS
-        // according to the QDrawer state
+    const fn = () => {
+      if (this.showing === true) {
         this.__show(false, true)
       }
+      else {
+        this.__hide(false, true)
+      }
     }
+
+    if (this.layout.width !== 0) {
+      fn()
+      return
+    }
+
+    this.watcher = this.$watch('layout.width', () => {
+      this.watcher()
+      this.watcher = void 0
+
+      if (this.showing === false && this.showIfAbove === true && this.belowBreakpoint === false) {
+        this.show(false)
+      }
+      else {
+        fn()
+      }
+    })
   },
 
   beforeDestroy () {
-    clearTimeout(this.timer)
+    this.watcher !== void 0 && this.watcher()
     clearTimeout(this.timerMini)
 
     this.showing === true && this.__cleanup()

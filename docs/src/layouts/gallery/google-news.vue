@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-white text-grey-8">
+    <q-header elevated class="bg-white text-grey-8" height-hint="64">
       <q-toolbar class="GNL__toolbar">
         <q-btn
           flat
@@ -102,6 +102,7 @@
 
     <q-drawer
       v-model="leftDrawerOpen"
+      show-if-above
       bordered
       content-class="bg-white"
       :width="280"
@@ -161,7 +162,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: this.$q.screen.width >= 992,
+      leftDrawerOpen: false,
       search: '',
       showAdvanced: false,
       showDateOptions: false,

@@ -5,7 +5,7 @@ related:
   - /layout/grid/introduction-to-flexbox
   - /layout/grid/column
   - /layout/grid/gutter
-  - /layout/grid/flexgrid-playground
+  - /layout/grid/flex-playground
 ---
 
 In the hope that you've previously read the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox) theory, let's get deeper into Rows.
@@ -75,7 +75,7 @@ To nest your content with the default grid, add a new .row and set of `.col-sm-*
 
 <doc-example title="Nesting" file="grid/RowNesting" />
 
-## Flex Grid Playground
-To see the Flex Grid in action, you can use the Flex Grid Playground to interactively learn more.
+## Flex Playground
+To see the Flex in action, you can use the Flex Playground to interactively learn more.
 
-<q-btn push color="primary" icon-right="launch" label="Flex Grid Playground" type="a" href="/layout/grid/flexgrid-playground" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />

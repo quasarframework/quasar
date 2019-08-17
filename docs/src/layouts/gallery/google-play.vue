@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh LpR fFf" class="bg-grey-3">
-    <q-header class="bg-grey-3 text-grey-9" reveal>
+    <q-header class="bg-grey-3 text-grey-9" reveal height-hint="60">
       <q-toolbar class="GPLAY__toolbar text-grey-6">
         <q-btn
           v-if="this.$q.platform.is.mobile || !leftDrawerOpen"
@@ -50,6 +50,7 @@
 
     <q-drawer
       v-model="leftDrawerOpen"
+      show-if-above
       bordered
       content-class="bg-grey-3 text-grey-7"
       :width="200"
@@ -140,7 +141,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: this.$q.screen.width >= 992,
+      leftDrawerOpen: false,
       search: '',
       storage: 0.26,
       links1: [

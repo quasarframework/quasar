@@ -44,12 +44,15 @@
 </template>
 
 <script>
-import Child from './FlexgridChild'
+import Child from './FlexChild'
 
 export default {
+  name: 'FlexPlayground',
+
   components: {
     Child
   },
+
   data () {
     return {
       containerGroup: 'fit',
@@ -110,9 +113,11 @@ export default {
       selectedIndex: 0
     }
   },
+
   mounted () {
     this.addChild()
   },
+
   computed: {
     classes () {
       return (this.containerGroup +
@@ -125,6 +130,7 @@ export default {
         .replace(/' '/g, ' ')
     }
   },
+
   methods: {
     addChild () {
       if (this.children.length < 10) {

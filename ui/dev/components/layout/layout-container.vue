@@ -202,7 +202,7 @@ export default {
       drawer2: false,
       drawer2R: true,
       drawer3: false,
-      drawer3R: true,
+      drawer3R: false,
       moreContent: true
     }
   },

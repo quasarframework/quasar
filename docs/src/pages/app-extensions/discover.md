@@ -21,6 +21,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | --- | --- |
 | [@quasar/testing](https://github.com/quasarframework/quasar-testing) | Includes pre-configured sub-extensions for all of your testing needs |
 | [@quasar/typescript](https://github.com/quasarframework/app-extension-typescript) | Transform your project into typescript awesomeness |
+| [@quasar/wizard](https://github.com/quasarframework/app-extension-wizard) | Search and find all known App Extensions, Install Collections, keep everything up to date |
 
 ### Project Rigging
 
@@ -29,6 +30,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) | A slightly opinionated management tool to use dotenv in your application |
 | [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propagate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application |
 | [@quasar/icon-genie](https://github.com/quasarframework/app-extension-icon-genie) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
+| [@quasar/obyte](https://github.com/quasarframework/app-extension-obyte) | Work with the Obyte Blockchain |
 
 ### Components
 
