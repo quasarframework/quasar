@@ -206,7 +206,6 @@ class QuasarConfig {
         packager: {},
         builder: {}
       },
-      proton: {},
       cordova: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
@@ -318,8 +317,7 @@ class QuasarConfig {
         cfg.framework.all,
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
-        cfg.electron ? encode(cfg.electron) : '',
-        cfg.proton ? encode(cfg.proton) : ''
+        cfg.electron ? encode(cfg.electron) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -559,10 +557,10 @@ class QuasarConfig {
       if (this.ctx.mode.ssr) {
         cfg.devServer.contentBase = false
       }
-      else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.proton) {
+      else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
         cfg.devServer.open = false
 
-        if (this.ctx.mode.electron || this.ctx.mode.proton) {
+        if (this.ctx.mode.electron) {
           cfg.devServer.https = false
         }
       }

@@ -70,11 +70,6 @@ import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
 
-<% if (ctx.mode.proton) { %>
-import proton from './proton.js'
-Vue.prototype.$q.proton = window.proton = proton
-<% } %>
-
 <% if (ctx.dev) { %>
 Vue.config.devtools = true
 Vue.config.productionTip = false
