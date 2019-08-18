@@ -145,7 +145,8 @@ module.exports.generate = function (data) {
       fs.mkdirSync(webTypesPath)
     }
     writeFile(path.resolve(webTypesPath, 'web-types.json'), webtypes)
-  } catch (err) {
+  }
+  catch (err) {
     logError(`build.web-types.js: something went wrong...`)
     console.log()
     console.error(err)
