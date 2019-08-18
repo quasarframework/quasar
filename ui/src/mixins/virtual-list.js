@@ -1,6 +1,8 @@
 import debounce from '../utils/debounce.js'
 import frameDebounce from '../utils/frame-debounce.js'
 
+const aggBucketSize = 1000
+
 function getScrollDetails (parent, child, horizontal) {
   const
     parentCalc = parent === window ? document.scrollingElement || document.documentElement : parent,
@@ -74,6 +76,35 @@ function setScroll (parent, scroll, horizontal) {
   }
 }
 
+function sumSize (sizeAgg, size, from, to) {
+  if (from >= to) { return 0 }
+
+  const
+    fromAgg = Math.floor(from / aggBucketSize),
+    toAgg = Math.floor((to - 1) / aggBucketSize)
+
+  if (fromAgg === toAgg) {
+    if (from % aggBucketSize === 0 && to % aggBucketSize === 0) {
+      return sizeAgg[fromAgg]
+    }
+
+    return size.slice(from, to).reduce((acc, h) => acc + h, 0)
+  }
+
+  const
+    before = from % aggBucketSize === 0 ? 0 : size
+      .slice(from, (fromAgg + 1) * aggBucketSize)
+      .reduce((acc, h) => acc + h, 0),
+    after = to % aggBucketSize === 0 ? sizeAgg[toAgg] : size
+      .slice(toAgg * aggBucketSize, to)
+      .reduce((acc, h) => acc + h, 0),
+    total = sizeAgg
+      .slice(fromAgg, toAgg)
+      .reduce((acc, h) => acc + h, before + after)
+
+  return total
+}
+
 export default {
   props: {
     virtualListHorizontal: Boolean,
@@ -103,15 +134,23 @@ export default {
 
   methods: {
     scrollTo (toIndex, scrollTowardsEnd) {
+      const scrollEl = this.__getVirtualListScrollTarget()
+
+      if (scrollEl === void 0 || scrollEl === null || scrollEl.nodeType === 8) {
+        return
+      }
+
       clearTimeout(this.__preventNextScroll)
       this.__preventNextScroll = setTimeout(() => {
         this.__preventNextScroll = void 0
       }, 500)
 
-      toIndex = Math.min(this.virtualListLength - 1, Math.max(0, parseInt(toIndex, 10) || 0))
-      this.__setVirtualListSliceRange(toIndex, scrollTowardsEnd === true ? 'end' : 'start')
-
-      this.__emitScroll(toIndex)
+      this.__setVirtualListSliceRange(
+        scrollEl,
+        getScrollDetails(scrollEl, this.__getVirtualListEl(), this.virtualListHorizontal),
+        Math.min(this.virtualListLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)),
+        scrollTowardsEnd === true ? 'end' : 'start'
+      )
     },
 
     __onVirtualListScroll () {
@@ -124,50 +163,36 @@ export default {
         return
       }
 
-      const {
-        scrollStart,
-        scrollViewSize,
-        scrollMaxSize,
-        offsetStart,
-        offsetEnd
-      } = getScrollDetails(scrollEl, this.__getVirtualListEl(), this.virtualListHorizontal)
+      const scrollDetails = getScrollDetails(scrollEl, this.__getVirtualListEl(), this.virtualListHorizontal)
 
-      if (scrollStart <= offsetStart) {
-        this.__setVirtualListSliceRange(0)
+      if (scrollDetails.scrollStart <= scrollDetails.offsetStart) {
+        this.__setVirtualListSliceRange(scrollEl, scrollDetails, 0)
       }
-      else if (scrollStart >= scrollMaxSize - scrollViewSize - offsetEnd) {
-        this.__setVirtualListSliceRange(this.virtualListLength - 1)
+      else if (scrollDetails.scrollStart >= scrollDetails.scrollMaxSize - scrollDetails.scrollViewSize - scrollDetails.offsetEnd) {
+        this.__setVirtualListSliceRange(scrollEl, scrollDetails, this.virtualListLength - 1)
       }
       else {
-        const
-          listStart = scrollStart - offsetStart,
-          listCenter = Math.max(0, listStart + Math.floor(scrollViewSize / 2)),
-          listLastIndex = this.virtualListLength - 1
+        const listLastIndex = this.virtualListLength - 1
 
-        let toIndex = -1
+        let
+          toIndex = -1,
+          listOffset = Math.max(0, scrollDetails.scrollStart - scrollDetails.offsetStart + Math.floor(scrollDetails.scrollViewSize / 2))
 
-        for (let i = listCenter; i >= 0 && toIndex < listLastIndex;) {
-          toIndex++
-          i -= this.virtualListSizes[toIndex]
+        for (let j = 0; listOffset >= this.virtualListSizesAgg[j] && toIndex < listLastIndex; j++) {
+          listOffset -= this.virtualListSizesAgg[j]
+          toIndex += aggBucketSize
         }
 
-        this.__setVirtualListSliceRange(toIndex)
+        while (listOffset >= 0 && toIndex < listLastIndex) {
+          toIndex++
+          listOffset -= this.virtualListSizes[toIndex]
+        }
+
+        toIndex !== this.prevToIndex && this.__setVirtualListSliceRange(scrollEl, scrollDetails, toIndex, void 0, this.virtualListSizes[toIndex] + listOffset)
       }
     },
 
-    __setVirtualListSliceRange (toIndex, align) {
-      const scrollEl = this.__getVirtualListScrollTarget()
-
-      if (scrollEl === void 0 || scrollEl === null || scrollEl.nodeType === 8) {
-        return
-      }
-
-      const
-        prevFrom = this.virtualListSliceRange.from,
-        prevTo = this.virtualListSliceRange.to,
-        // this needs to be captured before rendering
-        { scrollStart } = getScrollDetails(scrollEl, void 0, this.virtualListHorizontal)
-
+    __setVirtualListSliceRange (scrollEl, scrollDetails, toIndex, align, indexScrollOffset = 0) {
       let
         from = Math.max(0, Math.floor(toIndex - this.virtualListSliceSizeComputed / 2)),
         to = from + this.virtualListSliceSizeComputed
@@ -177,19 +202,21 @@ export default {
         from = Math.max(0, to - this.virtualListSliceSizeComputed)
       }
 
-      if (from !== prevFrom || to !== prevTo) {
+      const rangeChanged = from !== this.virtualListSliceRange.from || to !== this.virtualListSliceRange.to
+
+      if (rangeChanged === false && align === void 0) {
+        return
+      }
+
+      if (rangeChanged === true) {
         this.virtualListSliceRange = { from, to }
+        this.virtualListPaddingBefore = sumSize(this.virtualListSizesAgg, this.virtualListSizes, 0, from)
+        this.virtualListPaddingAfter = sumSize(this.virtualListSizesAgg, this.virtualListSizes, to, this.virtualListLength)
       }
 
       this.$nextTick(() => {
-        let scrollDiff = 0
-
-        if (from !== prevFrom || to !== prevTo) {
-          const
-            contentEl = this.$refs.content,
-            beforeEl = this.$refs.before,
-            afterEl = this.$refs.after,
-            paddingSize = this.virtualListHorizontal === true ? 'width' : 'height'
+        if (rangeChanged === true) {
+          const contentEl = this.$refs.content
 
           if (contentEl !== void 0) {
             const children = contentEl.children
@@ -200,61 +227,35 @@ export default {
                 diff = children[i][this.virtualListHorizontal === true ? 'offsetWidth' : 'offsetHeight'] - this.virtualListSizes[index]
 
               if (diff !== 0) {
-                if (index < prevFrom) {
-                  scrollDiff += diff
-                }
                 this.virtualListSizes[index] += diff
+                this.virtualListSizesAgg[Math.floor(index / aggBucketSize)] += diff
               }
             }
           }
-
-          this.virtualListPaddingBefore = this.virtualListSizes.slice(0, from).reduce((acc, h) => acc + h, 0)
-          this.virtualListPaddingAfter = this.virtualListSizes.slice(to).reduce((acc, h) => acc + h, 0)
-
-          beforeEl !== void 0 && (beforeEl.style[paddingSize] = `${this.virtualListPaddingBefore}px`)
-          afterEl !== void 0 && (afterEl.style[paddingSize] = `${this.virtualListPaddingAfter}px`)
         }
 
-        if (from !== prevFrom || to !== prevTo || align !== void 0) {
-          const
-            posStart = this.virtualListSizes.slice(from, toIndex).reduce((acc, h) => acc + h, this.virtualListPaddingBefore),
-            posEnd = posStart + this.virtualListSizes[toIndex],
-            posOriginal = scrollDiff + scrollStart
+        const
+          posStart = this.virtualListSizes.slice(from, toIndex).reduce((acc, h) => acc + h, scrollDetails.offsetStart + this.virtualListPaddingBefore),
+          posEnd = posStart + this.virtualListSizes[toIndex],
+          keepScroll = scrollDetails.scrollStart < posStart && posEnd < scrollDetails.scrollStart + scrollDetails.scrollViewSize
 
-          this.__setVirtualListScroll(posOriginal, posStart, posEnd, align)
-
-          if (from > prevTo && this.virtualListScrollSafari !== true) {
-            this.__onVirtualListScroll()
-
-            return
-          }
+        if (align !== void 0) {
+          setScroll(
+            scrollEl,
+            keepScroll === true ? scrollDetails.scrollStart : (align === 'end' ? posEnd - scrollDetails.scrollViewSize : posStart),
+            this.virtualListHorizontal
+          )
+        }
+        else if (rangeChanged === true && this.virtualListScrollSafari !== true) {
+          setScroll(
+            scrollEl,
+            posStart + indexScrollOffset - Math.floor(scrollDetails.scrollViewSize / 2),
+            this.virtualListHorizontal
+          )
         }
 
         this.__emitScroll(toIndex)
       })
-    },
-
-    __setVirtualListScroll (scrollStart, posStart, posEnd, align) {
-      const scrollEl = this.__getVirtualListScrollTarget()
-
-      if (scrollEl === void 0 || scrollEl === null || scrollEl.nodeType === 8) {
-        return
-      }
-
-      const { scrollViewSize, offsetStart } = getScrollDetails(scrollEl, this.__getVirtualListEl(), this.virtualListHorizontal)
-
-      posStart += offsetStart
-      posEnd += offsetStart
-
-      const keepScroll = align === void 0 || (scrollStart < posStart && posEnd < scrollStart + scrollViewSize)
-
-      if (keepScroll !== true || this.virtualListScrollSafari !== true) {
-        setScroll(
-          scrollEl,
-          keepScroll === true ? scrollStart : (align === 'end' ? posEnd - scrollViewSize : posStart),
-          this.virtualListHorizontal
-        )
-      }
     },
 
     __resetVirtualList (toIndex) {
@@ -272,8 +273,19 @@ export default {
         this.virtualListSizes[i] = defaultSize
       }
 
-      this.virtualListPaddingBefore = this.virtualListSizes.slice(0, this.virtualListSliceRange.from).reduce((acc, h) => acc + h, 0)
-      this.virtualListPaddingAfter = this.virtualListSizes.slice(this.virtualListSliceRange.to).reduce((acc, h) => acc + h, 0)
+      const jMax = Math.floor((this.virtualListLength - 1) / aggBucketSize)
+      this.virtualListSizesAgg = []
+      for (let j = 0; j <= jMax; j++) {
+        let size = 0
+        const iMax = Math.min((j + 1) * aggBucketSize, this.virtualListLength)
+        for (let i = j * aggBucketSize; i < iMax; i++) {
+          size += this.virtualListSizes[i]
+        }
+        this.virtualListSizesAgg.push(size)
+      }
+
+      this.virtualListPaddingBefore = sumSize(this.virtualListSizesAgg, this.virtualListSizes, 0, this.virtualListSliceRange.from)
+      this.virtualListPaddingAfter = sumSize(this.virtualListSizesAgg, this.virtualListSizes, this.virtualListSliceRange.to, this.virtualListLength)
 
       this.__onVirtualListScroll()
 
@@ -306,7 +318,6 @@ export default {
 
       list.push(h('div', {
         staticClass: 'q-virtual-list__padding',
-        ref: 'before',
         style: { [paddingSize]: `${this.virtualListPaddingBefore}px` }
       }))
 
@@ -317,7 +328,6 @@ export default {
 
       list.push(h('div', {
         staticClass: 'q-virtual-list__padding',
-        ref: 'after',
         style: { [paddingSize]: `${this.virtualListPaddingAfter}px` }
       }))
 
@@ -347,7 +357,7 @@ export default {
 
     this.__onVirtualListScroll = this.virtualListScrollSafari === true
       ? frameDebounce(this.__onVirtualListScroll)
-      : debounce(this.__onVirtualListScroll, 70)
+      : debounce(this.__onVirtualListScroll, 40)
 
     this.__setVirtualListSize()
   },
