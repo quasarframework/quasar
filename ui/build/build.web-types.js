@@ -3,10 +3,13 @@ const
   fs = require('fs'),
   { logError, writeFile, kebabCase } = require('./build.utils')
 
-function resolveType (type) {
+function resolveType ({ type, values }) {
   // TODO transform Object with "values" and arrays Objects with values
   if (Array.isArray(type)) {
-    return type.map(resolveType).join('|')
+    return type.map(type => resolveType({ type })).join('|')
+  }
+  if (type === 'String' && values) {
+    return values.map(v => v === null ? 'null' : `'${v}'`).join('|')
   }
   if (['Any', 'String', 'Boolean', 'Number', 'Object'].includes(type)) {
     return type.toLowerCase()
@@ -45,7 +48,7 @@ module.exports.generate = function (data) {
                   name,
                   value: {
                     kind: 'expression',
-                    type: resolveType(propApi.type)
+                    type: resolveType(propApi)
                   },
                   description: getDescription(propApi),
                   'doc-url': 'https://quasar.dev'
@@ -66,7 +69,7 @@ module.exports.generate = function (data) {
                 name,
                 arguments: eventApi.params && Object.entries(eventApi.params).map(([paramName, paramApi]) => ({
                   name: paramName,
-                  type: resolveType(paramApi.type),
+                  type: resolveType(paramApi),
                   description: getDescription(paramApi),
                   'doc-url': 'https://quasar.dev'
                 })),
@@ -82,7 +85,7 @@ module.exports.generate = function (data) {
                 name,
                 properties: slotApi.scope && Object.entries(slotApi.scope).map(([name, api]) => ({
                   name,
-                  type: resolveType(api.type),
+                  type: resolveType(api),
                   description: getDescription(api),
                   'doc-url': 'https://quasar.dev'
                 })),
@@ -128,7 +131,7 @@ module.exports.generate = function (data) {
             if (valueType !== 'Boolean') {
               result.value = {
                 kind: 'expression',
-                type: resolveType(value.type)
+                type: resolveType(value)
               }
             }
             return result
