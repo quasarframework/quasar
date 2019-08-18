@@ -9,7 +9,7 @@
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",
-      "category": "behavior"
+      "category": "position"
     },
 
     "cover": {
