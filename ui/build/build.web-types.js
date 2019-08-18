@@ -4,8 +4,9 @@ const
   { logError, writeFile, kebabCase } = require('./build.utils')
 
 function resolveType (type) {
+  // TODO transform "values" and arrays of values
   if (Array.isArray(type)) {
-    return type.map(resolveType)
+    return type.map(resolveType).join('|')
   }
   if (['Any', 'String', 'Boolean', 'Number'].includes(type)) {
     return type.toLowerCase()
@@ -16,6 +17,7 @@ function resolveType (type) {
   return type
 }
 
+// TODO add examples to descriptions
 module.exports.generate = function (data) {
   try {
     const webtypes = JSON.stringify({
@@ -29,12 +31,17 @@ module.exports.generate = function (data) {
           tags: data.components.map(({ api: { events, props, scopedSlots, slots }, name }) => {
             let result = {
               name,
-              // TODO source file can be wrong - this is just a guess for now
-              'source-file': `./src/components/${kebabCase(name.substr(1))}/${name}.js`,
+              source: {
+                module: 'quasar',
+                symbol: name
+              },
               attributes: props && Object.entries(props).map(([name, propApi]) => {
                 let result = {
                   name,
-                  type: resolveType(propApi.type),
+                  value: {
+                    kind: 'expression',
+                    type: resolveType(propApi.type)
+                  },
                   description: propApi.desc,
                   'doc-url': 'https://quasar.dev'
                 }
@@ -43,6 +50,10 @@ module.exports.generate = function (data) {
                 }
                 if (propApi.default) {
                   result.default = JSON.stringify(propApi.default)
+                }
+                if (propApi.type === 'Boolean') {
+                  // Deprecated but used for compatibility with WebStorm 2019.2.
+                  result.type = 'boolean'
                 }
                 return result
               }),
@@ -82,16 +93,40 @@ module.exports.generate = function (data) {
                 event: 'input'
               }
             }
-            return Object.fromEntries(Object.entries(result).filter(([_, v]) => v))
+            Object.entries(result).forEach(([key, v]) => {
+              if (!v) {
+                delete result[key]
+              }
+            })
+
+            return result
           }),
-          attributes: data.directives.map(directiveApi => {
-            return {
-              name: 'v-' + kebabCase(directiveApi.name),
-              'source-file': `./src/directives/${directiveApi.name}.js`,
-              type: resolveType(directiveApi.api.value.type),
-              description: `${directiveApi.name} - Quasar directive`,
+          attributes: data.directives.map(({ name, api: { modifiers, value } }) => {
+            let valueType = value.type
+            let result = {
+              name: 'v-' + kebabCase(name),
+              source: {
+                module: 'quasar',
+                symbol: name
+              },
+              required: false, // Directive is never required
+              description: `${name} - Quasar directive`,
               'doc-url': 'https://quasar.dev'
             }
+            if (modifiers) {
+              result['vue-modifiers'] = Object.entries(modifiers).map(([name, api]) => ({
+                name,
+                description: api.desc,
+                'doc-url': 'https://quasar.dev'
+              }))
+            }
+            if (valueType !== 'Boolean') {
+              result.value = {
+                kind: 'expression',
+                type: resolveType(value.type)
+              }
+            }
+            return result
           })
         }
       }
