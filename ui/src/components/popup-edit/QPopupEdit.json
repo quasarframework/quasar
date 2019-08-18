@@ -34,34 +34,9 @@
       "category": "content"
     },
 
-    "persistent": {
-      "type": "Boolean",
-      "desc": "Avoid Popup closing by hitting ESC key or by clicking/tapping outside of the Popup",
-      "category": "behavior"
-    },
-
     "color": {
       "extends": "color",
       "default": "primary"
-    },
-
-    "content-class": {
-      "type": "String",
-      "desc": "Class definitions to be attributed to the content",
-      "examples": [
-        "my-special-class"
-      ],
-      "category": "style"
-    },
-
-    "content-style": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the content",
-      "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ backgroundColor: '#ff0000' }\""
-      ],
-      "category": "style"
     },
 
     "validate": {
@@ -86,6 +61,105 @@
 
     "disable": {
       "extends": "disable"
+    },
+
+    "fit": {
+      "type": "Boolean",
+      "desc": "Allows the menu to match at least the full width of its target",
+      "category": "position"
+    },
+
+    "cover": {
+      "type": "Boolean",
+      "default": true,
+      "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective",
+      "category": "position"
+    },
+
+    "anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom middle", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
+    },
+
+    "self": {
+      "type": "String",
+      "desc": "Two values setting the menu's own position relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom middle", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
+    },
+
+    "offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "style"
+    },
+
+    "touch-position": {
+      "type": "Boolean",
+      "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",
+      "category": "behavior"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Avoid menu closing by hitting ESC key or by clicking/tapping outside of the Popup",
+      "category": "behavior"
+    },
+
+    "separate-close-popup": {
+      "type": "Boolean",
+      "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
+      "category": "behavior"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Forces menu to have squared borders",
+      "category": "style"
+    },
+
+    "max-height": {
+      "extends": "size",
+      "desc": "The maximimum height of the menu; Size in CSS units, including unit name",
+      "category": "style"
+    },
+
+    "max-width": {
+      "extends": "size",
+      "desc": "The maximimum width of the menu; Size in CSS units, including unit name",
+      "category": "style"
+    },
+
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
+    },
+
+    "content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ color: '#ff0000' }\""
+      ],
+      "category": "style"
     }
   },
 
