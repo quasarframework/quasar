@@ -4,11 +4,11 @@ const
   { logError, writeFile, kebabCase } = require('./build.utils')
 
 function resolveType (type) {
-  // TODO transform "values" and arrays of values
+  // TODO transform Object with "values" and arrays Objects with values
   if (Array.isArray(type)) {
     return type.map(resolveType).join('|')
   }
-  if (['Any', 'String', 'Boolean', 'Number'].includes(type)) {
+  if (['Any', 'String', 'Boolean', 'Number', 'Object'].includes(type)) {
     return type.toLowerCase()
   }
   if (type === 'Array') {
@@ -137,8 +137,7 @@ module.exports.generate = function (data) {
       fs.mkdirSync(webTypesPath)
     }
     writeFile(path.resolve(webTypesPath, 'web-types.json'), webtypes)
-  }
-  catch (err) {
+  } catch (err) {
     logError(`build.web-types.js: something went wrong...`)
     console.log()
     console.error(err)
