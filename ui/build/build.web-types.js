@@ -17,7 +17,12 @@ function resolveType (type) {
   return type
 }
 
-// TODO add examples to descriptions
+function getDescription (propApi) {
+  return propApi.examples
+    ? propApi.desc + '\n\nExamples:\n' + propApi.examples.join('\n')
+    : propApi.desc
+}
+
 module.exports.generate = function (data) {
   try {
     const webtypes = JSON.stringify({
@@ -42,7 +47,7 @@ module.exports.generate = function (data) {
                     kind: 'expression',
                     type: resolveType(propApi.type)
                   },
-                  description: propApi.desc,
+                  description: getDescription(propApi),
                   'doc-url': 'https://quasar.dev'
                 }
                 if (propApi.required) {
@@ -62,15 +67,15 @@ module.exports.generate = function (data) {
                 arguments: eventApi.params && Object.entries(eventApi.params).map(([paramName, paramApi]) => ({
                   name: paramName,
                   type: resolveType(paramApi.type),
-                  description: paramApi.desc,
+                  description: getDescription(paramApi),
                   'doc-url': 'https://quasar.dev'
                 })),
-                description: eventApi.desc,
+                description: getDescription(eventApi),
                 'doc-url': 'https://quasar.dev'
               })),
               slots: slots && Object.entries(slots).map(([name, slotApi]) => ({
                 name,
-                description: slotApi.desc,
+                description: getDescription(slotApi),
                 'doc-url': 'https://quasar.dev'
               })),
               'vue-scoped-slots': scopedSlots && Object.entries(scopedSlots).map(([name, slotApi]) => ({
@@ -78,10 +83,10 @@ module.exports.generate = function (data) {
                 properties: slotApi.scope && Object.entries(slotApi.scope).map(([name, api]) => ({
                   name,
                   type: resolveType(api.type),
-                  description: api.desc,
+                  description: getDescription(api),
                   'doc-url': 'https://quasar.dev'
                 })),
-                description: slotApi.desc,
+                description: getDescription(slotApi),
                 'doc-url': 'https://quasar.dev'
               })),
               description: `${name} - Quasar component`,
@@ -116,7 +121,7 @@ module.exports.generate = function (data) {
             if (modifiers) {
               result['vue-modifiers'] = Object.entries(modifiers).map(([name, api]) => ({
                 name,
-                description: api.desc,
+                description: getDescription(api),
                 'doc-url': 'https://quasar.dev'
               }))
             }
