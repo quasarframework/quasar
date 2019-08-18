@@ -31,11 +31,13 @@ function installBundler (bundlerName) {
   )
 }
 
-function isInstalled (bundlerName) {
+function bundlerIsInstalled (bundlerName) {
   return getPackageJson(`electron-${bundlerName}`) !== void 0
 }
 
-function versionIsOk (bundlerName) {
+module.exports.bundlerIsInstalled = bundlerIsInstalled
+
+function bundlerVersionIsOk (bundlerName) {
   const
     semver = require('semver'),
     pkg = getPackageJson(`electron-${bundlerName}`)
@@ -52,17 +54,17 @@ module.exports.ensureInstall = function (bundlerName) {
     process.exit(1)
   }
 
-  if (!isInstalled(bundlerName) || !versionIsOk(bundlerName)) {
+  if (!bundlerIsInstalled(bundlerName) || !bundlerVersionIsOk(bundlerName)) {
     installBundler(bundlerName)
   }
 }
 
 module.exports.getDefaultName = function () {
-  if (isInstalled('packager')) {
+  if (bundlerIsInstalled('packager')) {
     return 'packager'
   }
 
-  if (isInstalled('builder')) {
+  if (bundlerIsInstalled('builder')) {
     return 'builder'
   }
 
