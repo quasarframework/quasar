@@ -888,11 +888,6 @@
   dependencies:
     "@hapi/hoek" "8.x.x"
 
-"@iarna/toml@^2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@iarna/toml/-/toml-2.2.3.tgz#f060bf6eaafae4d56a7dac618980838b0696e2ab"
-  integrity sha512-FmuxfCuolpLl0AnQ2NHSzoUKWEJDFl63qXjzdoWBVyFCXzMGm1spBzk7LeHNoVCiWCF7mRVms9e6jEV9+MoPbg==
-
 "@nodelib/fs.scandir@2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.1.tgz#7fa8fed654939e1a39753d286b48b4836d00e0eb"
