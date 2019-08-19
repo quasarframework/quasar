@@ -17,9 +17,6 @@ export default (url, reject) => {
   else if (Vue.prototype.$q.electron !== void 0) {
     return Vue.prototype.$q.electron.shell.openExternal(url)
   }
-  else if (Vue.prototype.$q.proton !== void 0) {
-    return Vue.prototype.$q.proton.open(url)
-  }
 
   let win = open(url, '_blank')
 
