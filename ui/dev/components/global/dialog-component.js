@@ -1,6 +1,21 @@
 export default {
+  name: 'CustomDialogComponent',
+
   props: {
     text: String
+  },
+
+  components: {
+    TestComponent: {
+      inject: {
+        providedTest: {
+          default: 'Provide/Inject DOES NOT WORKS'
+        }
+      },
+      render (h) {
+        return h('div', [ this.providedTest ])
+      }
+    }
   },
 
   methods: {
@@ -29,6 +44,14 @@ export default {
       }, [
         h('q-card-section', [
           'Custooom: ' + this.text
+        ]),
+
+        h('q-card-section', [
+          'Current route: ' + this.$route.path
+        ]),
+
+        h('q-card-section', [
+          h('test-component')
         ]),
 
         h('q-card-actions', {

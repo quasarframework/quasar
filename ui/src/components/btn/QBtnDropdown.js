@@ -80,7 +80,8 @@ export default Vue.extend({
           anchor: this.menuAnchor,
           self: this.menuSelf,
           contentClass: this.contentClass,
-          contentStyle: this.contentStyle
+          contentStyle: this.contentStyle,
+          separateClosePopup: true
         },
         on: {
           'before-show': e => {

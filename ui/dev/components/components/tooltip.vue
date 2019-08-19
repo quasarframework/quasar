@@ -42,6 +42,13 @@
             <strong>Tooltip</strong> on <em>bottom</em> (<q-icon name="keyboard_arrow_down" />)
           </q-tooltip>
         </q-btn>
+
+        <q-toggle v-model="toggleOn" />
+        <q-btn color="indigo" label="External Model">
+          <q-tooltip :value="toggleOn" :no-parent-event="true" anchor="top middle" self="bottom middle" :offset="[18, 18]">
+            <strong>Tooltip</strong> on <em>top</em> (<q-icon name="keyboard_arrow_up" />)
+          </q-tooltip>
+        </q-btn>
       </div>
 
       <div class="q-gutter-y-md">
@@ -203,6 +210,7 @@ export default {
   data () {
     return {
       toggle: true,
+      toggleOn: true,
       loading: false,
       delay: 500,
       vIfTest: true,

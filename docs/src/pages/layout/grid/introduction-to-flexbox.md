@@ -4,6 +4,9 @@ desc: What the flexbox CSS is and how it can be used in a Quasar App.
 related:
   - /style/spacing
   - /style/visibility
+  - /layout/grid/column
+  - /layout/grid/gutter
+  - /layout/grid/flex-playground
 ---
 
 Quasar provides lots of CSS classes to help you build your UI easily with the help of [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Think of it like operating with rows and columns with many options at hand.
@@ -64,7 +67,7 @@ Also, if you want to wrap in reverse order, then `reverse-wrap` is available.
 
 **For alignment along the main axis**, use classes below. It helps distribute extra free space left over when either all the flex items on a line are inflexible, or are flexible but have reached their maximum size. It also exerts some control over the alignment of items when they overflow the line.
 
-![Flexbox Justify Content](https://cdn.quasar.dev/img/flexbox-main-axis-align.svg)
+![Flexbox Justify Content](https://cdn.quasar.dev/img/flexbox-main-axis-align---2.svg)
 
 **For alignment perpendicular to the main axis**, use classes below. This defines the default behavior for how flex items are laid out along the cross axis on the current line. Think of it as the horizontal-* version for the cross-axis (perpendicular to the main-axis).
 
@@ -231,7 +234,7 @@ Note that there will be a noticeable bump in CSS footprint when enabling it. So 
 .reverse-<bp>
 .(wrap|no-wrap|reverse-wrap)-<bp>
 .order-<bp>-(first|last|none)
-.justify-<bp>-(start|end|center|between|around)
+.justify-<bp>-(start|end|center|between|around|evenly)
 .items-<bp>-(start|end|center|baseline|stretch)
 .content-<bp>-(start|end|center|between|around)
 .self-<bp>-(start|end|center|baseline|stretch)
@@ -248,3 +251,8 @@ There are also responsive classes for spacing, both for padding and for margin:
 ```
 
 Examples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`
+
+## Flex Playground
+To see the Flex in action, you can use the Flex Playground to interactively learn more.
+
+<q-btn push color="primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />

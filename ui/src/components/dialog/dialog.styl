@@ -74,6 +74,11 @@
     pointer-events all
     background $dimmed-background
 
+// addressbar always gets shown, so need to slim this down
+body.platform-ios, body.platform-android:not(.cordova)
+  .q-dialog__inner--minimized > div
+    max-height calc(100vh - 108px)
+
 body.q-ios-padding .q-dialog__inner
   padding-top $ios-statusbar-height !important
   padding-top env(safe-area-inset-top) !important

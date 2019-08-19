@@ -168,6 +168,15 @@
       </q-item>
 
       <p class="caption">
+        Control slot: {{ testValue }}
+      </p>
+      <q-field filled v-model="testValue" label="Tree Select - Single" tabindex="0">
+        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+          <input :id="id" :value="value" @input="e => emitValue(e.target.value)" v-show="floatingLabel">
+        </template>
+      </q-field>
+
+      <p class="caption">
         Tree select
       </p>
       <q-field filled :value="selected" label="Tree Select - Single" tabindex="0">
@@ -271,7 +280,9 @@ export default {
             }
           ]
         }
-      ]
+      ],
+
+      testValue: 'Initial value'
     }
   },
 

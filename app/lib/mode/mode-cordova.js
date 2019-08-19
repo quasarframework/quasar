@@ -65,6 +65,12 @@ class Mode {
     warn(`If you want a different App name then remove Cordova support, edit productName field from package.json then add Cordova support again.`)
     warn()
 
+    console.log(`⚠️  WARNING!`)
+    console.log(`⚠️  If developing for iOS, it is HIGHLY recommended that you install the Ionic Webview Plugin.`)
+    console.log(`⚠️  Please refer to docs: https://quasar.dev/quasar-cli/developing-cordova-apps/preparation`)
+    console.log(`⚠️  --------`)
+    console.log()
+
     if (!target) {
       log(`Please manually add Cordova platforms using Cordova CLI from the newly created "src-cordova" folder.`)
       log()

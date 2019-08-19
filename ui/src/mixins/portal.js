@@ -1,4 +1,47 @@
-import { getVm } from '../utils/vm.js'
+import Vue from 'vue'
+
+export function closePortalMenus (vm, evt) {
+  do {
+    if (vm.$options.name === 'QMenu') {
+      vm.hide(evt)
+
+      // is this a point of separation?
+      if (vm.separateClosePopup === true) {
+        return vm.$parent
+      }
+    }
+    else if (vm.__hasPortal === true) {
+      // treat it as point of separation if parent is QPopupProxy
+      // (so mobile matches desktop behavior)
+      // and hide it too
+      if (vm.$parent !== void 0 && vm.$parent.$options.name === 'QPopupProxy') {
+        vm.hide(evt)
+        return vm.$parent
+      }
+      else {
+        return vm
+      }
+    }
+    vm = vm.$parent
+  } while (vm !== void 0)
+}
+
+export function closePortals (vm, evt, depth) {
+  while (depth !== 0 && vm !== void 0) {
+    if (vm.__hasPortal === true) {
+      depth--
+
+      if (vm.$options.name === 'QMenu') {
+        vm = closePortalMenus(vm, evt)
+        continue
+      }
+
+      vm.hide(evt)
+    }
+
+    vm = vm.$parent
+  }
+}
 
 export default {
   inheritAttrs: false,
@@ -29,7 +72,12 @@ export default {
   },
 
   beforeMount () {
+    this.__hasPortal = true
+
     const obj = {
+      name: 'QPortal',
+      parent: this,
+
       inheritAttrs: false,
 
       render: h => this.__render(h),
@@ -38,21 +86,7 @@ export default {
       directives: this.$options.directives
     }
 
-    if (this.__onPortalClose !== void 0) {
-      obj.methods = {
-        __qClosePopup: this.__onPortalClose
-      }
-    }
-
-    const onCreated = this.__onPortalCreated
-
-    if (onCreated !== void 0) {
-      obj.created = function () {
-        onCreated(this)
-      }
-    }
-
-    this.__portal = getVm(this, obj).$mount()
+    this.__portal = new Vue(obj).$mount()
   },
 
   beforeDestroy () {

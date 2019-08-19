@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/__QField" ],
+  "mixins": [ "components/field/__QField", "mixins/virtual-list" ],
 
   "props": {
     "value": {
@@ -31,7 +31,7 @@
 
     "options": {
       "type": "Array",
-      "desc": "Available options that the user can select from",
+      "desc": "Available options that the user can select from. For best performance freeze the list of options.",
       "default": "[]",
       "examples": [
         ":options=\"[ 'BMW', 'Samsung Phone' ]\"",
@@ -123,7 +123,7 @@
 
     "options-sanitize": {
       "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT applies when using 'option' slot!",
+      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
       "category": "options"
     },
 
@@ -193,15 +193,25 @@
 
     "transition-show": {
       "extends": "transition",
-      "desc": "Transition when showing the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
+      "desc": "Transition when showing the menu/dialog; One of Quasar's embedded transitions",
       "default": "fade",
       "category": "behavior"
     },
 
     "transition-hide": {
       "extends": "transition",
-      "desc": "Transition when hiding the menu; One of Quasar's embedded transitions; Works only if \"options-cover\" is not used",
+      "desc": "Transition when hiding the menu/dialog; One of Quasar's embedded transitions",
       "default": "fade",
+      "category": "behavior"
+    },
+
+    "behavior": {
+      "type": "String",
+      "desc": "Overrides the default dynamic mode of showing as menu on desktop and dialog on mobiles",
+      "values": [
+        "default", "menu", "dialog"
+      ],
+      "default": "default",
       "category": "behavior"
     }
   },

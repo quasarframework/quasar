@@ -121,6 +121,18 @@ export default {
   },
 
   mounted () {
+    this.$q.notify.setDefaults({
+      color: 'red'
+    })
+    this.$q.notify('red; with defaults')
+    this.$q.notify({
+      message: 'discarded defaults',
+      ignoreDefaults: true
+    })
+    this.$q.notify.setDefaults({
+      color: void 0
+    })
+
     this.$q.notify({
       message: '<em>I can</em> <span style="color: red">inject</span> <strong>HTML</strong>',
       html: true

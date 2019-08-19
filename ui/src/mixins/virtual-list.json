@@ -1,0 +1,82 @@
+{
+  "props": {
+    "virtual-list-horizontal": {
+      "type": "Boolean",
+      "desc": "Make virtual list work in horizontal mode",
+      "category": "behavior"
+    },
+
+    "virtual-list-slice-size": {
+      "type": "Number",
+      "desc": "Number of options to render in the virtual list",
+      "default": "30",
+      "examples": [
+        ":virtual-list-slice-size=\"60\""
+      ],
+      "category": "virtual-list"
+    },
+
+    "virtual-list-item-default-size": {
+      "type": "Number",
+      "desc": "Default size of an option (height or width for horizontal mode), in px - will be used for rendering the initial list. Try to use a value close to the minimum size of an item.",
+      "default": "24",
+      "examples": [
+        ":virtual-list-item-default-size=\"48\""
+      ],
+      "category": "virtual-list"
+    }
+  },
+
+  "methods": {
+    "scrollTo": {
+      "desc": "Scroll the list to the item with the specified index (0 based)",
+      "params": {
+        "index": {
+          "type": [ "String", "Number" ],
+          "desc": "The index of the list item (0 based)",
+          "required": true,
+          "examples": [ "1", 23 ]
+        },
+        "scrollUp": {
+          "type": "Boolean",
+          "desc": "Specify if the list scrolls up",
+          "default": false
+        }
+      }
+    }
+  },
+
+  "events": {
+    "virtual-scroll": {
+      "desc": "Emitted when the virtual list scrolls",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new scroll position",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "desc": "Index of the list item that was scrolled into view (0 based)",
+              "examples": [ 30 ]
+            },
+            "from": {
+              "type": "Number",
+              "desc": "The index of the first list item that is rendered (0 based)",
+              "examples": [ 10 ]
+            },
+            "to": {
+              "type": "Number",
+              "desc": "The index of the last list item that is rendered (0 based)",
+              "examples": [ 50 ]
+            },
+            "direction": {
+              "type": "String",
+              "desc": "Direction of change",
+              "values": [ "increase", "decrease" ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -28,6 +28,10 @@
 import DialogComponent from './dialog-component.js'
 
 export default {
+  provide: {
+    providedTest: 'Provide/Inject works!'
+  },
+
   data () {
     return {
       dark: false
@@ -249,6 +253,7 @@ export default {
 
     customComponent () {
       this.dialogHandler = this.$q.dialog({
+        root: this,
         component: DialogComponent,
         // props forwarded to component:
         text: 'gigi'

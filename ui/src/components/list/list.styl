@@ -84,7 +84,8 @@
   &--bordered
     border 1px solid $separator-color
   &--separator
-    > .q-item-type + .q-item-type
+    > .q-item-type + .q-item-type,
+    > .q-virtual-list__content > .q-item-type + .q-item-type
       border-top 1px solid $separator-color
   &--padding
     padding 8px 0
@@ -94,7 +95,8 @@
   padding 2px 16px
 
 .q-list--dark.q-list--separator
-  > .q-item-type + .q-item-type
+  > .q-item-type + .q-item-type,
+  > .q-virtual-list__content > .q-item-type + .q-item-type
     border-top-color $separator-dark-color
 
 .q-list--dark, .q-item--dark

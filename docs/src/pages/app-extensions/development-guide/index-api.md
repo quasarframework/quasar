@@ -139,7 +139,7 @@ Extends quasar.conf.js
  * @param {function} fn
  *   (cfg: Object, ctx: Object) => undefined
  */
-api.extendQuasarConf ((cfg, ctx, api) => {
+api.extendQuasarConf ((conf, api) => {
   // do something with quasar.conf.js:
   // add, change anything
 })

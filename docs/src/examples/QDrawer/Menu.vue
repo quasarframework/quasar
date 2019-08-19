@@ -10,9 +10,9 @@
 
       <q-drawer
         v-model="drawer"
+        show-if-above
         :width="200"
         :breakpoint="500"
-        show-if-above
         bordered
         content-class="bg-grey-3"
       >
@@ -88,7 +88,7 @@ const menuList = [
 export default {
   data () {
     return {
-      drawer: true,
+      drawer: false,
       menuList
     }
   }

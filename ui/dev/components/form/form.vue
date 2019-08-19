@@ -22,6 +22,15 @@
       :class="dark ? 'bg-grey-8' : void 0"
     >
       <div class="q-col-gutter-md">
+        <custom-input
+          filled
+          v-model="customValue"
+          label="Custom value *"
+          lazy-rules
+          :rules="[val => (val && val.length > 0) || 'Please type something']"
+          hint="This custom input should be validated first on submit"
+        />
+
         <div>
           <input v-model="native" :autofocus="autofocusEl === 0">
         </div>
@@ -107,6 +116,23 @@
 
 <script>
 export default {
+  components: {
+    customInput: {
+      props: [ 'value' ],
+      render (h) {
+        return h('q-field', {
+          props: {
+            ...this.$attrs,
+            value: this.value
+          },
+          listeners: this.$listeners,
+          scopedSlots: {
+            control: () => this.value
+          }
+        })
+      }
+    }
+  },
   data () {
     return {
       native: null,
@@ -129,7 +155,8 @@ export default {
       dark: false,
 
       user: null,
-      pwd: null
+      pwd: null,
+      customValue: ''
     }
   },
 

@@ -7,6 +7,7 @@ export default {
       type: [Boolean, String],
       default: true
     },
+    noParentEvent: Boolean,
     contextMenu: Boolean
   },
 
@@ -24,6 +25,17 @@ export default {
       }
 
       this.__pickAnchorEl()
+    },
+
+    noParentEvent (val) {
+      if (this.anchorEl !== void 0) {
+        if (val === true) {
+          this.__unconfigureAnchorEl()
+        }
+        else {
+          this.__configureAnchorEl()
+        }
+      }
     }
   },
 
@@ -145,25 +157,29 @@ export default {
     }
   },
 
+  created () {
+    if (typeof this.__configureScrollTarget === 'function' && typeof this.__unconfigureScrollTarget === 'function') {
+      this.noParentEventWatcher = this.$watch('noParentEvent', () => {
+        if (this.scrollTarget !== void 0) {
+          this.__unconfigureScrollTarget()
+          this.__configureScrollTarget()
+        }
+      })
+    }
+  },
+
   mounted () {
     this.parentEl = this.$el.parentNode
+    this.__pickAnchorEl()
 
-    this.$nextTick(() => {
-      this.__pickAnchorEl()
-
-      if (this.value === true) {
-        if (this.anchorEl === void 0) {
-          this.$emit('input', false)
-        }
-        else {
-          this.show()
-        }
-      }
-    })
+    if (this.value !== false && this.anchorEl === void 0) {
+      this.$emit('input', false)
+    }
   },
 
   beforeDestroy () {
     clearTimeout(this.touchTimer)
+    this.noParentEventWatcher !== void 0 && this.noParentEventWatcher()
     this.__anchorCleanup !== void 0 && this.__anchorCleanup()
 
     if (this.anchorEl !== void 0) {

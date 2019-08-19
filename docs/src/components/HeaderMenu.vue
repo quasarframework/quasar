@@ -57,9 +57,17 @@ div
         q-item-section Layout Builder
 
       q-item(clickable, to="/layout/gallery")
-        q-item-section.text-purple(avatar)
+        q-item-section.text-grey-8(avatar)
           q-icon(name="shop_two")
         q-item-section Layout Gallery
+
+      q-item(clickable, to="/layout/grid/flex-playground")
+        q-item-section.text-orange(avatar)
+          q-icon(name="fas fa-certificate")
+        q-item-section
+          .row.no-wrap.items-center
+            span Flex Playground
+            q-badge.q-ml-sm new
 
       q-item-label.q-mt-md(header) Playground
 

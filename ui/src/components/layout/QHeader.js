@@ -1,14 +1,11 @@
 import Vue from 'vue'
 
 import QResizeObserver from '../observer/QResizeObserver.js'
-import CanRenderMixin from '../../mixins/can-render.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QHeader',
-
-  mixins: [ CanRenderMixin ],
 
   inject: {
     layout: {
@@ -29,12 +26,17 @@ export default Vue.extend({
       default: 250
     },
     bordered: Boolean,
-    elevated: Boolean
+    elevated: Boolean,
+
+    heightHint: {
+      type: [String, Number],
+      default: 50
+    }
   },
 
   data () {
     return {
-      size: 0,
+      size: parseInt(this.heightHint, 10),
       revealed: true
     }
   },
@@ -76,7 +78,7 @@ export default Vue.extend({
     },
 
     offset () {
-      if (this.canRender !== true || this.value !== true) {
+      if (this.value !== true) {
         return 0
       }
       if (this.fixed === true) {
@@ -91,7 +93,7 @@ export default Vue.extend({
         this.fixed === true ? 'fixed' : 'absolute') + '-top' +
         (this.bordered === true ? ' q-header--bordered' : '') +
         (
-          this.canRender !== true || this.value !== true || (this.fixed === true && this.revealed !== true)
+          this.value !== true || (this.fixed === true && this.revealed !== true)
             ? ' q-header--hidden'
             : ''
         )
@@ -142,6 +144,7 @@ export default Vue.extend({
 
   created () {
     this.layout.instances.header = this
+    this.value === true && this.__update('size', this.size)
     this.__update('space', this.value)
     this.__update('offset', this.offset)
   },

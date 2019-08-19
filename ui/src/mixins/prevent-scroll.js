@@ -1,8 +1,12 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
-import { hasScrollbar } from '../utils/scroll.js'
+import { hasScrollbar, getScrollPosition } from '../utils/scroll.js'
 import Platform from '../plugins/Platform.js'
 
-let registered = 0
+let
+  registered = 0,
+  scrollPosition,
+  bodyTop,
+  closeTimer
 
 function onWheel (e) {
   if (shouldPreventScroll(e)) {
@@ -42,29 +46,95 @@ function shouldPreventScroll (e) {
   return true
 }
 
-function prevent (register) {
-  registered += register ? 1 : -1
-  if (registered > 1) { return }
-
-  const action = register ? 'add' : 'remove'
-
-  if (Platform.is.mobile) {
-    document.body.classList[action]('q-body--prevent-scroll')
+function onAppleScroll (e) {
+  if (e.target === document) {
+    document.scrollingElement.scrollTop = 0
   }
-  else if (Platform.is.desktop) {
+}
+
+function apply (action) {
+  const body = document.body
+
+  if (action === 'add') {
+    const overflowY = window.getComputedStyle(body).overflowY
+
+    scrollPosition = getScrollPosition(window)
+    bodyTop = body.style.top
+
+    body.style.top = `-${scrollPosition}px`
+    if (overflowY !== 'hidden' && (overflowY === 'scroll' || body.scrollHeight > window.innerHeight)) {
+      body.classList.add('q-body--force-scrollbar')
+    }
+
+    Platform.is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+  }
+
+  body.classList[action]('q-body--prevent-scroll')
+
+  if (Platform.is.desktop === true && Platform.is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
     window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
   }
+
+  if (action === 'remove') {
+    Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+
+    body.classList.remove('q-body--force-scrollbar')
+    body.style.top = bodyTop
+    window.scrollTo(0, scrollPosition)
+  }
+}
+
+function prevent (state) {
+  let action = 'add'
+
+  if (state === true) {
+    registered++
+
+    if (closeTimer !== void 0) {
+      clearTimeout(closeTimer)
+      closeTimer = void 0
+      return
+    }
+
+    if (registered > 1) {
+      return
+    }
+  }
+  else {
+    if (registered === 0) {
+      return
+    }
+
+    registered--
+
+    if (registered > 0) {
+      return
+    }
+
+    action = 'remove'
+
+    if (Platform.is.ios === true && Platform.is.cordova === true) {
+      clearTimeout(closeTimer)
+
+      closeTimer = setTimeout(() => {
+        apply(action)
+        closeTimer = void 0
+      }, 100)
+      return
+    }
+  }
+
+  apply(action)
 }
 
 export default {
   methods: {
     __preventScroll (state) {
-      if (this.preventedScroll === void 0 && state !== true) {
-        return
-      }
-
-      if (state !== this.preventedScroll) {
+      if (
+        state !== this.preventedScroll &&
+        (this.preventedScroll !== void 0 || state === true)
+      ) {
         this.preventedScroll = state
         prevent(state)
       }

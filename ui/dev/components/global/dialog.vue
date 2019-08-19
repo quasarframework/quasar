@@ -49,6 +49,28 @@
       </q-card>
     </q-dialog>
 
+    <q-dialog attr="test" :value="alert" content-class="test-class" no-esc-dismiss seamless position="bottom">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            Alert - decoupled from model
+          </div>
+        </q-card-section>
+
+        <q-card-section>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum repellendus sit voluptate voluptas eveniet porro. Rerum blanditiis perferendis totam, ea at omnis vel numquam exercitationem aut, natus minima, porro labore.
+        </q-card-section>
+
+        <q-card-section>
+          <q-toggle v-model="preventCloseToggle" label="Prevent closing with button" />
+        </q-card-section>
+
+        <q-card-actions align="right">
+          <q-btn flat label="OK" color="primary" v-close-popup="!preventCloseToggle" :disable="preventCloseToggle" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
     <q-dialog v-model="persistent" persistent transition-show="scale" transition-hide="scale">
       <q-card class="bg-teal text-white" style="width: 300px">
         <q-card-section>
@@ -643,6 +665,40 @@
             label="Select"
           />
         </q-card-section>
+
+        <q-separator inset />
+
+        <q-card-section>
+          <q-select
+            v-model="select"
+            :options="selectOptions"
+            label="Select"
+          />
+          <q-select
+            v-model="select"
+            :options="selectOptionsFiltered"
+            use-input
+            label="Select - Use input"
+            @filter="filterFn"
+          />
+          <q-input v-model="text1" autofocus label="Text 1" />
+          <q-input v-model="text2" label="Text 2" />
+          <q-input v-model="text3" type="textarea" label="Text 3 - textarea" />
+          <q-select
+            v-model="selectMultiple"
+            :options="selectOptions"
+            multiple
+            label="Select multiple"
+          />
+          <q-select
+            v-model="selectMultiple"
+            :options="selectOptionsFiltered"
+            use-input
+            multiple
+            label="Select multiple - Use input"
+            @filter="filterFn"
+          />
+        </q-card-section>
       </q-card>
     </q-dialog>
 
@@ -717,6 +773,9 @@ export default {
       },
 
       address: '',
+      text1: '',
+      text2: '',
+      text3: '',
 
       moreContent: true,
       drawer: false,
@@ -735,7 +794,9 @@ export default {
       color: '#f46234',
 
       select: 'ten',
+      selectMultiple: [],
       selectOptions: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'],
+      selectOptionsFiltered: [],
 
       closePopupTest: false,
       closePopupBtn: false
@@ -759,6 +820,20 @@ export default {
 
     closePopupBtnHandler () {
       console.log('closePopupBtnHandler')
+    },
+
+    filterFn (val, update) {
+      if (val === '') {
+        update(() => {
+          this.selectOptionsFiltered = this.selectOptions
+        })
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase()
+        this.selectOptionsFiltered = this.selectOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
     }
   }
 }
