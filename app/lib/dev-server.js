@@ -261,8 +261,9 @@ module.exports = class DevServer {
           const instance = new Extension(ext)
           const hooks = await instance.run({})
 
-          for (const ssrHook of hooks.extendSsr) {
-            ssrHook.fn(ssrHook.api, { app })
+          for (const hook of hooks.extendSsr) {
+            log(`Extension(${hook.api.extId}): Running extendSsr hook...`)
+            await hook.fn(hook.api, { app })
           }
         }
 
