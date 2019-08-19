@@ -1,10 +1,14 @@
 const fs = require('fs')
 const
   appPath = require('../app-paths'),
-  packagerVersion = '13.1.0',
   getPackageJson = require('../helpers/get-package-json'),
   getPackage = require('../helpers/get-package'),
   log = require('../helpers/logger')('app:electron-bundle')
+
+const versions = {
+  packager: '13.1.0',
+  builder: '21.0.0'
+}
 
 function isValidName (bundlerName) {
   return ['packager', 'builder'].includes(bundlerName)
@@ -14,7 +18,6 @@ function installBundler (bundlerName) {
   const
     { spawnSync } = require('../helpers/spawn'),
     nodePackager = require('../helpers/node-packager'),
-    version = bundlerName === 'packager' ? `^${packagerVersion}` : 'latest',
     cmdParam = nodePackager === 'npm'
       ? ['install', '--save-dev']
       : ['add', '--dev']
@@ -22,14 +25,26 @@ function installBundler (bundlerName) {
   log(`Installing required Electron bundler (electron-${bundlerName})...`)
   spawnSync(
     nodePackager,
-    cmdParam.concat([`electron-${bundlerName}@${version}`]),
+    cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
     appPath.appDir,
     () => warn(`Failed to install electron-${bundlerName}`)
   )
 }
 
-function isInstalled (bundlerName) {
+function bundlerIsInstalled (bundlerName) {
   return getPackageJson(`electron-${bundlerName}`) !== void 0
+}
+
+module.exports.bundlerIsInstalled = bundlerIsInstalled
+
+function bundlerVersionIsOk (bundlerName) {
+  const
+    semver = require('semver'),
+    pkg = getPackageJson(`electron-${bundlerName}`)
+
+  if (semver.satisfies(pkg.version, `>= ${versions[bundlerName]}`)) {
+    return true
+  }
 }
 
 module.exports.ensureInstall = function (bundlerName) {
@@ -39,30 +54,17 @@ module.exports.ensureInstall = function (bundlerName) {
     process.exit(1)
   }
 
-  if (bundlerName === 'packager') {
-    if (isInstalled('packager')) {
-      const
-        semver = require('semver'),
-        pkg = getPackageJson(`electron-${bundlerName}`)
-
-      if (semver.satisfies(pkg.version, `>= ${packagerVersion}`)) {
-        return
-      }
-    }
+  if (!bundlerIsInstalled(bundlerName) || !bundlerVersionIsOk(bundlerName)) {
+    installBundler(bundlerName)
   }
-  else if (isInstalled('builder')) {
-    return
-  }
-
-  installBundler(bundlerName)
 }
 
 module.exports.getDefaultName = function () {
-  if (isInstalled('packager')) {
+  if (bundlerIsInstalled('packager')) {
     return 'packager'
   }
 
-  if (isInstalled('builder')) {
+  if (bundlerIsInstalled('builder')) {
     return 'builder'
   }
 

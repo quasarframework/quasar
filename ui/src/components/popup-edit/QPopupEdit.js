@@ -17,7 +17,6 @@ export default Vue.extend({
     labelSet: String,
     labelCancel: String,
 
-    persistent: Boolean,
     color: {
       type: String,
       default: 'primary'
@@ -27,8 +26,13 @@ export default Vue.extend({
       default: () => true
     },
 
+    /* menu props overrides */
+    cover: {
+      type: Boolean,
+      default: true
+    },
     contentClass: String,
-    contentStyle: [String, Array, Object],
+    /* end of menu props */
 
     disable: Boolean
   },
@@ -140,10 +144,9 @@ export default Vue.extend({
     return h(QMenu, {
       ref: 'menu',
       props: {
-        contentClass: this.classes,
-        contentStyle: this.contentStyle,
-        cover: true,
-        persistent: this.persistent
+        ...this.$attrs,
+        cover: this.cover,
+        contentClass: this.classes
       },
       on: {
         show: () => {
