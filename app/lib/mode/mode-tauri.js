@@ -18,25 +18,8 @@ class Mode {
 
     log('Creating Tauri source folder...')
 
-    fs.mkdirSync(appPaths.tauriDir)
-    fse.copySync(appPaths.resolve.tauriPackage('templates/rust'), appPaths.tauriDir)
-    const files = require('fast-glob').sync(['**/_*'], {
-      cwd: appPaths.tauriDir
-    })
-    for (const rawPath of files) {
-      const targetRelativePath = rawPath.split('/').map(name => {
-        // dotfiles are ignored when published to npm, therefore in templates
-        // we need to use underscore instead (e.g. "_gitignore")
-        if (name.charAt(0) === '_' && name.charAt(1) !== '_') {
-          return `.${name.slice(1)}`
-        }
-        if (name.charAt(0) === '_' && name.charAt(1) === '_') {
-          return `${name.slice(1)}`
-        }
-        return name
-      }).join('/')
-      fse.renameSync(appPaths.resolve.tauri(rawPath), appPaths.resolve.tauri(targetRelativePath))
-    }
+    const TauriInjector = require('@quasar/tauri').injector
+    new TauriInjector(appPaths).injectTemplate()
 
     log(`Tauri support was installed`)
   }
