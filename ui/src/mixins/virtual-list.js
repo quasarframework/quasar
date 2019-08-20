@@ -3,6 +3,10 @@ import frameDebounce from '../utils/frame-debounce.js'
 
 const aggBucketSize = 1000
 
+function sumFn (acc, h) {
+  return acc + h
+}
+
 function getScrollDetails (parent, child, horizontal) {
   const
     parentCalc = parent === window ? document.scrollingElement || document.documentElement : parent,
@@ -84,13 +88,13 @@ function sumSize (sizeAgg, size, from, to) {
     fromAgg = Math.floor(from / aggBucketSize),
     toAgg = Math.floor((to - 1) / aggBucketSize) + 1
 
-  let total = sizeAgg.slice(fromAgg, toAgg).reduce((acc, h) => acc + h, 0)
+  let total = sizeAgg.slice(fromAgg, toAgg).reduce(sumFn, 0)
 
   if (from % aggBucketSize !== 0) {
-    total -= size.slice(fromAgg * aggBucketSize, from).reduce((acc, h) => acc + h, 0)
+    total -= size.slice(fromAgg * aggBucketSize, from).reduce(sumFn, 0)
   }
   if (to % aggBucketSize !== 0 && to !== lastTo) {
-    total -= size.slice(to, toAgg * aggBucketSize).reduce((acc, h) => acc + h, 0)
+    total -= size.slice(to, toAgg * aggBucketSize).reduce(sumFn, 0)
   }
 
   return total
@@ -160,6 +164,15 @@ export default {
         toIndex = 0,
         listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart
 
+      if (scrollDetails.scrollStart >= scrollDetails.scrollMaxSize - scrollDetails.scrollViewSize - scrollDetails.offsetEnd) {
+        this.__setVirtualListSliceRange(
+          scrollEl,
+          scrollDetails,
+          this.virtualListLength - 1,
+          scrollDetails.scrollStart + scrollDetails.scrollViewSize - this.virtualListSizesAgg.reduce(sumFn, 0)
+        )
+      }
+
       for (let j = 0; listOffset >= this.virtualListSizesAgg[j] && toIndex < listLastIndex; j++) {
         listOffset -= this.virtualListSizesAgg[j]
         toIndex += aggBucketSize
@@ -223,7 +236,7 @@ export default {
         }
 
         const
-          posStart = this.virtualListSizes.slice(from, toIndex).reduce((acc, h) => acc + h, scrollDetails.offsetStart + this.virtualListPaddingBefore),
+          posStart = this.virtualListSizes.slice(from, toIndex).reduce(sumFn, scrollDetails.offsetStart + this.virtualListPaddingBefore),
           posEnd = posStart + this.virtualListSizes[toIndex]
 
         let scrollPosition = posStart + offset
