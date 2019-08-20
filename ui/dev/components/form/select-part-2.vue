@@ -10,6 +10,7 @@
             <q-radio :dark="dark" v-model="type" val="standout" label="Standout" />
             <q-radio :dark="dark" v-model="type" val="standard" label="Standard" />
             <q-radio :dark="dark" v-model="type" val="borderless" label="Borderless" />
+            <q-checkbox v-model="forceMenu" toggle-indeterminate :label="forceMenuLabel" />
           </div>
           <div>
             <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
@@ -379,12 +380,14 @@
             @blur="onBlur"
           >
             <template #loading>
-              Click for menu
-              <q-menu fit>
-                <div class="q-pa-md text-center">
-                  Menu
-                </div>
-              </q-menu>
+              <div class="q-anchor--skip" @click.prevent>
+                Click for menu
+                <q-menu fit no-focus>
+                  <div class="q-pa-md text-center">
+                    Menu
+                  </div>
+                </q-menu>
+              </div>
             </template>
 
             <template v-slot:no-option>
@@ -409,7 +412,7 @@
           />
 
           <div class="text-h6">
-            Heavy test (10k options)
+            Heavy test (100k options)
           </div>
           <q-select
             v-bind="props"
@@ -425,7 +428,7 @@
           />
 
           <div class="text-h6">
-            Heavy test - Variable size (10k options)
+            Heavy test - Variable size (100k options)
           </div>
           <q-select
             v-bind="props"
@@ -434,6 +437,95 @@
             multiple
             use-input
             use-chips
+            :options="heavyFilterInputOptions"
+            @filter="heavyFilterInputFn"
+            @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
+          >
+            <template v-slot:option="scope">
+              <div>
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents"
+                  :key="scope.index"
+                >
+                  <q-item-section>
+                    <q-item-label>
+                      Option - {{ scope.opt.label }} - {{ scope.index }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-sm" v-if="(scope.index % 5) === 0">
+                      {{ scope.opt.label }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-md text-negative" v-if="(scope.index % 3) === 0">
+                      {{ scope.opt.value }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-lg text-positive" v-if="(scope.index % 4) === 0">
+                      {{ scope.index }} - {{ scope.opt.label }} - {{ scope.opt.value }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-separator />
+              </div>
+            </template>
+          </q-select>
+
+          <q-select
+            style="width: 300px; margin-left: auto;"
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy"
+            multiple
+            use-input
+            use-chips
+            :options="heavyFilterInputOptions"
+            @filter="heavyFilterInputFn"
+            @filter-abort="delayedAbort"
+            @focus="onFocus"
+            @blur="onBlur"
+          >
+            <template v-slot:option="scope">
+              <div>
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents"
+                  :key="scope.index"
+                >
+                  <q-item-section>
+                    <q-item-label>
+                      Option - {{ scope.opt.label }} - {{ scope.index }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-sm" v-if="(scope.index % 5) === 0">
+                      {{ scope.opt.label }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-md text-negative" v-if="(scope.index % 3) === 0">
+                      {{ scope.opt.value }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-lg text-positive" v-if="(scope.index % 4) === 0">
+                      {{ scope.index }} - {{ scope.opt.label }} - {{ scope.opt.value }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-separator />
+              </div>
+            </template>
+          </q-select>
+
+          <q-select
+            style="width: 300px;"
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy"
+            multiple
+            options-cover
             :options="heavyFilterInputOptions"
             @filter="heavyFilterInputFn"
             @filter-abort="delayedAbort"
@@ -529,14 +621,16 @@ const
   stringOptions = [
     'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
   ],
-  heavyOptions = []
+  heavyList = []
 
-for (let i = 0; i <= 10000; i++) {
-  heavyOptions.push({
+for (let i = 0; i <= 100000; i++) {
+  heavyList.push(Object.freeze({
     label: 'Opt ' + i,
     value: Math.random()
-  })
+  }))
 }
+
+Object.freeze(heavyList)
 
 export default {
   data () {
@@ -637,7 +731,9 @@ export default {
 
       heavyModel: [],
       heavyModelSingle: null,
-      heavyFilterInputOptions: null
+      heavyFilterInputOptions: null,
+
+      forceMenu: null
     }
   },
 
@@ -764,14 +860,14 @@ export default {
       console.log(val)
       if (val === '') {
         update(() => {
-          this.heavyFilterInputOptions = heavyOptions
+          this.heavyFilterInputOptions = Object.freeze(heavyList)
         })
         return
       }
 
       update(() => {
         const needle = val.toLowerCase()
-        this.heavyFilterInputOptions = heavyOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        this.heavyFilterInputOptions = Object.freeze(heavyList.filter(v => v.label.toLowerCase().indexOf(needle) > -1))
       })
     },
 
@@ -806,8 +902,19 @@ export default {
         dark: this.dark,
         optionsDense: this.optionsDense,
         optionsDark: this.optionsDark,
-        optionsCover: this.optionsCover
+        optionsCover: this.optionsCover,
+        behavior: this.forceMenu === null
+          ? 'default'
+          : (this.forceMenu === true ? 'menu' : 'dialog')
       }
+    },
+
+    forceMenuLabel () {
+      if (this.forceMenu === true) {
+        return 'Force menu'
+      }
+
+      return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
     }
   }
 }

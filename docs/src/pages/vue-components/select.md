@@ -46,6 +46,17 @@ In the example below there's a few transitions showcased. For a full list of tra
 
 <doc-example title="Menu transitions" file="QSelect/MenuTransitions" />
 
+### Options list display mode
+By default QSelect shows the list of options as a menu on desktop and as a dialog on mobiles. You can force one behavior by using the `behavior` property.
+
+::: warning
+Please note that on iOS menu behavior might generate problems, especially when used in combination with `use-input` prop. You can use a conditional `behavior` prop like `:behavior="$q.platform.is.ios === true ? 'dialog' : 'menu'"` to use dialog mode only on iOS.
+:::
+
+<doc-example title="Show options in menu" file="QSelect/BehaviorMenu" />
+
+<doc-example title="Show options in dialog" file="QSelect/BehaviorDialog" />
+
 ## The model
 
 ::: danger
@@ -116,12 +127,9 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ### Native attributes with `use-input`
 
-All the attributes set on `QSelect` that are not in the list of `props` in the **API** will be passed to the native `input` field used for filtering / autocomplete / adding new value.
+All the attributes set on `QSelect` that are not in the list of `props` in the **API** will be passed to the native `input` field used (please check `use-input` prop description first to understand what it does) for filtering / autocomplete / adding new value. Some examples: autocomplete, placeholder.
 
-Please check this resources for more informations about native attributes (for input check also the specific attributes for each type):
-
-* [input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input)
-* [textarea](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea)
+More information about [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
 <doc-example title="Filtering options" file="QSelect/InputFilter" />
 
@@ -201,7 +209,11 @@ If you use `selected` or `selected-item` slots, then you are responsible for san
 The render performance is NOT affected much by the number of options, unless `map-options` is used on a large set.
 Notice the infinite scroll in place which renders additional options as the user scrolls through the list.
 
-<doc-example title="10k options" file="QSelect/Render10k" />
+::: tip
+To get the best performance while using lots of options freeze the array you are passing in the `options` prop using `Object.freeze(options)`.
+:::
+
+<doc-example title="100k options" file="QSelect/RenderPerf" />
 
 ## QSelect API
 <doc-api file="QSelect" />

@@ -118,7 +118,7 @@ export default Vue.extend({
     const content = slot(this, 'default')
 
     return h('div', {
-      staticClass: 'q-page-sticky q-layout__section--animate row flex-center',
+      staticClass: 'q-page-sticky row flex-center',
       class: this.classes,
       style: this.style
     },

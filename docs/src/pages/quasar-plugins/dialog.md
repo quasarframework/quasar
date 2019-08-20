@@ -1,6 +1,6 @@
 ---
 title: Dialog Plugin
-desc: A Quasar plugin that provides an easy way to display a prompt, choice, confirmation or alert in the form of a dialog. 
+desc: A Quasar plugin that provides an easy way to display a prompt, choice, confirmation or alert in the form of a dialog.
 related:
   - /vue-components/dialog
   - /quasar-plugins/bottom-sheet
@@ -77,7 +77,9 @@ this.$q.dialog({
   // optional if you want to have access to
   // Router, Vuex store, and so on, in your
   // custom component:
-  root: this.$root,
+  parent: this, // becomes child of this Vue node
+                // ("this" points to your Vue component)
+                // (prop was called "root" in < 1.1.0)
 
   // props forwarded to component
   // (everything except "component" and "root" props above):

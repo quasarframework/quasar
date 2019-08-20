@@ -6,7 +6,8 @@ const
   log = logger('app:mode-electron'),
   warn = logger('app:mode-electron', 'red'),
   { spawnSync } = require('../helpers/spawn'),
-  nodePackager = require('../helpers/node-packager')
+  nodePackager = require('../helpers/node-packager'),
+  { bundlerIsInstalled } = require('../electron/bundler')
 
 const
   electronDeps = {
@@ -59,10 +60,18 @@ class Mode {
       ? ['uninstall', '--save-dev']
       : ['remove']
 
+    const deps = Object.keys(electronDeps)
+
+    ;['packager', 'builder'].forEach(bundlerName => {
+      if (bundlerIsInstalled(bundlerName)) {
+        deps.push(`electron-${bundlerName}`)
+      }
+    })
+
     log(`Uninstalling Electron dependencies...`)
     spawnSync(
       nodePackager,
-      cmdParam.concat(Object.keys(electronDeps)),
+      cmdParam.concat(deps),
       appPaths.appDir,
       () => warn('Failed to uninstall Electron dependencies')
     )

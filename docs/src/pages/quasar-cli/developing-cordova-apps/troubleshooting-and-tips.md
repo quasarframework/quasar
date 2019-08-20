@@ -7,7 +7,7 @@ desc: Tips and tricks for a Quasar hybrid mobile app.
 While you are developing a Mobile App with Cordova Mode, you can access `this.$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
 
 ## Browser Simulator
-Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You can select which device to emulate, but keep in mind that it's an *emulator* and not the real deal.
+Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You can select which device to emulate, but keep in mind that it's an *emulator* and not the real deal. (if you have an actual device, see Remote Debugging below, which is more precise.)
 
 ::: danger
 If you change from desktop to mobile emulator or backwards, hit the refresh button as Quasar Platform detection is not dynamic (nor it should be).
@@ -136,6 +136,19 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="1bbb", MODE="0666"
 
 Now running `adb devices` should discover your device.
 
+### Post-build debugging
+There are intermediate states to help with debugging, between `quasar dev` and distributing a completed app. If your app works fine on `quasar dev` but is not running properly after `quasar build`, you have two options:
+* go to your `src-cordova` directory and `cordova run [platform]`. 
+  * You will be running the final build, but you can still use Chrome DevTools Remote Debugging with a wired connection (see above), to inspect the internal web internals. You cannot do this while running the .apk file.
+  * For more detail, read the Cordova [platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#using-buildjson) and the [CLI reference](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)
+* open Android Studio and watch the Logcat
+  * Here you can watch everything related to the app and its interaction with the underlying Android OS. After opening your Cordova project in Android Studio, go to `Run`...`Debug` from the top menu. Android Studio will ask you to confirm the device or emulator, then will deploy the app. In the bottom window, choose `Logcat` You may want to use the filters to reduce the volume of messages. You should see `[your app id].MainActivity.onCreate()` signifying the app launch, then various messages related to your app functionality.
+  * Note: this should be for experienced Android developers only. If your app is not functioning properly, it is much more likely that `quasar dev` or `cordova run` can reveal the issue.
+
+::: danger Important!
+If you find a bug using one of the above methods, do not edit the output files (probably the `www` folder) directly, as they will soon be overwritten. Go back to your quasar source, fix the bug, then re-run `quasar build`.
+:::
+
 ## iOS Tips
 
 ### Device type not found
@@ -146,9 +159,11 @@ No target specified for emulator. Deploying to undefined simulator
 Device type "com.apple.CoreSimulator.SimDeviceType.undefined" could not be found.
 ```
 
-Then it means you need to specify an emulator. Example:
+Then it means you need to specify an emulator. Depending on your Cordova CLI version, here are some examples:
 
 ```bash
+$ quasar dev -m cordova -T ios -e iPhone-X,12.2
+# or whith older versions of Cordova CLI installed on your machine:
 $ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
 ```
 

@@ -1,14 +1,16 @@
 import Vue from 'vue'
 
+import SizeMixin from '../../mixins/size.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIcon',
 
+  mixins: [ SizeMixin ],
+
   props: {
     name: String,
     color: String,
-    size: String,
     left: Boolean,
     right: Boolean
   },
@@ -16,7 +18,7 @@ export default Vue.extend({
   computed: {
     type () {
       let cls
-      const icon = this.name
+      let icon = this.name
 
       if (!icon) {
         return {
@@ -39,7 +41,7 @@ export default Vue.extend({
 
       let content = ' '
 
-      if (/^fa[s|r|l|b]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
+      if (/^fa[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
         cls = icon
       }
       else if (icon.startsWith('bt-') === true) {
@@ -65,6 +67,20 @@ export default Vue.extend({
       }
       else {
         cls = 'material-icons'
+
+        if (icon.startsWith('o_') === true) {
+          icon = icon.substring(2)
+          cls += '-outlined'
+        }
+        else if (icon.startsWith('r_') === true) {
+          icon = icon.substring(2)
+          cls += '-round'
+        }
+        else if (icon.startsWith('s_') === true) {
+          icon = icon.substring(2)
+          cls += '-sharp'
+        }
+
         content = icon
       }
 
@@ -73,12 +89,6 @@ export default Vue.extend({
           (this.color !== void 0 ? ` text-${this.color}` : ''),
         content
       }
-    },
-
-    style () {
-      if (this.size !== void 0) {
-        return { fontSize: this.size }
-      }
     }
   },
 
@@ -86,13 +96,13 @@ export default Vue.extend({
     return this.type.img === true
       ? h('img', {
         staticClass: this.type.cls,
-        style: this.style,
+        style: this.sizeStyle,
         on: this.$listeners,
         attrs: { src: this.type.src }
       })
       : h('i', {
         staticClass: this.type.cls,
-        style: this.style,
+        style: this.sizeStyle,
         on: this.$listeners,
         attrs: { 'aria-hidden': true }
       }, [

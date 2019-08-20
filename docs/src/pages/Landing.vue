@@ -23,14 +23,11 @@
                   q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
                   .text-body2 v{{ $q.version }}
 
-        .flex-center
+        .flex-center.col-10
           .flex.q-pa-xl.q-mx-xl.full-width(style="font-size: 14px;background:rgba(0,0,0,0.5);border-radius:15px")
             .q-pb-sm A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
             .q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
             div <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
-
-      .landing__arrow.absolute-bottom.text-center
-        q-icon(name="expand_more").text-h2.text-white
 
   section.padding.landing__front.text-center
     div
@@ -39,7 +36,7 @@
         q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
         q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
         q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
-        q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps/introduction")
+        q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-cordova-apps/introduction")
         q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
       div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, performance-oriented Quasar web components.
@@ -47,17 +44,20 @@
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
-        .feature-item.q-mx-md
-          img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
+        img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
       .col-12.text-center
         .q-gutter-lg
           q-icon(name="fab fa-apple")
           q-icon(name="fab fa-windows")
-          q-icon(name="fab fa-android")
           q-icon(name="fab fa-linux")
+          q-icon(name="fab fa-android")
+          q-icon(name="fab fa-chrome")
+          q-icon(name="fab fa-firefox")
+          q-icon(name="fab fa-edge")
+          q-icon(name="fab fa-safari")
       .col-12.text-center
         h4 All Platforms in One Go
-        p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
+        p One source code for all platforms simultaneously through Quasar CLI with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
 
   section.padding.bg-primary.landing__swirl-bg
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
@@ -153,20 +153,16 @@
       .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Our partners:
       .q-gutter-md.flex.flex-center
 
-        sponsor(img="utopian.png" name="Utopian" url="https://utopian.io/")
         sponsor(img="wallaby.png" name="Wallabyjs" url="https://wallabyjs.com/")
         sponsor(img="snyk.png" name="Snyk" url="https://snyk.io/")
 
   section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center
-        a(href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
+        a(href="https://github.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-github")
 
-        a(href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
-          q-icon(name="fab fa-twitter")
-
-        a(href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
+        a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-medium")
 
         a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
@@ -174,6 +170,12 @@
 
         a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
           q-icon(name="fas fa-comments")
+
+        a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="fab fa-twitter")
+
+        a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="fab fa-facebook")
 
         a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fas fa-medkit")
@@ -190,15 +192,16 @@
       q-btn.quasar-logo.text-bold(flat, no-caps, no-wrap, to="/start")
         q-avatar.doc-landing-avatar
           img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
-        q-toolbar-title(shrink) Docs
+        q-toolbar-title Docs
 
       q-space
 
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank", rel="noopener")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.quasar.dev", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://blog.quasar.dev", target="_blank", rel="noopener")
       q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank", rel="noopener")
-      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+      q-btn.q-mr-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.quasar.dev", target="_blank", rel="noopener")
+      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-facebook", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
       q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter", rel="noopener")
 </template>
 
@@ -256,10 +259,6 @@ export default {
 
   &__hero
     min-height 100vh
-
-  &__arrow
-    bottom 8px
-    opacity .4
 
   &__front
     background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)

@@ -1,14 +1,15 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
-
+import SizeMixin from '../../mixins/size.js'
 import QIcon from '../icon/QIcon.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QAvatar',
 
+  mixins: [ SizeMixin ],
+
   props: {
-    size: String,
     fontSize: String,
 
     color: String,
@@ -26,12 +27,6 @@ export default Vue.extend({
         [`text-${this.textColor} q-chip--colored`]: this.textColor,
         'q-avatar__content--square': this.square,
         'rounded-borders': this.rounded
-      }
-    },
-
-    style () {
-      if (this.size) {
-        return { fontSize: this.size }
       }
     },
 
@@ -53,7 +48,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-avatar',
-      style: this.style,
+      style: this.sizeStyle,
       on: this.$listeners
     }, [
       h('div', {

@@ -86,7 +86,7 @@ export default Vue.extend({
     classes () {
       return {
         'q-time--dark': this.dark,
-        'q-time--readonly': this.readonly,
+        'q-time--readonly': this.readonly === true && this.disable !== true,
         'disabled': this.disable,
         [`q-time--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
       }

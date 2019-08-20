@@ -1,13 +1,11 @@
 {
+  "mixins": [ "mixins/size" ],
+
   "behavior": {
     "$listeners": true
   },
 
   "props": {
-    "size": {
-      "extends": "size"
-    },
-
     "font-size": {
       "type": "String",
       "desc": "The size in CSS units, including unit name, of the content (icon, text)",

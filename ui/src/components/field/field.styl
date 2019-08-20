@@ -121,12 +121,24 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     padding-left 4px
 
   &--readonly, &--disabled
-    .q-field__control
-      pointer-events none
     .q-placeholder // override "disable" CSS on it
       opacity 1 !important
 
+  &--readonly
+    &.q-field--labeled
+      .q-field__native
+        cursor default
+    &.q-field--float
+      .q-field__native
+        cursor text
+
   &--disabled
+    .q-field__inner
+      cursor not-allowed
+
+    .q-field__control
+      pointer-events none
+
     .q-field__control > div
       opacity .6 !important
 
@@ -148,7 +160,7 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
     transition transform $field-transition, right $field-transition
 
   &--float .q-field__label
-    transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+    transform translate3d(0, -40%, 0) scale3d(.75, .75, 1)
     right calc(-100% / 3)
 
   .q-field__native, .q-select__input
@@ -157,9 +169,9 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       -webkit-animation-fill-mode both
 
     &:-webkit-autofill + .q-field__label
-      transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+      transform translate3d(0, -40%, 0) scale3d(.75, .75, 1)
     &[type="number"]:invalid + .q-field__label
-      transform translate3d(0, -40%, 0) scale3d(.75, .75, .75)
+      transform translate3d(0, -40%, 0) scale3d(.75, .75, 1)
 
     &:invalid
       box-shadow none
@@ -381,13 +393,13 @@ $field-transition = .36s cubic-bezier(.4,0,.2,1)
       font-size 24px
 
     &.q-field--float .q-field__label
-      transform translate3d(0, -30%, 0) scale3d(.75, .75, .75)
+      transform translate3d(0, -30%, 0) scale3d(.75, .75, 1)
 
     .q-field__native, .q-select__input
       &:-webkit-autofill + .q-field__label
-        transform translate3d(0, -30%, 0) scale3d(.75, .75, .75)
+        transform translate3d(0, -30%, 0) scale3d(.75, .75, 1)
       &[type="number"]:invalid + .q-field__label
-        transform translate3d(0, -30%, 0) scale3d(.75, .75, .75)
+        transform translate3d(0, -30%, 0) scale3d(.75, .75, 1)
 
   &--borderless, &--standard
 

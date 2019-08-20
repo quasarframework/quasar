@@ -285,12 +285,12 @@
       />
 
       <div class="text-h6">
-        Heavy test (10k options)
+        Heavy test (100k options)
       </div>
       <q-select
         v-bind="props"
         v-model="heavyModel"
-        :options="heavyOptions"
+        :options="heavyList"
         label="Heavy"
         multiple
         use-chips
@@ -299,7 +299,7 @@
       <q-select
         v-bind="props"
         v-model="heavyModel"
-        :options="heavyOptions"
+        :options="heavyList"
         label="Heavy"
         multiple
         color="teal"
@@ -517,16 +517,18 @@
 </template>
 
 <script>
+const heavyList = []
+for (let i = 0; i <= 100000; i++) {
+  heavyList.push({
+    label: 'Opt ' + i,
+    value: Math.random()
+  })
+}
+
+Object.freeze(heavyList)
+
 export default {
   data () {
-    const heavyOptions = []
-    for (let i = 0; i <= 10000; i++) {
-      heavyOptions.push({
-        label: 'Opt ' + i,
-        value: Math.random()
-      })
-    }
-
     return {
       dispValSelection: [],
       dispValOptions: [
@@ -652,7 +654,7 @@ export default {
       objectEmitMultiple: ['Facebook'],
 
       heavyModel: [],
-      heavyOptions,
+      heavyList,
 
       bogusModel: 'bogus',
       bogusMultiModel: ['bogus', 'gigi']

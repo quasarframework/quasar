@@ -19,6 +19,7 @@
 
     <q-drawer
       v-model="leftDrawerOpen"
+      show-if-above
       bordered
       content-class="bg-grey-2"
     >
@@ -33,7 +34,7 @@
             <q-item-label caption>https://quasar.dev</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" rel="noopener" href="https://github.com/quasarframework/">
+        <q-item clickable tag="a" target="_blank" rel="noopener" href="https://github.quasar.dev">
           <q-item-section avatar>
             <q-icon name="code" />
           </q-item-section>
@@ -60,13 +61,22 @@
             <q-item-label caption>https://forum.quasar.dev</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" rel="noopener" href="https://twitter.com/quasarframework">
+        <q-item clickable tag="a" target="_blank" rel="noopener" href="https://twitter.quasar.dev">
           <q-item-section avatar>
             <q-icon name="rss_feed" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Twitter</q-item-label>
             <q-item-label caption>@quasarframework</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable tag="a" target="_blank" rel="noopener" href="https://facebook.quasar.dev">
+          <q-item-section avatar>
+            <q-icon name="public" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Facebook</q-item-label>
+            <q-item-label caption>@QuasarFramework</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -84,7 +94,7 @@ export default {
 
   data () {
     return {
-      leftDrawerOpen: this.$q.platform.is.desktop
+      leftDrawerOpen: false
     }
   }
 }

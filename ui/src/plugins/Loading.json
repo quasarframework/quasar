@@ -56,6 +56,10 @@
               "type": "String",
               "desc": "Add a CSS class to easily customize the component",
               "examples": [ "my-class" ]
+            },
+            "ignoreDefaults": {
+              "type": "Boolean",
+              "desc": "Ignore the default configuration (set by setDefaults()) for this instance only"
             }
           }
         }

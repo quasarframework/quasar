@@ -62,6 +62,7 @@ function getPropDefinition (key, propDef, required) {
 
   if (!propName.startsWith('...')) {
     const propType = getTypeVal(propDef, required)
+    addToExtraInterfaces(propDef)
     return `${propName}${!propDef.required && !required ? '?' : ''} : ${propType}`
   }
 }
@@ -91,13 +92,21 @@ function getMethodDefinition (key, methodDef, required) {
   return def
 }
 
-function getObjectFunctionsDefinition (def) {
+function getObjectParamDefinition (def, required) {
   let res = []
 
   Object.keys(def).forEach(propName => {
-    res.push(
-      getMethodDefinition(propName, def[propName], true)
-    )
+    const propDef = def[propName]
+    if (propDef.type && propDef.type === 'Function') {
+      res.push(
+        getMethodDefinition(propName, propDef, required)
+      )
+    }
+    else {
+      res.push(
+        getPropDefinition(propName, propDef, required)
+      )
+    }
   })
 
   return res
@@ -141,14 +150,50 @@ function copyPredefinedTypes (dir, parentDir) {
   })
 }
 
+function addToExtraInterfaces (def, required) {
+  if (
+    def !== void 0 &&
+    def.tsType !== void 0 &&
+    extraInterfaces[def.tsType] === void 0 &&
+    def.definition !== void 0
+  ) {
+    extraInterfaces[def.tsType] = getObjectParamDefinition(
+      def.definition, required
+    )
+  }
+}
+
+function writeQuasarPluginProps (contents, nameName, props, isLast) {
+  writeLine(contents, `${nameName}: {`, 1)
+  props.forEach(prop => writeLine(contents, prop, 2))
+  writeLine(contents, `}${isLast ? '' : ','}`, 1)
+}
+
+function addQuasarPluginOptions (contents, components, directives, plugins) {
+  writeLine(contents, `export interface QuasarPluginOptions {`)
+  writeLine(contents, `lang: any,`, 1)
+  writeLine(contents, `config: any,`, 1)
+  writeLine(contents, `iconSet: any,`, 1)
+  writeQuasarPluginProps(contents, 'components', components)
+  writeQuasarPluginProps(contents, 'directives', directives)
+  writeQuasarPluginProps(contents, 'plugins', plugins, true)
+  writeLine(contents, `}`)
+  writeLine(contents)
+}
+
 function writeIndexDTS (apis) {
   var contents = []
   var quasarTypeContents = []
+  var components = []
+  var directives = []
+  var plugins = []
 
-  writeLine(contents, `import Vue, { VueConstructor } from 'vue'`)
+  writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)
+  writeLine(quasarTypeContents, `export * from './globals'`)
+  writeLine(quasarTypeContents, `export * from './boot'`)
 
   const injections = {}
 
@@ -156,8 +201,21 @@ function writeIndexDTS (apis) {
     const content = data.api
     const typeName = data.name
 
-    // Declare class
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
+    const typeValue = `${extendsVue ? `VueConstructor<${typeName}>` : typeName}`
+    // Add Type to the appropriate section of types
+    const propTypeDef = `${typeName}?: ${typeValue}`
+    if (content.type === 'component') {
+      write(components, propTypeDef)
+    }
+    else if (content.type === 'directive') {
+      write(directives, propTypeDef)
+    }
+    else if (content.type === 'plugin') {
+      write(plugins, propTypeDef)
+    }
+
+    // Declare class
     writeLine(quasarTypeContents, `export const ${typeName}: ${extendsVue ? `VueConstructor<${typeName}>` : typeName}`)
     writeLine(contents, `export interface ${typeName} ${extendsVue ? 'extends Vue ' : ''}{`)
 
@@ -176,16 +234,7 @@ function writeIndexDTS (apis) {
       const returns = method.returns
       writeLine(contents, `): ${returns ? getTypeVal(returns, content.type === 'plugin') : 'void'}`)
 
-      if (
-        returns !== void 0 &&
-        returns.tsType !== void 0 &&
-        extraInterfaces[returns.tsType] === void 0 &&
-        returns.definition !== void 0
-      ) {
-        extraInterfaces[returns.tsType] = getObjectFunctionsDefinition(
-          returns.definition
-        )
-      }
+      addToExtraInterfaces(returns, true)
     }
 
     // Close class declaration
@@ -220,10 +269,14 @@ function writeIndexDTS (apis) {
   for (const key in injections) {
     const injectionDefs = injections[key]
     if (injectionDefs) {
-      writeLine(contents, `export interface ${key.toUpperCase().replace('$', '')}VueGlobals {`)
+      const injectionName = `${key.toUpperCase().replace('$', '')}VueGlobals`
+      writeLine(contents, `import { ${injectionName} } from "./globals";`)
+      writeLine(contents, `declare module "./globals" {`)
+      writeLine(contents, `export interface ${injectionName} {`)
       for (const defKey in injectionDefs) {
         writeLine(contents, injectionDefs[defKey], 1)
       }
+      writeLine(contents, '}')
       writeLine(contents, '}')
     }
   }
@@ -242,7 +295,12 @@ function writeIndexDTS (apis) {
     writeLine(contents, '}')
   }
 
+  addQuasarPluginOptions(contents, components, directives, plugins)
+
   quasarTypeContents.forEach(line => write(contents, line))
+
+  writeLine(contents, `export const Quasar: PluginObject<Partial<QuasarPluginOptions>>`)
+  writeLine(contents)
 
   writeLine(contents, `import './vue'`)
 

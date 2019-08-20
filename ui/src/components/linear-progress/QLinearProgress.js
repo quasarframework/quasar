@@ -6,6 +6,14 @@ function width (val) {
   return { transform: `scale3d(${val},1,1)` }
 }
 
+const sizes = {
+  xs: 2,
+  sm: 4,
+  md: 6,
+  lg: 10,
+  xl: 14
+}
+
 export default Vue.extend({
   name: 'QLinearProgress',
 
@@ -15,6 +23,8 @@ export default Vue.extend({
       default: 0
     },
     buffer: Number,
+
+    size: String,
 
     color: String,
     trackColor: String,
@@ -28,6 +38,12 @@ export default Vue.extend({
   },
 
   computed: {
+    sizeStyle () {
+      if (this.size !== void 0) {
+        return { height: this.size in sizes ? `${sizes[this.size]}px` : this.size }
+      }
+    },
+
     motion () {
       return this.indeterminate || this.query
     },
@@ -65,6 +81,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-linear-progress',
+      style: this.sizeStyle,
       class: this.classes,
       on: this.$listeners
     }, [

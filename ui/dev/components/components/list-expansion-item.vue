@@ -4,6 +4,7 @@
       <p class="caption">
         Explore the possibilities
       </p>
+      <pre>Model: {{ open }}</pre>
       <q-list bordered padding>
         <q-expansion-item
           expand-separator
@@ -27,6 +28,19 @@
           expand-separator
           icon="perm_identity"
           label="With a model and events"
+        >
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item
+          :value="open"
+          expand-separator
+          icon="perm_identity"
+          label="With a model and events - decoupled"
         >
           <q-card>
             <q-card-section>

@@ -19,15 +19,15 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
   q-drawer(
     v-model="leftDrawerState"
-    bordered
     show-if-above
+    bordered
     content-class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
       .row.justify-center.q-my-lg
         q-btn(
           type="a"
-          href="https://github.com/users/rstoenescu/sponsorship"
+          href="https://donate.quasar.dev"
           target="_blank"
           rel="noopener"
           size="13px"
@@ -60,12 +60,12 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
             )
 
   q-drawer(
-    v-model="rightDrawerState"
     v-if="hasRightDrawer"
+    v-model="rightDrawerState"
+    show-if-above
     side="right"
     content-class="bg-grey-1"
     :width="180"
-    show-if-above
     @on-layout="updateRightDrawerOnLayout"
   )
     q-scroll-area.fit
@@ -113,8 +113,8 @@ export default {
 
   watch: {
     $route () {
-      this.leftDrawerState = true
-      this.rightDrawerState = true
+      this.leftDrawerState = this.$q.screen.width > 1023
+      this.rightDrawerState = this.$q.screen.width > 1023
       this.$nextTick(() => {
         this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
       })

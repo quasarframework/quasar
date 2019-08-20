@@ -9,6 +9,7 @@
       "params": {
         "opts": {
           "desc": "Dialog options",
+          "tsType": "QDialogOptions",
           "definition": {
             "title": {
               "type": "String",
@@ -175,10 +176,16 @@
               "__exemption": [ "examples" ]
             },
 
+            "parent": {
+              "type": "Object",
+              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify Vue parent component",
+              "examples": [ "parent: this" ]
+            },
+
             "root": {
               "type": "Object",
-              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify root of your App",
-              "examples": [ "root: this.$root" ]
+              "desc": "Deprecated alias for parent",
+              "examples": [ "root: this" ]
             }
           }
         }
