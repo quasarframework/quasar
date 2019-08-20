@@ -10,4 +10,4 @@ Capacitor was created by [Ionic Framework](https://ionicframework.com/) as a mor
 
 Both tools enable you to run your website as a native app through a webview. They both expose native device APIs to your JavaScript code, and allow you to write native code in the form of plugins, which can be called through JS. While Cordova supports a wide range of targets, Capacitor only supports iOS and Android. Since Capacitor support in Quasar CLI is not finalized and is considered experimental, we reccomend using Cordova for production apps.
 
-See the docs for [Developing with Capacitor (experimental)](/quasar-cli/developing-capacitor/introduction) or [Developing with Cordova](/quasar-cli/developing-cordova/introduction).
+See the docs for [Developing with Capacitor (experimental)](/quasar-cli/developing-capacitor-apps/introduction) or [Developing with Cordova](/quasar-cli/developing-cordova-apps/introduction).
