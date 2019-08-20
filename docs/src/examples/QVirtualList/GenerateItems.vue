@@ -4,7 +4,7 @@
       style="max-height: 300px; overflow-x: hidden"
       :items-size="size"
       :items-fn="getItems"
-      :virtual-list-item-default-size="78"
+      :virtual-list-item-size="78"
       separator
     >
       <template v-slot="{ item, index }">

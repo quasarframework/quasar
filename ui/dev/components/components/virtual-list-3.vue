@@ -11,7 +11,7 @@
           component="q-list"
           :items-size="size"
           :items-fn="getItems"
-          :virtual-list-item-default-size="5"
+          :virtual-list-item-size="5"
           separator
           ref="list"
         >

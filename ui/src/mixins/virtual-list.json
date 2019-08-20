@@ -16,12 +16,12 @@
       "category": "virtual-list"
     },
 
-    "virtual-list-item-default-size": {
+    "virtual-list-item-size": {
       "type": "Number",
       "desc": "Default size of an option (height or width for horizontal mode), in px - will be used for rendering the initial list. Try to use a value close to the minimum size of an item.",
       "default": "24",
       "examples": [
-        ":virtual-list-item-default-size=\"48\""
+        ":virtual-list-item-size=\"48\""
       ],
       "category": "virtual-list"
     }
