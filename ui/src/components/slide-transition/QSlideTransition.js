@@ -72,8 +72,10 @@ export default Vue.extend({
 
           this.timer = setTimeout(() => {
             el.style.height = `${el.scrollHeight}px`
-            this.animListener = () => {
-              this.__end(el, 'show')
+            this.animListener = ev => {
+              if (Object(ev) !== ev || ev.target === el) {
+                this.__end(el, 'show')
+              }
             }
             el.addEventListener('transitionend', this.animListener)
             this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
@@ -95,8 +97,10 @@ export default Vue.extend({
 
           this.timer = setTimeout(() => {
             el.style.height = 0
-            this.animListener = () => {
-              this.__end(el, 'hide')
+            this.animListener = ev => {
+              if (Object(ev) !== ev || ev.target === el) {
+                this.__end(el, 'hide')
+              }
             }
             el.addEventListener('transitionend', this.animListener)
             this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)

@@ -62,7 +62,7 @@ import { addPreFetchHooks } from './client-prefetch.js'
 const needsFastClick = ctx.mode.pwa || (ctx.mode.cordova && ctx.target.ios)
 if (needsFastClick) {
 %>
-import FastClick from 'fastclick'
+import FastClick from '@quasar/fastclick'
 <% } %>
 
 <% if (ctx.mode.electron) { %>
@@ -106,9 +106,7 @@ const { app, <%= store ? 'store, ' : '' %>router } = createApp()
 // Needed only for iOS PWAs
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
 <% } %>
-  document.addEventListener('DOMContentLoaded', () => {
-    FastClick.attach(document.body)
-  }, false)
+  FastClick()
 <% if (ctx.mode.pwa) { %>}<% } %>
 <% } %>
 

@@ -9,9 +9,10 @@ const
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
+    y: 'yes',
     h: 'help'
   },
-  boolean: ['h']
+  boolean: ['y', 'h']
 })
 
 function showHelp() {
@@ -20,12 +21,14 @@ function showHelp() {
     Add/Remove support for PWA / Cordova / Electron modes.
 
   Usage
-    $ quasar mode [add|remove] [pwa|ssr|cordova|electron]
+    $ quasar mode [add|remove] [pwa|ssr|cordova|electron] [--yes]
 
     # determine what modes are currently installed:
     $ quasar mode
 
   Options
+    --yes, -y     Skips the "Are you sure?" question
+                  when removing a Quasar mode
     --help, -h    Displays this message
   `)
   process.exit(0)
@@ -47,7 +50,7 @@ const
   getMode = require('../lib/mode'),
   { green, grey } = require('chalk')
 
-if (argv._.length === 2) {
+async function run () {
   let [ action, mode ] = argv._
 
   if (!['add', 'remove'].includes(action)) {
@@ -63,22 +66,51 @@ if (argv._.length === 2) {
     process.exit(1)
   }
 
-  getMode(mode)[action]()
-  process.exit(0)
+  const cliMode = getMode(mode)
+
+  if (action === 'remove' && argv.yes !== true && cliMode.isInstalled) {
+    console.log()
+
+    const inquirer = require('inquirer')
+    const answer = await inquirer.prompt([{
+      name: 'go',
+      type: 'confirm',
+      message: `Will also remove /src-${mode} folder. Are you sure?`,
+      default: false
+    }])
+
+    if (!answer.go) {
+      console.log()
+      console.log(`⚠️  Aborted...`)
+      console.log()
+      process.exit(0)
+    }
+  }
+
+  cliMode[action]()
 }
 
-log(`Detecting installed modes...`)
+function displayModes () {
+  log(`Detecting installed modes...`)
 
-const info = []
-;['pwa', 'ssr', 'cordova', 'electron', 'tauri'].forEach(mode => {
-  info.push([
-    `Mode ${mode.toUpperCase()}`,
-    getMode(mode).isInstalled ? green('yes') : grey('no')
-  ])
-})
+  const info = []
+  ;['pwa', 'ssr', 'cordova', 'electron', 'tauri'].forEach(mode => {
+    info.push([
+      `Mode ${mode.toUpperCase()}`,
+      getMode(mode).isInstalled ? green('yes') : grey('no')
+    ])
+  })
 
-console.log(
-  '\n' +
-  info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
-  '\n'
-)
+  console.log(
+    '\n' +
+    info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
+    '\n'
+  )
+}
+
+if (argv._.length === 2) {
+  run()
+}
+else {
+  displayModes()
+}

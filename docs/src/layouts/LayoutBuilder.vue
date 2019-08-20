@@ -6,6 +6,7 @@
       :reveal="cfg.headerReveal"
       :elevated="cfg.headerSep === 'elevated'"
       :bordered="cfg.headerSep === 'bordered'"
+      height-hint="98"
     >
       <q-toolbar>
         <q-btn v-if="pick.left" dense flat round icon="menu" @click="play.left = !play.left" />
@@ -341,6 +342,7 @@
     <q-drawer
       v-if="pick.left"
       v-model="play.left"
+      show-if-above
       :behavior="cfg.leftBehavior"
       :overlay="cfg.leftOverlay"
       :elevated="cfg.leftSep === 'elevated'"
@@ -360,6 +362,7 @@
     <q-drawer
       v-if="pick.right"
       v-model="play.right"
+      show-if-above
       side="right"
       :behavior="cfg.rightBehavior"
       :overlay="cfg.rightOverlay"
@@ -475,8 +478,8 @@ export default {
       play: {
         header: true,
         footer: true,
-        left: true,
-        right: true,
+        left: false,
+        right: false,
 
         scroll: true
       }
@@ -526,7 +529,7 @@ export default {
 
       if (this.pick.header) {
         code += `
-    <q-header ${this.cfg.headerReveal ? 'reveal ' : ''}${this.cfg.headerSep !== 'none' ? this.cfg.headerSep + ' ' : ''}class="bg-primary text-white">
+    <q-header ${this.cfg.headerReveal ? 'reveal ' : ''}${this.cfg.headerSep !== 'none' ? this.cfg.headerSep + ' ' : ''}class="bg-primary text-white"${this.pick.navtabs ? ' height-hint="98"' : ''}>
       <q-toolbar>${this.pick.left ? `
         <q-btn dense flat round icon="menu" @click="left = !left" />
 ` : ''}
@@ -551,7 +554,7 @@ export default {
 
       if (this.pick.left) {
         code += `
-    <q-drawer v-model="left" side="left"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.leftBehavior !== 'default' ? ` behavior="${this.cfg.leftBehavior}"` : ''}${this.cfg.leftSep !== 'none' ? ' ' + this.cfg.leftSep : ''}>
+    <q-drawer ${this.cfg.leftBehavior !== 'mobile' && !this.cfg.leftOverlay ? 'show-if-above ' : ''}v-model="left" side="left"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.leftBehavior !== 'default' ? ` behavior="${this.cfg.leftBehavior}"` : ''}${this.cfg.leftSep !== 'none' ? ' ' + this.cfg.leftSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
@@ -559,7 +562,7 @@ export default {
 
       if (this.pick.right) {
         code += `
-    <q-drawer v-model="right" side="right"${this.cfg.rightOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
+    <q-drawer ${this.cfg.rightBehavior !== 'mobile' && !this.cfg.rightOverlay ? 'show-if-above ' : ''}v-model="right" side="right"${this.cfg.rightOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
@@ -594,8 +597,8 @@ export default {
 export default {
   data () {
     return {${this.pick.left ? `
-      left: true${this.pick.right ? ',' : ''}` : ''}${this.pick.right ? `
-      right: true` : ''}
+      left: false${this.pick.right ? ',' : ''}` : ''}${this.pick.right ? `
+      right: false` : ''}
     }
   }
 }

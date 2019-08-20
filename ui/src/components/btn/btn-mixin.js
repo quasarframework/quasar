@@ -53,7 +53,7 @@ export default {
 
   computed: {
     style () {
-      if (this.size && !this.fab && !this.fabMini) {
+      if (this.fab === false && this.fabMini === false && this.size) {
         return {
           fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size
         }

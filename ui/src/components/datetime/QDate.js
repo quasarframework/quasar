@@ -92,7 +92,7 @@ export default Vue.extend({
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
         (this.dark === true ? ' q-date--dark' : '') +
-        (this.readonly === true ? ' q-date--readonly' : '') +
+        (this.readonly === true && this.disable !== true ? ' q-date--readonly' : '') +
         (this.disable === true ? ' disabled' : '')
     },
 
@@ -208,7 +208,7 @@ export default Vue.extend({
       const len = days < 0 ? days + 7 : days
       if (len < 6) {
         for (let i = endDay - len; i <= endDay; i++) {
-          res.push({ i })
+          res.push({ i, fill: true })
         }
       }
 
@@ -249,7 +249,7 @@ export default Vue.extend({
       if (left > 0) {
         const afterDays = 7 - left
         for (let i = 1; i <= afterDays; i++) {
-          res.push({ i })
+          res.push({ i, fill: true })
         }
       }
 
@@ -479,7 +479,7 @@ export default Vue.extend({
                 key: this.innerModel.year + '/' + this.innerModel.month,
                 staticClass: 'q-date__calendar-days fit'
               }, this.days.map(day => h('div', {
-                staticClass: `q-date__calendar-item q-date__calendar-item--${day.in === true ? 'in' : 'out'}`
+                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}`
               }, [
                 day.in === true
                   ? h(QBtn, {

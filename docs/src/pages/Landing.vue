@@ -153,7 +153,6 @@
       .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Our partners:
       .q-gutter-md.flex.flex-center
 
-        sponsor(img="utopian.png" name="Utopian" url="https://utopian.io/")
         sponsor(img="wallaby.png" name="Wallabyjs" url="https://wallabyjs.com/")
         sponsor(img="snyk.png" name="Snyk" url="https://snyk.io/")
 

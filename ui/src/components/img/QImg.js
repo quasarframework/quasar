@@ -27,6 +27,7 @@ export default Vue.extend({
       default: 'fade'
     },
 
+    noDefaultSpinner: Boolean,
     spinnerColor: String,
     spinnerSize: String
   },
@@ -224,14 +225,20 @@ export default Vue.extend({
         ? h('div', {
           key: 'placeholder',
           staticClass: 'q-img__loading absolute-full flex flex-center'
-        }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [
-          h(QSpinner, {
-            props: {
-              color: this.spinnerColor,
-              size: this.spinnerSize
-            }
-          })
-        ])
+        }, this.$scopedSlots.loading !== void 0
+          ? this.$scopedSlots.loading()
+          : (this.noDefaultSpinner === false
+            ? [
+              h(QSpinner, {
+                props: {
+                  color: this.spinnerColor,
+                  size: this.spinnerSize
+                }
+              })
+            ]
+            : null
+          )
+        )
         : h('div', {
           key: 'content',
           staticClass: 'q-img__content absolute-full'

@@ -20,8 +20,8 @@ export default Vue.extend({
       class: this.classes,
       on: this.$listeners,
       attrs: {
-        'width': this.size,
-        'height': this.size,
+        'width': this.cSize,
+        'height': this.cSize,
         'viewBox': '25 25 50 50'
       }
     }, [

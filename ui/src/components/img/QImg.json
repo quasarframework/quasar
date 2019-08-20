@@ -94,6 +94,12 @@
       "extends": "size",
       "desc": "Size in CSS units, including unit name, for default Spinner (unless using a 'loading' slot)",
       "category": "style"
+    },
+
+    "no-default-spinner": {
+      "type": "Boolean",
+      "desc": "Do not display the default spinner when loading images (unless you are specifying one through the 'loading' slot)",
+      "category": "content"
     }
   },
 

@@ -15,6 +15,10 @@
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border" />
         <br>
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
+        <br>
+        <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="star_border" icon-selected="star" />
+        <br>
+        <q-rating size="3rem" color="red" v-model="moodModel" :max="4" :icon="ratingIcons" />
       </div>
 
       <p class="caption">
@@ -34,7 +38,14 @@
 export default {
   data () {
     return {
-      ratingModel: 4
+      ratingModel: 4,
+      moodModel: 2,
+      ratingIcons: [
+        'sentiment_very_dissatisfied',
+        'sentiment_dissatisfied',
+        'sentiment_satisfied',
+        'sentiment_very_satisfied'
+      ]
     }
   },
   watch: {

@@ -31,6 +31,31 @@
           </q-menu>
         </q-btn>
 
+        <q-btn color="primary" label="Decoupled">
+          <q-menu
+            :value="toggle"
+            ref="popover11"
+            persistent
+            transition-show="jump-up"
+            anchor="top right"
+            @show="log('@show popover11 decoupled')"
+            @hide="log('@hide popover11 decoupled')"
+          >
+            <input v-model="gigi">
+            <q-list padding style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-popup
+                @click="showNotify()"
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+
         <q-btn color="primary" icon="map">
           <q-menu @show="log('@show popover_map')" @hide="log('@hide popover_map')">
             <q-list style="min-width: 100px">
@@ -112,7 +137,7 @@
                           <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                             <q-item-section>Menu Item {{ n }}</q-item-section>
                           </q-item>
-                          <q-item clickable v-close-popup:2>
+                          <q-item clickable v-close-popup="2">
                             <q-item-section>Close dialog</q-item-section>
                           </q-item>
                         </q-list>
@@ -387,7 +412,7 @@
                         :key="x"
                         clickable
                       >
-                        <q-item-section>Submenu Label</q-item-section>
+                        <q-item-section>Submenu autoclose</q-item-section>
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
                         </q-item-section>
@@ -397,6 +422,25 @@
                               v-for="y in 3"
                               :key="y"
                               clickable
+                            >
+                              <q-item-section>3rd level Label</q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-item>
+
+                      <q-item clickable>
+                        <q-item-section>Submenu closepopup</q-item-section>
+                        <q-item-section side>
+                          <q-icon name="keyboard_arrow_right" />
+                        </q-item-section>
+                        <q-menu anchor="top right" self="top left">
+                          <q-list>
+                            <q-item
+                              v-for="y in 3"
+                              :key="y"
+                              clickable
+                              v-close-popup
                             >
                               <q-item-section>3rd level Label</q-item-section>
                             </q-item>
@@ -466,7 +510,7 @@ export default {
       gigi: '',
       fit: false,
       cover: false,
-      toggle: false,
+      toggle: true,
       anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
       selfOrigin: { vertical: 'top', horizontal: 'left' },
       terms: '',

@@ -14,6 +14,10 @@ export default Vue.extend({
       type: Number,
       default: 500
     },
+    debounce: {
+      type: [String, Number],
+      default: 100
+    },
     scrollTarget: {},
     disable: Boolean,
     reverse: Boolean
@@ -39,6 +43,10 @@ export default Vue.extend({
 
     scrollTarget () {
       this.updateScrollTarget()
+    },
+
+    debounce (val) {
+      this.__setDebounce(val)
     }
   },
 
@@ -140,12 +148,22 @@ export default Vue.extend({
       if (this.working === true) {
         this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
       }
+    },
+
+    __setDebounce (val) {
+      val = parseInt(val, 10)
+      if (val <= 0) {
+        this.poll = this.immediatePoll
+      }
+      else {
+        this.poll = debounce(this.immediatePoll, isNaN(val) === true ? 100 : val)
+      }
     }
   },
 
   mounted () {
     this.immediatePoll = this.poll
-    this.poll = debounce(this.poll, 100)
+    this.__setDebounce(this.debounce)
 
     this.updateScrollTarget()
     this.immediatePoll()

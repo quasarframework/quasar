@@ -22,6 +22,16 @@
   &__dropdown-icon
     cursor pointer
 
+  &.q-field--readonly
+    .q-field__control, .q-select__dropdown-icon
+      cursor default
+    &.q-field--labeled
+      .q-select__input
+        cursor default
+    &.q-field--float
+      .q-select__input
+        cursor text
+
   &__dialog
     width 90vw !important
     max-width 90vw !important
@@ -38,22 +48,26 @@
     color white
     background $grey-9
 
-  &__options
-    &--content
-      position relative
-      background-color inherit
+// addressbar always gets shown, so need to slim this down
+body.mobile:not(.cordova) .q-select__dialog
+  max-height calc(100vh - 108px) !important
 
-    &--padding
-      background linear-gradient(
-        transparent,
-        transparent 20%,
-        rgba(128, 128, 128, .03) 20%,
-        rgba(128, 128, 128, .08) 50%,
-        rgba(128, 128, 128, .03) 80%,
-        transparent 80%,
-        transparent
-      )
-      background-size 100% 50px
+body.platform-android
 
-body.platform-ios .q-select__dialog
-  max-height 50vh !important
+  &.cordova .q-dialog__inner--top .q-select__dialog
+    max-height calc(100vh - 24px) !important
+
+  &:not(.cordova) .q-dialog__inner--top .q-select__dialog
+    max-height calc(100vh - 80px) !important
+
+body.platform-ios
+
+  &.cordova .q-dialog__inner--top
+    > div
+      border-radius $generic-border-radius
+
+    .q-select__dialog--focused
+      max-height 47vh !important
+
+  &:not(.cordova) .q-dialog__inner--top .q-select__dialog--focused
+    max-height 50vh !important

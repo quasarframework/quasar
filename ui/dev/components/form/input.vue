@@ -38,6 +38,20 @@
 
       <q-input v-bind="props" v-model="email" type="email" label="eMail" placeholder="Write an email address" />
 
+      <q-input v-bind="props" v-model="text" label="Tooltip and menu">
+        <q-icon slot="prepend" name="event">
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-icon>
+        <q-icon slot="append" name="delete">
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-icon>
+        <q-menu fit no-focus>
+          <div class="q-pa-md text-center">
+            Menu
+          </div>
+        </q-menu>
+      </q-input>
+
       <q-input v-bind="props" v-model="text">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="delete" />
@@ -391,7 +405,7 @@
       </q-input>
 
       <q-input :dark="dark" v-model="text" filled hint="With menu" style="margin-bottom: 100px">
-        <q-menu fit auto-close>
+        <q-menu fit auto-close no-focus>
           <q-list padding style="min-width: 100px">
             <q-item
               v-for="n in 2"

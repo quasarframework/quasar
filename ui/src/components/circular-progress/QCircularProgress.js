@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import SizeMixin from '../../mixins/size.js'
+
 const
   radius = 50,
   diameter = 2 * radius,
@@ -8,6 +10,8 @@ const
 
 export default Vue.extend({
   name: 'QCircularProgress',
+
+  mixins: [ SizeMixin ],
 
   props: {
     value: {
@@ -28,7 +32,6 @@ export default Vue.extend({
     centerColor: String,
     trackColor: String,
 
-    size: String,
     fontSize: String,
 
     // ratio
@@ -51,14 +54,6 @@ export default Vue.extend({
   },
 
   computed: {
-    style () {
-      if (this.size !== void 0) {
-        return {
-          fontSize: this.size
-        }
-      }
-    },
-
     svgStyle () {
       return { transform: `rotate3d(0, 0, 1, ${this.angle - 90}deg)` }
     },
@@ -115,7 +110,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-circular-progress',
       'class': `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
-      style: this.style,
+      style: this.sizeStyle,
       on: this.$listeners,
       attrs: {
         'role': 'progressbar',
