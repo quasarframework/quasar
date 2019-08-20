@@ -68,7 +68,11 @@
               <q-item
                 :key="index"
                 dense
-                :class="{ 'bg-black text-white': index === virtualListIndex2 }"
+                :class="{
+                  'bg-black text-white': index === virtualListIndex2,
+                  'q-py-xl': index % 4 === 0
+                }"
+                :style="index === 99999 ? 'height: 800px' : void 0"
               >
                 <q-item-section>
                   <q-item-label>
