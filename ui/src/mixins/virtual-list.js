@@ -357,12 +357,8 @@ export default {
   },
 
   beforeMount () {
-    this.__onVirtualListScroll = this.$q.platform.is.ios === true || this.$q.platform.is.safari === true
-      ? frameDebounce(this.__onVirtualListScroll)
-      : debounce(this.__onVirtualListScroll, 70)
-
+    this.__onVirtualListScroll = debounce(this.__onVirtualListScroll, 70)
     this.__setScroll = frameDebounce(setScroll)
-
     this.__setVirtualListSize()
   },
 
