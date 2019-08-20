@@ -109,7 +109,7 @@ export default {
       default: 30
     },
 
-    virtualListItemDefaultSize: {
+    virtualListItemSize: {
       type: Number,
       default: 24
     }
@@ -258,7 +258,7 @@ export default {
     },
 
     __resetVirtualList (toIndex) {
-      const defaultSize = this.virtualListItemDefaultSize
+      const defaultSize = this.virtualListItemSize
 
       if (Array.isArray(this.virtualListSizes) === false) {
         this.virtualListSizes = []
@@ -303,12 +303,12 @@ export default {
       if (this.virtualListHorizontal === true) {
         this.virtualListSliceSizeComputed = typeof window === 'undefined'
           ? this.virtualListSliceSize
-          : Math.max(this.virtualListSliceSize, Math.ceil(window.innerWidth / this.virtualListItemDefaultSize * 2))
+          : Math.max(this.virtualListSliceSize, Math.ceil(window.innerWidth / this.virtualListItemSize * 2))
       }
       else {
         this.virtualListSliceSizeComputed = typeof window === 'undefined'
           ? this.virtualListSliceSize
-          : Math.max(this.virtualListSliceSize, Math.ceil(window.innerHeight / this.virtualListItemDefaultSize * 2))
+          : Math.max(this.virtualListSliceSize, Math.ceil(window.innerHeight / this.virtualListItemSize * 2))
       }
     },
 
