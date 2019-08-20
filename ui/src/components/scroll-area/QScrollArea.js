@@ -263,6 +263,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-scrollarea',
+      style: this.contentStyle,
       on: {
         mouseenter: () => { this.hover = true },
         mouseleave: () => { this.hover = false }
