@@ -17,8 +17,8 @@ The QVirtualList component (also known as "virtual scroll") allows you to displa
 
 ::: tip
 * To get the best performance while using large lists freeze the array you are passing in the `items` prop using `Object.freeze(items)`. This allows Vue to skip making the list "responsive" to changes.
-* The number of items that will be rendered will be calculated based on the `virtual-list-item-default-size` prop and the size of the scrolling container, but you can fit it to your needs using the `virtual-list-slice-size` prop.
-* Use the `virtual-list-item-default-size` to specify the initial size of elements. After an element is rendered on screen it's size is updated automatically, but if you specify a default size close to the real size you'll get a better initial indication of the scroll position.
+* The number of items that will be rendered will be calculated based on the `virtual-list-item-size` prop and the size of the scrolling container, but you can fit it to your needs using the `virtual-list-slice-size` prop.
+* Use the `virtual-list-item-size` to specify the initial size of elements. After an element is rendered on screen it's size is updated automatically, but if you specify a default size close to the real size you'll get a better initial indication of the scroll position.
 :::
 
 ::: warning
