@@ -305,8 +305,8 @@ const cli = [
     path: 'developing-mobile-apps'
   },
   {
-    name: 'Developing Capacitor',
-    path: 'developing-capacitor',
+    name: 'Developing Capacitor Apps',
+    path: 'developing-capacitor-apps',
     children: [
       {
         name: 'Introduction',
