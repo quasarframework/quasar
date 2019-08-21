@@ -3,6 +3,7 @@ import Vue from 'vue'
 import VirtualList from '../../mixins/virtual-list.js'
 
 import { listenOpts } from '../../utils/event.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QVirtualList',
@@ -139,6 +140,10 @@ export default Vue.extend({
       attrs: this.attrs,
       props: this.$attrs,
       on: this.$listeners
-    }, this.__padVirtualList(h, this.virtualListScope.map(this.$scopedSlots.default)))
+    }, [
+      slot(this, 'before'),
+      this.__padVirtualList(h, this.virtualListScope.map(this.$scopedSlots.default)),
+      slot(this, 'after')
+    ])
   }
 })

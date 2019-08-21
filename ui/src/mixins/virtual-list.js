@@ -112,6 +112,11 @@ export default {
     virtualListItemSize: {
       type: Number,
       default: 24
+    },
+
+    virtualListInternalComponent: {
+      type: [String, Object],
+      default: 'div'
     }
   },
 
@@ -317,19 +322,19 @@ export default {
         list = [],
         paddingSize = this.virtualListHorizontal === true ? 'width' : 'height'
 
-      list.push(h('div', {
+      list.push(h(this.virtualListInternalComponent, {
         staticClass: 'q-virtual-list__padding',
         key: 'before',
         style: { [paddingSize]: `${this.virtualListPaddingBefore}px` }
       }))
 
-      list.push(h('div', {
+      list.push(h(this.virtualListInternalComponent, {
         staticClass: 'q-virtual-list__content',
         key: 'content',
         ref: 'content'
       }, content))
 
-      list.push(h('div', {
+      list.push(h(this.virtualListInternalComponent, {
         staticClass: 'q-virtual-list__padding',
         key: 'after',
         style: { [paddingSize]: `${this.virtualListPaddingAfter}px` }
