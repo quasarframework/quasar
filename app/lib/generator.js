@@ -30,9 +30,14 @@ class Generator {
       paths.push('server-entry.js')
     }
     if (ctx.mode.tauri) {
-      paths.push('tauri.js')
+      const { injector, apiTemplatePath } = require('@quasar/tauri')
+      this.files.push({
+        filename: 'tauri.js',
+        dest: path.join(quasarFolder, 'tauri.js'),
+        template: compileTemplate(fs.readFileSync(apiTemplatePath))
+      })
 
-      const TauriInjector = require('@quasar/tauri').injector,
+      const TauriInjector = injector,
         tauriInjectorInstance = new TauriInjector(),
         tauriConfigFolder = tauriInjectorInstance.configDir()
 
