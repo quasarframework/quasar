@@ -4,7 +4,7 @@
   "props": {
     "component": {
       "type": "String",
-      "desc": "HTML component to render as container",
+      "desc": "HTML tag or component name to render as container",
       "default": "div",
       "examples": [ "div", "q-list" ],
       "category": "content"
@@ -12,7 +12,7 @@
 
     "items": {
       "type": "Array",
-      "desc": "Available list items that will be passed to the scoped slot. For best performance freeze the list of items. Required if itemsFn is not supplied.",
+      "desc": "Available list items that will be passed to the scoped slot; For best performance freeze the list of items; Required if 'itemsFn' is not supplied",
       "default": "[]",
       "examples": [
         ":items=\"[ 'BMW', 'Samsung Phone' ]\"",
@@ -23,7 +23,7 @@
 
     "items-size": {
       "type": [ "String", "Number"],
-      "desc": "Number of available items in the list. Required and used only is itemsFn is provided.",
+      "desc": "Number of available items in the list; Required and used only if 'itemsFn' is provided",
       "default": "void 0",
       "examples": [
         "items-size=\"100000\"",
@@ -34,7 +34,7 @@
 
     "items-fn": {
       "type": "Function",
-      "desc": "Function to return the scope for the items to be displayed. Should return an array for items starting from `from` index for size length.",
+      "desc": "Function to return the scope for the items to be displayed; Should return an array for items starting from 'from' index for size length",
       "params": {
         "from": {
           "type": "Number",
@@ -53,14 +53,14 @@
         "__exemption": [ "examples" ]
       },
       "examples": [
-        ":items-fn=\"(from, size) => { const items = []; for (let i = 0; i < size; i++) { items.push(`Item ${i}`) }; return items }\""
+        ":items-fn=\"(from, size) => { const items = []; for (let i = 0; i < size; i++) { items.push('Item ' + i) }; return items }\""
       ],
       "category": "content"
     },
 
     "scroll-target": {
       "type": [ "Element", "String" ],
-      "desc": "CSS selector or DOM element to be used as scroll container instead of the root element of virtual list",
+      "desc": "CSS selector or DOM element to be used as scroll container instead of the component's own container",
       "examples": [
         ":scroll-target=\"$refs.scrollTarget\"",
         "scroll-target=\"body\""
