@@ -3,7 +3,8 @@ const
   path = require('path'),
   merge = require('webpack-merge'),
   fs = require('fs'),
-  { logError, writeFile } = require('./build.utils')
+  { logError, writeFile } = require('./build.utils'),
+  ast = require('./ast')
 
 const
   root = path.resolve(__dirname, '..'),
@@ -394,6 +395,7 @@ function orderAPI (api, apiType) {
   return ordered
 }
 
+const apiErrors = []
 function fillAPI (apiType) {
   return file => {
     const
@@ -401,6 +403,26 @@ function fillAPI (apiType) {
       filePath = path.join(dest, name)
 
     const api = orderAPI(parseAPI(file, apiType), apiType)
+    if (apiType === 'component') {
+      let definition = fs.readFileSync(file.replace('.json', '.js'), {
+        encoding: 'utf-8'
+      })
+      ast.evaluate(definition, topSections[apiType], (prop, key) => {
+        if (!key.startsWith('__')) {
+          if (prop === 'props') {
+            key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
+              .replace(/\s+/g, '-')
+              .toLowerCase()
+          }
+          if (api[prop] === void 0) {
+            console.log(`Missing ${prop} section on ${file}`)
+          }
+          else if (api[prop][key] === void 0) {
+            console.log(`Missing prop ${key} for section ${prop} on ${file}`)
+          }
+        }
+      })
+    }
 
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))
