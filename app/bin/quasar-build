@@ -43,6 +43,7 @@ if (argv.help) {
 
   Options
     --mode, -m      App mode [spa|ssr|pwa|cordova|electron|tauri] (default: spa)
+                    Attention: Tauri is in alpha stage, anything can change!
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
@@ -50,7 +51,7 @@ if (argv.help) {
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
-                      - Tauri (default: yours) - Tauri is in alpha stage, anything can change !
+                      - Tauri (default: yours)
                         Syntax: <arch><sub>-<vendor>-<sys>-<abi>
                         (separated by "," -- no spaces!)
     --publish, -P   Also trigger publishing hooks (if any are specified)
