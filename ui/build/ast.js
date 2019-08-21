@@ -1,4 +1,5 @@
-const recast = require('recast'),
+const
+  recast = require('recast'),
   parser = require('recast/parsers/babel')
 
 module.exports.evaluate = (source, lookup, callback) => {

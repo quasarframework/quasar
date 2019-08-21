@@ -24,7 +24,7 @@ export default Vue.extend({
   },
 
   methods: {
-    activate (e, keyboard) {
+    __activate (e, keyboard) {
       if (this.disable !== true) {
         this.__checkActivation(true)
       }
