@@ -73,20 +73,6 @@ Vue.prototype.$q.electron = electron
 <% if (ctx.mode.tauri) { %>
 import tauri from './tauri.js'
 Vue.prototype.$q.tauri = window.tauri = tauri
-
-document.querySelector('body').addEventListener(
-  'click',
-  e => {
-    let target = e.target
-    while (target != null) {
-      if (target.matches ? target.matches('a') : target.msMatchesSelector('a')) {
-        tauri.open(target.href)
-        break
-      }
-      target = target.parentElement
-    }
-  }, true
-)
 <% } %>
 
 <% if (ctx.dev) { %>
