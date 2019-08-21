@@ -50,7 +50,7 @@ if (argv.help) {
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
-                      - Tauri (default: yours)
+                      - Tauri (default: yours) - Tauri is in alpha stage, anything can change !
                         Syntax: <arch><sub>-<vendor>-<sys>-<abi>
                         (separated by "," -- no spaces!)
     --publish, -P   Also trigger publishing hooks (if any are specified)
