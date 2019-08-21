@@ -34,7 +34,7 @@ module.exports = function (cfg, configName) {
           : cfg.build.distDir
       )
       .publicPath(cfg.build.publicPath)
-      .filename(cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? `js/app.js` : `js/[name]${fileHash}.js`)
+      .filename(`js/[name]${fileHash}.js`)
       .chunkFilename(`js/[name]${chunkHash}.js`)
   }
 
@@ -120,7 +120,7 @@ module.exports = function (cfg, configName) {
       .loader('babel-loader')
         .options({
           extends: appPaths.resolve.app('babel.config.js'),
-          plugins: (cfg.framework.all !== true && configName !== 'Server' ? [
+          plugins: cfg.framework.all !== true && configName !== 'Server' ? [
             [
               'transform-imports', {
                 quasar: {
@@ -129,22 +129,15 @@ module.exports = function (cfg, configName) {
                 }
               }
             ]
-          ] : []).concat(cfg.ctx.mode.tauri ? [
-            [
-              'system-import-transformer', { // needs constant attention
-                modules: 'common'
-              }
-            ]
-          ] : [])
+          ] : []
         })
   
-  const optionsLimit = cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? undefined : 10000
   chain.module.rule('images')
     .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: optionsLimit,
+        limit: undefined,
         name: `img/[name]${fileHash}.[ext]`
       })
 
@@ -153,7 +146,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: optionsLimit,
+        limit: undefined,
         name: `fonts/[name]${fileHash}.[ext]`
       })
 
@@ -162,7 +155,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: optionsLimit,
+        limit: undefined,
         name: `media/[name]${fileHash}.[ext]`
       })
 
@@ -236,28 +229,6 @@ module.exports = function (cfg, configName) {
         rem = cfg.vendor.remove,
         regex = /[\\/]node_modules[\\/]/
 
-      if (cfg.ctx.mode.tauri) {
-        chain.optimization.splitChunks({
-          chunks: 'all',
-            minSize: 0,
-            maxSize: Infinity,
-            maxAsyncRequests: 1,
-            maxInitialRequests: 1,
-            automaticNameDelimiter: '~',
-            name: true,
-            cacheGroups: {
-              styles: {
-                name: 'styles',
-                chunks: 'all'
-              },
-              commons: {
-                name: 'vendors',
-                chunks: 'all'
-              }
-            }
-        })
-      }
-      else {
         chain.optimization
           .splitChunks({
             cacheGroups: {
@@ -289,7 +260,7 @@ module.exports = function (cfg, configName) {
               }
             }
           })
-      }
+      
 
       // extract webpack runtime and module manifest to its own file in order to
       // prevent vendor hash from being updated whenever app bundle is updated
@@ -345,7 +316,7 @@ module.exports = function (cfg, configName) {
       // extract css into its own file
       chain.plugin('mini-css-extract')
         .use(MiniCssExtractPlugin, [{
-          filename: cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? 'css/app.css' : 'css/[name].[contenthash:8].css'
+          filename: 'css/[name].[contenthash:8].css'
         }])
 
       // dedupe & minify CSS (only if extracted)

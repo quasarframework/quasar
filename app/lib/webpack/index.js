@@ -94,7 +94,14 @@ async function getElectron (cfg) {
 
 async function getTauri (cfg) {
   const chain = createChain(cfg, 'Tauri')
-  require('./tauri')(chain, cfg)
+  const
+    injectHtml = require('./inject.html'),
+    injectClientSpecifics = require('./inject.client-specifics'),
+    injectHotUpdate = require('./inject.hot-update')
+  injectHtml(chain, cfg)
+  injectClientSpecifics(chain, cfg)
+  injectHotUpdate(chain, cfg)
+  require('@quasar/tauri/mode/webpack').chain(chain, cfg)
   return await getWebpackConfig(chain, cfg, {
     name: 'Tauri',
     hot: true,
