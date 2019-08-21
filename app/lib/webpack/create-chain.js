@@ -131,19 +131,20 @@ module.exports = function (cfg, configName) {
             ]
           ] : []).concat(cfg.ctx.mode.tauri ? [
             [
-              'system-import-transformer', {
+              'system-import-transformer', { // needs constant attention
                 modules: 'common'
               }
             ]
           ] : [])
         })
-
+  
+  const optionsLimit = cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? undefined : 10000
   chain.module.rule('images')
     .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? undefined : 10000,
+        limit: optionsLimit,
         name: `img/[name]${fileHash}.[ext]`
       })
 
@@ -152,7 +153,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? undefined : 10000,
+        limit: optionsLimit,
         name: `fonts/[name]${fileHash}.[ext]`
       })
 
@@ -161,7 +162,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
-        limit: cfg.ctx.mode.tauri && !cfg.tauri.embeddedServer.active ? undefined : 10000,
+        limit: optionsLimit,
         name: `media/[name]${fileHash}.[ext]`
       })
 
