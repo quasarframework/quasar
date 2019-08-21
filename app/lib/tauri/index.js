@@ -2,8 +2,8 @@ const appPaths = require('../app-paths')
 
 class TauriRunner {
   constructor() {
-    const Tauri = require('@quasar/tauri').runner
-    this.tauri = new Tauri(appPaths)
+    const Runner = require('@quasar/tauri/mode/runner')
+    this.mode = new Runner({ modeDir: appPaths.tauriDir })
   }
 
   __getConfig(cfg) {
@@ -16,16 +16,16 @@ class TauriRunner {
 
   async run(quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
-    return this.tauri.run(this.__getConfig(cfg))
+    return this.mode.run(this.__getConfig(cfg))
   }
 
   async build(quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
-    return this.tauri.build(this.__getConfig(cfg))
+    return this.mode.build(this.__getConfig(cfg))
   }
 
   stop() {
-    return this.tauri.stop()
+    return this.mode.stop()
   }
 }
 

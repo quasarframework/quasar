@@ -18,8 +18,8 @@ class Mode {
 
     log('Creating Tauri source folder...')
 
-    const TauriInjector = require('@quasar/tauri').injector
-    new TauriInjector(appPaths).injectTemplate()
+    const { inject } = require('@quasar/tauri/mode/template')
+    inject(appPaths.tauriDir)
 
     log(`Tauri support was installed`)
   }

@@ -30,27 +30,8 @@ class Generator {
       paths.push('server-entry.js')
     }
     if (ctx.mode.tauri) {
-      const { injector, apiTemplatePath } = require('@quasar/tauri')
-      this.files.push({
-        filename: 'tauri.js',
-        dest: path.join(quasarFolder, 'tauri.js'),
-        template: compileTemplate(fs.readFileSync(apiTemplatePath))
-      })
-
-      const TauriInjector = injector,
-        tauriInjectorInstance = new TauriInjector(),
-        tauriConfigFolder = tauriInjectorInstance.configDir()
-
-      const {bundle, ...tauriCfg} = cfg.tauri
-      this.files = this.files.concat([{
-        filename: 'config.json',
-        dest: path.join(tauriConfigFolder, 'config.json'),
-        template: compileTemplate(JSON.stringify(tauriCfg))
-      }, {
-        filename: 'bundle.json',
-          dest: path.join(tauriConfigFolder, 'bundle.json'),
-          template: compileTemplate(JSON.stringify(bundle === false ? {} : bundle))
-      }])
+      const { generate } = require('@quasar/tauri/mode/generator')
+      generate(quasarFolder, cfg)
     }
 
     this.files = this.files.concat(paths.map(file => {
