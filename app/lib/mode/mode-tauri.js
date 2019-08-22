@@ -12,7 +12,7 @@ const
   }
 
 class Mode {
-  static isInstalled() {
+  get isInstalled() {
     return fse.existsSync(appPaths.tauriDir)
   }
 
