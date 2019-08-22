@@ -48,6 +48,8 @@ if (argv.help) {
 
   Options
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron|tauri] (default: spa)
+                     Attention: Tauri is in alpha stage, anything can change!
+
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
