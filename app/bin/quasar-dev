@@ -110,7 +110,7 @@ async function parseAddress ({ host, port }) {
       warn(`⚠️ Invalid host specified. No network address matches. Please specify another one.`)
     }
     else {
-      warn(`⚠️ Unknown network error occured`)
+      warn(`⚠️ Unknown network error occurred`)
       console.log(e)
     }
 
