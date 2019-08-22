@@ -1,7 +1,8 @@
 const
   createChain = require('./create-chain'),
   log = require('../helpers/logger')('app:webpack'),
-  extensionRunner = require('../app-extension/extensions-runner')
+  extensionRunner = require('../app-extension/extensions-runner'),
+  appPaths = require('../app-paths')
 
 async function getWebpackConfig (chain, cfg, {
   name,
@@ -101,7 +102,9 @@ async function getTauri (cfg) {
   injectHtml(chain, cfg)
   injectClientSpecifics(chain, cfg)
   injectHotUpdate(chain, cfg)
-  require('@quasar/tauri/mode/webpack').chain(chain, cfg)
+  require(require.resolve('@quasar/tauri/mode/webpack', {
+    paths: [ appPaths.appDir ]
+  })).chain(chain, cfg)
   return await getWebpackConfig(chain, cfg, {
     name: 'Tauri',
     hot: true,

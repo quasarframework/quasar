@@ -2,7 +2,9 @@ const appPaths = require('../app-paths')
 
 class TauriRunner {
   constructor() {
-    const Runner = require('@quasar/tauri/mode/runner')
+    const Runner = require(require.resolve('@quasar/tauri/mode/runner', {
+      paths: [ appPaths.appDir ]
+    }))
     this.mode = new Runner({ modeDir: appPaths.tauriDir })
   }
 

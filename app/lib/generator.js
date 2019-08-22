@@ -30,7 +30,9 @@ class Generator {
       paths.push('server-entry.js')
     }
     if (ctx.mode.tauri) {
-      const { generate } = require('@quasar/tauri/mode/entry')
+      const { generate } = require(require.resolve('@quasar/tauri/mode/entry', {
+        paths: [ appPaths.appDir ]
+      }))
       generate(quasarFolder, cfg, ctx)
     }
 
