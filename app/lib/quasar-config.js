@@ -623,6 +623,7 @@ class QuasarConfig {
         cfg.tauri.embeddedServer.port = cfg.tauri.embeddedServer.port.toString()
       }
     }
+
     if (this.ctx.mode.pwa) {
       cfg.build.webpackManifest = false
 

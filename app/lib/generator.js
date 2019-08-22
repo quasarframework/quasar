@@ -1,5 +1,5 @@
 const
-  fs = require('fs'),
+  fs = require('fs-extra'),
   path = require('path'),
   compileTemplate = require('lodash.template')
 
@@ -56,10 +56,16 @@ class Generator {
     log(`Generating Webpack entry point`)
     const data = this.quasarConfig.getBuildConfig()
 
-    // ensure .quasar folder
-    if (!fs.existsSync(quasarFolder)) {
-      fs.mkdirSync(quasarFolder)
-    }
+    // ensure .quasar folder and that it is NOT a file
+    fs.existsSync(quasarFolder, (exists) => {
+      if (exists) { // somehow its a file, not a folder
+        fs.remove(quasarFolder).then(() => {
+          fs.ensureDirSync(quasarFolder)
+        })
+      } else {
+        fs.ensureDirSync(quasarFolder)
+      }
+    })
 
     this.files.forEach(file => {
       fs.writeFileSync(file.dest, file.template(data), 'utf-8')
