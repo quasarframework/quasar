@@ -30,8 +30,8 @@ class Generator {
       paths.push('server-entry.js')
     }
     if (ctx.mode.tauri) {
-      const { generate } = require('@quasar/tauri/mode/generator')
-      generate(quasarFolder, cfg)
+      const { generate } = require('@quasar/tauri/mode/entry')
+      generate(quasarFolder, cfg, ctx)
     }
 
     this.files = this.files.concat(paths.map(file => {
