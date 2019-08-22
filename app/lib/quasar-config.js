@@ -475,7 +475,7 @@ class QuasarConfig {
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
     else if (this.ctx.mode.tauri) {
-      cfg.build.distDir = appPaths.resolve.app('src-tauri/target/compiled-web')
+      cfg.build.distDir = appPaths.resolve.tauri('target/compiled-web')
     }
 
     cfg.build.publicPath =
