@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md">
-    <q-virtual-list
+    <q-virtual-scroll
       :items="heavyList"
-      virtual-list-horizontal
+      virtual-scroll-horizontal
     >
       <template v-slot="{ item, index }">
         <div
@@ -12,7 +12,7 @@
           #{{ index }} - {{ item.label }}
         </div>
       </template>
-    </q-virtual-list>
+    </q-virtual-scroll>
   </div>
 </template>
 

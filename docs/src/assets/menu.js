@@ -886,9 +886,9 @@ const components = [
     path: 'video'
   },
   {
-    name: 'Virtual List',
+    name: 'Virtual Scroll',
     badge: 'new',
-    path: 'virtual-list'
+    path: 'virtual-scroll'
   }
 ]
 

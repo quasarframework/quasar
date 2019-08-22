@@ -14,7 +14,7 @@
       />
     </div>
 
-    <q-virtual-list
+    <q-virtual-scroll
       ref="virtualListRef"
       class="q-my-md"
       style="max-height: 300px;"
@@ -36,7 +36,7 @@
           </q-item-section>
         </q-item>
       </template>
-    </q-virtual-list>
+    </q-virtual-scroll>
   </div>
 </template>
 
