@@ -19,8 +19,7 @@
   > .q-btn-item:not(:last-child)
     border-top-right-radius 0
     border-bottom-right-radius 0
-  > .q-btn-item + .q-btn-item,
-  > .q-separator--vertical + .q-btn-item
+  > .q-btn-item:not(:first-child)
     border-top-left-radius 0
     border-bottom-left-radius 0
 
@@ -38,16 +37,12 @@
             transform translate3d(0, 3px, 0)
   &--rounded
     border-radius $button-rounded-border-radius
-    > .q-separator--vertical + .q-btn-item
-        border-top-left-radius 0
-        border-bottom-left-radius 0
-
   &--flat, &--outline, &--unelevated
     box-shadow none
     > .q-btn-item
       box-shadow none
   &--outline
-    > .q-separator--vertical
+    > .q-separator
       display none
     > .q-btn-item + .q-btn-item
       border-left 0
