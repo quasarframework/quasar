@@ -207,7 +207,7 @@ class QuasarConfig {
         packager: {},
         builder: {}
       },
-      tauri: {},
+      tauri: this.ctx.mode.tauri ? require(require.resolve('@quasar/tauri/mode/config',{ paths: [ appPaths.appDir ]})).init : {},
       cordova: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
@@ -617,21 +617,8 @@ class QuasarConfig {
     }
 
     if (this.ctx.mode.tauri) {
-      cfg.tauri = merge({
-        embeddedServer: {
-          active: true
-        },
-        bundle: {
-          active: true
-        },
-        whitelist: {},
-        window: {
-          title: require(appPaths.resolve.app('package.json')).productName
-        },
-        security: {
-          csp: 'default-src data: filesystem: ws: http: https: \'unsafe-eval\' \'unsafe-inline\''
-        }
-      }, cfg.tauri)
+
+      cfg.tauri = merge(require(require.resolve('@quasar/tauri/mode/config',{paths: [ appPaths.appDir ]})).defaultObject, cfg.tauri)
       if (cfg.tauri.embeddedServer.port != null) {
         cfg.tauri.embeddedServer.port = cfg.tauri.embeddedServer.port.toString()
       }
