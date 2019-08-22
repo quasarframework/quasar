@@ -8,7 +8,7 @@ const fse = require('fs-extra'),
 
 const
   tauriDeps = {
-    '@quasar/tauri': '*' // temporary
+    '@quasar/tauri': '^0.0.1-utility.2' // temporary
   }
 
 class Mode {
