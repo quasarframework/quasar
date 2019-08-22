@@ -312,30 +312,28 @@ export default {
       }
     },
 
-    __padVirtualList (h, content) {
-      const
-        list = [],
-        paddingSize = this.virtualListHorizontal === true ? 'width' : 'height'
+    __padVirtualList (h, tag, content) {
+      const paddingSize = this.virtualListHorizontal === true ? 'width' : 'height'
 
-      list.push(h('div', {
-        staticClass: 'q-virtual-list__padding',
-        key: 'before',
-        style: { [paddingSize]: `${this.virtualListPaddingBefore}px` }
-      }))
+      return [
+        h(tag, {
+          staticClass: 'q-virtual-list__padding',
+          key: 'before',
+          style: { [paddingSize]: `${this.virtualListPaddingBefore}px` }
+        }),
 
-      list.push(h('div', {
-        staticClass: 'q-virtual-list__content',
-        key: 'content',
-        ref: 'content'
-      }, content))
+        h(tag, {
+          staticClass: 'q-virtual-list__content',
+          key: 'content',
+          ref: 'content'
+        }, content),
 
-      list.push(h('div', {
-        staticClass: 'q-virtual-list__padding',
-        key: 'after',
-        style: { [paddingSize]: `${this.virtualListPaddingAfter}px` }
-      }))
-
-      return list
+        h(tag, {
+          staticClass: 'q-virtual-list__padding',
+          key: 'after',
+          style: { [paddingSize]: `${this.virtualListPaddingAfter}px` }
+        })
+      ]
     },
 
     __emitScroll (index) {

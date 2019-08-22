@@ -647,7 +647,7 @@ export default Vue.extend({
           ])
         ])
 
-      return this.__padVirtualList(h, this.optionScope.map(fn))
+      return this.__padVirtualList(h, 'div', this.optionScope.map(fn))
     },
 
     __getInnerAppend (h) {

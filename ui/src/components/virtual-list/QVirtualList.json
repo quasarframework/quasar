@@ -2,11 +2,11 @@
   "mixins": [ "mixins/virtual-list" ],
 
   "props": {
-    "component": {
+    "type": {
       "type": "String",
-      "desc": "HTML tag or component name to render as container",
-      "default": "div",
-      "examples": [ "div", "q-list" ],
+      "desc": "The type of content: list (default) or table",
+      "default": "list",
+      "values": [ "list", "table" ],
       "category": "content"
     },
 

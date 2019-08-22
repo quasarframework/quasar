@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import QList from '../list/QList.js'
+import QMarkupTable from '../table/QMarkupTable.js'
 import VirtualList from '../../mixins/virtual-list.js'
 
 import { listenOpts } from '../../utils/event.js'
@@ -10,9 +12,10 @@ export default Vue.extend({
   mixins: [ VirtualList ],
 
   props: {
-    component: {
-      type: [String, Object],
-      default: 'div'
+    type: {
+      type: String,
+      default: 'list',
+      validator: v => ['list', 'table']
     },
 
     items: {
@@ -58,7 +61,7 @@ export default Vue.extend({
     },
 
     classes () {
-      return 'q-virtual-list' + (this.virtualListHorizontal === true ? '--horizontal' : '--vertical') +
+      return 'q-virtual-list q-virtual-list' + (this.virtualListHorizontal === true ? '--horizontal' : '--vertical') +
         (this.scrollTarget !== void 0 ? '' : ' scroll')
     },
 
@@ -133,12 +136,24 @@ export default Vue.extend({
       return
     }
 
-    return h(this.component, {
-      staticClass: 'q-virtual-list',
+    let child = this.__padVirtualList(
+      h,
+      this.type === 'list' ? 'div' : 'tbody',
+      this.virtualListScope.map(this.$scopedSlots.default)
+    )
+
+    if (this.$scopedSlots.before !== void 0) {
+      child = this.$scopedSlots.before().concat(child)
+    }
+    if (this.$scopedSlots.after !== void 0) {
+      child = child.concat(this.$scopedSlots.after())
+    }
+
+    return h(this.type === 'list' ? QList : QMarkupTable, {
       class: this.classes,
       attrs: this.attrs,
       props: this.$attrs,
       on: this.$listeners
-    }, this.__padVirtualList(h, this.virtualListScope.map(this.$scopedSlots.default)))
+    }, child)
   }
 })
