@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/virtual-list" ],
+  "mixins": [ "mixins/virtual-scroll" ],
 
   "props": {
     "type": {

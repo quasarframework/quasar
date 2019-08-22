@@ -18,7 +18,7 @@
           Heavy test - Different components ({{ size.toLocaleString() }} items)
         </div>
         <q-list class="q-my-md bg-grey-10">
-          <q-virtual-list
+          <q-virtual-scroll
             style="max-height: 300px;"
             :items="heavyList"
           >
@@ -48,7 +48,7 @@
                 {{ item.label }} #{{ index }}
               </div>
             </template>
-          </q-virtual-list>
+          </q-virtual-scroll>
         </q-list>
 
         <div class="text-h6 q-mt-lg row items-center justify-between">
@@ -66,7 +66,7 @@
             @change="$refs.vList.scrollTo(scrollTo)"
           />
         </div>
-        <q-virtual-list component="q-list" ref="vList" :items="heavyList" separator class="q-my-md" style="max-height: 300px;">
+        <q-virtual-scroll component="q-list" ref="vList" :items="heavyList" separator class="q-my-md" style="max-height: 300px;">
           <template v-slot="{ item, index }">
             <q-item :key="index">
               <q-item-section>
@@ -88,7 +88,7 @@
               </q-item-section>
             </q-item>
           </template>
-        </q-virtual-list>
+        </q-virtual-scroll>
 
         <div class="text-h6 q-mt-lg row items-center justify-between">
           Horizontal - Variable size ({{ size.toLocaleString() }} items)
@@ -105,7 +105,7 @@
             @change="$refs.vListH.scrollTo(scrollToH)"
           />
         </div>
-        <q-virtual-list ref="vListH" virtual-list-horizontal :items="heavyList" class="q-my-md" style="max-width: 80vw; margin-bottom: 200vh;">
+        <q-virtual-scroll ref="vListH" virtual-scroll-horizontal :items="heavyList" class="q-my-md" style="max-width: 80vw; margin-bottom: 200vh;">
           <template v-slot="{ item, index }">
             <div class="row no-wrap items-center" :key="index">
               <q-avatar square color="warning" text-color="negative">
@@ -120,7 +120,7 @@
               <q-separator v-if="index < heavyList.length - 1" vertical spaced />
             </div>
           </template>
-        </q-virtual-list>
+        </q-virtual-scroll>
       </q-page>
     </q-page-container>
   </q-layout>

@@ -6,12 +6,12 @@
           Virtual list with dynamic generated items ({{ size.toLocaleString() }} items)
         </div>
 
-        <q-virtual-list
+        <q-virtual-scroll
           class="bg-white col"
           component="q-list"
           :items-size="size"
           :items-fn="getItems"
-          :virtual-list-item-size="5"
+          :virtual-scroll-item-size="5"
           separator
           ref="list"
         >
@@ -36,7 +36,7 @@
               </q-item-section>
             </q-item>
           </template>
-        </q-virtual-list>
+        </q-virtual-scroll>
 
         <div class="q-pa-md row justify-between">
           <q-btn label="+1e5" @click="() => { size += 1e5 }" />

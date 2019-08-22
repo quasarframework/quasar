@@ -11,7 +11,7 @@
           <div class="text-h6 q-my-lg q-pa-lg bg-grey-10 text-white" style="height: 500px">
             Before list
           </div>
-          <q-virtual-list component="q-list" :items="heavyList" separator :scroll-target="scrollTarget" @virtual-scroll="onVirtualScroll1">
+          <q-virtual-scroll component="q-list" :items="heavyList" separator :scroll-target="scrollTarget" @virtual-scroll="onVirtualScroll1">
             <template v-slot="{ item, index }">
               <q-item
                 v-if="(index % 3) === 0"
@@ -36,7 +36,7 @@
                 {{ item.label }} #{{ index }}
               </div>
             </template>
-          </q-virtual-list>
+          </q-virtual-scroll>
           <div class="text-h6 q-my-lg q-pa-lg bg-grey-10 text-white" style="height: 800px">
             After list
           </div>
@@ -55,7 +55,7 @@
             />
           </div>
 
-          <q-virtual-list
+          <q-virtual-scroll
             ref="virtualListRef"
             class="q-my-md"
             style="max-height: 300px;"
@@ -81,7 +81,7 @@
                 </q-item-section>
               </q-item>
             </template>
-          </q-virtual-list>
+          </q-virtual-scroll>
         </div>
       </q-page>
     </q-page-container>

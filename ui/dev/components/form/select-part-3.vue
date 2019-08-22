@@ -143,7 +143,7 @@
         style="width: 250px"
         clearable
         :behavior="behavior"
-        virtual-list-horizontal
+        virtual-scroll-horizontal
       >
         <template v-slot:no-option>
           <q-item>

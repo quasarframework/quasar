@@ -2,14 +2,14 @@ import Vue from 'vue'
 
 import QList from '../list/QList.js'
 import QMarkupTable from '../table/QMarkupTable.js'
-import VirtualList from '../../mixins/virtual-list.js'
+import VirtualScroll from '../../mixins/virtual-scroll.js'
 
 import { listenOpts } from '../../utils/event.js'
 
 export default Vue.extend({
-  name: 'QVirtualList',
+  name: 'QVirtualScroll',
 
-  mixins: [ VirtualList ],
+  mixins: [ VirtualScroll ],
 
   props: {
     type: {
@@ -37,31 +37,31 @@ export default Vue.extend({
   },
 
   computed: {
-    virtualListLength () {
+    virtualScrollLength () {
       return this.itemsSize >= 0 && this.itemsFn !== void 0
         ? parseInt(this.itemsSize, 10)
         : (Array.isArray(this.items) ? this.items.length : 0)
     },
 
-    virtualListScope () {
-      if (this.virtualListLength === 0) {
+    virtualScrollScope () {
+      if (this.virtualScrollLength === 0) {
         return []
       }
 
       const mapFn = (item, i) => ({
-        index: this.virtualListSliceRange.from + i,
+        index: this.virtualScrollSliceRange.from + i,
         item
       })
 
       if (this.itemsFn === void 0) {
-        return this.items.slice(this.virtualListSliceRange.from, this.virtualListSliceRange.to).map(mapFn)
+        return this.items.slice(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to).map(mapFn)
       }
 
-      return this.itemsFn(this.virtualListSliceRange.from, this.virtualListSliceRange.to - this.virtualListSliceRange.from).map(mapFn)
+      return this.itemsFn(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to - this.virtualScrollSliceRange.from).map(mapFn)
     },
 
     classes () {
-      return 'q-virtual-list q-virtual-list' + (this.virtualListHorizontal === true ? '--horizontal' : '--vertical') +
+      return 'q-virtual-scroll q-virtual-scroll' + (this.virtualScrollHorizontal === true ? '--horizontal' : '--vertical') +
         (this.scrollTarget !== void 0 ? '' : ' scroll')
     },
 
@@ -71,8 +71,8 @@ export default Vue.extend({
   },
 
   watch: {
-    virtualListLength () {
-      this.__resetVirtualList()
+    virtualScrollLength () {
+      this.__resetVirtualScroll()
     },
 
     scrollTarget () {
@@ -82,11 +82,11 @@ export default Vue.extend({
   },
 
   methods: {
-    __getVirtualListEl () {
+    __getVirtualScrollEl () {
       return this.$el
     },
 
-    __getVirtualListScrollTarget () {
+    __getVirtualScrollTarget () {
       return this.__scrollTarget
     },
 
@@ -107,19 +107,19 @@ export default Vue.extend({
 
       this.__scrollTarget = __scrollTarget
 
-      __scrollTarget.addEventListener('scroll', this.__onVirtualListScroll, listenOpts.passive)
+      __scrollTarget.addEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
     },
 
     __unconfigureScrollTarget () {
       if (this.__scrollTarget !== void 0) {
-        this.__scrollTarget.removeEventListener('scroll', this.__onVirtualListScroll, listenOpts.passive)
+        this.__scrollTarget.removeEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
         this.__scrollTarget = void 0
       }
     }
   },
 
   beforeMount () {
-    this.__resetVirtualList()
+    this.__resetVirtualScroll()
   },
 
   mounted () {
@@ -132,14 +132,14 @@ export default Vue.extend({
 
   render (h) {
     if (this.$scopedSlots.default === void 0) {
-      console.error(`VirtualList: default scoped slot is required for rendering`, this)
+      console.error(`QVirtualScroll: default scoped slot is required for rendering`, this)
       return
     }
 
-    let child = this.__padVirtualList(
+    let child = this.__padVirtualScroll(
       h,
       this.type === 'list' ? 'div' : 'tbody',
-      this.virtualListScope.map(this.$scopedSlots.default)
+      this.virtualScrollScope.map(this.$scopedSlots.default)
     )
 
     if (this.$scopedSlots.before !== void 0) {

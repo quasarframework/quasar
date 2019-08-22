@@ -2,10 +2,10 @@
   <q-layout view="lHh LpR fFf">
     <q-page-container>
       <q-page padding class="bg-white q-pr-xl">
-        <q-virtual-list
+        <q-virtual-scroll
           type="table"
           style="max-height: 70vh"
-          :virtual-list-item-size="48"
+          :virtual-scroll-item-size="48"
           :items="heavyList"
         >
           <template v-slot:before>
@@ -51,7 +51,7 @@
               </td>
             </tr>
           </template>
-        </q-virtual-list>
+        </q-virtual-scroll>
       </q-page>
     </q-page-container>
   </q-layout>

@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/virtual-list" ],
+  "mixins": [ "components/field/__QField", "mixins/virtual-scroll" ],
 
   "props": {
     "value": {
