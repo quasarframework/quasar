@@ -11,7 +11,8 @@ const
   log = logger('app:quasar-conf'),
   warn = logger('app:quasar-conf', 'red'),
   appFilesValidations = require('./app-files-validations'),
-  extensionRunner = require('./app-extension/extensions-runner')
+  extensionRunner = require('./app-extension/extensions-runner'),
+  supportIE = require('./helpers/support-ie')
 
 function encode (obj) {
   return JSON.stringify(obj, (key, value) => {
@@ -206,6 +207,9 @@ class QuasarConfig {
         packager: {},
         builder: {}
       },
+      tauri: this.ctx.mode.tauri
+        ? require(require.resolve('@quasar/tauri/mode/config', { paths: [ appPaths.appDir ]})).init
+        : {},
       cordova: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
@@ -317,7 +321,8 @@ class QuasarConfig {
         cfg.framework.all,
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
-        cfg.electron ? encode(cfg.electron) : ''
+        cfg.electron ? encode(cfg.electron) : '',
+        cfg.tauri ? encode(cfg.tauri) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -328,9 +333,7 @@ class QuasarConfig {
     }
 
     // make sure it exists
-    cfg.supportIE = this.ctx.mode.electron
-      ? false
-      : (cfg.supportIE || false)
+    cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
 
     cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
     if (cfg.vendor.add) {
@@ -453,7 +456,7 @@ class QuasarConfig {
         gzip: false
       })
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.tauri) {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
@@ -472,6 +475,9 @@ class QuasarConfig {
     if (this.ctx.mode.electron) {
       cfg.build.packagedElectronDist = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
+    }
+    else if (this.ctx.mode.tauri) {
+      cfg.build.distDir = appPaths.resolve.tauri('target/compiled-web')
     }
 
     cfg.build.publicPath =
@@ -557,10 +563,10 @@ class QuasarConfig {
       if (this.ctx.mode.ssr) {
         cfg.devServer.contentBase = false
       }
-      else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+      else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.tauri) {
         cfg.devServer.open = false
 
-        if (this.ctx.mode.electron) {
+        if (this.ctx.mode.electron || this.ctx.mode.tauri) {
           cfg.devServer.https = false
         }
       }
@@ -610,6 +616,16 @@ class QuasarConfig {
         threshold: 10240,
         minRatio: 0.8
       }, gzip)
+    }
+
+    if (this.ctx.mode.tauri) {
+      cfg.tauri = merge(
+        require(require.resolve('@quasar/tauri/mode/config', {paths: [ appPaths.appDir ]})).defaultObject,
+        cfg.tauri
+      )
+      if (cfg.tauri.embeddedServer.port != null) {
+        cfg.tauri.embeddedServer.port = cfg.tauri.embeddedServer.port.toString()
+      }
     }
 
     if (this.ctx.mode.pwa) {
@@ -764,9 +780,23 @@ class QuasarConfig {
         }
         else {
           cfg.electron.builder = {
-            platform: cfg.ctx.targetName,
-            arch: cfg.ctx.archName,
             config: cfg.electron.builder
+          }
+
+          if (cfg.ctx.targetName === 'mac' || cfg.ctx.targetName === 'darwin' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.mac = []
+          }
+
+          if (cfg.ctx.targetName === 'linux' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.linux = []
+          }
+
+          if (cfg.ctx.targetName === 'win' || cfg.ctx.targetName === 'win32' || cfg.ctx.targetName === 'all') {
+            cfg.electron.builder.win = []
+          }
+
+          if (cfg.ctx.archName) {
+            cfg.electron.builder[cfg.ctx.archName] = true
           }
 
           if (cfg.ctx.publish) {

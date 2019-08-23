@@ -49,7 +49,7 @@
       "category": "content"
     },
 
-    "drag-range-only": {
+    "drag-only-range": {
       "type": "Boolean",
       "desc": "User can drag only the range instead and NOT the two thumbs",
       "category": "content"

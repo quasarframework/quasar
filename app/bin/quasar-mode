@@ -60,7 +60,7 @@ async function run () {
     process.exit(1)
   }
 
-  if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(mode)) {
+  if (![undefined, 'pwa', 'cordova', 'electron', 'tauri', 'ssr'].includes(mode)) {
     warn(`⚠️  Unknown mode "${ mode }" to ${action}`)
     warn()
     process.exit(1)
@@ -94,7 +94,7 @@ function displayModes () {
   log(`Detecting installed modes...`)
 
   const info = []
-  ;['pwa', 'ssr', 'cordova', 'electron'].forEach(mode => {
+  ;['pwa', 'ssr', 'cordova', 'electron', 'tauri'].forEach(mode => {
     info.push([
       `Mode ${mode.toUpperCase()}`,
       getMode(mode).isInstalled ? green('yes') : grey('no')

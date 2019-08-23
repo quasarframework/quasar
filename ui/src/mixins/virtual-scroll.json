@@ -1,46 +1,61 @@
 {
   "props": {
-    "virtual-list-horizontal": {
+    "virtual-scroll-horizontal": {
       "type": "Boolean",
       "desc": "Make virtual list work in horizontal mode",
       "category": "behavior"
     },
 
-    "virtual-list-slice-size": {
+    "virtual-scroll-slice-size": {
       "type": "Number",
       "desc": "Number of options to render in the virtual list",
       "default": "30",
       "examples": [
-        ":virtual-list-slice-size=\"60\""
+        ":virtual-scroll-slice-size=\"60\""
       ],
-      "category": "virtual-list"
+      "category": "virtual-scroll"
     },
 
-    "virtual-list-item-default-size": {
+    "virtual-scroll-item-size": {
       "type": "Number",
-      "desc": "Default size of an option (height or width for horizontal mode), in px - will be used for rendering the initial list. Try to use a value close to the minimum size of an item.",
+      "desc": "Default size in pixels (height if vertical, width if horizontal) of an option; This value is used for rendering the initial list; Try to use a value close to the minimum size of an item",
       "default": "24",
       "examples": [
-        ":virtual-list-item-default-size=\"48\""
+        ":virtual-scroll-item-size=\"48\""
       ],
-      "category": "virtual-list"
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-sticky-size-start": {
+      "type": "Number",
+      "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the start of the list; A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [
+        ":virtual-scroll-sticky-size-start=\"48\""
+      ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-sticky-size-end": {
+      "type": "Number",
+      "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the end of the list; A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [
+        ":virtual-scroll-sticky-size-end=\"48\""
+      ],
+      "category": "virtual-scroll"
     }
   },
 
   "methods": {
     "scrollTo": {
-      "desc": "Scroll the list to the item with the specified index (0 based)",
+      "desc": "Scroll the virtual scroll list to the item with the specified index (0 based)",
       "params": {
         "index": {
           "type": [ "String", "Number" ],
           "desc": "The index of the list item (0 based)",
           "required": true,
           "examples": [ "1", 23 ]
-        },
-        "scrollUp": {
-          "type": "Boolean",
-          "desc": "Specify if the list scrolls up",
-          "default": false
         }
       }
     }
@@ -48,7 +63,7 @@
 
   "events": {
     "virtual-scroll": {
-      "desc": "Emitted when the virtual list scrolls",
+      "desc": "Emitted when the virtual scroll occurs",
       "params": {
         "details": {
           "type": "Object",

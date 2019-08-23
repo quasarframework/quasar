@@ -15,14 +15,14 @@ import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
-import VirtualList from '../../mixins/virtual-list.js'
+import VirtualScroll from '../../mixins/virtual-scroll.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField, VirtualList ],
+  mixins: [ QField, VirtualScroll ],
 
   props: {
     value: {
@@ -122,7 +122,7 @@ export default Vue.extend({
   },
 
   computed: {
-    virtualListLength () {
+    virtualScrollLength () {
       return Array.isArray(this.options)
         ? this.options.length
         : 0
@@ -133,7 +133,7 @@ export default Vue.extend({
     },
 
     menuContentClass () {
-      return (this.virtualListHorizontal === true ? 'q-virtual-list--horizontal' : '') +
+      return (this.virtualScrollHorizontal === true ? 'q-virtual-scroll--horizontal' : '') +
         (this.popupContentClass ? ' ' + this.popupContentClass : '')
     },
 
@@ -158,7 +158,7 @@ export default Vue.extend({
     },
 
     noOptions () {
-      return this.virtualListLength.length === 0
+      return this.virtualScrollLength.length === 0
     },
 
     selectedString () {
@@ -191,11 +191,11 @@ export default Vue.extend({
     },
 
     optionScope () {
-      if (this.virtualListLength === 0) {
+      if (this.virtualScrollLength === 0) {
         return []
       }
 
-      const { from, to } = this.virtualListSliceRange
+      const { from, to } = this.virtualScrollSliceRange
 
       return this.options.slice(from, to).map((opt, i) => {
         const disable = this.__isDisabled(opt)
@@ -359,7 +359,7 @@ export default Vue.extend({
     setOptionIndex (index) {
       if (this.$q.platform.is.desktop !== true) { return }
 
-      const val = index > -1 && index < this.virtualListLength
+      const val = index > -1 && index < this.virtualScrollLength
         ? index
         : -1
 
@@ -446,7 +446,7 @@ export default Vue.extend({
       }
 
       // up, down
-      const optionsLength = this.virtualListLength
+      const optionsLength = this.virtualScrollLength
 
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
@@ -464,7 +464,7 @@ export default Vue.extend({
 
           if (this.optionIndex !== index) {
             this.setOptionIndex(index)
-            this.scrollTo(index, e.keyCode === 40) // align down
+            this.scrollTo(index)
 
             if (index >= 0 && this.useInput === true && this.fillInput === true) {
               const inputValue = this.__getOptionLabel(this.options[index])
@@ -531,7 +531,7 @@ export default Vue.extend({
       }
     },
 
-    __getVirtualListEl () {
+    __getVirtualScrollEl () {
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
@@ -541,8 +541,8 @@ export default Vue.extend({
         )
     },
 
-    __getVirtualListScrollTarget () {
-      return this.__getVirtualListEl()
+    __getVirtualScrollTarget () {
+      return this.__getVirtualScrollEl()
     },
 
     __getSelection (h, fromDialog) {
@@ -647,7 +647,16 @@ export default Vue.extend({
           ])
         ])
 
-      return this.__padVirtualList(h, this.optionScope.map(fn))
+      let options = this.__padVirtualScroll(h, 'div', this.optionScope.map(fn))
+
+      if (this.$scopedSlots['before-options'] !== void 0) {
+        options = this.$scopedSlots['before-options']().concat(options)
+      }
+      if (this.$scopedSlots['after-options'] !== void 0) {
+        options = options.concat(this.$scopedSlots['after-options']())
+      }
+
+      return options
     },
 
     __getInnerAppend (h) {
@@ -875,7 +884,7 @@ export default Vue.extend({
           separateClosePopup: true
         },
         on: {
-          '&scroll': this.__onVirtualListScroll,
+          '&scroll': this.__onVirtualScrollEvt,
           'before-hide': this.__closeMenu
         }
       }, child)
@@ -931,7 +940,7 @@ export default Vue.extend({
           style: this.popupContentStyle,
           on: {
             click: prevent,
-            '&scroll': this.__onVirtualListScroll
+            '&scroll': this.__onVirtualScrollEvt
           }
         }, (
           this.noOptions === true
@@ -1033,7 +1042,7 @@ export default Vue.extend({
           optionIndex = this.options.findIndex(v => isDeepEqual(this.__getOptionValue(v), val))
         }
 
-        this.__resetVirtualList(optionIndex)
+        this.__resetVirtualScroll(optionIndex)
       }
 
       this.setOptionIndex(optionIndex)

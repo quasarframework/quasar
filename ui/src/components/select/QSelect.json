@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/virtual-list" ],
+  "mixins": [ "components/field/__QField", "mixins/virtual-scroll" ],
 
   "props": {
     "value": {
@@ -223,6 +223,13 @@
 
     "loading": {
       "desc": "Override default spinner when component is in loading mode; Suggestion: spinners"
+    },
+
+    "before-options": {
+      "desc": "Template slot for the elements that should be rendered before the list of options"
+    },
+    "after-options": {
+      "desc": "Template slot for the elements that should be rendered after the list of options"
     }
   },
 

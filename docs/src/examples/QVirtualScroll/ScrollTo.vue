@@ -1,22 +1,26 @@
 <template>
-  <div class="q-pa-md">
-    <div class="q-pa-md row">
-      <q-space />
+  <div>
+    <div class="q-pa-md row justify-center">
       <q-input
         style="min-width: 10em"
         type="number"
-        :value="virtualListIndex"
+        v-model.number="virtualListIndex"
         :min="0"
         :max="9999"
         label="Scroll to index"
         input-class="text-right"
-        @input="val => { $refs.virtualListRef.scrollTo(val, val > virtualListIndex) }"
+      />
+      <q-btn
+        class="q-ml-sm"
+        label="Go"
+        no-caps
+        color="primary"
+        @click="$refs.virtualListRef.scrollTo(virtualListIndex)"
       />
     </div>
 
-    <q-virtual-list
+    <q-virtual-scroll
       ref="virtualListRef"
-      class="q-my-md"
       style="max-height: 300px;"
       component="q-list"
       :items="heavyList"
@@ -36,7 +40,7 @@
           </q-item-section>
         </q-item>
       </template>
-    </q-virtual-list>
+    </q-virtual-scroll>
   </div>
 </template>
 

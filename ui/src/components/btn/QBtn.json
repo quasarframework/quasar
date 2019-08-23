@@ -28,5 +28,18 @@
     "loading": {
       "desc": "Override the default QSpinner when in 'loading' state"
     }
+  },
+
+  "methods": {
+    "click": {
+      "desc": "Emulate click on QBtn",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
   }
 }

@@ -3,7 +3,8 @@ const
   path = require('path'),
   merge = require('webpack-merge'),
   fs = require('fs'),
-  { logError, writeFile } = require('./build.utils')
+  { logError, writeFile } = require('./build.utils'),
+  ast = require('./ast')
 
 const
   root = path.resolve(__dirname, '..'),
@@ -394,6 +395,25 @@ function orderAPI (api, apiType) {
   return ordered
 }
 
+const astExceptions = {
+  'QCircularProgress.json': {
+    props: {
+      instantFeedback: true
+    }
+  },
+
+  'QTable.json': {
+    methods: {
+      getBody: true
+    }
+  },
+  'QField.json': {
+    props: {
+      maxValues: true
+    }
+  }
+}
+
 function fillAPI (apiType) {
   return file => {
     const
@@ -401,6 +421,38 @@ function fillAPI (apiType) {
       filePath = path.join(dest, name)
 
     const api = orderAPI(parseAPI(file, apiType), apiType)
+    
+    if (apiType === 'component') {
+      const definition = fs.readFileSync(file.replace('.json', '.js'), {
+        encoding: 'utf-8'
+      })
+
+      ast.evaluate(definition, topSections[apiType], (prop, key) => {
+        if (key.startsWith('__')) {
+          return
+        }
+
+        if (
+          astExceptions[name] !== void 0 &&
+          astExceptions[name][prop] !== void 0 &&
+          astExceptions[name][prop][key] === true
+        ) {
+          return
+        }
+
+        if (prop === 'props') {
+          key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
+            .replace(/\s+/g, '-')
+            .toLowerCase()
+        }
+
+
+        if (api[prop] === void 0 || api[prop][key] === void 0) {
+          logError(`${name}: missing "${prop}" -> "${key}" definition`)
+          process.exit(1)
+        }
+      })
+    }
 
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))
