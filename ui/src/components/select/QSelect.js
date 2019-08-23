@@ -158,7 +158,7 @@ export default Vue.extend({
     },
 
     noOptions () {
-      return this.virtualScrollLength.length === 0
+      return this.virtualScrollLength === 0
     },
 
     selectedString () {
