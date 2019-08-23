@@ -73,6 +73,7 @@
     "before": {
       "desc": "Template slot for the elements that should be rendered before the list; Suggestion: thead before a table"
     },
+
     "after": {
       "desc": "Template slot for the elements that should be rendered after the list; Suggestion: tfoot after a table"
     }
