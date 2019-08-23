@@ -15,7 +15,7 @@
         {value: 'o_add_box', label: 'A Material Outlined icon'},
         {value: 'r_add_box', label: 'A Material Round icon'},
         {value: 's_add_box', label: 'A Material Sharp icon'},
-        {value: 'mdi-airballoon', label: 'A MDI icon'},
+        {value: 'mdi-airballoon', label: 'A MDI v4 icon'},
         {value: 'fab fa-github', label: 'A Font Awesome icon'},
         {value: 'ion-airplane', label: 'A Ionicon (platform dependent)'},
         {value: 'ion-md-airplane', label: 'A Ionicon (md)'},
@@ -50,7 +50,7 @@ import matSet from '../../../icon-set/material-icons.js'
 import matOutlinedSet from '../../../icon-set/material-icons-outlined.js'
 import matRoundSet from '../../../icon-set/material-icons-round.js'
 import matSharpSet from '../../../icon-set/material-icons-sharp.js'
-import mdiSet from '../../../icon-set/mdi-v3.js'
+import mdiSet from '../../../icon-set/mdi-v4.js'
 import fontawesomeSet from '../../../icon-set/fontawesome-v5.js'
 import ioniconsSet from '../../../icon-set/ionicons-v4.js'
 import evaSet from '../../../icon-set/eva-icons.js'
