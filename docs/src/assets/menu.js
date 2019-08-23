@@ -398,43 +398,8 @@ const cli = [
         badge: 'new'
       },
       {
-        name: 'Preparation',
-        path: 'preparation',
-        badge: 'new'
-      },
-      {
-        name: 'Configuring Tauri',
-        path: 'configuring-tauri',
-        badge: 'new'
-      },
-      {
-        name: 'App Icons for Tauri',
-        path: 'app-icons-tauri',
-        badge: 'new'
-      },
-      {
-        name: 'Rust Bindings',
-        path: 'rust-bindings',
-        badge: 'new'
-      },
-      {
-        name: 'Other Bindings',
-        path: 'other-bindings',
-        badge: 'new'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands',
-        badge: 'new'
-      },
-      {
-        name: 'Tauri API',
-        path: 'api',
-        badge: 'new'
-      },
-      {
-        name: 'Troubleshooting and Tips',
-        path: 'troubleshooting-and-tips',
+        name: 'Get Started',
+        path: 'get-started',
         badge: 'new'
       }
     ]
