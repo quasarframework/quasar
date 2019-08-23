@@ -152,7 +152,7 @@ export default {
   },
 
   methods: {
-    scrollTo (toIndex, scrollTowardsEnd) {
+    scrollTo (toIndex) {
       const scrollEl = this.__getVirtualScrollTarget()
 
       if (scrollEl === void 0 || scrollEl === null || scrollEl.nodeType === 8) {
@@ -172,7 +172,7 @@ export default {
         ),
         Math.min(this.virtualScrollLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)),
         0,
-        scrollTowardsEnd === true ? 'end' : 'start'
+        toIndex > this.prevToIndex ? 'end' : 'start'
       )
     },
 
