@@ -12,6 +12,8 @@
 
 ## Contents
 
+Please make sure you have latest `@quasar/extras` npm package version installed into your project folder in order for you to benefit from everything below.
+
 | Package | quasar.conf.js extras name | Version | Description | Notes |
 | --- | --- | --- | --- | --- |
 | Roboto Font | `roboto-font` | CDN v19 | Recommended font along Material theme | |
@@ -20,7 +22,8 @@
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | `material-icons-outlined` | CDN v8 | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) | `material-icons-round` | CDN v8 | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | `material-icons-sharp` | CDN v9 | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ |
-| [MDI](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v3` | 3.6.95 | Extended Material Design icons font | |
+| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v4` | 4.1.95 | Extended Material Design icons font | |
+| MDI v3 (Material Design Icons) | `mdi-v3` | 3.6.95 | Extended Material Design icons font | |
 | [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.9.0 | Fontawesome icons font | |
 | [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.5.5 | Ionicons font | |
 | [Eva Icons](https://akveo.github.io/eva-icons) | `eva-icons` | 1.1.1 | Eva Icons font | |
