@@ -229,37 +229,33 @@ module.exports = function (cfg, configName) {
         rem = cfg.vendor.remove,
         regex = /[\\/]node_modules[\\/]/
 
-        chain.optimization
-          .splitChunks({
-            cacheGroups: {
-              vendors: {
-                name: 'vendor',
-                chunks: 'initial',
-                priority: -10,
-                // a module is extracted into the vendor chunk if...
-                test: add.length > 0 || rem.length > 0 ?
-                  module => {
-                    if (module.resource) {
-                      if (add.length > 0 && add.test(module.resource)) {
-                        return true
-                      }
-                      if (rem.length > 0 && rem.test(module.resource)) {
-                        return false
-                      }
-                    }
-                    return regex.test(module.resource)
-                  } :
-                  module => regex.test(module.resource)
-              },
-              common: {
-                name: `chunk-common`,
-                minChunks: 2,
-                priority: -20,
-                chunks: 'initial',
-                reuseExistingChunk: true
-              }
+      chain.optimization
+        .splitChunks({
+          cacheGroups: {
+            vendors: {
+              name: 'vendor',
+              chunks: 'initial',
+              priority: -10,
+              // a module is extracted into the vendor chunk if...
+              test: add.length > 0 || rem.length > 0
+                ? module => {
+                  if (module.resource) {
+                    if (add.length > 0 && add.test(module.resource)) { return true }
+                    if (rem.length > 0 && rem.test(module.resource)) { return false }
+                  }
+                  return regex.test(module.resource)
+                }
+                : module => regex.test(module.resource)
+            },
+            common: {
+              name: `chunk-common`,
+              minChunks: 2,
+              priority: -20,
+              chunks: 'initial',
+              reuseExistingChunk: true
             }
-          })
+          }
+        })
       
 
       // extract webpack runtime and module manifest to its own file in order to
