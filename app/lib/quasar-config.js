@@ -11,8 +11,7 @@ const
   log = logger('app:quasar-conf'),
   warn = logger('app:quasar-conf', 'red'),
   appFilesValidations = require('./app-files-validations'),
-  extensionRunner = require('./app-extension/extensions-runner'),
-  supportIE = require('./helpers/support-ie')
+  extensionRunner = require('./app-extension/extensions-runner')
 
 function encode (obj) {
   return JSON.stringify(obj, (key, value) => {
@@ -207,7 +206,9 @@ class QuasarConfig {
         packager: {},
         builder: {}
       },
-      tauri: this.ctx.mode.tauri ? require(require.resolve('@quasar/tauri/mode/config',{ paths: [ appPaths.appDir ]})).init : {},
+      tauri: this.ctx.mode.tauri
+        ? require(require.resolve('@quasar/tauri/mode/config', { paths: [ appPaths.appDir ]})).init
+        : {},
       cordova: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
@@ -331,7 +332,9 @@ class QuasarConfig {
     }
 
     // make sure it exists
-    cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
+    cfg.supportIE = this.ctx.mode.electron
+      ? false
+      : (cfg.supportIE || false)
 
     cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
     if (cfg.vendor.add) {
