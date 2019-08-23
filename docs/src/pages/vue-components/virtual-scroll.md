@@ -1,13 +1,15 @@
 ---
-title: Virtual List
+title: Virtual Scroll
 desc: The QVirtualScroll component renders a big list of items as the user scrolls in the container, keeping DOM tree clean and eating the lowest amount of memory possible.
 related:
   - /vue-components/select
 ---
 
-> Introduced in Quasar v1.1+
+<q-badge label="Quasar v1.1+" />
 
-The QVirtualScroll component (also known as "virtual scroll") allows you to display only a part of a long list of items and update the visible items as the user scrolls in the container. This has several advantages: only visible items are rendered, so the smallest number of nodes are in the DOM tree at any given point in time and the memory consumption is kept at its lowest.
+The QVirtualScroll component allows you to display only a part of a long list of items and update the visible items as the user scrolls in the container. This has several advantages: only visible items are rendered, so the smallest number of nodes are in the DOM tree at any given point in time and the memory consumption is kept at its lowest.
+
+There are currently two types of QVirtualScroll: "list" (using QItems) and "table" (using a tabular style to display rows of data).
 
 
 ## Installation
@@ -37,9 +39,23 @@ Scroll the examples below to see QVirtualScroll in action.
 
 ### Different templates
 
-<doc-example title="Different Templates for Items" file="QVirtualScroll/VariousContent" />
+<doc-example title="Different templates for items" file="QVirtualScroll/VariousContent" />
 
-<doc-example title="Different Templates for Horizontal Items" file="QVirtualScroll/VariousContentHorizontal" />
+<doc-example title="Different templates for horizontal items" file="QVirtualScroll/VariousContentHorizontal" />
+
+### Table type
+
+Notice the `type="table"` property.
+
+<doc-example title="Basic table" file="QVirtualScroll/TableBasic" />
+
+Notice (in the example below) the CSS required to make the table header and footer "sticky" (**the caveat is that IE11 does not support this**). Also note the additional scoped slots which define the header and footer content.
+
+<doc-example title="Sticky headers table" file="QVirtualScroll/TableSticky" />
+
+A more involved example below, playing with sticky headers and footers.
+
+<doc-example title="Playing with sticky headers" file="QVirtualScroll/TableSticky2" />
 
 ### Scroll target
 
@@ -56,9 +72,13 @@ If you need to use the virtual list with the whole page as the scrolling element
 If you want to use a Vue reference for `scroll-target`, please take care to set it after mounting the component, like in the example below.
 :::
 
-<doc-example title="Custom Scroll Target Container" file="QVirtualScroll/Container" scrollable />
+<doc-example title="Custom scroll target by id" file="QVirtualScroll/ScrollTargetId" />
 
-<doc-example title="Scroll to Position" file="QVirtualScroll/ScrollTo" />
+<doc-example title="Custom scroll target by ref" file="QVirtualScroll/ScrollTargetRef" />
+
+### Scroll to position
+
+<doc-example title="Scroll to position" file="QVirtualScroll/ScrollTo" />
 
 ### Sync and async
 
@@ -70,7 +90,7 @@ Make sure to use a synchronous function that returns the list of items to be dis
 
 If you need async data use a component that retrieves and renders the data.
 
-<doc-example title="Generate Items on the Fly" file="QVirtualScroll/GenerateItems" />
+<doc-example title="Generate items on the fly" file="QVirtualScroll/GenerateItems" />
 
 ## QVirtualScroll API
 <doc-api file="QVirtualScroll" />

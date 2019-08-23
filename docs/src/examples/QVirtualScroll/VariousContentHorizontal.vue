@@ -1,34 +1,32 @@
 <template>
-  <div class="q-pa-md">
-    <q-virtual-scroll
-      :items="heavyList"
-      virtual-scroll-horizontal
-    >
-      <template v-slot="{ item, index }">
-        <div :key="index" class="row items-center">
-          <q-separator v-if="index === 0" vertical spaced />
+  <q-virtual-scroll
+    :items="heavyList"
+    virtual-scroll-horizontal
+  >
+    <template v-slot="{ item, index }">
+      <div :key="index" class="row items-center">
+        <q-separator v-if="index === 0" vertical spaced />
 
-          <q-avatar v-if="item.avatar === true" class="bg-black text-white q-my-md">
-            {{ index % 10 + 1 }}
-          </q-avatar>
+        <q-avatar v-if="item.avatar === true" class="bg-black text-white q-my-md">
+          {{ index % 10 + 1 }}
+        </q-avatar>
 
-          <q-item
-            v-else
-            dense
-            clickable
-          >
-            <q-item-section>
-              <q-item-label>
-                #{{ index }} - {{ item.label }}
-              </q-item-label>
-            </q-item-section>
-          </q-item>
+        <q-item
+          v-else
+          dense
+          clickable
+        >
+          <q-item-section>
+            <q-item-label>
+              #{{ index }} - {{ item.label }}
+            </q-item-label>
+          </q-item-section>
+        </q-item>
 
-          <q-separator vertical spaced />
-        </div>
-      </template>
-    </q-virtual-scroll>
-  </div>
+        <q-separator vertical spaced />
+      </div>
+    </template>
+  </q-virtual-scroll>
 </template>
 
 <script>

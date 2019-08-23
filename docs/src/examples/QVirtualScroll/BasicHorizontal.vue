@@ -1,19 +1,17 @@
 <template>
-  <div class="q-pa-md">
-    <q-virtual-scroll
-      :items="heavyList"
-      virtual-scroll-horizontal
-    >
-      <template v-slot="{ item, index }">
-        <div
-          :key="index"
-          :class="item.class"
-        >
-          #{{ index }} - {{ item.label }}
-        </div>
-      </template>
-    </q-virtual-scroll>
-  </div>
+  <q-virtual-scroll
+    :items="heavyList"
+    virtual-scroll-horizontal
+  >
+    <template v-slot="{ item, index }">
+      <div
+        :key="index"
+        :class="item.class"
+      >
+        #{{ index }} - {{ item.label }}
+      </div>
+    </template>
+  </q-virtual-scroll>
 </template>
 
 <script>
