@@ -359,12 +359,21 @@ export default {
       const paddingSize = this.virtualScrollHorizontal === true ? 'width' : 'height'
 
       return [
-        h(tag, {
-          staticClass: 'q-virtual-scroll__padding',
-          key: 'before',
-          ref: 'before',
-          style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` }
-        }),
+        tag === 'tbody'
+          ? h(tag, {
+            staticClass: 'q-virtual-scroll__padding',
+            key: 'before',
+            ref: 'before'
+          }, [h('tr', [h('td', {
+            style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` },
+            attrs: { colspan: '100%' }
+          })])])
+          : h(tag, {
+            staticClass: 'q-virtual-scroll__padding',
+            key: 'before',
+            ref: 'before',
+            style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` }
+          }),
 
         h(tag, {
           staticClass: 'q-virtual-scroll__content',
@@ -372,12 +381,21 @@ export default {
           ref: 'content'
         }, content),
 
-        h(tag, {
-          staticClass: 'q-virtual-scroll__padding',
-          key: 'after',
-          ref: 'after',
-          style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` }
-        })
+        tag === 'tbody'
+          ? h(tag, {
+            staticClass: 'q-virtual-scroll__padding',
+            key: 'after',
+            ref: 'after'
+          }, [h('tr', [h('td', {
+            style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` },
+            attrs: { colspan: '100%' }
+          })])])
+          : h(tag, {
+            staticClass: 'q-virtual-scroll__padding',
+            key: 'after',
+            ref: 'after',
+            style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` }
+          })
       ]
     },
 
