@@ -46,6 +46,6 @@ app binaries are generally less than 5MB.
 The surface area of Electron, Chromium and the entire NPM ecosystem have proven time and time again that you have to be extremely cautious and vigilant when building Electron apps. There is a 12-point thesis about Security, and even if you follow the rules - there are malicious developers out there who will try to craft sneaky supply chain attacks. They have even been successful in a few recent high-profile cases, and security experts agree that supply-chain attacks are only on the rise. 
 
 ::: tip Tauri
-Essential code libraries have been forked so that they are under our control. Rust is memory and thread safe. CSPs and OTPs are part and parcel of Tauri. New 
+Essential code libraries have been forked so that they are under our control. Rust is memory and thread safe. CSPs and OTPs are part and parcel of Tauri. New patterns for making and creating secure apps are constantly being introduced.
 :::
 
