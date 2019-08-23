@@ -207,6 +207,9 @@ class QuasarConfig {
         packager: {},
         builder: {}
       },
+      tauri: this.ctx.mode.tauri
+        ? require(require.resolve('@quasar/tauri/mode/config', { paths: [ appPaths.appDir ]})).init
+        : {},
       cordova: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
@@ -318,7 +321,8 @@ class QuasarConfig {
         cfg.framework.all,
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
-        cfg.electron ? encode(cfg.electron) : ''
+        cfg.electron ? encode(cfg.electron) : '',
+        cfg.tauri ? encode(cfg.tauri) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -452,7 +456,7 @@ class QuasarConfig {
         gzip: false
       })
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.tauri) {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
@@ -471,6 +475,9 @@ class QuasarConfig {
     if (this.ctx.mode.electron) {
       cfg.build.packagedElectronDist = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
+    }
+    else if (this.ctx.mode.tauri) {
+      cfg.build.distDir = appPaths.resolve.tauri('target/compiled-web')
     }
 
     cfg.build.publicPath =
@@ -556,10 +563,10 @@ class QuasarConfig {
       if (this.ctx.mode.ssr) {
         cfg.devServer.contentBase = false
       }
-      else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+      else if (this.ctx.mode.cordova || this.ctx.mode.electron || this.ctx.mode.tauri) {
         cfg.devServer.open = false
 
-        if (this.ctx.mode.electron) {
+        if (this.ctx.mode.electron || this.ctx.mode.tauri) {
           cfg.devServer.https = false
         }
       }
@@ -609,6 +616,16 @@ class QuasarConfig {
         threshold: 10240,
         minRatio: 0.8
       }, gzip)
+    }
+
+    if (this.ctx.mode.tauri) {
+      cfg.tauri = merge(
+        require(require.resolve('@quasar/tauri/mode/config', {paths: [ appPaths.appDir ]})).defaultObject,
+        cfg.tauri
+      )
+      if (cfg.tauri.embeddedServer.port != null) {
+        cfg.tauri.embeddedServer.port = cfg.tauri.embeddedServer.port.toString()
+      }
     }
 
     if (this.ctx.mode.pwa) {
