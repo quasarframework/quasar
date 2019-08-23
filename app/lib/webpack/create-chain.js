@@ -131,7 +131,7 @@ module.exports = function (cfg, configName) {
             ]
           ] : []
         })
-  
+
   chain.module.rule('images')
     .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
     .use('url-loader')
