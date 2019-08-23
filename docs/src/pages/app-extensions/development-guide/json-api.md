@@ -291,7 +291,7 @@ All items are optional, but in the very least you shoud provide a description.
   },
 ```
 
-## Methods example
+### Methods example
 
 ```json
   "methods": {
