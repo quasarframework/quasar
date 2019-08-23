@@ -9,7 +9,7 @@ module.exports = function (chain, cfg) {
   injectClientSpecifics(chain, cfg)
   injectHotUpdate(chain, cfg)
 
-    require(require.resolve('@quasar/tauri/mode/webpack', {
-      paths: [appPaths.appDir]
-    })).chain(chain, cfg)
+  require(require.resolve('@quasar/tauri/mode/webpack', {
+    paths: [appPaths.appDir]
+  })).chain(chain, cfg)
 }
