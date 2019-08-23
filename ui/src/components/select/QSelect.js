@@ -464,7 +464,7 @@ export default Vue.extend({
 
           if (this.optionIndex !== index) {
             this.setOptionIndex(index)
-            this.scrollTo(index, e.keyCode === 40) // align down
+            this.scrollTo(index)
 
             if (index >= 0 && this.useInput === true && this.fillInput === true) {
               const inputValue = this.__getOptionLabel(this.options[index])

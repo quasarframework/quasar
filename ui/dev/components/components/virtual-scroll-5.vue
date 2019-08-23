@@ -122,7 +122,7 @@ export default {
 
   methods: {
     onIndexChange (index) {
-      this.$refs.virtualListRef.scrollTo(index, index > this.listIndex)
+      this.$refs.virtualListRef.scrollTo(index)
     },
     onVirtualScroll ({ index }) {
       this.listIndex = index

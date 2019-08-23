@@ -45,7 +45,7 @@
           <q-btn label="-1e3" @click="() => { size -= size > 1e3 ? 1e3 : size }" />
           <q-btn label="-1e4" @click="() => { size -= size > 1e4 ? 1e4 : size }" />
           <q-btn label="-1e5" @click="() => { size -= size > 1e5 ? 1e5 : size }" />
-          <q-btn label="End" @click="() => { $refs.list.scrollTo(size, true) }" />
+          <q-btn label="End" @click="() => { $refs.list.scrollTo(size) }" />
         </div>
       </q-page>
     </q-page-container>

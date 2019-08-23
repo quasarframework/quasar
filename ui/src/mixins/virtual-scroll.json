@@ -56,11 +56,6 @@
           "desc": "The index of the list item (0 based)",
           "required": true,
           "examples": [ "1", 23 ]
-        },
-        "scrollUp": {
-          "type": "Boolean",
-          "desc": "Specify if the list scrolls up",
-          "default": false
         }
       }
     }
