@@ -196,7 +196,7 @@ function getPlatform (userAgent) {
     else if (window.tauri) {
       browser.tauri = true
     }
-    
+
     fromSSR = browser.cordova === void 0 &&
       browser.electron === void 0 &&
       !!document.querySelector('[data-server-rendered]')
