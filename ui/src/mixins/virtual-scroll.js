@@ -7,13 +7,22 @@ function sumFn (acc, h) {
   return acc + h
 }
 
-function getScrollDetails (parent, child, horizontal) {
+function getScrollDetails (
+  parent,
+  child,
+  beforeRef,
+  afterRef,
+  horizontal
+) {
   const
     parentCalc = parent === window ? document.scrollingElement || document.documentElement : parent,
+    propElSize = horizontal === true ? 'offsetWidth' : 'offsetHeight',
     details = {
       scrollStart: 0,
       scrollViewSize: 0,
-      scrollMaxSize: 0
+      scrollMaxSize: 0,
+      offsetStart: 0,
+      offsetEnd: 0
     }
 
   if (horizontal === true) {
@@ -39,22 +48,25 @@ function getScrollDetails (parent, child, horizontal) {
     details.scrollMaxSize = parentCalc.scrollHeight
   }
 
-  if (child === parent || child === void 0 || child === null || child.nodeType === 8) {
-    details.offsetStart = 0
-    details.offsetEnd = 0
+  for (let el = beforeRef.previousElementSibling; el !== null; el = el.previousElementSibling) {
+    details.offsetStart += el[propElSize]
   }
-  else {
+  for (let el = afterRef.nextElementSibling; el !== null; el = el.nextElementSibling) {
+    details.offsetEnd += el[propElSize]
+  }
+
+  if (child !== parent) {
     const
       parentRect = parentCalc.getBoundingClientRect(),
       childRect = child.getBoundingClientRect()
 
     if (horizontal === true) {
-      details.offsetStart = childRect.left - parentRect.left
-      details.offsetEnd = -childRect.width
+      details.offsetStart += childRect.left - parentRect.left
+      details.offsetEnd -= childRect.width
     }
     else {
-      details.offsetStart = childRect.top - parentRect.top
-      details.offsetEnd = -childRect.height
+      details.offsetStart += childRect.top - parentRect.top
+      details.offsetEnd -= childRect.height
     }
 
     if (parent !== window) {
@@ -137,7 +149,13 @@ export default {
 
       this.__setVirtualScrollSliceRange(
         scrollEl,
-        getScrollDetails(scrollEl, this.__getVirtualScrollEl(), this.virtualScrollHorizontal),
+        getScrollDetails(
+          scrollEl,
+          this.__getVirtualScrollEl(),
+          this.$refs.before,
+          this.$refs.after,
+          this.virtualScrollHorizontal
+        ),
         Math.min(this.virtualScrollLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)),
         0,
         scrollTowardsEnd === true ? 'end' : 'start'
@@ -152,7 +170,14 @@ export default {
       }
 
       const
-        scrollDetails = getScrollDetails(scrollEl, this.__getVirtualScrollEl(), this.virtualScrollHorizontal),
+        scrollDetails = getScrollDetails(
+          scrollEl,
+          this.__getVirtualScrollEl(),
+          this.$refs.before,
+          this.$refs.after,
+          this.virtualScrollHorizontal
+        ),
+        scrollMaxStart = scrollDetails.scrollMaxSize - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd),
         listLastIndex = this.virtualScrollLength - 1
 
       if (this.prevScrollStart === scrollDetails.scrollStart) {
@@ -160,18 +185,20 @@ export default {
       }
       this.prevScrollStart = void 0
 
-      let
-        toIndex = 0,
-        listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart
-
-      if (scrollDetails.scrollStart >= scrollDetails.scrollMaxSize - scrollDetails.scrollViewSize - scrollDetails.offsetEnd) {
+      if (scrollMaxStart > 0 && scrollDetails.scrollStart >= scrollMaxStart) {
         this.__setVirtualScrollSliceRange(
           scrollEl,
           scrollDetails,
           this.virtualScrollLength - 1,
-          scrollDetails.scrollStart + scrollDetails.scrollViewSize - this.virtualScrollSizesAgg.reduce(sumFn, 0)
+          scrollMaxStart - this.virtualScrollSizesAgg.reduce(sumFn, 0)
         )
+
+        return
       }
+
+      let
+        toIndex = 0,
+        listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart
 
       for (let j = 0; listOffset >= this.virtualScrollSizesAgg[j] && toIndex < listLastIndex; j++) {
         listOffset -= this.virtualScrollSizesAgg[j]
@@ -319,6 +346,7 @@ export default {
         h(tag, {
           staticClass: 'q-virtual-scroll__padding',
           key: 'before',
+          ref: 'before',
           style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` }
         }),
 
@@ -331,6 +359,7 @@ export default {
         h(tag, {
           staticClass: 'q-virtual-scroll__padding',
           key: 'after',
+          ref: 'after',
           style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` }
         })
       ]

@@ -3,10 +3,12 @@
     <q-page-container>
       <q-page padding class="bg-white q-pr-xl">
         <q-virtual-scroll
+          ref="virtualListRef"
           type="table"
           style="max-height: 70vh"
           :virtual-scroll-item-size="48"
           :items="heavyList"
+          @virtual-scroll="onVirtualScroll"
         >
           <template v-slot:before>
             <thead class="thead-sticky">
@@ -17,7 +19,7 @@
               </tr>
               <tr>
                 <th v-for="column in columns" :key="column">
-                  {{ column }} - thead 2
+                  {{ column }} - thead 2 - sticky
                 </th>
               </tr>
             </thead>
@@ -27,7 +29,7 @@
             <tfoot class="tfoot-sticky">
               <tr>
                 <th v-for="column in columns" :key="column">
-                  {{ column }} - tfoot 1
+                  {{ column }} - tfoot 1 - sticky
                 </th>
               </tr>
               <tr>
@@ -39,7 +41,7 @@
           </template>
 
           <template v-slot="{ item: row, index: rowNr }">
-            <tr :key="rowNr">
+            <tr :key="rowNr" :class="rowNr === listIndex ? 'text-primary' : ''">
               <td v-for="column in columns" :key="column">
                 <div>{{ row[column] }}</div>
                 <div v-if="rowNr % 3 === 0">
@@ -52,6 +54,18 @@
             </tr>
           </template>
         </q-virtual-scroll>
+
+        <div class="q-pa-md">
+          <q-input
+            type="number"
+            :value="listIndex"
+            :min="0"
+            :max="listSize"
+            label="Scroll to index"
+            input-class="text-right"
+            @input="onIndexChange"
+          />
+        </div>
       </q-page>
     </q-page-container>
   </q-layout>
@@ -76,17 +90,18 @@
 <script>
 const
   heavyList = [],
-  columns = []
+  columns = [],
+  listSize = 10000
 
-for (let i = 0; i < 10; i++) {
+for (let i = 0; i < 30; i++) {
   columns.push('col' + (i + 1))
 }
 
-for (let i = 0; i < 1000; i++) {
+for (let i = 0; i <= listSize; i++) {
   const row = {}
 
   for (let j = 0; j < columns.length; j++) {
-    row[columns[j]] = 'row ' + (i + 1) + ' / col ' + (j + 1)
+    row[columns[j]] = '#' + i + ' row ' + (i + 1) + ' / col ' + (j + 1)
   }
   heavyList.push(row)
 }
@@ -97,8 +112,23 @@ export default {
   data () {
     return {
       heavyList,
-      columns
+      columns,
+      listSize,
+      listIndex: 8200
     }
+  },
+
+  methods: {
+    onIndexChange (index) {
+      this.$refs.virtualListRef.scrollTo(index, index > this.listIndex)
+    },
+    onVirtualScroll ({ index }) {
+      this.listIndex = index
+    }
+  },
+
+  mounted () {
+    this.$refs.virtualListRef.scrollTo(this.listIndex)
   }
 }
 </script>
