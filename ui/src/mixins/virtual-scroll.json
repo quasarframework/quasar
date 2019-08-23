@@ -24,6 +24,26 @@
         ":virtual-scroll-item-size=\"48\""
       ],
       "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-sticky-size-start": {
+      "type": "Number",
+      "desc": "Size of the sticky part at the start of the list; A correct value will improve scroll precision",
+      "default": "24",
+      "examples": [
+        ":virtual-scroll-sticky-size-start=\"48\""
+      ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-sticky-size-end": {
+      "type": "Number",
+      "desc": "Size of the sticky part at the end of the list; A correct value will improve scroll precision",
+      "default": "24",
+      "examples": [
+        ":virtual-scroll-sticky-size-end=\"48\""
+      ],
+      "category": "virtual-scroll"
     }
   },
 

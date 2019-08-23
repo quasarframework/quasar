@@ -12,38 +12,40 @@ function getScrollDetails (
   child,
   beforeRef,
   afterRef,
-  horizontal
+  horizontal,
+  stickyStart,
+  stickyEnd
 ) {
   const
     parentCalc = parent === window ? document.scrollingElement || document.documentElement : parent,
     propElSize = horizontal === true ? 'offsetWidth' : 'offsetHeight',
     details = {
       scrollStart: 0,
-      scrollViewSize: 0,
+      scrollViewSize: -stickyStart - stickyEnd,
       scrollMaxSize: 0,
-      offsetStart: 0,
-      offsetEnd: 0
+      offsetStart: -stickyStart,
+      offsetEnd: -stickyEnd
     }
 
   if (horizontal === true) {
     if (parent === window) {
       details.scrollStart = window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
-      details.scrollViewSize = window.innerWidth
+      details.scrollViewSize += window.innerWidth
     }
     else {
       details.scrollStart = parentCalc.scrollLeft
-      details.scrollViewSize = parentCalc.clientWidth
+      details.scrollViewSize += parentCalc.clientWidth
     }
     details.scrollMaxSize = parentCalc.scrollWidth
   }
   else {
     if (parent === window) {
       details.scrollStart = window.pageYOffset || window.scrollY || document.body.scrollTop || 0
-      details.scrollViewSize = window.innerHeight
+      details.scrollViewSize += window.innerHeight
     }
     else {
       details.scrollStart = parentCalc.scrollTop
-      details.scrollViewSize = parentCalc.clientHeight
+      details.scrollViewSize += parentCalc.clientHeight
     }
     details.scrollMaxSize = parentCalc.scrollHeight
   }
@@ -124,6 +126,16 @@ export default {
     virtualScrollItemSize: {
       type: Number,
       default: 24
+    },
+
+    virtualScrollStickySizeStart: {
+      type: Number,
+      default: 0
+    },
+
+    virtualScrollStickySizeEnd: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -154,7 +166,9 @@ export default {
           this.__getVirtualScrollEl(),
           this.$refs.before,
           this.$refs.after,
-          this.virtualScrollHorizontal
+          this.virtualScrollHorizontal,
+          this.virtualScrollStickySizeStart,
+          this.virtualScrollStickySizeEnd
         ),
         Math.min(this.virtualScrollLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)),
         0,
@@ -175,7 +189,9 @@ export default {
           this.__getVirtualScrollEl(),
           this.$refs.before,
           this.$refs.after,
-          this.virtualScrollHorizontal
+          this.virtualScrollHorizontal,
+          this.virtualScrollStickySizeStart,
+          this.virtualScrollStickySizeEnd
         ),
         scrollMaxStart = scrollDetails.scrollMaxSize - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd),
         listLastIndex = this.virtualScrollLength - 1
