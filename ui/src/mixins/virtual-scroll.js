@@ -364,10 +364,14 @@ export default {
             staticClass: 'q-virtual-scroll__padding',
             key: 'before',
             ref: 'before'
-          }, [h('tr', [h('td', {
-            style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` },
-            attrs: { colspan: '100%' }
-          })])])
+          }, [
+            h('tr', [
+              h('td', {
+                style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` },
+                attrs: { colspan: '100%' }
+              })
+            ])
+          ])
           : h(tag, {
             staticClass: 'q-virtual-scroll__padding',
             key: 'before',
@@ -386,10 +390,14 @@ export default {
             staticClass: 'q-virtual-scroll__padding',
             key: 'after',
             ref: 'after'
-          }, [h('tr', [h('td', {
-            style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` },
-            attrs: { colspan: '100%' }
-          })])])
+          }, [
+            h('tr', [
+              h('td', {
+                style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` },
+                attrs: { colspan: '100%' }
+              })
+            ])
+          ])
           : h(tag, {
             staticClass: 'q-virtual-scroll__padding',
             key: 'after',
