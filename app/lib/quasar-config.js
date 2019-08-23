@@ -620,8 +620,10 @@ class QuasarConfig {
     }
 
     if (this.ctx.mode.tauri) {
-
-      cfg.tauri = merge(require(require.resolve('@quasar/tauri/mode/config',{paths: [ appPaths.appDir ]})).defaultObject, cfg.tauri)
+      cfg.tauri = merge(
+        require(require.resolve('@quasar/tauri/mode/config', {paths: [ appPaths.appDir ]})).defaultObject,
+        cfg.tauri
+      )
       if (cfg.tauri.embeddedServer.port != null) {
         cfg.tauri.embeddedServer.port = cfg.tauri.embeddedServer.port.toString()
       }
