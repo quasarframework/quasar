@@ -36,7 +36,7 @@ class Generator {
       generate(quasarFolder, cfg, ctx)
     }
 
-    this.files = this.files.concat(paths.map(file => {
+    this.files = paths.map(file => {
       const
         content = fs.readFileSync(
           appPaths.resolve.cli(`templates/entry/${file}`),
@@ -49,7 +49,7 @@ class Generator {
         dest: path.join(quasarFolder, filename),
         template: compileTemplate(content)
       }
-    }))
+    })
   }
 
   build () {
