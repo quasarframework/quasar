@@ -21,8 +21,6 @@ class Generator {
       'import-quasar.js'
     ]
 
-    this.files = []
-
     if (preFetch) {
       paths.push('client-prefetch.js')
     }
