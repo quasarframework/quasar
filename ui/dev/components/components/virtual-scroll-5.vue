@@ -7,6 +7,8 @@
           type="table"
           style="max-height: 70vh"
           :virtual-scroll-item-size="48"
+          :virtual-scroll-sticky-size-start="48"
+          :virtual-scroll-sticky-size-end="32"
           :items="heavyList"
           @virtual-scroll="onVirtualScroll"
         >

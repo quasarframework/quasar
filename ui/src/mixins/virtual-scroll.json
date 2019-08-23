@@ -18,10 +18,30 @@
 
     "virtual-scroll-item-size": {
       "type": "Number",
-      "desc": "Default size of an option (representing height for default mode or width for horizontal mode), in pixels; This value is used for rendering the initial list; Try to use a value close to the minimum size of an item",
+      "desc": "Default size in pixels (height if vertical, width if horizontal) of an option; This value is used for rendering the initial list; Try to use a value close to the minimum size of an item",
       "default": "24",
       "examples": [
         ":virtual-scroll-item-size=\"48\""
+      ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-sticky-size-start": {
+      "type": "Number",
+      "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the start of the list; A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [
+        ":virtual-scroll-sticky-size-start=\"48\""
+      ],
+      "category": "virtual-scroll"
+    },
+
+    "virtual-scroll-sticky-size-end": {
+      "type": "Number",
+      "desc": "Size in pixels (height if vertical, width if horizontal) of the sticky part (if using one) at the end of the list; A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [
+        ":virtual-scroll-sticky-size-end=\"48\""
       ],
       "category": "virtual-scroll"
     }
@@ -29,7 +49,7 @@
 
   "methods": {
     "scrollTo": {
-      "desc": "Scroll the list to the item with the specified index (0 based)",
+      "desc": "Scroll the virtual scroll list to the item with the specified index (0 based)",
       "params": {
         "index": {
           "type": [ "String", "Number" ],
@@ -48,7 +68,7 @@
 
   "events": {
     "virtual-scroll": {
-      "desc": "Emitted when the virtual list scrolls",
+      "desc": "Emitted when the virtual scroll occurs",
       "params": {
         "details": {
           "type": "Object",
