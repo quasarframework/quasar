@@ -647,7 +647,16 @@ export default Vue.extend({
           ])
         ])
 
-      return this.__padVirtualScroll(h, 'div', this.optionScope.map(fn))
+      let options = this.__padVirtualScroll(h, 'div', this.optionScope.map(fn))
+
+      if (this.$scopedSlots['before-options'] !== void 0) {
+        options = this.$scopedSlots['before-options']().concat(options)
+      }
+      if (this.$scopedSlots['after-options'] !== void 0) {
+        options = options.concat(this.$scopedSlots['after-options']())
+      }
+
+      return options
     },
 
     __getInnerAppend (h) {
