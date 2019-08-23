@@ -54,7 +54,11 @@ With header that scrolls along with content (doesn't stay in place).
 
 <doc-example title="Table with scrolling header/footer" file="QVirtualScroll/TableBasicHeader" />
 
-Notice (in the example below) the CSS required to make the table header and footer "sticky" (**the caveat is that IE11 does not support this**). Also note the additional scoped slots which define the header and footer content.
+Notice (in the example below) the CSS required to make the table header and footer "sticky". Also note the additional scoped slots which define the header and footer content.
+
+::: danger
+IE11 does not supports the sticky header/footer.
+:::
 
 <doc-example title="Sticky headers table" file="QVirtualScroll/TableSticky" />
 
