@@ -49,6 +49,11 @@ Notice the `type="table"` property.
 
 <doc-example title="Basic table" file="QVirtualScroll/TableBasic" />
 
+
+With header that scrolls along with content (doesn't stay in place).
+
+<doc-example title="Table with scrolling header/footer" file="QVirtualScroll/TableBasicHeader" />
+
 Notice (in the example below) the CSS required to make the table header and footer "sticky" (**the caveat is that IE11 does not support this**). Also note the additional scoped slots which define the header and footer content.
 
 <doc-example title="Sticky headers table" file="QVirtualScroll/TableSticky" />

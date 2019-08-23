@@ -9,34 +9,22 @@
       :items="heavyList"
     >
       <template v-slot:before>
-        <thead class="thead-custom-sticky text-left">
-          <tr>
-            <th>#</th>
-            <th v-for="col in columns" :key="'1--' + col.name2">
-              {{ col.name1 }}
-            </th>
-          </tr>
+        <thead class="text-left">
           <tr>
             <th>Index</th>
-            <th v-for="col in columns" :key="'2--' + col.name2">
-              {{ col.name2 }}
+            <th v-for="col in columns" :key="'1--' + col.name">
+              {{ col.name }}
             </th>
           </tr>
         </thead>
       </template>
 
       <template v-slot:after>
-        <tfoot class="tfoot-custom-sticky text-left">
-          <tr>
-            <th>#</th>
-            <th v-for="col in columns" :key="'3--' + col.name2">
-              {{ col.name1 }}
-            </th>
-          </tr>
+        <tfoot class="text-left">
           <tr>
             <th>Index</th>
-            <th v-for="col in columns" :key="'4--' + col.name2">
-              {{ col.name2 }}
+            <th v-for="col in columns" :key="'2--' + col.name">
+              {{ col.name }}
             </th>
           </tr>
         </tfoot>
@@ -45,30 +33,14 @@
       <template v-slot="{ item: row, index }">
         <tr :key="index">
           <td>#{{ index }}</td>
-          <td v-for="col in columns" :key="index + '-' + col.name2">
-            {{ row[col.prop] }}
+          <td v-for="column in columns" :key="index + '-' + column.name">
+            {{ row[column.prop] }}
           </td>
         </tr>
       </template>
     </q-virtual-scroll>
   </div>
 </template>
-
-<style lang="stylus">
-.thead-custom-sticky tr > *,
-.tfoot-custom-sticky tr > *
-  position sticky
-  opacity 1
-  z-index 1
-  background-color black
-  color white
-
-.thead-custom-sticky tr:last-child > *
-  top 0
-
-.tfoot-custom-sticky tr:first-child > *
-  bottom 0
-</style>
 
 <script>
 const data = [
@@ -165,13 +137,13 @@ const data = [
 ]
 
 const columns = [
-  { name1: '(100g serving)', name2: 'Dessert', prop: 'name' },
-  { name1: '(val)', name2: 'Calories', prop: 'calories' },
-  { name1: '(g)', name2: 'Fat', prop: 'fat' },
-  { name1: '(g)', name2: 'Carbs', prop: 'carbs' },
-  { name1: '(g)', name2: 'Protein', prop: 'protein' },
-  { name1: '(mg)', name2: 'Sodium', prop: 'sodium' },
-  { name1: '(%)', name2: 'Calcium', prop: 'calcium' }
+  { name: 'Dessert (100g serving)', prop: 'name' },
+  { name: 'Calories', prop: 'calories' },
+  { name: 'Fat (g)', prop: 'fat' },
+  { name: 'Carbs (g)', prop: 'carbs' },
+  { name: 'Protein (g)', prop: 'protein' },
+  { name: 'Sodium (mg)', prop: 'sodium' },
+  { name: 'Calcium (%)', prop: 'calcium' }
 ]
 
 const heavyList = []
@@ -182,8 +154,8 @@ for (let i = 0; i <= 1000; i++) {
   Array.prototype.push.apply(heavyList, data)
 }
 
-// we are not going to change this array,
-// so why not freeze it to avoid Vue adding overhead
+// we are not going to change these arrays,
+// so why not freeze them to avoid Vue adding overhead
 // with state change detection
 Object.freeze(heavyList)
 Object.freeze(columns)
