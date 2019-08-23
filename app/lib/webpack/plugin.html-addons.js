@@ -51,7 +51,8 @@ module.exports.plugin = class HtmlAddonsPlugin {
           data.body.push(
             makeScriptTag(bodyScript)
           )
-        } else if (this.cfg.ctx.mode.tauri) {
+        }
+        else if (this.cfg.ctx.mode.tauri) {
           if (this.cfg.tauri.security.csp) {
             data.head.push(
               makeTag('meta', {
