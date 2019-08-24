@@ -22,7 +22,7 @@ export default {
     months: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
     monthsShort: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
     headerTitle: function (date) {
-      return new Intl.DateTimeFormat('zh-hans', {
+      return new Intl.DateTimeFormat('ja-JP', {
         weekday: 'short', month: 'short', day: 'numeric'
       }).format(date)
     },
