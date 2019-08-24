@@ -101,7 +101,6 @@ function displayModes () {
     ])
   })
 
-
   console.log(
     '\n' +
     info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
