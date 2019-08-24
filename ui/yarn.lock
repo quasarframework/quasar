@@ -801,9 +801,9 @@
     babel-plugin-transform-imports "^1.0.0"
 
 "@quasar/extras@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.2.0.tgz#46520c283aa82cc4bb65c7a7b6a6e048fb356335"
-  integrity sha512-DUo4KRayuwnMwzRK4vYjd6q6e6sGOkt5moD2Lz/q5PiPqvEjoNeQd9vcNPTqpSjWk7AUDVW4meDR2ThHyQMzAQ==
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.3.0.tgz#5939f8d89274dbabea18cfc0ed94653681395543"
+  integrity sha512-pWgu8neug5S3BuRBZaft0ts3259ou8HhUunmkAK+/4f+gLhBRwHsdWCOwN1x2KtMi7DOl9WYfufk3B+AXZ7rAQ==
 
 "@types/estree@0.0.39":
   version "0.0.39"
