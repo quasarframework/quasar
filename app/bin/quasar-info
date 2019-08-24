@@ -76,6 +76,7 @@ print({ key: 'Important local packages', section: true })
   'quasar',
   '@quasar/app',
   '@quasar/extras',
+  '@quasar/tauri',
   'vue',
   'vue-router',
   'vuex',
