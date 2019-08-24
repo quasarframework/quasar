@@ -1,10 +1,12 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
-import { hasScrollbar, getScrollPosition } from '../utils/scroll.js'
+import { hasScrollbar, getScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
 import Platform from '../plugins/Platform.js'
 
 let
   registered = 0,
-  scrollPosition,
+  scrollPositionX,
+  scrollPositionY,
+  bodyLeft,
   bodyTop,
   closeTimer
 
@@ -58,10 +60,13 @@ function apply (action) {
   if (action === 'add') {
     const overflowY = window.getComputedStyle(body).overflowY
 
-    scrollPosition = getScrollPosition(window)
+    scrollPositionX = getHorizontalScrollPosition(window)
+    scrollPositionY = getScrollPosition(window)
+    bodyLeft = body.style.left
     bodyTop = body.style.top
 
-    body.style.top = `-${scrollPosition}px`
+    body.style.left = `-${scrollPositionX}px`
+    body.style.top = `-${scrollPositionY}px`
     if (overflowY !== 'hidden' && (overflowY === 'scroll' || body.scrollHeight > window.innerHeight)) {
       body.classList.add('q-body--force-scrollbar')
     }
@@ -80,8 +85,9 @@ function apply (action) {
     Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
 
     body.classList.remove('q-body--force-scrollbar')
+    body.style.left = bodyLeft
     body.style.top = bodyTop
-    window.scrollTo(0, scrollPosition)
+    window.scrollTo(scrollPositionX, scrollPositionY)
   }
 }
 

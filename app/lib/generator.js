@@ -10,7 +10,7 @@ const
 
 class Generator {
   constructor (quasarConfig) {
-    const { ctx, preFetch } = quasarConfig.getBuildConfig()
+    const { ctx, preFetch, ...cfg } = quasarConfig.getBuildConfig()
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig
@@ -27,8 +27,11 @@ class Generator {
     if (ctx.mode.ssr) {
       paths.push('server-entry.js')
     }
-    if (ctx.mode.proton) {
-      paths.push('proton.js')
+    if (ctx.mode.tauri) {
+      const { generate } = require(require.resolve('@quasar/tauri/mode/entry', {
+        paths: [ appPaths.appDir ]
+      }))
+      generate(quasarFolder, cfg, ctx)
     }
 
     this.files = paths.map(file => {
@@ -52,7 +55,12 @@ class Generator {
     const data = this.quasarConfig.getBuildConfig()
 
     // ensure .quasar folder
-    if (!fs.existsSync(quasarFolder)){
+    if (!fs.existsSync(quasarFolder)) {
+      fs.mkdirSync(quasarFolder)
+    }
+    else if (!fs.lstatSync(quasarFolder).isDirectory()) {
+      const { removeSync } = require('fs-extra')
+      removeSync(quasarFolder)
       fs.mkdirSync(quasarFolder)
     }
 

@@ -389,6 +389,22 @@ const cli = [
     ]
   },
   {
+    name: 'Developing Tauri Apps',
+    path: 'developing-tauri-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction',
+        badge: 'new'
+      },
+      {
+        name: 'Get Started',
+        path: 'get-started',
+        badge: 'new'
+      }
+    ]
+  },
+  {
     name: 'Ajax Requests',
     path: 'ajax-requests'
   },
@@ -886,9 +902,9 @@ const components = [
     path: 'video'
   },
   {
-    name: 'Virtual List',
+    name: 'Virtual Scroll',
     badge: 'new',
-    path: 'virtual-list'
+    path: 'virtual-scroll'
   }
 ]
 
@@ -930,6 +946,11 @@ const appExtensions = [
         name: 'Tips and tricks',
         badge: 'new',
         path: 'tips-and-tricks'
+      },
+      {
+        name: 'JSON API Schema',
+        badge: 'new',
+        path: 'json-api'
       }
     ]
   }

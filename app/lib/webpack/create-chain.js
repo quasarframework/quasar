@@ -13,7 +13,7 @@ const
 module.exports = function (cfg, configName) {
   const
     chain = new WebpackChain(),
-    needsHash = !cfg.ctx.dev && !['electron', 'proton', 'cordova'].includes(cfg.ctx.modeName),
+    needsHash = !cfg.ctx.dev && !['electron', 'tauri', 'cordova'].includes(cfg.ctx.modeName),
     fileHash = needsHash ? '.[hash:8]' : '',
     chunkHash = needsHash ? '.[contenthash:8]' : '',
     resolveModules = [
@@ -273,7 +273,7 @@ module.exports = function (cfg, configName) {
             ignore: ['.*'],
             ignore: ['.*'].concat(
               // avoid useless files to be copied
-              ['electron', 'proton', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+              ['electron', 'tauri', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
                 ? [ 'icons/*', 'app-logo-128x128.png' ]
                 : []
             )

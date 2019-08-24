@@ -18,7 +18,7 @@ module.exports = function (argv, cmd) {
     }
   }
 
-  if (!['spa', 'pwa', 'cordova', 'electron', 'proton', 'ssr'].includes(argv.mode)) {
+  if (!['spa', 'pwa', 'cordova', 'electron', 'tauri', 'ssr'].includes(argv.mode)) {
     warn(`⚠️  Unknown mode "${ argv.mode }"`)
     warn()
     process.exit(1)

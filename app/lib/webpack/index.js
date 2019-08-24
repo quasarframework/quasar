@@ -92,11 +92,13 @@ async function getElectron (cfg) {
   }
 }
 
-async function getProton (cfg) {
-  const chain = createChain(cfg, 'Proton')
-  require('./proton')(chain, cfg)
+async function getTauri (cfg) {
+  const chain = createChain(cfg, 'Tauri')
+
+  require('./tauri')(chain, cfg)
+  
   return await getWebpackConfig(chain, cfg, {
-    name: 'Proton',
+    name: 'Tauri',
     hot: true,
     invokeParams: {
       isClient: true,
@@ -139,8 +141,8 @@ module.exports = async function (cfg) {
   else if (mode.electron) {
     return await getElectron(cfg)
   }
-  else if (mode.proton) {
-    return await getProton(cfg)
+  else if (mode.tauri) {
+    return await getTauri(cfg)
   }
   else if (mode.cordova) {
     return await getCordova(cfg)

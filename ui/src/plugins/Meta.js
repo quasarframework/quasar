@@ -97,8 +97,8 @@ function diff (meta, other) {
 function apply ({ add, remove }) {
   if (add.title) {
     document.title = add.title
-    if (window.proton) {
-      window.proton.setTitle(add.title)
+    if (window.tauri) {
+      window.tauri.setTitle(add.title)
     }
   }
 

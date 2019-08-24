@@ -61,7 +61,7 @@ export default Vue.extend({
   },
 
   methods: {
-    activate (e, keyboard) {
+    __activate (e, keyboard) {
       keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
 
       if (this.disable !== true) {
@@ -71,7 +71,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      e.keyCode === 13 && this.activate(e, true)
+      e.keyCode === 13 && this.__activate(e, true)
     },
 
     __getContent (h) {
@@ -128,7 +128,7 @@ export default Vue.extend({
         [tag === 'div' ? 'on' : 'nativeOn']: {
           input: stop,
           ...this.$listeners,
-          click: this.activate,
+          click: this.__activate,
           keyup: this.__onKeyup
         }
       }

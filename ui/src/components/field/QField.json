@@ -7,6 +7,12 @@
       "desc": "Specify a max length of model",
       "examples": [ "12" ],
       "category": "model"
+    },
+
+    "item-aligned": {
+      "type": "Boolean",
+      "desc": "Match inner content alignments to QItem",
+      "category": "style"
     }
   },
 
@@ -54,6 +60,16 @@
           "returns": null
         }
       }
+    }
+  },
+
+  "methods": {
+    "focus": {
+      "desc": "Focus field"
+    },
+
+    "blur": {
+      "desc": "Blur field (lose focus)"
     }
   }
 }

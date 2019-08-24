@@ -193,6 +193,9 @@ function getPlatform (userAgent) {
     else if (window._cordovaNative || window.cordova) {
       browser.cordova = true
     }
+    else if (window.tauri) {
+      browser.tauri = true
+    }
 
     fromSSR = browser.cordova === void 0 &&
       browser.electron === void 0 &&
