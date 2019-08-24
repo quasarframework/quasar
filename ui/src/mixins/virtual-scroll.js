@@ -176,7 +176,7 @@ export default {
         ),
         Math.min(this.virtualScrollLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)),
         0,
-        toIndex > this.prevToIndex ? 'end' : 'start'
+        this.prevToIndex > -1 && toIndex > this.prevToIndex ? 'end' : 'start'
       )
     },
 
