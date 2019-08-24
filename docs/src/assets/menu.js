@@ -946,6 +946,11 @@ const appExtensions = [
         name: 'Tips and tricks',
         badge: 'new',
         path: 'tips-and-tricks'
+      },
+      {
+        name: 'JSON API Schema',
+        badge: 'new',
+        path: 'json-api'
       }
     ]
   }

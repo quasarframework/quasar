@@ -21,6 +21,11 @@ export default {
     daysShort: '日_月_火_水_木_金_土'.split('_'), // 'Sun_Mon_Tue_Wed_Thu_Fri_Sat'.split('_'),
     months: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // 'January_February_March_April_May_June_July_August_September_October_November_December'.split('_'),
     monthsShort: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'), // 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_'),
+    headerTitle: function (date) {
+      return new Intl.DateTimeFormat('ja-JP', {
+        weekday: 'short', month: 'short', day: 'numeric'
+      }).format(date)
+    },
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true // true
   },

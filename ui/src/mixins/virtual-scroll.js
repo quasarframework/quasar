@@ -50,11 +50,15 @@ function getScrollDetails (
     details.scrollMaxSize = parentCalc.scrollHeight
   }
 
-  for (let el = beforeRef.previousElementSibling; el !== null; el = el.previousElementSibling) {
-    details.offsetStart += el[propElSize]
+  if (beforeRef !== void 0) {
+    for (let el = beforeRef.previousElementSibling; el !== null; el = el.previousElementSibling) {
+      details.offsetStart += el[propElSize]
+    }
   }
-  for (let el = afterRef.nextElementSibling; el !== null; el = el.nextElementSibling) {
-    details.offsetEnd += el[propElSize]
+  if (afterRef !== void 0) {
+    for (let el = afterRef.nextElementSibling; el !== null; el = el.nextElementSibling) {
+      details.offsetEnd += el[propElSize]
+    }
   }
 
   if (child !== parent) {
