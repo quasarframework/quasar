@@ -3,7 +3,7 @@ title: Provide a UI component
 desc: Tips and tricks on how to provide a Vue component to the host app of a Quasar App Extension.
 ---
 
-This guide is for when you want to create a new UI component and provide it through an App Extension, which will inject it into hosting app.
+This guide is for when you want to create a new UI component and provide it through an App Extension, which will inject it into the hosting app.
 
 ::: tip
 In order for creating an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).
@@ -77,6 +77,6 @@ Finally, let's see how the boot file would look like. Make sure that you read th
 import Vue from 'vue'
 import MyComponent from '../component/MyComponent.vue'
 
-// we globally register our component
-Vue.component('MyComponent', MyComponent)
+// we globally register our component with Vue
+Vue.component('my-component', MyComponent)
 ```

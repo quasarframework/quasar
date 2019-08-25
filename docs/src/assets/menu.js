@@ -951,23 +951,38 @@ const appExtensions = [
     children: [
       {
         name: 'Introduction',
+        badge: 'new',
         path: 'introduction'
       },
       {
         name: 'Provide a UI component',
+        badge: 'new',
         path: 'provide-a-ui-component'
       },
       {
         name: 'Provide a directive',
+        badge: 'new',
         path: 'provide-a-directive'
       },
       {
         name: 'Inject Quasar Plugin',
+        badge: 'new',
         path: 'inject-quasar-plugin'
       },
       {
+        name: 'Inject Quasar Directive',
+        badge: 'new',
+        path: 'inject-quasar-directive'
+      },
+      {
         name: 'Starter kit equivalent',
+        badge: 'new',
         path: 'starter-kit-equivalent'
+      },
+      {
+        name: 'Chain Webpack',
+        badge: 'new',
+        path: 'chain-webpack'
       }
     ]
   }
