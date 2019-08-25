@@ -16,8 +16,9 @@
               <q-card-section>
                 <div class="text-h6">Second dialog</div>
               </q-card-section>
-              <q-card-section class="row items-center">
-                <q-btn v-close-popup="2" label="Close both dialogs" color="primary" />
+              <q-card-section class="row items-center q-gutter-sm">
+                <q-btn v-close-popup="2" label="Close both dialogs" color="accent" />
+                <q-btn v-close-popup label="Close this dialog" color="accent" />
               </q-card-section>
             </q-card>
           </q-dialog>
