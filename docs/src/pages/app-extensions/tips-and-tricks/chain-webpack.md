@@ -35,7 +35,7 @@ module.exports = function (api) {
   api.compatibleWith('@quasar/app', '^1.0.0')
 
   // chain webpack
-  api.chainWebpack((chain, { isClient }) => chainWebpack(api.ctx, chain, isClient))
+  api.chainWebpack((chain) => chainWebpack(api.ctx, chain))
 }
 ```
 
@@ -46,7 +46,7 @@ Our "chainWebpack" method, in the same file as above:
 const MarkdownIt = require('markdown-it')
 const md = new MarkdownIt()
 
-const chainWebpack = function (ctx, chain, { isClient }) {
+const chainWebpack = function (ctx, chain) {
   const rule = chain.module.rule('md')
     .test(/\.md$/)
     .pre()
