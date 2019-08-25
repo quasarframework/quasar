@@ -30,11 +30,11 @@ const
   os = require('os'),
   spawn = require('cross-spawn').sync
 
-function getSpawnOutput (command) {
+function getSpawnOutput (command, outputParser = str => str) {
   try {
     const child = spawn(command, ['--version'])
     return child.status === 0
-      ? chalk.green(String(child.output[1]).trim())
+      ? chalk.green(outputParser(String(child.output[1])).trim())
       : chalk.red('Not installed')
   }
   catch (err) {
@@ -70,6 +70,18 @@ print({ key: '  NPM', value: getSpawnOutput('npm') })
 print({ key: '  yarn', value: getSpawnOutput('yarn') })
 print({ key: '  @quasar/cli', value: chalk.green(process.env.QUASAR_CLI_VERSION) })
 print({ key: '  cordova', value: getSpawnOutput('cordova') })
+
+if (require('../lib/mode')('tauri').isInstalled) {
+  print({ key: 'Tauri packages', section: true })
+  const rustOutputParser = output => {
+    const matches = output.match(/\d+\.\d+\.\d+/g)
+    return matches ? matches[0] : output
+  }
+  print({ key: '  rust', value: getSpawnOutput('rustc', rustOutputParser) })
+  print({ key: '  cargo', value: getSpawnOutput('cargo', rustOutputParser) })
+  print({ key: '  cargo-tauri-bundle', value: getSpawnOutput('cargo tauri-bundle') })
+}
+
 print({ key: 'Important local packages', section: true })
 
 ;[
