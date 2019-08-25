@@ -941,16 +941,33 @@ const appExtensions = [
       {
         name: 'Uninstall API',
         path: 'uninstall-api'
+      }
+    ]
+  },
+  {
+    name: 'Tips and Tricks',
+    path: 'tips-and-tricks',
+    opened: true,
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
       },
       {
-        name: 'Tips and tricks',
-        badge: 'new',
-        path: 'tips-and-tricks'
+        name: 'Provide a UI component',
+        path: 'provide-a-ui-component'
       },
       {
-        name: 'JSON API Schema',
-        badge: 'new',
-        path: 'json-api'
+        name: 'Provide a directive',
+        path: 'provide-a-directive'
+      },
+      {
+        name: 'Inject Quasar Plugin',
+        path: 'inject-quasar-plugin'
+      },
+      {
+        name: 'Starter kit equivalent',
+        path: 'starter-kit-equivalent'
       }
     ]
   }
