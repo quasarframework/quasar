@@ -30,6 +30,8 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Themify Icons](https://themify.me/themify-icons) | `themify` | 1.0.0 | Themify Icons font | |
 | [Animate.css](https://daneden.github.io/animate.css/) | Use `animations` prop | 3.5.2 | Bundle of animations you can use in your website/app | |
 
+> Either install MDI v4 or MDI v3, but never both at the same time.
+
 Why this package? Because it strips down unnecessary package files (so faster download times), all in one place, tested and ready to use with Quasar. One other reason is that the material icons npm package sometimes fails to be downloaded by NPM.
 
 ### QIcon cheatsheet
