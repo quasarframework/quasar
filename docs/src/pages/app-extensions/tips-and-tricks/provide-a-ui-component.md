@@ -77,6 +77,6 @@ Finally, let's see how the boot file would look like. Make sure that you read th
 import Vue from 'vue'
 import MyComponent from '../component/MyComponent.vue'
 
-// we globally register our component
-Vue.component('MyComponent', MyComponent)
+// we globally register our component with Vue
+Vue.component('my-component', MyComponent)
 ```

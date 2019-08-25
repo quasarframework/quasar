@@ -3,10 +3,10 @@ title: Providing a directive
 desc: Tips and tricks on how to provide a Vue directive to the host app of a Quasar App Extension.
 ---
 
-This guide is for when you want to create a new directive and provide it through an App Extension, which will inject it into hosting app.
+This guide is for when you want to create a new directive and provide it through an App Extension, which will inject it into the hosting app.
 
 ::: tip
-In order for creating an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).
+To create an App Extension project folder, please first read the [Development Guide > Introduction](/app-extensions/development-guide/introduction).
 :::
 
 ::: tip Full Example
@@ -73,6 +73,10 @@ Finally, let's see how the boot file would look like. Make sure that you read th
 import Vue from 'vue'
 import MyDirective from '../directive/MyDirective.js'
 
-// we globally register our component
+// we globally register our directive with Vue
+// rememeber, all directives in Vue will start with 'v-'
+// but that should not be part of your directive name
+// https://vuejs.org/v2/guide/custom-directive.html
+// 'my-directive' will be used as 'v-my-directive'
 Vue.directive('my-directive', MyDirective)
 ```
