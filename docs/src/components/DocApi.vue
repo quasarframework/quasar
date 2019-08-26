@@ -235,8 +235,7 @@ export default {
     apiCount (tab) {
       if (tab === 'props') {
         let total = 0
-        let keys = Object.keys(this.filteredApi[tab])
-        keys.forEach(key => {
+        Object.keys(this.filteredApi[tab]).forEach(key => {
           total += Object.keys(this.filteredApi[tab][key]).length
         })
         return total
