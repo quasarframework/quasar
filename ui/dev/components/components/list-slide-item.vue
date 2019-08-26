@@ -151,6 +151,76 @@
           </q-item-section>
         </q-item>
       </q-slide-item>
+
+      <q-slide-item @top="onTop" @bottom="onBottom">
+        <q-icon slot="top" name="alarm" />
+        <q-icon slot="bottom" name="alarm" />
+
+        <q-item style="height: 200px; width: 200px;">
+          <q-item-section avatar>
+            <q-avatar color="primary" text-color="white" icon="bluetooth" />
+          </q-item-section>
+          <q-item-section>Vertical only</q-item-section>
+        </q-item>
+      </q-slide-item>
+
+      <q-slide-item @left="onLeft" @right="onRight" @top="onTop" @bottom="onBottom">
+        <q-icon slot="left" name="alarm" />
+        <q-icon slot="right" name="alarm" />
+        <q-icon slot="top" name="alarm" />
+        <q-icon slot="bottom" name="alarm" />
+
+        <q-item style="height: 200px; width: 200px;">
+          <q-item-section avatar>
+            <q-avatar color="primary" text-color="white" icon="bluetooth" />
+          </q-item-section>
+          <q-item-section>Four actions</q-item-section>
+        </q-item>
+      </q-slide-item>
+
+      <div class="row">
+        <div class="col-4">
+          <q-slide-item @top="onTop" @bottom="onBottom">
+            <q-icon slot="top" name="link" />
+            <q-icon slot="bottom" name="link_off" />
+
+            <q-item style="height: 200px; width: 200px;">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="dialpad" />
+              </q-item-section>
+              <q-item-section>Vertical Slide A</q-item-section>
+            </q-item>
+          </q-slide-item>
+        </div>
+
+        <div class="col-4">
+          <q-slide-item @top="onTop" @bottom="onBottom">
+            <q-icon slot="top" name="link" />
+            <q-icon slot="bottom" name="link_off" />
+
+            <q-item style="height: 200px; width: 200px;">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="face" />
+              </q-item-section>
+              <q-item-section>Vertical Slide B</q-item-section>
+            </q-item>
+          </q-slide-item>
+        </div>
+
+        <div class="col-4">
+          <q-slide-item @top="onTop" @bottom="onBottom">
+            <q-icon slot="top" name="link" />
+            <q-icon slot="bottom" name="link_off" />
+
+            <q-item style="height: 200px; width: 200px;">
+              <q-item-section avatar>
+                <q-avatar color="primary" text-color="white" icon="fingerprint" />
+              </q-item-section>
+              <q-item-section>Vertical Slide C</q-item-section>
+            </q-item>
+          </q-slide-item>
+        </div>
+      </div>
     </q-list>
   </div>
 </template>
@@ -164,6 +234,14 @@ export default {
     },
     onRight ({ reset }) {
       console.log('Right action!')
+      this.finalize(reset)
+    },
+    onTop ({ reset }) {
+      console.log('Top-side action!')
+      this.finalize(reset)
+    },
+    onBottom ({ reset }) {
+      console.log('Bottom-side action!')
       this.finalize(reset)
     },
     finalize (reset) {
