@@ -1,5 +1,7 @@
 import './ApiRows.styl'
 
+import CodePrism from './CodePrism'
+
 function getEventParams (event) {
   const params = event.params === void 0 || event.params.length === 0
     ? ''
@@ -46,6 +48,10 @@ function getStringType (type) {
 
 export default {
   name: 'ApiRows',
+
+  components: {
+    CodePrism
+  },
 
   props: {
     which: String,
@@ -210,7 +216,12 @@ export default {
             h(
               'div',
               { staticClass: 'api-row--indent api-row__value' },
-              prop.examples.map(example => h('div', [ example ]))
+              prop.examples.map(example => h(CodePrism, {
+                staticClass: 'doc-code__inner--prerendered',
+                props: {
+                  lang: 'js'
+                }
+              }, [ example ]))
             )
           )
         )
