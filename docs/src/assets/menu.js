@@ -970,11 +970,6 @@ const appExtensions = [
         path: 'inject-quasar-plugin'
       },
       {
-        name: 'Inject Quasar Directive',
-        badge: 'new',
-        path: 'inject-quasar-directive'
-      },
-      {
         name: 'Starter kit equivalent',
         badge: 'new',
         path: 'starter-kit-equivalent'
