@@ -69,7 +69,7 @@ export default {
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 4, 'Name', h('q-badge', [ propName ]))
+          this.getDiv(h, 'grow', 'Name', h('q-badge', [ propName ]))
         )
 
         if (type !== void 0) {
