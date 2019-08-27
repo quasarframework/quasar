@@ -953,11 +953,11 @@ const appExtensions = [
         badge: 'new',
         path: 'inject-quasar-plugin'
       },
-      {
+      /* {
         name: 'Starter kit equivalent',
         badge: 'new',
         path: 'starter-kit-equivalent'
-      },
+      }, */
       {
         name: 'Chain Webpack',
         badge: 'new',
