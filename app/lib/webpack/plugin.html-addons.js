@@ -52,16 +52,6 @@ module.exports.plugin = class HtmlAddonsPlugin {
             makeScriptTag(bodyScript)
           )
         }
-        else if (this.cfg.ctx.mode.tauri) {
-          if (this.cfg.tauri.security.csp) {
-            data.head.push(
-              makeTag('meta', {
-                'http-equiv': 'Content-Security-Policy',
-                content: this.cfg.tauri.security.csp
-              })
-            )
-          }
-        }
 
         // finally, inform Webpack that we're ready
         callback(null, data)

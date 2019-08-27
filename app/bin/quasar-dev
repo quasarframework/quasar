@@ -47,9 +47,7 @@ if (argv.help) {
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|electron|tauri] (default: spa)
-                     Attention: Tauri is in alpha stage, anything can change!
-
+    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -186,8 +184,7 @@ async function goLive () {
   const
     generator = new Generator(quasarConfig),
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
-    Electron = argv.mode === 'electron' ? require('../lib/electron') : false,
-    Tauri = argv.mode === 'tauri' ? require('../lib/tauri') : false
+    Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
   function startDev (oldDevServer) {
     let devServer
@@ -199,7 +196,6 @@ async function goLive () {
       .then(() => devServer.listen()) // Start listening
       .then(() => Electron && Electron.run(quasarConfig, argv._))
       .then(() => Cordova && Cordova.run(quasarConfig, argv._))
-      .then(() => Tauri && Tauri.run(quasarConfig))
       .then(() => devServer) // Pass new builder to watch chain
   }
 

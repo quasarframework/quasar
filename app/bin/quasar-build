@@ -42,8 +42,7 @@ if (argv.help) {
     $ quasar build -m ios -- some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|electron|tauri] (default: spa)
-                    Attention: Tauri is in alpha stage, anything can change!
+    --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
@@ -51,9 +50,6 @@ if (argv.help) {
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
-                      - Tauri (default: yours)
-                        Syntax: <arch><sub>-<vendor>-<sys>-<abi>
-                        (separated by "," -- no spaces!)
     --publish, -P   Also trigger publishing hooks (if any are specified)
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
@@ -123,9 +119,6 @@ function finalize (mode, quasarConfig) {
     }
     if (mode === 'electron') {
       return require('../lib/electron').build(quasarConfig)
-    }
-    if (mode === 'tauri') {
-      return require('../lib/tauri').build(quasarConfig)
     }
   }
 
