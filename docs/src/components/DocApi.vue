@@ -13,9 +13,10 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
         v-for="tab in tabs"
         :key="`api-tab-${tab}`"
         :name="tab"
-        :label="tab"
       )
-        q-badge.q-ml-xs.q-mb-md {{ apiCount(tab) }}
+        .row.no-wrap.items-center
+          span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
+          q-badge {{ apiCount(tab) }}
 
     q-input.q-mx-sm(
       v-if="$q.screen.gt.xs"
