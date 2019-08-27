@@ -1,17 +1,15 @@
 <template>
-  <div class="q-pa-md">
-    <q-virtual-list
-      style="max-height: 300px; overflow-x: hidden"
-      :items-size="size"
-      :items-fn="getItems"
-      :virtual-list-item-default-size="78"
-      separator
-    >
-      <template v-slot="{ item, index }">
-        <async-component :key="index" :index="item.index" :sent="item.sent" />
-      </template>
-    </q-virtual-list>
-  </div>
+  <q-virtual-scroll
+    style="max-height: 300px; overflow-x: hidden"
+    :items-size="size"
+    :items-fn="getItems"
+    :virtual-scroll-item-size="78"
+    separator
+  >
+    <template v-slot="{ item, index }">
+      <async-component :key="index" :index="item.index" :sent="item.sent" />
+    </template>
+  </q-virtual-scroll>
 </template>
 
 <script>

@@ -14,6 +14,8 @@
       <q-range :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label />
       <q-range :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
 
+      <q-range :dark="dark" :dense="dense" v-model="standalone" label-color="orange" label-text-color="black" :min="0" :max="50" label />
+
       <p class="caption">
         Step 0
         <span class="label inline bg-secondary text-white">

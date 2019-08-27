@@ -9,7 +9,7 @@
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",
-      "category": "behavior"
+      "category": "position"
     },
 
     "cover": {
@@ -131,6 +131,10 @@
   "methods": {
     "updatePosition": {
       "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the menu without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
+    },
+
+    "focus": {
+      "desc": "Focus menu; if you have content with autofocus attribute, it will directly focus it"
     }
   }
 }

@@ -69,7 +69,13 @@ export default Vue.extend({
     },
 
     pinClass () {
-      return this.labelColor !== void 0 ? `text-${this.labelColor}` : null
+      return 'q-slider__pin absolute flex flex-center' +
+        (this.labelColor !== void 0 ? ` text-${this.labelColor}` : '')
+    },
+
+    pinTextClass () {
+      return 'q-slider__pin-value-marker-text' +
+        (this.labelTextColor !== void 0 ? ` text-${this.labelTextColor}` : '')
     },
 
     events () {
@@ -202,12 +208,11 @@ export default Vue.extend({
         ]),
 
         this.label === true || this.labelAlways === true ? h('div', {
-          staticClass: 'q-slider__pin absolute flex flex-center',
           class: this.pinClass
         }, [
           h('div', { staticClass: 'q-slider__pin-value-marker' }, [
             h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
-            h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
+            h('div', { class: this.pinTextClass }, [
               this.computedLabel
             ])
           ])

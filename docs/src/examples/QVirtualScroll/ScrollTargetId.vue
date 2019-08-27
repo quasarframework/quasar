@@ -1,13 +1,11 @@
 <template>
-  <div class="q-pa-md">
+  <div id="virtual-scroll-target" class="scroll" style="max-height: 230px">
     <div class="q-pa-md bg-yellow">
-      Above the list
+      Above the list - scrolls with the list
     </div>
 
-    <q-virtual-list
-      class="q-my-md"
-      style="max-height: 300px;"
-      component="q-list"
+    <q-virtual-scroll
+      scroll-target="#virtual-scroll-target"
       :items="heavyList"
       separator
     >
@@ -23,10 +21,10 @@
           </q-item-section>
         </q-item>
       </template>
-    </q-virtual-list>
+    </q-virtual-scroll>
 
     <div class="q-pa-md bg-yellow">
-      Below the list
+      Below the list - scrolls with the list
     </div>
   </div>
 </template>

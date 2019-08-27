@@ -26,7 +26,7 @@
         label="Hide selected"
         :options="options"
         @filter="filterFn"
-        style="width: 250px"
+        style="max-width: 450px"
         clearable
         :behavior="behavior"
       >
@@ -49,7 +49,7 @@
         input-debounce="0"
         label="Hide selected, no filter"
         :options="options"
-        style="width: 250px"
+        style="max-width: 450px"
         clearable
         :behavior="behavior"
       >
@@ -68,7 +68,7 @@
         v-model="model"
         label="Simple"
         :options="options"
-        style="width: 250px"
+        style="max-width: 450px"
         clearable
         :behavior="behavior"
       >
@@ -92,7 +92,7 @@
         label="Lazy filter with new options"
         :options="objectOptions"
         @filter="filterObjectFn"
-        style="width: 250px"
+        style="max-width: 450px"
         clearable
         :behavior="behavior"
       >
@@ -116,7 +116,7 @@
         label="Lots of options"
         :options="lotsOptions"
         @filter="filterLotsFn"
-        style="width: 250px"
+        style="max-width: 450px"
         clearable
         :behavior="behavior"
       >
@@ -137,13 +137,86 @@
         fill-input
         emit-value
         map-options
+        label="Lots of options - before-options and after-options slots"
+        :options="lotsOptions"
+        @filter="filterLotsFn"
+        style="max-width: 450px"
+        clearable
+        :behavior="behavior"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+
+        <template v-slot:before-options>
+          <q-item class="bg-black text-white q-py-lg">
+            <q-item-section>
+              Rendered before the list of options
+            </q-item-section>
+          </q-item>
+        </template>
+
+        <template v-slot:after-options>
+          <q-item class="bg-black text-white q-py-lg">
+            <q-item-section>
+              Rendered after the list of options
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <q-select
+        filled
+        v-model="model3"
+        use-input
+        hide-selected
+        fill-input
+        emit-value
+        map-options
+        label="Lots of options - sticky before-options"
+        :options="lotsOptions"
+        @filter="filterLotsFn"
+        style="max-width: 450px"
+        clearable
+        :behavior="behavior"
+        :virtual-scroll-sticky-size-start="69"
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+
+        <template v-slot:before-options>
+          <q-item class="bg-black text-white q-py-lg sticky-top">
+            <q-item-section>
+              Rendered before the list of options
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
+
+      <q-select
+        filled
+        v-model="model3"
+        use-input
+        hide-selected
+        fill-input
+        emit-value
+        map-options
         label="Lots of options - horizontal"
         :options="lotsOptions"
         @filter="filterLotsFn"
-        style="width: 250px"
+        style="max-width: 450px"
         clearable
         :behavior="behavior"
-        virtual-list-horizontal
+        virtual-scroll-horizontal
       >
         <template v-slot:no-option>
           <q-item>
@@ -153,9 +226,58 @@
           </q-item>
         </template>
       </q-select>
+
+      <q-select
+        filled
+        v-model="model3"
+        use-input
+        hide-selected
+        fill-input
+        emit-value
+        map-options
+        label="Lots of options - horizontal - before-options and after-options slots"
+        :options="lotsOptions"
+        @filter="filterLotsFn"
+        style="max-width: 450px"
+        clearable
+        :behavior="behavior"
+        virtual-scroll-horizontal
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+
+        <template v-slot:before-options>
+          <q-item class="bg-black text-white q-py-lg">
+            <q-item-section>
+              Rendered before the list of options
+            </q-item-section>
+          </q-item>
+        </template>
+
+        <template v-slot:after-options>
+          <q-item class="bg-black text-white q-py-lg">
+            <q-item-section>
+              Rendered after the list of options
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
     </div>
   </div>
 </template>
+
+<style lang="stylus">
+.sticky-top
+  position sticky
+  opacity 1
+  z-index 1
+  top 0
+</style>
 
 <script>
 const
