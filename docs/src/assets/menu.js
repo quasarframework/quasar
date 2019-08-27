@@ -389,22 +389,6 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Tauri Apps',
-    path: 'developing-tauri-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction',
-        badge: 'new'
-      },
-      {
-        name: 'Get Started',
-        path: 'get-started',
-        badge: 'new'
-      }
-    ]
-  },
-  {
     name: 'Ajax Requests',
     path: 'ajax-requests'
   },
