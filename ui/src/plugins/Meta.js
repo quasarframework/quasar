@@ -97,9 +97,6 @@ function diff (meta, other) {
 function apply ({ add, remove }) {
   if (add.title) {
     document.title = add.title
-    if (window.tauri) {
-      window.tauri.setTitle(add.title)
-    }
   }
 
   if (Object.keys(remove).length > 0) {
