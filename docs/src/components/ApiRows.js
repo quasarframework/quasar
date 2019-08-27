@@ -1,7 +1,5 @@
 import './ApiRows.styl'
 
-import CodePrism from './CodePrism'
-
 function getEventParams (event) {
   const params = event.params === void 0 || event.params.length === 0
     ? ''
@@ -46,23 +44,15 @@ function getStringType (type) {
     : type
 }
 
+const NAME_PROP_COLOR = 'orange-8'
+
 export default {
   name: 'ApiRows',
-
-  components: {
-    CodePrism
-  },
 
   props: {
     which: String,
     apiKey: String,
     api: Object
-  },
-
-  data () {
-    return {
-      nameColor: 'orange-8'
-    }
   },
 
   methods: {
@@ -81,11 +71,12 @@ export default {
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 'grow', 'Name', h('q-badge', {
+          this.getDiv(h, 4, 'Name', h('q-badge', {
             props: {
-              color: this.nameColor
+              color: NAME_PROP_COLOR,
+              label: propName
             }
-          }, [ propName ]))
+          }))
         )
 
         if (type !== void 0) {
@@ -226,11 +217,8 @@ export default {
             h(
               'div',
               { staticClass: 'api-row--indent api-row__value' },
-              prop.examples.map(example => h(CodePrism, {
-                staticClass: 'doc-code__inner--prerendered',
-                props: {
-                  lang: 'js'
-                }
+              prop.examples.map(example => h('div', {
+                staticClass: 'api-row__example'
               }, [ example ]))
             )
           )
@@ -262,9 +250,10 @@ export default {
           h('div', { staticClass: 'api-row row' }, [
             this.getDiv(h, 12, 'Name', h('q-badge', {
               props: {
-                color: this.nameColor
+                color: NAME_PROP_COLOR,
+                label: slot
               }
-            }, [ slot ])),
+            })),
             this.getDiv(h, 12, 'Description', slots[slot].desc)
           ])
         )
@@ -321,11 +310,10 @@ export default {
           h('div', { staticClass: 'api-row row' }, [
             this.getDiv(h, 12, 'Name', h('q-badge', {
               props: {
-                color: this.nameColor
+                color: NAME_PROP_COLOR,
+                label: `@${eventName}${getEventParams(event)}`
               }
-            }, [
-              `@${eventName}${getEventParams(event)}`
-            ])),
+            })),
             this.getDiv(h, 12, 'Description', event.desc),
             this.getDiv(h, 12,
               'Parameters',
@@ -352,11 +340,10 @@ export default {
         const nodes = [
           this.getDiv(h, 12, 'Name', h('q-badge', {
             props: {
-              color: this.nameColor
+              color: NAME_PROP_COLOR,
+              label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
             }
-          }, [
-            `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
-          ])),
+          })),
           this.getDiv(h, 12, 'Description', method.desc)
         ]
 
@@ -430,9 +417,10 @@ export default {
             [
               this.getDiv(h, 12, 'Name', h('q-badge', {
                 props: {
-                  color: this.nameColor
+                  color: NAME_PROP_COLOR,
+                  label: modifierName
                 }
-              }, [ modifierName ]))
+              }))
             ].concat(this.getProp(h, modifier, void 0, true))
           )
         )
