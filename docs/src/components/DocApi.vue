@@ -16,7 +16,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
       )
         .row.no-wrap.items-center
           span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
-          q-badge {{ apiCount(tab) }}
+          q-badge(v-if="apiCount(tab)") {{ apiCount(tab) }}
 
     q-input.q-mx-sm(
       v-if="$q.screen.gt.xs"
