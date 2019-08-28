@@ -102,5 +102,6 @@ export default {
 
 <style lang="stylus">
 .packages-container .q-tab-panel
-  padding 0
+  padding-right 0
+  padding-top 0
 </style>

@@ -9,6 +9,8 @@ import DocPage from 'components/DocPage.vue'
 
 import AppExtensionDiscover from 'components/AppExtensionDiscover.vue'
 
+import QuasarReleases from 'components/QuasarReleases.vue'
+
 // leave the export, even if you don't use it
 export default async ({ Vue }) => {
   Vue.component('DocExample', DocExample)
@@ -20,4 +22,6 @@ export default async ({ Vue }) => {
   Vue.component('DocPage', DocPage)
 
   Vue.component('AppExtensionDiscover', AppExtensionDiscover)
+
+  Vue.component('QuasarReleases', QuasarReleases)
 }

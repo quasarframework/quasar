@@ -19,8 +19,7 @@
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
     "quasar": "^1.0.0",
-    "vuex": "^3.0.1",
-    "markdown-it": "^8.4.2"
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",
@@ -30,6 +29,7 @@
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0",
     "gray-matter": "^4.0.2",
+    "markdown-it": "^8.4.2",
     "markdown-it-container": "^2.0.0",
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
