@@ -15,7 +15,7 @@ export default Vue.extend({
     type: {
       type: String,
       default: 'list',
-      validator: v => ['list', 'table']
+      validator: v => ['list', 'table'].includes(v)
     },
 
     items: {

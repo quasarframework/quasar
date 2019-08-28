@@ -389,22 +389,6 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Tauri Apps',
-    path: 'developing-tauri-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction',
-        badge: 'new'
-      },
-      {
-        name: 'Get Started',
-        path: 'get-started',
-        badge: 'new'
-      }
-    ]
-  },
-  {
     name: 'Ajax Requests',
     path: 'ajax-requests'
   },
@@ -969,11 +953,11 @@ const appExtensions = [
         badge: 'new',
         path: 'inject-quasar-plugin'
       },
-      {
+      /* {
         name: 'Starter kit equivalent',
         badge: 'new',
         path: 'starter-kit-equivalent'
-      },
+      }, */
       {
         name: 'Chain Webpack',
         badge: 'new',

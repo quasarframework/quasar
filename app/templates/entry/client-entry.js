@@ -70,11 +70,6 @@ import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
 
-<% if (ctx.mode.tauri) { %>
-import tauri from './tauri.js'
-Vue.prototype.$q.tauri = window.tauri = tauri
-<% } %>
-
 <% if (ctx.dev) { %>
 Vue.config.devtools = true
 Vue.config.productionTip = false

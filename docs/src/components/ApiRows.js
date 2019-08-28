@@ -44,6 +44,8 @@ function getStringType (type) {
     : type
 }
 
+const NAME_PROP_COLOR = 'orange-8'
+
 export default {
   name: 'ApiRows',
 
@@ -69,7 +71,12 @@ export default {
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 4, 'Name', h('q-badge', [ propName ]))
+          this.getDiv(h, 4, 'Name', h('q-badge', {
+            props: {
+              color: NAME_PROP_COLOR,
+              label: propName
+            }
+          }))
         )
 
         if (type !== void 0) {
@@ -210,7 +217,9 @@ export default {
             h(
               'div',
               { staticClass: 'api-row--indent api-row__value' },
-              prop.examples.map(example => h('div', [ example ]))
+              prop.examples.map(example => h('div', {
+                staticClass: 'api-row__example'
+              }, [ example ]))
             )
           )
         )
@@ -239,7 +248,12 @@ export default {
       for (let slot in slots) {
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h('q-badge', [ slot ])),
+            this.getDiv(h, 12, 'Name', h('q-badge', {
+              props: {
+                color: NAME_PROP_COLOR,
+                label: slot
+              }
+            })),
             this.getDiv(h, 12, 'Description', slots[slot].desc)
           ])
         )
@@ -294,9 +308,12 @@ export default {
 
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h('q-badge', [
-              `@${eventName}${getEventParams(event)}`
-            ])),
+            this.getDiv(h, 12, 'Name', h('q-badge', {
+              props: {
+                color: NAME_PROP_COLOR,
+                label: `@${eventName}${getEventParams(event)}`
+              }
+            })),
             this.getDiv(h, 12, 'Description', event.desc),
             this.getDiv(h, 12,
               'Parameters',
@@ -321,9 +338,12 @@ export default {
         const method = methods[methodName]
 
         const nodes = [
-          this.getDiv(h, 12, 'Name', h('q-badge', [
-            `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
-          ])),
+          this.getDiv(h, 12, 'Name', h('q-badge', {
+            props: {
+              color: NAME_PROP_COLOR,
+              label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
+            }
+          })),
           this.getDiv(h, 12, 'Description', method.desc)
         ]
 
@@ -395,7 +415,12 @@ export default {
             'div',
             { staticClass: 'api-row row' },
             [
-              this.getDiv(h, 12, 'Name', h('q-badge', [ modifierName ]))
+              this.getDiv(h, 12, 'Name', h('q-badge', {
+                props: {
+                  color: NAME_PROP_COLOR,
+                  label: modifierName
+                }
+              }))
             ].concat(this.getProp(h, modifier, void 0, true))
           )
         )
