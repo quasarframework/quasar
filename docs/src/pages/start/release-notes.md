@@ -1,6 +1,8 @@
 ---
 title: Release Notes
 desc: The changelog for Quasar core packages.
+components:
+- releases/QuasarReleases
 ---
 
 Release notes (with changelog) for Quasar core packages (`quasar`, `@quasar/cli`, `@quasar/app`, `@quasar/extras`) are available on [GitHub](https://github.com/quasarframework/quasar/releases).
