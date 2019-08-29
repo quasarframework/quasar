@@ -60,9 +60,7 @@ export default {
       navigator.browserLanguage ||
       navigator.userLanguage ||
       navigator.systemLanguage
-
-    if (val) {
-      return val.toLowerCase()
-    }
+    
+    return val
   }
 }
