@@ -3,6 +3,7 @@ q-page.doc-page
 
   h1.doc-heading.doc-h1#Introduction(v-if="title" @click="copyHeading('Introduction')")
     span {{ title }}
+    q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
     a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
       q-icon(name="edit", @click.stop)
         q-tooltip Improve page
@@ -91,7 +92,8 @@ export default {
     title: String,
     related: Array,
     nav: Array,
-    noEdit: Boolean
+    noEdit: Boolean,
+    badge: String
   },
 
   data () {
@@ -127,6 +129,9 @@ export default {
     color inherit
     text-decoration none
     outline 0
+
+  &__badge
+    vertical-align super
 
 @media (max-width 600px)
   .doc-page
