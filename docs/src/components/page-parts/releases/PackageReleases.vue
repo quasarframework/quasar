@@ -54,6 +54,7 @@ export default {
         .replace(/\*\*([\S ]+)\*\*/g, '<strong>$1</strong>')
         .replace(/\*([\S ]+)\*/g, '<em>$1</em>')
         .replace(/\* ([\S ]+)\n/g, '<li>$1</li>')
+        .replace(/\[(\S+)\]\((\S+)\)/g, '<a href="$2" target="_blank">$1</a>')
       return content
     }
   },
