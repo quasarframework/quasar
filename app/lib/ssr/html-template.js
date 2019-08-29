@@ -1,7 +1,7 @@
 const
   compileTemplate = require('lodash.template'),
   HtmlWebpackPlugin = require('html-webpack-plugin'),
-  { fillHtmlTags } = require('../webpack/plugin.html-addons'),
+  { fillBaseTag } = require('../webpack/plugin.html-addons'),
   { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')
 
 function injectSsrInterpolation (html) {
@@ -59,14 +59,19 @@ module.exports.getIndexHtml = function (template, cfg) {
 
   const data = { body: [], head: [] }
 
-  fillHtmlTags(data, cfg)
-
   if (cfg.ctx.mode.pwa) {
     fillPwaTags(data, cfg)
   }
 
-  html = HtmlWebpackPlugin.prototype.injectAssetsIntoHtml(html, {}, data)
+  if (data.body.length > 0 || data.head.length > 0) {
+    html = HtmlWebpackPlugin.prototype.injectAssetsIntoHtml(html, {}, data)
+  }
+
   html = injectSsrInterpolation(html)
+
+  if (cfg.build.appBase) {
+    html = fillBaseTag(html, cfg.build.appBase)
+  }
 
   if (cfg.build.minify) {
     const { minify } = require('html-minifier')
