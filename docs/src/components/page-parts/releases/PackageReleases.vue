@@ -44,11 +44,15 @@ export default {
       if (this.search) {
         content = content.replace(new RegExp(`(${this.search})`, 'ig'), `<span class="bg-accent text-white">$1</span>`)
       }
-      content = content.replace(/#### ([\S ]+)/g, '<h4>$1</h4>')
+      content = content
+        .replace(/###### ([\S ]+)/g, '<h6>$1</h6>')
+        .replace(/##### ([\S ]+)/g, '<h5>$1</h5>')
+        .replace(/#### ([\S ]+)/g, '<h4>$1</h4>')
         .replace(/### ([\S ]+)/g, '<h3>$1</h3>')
         .replace(/## ([\S ]+)/g, '<h2>$1</h2>')
         .replace(/# ([\S ]+)g/, '<h1>$1</h1>')
-        .replace(/\*\*([\S ]+)\*\*/g, '<b>$1</b>')
+        .replace(/\*\*([\S ]+)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([\S ]+)\*/g, '<em>$1</em>')
         .replace(/\* ([\S ]+)\n/g, '<li>$1</li>')
       return content
     }
