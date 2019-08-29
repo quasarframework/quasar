@@ -3,7 +3,7 @@ div
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, :label="`v${$q.version}`", auto-close)
     q-list(dense padding)
       q-item-label(header) Latest (v{{ $q.version }})
-      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/releases", target="_blank", rel="noopener")
+      q-item(clickable, to="/start/release-notes")
           q-item-section.text-teal(avatar)
             q-icon(name="assignment")
           q-item-section Release notes
