@@ -1,5 +1,3 @@
-const appPaths = require('../app-paths')
-
 function makeTag (tagName, attributes, closeTag = false) {
   return {
     tagName,
@@ -16,15 +14,14 @@ function makeScriptTag (innerHTML) {
   }
 }
 
-function fillHtmlTags (data, cfg) {
-  if (cfg.build.appBase) {
-    data.head.push(
-      makeTag('base', { href: cfg.build.appBase })
-    )
-  }
+function fillBaseTag (html, base) {
+  return html.replace(
+    /(<head[^>]*)(>)/i,
+    (found, start, end) => `${start}${end}<base href="${base}">`
+  )
 }
 
-module.exports.fillHtmlTags = fillHtmlTags
+module.exports.fillBaseTag = fillBaseTag
 
 module.exports.plugin = class HtmlAddonsPlugin {
   constructor (cfg = {}) {
@@ -33,9 +30,14 @@ module.exports.plugin = class HtmlAddonsPlugin {
 
   apply (compiler) {
     compiler.hooks.compilation.tap('webpack-plugin-html-addons', compilation => {
-      compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync('webpack-plugin-html-addons', (data, callback) => {
-        fillHtmlTags(data, this.cfg)
+      if (this.cfg.build.appBase) {
+        compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('webpack-plugin-html-base-tag', (data, callback) => {
+          data.html = fillBaseTag(data.html, this.cfg.build.appBase)
+          callback(null, data)
+        })
+      }
 
+      compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync('webpack-plugin-html-addons', (data, callback) => {
         if (this.cfg.ctx.mode.cordova) {
           data.body.unshift(
             makeTag('script', { src: 'cordova.js' }, true)

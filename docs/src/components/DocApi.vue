@@ -16,7 +16,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
       )
         .row.no-wrap.items-center
           span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
-          q-badge {{ apiCount(tab) }}
+          q-badge(v-if="tabCount[tab]") {{ tabCount[tab] }}
 
     q-input.q-mx-sm(
       v-if="$q.screen.gt.xs"
@@ -122,7 +122,8 @@ export default {
         props: null
       },
       filter: '',
-      filteredApi: {}
+      filteredApi: {},
+      tabCount: {}
     }
   },
 
@@ -132,6 +133,9 @@ export default {
 
       if (val === '') {
         this.filteredApi = this.api
+        this.tabs.forEach(tab => {
+          this.tabCount[tab] = this.apiCount(tab)
+        })
         return
       }
 
@@ -186,6 +190,9 @@ export default {
       })
 
       this.filteredApi = api
+      this.tabs.forEach(tab => {
+        this.tabCount[tab] = this.apiCount(tab)
+      })
     }
   },
 
@@ -200,6 +207,7 @@ export default {
           this.aggregationModel[apiGroup] = true
         }
       }
+
       this.api = api
       this.filteredApi = api
       this.apiType = type
@@ -220,6 +228,9 @@ export default {
       }
 
       this.currentTab = this.tabs[0]
+      this.tabs.forEach(tab => {
+        this.tabCount[tab] = this.apiCount(tab)
+      })
     },
 
     onFilterClick () {

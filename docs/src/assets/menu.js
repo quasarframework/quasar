@@ -31,6 +31,7 @@ const gettingStarted = [
   },
   {
     name: 'Release notes',
+    badge: 'updated',
     path: 'release-notes'
   },
   {
