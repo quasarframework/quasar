@@ -995,6 +995,63 @@ const utils = [
   }
 ]
 
+const backends = [
+  {
+    name: 'AWS -- Amplify',
+    path: 'aws-amplify'
+  },
+  {
+    name: 'GraphQL',
+    path: 'graphQL'
+  },
+  {
+    name: 'Feathers JS',
+    path: 'feathersjs'
+  },
+  {
+    name: 'Firebase',
+    opened: false,
+    children: [
+      {
+        name: 'Installation',
+        path: 'install'
+      },
+      {
+        name: 'Service Structure',
+        path: 'structure'
+      },
+      {
+        name: 'Authentication',
+        path: 'authentication'
+      },
+      {
+        name: 'Data Store',
+        path: 'dataStore'
+      },
+      {
+        name: 'Hosting',
+        path: 'hosting'
+      },
+      {
+        name: 'Messaging',
+        path: 'messaging'
+      },
+      {
+        name: 'Storage',
+        path: 'storage'
+      },
+      {
+        name: 'Custom Implementations',
+        path: 'custom'
+      }
+    ]
+  },
+  {
+    name: 'Laravel',
+    path: 'laravel'
+  }
+]
+
 module.exports = [
   {
     name: 'Introduction to Quasar',
@@ -1086,5 +1143,11 @@ module.exports = [
     icon: 'healing',
     path: 'quasar-utils',
     children: utils
+  },
+  {
+    name: 'Backend & API',
+    icon: 'storage',
+    path: 'backend-and-api',
+    children: backends
   }
 ]
