@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import langEn from '../lang/en-us.js'
+import langEn from '../lang/en-US.js'
 import { isSSR } from './plugins/Platform.js'
 
 export default {
@@ -60,7 +60,7 @@ export default {
       navigator.browserLanguage ||
       navigator.userLanguage ||
       navigator.systemLanguage
-    
+
     return val
   }
 }

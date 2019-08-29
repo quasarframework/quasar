@@ -48,13 +48,13 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
   <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.3/dist/quasar.umd.min.js"></script>
 
   <!--
-    If you want to add a Quasar Language pack (other than "en-us").
-    Notice "pt-br" in "i18n.pt-br.umd.min.js" for Brazilian Portuguese language pack.
+    If you want to add a Quasar Language pack (other than "en-US").
+    Notice "pt-BR" in "i18n.pt-BR.umd.min.js" for Brazilian Portuguese language pack.
     Replace version below (1.0.0-beta.0) with your desired version of Quasar.
     Also check final <script> tag below to enable the language
     Language pack list: https://github.com/quasarframework/quasar/tree/dev/ui/lang
   -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.3/dist/lang/pt-br.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.3/dist/lang/pt-BR.umd.min.js"></script>
 
   <!--
     If you want to make Quasar components (not your own) use a specific set of icons (unless you're using Material Icons already).
@@ -64,7 +64,7 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
   <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.3/dist/icon-set/fontawesome-v5.umd.min.js"></script>
 
   <script>
-    // if using a Quasar language pack other than the default "en-us";
+    // if using a Quasar language pack other than the default "en-US";
     // requires the language pack style tag from above
     Quasar.lang.set(Quasar.lang.ptBr) // notice camel-case "ptBr"
 
@@ -217,7 +217,7 @@ Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
 The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).
 
 ### Changing Quasar Language Pack
-Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-us" language pack which is used by default), you can then tell Quasar to use it:
+Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-US" language pack which is used by default), you can then tell Quasar to use it:
 
 ```js
 // example setting German language,

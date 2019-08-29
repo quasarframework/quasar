@@ -1,5 +1,5 @@
 export default {
-  isoName: 'en-us',
+  isoName: 'en-US',
   nativeName: 'English (US)',
   label: {
     clear: 'Clear',

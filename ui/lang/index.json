@@ -28,11 +28,11 @@
     "nativeName": "ελληνικά"
   },
   {
-    "isoName": "en-gb",
+    "isoName": "en-GB",
     "nativeName": "English (UK)"
   },
   {
-    "isoName": "en-us",
+    "isoName": "en-US",
     "nativeName": "English (US)"
   },
   {
@@ -44,7 +44,7 @@
     "nativeName": "Español"
   },
   {
-    "isoName": "fa-ir",
+    "isoName": "fa-IR",
     "nativeName": "فارسی"
   },
   {
@@ -88,7 +88,7 @@
     "nativeName": "ខ្មែរ"
   },
   {
-    "isoName": "ko-kr",
+    "isoName": "ko-KR",
     "nativeName": "한국어"
   },
   {
@@ -108,7 +108,7 @@
     "nativeName": "Bahasa Melayu"
   },
   {
-    "isoName": "nb-no",
+    "isoName": "nb-NO",
     "nativeName": "Norsk"
   },
   {
@@ -120,7 +120,7 @@
     "nativeName": "Polski"
   },
   {
-    "isoName": "pt-br",
+    "isoName": "pt-BR",
     "nativeName": "Português (BR)"
   },
   {
@@ -168,11 +168,11 @@
     "nativeName": "Tiếng Việt"
   },
   {
-    "isoName": "zh-hans",
+    "isoName": "zh-CN",
     "nativeName": "中文(简体)"
   },
   {
-    "isoName": "zh-hant",
+    "isoName": "zh-TW",
     "nativeName": "中文(繁體)"
   }
 ]

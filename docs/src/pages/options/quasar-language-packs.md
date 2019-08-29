@@ -20,7 +20,7 @@ For a complete list of available Quasar Languages, check [Quasar Languages on Gi
 
 ## Configuring the default Language Pack
 
-Unless configured otherwise (see below), Quasar uses the `en-us` Language Pack by default.
+Unless configured otherwise (see below), Quasar uses the `en-US` Language Pack by default.
 
 ### Hardcoded Default Language Pack
 If the default Quasar Language Pack is not dynamically determined (does not depends on cookies for example), then you can:
@@ -62,7 +62,7 @@ Include the language pack JS tag for your Quasar version and also tell Quasar to
 </script>
 ```
 
-Check what tags you need to include in your HTML files by generating a sample with `$ quasar create <folder> --kit umd` and specifying a language code for Quasar Language Pack (other than the default "en-us").
+Check what tags you need to include in your HTML files by generating a sample with `$ quasar create <folder> --kit umd` and specifying a language code for Quasar Language Pack (other than the default "en-US").
 
 ### Dynamically Picking Default Language
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
