@@ -30,3 +30,7 @@ For a full list of our wonderful people who make Quasar happen, visit the [Backe
 ## Platinum, Gold and Silver Sponsors
 
 <sponsor-list />
+
+## Quasar artwork
+
+You can find the artwork for Quasar (logos and graphics) on [Github](https://github.com/quasarframework/quasar-art).
