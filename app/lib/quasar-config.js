@@ -376,6 +376,7 @@ class QuasarConfig {
       webpackManifest: this.ctx.prod,
       vueRouterMode: 'hash',
       preloadChunks: true,
+      forceDevPublicPath: false,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
         ? '#cheap-module-eval-source-map'
@@ -474,7 +475,7 @@ class QuasarConfig {
     }
 
     cfg.build.publicPath =
-      this.ctx.prod && cfg.build.publicPath && ['spa', 'pwa'].includes(this.ctx.modeName)
+      (this.ctx.prod || cfg.build.forceDevPublicPath) && cfg.build.publicPath && ['spa', 'pwa'].includes(this.ctx.modeName)
         ? formatPublicPath(cfg.build.publicPath)
         : (cfg.build.vueRouterMode !== 'hash' ? '/' : '')
 
@@ -711,7 +712,7 @@ class QuasarConfig {
       }
     }
     else {
-      cfg.build.env.__statics = `"${this.ctx.dev ? '/' : cfg.build.publicPath || '/'}statics"`
+      cfg.build.env.__statics = `"${((this.ctx.prod || cfg.build.forceDevPublicPath) && cfg.build.publicPath) ? cfg.build.publicPath : '/' }statics"`
     }
 
     appFilesValidations(cfg)
