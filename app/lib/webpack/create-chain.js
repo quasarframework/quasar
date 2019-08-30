@@ -273,7 +273,7 @@ module.exports = function (cfg, configName) {
             ignore: ['.*'],
             ignore: ['.*'].concat(
               // avoid useless files to be copied
-              ['electron', 'proton', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+              ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
                 ? [ 'icons/*', 'app-logo-128x128.png' ]
                 : []
             )

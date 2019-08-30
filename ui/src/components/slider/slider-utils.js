@@ -49,7 +49,9 @@ export let SliderMixin = {
     },
 
     color: String,
+
     labelColor: String,
+    labelTextColor: String,
     dark: Boolean,
     dense: Boolean,
 

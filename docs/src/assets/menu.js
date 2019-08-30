@@ -31,6 +31,7 @@ const gettingStarted = [
   },
   {
     name: 'Release notes',
+    badge: 'updated',
     path: 'release-notes'
   },
   {
@@ -886,9 +887,9 @@ const components = [
     path: 'video'
   },
   {
-    name: 'Virtual List',
+    name: 'Virtual Scroll',
     badge: 'new',
-    path: 'virtual-list'
+    path: 'virtual-scroll'
   }
 ]
 
@@ -925,11 +926,43 @@ const appExtensions = [
       {
         name: 'Uninstall API',
         path: 'uninstall-api'
+      }
+    ]
+  },
+  {
+    name: 'Tips and Tricks',
+    path: 'tips-and-tricks',
+    opened: true,
+    children: [
+      {
+        name: 'Introduction',
+        badge: 'new',
+        path: 'introduction'
       },
       {
-        name: 'Tips and tricks',
+        name: 'Provide a UI component',
         badge: 'new',
-        path: 'tips-and-tricks'
+        path: 'provide-a-ui-component'
+      },
+      {
+        name: 'Provide a directive',
+        badge: 'new',
+        path: 'provide-a-directive'
+      },
+      {
+        name: 'Inject Quasar Plugin',
+        badge: 'new',
+        path: 'inject-quasar-plugin'
+      },
+      /* {
+        name: 'Starter kit equivalent',
+        badge: 'new',
+        path: 'starter-kit-equivalent'
+      }, */
+      {
+        name: 'Chain Webpack',
+        badge: 'new',
+        path: 'chain-webpack'
       }
     ]
   }

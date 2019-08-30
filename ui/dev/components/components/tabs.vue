@@ -497,6 +497,7 @@ export default {
   data () {
     return {
       text: '',
+      gigi: '',
       dense: false,
       tab: 'one',
       tabModel: null,

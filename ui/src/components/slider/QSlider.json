@@ -45,6 +45,10 @@
       "extends": "color"
     },
 
+    "label-text-color": {
+      "extends": "color"
+    },
+
     "label-value": {
       "type": [ "String", "Number" ],
       "desc": "Override default label value",

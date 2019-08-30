@@ -63,7 +63,7 @@ export default Vue.extend({
   },
 
   methods: {
-    set (value, opt) {
+    __set (value, opt) {
       if (this.readonly === false && value !== this.value) {
         this.$emit('input', value, opt)
       }
@@ -88,7 +88,7 @@ export default Vue.extend({
     this.options.map(
       (opt, i) => h(QBtn, {
         key: i,
-        on: { click: () => this.set(opt.value, opt) },
+        on: { click: () => this.__set(opt.value, opt) },
         props: {
           disable: this.disable || opt.disable,
           label: opt.label,

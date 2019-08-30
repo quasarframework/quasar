@@ -254,7 +254,37 @@ module.exports = class DevServer {
           maxAge: 0
         }))
 
-        SsrExtension.getModule().extendApp({ app })
+        SsrExtension.getModule().extendApp({
+          app,
+
+          ssr: {
+            renderToString ({ req, res }, fn) {
+              const context = {
+                url: req.url,
+                req,
+                res
+              }
+
+              renderer.renderToString(context, (err, html) => {
+                if (err) {
+                  handleError(err)
+                  return
+                }
+                if (cfg.__meta) {
+                  html = context.$getMetaHTML(html)
+                }
+
+                fn(err, html)
+              })
+            },
+
+            settings: Object.assign(
+              {},
+              JSON.parse(cfg.ssr.__templateOpts),
+              { debug: true }
+            )
+          }
+        })
 
         app.get('*', render)
       },

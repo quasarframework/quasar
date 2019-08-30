@@ -14,6 +14,8 @@
       <q-slider :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label />
       <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
 
+      <q-slider :dark="dark" :dense="dense" label-color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label />
+
       <p class="caption">
         Step 0
         <span class="label inline bg-secondary text-white">
@@ -100,7 +102,7 @@
         Coloring
       </p>
       <q-slider :dark="dark" :dense="dense" color="secondary" v-model="standalone" :min="0" :max="50" label />
-      <q-slider :dark="dark" :dense="dense" color="orange" v-model="standalone" :min="0" :max="50" label />
+      <q-slider :dark="dark" :dense="dense" color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label />
       <q-slider :dark="dark" :dense="dense" color="dark" v-model="standalone" :min="0" :max="50" label />
       <q-slider :dark="dark" :dense="dense" color="teal" label-color="black" v-model="standalone" :min="0" :max="50" label-always class="q-mt-md" />
 
