@@ -42,9 +42,11 @@ class CordovaRunner {
     )
   }
 
-  build (quasarConfig, extraParams) {
+  build (quasarConfig, skipPkg, extraParams) {
     const cfg = quasarConfig.getBuildConfig()
-    const args = ['build', cfg.ctx.debug ? '--debug' : '--release', cfg.ctx.targetName]
+    const args = skipPkg
+      ? ['prepare', cfg.ctx.targetName]
+      : ['build', cfg.ctx.debug ? '--debug' : '--release', cfg.ctx.targetName]
 
     return this.__runCordovaCommand(
       cfg,
