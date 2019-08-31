@@ -5,6 +5,7 @@ import { isSSR } from './Platform.js'
 import uid from '../utils/uid.js'
 
 let
+  hiding = false,
   vm = null,
   timeout,
   props = {},
@@ -31,6 +32,11 @@ export default {
       : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
+
+    // Force hide(don't wait for transition to finish) to show the next loading
+    if (hiding && vm !== null) {
+      vm.$emit('destroy')
+    }
 
     if (this.isActive) {
       if (vm) {
@@ -101,7 +107,7 @@ export default {
   },
 
   hide () {
-    if (!this.isActive) {
+    if (!this.isActive || hiding) {
       return
     }
 
@@ -111,12 +117,14 @@ export default {
       this.isActive = false
     }
     else {
+      hiding = true
       vm.isActive = false
       vm.$on('destroy', () => {
         if (vm !== null) {
           vm.$destroy()
         }
         this.isActive = false
+        hiding = false
       })
     }
   },
