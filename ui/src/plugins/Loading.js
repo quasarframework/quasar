@@ -57,6 +57,11 @@ export default {
             isActive: true
           }
         },
+        destroyed () {
+          document.body.classList.remove('q-body--loading')
+          this.$el.remove()
+          vm = null
+        },
         render (h) {
           return h('transition', {
             props: {
@@ -110,9 +115,6 @@ export default {
       vm.$on('destroy', () => {
         if (vm !== null) {
           vm.$destroy()
-          document.body.classList.remove('q-body--loading')
-          vm.$el.remove()
-          vm = null
         }
         this.isActive = false
       })
