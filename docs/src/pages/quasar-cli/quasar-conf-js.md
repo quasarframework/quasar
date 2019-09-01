@@ -209,6 +209,7 @@ devServer: {
 | afterBuild({ quasarConf }) | Function | Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it. Can use async/await or directly return a Promise. |
 | onPublish(opts) | Function | Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed. Can use async/await or directly return a Promise. `opts` is Object of form `{arg, distDir}`, where "arg" is the argument supplied (if any) to -P parameter. |
 | publicPath | String | Public path of your app. By default, it uses the root. Use it when your public path is something else, like "&lt;protocol&gt;://&lt;domain&gt;/some/nested/folder" -- in this case, it means the distributables are in "some/nested/folder" on your webserver. |
+| forceDevPublicPath | Boolean | (**@quasar/app 1.0.6+**) Force use of the custom publicPath in dev builds also (only for SPA and PWA modes). Please make sure that this is indeed what you are looking for and that you know what you are doing, otherwise it is not recommended. |
 | vueRouterMode | String | Sets [Vue Router mode](https://router.vuejs.org/en/essentials/history-mode.html): 'hash' or 'history'. Pick wisely. History mode requires configuration on your deployment web server too. |
 | htmlFilename | String | Default is 'index.html'. |
 | productName | String | Default value is taken from package.json > productName field. |

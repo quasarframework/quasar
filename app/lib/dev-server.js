@@ -236,8 +236,12 @@ module.exports = class DevServer {
 
     const serverCompilerWatcher = serverCompiler.watch({}, () => {})
 
+    const originalAfter = cfg.devServer.after
+
     // start building & launch server
     const server = new WebpackDevServer(clientCompiler, {
+      ...cfg.devServer,
+
       after: app => {
         if (cfg.ctx.mode.pwa) {
           app.use('/manifest.json', (req, res) => {
@@ -253,6 +257,8 @@ module.exports = class DevServer {
         app.use('/statics', express.static(appPaths.resolve.src('statics'), {
           maxAge: 0
         }))
+
+        originalAfter && originalAfter(app)
 
         SsrExtension.getModule().extendApp({
           app,
@@ -287,9 +293,7 @@ module.exports = class DevServer {
         })
 
         app.get('*', render)
-      },
-
-      ...cfg.devServer
+      }
     })
 
     readyPromise.then(() => {
