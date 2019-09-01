@@ -6,7 +6,7 @@ components:
   - sponsors-and-backers/DonatingButtons
 ---
 
-::: tip Founder of Quasar Framework
+::: tip Author of Quasar Framework
 *Quasar was born because I felt that a full featured framework to build responsive websites, PWAs (Progressive Web Apps), Mobile Apps (Android, iOS) and Electron apps simultaneously (using same code-base) was missing. So I quit my job to make this idea a reality. **-- Razvan Stoenescu***, Mon 25th Oct 2015
 :::
 
