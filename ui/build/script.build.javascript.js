@@ -95,6 +95,7 @@ require('./build.api').generate()
     require('./build.vetur').generate(data)
     require('./build.lang-index').generate()
     require('./build.types').generate(data)
+    require('./build.web-types').generate(data)
   })
 
 /**
