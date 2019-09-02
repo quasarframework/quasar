@@ -4,7 +4,7 @@
 
 > Build responsive Single Page Apps, **SSR Apps**, PWAs, Hybrid Mobile Apps and Electron Apps, all using the same codebase!, powered with Vue.
 
-<img src="https://img.shields.io/npm/v/quasar.svg?label=quasar"> <img src="https://img.shields.io/npm/v/%40quasar/app.svg?label=@quasar/app"> <img src="https://img.shields.io/npm/v/%40quasar/cli.svg?label=@quasar/cli"> <img src="https://img.shields.io/npm/v/%40quasar/extras.svg?label=@quasar/extras">
+<a href="https://opencollective.com/quasar" alt="Financial Contributors on Open Collective"><img src="https://opencollective.com/quasar/all/badge.svg?label=financial+contributors" /></a> <img src="https://img.shields.io/npm/v/quasar.svg?label=quasar"> <img src="https://img.shields.io/npm/v/%40quasar/app.svg?label=@quasar/app"> <img src="https://img.shields.io/npm/v/%40quasar/cli.svg?label=@quasar/cli"> <img src="https://img.shields.io/npm/v/%40quasar/extras.svg?label=@quasar/extras">
 
 [![Join the chat at https://chat.quasar.dev](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://chat.quasar.dev)
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
@@ -126,6 +126,36 @@ Thank you to all the people who already <a href="https://github.com/quasarframew
 
 ## Semver
 Quasar is following [Semantic Versioning 2.0](https://semver.org/).
+
+## Contributors
+
+### Code Contributors
+
+This project exists thanks to all the people who contribute. [[Contribute](CONTRIBUTING.md)].
+<a href="https://github.com/quasarframework/quasar/graphs/contributors"><img src="https://opencollective.com/quasar/contributors.svg?width=890&button=false" /></a>
+
+### Financial Contributors
+
+Become a financial contributor and help us sustain our community. [[Contribute](https://opencollective.com/quasar/contribute)]
+
+#### Individuals
+
+<a href="https://opencollective.com/quasar"><img src="https://opencollective.com/quasar/individuals.svg?width=890"></a>
+
+#### Organizations
+
+Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/quasar/contribute)]
+
+<a href="https://opencollective.com/quasar/organization/0/website"><img src="https://opencollective.com/quasar/organization/0/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/1/website"><img src="https://opencollective.com/quasar/organization/1/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/2/website"><img src="https://opencollective.com/quasar/organization/2/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/3/website"><img src="https://opencollective.com/quasar/organization/3/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/4/website"><img src="https://opencollective.com/quasar/organization/4/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/5/website"><img src="https://opencollective.com/quasar/organization/5/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/6/website"><img src="https://opencollective.com/quasar/organization/6/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/7/website"><img src="https://opencollective.com/quasar/organization/7/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/8/website"><img src="https://opencollective.com/quasar/organization/8/avatar.svg"></a>
+<a href="https://opencollective.com/quasar/organization/9/website"><img src="https://opencollective.com/quasar/organization/9/avatar.svg"></a>
 
 ## License
 
