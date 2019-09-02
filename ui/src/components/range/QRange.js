@@ -117,11 +117,15 @@ export default Vue.extend({
     },
 
     minThumbClass () {
-      return this.preventFocus === false && this.focus === 'min' ? 'q-slider--focus' : null
+      return this.preventFocus === false && this.focus === 'min'
+        ? 'q-slider--focus'
+        : (this.value.min === null ? 'q-slider__thumb--no-value q-slider__thumb--min' : null)
     },
 
     maxThumbClass () {
-      return this.preventFocus === false && this.focus === 'max' ? 'q-slider--focus' : null
+      return this.preventFocus === false && this.focus === 'max'
+        ? 'q-slider--focus'
+        : (this.value.max === null ? 'q-slider__thumb--no-value q-slider__thumb--max' : null)
     },
 
     events () {
@@ -332,6 +336,12 @@ export default Vue.extend({
         max: pos.max
       }
 
+      // If either of the values to be emitted are null, set them to the defaults the user has entered.
+      if (this.model.min === null || this.model.max === null) {
+        this.model.min = pos.min || this.min
+        this.model.max = pos.max || this.max
+      }
+
       if (this.snap !== true || this.step === 0) {
         this.curMinRatio = pos.minR
         this.curMaxRatio = pos.maxR
@@ -463,6 +473,7 @@ export default Vue.extend({
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
           staticClass: 'q-slider__track absolute-full',
+          class: this.value.min === null || this.value.max === null ? 'bg-transparent' : null,
           style: this.trackStyle
         }),
 

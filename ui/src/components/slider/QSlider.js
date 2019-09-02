@@ -17,8 +17,8 @@ export default Vue.extend({
 
   props: {
     value: {
-      type: Number,
-      required: true
+      required: true,
+      validator: v => typeof v === 'number' || v === null
     },
 
     labelValue: [String, Number]
@@ -65,7 +65,9 @@ export default Vue.extend({
     },
 
     thumbClass () {
-      return this.preventFocus === false && this.focus === true ? 'q-slider--focus' : null
+      return this.preventFocus === false && this.focus === true
+        ? 'q-slider--focus'
+        : (this.value === null ? 'q-slider__thumb--no-value q-slider__thumb--min' : null)
     },
 
     pinClass () {
@@ -178,6 +180,7 @@ export default Vue.extend({
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
           staticClass: 'q-slider__track absolute-full',
+          class: this.value === null ? 'bg-transparent' : null,
           style: this.trackStyle
         }),
 
