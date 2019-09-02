@@ -29,6 +29,7 @@ export default {
       limitModel: null
     }
   },
+
   methods: {
     getNullLabel (val) {
       return val === null ? 'null' : val
