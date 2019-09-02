@@ -319,7 +319,8 @@ module.exports.generate = function (data) {
   try {
     copyPredefinedTypes(typeRoot)
     writeIndexDTS(apis)
-  } catch (err) {
+  }
+  catch (err) {
     logError(`build.types.js: something went wrong...`)
     console.log()
     console.error(err)
