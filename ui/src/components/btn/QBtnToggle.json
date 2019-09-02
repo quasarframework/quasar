@@ -73,6 +73,12 @@
       "category": "content"
     },
 
+    "round": {
+      "type": "Boolean",
+      "desc": "Makes a circle shaped button",
+      "category": "style"
+    },
+
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design",
