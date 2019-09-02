@@ -46,15 +46,6 @@
     stroke-width 3.5
     stroke currentColor
 
-    &--no-value
-      visibility hidden
-
-    &--max
-      left 100% !important
-
-    &--min
-      left 0% !important
-
     circle
       stroke currentColor
       fill currentColor
@@ -103,6 +94,10 @@
   &--editable
     cursor grab
 
+  &--no-value
+    .q-slider__thumb, .q-slider__track
+      visibility hidden
+
   &--focus
     .q-slider__thumb
       transform scale3d(.571, .571, .571)
@@ -112,7 +107,7 @@
       background currentColor
       transform scale3d(1.55, 1.55, 1.55)
       opacity .25
-    .q-slider__thumb--no-value
+    .q-slider__thumb, .q-slider__track
       visibility visible
 
   &--inactive

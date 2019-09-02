@@ -75,17 +75,15 @@ export let SliderMixin = {
 
   computed: {
     classes () {
-      return {
-        [`text-${this.color}`]: this.color,
-        [`q-slider--${this.active ? '' : 'in'}active`]: true,
-        'disabled': this.disable,
-        'q-slider--editable': this.editable,
-        'q-slider--focus': this.focus === 'both',
-        'q-slider--label': this.label || this.labelAlways,
-        'q-slider--label-always': this.labelAlways,
-        'q-slider--dark': this.dark,
-        'q-slider--dense': this.dense
-      }
+      return `q-slider q-slider--${this.active === true ? '' : 'in'}active` +
+        (this.color !== void 0 ? ` text-${this.color}` : '') +
+        (this.disable === true ? ' disabled' : '') +
+        (this.editable === true ? ' q-slider--editable' : '') +
+        (this.focus === 'both' ? ' q-slider--focus' : '') +
+        (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
+        (this.labelAlways === true ? ' q-slider--label-always' : '') +
+        (this.dark === true ? ' q-slider--dark' : '') +
+        (this.dense === true ? ' q-slider--dense' : '')
     },
 
     editable () {

@@ -18,6 +18,7 @@ export default Vue.extend({
   props: {
     value: {
       required: true,
+      default: null,
       validator: v => typeof v === 'number' || v === null
     },
 
@@ -26,14 +27,16 @@ export default Vue.extend({
 
   data () {
     return {
-      model: this.value,
+      model: this.value === null ? this.min : this.value,
       curRatio: 0
     }
   },
 
   watch: {
     value (v) {
-      this.model = between(v, this.min, this.max)
+      this.model = v === null
+        ? 0
+        : between(v, this.min, this.max)
     },
 
     min (v) {
@@ -67,7 +70,7 @@ export default Vue.extend({
     thumbClass () {
       return this.preventFocus === false && this.focus === true
         ? 'q-slider--focus'
-        : (this.value === null ? 'q-slider__thumb--no-value q-slider__thumb--min' : null)
+        : null
     },
 
     pinClass () {
@@ -153,7 +156,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-slider',
+      staticClass: this.value === null ? ' q-slider--no-value' : '',
       attrs: {
         role: 'slider',
         'aria-valuemin': this.min,
@@ -180,7 +183,6 @@ export default Vue.extend({
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
           staticClass: 'q-slider__track absolute-full',
-          class: this.value === null ? 'bg-transparent' : null,
           style: this.trackStyle
         }),
 
