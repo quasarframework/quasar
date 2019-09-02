@@ -107,6 +107,7 @@
     "tags": "dist/vetur/quasar-tags.json",
     "attributes": "dist/vetur/quasar-attributes.json"
   },
+  "web-types": "dist/web-types/web-types.json",
   "engines": {
     "node": ">= 8.9.0",
     "npm": ">= 5.6.0",

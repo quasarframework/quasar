@@ -99,6 +99,22 @@
       <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" disable />
 
       <p class="caption">
+        Null Value
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ nullValue === null ? 'null' : nullValue }}</em> &nbsp;&nbsp;(0 to 50)</span>
+        </span>
+      </p>
+      <q-slider :dark="dark" :dense="dense" v-model="nullValue" :min="0" :max="50" />
+
+      <p class="caption">
+        Null Value with min
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ nullValueMin === null ? 'null' : nullValueMin }}</em> &nbsp;&nbsp;(20 to 50)</span>
+        </span>
+      </p>
+      <q-slider :dark="dark" :dense="dense" v-model="nullValueMin" :min="20" :max="50" />
+
+      <p class="caption">
         Coloring
       </p>
       <q-slider :dark="dark" :dense="dense" color="secondary" v-model="standalone" :min="0" :max="50" label />
@@ -148,6 +164,8 @@ export default {
       dark: false,
       dense: false,
 
+      nullValue: null,
+      nullValueMin: null,
       standalone: 20,
       stepZero: 30.05,
       precision: 0.4,

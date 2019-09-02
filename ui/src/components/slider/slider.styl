@@ -94,6 +94,10 @@
   &--editable
     cursor grab
 
+  &--no-value
+    .q-slider__thumb, .q-slider__track
+      visibility hidden
+
   &--focus
     .q-slider__thumb
       transform scale3d(.571, .571, .571)
@@ -103,6 +107,8 @@
       background currentColor
       transform scale3d(1.55, 1.55, 1.55)
       opacity .25
+    .q-slider__thumb, .q-slider__track
+      visibility visible
 
   &--inactive
     .q-slider__thumb-container

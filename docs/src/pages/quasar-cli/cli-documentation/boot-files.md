@@ -196,7 +196,7 @@ import messages from 'src/i18n'
 // we tell Vue to use our Vue package:
 Vue.use(VueI18n)
 
-export default ({ app, Vue }) => {
+export default ({ app }) => {
   // Set i18n instance on app;
   // We inject it into root component by doing so;
   // new Vue({..., i18n: ... }).$mount(...)

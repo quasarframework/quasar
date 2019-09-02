@@ -6,7 +6,7 @@ components:
   - sponsors-and-backers/DonatingButtons
 ---
 
-::: tip Founder of Quasar Framework
+::: tip Author of Quasar Framework
 *Quasar was born because I felt that a full featured framework to build responsive websites, PWAs (Progressive Web Apps), Mobile Apps (Android, iOS) and Electron apps simultaneously (using same code-base) was missing. So I quit my job to make this idea a reality. **-- Razvan Stoenescu***, Mon 25th Oct 2015
 :::
 
@@ -30,3 +30,7 @@ For a full list of our wonderful people who make Quasar happen, visit the [Backe
 ## Platinum, Gold and Silver Sponsors
 
 <sponsor-list />
+
+## Quasar artwork
+
+You can find the artwork for Quasar (logos and graphics) on [Github](https://github.com/quasarframework/quasar-art).

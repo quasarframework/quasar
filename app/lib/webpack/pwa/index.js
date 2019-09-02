@@ -36,7 +36,7 @@ module.exports = function (chain, cfg) {
   }
 
   if (cfg.ctx.mode.ssr) {
-    if (!opts.directoryIndex) {
+    if (pluginMode === 'GenerateSW' && !opts.directoryIndex) {
       opts.directoryIndex = '/'
     }
 
