@@ -18,7 +18,7 @@ export default Vue.extend({
   props: {
     value: {
       required: true,
-      validator: prop => typeof prop === 'number' || prop === null
+      validator: v => typeof v === 'number' || v === null
     },
 
     labelValue: [String, Number]
