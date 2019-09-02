@@ -43,16 +43,19 @@ export default {
         min: null,
         max: null
       },
+
       minNull: {
         min: null,
         max: 40
       },
+
       maxNull: {
         min: 20,
         max: null
       }
     }
   },
+
   methods: {
     getNullLabel (val) {
       return val === null ? 'null' : val
