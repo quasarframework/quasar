@@ -76,7 +76,7 @@ export default {
 
   data () {
     return {
-      showCount: 1
+      showCount: 3
     }
   },
 
