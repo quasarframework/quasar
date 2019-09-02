@@ -44,7 +44,11 @@ function getStringType (type) {
     : type
 }
 
-const NAME_PROP_COLOR = 'orange-8'
+const NAME_PROP_COLOR = [
+  'orange-8',
+  'accent',
+  'secondary'
+]
 
 export default {
   name: 'ApiRows',
@@ -65,7 +69,8 @@ export default {
       ])
     },
 
-    getProp (h, prop, propName, onlyChildren) {
+    getProp (h, prop, propName, onlyChildren, level = 0) {
+      debugger
       const type = getStringType(prop.type)
       const child = []
 
@@ -73,7 +78,7 @@ export default {
         child.push(
           this.getDiv(h, 4, 'Name', h('q-badge', {
             props: {
-              color: NAME_PROP_COLOR,
+              color: NAME_PROP_COLOR[level],
               label: propName
             }
           }))
@@ -136,7 +141,7 @@ export default {
         const nodes = []
         for (let propName in prop.definition) {
           nodes.push(
-            this.getProp(h, prop.definition[propName], propName)
+            this.getProp(h, prop.definition[propName], propName, undefined, 2)
           )
         }
 
@@ -157,7 +162,7 @@ export default {
         const nodes = []
         for (let propName in prop.params) {
           nodes.push(
-            this.getProp(h, prop.params[propName], propName)
+            this.getProp(h, prop.params[propName], propName, undefined, level + 1)
           )
         }
 
@@ -192,7 +197,7 @@ export default {
         const nodes = []
         for (let propName in prop.scope) {
           nodes.push(
-            this.getProp(h, prop.scope[propName], propName)
+            this.getProp(h, prop.scope[propName], propName, undefined, 1)
           )
         }
 
@@ -250,7 +255,7 @@ export default {
           h('div', { staticClass: 'api-row row' }, [
             this.getDiv(h, 12, 'Name', h('q-badge', {
               props: {
-                color: NAME_PROP_COLOR,
+                color: NAME_PROP_COLOR[0],
                 label: slot
               }
             })),
@@ -296,7 +301,7 @@ export default {
         if (event.params !== void 0) {
           for (let paramName in event.params) {
             params.push(
-              this.getProp(h, event.params[paramName], paramName)
+              this.getProp(h, event.params[paramName], paramName, undefined, 1)
             )
           }
         }
@@ -310,7 +315,7 @@ export default {
           h('div', { staticClass: 'api-row row' }, [
             this.getDiv(h, 12, 'Name', h('q-badge', {
               props: {
-                color: NAME_PROP_COLOR,
+                color: NAME_PROP_COLOR[0],
                 label: `@${eventName}${getEventParams(event)}`
               }
             })),
@@ -340,7 +345,7 @@ export default {
         const nodes = [
           this.getDiv(h, 12, 'Name', h('q-badge', {
             props: {
-              color: NAME_PROP_COLOR,
+              color: NAME_PROP_COLOR[0],
               label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
             }
           })),
@@ -351,7 +356,7 @@ export default {
           const props = []
           for (let paramName in method.params) {
             props.push(
-              this.getProp(h, method.params[paramName], paramName)
+              this.getProp(h, method.params[paramName], paramName, undefined, 1)
             )
           }
           nodes.push(
@@ -417,7 +422,7 @@ export default {
             [
               this.getDiv(h, 12, 'Name', h('q-badge', {
                 props: {
-                  color: NAME_PROP_COLOR,
+                  color: NAME_PROP_COLOR[0],
                   label: modifierName
                 }
               }))
