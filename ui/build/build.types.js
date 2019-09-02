@@ -117,7 +117,8 @@ function getObjectParamDefinition (def, required) {
       res.push(
         getMethodDefinition(propName, propDef, required)
       )
-    } else {
+    }
+    else {
       res.push(
         getPropDefinition(propName, propDef, required, true)
       )
@@ -154,7 +155,8 @@ function copyPredefinedTypes (dir, parentDir) {
         resolvePath(parentDir ? parentDir + file : file),
         fs.readFileSync(fullPath)
       )
-    } else if (stats.isDirectory()) {
+    }
+    else if (stats.isDirectory()) {
       const p = resolvePath(parentDir ? parentDir + file : file)
       if (!fs.existsSync(p)) {
         fs.mkdirSync(p)
@@ -219,9 +221,11 @@ function writeIndexDTS (apis) {
     const propTypeDef = `${typeName}?: ${typeValue}`
     if (content.type === 'component') {
       write(components, propTypeDef)
-    } else if (content.type === 'directive') {
+    }
+    else if (content.type === 'directive') {
       write(directives, propTypeDef)
-    } else if (content.type === 'plugin') {
+    }
+    else if (content.type === 'plugin') {
       write(plugins, propTypeDef)
     }
 
