@@ -5,7 +5,6 @@ import { isSSR } from './Platform.js'
 import uid from '../utils/uid.js'
 
 let
-  hiding = false,
   vm = null,
   timeout,
   props = {},
@@ -33,18 +32,10 @@ export default {
 
     props.customClass += ` text-${props.backgroundColor}`
 
-    // Force hide(don't wait for transition to finish) to show the next loading
-    if (hiding && vm !== null) {
-      vm.$emit('destroy')
-    }
+    this.isActive = true
 
-    if (this.isActive) {
-      if (vm) {
-        if (!vm.isActive) {
-          vm.isActive = true
-        }
-        vm.$forceUpdate()
-      }
+    if (vm) {
+      vm.$forceUpdate()
       return
     }
 
@@ -57,18 +48,10 @@ export default {
 
       vm = new Vue({
         name: 'QLoading',
+
         el: node,
-        data () {
-          return {
-            isActive: true
-          }
-        },
-        destroyed () {
-          document.body.classList.remove('q-body--loading')
-          this.$el.remove()
-          vm = null
-        },
-        render (h) {
+
+        render: (h) => {
           return h('transition', {
             props: {
               name: 'q-transition--fade',
@@ -76,7 +59,14 @@ export default {
             },
             on: {
               'after-leave': () => {
-                this.$emit('destroy')
+                // might be called to finalize
+                // previous leave, even if it was cancelled
+                if (!this.isActive && vm) {
+                  vm.$destroy()
+                  document.body.classList.remove('q-body--loading')
+                  vm.$el.remove()
+                  vm = null
+                }
               }
             }
           }, [
@@ -102,30 +92,16 @@ export default {
         }
       })
     }, props.delay)
-
-    this.isActive = true
   },
 
   hide () {
-    if (!this.isActive || hiding) {
-      return
-    }
+    if (this.isActive) {
+      if (timeout) {
+        clearTimeout(timeout)
+        timeout = null
+      }
 
-    if (timeout) {
-      clearTimeout(timeout)
-      timeout = null
       this.isActive = false
-    }
-    else {
-      hiding = true
-      vm.isActive = false
-      vm.$on('destroy', () => {
-        if (vm !== null) {
-          vm.$destroy()
-        }
-        this.isActive = false
-        hiding = false
-      })
     }
   },
 
