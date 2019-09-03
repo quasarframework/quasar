@@ -951,22 +951,24 @@
         }
       }
     },
+
     "no-data": {
       "desc": "Slot to define how the bottom will look like when is nothing to display",
       "scope": {
         "message": {
           "type": "String",
-          "desc": "a suggested message",
-          "__exemption": [ "No data available" ]
+          "desc": "The suggested message",
+          "examples": [ "No data available" ]
         },
         "icon": {
           "type": "String",
-          "desc": "a suggested icon",
-          "__exemption": [ "warning" ]
+          "desc": "The suggested icon name (following Quasar convention)",
+          "examples": [ "warning" ]
         }
       }
     }
   },
+
   "events": {
     "request": {
       "desc": "Emitted when a server request is triggered",
