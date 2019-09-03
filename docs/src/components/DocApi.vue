@@ -245,19 +245,19 @@ export default {
     },
 
     apiCount (tab) {
-      let total = 0
       if (tab === 'props' && this.currentTabMaxCategoryPropCount > 0) {
+        let total = 0
         Object.keys(this.filteredApi[tab]).forEach(key => {
           total += Object.keys(this.filteredApi[tab][key]).length
         })
+        return total
       }
-      else if (['value', 'arg', 'quasarConfOptions', 'injection'].includes(tab)) {
-        total = 1
+      
+      if (['value', 'arg', 'quasarConfOptions', 'injection'].includes(tab)) {
+        return 1
       }
-      else {
-        total = Object.keys(this.filteredApi[tab]).length
-      }
-      return total
+      
+      return Object.keys(this.filteredApi[tab]).length
     },
 
     apiInnerCount (tab, category) {
