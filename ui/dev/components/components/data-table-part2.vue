@@ -304,7 +304,7 @@
     <q-table
       :data="[]"
       :columns="columns"
-      no-data-label="I didn't found anything to you"
+      no-data-label="I didn't find anything for you"
       title="No Data"
       row-key="name"
     />
@@ -312,7 +312,7 @@
     <q-table
       :data="[]"
       :columns="columns"
-      no-data-label="I didn't found anything to you"
+      no-data-label="I didn't find anything for you"
       title="No Data"
       row-key="name"
     >
