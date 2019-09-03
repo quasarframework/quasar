@@ -69,8 +69,7 @@ export default {
       ])
     },
 
-    getProp (h, prop, propName, onlyChildren, level = 0) {
-      debugger
+    getProp (h, prop, propName, level, onlyChildren) {
       const type = getStringType(prop.type)
       const child = []
 
@@ -141,7 +140,7 @@ export default {
         const nodes = []
         for (let propName in prop.definition) {
           nodes.push(
-            this.getProp(h, prop.definition[propName], propName, undefined, 2)
+            this.getProp(h, prop.definition[propName], propName, 2)
           )
         }
 
@@ -159,10 +158,13 @@ export default {
       }
 
       if (prop.params !== void 0 && prop.params !== null) {
-        const nodes = []
+        const
+          nodes = [],
+          newLevel = (level + 1) % NAME_PROP_COLOR.length
+
         for (let propName in prop.params) {
           nodes.push(
-            this.getProp(h, prop.params[propName], propName, undefined, level + 1)
+            this.getProp(h, prop.params[propName], propName, newLevel)
           )
         }
 
@@ -187,7 +189,7 @@ export default {
             h(
               'div',
               { staticClass: 'api-row__subitem' },
-              [ this.getProp(h, prop.returns, void 0) ]
+              [ this.getProp(h, prop.returns, void 0, 0) ]
             )
           )
         )
@@ -197,7 +199,7 @@ export default {
         const nodes = []
         for (let propName in prop.scope) {
           nodes.push(
-            this.getProp(h, prop.scope[propName], propName, undefined, 1)
+            this.getProp(h, prop.scope[propName], propName, 1)
           )
         }
 
@@ -240,7 +242,7 @@ export default {
 
       for (let propName in props) {
         child.push(
-          this.getProp(h, props[propName], propName)
+          this.getProp(h, props[propName], propName, 0)
         )
       }
 
@@ -272,7 +274,7 @@ export default {
 
       for (let slot in scopedSlots) {
         child.push(
-          this.getProp(h, scopedSlots[slot], slot)
+          this.getProp(h, scopedSlots[slot], slot, 0)
         )
       }
 
@@ -301,7 +303,7 @@ export default {
         if (event.params !== void 0) {
           for (let paramName in event.params) {
             params.push(
-              this.getProp(h, event.params[paramName], paramName, undefined, 1)
+              this.getProp(h, event.params[paramName], paramName, 1)
             )
           }
         }
@@ -356,7 +358,7 @@ export default {
           const props = []
           for (let paramName in method.params) {
             props.push(
-              this.getProp(h, method.params[paramName], paramName, undefined, 1)
+              this.getProp(h, method.params[paramName], paramName, 1)
             )
           }
           nodes.push(
@@ -379,7 +381,7 @@ export default {
               h(
                 'div',
                 { staticClass: 'api-row__subitem' },
-                [ this.getProp(h, method.returns, void 0) ]
+                [ this.getProp(h, method.returns, void 0, 0) ]
               )
             )
           )
@@ -397,7 +399,7 @@ export default {
       return [
         h('div', { staticClass: 'api-row row' }, [
           this.getDiv(h, 12, 'Type', getStringType(value.type))
-        ].concat(this.getProp(h, value, void 0, true)))
+        ].concat(this.getProp(h, value, void 0, 0, true)))
       ]
     },
 
@@ -405,7 +407,7 @@ export default {
       return [
         h('div', { staticClass: 'api-row row' }, [
           this.getDiv(h, 12, 'Type', getStringType(arg.type))
-        ].concat(this.getProp(h, arg, void 0, true)))
+        ].concat(this.getProp(h, arg, void 0, 0, true)))
       ]
     },
 
@@ -426,7 +428,7 @@ export default {
                   label: modifierName
                 }
               }))
-            ].concat(this.getProp(h, modifier, void 0, true))
+            ].concat(this.getProp(h, modifier, void 0, 0, true))
           )
         )
       }
@@ -447,7 +449,7 @@ export default {
 
       for (let def in conf.definition) {
         child.push(
-          this.getProp(h, conf.definition[def], def)
+          this.getProp(h, conf.definition[def], def, 0)
         )
       }
 

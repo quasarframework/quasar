@@ -252,11 +252,11 @@ export default {
         })
         return total
       }
-      
+
       if (['value', 'arg', 'quasarConfOptions', 'injection'].includes(tab)) {
         return 1
       }
-      
+
       return Object.keys(this.filteredApi[tab]).length
     },
 
