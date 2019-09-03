@@ -4,7 +4,7 @@
       title="Treats"
       :data="[]"
       :columns="columns"
-      no-data-label="I didn't found anything to you"
+      no-data-label="I didn't find anything for you"
       row-key="name"
     >
       <template v-slot:no-data="props">
