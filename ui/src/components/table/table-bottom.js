@@ -22,16 +22,13 @@ export default {
           : (this.loading === true ? this.loadingLabel || this.$q.lang.table.loading : this.noDataLabel || this.$q.lang.table.noData)
 
         const noData = this.$scopedSlots['no-data']
-        let children = []
-        if (noData !== void 0) {
-          children = [ noData({ message, icon: this.$q.iconSet.table.warning }) ]
-        }
-        else {
-          children = [
+        const children = noData !== void 0
+          ? [ noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter }) ]
+          : [
             h(QIcon, { props: { name: this.$q.iconSet.table.warning } }),
             message
           ]
-        }
+
         return h('div', {
           staticClass: 'q-table__bottom row items-center q-table__bottom--nodata'
         }, children)
