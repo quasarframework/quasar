@@ -950,6 +950,22 @@
           "returns": null
         }
       }
+    },
+
+    "no-data": {
+      "desc": "Slot to define how the bottom will look like when is nothing to display",
+      "scope": {
+        "message": {
+          "type": "String",
+          "desc": "The suggested message",
+          "examples": [ "No data available" ]
+        },
+        "icon": {
+          "type": "String",
+          "desc": "The suggested icon name (following Quasar convention)",
+          "examples": [ "warning" ]
+        }
+      }
     }
   },
 

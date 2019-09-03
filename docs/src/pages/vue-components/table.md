@@ -220,6 +220,12 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 <doc-example title="Synchronizing with server" file="QTable/Synchronizing" />
 
+### No Data
+
+<doc-example title="No Data Label" file="QTable/NoData" />
+
+<doc-example title="No Data Slot" file="QTable/NoDataSlot" />
+
 ## QTable API
 <doc-api file="QTable" />
 

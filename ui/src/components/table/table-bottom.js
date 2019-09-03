@@ -21,10 +21,17 @@ export default {
           ? this.noResultsLabel || this.$q.lang.table.noResults
           : (this.loading === true ? this.loadingLabel || this.$q.lang.table.loading : this.noDataLabel || this.$q.lang.table.noData)
 
-        return h('div', { staticClass: 'q-table__bottom row items-center q-table__bottom--nodata' }, [
-          h(QIcon, { props: { name: this.$q.iconSet.table.warning } }),
-          message
-        ])
+        const noData = this.$scopedSlots['no-data']
+        const children = noData !== void 0
+          ? [ noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter }) ]
+          : [
+            h(QIcon, { props: { name: this.$q.iconSet.table.warning } }),
+            message
+          ]
+
+        return h('div', {
+          staticClass: 'q-table__bottom row items-center q-table__bottom--nodata'
+        }, children)
       }
 
       const bottom = this.$scopedSlots.bottom
