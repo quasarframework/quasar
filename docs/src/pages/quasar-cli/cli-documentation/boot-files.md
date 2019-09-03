@@ -294,6 +294,7 @@ Consider the following boot file for axios:
 ```js
 // axios boot file (src/boot/axios.js)
 
+import Vue from 'vue'
 import axios from 'axios'
 
 // We create our own axios instance and set a custom base URL.
@@ -303,10 +304,8 @@ const axiosInstance = axios.create({
   baseURL: 'https://api.example.com'
 })
 
-export default ({ Vue }) => {
-  // for use inside Vue files through this.$axios
-  Vue.prototype.$axios = axiosInstance
-}
+// for use inside Vue files through this.$axios
+Vue.prototype.$axios = axiosInstance
 
 // Here we define a named export
 // that we can later use inside .js files:
