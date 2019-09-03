@@ -212,6 +212,32 @@
             </q-td>
             <q-td key="calcium" :props="props">
               {{ props.row.calcium }}
+              <q-popup-edit
+                persistent
+                :cover="false"
+                :value="props.row.calcium.split('%')[0]"
+                :validate="val => val > 10"
+                @save="model => { props.row.calcium = model + '%' }"
+              >
+                <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
+                  <q-input
+                    autofocus
+                    dense
+                    type="number"
+                    :value="value"
+                    hint="Calcium level"
+                    :rules="[
+                      val => validate(value) || 'Please enter more than 10'
+                    ]"
+                    @input="emitValue"
+                  >
+                    <template v-slot:after>
+                      <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
+                      <q-btn flat dense color="positive" icon="save" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
+                    </template>
+                  </q-input>
+                </template>
+              </q-popup-edit>
             </q-td>
             <q-td key="iron" :props="props">
               {{ props.row.iron }}

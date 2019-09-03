@@ -39,7 +39,8 @@ export default Vue.extend({
 
   data () {
     return {
-      initialValue: ''
+      initialValue: '',
+      model: ''
     }
   },
 
@@ -52,7 +53,7 @@ export default Vue.extend({
     defaultSlotScope () {
       return {
         initialValue: this.initialValue,
-        value: this.value,
+        value: this.model,
         emitValue: this.__emitValue,
         validate: this.validate,
         set: this.set,
@@ -64,31 +65,38 @@ export default Vue.extend({
   methods: {
     set () {
       if (this.__hasChanged()) {
-        if (this.validate(this.value) === false) {
+        if (this.validate(this.model) === false) {
           return
         }
-        this.$emit('save', this.value, this.initialValue)
+        this.$emit('save', this.model, this.initialValue)
       }
       this.__close()
     },
 
     cancel () {
       if (this.__hasChanged()) {
-        this.$emit('cancel', this.value, this.initialValue)
+        this.$emit('cancel', this.model, this.initialValue)
         this.$emit('input', this.initialValue)
       }
       this.__close()
     },
 
     __hasChanged () {
-      return !isDeepEqual(this.value, this.initialValue)
+      return !isDeepEqual(this.model, this.initialValue)
     },
 
     __emitValue (val) {
       if (this.disable === true) {
         return
       }
+
       this.$emit('input', val)
+      if (this.$listeners.input === void 0) {
+        this.model = val
+        this.$nextTick(() => {
+          this.$refs.menu.updatePosition()
+        })
+      }
     },
 
     __close () {
@@ -96,7 +104,8 @@ export default Vue.extend({
       this.$refs.menu.hide()
     },
 
-    __reposition () {
+    __onValueChange () {
+      this.model = clone(this.value)
       this.$nextTick(() => {
         this.$refs.menu.updatePosition()
       })
@@ -152,7 +161,8 @@ export default Vue.extend({
         'before-show': () => {
           this.validated = false
           this.initialValue = clone(this.value)
-          this.watcher = this.$watch('value', this.__reposition)
+          this.model = clone(this.value)
+          this.watcher = this.$watch('value', this.__onValueChange)
         },
         show: () => {
           this.$emit('show')
@@ -161,7 +171,7 @@ export default Vue.extend({
           this.watcher()
 
           if (this.validated === false && this.__hasChanged()) {
-            this.$emit('cancel', this.value, this.initialValue)
+            this.$emit('cancel', this.model, this.initialValue)
             this.$emit('input', this.initialValue)
           }
         },
