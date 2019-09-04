@@ -602,7 +602,6 @@
 
     "header-cell-[name]": {
       "desc": "Slot to define how a specific header cell looks like; replace '[name]' with column name (from columns definition object)",
-      "addedIn": "v1.1.1",
       "scope": {
         "col": {
           "type": "Object",
@@ -632,7 +631,8 @@
           },
           "returns": null
         }
-      }
+      },
+      "addedIn": "v1.1.1"
     },
 
     "top-row": {

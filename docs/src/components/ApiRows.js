@@ -261,14 +261,14 @@ export default {
       for (let slot in slots) {
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 8, 'Name', h('q-badge', {
+            this.getDiv(h, 12, 'Name', h('q-badge', {
               props: {
                 color: NAME_PROP_COLOR[0],
                 label: slot
               }
             })),
             slots[slot].addedIn !== void 0
-              ? this.getDiv(h, 4, 'Added in', slots[slot].addedIn)
+              ? this.getDiv(h, 12, 'Added in', slots[slot].addedIn)
               : null,
             this.getDiv(h, 12, 'Description', slots[slot].desc)
           ])
