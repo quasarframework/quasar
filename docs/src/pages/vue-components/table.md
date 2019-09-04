@@ -188,7 +188,31 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 <doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
 
-### No Data
+### Body slots
+
+The example below shows how you can use a slot to customize the entire row:
+
+<doc-example title="Body slot" file="QTable/SlotBody" />
+
+Bellow, we use a slot which gets applied to each body cell:
+
+<doc-example title="Body-cell slot" file="QTable/SlotBodyCell" />
+
+We can also customize only one particular column only. The syntax for this slot is `body-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+
+<doc-example title="Body-cell-[name] slot" file="QTable/SlotBodyCellName" />
+
+### Header slots
+
+The example below shows how you can use a slot to customize the entire header row:
+
+<doc-example title="Header slot" file="QTable/SlotHeader" />
+
+Bellow, we use a slot which gets applied to each header cell:
+
+<doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
+
+### No data
 
 <doc-example title="No Data Label" file="QTable/NoData" />
 

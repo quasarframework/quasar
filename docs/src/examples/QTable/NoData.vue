@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
-      :data="[]"
+      :data="data"
       :columns="columns"
       no-data-label="I didn't find anything for you"
       row-key="name"
@@ -14,6 +14,8 @@
 export default {
   data () {
     return {
+      data: [],
+
       columns: [
         {
           name: 'name',

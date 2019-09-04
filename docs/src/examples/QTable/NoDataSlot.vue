@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
-      :data="[]"
+      :data="data"
       :columns="columns"
       :filter="filter"
       no-data-label="I didn't find anything for you"
@@ -32,6 +32,7 @@
 export default {
   data () {
     return {
+      data: [],
       filter: '',
 
       columns: [
