@@ -212,6 +212,10 @@ Bellow, we use a slot which gets applied to each header cell:
 
 <doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
 
+Starting with **v1.1.1+**, we can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+
+<doc-example title="Header-cell-[name] slot" file="QTable/SlotHeaderCellName" />
+
 ### No data
 
 <doc-example title="No Data Label" file="QTable/NoData" />
