@@ -25,7 +25,10 @@ export default {
         const children = noData !== void 0
           ? [ noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter }) ]
           : [
-            h(QIcon, { props: { name: this.$q.iconSet.table.warning } }),
+            h(QIcon, {
+              staticClass: 'q-table__bottom-nodata-icon',
+              props: { name: this.$q.iconSet.table.warning }
+            }),
             message
           ]
 

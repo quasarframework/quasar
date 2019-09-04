@@ -4,16 +4,25 @@
       title="Treats"
       :data="[]"
       :columns="columns"
+      :filter="filter"
       no-data-label="I didn't find anything for you"
+      no-results-label="The filter didn't uncover any results"
       row-key="name"
     >
-      <template v-slot:no-data="props">
-        <q-banner class="full-width bg-warning">
-          <template v-slot:avatar>
-            <q-icon :name="props.icon" color="primary" />
-          </template>
-          {{ props.message }}
-        </q-banner>
+      <template v-slot:top-right="props">
+        <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <q-icon slot="append" name="search" />
+        </q-input>
+      </template>
+
+      <template v-slot:no-data="{ icon, message, filter }">
+        <div class="full-width row flex-center text-accent q-gutter-sm">
+          <q-icon size="2em" name="sentiment_dissatisfied" />
+          <span>
+            Well this is sad... {{ message }}
+          </span>
+          <q-icon size="2em" :name="filter ? 'filter_b_and_w' : icon" />
+        </div>
       </template>
     </q-table>
   </div>
@@ -23,6 +32,8 @@
 export default {
   data () {
     return {
+      filter: '',
+
       columns: [
         {
           name: 'name',

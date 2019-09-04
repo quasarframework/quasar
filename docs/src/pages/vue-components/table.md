@@ -188,6 +188,14 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 <doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
 
+### No Data
+
+<doc-example title="No Data Label" file="QTable/NoData" />
+
+Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
+
+<doc-example title="No Data Slot" file="QTable/NoDataSlot" />
+
 ### Custom sorting
 
 <doc-example title="Custom sorting" file="QTable/CustomSorting" />
@@ -219,12 +227,6 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 :::
 
 <doc-example title="Synchronizing with server" file="QTable/Synchronizing" />
-
-### No Data
-
-<doc-example title="No Data Label" file="QTable/NoData" />
-
-<doc-example title="No Data Slot" file="QTable/NoDataSlot" />
 
 ## QTable API
 <doc-api file="QTable" />

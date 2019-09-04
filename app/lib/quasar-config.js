@@ -24,7 +24,7 @@ function encode (obj) {
 
 function formatPublicPath (path) {
   if (!path) {
-    return path || ''
+    return ''
   }
 
   if (!path.endsWith('/')) {
