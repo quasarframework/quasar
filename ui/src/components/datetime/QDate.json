@@ -131,15 +131,18 @@
           "definition": {
             "year": {
               "type": "Number",
-              "desc": "The year"
+              "desc": "The year",
+              "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
-              "desc": "The month"
+              "desc": "The month",
+              "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
-              "desc": "The day of month"
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
             },
             "changed": {
               "type": "Boolean",

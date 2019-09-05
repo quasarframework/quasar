@@ -108,31 +108,38 @@
           "definition": {
             "year": {
               "type": "Number",
-              "desc": "The year"
+              "desc": "The year",
+              "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
-              "desc": "The month"
+              "desc": "The month",
+              "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
-              "desc": "The day of the month"
+              "desc": "The day of the month",
+              "__exemption": [ "examples" ]
             },
             "hour": {
               "type": "Number",
-              "desc": "The hour"
+              "desc": "The hour",
+              "__exemption": [ "examples" ]
             },
             "minute": {
               "type": "Number",
-              "desc": "The minute"
+              "desc": "The minute",
+              "__exemption": [ "examples" ]
             },
             "second": {
               "type": "Number",
-              "desc": "The second"
+              "desc": "The second",
+              "__exemption": [ "examples" ]
             },
             "millisecond": {
               "type": "Number",
-              "desc": "The millisecond"
+              "desc": "The millisecond",
+              "__exemption": [ "examples" ]
             },
             "changed": {
               "type": "Boolean",
