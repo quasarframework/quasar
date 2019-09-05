@@ -101,6 +101,36 @@
       "params": {
         "value": {
           "type": "String"
+        },
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new model",
+          "definition": {
+            "year": {
+              "type": "Number"
+            },
+            "month": {
+              "type": "Number"
+            },
+            "day": {
+              "type": "Number"
+            },
+            "hour": {
+              "type": "Number"
+            },
+            "minute": {
+              "type": "Number"
+            },
+            "second": {
+              "type": "Number"
+            },
+            "millisecond": {
+              "type": "Number"
+            },
+            "changed": {
+              "type": "Boolean"
+            }
+          }
         }
       }
     }
