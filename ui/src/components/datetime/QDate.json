@@ -146,7 +146,8 @@
             },
             "changed": {
               "type": "Boolean",
-              "desc": "Did the model change?"
+              "desc": "Did the model change?",
+              "addedIn": "v1.1.1"
             }
           }
         }
