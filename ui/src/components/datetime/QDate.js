@@ -709,10 +709,8 @@ export default Vue.extend({
           date.year
         )
 
-      this.$emit('input', val, reason, {
-        ...date,
-        changed: val !== this.value
-      })
+      date.changed = val !== this.value
+      this.$emit('input', val, reason, date)
 
       if (val === this.value && reason === 'today') {
         const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)

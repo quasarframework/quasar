@@ -107,28 +107,36 @@
           "desc": "Object of properties on the new model",
           "definition": {
             "year": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The year"
             },
             "month": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The month"
             },
             "day": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The day of the month"
             },
             "hour": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The hour"
             },
             "minute": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The minute"
             },
             "second": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The second"
             },
             "millisecond": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The millisecond"
             },
             "changed": {
-              "type": "Boolean"
+              "type": "Boolean",
+              "desc": "Did the model change?"
             }
           }
         }

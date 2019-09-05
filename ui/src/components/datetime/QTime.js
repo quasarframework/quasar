@@ -650,10 +650,8 @@ export default Vue.extend({
           date.year
         )
 
-      this.$emit('input', val, {
-        ...date,
-        changed: val !== this.value
-      })
+      date.changed = val !== this.value
+      this.$emit('input', val, date)
     }
   },
 
