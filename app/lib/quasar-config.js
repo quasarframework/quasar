@@ -550,6 +550,7 @@ class QuasarConfig {
         open: true
       }, cfg.devServer, {
         contentBase: false,
+        watchContentBase: false,
 
         before: app => {
           if (!this.ctx.mode.ssr) {
