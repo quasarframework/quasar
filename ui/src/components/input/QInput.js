@@ -137,7 +137,7 @@ export default Vue.extend({
           this.$emit('input', val)
         }
 
-        delete this.emitValueFn
+        this.emitValueFn = void 0
       }
 
       if (this.type === 'number') {
@@ -185,7 +185,7 @@ export default Vue.extend({
       this.__onCompositionEnd(e)
 
       clearTimeout(this.emitTimer)
-      this.emitValueFn !== void 0 && this.emitValueFn(true)
+      this.emitValueFn !== void 0 && this.emitValueFn()
 
       this.$emit('change', e)
     },
@@ -194,7 +194,7 @@ export default Vue.extend({
       e !== void 0 && stop(e)
 
       clearTimeout(this.emitTimer)
-      this.emitValueFn !== void 0 && this.emitValueFn(true)
+      this.emitValueFn !== void 0 && this.emitValueFn()
 
       this.typedNumber = false
       this.stopValueWatcher = false
