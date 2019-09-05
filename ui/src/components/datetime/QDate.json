@@ -137,6 +137,9 @@
             },
             "day": {
               "type": "Number"
+            },
+            "changed": {
+              "type": "Boolean"
             }
           }
         }

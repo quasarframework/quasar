@@ -709,10 +709,12 @@ export default Vue.extend({
           date.year
         )
 
-      if (val !== this.value) {
-        this.$emit('input', val, reason, date)
-      }
-      else if (reason === 'today') {
+      this.$emit('input', val, reason, {
+        ...date,
+        changed: val !== this.value
+      })
+
+      if (val === this.value && reason === 'today') {
         const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
         const curHash = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(this.innerModel.day)
 
