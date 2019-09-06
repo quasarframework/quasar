@@ -1014,35 +1014,35 @@ const backends = [
     children: [
       {
         name: 'Installation',
-        path: 'install'
+        path: 'firebase/install'
       },
       {
         name: 'Service Structure',
-        path: 'structure'
+        path: 'firebase/structure'
       },
       {
         name: 'Authentication',
-        path: 'authentication'
+        path: 'firebase/authentication'
       },
       {
         name: 'Data Store',
-        path: 'dataStore'
+        path: 'firebase/dataStore'
       },
       {
         name: 'Hosting',
-        path: 'hosting'
+        path: 'firebase/hosting'
       },
       {
         name: 'Messaging',
-        path: 'messaging'
+        path: 'firebase/messaging'
       },
       {
         name: 'Storage',
-        path: 'storage'
+        path: 'firebase/storage'
       },
       {
         name: 'Custom Implementations',
-        path: 'custom'
+        path: 'firebase/custom'
       }
     ]
   },

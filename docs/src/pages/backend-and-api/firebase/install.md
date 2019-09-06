@@ -3,7 +3,7 @@ title: Installation & Initialization
 desc: A set of Firebase installtion instructions for the Quasar framework.
 ---
 
-Be sure to install read the firebase web setup here: https://firebase.google.com/docs/web/setup
+Be sure to install read the firebase web setup [here](https://firebase.google.com/docs/web/setup).
 
 Install firebase to your quasar app preferably via yarn:
 

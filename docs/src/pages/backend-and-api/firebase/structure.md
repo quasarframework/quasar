@@ -9,7 +9,7 @@ A typical Quasar app structure can be seen [here](https://quasar.dev/quasar-cli/
 quasar new boot firebase
 ```
 
-Be sure to read up on quasar’s boot files here: https://quasar.dev/quasar-cli/cli-documentation/boot-files. This is a great review, and also a core tenant to understanding how firebase is embedded into a quasar app, and also the root place to start when debugging firebase issues. Once the firebase boot file is created we’ll then need to add its name to the boot config array in the `quasar.conf.js`
+Be sure to read up on quasar’s boot files [here](https://quasar.dev/quasar-cli/cli-documentation/boot-files). This is a great review, and also a core tenant to understanding how firebase is embedded into a quasar app, and also the root place to start when debugging firebase issues. Once the firebase boot file is created we’ll then need to add its name to the boot config array in the `quasar.conf.js`
 
 ```js
 boot: [
