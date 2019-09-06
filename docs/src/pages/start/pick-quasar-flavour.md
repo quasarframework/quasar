@@ -16,7 +16,7 @@ Here's a quick comparison:
 | ------------------------------------------------------------------------------------------ | ------- | ---------- | ----------------------------- |
 | Ability to embed into an existing project                                                  | **Yes** | -          | **Yes, if it is Vue CLI app** |
 | Progressive integration of Quasar                                                          | **Yes** | -          | -                             |
-| Include quasar from public CDN                                                             | **Yes** | -          | -                             |
+| Include Quasar from public CDN                                                             | **Yes** | -          | -                             |
 | Build SPA, PWA                                                                             | **Yes** | **Yes**    | **Yes**                       |
 | Build SSR (+ optional PWA client takeover)                                                 | -       | **Yes**    | Yes*                          |
 | Build Mobile Apps, Electron Apps                                                           | **Yes** | **Yes**    | Yes*                          |
