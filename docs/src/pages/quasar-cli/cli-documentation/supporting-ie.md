@@ -39,3 +39,7 @@ If you are developing for UMD and want IE 11 support you will need to add the fo
 <!-- replace 1.0.0-beta.16 with your version of Quasar -->
 <script src="https://cdn.jsdelivr.net/npm/quasar@1.0.0-beta.16/dist/quasar.ie.polyfills.umd.min.js"></script>
 ```
+
+## What does it do?
+
+You can check out what enabling the IE11 support means on [Github](https://github.com/quasarframework/quasar/tree/dev/ui/src/ie-compat) (what pollyfils are injected and the needed CSS fixes).

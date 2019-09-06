@@ -2,7 +2,7 @@
 q-splitter.release__splitter(:value="20")
   template(#before)
     q-scroll-area
-      q-input(v-model="search" dense square standout="bg-primary text-white" placeholder="Search...")
+      q-input(v-model="search" dense square standout="bg-primary text-white" placeholder="Highlight...")
       q-tabs.text-primary(vertical v-model="selectedVersion")
         q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.key" :label="releaseInfo.version" :name="releaseInfo.key")
   template(#after)
@@ -58,7 +58,12 @@ export default {
         .replace(/\*\*([\S ]+)\*\*/g, '<strong>$1</strong>')
         .replace(/\* ([\S ]+)\n/g, '<li>$1</li>')
         .replace(/\*([\S ]+)\*/g, '<em>$1</em>')
-        .replace(/\[(\S+)\]\((\S+)\)/g, '<a href="$2" target="_blank">$1</a>')
+        .replace(/```([\S]+)/g, '<code class="doc-code__inner doc-code__inner--prerendered release__code">')
+        .replace(/```\n/g, '</code>')
+        .replace(/`([\S ]+)`/g, '<code class="doc-token">$1</code>')
+        .replace(/#([\d]+)/g, '<a class="doc-link" href="https://github.com/quasarframework/quasar/issues/$1" target="_blank">#$1</a>')
+        .replace(/^&gt; ([\S ]+)\n/g, '<div class="release__blockquote">$1</div>')
+        .replace(/\[([\S ]+)\]\((\S+)\)/g, '<a class="doc-link" href="$2" target="_blank">$1</a>')
     }
   },
 
@@ -78,4 +83,12 @@ export default {
   height 600px
 .release__body
   white-space pre-line
+.release__blockquote
+  background alpha($primary, .05)
+  border 1px solid $primary
+  padding 4px 8px
+  border-radius $generic-border-radius
+.release__code
+  padding 4px
+  margin 8px
 </style>

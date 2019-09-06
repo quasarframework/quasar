@@ -113,13 +113,12 @@ function parseWebpackConfig (webpackConfig, mode) {
 }
 
 function finalize (mode, quasarConfig) {
-  if (argv['skip-pkg'] !== true) {
-    if (mode === 'cordova') {
-      return require('../lib/cordova').build(quasarConfig, argv._)
-    }
-    if (mode === 'electron') {
-      return require('../lib/electron').build(quasarConfig)
-    }
+  if (mode === 'cordova') {
+    return require('../lib/cordova').build(quasarConfig, argv['skip-pkg'], argv._)
+  }
+
+  if (argv['skip-pkg'] !== true && mode === 'electron') {
+    return require('../lib/electron').build(quasarConfig)
   }
 
   return Promise.resolve()

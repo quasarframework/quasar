@@ -212,7 +212,8 @@
         "default", "menu", "dialog"
       ],
       "default": "default",
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.1.0"
     }
   },
 
@@ -226,10 +227,12 @@
     },
 
     "before-options": {
-      "desc": "Template slot for the elements that should be rendered before the list of options"
+      "desc": "Template slot for the elements that should be rendered before the list of options",
+      "addedIn": "v1.1.0"
     },
     "after-options": {
-      "desc": "Template slot for the elements that should be rendered after the list of options"
+      "desc": "Template slot for the elements that should be rendered after the list of options",
+      "addedIn": "v1.1.0"
     }
   },
 

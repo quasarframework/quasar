@@ -60,8 +60,14 @@ export default context => {
     const { app, <%= store ? 'store, ' : '' %>router } = createApp(context)
 
     <% if (bootNames.length > 0) { %>
+    let routeUnchanged = true
+    const redirect = url => {
+      routeUnchanged = false
+      reject({ url })
+    }
+
     const bootFiles = [<%= bootNames.join(',') %>]
-    for (let i = 0; i < bootFiles.length; i++) {
+    for (let i = 0; routeUnchanged === true && i < bootFiles.length; i++) {
       if (typeof bootFiles[i] !== 'function') {
         continue
       }
@@ -72,13 +78,19 @@ export default context => {
           router,
           <%= store ? 'store,' : '' %>
           Vue,
-          ssrContext: context
+          ssrContext: context,
+          redirect,
+          urlPath: context.url
         })
       }
       catch (err) {
         reject(err)
         return
       }
+    }
+
+    if (routeUnchanged === false) {
+      return
     }
     <% } %>
 

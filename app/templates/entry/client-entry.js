@@ -93,8 +93,16 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.n
 
 async function start () {
   <% if (bootNames.length > 0) { %>
+  let routeUnchanged = true
+  const redirect = url => {
+    routeUnchanged = false
+    window.location.href = url
+  }
+
+  const urlPath = window.location.href.replace(window.location.origin, '')
   const bootFiles = [<%= bootNames.join(',') %>]
-  for (let i = 0; i < bootFiles.length; i++) {
+
+  for (let i = 0; routeUnchanged === true && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {
       continue
     }
@@ -105,7 +113,9 @@ async function start () {
         router,
         <%= store ? 'store,' : '' %>
         Vue,
-        ssrContext: null
+        ssrContext: null,
+        redirect,
+        urlPath
       })
     }
     catch (err) {
@@ -117,6 +127,10 @@ async function start () {
       console.error('[Quasar] boot error:', err)
       return
     }
+  }
+
+  if (routeUnchanged === false) {
+    return
   }
   <% } %>
 

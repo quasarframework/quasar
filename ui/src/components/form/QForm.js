@@ -10,7 +10,8 @@ export default Vue.extend({
   props: {
     autofocus: Boolean,
     noErrorFocus: Boolean,
-    noResetFocus: Boolean
+    noResetFocus: Boolean,
+    greedy: Boolean
   },
 
   mounted () {
@@ -47,13 +48,17 @@ export default Vue.extend({
             )
           }
           else if (valid !== true) {
-            emit(false)
+            if (this.greedy === false) {
+              emit(false)
 
-            if (focus === true && typeof comp.focus === 'function') {
-              comp.focus()
+              if (focus === true && typeof comp.focus === 'function') {
+                comp.focus()
+              }
+
+              return Promise.resolve(false)
             }
 
-            return Promise.resolve(false)
+            promises.push({ valid: false, comp })
           }
         }
       }

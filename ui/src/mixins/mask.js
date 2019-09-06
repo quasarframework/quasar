@@ -224,9 +224,10 @@ export default {
       updateMaskInternals === true && this.__updateMaskInternals()
 
       const
+        preMasked = this.__mask(unmasked),
         masked = this.fillMask !== false
-          ? this.__fillWithMask(this.__mask(unmasked))
-          : this.__mask(unmasked),
+          ? this.__fillWithMask(preMasked)
+          : preMasked,
         changed = this.innerValue !== masked
 
       // We want to avoid "flickering" so we set value immediately
@@ -237,7 +238,7 @@ export default {
       this.$nextTick(() => {
         if (this.reverseFillMask === true) {
           if (changed === true) {
-            const cursor = Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : oldCursor + 1))
+            const cursor = Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, oldCursor + 1)))
             this.__moveCursorRightReverse(inp, cursor, cursor)
           }
           else {
@@ -250,7 +251,7 @@ export default {
             this.__moveCursorLeft(inp, 0, 0)
           }
           else {
-            const cursor = Math.max(0, this.maskMarked.indexOf(MARKER), oldCursor - 1)
+            const cursor = Math.max(0, this.maskMarked.indexOf(MARKER), Math.min(preMasked.length, oldCursor) - 1)
             this.__moveCursorRight(inp, cursor, cursor)
           }
         }
