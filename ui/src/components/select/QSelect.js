@@ -415,7 +415,13 @@ export default Vue.extend({
         .find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
     },
 
+    __onTargetKeyup (e) {
+      this.$emit('keyup', e)
+    },
+
     __onTargetKeydown (e) {
+      this.$emit('keydown', e)
+
       // escape, tab
       if (e.keyCode === 27 || e.keyCode === 9) {
         this.__closeMenu()
@@ -616,7 +622,8 @@ export default Vue.extend({
             autofocus: this.autofocus
           },
           on: {
-            keydown: this.__onTargetKeydown
+            keydown: this.__onTargetKeydown,
+            keyup: this.__onTargetKeyup
           }
         }
       }
@@ -698,7 +705,8 @@ export default Vue.extend({
         change: this.__onCompositionEnd,
         compositionstart: this.__onCompositionStart,
         compositionend: this.__onCompositionEnd,
-        keydown: this.__onTargetKeydown
+        keydown: this.__onTargetKeydown,
+        keyup: this.__onTargetKeyup
       }
 
       if (this.$q.platform.is.android === true) {
