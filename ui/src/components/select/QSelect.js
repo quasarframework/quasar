@@ -315,6 +315,7 @@ export default Vue.extend({
       if (this.multiple !== true) {
         this.updateInputValue(
           this.fillInput === true ? this.__getOptionLabel(opt) : '',
+          true,
           true
         )
 
@@ -508,7 +509,7 @@ export default Vue.extend({
             )
           }
 
-          this.updateInputValue('', this.multiple !== true)
+          this.updateInputValue('', this.multiple !== true, true)
         }
 
         if (this.$listeners['new-value'] !== void 0) {
@@ -737,15 +738,20 @@ export default Vue.extend({
       }
 
       this.inputValue = e.target.value || ''
+      // mark it here as user input so that if updateInputValue is called
+      // before filter is called the indicator is reset
+      this.userInputValue = true
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
-          this.filter(this.inputValue, true)
+          this.filter(this.inputValue)
         }, this.inputDebounce)
       }
     },
 
-    updateInputValue (val, noFiltering) {
+    updateInputValue (val, noFiltering, internal) {
+      this.userInputValue = internal !== true
+
       if (this.useInput === true) {
         if (this.inputValue !== val) {
           this.inputValue = val
@@ -755,7 +761,7 @@ export default Vue.extend({
       }
     },
 
-    filter (val, userInput) {
+    filter (val) {
       if (this.$listeners.filter === void 0 || this.focused !== true) {
         return
       }
@@ -771,7 +777,7 @@ export default Vue.extend({
         val !== '' &&
         this.multiple !== true &&
         this.innerValue.length > 0 &&
-        userInput !== true &&
+        this.userInputValue !== true &&
         val === this.__getOptionLabel(this.innerValue[0])
       ) {
         val = ''
@@ -1029,6 +1035,7 @@ export default Vue.extend({
         this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
           ? this.__getOptionLabel(this.innerValue[0]) || ''
           : '',
+        true,
         true
       )
     },
