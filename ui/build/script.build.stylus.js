@@ -24,18 +24,14 @@ const nano = postcss([
 Promise
   .all([
     generateBase(),
-    generateAddon()
+    generateAddon(),
+    generateSCSSVariables()
   ])
   .catch(e => {
     console.error(e)
   })
 
-function generateBase () {
-  const src = `src/css/index.styl`
-  const deps = stylus(buildUtils.readFile(src))
-    .set('paths', pathList)
-    .deps()
-
+function generateSCSSVariables () {
   prepareStylus([ 'src/css/variables.styl' ])
     .then(code => {
       const scssVariables = stylusConverter.converter(code, {
@@ -44,6 +40,13 @@ function generateBase () {
 
       buildUtils.writeFile(`dist/quasar.variables.scss`, scssVariables)
     })
+}
+
+function generateBase () {
+  const src = `src/css/index.styl`
+  const deps = stylus(buildUtils.readFile(src))
+    .set('paths', pathList)
+    .deps()
 
   return generateFiles({
     sources: [src].concat(deps),
