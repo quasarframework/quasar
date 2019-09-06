@@ -419,6 +419,10 @@ export default Vue.extend({
       this.$emit('keyup', e)
     },
 
+    __onTargetKeypress (e) {
+      this.$emit('keypress', e)
+    },
+
     __onTargetKeydown (e) {
       this.$emit('keydown', e)
 
@@ -623,7 +627,8 @@ export default Vue.extend({
           },
           on: {
             keydown: this.__onTargetKeydown,
-            keyup: this.__onTargetKeyup
+            keyup: this.__onTargetKeyup,
+            keypress: this.__onTargetKeypress
           }
         }
       }
@@ -706,7 +711,8 @@ export default Vue.extend({
         compositionstart: this.__onCompositionStart,
         compositionend: this.__onCompositionEnd,
         keydown: this.__onTargetKeydown,
-        keyup: this.__onTargetKeyup
+        keyup: this.__onTargetKeyup,
+        keypress: this.__onTargetKeypress
       }
 
       if (this.$q.platform.is.android === true) {
