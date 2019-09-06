@@ -4,6 +4,7 @@ const
   rtl = require('postcss-rtl'),
   postcss = require('postcss'),
   cssnano = require('cssnano'),
+  stylusConverter = require('stylus-converter/lib'),
   autoprefixer = require('autoprefixer'),
   buildConf = require('./build.conf'),
   buildUtils = require('./build.utils'),
@@ -34,6 +35,15 @@ function generateBase () {
   const deps = stylus(buildUtils.readFile(src))
     .set('paths', pathList)
     .deps()
+
+  prepareStylus([ 'src/css/variables.styl' ])
+    .then(code => {
+      const scssVariables = stylusConverter.converter(code, {
+        quote: '\''
+      }, [], []).replace(/[\r\n]+/g, '\n')
+
+      buildUtils.writeFile(`dist/quasar.variables.scss`, scssVariables)
+    })
 
   return generateFiles({
     sources: [src].concat(deps),

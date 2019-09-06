@@ -86,6 +86,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "style-resources-loader": "^1.2.1",
     "stylus": "^0.54.7",
+    "stylus-converter": "^0.8.1",
     "stylus-loader": "^3.0.2",
     "uglify-es": "^3.3.9",
     "url-loader": "^2.1.0",
