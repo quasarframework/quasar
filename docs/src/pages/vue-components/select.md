@@ -77,6 +77,8 @@ The model content can be influenced by `emit-value` prop as you'll learn in "The
 
 <doc-example title="Object options" file="QSelect/OptionObject" />
 
+<doc-example title="Object options" file="QSelect/OptionQToggle" />
+
 ### Affecting model
 
 When `emit-value` is used, the model becomes the determined `value` from the specified selected option. Default is to emit the whole option. It makes sense to use it only when the options are of Object form.
