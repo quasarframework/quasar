@@ -101,7 +101,7 @@ If you use functions for custom props always check if the option is null. These 
 
 <doc-example title="Options slot" file="QSelect/OptionSlot" />
 
-Here is another example where we add a QToggle to each option:
+Here is another example where we add a QToggle to each option. The possibilities are endless.
 
 <doc-example title="Object options" file="QSelect/OptionQToggle" />
 
