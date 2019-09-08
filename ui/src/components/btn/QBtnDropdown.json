@@ -16,6 +16,12 @@
 
     "hover-reveal": {
       "type": "Boolean",
+      "desc": "Disables revealing the dropdown when the button is clicked (ignored when 'hover-reveal' prop is not used)",
+      "category": "behavior"
+    },
+
+    "disable-click-reveal": {
+      "type": "Boolean",
       "desc": "Reveals the dropdown when the button is hovered (ignored when 'split' prop is used)",
       "category": "behavior"
     },
