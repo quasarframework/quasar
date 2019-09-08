@@ -77,8 +77,6 @@ The model content can be influenced by `emit-value` prop as you'll learn in "The
 
 <doc-example title="Object options" file="QSelect/OptionObject" />
 
-<doc-example title="Object options" file="QSelect/OptionQToggle" />
-
 ### Affecting model
 
 When `emit-value` is used, the model becomes the determined `value` from the specified selected option. Default is to emit the whole option. It makes sense to use it only when the options are of Object form.
@@ -102,6 +100,10 @@ If you use functions for custom props always check if the option is null. These 
 ### Customizing menu options
 
 <doc-example title="Options slot" file="QSelect/OptionSlot" />
+
+Here is another example where we add a QToggle to each option:
+
+<doc-example title="Object options" file="QSelect/OptionQToggle" />
 
 By default, when there are no options, the menu won't appear. But you can customize this scenario and specify what the menu should display.
 
