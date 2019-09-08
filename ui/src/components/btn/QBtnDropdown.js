@@ -18,6 +18,7 @@ export default Vue.extend({
     value: Boolean,
     split: Boolean,
     hoverReveal: Boolean,
+    disableClickReveal: Boolean,
 
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
@@ -42,6 +43,12 @@ export default Vue.extend({
     return {
       showing: this.value,
       timeout: null
+    }
+  },
+  
+  computed: {
+    noClickReveal () {
+      return this.hoverReveal && this.disableClickReveal
     }
   },
 
@@ -81,7 +88,8 @@ export default Vue.extend({
           self: this.menuSelf,
           contentClass: this.contentClass,
           contentStyle: this.contentStyle,
-          separateClosePopup: true
+          separateClosePopup: true,
+          noParentEvent: this.noClickReveal
         },
         on: {
           'before-show': e => {
