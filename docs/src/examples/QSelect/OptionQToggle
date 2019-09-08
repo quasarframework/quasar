@@ -15,18 +15,18 @@
           map-options
       >
         <template v-slot:option="scope">
-            <q-item
-              v-bind="scope.itemProps"
-              v-on="scope.itemEvents"
-            >
-              <q-item-section>
-                <q-item-label v-html="scope.opt.label" ></q-item-label>
-              </q-item-section>
-              <q-item-section side>
-                <q-toggle v-model="model" :val="scope.opt.value" />
-              </q-item-section>
-            </q-item>
-          </template>
+          <q-item
+            v-bind="scope.itemProps"
+            v-on="scope.itemEvents"
+          >
+            <q-item-section>
+              <q-item-label v-html="scope.opt.label" ></q-item-label>
+            </q-item-section>
+            <q-item-section side>
+              <q-toggle v-model="model" :val="scope.opt.value" />
+            </q-item-section>
+          </q-item>
+        </template>
       </q-select>
     </div>
   </div>
