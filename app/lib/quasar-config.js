@@ -819,7 +819,7 @@ class QuasarConfig {
           // more options:
           // https://github.com/kangax/html-minifier#options-quick-reference
         }
-        : undefined
+        : void 0
     }
 
     this.webpackConfig = await require('./webpack')(cfg)

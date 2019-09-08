@@ -4,7 +4,6 @@ const
   rtl = require('postcss-rtl'),
   postcss = require('postcss'),
   cssnano = require('cssnano'),
-  stylusConverter = require('stylus-converter/lib'),
   autoprefixer = require('autoprefixer'),
   buildConf = require('./build.conf'),
   buildUtils = require('./build.utils'),
@@ -24,23 +23,11 @@ const nano = postcss([
 Promise
   .all([
     generateBase(),
-    generateAddon(),
-    generateSCSSVariables()
+    generateAddon()
   ])
   .catch(e => {
     console.error(e)
   })
-
-function generateSCSSVariables () {
-  prepareStylus([ 'src/css/variables.styl' ])
-    .then(code => {
-      const scssVariables = stylusConverter.converter(code, {
-        quote: '\''
-      }, [], []).replace(/[\r\n]+/g, '\n')
-
-      buildUtils.writeFile(`dist/quasar.variables.scss`, scssVariables)
-    })
-}
 
 function generateBase () {
   const src = `src/css/index.styl`
@@ -90,9 +77,11 @@ function generateUMD (name, code, ext = '') {
     .then(code => buildUtils.writeFile(`dist/quasar${name}${ext}.min.css`, code.css, true))
 }
 
-function prepareStylus (src) {
+function prepareStylus (src, noBanner) {
   return new Promise((resolve, reject) => {
-    let code = buildConf.banner
+    let code = noBanner !== true
+      ? buildConf.banner
+      : ''
 
     src.forEach(function (file) {
       code += buildUtils.readFile(file) + '\n'

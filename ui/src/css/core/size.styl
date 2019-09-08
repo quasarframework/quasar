@@ -26,37 +26,37 @@
 .inline-block
   display inline-block !important
 
-for $space, $value in $spaces
+for space, value in $spaces
 
-  .q-pa-{$space}
-    padding: $value.y $value.x
-  .q-pl-{$space}
-    padding-left: $value.x
-  .q-pr-{$space}
-    padding-right: $value.x
-  .q-pt-{$space}
-    padding-top: $value.y
-  .q-pb-{$space}
-    padding-bottom: $value.y
-  .q-px-{$space}
-    @extends .q-pl-{$space}, .q-pr-{$space}
-  .q-py-{$space}
-    @extends .q-pt-{$space}, .q-pb-{$space}
+  .q-pa-{space}
+    padding: value.y value.x
+  .q-pl-{space}
+    padding-left: value.x
+  .q-pr-{space}
+    padding-right: value.x
+  .q-pt-{space}
+    padding-top: value.y
+  .q-pb-{space}
+    padding-bottom: value.y
+  .q-px-{space}
+    @extends .q-pl-{space}, .q-pr-{space}
+  .q-py-{space}
+    @extends .q-pt-{space}, .q-pb-{space}
 
-  .q-ma-{$space}
-    margin: $value.y $value.x
-  .q-ml-{$space}
-    margin-left: $value.x
-  .q-mr-{$space}
-    margin-right: $value.x
-  .q-mt-{$space}
-    margin-top: $value.y
-  .q-mb-{$space}
-    margin-bottom: $value.y
-  .q-mx-{$space}
-    @extends .q-ml-{$space}, .q-mr-{$space}
-  .q-my-{$space}
-    @extends .q-mt-{$space}, .q-mb-{$space}
+  .q-ma-{space}
+    margin: value.y value.x
+  .q-ml-{space}
+    margin-left: value.x
+  .q-mr-{space}
+    margin-right: value.x
+  .q-mt-{space}
+    margin-top: value.y
+  .q-mb-{space}
+    margin-bottom: value.y
+  .q-mx-{space}
+    @extends .q-ml-{space}, .q-mr-{space}
+  .q-my-{space}
+    @extends .q-mt-{space}, .q-mb-{space}
 
 .q-ml-auto
   margin-left auto

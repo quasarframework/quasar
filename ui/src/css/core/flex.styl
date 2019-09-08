@@ -20,7 +20,7 @@ fg($name, $size)
           min-height 0
           max-height 100%
       &
-        flex 10**4 1 0%
+        flex 10000 1 0%
       &-auto
         flex 0 0 auto
       &-grow
@@ -137,22 +137,22 @@ fg($name, $size)
 for $name, $size in $flex-gutter
   .q-gutter
     &-x-{$name}
-      margin-left (- $size)
+      margin-left (-$size)
       > *
         margin-left $size
     &-y-{$name}
-      margin-top (- $size)
+      margin-top (-$size)
       > *
         margin-top $size
     &-{$name}
       @extends .q-gutter-x-{$name}, .q-gutter-y-{$name}
   .q-col-gutter
     &-x-{$name}
-      margin-left (- $size)
+      margin-left (-$size)
       > *
         padding-left ($size)
     &-y-{$name}
-      margin-top (- $size)
+      margin-top (-$size)
       > *
         padding-top ($size)
     &-{$name}
