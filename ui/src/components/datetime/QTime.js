@@ -138,7 +138,7 @@ export default Vue.extend({
       if (
         forHour === true &&
         this.computedFormat24h === true &&
-        !(this.innerModel.hour > 0 && this.innerModel.hour < 13)
+        this.innerModel.hour >= 12
       ) {
         transform += ' scale3d(.7,.7,.7)'
       }
@@ -299,12 +299,12 @@ export default Vue.extend({
 
         if (this.computedFormat24h === true) {
           if (distance < this.dragging.dist) {
-            if (val !== 0) {
+            if (val < 12) {
               val += 12
             }
           }
-          else if (val === 0) {
-            val = 12
+          else if (val === 12) {
+            val = 0
           }
         }
         else if (this.isAM === true && val === 12) {
@@ -312,10 +312,6 @@ export default Vue.extend({
         }
         else if (this.isAM === false && val !== 12) {
           val += 12
-        }
-
-        if (val === 24) {
-          val = 0
         }
       }
       else {
