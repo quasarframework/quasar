@@ -3,7 +3,7 @@ import Vue from 'vue'
 import slot from '../../utils/slot.js'
 
 function width (val) {
-  return { transform: `scale3d(${val},1,1)` }
+  return { transform: `scaleX(${val})` }
 }
 
 const sizes = {

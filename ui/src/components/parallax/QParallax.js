@@ -74,7 +74,7 @@ export default Vue.extend({
 
     __setPos (offset) {
       // apply it immediately without any delay
-      this.media.style.transform = `translate3D(-50%,${Math.round(offset)}px, 0)`
+      this.media.style.transform = `translate(-50%,${Math.round(offset)}px)`
     }
   },
 

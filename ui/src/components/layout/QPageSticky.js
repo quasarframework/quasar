@@ -83,7 +83,7 @@ export default Vue.extend({
         posX = `${-dir * this.right}px`
       }
 
-      const css = { transform: `translate3d(${posX}, ${posY}, 0)` }
+      const css = { transform: `translate(${posX}, ${posY})` }
 
       if (this.offset) {
         css.margin = `${this.offset[1]}px ${this.offset[0]}px`

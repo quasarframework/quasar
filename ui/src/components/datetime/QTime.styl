@@ -78,7 +78,7 @@
     color $primary
     color var(--q-color-primary)
     background currentColor
-    transform translate3d(-50%, 0, 0)
+    transform translateX(-50%)
 
     &:before, &:after
       content ''
@@ -86,7 +86,7 @@
       left 0
       border-radius 50%
       background currentColor
-      transform translate3d(-44%, 0, 0)
+      transform translateX(-44%)
     &:before
       bottom -4px
       width 8px
@@ -105,7 +105,7 @@
     line-height 32px
     margin 0
     padding 0
-    transform translate3d(-50%, -50%, 0) /* rtl:ignore */
+    transform translate(-50%, -50%) /* rtl:ignore */
     border-radius 50%
 
     &--disable
@@ -149,7 +149,7 @@
     border-radius 5px
     background-color $secondary
     background-color var(--q-color-secondary)
-    transform translate3d(-50%, 0, 0)
+    transform translateX(-50%)
 
   &.disabled, &--readonly
     .q-time__header-ampm, .q-time__content

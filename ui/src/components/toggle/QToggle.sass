@@ -21,7 +21,7 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
     left: 10px
     right: auto
     top: 10px
-    transform: translate3d(0, 0, 0)
+    transform: translate(0, 0)
     transition: transform $toggle-transition
     user-select: none
 
@@ -53,7 +53,7 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
       .q-toggle__track
         opacity: .54
       .q-toggle__thumb-container
-        transform: translate3d(16px, 0, 0)
+        transform: translateX(16px)
       .q-toggle__thumb
         background-color: currentColor
         border-color: currentColor
@@ -95,12 +95,12 @@ body.desktop
       border-radius: 50%
       background: currentColor
       opacity: .12
-      transform: scale3d(0, 0, 0)
+      transform: scale(0)
       transition: transform $option-focus-transition
 
     &:focus:not(.disabled) .q-toggle__thumb:before
-      transform: scale3d(2, 2, 2)
+      transform: scale(2)
 
     &--dense:focus:not(.disabled) .q-toggle__thumb:before
-      transform: scale3d(1.5, 1.5, 1.5)
+      transform: scale(1.5)
 

@@ -178,7 +178,7 @@ export default Vue.extend({
         ? h('div', {
           staticClass: 'q-btn__progress absolute-full',
           class: this.darkPercentage ? 'q-btn__progress--dark' : null,
-          style: { transform: `scale3d(${this.percentage / 100},1,1)` }
+          style: { transform: `scaleX(${this.percentage / 100})` }
         })
         : null,
 
