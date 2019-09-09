@@ -118,21 +118,20 @@
 
   @for $pos from 0 through 11
     $degree: (270 + 30 * $pos)
-    &__clock-pos-#{$pos}
-      top: round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
-      left: round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
 
-  @for $pos from 0 through 12
-    $degree: (270 + 30 * $pos)
+    &__clock-pos-#{$pos}
+      top: (round(percentage((1 + sin($degree * 1deg)) * 100 / 2)) / 100)
+      left: (round(percentage((1 + cos($degree * 1deg)) * 100 / 2)) / 100) /* rtl:ignore */
+
     &__clock-pos-#{$pos}.fmt24
-      top: round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
-      left: round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
+      top: (round(percentage((1 + sin($degree * 1deg)) * 100 / 2)) / 100)
+      left: (round(percentage((1 + cos($degree * 1deg)) * 100 / 2)) / 100) /* rtl:ignore */
 
   @for $pos from 12 through 23
     $degree: (270 + 30 * $pos)
     &__clock-pos-#{$pos}.fmt24
-      top: round(15% + ((1 + sin($degree * 1deg)) * 70%) / 2, 2)
-      left: round(15% + ((1 + cos($degree * 1deg)) * 70%) / 2, 2) /* rtl:ignore */
+      top: (round(percentage((15 + ((1 + sin($degree * 1deg)) * 70)) / 2) * 100) / 100)
+      left: (round(percentage((15 + ((1 + cos($degree * 1deg)) * 70)) / 2) * 100) / 100) /* rtl:ignore */
 
   &__now-button
     background-color: $primary

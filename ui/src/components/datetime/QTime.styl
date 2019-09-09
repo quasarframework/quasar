@@ -118,15 +118,15 @@
 
   for pos in 0..11
     $degree = (270 + 30 * pos)
+
     &__clock-pos-{pos}
       top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
       left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
 
-  for pos in 0..12
-    $degree = (270 + 30 * pos)
     &__clock-pos-{pos}.fmt24
       top round(((1 + sin($degree * 1deg)) * 100%) / 2, 2)
       left round(((1 + cos($degree * 1deg)) * 100%) / 2, 2) /* rtl:ignore */
+
   for pos in 12..23
     $degree = (270 + 30 * pos)
     &__clock-pos-{pos}.fmt24

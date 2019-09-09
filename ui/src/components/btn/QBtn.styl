@@ -1,8 +1,3 @@
-button.q-btn
-  -webkit-appearance button
-a.q-btn
-  display inline-flex
-
 .q-btn
   position relative
   outline 0
@@ -20,6 +15,11 @@ a.q-btn
   box-shadow $button-shadow
   font-weight $button-font-weight
   text-transform uppercase
+
+  button&
+    -webkit-appearance button
+  a&
+    display inline-flex
 
   .q-icon, .q-spinner
     font-size $button-line-height

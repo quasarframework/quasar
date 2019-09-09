@@ -505,6 +505,14 @@ $shadow-22 : 0 10px 14px -6px $elevation-umbra, 0 22px 35px 3px $elevation-penum
 $shadow-23 : 0 11px 14px -7px $elevation-umbra, 0 23px 36px 3px $elevation-penumbra, 0 9px 44px 8px $elevation-ambient !default;
 $shadow-24 : 0 11px 15px -7px $elevation-umbra, 0 24px 38px 3px $elevation-penumbra, 0 9px 46px 8px $elevation-ambient !default;
 
+$shadows: (
+  $shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5,
+  $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10,
+  $shadow-11, $shadow-12, $shadow-13, $shadow-14, $shadow-15,
+  $shadow-16, $shadow-17, $shadow-18, $shadow-19, $shadow-20,
+  $shadow-21, $shadow-22, $shadow-23, $shadow-24
+);
+
 $shadow-up-0  : 0 0 0 $elevation-umbra, 0 0 0 $elevation-penumbra, 0 0 0 $elevation-ambient !default;
 $shadow-up-1  : 0 -1px 3px $elevation-umbra, 0 -1px 1px $elevation-penumbra, 0 -2px 1px -1px $elevation-ambient !default;
 $shadow-up-2  : 0 -1px 5px $elevation-umbra, 0 -2px 2px $elevation-penumbra, 0 -3px 1px -2px $elevation-ambient !default;
@@ -531,6 +539,13 @@ $shadow-up-22 : 0 -10px 14px -6px $elevation-umbra, 0 -22px 35px 3px $elevation-
 $shadow-up-23 : 0 -11px 14px -7px $elevation-umbra, 0 -23px 36px 3px $elevation-penumbra, 0 -9px 44px 8px $elevation-ambient !default;
 $shadow-up-24 : 0 -11px 15px -7px $elevation-umbra, 0 -24px 38px 3px $elevation-penumbra, 0 -9px 46px 8px $elevation-ambient !default;
 
+$shadows-up: (
+  $shadow-up-1, $shadow-up-2, $shadow-up-3, $shadow-up-4, $shadow-up-5,
+  $shadow-up-6, $shadow-up-7, $shadow-up-8, $shadow-up-9, $shadow-up-10,
+  $shadow-up-11, $shadow-up-12, $shadow-up-13, $shadow-up-14, $shadow-up-15,
+  $shadow-up-16, $shadow-up-17, $shadow-up-18, $shadow-up-19, $shadow-up-20,
+  $shadow-up-21, $shadow-up-22, $shadow-up-23, $shadow-up-24
+);
 
 $generic-border-radius          : 4px !default;
 $generic-hover-transition       : .3s cubic-bezier(.25, .8, .5, 1) !default;
