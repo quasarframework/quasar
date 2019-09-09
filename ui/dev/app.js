@@ -7,7 +7,9 @@ import { createRouter } from './router'
 // this imports everything from Quasar
 import Quasar from 'quasar'
 
-import 'quasar-css'
+// import '../src/css/index.sass'
+import '../src/css/index.styl'
+
 import './app.styl'
 // import iconSet from '../icon-set/fontawesomeV5'
 

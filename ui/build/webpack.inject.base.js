@@ -29,7 +29,7 @@ module.exports = function (chain) {
   chain.resolve.alias
     .merge({
       quasar: resolve(`src/index.esm.js`),
-      'quasar-css': resolve(`src/css/index.styl`),
+      'quasar-css': resolve(`src/css/index.${process.env.SASS ? 'sass' : 'styl'}`),
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),
       data: resolve('dev/data')
@@ -93,6 +93,12 @@ module.exports = function (chain) {
   injectRule(chain, 'css', /\.css$/)
   injectRule(chain, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
     preferPathResolver: 'webpack'
+  })
+  injectRule(chain, 'scss', /\.scss$/, 'sass-loader')
+  injectRule(chain, 'sass', /\.sass$/, 'sass-loader', {
+    sassOptions: {
+      indentedSyntax: true
+    }
   })
 
   chain.plugin('vue-loader')
