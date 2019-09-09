@@ -1,6 +1,6 @@
-:root
+\:root
   @each $name, $size in $sizes
-    --q-size-#{$name}: $size
+    #{"--q-size-"}#{$name}: #{$size}
 
 .fit
   width: 100% !important
