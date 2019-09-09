@@ -306,6 +306,7 @@ export default Vue.extend({
           else if (val === 12) {
             val = 0
           }
+          this.isAM = val < 12
         }
         else if (this.isAM === true && val === 12) {
           val = 0
