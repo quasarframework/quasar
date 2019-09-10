@@ -16,13 +16,6 @@ fg($name, $size)
       &inline
         display inline-block
 
-    $all-{$name}-inline-flex
-      display inline-flex
-    $row-{$name}-reverse
-      flex-direction row-reverse
-    $column-{$name}-reverse
-      flex-direction column-reverse
-
     for $space, $value in $spaces
       .q-pa{$name}-{$space}
         padding: $value.y $value.x
@@ -63,30 +56,30 @@ fg($name, $size)
     .row, .column, .flex
       if $noProcNotZero
         {fr('&.inline<name>', $name)}
-          @extends $all-{$name}-inline-flex
+          display inline-flex
       {fr('&<name>', $name)}
         display flex
         flex-wrap wrap
         {fe('&.inline<name>', $name, $noProcZero)}
-          @extends $all-{$name}-inline-flex
+          display inline-flex
 
     .row
       if $noProcNotZero
         {fr('&.reverse<name>', $name)}
-          @extends $row-{$name}-reverse
+          flex-direction row-reverse
       {fr('&<name>', $name)}
         flex-direction row
         {fe('&.reverse<name>', $name, $noProcZero)}
-          @extends $row-{$name}-reverse
+          flex-direction row-reverse
 
     .column
       if $noProcNotZero
         {fr('&.reverse<name>', $name)}
-          @extends $column-{$name}-reverse
+          flex-direction column-reverse
       {fr('&<name>', $name)}
         flex-direction column
         {fe('&.reverse<name>', $name, $noProcZero)}
-          @extends $column-{$name}-reverse
+          flex-direction column-reverse
 
     {fr('.wrap<name>', $name)}
       flex-wrap wrap

@@ -1,0 +1,218 @@
+@import 'variables.scss'
+@import './sass-helpers/string.scss'
+
+@function fr($selector, $name, $i: '')
+  @return str-replace(str-replace($selector, '<name>', $name), '<i>', $i)
+
+@function fe($selector, $name, $noProc, $i: '')
+  @if $noProc
+    @return fr($selector, $name, $i)
+  @return join(fr($selector, '', $i), fr($selector, $name, $i), $separator: comma)
+
+@mixin fg($name, $size)
+  $noProcZero: $size == 0
+  $noProcNotZero: $size > 0
+
+  @media (min-width: $size)
+    #{fe('.flex<name>-', $name, $noProcNotZero)}
+      &block
+        display: block
+      &inline
+        display: inline-block
+
+    @each $space, $value in $spaces
+      .q-pa#{$name}-#{$space}
+        padding: map-get($value, "y") map-get($value, "x")
+      .q-pl#{$name}-#{$space}
+        padding-left: map-get($value, "x")
+      .q-pr#{$name}-#{$space}
+        padding-right: map-get($value, "x")
+      .q-pt#{$name}-#{$space}
+        padding-top: map-get($value, "y")
+      .q-pb#{$name}-#{$space}
+        padding-bottom: map-get($value, "y")
+      .q-px#{$name}-#{$space}
+        padding-left: map-get($value, "x")
+        padding-right: map-get($value, "x")
+      .q-py#{$name}-#{$space}
+        padding-top: map-get($value, "y")
+        padding-bottom: map-get($value, "y")
+
+      .q-ma#{$name}-#{$space}
+        margin: map-get($value, "y") map-get($value, "x")
+      .q-ml#{$name}-#{$space}
+        margin-left: map-get($value, "x")
+      .q-mr#{$name}-#{$space}
+        margin-right: map-get($value, "x")
+      .q-mt#{$name}-#{$space}
+        margin-top: map-get($value, "y")
+      .q-mb#{$name}-#{$space}
+        margin-bottom: map-get($value, "y")
+      .q-mx#{$name}-#{$space}
+        margin-left: map-get($value, "x")
+        margin-right: map-get($value, "x")
+      .q-my#{$name}-#{$space}
+        margin-top: map-get($value, "y")
+        margin-bottom: map-get($value, "y")
+
+    .q-ml#{$name}-auto
+      margin-left: auto
+    .q-mr#{$name}-auto
+      margin-right: auto
+    .q-mx#{$name}-auto
+      margin-left: auto
+      margin-right: auto
+
+    .row, .column, .flex
+      @if $noProcNotZero
+        #{fr('&.inline<name>', $name)}
+          display: inline-flex
+      #{fr('&<name>', $name)}
+        display: flex
+        flex-wrap: wrap
+        #{fe('&.inline<name>', $name, $noProcZero)}
+          display: inline-flex
+
+    .row
+      @if $noProcNotZero
+        #{fr('&.reverse<name>', $name)}
+          flex-direction: row-reverse
+      #{fr('&<name>', $name)}
+        flex-direction: row
+        #{fe('&.reverse<name>', $name, $noProcZero)}
+          flex-direction: row-reverse
+
+    .column
+      @if $noProcNotZero
+        #{fr('&.reverse<name>', $name)}
+          flex-direction: column-reverse
+      #{fr('&<name>', $name)}
+        flex-direction: column
+        #{fe('&.reverse<name>', $name, $noProcZero)}
+          flex-direction: column-reverse
+
+    #{fr('.wrap<name>', $name)}
+      flex-wrap: wrap
+    #{fr('.no-wrap<name>', $name)}
+      flex-wrap: nowrap
+    #{fr('.reverse-wrap<name>', $name)}
+      flex-wrap: wrap-reverse
+
+    #{fr('.order<name>-', $name)}
+      &first
+        order: -10000
+      &last
+        order: 10000
+      &none
+        order: 0
+
+    #{fr('.justify<name>-', $name)}
+      &start
+        justify-content: flex-start
+      &end
+        justify-content: flex-end
+      &center
+        justify-content: center
+      &between
+        justify-content: space-between
+      &around
+        justify-content: space-around
+      &evenly
+        justify-content: space-evenly
+
+    #{fr('.items<name>-', $name)}
+      &start
+        align-items: flex-start
+      &end
+        align-items: flex-end
+      &center
+        align-items: center
+      &baseline
+        align-items: baseline
+      &stretch
+        align-items: stretch
+
+    #{fr('.content<name>-', $name)}
+      &start
+        align-content: flex-start
+      &end
+        align-content: flex-end
+      &center
+        align-content: center
+      &between
+        align-content: space-between
+      &around
+        align-content: space-around
+
+    #{fr('.self<name>-', $name)}
+      &start
+        align-self: flex-start
+      &end
+        align-self: flex-end
+      &center
+        align-self: center
+      &baseline
+        align-self: baseline
+      &stretch
+        align-self: stretch
+
+    #{fr('.flex<name>-center', $name)}
+      @extend .items#{$name}-center
+      @extend .justify#{$name}-center
+
+    @each $gname, $gsize in $flex-gutter
+      #{fr('.q-gutter<name>', $name)}
+        &-x-#{$gname}
+          margin-left: -$gsize
+          > *
+            margin-left: $gsize
+        &-y-#{$gname}
+          margin-top: -$gsize
+          > *
+            margin-top: $gsize
+        &-#{$gname}
+          margin-left: -$gsize
+          margin-top: -$gsize
+          > *
+            margin-left: $gsize
+            margin-top: $gsize
+
+      #{fr('.q-col-gutter<name>', $name)}
+        &-x-#{$gname}
+          margin-left: -$gsize
+          > *
+            padding-left: $gsize
+        &-y-#{$gname}
+          margin-top: -$gsize
+          > *
+            padding-top: $gsize
+        &-#{$gname}
+          margin-left: -$gsize
+          margin-top: -$gsize
+          > *
+            padding-left: $gsize
+            padding-top: $gsize
+
+    @each $name2, $size2 in $sizes
+      @if $size >= $size2
+        $name2c: "-#{$name2}"
+        $noProcNotZero2: ($size2 > 0)
+
+        @for $i from 0 through $flex-cols
+          $ic: quote($i)
+          $internal-size: (round(percentage($i / $flex-cols * 100) * 1000) / 1000)
+
+          #{fr('.row<name>', $name)}
+            #{fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+              height: auto
+              width: $internal-size
+            #{fe('> .offset<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+              margin-left: $internal-size
+
+          #{fr('.column<name>', $name)}
+            #{fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+              height: $internal-size
+              width: auto
+
+@each $name, $size in $sizes
+  @include fg("-" + $name, $size)
