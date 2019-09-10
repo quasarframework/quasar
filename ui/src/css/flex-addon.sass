@@ -1,12 +1,13 @@
 @import './variables.sass'
-@import './sass-helpers/format.sass'
+@import './helpers/string.sass'
+@import './helpers/math.sass'
 
 @mixin fg($name, $size)
   $noProcZero: $size == 0
   $noProcNotZero: $size > 0
 
   @media (min-width: $size)
-    #{fe('.flex<name>-', $name, $noProcNotZero)}
+    #{str-fe('.flex<name>-', $name, $noProcNotZero)}
       &block
         display: block
       &inline
@@ -57,40 +58,40 @@
 
     .row, .column, .flex
       @if $noProcNotZero
-        #{fr('&.inline<name>', $name)}
+        #{str-fr('&.inline<name>', $name)}
           display: inline-flex
-      #{fr('&<name>', $name)}
+      #{str-fr('&<name>', $name)}
         display: flex
         flex-wrap: wrap
-        #{fe('&.inline<name>', $name, $noProcZero)}
+        #{str-fe('&.inline<name>', $name, $noProcZero)}
           display: inline-flex
 
     .row
       @if $noProcNotZero
-        #{fr('&.reverse<name>', $name)}
+        #{str-fr('&.reverse<name>', $name)}
           flex-direction: row-reverse
-      #{fr('&<name>', $name)}
+      #{str-fr('&<name>', $name)}
         flex-direction: row
-        #{fe('&.reverse<name>', $name, $noProcZero)}
+        #{str-fe('&.reverse<name>', $name, $noProcZero)}
           flex-direction: row-reverse
 
     .column
       @if $noProcNotZero
-        #{fr('&.reverse<name>', $name)}
+        #{str-fr('&.reverse<name>', $name)}
           flex-direction: column-reverse
-      #{fr('&<name>', $name)}
+      #{str-fr('&<name>', $name)}
         flex-direction: column
-        #{fe('&.reverse<name>', $name, $noProcZero)}
+        #{str-fe('&.reverse<name>', $name, $noProcZero)}
           flex-direction: column-reverse
 
-    #{fr('.wrap<name>', $name)}
+    #{str-fr('.wrap<name>', $name)}
       flex-wrap: wrap
-    #{fr('.no-wrap<name>', $name)}
+    #{str-fr('.no-wrap<name>', $name)}
       flex-wrap: nowrap
-    #{fr('.reverse-wrap<name>', $name)}
+    #{str-fr('.reverse-wrap<name>', $name)}
       flex-wrap: wrap-reverse
 
-    #{fr('.order<name>-', $name)}
+    #{str-fr('.order<name>-', $name)}
       &first
         order: -10000
       &last
@@ -98,7 +99,7 @@
       &none
         order: 0
 
-    #{fr('.justify<name>-', $name)}
+    #{str-fr('.justify<name>-', $name)}
       &start
         justify-content: flex-start
       &end
@@ -112,7 +113,7 @@
       &evenly
         justify-content: space-evenly
 
-    #{fr('.items<name>-', $name)}
+    #{str-fr('.items<name>-', $name)}
       &start
         align-items: flex-start
       &end
@@ -124,7 +125,7 @@
       &stretch
         align-items: stretch
 
-    #{fr('.content<name>-', $name)}
+    #{str-fr('.content<name>-', $name)}
       &start
         align-content: flex-start
       &end
@@ -136,7 +137,7 @@
       &around
         align-content: space-around
 
-    #{fr('.self<name>-', $name)}
+    #{str-fr('.self<name>-', $name)}
       &start
         align-self: flex-start
       &end
@@ -148,12 +149,12 @@
       &stretch
         align-self: stretch
 
-    #{fr('.flex<name>-center', $name)}
+    #{str-fr('.flex<name>-center', $name)}
       @extend .items#{$name}-center
       @extend .justify#{$name}-center
 
     @each $gname, $gsize in $flex-gutter
-      #{fr('.q-gutter<name>', $name)}
+      #{str-fr('.q-gutter<name>', $name)}
         &-x-#{$gname}
           margin-left: -$gsize
           > *
@@ -169,7 +170,7 @@
             margin-left: $gsize
             margin-top: $gsize
 
-      #{fr('.q-col-gutter<name>', $name)}
+      #{str-fr('.q-col-gutter<name>', $name)}
         &-x-#{$gname}
           margin-left: -$gsize
           > *
@@ -192,17 +193,17 @@
 
         @for $i from 0 through $flex-cols
           $ic: quote($i)
-          $internal-size: (round(percentage($i / $flex-cols * 100) * 1000) / 1000)
+          $internal-size: toFixed(percentage($i / $flex-cols * 100), 1000)
 
-          #{fr('.row<name>', $name)}
-            #{fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+          #{str-fr('.row<name>', $name)}
+            #{str-fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}
               height: auto
               width: $internal-size
-            #{fe('> .offset<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+            #{str-fe('> .offset<name>-<i>', $name2c, $noProcNotZero2, $ic)}
               margin-left: $internal-size
 
-          #{fr('.column<name>', $name)}
-            #{fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}
+          #{str-fr('.column<name>', $name)}
+            #{str-fe('> .col<name>-<i>', $name2c, $noProcNotZero2, $ic)}
               height: $internal-size
               width: auto
 

@@ -467,10 +467,7 @@ export default Vue.extend({
     __getClock (h) {
       const
         view = this.view.toLowerCase(),
-        current = this.innerModel[view],
-        f24 = this.view === 'Hour' && this.computedFormat24h === true
-          ? ' fmt24'
-          : ''
+        current = this.innerModel[view]
 
       return h('div', {
         staticClass: 'q-time__content col relative-position'
@@ -511,7 +508,7 @@ export default Vue.extend({
                     : null,
 
                   this.positions.map(pos => h('div', {
-                    staticClass: `q-time__clock-position row flex-center${f24} q-time__clock-pos-${pos.index}`,
+                    staticClass: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}`,
                     class: pos.val === current
                       ? this.headerClass.concat(' q-time__clock-position--active')
                       : (pos.disable ? 'q-time__clock-position--disable' : null)

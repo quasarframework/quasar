@@ -1,10 +1,10 @@
-@import '../sass-helpers/format.sass'
+@import '../helpers/string.sass'
 
 @mixin fg($name, $size)
   $noProcNotZero: $size > 0
 
   @media (min-width: $size)
-    #{fe('.col<name>', $name, $noProcNotZero)}
+    #{str-fe('.col<name>', $name, $noProcNotZero)}
       &, &-auto, &-grow, &-shrink
         .row > &, .flex > &
           width: auto
@@ -25,18 +25,18 @@
 
     @for $i from 0 through $flex-cols
       $ic: quote($i)
-      #{fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
+      #{str-fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
         @extend .col#{$name}-auto
       .row
-        #{fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+        #{str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height: auto
-          width: (round(percentage($i / $flex-cols) * 1000) / 1000)
+          width: toFixed(percentage($i / $flex-cols), 1000)
         @if $i != 0 or $name != ''
-          #{fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
-            margin-left: (round(percentage($i / $flex-cols) * 1000) / 1000)
+          #{str-fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
+            margin-left: toFixed(percentage($i / $flex-cols), 1000)
       .column
-        #{fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
-          height: (round(percentage($i / $flex-cols) * 1000) / 1000)
+        #{str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+          height: toFixed(percentage($i / $flex-cols), 1000)
           width: auto
       @if $size == 0 and $i == $flex-cols
         .row > .col-all

@@ -1,4 +1,4 @@
-@import '../../css/sass-helpers/trigonometry.sass'
+@import '../../css/helpers/math.sass'
 
 .q-time
   max-width: 100%
@@ -119,21 +119,22 @@
       color: white
 
   @for $pos from 0 through 11
-    $degree: (270 + 30 * $pos)
+    $angle: (270 + 30 * $pos)
+    $top: (1 + sin($angle))
+    $left: (1 + cos($angle))
 
     &__clock-pos-#{$pos}
-      top: (round(percentage((1 + sin($degree * 1deg)) * 100 / 2)) / 100)
-      left: (round(percentage((1 + cos($degree * 1deg)) * 100 / 2)) / 100) /* rtl:ignore */
-
-    &__clock-pos-#{$pos}.fmt24
-      top: (round(percentage((1 + sin($degree * 1deg)) * 100 / 2)) / 100)
-      left: (round(percentage((1 + cos($degree * 1deg)) * 100 / 2)) / 100) /* rtl:ignore */
+      top: toFixed(percentage($top * 0.5), 100)
+      left: toFixed(percentage($left * 0.5), 100) /* rtl:ignore */
 
   @for $pos from 12 through 23
-    $degree: (270 + 30 * $pos)
-    &__clock-pos-#{$pos}.fmt24
-      top: (round(percentage((15 + ((1 + sin($degree * 1deg)) * 70)) / 2) * 100) / 100)
-      left: (round(percentage((15 + ((1 + cos($degree * 1deg)) * 70)) / 2) * 100) / 100) /* rtl:ignore */
+    $angle: (270 + 30 * $pos)
+    $top: (1 + sin($angle))
+    $left: (1 + cos($angle))
+
+    &__clock-pos-#{$pos}
+      top: toFixed(percentage(.15 + $top * .35), 100)
+      left: toFixed(percentage(.15 + $left * .35), 100) /* rtl:ignore */
 
   &__now-button
     background-color: $primary

@@ -1,15 +1,9 @@
-fr(selector, name, i = '')
-  unquote(replace(unquote('<i>'), unquote(i), replace(unquote('<name>'), unquote(name), unquote(selector))))
-
-fe(selector, name, noProc, i = '')
-  if noProc
-    return fr(selector, name, i)
-  return unquote(join(',', fr(selector, '', i) fr(selector, name, i)))
+// @import '../css/helpers/string.styl'
 
 fg($name, $size)
   $noProcNotZero = $size > 0
   @media (min-width $size)
-    {fe('.col<name>', $name, $noProcNotZero)}
+    {str-fe('.col<name>', $name, $noProcNotZero)}
       &, &-auto, &-grow, &-shrink
         .row > &, .flex > &
           width auto
@@ -30,17 +24,17 @@ fg($name, $size)
 
     for $i in (0..$flex-cols)
       $ic = s('%s', $i)
-      {fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
+      {str-fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
         @extends .col{$name}-auto
       .row
-        {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+        {str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height auto
           width (round($i / $flex-cols * 100, 4))%
         if $i != 0 || $name != ''
-          {fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
+          {str-fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
             margin-left (round($i / $flex-cols * 100, 4))%
       .column
-        {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+        {str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height (round($i / $flex-cols * 100, 4))%
           width auto
       if $size == 0

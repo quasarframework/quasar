@@ -34,16 +34,16 @@ Promise
     process.exit(1)
   })
 
-function generateSassFile (src, dest) {
-  src = path.join(__dirname, '..', src)
-  dest = path.join(__dirname, '..', dest)
+function generateSassFile (source, destination) {
+  const src = path.join(__dirname, '..', source)
+  const dest = path.join(__dirname, '..', destination)
 
   return new Promise((resolve, reject) => {
     /*
      * Cannot use result.stats.includedFiles
      * because it does not contain variable only files
      */
-    const files = [ src ]
+    const deps = [ src ]
 
     // We do 2 things here: validate and build import graph
     sass.render({
@@ -56,13 +56,13 @@ function generateSassFile (src, dest) {
           ))
 
           // avoid duplicates
-          if (files.indexOf(file) === -1) {
+          if (deps.indexOf(file) === -1) {
             // insert in the right order
             if (prev) {
-              files.splice(files.indexOf(prev), 0, file)
+              deps.splice(deps.indexOf(prev), 0, file)
             }
             else {
-              files.push(file)
+              deps.push(file)
             }
           }
 
@@ -75,10 +75,11 @@ function generateSassFile (src, dest) {
         return
       }
 
-      resolve(files)
+      resolve(deps)
     })
   }).then(deps => getConcatenatedContent(deps))
     .then(code => buildUtils.writeFile(dest, code))
+    .then(() => validateSassFile(destination))
 }
 
 function validateSassFile (src) {

@@ -1,5 +1,4 @@
-@import '../css/variables.sass'
-@import '../css/sass-helpers/format.sass'
+@import '../css/helpers/string.sass'
 
 @mixin ie_style
 
@@ -47,7 +46,7 @@
     $noProcNotZero: $size > 0
 
     @media (min-width: $size)
-      #{fe('.col<name>', "-" + $name, $noProcNotZero)}
+      #{str-fe('.col<name>', "-" + $name, $noProcNotZero)}
         .row > &, .flex > &
           flex-basis: auto
           min-width: 0%

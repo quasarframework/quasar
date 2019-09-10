@@ -1,9 +1,0 @@
-@function str-replace($string, $search, $replace: '')
-  $index: str-index($string, $search)
-
-  @if $index
-    $start: str-slice($string, 1, $index - 1)
-    $end: str-replace(str-slice($string, $index + str-length($search)), $search, $replace)
-    @return $start + $replace + $end
-
-  @return $string
