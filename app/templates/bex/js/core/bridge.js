@@ -4,6 +4,7 @@
  **/
 
 import { EventEmitter } from 'events'
+import { uid } from 'quasar'
 
 const
   typeSizes = {
@@ -50,12 +51,6 @@ export default class Bridge extends EventEmitter {
   _emit (message) {
     if (typeof message === 'string') {
       this.emit(message)
-    } else if (message._chunk) {
-      this._receivingQueue.push(message._chunk)
-      if (message.last) {
-        this.emit(message.event, this._receivingQueue)
-        this._receivingQueue = []
-      }
     } else {
       this.emit(message.event, message.payload)
     }
@@ -72,7 +67,9 @@ export default class Bridge extends EventEmitter {
 
     const
       messages = this._sendingQueue.shift(),
-      currentMessage = messages[0]
+      currentMessage = messages[0],
+      eventListenerKey = `${currentMessage.event}.${uid()}`,
+      eventResponseKey = eventListenerKey + '.result'
 
     return new Promise((resolve, reject) => {
       let allChunks = []
@@ -85,19 +82,32 @@ export default class Bridge extends EventEmitter {
 
           // Last chunk received so resolve the promise.
           if (chunkData.lastChunk) {
-            this.off(currentMessage.event + '.result', fn)
+            this.off(eventResponseKey, fn)
             resolve(allChunks)
           }
         } else {
-          this.off(currentMessage.event + '.result', fn)
+          this.off(eventResponseKey, fn)
           resolve(r)
         }
       }
 
-      this.on(currentMessage.event + '.result', fn)
+      this.on(eventResponseKey, fn)
 
       try {
-        this.wall.send(messages)
+        // Add an event response key to the payload we're sending so the message knows which channel to respond on.
+        const messagesToSend = messages.map(m => {
+          return {
+            ...m,
+            ...{
+              payload: {
+                data: m.payload,
+                eventResponseKey
+              }
+            }
+          }
+        })
+
+        this.wall.send(messagesToSend)
       } catch (err) {
         const errorMessage = 'Message length exceeded maximum allowed length.'
 
