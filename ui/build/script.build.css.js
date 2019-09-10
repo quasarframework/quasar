@@ -1,13 +1,14 @@
 const
   path = require('path'),
   stylus = require('stylus'),
+  sass = require('sass-node'),
   rtl = require('postcss-rtl'),
   postcss = require('postcss'),
   cssnano = require('cssnano'),
   autoprefixer = require('autoprefixer'),
   buildConf = require('./build.conf'),
   buildUtils = require('./build.utils'),
-  pathList = [path.join(__dirname, '../src/css/')]
+  pathList = [ path.join(__dirname, '../src/css/') ]
 
 const nano = postcss([
   cssnano({
@@ -22,27 +23,87 @@ const nano = postcss([
 
 Promise
   .all([
-    generateBase(),
-    generateAddon()
+    generateStylusBase('src/css/index.styl'),
+    generateStylusAddon(),
+
+    generateSassFile('src/css/index.sass', 'dist/quasar.sass'),
+    validateSassFile('src/css/flex-addon.sass')
   ])
   .catch(e => {
     console.error(e)
+    process.exit(1)
   })
 
-function generateBase () {
-  const src = `src/css/index.styl`
+function generateSassFile (src, dest) {
+  src = path.join(__dirname, '..', src)
+  dest = path.join(__dirname, '..', dest)
+
+  return new Promise((resolve, reject) => {
+    /*
+     * Cannot use result.stats.includedFiles
+     * because it does not contain variable only files
+     */
+    const files = [ src ]
+
+    // We do 2 things here: validate and build import graph
+    sass.render({
+      file: src,
+      importer: [
+        (url, prev, done) => {
+          const file = path.normalize(path.join(
+            prev ? path.dirname(prev) : pathList[0],
+            url
+          ))
+
+          // avoid duplicates
+          if (files.indexOf(file) === -1) {
+            files.push(file)
+          }
+
+          done({ file })
+        }
+      ]
+    }, (err) => {
+      if (err) {
+        reject(err)
+        return
+      }
+
+      resolve(files)
+    })
+  }).then(deps => getConcatenatedContent(deps))
+    .then(code => buildUtils.writeFile(dest, code))
+}
+
+function validateSassFile (src) {
+  const file = path.join(__dirname, '..', src)
+
+  return new Promise((resolve, reject) => {
+    sass.render({ file }, (err) => {
+      if (err) {
+        reject(err)
+        return
+      }
+
+      resolve(true)
+    })
+  })
+}
+
+function generateStylusBase (src) {
+  // We do 2 things here: validate and get import graph
   const deps = stylus(buildUtils.readFile(src))
     .set('paths', pathList)
     .deps()
 
-  return generateFiles({
+  return generateStylusFiles({
     sources: [src].concat(deps),
     styl: true
   })
 }
 
-function generateAddon () {
-  return generateFiles({
+function generateStylusAddon () {
+  return generateStylusFiles({
     sources: [
       'src/css/variables.styl',
       'src/css/flex-addon.styl'
@@ -51,8 +112,8 @@ function generateAddon () {
   })
 }
 
-function generateFiles ({ sources, name = '', styl }) {
-  return prepareStylus(sources)
+function generateStylusFiles ({ sources, name = '', styl }) {
+  return getConcatenatedContent(sources)
     .then(code => {
       if (styl) { return buildUtils.writeFile(`dist/quasar${name}.styl`, code) }
       else { return code }
@@ -77,7 +138,7 @@ function generateUMD (name, code, ext = '') {
     .then(code => buildUtils.writeFile(`dist/quasar${name}${ext}.min.css`, code.css, true))
 }
 
-function prepareStylus (src, noBanner) {
+function getConcatenatedContent (src, noBanner) {
   return new Promise((resolve, reject) => {
     let code = noBanner !== true
       ? buildConf.banner
@@ -93,7 +154,7 @@ function prepareStylus (src, noBanner) {
       // remove comments
       .replace(/(\/\*[\w'-.,`\s\r\n*@]*\*\/)|(\/\/[^\r\n]*)/g, '')
       // remove unnecessary newlines
-      .replace(/[\r\n]+/g, '\n')
+      .replace(/[\r\n]+/g, '\r\n')
 
     resolve(code)
   })

@@ -9,7 +9,6 @@ import Quasar from 'quasar'
 
 /************************************************
  * Enable either Sass or Stylus -- but NEVER BOTH
- * (and refresh browser page)
  ************************************************/
 // import '../src/css/index.sass'
 // import '../src/css/flex-addon.sass'

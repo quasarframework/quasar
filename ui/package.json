@@ -86,6 +86,7 @@
     "rollup-plugin-json": "^4.0.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "sass-loader": "^8.0.0",
+    "sass-node": "^4.11.2",
     "style-resources-loader": "^1.2.1",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
@@ -117,6 +118,5 @@
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
-  ],
-  "dependencies": {}
+  ]
 }
