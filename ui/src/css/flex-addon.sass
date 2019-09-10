@@ -1,13 +1,5 @@
 @import 'variables.scss'
-@import './sass-helpers/string.scss'
-
-@function fr($selector, $name, $i: '')
-  @return str-replace(str-replace($selector, '<name>', $name), '<i>', $i)
-
-@function fe($selector, $name, $noProc, $i: '')
-  @if $noProc
-    @return fr($selector, $name, $i)
-  @return join(fr($selector, '', $i), fr($selector, $name, $i), $separator: comma)
+@import './sass-helpers/format.sass'
 
 @mixin fg($name, $size)
   $noProcZero: $size == 0
