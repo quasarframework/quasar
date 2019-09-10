@@ -12,7 +12,8 @@ const
   warn = logger('app:quasar-conf', 'red'),
   appFilesValidations = require('./app-files-validations'),
   extensionRunner = require('./app-extension/extensions-runner'),
-  supportIE = require('./helpers/support-ie')
+  supportIE = require('./helpers/support-ie'),
+  cssVariables = require('./helpers/css-variables')
 
 function encode (obj) {
   return JSON.stringify(obj, (key, value) => {
@@ -820,6 +821,11 @@ class QuasarConfig {
           // https://github.com/kangax/html-minifier#options-quick-reference
         }
         : void 0
+    }
+
+    // used by .quasar entry templates
+    cfg.__css = {
+      quasarSrcExt: cssVariables.quasarSrcExt
     }
 
     this.webpackConfig = await require('./webpack')(cfg)

@@ -57,7 +57,13 @@ function generateSassFile (src, dest) {
 
           // avoid duplicates
           if (files.indexOf(file) === -1) {
-            files.push(file)
+            // insert in the right order
+            if (prev) {
+              files.splice(files.indexOf(prev), 0, file)
+            }
+            else {
+              files.push(file)
+            }
           }
 
           done({ file })
