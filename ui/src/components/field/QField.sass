@@ -237,7 +237,7 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
         border: 1px solid rgba(0,0,0,.24)
         transition: border-color $field-transition
       &:hover:before
-        border-color: black
+        border-color: #000
 
       &:after
         height: inherit
@@ -266,7 +266,7 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
         transition: border-color $field-transition
 
       &:hover:before
-        border-color: black
+        border-color: #000
 
       &:after
         height: 2px
@@ -292,10 +292,10 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
       border-color: rgba(255, 255, 255, .6)
 
     .q-field__control:hover:before
-      border-color: white
+      border-color: #fff
 
     .q-field__native, .q-field__prefix, .q-field__suffix, .q-select__input
-      color: white
+      color: #fff
 
     &:not(.q-field--focused) .q-field__label, .q-field__marginal, .q-field__bottom
       color: rgba(255, 255, 255, .7)
@@ -322,9 +322,9 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
     &.q-field--focused
       .q-field__control
         box-shadow: $shadow-2
-        background: black
+        background: #000
       .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-select__input
-        color: white
+        color: #fff
 
     &.q-field--readonly
       .q-field__control:before
@@ -339,9 +339,9 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
           background: rgba(255, 255, 255, .07)
       &.q-field--focused
         .q-field__control
-          background: white
+          background: #fff
         .q-field__native, .q-field__prefix, .q-field__suffix, .q-field__prepend, .q-field__append, .q-select__input
-          color: black
+          color: #000
       &.q-field--readonly
         .q-field__control:before
           border-color: rgba(255, 255, 255, .24)

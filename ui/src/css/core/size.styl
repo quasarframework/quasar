@@ -38,9 +38,9 @@ for $space, $value in $spaces
     padding-top: $value.y
   .q-pb-{$space}
     padding-bottom: $value.y
-  .q-px-{4space}
+  .q-px-{$space}
     @extends .q-pl-{$space}, .q-pr-{$space}
-  .q-py-{space}
+  .q-py-{$space}
     @extends .q-pt-{$space}, .q-pb-{$space}
 
   .q-ma-{$space}

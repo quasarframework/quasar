@@ -1,6 +1,6 @@
 .q-color-picker
   overflow: hidden
-  background: white
+  background: #fff
   max-width: 350px
   vertical-align: top
 
@@ -27,13 +27,13 @@
 
   &__header-content
     position: relative
-    background: white
+    background: #fff
 
     &--light
-      color: black
+      color: #000
 
     &--dark
-      color: white
+      color: #fff
       .q-tab--inactive
         &:before
           content: ''
@@ -47,7 +47,7 @@
   &__header-banner
     height: 52px
   &__header-bg
-    background: white
+    background: #fff
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
 
   &__footer
@@ -64,15 +64,15 @@
     padding: 10px
 
   &__spectrum-white
-    background: linear-gradient(to right, white, rgba(255, 255, 255, 0))
+    background: linear-gradient(to right, #fff, rgba(255, 255, 255, 0))
 
   &__spectrum-black
-    background: linear-gradient(to top, black, rgba(0, 0, 0, 0))
+    background: linear-gradient(to top, #000, rgba(0, 0, 0, 0))
 
   &__spectrum-circle
     width: 10px
     height: 10px
-    box-shadow: 0 0 0 1.5px white, inset 0 0 1px 1px rgba(0, 0, 0, .3), 0 0 1px 2px rgba(0, 0, 0, .4)
+    box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, .3), 0 0 1px 2px rgba(0, 0, 0, .4)
     border-radius: 50%
     transform: translate(-5px, -5px)
 
@@ -81,10 +81,10 @@
     opacity: 1
 
   &__alpha .q-slider__track-container
-    color: white
+    color: #fff
     opacity: 1
     height: 8px
-    background-color: white
+    background-color: #fff
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
     &:after
       content: ''
@@ -161,7 +161,7 @@
   &--dark
 
     background: $grey-9
-    color: white
+    color: #fff
 
     .q-color-picker__tune-tab input
       border: 1px solid rgba(#fff, .3)

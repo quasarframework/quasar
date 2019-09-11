@@ -64,7 +64,7 @@ $overline:  (size: .75rem,   line-height: 2rem,     letter-spacing: .16667em,  w
 $caption:   (size: .75rem,   line-height: 1.25rem,  letter-spacing: .03333em,  weight: 400) !default
 
 // sorry for long line; we need .sass and it doesn't support multi-line list
-$headings: ('h1': $h1, 'h2': $h2, 'h3': $h3, 'h4': $h4, 'h5': $h5, 'h6': $h6) !default
+$headings: ('h1': $h1, 'h2': $h2, 'h3': $h3, 'h4': $h4, 'h5': $h5, 'h6': $h6, 'subtitle1': $subtitle1, 'subtitle2': $subtitle2, 'body1': $body1, 'body2': $body2, 'overline': $overline, 'caption': $caption) !default
 
 // sorry for long line; we need .sass and it doesn't support multi-line list
 $h-tags: (h1: map-get($headings, "h1"), h2: map-get($headings, "h2"), h3: map-get($headings, "h3"), h4: map-get($headings, "h4"), h5: map-get($headings, "h5"), h6: map-get($headings, "h6")) !default
@@ -390,7 +390,7 @@ $z-tooltip            : 9000 !default
 $z-notify             : 9500 !default
 $z-max                : 9998 !default
 
-$shadow-color         : black !default
+$shadow-color         : #000 !default
 $shadow-transition    : box-shadow .28s cubic-bezier(.4, 0, .2, 1) !default
 $inset-shadow         : 0 7px 9px -7px rgba($shadow-color, .7) inset !default
 
@@ -473,9 +473,9 @@ $button-shadow-active           : $shadow-5 !default
 $button-rounded-border-radius   : 28px !default
 $button-push-border-radius      : 7px !default
 
-$chat-message-received-color    : black !default
+$chat-message-received-color    : #000 !default
 $chat-message-received-bg       : $green-4 !default
-$chat-message-sent-color        : black !default
+$chat-message-sent-color        : #000 !default
 $chat-message-sent-bg           : $grey-4 !default
 $chat-message-avatar-size       : 48px !default
 $chat-message-border-radius     : $generic-border-radius !default
@@ -516,7 +516,7 @@ $toolbar-title-padding          : 0 12px !default
 $layout-border                  : 1px solid $separator-color !default
 $layout-shadow                  : 0 0 10px 2px rgba(0,0,0,0.2), 0 0px 10px rgba(0,0,0,0.24) !default
 
-$menu-background                : white !default
+$menu-background                : #fff !default
 $menu-box-shadow                : $shadow-2 !default
 $menu-max-width                 : 95vw !default
 
@@ -543,5 +543,5 @@ $img-background-repeat          : no-repeat !default
 $img-loading-font-size          : 50px !default
 $img-content-position           : absolute !default
 $img-content-padding            : 16px !default
-$img-content-color              : white !default
+$img-content-color              : #fff !default
 $img-content-background         : rgba(0, 0, 0, .47) !default
