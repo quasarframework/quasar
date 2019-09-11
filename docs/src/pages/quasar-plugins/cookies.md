@@ -32,12 +32,14 @@ The `ssrContext` is available in App Plugins or preFetch feature where it is sup
 The reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.
 
 ## Read a Cookie
+
 ``` js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
 var value = Cookies.get('cookie_name')
 ```
+
 When cookie is not set, the return value is `undefined`.
 
 ```js
@@ -46,12 +48,14 @@ this.$q.cookies.get('cookie_name')
 ```
 
 ## Read All Cookies
+
 ``` js
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
 const cookies = Cookies.getAll()
 ```
+
 `cookies` variable will be an object with key-value pairs (cookie_name : cookie_value).
 
 ```js
@@ -60,6 +64,7 @@ this.$q.cookies.getAll()
 ```
 
 ## Verify if Cookie is Set
+
 ``` js
 // outside of a Vue file
 import { Cookies } from 'quasar'
@@ -73,6 +78,7 @@ this.$q.cookies.has('cookie_name')
 ```
 
 ## Write a Cookie
+
 ``` js
 // outside of a Vue file
 import { Cookies } from 'quasar'
@@ -97,27 +103,35 @@ this.$q.cookies.set('cookie_name', cookie_value, options)
 ```
 
 ### Option: expires
+
 ``` js
 expires: 10
 ```
+
 Define lifetime of the cookie. Value can be a Number which will be interpreted as days from time of creation or a Date object. If omitted, the cookie becomes a session cookie.
 
 ### Option: path
+
 ``` js
 path: '/'
 ```
+
 Define the path where the cookie is valid. By default the path of the cookie is the path of the page where the cookie was created (standard browser behavior). If you want to make it available for instance across the entire domain use path: '/'. Default: path of page where the cookie was created.
 
 ### Option: domain
+
 ``` js
 domain: 'quasar.dev'
 ```
+
 Define the domain where the cookie is valid. Default: domain of page where the cookie was created.
 
 ### Option: secure
+
 ``` js
 secure: true
 ```
+
 If true, the cookie transmission requires a secure protocol (HTTPS) and will NOT be sent over HTTP. Default value is `false`.
 
 ## Remove a Cookie
@@ -125,17 +139,23 @@ If true, the cookie transmission requires a secure protocol (HTTPS) and will NOT
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
+Cookies.remove('cookie_name')
+
+// if cookie was set with specifc options (like path, domain, ...)
+// then you need to also supply them when removing:
 Cookies.remove('cookie_name', options)
 ```
 
 ```js
 // inside of a Vue file
+this.$q.cookies.remove('cookie_name')
+
+// if cookie was set with specifc options (like path, domain, ...)
+// then you need to also supply them when removing:
 this.$q.cookies.remove('cookie_name', options)
 ```
 
-`options` is an Object which can have the following properties: `path`, `domain`, `secure`.
-
-> `path` and `domain` must be the same as those used to write the cookie.
+Please check the API card at the bottom of the page for `options` prop.
 
 ## Cookies API
 <doc-api file="Cookies" />
