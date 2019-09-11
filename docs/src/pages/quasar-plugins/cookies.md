@@ -125,13 +125,17 @@ If true, the cookie transmission requires a secure protocol (HTTPS) and will NOT
 // outside of a Vue file
 import { Cookies } from 'quasar'
 
-Cookies.remove('cookie_name')
+Cookies.remove('cookie_name', options)
 ```
 
 ```js
 // inside of a Vue file
-this.$q.cookies.remove('cookie_name')
+this.$q.cookies.remove('cookie_name', options)
 ```
+
+`options` is an Object which can have the following properties: `path`, `domain`, `secure`.
+
+> `path` and `domain` must be the same as those used to write the cookie.
 
 ## Cookies API
 <doc-api file="Cookies" />
