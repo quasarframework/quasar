@@ -1,7 +1,0 @@
-str-fr(selector, name, i = '')
-  unquote(replace(unquote('<i>'), unquote(i), replace(unquote('<name>'), unquote(name), unquote(selector))))
-
-str-fe(selector, name, noProc, i = '')
-  if noProc
-    return str-fr(selector, name, i)
-  return unquote(join(',', str-fr(selector, '', i) str-fr(selector, name, i)))

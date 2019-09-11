@@ -6,7 +6,7 @@ const path = require('path')
 const appPaths = require('../app-paths')
 
 const cssVariables = {
-  quasarSrcExt: 'styl',
+  quasarSrcExt: 'css',
 
   appFile: {
     styl: fs.existsSync(appPaths.resolve.src('css/quasar.variables.styl')),
