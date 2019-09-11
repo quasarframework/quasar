@@ -131,7 +131,7 @@ function remove (key, options, ssr) {
   set(
     key,
     '',
-    { ...options, expires: -1 },
+    { ...options, expires: -3600 },
     ssr
   )
 }
