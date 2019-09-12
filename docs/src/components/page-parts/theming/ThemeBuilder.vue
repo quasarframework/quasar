@@ -72,7 +72,9 @@
     q-dialog(v-model="exportDialog")
       q-card
         q-tabs.text-grey-7(v-model="exportTab", active-color="primary" align="justify")
-          q-tab(name="styl", no-caps, label="quasar.variables.styl")
+          q-tab(name="sass", no-caps, label="Sass")
+          q-tab(name="scss", no-caps, label="SCSS")
+          q-tab(name="styl", no-caps, label="Stylus")
           q-tab(name="quasar-cli", no-caps, label="Quasar CLI")
           q-tab(name="umd", no-caps, label="UMD")
           q-tab(name="vue-cli", no-caps, label="Vue CLI")
@@ -80,6 +82,12 @@
         q-separator
 
         q-tab-panels.bg-code(v-model="exportTab", animated)
+          q-tab-panel.q-pa-none(name="sass")
+            doc-code(copy) {{ sassExport }}
+
+          q-tab-panel.q-pa-none(name="scss")
+            doc-code(copy) {{ scssExport }}
+
           q-tab-panel.q-pa-none(name="styl")
             doc-code(copy) {{ stylusExport }}
 
@@ -128,7 +136,7 @@ export default {
       },
 
       exportDialog: false,
-      exportTab: 'styl',
+      exportTab: 'sass',
       list: ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'],
       sideColors: ['secondary', 'positive', 'negative', 'info', 'warning']
     }
@@ -165,8 +173,31 @@ export default {
   },
 
   computed: {
+    sassExport () {
+      return `// src/css/quasar.variables.sass\n\n` +
+        `$primary   : ${this.colors.primary}\n` +
+        `$secondary : ${this.colors.secondary}\n` +
+        `$accent    : ${this.colors.accent}\n\n` +
+        `$positive  : ${this.colors.positive}\n` +
+        `$negative  : ${this.colors.negative}\n` +
+        `$info      : ${this.colors.info}\n` +
+        `$warning   : ${this.colors.warning}`
+    },
+
+    scssExport () {
+      return `// src/css/quasar.variables.scss\n\n` +
+        `$primary   : ${this.colors.primary};\n` +
+        `$secondary : ${this.colors.secondary};\n` +
+        `$accent    : ${this.colors.accent};\n\n` +
+        `$positive  : ${this.colors.positive};\n` +
+        `$negative  : ${this.colors.negative};\n` +
+        `$info      : ${this.colors.info};\n` +
+        `$warning   : ${this.colors.warning};`
+    },
+
     stylusExport () {
-      return `$primary   = ${this.colors.primary}\n` +
+      return `// src/css/quasar.variables.styl\n\n` +
+        `$primary   = ${this.colors.primary}\n` +
         `$secondary = ${this.colors.secondary}\n` +
         `$accent    = ${this.colors.accent}\n\n` +
         `$positive  = ${this.colors.positive}\n` +
@@ -177,6 +208,7 @@ export default {
 
     quasarCliExport () {
       return `// quasar.conf.js
+// (will not work for IE11)
 
 return {
   framework: {
@@ -198,6 +230,8 @@ return {
 
     umdExport () {
       return `// place before including Quasar UMD script
+// (will not work for IE11)
+
 window.quasarConfig = {
   brand: {
     primary: '${this.colors.primary}',
@@ -214,6 +248,8 @@ window.quasarConfig = {
 
     vueCliExport () {
       return `// main.js
+// (will not work for IE11)
+
 Vue.use(Quasar, {
   config: {
     brand: {
