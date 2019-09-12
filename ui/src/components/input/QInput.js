@@ -68,6 +68,10 @@ export default Vue.extend({
         const inp = this.$refs.input
         inp.style.height = 'auto'
       }
+    },
+
+    dense () {
+      this.autogrow === true && this.$nextTick(this.__adjustHeight)
     }
   },
 
@@ -120,7 +124,7 @@ export default Vue.extend({
     },
 
     __emitValue (val, stopWatcher) {
-      const fn = () => {
+      this.emitValueFn = () => {
         if (
           this.type !== 'number' &&
           this.hasOwnProperty('tempValue') === true
@@ -132,6 +136,8 @@ export default Vue.extend({
           stopWatcher === true && (this.stopValueWatcher = true)
           this.$emit('input', val)
         }
+
+        this.emitValueFn = void 0
       }
 
       if (this.type === 'number') {
@@ -142,10 +148,10 @@ export default Vue.extend({
       if (this.debounce !== void 0) {
         clearTimeout(this.emitTimer)
         this.tempValue = val
-        this.emitTimer = setTimeout(fn, this.debounce)
+        this.emitTimer = setTimeout(this.emitValueFn, this.debounce)
       }
       else {
-        fn()
+        this.emitValueFn()
       }
     },
 
@@ -177,7 +183,28 @@ export default Vue.extend({
 
     __onChange (e) {
       this.__onCompositionEnd(e)
+
+      clearTimeout(this.emitTimer)
+      this.emitValueFn !== void 0 && this.emitValueFn()
+
       this.$emit('change', e)
+    },
+
+    __onFinishEditing (e) {
+      e !== void 0 && stop(e)
+
+      clearTimeout(this.emitTimer)
+      this.emitValueFn !== void 0 && this.emitValueFn()
+
+      this.typedNumber = false
+      this.stopValueWatcher = false
+      delete this.tempValue
+
+      this.$nextTick(() => {
+        if (this.$refs.input !== void 0) {
+          this.$refs.input.value = this.innerValue
+        }
+      })
     },
 
     __getControl (h) {
@@ -191,7 +218,7 @@ export default Vue.extend({
         change: this.__onChange,
         compositionstart: this.__onCompositionStart,
         compositionend: this.__onCompositionEnd,
-        blur: stop,
+        blur: this.__onFinishEditing,
         focus: stop
       }
 
@@ -249,6 +276,6 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
-    clearTimeout(this.emitTimer)
+    this.__onFinishEditing()
   }
 })

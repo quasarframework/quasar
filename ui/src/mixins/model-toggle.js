@@ -38,7 +38,9 @@ export default {
         this.$emit('input', true)
         this.payload = evt
         this.$nextTick(() => {
-          this.payload = void 0
+          if (this.payload === evt) {
+            this.payload = void 0
+          }
         })
       }
       else {
@@ -74,7 +76,9 @@ export default {
         this.$emit('input', false)
         this.payload = evt
         this.$nextTick(() => {
-          this.payload = void 0
+          if (this.payload === evt) {
+            this.payload = void 0
+          }
         })
       }
       else {

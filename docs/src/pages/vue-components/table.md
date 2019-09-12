@@ -188,6 +188,42 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 <doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
 
+### Body slots
+
+The example below shows how you can use a slot to customize the entire row:
+
+<doc-example title="Body slot" file="QTable/SlotBody" />
+
+Bellow, we use a slot which gets applied to each body cell:
+
+<doc-example title="Body-cell slot" file="QTable/SlotBodyCell" />
+
+We can also customize only one particular column only. The syntax for this slot is `body-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+
+<doc-example title="Body-cell-[name] slot" file="QTable/SlotBodyCellName" />
+
+### Header slots
+
+The example below shows how you can use a slot to customize the entire header row:
+
+<doc-example title="Header slot" file="QTable/SlotHeader" />
+
+Bellow, we use a slot which gets applied to each header cell:
+
+<doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
+
+Starting with **v1.1.1+**, we can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+
+<doc-example title="Header-cell-[name] slot" file="QTable/SlotHeaderCellName" />
+
+### No data
+
+<doc-example title="No Data Label" file="QTable/NoData" />
+
+Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
+
+<doc-example title="No Data Slot" file="QTable/NoDataSlot" />
+
 ### Custom sorting
 
 <doc-example title="Custom sorting" file="QTable/CustomSorting" />

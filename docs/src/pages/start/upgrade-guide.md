@@ -164,7 +164,7 @@ The best way to start upgrading your project is to follow these steps:
 
 13) In `quasar.conf.js`: **remove** all references to `ctx.theme`
 
-14) **Create** the file `quasar.variables.styl` in the folder `~/src/css`, if does not already exist. Add the following to it (or move the contents from `~/src/css/themes/common.variables.styl`):
+14) **Create** the file `quasar.variables.styl` (or .sass, .scss -- recommended!) in the folder `~/src/css`, if does not already exist. Add the following to it (or move the contents from `~/src/css/themes/common.variables.styl`):
 
   ```stylus
   // Quasar Stylus Variables
@@ -252,7 +252,7 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 ### Misc
 
 - `this.$q.i18n` was changed to `this.$q.lang`
-- ```import(`quasar-framework/i18n/${lang}`)``` was changed to ```import(`quasar/lang/${lang}`)``` where `${lang}` would be `en-us` etc. 
+- ```import(`quasar-framework/i18n/${lang}`)``` was changed to ```import(`quasar/lang/${lang}`)``` where `${lang}` would be `en-us` etc.
 - The language pack `en-uk` was changed to `en-gb`
 - `this.$q.icons` was changed to `this.$q.iconSet`
 - In previous versions you would access an imported language packs isoName with:

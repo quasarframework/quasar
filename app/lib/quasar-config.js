@@ -12,7 +12,8 @@ const
   warn = logger('app:quasar-conf', 'red'),
   appFilesValidations = require('./app-files-validations'),
   extensionRunner = require('./app-extension/extensions-runner'),
-  supportIE = require('./helpers/support-ie')
+  supportIE = require('./helpers/support-ie'),
+  cssVariables = require('./helpers/css-variables')
 
 function encode (obj) {
   return JSON.stringify(obj, (key, value) => {
@@ -24,7 +25,7 @@ function encode (obj) {
 
 function formatPublicPath (path) {
   if (!path) {
-    return path || ''
+    return ''
   }
 
   if (!path.endsWith('/')) {
@@ -550,6 +551,7 @@ class QuasarConfig {
         open: true
       }, cfg.devServer, {
         contentBase: false,
+        watchContentBase: false,
 
         before: app => {
           if (!this.ctx.mode.ssr) {
@@ -818,7 +820,12 @@ class QuasarConfig {
           // more options:
           // https://github.com/kangax/html-minifier#options-quick-reference
         }
-        : undefined
+        : void 0
+    }
+
+    // used by .quasar entry templates
+    cfg.__css = {
+      quasarSrcExt: cssVariables.quasarSrcExt
     }
 
     this.webpackConfig = await require('./webpack')(cfg)
