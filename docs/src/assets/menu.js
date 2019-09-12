@@ -158,6 +158,11 @@ const cli = [
         path: 'commands-list'
       },
       {
+        name: 'CSS Preprocessors',
+        badge: 'new',
+        path: 'css-preprocessors'
+      },
+      {
         name: 'Routing',
         path: 'routing'
       },
@@ -410,8 +415,8 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    path: 'theme-builder',
-    badge: 'new'
+    badge: 'new',
+    path: 'theme-builder'
   },
   {
     name: 'Spacing',
@@ -432,6 +437,11 @@ const style = [
   {
     name: 'Positioning',
     path: 'positioning'
+  },
+  {
+    name: 'Sass/SCSS Variables',
+    badge: 'new',
+    path: 'sass-scss-variables'
   },
   {
     name: 'Stylus Variables',
