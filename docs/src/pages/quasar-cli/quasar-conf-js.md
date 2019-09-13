@@ -106,7 +106,7 @@ Let's take each option one by one:
 | ssr | Object | SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). |
 | electron | Object | Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). |
 
-### css Property
+### Property: css
 Global CSS/Stylus/... files from `/src/css/`, except for theme files, which are included by default.
 
 ```js
@@ -119,7 +119,7 @@ return {
 }
 ```
 
-### vendor Property
+### Property: vendor
 By default, everything that comes from `node_modules` will be injected into the vendor chunk for performance & caching reasons. However, should you wish to add or remove something from this special chunk, you can do so:
 
 ```js
@@ -132,8 +132,9 @@ return {
 }
 ```
 
-### framework Property
+### Property: framework
 Tells the CLI what Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components and more.
+
 ```js
 // quasar.conf.js
 return {
@@ -155,9 +156,14 @@ return {
 }
 ```
 
+::: tip TIPS
+* If you specify `framework: { all: true, ... }` then all components, directives and Quasar plugins are going to get loaded, but it's NOT recommended for production.
+* Starting with `@quasar/app` v1.1.0, if you specify `framework: { all: 'auto', ... }` then **Quasar will import components and directives automatically** for you. The compile time will very slightly increase, but there will be no need for you to specify the components and directives in quasar.conf.js. Note that the Quasar plugins will still need to be specified.
+:::
+
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
 
-### devServer Property
+### Property: devServer
 **Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
 
 Most used properties are:
@@ -196,7 +202,7 @@ devServer: {
 }
 ```
 
-### build Property
+### Property: build
 | Property | Type | Description |
 | --- | --- | --- |
 | transpileDependencies | Array of Regex | Add dependencies for transpiling with Babel (from node_modules, which are by default not transpiled). Example: `[ /my-dependency/, ...]` |
@@ -238,7 +244,7 @@ The following properties of `build` are automatically configured by Quasar CLI d
 
 If, for example, you run "quasar build --debug", sourceMap and extractCSS will be set to "true" regardless of what you configure.
 
-### htmlVariables Property
+### Property: htmlVariables
 
 You can define and then reference variables in `src/index.template.html`, like this:
 ```js
@@ -253,7 +259,7 @@ Then (just an example showing you how to reference a variable defined above, in 
 <%= htmlWebpackPlugin.options.title %>
 ```
 
-### sourceFiles Property
+### Property; sourceFiles
 Use this property to change the default names of some files of your website/app if you have to. All paths must be relative to the root folder of your project.
 
 ```js
