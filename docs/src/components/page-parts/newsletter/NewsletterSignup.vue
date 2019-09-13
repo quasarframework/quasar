@@ -19,8 +19,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .newsletter-signup
-  display block
-  max-width 100%
+  display: block
+  max-width: 100%
 </style>

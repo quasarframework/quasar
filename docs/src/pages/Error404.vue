@@ -63,7 +63,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-.menus-container a
-  margin 4px
+<style>
+.menus-container a {
+  margin: 4px;
+}
 </style>

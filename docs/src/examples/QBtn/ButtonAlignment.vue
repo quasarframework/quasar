@@ -7,7 +7,7 @@
   </div>
 </template>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .btn-fixed-width
-  width 200px
+  width: 200px
 </style>

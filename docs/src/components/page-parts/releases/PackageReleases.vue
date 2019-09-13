@@ -78,17 +78,17 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .release__splitter .q-scrollarea
-  height 600px
+  height: 600px
 .release__body
-  white-space pre-line
+  white-space: pre-line
 .release__blockquote
-  background alpha($primary, .05)
-  border 1px solid $primary
-  padding 4px 8px
-  border-radius $generic-border-radius
+  background: rgba($primary, .05)
+  border: 1px solid $primary
+  padding: 4px 8px
+  border-radius: $generic-border-radius
 .release__code
-  padding 4px
-  margin 8px
+  padding: 4px
+  margin: 8px
 </style>
