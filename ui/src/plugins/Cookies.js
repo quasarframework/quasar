@@ -58,8 +58,10 @@ function set (key, val, opts = {}, ssr) {
     expire !== void 0 ? '; Expires=' + expire : '', // use expires attribute, max-age is not supported by IE
     opts.path ? '; Path=' + opts.path : '',
     opts.domain ? '; Domain=' + opts.domain : '',
+    opts.sameSite ? '; SameSite=' + opts.sameSite : '',
     opts.httpOnly ? '; HttpOnly' : '',
-    opts.secure ? '; Secure' : ''
+    opts.secure ? '; Secure' : '',
+    opts.other ? '; ' + opts.other : ''
   ].join('')
 
   if (ssr) {
@@ -131,7 +133,7 @@ function remove (key, options, ssr) {
   set(
     key,
     '',
-    { ...options, expires: -1 },
+    { expires: -1, ...options },
     ssr
   )
 }

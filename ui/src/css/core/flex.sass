@@ -1,0 +1,158 @@
+@import '../helpers/string.sass'
+
+@mixin fg($name, $size)
+  $noProcNotZero: $size > 0
+
+  @media (min-width: $size)
+    #{str-fe('.col<name>', $name, $noProcNotZero)}
+      &, &-auto, &-grow, &-shrink
+        .row > &, .flex > &
+          width: auto
+          min-width: 0
+          max-width: 100%
+        .column > &, .flex > &
+          height: auto
+          min-height: 0
+          max-height: 100%
+      &
+        flex: 10000 1 0%
+      &-auto
+        flex: 0 0 auto
+      &-grow
+        flex: 1 0 auto
+      &-shrink
+        flex: 0 1 auto
+
+    @for $i from 0 through $flex-cols
+      $ic: quote($i)
+      #{str-fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
+        @extend .col#{$name}-auto
+      .row
+        #{str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+          height: auto
+          width: toFixed(percentage($i / $flex-cols), 10000)
+        @if $i != 0 or $name != ''
+          #{str-fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
+            margin-left: toFixed(percentage($i / $flex-cols), 10000)
+      .column
+        #{str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+          height: toFixed(percentage($i / $flex-cols), 10000)
+          width: auto
+      @if $size == 0 and $i == $flex-cols
+        .row > .col-all
+          height: auto
+          flex: 0 0 100%
+
+.row, .column, .flex
+  display: flex
+  flex-wrap: wrap
+  &.inline
+    display: inline-flex
+
+.row.reverse
+  flex-direction: row-reverse
+
+.column
+  flex-direction: column
+  &.reverse
+    flex-direction: column-reverse
+
+.wrap
+  flex-wrap: wrap
+.no-wrap
+  flex-wrap: nowrap
+.reverse-wrap
+  flex-wrap: wrap-reverse
+
+.order-
+  &first
+    order: -10000
+  &last
+    order: 10000
+  &none
+    order: 0
+
+.justify-
+  &start
+    justify-content: flex-start
+  &end
+    justify-content: flex-end
+  &center
+    justify-content: center
+  &between
+    justify-content: space-between
+  &around
+    justify-content: space-around
+  &evenly
+    justify-content: space-evenly
+
+.items-
+  &start
+    align-items: flex-start
+  &end
+    align-items: flex-end
+  &center
+    align-items: center
+  &baseline
+    align-items: baseline
+  &stretch
+    align-items: stretch
+
+.content-
+  &start
+    align-content: flex-start
+  &end
+    align-content: flex-end
+  &center
+    align-content: center
+  &stretch
+    align-content: stretch
+  &between
+    align-content: space-between
+  &around
+    align-content: space-around
+
+.self-
+  &start
+    align-self: flex-start
+  &end
+    align-self: flex-end
+  &center
+    align-self: center
+  &baseline
+    align-self: baseline
+  &stretch
+    align-self: stretch
+
+.flex-center
+  @extend .items-center
+  @extend .justify-center
+
+@each $name, $size in $flex-gutter
+  .q-gutter
+    &-x-#{$name}
+      margin-left: -$size
+      > *
+        margin-left: $size
+    &-y-#{$name}
+      margin-top: -$size
+      > *
+        margin-top: $size
+    &-#{$name}
+      @extend .q-gutter-x-#{$name}
+      @extend .q-gutter-y-#{$name}
+  .q-col-gutter
+    &-x-#{$name}
+      margin-left: -$size
+      > *
+        padding-left: $size
+    &-y-#{$name}
+      margin-top: -$size
+      > *
+        padding-top: $size
+    &-#{$name}
+      @extend .q-col-gutter-x-#{$name}
+      @extend .q-col-gutter-y-#{$name}
+
+@each $name, $size in $sizes
+  @include fg("-" + $name, $size)

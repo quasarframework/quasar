@@ -287,6 +287,22 @@
               </q-list>
             </q-menu>
           </q-img>
+          <div>With model: {{ menuModelTouch }}</div>
+          <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
+            <q-menu v-model="menuModelTouch" :touch-position="touchPosition" :context-menu="contextMenu">
+              <q-list>
+                <q-item
+                  v-for="n in 5"
+                  :key="n"
+                  v-close-popup
+                  clickable
+                  @click="showNotify()"
+                >
+                  <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
         </q-card>
 
         <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
@@ -516,6 +532,7 @@ export default {
       terms: '',
       modelDate: null,
       model: 30,
+      menuModelTouch: false,
       min: 0,
       max: 50,
       list,

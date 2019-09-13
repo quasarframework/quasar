@@ -101,6 +101,10 @@ If you use functions for custom props always check if the option is null. These 
 
 <doc-example title="Options slot" file="QSelect/OptionSlot" />
 
+Here is another example where we add a QToggle to each option. The possibilities are endless.
+
+<doc-example title="Object options" file="QSelect/OptionQToggle" />
+
 By default, when there are no options, the menu won't appear. But you can customize this scenario and specify what the menu should display.
 
 <doc-example title="No options slot" file="QSelect/OptionNoneSlot" />

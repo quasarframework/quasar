@@ -1,5 +1,8 @@
 <template>
   <div class="q-layout-padding">
+    <h6 class="text-red">
+      You need to enable flex-addons from /ui/dev/app.js
+    </h6>
     <template v-for="b in bp">
       <h5 :key="`h${ b }`">
         Breakpoint {{ b || 'NONE' }}
@@ -50,9 +53,6 @@ export default {
       bp: ['', '-xs', '-sm', '-md', '-lg', '-xl'],
       sz: ['xs', 'sm', 'md', 'lg', 'xl']
     }
-  },
-  created () {
-    import('../../../src/css/flex-addon.styl')
   }
 }
 </script>
