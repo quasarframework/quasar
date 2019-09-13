@@ -1,0 +1,142 @@
+@import '../css/helpers/string.sass'
+
+@mixin ie_style
+
+  /* Min Height */
+  .row, .flex
+    &:after
+      content: ''
+      display: block
+      font-size: 0
+      min-height: inherit
+
+  .q-notification,
+  .q-banner,
+  .q-field__native, .q-field__control
+    &:after
+      min-height: 0 !important
+
+  .q-item
+    &:after
+      min-height: 32px !important
+
+  .q-list--dense > .q-item, .q-item--dense
+    &:after
+      min-height: 24px !important
+
+  /* Flex Basis */
+  .q-btn__content,
+  .q-time__content,
+  .q-toolbar__title,
+  .q-menu .q-item__section--main
+    flex-basis: auto
+
+  .q-banner__content,
+  .q-notification__message
+    flex-basis: 0 !important
+
+  .q-tab__content
+    flex-basis: auto
+    min-width: 100%
+
+  .column
+    min-width: 0%
+
+  @each $name, $size in $sizes
+    $noProcNotZero: $size > 0
+
+    @media (min-width: $size)
+      #{str-fe('.col<name>', "-" + $name, $noProcNotZero)}
+        .row > &, .flex > &
+          flex-basis: auto
+          min-width: 0%
+
+  /* QItem */
+  .q-item
+    &__section
+      &--avatar
+        // overwritten above by min-width 0%
+        min-width: 56px
+
+  /* QBtn */
+  .q-btn
+    &:not(.disabled):active,
+    &:not(.disabled):focus,
+    &.q-btn--active
+      .q-btn__content
+        position: relative
+        top: 0
+        left: 0
+
+  /* QCarousel */
+  .q-carousel__slide > *
+    max-width: 100%
+
+  /* QTabs */
+  .q-tabs--vertical
+    .q-tab__indicator
+      height: auto
+
+  /* QFab */
+  .q-fab--opened .q-fab__actions
+    &--left, &--right
+      display: block
+      white-space: nowrap
+
+  /* QSpinner */
+  .q-spinner
+    animation: q-ie-spinner 2s linear infinite /* rtl:ignore */
+    transform-origin: center center /* rtl:ignore */
+    opacity: .5
+
+    &.q-spinner-mat .path
+      stroke-dasharray: 89, 200
+
+  /* QToggle Icon */
+  .q-toggle__thumb
+    .q-icon
+      margin-left: -6px
+
+  /* QDate */
+  .q-date__view.q-date__months.column
+    > .q-date__months-content
+      width: 100%
+  .q-date--landscape .q-date__content
+    width: 100%
+    > .q-date__view
+      width: 0
+      min-width: 100%
+
+  /* QField */
+  .q-field
+    &__prefix, &__suffix
+      flex: 1 0 auto
+
+    ::-ms-clear
+      display: none
+
+    &__bottom--stale
+      .q-field__messages
+        left: 12px
+
+    &--borderless, &--standard
+      .q-field__bottom--stale
+        .q-field__messages
+          left: 0
+
+    &--float .q-field__label
+      max-width: 100%
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
+  @include ie_style
+
+@supports (-ms-ime-align:auto)
+  @include ie_style
+
+@keyframes q-ie-spinner
+  0%
+    opacity: .5
+  50%
+    opacity: 1
+  100%
+    opacity: .5

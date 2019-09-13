@@ -138,7 +138,7 @@ Now running `adb devices` should discover your device.
 
 ### Post-build debugging
 There are intermediate states to help with debugging, between `quasar dev` and distributing a completed app. If your app works fine on `quasar dev` but is not running properly after `quasar build`, you have two options:
-* go to your `src-cordova` directory and `cordova run [platform]`. 
+* go to your `src-cordova` directory and `cordova run [platform]`.
   * You will be running the final build, but you can still use Chrome DevTools Remote Debugging with a wired connection (see above), to inspect the internal web internals. You cannot do this while running the .apk file.
   * For more detail, read the Cordova [platform guide](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#using-buildjson) and the [CLI reference](https://cordova.apache.org/docs/en/latest/reference/cordova-cli/index.html)
 * open Android Studio and watch the Logcat
@@ -192,22 +192,24 @@ Quasar has support for these CSS safe-areas by default in QHeader/QFooter and No
 
 In cases you need to manually tweak your CSS you can do so with:
 
-```stylus
-// for your app's header
-padding-top constant(safe-area-inset-top) // for iOS 11.0
-padding-top env(safe-area-inset-top) // for iOS 11.2 +
-// for your app's footer
-padding-bottom constant(safe-area-inset-bottom)
-padding-bottom env(safe-area-inset-bottom)
+```css
+/* for your app's header */
+padding-top: constant(safe-area-inset-top); // for iOS 11.0
+padding-top: env(safe-area-inset-top); // for iOS 11.2 +
+/* for your app's footer */
+padding-bottom: constant(safe-area-inset-bottom);
+padding-bottom: env(safe-area-inset-bottom);
 ```
+
 Of course you can also use the above example with `margin` instead of `padding` depending on your app.
 
 In order to make sure these are only added when opened on mobile via the Cordova build, you can check for the CSS class `.cordova` which is automatically added to the body by Quasar. Example:
 
-```stylus
-body.cordova .my-selector
-  padding-top constant(safe-area-inset-top)
-  padding-top env(safe-area-inset-top)
+```css
+body.cordova .my-selector {
+  padding-top: constant(safe-area-inset-top);
+  padding-top: env(safe-area-inset-top);
+}
 ```
 
 ### Disabling iOS rubber band effect

@@ -92,7 +92,7 @@ async function parseAddress ({ host, port }) {
     const openPort = await findPort(port, host)
     if (port !== openPort) {
       warn()
-      warn(`Setting port to closest one available: ${openPort}`)
+      warn(`️️⚠️ Setting port to closest one available: ${openPort}`)
       warn()
 
       port = openPort

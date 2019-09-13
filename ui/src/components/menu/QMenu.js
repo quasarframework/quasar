@@ -118,7 +118,7 @@ export default Vue.extend({
 
       const { top, left } = this.anchorEl.getBoundingClientRect()
 
-      if (this.touchPosition || this.contextMenu) {
+      if (evt !== void 0 && (this.touchPosition || this.contextMenu)) {
         const pos = position(evt)
         this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
       }

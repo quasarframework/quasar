@@ -190,6 +190,10 @@ Navigate to your repository you just pushed to (e.g. https://github.com/your-use
 
 Ensure the changesets you introduced are included. Fill in some details about your potential patch including a meaningful title. When finished, press Click on "Create pull request". The Quasar core team will be notified about your submission.
 
+## Write your Story 
+
+We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium pulblication channel and we'll also make sure your article gets the attention it deservers with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you! 
+
 ## Create new Quasar App Extension
 
 An easy way to start to contribute to Quasar is to generalize the code you have created on your project and publish it as a Quasar App Extension. Follow this guide on how to [create a new extension](../app-extensions/development-guide/introduction).

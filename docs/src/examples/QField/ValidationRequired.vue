@@ -9,7 +9,7 @@
       :rules="[val => !!val || 'Field is required']"
     >
       <template v-slot:control>
-        <q-date class="full-width" style="width: 300px" minimal v-model="date" />
+        <q-date class="q-mt-sm full-width" style="width: 300px" minimal v-model="date" />
       </template>
     </q-field>
 

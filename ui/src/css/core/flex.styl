@@ -1,15 +1,16 @@
-fr(selector, name, i = '')
+str-fr(selector, name, i = '')
   unquote(replace(unquote('<i>'), unquote(i), replace(unquote('<name>'), unquote(name), unquote(selector))))
 
-fe(selector, name, noProc, i = '')
+str-fe(selector, name, noProc, i = '')
   if noProc
-    return fr(selector, name, i)
-  return unquote(join(',', fr(selector, '', i) fr(selector, name, i)))
+    return str-fr(selector, name, i)
+  return unquote(join(',', str-fr(selector, '', i) str-fr(selector, name, i)))
 
 fg($name, $size)
-  $noProcNotZero = $size > 0
+  $noProcNotZero = ($size > 0)
+
   @media (min-width $size)
-    {fe('.col<name>', $name, $noProcNotZero)}
+    {str-fe('.col<name>', $name, $noProcNotZero)}
       &, &-auto, &-grow, &-shrink
         .row > &, .flex > &
           width auto
@@ -20,7 +21,7 @@ fg($name, $size)
           min-height 0
           max-height 100%
       &
-        flex 10**4 1 0%
+        flex 10000 1 0%
       &-auto
         flex 0 0 auto
       &-grow
@@ -30,17 +31,17 @@ fg($name, $size)
 
     for $i in (0..$flex-cols)
       $ic = s('%s', $i)
-      {fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
+      {str-fe('.col<name>-<i>', $name, $noProcNotZero, $ic)}
         @extends .col{$name}-auto
       .row
-        {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+        {str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height auto
           width (round($i / $flex-cols * 100, 4))%
         if $i != 0 || $name != ''
-          {fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
+          {str-fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
             margin-left (round($i / $flex-cols * 100, 4))%
       .column
-        {fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
+        {str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
           height (round($i / $flex-cols * 100, 4))%
           width auto
       if $size == 0
@@ -154,7 +155,7 @@ for $name, $size in $flex-gutter
     &-y-{$name}
       margin-top (- $size)
       > *
-        padding-top ($size)
+        padding-top $size
     &-{$name}
       @extends .q-col-gutter-x-{$name}, .q-col-gutter-y-{$name}
 
