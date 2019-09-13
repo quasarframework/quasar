@@ -360,6 +360,9 @@ class QuasarConfig {
       cfg.extras = cfg.extras.filter(uniqueFilter)
     }
 
+    if (cfg.framework.all !== true && cfg.framework.all !== 'auto') {
+      cfg.framework.all = false
+    }
     cfg.framework.components = cfg.framework.components.filter(uniqueFilter)
     cfg.framework.directives = cfg.framework.directives.filter(uniqueFilter)
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
@@ -430,8 +433,8 @@ class QuasarConfig {
 
     cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
 
-    cfg.__loadingBar = cfg.framework.all || cfg.framework.plugins.includes('LoadingBar')
-    cfg.__meta = cfg.framework.all || cfg.framework.plugins.includes('Meta')
+    cfg.__loadingBar = cfg.framework.all === true || cfg.framework.plugins.includes('LoadingBar')
+    cfg.__meta = cfg.framework.all === true || cfg.framework.plugins.includes('Meta')
 
     if (this.ctx.dev || this.ctx.debug) {
       Object.assign(cfg.build, {
