@@ -192,7 +192,7 @@ Ensure the changesets you introduced are included. Fill in some details about yo
 
 ## Write your Story 
 
-We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article and we will publish it on our Medium pulblication channel and we'll make sure your article get the attention it deservers with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you! 
+We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium pulblication channel and we'll also make sure your article gets the attention it deservers with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you! 
 
 ## Create new Quasar App Extension
 
