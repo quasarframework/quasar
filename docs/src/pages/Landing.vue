@@ -15,7 +15,7 @@
               .text-h1
                 div.text-weight-bold Quasar
                 div Framework
-              .text-subtitle1.text-italic.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+              .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
               .q-pt-md.q-pl-sm
                 .landing__hero-btns.q-gutter-md.row.items-center
                   q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
@@ -23,23 +23,18 @@
                   q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
                   .text-body2 v{{ $q.version }}
 
-        .flex-center.col-10
-          .flex.q-pa-xl.q-mx-xl.full-width(style="font-size: 14px;background:rgba(0,0,0,0.5);border-radius:15px")
-            .q-pb-sm A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
-            .q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
-            div <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
+        .row.justify-center.col-10
+          q-icon.landing__arrow-down(name="keyboard_arrow_down" size="50px")
 
-  section.padding.landing__front.text-center
+  section.landing__front.text-center
     div
-      div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
       .q-gutter-md.row.justify-center
+        q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="User Interface Components", to="/vue-components")
         q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
         q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
         q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
         q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-cordova-apps/introduction")
-        q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
-
-      div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, performance-oriented Quasar web components.
+        q-btn(color="indigo", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
@@ -150,12 +145,6 @@
 
       sponsor-list.justify-center
 
-      .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Our partners:
-      .q-gutter-md.flex.flex-center
-
-        sponsor(img="wallaby.png" name="Wallabyjs" url="https://wallabyjs.com/")
-        sponsor(img="snyk.png" name="Snyk" url="https://snyk.io/")
-
   section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center
@@ -237,13 +226,20 @@ export default {
     min-height 100vh
 
   &__front
+    padding 130px 16px 100px !important
     background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
+    > div
+      max-width 700px !important
 
   &__logo
     width 150px
     height 150px
     margin-top 21px
     animation logo-rotate 240s linear infinite
+
+  &__arrow-down
+    margin-top: 100px
+    animation landing-bounce 2s infinite
 
   &__features
     .q-icon
@@ -291,6 +287,14 @@ export default {
   100%
     transform rotate(-360deg)
 
+@keyframes landing-bounce
+  0%, 20%, 50%, 80%, 100%
+    transform translate3d(0, 0, 0)
+  40%
+    transform translate3d(0, -30px, 0)
+  60%
+    transform translate3d(0, -15px, 0)
+
 @media (max-width: 718px)
   .landing
     &__hero
@@ -313,6 +317,9 @@ export default {
 
     &__hero-btns
       justify-content center
+
+    &__arrow-down
+      margin-top: 50px
 
 body.mobile .landing
   background unset
