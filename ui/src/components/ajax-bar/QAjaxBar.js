@@ -16,12 +16,12 @@ function translate ({ p, pos, active, horiz, reverse, dir }) {
   if (horiz) {
     if (reverse) { x = -1 }
     if (pos === 'bottom') { y = -1 }
-    return { transform: `translate3d(${x * (p - 100)}%,${active ? 0 : y * -200}%)` }
+    return { transform: `translate3d(${x * (p - 100)}%,${active ? 0 : y * -200}%,0)` }
   }
 
   if (reverse) { y = -1 }
   if (pos === 'right') { x = -1 }
-  return { transform: `translate3d(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%)` }
+  return { transform: `translate3d(${active ? 0 : dir * x * -200}%,${y * (p - 100)}%,0)` }
 }
 
 function inc (p, amount) {
