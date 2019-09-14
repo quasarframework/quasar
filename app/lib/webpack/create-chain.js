@@ -69,22 +69,28 @@ module.exports = function (cfg, configName) {
 
   chain.module.noParse(/^(vue|vue-router|vuex|vuex-router-sync)$/)
 
-  chain.module.rule('vue')
+  const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
-    .use('vue-loader')
-      .loader('vue-loader')
-      .options({
-        productionMode: cfg.ctx.prod,
-        compilerOptions: {
-          preserveWhitespace: false
-        },
-        transformAssetUrls: {
-          video: 'src',
-          source: 'src',
-          img: 'src',
-          image: 'xlink:href'
-        }
-      })
+
+  if (cfg.framework.all === 'auto') {
+    vueRule.use('quasar-auto-import')
+      .loader(path.join(__dirname, 'loader.auto-import.js'))
+  }
+
+  vueRule.use('vue-loader')
+    .loader('vue-loader')
+    .options({
+      productionMode: cfg.ctx.prod,
+      compilerOptions: {
+        preserveWhitespace: false
+      },
+      transformAssetUrls: {
+        video: 'src',
+        source: 'src',
+        img: 'src',
+        image: 'xlink:href'
+      }
+    })
 
   chain.module.rule('babel')
     .test(/\.jsx?$/)

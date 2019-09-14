@@ -13,7 +13,7 @@ import Vue from 'vue'
 import './import-quasar.js'
 
 <% if (ctx.mode.ssr) { %>
-import <%= framework.all ? 'Quasar' : '{ Quasar }' %> from 'quasar'
+import <%= framework.all === true ? 'Quasar' : '{ Quasar }' %> from 'quasar'
 <% } %>
 
 import App from 'app/<%= sourceFiles.rootComponent %>'
