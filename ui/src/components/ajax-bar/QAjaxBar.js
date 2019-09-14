@@ -57,7 +57,7 @@ function highjackAjax (start, stop) {
     stack.stop.map(fn => { fn() })
   }
 
-  xhr.prototype.send = function (...args) {
+  xhr.prototype.send = function (/* ...args */) {
     stack.start.map(fn => { fn() })
 
     this.addEventListener('abort', endHandler, false)
@@ -65,7 +65,7 @@ function highjackAjax (start, stop) {
       if (this.readyState === 4) { endHandler() }
     }, false)
 
-    send.apply(this, args)
+    send.apply(this, arguments)
   }
 }
 

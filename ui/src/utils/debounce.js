@@ -1,7 +1,9 @@
 export default function (fn, wait = 250, immediate) {
   let timeout
 
-  function debounced (...args) {
+  function debounced (/* ...args */) {
+    const args = arguments
+
     const later = () => {
       timeout = null
       if (!immediate) {
