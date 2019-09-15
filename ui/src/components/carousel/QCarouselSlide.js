@@ -17,9 +17,7 @@ export default Vue.extend({
     style () {
       if (this.imgSrc) {
         return {
-          backgroundImage: `url(${this.imgSrc})`,
-          backgroundSize: 'cover',
-          backgroundPosition: '50%'
+          backgroundImage: `url(${this.imgSrc})`
         }
       }
     }
