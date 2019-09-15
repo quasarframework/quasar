@@ -11,9 +11,9 @@ Like most open source products, Quasar can't do it alone. We rely on *sponsors, 
 
 ## Our Manifest
 
-The dream of open source is a noble cause, where communities grow and code is nurtured. In line with the philosophy of Free Open Source, Quasar has committed itself to the principles of both the Sustainable free and open source community ([SFOSC](https://sfosc.org/)) and the tenets of Good Labs' [![Greater-Good Affirmation](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation).
+The dream of open source is a noble cause, where communities grow and code is nurtured. In line with the philosophy of Free Open Source, Quasar has committed itself to the tenets of Good Labs' [![Greater-Good Affirmation](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation).
 
-This means that Quasar is and always will be free and open source, a self-managed place where everyone who abides by the community rules is invited and encouraged to participate.
+Quasar is and always will be free and open source, a self-managed place where everyone who abides by the community rules is invited and encouraged to participate.
 
 ![What do we sustain](https://cdn.quasar.dev/img/what-do-we-sustain.png)
 
