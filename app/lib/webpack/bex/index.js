@@ -1,12 +1,13 @@
 const
   appPaths = require('../../app-paths'),
   path = require('path'),
-  fse = require('fs-extra'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  injectClientSpecifics = require('../inject.client-specifics'),
-  injectHotUpdate = require('../inject.hot-update'),
-  injectPreload = require('../inject.preload')
+  fse = require('fs-extra')
 
+/**
+ * Copies a file from the BEX template folder into the bexSrc dir.
+ * Warning: Will overwrite whatever is there!
+ * @param fileName
+ */
 const renderFile = function (fileName) {
   fse.copySync(path.join(appPaths.cliDir, 'templates', 'bex', 'js', 'core', fileName), path.join(appPaths.resolve.bex('js/core'), fileName))
 }
@@ -18,6 +19,7 @@ module.exports = function (chain, cfg) {
       ? path.join(appPaths.bexDir, 'www')
       : path.join(unpackedBuildDir, 'www')
 
+  // Add a copy config to copy the static folder for both dev and build.
   let webpackCopyConfigs = [{
     from: path.join(appPaths.srcDir, 'statics'),
     to: path.join(outputPath, 'statics')
@@ -38,6 +40,8 @@ module.exports = function (chain, cfg) {
   chain.entry('bex-init')
     .add(appPaths.resolve.bex('js/core/init/index.js'))
 
+  // Note: The following entries are manually excluded from the final index.html output via
+  // app/lib/webpack/plugin.html-addons.js -> htmlWebpackPluginAlterAssetTags
   chain.entry('bex-background')
     .add(appPaths.resolve.bex('js/core/background/background.js'))
 
@@ -51,7 +55,8 @@ module.exports = function (chain, cfg) {
     // Extensions need to be manually added to the browser
     // so we need the dev files available for them to be targeted.
     cfg.devServer.writeToDisk = true
-  } else {
+  }
+  else {
     const
       packedBuildDir = path.join(cfg.build.distDir, 'packed'),
       packageName = require(path.join(appPaths.appDir, 'package.json')).name
@@ -77,40 +82,16 @@ module.exports = function (chain, cfg) {
         name: packageName
       }])
 
+    // Copy our user edited BEX files to the dist dir (excluding the already build www folder)
     webpackCopyConfigs.push({
       from: appPaths.bexDir,
       to: unpackedBuildDir,
       ignore: ['www/**/*']
     })
-
   }
 
   // Copy any files we've registered during the chain.
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   chain.plugin('copy-webpack')
     .use(CopyWebpackPlugin, [webpackCopyConfigs])
-
-  // TODO: I don't like this at all. I just need to exclude bex-contentScript.js
-  // and bex-background.js from the final output file but can't find another way
-  // than using my own template, setting inject: false and manually adding the files.
-  // I could edit the file manually on bundle complete but that seems just as nasty
-  // RAZVAN - some guidance would be great.
-  chain.plugin('html-webpack')
-    .use(HtmlWebpackPlugin, [{
-      ...cfg.__html.variables,
-
-      filename: cfg.ctx.dev
-        ? 'index.html'
-        : path.join(cfg.build.distDir, cfg.build.htmlFilename),
-      template: path.join(__dirname, 'bex.index.html'),
-      minify: cfg.__html.minifyOptions,
-      chunksSortMode: 'none',
-      // inject script tags for bundle
-      inject: false,
-      cache: true
-    }])
-
-  injectClientSpecifics(chain, cfg)
-  injectHotUpdate(chain, cfg)
-  injectPreload(chain, cfg)
 }
