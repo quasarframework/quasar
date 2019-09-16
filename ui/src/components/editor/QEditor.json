@@ -222,6 +222,14 @@
           "desc": "The pure HTML of the content"
         }
       }
+    },
+
+    "editor-focus": {
+      "desc": "Emitted when editor gets focus"
+    },
+
+    "editor-blur": {
+      "desc": "Emitted one second after the editor loses focus"
     }
   },
 

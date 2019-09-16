@@ -244,7 +244,8 @@ export default Vue.extend({
   data () {
     return {
       editWatcher: true,
-      editLinkUrl: null
+      editLinkUrl: null,
+      activeState: false
     }
   },
 
@@ -256,6 +257,15 @@ export default Vue.extend({
       else {
         this.editWatcher = true
       }
+    },
+
+    activeState (state) {
+      setTimeout(() => {
+        if (state === this.activeState && state !== this.lastState) {
+          this.$emit(state === true ? 'editor-focus' : 'editor-blur')
+          this.lastState = state
+        }
+      }, state === true ? 0 : 1000)
     }
   },
 
@@ -324,6 +334,18 @@ export default Vue.extend({
 
     getContentEl () {
       return this.$refs.content
+    },
+
+    __setActiveState () {
+      if (this.activeState !== true) {
+        this.activeState = true
+      }
+    },
+
+    __setInactiveState () {
+      if (this.activeState !== false) {
+        this.activeState = false
+      }
     }
   },
 
@@ -364,7 +386,8 @@ export default Vue.extend({
 
       toolbars = h('div', {
         key: 'toolbar_ctainer',
-        staticClass: 'q-editor__toolbars-container'
+        staticClass: 'q-editor__toolbars-container',
+        attrs: { tabindex: -1 }
       }, bars)
     }
 
@@ -381,6 +404,10 @@ export default Vue.extend({
           'q-editor--square no-border-radius': this.square,
           'q-editor--flat': this.flat,
           'q-editor--dense': this.dense
+        },
+        on: {
+          focusin: this.__setActiveState,
+          focusout: this.__setInactiveState
         }
       },
       [

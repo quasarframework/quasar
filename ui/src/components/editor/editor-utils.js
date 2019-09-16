@@ -166,6 +166,10 @@ function getDropdown (h, vm, btn) {
         label: btn.fixedLabel ? btn.label : label,
         icon: btn.fixedIcon ? btn.icon : icon,
         contentClass
+      },
+      on: {
+        show: vm.__setActiveState,
+        'before-hide': vm.__setInactiveState
       }
     },
     Items
@@ -175,11 +179,17 @@ function getDropdown (h, vm, btn) {
 
 export function getToolbar (h, vm) {
   if (vm.caret) {
+    const slotProps = {
+      on: {
+        focusin: vm.__setActiveState,
+        focusout: vm.__setInactiveState
+      }
+    }
     return vm.buttons.map(group => __getGroup(
       h,
       group.map(btn => {
         if (btn.type === 'slot') {
-          return slot(vm, btn.slot)
+          return h('div', slotProps, slot(vm, btn.slot))
         }
 
         if (btn.type === 'dropdown') {

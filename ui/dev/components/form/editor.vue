@@ -28,6 +28,8 @@
         upload: {tip: 'Upload to cloud', textColor: 'primary', icon: 'cloud_upload', label: 'Upload', handler: upload},
         disabledButton: {tip: 'I am disabled...', disable: true, icon: 'cloud_off', handler: saveWork}
       }"
+      @editor-focus="() => log('editor-focus')"
+      @editor-blur="() => log('editor-blur')"
     >
       <q-btn
         slot="custom_btn"
@@ -60,6 +62,8 @@
           options: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'code']
         }]
       ]"
+      @editor-focus="() => log('editor-focus')"
+      @editor-blur="() => log('editor-blur')"
     />
     <br><br><br>
 
@@ -150,6 +154,8 @@
         bold: {icon: 'content_paste'},
         gogu: {tip: 'Custom', icon: 'account_balance', handler: vm => vm.runCmd('print')}
       }"
+      @editor-focus="() => log('editor-focus')"
+      @editor-blur="() => log('editor-blur')"
     >
       <q-btn dense color="yellow" slot="custom_btn" no-wrap size="sm">
         Wow
@@ -235,6 +241,9 @@ export default {
       edit.caret.restore()
       edit.runCmd('insertHTML', `&nbsp;<div class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${name}</span>&nbsp;<i class="q-icon material-icons cursor-pointer" onclick="this.parentNode.parentNode.removeChild(this.parentNode)">close</i></div>&nbsp;`)
       edit.focus()
+    },
+    log (reason) {
+      console.log('@' + reason)
     }
   }
 }
