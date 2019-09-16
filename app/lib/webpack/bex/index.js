@@ -18,6 +18,11 @@ module.exports = function (chain, cfg) {
       ? path.join(appPaths.bexDir, 'www')
       : path.join(unpackedBuildDir, 'www')
 
+  let webpackCopyConfigs = [{
+    from: path.join(appPaths.srcDir, 'statics'),
+    to: path.join(outputPath, 'statics')
+  }]
+
   // Make sure we always have the latest BEX files in the src-bex folder (to get bug fixes etc)
   // These files are marked with DO NOT EDIT so the users have been warned.
   renderFile(path.join('background', 'background.js'))
@@ -28,17 +33,6 @@ module.exports = function (chain, cfg) {
 
   chain.output
     .path(outputPath) // Output to our src-bex/www folder.
-
-  // Copy statics (shouldn't this happen automatically?!)
-  // RAZVAN - some guidance would be great.
-  const CopyWebpackPlugin = require('copy-webpack-plugin')
-  chain.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [
-      [{
-        from: path.join(appPaths.srcDir, 'statics'),
-        to: path.join(outputPath, 'statics')
-      }]
-    ])
 
   // Bundle our bex files for inclusion via the manifest.json
   chain.entry('bex-init')
@@ -74,22 +68,6 @@ module.exports = function (chain, cfg) {
     // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
     chain.optimization.minimize(cfg.build.minify)
 
-    // Copy our BEX src files which the user has edited.
-    const CopyWebpackPlugin = require('copy-webpack-plugin')
-    chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [
-        [{
-          from: appPaths.bexDir,
-          to: unpackedBuildDir
-        }],
-        {
-          ignore: [{
-            dot: true,
-            glob: 'www/**/*'
-          }]
-        }
-      ])
-
     // Register our plugin, update the manifest and package the browser extension.
     const WebpackBexPackager = require('./webpackBexPackager')
     chain.plugin('webpack-bex-packager')
@@ -99,7 +77,18 @@ module.exports = function (chain, cfg) {
         name: packageName
       }])
 
+    webpackCopyConfigs.push({
+      from: appPaths.bexDir,
+      to: unpackedBuildDir,
+      ignore: ['www/**/*']
+    })
+
   }
+
+  // Copy any files we've registered during the chain.
+  const CopyWebpackPlugin = require('copy-webpack-plugin')
+  chain.plugin('copy-webpack')
+    .use(CopyWebpackPlugin, [webpackCopyConfigs])
 
   // TODO: I don't like this at all. I just need to exclude bex-contentScript.js
   // and bex-background.js from the final output file but can't find another way
