@@ -79,7 +79,6 @@ function generateSassFile (source, destination) {
         return
       }
 
-      console.log(deps)
       resolve(deps)
     })
   }).then(deps => getConcatenatedContent(deps))
