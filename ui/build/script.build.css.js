@@ -50,6 +50,10 @@ function generateSassFile (source, destination) {
       file: src,
       importer: [
         (url, prev, done) => {
+          // needed for Windows as "prev"
+          // comes with backward slashes
+          prev = path.normalize(prev)
+
           const file = path.normalize(path.join(
             prev ? path.dirname(prev) : pathList[0],
             url
