@@ -30,6 +30,10 @@ div
 Starting with `@quasar/app` v1.1+, you don't need to necessarily have the `src/css/quasar.variables.styl` file if you want to access the Quasar Stylus variables. Create it only if you want to customize the variables.
 :::
 
+::: danger
+When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your devserver in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
+:::
+
 ## Caveat
 
 Quasar CLI detects if the file contains at least one '$' character, and if so, it automatically imports the Quasar stylus variables.

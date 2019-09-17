@@ -39,6 +39,10 @@ div {
 You don't need to necessarily have the `src/css/quasar.variables.sass` or `src/css/quasar.variables.scss` files if you want to access the Quasar Sass/SCSS variables. Create one of them only if you want to customize the variables.
 :::
 
+::: danger
+When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your devserver in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
+:::
+
 ## Caveat
 
 Quasar CLI detects if the file contains at least one '$' character, and if so, it automatically imports the Quasar Sass/SCSS variables.
