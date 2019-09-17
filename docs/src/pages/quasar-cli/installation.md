@@ -10,11 +10,6 @@ Make sure you have Node >=8 and NPM >=5 installed on your machine.
 $ npm install -g @quasar/cli
 ```
 
-::: tip TIPS
-* The v1.0+ CLI is compatible with pre v1.0 project folders too, so you DON'T need to worry that your older projects won't run anymore.
-* You are not required to have vue cli installed anymore in order to generate a Quasar project folder.
-:::
-
 Then we create a project folder with Quasar CLI:
 
 ```bash

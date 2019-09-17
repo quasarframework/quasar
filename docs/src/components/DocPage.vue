@@ -114,84 +114,84 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .doc-page
-  padding 16px 46px
-  font-weight 300
-  max-width 900px
-  margin-left auto
-  margin-right auto
+  padding: 16px 46px
+  font-weight: 300
+  max-width: 900px
+  margin-left: auto
+  margin-right: auto
 
   > div, > pre
-    margin-bottom 22px
+    margin-bottom: 22px
 
   &__top-link
-    color inherit
-    text-decoration none
-    outline 0
+    color: inherit
+    text-decoration: none
+    outline: 0
 
   &__badge
-    vertical-align super
+    vertical-align: super
 
-@media (max-width 600px)
+@media (max-width: 600px)
   .doc-page
-    padding 16px
+    padding: 16px
 
 .doc-page-related
-  color $grey-9
-  transition color .28s
+  color: $grey-9
+  transition: color .28s
 
   &:hover
-    color $primary
+    color: $primary
 
 .doc-page-related-bordered
-  border 1px solid $separator-color
+  border: 1px solid $separator-color
 
 .doc-page-footer
-  font-size 12px
-  padding 36px 0 16px
+  font-size: 12px
+  padding: 36px 0 16px
 
   &__icons
-    font-size 28px
+    font-size: 28px
 
     a
-      margin 0 8px 8px
-      text-decoration none
-      outline 0
-      color $primary
-      transition color .28s
+      margin: 0 8px 8px
+      text-decoration: none
+      outline: 0
+      color: $primary
+      transition: color .28s
 
       &:hover
-        color $grey-8
+        color: $grey-8
 
 .doc-page-nav
-  margin 68px 0 0
-  margin-bottom 0 !important
+  margin: 68px 0 0
+  margin-bottom: 0 !important
 
   .q-link
-    position relative
+    position: relative
     &:before
-      content ''
-      position absolute
-      top 0
-      right 0
-      bottom 0
-      left 0
-      background #000
-      opacity 0
-      transition opacity .28s
+      content: ''
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 0
+      left: 0
+      background: #000
+      opacity: 0
+      transition: opacity .28s
     &:focus:before
-      opacity .1
+      opacity: .1
 
   & + &
-    margin-top 0
+    margin-top: 0
 
   .q-icon
-    font-size 1.75em
+    font-size: 1.75em
 
   &__categ
-    font-size .8em
+    font-size: .8em
 
   &__name
-    font-size 1em
+    font-size: 1em
 </style>

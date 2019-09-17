@@ -12,7 +12,7 @@ There are Sass/SCSS variables built into Quasar that you can change and/or use w
 
 ::: warning
 * This applies to Quasar CLI managed apps only.
-* **The minimum required version of `@quasar/app` is v1.1.**
+* **The minimum required version of `@quasar/app` is v1.1. You will also need `quasar` v1.1.1+.**
 :::
 
 ## Usage
@@ -37,6 +37,10 @@ div {
 
 ::: tip
 You don't need to necessarily have the `src/css/quasar.variables.sass` or `src/css/quasar.variables.scss` files if you want to access the Quasar Sass/SCSS variables. Create one of them only if you want to customize the variables.
+:::
+
+::: danger
+When creating or deleting any of the `src/css/quasar.variables.*` files, you will need to restart your devserver in order for it to take effect. However, when you change the content of these files it won't be necessary to also restart.
 :::
 
 ## Caveat
@@ -77,4 +81,4 @@ Quasar's own CSS is compiled using the variables file (if it exists), but you ca
 
 ## Variables list
 
-<sass-variables></sass-variables>
+<sass-variables />

@@ -1,5 +1,5 @@
 import Menu from 'assets/menu.js'
-import './AppMenu.styl'
+import './AppMenu.sass'
 
 export default {
   name: 'AppMenu',

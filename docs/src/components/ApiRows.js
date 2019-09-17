@@ -1,4 +1,4 @@
-import './ApiRows.styl'
+import './ApiRows.sass'
 
 function getEventParams (event) {
   const params = event.params === void 0 || event.params.length === 0

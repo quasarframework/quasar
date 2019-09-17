@@ -38,8 +38,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .my-card
-  width 100%
-  max-width 250px
+  width: 100%
+  max-width: 250px
 </style>

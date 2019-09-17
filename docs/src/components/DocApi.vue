@@ -298,16 +298,16 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .doc-api
   .q-tab
-    height 40px
+    height: 40px
 
   .inner-tab
-    justify-content left
+    justify-content: left
     .q-tab__content
-      width 100%
+      width: 100%
 
   .api-container
-    max-height 600px
+    max-height: 600px
 </style>

@@ -30,9 +30,9 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .color
-  width 135px
+  width: 135px
 .detailed-color
-  height 40px
+  height: 40px
 </style>

@@ -28,7 +28,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .err404
   background: #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') no-repeat center center fixed
   background-size: cover
@@ -50,5 +50,20 @@ export default {
 
 @keyframes err-logo-rotate
   100%
-    transform rotate(-360deg)
+    transform: rotate(-360deg)
+
+body.mobile .err404
+  background: unset
+
+  &:before
+    content: ''
+    position: fixed /* stretch a fixed position to the whole screen */
+    top: 0
+    height: 100vh /* fix for mobile browser address bar appearing disappearing */
+    left: 0
+    right: 0
+    bottom: 0
+    z-index: -1 /* needed to keep in the background */
+    background: #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') center center
+    background-size: cover
 </style>
