@@ -81,4 +81,4 @@ Quasar's own CSS is compiled using the variables file (if it exists), but you ca
 
 ## Variables list
 
-<sass-variables></sass-variables>
+<sass-variables />

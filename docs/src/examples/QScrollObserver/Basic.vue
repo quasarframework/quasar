@@ -21,7 +21,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .container
-  font-size 12px
+  font-size: 12px
 </style>

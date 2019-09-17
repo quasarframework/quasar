@@ -51,25 +51,25 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .custom-area
-  width 90%
-  height 480px
-  border-radius 3px
-  padding 8px
+  width: 90%
+  height: 480px
+  border-radius: 3px
+  padding: 8px
 
 .custom-info pre
-  width 180px
-  font-size 12px
+  width: 180px
+  font-size: 12px
 
 .touch-signal
-  position absolute
-  top 16px
-  right 16px
-  width 35px
-  height 35px
-  font-size 25px
-  border-radius 50% !important
-  text-align center
-  background rgba(255, 255, 255, .2)
+  position: absolute
+  top: 16px
+  right: 16px
+  width: 35px
+  height: 35px
+  font-size: 25px
+  border-radius: 50% !important
+  text-align: center
+  background: rgba(255, 255, 255, .2)
 </style>

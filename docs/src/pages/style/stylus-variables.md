@@ -72,4 +72,4 @@ Quasar's own CSS is compiled using the variables file (if it exists), but you ca
 
 ## Variables list
 
-<stylus-variables></stylus-variables>
+<stylus-variables />
