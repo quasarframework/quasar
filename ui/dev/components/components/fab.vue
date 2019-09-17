@@ -1,6 +1,11 @@
 <template>
   <div>
     <div class="q-layout-padding">
+      <div class="z-max fixed-top-left">
+        <q-toggle v-model="toggleDisabled" />
+        <q-toggle v-model="toggle" />
+      </div>
+
       <p class="caption">
         <span class="desktop-only">Click</span>
         <span class="mobile-only">Tap</span>
@@ -9,7 +14,7 @@
       </p>
 
       <div class="column items-center" style="margin-top: 100px; margin-bottom: 100px;">
-        <q-fab color="purple" icon="keyboard_arrow_up" direction="up">
+        <q-fab v-model="toggle" color="purple" icon="keyboard_arrow_up" direction="up">
           <q-fab-action color="amber" to="/" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
@@ -17,7 +22,7 @@
 
         <br>
 
-        <q-fab v-model="toggle" icon="keyboard_arrow_left" direction="left" disable>
+        <q-fab v-model="toggleDisabled" icon="keyboard_arrow_left" direction="left" disable>
           <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
@@ -25,7 +30,7 @@
 
         <br>
 
-        <q-fab color="secondary" push icon="keyboard_arrow_right" direction="right">
+        <q-fab :value="toggle" color="secondary" push icon="keyboard_arrow_right" direction="right">
           <q-fab-action color="primary" @click="notify('mail')" icon="ion-aperture" disable />
           <q-fab-action color="primary" @click="notify('alarm')" icon="mdi-map" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="fas fa-address-book" />
@@ -40,8 +45,6 @@
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
         </q-fab>
       </div>
-
-      <q-toggle v-model="toggle" class="z-max fixed-top-left" />
 
       <p class="caption" style="margin-bottom: 100px;">
         There's also the absolute positioned one on bottom
@@ -102,7 +105,8 @@
 export default {
   data () {
     return {
-      toggle: true
+      toggle: true,
+      toggleDisabled: true
     }
   },
   methods: {

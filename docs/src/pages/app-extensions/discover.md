@@ -21,6 +21,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | --- | --- |
 | [@quasar/testing](https://github.com/quasarframework/quasar-testing) | Includes pre-configured sub-extensions for all of your testing needs |
 | [@quasar/typescript](https://github.com/quasarframework/app-extension-typescript) | Transform your project into typescript awesomeness |
+| [@quasar/wizard](https://github.com/quasarframework/app-extension-wizard) | Search and find all known App Extensions, Install Collections, keep everything up to date |
 
 ### Project Rigging
 
@@ -29,6 +30,7 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/dotenv](https://github.com/quasarframework/app-extension-dotenv) | A slightly opinionated management tool to use dotenv in your application |
 | [@quasar/qenv](https://github.com/quasarframework/app-extension-qenv) | A less slightly opinionated management tool to propagate variables to the browser for a variety of unlimited environments (dev, prod, test, etc) for use in your application |
 | [@quasar/icon-genie](https://github.com/quasarframework/app-extension-icon-genie) | Cross-platform construction kit to generate all app-icons (favicons, .ico, .icns) for distributables |
+| [@quasar/obyte](https://github.com/quasarframework/app-extension-obyte) | Work with the Obyte Blockchain |
 
 ### Components
 
@@ -42,16 +44,8 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qpdfviewer](https://github.com/quasarframework/app-extension-qpdfviewer) | View PDF documents in your Quasar app |
 | [@quasar/qcalendar](https://github.com/quasarframework/app-extension-qcalendar) | Calendar for Quasar |
 | [@quasar/qscroller](https://github.com/quasarframework/app-extension-qscroller) | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |
+| [@quasar/qwindow](https://github.com/quasarframework/app-extension-qwindow) | Floating, movable, resizable interactive windows for Quasar |
+| [@quasar/qplaceholder](https://github.com/quasarframework/app-extension-qplaceholder) | Display a placeholder before your data arrives |
 | [@quasar/qiconpicker](https://github.com/quasarframework/app-extension-qiconpicker) | Icon Picker for your Quasar apps |
 | [@quasar/qribbon](https://github.com/quasarframework/app-extension-qribbon) | QRibbon UI component for your Quasar apps |
-
-### In Development
-
-| Alias | Description |
-| --- | --- |
-| [@quasar/apollo](https://github.com/quasarframework/app-extension-graphql) | Apollo and GraphQL with server and front-end integration |
-| [@quasar/feathersjs](https://github.com/quasarframework/app-extension-feathersjs) | Create FeathersJS server and front-end integration |
-| [@quasar/amplify](https://github.com/quasarframework/app-extension-amplify) | Integrate and manage AWS Amplify |
-| [@quasar/firebase](https://github.com/quasarframework/app-extension-firebase) | Integrate and manage Google Firebase / Firestore |
-| [@quasar/qtranslate](https://github.com/quasarframework/app-extension-qtranslate) | Deep localization including datetime, currency and string management |
-| [@quasar/universal-fs](https://github.com/quasarframework/app-extension-universal-fs) | Wrap the filesystem interface for web, cordova and electron with one abstraction |
+| [@quasar/qzoom](https://github.com/quasarframework/app-extension-qzoom) | Zoom any content (image, video, text, components, ...) |

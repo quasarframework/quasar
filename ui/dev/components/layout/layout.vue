@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-layout :view="view" @scroll="onScroll">
-      <q-header v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
+      <q-header height-hint="204" v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
         <q-bar>
           <q-icon name="network_wifi" />
           <div>9:34</div>
@@ -49,7 +49,7 @@
         </q-tabs>
       </q-header>
 
-      <q-footer v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
+      <q-footer height-hint="100" v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
@@ -345,7 +345,7 @@
             <q-select emit-value v-model="leftBehavior" :options="drawerBehaviorOptions" />
           </div>
           <div>
-            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" />
+            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model.number="leftBreakpoint" />
           </div>
         </div>
         <div class="col q-ma-xs">
@@ -368,7 +368,7 @@
             <q-select emit-value v-model="rightBehavior" :options="drawerBehaviorOptions" />
           </div>
           <div>
-            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" />
+            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model.number="rightBreakpoint" />
           </div>
         </div>
       </div>
@@ -483,8 +483,8 @@ export default {
       toggle: false,
       header: true,
       footer: true,
-      left: true,
-      right: true,
+      left: true, // this.$q.screen.width > 1023,
+      right: this.$q.screen.width > 1023,
 
       headerReveal: false,
       footerReveal: false,
@@ -494,8 +494,8 @@ export default {
       rightBehavior: 'default',
       leftBreakpoint: 992,
       rightBreakpoint: 992,
-      leftMini: true,
-      leftMiniToOverlay: true,
+      leftMini: false,
+      leftMiniToOverlay: false,
       rightMini: false,
       rightMiniToOverlay: false,
 

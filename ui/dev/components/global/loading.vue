@@ -27,6 +27,15 @@
       <q-btn push color="secondary" @click="changeMessage()">
         Show & Change
       </q-btn>
+      <p class="caption">
+        Show multiple times in a row
+      </p>
+      <div>
+        <q-input v-model.number="showCount" type="number" min="1" max="10" style="max-width: 150px;" filled />
+        <q-btn class="q-mt-md" push color="secondary" @click="showMultiple()">
+          Show Multiple Times
+        </q-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -65,6 +74,33 @@ export default {
   },
   */
 
+  data () {
+    return {
+      showCount: 3
+    }
+  },
+
+  mounted () {
+    this.$q.loading.setDefaults({
+      spinnerColor: 'amber'
+    })
+    this.$q.loading.show({
+      message: 'With defaults'
+    })
+    setTimeout(() => {
+      this.$q.loading.show({
+        message: 'Discarded defaults',
+        ignoreDefaults: true
+      })
+      setTimeout(() => {
+        this.$q.loading.hide()
+        this.$q.loading.setDefaults({
+          spinnerColor: void 0
+        })
+      }, 1000)
+    }, 1000)
+  },
+
   methods: {
     noMessage () {
       show()
@@ -95,6 +131,15 @@ export default {
           message: 'Updated message'
         })
       }, 3000)
+    },
+    async showMultiple () {
+      for (let i = 0; i < this.showCount; i++) {
+        Loading.show()
+
+        await new Promise(resolve => setTimeout(resolve, 2000))
+
+        Loading.hide()
+      }
     }
   }
 }

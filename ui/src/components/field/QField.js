@@ -6,6 +6,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import ValidateMixin from '../../mixins/validate.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
+import uid from '../../utils/uid.js'
 
 export default Vue.extend({
   name: 'QField',
@@ -53,7 +54,7 @@ export default Vue.extend({
     autofocus: Boolean,
 
     maxlength: [Number, String],
-    maxValues: [Number, String] // do not add to JSON, internally needed by QSelect
+    maxValues: [Number, String] // private, do not add to JSON; internally needed by QSelect
   },
 
   data () {
@@ -62,7 +63,8 @@ export default Vue.extend({
 
       // used internally by validation for QInput
       // or menu handling for QSelect
-      innerLoading: false
+      innerLoading: false,
+      targetUid: this.$attrs.for === void 0 ? 'qf_' + uid() : this.$attrs.for
     }
   },
 
@@ -135,7 +137,7 @@ export default Vue.extend({
         'q-field--with-bottom': this.hideBottomSpace !== true && this.shouldRenderBottom === true,
         'q-field--error': this.hasError,
 
-        'q-field--readonly': this.readonly,
+        'q-field--readonly': this.readonly === true && this.disable !== true,
         'q-field--disabled': this.disable
       }
     },
@@ -166,12 +168,24 @@ export default Vue.extend({
       }
 
       return cls
+    },
+
+    controlSlotScope () {
+      return {
+        id: this.targetUid,
+        field: this.$el,
+        editable: this.editable,
+        focused: this.focused,
+        floatingLabel: this.floatingLabel,
+        value: this.value,
+        emitValue: this.__emitValue
+      }
     }
   },
 
   methods: {
     focus () {
-      if (this.showPopup !== void 0 && this.$q.platform.is.desktop !== true) {
+      if (this.showPopup !== void 0 && this.hasDialog === true) {
         this.showPopup()
         return
       }
@@ -186,9 +200,9 @@ export default Vue.extend({
 
     __focus () {
       let target = this.$refs.target
-      if (target !== void 0) {
+      if (target !== void 0 && document.activeElement.id !== this.targetUid) {
         target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target.focus()
+        target !== null && target !== document.activeElement && target.focus()
       }
     },
 
@@ -284,7 +298,7 @@ export default Vue.extend({
               ...this.$attrs,
               autofocus: this.autofocus
             }
-          }, this.$scopedSlots.control())
+          }, this.$scopedSlots.control(this.controlSlotScope))
         )
       }
 
@@ -410,6 +424,10 @@ export default Vue.extend({
     __clearValue (e) {
       stop(e)
       this.$emit('input', null)
+    },
+
+    __emitValue (value) {
+      this.$emit('input', value)
     }
   },
 
@@ -417,9 +435,12 @@ export default Vue.extend({
     this.__onPreRender !== void 0 && this.__onPreRender()
     this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
 
-    return h('div', {
+    return h('label', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes
+      class: this.classes,
+      attrs: {
+        for: this.targetUid
+      }
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
@@ -462,7 +483,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.autofocus === true && setTimeout(this.focus)
+    this.autofocus === true && this.$el.focus()
   },
 
   beforeDestroy () {

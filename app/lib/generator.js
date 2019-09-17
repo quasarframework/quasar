@@ -10,7 +10,7 @@ const
 
 class Generator {
   constructor (quasarConfig) {
-    const { ctx, preFetch } = quasarConfig.getBuildConfig()
+    const { ctx, preFetch, ...cfg } = quasarConfig.getBuildConfig()
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig
@@ -49,7 +49,12 @@ class Generator {
     const data = this.quasarConfig.getBuildConfig()
 
     // ensure .quasar folder
-    if (!fs.existsSync(quasarFolder)){
+    if (!fs.existsSync(quasarFolder)) {
+      fs.mkdirSync(quasarFolder)
+    }
+    else if (!fs.lstatSync(quasarFolder).isDirectory()) {
+      const { removeSync } = require('fs-extra')
+      removeSync(quasarFolder)
       fs.mkdirSync(quasarFolder)
     }
 

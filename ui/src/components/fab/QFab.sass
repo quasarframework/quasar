@@ -1,0 +1,64 @@
+.z-fab
+  z-index: $z-fab
+
+.q-fab
+  position: relative
+  vertical-align: middle
+
+  &--opened
+    .q-fab__actions
+      opacity: 1
+      transform: scale(1) translate(0, 0)
+      pointer-events: all
+    .q-fab__icon
+      transform: rotate(180deg)
+      opacity: 0
+    .q-fab__active-icon
+      transform: rotate(0deg)
+      opacity: 1
+
+  &__icon, &__active-icon
+    transition: opacity .4s, transform .4s
+  &__icon
+    opacity: 1
+    transform: rotate(0deg)
+  &__active-icon
+    opacity: 0
+    transform: rotate(-180deg)
+
+  &__actions
+    position: absolute
+    opacity: 0
+    transition: all .2s ease-in
+    pointer-events: none
+    .q-btn
+      margin: $fab-margin
+
+    &--right
+      transform: scale(.4) translate(-100%, 0)
+      top: 0
+      bottom: 0
+      left: 120%
+
+    &--left
+      transform: scale(.4) translate(100%, 0)
+      top: 0
+      bottom: 0
+      right: 120%
+      flex-direction: row-reverse
+
+    &--up
+      transform: scale(.4) translate(0, 100%)
+      flex-direction: column-reverse
+      justify-content: center
+      bottom: 120%
+      left: 0
+      right: 0
+
+    &--down
+      transform: scale(.4) translate(0, -100%)
+      flex-direction: column
+      justify-content: center
+      top: 120%
+      left: 0
+      right: 0

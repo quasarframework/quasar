@@ -46,7 +46,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .container
-  transition width .3s, height .3s
+  transition: width .3s, height .3s
 </style>

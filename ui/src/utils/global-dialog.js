@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
-import { getVm } from './vm.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
@@ -10,7 +9,7 @@ const ssrAPI = {
 }
 
 export default function (DefaultComponent) {
-  return ({ className, class: klass, style, component, root, ...props }) => {
+  return ({ className, class: klass, style, component, root, parent, ...props }) => {
     if (isSSR === true) { return ssrAPI }
 
     klass !== void 0 && (props.cardClass = klass)
@@ -71,8 +70,11 @@ export default function (DefaultComponent) {
       ? props
       : void 0
 
-    let vm = getVm(root, {
+    let vm = new Vue({
+      name: 'QGlobalDialog',
+
       el: node,
+      parent: parent === void 0 ? root : parent,
 
       render (h) {
         return h(DialogComponent, {

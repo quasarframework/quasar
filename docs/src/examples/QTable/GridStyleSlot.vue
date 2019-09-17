@@ -178,7 +178,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .grid-style-transition
-  transition transform .28s, background-color .28s
+  transition: transform .28s, background-color .28s
 </style>

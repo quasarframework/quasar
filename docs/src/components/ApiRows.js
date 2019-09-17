@@ -1,4 +1,4 @@
-import './ApiRows.styl'
+import './ApiRows.sass'
 
 function getEventParams (event) {
   const params = event.params === void 0 || event.params.length === 0
@@ -44,6 +44,12 @@ function getStringType (type) {
     : type
 }
 
+const NAME_PROP_COLOR = [
+  'orange-8',
+  'accent',
+  'secondary'
+]
+
 export default {
   name: 'ApiRows',
 
@@ -58,18 +64,23 @@ export default {
       return h('div', { staticClass: `api-row__item col-xs-12 col-sm-${col}` }, [
         h('div', [ propName ]),
         propValue !== void 0
-          ? h('div', { staticClass: ' api-row__value' }, [ propValue ])
+          ? h('div', { staticClass: 'api-row__value' }, [ propValue ])
           : slot
       ])
     },
 
-    getProp (h, prop, propName, onlyChildren) {
+    getProp (h, prop, propName, level, onlyChildren) {
       const type = getStringType(prop.type)
       const child = []
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 4, 'Name', h('q-badge', [ propName ]))
+          this.getDiv(h, 4, 'Name', h('q-badge', {
+            props: {
+              color: NAME_PROP_COLOR[level],
+              label: propName
+            }
+          }))
         )
 
         if (type !== void 0) {
@@ -89,6 +100,12 @@ export default {
             this.getDiv(h, 3, 'Reactive', 'yes')
           )
         }
+      }
+
+      if (prop.addedIn !== void 0) {
+        child.push(
+          this.getDiv(h, 12, 'Added in', prop.addedIn)
+        )
       }
 
       child.push(
@@ -129,7 +146,7 @@ export default {
         const nodes = []
         for (let propName in prop.definition) {
           nodes.push(
-            this.getProp(h, prop.definition[propName], propName)
+            this.getProp(h, prop.definition[propName], propName, 2)
           )
         }
 
@@ -147,10 +164,13 @@ export default {
       }
 
       if (prop.params !== void 0 && prop.params !== null) {
-        const nodes = []
+        const
+          nodes = [],
+          newLevel = (level + 1) % NAME_PROP_COLOR.length
+
         for (let propName in prop.params) {
           nodes.push(
-            this.getProp(h, prop.params[propName], propName)
+            this.getProp(h, prop.params[propName], propName, newLevel)
           )
         }
 
@@ -175,7 +195,7 @@ export default {
             h(
               'div',
               { staticClass: 'api-row__subitem' },
-              [ this.getProp(h, prop.returns, void 0) ]
+              [ this.getProp(h, prop.returns, void 0, 0) ]
             )
           )
         )
@@ -185,7 +205,7 @@ export default {
         const nodes = []
         for (let propName in prop.scope) {
           nodes.push(
-            this.getProp(h, prop.scope[propName], propName)
+            this.getProp(h, prop.scope[propName], propName, 1)
           )
         }
 
@@ -210,7 +230,9 @@ export default {
             h(
               'div',
               { staticClass: 'api-row--indent api-row__value' },
-              prop.examples.map(example => h('div', [ example ]))
+              prop.examples.map(example => h('div', {
+                staticClass: 'api-row__example'
+              }, [ example ]))
             )
           )
         )
@@ -226,7 +248,7 @@ export default {
 
       for (let propName in props) {
         child.push(
-          this.getProp(h, props[propName], propName)
+          this.getProp(h, props[propName], propName, 0)
         )
       }
 
@@ -239,7 +261,15 @@ export default {
       for (let slot in slots) {
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h('q-badge', [ slot ])),
+            this.getDiv(h, 12, 'Name', h('q-badge', {
+              props: {
+                color: NAME_PROP_COLOR[0],
+                label: slot
+              }
+            })),
+            slots[slot].addedIn !== void 0
+              ? this.getDiv(h, 12, 'Added in', slots[slot].addedIn)
+              : null,
             this.getDiv(h, 12, 'Description', slots[slot].desc)
           ])
         )
@@ -253,7 +283,7 @@ export default {
 
       for (let slot in scopedSlots) {
         child.push(
-          this.getProp(h, scopedSlots[slot], slot)
+          this.getProp(h, scopedSlots[slot], slot, 0)
         )
       }
 
@@ -282,7 +312,7 @@ export default {
         if (event.params !== void 0) {
           for (let paramName in event.params) {
             params.push(
-              this.getProp(h, event.params[paramName], paramName)
+              this.getProp(h, event.params[paramName], paramName, 1)
             )
           }
         }
@@ -294,9 +324,15 @@ export default {
 
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h('q-badge', [
-              `@${eventName}${getEventParams(event)}`
-            ])),
+            this.getDiv(h, 12, 'Name', h('q-badge', {
+              props: {
+                color: NAME_PROP_COLOR[0],
+                label: `@${eventName}${getEventParams(event)}`
+              }
+            })),
+            event.addedIn !== void 0
+              ? this.getDiv(h, 12, 'Added in', event.addedIn)
+              : null,
             this.getDiv(h, 12, 'Description', event.desc),
             this.getDiv(h, 12,
               'Parameters',
@@ -321,9 +357,15 @@ export default {
         const method = methods[methodName]
 
         const nodes = [
-          this.getDiv(h, 12, 'Name', h('q-badge', [
-            `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
-          ])),
+          this.getDiv(h, 12, 'Name', h('q-badge', {
+            props: {
+              color: NAME_PROP_COLOR[0],
+              label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
+            }
+          })),
+          method.addedIn !== void 0
+            ? this.getDiv(h, 12, 'Added in', method.addedIn)
+            : null,
           this.getDiv(h, 12, 'Description', method.desc)
         ]
 
@@ -331,7 +373,7 @@ export default {
           const props = []
           for (let paramName in method.params) {
             props.push(
-              this.getProp(h, method.params[paramName], paramName)
+              this.getProp(h, method.params[paramName], paramName, 1)
             )
           }
           nodes.push(
@@ -354,7 +396,7 @@ export default {
               h(
                 'div',
                 { staticClass: 'api-row__subitem' },
-                [ this.getProp(h, method.returns, void 0) ]
+                [ this.getProp(h, method.returns, void 0, 0) ]
               )
             )
           )
@@ -372,7 +414,7 @@ export default {
       return [
         h('div', { staticClass: 'api-row row' }, [
           this.getDiv(h, 12, 'Type', getStringType(value.type))
-        ].concat(this.getProp(h, value, void 0, true)))
+        ].concat(this.getProp(h, value, void 0, 0, true)))
       ]
     },
 
@@ -380,7 +422,7 @@ export default {
       return [
         h('div', { staticClass: 'api-row row' }, [
           this.getDiv(h, 12, 'Type', getStringType(arg.type))
-        ].concat(this.getProp(h, arg, void 0, true)))
+        ].concat(this.getProp(h, arg, void 0, 0, true)))
       ]
     },
 
@@ -395,8 +437,13 @@ export default {
             'div',
             { staticClass: 'api-row row' },
             [
-              this.getDiv(h, 12, 'Name', h('q-badge', [ modifierName ]))
-            ].concat(this.getProp(h, modifier, void 0, true))
+              this.getDiv(h, 12, 'Name', h('q-badge', {
+                props: {
+                  color: NAME_PROP_COLOR[0],
+                  label: modifierName
+                }
+              }))
+            ].concat(this.getProp(h, modifier, void 0, 0, true))
           )
         )
       }
@@ -417,13 +464,16 @@ export default {
 
       for (let def in conf.definition) {
         child.push(
-          this.getProp(h, conf.definition[def], def)
+          this.getProp(h, conf.definition[def], def, 0)
         )
       }
 
       return [
         h('div', { staticClass: 'api-row row' }, [
           this.getDiv(h, 12, 'Property Name', conf.propName),
+          conf.addedIn !== void 0
+            ? this.getDiv(h, 12, 'Added in', conf.addedIn)
+            : null,
           this.getDiv(h, 12,
             'Definition',
             void 0,

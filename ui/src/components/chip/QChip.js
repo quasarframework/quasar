@@ -136,7 +136,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    if (!this.value) { return }
+    if (this.value === false) { return }
 
     const data = this.isClickable ? {
       attrs: { tabindex: this.computedTabindex },

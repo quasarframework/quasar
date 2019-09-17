@@ -6,6 +6,12 @@
   },
 
   "props": {
+    "round": {
+      "type": "Boolean",
+      "desc": "Makes a circle shaped button",
+      "category": "style"
+    },
+
     "percentage": {
       "type": "Number",
       "desc": "Percentage (0.0 < x < 100.0); To be used along 'loading' prop; Display a progress bar on the background",
@@ -27,6 +33,19 @@
 
     "loading": {
       "desc": "Override the default QSpinner when in 'loading' state"
+    }
+  },
+
+  "methods": {
+    "click": {
+      "desc": "Emulate click on QBtn",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
     }
   }
 }

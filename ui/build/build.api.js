@@ -3,7 +3,8 @@ const
   path = require('path'),
   merge = require('webpack-merge'),
   fs = require('fs'),
-  { logError, writeFile } = require('./build.utils')
+  { logError, writeFile } = require('./build.utils'),
+  ast = require('./ast')
 
 const
   root = path.resolve(__dirname, '..'),
@@ -42,28 +43,28 @@ const topSections = {
 
 const objectTypes = {
   Boolean: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn' ],
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples' ]
   },
 
   String: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Number: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
     isArray: [ 'examples', 'values' ]
   },
 
   Object: {
-    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category' ],
+    props: [ 'tsInjectionPoint', 'tsType', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn' ],
     required: [ 'desc', 'examples' ],
     recursive: [ 'definition' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
@@ -72,7 +73,7 @@ const objectTypes = {
   },
 
   Array: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'examples', 'category', 'addedIn' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
@@ -80,7 +81,7 @@ const objectTypes = {
   },
 
   Promise: {
-    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category' ],
+    props: [ 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'examples', 'category', 'addedIn' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition' ],
@@ -88,7 +89,7 @@ const objectTypes = {
   },
 
   Function: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'default', 'params', 'returns', 'examples', 'category', 'addedIn' ],
     required: [ 'desc', 'params', 'returns' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'params', 'returns' ],
@@ -97,7 +98,7 @@ const objectTypes = {
   },
 
   MultipleTypes: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'definition', 'params', 'returns', 'examples', 'category', 'addedIn' ],
     required: [ 'desc', 'examples' ],
     isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
     isObject: [ 'definition', 'params', 'returns' ],
@@ -118,26 +119,26 @@ const objectTypes = {
 
   // component only
   slots: {
-    props: [ 'desc', 'link' ],
+    props: [ 'desc', 'link', 'addedIn' ],
     required: [ 'desc' ]
   },
 
   // component only
   scopedSlots: {
-    props: [ 'desc', 'link', 'scope' ],
+    props: [ 'desc', 'link', 'scope', 'addedIn' ],
     required: [ 'desc', 'scope' ],
     isObject: [ 'scope' ]
   },
 
   // component only
   events: {
-    props: [ 'desc', 'link', 'params' ],
+    props: [ 'desc', 'link', 'params', 'addedIn' ],
     required: [ 'desc' ],
     isObject: [ 'params' ]
   },
 
   methods: {
-    props: [ 'tsInjectionPoint', 'desc', 'link', 'params', 'returns' ],
+    props: [ 'tsInjectionPoint', 'desc', 'link', 'params', 'returns', 'addedIn' ],
     required: [ 'desc' ],
     isBoolean: [ 'tsInjectionPoint' ],
     isObject: [ 'params', 'returns' ]
@@ -145,7 +146,7 @@ const objectTypes = {
 
   // plugin only
   quasarConfOptions: {
-    props: [ 'propName', 'definition', 'link' ],
+    props: [ 'propName', 'definition', 'link', 'addedIn' ],
     required: [ 'propName', 'definition' ]
   }
 }
@@ -394,6 +395,25 @@ function orderAPI (api, apiType) {
   return ordered
 }
 
+const astExceptions = {
+  'QCircularProgress.json': {
+    props: {
+      instantFeedback: true
+    }
+  },
+
+  'QTable.json': {
+    methods: {
+      getBody: true
+    }
+  },
+  'QField.json': {
+    props: {
+      maxValues: true
+    }
+  }
+}
+
 function fillAPI (apiType) {
   return file => {
     const
@@ -401,6 +421,38 @@ function fillAPI (apiType) {
       filePath = path.join(dest, name)
 
     const api = orderAPI(parseAPI(file, apiType), apiType)
+
+    if (apiType === 'component') {
+      const definition = fs.readFileSync(file.replace('.json', '.js'), {
+        encoding: 'utf-8'
+      })
+
+      ast.evaluate(definition, topSections[apiType], (prop, key) => {
+        if (key.startsWith('__')) {
+          return
+        }
+
+        if (
+          astExceptions[name] !== void 0 &&
+          astExceptions[name][prop] !== void 0 &&
+          astExceptions[name][prop][key] === true
+        ) {
+          return
+        }
+
+        if (prop === 'props') {
+          key = key.replace(/([a-z])([A-Z])/g, '$1-$2')
+            .replace(/\s+/g, '-')
+            .toLowerCase()
+        }
+
+
+        if (api[prop] === void 0 || api[prop][key] === void 0) {
+          logError(`${name}: missing "${prop}" -> "${key}" definition`)
+          process.exit(1)
+        }
+      })
+    }
 
     // copy API file to dest
     writeFile(filePath, JSON.stringify(api, null, 2))

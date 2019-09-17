@@ -8,7 +8,7 @@ let
   vm = null,
   timeout,
   props = {},
-  defaults = {
+  originalDefaults = {
     delay: 0,
     message: false,
     spinnerSize: 80,
@@ -17,7 +17,8 @@ let
     backgroundColor: 'black',
     spinner: QSpinner,
     customClass: ''
-  }
+  },
+  defaults = { ...originalDefaults }
 
 export default {
   isActive: false,
@@ -25,16 +26,16 @@ export default {
   show (opts) {
     if (isSSR === true) { return }
 
-    props = { ...defaults, ...opts }
+    props = opts === Object(opts) && opts.ignoreDefaults === true
+      ? { ...originalDefaults, ...opts }
+      : { ...defaults, ...opts }
+
     props.customClass += ` text-${props.backgroundColor}`
 
-    if (this.isActive) {
-      if (vm) {
-        if (!vm.isActive) {
-          vm.isActive = true
-        }
-        vm.$forceUpdate()
-      }
+    this.isActive = true
+
+    if (vm) {
+      vm.$forceUpdate()
       return
     }
 
@@ -47,13 +48,10 @@ export default {
 
       vm = new Vue({
         name: 'QLoading',
+
         el: node,
-        data () {
-          return {
-            isActive: true
-          }
-        },
-        render (h) {
+
+        render: (h) => {
           return h('transition', {
             props: {
               name: 'q-transition--fade',
@@ -61,7 +59,14 @@ export default {
             },
             on: {
               'after-leave': () => {
-                this.$emit('destroy')
+                // might be called to finalize
+                // previous leave, even if it was cancelled
+                if (!this.isActive && vm) {
+                  vm.$destroy()
+                  document.body.classList.remove('q-body--loading')
+                  vm.$el.remove()
+                  vm = null
+                }
               }
             }
           }, [
@@ -87,31 +92,16 @@ export default {
         }
       })
     }, props.delay)
-
-    this.isActive = true
   },
 
   hide () {
-    if (!this.isActive) {
-      return
-    }
+    if (this.isActive) {
+      if (timeout) {
+        clearTimeout(timeout)
+        timeout = null
+      }
 
-    if (timeout) {
-      clearTimeout(timeout)
-      timeout = null
       this.isActive = false
-    }
-    else {
-      vm.isActive = false
-      vm.$on('destroy', () => {
-        if (vm !== null) {
-          vm.$destroy()
-          document.body.classList.remove('q-body--loading')
-          vm.$el.remove()
-          vm = null
-        }
-        this.isActive = false
-      })
     }
   },
 

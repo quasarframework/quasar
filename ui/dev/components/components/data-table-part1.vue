@@ -147,7 +147,6 @@
             <q-td key="desc" :props="props">
               {{ props.row.name }}
               <q-popup-edit
-                ref="popupEdit"
                 content-class="bg-primary text-white"
                 buttons
                 color="white"
@@ -191,6 +190,25 @@
             </q-td>
             <q-td key="sodium" :props="props">
               {{ props.row.sodium }}
+              <q-popup-edit persistent v-model="props.row.sodium" :validate="val => val > 10">
+                <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
+                  <q-input
+                    autofocus
+                    dense
+                    :value="value"
+                    hint="Sodium level"
+                    :rules="[
+                      val => validate(value) || 'Please enter more than 10'
+                    ]"
+                    @input="emitValue"
+                  >
+                    <template v-slot:after>
+                      <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
+                      <q-btn flat dense color="positive" icon="save" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
+                    </template>
+                  </q-input>
+                </template>
+              </q-popup-edit>
             </q-td>
             <q-td key="calcium" :props="props">
               {{ props.row.calcium }}
@@ -415,6 +433,22 @@
         <template v-slot:header-cell="props">
           <q-th :props="props">
             # {{ props.col.label }}
+          </q-th>
+        </template>
+      </q-table>
+
+      <h2>header-cell-[name]</h2>
+      <q-table
+        :data="data"
+        :columns="columns"
+        :title="title"
+        :filter="filter"
+        row-key="name"
+      >
+        <template v-slot:header-cell-calories="props">
+          <q-th :props="props">
+            <q-icon size="1.5em" name="thumb_up" />
+            {{ props.col.label }}
           </q-th>
         </template>
       </q-table>

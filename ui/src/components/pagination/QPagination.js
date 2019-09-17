@@ -82,10 +82,11 @@ export default Vue.extend({
         return this.value
       },
       set (val) {
-        if (this.disable || !val || isNaN(val)) {
+        val = parseInt(val, 10)
+        if (this.disable || isNaN(val) || val === 0) {
           return
         }
-        const value = between(parseInt(val, 10), this.min, this.max)
+        const value = between(val, this.min, this.max)
         this.$emit('input', value)
       }
     },

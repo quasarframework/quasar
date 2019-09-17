@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/ripple" ],
+  "mixins": [ "mixins/ripple", "mixins/size" ],
 
   "props": {
     "type":{
@@ -46,12 +46,6 @@
       "extends": "icon"
     },
 
-    "round": {
-      "type": "Boolean",
-      "desc": "Makes a circle shaped button",
-      "category": "style"
-    },
-
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design",
@@ -85,13 +79,6 @@
     "glossy": {
       "type": "Boolean",
       "desc": "Applies a glossy effect",
-      "category": "style"
-    },
-
-    "size": {
-      "type": "String",
-      "desc": "Button size name or a CSS unit including unit name",
-      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
       "category": "style"
     },
 

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="hHh lpR fFf">
-    <q-header elevated class="bg-white text-grey-8 q-py-xs">
+    <q-header elevated class="bg-white text-grey-8 q-py-xs" height-hint="58">
       <q-toolbar>
         <q-btn
           flat
@@ -55,8 +55,8 @@
 
     <q-drawer
       v-model="leftDrawerOpen"
-      bordered
       show-if-above
+      bordered
       content-class="bg-grey-2"
       :width="240"
     >
@@ -195,27 +195,27 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .YL
 
   &__toolbar-input-container
-    min-width 100px
-    width 55%
+    min-width: 100px
+    width: 55%
 
   &__toolbar-input-btn
-    border-radius 0
-    border-style solid
-    border-width 1px 1px 1px 0
-    border-color rgba(0,0,0,.24)
-    max-width 60px
-    width 100%
+    border-radius: 0
+    border-style: solid
+    border-width: 1px 1px 1px 0
+    border-color: rgba(0,0,0,.24)
+    max-width: 60px
+    width: 100%
 
   &__drawer-footer-link
-    color inherit
-    text-decoration none
-    font-weight 500
-    font-size .75rem
+    color: inherit
+    text-decoration: none
+    font-weight: 500
+    font-size: .75rem
 
     &:hover
-      color #000
+      color: #000
 </style>

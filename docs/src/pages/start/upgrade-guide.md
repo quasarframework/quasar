@@ -164,7 +164,7 @@ The best way to start upgrading your project is to follow these steps:
 
 13) In `quasar.conf.js`: **remove** all references to `ctx.theme`
 
-14) **Create** the file `quasar.variables.styl` in the folder `~/src/css`, if does not already exist. Add the following to it (or move the contents from `~/src/css/themes/common.variables.styl`):
+14) **Create** the file `quasar.variables.styl` (or .sass, .scss -- recommended!) in the folder `~/src/css`, if does not already exist. Add the following to it (or move the contents from `~/src/css/themes/common.variables.styl`):
 
   ```stylus
   // Quasar Stylus Variables
@@ -252,7 +252,8 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 ### Misc
 
 - `this.$q.i18n` was changed to `this.$q.lang`
-- `import(`quasar-framework/i18n/${lang}`) was changed to `import(`quasar/lang/${lang}`)` where `${lang}` would be `en-us` etc.
+- ```import(`quasar-framework/i18n/${lang}`)``` was changed to ```import(`quasar/lang/${lang}`)``` where `${lang}` would be `en-us` etc.
+- The language pack `en-uk` was changed to `en-gb`
 - `this.$q.icons` was changed to `this.$q.iconSet`
 - In previous versions you would access an imported language packs isoName with:
 
@@ -375,10 +376,6 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 |`.capitalize`|`.text-capitalize`|
 |`.lowercase`|`.text-lowercase`|
 |`.uppercase`|`.text-uppercase`|
-|`.round-borders`|`.rounded-borders`|
-||`.no-border`|
-||`.no-border-radius`|
-||`.no-box-shadow`|
 
   </div>
   <div class="inline-block q-pa-md">
@@ -412,6 +409,9 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 |Legacy|v1|
 |-|-|
 |`.round-borders`|`.rounded-borders`|
+||`.no-border`|
+||`.no-border-radius`|
+||`.no-box-shadow`|
 
   </div>
 </div>
@@ -474,12 +474,15 @@ The colors `faded`, `dark`, `light` were removed. If you need those, re-add them
 
 ### Directives
 
+- BackToTop **was dropped** in favor of [Page Scroller](/layout/page-scroller).
+
 <div class="row">
   <div class="inline-block q-pa-md">
 
 |Legacy|v1|
 |-|-|
 |`v-close-overlay`|`v-close-popup`|
+|`v-back-to-top`||
 
   </div>
 </div>
@@ -996,9 +999,12 @@ The structure looks the same, but some functions have been renamed.
 
 - **replaced** by [QColor](/vue-components/color)
 - Type of `default-value` was changed from `string|object` to `string`
+
 <div class="row">
   <div class="inline-block q-pa-md">
+
 **QColor Properties**
+
 |Legacy|v1|
 |-|-|
 |`after`||
@@ -1023,21 +1029,28 @@ The structure looks the same, but some functions have been renamed.
 |`stack-label`||
 |`suffix`||
 |`warning`||
+
   </div>
   <div class="inline-block q-pa-md">
+
 **QColor Events**
+
 |Legacy|v1|
 |-|-|
 |`@clear(clearVal)`||
+
   </div>
   <div class="inline-block q-pa-md">
+
 **QColor Methods**
+
 |Legacy|v1|
 |-|-|
 |`clear()`||
 |`hide()`||
 |`show()`||
 |`toggle()`||
+
   </div>
 </div>
 
@@ -1141,7 +1154,7 @@ The structure looks the same, but some functions have been renamed.
   </div>
   <div class="inline-block q-pa-md">
 
-**QDialog**
+**QDialog Slots**
 
 |Legacy|v1|
 |-|-|
@@ -1462,7 +1475,7 @@ Replace `:handler` with `@load`.
 |-|-|
 |`@resize()`|`@resize(size)`|
 |`@scroll()`|`@scroll(details)`|
-|`@scrollHeight()`|`@scroll-height(height)`|
+|`@scroll-height()`|`@scroll-height(height)`|
 
   </div>
 </div>

@@ -34,7 +34,7 @@ Here are our discussion/Q&A venues:
 Apart from answering questions and sharing resources in the forum and chat, there are a few other less obvious ways to share and expand what you know:
 
 * **Develop learning materials**. It’s often said that the best way to learn is to teach. If there’s something interesting you’re doing with Quasar, strengthen your expertise by writing a blog post, developing a workshop, or even publishing a gist that you share on social media.
-* **Share your tech stack**. Show others which technologies are well tested and can be integrated with Quasar. Promote your project and [fill out your favourite Quasar-based stack](https://stackshare.io/tool/quasar-framework/decisions). Make sure to mention @Quasarframework and all other relevant technologies.
+* **Share your tech stack**. Show others which technologies are well tested and can be integrated with Quasar. Promote your project and [fill out your favorite Quasar-based stack](https://stackshare.io/tool/quasar-framework/decisions). Make sure to mention @Quasarframework and all other relevant technologies.
 * **Watch a repo you care about**. This will send you notifications whenever there’s activity in that repository, giving you insider knowledge about ongoing discussions and upcoming features. It’s a fantastic way to build expertise so that you’re eventually able to help address issues and pull requests.
 
 ## Reporting an Issue
@@ -189,6 +189,10 @@ No conflicts? Tests still pass? Change still seems reasonable to you? Then move 
 Navigate to your repository you just pushed to (e.g. https://github.com/your-user-name/quasar) and click on "New Pull Request" seen in the left top panel.
 
 Ensure the changesets you introduced are included. Fill in some details about your potential patch including a meaningful title. When finished, press Click on "Create pull request". The Quasar core team will be notified about your submission.
+
+## Write your Story 
+
+We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium pulblication channel and we'll also make sure your article gets the attention it deservers with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you! 
 
 ## Create new Quasar App Extension
 

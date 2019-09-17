@@ -131,7 +131,7 @@
       }
     },
 
-    "setOffset": {
+    "setByOffset": {
       "desc": "Increment/Decrement current page by offset",
       "params": {
         "offset": {

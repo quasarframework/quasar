@@ -138,6 +138,8 @@ function upgradeQuasar () {
   }
 
   if (!updateAvailable) {
+    // The string `Congrats!` in the following log line is parsed by
+    // @quasar/wizard AE. Do not change under any circumstances.
     console.log('  Congrats! All Quasar packages are up to date.\n')
     return
   }

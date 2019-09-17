@@ -1,17 +1,13 @@
 export default function (fn, limit = 250) {
-  let wait = false
-  let result
+  let wait = false, result
 
-  return function (...args) {
-    if (wait) {
-      return result
+  return function (/* ...args */) {
+    if (wait === false) {
+      wait = true
+      setTimeout(() => { wait = false }, limit)
+      result = fn.apply(this, arguments)
     }
 
-    wait = true
-    result = fn.apply(this, args)
-    setTimeout(() => {
-      wait = false
-    }, limit)
     return result
   }
 }

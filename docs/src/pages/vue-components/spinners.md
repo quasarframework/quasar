@@ -34,6 +34,8 @@ Please note that by default, QSpinner and all other spinners inherit the font-si
 
 <doc-example title="Size" file="QSpinner/Size" />
 
+<doc-example title="Standard sizes" file="QSpinner/StandardSizes" />
+
 ## QSpinner API
 
 <doc-api file="QSpinner" />

@@ -130,13 +130,24 @@
           "desc": "Object of properties on the new model",
           "definition": {
             "year": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
             },
             "month": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
             },
             "day": {
-              "type": "Number"
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            },
+            "changed": {
+              "type": "Boolean",
+              "desc": "Did the model change?",
+              "addedIn": "v1.1.1"
             }
           }
         }

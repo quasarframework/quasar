@@ -56,7 +56,10 @@ export default Vue.extend({
 
     __cleanup () {
       if (this.curDocView !== void 0) {
-        this.curDocView.removeEventListener('resize', this.trigger, listenOpts.passive)
+        // iOS is fuzzy, need to check it first
+        if (this.curDocView.removeEventListener !== void 0) {
+          this.curDocView.removeEventListener('resize', this.trigger, listenOpts.passive)
+        }
         this.curDocView = void 0
       }
     },

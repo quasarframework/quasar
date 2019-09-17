@@ -1,9 +1,11 @@
 import Vue from 'vue'
 
+import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
+import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
 import { create, stop, stopAndPrevent } from '../../utils/event.js'
@@ -19,20 +21,17 @@ const positionClass = {
 }
 
 const transitions = {
-  top: ['down', 'up'],
-  bottom: ['up', 'down'],
-  right: ['left', 'right'],
-  left: ['right', 'left']
+  standard: ['scale', 'scale'],
+  top: ['slide-down', 'slide-up'],
+  bottom: ['slide-up', 'slide-down'],
+  right: ['slide-left', 'slide-right'],
+  left: ['slide-right', 'slide-left']
 }
 
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
-
-  modelToggle: {
-    history: true
-  },
+  mixins: [ HistoryMixin, ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 
   props: {
     persistent: Boolean,
@@ -60,14 +59,8 @@ export default Vue.extend({
       }
     },
 
-    transitionShow: {
-      type: String,
-      default: 'scale'
-    },
-    transitionHide: {
-      type: String,
-      default: 'scale'
-    }
+    transitionShow: String,
+    transitionHide: String
   },
 
   data () {
@@ -77,15 +70,8 @@ export default Vue.extend({
   },
 
   watch: {
-    $route () {
-      this.persistent !== true &&
-        this.noRouteDismiss !== true &&
-        this.seamless !== true &&
-        this.hide()
-    },
-
     showing (val) {
-      if (this.position !== 'standard' || this.transitionShow !== this.transitionHide) {
+      if (this.transitionShowComputed !== this.transitionHideComputed) {
         this.$nextTick(() => {
           this.transitionState = val
         })
@@ -99,15 +85,9 @@ export default Vue.extend({
       }
     },
 
-    seamless (v) {
-      this.showing === true && this.__preventScroll(!v)
-    },
-
     useBackdrop (v) {
-      if (this.$q.platform.is.desktop === true) {
-        const action = `${v === true ? 'add' : 'remove'}EventListener`
-        document.body[action]('focusin', this.__onFocusChange)
-      }
+      this.__preventScroll(v)
+      this.__preventFocusout(v)
     }
   },
 
@@ -120,16 +100,28 @@ export default Vue.extend({
         (this.square === true ? ' q-dialog__inner--square' : '')
     },
 
+    transitionShowComputed () {
+      return 'q-transition--' + (this.transitionShow === void 0 ? transitions[this.position][0] : this.transitionShow)
+    },
+
+    transitionHideComputed () {
+      return 'q-transition--' + (this.transitionHide === void 0 ? transitions[this.position][1] : this.transitionHide)
+    },
+
     transition () {
-      return 'q-transition--' + (
-        this.position === 'standard'
-          ? (this.transitionState === true ? this.transitionHide : this.transitionShow)
-          : 'slide-' + transitions[this.position][this.transitionState === true ? 1 : 0]
-      )
+      return this.transitionState === true
+        ? this.transitionHideComputed
+        : this.transitionShowComputed
     },
 
     useBackdrop () {
       return this.showing === true && this.seamless !== true
+    },
+
+    hideOnRouteChange () {
+      return this.persistent !== true &&
+        this.noRouteDismiss !== true &&
+        this.seamless !== true
     }
   },
 
@@ -139,13 +131,6 @@ export default Vue.extend({
 
       if (node === void 0 || node.contains(document.activeElement) === true) {
         return
-      }
-
-      if (this.$q.platform.is.ios) {
-        // workaround the iOS hover/touch issue
-        this.avoidAutoClose = true
-        node.click()
-        this.avoidAutoClose = false
       }
 
       node = node.querySelector('[autofocus]') || node
@@ -174,7 +159,7 @@ export default Vue.extend({
     },
 
     __show (evt) {
-      clearTimeout(this.timer)
+      this.__addHistory()
 
       this.__refocusTarget = this.noRefocus === false
         ? document.activeElement
@@ -201,54 +186,47 @@ export default Vue.extend({
       if (this.noFocus !== true) {
         document.activeElement.blur()
 
-        this.$nextTick(() => {
+        this.__nextTick(() => {
           this.focus()
         })
       }
 
-      if (this.$q.platform.is.desktop === true && this.useBackdrop === true) {
-        document.body.addEventListener('focusin', this.__onFocusChange)
-      }
-
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.$emit('show', evt)
       }, 300)
     },
 
     __hide (evt) {
+      this.__removeHistory()
       this.__cleanup(true)
 
-      if (this.__refocusTarget !== void 0) {
+      // check null for IE
+      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
         this.__refocusTarget.focus()
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
     },
 
     __cleanup (hiding) {
-      clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
-
-      if (this.$q.platform.is.desktop === true && this.seamless !== true) {
-        document.body.removeEventListener('focusin', this.__onFocusChange)
-      }
 
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
         this.__updateState(false, this.maximized)
+        if (this.useBackdrop === true) {
+          this.__preventScroll(false)
+          this.__preventFocusout(false)
+        }
       }
     },
 
     __updateState (opening, maximized) {
-      if (this.seamless !== true) {
-        this.__preventScroll(opening)
-      }
-
       if (maximized === true) {
         if (opening === true) {
           maximizedModals < 1 && document.body.classList.add('q-body--dialog')
@@ -260,11 +238,16 @@ export default Vue.extend({
       }
     },
 
-    __onAutoClose (e) {
-      if (this.avoidAutoClose !== true) {
-        this.hide(e)
-        this.$listeners.click !== void 0 && this.$emit('click', e)
+    __preventFocusout (state) {
+      if (this.$q.platform.is.desktop === true) {
+        const action = `${state === true ? 'add' : 'remove'}EventListener`
+        document.body[action]('focusin', this.__onFocusChange)
       }
+    },
+
+    __onAutoClose (e) {
+      this.hide(e)
+      this.$listeners.click !== void 0 && this.$emit('click', e)
     },
 
     __onBackdropClick (e) {
@@ -281,10 +264,8 @@ export default Vue.extend({
 
       if (
         node !== void 0 &&
-        this.__portal.$el !== void 0 &&
-        // we don't have another portal opened:
-        this.__portal.$el.nextElementSibling === null &&
-        this.__portal.$el.contains(e.target) !== true
+        // the focus is not in a vue child component
+        childHasFocus(this.__portal.$el, e.target) !== true
       ) {
         node.focus()
       }
@@ -330,15 +311,11 @@ export default Vue.extend({
           }, slot(this, 'default')) : null
         ])
       ])
-    },
-
-    __onPortalClose (evt) {
-      this.hide(evt)
     }
   },
 
   mounted () {
-    this.value === true && this.show()
+    this.__processModelChange(this.value)
   },
 
   beforeDestroy () {

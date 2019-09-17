@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .my-picker
-  width 250px
+  width: 250px
 </style>

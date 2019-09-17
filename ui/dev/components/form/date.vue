@@ -159,7 +159,7 @@
         />
 
         <q-input :dark="dark" filled v-model="dateNeg">
-          <q-icon slot="append" name="event" class="cursor-pointer">
+          <q-icon slot="append" name="event" class="cursor-pointer" @click.prevent>
             <q-popup-proxy>
               <q-date
                 v-model="dateNeg"
@@ -194,7 +194,7 @@
       </div>
       <div class="q-gutter-md column">
         <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
-          <q-icon slot="append" name="event" class="cursor-pointer">
+          <q-icon slot="append" name="event" class="cursor-pointer" @click.prevent>
             <q-popup-proxy>
               <q-date
                 v-model="input"
@@ -212,7 +212,7 @@
       <div class="q-gutter-md column">
         <q-input :dark="dark" filled v-model="inputFull">
           <template v-slot:append>
-            <q-icon name="event" class="cursor-pointer">
+            <q-icon name="event" class="cursor-pointer" @click.prevent>
               <q-popup-proxy ref="qDateProxy1">
                 <q-date
                   v-model="inputFull"
@@ -224,7 +224,7 @@
                 />
               </q-popup-proxy>
             </q-icon>
-            <q-icon name="access_time" class="cursor-pointer">
+            <q-icon name="access_time" class="cursor-pointer" @click.prevent>
               <q-popup-proxy ref="qDateProxy2">
                 <q-time
                   v-model="inputFull"

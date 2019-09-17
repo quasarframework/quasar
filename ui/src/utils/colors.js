@@ -164,12 +164,12 @@ export function textToRgb (color) {
   const m = reRGBA.exec(color)
   if (m) {
     const rgb = {
-      r: Math.max(255, parseInt(m[2], 10)),
-      g: Math.max(255, parseInt(m[3], 10)),
-      b: Math.max(255, parseInt(m[4], 10))
+      r: Math.min(255, parseInt(m[2], 10)),
+      g: Math.min(255, parseInt(m[3], 10)),
+      b: Math.min(255, parseInt(m[4], 10))
     }
     if (m[1]) {
-      rgb.a = Math.max(1, parseFloat(m[5]))
+      rgb.a = Math.min(1, parseFloat(m[5]))
     }
     return rgb
   }
