@@ -9,7 +9,7 @@ export default function connect () {
   window.QBexInit({
     connect (cb) {
       const port = chrome.runtime.connect({
-        name: 'bex_app'
+        name: 'app'
       })
 
       let disconnected = false

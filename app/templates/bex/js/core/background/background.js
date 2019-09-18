@@ -10,25 +10,40 @@
 import attachActivatedBackgroundHooks from '../../activatedBackgroundHooks'
 import attachGlobalBackgroundHooks from '../../globalBackgroundHooks'
 import Bridge from '../bridge'
-let bridge = null
+
+const connections = {}
 
 attachGlobalBackgroundHooks(chrome)
 
-const connections = {
-  bex_app: null,
-  bex_content_script: null
+/**
+ * Create a link between App and ContentScript connections
+ * The link will be mapped on a messaging level
+ * @param port
+ */
+const addConnection = (port) => {
+  const
+    tab = port.sender.tab,
+    connectionId = tab.id + ':' + tab.windowId
+
+  let currentConnection = connections[connectionId]
+  if (!currentConnection) {
+    currentConnection = connections[connectionId] = {}
+  }
+
+  currentConnection[port.name] = port
 }
 
 chrome.runtime.onConnect.addListener(port => {
-  const
-    name = port.name
-
   let disconnected = false
   port.onDisconnect.addListener(() => {
     disconnected = true
   })
 
-  bridge = new Bridge({
+  // Add this port to our pool of connections
+  addConnection(port)
+
+  // Create a comms layer between the background script and the App / ContentScript
+  const bridge = new Bridge({
     listen (fn) {
       port.onMessage.addListener(fn)
     },
@@ -39,38 +54,39 @@ chrome.runtime.onConnect.addListener(port => {
     }
   })
 
-  connections[name] = port
-
   attachActivatedBackgroundHooks(chrome, bridge)
 
-  if (connections.bex_app && connections.bex_content_script) {
-    doublePipe(name, connections.bex_app, connections.bex_content_script)
+  // Map a messaging layer between the App and ContentScript
+  for (let connectionId of Object.keys(connections)) {
+    const connection = connections[connectionId]
+    if (connection.app && connection.contentScript) {
+      mapConnections(name, connection.app, connection.contentScript)
+    }
   }
 })
 
-function doublePipe (id, bexApp, bexContentScript) {
-  // Content script to bex app
-  function lOne (message) {
-    bexContentScript.postMessage(message)
+function mapConnections (id, app, contentScript) {
+  // Send message from content script to app
+  const lOne = (message) => {
+    contentScript.postMessage(message)
   }
 
-  // Bex app to content script
-  function lTwo (message) {
-    bexApp.postMessage(message)
+  // Send message from app to content script
+  const lTwo = (message) => {
+    app.postMessage(message)
   }
 
-  function shutdown () {
-    bexApp.onMessage.removeListener(lOne)
-    bexContentScript.onMessage.removeListener(lTwo)
+  const shutdown = () => {
+    app.onMessage.removeListener(lOne)
+    contentScript.onMessage.removeListener(lTwo)
 
-    bexApp.disconnect()
-    bexContentScript.disconnect()
-    connections[id] = null
+    app.disconnect()
+    contentScript.disconnect()
   }
 
-  bexApp.onMessage.addListener(lOne)
-  bexApp.onDisconnect.addListener(shutdown)
+  app.onMessage.addListener(lOne)
+  app.onDisconnect.addListener(shutdown)
 
-  bexContentScript.onMessage.addListener(lTwo)
-  bexContentScript.onDisconnect.addListener(shutdown)
+  contentScript.onMessage.addListener(lTwo)
+  contentScript.onDisconnect.addListener(shutdown)
 }

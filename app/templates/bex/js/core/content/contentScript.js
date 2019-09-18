@@ -3,14 +3,14 @@
  * DO NOT EDIT.
  *
  * You are probably looking into adding hooks in your code. This should be done by means of
- * src-bex/activatedContentHooks (which have access to the browser instance and communication bridge)
+ * src-bex/activatedContentHooks (which has access to the browser instance and communication bridge)
  **/
 
 import Bridge from '../bridge'
 import attachActivatedContentHooks from '../../activatedContentHooks'
 
 const port = chrome.runtime.connect({
-  name: 'bex_content_script'
+  name: 'contentScript'
 })
 
 let disconnected = false
