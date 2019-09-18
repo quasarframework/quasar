@@ -14,9 +14,9 @@ export default {
     linkClick (e, go) {
       e.navigate = false // we choose when we navigate
 
-      console.log('triggering navigation in 2s')
+      // console.log('triggering navigation in 2s')
       setTimeout(() => {
-        console.log('navigating as promised 2s ago')
+        // console.log('navigating as promised 2s ago')
         go()
       }, 2000)
     }

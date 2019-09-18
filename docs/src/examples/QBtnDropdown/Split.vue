@@ -42,11 +42,11 @@
 export default {
   methods: {
     onMainClick () {
-      console.log('Clicked on main button')
+      // console.log('Clicked on main button')
     },
 
     onItemClick () {
-      console.log('Clicked on an Item')
+      // console.log('Clicked on an Item')
     }
   }
 }

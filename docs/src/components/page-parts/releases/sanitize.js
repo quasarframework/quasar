@@ -73,7 +73,6 @@ HtmlWhitelistedSanitizer.makeUrlSanitizer = function (allowedUrls) {
       return ''
     }
     for (var i in allowedUrls) {
-      console.log(allowedUrls[i])
       if (str.startsWith(allowedUrls[i])) {
         return str
       }
@@ -114,7 +113,6 @@ HtmlWhitelistedSanitizer.prototype.sanitizeNode = function (node) {
   }
   if (!this.allowedTags.hasOwnProperty(nodeName)) {
     // this node isn't allowed
-    console.log('forbidden node: ' + nodeName)
     if (this.escape) {
       return this.doc.createTextNode(node.outerHTML)
     }
