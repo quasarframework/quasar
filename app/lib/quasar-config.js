@@ -451,7 +451,6 @@ class QuasarConfig {
 
     if (this.ctx.mode.ssr) {
       Object.assign(cfg.build, {
-        extractCSS: false,
         vueRouterMode: 'history',
         publicPath: '/',
         gzip: false
