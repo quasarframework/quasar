@@ -200,13 +200,11 @@ export default Vue.extend({
       this.stopValueWatcher = false
       delete this.tempValue
 
-      if (this.type !== 'file') {
-        this.$nextTick(() => {
-          if (this.$refs.input !== void 0) {
-            this.$refs.input.value = this.innerValue
-          }
-        })
-      }
+      this.type !== 'file' && this.$nextTick(() => {
+        if (this.$refs.input !== void 0) {
+          this.$refs.input.value = this.innerValue
+        }
+      })
     },
 
     __getControl (h) {
