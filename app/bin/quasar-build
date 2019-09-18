@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+if (process.env.NODE_ENV === void 0) {
+  process.env.NODE_ENV = 'production'
+}
+
 const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
