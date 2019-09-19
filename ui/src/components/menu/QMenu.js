@@ -240,7 +240,10 @@ export default Vue.extend({
     __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        input: stop
+        // stop propagating this events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
       }
 
       if (this.autoClose === true) {
