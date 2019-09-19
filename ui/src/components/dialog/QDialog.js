@@ -184,7 +184,8 @@ export default Vue.extend({
       this.__showPortal()
 
       if (this.noFocus !== true) {
-        document.activeElement.blur()
+        // IE can have null document.activeElement
+        document.activeElement !== null && document.activeElement.blur()
         this.__nextTick(this.focus)
       }
 
@@ -269,7 +270,10 @@ export default Vue.extend({
     __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        input: stop
+        // stop propagating this events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
       }
 
       if (this.autoClose === true) {
