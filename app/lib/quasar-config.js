@@ -316,7 +316,7 @@ class QuasarConfig {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
         cfg.ssr ? cfg.ssr.pwa : '',
-        cfg.framework.all,
+        cfg.framework ? cfg.framework.all + cfg.framework.autoImportComponentCase : '',
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
         cfg.electron ? encode(cfg.electron) : ''
@@ -363,6 +363,12 @@ class QuasarConfig {
     if (cfg.framework.all !== true && cfg.framework.all !== 'auto') {
       cfg.framework.all = false
     }
+    else if (cfg.framework.all === 'auto') {
+      if (!['kebab', 'pascal', 'combined'].includes(cfg.framework.autoImportComponentCase)) {
+        cfg.framework.autoImportComponentCase = 'kebab'
+      }
+    }
+
     cfg.framework.components = cfg.framework.components.filter(uniqueFilter)
     cfg.framework.directives = cfg.framework.directives.filter(uniqueFilter)
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)

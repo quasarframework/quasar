@@ -2,19 +2,41 @@ const getDevlandFile = require('../helpers/get-devland-file')
 
 const data = getDevlandFile('quasar/dist/babel-transforms/auto-import.json')
 
-const compRegex = new RegExp(data.regex.components, 'g')
+const compRegex = {
+  '?kebab': new RegExp(data.regex.kebabComponents, 'g'),
+  '?pascal': new RegExp(data.regex.pascalComponents, 'g'),
+  '?combined': new RegExp(data.regex.components, 'g')
+}
+
 const dirRegex = new RegExp(data.regex.directives, 'g')
 
-function extract (content) {
-  const components = content.match(compRegex)
+function extract (content, form) {
+  let comp = content.match(compRegex[form])
   const directives = content.match(dirRegex)
 
+  if (comp !== null) {
+    // avoid duplicates
+    comp = Array.from(new Set(comp))
+
+    // map comp names only if not pascal-case already
+    if (form !== '?pascal') {
+      comp = comp.map(name => data.importName[name])
+    }
+
+    if (form === '?combined') {
+      // could have been transformed QIcon and q-icon too,
+      // so avoid duplicates
+      comp = Array.from(new Set(comp))
+    }
+
+    comp = comp.join(',')
+  }
+  else {
+    comp = ''
+  }
+
   return {
-    comp: components !== null
-      ? Array.from(new Set(components))
-        .map(name => data.importName[name])
-        .join(',')
-      : '',
+    comp,
 
     dir: directives !== null
       ? Array.from(new Set(directives))
@@ -27,7 +49,7 @@ function extract (content) {
 module.exports = function (content) {
   if (!this.resourceQuery) {
     const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
-    const { comp, dir } = extract(file)
+    const { comp, dir } = extract(file, this.query)
 
     const hasComp = comp !== ''
     const hasDir = dir !== ''

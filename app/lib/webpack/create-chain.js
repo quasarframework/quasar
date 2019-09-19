@@ -75,6 +75,7 @@ module.exports = function (cfg, configName) {
   if (cfg.framework.all === 'auto') {
     vueRule.use('quasar-auto-import')
       .loader(path.join(__dirname, 'loader.auto-import.js'))
+      .options(cfg.framework.autoImportComponentCase)
   }
 
   vueRule.use('vue-loader')
