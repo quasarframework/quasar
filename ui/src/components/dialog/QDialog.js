@@ -161,7 +161,8 @@ export default Vue.extend({
     __show (evt) {
       this.__addHistory()
 
-      this.__refocusTarget = this.noRefocus === false
+      // IE can have null document.activeElement
+      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
         ? document.activeElement
         : void 0
 
