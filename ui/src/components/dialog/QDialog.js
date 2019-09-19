@@ -185,10 +185,7 @@ export default Vue.extend({
 
       if (this.noFocus !== true) {
         document.activeElement.blur()
-
-        this.__nextTick(() => {
-          this.focus()
-        })
+        this.__nextTick(this.focus)
       }
 
       this.__setTimeout(() => {
@@ -260,14 +257,12 @@ export default Vue.extend({
     },
 
     __onFocusChange (e) {
-      const node = this.__getInnerNode()
-
+      // the focus is not in a vue child component
       if (
-        node !== void 0 &&
-        // the focus is not in a vue child component
+        this.__getInnerNode() !== void 0 &&
         childHasFocus(this.__portal.$el, e.target) !== true
       ) {
-        node.focus()
+        this.focus()
       }
     },
 
