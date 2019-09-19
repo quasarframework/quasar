@@ -995,7 +995,14 @@ export default Vue.extend({
             this.__resetInputValue()
           },
           show: () => {
-            document.activeElement.id !== this.targetUid && this.$refs.target !== document.activeElement && this.$refs.target.focus()
+            const el = document.activeElement
+            // IE can have null document.activeElement
+            if (
+              (el === null || el.id !== this.targetUid) &&
+              this.$refs.target !== el
+            ) {
+              this.$refs.target.focus()
+            }
           }
         }
       }, [

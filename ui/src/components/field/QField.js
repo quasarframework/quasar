@@ -202,10 +202,12 @@ export default Vue.extend({
     },
 
     __focus () {
+      const el = document.activeElement
       let target = this.$refs.target
-      if (target !== void 0 && document.activeElement.id !== this.targetUid) {
+      // IE can have null document.activeElement
+      if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
         target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target !== document.activeElement && target.focus()
+        target !== null && target !== el && target.focus()
       }
     },
 
