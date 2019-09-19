@@ -546,7 +546,7 @@ export default Vue.extend({
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
-          this.$refs.menu !== void 0
+          this.$refs.menu !== void 0 && this.$refs.menu.__portal !== void 0
             ? this.$refs.menu.__portal.$el
             : void 0
         )

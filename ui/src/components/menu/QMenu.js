@@ -93,7 +93,9 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      let node = this.__portal !== void 0 && this.__portal.$refs !== void 0
+        ? this.__portal.$refs.inner
+        : void 0
 
       if (node !== void 0 && node.contains(document.activeElement) !== true) {
         node = node.querySelector('[autofocus]') || node
@@ -201,12 +203,14 @@ export default Vue.extend({
     },
 
     updatePosition () {
+      if (this.__portal === void 0) {
+        return
+      }
+
       const el = this.__portal.$el
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
-        setTimeout(() => {
-          this.__portal !== void 0 && this.__portal.showing === true && this.updatePosition()
-        }, 25)
+        setTimeout(this.updatePosition, 25)
         return
       }
 
@@ -232,7 +236,7 @@ export default Vue.extend({
       }
     },
 
-    __render (h) {
+    __renderPortal (h) {
       const on = {
         ...this.$listeners,
         input: stop

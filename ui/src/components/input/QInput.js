@@ -12,7 +12,7 @@ export default Vue.extend({
   mixins: [ QField, MaskMixin ],
 
   props: {
-    value: [String, Number],
+    value: [String, Number, FileList],
 
     type: {
       type: String,
@@ -200,7 +200,7 @@ export default Vue.extend({
       this.stopValueWatcher = false
       delete this.tempValue
 
-      this.$nextTick(() => {
+      this.type !== 'file' && this.$nextTick(() => {
         if (this.$refs.input !== void 0) {
           this.$refs.input.value = this.innerValue
         }

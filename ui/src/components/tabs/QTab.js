@@ -113,7 +113,7 @@ export default Vue.extend({
       return node
     },
 
-    __render (h, tag, props) {
+    __renderTab (h, tag, props) {
       const data = {
         staticClass: 'q-tab relative-position self-stretch flex flex-center text-center',
         class: this.classes,
@@ -142,6 +142,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return this.__render(h, 'div')
+    return this.__renderTab(h, 'div')
   }
 })

@@ -164,7 +164,7 @@ export default Vue.extend({
       return node.concat(slot(this, 'control'))
     },
 
-    __render (h) {
+    __renderPanels (h) {
       return h('div', {
         staticClass: 'q-carousel q-panel-parent',
         style: this.style,

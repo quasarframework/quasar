@@ -23,11 +23,11 @@ export default {
         },
         persistent: true
       }).onOk(() => {
-        console.log('>>>> OK')
+        // console.log('>>>> OK')
       }).onCancel(() => {
-        console.log('>>>> Cancel')
+        // console.log('>>>> Cancel')
       }).onDismiss(() => {
-        console.log('I am triggered on both OK and Cancel')
+        // console.log('I am triggered on both OK and Cancel')
       })
     },
 
@@ -52,12 +52,12 @@ export default {
         title: 'Alert',
         message: 'Autoclosing in 3 seconds.'
       }).onOk(() => {
-        console.log('OK')
+        // console.log('OK')
       }).onCancel(() => {
-        console.log('Cancel')
+        // console.log('Cancel')
       }).onDismiss(() => {
         clearTimeout(timer)
-        console.log('I am triggered on both OK and Cancel')
+        // console.log('I am triggered on both OK and Cancel')
       })
 
       const timer = setTimeout(() => {
