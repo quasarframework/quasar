@@ -119,19 +119,15 @@ export default Vue.extend({
       this.__showPortal()
       this.__configureScrollTarget()
 
-      const { top, left } = this.anchorEl.getBoundingClientRect()
+      this.absoluteOffset = void 0
 
-      if (
-        evt !== void 0 &&
-        evt.clientX !== void 0 &&
-        evt.clientY !== void 0 &&
-        (this.touchPosition || this.contextMenu)
-      ) {
+      if (evt !== void 0 && (this.touchPosition || this.contextMenu)) {
         const pos = position(evt)
-        this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
-      }
-      else {
-        this.absoluteOffset = void 0
+
+        if (pos.left !== void 0) {
+          const { top, left } = this.anchorEl.getBoundingClientRect()
+          this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
+        }
       }
 
       if (this.unwatch === void 0) {
