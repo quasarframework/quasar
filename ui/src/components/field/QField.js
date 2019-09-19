@@ -195,7 +195,10 @@ export default Vue.extend({
 
     blur () {
       const el = document.activeElement
-      this.$el.contains(el) && el.blur()
+      // IE can have null document.activeElement
+      if (el !== null && this.$el.contains(el)) {
+        el.blur()
+      }
     },
 
     __focus () {

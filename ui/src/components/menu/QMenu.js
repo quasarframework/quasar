@@ -134,7 +134,8 @@ export default Vue.extend({
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
-      if (this.noFocus !== true) {
+      // IE can have null document.activeElement
+      if (this.noFocus !== true && document.activeElement !== null) {
         document.activeElement.blur()
       }
 
