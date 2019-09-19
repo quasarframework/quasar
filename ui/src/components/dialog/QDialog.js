@@ -184,7 +184,8 @@ export default Vue.extend({
       this.__showPortal()
 
       if (this.noFocus !== true) {
-        document.activeElement.blur()
+        // IE can have null document.activeElement
+        document.activeElement !== null && document.activeElement.blur()
         this.__nextTick(this.focus)
       }
 
