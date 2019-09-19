@@ -24,7 +24,7 @@
             },
             "width": {
               "type": "Number",
-              "desc": "Layout height",
+              "desc": "Layout width",
               "examples": [ 822 ]
             }
           }

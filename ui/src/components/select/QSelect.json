@@ -466,6 +466,30 @@
 
     "filter-abort": {
       "desc": "Emitted when a filtering was aborted; Probably a new one was requested?"
+    },
+
+    "popup-show": {
+      "desc": "Emitted when the select options menu or dialog is shown.",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.1.3"
+    },
+
+    "popup-hide": {
+      "desc": "Emitted when the select options menu or dialog is hidden.",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.1.3"
     }
   },
 
