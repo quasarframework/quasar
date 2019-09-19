@@ -266,7 +266,7 @@ export default Vue.extend({
       }
     },
 
-    __render (h) {
+    __renderPortal (h) {
       const on = {
         ...this.$listeners,
         input: stop

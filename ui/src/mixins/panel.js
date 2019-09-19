@@ -239,7 +239,7 @@ export const PanelParentMixin = {
       ? this.$scopedSlots.default()
       : []
 
-    return this.__render(h)
+    return this.__renderPanels(h)
   }
 }
 

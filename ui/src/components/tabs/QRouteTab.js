@@ -30,10 +30,10 @@ export default Vue.extend({
       }
 
       if (keyboard === true) {
-        this.$el.focus()
+        this.$el.focus(e)
       }
       else {
-        this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+        this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus(e)
       }
     },
 
@@ -69,6 +69,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return this.__render(h, 'router-link', this.routerLinkProps)
+    return this.__renderTab(h, 'router-link', this.routerLinkProps)
   }
 })
