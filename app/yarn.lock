@@ -6750,13 +6750,6 @@ sass-loader@^8.0.0:
     schema-utils "^2.1.0"
     semver "^6.3.0"
 
-sass-node@^4.11.2:
-  version "4.11.2"
-  resolved "https://registry.yarnpkg.com/sass-node/-/sass-node-4.11.2.tgz#01579d8cd3c9022c62c9431fc22a0107cd7f3d72"
-  integrity sha512-mW9ptDiyuSx2QLws+HVvMoWAoqlpWL1w9uLIf5+FQ2ssM4KvRkxjTMA2Xf5ZGFYCZfKuGfXAktHEHiujapvSqA==
-  dependencies:
-    node-sass "^4.12.0"
-
 sax@1.1.4:
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.1.4.tgz#74b6d33c9ae1e001510f179a91168588f1aedaa9"
