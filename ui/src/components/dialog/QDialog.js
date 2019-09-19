@@ -259,7 +259,7 @@ export default Vue.extend({
     __onFocusChange (e) {
       // the focus is not in a vue child component
       if (
-        this.__getInnerNode() !== void 0 &&
+        this.__portal !== void 0 &&
         childHasFocus(this.__portal.$el, e.target) !== true
       ) {
         this.focus()
