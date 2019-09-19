@@ -327,7 +327,7 @@ export default Vue.extend({
         return
       }
 
-      this.dialogFieldFocused === true && this.__focus()
+      (this.hasDialog !== true || this.dialogFieldFocused === true) && this.__focus()
 
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
@@ -844,6 +844,9 @@ export default Vue.extend({
         focusout,
         'popup-show': this.__onControlPopupShow,
         'popup-hide': e => {
+          e !== void 0 && stop(e)
+          this.$emit('popup-hide', e)
+          this.hasDialog !== true && this.__focus()
           this.hasPopupOpen = false
           focusout(e)
         },

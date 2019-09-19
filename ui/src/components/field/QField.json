@@ -63,6 +63,32 @@
     }
   },
 
+  "events": {
+    "popup-show": {
+      "desc": "Emitted if the field has a menu or dialog child when the menu or dialog is shown.",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.1.3"
+    },
+
+    "popup-hide": {
+      "desc": "Emitted if the field has a menu or dialog child when the menu or dialog is hidden.",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.1.3"
+    }
+  },
+
   "methods": {
     "focus": {
       "desc": "Focus field"

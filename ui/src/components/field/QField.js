@@ -382,11 +382,15 @@ export default Vue.extend({
     },
 
     __onControlPopupShow (e) {
+      e !== void 0 && stop(e)
+      this.$emit('popup-show', e)
       this.hasPopupOpen = true
       this.__onControlFocusin(e)
     },
 
     __onControlPopupHide (e) {
+      e !== void 0 && stop(e)
+      this.$emit('popup-hide', e)
       this.hasPopupOpen = false
       this.__onControlFocusout(e)
     },
