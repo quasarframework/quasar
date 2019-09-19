@@ -1,18 +1,27 @@
 process.env.BABEL_ENV = 'production'
 
-const
-  path = require('path'),
-  fs = require('fs'),
-  rollup = require('rollup'),
-  uglify = require('uglify-es'),
-  buble = require('rollup-plugin-buble'),
-  json = require('rollup-plugin-json'),
-  nodeResolve = require('rollup-plugin-node-resolve'),
-  buildConf = require('./build.conf'),
-  buildUtils = require('./build.utils'),
-  bubleConfig = {
-    objectAssign: 'Object.assign'
-  }
+const path = require('path')
+const fs = require('fs')
+const rollup = require('rollup')
+const uglify = require('uglify-es')
+const buble = require('rollup-plugin-buble')
+const json = require('rollup-plugin-json')
+const nodeResolve = require('rollup-plugin-node-resolve')
+const buildConf = require('./build.conf')
+const buildUtils = require('./build.utils')
+
+const bubleConfig = {
+  objectAssign: 'Object.assign'
+}
+
+const defaultRollupPlugins = [
+  nodeResolve({
+    extensions: ['.js'],
+    preferBuiltins: false
+  }),
+  json(),
+  buble(bubleConfig)
+]
 
 const builds = [
   {
@@ -77,7 +86,6 @@ const builds = [
       }
     },
     build: {
-      requireVue: true,
       unminified: true,
       minified: true
     }
@@ -141,21 +149,15 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  const plugins = opts.rollup.input.plugins || [
-    nodeResolve({
-      extensions: ['.js'],
-      preferBuiltins: false
-    }),
-    json(),
-    buble(bubleConfig)
-  ]
-
-  opts.rollup.input.plugins = plugins
-  opts.rollup.output.banner = buildConf.banner
-  opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
+  if (opts.rollup.input.plugins === void 0) {
+    opts.rollup.input.plugins = defaultRollupPlugins
+  }
 
   opts.rollup.input.external = opts.rollup.input.external || []
   opts.rollup.input.external.push('vue')
+
+  opts.rollup.output.banner = buildConf.banner
+  opts.rollup.output.name = opts.rollup.output.name || 'Quasar'
 
   opts.rollup.output.globals = opts.rollup.output.globals || {}
   opts.rollup.output.globals.vue = 'Vue'
@@ -172,8 +174,7 @@ function injectVueRequirement (code) {
   const index = code.indexOf(`Vue = Vue && Vue.hasOwnProperty('default') ? Vue['default'] : Vue`)
 
   if (index === -1) {
-    console.error('UMD code could not find Vue initial declaration. Aborting...')
-    process.exit(1)
+    return code
   }
 
   const checkMe = ` if (Vue === void 0) {
@@ -192,7 +193,7 @@ function buildEntry (config) {
     .rollup(config.rollup.input)
     .then(bundle => bundle.generate(config.rollup.output))
     .then(({ output }) => {
-      const code = config.build.requireVue === true
+      const code = config.rollup.output.format === 'umd'
         ? injectVueRequirement(output[0].code)
         : output[0].code
 
@@ -212,7 +213,7 @@ function buildEntry (config) {
       })
 
       if (minified.error) {
-        return new Promise((resolve, reject) => reject(minified.error))
+        return Promise.reject(minified.error)
       }
 
       return buildUtils.writeFile(

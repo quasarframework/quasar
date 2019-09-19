@@ -48,20 +48,20 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .quasar-member
-  width 12.2rem
+  width: 12.2rem
 
   &__role
-    height 42px
+    height: 42px
 
   .q-img__image
-    filter grayscale(100%)
+    filter: grayscale(100%)
 
   &__front
-    min-height 300px
+    min-height: 300px
 
-  @media (max-width $breakpoint-xs-max)
-    width 100%
-    min-height 640px
+  @media (max-width: $breakpoint-xs-max)
+    width: 100%
+    min-height: 640px
 </style>

@@ -1,0 +1,118 @@
+@import './prism-theme.sass'
+
+body
+  background-color: $grey-1
+
+.bg-code
+  background-color: $code-color
+
+.doc-token
+  white-space: nowrap
+  background: scale-color($primary, $lightness: 85%)
+  color: $dark-primary
+  font-family: inherit
+  border-radius: $generic-border-radius
+  padding: 1px 5px
+  margin: 0
+
+blockquote .doc-token
+  background: scale-color($grey, $lightness: 60%)
+  color: $grey-9
+
+.doc-note
+  background-color: $grey-3
+  border-radius: $generic-border-radius
+  margin: 16px 0
+  padding: 16px 24px
+  font-size: 1em
+  border-width: 0 5px 0
+  border-style: solid
+  border-color: $grey
+  letter-spacing: .5px
+
+  .doc-token
+    color: $grey-9
+
+  > p
+    margin-bottom: 0
+
+  &--tip
+    background-color: scale-color($positive, $lightness: 75%)
+    border-color: $positive
+    .doc-token
+      background: scale-color($positive, $lightness: 55%)
+    .doc-link
+      color: scale-color($positive, $lightness: -35%)
+
+  &--warning
+    background-color: scale-color($warning, $lightness: 50%)
+    border-color: $warning
+    .doc-token
+      background: scale-color($warning, $lightness: 15%)
+    .doc-link
+      color: scale-color($warning, $lightness: -45%)
+
+  &--danger
+    background-color: scale-color($negative, $lightness: 80%)
+    border-color: $negative
+    .doc-token
+      background: scale-color($negative, $lightness: 65%)
+    .doc-link
+      color: scale-color($negative, $lightness: -25%)
+
+  &__title
+    font-weight: 500
+
+.doc-heading
+  color: $primary
+  cursor: pointer
+
+  &:after
+    content: ' #'
+    opacity: 0
+  &:hover:after
+    opacity: 1
+
+.doc-h1
+  font-size: 2rem
+  line-height: 2rem
+  padding: 1rem 0
+  font-weight: 500
+  margin: 0 0 2rem
+
+.doc-h2
+  font-size: 1.5rem
+  line-height: 1.5rem
+  padding: 0.5rem 0
+  font-weight: 500
+  border-bottom: 1px solid #ccc
+  margin: 4rem 0 1.5rem
+
+.doc-h3
+  font-size: 1.1rem
+  line-height: 1.1rem
+  padding: 0.45rem 0
+  margin: 2rem 0 1rem
+
+.doc-h4
+  font-size: 1rem
+  line-height: 1rem
+  padding: 0.25rem 0
+  margin: 1.5rem 0
+
+.doc-h5
+  font-size: 0.9rem
+  margin: 1.5rem 0
+
+.doc-h6
+  font-size: 0.8rem
+  margin: 1.5rem 0
+
+.doc-img
+  max-width: 100%
+
+.doc-page-listing
+  .q-icon
+    font-size: 20px
+    margin-right: 8px
+    color: $primary

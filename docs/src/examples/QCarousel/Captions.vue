@@ -38,10 +38,10 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .custom-caption
-  text-align center
-  padding 12px
-  color white
-  background-color rgba(0, 0, 0, .3)
+  text-align: center
+  padding: 12px
+  color: white
+  background-color: rgba(0, 0, 0, .3)
 </style>

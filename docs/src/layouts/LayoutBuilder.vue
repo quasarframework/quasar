@@ -610,12 +610,12 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .export-code
   .doc-code__inner
-    max-height 50vh
+    max-height: 50vh
   .doc-code + div
-    right 22px !important
+    right: 22px !important
   .q-badge
-    right 72px !important
+    right: 72px !important
 </style>

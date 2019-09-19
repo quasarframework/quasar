@@ -15,7 +15,7 @@
               .text-h1
                 div.text-weight-bold Quasar
                 div Framework
-              .text-subtitle1.text-italic.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+              .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
               .q-pt-md.q-pl-sm
                 .landing__hero-btns.q-gutter-md.row.items-center
                   q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
@@ -23,23 +23,18 @@
                   q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
                   .text-body2 v{{ $q.version }}
 
-        .flex-center.col-10
-          .flex.q-pa-xl.q-mx-xl.full-width(style="font-size: 14px;background:rgba(0,0,0,0.5);border-radius:15px")
-            .q-pb-sm A <strong>massive pool of quality components</strong> ready for dropping directly into your existing or new projects today.
-            .q-pb-sm Plus an <strong>easy to use build process</strong>, fully configurable (although 99% of the time you won't even need to touch it)... following all of the latest and greatest <strong>best web practices</strong>.
-            div <strong>Jumpstart a SPA, PWA, SSR, Mobile App or Desktop app in 30 seconds</strong>... (yes, it's that easy to get started!)
+        .row.justify-center.col-10
+          q-icon.landing__arrow-down(name="keyboard_arrow_down" size="50px")
 
-  section.padding.landing__front.text-center
+  section.landing__front.text-center
     div
-      div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
       .q-gutter-md.row.justify-center
+        q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="User Interface Components", to="/vue-components")
         q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
         q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
         q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
         q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-cordova-apps/introduction")
-        q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
-
-      div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, performance-oriented Quasar web components.
+        q-btn(color="indigo", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
@@ -150,12 +145,6 @@
 
       sponsor-list.justify-center
 
-      .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Our partners:
-      .q-gutter-md.flex.flex-center
-
-        sponsor(img="wallaby.png" name="Wallabyjs" url="https://wallabyjs.com/")
-        sponsor(img="snyk.png" name="Snyk" url="https://snyk.io/")
-
   section.landing__footer.flex.flex-center
     div.text-center
       div.landing__footer-icons.row.flex-center
@@ -187,34 +176,21 @@
 
       div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
 
-  section.fixed-top.landing__toolbar.text-white
-    q-toolbar.q-pa-none
-      q-btn.quasar-logo.text-bold(flat, no-caps, no-wrap, to="/start")
-        q-avatar.doc-landing-avatar
-          img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
-        q-toolbar-title Docs
-
-      q-space
-
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.quasar.dev", target="_blank", rel="noopener")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://blog.quasar.dev", target="_blank", rel="noopener")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://chat.quasar.dev", target="_blank", rel="noopener")
-      q-btn.q-mr-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.quasar.dev", target="_blank", rel="noopener")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-facebook", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
-      q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter", rel="noopener")
+  landing-top-bar
 </template>
 
 <script>
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
+import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 
 export default {
   name: 'Landing',
 
   components: {
     Sponsor,
-    SponsorList
+    SponsorList,
+    LandingTopBar
   },
 
   meta: {
@@ -228,128 +204,135 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-.doc-landing-avatar > div
-  border-radius 0
-
+<style lang="sass">
 .landing
-  background #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') no-repeat center center fixed
-  background-size cover
+  background: #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') no-repeat center center fixed
+  background-size: cover
 
   > section
-    display flex
-    justify-content center
-    padding 0 16px
+    display: flex
+    justify-content: center
+    padding: 0 16px
 
     &.padding
-      padding 180px 16px
+      padding: 180px 16px
 
     > div
-      position relative
-      max-width 1040px
-      width 100%
-
-  &__toolbar
-    background linear-gradient(to bottom, #000, transparent)
-    padding 0 !important
-
-    .q-btn
-      border-radius 0 0 5px 5px
-      align-self stretch
+      position: relative
+      max-width: 1040px
+      width: 100%
 
   &__hero
-    min-height 100vh
+    min-height: 100vh
 
   &__front
-    background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
+    padding: 130px 16px 100px !important
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
+    > div
+      max-width: 700px !important
 
   &__logo
-    width 150px
-    height 150px
-    margin-top 21px
-    animation logo-rotate 240s linear infinite
+    width: 150px
+    height: 150px
+    margin-top: 21px
+    animation: logo-rotate 240s linear infinite
+
+  &__arrow-down
+    margin-top: 100px
+    animation: landing-bounce 2s infinite
 
   &__features
     .q-icon
-      font-size 64px
-      padding-left 16px
+      font-size: 64px
+      padding-left: 16px
 
     h4, h6
-      margin 26px 0
+      margin: 26px 0
 
     p
-      opacity .6
-      font-size 16px
+      opacity: .6
+      font-size: 16px
 
   &__footer
-    background linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 65%, #000)
-    padding-top 72px !important
-    padding-bottom 72px !important
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 65%, #000)
+    padding-top: 72px !important
+    padding-bottom: 72px !important
 
     .doc-link
-      color #fff
+      color: #fff
 
       &:hover
-        opacity .8
+        opacity: .8
 
   &__swirl-bg
-    background-repeat no-repeat !important
-    background-position top center
-    background-size contain !important
-    background-image url(https://cdn.quasar.dev/img/landing_first_section.png) !important
+    background-repeat: no-repeat !important
+    background-position: top center
+    background-size: contain !important
+    background-image: url(https://cdn.quasar.dev/img/landing_first_section.png) !important
 
   &__footer-icons
-    font-size 28px
+    font-size: 28px
 
     a
-      margin 0 8px 8px
-      text-decoration none
-      outline 0
-      color white
-      transition color .28s
+      margin: 0 8px 8px
+      text-decoration: none
+      outline: 0
+      color: white
+      transition: color .28s
 
       &:hover
-        color $grey-4
+        color: $grey-4
 
 @keyframes logo-rotate
   100%
-    transform rotate(-360deg)
+    transform: rotate(-360deg)
+
+@keyframes landing-bounce
+  0%, 20%, 50%, 80%, 100%
+    transform: translate3d(0, 0, 0)
+  40%
+    transform: translate3d(0, -30px, 0)
+  60%
+    transform: translate3d(0, -15px, 0)
 
 @media (max-width: 718px)
   .landing
     &__hero
-      text-align center
+      text-align: center
 
       .text-h1
-        font-size 3rem
-        line-height 3.05rem
-        margin-bottom 24px
+        font-size: 3rem
+        line-height: 3.05rem
+        margin-bottom: 24px
 
     > section.padding
-      padding-top 90px
-      padding-bottom 90px
+      padding-top: 90px
+      padding-bottom: 90px
 
     .feature-item
-      text-align center
+      text-align: center
 
     &__hero-content
-      padding-bottom 180px
+      padding-bottom: 180px
 
     &__hero-btns
-      justify-content center
+      justify-content: center
+
+    &__arrow-down
+      margin-top: 50px
 
 body.mobile .landing
-  background unset
+  background: unset
 
   &:before
-    content ''
-    position fixed /* stretch a fixed position to the whole screen */
-    top 0
-    height 100vh /* fix for mobile browser address bar appearing disappearing */
-    left 0
-    right 0
-    bottom 0
-    z-index -1 /* needed to keep in the background */
-    background #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') center center
-    background-size cover
+    content: ''
+    position: fixed /* stretch a fixed position to the whole screen */
+    top: 0
+    height: 100vh /* fix for mobile browser address bar appearing disappearing */
+    left: 0
+    right: 0
+    bottom: 0
+    z-index: -1 /* needed to keep in the background */
+    background: #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') center center
+    background-size: cover
 </style>

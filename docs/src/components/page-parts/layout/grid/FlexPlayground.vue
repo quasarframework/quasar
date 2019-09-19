@@ -150,24 +150,20 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .row > div
-  padding 8px
-  background rgba(227,242,253,.6)
-  border 1px solid rgba(187,222,251,.9)
+  padding: 8px
+  background: rgba(227,242,253,.6)
+  border: 1px solid rgba(187,222,251,.9)
 
 .row + .row
-  margin-top 1rem
+  margin-top: 1rem
 
 .column > div
-  padding 8px
-  background rgba(227,242,253,.6)
-  border 1px solid rgba(187,222,251,.9)
-
-// .column + .column
-//   margin-top 1rem
+  padding: 8px
+  background: rgba(227,242,253,.6)
+  border: 1px solid rgba(187,222,251,.9)
 
 .column > .col
-  padding 5px 2px
-
+  padding: 5px 2px
 </style>

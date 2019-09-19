@@ -18,7 +18,7 @@ export default Vue.extend({
 
   methods: {
     reset () {
-      this.$refs.content.style.transform = `translate3d(0,0,0)`
+      this.$refs.content.style.transform = `translateX(0)`
     },
 
     __pan (evt) {
@@ -32,13 +32,13 @@ export default Vue.extend({
 
         if (this.$scopedSlots.left !== void 0) {
           const slot = this.$refs.leftContent
-          slot.style.transform = `scale3d(1,1,1)`
+          slot.style.transform = `scale(1)`
           this.__size.left = slot.getBoundingClientRect().width
         }
 
         if (this.$scopedSlots.right !== void 0) {
           const slot = this.$refs.rightContent
-          slot.style.transform = `scale3d(1,1,1)`
+          slot.style.transform = `scale(1)`
           this.__size.right = slot.getBoundingClientRect().width
         }
       }
@@ -46,14 +46,14 @@ export default Vue.extend({
         node.classList.remove('no-transition')
 
         if (this.__scale === 1) {
-          node.style.transform = `translate3d(${this.__dir * 100}%,0,0)`
+          node.style.transform = `translateX(${this.__dir * 100}%)`
           this.timer = setTimeout(() => {
             this.$emit(this.__showing, { reset: this.reset })
             this.$emit('action', { side: this.__showing, reset: this.reset })
           }, 230)
         }
         else {
-          node.style.transform = `translate3d(0,0,0)`
+          node.style.transform = `translateX(0)`
         }
 
         return
@@ -63,7 +63,7 @@ export default Vue.extend({
         (this.$scopedSlots.left === void 0 && evt.direction === 'right') ||
         (this.$scopedSlots.right === void 0 && evt.direction === 'left')
       ) {
-        node.style.transform = `translate3d(0,0,0)`
+        node.style.transform = `translateX(0)`
         return
       }
 
@@ -83,13 +83,13 @@ export default Vue.extend({
       }
 
       this.__scale = scale
-      node.style.transform = `translate3d(${dist * dir}px,0,0)`
+      node.style.transform = `translateX(${dist * dir}px)`
 
       if (dir === 1) {
-        content.style.transform = `scale3d(${scale},${scale},1)`
+        content.style.transform = `scale(${scale})`
       }
       else {
-        content.style.transform = `scale3d(${scale},${scale},1)`
+        content.style.transform = `scale(${scale})`
       }
     }
   },

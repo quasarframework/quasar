@@ -24,5 +24,9 @@ export default {
   components,
   directives,
   plugins,
-  utils
+  utils,
+  ...components,
+  ...directives,
+  ...plugins,
+  ...utils
 }

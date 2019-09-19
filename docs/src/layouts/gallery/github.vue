@@ -215,44 +215,44 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .GL
   &__select-GL__menu-link
     .default-type
-      visibility hidden
+      visibility: hidden
 
     &:hover
-      background #0366d6
-      color white
+      background: #0366d6
+      color: white
       .q-item__section--side
-        color white
+        color: white
       .default-type
-        visibility visible
+        visibility: visible
 
   &__toolbar-link
     a
-      color white
-      text-decoration none
+      color: white
+      text-decoration: none
       &:hover
-        opacity 0.7
+        opacity: 0.7
 
   &__menu-link:hover
-    background #0366d6
-    color white
+    background: #0366d6
+    color: white
 
   &__menu-link-signed-in
   &__menu-link-status
     &:hover
       & > div
-        background white !important
+        background: white !important
 
   &__menu-link-status
-    color $blue-grey-6
+    color: $blue-grey-6
     &:hover
-      color $light-blue-9
+      color: $light-blue-9
 
   &__toolbar-select.q-field--focused
-    width 450px !important
+    width: 450px !important
     .q-field__append
-      display none
+      display: none
 </style>

@@ -16,10 +16,10 @@
   </div>
 </template>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .container
-  border-radius 50%
-  cursor pointer
-  width 150px
-  height 150px
+  border-radius: 50%
+  cursor: pointer
+  width: 150px
+  height: 150px
 </style>

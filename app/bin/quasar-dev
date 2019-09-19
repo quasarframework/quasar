@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+if (process.env.NODE_ENV === void 0) {
+  process.env.NODE_ENV = 'development'
+}
+
 const parseArgs = require('minimist')
 
 const
@@ -92,7 +96,7 @@ async function parseAddress ({ host, port }) {
     const openPort = await findPort(port, host)
     if (port !== openPort) {
       warn()
-      warn(`Setting port to closest one available: ${openPort}`)
+      warn(`️️⚠️ Setting port to closest one available: ${openPort}`)
       warn()
 
       port = openPort
