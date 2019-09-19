@@ -78,7 +78,6 @@
     "postcss-safe-parser": "4.0.1",
     "register-service-worker": "1.6.2",
     "sass-loader": "^8.0.0",
-    "sass-node": "^4.11.2",
     "semver": "6.3.0",
     "strip-ansi": "5.2.0",
     "stylus": "0.54.7",
