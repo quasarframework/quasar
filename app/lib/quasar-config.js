@@ -528,7 +528,11 @@ class QuasarConfig {
 
       cfg.ssr.debug = this.ctx.debug
 
-      cfg.ssr.__templateOpts = JSON.stringify(cfg.ssr, null, 2)
+      cfg.ssr.__templateOpts = JSON.stringify(
+        Object.assign({}, cfg.ssr, { preloadChunks: cfg.build.preloadChunks === true }),
+        null,
+        2
+      )
       cfg.ssr.__templateFlags = {
         meta: cfg.__meta
       }
