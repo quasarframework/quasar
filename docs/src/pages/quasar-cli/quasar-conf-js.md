@@ -156,12 +156,37 @@ return {
 }
 ```
 
-::: tip TIPS
-* If you specify `framework: { all: true, ... }` then all components, directives and Quasar plugins are going to get loaded, but it's NOT recommended for production.
-* Starting with `@quasar/app` v1.1.0, if you specify `framework: { all: 'auto', ... }` then **Quasar will import components and directives automatically** for you. The compile time will very slightly increase, but there will be no need for you to specify the components and directives in quasar.conf.js. Note that the Quasar plugins will still need to be specified.
-:::
-
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
+
+### Auto import feature
+
+<q-badge label="@quasar/app v1.1.1+" /> <q-badge class="q-ml-sm" label="quasar v1.1.2+" />
+
+You can also configure the Quasar CLI to auto import the in-use Quasar components and directives that you are using, through `framework: { all }` property:
+
+```js
+// quasar.conf.js
+framework: {
+  // Possible values for "all":
+  // * 'auto' - Auto-import needed Quasar components & directives
+  //            (slightly higher compile time; next to minimum bundle size; most convenient)
+  // * false  - Manually specify what to import
+  //            (fastest compile time; minimum bundle size; most tedious)
+  // * true   - Import everything from Quasar
+  //            (not treeshaking Quasar; biggest bundle size; convenient)
+  all: 'auto',
+```
+
+If you set `all: 'auto'` then **Quasar will import components and directives automatically** for you. The compile time will slightly increase, but there will be no need for you to specify the components and directives in quasar.conf.js. **Note that the Quasar plugins will still need to be specified.**
+
+Starting with `@quasar/app` v1.1.2 (along with `quasar` v1.1.3+), when using the auto import feature you can also configure how you are writing your components:
+
+```js
+// quasar.conf.js
+framework: {
+  all: 'auto',
+  autoImportComponentCase: 'pascal' // or 'kebab' (default) or 'combined'
+```
 
 ### Property: devServer
 **Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.

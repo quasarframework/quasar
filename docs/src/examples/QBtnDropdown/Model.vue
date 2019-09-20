@@ -49,7 +49,7 @@ export default {
 
   methods: {
     onItemClick () {
-      console.log('Clicked on an Item')
+      // console.log('Clicked on an Item')
     }
   }
 }

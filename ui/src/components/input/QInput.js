@@ -12,7 +12,7 @@ export default Vue.extend({
   mixins: [ QField, MaskMixin ],
 
   props: {
-    value: [String, Number],
+    value: { required: false },
 
     type: {
       type: String,
@@ -92,7 +92,15 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      this.$refs.input !== void 0 && this.$refs.input !== document.activeElement && document.activeElement.id !== this.targetUid && this.$refs.input.focus()
+      const el = document.activeElement
+      if (
+        this.$refs.input !== void 0 &&
+        this.$refs.input !== el &&
+        // IE can have null document.activeElement
+        (el === null || el.id !== this.targetUid)
+      ) {
+        this.$refs.input.focus()
+      }
     },
 
     select () {
@@ -200,7 +208,7 @@ export default Vue.extend({
       this.stopValueWatcher = false
       delete this.tempValue
 
-      this.$nextTick(() => {
+      this.type !== 'file' && this.$nextTick(() => {
         if (this.$refs.input !== void 0) {
           this.$refs.input.value = this.innerValue
         }

@@ -169,8 +169,6 @@
         a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fas fa-medkit")
 
-      div.q-mt-md
-        | Subscribe to our <doc-link to="/newsletter">Newsletter</doc-link>.
       div.q-mt-sm
         | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
 
@@ -204,135 +202,135 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .landing
-  background #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') no-repeat center center fixed
-  background-size cover
+  background: #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') no-repeat center center fixed
+  background-size: cover
 
   > section
-    display flex
-    justify-content center
-    padding 0 16px
+    display: flex
+    justify-content: center
+    padding: 0 16px
 
     &.padding
-      padding 180px 16px
+      padding: 180px 16px
 
     > div
-      position relative
-      max-width 1040px
-      width 100%
+      position: relative
+      max-width: 1040px
+      width: 100%
 
   &__hero
-    min-height 100vh
+    min-height: 100vh
 
   &__front
-    padding 130px 16px 100px !important
-    background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
+    padding: 130px 16px 100px !important
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
     > div
-      max-width 700px !important
+      max-width: 700px !important
 
   &__logo
-    width 150px
-    height 150px
-    margin-top 21px
-    animation logo-rotate 240s linear infinite
+    width: 150px
+    height: 150px
+    margin-top: 21px
+    animation: logo-rotate 240s linear infinite
 
   &__arrow-down
     margin-top: 100px
-    animation landing-bounce 2s infinite
+    animation: landing-bounce 2s infinite
 
   &__features
     .q-icon
-      font-size 64px
-      padding-left 16px
+      font-size: 64px
+      padding-left: 16px
 
     h4, h6
-      margin 26px 0
+      margin: 26px 0
 
     p
-      opacity .6
-      font-size 16px
+      opacity: .6
+      font-size: 16px
 
   &__footer
-    background linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 65%, #000)
-    padding-top 72px !important
-    padding-bottom 72px !important
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 65%, #000)
+    padding-top: 72px !important
+    padding-bottom: 72px !important
 
     .doc-link
-      color #fff
+      color: #fff
 
       &:hover
-        opacity .8
+        opacity: .8
 
   &__swirl-bg
-    background-repeat no-repeat !important
-    background-position top center
-    background-size contain !important
-    background-image url(https://cdn.quasar.dev/img/landing_first_section.png) !important
+    background-repeat: no-repeat !important
+    background-position: top center
+    background-size: contain !important
+    background-image: url(https://cdn.quasar.dev/img/landing_first_section.png) !important
 
   &__footer-icons
-    font-size 28px
+    font-size: 28px
 
     a
-      margin 0 8px 8px
-      text-decoration none
-      outline 0
-      color white
-      transition color .28s
+      margin: 0 8px 8px
+      text-decoration: none
+      outline: 0
+      color: white
+      transition: color .28s
 
       &:hover
-        color $grey-4
+        color: $grey-4
 
 @keyframes logo-rotate
   100%
-    transform rotate(-360deg)
+    transform: rotate(-360deg)
 
 @keyframes landing-bounce
   0%, 20%, 50%, 80%, 100%
-    transform translate3d(0, 0, 0)
+    transform: translate3d(0, 0, 0)
   40%
-    transform translate3d(0, -30px, 0)
+    transform: translate3d(0, -30px, 0)
   60%
-    transform translate3d(0, -15px, 0)
+    transform: translate3d(0, -15px, 0)
 
 @media (max-width: 718px)
   .landing
     &__hero
-      text-align center
+      text-align: center
 
       .text-h1
-        font-size 3rem
-        line-height 3.05rem
-        margin-bottom 24px
+        font-size: 3rem
+        line-height: 3.05rem
+        margin-bottom: 24px
 
     > section.padding
-      padding-top 90px
-      padding-bottom 90px
+      padding-top: 90px
+      padding-bottom: 90px
 
     .feature-item
-      text-align center
+      text-align: center
 
     &__hero-content
-      padding-bottom 180px
+      padding-bottom: 180px
 
     &__hero-btns
-      justify-content center
+      justify-content: center
 
     &__arrow-down
       margin-top: 50px
 
 body.mobile .landing
-  background unset
+  background: unset
 
   &:before
-    content ''
-    position fixed /* stretch a fixed position to the whole screen */
-    top 0
-    height 100vh /* fix for mobile browser address bar appearing disappearing */
-    left 0
-    right 0
-    bottom 0
-    z-index -1 /* needed to keep in the background */
-    background #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') center center
-    background-size cover
+    content: ''
+    position: fixed /* stretch a fixed position to the whole screen */
+    top: 0
+    height: 100vh /* fix for mobile browser address bar appearing disappearing */
+    left: 0
+    right: 0
+    bottom: 0
+    z-index: -1 /* needed to keep in the background */
+    background: #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') center center
+    background-size: cover
 </style>

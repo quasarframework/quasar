@@ -47,7 +47,7 @@ const builds = [
       }
     },
     build: {
-      minified: true,
+      unminified: true,
       minExt: false
     }
   },

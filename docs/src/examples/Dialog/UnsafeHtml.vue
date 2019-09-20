@@ -13,11 +13,11 @@ export default {
         message: '<em>I can</em> <span class="text-red">use</span> <strong>HTML</strong>',
         html: true
       }).onOk(() => {
-        console.log('OK')
+        // console.log('OK')
       }).onCancel(() => {
-        console.log('Cancel')
+        // console.log('Cancel')
       }).onDismiss(() => {
-        console.log('I am triggered on both OK and Cancel')
+        // console.log('I am triggered on both OK and Cancel')
       })
     }
   }

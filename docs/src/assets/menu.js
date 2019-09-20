@@ -1022,11 +1022,6 @@ module.exports = [
     path: 'meet-the-team'
   },
   {
-    name: 'Newsletter',
-    icon: 'email',
-    path: 'newsletter'
-  },
-  {
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'start',

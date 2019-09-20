@@ -1,0 +1,106 @@
+.doc-code, .doc-code__inner
+  margin: 0
+  position: relative
+  font-size: 12px
+  color: $grey-9
+  background-color: #fdfdfd
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace
+  text-align: left
+  white-space: pre
+  word-spacing: normal
+  word-break: normal
+  word-wrap: normal
+  line-height: 1.5
+  tab-size: 4
+  hyphens: none
+
+.doc-code
+  overflow: visible
+  padding: 0
+
+  &__inner
+    background-image: linear-gradient(transparent 50%, $code-color 50%)
+    background-size: 3em 3em
+    background-origin: content-box
+    background-attachment: local
+    max-height: inherit
+    height: inherit
+    padding: 1em
+    display: block
+    overflow: auto
+
+    &--prerendered
+      border-width: 1px 1px 1px 3px
+      border-style: solid
+      border-color: $separator-color
+      border-left-color: $primary
+      border-radius: $generic-border-radius
+
+.token.comment,
+.token.block-comment,
+.token.prolog,
+.token.doctype,
+.token.cdata
+  color: #7D8B99
+
+.token
+  &.punctuation
+    color: #5F6364
+  &.important
+    font-weight: normal
+  &.bold
+    font-weight: bold
+  &.italic
+    font-style: italic
+  &.entity
+    cursor: help
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.function-name,
+.token.constant,
+.token.symbol,
+.token.deleted
+  color: #c92c2c
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.function,
+.token.builtin,
+.token.inserted
+  color: #2f9c0a
+
+.token.operator,
+.token.entity,
+.token.url,
+.token.variable
+  color: #a67f59
+  background: rgba(255, 255, 255, 0.5)
+
+.token.atrule,
+.token.attr-value,
+.token.keyword,
+.token.class-name
+  color: #1990b8
+
+.token.regex,
+.token.important
+  color: #e90
+
+.language-css .token.string,
+.style .token.string
+  color: #a67f59
+  background: rgba(255, 255, 255, 0.5)
+
+.namespace
+  opacity: .7
+
+.token.tab:not(:empty):before,
+.token.cr:before,
+.token.lf:before
+  color: #e0d7d1
+

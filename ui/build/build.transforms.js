@@ -37,7 +37,9 @@ function addComponents (map, autoImport) {
 
       map[name] = file
 
-      autoImport.components.push(kebab)
+      autoImport.kebabComponents.push(kebab)
+      autoImport.pascalComponents.push(name)
+      autoImport.importName[name] = name
       autoImport.importName[kebab] = name
     })
 }
@@ -90,18 +92,20 @@ module.exports = function (importName) {
 }
 
 function getAutoImportFile (autoImport) {
-  autoImport.components.sort((a, b) => a.length > b.length ? -1 : 1)
+  autoImport.kebabComponents.sort((a, b) => a.length > b.length ? -1 : 1)
+  autoImport.pascalComponents.sort((a, b) => a.length > b.length ? -1 : 1)
+  autoImport.components = autoImport.kebabComponents.concat(autoImport.pascalComponents)
   autoImport.directives.sort((a, b) => a.length > b.length ? -1 : 1)
 
-  autoImport.regex = {
-    components: '(' + autoImport.components.join('|') + ')',
-    directives: '(' + autoImport.directives.join('|') + ')'
-  }
-
-  delete autoImport.components
-  delete autoImport.directives
-
-  return JSON.stringify(autoImport, null, 2)
+  return JSON.stringify({
+    importName: autoImport.importName,
+    regex: {
+      kebabComponents: '(' + autoImport.kebabComponents.join('|') + ')',
+      pascalComponents: '(' + autoImport.pascalComponents.join('|') + ')',
+      components: '(' + autoImport.components.join('|') + ')',
+      directives: '(' + autoImport.directives.join('|') + ')'
+    }
+  }, null, 2)
 }
 
 module.exports.generate = function () {
@@ -109,7 +113,8 @@ module.exports.generate = function () {
     Quasar: relative(resolvePath('src/vue-plugin.js'))
   }
   const autoImport = {
-    components: [],
+    kebabComponents: [],
+    pascalComponents: [],
     directives: [],
     importName: {}
   }

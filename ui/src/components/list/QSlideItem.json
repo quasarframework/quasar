@@ -10,6 +10,20 @@
       "extends": "color",
       "desc": "Color name for right-side background from the Quasar Color Palette",
       "category": "style"
+    },
+
+    "top-color": {
+      "extends": "color",
+      "desc": "Color name for top-side background from the Quasar Color Palette",
+      "category": "style",
+      "addedIn": "v1.1.3"
+    },
+
+    "bottom-color": {
+      "extends": "color",
+      "desc": "Color name for bottom-side background from the Quasar Color Palette",
+      "category": "style",
+      "addedIn": "v1.1.3"
     }
   },
 
@@ -24,6 +38,16 @@
 
     "right": {
       "desc": "Right side content when sliding"
+    },
+
+    "top": {
+      "desc": "Top side content when sliding",
+      "addedIn": "v1.1.3"
+    },
+
+    "bottom": {
+      "desc": "Bottom side content when sliding",
+      "addedIn": "v1.1.3"
     }
   },
 
@@ -64,6 +88,44 @@
       }
     },
 
+    "top": {
+      "desc": "Emitted when user finished sliding the item up",
+      "addedIn": "v1.1.3",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "bottom": {
+      "desc": "Emitted when user finished sliding the item down",
+      "addedIn": "v1.1.3",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
     "action": {
       "desc": "Emitted when user finished sliding the item to either sides",
       "params": {
@@ -74,7 +136,7 @@
             "side": {
               "type": "String",
               "desc": "Side to which sliding has taken effect",
-              "values": [ "left", "right" ]
+              "values": [ "left", "right", "top", "bottom" ]
             },
             "reset": {
               "type": "Function",
@@ -90,7 +152,7 @@
 
   "methods": {
     "reset": {
-      "desc": "Reset to initial state (not swiped to left or right side)"
+      "desc": "Reset to initial state (not swiped to any side)"
     }
   }
 }
