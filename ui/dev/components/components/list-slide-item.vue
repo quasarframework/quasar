@@ -178,6 +178,8 @@
         </q-item>
       </q-slide-item>
 
+      <q-separator />
+
       <div class="row">
         <div class="col-4">
           <q-slide-item @top="onTop" @bottom="onBottom">
