@@ -25,13 +25,20 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
-      // showProgress: false,
+      showProgress: ctx.dev,
       preloadChunks: false,
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      chainWebpack (chain, { isClient }) {
+
+      chainWebpack (chain) {
+        chain.module.rule('eslint')
+          .pre()
+          .exclude.add(/node_modules|\.md\.js$/).end()
+          .test(/\.(js|vue)$/)
+          .use('eslint-loader').loader('eslint-loader')
+
         chain.resolve.alias
           .merge({
             examples: path.resolve(__dirname, 'src/examples'),
@@ -62,14 +69,6 @@ module.exports = function (ctx) {
 
         rule.use('md-loader')
           .loader(require.resolve('./build/md-loader'))
-
-        if (false && isClient) {
-          chain.module.rule('eslint')
-            .enforce('pre')
-            .test(/\.(js|vue)$/)
-            .exclude.add(/node_modules|\.md\.js/).end()
-            .use('eslint-loader').loader('eslint-loader')
-        }
       }
     },
 
