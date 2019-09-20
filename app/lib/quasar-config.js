@@ -450,6 +450,7 @@ class QuasarConfig {
     }
     if (this.ctx.dev) {
       cfg.build.extractCSS = false
+      cfg.build.preloadChunks = false
     }
     if (this.ctx.debug) {
       cfg.build.sourceMap = true
