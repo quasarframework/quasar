@@ -85,9 +85,14 @@ export default Vue.extend({
   watch: {
     belowBreakpoint (val) {
       if (val === true) { // from lg to xs
+        this.lastDesktopState = this.showing
         this.showing === true && this.hide(false)
       }
-      else if (this.overlay === false && this.behavior !== 'mobile') { // from xs to lg
+      else if (
+        this.overlay === false &&
+        this.behavior !== 'mobile' &&
+        this.lastDesktopState !== false
+      ) { // from xs to lg
         if (this.showing === true) {
           this.__applyBackdrop(0)
           this.__cleanup()
