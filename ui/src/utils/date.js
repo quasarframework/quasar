@@ -442,16 +442,17 @@ export function endOfDate (date, unit) {
   return t
 }
 
-export function getMaxDate (date, ...args) {
-  let t = new Date(date)
-  args.forEach(d => {
+export function getMaxDate (/* date, ...args */) {
+  let t = 0
+  Array.prototype.slice.call(arguments).forEach(d => {
     t = Math.max(t, new Date(d))
   })
   return t
 }
-export function getMinDate (date, ...args) {
+
+export function getMinDate (date /*, ...args */) {
   let t = new Date(date)
-  args.forEach(d => {
+  Array.prototype.slice.call(arguments, 1).forEach(d => {
     t = Math.min(t, new Date(d))
   })
   return t

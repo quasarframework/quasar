@@ -86,8 +86,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .my-menu-link
-  color white
-  background #F2C037
+  color: white
+  background: #F2C037
 </style>

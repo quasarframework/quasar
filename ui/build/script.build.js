@@ -35,5 +35,5 @@ if (!type || type === 'js') {
   runJob(join(__dirname, './script.build.javascript'))
 }
 if (!type || type === 'css') {
-  runJob(join(__dirname, './script.build.stylus'))
+  runJob(join(__dirname, './script.build.css'))
 }

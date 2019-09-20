@@ -33,19 +33,30 @@ export default {
 ```
 
 ### CSS preprocessors
-For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Stylus](http://stylus-lang.com/) is available out of the box. For SCSS/SASS or LESS, you'll need to install their Webpack loaders (example: `yarn add --dev less-loader`).
+For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Sass/SCSS](https://sass-lang.com) (recommended) and [Stylus](http://stylus-lang.com/) are available out of the box.
 
-After installing the loader you need (remember Stylus is already installed for you), you can specify you want your chosen preprocessor to handle the CSS code you're writing:
+You can specify you want your chosen preprocessor to handle the CSS code you're writing:
 
 ```html
+<!-- notice lang="sass" -->
+<style lang="sass">
+.some-div
+  font-size: 15px
+</style>
+
+<!-- notice lang="scss" -->
+<style lang="scss">
+.some-div {
+  font-size: 15px;
+}
+</style>
+
 <!-- notice lang="stylus" -->
 <style lang="stylus">
 .some-div
   font-size 15px
 </style>
 ```
-
-In the above example, you would replace `stylus` with the preprocessor you've chosen.
 
 ## Using Quasar Directives
 Quasar comes with a few custom [Vue Directives](https://vuejs.org/v2/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.

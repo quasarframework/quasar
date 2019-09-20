@@ -31,6 +31,7 @@ const gettingStarted = [
   },
   {
     name: 'Release notes',
+    badge: 'updated',
     path: 'release-notes'
   },
   {
@@ -155,6 +156,11 @@ const cli = [
       {
         name: 'Commands List',
         path: 'commands-list'
+      },
+      {
+        name: 'CSS Preprocessors',
+        badge: 'new',
+        path: 'css-preprocessors'
       },
       {
         name: 'Routing',
@@ -389,22 +395,6 @@ const cli = [
     ]
   },
   {
-    name: 'Developing Tauri Apps',
-    path: 'developing-tauri-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction',
-        badge: 'new'
-      },
-      {
-        name: 'Get Started',
-        path: 'get-started',
-        badge: 'new'
-      }
-    ]
-  },
-  {
     name: 'Ajax Requests',
     path: 'ajax-requests'
   },
@@ -425,8 +415,8 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    path: 'theme-builder',
-    badge: 'new'
+    badge: 'new',
+    path: 'theme-builder'
   },
   {
     name: 'Spacing',
@@ -447,6 +437,11 @@ const style = [
   {
     name: 'Positioning',
     path: 'positioning'
+  },
+  {
+    name: 'Sass/SCSS Variables',
+    badge: 'new',
+    path: 'sass-scss-variables'
   },
   {
     name: 'Stylus Variables',
@@ -951,22 +946,18 @@ const appExtensions = [
     children: [
       {
         name: 'Introduction',
-        badge: 'new',
         path: 'introduction'
       },
       {
         name: 'Provide a UI component',
-        badge: 'new',
         path: 'provide-a-ui-component'
       },
       {
         name: 'Provide a directive',
-        badge: 'new',
         path: 'provide-a-directive'
       },
       {
         name: 'Inject Quasar Plugin',
-        badge: 'new',
         path: 'inject-quasar-plugin'
       },
       {
@@ -976,7 +967,6 @@ const appExtensions = [
       },
       {
         name: 'Chain Webpack',
-        badge: 'new',
         path: 'chain-webpack'
       }
     ]

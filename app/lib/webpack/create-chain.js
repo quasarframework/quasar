@@ -13,7 +13,7 @@ const
 module.exports = function (cfg, configName) {
   const
     chain = new WebpackChain(),
-    needsHash = !cfg.ctx.dev && !['electron', 'tauri', 'cordova'].includes(cfg.ctx.modeName),
+    needsHash = !cfg.ctx.dev && !['electron', 'cordova'].includes(cfg.ctx.modeName),
     fileHash = needsHash ? '.[hash:8]' : '',
     chunkHash = needsHash ? '.[contenthash:8]' : '',
     resolveModules = [
@@ -69,22 +69,30 @@ module.exports = function (cfg, configName) {
 
   chain.module.noParse(/^(vue|vue-router|vuex|vuex-router-sync)$/)
 
-  chain.module.rule('vue')
+  const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
-    .use('vue-loader')
-      .loader('vue-loader')
-      .options({
-        productionMode: cfg.ctx.prod,
-        compilerOptions: {
-          preserveWhitespace: false
-        },
-        transformAssetUrls: {
-          video: 'src',
-          source: 'src',
-          img: 'src',
-          image: 'xlink:href'
-        }
-      })
+
+  if (cfg.framework.all === 'auto') {
+    vueRule.use('quasar-auto-import')
+      .loader(path.join(__dirname, 'loader.auto-import.js'))
+      .options(cfg.framework.autoImportComponentCase)
+  }
+
+  vueRule.use('vue-loader')
+    .loader('vue-loader')
+    .options({
+      productionMode: cfg.ctx.prod,
+      extractCSS: cfg.build.extractCSS,
+      compilerOptions: {
+        preserveWhitespace: false
+      },
+      transformAssetUrls: {
+        video: 'src',
+        source: 'src',
+        img: 'src',
+        image: 'xlink:href'
+      }
+    })
 
   chain.module.rule('babel')
     .test(/\.jsx?$/)
@@ -162,7 +170,7 @@ module.exports = function (cfg, configName) {
   injectStyleRules(chain, {
     rtl: cfg.build.rtl,
     sourceMap: cfg.build.sourceMap,
-    extract: cfg.build.extractCSS,
+    extract: configName !== 'Server' && cfg.build.extractCSS,
     minify: cfg.build.minify,
     stylusLoaderOptions: cfg.build.stylusLoaderOptions,
     sassLoaderOptions: cfg.build.sassLoaderOptions,
@@ -273,7 +281,7 @@ module.exports = function (cfg, configName) {
             ignore: ['.*'],
             ignore: ['.*'].concat(
               // avoid useless files to be copied
-              ['electron', 'tauri', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+              ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
                 ? [ 'icons/*', 'app-logo-128x128.png' ]
                 : []
             )
@@ -306,7 +314,7 @@ module.exports = function (cfg, configName) {
 
     // configure CSS extraction & optimize
     if (cfg.build.extractCSS) {
-      const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+      const MiniCssExtractPlugin = require('extract-css-chunks-webpack-plugin')
 
       // extract css into its own file
       chain.plugin('mini-css-extract')

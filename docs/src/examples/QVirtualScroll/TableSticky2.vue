@@ -54,20 +54,20 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .thead-custom-sticky tr > *,
 .tfoot-custom-sticky tr > *
-  position sticky
-  opacity 1
-  z-index 1
-  background-color black
-  color white
+  position: sticky
+  opacity: 1
+  z-index: 1
+  background-color: black
+  color: white
 
 .thead-custom-sticky tr:last-child > *
-  top 0
+  top: 0
 
 .tfoot-custom-sticky tr:first-child > *
-  bottom 0
+  bottom: 0
 </style>
 
 <script>

@@ -20,7 +20,7 @@ export default Vue.extend({
 
   methods: {
     reset () {
-      this.$refs.content.style.transform = `translate3d(0,0,0)`
+      this.$refs.content.style.transform = `translateX(0)`
     },
 
     __pan (evt) {
@@ -34,25 +34,25 @@ export default Vue.extend({
 
         if (this.$scopedSlots.left !== void 0) {
           const slot = this.$refs.leftContent
-          slot.style.transform = `scale3d(1,1,1)`
+          slot.style.transform = `scale(1)`
           this.__size.left = slot.getBoundingClientRect().width
         }
 
         if (this.$scopedSlots.right !== void 0) {
           const slot = this.$refs.rightContent
-          slot.style.transform = `scale3d(1,1,1)`
+          slot.style.transform = `scale(1)`
           this.__size.right = slot.getBoundingClientRect().width
         }
 
         if (this.$scopedSlots.top !== void 0) {
           const slot = this.$refs.topContent
-          slot.style.transform = `scale3d(1,1,1)`
+          slot.style.transform = `scale(1)`
           this.__size.top = slot.getBoundingClientRect().height
         }
 
         if (this.$scopedSlots.bottom !== void 0) {
           const slot = this.$refs.bottomContent
-          slot.style.transform = `scale3d(1,1,1)`
+          slot.style.transform = `scale(1)`
           this.__size.bottom = slot.getBoundingClientRect().height
         }
       }
@@ -60,19 +60,14 @@ export default Vue.extend({
         node.classList.remove('no-transition')
 
         if (this.__scale === 1) {
-          if (Math.abs(this.__dir) === 2) {
-            node.style.transform = `translate3d(0,${this.__dir * 50}%,0)`
-          }
-          else {
-            node.style.transform = `translate3d(${this.__dir * 100}%,0,0)`
-          }
+          node.style.transform = `translate${Math.abs(this.__dir) === 2 ? 'Y' : 'X'}(${this.__dir * 50}%)`
           this.timer = setTimeout(() => {
             this.$emit(this.__showing, { reset: this.reset })
             this.$emit('action', { side: this.__showing, reset: this.reset })
           }, 230)
         }
         else {
-          node.style.transform = `translate3d(0,0,0)`
+          node.style.transform = `translateX(0)`
         }
 
         return
@@ -84,7 +79,7 @@ export default Vue.extend({
         (this.$scopedSlots.top === void 0 && evt.direction === 'down') ||
         (this.$scopedSlots.bottom === void 0 && evt.direction === 'up')
       ) {
-        node.style.transform = `translate3d(0,0,0)`
+        node.style.transform = `translateX(0)`
         return
       }
 
@@ -132,14 +127,9 @@ export default Vue.extend({
 
       dir = dir / Math.abs(dir)
 
-      if (vertical === false) {
-        node.style.transform = `translate3d(${dist * dir}px,0,0)`
-      }
-      else {
-        node.style.transform = `translate3d(0,${dist * dir}px,0)`
-      }
+      node.style.transform = `translate${vertical === false ? 'X' : 'Y'}(${dist * dir}px,0,0)`
 
-      content.style.transform = `scale3d(${scale},${scale},1)`
+      content.style.transform = `scale(${scale})`
     }
   },
 

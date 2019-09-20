@@ -18,7 +18,7 @@ module.exports = function (argv, cmd) {
     }
   }
 
-  if (!['spa', 'pwa', 'cordova', 'electron', 'tauri', 'ssr'].includes(argv.mode)) {
+  if (!['spa', 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.mode)) {
     warn(`⚠️  Unknown mode "${ argv.mode }"`)
     warn()
     process.exit(1)
@@ -29,7 +29,7 @@ module.exports = function (argv, cmd) {
   }
 
   if (argv.mode === 'cordova') {
-    const targets = ['android', 'ios', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
+    const targets = ['android', 'ios', 'electron', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
     if (!argv.target) {
       warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
       warn()

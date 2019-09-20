@@ -5,7 +5,7 @@ components:
   - color-palette/BrandColors
   - color-palette/ColorList
 ---
-Quasar Framework offers a wide selection of colors out of the box. You can use them both as Stylus variables in your CSS code or directly as CSS classes in your HTML templates.
+Quasar Framework offers a wide selection of colors out of the box. You can use them both as Sass/SCSS/Stylus variables in your CSS code or directly as CSS classes in your HTML templates.
 
 ## Brand Colors
 Most of the colors that Quasar Components use are strongly linked with these three colors that you can change. Choosing these colors is the first step one should take when differentiating the design of an App. You'll notice immediately upon changing their default values that Quasar Components follow these colors as a guideline.
@@ -18,7 +18,7 @@ Also check [Theme Builder](/style/theme-builder) for a tool on customizing the b
 
 ## Color List
 
-Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as Stylus variables (in `<style lang="stylus">` tags.
+Here's the list of colors provided out of the box. Within your app's `*.vue` files you can use them as CSS classes (in HTML templates) or as [Sass/SCSS variables](/style/sass-scss-variables) or as [Stylus variables](/style/stylus-variables) in `<style lang="...">` tags.
 
 <color-list />
 
@@ -33,8 +33,27 @@ Use `text-` or `bg-` prefixes as class names to change the color of text or the 
 <p class="bg-positive">...</p>
 ```
 
-## Using Stylus Variables
-In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and so on.
+## Using Sass/SCSS/Stylus Variables
+In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and so on. Note that for Sass/SCSS you will need "@quasar/app" v1.1.0+ AND Quasar v1.1.1+.
+
+```html
+<!-- Notice lang="sass" -->
+<style lang="sass">
+div
+  color: $red-1
+  background-color: $grey-5
+</style>
+```
+
+```html
+<!-- Notice lang="scss" -->
+<style lang="scss">
+div {
+  color: $red-1;
+  background-color: $grey-5;
+}
+</style>
+```
 
 ```html
 <!-- Notice lang="stylus" -->

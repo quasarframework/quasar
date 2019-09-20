@@ -299,7 +299,7 @@ export default Vue.extend({
         ) {
           position += this.stateDirection * this.layout.scrollbarWidth
         }
-        this.$refs.content.style.transform = `translate3d(${position}px, 0, 0)`
+        this.$refs.content.style.transform = `translateX(${position}px)`
       }
     },
 

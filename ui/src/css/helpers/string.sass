@@ -1,0 +1,17 @@
+@function str-replace($string, $search, $replace: '')
+  $index: str-index($string, $search)
+
+  @if $index
+    $start: str-slice($string, 1, $index - 1)
+    $end: str-replace(str-slice($string, $index + str-length($search)), $search, $replace)
+    @return $start + $replace + $end
+
+  @return $string
+
+@function str-fr($selector, $name, $i: '')
+  @return str-replace(str-replace($selector, '<name>', $name), '<i>', $i)
+
+@function str-fe($selector, $name, $noProc, $i: '')
+  @if $noProc
+    @return str-fr($selector, $name, $i)
+  @return join(str-fr($selector, '', $i), str-fr($selector, $name, $i), $separator: comma)

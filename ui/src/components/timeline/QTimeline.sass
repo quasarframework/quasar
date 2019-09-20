@@ -1,0 +1,243 @@
+.q-timeline
+  padding: 0
+  width: 100%
+  list-style: none
+  h6
+    line-height: inherit
+
+  &--dark
+    color: #fff
+    .q-timeline__subtitle
+      opacity: .7
+
+  &__content
+    padding-bottom: 24px
+
+  &__title
+    margin-top: 0
+    margin-bottom: 16px
+
+  &__subtitle
+    font-size: 12px
+    margin-bottom: 8px
+    opacity: .4
+    text-transform: uppercase
+    letter-spacing: 1px
+    font-weight: 700
+
+  &__dot
+    position: absolute
+    top: 0
+    bottom: 0
+    width: 15px
+    &:before, &:after
+      content: ''
+      background: currentColor
+      display: block
+      position: absolute
+    &:before
+      border: 3px solid transparent
+      border-radius: 100%
+      height: 15px
+      width: 15px
+      top: 4px
+      left: 0
+      transition: background .3s ease-in-out, border .3s ease-in-out
+    &:after
+      width: 3px
+      opacity: .4
+      top: 24px
+      bottom: 0
+      left: 6px
+
+    .q-icon
+      position: absolute
+      top: 0
+      left: 0
+      right: 0
+      font-size: 16px
+      height: 38px
+      line-height: 38px
+      width: 100%
+      color: #fff
+
+  &__dot-img
+    position: absolute
+    top: 4px
+    left: 0
+    right: 0
+    height: 31px
+    width: 31px
+    background: currentColor
+    border-radius: 50%
+
+  &__heading
+    position: relative
+    &:first-child .q-timeline__heading-title
+      padding-top: 0
+    &:last-child .q-timeline__heading-title
+      padding-bottom: 0
+  &__heading-title
+    padding: 32px 0
+    margin: 0
+
+  &__entry
+    position: relative
+    line-height: 22px
+    &:last-child
+      padding-bottom: 0 !important
+      .q-timeline__dot:after
+        content: none
+
+    &--icon
+      .q-timeline__dot
+        width: 31px
+        &:before
+          height: 31px
+          width: 31px
+        &:after
+          top: 41px
+          left: 14px
+      .q-timeline__subtitle
+        padding-top: 8px
+
+  &--dense--right
+    .q-timeline
+      &__entry
+        padding-left: 40px
+
+        &--icon .q-timeline__dot
+          left: -8px
+
+      &__dot
+        left: 0
+
+  &--dense--left
+    .q-timeline
+      &__heading
+        text-align: right
+
+      &__entry
+        padding-right: 40px
+
+        &--icon .q-timeline__dot
+          right: -8px
+
+      &__content,
+      &__title,
+      &__subtitle
+        text-align: right
+
+      &__dot
+        right: 0
+
+  &--comfortable
+    display: table
+
+    .q-timeline
+      &__heading
+        display: table-row
+        font-size: 200%
+        > div
+          display: table-cell
+
+      &__entry
+        display: table-row
+        padding: 0
+        &--icon .q-timeline__content
+          padding-top: 8px
+
+      &__subtitle, &__dot, &__content
+        display: table-cell
+        vertical-align: top
+
+      &__subtitle
+        width: 35%
+
+      &__dot
+        position: relative
+        min-width: 31px
+
+  &--comfortable--right
+    .q-timeline
+      &__heading
+        .q-timeline__heading-title
+          margin-left: -50px
+
+      &__subtitle
+        text-align: right
+        padding-right: 30px
+
+      &__content
+        padding-left: 30px
+
+      &__entry--icon .q-timeline__dot
+        left: -8px
+
+  &--comfortable--left
+    .q-timeline
+      &__heading
+        text-align: right
+
+        .q-timeline__heading-title
+          margin-right: -50px
+
+      &__subtitle
+        padding-left: 30px
+
+      &__content
+        padding-right: 30px
+
+      &__content,
+      &__title
+        text-align: right
+
+      &__entry--icon .q-timeline__dot
+        right: 0
+
+      &__dot
+        right: -8px
+
+  &--loose
+    .q-timeline
+      &__heading-title
+        text-align: center
+        margin-left: 0
+
+      &__entry, &__subtitle, &__dot, &__content
+        display: block
+        margin: 0
+        padding: 0
+
+      &__dot
+        position: absolute
+        left: 50%
+        margin-left: -7.15px
+
+      &__entry
+        padding-bottom: 24px
+        overflow: hidden
+
+        &--icon
+          .q-timeline__dot
+            margin-left: -15px
+          .q-timeline__subtitle
+            line-height: 38px
+          .q-timeline__content
+            padding-top: 8px
+
+        &--left .q-timeline__content,
+        &--right .q-timeline__subtitle
+          float: left
+          padding-right: 30px
+          text-align: right
+
+        &--left .q-timeline__subtitle,
+        &--right .q-timeline__content
+          float: right
+          text-align: left
+          padding-left: 30px
+
+      &__subtitle, &__content
+        width: 50%
+

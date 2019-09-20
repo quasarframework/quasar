@@ -53,8 +53,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .card-example
-  width 288px
-  height 290px
+  width: 288px
+  height: 290px
 </style>

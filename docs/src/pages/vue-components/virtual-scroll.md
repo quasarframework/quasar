@@ -1,11 +1,10 @@
 ---
 title: Virtual Scroll
 desc: The QVirtualScroll component renders a big list of items as the user scrolls in the container, keeping DOM tree clean and eating the lowest amount of memory possible.
+badge: v1.1+
 related:
   - /vue-components/select
 ---
-
-<q-badge label="Quasar v1.1+" />
 
 The QVirtualScroll component allows you to display only a part of a long list of items and update the visible items as the user scrolls in the container. This has several advantages: only visible items are rendered, so the smallest number of nodes are in the DOM tree at any given point in time and the memory consumption is kept at its lowest.
 

@@ -54,11 +54,11 @@ export default {
           }
         ]
       }).onOk(action => {
-        console.log('Action chosen:', action.id)
+        // console.log('Action chosen:', action.id)
       }).onCancel(() => {
-        console.log('Dismissed')
+        // console.log('Dismissed')
       }).onDismiss(() => {
-        console.log('I am triggered on both OK and Cancel')
+        // console.log('I am triggered on both OK and Cancel')
       })
     }
   }

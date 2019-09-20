@@ -6,7 +6,8 @@ import { isSSR } from '../../plugins/Platform.js'
 const
   xhr = isSSR ? null : XMLHttpRequest,
   send = isSSR ? null : xhr.prototype.send,
-  stack = { start: [], stop: [] }
+  stackStart = [],
+  stackStop = []
 
 let highjackCount = 0
 
@@ -46,32 +47,27 @@ function inc (p, amount) {
 }
 
 function highjackAjax (start, stop) {
-  stack.start.push(start)
-  stack.stop.push(stop)
+  stackStart.push(start)
+  stackStop.push(stop)
 
   highjackCount++
 
   if (highjackCount > 1) { return }
 
   function endHandler () {
-    stack.stop.map(fn => { fn() })
+    stackStop.forEach(fn => { fn() })
   }
 
-  xhr.prototype.send = function (...args) {
-    stack.start.map(fn => { fn() })
-
-    this.addEventListener('abort', endHandler, false)
-    this.addEventListener('readystatechange', () => {
-      if (this.readyState === 4) { endHandler() }
-    }, false)
-
-    send.apply(this, args)
+  xhr.prototype.send = function (/* ...args */) {
+    stackStart.forEach(fn => { fn() })
+    this.addEventListener('loadend', endHandler, false)
+    send.apply(this, arguments)
   }
 }
 
 function restoreAjax (start, stop) {
-  stack.start = stack.start.filter(fn => fn !== start)
-  stack.stop = stack.stop.filter(fn => fn !== stop)
+  stackStart.splice(stackStart.indexOf(start), 1)
+  stackStop.splice(stackStop.indexOf(stop), 1)
 
   highjackCount = Math.max(0, highjackCount - 1)
   if (!highjackCount) {

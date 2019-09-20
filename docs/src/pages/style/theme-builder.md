@@ -9,6 +9,10 @@ One of the most important parts of a website/app is to build a brand for it. Fir
 
 ## Theme Builder
 
-Click on the colored buttons besides the layout below and when you are ready, hit the `Export` button at the bottom. Recommended way is to go with `/src/css/quasar.variables.styl`.
+Click on the colored buttons besides the layout below and when you are ready, hit the `Export` button at the bottom. Recommended way is to go with the Sass/SCSS form.
 
-<theme-builder />
+<theme-builder class="q-py-lg" />
+
+::: tip
+Sass/SCSS is only available if you have Quasar v1.1.1+ and your project is managed by Quasar CLI through @quasar/app v1.1.0+.
+:::

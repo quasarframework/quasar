@@ -51,6 +51,8 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 <doc-example title="Disable" file="QRange/Disable" />
 
+<doc-example title="Null values" file="QRange/Null" />
+
 <doc-example title="Usage with a list" file="QRange/List" />
 
 ## QRange API

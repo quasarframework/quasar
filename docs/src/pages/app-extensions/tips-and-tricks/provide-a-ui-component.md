@@ -23,7 +23,7 @@ Create a folder structure to keep your code modularized and organized. For insta
     │   └── register-my-component.js # boot file for component
     ├── component                    # folder to contain component
     │   ├── MyComponent.vue          # component file (can be .vue or even .js)
-    │   └── MyComponent.styl         # stylus file for component (or .css, or whatever you need)
+    │   └── MyComponent.styl         # stylus file for component (or .sass/.scss/.css, or whatever you need)
     └── index.js                     # Described in Index API
 ```
 

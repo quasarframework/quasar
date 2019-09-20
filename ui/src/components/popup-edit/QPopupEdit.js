@@ -149,11 +149,13 @@ export default Vue.extend({
         contentClass: this.classes
       },
       on: {
-        show: () => {
-          this.$emit('show')
+        'before-show': () => {
           this.validated = false
           this.initialValue = clone(this.value)
           this.watcher = this.$watch('value', this.__reposition)
+        },
+        show: () => {
+          this.$emit('show')
         },
         'before-hide': () => {
           this.watcher()

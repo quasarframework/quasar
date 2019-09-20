@@ -315,6 +315,7 @@ export default Vue.extend({
       if (this.multiple !== true) {
         this.updateInputValue(
           this.fillInput === true ? this.__getOptionLabel(opt) : '',
+          true,
           true
         )
 
@@ -326,7 +327,7 @@ export default Vue.extend({
         return
       }
 
-      this.dialogFieldFocused === true && this.__focus()
+      (this.hasDialog !== true || this.dialogFieldFocused === true) && this.__focus()
 
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
@@ -414,7 +415,17 @@ export default Vue.extend({
         .find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
     },
 
+    __onTargetKeyup (e) {
+      this.$emit('keyup', e)
+    },
+
+    __onTargetKeypress (e) {
+      this.$emit('keypress', e)
+    },
+
     __onTargetKeydown (e) {
+      this.$emit('keydown', e)
+
       // escape, tab
       if (e.keyCode === 27 || e.keyCode === 9) {
         this.__closeMenu()
@@ -508,7 +519,7 @@ export default Vue.extend({
             )
           }
 
-          this.updateInputValue('', this.multiple !== true)
+          this.updateInputValue('', this.multiple !== true, true)
         }
 
         if (this.$listeners['new-value'] !== void 0) {
@@ -535,7 +546,7 @@ export default Vue.extend({
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
-          this.$refs.menu !== void 0
+          this.$refs.menu !== void 0 && this.$refs.menu.__portal !== void 0
             ? this.$refs.menu.__portal.$el
             : void 0
         )
@@ -615,7 +626,9 @@ export default Vue.extend({
             autofocus: this.autofocus
           },
           on: {
-            keydown: this.__onTargetKeydown
+            keydown: this.__onTargetKeydown,
+            keyup: this.__onTargetKeyup,
+            keypress: this.__onTargetKeypress
           }
         }
       }
@@ -697,7 +710,9 @@ export default Vue.extend({
         change: this.__onCompositionEnd,
         compositionstart: this.__onCompositionStart,
         compositionend: this.__onCompositionEnd,
-        keydown: this.__onTargetKeydown
+        keydown: this.__onTargetKeydown,
+        keyup: this.__onTargetKeyup,
+        keypress: this.__onTargetKeypress
       }
 
       if (this.$q.platform.is.android === true) {
@@ -737,15 +752,20 @@ export default Vue.extend({
       }
 
       this.inputValue = e.target.value || ''
+      // mark it here as user input so that if updateInputValue is called
+      // before filter is called the indicator is reset
+      this.userInputValue = true
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
-          this.filter(this.inputValue, true)
+          this.filter(this.inputValue)
         }, this.inputDebounce)
       }
     },
 
-    updateInputValue (val, noFiltering) {
+    updateInputValue (val, noFiltering, internal) {
+      this.userInputValue = internal !== true
+
       if (this.useInput === true) {
         if (this.inputValue !== val) {
           this.inputValue = val
@@ -755,7 +775,7 @@ export default Vue.extend({
       }
     },
 
-    filter (val, userInput) {
+    filter (val) {
       if (this.$listeners.filter === void 0 || this.focused !== true) {
         return
       }
@@ -771,7 +791,7 @@ export default Vue.extend({
         val !== '' &&
         this.multiple !== true &&
         this.innerValue.length > 0 &&
-        userInput !== true &&
+        this.userInputValue !== true &&
         val === this.__getOptionLabel(this.innerValue[0])
       ) {
         val = ''
@@ -824,6 +844,9 @@ export default Vue.extend({
         focusout,
         'popup-show': this.__onControlPopupShow,
         'popup-hide': e => {
+          e !== void 0 && stop(e)
+          this.$emit('popup-hide', e)
+          this.hasDialog !== true && this.__focus()
           this.hasPopupOpen = false
           focusout(e)
         },
@@ -972,7 +995,14 @@ export default Vue.extend({
             this.__resetInputValue()
           },
           show: () => {
-            document.activeElement.id !== this.targetUid && this.$refs.target !== document.activeElement && this.$refs.target.focus()
+            const el = document.activeElement
+            // IE can have null document.activeElement
+            if (
+              (el === null || el.id !== this.targetUid) &&
+              this.$refs.target !== el
+            ) {
+              this.$refs.target.focus()
+            }
           }
         }
       }, [
@@ -1029,6 +1059,7 @@ export default Vue.extend({
         this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
           ? this.__getOptionLabel(this.innerValue[0]) || ''
           : '',
+        true,
         true
       )
     },

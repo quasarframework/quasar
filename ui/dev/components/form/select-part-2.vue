@@ -876,7 +876,7 @@ export default {
     },
 
     prefilter (ref) {
-      this.$refs[ref].updateInputValue('123')
+      this.$refs[ref].updateInputValue('Opt 123')
       this.$refs[ref].showPopup()
     },
 
