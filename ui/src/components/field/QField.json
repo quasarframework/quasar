@@ -65,10 +65,10 @@
 
   "events": {
     "input": {
-      "extends": "input",
+      "desc": "Emitted when the model changes and only emitted, when clearable or the control scoped slot are used.",
       "params": {
         "value": {
-          "type": [ "String", "Number" ]
+          "desc": "New model value"
         }
       }
     },
