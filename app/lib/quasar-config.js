@@ -385,7 +385,7 @@ class QuasarConfig {
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
       vueRouterMode: 'hash',
-      preloadChunks: true,
+      preloadChunks: this.ctx.prod,
       forceDevPublicPath: false,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
