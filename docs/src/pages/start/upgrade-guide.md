@@ -245,7 +245,7 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 
 ### Animation
 
-- The JS and CSS animations were removed for v1. However, they will be offered as a separate Quasar package when v1 fully releases. Until then, if you need them, you can add them manually to your quasar project by pulling them directly out of the v0.17 repository and adding them to your project.
+- The JS and CSS animations were removed for v1. If you need them, you can add them manually to your quasar project by pulling them directly out of the v0.17 repository and adding them to your project.
 - [motion.styl](https://github.com/quasarframework/quasar/blob/v0.17/src/css/core/motion.styl)
 - [animate.js](https://github.com/quasarframework/quasar/blob/v0.17/src/utils/animate.js)
 
