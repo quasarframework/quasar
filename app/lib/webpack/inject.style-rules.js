@@ -1,4 +1,4 @@
-const ExtractLoader = require('extract-css-chunks-webpack-plugin').loader
+const ExtractLoader = require('mini-css-extract-plugin').loader
 const merge = require('webpack-merge')
 
 const

@@ -314,7 +314,7 @@ module.exports = function (cfg, configName) {
 
     // configure CSS extraction & optimize
     if (configName !== 'Server' && cfg.build.extractCSS) {
-      const MiniCssExtractPlugin = require('extract-css-chunks-webpack-plugin')
+      const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
       // extract css into its own file
       chain.plugin('mini-css-extract')
