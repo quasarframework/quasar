@@ -37,7 +37,6 @@ export default Vue.extend({
         this.__size = { left: 0, right: 0, top: 0, bottom: 0 }
         this.__scale = 0
 
-        console.log(evt.direction)
         node.classList.add('no-transition')
 
         slotsDef.forEach(slot => {
