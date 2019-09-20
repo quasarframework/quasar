@@ -13,9 +13,10 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
-        <q-btn label="Custom component" flat color="primary" @click="customComponent" />
+        <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
+        <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
         <q-btn label="With HTML" flat color="primary" @click="unsafe" />
-        <q-btn-dropdown color="black" label="Open from dropdown" flat>
+        <q-btn-dropdown color="accent" label="Open from dropdown" unelevated>
           <q-list flat>
             <q-item @click="alert" clickable v-close-popup>
               <q-item-section>
@@ -74,7 +75,12 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-btn label="Custom component" flat color="primary" @click="customComponent" />
+                <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
               </q-item-section>
             </q-item>
             <q-item>
@@ -94,7 +100,8 @@
 </template>
 
 <script>
-import DialogComponent from './dialog-component.js'
+import DialogComponentWithParent from './dialog-component-with-parent.js'
+import DialogComponentNoParent from './dialog-component-no-parent.js'
 
 export default {
   provide: {
@@ -320,10 +327,24 @@ export default {
       }, 3000)
     },
 
-    customComponent () {
+    customComponentWithParent () {
       this.dialogHandler = this.$q.dialog({
-        root: this,
-        component: DialogComponent,
+        parent: this,
+        component: DialogComponentWithParent,
+        // props forwarded to component:
+        text: 'gigi'
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+
+    customComponentNoParent () {
+      this.dialogHandler = this.$q.dialog({
+        component: DialogComponentNoParent,
         // props forwarded to component:
         text: 'gigi'
       }).onOk(() => {
