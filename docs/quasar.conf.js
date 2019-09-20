@@ -26,6 +26,7 @@ module.exports = function (ctx) {
       scopeHoisting: true,
       vueRouterMode: 'history',
       // showProgress: false,
+      preloadChunks: false,
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
@@ -62,7 +63,7 @@ module.exports = function (ctx) {
         rule.use('md-loader')
           .loader(require.resolve('./build/md-loader'))
 
-        if (isClient) {
+        if (false && isClient) {
           chain.module.rule('eslint')
             .enforce('pre')
             .test(/\.(js|vue)$/)
