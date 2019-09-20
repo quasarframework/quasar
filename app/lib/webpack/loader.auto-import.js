@@ -3,8 +3,8 @@ const getDevlandFile = require('../helpers/get-devland-file')
 const data = getDevlandFile('quasar/dist/babel-transforms/auto-import.json')
 
 const compRegex = {
-  '?kebab': new RegExp(data.regex.kebabComponents, 'g'),
-  '?pascal': new RegExp(data.regex.pascalComponents, 'g'),
+  '?kebab': new RegExp(data.regex.kebabComponents || data.regex.components, 'g'),
+  '?pascal': new RegExp(data.regex.pascalComponents || data.regex.components, 'g'),
   '?combined': new RegExp(data.regex.components, 'g')
 }
 
