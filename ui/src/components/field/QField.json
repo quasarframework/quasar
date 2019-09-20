@@ -65,7 +65,7 @@
 
   "events": {
     "input": {
-      "desc": "Emitted when the model changes and only emitted, when clearable or the control scoped slot are used.",
+      "desc": "Emitted when the model changes, only when used with 'clearable' or the 'control' scoped slot.",
       "params": {
         "value": {
           "desc": "New model value"
