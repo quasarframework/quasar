@@ -12,7 +12,7 @@ export default Vue.extend({
   mixins: [ QField, MaskMixin ],
 
   props: {
-    value: [String, Number, FileList],
+    value: { required: false },
 
     type: {
       type: String,
