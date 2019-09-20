@@ -479,7 +479,7 @@ export default {
         'q-uploader--flat no-shadow': this.flat,
         'disabled q-uploader--disable': this.disable
       },
-      on: this.editable === true && this.isUploading !== true
+      on: this.canAddFiles === true
         ? { dragover: this.__onDragOver }
         : null
     }, [
