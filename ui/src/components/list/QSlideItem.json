@@ -15,13 +15,15 @@
     "top-color": {
       "extends": "color",
       "desc": "Color name for top-side background from the Quasar Color Palette",
-      "category": "style"
+      "category": "style",
+      "addedIn": "v1.1.3"
     },
 
     "bottom-color": {
       "extends": "color",
       "desc": "Color name for bottom-side background from the Quasar Color Palette",
-      "category": "style"
+      "category": "style",
+      "addedIn": "v1.1.3"
     }
   },
 
@@ -39,11 +41,13 @@
     },
 
     "top": {
-      "desc": "Top side content when sliding"
+      "desc": "Top side content when sliding",
+      "addedIn": "v1.1.3"
     },
 
     "bottom": {
-      "desc": "Bottom side content when sliding"
+      "desc": "Bottom side content when sliding",
+      "addedIn": "v1.1.3"
     }
   },
 
@@ -86,6 +90,7 @@
 
     "top": {
       "desc": "Emitted when user finished sliding the item up",
+      "addedIn": "v1.1.3",
       "params": {
         "details": {
           "type": "Object",
@@ -104,6 +109,7 @@
 
     "bottom": {
       "desc": "Emitted when user finished sliding the item down",
+      "addedIn": "v1.1.3",
       "params": {
         "details": {
           "type": "Object",
