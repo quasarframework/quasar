@@ -204,7 +204,7 @@ export default {
           caption: 'I\'m working on Quasar!',
           time: '17:00',
           sent: true
-        },
+        }
       ]
     }
   },
