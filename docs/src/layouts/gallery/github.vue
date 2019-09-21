@@ -1,5 +1,5 @@
 <template>
-  <q-layout>
+  <q-layout class="bg-grey-1">
     <q-header elevated class="text-white" style="background: #24292e" height-hint="61.59">
       <q-toolbar class="q-py-sm q-px-md">
         <q-btn round dense flat :ripple="false" icon="fab fa-github" size="19px" color="white" class="q-mr-sm" no-caps />
