@@ -7,13 +7,13 @@
       .relative-position
         .text-h1
           .text-weight-bold Quasar
-          .row.no-wrap.items-baseline
+          .landing__hero-row.row.no-wrap.items-baseline
             span Framew
             img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
             span rk
         .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
         .q-pt-md.q-pl-sm
-          .landing__hero-btns.q-gutter-md.row.items-center
+          .landing__hero-row.landing__hero-btns.q-gutter-md.row.items-center
             q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
             q-btn(push, color="white", text-color="primary", to="/start", label="Docs")
             q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
@@ -310,6 +310,9 @@ export default {
 
     &__hero
       text-align: center
+
+      .landing__hero-row
+        justify-content: center
 
       .text-h1
         font-size: 4rem

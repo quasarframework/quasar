@@ -2,13 +2,14 @@
 q-layout
   .err404__space.fixed
   q-page-container
-    q-page.err404.column.flex-center.text-center.text-white
-      .err404__hero.row.no-wrap.q-gutter-sm
-        div 4
-        img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg", style="width:30vw;max-width:150px;" size="sm" push)
-        div 4
-      .err404__punch-line You're not intentionally heading for a black hole, are you?
-      q-btn.q-mt-md(no-caps color="white" text-color="primary" to="/" label="Take me home" push)
+    q-page.err404.flex.flex-center.text-center.text-white
+      div
+        .err404__hero.flex.flex-center.no-wrap.q-gutter-sm
+          div 4
+          img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
+          div 4
+        .err404__punch-line You're not intentionally heading for a black hole, are you?
+        q-btn.q-mt-md(no-caps color="white" text-color="primary" to="/" label="Take me home" push)
 
       landing-top-bar.err404__topbar
 </template>
@@ -31,6 +32,7 @@ export default {
 
 <style lang="sass">
 .err404
+  min-height: 100vh !important
 
   &__topbar
     display: flex;
@@ -57,6 +59,8 @@ export default {
     font-size: 150px
 
     img
+      width: 1em
+      height: 1em
       animation: err-logo-rotate 80s linear infinite
 
 @keyframes err-logo-rotate
