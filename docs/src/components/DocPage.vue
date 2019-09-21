@@ -58,10 +58,10 @@ q-page.doc-page
         q-icon(name="fab fa-medium")
 
       a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
-        q-icon(name="fab fa-discord")
+        q-icon(name="chat")
 
       a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
-        q-icon(name="fas fa-comments")
+        q-icon(name="forum")
 
       a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
         q-icon(name="fab fa-twitter")

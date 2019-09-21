@@ -131,7 +131,7 @@
                 </q-item-label>
                 <q-item-label class="conversation__summary" caption>
                   <q-icon name="check" v-if="conversation.sent" />
-                  <q-icon name="fas fa-ban" v-if="conversation.deleted" />
+                  <q-icon name="not_interested" v-if="conversation.deleted" />
                   {{ conversation.caption }}
                 </q-item-label>
               </q-item-section>

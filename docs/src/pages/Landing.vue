@@ -54,7 +54,7 @@
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-chart-line")
+          q-icon(name="gps_fixed")
           h6 Quasar's goal
           p What we want to achieve with Quasar is to raise the bar for web development as a whole. Make it go forward, evolve. Change minds. Point out when there’s a better alternative to current establishment. You deserve a stellar development experience.
 
@@ -66,25 +66,25 @@
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-users")
+          q-icon(name="group_add")
           h6 Big community
           p We have grown into a big community. You can get help or advise others through Quasar's Discord chat server or the Quasar Forum. You're not alone.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-bolt")
+          q-icon(name="flash_on")
           h6 Top Class, Fast Web Components
           p There's a component for almost every web development need out there. Each of these components are carefully crafted to offer the best possible experience to your users. Quasar is designed with performance and responsiveness in mind – so the overhead of using Quasar is barely noticeable. This is an area we take special pride in.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-cogs")
+          q-icon(name="settings_applications")
           h6 Best practices integrated by default
           p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, sourcemapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-align-right")
+          q-icon(name="format_align_right")
           h6 Full RTL support
           p RTL (right to left) support for both Quasar components and developer's own code. Developer-written website/app CSS code gets automatically converted to RTL, if an RTL language pack is used.
 
@@ -100,37 +100,38 @@
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-language")
+          q-icon(name="language")
+          q-icon(name="translate")
           h6 Internationalization and Localization
           p There's more than 40 Quasar language packs available. If your desired language pack is missing it takes just 5 minutes to add it.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-graduation-cap")
+          q-icon(name="collections_bookmark")
           h6 Great documentation
           p It's worth mentioning the significant amount of time that is spent on writing great, bloat-free, focused, complete documentation pages so you as a developer can quickly pick up Quasar.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-shield-alt")
+          q-icon(name="security")
           h6 We care deeply about Security
           p We are always paranoid about the security of Quasar and the security of apps built with Quasar. We are on a constant lookout to inform you about any security threats that you might need to know about. We have Security guidelines and we are even offering our security expertise through the Quasar Audit program.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-sign-in-alt")
+          q-icon(name="exit_to_app")
           h6 Progressively migrate your existing project
           p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and a JS HTML tags into an existing project and you're ready to use it. No build step is required.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-star")
+          q-icon(name="star")
           h6 Unparalleled developer experience through Quasar CLI
           p Quasar CLI takes care of all the quirks involved in developing an SPA, PWA, SSR, Mobile and Electron App.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-chart-line")
+          q-icon(name="important_devices")
           h6 Focus on your App
           p Your full focus is on your App's content rather than all other boilerplating stuff around it (build system, layout, and much more). You'll be spending time only on what matters, which is your product. Quasar greatly increases your productivity.
 
@@ -150,10 +151,10 @@
           q-icon(name="fab fa-medium")
 
         a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-discord")
+          q-icon(name="chat")
 
         a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
-          q-icon(name="fas fa-comments")
+          q-icon(name="forum")
 
         a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-twitter")
@@ -254,10 +255,12 @@ export default {
   &__features
     .q-icon
       font-size: 64px
-      padding-left: 16px
 
     h4, h6
       margin: 26px 0
+
+    h6
+      margin-top: 18px
 
     p
       opacity: .6

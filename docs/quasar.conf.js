@@ -10,13 +10,13 @@ module.exports = function (ctx) {
     ],
 
     css: [
-      'app.sass'
+      'app.sass',
+      'docs-font/docs-font.css'
     ],
 
     extras: [
       'roboto-font',
-      'material-icons',
-      'fontawesome-v5'
+      'material-icons'
     ],
 
     supportIE: true,
