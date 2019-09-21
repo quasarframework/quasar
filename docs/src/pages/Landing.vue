@@ -201,6 +201,8 @@ export default {
 <style lang="sass">
 .landing
 
+  background: #111
+
   > section
     display: flex
     justify-content: center
