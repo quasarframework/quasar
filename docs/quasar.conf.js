@@ -26,7 +26,7 @@ module.exports = function (ctx) {
       scopeHoisting: true,
       vueRouterMode: 'history',
       showProgress: ctx.dev,
-      preloadChunks: false,
+      // preloadChunks: false,
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
