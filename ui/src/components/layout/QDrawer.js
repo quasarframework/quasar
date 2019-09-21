@@ -142,7 +142,7 @@ export default Vue.extend({
     },
 
     onLayout (val) {
-      this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', val)
+      this.$emit('on-layout', val)
       this.__update('space', val)
     },
 
@@ -168,6 +168,10 @@ export default Vue.extend({
         this.__animateMini()
         this.layout.__animate()
       }
+    },
+
+    isMini (val) {
+      this.$emit('mini-state', val)
     }
   },
 
@@ -501,7 +505,8 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', this.onLayout)
+    this.$emit('on-layout', this.onLayout)
+    this.$emit('mini-state', this.isMini)
 
     const fn = () => {
       if (this.showing === true) {
