@@ -191,20 +191,20 @@ export default {
         },
         {
           id: 3,
-          person: 'Denjell Thompson-Yvetot',
-          avatar: 'https://cdn.quasar.dev/team/daniel_thompson-yvetot.jpg',
-          caption: 'I\'m working on Quasar!',
-          time: '17:00',
-          sent: true
-        },
-        {
-          id: 4,
           person: 'Jeff Galbraith',
           avatar: 'https://cdn.quasar.dev/team/jeff_galbraith.jpg',
           caption: 'I\'m working on Quasar!',
           time: '18:00',
           sent: true
-        }
+        },
+        {
+          id: 4,
+          person: 'Allan Gaunt',
+          avatar: 'https://cdn.quasar.dev/team/allan_gaunt.png',
+          caption: 'I\'m working on Quasar!',
+          time: '17:00',
+          sent: true
+        },
       ]
     }
   },
