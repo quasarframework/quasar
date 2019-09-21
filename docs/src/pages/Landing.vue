@@ -1,30 +1,25 @@
 <template lang="pug">
 .landing.text-white
+  .landing__space.fixed
+
   section
-    .landing__hero
-
-      div(style="height: 28vh")
-      .landing__hero-content.row.justify-center.q-gutter-xl
-
-        .row
-          img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
-
-        .flex.justify-end
-          .q-gutter-sm
-            .col
-              .text-h1
-                div.text-weight-bold Quasar
-                div Framework
-              .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
-              .q-pt-md.q-pl-sm
-                .landing__hero-btns.q-gutter-md.row.items-center
-                  q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
-                  q-btn(push, color="white", text-color="primary", to="/start", label="Docs")
-                  q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
-                  .text-body2 v{{ $q.version }}
-
-        .row.justify-center.col-10
-          q-icon.landing__arrow-down(name="keyboard_arrow_down" size="50px")
+    .landing__hero.flex.flex-center
+      .relative-position
+        .text-h1
+          .text-weight-bold Quasar
+          .row.no-wrap.items-baseline
+            span Framew
+            img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
+            span rk
+        .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+        .q-pt-md.q-pl-sm
+          .landing__hero-btns.q-gutter-md.row.items-center
+            q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
+            q-btn(push, color="white", text-color="primary", to="/start", label="Docs")
+            q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
+            .text-body2 v{{ $q.version }}
+        .landing__arrow-down.row.justify-center.absolute
+          q-icon.landing__arrow-down-icon.q-mt-xl(name="keyboard_arrow_down" size="50px")
 
   section.landing__front.text-center
     div
@@ -204,8 +199,6 @@ export default {
 
 <style lang="sass">
 .landing
-  background: #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') no-repeat center center fixed
-  background-size: cover
 
   > section
     display: flex
@@ -223,20 +216,39 @@ export default {
   &__hero
     min-height: 100vh
 
+    .text-h1
+      margin-left: 2px
+      margin-bottom: 28px
+
   &__front
     padding: 130px 16px 100px !important
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9) 15%)
     > div
       max-width: 700px !important
 
   &__logo
-    width: 150px
-    height: 150px
-    margin-top: 21px
-    animation: logo-rotate 240s linear infinite
+    width: 72px
+    height: 72px
+    margin: 0 4px
+    animation: logo-rotate 80s linear infinite
+
+  &__space
+    width: 400vw
+    height: 400vh
+    top: 50%
+    left: 50%
+    margin-top: -200vh
+    margin-left: -200vw
+    animation: logo-rotate 200s linear infinite
+    background-size: 240px
+    backface-visibility: visible
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDI0MCAyNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0MCAyNDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxyZWN0IHg9IjEwNiIgeT0iOTAiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48cmVjdCB4PSI3NCIgeT0iNjMiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIyMyIgeT0iNjYiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSI1MCIgeT0iMTEwIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iNjMiIHk9IjEyOCIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjxyZWN0IHg9IjQ1IiB5PSIxNDkiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSI5MiIgeT0iMTUxIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iNTgiIHk9IjgiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIxNDciIHk9IjMzIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMiIgaGVpZ2h0PSIyIi8+PHJlY3QgeD0iOTEiIHk9IjQzIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iMTY5IiB5PSIyOSIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjxyZWN0IHg9IjE4MiIgeT0iMTkiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIxNjEiIHk9IjU5IiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iMTM4IiB5PSI5NSIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjxyZWN0IHg9IjE5OSIgeT0iNzEiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiLz48cmVjdCB4PSIyMTMiIHk9IjE1MyIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPjxyZWN0IHg9IjEyOCIgeT0iMTYzIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iMjA1IiB5PSIxNzQiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIxNTIiIHk9IjIwMCIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjxyZWN0IHg9IjUyIiB5PSIyMTEiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48cmVjdCB5PSIxOTEiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIxMTAiIHk9IjE4NCIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjwvc3ZnPg==)
 
   &__arrow-down
-    margin-top: 100px
+    top: 100%
+    left: 50%
+    transform: translateX(-50%)
+  &__arrow-down-icon
     animation: landing-bounce 2s infinite
 
   &__features
@@ -295,13 +307,13 @@ export default {
 
 @media (max-width: 718px)
   .landing
+
     &__hero
       text-align: center
 
       .text-h1
-        font-size: 3rem
-        line-height: 3.05rem
-        margin-bottom: 24px
+        font-size: 4rem
+        line-height: 4.05rem
 
     > section.padding
       padding-top: 90px
@@ -310,27 +322,13 @@ export default {
     .feature-item
       text-align: center
 
-    &__hero-content
-      padding-bottom: 180px
-
     &__hero-btns
       justify-content: center
 
-    &__arrow-down
-      margin-top: 50px
+    &__logo
+      width: 46px
+      height: 46px
 
-body.mobile .landing
-  background: unset
-
-  &:before
-    content: ''
-    position: fixed /* stretch a fixed position to the whole screen */
-    top: 0
-    height: 100vh /* fix for mobile browser address bar appearing disappearing */
-    left: 0
-    right: 0
-    bottom: 0
-    z-index: -1 /* needed to keep in the background */
-    background: #000 url('https://cdn.quasar.dev/img/quasar-cover.jpg') center center
-    background-size: cover
+    &__swirl-bg
+      background-image: none !important
 </style>

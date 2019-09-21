@@ -257,6 +257,9 @@ export default {
 <style lang="sass">
 @import '../css/docsearch'
 
+.doc-layout
+  background: $grey-1
+
 .header
   background: linear-gradient(145deg, $primary 11%, $dark-primary 75%)
 
