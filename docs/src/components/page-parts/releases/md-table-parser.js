@@ -1,9 +1,11 @@
 // inspired by https://github.com/blattmann/mdtablesparser
+
 export default str => {
-  let blocks = []
+  const blocks = []
   let md = ''
   let beforeTable = ''
   let pushed
+
   for (const row of str.split('\n')) {
     if (row.match(/(\|)/gi)) {
       md += row + '\n'
@@ -29,22 +31,23 @@ export default str => {
     md = block.md
     const rows = md.split('\n')
 
-    for (let i = 0; i < rows.length; i++) {
-      let row = rows[i]
-
-      // header.
-      if (row.length >= 1 && i === 0) {
-        const columns = row.split('|')
-        if (columns.length > 1) {
-          let inner = ''
-          for (let k = 1; k < columns.length; k++) {
-            const column = columns[k].trim()
-            inner += `<th>${column}</th>`
-          }
-          content += `<tr>${inner}</tr>`
+    // header.
+    let header = ''
+    if (rows[0].length >= 1) {
+      const columns = rows[0].split('|')
+      if (columns.length > 1) {
+        for (let k = 1; k < columns.length; k++) {
+          const column = columns[k].trim()
+          header += `<th class="text-left">${column}</th>`
         }
-        row = rows[i + 1]
       }
+    }
+    if (header) {
+      header = `<thead>${header}</thead>`
+    }
+
+    for (let i = 1; i < rows.length; i++) {
+      let row = rows[i]
 
       // Table content.
       if (row) {
@@ -66,8 +69,8 @@ export default str => {
     }
 
     const table = content
-      ? `<div class="q-markup-table q-table__container q-table__card q-table--no-wrap q-table--dense">
-          <table class="q-table"><tbody>${content}</tbody></table>
+      ? `<div class="q-markup-table q-table__container q-table__card q-table--horizontal-separator q-table--flat q-table--bordered q-table--no-wrap q-table--dense">
+          <table class="q-table">${header}<tbody>${content}</tbody></table>
         </div>`
       : ''
     finalContent += block.beforeTable + table
