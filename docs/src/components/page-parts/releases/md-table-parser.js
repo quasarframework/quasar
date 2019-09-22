@@ -1,80 +1,44 @@
-// inspired by https://github.com/blattmann/mdtablesparser
+function getTable (rows) {
+  const header = rows[0].split('|')
+    .filter(col => col)
+    .map(col => `<th class="text-left">${col.trim()}</th>`)
+    .join('')
 
-export default str => {
-  const blocks = []
-  let md = ''
-  let beforeTable = ''
-  let pushed
+  const body = rows.slice(2).map(row => '<tr>' +
+    row.split('|')
+      .filter(col => col)
+      .map(col => `<td>${col.trim()}</td>`)
+      .join('') +
+    '</tr>'
+  ).join('')
 
-  for (const row of str.split('\n')) {
-    if (row.match(/(\|)/gi)) {
-      md += row + '\n'
-      pushed = false
+  return `<div class="q-markup-table q-table__container q-table__card ` +
+    `q-table--horizontal-separator q-table--flat q-table--bordered ` +
+    `q-table--no-wrap q-table--dense">` +
+    `<table class="q-table"><thead>${header}</thead>` +
+    `<tbody>${body}</tbody></table></div>`
+}
+
+export default raw => {
+  let content = ''
+  let tableRows = []
+
+  for (const row of raw.split('\n')) {
+    if (row.indexOf('|') > -1) {
+      tableRows.push(row.trim())
     }
     else {
-      if (md && !pushed) {
-        pushed = true
-        blocks.push({
-          md: md.trim(),
-          beforeTable
-        })
-        md = ''
+      if (tableRows.length > 0) {
+        content += getTable(tableRows) + '\n'
+        tableRows = []
       }
-      beforeTable += row + '\n'
+      content += row + '\n'
     }
   }
 
-  let finalContent = ''
-
-  for (const block of blocks) {
-    let content = ''
-    md = block.md
-    const rows = md.split('\n')
-
-    // header.
-    let header = ''
-    if (rows[0].length >= 1) {
-      const columns = rows[0].split('|')
-      if (columns.length > 1) {
-        for (let k = 1; k < columns.length; k++) {
-          const column = columns[k].trim()
-          header += `<th class="text-left">${column}</th>`
-        }
-      }
-    }
-    if (header) {
-      header = `<thead>${header}</thead>`
-    }
-
-    for (let i = 1; i < rows.length; i++) {
-      let row = rows[i]
-
-      // Table content.
-      if (row) {
-        const columns = row.split('|')
-        if (columns.length > 1) {
-          let inner = ''
-          for (let k = 1; k < columns.length; k++) {
-            const column = columns[k].trim()
-            if (!inner && column.match(/^(.)\1{1,}$/)) {
-              break
-            }
-            inner += `<td>${column}</td>`
-          }
-          if (inner) {
-            content += `<tr>${inner}</tr>`
-          }
-        }
-      }
-    }
-
-    const table = content
-      ? `<div class="q-markup-table q-table__container q-table__card q-table--horizontal-separator q-table--flat q-table--bordered q-table--no-wrap q-table--dense">
-          <table class="q-table">${header}<tbody>${content}</tbody></table>
-        </div>`
-      : ''
-    finalContent += block.beforeTable + table
+  if (tableRows.length > 0) {
+    content += getTable(tableRows) + '\n'
   }
 
-  return blocks.length ? finalContent : str
+  return content
 }
