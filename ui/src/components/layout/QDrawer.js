@@ -85,9 +85,14 @@ export default Vue.extend({
   watch: {
     belowBreakpoint (val) {
       if (val === true) { // from lg to xs
+        this.lastDesktopState = this.showing
         this.showing === true && this.hide(false)
       }
-      else if (this.overlay === false && this.behavior !== 'mobile') { // from xs to lg
+      else if (
+        this.overlay === false &&
+        this.behavior !== 'mobile' &&
+        this.lastDesktopState !== false
+      ) { // from xs to lg
         if (this.showing === true) {
           this.__applyBackdrop(0)
           this.__cleanup()
@@ -137,7 +142,7 @@ export default Vue.extend({
     },
 
     onLayout (val) {
-      this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', val)
+      this.$emit('on-layout', val)
       this.__update('space', val)
     },
 
@@ -163,6 +168,10 @@ export default Vue.extend({
         this.__animateMini()
         this.layout.__animate()
       }
+    },
+
+    isMini (val) {
+      this.$emit('mini-state', val)
     }
   },
 
@@ -496,7 +505,8 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', this.onLayout)
+    this.$emit('on-layout', this.onLayout)
+    this.$emit('mini-state', this.isMini)
 
     const fn = () => {
       if (this.showing === true) {

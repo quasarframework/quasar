@@ -1,13 +1,9 @@
 /*!
- * Font Awesome Free 5.9.0 by @fontawesome - https://fontawesome.com
+ * Font Awesome Free 5.11.1 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
  */
 
- .fa,
-.fas,
-.far,
-.fal,
-.fab {
+.fa, .fas, .far, .fal, .fab {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   display: inline-block;
@@ -687,6 +683,9 @@ readers do not read off random characters that represent icons */
 .fa-business-time:before {
   content: "\f64a"; }
 
+.fa-buy-n-large:before {
+  content: "\f8a6"; }
+
 .fa-buysellads:before {
   content: "\f20d"; }
 
@@ -1088,6 +1087,9 @@ readers do not read off random characters that represent icons */
 
 .fa-copyright:before {
   content: "\f1f9"; }
+
+.fa-cotton-bureau:before {
+  content: "\f89e"; }
 
 .fa-couch:before {
   content: "\f4b8"; }
@@ -2043,6 +2045,12 @@ readers do not read off random characters that represent icons */
 .fa-hashtag:before {
   content: "\f292"; }
 
+.fa-hat-cowboy:before {
+  content: "\f8c0"; }
+
+.fa-hat-cowboy-side:before {
+  content: "\f8c1"; }
+
 .fa-hat-wizard:before {
   content: "\f6e8"; }
 
@@ -2523,6 +2531,9 @@ readers do not read off random characters that represent icons */
 .fa-maxcdn:before {
   content: "\f136"; }
 
+.fa-mdb:before {
+  content: "\f8ca"; }
+
 .fa-medal:before {
   content: "\f5a2"; }
 
@@ -2661,6 +2672,9 @@ readers do not read off random characters that represent icons */
 .fa-mountain:before {
   content: "\f6fc"; }
 
+.fa-mouse:before {
+  content: "\f8cc"; }
+
 .fa-mouse-pointer:before {
   content: "\f245"; }
 
@@ -2741,6 +2755,9 @@ readers do not read off random characters that represent icons */
 
 .fa-optin-monster:before {
   content: "\f23c"; }
+
+.fa-orcid:before {
+  content: "\f8d2"; }
 
 .fa-osi:before {
   content: "\f41a"; }
@@ -3083,6 +3100,9 @@ readers do not read off random characters that represent icons */
 
 .fa-receipt:before {
   content: "\f543"; }
+
+.fa-record-vinyl:before {
+  content: "\f8d9"; }
 
 .fa-recycle:before {
   content: "\f1b8"; }
@@ -3672,6 +3692,9 @@ readers do not read off random characters that represent icons */
 .fa-swatchbook:before {
   content: "\f5c3"; }
 
+.fa-swift:before {
+  content: "\f8e1"; }
+
 .fa-swimmer:before {
   content: "\f5c4"; }
 
@@ -3956,6 +3979,9 @@ readers do not read off random characters that represent icons */
 
 .fa-uikit:before {
   content: "\f403"; }
+
+.fa-umbraco:before {
+  content: "\f8e8"; }
 
 .fa-umbrella:before {
   content: "\f0e9"; }
@@ -4359,6 +4385,11 @@ readers do not read off random characters that represent icons */
   position: static;
   width: auto; }
 
+.fa,
+.fas {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900; }
+
 @font-face {
   font-family: 'Font Awesome 5 Brands';
   font-style: normal;
@@ -4384,7 +4415,3 @@ readers do not read off random characters that represent icons */
   font-weight: 900;
   font-display: auto;
   src: url("./fa-solid-900.woff2") format("woff2"), url("./fa-solid-900.woff") format("woff"); }
-.fa,
-.fas {
-  font-family: 'Font Awesome 5 Free';
-  font-weight: 900; }
