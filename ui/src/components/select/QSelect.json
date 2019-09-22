@@ -173,7 +173,7 @@
 
     "map-options": {
       "type": "Boolean",
-      "desc": "Try to map labels of model from 'options' Array; has a small performance penalty",
+      "desc": "Try to map labels of model from 'options' Array; has a small performance penalty; If you are using emit-value you will probably need to use map-options to display the label text in the select field rather than the value;  Refer to the 'Affecting model' section above",
       "category": "options"
     },
 

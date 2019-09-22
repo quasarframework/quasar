@@ -82,7 +82,6 @@ module.exports = function (cfg, configName) {
     .loader('vue-loader')
     .options({
       productionMode: cfg.ctx.prod,
-      extractCSS: cfg.build.extractCSS,
       compilerOptions: {
         preserveWhitespace: false
       },
@@ -170,7 +169,8 @@ module.exports = function (cfg, configName) {
   injectStyleRules(chain, {
     rtl: cfg.build.rtl,
     sourceMap: cfg.build.sourceMap,
-    extract: configName !== 'Server' && cfg.build.extractCSS,
+    extract: cfg.build.extractCSS,
+    serverExtract: configName === 'Server' && cfg.build.extractCSS,
     minify: cfg.build.minify,
     stylusLoaderOptions: cfg.build.stylusLoaderOptions,
     sassLoaderOptions: cfg.build.sassLoaderOptions,
@@ -313,8 +313,8 @@ module.exports = function (cfg, configName) {
     }
 
     // configure CSS extraction & optimize
-    if (cfg.build.extractCSS) {
-      const MiniCssExtractPlugin = require('extract-css-chunks-webpack-plugin')
+    if (configName !== 'Server' && cfg.build.extractCSS) {
+      const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
       // extract css into its own file
       chain.plugin('mini-css-extract')

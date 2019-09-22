@@ -611,6 +611,9 @@ export default {
 </script>
 
 <style lang="sass">
+body
+  background: $grey-1
+
 .export-code
   .doc-code__inner
     max-height: 50vh
