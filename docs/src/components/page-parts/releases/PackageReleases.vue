@@ -14,6 +14,7 @@ q-splitter.release__splitter(:value="20")
 
 <script>
 import sanitize from './sanitize'
+import parseMdTable from './md-table-parser'
 
 export default {
   data () {
@@ -50,6 +51,8 @@ export default {
       if (this.search) {
         content = content.replace(new RegExp(`(${this.search})`, 'ig'), `<span class="bg-accent text-white">$1</span>`)
       }
+
+      content = parseMdTable(content)
 
       return content
         .replace(/### ([\S ]+)/g, '<div class="text-h6">$1</div>')
