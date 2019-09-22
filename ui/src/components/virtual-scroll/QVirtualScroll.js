@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QList from '../list/QList.js'
 import QMarkupTable from '../table/QMarkupTable.js'
+import TableMiddle from '../table/table-middle.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 
 import { listenOpts } from '../../utils/event.js'
@@ -33,6 +34,11 @@ export default Vue.extend({
 
     scrollTarget: {
       default: void 0
+    },
+
+    wrap: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -136,24 +142,28 @@ export default Vue.extend({
       return
     }
 
-    let child = this.__padVirtualScroll(
+    const child = this.__padVirtualScroll(
       h,
       this.type === 'list' ? 'div' : 'tbody',
       this.virtualScrollScope.map(this.$scopedSlots.default)
     )
 
     if (this.$scopedSlots.before !== void 0) {
-      child = this.$scopedSlots.before().concat(child)
+      child.unshift(this.$scopedSlots.before())
     }
     if (this.$scopedSlots.after !== void 0) {
-      child = child.concat(this.$scopedSlots.after())
+      child.push(this.$scopedSlots.after())
     }
 
-    return h(this.type === 'list' ? QList : QMarkupTable, {
-      class: this.classes,
-      attrs: this.attrs,
-      props: this.$attrs,
-      on: this.$listeners
-    }, child)
+    return h(
+      this.type === 'list'
+        ? QList
+        : (this.wrap === false ? TableMiddle : QMarkupTable)
+      , {
+        class: this.classes,
+        attrs: this.attrs,
+        props: this.$attrs,
+        on: this.$listeners
+      }, child)
   }
 })

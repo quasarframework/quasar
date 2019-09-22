@@ -405,6 +405,12 @@
         "(see source code)"
       ],
       "category": "sorting"
+    },
+
+    "virtual": {
+      "type": "Boolean",
+      "desc": "Display data with all rows without pagination, using virtual-scroll",
+      "category": "style"
     }
   },
 

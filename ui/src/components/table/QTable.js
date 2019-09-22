@@ -5,6 +5,8 @@ import TableHeader from './table-header.js'
 import TableBody from './table-body.js'
 import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
+import TableMiddle from './table-middle.js'
+import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
 
 import Sort from './table-sort.js'
 import Filter from './table-filter.js'
@@ -60,6 +62,7 @@ export default Vue.extend({
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
     wrapCells: Boolean,
+    virtual: Boolean,
 
     noDataLabel: String,
     noResultsLabel: String,
@@ -125,7 +128,7 @@ export default Vue.extend({
 
       const rowsNumber = rows.length
 
-      if (rowsPerPage) {
+      if (rowsPerPage && this.virtual === false) {
         rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
       }
 
@@ -164,7 +167,8 @@ export default Vue.extend({
         (this.dark === true ? ` q-table--dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '') +
-        (this.inFullscreen === true ? ` fullscreen scroll` : '')
+        (this.inFullscreen === true ? ` fullscreen scroll` : '') +
+        (this.virtual === true ? ` column no-wrap` : '')
     }
   },
 
@@ -199,15 +203,28 @@ export default Vue.extend({
         return this.getTableGrid(h)
       }
 
-      return h('div', {
-        staticClass: 'q-table__middle scroll',
-        class: this.tableClass,
+      const header = this.hideHeader !== true ? this.getTableHeader(h) : null
+
+      if (this.virtual) {
+        return h(QVirtualScroll, {
+          props: {
+            items: this.computedRows,
+            type: 'table',
+            wrap: false
+          },
+          scopedSlots: {
+            before: () => header,
+            default: this.getTableRowVirtual(h)
+          }
+        })
+      }
+
+      return h(TableMiddle, {
+        class: ['scroll', this.tableClass],
         style: this.tableStyle
       }, [
-        h('table', { staticClass: 'q-table' }, [
-          this.hideHeader !== true ? this.getTableHeader(h) : null,
-          this.getTableBody(h)
-        ])
+        header,
+        this.getTableBody(h)
       ])
     }
   }

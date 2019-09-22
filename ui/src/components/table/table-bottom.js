@@ -62,7 +62,7 @@ export default {
 
         h('div', { staticClass: 'q-table__separator col' }),
 
-        this.rowsPerPageOptions.length > 1
+        this.rowsPerPageOptions.length > 1 && this.virtual === false
           ? h('div', { staticClass: 'q-table__control' }, [
             h('span', { staticClass: 'q-table__bottom-item' }, [
               this.rowsPerPageLabel || this.$q.lang.table.recordsPerPage
@@ -98,11 +98,11 @@ export default {
             ? paginationSlot(this.marginalsProps)
             : [
               h('span', { staticClass: 'q-table__bottom-item' }, [
-                rowsPerPage
+                rowsPerPage && this.virtual === false
                   ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
                   : paginationLabel(1, this.computedRowsNumber, this.computedRowsNumber)
               ]),
-              h(QBtn, {
+              this.virtual === false && [h(QBtn, {
                 props: {
                   color: this.color,
                   round: true,
@@ -123,7 +123,7 @@ export default {
                   disable: this.isLastPage
                 },
                 on: { click: this.nextPage }
-              })
+              })]
             ]
         ])
       ]
