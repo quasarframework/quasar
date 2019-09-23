@@ -83,7 +83,9 @@ export default {
     }
   },
 
-  render () {},
+  render () {
+    this.__portal !== void 0 && this.__portal.$forceUpdate()
+  },
 
   beforeDestroy () {
     this.__hidePortal()

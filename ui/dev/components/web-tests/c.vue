@@ -1,5 +1,6 @@
 <template>
   <div class="q-layout-padding">
+    <q-toggle v-model="gigi" label="Gigi" />
     <q-btn color="purple" label="Account Settings - menu with attrs">
       <q-menu a="1">
         <div class="row no-wrap q-pa-md">
@@ -73,6 +74,7 @@
 export default {
   data () {
     return {
+      gigi: false,
       mobileData: false,
       bluetooth: true
     }
