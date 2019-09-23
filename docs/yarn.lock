@@ -928,9 +928,9 @@
     babel-plugin-transform-imports "^1.0.0"
 
 "@quasar/extras@^1.1.2":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.3.1.tgz#218a1a14967ea18b6e1cb6c4c19e434c15a0ac9f"
-  integrity sha512-kcbH+wJ0kLc9lKsVvmSiHOcPRRtUNq8yolLWzqN25LaGELANKwE9gfOLaoNsZ3vTLYCpQKewpZHwbdQdyvOoSQ==
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.3.2.tgz#d50f34fec235b79d4e570dc7f8b36209b0a9ada1"
+  integrity sha512-EGBvl4By7Cv/WFGD4dc2FX+iLA+GX7YOnDj8AH92Df4pSMDKxP3TdvpXRnKs3V6bfHKyafc3VklVdf30hT5EoA==
 
 "@quasar/fastclick@1.1.3":
   version "1.1.3"
@@ -4003,9 +4003,9 @@ glob-parent@^3.1.0:
     path-dirname "^1.0.0"
 
 glob-parent@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.0.0.tgz#1dc99f0f39b006d3e92c2c284068382f0c20e954"
-  integrity sha512-Z2RwiujPRGluePM6j699ktJYxmPpJKCfpGA13jz2hmFZC7gKetzrWvg5KN3+OsIFmydGyZ1AVwERCq1w/ZZwRg==
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-5.1.0.tgz#5f4c1d1e748d30cd73ad2944b3577a81b081e8c2"
+  integrity sha512-qjtRgnIVmOfnKUE3NJAQEdk+lKrxfw8t5ke7SXtfMTHcjsBfOfWXCQfdb30zfDoZQ2IRSIiidmjtbHZPZ++Ihw==
   dependencies:
     is-glob "^4.0.1"
 
@@ -5661,9 +5661,9 @@ minimist@1.2.0, minimist@^1.1.3, minimist@^1.2.0:
   integrity sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=
 
 minipass@^2.2.1, minipass@^2.6.0, minipass@^2.6.4:
-  version "2.6.5"
-  resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.6.5.tgz#1c245f9f2897f70fd4a219066261ce6c29f80b18"
-  integrity sha512-ewSKOPFH9blOLXx0YSE+mbrNMBFPS+11a2b03QZ+P4LVrUHW/GAlqeYC7DBknDyMWkHzrzTpDhUvy7MUxqyrPA==
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/minipass/-/minipass-2.8.1.tgz#a73bdc84cad62e8e6c8d56eba1302a5fe04c5910"
+  integrity sha512-QCG523ParRcE2+9A6wYh9UI3uy2FFLw4DQaVYQrY5HPfszc5M6VDD+j0QCwHm19LI2imes4RB+NBD8cOJccyCg==
   dependencies:
     safe-buffer "^5.1.2"
     yallist "^3.0.0"
@@ -7199,9 +7199,9 @@ qs@~6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 quasar@^1.0.0:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.1.3.tgz#f862d24f1b83f00b5ea93a25711cb542899c508d"
-  integrity sha512-mqsaLORO+2eUHTEJAp0qMzJ3XdgRWkmniauTdPmGhx9i6GvmJK4KN1zmyzSHzoJ9OVX4N8aGKAkjMlsAPztODQ==
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.1.4.tgz#7323c713a2f3f7b2085632cbce50b1246fe37551"
+  integrity sha512-A6SI9vQNFBQ10DjAeSAVtvARbdyZ5uHE5ecGTreMCuKULehWnsJEsRmohM3GU4SttINesONCN99D3Lek10nwRA==
 
 query-string@^4.1.0:
   version "4.3.4"
