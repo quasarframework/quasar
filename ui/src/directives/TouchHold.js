@@ -1,7 +1,8 @@
 import Platform from '../plugins/Platform.js'
 import { position, leftClick, stopAndPrevent, listenOpts } from '../utils/event.js'
-import { setObserver, removeObserver } from '../utils/touch.js'
 import { clearSelection } from '../utils/selection.js'
+
+const { notPassiveCapture } = listenOpts
 
 function update (el, binding) {
   const ctx = el.__qtouchhold
@@ -29,10 +30,6 @@ export default {
   name: 'touch-hold',
 
   bind (el, { modifiers, ...rest }) {
-    if (el.__qtouchhold) {
-      el.__qtouchhold_old = el.__qtouchhold
-    }
-
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && Platform.has.touch !== true) {
       return
@@ -41,8 +38,8 @@ export default {
     const ctx = {
       mouseStart (evt) {
         if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseMove, true)
-          document.addEventListener('click', ctx.mouseEnd, true)
+          document.addEventListener('mousemove', ctx.mouseMove, notPassiveCapture)
+          document.addEventListener('click', ctx.mouseEnd, notPassiveCapture)
           ctx.start(evt, true)
         }
       },
@@ -58,15 +55,12 @@ export default {
       },
 
       mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.mouseMove, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        document.removeEventListener('mousemove', ctx.mouseMove, notPassiveCapture)
+        document.removeEventListener('click', ctx.mouseEnd, notPassiveCapture)
         ctx.end(evt)
       },
 
       start (evt, mouseEvent) {
-        removeObserver(ctx)
-        mouseEvent !== true && setObserver(el, evt, ctx)
-
         ctx.origin = position(evt)
 
         const startTime = new Date().getTime()
@@ -95,18 +89,7 @@ export default {
         }, ctx.duration)
       },
 
-      move (evt) {
-        const { top, left } = position(evt)
-        if (
-          Math.abs(left - ctx.origin.left) >= ctx.touchSensitivity ||
-          Math.abs(top - ctx.origin.top) >= ctx.touchSensitivity
-        ) {
-          ctx.end(evt)
-        }
-      },
-
       end (evt) {
-        removeObserver(ctx)
         document.body.classList.remove('non-selectable')
 
         if (ctx.triggered === true) {
@@ -115,23 +98,54 @@ export default {
         else {
           clearTimeout(ctx.timer)
         }
+      },
+
+      touchStart (evt) {
+        const target = evt.target
+        if (target !== void 0) {
+          ctx.touchTarget = target
+          target.addEventListener('touchmove', ctx.touchMove, notPassiveCapture)
+          target.addEventListener('touchcancel', ctx.touchEnd, notPassiveCapture)
+          target.addEventListener('touchend', ctx.touchEnd, notPassiveCapture)
+          ctx.start(evt)
+        }
+      },
+
+      touchMove (evt) {
+        const { top, left } = position(evt)
+        if (
+          Math.abs(left - ctx.origin.left) >= ctx.touchSensitivity ||
+          Math.abs(top - ctx.origin.top) >= ctx.touchSensitivity
+        ) {
+          ctx.touchEnd(evt)
+        }
+      },
+
+      touchEnd (evt) {
+        const target = ctx.touchTarget
+        if (target !== void 0) {
+          target.removeEventListener('touchmove', ctx.touchMove, notPassiveCapture)
+          target.removeEventListener('touchcancel', ctx.touchEnd, notPassiveCapture)
+          target.removeEventListener('touchend', ctx.touchEnd, notPassiveCapture)
+          ctx.touchTarget = void 0
+        }
+        ctx.end(evt)
       }
+    }
+
+    if (el.__qtouchhold) {
+      el.__qtouchhold_old = el.__qtouchhold
     }
 
     el.__qtouchhold = ctx
     update(el, rest)
 
     if (modifiers.mouse === true) {
-      el.addEventListener('mousedown', ctx.mouseStart, modifiers.mouseCapture)
+      el.addEventListener('mousedown', ctx.mouseStart, listenOpts['passive' + (modifiers.mouseCapture === true ? 'Capture' : '')])
     }
 
     if (Platform.has.touch === true) {
-      const opts = listenOpts['notPassive' + (modifiers.capture === true ? 'Capture' : '')]
-
-      el.addEventListener('touchstart', ctx.start, opts)
-      el.addEventListener('touchmove', ctx.move, opts)
-      el.addEventListener('touchcancel', ctx.end, opts)
-      el.addEventListener('touchend', ctx.end, opts)
+      el.addEventListener('touchstart', ctx.touchStart, listenOpts['passive' + (modifiers.capture === true ? 'Capture' : '')])
     }
   },
 
@@ -140,23 +154,24 @@ export default {
   unbind (el, { modifiers }) {
     let ctx = el.__qtouchhold_old || el.__qtouchhold
     if (ctx !== void 0) {
-      removeObserver(ctx)
       clearTimeout(ctx.timer)
       document.body.classList.remove('non-selectable')
 
       if (modifiers.mouse === true) {
-        el.removeEventListener('mousedown', ctx.mouseStart, modifiers.mouseCapture)
-        document.removeEventListener('mousemove', ctx.mouseMove, true)
-        document.removeEventListener('click', ctx.mouseEnd, true)
+        el.addEventListener('mousedown', ctx.mouseStart, listenOpts['passive' + (modifiers.mouseCapture === true ? 'Capture' : '')])
+        document.removeEventListener('mousemove', ctx.mouseMove, notPassiveCapture)
+        document.removeEventListener('click', ctx.mouseEnd, notPassiveCapture)
       }
 
       if (Platform.has.touch === true) {
-        const opts = listenOpts['notPassive' + (modifiers.capture === true ? 'Capture' : '')]
+        el.removeEventListener('touchstart', ctx.touchStart, listenOpts['passive' + (modifiers.capture === true ? 'Capture' : '')])
 
-        el.removeEventListener('touchstart', ctx.start, opts)
-        el.removeEventListener('touchmove', ctx.move, opts)
-        el.removeEventListener('touchcancel', ctx.end, opts)
-        el.removeEventListener('touchend', ctx.end, opts)
+        const target = ctx.touchTarget
+        if (target !== void 0) {
+          target.removeEventListener('touchmove', ctx.touchMove, notPassiveCapture)
+          target.removeEventListener('touchcancel', ctx.touchEnd, notPassiveCapture)
+          target.removeEventListener('touchend', ctx.touchEnd, notPassiveCapture)
+        }
       }
 
       delete el[el.__qtouchhold_old ? '__qtouchhold_old' : '__qtouchhold']
