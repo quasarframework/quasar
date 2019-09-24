@@ -184,7 +184,8 @@ async function goLive () {
   const
     generator = new Generator(quasarConfig),
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
-    Electron = argv.mode === 'electron' ? require('../lib/electron') : false
+    Electron = argv.mode === 'electron' ? require('../lib/electron') : false,
+    Bex = argv.mode === 'bex' ? require('../lib/bex') : false
 
   function startDev (oldDevServer) {
     let devServer
@@ -196,6 +197,7 @@ async function goLive () {
       .then(() => devServer.listen()) // Start listening
       .then(() => Electron && Electron.run(quasarConfig, argv._))
       .then(() => Cordova && Cordova.run(quasarConfig, argv._))
+      .then(() => Bex && Bex.run(quasarConfig, argv._))
       .then(() => devServer) // Pass new builder to watch chain
   }
 

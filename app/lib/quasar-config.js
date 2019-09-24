@@ -207,7 +207,14 @@ class QuasarConfig {
         builder: {}
       },
       cordova: {},
-      bex: {},
+      bex: {
+        builder: {
+          directories: {
+            input: '',
+            output: ''
+          }
+        }
+      },
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
@@ -318,7 +325,8 @@ class QuasarConfig {
         cfg.framework.all,
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
-        cfg.electron ? encode(cfg.electron) : ''
+        cfg.electron ? encode(cfg.electron) : '',
+        cfg.bex ? encode(cfg.bex) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -470,8 +478,8 @@ class QuasarConfig {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
-    if (this.ctx.mode.electron) {
-      cfg.build.packagedElectronDist = cfg.build.distDir
+    if (['electron', 'bex'].includes(this.ctx.modeName)) {
+      cfg.build.packagedDistDir = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
 
@@ -738,12 +746,12 @@ class QuasarConfig {
         }, cfg.electron, {
           packager: {
             dir: cfg.build.distDir,
-            out: cfg.build.packagedElectronDist
+            out: cfg.build.packagedDistDir
           },
           builder: {
             directories: {
               app: cfg.build.distDir,
-              output: path.join(cfg.build.packagedElectronDist, 'Packaged')
+              output: path.join(cfg.build.packagedDistDir, 'Packaged')
             }
           }
         })
@@ -779,6 +787,15 @@ class QuasarConfig {
 
         bundler.ensureInstall(cfg.electron.bundler)
       }
+    } else if (this.ctx.mode.bex) {
+      cfg.bex = merge(cfg.bex, {
+        builder: {
+          directories: {
+            input: cfg.build.distDir,
+            output: path.join(cfg.build.packagedDistDir, 'Packaged')
+          }
+        }
+      })
     }
 
     cfg.__html = {

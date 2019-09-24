@@ -117,15 +117,25 @@ async function getSSR (cfg) {
   }
 }
 
-async function getBEx (cfg) {
-  const chain = createChain(cfg, 'BEx')
-  require('./bex')(chain, cfg) //Before SPA so we can set some vars
-  require('./spa')(chain, cfg) // extending a SPA
-  return await getWebpackConfig(chain, cfg, {
-    name: 'BEx',
-    hot: true,
-    invokeParams: { isClient: true, isServer: false }
-  })
+async function getBEX (cfg) {
+  const
+    rendererChain = createChain(cfg, 'Renderer process'),
+    mainChain = require('./bex/main')(cfg, 'Main process')
+
+  require('./bex/renderer')(rendererChain, cfg) //Before SPA so we can set some vars
+  require('./spa')(rendererChain, cfg) // extending a SPA
+
+  return {
+    renderer: await getWebpackConfig(rendererChain, cfg, {
+      name: 'Renderer process',
+      hot: true,
+      invokeParams: { isClient: true, isServer: false }
+    }),
+    main: await getWebpackConfig(mainChain, cfg, {
+      name: 'Main process',
+      hookSuffix: 'MainBexProcess'
+    })
+  }
 }
 
 module.exports = async function (cfg) {
@@ -144,7 +154,7 @@ module.exports = async function (cfg) {
     return await getPWA(cfg)
   }
   else if (mode.bex) {
-    return await getBEx(cfg)
+    return await getBEX(cfg)
   }
   else {
     return await getSPA(cfg)

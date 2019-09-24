@@ -36,20 +36,7 @@ module.exports.plugin = class HtmlAddonsPlugin {
       compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync('webpack-plugin-html-addons', (data, callback) => {
         fillHtmlTags(data, this.cfg)
 
-        if (this.cfg.ctx.mode.bex) {
-          // These entries have been bundled via webpack but they're used directly from the BEX manifest.json
-          // so shouldn't be included in the final index.html output.
-          // See: app/lib/webpack/bex/index.js
-          data.body = data.body.filter(f => {
-            return !f.attributes || ![
-              'bex-background.js', // Dev
-              'bex-contentScript.js',
-              'js/bex-background.js', // Prod
-              'js/bex-contentScript.js'
-            ].includes(f.attributes.src)
-          })
-        }
-        else if (this.cfg.ctx.mode.cordova) {
+        if (this.cfg.ctx.mode.cordova) {
           data.body.unshift(
             makeTag('script', { src: 'cordova.js' }, true)
           )

@@ -1,9 +1,12 @@
 const
-  appPaths = require('../../app-paths'),
   path = require('path'),
   fse = require('fs-extra')
 
-/**
+const
+  appPaths = require('../../app-paths'),
+  artifacts = require('../../artifacts')
+
+  /**
  * Copies a file from the BEX template folder into the bexSrc dir.
  * Warning: Will overwrite whatever is there!
  * @param fileName
@@ -14,13 +17,11 @@ const renderFile = function (fileName) {
 
 module.exports = function (chain, cfg) {
   const
-    unpackedBuildDir = path.join(cfg.build.distDir, 'unpacked'),
-    outputPath = cfg.ctx.dev
-      ? path.join(appPaths.bexDir, 'www')
-      : path.join(unpackedBuildDir, 'www')
+    rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir,
+    outputPath = path.join(rootPath, 'www')
 
   // Add a copy config to copy the static folder for both dev and build.
-  let webpackCopyConfigs = [{
+  let copyArray = [{
     from: path.join(appPaths.srcDir, 'statics'),
     to: path.join(outputPath, 'statics')
   }]
@@ -34,58 +35,38 @@ module.exports = function (chain, cfg) {
   renderFile('bridge.js')
 
   chain.output
-    .path(outputPath) // Output to our src-bex/www folder.
+    .path(outputPath) // Output to our src-bex/www folder or dist/bex/unpacked/www.
 
   // Bundle our bex files for inclusion via the manifest.json
   chain.entry('bex-init')
     .add(appPaths.resolve.bex('js/core/init/index.js'))
 
-  // Note: The following entries are manually excluded from the final index.html output via
-  // app/lib/webpack/plugin.html-addons.js -> htmlWebpackPluginAlterAssetTags
-  chain.entry('bex-background')
-    .add(appPaths.resolve.bex('js/core/background/background.js'))
-
-  chain.entry('bex-contentScript')
-    .add(appPaths.resolve.bex('js/core/content/contentScript.js'))
-
   if (cfg.ctx.dev) {
     // Clean old dir
-    fse.removeSync(outputPath)
+    artifacts.clean(outputPath)
 
     // Extensions need to be manually added to the browser
     // so we need the dev files available for them to be targeted.
     cfg.devServer.writeToDisk = true
   }
   else {
-    const
-      packedBuildDir = path.join(cfg.build.distDir, 'packed'),
-      packageName = require(path.join(appPaths.appDir, 'package.json')).name
-
     // We need this bundled in with the rest of the source to match the manifest instructions.
-    cfg.build.htmlFilename = path.join('unpacked', 'www', 'index.html')
-
-    // splitChunks causes issues with the connection between the client and the background script.
-    // This is  because it's expecting a chunk to be available via traditional loading methods but
-    // we only specify one file for background in the manifest so it needs to container EVERYTHING it needs.
-    chain.optimization.splitChunks(undefined)
-
-    // Strictly speaking, best practice would be to *not* minify but leave it up to the user.
-    // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
-    chain.optimization.minimize(cfg.build.minify)
+    // Could use Webpack Copy here but this is more straight forward.
+    cfg.build.htmlFilename = path.join('www', 'index.html')
 
     // Register our plugin, update the manifest and package the browser extension.
     const WebpackBexPackager = require('./webpackBexPackager')
     chain.plugin('webpack-bex-packager')
       .use(WebpackBexPackager, [{
-        src: unpackedBuildDir,
-        dest: packedBuildDir,
-        name: packageName
+        src: cfg.bex.builder.directories.input,
+        dest: cfg.bex.builder.directories.output,
+        name: require(path.join(appPaths.appDir, 'package.json')).name
       }])
 
     // Copy our user edited BEX files to the dist dir (excluding the already build www folder)
-    webpackCopyConfigs.push({
+    copyArray.push({
       from: appPaths.bexDir,
-      to: unpackedBuildDir,
+      to: cfg.build.distDir,
       ignore: ['www/**/*']
     })
   }
@@ -93,5 +74,5 @@ module.exports = function (chain, cfg) {
   // Copy any files we've registered during the chain.
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   chain.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [webpackCopyConfigs])
+    .use(CopyWebpackPlugin, [copyArray])
 }
