@@ -193,12 +193,12 @@
   },
 
   "events": {
-    "cleared": {
-      "desc": "Emitted when the field is cleared using the clear icon.  The `clearable` property must be set to true",
+    "clear": {
+      "desc": "When using the 'clearable' property, this event is emitted when the clear icon is clicked",
       "params": {
         "value": {
-          "type": [ "String", "Number" ],
-          "desc": "The previous value",
+          "type": [ "Any" ],
+          "desc": "The previous value before clearing it",
           "__exemption": [ "examples" ]
         }
       }
