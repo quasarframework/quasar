@@ -128,8 +128,8 @@ export default {
           target.removeEventListener('touchcancel', ctx.touchEnd, notPassiveCapture)
           target.removeEventListener('touchend', ctx.touchEnd, notPassiveCapture)
           ctx.touchTarget = void 0
+          ctx.end(evt)
         }
-        ctx.end(evt)
       }
     }
 

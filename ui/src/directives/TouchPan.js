@@ -1,7 +1,9 @@
 import Platform from '../plugins/Platform.js'
-import { setObserver, removeObserver, getModifierDirections, updateModifiers } from '../utils/touch.js'
+import { getModifierDirections, updateModifiers } from '../utils/touch.js'
 import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
+
+const { notPassiveCapture } = listenOpts
 
 function getChanges (evt, ctx, isFinal) {
   let
@@ -72,7 +74,7 @@ function getChanges (evt, ctx, isFinal) {
   return {
     evt,
     touch: ctx.event.mouse !== true,
-    mouse: ctx.event.mouse,
+    mouse: ctx.event.mouse === true,
     position: pos,
     direction: dir,
     isFirst: ctx.event.isFirst,
@@ -93,26 +95,14 @@ function getChanges (evt, ctx, isFinal) {
   }
 }
 
-const mouseEvtOpts = listenOpts.notPassiveCapture
-
 export default {
   name: 'touch-pan',
 
   bind (el, { value, modifiers }) {
-    if (el.__qtouchpan) {
-      el.__qtouchpan_old = el.__qtouchpan
-    }
-
     // early return, we don't need to do anything
     if (modifiers.mouse !== true && Platform.has.touch !== true) {
       return
     }
-
-    const
-      touchPassiveStr = modifiers.mightPrevent !== true && modifiers.prevent !== true
-        ? 'passive'
-        : 'notPassive',
-      touchEvtOpts = listenOpts[touchPassiveStr + (modifiers.capture === true ? 'Capture' : '')]
 
     function handleEvent (evt, mouseEvent) {
       if (modifiers.mouse === true && mouseEvent === true) {
@@ -133,23 +123,57 @@ export default {
         if (leftClick(evt)) {
           // stop propagation so possible upper v-touch-pan don't catch this as well
           modifiers.mouseAllDir === true && stop(evt)
-
-          document.addEventListener('mousemove', ctx.move, mouseEvtOpts)
-          document.addEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+          document.addEventListener('mousemove', ctx.move, notPassiveCapture)
+          document.addEventListener('mouseup', ctx.mouseEnd, notPassiveCapture)
           ctx.start(evt, true)
         }
       },
 
       mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
-        document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+        document.removeEventListener('mousemove', ctx.move, notPassiveCapture)
+        document.removeEventListener('mouseup', ctx.mouseEnd, notPassiveCapture)
         ctx.end(evt)
+      },
+
+      touchStart (evt) {
+        el.addEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
+        ctx.start(evt)
+      },
+
+      touchMove (evt) {
+        if (ctx.event === void 0 || ctx.event.touchMoveProcessed === true) {
+          return
+        }
+
+        ctx.move(evt)
+
+        if (ctx.event.detected === true) {
+          el.removeEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
+          const target = evt.target
+          if (target !== void 0) {
+            ctx.touchTarget = target
+            target.addEventListener('touchmove', ctx.move, notPassiveCapture)
+            target.addEventListener('touchcancel', ctx.touchEnd, notPassiveCapture)
+            target.addEventListener('touchend', ctx.touchEnd, notPassiveCapture)
+          }
+        }
+      },
+
+      touchEnd (evt) {
+        el.addEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
+
+        const target = ctx.touchTarget
+        if (target !== void 0) {
+          target.removeEventListener('touchmove', ctx.move, notPassiveCapture)
+          target.removeEventListener('touchcancel', ctx.touchEnd, notPassiveCapture)
+          target.removeEventListener('touchend', ctx.touchEnd, notPassiveCapture)
+          ctx.touchTarget = void 0
+          ctx.end(evt)
+        }
       },
 
       start (evt, mouseEvent) {
         Platform.is.firefox === true && preventDraggable(el, true)
-        removeObserver(ctx)
-        mouseEvent !== true && setObserver(el, evt, ctx)
 
         const pos = position(evt)
 
@@ -240,7 +264,6 @@ export default {
         }
 
         Platform.is.firefox === true && preventDraggable(el, false)
-        ctx.event.mouse !== true && removeObserver(ctx)
 
         document.documentElement.style.cursor = ''
         document.body.classList.remove('no-pointer-events')
@@ -259,21 +282,23 @@ export default {
       }
     }
 
+    if (el.__qtouchpan) {
+      el.__qtouchpan_old = el.__qtouchpan
+    }
+
     el.__qtouchpan = ctx
 
     if (modifiers.mouse === true) {
       el.addEventListener(
         'mousedown',
         ctx.mouseStart,
-        listenOpts[`notPassive${modifiers.mouseCapture === true ? 'Capture' : ''}`]
+        listenOpts[`passive${modifiers.mouseCapture === true ? 'Capture' : ''}`]
       )
     }
 
     if (Platform.has.touch === true) {
-      el.addEventListener('touchstart', ctx.start, touchEvtOpts)
-      el.addEventListener('touchmove', ctx.move, touchEvtOpts)
-      el.addEventListener('touchcancel', ctx.end, modifiers.capture)
-      el.addEventListener('touchend', ctx.end, modifiers.capture)
+      el.addEventListener('touchstart', ctx.touchStart, listenOpts[`passive${modifiers.capture === true ? 'Capture' : ''}`])
+      el.addEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
     }
   },
 
@@ -289,33 +314,31 @@ export default {
 
     if (ctx !== void 0) {
       Platform.is.firefox === true && preventDraggable(el, false)
-      removeObserver(ctx)
 
       document.documentElement.style.cursor = ''
       document.body.classList.remove('no-pointer-events')
       document.body.classList.remove('non-selectable')
 
-      const
-        touchPassiveStr = modifiers.mightPrevent !== true && modifiers.prevent !== true
-          ? 'passive'
-          : 'notPassive',
-        touchEvtOpts = listenOpts[touchPassiveStr + (modifiers.capture === true ? 'Capture' : '')]
-
       if (modifiers.mouse === true) {
         el.removeEventListener(
           'mousedown',
           ctx.mouseStart,
-          listenOpts[`notPassive${modifiers.mouseCapture === true ? 'Capture' : ''}`]
+          listenOpts[`passive${modifiers.mouseCapture === true ? 'Capture' : ''}`]
         )
-        document.removeEventListener('mousemove', ctx.move, mouseEvtOpts)
-        document.removeEventListener('mouseup', ctx.mouseEnd, mouseEvtOpts)
+        document.removeEventListener('mousemove', ctx.move, notPassiveCapture)
+        document.removeEventListener('mouseup', ctx.mouseEnd, notPassiveCapture)
       }
 
       if (Platform.has.touch === true) {
-        el.removeEventListener('touchstart', ctx.start, touchEvtOpts)
-        el.removeEventListener('touchmove', ctx.move, touchEvtOpts)
-        el.removeEventListener('touchcancel', ctx.end, modifiers.capture)
-        el.removeEventListener('touchend', ctx.end, modifiers.capture)
+        el.removeEventListener('touchstart', ctx.touchStart, listenOpts[`passive${modifiers.capture === true ? 'Capture' : ''}`])
+        el.removeEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
+
+        const target = ctx.touchTarget
+        if (target !== void 0) {
+          target.removeEventListener('touchmove', ctx.move, notPassiveCapture)
+          target.removeEventListener('touchcancel', ctx.touchEnd, notPassiveCapture)
+          target.removeEventListener('touchend', ctx.touchEnd, notPassiveCapture)
+        }
       }
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
