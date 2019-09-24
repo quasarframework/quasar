@@ -423,6 +423,7 @@ export default Vue.extend({
 
     __clearValue (e) {
       stop(e)
+      this.$emit('cleared', this.value)
       this.$emit('input', null)
     },
 
