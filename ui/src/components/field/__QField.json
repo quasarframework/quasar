@@ -195,6 +195,7 @@
   "events": {
     "clear": {
       "desc": "When using the 'clearable' property, this event is emitted when the clear icon is clicked",
+      "addedIn": "v1.1.5",
       "params": {
         "value": {
           "type": [ "Any" ],
