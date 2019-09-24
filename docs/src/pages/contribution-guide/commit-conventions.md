@@ -26,7 +26,7 @@ Well-cared log is a beautiful and useful thing. `git blame`, `revert`, `rebase`,
 ## Format of a Commit Message
 
 ```
-type(<scope>): <Subject>
+type(<scope>): <Subject> #<github-ref-id>
 
 <body>
 
@@ -36,12 +36,11 @@ type(<scope>): <Subject>
 ### Example of a Commit Message
 
 ```
-fix(ui): Ensure Range headers adhere more closely to RFC 2616
+fix(ui): Ensure Range headers adhere more closely to RFC 2616 #2310
 
 To add new dependency use `range-parser`to compute the range.
 It is more well-tested in the wild.
 
-Fixes #2310
 BREAKING CHANGE:
 port-runner command line option has changed to runner-port.
 To migrate your project, change all the commands,
