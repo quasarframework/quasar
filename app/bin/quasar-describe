@@ -476,7 +476,7 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
 
   console.log('\n ' + chalk.underline('quasar.conf > framework > config'))
 
-  if (keys.length === void 0) {
+  if (keys.length === 0) {
     console.log('\n   ' + chalk.italic('*No configuration options*'))
     return
   }
@@ -493,7 +493,7 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
     }
   }
 
-  console.log('\n   Property name: ' + chalk.green(conf.propName))
+  console.log('\n   Property name: ' + chalk.green(quasarConfOptions.propName))
   console.log('   Definition:')
   for (let propName in conf) {
     console.log()

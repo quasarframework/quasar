@@ -1,0 +1,70 @@
+body
+  min-width: 100px
+  min-height: 100%
+  font-family: $typography-font-family
+  -ms-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  font-smoothing: antialiased
+  line-height: $body-line-height
+  font-size: $body-font-size
+
+@each $heading, $value in $h-tags
+  #{$heading}
+    font-size: map-get($value, "size")
+    font-weight: map-get($value, "weight")
+    line-height: map-get($value, "line-height")
+    letter-spacing: map-get($value, "letter-spacing")
+
+p
+  margin: 0 0 map-get(map-get($spaces, "md"), "y")
+
+.text-
+  @each $heading, $value in $headings
+    &#{$heading}
+      font-size: map-get($value, "size")
+      font-weight: map-get($value, "weight")
+      line-height: map-get($value, "line-height")
+      letter-spacing: map-get($value, "letter-spacing")
+
+  &uppercase
+    text-transform: uppercase
+  &lowercase
+    text-transform: lowercase
+  &capitalize
+    text-transform: capitalize
+
+  &center
+    text-align: center
+  &left
+    text-align: left
+  &right
+    text-align: right
+  &justify
+    text-align: justify
+    hyphens: auto
+
+  &italic
+    font-style: italic
+  &bold
+    font-weight: bold
+
+  &no-wrap
+    white-space: nowrap
+
+  &strike
+    text-decoration: line-through
+
+  @each $weight, $value in $text-weights
+    &weight-#{$weight}
+      font-weight: $value
+
+small
+  font-size: 80%
+big
+  font-size: 170%
+sub
+  bottom: -.25em
+sup
+  top: -.5em

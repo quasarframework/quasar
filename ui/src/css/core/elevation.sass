@@ -1,0 +1,25 @@
+.shadow-transition
+  transition: $shadow-transition !important
+
+@for $z from 1 through 24
+  .shadow-#{$z}
+    box-shadow: nth($shadows, $z)
+  .shadow-up-#{$z}
+    box-shadow: nth($shadows-up, $z)
+
+.no-shadow, .shadow-0
+  box-shadow: none !important
+.inset-shadow
+  box-shadow: $inset-shadow !important
+
+.z-marginals
+  z-index: $z-marginals
+
+.z-notify
+  z-index: $z-notify
+
+.z-fullscreen
+  z-index: $z-fullscreen
+
+.z-inherit
+  z-index: inherit !important

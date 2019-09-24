@@ -1,5 +1,8 @@
 <template>
   <div class="q-layout-padding test-flex-demo">
+    <h6 class="text-red">
+      You need to enable flex-addons from /ui/dev/app.js
+    </h6>
     <h1>
       Columns - container height auto
       <small class="pull-right q-px-xs text-red">XS</small>
@@ -921,9 +924,6 @@
 export default {
   data () {
     return {}
-  },
-  created () {
-    import('../../../src/css/flex-addon.styl')
   }
 }
 </script>

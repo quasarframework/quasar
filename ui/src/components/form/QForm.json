@@ -16,6 +16,13 @@
       "type": "Boolean",
       "desc": "Do not try to focus on first component when resetting form",
       "category": "behavior"
+    },
+
+    "greedy": {
+      "type": "Boolean",
+      "desc": "Validate all fields in form (by default it stops after finding the first invalid field with synchronous validation)",
+      "category": "behavior",
+      "addedIn": "1.1.1"
     }
   },
 

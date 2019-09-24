@@ -8,12 +8,14 @@
     <q-toggle v-model="show" label="Show form" />
     <q-toggle v-model="autofocus" label="Autofocus" />
     <q-toggle v-model="dark" label="Dark" />
+    <q-toggle v-model="greedy" label="Greedy" />
     <q-option-group class="q-mb-lg" inline v-model="autofocusEl" dense="dense" :options="autofocusEls" />
 
     <q-form
       v-if="show"
       :autofocus="autofocus"
       ref="form"
+      :greedy="greedy"
       @submit.prevent.stop="onSubmit"
       @reset="onReset"
       @validation-success="onValidationSuccess"
@@ -153,6 +155,7 @@ export default {
       autofocusEl: 1,
 
       dark: false,
+      greedy: false,
 
       user: null,
       pwd: null,

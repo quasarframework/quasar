@@ -11,7 +11,7 @@ function parseArg (arg) {
 
   if (typeof arg === 'string' && arg.length) {
     arg.split(':').forEach((val, index) => {
-      const v = parseInt(val, 10)
+      const v = parseFloat(val)
       v && (data[index] = v)
     })
   }

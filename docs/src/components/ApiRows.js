@@ -64,7 +64,7 @@ export default {
       return h('div', { staticClass: `api-row__item col-xs-12 col-sm-${col}` }, [
         h('div', [ propName ]),
         propValue !== void 0
-          ? h('div', { staticClass: ' api-row__value' }, [ propValue ])
+          ? h('div', { staticClass: 'api-row__value' }, [ propValue ])
           : slot
       ])
     },
@@ -100,6 +100,12 @@ export default {
             this.getDiv(h, 3, 'Reactive', 'yes')
           )
         }
+      }
+
+      if (prop.addedIn !== void 0) {
+        child.push(
+          this.getDiv(h, 12, 'Added in', prop.addedIn)
+        )
       }
 
       child.push(
@@ -261,6 +267,9 @@ export default {
                 label: slot
               }
             })),
+            slots[slot].addedIn !== void 0
+              ? this.getDiv(h, 12, 'Added in', slots[slot].addedIn)
+              : null,
             this.getDiv(h, 12, 'Description', slots[slot].desc)
           ])
         )
@@ -321,6 +330,9 @@ export default {
                 label: `@${eventName}${getEventParams(event)}`
               }
             })),
+            event.addedIn !== void 0
+              ? this.getDiv(h, 12, 'Added in', event.addedIn)
+              : null,
             this.getDiv(h, 12, 'Description', event.desc),
             this.getDiv(h, 12,
               'Parameters',
@@ -351,6 +363,9 @@ export default {
               label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
             }
           })),
+          method.addedIn !== void 0
+            ? this.getDiv(h, 12, 'Added in', method.addedIn)
+            : null,
           this.getDiv(h, 12, 'Description', method.desc)
         ]
 
@@ -456,6 +471,9 @@ export default {
       return [
         h('div', { staticClass: 'api-row row' }, [
           this.getDiv(h, 12, 'Property Name', conf.propName),
+          conf.addedIn !== void 0
+            ? this.getDiv(h, 12, 'Added in', conf.addedIn)
+            : null,
           this.getDiv(h, 12,
             'Definition',
             void 0,
