@@ -416,6 +416,13 @@ export default Vue.extend({
     },
 
     __onTargetKeyup (e) {
+      // if ESC and we have an opened menu
+      // then stop propagation (might be caught by a QDialog
+      // and so it will also close the QDialog, which is wrong)
+      if (e.keyCode === 27 && this.menu === true) {
+        stop(e)
+        this.__closeMenu()
+      }
       this.$emit('keyup', e)
     },
 
@@ -426,8 +433,13 @@ export default Vue.extend({
     __onTargetKeydown (e) {
       this.$emit('keydown', e)
 
-      // escape, tab
-      if (e.keyCode === 27 || e.keyCode === 9) {
+      // escape
+      if (e.keyCode === 27) {
+        return
+      }
+
+      // tab
+      if (e.keyCode === 9) {
         this.__closeMenu()
         return
       }
