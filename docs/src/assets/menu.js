@@ -1,3 +1,30 @@
+const contributionGuide = [
+  {
+    name: 'Contribution Guide',
+    path: 'contribution-guide'
+  },
+  {
+    name: 'Running Projects',
+    path: 'running-projects',
+    badge: 'new'
+  },
+  {
+    name: 'Start a New Project',
+    path: 'new-project',
+    badge: 'new'
+  },
+  {
+    name: 'Project Maintainer Role',
+    path: 'project-maintainer',
+    badge: 'new'
+  },
+  {
+    name: 'Commit Conventions',
+    path: 'commit-conventions',
+    badge: 'new'
+  }
+]
+
 const gettingStarted = [
   {
     name: 'Pick Quasar Flavour',
@@ -37,11 +64,6 @@ const gettingStarted = [
   {
     name: 'Roadmap',
     path: 'roadmap'
-  },
-  {
-    name: 'Contribution Guide',
-    badge: 'new',
-    path: 'contribution-guide'
   },
   {
     name: 'Upgrade guide',
@@ -1020,6 +1042,12 @@ module.exports = [
     name: 'Meet the Team',
     icon: 'people',
     path: 'meet-the-team'
+  },
+  {
+    name: 'Contribution Guide',
+    icon: 'code',
+    path: 'contribution-guide',
+    children: contributionGuide
   },
   {
     name: 'Getting Started',
