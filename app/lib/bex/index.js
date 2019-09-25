@@ -11,7 +11,7 @@ class BexRunner {
 
     return new Promise((resolve, reject) => {
       log(`Building BEX background process...`)
-      compiler.run((err, stats) => {
+      compiler.watch({}, (err, stats) => {
         if (err) {
           console.log(err)
           return
