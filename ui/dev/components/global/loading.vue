@@ -36,6 +36,24 @@
           Show Multiple Times
         </q-btn>
       </div>
+
+      <p class="caption">
+        Show for a short time - check .q-body--loading class on body
+      </p>
+      <div class="row q-gutter-sm">
+        <q-btn push color="black" @click="shortLoading()">
+          Show and hide
+        </q-btn>
+        <q-btn push color="black" @click="shortLoading(0)">
+          Show for 0ms
+        </q-btn>
+        <q-btn push color="black" @click="shortLoading(500)">
+          Show for 500ms
+        </q-btn>
+        <q-btn push color="black" @click="shortLoading(1000)">
+          Show for 1000ms
+        </q-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -47,12 +65,12 @@ import {
   QSpinnerGears
 } from 'quasar'
 
-function show (options) {
+function show (options, timeout = 3000) {
   Loading.show(options)
 
   setTimeout(() => {
     Loading.hide()
-  }, 3000)
+  }, timeout)
 }
 
 export default {
@@ -139,6 +157,18 @@ export default {
         await new Promise(resolve => setTimeout(resolve, 2000))
 
         Loading.hide()
+      }
+    },
+
+    shortLoading (timeout) {
+      if (timeout === void 0) {
+        Loading.show({ delay: 500 })
+        Loading.show({ delay: 500 })
+        Loading.hide()
+      }
+      else {
+        show({ delay: 500 }, timeout)
+        Loading.show({ delay: 500 })
       }
     }
   }
