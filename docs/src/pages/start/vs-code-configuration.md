@@ -1,5 +1,6 @@
 ---
-title: Configure VS Code for use with Quasar
+title: Configure VS Code
+desc: How to configure VSCode for best usage with Quasar.
 ---
 
 ::: tip
