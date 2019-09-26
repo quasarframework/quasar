@@ -62,7 +62,7 @@ methods: {
 ```
 
 #### Changing a Specific Icon Dynamically
-If you want to change a specific icon to another, you can. He is an example:
+If you want to change a specific icon to another, you can. Here is an example:
 
 ```js
 methods: {
@@ -71,10 +71,6 @@ methods: {
   }
 }
 ```
-
-::: tip
-You're not limited to changing the icon to something in the current Icon Set - you can set it to any icon available in quasar.conf.js -> iconSet.
-:::
 
 ### UMD Way
 Include the Quasar Icon Set tag for your Quasar version and also tell Quasar to use it. Example:
