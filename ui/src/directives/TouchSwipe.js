@@ -50,11 +50,10 @@ export default {
       },
 
       touchStart (evt) {
-        const touchTarget = evt.target
-        if (ctx.event === void 0 && touchTarget !== void 0) {
+        if (ctx.event === void 0 && evt.target !== void 0) {
           addEvt(ctx, 'temp', [
-            [ touchTarget, 'touchcancel', 'end', 'notPassiveCapture' ],
-            [ touchTarget, 'touchend', 'end', 'notPassiveCapture' ]
+            [ evt.target, 'touchcancel', 'end', 'notPassiveCapture' ],
+            [ evt.target, 'touchend', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt)
         }
