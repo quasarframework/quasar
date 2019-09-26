@@ -57,7 +57,7 @@ For tasks shared between server and client but use different platform APIs, it's
 For browser-only APIs, the common approach is to lazily access them inside client-only lifecycle hooks.
 
 ## Boot Files
-Note that if a 3rd party library is not written with universal usage in mind, it could be tricky to integrate it into an server-rendered app. You *might* be able to get it working by mocking some of the globals, but it would be hacky and may interfere with the environment detection code of other libraries.
+Note that if a 3rd party library is not written with universal usage in mind, it could be tricky to integrate it into a server-rendered app. You *might* be able to get it working by mocking some of the globals, but it would be hacky and may interfere with the environment detection code of other libraries.
 
 When you add a 3rd party library to your project (through a [Boot File](/quasar-cli/cli-documentation/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in quasar.conf.js:
 
