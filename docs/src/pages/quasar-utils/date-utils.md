@@ -184,8 +184,8 @@ let max = date.getMaxDate(new Date(2017, 6, 24), new Date(2017, 5, 20), new Date
 
 // Or use an array:
 let dates = [ new Date(2017, 6, 24), new Date(2017, 5, 20), new Date(2017, 6, 26) ]
-let min = date.getMinDate.apply(null, dates) // `min` is 2017-5-20
-let max = date.getMaxDate.apply(null, dates) // `max` is 2017-6-26
+let min = date.getMinDate(...dates) // `min` is 2017-5-20
+let max = date.getMaxDate(...dates) // `max` is 2017-6-26
 ```
 
 Note that the returning value is a timestamp.
