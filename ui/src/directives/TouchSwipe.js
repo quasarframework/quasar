@@ -235,10 +235,7 @@ export default {
 
   update (el, binding) {
     const ctx = el.__qtouchswipe
-
-    if (ctx !== void 0) {
-      updateModifiers(ctx, binding)
-    }
+    ctx !== void 0 && updateModifiers(ctx, binding)
   },
 
   unbind (el) {
