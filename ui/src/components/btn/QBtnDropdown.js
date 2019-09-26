@@ -17,6 +17,8 @@ export default Vue.extend({
   props: {
     value: Boolean,
     split: Boolean,
+    hoverReveal: Boolean,
+    disableClickReveal: Boolean,
 
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
@@ -39,7 +41,14 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: this.value
+      showing: this.value,
+      timeout: null
+    }
+  },
+  
+  computed: {
+    noClickReveal () {
+      return this.hoverReveal && this.disableClickReveal
     }
   },
 
@@ -79,7 +88,8 @@ export default Vue.extend({
           self: this.menuSelf,
           contentClass: this.contentClass,
           contentStyle: this.contentStyle,
-          separateClosePopup: true
+          separateClosePopup: true,
+          noParentEvent: this.noClickReveal
         },
         on: {
           'before-show': e => {
@@ -97,6 +107,12 @@ export default Vue.extend({
           hide: e => {
             this.$emit('hide', e)
             this.$emit('input', false)
+          },
+          mouseenter: e => {
+            this.hoverShow(e)
+          },
+          mouseleave: e => {
+            this.hoverHide(e)
           }
         }
       }, slot(this, 'default'))
@@ -114,6 +130,12 @@ export default Vue.extend({
         on: {
           click: e => {
             this.$emit('click', e)
+          },
+          mouseover: e => {
+            this.hoverShow(e)
+          },
+          mouseleave: e => {
+            this.hoverHide(e)
           }
         }
       }, label.concat(Arrow))
@@ -170,13 +192,31 @@ export default Vue.extend({
 
   methods: {
     toggle (evt) {
-      this.$refs.menu && this.$refs.menu.toggle(evt)
+      if (this.$refs.menu) {
+        this.$refs.menu.toggle(evt)
+      }
     },
     show (evt) {
       this.$refs.menu && this.$refs.menu.show(evt)
     },
     hide (evt) {
       this.$refs.menu && this.$refs.menu.hide(evt)
+    },
+    hoverShow (evt) {
+      if (this.hoverReveal === true) {
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => {
+          this.show(evt)
+        }, 0)
+      }
+    },
+    hoverHide (evt) {
+      if (this.hoverReveal === true) {
+        clearTimeout(this.timeout)
+        this.timeout = setTimeout(() => {
+          this.hide(evt)
+        }, 0)
+      }
     }
   },
 
