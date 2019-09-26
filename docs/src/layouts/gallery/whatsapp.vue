@@ -131,7 +131,7 @@
                 </q-item-label>
                 <q-item-label class="conversation__summary" caption>
                   <q-icon name="check" v-if="conversation.sent" />
-                  <q-icon name="fas fa-ban" v-if="conversation.deleted" />
+                  <q-icon name="not_interested" v-if="conversation.deleted" />
                   {{ conversation.caption }}
                 </q-item-label>
               </q-item-section>
@@ -191,18 +191,18 @@ export default {
         },
         {
           id: 3,
-          person: 'Denjell Thompson-Yvetot',
-          avatar: 'https://cdn.quasar.dev/team/daniel_thompson-yvetot.jpg',
-          caption: 'I\'m working on Quasar!',
-          time: '17:00',
-          sent: true
-        },
-        {
-          id: 4,
           person: 'Jeff Galbraith',
           avatar: 'https://cdn.quasar.dev/team/jeff_galbraith.jpg',
           caption: 'I\'m working on Quasar!',
           time: '18:00',
+          sent: true
+        },
+        {
+          id: 4,
+          person: 'Allan Gaunt',
+          avatar: 'https://cdn.quasar.dev/team/allan_gaunt.png',
+          caption: 'I\'m working on Quasar!',
+          time: '17:00',
           sent: true
         }
       ]
@@ -223,52 +223,52 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .WAL
-  width 100%
-  height 100%
-  padding-top 20px
-  padding-bottom 20px
+  width: 100%
+  height: 100%
+  padding-top: 20px
+  padding-bottom: 20px
 
   &:before
-    content ''
-    height 127px
-    position fixed
-    top 0
-    width 100%
-    background-color #009688
+    content: ''
+    height: 127px
+    position: fixed
+    top: 0
+    width: 100%
+    background-color: #009688
 
   &__layout
-    margin 0 auto
-    z-index 4000
-    height 100%
-    width 90%
-    max-width 950px
-    border-radius 5px
+    margin: 0 auto
+    z-index: 4000
+    height: 100%
+    width: 90%
+    max-width: 950px
+    border-radius: 5px
 
   &__field.q-field--outlined .q-field__control:before
-    border none
+    border: none
 
   .q-drawer--standard
     .WAL__drawer-close
-      display none
+      display: none
 
-@media (max-width 850px)
+@media (max-width: 850px)
   .WAL
-    padding 0
+    padding: 0
     &__layout
-      width 100%
-      border-radius 0
+      width: 100%
+      border-radius: 0
 
-@media (min-width 691px)
+@media (min-width: 691px)
   .WAL
     &__drawer-open
-      display none
+      display: none
 
 .conversation__summary
-  margin-top 4px
+  margin-top: 4px
 
 .conversation__more
-  margin-top 0!important
-  font-size 1.4rem
+  margin-top: 0!important
+  font-size: 1.4rem
 </style>

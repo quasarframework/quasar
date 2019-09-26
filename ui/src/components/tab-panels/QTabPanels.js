@@ -8,7 +8,7 @@ export default Vue.extend({
   mixins: [ PanelParentMixin ],
 
   methods: {
-    __render (h) {
+    __renderPanels (h) {
       return h('div', {
         staticClass: 'q-tab-panels q-panel-parent',
         directives: this.panelDirectives,

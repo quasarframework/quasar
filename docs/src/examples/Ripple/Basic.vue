@@ -43,12 +43,12 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .container
-  border-radius 3px
-  cursor pointer
-  transition background 1.5s
-  height 150px
-  width 80%
-  max-width 500px
+  border-radius: 3px
+  cursor: pointer
+  transition: background 1.5s
+  height: 150px
+  width: 80%
+  max-width: 500px
 </style>

@@ -168,25 +168,23 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .my-sticky-column-table
-  /*
-    specifying max-width so the example can
-    highlight the sticky column on any browser window
-  */
-  max-width 600px
+  /* specifying max-width so the example can
+    highlight the sticky column on any browser window */
+  max-width: 600px
 
   /* bg color is important for th; just specify one */
   thead tr:first-child th:first-child
-    background-color #fff
-    opacity 1
+    background-color: #fff
+    opacity: 1
 
   td:first-child
-    background-color #f5f5dc
+    background-color: #f5f5dc
 
   thead tr:first-child th:first-child,
   td:first-child
-    position sticky
-    left 0
-    z-index 1
+    position: sticky
+    left: 0
+    z-index: 1
 </style>

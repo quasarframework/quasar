@@ -92,6 +92,9 @@ export default Vue.extend({
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
         (this.dark === true ? ' q-date--dark' : '') +
+        (this.bordered === true ? ` q-date--bordered` : '') +
+        (this.square === true ? ` q-date--square no-border-radius` : '') +
+        (this.flat === true ? ` q-date--flat no-shadow` : '') +
         (this.readonly === true && this.disable !== true ? ' q-date--readonly' : '') +
         (this.disable === true ? ' disabled' : '')
     },
@@ -709,10 +712,10 @@ export default Vue.extend({
           date.year
         )
 
-      if (val !== this.value) {
-        this.$emit('input', val, reason, date)
-      }
-      else if (reason === 'today') {
+      date.changed = val !== this.value
+      this.$emit('input', val, reason, date)
+
+      if (val === this.value && reason === 'today') {
         const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
         const curHash = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(this.innerModel.day)
 

@@ -46,7 +46,8 @@
     },
 
     "label-text-color": {
-      "extends": "color"
+      "extends": "color",
+      "addedIn": "v1.1.0"
     },
 
     "label-value": {

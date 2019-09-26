@@ -437,6 +437,22 @@
         </template>
       </q-table>
 
+      <h2>header-cell-[name]</h2>
+      <q-table
+        :data="data"
+        :columns="columns"
+        :title="title"
+        :filter="filter"
+        row-key="name"
+      >
+        <template v-slot:header-cell-calories="props">
+          <q-th :props="props">
+            <q-icon size="1.5em" name="thumb_up" />
+            {{ props.col.label }}
+          </q-th>
+        </template>
+      </q-table>
+
       <h2>header</h2>
       <q-table
         :data="data"

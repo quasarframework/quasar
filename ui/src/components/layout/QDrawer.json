@@ -155,6 +155,17 @@
     "mouseout": {
       "extends": "click",
       "desc": "Emitted when user moves mouse cursor out of the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+    },
+
+    "mini-state": {
+      "desc": "Emitted when drawer changes the mini-mode state (sometimes it is forced to do so)",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "New state"
+        }
+      },
+      "addedIn": "v1.1.3"
     }
   }
 }

@@ -110,8 +110,8 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .packages-container .q-tab-panel
-  padding-right 0
-  padding-top 0
+  padding-right: 0
+  padding-top: 0
 </style>

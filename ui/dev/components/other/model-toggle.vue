@@ -170,7 +170,7 @@
         <q-dialog ref="refDialogModel" v-model="seqModelDialog">
           <q-card class="bg-white">
             <q-card-section>
-              <q-input v-model="showHideSequence" label="Sequence of show/hide/$nextTick (s/h/t)" />
+              <q-input v-model="showHideSequence" label="Sequence of show/hide/$nextTick (s/h/t)" autofocus />
             </q-card-section>
             <q-card-actions vertical>
               <q-btn :label="`Run on Dialog - model [${seqModelDialog}] - should end up ${showHideSequenceEndStatus}`" @click="runSequence($refs.refDialogModel)" />

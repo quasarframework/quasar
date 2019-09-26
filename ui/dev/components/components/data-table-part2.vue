@@ -293,6 +293,38 @@
       dense
       :selected.sync="selected"
     />
+    <h4>No Data - Default</h4>
+    <q-table
+      :data="[]"
+      :columns="columns"
+      title="No Data"
+      row-key="name"
+    />
+    <h4>No Data - Label</h4>
+    <q-table
+      :data="[]"
+      :columns="columns"
+      no-data-label="I didn't find anything for you"
+      title="No Data"
+      row-key="name"
+    />
+    <h4>No Data - Slot</h4>
+    <q-table
+      :data="[]"
+      :columns="columns"
+      no-data-label="I didn't find anything for you"
+      title="No Data"
+      row-key="name"
+    >
+      <template v-slot:no-data="props">
+        <q-banner class="full-width bg-warning">
+          <template v-slot:avatar>
+            <q-icon :name="props.icon" color="primary" />
+          </template>
+          {{ props.message }}
+        </q-banner>
+      </template>
+    </q-table>
   </div>
 </template>
 

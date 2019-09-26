@@ -13,7 +13,8 @@
       "desc": "Debounce amount (in milliseconds)",
       "default": 100,
       "examples": [ "0", "530" ],
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.1.0"
     },
 
     "scroll-target": {

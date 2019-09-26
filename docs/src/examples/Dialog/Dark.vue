@@ -15,11 +15,11 @@ export default {
         title: 'Alert',
         message: 'Some message'
       }).onOk(() => {
-        console.log('OK')
+        // console.log('OK')
       }).onCancel(() => {
-        console.log('Cancel')
+        // console.log('Cancel')
       }).onDismiss(() => {
-        console.log('I am triggered on both OK and Cancel')
+        // console.log('I am triggered on both OK and Cancel')
       })
     },
 
@@ -31,13 +31,13 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(() => {
-        console.log('>>>> OK')
+        // console.log('>>>> OK')
       }).onOk(() => {
-        console.log('>>>> second OK catcher')
+        // console.log('>>>> second OK catcher')
       }).onCancel(() => {
-        console.log('>>>> Cancel')
+        // console.log('>>>> Cancel')
       }).onDismiss(() => {
-        console.log('I am triggered on both OK and Cancel')
+        // console.log('I am triggered on both OK and Cancel')
       })
     },
 
@@ -53,11 +53,11 @@ export default {
         cancel: true,
         persistent: true
       }).onOk(data => {
-        console.log('>>>> OK, received', data)
+        // console.log('>>>> OK, received', data)
       }).onCancel(() => {
-        console.log('>>>> Cancel')
+        // console.log('>>>> Cancel')
       }).onDismiss(() => {
-        console.log('I am triggered on both OK and Cancel')
+        // console.log('I am triggered on both OK and Cancel')
       })
     }
   }

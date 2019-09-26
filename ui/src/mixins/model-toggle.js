@@ -38,7 +38,9 @@ export default {
         this.$emit('input', true)
         this.payload = evt
         this.$nextTick(() => {
-          this.payload = void 0
+          if (this.payload === evt) {
+            this.payload = void 0
+          }
         })
       }
       else {
@@ -50,6 +52,10 @@ export default {
       if (this.showing === true) {
         return
       }
+
+      // need to call it before setting showing to true
+      // in order to not ruin the animation
+      this.__preparePortal !== void 0 && this.__preparePortal()
 
       this.showing = true
 
@@ -74,7 +80,9 @@ export default {
         this.$emit('input', false)
         this.payload = evt
         this.$nextTick(() => {
-          this.payload = void 0
+          if (this.payload === evt) {
+            this.payload = void 0
+          }
         })
       }
       else {

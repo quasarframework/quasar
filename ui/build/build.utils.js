@@ -2,7 +2,8 @@ const
   fs = require('fs'),
   path = require('path'),
   zlib = require('zlib'),
-  { green, blue, red, cyan } = require('chalk')
+  { green, blue, red, cyan } = require('chalk'),
+  kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 
 function getSize (code) {
   return (code.length / 1024).toFixed(2) + 'kb'
@@ -63,4 +64,11 @@ module.exports.rollupQuasarUMD = function (config = {}) {
       }
     }
   }
+}
+
+module.exports.kebabCase = function (str) {
+  return str.replace(
+    kebabRegex,
+    match => '-' + match.toLowerCase()
+  ).substring(1)
 }

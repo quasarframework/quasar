@@ -59,7 +59,7 @@ export default {
     },
 
     abortFilterFn () {
-      console.log('delayed filter aborted')
+      // console.log('delayed filter aborted')
     }
   }
 }
