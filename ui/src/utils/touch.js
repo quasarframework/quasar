@@ -1,3 +1,5 @@
+import { listenOpts } from './event.js'
+
 const directions = ['left', 'right', 'up', 'down', 'horizontal', 'vertical']
 
 const modifiersAll = {
@@ -50,5 +52,31 @@ export function updateModifiers (ctx, { oldValue, value, modifiers }) {
   if (directions.some(direction => modifiers[direction] !== ctx.modifiers[direction])) {
     ctx.modifiers = modifiers
     ctx.direction = getModifierDirections(modifiers)
+  }
+}
+
+export function addEvt (ctx, target, events) {
+  target += 'Evt'
+
+  if (ctx[target] !== void 0) {
+    ctx[target] = ctx[target].concat(events)
+  }
+  else {
+    ctx[target] = events
+  }
+
+  events.forEach(evt => {
+    evt[0].addEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
+  })
+}
+
+export function cleanEvt (ctx, target) {
+  target += 'Evt'
+
+  if (ctx[target] !== void 0) {
+    ctx[target].forEach(evt => {
+      evt[0].removeEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
+    })
+    ctx[target] = void 0
   }
 }
