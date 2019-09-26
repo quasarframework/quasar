@@ -183,7 +183,6 @@ export default Vue.extend({
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
           staticClass: 'q-slider__track absolute-full',
-          class: this.value === null ? 'bg-transparent' : null,
           style: this.trackStyle
         }),
 
