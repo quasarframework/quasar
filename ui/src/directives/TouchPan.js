@@ -135,13 +135,8 @@ export default {
         ctx.end(evt)
       },
 
-      touchStart (evt) {
-        el.addEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
-        ctx.start(evt)
-      },
-
       touchMove (evt) {
-        if (ctx.event === void 0 || ctx.event.touchMoveProcessed === true) {
+        if (ctx.event === void 0) {
           return
         }
 
@@ -160,7 +155,9 @@ export default {
       },
 
       touchEnd (evt) {
-        el.addEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
+        if (ctx.event.detected === true) {
+          el.addEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
+        }
 
         const target = ctx.touchTarget
         if (target !== void 0) {
@@ -297,7 +294,7 @@ export default {
     }
 
     if (Platform.has.touch === true) {
-      el.addEventListener('touchstart', ctx.touchStart, listenOpts[`passive${modifiers.capture === true ? 'Capture' : ''}`])
+      el.addEventListener('touchstart', ctx.start, listenOpts[`passive${modifiers.capture === true ? 'Capture' : ''}`])
       el.addEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
     }
   },
@@ -330,7 +327,7 @@ export default {
       }
 
       if (Platform.has.touch === true) {
-        el.removeEventListener('touchstart', ctx.touchStart, listenOpts[`passive${modifiers.capture === true ? 'Capture' : ''}`])
+        el.removeEventListener('touchstart', ctx.start, listenOpts[`passive${modifiers.capture === true ? 'Capture' : ''}`])
         el.removeEventListener('touchmove', ctx.touchMove, listenOpts[`notPassiveCapture`])
 
         const target = ctx.touchTarget
