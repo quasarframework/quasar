@@ -1,0 +1,141 @@
+{
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "restore-on-scroll": {
+      "type": "Boolean",
+      "desc": "Restores the zoomed item on scroll action"
+    },
+
+    "manual": {
+      "type": "Boolean",
+      "desc": "Disable automatic zoom feature. Must be done manually via show/hide methods"
+    },
+
+    "scale": {
+      "type": "Boolean",
+      "desc": "Allows scalling the zoomed item with mouse wheel"
+    },
+
+    "initial-scale": {
+      "type": ["Number", "String"],
+      "desc": "When scale property is set this is the value for the initial scale",
+      "default": 1.0,
+      "examples": [0.05, 6]
+    },
+
+    "scale-text": {
+      "type": "Boolean",
+      "desc": "Allows scalling the zoomed item's text with mouse wheel"
+    },
+
+    "initial-scale-text": {
+      "type": ["Number", "String"],
+      "desc": "When scale-text property is set this is the value for the initial text scale",
+      "default": 100,
+      "examples": [50, 200]
+    },
+
+    "no-center": {
+      "type": "Boolean",
+      "desc": "Keep text from being centered aligned when zooming"
+    },
+
+    "no-wheel-scale": {
+      "type": "Boolean",
+      "desc": "Turns off ability for user to scale"
+    },
+
+    "no-esc-close": {
+      "type": "Boolean",
+      "desc": "Turns off ability for user to use ESC to cancel scale (must be done with code)"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "events": {
+    "before-zoom": {
+      "desc": "Trigger when default slotted content is about to be zoomed"
+
+    },
+
+    "zoomed": {
+      "desc": "Trigger when default slotted content is zoomed"
+    },
+
+    "before-restore": {
+      "desc": "Trigger when default slotted content is about to be restored"
+    },
+
+    "restored": {
+      "desc": "Trigger when default slotted content is restored"
+    },
+
+    "scale": {
+      "desc": "Trigger when the setScale method is called",
+      "params": {
+        "val": {
+          "type": "Number",
+          "desc": "The scale value",
+          "examples": [0.2, 5]
+        }
+      }
+    },
+
+    "scale-text": {
+      "desc": "Trigger when the setScaleText method is called",
+      "params": {
+        "val": {
+          "type": "Number",
+          "desc": "The scaleText value",
+          "examples": [100, 400]
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "zoom": {
+      "desc": "Zooms default slotted content"
+    },
+
+    "restore": {
+      "desc": "Restores default slotted content"
+    },
+
+    "toggle": {
+      "desc": "Toggles between zoom and restore methods"
+    },
+
+    "setScale": {
+      "desc": "Programmatically set the scale",
+      "params": {
+        "val": {
+          "type": "Number",
+          "desc": "Takes a value from 0.05 to 10",
+          "required": true,
+          "examples": [0.2, 5]
+        }
+      }
+    },
+
+    "setScaleText": {
+      "desc": "Programmatically set the text scale",
+      "params": {
+        "val": {
+          "type": "Number",
+          "desc": "Takes a value from 50 to 500",
+          "required": true,
+          "examples": [100, 400]
+        }
+      }
+    }
+  }
+}
