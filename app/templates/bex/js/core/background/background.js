@@ -30,26 +30,29 @@ const addConnection = (port) => {
     currentConnection = connections[connectionId] = {}
   }
 
-  currentConnection[port.name] = port
+  currentConnection[port.name] = {
+    port,
+    connected: true
+  }
+
+  return currentConnection[port.name]
 }
 
 chrome.runtime.onConnect.addListener(port => {
-  let disconnected = false
-  port.onDisconnect.addListener(() => {
-    disconnected = true
-  })
-
   // Add this port to our pool of connections
-  addConnection(port)
+  const thisConnection = addConnection(port)
+  thisConnection.port.onDisconnect.addListener(() => {
+    thisConnection.connected = false
+  })
 
   // Create a comms layer between the background script and the App / ContentScript
   const bridge = new Bridge({
     listen (fn) {
-      port.onMessage.addListener(fn)
+      thisConnection.port.onMessage.addListener(fn)
     },
     send (data) {
-      if (!disconnected) {
-        port.postMessage(data)
+      if (thisConnection.connected) {
+        thisConnection.port.postMessage(data)
       }
     }
   })
@@ -60,33 +63,23 @@ chrome.runtime.onConnect.addListener(port => {
   for (let connectionId of Object.keys(connections)) {
     const connection = connections[connectionId]
     if (connection.app && connection.contentScript) {
-      mapConnections(name, connection.app, connection.contentScript)
+      mapConnections(connection.app, connection.contentScript)
     }
   }
 })
 
-function mapConnections (id, app, contentScript) {
+function mapConnections (app, contentScript) {
   // Send message from content script to app
-  const lOne = (message) => {
-    contentScript.postMessage(message)
-  }
+  app.port.onMessage.addListener((message) => {
+    if (contentScript.connected) {
+      contentScript.port.postMessage(message)
+    }
+  })
 
   // Send message from app to content script
-  const lTwo = (message) => {
-    app.postMessage(message)
-  }
-
-  const shutdown = () => {
-    app.onMessage.removeListener(lOne)
-    contentScript.onMessage.removeListener(lTwo)
-
-    app.disconnect()
-    contentScript.disconnect()
-  }
-
-  app.onMessage.addListener(lOne)
-  app.onDisconnect.addListener(shutdown)
-
-  contentScript.onMessage.addListener(lTwo)
-  contentScript.onDisconnect.addListener(shutdown)
+  contentScript.port.onMessage.addListener((message) => {
+    if (app.connected) {
+      app.port.postMessage(message)
+    }
+  })
 }
