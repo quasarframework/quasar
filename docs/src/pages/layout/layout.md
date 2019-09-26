@@ -51,7 +51,7 @@ Quasar introduces a unique and excellent layout concept, which allows you to eas
 
 To explain how this works, imagine your Layout is a 3x3 matrix of containers (depicted in blue below). The first row of containers would be the header and the last row would be the footer. The first column of containers would be the "left" and last column would be the "right". The center of the matrix, below the header and above the footer, would be the page or main content container.
 
-This matrix of containers or "QLayout View" can be represented by a string that you should supply to `view` property of QLayout. This string must contain exactly 11 characters:
+This matrix of containers or "QLayout View" can be represented by a string that you should supply to the `view` property of QLayout. This string must contain exactly 11 characters:
 
 - 3 defining the header row
 - then a space

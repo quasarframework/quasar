@@ -1,3 +1,30 @@
+const contributionGuide = [
+  {
+    name: 'Contribution Guide',
+    path: 'contribution-guide'
+  },
+  {
+    name: 'Running Projects',
+    path: 'running-projects',
+    badge: 'new'
+  },
+  {
+    name: 'Start a New Project',
+    path: 'new-project',
+    badge: 'new'
+  },
+  {
+    name: 'Project Maintainer Role',
+    path: 'project-maintainer',
+    badge: 'new'
+  },
+  {
+    name: 'Commit Conventions',
+    path: 'commit-conventions',
+    badge: 'new'
+  }
+]
+
 const gettingStarted = [
   {
     name: 'Pick Quasar Flavour',
@@ -37,11 +64,6 @@ const gettingStarted = [
   {
     name: 'Roadmap',
     path: 'roadmap'
-  },
-  {
-    name: 'Contribution Guide',
-    badge: 'new',
-    path: 'contribution-guide'
   },
   {
     name: 'Upgrade guide',
@@ -156,6 +178,11 @@ const cli = [
       {
         name: 'Commands List',
         path: 'commands-list'
+      },
+      {
+        name: 'CSS Preprocessors',
+        badge: 'new',
+        path: 'css-preprocessors'
       },
       {
         name: 'Routing',
@@ -410,8 +437,8 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    path: 'theme-builder',
-    badge: 'new'
+    badge: 'new',
+    path: 'theme-builder'
   },
   {
     name: 'Spacing',
@@ -432,6 +459,11 @@ const style = [
   {
     name: 'Positioning',
     path: 'positioning'
+  },
+  {
+    name: 'Sass/SCSS Variables',
+    badge: 'new',
+    path: 'sass-scss-variables'
   },
   {
     name: 'Stylus Variables',
@@ -936,32 +968,27 @@ const appExtensions = [
     children: [
       {
         name: 'Introduction',
-        badge: 'new',
         path: 'introduction'
       },
       {
         name: 'Provide a UI component',
-        badge: 'new',
         path: 'provide-a-ui-component'
       },
       {
         name: 'Provide a directive',
-        badge: 'new',
         path: 'provide-a-directive'
       },
       {
         name: 'Inject Quasar Plugin',
-        badge: 'new',
         path: 'inject-quasar-plugin'
       },
-      /* {
+      {
         name: 'Starter kit equivalent',
         badge: 'new',
         path: 'starter-kit-equivalent'
-      }, */
+      },
       {
         name: 'Chain Webpack',
-        badge: 'new',
         path: 'chain-webpack'
       }
     ]
@@ -1017,9 +1044,10 @@ module.exports = [
     path: 'meet-the-team'
   },
   {
-    name: 'Newsletter',
-    icon: 'email',
-    path: 'newsletter'
+    name: 'Contribution Guide',
+    icon: 'code',
+    path: 'contribution-guide',
+    children: contributionGuide
   },
   {
     name: 'Getting Started',

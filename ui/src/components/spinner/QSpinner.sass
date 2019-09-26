@@ -1,0 +1,34 @@
+
+.q-spinner
+  vertical-align: middle
+
+.q-spinner-mat
+  animation: q-spin 2s linear infinite
+  transform-origin: center center
+  .path
+    stroke-dasharray: 1, 200 /* rtl:ignore */
+    stroke-dashoffset: 0 /* rtl:ignore */
+    animation: q-mat-dash 1.5s ease-in-out infinite
+
+@keyframes q-spin
+  0%
+    transform: rotate3d(0, 0, 1, 0deg) /* rtl:ignore */
+  25%
+    transform: rotate3d(0, 0, 1, 90deg) /* rtl:ignore */
+  50%
+    transform: rotate3d(0, 0, 1, 180deg) /* rtl:ignore */
+  75%
+    transform: rotate3d(0, 0, 1, 270deg) /* rtl:ignore */
+  100%
+    transform: rotate3d(0, 0, 1, 359deg) /* rtl:ignore */
+
+@keyframes q-mat-dash
+  0%
+    stroke-dasharray: 1, 200 /* rtl:ignore */
+    stroke-dashoffset: 0 /* rtl:ignore */
+  50%
+    stroke-dasharray: 89, 200 /* rtl:ignore */
+    stroke-dashoffset: -35px /* rtl:ignore */
+  100%
+    stroke-dasharray: 89, 200 /* rtl:ignore */
+    stroke-dashoffset: -124px /* rtl:ignore */

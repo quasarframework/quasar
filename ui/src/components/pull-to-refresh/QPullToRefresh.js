@@ -42,7 +42,7 @@ export default Vue.extend({
     style () {
       return {
         opacity: this.pullRatio,
-        transform: `translate3d(0, ${this.pullPosition}px, 0) rotate3d(0, 0, 1, ${this.pullRatio * 360}deg)`
+        transform: `translateY(${this.pullPosition}px) rotate(${this.pullRatio * 360}deg)`
       }
     }
   },

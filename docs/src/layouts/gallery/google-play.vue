@@ -159,71 +159,71 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .GPLAY
 
   &__toolbar
-    height 60px
+    height: 60px
 
   &__logo
-    width 183px
-    height 39px
+    width: 183px
+    height: 39px
 
   &__toolbar-input-container
-    min-width 100px
-    width 55%
+    min-width: 100px
+    width: 55%
 
   &__toolbar-input-btn
-    border-radius 0
-    max-width 60px
-    width 100%
+    border-radius: 0
+    max-width: 60px
+    width: 100%
 
   &__drawer-link
 
     .q-item__section--avatar
-      margin -8px 0 -8px -16px
-      padding 8px 0 8px 16px
+      margin: -8px 0 -8px -16px
+      padding: 8px 0 8px 16px
 
     .q-item__section--main
-      margin -8px -16px -8px 16px
-      padding 8px 16px 8px 2px
-      font-size 18px
-      font-weight 300
+      margin: -8px -16px -8px 16px
+      padding: 8px 16px 8px 2px
+      font-size: 18px
+      font-weight: 300
 
     &--apps, &--movies, &--music, &--books, &--devices
-      background #f5f5f5!important
+      background: #f5f5f5!important
       &:hover
-        color #eee !important
+        color: #eee !important
 
     &--apps:hover
-      background #43a047!important
+      background: #43a047!important
 
     &--movies:hover
-      background #e53935!important
+      background: #e53935!important
 
     &--music:hover
-      background #fb8c00!important
+      background: #fb8c00!important
 
     &--books:hover
-      background #1e88e5!important
+      background: #1e88e5!important
 
     &--devices:hover
       background: #546e7a!important
 
   &__drawer-item
-    padding 6px 12px 6px 23px
+    padding: 6px 12px 6px 23px
 
   &__sticky
-    min-height 49px
-    border-bottom 1px solid rgba(0,0,0,0.12)
+    min-height: 49px
+    border-bottom: 1px solid rgba(0,0,0,0.12)
 
   &__sticky-help
-    border 1px solid #ccc
-    padding-left 8px
-    padding-right 8px
+    border: 1px solid #ccc
+    padding-left: 8px
+    padding-right: 8px
 
   &__sticky-settings
-    padding-left 17px
-    padding-right 17px
-    border 1px solid #ccc
+    padding-left: 17px
+    padding-right: 17px
+    border: 1px solid #ccc
 </style>

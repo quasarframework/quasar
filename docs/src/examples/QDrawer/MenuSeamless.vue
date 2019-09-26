@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .menu-list .q-item
-  border-radius 0 32px 32px 0
+  border-radius: 0 32px 32px 0
 </style>

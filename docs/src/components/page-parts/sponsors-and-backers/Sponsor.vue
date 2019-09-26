@@ -34,17 +34,17 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .quasar-sponsor
-  width 100%
-  max-width 14rem
-  height 265px
+  width: 100%
+  max-width: 14rem
+  height: 265px
 
   &__logo
-    height 200px
+    height: 200px
   &__title
-    transition background .28s
+    transition: background .28s
 
   &:hover .quasar-sponsor__title
-    background #eee
+    background: #eee
 </style>

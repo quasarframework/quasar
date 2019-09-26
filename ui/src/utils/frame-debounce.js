@@ -1,8 +1,8 @@
 export default function (fn) {
   let wait = false, frame, callArgs
 
-  function debounced (...args) {
-    callArgs = args
+  function debounced (/* ...args */) {
+    callArgs = arguments
     if (wait === true) { return }
 
     wait = true

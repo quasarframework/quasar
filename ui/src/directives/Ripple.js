@@ -1,5 +1,5 @@
 import { css } from '../utils/dom.js'
-import { position, stop } from '../utils/event.js'
+import { position, stop, listenOpts } from '../utils/event.js'
 import Platform from '../plugins/Platform.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
@@ -33,10 +33,11 @@ function showRipple (evt, el, ctx, forceCenter) {
   node.appendChild(innerNode)
   el.appendChild(node)
 
-  ctx.abort = () => {
-    node && node.remove()
+  const abort = () => {
+    node.remove()
     clearTimeout(timer)
   }
+  ctx.abort.push(abort)
 
   let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
@@ -49,8 +50,8 @@ function showRipple (evt, el, ctx, forceCenter) {
       innerNode.style.opacity = 0
 
       timer = setTimeout(() => {
-        node && node.remove()
-        ctx.abort = void 0
+        node.remove()
+        ctx.abort.splice(ctx.abort.indexOf(abort), 1)
       }, 275)
     }, 250)
   }, 50)
@@ -80,6 +81,7 @@ export default {
   inserted (el, binding) {
     const ctx = {
       modifiers: {},
+      abort: [],
 
       click (evt) {
         // on ENTER in form IE emits a PointerEvent with negative client cordinates
@@ -102,8 +104,8 @@ export default {
     }
 
     el.__qripple = ctx
-    el.addEventListener('click', ctx.click)
-    el.addEventListener('keyup', ctx.keyup)
+    el.addEventListener('click', ctx.click, listenOpts.passive)
+    el.addEventListener('keyup', ctx.keyup, listenOpts.passive)
   },
 
   update (el, binding) {
@@ -113,9 +115,9 @@ export default {
   unbind (el) {
     const ctx = el.__qripple_old || el.__qripple
     if (ctx !== void 0) {
-      ctx.abort !== void 0 && ctx.abort()
-      el.removeEventListener('click', ctx.click)
-      el.removeEventListener('keyup', ctx.keyup)
+      ctx.abort.forEach(fn => { fn() })
+      el.removeEventListener('click', ctx.click, listenOpts.passive)
+      el.removeEventListener('keyup', ctx.keyup, listenOpts.passive)
       delete el[el.__qripple_old ? '__qripple_old' : '__qripple']
     }
   }

@@ -24,6 +24,8 @@ A boot file is a simple JavaScript file which can optionally export a function. 
 | `store` | Instance of the app Vuex Store - **store only will be passed if your project uses Vuex (you have src/store)** |
 | `Vue` | Is same as if we do `import Vue from 'vue'` and it's there for convenience |
 | `ssrContext` | Available only on server-side, if building for SSR |
+| `urlPath` | (**@quasar/app 1.0.7+**) The pathname (path + search) part of the URL; on client-side (only), it also contains the hash. |
+| `redirect` | (**@quasar/app 1.0.7+**) Function to call to redirect to another URL. |
 
 ```js
 export default ({ app, router, store, Vue }) => {
@@ -101,11 +103,28 @@ This command creates a new file: `/src/boot/<name>.js` with the following conten
 ```js
 // import something here
 
-// "async" is optional
+// "async" is optional!
+// remove it if you don't need it
 export default async ({ /* app, router, store, Vue */ }) => {
   // something to do
 }
 ```
+
+You can also return a Promise:
+
+```js
+// import something here
+
+export default ({ /* app, router, store, Vue */ }) => {
+  return new Promise((resolve, reject) => {
+    // do something
+  })
+}
+```
+
+::: tip
+The default export can be left out of the boot file if you don't need it. These are the cases where you don't need to access the "app", "router", "store" and so on.
+:::
 
 You can now add content to that file depending on the intended use of your boot file.
 
@@ -153,6 +172,51 @@ boot: [
 ]
 ```
 
+### Redirecting to another page
+
+<q-badge label="@quasar/app 1.0.7+" />
+
+```js
+export default ({ urlPath, redirect }) => {
+  // ...
+  const isAuthorized = // ...
+  if (!isAuthorized && !urlPath.startsWith('/login')) {
+    redirect('/login')
+    return
+  }
+  // ...
+}
+```
+
+As it was mentioned in the previous sections, the default export of a boot file can return a Promise. If this Promise gets rejected with an Object that contains a "url" property, then Quasar CLI will redirect the user to that URL:
+
+```js
+export default ({ urlPath }) => {
+  return new Promise((resolve, reject) => {
+    // ...
+    const isAuthorized = // ...
+    if (!isAuthorized && !urlPath.startsWith('/login')) {
+      reject({ url: '/login' })
+      return
+    }
+    // ...
+  })
+}
+```
+
+Or a simpler equivalent:
+
+```js
+export default () => {
+  // ...
+  const isAuthorized = // ...
+    if (!isAuthorized && !urlPath.startsWith('/login')) {
+    return Promise.reject({ url: '/login' })
+  }
+  // ...
+}
+```
+
 ### Quasar App Flow
 In order to better understand how a boot file works and what it does, you need to understand how your website/app boots:
 
@@ -172,16 +236,15 @@ In order to better understand how a boot file works and what it does, you need t
 ### Axios
 
 ```js
+import Vue from 'vue'
 import axios from 'axios'
 
-export default ({ Vue }) => {
-  // we add it to Vue prototype
-  // so we can reference it in Vue files
-  // without the need to import axios
-  Vue.prototype.$axios = axios
+// we add it to Vue prototype
+// so we can reference it in Vue files
+// without the need to import axios
+Vue.prototype.$axios = axios
 
-  // Example: this.$axios will reference Axios now so you don't need stuff like vue-axios
-}
+// Example: this.$axios will reference Axios now so you don't need stuff like vue-axios
 ```
 
 ### vue-i18n
@@ -196,7 +259,7 @@ import messages from 'src/i18n'
 // we tell Vue to use our Vue package:
 Vue.use(VueI18n)
 
-export default ({ app, Vue }) => {
+export default ({ app }) => {
   // Set i18n instance on app;
   // We inject it into root component by doing so;
   // new Vue({..., i18n: ... }).$mount(...)
@@ -210,6 +273,7 @@ export default ({ app, Vue }) => {
 
 ### Router authentication
 Some boot files might need to interfere with Vue Router configuration:
+
 ```js
 export default ({ router, store, Vue }) => {
   router.beforeEach((to, from, next) => {
@@ -230,6 +294,7 @@ Consider the following boot file for axios:
 ```js
 // axios boot file (src/boot/axios.js)
 
+import Vue from 'vue'
 import axios from 'axios'
 
 // We create our own axios instance and set a custom base URL.
@@ -239,10 +304,8 @@ const axiosInstance = axios.create({
   baseURL: 'https://api.example.com'
 })
 
-export default ({ Vue }) => {
-  // for use inside Vue files through this.$axios
-  Vue.prototype.$axios = axiosInstance
-}
+// for use inside Vue files through this.$axios
+Vue.prototype.$axios = axiosInstance
 
 // Here we define a named export
 // that we can later use inside .js files:

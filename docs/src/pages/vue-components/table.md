@@ -54,16 +54,15 @@ columns: [ // array of Objects
 
     // (optional) compare function if you have
     // some custom data or want a specific way to compare two rows
-    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)
+    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),
     // function return value:
     //   * is less than 0 then sort a to an index lower than b, i.e. a comes first
     //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
     // (optional) you can format the data with a function
-    format: (val, row) => `${val}%`
+    format: (val, row) => `${val}%`,
 
-    // v0.17.9+; if using scoped slots, apply this yourself instead
     style: 'width: 500px',
     classes: 'my-special-class'
   },
@@ -187,6 +186,42 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 ### Custom top
 
 <doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
+
+### Body slots
+
+The example below shows how you can use a slot to customize the entire row:
+
+<doc-example title="Body slot" file="QTable/SlotBody" />
+
+Bellow, we use a slot which gets applied to each body cell:
+
+<doc-example title="Body-cell slot" file="QTable/SlotBodyCell" />
+
+We can also customize only one particular column only. The syntax for this slot is `body-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+
+<doc-example title="Body-cell-[name] slot" file="QTable/SlotBodyCellName" />
+
+### Header slots
+
+The example below shows how you can use a slot to customize the entire header row:
+
+<doc-example title="Header slot" file="QTable/SlotHeader" />
+
+Bellow, we use a slot which gets applied to each header cell:
+
+<doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
+
+Starting with **v1.1.1+**, we can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+
+<doc-example title="Header-cell-[name] slot" file="QTable/SlotHeaderCellName" />
+
+### No data
+
+<doc-example title="No Data Label" file="QTable/NoData" />
+
+Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
+
+<doc-example title="No Data Slot" file="QTable/NoDataSlot" />
 
 ### Custom sorting
 

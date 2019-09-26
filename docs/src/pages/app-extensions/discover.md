@@ -49,14 +49,3 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qiconpicker](https://github.com/quasarframework/app-extension-qiconpicker) | Icon Picker for your Quasar apps |
 | [@quasar/qribbon](https://github.com/quasarframework/app-extension-qribbon) | QRibbon UI component for your Quasar apps |
 | [@quasar/qzoom](https://github.com/quasarframework/app-extension-qzoom) | Zoom any content (image, video, text, components, ...) |
-
-### In Development
-
-| Alias | Description |
-| --- | --- |
-| [@quasar/apollo](https://github.com/quasarframework/app-extension-graphql) | Apollo and GraphQL with server and front-end integration |
-| [@quasar/feathersjs](https://github.com/quasarframework/app-extension-feathersjs) | Create FeathersJS server and front-end integration |
-| [@quasar/amplify](https://github.com/quasarframework/app-extension-amplify) | Integrate and manage AWS Amplify |
-| [@quasar/firebase](https://github.com/quasarframework/app-extension-firebase) | Integrate and manage Google Firebase / Firestore |
-| [@quasar/qtranslate](https://github.com/quasarframework/app-extension-qtranslate) | Deep localization including datetime, currency and string management |
-| [@quasar/universal-fs](https://github.com/quasarframework/app-extension-universal-fs) | Wrap the filesystem interface for web, cordova and electron with one abstraction |

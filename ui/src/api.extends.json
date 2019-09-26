@@ -122,7 +122,7 @@
 
   "events": {
     "input": {
-      "desc": "Emitted when component's model changes; Is also used by v-model",
+      "desc": "Emitted when the component needs to change the model; Is also used by v-model",
       "params": {
         "value": {
           "type": "Any",

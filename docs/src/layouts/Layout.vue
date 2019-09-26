@@ -254,43 +254,43 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 @import '../css/docsearch'
 
 .header
-  background linear-gradient(145deg, $primary 11%, $dark-primary 75%)
+  background: linear-gradient(145deg, $primary 11%, $dark-primary 75%)
 
 .header-logo
-  width 25px
-  height 25px
+  width: 25px
+  height: 25px
 
 .doc-layout-avatar > div
-  border-radius 0
+  border-radius: 0
 
 .layout-drawer-toolbar
-  border-bottom 1px solid $separator-color
+  border-bottom: 1px solid $separator-color
 
 .q-drawer--mobile .doc-toc
   .q-item
-    margin-left 3px
+    margin-left: 3px
   .q-item--active
-    font-weight 600
+    font-weight: 600
 
 .doc-toc .q-item
-  border-radius 10px 0 0 10px
-  margin-top 1px
-  margin-bottom 1px
+  border-radius: 10px 0 0 10px
+  margin-top: 1px
+  margin-bottom: 1px
 
   &.q-item--active
-    background lighten($primary, 90%)
+    background: scale-color($primary, $lightness: 90%)
 
 .doc-left-drawer
-  overflow inherit !important
+  overflow: inherit !important
 
 .quasar-logo
   img
-    transform rotate(0deg)
-    transition transform .8s ease-in-out
+    transform: rotate(0deg)
+    transition: transform .8s ease-in-out
   &:hover img
-    transform rotate(-360deg)
+    transform: rotate(-360deg)
 </style>

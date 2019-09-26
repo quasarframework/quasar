@@ -53,7 +53,9 @@ export default {
 
     __contextClick (evt) {
       this.hide(evt)
-      this.show(evt)
+      this.$nextTick(() => {
+        this.show(evt)
+      })
       prevent(evt)
     },
 

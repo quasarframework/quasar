@@ -99,7 +99,8 @@
     "no-default-spinner": {
       "type": "Boolean",
       "desc": "Do not display the default spinner when loading images (unless you are specifying one through the 'loading' slot)",
-      "category": "content"
+      "category": "content",
+      "addedIn": "v1.1.0"
     }
   },
 

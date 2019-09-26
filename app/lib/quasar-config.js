@@ -12,7 +12,8 @@ const
   warn = logger('app:quasar-conf', 'red'),
   appFilesValidations = require('./app-files-validations'),
   extensionRunner = require('./app-extension/extensions-runner'),
-  supportIE = require('./helpers/support-ie')
+  supportIE = require('./helpers/support-ie'),
+  cssVariables = require('./helpers/css-variables')
 
 function encode (obj) {
   return JSON.stringify(obj, (key, value) => {
@@ -24,7 +25,7 @@ function encode (obj) {
 
 function formatPublicPath (path) {
   if (!path) {
-    return path || ''
+    return ''
   }
 
   if (!path.endsWith('/')) {
@@ -315,7 +316,7 @@ class QuasarConfig {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
         cfg.ssr ? cfg.ssr.pwa : '',
-        cfg.framework.all,
+        cfg.framework ? cfg.framework.all + cfg.framework.autoImportComponentCase : '',
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
         cfg.electron ? encode(cfg.electron) : ''
@@ -359,6 +360,15 @@ class QuasarConfig {
       cfg.extras = cfg.extras.filter(uniqueFilter)
     }
 
+    if (cfg.framework.all !== true && cfg.framework.all !== 'auto') {
+      cfg.framework.all = false
+    }
+    else if (cfg.framework.all === 'auto') {
+      if (!['kebab', 'pascal', 'combined'].includes(cfg.framework.autoImportComponentCase)) {
+        cfg.framework.autoImportComponentCase = 'kebab'
+      }
+    }
+
     cfg.framework.components = cfg.framework.components.filter(uniqueFilter)
     cfg.framework.directives = cfg.framework.directives.filter(uniqueFilter)
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
@@ -375,7 +385,7 @@ class QuasarConfig {
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
       vueRouterMode: 'hash',
-      preloadChunks: true,
+      preloadChunks: this.ctx.prod,
       forceDevPublicPath: false,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
@@ -429,8 +439,8 @@ class QuasarConfig {
 
     cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
 
-    cfg.__loadingBar = cfg.framework.all || cfg.framework.plugins.includes('LoadingBar')
-    cfg.__meta = cfg.framework.all || cfg.framework.plugins.includes('Meta')
+    cfg.__loadingBar = cfg.framework.all === true || cfg.framework.plugins.includes('LoadingBar')
+    cfg.__meta = cfg.framework.all === true || cfg.framework.plugins.includes('Meta')
 
     if (this.ctx.dev || this.ctx.debug) {
       Object.assign(cfg.build, {
@@ -440,6 +450,7 @@ class QuasarConfig {
     }
     if (this.ctx.dev) {
       cfg.build.extractCSS = false
+      cfg.build.preloadChunks = false
     }
     if (this.ctx.debug) {
       cfg.build.sourceMap = true
@@ -447,7 +458,6 @@ class QuasarConfig {
 
     if (this.ctx.mode.ssr) {
       Object.assign(cfg.build, {
-        extractCSS: false,
         vueRouterMode: 'history',
         publicPath: '/',
         gzip: false
@@ -458,7 +468,8 @@ class QuasarConfig {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
         gzip: false,
-        webpackManifest: false
+        webpackManifest: false,
+        preloadChunks: false
       })
     }
 
@@ -519,7 +530,11 @@ class QuasarConfig {
 
       cfg.ssr.debug = this.ctx.debug
 
-      cfg.ssr.__templateOpts = JSON.stringify(cfg.ssr, null, 2)
+      cfg.ssr.__templateOpts = JSON.stringify(
+        Object.assign({}, cfg.ssr, { preloadChunks: cfg.build.preloadChunks === true }),
+        null,
+        2
+      )
       cfg.ssr.__templateFlags = {
         meta: cfg.__meta
       }
@@ -550,6 +565,7 @@ class QuasarConfig {
         open: true
       }, cfg.devServer, {
         contentBase: false,
+        watchContentBase: false,
 
         before: app => {
           if (!this.ctx.mode.ssr) {
@@ -620,6 +636,7 @@ class QuasarConfig {
 
     if (this.ctx.mode.pwa) {
       cfg.build.webpackManifest = false
+      cfg.build.preloadChunks = true
 
       cfg.pwa = merge({
         workboxPluginMode: 'GenerateSW',
@@ -818,7 +835,12 @@ class QuasarConfig {
           // more options:
           // https://github.com/kangax/html-minifier#options-quick-reference
         }
-        : undefined
+        : void 0
+    }
+
+    // used by .quasar entry templates
+    cfg.__css = {
+      quasarSrcExt: cssVariables.quasarSrcExt
     }
 
     this.webpackConfig = await require('./webpack')(cfg)

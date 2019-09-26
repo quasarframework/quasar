@@ -1,0 +1,42 @@
+$PI: 3.14159265359
+
+@function pow($number, $exp)
+  $value: 1
+  @if $exp > 0
+    @for $i from 1 through $exp
+      $value: $value * $number
+  @else if $exp < 0
+    @for $i from 1 through -$exp
+      $value: $value / $number
+  @return $value
+
+@function fact($number)
+  $value: 1
+  @if $number > 0
+    @for $i from 1 through $number
+      $value: $value * $i
+  @return $value
+
+// round to number of decimals
+// toFixed(0.12345, 100) -> 0.12
+// toFixed(0.12345, 1000) -> 0.123
+@function toFixed($number, $power)
+  @return round($number * $power) / $power
+
+@function sin($angle)
+  $sin: 0
+  // angle -> radians
+  $rad: $angle / 180 * $PI
+  // interval determines precision
+  @for $i from 0 through 25
+    $sin: $sin + pow(-1, $i) * pow($rad, (2 * $i + 1)) / fact(2 * $i + 1)
+  @return $sin
+
+@function cos($angle)
+  $cos: 0
+  // angle -> radians
+  $rad: $angle / 180 * $PI
+  // interval determines precision
+  @for $i from 0 through 25
+    $cos: $cos + pow(-1, $i) * pow($rad, 2 * $i) / fact(2 * $i)
+  @return $cos

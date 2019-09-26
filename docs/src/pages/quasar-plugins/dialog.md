@@ -14,7 +14,7 @@ From a UI perspective, you can think of Dialogs as a type of floating modal, whi
 Dialogs can also be used as a component in your Vue file templates (for complex use-cases, like specific form components with validation, selectable options, etc.). For this, go to [QDialog](/vue-components/dialog) page.
 :::
 
-The advantage of using Dialogs as Quasar Plugins as opposed to Components is that the plugin can also be called from outside of Vue space and doesn't requires you to manage their templates. But as a result, their customization cannot be compared to their component counterpart.
+The advantage of using Dialogs as Quasar Plugins as opposed to Components is that the plugin can also be called from outside of Vue space and doesn't require you to manage their templates. But as a result, their customization cannot be compared to their component counterpart.
 
 With the QDialog plugin, you can programmatically build three types of dialogs with the following form content:
  1. A prompt dialog - asking the user to fill in some sort of data in an input field.
@@ -79,10 +79,12 @@ this.$q.dialog({
   // custom component:
   parent: this, // becomes child of this Vue node
                 // ("this" points to your Vue component)
-                // (prop was called "root" in < 1.1.0)
+                // (prop was called "root" in < 1.1.0 and
+                // still works, but recommending to switch
+                // to the more appropriate "parent" name)
 
   // props forwarded to component
-  // (everything except "component" and "root" props above):
+  // (everything except "component" and "parent" props above):
   text: 'something',
   // ...more.props...
 }).onOk(() => {

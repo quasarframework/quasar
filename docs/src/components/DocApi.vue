@@ -245,16 +245,19 @@ export default {
     },
 
     apiCount (tab) {
-      if (tab === 'props') {
+      if (tab === 'props' && this.currentTabMaxCategoryPropCount > 0) {
         let total = 0
         Object.keys(this.filteredApi[tab]).forEach(key => {
           total += Object.keys(this.filteredApi[tab][key]).length
         })
         return total
       }
-      else {
-        return Object.keys(this.filteredApi[tab]).length
+
+      if (['value', 'arg', 'quasarConfOptions', 'injection'].includes(tab)) {
+        return 1
       }
+
+      return Object.keys(this.filteredApi[tab]).length
     },
 
     apiInnerCount (tab, category) {
@@ -295,16 +298,16 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .doc-api
   .q-tab
-    height 40px
+    height: 40px
 
   .inner-tab
-    justify-content left
+    justify-content: left
     .q-tab__content
-      width 100%
+      width: 100%
 
   .api-container
-    max-height 600px
+    max-height: 600px
 </style>
