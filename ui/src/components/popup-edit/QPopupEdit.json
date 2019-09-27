@@ -231,11 +231,21 @@
       "extends": "input",
       "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
     },
-
+    
+    "before-show": {
+      "extends": "before-show",
+      "desc": "Emitted right before Popup gets shown"
+    },
+    
     "show": {
       "desc": "Emitted right after Popup gets shown"
     },
-
+    
+    "before-hide": {
+      "extends": "before-hide",
+      "desc": "Emitted right before Popup gets hide"
+    },
+    
     "hide": {
       "desc": "Emitted right after Popup gets dismissed"
     },
