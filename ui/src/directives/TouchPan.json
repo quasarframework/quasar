@@ -122,7 +122,7 @@
 
     "mightPrevent": {
       "type": "Boolean",
-      "desc": "Required when you might call event.stopPropagation() in your handler for touch events"
+      "desc": "Required when you might call event.preventDefault() in your handler for touch events"
     },
 
     "capture": {
