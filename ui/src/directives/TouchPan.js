@@ -109,8 +109,8 @@ export default {
         stopAndPrevent(evt)
       }
       else {
-        modifiers.stop && stop(evt)
-        modifiers.prevent && prevent(evt)
+        modifiers.stop === true && stop(evt)
+        modifiers.prevent === true && prevent(evt)
       }
     }
 
@@ -121,9 +121,6 @@ export default {
 
       mouseStart (evt) {
         if (leftClick(evt) === true) {
-          // stop propagation so possible upper v-touch-pan don't catch this as well
-          modifiers.mouseAllDir === true && stop(evt)
-
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
@@ -156,6 +153,14 @@ export default {
         Platform.is.firefox === true && preventDraggable(el, true)
 
         const pos = position(evt)
+
+        // stop propagation so possible upper v-touch-pan don't catch this as well
+        if (
+          (mouseEvent === true && modifiers.mouseAllDir === true) ||
+          (mouseEvent !== true && modifiers.stop === true)
+        ) {
+          stop(evt)
+        }
 
         ctx.event = {
           x: pos.left,
