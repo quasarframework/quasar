@@ -15,7 +15,8 @@
     },
 
     "dropdown-icon": {
-      "extends": "icon"
+      "extends": "icon",
+      "addedIn": "v1.1.6"
     },
 
     "disable-main-btn": {
