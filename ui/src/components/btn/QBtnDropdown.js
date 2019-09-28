@@ -17,6 +17,7 @@ export default Vue.extend({
   props: {
     value: Boolean,
     split: Boolean,
+    dropdownIcon: String,
 
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
@@ -57,7 +58,7 @@ export default Vue.extend({
     const Arrow = [
       h(QIcon, {
         props: {
-          name: this.$q.iconSet.arrow.dropdown
+          name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown
         },
         staticClass: 'q-btn-dropdown__arrow',
         class: {
