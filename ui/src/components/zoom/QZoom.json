@@ -6,51 +6,60 @@
 
     "restore-on-scroll": {
       "type": "Boolean",
-      "desc": "Restores the zoomed item on scroll action"
+      "desc": "Restores the zoomed item on scroll action",
+      "category": "behavior"
     },
 
     "manual": {
       "type": "Boolean",
-      "desc": "Disable automatic zoom feature. Must be done manually via show/hide methods"
+      "desc": "Disable automatic zoom feature. Must be done manually via show/hide methods",
+      "category": "behavior"
     },
 
     "scale": {
       "type": "Boolean",
-      "desc": "Allows scalling the zoomed item with mouse wheel"
+      "desc": "Allows scalling the zoomed item with mouse wheel",
+      "category": "content"
     },
 
     "initial-scale": {
       "type": ["Number", "String"],
       "desc": "When scale property is set this is the value for the initial scale",
       "default": 1.0,
-      "examples": [0.05, 6]
+      "examples": [0.05, 6],
+      "category": "style"
     },
 
     "scale-text": {
       "type": "Boolean",
-      "desc": "Allows scalling the zoomed item's text with mouse wheel"
+      "desc": "Allows scalling the zoomed item's text with mouse wheel",
+      "category": "content"
     },
 
     "initial-scale-text": {
       "type": ["Number", "String"],
       "desc": "When scale-text property is set this is the value for the initial text scale",
       "default": 100,
-      "examples": [50, 200]
+      "examples": [50, 200],
+      "category": "style"
     },
 
     "no-center": {
       "type": "Boolean",
-      "desc": "Keep text from being centered aligned when zooming"
+      "desc": "Keep text from being centered aligned when zooming",
+      "category": "behavior"
     },
 
     "no-wheel-scale": {
       "type": "Boolean",
-      "desc": "Turns off ability for user to scale"
+      "desc": "Turns off ability for user to scale",
+      "category": "behavior"
     },
 
     "no-esc-close": {
       "type": "Boolean",
-      "desc": "Turns off ability for user to use ESC to cancel scale (must be done with code)"
+      "desc": "Turns off ability for user to use ESC to cancel scale (must be done with code)",
+      "category": "behavior"
     }
   },
 
