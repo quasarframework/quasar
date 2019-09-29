@@ -91,7 +91,7 @@ export default Vue.extend({
       ])
     },
 
-    __render (h) {
+    __renderPanels (h) {
       return h('div', {
         staticClass: 'q-stepper',
         class: this.classes,

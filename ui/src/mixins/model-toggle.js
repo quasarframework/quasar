@@ -53,6 +53,10 @@ export default {
         return
       }
 
+      // need to call it before setting showing to true
+      // in order to not ruin the animation
+      this.__preparePortal !== void 0 && this.__preparePortal()
+
       this.showing = true
 
       this.$emit('before-show', evt)

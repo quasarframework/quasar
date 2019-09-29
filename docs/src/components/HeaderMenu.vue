@@ -63,7 +63,7 @@ div
 
       q-item(clickable, to="/layout/grid/flex-playground")
         q-item-section.text-orange(avatar)
-          q-icon(name="fas fa-certificate")
+          q-icon(name="fas fa-flask")
         q-item-section
           .row.no-wrap.items-center
             span Flex Playground
@@ -91,12 +91,12 @@ div
 
       q-item(clickable, tag="a", href="https://chat.quasar.dev", rel="noopener", target="_blank")
         q-item-section.text-primary(avatar)
-          q-icon(name="fab fa-discord")
+          q-icon(name="chat")
         q-item-section Discord Chat
 
       q-item(clickable, tag="a", href="https://forum.quasar.dev/", rel="noopener", target="_blank")
         q-item-section.text-secondary(avatar)
-          q-icon(name="fas fa-comments")
+          q-icon(name="forum")
         q-item-section Forum
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework", rel="noopener", target="_blank")

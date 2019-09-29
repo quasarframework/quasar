@@ -98,14 +98,14 @@ export default Vue.extend({
     },
 
     updatePosition () {
-      if (this.anchorEl === void 0) { return }
+      if (this.anchorEl === void 0 || this.__portal === void 0) {
+        return
+      }
 
       const el = this.__portal.$el
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
-        setTimeout(() => {
-          this.__portal !== void 0 && this.__portal.showing === true && this.updatePosition()
-        }, 25)
+        setTimeout(this.updatePosition, 25)
         return
       }
 
@@ -189,7 +189,7 @@ export default Vue.extend({
       }
     },
 
-    __render (h) {
+    __renderPortal (h) {
       return h('transition', {
         props: { name: this.transition }
       }, [

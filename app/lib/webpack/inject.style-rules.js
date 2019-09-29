@@ -1,4 +1,4 @@
-const ExtractLoader = require('extract-css-chunks-webpack-plugin').loader
+const ExtractLoader = require('mini-css-extract-plugin').loader
 const merge = require('webpack-merge')
 
 const
@@ -21,22 +21,24 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   create(normalRule, false)
 
   function create (rule, modules) {
-    if (pref.extract) {
-      rule.use('mini-css-extract')
-        .loader(ExtractLoader)
-        .options({ publicPath: '../' })
-    }
-    else {
-      rule.use('vue-style-loader')
-        .loader('vue-style-loader')
-        .options({
-          sourceMap: pref.sourceMap
-        })
+    if (pref.serverExtract !== true) {
+      if (pref.extract) {
+        rule.use('mini-css-extract')
+          .loader(ExtractLoader)
+          .options({ publicPath: '../' })
+      }
+      else {
+        rule.use('vue-style-loader')
+          .loader('vue-style-loader')
+          .options({
+            sourceMap: pref.sourceMap
+          })
+      }
     }
 
     const cssLoaderOptions = {
       importLoaders:
-        1 + // stylePostLoader injected by vue-loader
+        (pref.serverExtract ? 0 : 1) + // stylePostLoader injected by vue-loader
         1 + // postCSS loader
         (!pref.extract && pref.minify ? 1 : 0) + // postCSS with cssnano
         (loader ? (loader === 'stylus-loader' || loader === 'sass-loader' ? 2 : 1) : 0),

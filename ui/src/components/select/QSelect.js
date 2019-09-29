@@ -327,7 +327,7 @@ export default Vue.extend({
         return
       }
 
-      this.dialogFieldFocused === true && this.__focus()
+      (this.hasDialog !== true || this.dialogFieldFocused === true) && this.__focus()
 
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
@@ -416,6 +416,13 @@ export default Vue.extend({
     },
 
     __onTargetKeyup (e) {
+      // if ESC and we have an opened menu
+      // then stop propagation (might be caught by a QDialog
+      // and so it will also close the QDialog, which is wrong)
+      if (e.keyCode === 27 && this.menu === true) {
+        stop(e)
+        this.__closeMenu()
+      }
       this.$emit('keyup', e)
     },
 
@@ -426,8 +433,13 @@ export default Vue.extend({
     __onTargetKeydown (e) {
       this.$emit('keydown', e)
 
-      // escape, tab
-      if (e.keyCode === 27 || e.keyCode === 9) {
+      // escape
+      if (e.keyCode === 27) {
+        return
+      }
+
+      // tab
+      if (e.keyCode === 9) {
         this.__closeMenu()
         return
       }
@@ -546,7 +558,7 @@ export default Vue.extend({
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
-          this.$refs.menu !== void 0
+          this.$refs.menu !== void 0 && this.$refs.menu.__portal !== void 0
             ? this.$refs.menu.__portal.$el
             : void 0
         )
@@ -844,6 +856,9 @@ export default Vue.extend({
         focusout,
         'popup-show': this.__onControlPopupShow,
         'popup-hide': e => {
+          e !== void 0 && stop(e)
+          this.$emit('popup-hide', e)
+          this.hasDialog !== true && this.__focus()
           this.hasPopupOpen = false
           focusout(e)
         },
@@ -992,7 +1007,14 @@ export default Vue.extend({
             this.__resetInputValue()
           },
           show: () => {
-            document.activeElement.id !== this.targetUid && this.$refs.target !== document.activeElement && this.$refs.target.focus()
+            const el = document.activeElement
+            // IE can have null document.activeElement
+            if (
+              (el === null || el.id !== this.targetUid) &&
+              this.$refs.target !== el
+            ) {
+              this.$refs.target.focus()
+            }
           }
         }
       }, [

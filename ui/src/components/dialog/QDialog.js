@@ -161,7 +161,8 @@ export default Vue.extend({
     __show (evt) {
       this.__addHistory()
 
-      this.__refocusTarget = this.noRefocus === false
+      // IE can have null document.activeElement
+      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
         ? document.activeElement
         : void 0
 
@@ -184,7 +185,8 @@ export default Vue.extend({
       this.__showPortal()
 
       if (this.noFocus !== true) {
-        document.activeElement.blur()
+        // IE can have null document.activeElement
+        document.activeElement !== null && document.activeElement.blur()
         this.__nextTick(this.focus)
       }
 
@@ -259,6 +261,7 @@ export default Vue.extend({
     __onFocusChange (e) {
       // the focus is not in a vue child component
       if (
+        this.showing === true &&
         this.__portal !== void 0 &&
         childHasFocus(this.__portal.$el, e.target) !== true
       ) {
@@ -266,10 +269,13 @@ export default Vue.extend({
       }
     },
 
-    __render (h) {
+    __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        input: stop
+        // stop propagating this events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
       }
 
       if (this.autoClose === true) {

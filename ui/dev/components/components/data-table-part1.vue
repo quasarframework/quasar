@@ -221,8 +221,13 @@
       </q-table>
 
       <h2>Grid style</h2>
+      <q-toggle v-model="gridHeader" label="Grid header" />
+      <q-toggle v-model="gridLoading" label="Grid loading" />
+
       <q-table
         grid
+        :grid-header="gridHeader"
+        :loading="gridLoading"
         :data="data"
         :columns="columns"
         :filter="filter"
@@ -762,6 +767,8 @@ export default {
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',
       selected: [],
+      gridHeader: false,
+      gridLoading: false,
 
       serverPagination: {
         page: 1,

@@ -17,6 +17,8 @@
         v-model="time"
         v-bind="props"
         :style="style"
+        flat
+        bordered
       />
 
       <q-time
@@ -24,6 +26,8 @@
         v-bind="props"
         :style="style"
         landscape
+        flat
+        bordered
       />
 
       <div class="text-h6">

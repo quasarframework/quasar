@@ -93,7 +93,9 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      let node = this.__portal !== void 0 && this.__portal.$refs !== void 0
+        ? this.__portal.$refs.inner
+        : void 0
 
       if (node !== void 0 && node.contains(document.activeElement) !== true) {
         node = node.querySelector('[autofocus]') || node
@@ -102,7 +104,8 @@ export default Vue.extend({
     },
 
     __show (evt) {
-      this.__refocusTarget = this.noRefocus === false
+      // IE can have null document.activeElement
+      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
         ? document.activeElement
         : void 0
 
@@ -116,14 +119,15 @@ export default Vue.extend({
       this.__showPortal()
       this.__configureScrollTarget()
 
-      const { top, left } = this.anchorEl.getBoundingClientRect()
+      this.absoluteOffset = void 0
 
       if (evt !== void 0 && (this.touchPosition || this.contextMenu)) {
         const pos = position(evt)
-        this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
-      }
-      else {
-        this.absoluteOffset = void 0
+
+        if (pos.left !== void 0) {
+          const { top, left } = this.anchorEl.getBoundingClientRect()
+          this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
+        }
       }
 
       if (this.unwatch === void 0) {
@@ -132,7 +136,8 @@ export default Vue.extend({
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
-      if (this.noFocus !== true) {
+      // IE can have null document.activeElement
+      if (this.noFocus !== true && document.activeElement !== null) {
         document.activeElement.blur()
       }
 
@@ -201,12 +206,14 @@ export default Vue.extend({
     },
 
     updatePosition () {
+      if (this.__portal === void 0) {
+        return
+      }
+
       const el = this.__portal.$el
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
-        setTimeout(() => {
-          this.__portal !== void 0 && this.__portal.showing === true && this.updatePosition()
-        }, 25)
+        setTimeout(this.updatePosition, 25)
         return
       }
 
@@ -232,10 +239,13 @@ export default Vue.extend({
       }
     },
 
-    __render (h) {
+    __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        input: stop
+        // stop propagating this events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
       }
 
       if (this.autoClose === true) {

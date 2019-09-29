@@ -27,8 +27,8 @@ export default Vue.extend({
   data () {
     return {
       // page related
-      height: onSSR === true ? 0 : window.innerHeight,
-      width: onSSR === true || this.container === true ? 0 : window.innerWidth,
+      height: this.$q.screen.height,
+      width: this.container === true ? 0 : this.$q.screen.width,
 
       // container only prop
       containerHeight: 0,

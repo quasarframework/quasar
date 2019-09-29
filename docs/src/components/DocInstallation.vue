@@ -65,13 +65,20 @@ export default {
     QuasarCli () {
       const parts = []
 
-      ;['components', 'directives', 'plugins'].forEach(type => {
+      ;['components', 'directives'].forEach(type => {
         if (this[type] !== void 0) {
-          parts.push(`${type}: [
+          parts.push(`// not needed if using auto-import feature:
+    ${type}: [
       ${this.nameAsString(this[type], 6)}
     ]`)
         }
       })
+
+      if (this.plugins !== void 0) {
+        parts.push(`plugins: [
+      ${this.nameAsString(this.plugins, 6)}
+    ]`)
+      }
 
       if (this.config !== void 0) {
         parts.push(`config: {

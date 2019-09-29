@@ -58,10 +58,10 @@ q-page.doc-page
         q-icon(name="fab fa-medium")
 
       a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
-        q-icon(name="fab fa-discord")
+        q-icon(name="chat")
 
       a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
-        q-icon(name="fas fa-comments")
+        q-icon(name="forum")
 
       a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
         q-icon(name="fab fa-twitter")
@@ -72,9 +72,7 @@ q-page.doc-page
       a(href="https://donate.quasar.dev", rel="noopener", target="_blank")
         q-icon(name="fas fa-medkit")
 
-    div.q-mt-md
-      | Please subscribe to our <doc-link to="/newsletter">Newsletter</doc-link> to stay updated.
-    div.q-mt-md
+    div.q-mt-sm
       | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
 
     div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
