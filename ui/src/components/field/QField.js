@@ -5,7 +5,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import slot from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
+import { stop, prevent } from '../../utils/event.js'
 import uid from '../../utils/uid.js'
 
 export default Vue.extend({
@@ -432,7 +432,15 @@ export default Vue.extend({
 
     __clearValue (e) {
       stop(e)
+      if (this.type === 'file') {
+        // do not let focus be triggered
+        // as it will make the native file dialog
+        // appear for another selection
+        prevent(e)
+        this.$refs.input.value = null
+      }
       this.$emit('input', null)
+      this.$emit('clear', this.value)
     },
 
     __emitValue (value) {

@@ -175,7 +175,7 @@
         Pan test (preventing it from inner square)
       </p>
       <div
-        v-touch-pan.mouse="handlePanTest"
+        v-touch-pan.prevent.mouse="handlePanTest"
         @click="e => onEvt('click', e)"
         class="row flex-center"
       >

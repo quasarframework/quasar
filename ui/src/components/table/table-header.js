@@ -9,7 +9,7 @@ export default {
 
       this.loading === true && child.push(
         h('tr', { staticClass: 'q-table__progress' }, [
-          h('td', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
+          h('th', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
             h(QLinearProgress, {
               staticClass: 'q-table__linear-progress',
               props: {

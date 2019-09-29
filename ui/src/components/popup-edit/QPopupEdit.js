@@ -153,6 +153,7 @@ export default Vue.extend({
           this.validated = false
           this.initialValue = clone(this.value)
           this.watcher = this.$watch('value', this.__reposition)
+          this.$emit('before-show')
         },
         show: () => {
           this.$emit('show')
@@ -164,6 +165,7 @@ export default Vue.extend({
             this.$emit('cancel', this.value, this.initialValue)
             this.$emit('input', this.initialValue)
           }
+          this.$emit('before-hide')
         },
         hide: () => {
           this.$emit('hide')

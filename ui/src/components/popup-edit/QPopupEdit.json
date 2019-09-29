@@ -34,6 +34,25 @@
       "category": "content"
     },
 
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
+    },
+
+    "content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ color: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
     "color": {
       "extends": "color",
       "default": "primary"
@@ -141,25 +160,6 @@
       "extends": "size",
       "desc": "The maximimum width of the menu; Size in CSS units, including unit name",
       "category": "style"
-    },
-
-    "content-class": {
-      "type": "String",
-      "desc": "Class definitions to be attributed to the content",
-      "examples": [
-        "my-special-class"
-      ],
-      "category": "style"
-    },
-
-    "content-style": {
-      "type": [ "Array", "String", "Object" ],
-      "desc": "Style definitions to be attributed to the content",
-      "examples": [
-        "background-color: #ff0000",
-        ":content-style=\"{ color: '#ff0000' }\""
-      ],
-      "category": "style"
     }
   },
 
@@ -232,8 +232,18 @@
       "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
     },
 
+    "before-show": {
+      "extends": "before-show",
+      "desc": "Emitted right before Popup gets shown"
+    },
+
     "show": {
       "desc": "Emitted right after Popup gets shown"
+    },
+
+    "before-hide": {
+      "extends": "before-hide",
+      "desc": "Emitted right before Popup gets dismissed"
     },
 
     "hide": {
