@@ -28,6 +28,12 @@
       "category": "style"
     },
 
+    "grid-header": {
+      "type": "Boolean",
+      "desc": "Display header for grid-mode also",
+      "category": "behavior|content"
+    },
+
     "dense": {
       "extends": "dense",
       "desc": "Dense mode; Connect with $q.screen for responsive behavior"
