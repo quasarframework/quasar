@@ -47,14 +47,14 @@ export default Vue.extend({
 
   mounted () {
     // add handlers
-    document.addEventListener('scroll', this.onScroll)
-    document.addEventListener('keyup', this.onKeyup)
+    document.addEventListener('scroll', this.__onScroll)
+    document.addEventListener('keyup', this.__onKeyup)
   },
 
   beforeDestroy () {
     // remove handlers
-    document.removeEventListener('scroll', this.onScroll)
-    document.removeEventListener('keyup', this.onKeyup)
+    document.removeEventListener('scroll', this.__onScroll)
+    document.removeEventListener('keyup', this.__onKeyup)
   },
 
   computed: {
@@ -80,7 +80,7 @@ export default Vue.extend({
       this.restoring = false
 
       // get current position
-      this.position = this.getPosition()
+      this.position = this.__getPosition()
 
       setTimeout(() => {
         // start color transition
@@ -93,7 +93,7 @@ export default Vue.extend({
         this.position = this.fullScreenPosition
         this.zoomed = true
         if (this.restoreOnScroll !== true) {
-          this.addClass(document.body, 'q-zoom__no-scroll')
+          this.__addClass(document.body, 'q-zoom__no-scroll')
         }
         // adjust initial scaling
         if (this.scale === true && this.scaleText !== true) {
@@ -117,10 +117,10 @@ export default Vue.extend({
       this.setScale(1.0)
       this.setScaleText(100)
 
-      this.position = this.getPosition()
+      this.position = this.__getPosition()
       setTimeout(() => {
-        this.resetTransition()
-        this.removeClass(document.body, 'q-zoom__no-scroll')
+        this.__resetTransition()
+        this.__removeClass(document.body, 'q-zoom__no-scroll')
         this.$emit('restored')
       }, 400)
     },
@@ -150,14 +150,14 @@ export default Vue.extend({
       }
     },
 
-    onScroll (e) {
+    __onScroll (e) {
       if (this.isZoomed === true && this.restoreOnScroll === true) {
         this.hide()
         stopAndPrevent(e)
       }
     },
 
-    onKeyup (e) {
+    __onKeyup (e) {
       if (e.key === 'Escape') {
         if (this.noEscClose !== true) {
           if (this.isZoomed) {
@@ -168,14 +168,14 @@ export default Vue.extend({
       }
     },
 
-    onClick (e) {
+    __onClick (e) {
       if (this.manual !== true) {
         this.toggle()
         stopAndPrevent(e)
       }
     },
 
-    wheelEvent (e) {
+    __wheelEvent (e) {
       if (this.noWheelScale !== true) {
         if (this.isZoomed === true && this.scale === true && this.scaleText !== true) {
           let less = this.scaleValue > 1 ? -0.5 : -0.1
@@ -192,7 +192,7 @@ export default Vue.extend({
       }
     },
 
-    addClass (el, name) {
+    __addClass (el, name) {
       let arr = el.className.split(' ')
       // make sure it's not already there
       if (arr.indexOf(name) === -1) {
@@ -201,7 +201,7 @@ export default Vue.extend({
       }
     },
 
-    removeClass (el, name) {
+    __removeClass (el, name) {
       let arr = el.className.split(' ')
       let index = arr.indexOf(name)
       if (index !== -1) {
@@ -210,7 +210,7 @@ export default Vue.extend({
       }
     },
 
-    resetTransition () {
+    __resetTransition () {
       this.zoomed = false
       this.zooming = false
       this.restoring = false
@@ -219,7 +219,7 @@ export default Vue.extend({
       this.scaleTextValue = 100
     },
 
-    getPosition () {
+    __getPosition () {
       let position = offset(this.$el)
       position.left = position.left + 'px'
       position.top = position.top + 'px'
@@ -229,7 +229,7 @@ export default Vue.extend({
       return position
     },
 
-    deepClone (vnodes, createElement) {
+    __deepClone (vnodes, createElement) {
       function cloneVNode (vnode) {
         const clonedChildren = vnode.children && vnode
           .children
@@ -287,12 +287,12 @@ export default Vue.extend({
       staticClass: 'q-zoom' +
         (this.manual !== true ? ' q-zoom__zoom-in' : ''),
       on: {
-        click: this.onClick,
-        mousewheel: this.wheelEvent
+        click: this.__onClick,
+        mousewheel: this.__wheelEvent
       }
     }, [
       // the original slot is basically read-only and cannot be modified
-      ...this.deepClone(slot, h),
+      ...this.__deepClone(slot, h),
       this.isTransitioning && this.__renderOverlay(h)
     ])
   }
