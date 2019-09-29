@@ -1,9 +1,18 @@
 ---
-title: Installation & Initialization
+title: Installation
 desc: A set of Firebase installtion instructions for the Quasar framework.
 ---
 
-Be sure to install read the firebase web setup [here](https://firebase.google.com/docs/web/setup).
+If your new to firebase you must create a firebase account with a google identity and create a project in the console. 
+
+> Perform **steps 1 & 2** with the firebase setup up [instructions](https://firebase.google.com/docs/web/setup).
+
+Once you've gotten your account and project setup in firebase it's time to install dependancies in your Quasar app, and start the configuration process.
+
+::: tip Pro Tip
+If you are developing an app that will live in a production environment firebase recommends creating separate projects in the firebase console.
+One for production, and one for dev, and even a public testing endpoint if you’d like. The point here is to keep production data safe from development. This will be highlighted later [here](/backend-and-api/firebase/custom).
+:::
 
 Install firebase to your quasar app preferably via yarn:
 
@@ -11,16 +20,19 @@ Install firebase to your quasar app preferably via yarn:
 yarn add firebase
 ```
 
-\- or - 
+\- or -
 
 ```bash
 npm install firebase
 ```
 
-Next is the configuration of the firebase sdk for calling our first method `initializeApp`. This is where a firebase application in the console will contain your sdk’s `firebaseConfig` object. This can be done a few ways, either keeping your config object in your source or using quasar’s app extension qenv.
+Next is the configuration of the firebase sdk for initiallizing your project via firebase's [`initializeApp`](https://firebase.google.com/docs/reference/js/firebase.html#initialize-app) method. This is where a firebase application in the console will contain your sdk’s `firebaseConfig` object.
 
-Qenv will allow us to keep the config in the source directory, but will also give us the option for git to ignore the file and will be bundled on the desired build type. Either for dev or production. Please refer to qenv installation and setup [here](https://github.com/quasarframework/app-extension-qenv).
+::: tip You can get access to your firebase config object at any time by:
 
-One side note here is to also set up two separate app’s in the firebase console. One for production, and one for dev, and even a public testing endpoint if you’d like. The point here is to keep production data safe from development. This will be highlighted at a later point.
-
-Once you’ve install qenv and have set up your `.quasar.env.json` file and updated your scripts block in your `package.json` we now are ready to start moving into our application structure
+- Sign in to Firebase, then open your project.
+- Click the <q-icon name="settings" /> Settings icon, then select Project settings.
+- In the Your apps card, select the nickname of the app for which you need a config object.
+- Select Config from the Firebase SDK snippet pane.
+- Copy the config object snippet, then add it to your app's HTML.
+:::

@@ -1,6 +1,6 @@
 ---
-title: Firebase Service Structure
-desc: Application strucuture instrcutions for firebase implementation on the Quasar framework.
+title: Firebase Application Initialization and Service Structure
+desc: Application initiallization and strucuture instrcutions for firebase implementation on the Quasar framework.
 ---
 
 A typical Quasar app structure can be seen [here](https://quasar.dev/quasar-cli/cli-documentation/directory-structure). Create a new boot file to implement the firebase sdk via: 
@@ -10,6 +10,13 @@ quasar new boot firebase
 ```
 
 Be sure to read up on quasar’s boot files [here](https://quasar.dev/quasar-cli/cli-documentation/boot-files). This is a great review, and also a core tenant to understanding how firebase is embedded into a quasar app, and also the root place to start when debugging firebase issues. Once the firebase boot file is created we’ll then need to add its name to the boot config array in the `quasar.conf.js`
+
+
+This can be done a few ways, either keeping your config object in your source or using quasar’s app extension [Qenv](https://github.com/quasarframework/app-extension-qenv).
+
+Qenv will allow us to keep the config in the source directory, but will also give us the option for git to ignore the file and will be bundled on the desired build type. Either for dev or production. Please refer to qenv installation and setup [here](https://github.com/quasarframework/app-extension-qenv).
+
+Once you’ve install qenv and have set up your `.quasar.env.json` file and updated your scripts block in your `package.json` we now are ready to start moving into our application structure
 
 ```js
 boot: [

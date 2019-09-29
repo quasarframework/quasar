@@ -1018,6 +1018,10 @@ const backends = [
     opened: false,
     children: [
       {
+        name: 'Itroduction',
+        path: 'firebase/introduction'
+      },
+      {
         name: 'Installation',
         path: 'firebase/install'
       },
