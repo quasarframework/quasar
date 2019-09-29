@@ -135,7 +135,7 @@
         >
           <img
             src="https://cdn.quasar.dev/img/mountains.jpg"
-            alt="QZoom with scale"
+            alt="QZoom with initial scale"
             class="my-image"
           >
         </q-zoom>
