@@ -248,7 +248,7 @@ export default {
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')
 
-      if (ctx.event.dir !== false) {
+      if (ctx.event !== void 0 && ctx.event.dir !== false) {
         document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
         ctx.event.mouse === true && document.body.classList.remove('non-selectable')
       }
