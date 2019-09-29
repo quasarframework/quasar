@@ -151,7 +151,7 @@ In the example below, we let QTable deal with displaying the grid mode (not usin
 
 <doc-example title="Grid style" file="QTable/GridStyle" />
 
-<doc-example title="Grid style" file="QTable/GridHeader" />
+<doc-example title="Grid with header" file="QTable/GridHeader" />
 
 <doc-example title="Colored grid style" file="QTable/GridStyleColored" />
 
