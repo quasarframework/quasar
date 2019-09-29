@@ -68,7 +68,7 @@
           <pre>{{ infoCustom }}</pre>
         </div>
         <div v-else class="q-pa-xl custom-area-placeholder">
-          Click/touch and hold for 3 seconds
+          Click/touch and hold for 1.5 seconds
         </div>
       </div>
 

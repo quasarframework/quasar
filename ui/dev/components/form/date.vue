@@ -21,6 +21,7 @@
           :style="style"
           emit-immediately
           @input="inputLog"
+          flat bordered
         />
 
         <q-date
@@ -29,6 +30,7 @@
           :style="style"
           landscape
           @input="inputLog"
+          flat bordered
         />
 
         <q-date

@@ -114,15 +114,15 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
   }
   ```
 6. Edit `/src/boot/fontawesome-pro.js`:
-```js
-// required
-import '@fortawesome/fontawesome-pro/css/fontawesome.css'
-import '@fortawesome/fontawesome-pro/css/light.css'
-// do you want these too?
-// import '@fortawesome/fontawesome-pro/css/brands.css'
-// import '@fortawesome/fontawesome-pro/css/solid.css'
-// import '@fortawesome/fontawesome-pro/css/regular.css'
-```
+  ```js
+  // required
+  import '@fortawesome/fontawesome-pro/css/fontawesome.css'
+  import '@fortawesome/fontawesome-pro/css/light.css'
+  // do you want these too?
+  // import '@fortawesome/fontawesome-pro/css/brands.css'
+  // import '@fortawesome/fontawesome-pro/css/solid.css'
+  // import '@fortawesome/fontawesome-pro/css/regular.css'
+  ```
 7. (Optional) Override default icons:
 
 Since the default `font-weight` for fontawesome-pro is `light` or `fal`, some icons used by the framework components may not be desirable. The best way to handle this is to override it in the boot file that you created.
@@ -140,13 +140,14 @@ chip: {
 ```
 
 _Then_, override it in your `/src/boot/fontawesome-pro.js`
+
 ```js
+import Vue from 'vue'
+
 import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
 import '@fortawesome/fontawesome-pro/css/solid.min.css'
 import '@fortawesome/fontawesome-pro/css/light.min.css'
 
-export default ({ Vue }) => {
-  // example
-  Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
-}
+// example
+Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
 ```
