@@ -67,7 +67,7 @@
 
   &__progress
     height: 0 !important
-    td
+    th
       padding: 0 !important
       border-bottom: 1px solid transparent !important
     .q-linear-progress
@@ -118,7 +118,7 @@
   &--square
     border-radius: 0
 
-  &__linear-progress, &--grid .q-table__middle
+  &__linear-progress
     height: 2px
 
   &--no-wrap
@@ -127,12 +127,18 @@
 
   &--grid
     box-shadow: none
+    .q-table__top
+      padding-bottom: 4px
+    .q-table__middle
+      min-height: 2px
+      margin-bottom: 4px
+      thead
+        &, th
+          border: 0 !important
+    .q-table__linear-progress
+      bottom: 0
     .q-table__bottom
       border-top: 0
-    .q-table
-      height: 2px
-      thead
-        border: 0
 
   &__grid-item-card
     vertical-align: top
