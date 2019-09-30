@@ -70,6 +70,12 @@
       "category": "behavior"
     },
 
+    "no-parent-event": {
+      "type": "Boolean",
+      "desc": "Skips attaching events to the target DOM element (that trigger the element to get shown)",
+      "category": "behavior"
+    },
+
     "delay": {
       "type": "Number",
       "desc": "Configure Tooltip to appear with delay",
