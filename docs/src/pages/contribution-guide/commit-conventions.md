@@ -69,7 +69,7 @@ The first line cannot be longer than 70 characters, the second line is always bl
 
 - ui, cli, api, touchswipe, qtime, etc.
 
-:::info
+::: tip
 The `<scope>` can contain more values separated by comma. Example: `fix(ui,cli): Cordova mode added`.
 
 The `<scope>` can be empty (e.g. if the change is a global), in which case the parentheses are omitted.
