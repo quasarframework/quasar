@@ -253,7 +253,7 @@ export default Vue.extend({
   watch: {
     value (v) {
       if (this.editWatcher) {
-        this.setContent(v)
+        this.__setContent(v)
       }
       else {
         this.editWatcher = true
@@ -331,7 +331,7 @@ export default Vue.extend({
       return this.$refs.content
     },
 
-    setContent (v) {
+    __setContent (v) {
       if (this.isViewingSource) {
         this.$refs.content.innerText = v
       }
@@ -350,7 +350,7 @@ export default Vue.extend({
 
   mounted () {
     this.caret = new Caret(this.$refs.content, this)
-    this.setContent(this.value)
+    this.__setContent(this.value)
     this.refreshToolbar()
   },
 
