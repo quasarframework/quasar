@@ -631,7 +631,7 @@
 
   define(function() {
     return function () {
-      document.addEventListener('DOMContentLoaded', () => {
+      document.addEventListener('DOMContentLoaded', function () {
         new FastClick(document.body)
       }, false)
     }
