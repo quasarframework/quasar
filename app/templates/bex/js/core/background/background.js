@@ -7,6 +7,8 @@
  * src-bex/globalBackgroundHooks (which have access to the browser instance)
  **/
 
+/* global chrome */
+
 import attachActivatedBackgroundHooks from '../../activatedBackgroundHooks'
 import attachGlobalBackgroundHooks from '../../globalBackgroundHooks'
 import Bridge from '../bridge'

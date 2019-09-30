@@ -47,7 +47,9 @@ module.exports = function (chain, cfg) {
 
     // Extensions need to be manually added to the browser
     // so we need the dev files available for them to be targeted.
-    cfg.devServer.writeToDisk = true
+    const WriteFilePlugin = require('write-file-webpack-plugin')
+    chain.plugin('write-file-webpack-plugin')
+      .use(WriteFilePlugin)
   }
   else {
     // We need this bundled in with the rest of the source to match the manifest instructions.

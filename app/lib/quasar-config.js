@@ -478,7 +478,7 @@ class QuasarConfig {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
-    if (['electron', 'bex'].includes(this.ctx.modeName)) {
+    if (this.ctx.mode.electron || this.ctx.mode.bex) {
       cfg.build.packagedDistDir = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }

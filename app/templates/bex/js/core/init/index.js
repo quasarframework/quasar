@@ -3,6 +3,8 @@
  * DO NOT EDIT.
  **/
 
+/* global chrome */
+
 import connect from './connect'
 
 if (chrome.runtime.id) {

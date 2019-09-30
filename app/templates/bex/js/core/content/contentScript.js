@@ -6,6 +6,8 @@
  * src-bex/activatedContentHooks (which has access to the browser instance and communication bridge)
  **/
 
+/* global chrome */
+
 import Bridge from '../bridge'
 import attachActivatedContentHooks from '../../activatedContentHooks'
 

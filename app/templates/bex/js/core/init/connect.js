@@ -3,6 +3,8 @@
  * DO NOT EDIT.
  **/
 
+/* global chrome */
+
 import Bridge from '../bridge'
 
 export default function connect () {

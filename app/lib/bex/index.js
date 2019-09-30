@@ -10,17 +10,17 @@ class BexRunner {
     const compiler = webpack(quasarConfig.getWebpackConfig().main)
 
     return new Promise((resolve, reject) => {
-      log(`Building BEX background process...`)
+      log(`Building background process...`)
       compiler.watch({}, (err, stats) => {
         if (err) {
           console.log(err)
           return
         }
 
-        log(`Webpack built Bex background process`)
+        log(`Webpack built background process`)
 
         if (stats.hasErrors()) {
-          warn(`BEX main build failed with errors`)
+          warn(`Main build failed with errors`)
           return
         }
 

@@ -37,7 +37,7 @@
   "dependencies": {
     "@quasar/babel-preset-app": "1.1.4",
     "@vue/preload-webpack-plugin": "1.1.0",
-    "archiver": "^3.0.0",
+    "archiver": "^3.1.1",
     "autoprefixer": "9.6.1",
     "chalk": "2.4.2",
     "chokidar": "3.0.2",
@@ -96,7 +96,8 @@
     "webpack-dev-server": "3.7.2",
     "webpack-merge": "4.2.1",
     "webpack-node-externals": "1.7.2",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "write-file-webpack-plugin": "^4.5.1"
   },
   "engines": {
     "node": ">= 8.9.0",
