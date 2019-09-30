@@ -76,7 +76,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 ### Clearable
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.
 
-:::warning
+::: warning
 If using `clearable` you must use `v-model` or listen on `@input` and update the value.
 :::
 
