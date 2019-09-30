@@ -234,7 +234,7 @@ export class Caret {
     }
     else if (cmd === 'viewsource') {
       this.vm.isViewingSource = !this.vm.isViewingSource
-      this.vm.setContent(this.vm.value)
+      this.vm.__setContent(this.vm.value)
       done()
       return
     }
