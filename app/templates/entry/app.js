@@ -42,8 +42,7 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // Here we inject the router, store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    <% if (!ctx.mode.ssr && !ctx.mode.bex) { %>el: '#q-app',<% } %>
-    <% if (ctx.mode.bex) { %>el: '#q-bex-app',<% } %>
+    <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
     <%= store ? 'store,' : '' %>
     render: h => h(App)
