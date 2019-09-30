@@ -182,7 +182,9 @@ export function getToolbar (h, vm) {
       .map(group => __getGroup(
         h,
         group.map(btn => {
-          if (vm.isViewingSource && btn.cmd !== 'viewsource') return false
+          if (vm.isViewingSource && btn.cmd !== 'viewsource') {
+            return false
+          }
 
           if (btn.type === 'slot') {
             return slot(vm, btn.slot)
