@@ -70,7 +70,8 @@ export default {
     header: 'o_format_size',
     code: 'o_code',
     size: 'o_format_size',
-    font: 'o_font_download'
+    font: 'o_font_download',
+    viewSource: 'o_code'
   },
   expansionItem: {
     icon: 'o_keyboard_arrow_down',

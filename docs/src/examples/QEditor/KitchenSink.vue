@@ -75,7 +75,8 @@
         ],
         ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
 
-        ['undo', 'redo']
+        ['undo', 'redo'],
+        ['viewsource']
       ]"
       :fonts="{
         arial: 'Arial',

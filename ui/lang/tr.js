@@ -80,7 +80,8 @@ export default {
     size5: 'Büyük',
     size6: 'Çok büyük',
     size7: 'En büyük',
-    defaultFont: 'Varsayılan Yazı Tipi'
+    defaultFont: 'Varsayılan Yazı Tipi',
+    viewSource: 'Kaynağı Görüntüle'
   },
   tree: {
     noNodes: 'Düğüm yok',

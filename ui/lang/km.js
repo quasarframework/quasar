@@ -82,7 +82,8 @@ export default {
     size5: 'ធំ',
     size6: 'ធំណាស់',
     size7: 'អតិបរិមា',
-    defaultFont: 'ពុម្ពអក្សរដើម'
+    defaultFont: 'ពុម្ពអក្សរដើម',
+    viewSource: 'មើលប្រភព។'
   },
   tree: {
     noNodes: 'គ្មានទិន្នន័យ',

@@ -83,7 +83,8 @@ export default {
     size5: 'גדול',
     size6: 'גדול מאוד',
     size7: 'מקסימלי',
-    defaultFont: 'ברירת מחדל'
+    defaultFont: 'ברירת מחדל',
+    viewSource: 'ראה מקור'
   },
   tree: {
     noNodes: 'אין פריטים להצגה',

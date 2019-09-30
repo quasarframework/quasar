@@ -82,7 +82,8 @@ export default {
     size5: 'Grand',
     size6: 'Très grand',
     size7: 'Maximum',
-    defaultFont: 'Police par défaut'
+    defaultFont: 'Police par défaut',
+    viewSource: 'Voir la source'
   },
   tree: {
     noData: 'Aucun nœud à afficher',

@@ -86,7 +86,8 @@ export default {
     size5: 'Большой',
     size6: 'Очень большой',
     size7: 'Огромный',
-    defaultFont: 'Шрифт по умолчанию'
+    defaultFont: 'Шрифт по умолчанию',
+    viewSource: 'Просмотреть исходный код'
   },
   tree: {
     noNodes: 'Нет доступных узлов',
