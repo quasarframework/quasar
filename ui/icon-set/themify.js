@@ -70,7 +70,8 @@ export default {
     header: 'ti-paragraph',
     code: 'code',
     size: 'ti-smallcap',
-    font: 'font_download'
+    font: 'font_download',
+    viewSource: 'ti-shortcode'
   },
   expansionItem: {
     icon: 'ti-angle-down',

@@ -82,7 +82,8 @@ export default {
     size5: 'Grande',
     size6: 'Enorme',
     size7: 'Máximo',
-    defaultFont: 'Tipo de letra padrão'
+    defaultFont: 'Tipo de letra padrão',
+    viewSource: 'Exibir fonte'
   },
   tree: {
     noNodes: 'Sem nós disponíveis',

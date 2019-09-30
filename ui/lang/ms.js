@@ -82,7 +82,8 @@ export default {
     size5: 'Besar',
     size6: 'Paling Besar',
     size7: 'Maksimum',
-    defaultFont: 'Tulisan Asal'
+    defaultFont: 'Tulisan Asal',
+    viewSource: 'Lihat sumber'
   },
   tree: {
     noNodes: 'Tiada nod tersedia',
