@@ -167,8 +167,7 @@ export default Vue.extend({
         (this.dark === true ? ` q-table--dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '') +
-        (this.inFullscreen === true ? ` fullscreen scroll` : '') +
-        (this.virtual === true ? ` column no-wrap` : '')
+        (this.inFullscreen === true ? ` fullscreen scroll` : '')
     }
   },
 
