@@ -1022,6 +1022,11 @@ const utils = [
   }
 ]
 
+const firebaseAuthTypes = [{
+  name: 'Email',
+  path: 'email'
+}]
+
 const backends = [
   {
     name: 'AWS -- Amplify',
@@ -1040,7 +1045,7 @@ const backends = [
     opened: false,
     children: [
       {
-        name: 'Itroduction',
+        name: 'Introduction',
         path: 'firebase/introduction'
       },
       {
@@ -1052,8 +1057,13 @@ const backends = [
         path: 'firebase/structure'
       },
       {
+        name: 'Route Guarding',
+        path: 'firebase/routeGuards'
+      },
+      {
         name: 'Authentication',
-        path: 'firebase/authentication'
+        path: 'firebase/authTypes',
+        children: firebaseAuthTypes
       },
       {
         name: 'Data Store',

@@ -3,90 +3,130 @@ title: Firebase Application Initialization and Service Structure
 desc: Application initiallization and strucuture instrcutions for firebase implementation on the Quasar framework.
 ---
 
-A typical Quasar app structure can be seen [here](https://quasar.dev/quasar-cli/cli-documentation/directory-structure). Create a new boot file to implement the firebase sdk via: 
+A typical Quasar app structure can be seen [here](https://quasar.dev/quasar-cli/cli-documentation/directory-structure). 
+
+First we need to create a boot file. Be sure to read up on quasar’s boot files [here](https://quasar.dev/quasar-cli/cli-documentation/boot-files). This is a great review, and also a core tenant to understanding how firebase is embedded into a quasar app, and also the root place to start when debugging firebase issues. Once the firebase boot file is created we’ll then need to add its name to the boot config array in the `quasar.conf.js`
+
+> A simple approach would be to create the firebase boot file, initialize your firebase app with your config, extend the Vue instance with a reference to firebase, and then use the firebase SDK throughout your app. [Here](https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app-with-firebase-authentication-system-in-15-minutes-fdce6f289c3c) is a popluar medium article as a primer for Firebase and Vuejs.
 
 ```bash
-quasar new boot firebase
+$ quasar new boot firebase
+```
+**/src/boot/firebase.js**
+```js
+import firebase from 'firebase/app'
+import 'firebase/auth'
+
+// leave the export, even if you don't use it
+export default async ({ Vue }) => {
+  // Initialize Firebase
+  let config = {
+    apiKey: 'YOUR_API_KEY',
+    authDomain: 'YOUR_PROJECT_ID.firebaseapp.com',
+    databaseURL: 'https://YOUR_PROJECT_ID.firebaseio.com',
+    projectId: 'YOUR_PROJECT_ID',
+    storageBucket: 'YOUR_PROJECT_ID.appspot.com',
+    messagingSenderId: 'YOUR_MESSAGING_SEND_ID'
+  }
+  firebase.initializeApp(config)
+  
+  // Add the firebase serverice to the Vue instance
+  Vue.prototype.$fb = firebase
+}
 ```
 
-Be sure to read up on quasar’s boot files [here](https://quasar.dev/quasar-cli/cli-documentation/boot-files). This is a great review, and also a core tenant to understanding how firebase is embedded into a quasar app, and also the root place to start when debugging firebase issues. Once the firebase boot file is created we’ll then need to add its name to the boot config array in the `quasar.conf.js`
+Then in a Vue single file component:
 
+**/src/pages/SomePage.vue**
+```js
+<script>
+  <template>
+    <!-- Your Create User Form-->
+  </template>
 
-This can be done a few ways, either keeping your config object in your source or using quasar’s app extension [Qenv](https://github.com/quasarframework/app-extension-qenv).
+  export default {
+    name: 'PageName',
+    data () {
+      return {
+        email: null,
+        password: null
+      }
+    },
+    methods: {
+      createUserWithEmail(email, password) {
+        this.$fb.auth().createUserWithEmailAndPassword(email, password)
+          .then(user => {
+            // Do something with the newly created user
+          })
+          .catch(err => {
+            this.$q.notify({
+              message: `Looks like there was a problem: ${err}`,
+              color: 'negative'
+            })
+          })
+      }
+    }
+  }
+</script>
+```
 
-Qenv will allow us to keep the config in the source directory, but will also give us the option for git to ignore the file and will be bundled on the desired build type. Either for dev or production. Please refer to qenv installation and setup [here](https://github.com/quasarframework/app-extension-qenv).
+::: tip
+A better way is to focus on separation of concerns(SOC), and use Quasar's app extension [Qenv](https://github.com/quasarframework/app-extension-qenv) to handle our different enviornment configurations. Be sure to read up on the docs to understand how this will come into play with the follow section of code.
+:::
 
-Once you’ve install qenv and have set up your `.quasar.env.json` file and updated your scripts block in your `package.json` we now are ready to start moving into our application structure
+Qenv will allow us to keep the config in the source directory, but will also give us the option for git to ignore the file and will be bundled on the desired build type. Either for dev, test, or production. Remember the tip from before though, and create separate firebase proejcts in your console. Please refer to qenv installation and setup [here](https://github.com/quasarframework/app-extension-qenv).
 
+Once you’ve install qenv and have set up your `.quasar.env.json` file and updated your [scripts block](https://github.com/quasarframework/app-extension-qenv#specifying-the-environment) in your `package.json` we now are ready to start moving into our application structure.
+
+The following code snippets are meant to highlight the initial approach of setting up your application with separating your server connection and the actual service itself. The following snippets are not meant to setup any real functionality, but just highlight the first basic pieces of the application structure.
+
+```bash
+$ quasar new boot serverConnection
+```
+**quasar.config.json**
 ```js
 boot: [
-  'firebase'
+  'serverConnection'
 ],
 ```
+Our boot file will not actually be the firebaes service itself, but a point in which to bring in the firebase service. This is done in case you need or want to switch out your backend to another cloud provider or traditional backend api interface.
 
+**/src/boot/serverConnection.js**
+```js
+import * as base from '../services/base.js'
+
+const firebaseService = Object.assign({}, base)
+
+// "async" is optional
+export default async () => {
+  const config = process.env.environments.FIREBASE_CONFIG
+  try {
+    await firebaseService.fBInit(config)
+    console.log('Firebase init called properly')
+  } catch (err) {
+    throw Error(`Error in firebase initilization: ${err}`)
+  }
+}
+```
+Callin `await firebaseService.fBInit(config)` is just a validation that our service structure is working. This does not gaurantee that the initialization happened with a valid api key. This will be done when the app performs any auth() functionality, which will start to be highlight in the next section of the docs.
+
+Were also going to create a new directory in our application structure called services, and put our base service inside.
 From here we have our basic boot file structure:
 
+**/src/services/base.js**
+
 ```js
-import * as firebaseService from '../services/FirebaseService'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
-export default ({ app, router, Vue }) => {
-  // Import the firebase service and call the initialization method with the config 
-  // object supplied by the qenv app-ext at build time
-  firebaseService.fBInit(process.env.AppConfig.FIREBASE_CONFIG)
-
-  // Assign the service to a Vue instance property to allow
-  // for reference elsewhere in the app.
-  Vue.prototype.$fb = firebaseService
+/** Convienience method to initialize firebase app
+ *
+ * @param  {Object} config
+ * @return {Object} App
+ */
+export const fBInit = (config) => {
+  return firebase.initializeApp(config)
 }
 ```
 
-Now let’s create a new firebase service file inside of a services app directory. We like to do this in case we want to test our service, or chance our service in the future. Especially if our firebase service starts to incorporate more of the firebase suite offerings like storage, messaging, firestore, …etc.
-
-For our service and simplicity sake let’s focus on some methods that will initialize the app, provide for an auth state, handle one type of Authentication flavor for registering and logging in users, and logging users out of the application. In time more will be discussed but for now let’s just get this very happy path set up. An example service file could look like this: [ show firebase service with: auth, fBInit, registerUserWithEmail, loginUserWithEmail, logoutUser ]
-
-From here we should talk about route guarding. Once we have a user authenticated the idea is to have pages be protected as to allow authenticated user to have access to routes and pages. To take it one step further, it would be ideal to have role based permissions set up as well. This will need to incorporate a data store and create a collection of users. More on that later, but back to route guarding.
-
-Route guarding in the context of a quasar app via vue-router [https://router.vuejs.org/guide/advanced/navigation-guards.html#global-before-guards], is the process of allowing firebase to fully initialize, and then respond based on how we set up our routes file in our app notifying us if there is an authenticated user or not. In the past this has been a tricky aspect of working with firebase and quasar, because quasar doesn’t directly allow you to control the initialization of the application itself. This is what the boot fire configuration was set up for, and this is where we will harness firebase’s auth method called `onAuthStateChange`.
-
-This method is described in the firebase api docs[link] as a method that get invoked in the UI thread on changes in the authentication state:
-
-	•	Right after the listener has been registered
-	•	When a user is signed in
-	•	When the current user is signed out
-	•	When the current user changes
-
-With that we should look at a coupe of things. First let’s look at how the firebase guide addresses this:
-```js
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-    // User is signed in.
-  } else {
-    // No user is signed in.
-  }
-})
-```
-Initially the easiest approach here is to wrap our route guard around this so something like this: 
-
-```js
-if (currentConfig) {
-  router.beforeEach((to, from, next) => {
-    firebase.auth().onAuthStateChanged(() => {
-    const currentUser = firebase.auth().currentUser
-    const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-    if (requiresAuth && !currentUser) next('login')
-    else if (to.path === '/login' && (!requiresAuth && currentUser)) next('user')
-    else if (to.path === '/register' && (!requiresAuth && currentUser)) next('user')
-      else next()
-    })
-  })
-}
-```
-
-But, upon further investigation this creates unwanted observables in memory, and over time that can lead to a memory leak
-
-Here's a better approach:
-
-```js 
-> Some code
-
-````
+For our service structure and simplicity sake we're only going to focus on on method that will initialize the app. In time this base service file will be the location of more than just initialization. Ideally you should break your services up in separate files for testing, and maintainance concerns.
