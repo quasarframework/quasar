@@ -317,7 +317,7 @@
 
       <h2>VirtualScroll Mode</h2>
       <q-table
-        style="height: 500px"
+        table-style="height: 500px"
         :separator="separator"
         :data="bigdata"
         :columns="columns"
@@ -332,7 +332,7 @@
 
       <h2>VirtualScroll Mode (with header fixed)</h2>
       <q-table
-        style="height: 500px"
+        table-style="height: 500px"
         class="table-sticky"
         :separator="separator"
         :data="bigdata"
