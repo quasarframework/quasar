@@ -128,7 +128,7 @@ export default Vue.extend({
 
       const rowsNumber = rows.length
 
-      if (rowsPerPage && this.virtual === false) {
+      if (rowsPerPage && this.virtual !== true) {
         rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
       }
 
@@ -205,7 +205,7 @@ export default Vue.extend({
 
       const header = this.hideHeader !== true ? this.getTableHeader(h) : null
 
-      if (this.virtual) {
+      if (this.virtual === true) {
         return h(QVirtualScroll, {
           props: {
             items: this.computedRows,
