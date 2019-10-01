@@ -102,7 +102,7 @@ export default {
                   ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
                   : paginationLabel(1, this.computedRowsNumber, this.computedRowsNumber)
               ]),
-              this.virtual !== true && [h(QBtn, {
+              this.virtual !== true && h(QBtn, {
                 props: {
                   color: this.color,
                   round: true,
@@ -113,7 +113,7 @@ export default {
                 },
                 on: { click: this.prevPage }
               }),
-              h(QBtn, {
+              this.virtual !== true && h(QBtn, {
                 props: {
                   color: this.color,
                   round: true,
@@ -123,7 +123,7 @@ export default {
                   disable: this.isLastPage
                 },
                 on: { click: this.nextPage }
-              })]
+              })
             ]
         ])
       ]
