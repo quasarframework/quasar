@@ -209,8 +209,7 @@ export default Vue.extend({
         return h(QVirtualScroll, {
           props: {
             items: this.computedRows,
-            type: 'table',
-            wrap: false
+            type: '__qtable'
           },
           scopedSlots: {
             before: () => header,
