@@ -60,9 +60,10 @@ export default {
         body = this.$scopedSlots.body,
         topRow = this.$scopedSlots['top-row'],
         bottomRow = this.$scopedSlots['bottom-row'],
-        child = body !== void 0
-          ? this.computedRows.map(row => this.getTableRowBody(h, row, body))
-          : this.computedRows.map(row => this.getTableRow(h, row))
+        mapFn = body !== void 0
+          ? row => this.getTableRowBody(h, row, body)
+          : row => this.getTableRow(h, row),
+        child = this.computedRows.map(mapFn)
 
       if (topRow !== void 0) {
         child.unshift(topRow({ cols: this.computedCols }))
@@ -77,10 +78,9 @@ export default {
     getTableRowVirtual (h) {
       const body = this.$scopedSlots.body
 
-      if (body !== void 0) {
-        return props => this.getTableRowBody(h, props.item, body)
-      }
-      return props => this.getTableRow(h, props.item)
+      return body !== void 0
+        ? props => this.getTableRowBody(h, props.item, body)
+        : props => this.getTableRow(h, props.item)
     },
 
     addBodyRowMeta (data) {
