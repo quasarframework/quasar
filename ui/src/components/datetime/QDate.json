@@ -153,5 +153,42 @@
         }
       }
     }
+  },
+
+  "methods": {
+    "setToday": {
+      "desc": "Change model to today",
+      "addedIn": "v1.1.7"
+    },
+
+    "setView": {
+      "desc": "Change current view",
+      "addedIn": "v1.1.7",
+      "params": {
+        "view": {
+          "type": "String",
+          "desc": "QDate view name",
+          "required": true,
+          "values": [ "Calendar", "Months", "Years" ]
+        }
+      }
+    },
+
+    "offsetCalendar": {
+      "desc": "Increment or decrement calendar view's month or year",
+      "addedIn": "v1.1.7",
+      "params": {
+        "type": {
+          "type": "String",
+          "required": true,
+          "desc": "What to increment/decrement",
+          "values": [ "month", "year" ]
+        },
+        "descending": {
+          "type": "Boolean",
+          "desc": "Decrement?"
+        }
+      }
+    }
   }
 }

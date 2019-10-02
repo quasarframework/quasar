@@ -82,7 +82,8 @@ export default {
     size5: 'Liels',
     size6: 'Ļoti liels',
     size7: 'Maksimāls',
-    defaultFont: 'Fonts pēc noklusējuma'
+    defaultFont: 'Fonts pēc noklusējuma',
+    viewSource: 'Skatīt avotu'
   },
   tree: {
     noNodes: 'Nav pieejami mezgli',

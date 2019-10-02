@@ -70,7 +70,8 @@ export default {
     header: 'format_size',
     code: 'code',
     size: 'format_size',
-    font: 'font_download'
+    font: 'font_download',
+    viewSource: 'code'
   },
   expansionItem: {
     icon: 'keyboard_arrow_down',

@@ -82,7 +82,8 @@ export default {
     size5: 'Stor',
     size6: 'Meget stor',
     size7: 'Størst',
-    defaultFont: 'Standard skrifttype'
+    defaultFont: 'Standard skrifttype',
+    viewSource: 'Se kilde'
   },
   tree: {
     noNodes: 'Ingen noder tilgængelige',

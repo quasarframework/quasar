@@ -29,7 +29,6 @@ We can promise you that your Javascript and Vue.js skills will reach the stars!
 | Project | Required Skills | Links |
 | --- | --- | --- | --- |
 | Marketing | Monetization strategy and its implementation, PR, Newsletter, Articles |  |
-| Security | Discord#security shall contain the  latest security flaws | Security | [Discord chat](https://chat.quasar.dev/) Security channel|
 | Cordova mode | [Apache Cordova](https://cordova.apache.org/)| [What is Cordova](https://quasar.dev/quasar-cli/developing-cordova-apps/introduction),<br/> [CLI repo](https://github.com/quasarframework/quasar/tree/dev/cli) integration |
 | Icon Genie | JS, Vue.js, minification strategies, graphic design | [repo](https://github.com/quasarframework/app-extension-icon-genie)|
 | Wizard AE | JS, Vue.js | [repo](https://github.com/quasarframework/app-extension-wizard) |

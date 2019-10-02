@@ -58,13 +58,6 @@ import <%= importName %> from '<%= asset.path %>'
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
 
-<%
-const needsFastClick = ctx.mode.pwa || (ctx.mode.cordova && ctx.target.ios)
-if (needsFastClick) {
-%>
-import FastClick from '@quasar/fastclick'
-<% } %>
-
 <% if (ctx.mode.electron) { %>
 import electron from 'electron'
 Vue.prototype.$q.electron = electron
@@ -82,13 +75,13 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr &&
 
 const { app, <%= store ? 'store, ' : '' %>router } = createApp()
 
-<% if (needsFastClick) { %>
-<% if (ctx.mode.pwa) { %>
+<% if (ctx.mode.cordova && ctx.target.ios) { %>
+import '@quasar/fastclick'
+<% } else if (ctx.mode.pwa) { %>
 // Needed only for iOS PWAs
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
-<% } %>
-  FastClick()
-<% if (ctx.mode.pwa) { %>}<% } %>
+  import(/* webpackChunkName: "fastclick"  */ '@quasar/fastclick')
+}
 <% } %>
 
 async function start () {

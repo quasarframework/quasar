@@ -235,6 +235,14 @@ export default Vue.extend({
   },
 
   methods: {
+    setNow () {
+      this.__updateValue({
+        ...this.__getCurrentDate(),
+        ...this.__getCurrentTime()
+      })
+      this.view = 'Hour'
+    },
+
     __click (evt) {
       this.__drag({ isFirst: true, evt })
       this.__drag({ isFinal: true, evt })
@@ -532,7 +540,7 @@ export default Vue.extend({
             tabindex: this.computedTabindex
           },
           on: {
-            click: this.__setNow
+            click: this.setNow
           }
         }) : null
       ])
@@ -576,14 +584,6 @@ export default Vue.extend({
       if (this.innerModel.hour === null) { return }
       this.innerModel.hour += 12
       this.__verifyAndUpdate()
-    },
-
-    __setNow () {
-      this.__updateValue({
-        ...this.__getCurrentDate(),
-        ...this.__getCurrentTime()
-      })
-      this.view = 'Hour'
     },
 
     __verifyAndUpdate () {

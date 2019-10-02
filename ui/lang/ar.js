@@ -83,7 +83,8 @@ export default {
     size5: 'كبير',
     size6: 'كبير جداً',
     size7: 'الأقصى',
-    defaultFont: 'الخط الإفتراضي'
+    defaultFont: 'الخط الإفتراضي',
+    viewSource: 'أنظر المصدر'
   },
   tree: {
     noNodes: 'لا توجد نقاط متاحة',

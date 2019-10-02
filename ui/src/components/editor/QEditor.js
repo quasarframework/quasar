@@ -109,6 +109,7 @@ export default Vue.extend({
         superscript: { cmd: 'superscript', icon: i.superscript, tip: e.superscript, htmlTip: 'x<superscript>2</superscript>' },
         link: { cmd: 'link', disable: vm => vm.caret && !vm.caret.can('link'), icon: i.hyperlink, tip: e.hyperlink, key: 76 },
         fullscreen: { cmd: 'fullscreen', icon: i.toggleFullscreen, tip: e.toggleFullscreen, key: 70 },
+        viewsource: { cmd: 'viewsource', icon: i.viewSource, tip: e.viewSource },
 
         quote: { cmd: 'formatBlock', param: 'BLOCKQUOTE', icon: i.quote, tip: e.quote, key: 81 },
         left: { cmd: 'justifyLeft', icon: i.left, tip: e.left },
@@ -244,14 +245,15 @@ export default Vue.extend({
   data () {
     return {
       editWatcher: true,
-      editLinkUrl: null
+      editLinkUrl: null,
+      isViewingSource: false
     }
   },
 
   watch: {
     value (v) {
       if (this.editWatcher) {
-        this.$refs.content.innerHTML = v
+        this.__setContent(v)
       }
       else {
         this.editWatcher = true
@@ -262,7 +264,10 @@ export default Vue.extend({
   methods: {
     __onInput () {
       if (this.editWatcher) {
-        const val = this.$refs.content.innerHTML
+        const val = this.isViewingSource
+          ? this.$refs.content.innerText
+          : this.$refs.content.innerHTML
+
         if (val !== this.value) {
           this.editWatcher = false
           this.$emit('input', val)
@@ -324,6 +329,15 @@ export default Vue.extend({
 
     getContentEl () {
       return this.$refs.content
+    },
+
+    __setContent (v) {
+      if (this.isViewingSource) {
+        this.$refs.content.innerText = v
+      }
+      else {
+        this.$refs.content.innerHTML = v
+      }
     }
   },
 
@@ -336,7 +350,7 @@ export default Vue.extend({
 
   mounted () {
     this.caret = new Caret(this.$refs.content, this)
-    this.$refs.content.innerHTML = this.value
+    this.__setContent(this.value)
     this.refreshToolbar()
   },
 
