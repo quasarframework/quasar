@@ -210,6 +210,8 @@ export default Vue.extend({
             items: this.computedRows,
             type: '__qtable'
           },
+          class: this.tableClass,
+          style: this.tableStyle,
           scopedSlots: {
             before: () => header,
             default: this.getTableRowVirtual(h)
