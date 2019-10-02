@@ -320,6 +320,37 @@
         row-key="name"
       />
 
+      <h2>VirtualScroll Mode</h2>
+      <q-table
+        table-style="height: 500px"
+        :separator="separator"
+        :data="bigdata"
+        :columns="columns"
+        :title="title"
+        :filter="filter"
+        :loading="loading"
+        selection="multiple"
+        :selected.sync="selected"
+        row-key="_index"
+        virtual
+      />
+
+      <h2>VirtualScroll Mode (with header fixed)</h2>
+      <q-table
+        table-style="height: 500px"
+        class="table-sticky"
+        :separator="separator"
+        :data="bigdata"
+        :columns="columns"
+        :title="title"
+        :filter="filter"
+        :loading="loading"
+        selection="multiple"
+        :selected.sync="selected"
+        row-key="_index"
+        virtual
+      />
+
       <h2>body-cell-desc template</h2>
       <q-table
         :data="data"
@@ -897,7 +928,8 @@ export default {
           calcium: '12%',
           iron: '6%'
         }
-      ]
+      ],
+      bigdata: []
     }
   },
   computed: {
@@ -948,6 +980,14 @@ export default {
       console.log(added ? 'selected' : 'un-selected', rows)
     }
   },
+  created () {
+    const multiplier = 1000
+    let bigdata = []
+    for (let i = 0; i < multiplier; i++) {
+      bigdata = bigdata.concat(this.data)
+    }
+    this.bigdata = bigdata
+  },
   mounted () {
     this.request({
       pagination: this.serverPagination,
@@ -962,4 +1002,15 @@ export default {
   margin-top 25px
 .text-pre-wrap
   white-space pre-wrap
+.table-sticky
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th /* bg color is important for th; just specify one */
+    background-color: #c1f4cd
+
+  thead tr:first-child th
+    position: sticky
+    top: 0
+    opacity: 1
+    z-index: 1
 </style>

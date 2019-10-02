@@ -16,6 +16,13 @@
       "examples": [ "myprop" ],
       "category": "general"
     },
+    
+    "virtual": {
+      "type": "Boolean",
+      "desc": "Display data with all rows without pagination, using QVirtualScroll",
+      "addedIn": "v1.1.7",
+      "category": "behavior"
+    },
 
     "color": {
       "extends": "color",
@@ -25,7 +32,7 @@
     "grid": {
       "type": "Boolean",
       "desc": "Display data as a grid instead of the default table",
-      "category": "style"
+      "category": "behavior"
     },
 
     "grid-header": {
