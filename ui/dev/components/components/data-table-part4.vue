@@ -184,9 +184,8 @@ const data = [
   }
 ]
 
-const multiplier = 1000
 let bigdata = []
-for (let i = 0; i < multiplier; i++) {
+for (let i = 0; i < 1000; i++) {
   bigdata = bigdata.concat(data)
 }
 

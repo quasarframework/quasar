@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/fullscreen" ],
+  "mixins": [ "mixins/fullscreen", "mixins/virtual-scroll-common-props" ],
 
   "props": {
     "data": {
@@ -21,7 +21,7 @@
       "type": "Boolean",
       "desc": "Display data using QVirtualScroll (for non-grid mode only)",
       "addedIn": "v1.2.0",
-      "category": "behavior"
+      "category": "virtual-scroll"
     },
 
     "color": {
