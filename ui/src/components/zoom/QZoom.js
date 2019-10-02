@@ -229,6 +229,8 @@ export default Vue.extend({
       return position
     },
 
+    // https://jingsam.github.io/2017/03/08/vnode-deep-clone.html
+    // with fixes...
     __deepClone (vnodes, createElement) {
       function cloneVNode (vnode) {
         const clonedChildren = vnode.children && vnode
