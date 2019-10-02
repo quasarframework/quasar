@@ -18,7 +18,7 @@ import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 const commonVirtPropsObj = {}
-commonVirtPropsList.forEach(p => { commonVirtPropsList[p] = {} })
+commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })
 
 export default Vue.extend({
   name: 'QTable',
@@ -184,6 +184,10 @@ export default Vue.extend({
 
       commonVirtPropsList
         .forEach(p => { props[p] = this[p] })
+
+      if (props.virtualScrollItemSize === void 0) {
+        props.virtualScrollItemSize = this.dense === true ? 28 : 48
+      }
 
       return props
     }

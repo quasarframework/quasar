@@ -6,12 +6,14 @@
 
     <div>
       <q-toggle color="primary" v-model="loading" label="Show loading" />
+      <q-toggle color="primary" v-model="dense" label="Dense" />
       <q-select filled multiple v-model="visibleColumns" :options="columns" option-value="name" option-disable="required" emit-value />
       <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
     </div>
 
     <h2>Fixed header</h2>
     <q-table
+      :dense="dense"
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
@@ -23,12 +25,13 @@
       :visible-columns="visibleColumns"
       row-key="_index"
       virtual-scroll
-      :pagination="{ rowsPerPage: 0 }"
+      :pagination.sync="pagination"
       :rows-per-page-options="[0]"
     />
 
     <h2>Basic</h2>
     <q-table
+      :dense="dense"
       table-style="max-height: 500px"
       :separator="separator"
       :data="bigdata"
@@ -43,6 +46,7 @@
 
     <h2>With slots</h2>
     <q-table
+      :dense="dense"
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
@@ -189,6 +193,7 @@ for (let i = 0; i < multiplier; i++) {
 export default {
   data () {
     return {
+      dense: false,
       title: 'QDataTable',
       filter: '',
       loading: false,
@@ -224,3 +229,17 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.table-sticky
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th /* bg color is important for th; just specify one */
+    background-color: #c1f4cd
+
+  thead tr:first-child th
+    position: sticky
+    top: 0
+    opacity: 1
+    z-index: 1
+</style>
