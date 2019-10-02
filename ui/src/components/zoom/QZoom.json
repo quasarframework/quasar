@@ -71,24 +71,23 @@
 
   "events": {
     "before-zoom": {
-      "desc": "Trigger when default slotted content is about to be zoomed"
-
+      "desc": "Triggered when default slotted content is about to be zoomed"
     },
 
     "zoomed": {
-      "desc": "Trigger when default slotted content is zoomed"
+      "desc": "Triggered when default slotted content is zoomed"
     },
 
     "before-restore": {
-      "desc": "Trigger when default slotted content is about to be restored"
+      "desc": "Triggered when default slotted content is about to be restored"
     },
 
     "restored": {
-      "desc": "Trigger when default slotted content is restored"
+      "desc": "Triggered when default slotted content is restored"
     },
 
     "scale": {
-      "desc": "Trigger when the setScale method is called",
+      "desc": "Triggered when the setScale method is called",
       "params": {
         "val": {
           "type": "Number",
@@ -99,7 +98,7 @@
     },
 
     "scale-text": {
-      "desc": "Trigger when the setScaleText method is called",
+      "desc": "Triggered when the setScaleText method is called",
       "params": {
         "val": {
           "type": "Number",

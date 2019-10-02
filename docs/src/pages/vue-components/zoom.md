@@ -59,7 +59,7 @@ In most cases, you want the background color to match the surrounding background
 
 ### Restore on Scroll
 
-In most cases, QZoom turns off any scollbars for a better User Experience. Using the `restore-on-scroll` property allows the scrollbars (if any) to be visible. If the user attempts to scoll, the content will automatically be zoomed out.
+In most cases, QZoom turns off any scrollbars for a better User Experience. Using the `restore-on-scroll` property allows the scrollbars (if any) to be visible. If the user attempts to scroll, the content will automatically be zoomed out.
 
 <doc-example title="Restore on Scroll" file="QZoom/RestoreOnScroll" />
 
