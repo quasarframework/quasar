@@ -157,20 +157,20 @@ export default Vue.extend({
     },
 
     cardDefaultClass () {
-      return ` q-table__card` +
+      return ' q-table__card' +
         (this.dark === true ? ' q-table__card--dark' : '') +
-        (this.square === true ? ` q-table--square` : '') +
-        (this.flat === true ? ` q-table--flat` : '') +
-        (this.bordered === true ? ` q-table--bordered` : '')
+        (this.square === true ? ' q-table--square' : '') +
+        (this.flat === true ? ' q-table--flat' : '') +
+        (this.bordered === true ? ' q-table--bordered' : '')
     },
 
     containerClass () {
       return `q-table__container q-table--${this.separator}-separator` +
         (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
-        (this.dark === true ? ` q-table--dark` : '') +
-        (this.dense === true ? ` q-table--dense` : '') +
-        (this.wrapCells === false ? ` q-table--no-wrap` : '') +
-        (this.inFullscreen === true ? ` fullscreen scroll` : '')
+        (this.dark === true ? ' q-table--dark' : '') +
+        (this.dense === true ? ' q-table--dense' : '') +
+        (this.wrapCells === false ? ' q-table--no-wrap' : '') +
+        (this.inFullscreen === true ? ' fullscreen scroll' : '')
     }
   },
 
