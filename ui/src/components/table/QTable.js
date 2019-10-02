@@ -5,8 +5,9 @@ import TableHeader from './table-header.js'
 import TableBody from './table-body.js'
 import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
-import TableMiddle from './table-middle.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
+
+import getTableMiddle from './get-table-middle.js'
 
 import Sort from './table-sort.js'
 import Filter from './table-filter.js'
@@ -64,7 +65,7 @@ export default Vue.extend({
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
     wrapCells: Boolean,
-    virtual: Boolean,
+    virtualScroll: Boolean,
 
     noDataLabel: String,
     noResultsLabel: String,
@@ -130,7 +131,7 @@ export default Vue.extend({
 
       const rowsNumber = rows.length
 
-      if (rowsPerPage && this.virtual !== true) {
+      if (rowsPerPage) {
         rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
       }
 
@@ -207,8 +208,8 @@ export default Vue.extend({
 
       const header = this.hideHeader !== true ? this.getTableHeader(h) : null
 
-      if (this.virtual === true) {
-        return h(QVirtualScroll, {
+      return this.grid !== true && this.virtualScroll === true
+        ? h(QVirtualScroll, {
           props: {
             items: this.computedRows,
             type: '__qtable'
@@ -220,15 +221,14 @@ export default Vue.extend({
             default: this.getTableRowVirtual(h)
           }
         })
-      }
-
-      return h(TableMiddle, {
-        class: ['scroll', this.tableClass],
-        style: this.tableStyle
-      }, [
-        header,
-        this.getTableBody(h)
-      ])
+        : getTableMiddle(h, {
+          staticClass: 'scroll',
+          class: this.tableClass,
+          style: this.tableStyle
+        }, [
+          header,
+          this.getTableBody(h)
+        ])
     }
   }
 })

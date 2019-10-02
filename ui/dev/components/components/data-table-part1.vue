@@ -322,22 +322,22 @@
 
       <h2>VirtualScroll Mode</h2>
       <q-table
-        table-style="height: 500px"
+        table-style="max-height: 500px"
         :separator="separator"
         :data="bigdata"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
-        selection="multiple"
-        :selected.sync="selected"
         row-key="_index"
-        virtual
+        virtual-scroll
+        :pagination="{ rowsPerPage: 0 }"
+        :rows-per-page-options="[0]"
       />
 
       <h2>VirtualScroll Mode (with header fixed)</h2>
       <q-table
-        table-style="height: 500px"
+        table-style="max-height: 500px"
         class="table-sticky"
         :separator="separator"
         :data="bigdata"
@@ -345,10 +345,8 @@
         :title="title"
         :filter="filter"
         :loading="loading"
-        selection="multiple"
-        :selected.sync="selected"
         row-key="_index"
-        virtual
+        virtual-scroll
       />
 
       <h2>body-cell-desc template</h2>

@@ -2,15 +2,14 @@ import Vue from 'vue'
 
 import QList from '../list/QList.js'
 import QMarkupTable from '../table/QMarkupTable.js'
-import TableMiddle from '../table/table-middle.js'
+import getTableMiddle from '../table/get-table-middle.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 
 import { listenOpts } from '../../utils/event.js'
 
 const comps = {
   list: QList,
-  table: QMarkupTable,
-  __qtable: TableMiddle
+  table: QMarkupTable
 }
 
 export default Vue.extend({
@@ -156,11 +155,13 @@ export default Vue.extend({
       child = child.concat(this.$scopedSlots.after())
     }
 
-    return h(comps[this.type], {
-      class: this.classes,
-      attrs: this.attrs,
-      props: this.$attrs,
-      on: this.$listeners
-    }, child)
+    return this.type === '__qtable'
+      ? getTableMiddle(h, { staticClass: this.classes }, child)
+      : h(comps[this.type], {
+        class: this.classes,
+        attrs: this.attrs,
+        props: this.$attrs,
+        on: this.$listeners
+      }, child)
   }
 })
