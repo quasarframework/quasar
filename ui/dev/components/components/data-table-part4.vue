@@ -17,14 +17,15 @@
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
-      :data="bigdata"
+      :data="data"
       :columns="columns"
       :title="title"
       :filter="filter"
       :loading="loading"
       :visible-columns="visibleColumns"
-      row-key="_index"
+      row-key="index"
       virtual-scroll
+      :virtual-scroll-sticky-start="dense ? 24 : 48"
       :pagination.sync="pagination"
       :rows-per-page-options="[0]"
     />
@@ -34,13 +35,13 @@
       :dense="dense"
       table-style="max-height: 500px"
       :separator="separator"
-      :data="bigdata"
+      :data="data"
       :columns="columns"
       :title="title"
       :filter="filter"
       :loading="loading"
       :visible-columns="visibleColumns"
-      row-key="_index"
+      row-key="index"
       virtual-scroll
     />
 
@@ -50,14 +51,15 @@
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
-      :data="bigdata"
+      :data="data"
       :columns="columns"
       :title="title"
       :filter="filter"
       :loading="loading"
       :visible-columns="visibleColumns"
-      row-key="_index"
+      row-key="index"
       virtual-scroll
+      :virtual-scroll-sticky-start="dense ? 24 : 48"
       :pagination.sync="pagination"
       :rows-per-page-options="[0]"
     >
@@ -77,13 +79,48 @@
         </q-tr>
       </template>
     </q-table>
+
+    <h2>With slots & different sizes</h2>
+    <q-table
+      :dense="dense"
+      table-style="max-height: 500px"
+      class="table-sticky"
+      :separator="separator"
+      :data="data"
+      :columns="columns"
+      :title="title"
+      :filter="filter"
+      :loading="loading"
+      :visible-columns="visibleColumns"
+      row-key="index"
+      virtual-scroll
+      :virtual-scroll-sticky-start="dense ? 24 : 48"
+      :pagination.sync="pagination"
+    >
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
+
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.value }}
+            <div v-if="pagination.page % 2 === 0" style="height: 50px;" />
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
   </div>
 </template>
 
 <script>
-const data = [
+const seed = [
   {
-    name: '1Frozen Yogurt',
+    name: 'Frozen Yogurt',
     calories: 159,
     fat: 6.0,
     carbs: 24,
@@ -93,7 +130,7 @@ const data = [
     iron: '1%'
   },
   {
-    name: '2Ice cream sandwich',
+    name: 'Ice cream sandwich',
     calories: 237,
     fat: 9.0,
     carbs: 37,
@@ -103,7 +140,7 @@ const data = [
     iron: '1%'
   },
   {
-    name: '3Eclair',
+    name: 'Eclair',
     calories: 262,
     fat: 16.0,
     carbs: 23,
@@ -113,7 +150,7 @@ const data = [
     iron: '7%'
   },
   {
-    name: '4Cupcake',
+    name: 'Cupcake',
     calories: 305,
     fat: 3.7,
     carbs: 67,
@@ -123,7 +160,7 @@ const data = [
     iron: '8%'
   },
   {
-    name: '5Gingerbread',
+    name: 'Gingerbread',
     calories: 356,
     fat: 16.0,
     carbs: 49,
@@ -133,7 +170,7 @@ const data = [
     iron: '16%'
   },
   {
-    name: '6Jelly bean',
+    name: 'Jelly bean',
     calories: 375,
     fat: 0.0,
     carbs: 94,
@@ -143,7 +180,7 @@ const data = [
     iron: '0%'
   },
   {
-    name: '7Lollipop',
+    name: 'Lollipop',
     calories: 392,
     fat: 0.2,
     carbs: 98,
@@ -153,7 +190,7 @@ const data = [
     iron: '2%'
   },
   {
-    name: '8Honeycomb',
+    name: 'Honeycomb',
     calories: 408,
     fat: 3.2,
     carbs: 87,
@@ -163,7 +200,7 @@ const data = [
     iron: '45%'
   },
   {
-    name: '9Donut',
+    name: 'Donut',
     calories: 452,
     fat: 25.0,
     carbs: 51,
@@ -173,7 +210,7 @@ const data = [
     iron: '22%'
   },
   {
-    name: '10KitKat',
+    name: 'KitKat',
     calories: 518,
     fat: 26.0,
     carbs: 65,
@@ -184,10 +221,14 @@ const data = [
   }
 ]
 
-let bigdata = []
+// we generate lots of rows here
+let data = []
 for (let i = 0; i < 1000; i++) {
-  bigdata = bigdata.concat(data)
+  data = data.concat(seed.slice(0).map(r => ({ ...r })))
 }
+data.forEach((row, index) => {
+  row.index = index
+})
 
 export default {
   data () {
@@ -196,13 +237,18 @@ export default {
       title: 'QDataTable',
       filter: '',
       loading: false,
-      visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
+      visibleColumns: ['index', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',
       pagination: {
         rowsPerPage: 0
       },
 
       columns: [
+        {
+          name: 'index',
+          label: '#',
+          field: 'index'
+        },
         {
           name: 'desc',
           required: true,
@@ -224,7 +270,7 @@ export default {
   },
 
   created () {
-    this.bigdata = bigdata
+    this.data = data
   }
 }
 </script>

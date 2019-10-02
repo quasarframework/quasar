@@ -107,7 +107,22 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    needsReset () {
+      this.hasVirtScroll === true && this.$refs.virtScroll.reset()
+    }
+  },
+
   computed: {
+    hasVirtScroll () {
+      return this.grid !== true && this.virtualScroll === true
+    },
+
+    needsReset () {
+      return ['tableStyle', 'tableClass', 'tableHeaderStyle', 'tableHeaderClass', 'containerClass']
+        .map(p => this[p]).join(';')
+    },
+
     computedData () {
       let rows = this.data.slice().map((row, i) => {
         row.__index = i
@@ -220,6 +235,10 @@ export default Vue.extend({
       })
     },
 
+    resetVirtualScroll () {
+      this.hasVirtScroll === true && this.$refs.virtScroll.reset()
+    },
+
     getBody (h) {
       if (this.grid === true) {
         return this.getGridBody(h)
@@ -227,8 +246,9 @@ export default Vue.extend({
 
       const header = this.hideHeader !== true ? this.getTableHeader(h) : null
 
-      return this.grid !== true && this.virtualScroll === true
+      return this.hasVirtScroll === true
         ? h(QVirtualScroll, {
+          ref: 'virtScroll',
           props: {
             ...this.virtProps,
             items: this.computedRows,

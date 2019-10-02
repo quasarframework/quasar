@@ -157,10 +157,25 @@ export default {
   watch: {
     virtualScrollHorizontal () {
       this.__setVirtualScrollSize()
+    },
+
+    needsReset () {
+      this.reset()
+    }
+  },
+
+  computed: {
+    needsReset () {
+      return ['virtualScrollItemSize', 'virtualScrollHorizontal']
+        .map(p => this[p]).join(';')
     }
   },
 
   methods: {
+    reset () {
+      this.__resetVirtualScroll(this.prevToIndex, true)
+    },
+
     scrollTo (toIndex) {
       const scrollEl = this.__getVirtualScrollTarget()
 
@@ -309,10 +324,10 @@ export default {
       })
     },
 
-    __resetVirtualScroll (toIndex) {
+    __resetVirtualScroll (toIndex, fullReset) {
       const defaultSize = this.virtualScrollItemSize
 
-      if (Array.isArray(this.virtualScrollSizes) === false) {
+      if (fullReset === true || Array.isArray(this.virtualScrollSizes) === false) {
         this.virtualScrollSizes = []
       }
 
