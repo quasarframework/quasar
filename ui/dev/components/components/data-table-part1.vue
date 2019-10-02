@@ -320,35 +320,6 @@
         row-key="name"
       />
 
-      <h2>VirtualScroll Mode</h2>
-      <q-table
-        table-style="max-height: 500px"
-        :separator="separator"
-        :data="bigdata"
-        :columns="columns"
-        :title="title"
-        :filter="filter"
-        :loading="loading"
-        row-key="_index"
-        virtual-scroll
-        :pagination="{ rowsPerPage: 0 }"
-        :rows-per-page-options="[0]"
-      />
-
-      <h2>VirtualScroll Mode (with header fixed)</h2>
-      <q-table
-        table-style="max-height: 500px"
-        class="table-sticky"
-        :separator="separator"
-        :data="bigdata"
-        :columns="columns"
-        :title="title"
-        :filter="filter"
-        :loading="loading"
-        row-key="_index"
-        virtual-scroll
-      />
-
       <h2>body-cell-desc template</h2>
       <q-table
         :data="data"
@@ -926,8 +897,7 @@ export default {
           calcium: '12%',
           iron: '6%'
         }
-      ],
-      bigdata: []
+      ]
     }
   },
   computed: {
@@ -978,14 +948,7 @@ export default {
       console.log(added ? 'selected' : 'un-selected', rows)
     }
   },
-  created () {
-    const multiplier = 1000
-    let bigdata = []
-    for (let i = 0; i < multiplier; i++) {
-      bigdata = bigdata.concat(this.data)
-    }
-    this.bigdata = bigdata
-  },
+
   mounted () {
     this.request({
       pagination: this.serverPagination,

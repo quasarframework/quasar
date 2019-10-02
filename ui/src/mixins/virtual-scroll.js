@@ -118,29 +118,34 @@ function sumSize (sizeAgg, size, from, to) {
   return total
 }
 
+const commonVirtScrollProps = {
+  virtualScrollSliceSize: {
+    type: Number,
+    default: 30
+  },
+
+  virtualScrollItemSize: {
+    type: Number,
+    default: 24
+  },
+
+  virtualScrollStickySizeStart: {
+    type: Number,
+    default: 0
+  },
+
+  virtualScrollStickySizeEnd: {
+    type: Number,
+    default: 0
+  }
+}
+
+export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
+
 export default {
   props: {
     virtualScrollHorizontal: Boolean,
-
-    virtualScrollSliceSize: {
-      type: Number,
-      default: 30
-    },
-
-    virtualScrollItemSize: {
-      type: Number,
-      default: 24
-    },
-
-    virtualScrollStickySizeStart: {
-      type: Number,
-      default: 0
-    },
-
-    virtualScrollStickySizeEnd: {
-      type: Number,
-      default: 0
-    }
+    ...commonVirtScrollProps
   },
 
   data () {

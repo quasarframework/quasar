@@ -7,6 +7,7 @@ import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
 
+import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
 import getTableMiddle from './get-table-middle.js'
 
 import Sort from './table-sort.js'
@@ -15,6 +16,9 @@ import Pagination from './table-pagination.js'
 import RowSelection from './table-row-selection.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
+
+const commonVirtPropsObj = {}
+commonVirtPropsList.forEach(p => { commonVirtPropsList[p] = {} })
 
 export default Vue.extend({
   name: 'QTable',
@@ -65,7 +69,9 @@ export default Vue.extend({
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
     wrapCells: Boolean,
+
     virtualScroll: Boolean,
+    ...commonVirtPropsObj,
 
     noDataLabel: String,
     noResultsLabel: String,
@@ -171,6 +177,15 @@ export default Vue.extend({
         (this.dense === true ? ` q-table--dense` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '') +
         (this.inFullscreen === true ? ` fullscreen scroll` : '')
+    },
+
+    virtProps () {
+      const props = {}
+
+      commonVirtPropsList
+        .forEach(p => { props[p] = this[p] })
+
+      return props
     }
   },
 
@@ -211,6 +226,7 @@ export default Vue.extend({
       return this.grid !== true && this.virtualScroll === true
         ? h(QVirtualScroll, {
           props: {
+            ...this.virtProps,
             items: this.computedRows,
             type: '__qtable'
           },
