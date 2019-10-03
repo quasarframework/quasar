@@ -6,22 +6,24 @@
       </p>
 
       <q-card style="margin-top: 25px">
-        <q-card-section class="bg-primary text-center row q-gutter-sm">
-          <q-btn push color="orange" @click="trigger()">
+        <q-card-section class="bg-primary text-center">
+          <q-btn push color="orange" @click="trigger()" class="full-width q-mb-md">
             Trigger Event
           </q-btn>
 
-          <q-btn push color="green" @click="manualStart()" :disable="manualStarted">
-            Start manual
-          </q-btn>
+          <div class="q-gutter-sm">
+            <q-btn push color="green" @click="start(0)">
+              Start (speed 0)
+            </q-btn>
 
-          <q-btn push color="blue" @click="manualIncrement()" :disable="manualStarted !== true">
-            Random manual increment
-          </q-btn>
+            <q-btn push color="blue" @click="increment()">
+              Random increment
+            </q-btn>
 
-          <q-btn push color="red" @click="manualStop()" :disable="manualStarted !== true">
-            Stop manual
-          </q-btn>
+            <q-btn push color="red" @click="stop()">
+              Stop
+            </q-btn>
+          </div>
         </q-card-section>
 
         <p class="caption text-center">
@@ -67,8 +69,6 @@ export default {
       reverse: false,
       size: 20,
 
-      manualStarted: false,
-
       timeouts: []
     }
   },
@@ -88,18 +88,16 @@ export default {
       }, Math.random() * 3000 + 1000)
     },
 
-    manualStart () {
-      this.$refs.bar.start(0)
-      this.manualStarted = true
+    start (speed) {
+      this.$refs.bar.start(speed)
     },
 
-    manualIncrement () {
+    increment () {
       this.$refs.bar.increment(Math.random() * 20)
     },
 
-    manualStop () {
+    stop () {
       this.$refs.bar.stop()
-      this.manualStarted = false
     }
   }
 }

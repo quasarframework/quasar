@@ -147,21 +147,33 @@ export default Vue.extend({
 
   methods: {
     start (speed = 300) {
+      const oldSpeed = this.speed
+      this.speed = Math.max(0, speed)
+
       this.calls++
-      if (this.calls > 1) { return }
+
+      if (this.calls > 1) {
+        if (oldSpeed === 0 && speed > 0) {
+          this.__work()
+        }
+        else if (oldSpeed > 0 && speed <= 0) {
+          clearTimeout(this.timer)
+        }
+        return
+      }
 
       clearTimeout(this.timer)
       this.$emit('start')
 
       this.progress = 0
 
-      if (this.onScreen) { return }
+      if (this.onScreen === true) { return }
 
       this.onScreen = true
       this.animate = false
       this.timer = setTimeout(() => {
         this.animate = true
-        speed > 0 && this.__work(speed)
+        speed > 0 && this.__work()
       }, 100)
     },
 
@@ -192,12 +204,12 @@ export default Vue.extend({
       }
     },
 
-    __work (speed) {
+    __work () {
       if (this.progress < 100) {
         this.timer = setTimeout(() => {
           this.increment()
-          this.__work(speed)
-        }, speed)
+          this.__work()
+        }, this.speed)
       }
     }
   },

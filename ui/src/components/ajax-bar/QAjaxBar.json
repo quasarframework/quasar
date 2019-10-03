@@ -47,7 +47,8 @@
       "params": {
         "speed": {
           "type": "Number",
-          "desc": "Delay (in milliseconds) between bar progress increments; Use a value of 0 to disable auto-increment",
+          "default": 300,
+          "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing",
           "examples": [ 400, 0 ]
         }
       }
@@ -65,7 +66,7 @@
     },
 
     "stop": {
-      "desc": "Notify bar one process you were waiting has finished"
+      "desc": "Notify bar that one process you were waiting has finished"
     }
   }
 }
