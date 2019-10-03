@@ -112,12 +112,12 @@ async function getApi (item) {
         if (file.charAt(0) === '~') {
           try {
             file = require.resolve(
-              path.resolve(relativePath.slice(1)),
+              path.resolve(file.slice(1)),
               { paths: [ appPaths.appDir ] }
             )
           }
           catch (e) {
-            warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no package "${file}" installed`)
+            warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no package "${file.slice(1)}" installed`)
             process.exit(1)
           }
         }
