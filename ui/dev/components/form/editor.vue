@@ -133,7 +133,8 @@
           label: 'Dropdown Test',
           highlight: true,
           options: ['gogu', 'outdent', 'indent', 'gigi']
-        }]
+        }],
+        ['viewsource']
       ]"
       :fonts="{
         arial: 'Arial',

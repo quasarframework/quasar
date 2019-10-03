@@ -122,7 +122,7 @@ class QuasarConfig {
         catch (e) {
           if (e.message !== 'NETWORK_ERROR') {
             console.log(e)
-            warn(`quasar.conf.js has JS errors. Please fix them then save file again.`)
+            warn(`⚠️  quasar.conf.js has JS errors. Please fix them then save file again.`)
             warn()
           }
 

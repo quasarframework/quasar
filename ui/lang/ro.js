@@ -82,7 +82,8 @@ export default {
     size5: 'Big',
     size6: 'Foarte mare',
     size7: 'Maxim',
-    defaultFont: 'Font implicit'
+    defaultFont: 'Font implicit',
+    viewSource: 'Vizualizare sursă'
   },
   tree: {
     noNodes: 'Nu sunt date disponibile',

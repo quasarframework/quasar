@@ -150,5 +150,12 @@
         }
       }
     }
+  },
+
+  "methods": {
+    "setNow": {
+      "desc": "Change model to current moment",
+      "addedIn": "v1.1.7"
+    }
   }
 }

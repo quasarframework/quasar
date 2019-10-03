@@ -82,7 +82,8 @@ export default {
     size5: 'Голям',
     size6: 'Много голям',
     size7: 'Огромен',
-    defaultFont: 'Шрифт по подразбиране'
+    defaultFont: 'Шрифт по подразбиране',
+    viewSource: 'Виж източника'
   },
   tree: {
     noNodes: 'Няма повече възли',

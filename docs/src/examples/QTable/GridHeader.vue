@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-table
       grid
-      card-class="bg-primary text-white"
+      grid-header
       title="Treats"
       :data="data"
       :columns="columns"
@@ -33,7 +33,6 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `${val}`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },

@@ -82,7 +82,8 @@ export default {
     size5: 'Groot',
     size6: 'Heel groot',
     size7: 'Maximum',
-    defaultFont: 'Standaard lettertype'
+    defaultFont: 'Standaard lettertype',
+    viewSource: 'Bekijk bron'
   },
   tree: {
     noNodes: 'Geen nodes beschikbaar',

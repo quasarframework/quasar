@@ -128,7 +128,7 @@ async function getApi (item) {
     }
   }
 
-  warn(`No API found for requested "${item}"`)
+  warn(`⚠️  No API found for requested "${item}"`)
   warn()
   process.exit(1)
 }
