@@ -1082,8 +1082,20 @@ const backends = [
         path: 'firebase/storage'
       },
       {
+        name: 'SSR',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Vuex',
+        path: 'firebase/vuex'
+      },
+      {
         name: 'Custom Implementations',
         path: 'firebase/custom'
+      },
+      {
+        name: 'Firebase CLI & Hosting',
+        path: 'firebase/cliHosting'
       }
     ]
   },
