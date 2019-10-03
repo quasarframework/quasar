@@ -211,20 +211,12 @@ module.exports = class IndexAPI {
    * Register an API file for "quasar describe" command
    *
    * @param {string} name
-   * @param {string} relativePath
+   * @param {string} relativePath (or node_modules reference if it starts with "~")
    *   (relative path to Api file)
    */
   registerDescribeApi (name, relativePath) {
     if (relativePath.charAt(0) === '~') {
-      try {
-        this.__hooks.describeApi[name] = require.resolve(
-          path.resolve(relativePath.slice(1)),
-          { paths: [ appPaths.appDir ] }
-        )
-      }
-      catch (e) {
-        warn(`⚠️  Extension(${this.extId}): registerDescribeApi - there is no package "${file}" installed`)
-      }
+      this.__hooks.describeApi[name] = relativePath
     }
     else {
       const dir = getCallerPath()
