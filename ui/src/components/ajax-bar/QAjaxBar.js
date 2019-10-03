@@ -148,7 +148,7 @@ export default Vue.extend({
   methods: {
     start (speed = 300) {
       const oldSpeed = this.speed
-      this.speed = Math.max(0, speed)
+      this.speed = Math.max(0, speed) || 0
 
       this.calls++
 
