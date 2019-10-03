@@ -107,9 +107,21 @@ async function getApi (item) {
 
       if (hooks.describeApi !== void 0 && hooks.describeApi[item]) {
         const fs = require('fs')
-        const file = hooks.describeApi[item]
+        let file = hooks.describeApi[item]
 
-        if (!fs.existsSync(file)) {
+        if (file.charAt(0) === '~') {
+          try {
+            file = require.resolve(
+              path.resolve(relativePath.slice(1)),
+              { paths: [ appPaths.appDir ] }
+            )
+          }
+          catch (e) {
+            warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no package "${file}" installed`)
+            process.exit(1)
+          }
+        }
+        else if (!fs.existsSync(file)) {
           warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no file at ${file}`)
           process.exit(1)
         }
