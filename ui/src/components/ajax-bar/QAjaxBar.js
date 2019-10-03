@@ -109,11 +109,8 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return [
-        `q-loading-bar--${this.position}`,
-        `bg-${this.color}`,
-        this.animate === true ? '' : 'no-transition'
-      ]
+      return `q-loading-bar q-loading-bar--${this.position} bg-${this.color}` +
+        (this.animate === true ? '' : ' no-transition')
     },
 
     style () {
@@ -228,7 +225,6 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-loading-bar',
       class: this.classes,
       style: this.style
     })
