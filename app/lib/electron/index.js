@@ -52,7 +52,7 @@ class ElectronRunner {
         log()
 
         if (stats.hasErrors()) {
-          warn(`Electron main build failed with errors`)
+          warn(`⚠️  Electron main build failed with errors`)
           return
         }
 

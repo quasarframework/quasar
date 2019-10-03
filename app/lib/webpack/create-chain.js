@@ -298,6 +298,8 @@ module.exports = function (cfg, configName) {
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer
       chain.optimization.minimizers.delete('js')
+      // also:
+      chain.optimization.minimize(false)
     }
     else if (cfg.build.minify) {
       const TerserPlugin = require('terser-webpack-plugin')
