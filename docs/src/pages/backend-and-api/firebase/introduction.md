@@ -17,6 +17,8 @@ Please note that over times these docs will probably change as technologies and/
 
 Through out these firebase docs the intention is to have sample apps to highlight specific firebase features. These sample apps will share a consitant application strucuture providing a firebase service architecture for initialization and authenticaion. Other services will be separated for ease of matainance and context.
 
+Specific piecs of the sample application will be called out from a procedural explination point of view. Not all code will be highlighted in the docs. A link to the appropriate section will be provided. At times some code snippets will be shown for purposes of explination.
+
 Firebase & Vuejs doc references will be highlighted and linked for additional context and explaination when needed, as well as referencing articles around the web that might offer even further insight or opinions on how to work with firebase.
 
 If you have any questions or comments please submit a Docs PR, or find us in the #firebase channel on the Quasar Discord server.
