@@ -215,8 +215,13 @@ module.exports = class IndexAPI {
    *   (relative path to Api file)
    */
   registerDescribeApi (name, relativePath) {
-    const dir = getCallerPath()
-    this.__hooks.describeApi[name] = path.resolve(dir, relativePath)
+    if (relativePath.charAt(0) === '~') {
+      this.__hooks.describeApi[name] = path.resolve(relativePath.slice(1))
+    }
+    else {
+      const dir = getCallerPath()
+      this.__hooks.describeApi[name] = path.resolve(dir, relativePath)
+    }
   }
 
   /**
