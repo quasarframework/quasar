@@ -216,10 +216,15 @@ module.exports = class IndexAPI {
    */
   registerDescribeApi (name, relativePath) {
     if (relativePath.charAt(0) === '~') {
-      this.__hooks.describeApi[name] = require.resolve(
-        path.resolve(relativePath.slice(1)),
-        { paths: [ appPaths.appDir ] }
-      )
+      try {
+        this.__hooks.describeApi[name] = require.resolve(
+          path.resolve(relativePath.slice(1)),
+          { paths: [ appPaths.appDir ] }
+        )
+      }
+      catch (e) {
+        warn(`⚠️  Extension(${this.extId}): registerDescribeApi - there is no package "${file}" installed`)
+      }
     }
     else {
       const dir = getCallerPath()
