@@ -216,7 +216,10 @@ module.exports = class IndexAPI {
    */
   registerDescribeApi (name, relativePath) {
     if (relativePath.charAt(0) === '~') {
-      this.__hooks.describeApi[name] = path.resolve(relativePath.slice(1))
+      this.__hooks.describeApi[name] = require.resolve(
+        path.resolve(relativePath.slice(1)),
+        { paths: [ appPaths.appDir ] }
+      )
     }
     else {
       const dir = getCallerPath()
