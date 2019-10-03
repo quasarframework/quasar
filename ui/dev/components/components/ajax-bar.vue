@@ -6,9 +6,21 @@
       </p>
 
       <q-card style="margin-top: 25px">
-        <q-card-section class="bg-primary text-center">
+        <q-card-section class="bg-primary text-center row q-gutter-sm">
           <q-btn push color="orange" @click="trigger()">
             Trigger Event
+          </q-btn>
+
+          <q-btn push color="green" @click="manualStart()" :disable="manualStarted">
+            Start manual
+          </q-btn>
+
+          <q-btn push color="blue" @click="manualIncrement()" :disable="manualStarted !== true">
+            Random manual increment
+          </q-btn>
+
+          <q-btn push color="red" @click="manualStop()" :disable="manualStarted !== true">
+            Stop manual
           </q-btn>
         </q-card-section>
 
@@ -55,6 +67,8 @@ export default {
       reverse: false,
       size: 20,
 
+      manualStarted: false,
+
       timeouts: []
     }
   },
@@ -72,6 +86,20 @@ export default {
           this.$refs.bar.stop()
         }
       }, Math.random() * 3000 + 1000)
+    },
+
+    manualStart () {
+      this.$refs.bar.start(0)
+      this.manualStarted = true
+    },
+
+    manualIncrement () {
+      this.$refs.bar.increment(Math.random() * 20)
+    },
+
+    manualStop () {
+      this.$refs.bar.stop()
+      this.manualStarted = false
     }
   }
 }

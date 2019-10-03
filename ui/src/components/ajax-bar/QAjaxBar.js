@@ -153,14 +153,15 @@ export default Vue.extend({
       clearTimeout(this.timer)
       this.$emit('start')
 
+      this.progress = 0
+
       if (this.onScreen) { return }
 
-      this.progress = 0
       this.onScreen = true
       this.animate = false
       this.timer = setTimeout(() => {
         this.animate = true
-        this.__work(speed)
+        speed > 0 && this.__work(speed)
       }, 100)
     },
 
@@ -202,7 +203,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    if (!this.skipHijack) {
+    if (this.skipHijack !== true) {
       this.hijacked = true
       highjackAjax(this.start, this.stop)
     }
