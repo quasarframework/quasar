@@ -38,7 +38,7 @@ Every file and folder from the "statics" folder are copied into your production 
 :::
 
 ::: danger
-When not building a SPA/PWA/SSR, then `/src/statics/icons/*` and `/src/statics/app-logo-128x128.png` will NOT be embedded into your app because they would not serve any purpose. For example, an Electron or Cordova apps do not require those files.
+When not building a SPA/PWA/SSR, then `/src/statics/icons/*` and `/src/statics/app-logo-128x128.png` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
 :::
 
 ## Vue Binding Requires Statics Only
