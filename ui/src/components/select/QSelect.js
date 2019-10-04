@@ -140,7 +140,9 @@ export default Vue.extend({
         return this.inputClass
       }
 
-      return [this.inputClass, 'q-select__input--padding']
+      return this.inputClass === void 0
+        ? 'q-select__input--padding'
+        : [this.inputClass, 'q-select__input--padding']
     },
 
     menuContentClass () {

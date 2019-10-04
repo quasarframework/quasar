@@ -198,7 +198,8 @@
         "my-special-class",
         ":input-class=\"{ 'my-special-class': <condition> }\""
       ],
-      "category": "style"
+      "category": "style",
+      "addedIn": "v1.1.7"
     },
 
     "input-style": {
@@ -208,7 +209,8 @@
         "background-color: #ff0000",
         ":input-style=\"{ backgroundColor: '#ff0000' }\""
       ],
-      "category": "style"
+      "category": "style",
+      "addedIn": "v1.1.7"
     },
 
     "transition-show": {
