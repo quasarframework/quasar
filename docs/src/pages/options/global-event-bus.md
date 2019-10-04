@@ -40,7 +40,7 @@ this.$root.$emit('event_name', 'some message')
 Example using event to open drawer from another component or page. Not recommended -- a better way would be through [Vuex](https://vuex.vuejs.org), but the example below is for educational purposes only.
 
 ```js
-// (1) This code is inside layout file that have a drawer
+// (1) This code is inside layout file that has a drawer
 //     if this.leftDrawerOpen is true, drawer is displayed
 
 // (2) Listen for an event in created
