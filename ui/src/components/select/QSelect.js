@@ -141,18 +141,6 @@ export default Vue.extend({
       }
 
       return [this.inputClass, 'q-select__input--padding']
-
-      // if (typeof this.inputClass === 'string') {
-      //   return this.inputClass + ' q-select__input--padding'
-      // }
-
-      // if (Array.isArray(this.inputClass) === true) {
-      //   return this.inputClass.concat('q-select__input--padding')
-      // }
-
-      // return this.inputClass === Object(this.inputClass)
-      //   ? { ...this.inputClass, 'q-select__input--padding': true }
-      //   : 'q-select__input--padding'
     },
 
     menuContentClass () {
