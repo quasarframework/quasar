@@ -39,10 +39,16 @@ const
   fs = require('fs'),
   path = require('path'),
   execSync = require('child_process').execSync,
-  { green, red } = require('chalk')
+  {
+    green,
+    red
+  } = require('chalk')
 
 const root = require('../lib/get-project-root')()
-const { log, fatal } = require('../lib/logger')
+const {
+  log,
+  fatal
+} = require('../lib/logger')
 
 if (!root) {
   fatal(`⚠️  Error. This command must be executed inside a Quasar project folder only.`)
@@ -54,18 +60,18 @@ if (!fs.existsSync(path.join(root, 'node_modules'))) {
 
 const pkg = require(path.join(root, 'package.json'))
 
-function getLatestVersion (packager, packageName, curVersion) {
+function getLatestVersion(packager, packageName, curVersion) {
   let versions
 
   try {
     versions = JSON.parse(
       execSync(
-        `${packager} info ${packageName} versions --json`,
-        { stdio: ['ignore', 'pipe', 'pipe'] }
+        `${packager} info ${packageName} versions --json`, {
+          stdio: ['ignore', 'pipe', 'pipe']
+        }
       )
     )
-  }
-  catch (err) {
+  } catch (err) {
     return null
   }
 
@@ -87,7 +93,7 @@ function getLatestVersion (packager, packageName, curVersion) {
   return versions[versions.length - 1]
 }
 
-function upgradeQuasar () {
+function upgradeQuasar() {
   const deps = {
     dependencies: [],
     devDependencies: []
@@ -110,21 +116,20 @@ function upgradeQuasar () {
       }
 
       const json = getPackageJson(packageName)
-      const curVersion = json !== null
-        ? json.version
-        : null
+      const curVersion = json !== null ?
+        json.version :
+        null
 
       const latestVersion = getLatestVersion(packager, packageName, curVersion)
 
-      const current = curVersion === null
-        ? red('Missing!')
-        : curVersion
+      const current = curVersion === null ?
+        red('Missing!') :
+        curVersion
 
       if (latestVersion === null) {
         console.log(` ${green(packageName)}: ${current} → ${red('Skipping!')}`)
         console.log(`   (⚠️  NPM server returned an error, so we cannot detect latest version)`)
-      }
-      else if (curVersion !== latestVersion) {
+      } else if (curVersion !== latestVersion) {
         deps[type].push({
           packageName,
           latestVersion
@@ -151,7 +156,9 @@ function upgradeQuasar () {
     return
   }
 
-  const { removeSync } = require('fs-extra')
+  const {
+    removeSync
+  } = require('fs-extra')
   const spawn = require('../lib/spawn')
 
   for (const type of Object.keys(deps)) {
@@ -159,9 +166,9 @@ function upgradeQuasar () {
       continue
     }
 
-    const params = packager === 'yarn'
-      ? (type === 'devDependencies' ? [ 'add', '--dev' ] : [ 'add' ])
-      : [ `install`, `--save${type === 'devDependencies' ? '--dev' : ''}` ]
+    const params = packager === 'yarn' ?
+      (type === 'devDependencies' ? ['add', '--dev'] : ['add']) :
+      [`install`, `--save${type === 'devDependencies' ? '--dev' : ''}`]
 
     deps[type].forEach(dep => {
       // need to delete tha package otherwise
@@ -180,4 +187,3 @@ function upgradeQuasar () {
 }
 
 upgradeQuasar()
-

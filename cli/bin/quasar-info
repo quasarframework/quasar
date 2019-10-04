@@ -27,34 +27,57 @@ const
   os = require('os'),
   spawn = require('cross-spawn').sync
 
-function getSpawnOutput (command) {
+function getSpawnOutput(command) {
   try {
     const child = spawn(command, ['--version'])
-    return child.status === 0
-      ? chalk.green(String(child.output[1]).trim())
-      : chalk.red('Not installed')
-  }
-  catch (err) {
+    return child.status === 0 ?
+      chalk.green(String(child.output[1]).trim()) :
+      chalk.red('Not installed')
+  } catch (err) {
     return chalk.red('Not installed')
   }
 }
 
 const
   getExternalIPs = require('../lib/net').getExternalNetworkInterface,
-  output = [
-    { key: 'Operating System', value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`), section: true },
-    { key: 'NodeJs', value: chalk.green(process.version.slice(1)) },
-    { key: 'Global packages', section: true },
-    { key: '  NPM', value: getSpawnOutput('npm') },
-    { key: '  yarn', value: getSpawnOutput('yarn') },
-    { key: '  @quasar/cli', value: chalk.green(require('../package.json').version) },
-    { key: '  cordova', value: getSpawnOutput('cordova') }
+  output = [{
+      key: 'Operating System',
+      value: chalk.green(`${os.type()}(${os.release()}) - ${os.platform()}/${os.arch()}`),
+      section: true
+    },
+    {
+      key: 'NodeJs',
+      value: chalk.green(process.version.slice(1))
+    },
+    {
+      key: 'Global packages',
+      section: true
+    },
+    {
+      key: '  NPM',
+      value: getSpawnOutput('npm')
+    },
+    {
+      key: '  yarn',
+      value: getSpawnOutput('yarn')
+    },
+    {
+      key: '  @quasar/cli',
+      value: chalk.green(require('../package.json').version)
+    },
+    {
+      key: '  cordova',
+      value: getSpawnOutput('cordova')
+    }
   ]
 
-output.push(
-  { key: 'Networking', section: true },
-  { key: '  Host', value: chalk.green(os.hostname()) }
-)
+output.push({
+  key: 'Networking',
+  section: true
+}, {
+  key: '  Host',
+  value: chalk.green(os.hostname())
+})
 getExternalIPs().forEach(intf => {
   output.push({
     key: `  ${ intf.deviceName }`,
@@ -65,6 +88,6 @@ getExternalIPs().forEach(intf => {
 const spaces = output.reduce((acc, v) => Math.max(acc, v.key.length), 0)
 console.log(
   output
-    .map(m => `${m.section ? '\n' : ''}${ m.key }${' '.repeat(spaces - m.key.length)}\t${ m.value === undefined ? '' : m.value }`).join('\n')
+  .map(m => `${m.section ? '\n' : ''}${ m.key }${' '.repeat(spaces - m.key.length)}\t${ m.value === undefined ? '' : m.value }`).join('\n')
 )
 console.log()

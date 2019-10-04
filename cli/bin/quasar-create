@@ -79,15 +79,18 @@ const
 const
   generate = require('../lib/generate'),
   logger = require('../lib/logger'),
-  { isLocalPath, getTemplatePath } = require('../lib/local-path')
+  {
+    isLocalPath,
+    getTemplatePath
+  } = require('../lib/local-path')
 
-let template = argv.kit
-  ? (
-    argv.kit.indexOf('/') > -1
-      ? argv.kit
-      : 'quasarframework/quasar-starter-kit-' + argv.kit
-  )
-  : 'quasarframework/quasar-starter-kit'
+let template = argv.kit ?
+  (
+    argv.kit.indexOf('/') > -1 ?
+    argv.kit :
+    'quasarframework/quasar-starter-kit-' + argv.kit
+  ) :
+  'quasarframework/quasar-starter-kit'
 
 const
   rawName = argv._[0],
@@ -114,21 +117,20 @@ process.on('exit', () => {
 if (inPlace || exists(to)) {
   inquirer.prompt([{
     type: 'confirm',
-    message: inPlace
-      ? 'Generate project in current directory?'
-      : 'Target directory exists. Continue?',
+    message: inPlace ?
+      'Generate project in current directory?' :
+      'Target directory exists. Continue?',
     name: 'ok'
   }]).then(answers => {
     if (answers.ok) {
       run()
     }
   }).catch(logger.fatal)
-}
-else {
+} else {
   run()
 }
 
-function run () {
+function run() {
   // check if template isn't local
   if (isLocalPath(template) !== true) {
     downloadAndGenerate(template)
@@ -142,13 +144,12 @@ function run () {
       console.log()
       logger.success('Generated "%s".', name)
     })
-  }
-  else {
+  } else {
     logger.fatal('Local template "%s" not found.', template)
   }
 }
 
-function downloadAndGenerate (template) {
+function downloadAndGenerate(template) {
   const spinner = ora(' Downloading Quasar starter kit')
   spinner.start()
 
@@ -157,7 +158,9 @@ function downloadAndGenerate (template) {
     rm(tmp)
   }
 
-  download(template, tmp, { clone: argv.clone }, err => {
+  download(template, tmp, {
+    clone: argv.clone
+  }, err => {
     spinner.stop()
 
     if (err) {
