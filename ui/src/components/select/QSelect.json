@@ -191,6 +191,26 @@
       "category": "content"
     },
 
+    "input-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the underlying input tag",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
+    "input-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the underlying input tag",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
     "transition-show": {
       "extends": "transition",
       "desc": "Transition when showing the menu/dialog; One of Quasar's embedded transitions",

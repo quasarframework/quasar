@@ -75,6 +75,9 @@ export default Vue.extend({
       default: 500
     },
 
+    inputClass: [Array, String, Object],
+    inputStyle: [Array, String, Object],
+
     transitionShow: String,
     transitionHide: String,
 
@@ -130,6 +133,26 @@ export default Vue.extend({
 
     fieldClass () {
       return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
+    },
+
+    computedInputClass () {
+      if (this.hideSelected === true || this.innerValue.length === 0) {
+        return this.inputClass
+      }
+
+      return [this.inputClass, 'q-select__input--padding']
+
+      // if (typeof this.inputClass === 'string') {
+      //   return this.inputClass + ' q-select__input--padding'
+      // }
+
+      // if (Array.isArray(this.inputClass) === true) {
+      //   return this.inputClass.concat('q-select__input--padding')
+      // }
+
+      // return this.inputClass === Object(this.inputClass)
+      //   ? { ...this.inputClass, 'q-select__input--padding': true }
+      //   : 'q-select__input--padding'
     },
 
     menuContentClass () {
@@ -738,9 +761,8 @@ export default Vue.extend({
       return h('input', {
         ref: 'target',
         staticClass: 'q-select__input q-placeholder col',
-        class: this.hideSelected !== true && this.innerValue.length > 0
-          ? 'q-select__input--padding'
-          : null,
+        style: this.inputStyle,
+        class: this.computedInputClass,
         domProps: { value: this.inputValue },
         attrs: {
           // required for Android in order to show ENTER key when in form
