@@ -16,7 +16,7 @@ Then we create a project folder with Quasar CLI:
 $ quasar create <folder_name>
 ```
 
-Note that you don't need separate projects if you want to build any of the options described above. This one project can seamlessly handle all of them.
+Note that you don't need separate projects if you want to build any of the available platforms. This one project can seamlessly handle all of them.
 
 To continue your learning about Quasar, you should familiarize yourself with the Quasar CLI in depth, because you will be using it a lot.
 
