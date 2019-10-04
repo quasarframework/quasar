@@ -113,7 +113,7 @@ function (ssrContext) {
 }
 ```
 
-The `ssrContext` is available in App Plugins or preFetch feature where it is supplied as parameter.
+The `ssrContext` is available in App Plugins. And also in the preFetch feature, where it is supplied as a parameter.
 
 The reason for all this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Platform needs to be bound to each request separately.
 
