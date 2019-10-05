@@ -242,7 +242,7 @@ export default Vue.extend({
     __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        // stop propagating this events from children
+        // stop propagating these events from children
         input: stop,
         'popup-show': stop,
         'popup-hide': stop
