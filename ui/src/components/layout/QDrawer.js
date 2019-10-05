@@ -9,6 +9,15 @@ import slot from '../../utils/slot.js'
 
 const duration = 150
 
+const directiveTemplate = {
+  name: 'touch-pan',
+  modifiers: {
+    horizontal: true,
+    mouse: true,
+    mouseAllDir: true
+  }
+}
+
 export default Vue.extend({
   name: 'QDrawer',
 
@@ -65,7 +74,8 @@ export default Vue.extend({
     overlay: Boolean,
     persistent: Boolean,
     noSwipeOpen: Boolean,
-    noSwipeClose: Boolean
+    noSwipeClose: Boolean,
+    noSwipeBackdrop: Boolean
   },
 
   data () {
@@ -289,6 +299,24 @@ export default Vue.extend({
     hideOnRouteChange () {
       return this.persistent !== true &&
         (this.belowBreakpoint === true || this.onScreenOverlay === true)
+    },
+
+    openDirective () {
+      if (this.belowBreakpoint === true) {
+        return [{
+          ...directiveTemplate,
+          value: this.__openByTouch
+        }]
+      }
+    },
+
+    closeDirective () {
+      if (this.belowBreakpoint === true) {
+        return [{
+          ...directiveTemplate,
+          value: this.__closeByTouch
+        }]
+      }
     }
   },
 
@@ -550,29 +578,11 @@ export default Vue.extend({
   },
 
   render (h) {
-    const directives = [{
-      name: 'touch-pan',
-      modifiers: {
-        horizontal: true,
-        mouse: true,
-        mouseAllDir: true
-      },
-      value: this.__closeByTouch
-    }]
-
     const child = [
       this.noSwipeOpen !== true && this.belowBreakpoint === true
         ? h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
-          directives: [{
-            name: 'touch-pan',
-            modifiers: {
-              horizontal: true,
-              mouse: true,
-              mouseAllDir: true
-            },
-            value: this.__openByTouch
-          }]
+          directives: this.openDirective
         })
         : null,
 
@@ -584,7 +594,9 @@ export default Vue.extend({
           ? { backgroundColor: this.lastBackdropBg }
           : null,
         on: { click: this.hide },
-        directives
+        directives: this.noSwipeBackdrop !== true
+          ? this.closeDirective
+          : void 0
       }) : null
     ]
 
@@ -613,8 +625,8 @@ export default Vue.extend({
         class: this.classes,
         style: this.style,
         on: this.onNativeEvents,
-        directives: this.belowBreakpoint === true && this.noSwipeClose !== true
-          ? directives
+        directives: this.noSwipeClose !== true
+          ? this.closeDirective
           : void 0
       }, content)
     ]))

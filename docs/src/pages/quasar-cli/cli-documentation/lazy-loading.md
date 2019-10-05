@@ -46,7 +46,7 @@ export default {
 </script>
 ```
 
-Now let's change this and make the page be loaded on demand only, using dynamic imports:
+Now let's change this and make the component be loaded on demand only, using dynamic imports:
 ```vue
 <script>
 export default {

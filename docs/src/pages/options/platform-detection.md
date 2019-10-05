@@ -70,11 +70,11 @@ The following properties are available to the Platform object. It's not an exhau
 | `Platform.is.cordova`    | boolean | Is the code running within Cordova?                    |
 | `Platform.is.electron`   | boolean | Is the code running within Electron?                   |
 | `Platform.is.desktop`    | boolean | Is the code running on a desktop browser?              |
-| `Platform.is.chromeExt`  | boolean | Is the code running is a Chrome extension environment? |
+| `Platform.is.chromeExt`  | boolean | Is the code running in a Chrome extension environment? |
 | `Platform.is.android`    | boolean | Is the app running on an Android device?               |
 | `Platform.is.blackberry` | boolean | Is the app running on a Blackberry device? |
 | `Platform.is.cros`       | boolean | Is the app running on device with the Chrome OS operating system? |
-| `Platform.is.ios`        | boolean | Is the app running on a iOS device? |
+| `Platform.is.ios`        | boolean | Is the app running on an iOS device? |
 | `Platform.is.ipad`       | boolean | Is the app running on an iPad? |
 | `Platform.is.iphone`     | boolean | Is the app running on an iPhone? |
 | `Platform.is.ipod`       | boolean | Is the app running on an iPod? |
@@ -113,7 +113,7 @@ function (ssrContext) {
 }
 ```
 
-The `ssrContext` is available in App Plugins or preFetch feature where it is supplied as parameter.
+The `ssrContext` is available in App Plugins. And also in the preFetch feature, where it is supplied as a parameter.
 
 The reason for all this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Platform needs to be bound to each request separately.
 
