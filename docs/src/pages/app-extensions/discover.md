@@ -42,10 +42,10 @@ Below is a list of official app-extensions created by members of the Quasar team
 | [@quasar/qactivity](https://github.com/quasarframework/app-extension-qactivity) | Create activity timelines |
 | [@quasar/qmarkdown](https://github.com/quasarframework/app-extension-qmarkdown) | Markdown for your pages |
 | [@quasar/qpdfviewer](https://github.com/quasarframework/app-extension-qpdfviewer) | View PDF documents in your Quasar app |
-| [@quasar/qcalendar](https://github.com/quasarframework/app-extension-qcalendar) | Calendar for Quasar |
+| [@quasar/qcalendar](https://github.com/quasarframework/quasar-ui-qcalendar) | Calendar for Quasar |
 | [@quasar/qscroller](https://github.com/quasarframework/app-extension-qscroller) | Many scrolling components, including QScroller, QTimeScroller, QDateScroller, QDateTimeScroller and scrolling time ranges |
 | [@quasar/qwindow](https://github.com/quasarframework/app-extension-qwindow) | Floating, movable, resizable interactive windows for Quasar |
 | [@quasar/qplaceholder](https://github.com/quasarframework/app-extension-qplaceholder) | Display a placeholder before your data arrives |
-| [@quasar/qiconpicker](https://github.com/quasarframework/app-extension-qiconpicker) | Icon Picker for your Quasar apps |
+| [@quasar/qiconpicker](https://github.com/quasarframework/quasar-ui-qiconpicker) | Icon Picker for your Quasar apps |
 | [@quasar/qribbon](https://github.com/quasarframework/app-extension-qribbon) | QRibbon UI component for your Quasar apps |
 | [@quasar/qzoom](https://github.com/quasarframework/app-extension-qzoom) | Zoom any content (image, video, text, components, ...) |
