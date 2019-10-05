@@ -88,7 +88,7 @@ export default Vue.extend({
       belowBreakpoint,
       showing: this.showIfAbove === true && belowBreakpoint === false
         ? true
-        : this.value
+        : this.value === true
     }
   },
 
@@ -537,12 +537,8 @@ export default Vue.extend({
     this.$emit('mini-state', this.isMini)
 
     const fn = () => {
-      if (this.showing === true) {
-        this.__show(false, true)
-      }
-      else {
-        this.__hide(false, true)
-      }
+      const action = this.showing === true ? 'show' : 'hide'
+      this[`__${action}`](false, true)
     }
 
     if (this.layout.width !== 0) {
