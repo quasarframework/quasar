@@ -5,7 +5,7 @@ components:
   - theming/ThemeBuilder
 ---
 
-One of the most important parts of a website/app is to build a brand for it. First step is to choose the brand colors that you are going to use and this is what the tool below helps you.
+One of the most important parts of a website/app is to build a brand for it. First step is to choose the brand colors that you are going to use and this is what the tool below helps you with.
 
 ## Theme Builder
 
