@@ -110,7 +110,7 @@ function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
     return [ webpackConfig.server, webpackConfig.client ]
   }
-  if (mode === 'electron') {
+  if (['electron', 'bex'].includes(mode)) {
     return [ webpackConfig.renderer, webpackConfig.main ]
   }
   return webpackConfig
@@ -160,8 +160,7 @@ async function build () {
     webpackConfig = quasarConfig.getWebpackConfig(),
     buildConfig = quasarConfig.getBuildConfig()
 
-  let outputFolder = buildConfig.build.packagedElectronDist ||
-    buildConfig.build.distDir
+  let outputFolder = buildConfig.build.packagedDistDir || buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
   generator.build()

@@ -60,7 +60,7 @@ async function run () {
     process.exit(1)
   }
 
-  if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(mode)) {
+  if (![undefined, 'pwa', 'cordova', 'electron', 'ssr', 'bex'].includes(mode)) {
     warn(`⚠️  Unknown mode "${ mode }" to ${action}`)
     warn()
     process.exit(1)
