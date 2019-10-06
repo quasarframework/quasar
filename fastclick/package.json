@@ -1,0 +1,58 @@
+{
+  "name": "@quasar/fastclick",
+  "version": "1.1.4",
+  "description": "Polyfill used by Quasar Framework to remove click delays on browsers with touch UIs",
+  "maintainers": [
+    {
+      "name": "Razvan Stoenescu",
+      "email": "razvan.stoenescu@quasar.dev",
+      "url": "https://quasar.dev"
+    }
+  ],
+  "author": {
+    "name": "Rowan Beentje",
+    "email": "rowan.beentje@ft.com"
+  },
+  "contributors": [
+    {
+      "name": "Razvan Stoenescu",
+      "email": "razvan.stoenescu@quasar.dev"
+    },
+    {
+      "name": "Rowan Beentje",
+      "email": "rowan.beentje@ft.com"
+    },
+    {
+      "name": "Matthew Caruana Galizia",
+      "email": "m@m.cg"
+    }
+  ],
+  "main": "fastclick.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:quasarframework/fastclick.git"
+  },
+  "keywords": [
+    "quasar",
+    "quasarframework",
+    "fastclick",
+    "mobile",
+    "touch",
+    "tap",
+    "click",
+    "delay"
+  ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "implements": [
+    "CommonJS/Modules/1.0"
+  ],
+  "homepage": "https://quasar.dev",
+  "publishConfig": {
+    "access": "public"
+  }
+}

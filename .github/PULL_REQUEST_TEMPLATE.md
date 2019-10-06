@@ -10,6 +10,7 @@ https://github.com/quasarframework/quasar/blob/dev/.github/CONTRIBUTING.md#pull-
 
 - [ ] Bugfix
 - [ ] Feature
+- [ ] Documentation
 - [ ] Code style update
 - [ ] Refactor
 - [ ] Build-related changes

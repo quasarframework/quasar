@@ -15,19 +15,17 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        'q-list--bordered': this.bordered,
-        'q-list--dense': this.dense,
-        'q-list--separator': this.separator,
-        'q-list--dark': this.dark,
-        'q-list--padding': this.padding
-      }
+      return 'q-list' +
+        (this.bordered === true ? ' q-list--bordered' : '') +
+        (this.dense === true ? ' q-list--dense' : '') +
+        (this.separator === true ? ' q-list--separator' : '') +
+        (this.dark === true ? ' q-list--dark' : '') +
+        (this.padding === true ? ' q-list--padding' : '')
     }
   },
 
   render (h) {
     return h('div', {
-      staticClass: 'q-list',
       class: this.classes,
       on: this.$listeners
     }, slot(this, 'default'))

@@ -3,20 +3,20 @@ div
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, :label="`v${$q.version}`", auto-close)
     q-list(dense padding)
       q-item-label(header) Latest (v{{ $q.version }})
-      q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/releases", target="_blank", rel="noopener")
-          q-item-section.text-teal(avatar)
-            q-icon(name="assignment")
-          q-item-section Release notes
+      q-item(clickable, to="/start/release-notes")
+        q-item-section.text-teal(avatar)
+          q-icon(name="assignment")
+        q-item-section Release notes
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/issues", target="_blank", rel="noopener")
-          q-item-section.text-purple(avatar)
-            q-icon(name="bug_report")
-          q-item-section Report a bug
+        q-item-section.text-purple(avatar)
+          q-icon(name="bug_report")
+        q-item-section Report a bug
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
-          q-item-section(avatar)
-            q-icon(name="fab fa-github")
-          q-item-section Repository
+        q-item-section(avatar)
+          q-icon(name="fab fa-github")
+        q-item-section Repository
 
       q-separator.q-mb-sm.q-mt-md
 
@@ -57,9 +57,16 @@ div
         q-item-section Layout Builder
 
       q-item(clickable, to="/layout/gallery")
-        q-item-section.text-purple(avatar)
+        q-item-section.text-grey-8(avatar)
           q-icon(name="shop_two")
         q-item-section Layout Gallery
+
+      q-item(clickable, to="/layout/grid/flex-playground")
+        q-item-section.text-orange(avatar)
+          q-icon(name="fas fa-flask")
+        q-item-section
+          .row.no-wrap.items-center
+            span Flex Playground
 
       q-item-label.q-mt-md(header) Playground
 
@@ -83,12 +90,12 @@ div
 
       q-item(clickable, tag="a", href="https://chat.quasar.dev", rel="noopener", target="_blank")
         q-item-section.text-primary(avatar)
-          q-icon(name="fab fa-discord")
+          q-icon(name="chat")
         q-item-section Discord Chat
 
       q-item(clickable, tag="a", href="https://forum.quasar.dev/", rel="noopener", target="_blank")
         q-item-section.text-secondary(avatar)
-          q-icon(name="fas fa-comments")
+          q-icon(name="forum")
         q-item-section Forum
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework", rel="noopener", target="_blank")
@@ -119,7 +126,6 @@ div
         q-item-section
           .row.no-wrap.items-center
             span Facebook
-            q-badge.q-ml-sm new
 
       q-item-label.q-mt-md(header) Donate
 

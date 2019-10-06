@@ -55,7 +55,7 @@ export default {
         this.$q.notify({
           color: 'red-5',
           textColor: 'white',
-          icon: 'fas fa-exclamation-triangle',
+          icon: 'warning',
           message: 'You need to accept the license and terms first'
         })
       }
@@ -63,7 +63,7 @@ export default {
         this.$q.notify({
           color: 'green-4',
           textColor: 'white',
-          icon: 'fas fa-check-circle',
+          icon: 'cloud_done',
           message: 'Submitted'
         })
       }

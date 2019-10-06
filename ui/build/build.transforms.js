@@ -1,4 +1,5 @@
-// Used with babel-plugin-transform-imports
+// Partly used with babel-plugin-transform-imports
+// and by @quasar/app auto-import feature
 
 const
   glob = require('glob'),
@@ -7,7 +8,7 @@ const
 const
   root = path.resolve(__dirname, '..'),
   resolvePath = file => path.resolve(root, file),
-  { writeFile } = require('./build.utils')
+  { writeFile, kebabCase } = require('./build.utils')
 
 function relative (name) {
   return path.relative(root, name).split('\\').join('/')
@@ -26,21 +27,35 @@ function isExternalUtil (name) {
   return !['escape-key', 'modal-fn', 'popup', 'sort', 'router-link', 'is', 'noop', 'web-storage'].includes(name)
 }
 
-function addComponents (map) {
+function addComponents (map, autoImport) {
   glob.sync(resolvePath('src/components/**/Q*.js'))
     .map(relative)
     .forEach(file => {
-      const name = path.basename(file)
-      map[getWithoutExtension(name)] = file
+      const
+        name = getWithoutExtension(path.basename(file)),
+        kebab = kebabCase(name)
+
+      map[name] = file
+
+      autoImport.kebabComponents.push(kebab)
+      autoImport.pascalComponents.push(name)
+      autoImport.importName[name] = name
+      autoImport.importName[kebab] = name
     })
 }
 
-function addDirectives (map) {
+function addDirectives (map, autoImport) {
   glob.sync(resolvePath('src/directives/*.js'))
     .map(relative)
     .forEach(file => {
-      const name = path.basename(file)
-      map[getWithoutExtension(name)] = file
+      const
+        name = getWithoutExtension(path.basename(file)),
+        kebab = 'v-' + kebabCase(name)
+
+      map[name] = file
+
+      autoImport.directives.push(kebab)
+      autoImport.importName[kebab] = name
     })
 }
 
@@ -64,7 +79,7 @@ function addUtils (map) {
     })
 }
 
-function generateFile (map) {
+function getImportsFile (map) {
   return `const map = ${JSON.stringify(map, null, 2)}
 
 module.exports = function (importName) {
@@ -76,18 +91,46 @@ module.exports = function (importName) {
 `
 }
 
+function getAutoImportFile (autoImport) {
+  autoImport.kebabComponents.sort((a, b) => a.length > b.length ? -1 : 1)
+  autoImport.pascalComponents.sort((a, b) => a.length > b.length ? -1 : 1)
+  autoImport.components = autoImport.kebabComponents.concat(autoImport.pascalComponents)
+  autoImport.directives.sort((a, b) => a.length > b.length ? -1 : 1)
+
+  return JSON.stringify({
+    importName: autoImport.importName,
+    regex: {
+      kebabComponents: '(' + autoImport.kebabComponents.join('|') + ')',
+      pascalComponents: '(' + autoImport.pascalComponents.join('|') + ')',
+      components: '(' + autoImport.components.join('|') + ')',
+      directives: '(' + autoImport.directives.join('|') + ')'
+    }
+  }, null, 2)
+}
+
 module.exports.generate = function () {
   const map = {
     Quasar: relative(resolvePath('src/vue-plugin.js'))
   }
+  const autoImport = {
+    kebabComponents: [],
+    pascalComponents: [],
+    directives: [],
+    importName: {}
+  }
 
-  addComponents(map)
-  addDirectives(map)
+  addComponents(map, autoImport)
+  addDirectives(map, autoImport)
   addPlugins(map)
   addUtils(map)
 
   writeFile(
     resolvePath(`dist/babel-transforms/imports.js`),
-    generateFile(map)
+    getImportsFile(map)
+  )
+
+  writeFile(
+    resolvePath(`dist/babel-transforms/auto-import.json`),
+    getAutoImportFile(autoImport)
   )
 }

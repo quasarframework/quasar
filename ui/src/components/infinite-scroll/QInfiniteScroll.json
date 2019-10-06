@@ -8,7 +8,16 @@
       "category": "behavior"
     },
 
-    "scrollTarget": {
+    "debounce": {
+      "type": [ "String", "Number" ],
+      "desc": "Debounce amount (in milliseconds)",
+      "default": 100,
+      "examples": [ "0", "530" ],
+      "category": "behavior",
+      "addedIn": "v1.1.0"
+    },
+
+    "scroll-target": {
       "type": [ "Element", "String" ],
       "desc": "CSS selector or DOM element to be used as scroll container instead of the auto detected one",
       "examples": [

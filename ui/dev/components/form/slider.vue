@@ -14,6 +14,8 @@
       <q-slider :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label />
       <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
 
+      <q-slider :dark="dark" :dense="dense" label-color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label />
+
       <p class="caption">
         Step 0
         <span class="label inline bg-secondary text-white">
@@ -97,10 +99,26 @@
       <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" disable />
 
       <p class="caption">
+        Null Value
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ nullValue === null ? 'null' : nullValue }}</em> &nbsp;&nbsp;(0 to 50)</span>
+        </span>
+      </p>
+      <q-slider :dark="dark" :dense="dense" v-model="nullValue" :min="0" :max="50" />
+
+      <p class="caption">
+        Null Value with min
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ nullValueMin === null ? 'null' : nullValueMin }}</em> &nbsp;&nbsp;(20 to 50)</span>
+        </span>
+      </p>
+      <q-slider :dark="dark" :dense="dense" v-model="nullValueMin" :min="20" :max="50" />
+
+      <p class="caption">
         Coloring
       </p>
       <q-slider :dark="dark" :dense="dense" color="secondary" v-model="standalone" :min="0" :max="50" label />
-      <q-slider :dark="dark" :dense="dense" color="orange" v-model="standalone" :min="0" :max="50" label />
+      <q-slider :dark="dark" :dense="dense" color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label />
       <q-slider :dark="dark" :dense="dense" color="dark" v-model="standalone" :min="0" :max="50" label />
       <q-slider :dark="dark" :dense="dense" color="teal" label-color="black" v-model="standalone" :min="0" :max="50" label-always class="q-mt-md" />
 
@@ -146,6 +164,8 @@ export default {
       dark: false,
       dense: false,
 
+      nullValue: null,
+      nullValueMin: null,
       standalone: 20,
       stepZero: 30.05,
       precision: 0.4,

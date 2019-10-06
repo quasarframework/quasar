@@ -31,9 +31,15 @@ export default Vue.extend({
     persistent: Boolean
   },
 
-  watch: {
-    $route () {
-      this.persistent !== true && this.hide()
+  data () {
+    return {
+      showing: this.value
+    }
+  },
+
+  computed: {
+    hideOnRouteChange () {
+      return this.persistent !== true
     }
   },
 
@@ -73,11 +79,5 @@ export default Vue.extend({
         class: `q-fab__actions--${this.direction}`
       }, slot(this, 'default'))
     ])
-  },
-
-  created () {
-    if (this.value === true && this.disable !== true) {
-      this.showing = true
-    }
   }
 })

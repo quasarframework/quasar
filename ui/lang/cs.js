@@ -93,7 +93,8 @@ export default {
     size5: 'Velké',
     size6: 'Velmi velké',
     size7: 'Maximum',
-    defaultFont: 'Výchozí písmo'
+    defaultFont: 'Výchozí písmo',
+    viewSource: 'Zobrazit zdroj'
   },
   tree: {
     noNodes: 'Žádné uzly',

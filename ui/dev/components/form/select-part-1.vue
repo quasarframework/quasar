@@ -195,7 +195,7 @@
       />
 
       <div class="text-h6">
-        Scoped Slot: option
+        Scoped Slot: option (with menu on icon)
       </div>
       <q-select
         v-bind="props"
@@ -209,8 +209,13 @@
             v-bind="scope.itemProps"
             v-on="scope.itemEvents"
           >
-            <q-item-section avatar>
+            <q-item-section avatar @click.stop>
               <q-icon tabindex="0" :name="scope.opt.icon" />
+              <q-menu v-if="scope.opt.disable !== true">
+                <div class="bg-yellow text-black q-pa-md">
+                  Test menu
+                </div>
+              </q-menu>
             </q-item-section>
             <q-item-section>
               <q-item-label v-html="scope.opt.label" />
@@ -285,12 +290,12 @@
       />
 
       <div class="text-h6">
-        Heavy test (10k options)
+        Heavy test (100k options)
       </div>
       <q-select
         v-bind="props"
         v-model="heavyModel"
-        :options="heavyOptions"
+        :options="heavyList"
         label="Heavy"
         multiple
         use-chips
@@ -299,7 +304,7 @@
       <q-select
         v-bind="props"
         v-model="heavyModel"
-        :options="heavyOptions"
+        :options="heavyList"
         label="Heavy"
         multiple
         color="teal"
@@ -517,16 +522,18 @@
 </template>
 
 <script>
+const heavyList = []
+for (let i = 0; i <= 100000; i++) {
+  heavyList.push({
+    label: 'Opt ' + i,
+    value: Math.random()
+  })
+}
+
+Object.freeze(heavyList)
+
 export default {
   data () {
-    const heavyOptions = []
-    for (let i = 0; i <= 10000; i++) {
-      heavyOptions.push({
-        label: 'Opt ' + i,
-        value: Math.random()
-      })
-    }
-
     return {
       dispValSelection: [],
       dispValOptions: [
@@ -652,7 +659,7 @@ export default {
       objectEmitMultiple: ['Facebook'],
 
       heavyModel: [],
-      heavyOptions,
+      heavyList,
 
       bogusModel: 'bogus',
       bogusMultiModel: ['bogus', 'gigi']

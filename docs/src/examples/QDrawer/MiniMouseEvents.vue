@@ -10,6 +10,7 @@
 
       <q-drawer
         v-model="drawer"
+        show-if-above
 
         :mini="miniState"
         @mouseover="miniState = false"
@@ -17,7 +18,6 @@
 
         :width="200"
         :breakpoint="500"
-        show-if-above
         bordered
         content-class="bg-grey-3"
       >
@@ -83,7 +83,7 @@
 export default {
   data () {
     return {
-      drawer: true,
+      drawer: false,
       miniState: true
     }
   }

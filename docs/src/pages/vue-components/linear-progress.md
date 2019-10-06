@@ -30,6 +30,8 @@ For indeterminate state (above) or query state (below) you don't need to specify
 
 <doc-example title="Custom height" file="QLinearProgress/CustomHeight" />
 
+<doc-example title="Standard sizes" file="QLinearProgress/StandardSizes" />
+
 <doc-example title="Stripe" file="QLinearProgress/Stripe" />
 
 <doc-example title="Buffer" file="QLinearProgress/Buffering" />

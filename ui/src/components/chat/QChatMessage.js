@@ -112,7 +112,7 @@ export default Vue.extend({
           : (
             this.avatar !== void 0
               ? h('img', {
-                staticClass: 'q-message-avatar col-auto',
+                staticClass: 'q-message-avatar',
                 attrs: { src: this.avatar }
               })
               : null

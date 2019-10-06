@@ -14,6 +14,11 @@
       "category": "content|behavior"
     },
 
+    "dropdown-icon": {
+      "extends": "icon",
+      "addedIn": "v1.1.6"
+    },
+
     "disable-main-btn": {
       "type": "Boolean",
       "desc": "Disable main button (useful along with 'split' prop)",

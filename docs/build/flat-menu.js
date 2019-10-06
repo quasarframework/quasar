@@ -14,7 +14,7 @@ function menuWalk (node, path, parentName) {
       menuWalk(n, newPath, node.name)
     })
   }
-  else {
+  else if (!node.external) {
     const current = {
       name: node.name,
       category: parentName,

@@ -104,5 +104,15 @@
     "escape-key": {
       "desc": "Emitted when ESC key is pressed; Does not gets emitted if Dialog is 'persistent' or it has 'no-esc-key' set"
     }
+  },
+
+  "methods": {
+    "focus": {
+      "desc": "Focus dialog; if you have content with autofocus attribute, it will directly focus it"
+    },
+
+    "shake": {
+      "desc": "Shakes dialog"
+    }
   }
 }

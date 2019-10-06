@@ -11,8 +11,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     state: {
-      leftDrawerState: true,
-      rightDrawerState: true,
+      leftDrawerState: false,
+      rightDrawerState: false,
       toc: []
     },
 

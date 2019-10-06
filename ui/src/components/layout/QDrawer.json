@@ -33,7 +33,7 @@
 
     "mini-width": {
       "type": "Number",
-      "desc": "Width of drawer (in pixels) when in mini-mode",
+      "desc": "Width of drawer (in pixels) when in mini mode",
       "default": 60,
       "examples": [ ":width=\"100\"" ],
       "category": "style"
@@ -84,7 +84,7 @@
 
     "show-if-above": {
       "type": "Boolean",
-      "desc": "Force drawer to be shown on screen on initial render if the layout width is above breakpoint",
+      "desc": "Force drawer to be shown on screen on initial render if the layout width is above breakpoint, regardless of v-model; This is the default behavior when SSR is taken over by client on initial render",
       "category": "behavior"
     },
 
@@ -118,6 +118,13 @@
       "type": "Boolean",
       "desc": "Disables the default behavior where drawer can be swiped out of view (applies to drawer content only); Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",
       "category": "behavior"
+    },
+
+    "no-swipe-backdrop": {
+      "type": "Boolean",
+      "desc": "Disable the default behavior where drawer backdrop can be swiped",
+      "category": "behavior",
+      "addedIn": "v1.1.7"
     }
   },
 
@@ -155,6 +162,17 @@
     "mouseout": {
       "extends": "click",
       "desc": "Emitted when user moves mouse cursor out of the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+    },
+
+    "mini-state": {
+      "desc": "Emitted when drawer changes the mini-mode state (sometimes it is forced to do so)",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "New state"
+        }
+      },
+      "addedIn": "v1.1.3"
     }
   }
 }

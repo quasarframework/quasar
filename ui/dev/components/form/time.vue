@@ -17,6 +17,8 @@
         v-model="time"
         v-bind="props"
         :style="style"
+        flat
+        bordered
       />
 
       <q-time
@@ -24,6 +26,8 @@
         v-bind="props"
         :style="style"
         landscape
+        flat
+        bordered
       />
 
       <div class="text-h6">
@@ -103,7 +107,7 @@
       </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" :mask="withSeconds ? 'fulltime' : 'time'" :rules="[withSeconds ? 'fulltime' : 'time']">
-          <q-icon slot="append" name="access_time" class="cursor-pointer">
+          <q-icon slot="append" name="access_time" class="cursor-pointer" @click.prevent>
             <q-popup-proxy>
               <q-time
                 v-model="input"
@@ -120,7 +124,7 @@
       </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input2">
-          <q-icon slot="append" name="access_time" class="cursor-pointer">
+          <q-icon slot="append" name="access_time" class="cursor-pointer" @click.prevent>
             <q-popup-proxy>
               <q-time
                 v-model="input2"

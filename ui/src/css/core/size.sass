@@ -1,0 +1,71 @@
+\:root
+  @each $name, $size in $sizes
+    #{"--q-size-"}#{$name}: #{$size}
+
+.fit
+  width: 100% !important
+  height: 100% !important
+.full-height
+  height: 100% !important
+.full-width
+  width: 100% !important
+  margin-left: 0 !important
+  margin-right: 0 !important
+
+.window-height
+  margin-top: 0 !important
+  margin-bottom: 0 !important
+  height: 100vh !important
+.window-width
+  margin-left: 0 !important
+  margin-right: 0 !important
+  width: 100vw !important
+
+.block
+  display: block !important
+.inline-block
+  display: inline-block !important
+
+@each $space, $value in $spaces
+
+  .q-pa-#{$space}
+    padding: map-get($value, "y") map-get($value, "x")
+  .q-pl-#{$space}
+    padding-left: map-get($value, "x")
+  .q-pr-#{$space}
+    padding-right: map-get($value, "x")
+  .q-pt-#{$space}
+    padding-top: map-get($value, "y")
+  .q-pb-#{$space}
+    padding-bottom: map-get($value, "y")
+  .q-px-#{$space}
+    padding-left: map-get($value, "x")
+    padding-right: map-get($value, "x")
+  .q-py-#{$space}
+    padding-top: map-get($value, "y")
+    padding-bottom: map-get($value, "y")
+
+  .q-ma-#{$space}
+    margin: map-get($value, "y") map-get($value, "x")
+  .q-ml-#{$space}
+    margin-left: map-get($value, "x")
+  .q-mr-#{$space}
+    margin-right: map-get($value, "x")
+  .q-mt-#{$space}
+    margin-top: map-get($value, "y")
+  .q-mb-#{$space}
+    margin-bottom: map-get($value, "y")
+  .q-mx-#{$space}
+    margin-left: map-get($value, "x")
+    margin-right: map-get($value, "x")
+  .q-my-#{$space}
+    margin-top: map-get($value, "y")
+    margin-bottom: map-get($value, "y")
+
+.q-ml-auto
+  margin-left: auto
+.q-mr-auto
+  margin-right: auto
+.q-mx-auto
+  margin-left: auto
+  margin-right: auto

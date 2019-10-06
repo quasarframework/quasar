@@ -19,16 +19,6 @@ export default [
   },
 
   {
-    name: 'Denjell Thompson-Yvetot',
-    role: 'Senior Dev & Security Engineer',
-    avatar: 'daniel_thompson-yvetot.jpg',
-    email: 'denjell@quasar.dev',
-    twitter: 'nothingismagick',
-    github: 'nothingismagick',
-    desc: 'Tooling and rigging app extensions, product development, Quasar Radio Show, community manager. Also writes articles.'
-  },
-
-  {
     name: 'Jeff Galbraith',
     role: 'Senior Developer',
     avatar: 'jeff_galbraith.jpg',

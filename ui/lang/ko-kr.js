@@ -82,7 +82,8 @@ export default {
     size5: '크게',
     size6: '아주 크게',
     size7: '최대',
-    defaultFont: '기본 폰트'
+    defaultFont: '기본 폰트',
+    viewSource: '소스보기'
   },
   tree: {
     noNodes: '가능한 항목이 없습니다',

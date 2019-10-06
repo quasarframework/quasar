@@ -9,7 +9,7 @@ export default {
 
       this.loading === true && child.push(
         h('tr', { staticClass: 'q-table__progress' }, [
-          h('td', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
+          h('th', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
             h(QLinearProgress, {
               staticClass: 'q-table__linear-progress',
               props: {
@@ -44,20 +44,23 @@ export default {
         })
       }
       else {
-        mapFn = col => h(QTh, {
-          key: col.name,
-          props: {
-            props: {
-              col,
-              cols: this.computedCols,
-              sort: this.sort,
-              colsMap: this.computedColsMap
-            }
-          },
-          style: col.style,
-          class: col.classes
-        }, col.label)
+        mapFn = col => {
+          const props = {
+            col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+          }
+          const slot = this.$scopedSlots[`header-cell-${col.name}`]
+
+          return slot !== void 0
+            ? slot(props)
+            : h(QTh, {
+              key: col.name,
+              props: { props },
+              style: col.style,
+              class: col.classes
+            }, col.label)
+        }
       }
+
       const child = this.computedCols.map(mapFn)
 
       if (this.singleSelection === true && this.grid !== true) {

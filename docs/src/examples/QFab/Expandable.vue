@@ -34,7 +34,7 @@
 export default {
   methods: {
     onClick () {
-      console.log('Clicked on a fab action')
+      // console.log('Clicked on a fab action')
     }
   }
 }

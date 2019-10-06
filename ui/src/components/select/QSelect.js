@@ -13,21 +13,16 @@ import QDialog from '../dialog/QDialog.js'
 
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
-import debounce from '../../utils/debounce'
-import frameDebounce from '../../utils/frame-debounce.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
-const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
+import VirtualScroll from '../../mixins/virtual-scroll.js'
 
-const
-  optionsSliceSize = 31,
-  optionDefaultHeight = 24,
-  optionsListMaxPadding = 100000
+const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField ],
+  mixins: [ QField, VirtualScroll ],
 
   props: {
     value: {
@@ -80,14 +75,16 @@ export default Vue.extend({
       default: 500
     },
 
-    transitionShow: {
-      type: String,
-      default: 'fade'
-    },
+    inputClass: [Array, String, Object],
+    inputStyle: [Array, String, Object],
 
-    transitionHide: {
+    transitionShow: String,
+    transitionHide: String,
+
+    behavior: {
       type: String,
-      default: 'fade'
+      validator: v => ['default', 'menu', 'dialog'].includes(v),
+      default: 'default'
     }
   },
 
@@ -96,8 +93,8 @@ export default Vue.extend({
       menu: false,
       dialog: false,
       optionIndex: -1,
-      optionsSliceRange: { from: 0, to: 0 },
-      inputValue: ''
+      inputValue: '',
+      dialogFieldFocused: false
     }
   },
 
@@ -124,40 +121,44 @@ export default Vue.extend({
 
     menu (show) {
       this.__updateMenu(show)
-    },
-
-    options: {
-      handler (options) {
-        const optionsLength = Array.isArray(options) === false ? 0 : options.length
-        const optionsHeights = new Array(optionsLength)
-
-        for (let i = optionsLength - 1; i >= 0; i--) {
-          optionsHeights[i] = optionDefaultHeight
-        }
-
-        this.optionsHeights = optionsHeights
-        this.optionsHeight = optionsLength * optionDefaultHeight
-        this.optionsMarginTop = this.optionsHeight
-      },
-      immediate: true
     }
   },
 
   computed: {
+    virtualScrollLength () {
+      return Array.isArray(this.options)
+        ? this.options.length
+        : 0
+    },
+
     fieldClass () {
       return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
     },
 
-    menuClass () {
-      return (this.optionsDark === true ? 'q-select__menu--dark' : '') +
+    computedInputClass () {
+      if (this.hideSelected === true || this.innerValue.length === 0) {
+        return this.inputClass
+      }
+
+      return this.inputClass === void 0
+        ? 'q-select__input--padding'
+        : [this.inputClass, 'q-select__input--padding']
+    },
+
+    menuContentClass () {
+      return (this.virtualScrollHorizontal === true ? 'q-virtual-scroll--horizontal' : '') +
         (this.popupContentClass ? ' ' + this.popupContentClass : '')
+    },
+
+    menuClass () {
+      return this.menuContentClass + (this.optionsDark === true ? ' q-select__menu--dark' : '')
     },
 
     innerValue () {
       const
         mapNull = this.mapOptions === true && this.multiple !== true,
         val = this.value !== void 0 && (this.value !== null || mapNull === true)
-          ? (this.multiple === true ? this.value : [ this.value ])
+          ? (this.multiple === true && Array.isArray(this.value) ? this.value : [ this.value ])
           : []
 
       return this.mapOptions === true && Array.isArray(this.options) === true
@@ -170,7 +171,7 @@ export default Vue.extend({
     },
 
     noOptions () {
-      return this.options === void 0 || this.options === null || this.options.length === 0
+      return this.virtualScrollLength === 0
     },
 
     selectedString () {
@@ -203,9 +204,15 @@ export default Vue.extend({
     },
 
     optionScope () {
-      return this.options.slice(this.optionsSliceRange.from, this.optionsSliceRange.to).map((opt, i) => {
+      if (this.virtualScrollLength === 0) {
+        return []
+      }
+
+      const { from, to } = this.virtualScrollSliceRange
+
+      return this.options.slice(from, to).map((opt, i) => {
         const disable = this.__isDisabled(opt)
-        const index = this.optionsSliceRange.from + i
+        const index = from + i
 
         const itemProps = {
           clickable: true,
@@ -277,7 +284,7 @@ export default Vue.extend({
 
     __removeAtIndexAndFocus (index) {
       this.removeAtIndex(index)
-      this.focus()
+      this.__focus()
     },
 
     add (opt, unique) {
@@ -318,13 +325,13 @@ export default Vue.extend({
 
       const optValue = this.__getOptionValue(opt)
 
-      this.multiple !== true && this.updateInputValue(
-        this.fillInput === true ? this.__getOptionLabel(opt) : '',
-        true
-      )
-      this.__focus()
-
       if (this.multiple !== true) {
+        this.updateInputValue(
+          this.fillInput === true ? this.__getOptionLabel(opt) : '',
+          true,
+          true
+        )
+
         this.hidePopup()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
@@ -332,6 +339,8 @@ export default Vue.extend({
         }
         return
       }
+
+      (this.hasDialog !== true || this.dialogFieldFocused === true) && this.__focus()
 
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
@@ -364,7 +373,7 @@ export default Vue.extend({
     setOptionIndex (index) {
       if (this.$q.platform.is.desktop !== true) { return }
 
-      const val = index > -1 && index < this.options.length
+      const val = index > -1 && index < this.virtualScrollLength
         ? index
         : -1
 
@@ -419,9 +428,31 @@ export default Vue.extend({
         .find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
     },
 
+    __onTargetKeyup (e) {
+      // if ESC and we have an opened menu
+      // then stop propagation (might be caught by a QDialog
+      // and so it will also close the QDialog, which is wrong)
+      if (e.keyCode === 27 && this.menu === true) {
+        stop(e)
+        this.__closeMenu()
+      }
+      this.$emit('keyup', e)
+    },
+
+    __onTargetKeypress (e) {
+      this.$emit('keypress', e)
+    },
+
     __onTargetKeydown (e) {
-      // escape, tab
-      if (e.keyCode === 27 || e.keyCode === 9) {
+      this.$emit('keydown', e)
+
+      // escape
+      if (e.keyCode === 27) {
+        return
+      }
+
+      // tab
+      if (e.keyCode === 9) {
         this.__closeMenu()
         return
       }
@@ -451,7 +482,7 @@ export default Vue.extend({
       }
 
       // up, down
-      const optionsLength = this.options.length
+      const optionsLength = this.virtualScrollLength
 
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
@@ -468,11 +499,15 @@ export default Vue.extend({
           while (index !== -1 && index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
 
           if (this.optionIndex !== index) {
-            this.__setPreventNextScroll()
+            this.setOptionIndex(index)
+            this.scrollTo(index)
 
-            this.optionIndex = index
-
-            this.__hydrateOptions({ target: this.__getMenuContentEl() }, index)
+            if (index >= 0 && this.useInput === true && this.fillInput === true) {
+              const inputValue = this.__getOptionLabel(this.options[index])
+              if (this.inputValue !== inputValue) {
+                this.inputValue = inputValue
+              }
+            }
           }
         }
       }
@@ -509,7 +544,7 @@ export default Vue.extend({
             )
           }
 
-          this.updateInputValue('', this.multiple !== true)
+          this.updateInputValue('', this.multiple !== true, true)
         }
 
         if (this.$listeners['new-value'] !== void 0) {
@@ -525,147 +560,25 @@ export default Vue.extend({
       }
 
       if (this.menu === true) {
-        this.dialog !== true && this.__closeMenu()
+        this.__closeMenu()
       }
       else if (this.innerLoading !== true) {
         this.showPopup()
       }
     },
 
-    __getMenuContentEl () {
+    __getVirtualScrollEl () {
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
-          this.$refs.menu !== void 0
+          this.$refs.menu !== void 0 && this.$refs.menu.__portal !== void 0
             ? this.$refs.menu.__portal.$el
             : void 0
         )
     },
 
-    __hydrateOptions (ev, toIndex) {
-      clearTimeout(this.hidrateTimer)
-
-      if (ev === void 0 || (this.preventNextScroll === true && toIndex === void 0)) {
-        return
-      }
-
-      const
-        delayNextScroll = this.delayNextScroll === true && toIndex === void 0,
-        target = delayNextScroll === true || ev.target === void 0 || ev.target.nodeType === 8 ? void 0 : ev.target,
-        content = target === void 0 ? null : target.querySelector('.q-select__options--content')
-
-      if (content === null) {
-        this.hidrateTimer = setTimeout(() => {
-          this.__hydrateOptions({ target: this.__getMenuContentEl() }, toIndex)
-        }, 10)
-
-        return
-      }
-
-      const
-        scrollTop = target.scrollTop,
-        viewHeight = target.clientHeight,
-        child = content.children[toIndex - this.optionsSliceRange.from],
-        childPosTop = child === void 0 ? -1 : content.offsetTop + child.offsetTop,
-        childPosBottom = child === void 0 ? -1 : childPosTop + child.clientHeight,
-        fromScroll = toIndex === void 0
-
-      if (fromScroll === true) {
-        const toIndexMax = this.options.length - 1
-
-        toIndex = -1
-        for (let i = Math.trunc(scrollTop + viewHeight / 2); i >= 0 && toIndex < toIndexMax;) {
-          toIndex++
-          i -= this.optionsHeights[toIndex]
-        }
-      }
-
-      toIndex = toIndex < 0 ? 0 : toIndex
-
-      // destination option is not in view
-      if (childPosTop < scrollTop || childPosBottom > scrollTop + viewHeight) {
-        this.__setOptionsSliceRange(toIndex, target, fromScroll)
-      }
-    },
-
-    __setPreventNextScroll (delay) {
-      clearTimeout(this.preventNextScrollTimer)
-
-      this.preventNextScroll = delay !== true
-      this.delayNextScroll = delay === true
-
-      this.preventNextScrollTimer = setTimeout(() => {
-        this.preventNextScroll = false
-        this.delayNextScroll = false
-      }, 10)
-    },
-
-    __setOptionsSliceRange (toIndex, target, fromScroll) {
-      const
-        from = Math.max(0, Math.min(toIndex - Math.round(optionsSliceSize / 2), this.options.length - optionsSliceSize)),
-        to = from + optionsSliceSize,
-        repositionScroll = fromScroll !== true || from < this.optionsSliceRange.from
-
-      if (from === this.optionsSliceRange.from && to === this.optionsSliceRange.to) {
-        if (fromScroll === true) {
-          return
-        }
-      }
-      else {
-        this.__setPreventNextScroll(fromScroll)
-        this.optionsSliceRange = { from, to }
-      }
-
-      this.$nextTick(() => {
-        const content = target === void 0 ? null : target.querySelector('.q-select__options--content')
-
-        if (content === null) {
-          return
-        }
-
-        const children = content.children
-
-        let marginTopDiff = 0
-
-        for (let i = children.length - 1; i >= 0; i--) {
-          const diff = children[i].clientHeight - this.optionsHeights[from + i]
-
-          if (diff !== 0) {
-            marginTopDiff += diff
-            this.optionsHeights[from + i] += diff
-          }
-        }
-
-        const
-          marginTop = this.optionsHeights.slice(from).reduce((acc, h) => acc + h, 0),
-          height = marginTop + this.optionsHeights.slice(0, from).reduce((acc, h) => acc + h, 0),
-          padding = this.optionsHeight % optionsListMaxPadding + height - this.optionsHeight
-
-        if (this.optionsMarginTop !== marginTop || this.optionsHeight !== height) {
-          this.optionsMarginTop = marginTop
-          this.optionsHeight = height
-
-          this.__setPreventNextScroll(fromScroll)
-          // content.previousSibling is the last padding block
-          content.previousSibling.style.cssText = padding >= 0 ? `height: ${padding}px; margin-top: 0px` : `height: 0px; margin-top: ${padding}px`
-          content.style.marginTop = `-${marginTop}px`
-        }
-
-        if (repositionScroll === true) {
-          if (fromScroll !== true) {
-            this.__setPreventNextScroll(fromScroll)
-            target.scrollTop = this.optionsHeights.slice(0, toIndex).reduce((acc, h) => acc + h, 0) + (
-              this.$q.platform.is.mobile === true
-                ? 0
-                : Math.trunc(this.optionsHeights[toIndex] / 2 - target.clientHeight / 2)
-            )
-          }
-          else if (marginTopDiff !== 0) {
-            this.__setPreventNextScroll(fromScroll)
-            target.scrollTop += marginTopDiff
-          }
-        }
-      })
+    __getVirtualScrollTarget () {
+      return this.__getVirtualScrollEl()
     },
 
     __getSelection (h, fromDialog) {
@@ -728,7 +641,7 @@ export default Vue.extend({
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
-        child.push(this.__getInput(h))
+        child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
         data = {
@@ -738,7 +651,9 @@ export default Vue.extend({
             autofocus: this.autofocus
           },
           on: {
-            keydown: this.__onTargetKeydown
+            keydown: this.__onTargetKeydown,
+            keyup: this.__onTargetKeyup,
+            keypress: this.__onTargetKeypress
           }
         }
       }
@@ -750,6 +665,10 @@ export default Vue.extend({
     },
 
     __getOptions (h) {
+      if (this.menu !== true) {
+        return void 0
+      }
+
       const fn = this.$scopedSlots.option !== void 0
         ? this.$scopedSlots.option
         : scope => h(QItem, {
@@ -766,21 +685,16 @@ export default Vue.extend({
           ])
         ])
 
-      const list = []
+      let options = this.__padVirtualScroll(h, 'div', this.optionScope.map(fn))
 
-      for (let i = Math.trunc(this.optionsHeight / optionsListMaxPadding); i > 0; i--) {
-        list.push(h('div', { staticClass: 'q-select__options--padding', style: { height: `${optionsListMaxPadding}px` } }))
+      if (this.$scopedSlots['before-options'] !== void 0) {
+        options = this.$scopedSlots['before-options']().concat(options)
       }
-      list.push(h('div', { staticClass: 'q-select__options--padding', style: { height: `${this.optionsHeight % optionsListMaxPadding}px` } }))
+      if (this.$scopedSlots['after-options'] !== void 0) {
+        options = options.concat(this.$scopedSlots['after-options']())
+      }
 
-      list.push(h('div', {
-        staticClass: 'q-select__options--content',
-        style: {
-          marginTop: `-${this.optionsMarginTop}px`
-        }
-      }, this.optionScope.map(fn)))
-
-      return list
+      return options
     },
 
     __getInnerAppend (h) {
@@ -811,7 +725,7 @@ export default Vue.extend({
       this.__onInputValue(e)
     },
 
-    __getInput (h) {
+    __getInput (h, fromDialog) {
       const on = {
         input: this.__onInputValue,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
@@ -821,25 +735,34 @@ export default Vue.extend({
         change: this.__onCompositionEnd,
         compositionstart: this.__onCompositionStart,
         compositionend: this.__onCompositionEnd,
-        keydown: this.__onTargetKeydown
+        keydown: this.__onTargetKeydown,
+        keyup: this.__onTargetKeyup,
+        keypress: this.__onTargetKeypress
       }
 
       if (this.$q.platform.is.android === true) {
         on.compositionupdate = this.__onCompositionUpdate
       }
 
+      if (this.hasDialog === true) {
+        on.click = stop
+      }
+
       return h('input', {
         ref: 'target',
         staticClass: 'q-select__input q-placeholder col',
-        class: this.hideSelected !== true && this.innerValue.length > 0
-          ? 'q-select__input--padding'
-          : null,
+        style: this.inputStyle,
+        class: this.computedInputClass,
         domProps: { value: this.inputValue },
         attrs: {
-          tabindex: 0,
-          autofocus: this.autofocus,
+          // required for Android in order to show ENTER key when in form
+          type: 'search',
           ...this.$attrs,
-          disabled: this.editable !== true
+          tabindex: 0,
+          autofocus: fromDialog === true ? false : this.autofocus,
+          id: this.targetUid,
+          disabled: this.disable === true,
+          readonly: this.readonly === true
         },
         on
       })
@@ -853,15 +776,20 @@ export default Vue.extend({
       }
 
       this.inputValue = e.target.value || ''
+      // mark it here as user input so that if updateInputValue is called
+      // before filter is called the indicator is reset
+      this.userInputValue = true
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
-          this.filter(this.inputValue, true)
+          this.filter(this.inputValue)
         }, this.inputDebounce)
       }
     },
 
-    updateInputValue (val, noFiltering) {
+    updateInputValue (val, noFiltering, internal) {
+      this.userInputValue = internal !== true
+
       if (this.useInput === true) {
         if (this.inputValue !== val) {
           this.inputValue = val
@@ -871,7 +799,7 @@ export default Vue.extend({
       }
     },
 
-    filter (val, userInput) {
+    filter (val) {
       if (this.$listeners.filter === void 0 || this.focused !== true) {
         return
       }
@@ -887,7 +815,7 @@ export default Vue.extend({
         val !== '' &&
         this.multiple !== true &&
         this.innerValue.length > 0 &&
-        userInput !== true &&
+        this.userInputValue !== true &&
         val === this.__getOptionLabel(this.innerValue[0])
       ) {
         val = ''
@@ -909,7 +837,7 @@ export default Vue.extend({
             this.$nextTick(() => {
               this.innerLoading = false
               if (this.menu === true) {
-                this.__updateMenu()
+                this.__updateMenu(true)
               }
               else {
                 this.menu = true
@@ -936,17 +864,25 @@ export default Vue.extend({
       }
 
       return {
-        focus: e => {
-          this.hasDialog !== true && this.focus(e)
-        },
         focusin: this.__onControlFocusin,
         focusout,
         'popup-show': this.__onControlPopupShow,
         'popup-hide': e => {
+          e !== void 0 && stop(e)
+          this.$emit('popup-hide', e)
+          this.hasDialog !== true && this.__focus()
           this.hasPopupOpen = false
           focusout(e)
         },
         click: e => {
+          // label from QField will propagate click on the input (except IE)
+          if (
+            this.hasDialog !== true &&
+            this.useInput === true &&
+            e.target.classList.contains('q-select__input') !== true
+          ) {
+            return
+          }
           if (this.hasDialog !== true && this.menu === true) {
             this.__closeMenu()
           }
@@ -991,19 +927,36 @@ export default Vue.extend({
           noFocus: true,
           square: this.squaredMenu,
           transitionShow: this.transitionShow,
-          transitionHide: this.transitionHide
+          transitionHide: this.transitionHide,
+          separateClosePopup: true
         },
         on: {
-          '&scroll': this.__hydrateOptions,
+          '&scroll': this.__onVirtualScrollEvt,
           'before-hide': this.__closeMenu
         }
       }, child)
+    },
+
+    __onDialogFieldFocus (e) {
+      stop(e)
+      this.dialogFieldFocused = true
+      window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, 0)
+    },
+
+    __onDialogFieldBlur (e) {
+      stop(e)
+      this.$nextTick(() => {
+        this.dialogFieldFocused = false
+      })
     },
 
     __getDialog (h) {
       const content = [
         h(QField, {
           staticClass: `col-auto ${this.fieldClass}`,
+          attrs: {
+            for: this.targetUid
+          },
           props: {
             ...this.$props,
             dark: this.optionsDark,
@@ -1014,8 +967,8 @@ export default Vue.extend({
           },
           on: {
             ...this.$listeners,
-            focus: stop,
-            blur: stop
+            focus: this.__onDialogFieldFocus,
+            blur: this.__onDialogFieldBlur
           },
           scopedSlots: {
             ...this.$scopedSlots,
@@ -1030,11 +983,11 @@ export default Vue.extend({
         h('div', {
           ref: 'menuContent',
           staticClass: 'scroll',
-          class: this.popupContentClass,
+          class: this.menuContentClass,
           style: this.popupContentStyle,
           on: {
             click: prevent,
-            '&scroll': this.__hydrateOptions
+            '&scroll': this.__onVirtualScrollEvt
           }
         }, (
           this.noOptions === true
@@ -1052,7 +1005,9 @@ export default Vue.extend({
           value: this.dialog,
           noRefocus: true,
           noFocus: true,
-          position: this.useInput === true ? 'top' : void 0
+          position: this.useInput === true ? 'top' : void 0,
+          transitionShow: this.transitionShowComputed,
+          transitionHide: this.transitionHide
         },
         on: {
           'before-hide': () => {
@@ -1064,17 +1019,30 @@ export default Vue.extend({
             this.__resetInputValue()
           },
           show: () => {
-            this.$refs.target.focus()
+            const el = document.activeElement
+            // IE can have null document.activeElement
+            if (
+              (el === null || el.id !== this.targetUid) &&
+              this.$refs.target !== el
+            ) {
+              this.$refs.target.focus()
+            }
           }
         }
       }, [
         h('div', {
-          staticClass: 'q-select__dialog' + (this.optionsDark === true ? ' q-select__menu--dark' : '')
+          staticClass: 'q-select__dialog' +
+            (this.optionsDark === true ? ' q-select__menu--dark' : '') +
+            (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
         }, content)
       ])
     },
 
     __closeMenu () {
+      if (this.dialog === true) {
+        return
+      }
+
       this.menu = false
 
       if (this.focused === false) {
@@ -1094,7 +1062,7 @@ export default Vue.extend({
         this.dialog = true
       }
       else {
-        this.focus(e)
+        this.__focus()
       }
 
       if (this.$listeners.filter !== void 0) {
@@ -1115,6 +1083,7 @@ export default Vue.extend({
         this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
           ? this.__getOptionLabel(this.innerValue[0]) || ''
           : '',
+        true,
         true
       )
     },
@@ -1128,22 +1097,24 @@ export default Vue.extend({
           optionIndex = this.options.findIndex(v => isDeepEqual(this.__getOptionValue(v), val))
         }
 
-        this.__setPreventNextScroll(true)
-        this.optionsSliceRange = { from: 0, to: 0 }
-        this.__hydrateOptions({ target: this.__getMenuContentEl() }, optionIndex)
+        this.__resetVirtualScroll(optionIndex)
       }
 
-      this.optionIndex = optionIndex
+      this.setOptionIndex(optionIndex)
     },
 
     __onPreRender () {
-      this.hasDialog = this.$q.platform.is.mobile !== true
+      this.hasDialog = this.$q.platform.is.mobile !== true && this.behavior !== 'dialog'
         ? false
-        : (
+        : this.behavior !== 'menu' && (
           this.useInput === true
-            ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0
+            ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0 || this.noOptions === false
             : true
         )
+
+      this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
+        ? 'fade'
+        : this.transitionShow
     },
 
     __onPostRender () {
@@ -1157,14 +1128,7 @@ export default Vue.extend({
     }
   },
 
-  mounted () {
-    this.__setOptionsSliceRange = this.$q.platform.is.ios === true || this.$q.platform.is.safari === true
-      ? frameDebounce(this.__setOptionsSliceRange)
-      : debounce(this.__setOptionsSliceRange, 50)
-  },
-
   beforeDestroy () {
     clearTimeout(this.inputTimer)
-    clearTimeout(this.hidrateTimer)
   }
 })

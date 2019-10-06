@@ -1,5 +1,6 @@
 ---
-title: Configure VS Code for use with Quasar
+title: Configure VS Code
+desc: How to configure VSCode for best usage with Quasar.
 ---
 
 ::: tip
@@ -129,6 +130,8 @@ You can now edit files without violating the standard es-lint rules!
 - [Format in context menus](https://marketplace.visualstudio.com/items?itemName=lacroixdavid1.vscode-format-context-menu)
 - [GitLens](https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens)
 - [Import Cost](https://marketplace.visualstudio.com/items?itemName=wix.vscode-import-cost)
+- [Sass](https://marketplace.visualstudio.com/items?itemName=Syler.sass-indented)
+- [Sass Lint](https://marketplace.visualstudio.com/items?itemName=glen-84.sass-lint)
 - [language-stylus](https://marketplace.visualstudio.com/items?itemName=sysoev.language-stylus)
 - [npm](https://marketplace.visualstudio.com/items?itemName=eg2.vscode-npm-script)
 - [npm Intellisense](https://marketplace.visualstudio.com/items?itemName=christian-kohler.npm-intellisense)
@@ -156,6 +159,9 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
     "id",
     "ref",
     "key",
+    "v-slot",
+    "v-slot.+",
+    "#.*",
     "slot",
     "v-model",
     "v-model.+",

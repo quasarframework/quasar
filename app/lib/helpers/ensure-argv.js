@@ -29,7 +29,7 @@ module.exports = function (argv, cmd) {
   }
 
   if (argv.mode === 'cordova') {
-    const targets = ['android', 'ios', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
+    const targets = ['android', 'ios', 'electron', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
     if (!argv.target) {
       warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
       warn()

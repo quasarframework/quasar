@@ -82,7 +82,8 @@ export default {
     size5: 'Granda',
     size6: 'Tre granda',
     size7: 'Maksimuma',
-    defaultFont: 'Implicita tiparo'
+    defaultFont: 'Implicita tiparo',
+    viewSource: 'Vida Fonto'
   },
   tree: {
     noData: 'Neniu nodo afiŝenda',
