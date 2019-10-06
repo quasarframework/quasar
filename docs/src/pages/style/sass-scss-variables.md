@@ -55,7 +55,7 @@ If, however, you have a nested importing statement and the file from which you a
 
 @import 'some-file.sass'
 // now some-file.sass can benefit
-// from Quasar sass variables too
+// from Quasar Sass variables too
 // due to comment above
 </style>
 ```
