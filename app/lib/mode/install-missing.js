@@ -4,7 +4,7 @@ const
   warn = logger('app:mode', 'red'),
   getMode = require('./index')
 
-module.exports = function (mode, target) {
+module.exports = async function (mode, target) {
   const Mode = getMode(mode)
 
   if (Mode.isInstalled) {
@@ -15,5 +15,5 @@ module.exports = function (mode, target) {
   }
 
   warn(`Quasar ${mode.toUpperCase()} is missing. Installing it...`)
-  Mode.add(target)
+  await Mode.add(target)
 }

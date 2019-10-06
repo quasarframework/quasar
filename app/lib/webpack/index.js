@@ -71,6 +71,16 @@ async function getCordova (cfg) {
   })
 }
 
+async function getCapacitor (cfg) {
+  const chain = createChain(cfg, 'Capacitor')
+  require('./capacitor')(chain, cfg)
+  return await getWebpackConfig(chain, cfg, {
+    name: 'Capacitor',
+    hot: true,
+    invokeParams: { isClient: true, isServer: false }
+  })
+}
+
 async function getElectron (cfg) {
   const
     rendererChain = createChain(cfg, 'Renderer process'),
@@ -128,6 +138,9 @@ module.exports = async function (cfg) {
   }
   else if (mode.cordova) {
     return await getCordova(cfg)
+  }
+  else if (mode.capacitor) {
+    return await getCapacitor(cfg)
   }
   else if (mode.pwa) {
     return await getPWA(cfg)
