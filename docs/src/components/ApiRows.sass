@@ -1,0 +1,36 @@
+.api-row
+  padding: 8px 16px 4px
+  font-weight: 300
+  color: $grey-7
+
+  &--big-padding
+    padding: 16px
+
+  & + &
+    border-top: 1px solid #ddd
+
+  &__item
+    margin-bottom: 4px
+
+  &__subitem
+    padding: 4px 0 0 16px
+    border-radius: 5px
+    > div
+      border: 1px solid #eee !important
+      border-radius: inherit
+    > div + div
+      margin-top: 4px
+
+  &__value
+    font-weight: 400
+    color: black
+
+  &--indent
+    padding-left: 16px
+
+  &__example
+    background: $grey-3
+    margin: 4px
+    padding: 2px 4px
+    border-radius: $generic-border-radius
+    display: inline-block

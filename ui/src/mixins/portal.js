@@ -10,7 +10,7 @@ export function closePortalMenus (vm, evt) {
         return vm.$parent
       }
     }
-    else if (vm.__hasPortal === true) {
+    else if (vm.__renderPortal !== void 0) {
       // treat it as point of separation if parent is QPopupProxy
       // (so mobile matches desktop behavior)
       // and hide it too
@@ -28,7 +28,7 @@ export function closePortalMenus (vm, evt) {
 
 export function closePortals (vm, evt, depth) {
   while (depth !== 0 && vm !== void 0) {
-    if (vm.__hasPortal === true) {
+    if (vm.__renderPortal !== void 0) {
       depth--
 
       if (vm.$options.name === 'QMenu') {
@@ -53,16 +53,32 @@ export default {
 
   methods: {
     __showPortal () {
-      if (this.__portal !== void 0 && this.__portal.showing !== true) {
+      if (this.__portal !== void 0) {
         document.body.appendChild(this.__portal.$el)
-        this.__portal.showing = true
       }
     },
 
     __hidePortal () {
-      if (this.__portal !== void 0 && this.__portal.showing === true) {
+      if (this.__portal !== void 0) {
+        this.__portal.$destroy()
         this.__portal.$el.remove()
-        this.__portal.showing = false
+        this.__portal = void 0
+      }
+    },
+
+    __preparePortal () {
+      if (this.__portal === void 0) {
+        this.__portal = new Vue({
+          name: 'QPortal',
+          parent: this,
+
+          inheritAttrs: false,
+
+          render: h => this.__renderPortal(h),
+
+          components: this.$options.components,
+          directives: this.$options.directives
+        }).$mount()
       }
     }
   },
@@ -71,27 +87,7 @@ export default {
     this.__portal !== void 0 && this.__portal.$forceUpdate()
   },
 
-  beforeMount () {
-    this.__hasPortal = true
-
-    const obj = {
-      name: 'QPortal',
-      parent: this,
-
-      inheritAttrs: false,
-
-      render: h => this.__render(h),
-
-      components: this.$options.components,
-      directives: this.$options.directives
-    }
-
-    this.__portal = new Vue(obj).$mount()
-  },
-
   beforeDestroy () {
-    this.__portal.$destroy()
-    this.__portal.$el.remove()
-    this.__portal = void 0
+    this.__hidePortal()
   }
 }

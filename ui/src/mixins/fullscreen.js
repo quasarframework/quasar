@@ -2,7 +2,8 @@ import History from '../history.js'
 
 export default {
   props: {
-    fullscreen: Boolean
+    fullscreen: Boolean,
+    noRouteFullscreenExit: Boolean
   },
 
   data () {
@@ -13,7 +14,7 @@ export default {
 
   watch: {
     $route () {
-      this.exitFullscreen()
+      this.noRouteFullscreenExit !== true && this.exitFullscreen()
     },
 
     fullscreen (v) {

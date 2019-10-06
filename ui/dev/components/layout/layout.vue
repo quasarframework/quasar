@@ -150,6 +150,7 @@
           side="left"
           :mini="leftMini"
           :mini-width="72"
+          @mini-state="onMiniState"
           :bordered="bordered"
           :elevated="elevated"
           @click.capture="e => {
@@ -571,6 +572,9 @@ export default {
       else {
         console.log('goNormal abort')
       }
+    },
+    onMiniState (val) {
+      console.log('left drawer @mini-state ->', val)
     }
   }
 }

@@ -149,6 +149,21 @@
                       Third
                     </q-btn>
                   </q-btn-group>
+
+                  <q-btn-group :push="push" :rounded="rounded" :outline="outline" style="margin-left: 2em;">
+                    <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
+                      First
+                    </q-btn>
+                    <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
+                      Second
+                    </q-btn>
+
+                    <q-separator vertical />
+
+                    <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
+                      Separated
+                    </q-btn>
+                  </q-btn-group>
                 </div>
               </div>
             </div>

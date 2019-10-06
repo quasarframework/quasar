@@ -1,6 +1,6 @@
 ---
 title: Upgrade Guide
-desc: How to upgrade Quasar from older versions.
+desc: How to upgrade Quasar from older versions to the latest one.
 ---
 
 :::tip
@@ -164,7 +164,7 @@ The best way to start upgrading your project is to follow these steps:
 
 13) In `quasar.conf.js`: **remove** all references to `ctx.theme`
 
-14) **Create** the file `quasar.variables.styl` in the folder `~/src/css`, if does not already exist. Add the following to it (or move the contents from `~/src/css/themes/common.variables.styl`):
+14) **Create** the file `quasar.variables.styl` (or .sass, .scss -- recommended!) in the folder `~/src/css`, if does not already exist. Add the following to it (or move the contents from `~/src/css/themes/common.variables.styl`):
 
   ```stylus
   // Quasar Stylus Variables
@@ -245,7 +245,7 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 
 ### Animation
 
-- The JS and CSS animations were removed for v1. However, they will be offered as a separate Quasar package when v1 fully releases. Until then, if you need them, you can add them manually to your quasar project by pulling them directly out of the v0.17 repository and adding them to your project.
+- The JS and CSS animations were removed for v1. If you need them, you can add them manually to your quasar project by pulling them directly out of the v0.17 repository and adding them to your project.
 - [motion.styl](https://github.com/quasarframework/quasar/blob/v0.17/src/css/core/motion.styl)
 - [animate.js](https://github.com/quasarframework/quasar/blob/v0.17/src/utils/animate.js)
 
@@ -253,6 +253,7 @@ The dist folder now strips out the `-mat` and `-ios` suffixes because there's on
 
 - `this.$q.i18n` was changed to `this.$q.lang`
 - ```import(`quasar-framework/i18n/${lang}`)``` was changed to ```import(`quasar/lang/${lang}`)``` where `${lang}` would be `en-us` etc.
+- The language pack `en-uk` was changed to `en-gb`
 - `this.$q.icons` was changed to `this.$q.iconSet`
 - In previous versions you would access an imported language packs isoName with:
 

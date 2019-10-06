@@ -10,7 +10,7 @@ Quasar components have their own icons. Rather than forcing you into using one i
 
 You can install multiple icon libraries, but you must choose only one to use on Quasar's components.
 
-Quasar currently supports: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/) and [Eva Icons](https://akveo.github.io/eva-icons).
+Quasar currently supports: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), and [Themify Icons](https://themify.me/themify-icons).
 
 It is also possible to use your own icons (as images in any format) with any Quasar component, see the [QIcon page](/vue-components/icon#Images-instead-of-webfont) for more info on this.
 
@@ -51,12 +51,23 @@ framework: {
 This will enable you to use both Ionicons & Fontawesome in your app, and all Quasar components will display Fontawesome icons.
 
 #### Changing Icon Set Dynamically
-Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is a example:
+Quasar Icon Set is reactive, so all components will update properly if you change the $q.iconSet object. Here is an example:
 
 ```js
 methods: {
   changeIconSetToFontAwesome () {
     this.$q.iconSet = require('quasar/icon-set/fontawesome-v5.js').default
+  }
+}
+```
+
+#### Changing a Specific Icon Dynamically
+If you want to change a specific icon to another, you can. Here is an example:
+
+```js
+methods: {
+  changeQEditorHeaderIcon () {
+    this.$q.iconSet.editor.header1 = 'fas fa-font'
   }
 }
 ```

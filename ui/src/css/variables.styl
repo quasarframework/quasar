@@ -1,31 +1,21 @@
 $space-base   ?= 16px
 $space-x-base ?= $space-base
 $space-y-base ?= $space-base
+
+$space-none ?= { x: 0, y: 0 }
+$space-xs   ?= { x: ($space-x-base * .25), y: ($space-y-base * .25) }
+$space-sm   ?= { x: ($space-x-base * .5),  y: ($space-y-base * .5)  }
+$space-md   ?= { x: $space-x-base,         y: $space-y-base         }
+$space-lg   ?= { x: ($space-x-base * 1.5), y: ($space-y-base * 1.5) }
+$space-xl   ?= { x: ($space-x-base * 3),   y: ($space-y-base * 3)   }
+
 $spaces ?= {
-  none: {
-    x: 0,
-    y: 0
-  },
-  xs: {
-    x: ($space-x-base * .25),
-    y: ($space-y-base * .25)
-  },
-  sm: {
-    x: ($space-x-base * .5),
-    y: ($space-y-base * .5)
-  },
-  md: {
-    x: $space-x-base,
-    y: $space-y-base
-  },
-  lg: {
-    x: ($space-x-base * 1.5),
-    y: ($space-y-base * 1.5)
-  },
-  xl: {
-    x: ($space-x-base * 3),
-    y: ($space-y-base * 3)
-  }
+  none: $space-none,
+  xs: $space-xs,
+  sm: $space-sm,
+  md: $space-md,
+  lg: $space-lg,
+  xl: $space-xl
 }
 
 // Max width at which point

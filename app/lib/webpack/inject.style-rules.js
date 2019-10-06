@@ -1,11 +1,10 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
+const merge = require('webpack-merge')
 
 const
-  { join } = require('path'),
   appPaths = require('../app-paths'),
+  cssVariables = require('../helpers/css-variables'),
   postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
-
-const QuasarStylusVariablesLoader = join(__dirname, 'loader.quasar-stylus-variables')
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)
@@ -22,25 +21,27 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   create(normalRule, false)
 
   function create (rule, modules) {
-    if (pref.extract) {
-      rule.use('mini-css-extract')
-        .loader(ExtractLoader)
-        .options({ publicPath: '../' })
-    }
-    else {
-      rule.use('vue-style-loader')
-        .loader('vue-style-loader')
-        .options({
-          sourceMap: pref.sourceMap
-        })
+    if (pref.serverExtract !== true) {
+      if (pref.extract) {
+        rule.use('mini-css-extract')
+          .loader(ExtractLoader)
+          .options({ publicPath: '../' })
+      }
+      else {
+        rule.use('vue-style-loader')
+          .loader('vue-style-loader')
+          .options({
+            sourceMap: pref.sourceMap
+          })
+      }
     }
 
     const cssLoaderOptions = {
       importLoaders:
-        1 + // stylePostLoader injected by vue-loader
+        (pref.serverExtract ? 0 : 1) + // stylePostLoader injected by vue-loader
         1 + // postCSS loader
         (!pref.extract && pref.minify ? 1 : 0) + // postCSS with cssnano
-        (loader ? (loader === 'stylus-loader' ? 2 : 1) : 0),
+        (loader ? (loader === 'stylus-loader' || loader === 'sass-loader' ? 2 : 1) : 0),
       sourceMap: pref.sourceMap
     }
 
@@ -96,7 +97,17 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
 
       if (loader === 'stylus-loader') {
         rule.use('quasar-stylus-variables-loader')
-          .loader(QuasarStylusVariablesLoader)
+          .loader(cssVariables.loaders.styl)
+      }
+      else if (loader === 'sass-loader') {
+        if (loaderOptions && loaderOptions.sassOptions && loaderOptions.sassOptions.indentedSyntax) {
+          rule.use('quasar-sass-variables-loader')
+            .loader(cssVariables.loaders.sass)
+        }
+        else {
+          rule.use('quasar-scss-variables-loader')
+            .loader(cssVariables.loaders.scss)
+        }
       }
     }
   }
@@ -109,9 +120,9 @@ module.exports = function (chain, pref) {
     ...pref.stylusLoaderOptions
   })
   injectRule(chain, pref, 'scss', /\.scss$/, 'sass-loader', pref.scssLoaderOptions)
-  injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', {
-    indentedSyntax: true,
-    ...pref.sassLoaderOptions
-  })
+  injectRule(chain, pref, 'sass', /\.sass$/, 'sass-loader', merge(
+    { sassOptions: { indentedSyntax: true } },
+    pref.sassLoaderOptions
+  ))
   injectRule(chain, pref, 'less', /\.less$/, 'less-loader', pref.lessLoaderOptions)
 }

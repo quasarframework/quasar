@@ -20,7 +20,7 @@
 export default {
   methods: {
     onClick () {
-      console.log('Clicked on a QChip')
+      // console.log('Clicked on a QChip')
     }
   }
 }

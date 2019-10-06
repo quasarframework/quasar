@@ -50,6 +50,8 @@ export default Vue.extend({
     hideBottom: Boolean,
 
     grid: Boolean,
+    gridHeader: Boolean,
+
     dense: Boolean,
     flat: Boolean,
     bordered: Boolean,
@@ -178,6 +180,7 @@ export default Vue.extend({
 
     return h('div', data, [
       this.getTop(h),
+      this.grid === true ? this.getGridHeader(h) : null,
       this.getBody(h),
       this.getBottom(h)
     ])
@@ -196,7 +199,7 @@ export default Vue.extend({
 
     getBody (h) {
       if (this.grid === true) {
-        return this.getTableGrid(h)
+        return this.getGridBody(h)
       }
 
       return h('div', {

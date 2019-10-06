@@ -59,6 +59,10 @@
         <q-btn color="primary" icon="map">
           <q-menu @show="log('@show popover_map')" @hide="log('@hide popover_map')">
             <q-list style="min-width: 100px">
+              <div style="height: 50px" class="bg-grey-3">
+                Weee
+              </div>
+
               <q-item
                 v-for="n in 20"
                 :key="n"
@@ -274,6 +278,22 @@
           </q-card-section>
           <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
             <q-menu :touch-position="touchPosition" :context-menu="contextMenu">
+              <q-list>
+                <q-item
+                  v-for="n in 5"
+                  :key="n"
+                  v-close-popup
+                  clickable
+                  @click="showNotify()"
+                >
+                  <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
+          <div>With model: {{ menuModelTouch }}</div>
+          <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
+            <q-menu v-model="menuModelTouch" :touch-position="touchPosition" :context-menu="contextMenu">
               <q-list>
                 <q-item
                   v-for="n in 5"
@@ -516,6 +536,7 @@ export default {
       terms: '',
       modelDate: null,
       model: 30,
+      menuModelTouch: false,
       min: 0,
       max: 50,
       list,

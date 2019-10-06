@@ -45,7 +45,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .my-input
-  max-width 250px
+  max-width: 250px
 </style>

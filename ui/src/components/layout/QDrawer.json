@@ -118,6 +118,13 @@
       "type": "Boolean",
       "desc": "Disables the default behavior where drawer can be swiped out of view (applies to drawer content only); Useful for iOS platforms where it might interfere with Safari's 'swipe to go to previous/next page' feature",
       "category": "behavior"
+    },
+
+    "no-swipe-backdrop": {
+      "type": "Boolean",
+      "desc": "Disable the default behavior where drawer backdrop can be swiped",
+      "category": "behavior",
+      "addedIn": "v1.1.7"
     }
   },
 
@@ -155,6 +162,17 @@
     "mouseout": {
       "extends": "click",
       "desc": "Emitted when user moves mouse cursor out of the component and drawer is NOT in mobile mode; Useful for when taking a decision to toggle mini mode"
+    },
+
+    "mini-state": {
+      "desc": "Emitted when drawer changes the mini-mode state (sometimes it is forced to do so)",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "New state"
+        }
+      },
+      "addedIn": "v1.1.3"
     }
   }
 }

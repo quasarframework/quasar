@@ -52,7 +52,7 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .semi-transparent
-  opacity .7
+  opacity: .7
 </style>

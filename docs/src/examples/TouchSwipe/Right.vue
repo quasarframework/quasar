@@ -34,14 +34,14 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .custom-area
-  width 90%
-  height 220px
-  border-radius 3px
-  padding 8px
+  width: 90%
+  height: 220px
+  border-radius: 3px
+  padding: 8px
 
 .custom-info pre
-  width 180px
-  font-size 12px
+  width: 180px
+  font-size: 12px
 </style>

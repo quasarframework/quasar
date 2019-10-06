@@ -3,7 +3,6 @@
     <q-table
       grid
       card-class="bg-primary text-white"
-      dark
       title="Treats"
       :data="data"
       :columns="columns"

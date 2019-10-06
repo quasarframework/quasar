@@ -1,29 +1,32 @@
 <template>
   <div class="q-layout-padding q-mx-auto">
-    <div class="row justify-center">
-      <div class="q-gutter-md" style="max-width: 700px">
-        <q-btn label="Alert" flat color="primary" @click="alert = true" />
-        <q-btn label="Confirm" flat color="primary" @click="confirm = true" />
-        <q-btn label="Prompt" flat color="primary" @click="prompt = true" />
-        <q-btn label="Persistent" flat color="primary" @click="persistent = true" />
-        <q-btn label="Close Icon" flat color="primary" @click="icon = true" />
-        <q-btn label="Bar" flat color="primary" @click="bar = true" />
-        <q-btn label="Bar 2 (auto-close)" flat color="primary" @click="bar2 = true" />
-        <q-btn label="Toolbar" flat color="primary" @click="toolbar = true" />
-        <q-btn label="Scroll" flat color="primary" @click="scroll = true" />
-        <q-btn label="Scroll 2" flat color="primary" @click="scroll2 = true" />
-        <q-btn label="Scroll 3 bottom" flat color="primary" @click="scroll3 = true" />
-        <q-btn label="Maximized" flat color="primary" @click="maximized = true" />
-        <q-btn label="Positioned" flat color="primary" @click="positioned = true" />
-        <q-btn label="Maximized & positioned" flat color="primary" @click="maxiPositioned = true" />
-        <q-btn label="Seamless" flat color="primary" @click="seamless = true" />
-        <q-btn label="Layout" flat color="primary" @click="layout = true" />
-        <q-btn label="Inception" flat color="primary" @click="inception = true" />
-        <q-btn label="Non standard content" flat color="primary" @click="nonStandard = true" />
-        <q-btn label="Complex card" flat color="primary" @click="complexCard = true" />
-        <q-btn label="Sliders" flat color="primary" @click="sliders = true" />
-        <q-btn label="Layout Bottom" flat color="primary" @click="layoutBottom = true" />
-        <q-btn label="Close popup test" flat color="primary" @click="closePopupTest = true" />
+    <div class="column flex-center" style="height: 200vh; width: 200vw;">
+      <div>Page has scroll on purpose</div>
+      <div class="row justify-center">
+        <div class="q-gutter-md" style="max-width: 700px">
+          <q-btn label="Alert" flat color="primary" @click="alert = true" />
+          <q-btn label="Confirm" flat color="primary" @click="confirm = true" />
+          <q-btn label="Prompt" flat color="primary" @click="prompt = true" />
+          <q-btn label="Persistent" flat color="primary" @click="persistent = true" />
+          <q-btn label="Close Icon" flat color="primary" @click="icon = true" />
+          <q-btn label="Bar" flat color="primary" @click="bar = true" />
+          <q-btn label="Bar 2 (auto-close)" flat color="primary" @click="bar2 = true" />
+          <q-btn label="Toolbar" flat color="primary" @click="toolbar = true" />
+          <q-btn label="Scroll" flat color="primary" @click="scroll = true" />
+          <q-btn label="Scroll 2" flat color="primary" @click="scroll2 = true" />
+          <q-btn label="Scroll 3 bottom" flat color="primary" @click="scroll3 = true" />
+          <q-btn label="Maximized" flat color="primary" @click="maximized = true" />
+          <q-btn label="Positioned" flat color="primary" @click="positioned = true" />
+          <q-btn label="Maximized & positioned" flat color="primary" @click="maxiPositioned = true" />
+          <q-btn label="Seamless" flat color="primary" @click="seamless = true" />
+          <q-btn label="Layout" flat color="primary" @click="layout = true" />
+          <q-btn label="Inception" flat color="primary" @click="inception = true" />
+          <q-btn label="Non standard content" flat color="primary" @click="nonStandard = true" />
+          <q-btn label="Complex card" flat color="primary" @click="complexCard = true" />
+          <q-btn label="Sliders" flat color="primary" @click="sliders = true" />
+          <q-btn label="Layout Bottom" flat color="primary" @click="layoutBottom = true" />
+          <q-btn label="Close popup test" flat color="primary" @click="closePopupTest = true" />
+        </div>
       </div>
     </div>
 
@@ -730,10 +733,6 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-
-    <div class="text-center text-caption q-mt-xl" style="height: 1500px">
-      Page has scroll on purpose
-    </div>
   </div>
 </template>
 

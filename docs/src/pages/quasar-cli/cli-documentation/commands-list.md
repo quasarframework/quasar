@@ -61,11 +61,7 @@ $ quasar [command name] --help
 Creates an App folder with initial project boilerplate.
 
 ```bash
-## for Quasar v1:
 $ quasar create <folder_name>
-
-# for v0.17, run this instead:
-$ quasar create <folder_name> -b v0.17
 ```
 
 ## upgrade

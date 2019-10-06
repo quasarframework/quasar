@@ -10,7 +10,7 @@
       />
       <q-chat-message
         name="Vladimir"
-        avatar="https://cdn.quasar.dev/img/boy-avatar.png"
+        avatar="https://cdn.quasar.dev/img/blueish.jpg"
       >
         <q-spinner-dots size="2rem" />
       </q-chat-message>
@@ -64,7 +64,7 @@ export default {
       },
       {
         name: 'Jane',
-        text: ['And you?'],
+        text: ['And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? And you? '],
         sent: true,
         avatar: 'https://cdn.quasar.dev/img/linux-avatar.png',
         stamp: 'Yesterday at 13:51'

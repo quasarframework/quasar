@@ -234,7 +234,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .child
-  min-width 100px
+  min-width: 100px
 </style>

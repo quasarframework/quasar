@@ -31,21 +31,21 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .doc-link
-  color $primary
-  font-weight 500
-  text-decoration none
-  outline 0
-  border-bottom 1px dotted currentColor
-  vertical-align center
-  transition opacity .2s
-  white-space nowrap
+  color: $primary
+  font-weight: 500
+  text-decoration: none
+  outline: 0
+  border-bottom: 1px dotted currentColor
+  vertical-align: center
+  transition: opacity .2s
+  white-space: nowrap
 
   &:hover
-    opacity .8
+    opacity: .8
 
   .q-icon
-    margin-top -3px
-    margin-left 4px
+    margin-top: -3px
+    margin-left: 4px
 </style>
