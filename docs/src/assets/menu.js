@@ -922,11 +922,6 @@ const components = [
     name: 'Virtual Scroll',
     badge: 'new',
     path: 'virtual-scroll'
-  },
-  {
-    name: 'Zoom',
-    badge: 'new',
-    path: 'zoom'
   }
 ]
 
