@@ -82,7 +82,8 @@ export default {
     size5: 'ใหญ่',
     size6: 'ใหญ่มาก',
     size7: 'ใหญ่เต็มที่',
-    defaultFont: 'ฟอนต์มาตรฐาน'
+    defaultFont: 'ฟอนต์มาตรฐาน',
+    viewSource: 'ดูที่มา'
   },
   tree: {
     noNodes: 'ไม่มีโหนด',

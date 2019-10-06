@@ -53,7 +53,7 @@ Many promising open source projects become "abandonware" because the original de
 ### What You Get Out of It
 If you support open source, you become part of the community. It is a large community, but tends to be tightly knit. Your support shows you believe in the community, and that makes you a part of the family. If enough financial support comes together, it can also mean that core developers and maintainers are able to work on the project full-time rather than needing a job elsewhere. This in turn fosters an environment where they are able to process fixes and requests faster than if they were working on a “hobby” basis.
 
-So maybe you are a business who uses open source software to give themselves a competitive advantage, improve profits, or simply solve a problem other software doesn’t cover. Perhaps you’re an individual who uses an open source solution to the expensive corporate software you just can’t afford. Like [this](https://quasarframework.github.io/app-extension-qcalendar/docs/).
+So maybe you are a business who uses open source software to give themselves a competitive advantage, improve profits, or simply solve a problem other software doesn’t cover. Perhaps you’re an individual who uses an open source solution to the expensive corporate software you just can’t afford. Like [this](https://quasarframework.github.io/quasar-ui-qcalendar/docs).
 
 Or you recognize that the millions of lines of code are lines you don't have to write and are simply appreciative of the effort.
 

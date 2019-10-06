@@ -87,7 +87,8 @@ export default {
     size5: 'Iso',
     size6: 'Erittäin iso',
     size7: 'Maksimi',
-    defaultFont: 'Oletusfontti'
+    defaultFont: 'Oletusfontti',
+    viewSource: 'Katso lähde'
   },
   tree: {
     noNodes: 'Ei solmuja saatavilla',

@@ -22,10 +22,10 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | `material-icons-outlined` | CDN v13 | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) | `material-icons-round` | CDN v13 | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | `material-icons-sharp` | CDN v14 | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ |
-| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v4` | 4.1.95 | Extended Material Design icons font | |
+| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v4` | 4.4.95 | Extended Material Design icons font | |
 | MDI v3 (Material Design Icons) | `mdi-v3` | 3.6.95 | Extended Material Design icons font | |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.9.0 | Fontawesome icons font | |
-| [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.5.5 | Ionicons font | |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.11.1 | Fontawesome icons font | |
+| [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.6.3 | Ionicons font | |
 | [Eva Icons](https://akveo.github.io/eva-icons) | `eva-icons` | 1.1.1 | Eva Icons font | |
 | [Themify Icons](https://themify.me/themify-icons) | `themify` | 1.0.0 | Themify Icons font | |
 | [Animate.css](https://daneden.github.io/animate.css/) | Use `animations` prop | 3.5.2 | Bundle of animations you can use in your website/app | |

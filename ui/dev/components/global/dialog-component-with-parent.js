@@ -1,5 +1,5 @@
 export default {
-  name: 'CustomDialogComponent',
+  name: 'CustomDialogComponentWithParent',
 
   props: {
     text: String
@@ -18,6 +18,12 @@ export default {
     }
   },
 
+  data () {
+    return {
+      inc: 0
+    }
+  },
+
   methods: {
     show () {
       this.$refs.dialog.show()
@@ -25,6 +31,10 @@ export default {
 
     hide () {
       this.$refs.dialog.hide()
+    },
+
+    increment () {
+      this.inc++
     }
   },
 
@@ -52,6 +62,20 @@ export default {
 
         h('q-card-section', [
           h('test-component')
+        ]),
+
+        h('q-card-section', [
+          'Reactivity:',
+
+          h('q-btn', {
+            staticClass: 'q-ml-xs',
+            props: {
+              label: 'Hit me: ' + this.inc,
+              color: 'accent',
+              noCaps: true
+            },
+            on: { click: this.increment }
+          })
         ]),
 
         h('q-card-actions', {

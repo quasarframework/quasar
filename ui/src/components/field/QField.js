@@ -5,7 +5,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import slot from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
+import { stop, prevent } from '../../utils/event.js'
 import uid from '../../utils/uid.js'
 
 export default Vue.extend({
@@ -195,14 +195,19 @@ export default Vue.extend({
 
     blur () {
       const el = document.activeElement
-      this.$el.contains(el) && el.blur()
+      // IE can have null document.activeElement
+      if (el !== null && this.$el.contains(el)) {
+        el.blur()
+      }
     },
 
     __focus () {
+      const el = document.activeElement
       let target = this.$refs.target
-      if (target !== void 0 && document.activeElement.id !== this.targetUid) {
+      // IE can have null document.activeElement
+      if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
         target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target !== document.activeElement && target.focus()
+        target !== null && target !== el && target.focus()
       }
     },
 
@@ -382,11 +387,15 @@ export default Vue.extend({
     },
 
     __onControlPopupShow (e) {
+      e !== void 0 && stop(e)
+      this.$emit('popup-show', e)
       this.hasPopupOpen = true
       this.__onControlFocusin(e)
     },
 
     __onControlPopupHide (e) {
+      e !== void 0 && stop(e)
+      this.$emit('popup-hide', e)
       this.hasPopupOpen = false
       this.__onControlFocusout(e)
     },
@@ -423,7 +432,15 @@ export default Vue.extend({
 
     __clearValue (e) {
       stop(e)
+      if (this.type === 'file') {
+        // do not let focus be triggered
+        // as it will make the native file dialog
+        // appear for another selection
+        prevent(e)
+        this.$refs.input.value = null
+      }
       this.$emit('input', null)
+      this.$emit('clear', this.value)
     },
 
     __emitValue (value) {

@@ -5,8 +5,12 @@ import QBtnGroup from './QBtnGroup.js'
 
 import slot from '../../utils/slot.js'
 
+import RippleMixin from '../../mixins/ripple.js'
+
 export default Vue.extend({
   name: 'QBtnToggle',
+
+  mixins: [ RippleMixin ],
 
   props: {
     value: {
@@ -48,12 +52,7 @@ export default Vue.extend({
     stack: Boolean,
     stretch: Boolean,
 
-    spread: Boolean,
-
-    ripple: {
-      type: [Boolean, Object],
-      default: true
-    }
+    spread: Boolean
   },
 
   computed: {
@@ -64,7 +63,7 @@ export default Vue.extend({
 
   methods: {
     __set (value, opt) {
-      if (this.readonly === false && value !== this.value) {
+      if (this.readonly !== true && value !== this.value) {
         this.$emit('input', value, opt)
       }
     }
@@ -106,7 +105,7 @@ export default Vue.extend({
           unelevated: this.unelevated,
           size: this.size,
           dense: this.dense,
-          ripple: this.ripple || opt.ripple,
+          ripple: this.ripple !== void 0 ? this.ripple : opt.ripple,
           stack: this.stack === true || opt.stack === true,
           tabindex: opt.tabindex,
           stretch: this.stretch

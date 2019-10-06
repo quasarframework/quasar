@@ -190,5 +190,19 @@
     "loading": {
       "desc": "Override default spinner when component is in loading mode; Use in conjunction with 'loading' prop"
     }
+  },
+
+  "events": {
+    "clear": {
+      "desc": "When using the 'clearable' property, this event is emitted when the clear icon is clicked",
+      "addedIn": "v1.1.5",
+      "params": {
+        "value": {
+          "type": [ "Any" ],
+          "desc": "The previous value before clearing it",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
   }
 }

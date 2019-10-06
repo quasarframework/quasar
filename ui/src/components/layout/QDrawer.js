@@ -9,6 +9,15 @@ import slot from '../../utils/slot.js'
 
 const duration = 150
 
+const directiveTemplate = {
+  name: 'touch-pan',
+  modifiers: {
+    horizontal: true,
+    mouse: true,
+    mouseAllDir: true
+  }
+}
+
 export default Vue.extend({
   name: 'QDrawer',
 
@@ -65,7 +74,8 @@ export default Vue.extend({
     overlay: Boolean,
     persistent: Boolean,
     noSwipeOpen: Boolean,
-    noSwipeClose: Boolean
+    noSwipeClose: Boolean,
+    noSwipeBackdrop: Boolean
   },
 
   data () {
@@ -78,16 +88,21 @@ export default Vue.extend({
       belowBreakpoint,
       showing: this.showIfAbove === true && belowBreakpoint === false
         ? true
-        : this.value
+        : this.value === true
     }
   },
 
   watch: {
     belowBreakpoint (val) {
       if (val === true) { // from lg to xs
+        this.lastDesktopState = this.showing
         this.showing === true && this.hide(false)
       }
-      else if (this.overlay === false && this.behavior !== 'mobile') { // from xs to lg
+      else if (
+        this.overlay === false &&
+        this.behavior !== 'mobile' &&
+        this.lastDesktopState !== false
+      ) { // from xs to lg
         if (this.showing === true) {
           this.__applyBackdrop(0)
           this.__cleanup()
@@ -137,7 +152,7 @@ export default Vue.extend({
     },
 
     onLayout (val) {
-      this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', val)
+      this.$emit('on-layout', val)
       this.__update('space', val)
     },
 
@@ -163,6 +178,10 @@ export default Vue.extend({
         this.__animateMini()
         this.layout.__animate()
       }
+    },
+
+    isMini (val) {
+      this.$emit('mini-state', val)
     }
   },
 
@@ -280,6 +299,24 @@ export default Vue.extend({
     hideOnRouteChange () {
       return this.persistent !== true &&
         (this.belowBreakpoint === true || this.onScreenOverlay === true)
+    },
+
+    openDirective () {
+      if (this.belowBreakpoint === true) {
+        return [{
+          ...directiveTemplate,
+          value: this.__openByTouch
+        }]
+      }
+    },
+
+    closeDirective () {
+      if (this.belowBreakpoint === true) {
+        return [{
+          ...directiveTemplate,
+          value: this.__closeByTouch
+        }]
+      }
     }
   },
 
@@ -496,15 +533,12 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.$listeners['on-layout'] !== void 0 && this.$emit('on-layout', this.onLayout)
+    this.$emit('on-layout', this.onLayout)
+    this.$emit('mini-state', this.isMini)
 
     const fn = () => {
-      if (this.showing === true) {
-        this.__show(false, true)
-      }
-      else {
-        this.__hide(false, true)
-      }
+      const action = this.showing === true ? 'show' : 'hide'
+      this[`__${action}`](false, true)
     }
 
     if (this.layout.width !== 0) {
@@ -540,29 +574,11 @@ export default Vue.extend({
   },
 
   render (h) {
-    const directives = [{
-      name: 'touch-pan',
-      modifiers: {
-        horizontal: true,
-        mouse: true,
-        mouseAllDir: true
-      },
-      value: this.__closeByTouch
-    }]
-
     const child = [
       this.noSwipeOpen !== true && this.belowBreakpoint === true
         ? h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
-          directives: [{
-            name: 'touch-pan',
-            modifiers: {
-              horizontal: true,
-              mouse: true,
-              mouseAllDir: true
-            },
-            value: this.__openByTouch
-          }]
+          directives: this.openDirective
         })
         : null,
 
@@ -574,7 +590,9 @@ export default Vue.extend({
           ? { backgroundColor: this.lastBackdropBg }
           : null,
         on: { click: this.hide },
-        directives
+        directives: this.noSwipeBackdrop !== true
+          ? this.closeDirective
+          : void 0
       }) : null
     ]
 
@@ -603,8 +621,8 @@ export default Vue.extend({
         class: this.classes,
         style: this.style,
         on: this.onNativeEvents,
-        directives: this.belowBreakpoint === true && this.noSwipeClose !== true
-          ? directives
+        directives: this.noSwipeClose !== true
+          ? this.closeDirective
           : void 0
       }, content)
     ]))

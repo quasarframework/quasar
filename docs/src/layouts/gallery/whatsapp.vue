@@ -131,7 +131,7 @@
                 </q-item-label>
                 <q-item-label class="conversation__summary" caption>
                   <q-icon name="check" v-if="conversation.sent" />
-                  <q-icon name="fas fa-ban" v-if="conversation.deleted" />
+                  <q-icon name="not_interested" v-if="conversation.deleted" />
                   {{ conversation.caption }}
                 </q-item-label>
               </q-item-section>
@@ -191,18 +191,18 @@ export default {
         },
         {
           id: 3,
-          person: 'Denjell Thompson-Yvetot',
-          avatar: 'https://cdn.quasar.dev/team/daniel_thompson-yvetot.jpg',
-          caption: 'I\'m working on Quasar!',
-          time: '17:00',
-          sent: true
-        },
-        {
-          id: 4,
           person: 'Jeff Galbraith',
           avatar: 'https://cdn.quasar.dev/team/jeff_galbraith.jpg',
           caption: 'I\'m working on Quasar!',
           time: '18:00',
+          sent: true
+        },
+        {
+          id: 4,
+          person: 'Allan Gaunt',
+          avatar: 'https://cdn.quasar.dev/team/allan_gaunt.png',
+          caption: 'I\'m working on Quasar!',
+          time: '17:00',
           sent: true
         }
       ]

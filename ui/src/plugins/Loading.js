@@ -39,6 +39,7 @@ export default {
       return
     }
 
+    clearTimeout(timeout)
     timeout = setTimeout(() => {
       timeout = null
 

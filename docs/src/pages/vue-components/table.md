@@ -54,16 +54,15 @@ columns: [ // array of Objects
 
     // (optional) compare function if you have
     // some custom data or want a specific way to compare two rows
-    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)
+    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),
     // function return value:
     //   * is less than 0 then sort a to an index lower than b, i.e. a comes first
     //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
     // (optional) you can format the data with a function
-    format: (val, row) => `${val}%`
+    format: (val, row) => `${val}%`,
 
-    // v0.17.9+; if using scoped slots, apply this yourself instead
     style: 'width: 500px',
     classes: 'my-special-class'
   },
@@ -151,6 +150,8 @@ You can use the `grid` prop along with `$q.screen` to create a responsive behavi
 In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
 
 <doc-example title="Grid style" file="QTable/GridStyle" />
+
+<doc-example title="Grid with header" file="QTable/GridHeader" />
 
 <doc-example title="Colored grid style" file="QTable/GridStyleColored" />
 

@@ -70,7 +70,8 @@ export default {
     header: 'fal fa-heading',
     code: 'fal fa-code',
     size: 'fal fa-text-height',
-    font: 'fal fa-font'
+    font: 'fal fa-font',
+    viewSource: 'fal fa-code'
   },
   expansionItem: {
     icon: 'fal fa-chevron-down',

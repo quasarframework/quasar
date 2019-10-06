@@ -27,7 +27,7 @@ function installBundler (bundlerName) {
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
     appPath.appDir,
-    () => warn(`Failed to install electron-${bundlerName}`)
+    () => warn(`⚠️  Failed to install electron-${bundlerName}`)
   )
 }
 

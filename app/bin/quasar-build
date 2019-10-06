@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+if (process.env.NODE_ENV === void 0) {
+  process.env.NODE_ENV = 'production'
+}
+
 const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -145,7 +149,7 @@ async function build () {
   }
   catch (e) {
     console.log(e)
-    warn(`⚠️ [FAIL] quasar.conf.js has JS errors`)
+    warn(`⚠️  [FAIL] quasar.conf.js has JS errors`)
     process.exit(1)
   }
 

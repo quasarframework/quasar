@@ -39,7 +39,7 @@ export default {
     },
 
     log (desert) {
-      console.log(`${desert} has been removed`)
+      // console.log(`${desert} has been removed`)
     }
   }
 }

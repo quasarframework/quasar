@@ -13,8 +13,83 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
-        <q-btn label="Custom component" flat color="primary" @click="customComponent" />
+        <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
+        <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
         <q-btn label="With HTML" flat color="primary" @click="unsafe" />
+        <q-btn-dropdown color="accent" label="Open from dropdown" unelevated>
+          <q-list flat>
+            <q-item @click="alert" clickable v-close-popup>
+              <q-item-section>
+                <q-item-label>Alert - list item</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Alert" flat color="primary" @click="alert" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Alert - custom" flat color="primary" @click="alertCustom" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Confirm" flat color="primary" @click="confirm" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Prompt" flat color="primary" @click="prompt" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Radio Options" flat color="primary" @click="radio" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Checkbox Options" flat color="primary" @click="checkbox" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Toggle Options" flat color="primary" @click="toggle" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Positioned" flat color="primary" @click="positioned" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
+              </q-item-section>
+            </q-item>
+            <q-item>
+              <q-item-section>
+                <q-btn label="With HTML" flat color="primary" @click="unsafe" />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </div>
     </div>
 
@@ -25,7 +100,8 @@
 </template>
 
 <script>
-import DialogComponent from './dialog-component.js'
+import DialogComponentWithParent from './dialog-component-with-parent.js'
+import DialogComponentNoParent from './dialog-component-no-parent.js'
 
 export default {
   provide: {
@@ -251,10 +327,24 @@ export default {
       }, 3000)
     },
 
-    customComponent () {
+    customComponentWithParent () {
       this.dialogHandler = this.$q.dialog({
-        root: this,
-        component: DialogComponent,
+        parent: this,
+        component: DialogComponentWithParent,
+        // props forwarded to component:
+        text: 'gigi'
+      }).onOk(() => {
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+
+    customComponentNoParent () {
+      this.dialogHandler = this.$q.dialog({
+        component: DialogComponentNoParent,
         // props forwarded to component:
         text: 'gigi'
       }).onOk(() => {

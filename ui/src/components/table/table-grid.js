@@ -4,7 +4,7 @@ import QSeparator from '../separator/QSeparator.js'
 
 export default {
   methods: {
-    getTableGrid (h) {
+    getGridBody (h) {
       const item = this.$scopedSlots.item !== void 0
         ? this.$scopedSlots.item
         : scope => {
@@ -47,36 +47,39 @@ export default {
           ])
         }
 
-      return [
-        this.hideHeader === false
-          ? h('div', { staticClass: 'q-table__middle' }, [
-            this.loading === true
-              ? h(QLinearProgress, {
-                staticClass: 'q-table__linear-progress',
-                props: {
-                  color: this.color,
-                  dark: this.dark,
-                  indeterminate: true
-                }
-              })
-              : null
-          ])
-          : null,
+      return h('div', { staticClass: 'row' }, this.computedRows.map(row => {
+        const
+          key = row[this.rowKey],
+          selected = this.isRowSelected(key)
 
-        h('div', { staticClass: 'row' }, this.computedRows.map(row => {
-          const
-            key = row[this.rowKey],
-            selected = this.isRowSelected(key)
-
-          return item(this.addBodyRowMeta({
-            key,
-            row,
-            cols: this.computedCols,
-            colsMap: this.computedColsMap,
-            __trClass: selected ? 'selected' : ''
-          }))
+        return item(this.addBodyRowMeta({
+          key,
+          row,
+          cols: this.computedCols,
+          colsMap: this.computedColsMap,
+          __trClass: selected ? 'selected' : ''
         }))
-      ]
+      }))
+    },
+
+    getGridHeader (h) {
+      return h('div', { staticClass: 'q-table__middle' }, [
+        this.gridHeader === true
+          ? h('table', { staticClass: 'q-table' }, [
+            this.getTableHeader(h)
+          ])
+          : (this.loading === true
+            ? h(QLinearProgress, {
+              staticClass: 'q-table__linear-progress',
+              props: {
+                color: this.color,
+                dark: this.dark,
+                indeterminate: true
+              }
+            })
+            : null
+          )
+      ])
     }
   }
 }
