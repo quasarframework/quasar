@@ -16,7 +16,7 @@ export default {
         if (ctx.single) {
           router.go(-1)
         }
-        else if (Platform.is.cordova === true) {
+        else if (Platform.is.nativeMobile === true) {
           router.go(ctx.position - window.history.length)
         }
         else {

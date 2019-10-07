@@ -120,7 +120,7 @@ function prevent (state) {
 
     action = 'remove'
 
-    if (Platform.is.ios === true && Platform.is.cordova === true) {
+    if (Platform.is.ios === true && Platform.is.nativeMobile === true) {
       clearTimeout(closeTimer)
 
       closeTimer = setTimeout(() => {

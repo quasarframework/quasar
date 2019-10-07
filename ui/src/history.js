@@ -8,9 +8,11 @@ export default {
   remove: () => {},
 
   install ($q, cfg) {
-    if (isSSR === true || $q.platform.is.cordova !== true) {
+    if (isSSR === true || $q.platform.is.nativeMobile !== true) {
       return
     }
+
+    const wrapper = $q.platform.is.nativeMobileWrapper
 
     this.add = entry => {
       if (entry.condition === void 0) {
@@ -25,9 +27,9 @@ export default {
       }
     }
 
-    const exit = cfg.cordova === void 0 || cfg.cordova.backButtonExit !== false
+    const exit = cfg[wrapper] === void 0 || cfg[wrapper].backButtonExit !== false
 
-    document.addEventListener('deviceready', () => {
+    const fn = () => {
       document.addEventListener('backbutton', () => {
         if (this.__history.length) {
           const entry = this.__history[this.__history.length - 1]
@@ -44,6 +46,13 @@ export default {
           window.history.back()
         }
       }, false)
-    })
+    }
+
+    if (wrapper === 'cordova') {
+      document.addEventListener('deviceready', fn)
+    }
+    else {
+      fn()
+    }
   }
 }
