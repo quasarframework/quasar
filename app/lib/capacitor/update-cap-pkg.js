@@ -6,7 +6,7 @@ module.exports = function updateCapPkg (cfg) {
   const pkg = require(appPaths.resolve.app('package.json'))
 
   const capPkgPath = appPaths.resolve.capacitor('package.json')
-  const capPkg = cfg === void 0 ? {} : require(capPkgPath)
+  const capPkg = require(capPkgPath)
 
   const propList = ['name', 'author']
 
