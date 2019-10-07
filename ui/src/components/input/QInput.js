@@ -21,7 +21,6 @@ export default Vue.extend({
 
     debounce: [String, Number],
 
-    maxlength: [Number, String],
     autogrow: Boolean, // makes a textarea
 
     inputClass: [Array, String, Object],
