@@ -191,10 +191,16 @@ function getPlatform (userAgent) {
       browser.chromeExt = true
     }
     else if (window._cordovaNative || window.cordova) {
-      browser.cordova = true
+      const prop = Object.keys(window._cordovaNative || window.cordova) === 0
+        ? 'capacitor'
+        : 'cordova'
+
+      browser[prop] = true
+      browser.nativeMobile = true
+      browser.nativeMobileWrapper = prop
     }
 
-    fromSSR = browser.cordova === void 0 &&
+    fromSSR = browser.nativeMobile === void 0 &&
       browser.electron === void 0 &&
       !!document.querySelector('[data-server-rendered]')
 
