@@ -17,6 +17,57 @@
       "category": "general"
     },
 
+    "virtual-scroll": {
+      "type": "Boolean",
+      "desc": "Display data using QVirtualScroll (for non-grid mode only)",
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-slice-size": {
+      "type": "Number",
+      "desc": "Number of rows to render in the virtual list",
+      "default": "30",
+      "examples": [
+        ":virtual-scroll-slice-size=\"60\""
+      ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-item-size": {
+      "type": "Number",
+      "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
+      "default": "48 (24 if dense)",
+      "examples": [
+        ":virtual-scroll-item-size=\"48\""
+      ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-sticky-size-start": {
+      "type": "Number",
+      "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [
+        ":virtual-scroll-sticky-size-start=\"48\""
+      ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-sticky-size-end": {
+      "type": "Number",
+      "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [
+        ":virtual-scroll-sticky-size-end=\"48\""
+      ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
     "color": {
       "extends": "color",
       "default": "grey-8"
@@ -25,7 +76,7 @@
     "grid": {
       "type": "Boolean",
       "desc": "Display data as a grid instead of the default table",
-      "category": "style"
+      "category": "behavior"
     },
 
     "grid-header": {
@@ -1350,6 +1401,10 @@
 
     "toggleFullscreen": {
       "desc": "Toggles fullscreen mode"
+    },
+
+    "resetVirtualScroll": {
+      "desc": "Resets the virtual scroll (if using it) computations; Needed for custom edge-cases"
     }
   }
 }

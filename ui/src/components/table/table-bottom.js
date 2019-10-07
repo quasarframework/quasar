@@ -46,12 +46,14 @@ export default {
     },
 
     getPaginationRow (h) {
+      let control
       const
         { rowsPerPage } = this.computedPagination,
         paginationLabel = this.paginationLabel || this.$q.lang.table.pagination,
-        paginationSlot = this.$scopedSlots.pagination
+        paginationSlot = this.$scopedSlots.pagination,
+        hasOpts = this.rowsPerPageOptions.length > 1
 
-      return [
+      const child = [
         h('div', { staticClass: 'q-table__control' }, [
           h('div', [
             this.hasSelectionMode === true && this.rowsSelectedNumber > 0
@@ -60,10 +62,12 @@ export default {
           ])
         ]),
 
-        h('div', { staticClass: 'q-table__separator col' }),
+        h('div', { staticClass: 'q-table__separator col' })
+      ]
 
-        this.rowsPerPageOptions.length > 1
-          ? h('div', { staticClass: 'q-table__control' }, [
+      if (hasOpts === true) {
+        child.push(
+          h('div', { staticClass: 'q-table__control' }, [
             h('span', { staticClass: 'q-table__bottom-item' }, [
               this.rowsPerPageLabel || this.$q.lang.table.recordsPerPage
             ]),
@@ -91,42 +95,55 @@ export default {
               }
             })
           ])
-          : null,
+        )
+      }
 
-        h('div', { staticClass: 'q-table__control' }, [
-          paginationSlot !== void 0
-            ? paginationSlot(this.marginalsProps)
-            : [
-              h('span', { staticClass: 'q-table__bottom-item' }, [
-                rowsPerPage
-                  ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
-                  : paginationLabel(1, this.computedRowsNumber, this.computedRowsNumber)
-              ]),
-              h(QBtn, {
-                props: {
-                  color: this.color,
-                  round: true,
-                  icon: this.navIcon[0],
-                  dense: true,
-                  flat: true,
-                  disable: this.isFirstPage
-                },
-                on: { click: this.prevPage }
-              }),
-              h(QBtn, {
-                props: {
-                  color: this.color,
-                  round: true,
-                  icon: this.navIcon[1],
-                  dense: true,
-                  flat: true,
-                  disable: this.isLastPage
-                },
-                on: { click: this.nextPage }
-              })
-            ]
-        ])
-      ]
+      if (paginationSlot !== void 0) {
+        control = paginationSlot(this.marginalsProps)
+      }
+      else {
+        control = [
+          h('span', rowsPerPage !== 0 ? { staticClass: 'q-table__bottom-item' } : {}, [
+            rowsPerPage
+              ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
+              : paginationLabel(1, this.computedRowsNumber, this.computedRowsNumber)
+          ])
+        ]
+
+        if (rowsPerPage !== 0) {
+          control.push(
+            h(QBtn, {
+              props: {
+                color: this.color,
+                round: true,
+                icon: this.navIcon[0],
+                dense: true,
+                flat: true,
+                disable: this.isFirstPage
+              },
+              on: { click: this.prevPage }
+            }),
+
+            h(QBtn, {
+              props: {
+                color: this.color,
+                round: true,
+                icon: this.navIcon[1],
+                dense: true,
+                flat: true,
+                disable: this.isLastPage
+              },
+              on: { click: this.nextPage }
+            })
+          )
+        }
+      }
+
+      child.push(
+        h('div', { staticClass: 'q-table__control' }, control)
+      )
+
+      return child
     }
   }
 }
