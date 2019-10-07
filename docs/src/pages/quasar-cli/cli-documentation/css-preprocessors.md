@@ -6,7 +6,7 @@ related:
   - /style/stylus-variables
 ---
 
-**Sass/SCSS** (recommended) and **Stylus** are the out of the box supported css preprocessors through Quasar CLI, should you want to use them.
+**Sass** or **SCSS** (recommending any of the two flavours) and **Stylus** are the out of the box supported css preprocessors through Quasar CLI, should you want to use them.
 
 You won't need to install any additional packages or extend the Webpack configuration.
 
