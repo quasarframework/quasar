@@ -12,7 +12,7 @@ module.exports.evaluate = (source, lookup, callback) => {
         if (lookup.includes(propName)) {
           const innerProps = property.value.properties
           for (const innerProp of innerProps) {
-            callback(propName, innerProp.key.name)
+            innerProp.key !== void 0 && callback(propName, innerProp.key.name)
           }
         }
       }

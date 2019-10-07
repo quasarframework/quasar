@@ -284,7 +284,7 @@ Then (just an example showing you how to reference a variable defined above, in 
 <%= htmlWebpackPlugin.options.title %>
 ```
 
-### Property; sourceFiles
+### Property: sourceFiles
 Use this property to change the default names of some files of your website/app if you have to. All paths must be relative to the root folder of your project.
 
 ```js
