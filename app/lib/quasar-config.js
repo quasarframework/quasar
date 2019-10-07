@@ -209,6 +209,7 @@ class QuasarConfig {
         builder: {}
       },
       cordova: {},
+      capacitor: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
@@ -463,7 +464,7 @@ class QuasarConfig {
         gzip: false
       })
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
@@ -473,8 +474,8 @@ class QuasarConfig {
       })
     }
 
-    if (this.ctx.mode.cordova) {
-      cfg.build.distDir = appPaths.resolve.app(path.join('src-cordova', 'www'))
+    if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
+      cfg.build.distDir = appPaths.resolve[this.ctx.modeName]('www')
     }
     else if (!path.isAbsolute(cfg.build.distDir)) {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
@@ -585,7 +586,7 @@ class QuasarConfig {
         }
       })
 
-      if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+      if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
         cfg.devServer.open = false
 
         if (this.ctx.mode.electron) {
@@ -712,7 +713,7 @@ class QuasarConfig {
 
       cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${host}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
     }
-    else if (this.ctx.mode.cordova) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
       cfg.build.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {

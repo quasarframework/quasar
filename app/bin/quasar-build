@@ -46,7 +46,7 @@ if (argv.help) {
     $ quasar build -m ios -- some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|electron|capacitor] (default: spa)
+    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
@@ -62,11 +62,9 @@ if (argv.help) {
     --debug, -d     Build for debugging purposes
     --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
+                      - Capacitor (it only fills in /src/capacitor/www folder with the UI code)
                       - Electron (it only creates the /dist/electron/UnPackaged folder)
     --help, -h      Displays this message
-
-    ONLY for Capacitor mode:
-    --openIde       (Android only) Open Android Studio instead of building app automatically
 
     ONLY for Electron mode:
     --bundler, -b   Bundler (electron-packager or electron-builder)
@@ -122,16 +120,11 @@ function parseWebpackConfig (webpackConfig, mode) {
 }
 
 function finalize (mode, quasarConfig) {
-  if (mode === 'cordova') {
-    return require('../lib/cordova').build(quasarConfig, argv['skip-pkg'], argv._)
+  if (['cordova', 'capacitor'].includes(mode)) {
+    return require('../lib/' + mode).build(quasarConfig, argv['skip-pkg'], argv._)
   }
-  else if (argv['skip-pkg'] !== true) {
-    if (mode === 'capacitor') {
-      return require('../lib/capacitor').build(quasarConfig)
-    }
-    if (mode === 'electron') {
-      return require('../lib/electron').build(quasarConfig)
-    }
+  else if (argv['skip-pkg'] !== true && mode === 'electron') {
+    return require('../lib/electron').build(quasarConfig)
   }
 
   return Promise.resolve()

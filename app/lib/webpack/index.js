@@ -43,6 +43,7 @@ async function getWebpackConfig (chain, cfg, {
 async function getSPA (cfg) {
   const chain = createChain(cfg, 'SPA')
   require('./spa')(chain, cfg)
+
   return await getWebpackConfig(chain, cfg, {
     name: 'SPA',
     hot: true,
@@ -54,6 +55,7 @@ async function getPWA (cfg) {
   const chain = createChain(cfg, 'PWA')
   require('./spa')(chain, cfg) // extending a SPA
   require('./pwa')(chain, cfg)
+
   return await getWebpackConfig(chain, cfg, {
     name: 'PWA',
     hot: true,
@@ -64,6 +66,7 @@ async function getPWA (cfg) {
 async function getCordova (cfg) {
   const chain = createChain(cfg, 'Cordova')
   require('./cordova')(chain, cfg)
+
   return await getWebpackConfig(chain, cfg, {
     name: 'Cordova',
     hot: true,
@@ -74,6 +77,7 @@ async function getCordova (cfg) {
 async function getCapacitor (cfg) {
   const chain = createChain(cfg, 'Capacitor')
   require('./capacitor')(chain, cfg)
+
   return await getWebpackConfig(chain, cfg, {
     name: 'Capacitor',
     hot: true,

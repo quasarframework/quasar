@@ -18,7 +18,7 @@ module.exports = function (argv, cmd) {
     }
   }
 
-  if (!['spa', 'pwa', 'cordova', 'electron', 'ssr', 'capacitor'].includes(argv.mode)) {
+  if (!['spa', 'pwa', 'cordova', 'capacitor', 'electron', 'ssr'].includes(argv.mode)) {
     warn(`⚠️  Unknown mode "${ argv.mode }"`)
     warn()
     process.exit(1)
@@ -26,20 +26,6 @@ module.exports = function (argv, cmd) {
 
   if (cmd === 'inspect') {
     return
-  }
-
-  if (argv.mode === 'cordova') {
-    const targets = ['android', 'ios', 'electron', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
-    if (!argv.target) {
-      warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
-      warn()
-      process.exit(1)
-    }
-    if (!targets.includes(argv.target)) {
-      warn(`⚠️  Unknown target "${ argv.target }" for Cordova`)
-      warn()
-      process.exit(1)
-    }
   }
 
   if (argv.mode === 'capacitor') {
@@ -51,6 +37,20 @@ module.exports = function (argv, cmd) {
     }
     if (!targets.includes(argv.target)) {
       warn(`⚠️  Unknown target "${ argv.target }" for Capacitor`)
+      warn()
+      process.exit(1)
+    }
+  }
+
+  if (argv.mode === 'cordova') {
+    const targets = ['android', 'ios', 'electron', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
+    if (!argv.target) {
+      warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
+      warn()
+      process.exit(1)
+    }
+    if (!targets.includes(argv.target)) {
+      warn(`⚠️  Unknown target "${ argv.target }" for Cordova`)
       warn()
       process.exit(1)
     }

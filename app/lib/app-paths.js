@@ -16,8 +16,8 @@ function getAppDir () {
   }
 
   const
-  logger = require('./helpers/logger')
-  warn = logger('app:paths', 'red')
+    logger = require('./helpers/logger')
+    warn = logger('app:paths', 'red')
 
   warn(`⚠️  Error. This command must be executed inside a Quasar v1+ project folder.`)
   warn()
@@ -31,8 +31,8 @@ const
   pwaDir = resolve(appDir, 'src-pwa'),
   ssrDir = resolve(appDir, 'src-ssr'),
   cordovaDir = resolve(appDir, 'src-cordova'),
-  electronDir = resolve(appDir, 'src-electron'),
-  capacitorDir = resolve(appDir, 'src-capacitor')
+  capacitorDir = resolve(appDir, 'src-capacitor'),
+  electronDir = resolve(appDir, 'src-electron')
 
 module.exports = {
   cliDir,
@@ -41,8 +41,8 @@ module.exports = {
   pwaDir,
   ssrDir,
   cordovaDir,
-  electronDir,
   capacitorDir,
+  electronDir,
 
   resolve: {
     cli: dir => join(cliDir, dir),
@@ -51,7 +51,7 @@ module.exports = {
     pwa: dir => join(pwaDir, dir),
     ssr: dir => join(ssrDir, dir),
     cordova: dir => join(cordovaDir, dir),
-    electron: dir => join(electronDir, dir),
-    capacitor: dir => join(capacitorDir, dir)
+    capacitor: dir => join(capacitorDir, dir),
+    electron: dir => join(electronDir, dir)
   }
 }
