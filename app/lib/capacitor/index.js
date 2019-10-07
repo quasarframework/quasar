@@ -37,7 +37,12 @@ class CapacitorRunner {
 
     await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
 
-    // TODO cfg.ctx.emulator
+    console.log()
+    console.log(`⚠️  `)
+    console.log(`⚠️  Opening ${cfg.ctx.targetName === 'ios' ? 'XCode' : 'Android Studio'} IDE...`)
+    console.log(`⚠️  From there, use the IDE to run the app.`)
+    console.log(`⚠️  `)
+    console.log()
     await this.__runCapacitorCommand(['open', cfg.ctx.targetName])
   }
 
@@ -48,54 +53,15 @@ class CapacitorRunner {
 
     await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
 
-    if (skipPkg) {
-      return
+    if (skipPkg !== true) {
+      console.log()
+      console.log(`⚠️  `)
+      console.log(`⚠️  Opening ${cfg.ctx.targetName === 'ios' ? 'XCode' : 'Android Studio'}`)
+      console.log(`⚠️  From there, use the IDE to build the final package.`)
+      console.log(`⚠️  `)
+      console.log()
+      return this.__runCapacitorCommand(['open', cfg.ctx.targetName])
     }
-
-    if (cfg.ctx.targetName === 'ios') {
-      return this.__runCapacitorCommand(['open', 'ios'])
-    }
-
-    const basePath = appPaths.resolve.capacitor(
-      'android/app/build/outputs/apk/release'
-    )
-
-    // Remove old build output
-    // TODO needed?
-    fse.removeSync(basePath)
-
-    log('Building android app')
-    spawn(
-      `./gradlew${process.platform === 'win32' ? '.bat' : ''}`,
-      ['assembleRelease'],
-      appPaths.resolve.capacitor('android'),
-      () => {
-        // Copy built apk to dist folder
-        const unsignedPath = path.join(basePath, 'app-release-unsigned.apk')
-        const signedPath = path.join(basePath, 'app-release.apk')
-
-        if (fse.existsSync(signedPath)) {
-          fse.copySync(
-            signedPath,
-            appPaths.resolve.app('dist/capacitor/app-release.apk')
-          )
-        }
-        else if (fse.existsSync(unsignedPath)) {
-          fse.copySync(
-            unsignedPath,
-            appPaths.resolve.app('dist/capacitor/app-release.apk')
-          )
-        }
-        else {
-          warn(
-            'Could not find outputted apk. Please resolve any errors with Capacitor. ' +
-            'To run the build in Android Studio, pass the "--openIde" argument to this command.'
-          )
-          process.exit(1)
-        }
-        resolve()
-      }
-    )
   }
 
   stop () {
