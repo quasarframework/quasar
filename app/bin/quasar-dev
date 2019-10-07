@@ -51,7 +51,7 @@ if (argv.help) {
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|electron|capacitor] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -59,6 +59,9 @@ if (argv.help) {
     Only for Cordova mode:
     --target, -T     (required) App target
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+    Only for Capacitor mode:
+    --target, -T     (required) App target
+                        [android|ios]
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
@@ -70,7 +73,11 @@ require('../lib/helpers/ensure-argv')(argv, 'dev')
 require('../lib/helpers/banner')(argv, 'dev')
 
 if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
+  require('../lib/mode/install-missing')(argv.mode, argv.target).then(() => {
+    goLive()
+  })
+} else {
+  goLive()
 }
 
 const findPort = require('../lib/helpers/net').findClosestOpenPort
@@ -83,7 +90,7 @@ async function parseAddress ({ host, port }) {
     if (host && ['localhost', '127.0.0.1', '::1'].includes(host.toLowerCase())) {
       host = '0.0.0.0'
     }
-    if (argv.mode === 'cordova' && (!host || host === '0.0.0.0')) {
+    if ((argv.mode === 'cordova' || argv.mode === 'capacitor' )&& (!host || host === '0.0.0.0')) {
       const getExternalIP = require('../lib/helpers/get-external-ip')
       host = await getExternalIP()
       this.chosenHost = host
@@ -188,6 +195,7 @@ async function goLive () {
   const
     generator = new Generator(quasarConfig),
     Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
+    Capacitor = argv.mode === 'capacitor' ? require('../lib/capacitor') : false,
     Electron = argv.mode === 'electron' ? require('../lib/electron') : false
 
   function startDev (oldDevServer) {
@@ -200,6 +208,7 @@ async function goLive () {
       .then(() => devServer.listen()) // Start listening
       .then(() => Electron && Electron.run(quasarConfig, argv._))
       .then(() => Cordova && Cordova.run(quasarConfig, argv._))
+      .then(() => Capacitor && Capacitor.run(quasarConfig, argv._))
       .then(() => devServer) // Pass new builder to watch chain
   }
 
@@ -217,5 +226,3 @@ async function goLive () {
       return devServer
     })
 }
-
-goLive()
