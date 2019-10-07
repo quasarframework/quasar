@@ -51,7 +51,7 @@ export default {
     pagesNumber () {
       return Math.max(
         1,
-        Math.ceil(this.computedRowsNumber / this.computedPagination.rowsPerPage)
+        this.computedPagination.rowsPerPage === 0 ? 1 : Math.ceil(this.computedRowsNumber / this.computedPagination.rowsPerPage)
       )
     },
 
