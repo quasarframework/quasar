@@ -1,13 +1,8 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  path = require('path'),
-  chalk = require('chalk')
+const parseArgs = require('minimist')
 
-const
-  appPaths = require('../lib/app-paths'),
-  log = require('../lib/helpers/logger')('app:clean')
+const log = require('../lib/helpers/logger')('app:clean')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

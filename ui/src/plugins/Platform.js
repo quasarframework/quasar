@@ -190,14 +190,15 @@ function getPlatform (userAgent) {
     else if (document.location.href.indexOf('chrome-extension://') === 0) {
       browser.chromeExt = true
     }
-    else if (window._cordovaNative || window.cordova) {
-      const prop = Object.keys(window._cordovaNative || window.cordova) === 0
-        ? 'capacitor'
-        : 'cordova'
-
-      browser[prop] = true
+    else if (window.Capacitor !== void 0) {
+      browser.capacitor = true
       browser.nativeMobile = true
-      browser.nativeMobileWrapper = prop
+      browser.nativeMobileWrapper = 'capacitor'
+    }
+    else if (window._cordovaNative !== void 0 || window.cordova !== void 0) {
+      browser.cordova = true
+      browser.nativeMobile = true
+      browser.nativeMobileWrapper = 'cordova'
     }
 
     fromSSR = browser.nativeMobile === void 0 &&

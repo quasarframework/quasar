@@ -1,6 +1,5 @@
 const
   logger = require('../helpers/logger'),
-  log = logger('app:mode'),
   warn = logger('app:mode', 'red'),
   getMode = require('./index')
 

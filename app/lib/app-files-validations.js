@@ -25,6 +25,18 @@ module.exports = function (cfg) {
     error = true
   }
 
+  // backward compatibility
+  const viewPort = '<% if (htmlWebpackPlugin.options.ctx.mode.cordova) { %>, viewport-fit=cover<% } %>'
+  if (content.indexOf(viewPort) > -1) {
+    content = content.replace(
+      viewPort,
+      '<% if (htmlWebpackPlugin.options.ctx.mode.cordova || htmlWebpackPlugin.options.ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>'
+    )
+    fs.writeFileSync(file, content, 'utf-8')
+    console.log(`\n⚠️  Updated viewport-fit in /src/index.template.html to latest Quasar specs`)
+    console.log()
+  }
+
   file = appPaths.resolve.app(cfg.sourceFiles.rootComponent)
   content = fs.readFileSync(file, 'utf-8')
   if (content.indexOf('q-app') === -1) {

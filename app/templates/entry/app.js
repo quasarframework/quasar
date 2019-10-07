@@ -23,6 +23,11 @@ import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
+<% if (ctx.mode.capacitor) { %>
+import { Plugins } from '@capacitor/core'
+const { SplashScreen } = Plugins
+<% } %>
+
 export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
@@ -45,7 +50,10 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
     <%= store ? 'store,' : '' %>
-    render: h => h(App)
+    render: h => h(App)<% if (ctx.mode.capacitor) { %>,
+    mounted () {
+      SplashScreen.hide()
+    }<% } %>
   }
 
   <% if (ctx.mode.ssr) { %>

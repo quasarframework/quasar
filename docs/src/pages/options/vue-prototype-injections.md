@@ -12,6 +12,7 @@ Quasar injects Vue prototype with `$q` object:
 | `$q.lang` | Object | Quasar Language pack management, containing labels etc (one of [lang files](https://github.com/quasarframework/quasar/tree/dev/ui/lang)). Designed for Quasar components, but you can use it in your app components too. More info: [Quasar Language Packs](/options/quasar-language-packs). |
 | `$q.iconSet` | Object | Quasar icon set management (one of [icon set files](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set)). Designed for Quasar components, but you can use it in your app components too. More info: [Quasar Icon Sets](/options/quasar-icon-sets). |
 | `$q.cordova` | Object | Reference to Cordova global object. Available only when running under a Cordova app. |
+| `$q.capacitor` | Object | (@quasar/app v1.2+) Reference to Capacitor global object. Available only when running under a Capacitor app. |
 | `$q.electron` | Object | Reference to Electron global object. Available only when running under an Electron app. |
 
 ## Example
