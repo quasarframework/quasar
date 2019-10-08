@@ -187,8 +187,8 @@ function getPlatform (userAgent) {
     if (window.process && window.process.versions && window.process.versions.electron) {
       browser.electron = true
     }
-    else if (document.location.href.indexOf('chrome-extension://') === 0) {
-      browser.chromeExt = true
+    else if (document.location.href.indexOf('-extension://') > -1) {
+      browser.bex = true
     }
     else if (window.Capacitor !== void 0) {
       browser.capacitor = true
