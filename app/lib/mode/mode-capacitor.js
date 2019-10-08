@@ -1,5 +1,6 @@
 const fs = require('fs')
 const fse = require('fs-extra')
+const compileTemplate = require('lodash.template')
 
 const
   appPaths = require('../app-paths'),
@@ -36,13 +37,23 @@ class Mode {
     log(`Creating Capacitor source folder...`)
 
     // Create /src-capacitor from template
-    fse.copySync(
-      appPaths.resolve.cli('templates/capacitor'),
-      appPaths.capacitorDir
-    )
+    fse.ensureDirSync(appPaths.capacitorDir)
 
-    // Update /src-capacitor/package.json
-    require('../capacitor/update-cap-pkg')()
+    const fglob = require('fast-glob')
+    const scope = {
+      appName,
+      appId: pkg.capacitorId || pkg.cordovaId || 'org.quasar.capacitor.app',
+      pkg
+    }
+
+    fglob.sync(['**/*'], {
+      cwd: appPaths.resolve.cli('templates/capacitor')
+    }).forEach(filePath => {
+      const dest = appPaths.resolve.capacitor(filePath)
+      const content = fs.readFileSync(appPaths.resolve.cli('templates/capacitor/' + filePath))
+      fse.ensureFileSync(dest)
+      fs.writeFileSync(dest, compileTemplate(content)(scope), 'utf-8')
+    })
 
     const cmdParam = nodePackager === 'npm'
       ? ['install']
@@ -65,8 +76,8 @@ class Mode {
         'init',
         '--web-dir',
         'www',
-        appName,
-        pkg.capacitorId || pkg.cordovaId || 'org.quasar.capacitor.app'
+        scope.appName,
+        scope.appId
       ],
       appPaths.capacitorDir
     )

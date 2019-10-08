@@ -1,6 +1,6 @@
 {
-  "appId": "org.cordova.quasar.app",
-  "appName": "Quasar App",
+  "appId": "<%= appId %>",
+  "appName": "<%= appName %>",
   "bundledWebRuntime": false,
   "npmClient": "yarn",
   "webDir": "www"

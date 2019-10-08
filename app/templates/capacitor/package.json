@@ -1,8 +1,8 @@
 {
-  "name": "app",
-  "version": "0.0.1",
-  "description": "Quasar App",
-  "author": "",
+  "name": "<%= pkg.name %>",
+  "version": "<%= pkg.version %>",
+  "description": "<%= pkg.description %>",
+<% if (pkg.author) { %>  "author": "<%= pkg.author %>",<% } %>
   "private": true,
   "dependencies": {
     "@capacitor/cli": "^1.0.0",

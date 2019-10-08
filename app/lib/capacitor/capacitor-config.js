@@ -4,7 +4,6 @@ const path = require('path')
 
 const
   appPaths = require('../app-paths'),
-  updateCapPkg = require('./update-cap-pkg'),
   logger = require('../helpers/logger'),
   log = logger('app:capacitor-conf')
   warn = logger('app:capacitor-conf', 'red')
@@ -16,7 +15,7 @@ class CapacitorConfig {
     // Make sure there is an index.html, otherwise Capacitor will crash
     fse.ensureFileSync(appPaths.resolve.capacitor('www/index.html'))
 
-    updateCapPkg(cfg)
+    this.__updateCapPkg(cfg, this.pkg)
     log(`Updated src-capacitor/package.json`)
 
     this.tamperedFiles = []
@@ -27,7 +26,7 @@ class CapacitorConfig {
     this.tamperedFiles.push({
       path: capJsonPath,
       name: 'capacitor.config.json',
-      content: this.__applyCapJson(cfg, capJson),
+      content: this.__updateCapJson(cfg, capJson),
       originalContent: JSON.stringify(capJson, null, 2)
     })
 
@@ -66,7 +65,7 @@ class CapacitorConfig {
     return path.join(appPaths.resolve.capacitor(jsonPath))
   }
 
-  __applyCapJson (cfg, originalCapCfg) {
+  __updateCapJson (cfg, originalCapCfg) {
     const capJson = { ...originalCapCfg }
 
     capJson.appId = cfg.capacitor.id || this.pkg.capacitorId || this.pkg.cordovaId || 'org.quasar.cordova.app'
@@ -88,6 +87,20 @@ class CapacitorConfig {
     }
 
     return JSON.stringify(capJson, null, 2)
+  }
+
+  __updateCapPkg (cfg, pkg) {
+    const capPkgPath = appPaths.resolve.capacitor('package.json')
+    const capPkg = require(capPkgPath)
+
+    ;['name', 'author'].forEach(prop => {
+      capPkg[prop] = pkg[prop]
+    })
+
+    capPkg.version = cfg.capacitor.version || pkg.version
+    capPkg.description = cfg.capacitor.description || pkg.description
+
+    fs.writeFileSync(capPkgPath, JSON.stringify(capPkg, null, 2), 'utf-8')
   }
 }
 
