@@ -93,12 +93,12 @@ class CapacitorConfig {
     const capPkgPath = appPaths.resolve.capacitor('package.json')
     const capPkg = require(capPkgPath)
 
-    ;['name', 'author'].forEach(prop => {
-      capPkg[prop] = pkg[prop]
+    Object.assign(capPkg, {
+      name: cfg.capacitor.appName || pkg.name,
+      version: cfg.capacitor.version || pkg.version,
+      description: cfg.capacitor.description || pkg.description,
+      author: pkg.author
     })
-
-    capPkg.version = cfg.capacitor.version || pkg.version
-    capPkg.description = cfg.capacitor.description || pkg.description
 
     fs.writeFileSync(capPkgPath, JSON.stringify(capPkg, null, 2), 'utf-8')
   }
