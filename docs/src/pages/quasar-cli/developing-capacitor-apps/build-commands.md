@@ -1,5 +1,6 @@
 ---
 title: Capacitor Build Commands
+desc: The Quasar CLI list of commands when developing or building a hybrid mobile app with Capacitor.
 ---
 
 [Quasar CLI](/quasar-cli/installation) makes it incredibly simple to develop or build the final distributables from your source code.
@@ -32,11 +33,6 @@ $ quasar build -m capacitor -T [ios|android]
 
 # ..or the longer form:
 $ quasar build --mode cordova --target [ios|android]
-
-# this opens Android Studio instead of building the apk for you. On iOS, XCode is always opened.
-$ quasar build -m cordova -T [ios|android] --openIde
 ```
 
-These commands parse and build your `/src` folder then overwrite `/dist/capacitor` then use the Capacitor CLI to update your plugins and open your IDE.
-
-If you are building for Android, the apk will be built for you instead of opening Android Studio, unless the `--openIde` arg is passed. The file will be located at `dist/capacitor/app-release.apk`.
+These commands parse and build your `/src` folder then overwrite `/src-capacitor/www` then use the Capacitor CLI to update your plugins and open your IDE. From within the IDE you need to issue a build for the final assets that go into a phone/tablet.

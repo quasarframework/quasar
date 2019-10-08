@@ -1,14 +1,12 @@
 ---
 title: Managing Google Analytics
-desc: How to use analytics in a Quasar hybrid mobile app with Cordova.
+desc: How to use analytics in a Quasar hybrid mobile app with Capacitor.
 ---
-Getting to know your users and measuring user behavior is an important step in App Development. Unfortunately, it takes a bit of non-standard work to get Google Analytics to work after wrapping your mobile app with Cordova. Setting up Google Analytics in a pure web application is quite easy, but Cordova somehow prevents pageviews and events from being sent to Google Analytics.
+Getting to know your users and measuring user behavior is an important step in App Development. Unfortunately, it takes a bit of non-standard work to get Google Analytics to work after wrapping your mobile app with Capacitor. Setting up Google Analytics in a pure web application is quite easy, but Cordova somehow prevents pageviews and events from being sent to Google Analytics.
 
-Follow this guide to implement Google Analytics into your Cordova powered Quasar App.
+Follow this guide to implement Google Analytics into your Capacitor powered Quasar App.
 
-You may also want to read these great tutorials:
-- [Google Tag Manager and Analytics Setup for an SPA Website](https://jannerantala.com/tutorials/quasar-framework-google-tag-manager-and-analytics-setup-for-an-spa-website/)
-- [Google Analytics Setup for a Cordova App](https://jannerantala.com/tutorials/quasar-framework-google-analytics-setup-for-cordova-app/)
+You may also want to read this great tutorial: [Google Tag Manager and Analytics Setup for an SPA Website](https://jannerantala.com/tutorials/quasar-framework-google-tag-manager-and-analytics-setup-for-an-spa-website/)
 
 ::: warning
 You'll need to include a `<script>` tag provided by Google in `/src/index.template.html`, which will make your App depend on an Internet connection!
@@ -62,10 +60,10 @@ export default ({ router }) => {
   })
 }
 ```
-Finally we register the app boot file in `/quasar.conf.js`. We can do so only for Cordova wrapped apps if we want:
+Finally we register the app boot file in `/quasar.conf.js`. We can do so only for Capacitor wrapped apps if we want:
 ```
 boot: [
-  ctx.mode.cordova ? 'google-analytics' : ''
+  ctx.mode.capacitor ? 'google-analytics' : ''
 ]
 ```
 

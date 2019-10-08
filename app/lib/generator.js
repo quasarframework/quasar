@@ -10,7 +10,7 @@ const
 
 class Generator {
   constructor (quasarConfig) {
-    const { ctx, preFetch, ...cfg } = quasarConfig.getBuildConfig()
+    const { ctx, preFetch } = quasarConfig.getBuildConfig()
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig

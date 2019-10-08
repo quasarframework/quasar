@@ -22,6 +22,14 @@ module.exports = function (cfg, configName) {
       appPaths.resolve.cli('node_modules')
     ]
 
+  if (configName === 'Capacitor') {
+    // need to also look into /src-capacitor
+    // for deps like @capacitor/core
+    resolveModules.push(
+      appPaths.resolve.capacitor('node_modules')
+    )
+  }
+
   chain.entry('app').add(appPaths.resolve.app('.quasar/client-entry.js'))
   chain.mode(cfg.ctx.dev ? 'development' : 'production')
   chain.devtool(cfg.build.sourceMap ? cfg.build.devtool : false)
