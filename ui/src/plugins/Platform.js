@@ -189,9 +189,6 @@ function getPlatform (userAgent) {
     }
     else if (document.location.href.indexOf('-extension://') > -1) {
       browser.bex = true
-      browser.bexName = document.location.href.indexOf('moz-extension://') === 0
-        ? 'firefox'
-        : 'chrome'
     }
     else if (window.Capacitor !== void 0) {
       browser.capacitor = true
