@@ -1,6 +1,5 @@
-const
-  fs = require('fs'),
-  fse = require('fs-extra')
+const fs = require('fs')
+const fse = require('fs-extra')
 
 const
   appPaths = require('../app-paths'),
@@ -9,8 +8,6 @@ const
   warn = logger('app:mode-capacitor', 'red'),
   { spawnSync } = require('../helpers/spawn'),
   nodePackager = require('../helpers/node-packager')
-
-const capacitorDeps = require('../capacitor/capacitor-deps')
 
 class Mode {
   get isInstalled() {
@@ -36,48 +33,28 @@ class Mode {
       return
     }
 
-    const cmdParam = nodePackager === 'npm'
-      ? ['install', '--save-dev']
-      : ['add', '--dev']
-
-    log(`Installing Capacitor dependencies...`)
-    spawnSync(
-      nodePackager,
-      cmdParam.concat(
-        Object.keys(capacitorDeps).map(dep => {
-          return `${dep}@${capacitorDeps[dep]}`
-        })
-      ),
-      appPaths.appDir,
-      () => warn('Failed to install Capacitor dependencies')
-    )
-
     log(`Creating Capacitor source folder...`)
 
-    // Need these otherwise Capacitor CLI will fail
+    // Create /src-capacitor from template
     fse.copySync(
       appPaths.resolve.cli('templates/capacitor'),
       appPaths.capacitorDir
     )
 
-    // update npmClient in capacitor config
-    const capJsonPath = appPaths.resolve.capacitor('capacitor.config.json')
-    const capJson = require(capJsonPath)
-    capJson.npmClient = nodePackager
-    if (pkg.capacitorId) {
-      capJson.appId = pkg.capacitorId
-    }
-    else if (pkg.cordovaId) {
-      capJson.appId = pkg.cordovaId
-    }
-    if (pkg.productName) {
-      capJson.appName = pkg.productName
-    }
-    fs.writeFileSync(capJsonPath, JSON.stringify(capJson, null, 2), 'utf-8')
+    // Update /src-capacitor/package.json
+    require('../capacitor/update-cap-pkg')()
 
-    // Copy package.json to prevent capacitor from reinstalling deps
-    const updateCapPkg = require('../capacitor/update-cap-pkg')
-    updateCapPkg()
+    const cmdParam = nodePackager === 'npm'
+      ? ['install']
+      : []
+
+    log(`Installing Capacitor dependencies...`)
+    spawnSync(
+      nodePackager,
+      cmdParam,
+      appPaths.capacitorDir,
+      () => warn('Failed to install Capacitor dependencies')
+    )
 
     const capacitorCliPath = require('../capacitor/capacitor-cli-path')
 
@@ -122,20 +99,8 @@ class Mode {
       return
     }
 
-    log(`Removing Capacitor dir`)
+    log(`Removing Capacitor folder`)
     fse.removeSync(appPaths.capacitorDir)
-
-    const cmdParam = nodePackager === 'npm'
-      ? ['uninstall', '--save-dev']
-      : ['remove', '--dev']
-
-    log(`Removing Capacitor dependencies...`)
-    spawnSync(
-      nodePackager,
-      cmdParam.concat(Object.keys(capacitorDeps)),
-      appPaths.appDir,
-      () => warn('Failed to uninstall Capacitor dependencies')
-    )
 
     log(`Capacitor support was removed`)
   }
