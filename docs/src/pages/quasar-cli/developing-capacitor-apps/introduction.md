@@ -1,5 +1,6 @@
 ---
 title: What is Capacitor
+badge: "@quasar/app v1.2+"
 desc: Introduction on one of the technologies behind Quasar hybrid mobile apps.
 ---
 
