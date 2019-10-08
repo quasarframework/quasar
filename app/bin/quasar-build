@@ -13,11 +13,12 @@ const argv = parseArgs(process.argv.slice(2), {
     A: 'arch',
     b: 'bundler',
     s: 'skip-pkg',
+    i: 'ide',
     d: 'debug',
     h: 'help',
     P: 'publish'
   },
-  boolean: ['h', 'd', 'u'],
+  boolean: ['h', 'd', 'u', 'i'],
   string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
@@ -60,11 +61,14 @@ if (argv.help) {
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
     --debug, -d     Build for debugging purposes
-    --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
+    --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
                       - Capacitor (it only fills in /src/capacitor/www folder with the UI code)
                       - Electron (it only creates the /dist/electron/UnPackaged folder)
     --help, -h      Displays this message
+
+    ONLY for Capacitor mode:
+    --ide, -i       Open IDE (Android Studio / XCode) instead of finalizing with a terminal/console build
 
     ONLY for Electron mode:
     --bundler, -b   Bundler (electron-packager or electron-builder)
@@ -98,6 +102,12 @@ if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
+if (argv.mode === 'capacitor') {
+  // TODO - remove when out of beta
+  const showBanner = require('../lib/capacitor/show-beta-banner')
+  showBanner()
+}
+
 const
   path = require('path'),
   webpack = require('webpack')
@@ -119,9 +129,9 @@ function parseWebpackConfig (webpackConfig, mode) {
   return webpackConfig
 }
 
-function finalize (mode, quasarConfig) {
+function finalizeBuild (mode, quasarConfig) {
   if (['cordova', 'capacitor'].includes(mode)) {
-    return require('../lib/' + mode).build(quasarConfig, argv['skip-pkg'], argv._)
+    return require('../lib/' + mode).build(quasarConfig, argv)
   }
   else if (argv['skip-pkg'] !== true && mode === 'electron') {
     return require('../lib/electron').build(quasarConfig)
@@ -162,7 +172,7 @@ async function build () {
     webpackConfig = quasarConfig.getWebpackConfig(),
     buildConfig = quasarConfig.getBuildConfig()
 
-  let outputFolder = buildConfig.build.packagedElectronDist ||
+  let outputFolder = buildConfig.build.packagedDistDir ||
     buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
@@ -212,7 +222,7 @@ async function build () {
       }
     })
 
-    finalize(argv.mode, quasarConfig).then(async () => {
+    finalizeBuild(argv.mode, quasarConfig).then(async () => {
       outputFolder = argv.mode === 'cordova'
         ? path.join(outputFolder, '..')
         : outputFolder

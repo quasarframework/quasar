@@ -16,7 +16,7 @@ const
   cssVariables = require('./helpers/css-variables')
 
 function encode (obj) {
-  return JSON.stringify(obj, (key, value) => {
+  return JSON.stringify(obj, (_, value) => {
     return typeof value === 'function'
       ? `/fn(${value.toString()})`
       : value
@@ -474,15 +474,19 @@ class QuasarConfig {
       })
     }
 
-    if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
-      cfg.build.distDir = appPaths.resolve[this.ctx.modeName]('www')
-    }
-    else if (!path.isAbsolute(cfg.build.distDir)) {
+    if (!path.isAbsolute(cfg.build.distDir)) {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
-    if (this.ctx.mode.electron) {
-      cfg.build.packagedElectronDist = cfg.build.distDir
+    if (this.ctx.mode.capacitor) {
+      cfg.build.packagedDistDir = path.join(cfg.build.distDir, this.ctx.targetName)
+    }
+
+    if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
+      cfg.build.distDir = appPaths.resolve[this.ctx.modeName]('www')
+    }
+    else if (this.ctx.mode.electron) {
+      cfg.build.packagedDistDir = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
 
@@ -760,12 +764,12 @@ class QuasarConfig {
         }, cfg.electron, {
           packager: {
             dir: cfg.build.distDir,
-            out: cfg.build.packagedElectronDist
+            out: cfg.build.packagedDistDir
           },
           builder: {
             directories: {
               app: cfg.build.distDir,
-              output: path.join(cfg.build.packagedElectronDist, 'Packaged')
+              output: path.join(cfg.build.packagedDistDir, 'Packaged')
             }
           }
         })

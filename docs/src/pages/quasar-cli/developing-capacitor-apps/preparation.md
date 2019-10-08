@@ -60,3 +60,9 @@ $ quasar dev -m capacitor -T [android|ios]
 ```
 
 Once the dev server is ready, your native IDE will open (Android Studio for Android and Xcode for iOS). Run your app here, and it will automatically connect to the dev server.
+
+::: danger
+In Android Studio, you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** version as it will currently break the Capacitor project.
+
+<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
+:::

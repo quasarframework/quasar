@@ -21,12 +21,22 @@ module.exports = function (argv, cmd, details) {
 
   if (cmd === 'build') {
     banner += `\n Publishing........ ${argv.publish !== void 0 ? green('yes') : grey('no')}`
+
+    if (argv.mode === 'capacitor') {
+      const packaging = argv['skip-pkg']
+        ? grey('skip')
+        : green(argv.ide ? 'IDE' : 'terminal')
+
+      banner += `\n Packaging mode.... ${packaging}`
+    }
   }
 
   if (details) {
-    banner += `
+    if (argv['skip-pkg'] !== true) {
+      banner += `
  ==================
  Output folder..... ${green(details.outputFolder)}`
+    }
 
     if (argv.mode === 'ssr') {
       banner += `
@@ -44,12 +54,24 @@ module.exports = function (argv, cmd, details) {
       banner += `
 
  Tip: "src-cordova" is a Cordova project folder, so everything you know
-      about Cordova applies to it. Quasar CLI only generates the content
+      about Cordova applies to it. Quasar CLI only generates UI the content
       for "src-cordova/www" folder and then Cordova takes over and builds
-      the mobile app.
+      the final packaged file.
 
- Tip: Feel free to use Cordova CLI or change any files in "src-cordova",
-      except for "www" folder which must be built by Quasar CLI.`
+ Tip: Feel free to use Cordova CLI ("cordova <params>") or change any files
+      in "src-cordova", except for "www" folder which must be built by Quasar CLI.`
+    }
+    else if (argv.mode === 'capacitor') {
+      banner += `
+
+ Tip: "src-capacitor" is a Capacitor project folder, so everything you know
+      about Capacitor applies to it. Quasar CLI generates the UI content
+      for "src-capacitor/www" folder and then either opens the IDE or calls
+      the platform's build commands to generate the final packaged file.
+
+ Tip: Feel free to use Capacitor CLI ("yarn capacitor <params>" or
+      "npx capacitor <params>") or change any files in "src-capacitor", except
+      for the "www" folder which must be built by Quasar CLI.`
     }
     else if (['spa', 'pwa'].includes(argv.mode)) {
       banner += `

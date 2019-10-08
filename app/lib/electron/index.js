@@ -71,7 +71,7 @@ class ElectronRunner {
       spawn(
         nodePackager,
         [ 'install', '--production' ],
-        cfg.build.distDir,
+        { cwd: cfg.build.distDir },
         code => {
           if (code) {
             warn(`⚠️  [FAIL] ${nodePackager} failed installing dependencies`)
@@ -160,7 +160,7 @@ class ElectronRunner {
         '--inspect=5858',
         appPaths.resolve.app('.quasar/electron/electron-main.js')
       ].concat(extraParams),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       code => {
         if (code) {
           warn()

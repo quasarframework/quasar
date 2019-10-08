@@ -63,7 +63,7 @@ class Mode {
     spawnSync(
       nodePackager,
       cmdParam,
-      appPaths.capacitorDir,
+      { cwd: appPaths.capacitorDir },
       () => warn('Failed to install Capacitor dependencies')
     )
 
@@ -79,14 +79,14 @@ class Mode {
         scope.appName,
         scope.appId
       ],
-      appPaths.capacitorDir
+      { cwd: appPaths.capacitorDir }
     )
 
     ;['android', 'ios'].forEach(platform => {
       spawnSync(
         capacitorCliPath,
         ['add', platform],
-        appPaths.capacitorDir
+        { cwd: appPaths.capacitorDir }
       )
     })
 

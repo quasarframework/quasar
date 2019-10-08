@@ -42,15 +42,15 @@ class CordovaRunner {
     )
   }
 
-  build (quasarConfig, skipPkg, extraParams) {
+  build (quasarConfig, argv) {
     const cfg = quasarConfig.getBuildConfig()
-    const args = skipPkg
+    const args = argv['skip-pkg']
       ? ['prepare', cfg.ctx.targetName]
       : ['build', cfg.ctx.debug ? '--debug' : '--release', cfg.ctx.targetName]
 
     return this.__runCordovaCommand(
       cfg,
-      args.concat(extraParams)
+      args.concat(argv._)
     )
   }
 
@@ -73,7 +73,7 @@ class CordovaRunner {
       this.pid = spawn(
         'cordova',
         args,
-        appPaths.cordovaDir,
+        { cwd: appPaths.cordovaDir },
         code => {
           this.__cleanup()
           if (code) {

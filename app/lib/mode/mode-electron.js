@@ -38,7 +38,7 @@ class Mode {
       cmdParam.concat(Object.keys(electronDeps).map(dep => {
         return `${dep}@${electronDeps[dep]}`
       })),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       () => warn('Failed to install Electron dependencies')
     )
 
@@ -73,7 +73,7 @@ class Mode {
     spawnSync(
       nodePackager,
       cmdParam.concat(deps),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       () => warn('Failed to uninstall Electron dependencies')
     )
 
