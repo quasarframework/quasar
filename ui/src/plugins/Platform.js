@@ -184,11 +184,19 @@ function getPlatform (userAgent) {
   browser.platform = matched.platform
 
   if (isSSR === false) {
+    if (document.location.href.indexOf('-extension://') > -1) {
+      browser.bex = {}
+    }
+
     if (window.process && window.process.versions && window.process.versions.electron) {
       browser.electron = true
     }
     else if (document.location.href.indexOf('chrome-extension://') === 0) {
       browser.chromeExt = true
+      browser.bex.chrome = true
+    }
+    else if (document.location.href.indexOf('moz-extension://') === 0) {
+      browser.bex.firefox = true
     }
     else if (window.Capacitor !== void 0) {
       browser.capacitor = true
