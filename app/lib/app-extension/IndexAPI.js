@@ -211,12 +211,16 @@ module.exports = class IndexAPI {
    * Register an API file for "quasar describe" command
    *
    * @param {string} name
-   * @param {string} relativePath
+   * @param {string} relativePath (or node_modules reference if it starts with "~")
    *   (relative path to Api file)
    */
   registerDescribeApi (name, relativePath) {
-    const dir = getCallerPath()
-    this.__hooks.describeApi[name] = path.resolve(dir, relativePath)
+    const callerPath = getCallerPath()
+
+    this.__hooks.describeApi[name] = {
+      callerPath,
+      relativePath
+    }
   }
 
   /**

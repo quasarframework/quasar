@@ -8,7 +8,7 @@
       row-key="name"
       flat
       bordered
-    ></q-table>
+    />
   </div>
 </template>
 

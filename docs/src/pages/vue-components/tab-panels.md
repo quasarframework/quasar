@@ -37,6 +37,8 @@ QTabPanels can be used as standalone too. They do not depend on the presence of 
 
 <doc-example title="Coloring" file="QTabPanels/Coloring" />
 
+<doc-example title="With vertical QTabs and QSplitter" file="QTabs/Vertical" />
+
 For a full list of transitions, please check out [Transitions](/options/transitions).
 
 <doc-example title="Custom transition examples" file="QTabPanels/Transition" />

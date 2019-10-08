@@ -59,6 +59,10 @@
         <q-btn color="primary" icon="map">
           <q-menu @show="log('@show popover_map')" @hide="log('@hide popover_map')">
             <q-list style="min-width: 100px">
+              <div style="height: 50px" class="bg-grey-3">
+                Weee
+              </div>
+
               <q-item
                 v-for="n in 20"
                 :key="n"

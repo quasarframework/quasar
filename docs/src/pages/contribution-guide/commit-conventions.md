@@ -69,7 +69,7 @@ The first line cannot be longer than 70 characters, the second line is always bl
 
 - ui, cli, api, touchswipe, qtime, etc.
 
-:::info
+::: tip
 The `<scope>` can contain more values separated by comma. Example: `fix(ui,cli): Cordova mode added`.
 
 The `<scope>` can be empty (e.g. if the change is a global), in which case the parentheses are omitted.
@@ -122,10 +122,3 @@ Closed issues should be listed on a separate line in the footer prefixed with "C
 or in the case of multiple issues:
 
 `Closes #123, #245, #992`
-
-## Further Reading
-
-- [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/)
-- [Karma Runner Git Commit Msg](http://karma-runner.github.io/4.0/dev/git-commit-msg.html)
-- [AngularJS Git Commit Message Conventions](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#)
-- [Commit Message Conventions](https://gist.github.com/stephenparish/9941e89d80e2bc58a153)

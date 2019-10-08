@@ -55,7 +55,7 @@ If, however, you have a nested importing statement and the file from which you a
 
 @import 'some-file.sass'
 // now some-file.sass can benefit
-// from Quasar stylus variables too
+// from Quasar Sass variables too
 // due to comment above
 </style>
 ```
@@ -63,7 +63,7 @@ If, however, you have a nested importing statement and the file from which you a
 Same is required for .sass/.scss files that are included from quasar.conf.js > css.
 
 ## Customizing
-If you want to customize the variables (or add your own) and your project does not yet has `src/css/quasar.variables.sass` (or `src/css/quasar.variables.scss`), create one of them yourself. It doesn't matter if you pick .sass or .scss as the extension for this file. **Having one of them will provide the variables to ALL your .sass AND .scss project files (including inside of .vue files).**
+If you want to customize the variables (or add your own) and your project does not yet have a `src/css/quasar.variables.sass` (or `src/css/quasar.variables.scss`) file, create one of them yourself. It doesn't matter if you pick .sass or .scss as the extension for this file. **Having one of them will provide the variables to ALL your .sass AND .scss project files (including inside of .vue files).**
 
 You can freely override any of Quasar's variables (see next section) in those files. For convenience, if you picked Sass or SCSS when you created your Quasar project folder, these files initially contain only the brand color-related variables.
 

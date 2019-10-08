@@ -464,7 +464,7 @@
    * @returns {boolean}
    */
   FastClick.prototype.onTouchEnd = function(event) {
-    var forElement, trackingClickStart, targetTagName, scrollParent, touch, targetElement = this.targetElement
+    var forElement, trackingClickStart, targetTagName, scrollParent, targetElement = this.targetElement
 
     if (!this.trackingClick) {
       return true
@@ -629,11 +629,15 @@
     return permitted
   }
 
+  function init () {
+    new FastClick(document.body)
+  }
+
   define(function() {
-    return function () {
-      document.addEventListener('DOMContentLoaded', () => {
-        new FastClick(document.body)
-      }, false)
+    if (document.readyState !== 'loading') {
+      return init()
     }
+
+    document.addEventListener('DOMContentLoaded', init, false)
   })
 }())

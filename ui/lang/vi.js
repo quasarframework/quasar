@@ -82,7 +82,8 @@ export default {
     size5: 'To',
     size6: 'Rất To',
     size7: 'Tối đa',
-    defaultFont: 'Phông mặc định'
+    defaultFont: 'Phông mặc định',
+    viewSource: 'Xem nguồn'
   },
   tree: {
     noNodes: 'Không có nốt nào có sẵn',

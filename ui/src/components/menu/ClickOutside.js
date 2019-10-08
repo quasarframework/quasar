@@ -1,4 +1,5 @@
 import { listenOpts } from '../../utils/event.js'
+import { getVmOfNode, isVmChildOf } from '../../utils/vm.js'
 import Platform from '../../plugins/Platform.js'
 
 let timer
@@ -44,28 +45,20 @@ export default {
       handler (evt) {
         const target = evt.target
 
-        if (target === void 0 || target.nodeType === 8 || (ctx.toggleEl !== void 0 && ctx.toggleEl.contains(target))) {
-          return
+        if (
+          target !== void 0 &&
+          target.nodeType !== 8 &&
+          (
+            ctx.toggleEl === void 0 ||
+            ctx.toggleEl.contains(target) === false
+          ) &&
+          (
+            target === document.body ||
+            isVmChildOf(getVmOfNode(target), vmEl) === false
+          )
+        ) {
+          return ctx.trigger(evt)
         }
-
-        if (target !== document.body) {
-          for (let node = target; node !== null; node = node.parentNode) {
-            // node.__vue__ can be null if the instance was destroyed
-            if (node.__vue__ === null) {
-              return
-            }
-            if (node.__vue__ !== void 0) {
-              for (let vm = node.__vue__; vm !== void 0; vm = vm.$parent) {
-                if (vmEl === vm) {
-                  return
-                }
-              }
-              break
-            }
-          }
-        }
-
-        return ctx.trigger(evt)
       }
     }
 

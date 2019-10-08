@@ -45,12 +45,13 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         autocomplete="off"
         spellcheck="false"
       )
-        q-input.full-width.doc-algolia(
+        q-input.full-width.doc-algolia.bg-primary(
           ref="docAlgolia"
           v-model="search"
           dense
-          standout="bg-primary text-white"
           square
+          dark
+          borderless
           placeholder="Search..."
         )
           template(v-slot:append)
@@ -58,6 +59,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
               name="search"
               @click="$refs.docAlgolia.focus()"
             )
+      .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
 
   q-drawer(
     v-if="hasRightDrawer"
@@ -268,13 +270,36 @@ export default {
   border-radius: 0
 
 .layout-drawer-toolbar
-  border-bottom: 1px solid $separator-color
+  > form
+    margin-right: -2px
+  &__shadow
+    bottom: -10px
+    &:after
+      content: ''
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 10px
+      left: 0
+      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2), 0 0px 10px rgba(0, 0, 0, 0.24)
 
-.q-drawer--mobile .doc-toc
-  .q-item
-    margin-left: 3px
-  .q-item--active
-    font-weight: 600
+.doc-algolia
+  .q-field__control
+    padding: 0 18px 0 16px !important
+  &.q-field--focused
+    .q-icon
+      color: #fff
+
+.q-drawer--mobile
+  .layout-drawer-toolbar form
+    margin-right: -1px
+  .doc-algolia .q-field__control
+    padding-right: 17px !important
+  .doc-toc
+    .q-item
+      margin-left: 3px
+    .q-item--active
+      font-weight: 600
 
 .doc-toc .q-item
   border-radius: 10px 0 0 10px

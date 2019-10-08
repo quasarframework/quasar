@@ -83,7 +83,8 @@ export default {
     size5: 'mdi-numeric-5-box',
     size6: 'mdi-numeric-6-box',
     size7: 'mdi-numeric-7-box',
-    font: 'mdi-format-font'
+    font: 'mdi-format-font',
+    viewSource: 'mdi-code-tags'
   },
   expansionItem: {
     icon: 'mdi-chevron-down',

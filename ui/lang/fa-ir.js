@@ -89,7 +89,8 @@ export default {
     size5: 'بزرگ',
     size6: 'خیلی بزرگ',
     size7: 'بزرگترین',
-    defaultFont: 'قلم پیش‌فرض'
+    defaultFont: 'قلم پیش‌فرض',
+    viewSource: 'مشاهده منبع'
   },
   tree: {
     noNodes: 'گره‌ای در دسترس نیست',

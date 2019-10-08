@@ -2,69 +2,68 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 
 export default {
   methods: {
+    getTableRowBody (h, row, body) {
+      const
+        key = row[this.rowKey],
+        selected = this.isRowSelected(key)
+
+      return body(this.addBodyRowMeta({
+        key,
+        row,
+        cols: this.computedCols,
+        colsMap: this.computedColsMap,
+        __trClass: selected ? 'selected' : ''
+      }))
+    },
+
+    getTableRow (h, row) {
+      const
+        bodyCell = this.$scopedSlots['body-cell'],
+        key = row[this.rowKey],
+        selected = this.isRowSelected(key),
+        child = bodyCell
+          ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col })))
+          : this.computedCols.map(col => {
+            const slot = this.$scopedSlots[`body-cell-${col.name}`]
+            return slot !== void 0
+              ? slot(this.addBodyCellMetaData({ row, col }))
+              : h('td', {
+                staticClass: col.__tdClass,
+                style: col.style,
+                class: col.classes
+              }, this.getCellValue(col, row))
+          })
+
+      this.hasSelectionMode === true && child.unshift(
+        h('td', { staticClass: 'q-table--col-auto-width' }, [
+          h(QCheckbox, {
+            props: {
+              value: selected,
+              color: this.color,
+              dark: this.dark,
+              dense: this.dense
+            },
+            on: {
+              input: adding => {
+                this.__updateSelection([key], [row], adding)
+              }
+            }
+          })
+        ])
+      )
+
+      return h('tr', { key, class: { selected } }, child)
+    },
+
     getTableBody (h) {
       const
         body = this.$scopedSlots.body,
-        bodyCell = this.$scopedSlots['body-cell'],
         topRow = this.$scopedSlots['top-row'],
-        bottomRow = this.$scopedSlots['bottom-row']
-      let
-        child = []
-
-      if (body !== void 0) {
-        child = this.computedRows.map(row => {
-          const
-            key = row[this.rowKey],
-            selected = this.isRowSelected(key)
-
-          return body(this.addBodyRowMeta({
-            key,
-            row,
-            cols: this.computedCols,
-            colsMap: this.computedColsMap,
-            __trClass: selected ? 'selected' : ''
-          }))
-        })
-      }
-      else {
-        child = this.computedRows.map(row => {
-          const
-            key = row[this.rowKey],
-            selected = this.isRowSelected(key),
-            child = bodyCell
-              ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col })))
-              : this.computedCols.map(col => {
-                const slot = this.$scopedSlots[`body-cell-${col.name}`]
-                return slot !== void 0
-                  ? slot(this.addBodyCellMetaData({ row, col }))
-                  : h('td', {
-                    staticClass: col.__tdClass,
-                    style: col.style,
-                    class: col.classes
-                  }, this.getCellValue(col, row))
-              })
-
-          this.hasSelectionMode === true && child.unshift(
-            h('td', { staticClass: 'q-table--col-auto-width' }, [
-              h(QCheckbox, {
-                props: {
-                  value: selected,
-                  color: this.color,
-                  dark: this.dark,
-                  dense: this.dense
-                },
-                on: {
-                  input: adding => {
-                    this.__updateSelection([key], [row], adding)
-                  }
-                }
-              })
-            ])
-          )
-
-          return h('tr', { key, class: { selected } }, child)
-        })
-      }
+        bottomRow = this.$scopedSlots['bottom-row'],
+        mapFn = body !== void 0
+          ? row => this.getTableRowBody(h, row, body)
+          : row => this.getTableRow(h, row),
+        child = this.computedRows.map(mapFn)
 
       if (topRow !== void 0) {
         child.unshift(topRow({ cols: this.computedCols }))
@@ -74,6 +73,14 @@ export default {
       }
 
       return h('tbody', child)
+    },
+
+    getTableRowVirtual (h) {
+      const body = this.$scopedSlots.body
+
+      return body !== void 0
+        ? props => this.getTableRowBody(h, props.item, body)
+        : props => this.getTableRow(h, props.item)
     },
 
     addBodyRowMeta (data) {

@@ -47,20 +47,6 @@
     }
   },
 
-  "methods": {
-    "scrollTo": {
-      "desc": "Scroll the virtual scroll list to the item with the specified index (0 based)",
-      "params": {
-        "index": {
-          "type": [ "String", "Number" ],
-          "desc": "The index of the list item (0 based)",
-          "required": true,
-          "examples": [ "1", 23 ]
-        }
-      }
-    }
-  },
-
   "events": {
     "virtual-scroll": {
       "desc": "Emitted when the virtual scroll occurs",
@@ -92,6 +78,24 @@
           }
         }
       }
+    }
+  },
+
+  "methods": {
+    "scrollTo": {
+      "desc": "Scroll the virtual scroll list to the item with the specified index (0 based)",
+      "params": {
+        "index": {
+          "type": [ "String", "Number" ],
+          "desc": "The index of the list item (0 based)",
+          "required": true,
+          "examples": [ "1", 23 ]
+        }
+      }
+    },
+
+    "reset": {
+      "desc": "Resets the computations; Needed for custom edge-cases"
     }
   }
 }

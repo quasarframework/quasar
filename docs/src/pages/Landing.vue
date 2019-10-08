@@ -143,7 +143,7 @@
 
   section.landing__footer.flex.flex-center
     div.text-center
-      div.landing__footer-icons.row.flex-center
+      div.landing__footer-icons.row.flex-center.q-gutter-md
         a(href="https://github.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-github")
 
@@ -165,7 +165,7 @@
         a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fas fa-medkit")
 
-      div.q-mt-sm
+      div.q-mt-lg
         | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
 
       div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
@@ -289,7 +289,6 @@ export default {
     font-size: 28px
 
     a
-      margin: 0 8px 8px
       text-decoration: none
       outline: 0
       color: white
