@@ -1,5 +1,5 @@
 <template lang="pug">
-q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
+q-layout.doc-layout(view="lHh LpR lFf", @scroll="onScroll")
   q-header.header(elevated)
     q-toolbar
       q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
@@ -16,6 +16,9 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       q-btn.q-ml-xs(v-show="hasRightDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
+
+  q-footer.bg-white
+    quasar-course
 
   q-drawer(
     v-model="leftDrawerState"
@@ -104,13 +107,15 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 import { scroll } from 'quasar'
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
+import QuasarCourse from 'components/QuasarCourse'
 
 export default {
   name: 'Layout',
 
   components: {
     AppMenu,
-    HeaderMenu
+    HeaderMenu,
+    QuasarCourse
   },
 
   watch: {
