@@ -46,11 +46,15 @@ function runMacOS (mode, target) {
   }
 }
 
-function getLinuxPath () {
+function getLinuxPath (bin) {
   const canonicalPaths = [
     '/usr/local/android-studio/bin/studio.sh',
     '/opt/android-studio/bin/studio.sh'
   ]
+
+  if (bin.linuxAndroidStudio) {
+    canonicalPaths.unshift(bin.linuxAndroidStudio)
+  }
 
   for (let studioPath of canonicalPaths) {
     if (fs.existsSync(studioPath)) {
@@ -59,9 +63,9 @@ function getLinuxPath () {
   }
 }
 
-function runLinux (mode, target) {
+function runLinux (mode, bin, target) {
   if (target === 'android') {
-    const studioPath = getLinuxPath()
+    const studioPath = getLinuxPath(bin)
     if (studioPath) {
       const folder = mode === 'cordova'
         ? appPaths.resolve.cordova('platforms/android')
@@ -74,12 +78,16 @@ function runLinux (mode, target) {
       return
     }
   }
+  else if (target === 'ios') {
+    warn(`⚠️  iOS target not supported on Linux`)
+    process.exit(1)
+  }
 
   warn(`⚠️  Cannot determine path to IDE executable`)
   process.exit(1)
 }
 
-function getWindowsPath () {
+function getWindowsPath (bin) {
   const studioPath = 'C:\\Program Files\\Android\\Android Studio\\bin\\studio64.exe'
   if (fs.existsSync(studioPath)) {
     return studioPath
@@ -98,11 +106,15 @@ function getWindowsPath () {
     }
   }
   catch (e) {}
+
+  if (bin.windowsAndroidStudio && fs.existsSync(bin.windowsAndroidStudio)) {
+    return bin.windowsAndroidStudio
+  }
 }
 
-function runWindows (mode, target) {
+function runWindows (mode, bin, target) {
   if (target === 'android') {
-    const studioPath = getWindowsPath()
+    const studioPath = getWindowsPath(bin)
     if (studioPath) {
       const folder = mode === 'cordova'
         ? appPaths.resolve.cordova('platforms/android')
@@ -115,12 +127,16 @@ function runWindows (mode, target) {
       return
     }
   }
+  else if (target === 'ios') {
+    warn(`⚠️  iOS target not supported on Windows`)
+    process.exit(1)
+  }
 
   warn(`⚠️  Cannot determine path to IDE executable`)
   process.exit(1)
 }
 
-module.exports = function (mode, target, dev) {
+module.exports = function (mode, bin, target, dev) {
   console.log()
   console.log(` ⚠️  `)
   console.log(` ⚠️  Opening ${target === 'ios' ? 'XCode' : 'Android Studio'} IDE...`)
@@ -138,9 +154,9 @@ module.exports = function (mode, target, dev) {
     case 'darwin':
       return runMacOS(mode, target)
     case 'linux':
-      return runLinux(mode, target)
+      return runLinux(mode, bin, target)
     case 'win32':
-      return runWindows(mode, target)
+      return runWindows(mode, bin, target)
     default:
       warn(`⚠️  Unsupported host OS for opening the IDE`)
       process.exit(1)

@@ -210,6 +210,7 @@ class QuasarConfig {
       },
       cordova: {},
       capacitor: {},
+      bin: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
