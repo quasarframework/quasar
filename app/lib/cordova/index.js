@@ -1,9 +1,12 @@
+const fse = require('fs-extra')
+
 const
   log = require('../helpers/logger')('app:cordova'),
   CordovaConfig = require('./cordova-config'),
   { spawn } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  openIde = require('../helpers/open-ide')
 
 class CordovaRunner {
   constructor () {
@@ -42,16 +45,36 @@ class CordovaRunner {
     )
   }
 
-  build (quasarConfig, argv) {
+  async build (quasarConfig, argv) {
     const cfg = quasarConfig.getBuildConfig()
-    const args = argv['skip-pkg']
+    const buildPath = appPaths.resolve.cordova(
+      cfg.ctx.targetName === 'android'
+        ? 'platforms/android/app/build/outputs/apk/' + (cfg.ctx.debug ? 'debug' : 'release')
+        : 'platforms/ios/build/emulator'
+    )
+
+    // Remove old build output
+    fse.removeSync(buildPath)
+
+    const args = argv['skip-pkg'] || argv.ide
       ? ['prepare', cfg.ctx.targetName]
       : ['build', cfg.ctx.debug ? '--debug' : '--release', cfg.ctx.targetName]
 
-    return this.__runCordovaCommand(
+    await this.__runCordovaCommand(
       cfg,
       args.concat(argv._)
     )
+
+    if (argv['skip-pkg'] === true) {
+      return
+    }
+
+    if (argv.ide) {
+      openIde('cordova', cfg.ctx.targetName)
+      process.exit(0)
+    }
+
+    fse.copySync(buildPath, cfg.build.packagedDistDir)
   }
 
   stop () {
@@ -80,7 +103,7 @@ class CordovaRunner {
             warn(`⚠️  [FAIL] Cordova CLI has failed`)
             process.exit(1)
           }
-          resolve(code)
+          resolve()
         }
       )
     })

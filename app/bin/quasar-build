@@ -67,8 +67,9 @@ if (argv.help) {
                       - Electron (it only creates the /dist/electron/UnPackaged folder)
     --help, -h      Displays this message
 
-    ONLY for Capacitor mode:
-    --ide, -i       Open IDE (Android Studio / XCode) instead of finalizing with a terminal/console build
+    ONLY for Cordova and Capacitor mode:
+    --ide, -i       Open IDE (Android Studio / XCode) instead of finalizing with a
+                    terminal/console-only build
 
     ONLY for Electron mode:
     --bundler, -b   Bundler (electron-packager or electron-builder)

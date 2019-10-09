@@ -6,7 +6,8 @@ const
   CapacitorConfig = require('./capacitor-config'),
   { spawn, spawnSync } = require('../helpers/spawn'),
   onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths')
+  appPaths = require('../app-paths'),
+  openIde = require('../helpers/open-ide')
 
 const capacitorCliPath = require('./capacitor-cli-path')
 
@@ -39,15 +40,7 @@ class CapacitorRunner {
 
     await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
 
-    console.log()
-    console.log(` ⚠️  `)
-    console.log(` ⚠️  Opening ${cfg.ctx.targetName === 'ios' ? 'XCode' : 'Android Studio'} IDE...`)
-    console.log(` ⚠️  From there, use the IDE to run the app.`)
-    console.log(` ⚠️  But DO NOT close the terminal as this will kill the devserver.`)
-    console.log(` ⚠️  `)
-    console.log()
-
-    await this.__runCapacitorCommand(['open', cfg.ctx.targetName])
+    openIde('capacitor', cfg.ctx.targetName, true)
   }
 
   async build (quasarConfig, argv) {
@@ -62,14 +55,7 @@ class CapacitorRunner {
     }
 
     if (argv.ide === true) {
-      console.log()
-      console.log(` ⚠️  `)
-      console.log(` ⚠️  Opening ${cfg.ctx.targetName === 'ios' ? 'XCode' : 'Android Studio'}`)
-      console.log(` ⚠️  From there, use the IDE to build the final package.`)
-      console.log(` ⚠️  `)
-      console.log()
-
-      this.__runCapacitorCommand(['open', cfg.ctx.targetName], true)
+      openIde('capacitor', cfg.ctx.targetName)
       process.exit(0)
     }
 
@@ -137,12 +123,12 @@ class CapacitorRunner {
     this.__cleanup()
   }
 
-  __runCapacitorCommand (args, detached = false) {
-    const run = resolve => {
-      return spawn(
+  __runCapacitorCommand (args) {
+    return new Promise(resolve => {
+      this.pid = spawn(
         capacitorCliPath,
         args,
-        { cwd: appPaths.capacitorDir, detached },
+        { cwd: appPaths.capacitorDir },
         code => {
           this.__cleanup()
 
@@ -154,15 +140,7 @@ class CapacitorRunner {
           resolve && resolve(code)
         }
       )
-    }
-
-    if (detached !== true) {
-      return new Promise(resolve => {
-        this.pid = run(resolve)
-      })
-    }
-
-    run()
+    })
   }
 
   __cleanup () {

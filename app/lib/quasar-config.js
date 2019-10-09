@@ -478,7 +478,7 @@ class QuasarConfig {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
-    if (this.ctx.mode.capacitor) {
+    if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
       cfg.build.packagedDistDir = path.join(cfg.build.distDir, this.ctx.targetName)
     }
 
