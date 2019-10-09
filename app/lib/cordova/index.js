@@ -16,9 +16,11 @@ class CordovaRunner {
     onShutdown(() => {
       this.stop()
     })
+
+    require('../helpers/fix-android-cleartext')('cordova')
   }
 
-  run (quasarConfig, extraParams) {
+  async run (quasarConfig, argv) {
     const
       cfg = quasarConfig.getBuildConfig(),
       url = cfg.build.APP_URL
@@ -33,15 +35,25 @@ class CordovaRunner {
 
     this.url = url
 
+    if (argv.ide) {
+      await this.__runCordovaCommand(
+        cfg,
+        ['prepare', cfg.ctx.targetName].concat(argv._)
+      )
+
+      openIde('cordova', cfg.ctx.targetName)
+      return
+    }
+
     const args = ['run', cfg.ctx.targetName]
 
     if (cfg.ctx.emulator) {
       args.push(`--target=${cfg.ctx.emulator}`)
     }
 
-    return this.__runCordovaCommand(
+    await this.__runCordovaCommand(
       cfg,
-      args.concat(extraParams)
+      args.concat(argv._)
     )
   }
 

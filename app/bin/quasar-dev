@@ -18,9 +18,10 @@ const argv = parseArgs(process.argv.slice(2), {
     e: 'emulator', // cordova-mode only
     p: 'port',
     H: 'hostname',
+    i: 'ide',
     h: 'help'
   },
-  boolean: ['h'],
+  boolean: ['h', 'i'],
   string: ['m', 'T', 'H'],
   default: {
     m: 'spa'
@@ -62,6 +63,9 @@ if (argv.help) {
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
+    --ide, -i        Open IDE (Android Studio / XCode) instead of letting Cordova
+                        booting up the emulator, in which case the "--emulator"
+                        param will have no effect
 
     Only for Capacitor mode:
     --target, -T     (required) App target
@@ -209,7 +213,7 @@ async function goLive () {
       .then(() => generator.build()) // Update generated files
       .then(() => devServer = new DevServer(quasarConfig))
       .then(() => devServer.listen()) // Start listening
-      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv._))
+      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv))
       .then(() => devServer) // Pass new builder to watch chain
   }
 

@@ -19,6 +19,8 @@ class CapacitorRunner {
     onShutdown(() => {
       this.stop()
     })
+
+    require('../helpers/fix-android-cleartext')('capacitor')
   }
 
   async run (quasarConfig) {

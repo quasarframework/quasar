@@ -33,14 +33,14 @@ module.exports = function (argv, cmd, details) {
 
   if (cmd === 'build') {
     banner += `\n Publishing........ ${argv.publish !== void 0 ? green('yes') : grey('no')}`
+  }
 
-    if (['cordova', 'capacitor'].includes(argv.mode)) {
-      const packaging = argv['skip-pkg']
-        ? grey('skip')
-        : green(getPackager(argv))
+  if (['cordova', 'capacitor'].includes(argv.mode)) {
+    const packaging = argv['skip-pkg']
+      ? grey('skip')
+      : green(getPackager(argv))
 
-      banner += `\n Packaging mode.... ${packaging}`
-    }
+    banner += `\n ${cmd === 'build' ? 'Packaging' : 'Running'} mode....${cmd === 'build' ? '' : '..'} ${packaging}`
   }
 
   if (details) {

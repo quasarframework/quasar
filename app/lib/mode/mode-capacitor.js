@@ -90,17 +90,6 @@ class Mode {
       )
     })
 
-    const androidManifestPath = appPaths.resolve.capacitor(
-      'android/app/src/main/AndroidManifest.xml'
-    )
-    // Enable cleartext support in manifest
-    let androidManifest = fse.readFileSync(androidManifestPath, 'utf8')
-    androidManifest = androidManifest.replace(
-      '<application',
-      '<application\n        android:usesCleartextTraffic="true"'
-    )
-    fse.writeFileSync(androidManifestPath, androidManifest)
-
     log(`Capacitor support was added`)
   }
 

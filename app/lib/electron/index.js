@@ -16,7 +16,7 @@ class ElectronRunner {
     this.watcher = null
   }
 
-  async run (quasarConfig, extraParams) {
+  async run (quasarConfig, argv) {
     const url = quasarConfig.getBuildConfig().build.APP_URL
 
     if (this.pid) {
@@ -57,7 +57,7 @@ class ElectronRunner {
         }
 
         await this.__stopElectron()
-        this.__startElectron(extraParams)
+        this.__startElectron(argv._)
 
         resolve()
       })
