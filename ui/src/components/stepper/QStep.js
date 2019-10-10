@@ -68,11 +68,12 @@ export default Vue.extend({
     isActive (active) {
       if (
         active === true &&
-        this.$q.platform.is.firefox === true &&
         this.stepper.vertical === true
       ) {
         this.$nextTick(() => {
-          this.$el !== void 0 && (this.$el.scrollTop = 0)
+          if (this.$el !== void 0) {
+            this.$el.scrollTop = 0
+          }
         })
       }
     }
