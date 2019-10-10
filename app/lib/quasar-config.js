@@ -594,12 +594,13 @@ class QuasarConfig {
       if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
         cfg.devServer.open = false
 
-        if (this.ctx.mode.capacitor) {
-          console.log(`⚠️  `)
-          console.log(`⚠️  Capacitor does not currently supports HTTPS protocol. Please disable it from quasar.conf.js > devServer > https`)
-          console.log(`⚠️  `)
+        if (cfg.devServer.https === true && this.ctx.mode.capacitor) {
+          console.log(` ⚠️  `)
+          console.log(` ⚠️  Capacitor does not currently supports HTTPS protocol. Please disable it from quasar.conf.js > devServer > https`)
+          console.log(` ⚠️  `)
         }
-        else if (this.ctx.mode.electron) {
+
+        if (this.ctx.mode.electron) {
           cfg.devServer.https = false
         }
       }
