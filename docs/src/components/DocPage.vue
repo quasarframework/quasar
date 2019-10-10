@@ -138,6 +138,7 @@ export default {
 .doc-page-related
   color: $grey-9
   transition: color .28s
+  border: 1px solid rgba(0,0,0,.1)
 
   &:hover
     color: $primary
