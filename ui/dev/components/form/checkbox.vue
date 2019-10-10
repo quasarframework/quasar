@@ -60,6 +60,44 @@
       <q-checkbox v-model="checked" disable color="teal" label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
+        Array true/false val
+      </p>
+      <q-checkbox
+        v-model="modelArr"
+        :true-value="trueVal"
+        :false-value="falseVal"
+        color="primary"
+        label="Array model"
+        :dark="dark"
+        :dense="dense"
+        :keep-color="keepColor"
+      />
+      <div class="label bg-secondary text-white">
+        Model is: {{ modelArr }}
+      </div>
+      <q-checkbox
+        v-model="modelArrComplex"
+        :val="trueVal"
+        color="primary"
+        label="Array model 1 - [true]"
+        :dark="dark"
+        :dense="dense"
+        :keep-color="keepColor"
+      />
+      <q-checkbox
+        v-model="modelArrComplex"
+        :val="falseVal"
+        color="primary"
+        label="Array model 1 - [false]"
+        :dark="dark"
+        :dense="dense"
+        :keep-color="keepColor"
+      />
+      <div class="label bg-secondary text-white">
+        Model is: {{ modelArrComplex }}
+      </div>
+
+      <p class="caption">
         Option Group
       </p>
       <q-option-group
@@ -138,6 +176,10 @@
 <script>
 export default {
   data () {
+    const
+      trueVal = [true],
+      falseVal = [false]
+
     return {
       val: true,
       ind: false,
@@ -148,7 +190,11 @@ export default {
       dense: false,
       keepColor: false,
       indModel: null,
-      customChecked: 'Custom Not Active'
+      customChecked: 'Custom Not Active',
+      trueVal,
+      falseVal,
+      modelArr: falseVal,
+      modelArrComplex: [falseVal, trueVal]
     }
   },
   watch: {

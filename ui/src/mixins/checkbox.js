@@ -42,7 +42,7 @@ export default {
     },
 
     modelIsArray () {
-      return Array.isArray(this.value)
+      return this.val !== void 0 && Array.isArray(this.value)
     },
 
     computedTabindex () {
@@ -66,7 +66,7 @@ export default {
           val.splice(this.index, 1)
         }
         else {
-          val = this.value.concat(this.val)
+          val = this.value.concat([this.val])
         }
       }
       else if (this.isTrue === true) {
