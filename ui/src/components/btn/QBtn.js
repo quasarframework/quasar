@@ -170,20 +170,24 @@ export default Vue.extend({
       ) {
         this.$refs.blurTarget.focus()
       }
+
       if (touchTarget === this.$el) {
         touchTarget.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
         touchTarget.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
         touchTarget = void 0
       }
+
       if (mouseTarget === this.$el) {
         document.removeEventListener('mouseup', this.__onPressEnd, passiveCapture)
         mouseTarget = void 0
       }
+
       if (keyboardTarget === this.$el) {
         document.removeEventListener('keyup', this.__onPressEnd, true)
         this.$el !== void 0 && this.$el.removeEventListener('blur', this.__onPressEnd, passiveCapture)
         keyboardTarget = void 0
       }
+
       this.$el !== void 0 && this.$el.classList.remove('q-btn--active')
     }
   },
