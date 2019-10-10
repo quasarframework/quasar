@@ -16,8 +16,15 @@ class CordovaRunner {
     onShutdown(() => {
       this.stop()
     })
+  }
 
-    require('../helpers/fix-android-cleartext')('cordova')
+  init (ctx) {
+    this.ctx = ctx
+    this.target = ctx.targetName
+
+    if (this.target === 'android') {
+      require('../helpers/fix-android-cleartext')('cordova')
+    }
   }
 
   async run (quasarConfig, argv) {
@@ -38,17 +45,17 @@ class CordovaRunner {
     if (argv.ide) {
       await this.__runCordovaCommand(
         cfg,
-        ['prepare', cfg.ctx.targetName].concat(argv._)
+        ['prepare', this.target].concat(argv._)
       )
 
-      openIde('cordova', cfg.bin, cfg.ctx.targetName, true)
+      openIde('cordova', cfg.bin, this.target, true)
       return
     }
 
-    const args = ['run', cfg.ctx.targetName]
+    const args = ['run', this.target]
 
-    if (cfg.ctx.emulator) {
-      args.push(`--target=${cfg.ctx.emulator}`)
+    if (this.ctx.emulator) {
+      args.push(`--target=${this.ctx.emulator}`)
     }
 
     await this.__runCordovaCommand(
@@ -60,8 +67,8 @@ class CordovaRunner {
   async build (quasarConfig, argv) {
     const cfg = quasarConfig.getBuildConfig()
     const buildPath = appPaths.resolve.cordova(
-      cfg.ctx.targetName === 'android'
-        ? 'platforms/android/app/build/outputs/apk/' + (cfg.ctx.debug ? 'debug' : 'release')
+      this.target === 'android'
+        ? 'platforms/android/app/build/outputs/apk/' + (this.ctx.debug ? 'debug' : 'release')
         : 'platforms/ios/build/emulator'
     )
 
@@ -69,8 +76,8 @@ class CordovaRunner {
     fse.removeSync(buildPath)
 
     const args = argv['skip-pkg'] || argv.ide
-      ? ['prepare', cfg.ctx.targetName]
-      : ['build', cfg.ctx.debug ? '--debug' : '--release', cfg.ctx.targetName]
+      ? ['prepare', this.target]
+      : ['build', this.ctx.debug ? '--debug' : '--release', this.target]
 
     await this.__runCordovaCommand(
       cfg,
@@ -82,7 +89,7 @@ class CordovaRunner {
     }
 
     if (argv.ide) {
-      openIde('cordova', cfg.bin, cfg.ctx.targetName)
+      openIde('cordova', cfg.bin, this.target)
       process.exit(0)
     }
 
@@ -100,7 +107,7 @@ class CordovaRunner {
   __runCordovaCommand (cfg, args) {
     this.config.prepare(cfg)
 
-    if (cfg.ctx.targetName === 'ios' && cfg.cordova.noIosLegacyBuildFlag !== true) {
+    if (this.target === 'ios' && cfg.cordova.noIosLegacyBuildFlag !== true) {
       args.push(`--buildFlag=-UseModernBuildSystem=0`)
     }
 

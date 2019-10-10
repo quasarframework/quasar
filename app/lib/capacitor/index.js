@@ -19,13 +19,20 @@ class CapacitorRunner {
     onShutdown(() => {
       this.stop()
     })
-
-    require('../helpers/fix-android-cleartext')('capacitor')
   }
 
-  async run (quasarConfig) {
+  init (ctx) {
+    this.ctx = ctx
+    this.target = ctx.targetName
+
+    if (this.target === 'android') {
+      require('../helpers/fix-android-cleartext')('capacitor')
+    }
+  }
+
+  async run () {
     const
-      cfg = quasarConfig.getBuildConfig(),
+      cfg = quasarConfig.getBuildConfig()
       url = cfg.build.APP_URL
 
     if (this.url === url) {
@@ -37,12 +44,10 @@ class CapacitorRunner {
     }
 
     this.url = url
-
     this.config.prepare(cfg)
 
-    await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
-
-    openIde('capacitor', cfg.bin, cfg.ctx.targetName, true)
+    await this.__runCapacitorCommand(['sync', this.target])
+    openIde('capacitor', cfg.bin, this.target, true)
   }
 
   async build (quasarConfig, argv) {
@@ -50,18 +55,18 @@ class CapacitorRunner {
 
     this.config.prepare(cfg)
 
-    await this.__runCapacitorCommand(['sync', cfg.ctx.targetName])
+    await this.__runCapacitorCommand(['sync', this.target])
 
     if (argv['skip-pkg'] === true) {
       return
     }
 
     if (argv.ide === true) {
-      openIde('capacitor', cfg.bin, cfg.ctx.targetName)
+      openIde('capacitor', cfg.bin, this.target)
       process.exit(0)
     }
 
-    if (cfg.ctx.targetName === 'ios') {
+    if (this.target === 'ios') {
       await this.__buildIos(argv, cfg)
     }
     else {
@@ -70,7 +75,7 @@ class CapacitorRunner {
   }
 
   async __buildIos (argv, cfg) {
-    const buildType = cfg.ctx.debug ? 'debug' : 'release'
+    const buildType = this.ctx.debug ? 'debug' : 'release'
     const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${buildType} -derivedDataPath`
 
     log('Building iOS app...')
@@ -95,7 +100,7 @@ class CapacitorRunner {
 
   async __buildAndroid (argv, cfg) {
     const buildPath = appPaths.resolve.capacitor(
-      'android/app/build/outputs/apk/' + (cfg.ctx.debug ? 'debug' : 'release')
+      'android/app/build/outputs/apk/' + (this.ctx.debug ? 'debug' : 'release')
     )
 
     // Remove old build output
@@ -105,7 +110,7 @@ class CapacitorRunner {
 
     await spawnSync(
       `./gradlew${process.platform === 'win32' ? '.bat' : ''}`,
-      [ `assemble${cfg.ctx.debug ? 'Debug' : 'Release'}` ].concat(argv._),
+      [ `assemble${this.ctx.debug ? 'Debug' : 'Release'}` ].concat(argv._),
       { cwd: appPaths.resolve.capacitor('android') },
       () => {
         console.log()
@@ -140,7 +145,7 @@ class CapacitorRunner {
             process.exit(1)
           }
 
-          resolve && resolve(code)
+          resolve && resolve()
         }
       )
     })

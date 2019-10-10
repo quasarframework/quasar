@@ -205,6 +205,10 @@ async function goLive () {
       ? require('../lib/' + argv.mode)
       : void 0
 
+  if (ModeRunner !== void 0) {
+    ModeRunner.init(ctx)
+  }
+
   function startDev (oldDevServer) {
     let devServer
 

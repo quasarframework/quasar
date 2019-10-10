@@ -130,12 +130,19 @@ function parseWebpackConfig (webpackConfig, mode) {
   return webpackConfig
 }
 
-function finalizeBuild (mode, quasarConfig) {
+function finalizeBuild (mode, ctx, quasarConfig) {
+  let Runner
+
   if (['cordova', 'capacitor'].includes(mode)) {
-    return require('../lib/' + mode).build(quasarConfig, argv)
+    Runner = require('../lib/' + mode)
   }
   else if (argv['skip-pkg'] !== true && mode === 'electron') {
-    return require('../lib/electron').build(quasarConfig)
+    Runner = require('../lib/electron')
+  }
+
+  if (Runner !== void 0) {
+    Runner.init(ctx)
+    return Runner.build(quasarConfig, argv)
   }
 
   return Promise.resolve()
@@ -223,7 +230,7 @@ async function build () {
       }
     })
 
-    finalizeBuild(argv.mode, quasarConfig).then(async () => {
+    finalizeBuild(argv.mode, ctx, quasarConfig).then(async () => {
       outputFolder = argv.mode === 'cordova'
         ? path.join(outputFolder, '..')
         : outputFolder

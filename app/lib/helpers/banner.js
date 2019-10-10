@@ -4,8 +4,8 @@ const
   quasarVersion = getPackageJson('quasar').version,
   cliAppVersion = getPackageJson('@quasar/app').version
 
-function getPackager (argv) {
-  if (argv.ide) {
+function getPackager (argv, details) {
+  if (argv.ide || (argv.mode === 'capacitor' && details)) {
     return 'IDE'
   }
 
@@ -13,7 +13,9 @@ function getPackager (argv) {
     return 'cordova'
   }
 
-  return '@quasar/app'
+  return argv.target === 'ios'
+    ? 'xcodebuild'
+    : 'gradle'
 }
 
 module.exports = function (argv, cmd, details) {

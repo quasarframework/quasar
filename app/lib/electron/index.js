@@ -16,6 +16,8 @@ class ElectronRunner {
     this.watcher = null
   }
 
+  init () {}
+
   async run (quasarConfig, argv) {
     const url = quasarConfig.getBuildConfig().build.APP_URL
 
@@ -32,7 +34,7 @@ class ElectronRunner {
 
     const compiler = webpack(quasarConfig.getWebpackConfig().main)
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       log(`Building main Electron process...`)
       this.watcher = compiler.watch({}, async (err, stats) => {
         if (err) {
@@ -67,7 +69,7 @@ class ElectronRunner {
   build (quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       spawn(
         nodePackager,
         [ 'install', '--production' ],
@@ -81,7 +83,7 @@ class ElectronRunner {
         }
       )
     }).then(() => {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(async resolve => {
         if (typeof cfg.electron.beforePackaging === 'function') {
           log('Running beforePackaging()')
           log()
@@ -137,7 +139,7 @@ class ElectronRunner {
   }
 
   stop () {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const finalize = () => {
         this.__stopElectron().then(resolve)
       }
@@ -192,7 +194,7 @@ class ElectronRunner {
 
     log('Shutting down Electron process...')
     this.pid = 0
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.killPromise = resolve
       process.kill(pid)
     })
