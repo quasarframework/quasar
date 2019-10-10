@@ -178,7 +178,7 @@ export default {
     this.parentEl = this.$el.parentNode
     this.__pickAnchorEl()
 
-    if (this.value !== false && this.anchorEl === void 0) {
+    if (this.value === true && this.anchorEl === void 0) {
       this.$emit('input', false)
     }
   },
