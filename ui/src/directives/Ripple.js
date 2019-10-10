@@ -65,12 +65,14 @@ function updateCtx (ctx, { value, modifiers, arg }) {
       ? {
         stop: value.stop === true || modifiers.stop === true,
         center: value.center === true || modifiers.center === true,
-        color: value.color || arg
+        color: value.color || arg,
+        keyCodes: [].concat(value.keyCodes || 13)
       }
       : {
         stop: modifiers.stop,
         center: modifiers.center,
-        color: arg
+        color: arg,
+        keyCodes: [13]
       }
   }
 }
@@ -91,7 +93,7 @@ export default {
       },
 
       keyup (evt) {
-        if (ctx.enabled === true && evt.keyCode === 13 && evt.qKeyEvent !== true) {
+        if (ctx.enabled === true && ctx.modifiers.keyCodes.indexOf(evt.keyCode) > -1 && evt.qKeyEvent !== true) {
           showRipple(evt, el, ctx, true)
         }
       }

@@ -1,16 +1,10 @@
 ---
 title: Capacitor Troubleshooting and Tips
+desc: Tips and tricks for a Quasar hybrid mobile app with Capacitor.
 ---
 
-## Browser Simulator
-
-Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You can select which device to emulate, but keep in mind that it's an _emulator_ and not the real deal.
-
-::: danger
-If you change from desktop to mobile emulator or backwards, hit the refresh button as Quasar Platform detection is not dynamic (nor it should be).
-:::
-
-![Google Chrome emulator](https://cdn.quasar.dev/img/browser-simulator.png 'Google Chrome emulator')
+## $q.capacitor
+While you are developing a Mobile App with Capacitor Mode, you can access `this.$q.capacitor` in your Vue files. This is an alias to the global `Capacitor` Object.
 
 ## Android Tips
 
@@ -66,6 +60,16 @@ The output should contain each one entry for the Android SDK 'tools'-folder and 
 ```
 
 > If you ensured your paths are set correctly and still get the error, you can try the following fix: [Replacing the Android Studio 'tools' folder manually](https://github.com/meteor/meteor/issues/8464#issuecomment-288112504)
+
+### Android Studio
+
+In Android Studio (if you open it on `/src-capacitor/android`), you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Capacitor project. Same goes for any other requested upgrades.
+
+<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-mb-md fit rounded-borders" style="max-width: 350px">
+
+If you encounter any IDE errors then click on File > Invalidate caches and restart.
+
+<img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="fit rounded-borders" style="max-width: 350px">
 
 ### Setting up device on Linux
 
@@ -136,7 +140,7 @@ First enable the "developer" menu option in the Settings of Safari. Then if you 
 
 Since mobile phones have a status bar and/or notches, your app's styling might need some tweaking when building on Capacitor. In order to prevent parts of your app from going behind the status bar, there is a global CSS variable that can be used for creating a "safe-area". This variable can then be applied in your app's top and bottom padding or margin.
 
-Quasar has support for these CSS safe-areas by default in QHeader/QFooter and Notify. However it's important to always check your Cordova build on several models to see if all cases of your app are dealing with the safe areas correctly.
+Quasar has support for these CSS safe-areas by default in QHeader/QFooter and Notify. However it's important to always check your Capacitor build on several models to see if all cases of your app are dealing with the safe areas correctly.
 
 In cases you need to manually tweak your CSS you can do so with:
 

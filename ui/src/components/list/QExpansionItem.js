@@ -52,7 +52,7 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: this.$listeners.input !== void 0
+      showing: this.value !== void 0
         ? this.value
         : this.defaultOpened
     }

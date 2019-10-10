@@ -645,7 +645,8 @@ export default Vue.extend({
       }
       else if (this.editable === true) {
         data = {
-          ref: 'target',
+          // there can be only one (when dialog is opened the control in dialog should be target)
+          ref: this.hasDialog === true && fromDialog !== true && this.menu === true ? void 0 : 'target',
           attrs: {
             tabindex: 0,
             autofocus: this.autofocus
@@ -870,7 +871,6 @@ export default Vue.extend({
         'popup-hide': e => {
           e !== void 0 && stop(e)
           this.$emit('popup-hide', e)
-          this.hasDialog !== true && this.__focus()
           this.hasPopupOpen = false
           focusout(e)
         },
@@ -1003,8 +1003,6 @@ export default Vue.extend({
       return h(QDialog, {
         props: {
           value: this.dialog,
-          noRefocus: true,
-          noFocus: true,
           position: this.useInput === true ? 'top' : void 0,
           transitionShow: this.transitionShowComputed,
           transitionHide: this.transitionHide

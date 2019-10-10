@@ -77,7 +77,7 @@ export default {
 ```
 
 ### Example: Camera
-First step is to read the documentation of the Cordova API that we want to use. We look at Capacitor's [Camera API](https://capacitor.ionicframework.com/docs/apis/camera).
+First step is to read the documentation of the Capacitor API that we want to use. We look at Capacitor's [Camera API](https://capacitor.ionicframework.com/docs/apis/camera).
 
 Now let's put this API to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
@@ -125,7 +125,7 @@ export default {
 ```
 
 ### Example: Device
-First step is to read the documentation of the Cordova API that we want to use. Look at the Capacitor's [Device API](https://capacitor.ionicframework.com/docs/apis/device).
+First step is to read the documentation of the Capacitor API that we want to use. Look at the Capacitor's [Device API](https://capacitor.ionicframework.com/docs/apis/device).
 
 Now let's put this API to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
