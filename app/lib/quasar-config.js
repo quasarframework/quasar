@@ -598,6 +598,7 @@ class QuasarConfig {
           console.log(` ⚠️  `)
           console.log(` ⚠️  Capacitor does not currently supports HTTPS protocol. Please disable it from quasar.conf.js > devServer > https`)
           console.log(` ⚠️  `)
+          console.log()
         }
 
         if (this.ctx.mode.electron) {
