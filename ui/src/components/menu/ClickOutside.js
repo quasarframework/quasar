@@ -56,11 +56,9 @@ export default {
             isVmChildOf(getVmOfNode(target), vmEl) === false
           )
         ) {
-          if (evt.type !== 'focusin') {
-            // mark the event as beeing processed by clickOutside
-            // used in backdrop to avoid closing it
-            evt.qClickOutside = true
-          }
+          // mark the event as beeing processed by clickOutside
+          // used to prevent refocus after menu close
+          evt.qClickOutside = true
 
           return ctx.trigger(evt)
         }
