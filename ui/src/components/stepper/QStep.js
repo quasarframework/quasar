@@ -64,6 +64,21 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    isActive (active) {
+      if (
+        active === true &&
+        this.stepper.vertical === true
+      ) {
+        this.$nextTick(() => {
+          if (this.$el !== void 0) {
+            this.$el.scrollTop = 0
+          }
+        })
+      }
+    }
+  },
+
   render (h) {
     const vertical = this.stepper.vertical
     const content = vertical === true && this.stepper.keepAlive === true
