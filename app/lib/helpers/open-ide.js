@@ -69,6 +69,7 @@ function runLinux (mode, bin, target) {
         app: studioPath,
         wait: false
       })
+
       return
     }
   }
@@ -120,7 +121,10 @@ function runWindows (mode, bin, target) {
         app: studioPath,
         wait: false
       })
-      return
+
+      return new Promise(resolve => {
+        setTimeout(resolve, 300)
+      })
     }
   }
   else if (target === 'ios') {

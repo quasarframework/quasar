@@ -48,7 +48,7 @@ class CordovaRunner {
         ['prepare', this.target].concat(argv._)
       )
 
-      openIde('cordova', cfg.bin, this.target, true)
+      await openIde('cordova', cfg.bin, this.target, true)
       return
     }
 
@@ -89,7 +89,7 @@ class CordovaRunner {
     }
 
     if (argv.ide) {
-      openIde('cordova', cfg.bin, this.target)
+      await openIde('cordova', cfg.bin, this.target)
       process.exit(0)
     }
 

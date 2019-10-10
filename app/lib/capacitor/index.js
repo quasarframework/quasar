@@ -47,7 +47,7 @@ class CapacitorRunner {
     this.config.prepare(cfg)
 
     await this.__runCapacitorCommand(['sync', this.target])
-    openIde('capacitor', cfg.bin, this.target, true)
+    await openIde('capacitor', cfg.bin, this.target, true)
   }
 
   async build (quasarConfig, argv) {
@@ -62,7 +62,7 @@ class CapacitorRunner {
     }
 
     if (argv.ide === true) {
-      openIde('capacitor', cfg.bin, this.target)
+      await openIde('capacitor', cfg.bin, this.target)
       process.exit(0)
     }
 
