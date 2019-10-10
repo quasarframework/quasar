@@ -78,6 +78,8 @@ function runLinux (mode, bin, target) {
   }
 
   warn(`⚠️  Cannot determine path to IDE executable`)
+  console.log(' Please set quasar.conf.js > bin > linuxAndroidStudio with the escaped path to your studio.sh')
+  console.log(` Example: '/usr/local/android-studio/bin/studio.sh'`)
   process.exit(1)
 }
 
@@ -127,6 +129,8 @@ function runWindows (mode, bin, target) {
   }
 
   warn(`⚠️  Cannot determine path to IDE executable`)
+  console.log(' Please set quasar.conf.js > bin > windowsAndroidStudio with the escaped path to your studio64.exe')
+  console.log(` Example: 'C:\\\\Program Files\\\\Android\\\\Android Studio\\\\bin\\\\studio64.exe'`)
   process.exit(1)
 }
 
@@ -134,13 +138,22 @@ module.exports = function (mode, bin, target, dev) {
   console.log()
   console.log(` ⚠️  `)
   console.log(` ⚠️  Opening ${target === 'ios' ? 'XCode' : 'Android Studio'} IDE...`)
+
   if (dev) {
     console.log(` ⚠️  From there, use the IDE to run the app.`)
+    console.log(` ⚠️  `)
     console.log(` ⚠️  DO NOT close the terminal as this will kill the devserver.`)
   }
   else {
     console.log(` ⚠️  From there, use the IDE to build the final package.`)
   }
+
+  if (target === 'android') {
+    console.log(` ⚠️  `)
+    console.log(` ⚠️  DO NOT upgrade Gradle or any other deps as Android Studio will suggest.`)
+    console.log(` ⚠️  If you encounter any IDE errors then click on File > Invalidate caches and restart.`)
+  }
+
   console.log(` ⚠️  `)
   console.log()
 

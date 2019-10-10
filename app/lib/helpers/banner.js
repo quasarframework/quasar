@@ -4,8 +4,8 @@ const
   quasarVersion = getPackageJson('quasar').version,
   cliAppVersion = getPackageJson('@quasar/app').version
 
-function getPackager (argv, details) {
-  if (argv.ide || (argv.mode === 'capacitor' && !details)) {
+function getPackager (argv, cmd) {
+  if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
     return 'IDE (manual)'
   }
 
@@ -40,7 +40,7 @@ module.exports = function (argv, cmd, details) {
   if (['cordova', 'capacitor'].includes(argv.mode)) {
     const packaging = argv['skip-pkg']
       ? grey('skip')
-      : green(getPackager(argv))
+      : green(getPackager(argv, cmd))
 
     banner += `\n ${cmd === 'build' ? 'Packaging' : 'Running'} mode....${cmd === 'build' ? '' : '..'} ${packaging}`
   }
