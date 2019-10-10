@@ -80,7 +80,7 @@ class Mode {
 
     if (!target) {
       console.log()
-      console.log(` No Cordova platform has been added yet as these get installed on demand automatically.`)
+      console.log(` No Cordova platform has been added yet as these get installed on demand automatically when running "quasar dev" or "quasar build".`)
       log()
       return
     }
