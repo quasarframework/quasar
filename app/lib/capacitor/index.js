@@ -70,7 +70,8 @@ class CapacitorRunner {
   }
 
   async __buildIos (argv, cfg) {
-    const args = 'xcodebuild -workspace App.xcworkspace -scheme App -configuration release -derivedDataPath'
+    const buildType = cfg.ctx.debug ? 'debug' : 'release'
+    const args = `xcodebuild -workspace App.xcworkspace -scheme App -configuration ${buildType} -derivedDataPath`
 
     log('Building iOS app...')
 

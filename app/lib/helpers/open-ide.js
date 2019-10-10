@@ -6,7 +6,7 @@ const { execSync } = require('child_process')
 const appPaths = require('../app-paths')
 const warn = require('./logger')('app:open-ide', 'red')
 
-function findXcodeWorkspace (folder, end) {
+function findXcodeWorkspace (folder) {
   const root = fs.readdirSync(folder)
 
   for (let item of root) {
@@ -15,12 +15,6 @@ function findXcodeWorkspace (folder, end) {
     if (item.endsWith('.xcworkspace')) {
       return __path
     }
-    else if (end !== true && fs.lstatSync(__path).isDirectory()) {
-      const res = findXcodeWorkspace(__path, true)
-      if (res) {
-        return res
-      }
-    }
   }
 }
 
@@ -28,7 +22,7 @@ function runMacOS (mode, target) {
   if (target === 'ios') {
     const folder = mode === 'cordova'
       ? appPaths.resolve.cordova('platforms/ios')
-      : appPaths.resolve.capacitor('ios')
+      : appPaths.resolve.capacitor('ios/App')
 
     open(findXcodeWorkspace(folder), {
       wait: false
