@@ -155,7 +155,16 @@ export default Vue.extend({
       this.__anchorCleanup(true)
 
       // check null for IE
-      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
+      if (
+        this.__refocusTarget !== void 0 &&
+        this.__refocusTarget !== null &&
+        (
+          // menu was hidden from code or ESC plugin
+          evt === void 0 ||
+          // menu was not closed from a mouse or touch clickOutside
+          evt.qClickOutside !== true
+        )
+      ) {
         this.__refocusTarget.focus()
       }
 
@@ -233,8 +242,17 @@ export default Vue.extend({
 
     __onClickOutside (e) {
       if (this.persistent !== true && this.showing === true) {
+        const targetClassList = e.target.classList
+
         this.hide(e)
-        stopAndPrevent(e)
+        if (
+          // always prevent touch event
+          e.type === 'touchstart' ||
+          // prevent click if it's on a dialog backdrop
+          targetClassList.contains('q-dialog__backdrop')
+        ) {
+          stopAndPrevent(e)
+        }
         return true
       }
     },
