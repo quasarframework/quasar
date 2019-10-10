@@ -75,7 +75,6 @@ class CapacitorConfig {
     if (cfg.ctx.dev) {
       capJson.server = capJson.server || {}
       capJson.server.url = cfg.build.APP_URL
-      // TODO androidScheme to HTTPS?
     }
     else {
       capJson.webDir = 'www'
