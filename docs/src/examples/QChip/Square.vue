@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-md">
     <div>
-      <q-chip square icon="event" size="10px">Add to calendar</q-chip>
+      <q-chip square icon="event">Add to calendar</q-chip>
       <q-chip class="glossy" square icon="bookmark">Bookmark</q-chip>
       <q-chip square icon="alarm" label="Set alarm" />
       <q-chip square icon="directions">Get directions</q-chip>
