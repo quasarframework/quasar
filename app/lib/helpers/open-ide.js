@@ -122,6 +122,8 @@ function runWindows (mode, bin, target) {
         wait: false
       })
 
+      // pause required, otherwise Windows fails
+      // to open the process
       return new Promise(resolve => {
         setTimeout(resolve, 300)
       })

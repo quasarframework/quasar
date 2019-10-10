@@ -15,6 +15,8 @@ $ npm install -g cordova
 
 * After this step you will need to install the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.
 
+* Make sure that after you install the Android SDK you then accept its licenses. Open the terminal and go to the folder where the SDK was installed, in tools/bin and call `sdkmanager --licenses`.
+
 * Add Android installation to your path:
 
 #### Unix (macOS, linux)
@@ -45,7 +47,7 @@ setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
 
 ### iOS setup
 
-You will need a macOS with [Xcode](https://developer.apple.com/xcode/) installed.
+You will need a macOS with [Xcode](https://developer.apple.com/xcode/) installed. After you've installed it, open Xcode in order to get the license prompt. Accept the license, then you can close it.
 
 ## 2. Add Cordova Quasar Mode
 In order to develop/build a Mobile app, we need to add the Cordova mode to our Quasar project. What this does is that it uses Cordova CLI to generate a Cordova project in `/src-cordova` folder. `/src-cordova/www` folder will be overwritten each time you build.
