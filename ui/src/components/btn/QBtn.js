@@ -36,11 +36,12 @@ export default Vue.extend({
     },
 
     computedRipple () {
-      if (this.ripple === false) {
-        return false
-      }
-
-      return Object.assign({ keyCodes: [] }, this.ripple === true ? {} : this.ripple)
+      return this.ripple === false
+        ? false
+        : Object.assign(
+          { keyCodes: [] },
+          this.ripple === true ? {} : this.ripple
+        )
     }
   },
 
