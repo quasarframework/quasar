@@ -85,7 +85,7 @@ Next, through the Apple Developer Member Center we’ll set up the app ID identi
 
 Once you’re logged in you should choose Certificates, Identifiers, and Profiles option. Also select the Identifiers option under the iOS Apps. Then select the `+` button in order to add a new iOS App ID.
 
-Then you’ll have to set the name of your app, use the Explicit App ID option and set the Bundle ID to the value of the id in your Cordova config.xml tag.
+Then you’ll have to set the name of your app, use the Explicit App ID option and set the Bundle ID to the value of the id in your capacitor.config.json.
 
 Additionally, you’ll have to choose any of the services that need to be enabled. For example, if you use Apple Pay or Wallet in your app, you need to choose those option.
 

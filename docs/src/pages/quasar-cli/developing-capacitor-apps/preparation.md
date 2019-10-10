@@ -41,7 +41,7 @@ setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
 
 ### iOS setup
 
-You will need a macOS with [XCode](https://developer.apple.com/xcode/) installed.
+You will need a macOS with [Xcode](https://developer.apple.com/xcode/) installed.
 
 ## 2. Add Capacitor Quasar Mode
 
@@ -53,16 +53,20 @@ $ quasar mode add capacitor
 
 ## 3. Start Developing
 
-To start a dev server with HMR, run the following command:
+To start a dev server with HMR, run the command below:
 
 ```bash
 $ quasar dev -m capacitor -T [android|ios]
 ```
 
-Once the dev server is ready, your native IDE will open (Android Studio for Android and Xcode for iOS). Run your app here, and it will automatically connect to the dev server.
+Once the dev server is ready, your IDE will open (Android Studio or Xcode)and from there you can manually select the emulator (or multiple ones simultaneously!) and install the dev app on it/them. You can also run the dev app on a connected mobile/tablet device.
 
-::: danger
-In Android Studio, you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** version as it will currently break the Capacitor project.
+::: warning
+In Android Studio, you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Capacitor project. Same goes for any other requested upgrades.
 
-<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
+<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-my-md fit rounded-borders" style="max-width: 350px">
+
+If you encounter any IDE errors then click on File > Invalidate caches and restart.
+
+<img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="q-mt-md fit rounded-borders" style="max-width: 350px">
 :::
