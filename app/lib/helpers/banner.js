@@ -5,8 +5,8 @@ const
   cliAppVersion = getPackageJson('@quasar/app').version
 
 function getPackager (argv, details) {
-  if (argv.ide || (argv.mode === 'capacitor' && details)) {
-    return 'IDE'
+  if (argv.ide || (argv.mode === 'capacitor' && !details)) {
+    return 'IDE (manual)'
   }
 
   if (argv.mode === 'cordova') {

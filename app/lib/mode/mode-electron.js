@@ -43,7 +43,10 @@ class Mode {
     )
 
     log(`Creating Electron source folder...`)
-    fse.copySync(appPaths.resolve.cli('templates/electron'), appPaths.electronDir)
+    fse.copySync(
+      appPaths.resolve.cli('templates/electron'),
+      appPaths.electronDir
+    )
 
     log(`Electron support was added`)
   }

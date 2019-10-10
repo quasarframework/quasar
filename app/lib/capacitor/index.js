@@ -30,9 +30,9 @@ class CapacitorRunner {
     }
   }
 
-  async run () {
+  async run (quasarConfig) {
     const
-      cfg = quasarConfig.getBuildConfig()
+      cfg = quasarConfig.getBuildConfig(),
       url = cfg.build.APP_URL
 
     if (this.url === url) {

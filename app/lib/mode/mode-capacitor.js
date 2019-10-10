@@ -10,12 +10,30 @@ const
   { spawnSync } = require('../helpers/spawn'),
   nodePackager = require('../helpers/node-packager')
 
+function installDependencies () {
+  if (fs.existsSync(appPaths.resolve.capacitor('node_modules'))) {
+    return
+  }
+
+  const cmdParam = nodePackager === 'npm'
+    ? ['install']
+    : []
+
+  log(`Installing Capacitor dependencies...`)
+  spawnSync(
+    nodePackager,
+    cmdParam,
+    { cwd: appPaths.capacitorDir },
+    () => warn('Failed to install Capacitor dependencies')
+  )
+}
+
 class Mode {
-  get isInstalled() {
+  get isInstalled () {
     return fs.existsSync(appPaths.capacitorDir)
   }
 
-  add() {
+  add (target) {
     if (this.isInstalled) {
       warn(`Capacitor support detected already. Aborting.`)
       return
@@ -55,17 +73,7 @@ class Mode {
       fs.writeFileSync(dest, compileTemplate(content)(scope), 'utf-8')
     })
 
-    const cmdParam = nodePackager === 'npm'
-      ? ['install']
-      : []
-
-    log(`Installing Capacitor dependencies...`)
-    spawnSync(
-      nodePackager,
-      cmdParam,
-      { cwd: appPaths.capacitorDir },
-      () => warn('Failed to install Capacitor dependencies')
-    )
+    installDependencies()
 
     const capacitorCliPath = require('../capacitor/capacitor-cli-path')
 
@@ -82,15 +90,36 @@ class Mode {
       { cwd: appPaths.capacitorDir }
     )
 
-    ;['android', 'ios'].forEach(platform => {
-      spawnSync(
-        capacitorCliPath,
-        ['add', platform],
-        { cwd: appPaths.capacitorDir }
-      )
-    })
-
     log(`Capacitor support was added`)
+
+    if (!target) {
+      console.log()
+      console.log(` No Capacitor platform has been added yet as these get installed on demand automatically.`)
+      log()
+      return
+    }
+
+    this.addPlatform(target)
+  }
+
+  hasPlatform (target) {
+    return fs.existsSync(appPaths.resolve.capacitor(target))
+  }
+
+  addPlatform (target) {
+    if (this.hasPlatform(target)) {
+      installDependencies()
+      return
+    }
+
+    const capacitorCliPath = require('../capacitor/capacitor-cli-path')
+
+    log(`Adding Capacitor platform "${target}"`)
+    spawnSync(
+      capacitorCliPath,
+      ['add', target],
+      { cwd: appPaths.capacitorDir }
+    )
   }
 
   remove() {

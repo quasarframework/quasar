@@ -103,12 +103,6 @@ if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-if (argv.mode === 'capacitor') {
-  // TODO - remove when out of beta
-  const showBanner = require('../lib/capacitor/show-beta-banner')
-  showBanner()
-}
-
 const
   path = require('path'),
   webpack = require('webpack')

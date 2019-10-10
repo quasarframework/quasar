@@ -7,7 +7,7 @@ const
   warn = logger('app:mode-cordova', 'red'),
   { spawnSync } = require('../helpers/spawn')
 
-function ensureNpmInstalled () {
+function installDependencies () {
   if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
     return
   }
@@ -59,6 +59,13 @@ class Mode {
       }
     )
 
+    const www = appPaths.resolve.cordova('www')
+    fse.removeSync(www)
+    fse.copySync(
+      appPaths.resolve.cli('templates/cordova'),
+      appPaths.cordovaDir
+    )
+
     log(`Cordova support was installed`)
     log(`App name was taken from package.json: "${appName}"`)
     log()
@@ -72,7 +79,8 @@ class Mode {
     console.log()
 
     if (!target) {
-      log(`Please manually add Cordova platforms using Cordova CLI from the newly created "src-cordova" folder.`)
+      console.log()
+      console.log(` No Cordova platform has been added yet as these get installed on demand automatically.`)
       log()
       return
     }
@@ -88,7 +96,7 @@ class Mode {
     fse.ensureDir(appPaths.resolve.cordova(`www`))
 
     if (this.hasPlatform(target)) {
-      ensureNpmInstalled()
+      installDependencies()
       return
     }
 
