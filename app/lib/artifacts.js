@@ -39,7 +39,10 @@ module.exports.clean = function (folder) {
   }
   else if (folder.endsWith(path.join('src-capacitor', 'www'))) {
     fse.emptyDirSync(folder)
-    fse.ensureFileSync(appPaths.resolve.capacitor('www/index.html'))
+    fse.copySync(
+      appPaths.resolve.cli('templates/capacitor/www'),
+      appPaths.capacitorDir
+    )
   }
   else {
     fse.removeSync(folder)

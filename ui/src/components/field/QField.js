@@ -500,7 +500,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.autofocus === true && this.$el.focus()
+    this.autofocus === true && this.focus()
   },
 
   beforeDestroy () {

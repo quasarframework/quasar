@@ -36,6 +36,9 @@ function getBodyClasses ({ is, has, within }, cfg) {
   else if (is.electron === true) {
     cls.push('electron')
   }
+  else if (is.bex === true) {
+    cls.push('bex')
+  }
 
   within.iframe === true && cls.push('within-iframe')
 

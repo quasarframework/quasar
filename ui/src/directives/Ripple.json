@@ -17,11 +17,17 @@
         "type": "String",
         "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
         "examples": [ "orange-5" ]
+      },
+
+      "keyCodes": {
+        "type": [ "Array", "Number" ],
+        "desc": "List of keyCode that should trigger the ripple",
+        "examples": [ "[]", "[13, 32]" ]
       }
     },
     "examples": [
       "v-ripple=\"booleanState\"",
-      "v-ripple=\"{ center: true, color: 'primary' }\""
+      "v-ripple=\"{ center: true, color: 'primary', keyCodes: [] }\""
     ]
   },
 

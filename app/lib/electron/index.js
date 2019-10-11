@@ -16,7 +16,9 @@ class ElectronRunner {
     this.watcher = null
   }
 
-  async run (quasarConfig, extraParams) {
+  init () {}
+
+  async run (quasarConfig, argv) {
     const url = quasarConfig.getBuildConfig().build.APP_URL
 
     if (this.pid) {
@@ -32,7 +34,7 @@ class ElectronRunner {
 
     const compiler = webpack(quasarConfig.getWebpackConfig().main)
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       log(`Building main Electron process...`)
       this.watcher = compiler.watch({}, async (err, stats) => {
         if (err) {
@@ -57,7 +59,7 @@ class ElectronRunner {
         }
 
         await this.__stopElectron()
-        this.__startElectron(extraParams)
+        this.__startElectron(argv._)
 
         resolve()
       })
@@ -67,11 +69,11 @@ class ElectronRunner {
   build (quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       spawn(
         nodePackager,
         [ 'install', '--production' ],
-        cfg.build.distDir,
+        { cwd: cfg.build.distDir },
         code => {
           if (code) {
             warn(`⚠️  [FAIL] ${nodePackager} failed installing dependencies`)
@@ -81,7 +83,7 @@ class ElectronRunner {
         }
       )
     }).then(() => {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(async resolve => {
         if (typeof cfg.electron.beforePackaging === 'function') {
           log('Running beforePackaging()')
           log()
@@ -137,7 +139,7 @@ class ElectronRunner {
   }
 
   stop () {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const finalize = () => {
         this.__stopElectron().then(resolve)
       }
@@ -160,7 +162,7 @@ class ElectronRunner {
         '--inspect=5858',
         appPaths.resolve.app('.quasar/electron/electron-main.js')
       ].concat(extraParams),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       code => {
         if (code) {
           warn()
@@ -192,7 +194,7 @@ class ElectronRunner {
 
     log('Shutting down Electron process...')
     this.pid = 0
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.killPromise = resolve
       process.kill(pid)
     })

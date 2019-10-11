@@ -1,6 +1,7 @@
 <template lang="pug">
-q-layout
+q-layout.err404-container
   .err404__space.fixed
+
   q-page-container
     q-page.err404.flex.flex-center.text-center.text-white
       div
@@ -31,6 +32,9 @@ export default {
 </script>
 
 <style lang="sass">
+.err404-container
+  background: #111
+
 .err404
   min-height: 100vh !important
 
