@@ -217,7 +217,8 @@ export default Vue.extend({
       this.$scopedSlots.prepend !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
-          key: 'prepend'
+          key: 'prepend',
+          on: this.slotsEvents
         }, this.$scopedSlots.prepend())
       )
 
@@ -230,7 +231,8 @@ export default Vue.extend({
       this.$scopedSlots.append !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-          key: 'append'
+          key: 'append',
+          on: this.slotsEvents
         }, this.$scopedSlots.append())
       )
 
@@ -460,7 +462,8 @@ export default Vue.extend({
       }
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
-        staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
+        staticClass: 'q-field__before q-field__marginal row no-wrap items-center',
+        on: this.slotsEvents
       }, this.$scopedSlots.before()) : null,
 
       h('div', {
@@ -480,7 +483,8 @@ export default Vue.extend({
       ]),
 
       this.$scopedSlots.after !== void 0 ? h('div', {
-        staticClass: 'q-field__after q-field__marginal row no-wrap items-center'
+        staticClass: 'q-field__after q-field__marginal row no-wrap items-center',
+        on: this.slotsEvents
       }, this.$scopedSlots.after()) : null
     ])
   },
@@ -488,10 +492,11 @@ export default Vue.extend({
   created () {
     this.__onPreRender !== void 0 && this.__onPreRender()
 
+    this.slotsEvents = { click: prevent }
+
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
-        focus: this.focus,
         focusin: this.__onControlFocusin,
         focusout: this.__onControlFocusout,
         'popup-show': this.__onControlPopupShow,

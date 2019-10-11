@@ -2,6 +2,6 @@
   "appId": "<%= appId %>",
   "appName": "<%= appName %>",
   "bundledWebRuntime": false,
-  "npmClient": "yarn",
+  "npmClient": "<%= nodePackager %>",
   "webDir": "www"
 }

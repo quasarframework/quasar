@@ -135,11 +135,44 @@
       </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="inputModelHex" :rules="['anyColor']">
-          <q-icon slot="append" name="colorize" class="cursor-pointer">
-            <q-popup-proxy>
-              <q-color v-model="inputModelHex" />
-            </q-popup-proxy>
-          </q-icon>
+          <template v-slot:append>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+
+        <q-input :dark="dark" hint="Some hint" filled v-model="inputModelHex" :rules="['anyColor']">
+          <template v-slot:before>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+          <template v-slot:after>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+          <template v-slot:prepend>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+          <template v-slot:append>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
       </div>
     </div>

@@ -61,7 +61,8 @@ class Mode {
     const scope = {
       appName,
       appId: pkg.capacitorId || pkg.cordovaId || 'org.quasar.capacitor.app',
-      pkg
+      pkg,
+      nodePackager
     }
 
     fglob.sync(['**/*'], {
