@@ -265,6 +265,35 @@
             </q-icon>
           </template>
         </q-input>
+
+        <q-input :dark="dark" filled v-model="inputFull" label="Default view - Years">
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer" @click.prevent>
+              <q-popup-proxy ref="qDateProxy1">
+                <q-date
+                  v-model="inputFull"
+                  v-bind="props"
+                  mask="YYYY-MM-DD HH:mm"
+                  today-btn
+                  default-view="Years"
+                  :style="style"
+                  @input="() => $refs.qDateProxy1.hide()"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+          <template v-slot:after>
+            <q-icon name="access_time" class="cursor-pointer" @click.prevent>
+              <q-popup-proxy ref="qDateProxy2">
+                <q-time
+                  v-model="inputFull"
+                  mask="YYYY-MM-DD HH:mm"
+                  @input="() => $refs.qDateProxy2.hide()"
+                />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
       </div>
     </div>
   </div>

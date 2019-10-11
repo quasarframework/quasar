@@ -678,7 +678,7 @@ export default Vue.extend({
     __setYear (year) {
       this.innerModel.year = year
       this.emitImmediately === true && this.__updateValue({ year }, 'year')
-      this.view = 'Calendar'
+      this.view = this.extModel.month === null || this.defaultView === 'Years' ? 'Months' : 'Calendar'
     },
 
     __setMonth (month) {
