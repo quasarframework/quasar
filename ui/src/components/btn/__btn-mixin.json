@@ -126,7 +126,7 @@
       "type": "String",
       "desc": "Label or content alignment",
       "default": "center",
-      "values": [ "left", "right", "center", "around", "between" ],
+      "values": [ "left", "right", "center", "around", "between", "evenly" ],
       "category": "content"
     },
 
