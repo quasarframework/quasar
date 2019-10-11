@@ -833,9 +833,9 @@
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
 "@quasar/app@^1.0.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.2.0.tgz#aeca7354345d6dab58b5caa849bb20c938727b38"
-  integrity sha512-NO5mEdMhhSHMKdFU5RAavs9CjNTgmfIjKSJE5zZVlnp8+KvOe2DgadaR6xHsni7tOv1pB/H59WLMIeN+s8aUYQ==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.2.1.tgz#2cc23ed9230106ffc1605cc01de43395bff21405"
+  integrity sha512-cJaq56iTrIf0n1jjov2IRGCkjEA66iq+gPF7y1UAHr38s699pNPLugblvdqoFAa20ogDw/VtlrHOuQBcHoZSqQ==
   dependencies:
     "@quasar/babel-preset-app" "1.1.6"
     "@quasar/fastclick" "1.1.4"
@@ -2307,9 +2307,9 @@ commander@2.20.0:
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
 
 commander@^2.18.0, commander@^2.19.0, commander@^2.20.0:
-  version "2.20.1"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.1.tgz#3863ce3ca92d0831dcf2a102f5fb4b5926afd0f9"
-  integrity sha512-cCuLsMhJeWQ/ZpsFTbE765kvVfoeSddc4nU3up4fV+fDBcfUXnbITJ+JzhkdjzOqhURjZgujxaioam4RM9yGUg==
+  version "2.20.3"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
+  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
 
 commander@~2.1.0:
   version "2.1.0"
@@ -7295,9 +7295,9 @@ qs@~6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 quasar@^1.0.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.2.0.tgz#2b7e6588f28dc3b1058b1876a6c14f1c1f305ebd"
-  integrity sha512-q9g9RoAeZ6Z8Vn3XrznQiVG3dHGk6xC5bancl2GyL4lkIQcUDz3pKuAJcwLuVQNuYk1tRtsCQj3GXaKunscRhw==
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.2.1.tgz#83117f5b17adcc7c08526b9aadc4ca7c2ab21287"
+  integrity sha512-7PbX8HecdrDzpG9zcZk5PSuPRFicU6b07N9Dk0uk5N+2LNGEFGBwIuQnLeDpq03Xdv98Q6GpTTZNaWpXdYBZcg==
 
 query-string@^4.1.0:
   version "4.3.4"
