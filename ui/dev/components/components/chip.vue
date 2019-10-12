@@ -59,6 +59,39 @@
         </q-chip>
       </div>
 
+      <p>Sizes</p>
+      <div class="q-ma-md">
+        <q-chip size="xs" color="primary" text-color="white" icon="event" removable>
+          Add to calendar
+        </q-chip>
+        <q-chip size="sm" color="teal" text-color="white" icon="bookmark">
+          Bookmark
+        </q-chip>
+        <q-chip size="md" color="orange" text-color="white" icon-right="star">
+          Star
+        </q-chip>
+        <q-chip size="lg" color="red" text-color="white" icon="alarm" label="Set alarm" removable />
+        <q-chip size="xl" color="deep-orange" text-color="white" icon="directions" removable>
+          Get directions
+        </q-chip>
+        <q-chip>
+          <q-avatar size="25px" icon="bookmark" color="red" text-color="white" />
+          Bookmark
+        </q-chip>
+        <q-chip>
+          <q-avatar size="2rem" color="red" text-color="white">
+            50
+          </q-avatar>
+          Emails
+        </q-chip>
+        <q-chip>
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          </q-avatar>
+          Emails
+        </q-chip>
+      </div>
+
       <p>Square</p>
       <div class="q-ma-md">
         <q-chip square color="primary" text-color="white" icon="event" removable>

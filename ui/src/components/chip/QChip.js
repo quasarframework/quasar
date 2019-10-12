@@ -5,6 +5,14 @@ import RippleMixin from '../../mixins/ripple.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
+const sizes = {
+  xs: 8,
+  sm: 10,
+  md: 14,
+  lg: 20,
+  xl: 24
+}
+
 export default Vue.extend({
   name: 'QChip',
 
@@ -33,6 +41,7 @@ export default Vue.extend({
       default: null
     },
 
+    size: String,
     square: Boolean,
     outline: Boolean,
     clickable: Boolean,
@@ -57,6 +66,15 @@ export default Vue.extend({
         'q-chip--selected': this.selected,
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
         'q-chip--square': this.square
+      }
+    },
+
+    style () {
+      if (this.size !== void 0 && this.dense !== true) {
+        return {
+          fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size,
+          height: 'inherit'
+        }
       }
     },
 
@@ -102,7 +120,8 @@ export default Vue.extend({
       this.hasLeftIcon && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--left',
-          props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
+          props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon },
+          style: this.style
         })
       )
 
@@ -115,7 +134,8 @@ export default Vue.extend({
       this.iconRight && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--right',
-          props: { name: this.iconRight }
+          props: { name: this.iconRight },
+          style: this.style
         })
       )
 
@@ -124,6 +144,7 @@ export default Vue.extend({
           staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
           props: { name: this.$q.iconSet.chip.remove },
           attrs: { tabindex: this.computedTabindex },
+          style: this.style,
           nativeOn: {
             click: this.__onRemove,
             keyup: this.__onRemove
@@ -149,6 +170,7 @@ export default Vue.extend({
 
     data.staticClass = 'q-chip row inline no-wrap items-center'
     data.class = this.classes
+    data.style = this.style
 
     return h('div', data, this.__getContent(h))
   }

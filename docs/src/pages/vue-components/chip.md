@@ -23,6 +23,8 @@ Also check out [QBadge](/vue-components/badge).
 
 <doc-example title="Dense" file="QChip/Dense" />
 
+<doc-example title="Size" file="QChip/Size" />
+
 <doc-example title="Square" file="QChip/Square" />
 
 <doc-example title="Outline" file="QChip/Outline" />
