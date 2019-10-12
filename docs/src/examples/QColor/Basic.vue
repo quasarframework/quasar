@@ -1,9 +1,9 @@
 <template>
   <div class="q-pa-md row items-start q-gutter-md">
-    <q-color v-model="hex" inline class="my-picker" />
-    <q-color v-model="hexa" inline class="my-picker" />
-    <q-color v-model="rgb" inline class="my-picker" />
-    <q-color v-model="rgba" inline class="my-picker" />
+    <q-color v-model="hex" class="my-picker" />
+    <q-color v-model="hexa" class="my-picker" />
+    <q-color v-model="rgb" class="my-picker" />
+    <q-color v-model="rgba" class="my-picker" />
   </div>
 </template>
 
