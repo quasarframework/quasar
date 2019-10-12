@@ -35,7 +35,7 @@
           </q-item>
 
           <q-separator inset />
-          <q-item-label header inset>Files</q-item-label>
+          <q-item-label header>Files</q-item-label>
 
           <q-item clickable>
             <q-item-section avatar>
