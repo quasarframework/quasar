@@ -45,7 +45,8 @@
 
     "size": {
       "type": "String",
-      "desc": "QChip size name or a CSS unit including unit name",
+      "desc": "QChip size name or a CSS unit including unit name. Ignored if used with dense property.",
+      "values": ["xs", "sm", "md", "lg", "xl"],
       "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
       "category": "style"
     },
