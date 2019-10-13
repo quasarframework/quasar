@@ -10,7 +10,7 @@ If your favorite deployment tool is missing feel free to create a pull request o
 
 ## General deployment
 
-The first step in deploying you Quasar SPA is always to build a production-ready bundle of your files, which gets rid of development statements and minifies your source.
+The first step in deploying your Quasar SPA is always to build a production-ready bundle of your files, which gets rid of development statements and minifies your source.
 
 To produce such a build use Quasar CLI with the following command
 ```bash
