@@ -8,7 +8,7 @@
       type="a"
       href="https://donate.quasar.dev"
       target="_blank"
-      rel="noopener"
+      rel="sponsored"
     >
       <div class="row items-center no-wrap">
         <q-icon left name="fab fa-github" />
