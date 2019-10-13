@@ -299,6 +299,7 @@ export default {
   },
 
   mounted () {
+    this.leftDrawerState = !!this.$route.query.search
     import('docsearch.js').then(docsearch => {
       docsearch.default({
         apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
@@ -319,6 +320,12 @@ export default {
       if (this.$q.platform.is.desktop === true) {
         window.addEventListener('keypress', this.focusOnSearch)
       }
+    }).then(() => {
+      this.search = this.$route.query.search
+      this.$refs.docAlgolia.focus()
+      setTimeout(() => {
+        this.$refs.docAlgolia.$refs.input.dispatchEvent(new Event('input', {}))
+      })
     })
   },
 
