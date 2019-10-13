@@ -245,11 +245,13 @@ export default {
     },
 
     apiCount (tab) {
-      if (tab === 'props' && this.currentTabMaxCategoryPropCount > 0) {
+      if (tab === 'props') {
         let total = 0
-        Object.keys(this.filteredApi[tab]).forEach(key => {
-          total += Object.keys(this.filteredApi[tab][key]).length
-        })
+        if (this.currentTabMaxCategoryPropCount > 0) {
+          Object.keys(this.filteredApi[tab]).forEach(key => {
+            total += Object.keys(this.filteredApi[tab][key]).length
+          })
+        }
         return total
       }
 
