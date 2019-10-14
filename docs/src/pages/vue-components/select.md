@@ -222,16 +222,21 @@ To get the best performance while using lots of options freeze the array you are
 ## Keyboard navigation
 
 When QSelect is focused:
-  - pressing <kbd class="doc-kbd">ENTER</kbd>, <kbd class="doc-kbd">ARROW DOWN</kbd> (or <kbd class="doc-kbd">SPACE</kbd> if `useInput` is not set) will open the list of options
-  - if `useChips` is set:
+  - pressing <kbd class="doc-kbd">ENTER</kbd>, <kbd class="doc-kbd">ARROW DOWN</kbd> (or <kbd class="doc-kbd">SPACE</kbd> if `use-input` is not set) will open the list of options
+  - if `use-chips` is set:
     - pressing <kbd class="doc-kbd">SHIFT</kbd> + <kbd class="doc-kbd">TAB</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd class="doc-kbd">TAB</kbd> will navigate forward through the QChips)
     - pressing <kbd class="doc-kbd">ENTER</kbd> when a QChip is selected will remove that option from the selection
-    - pressing <kbd class="doc-kbd">BACKSPACE</kbd> will remove the last option from the selection (when `useInput` is set the input should be empty)
-  - pressing <kbd class="doc-kbd">TAB</kbd> (or <kbd class="doc-kbd">SHIFT</kbd> + <kbd class="doc-kbd">TAB</kbd> if `useChips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
+    - pressing <kbd class="doc-kbd">BACKSPACE</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
+  - pressing <kbd class="doc-kbd">TAB</kbd> (or <kbd class="doc-kbd">SHIFT</kbd> + <kbd class="doc-kbd">TAB</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
+  - typing text (<kbd class="doc-kbd">0</kbd> - <kbd class="doc-kbd">9</kbd> or <kbd class="doc-kbd">A</kbd> - <kbd class="doc-kbd">Z</kbd>) if `use-input` is not set will:
+    - create a search buffer (will be reset when a new key is not typed for 1.5 seconds) that will be used to search in the options labels
+    - select the next option starting with that letter (after the current focused one) if the first key in buffer is typed multiple times
+    - select the next option (starting with the current focused one) that matches the typed text (the match is fuzzy - the option label should start with the first letter and contain all the letters)
 
 When the list of options is opened:
   - pressing <kbd class="doc-kbd">ARROW UP</kbd> or <kbd class="doc-kbd">ARROW DOWN</kbd> will navigate up or down in the list of options
-  - pressing <kbd class="doc-kbd">ENTER</kbd> (or <kbd class="doc-kbd">SPACE</kbd> when `useInput` is not set, or <kbd class="doc-kbd">TAB</kbd> when `multiple` is not set) when an option is selected in the list will:
+  - when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
+  - pressing <kbd class="doc-kbd">ENTER</kbd> (or <kbd class="doc-kbd">SPACE</kbd> when `use-input` is not set, or <kbd class="doc-kbd">TAB</kbd> when `multiple` is not set) when an option is selected in the list will:
     - select the option and close the list of options if `multiple` is not set
     - toggle the option if `multiple` is set
 
