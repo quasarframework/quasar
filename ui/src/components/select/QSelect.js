@@ -447,13 +447,15 @@ export default Vue.extend({
     __onTargetKeydown (e) {
       this.$emit('keydown', e)
 
+      const tabShouldSelect = e.shiftKey !== true && this.multiple !== true && this.optionIndex > -1
+
       // escape
       if (e.keyCode === 27) {
         return
       }
 
       // tab
-      if (e.keyCode === 9) {
+      if (e.keyCode === 9 && tabShouldSelect === false) {
         this.__closeMenu()
         return
       }
@@ -513,13 +515,17 @@ export default Vue.extend({
         }
       }
 
-      // enter (or space when not using use-input)
+      // enter, space (when not using use-input), or tab (when not using multiple and option selected)
       if (
         e.target !== this.$refs.target ||
-        (e.keyCode !== 13 && (this.useInput === true || e.keyCode !== 32))
+        (
+          e.keyCode !== 13 &&
+          (this.useInput === true || e.keyCode !== 32) &&
+          (tabShouldSelect === false || e.keyCode !== 9)
+        )
       ) { return }
 
-      stopAndPrevent(e)
+      e.keyCode !== 9 && stopAndPrevent(e)
 
       if (this.optionIndex > -1 && this.optionIndex < optionsLength) {
         this.toggleOption(this.options[this.optionIndex])
