@@ -143,7 +143,7 @@ function getRegexData (mask, dateLocale) {
     }
   })
 
-  const res = { map, regex: new RegExp('^' + regexText + '$') }
+  const res = { map, regex: new RegExp('^' + regexText) }
   regexStore[key] = res
 
   return res
