@@ -219,5 +219,21 @@ To get the best performance while using lots of options freeze the array you are
 
 <doc-example title="100k options" file="QSelect/RenderPerf" />
 
+## Keyboard navigation
+
+When QSelect is focused:
+  - pressing <kbd class="doc-kbd">ENTER</kbd>, <kbd class="doc-kbd">ARROW DOWN</kbd> (or <kbd class="doc-kbd">SPACE</kbd> if `useInput` is not set) will open the list of options
+  - if `useChips` is set:
+    - pressing <kbd class="doc-kbd">SHIFT</kbd> + <kbd class="doc-kbd">TAB</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd class="doc-kbd">TAB</kbd> will navigate forward through the QChips)
+    - pressing <kbd class="doc-kbd">ENTER</kbd> when a QChip is selected will remove that option from the selection
+    - pressing <kbd class="doc-kbd">BACKSPACE</kbd> will remove the last option from the selection (when `useInput` is set the input should be empty)
+  - pressing <kbd class="doc-kbd">TAB</kbd> (or <kbd class="doc-kbd">SHIFT</kbd> + <kbd class="doc-kbd">TAB</kbd> if `useChips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
+
+When the list of options is opened:
+  - pressing <kbd class="doc-kbd">ARROW UP</kbd> or <kbd class="doc-kbd">ARROW DOWN</kbd> will navigate up or down in the list of options
+  - pressing <kbd class="doc-kbd">ENTER</kbd> (or <kbd class="doc-kbd">SPACE</kbd> when `useInput` is not set, or <kbd class="doc-kbd">TAB</kbd> when `multiple` is not set) when an option is selected in the list will:
+    - select the option and close the list of options if `multiple` is not set
+    - toggle the option if `multiple` is set
+
 ## QSelect API
 <doc-api file="QSelect" />
