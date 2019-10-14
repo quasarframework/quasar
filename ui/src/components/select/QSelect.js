@@ -434,7 +434,8 @@ export default Vue.extend({
       // and so it will also close the QDialog, which is wrong)
       if (e.keyCode === 27 && this.menu === true) {
         stop(e)
-        this.__closeMenu()
+        // on ESC we need to close the dialog also
+        this.hidePopup()
       }
       this.$emit('keyup', e)
     },
@@ -512,8 +513,11 @@ export default Vue.extend({
         }
       }
 
-      // enter
-      if (e.target !== this.$refs.target || e.keyCode !== 13) { return }
+      // enter (or space when not using use-input)
+      if (
+        e.target !== this.$refs.target ||
+        (e.keyCode !== 13 && (this.useInput === true || e.keyCode !== 32))
+      ) { return }
 
       stopAndPrevent(e)
 
