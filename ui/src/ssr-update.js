@@ -1,7 +1,7 @@
 import { $q, queues } from './install.js'
 
 const mixin = {
-  mounted () {
+  beforeCreate () {
     queues.takeover.forEach(run => {
       run(this.$q)
     })
