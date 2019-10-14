@@ -1,4 +1,4 @@
-$chip-height: 32px
+$chip-height: 2em
 
 .q-chip
   vertical-align: middle
@@ -13,9 +13,7 @@ $chip-height: 32px
   color: rgba(0,0,0,.87)
 
   font-size: 14px
-
-  padding: 7px 12px
-  transition: .3s
+  padding: 0.5em 0.9em
 
   &--colored
     .q-chip__icon
@@ -25,30 +23,29 @@ $chip-height: 32px
     background: transparent
     border: 1px solid currentColor
 
-  &--selected
-    .q-avatar
-      visibility: hidden !important
-      width: 10px
-
   .q-avatar
     font-size: $chip-height
-    margin-left: -12px
-    margin-right: 6px
+    margin-left: -0.45em
+    margin-right: 0.2em
+    border-radius: 16px
+
+  &--selected
+    .q-avatar
+      display: none
 
   &__icon
     color: rgba(0,0,0,.54)
-    font-size: 20px
-    margin: -4px
+    font-size: 1.5em
+    margin: -0.2em
 
     &--left
-      margin-right: 6px
+      margin-right: 0.2em
     &--right
-      margin-left: 6px
+      margin-left: 0.2em
     &--remove
-      margin-left: 6px
-      margin-right: -6px
+      margin-left: 0.1em
+      margin-right: -0.5em
       opacity: .6
-      transition: .3s
       outline: none
 
       &:hover,
@@ -60,29 +57,21 @@ $chip-height: 32px
 
   &--dense
     border-radius: 12px
-    height: 24px
-    font-size: 12px
-    padding: 0 6px
+    padding: 0 0.4em
+    height: 1.5em
 
     .q-avatar
-      font-size: 24px
-      margin-left: -6px
-      margin-right: 4px
+      font-size: 1.5em
+      margin-left: -0.27em
+      margin-right: 0.1em
+      border-radius: 12px
 
     .q-chip__icon
-      font-size: 14px
-      margin: 0
+      font-size: 1.25em
       &--left
-        margin-right: 5px
-      &--right
-        margin-left: 5px
+        margin-right: 0.195em
       &--remove
-        margin-left: 5px
-        margin-right: -2px
-
-    &.q-chip--selected
-      .q-avatar
-        width: 5px
+        margin-right: -0.25em
 
   &--square
     border-radius: $generic-border-radius

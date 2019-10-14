@@ -230,12 +230,16 @@ export function hasWebStorage () {
   return false
 }
 
+export const clientTouch = isSSR === true
+  ? false
+  : (() => 'ontouchstart' in window ||
+    window.navigator.maxTouchPoints > 0
+  )()
+
 function getClientProperties () {
   return {
     has: {
-      touch: (() => 'ontouchstart' in window ||
-        window.navigator.maxTouchPoints > 0
-      )(),
+      touch: clientTouch,
       webStorage: hasWebStorage()
     },
     within: {

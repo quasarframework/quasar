@@ -1,49 +1,107 @@
 <template>
   <div class="bg-white">
     <div class="q-layout-padding">
-      <p>Basic</p>
-      <div class="q-ma-md">
-        <q-chip icon="event" size="10px">
+      <div>
+        <q-chip size="10px" :selected.sync="selected2">
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          </q-avatar>
           Add to calendar
         </q-chip>
-        <q-chip icon="bookmark">
+      </div>
+      <div>
+        <q-chip size="50px" :selected.sync="selected2">
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          </q-avatar>
+          Add to calendar
+        </q-chip>
+      </div>
+
+      <div>
+        <q-chip icon="bookmark" size="10px" :selected.sync="selected2">
+          Add to calendar
+        </q-chip>
+      </div>
+      <div>
+        <q-chip icon="bookmark" size="50px" :selected.sync="selected2">
+          Add to calendar
+        </q-chip>
+      </div>
+
+      <div>
+        <q-chip dense size="10px" :selected.sync="selected2">
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          </q-avatar>
+          Add to calendar
+        </q-chip>
+      </div>
+      <div>
+        <q-chip dense size="50px" :selected.sync="selected2">
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+          </q-avatar>
+          Add to calendar
+        </q-chip>
+      </div>
+      <div>
+        <q-chip icon="bookmark" dense size="10px" :selected.sync="selected2">
+          Add to calendar
+        </q-chip>
+      </div>
+      <div>
+        <q-chip icon="bookmark" dense size="50px" :selected.sync="selected2">
+          Add to calendar
+        </q-chip>
+      </div>
+
+      <q-slider v-model="size" :min="10" :max="50" label-always label />
+      <p>Basic</p>
+      <div class="q-ma-md">
+        <q-chip v-bind="chipProps" icon="event">
+          Add to calendar
+        </q-chip>
+        <q-chip v-bind="chipProps" icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip icon="alarm" label="Set alarm" />
-        <q-chip icon="directions">
+        <q-chip v-bind="chipProps" icon="alarm" label="Set alarm" />
+        <q-chip v-bind="chipProps" icon="directions">
           Get directions
         </q-chip>
 
-        <q-chip>Get directions</q-chip>
-        <q-chip dense>
+        <q-chip v-bind="chipProps">
+          Get directions
+        </q-chip>
+        <q-chip v-bind="chipProps" dense>
           Get directions
         </q-chip>
       </div>
       <div class="q-ma-md">
-        <q-chip color="primary" text-color="white" icon="event" removable>
+        <q-chip v-bind="chipProps" color="primary" text-color="white" icon="event" removable>
           Add to calendar
         </q-chip>
-        <q-chip color="teal" text-color="white" icon="bookmark">
+        <q-chip v-bind="chipProps" color="teal" text-color="white" icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip color="orange" text-color="white" icon-right="star">
+        <q-chip v-bind="chipProps" color="orange" text-color="white" icon-right="star">
           Star
         </q-chip>
-        <q-chip color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip color="deep-orange" text-color="white" icon="directions" removable>
+        <q-chip v-bind="chipProps" color="red" text-color="white" icon="alarm" label="Set alarm" removable />
+        <q-chip v-bind="chipProps" color="deep-orange" text-color="white" icon="directions" removable>
           Get directions
         </q-chip>
-        <q-chip>
+        <q-chip v-bind="chipProps">
           <q-avatar icon="fas fa-address-book" color="red" text-color="white" />
           Bookmark
         </q-chip>
-        <q-chip>
+        <q-chip v-bind="chipProps">
           <q-avatar color="red" text-color="white">
             50
           </q-avatar>
           Emails
         </q-chip>
-        <q-chip>
+        <q-chip v-bind="chipProps">
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
@@ -53,7 +111,7 @@
 
       <p>Tooltip test</p>
       <div class="q-ma-md">
-        <q-chip color="primary" text-color="white" icon="event" removable>
+        <q-chip v-bind="chipProps" color="primary" text-color="white" icon="event" removable>
           With tooltip
           <q-tooltip>Tooltip</q-tooltip>
         </q-chip>
@@ -61,30 +119,30 @@
 
       <p>Square</p>
       <div class="q-ma-md">
-        <q-chip square color="primary" text-color="white" icon="event" removable>
+        <q-chip v-bind="chipProps" square color="primary" text-color="white" icon="event" removable>
           Add to calendar
         </q-chip>
-        <q-chip square color="teal" text-color="white" icon="bookmark">
+        <q-chip v-bind="chipProps" square color="teal" text-color="white" icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip square color="orange" text-color="white" icon-right="star">
+        <q-chip v-bind="chipProps" square color="orange" text-color="white" icon-right="star">
           Star
         </q-chip>
-        <q-chip square color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip square color="deep-orange" text-color="white" icon="directions" removable>
+        <q-chip v-bind="chipProps" square color="red" text-color="white" icon="alarm" label="Set alarm" removable />
+        <q-chip v-bind="chipProps" square color="deep-orange" text-color="white" icon="directions" removable>
           Get directions
         </q-chip>
-        <q-chip square>
+        <q-chip v-bind="chipProps" square>
           <q-avatar icon="bookmark" color="red" text-color="white" />
           Bookmark
         </q-chip>
-        <q-chip square>
+        <q-chip v-bind="chipProps" square>
           <q-avatar color="red" text-color="white">
             50
           </q-avatar>
           Emails
         </q-chip>
-        <q-chip square>
+        <q-chip v-bind="chipProps" square>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
@@ -94,30 +152,30 @@
 
       <p>Dense</p>
       <div class="q-ma-md">
-        <q-chip dense color="primary" text-color="white" icon="event" removable>
+        <q-chip v-bind="chipProps" dense color="primary" text-color="white" icon="event" removable>
           Add to calendar
         </q-chip>
-        <q-chip dense color="teal" text-color="white" icon="bookmark">
+        <q-chip v-bind="chipProps" dense color="teal" text-color="white" icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip dense color="orange" text-color="white" icon-right="star">
+        <q-chip v-bind="chipProps" dense color="orange" text-color="white" icon-right="star">
           Star
         </q-chip>
-        <q-chip dense color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip dense color="deep-orange" text-color="white" icon="directions" removable>
+        <q-chip v-bind="chipProps" dense color="red" text-color="white" icon="alarm" label="Set alarm" removable />
+        <q-chip v-bind="chipProps" dense color="deep-orange" text-color="white" icon="directions" removable>
           Get directions
         </q-chip>
-        <q-chip dense>
+        <q-chip v-bind="chipProps" dense>
           <q-avatar icon="bookmark" color="red" text-color="white" />
           Bookmark
         </q-chip>
-        <q-chip dense>
+        <q-chip v-bind="chipProps" dense>
           <q-avatar color="red" text-color="white">
             50
           </q-avatar>
           Emails
         </q-chip>
-        <q-chip dense>
+        <q-chip v-bind="chipProps" dense>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
@@ -127,30 +185,30 @@
 
       <p>Dense Square</p>
       <div class="q-ma-md">
-        <q-chip square dense color="primary" text-color="white" icon="event" removable>
+        <q-chip v-bind="chipProps" square dense color="primary" text-color="white" icon="event" removable>
           Add to calendar
         </q-chip>
-        <q-chip square dense color="teal" text-color="white" icon="bookmark">
+        <q-chip v-bind="chipProps" square dense color="teal" text-color="white" icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip square dense color="orange" text-color="white" icon-right="star">
+        <q-chip v-bind="chipProps" square dense color="orange" text-color="white" icon-right="star">
           Star
         </q-chip>
-        <q-chip square dense color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip square dense color="deep-orange" text-color="white" icon="directions" removable>
+        <q-chip v-bind="chipProps" square dense color="red" text-color="white" icon="alarm" label="Set alarm" removable />
+        <q-chip v-bind="chipProps" square dense color="deep-orange" text-color="white" icon="directions" removable>
           Get directions
         </q-chip>
-        <q-chip square dense>
+        <q-chip v-bind="chipProps" square dense>
           <q-avatar icon="fas fa-address-book" color="red" text-color="white" />
           Bookmark
         </q-chip>
-        <q-chip square dense>
+        <q-chip v-bind="chipProps" square dense>
           <q-avatar color="red" text-color="white">
             50
           </q-avatar>
           Emails
         </q-chip>
-        <q-chip square dense>
+        <q-chip v-bind="chipProps" square dense>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
@@ -160,57 +218,57 @@
 
       <p>Clickable</p>
       <div class="q-ma-md">
-        <q-chip clickable color="primary" text-color="white" icon="event" removable>
+        <q-chip v-bind="chipProps" clickable color="primary" text-color="white" icon="event" removable>
           Add to calendar
         </q-chip>
-        <q-chip clickable icon="bookmark">
+        <q-chip v-bind="chipProps" clickable icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip clickable color="teal" text-color="white" icon="fas fa-address-book">
+        <q-chip v-bind="chipProps" clickable color="teal" text-color="white" icon="fas fa-address-book">
           Bookmark
         </q-chip>
-        <q-chip clickable color="red" text-color="white" icon="alarm" label="Set alarm" removable />
-        <q-chip clickable color="orange" text-color="white" icon="directions" removable>
+        <q-chip v-bind="chipProps" clickable color="red" text-color="white" icon="alarm" label="Set alarm" removable />
+        <q-chip v-bind="chipProps" clickable color="orange" text-color="white" icon="directions" removable>
           Get directions
         </q-chip>
       </div>
 
       <p>Selected</p>
       <div class="q-ma-md">
-        <q-chip :selected.sync="selected1" icon="bookmark" removable>
+        <q-chip v-bind="chipProps" :selected.sync="selected1" icon="bookmark" removable>
           Bookmark
         </q-chip>
-        <q-chip :selected.sync="selected1" removable>
+        <q-chip v-bind="chipProps" :selected.sync="selected1" removable>
           EmptyTest
         </q-chip>
 
-        <q-chip :selected.sync="selected2">
+        <q-chip v-bind="chipProps" :selected.sync="selected2">
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip :selected.sync="selected3">
+        <q-chip v-bind="chipProps" :selected.sync="selected3">
           <q-avatar color="primary" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip :selected.sync="selected4" color="orange">
+        <q-chip v-bind="chipProps" :selected.sync="selected4" color="orange">
           <q-avatar color="teal" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip :selected.sync="selected5" removable>
+        <q-chip v-bind="chipProps" :selected.sync="selected5" removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
 
-        <q-chip dense :selected.sync="selected5" removable>
+        <q-chip v-bind="chipProps" dense :selected.sync="selected5" removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
@@ -220,32 +278,32 @@
       <div class="q-ma-md">
         <q-btn label="Reset" flat size="sm" @click="resetRemovable" />
 
-        <q-chip v-model="close1" icon="bookmark" removable>
+        <q-chip v-bind="chipProps" v-model="close1" icon="bookmark" removable>
           Bookmark
         </q-chip>
 
-        <q-chip v-model="close2" removable>
+        <q-chip v-bind="chipProps" v-model="close2" removable>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-model="close3" removable>
+        <q-chip v-bind="chipProps" v-model="close3" removable>
           <q-avatar color="primary" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-model="close4" removable color="orange">
+        <q-chip v-bind="chipProps" v-model="close4" removable color="orange">
           <q-avatar color="teal" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip v-model="close5" disable removable>
+        <q-chip v-bind="chipProps" v-model="close5" disable removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
@@ -253,32 +311,32 @@
 
       <p>Disable</p>
       <div class="q-ma-md">
-        <q-chip disable :selected.sync="selected1" clickable icon="bookmark" removable>
+        <q-chip v-bind="chipProps" disable :selected.sync="selected1" clickable icon="bookmark" removable>
           Bookmark
         </q-chip>
 
-        <q-chip disable :selected.sync="selected2" clickable>
+        <q-chip v-bind="chipProps" disable :selected.sync="selected2" clickable>
           <q-avatar>
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip disable :selected.sync="selected3" clickable>
+        <q-chip v-bind="chipProps" disable :selected.sync="selected3" clickable>
           <q-avatar color="primary" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip disable :selected.sync="selected4" clickable color="orange">
+        <q-chip v-bind="chipProps" disable :selected.sync="selected4" clickable color="orange">
           <q-avatar color="teal" text-color="white">
             J
           </q-avatar>
           Add to calendar
         </q-chip>
 
-        <q-chip disable :selected.sync="selected5" clickable removable>
+        <q-chip v-bind="chipProps" disable :selected.sync="selected5" clickable removable>
           <q-avatar color="red" text-color="white" icon="directions" />
           Bookmark
         </q-chip>
@@ -286,27 +344,27 @@
 
       <p>Outline</p>
       <div class="q-ma-md">
-        <q-chip outline icon="bookmark">
+        <q-chip v-bind="chipProps" outline icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip outline color="primary" icon="event" removable>
+        <q-chip v-bind="chipProps" outline color="primary" icon="event" removable>
           Add to calendar
         </q-chip>
-        <q-chip outline color="teal" icon="bookmark">
+        <q-chip v-bind="chipProps" outline color="teal" icon="bookmark">
           Bookmark
         </q-chip>
-        <q-chip outline color="red" icon="alarm" label="Set alarm" removable />
-        <q-chip outline color="orange" icon="directions" removable>
+        <q-chip v-bind="chipProps" outline color="red" icon="alarm" label="Set alarm" removable />
+        <q-chip v-bind="chipProps" outline color="orange" icon="directions" removable>
           Get directions
         </q-chip>
-        <q-chip outline color="teal" icon-right="bookmark">
+        <q-chip v-bind="chipProps" outline color="teal" icon-right="bookmark">
           Bookmark
         </q-chip>
 
-        <q-chip outline>
+        <q-chip v-bind="chipProps" outline>
           Get directions
         </q-chip>
-        <q-chip dense outline>
+        <q-chip v-bind="chipProps" dense outline>
           Get directions
         </q-chip>
       </div>
@@ -328,7 +386,16 @@ export default {
       close2: true,
       close3: true,
       close4: true,
-      close5: true
+      close5: true,
+
+      size: void 0
+    }
+  },
+  computed: {
+    chipProps () {
+      return {
+        size: this.size ? this.size + 'px' : void 0
+      }
     }
   },
   methods: {
