@@ -641,32 +641,30 @@ export default Vue.extend({
     },
 
     __getControl (h, fromDialog) {
-      let data = { attrs: {} }
       const child = this.__getSelection(h, fromDialog)
 
       if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
         child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
-        data = {
+        const isShadowField = this.hasDialog === true && fromDialog !== true && this.menu === true
+
+        child.push(h('div', {
           // there can be only one (when dialog is opened the control in dialog should be target)
-          ref: this.hasDialog === true && fromDialog !== true && this.menu === true ? void 0 : 'target',
+          ref: isShadowField === true ? void 0 : 'target',
           attrs: {
             tabindex: 0,
-            autofocus: this.autofocus
+            id: isShadowField === true ? void 0 : this.targetUid
           },
           on: {
             keydown: this.__onTargetKeydown,
             keyup: this.__onTargetKeyup,
             keypress: this.__onTargetKeypress
           }
-        }
+        }))
       }
 
-      Object.assign(data.attrs, this.$attrs)
-      data.staticClass = 'q-field__native row items-center'
-
-      return h('div', data, child)
+      return h('div', { staticClass: 'q-field__native row items-center', attrs: this.$attrs }, child)
     },
 
     __getOptions (h) {
@@ -943,6 +941,7 @@ export default Vue.extend({
 
     __onDialogFieldFocus (e) {
       stop(e)
+      this.$refs.target !== void 0 && this.$refs.target.focus()
       this.dialogFieldFocused = true
       window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, 0)
     },
