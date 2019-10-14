@@ -473,7 +473,7 @@ export default Vue.extend({
         return
       }
 
-      // delete
+      // backspace
       if (
         e.keyCode === 8 &&
         this.multiple === true &&
@@ -513,6 +513,55 @@ export default Vue.extend({
             }
           }
         }
+      }
+
+      // keyboard search when not using  use-input
+      if (optionsLength > 0 && this.useInput !== true && e.keyCode >= 48 && e.keyCode <= 90) {
+        this.menu !== true && this.showPopup(e)
+
+        // clear search buffer if expired
+        if (this.searchBuffer === void 0 || this.searchBufferExp < Date.now()) {
+          this.searchBuffer = ''
+        }
+
+        const
+          char = String.fromCharCode(e.keyCode).toLocaleLowerCase(),
+          keyRepeat = this.searchBuffer.length === 1 && this.searchBuffer[0] === char
+
+        this.searchBufferExp = Date.now() + 1500
+        if (keyRepeat === false) {
+          this.searchBuffer += char
+        }
+
+        const searchRe = new RegExp('^' + this.searchBuffer.split('').join('.*'), 'i')
+
+        let index = this.optionIndex
+
+        if (keyRepeat === true || searchRe.test(this.__getOptionLabel(this.options[index])) !== true) {
+          do {
+            index = normalizeToInterval(index + 1, 0, optionsLength - 1)
+          }
+          while (index !== this.optionIndex && (
+            this.__isDisabled(this.options[index]) === true ||
+            searchRe.test(this.__getOptionLabel(this.options[index])) !== true
+          ))
+        }
+
+        if (this.optionIndex !== index) {
+          this.$nextTick(() => {
+            this.setOptionIndex(index)
+            this.scrollTo(index)
+
+            if (index >= 0 && this.useInput === true && this.fillInput === true) {
+              const inputValue = this.__getOptionLabel(this.options[index])
+              if (this.inputValue !== inputValue) {
+                this.inputValue = inputValue
+              }
+            }
+          })
+        }
+
+        return
       }
 
       // enter, space (when not using use-input), or tab (when not using multiple and option selected)
@@ -893,6 +942,7 @@ export default Vue.extend({
           }
           if (this.hasDialog !== true && this.menu === true) {
             this.__closeMenu()
+            this.$refs.target !== void 0 && this.$refs.target.focus()
           }
           else {
             this.showPopup(e)
