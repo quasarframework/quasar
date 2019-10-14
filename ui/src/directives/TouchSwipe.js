@@ -1,4 +1,4 @@
-import Platform from '../plugins/Platform.js'
+import Platform, { clientTouch } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent, listenOpts, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
@@ -26,7 +26,7 @@ export default {
 
   bind (el, { value, arg, modifiers }) {
     // early return, we don't need to do anything
-    if (modifiers.mouse !== true && Platform.has.touch !== true) {
+    if (modifiers.mouse !== true && clientTouch !== true) {
       return
     }
 
@@ -224,7 +224,7 @@ export default {
       [ el, 'mousedown', 'mouseStart', `passive${mouseCapture}` ]
     ])
 
-    if (Platform.has.touch === true) {
+    if (clientTouch === true) {
       const capture = modifiers.capture === true ? 'Capture' : ''
       addEvt(ctx, 'main', [
         [ el, 'touchstart', 'touchStart', `passive${capture}` ],
