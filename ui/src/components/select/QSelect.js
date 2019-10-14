@@ -1003,6 +1003,7 @@ export default Vue.extend({
       return h(QDialog, {
         props: {
           value: this.dialog,
+          noRefocus: true,
           position: this.useInput === true ? 'top' : void 0,
           transitionShow: this.transitionShowComputed,
           transitionHide: this.transitionHide
@@ -1041,7 +1042,14 @@ export default Vue.extend({
         return
       }
 
-      this.menu = false
+      if (this.menu === true) {
+        this.menu = false
+
+        // allow $refs.target to move to the field (when dialog)
+        this.$nextTick(() => {
+          this.$refs.target !== void 0 && this.$refs.target.focus()
+        })
+      }
 
       if (this.focused === false) {
         clearTimeout(this.filterId)
