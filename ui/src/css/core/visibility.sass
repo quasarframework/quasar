@@ -66,7 +66,7 @@
 .z-max
   z-index: $z-max !important
 
-$platforms: desktop, mobile, cordova, electron, ios, mat, touch, within-iframe, platform-ios, platform-android
+$platforms: desktop, mobile, native-mobile, cordova, capacitor, electron, touch, within-iframe, platform-ios, platform-android
 @each $type in $platforms
   body:not(.#{$type}) .#{$type}-only,
   body.#{$type} .#{$type}-hide

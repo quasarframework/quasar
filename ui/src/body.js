@@ -4,7 +4,6 @@ import { isSSR, fromSSR, client } from './plugins/Platform.js'
 function getMobilePlatform (is) {
   if (is.ios === true) return 'ios'
   if (is.android === true) return 'android'
-  if (is.winphone === true) return 'winphone'
 }
 
 function getBodyClasses ({ is, has, within }, cfg) {
