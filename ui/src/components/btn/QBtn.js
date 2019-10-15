@@ -5,8 +5,6 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import BtnMixin from './btn-mixin.js'
 
-import Platform from '../../plugins/Platform.js'
-
 import slot from '../../utils/slot.js'
 import { stopAndPrevent, listenOpts } from '../../utils/event.js'
 
@@ -214,7 +212,7 @@ export default Vue.extend({
         mousedown: this.__onMousedown
       }
 
-      if (Platform.has.touch === true) {
+      if (this.$q.platform.has.touch === true) {
         data.on.touchstart = this.__onTouchstart
       }
 

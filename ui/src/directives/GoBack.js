@@ -1,4 +1,4 @@
-import Platform from '../plugins/Platform.js'
+import { client } from '../plugins/Platform.js'
 
 export default {
   name: 'go-back',
@@ -16,7 +16,7 @@ export default {
         if (ctx.single) {
           router.go(-1)
         }
-        else if (Platform.is.nativeMobile === true) {
+        else if (client.is.nativeMobile === true) {
           router.go(ctx.position - window.history.length)
         }
         else {
