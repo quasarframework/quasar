@@ -515,7 +515,7 @@ export default Vue.extend({
         }
       }
 
-      // keyboard search when not using  use-input
+      // keyboard search when not having use-input
       if (optionsLength > 0 && this.useInput !== true && e.keyCode >= 48 && e.keyCode <= 90) {
         this.menu !== true && this.showPopup(e)
 
