@@ -5,7 +5,7 @@ desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
 
 You have a great new idea which is in line with the [Quasar vision](introduction-to-quasar). Great, here is how to make it happen!
 
-1. Email to [Razvan](razvan.stoenescu@gmail.com) the following:
+1. Email to Razvan (`razvan.stoenescu [at] gmail [dot] com`) the following:
 
    a. **The need** you are fulfilling with the new Quasar Project
 
