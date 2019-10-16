@@ -707,6 +707,7 @@ export default Vue.extend({
         child.push(h('div', {
           // there can be only one (when dialog is opened the control in dialog should be target)
           ref: isShadowField === true ? void 0 : 'target',
+          staticClass: 'no-outline',
           attrs: {
             tabindex: 0,
             id: isShadowField === true ? void 0 : this.targetUid
