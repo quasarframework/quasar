@@ -47,6 +47,8 @@ export default {
         if (
           target !== void 0 &&
           target.nodeType !== 8 &&
+          // directives that prevent click by using pointer-events none generate click on html element
+          target !== document.documentElement &&
           (
             ctx.toggleEl === void 0 ||
             ctx.toggleEl.contains(target) === false
