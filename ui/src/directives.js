@@ -7,6 +7,7 @@ import TouchHold from './directives/TouchHold.js'
 import TouchPan from './directives/TouchPan.js'
 import TouchRepeat from './directives/TouchRepeat.js'
 import TouchSwipe from './directives/TouchSwipe.js'
+import Visible from './directives/Visible.js'
 
 export {
   ClosePopup,
@@ -17,5 +18,6 @@ export {
   TouchHold,
   TouchPan,
   TouchRepeat,
-  TouchSwipe
+  TouchSwipe,
+  Visible
 }
