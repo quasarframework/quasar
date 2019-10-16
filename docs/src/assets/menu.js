@@ -631,6 +631,11 @@ const directives = [
   {
     name: 'Touch Swipe',
     path: 'touch-swipe'
+  },
+  {
+    name: 'Visible',
+    badge: 'new',
+    path: 'visible'
   }
 ]
 
