@@ -31,6 +31,7 @@ module.exports = function (ctx) {
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
+      distDir: 'dist/quasar.dev',
 
       chainWebpack (chain) {
         chain.module.rule('eslint')
