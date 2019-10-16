@@ -7,6 +7,8 @@ related:
 ---
 "Visible" is a directive that enables a method to be called when the user scrolls and the DOM element (or component) that it is applied to comes into or out of the viewport.
 
+This work is based upon the [Intersection Observer API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) which is available in most modern browsers. Other browsers, like IE 11 does not support this API. If you need to support older browsers, you can apply the [offical W3C polyfill](https://github.com/w3c/IntersectionObserver).
+
 ## Installation
 <doc-installation directives="Visible" />
 
