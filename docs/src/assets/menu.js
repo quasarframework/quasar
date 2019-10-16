@@ -605,6 +605,11 @@ const directives = [
     path: 'go-back'
   },
   {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
+  },
+  {
     name: 'Material Ripples',
     path: 'material-ripple'
   },
@@ -631,11 +636,6 @@ const directives = [
   {
     name: 'Touch Swipe',
     path: 'touch-swipe'
-  },
-  {
-    name: 'Visible',
-    badge: 'new',
-    path: 'visible'
   }
 ]
 

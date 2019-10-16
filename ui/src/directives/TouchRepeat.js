@@ -45,7 +45,7 @@ export default {
       return
     }
 
-    const durations = typeof arg === 'string' && arg.length
+    const durations = typeof arg === 'string' && arg.length > 0
       ? arg.split(':').map(val => parseInt(val, 10))
       : [0, 600, 300]
 

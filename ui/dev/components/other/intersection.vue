@@ -3,13 +3,13 @@
     <p class="q-pl-lg">
       Fires on entry and leaving
     </p>
-    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 400px; height: 400px; border: #ccc solid 1px; ">
+    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 300px; height: 400px; border: #ccc solid 1px; ">
       <div class="header row justify-around items-center" :style="visible1Style">
         {{ visible1 ? 'Visible' : 'Hidden' }}
       </div>
       <div style="width: 100%; height: 2400px;">
         <div style="width: 100%; padding-top: 1600px;" />
-        <div v-visible="onVisible1" class="observed">
+        <div v-intersection="onVisible1" class="observed">
           Observed Element
         </div>
       </div>
@@ -18,25 +18,25 @@
     <p class="q-pl-lg">
       Fires once on entry
     </p>
-    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 400px; height: 400px; border: #ccc solid 1px; ">
+    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 300px; height: 400px; border: #ccc solid 1px; ">
       <div class="header row justify-around items-center" :style="visible2Style">
         {{ visible2 ? 'Visible' : 'Hidden' }}
       </div>
       <div style="width: 100%; height: 2400px;">
         <div style="width: 100%; padding-top: 1600px;" />
-        <div v-visible.once="onVisible2" class="observed">
+        <div v-intersection.once="onVisible2" class="observed">
           Observed Element
         </div>
       </div>
     </div>
 
-    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 400px; height: 400px; border: #ccc solid 1px; ">
+    <div class="q-layout-padding q-ma-lg scroll relative-position" style="width: 300px; height: 400px; border: #ccc solid 1px; ">
       <div class="header row justify-around items-center">
         Percent: {{ percent }}%
       </div>
       <div style="width: 100%; height: 2400px;">
         <div style="width: 100%; padding-top: 1600px;" />
-        <div v-visible="options" class="observed">
+        <div v-intersection="options" class="observed">
           Observed Element
         </div>
       </div>
@@ -68,8 +68,10 @@ export default {
     },
     options () {
       return {
-        callback: this.onVisible3,
-        threshold: [0, 0.25, 0.5, 0.75, 1]
+        handler: this.onVisible3,
+        cfg: {
+          threshold: [0, 0.25, 0.5, 0.75, 1]
+        }
       }
     }
   },
@@ -102,7 +104,6 @@ export default {
 }
 
 .observed {
-  width: 100%;
   font-size: 20px;
   color: #ccc;
   background: #282a37;
