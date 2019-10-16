@@ -7,9 +7,7 @@ const defaultCfg = {
 }
 
 function update (el, ctx, { modifiers, value }) {
-  if (modifiers !== void 0 && modifiers.once !== ctx.once) {
-    ctx.once = modifiers.once
-  }
+  ctx.once = modifiers.once
 
   let handler, cfg, changed
 
@@ -33,14 +31,13 @@ function update (el, ctx, { modifiers, value }) {
     ctx.observer !== void 0 && ctx.observer.unobserve(el)
 
     ctx.observer = new IntersectionObserver(([ entry ]) => {
-      if (ctx.once === true && entry.isIntersecting === true) {
-        ctx.handler(entry, ctx.observer)
+      const res = ctx.handler(entry, ctx.observer)
+
+      if (
+        res === false ||
+        (ctx.once === true && entry.isIntersecting === true)
+      ) {
         destroy(el)
-      }
-      else {
-        if (ctx.handler(entry, ctx.observer) === false) {
-          destroy(el)
-        }
       }
     }, cfg)
 

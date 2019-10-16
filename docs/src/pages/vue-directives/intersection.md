@@ -1,6 +1,6 @@
 ---
 title: Visible Directive
-desc: Vue directive that triggers an event when user scrolls and brings a component into or out of view.
+desc: Vue directive that uses Intersection Observer API to call a method when user scrolls and brings a component into or out of view.
 badge: "v1.3.0+"
 related:
   - /vue-directives/scroll-fire
