@@ -1,6 +1,6 @@
 import { css } from '../utils/dom.js'
 import { position, stop, listenOpts } from '../utils/event.js'
-import Platform from '../plugins/Platform.js'
+import { client } from '../plugins/Platform.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
@@ -65,12 +65,14 @@ function updateCtx (ctx, { value, modifiers, arg }) {
       ? {
         stop: value.stop === true || modifiers.stop === true,
         center: value.center === true || modifiers.center === true,
-        color: value.color || arg
+        color: value.color || arg,
+        keyCodes: [].concat(value.keyCodes || 13)
       }
       : {
         stop: modifiers.stop,
         center: modifiers.center,
-        color: arg
+        color: arg,
+        keyCodes: [13]
       }
   }
 }
@@ -85,13 +87,13 @@ export default {
 
       click (evt) {
         // on ENTER in form IE emits a PointerEvent with negative client cordinates
-        if (ctx.enabled === true && (Platform.is.ie !== true || evt.clientX >= 0)) {
+        if (ctx.enabled === true && (client.is.ie !== true || evt.clientX >= 0)) {
           showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
       },
 
       keyup (evt) {
-        if (ctx.enabled === true && evt.keyCode === 13 && evt.qKeyEvent !== true) {
+        if (ctx.enabled === true && ctx.modifiers.keyCodes.indexOf(evt.keyCode) > -1 && evt.qKeyEvent !== true) {
           showRipple(evt, el, ctx, true)
         }
       }

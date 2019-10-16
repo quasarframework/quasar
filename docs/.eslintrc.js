@@ -19,7 +19,8 @@ module.exports = {
 
   // required to lint *.vue files
   plugins: [
-    'vue'
+    'vue',
+    'quasar'
   ],
 
   globals: {
@@ -49,6 +50,8 @@ module.exports = {
     'import/no-unresolved': 'off',
     'import/no-extraneous-dependencies': 'off',
     'import/no-webpack-loader-syntax': 'off',
+
+    'quasar/check-valid-props': 'warn',
 
     // allow console.log during development only
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

@@ -49,25 +49,25 @@
     background $grey-9
 
 // addressbar always gets shown, so need to slim this down
-body.mobile:not(.cordova) .q-select__dialog
+body.mobile:not(.native-mobile) .q-select__dialog
   max-height calc(100vh - 108px) !important
 
 body.platform-android
 
-  &.cordova .q-dialog__inner--top .q-select__dialog
+  &.native-mobile .q-dialog__inner--top .q-select__dialog
     max-height calc(100vh - 24px) !important
 
-  &:not(.cordova) .q-dialog__inner--top .q-select__dialog
+  &:not(.native-mobile) .q-dialog__inner--top .q-select__dialog
     max-height calc(100vh - 80px) !important
 
 body.platform-ios
 
-  &.cordova .q-dialog__inner--top
+  &.native-mobile .q-dialog__inner--top
     > div
       border-radius $generic-border-radius
 
     .q-select__dialog--focused
       max-height 47vh !important
 
-  &:not(.cordova) .q-dialog__inner--top .q-select__dialog--focused
+  &:not(.native-mobile) .q-dialog__inner--top .q-select__dialog--focused
     max-height 50vh !important

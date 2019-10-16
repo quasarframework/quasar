@@ -151,7 +151,7 @@
               "type": "Array",
               "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
               "examples": [
-                "[ { label: 'Show', handler: (Function) }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
+                "[ { label: 'Show', handler: (Function) }, { icon: 'map', handler: (Function), color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: (Function) } ]"
               ]
             },
 

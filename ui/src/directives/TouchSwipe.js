@@ -1,4 +1,4 @@
-import Platform from '../plugins/Platform.js'
+import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent, listenOpts, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
@@ -26,7 +26,7 @@ export default {
 
   bind (el, { value, arg, modifiers }) {
     // early return, we don't need to do anything
-    if (modifiers.mouse !== true && Platform.has.touch !== true) {
+    if (modifiers.mouse !== true && client.has.touch !== true) {
       return
     }
 
@@ -60,7 +60,7 @@ export default {
       },
 
       start (evt, mouseEvent) {
-        Platform.is.firefox === true && preventDraggable(el, true)
+        client.is.firefox === true && preventDraggable(el, true)
 
         const pos = position(evt)
 
@@ -200,7 +200,7 @@ export default {
         }
 
         cleanEvt(ctx, 'temp')
-        Platform.is.firefox === true && preventDraggable(el, false)
+        client.is.firefox === true && preventDraggable(el, false)
 
         if (ctx.event.dir !== false) {
           stopAndPrevent(evt)
@@ -224,7 +224,7 @@ export default {
       [ el, 'mousedown', 'mouseStart', `passive${mouseCapture}` ]
     ])
 
-    if (Platform.has.touch === true) {
+    if (client.has.touch === true) {
       const capture = modifiers.capture === true ? 'Capture' : ''
       addEvt(ctx, 'main', [
         [ el, 'touchstart', 'touchStart', `passive${capture}` ],
@@ -242,7 +242,7 @@ export default {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
 
     if (ctx !== void 0) {
-      Platform.is.firefox === true && preventDraggable(el, false)
+      client.is.firefox === true && preventDraggable(el, false)
 
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')

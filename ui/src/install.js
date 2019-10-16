@@ -24,7 +24,7 @@ export default function (Vue, opts = {}) {
 
   // required plugins
   Platform.install($q, queues)
-  Body.install($q, queues, cfg)
+  Body.install(queues, cfg)
   Screen.install($q, queues)
   History.install($q, cfg)
   Lang.install($q, queues, opts.lang)

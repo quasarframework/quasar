@@ -69,7 +69,7 @@ q-page.doc-page
       a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
         q-icon(name="fab fa-facebook")
 
-      a(href="https://donate.quasar.dev", rel="noopener", target="_blank")
+      a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
         q-icon(name="fas fa-medkit")
 
     div.q-mt-md
@@ -138,6 +138,7 @@ export default {
 .doc-page-related
   color: $grey-9
   transition: color .28s
+  border: 1px solid rgba(0,0,0,.1)
 
   &:hover
     color: $primary

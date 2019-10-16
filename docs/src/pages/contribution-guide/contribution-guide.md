@@ -190,9 +190,9 @@ Navigate to your repository you just pushed to (e.g. https://github.com/your-use
 
 Ensure the changesets you introduced are included. Fill in some details about your potential patch including a meaningful title. When finished, press Click on "Create pull request". The Quasar core team will be notified about your submission.
 
-## Write your Story 
+## Write your Story
 
-We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium pulblication channel and we'll also make sure your article gets the attention it deservers with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you! 
+We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium pulblication channel and we'll also make sure your article gets the attention it deservers with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you!
 
 ## Create new Quasar App Extension
 
@@ -254,31 +254,31 @@ $ yarn lint # or: npm run lint
 
 #### Project Structure (/ui)
 
-- **`build`**: contains build-related configuration files. In most cases you don't need to touch them.
+- `build` - contains build-related configuration files. In most cases you don't need to touch them.
 
-- **`src`**: contains the source code, obviously. The codebase is written in ES2015.
+- `src` - contains the source code, obviously. The codebase is written in ES2015.
 
-  - **`components`**: JS, Stylus and JSON (API) files for Quasar Vue components
+  - `components` - JS, Stylus and JSON (API) files for Quasar Vue components
 
-  - **`directives`**: Vue directives supplied by Quasar
+  - `directives` - Vue directives supplied by Quasar
 
-  - **`plugins`**: Quasar plugins
+  - `plugins` - Quasar plugins
 
-  - **`css`**: Stylus definitions and core code for Quasar themes
+  - `css` - Stylus definitions and core code for Quasar themes
 
-  - **`mixins`**: code for global mixins that are internal to Quasar
+  - `mixins` - code for global mixins that are internal to Quasar
 
-  - **`utils`**: utilities used by the framework and exported to the public API
+  - `utils` - utilities used by the framework and exported to the public API
 
-  - **`ie-compat`**: code for IE11 compatibility
+  - `ie-compat` - code for IE11 compatibility
 
-- **`lang`**: Quasar language packs
+- `lang` - Quasar language packs
 
-- **`icon-set`**: Quasar icon sets
+- `icon-set` - Quasar icon sets
 
-- **`dist`**: contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
+- `dist` - contains built files for distribution (only after a build). Note this directory is only updated when a release happens; they do not reflect the latest changes in development branches.
 
-- **`dev`**: app with Quasar sources linked directly used for testing purposes. Each feature/component has its own `*.vue` file. Adding a new file automatically creates a route for it and adds it to the "homepage" list (based on the file name).
+- `dev` - app with Quasar sources linked directly used for testing purposes. Each feature/component has its own `*.vue` file. Adding a new file automatically creates a route for it and adds it to the "homepage" list (based on the file name).
 
 #### Dev Server for Quasar (/ui)
 Running `yarn dev` (or `npm run dev`) starts up a dev server which uses HMR (Hot Module Reload) for Quasar source code. You can easily test your changes by making necessary changes to `/dev` `*.vue` files.

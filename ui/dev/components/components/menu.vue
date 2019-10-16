@@ -92,6 +92,17 @@
           </q-menu>
         </q-btn>
 
+        <q-btn color="primary" label="Menu with select">
+          <q-menu cover @show="log('@show cover')" @hide="log('@hide cover')" content-class="q-pa-md">
+            <div class="column q-gutter-md">
+              <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu" />
+              <q-select v-model="selectModelM" :options="selectOptions" behavior="menu" filled multiple label="Select multiple - menu" />
+              <q-select v-model="selectModelS" :options="selectOptions" behavior="dialog" filled label="Select single - dialog" />
+              <q-select v-model="selectModelM" :options="selectOptions" behavior="dialog" filled multiple label="Select multiple - dialog" />
+            </div>
+          </q-menu>
+        </q-btn>
+
         <q-btn @click="dialog = true" label="Dialog" />
         <q-dialog v-model="dialog">
           <q-card class="q-pa-xl">
@@ -540,6 +551,10 @@ export default {
       min: 0,
       max: 50,
       list,
+
+      selectModelS: null,
+      selectModelM: null,
+      selectOptions: list,
 
       vIfTest: true,
       touchPosition: true,

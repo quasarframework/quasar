@@ -25,7 +25,7 @@
           <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
           <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
           <q-td key="iron" :props="props">
-            <q-badge square color="amber">{{ props.row.iron }}</q-badge>
+            <q-badge color="amber">{{ props.row.iron }}</q-badge>
           </q-td>
         </q-tr>
         <q-tr v-show="props.expand" :props="props">

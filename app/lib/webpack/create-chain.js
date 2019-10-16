@@ -13,7 +13,7 @@ const
 module.exports = function (cfg, configName) {
   const
     chain = new WebpackChain(),
-    needsHash = !cfg.ctx.dev && !['electron', 'cordova'].includes(cfg.ctx.modeName),
+    needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName),
     fileHash = needsHash ? '.[hash:8]' : '',
     chunkHash = needsHash ? '.[contenthash:8]' : '',
     resolveModules = [
@@ -21,6 +21,14 @@ module.exports = function (cfg, configName) {
       appPaths.resolve.app('node_modules'),
       appPaths.resolve.cli('node_modules')
     ]
+
+  if (configName === 'Capacitor') {
+    // need to also look into /src-capacitor
+    // for deps like @capacitor/core
+    resolveModules.push(
+      appPaths.resolve.capacitor('node_modules')
+    )
+  }
 
   chain.entry('app').add(appPaths.resolve.app('.quasar/client-entry.js'))
   chain.mode(cfg.ctx.dev ? 'development' : 'production')

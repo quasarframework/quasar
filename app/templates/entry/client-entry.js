@@ -157,6 +157,8 @@ async function start () {
     <% if (ctx.mode.cordova) { %>
     document.addEventListener('deviceready', () => {
     Vue.prototype.$q.cordova = window.cordova
+    <% } else if (ctx.mode.capacitor) { %>
+    Vue.prototype.$q.capacitor = window.Capacitor
     <% } %>
 
       new Vue(app)

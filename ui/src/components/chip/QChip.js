@@ -1,14 +1,25 @@
 import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
+
 import RippleMixin from '../../mixins/ripple.js'
+import SizeMixin from '../../mixins/size.js'
+
 import { stopAndPrevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
+
+const sizes = {
+  xs: 8,
+  sm: 10,
+  md: 14,
+  lg: 20,
+  xl: 24
+}
 
 export default Vue.extend({
   name: 'QChip',
 
-  mixins: [ RippleMixin ],
+  mixins: [ RippleMixin, SizeMixin ],
 
   model: {
     event: 'remove'
@@ -32,6 +43,8 @@ export default Vue.extend({
       type: Boolean,
       default: null
     },
+
+    size: String,
 
     square: Boolean,
     outline: Boolean,
@@ -57,6 +70,14 @@ export default Vue.extend({
         'q-chip--selected': this.selected,
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
         'q-chip--square': this.square
+      }
+    },
+
+    style () {
+      if (this.size !== void 0) {
+        return {
+          fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size
+        }
       }
     },
 
@@ -99,7 +120,7 @@ export default Vue.extend({
         h('div', { staticClass: 'q-focus-helper' })
       )
 
-      this.hasLeftIcon && child.push(
+      this.hasLeftIcon === true && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--left',
           props: { name: this.selected === true ? this.$q.iconSet.chip.selected : this.icon }
@@ -147,8 +168,11 @@ export default Vue.extend({
       directives: [{ name: 'ripple', value: this.ripple }]
     } : {}
 
-    data.staticClass = 'q-chip row inline no-wrap items-center'
-    data.class = this.classes
+    Object.assign(data, {
+      staticClass: 'q-chip row inline no-wrap items-center',
+      class: this.classes,
+      style: this.style
+    })
 
     return h('div', data, this.__getContent(h))
   }

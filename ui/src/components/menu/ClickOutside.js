@@ -1,6 +1,5 @@
 import { listenOpts } from '../../utils/event.js'
 import { getVmOfNode, isVmChildOf } from '../../utils/vm.js'
-import Platform from '../../plugins/Platform.js'
 
 let timer
 
@@ -57,6 +56,10 @@ export default {
             isVmChildOf(getVmOfNode(target), vmEl) === false
           )
         ) {
+          // mark the event as beeing processed by clickOutside
+          // used to prevent refocus after menu close
+          evt.qClickOutside = true
+
           return ctx.trigger(evt)
         }
       }
@@ -69,18 +72,17 @@ export default {
     el.__qclickoutside = ctx
 
     if (handlers.click.length === 0) {
-      document.addEventListener('mousedown', globalHandler, notPassiveCapture)
+      // use click to be able to prevent click in handler
+      document.addEventListener('click', globalHandler, notPassiveCapture)
       document.addEventListener('touchstart', globalHandler, notPassiveCapture)
-      Platform.is.desktop === true && document.addEventListener('focusin', globalHandler, passiveCapture)
+      document.addEventListener('focusin', globalHandler, passiveCapture)
     }
 
     handlers.click.push(ctx.handler)
 
-    if (Platform.is.desktop === true) {
-      ctx.timerFocusin = setTimeout(() => {
-        handlers.focus.push(ctx.handler)
-      }, 500)
-    }
+    ctx.timerFocusin = setTimeout(() => {
+      handlers.focus.push(ctx.handler)
+    }, 500)
   },
 
   update (el, { value, oldValue, arg }) {
@@ -108,9 +110,9 @@ export default {
 
       if (handlers.click.length === 0) {
         clearTimeout(timer)
-        document.removeEventListener('mousedown', globalHandler, notPassiveCapture)
+        document.removeEventListener('click', globalHandler, notPassiveCapture)
         document.removeEventListener('touchstart', globalHandler, notPassiveCapture)
-        Platform.is.desktop === true && document.removeEventListener('focusin', globalHandler, passiveCapture)
+        document.removeEventListener('focusin', globalHandler, passiveCapture)
       }
 
       delete el[el.__qclickoutside_old ? '__qclickoutside_old' : '__qclickoutside']

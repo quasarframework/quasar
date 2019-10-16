@@ -1,18 +1,10 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-6317975-6"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-6317975-6');
-    </script>
-
     <meta charset="utf-8">
     <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-tap-highlight" content="no">
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (htmlWebpackPlugin.options.ctx.mode.cordova) { %>, viewport-fit=cover<% } %>">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (htmlWebpackPlugin.options.ctx.mode.cordova || htmlWebpackPlugin.options.ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@quasarframework">
@@ -26,6 +18,14 @@
     <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.quasar.dev/app-icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.quasar.dev/app-icons/favicon-16x16.png">
     <link rel="icon" type="image/ico" href="https://cdn.quasar.dev/app-icons/favicon.ico">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-6317975-6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-6317975-6');
+    </script>
   </head>
   <body>
     <!-- DO NOT touch the following DIV -->

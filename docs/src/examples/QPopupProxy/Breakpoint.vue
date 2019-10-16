@@ -4,7 +4,7 @@
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
           <q-popup-proxy :breakpoint="600">
-            <q-date v-model="input" filled />
+            <q-date v-model="input" />
           </q-popup-proxy>
         </q-icon>
       </template>

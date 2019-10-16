@@ -948,6 +948,7 @@ export default {
       console.log(added ? 'selected' : 'un-selected', rows)
     }
   },
+
   mounted () {
     this.request({
       pagination: this.serverPagination,

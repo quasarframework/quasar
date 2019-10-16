@@ -1,4 +1,4 @@
-import Platform from '../plugins/Platform.js'
+import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt } from '../utils/touch.js'
 import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
@@ -100,7 +100,7 @@ export default {
 
   bind (el, { value, modifiers }) {
     // early return, we don't need to do anything
-    if (modifiers.mouse !== true && Platform.has.touch !== true) {
+    if (modifiers.mouse !== true && client.has.touch !== true) {
       return
     }
 
@@ -150,7 +150,7 @@ export default {
       },
 
       start (evt, mouseEvent) {
-        Platform.is.firefox === true && preventDraggable(el, true)
+        client.is.firefox === true && preventDraggable(el, true)
 
         const pos = position(evt)
 
@@ -248,7 +248,7 @@ export default {
         }
 
         cleanEvt(ctx, 'temp')
-        Platform.is.firefox === true && preventDraggable(el, false)
+        client.is.firefox === true && preventDraggable(el, false)
 
         if (ctx.event.mouse !== true && ctx.event.detected === true) {
           el.addEventListener('touchmove', ctx.touchMove, notPassiveCapture)
@@ -280,7 +280,7 @@ export default {
       [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
     ])
 
-    Platform.has.touch === true && addEvt(ctx, 'main', [
+    client.has.touch === true && addEvt(ctx, 'main', [
       [ el, 'touchstart', 'start', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
       [ el, 'touchmove', 'touchMove', 'notPassiveCapture' ]
     ])
@@ -298,7 +298,7 @@ export default {
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')
 
-      Platform.is.firefox === true && preventDraggable(el, false)
+      client.is.firefox === true && preventDraggable(el, false)
 
       document.documentElement.style.cursor = ''
       document.body.classList.remove('no-pointer-events')

@@ -8,12 +8,13 @@ body
 
 .doc-token
   white-space: nowrap
-  background: scale-color($primary, $lightness: 85%)
-  color: $dark-primary
+  display: inline-block
+  padding: 2px 4px
+  line-height: 1
+  border: 1px solid $grey-5
+  border-radius: 5px
   font-family: inherit
-  border-radius: $generic-border-radius
-  padding: 1px 5px
-  margin: 0
+  background-color: #fff
 
 blockquote .doc-token
   background: scale-color($grey, $lightness: 60%)
@@ -25,13 +26,13 @@ blockquote .doc-token
   margin: 16px 0
   padding: 16px 24px
   font-size: 1em
-  border-width: 0 5px 0
+  border-width: 0 5px
   border-style: solid
   border-color: $grey
   letter-spacing: .5px
 
   .doc-token
-    color: $grey-9
+    color: #000
 
   > p
     margin-bottom: 0
@@ -40,7 +41,9 @@ blockquote .doc-token
     background-color: scale-color($positive, $lightness: 75%)
     border-color: $positive
     .doc-token
-      background: scale-color($positive, $lightness: 55%)
+      border-width: 0
+      color: #fff
+      background: $positive
     .doc-link
       color: scale-color($positive, $lightness: -35%)
 
@@ -48,7 +51,8 @@ blockquote .doc-token
     background-color: scale-color($warning, $lightness: 50%)
     border-color: $warning
     .doc-token
-      background: scale-color($warning, $lightness: 15%)
+      border-width: 0
+      background: $warning
     .doc-link
       color: scale-color($warning, $lightness: -45%)
 
@@ -56,7 +60,9 @@ blockquote .doc-token
     background-color: scale-color($negative, $lightness: 80%)
     border-color: $negative
     .doc-token
-      background: scale-color($negative, $lightness: 65%)
+      border-width: 0
+      color: #fff
+      background: $negative
     .doc-link
       color: scale-color($negative, $lightness: -25%)
 
@@ -116,3 +122,18 @@ blockquote .doc-token
     font-size: 20px
     margin-right: 8px
     color: $primary
+
+kbd
+  white-space: nowrap
+  display: inline-block
+  padding: 2px 4px
+  text-transform: uppercase
+  line-height: 1
+  border: 1px solid rgba(0,0,0,.12)
+  border-radius: 5px
+  color: #fff
+  background-color: $grey-7
+  box-shadow: $shadow-2
+
+.doc-gdpr
+  max-width: 360px

@@ -1,4 +1,4 @@
-import Platform from '../plugins/Platform.js'
+import { client } from '../plugins/Platform.js'
 import { addEvt, cleanEvt } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
@@ -32,7 +32,7 @@ export default {
     const { modifiers } = binding
 
     // early return, we don't need to do anything
-    if (modifiers.mouse !== true && Platform.has.touch !== true) {
+    if (modifiers.mouse !== true && client.has.touch !== true) {
       return
     }
 
@@ -62,7 +62,7 @@ export default {
 
         const startTime = new Date().getTime()
 
-        if (Platform.is.mobile === true) {
+        if (client.is.mobile === true) {
           document.body.classList.add('non-selectable')
           clearSelection()
         }
@@ -70,7 +70,7 @@ export default {
         ctx.triggered = false
 
         ctx.timer = setTimeout(() => {
-          if (Platform.is.mobile !== true) {
+          if (client.is.mobile !== true) {
             document.body.classList.add('non-selectable')
             clearSelection()
           }
@@ -133,7 +133,7 @@ export default {
       [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
     ])
 
-    Platform.has.touch === true && addEvt(ctx, 'main', [
+    client.has.touch === true && addEvt(ctx, 'main', [
       [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ]
     ])
   },

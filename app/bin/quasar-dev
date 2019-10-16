@@ -14,13 +14,14 @@ const
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
     m: 'mode',
-    T: 'target', // cordova-mode only
+    T: 'target', // cordova/capacitor mode only
     e: 'emulator', // cordova-mode only
     p: 'port',
     H: 'hostname',
+    i: 'ide',
     h: 'help'
   },
-  boolean: ['h'],
+  boolean: ['h', 'i'],
   string: ['m', 'T', 'H'],
   default: {
     m: 'spa'
@@ -51,7 +52,7 @@ if (argv.help) {
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -62,6 +63,13 @@ if (argv.help) {
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
+    --ide, -i        Open IDE (Android Studio / XCode) instead of letting Cordova
+                        booting up the emulator, in which case the "--emulator"
+                        param will have no effect
+
+    Only for Capacitor mode:
+    --target, -T     (required) App target
+                        [android|ios]
   `)
   process.exit(0)
 }
@@ -83,7 +91,7 @@ async function parseAddress ({ host, port }) {
     if (host && ['localhost', '127.0.0.1', '::1'].includes(host.toLowerCase())) {
       host = '0.0.0.0'
     }
-    if (argv.mode === 'cordova' && (!host || host === '0.0.0.0')) {
+    if (['cordova', 'capacitor'].includes(argv.mode) && (!host || host === '0.0.0.0')) {
       const getExternalIP = require('../lib/helpers/get-external-ip')
       host = await getExternalIP()
       this.chosenHost = host
@@ -187,8 +195,13 @@ async function goLive () {
 
   const
     generator = new Generator(quasarConfig),
-    Cordova = argv.mode === 'cordova' ? require('../lib/cordova') : false,
-    Electron = argv.mode === 'electron' ? require('../lib/electron') : false
+    ModeRunner = ['cordova', 'capacitor', 'electron'].includes(argv.mode)
+      ? require('../lib/' + argv.mode)
+      : void 0
+
+  if (ModeRunner !== void 0) {
+    ModeRunner.init(ctx)
+  }
 
   function startDev (oldDevServer) {
     let devServer
@@ -198,8 +211,7 @@ async function goLive () {
       .then(() => generator.build()) // Update generated files
       .then(() => devServer = new DevServer(quasarConfig))
       .then(() => devServer.listen()) // Start listening
-      .then(() => Electron && Electron.run(quasarConfig, argv._))
-      .then(() => Cordova && Cordova.run(quasarConfig, argv._))
+      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv))
       .then(() => devServer) // Pass new builder to watch chain
   }
 

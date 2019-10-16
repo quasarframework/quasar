@@ -8,7 +8,7 @@
       "type": "String",
       "desc": "Specify how to align the actions",
       "default": "left (for horizontal mode) / stretch (for vertical mode)",
-      "values": [ "left", "center", "right", "between", "around", "stretch" ],
+      "values": [ "left", "center", "right", "between", "around", "evenly", "stretch" ],
       "examples": [ "between" ],
       "category": "content"
     },

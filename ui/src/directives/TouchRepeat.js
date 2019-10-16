@@ -1,4 +1,4 @@
-import Platform from '../plugins/Platform.js'
+import { client } from '../plugins/Platform.js'
 import { addEvt, cleanEvt } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
@@ -39,7 +39,7 @@ export default {
     // early return, we don't need to do anything
     if (
       modifiers.mouse !== true &&
-      Platform.has.touch !== true &&
+      client.has.touch !== true &&
       keyboard.length === 0
     ) {
       return
@@ -115,7 +115,7 @@ export default {
           ctx.origin = position(evt)
         }
 
-        if (Platform.is.mobile === true) {
+        if (client.is.mobile === true) {
           document.body.classList.add('non-selectable')
           clearSelection()
         }
@@ -143,7 +143,7 @@ export default {
               ctx.event.position = position(evt)
             }
 
-            if (Platform.is.mobile !== true) {
+            if (client.is.mobile !== true) {
               document.documentElement.style.cursor = 'pointer'
               document.body.classList.add('non-selectable')
               clearSelection()
@@ -188,7 +188,7 @@ export default {
 
         const triggered = ctx.event.repeatCount > 0
 
-        if (Platform.is.mobile === true || triggered === true) {
+        if (client.is.mobile === true || triggered === true) {
           document.documentElement.style.cursor = ''
           document.body.classList.remove('non-selectable')
         }
@@ -211,7 +211,7 @@ export default {
       [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
     ])
 
-    Platform.has.touch === true && addEvt(ctx, 'main', [
+    client.has.touch === true && addEvt(ctx, 'main', [
       [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ]
     ])
 
@@ -237,7 +237,7 @@ export default {
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')
 
-      if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
+      if (client.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
         document.documentElement.style.cursor = ''
         document.body.classList.remove('non-selectable')
       }
