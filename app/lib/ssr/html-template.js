@@ -70,7 +70,8 @@ module.exports.getIndexHtml = function (template, cfg) {
   html = injectSsrInterpolation(html)
 
   if (cfg.build.publicPath) {
-    html = fillBaseTag(html, cfg.build.publicPath)
+    const appBase = cfg.build.appBase ? cfg.build.appBase : cfg.build.publicPath
+    html = fillBaseTag(html, appBase)
   }
 
   if (cfg.build.minify) {

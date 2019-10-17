@@ -32,7 +32,8 @@ module.exports.plugin = class HtmlAddonsPlugin {
     compiler.hooks.compilation.tap('webpack-plugin-html-addons', compilation => {
       if (this.cfg.build.publicPath) {
         compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('webpack-plugin-html-base-tag', (data, callback) => {
-          data.html = fillBaseTag(data.html, this.cfg.build.publicPath)
+          const appBase = this.cfg.build.appBase ? this.cfg.build.appBase : this.cfg.build.publicPath
+          data.html = fillBaseTag(data.html, appBase)
           callback(null, data)
         })
       }
