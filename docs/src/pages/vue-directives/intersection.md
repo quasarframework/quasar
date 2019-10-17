@@ -69,6 +69,10 @@ Below is a more advanced example of what you can do. The code takes advantage of
 
 <doc-example title="Advanced" file="Intersection/Advanced" />
 
+One more advanced example using `v-intersection` to control resources so that only the visible ones are loaded into memory. As the `q-item` becomes intersected the contained `q-card` with associated image is loaded into the DOM and displayed. When the `q-item` is no longer intersected with the container, the associated `q-card` is removed from the DOM. In the example below, a slight delay in loading the `q-card` is added for effect.
+
+<doc-example title="Scrolling Cards" file="Intersection/ScrollingCards" />
+
 ## API
 
 <doc-api file="Intersection" />
