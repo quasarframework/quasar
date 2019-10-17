@@ -772,7 +772,7 @@ export default Vue.extend({
     },
 
     __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
+      if (typeof e.data === 'string' && e.data.length > 0) {
         e.target.composing = false
       }
     },
