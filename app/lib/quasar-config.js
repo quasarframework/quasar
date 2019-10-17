@@ -498,8 +498,7 @@ class QuasarConfig {
 
     cfg.build.vueRouterBase = formatRouterBase(cfg.build.publicPath)
     cfg.build.appBase = (this.ctx.prod || cfg.build.forceDevPublicPath) && cfg.build.appBase && ['spa', 'pwa'].includes(this.ctx.modeName)
-        ? cfg.build.appBase
-        : ''
+        ? cfg.build.appBase : ''
 
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
