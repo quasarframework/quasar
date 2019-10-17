@@ -3,7 +3,21 @@ export interface CreateEventProps {
   cancelable?: Boolean;
 }
 
+export interface EventOptions {
+  passive?: Boolean;
+  capture?: Boolean;
+}
+
+export interface ListenOpts {
+  hasPassive: Boolean;
+  passive?: EventOptions;
+  notPassive?: EventOptions;
+  passiveCapture?: EventOptions;
+  notPassiveCapture?: EventOptions;
+}
+
 export namespace event {
+  const listenOpts: ListenOpts;
   function leftClick(evt: any): Element;
   function middleClick(evt: any): boolean;
   function rightClick(evt: any): boolean;
