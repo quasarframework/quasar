@@ -1,12 +1,12 @@
 <template>
   <div class="q-layout-padding docs-carousel" style="max-width: 700px">
-    <p class="caption">
+    <div class="caption">
       Basic Carousel. No controls. Just swipe between slides (you can use
       mouse to swipe too) to navigate left or right.
-    </p>
-    <p>
+    </div>
+    <div>
       <q-toggle v-model="arrows" label="Show arrows" class="q-ml-sm" />
-    </p>
+    </div>
     <q-btn label="fullscreen" class="fixed-top-left z-top" color="purple" @click="$refs.carousel.toggleFullscreen()" />
     <q-toggle v-model="fullscreen" label="Fullscreen" class="fixed-top-right z-top" />
     <q-carousel
@@ -51,9 +51,9 @@
       </q-carousel-slide>
     </q-carousel>
 
-    <p class="caption">
+    <div class="caption">
       Scroll. Padding. Video on second slide.
-    </p>
+    </div>
     <q-carousel
       transition-prev="rotate"
       transition-next="rotate"
@@ -82,9 +82,9 @@
       </q-carousel-slide>
     </q-carousel>
 
-    <p class="caption">
+    <div class="caption">
       Example creating custom captions for each slide.
-    </p>
+    </div>
     <q-carousel
       arrows
       animated
@@ -123,9 +123,9 @@
       </q-carousel-slide>
     </q-carousel>
 
-    <p class="caption">
+    <div class="caption">
       Carousel with Arrows, Navigation, and Slides with images.
-    </p>
+    </div>
     <q-carousel
       swipeable
       animated
@@ -153,9 +153,9 @@
       </q-carousel-control>
     </q-carousel>
 
-    <p class="caption">
+    <div class="caption">
       Carousel with Arrows, Navigation, and Slides with images.
-    </p>
+    </div>
     <q-carousel
       swipeable
       animated
@@ -184,9 +184,9 @@
       </template>
     </q-carousel>
 
-    <p class="caption">
+    <div class="caption">
       Carousel with control slots.
-    </p>
+    </div>
     <q-carousel
       swipeable
       animated

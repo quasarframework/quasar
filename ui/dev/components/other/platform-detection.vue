@@ -32,16 +32,30 @@
       <p class="caption">
         Your device <strong>{{ touch }}</strong> touch capability.
       </p>
+
+      <p class="caption">
+        Body classes: "{{ bodyClasses }}"
+      </p>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      bodyClasses: ''
+    }
+  },
+
   computed: {
     touch () {
       return this.$q.platform.has.touch ? 'has' : 'does not have'
     }
+  },
+
+  mounted () {
+    this.bodyClasses = document.body.classList.value
   }
 }
 </script>
