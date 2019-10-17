@@ -765,57 +765,57 @@ const components = [
     listPath: 'form-components',
     children: [
       {
-        name: 'Input Textfield',
-        path: 'input'
-      },
-      {
-        name: 'Select',
-        path: 'select'
-      },
-      {
-        name: 'Form',
-        path: 'form'
-      },
-      {
-        name: 'Field (wrapper)',
-        path: 'field'
-      },
-      {
-        name: 'Radio',
-        path: 'radio'
+        name: 'Button Toggle',
+        path: 'button-toggle'
       },
       {
         name: 'Checkbox',
         path: 'checkbox'
       },
       {
-        name: 'Toggle',
-        path: 'toggle'
+        name: 'Date Picker',
+        path: 'date'
       },
       {
-        name: 'Button Toggle',
-        path: 'button-toggle'
+        name: 'Field (wrapper)',
+        path: 'field'
+      },
+      {
+        name: 'Form',
+        path: 'form'
+      },
+      {
+        name: 'Input Textfield',
+        path: 'input'
       },
       {
         name: 'Option Group',
         path: 'option-group'
       },
       {
-        name: 'Slider',
-        path: 'slider'
+        name: 'Radio',
+        path: 'radio'
       },
       {
         name: 'Range',
         path: 'range'
       },
       {
+        name: 'Select',
+        path: 'select'
+      },
+      {
+        name: 'Slider',
+        path: 'slider'
+      },
+      {
         name: 'Time Picker',
         path: 'time'
       },
       {
-        name: 'Date Picker',
-        path: 'date'
-      }
+        name: 'Toggle',
+        path: 'toggle'
+      },
     ]
   },
   {
