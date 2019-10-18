@@ -768,13 +768,7 @@ export default Vue.extend({
     },
 
     __onCompositionStart (e) {
-      e.target.composing = true
-    },
-
-    __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
-        e.target.composing = false
-      }
+      e.target.composing = this.$q.platform.is.android !== true
     },
 
     __onCompositionEnd (e) {
@@ -797,10 +791,6 @@ export default Vue.extend({
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetKeyup,
         keypress: this.__onTargetKeypress
-      }
-
-      if (this.$q.platform.is.android === true) {
-        on.compositionupdate = this.__onCompositionUpdate
       }
 
       if (this.hasDialog === true) {
