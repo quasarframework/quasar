@@ -131,7 +131,7 @@
             <q-avatar color="primary" text-color="white" icon="bluetooth" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>No actions</q-item-label>
+            <q-item-label>Slide left/right</q-item-label>
             <q-btn label="test btn" @click="onClick" />
           </q-item-section>
         </q-item>
@@ -146,7 +146,7 @@
             <q-avatar color="primary" text-color="white" icon="bluetooth" />
           </q-item-section>
           <q-item-section>
-            <q-item-label>No actions</q-item-label>
+            <q-item-label>Slide left/right</q-item-label>
             <q-btn to="/" label="test btn" @click="onClick" />
           </q-item-section>
         </q-item>

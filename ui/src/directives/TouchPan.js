@@ -120,7 +120,7 @@ export default {
       direction: getModifierDirections(modifiers),
 
       mouseStart (evt) {
-        if (leftClick(evt) === true) {
+        if (ctx.event === void 0 && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
