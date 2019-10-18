@@ -101,6 +101,144 @@ class CapacitorConfig {
 
     fs.writeFileSync(capPkgPath, JSON.stringify(capPkg, null, 2), 'utf-8')
   }
+
+  prepareSSL (add, target) {
+    if (target === 'ios') {
+      this.__handleSSLonIOS(add)
+    }
+    else {
+      this.__handleSSLonAndroid()
+    }
+  }
+
+  __handleSSLonIOS (add) {
+    const
+      file = appPaths.resolve.capacitor('node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'),
+      needle = 'public func getWebView() -> WKWebView {',
+      content = `
+  // The following part was dynamically added by Quasar.
+  // This should NOT be part of the app when building for production,
+  // and it will be removed by Quasar automatically on "quasar build":
+  public func webView(_ webView: WKWebView, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+    let cred = URLCredential(trust: challenge.protectionSpace.serverTrust!)
+    completionHandler(.useCredential, cred)
+  }
+
+  `
+
+    if (add) {
+      this.__injectIntoFile(file, needle, content)
+    }
+    else {
+      this.__removeFromFile(file, content)
+    }
+  }
+
+  __injectIntoFile (file, needle, content) {
+    const shortFilename = path.basename(file)
+
+    const sslWarn = () => {
+      warn()
+      warn()
+      warn()
+      warn()
+      warn(`${shortFilename} not found or content is unrecognized.`)
+      warn(`Your App will revoke the devserver's SSL certificate.`)
+      warn(`Please disable HTTPS from quasar.conf.js > devServer > https`)
+      warn()
+      warn()
+      warn()
+      warn()
+    }
+
+    if (!fs.existsSync(file)) {
+      sslWarn()
+      return
+    }
+
+    const originalContent = fs.readFileSync(file, 'utf-8')
+
+    if (originalContent.indexOf(content) > -1) {
+      // it's already there
+      return
+    }
+
+    const index = originalContent.indexOf(needle)
+
+    if (index === -1) {
+      sslWarn()
+      return
+    }
+
+    const newContent = originalContent.substring(0, index) + content + originalContent.substring(index)
+
+    fs.writeFileSync(file, newContent, 'utf-8')
+  }
+
+  __removeFromFile (file, content) {
+    if (!fs.existsSync(file)) {
+      return
+    }
+
+    const originalContent = fs.readFileSync(file, 'utf-8')
+    const index = originalContent.indexOf(content)
+
+    if (index > -1) {
+      const newContent = originalContent.replace(content, '')
+      fs.writeFileSync(file, newContent, 'utf-8')
+    }
+  }
+
+  __handleSSLonAndroid () {
+    const mainActivityPath = appPaths.resolve.capacitor(
+      'android/app/src/main/java/org/cordova/quasar/app/MainActivity.java'
+    )
+    const enableHttpsSelfSignedPath = appPaths.resolve.capacitor(
+      'android/app/src/main/java/org/cordova/quasar/app/EnableHttpsSelfSigned.java'
+    )
+
+    if (fs.existsSync(mainActivityPath)) {
+      // Allow unsigned certificates in MainActivity
+      let mainActivity = fs.readFileSync(mainActivityPath, 'utf8')
+
+      if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
+        mainActivity = mainActivity.replace(
+          /this\.init\(.*}}\);/ms,
+          match => `${match}
+    if (BuildConfig.DEBUG) {
+      EnableHttpsSelfSigned.enable(findViewById(R.id.webview));
+    }
+    `
+        )
+
+        fs.writeFileSync(mainActivityPath, mainActivity, 'utf-8')
+      }
+
+      // Add helper file
+      if (!fs.existsSync(enableHttpsSelfSignedPath)) {
+        const appId = mainActivity.match(/package ([a-zA-Z\.]*);/)[1]
+        fs.writeFileSync(
+          enableHttpsSelfSignedPath,
+          `
+package ${appId};
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+public class EnableHttpsSelfSigned {
+  public static void enable(WebView webview) {
+    webview.setWebViewClient(new WebViewClient() {
+      @Override
+      public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+        handler.proceed();
+      }
+    });
+  }
+}`
+        )
+      }
+    }
+  }
 }
 
 module.exports = CapacitorConfig
