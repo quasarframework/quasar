@@ -540,7 +540,7 @@ export default Vue.extend({
 
         if (keyRepeat === true || searchRe.test(this.__getOptionLabel(this.options[index])) !== true) {
           do {
-            index = normalizeToInterval(index + 1, 0, optionsLength - 1)
+            index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
           while (index !== this.optionIndex && (
             this.__isDisabled(this.options[index]) === true ||
