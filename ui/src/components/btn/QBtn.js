@@ -169,7 +169,7 @@ export default Vue.extend({
         this.$refs.blurTarget.focus()
       }
 
-      if (touchTarget === this.$el) {
+      if (touchTarget !== void 0 && touchTarget === this.$el) {
         touchTarget.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
         touchTarget.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
         touchTarget = void 0

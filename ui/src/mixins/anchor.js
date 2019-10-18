@@ -92,6 +92,10 @@ export default {
     },
 
     __unconfigureAnchorEl (context = this.contextMenu) {
+      if (this.anchorEl === void 0) {
+        return
+      }
+
       if (context === true) {
         if (this.$q.platform.is.mobile === true) {
           this.anchorEl.removeEventListener('touchstart', this.__mobileTouch, passive)
@@ -111,7 +115,7 @@ export default {
     },
 
     __configureAnchorEl (context = this.contextMenu) {
-      if (this.noParentEvent === true) { return }
+      if (this.noParentEvent === true || this.anchorEl === void 0) { return }
 
       if (context === true) {
         if (this.$q.platform.is.mobile === true) {
