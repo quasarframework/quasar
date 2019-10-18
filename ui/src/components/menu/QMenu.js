@@ -193,10 +193,8 @@ export default Vue.extend({
     __unconfigureScrollTarget () {
       if (this.scrollTarget !== void 0) {
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        if (this.scrollTarget !== window) {
-          window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        }
       }
+      window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
     },
 
     __configureScrollTarget () {
