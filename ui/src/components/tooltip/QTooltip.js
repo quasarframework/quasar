@@ -136,8 +136,12 @@ export default Vue.extend({
     },
 
     __unconfigureAnchorEl () {
+      if (this.anchorEl === void 0) {
+        return
+      }
+
       // mobile hover ref https://stackoverflow.com/a/22444532
-      if (this.$q.platform.is.mobile) {
+      if (this.$q.platform.is.mobile === true) {
         this.anchorEl.removeEventListener('touchstart', this.__delayShow, passive)
         ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
           this.anchorEl.removeEventListener(evt, this.__delayHide, passive)
@@ -153,7 +157,7 @@ export default Vue.extend({
     },
 
     __configureAnchorEl () {
-      if (this.noParentEvent === true) { return }
+      if (this.noParentEvent === true || this.anchorEl === void 0) { return }
 
       // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile) {
@@ -173,10 +177,10 @@ export default Vue.extend({
 
     __unconfigureScrollTarget () {
       if (this.scrollTarget !== void 0) {
-        this.scrollTarget.removeEventListener('scroll', this.updatePosition, passive)
-        window.removeEventListener('scroll', this.updatePosition, passive)
+        this.scrollTarget.removeEventListener('scroll', this.hide, passive)
         this.scrollTarget = void 0
       }
+      window.removeEventListener('scroll', this.updatePosition, passive)
     },
 
     __configureScrollTarget () {

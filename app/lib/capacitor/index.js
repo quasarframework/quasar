@@ -47,6 +47,9 @@ class CapacitorRunner {
     this.config.prepare(cfg)
 
     await this.__runCapacitorCommand(['sync', this.target])
+
+    this.config.prepareSSL(cfg.devServer.https, this.target)
+
     await openIde('capacitor', cfg.bin, this.target, true)
   }
 
@@ -56,6 +59,8 @@ class CapacitorRunner {
     this.config.prepare(cfg)
 
     await this.__runCapacitorCommand(['sync', this.target])
+
+    this.config.prepareSSL(false, this.target)
 
     if (argv['skip-pkg'] === true) {
       return

@@ -40,6 +40,9 @@ export function position (e) {
   else if (e.changedTouches && e.changedTouches[0]) {
     e = e.changedTouches[0]
   }
+  else if (e.targetTouches && e.targetTouches[0]) {
+    e = e.targetTouches[0]
+  }
 
   return {
     top: e.clientY,

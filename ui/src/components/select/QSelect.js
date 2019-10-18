@@ -16,13 +16,14 @@ import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
 import VirtualScroll from '../../mixins/virtual-scroll.js'
+import CompositionMixin from '../../mixins/composition.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField, VirtualScroll ],
+  mixins: [ QField, VirtualScroll, CompositionMixin ],
 
   props: {
     value: {
@@ -539,7 +540,7 @@ export default Vue.extend({
 
         if (keyRepeat === true || searchRe.test(this.__getOptionLabel(this.options[index])) !== true) {
           do {
-            index = normalizeToInterval(index + 1, 0, optionsLength - 1)
+            index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
           while (index !== this.optionIndex && (
             this.__isDisabled(this.options[index]) === true ||
@@ -767,41 +768,20 @@ export default Vue.extend({
         : null
     },
 
-    __onCompositionStart (e) {
-      e.target.composing = true
-    },
-
-    __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
-        e.target.composing = false
-      }
-    },
-
-    __onCompositionEnd (e) {
-      if (e.target.composing !== true) { return }
-      e.target.composing = false
-
-      this.__onInputValue(e)
-    },
-
     __getInput (h, fromDialog) {
       const on = {
-        input: this.__onInputValue,
+        input: this.__onInput,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
         // switching focus before confirming composition choice
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
-        change: this.__onCompositionEnd,
-        compositionstart: this.__onCompositionStart,
-        compositionend: this.__onCompositionEnd,
+        change: this.__onChange,
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetKeyup,
         keypress: this.__onTargetKeypress
       }
 
-      if (this.$q.platform.is.android === true) {
-        on.compositionupdate = this.__onCompositionUpdate
-      }
+      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
 
       if (this.hasDialog === true) {
         on.click = stop
@@ -827,7 +807,11 @@ export default Vue.extend({
       })
     },
 
-    __onInputValue (e) {
+    __onChange (e) {
+      this.__onComposition({ ...e, type: 'compositionend' })
+    },
+
+    __onInput (e) {
       clearTimeout(this.inputTimer)
 
       if (e && e.target && e.target.composing === true) {
