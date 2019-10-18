@@ -17,6 +17,8 @@ export default Vue.extend({
       type: Number,
       required: true
     },
+    modelReverse: Boolean,
+    modelPixels: Boolean,
     horizontal: Boolean,
 
     limits: {
@@ -25,7 +27,7 @@ export default Vue.extend({
       validator: v => {
         if (v.length !== 2) return false
         if (typeof v[0] !== 'number' || typeof v[1] !== 'number') return false
-        return v[0] >= 0 && v[0] <= v[1] && v[1] <= 100
+        return v[0] >= 0 && v[0] <= v[1]
       }
     },
 
@@ -58,32 +60,37 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return (this.horizontal ? 'column' : 'row') +
-        ` q-splitter--${this.horizontal ? 'horizontal' : 'vertical'}` +
+      return (this.horizontal === true ? 'column' : 'row') +
+        ` q-splitter--${this.horizontal === true ? 'horizontal' : 'vertical'}` +
         ` q-splitter--${this.disable === true ? 'disabled' : 'workable'}` +
         (this.dark === true ? ' q-splitter--dark' : '')
     },
 
     prop () {
-      return this.horizontal ? 'height' : 'width'
+      return this.horizontal === true ? 'height' : 'width'
     },
 
-    beforeStyle () {
-      return { [this.prop]: this.value + '%' }
-    },
+    styles () {
+      const styles = this.__cssValues(this.value)
 
-    afterStyle () {
-      return { [this.prop]: (100 - this.value) + '%' }
+      return {
+        before: { [this.prop]: styles.before },
+        after: { [this.prop]: styles.after }
+      }
     }
   },
 
   methods: {
     __pan (evt) {
       if (evt.isFirst) {
-        this.__size = this.$el.getBoundingClientRect()[this.prop]
-        this.__value = this.value
-        this.__dir = this.horizontal ? 'up' : 'left'
-        this.__rtlDir = this.horizontal ? 1 : (this.$q.lang.rtl === true ? -1 : 1)
+        const size = this.$el.getBoundingClientRect()[this.prop]
+
+        this.__dir = this.horizontal === true ? 'up' : 'left'
+        this.__maxValue = this.modelPixels !== true ? 100 : size
+        this.__value = Math.min(this.__maxValue, this.limits[1], Math.max(this.limits[0], this.value))
+        this.__multiplier = (this.modelReverse !== true ? 1 : -1) *
+          (this.horizontal === true ? 1 : (this.$q.lang.rtl === true ? -1 : 1)) *
+          (this.modelPixels !== true ? (size === 0 ? 0 : 100 / size) : 1)
 
         this.$el.classList.add('q-splitter--active')
         return
@@ -99,13 +106,16 @@ export default Vue.extend({
       }
 
       const val = this.__value +
-        this.__rtlDir *
-        (evt.direction === this.__dir ? -100 : 100) *
-        evt.distance[this.horizontal ? 'y' : 'x'] / this.__size
+        this.__multiplier *
+        (evt.direction === this.__dir ? -1 : 1) *
+        evt.distance[this.horizontal === true ? 'y' : 'x']
 
-      this.__normalized = Math.min(this.limits[1], Math.max(this.limits[0], val))
-      this.$refs.before.style[this.prop] = this.__normalized + '%'
-      this.$refs.after.style[this.prop] = (100 - this.__normalized) + '%'
+      this.__normalized = Math.min(this.__maxValue, this.limits[1], Math.max(this.limits[0], val))
+
+      const { before, after } = this.__cssValues(this.__normalized)
+
+      this.$refs.before.style[this.prop] = before
+      this.$refs.after.style[this.prop] = after
     },
 
     __normalize (val, limits) {
@@ -115,6 +125,24 @@ export default Vue.extend({
       else if (val > limits[1]) {
         this.$emit('input', limits[1])
       }
+    },
+
+    __cssValues (val) {
+      const
+        main = this.modelPixels === true
+          ? Math.round(val) + 'px'
+          : val + '%',
+        rest = 'calc(100% - ' + main + ')'
+
+      return this.modelReverse !== true
+        ? {
+          before: main,
+          after: rest
+        }
+        : {
+          before: rest,
+          after: main
+        }
     }
   },
 
@@ -127,7 +155,7 @@ export default Vue.extend({
       h('div', {
         ref: 'before',
         staticClass: 'q-splitter__panel q-splitter__before',
-        style: this.beforeStyle,
+        style: this.styles.before,
         class: this.beforeClass,
         on: { input: stop }
       }, slot(this, 'before')),
@@ -143,7 +171,7 @@ export default Vue.extend({
             name: 'touch-pan',
             value: this.__pan,
             modifiers: {
-              horizontal: !this.horizontal,
+              horizontal: this.horizontal !== true,
               vertical: this.horizontal,
               prevent: true,
               stop: true,
@@ -157,7 +185,7 @@ export default Vue.extend({
       h('div', {
         ref: 'after',
         staticClass: 'q-splitter__panel q-splitter__after',
-        style: this.afterStyle,
+        style: this.styles.after,
         class: this.afterClass,
         on: { input: stop }
       }, slot(this, 'after'))
