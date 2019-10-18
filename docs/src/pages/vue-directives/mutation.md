@@ -24,6 +24,10 @@ By not specifying any modifiers (except for "once"), the Mutation directive will
 
 <doc-example title="Catch everything" file="Mutation/CatchAll" />
 
+The example below will only work for desktop.
+
+<doc-example title="Drag and Drop" file="Mutation/DragDrop" />
+
 ### Type: childList
 
 <doc-example title="childList" file="Mutation/ChildList" />
