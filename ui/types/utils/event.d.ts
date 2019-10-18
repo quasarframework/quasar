@@ -1,19 +1,19 @@
-export interface CreateEventProps {
-  bubbles?: Boolean;
-  cancelable?: Boolean;
+export interface CreateEvtProps {
+  bubbles?: boolean;
+  cancelable?: boolean;
 }
 
-export interface EventOptions {
-  passive?: Boolean;
-  capture?: Boolean;
+export interface EvtOptions {
+  passive?: boolean;
+  capture?: boolean;
 }
 
 export interface ListenOpts {
-  hasPassive: Boolean;
-  passive?: EventOptions;
-  notPassive?: EventOptions;
-  passiveCapture?: EventOptions;
-  notPassiveCapture?: EventOptions;
+  hasPassive: boolean;
+  passive?: EvtOptions;
+  notPassive?: EvtOptions;
+  passiveCapture?: EvtOptions;
+  notPassiveCapture?: EvtOptions;
 }
 
 export namespace event {
@@ -27,6 +27,6 @@ export namespace event {
   function stop(evt: any): void;
   function prevent(evt: any): void;
   function stopAndPrevent(evt: any): void;
-  function preventDraggable(el: Element, status: Boolean): void;
-  function create(name: String, opts?: CreateEventProps): any;
+  function preventDraggable(el: Element, status: boolean): void;
+  function create(name: string, opts?: CreateEvtProps): any;
 }
