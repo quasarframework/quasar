@@ -1,8 +1,11 @@
 const { green, grey, underline } = require('chalk')
 const
   getPackageJson = require('./get-package-json'),
-  quasarVersion = getPackageJson('quasar').version,
   cliAppVersion = getPackageJson('@quasar/app').version
+
+const quasarVersion = getPackageJson('quasar')
+  ? getPackageJson('quasar').version
+  : 'not installed'
 
 function getPackager (argv, cmd) {
   if (argv.ide || (argv.mode === 'capacitor' && cmd === 'dev')) {
