@@ -27,7 +27,6 @@ class CapacitorRunner {
 
     if (this.target === 'android') {
       require('../helpers/fix-android-cleartext')('capacitor')
-      require('../helpers/allow-unsigned-cert-android')()
     }
   }
 
