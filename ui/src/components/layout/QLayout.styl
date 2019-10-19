@@ -1,6 +1,11 @@
 .q-layout
   width 100%
 
+  &--containerized
+    // https://github.com/quasarframework/quasar/issues/4127
+    // Fixes scroll issues with containerized Layout inside Dialog on iOS
+    position unset !important
+
 .q-layout-container
   position relative
   width 100%
