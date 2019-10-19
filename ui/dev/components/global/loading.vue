@@ -4,6 +4,9 @@
       <p class="caption">
         Notify the user something is going on under the covers.
       </p>
+      <div>
+        {{ state }}
+      </div>
       <div class="q-gutter-sm">
         <q-btn push color="secondary" @click="noMessage()">
           Show
@@ -95,6 +98,12 @@ export default {
   data () {
     return {
       showCount: 3
+    }
+  },
+
+  computed: {
+    state () {
+      return Loading.isActive
     }
   },
 

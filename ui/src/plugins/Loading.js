@@ -20,8 +20,8 @@ let
   },
   defaults = { ...originalDefaults }
 
-export default {
-  isActive: void 0,
+const Loading = {
+  isActive: false,
 
   show (opts) {
     if (isSSR === true) { return }
@@ -31,8 +31,6 @@ export default {
       : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
-
-    this.isActive === void 0 && Vue.util.defineReactive(this, 'isActive', this.isActive)
 
     this.isActive = true
 
@@ -118,3 +116,7 @@ export default {
     $q.loading = this
   }
 }
+
+Vue.util.defineReactive(Loading, 'isActive', Loading.isActive)
+
+export default Loading
