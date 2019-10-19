@@ -112,7 +112,6 @@ const Loading = {
 
   install ({ $q, cfg: { loading } }) {
     this.setDefaults(loading)
-
     $q.loading = this
   }
 }
