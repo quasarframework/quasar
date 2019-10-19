@@ -808,7 +808,7 @@ export default Vue.extend({
     },
 
     __onChange (e) {
-      this.__onComposition({ ...e, type: 'compositionend' })
+      this.__onComposition(e)
     },
 
     __onInput (e) {

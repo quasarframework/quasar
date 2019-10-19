@@ -180,7 +180,7 @@ export default Vue.extend({
     },
 
     __onChange (e) {
-      this.__onComposition({ ...e, type: 'compositionend' })
+      this.__onComposition(e)
 
       clearTimeout(this.emitTimer)
       this.emitValueFn !== void 0 && this.emitValueFn()
