@@ -38,8 +38,8 @@ export default {
         this.isActive = bar.isActive = bar.calls > 0
       },
       increment: bar.increment,
-      setDefaults: def => {
-        Object.assign(props, def || {})
+      setDefaults: opts => {
+        opts === Object(opts) && Object.assign(props, opts)
         bar.$parent.$forceUpdate()
       }
     })
