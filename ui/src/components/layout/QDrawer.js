@@ -205,6 +205,7 @@ export default Vue.extend({
     fixed () {
       return this.overlay === true ||
         this.miniToOverlay === true ||
+        this.layout.container === true ||
         this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
     },
 
