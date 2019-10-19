@@ -4,7 +4,7 @@ const isChinese = /[\u4e00-\u9fff\u3400-\u4dbf\u{20000}-\u{2a6df}\u{2a700}-\u{2b
 export default {
   methods: {
     __onComposition (e) {
-      if (e.type === 'compositionend') {
+      if (e.type === 'compositionend' || e.type === 'change') {
         if (e.target.composing !== true) { return }
         e.target.composing = false
         this.__onInput(e)
