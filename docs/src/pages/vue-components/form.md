@@ -45,7 +45,7 @@ this.$refs.myForm.validate().then(success => {
   }
   else {
     // oh no, user has filled in
-    // at least an invalid value
+    // at least one invalid value
   }
 })
 
