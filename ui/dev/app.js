@@ -33,7 +33,9 @@ import '@quasar/extras/animate/fadeOut.css'
 
 Vue.use(Quasar, {
   // iconSet,
-  config: {}
+  config: {
+    dark: 'auto'
+  }
 })
 
 const testHydration = true

@@ -4,7 +4,7 @@
       <router-view />
     </transition>
     <q-card
-      style="padding: 12px; right: 12px; bottom: 10px; z-index: 6000"
+      style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000"
       class="rounded-borders shadow-4 fixed"
     >
       <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />

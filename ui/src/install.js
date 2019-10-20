@@ -8,6 +8,10 @@ import Lang from './lang.js'
 import Body from './body.js'
 import IconSet from './icon-set.js'
 
+const autoInstalled = [
+  Platform, Screen, Dark
+]
+
 export const queues = {
   server: [], // on SSR update
   takeover: [] // on client takeover
@@ -26,7 +30,7 @@ export default function (Vue, opts = {}) {
   // required plugins
   Platform.install($q, queues)
   Body.install(queues, cfg)
-  Dark.install($q, cfg)
+  Dark.install($q, queues, cfg)
   Screen.install($q, queues)
   History.install($q, cfg)
   Lang.install($q, queues, opts.lang)
@@ -61,7 +65,7 @@ export default function (Vue, opts = {}) {
     const param = { $q, queues, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
-      if (typeof p.install === 'function' && p !== Platform && p !== Screen && p !== Dark) {
+      if (typeof p.install === 'function' && autoInstalled.includes(p) === false) {
         p.install(param)
       }
     })
