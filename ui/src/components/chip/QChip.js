@@ -69,7 +69,8 @@ export default Vue.extend({
         'q-chip--outline': this.outline,
         'q-chip--selected': this.selected,
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
-        'q-chip--square': this.square
+        'q-chip--square': this.square,
+        'q-chip--dark': (this.outline !== false || this.color === void 0) && this.$q.dark.isActive
       }
     },
 
