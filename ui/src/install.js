@@ -61,7 +61,7 @@ export default function (Vue, opts = {}) {
     const param = { $q, queues, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
-      if (typeof p.install === 'function' && p !== Platform && p !== Screen) {
+      if (typeof p.install === 'function' && p !== Platform && p !== Screen && p !== Dark) {
         p.install(param)
       }
     })
