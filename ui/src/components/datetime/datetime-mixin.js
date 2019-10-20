@@ -1,6 +1,9 @@
 import { toJalaali } from '../../utils/date-persian.js'
+import DarkMixin from '../../mixins/dark.js'
 
 export default {
+  mixins: [ DarkMixin ],
+
   props: {
     value: {
       required: true
@@ -21,7 +24,6 @@ export default {
 
     color: String,
     textColor: String,
-    dark: Boolean,
 
     square: Boolean,
     flat: Boolean,

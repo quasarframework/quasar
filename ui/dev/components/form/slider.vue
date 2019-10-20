@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
       <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 

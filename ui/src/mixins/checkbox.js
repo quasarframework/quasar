@@ -1,6 +1,9 @@
+import DarkMixin from './dark.js'
 import { stopAndPrevent } from '../utils/event.js'
 
 export default {
+  mixins: [ DarkMixin ],
+
   props: {
     value: {
       required: true
@@ -15,7 +18,6 @@ export default {
 
     color: String,
     keepColor: Boolean,
-    dark: Boolean,
     dense: Boolean,
 
     disable: Boolean,

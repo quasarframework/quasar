@@ -2,11 +2,14 @@ import Vue from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QSplitter',
+
+  mixins: [ DarkMixin ],
 
   directives: {
     TouchPan
@@ -30,8 +33,6 @@ export default Vue.extend({
     },
 
     disable: Boolean,
-
-    dark: Boolean,
 
     beforeClass: [Array, String, Object],
     afterClass: [Array, String, Object],
@@ -61,7 +62,7 @@ export default Vue.extend({
       return (this.horizontal ? 'column' : 'row') +
         ` q-splitter--${this.horizontal ? 'horizontal' : 'vertical'}` +
         ` q-splitter--${this.disable === true ? 'disabled' : 'workable'}` +
-        (this.dark === true ? ' q-splitter--dark' : '')
+        (this.isDark === true ? ' q-splitter--dark' : '')
     },
 
     prop () {

@@ -40,7 +40,7 @@ export default {
             props: {
               value: selected,
               color: this.color,
-              dark: this.dark,
+              dark: this.isDark,
               dense: this.dense
             },
             on: {

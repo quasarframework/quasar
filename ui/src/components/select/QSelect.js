@@ -126,6 +126,10 @@ export default Vue.extend({
   },
 
   computed: {
+    isOptionsDark () {
+      return this.isDark || this.optionsDark
+    },
+
     virtualScrollLength () {
       return Array.isArray(this.options)
         ? this.options.length
@@ -149,10 +153,6 @@ export default Vue.extend({
     menuContentClass () {
       return (this.virtualScrollHorizontal === true ? 'q-virtual-scroll--horizontal' : '') +
         (this.popupContentClass ? ' ' + this.popupContentClass : '')
-    },
-
-    menuClass () {
-      return this.menuContentClass + (this.optionsDark === true ? ' q-select__menu--dark' : '')
     },
 
     innerValue () {
@@ -224,7 +224,7 @@ export default Vue.extend({
           disable,
           tabindex: -1,
           dense: this.optionsDense,
-          dark: this.optionsDark
+          dark: this.isOptionsDark
         }
 
         if (disable !== true) {
@@ -963,8 +963,9 @@ export default Vue.extend({
           value: this.menu,
           fit: true,
           cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
-          contentClass: this.menuClass,
+          contentClass: this.menuContentClass,
           contentStyle: this.popupContentStyle,
+          dark: this.isOptionsDark,
           noParentEvent: true,
           noRefocus: true,
           noFocus: true,
@@ -1003,7 +1004,7 @@ export default Vue.extend({
           },
           props: {
             ...this.$props,
-            dark: this.optionsDark,
+            dark: this.isOptionsDark,
             square: true,
             loading: this.innerLoading,
             filled: true,
@@ -1048,6 +1049,7 @@ export default Vue.extend({
         props: {
           value: this.dialog,
           noRefocus: true,
+          dark: this.isOptionsDark,
           position: this.useInput === true ? 'top' : void 0,
           transitionShow: this.transitionShowComputed,
           transitionHide: this.transitionHide
@@ -1075,7 +1077,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'q-select__dialog' +
-            (this.optionsDark === true ? ' q-select__menu--dark' : '') +
+            (this.isOptionsDark === true ? ' q-select__dialog--dark' : '') +
             (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
         }, content)
       ])

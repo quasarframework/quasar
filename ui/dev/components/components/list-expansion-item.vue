@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <div>
     <div class="q-layout-padding q-mx-auto" style="max-width: 600px;">
       <p class="caption">
         Explore the possibilities

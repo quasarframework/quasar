@@ -2,6 +2,7 @@ import './polyfills.js'
 import { version } from '../package.json'
 import Platform, { isSSR } from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'
+import Dark from './plugins/Dark.js'
 import History from './history.js'
 import Lang from './lang.js'
 import Body from './body.js'
@@ -25,6 +26,7 @@ export default function (Vue, opts = {}) {
   // required plugins
   Platform.install($q, queues)
   Body.install(queues, cfg)
+  Dark.install($q, cfg)
   Screen.install($q, queues)
   History.install($q, cfg)
   Lang.install($q, queues, opts.lang)

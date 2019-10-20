@@ -1,5 +1,5 @@
 <template>
-  <div class="q-layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <q-toggle v-model="keepColor" label="Keep color" :dark="dark" />
     <q-toggle v-model="disable" label="Disable" :dark="dark" />
     <q-toggle v-model="dark" label="Dark" :dark="dark" />

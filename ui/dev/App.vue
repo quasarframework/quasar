@@ -3,12 +3,14 @@
     <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
       <router-view />
     </transition>
-    <div
-      style="padding: 10px; right: 10px; bottom: 10px; z-index: 6000"
-      class="rounded-borders bg-white shadow-4 fixed"
+    <q-card
+      style="padding: 12px; right: 12px; bottom: 10px; z-index: 6000"
+      class="rounded-borders shadow-4 fixed"
     >
       <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
       <template v-if="showSelector">
+        <q-toggle :value="$q.dark.isActive" @input="val => { $q.dark.set(val) }" label="Dark Mode" />
+
         <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" />
         <q-select
           label="Quasar Language"
@@ -43,7 +45,7 @@
           v-model="iconSet"
         />
       </template>
-    </div>
+    </q-card>
   </div>
 </template>
 
@@ -87,6 +89,9 @@ export default {
   },
   created () {
     this.langOptions = languages.map(lang => ({ label: lang.nativeName, value: lang.isoName }))
+  },
+  mounted () {
+    window.$q = this.$q
   }
 }
 </script>

@@ -3,17 +3,19 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
+import DarkMixin from '../../mixins/dark.js'
+
 import { stopAndPrevent } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
 
 export default {
+  mixins: [ DarkMixin ],
+
   props: {
     label: String,
 
     color: String,
     textColor: String,
-
-    dark: Boolean,
 
     square: Boolean,
     flat: Boolean,
@@ -473,7 +475,7 @@ export default {
     return h('div', {
       staticClass: 'q-uploader column no-wrap',
       class: {
-        'q-uploader--dark': this.dark,
+        'q-uploader--dark': this.isDark,
         'q-uploader--bordered': this.bordered,
         'q-uploader--square no-border-radius': this.square,
         'q-uploader--flat no-shadow': this.flat,

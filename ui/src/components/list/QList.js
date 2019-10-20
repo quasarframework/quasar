@@ -1,15 +1,17 @@
 import Vue from 'vue'
 
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QList',
 
+  mixins: [ DarkMixin ],
+
   props: {
     bordered: Boolean,
     dense: Boolean,
     separator: Boolean,
-    dark: Boolean,
     padding: Boolean
   },
 
@@ -19,7 +21,7 @@ export default Vue.extend({
         (this.bordered === true ? ' q-list--bordered' : '') +
         (this.dense === true ? ' q-list--dense' : '') +
         (this.separator === true ? ' q-list--separator' : '') +
-        (this.dark === true ? ' q-list--dark' : '') +
+        (this.isDark === true ? ' q-list--dark' : '') +
         (this.padding === true ? ' q-list--padding' : '')
     }
   },
