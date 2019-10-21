@@ -14,7 +14,7 @@ export default Vue.extend({
 
   render (h) {
     if (this.props === void 0) {
-      return h('td', {
+      return h('th', {
         class: this.autoWidth === true ? 'q-table--col-auto-width' : null
       }, slot(this, 'default'))
     }
