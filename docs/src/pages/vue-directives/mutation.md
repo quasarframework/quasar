@@ -24,9 +24,13 @@ By not specifying any modifiers (except for "once"), the Mutation directive will
 
 <doc-example title="Catch everything" file="Mutation/CatchAll" />
 
-The example below will only work for desktop.
+The example below will only work for desktops. Drag the colored squares to the other location to see the Mutation Observers results.
 
 <doc-example title="Drag and Drop" file="Mutation/DragDrop" />
+
+One use-case for the Mutation Observer is implementing an Undo/Redo stack in your application. You can observe additions and removals of data, depending on your filtering requirements. You can capture the mutations in a stack, and use the stack to implement an undo. Anything mutation data during an undo, can go into a redo stack. Don't forget to clear the redo stack when normalized data is forthcoming.
+
+<doc-example title="Undo/Redo" file="Mutation/UndoRedo" />
 
 ### Type: childList
 
