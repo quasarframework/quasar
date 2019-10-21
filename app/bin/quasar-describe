@@ -247,7 +247,7 @@ function printProp (prop, propName, indentLevel) {
       printProp(prop.scope[propName], propName, indentLevel + 2)
     }
   }
-  if (!prop.values && prop.examples !== void 0) {
+  if (prop.examples !== void 0) {
     console.log(`${indent}Example${prop.examples.length > 1 ? 's' : ''}:`)
     prop.examples.forEach(example => {
       console.log(`${indent}  ${example}`)
