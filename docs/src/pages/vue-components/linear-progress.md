@@ -38,5 +38,14 @@ For indeterminate state (above) or query state (below) you don't need to specify
 
 <doc-example title="On a dark background" file="QLinearProgress/OnDarkBackground" dark />
 
+::: tip
+To add a label to the progress bar you can use the default slot.
+Take care to:
+  - use a `size` big enough to allow showing the label
+  - set a text color for the label so that it is visible both on the filled and unfilled areas
+:::
+
+<doc-example title="Progress label" file="QLinearProgress/Label" />
+
 ## QLinearProgress API
 <doc-api file="QLinearProgress" />
