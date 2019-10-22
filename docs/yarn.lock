@@ -5987,9 +5987,9 @@ node-pre-gyp@^0.12.0:
     tar "^4"
 
 node-releases@^1.1.36:
-  version "1.1.36"
-  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.36.tgz#44b7cb8254138e87bdbfa47761d0f825e20900b4"
-  integrity sha512-ggXhX6QGyJSjj3r+6ml2LqqC28XOWmKtpb+a15/Zpr9V3yoNazxJNlcQDS9bYaid5FReEWHEgToH1mwoUceWwg==
+  version "1.1.38"
+  resolved "https://registry.yarnpkg.com/node-releases/-/node-releases-1.1.38.tgz#d81b365df2936654ba37f509ba2fbe91eff2578b"
+  integrity sha512-/5NZAaOyTj134Oy5Cp/J8mso8OD/D9CSuL+6TOXXsTKO8yjc5e4up75SRPCganCjwFKMj2jbp5tR0dViVdox7g==
   dependencies:
     semver "^6.3.0"
 
@@ -7300,9 +7300,9 @@ qs@~6.5.2:
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
 quasar@^1.0.0:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.2.4.tgz#9987bc13ea22d0b8dbb02a615553f14b5bfa591d"
-  integrity sha512-PFA7W2Homm5qSnxs7Za7qAiyYHppifgPgAAcFu1skexfy3fgQaD+8R1GFFJYsIp/ce3vm/pcVvBDm4lKbwh43w==
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.2.5.tgz#eefc723b347b20ce324954aff9b412be9520dca3"
+  integrity sha512-O/bQtdu4Bn0+VfnvIZW8QY4FvfybCCQVoXmDFq7e3yW/V/1pvIjWPKei/qVKY5v303YohxJoTrGoAkmMMjYp8Q==
 
 query-string@^4.1.0:
   version "4.3.4"
