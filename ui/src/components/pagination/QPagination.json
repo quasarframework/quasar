@@ -90,7 +90,6 @@
         "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
         "__exemption": [ "examples" ]
       },
-      "default": "(see source code)",
       "examples": [ "(see source code)" ],
       "category": "content",
       "addedIn": "v1.3.0"
