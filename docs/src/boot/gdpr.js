@@ -12,7 +12,7 @@ if (Cookies.has('gdpr') !== true) {
         label: 'Accept',
         color: 'yellow',
         handler () {
-          Cookies.set('gdpr', true)
+          Cookies.set('gdpr', true, { expires: 5 * 365 })
         }
       },
       {
