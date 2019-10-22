@@ -77,7 +77,7 @@
 
     "to-fn": {
       "type": "Function",
-      "desc": "Generate link for page buttons; Function(page: Number) => vue-router to: Object",
+      "desc": "Generate link for page buttons",
       "params": {
         "page": {
           "type": "Number",
@@ -90,9 +90,9 @@
         "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
         "__exemption": [ "examples" ]
       },
-      "examples": [ "(see source code)" ],
+      "examples": [ ":to-fn=\"page => ({ query: { page } })\"" ],
       "category": "content",
-      "addedIn": "v1.3.0"
+      "addedIn": "v1.2.6"
     },
 
     "boundary-links": {
