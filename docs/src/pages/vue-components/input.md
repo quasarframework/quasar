@@ -114,6 +114,18 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 
 <doc-example title="Prefix and suffix" file="QInput/PrefixSuffix" />
 
+### Before, after, prepend, or append slots with QBtn type "submit"
+
+::: warning
+In order to prevent unwanted interactions between the content of these slots and the rest of the component, all `@click` events are prevented.
+:::
+
+This means that a QBtn with type "submit" placed in one of these slots will not trigger the submission of the form this component is placed into.
+
+::: tip
+To perform form submission with a QBtn with type "submit" placed in one of these slots add a `@click` listener on QBtn that calls the method that submits the form.
+:::
+
 ### Debouncing model
 
 The role of debouncing is for times when you watch the model and do expensive operations on it. So you want to first let user type out before triggering the model update, rather than updating the model on each keystroke.
