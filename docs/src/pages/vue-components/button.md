@@ -60,16 +60,8 @@ The example below won't work with UMD version (so in Codepen/jsFiddle too) becau
 When you have a button to submit a form's input to the server, like a "Save" button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.
 
 ::: warning
-When a QBtn with type "submit" is placed inside one of the before, after, prepend, or append slots of QField, QInput or QSelect, all `@click` events are prevented.
+When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
 :::
-
-This means that a QBtn with type "submit" placed in one of these slots will not trigger the submission of the form this component is placed into.
-
-::: tip
-To perform form submission with a QBtn with type "submit" placed in one of these slots add a `@click` listener on QBtn that calls the method that submits the form.
-:::
-
-
 
 <doc-example title="Form Submission" file="QBtn/FormSubmission" />
 

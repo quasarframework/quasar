@@ -96,16 +96,10 @@ Most of the form controls always render something visible, so you if you're usin
 
 <doc-example title="Prefix and suffix" file="QField/PrefixSuffix" />
 
-### Before, after, prepend, or append slots with QBtn type "submit"
+### Slots with QBtn type "submit"
 
 ::: warning
-In order to prevent unwanted interactions between the content of these slots and the rest of the component, all `@click` events are prevented.
-:::
-
-This means that a QBtn with type "submit" placed in one of these slots will not trigger the submission of the form this component is placed into.
-
-::: tip
-To perform form submission with a QBtn with type "submit" placed in one of these slots add a `@click` listener on QBtn that calls the method that submits the form.
+When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
 :::
 
 ### Loading state
