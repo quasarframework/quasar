@@ -283,7 +283,7 @@ export default Vue.extend({
       }
 
       return h('div', {
-        staticClass: 'q-dialog fixed-full no-pointer-events',
+        staticClass: 'q-dialog fullscreen no-pointer-events',
         class: this.contentClass,
         style: this.contentStyle,
         attrs: this.$attrs
