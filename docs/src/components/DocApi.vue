@@ -200,7 +200,7 @@ export default {
     parseJson (name, { type, behavior, ...api }) {
       this.aggregationModel = {}
 
-      if (type === 'component') {
+      if (type === 'component' && api.props !== void 0) {
         for (let apiGroup of ['props']) {
           api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
           this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
