@@ -8,7 +8,7 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { create, stop, stopAndPrevent } from '../../utils/event.js'
+import { create, stop } from '../../utils/event.js'
 
 let maximizedModals = 0
 
@@ -191,6 +191,14 @@ export default Vue.extend({
       }
 
       this.__setTimeout(() => {
+        if (this.$q.platform.is.ios === true && document.activeElement) {
+          const { top } = document.activeElement.getBoundingClientRect()
+          if (top < 0) {
+            document.scrollingElement.scrollTop += top - window.innerHeight / 2
+          }
+          document.activeElement.scrollIntoView()
+        }
+
         this.$emit('show', evt)
       }, 300)
     },
@@ -294,7 +302,6 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              touchmove: stopAndPrevent, // prevent iOS page scroll
               click: this.__onBackdropClick
             }
           })

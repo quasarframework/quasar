@@ -73,10 +73,13 @@ function apply (action) {
       body.classList.add('q-body--force-scrollbar')
     }
 
+    body.classList.add('q-body--prevent-scroll')
     Platform.is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
   }
-
-  body.classList[action]('q-body--prevent-scroll')
+  else {
+    Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    body.classList.remove('q-body--prevent-scroll')
+  }
 
   if (Platform.is.desktop === true && Platform.is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention

@@ -28,7 +28,9 @@
           <q-btn label="Sliders" flat color="primary" @click="sliders = true" />
           <q-btn label="Layout Bottom" flat color="primary" @click="layoutBottom = true" />
           <q-btn label="Close popup test" flat color="primary" @click="closePopupTest = true" />
-          <q-btn label="iOS test" flat color="primary" @click="iOSTest = true" />
+          <q-btn label="iOS top" flat color="primary" @click="iOSTestTop = true" />
+          <q-btn label="iOS bottom" flat color="primary" @click="iOSTestBottom = true" />
+          <q-btn label="iOS normal" flat color="primary" @click="iOSTestNormal = true" />
           <q-btn label="iOS test 2" flat color="primary" @click="iOSTest2 = true" />
         </div>
       </div>
@@ -199,7 +201,7 @@
     </q-dialog>
 
     <q-dialog v-model="prompt" persistent>
-      <q-card style="min-width: 400px">
+      <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-h6">
             Your address
@@ -738,7 +740,7 @@
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="iOSTest" content-class="scroll">
+    <q-dialog v-model="iOSTestTop" position="top">
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -749,12 +751,44 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <q-input v-model="iOStext" />
+          <q-input v-model="iOStext" autofocus />
         </q-card-section>
       </q-card>
     </q-dialog>
 
-    <q-dialog v-model="iOSTest2" content-class="scroll">
+    <q-dialog v-model="iOSTestBottom" position="bottom">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            Title
+          </div>
+          <div class="text-subtitle2">
+            Subtitle
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <q-input v-model="iOStext" autofocus />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="iOSTestNormal">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            Title
+          </div>
+          <div class="text-subtitle2">
+            Subtitle
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <q-input v-model="iOStext" autofocus />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="iOSTest2">
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -766,6 +800,7 @@
         </q-card-section>
         <q-card-section>
           <q-input v-for="n in 15" :key="n" v-model="iOStext" />
+          <q-input v-model="iOStext" autofocus />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -836,7 +871,9 @@ export default {
       closePopupTest: false,
       closePopupBtn: false,
 
-      iOSTest: false,
+      iOSTestTop: false,
+      iOSTestBottom: false,
+      iOSTestNormal: false,
       iOSTest2: false,
       iOStext: ''
     }
