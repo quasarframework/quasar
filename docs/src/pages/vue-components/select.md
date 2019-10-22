@@ -36,6 +36,18 @@ As a helper, you can use `clearable` prop so user can reset model to `null` thro
 ### Disable and readonly
 <doc-example title="Disable and readonly" file="QSelect/DisableReadonly" />
 
+### Before, after, prepend, or append slots with QBtn type "submit"
+
+::: warning
+In order to prevent unwanted interactions between the content of these slots and the rest of the component, all `@click` events are prevented.
+:::
+
+This means that a QBtn with type "submit" placed in one of these slots will not trigger the submission of the form this component is placed into.
+
+::: tip
+To perform form submission with a QBtn with type "submit" placed in one of these slots add a `@click` listener on QBtn that calls the method that submits the form.
+:::
+
 ### Menu transitions
 
 ::: warning
