@@ -50,6 +50,36 @@
       </div>
 
       <div class="row flex-center q-my-md q-gutter-md">
+        <router-link
+          to="/components/button-functional/a"
+          v-slot="{ href, route, navigate, isActive, isExactActive }"
+        >
+          <q-btn
+            :flat="isActive !== true"
+            :outline="isActive === true && isExactActive !== true"
+            color="primary"
+            size="lg"
+            no-caps
+            :label="`To '${route.fullPath} - routerLink slot: isActive=${isActive}, isExactActive=${isExactActive}, href=${href}`"
+            :to="href"
+            @click="onClick"
+          />
+        </router-link>
+        <router-link
+          to="/components/button-functional/a/b"
+          v-slot="{ href, route, navigate, isActive, isExactActive }"
+        >
+          <q-btn
+            :flat="isActive !== true"
+            :outline="isActive === true && isExactActive !== true"
+            color="primary"
+            size="lg"
+            no-caps
+            :label="`To '${route.fullPath} - routerLink slot: isActive=${isActive}, isExactActive=${isExactActive}, href=${href}`"
+            :to="href"
+            @click="onClick"
+          />
+        </router-link>
         <q-btn push type="a" size="lg" label="To '/components/button-functional#1' - a" to="/components/button-functional#1" text-color="primary" @click="onClick" />
         <q-btn push type="a" size="lg" label="To '/components/button-functional#2' - a - disable" to="/components/button-functional#2" text-color="primary" @click="onClick" disable />
         <q-btn push type="button" size="lg" label="To '/components/button-functional#3' - button" to="/components/button-functional#3" text-color="primary" @click="onClick" />

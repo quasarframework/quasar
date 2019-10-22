@@ -56,6 +56,12 @@ The example below won't work with UMD version (so in Codepen/jsFiddle too) becau
 
 <doc-example title="Disable" file="QBtn/Disabled" />
 
+### Using as scoped slot of RouterLink v3.1.0+
+
+The example below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
+
+<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" />
+
 ### Controlling the button for form submission
 When you have a button to submit a form's input to the server, like a "Save" button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.
 
