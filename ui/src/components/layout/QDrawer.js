@@ -205,7 +205,8 @@ export default Vue.extend({
     fixed () {
       return this.overlay === true ||
         this.miniToOverlay === true ||
-        this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
+        this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1 ||
+        (this.$q.platform.is.ios && this.layout.container === true)
     },
 
     onLayout () {
