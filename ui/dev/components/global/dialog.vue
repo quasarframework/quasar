@@ -1,7 +1,9 @@
 <template>
   <div class="q-layout-padding q-mx-auto">
     <div class="column flex-center" style="height: 200vh; width: 200vw;">
-      <div>Page has scroll on purpose</div>
+      <div v-for="n in 10" :key="n">
+        Page has scroll on purpose
+      </div>
       <div class="row justify-center">
         <div class="q-gutter-md" style="max-width: 700px">
           <q-btn label="Alert" flat color="primary" @click="alert = true" />
@@ -26,6 +28,8 @@
           <q-btn label="Sliders" flat color="primary" @click="sliders = true" />
           <q-btn label="Layout Bottom" flat color="primary" @click="layoutBottom = true" />
           <q-btn label="Close popup test" flat color="primary" @click="closePopupTest = true" />
+          <q-btn label="iOS test" flat color="primary" @click="iOSTest = true" />
+          <q-btn label="iOS test 2" flat color="primary" @click="iOSTest2 = true" />
         </div>
       </div>
     </div>
@@ -733,6 +737,38 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+
+    <q-dialog v-model="iOSTest" content-class="scroll">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            Title
+          </div>
+          <div class="text-subtitle2">
+            Subtitle
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <q-input v-model="iOStext" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-dialog v-model="iOSTest2" content-class="scroll">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">
+            Title
+          </div>
+          <div class="text-subtitle2">
+            Subtitle
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <q-input v-for="n in 15" :key="n" v-model="iOStext" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -798,7 +834,11 @@ export default {
       selectOptionsFiltered: [],
 
       closePopupTest: false,
-      closePopupBtn: false
+      closePopupBtn: false,
+
+      iOSTest: false,
+      iOSTest2: false,
+      iOStext: ''
     }
   },
 

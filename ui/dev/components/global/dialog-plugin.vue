@@ -94,7 +94,9 @@
     </div>
 
     <div class="text-center text-caption q-mt-xl" style="height: 1500px">
-      Page has scroll on purpose
+      <div v-for="n in 10" :key="n">
+        Page has scroll on purpose
+      </div>
     </div>
   </div>
 </template>
