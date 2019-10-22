@@ -393,7 +393,7 @@
     </q-dialog>
 
     <q-dialog v-model="layout">
-      <q-layout view="hhh lpr fff" style="height: 500px" container>
+      <q-layout view="hhh lpR fff" style="height: 500px" container>
         <q-header reveal class="bg-black">
           <q-toolbar>
             <q-btn flat @click="drawer = !drawer" round dense icon="menu" />

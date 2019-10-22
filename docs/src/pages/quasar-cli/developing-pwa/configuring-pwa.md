@@ -178,7 +178,7 @@ Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on 
 :::
 
 ## Reload & Update Workbox
-For those who want to reload the page when the service worker is updated **and are using the default GenerateSW workbox mode**, you may as well want to make it active at once. Update the workboxOptions config in quasar.conf.js as follows:
+For those who don't want to manually reload the page when the service worker is updated **and are using the default GenerateSW workbox mode**, you can make it active at once. Update the workboxOptions config in quasar.conf.js as follows:
 
 ```js
 // quasar.conf.js
