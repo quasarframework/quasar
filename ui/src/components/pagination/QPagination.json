@@ -75,6 +75,26 @@
       "category": "content"
     },
 
+    "to-fn": {
+      "type": "Function",
+      "desc": "Generate link for page buttons",
+      "params": {
+        "page": {
+          "type": "Number",
+          "desc": "Page number to navigate to",
+          "examples": [ 2 ]
+        }
+      },
+      "returns": {
+        "type": ["Object", "String"],
+        "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
+        "__exemption": [ "examples" ]
+      },
+      "examples": [ ":to-fn=\"page => ({ query: { page } })\"" ],
+      "category": "content",
+      "addedIn": "v1.2.6"
+    },
+
     "boundary-links": {
       "type": "Boolean",
       "desc": "Show boundary button links",
