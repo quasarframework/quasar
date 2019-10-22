@@ -1053,24 +1053,9 @@ export default Vue.extend({
           transitionHide: this.transitionHide
         },
         on: {
-          'before-hide': () => {
-            this.focused = false
-          },
-          hide: e => {
-            this.hidePopup()
-            this.$emit('blur', e)
-            this.__resetInputValue()
-          },
-          show: () => {
-            const el = document.activeElement
-            // IE can have null document.activeElement
-            if (
-              (el === null || el.id !== this.targetUid) &&
-              this.$refs.target !== el
-            ) {
-              this.$refs.target.focus()
-            }
-          }
+          'before-hide': this.__onDialogBeforeHide,
+          hide: this.__onDialogHide,
+          show: this.__onDialogShow
         }
       }, [
         h('div', {
@@ -1079,6 +1064,27 @@ export default Vue.extend({
             (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
         }, content)
       ])
+    },
+
+    __onDialogBeforeHide () {
+      this.focused = false
+    },
+
+    __onDialogHide (e) {
+      this.hidePopup()
+      this.$emit('blur', e)
+      this.__resetInputValue()
+    },
+
+    __onDialogShow () {
+      const el = document.activeElement
+      // IE can have null document.activeElement
+      if (
+        (el === null || el.id !== this.targetUid) &&
+        this.$refs.target !== el
+      ) {
+        this.$refs.target.focus()
+      }
     },
 
     __closeMenu () {
