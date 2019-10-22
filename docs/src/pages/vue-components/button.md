@@ -56,9 +56,10 @@ The example below won't work with UMD version (so in Codepen/jsFiddle too) becau
 
 <doc-example title="Disable" file="QBtn/Disabled" />
 
-### Using as scoped slot of RouterLink v3.1.0+
+### Using as scoped slot of RouterLink
 
 The example below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
+Also check out the "Links" example from earlier on the page.
 
 <doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" />
 

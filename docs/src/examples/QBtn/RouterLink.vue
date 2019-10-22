@@ -1,23 +1,33 @@
 <template>
   <div class="q-pa-md column q-gutter-sm">
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink-v3.1.0%2B' }" v-slot="props">
-      <q-btn v-bind="buttonProps(props)" />
+    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink' }">
+      <template v-slot="props">
+        <q-btn v-bind="buttonProps(props)" />
+      </template>
     </router-link>
 
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink-v3.1.0%2B', query: { search: '1' } }" v-slot="props">
-      <q-btn v-bind="buttonProps(props)" />
+    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink', query: { search: '1' } }">
+      <template v-slot="props">
+        <q-btn v-bind="buttonProps(props)" />
+      </template>
     </router-link>
 
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink-v3.1.0%2B', query: { search: '1', test: '1' } }" v-slot="props">
-      <q-btn v-bind="buttonProps(props)" />
+    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink', query: { search: '1', test: '1' } }">
+      <template v-slot="props">
+        <q-btn v-bind="buttonProps(props)" />
+      </template>
     </router-link>
 
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink-v3.1.0%2B', query: { search: '1', test: '2' } }" v-slot="props">
-      <q-btn v-bind="buttonProps(props)" />
+    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink', query: { search: '1', test: '2' } }">
+      <template v-slot="props">
+        <q-btn v-bind="buttonProps(props)" />
+      </template>
     </router-link>
 
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink-v3.1.0%2B', query: { search: '1', test: '1' } }" v-slot="props">
-      <q-btn v-bind="buttonProps(props)" icon-right="timer_3" @click="linkClick" />
+    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink', query: { search: '1', test: '1' } }">
+      <template v-slot="props">
+        <q-btn v-bind="buttonProps(props)" icon-right="timer_3" @click="linkClick" />
+      </template>
     </router-link>
   </div>
 </template>
@@ -28,9 +38,9 @@ export default {
     linkClick (e, go) {
       e.navigate = false // we choose when we navigate
 
-      // console.log('triggering navigation in 2s')
+      // console.log('triggering navigation in 3s')
       setTimeout(() => {
-        // console.log('navigating as promised 2s ago')
+        // console.log('navigating as promised 3s ago')
         go()
       }, 3000)
     },
