@@ -1,11 +1,6 @@
 .q-layout
   width 100%
 
-  &--containerized
-    // https://github.com/quasarframework/quasar/issues/4127
-    // Fixes scroll issues with containerized Layout inside Dialog on iOS
-    position unset !important
-
 .q-layout-container
   position relative
   width 100%
@@ -170,3 +165,10 @@ body.q-ios-padding
     padding 16px
   @media (min-width $breakpoint-lg-min)
     padding 24px
+
+body.platform-ios
+  .q-layout--containerized
+    // https://github.com/quasarframework/quasar/issues/4127
+    // Fixes scroll issues with containerized Layout inside Dialog on iOS;
+    // QDrawer needs to be forced into fixed position
+    position unset !important

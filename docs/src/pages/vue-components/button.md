@@ -44,20 +44,34 @@ Should you wish, you can also display a deterministic progress within the button
 
 <doc-example title="Deterministic progress" file="QBtn/DeterministicProgress" />
 
-### More options
+### Custom ripple
 
 <doc-example title="Custom ripple" file="QBtn/CustomRipple" />
 
-The example below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
+### Handling links
+
+The two examples below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
 
 <doc-example title="Links" file="QBtn/Links" />
 
+For more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:
+
+<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" />
+
+### Other options
+
 <doc-example title="Other options" file="QBtn/OtherOptions" />
+
+### Disable
 
 <doc-example title="Disable" file="QBtn/Disabled" />
 
 ### Controlling the button for form submission
 When you have a button to submit a form's input to the server, like a "Save" button, more often than not you will also want to give the user the ability to submit the form with a press of the ENTER key. If you would also like to give the user feedback of the saving process being in progress, and to prevent the user repeatedly pressing the button, you would need the button to show a loading spinner and be disabled from click events. QBtn allows this behavior if configured so.
+
+::: warning
+When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
+:::
 
 <doc-example title="Form Submission" file="QBtn/FormSubmission" />
 

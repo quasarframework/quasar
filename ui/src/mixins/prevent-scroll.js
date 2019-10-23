@@ -50,7 +50,9 @@ function shouldPreventScroll (e) {
 
 function onAppleScroll (e) {
   if (e.target === document) {
-    document.scrollingElement.scrollTop = 0
+    // required, otherwise iOS blocks further scrolling
+    // until the mobile scrollbar dissapears
+    document.scrollingElement.scrollTop = document.scrollingElement.scrollTop // eslint-disable-line
   }
 }
 
@@ -71,10 +73,9 @@ function apply (action) {
       body.classList.add('q-body--force-scrollbar')
     }
 
+    body.classList.add('q-body--prevent-scroll')
     Platform.is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
   }
-
-  body.classList[action]('q-body--prevent-scroll')
 
   if (Platform.is.desktop === true && Platform.is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
@@ -84,9 +85,12 @@ function apply (action) {
   if (action === 'remove') {
     Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
 
+    body.classList.remove('q-body--prevent-scroll')
     body.classList.remove('q-body--force-scrollbar')
+
     body.style.left = bodyLeft
     body.style.top = bodyTop
+
     window.scrollTo(scrollPositionX, scrollPositionY)
   }
 }
