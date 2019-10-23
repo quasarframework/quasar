@@ -43,6 +43,9 @@ export const PanelParentMixin = {
       type: String,
       default: 'slide-left'
     },
+    transitionDuration: {
+      type: [Number, String, Object]
+    },
 
     keepAlive: Boolean
   },
@@ -226,7 +229,8 @@ export const PanelParentMixin = {
         ? [
           h('transition', {
             props: {
-              name: this.panelTransition
+              name: this.panelTransition,
+              duration: this.transitionDuration
             }
           }, content)
         ]

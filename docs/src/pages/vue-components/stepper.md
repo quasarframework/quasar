@@ -55,6 +55,10 @@ You can also use `prefix` prop (max 2 characters) instead of an icon for each st
 
 <doc-example title="Dark" file="QStepper/Dark" />
 
+For a full list of transitions, please check out [Transitions](/options/transitions).
+
+<doc-example title="Custom transition examples" file="QStepper/Transition" />
+
 ### Message slot
 
 <doc-example title="Message slot with fixed height steps" file="QStepper/MessageSlot" />

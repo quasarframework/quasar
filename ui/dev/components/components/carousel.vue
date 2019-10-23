@@ -59,6 +59,7 @@
       transition-next="rotate"
       swipeable
       animated
+
       v-model="slide"
       arrows
       padding
@@ -82,17 +83,20 @@
       </q-carousel-slide>
     </q-carousel>
 
-    <div class="caption">
-      Example creating custom captions for each slide.
-    </div>
+    <p class="caption">
+      Example creating custom captions for each slide including complex transitions that require explicit duration.
+    </p>
     <q-carousel
       arrows
+      transition-prev="slide-right-then-fade"
+      transition-next="slide-left-then-fade"
+      :transition-duration="{ enter: 2000, leave: 1000 }"
       animated
       v-model="slide4"
       height="400px"
     >
       <q-carousel-slide name="first" img-src="https://cdn.quasar.dev/img/mountains.jpg">
-        <div class="absolute-bottom custom-caption">
+        <div class="absolute-bottom custom-caption nested-fade">
           <div class="text-h2">
             First stop
           </div>
@@ -102,7 +106,7 @@
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="second" img-src="https://cdn.quasar.dev/img/parallax1.jpg">
-        <div class="absolute-bottom custom-caption">
+        <div class="absolute-bottom custom-caption nested-fade">
           <div class="text-h2">
             Second stop
           </div>
@@ -112,7 +116,7 @@
         </div>
       </q-carousel-slide>
       <q-carousel-slide name="third" img-src="https://cdn.quasar.dev/img/parallax2.jpg">
-        <div class="absolute-bottom custom-caption">
+        <div class="absolute-bottom custom-caption nested-fade">
           <div class="text-h2">
             Third stop
           </div>
