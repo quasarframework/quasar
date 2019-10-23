@@ -1,30 +1,30 @@
 <template>
   <div class="q-pa-md column q-gutter-sm">
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink' }">
+    <router-link :to="{ hash: '#Handling-links' }">
       <template v-slot="props">
         <q-btn v-bind="buttonProps(props)" />
       </template>
     </router-link>
 
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink', query: { search: '1' } }">
+    <router-link :to="{ hash: '#Handling-links', query: { search: '1' } }">
       <template v-slot="props">
         <q-btn v-bind="buttonProps(props)" />
       </template>
     </router-link>
 
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink', query: { search: '1', test: '1' } }">
+    <router-link :to="{ hash: '#Handling-links', query: { search: '1', test: '1' } }">
       <template v-slot="props">
         <q-btn v-bind="buttonProps(props)" />
       </template>
     </router-link>
 
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink', query: { search: '1', test: '2' } }">
+    <router-link :to="{ hash: '#Handling-links', query: { search: '1', test: '2' } }">
       <template v-slot="props">
         <q-btn v-bind="buttonProps(props)" />
       </template>
     </router-link>
 
-    <router-link :to="{ hash: '#Using-as-scoped-slot-of-RouterLink', query: { search: '1', test: '1' } }">
+    <router-link :to="{ hash: '#Handling-links', query: { search: '1', test: '1' } }">
       <template v-slot="props">
         <q-btn v-bind="buttonProps(props)" icon-right="timer_3" @click="linkClick" />
       </template>
