@@ -13,10 +13,11 @@
             span rk
         .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
         .q-pt-md.q-pl-sm
-          .landing__hero-row.landing__hero-btns.q-gutter-md.row.items-center
-            q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
-            q-btn(push, color="white", text-color="primary", to="/start", label="Docs")
-            q-btn(push, color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
+          .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center
+            q-btn(color="white", text-color="primary", to="/introduction-to-quasar", label="About")
+            q-btn(color="white", text-color="primary", to="/start", label="Docs")
+            q-btn(color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
+            q-btn(color="white", text-color="black", to="/video-tutorials", label="Video Tutorials", icon-right="new_releases")
             .text-body2 v{{ $q.version }}
         .landing__arrow-down.row.justify-center.absolute
           q-icon.landing__arrow-down-icon.q-mt-xl(name="keyboard_arrow_down" size="50px")
