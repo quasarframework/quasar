@@ -11,20 +11,20 @@ export default Vue.extend({
 
   props: {
     debounce: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 100
     }
   },
 
   data () {
-    return this.hasObserver
+    return this.hasObserver === true
       ? {}
-      : { url: this.$q.platform.is.ie ? null : 'about:blank' }
+      : { url: this.$q.platform.is.ie === true ? null : 'about:blank' }
   },
 
   methods: {
-    trigger (immediately) {
-      if (immediately === true || this.debounce === 0 || this.debounce === '0') {
+    trigger (now) {
+      if (now === true || this.debounce === 0 || this.debounce === '0') {
         this.__onResize()
       }
       else if (!this.timer) {
@@ -72,7 +72,7 @@ export default Vue.extend({
         this.curDocView.addEventListener('resize', this.trigger, listenOpts.passive)
       }
 
-      this.trigger(true)
+      this.__onResize()
     }
   },
 
@@ -110,12 +110,13 @@ export default Vue.extend({
     if (this.hasObserver === true) {
       this.observer = new ResizeObserver(this.trigger)
       this.observer.observe(this.$el.parentNode)
+      this.__onResize()
       return
     }
 
-    if (this.$q.platform.is.ie) {
+    if (this.$q.platform.is.ie === true) {
       this.url = 'about:blank'
-      this.trigger(true)
+      this.__onResize()
     }
     else {
       this.__onObjLoad()
