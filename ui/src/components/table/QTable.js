@@ -43,7 +43,7 @@ export default Vue.extend({
       default: () => []
     },
     rowKey: {
-      type: String,
+      type: [String, Function],
       default: 'id'
     },
 

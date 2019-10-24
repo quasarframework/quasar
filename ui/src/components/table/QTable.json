@@ -11,9 +11,9 @@
 
     "row-key": {
       "type": "String",
-      "desc": "Property of each row that defines the unique key of each row; The value of property must be string or number",
+      "desc": "Property of each row that defines the unique key of each row; The value of property must be string, number or a function returning the desired (nested) key in the row",
       "default": "id",
-      "examples": [ "myprop" ],
+      "examples": [ "row-key=\"name\"", ":row-key=\"row => row.name\"" ],
       "category": "general"
     },
 

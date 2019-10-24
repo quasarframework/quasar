@@ -81,7 +81,7 @@ export default {
                   val = false
                 }
                 this.__updateSelection(
-                  this.computedRows.map(row => row[this.rowKey]),
+                  this.computedRows.map(row => typeof this.rowKey === 'function' ? this.rowKey(row) : row[this.rowKey]),
                   this.computedRows,
                   val
                 )
@@ -106,7 +106,7 @@ export default {
               val = false
             }
             this.__updateSelection(
-              this.computedRows.map(row => row[this.rowKey]),
+              this.computedRows.map(row => typeof this.rowKey === 'function' ? this.rowKey(row) : row[this.rowKey]),
               this.computedRows,
               val
             )
