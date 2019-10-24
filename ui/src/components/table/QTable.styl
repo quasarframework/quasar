@@ -107,9 +107,7 @@
       margin-right 4px
 
   &--col-auto-width
-    opacity 1 !important
     width 1px
-    padding-right 0 !important
 
   &--flat
     box-shadow none
@@ -197,12 +195,6 @@
   .q-table__top
     border-bottom 1px solid $table-border-color
 
-.q-table .q-table--col-auto-width
-  border-left 0
-  border-right 0
-  & + td, & + th
-    border-left 0
-
 /*
  * dense size
  */
@@ -235,11 +227,6 @@
 .q-table // @stylint ignore
   thead, tr, th, td
     border-color $table-border-color
-  th
-    opacity .54
-    transition opacity $table-transition
-    &.sortable:hover, &.sorted
-      opacity .86
   tbody tr
     &.selected
       background $table-selected-background

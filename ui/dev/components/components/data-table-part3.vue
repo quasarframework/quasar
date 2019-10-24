@@ -2,6 +2,8 @@
   <div class="q-layout-padding" :class="dark ? 'bg-grey-10 text-white' : ''">
     <q-toggle v-model="loading" label="Loading" :dark="dark" />
     <q-toggle v-model="dark" label="Dark" :dark="dark" />
+    <q-toggle v-model="dense" label="Dense" :dark="dark" />
+    <q-select class="q-ma-sm inline" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
     <q-toggle v-model="hasSelection" label="Selection" />
 
     <q-table
@@ -11,6 +13,8 @@
       row-key="name"
       :loading="loading"
       :grid="$q.screen.lt.md"
+      :separator="separator"
+      :dense="dense"
       class="q-my-lg"
       :color="dark ? 'amber' : 'primary'"
       :card-class="dark ? 'bg-purple text-white' : 'bg-amber text-black'"
@@ -28,6 +32,8 @@
       row-key="name"
       :loading="loading"
       :grid="$q.screen.lt.md"
+      :separator="separator"
+      :dense="dense"
       selection="multiple"
       :selected.sync="selected"
       :dark="dark"
@@ -69,6 +75,8 @@ export default {
       dark: false,
       hasSelection: false,
       selected: [],
+      separator: 'horizontal',
+      dense: false,
 
       columns: [
         {
