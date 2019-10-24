@@ -333,6 +333,7 @@ export default Vue.extend({
           true
         )
 
+        this.$refs.target.focus()
         this.hidePopup()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
@@ -1045,9 +1046,9 @@ export default Vue.extend({
       )
 
       return h(QDialog, {
+        ref: 'dialog',
         props: {
           value: this.dialog,
-          noRefocus: true,
           position: this.useInput === true ? 'top' : void 0,
           transitionShow: this.transitionShowComputed,
           transitionHide: this.transitionHide
@@ -1067,6 +1068,7 @@ export default Vue.extend({
     },
 
     __onDialogBeforeHide () {
+      this.$refs.dialog.__refocusTarget = this.$el.querySelector('.q-field__native > [tabindex]:last-child')
       this.focused = false
     },
 
@@ -1094,11 +1096,6 @@ export default Vue.extend({
 
       if (this.menu === true) {
         this.menu = false
-
-        // allow $refs.target to move to the field (when dialog)
-        this.$nextTick(() => {
-          this.$refs.target !== void 0 && this.$refs.target.focus()
-        })
       }
 
       if (this.focused === false) {
