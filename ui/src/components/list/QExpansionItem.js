@@ -32,7 +32,7 @@ export default Vue.extend({
     dense: Boolean,
 
     expandIcon: String,
-    expandIconClass: String,
+    expandIconClass: [ Array, String, Object ],
     duration: Number,
 
     headerInsetLevel: Number,
