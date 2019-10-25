@@ -919,6 +919,8 @@ export default Vue.extend({
         },
         click: e => {
           // label from QField will propagate click on the input (except IE)
+          if (e.target.classList.contains('no-outline')) return
+
           if (
             this.hasDialog !== true &&
             this.useInput === true &&
