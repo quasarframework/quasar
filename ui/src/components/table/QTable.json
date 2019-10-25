@@ -1077,7 +1077,8 @@
           "desc": "The row upon which user has clicked/tapped",
           "__exemption": [ "examples" ]
         }
-      }
+      },
+      "addedIn": "v1.2.6"
     },
 
     "request": {
