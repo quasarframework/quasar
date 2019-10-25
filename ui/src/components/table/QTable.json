@@ -10,8 +10,8 @@
     },
 
     "row-key": {
-      "type": "String",
-      "desc": "Property of each row that defines the unique key of each row; The value of property must be string, number or a function returning the desired (nested) key in the row",
+      "type": [ "String", "Function" ],
+      "desc": "Property of each row that defines the unique key of each row (the result must be a primitive, not Object, Array, etc); The value of property must be string or a function taking a row and returning the desired (nested) key in the row; If supplying a Function then for best performance, reference it from your scope and do not define it inline",
       "default": "id",
       "examples": [ "row-key=\"name\"", ":row-key=\"row => row.name\"" ],
       "category": "general"

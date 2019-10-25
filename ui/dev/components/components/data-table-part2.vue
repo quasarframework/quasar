@@ -12,7 +12,7 @@
       :filter="filter"
       selection="multiple"
       :selected.sync="selected"
-      row-key="name"
+      :row-key="getRowKey"
       :pagination.sync="serverPagination"
       @request="request"
       :loading="loading"
@@ -474,6 +474,10 @@ export default {
     }
   },
   methods: {
+    getRowKey (row) {
+      return row.name
+    },
+
     request (props) {
       this.loading = true
       console.log('REQUEST', props)

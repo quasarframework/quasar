@@ -49,7 +49,7 @@ export default {
 
       return h('div', { staticClass: 'row' }, this.computedRows.map(row => {
         const
-          key = typeof this.rowKey === 'function' ? this.rowKey(row) : row[this.rowKey],
+          key = this.getRowKey(row),
           selected = this.isRowSelected(key)
 
         return item(this.addBodyRowMeta({
