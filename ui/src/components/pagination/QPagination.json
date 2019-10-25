@@ -77,7 +77,7 @@
 
     "to-fn": {
       "type": "Function",
-      "desc": "Generate link for page buttons",
+      "desc": "Generate link for page buttons; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "page": {
           "type": "Number",

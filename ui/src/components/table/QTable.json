@@ -192,7 +192,7 @@
 
     "selected-rows-label": {
       "type": "Function",
-      "desc": "Text to display when user selected at least one row; If supplying a function then for best performance, reference it from your scope and do not define it inline",
+      "desc": "Text to display when user selected at least one row; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "numberOfRows": {
           "type": "Number",

@@ -60,7 +60,7 @@
 
     "validate": {
       "type": "Function",
-      "desc": "Validates model then triggers 'save' and closes Popup; Returns a Boolean ('true' means valid, 'false' means abort); Syntax: validate(value)",
+      "desc": "Validates model then triggers 'save' and closes Popup; Returns a Boolean ('true' means valid, 'false' means abort); Syntax: validate(value); For best performance, reference it from your scope and do not define it inline",
       "params": {
         "value": {
           "type": "Any",
