@@ -3,7 +3,7 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
-import { stopAndPrevent } from '../../utils/event.js'
+import { stop, stopAndPrevent } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
 
 export default {
@@ -358,12 +358,14 @@ export default {
           ref: 'input',
           staticClass: 'q-uploader__input overflow-hidden absolute-full',
           attrs: {
+            tabindex: -1,
             type: 'file',
             title: '', // try to remove default tooltip
             accept: this.accept,
             ...(this.multiple === true ? { multiple: true } : {})
           },
           on: {
+            mousedown: stop, // need to stop refocus from QBtn
             change: this.__addFiles
           }
         })
