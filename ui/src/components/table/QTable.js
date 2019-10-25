@@ -115,7 +115,6 @@ export default Vue.extend({
 
   computed: {
     getRowKey () {
-      console.log('computing')
       return typeof this.rowKey === 'function'
         ? this.rowKey
         : row => row[this.rowKey]
