@@ -4,7 +4,7 @@ export default {
   methods: {
     getTableRowBody (h, row, body) {
       const
-        key = row[this.rowKey],
+        key = typeof this.rowKey === 'function' ? this.rowKey(row) : row[this.rowKey],
         selected = this.isRowSelected(key)
 
       return body(this.addBodyRowMeta({
@@ -19,7 +19,7 @@ export default {
     getTableRow (h, row) {
       const
         bodyCell = this.$scopedSlots['body-cell'],
-        key = row[this.rowKey],
+        key = typeof this.rowKey === 'function' ? this.rowKey(row) : row[this.rowKey],
         selected = this.isRowSelected(key),
         child = bodyCell
           ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col })))
