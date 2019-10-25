@@ -918,23 +918,23 @@ export default Vue.extend({
           focusout(e)
         },
         click: e => {
-          // label from QField will propagate click on the input (except IE)
-          if (e.target.classList.contains('no-outline')) return
+          if (this.hasDialog !== true) {
+            // label from QField will propagate click on the input (except IE)
+            if (
+              (this.useInput === true && e.target.classList.contains('q-select__input') !== true) ||
+              (this.useInput !== true && e.target.classList.contains('no-outline') === true)
+            ) {
+              return
+            }
 
-          if (
-            this.hasDialog !== true &&
-            this.useInput === true &&
-            e.target.classList.contains('q-select__input') !== true
-          ) {
-            return
+            if (this.menu === true) {
+              this.__closeMenu()
+              this.$refs.target !== void 0 && this.$refs.target.focus()
+              return
+            }
           }
-          if (this.hasDialog !== true && this.menu === true) {
-            this.__closeMenu()
-            this.$refs.target !== void 0 && this.$refs.target.focus()
-          }
-          else {
-            this.showPopup(e)
-          }
+
+          this.showPopup(e)
         }
       }
     },
