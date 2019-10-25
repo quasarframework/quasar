@@ -23,6 +23,7 @@
       :dark="dark"
       flat
       bordered
+      @row-click="onRowClick"
     />
 
     <q-table
@@ -37,6 +38,7 @@
       selection="multiple"
       :selected.sync="selected"
       :dark="dark"
+      @row-click="onRowClick"
     >
       <template v-slot:item="props">
         <div
@@ -205,6 +207,12 @@ export default {
       return this.hasSelection === true
         ? 'multiple'
         : void 0
+    }
+  },
+
+  methods: {
+    onRowClick (evt, row) {
+      console.log('clicked on', evt, row)
     }
   }
 }

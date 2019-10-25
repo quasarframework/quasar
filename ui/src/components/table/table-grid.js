@@ -35,15 +35,25 @@ export default {
             h(QSeparator, { props: { dark: this.dark } })
           )
 
+          const data = {
+            staticClass: 'q-table__grid-item-card' + this.cardDefaultClass,
+            class: this.cardClass,
+            style: this.cardStyle
+          }
+
+          if (this.$listeners['row-click'] !== void 0) {
+            data.on = {
+              click: evt => {
+                this.$emit('row-click', evt, scope.row)
+              }
+            }
+          }
+
           return h('div', {
             staticClass: 'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3',
             class: scope.selected === true ? 'q-table__grid-item--selected' : null
           }, [
-            h('div', {
-              staticClass: 'q-table__grid-item-card' + this.cardDefaultClass,
-              class: this.cardClass,
-              style: this.cardStyle
-            }, child)
+            h('div', data, child)
           ])
         }
 
