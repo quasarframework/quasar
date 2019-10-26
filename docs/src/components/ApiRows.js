@@ -138,7 +138,17 @@ export default {
 
       if (prop.values !== void 0) {
         child.push(
-          this.getDiv(h, 12, 'Accepted values', `${prop.values.join(` | `)}`)
+          this.getDiv(h, 12,
+            `Accepted values`,
+            void 0,
+            h(
+              'div',
+              { staticClass: 'api-row--indent api-row__value' },
+              prop.values.map(val => h('div', {
+                staticClass: 'api-row__example'
+              }, [ val ]))
+            )
+          )
         )
       }
 
@@ -222,7 +232,7 @@ export default {
         )
       }
 
-      if (prop.values === void 0 && prop.examples !== void 0) {
+      if (prop.examples !== void 0) {
         child.push(
           this.getDiv(h, 12,
             `Example${prop.examples.length > 1 ? 's' : ''}`,

@@ -3,13 +3,14 @@ import Vue from 'vue'
 import QField from '../field/QField.js'
 
 import MaskMixin from '../../mixins/mask.js'
+import CompositionMixin from '../../mixins/composition.js'
 import debounce from '../../utils/debounce.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QInput',
 
-  mixins: [ QField, MaskMixin ],
+  mixins: [ QField, MaskMixin, CompositionMixin ],
 
   props: {
     value: { required: false },
@@ -178,25 +179,8 @@ export default Vue.extend({
       }
     },
 
-    __onCompositionStart (e) {
-      e.target.composing = true
-    },
-
-    __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
-        e.target.composing = false
-      }
-    },
-
-    __onCompositionEnd (e) {
-      if (e.target.composing !== true) { return }
-      e.target.composing = false
-
-      this.__onInput(e)
-    },
-
     __onChange (e) {
-      this.__onCompositionEnd(e)
+      this.__onComposition(e)
 
       clearTimeout(this.emitTimer)
       this.emitValueFn !== void 0 && this.emitValueFn()
@@ -230,15 +214,11 @@ export default Vue.extend({
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
         change: this.__onChange,
-        compositionstart: this.__onCompositionStart,
-        compositionend: this.__onCompositionEnd,
         blur: this.__onFinishEditing,
         focus: stop
       }
 
-      if (this.$q.platform.is.android === true) {
-        on.compositionupdate = this.__onCompositionUpdate
-      }
+      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
 
       if (this.hasMask === true) {
         on.keydown = this.__onMaskedKeydown

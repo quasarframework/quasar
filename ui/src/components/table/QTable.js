@@ -43,7 +43,7 @@ export default Vue.extend({
       default: () => []
     },
     rowKey: {
-      type: String,
+      type: [ String, Function ],
       default: 'id'
     },
 
@@ -114,6 +114,12 @@ export default Vue.extend({
   },
 
   computed: {
+    getRowKey () {
+      return typeof this.rowKey === 'function'
+        ? this.rowKey
+        : row => row[this.rowKey]
+    },
+
     hasVirtScroll () {
       return this.grid !== true && this.virtualScroll === true
     },

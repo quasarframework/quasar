@@ -2,9 +2,9 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 
 export default {
   methods: {
-    getTableRowBody (h, row, body) {
+    getTableRowBody (row, body) {
       const
-        key = row[this.rowKey],
+        key = this.getRowKey(row),
         selected = this.isRowSelected(key)
 
       return body(this.addBodyRowMeta({
@@ -19,7 +19,7 @@ export default {
     getTableRow (h, row) {
       const
         bodyCell = this.$scopedSlots['body-cell'],
-        key = row[this.rowKey],
+        key = this.getRowKey(row),
         selected = this.isRowSelected(key),
         child = bodyCell
           ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col })))
@@ -52,7 +52,20 @@ export default {
         ])
       )
 
-      return h('tr', { key, class: { selected } }, child)
+      const data = {
+        key,
+        class: { selected }
+      }
+
+      if (this.$listeners['row-click'] !== void 0) {
+        data.on = {
+          click: evt => {
+            this.$emit('row-click', evt, row)
+          }
+        }
+      }
+
+      return h('tr', data, child)
     },
 
     getTableBody (h) {
@@ -61,7 +74,7 @@ export default {
         topRow = this.$scopedSlots['top-row'],
         bottomRow = this.$scopedSlots['bottom-row'],
         mapFn = body !== void 0
-          ? row => this.getTableRowBody(h, row, body)
+          ? row => this.getTableRowBody(row, body)
           : row => this.getTableRow(h, row),
         child = this.computedRows.map(mapFn)
 
@@ -79,7 +92,7 @@ export default {
       const body = this.$scopedSlots.body
 
       return body !== void 0
-        ? props => this.getTableRowBody(h, props.item, body)
+        ? props => this.getTableRowBody(props.item, body)
         : props => this.getTableRow(h, props.item)
     },
 

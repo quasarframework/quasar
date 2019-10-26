@@ -81,7 +81,7 @@ export default {
                   val = false
                 }
                 this.__updateSelection(
-                  this.computedRows.map(row => row[this.rowKey]),
+                  this.computedRows.map(this.getRowKey),
                   this.computedRows,
                   val
                 )
@@ -106,7 +106,7 @@ export default {
               val = false
             }
             this.__updateSelection(
-              this.computedRows.map(row => row[this.rowKey]),
+              this.computedRows.map(this.getRowKey),
               this.computedRows,
               val
             )

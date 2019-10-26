@@ -138,6 +138,8 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        bordered
+        flat
         binary-state-sort
         :rows-per-page-options="[]"
         row-key="name"
@@ -309,6 +311,7 @@
         dark
         class="bg-black"
         color="orange"
+        bordered
         :separator="separator"
         :data="data"
         :columns="columns"

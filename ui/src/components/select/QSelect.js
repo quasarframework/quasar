@@ -16,13 +16,14 @@ import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 
 import VirtualScroll from '../../mixins/virtual-scroll.js'
+import CompositionMixin from '../../mixins/composition.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField, VirtualScroll ],
+  mixins: [ QField, VirtualScroll, CompositionMixin ],
 
   props: {
     value: {
@@ -332,6 +333,7 @@ export default Vue.extend({
           true
         )
 
+        this.$refs.target.focus()
         this.hidePopup()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
@@ -539,7 +541,7 @@ export default Vue.extend({
 
         if (keyRepeat === true || searchRe.test(this.__getOptionLabel(this.options[index])) !== true) {
           do {
-            index = normalizeToInterval(index + 1, 0, optionsLength - 1)
+            index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
           while (index !== this.optionIndex && (
             this.__isDisabled(this.options[index]) === true ||
@@ -707,6 +709,7 @@ export default Vue.extend({
         child.push(h('div', {
           // there can be only one (when dialog is opened the control in dialog should be target)
           ref: isShadowField === true ? void 0 : 'target',
+          staticClass: 'no-outline',
           attrs: {
             tabindex: 0,
             id: isShadowField === true ? void 0 : this.targetUid
@@ -766,41 +769,20 @@ export default Vue.extend({
         : null
     },
 
-    __onCompositionStart (e) {
-      e.target.composing = true
-    },
-
-    __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
-        e.target.composing = false
-      }
-    },
-
-    __onCompositionEnd (e) {
-      if (e.target.composing !== true) { return }
-      e.target.composing = false
-
-      this.__onInputValue(e)
-    },
-
     __getInput (h, fromDialog) {
       const on = {
-        input: this.__onInputValue,
+        input: this.__onInput,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
         // switching focus before confirming composition choice
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
-        change: this.__onCompositionEnd,
-        compositionstart: this.__onCompositionStart,
-        compositionend: this.__onCompositionEnd,
+        change: this.__onChange,
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetKeyup,
         keypress: this.__onTargetKeypress
       }
 
-      if (this.$q.platform.is.android === true) {
-        on.compositionupdate = this.__onCompositionUpdate
-      }
+      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
 
       if (this.hasDialog === true) {
         on.click = stop
@@ -826,7 +808,11 @@ export default Vue.extend({
       })
     },
 
-    __onInputValue (e) {
+    __onChange (e) {
+      this.__onComposition(e)
+    },
+
+    __onInput (e) {
       clearTimeout(this.inputTimer)
 
       if (e && e.target && e.target.composing === true) {
@@ -932,21 +918,23 @@ export default Vue.extend({
           focusout(e)
         },
         click: e => {
-          // label from QField will propagate click on the input (except IE)
-          if (
-            this.hasDialog !== true &&
-            this.useInput === true &&
-            e.target.classList.contains('q-select__input') !== true
-          ) {
-            return
+          if (this.hasDialog !== true) {
+            // label from QField will propagate click on the input (except IE)
+            if (
+              (this.useInput === true && e.target.classList.contains('q-select__input') !== true) ||
+              (this.useInput !== true && e.target.classList.contains('no-outline') === true)
+            ) {
+              return
+            }
+
+            if (this.menu === true) {
+              this.__closeMenu()
+              this.$refs.target !== void 0 && this.$refs.target.focus()
+              return
+            }
           }
-          if (this.hasDialog !== true && this.menu === true) {
-            this.__closeMenu()
-            this.$refs.target !== void 0 && this.$refs.target.focus()
-          }
-          else {
-            this.showPopup(e)
-          }
+
+          this.showPopup(e)
         }
       }
     },
@@ -1060,32 +1048,17 @@ export default Vue.extend({
       )
 
       return h(QDialog, {
+        ref: 'dialog',
         props: {
           value: this.dialog,
-          noRefocus: true,
           position: this.useInput === true ? 'top' : void 0,
           transitionShow: this.transitionShowComputed,
           transitionHide: this.transitionHide
         },
         on: {
-          'before-hide': () => {
-            this.focused = false
-          },
-          hide: e => {
-            this.hidePopup()
-            this.$emit('blur', e)
-            this.__resetInputValue()
-          },
-          show: () => {
-            const el = document.activeElement
-            // IE can have null document.activeElement
-            if (
-              (el === null || el.id !== this.targetUid) &&
-              this.$refs.target !== el
-            ) {
-              this.$refs.target.focus()
-            }
-          }
+          'before-hide': this.__onDialogBeforeHide,
+          hide: this.__onDialogHide,
+          show: this.__onDialogShow
         }
       }, [
         h('div', {
@@ -1096,6 +1069,28 @@ export default Vue.extend({
       ])
     },
 
+    __onDialogBeforeHide () {
+      this.$refs.dialog.__refocusTarget = this.$el.querySelector('.q-field__native > [tabindex]:last-child')
+      this.focused = false
+    },
+
+    __onDialogHide (e) {
+      this.hidePopup()
+      this.$emit('blur', e)
+      this.__resetInputValue()
+    },
+
+    __onDialogShow () {
+      const el = document.activeElement
+      // IE can have null document.activeElement
+      if (
+        (el === null || el.id !== this.targetUid) &&
+        this.$refs.target !== el
+      ) {
+        this.$refs.target.focus()
+      }
+    },
+
     __closeMenu () {
       if (this.dialog === true) {
         return
@@ -1103,11 +1098,6 @@ export default Vue.extend({
 
       if (this.menu === true) {
         this.menu = false
-
-        // allow $refs.target to move to the field (when dialog)
-        this.$nextTick(() => {
-          this.$refs.target !== void 0 && this.$refs.target.focus()
-        })
       }
 
       if (this.focused === false) {

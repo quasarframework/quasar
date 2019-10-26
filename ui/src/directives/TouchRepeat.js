@@ -64,7 +64,7 @@ export default {
           // so we need to avoid it
           ctx.skipMouse = false
         }
-        else if (leftClick(evt) === true) {
+        else if (ctx.event === void 0 && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'passiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]

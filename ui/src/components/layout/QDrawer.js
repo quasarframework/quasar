@@ -104,6 +104,7 @@ export default Vue.extend({
         this.lastDesktopState !== false
       ) { // from xs to lg
         if (this.showing === true) {
+          this.__applyPosition(0)
           this.__applyBackdrop(0)
           this.__cleanup()
         }
@@ -205,7 +206,8 @@ export default Vue.extend({
     fixed () {
       return this.overlay === true ||
         this.miniToOverlay === true ||
-        this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
+        this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1 ||
+        (this.$q.platform.is.ios && this.layout.container === true)
     },
 
     onLayout () {
@@ -336,7 +338,11 @@ export default Vue.extend({
         ) {
           position += this.stateDirection * this.layout.scrollbarWidth
         }
-        this.$refs.content.style.transform = `translateX(${position}px)`
+
+        if (this.__lastPosition !== position) {
+          this.$refs.content.style.transform = `translateX(${position}px)`
+          this.__lastPosition = position
+        }
       }
     },
 

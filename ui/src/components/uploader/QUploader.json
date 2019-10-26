@@ -62,7 +62,7 @@
 
     "filter": {
       "type": "Function",
-      "desc": "Custom filter for added files; Only files that pass this filter will be added to the queue and uploaded",
+      "desc": "Custom filter for added files; Only files that pass this filter will be added to the queue and uploaded; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "files": {
           "type": "Array",
@@ -107,7 +107,7 @@
 
     "factory": {
       "type": "Function",
-      "desc": "Function which should return an Object or a Promise resolving with an Object",
+      "desc": "Function which should return an Object or a Promise resolving with an Object; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "files": {
           "type": "Array",
@@ -125,7 +125,7 @@
 
     "url": {
       "type": [ "String", "Function" ],
-      "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload",
+      "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": ["https://example.com/path", "files => `https://example.com?count=${files.length}`"],
       "category": "upload"
     },
@@ -133,7 +133,7 @@
     "method": {
       "type": [ "String", "Function" ],
       "default": "POST",
-      "desc": "HTTP method to use for upload; Takes String or factory function which returns a String; Function is called right before upload",
+      "desc": "HTTP method to use for upload; Takes String or factory function which returns a String; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "values": [ "POST", "PUT" ],
       "examples": [ "POST", ":method=\"files => files.length > 10 ? 'POST' : 'PUT'\"" ],
       "category": "upload"
@@ -141,8 +141,8 @@
 
     "field-name": {
       "type": [ "String", "Function" ],
+      "desc": "Field name for each file upload; This goes into the following header: 'Content-Disposition: form-data; name=\"__HERE__\"; filename=\"somefile.png\"; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "(file) => file.name",
-      "desc": "Field name for each file upload; This goes into the following header: 'Content-Disposition: form-data; name=\"__HERE__\"; filename=\"somefile.png\"",
       "examples": [
         "backgroundFile",
         ":field-name=\"(file) => 'background' + file.name\""
@@ -152,7 +152,7 @@
 
     "headers": {
       "type": [ "Array", "Function" ],
-      "desc": "Array or a factory function which returns an array; Array consists of objects with header definitions; Function is called right before upload",
+      "desc": "Array or a factory function which returns an array; Array consists of objects with header definitions; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "definition": {
         "name": {
           "type": "String",
@@ -177,7 +177,7 @@
 
     "form-fields": {
       "type": [ "Array", "Function" ],
-      "desc": "Array or a factory function which returns an array; Array consists of objects with additional fields definitions (used by Form to be uploaded); Function is called right before upload",
+      "desc": "Array or a factory function which returns an array; Array consists of objects with additional fields definitions (used by Form to be uploaded); Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "definition": {
         "name": {
           "type": "String",
@@ -202,21 +202,21 @@
 
     "with-credentials": {
       "type": [ "Boolean", "Function" ],
-      "desc": "Sets withCredentials to true on the XHR that manages the upload; Takes boolean or factory function for Boolean; Function is called right before upload",
+      "desc": "Sets withCredentials to true on the XHR that manages the upload; Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [ "with-credentials", ":with-credentials=\"files => ...\"" ],
       "category": "upload"
     },
 
     "send-raw": {
       "type": [ "Boolean", "Function" ],
-      "desc": "Send raw files without wrapping into a Form(); Takes boolean or factory function for Boolean; Function is called right before upload",
+      "desc": "Send raw files without wrapping into a Form(); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [ "send-raw", ":send-raw=\"files => ...\"" ],
       "category": "upload"
     },
 
     "batch": {
       "type": [ "Boolean", "Function" ],
-      "desc": "Upload files in batch (in one XHR request); Takes boolean or factory function for Boolean; Function is called right before upload",
+      "desc": "Upload files in batch (in one XHR request); Takes boolean or factory function for Boolean; Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [ "files => files.length > 10" ],
       "category": "upload"
     }

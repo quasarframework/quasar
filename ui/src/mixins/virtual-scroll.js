@@ -247,7 +247,9 @@ export default {
 
       while (listOffset > 0 && toIndex < listLastIndex) {
         listOffset -= this.virtualScrollSizes[toIndex]
-        toIndex++
+        if (listOffset > -scrollDetails.scrollViewSize) {
+          toIndex++
+        }
       }
 
       this.__setVirtualScrollSliceRange(
@@ -453,9 +455,5 @@ export default {
     this.__onVirtualScrollEvt = debounce(this.__onVirtualScrollEvt, 70)
     this.__setScroll = frameDebounce(setScroll)
     this.__setVirtualScrollSize()
-  },
-
-  beforeDestroy () {
-    clearTimeout(this.__preventNextScroll)
   }
 }
