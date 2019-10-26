@@ -26,7 +26,6 @@ export default Vue.extend({
 
     limits: {
       type: Array,
-      default: () => [ 10, 90 ],
       validator: v => {
         if (v.length !== 2) return false
         if (typeof v[0] !== 'number' || typeof v[1] !== 'number') return false
@@ -49,14 +48,16 @@ export default Vue.extend({
     value: {
       immediate: true,
       handler (v) {
-        this.__normalize(v, this.limits)
+        this.__normalize(v, this.computedLimits)
       }
     },
 
     limits: {
       deep: true,
-      handler (v) {
-        this.__normalize(this.value, v)
+      handler () {
+        this.$nextTick(() => {
+          this.__normalize(this.value, this.computedLimits)
+        })
       }
     }
   },
@@ -77,6 +78,12 @@ export default Vue.extend({
       return this.reverse !== true ? 'before' : 'after'
     },
 
+    computedLimits () {
+      return this.limits !== void 0
+        ? this.limits
+        : (this.unit === '%' ? [ 10, 90 ] : [ 50, Infinity ])
+    },
+
     styles () {
       return {
         [this.side]: {
@@ -93,7 +100,7 @@ export default Vue.extend({
 
         this.__dir = this.horizontal === true ? 'up' : 'left'
         this.__maxValue = this.unit === '%' ? 100 : size
-        this.__value = Math.min(this.__maxValue, this.limits[1], Math.max(this.limits[0], this.value))
+        this.__value = Math.min(this.__maxValue, this.computedLimits[1], Math.max(this.computedLimits[0], this.value))
         this.__multiplier = (this.reverse !== true ? 1 : -1) *
           (this.horizontal === true ? 1 : (this.$q.lang.rtl === true ? -1 : 1)) *
           (this.unit === '%' ? (size === 0 ? 0 : 100 / size) : 1)
@@ -116,7 +123,7 @@ export default Vue.extend({
         (evt.direction === this.__dir ? -1 : 1) *
         evt.distance[this.horizontal === true ? 'y' : 'x']
 
-      this.__normalized = Math.min(this.__maxValue, this.limits[1], Math.max(this.limits[0], val))
+      this.__normalized = Math.min(this.__maxValue, this.computedLimits[1], Math.max(this.computedLimits[0], val))
 
       this.$refs[this.side].style[this.prop] = this.__getCSSValue(this.__normalized)
     },
