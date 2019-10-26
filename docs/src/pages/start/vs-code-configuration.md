@@ -18,7 +18,7 @@ Without some customizations the default formatting in VS Code will generate a se
 
 ### Update VS Code settings file for Standard
 
-To edit the settings use the command `Open Settings JSON` in the Command Palette in the View menu (ctrl+shift+p).
+To edit the settings, use the command `Open Settings JSON` in the Command Palette in the View menu (ctrl+shift+p).
 
 ```js
 {
