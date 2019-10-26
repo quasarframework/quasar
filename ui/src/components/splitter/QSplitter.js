@@ -17,13 +17,16 @@ export default Vue.extend({
       type: Number,
       required: true
     },
-    modelReverse: Boolean,
-    modelPixels: Boolean,
-    horizontal: Boolean,
+    reverse: Boolean,
+    unit: {
+      type: String,
+      default: '%',
+      validator: v => [ '%', 'px' ].includes(v)
+    },
 
     limits: {
       type: Array,
-      default: () => [10, 90],
+      default: () => [ 10, 90 ],
       validator: v => {
         if (v.length !== 2) return false
         if (typeof v[0] !== 'number' || typeof v[1] !== 'number') return false
@@ -31,8 +34,8 @@ export default Vue.extend({
       }
     },
 
+    horizontal: Boolean,
     disable: Boolean,
-
     dark: Boolean,
 
     beforeClass: [Array, String, Object],
@@ -70,33 +73,36 @@ export default Vue.extend({
       return this.horizontal === true ? 'height' : 'width'
     },
 
-    styles () {
-      const styles = this.__cssValues(this.value)
+    side () {
+      return this.reverse !== true ? 'before' : 'after'
+    },
 
+    styles () {
       return {
-        before: { [this.prop]: styles.before },
-        after: { [this.prop]: styles.after }
+        [this.side]: {
+          [this.prop]: this.__getCSSValue(this.value)
+        }
       }
     }
   },
 
   methods: {
     __pan (evt) {
-      if (evt.isFirst) {
+      if (evt.isFirst === true) {
         const size = this.$el.getBoundingClientRect()[this.prop]
 
         this.__dir = this.horizontal === true ? 'up' : 'left'
-        this.__maxValue = this.modelPixels !== true ? 100 : size
+        this.__maxValue = this.unit === '%' ? 100 : size
         this.__value = Math.min(this.__maxValue, this.limits[1], Math.max(this.limits[0], this.value))
-        this.__multiplier = (this.modelReverse !== true ? 1 : -1) *
+        this.__multiplier = (this.reverse !== true ? 1 : -1) *
           (this.horizontal === true ? 1 : (this.$q.lang.rtl === true ? -1 : 1)) *
-          (this.modelPixels !== true ? (size === 0 ? 0 : 100 / size) : 1)
+          (this.unit === '%' ? (size === 0 ? 0 : 100 / size) : 1)
 
         this.$el.classList.add('q-splitter--active')
         return
       }
 
-      if (evt.isFinal) {
+      if (evt.isFinal === true) {
         if (this.__normalized !== this.value) {
           this.$emit('input', this.__normalized)
         }
@@ -112,10 +118,7 @@ export default Vue.extend({
 
       this.__normalized = Math.min(this.__maxValue, this.limits[1], Math.max(this.limits[0], val))
 
-      const { before, after } = this.__cssValues(this.__normalized)
-
-      this.$refs.before.style[this.prop] = before
-      this.$refs.after.style[this.prop] = after
+      this.$refs[this.side].style[this.prop] = this.__getCSSValue(this.__normalized)
     },
 
     __normalize (val, limits) {
@@ -127,22 +130,8 @@ export default Vue.extend({
       }
     },
 
-    __cssValues (val) {
-      const
-        main = this.modelPixels === true
-          ? Math.round(val) + 'px'
-          : val + '%',
-        rest = 'calc(100% - ' + main + ')'
-
-      return this.modelReverse !== true
-        ? {
-          before: main,
-          after: rest
-        }
-        : {
-          before: rest,
-          after: main
-        }
+    __getCSSValue (value) {
+      return (this.unit === '%' ? value : Math.round(value)) + this.unit
     }
   },
 
@@ -154,7 +143,7 @@ export default Vue.extend({
     }, [
       h('div', {
         ref: 'before',
-        staticClass: 'q-splitter__panel q-splitter__before',
+        staticClass: 'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
         style: this.styles.before,
         class: this.beforeClass,
         on: { input: stop }
@@ -184,7 +173,7 @@ export default Vue.extend({
 
       h('div', {
         ref: 'after',
-        staticClass: 'q-splitter__panel q-splitter__after',
+        staticClass: 'q-splitter__panel q-splitter__after' + (this.reverse === true ? '' : ' col'),
         style: this.styles.after,
         class: this.afterClass,
         on: { input: stop }

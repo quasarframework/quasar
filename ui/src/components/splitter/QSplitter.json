@@ -11,16 +11,20 @@
       "category": "model"
     },
 
-    "model-reverse": {
+    "reverse": {
       "type": "Boolean",
-      "desc": "Apply the split size value to the second pane (by default it applies to the first)",
-      "category": "model"
+      "desc": "Apply the model size to the second panel (by default it applies to the first)",
+      "category": "model",
+      "addedIn": "v1.2.6"
     },
 
-    "model-pixels": {
-      "type": "Boolean",
-      "desc": "Apply the split size in pixels (by default is percent)",
-      "category": "model"
+    "unit": {
+      "type": "String",
+      "desc": "CSS unit for the model",
+      "default": "%",
+      "values": [ "%", "px" ],
+      "category": "model",
+      "addedIn": "v1.2.6"
     },
 
     "horizontal": {
