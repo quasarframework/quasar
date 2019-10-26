@@ -102,6 +102,8 @@ For the file picker to work on IE11 when wrapping QUploaderAddTrigger with a QBt
 
 QUploader works by default with the HTTP(S) protocol to upload files (but it's not limited to it as you'll see in the section following this one).
 
+### Nodejs
+
 Below is a basic server example written in Nodejs. It does nothing other than receiving the files, so consider it as a starting point.
 
 ::: tip
@@ -150,6 +152,30 @@ app.post('/upload', (req, res) => {
 app.listen(port, () => {
   console.log('\nUpload server running on http://localhost:' + port)
 })
+```
+
+### Spring
+
+Below is a [Spring](https://spring.io/guides/gs/uploading-files/) example. Attribute `fieldName="file"` is mapping with `@RequestPart(value = "file")`.
+
+```
+// java
+@RestController
+public class UploadRest {
+	@PostMapping("/upload")
+	public void handleFileUpload(@RequestPart(value = "file") final MultipartFile uploadfile) throws IOException {
+		saveUploadedFiles(uploadfile);
+	}
+
+	private String saveUploadedFiles(final MultipartFile file) throws IOException {
+		final byte[] bytes = file.getBytes();
+		final Path path = Paths.get("YOUR_ABSOLUTE_PATH" + file.getOriginalFilename());
+		Files.write(path, bytes);
+	}
+}
+
+// html
+<q-uploader fieldName="file" url="YOUR_URL_BACK/upload" with-credentials />
 ```
 
 ## Supporting other services
