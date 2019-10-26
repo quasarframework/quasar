@@ -107,7 +107,7 @@ And you're done. Inspect `index.html` file that was created in the new folder an
 
 Notice that as opposed to the Main Starter Kit, you don't need to import anything. All components, directives and Quasar plugins are ready to be used out of the box.
 
-However, the disadvantage is that you won't benefit from the top notch development experience provided by Quasar CLI -- which allows you to simultaneously develop and build SPA, PWA, SSR, Mobile and Electron Apps.
+However, the disadvantage is that you won't benefit from the top-notch development experience provided by Quasar CLI -- which allows you to simultaneously develop and build SPA, PWA, SSR, Mobile and Electron Apps.
 
 ## JsFiddle / Codepen
 You can fork and use these links for reporting issues on GitHub too:
