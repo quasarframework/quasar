@@ -62,20 +62,12 @@ columns: [ // array of Objects
 
     // (optional) you can format the data with a function
     format: (val, row) => `${val}%`
-    
-    // (optional) example for use of format with a function:
-    // 1) define a helper function for Boolean val to display checkmarks instead of "true" or "false"
-    displayCheckMark: function (val) {
-     if (val) {
-       return ("\u2611") // Unicode checkmark checked
-     } else {
-        return ("\u2610") // Unicode checkmark unchecked
-     }
-    },
-    // 2) now use the above helper function in format: for a table column definition
-    format: val => this.displayCheckMark(val),
+    // one more format example:
+    // format: val => val
+    //   ? /* Unicode checkmark checked */ "\u2611"
+    //   : /* Unicode checkmark unchecked */ "\u2610",
 
-    // v0.17.9+; if using scoped slots, apply this yourself instead
+    // if using scoped slots, apply this yourself instead
     style: 'width: 500px',
     classes: 'my-special-class'
   },
