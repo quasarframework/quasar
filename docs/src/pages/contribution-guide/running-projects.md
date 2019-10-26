@@ -20,7 +20,7 @@ desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
 | Quasar Testing AE | Maintenance and enhancements | Noah, Adam | [repo](https://github.com/quasarframework/quasar-testing)|
 
 ## List of Projects Where New Maintainer is Needed
-These project are inevitable part of the Quasar framework but to keep on our promise "to raise the bar for web development as a whole" we are looking for an active maintainer.
+These projects are an inevitable part of the Quasar framework, but to keep on our promise "to raise the bar for web development as a whole" we are looking for an active maintainer.
 
 If you are interested, read [The Role of the Project Maintainer](contribution-guide/project-maintainer) and let Razvan know via [Discord chat](https://chat.quasar.dev/).
 
