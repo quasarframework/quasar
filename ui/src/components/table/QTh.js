@@ -13,8 +13,11 @@ export default Vue.extend({
   },
 
   render (h) {
+    const on = this.$listeners
+
     if (this.props === void 0) {
       return h('th', {
+        on,
         class: this.autoWidth === true ? 'q-table--col-auto-width' : null
       }, slot(this, 'default'))
     }
@@ -45,12 +48,19 @@ export default Vue.extend({
       )
     }
 
+    const evt = col.sortable === true
+      ? {
+        click: evt => {
+          this.props.sort(col)
+          this.$emit('click', evt)
+        }
+      }
+      : {}
+
     return h('th', {
       class: col.__thClass +
         (this.autoWidth === true ? ' q-table--col-auto-width' : ''),
-      on: col.sortable === true
-        ? { click: () => { this.props.sort(col) } }
-        : null
+      on: { ...on, ...evt }
     }, child)
   }
 })
