@@ -11,6 +11,18 @@
       "category": "model"
     },
 
+    "model-reverse": {
+      "type": "Boolean",
+      "desc": "Apply the split size value to the second pane (by default it applies to the first)",
+      "category": "model"
+    },
+
+    "model-pixels": {
+      "type": "Boolean",
+      "desc": "Apply the split size in pixels (by default is percent)",
+      "category": "model"
+    },
+
     "horizontal": {
       "type": "Boolean",
       "desc": "Allows the splitter to split its two panes horizontally, instead of vertically",
@@ -19,9 +31,9 @@
 
     "limits": {
       "type": "Array",
-      "desc": "An array of two values representing a ratio of minimum and maximum split area of the two panes (0.0 < x < 100.0)",
+      "desc": "An array of two values representing the minimum and maximum split size of the two panes; Use Infinity as the second value to make it unbound on the upper side",
       "default": "[10, 90]",
-      "examples": [ ":limits=\"[30, 70]\"" ],
+      "examples": [ ":limits=\"[30, 70]\"", ":limits=\"[0, Infinity]\"" ],
       "category": "content|model"
     },
 

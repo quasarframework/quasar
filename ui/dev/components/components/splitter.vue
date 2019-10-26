@@ -1,22 +1,38 @@
 <template>
   <div class="q-layout-padding q-mx-auto">
-    <div class="q-gutter-x-sm row items-center">
-      <q-btn color="primary" label="Reset" @click="model = 50" />
+    <div class="row q-gutter-x-sm items-center">
       <q-toggle v-model="horizontal" label="Horizontal" />
+      <q-toggle v-model="modelReverse" label="Reverse model" />
+      <q-toggle v-model="modelPixels" label="Pixel model" />
       <q-toggle v-model="disable" label="Disable" />
       <q-toggle v-model="funkyLimits" label="Funky limits" />
       <q-toggle v-model="showSeparator" label="Show separator" />
-      <q-chip color="primary" text-color="white">
-        {{ model }}
-      </q-chip>
-      <q-chip color="primary" text-color="white">
-        {{ limits }}
-      </q-chip>
+    </div>
+    <div class="row q-gutter-x-sm items-center">
+      <q-input
+        v-model="model"
+        standout
+        dense
+        color="primary"
+        input-class="text-right"
+      >
+        <template v-slot:prepend>
+          <q-chip color="primary" square text-color="white">
+            Model between {{ limits[0] }} and {{ limits[1] }}
+          </q-chip>
+        </template>
+
+        <template v-slot:append>
+          <q-btn color="primary" flat round dense icon="clear" @click="model = 50" />
+        </template>
+      </q-input>
     </div>
 
     <q-splitter
       v-model="model"
       :horizontal="horizontal"
+      :model-reverse="modelReverse"
+      :model-pixels="modelPixels"
       :limits="limits"
       :disable="disable"
 
@@ -144,17 +160,22 @@ export default {
       model: 50,
       insideModel: 50,
       innerSeparatorSplitModel: 50,
-      funkyLimits: false,
-      limits: [10, 90],
       horizontal: false,
+      modelReverse: false,
+      modelPixels: false,
+      funkyLimits: false,
       disable: false,
       showSeparator: true
     }
   },
 
-  watch: {
-    funkyLimits (v) {
-      this.limits = v === true ? [70, 100] : [10, 90]
+  computed: {
+    limits () {
+      if (this.modelPixels === true) {
+        return this.funkyLimits === true ? [100, 500] : [0, Infinity]
+      }
+
+      return this.funkyLimits === true ? [0, 30] : [10, 90]
     }
   },
 
