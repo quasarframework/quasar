@@ -27,6 +27,10 @@ Since QDrawer needs a layout and QLayout by default manages the entire window, t
 By default, QDrawer has touch actions attached to it. If this interferes with your drawer content components, disable it by specifying the Boolean `no-swipe-close` property.
 :::
 
+::: warning
+When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with  "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
+:::
+
 ### Basic
 
 <doc-example title="Basic" file="QDrawer/Basic" />

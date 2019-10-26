@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
+if (process.env.NODE_ENV === void 0) {
+  process.env.NODE_ENV = 'production'
+}
+
 const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
@@ -9,11 +13,12 @@ const argv = parseArgs(process.argv.slice(2), {
     A: 'arch',
     b: 'bundler',
     s: 'skip-pkg',
+    i: 'ide',
     d: 'debug',
     h: 'help',
     P: 'publish'
   },
-  boolean: ['h', 'd', 'u'],
+  boolean: ['h', 'd', 'u', 'i'],
   string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
@@ -42,10 +47,12 @@ if (argv.help) {
     $ quasar build -m ios -- some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                      - Capacitor
+                        [android|ios]
                       - Electron with default "electron-packager" bundler (default: yours)
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
@@ -54,10 +61,15 @@ if (argv.help) {
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
     --debug, -d     Build for debugging purposes
-    --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
+    --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
+                      - Capacitor (it only fills in /src/capacitor/www folder with the UI code)
                       - Electron (it only creates the /dist/electron/UnPackaged folder)
     --help, -h      Displays this message
+
+    ONLY for Cordova and Capacitor mode:
+    --ide, -i       Open IDE (Android Studio / XCode) instead of finalizing with a
+                    terminal/console-only build
 
     ONLY for Electron mode:
     --bundler, -b   Bundler (electron-packager or electron-builder)
@@ -112,14 +124,19 @@ function parseWebpackConfig (webpackConfig, mode) {
   return webpackConfig
 }
 
-function finalize (mode, quasarConfig) {
-  if (argv['skip-pkg'] !== true) {
-    if (mode === 'cordova') {
-      return require('../lib/cordova').build(quasarConfig, argv._)
-    }
-    if (mode === 'electron') {
-      return require('../lib/electron').build(quasarConfig)
-    }
+function finalizeBuild (mode, ctx, quasarConfig) {
+  let Runner
+
+  if (['cordova', 'capacitor'].includes(mode)) {
+    Runner = require('../lib/' + mode)
+  }
+  else if (argv['skip-pkg'] !== true && mode === 'electron') {
+    Runner = require('../lib/electron')
+  }
+
+  if (Runner !== void 0) {
+    Runner.init(ctx)
+    return Runner.build(quasarConfig, argv)
   }
 
   return Promise.resolve()
@@ -146,7 +163,7 @@ async function build () {
   }
   catch (e) {
     console.log(e)
-    warn(`⚠️ [FAIL] quasar.conf.js has JS errors`)
+    warn(`⚠️  [FAIL] quasar.conf.js has JS errors`)
     process.exit(1)
   }
 
@@ -157,7 +174,8 @@ async function build () {
     webpackConfig = quasarConfig.getWebpackConfig(),
     buildConfig = quasarConfig.getBuildConfig()
 
-  let outputFolder = buildConfig.build.packagedElectronDist || buildConfig.build.distDir
+  let outputFolder = buildConfig.build.packagedDistDir ||
+    buildConfig.build.distDir
 
   artifacts.clean(outputFolder)
   generator.build()
@@ -206,7 +224,7 @@ async function build () {
       }
     })
 
-    finalize(argv.mode, quasarConfig).then(async () => {
+    finalizeBuild(argv.mode, ctx, quasarConfig).then(async () => {
       outputFolder = argv.mode === 'cordova'
         ? path.join(outputFolder, '..')
         : outputFolder

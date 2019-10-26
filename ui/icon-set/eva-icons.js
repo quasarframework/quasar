@@ -70,7 +70,8 @@ export default {
     header: 'format_size',
     code: 'code',
     size: 'format_size',
-    font: 'font_download'
+    font: 'font_download',
+    viewSource: 'eva-code'
   },
   expansionItem: {
     icon: 'eva-arrow-ios-downward-outline',

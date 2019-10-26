@@ -42,7 +42,7 @@ const Notifications = {
 
       const notif = { textColor: 'white' }
 
-      if (config.ignoreDefaults !== true) {
+      if (typeof config === 'string' || config.ignoreDefaults !== true) {
         Object.assign(notif, defaults)
       }
 
@@ -229,7 +229,7 @@ export default {
     return this.__vm.add(opts)
   },
   setDefaults (opts) {
-    Object.assign(defaults, opts)
+    opts === Object(opts) && Object.assign(defaults, opts)
   },
 
   install (args) {
@@ -241,7 +241,7 @@ export default {
 
     init.call(this, args)
 
-    args.cfg.notify && this.setDefaults(args.cfg.notify)
+    this.setDefaults(args.cfg.notify)
 
     args.$q.notify = this.create.bind(this)
     args.$q.notify.setDefaults = this.setDefaults

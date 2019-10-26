@@ -1,0 +1,547 @@
+$space-base   : 16px !default
+$space-x-base : $space-base !default
+$space-y-base : $space-base !default
+
+$space-none : (x: 0, y: 0) !default
+$space-xs   : (x: ($space-x-base * .25), y: ($space-y-base * .25)) !default
+$space-sm   : (x: ($space-x-base * .5), y: ($space-y-base * .5)) !default
+$space-md   : (x: $space-x-base, y: $space-y-base) !default
+$space-lg   : (x: ($space-x-base * 1.5), y: ($space-y-base * 1.5)) !default
+$space-xl   : (x: ($space-x-base * 3), y: ($space-y-base * 3)) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$spaces: ('none': $space-none, 'xs': $space-xs, 'sm': $space-sm, 'md': $space-md, 'lg': $space-lg, 'xl': $space-xl) !default
+
+// Max width at which point
+// current size ends
+$breakpoint-xs: 599px !default
+$breakpoint-sm: 1023px !default
+$breakpoint-md: 1439px !default
+$breakpoint-lg: 1919px !default
+
+$flex-cols      : 12 !default
+$flex-gutter-xs : ($space-base * .25) !default
+$flex-gutter-sm : ($space-base * .5) !default
+$flex-gutter-md : $space-base !default
+$flex-gutter-lg : ($space-base * 1.5) !default
+$flex-gutter-xl : ($space-base * 3) !default
+
+$body-font-size   : 14px !default
+$body-line-height : 1.5 !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$flex-gutter: ('none': 0, 'xs': $flex-gutter-xs, 'sm': $flex-gutter-sm, 'md': $flex-gutter-md, 'lg': $flex-gutter-lg, 'xl': $flex-gutter-xl) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$sizes: ('xs': 0, 'sm': ($breakpoint-xs + 1), 'md': ($breakpoint-sm + 1), 'lg': ($breakpoint-md + 1), 'xl': ($breakpoint-lg + 1)) !default
+
+$breakpoint-xs-min: 0 !default
+$breakpoint-xs-max: $breakpoint-xs !default
+
+$breakpoint-sm-min: map-get($sizes, "sm") !default
+$breakpoint-sm-max: $breakpoint-sm !default
+
+$breakpoint-md-min: map-get($sizes, "md") !default
+$breakpoint-md-max: $breakpoint-md !default
+
+$breakpoint-lg-min: map-get($sizes, "lg") !default
+$breakpoint-lg-max: $breakpoint-lg !default
+
+$breakpoint-xl-min: map-get($sizes, "xl") !default
+$breakpoint-xl-max: 9999px !default
+
+$h1:        (size: 6rem,     line-height: 6rem,     letter-spacing: -.01562em, weight: 300) !default
+$h2:        (size: 3.75rem,  line-height: 3.75rem,  letter-spacing: -.00833em, weight: 300) !default
+$h3:        (size: 3rem,     line-height: 3.125rem, letter-spacing: normal,    weight: 400) !default
+$h4:        (size: 2.125rem, line-height: 2.5rem,   letter-spacing: .00735em,  weight: 400) !default
+$h5:        (size: 1.5rem,   line-height: 2rem,     letter-spacing: normal,    weight: 400) !default
+$h6:        (size: 1.25rem,  line-height: 2rem,     letter-spacing: .0125em,   weight: 500) !default
+$subtitle1: (size: 1rem,     line-height: 1.75rem,  letter-spacing: .00937em,  weight: 400) !default
+$subtitle2: (size: .875rem,  line-height: 1.375rem, letter-spacing: .00714em,  weight: 500) !default
+$body1:     (size: 1rem,     line-height: 1.5rem,   letter-spacing: .03125em,  weight: 400) !default
+$body2:     (size: .875rem,  line-height: 1.25rem,  letter-spacing: .01786em,  weight: 400) !default
+$overline:  (size: .75rem,   line-height: 2rem,     letter-spacing: .16667em,  weight: 500) !default
+$caption:   (size: .75rem,   line-height: 1.25rem,  letter-spacing: .03333em,  weight: 400) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$headings: ('h1': $h1, 'h2': $h2, 'h3': $h3, 'h4': $h4, 'h5': $h5, 'h6': $h6, 'subtitle1': $subtitle1, 'subtitle2': $subtitle2, 'body1': $body1, 'body2': $body2, 'overline': $overline, 'caption': $caption) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$h-tags: (h1: map-get($headings, "h1"), h2: map-get($headings, "h2"), h3: map-get($headings, "h3"), h4: map-get($headings, "h4"), h5: map-get($headings, "h5"), h6: map-get($headings, "h6")) !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$text-weights: (thin: 100, light: 300, regular: 400, medium: 500, bold: 700, bolder: 900) !default
+
+$primary   : #027BE3 !default
+$secondary : #26A69A !default
+$accent    : #9C27B0 !default
+
+$positive  : #21BA45 !default
+$negative  : #C10015 !default
+$info      : #31CCEC !default
+$warning   : #F2C037 !default
+
+$light     : #bdbdbd !default
+$dark      : #424242 !default
+$faded     : #777 !default
+
+$dimmed-background       : rgba(0, 0, 0, .4) !default
+$light-dimmed-background : rgba(255, 255, 255, .6) !default
+
+$separator-color         : rgba(0, 0, 0, .12) !default
+$separator-dark-color    : rgba(255, 255, 255, .48) !default
+
+$red : #f44336 !default
+$red-1 : #ffebee !default
+$red-2 : #ffcdd2 !default
+$red-3 : #ef9a9a !default
+$red-4 : #e57373 !default
+$red-5 : #ef5350 !default
+$red-6 : #f44336 !default
+$red-7 : #e53935 !default
+$red-8 : #d32f2f !default
+$red-9 : #c62828 !default
+$red-10 : #b71c1c !default
+$red-11 : #ff8a80 !default
+$red-12 : #ff5252 !default
+$red-13 : #ff1744 !default
+$red-14 : #d50000 !default
+$pink : #e91e63 !default
+$pink-1 : #fce4ec !default
+$pink-2 : #f8bbd0 !default
+$pink-3 : #f48fb1 !default
+$pink-4 : #f06292 !default
+$pink-5 : #ec407a !default
+$pink-6 : #e91e63 !default
+$pink-7 : #d81b60 !default
+$pink-8 : #c2185b !default
+$pink-9 : #ad1457 !default
+$pink-10 : #880e4f !default
+$pink-11 : #ff80ab !default
+$pink-12 : #ff4081 !default
+$pink-13 : #f50057 !default
+$pink-14 : #c51162 !default
+$purple : #9c27b0 !default
+$purple-1 : #f3e5f5 !default
+$purple-2 : #e1bee7 !default
+$purple-3 : #ce93d8 !default
+$purple-4 : #ba68c8 !default
+$purple-5 : #ab47bc !default
+$purple-6 : #9c27b0 !default
+$purple-7 : #8e24aa !default
+$purple-8 : #7b1fa2 !default
+$purple-9 : #6a1b9a !default
+$purple-10 : #4a148c !default
+$purple-11 : #ea80fc !default
+$purple-12 : #e040fb !default
+$purple-13 : #d500f9 !default
+$purple-14 : #aa00ff !default
+$deep-purple : #673ab7 !default
+$deep-purple-1 : #ede7f6 !default
+$deep-purple-2 : #d1c4e9 !default
+$deep-purple-3 : #b39ddb !default
+$deep-purple-4 : #9575cd !default
+$deep-purple-5 : #7e57c2 !default
+$deep-purple-6 : #673ab7 !default
+$deep-purple-7 : #5e35b1 !default
+$deep-purple-8 : #512da8 !default
+$deep-purple-9 : #4527a0 !default
+$deep-purple-10 : #311b92 !default
+$deep-purple-11 : #b388ff !default
+$deep-purple-12 : #7c4dff !default
+$deep-purple-13 : #651fff !default
+$deep-purple-14 : #6200ea !default
+$indigo : #3f51b5 !default
+$indigo-1 : #e8eaf6 !default
+$indigo-2 : #c5cae9 !default
+$indigo-3 : #9fa8da !default
+$indigo-4 : #7986cb !default
+$indigo-5 : #5c6bc0 !default
+$indigo-6 : #3f51b5 !default
+$indigo-7 : #3949ab !default
+$indigo-8 : #303f9f !default
+$indigo-9 : #283593 !default
+$indigo-10 : #1a237e !default
+$indigo-11 : #8c9eff !default
+$indigo-12 : #536dfe !default
+$indigo-13 : #3d5afe !default
+$indigo-14 : #304ffe !default
+$blue : #2196f3 !default
+$blue-1 : #e3f2fd !default
+$blue-2 : #bbdefb !default
+$blue-3 : #90caf9 !default
+$blue-4 : #64b5f6 !default
+$blue-5 : #42a5f5 !default
+$blue-6 : #2196f3 !default
+$blue-7 : #1e88e5 !default
+$blue-8 : #1976d2 !default
+$blue-9 : #1565c0 !default
+$blue-10 : #0d47a1 !default
+$blue-11 : #82b1ff !default
+$blue-12 : #448aff !default
+$blue-13 : #2979ff !default
+$blue-14 : #2962ff !default
+$light-blue : #03a9f4 !default
+$light-blue-1 : #e1f5fe !default
+$light-blue-2 : #b3e5fc !default
+$light-blue-3 : #81d4fa !default
+$light-blue-4 : #4fc3f7 !default
+$light-blue-5 : #29b6f6 !default
+$light-blue-6 : #03a9f4 !default
+$light-blue-7 : #039be5 !default
+$light-blue-8 : #0288d1 !default
+$light-blue-9 : #0277bd !default
+$light-blue-10 : #01579b !default
+$light-blue-11 : #80d8ff !default
+$light-blue-12 : #40c4ff !default
+$light-blue-13 : #00b0ff !default
+$light-blue-14 : #0091ea !default
+$cyan : #00bcd4 !default
+$cyan-1 : #e0f7fa !default
+$cyan-2 : #b2ebf2 !default
+$cyan-3 : #80deea !default
+$cyan-4 : #4dd0e1 !default
+$cyan-5 : #26c6da !default
+$cyan-6 : #00bcd4 !default
+$cyan-7 : #00acc1 !default
+$cyan-8 : #0097a7 !default
+$cyan-9 : #00838f !default
+$cyan-10 : #006064 !default
+$cyan-11 : #84ffff !default
+$cyan-12 : #18ffff !default
+$cyan-13 : #00e5ff !default
+$cyan-14 : #00b8d4 !default
+$teal : #009688 !default
+$teal-1 : #e0f2f1 !default
+$teal-2 : #b2dfdb !default
+$teal-3 : #80cbc4 !default
+$teal-4 : #4db6ac !default
+$teal-5 : #26a69a !default
+$teal-6 : #009688 !default
+$teal-7 : #00897b !default
+$teal-8 : #00796b !default
+$teal-9 : #00695c !default
+$teal-10 : #004d40 !default
+$teal-11 : #a7ffeb !default
+$teal-12 : #64ffda !default
+$teal-13 : #1de9b6 !default
+$teal-14 : #00bfa5 !default
+$green : #4caf50 !default
+$green-1 : #e8f5e9 !default
+$green-2 : #c8e6c9 !default
+$green-3 : #a5d6a7 !default
+$green-4 : #81c784 !default
+$green-5 : #66bb6a !default
+$green-6 : #4caf50 !default
+$green-7 : #43a047 !default
+$green-8 : #388e3c !default
+$green-9 : #2e7d32 !default
+$green-10 : #1b5e20 !default
+$green-11 : #b9f6ca !default
+$green-12 : #69f0ae !default
+$green-13 : #00e676 !default
+$green-14 : #00c853 !default
+$light-green : #8bc34a !default
+$light-green-1 : #f1f8e9 !default
+$light-green-2 : #dcedc8 !default
+$light-green-3 : #c5e1a5 !default
+$light-green-4 : #aed581 !default
+$light-green-5 : #9ccc65 !default
+$light-green-6 : #8bc34a !default
+$light-green-7 : #7cb342 !default
+$light-green-8 : #689f38 !default
+$light-green-9 : #558b2f !default
+$light-green-10 : #33691e !default
+$light-green-11 : #ccff90 !default
+$light-green-12 : #b2ff59 !default
+$light-green-13 : #76ff03 !default
+$light-green-14 : #64dd17 !default
+$lime : #cddc39 !default
+$lime-1 : #f9fbe7 !default
+$lime-2 : #f0f4c3 !default
+$lime-3 : #e6ee9c !default
+$lime-4 : #dce775 !default
+$lime-5 : #d4e157 !default
+$lime-6 : #cddc39 !default
+$lime-7 : #c0ca33 !default
+$lime-8 : #afb42b !default
+$lime-9 : #9e9d24 !default
+$lime-10 : #827717 !default
+$lime-11 : #f4ff81 !default
+$lime-12 : #eeff41 !default
+$lime-13 : #c6ff00 !default
+$lime-14 : #aeea00 !default
+$yellow : #ffeb3b !default
+$yellow-1 : #fffde7 !default
+$yellow-2 : #fff9c4 !default
+$yellow-3 : #fff59d !default
+$yellow-4 : #fff176 !default
+$yellow-5 : #ffee58 !default
+$yellow-6 : #ffeb3b !default
+$yellow-7 : #fdd835 !default
+$yellow-8 : #fbc02d !default
+$yellow-9 : #f9a825 !default
+$yellow-10 : #f57f17 !default
+$yellow-11 : #ffff8d !default
+$yellow-12 : #ffff00 !default
+$yellow-13 : #ffea00 !default
+$yellow-14 : #ffd600 !default
+$amber : #ffc107 !default
+$amber-1 : #fff8e1 !default
+$amber-2 : #ffecb3 !default
+$amber-3 : #ffe082 !default
+$amber-4 : #ffd54f !default
+$amber-5 : #ffca28 !default
+$amber-6 : #ffc107 !default
+$amber-7 : #ffb300 !default
+$amber-8 : #ffa000 !default
+$amber-9 : #ff8f00 !default
+$amber-10 : #ff6f00 !default
+$amber-11 : #ffe57f !default
+$amber-12 : #ffd740 !default
+$amber-13 : #ffc400 !default
+$amber-14 : #ffab00 !default
+$orange : #ff9800 !default
+$orange-1 : #fff3e0 !default
+$orange-2 : #ffe0b2 !default
+$orange-3 : #ffcc80 !default
+$orange-4 : #ffb74d !default
+$orange-5 : #ffa726 !default
+$orange-6 : #ff9800 !default
+$orange-7 : #fb8c00 !default
+$orange-8 : #f57c00 !default
+$orange-9 : #ef6c00 !default
+$orange-10 : #e65100 !default
+$orange-11 : #ffd180 !default
+$orange-12 : #ffab40 !default
+$orange-13 : #ff9100 !default
+$orange-14 : #ff6d00 !default
+$deep-orange : #ff5722 !default
+$deep-orange-1 : #fbe9e7 !default
+$deep-orange-2 : #ffccbc !default
+$deep-orange-3 : #ffab91 !default
+$deep-orange-4 : #ff8a65 !default
+$deep-orange-5 : #ff7043 !default
+$deep-orange-6 : #ff5722 !default
+$deep-orange-7 : #f4511e !default
+$deep-orange-8 : #e64a19 !default
+$deep-orange-9 : #d84315 !default
+$deep-orange-10 : #bf360c !default
+$deep-orange-11 : #ff9e80 !default
+$deep-orange-12 : #ff6e40 !default
+$deep-orange-13 : #ff3d00 !default
+$deep-orange-14 : #dd2c00 !default
+$brown : #795548 !default
+$brown-1 : #efebe9 !default
+$brown-2 : #d7ccc8 !default
+$brown-3 : #bcaaa4 !default
+$brown-4 : #a1887f !default
+$brown-5 : #8d6e63 !default
+$brown-6 : #795548 !default
+$brown-7 : #6d4c41 !default
+$brown-8 : #5d4037 !default
+$brown-9 : #4e342e !default
+$brown-10 : #3e2723 !default
+$brown-11 : #d7ccc8 !default
+$brown-12 : #bcaaa4 !default
+$brown-13 : #8d6e63 !default
+$brown-14 : #5d4037 !default
+$grey : #9e9e9e !default
+$grey-1 : #fafafa !default
+$grey-2 : #f5f5f5 !default
+$grey-3 : #eeeeee !default
+$grey-4 : #e0e0e0 !default
+$grey-5 : #bdbdbd !default
+$grey-6 : #9e9e9e !default
+$grey-7 : #757575 !default
+$grey-8 : #616161 !default
+$grey-9 : #424242 !default
+$grey-10 : #212121 !default
+$grey-11 : #f5f5f5 !default
+$grey-12 : #eeeeee !default
+$grey-13 : #bdbdbd !default
+$grey-14 : #616161 !default
+$blue-grey : #607d8b !default
+$blue-grey-1 : #eceff1 !default
+$blue-grey-2 : #cfd8dc !default
+$blue-grey-3 : #b0bec5 !default
+$blue-grey-4 : #90a4ae !default
+$blue-grey-5 : #78909c !default
+$blue-grey-6 : #607d8b !default
+$blue-grey-7 : #546e7a !default
+$blue-grey-8 : #455a64 !default
+$blue-grey-9 : #37474f !default
+$blue-grey-10 : #263238 !default
+$blue-grey-11 : #cfd8dc !default
+$blue-grey-12 : #b0bec5 !default
+$blue-grey-13 : #78909c !default
+$blue-grey-14 : #455a64 !default
+
+$ios-statusbar-height : 20px !default
+
+$z-fab                : 990 !default
+$z-side               : 1000 !default
+$z-marginals          : 2000 !default
+$z-fixed-drawer       : 3000 !default
+$z-fullscreen         : 6000 !default
+$z-menu               : 6000 !default
+$z-top                : 7000 !default
+$z-tooltip            : 9000 !default
+$z-notify             : 9500 !default
+$z-max                : 9998 !default
+
+$shadow-color         : #000 !default
+$shadow-transition    : box-shadow .28s cubic-bezier(.4, 0, .2, 1) !default
+$inset-shadow         : 0 7px 9px -7px rgba($shadow-color, .7) inset !default
+
+$elevation-umbra      : rgba($shadow-color, .2) !default
+$elevation-penumbra   : rgba($shadow-color, .14) !default
+$elevation-ambient    : rgba($shadow-color, .12) !default
+
+$shadow-0  : 0 0 0 $elevation-umbra, 0 0 0 $elevation-penumbra, 0 0 0 $elevation-ambient !default
+$shadow-1  : 0 1px 3px $elevation-umbra, 0 1px 1px $elevation-penumbra, 0 2px 1px -1px $elevation-ambient !default
+$shadow-2  : 0 1px 5px $elevation-umbra, 0 2px 2px $elevation-penumbra, 0 3px 1px -2px $elevation-ambient !default
+$shadow-3  : 0 1px 8px $elevation-umbra, 0 3px 4px $elevation-penumbra, 0 3px 3px -2px $elevation-ambient !default
+$shadow-4  : 0 2px 4px -1px $elevation-umbra, 0 4px 5px $elevation-penumbra, 0 1px 10px $elevation-ambient !default
+$shadow-5  : 0 3px 5px -1px $elevation-umbra, 0 5px 8px $elevation-penumbra, 0 1px 14px $elevation-ambient !default
+$shadow-6  : 0 3px 5px -1px $elevation-umbra, 0 6px 10px $elevation-penumbra, 0 1px 18px $elevation-ambient !default
+$shadow-7  : 0 4px 5px -2px $elevation-umbra, 0 7px 10px 1px $elevation-penumbra, 0 2px 16px 1px $elevation-ambient !default
+$shadow-8  : 0 5px 5px -3px $elevation-umbra, 0 8px 10px 1px $elevation-penumbra, 0 3px 14px 2px $elevation-ambient !default
+$shadow-9  : 0 5px 6px -3px $elevation-umbra, 0 9px 12px 1px $elevation-penumbra, 0 3px 16px 2px $elevation-ambient !default
+$shadow-10 : 0 6px 6px -3px $elevation-umbra, 0 10px 14px 1px $elevation-penumbra, 0 4px 18px 3px $elevation-ambient !default
+$shadow-11 : 0 6px 7px -4px $elevation-umbra, 0 11px 15px 1px $elevation-penumbra, 0 4px 20px 3px $elevation-ambient !default
+$shadow-12 : 0 7px 8px -4px $elevation-umbra, 0 12px 17px 2px $elevation-penumbra, 0 5px 22px 4px $elevation-ambient !default
+$shadow-13 : 0 7px 8px -4px $elevation-umbra, 0 13px 19px 2px $elevation-penumbra, 0 5px 24px 4px $elevation-ambient !default
+$shadow-14 : 0 7px 9px -4px $elevation-umbra, 0 14px 21px 2px $elevation-penumbra, 0 5px 26px 4px $elevation-ambient !default
+$shadow-15 : 0 8px 9px -5px $elevation-umbra, 0 15px 22px 2px $elevation-penumbra, 0 6px 28px 5px $elevation-ambient !default
+$shadow-16 : 0 8px 10px -5px $elevation-umbra, 0 16px 24px 2px $elevation-penumbra, 0 6px 30px 5px $elevation-ambient !default
+$shadow-17 : 0 8px 11px -5px $elevation-umbra, 0 17px 26px 2px $elevation-penumbra, 0 6px 32px 5px $elevation-ambient !default
+$shadow-18 : 0 9px 11px -5px $elevation-umbra, 0 18px 28px 2px $elevation-penumbra, 0 7px 34px 6px $elevation-ambient !default
+$shadow-19 : 0 9px 12px -6px $elevation-umbra, 0 19px 29px 2px $elevation-penumbra, 0 7px 36px 6px $elevation-ambient !default
+$shadow-20 : 0 10px 13px -6px $elevation-umbra, 0 20px 31px 3px $elevation-penumbra, 0 8px 38px 7px $elevation-ambient !default
+$shadow-21 : 0 10px 13px -6px $elevation-umbra, 0 21px 33px 3px $elevation-penumbra, 0 8px 40px 7px $elevation-ambient !default
+$shadow-22 : 0 10px 14px -6px $elevation-umbra, 0 22px 35px 3px $elevation-penumbra, 0 8px 42px 7px $elevation-ambient !default
+$shadow-23 : 0 11px 14px -7px $elevation-umbra, 0 23px 36px 3px $elevation-penumbra, 0 9px 44px 8px $elevation-ambient !default
+$shadow-24 : 0 11px 15px -7px $elevation-umbra, 0 24px 38px 3px $elevation-penumbra, 0 9px 46px 8px $elevation-ambient !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$shadows: ($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10, $shadow-11, $shadow-12, $shadow-13, $shadow-14, $shadow-15, $shadow-16, $shadow-17, $shadow-18, $shadow-19, $shadow-20, $shadow-21, $shadow-22, $shadow-23, $shadow-24)
+
+$shadow-up-0  : 0 0 0 $elevation-umbra, 0 0 0 $elevation-penumbra, 0 0 0 $elevation-ambient !default
+$shadow-up-1  : 0 -1px 3px $elevation-umbra, 0 -1px 1px $elevation-penumbra, 0 -2px 1px -1px $elevation-ambient !default
+$shadow-up-2  : 0 -1px 5px $elevation-umbra, 0 -2px 2px $elevation-penumbra, 0 -3px 1px -2px $elevation-ambient !default
+$shadow-up-3  : 0 -1px 8px $elevation-umbra, 0 -3px 4px $elevation-penumbra, 0 -3px 3px -2px $elevation-ambient !default
+$shadow-up-4  : 0 -2px 4px -1px $elevation-umbra, 0 -4px 5px $elevation-penumbra, 0 -1px 10px $elevation-ambient !default
+$shadow-up-5  : 0 -3px 5px -1px $elevation-umbra, 0 -5px 8px $elevation-penumbra, 0 -1px 14px $elevation-ambient !default
+$shadow-up-6  : 0 -3px 5px -1px $elevation-umbra, 0 -6px 10px $elevation-penumbra, 0 -1px 18px $elevation-ambient !default
+$shadow-up-7  : 0 -4px 5px -2px $elevation-umbra, 0 -7px 10px 1px $elevation-penumbra, 0 -2px 16px 1px $elevation-ambient !default
+$shadow-up-8  : 0 -5px 5px -3px $elevation-umbra, 0 -8px 10px 1px $elevation-penumbra, 0 -3px 14px 2px $elevation-ambient !default
+$shadow-up-9  : 0 -5px 6px -3px $elevation-umbra, 0 -9px 12px 1px $elevation-penumbra, 0 -3px 16px 2px $elevation-ambient !default
+$shadow-up-10 : 0 -6px 6px -3px $elevation-umbra, 0 -10px 14px 1px $elevation-penumbra, 0 -4px 18px 3px $elevation-ambient !default
+$shadow-up-11 : 0 -6px 7px -4px $elevation-umbra, 0 -11px 15px 1px $elevation-penumbra, 0 -4px 20px 3px $elevation-ambient !default
+$shadow-up-12 : 0 -7px 8px -4px $elevation-umbra, 0 -12px 17px 2px $elevation-penumbra, 0 -5px 22px 4px $elevation-ambient !default
+$shadow-up-13 : 0 -7px 8px -4px $elevation-umbra, 0 -13px 19px 2px $elevation-penumbra, 0 -5px 24px 4px $elevation-ambient !default
+$shadow-up-14 : 0 -7px 9px -4px $elevation-umbra, 0 -14px 21px 2px $elevation-penumbra, 0 -5px 26px 4px $elevation-ambient !default
+$shadow-up-15 : 0 -8px 9px -5px $elevation-umbra, 0 -15px 22px 2px $elevation-penumbra, 0 -6px 28px 5px $elevation-ambient !default
+$shadow-up-16 : 0 -8px 10px -5px $elevation-umbra, 0 -16px 24px 2px $elevation-penumbra, 0 -6px 30px 5px $elevation-ambient !default
+$shadow-up-17 : 0 -8px 11px -5px $elevation-umbra, 0 -17px 26px 2px $elevation-penumbra, 0 -6px 32px 5px $elevation-ambient !default
+$shadow-up-18 : 0 -9px 11px -5px $elevation-umbra, 0 -18px 28px 2px $elevation-penumbra, 0 -7px 34px 6px $elevation-ambient !default
+$shadow-up-19 : 0 -9px 12px -6px $elevation-umbra, 0 -19px 29px 2px $elevation-penumbra, 0 -7px 36px 6px $elevation-ambient !default
+$shadow-up-20 : 0 -10px 13px -6px $elevation-umbra, 0 -20px 31px 3px $elevation-penumbra, 0 -8px 38px 7px $elevation-ambient !default
+$shadow-up-21 : 0 -10px 13px -6px $elevation-umbra, 0 -21px 33px 3px $elevation-penumbra, 0 -8px 40px 7px $elevation-ambient !default
+$shadow-up-22 : 0 -10px 14px -6px $elevation-umbra, 0 -22px 35px 3px $elevation-penumbra, 0 -8px 42px 7px $elevation-ambient !default
+$shadow-up-23 : 0 -11px 14px -7px $elevation-umbra, 0 -23px 36px 3px $elevation-penumbra, 0 -9px 44px 8px $elevation-ambient !default
+$shadow-up-24 : 0 -11px 15px -7px $elevation-umbra, 0 -24px 38px 3px $elevation-penumbra, 0 -9px 46px 8px $elevation-ambient !default
+
+// sorry for long line; we need .sass and it doesn't support multi-line list
+$shadows-up: ($shadow-up-1, $shadow-up-2, $shadow-up-3, $shadow-up-4, $shadow-up-5, $shadow-up-6, $shadow-up-7, $shadow-up-8, $shadow-up-9, $shadow-up-10, $shadow-up-11, $shadow-up-12, $shadow-up-13, $shadow-up-14, $shadow-up-15, $shadow-up-16, $shadow-up-17, $shadow-up-18, $shadow-up-19, $shadow-up-20, $shadow-up-21, $shadow-up-22, $shadow-up-23, $shadow-up-24)
+
+$generic-border-radius          : 4px !default
+$generic-hover-transition       : .3s cubic-bezier(.25, .8, .5, 1) !default
+$typography-font-family         : 'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif !default
+$min-line-height                : 1.12 !default
+
+$button-border-radius           : 3px !default
+$button-padding                 : 4px 16px !default
+$button-dense-padding           : .285em !default
+$button-transition              : $generic-hover-transition !default
+$button-font-size               : 14px !default
+$button-line-height             : 1.718em !default
+$button-font-weight             : 500 !default
+$button-shadow                  : $shadow-2 !default
+$button-shadow-active           : $shadow-5 !default
+$button-rounded-border-radius   : 28px !default
+$button-push-border-radius      : 7px !default
+
+$chat-message-received-color    : #000 !default
+$chat-message-received-bg       : $green-4 !default
+$chat-message-sent-color        : #000 !default
+$chat-message-sent-bg           : $grey-4 !default
+$chat-message-avatar-size       : 48px !default
+$chat-message-border-radius     : $generic-border-radius !default
+$chat-message-distance          : 8px !default
+$chat-message-text-padding      : 8px !default
+
+$item-base-color                : $grey-5 !default
+
+$editor-border-color            : $separator-color !default
+$editor-content-padding         : 10px !default
+$editor-content-min-height      : 10em !default
+$editor-toolbar-padding         : 4px !default
+$editor-hr-color                : $editor-border-color !default
+$editor-button-gutter           : 4px !default
+
+$fab-margin                     : 5px !default
+
+$table-transition               : $generic-hover-transition !default
+$table-border-radius            : $generic-border-radius !default
+$table-box-shadow               : $shadow-2 !default
+
+$table-border-color             : $separator-color !default
+$table-hover-background         : rgba(0, 0, 0, .03) !default
+$table-selected-background      : rgba(0, 0, 0, .06) !default
+
+$table-dark-border-color        : $separator-dark-color !default
+$table-dark-hover-background    : rgba(255, 255, 255, .07) !default
+$table-dark-selected-background : rgba(255, 255, 255, .1) !default
+
+$toolbar-min-height             : 50px !default
+$toolbar-padding                : 0 12px !default
+$toolbar-inset-size             : 58px !default
+$toolbar-title-font-size        : 21px !default
+$toolbar-title-font-weight      : normal !default
+$toolbar-title-letter-spacing   : .01em !default
+$toolbar-title-padding          : 0 12px !default
+
+$layout-border                  : 1px solid $separator-color !default
+$layout-shadow                  : 0 0 10px 2px rgba(0,0,0,0.2), 0 0px 10px rgba(0,0,0,0.24) !default
+
+$menu-background                : #fff !default
+$menu-box-shadow                : $shadow-2 !default
+$menu-max-width                 : 95vw !default
+
+$rating-grade-color             : $yellow !default
+$rating-shadow                  : 0 1px 3px rgba(0, 0, 0, .12), 0 1px 2px rgba(0, 0, 0, .24) !default
+
+$tooltip-color                  : #fafafa !default
+$tooltip-background             : $grey-7 !default
+$tooltip-padding                : 6px 10px !default
+$tooltip-border-radius          : $generic-border-radius !default
+$tooltip-fontsize               : 10px !default
+$tooltip-mobile-padding         : 8px 16px !default
+$tooltip-mobile-fontsize        : 14px !default
+
+$option-focus-transition        : .22s cubic-bezier(0,0,.2,1) !default
+
+$input-font-size                : 14px !default
+$input-text-color               : rgba(0,0,0,.87) !default
+$input-label-color              : rgba(0,0,0,.6) !default
+$input-autofill-color           : inherit !default
+
+$img-width                      : 100% !default
+$img-background-repeat          : no-repeat !default
+$img-loading-font-size          : 50px !default
+$img-content-position           : absolute !default
+$img-content-padding            : 16px !default
+$img-content-color              : #fff !default
+$img-content-background         : rgba(0, 0, 0, .47) !default

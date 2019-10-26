@@ -61,11 +61,7 @@ $ quasar [command name] --help
 Creates an App folder with initial project boilerplate.
 
 ```bash
-## for Quasar v1:
 $ quasar create <folder_name>
-
-# for v0.17, run this instead:
-$ quasar create <folder_name> -b v0.17
 ```
 
 ## upgrade
@@ -523,7 +519,7 @@ $ quasar run -h
 ```
 
 ## serve
-This command can be used in production too and it is being supplied by the globall installation of `@quasar/cli` package.
+This command can be used in production too and it is being supplied by the global installation of `@quasar/cli` package.
 
 ```bash
 $ quasar serve -h

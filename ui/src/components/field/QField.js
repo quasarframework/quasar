@@ -5,7 +5,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import slot from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
+import { stop, prevent } from '../../utils/event.js'
 import uid from '../../utils/uid.js'
 
 export default Vue.extend({
@@ -54,7 +54,7 @@ export default Vue.extend({
     autofocus: Boolean,
 
     maxlength: [Number, String],
-    maxValues: [Number, String] // do not add to JSON, internally needed by QSelect
+    maxValues: [Number, String] // private, do not add to JSON; internally needed by QSelect
   },
 
   data () {
@@ -64,7 +64,7 @@ export default Vue.extend({
       // used internally by validation for QInput
       // or menu handling for QSelect
       innerLoading: false,
-      targetUid: 'qf_' + uid()
+      targetUid: this.$attrs.for === void 0 ? 'qf_' + uid() : this.$attrs.for
     }
   },
 
@@ -195,14 +195,19 @@ export default Vue.extend({
 
     blur () {
       const el = document.activeElement
-      this.$el.contains(el) && el.blur()
+      // IE can have null document.activeElement
+      if (el !== null && this.$el.contains(el)) {
+        el.blur()
+      }
     },
 
     __focus () {
+      const el = document.activeElement
       let target = this.$refs.target
-      if (target !== void 0 && document.activeElement.id !== this.targetUid) {
+      // IE can have null document.activeElement
+      if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
         target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target !== document.activeElement && target.focus()
+        target !== null && target !== el && target.focus()
       }
     },
 
@@ -212,7 +217,8 @@ export default Vue.extend({
       this.$scopedSlots.prepend !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
-          key: 'prepend'
+          key: 'prepend',
+          on: this.slotsEvents
         }, this.$scopedSlots.prepend())
       )
 
@@ -225,7 +231,8 @@ export default Vue.extend({
       this.$scopedSlots.append !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-          key: 'append'
+          key: 'append',
+          on: this.slotsEvents
         }, this.$scopedSlots.append())
       )
 
@@ -382,11 +389,15 @@ export default Vue.extend({
     },
 
     __onControlPopupShow (e) {
+      e !== void 0 && stop(e)
+      this.$emit('popup-show', e)
       this.hasPopupOpen = true
       this.__onControlFocusin(e)
     },
 
     __onControlPopupHide (e) {
+      e !== void 0 && stop(e)
+      this.$emit('popup-hide', e)
       this.hasPopupOpen = false
       this.__onControlFocusout(e)
     },
@@ -423,7 +434,15 @@ export default Vue.extend({
 
     __clearValue (e) {
       stop(e)
+      if (this.type === 'file') {
+        // do not let focus be triggered
+        // as it will make the native file dialog
+        // appear for another selection
+        prevent(e)
+        this.$refs.input.value = null
+      }
       this.$emit('input', null)
+      this.$emit('clear', this.value)
     },
 
     __emitValue (value) {
@@ -443,7 +462,8 @@ export default Vue.extend({
       }
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
-        staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
+        staticClass: 'q-field__before q-field__marginal row no-wrap items-center',
+        on: this.slotsEvents
       }, this.$scopedSlots.before()) : null,
 
       h('div', {
@@ -463,7 +483,8 @@ export default Vue.extend({
       ]),
 
       this.$scopedSlots.after !== void 0 ? h('div', {
-        staticClass: 'q-field__after q-field__marginal row no-wrap items-center'
+        staticClass: 'q-field__after q-field__marginal row no-wrap items-center',
+        on: this.slotsEvents
       }, this.$scopedSlots.after()) : null
     ])
   },
@@ -471,10 +492,11 @@ export default Vue.extend({
   created () {
     this.__onPreRender !== void 0 && this.__onPreRender()
 
+    this.slotsEvents = { click: prevent }
+
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
-        focus: this.focus,
         focusin: this.__onControlFocusin,
         focusout: this.__onControlFocusout,
         'popup-show': this.__onControlPopupShow,
@@ -483,7 +505,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.autofocus === true && this.$el.focus()
+    this.autofocus === true && this.focus()
   },
 
   beforeDestroy () {

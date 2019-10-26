@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md">
     <div class=" row items-start q-gutter-md">
-      <q-color v-model="hex" dark inline class="my-picker" />
-      <q-color v-model="hexa" dark inline class="my-picker" />
-      <q-color v-model="rgb" dark inline class="my-picker" />
-      <q-color v-model="rgba" dark inline class="my-picker" />
+      <q-color v-model="hex" dark class="my-picker" />
+      <q-color v-model="hexa" dark class="my-picker" />
+      <q-color v-model="rgb" dark class="my-picker" />
+      <q-color v-model="rgba" dark class="my-picker" />
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .my-picker
-  max-width 250px
+  max-width: 250px
 </style>

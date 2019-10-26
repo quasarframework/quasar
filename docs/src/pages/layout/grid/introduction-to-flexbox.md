@@ -6,7 +6,7 @@ related:
   - /style/visibility
   - /layout/grid/column
   - /layout/grid/gutter
-  - /layout/grid/flexgrid-playground
+  - /layout/grid/flex-playground
 ---
 
 Quasar provides lots of CSS classes to help you build your UI easily with the help of [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Think of it like operating with rows and columns with many options at hand.
@@ -252,7 +252,7 @@ There are also responsive classes for spacing, both for padding and for margin:
 
 Examples: `row-md`, `items-lg-end`, `q-pa-xs q-pa-sm-sm q-px-md-lg q-py-md-md`
 
-## Flex Grid Playground
-To see the Flex Grid in action, you can use the Flex Grid Playground to interactively learn more.
+## Flex Playground
+To see the Flex in action, you can use the Flex Playground to interactively learn more.
 
-<q-btn push color="primary" icon-right="launch" label="Flex Grid Playground" type="a" href="/layout/grid/flexgrid-playground" target="_blank" rel="noopener noreferrer" />
+<q-btn push color="primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />

@@ -86,7 +86,8 @@ export default {
     size5: 'വലുത്',
     size6: 'വളരെ വലുത്',
     size7: 'പരമാവധി',
-    defaultFont: 'ഡിഫാൾട്ട് ഫോണ്ട്'
+    defaultFont: 'ഡിഫാൾട്ട് ഫോണ്ട്',
+    viewSource: 'ഉറവിടം കാണുക'
   },
   tree: {
     noNodes: 'നോഡുകൾ ലഭ്യമല്ല',

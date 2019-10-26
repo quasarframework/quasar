@@ -23,7 +23,7 @@ function getComponentsDeclaration (comp) {
 module.exports.getVueComponent = function (rendered, data, toc) {
   return `
     <template>
-      <doc-page title="${data.heading !== false ? data.title : ''}"${data.related !== void 0 ? ` :related="related"` : ''}${data.nav !== void 0 ? ` :nav="nav"` : ''}>${rendered}</doc-page>
+      <doc-page title="${data.heading !== false ? data.title : ''}"${data.related !== void 0 ? ` :related="related"` : ''}${data.nav !== void 0 ? ` :nav="nav"` : ''}${data.badge !== void 0 ? ` :badge="badge"` : ''}>${rendered}</doc-page>
     </template>
     <script>
     import { copyHeading } from 'assets/page-utils'
@@ -68,6 +68,7 @@ module.exports.getVueComponent = function (rendered, data, toc) {
       created () {
         ${data.related !== void 0 ? `this.related = ${JSON.stringify(data.related)}` : ''}
         ${data.nav !== void 0 ? `this.nav = ${JSON.stringify(data.nav)}` : ''}
+        ${data.badge !== void 0 ? `this.badge = ${JSON.stringify(data.badge)}` : ''}
       },` : ''}
       methods: {
         copyHeading

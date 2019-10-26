@@ -130,7 +130,7 @@ export default Vue.extend({
 
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)
-    this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
+    this.scrollTarget !== void 0 && this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = null
   }
 })

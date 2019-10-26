@@ -10,9 +10,9 @@
 
       <q-drawer
         v-model="drawer"
+        show-if-above
         :width="200"
         :breakpoint="500"
-        show-if-above
       >
         <q-scroll-area class="fit">
           <q-list padding class="menu-list">
@@ -74,13 +74,13 @@
 export default {
   data () {
     return {
-      drawer: true
+      drawer: false
     }
   }
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .menu-list .q-item
-  border-radius 0 32px 32px 0
+  border-radius: 0 32px 32px 0
 </style>

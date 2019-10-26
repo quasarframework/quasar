@@ -86,14 +86,16 @@ export default Vue.extend({
       return this.square === true ? ' q-menu--square' : ''
     },
 
-    navigationHideCondition () {
+    hideOnRouteChange () {
       return this.persistent !== true
     }
   },
 
   methods: {
     focus () {
-      let node = this.__portal.$refs !== void 0 ? this.__portal.$refs.inner : void 0
+      let node = this.__portal !== void 0 && this.__portal.$refs !== void 0
+        ? this.__portal.$refs.inner
+        : void 0
 
       if (node !== void 0 && node.contains(document.activeElement) !== true) {
         node = node.querySelector('[autofocus]') || node
@@ -102,9 +104,8 @@ export default Vue.extend({
     },
 
     __show (evt) {
-      clearTimeout(this.timer)
-
-      this.__refocusTarget = this.noRefocus === false
+      // IE can have null document.activeElement
+      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
         ? document.activeElement
         : void 0
 
@@ -118,14 +119,15 @@ export default Vue.extend({
       this.__showPortal()
       this.__configureScrollTarget()
 
-      const { top, left } = this.anchorEl.getBoundingClientRect()
+      this.absoluteOffset = void 0
 
-      if (this.touchPosition || this.contextMenu) {
+      if (evt !== void 0 && (this.touchPosition || this.contextMenu)) {
         const pos = position(evt)
-        this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
-      }
-      else {
-        this.absoluteOffset = void 0
+
+        if (pos.left !== void 0) {
+          const { top, left } = this.anchorEl.getBoundingClientRect()
+          this.absoluteOffset = { left: pos.left - left, top: pos.top - top }
+        }
       }
 
       if (this.unwatch === void 0) {
@@ -134,16 +136,17 @@ export default Vue.extend({
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
-      if (this.noFocus !== true) {
+      // IE can have null document.activeElement
+      if (this.noFocus !== true && document.activeElement !== null) {
         document.activeElement.blur()
       }
 
-      this.$nextTick(() => {
+      this.__nextTick(() => {
         this.updatePosition()
         this.noFocus !== true && this.focus()
       })
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.$emit('show', evt)
       }, 300)
     },
@@ -151,20 +154,29 @@ export default Vue.extend({
     __hide (evt) {
       this.__anchorCleanup(true)
 
-      if (this.__refocusTarget !== void 0) {
+      // check null for IE
+      if (
+        this.__refocusTarget !== void 0 &&
+        this.__refocusTarget !== null &&
+        (
+          // menu was hidden from code or ESC plugin
+          evt === void 0 ||
+          // menu was not closed from a mouse or touch clickOutside
+          evt.qClickOutside !== true
+        )
+      ) {
         this.__refocusTarget.focus()
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
     },
 
     __anchorCleanup (hiding) {
-      clearTimeout(this.timer)
       this.absoluteOffset = void 0
 
       if (this.unwatch !== void 0) {
@@ -181,10 +193,8 @@ export default Vue.extend({
     __unconfigureScrollTarget () {
       if (this.scrollTarget !== void 0) {
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        if (this.scrollTarget !== window) {
-          window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        }
       }
+      window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
     },
 
     __configureScrollTarget () {
@@ -203,12 +213,14 @@ export default Vue.extend({
     },
 
     updatePosition () {
+      if (this.__portal === void 0) {
+        return
+      }
+
       const el = this.__portal.$el
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
-        setTimeout(() => {
-          this.__portal !== void 0 && this.__portal.showing === true && this.updatePosition()
-        }, 25)
+        setTimeout(this.updatePosition, 25)
         return
       }
 
@@ -228,16 +240,28 @@ export default Vue.extend({
 
     __onClickOutside (e) {
       if (this.persistent !== true && this.showing === true) {
+        const targetClassList = e.target.classList
+
         this.hide(e)
-        stopAndPrevent(e)
+        if (
+          // always prevent touch event
+          e.type === 'touchstart' ||
+          // prevent click if it's on a dialog backdrop
+          targetClassList.contains('q-dialog__backdrop')
+        ) {
+          stopAndPrevent(e)
+        }
         return true
       }
     },
 
-    __render (h) {
+    __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        input: stop
+        // stop propagating these events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
       }
 
       if (this.autoClose === true) {
@@ -265,6 +289,10 @@ export default Vue.extend({
         }, slot(this, 'default')) : null
       ])
     }
+  },
+
+  mounted () {
+    this.__processModelChange(this.value)
   },
 
   beforeDestroy () {

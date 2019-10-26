@@ -21,12 +21,12 @@ import '@quasar/extras/<%= asset %>/<%= asset %>.css'
 import '@quasar/extras/animate/<%= asset %>.css'
 <% }) %>
 
-// We load Quasar stylus files
-import 'quasar/dist/quasar.styl'
+// We load Quasar stylesheet file
+import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
 
 <% if (framework.cssAddon) { %>
 // We add Quasar addons, if they were requested
-import 'quasar/src/css/flex-addon.styl'
+import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 <% } %>
 
 <% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
@@ -58,13 +58,6 @@ import <%= importName %> from '<%= asset.path %>'
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
 
-<%
-const needsFastClick = ctx.mode.pwa || (ctx.mode.cordova && ctx.target.ios)
-if (needsFastClick) {
-%>
-import FastClick from 'fastclick'
-<% } %>
-
 <% if (ctx.mode.electron) { %>
 import electron from 'electron'
 Vue.prototype.$q.electron = electron
@@ -82,21 +75,27 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr &&
 
 const { app, <%= store ? 'store, ' : '' %>router } = createApp()
 
-<% if (needsFastClick) { %>
-<% if (ctx.mode.pwa) { %>
+<% if (ctx.mode.cordova && ctx.target.ios) { %>
+import '@quasar/fastclick'
+<% } else if (ctx.mode.pwa) { %>
 // Needed only for iOS PWAs
 if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.navigator.standalone) {
-<% } %>
-  document.addEventListener('DOMContentLoaded', () => {
-    FastClick.attach(document.body)
-  }, false)
-<% if (ctx.mode.pwa) { %>}<% } %>
+  import(/* webpackChunkName: "fastclick"  */ '@quasar/fastclick')
+}
 <% } %>
 
 async function start () {
   <% if (bootNames.length > 0) { %>
+  let routeUnchanged = true
+  const redirect = url => {
+    routeUnchanged = false
+    window.location.href = url
+  }
+
+  const urlPath = window.location.href.replace(window.location.origin, '')
   const bootFiles = [<%= bootNames.join(',') %>]
-  for (let i = 0; i < bootFiles.length; i++) {
+
+  for (let i = 0; routeUnchanged === true && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {
       continue
     }
@@ -107,7 +106,9 @@ async function start () {
         router,
         <%= store ? 'store,' : '' %>
         Vue,
-        ssrContext: null
+        ssrContext: null,
+        redirect,
+        urlPath
       })
     }
     catch (err) {
@@ -119,6 +120,10 @@ async function start () {
       console.error('[Quasar] boot error:', err)
       return
     }
+  }
+
+  if (routeUnchanged === false) {
+    return
   }
   <% } %>
 
@@ -152,6 +157,8 @@ async function start () {
     <% if (ctx.mode.cordova) { %>
     document.addEventListener('deviceready', () => {
     Vue.prototype.$q.cordova = window.cordova
+    <% } else if (ctx.mode.capacitor) { %>
+    Vue.prototype.$q.capacitor = window.Capacitor
     <% } %>
 
       new Vue(app)

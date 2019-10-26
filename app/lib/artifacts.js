@@ -37,6 +37,13 @@ module.exports.clean = function (folder) {
   if (folder.endsWith(path.join('src-cordova', 'www'))) {
     fse.emptyDirSync(folder)
   }
+  else if (folder.endsWith(path.join('src-capacitor', 'www'))) {
+    fse.emptyDirSync(folder)
+    fse.copySync(
+      appPaths.resolve.cli('templates/capacitor/www'),
+      appPaths.capacitorDir
+    )
+  }
   else {
     fse.removeSync(folder)
   }

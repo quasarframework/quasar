@@ -195,7 +195,7 @@
       />
 
       <div class="text-h6">
-        Scoped Slot: option
+        Scoped Slot: option (with menu on icon)
       </div>
       <q-select
         v-bind="props"
@@ -209,8 +209,13 @@
             v-bind="scope.itemProps"
             v-on="scope.itemEvents"
           >
-            <q-item-section avatar>
+            <q-item-section avatar @click.stop>
               <q-icon tabindex="0" :name="scope.opt.icon" />
+              <q-menu v-if="scope.opt.disable !== true">
+                <div class="bg-yellow text-black q-pa-md">
+                  Test menu
+                </div>
+              </q-menu>
             </q-item-section>
             <q-item-section>
               <q-item-label v-html="scope.opt.label" />
@@ -260,6 +265,7 @@
         <template v-slot:selected-item="scope">
           <q-chip
             removable
+            :dense="dense"
             @remove="scope.removeAtIndex(scope.index)"
             :tabindex="scope.tabindex"
             color="white"

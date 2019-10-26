@@ -17,8 +17,9 @@ export default Vue.extend({
 
   props: {
     value: {
-      type: Number,
-      required: true
+      required: true,
+      default: null,
+      validator: v => typeof v === 'number' || v === null
     },
 
     labelValue: [String, Number]
@@ -26,14 +27,16 @@ export default Vue.extend({
 
   data () {
     return {
-      model: this.value,
+      model: this.value === null ? this.min : this.value,
       curRatio: 0
     }
   },
 
   watch: {
     value (v) {
-      this.model = between(v, this.min, this.max)
+      this.model = v === null
+        ? 0
+        : between(v, this.min, this.max)
     },
 
     min (v) {
@@ -65,11 +68,19 @@ export default Vue.extend({
     },
 
     thumbClass () {
-      return this.preventFocus === false && this.focus === true ? 'q-slider--focus' : null
+      return this.preventFocus === false && this.focus === true
+        ? 'q-slider--focus'
+        : null
     },
 
     pinClass () {
-      return this.labelColor !== void 0 ? `text-${this.labelColor}` : null
+      return 'q-slider__pin absolute flex flex-center' +
+        (this.labelColor !== void 0 ? ` text-${this.labelColor}` : '')
+    },
+
+    pinTextClass () {
+      return 'q-slider__pin-value-marker-text' +
+        (this.labelTextColor !== void 0 ? ` text-${this.labelTextColor}` : '')
     },
 
     events () {
@@ -145,7 +156,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-slider',
+      staticClass: this.value === null ? ' q-slider--no-value' : '',
       attrs: {
         role: 'slider',
         'aria-valuemin': this.min,
@@ -202,12 +213,11 @@ export default Vue.extend({
         ]),
 
         this.label === true || this.labelAlways === true ? h('div', {
-          staticClass: 'q-slider__pin absolute flex flex-center',
           class: this.pinClass
         }, [
           h('div', { staticClass: 'q-slider__pin-value-marker' }, [
             h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
-            h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
+            h('div', { class: this.pinTextClass }, [
               this.computedLabel
             ])
           ])

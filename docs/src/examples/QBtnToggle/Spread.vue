@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .my-custom-toggle
-  border 1px solid #027be3
+  border: 1px solid #027be3
 </style>

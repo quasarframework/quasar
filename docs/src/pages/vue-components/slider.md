@@ -41,6 +41,8 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Disable" file="QSlider/Disable" />
 
+<doc-example title="Null value" file="QSlider/Null" />
+
 <doc-example title="Using with a list" file="QSlider/List" />
 
 ## QSlider API

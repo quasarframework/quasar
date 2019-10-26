@@ -8,6 +8,7 @@ import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 
 const yearsInterval = 20
+const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
 
 export default Vue.extend({
   name: 'QDate',
@@ -42,7 +43,7 @@ export default Vue.extend({
     defaultView: {
       type: String,
       default: 'Calendar',
-      validator: v => ['Calendar', 'Years', 'Months'].includes(v)
+      validator: viewIsValid
     }
   },
 
@@ -92,6 +93,9 @@ export default Vue.extend({
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
         (this.dark === true ? ' q-date--dark' : '') +
+        (this.bordered === true ? ` q-date--bordered` : '') +
+        (this.square === true ? ` q-date--square no-border-radius` : '') +
+        (this.flat === true ? ` q-date--flat no-shadow` : '') +
         (this.readonly === true && this.disable !== true ? ' q-date--readonly' : '') +
         (this.disable === true ? ' disabled' : '')
     },
@@ -258,6 +262,25 @@ export default Vue.extend({
   },
 
   methods: {
+    setToday () {
+      this.__updateValue({ ...this.today }, 'today')
+      this.view = 'Calendar'
+    },
+
+    setView (view) {
+      if (viewIsValid(view) === true) {
+        this.view = view
+      }
+    },
+
+    offsetCalendar (type, descending) {
+      if (['month', 'year'].includes(type)) {
+        this[`__goTo${type === 'month' ? 'Month' : 'Year'}`](
+          descending === true ? -1 : 1
+        )
+      }
+    },
+
     __getModels (val, mask, locale) {
       const external = __splitDate(
         val,
@@ -367,7 +390,7 @@ export default Vue.extend({
               tabindex: this.computedTabindex
             },
             on: {
-              click: this.__setToday
+              click: this.setToday
             }
           }) : null
         ])
@@ -655,7 +678,7 @@ export default Vue.extend({
     __setYear (year) {
       this.innerModel.year = year
       this.emitImmediately === true && this.__updateValue({ year }, 'year')
-      this.view = 'Calendar'
+      this.view = this.extModel.month === null || this.defaultView === 'Years' ? 'Months' : 'Calendar'
     },
 
     __setMonth (month) {
@@ -666,11 +689,6 @@ export default Vue.extend({
 
     __setDay (day) {
       this.__updateValue({ day }, 'day')
-    },
-
-    __setToday () {
-      this.__updateValue({ ...this.today }, 'today')
-      this.view = 'Calendar'
     },
 
     __updateValue (date, reason) {
@@ -709,10 +727,10 @@ export default Vue.extend({
           date.year
         )
 
-      if (val !== this.value) {
-        this.$emit('input', val, reason, date)
-      }
-      else if (reason === 'today') {
+      date.changed = val !== this.value
+      this.$emit('input', val, reason, date)
+
+      if (val === this.value && reason === 'today') {
         const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
         const curHash = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(this.innerModel.day)
 

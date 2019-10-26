@@ -10,7 +10,7 @@
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
     "build": "quasar build -m ssr",
-    "deploy": "yarn build && cd dist/ssr && now --public --target production && now alias `pbpaste` quasar.dev",
+    "deploy": "yarn build && cd dist/quasar.dev && now --public --prod -V 1 && now alias `pbpaste` quasar.dev",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -27,6 +27,7 @@
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
+    "eslint-plugin-quasar": "^1.0.0-alpha.16",
     "eslint-plugin-vue": "^5.0.0",
     "gray-matter": "^4.0.2",
     "markdown-it": "^8.4.2",

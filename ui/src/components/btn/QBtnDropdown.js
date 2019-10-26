@@ -17,6 +17,7 @@ export default Vue.extend({
   props: {
     value: Boolean,
     split: Boolean,
+    dropdownIcon: String,
 
     contentClass: [Array, String, Object],
     contentStyle: [Array, String, Object],
@@ -57,7 +58,7 @@ export default Vue.extend({
     const Arrow = [
       h(QIcon, {
         props: {
-          name: this.$q.iconSet.arrow.dropdown
+          name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown
         },
         staticClass: 'q-btn-dropdown__arrow',
         class: {
@@ -143,10 +144,10 @@ export default Vue.extend({
         rounded: this.rounded,
         push: this.push,
         unelevated: this.unelevated,
-        glossy: this.glossy
+        glossy: this.glossy,
+        stretch: this.stretch
       },
-      staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
-      class: this.stretch === true ? 'self-stretch no-border-radius' : null
+      staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item'
     }, [
       Btn,
 
@@ -160,6 +161,7 @@ export default Vue.extend({
           push: this.push,
           size: this.size,
           color: this.color,
+          stretch: this.stretch,
           textColor: this.textColor,
           dense: this.dense,
           ripple: this.ripple

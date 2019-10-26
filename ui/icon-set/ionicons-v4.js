@@ -70,7 +70,8 @@ export default {
     header: 'format_size',
     code: 'ion-code',
     size: 'format_size',
-    font: 'font_download'
+    font: 'font_download',
+    viewSource: 'ion-ios-code'
   },
   expansionItem: {
     icon: 'ion-arrow-dropdown',

@@ -82,7 +82,8 @@ export default {
     size5: 'Nagy',
     size6: 'Nagyon nagy',
     size7: 'Maximális',
-    defaultFont: 'Alapértelmezett betűtípus'
+    defaultFont: 'Alapértelmezett betűtípus',
+    viewSource: 'Forrás megtekintése'
   },
   tree: {
     noNodes: 'Nincsenek elérhető elemek',

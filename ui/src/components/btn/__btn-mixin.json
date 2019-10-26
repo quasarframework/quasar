@@ -46,12 +46,6 @@
       "extends": "icon"
     },
 
-    "round": {
-      "type": "Boolean",
-      "desc": "Makes a circle shaped button",
-      "category": "style"
-    },
-
     "outline": {
       "type": "Boolean",
       "desc": "Use 'outline' design",
@@ -132,7 +126,7 @@
       "type": "String",
       "desc": "Label or content alignment",
       "default": "center",
-      "values": [ "left", "right", "center", "around", "between" ],
+      "values": [ "left", "right", "center", "around", "between", "evenly" ],
       "category": "content"
     },
 
@@ -151,7 +145,7 @@
     "loading": {
       "type": "Boolean",
       "desc": "Put button into loading state (displays a QSpinner -- can be overriden by using a 'loading' slot)",
-      "category": "behavior|content"
+      "category": "behavior|state"
     },
 
     "disable": {

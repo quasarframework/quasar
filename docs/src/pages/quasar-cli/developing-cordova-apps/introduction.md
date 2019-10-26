@@ -1,6 +1,6 @@
 ---
 title: What is Cordova
-desc: Introduction on the technology behind Quasar hybrid mobile apps.
+desc: Introduction on one of the technologies behind Quasar hybrid mobile apps.
 ---
 Apache Cordova is a mobile application development framework originally created by Nitobi. Adobe Systems purchased Nitobi in 2011, rebranded it as PhoneGap, and later released an open source version of the software called Apache Cordova.
 

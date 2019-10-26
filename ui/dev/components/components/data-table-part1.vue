@@ -138,6 +138,8 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        bordered
+        flat
         binary-state-sort
         :rows-per-page-options="[]"
         row-key="name"
@@ -221,8 +223,13 @@
       </q-table>
 
       <h2>Grid style</h2>
+      <q-toggle v-model="gridHeader" label="Grid header" />
+      <q-toggle v-model="gridLoading" label="Grid loading" />
+
       <q-table
         grid
+        :grid-header="gridHeader"
+        :loading="gridLoading"
         :data="data"
         :columns="columns"
         :filter="filter"
@@ -304,6 +311,7 @@
         dark
         class="bg-black"
         color="orange"
+        bordered
         :separator="separator"
         :data="data"
         :columns="columns"
@@ -433,6 +441,22 @@
         <template v-slot:header-cell="props">
           <q-th :props="props">
             # {{ props.col.label }}
+          </q-th>
+        </template>
+      </q-table>
+
+      <h2>header-cell-[name]</h2>
+      <q-table
+        :data="data"
+        :columns="columns"
+        :title="title"
+        :filter="filter"
+        row-key="name"
+      >
+        <template v-slot:header-cell-calories="props">
+          <q-th :props="props">
+            <q-icon size="1.5em" name="thumb_up" />
+            {{ props.col.label }}
           </q-th>
         </template>
       </q-table>
@@ -746,6 +770,8 @@ export default {
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',
       selected: [],
+      gridHeader: false,
+      gridLoading: false,
 
       serverPagination: {
         page: 1,
@@ -925,6 +951,7 @@ export default {
       console.log(added ? 'selected' : 'un-selected', rows)
     }
   },
+
   mounted () {
     this.request({
       pagination: this.serverPagination,

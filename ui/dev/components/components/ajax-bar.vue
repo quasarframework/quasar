@@ -7,9 +7,23 @@
 
       <q-card style="margin-top: 25px">
         <q-card-section class="bg-primary text-center">
-          <q-btn push color="orange" @click="trigger()">
+          <q-btn push color="orange" @click="trigger()" class="full-width q-mb-md">
             Trigger Event
           </q-btn>
+
+          <div class="q-gutter-sm">
+            <q-btn push color="green" @click="start(0)">
+              Start (speed 0)
+            </q-btn>
+
+            <q-btn push color="blue" @click="increment()">
+              Random increment
+            </q-btn>
+
+            <q-btn push color="red" @click="stop()">
+              Stop
+            </q-btn>
+          </div>
         </q-card-section>
 
         <p class="caption text-center">
@@ -72,6 +86,18 @@ export default {
           this.$refs.bar.stop()
         }
       }, Math.random() * 3000 + 1000)
+    },
+
+    start (speed) {
+      this.$refs.bar.start(speed)
+    },
+
+    increment () {
+      this.$refs.bar.increment(Math.random() * 20)
+    },
+
+    stop () {
+      this.$refs.bar.stop()
     }
   }
 }

@@ -1,5 +1,7 @@
 import { clearSelection } from '../utils/selection.js'
-import { prevent } from '../utils/event.js'
+import { prevent, listenOpts } from '../utils/event.js'
+
+const { passive, notPassive } = listenOpts
 
 export default {
   props: {
@@ -53,7 +55,9 @@ export default {
 
     __contextClick (evt) {
       this.hide(evt)
-      this.show(evt)
+      this.$nextTick(() => {
+        this.show(evt)
+      })
       prevent(evt)
     },
 
@@ -84,47 +88,50 @@ export default {
 
       if (this.showing === true && evt !== void 0) {
         clearSelection()
-        prevent(evt)
       }
     },
 
     __unconfigureAnchorEl (context = this.contextMenu) {
+      if (this.anchorEl === void 0) {
+        return
+      }
+
       if (context === true) {
-        if (this.$q.platform.is.mobile) {
-          this.anchorEl.removeEventListener('touchstart', this.__mobileTouch)
+        if (this.$q.platform.is.mobile === true) {
+          this.anchorEl.removeEventListener('touchstart', this.__mobileTouch, passive)
           ;['touchcancel', 'touchmove', 'touchend'].forEach(evt => {
-            this.anchorEl.removeEventListener(evt, this.__mobileCleanup)
+            this.anchorEl.removeEventListener(evt, this.__mobileCleanup, passive)
           })
         }
         else {
-          this.anchorEl.removeEventListener('click', this.hide)
-          this.anchorEl.removeEventListener('contextmenu', this.__contextClick)
+          this.anchorEl.removeEventListener('click', this.hide, passive)
+          this.anchorEl.removeEventListener('contextmenu', this.__contextClick, notPassive)
         }
       }
       else {
-        this.anchorEl.removeEventListener('click', this.toggle)
-        this.anchorEl.removeEventListener('keyup', this.__toggleKey)
+        this.anchorEl.removeEventListener('click', this.toggle, passive)
+        this.anchorEl.removeEventListener('keyup', this.__toggleKey, passive)
       }
     },
 
     __configureAnchorEl (context = this.contextMenu) {
-      if (this.noParentEvent === true) { return }
+      if (this.noParentEvent === true || this.anchorEl === void 0) { return }
 
       if (context === true) {
-        if (this.$q.platform.is.mobile) {
-          this.anchorEl.addEventListener('touchstart', this.__mobileTouch)
+        if (this.$q.platform.is.mobile === true) {
+          this.anchorEl.addEventListener('touchstart', this.__mobileTouch, passive)
           ;['touchcancel', 'touchmove', 'touchend'].forEach(evt => {
-            this.anchorEl.addEventListener(evt, this.__mobileCleanup)
+            this.anchorEl.addEventListener(evt, this.__mobileCleanup, passive)
           })
         }
         else {
-          this.anchorEl.addEventListener('click', this.hide)
-          this.anchorEl.addEventListener('contextmenu', this.__contextClick)
+          this.anchorEl.addEventListener('click', this.hide, passive)
+          this.anchorEl.addEventListener('contextmenu', this.__contextClick, notPassive)
         }
       }
       else {
-        this.anchorEl.addEventListener('click', this.toggle)
-        this.anchorEl.addEventListener('keyup', this.__toggleKey)
+        this.anchorEl.addEventListener('click', this.toggle, passive)
+        this.anchorEl.addEventListener('keyup', this.__toggleKey, passive)
       }
     },
 
@@ -158,7 +165,10 @@ export default {
   },
 
   created () {
-    if (typeof this.__configureScrollTarget === 'function' && typeof this.__unconfigureScrollTarget === 'function') {
+    if (
+      typeof this.__configureScrollTarget === 'function' &&
+      typeof this.__unconfigureScrollTarget === 'function'
+    ) {
       this.noParentEventWatcher = this.$watch('noParentEvent', () => {
         if (this.scrollTarget !== void 0) {
           this.__unconfigureScrollTarget()
@@ -172,7 +182,7 @@ export default {
     this.parentEl = this.$el.parentNode
     this.__pickAnchorEl()
 
-    if (this.value !== false && this.anchorEl === void 0) {
+    if (this.value === true && this.anchorEl === void 0) {
       this.$emit('input', false)
     }
   },

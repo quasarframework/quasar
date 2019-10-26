@@ -9,7 +9,7 @@
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",
-      "category": "behavior"
+      "category": "position"
     },
 
     "cover": {
@@ -70,7 +70,8 @@
     "separate-close-popup": {
       "type": "Boolean",
       "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.1.0"
     },
 
     "square": {
@@ -131,6 +132,10 @@
   "methods": {
     "updatePosition": {
       "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the menu without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
+    },
+
+    "focus": {
+      "desc": "Focus menu; if you have content with autofocus attribute, it will directly focus it"
     }
   }
 }

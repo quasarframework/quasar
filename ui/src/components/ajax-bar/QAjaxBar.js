@@ -6,7 +6,8 @@ import { isSSR } from '../../plugins/Platform.js'
 const
   xhr = isSSR ? null : XMLHttpRequest,
   send = isSSR ? null : xhr.prototype.send,
-  stack = { start: [], stop: [] }
+  stackStart = [],
+  stackStop = []
 
 let highjackCount = 0
 
@@ -46,32 +47,27 @@ function inc (p, amount) {
 }
 
 function highjackAjax (start, stop) {
-  stack.start.push(start)
-  stack.stop.push(stop)
+  stackStart.push(start)
+  stackStop.push(stop)
 
   highjackCount++
 
   if (highjackCount > 1) { return }
 
   function endHandler () {
-    stack.stop.map(fn => { fn() })
+    stackStop.forEach(fn => { fn() })
   }
 
-  xhr.prototype.send = function (...args) {
-    stack.start.map(fn => { fn() })
-
-    this.addEventListener('abort', endHandler, false)
-    this.addEventListener('readystatechange', () => {
-      if (this.readyState === 4) { endHandler() }
-    }, false)
-
-    send.apply(this, args)
+  xhr.prototype.send = function (/* ...args */) {
+    stackStart.forEach(fn => { fn() })
+    this.addEventListener('loadend', endHandler, false)
+    send.apply(this, arguments)
   }
 }
 
 function restoreAjax (start, stop) {
-  stack.start = stack.start.filter(fn => fn !== start)
-  stack.stop = stack.stop.filter(fn => fn !== stop)
+  stackStart.splice(stackStart.indexOf(start), 1)
+  stackStop.splice(stackStop.indexOf(stop), 1)
 
   highjackCount = Math.max(0, highjackCount - 1)
   if (!highjackCount) {
@@ -113,11 +109,8 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return [
-        `q-loading-bar--${this.position}`,
-        `bg-${this.color}`,
-        this.animate === true ? '' : 'no-transition'
-      ]
+      return `q-loading-bar q-loading-bar--${this.position} bg-${this.color}` +
+        (this.animate === true ? '' : ' no-transition')
     },
 
     style () {
@@ -151,20 +144,33 @@ export default Vue.extend({
 
   methods: {
     start (speed = 300) {
+      const oldSpeed = this.speed
+      this.speed = Math.max(0, speed) || 0
+
       this.calls++
-      if (this.calls > 1) { return }
+
+      if (this.calls > 1) {
+        if (oldSpeed === 0 && speed > 0) {
+          this.__work()
+        }
+        else if (oldSpeed > 0 && speed <= 0) {
+          clearTimeout(this.timer)
+        }
+        return
+      }
 
       clearTimeout(this.timer)
       this.$emit('start')
 
-      if (this.onScreen) { return }
-
       this.progress = 0
+
+      if (this.onScreen === true) { return }
+
       this.onScreen = true
       this.animate = false
       this.timer = setTimeout(() => {
         this.animate = true
-        this.__work(speed)
+        speed > 0 && this.__work()
       }, 100)
     },
 
@@ -195,18 +201,18 @@ export default Vue.extend({
       }
     },
 
-    __work (speed) {
+    __work () {
       if (this.progress < 100) {
         this.timer = setTimeout(() => {
           this.increment()
-          this.__work(speed)
-        }, speed)
+          this.__work()
+        }, this.speed)
       }
     }
   },
 
   mounted () {
-    if (!this.skipHijack) {
+    if (this.skipHijack !== true) {
       this.hijacked = true
       highjackAjax(this.start, this.stop)
     }
@@ -219,7 +225,6 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-loading-bar',
       class: this.classes,
       style: this.style
     })

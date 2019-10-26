@@ -76,7 +76,7 @@ The `square` prop only makes sense along with Filled, Outlined and Standout desi
 ### Clearable
 As a helper, you can use `clearable` prop so user can reset model to `null` through an appended icon.
 
-:::warning
+::: warning
 If using `clearable` you must use `v-model` or listen on `@input` and update the value.
 :::
 
@@ -95,6 +95,12 @@ Most of the form controls always render something visible, so you if you're usin
 ### Prefix and suffix
 
 <doc-example title="Prefix and suffix" file="QField/PrefixSuffix" />
+
+### Slots with QBtn type "submit"
+
+::: warning
+When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
+:::
 
 ### Loading state
 

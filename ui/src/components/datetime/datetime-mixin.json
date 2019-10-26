@@ -66,6 +66,21 @@
       "extends": "dark"
     },
 
+    "square": {
+      "extends": "square",
+      "addedIn": "v1.1.5"
+    },
+
+    "flat": {
+      "extends": "flat",
+      "addedIn": "v1.1.5"
+    },
+
+    "bordered": {
+      "extends": "bordered",
+      "addedIn": "v1.1.5"
+    },
+
     "readonly": {
       "extends": "readonly"
     },

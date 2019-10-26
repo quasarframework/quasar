@@ -84,12 +84,13 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        'q-time--dark': this.dark,
-        'q-time--readonly': this.readonly === true && this.disable !== true,
-        'disabled': this.disable,
-        [`q-time--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
-      }
+      return `q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
+        (this.dark === true ? ' q-time--dark' : '') +
+        (this.readonly === true && this.disable !== true ? ' q-time--readonly' : '') +
+        (this.disable === true ? ' disable' : '') +
+        (this.bordered === true ? ` q-time--bordered` : '') +
+        (this.square === true ? ` q-time--square no-border-radius` : '') +
+        (this.flat === true ? ` q-time--flat no-shadow` : '')
     },
 
     computedMask () {
@@ -138,7 +139,7 @@ export default Vue.extend({
       if (
         forHour === true &&
         this.computedFormat24h === true &&
-        !(this.innerModel.hour > 0 && this.innerModel.hour < 13)
+        this.innerModel.hour >= 12
       ) {
         transform += ' scale3d(.7,.7,.7)'
       }
@@ -234,6 +235,14 @@ export default Vue.extend({
   },
 
   methods: {
+    setNow () {
+      this.__updateValue({
+        ...this.__getCurrentDate(),
+        ...this.__getCurrentTime()
+      })
+      this.view = 'Hour'
+    },
+
     __click (evt) {
       this.__drag({ isFirst: true, evt })
       this.__drag({ isFinal: true, evt })
@@ -299,23 +308,20 @@ export default Vue.extend({
 
         if (this.computedFormat24h === true) {
           if (distance < this.dragging.dist) {
-            if (val !== 0) {
+            if (val < 12) {
               val += 12
             }
           }
-          else if (val === 0) {
-            val = 12
+          else if (val === 12) {
+            val = 0
           }
+          this.isAM = val < 12
         }
         else if (this.isAM === true && val === 12) {
           val = 0
         }
         else if (this.isAM === false && val !== 12) {
           val += 12
-        }
-
-        if (val === 24) {
-          val = 0
         }
       }
       else {
@@ -470,10 +476,7 @@ export default Vue.extend({
     __getClock (h) {
       const
         view = this.view.toLowerCase(),
-        current = this.innerModel[view],
-        f24 = this.view === 'Hour' && this.computedFormat24h === true
-          ? ' fmt24'
-          : ''
+        current = this.innerModel[view]
 
       return h('div', {
         staticClass: 'q-time__content col relative-position'
@@ -514,7 +517,7 @@ export default Vue.extend({
                     : null,
 
                   this.positions.map(pos => h('div', {
-                    staticClass: `q-time__clock-position row flex-center${f24} q-time__clock-pos-${pos.index}`,
+                    staticClass: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}`,
                     class: pos.val === current
                       ? this.headerClass.concat(' q-time__clock-position--active')
                       : (pos.disable ? 'q-time__clock-position--disable' : null)
@@ -537,7 +540,7 @@ export default Vue.extend({
             tabindex: this.computedTabindex
           },
           on: {
-            click: this.__setNow
+            click: this.setNow
           }
         }) : null
       ])
@@ -581,14 +584,6 @@ export default Vue.extend({
       if (this.innerModel.hour === null) { return }
       this.innerModel.hour += 12
       this.__verifyAndUpdate()
-    },
-
-    __setNow () {
-      this.__updateValue({
-        ...this.__getCurrentDate(),
-        ...this.__getCurrentTime()
-      })
-      this.view = 'Hour'
     },
 
     __verifyAndUpdate () {
@@ -650,9 +645,8 @@ export default Vue.extend({
           date.year
         )
 
-      if (val !== this.value) {
-        this.$emit('input', val)
-      }
+      date.changed = val !== this.value
+      this.$emit('input', val, date)
     }
   },
 

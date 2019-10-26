@@ -17,7 +17,6 @@ export default Vue.extend({
     labelSet: String,
     labelCancel: String,
 
-    persistent: Boolean,
     color: {
       type: String,
       default: 'primary'
@@ -27,8 +26,13 @@ export default Vue.extend({
       default: () => true
     },
 
+    /* menu props overrides */
+    cover: {
+      type: Boolean,
+      default: true
+    },
     contentClass: String,
-    contentStyle: [String, Array, Object],
+    /* end of menu props */
 
     disable: Boolean
   },
@@ -140,17 +144,19 @@ export default Vue.extend({
     return h(QMenu, {
       ref: 'menu',
       props: {
-        contentClass: this.classes,
-        contentStyle: this.contentStyle,
-        cover: true,
-        persistent: this.persistent
+        ...this.$attrs,
+        cover: this.cover,
+        contentClass: this.classes
       },
       on: {
-        show: () => {
-          this.$emit('show')
+        'before-show': () => {
           this.validated = false
           this.initialValue = clone(this.value)
           this.watcher = this.$watch('value', this.__reposition)
+          this.$emit('before-show')
+        },
+        show: () => {
+          this.$emit('show')
         },
         'before-hide': () => {
           this.watcher()
@@ -159,6 +165,7 @@ export default Vue.extend({
             this.$emit('cancel', this.value, this.initialValue)
             this.$emit('input', this.initialValue)
           }
+          this.$emit('before-hide')
         },
         hide: () => {
           this.$emit('hide')

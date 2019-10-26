@@ -41,7 +41,8 @@
         "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
         "img:statics/path/to/some_image.png"
       ],
-      "category": "content"
+      "category": "content",
+      "addedIn": "v1.1.0"
     },
 
     "color": {

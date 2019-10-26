@@ -14,6 +14,8 @@
       <q-range :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label />
       <q-range :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
 
+      <q-range :dark="dark" :dense="dense" v-model="standalone" label-color="orange" label-text-color="black" :min="0" :max="50" label />
+
       <p class="caption">
         Step 0
         <span class="label inline bg-secondary text-white">
@@ -123,6 +125,30 @@
       <q-range :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" disable />
 
       <p class="caption">
+        Null Min Value
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ getNullLabel(nullMin.min) }} to {{ nullMin.max }}</em> &nbsp;&nbsp;(0 to 50)</span>
+        </span>
+      </p>
+      <q-range :dark="dark" :dense="dense" v-model="nullMin" :min="0" :max="50" />
+
+      <p class="caption">
+        Null Max Value
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ nullMax.min }} to {{ getNullLabel(nullMax.max) }}</em> &nbsp;&nbsp;(0 to 50)</span>
+        </span>
+      </p>
+      <q-range :dark="dark" :dense="dense" v-model="nullMax" :min="0" :max="50" />
+
+      <p class="caption">
+        Null Min and Max Values
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ getNullLabel(nullMinMax.min) }} to {{ getNullLabel(nullMinMax.max) }}</em> &nbsp;&nbsp;(20 to 50)</span>
+        </span>
+      </p>
+      <q-range :dark="dark" :dense="dense" v-model="nullMinMax" :min="20" :max="50" />
+
+      <p class="caption">
         Coloring
       </p>
       <q-range :dark="dark" :dense="dense" color="secondary" v-model="standalone" :min="0" :max="50" label />
@@ -162,6 +188,21 @@ export default {
     return {
       dark: false,
       dense: false,
+
+      nullMin: {
+        min: null,
+        max: 20
+      },
+
+      nullMax: {
+        min: 20,
+        max: null
+      },
+
+      nullMinMax: {
+        min: null,
+        max: null
+      },
 
       standalone: {
         min: 10,
@@ -234,6 +275,9 @@ export default {
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    },
+    getNullLabel (val) {
+      return val === null ? 'null' : val
     }
   }
 }

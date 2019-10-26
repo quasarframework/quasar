@@ -118,7 +118,7 @@ module.exports = class Extension {
     if (/quasar-app-extension-/.test(this.extId)) {
       this.extId = this.extId.replace('quasar-app-extension-', '')
       log(
-        `When using an extension, "quasar-app-extension-" is added automatically. Just run "quasar ext --add ${
+        `When using an extension, "quasar-app-extension-" is added automatically. Just run "quasar ext add ${
           this.extId
         }"`
       )
@@ -132,7 +132,7 @@ module.exports = class Extension {
     // verify if already installed
     if (skipPkgInstall === true) {
       if (!isInstalled) {
-        warn(`⚠️  Tried to invoke App Extension "${this.extId}" but it's npm package is not installed`)
+        warn(`⚠️  Tried to invoke App Extension "${this.extId}" but its npm package is not installed`)
         process.exit(1)
       }
     }
@@ -266,7 +266,7 @@ module.exports = class Extension {
     spawnSync(
       nodePackager,
       cmdParam.concat(this.packageFullName),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       () => warn(`⚠️  Failed to install ${this.packageFullName}`)
     )
   }
@@ -282,7 +282,7 @@ module.exports = class Extension {
     spawnSync(
       nodePackager,
       cmdParam.concat(this.packageName),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       () => warn(`⚠️  Failed to uninstall "${this.packageName}"`)
     )
   }
@@ -344,7 +344,7 @@ module.exports = class Extension {
       spawnSync(
         nodePackager,
         cmdParam,
-        appPaths.appDir,
+        { cwd: appPaths.appDir },
         () => warn(`⚠️  Failed to update dependencies`)
       )
     }

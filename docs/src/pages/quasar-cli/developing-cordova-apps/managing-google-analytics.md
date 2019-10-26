@@ -1,6 +1,6 @@
 ---
 title: Managing Google Analytics
-desc: How to use analytics in a Quasar hybrid mobile app.
+desc: How to use analytics in a Quasar hybrid mobile app with Cordova.
 ---
 Getting to know your users and measuring user behavior is an important step in App Development. Unfortunately, it takes a bit of non-standard work to get Google Analytics to work after wrapping your mobile app with Cordova. Setting up Google Analytics in a pure web application is quite easy, but Cordova somehow prevents pageviews and events from being sent to Google Analytics.
 

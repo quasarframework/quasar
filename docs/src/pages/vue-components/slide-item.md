@@ -16,6 +16,8 @@ Drag with the mouse or use your finger to pan to left or right side to see QSlid
 
 <doc-example title="Basic" file="QSlideItem/Basic" />
 
+<doc-example title="Vertical (v1.1.3+)" file="QSlideItem/Vertical" />
+
 <doc-example title="Custom colors" file="QSlideItem/CustomColors" />
 
 <doc-example title="One sided or no sides" file="QSlideItem/OneSided" />

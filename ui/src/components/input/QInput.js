@@ -3,16 +3,17 @@ import Vue from 'vue'
 import QField from '../field/QField.js'
 
 import MaskMixin from '../../mixins/mask.js'
+import CompositionMixin from '../../mixins/composition.js'
 import debounce from '../../utils/debounce.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QInput',
 
-  mixins: [ QField, MaskMixin ],
+  mixins: [ QField, MaskMixin, CompositionMixin ],
 
   props: {
-    value: [String, Number],
+    value: { required: false },
 
     type: {
       type: String,
@@ -21,7 +22,6 @@ export default Vue.extend({
 
     debounce: [String, Number],
 
-    maxlength: [Number, String],
     autogrow: Boolean, // makes a textarea
 
     inputClass: [Array, String, Object],
@@ -68,6 +68,10 @@ export default Vue.extend({
         const inp = this.$refs.input
         inp.style.height = 'auto'
       }
+    },
+
+    dense () {
+      this.autogrow === true && this.$nextTick(this.__adjustHeight)
     }
   },
 
@@ -88,7 +92,15 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      this.$refs.input !== void 0 && this.$refs.input !== document.activeElement && document.activeElement.id !== this.targetUid && this.$refs.input.focus()
+      const el = document.activeElement
+      if (
+        this.$refs.input !== void 0 &&
+        this.$refs.input !== el &&
+        // IE can have null document.activeElement
+        (el === null || el.id !== this.targetUid)
+      ) {
+        this.$refs.input.focus()
+      }
     },
 
     select () {
@@ -120,7 +132,7 @@ export default Vue.extend({
     },
 
     __emitValue (val, stopWatcher) {
-      const fn = () => {
+      this.emitValueFn = () => {
         if (
           this.type !== 'number' &&
           this.hasOwnProperty('tempValue') === true
@@ -132,6 +144,8 @@ export default Vue.extend({
           stopWatcher === true && (this.stopValueWatcher = true)
           this.$emit('input', val)
         }
+
+        this.emitValueFn = void 0
       }
 
       if (this.type === 'number') {
@@ -142,10 +156,10 @@ export default Vue.extend({
       if (this.debounce !== void 0) {
         clearTimeout(this.emitTimer)
         this.tempValue = val
-        this.emitTimer = setTimeout(fn, this.debounce)
+        this.emitTimer = setTimeout(this.emitValueFn, this.debounce)
       }
       else {
-        fn()
+        this.emitValueFn()
       }
     },
 
@@ -153,31 +167,42 @@ export default Vue.extend({
     __adjustHeight () {
       const inp = this.$refs.input
       if (inp !== void 0) {
+        const parentStyle = inp.parentNode.style
+
+        // reset height of textarea to a small size to detect the real height
+        // but keep the total control size the same
+        parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
         inp.style.height = '1px'
+
         inp.style.height = inp.scrollHeight + 'px'
+        parentStyle.marginBottom = ''
       }
-    },
-
-    __onCompositionStart (e) {
-      e.target.composing = true
-    },
-
-    __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
-        e.target.composing = false
-      }
-    },
-
-    __onCompositionEnd (e) {
-      if (e.target.composing !== true) { return }
-      e.target.composing = false
-
-      this.__onInput(e)
     },
 
     __onChange (e) {
-      this.__onCompositionEnd(e)
+      this.__onComposition(e)
+
+      clearTimeout(this.emitTimer)
+      this.emitValueFn !== void 0 && this.emitValueFn()
+
       this.$emit('change', e)
+    },
+
+    __onFinishEditing (e) {
+      e !== void 0 && stop(e)
+
+      clearTimeout(this.emitTimer)
+      this.emitValueFn !== void 0 && this.emitValueFn()
+
+      this.typedNumber = false
+      this.stopValueWatcher = false
+      delete this.tempValue
+
+      this.type !== 'file' && this.$nextTick(() => {
+        if (this.$refs.input !== void 0) {
+          this.$refs.input.value = this.innerValue
+        }
+      })
     },
 
     __getControl (h) {
@@ -189,29 +214,14 @@ export default Vue.extend({
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
         change: this.__onChange,
-        compositionstart: this.__onCompositionStart,
-        compositionend: this.__onCompositionEnd,
-        blur: stop
+        blur: this.__onFinishEditing,
+        focus: stop
       }
 
-      if (this.$q.platform.is.android === true) {
-        on.compositionupdate = this.__onCompositionUpdate
-      }
+      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
 
       if (this.hasMask === true) {
         on.keydown = this.__onMaskedKeydown
-      }
-
-      if (this.editable === true && this.$q.platform.is.mobile === true) {
-        on.focus = e => {
-          stop(e)
-          setTimeout(() => {
-            this.$el !== void 0 && this.$el.scrollIntoView(true)
-          }, 300)
-        }
-      }
-      else {
-        on.focus = stop
       }
 
       const attrs = {
@@ -260,6 +270,6 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
-    clearTimeout(this.emitTimer)
+    this.__onFinishEditing()
   }
 })

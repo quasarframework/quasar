@@ -1,6 +1,6 @@
-import Platform from '../plugins/Platform.js'
-import { position, leftClick, stopAndPrevent, prevent, listenOpts } from '../utils/event.js'
-import { setObserver, removeObserver } from '../utils/touch.js'
+import { client } from '../plugins/Platform.js'
+import { addEvt, cleanEvt } from '../utils/touch.js'
+import { position, leftClick, stopAndPrevent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 const
@@ -24,29 +24,22 @@ function shouldEnd (evt, origin) {
     Math.abs(top - origin.top) >= 7
 }
 
-const docEvtOpts = listenOpts.notPassiveCapture
-
 export default {
   name: 'touch-repeat',
 
   bind (el, { modifiers, value, arg }) {
-    if (el.__qtouchrepeat) {
-      el.__qtouchrepeat_old = el.__qtouchrepeat
-    }
-
     const keyboard = Object.keys(modifiers).reduce((acc, key) => {
-      if (keyRegex.test(key)) {
-        const keyCode = parseInt(key, 10)
-        acc.push(keyCode || keyCodes[key.toLowerCase()])
+      if (keyRegex.test(key) === true) {
+        const keyCode = isNaN(parseInt(key, 10)) ? keyCodes[key.toLowerCase()] : parseInt(key, 10)
+        keyCode >= 0 && acc.push(keyCode)
       }
-
       return acc
     }, [])
 
     // early return, we don't need to do anything
     if (
       modifiers.mouse !== true &&
-      Platform.has.touch !== true &&
+      client.has.touch !== true &&
       keyboard.length === 0
     ) {
       return
@@ -62,26 +55,22 @@ export default {
       keyboard,
       handler: value,
 
-      mouseStart (evt) {
-        if (leftClick(evt)) {
-          document.addEventListener('mousemove', ctx.mouseMove, docEvtOpts)
-          document.addEventListener('mouseup', ctx.mouseEnd, docEvtOpts)
-          document.addEventListener('click', ctx.mouseEnd, docEvtOpts)
+      // needed by addEvt / cleanEvt
+      stopAndPrevent,
 
+      mouseStart (evt) {
+        if (ctx.skipMouse === true) {
+          // touch actions finally generate this event
+          // so we need to avoid it
+          ctx.skipMouse = false
+        }
+        else if (ctx.event === void 0 && leftClick(evt) === true) {
+          addEvt(ctx, 'temp', [
+            [ document, 'mousemove', 'move', 'passiveCapture' ],
+            [ document, 'mouseup', 'end', 'passiveCapture' ]
+          ])
           ctx.start(evt, true)
         }
-      },
-
-      mouseMove (evt) {
-        ctx.event !== void 0 && shouldEnd(evt, ctx.origin) === true && ctx.mouseEnd(evt)
-      },
-
-      mouseEnd (evt) {
-        document.removeEventListener('mousemove', ctx.mouseMove, docEvtOpts)
-        document.removeEventListener('mouseup', ctx.mouseEnd, docEvtOpts)
-        document.removeEventListener('click', ctx.mouseEnd, docEvtOpts)
-
-        ctx.end(evt)
       },
 
       keyboardStart (evt) {
@@ -94,27 +83,39 @@ export default {
             }
           }
 
-          document.addEventListener('keyup', ctx.keyboardEnd, docEvtOpts)
+          addEvt(ctx, 'temp', [
+            [ document, 'keyup', 'end', 'passiveCapture' ]
+          ])
           ctx.start(evt, false, true)
         }
       },
 
-      keyboardEnd (evt) {
-        document.removeEventListener('keyup', ctx.keyboardEnd, docEvtOpts)
-        ctx.end(evt)
+      touchStart (evt) {
+        const target = evt.target
+        if (target !== void 0) {
+          addEvt(ctx, 'temp', [
+            [ target, 'touchmove', 'move', 'passiveCapture' ],
+            [ target, 'touchcancel', 'touchEnd', 'passiveCapture' ],
+            [ target, 'touchend', 'touchEnd', 'passiveCapture' ],
+            [ document, 'contextmenu', 'stopAndPrevent', 'notPassiveCapture' ]
+          ])
+          ctx.start(evt)
+        }
+      },
+
+      touchEnd (evt) {
+        if (ctx.event !== void 0) {
+          ctx.skipMouse = true
+          ctx.end(evt)
+        }
       },
 
       start (evt, mouseEvent, keyboardEvent) {
-        removeObserver(ctx)
-        if (mouseEvent !== true && keyboardEvent !== true) {
-          setObserver(el, evt, ctx)
-        }
-
         if (keyboardEvent !== true) {
           ctx.origin = position(evt)
         }
 
-        if (Platform.is.mobile === true) {
+        if (client.is.mobile === true) {
           document.body.classList.add('non-selectable')
           clearSelection()
         }
@@ -142,7 +143,7 @@ export default {
               ctx.event.position = position(evt)
             }
 
-            if (Platform.is.mobile !== true) {
+            if (client.is.mobile !== true) {
               document.documentElement.style.cursor = 'pointer'
               document.body.classList.add('non-selectable')
               clearSelection()
@@ -170,49 +171,53 @@ export default {
       },
 
       move (evt) {
-        ctx.event !== void 0 && shouldEnd(evt, ctx.origin) === true && ctx.end(evt)
+        if (ctx.event !== void 0 && shouldEnd(evt, ctx.origin) === true) {
+          if (ctx.event.touch === true) {
+            ctx.touchEnd(evt)
+          }
+          else {
+            ctx.end(evt)
+          }
+        }
       },
 
-      end (evt) {
+      end () {
         if (ctx.event === void 0) {
           return
         }
 
-        removeObserver(ctx)
-
         const triggered = ctx.event.repeatCount > 0
 
-        triggered === true && prevent(evt)
-
-        if (Platform.is.mobile === true || triggered === true) {
+        if (client.is.mobile === true || triggered === true) {
           document.documentElement.style.cursor = ''
           document.body.classList.remove('non-selectable')
         }
 
+        cleanEvt(ctx, 'temp')
         clearTimeout(ctx.timer)
+
         ctx.timer = void 0
         ctx.event = void 0
       }
     }
 
+    if (el.__qtouchrepeat) {
+      el.__qtouchrepeat_old = el.__qtouchrepeat
+    }
+
     el.__qtouchrepeat = ctx
 
-    if (modifiers.mouse === true) {
-      el.addEventListener('mousedown', ctx.mouseStart, modifiers.mouseCapture)
-    }
+    modifiers.mouse === true && addEvt(ctx, 'main', [
+      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
+    ])
 
-    if (keyboard.length > 0) {
-      el.addEventListener('keydown', ctx.keyboardStart, modifiers.keyCapture)
-    }
+    client.has.touch === true && addEvt(ctx, 'main', [
+      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ]
+    ])
 
-    if (Platform.has.touch === true) {
-      const opts = listenOpts['notPassive' + (modifiers.capture === true ? 'Capture' : '')]
-
-      el.addEventListener('touchstart', ctx.start, opts)
-      el.addEventListener('touchmove', ctx.move, opts)
-      el.addEventListener('touchcancel', ctx.end, opts)
-      el.addEventListener('touchend', ctx.end, opts)
-    }
+    keyboard.length > 0 && addEvt(ctx, 'main', [
+      [ el, 'keydown', 'keyboardStart', `notPassive${modifiers.keyCapture === true ? 'Capture' : ''}` ]
+    ])
   },
 
   update (el, binding) {
@@ -223,40 +228,18 @@ export default {
     }
   },
 
-  unbind (el, { modifiers }) {
+  unbind (el) {
     let ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
 
     if (ctx !== void 0) {
-      removeObserver(ctx)
       clearTimeout(ctx.timer)
 
-      if (Platform.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
+      cleanEvt(ctx, 'main')
+      cleanEvt(ctx, 'temp')
+
+      if (client.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
         document.documentElement.style.cursor = ''
         document.body.classList.remove('non-selectable')
-      }
-
-      ctx.timer = void 0
-      ctx.event = void 0
-
-      if (modifiers.mouse === true) {
-        el.removeEventListener('mousedown', ctx.mouseStart, modifiers.mouseCapture)
-        document.removeEventListener('mousemove', ctx.mouseMove, docEvtOpts)
-        document.removeEventListener('mouseup', ctx.mouseEnd, docEvtOpts)
-        document.removeEventListener('click', ctx.mouseEnd, docEvtOpts)
-      }
-
-      if (ctx.keyboard.length > 0) {
-        el.removeEventListener('keydown', ctx.keyboardStart, modifiers.keyCapture)
-        document.removeEventListener('keyup', ctx.keyboardEnd, docEvtOpts)
-      }
-
-      if (Platform.has.touch === true) {
-        const opts = listenOpts['notPassive' + (modifiers.capture === true ? 'Capture' : '')]
-
-        el.removeEventListener('touchstart', ctx.start, opts)
-        el.removeEventListener('touchmove', ctx.move, opts)
-        el.removeEventListener('touchcancel', ctx.end, opts)
-        el.removeEventListener('touchend', ctx.end, opts)
       }
 
       delete el[el.__qtouchrepeat_old ? '__qtouchrepeat_old' : '__qtouchrepeat']

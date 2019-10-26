@@ -32,7 +32,7 @@ export default Vue.extend({
     dense: Boolean,
 
     expandIcon: String,
-    expandIconClass: String,
+    expandIconClass: [ Array, String, Object ],
     duration: Number,
 
     headerInsetLevel: Number,
@@ -50,10 +50,25 @@ export default Vue.extend({
     headerClass: [Array, String, Object]
   },
 
+  data () {
+    return {
+      showing: this.value !== void 0
+        ? this.value
+        : this.defaultOpened
+    }
+  },
+
   watch: {
     showing (val) {
-      if (val === true && this.group) {
-        this.$root.$emit(eventName, this)
+      val === true && this.group !== void 0 && this.$root.$emit(eventName, this)
+    },
+
+    group (newVal, oldVal) {
+      if (newVal !== void 0 && oldVal === void 0) {
+        this.$root.$on(eventName, this.__eventHandler)
+      }
+      else if (newVal === void 0 && oldVal !== void 0) {
+        this.$root.$off(eventName, this.__eventHandler)
       }
     }
   },
@@ -103,9 +118,7 @@ export default Vue.extend({
     },
 
     __eventHandler (comp) {
-      if (this.group && this !== comp && comp.group === this.group) {
-        this.hide()
-      }
+      this !== comp && this.group === comp.group && this.hide()
     },
 
     __getToggleIcon (h) {
@@ -256,14 +269,10 @@ export default Vue.extend({
   },
 
   created () {
-    this.$root.$on(eventName, this.__eventHandler)
-
-    if (this.value !== true && this.defaultOpened === true) {
-      this.show()
-    }
+    this.group !== void 0 && this.$root.$on(eventName, this.__eventHandler)
   },
 
   beforeDestroy () {
-    this.$root.$off(eventName, this.__eventHandler)
+    this.group !== void 0 && this.$root.$off(eventName, this.__eventHandler)
   }
 })

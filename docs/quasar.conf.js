@@ -6,17 +6,18 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
+      { path: 'gdpr', server: false },
       'components'
     ],
 
     css: [
-      'app.styl'
+      'app.sass',
+      'docs-font/docs-font.css'
     ],
 
     extras: [
       'roboto-font',
-      'material-icons',
-      'fontawesome-v5'
+      'material-icons'
     ],
 
     supportIE: true,
@@ -25,12 +26,21 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
-      // showProgress: false,
+      showProgress: ctx.dev,
+      // preloadChunks: false,
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
       // extractCSS: false,
-      chainWebpack (chain, { isClient }) {
+      distDir: 'dist/quasar.dev',
+
+      chainWebpack (chain) {
+        chain.module.rule('eslint')
+          .pre()
+          .exclude.add(/node_modules|\.md\.js$/).end()
+          .test(/\.(js|vue)$/)
+          .use('eslint-loader').loader('eslint-loader')
+
         chain.resolve.alias
           .merge({
             examples: path.resolve(__dirname, 'src/examples'),
@@ -61,14 +71,6 @@ module.exports = function (ctx) {
 
         rule.use('md-loader')
           .loader(require.resolve('./build/md-loader'))
-
-        if (isClient) {
-          chain.module.rule('eslint')
-            .enforce('pre')
-            .test(/\.(js|vue)$/)
-            .exclude.add(/node_modules|\.md\.js/).end()
-            .use('eslint-loader').loader('eslint-loader')
-        }
       }
     },
 

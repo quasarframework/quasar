@@ -5,7 +5,7 @@ import { isSSR } from './Platform.js'
 import uid from '../utils/uid.js'
 
 let
-  vm = null,
+  vm,
   timeout,
   props = {},
   originalDefaults = {
@@ -20,30 +20,28 @@ let
   },
   defaults = { ...originalDefaults }
 
-export default {
+const Loading = {
   isActive: false,
 
   show (opts) {
     if (isSSR === true) { return }
 
-    props = opts.ignoreDefaults !== true
-      ? { ...defaults, ...opts }
-      : { ...originalDefaults, ...opts }
+    props = opts === Object(opts) && opts.ignoreDefaults === true
+      ? { ...originalDefaults, ...opts }
+      : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
 
-    if (this.isActive) {
-      if (vm) {
-        if (!vm.isActive) {
-          vm.isActive = true
-        }
-        vm.$forceUpdate()
-      }
+    this.isActive = true
+
+    if (vm !== void 0) {
+      vm.$forceUpdate()
       return
     }
 
+    clearTimeout(timeout)
     timeout = setTimeout(() => {
-      timeout = null
+      timeout = void 0
 
       const node = document.createElement('div')
       document.body.appendChild(node)
@@ -51,13 +49,10 @@ export default {
 
       vm = new Vue({
         name: 'QLoading',
+
         el: node,
-        data () {
-          return {
-            isActive: true
-          }
-        },
-        render (h) {
+
+        render: (h) => {
           return h('transition', {
             props: {
               name: 'q-transition--fade',
@@ -65,11 +60,18 @@ export default {
             },
             on: {
               'after-leave': () => {
-                this.$emit('destroy')
+                // might be called to finalize
+                // previous leave, even if it was cancelled
+                if (this.isActive !== true && vm !== void 0) {
+                  vm.$destroy()
+                  document.body.classList.remove('q-body--loading')
+                  vm.$el.remove()
+                  vm = void 0
+                }
               }
             }
           }, [
-            this.isActive ? h('div', {
+            this.isActive === true ? h('div', {
               staticClass: 'q-loading fullscreen column flex-center z-max',
               key: uid(),
               class: props.customClass.trim()
@@ -91,42 +93,29 @@ export default {
         }
       })
     }, props.delay)
-
-    this.isActive = true
   },
 
   hide () {
-    if (!this.isActive) {
-      return
-    }
+    if (this.isActive === true) {
+      if (timeout !== void 0) {
+        clearTimeout(timeout)
+        timeout = void 0
+      }
 
-    if (timeout) {
-      clearTimeout(timeout)
-      timeout = null
       this.isActive = false
-    }
-    else {
-      vm.isActive = false
-      vm.$on('destroy', () => {
-        if (vm !== null) {
-          vm.$destroy()
-          document.body.classList.remove('q-body--loading')
-          vm.$el.remove()
-          vm = null
-        }
-        this.isActive = false
-      })
     }
   },
 
   setDefaults (opts) {
-    Object.assign(defaults, opts)
+    opts === Object(opts) && Object.assign(defaults, opts)
   },
 
   install ({ $q, cfg: { loading } }) {
-    loading !== void 0 && this.setDefaults(loading)
-
+    this.setDefaults(loading)
     $q.loading = this
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
   }
 }
+
+Vue.util.defineReactive(Loading, 'isActive', Loading.isActive)
+
+export default Loading

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
@@ -7,7 +8,7 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import slot from '../../utils/slot.js'
-import { create, stop, stopAndPrevent } from '../../utils/event.js'
+import { create, stop } from '../../utils/event.js'
 
 let maximizedModals = 0
 
@@ -30,11 +31,7 @@ const transitions = {
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ ModelToggleMixin, PortalMixin, PreventScrollMixin ],
-
-  modelToggle: {
-    history: true
-  },
+  mixins: [ HistoryMixin, ModelToggleMixin, PortalMixin, PreventScrollMixin ],
 
   props: {
     persistent: Boolean,
@@ -121,7 +118,7 @@ export default Vue.extend({
       return this.showing === true && this.seamless !== true
     },
 
-    navigationHideCondition () {
+    hideOnRouteChange () {
       return this.persistent !== true &&
         this.noRouteDismiss !== true &&
         this.seamless !== true
@@ -162,9 +159,10 @@ export default Vue.extend({
     },
 
     __show (evt) {
-      clearTimeout(this.timer)
+      this.__addHistory()
 
-      this.__refocusTarget = this.noRefocus === false
+      // IE can have null document.activeElement
+      this.__refocusTarget = this.noRefocus === false && document.activeElement !== null
         ? document.activeElement
         : void 0
 
@@ -187,35 +185,42 @@ export default Vue.extend({
       this.__showPortal()
 
       if (this.noFocus !== true) {
-        document.activeElement.blur()
-
-        this.$nextTick(() => {
-          this.focus()
-        })
+        // IE can have null document.activeElement
+        document.activeElement !== null && document.activeElement.blur()
+        this.__nextTick(this.focus)
       }
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
+        if (this.$q.platform.is.ios === true && document.activeElement) {
+          const { top } = document.activeElement.getBoundingClientRect()
+          if (top < 0) {
+            document.scrollingElement.scrollTop += top - window.innerHeight / 2
+          }
+          document.activeElement.scrollIntoView()
+        }
+
         this.$emit('show', evt)
       }, 300)
     },
 
     __hide (evt) {
+      this.__removeHistory()
       this.__cleanup(true)
 
-      if (this.__refocusTarget !== void 0) {
+      // check null for IE
+      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
         this.__refocusTarget.focus()
       }
 
       this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
-      this.timer = setTimeout(() => {
+      this.__setTimeout(() => {
         this.__hidePortal()
         this.$emit('hide', evt)
       }, 300)
     },
 
     __cleanup (hiding) {
-      clearTimeout(this.timer)
       clearTimeout(this.shakeTimeout)
 
       if (hiding === true || this.showing === true) {
@@ -262,21 +267,23 @@ export default Vue.extend({
     },
 
     __onFocusChange (e) {
-      const node = this.__getInnerNode()
-
+      // the focus is not in a vue child component
       if (
-        node !== void 0 &&
-        // the focus is not in a vue child component
+        this.showing === true &&
+        this.__portal !== void 0 &&
         childHasFocus(this.__portal.$el, e.target) !== true
       ) {
-        node.focus()
+        this.focus()
       }
     },
 
-    __render (h) {
+    __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        input: stop
+        // stop propagating this events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
       }
 
       if (this.autoClose === true) {
@@ -295,7 +302,6 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
             on: {
-              touchmove: stopAndPrevent, // prevent iOS page scroll
               click: this.__onBackdropClick
             }
           })
@@ -314,6 +320,10 @@ export default Vue.extend({
         ])
       ])
     }
+  },
+
+  mounted () {
+    this.__processModelChange(this.value)
   },
 
   beforeDestroy () {

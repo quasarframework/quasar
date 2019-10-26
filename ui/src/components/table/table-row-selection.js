@@ -14,7 +14,7 @@ export default {
   computed: {
     selectedKeys () {
       const keys = {}
-      this.selected.map(row => row[this.rowKey]).forEach(key => {
+      this.selected.map(this.getRowKey).forEach(key => {
         keys[key] = true
       })
       return keys
@@ -34,13 +34,13 @@ export default {
 
     allRowsSelected () {
       if (this.multipleSelection === true) {
-        return this.computedRows.length > 0 && this.computedRows.every(row => this.selectedKeys[row[this.rowKey]] === true)
+        return this.computedRows.length > 0 && this.computedRows.every(row => this.selectedKeys[ this.getRowKey(row) ] === true)
       }
     },
 
     someRowsSelected () {
       if (this.multipleSelection === true) {
-        return !this.allRowsSelected && this.computedRows.some(row => this.selectedKeys[row[this.rowKey]] === true)
+        return !this.allRowsSelected && this.computedRows.some(row => this.selectedKeys[ this.getRowKey(row) ] === true)
       }
     },
 
@@ -67,7 +67,7 @@ export default {
           added === true
             ? this.selected.concat(rows)
             : this.selected.filter(
-              row => keys.includes(row[this.rowKey]) === false
+              row => keys.includes(this.getRowKey(row)) === false
             )
         )
 

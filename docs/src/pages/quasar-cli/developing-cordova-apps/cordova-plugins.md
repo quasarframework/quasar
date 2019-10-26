@@ -53,6 +53,7 @@ Let's learn by taking some examples, assuming you've added Cordova mode to your 
 First step is to read the documentation of the Cordova plugin that we want to use. We look at [Cordova Plugins list](https://cordova.apache.org/docs/en/latest/#plugin-apis) and click on [Battery Status doc page](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-battery-status/index.html).
 
 We see instructions on how to install this plugin. It's always a Cordova command. **So we "cd" into `/src-cordova`** (which is a Cordova generated folder) **and issue the install command form there**:
+
 ```bash
 # from /src-cordova:
 $ cordova plugin add cordova-plugin-battery-status
@@ -60,7 +61,7 @@ $ cordova plugin add cordova-plugin-battery-status
 
 Now let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
-```vue
+```html
 // some Vue file
 // remember this is simply an example;
 // only look at how we use the API described in the plugin's page;
@@ -83,7 +84,7 @@ export default {
     updateBatteryStatus (status) {
       this.batteryStatus = `Level: ${status.level}, plugged: ${status.isPlugged}`
     }
-  }
+  },
   created () {
     // we register the event like on plugin's doc page
     window.addEventListener('batterystatus', this.updateBatteryStatus, false)
@@ -103,6 +104,7 @@ First step is to read the documentation of the Cordova plugin that we want to us
 There's a mention of the `deviceready` event. But we already know how to handle it from the previous sections.
 
 We read the instructions on how to install this plugin. It's always a Cordova command. **So we "cd" into `/src-cordova`** (which is a Cordova generated folder) **and issue the install command form there**:
+
 ```bash
 # from /src-cordova:
 $ cordova plugin add cordova-plugin-camera
@@ -110,7 +112,7 @@ $ cordova plugin add cordova-plugin-camera
 
 Now let's put this plugin to some good use. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
-```vue
+```html
 // some Vue file
 // remember this is simply an example;
 // only look at how we use the API described in the plugin's page;
@@ -156,6 +158,7 @@ First step is to read the documentation of the Cordova plugin that we want to us
 This plugin initializes a global variable called `device` which describes the device's hardware and software. So it can be accessed with `window.device`.
 
 Read the instructions on how to install this plugin on its cordova doc page. It's always a Cordova command. **So we "cd" into `/src-cordova`** (which is a Cordova generated folder) and **issue the install command from there**:
+
 ```bash
 # from /src-cordova:
 $ cordova plugin add cordova-plugin-device
@@ -163,7 +166,7 @@ $ cordova plugin add cordova-plugin-device
 
 Now let's put this plugin to some good use. If you need the information of your device when starting the application, you will have to capture the created event. In one of your Quasar project's pages/layouts/components Vue file, we write:
 
-```vue
+```html
 // some Vue file
 // remember this is simply an example;
 // only look at how we use the API described in the plugin's page;

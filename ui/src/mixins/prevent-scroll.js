@@ -1,11 +1,14 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
-import { hasScrollbar, getScrollPosition } from '../utils/scroll.js'
+import { hasScrollbar, getScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
 import Platform from '../plugins/Platform.js'
 
 let
   registered = 0,
-  scrollPosition,
-  bodyTop
+  scrollPositionX,
+  scrollPositionY,
+  bodyLeft,
+  bodyTop,
+  closeTimer
 
 function onWheel (e) {
   if (shouldPreventScroll(e)) {
@@ -47,68 +50,101 @@ function shouldPreventScroll (e) {
 
 function onAppleScroll (e) {
   if (e.target === document) {
-    document.scrollingElement.scrollTop = 0
+    // required, otherwise iOS blocks further scrolling
+    // until the mobile scrollbar dissapears
+    document.scrollingElement.scrollTop = document.scrollingElement.scrollTop // eslint-disable-line
   }
 }
 
-function prevent (register) {
-  let action = 'add'
-
-  if (register === true) {
-    registered++
-    if (registered > 1) {
-      return
-    }
-  }
-  else {
-    registered--
-    if (registered > 0) {
-      return
-    }
-    registered = 0
-    action = 'remove'
-  }
-
+function apply (action) {
   const body = document.body
 
-  if (register === true) {
+  if (action === 'add') {
     const overflowY = window.getComputedStyle(body).overflowY
 
-    scrollPosition = getScrollPosition(window)
+    scrollPositionX = getHorizontalScrollPosition(window)
+    scrollPositionY = getScrollPosition(window)
+    bodyLeft = body.style.left
     bodyTop = body.style.top
 
-    body.style.top = `-${scrollPosition}px`
+    body.style.left = `-${scrollPositionX}px`
+    body.style.top = `-${scrollPositionY}px`
     if (overflowY !== 'hidden' && (overflowY === 'scroll' || body.scrollHeight > window.innerHeight)) {
       body.classList.add('q-body--force-scrollbar')
     }
 
+    body.classList.add('q-body--prevent-scroll')
     Platform.is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
   }
-
-  body.classList[action]('q-body--prevent-scroll')
 
   if (Platform.is.desktop === true && Platform.is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
     window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
   }
 
-  if (register !== true) {
+  if (action === 'remove') {
     Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
 
+    body.classList.remove('q-body--prevent-scroll')
     body.classList.remove('q-body--force-scrollbar')
+
+    body.style.left = bodyLeft
     body.style.top = bodyTop
-    window.scrollTo(0, scrollPosition)
+
+    window.scrollTo(scrollPositionX, scrollPositionY)
   }
+}
+
+function prevent (state) {
+  let action = 'add'
+
+  if (state === true) {
+    registered++
+
+    if (closeTimer !== void 0) {
+      clearTimeout(closeTimer)
+      closeTimer = void 0
+      return
+    }
+
+    if (registered > 1) {
+      return
+    }
+  }
+  else {
+    if (registered === 0) {
+      return
+    }
+
+    registered--
+
+    if (registered > 0) {
+      return
+    }
+
+    action = 'remove'
+
+    if (Platform.is.ios === true && Platform.is.nativeMobile === true) {
+      clearTimeout(closeTimer)
+
+      closeTimer = setTimeout(() => {
+        apply(action)
+        closeTimer = void 0
+      }, 100)
+      return
+    }
+  }
+
+  apply(action)
 }
 
 export default {
   methods: {
     __preventScroll (state) {
-      if (this.preventedScroll === void 0 && state !== true) {
-        return
-      }
-
-      if (state !== this.preventedScroll) {
+      if (
+        state !== this.preventedScroll &&
+        (this.preventedScroll !== void 0 || state === true)
+      ) {
         this.preventedScroll = state
         prevent(state)
       }

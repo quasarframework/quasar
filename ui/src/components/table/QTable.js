@@ -5,6 +5,10 @@ import TableHeader from './table-header.js'
 import TableBody from './table-body.js'
 import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
+import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
+
+import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
+import getTableMiddle from './get-table-middle.js'
 
 import Sort from './table-sort.js'
 import Filter from './table-filter.js'
@@ -12,6 +16,9 @@ import Pagination from './table-pagination.js'
 import RowSelection from './table-row-selection.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
+
+const commonVirtPropsObj = {}
+commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })
 
 export default Vue.extend({
   name: 'QTable',
@@ -36,7 +43,7 @@ export default Vue.extend({
       default: () => []
     },
     rowKey: {
-      type: String,
+      type: [ String, Function ],
       default: 'id'
     },
 
@@ -50,6 +57,8 @@ export default Vue.extend({
     hideBottom: Boolean,
 
     grid: Boolean,
+    gridHeader: Boolean,
+
     dense: Boolean,
     flat: Boolean,
     bordered: Boolean,
@@ -60,6 +69,9 @@ export default Vue.extend({
       validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
     },
     wrapCells: Boolean,
+
+    virtualScroll: Boolean,
+    ...commonVirtPropsObj,
 
     noDataLabel: String,
     noResultsLabel: String,
@@ -95,7 +107,28 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    needsReset () {
+      this.hasVirtScroll === true && this.$refs.virtScroll.reset()
+    }
+  },
+
   computed: {
+    getRowKey () {
+      return typeof this.rowKey === 'function'
+        ? this.rowKey
+        : row => row[this.rowKey]
+    },
+
+    hasVirtScroll () {
+      return this.grid !== true && this.virtualScroll === true
+    },
+
+    needsReset () {
+      return ['tableStyle', 'tableClass', 'tableHeaderStyle', 'tableHeaderClass', 'containerClass']
+        .map(p => this[p]).join(';')
+    },
+
     computedData () {
       let rows = this.data.slice().map((row, i) => {
         row.__index = i
@@ -165,6 +198,19 @@ export default Vue.extend({
         (this.dense === true ? ` q-table--dense` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '') +
         (this.inFullscreen === true ? ` fullscreen scroll` : '')
+    },
+
+    virtProps () {
+      const props = {}
+
+      commonVirtPropsList
+        .forEach(p => { props[p] = this[p] })
+
+      if (props.virtualScrollItemSize === void 0) {
+        props.virtualScrollItemSize = this.dense === true ? 28 : 48
+      }
+
+      return props
     }
   },
 
@@ -178,6 +224,7 @@ export default Vue.extend({
 
     return h('div', data, [
       this.getTop(h),
+      this.grid === true ? this.getGridHeader(h) : null,
       this.getBody(h),
       this.getBottom(h)
     ])
@@ -194,21 +241,40 @@ export default Vue.extend({
       })
     },
 
+    resetVirtualScroll () {
+      this.hasVirtScroll === true && this.$refs.virtScroll.reset()
+    },
+
     getBody (h) {
       if (this.grid === true) {
-        return this.getTableGrid(h)
+        return this.getGridBody(h)
       }
 
-      return h('div', {
-        staticClass: 'q-table__middle scroll',
-        class: this.tableClass,
-        style: this.tableStyle
-      }, [
-        h('table', { staticClass: 'q-table' }, [
-          this.hideHeader !== true ? this.getTableHeader(h) : null,
+      const header = this.hideHeader !== true ? this.getTableHeader(h) : null
+
+      return this.hasVirtScroll === true
+        ? h(QVirtualScroll, {
+          ref: 'virtScroll',
+          props: {
+            ...this.virtProps,
+            items: this.computedRows,
+            type: '__qtable'
+          },
+          class: this.tableClass,
+          style: this.tableStyle,
+          scopedSlots: {
+            before: () => header,
+            default: this.getTableRowVirtual(h)
+          }
+        })
+        : getTableMiddle(h, {
+          staticClass: 'scroll',
+          class: this.tableClass,
+          style: this.tableStyle
+        }, [
+          header,
           this.getTableBody(h)
         ])
-      ])
     }
   }
 })
