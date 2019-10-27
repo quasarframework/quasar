@@ -76,7 +76,8 @@ export default {
     file: String,
     noEdit: Boolean,
     dark: Boolean,
-    scrollable: Boolean
+    scrollable: Boolean,
+    overflow: Boolean
   },
 
   data () {
@@ -96,10 +97,10 @@ export default {
       }
     },
 
-    componentClass () { // eslint-disable-line
-      if (this.scrollable === true) {
-        return 'doc-example__content--scrollable scroll-y'
-      }
+    componentClass () {
+      return this.scrollable === true
+        ? 'doc-example__content--scrollable scroll-y'
+        : (this.overflow === true ? 'overflow-auto' : '')
     },
 
     slugifiedTitle () {

@@ -24,13 +24,13 @@ Notice that the model is a String only.
 
 ### Basic
 
-<doc-example title="Basic" file="QDate/Basic" />
+<doc-example title="Basic" file="QDate/Basic" overflow />
 
 ::: tip
 For landscape mode, you can use it along with `$q.screen` to make QDate responsive. Example: `:landscape="$q.screen.gt.xs"`. More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
 
-<doc-example title="Landscape" file="QDate/Landscape" />
+<doc-example title="Landscape" file="QDate/Landscape" overflow />
 
 ### Custom title and subtitle
 
@@ -38,27 +38,27 @@ When not in 'minimal' mode, QDate has a computed header title and subtitle. You 
 
 When clicking on title then the QDate's view is changed to the calendar and when clicking on subtitle, the view will switch to year picking.
 
-<doc-example title="Custom title and subtitle" file="QDate/CustomTitleSubtitle" />
+<doc-example title="Custom title and subtitle" file="QDate/CustomTitleSubtitle" overflow />
 
 ### Functionality
 
 When model is unfilled (like `null`, `void 0`/`undefined`) QDate still has to show the calendar for a month of a year. You can use `default-year-month` prop for this, otherwise the current month of the year will be shown:
 
-<doc-example title="Default year month" file="QDate/DefaultYearMonth" />
+<doc-example title="Default year month" file="QDate/DefaultYearMonth" overflow />
 
 The default view can be changed.
 
-<doc-example title="Default view" file="QDate/DefaultView" />
+<doc-example title="Default view" file="QDate/DefaultView" overflow />
 
 The first day of the week is applied depending on the [Quasar Language Pack](/options/quasar-language-packs) that you've set, but you can also force it, like in the example below.
 
-<doc-example title="First day of week" file="QDate/FirstDayOfWeek" />
+<doc-example title="First day of week" file="QDate/FirstDayOfWeek" overflow />
 
 Clicking on the "Today" button sets date to current user date. Requires the header, so you can't use it along with "minimal" mode:
 
-<doc-example title="Today button" file="QDate/TodayBtn" />
+<doc-example title="Today button" file="QDate/TodayBtn" overflow />
 
-<doc-example title="Disable and readonly" file="QDate/DisableReadonly" />
+<doc-example title="Disable and readonly" file="QDate/DisableReadonly" overflow />
 
 ### Model mask
 
@@ -74,15 +74,15 @@ Using `x` or `X` (timestamps) in the mask may cause hydration errors on the clie
 When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 :::
 
-<doc-example title="Simple mask" file="QDate/MaskSimple" />
+<doc-example title="Simple mask" file="QDate/MaskSimple" overflow />
 
 If you want to insert strings into your mask, make sure you escape them by surrounding them with `[` and `]`, otherwise the characters might be interpreted as format tokens.
 
-<doc-example title="Mask with escaped characters" file="QDate/MaskEscape" />
+<doc-example title="Mask with escaped characters" file="QDate/MaskEscape" overflow />
 
 Using the mask to connect a QDate and [QTime](/vue-components/time) to the same model:
 
-<doc-example title="QDate and QTime on same model" file="QDate/MaskDateTime" />
+<doc-example title="QDate and QTime on same model" file="QDate/MaskDateTime" overflow />
 
 ::: tip
 If you want to programatically set the value of QDate, you can do so by just re-assigning the value that you pass. However, the updated value needs to be a string in the same format as your mask. Eg. in the case your mask is `'dddd, MMM D, YYYY'`, passing `'2019/04/28'` as value won't work, you would need to pass `'Sunday, Apr 28, 2019'` instead.
@@ -92,28 +92,28 @@ If you want to programatically set the value of QDate, you can do so by just re-
 
 If, for some reason, you need to use a custom ad-hoc locale rather than the current Quasar Language Pack that has been set, you can use the `locale` prop:
 
-<doc-example title="Custom ad-hoc locale" file="QDate/CustomLocale" />
+<doc-example title="Custom ad-hoc locale" file="QDate/CustomLocale" overflow />
 
 ### Coloring
 
-<doc-example title="Coloring" file="QDate/Color" />
+<doc-example title="Coloring" file="QDate/Color" overflow />
 
-<doc-example title="Dark" file="QDate/Dark" dark />
+<doc-example title="Dark" file="QDate/Dark" overflow dark />
 
 ### Highlighting events
 
 The first example is using an array and the second example is using a function.
 
-<doc-example title="Events" file="QDate/Events" />
+<doc-example title="Events" file="QDate/Events" overflow />
 
-<doc-example title="Event color" file="QDate/EventColor" />
+<doc-example title="Event color" file="QDate/EventColor" overflow />
 
 ### Limiting options
 
 * You can use the `options` prop to limit user selection to certain times.
 * Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
 
-<doc-example title="Options" file="QDate/Options" />
+<doc-example title="Options" file="QDate/Options" overflow />
 
 ### With QSplitter and QTabPanels
 <doc-example title="With QSplitter and QTabPanels" file="QDate/Splitter" />
@@ -126,7 +126,7 @@ More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/t
 
 Connecting a QDate and QTime with same model on a QInput:
 
-<doc-example title="QDate and QTime with QInput" file="QDate/InputFull" />
+<doc-example title="QDate and QTime with QInput" file="QDate/InputFull" overflow />
 
 The following are **helpers** for QInput `mask` and `rules` props. You can use these for convenience or write the string specifying your [custom needs](/vue-components/input#Mask).
 
@@ -136,6 +136,12 @@ The following are **helpers** for QInput `mask` and `rules` props. You can use t
 Examples: "date", "time", "fulltime".
 
 More info: [QInput](/vue-components/input).
+
+### With additional buttons
+
+<q-badge label="v1.2.8+" /> You can use the default slot for adding buttons:
+
+<doc-example title="With additional buttons" file="QDate/AdditionalButtons" overflow />
 
 ### Persian calendar
 ::: tip
