@@ -25,10 +25,37 @@
         v-model="time"
         v-bind="props"
         :style="style"
+        flat
+        bordered
+      >
+        <div class="row items-center justify-end q-gutter-sm">
+          <q-btn label="Cancel" color="primary" flat />
+          <q-btn label="OK" color="primary" flat />
+        </div>
+      </q-time>
+
+      <q-time
+        v-model="time"
+        v-bind="props"
+        :style="style"
         landscape
         flat
         bordered
       />
+
+      <q-time
+        v-model="time"
+        v-bind="props"
+        :style="style"
+        landscape
+        flat
+        bordered
+      >
+        <div class="row items-center justify-end q-gutter-sm">
+          <q-btn label="Cancel" color="primary" flat />
+          <q-btn label="OK" color="primary" flat />
+        </div>
+      </q-time>
 
       <div class="text-h6">
         Null/Undefined model
