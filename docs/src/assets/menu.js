@@ -1,30 +1,3 @@
-const contributionGuide = [
-  {
-    name: 'Contribution Guide',
-    path: 'contribution-guide'
-  },
-  {
-    name: 'Running Projects',
-    path: 'running-projects',
-    badge: 'new'
-  },
-  {
-    name: 'Start a New Project',
-    path: 'new-project',
-    badge: 'new'
-  },
-  {
-    name: 'Project Maintainer Role',
-    path: 'project-maintainer',
-    badge: 'new'
-  },
-  {
-    name: 'Commit Conventions',
-    path: 'commit-conventions',
-    badge: 'new'
-  }
-]
-
 const gettingStarted = [
   {
     name: 'Pick Quasar Flavour',
@@ -73,6 +46,33 @@ const gettingStarted = [
     name: 'VS Code Configuration',
     badge: 'new',
     path: 'vs-code-configuration'
+  }
+]
+
+const contributionGuide = [
+  {
+    name: 'Contribution Guide',
+    path: 'contribution-guide'
+  },
+  {
+    name: 'Running Projects',
+    path: 'running-projects',
+    badge: 'new'
+  },
+  {
+    name: 'Start a New Project',
+    path: 'new-project',
+    badge: 'new'
+  },
+  {
+    name: 'Project Maintainer Role',
+    path: 'project-maintainer',
+    badge: 'new'
+  },
+  {
+    name: 'Commit Conventions',
+    path: 'commit-conventions',
+    badge: 'new'
   }
 ]
 
@@ -329,6 +329,10 @@ const cli = [
     ]
   },
   {
+    name: 'Developing Mobile Apps',
+    path: 'developing-mobile-apps'
+  },
+  {
     name: 'Developing Cordova Apps',
     path: 'developing-cordova-apps',
     children: [
@@ -351,6 +355,48 @@ const cli = [
       {
         name: 'Cordova Plugins',
         path: 'cordova-plugins'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Managing Google Analytics',
+        path: 'managing-google-analytics'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
+  },
+  {
+    name: 'Developing Capacitor Apps',
+    path: 'developing-capacitor-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring Capacitor',
+        path: 'configuring-capacitor'
+      },
+      {
+        name: 'App Icons for Capacitor',
+        path: 'app-icons-capacitor'
+      },
+      {
+        name: 'Capacitor API',
+        path: 'capacitor-api'
       },
       {
         name: 'Build Commands',
@@ -1023,88 +1069,88 @@ const utils = [
 ]
 
 // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
-// const firebaseAuthTypes = [{
-//   name: 'Email',
-//   path: 'email'
-// }]
+const firebaseAuthTypes = [{
+  name: 'Email',
+  path: 'email'
+}]
 
-// const backends = [
-//   {
-//     name: 'AWS -- Amplify',
-//     path: 'aws-amplify'
-//   },
-//   {
-//     name: 'GraphQL',
-//     path: 'graphQL'
-//   },
-//   {
-//     name: 'Feathers JS',
-//     path: 'feathersjs'
-//   },
-//   {
-//     name: 'Firebase',
-//     opened: false,
-//     children: [
-//       {
-//         name: 'Introduction',
-//         path: 'firebase/introduction'
-//       },
-//       {
-//         name: 'Installation',
-//         path: 'firebase/install'
-//       },
-//       {
-//         name: 'Service Structure',
-//         path: 'firebase/structure'
-//       },
-//       {
-//         name: 'Route Guarding',
-//         path: 'firebase/routeGuards'
-//       },
-//       {
-//         name: 'Authentication',
-//         path: 'firebase/authTypes',
-//         children: firebaseAuthTypes
-//       },
-//       {
-//         name: 'Data Store',
-//         path: 'firebase/dataStore'
-//       },
-//       {
-//         name: 'Hosting',
-//         path: 'firebase/hosting'
-//       },
-//       {
-//         name: 'Messaging',
-//         path: 'firebase/messaging'
-//       },
-//       {
-//         name: 'Storage',
-//         path: 'firebase/storage'
-//       },
-//       {
-//         name: 'SSR',
-//         path: 'firebase/custom'
-//       },
-//       {
-//         name: 'Vuex',
-//         path: 'firebase/vuex'
-//       },
-//       {
-//         name: 'Custom Implementations',
-//         path: 'firebase/custom'
-//       },
-//       {
-//         name: 'Firebase CLI & Hosting',
-//         path: 'firebase/cliHosting'
-//       }
-//     ]
-//   },
-//   {
-//     name: 'Laravel',
-//     path: 'laravel'
-//   }
-// ]
+const backends = [
+  {
+    name: 'AWS -- Amplify',
+    path: 'aws-amplify'
+  },
+  {
+    name: 'GraphQL',
+    path: 'graphQL'
+  },
+  {
+    name: 'Feathers JS',
+    path: 'feathersjs'
+  },
+  {
+    name: 'Firebase',
+    opened: false,
+    children: [
+      {
+        name: 'Introduction',
+        path: 'firebase/introduction'
+      },
+      {
+        name: 'Installation',
+        path: 'firebase/install'
+      },
+      {
+        name: 'Service Structure',
+        path: 'firebase/structure'
+      },
+      {
+        name: 'Route Guarding',
+        path: 'firebase/routeGuards'
+      },
+      {
+        name: 'Authentication',
+        path: 'firebase/authTypes',
+        children: firebaseAuthTypes
+      },
+      {
+        name: 'Data Store',
+        path: 'firebase/dataStore'
+      },
+      {
+        name: 'Hosting',
+        path: 'firebase/hosting'
+      },
+      {
+        name: 'Messaging',
+        path: 'firebase/messaging'
+      },
+      {
+        name: 'Storage',
+        path: 'firebase/storage'
+      },
+      {
+        name: 'SSR',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Vuex',
+        path: 'firebase/vuex'
+      },
+      {
+        name: 'Custom Implementations',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Firebase CLI',
+        path: 'firebase/cli'
+      }
+    ]
+  },
+  {
+    name: 'Laravel',
+    path: 'laravel'
+  }
+]
 
 module.exports = [
   {
@@ -1123,21 +1169,27 @@ module.exports = [
     path: 'why-donate'
   },
   {
+    name: 'Video Tutorials',
+    icon: 'ondemand_video',
+    path: 'video-tutorials',
+    badge: 'new'
+  },
+  {
     name: 'Meet the Team',
     icon: 'people',
     path: 'meet-the-team'
-  },
-  {
-    name: 'Contribution Guide',
-    icon: 'code',
-    path: 'contribution-guide',
-    children: contributionGuide
   },
   {
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'start',
     children: gettingStarted
+  },
+  {
+    name: 'Contribution Guide',
+    icon: 'code',
+    path: 'contribution-guide',
+    children: contributionGuide
   },
   {
     name: 'Quasar Options & Helpers',
@@ -1198,13 +1250,11 @@ module.exports = [
     icon: 'healing',
     path: 'quasar-utils',
     children: utils
+  },
+  { // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
+    name: 'Backend & API',
+    icon: 'storage',
+    path: 'backend-and-api',
+    children: backends
   }
-  // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
-  // ,
-  // {
-  //   name: 'Backend & API',
-  //   icon: 'storage',
-  //   path: 'backend-and-api',
-  //   children: backends
-  // }
 ]
