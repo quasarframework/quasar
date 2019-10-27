@@ -11,14 +11,14 @@ Firebase is Google's mobile platform that helps you quickly develop high-quality
 
 The docs contained within are a set of guidelines to implement firebase's services within the context of the Quasar Framework. These docs will try to focus on implementations from a production standpoint. Initial code examples will have a small section of an simple approach with implementation or topics for you to see a basic implementation, but will quicky move over to approaches that are move common in prodection level environments. There will also be an effort to build off of code from one section to another where appropriate to focus on illustrating how code in specfic files should ideally be handled and how they should grow as needs arise.
 
-::: warning
-Please note that over times these docs will probably change as technologies and/or application considerations will change.
-:::
-
 Through out these firebase docs the intention is to have sample apps to highlight specific firebase features. These sample apps will share a consitant application strucuture providing a firebase service architecture for initialization and authenticaion. Other services will be separated for ease of matainance and context.
 
 Specific piecs of the sample application will be called out from a procedural explination point of view. Not all code will be highlighted in the docs. A link to the appropriate section will be provided. At times some code snippets will be shown for purposes of explination.
 
 Firebase & Vuejs doc references will be highlighted and linked for additional context and explaination when needed, as well as referencing articles around the web that might offer even further insight or opinions on how to work with firebase.
+
+::: tip Friendly Reminder
+Something that needs to be said from the beginning is do not forget to reference the [Firebase Docs](https://firebase.google.com/docs/web/setup) first and foremost. A lot of questions can and should be answered by researching the docs first. The intent of this category of documents on the relationship between Quasar and Firebase is to highlight the specfics in regards to implementation of Firebase services into a Quasar application. If there isn't something specific to the way Firebase is approached via Quasar, then it will not be in this documentations section. Examples would be CLI, Hosting, API references... etc.
+:::
 
 If you have any questions or comments please submit a Docs PR, or find us in the #firebase channel on the Quasar Discord server.
