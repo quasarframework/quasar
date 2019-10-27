@@ -33,7 +33,9 @@ Let’s take an example of configuring the `columns` property. We are going to t
 columns: [ // array of Objects
   // column Object definition
   {
-    // unique id (used by row-key, pagination.sortBy, ...)
+    // unique id
+    // identifies column
+    // (used by pagination.sortBy, "body-cell-[name]" slot, ...)
     name: 'desc',
 
     // label for header
@@ -61,7 +63,11 @@ columns: [ // array of Objects
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
     // (optional) you can format the data with a function
-    format: (val, row) => `${val}%`,
+    format: (val, row) => `${val}%`
+    // one more format example:
+    // format: val => val
+    //   ? /* Unicode checkmark checked */ "\u2611"
+    //   : /* Unicode checkmark unchecked */ "\u2610",
 
     style: 'width: 500px',
     classes: 'my-special-class'

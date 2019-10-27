@@ -113,6 +113,13 @@
     }
   },
 
+  "slots": {
+    "default": {
+      "desc": "This is where additional buttons can go",
+      "addedIn": "v1.2.8"
+    }
+  },
+
   "events": {
     "input": {
       "extends": "input",
