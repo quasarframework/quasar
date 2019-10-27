@@ -196,7 +196,7 @@ export default Vue.extend({
 
   render (h) {
     const
-      inner = [].concat(slot(this, 'default')),
+      inner = [],
       data = {
         staticClass: 'q-btn inline q-btn-item non-selectable no-outline',
         class: this.classes,
@@ -225,19 +225,23 @@ export default Vue.extend({
       }
     }
 
-    if (this.hasLabel === true) {
-      inner.unshift(
-        h('div', [ this.label ])
-      )
-    }
-
     if (this.icon !== void 0) {
-      inner.unshift(
+      inner.push(
         h(QIcon, {
           props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
         })
       )
     }
+
+    if (this.hasLabel === true) {
+      inner.push(
+        h('div', [ this.label ])
+      )
+    }
+
+    inner.push(
+      slot(this, 'default')
+    )
 
     if (this.iconRight !== void 0 && this.isRound === false) {
       inner.push(
@@ -247,28 +251,34 @@ export default Vue.extend({
       )
     }
 
-    return h(this.isLink ? 'a' : 'button', data, [
+    const child = [
       h('div', {
         staticClass: 'q-focus-helper',
         ref: 'blurTarget',
         attrs: { tabindex: -1 }
-      }),
+      })
+    ]
 
-      this.loading === true && this.percentage !== void 0
-        ? h('div', {
+    if (this.loading === true && this.percentage !== void 0) {
+      child.push(
+        h('div', {
           staticClass: 'q-btn__progress absolute-full',
           class: this.darkPercentage ? 'q-btn__progress--dark' : null,
           style: { transform: `scale3d(${this.percentage / 100},1,1)` }
         })
-        : null,
+      )
+    }
 
+    child.push(
       h('div', {
         staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
         class: this.innerClasses
-      }, inner),
+      }, inner)
+    )
 
-      this.loading !== null
-        ? h('transition', {
+    if (this.loading !== null) {
+      child.push(
+        h('transition', {
           props: { name: 'q-transition--fade' }
         }, this.loading === true ? [
           h('div', {
@@ -276,7 +286,9 @@ export default Vue.extend({
             staticClass: 'absolute-full flex flex-center'
           }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(QSpinner) ])
         ] : void 0)
-        : null
-    ])
+      )
+    }
+
+    return h(this.isLink === true ? 'a' : 'button', data, child)
   }
 })

@@ -184,12 +184,13 @@ export default Vue.extend({
   },
 
   render (h) {
-    const content = this.$scopedSlots.default !== void 0
-      ? this.$scopedSlots.default()
-      : []
-    const body = this.fetching === true
-      ? [ h('div', { staticClass: 'q-infinite-scroll__loading' }, slot(this, 'loading')) ]
-      : []
+    const content = slot(this, 'default')
+    const body = [
+      h('div', {
+        staticClass: 'q-infinite-scroll__loading',
+        class: this.fetching === true ? '' : 'invisible'
+      }, slot(this, 'loading'))
+    ]
 
     return h(
       'div',

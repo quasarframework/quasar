@@ -651,6 +651,17 @@ export default Vue.extend({
   },
 
   render (h) {
+    const content = [
+      this.__getClock(h)
+    ]
+
+    const slot = this.$scopedSlots.default
+    if (slot !== void 0) {
+      content.push(
+        h('div', { staticClass: 'q-time__actions' }, slot())
+      )
+    }
+
     return h('div', {
       staticClass: 'q-time',
       class: this.classes,
@@ -658,7 +669,7 @@ export default Vue.extend({
       attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),
-      this.__getClock(h)
+      h('div', { staticClass: 'q-time__main col overflow-auto' }, content)
     ])
   }
 })

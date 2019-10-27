@@ -58,8 +58,9 @@ server {
 ```
 
 
-## Deploying with Now
-Deploying your Quasar application with [now](https://zeit.co/now) is really easy. All you have to do is to download the [now-cli](https://zeit.co/download#now-cli) and log in by running:
+## Deploying with Now.sh
+Deploying your Quasar application with [now](https://zeit.co/now) is really easy.
+All you have to do is to download the [now-cli](https://zeit.co/download#now-cli) and log in by running:
 ```bash
 $ now login
 ```
@@ -74,6 +75,42 @@ $ now
 
 The Now CLI should now display information regarding your deployment, like the URL. That's it. You're done.
 
+### _Now.sh_ configuration tips
+You should consider adding some additional configurations to your project.
+
+* Since _now.sh_ expects the _build_ script to be defined, you may add in `package.json` the following scripts: 
+```json
+  {
+    ..
+    "scripts": {
+      ...
+      "build": "quasar build",
+      "deploy": "now"
+    }
+  }
+```
+
+* Since _now.sh_ expects the build results to be in `/public` directory, and _Quasar_ has it in `/dist/spa` by default,
+consider updating `quasar.conf.js` accordingly:
+```js
+module.exports = function (ctx) {
+  return {
+    ...
+    build: {
+      ...
+      distDir: ctx.mode.spa ? 'public' : null,
+    }
+```
+
+* In order to support SPA routing in the deployed app, consider adding `now.json` file in your root folder:
+```json
+{
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
+  ]
+}
+```
 ## Deploying with Heroku
 
 Unfortunately, Heroku does not support static sites out of the box. But don't worry, we just need to add an HTTP server to our project so Heroku can serve our Quasar application.
