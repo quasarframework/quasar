@@ -1068,6 +1068,92 @@ const utils = [
   }
 ]
 
+/*
+// FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
+const firebaseAuthTypes = [{
+  name: 'Email',
+  path: 'email'
+}]
+
+const backends = [
+  {
+    name: 'AWS -- Amplify',
+    path: 'aws-amplify'
+  },
+  {
+    name: 'GraphQL',
+    path: 'graphQL'
+  },
+  {
+    name: 'Feathers JS',
+    path: 'feathersjs'
+  },
+  {
+    name: 'Firebase',
+    opened: false,
+    children: [
+      {
+        name: 'Introduction',
+        path: 'firebase/introduction'
+      },
+      {
+        name: 'Installation',
+        path: 'firebase/install'
+      },
+      {
+        name: 'Service Structure',
+        path: 'firebase/structure'
+      },
+      {
+        name: 'Route Guarding',
+        path: 'firebase/routeGuards'
+      },
+      {
+        name: 'Authentication',
+        path: 'firebase/authTypes',
+        children: firebaseAuthTypes
+      },
+      {
+        name: 'Data Store',
+        path: 'firebase/dataStore'
+      },
+      {
+        name: 'Hosting',
+        path: 'firebase/hosting'
+      },
+      {
+        name: 'Messaging',
+        path: 'firebase/messaging'
+      },
+      {
+        name: 'Storage',
+        path: 'firebase/storage'
+      },
+      {
+        name: 'SSR',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Vuex',
+        path: 'firebase/vuex'
+      },
+      {
+        name: 'Custom Implementations',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Firebase CLI',
+        path: 'firebase/cli'
+      }
+    ]
+  },
+  {
+    name: 'Laravel',
+    path: 'laravel'
+  }
+]
+*/
+
 module.exports = [
   {
     name: 'Introduction to Quasar',
@@ -1167,4 +1253,14 @@ module.exports = [
     path: 'quasar-utils',
     children: utils
   }
+  
+  /*
+  // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
+  ,{
+    name: 'Backend & API',
+    icon: 'storage',
+    path: 'backend-and-api',
+    children: backends
+  }
+  */
 ]
