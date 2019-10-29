@@ -487,6 +487,11 @@ const style = [
     path: 'theme-builder'
   },
   {
+    name: 'Dark Mode',
+    badge: 'new',
+    path: 'dark-mode'
+  },
+  {
     name: 'Spacing',
     path: 'spacing'
   },
@@ -654,6 +659,11 @@ const plugins = [
   {
     name: 'Cookies',
     path: 'cookies'
+  },
+  {
+    name: 'Dark',
+    path: 'dark',
+    badge: 'new'
   },
   {
     name: 'Dialog',
