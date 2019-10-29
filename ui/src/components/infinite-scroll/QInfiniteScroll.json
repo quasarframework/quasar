@@ -26,7 +26,9 @@
       "desc": "CSS selector or DOM element to be used as scroll container instead of the auto detected one",
       "examples": [
         ":scroll-target=\"$refs.scrollTarget\"",
-        "scroll-target=\"scroll-target\""
+        "scroll-target=\".scroll-target-class\"",
+        "scroll-target=\"#scroll-target-id\"",
+        "scroll-target=\"body\""
       ],
       "category": "behavior"
     },

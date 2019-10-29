@@ -34,6 +34,18 @@
       "desc": "Speed of parallax effect (0.0 < x < 1.0)",
       "examples": [ ":speed=\"0.24\"" ],
       "category": "behavior"
+    },
+
+    "scroll-target": {
+      "type": [ "Element", "String" ],
+      "desc": "CSS selector or DOM element to be used as scroll container instead of the auto detected one",
+      "examples": [
+        ":scroll-target=\"$refs.scrollTarget\"",
+        "scroll-target=\".scroll-target-class\"",
+        "scroll-target=\"#scroll-target-id\"",
+        "scroll-target=\"body\""
+      ],
+      "category": "behavior"
     }
   },
 

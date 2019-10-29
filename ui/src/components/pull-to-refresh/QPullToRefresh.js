@@ -4,7 +4,7 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/TouchPan.js'
 
-import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
+import { getScrollTargetEnhanced, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
@@ -24,7 +24,11 @@ export default Vue.extend({
     color: String,
     icon: String,
     noMouse: Boolean,
-    disable: Boolean
+    disable: Boolean,
+
+    scrollTarget: {
+      default: void 0
+    }
   },
 
   data () {
@@ -47,6 +51,12 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    scrollTarget () {
+      this.updateScrollTarget()
+    }
+  },
+
   methods: {
     trigger () {
       this.$emit('refresh', () => {
@@ -57,7 +67,7 @@ export default Vue.extend({
     },
 
     updateScrollTarget () {
-      this.scrollContainer = getScrollTarget(this.$el)
+      this.scrollContainer = getScrollTargetEnhanced(this.scrollTarget, this.$el)
     },
 
     __pull (event) {

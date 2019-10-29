@@ -7,7 +7,7 @@ import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
-import { getScrollTarget } from '../../utils/scroll.js'
+import { getScrollTargetEnhanced } from '../../utils/scroll.js'
 import { create, stop, position, stopAndPrevent } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
@@ -50,6 +50,10 @@ export default Vue.extend({
     offset: {
       type: Array,
       validator: validateOffset
+    },
+
+    scrollTarget: {
+      default: void 0
     },
 
     touchPosition: Boolean,
@@ -201,16 +205,16 @@ export default Vue.extend({
     },
 
     __unconfigureScrollTarget () {
-      if (this.scrollTarget !== void 0) {
-        this.__changeScrollEvent(this.scrollTarget)
-        this.scrollTarget = void 0
+      if (this.computedScrollTarget !== void 0) {
+        this.__changeScrollEvent(this.computedScrollTarget)
+        this.computedScrollTarget = void 0
       }
     },
 
     __configureScrollTarget () {
-      if (this.anchorEl !== void 0) {
-        this.scrollTarget = getScrollTarget(this.anchorEl)
-        this.__changeScrollEvent(this.scrollTarget, this.updatePosition)
+      if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
+        this.computedScrollTarget = getScrollTargetEnhanced(this.scrollTarget, this.anchorEl)
+        this.__changeScrollEvent(this.computedScrollTarget, this.updatePosition)
       }
     },
 

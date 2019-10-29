@@ -62,6 +62,18 @@
       "category": "position"
     },
 
+    "scroll-target": {
+      "type": [ "Element", "String" ],
+      "desc": "CSS selector or DOM element to be used as scroll container instead of the auto detected one",
+      "examples": [
+        ":scroll-target=\"$refs.scrollTarget\"",
+        "scroll-target=\".scroll-target-class\"",
+        "scroll-target=\"#scroll-target-id\"",
+        "scroll-target=\"body\""
+      ],
+      "category": "behavior"
+    },
+
     "target": {
       "type": [ "Boolean", "String" ],
       "desc": "Configure a target element to trigger Tooltip toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) it attaches the events to the specified DOM element (if it exists)",

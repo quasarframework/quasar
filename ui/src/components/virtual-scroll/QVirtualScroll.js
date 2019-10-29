@@ -4,6 +4,7 @@ import QList from '../item/QList.js'
 import QMarkupTable from '../markup-table/QMarkupTable.js'
 import getTableMiddle from '../table/get-table-middle.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
+import { getScrollTargetEnhanced } from '../../utils/scroll.js'
 
 import { listenOpts } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
@@ -89,33 +90,18 @@ export default Vue.extend({
     },
 
     __getVirtualScrollTarget () {
-      return this.__scrollTarget
+      return this.computedScrollTarget
     },
 
     __configureScrollTarget () {
-      let __scrollTarget = typeof this.scrollTarget === 'string' ? document.querySelector(this.scrollTarget) : this.scrollTarget
-
-      if (__scrollTarget === void 0) {
-        __scrollTarget = this.$el
-      }
-      else if (
-        __scrollTarget === document ||
-        __scrollTarget === document.body ||
-        __scrollTarget === document.scrollingElement ||
-        __scrollTarget === document.documentElement
-      ) {
-        __scrollTarget = window
-      }
-
-      this.__scrollTarget = __scrollTarget
-
-      __scrollTarget.addEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
+      this.computedScrollTarget = getScrollTargetEnhanced(this.scrollTarget, this.$el)
+      this.computedScrollTarget.addEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
     },
 
     __unconfigureScrollTarget () {
-      if (this.__scrollTarget !== void 0) {
-        this.__scrollTarget.removeEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
-        this.__scrollTarget = void 0
+      if (this.computedScrollTarget !== void 0) {
+        this.computedScrollTarget.removeEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
+        this.computedScrollTarget = void 0
       }
     }
   },

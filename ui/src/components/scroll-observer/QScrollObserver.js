@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../../utils/scroll.js'
+import { getScrollPosition, getScrollTargetEnhanced, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -8,7 +8,11 @@ export default Vue.extend({
 
   props: {
     debounce: [String, Number],
-    horizontal: Boolean
+    horizontal: Boolean,
+
+    scrollTarget: {
+      default: void 0
+    }
   },
 
   render () {}, // eslint-disable-line
@@ -19,6 +23,13 @@ export default Vue.extend({
       dir: this.horizontal === true ? 'right' : 'down',
       dirChanged: false,
       dirChangePos: 0
+    }
+  },
+
+  watch: {
+    scrollTarget () {
+      this.__unconfigureScrollTarget()
+      this.__configureScrollTarget()
     }
   },
 
@@ -45,7 +56,7 @@ export default Vue.extend({
 
     __emit () {
       const
-        pos = Math.max(0, (this.horizontal === true ? getHorizontalScrollPosition(this.target) : getScrollPosition(this.target))),
+        pos = Math.max(0, (this.horizontal === true ? getHorizontalScrollPosition(this.computedScrollTarget) : getScrollPosition(this.computedScrollTarget))),
         delta = pos - this.pos,
         dir = this.horizontal
           ? delta < 0 ? 'left' : 'right'
@@ -59,18 +70,29 @@ export default Vue.extend({
       this.timer = null
       this.pos = pos
       this.$emit('scroll', this.getPosition())
+    },
+
+    __configureScrollTarget () {
+      this.computedScrollTarget = getScrollTargetEnhanced(this.scrollTarget, this.$el.parentNode)
+      this.computedScrollTarget.addEventListener('scroll', this.trigger, listenOpts.passive)
+      this.trigger(true)
+    },
+
+    __unconfigureScrollTarget () {
+      if (this.computedScrollTarget !== void 0) {
+        this.computedScrollTarget.removeEventListener('scroll', this.trigger, listenOpts.passive)
+        this.computedScrollTarget = void 0
+      }
     }
   },
 
   mounted () {
-    this.target = getScrollTarget(this.$el.parentNode)
-    this.target.addEventListener('scroll', this.trigger, listenOpts.passive)
-    this.trigger(true)
+    this.__configureScrollTarget()
   },
 
   beforeDestroy () {
     clearTimeout(this.timer)
     cancelAnimationFrame(this.timer)
-    this.target !== void 0 && this.target.removeEventListener('scroll', this.trigger, listenOpts.passive)
+    this.__unconfigureScrollTarget()
   }
 })

@@ -4,6 +4,28 @@ export function getScrollTarget (el) {
   return el.closest('.scroll,.scroll-y,.overflow-auto') || window
 }
 
+export function getScrollTargetEnhanced (scrollTarget, fallback) {
+  let __scrollTarget = typeof scrollTarget === 'string' ? document.querySelector(scrollTarget) : scrollTarget
+
+  if (__scrollTarget === void 0 || __scrollTarget === null) {
+    __scrollTarget = getScrollTarget(fallback)
+  }
+  else if (__scrollTarget._isVue === true && __scrollTarget.$el !== void 0) {
+    __scrollTarget = __scrollTarget.$el
+  }
+
+  if (
+    __scrollTarget === document ||
+    __scrollTarget === document.body ||
+    __scrollTarget === document.scrollingElement ||
+    __scrollTarget === document.documentElement
+  ) {
+    return window
+  }
+
+  return __scrollTarget
+}
+
 export function getScrollHeight (el) {
   return (el === window ? document.body : el).scrollHeight
 }
