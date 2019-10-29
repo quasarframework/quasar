@@ -1,69 +1,76 @@
 import Vue from 'vue'
 
-import { isSSR, fromSSR, onSSR } from './Platform.js'
+import { isSSR, fromSSR } from './Platform.js'
 
 export default {
   isActive: false,
 
-  set (val) {
-    if (val === 'auto') {
-      if (onSSR === true) {
-        console.log('SET (onSSR)', isSSR, fromSSR, onSSR, '--->', this.isActive)
-        this.__ssrVal = val
-        return
-      }
-      else {
-        if (this.__media === void 0) {
-          this.__media = window.matchMedia('(prefers-color-scheme: dark)')
-          this.__media.addListener(this.__updateMedia)
+  install ($q, queues, { dark }) {
+    this.isActive = dark === true
+
+    if (isSSR === true) {
+      queues.server.push((q, ctx) => {
+        q.dark = {
+          isActive: false,
+          set: val => {
+            ctx.ssr.Q_BODY_CLASSES = ctx.ssr.Q_BODY_CLASSES
+              .replace(' body--light', '')
+              .replace(' body--dark', '') + ` body--${val === true ? 'dark' : 'light'}`
+
+            q.dark.isActive = val === true
+          }
         }
 
-        val = this.__media.matches
+        q.dark.set(dark)
+      })
+
+      this.set = () => {}
+      return
+    }
+
+    if (fromSSR === true) {
+      const ssrSet = val => {
+        this.__fromSSR = val
       }
+
+      const originalSet = this.set
+
+      this.set = ssrSet
+      ssrSet(dark)
+
+      queues.takeover.push(() => {
+        this.set = originalSet
+        this.set(this.__fromSSR)
+      })
+    }
+    else {
+      this.set(dark)
+    }
+
+    Vue.util.defineReactive(this, 'isActive', this.isActive)
+    Vue.util.defineReactive($q, 'dark', this)
+  },
+
+  set (val) {
+    if (val === 'auto') {
+      if (this.__media === void 0) {
+        this.__media = window.matchMedia('(prefers-color-scheme: dark)')
+        this.__media.addListener(this.__updateMedia)
+      }
+
+      val = this.__media.matches
     }
     else if (this.__media !== void 0) {
       this.__media.removeListener(this.__updateMedia)
       this.__media = void 0
     }
 
-    this.isActive = val === true
-    console.log('SET', isSSR, fromSSR, onSSR, '--->', this.isActive)
+    this.isActive = val
 
-    if (isSSR === false) {
-      document.body.classList.remove(`body--${this.isActive === true ? 'light' : 'dark'}`)
-      document.body.classList.add(`body--${this.isActive === true ? 'dark' : 'light'}`)
-    }
+    document.body.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
+    document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
   },
 
-  install ($q, queues, { dark }) {
-    console.log('Conf', dark)
-    if (isSSR === true) {
-      queues.server.push((q, ctx) => {
-        this.isActive = dark === true
-        q.dark = this
-        ctx.ssr.Q_BODY_CLASSES += ` body--${this.isActive === true ? 'dark' : 'light'}`
-      })
-    }
-    else {
-      if (fromSSR === true) {
-        console.log('from SSR')
-        dark !== void 0 && this.set(dark)
-        queues.takeover.push(q => {
-          console.log('from SSR takeover')
-          this.__ssrVal === 'auto' && this.set(this.__ssrVal)
-          Object.assign(q.dark, this)
-        })
-      }
-      else {
-        this.set(dark)
-      }
-
-      Vue.util.defineReactive(this, 'isActive', this.isActive)
-      Vue.util.defineReactive($q, 'dark', this)
-    }
-  },
-
-  __ssrVal: false,
   __media: void 0,
 
   __updateMedia () {

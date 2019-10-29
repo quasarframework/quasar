@@ -7,7 +7,7 @@
         </q-item-section>
 
         <q-item-section side>
-          <q-toggle v-model="dark" color="accent" :dark="dark" />
+          <q-toggle v-model="dark" color="accent" :dark="dark" :false-value="null" />
         </q-item-section>
       </q-item>
 
@@ -772,7 +772,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       separator: false,
 
       check1: true,

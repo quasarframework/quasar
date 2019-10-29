@@ -50,6 +50,10 @@
 </template>
 
 <script>
+
+// eslint-disable-next-line no-unused-vars
+import { Dark } from 'quasar'
+
 import Vue from 'vue'
 import languages from '../lang/index.json'
 
@@ -88,10 +92,17 @@ export default {
     }
   },
   created () {
+    // this.$q.dark.set('auto')
+    // this.$q.dark.set(false)
     this.langOptions = languages.map(lang => ({ label: lang.nativeName, value: lang.isoName }))
   },
   mounted () {
     window.$q = this.$q
+    /*
+    this.$nextTick(() => {
+      Dark.set(false)
+    })
+    */
   }
 }
 </script>

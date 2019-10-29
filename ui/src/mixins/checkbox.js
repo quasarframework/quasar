@@ -72,7 +72,9 @@ export default {
         }
       }
       else if (this.isTrue === true) {
-        val = this.toggleIndeterminate ? this.indeterminateValue : this.falseValue
+        val = this.toggleIndeterminate === true
+          ? this.indeterminateValue
+          : this.falseValue
       }
       else if (this.isFalse === true) {
         val = this.trueValue

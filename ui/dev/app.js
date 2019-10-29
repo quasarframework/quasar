@@ -52,7 +52,7 @@ export function createApp (ssrContext) {
     console.log('[Quasar] !!!!')
 
     let reload = false
-    router.beforeEach((to, from, next) => {
+    router.beforeEach((to, _, next) => {
       if (reload) {
         window.location.href = to.fullPath
         return
