@@ -101,7 +101,7 @@ Cookies.set('quasar', 'framework', {
 ```js
 // inside of a Vue file
 
-this.$q.cookies.set('cookie_name', cookie_value, options)
+this.$q.cookies.set('cookie_name', cookie_value)
 
 // or pass in options also:
 this.$q.cookies.set('cookie_name', cookie_value, options)
