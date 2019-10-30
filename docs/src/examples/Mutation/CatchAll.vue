@@ -1,29 +1,26 @@
 <template>
   <div class="q-pa-md">
-    <div class="row justify-around items-center q-pb-lg">
-      <q-btn label="Add row" @click="addRow" />
-      <q-btn label="Remove row" @click="removeRow" />
+    <div class="row no-wrap q-gutter-md">
+      <q-btn label="Add row" color="primary" @click="addRow" :disable="listItems.length >= 7" />
+      <q-btn label="Remove row" color="accent" @click="removeRow" :disable="listItems.length === 0" />
     </div>
-    <div class="row">
+
+    <div class="row no-wrap q-col-gutter-md">
       <div v-mutation="handler" class="col-4">
-        <q-list v-if="listItems.length > 0" bordered separator>
-          <q-item v-for="item in listItems" :key="item">
+        <q-list v-if="listItems.length > 0" bordered separator class="q-mt-md rounded-borders">
+          <q-item v-for="(item, index) in listItems" :key="item" :id="`item-${index}`">
             <q-item-section>
               {{ item }}
             </q-item-section>
           </q-item>
         </q-list>
       </div>
+
       <div class="col-8">
-        <q-card v-if="mutationInfo.length > 0">
-          <q-card-section>
-            <pre class="doc-code language-markup">
-              <code class="doc-code__inner language-markup">{{ mutationInfo }}</code>
-            </pre>
-          </q-card-section>
+        <q-card v-if="mutationInfo.length > 0" bordered flat class="q-mt-md overflow-auto">
+          <pre class="catch-all-pre q-pa-md">{{ mutationInfo }}</pre>
         </q-card>
       </div>
-
     </div>
   </div>
 </template>
@@ -42,6 +39,22 @@ function domToObj (domEl, whitelist) {
   return obj
 }
 
+const whitelist = [
+  'id',
+  'type',
+  'addedNodes',
+  'removedNodes',
+  'attributeName',
+  'attributeNamespace',
+  'nextSibling',
+  'oldValue',
+  'previousSibling',
+  'target',
+  'tagName',
+  'className',
+  'childNodes'
+]
+
 export default {
   data () {
     return {
@@ -52,41 +65,45 @@ export default {
 
   methods: {
     handler (mutationRecords) {
-      const whitelist = ['id', 'type', 'addedNodes', 'removedNodes', 'attributeName', 'attributeNamespace', 'nextSibling', 'oldValue', 'previousSibling', 'target', 'tagName', 'className', 'childNodes']
-      this.mutationInfo = ''
+      const info = []
 
       for (let index in mutationRecords) {
         const record = mutationRecords[index]
-        console.log(record)
-        this.mutationInfo += JSON.stringify(record, function (name, value) {
-          if (name === '') {
-            return domToObj(value, whitelist)
-          }
-          if (Array.isArray(this)) {
-            if (typeof value === 'object') {
+
+        info.push(
+          JSON.stringify(record, function (name, value) {
+            if (name === '') {
               return domToObj(value, whitelist)
             }
-            return value
-          }
-          if (whitelist.find(x => (x === name))) {
-            return value
-          }
-        }, 2)
-        this.mutationInfo += '\n'
+            if (Array.isArray(this)) {
+              if (typeof value === 'object') {
+                return domToObj(value, whitelist)
+              }
+              return value
+            }
+            if (whitelist.find(x => (x === name))) {
+              return value
+            }
+          }, 2)
+        )
       }
+
+      this.mutationInfo = info.join('\n')
     },
 
     addRow () {
-      if (this.listItems.length < 10) {
-        this.listItems.push(`List item #${this.listItems.length + 1}`)
-      }
+      this.listItems.push(`List item #${this.listItems.length + 1}`)
     },
 
     removeRow () {
-      if (this.listItems.length > 0) {
-        this.listItems.pop()
-      }
+      this.listItems.pop()
     }
   }
 }
 </script>
+
+<style lang="sass">
+.catch-all-pre
+  font-size: 10px
+  max-height: 350px
+</style>

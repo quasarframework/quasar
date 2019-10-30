@@ -30,7 +30,7 @@
             q-toolbar
               q-btn(flat, dense, round, icon="arrow_back")
               q-space
-              q-toggle.q-mr-sm(dense, v-model="darkMode", :dark="dark.primary", color="red", label="Dark mode")
+              q-toggle.q-mr-sm(dense, v-model="darkMode", :dark="dark.primary", color="red", label="Dark page")
               q-btn(flat, dense, round, icon="search")
               q-btn(flat, dense, round, icon="menu")
 

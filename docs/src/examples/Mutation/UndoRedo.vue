@@ -1,32 +1,37 @@
 <template>
   <div class="q-pa-md">
-    <div class="row justify-start items-center q-pb-md">
+    <div class="row justify-start items-center q-mb-md">
       Max Stack Depth: {{ maxStack }}
     </div>
-    <div class="row justify-around items-center q-pb-md">
+
+    <div class="row justify-around items-center">
       <div class="row items-center q-px-md q-gutter-sm">
-        <q-btn label="Undo" :disable="undoStack.length === 0" @click="undo"></q-btn>
+        <q-btn label="Undo" color="primary" :disable="undoStack.length === 0" @click="undo" />
         <div>Stack Depth: {{ undoStack.length }}</div>
       </div>
+
       <div class="row items-center q-px-md q-gutter-sm">
-        <q-btn label="Redo" :disable="redoStack.length === 0" @click="redo"></q-btn>
+        <q-btn label="Redo" color="accent" :disable="redoStack.length === 0" @click="redo" />
         <div>Stack Depth: {{ redoStack.length }}</div>
       </div>
     </div>
-    <div class="row justify-around items-center q-pb-md">
-      <div ref='editor' v-mutation="handler" contentEditable='true' class="editable"></div>
+
+    <div class="row justify-around items-center q-mt-md">
+      <div
+        ref="editor"
+        v-mutation="handler"
+        contentEditable="true"
+        class="editable rounded-borders q-pa-sm overflow-auto"
+      >Type here</div>
     </div>
   </div>
 </template>
 
 <script>
-// maximum depth of a stack
-const MAX_STACK = 100
-
 export default {
   data () {
     return {
-      maxStack: MAX_STACK,
+      maxStack: 100,
       undoStack: [],
       redoStack: [],
       undoBlocked: false
@@ -40,20 +45,20 @@ export default {
       if (data !== void 0) {
         // block undo from receiving its own data
         this.undoBlocked = true
-
         this.$refs.editor.innerText = data
       }
     },
+
     redo () {
       // shift the stack
       const data = this.redoStack.shift()
       if (data !== void 0) {
         // unblock undo from receiving redo data
         this.undoBlocked = false
-
         this.$refs.editor.innerText = data
       }
     },
+
     handler (mutationRecords) {
       mutationRecords.forEach(record => {
         if (record.type === 'characterData') {
@@ -72,6 +77,7 @@ export default {
               this.redoStack.unshift(node.textContent)
             }
           })
+
           // check stacks
           this.checkStack(this.undoStack)
           this.checkStack(this.redoStack)
@@ -96,6 +102,7 @@ export default {
 <style scoped lang="sass">
 .editable
   width: 100%
-  height: 200px
-  border: black solid 1px
+  height: 100px
+  border: 1px solid #aaa
+  outline: 0
 </style>
