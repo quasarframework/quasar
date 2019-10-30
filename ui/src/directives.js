@@ -1,6 +1,7 @@
 import ClosePopup from './directives/ClosePopup.js'
 import GoBack from './directives/GoBack.js'
 import Intersection from './directives/Intersection.js'
+import Mutation from './directives/Mutation.js'
 import Ripple from './directives/Ripple.js'
 import ScrollFire from './directives/ScrollFire.js'
 import Scroll from './directives/Scroll.js'
@@ -13,6 +14,7 @@ export {
   ClosePopup,
   GoBack,
   Intersection,
+  Mutation,
   Ripple,
   ScrollFire,
   Scroll,

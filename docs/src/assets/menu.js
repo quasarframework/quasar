@@ -614,6 +614,11 @@ const directives = [
     path: 'material-ripple'
   },
   {
+    name: 'Mutation',
+    badge: 'new',
+    path: 'mutation'
+  },
+  {
     name: 'Scroll',
     path: 'scroll'
   },
