@@ -1,7 +1,8 @@
 import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt } from '../utils/touch.js'
-import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
+import { position, leftClick, listenOpts, prevent, stop, stopAndPrevent, preventDraggable, cloneMouseEvent, cloneTouchEvent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
+import uid from '../utils/uid.js'
 
 const { notPassiveCapture } = listenOpts
 
@@ -67,14 +68,33 @@ function getChanges (evt, ctx, isFinal) {
     }
   }
 
+  let synthetic = false
+
   if (dir === void 0 && isFinal !== true) {
-    return
+    if (ctx.event.isFirst === true || ctx.event.lastDir === void 0) {
+      return
+    }
+
+    dir = ctx.event.lastDir
+    synthetic = true
+
+    if (dir === 'left' || dir === 'right') {
+      pos.left -= distX
+      absX = 0
+      distX = 0
+    }
+    else {
+      pos.top -= distY
+      absY = 0
+      distY = 0
+    }
   }
 
   return {
     evt,
     touch: ctx.event.mouse !== true,
     mouse: ctx.event.mouse === true,
+    synthetic,
     position: pos,
     direction: dir,
     isFirst: ctx.event.isFirst,
@@ -115,11 +135,16 @@ export default {
     }
 
     const ctx = {
+      uid: uid(),
       handler: value,
       modifiers,
       direction: getModifierDirections(modifiers),
 
       mouseStart (evt) {
+        if (evt.ignoreQDirectives !== void 0 && evt.ignoreQDirectives.indexOf(ctx.uid) > -1) {
+          return
+        }
+
         if (ctx.event === void 0 && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
@@ -150,6 +175,10 @@ export default {
       },
 
       start (evt, mouseEvent) {
+        if (evt.ignoreQDirectives !== void 0 && evt.ignoreQDirectives.indexOf(ctx.uid) > -1) {
+          return
+        }
+
         client.is.firefox === true && preventDraggable(el, true)
 
         const pos = position(evt)
@@ -159,6 +188,18 @@ export default {
           (mouseEvent === true && modifiers.mouseAllDir === true) ||
           (mouseEvent !== true && modifiers.stop === true)
         ) {
+          const clone = evt.type === 'mousedown' ? cloneMouseEvent(evt) : cloneTouchEvent(evt)
+
+          if (clone.ignoreQDirectives === void 0) {
+            clone.ignoreQDirectives = []
+          }
+          clone.ignoreQDirectives.push(ctx.uid)
+
+          ctx.initialEvent = {
+            target: evt.target,
+            event: clone
+          }
+
           stop(evt)
         }
 
@@ -171,7 +212,8 @@ export default {
           isFirst: true,
           isFinal: false,
           lastX: pos.left,
-          lastY: pos.top
+          lastY: pos.top,
+          lastDir: void 0
         }
       },
 
@@ -199,6 +241,7 @@ export default {
               }
               ctx.event.lastX = changes.position.left
               ctx.event.lastY = changes.position.top
+              ctx.event.lastDir = changes.synthetic === true ? void 0 : changes.direction
               ctx.event.isFirst = false
             }
           }
@@ -206,10 +249,7 @@ export default {
           return
         }
 
-        if (
-          ctx.direction.all === true ||
-          (ctx.event.mouse === true && modifiers.mouseAllDir === true)
-        ) {
+        if (ctx.direction.all === true) {
           ctx.event.detected = true
           ctx.move(evt)
           return
@@ -237,7 +277,7 @@ export default {
           ctx.event.detected = true
           ctx.move(evt)
         }
-        else {
+        else if (ctx.event.mouse !== true || modifiers.mouseAllDir !== true || (Date.now() - ctx.event.time) > 200) {
           ctx.end(evt, true)
         }
       },
@@ -266,7 +306,12 @@ export default {
           ctx.handler(getChanges(evt, ctx, true))
         }
 
+        if (abort === true && ctx.event.detected !== true && ctx.initialEvent !== void 0) {
+          ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
+        }
+
         ctx.event = void 0
+        ctx.initialEvent = void 0
       }
     }
 

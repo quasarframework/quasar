@@ -131,11 +131,93 @@ export function create (name, { bubbles = false, cancelable = false } = {}) {
     return new Event(name, { bubbles, cancelable })
   }
   catch (e) {
-    // IE doesn't support `new Event()`, so...`
+    // IE doesn't support `new Event()`, so...
     const evt = document.createEvent('Event')
     evt.initEvent(name, bubbles, cancelable)
     return evt
   }
+}
+
+export function cloneMouseEvent (evt) {
+  let cloned
+
+  try {
+    cloned = new MouseEvent(evt.type, {
+      bubbles: evt.bubbles,
+      cancelable: evt.cancelable,
+      composed: evt.composed,
+
+      detail: evt.detail,
+      view: evt.view,
+      sourceCapabilities: evt.sourceCapabilities,
+
+      screenX: evt.screenX,
+      screenY: evt.screenY,
+      clientX: evt.clientX,
+      clientY: evt.clientY,
+      ctrlKey: evt.ctrlKey,
+      altKey: evt.altKey,
+      shiftKey: evt.shiftKey,
+      metaKey: evt.metaKey,
+      button: evt.button,
+      buttons: evt.buttons,
+      relatedTarget: evt.relatedTarget,
+      region: evt.region
+    })
+  }
+  catch (e) {
+    // IE doesn't support `new MouseEvent()`, so...
+    cloned = document.createEvent('MouseEvents')
+    cloned.initMouseEvent(
+      evt.type,
+      evt.bubbles,
+      evt.cancelable,
+      evt.view,
+      evt.detail,
+      evt.screenX,
+      evt.screenY,
+      evt.clientX,
+      evt.clientY,
+      evt.ctrlKey,
+      evt.altKey,
+      evt.shiftKey,
+      evt.metaKey,
+      evt.button,
+      evt.relatedTarget
+    )
+  }
+
+  evt.defaultPrevented === true && cloned.preventDefault()
+  evt.cancelBubble === true && cloned.stopPropagation()
+
+  return cloned
+}
+
+export function cloneTouchEvent (evt) {
+  // IE doesn't support `TouchEvent`, so this should never be called...
+
+  const cloned = new TouchEvent(evt.type, {
+    bubbles: evt.bubbles,
+    cancelable: evt.cancelable,
+    composed: evt.composed,
+
+    detail: evt.detail,
+    view: evt.view,
+    sourceCapabilities: evt.sourceCapabilities,
+
+    touches: evt.touches,
+    targetTouches: evt.targetTouches,
+    changedTouches: evt.changedTouches,
+    ctrlKey: evt.ctrlKey,
+    shiftKey: evt.shiftKey,
+    altKey: evt.altKey,
+    metaKey: evt.metaKey
+  })
+
+  evt.defaultPrevented === true && cloned.preventDefault()
+  evt.cancelBubble === true && cloned.stopPropagation()
+
+  return cloned
 }
 
 export default {
@@ -150,5 +232,7 @@ export default {
   prevent,
   stopAndPrevent,
   preventDraggable,
-  create
+  create,
+  cloneMouseEvent,
+  cloneTouchEvent
 }
