@@ -21,7 +21,7 @@ export default {
                 props: {
                   value: scope.selected,
                   color: this.color,
-                  dark: this.dark,
+                  dark: this.isDark,
                   dense: true
                 },
                 on: {
@@ -32,7 +32,7 @@ export default {
               })
             ]),
 
-            h(QSeparator, { props: { dark: this.dark } })
+            h(QSeparator, { props: { dark: this.isDark } })
           )
 
           const data = {
@@ -83,7 +83,7 @@ export default {
               staticClass: 'q-table__linear-progress',
               props: {
                 color: this.color,
-                dark: this.dark,
+                dark: this.isDark,
                 indeterminate: true
               }
             })

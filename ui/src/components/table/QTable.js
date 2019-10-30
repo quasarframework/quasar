@@ -8,6 +8,7 @@ import TableGrid from './table-grid.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
 
 import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
+import DarkMixin from '../../mixins/dark.js'
 import getTableMiddle from './get-table-middle.js'
 
 import Sort from './table-sort.js'
@@ -24,6 +25,8 @@ export default Vue.extend({
   name: 'QTable',
 
   mixins: [
+    DarkMixin,
+
     FullscreenMixin,
     Top,
     TableHeader,
@@ -90,9 +93,7 @@ export default Vue.extend({
     tableHeaderStyle: [String, Array, Object],
     tableHeaderClass: [String, Array, Object],
     cardStyle: [String, Array, Object],
-    cardClass: [String, Array, Object],
-
-    dark: Boolean
+    cardClass: [String, Array, Object]
   },
 
   data () {
@@ -185,7 +186,7 @@ export default Vue.extend({
 
     cardDefaultClass () {
       return ` q-table__card` +
-        (this.dark === true ? ' q-table__card--dark' : '') +
+        (this.isDark === true ? ' q-table__card--dark' : '') +
         (this.square === true ? ` q-table--square` : '') +
         (this.flat === true ? ` q-table--flat` : '') +
         (this.bordered === true ? ` q-table--bordered` : '')
@@ -194,7 +195,7 @@ export default Vue.extend({
     containerClass () {
       return `q-table__container q-table--${this.separator}-separator` +
         (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
-        (this.dark === true ? ` q-table--dark` : '') +
+        (this.isDark === true ? ` q-table--dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '') +
         (this.inFullscreen === true ? ` fullscreen scroll` : '')

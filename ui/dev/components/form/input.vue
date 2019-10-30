@@ -1,8 +1,8 @@
 <template>
-  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <div style="max-width: 600px" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
@@ -22,7 +22,7 @@
         Standard
       </div>
 
-      <q-input v-bind="props" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
+      <q-input :dark="false" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
 
       <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label />
 
@@ -441,7 +441,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       dense: false,
       disable: false,
       readonly: false,

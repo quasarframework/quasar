@@ -9,7 +9,7 @@
       <q-toggle label="Use 'header-nav' on steps" v-model="headerNavStep" />
       <q-toggle label="Flat" v-model="flat" />
       <q-toggle label="Bordered" v-model="bordered" />
-      <q-toggle label="Dark" v-model="dark" />
+      <q-toggle label="Dark" v-model="dark" :false-value="null" />
 
       <q-toggle label="Global Navigation" v-model="globalNav" />
       <q-toggle label="Caption" v-model="caption" />
@@ -209,7 +209,7 @@ export default {
       headerNav: true,
       flat: false,
       bordered: false,
-      dark: false,
+      dark: null,
 
       globalNav: false,
       caption: false,

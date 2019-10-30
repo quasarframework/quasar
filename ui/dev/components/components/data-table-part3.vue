@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding" :class="dark ? 'bg-grey-10 text-white' : ''">
     <q-toggle v-model="loading" label="Loading" :dark="dark" />
-    <q-toggle v-model="dark" label="Dark" :dark="dark" />
+    <q-toggle v-model="dark" label="Dark" :dark="dark" :false-value="null" />
     <q-toggle v-model="dense" label="Dense" :dark="dark" />
     <q-select class="q-ma-sm inline" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
     <q-toggle v-model="hasSelection" label="Selection" />
@@ -74,7 +74,7 @@ export default {
   data () {
     return {
       loading: false,
-      dark: false,
+      dark: null,
       hasSelection: false,
       selected: [],
       separator: 'horizontal',

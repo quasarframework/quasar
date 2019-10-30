@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <div>
     <div class="q-layout-padding">
       <div>
         <q-chip size="10px" :selected.sync="selected2">

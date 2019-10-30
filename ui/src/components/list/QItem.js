@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import DarkMixin from '../../mixins/dark.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import slot from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -7,17 +8,16 @@ import { stopAndPrevent } from '../../utils/event.js'
 export default Vue.extend({
   name: 'QItem',
 
-  mixins: [ RouterLinkMixin ],
+  mixins: [ DarkMixin, RouterLinkMixin ],
 
   props: {
     active: Boolean,
-    dark: Boolean,
 
     clickable: Boolean,
     dense: Boolean,
     insetLevel: Number,
 
-    tabindex: [String, Number],
+    tabindex: [ String, Number ],
     tag: {
       type: String,
       default: 'div'
@@ -46,7 +46,7 @@ export default Vue.extend({
         'q-manual-focusable--focused': this.isClickable === true && this.focused === true,
 
         'q-item--dense': this.dense,
-        'q-item--dark': this.dark,
+        'q-item--dark': this.isDark,
         'q-item--active': this.active,
         [this.activeClass]: this.active === true && this.hasRouterLink !== true && this.activeClass !== void 0,
 
