@@ -76,7 +76,7 @@
     />
     <q-editor
       ref="editor"
-      class="bg-white"
+      class="bg-grey"
       v-model="model"
       :flat="flat"
       :square="square"

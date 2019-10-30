@@ -4,7 +4,7 @@
       You need to enable flex-addons from /ui/dev/app.js
     </h6>
     <template v-for="b in bp">
-      <h5 :key="`h${ b }`">
+      <h5 :key="`hx${ b }`">
         Breakpoint {{ b || 'NONE' }}
       </h5>
       <div class="row items-center" :key="`h${ b }`">
