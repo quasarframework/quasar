@@ -66,12 +66,11 @@ By passing in an Object as the directive's value (instead of a Function), you ca
 
 Below is a more advanced example of what you can do. The code takes advantage of the HTML `data` attribute. Basically, by setting `data-id` with the index of the element in a loop, this can be retrieved via the passed in `entry` to the handler as `entry.target.dataset.id`. If you are unfamiliar with the `data` attribute you can read more [here](https://developer.mozilla.org/en-US/docs/Learn/HTML/Howto/Use_data_attributes) about using the `data` attribute.
 
-
 <doc-example title="Advanced" file="Intersection/Advanced" />
 
-One more advanced example using `v-intersection` to control resources so that only the visible ones are loaded into memory. As the `q-item` becomes intersected the contained `q-card` with associated image is loaded into the DOM and displayed. When the `q-item` is no longer intersected with the container, the associated `q-card` is removed from the DOM. In the example below, a slight delay in loading the `q-card` is added for effect.
+In the example below, we show multiple cards, but only the visible ones get rendered. The secret is in the wrapper which has `v-intersection` attached to it and a fixed height and width (which acts as a necessary filler when the inner content is not rendered).
 
-<doc-example title="Scrolling Cards" file="Intersection/ScrollingCards" />
+<doc-example title="Scrolling Cards" file="Intersection/ScrollingCards" scrollable />
 
 ## API
 
