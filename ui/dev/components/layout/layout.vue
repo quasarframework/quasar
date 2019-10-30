@@ -316,7 +316,7 @@
           <router-view />
         </transition>
 
-        <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px; left: auto;">
+        <div class="fixed-bottom-right bg-grey-5 q-pa-sm" style="bottom: 8px; right: 8px; left: auto;z-index: 6000;">
           <q-toggle dense v-model="showConfig" label="Config" />
         </div>
       </q-page-container>
