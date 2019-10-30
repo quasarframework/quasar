@@ -165,7 +165,7 @@ export default Vue.extend({
     }, [
       h(QCard, {
         staticClass: `q-bottom-sheet q-bottom-sheet--${this.grid === true ? 'grid' : 'list'}` +
-          (this.isDark === true ? ' q-bottom-sheet--dark' : ''),
+          (this.isDark === true ? ' q-bottom-sheet--dark q-dark' : ''),
         style: this.cardStyle,
         class: this.cardClass
       }, child)

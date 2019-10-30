@@ -189,7 +189,7 @@ export default Vue.extend({
       staticClass: 'q-color-picker',
       class: {
         disabled: this.disable,
-        'q-color-picker--dark': this.isDark
+        'q-color-picker--dark q-dark': this.isDark
       }
     }, child)
   },

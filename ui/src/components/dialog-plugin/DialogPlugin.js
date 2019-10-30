@@ -251,7 +251,7 @@ export default Vue.extend({
     }, [
       h(QCard, {
         staticClass: 'q-dialog-plugin' +
-          (this.isDark === true ? ' q-dialog-plugin--dark' : ''),
+          (this.isDark === true ? ' q-dialog-plugin--dark q-dark' : ''),
         style: this.cardStyle,
         class: this.cardClass,
         props: { dark: this.isDark }

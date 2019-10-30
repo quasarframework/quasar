@@ -271,7 +271,7 @@ export default Vue.extend({
     classes () {
       return `q-drawer--${this.side}` +
         (this.bordered === true ? ' q-drawer--bordered' : '') +
-        (this.isDark === true ? ' q-drawer--dark' : '') +
+        (this.isDark === true ? ' q-drawer--dark q-dark' : '') +
         (
           this.belowBreakpoint === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'

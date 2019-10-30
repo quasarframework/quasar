@@ -12,7 +12,7 @@ export default Vue.extend({
     __renderPanels (h) {
       return h('div', {
         staticClass: 'q-tab-panels q-panel-parent',
-        class: this.isDark === true ? 'q-tab-panels--dark' : '',
+        class: this.isDark === true ? 'q-tab-panels--dark q-dark' : '',
         directives: this.panelDirectives,
         on: this.$listeners
       }, this.__getPanelContent(h))

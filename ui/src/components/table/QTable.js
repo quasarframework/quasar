@@ -186,7 +186,7 @@ export default Vue.extend({
 
     cardDefaultClass () {
       return ` q-table__card` +
-        (this.isDark === true ? ' q-table__card--dark' : '') +
+        (this.isDark === true ? ' q-table__card--dark q-dark' : '') +
         (this.square === true ? ` q-table--square` : '') +
         (this.flat === true ? ` q-table--flat` : '') +
         (this.bordered === true ? ` q-table--bordered` : '')

@@ -396,7 +396,7 @@ export default Vue.extend({
           'q-editor--square no-border-radius': this.square,
           'q-editor--flat': this.flat,
           'q-editor--dense': this.dense,
-          'q-editor--dark': this.isDark
+          'q-editor--dark q-dark': this.isDark
         }
       },
       [

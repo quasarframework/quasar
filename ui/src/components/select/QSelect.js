@@ -127,7 +127,7 @@ export default Vue.extend({
 
   computed: {
     isOptionsDark () {
-      return this.isDark || this.optionsDark
+      return this.isDark === true || this.optionsDark === true
     },
 
     virtualScrollLength () {
@@ -1065,7 +1065,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'q-select__dialog' +
-            (this.isOptionsDark === true ? ' q-select__dialog--dark' : '') +
+            (this.isOptionsDark === true ? ' q-select__dialog--dark q-dark' : '') +
             (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
         }, content)
       ])

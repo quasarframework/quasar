@@ -18,7 +18,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-card',
       class: {
-        'q-card--dark': this.isDark,
+        'q-card--dark q-dark': this.isDark,
         'q-card--bordered': this.bordered,
         'q-card--square no-border-radius': this.square,
         'q-card--flat no-shadow': this.flat

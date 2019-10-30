@@ -41,7 +41,7 @@ export default Vue.extend({
         (this.flat === true || this.isDark === true ? ' q-stepper--flat no-shadow' : '') +
         (this.bordered === true || (this.isDark === true && this.flat === false) ? ' q-stepper--bordered' : '') +
         (this.contracted === true ? ' q-stepper--contracted' : '') +
-        (this.isDark === true ? ' q-stepper--dark' : '')
+        (this.isDark === true ? ' q-stepper--dark q-dark' : '')
     }
   },
 

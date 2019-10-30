@@ -52,7 +52,7 @@ export default Vue.extend({
         fullscreen: this.inFullscreen,
         'q-carousel--arrows': this.padding === true && this.arrows === true,
         'q-carousel--navigation': this.padding === true && this.navigation === true,
-        'q-carousel--dark': this.isDark
+        'q-carousel--dark q-dark': this.isDark
       }
     },
 

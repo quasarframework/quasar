@@ -477,7 +477,7 @@ export default {
     return h('div', {
       staticClass: 'q-uploader column no-wrap',
       class: {
-        'q-uploader--dark': this.isDark,
+        'q-uploader--dark q-dark': this.isDark,
         'q-uploader--bordered': this.bordered,
         'q-uploader--square no-border-radius': this.square,
         'q-uploader--flat no-shadow': this.flat,

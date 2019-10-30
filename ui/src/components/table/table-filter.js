@@ -14,7 +14,7 @@ export default {
 
   watch: {
     filter: {
-      handler: function (val) {
+      handler () {
         this.$nextTick(() => {
           this.setPagination({ page: 1 }, true)
         })

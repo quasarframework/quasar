@@ -113,7 +113,7 @@
     </q-btn-group>
 
     <div v-for="push in options" :key="push">
-    <div v-for="flat in options" :key="flat">
+      <div v-for="flat in options" :key="flat">
         <div v-for="outline in options" :key="outline">
           <div v-for="rounded in options" :key="rounded">
             <div v-for="size in sizes" :key="size" class="q-ma-sm">

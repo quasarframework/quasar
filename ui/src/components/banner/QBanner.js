@@ -22,7 +22,7 @@ export default Vue.extend({
       class: {
         'q-banner--top-padding': actions !== void 0 && !this.inlineActions,
         'q-banner--dense': this.dense,
-        'q-banner--dark': this.isDark,
+        'q-banner--dark q-dark': this.isDark,
         'rounded-borders': this.rounded
       },
       on: this.$listeners
