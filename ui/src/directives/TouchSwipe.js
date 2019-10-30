@@ -67,7 +67,7 @@ export default {
         ctx.event = {
           x: pos.left,
           y: pos.top,
-          time: new Date().getTime(),
+          time: Date.now(),
           mouse: mouseEvent === true,
           dir: false
         }
@@ -83,7 +83,7 @@ export default {
           return
         }
 
-        const time = new Date().getTime() - ctx.event.time
+        const time = Date.now() - ctx.event.time
 
         if (time === 0) {
           return

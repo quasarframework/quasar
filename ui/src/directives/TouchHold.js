@@ -60,7 +60,7 @@ export default {
       start (evt, mouseEvent) {
         ctx.origin = position(evt)
 
-        const startTime = new Date().getTime()
+        const startTime = Date.now()
 
         if (client.is.mobile === true) {
           document.body.classList.add('non-selectable')
@@ -81,7 +81,7 @@ export default {
             touch: mouseEvent !== true,
             mouse: mouseEvent === true,
             position: ctx.origin,
-            duration: new Date().getTime() - startTime
+            duration: Date.now() - startTime
           })
         }, ctx.duration)
       },

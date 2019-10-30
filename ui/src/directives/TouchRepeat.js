@@ -124,7 +124,7 @@ export default {
           touch: mouseEvent !== true && keyboardEvent !== true,
           mouse: mouseEvent === true,
           keyboard: keyboardEvent === true,
-          startTime: new Date().getTime(),
+          startTime: Date.now(),
           repeatCount: 0
         }
 
@@ -150,7 +150,7 @@ export default {
             }
           }
 
-          ctx.event.duration = new Date().getTime() - ctx.event.startTime
+          ctx.event.duration = Date.now() - ctx.event.startTime
           ctx.event.repeatCount += 1
 
           ctx.handler(ctx.event)
