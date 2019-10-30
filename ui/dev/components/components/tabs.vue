@@ -488,6 +488,33 @@
           Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
         </q-tab-panel>
       </q-tab-panels>
+
+      <q-tab-panels
+        v-model="tab"
+        swipeable
+        animated
+        transition-prev="slide-left-then-fade"
+        transition-next="slide-right-then-fade"
+        :transition-duration="{ enter: 2000, leave: 1000 }"
+        class="q-mt-lg text-black text-center"
+        style="height: 150px"
+      >
+        <q-tab-panel name="one">
+          transition-duration test Tab One <br> <span class="nested-fade">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.</span>
+        </q-tab-panel>
+
+        <q-tab-panel name="two">
+          transition-duration test Tab Two <br> <span class="nested-fade">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident obcaecati repellendus dolores totam nostrum ut repudiandae perspiciatis est accusamus, eaque natus modi rem beatae optio cumque, velit ducimus autem magnam.</span>
+        </q-tab-panel>
+
+        <q-tab-panel name="three">
+          transition-duration test Tab Three <br> <span class="nested-fade">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!</span>
+        </q-tab-panel>
+
+        <q-tab-panel disable name="four">
+          transition-duration test Tab Four <br> <span class="nested-fade">Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!</span>
+        </q-tab-panel>
+      </q-tab-panels>
     </div>
   </div>
 </template>

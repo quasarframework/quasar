@@ -15,7 +15,7 @@
 
     "animated": {
       "type": "Boolean",
-      "desc": "Enable transitions between panel (also see 'transition-prev' and 'transition-next' props)",
+      "desc": "Enable transitions between panel (also see 'transition-prev', 'transition-next', and 'transition-duration' props)",
       "category": "behavior"
     },
 
@@ -43,7 +43,18 @@
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
       "default": "slide-left",
       "category": "behavior"
+    },
+
+    "transition-duration": {
+      "type": ["Number", "String", "Object"],
+      "desc": "If Vue can not automatically determine when transition-prev or transition-next is finished, specify an explicit transition duration (in milliseconds).",
+      "category": "behavior",
+      "examples": [
+        ":transition-duration=\"1000\"",
+        ":transition-duration=\"{ enter: 500, leave: 800 }\""
+      ]
     }
+
   },
 
   "events": {

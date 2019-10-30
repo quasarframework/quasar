@@ -19,6 +19,7 @@
       <q-toggle label="Step 4 disable" v-model="stepDisable" />
 
       <q-toggle label="Keep alive" v-model="keepAlive" />
+      <q-toggle label="Complex Transition" v-model="transitionDuration" />
 
       <q-btn label="One" @click="step = 1" />
       <q-btn label="Two" @click="step = 2" />
@@ -37,6 +38,9 @@
         :keep-alive="keepAlive"
         :alternative-labels="alt"
         :contracted="contracted && !vertical"
+        :transition-prev="transitionDuration ? 'slide-right-then-fade' : 'slide-right'"
+        :transition-next="transitionDuration ? 'slide-left-then-fade' : 'slide-left'"
+        :transition-duration="transitionDuration ? { enter: 2000, leave: 1000 } : ''"
       >
         <q-step :name="1" :prefix="prefix ? 1 : ''" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
           <q-input v-model="myInput" />
@@ -59,6 +63,11 @@
           <div v-for="n in 10" :key="'1.'+n">
             {{ n }} Step 1
           </div>
+
+          <p class="nested-fade">
+            Nested Fade complex transition test
+          </p>
+
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
@@ -74,6 +83,9 @@
             {{ n }} Step 2
           </div>
           <keep-alive-test name="two" />
+          <p class="nested-fade">
+            Nested Fade complex transition test
+          </p>
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
@@ -89,6 +101,9 @@
             {{ n }} Step 3
           </div>
           <keep-alive-test name="three" />
+          <p class="nested-fade">
+            Nested Fade complex transition test
+          </p>
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
@@ -104,6 +119,9 @@
             {{ n }} Step 4
           </div>
           <keep-alive-test name="four" />
+          <p class="nested-fade">
+            Nested Fade complex transition test
+          </p>
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="$refs.stepper.next()">
               Continue
@@ -119,6 +137,9 @@
             {{ n }} Step 5
           </div>
           <keep-alive-test name="five" />
+          <p class="nested-fade">
+            Nested Fade complex transition test
+          </p>
           <q-stepper-navigation v-if="!globalNav">
             <q-btn :color="color" @click="step = 1">
               Restart
@@ -217,7 +238,8 @@ export default {
       useDone: false,
       headerNavStep: false,
 
-      keepAlive: true
+      keepAlive: true,
+      transitionDuration: false
     }
   },
   watch: {
