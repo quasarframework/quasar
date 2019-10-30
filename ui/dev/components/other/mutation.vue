@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding q-gutter-md">
-    <q-card>
+    <q-card flat bordered>
       <q-card-section>
         <div class="text-h6">
           no modifiers (equivalent to having them all)
@@ -28,7 +28,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card>
+    <q-card flat bordered>
       <q-card-section>
         <div class="text-h6">
           childList
@@ -43,7 +43,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card>
+    <q-card flat bordered>
       <q-card-section>
         <div class="text-h6">
           attributes
@@ -58,7 +58,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card>
+    <q-card flat bordered>
       <q-card-section>
         <div class="text-h6">
           characterData
