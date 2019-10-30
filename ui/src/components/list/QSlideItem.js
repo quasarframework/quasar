@@ -123,8 +123,10 @@ export default Vue.extend({
   render (h) {
     const
       content = [],
-      horizontal = this.$scopedSlots.left !== void 0 || this.$scopedSlots.right !== void 0,
-      vertical = this.$scopedSlots.top !== void 0 || this.$scopedSlots.bottom !== void 0
+      left = this.$scopedSlots.right !== void 0,
+      right = this.$scopedSlots.left !== void 0,
+      up = this.$scopedSlots.bottom !== void 0,
+      down = this.$scopedSlots.top !== void 0
 
     slotsDef.forEach(slot => {
       const dir = slot[0]
@@ -146,12 +148,14 @@ export default Vue.extend({
       h('div', {
         ref: 'content',
         staticClass: 'q-slide-item__content',
-        directives: horizontal === true || vertical === true ? [{
+        directives: left === true || right === true || up === true || down === true ? [{
           name: 'touch-pan',
           value: this.__pan,
           modifiers: {
-            horizontal,
-            vertical,
+            left,
+            right,
+            up,
+            down,
             prevent: true,
             stop: true,
             mouse: true,
