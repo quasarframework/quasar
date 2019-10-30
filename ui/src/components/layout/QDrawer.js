@@ -1,10 +1,13 @@
 import Vue from 'vue'
 
 import HistoryMixin from '../../mixins/history.js'
-import TouchPan from '../../directives/TouchPan.js'
-import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
+import DarkMixin from '../../mixins/dark.js'
+
+import TouchPan from '../../directives/TouchPan.js'
+
+import { between } from '../../utils/format.js'
 import slot from '../../utils/slot.js'
 
 const duration = 150
@@ -29,7 +32,7 @@ export default Vue.extend({
     }
   },
 
-  mixins: [ HistoryMixin, ModelToggleMixin, PreventScrollMixin ],
+  mixins: [ DarkMixin, HistoryMixin, ModelToggleMixin, PreventScrollMixin ],
 
   directives: {
     TouchPan
@@ -268,6 +271,7 @@ export default Vue.extend({
     classes () {
       return `q-drawer--${this.side}` +
         (this.bordered === true ? ' q-drawer--bordered' : '') +
+        (this.isDark === true ? ' q-drawer--dark' : '') +
         (
           this.belowBreakpoint === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'

@@ -76,7 +76,6 @@
         :breakpoint="rightBreakpoint"
         :mini="rightMini"
         :mini-to-overlay="rightMiniToOverlay"
-        :content-class="drawerClass"
         @on-layout="drawerOnLayout"
       >
         <q-scroll-area
@@ -165,7 +164,6 @@
           :behavior="leftBehavior"
           :breakpoint="leftBreakpoint"
           :mini-to-overlay="leftMiniToOverlay"
-          :content-class="drawerClass"
         >
           <!--
         <div slot="mini">
@@ -539,11 +537,6 @@ export default {
       return this.whiteLayout
         ? 'bg-white text-black'
         : 'bg-primary text-white'
-    },
-    drawerClass () {
-      return this.whiteLayout
-        ? 'bg-white'
-        : 'bg-grey-5'
     }
   },
   watch: {
