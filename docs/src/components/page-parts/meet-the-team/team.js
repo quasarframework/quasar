@@ -122,5 +122,13 @@ export default [
     avatar: 'heitor_ribeiro.jpg',
     github: 'bloodf',
     desc: 'Writes articles and offers community support.'
+  },
+
+  {
+    name: 'Adam Purdy',
+    role: 'Community Staff',
+    avatar: 'adam_purdy.jpg',
+    github: 'adamkpurdy',
+    desc: 'Firebase Support Owner & Maintainer, Quasar support member.'
   }
 ]
