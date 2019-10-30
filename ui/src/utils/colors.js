@@ -227,14 +227,6 @@ export function setBrand (color, value, element = document.body) {
   }
 
   element.style.setProperty(`--q-color-${color}`, value)
-  switch (color) {
-    case 'negative':
-    case 'warning':
-      element.style.setProperty(`--q-color-${color}-l`, lighten(value, 46))
-      break
-    case 'light':
-      element.style.setProperty(`--q-color-${color}-d`, lighten(value, -10))
-  }
 }
 
 export function getBrand (color, element = document.body) {

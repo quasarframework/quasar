@@ -44,7 +44,6 @@ const gettingStarted = [
   },
   {
     name: 'VS Code Configuration',
-    badge: 'new',
     path: 'vs-code-configuration'
   }
 ]
@@ -181,7 +180,6 @@ const cli = [
       },
       {
         name: 'CSS Preprocessors',
-        badge: 'new',
         path: 'css-preprocessors'
       },
       {
@@ -483,7 +481,6 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    badge: 'new',
     path: 'theme-builder'
   },
   {
@@ -513,7 +510,6 @@ const style = [
   },
   {
     name: 'Sass/SCSS Variables',
-    badge: 'new',
     path: 'sass-scss-variables'
   },
   {
@@ -550,7 +546,6 @@ const layout = [
       },
       {
         name: 'Flex Playground',
-        badge: 'new',
         path: 'flex-playground'
       }
     ]
@@ -577,13 +572,11 @@ const layout = [
   },
   {
     name: 'Layout Builder',
-    badge: 'new',
     external: true,
     path: '/layout-builder'
   },
   {
     name: 'Layout Gallery',
-    badge: 'new',
     path: 'gallery'
   },
   {
@@ -1273,7 +1266,7 @@ module.exports = [
     path: 'quasar-utils',
     children: utils
   }
-  
+
   /*
   // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
   ,{
