@@ -117,6 +117,12 @@ const objectTypes = {
     required: [ 'desc' ]
   },
 
+  // special type, not common
+  Element: {
+    props: [ 'desc', 'examples' ],
+    required: [ 'desc' ]
+  },
+
   // component only
   slots: {
     props: [ 'desc', 'link', 'addedIn' ],
