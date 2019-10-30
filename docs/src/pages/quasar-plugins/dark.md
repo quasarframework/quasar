@@ -16,11 +16,18 @@ This plugin is automatically installed. No need to do anything but directly use 
 
 ## Usage
 
+::: warning
+Do not manually assign a value to `isActive` or `mode` from below. Instead, use the `set(val)` method.
+:::
+
 ### Inside of a Vue file
 
 ``` js
 // get status
-console.log(this.$q.dark.isActive)
+console.log(this.$q.dark.isActive) // true, false
+
+// get configured status
+console.log(this.$q.dark.mode) // "auto", true, false
 
 // set status
 this.$q.dark.set(true) // or "false" or "auto"
@@ -48,6 +55,9 @@ import { Dark } from 'quasar'
 
 // get status
 console.log(Dark.isActive)
+
+// get configured status
+console.log(Dark.mode) // "auto", true, false
 
 // set status
 Dark.set(true) // or "false" or "auto"

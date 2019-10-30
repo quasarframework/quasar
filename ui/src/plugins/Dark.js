@@ -4,6 +4,7 @@ import { isSSR, fromSSR } from './Platform.js'
 
 export default {
   isActive: false,
+  mode: false,
 
   install ($q, queues, { dark }) {
     this.isActive = dark === true
@@ -12,12 +13,14 @@ export default {
       queues.server.push((q, ctx) => {
         q.dark = {
           isActive: false,
+          mode: false,
           set: val => {
             ctx.ssr.Q_BODY_CLASSES = ctx.ssr.Q_BODY_CLASSES
               .replace(' body--light', '')
               .replace(' body--dark', '') + ` body--${val === true ? 'dark' : 'light'}`
 
             q.dark.isActive = val === true
+            q.dark.mode = val
           }
         }
 
@@ -52,6 +55,8 @@ export default {
   },
 
   set (val) {
+    this.mode = val
+
     if (val === 'auto') {
       if (this.__media === void 0) {
         this.__media = window.matchMedia('(prefers-color-scheme: dark)')
@@ -65,7 +70,7 @@ export default {
       this.__media = void 0
     }
 
-    this.isActive = val
+    this.isActive = val === true
 
     document.body.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
     document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)

@@ -6,6 +6,13 @@
       "type": "Boolean",
       "desc": "Is Dark mode active?",
       "reactive": true
+    },
+
+    "mode": {
+      "type": [ "Boolean", "String" ],
+      "desc": "Dark mode configuration (not status)",
+      "values": [ "auto", "(Boolean) true", "(Boolean) false" ],
+      "reactive": true
     }
   },
 
@@ -16,7 +23,7 @@
         "status": {
           "type": [ "Boolean", "String" ],
           "desc": "Dark mode status",
-          "values": [ true, false, "auto" ],
+          "values": [ "(Boolean) true", "(Boolean) false", "auto" ],
           "required": true
         }
       }
