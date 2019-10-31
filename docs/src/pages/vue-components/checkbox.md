@@ -19,25 +19,42 @@ Please also refer to the [QOptionGroup](/vue-components/option-group) on other p
 <doc-installation components="QCheckbox" />
 
 ## Usage
+
+### Standard
+
 <doc-example title="Standard" file="QCheckbox/Standard" />
 
+### Label
+
 <doc-example title="Label" file="QCheckbox/Label" />
+
+### Coloring
 
 In the second row in the example below, the property `keep-color` is being used to retain the passed in color when the checkbox is not in a toggled state.
 
 <doc-example title="Coloring" file="QCheckbox/Coloring" />
 
+### Dense and dark
+
 <doc-example title="Dense" file="QCheckbox/Dense" />
 
 <doc-example title="On a dark background" file="QCheckbox/OnDarkBackground" dark />
+
+### Indeterminate state
 
 In the example below, as soon as you click on the first checkbox it starts toggling between true/false. The second checkbox, on the other hand toggles between the three states (indeterminate/true/false) with help from `toggle-indeterminate`. You can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be considered `null`.
 
 <doc-example title="Indeterminate state" file="QCheckbox/IndeterminateState" />
 
+### Array model
+
 <doc-example title="Array as model" file="QCheckbox/ArrayAsModel" />
 
+### Custom model values
+
 <doc-example title="Custom model values" file="QCheckbox/CustomModel" />
+
+### With QOptionGroup
 
 ::: tip
 You can also use [QOptionGroup](/vue-components/option-group), which simplifies the usage when you have groups of checkboxes, like in example below.
@@ -45,9 +62,13 @@ You can also use [QOptionGroup](/vue-components/option-group), which simplifies 
 
 <doc-example title="Usage with QOptionGroup" file="QCheckbox/OptionGroup" />
 
+### With QItem
+
 In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so the QCheckbox will respond to clicks on QItems to change toggle state.
 
-<doc-example title="In a list" file="QCheckbox/InaList" />
+<doc-example title="With QItem" file="QCheckbox/InaList" />
+
+### Disable
 
 <doc-example title="Disable" file="QCheckbox/Disable" />
 

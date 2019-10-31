@@ -8,7 +8,12 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 <doc-installation components="QTree" />
 
 ## Usage
+
+### Basic
+
 <doc-example title="Basic" file="QTree/Basic" />
+
+### Dark
 
 <doc-example title="Dark" file="QTree/Dark" dark />
 
