@@ -69,8 +69,13 @@ columns: [ // array of Objects
     //   ? /* Unicode checkmark checked */ "\u2611"
     //   : /* Unicode checkmark unchecked */ "\u2610",
 
+    // body td:
     style: 'width: 500px',
     classes: 'my-special-class'
+
+    // (v1.3.0+) header th:
+    headerStyle: 'width: 500px',
+    headerClasses: 'my-special-class'
   },
   { name: 'calories', label: 'Calories', field: 'calories', sortable: true },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },

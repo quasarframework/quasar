@@ -55,8 +55,8 @@ export default {
             : h(QTh, {
               key: col.name,
               props: { props },
-              style: col.style,
-              class: col.classes
+              style: col.headerStyle,
+              class: col.headerClasses
             }, col.label)
         }
       }

@@ -28,9 +28,8 @@ export default {
             return slot !== void 0
               ? slot(this.addBodyCellMetaData({ row, col }))
               : h('td', {
-                staticClass: col.__tdClass,
-                style: col.style,
-                class: col.classes
+                class: col.__tdClass,
+                style: col.__tdStyle
               }, this.getCellValue(col, row))
           })
 
