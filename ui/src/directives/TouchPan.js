@@ -156,20 +156,18 @@ export default {
       },
 
       touchStart (evt) {
-        if (ctx.event !== void 0) {
+        const target = client.is.ios === true ? document : evt.target
+        if (ctx.event !== void 0 || target === void 0) {
           return
         }
 
         ctx.touchAttached = true
-
-        const target = client.is.ios === true ? document : evt.target
 
         addEvt(ctx, 'temp', [
           [ target, 'touchmove', 'move', 'notPassiveCapture' ],
           [ target, 'touchcancel', 'end', 'passiveCapture' ],
           [ target, 'touchend', 'end', 'passiveCapture' ]
         ])
-
         ctx.start(evt)
       },
 
