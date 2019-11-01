@@ -67,14 +67,33 @@ function getChanges (evt, ctx, isFinal) {
     }
   }
 
+  let synthetic = false
+
   if (dir === void 0 && isFinal !== true) {
-    return
+    if (ctx.event.isFirst === true || ctx.event.lastDir === void 0) {
+      return
+    }
+
+    dir = ctx.event.lastDir
+    synthetic = true
+
+    if (dir === 'left' || dir === 'right') {
+      pos.left -= distX
+      absX = 0
+      distX = 0
+    }
+    else {
+      pos.top -= distY
+      absY = 0
+      distY = 0
+    }
   }
 
   return {
     evt,
     touch: ctx.event.mouse !== true,
     mouse: ctx.event.mouse === true,
+    synthetic,
     position: pos,
     direction: dir,
     isFirst: ctx.event.isFirst,
@@ -171,7 +190,8 @@ export default {
           isFirst: true,
           isFinal: false,
           lastX: pos.left,
-          lastY: pos.top
+          lastY: pos.top,
+          lastDir: void 0
         }
       },
 
@@ -199,6 +219,7 @@ export default {
               }
               ctx.event.lastX = changes.position.left
               ctx.event.lastY = changes.position.top
+              ctx.event.lastDir = changes.synthetic === true ? void 0 : changes.direction
               ctx.event.isFirst = false
             }
           }
