@@ -5,7 +5,7 @@
 .q-table
   width: 100%
   max-width: 100%
-  border-collapse: collapse
+  border-collapse: separate
   border-spacing: 0
 
   thead tr, tbody td
@@ -167,7 +167,7 @@
  * Separators
  */
 .q-table--horizontal-separator
-  thead, tbody tr:not(:last-child) td
+  thead th, tbody tr:not(:last-child) td
     border-width: 0 0 1px 0
 
 .q-table--vertical-separator
@@ -179,6 +179,8 @@
     border-left: 0
 
 .q-table--cell-separator
+  .q-table
+    border-collapse: collapse
   td, th
     border-width: 1px
   td:first-child, th:first-child

@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="q-layout-padding" style="max-width: 1400px;">
+      <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
       <h4>QMarkupTable</h4>
       <q-markup-table flat bordered :separator="separator" wrap-cells>
         <thead>
