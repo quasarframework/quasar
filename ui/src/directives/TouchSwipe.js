@@ -30,8 +30,6 @@ export default {
       return
     }
 
-    const mouseCapture = modifiers.mouseCapture === true ? 'Capture' : ''
-
     let ctx = {
       handler: value,
       sensitivity: parseArg(arg),
@@ -42,7 +40,7 @@ export default {
       mouseStart (evt) {
         if (ctx.event === void 0 && leftClick(evt)) {
           addEvt(ctx, 'temp', [
-            [ document, 'mousemove', 'move', `notPassive${mouseCapture}` ],
+            [ document, 'mousemove', 'move', `notPassive${modifiers.mouseCapture === true ? 'Capture' : ''}` ],
             [ document, 'mouseup', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt, true)
@@ -50,16 +48,23 @@ export default {
       },
 
       touchStart (evt) {
-        if (ctx.event === void 0 && evt.target !== void 0) {
+        const target = client.is.ios === true ? document : evt.target
+        if (ctx.event === void 0 && target !== void 0) {
+          ctx.touchAttached = true
+
           addEvt(ctx, 'temp', [
-            [ evt.target, 'touchcancel', 'end', 'notPassiveCapture' ],
-            [ evt.target, 'touchend', 'end', 'notPassiveCapture' ]
+            [ target, 'touchmove', 'move', 'notPassiveCapture' ],
+            [ target, 'touchcancel', 'end', 'passiveCapture' ],
+            [ target, 'touchend', 'end', 'passiveCapture' ]
           ])
           ctx.start(evt)
         }
       },
 
       start (evt, mouseEvent) {
+        if (ctx.event !== void 0) {
+          return
+        }
         client.is.firefox === true && preventDraggable(el, true)
 
         const pos = position(evt)
@@ -70,6 +75,12 @@ export default {
           time: Date.now(),
           mouse: mouseEvent === true,
           dir: false
+        }
+      },
+
+      touchMove (evt) {
+        if (ctx.touchAttached === void 0 && ctx.event !== void 0) {
+          ctx.move(evt)
         }
       },
 
@@ -211,6 +222,7 @@ export default {
         }
 
         ctx.event = void 0
+        ctx.touchAttached = void 0
       }
     }
 
@@ -221,16 +233,13 @@ export default {
     el.__qtouchswipe = ctx
 
     modifiers.mouse === true && addEvt(ctx, 'main', [
-      [ el, 'mousedown', 'mouseStart', `passive${mouseCapture}` ]
+      [ el, 'mousedown', 'mouseStart', `passive${modifiers.mouseCapture === true ? 'Capture' : ''}` ]
     ])
 
-    if (client.has.touch === true) {
-      const capture = modifiers.capture === true ? 'Capture' : ''
-      addEvt(ctx, 'main', [
-        [ el, 'touchstart', 'touchStart', `passive${capture}` ],
-        [ el, 'touchmove', 'move', `notPassive${capture}` ]
-      ])
-    }
+    client.has.touch === true && addEvt(ctx, 'main', [
+      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchmove', 'touchMove', 'notPassiveCapture' ]
+    ])
   },
 
   update (el, binding) {
@@ -242,10 +251,10 @@ export default {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
 
     if (ctx !== void 0) {
-      client.is.firefox === true && preventDraggable(el, false)
-
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')
+
+      client.is.firefox === true && preventDraggable(el, false)
 
       if (ctx.event !== void 0 && ctx.event.dir !== false) {
         document.removeEventListener('click', stopAndPrevent, notPassiveCapture)

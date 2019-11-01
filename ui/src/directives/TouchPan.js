@@ -2,7 +2,6 @@ import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt } from '../utils/touch.js'
 import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, cloneMouseEvent, cloneTouchEvent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
-import uid from '../utils/uid.js'
 
 function getChanges (evt, ctx, isFinal) {
   let
@@ -113,6 +112,8 @@ function getChanges (evt, ctx, isFinal) {
   }
 }
 
+let uid = 0
+
 export default {
   name: 'touch-pan',
 
@@ -133,42 +134,37 @@ export default {
     }
 
     const ctx = {
-      uid: uid(),
+      uid: 'qvtp_' + (uid++),
       handler: value,
       modifiers,
       direction: getModifierDirections(modifiers),
 
       mouseStart (evt) {
         if (
-          ctx.event !== void 0 ||
-          (evt.ignoreQDirectives !== void 0 && evt.ignoreQDirectives.indexOf(ctx.uid) > -1) ||
-          leftClick(evt) !== true
+          ctx.event === void 0 &&
+          (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1) &&
+          leftClick(evt) === true
         ) {
-          return
+          addEvt(ctx, 'temp', [
+            [ document, 'mousemove', 'move', 'notPassiveCapture' ],
+            [ document, 'mouseup', 'end', 'passiveCapture' ]
+          ])
+          ctx.start(evt, true)
         }
-
-        addEvt(ctx, 'temp', [
-          [ document, 'mousemove', 'move', 'notPassiveCapture' ],
-          [ document, 'mouseup', 'end', 'passiveCapture' ]
-        ])
-
-        ctx.start(evt, true)
       },
 
       touchStart (evt) {
         const target = client.is.ios === true ? document : evt.target
-        if (ctx.event !== void 0 || target === void 0) {
-          return
+        if (ctx.event === void 0 && target !== void 0) {
+          ctx.touchAttached = true
+
+          addEvt(ctx, 'temp', [
+            [ target, 'touchmove', 'move', 'notPassiveCapture' ],
+            [ target, 'touchcancel', 'end', 'passiveCapture' ],
+            [ target, 'touchend', 'end', 'passiveCapture' ]
+          ])
+          ctx.start(evt)
         }
-
-        ctx.touchAttached = true
-
-        addEvt(ctx, 'temp', [
-          [ target, 'touchmove', 'move', 'notPassiveCapture' ],
-          [ target, 'touchcancel', 'end', 'passiveCapture' ],
-          [ target, 'touchend', 'end', 'passiveCapture' ]
-        ])
-        ctx.start(evt)
       },
 
       start (evt, mouseEvent) {
@@ -338,7 +334,7 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qtouchpan_old || el.__qtouchpan
+    const ctx = el.__qtouchpan_old || el.__qtouchpan
 
     if (ctx !== void 0) {
       cleanEvt(ctx, 'main')
