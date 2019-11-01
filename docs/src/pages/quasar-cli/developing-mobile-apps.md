@@ -17,8 +17,4 @@ Capacitor was created by Ionic Framework as a more modern replacement for Cordov
 ## More info
 Both tools enable you to run your website as a native app through a WebView. They both expose native device APIs to your JavaScript code, and allow you to write native code in the form of plugins, which can be called through JS. While Cordova supports a wide range of targets, Capacitor only supports iOS and Android.
 
-::: warning Important
-Since Capacitor support in Quasar CLI is in beta stage, we currently recommend using **Cordova for production apps**.
-:::
-
 Check the related links below to get started.
