@@ -194,6 +194,7 @@ export default Vue.extend({
 
     containerClass () {
       return `q-table__container q-table--${this.separator}-separator` +
+        (this.loading === true ? ' q-table--loading' : '') +
         (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
         (this.isDark === true ? ` q-table--dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +

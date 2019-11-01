@@ -69,10 +69,10 @@
     height 0 !important
     th
       padding 0 !important
-      border-bottom 1px solid transparent !important
+      border 0 !important
     .q-linear-progress
       position absolute
-      bottom -1px
+      bottom 0
 
   &__middle
     max-width 100%
@@ -166,34 +166,18 @@
 /*
  * Separators
  */
-.q-table--horizontal-separator
+.q-table--horizontal-separator, .q-table--cell-separator
   thead th, tbody tr:not(:last-child) td
-    border-width 0 0 1px 0
+    border-bottom-width 1px
 
-.q-table--vertical-separator
+.q-table--vertical-separator, .q-table--cell-separator
   td, th
-    border-width 0 0 0 1px
-  thead tr:last-child th
+    border-left-width 1px
+  thead tr:last-child th,
+  &.q-table--loading tr:nth-last-child(2) th
     border-bottom-width 1px
   td:first-child, th:first-child
     border-left 0
-
-.q-table--cell-separator
-  .q-table
-    border-collapse collapse
-  td, th
-    border-width 1px
-  td:first-child, th:first-child
-    border-left 0
-  td:last-child, th:last-child
-    border-right 0
-  thead tr:first-child th
-    border-top 0
-  tbody
-    tr:last-child td
-      border-bottom 0
-
-.q-table--vertical-separator, .q-table--cell-separator
   .q-table__top
     border-bottom 1px solid $table-border-color
 
