@@ -10,3 +10,4 @@ You, the community, are Quasar. We listen to your opinions and your needs. Which
 Apart from the constant new components/directives/Quasar plugins that we have on our todo list, the next really big things on our plate currently are:
 * Upgrade to Vue 3 (once it is shipped)
 * Highly improve Typescript support (dedicated team members working on it)
+* Upgrade Quasar App CLI to Webpack 5
