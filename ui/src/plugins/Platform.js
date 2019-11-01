@@ -8,6 +8,10 @@ export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
 export let onSSR = isSSR
 
+function hasTouch () {
+  return 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
+}
+
 function getMatch (userAgent, platformMatch) {
   const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
@@ -180,6 +184,20 @@ function getPlatform (userAgent) {
   browser.platform = matched.platform
 
   if (isSSR === false) {
+    if (window.navigator.vendor.toLowerCase().indexOf('apple') === -1) {
+      browser.iosEemulated = true
+    }
+
+    if (browser.mac === true && hasTouch() === true) {
+      browser.mac = void 0
+      browser.desktop = void 0
+      browser.iosDesktop = true
+      browser.mobile = true
+      browser.ios = true
+      browser.platform = Math.min(window.innerHeight, window.innerWidth) > 414 ? 'ipad' : 'iphone'
+      browser[browser.platform] = true
+    }
+
     if (window.process && window.process.versions && window.process.versions.electron) {
       browser.electron = true
     }
@@ -231,9 +249,7 @@ export const client = isSSR === false
     userAgent,
     is: getPlatform(userAgent),
     has: {
-      touch: (() => 'ontouchstart' in window ||
-        window.navigator.maxTouchPoints > 0
-      )(),
+      touch: hasTouch(),
       webStorage: (() => {
         try {
           if (window.localStorage) {
