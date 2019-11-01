@@ -772,11 +772,13 @@ export default {
       selected: [],
       gridHeader: false,
       gridLoading: false,
+
       serverPagination: {
         page: 1,
         rowsNumber: 10
       },
       serverData: [],
+
       title: 'QDataTable',
       filter: '',
       columns: [
@@ -921,20 +923,26 @@ export default {
       console.log('REQUEST', props)
       setTimeout(() => {
         this.serverPagination = props.pagination
+
         let
           table = this.$refs.server,
           rows = this.data.slice(),
           { page, rowsPerPage, sortBy, descending } = props.pagination
+
         if (props.filter) {
           rows = table.filterMethod(rows, props.filter)
         }
+
         if (sortBy) {
           rows = table.sortMethod(rows, sortBy, descending)
         }
+
         this.serverPagination.rowsNumber = rows.length
+
         if (rowsPerPage) {
           rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
         }
+
         this.serverData = rows
         this.loading = false
       }, 2000)
@@ -943,6 +951,7 @@ export default {
       console.log(added ? 'selected' : 'un-selected', rows)
     }
   },
+
   mounted () {
     this.request({
       pagination: this.serverPagination,
