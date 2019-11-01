@@ -99,7 +99,7 @@ export default {
       },
 
       touchStart (evt) {
-        const target = client.is.ios === true ? document : evt.target
+        const target = client.is.ios === true && client.is.iosEmulated !== true ? document : evt.target
         if (target !== void 0) {
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'touchMove', 'notPassiveCapture' ],

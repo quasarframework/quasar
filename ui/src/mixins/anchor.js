@@ -98,7 +98,7 @@ export default {
 
       if (context === true) {
         if (this.$q.platform.is.mobile === true) {
-          const target = this.$q.platform.is.ios === true ? document : this.anchorEl
+          const target = this.$q.platform.is.ios === true && this.$q.platform.is.iosEmulated !== true ? document : this.anchorEl
 
           this.anchorEl.removeEventListener('touchstart', this.__mobileTouch, passive)
           ;['touchcancel', 'touchmove', 'touchend'].forEach(evt => {
@@ -121,7 +121,7 @@ export default {
 
       if (context === true) {
         if (this.$q.platform.is.mobile === true) {
-          const target = this.$q.platform.is.ios === true ? document : this.anchorEl
+          const target = this.$q.platform.is.ios === true && this.$q.platform.is.iosEmulated ? document : this.anchorEl
 
           this.anchorEl.addEventListener('touchstart', this.__mobileTouch, passive)
           ;['touchcancel', 'touchmove', 'touchend'].forEach(evt => {

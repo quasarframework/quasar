@@ -122,7 +122,7 @@ export default Vue.extend({
 
         touchTarget = e.target
 
-        const target = this.$q.platform.is.ios === true ? document : touchTarget
+        const target = this.$q.platform.is.ios === true && this.$q.platform.is.iosEmulated !== true ? document : touchTarget
         target.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
         target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
       }
@@ -172,7 +172,7 @@ export default Vue.extend({
       }
 
       if (touchTarget !== void 0 && touchTarget === this.$el) {
-        const target = this.$q.platform.is.ios === true ? document : touchTarget
+        const target = this.$q.platform.is.ios === true && this.$q.platform.is.iosEmulated !== true ? document : touchTarget
         target.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
         target.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
         touchTarget = void 0

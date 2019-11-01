@@ -154,7 +154,7 @@ export default {
       },
 
       touchStart (evt) {
-        const target = client.is.ios === true ? document : evt.target
+        const target = client.is.ios === true && client.is.iosEmulated !== true ? document : evt.target
         if (ctx.event === void 0 && target !== void 0) {
           ctx.touchAttached = true
 
