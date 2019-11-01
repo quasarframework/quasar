@@ -3,13 +3,14 @@ import Vue from 'vue'
 import QField from '../field/QField.js'
 
 import MaskMixin from '../../mixins/mask.js'
+import CompositionMixin from '../../mixins/composition.js'
 import debounce from '../../utils/debounce.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QInput',
 
-  mixins: [ QField, MaskMixin ],
+  mixins: [ QField, MaskMixin, CompositionMixin ],
 
   props: {
     value: { required: false },
@@ -21,7 +22,6 @@ export default Vue.extend({
 
     debounce: [String, Number],
 
-    maxlength: [Number, String],
     autogrow: Boolean, // makes a textarea
 
     inputClass: [Array, String, Object],
@@ -107,6 +107,13 @@ export default Vue.extend({
       this.$refs.input !== void 0 && this.$refs.input.select()
     },
 
+    __onPaste (e) {
+      if (this.hasMask === true && this.reverseFillMask !== true) {
+        const inp = e.target
+        this.__moveCursorForPaste(inp, inp.selectionStart, inp.selectionEnd)
+      }
+    },
+
     __onInput (e) {
       if (e && e.target && e.target.composing === true) {
         return
@@ -120,7 +127,7 @@ export default Vue.extend({
       const val = e.target.value
 
       if (this.hasMask === true) {
-        this.__updateMaskValue(val)
+        this.__updateMaskValue(val, false, e.inputType)
       }
       else {
         this.__emitValue(val)
@@ -167,30 +174,20 @@ export default Vue.extend({
     __adjustHeight () {
       const inp = this.$refs.input
       if (inp !== void 0) {
+        const parentStyle = inp.parentNode.style
+
+        // reset height of textarea to a small size to detect the real height
+        // but keep the total control size the same
+        parentStyle.marginBottom = (inp.scrollHeight - 1) + 'px'
         inp.style.height = '1px'
+
         inp.style.height = inp.scrollHeight + 'px'
+        parentStyle.marginBottom = ''
       }
-    },
-
-    __onCompositionStart (e) {
-      e.target.composing = true
-    },
-
-    __onCompositionUpdate (e) {
-      if (typeof e.data === 'string' && e.data.codePointAt(0) < 256) {
-        e.target.composing = false
-      }
-    },
-
-    __onCompositionEnd (e) {
-      if (e.target.composing !== true) { return }
-      e.target.composing = false
-
-      this.__onInput(e)
     },
 
     __onChange (e) {
-      this.__onCompositionEnd(e)
+      this.__onComposition(e)
 
       clearTimeout(this.emitTimer)
       this.emitValueFn !== void 0 && this.emitValueFn()
@@ -219,20 +216,17 @@ export default Vue.extend({
       const on = {
         ...this.$listeners,
         input: this.__onInput,
+        paste: this.__onPaste,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
         // switching focus before confirming composition choice
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
         change: this.__onChange,
-        compositionstart: this.__onCompositionStart,
-        compositionend: this.__onCompositionEnd,
         blur: this.__onFinishEditing,
         focus: stop
       }
 
-      if (this.$q.platform.is.android === true) {
-        on.compositionupdate = this.__onCompositionUpdate
-      }
+      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
 
       if (this.hasMask === true) {
         on.keydown = this.__onMaskedKeydown

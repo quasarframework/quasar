@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
 
 function width (val) {
@@ -17,6 +18,8 @@ const sizes = {
 export default Vue.extend({
   name: 'QLinearProgress',
 
+  mixins: [ DarkMixin ],
+
   props: {
     value: {
       type: Number,
@@ -28,7 +31,6 @@ export default Vue.extend({
 
     color: String,
     trackColor: String,
-    dark: Boolean,
 
     reverse: Boolean,
     stripe: Boolean,
@@ -61,7 +63,7 @@ export default Vue.extend({
     },
 
     trackClass () {
-      return 'q-linear-progress__track--' + (this.dark === true ? 'dark' : 'light') +
+      return 'q-linear-progress__track--' + (this.isDark === true ? 'dark' : 'light') +
         (this.trackColor !== void 0 ? ` bg-${this.trackColor}` : '')
     },
 

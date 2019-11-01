@@ -12,6 +12,8 @@ import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
 
+const { passive } = listenOpts
+
 export default Vue.extend({
   name: 'QTooltip',
 
@@ -134,57 +136,61 @@ export default Vue.extend({
     },
 
     __unconfigureAnchorEl () {
+      if (this.anchorEl === void 0) {
+        return
+      }
+
       // mobile hover ref https://stackoverflow.com/a/22444532
-      if (this.$q.platform.is.mobile) {
-        this.anchorEl.removeEventListener('touchstart', this.__delayShow, listenOpts.passive)
+      if (this.$q.platform.is.mobile === true) {
+        this.anchorEl.removeEventListener('touchstart', this.__delayShow, passive)
         ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
-          this.anchorEl.removeEventListener(evt, this.__delayHide, listenOpts.passive)
+          this.anchorEl.removeEventListener(evt, this.__delayHide, passive)
         })
       }
       else {
-        this.anchorEl.removeEventListener('mouseenter', this.__delayShow, listenOpts.passive)
+        this.anchorEl.removeEventListener('mouseenter', this.__delayShow, passive)
       }
 
       if (this.$q.platform.is.ios !== true) {
-        this.anchorEl.removeEventListener('mouseleave', this.__delayHide, listenOpts.passive)
+        this.anchorEl.removeEventListener('mouseleave', this.__delayHide, passive)
       }
     },
 
     __configureAnchorEl () {
-      if (this.noParentEvent === true) { return }
+      if (this.noParentEvent === true || this.anchorEl === void 0) { return }
 
       // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile) {
-        this.anchorEl.addEventListener('touchstart', this.__delayShow, listenOpts.passive)
+        this.anchorEl.addEventListener('touchstart', this.__delayShow, passive)
         ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
-          this.anchorEl.addEventListener(evt, this.__delayHide, listenOpts.passive)
+          this.anchorEl.addEventListener(evt, this.__delayHide, passive)
         })
       }
       else {
-        this.anchorEl.addEventListener('mouseenter', this.__delayShow, listenOpts.passive)
+        this.anchorEl.addEventListener('mouseenter', this.__delayShow, passive)
       }
 
       if (this.$q.platform.is.ios !== true) {
-        this.anchorEl.addEventListener('mouseleave', this.__delayHide, listenOpts.passive)
+        this.anchorEl.addEventListener('mouseleave', this.__delayHide, passive)
       }
     },
 
     __unconfigureScrollTarget () {
       if (this.scrollTarget !== void 0) {
-        this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
+        this.scrollTarget.removeEventListener('scroll', this.hide, passive)
         this.scrollTarget = void 0
       }
+      window.removeEventListener('scroll', this.updatePosition, passive)
     },
 
     __configureScrollTarget () {
       if (this.anchorEl !== void 0) {
         this.scrollTarget = getScrollTarget(this.anchorEl)
         if (this.noParentEvent !== true) {
-          this.scrollTarget.addEventListener('scroll', this.hide, listenOpts.passive)
+          this.scrollTarget.addEventListener('scroll', this.hide, passive)
         }
         if (this.noParentEvent === true || this.scrollTarget !== window) {
-          window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
+          window.addEventListener('scroll', this.updatePosition, passive)
         }
       }
     },

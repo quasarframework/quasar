@@ -82,7 +82,8 @@ export default {
     size5: 'Veliko',
     size6: 'Večje',
     size7: 'Največje',
-    defaultFont: 'Privzeta pisava'
+    defaultFont: 'Privzeta pisava',
+    viewSource: 'Prikaži vir'
   },
   tree: {
     noNodes: 'Ni dosegljivih vozlišč',

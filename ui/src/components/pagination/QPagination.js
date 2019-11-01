@@ -37,6 +37,9 @@ export default Vue.extend({
     disable: Boolean,
 
     input: Boolean,
+
+    toFn: Function,
+
     boundaryLinks: {
       type: Boolean,
       default: null
@@ -142,13 +145,23 @@ export default Vue.extend({
         : otherwise
     },
 
-    __getBtn (h, data, props) {
+    __getBtn (h, data, props, page) {
       data.props = {
         color: this.color,
         flat: true,
         size: this.size,
         ...props
       }
+
+      if (page !== void 0) {
+        if (this.toFn !== void 0) {
+          data.props.to = this.toFn(page)
+        }
+        else {
+          data.on = { click: () => this.set(page) }
+        }
+      }
+
       return h(QBtn, data)
     }
   },
@@ -161,44 +174,32 @@ export default Vue.extend({
 
     if (this.__boundaryLinks) {
       contentStart.push(this.__getBtn(h, {
-        key: 'bls',
-        on: {
-          click: () => this.set(this.min)
-        }
+        key: 'bls'
       }, {
         disable: this.disable || this.value <= this.min,
         icon: this.icons[0]
-      }))
+      }, this.min))
       contentEnd.unshift(this.__getBtn(h, {
-        key: 'ble',
-        on: {
-          click: () => this.set(this.max)
-        }
+        key: 'ble'
       }, {
         disable: this.disable || this.value >= this.max,
         icon: this.icons[3]
-      }))
+      }, this.max))
     }
 
     if (this.__directionLinks) {
       contentStart.push(this.__getBtn(h, {
-        key: 'bdp',
-        on: {
-          click: () => this.setByOffset(-1)
-        }
+        key: 'bdp'
       }, {
         disable: this.disable || this.value <= this.min,
         icon: this.icons[1]
-      }))
+      }, this.value - 1))
       contentEnd.unshift(this.__getBtn(h, {
-        key: 'bdn',
-        on: {
-          click: () => this.setByOffset(1)
-        }
+        key: 'bdn'
       }, {
         disable: this.disable || this.value >= this.max,
         icon: this.icons[2]
-      }))
+      }, this.value + 1))
     }
 
     if (this.input === true) {
@@ -269,73 +270,58 @@ export default Vue.extend({
         const active = this.min === this.value
         contentStart.push(this.__getBtn(h, {
           key: 'bns',
-          style,
-          on: {
-            click: () => this.set(this.min)
-          }
+          style
         }, {
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
           label: this.min,
           ripple: false
-        }))
+        }, this.min))
       }
       if (boundaryEnd) {
         const active = this.max === this.value
         contentEnd.unshift(this.__getBtn(h, {
           key: 'bne',
-          style,
-          on: {
-            click: () => this.set(this.max)
-          }
+          style
         }, {
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
           label: this.max,
           ripple: false
-        }))
+        }, this.max))
       }
       if (ellipsesStart) {
         contentStart.push(this.__getBtn(h, {
           key: 'bes',
-          style,
-          on: {
-            click: () => this.set(pgFrom - 1)
-          }
+          style
         }, {
           disable: this.disable,
           label: '…'
-        }))
+        }, pgFrom - 1))
       }
       if (ellipsesEnd) {
         contentEnd.unshift(this.__getBtn(h, {
           key: 'bee',
-          style,
-          on: {
-            click: () => this.set(pgTo + 1)
-          }
+          style
         }, {
           disable: this.disable,
           label: '…'
-        }))
+        }, pgTo + 1))
       }
       for (let i = pgFrom; i <= pgTo; i++) {
         const active = i === this.value
         contentMiddle.push(this.__getBtn(h, {
           key: `bpg${i}`,
-          style,
-          on: {
-            click: () => this.set(i)
-          }
+          style
         }, {
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
           label: i,
           ripple: false
-        }))
+        }, i))
       }
     }
 

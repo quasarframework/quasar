@@ -16,7 +16,7 @@ Then we create a project folder with Quasar CLI:
 $ quasar create <folder_name>
 ```
 
-Note that you don't need separate projects if you want to build any of the options described above. This one project can seamlessly handle all of them.
+Note that you don't need separate projects if you want to build any of the available platforms. This one project can seamlessly handle all of them.
 
 To continue your learning about Quasar, you should familiarize yourself with the Quasar CLI in depth, because you will be using it a lot.
 
@@ -39,7 +39,7 @@ Example of adding a few npm scripts into your `package.json`:
 
 The above will allow you to run `$ yarn dev` or `$yarn build` without the need of a globally installed `@quasar/cli`, should you wish to do so.
 
-Alternatively, you can even use [npx](https://github.com/zkat/npx) to run quasar commands without the need of a globally installed `@quasar/cli`.
+Alternatively, you can even use [npx](https://github.com/npm/npx) to run quasar commands without the need of a globally installed `@quasar/cli`.
 
 ```bash
 $ npx quasar dev

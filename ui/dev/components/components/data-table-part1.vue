@@ -2,7 +2,7 @@
   <div>
     <div class="q-layout-padding" style="max-width: 1400px;">
       <h4>QMarkupTable</h4>
-      <q-markup-table :separator="separator" wrap-cells>
+      <q-markup-table flat bordered :separator="separator" wrap-cells>
         <thead>
           <tr>
             <th class="text-left">
@@ -138,6 +138,8 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        bordered
+        flat
         binary-state-sort
         :rows-per-page-options="[]"
         row-key="name"
@@ -221,8 +223,13 @@
       </q-table>
 
       <h2>Grid style</h2>
+      <q-toggle v-model="gridHeader" label="Grid header" />
+      <q-toggle v-model="gridLoading" label="Grid loading" />
+
       <q-table
         grid
+        :grid-header="gridHeader"
+        :loading="gridLoading"
         :data="data"
         :columns="columns"
         :filter="filter"
@@ -304,6 +311,7 @@
         dark
         class="bg-black"
         color="orange"
+        bordered
         :separator="separator"
         :data="data"
         :columns="columns"
@@ -313,37 +321,6 @@
         selection="multiple"
         :selected.sync="selected"
         row-key="name"
-      />
-
-      <h2>VirtualScroll Mode</h2>
-      <q-table
-        style="height: 500px"
-        :separator="separator"
-        :data="bigdata"
-        :columns="columns"
-        :title="title"
-        :filter="filter"
-        :loading="loading"
-        selection="multiple"
-        :selected.sync="selected"
-        row-key="_index"
-        virtual
-      />
-
-      <h2>VirtualScroll Mode (with header fixed)</h2>
-      <q-table
-        style="height: 500px"
-        class="table-sticky"
-        :separator="separator"
-        :data="bigdata"
-        :columns="columns"
-        :title="title"
-        :filter="filter"
-        :loading="loading"
-        selection="multiple"
-        :selected.sync="selected"
-        row-key="_index"
-        virtual
       />
 
       <h2>body-cell-desc template</h2>
@@ -793,13 +770,13 @@ export default {
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',
       selected: [],
-
+      gridHeader: false,
+      gridLoading: false,
       serverPagination: {
         page: 1,
         rowsNumber: 10
       },
       serverData: [],
-
       title: 'QDataTable',
       filter: '',
       columns: [
@@ -921,8 +898,7 @@ export default {
           calcium: '12%',
           iron: '6%'
         }
-      ],
-      bigdata: []
+      ]
     }
   },
   computed: {
@@ -945,26 +921,20 @@ export default {
       console.log('REQUEST', props)
       setTimeout(() => {
         this.serverPagination = props.pagination
-
         let
           table = this.$refs.server,
           rows = this.data.slice(),
           { page, rowsPerPage, sortBy, descending } = props.pagination
-
         if (props.filter) {
           rows = table.filterMethod(rows, props.filter)
         }
-
         if (sortBy) {
           rows = table.sortMethod(rows, sortBy, descending)
         }
-
         this.serverPagination.rowsNumber = rows.length
-
         if (rowsPerPage) {
           rows = rows.slice((page - 1) * rowsPerPage, page * rowsPerPage)
         }
-
         this.serverData = rows
         this.loading = false
       }, 2000)
@@ -972,14 +942,6 @@ export default {
     onSelection (rows, added) {
       console.log(added ? 'selected' : 'un-selected', rows)
     }
-  },
-  created () {
-    const multiplier = 1000
-    let bigdata = []
-    for (let i = 0; i < multiplier; i++) {
-      bigdata = bigdata.concat(this.data)
-    }
-    this.bigdata = bigdata
   },
   mounted () {
     this.request({
@@ -995,15 +957,4 @@ export default {
   margin-top 25px
 .text-pre-wrap
   white-space pre-wrap
-.table-sticky
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th /* bg color is important for th; just specify one */
-    background-color: #c1f4cd
-
-  thead tr:first-child th
-    position: sticky
-    top: 0
-    opacity: 1
-    z-index: 1
 </style>

@@ -28,7 +28,11 @@ export function getModel (ratio, min, max, step, decimals) {
   return between(model, min, max)
 }
 
+import DarkMixin from '../../mixins/dark.js'
+
 export let SliderMixin = {
+  mixins: [ DarkMixin ],
+
   directives: {
     TouchPan
   },
@@ -52,7 +56,6 @@ export let SliderMixin = {
 
     labelColor: String,
     labelTextColor: String,
-    dark: Boolean,
     dense: Boolean,
 
     label: Boolean,
@@ -82,7 +85,7 @@ export let SliderMixin = {
         (this.focus === 'both' ? ' q-slider--focus' : '') +
         (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
         (this.labelAlways === true ? ' q-slider--label-always' : '') +
-        (this.dark === true ? ' q-slider--dark' : '') +
+        (this.isDark === true ? ' q-slider--dark' : '') +
         (this.dense === true ? ' q-slider--dense' : '')
     },
 

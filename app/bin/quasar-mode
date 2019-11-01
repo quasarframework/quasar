@@ -18,10 +18,10 @@ const argv = parseArgs(process.argv.slice(2), {
 function showHelp() {
   console.log(`
   Description
-    Add/Remove support for PWA / Cordova / Electron modes.
+    Add/Remove support for PWA / Cordova / Capacitor / Electron modes.
 
   Usage
-    $ quasar mode [add|remove] [pwa|ssr|cordova|electron] [--yes]
+    $ quasar mode [add|remove] [pwa|ssr|cordova|capacitor|electron] [--yes]
 
     # determine what modes are currently installed:
     $ quasar mode
@@ -60,7 +60,7 @@ async function run () {
     process.exit(1)
   }
 
-  if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(mode)) {
+  if (![undefined, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr'].includes(mode)) {
     warn(`⚠️  Unknown mode "${ mode }" to ${action}`)
     warn()
     process.exit(1)
@@ -94,7 +94,7 @@ function displayModes () {
   log(`Detecting installed modes...`)
 
   const info = []
-  ;['pwa', 'ssr', 'cordova', 'electron'].forEach(mode => {
+  ;['pwa', 'ssr', 'cordova', 'capacitor', 'electron'].forEach(mode => {
     info.push([
       `Mode ${mode.toUpperCase()}`,
       getMode(mode).isInstalled ? green('yes') : grey('no')

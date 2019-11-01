@@ -71,7 +71,7 @@ export default Vue.extend({
       else {
         evt.direction = this.__axis === 'X'
           ? evt.offset.x < 0 ? 'left' : 'right'
-          : evt.offset.y < 0 ? 'up' : 'bottom'
+          : evt.offset.y < 0 ? 'up' : 'down'
       }
 
       if (

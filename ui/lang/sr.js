@@ -82,7 +82,8 @@ export default {
     size5: 'Veliko',
     size6: 'Već',
     size7: 'Najveće',
-    defaultFont: 'Zadani font'
+    defaultFont: 'Zadani font',
+    viewSource: 'Погледај извор'
   },
   tree: {
     noNodes: 'Nema nijednog čvora',

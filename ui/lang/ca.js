@@ -82,7 +82,8 @@ export default {
     size5: 'Gran',
     size6: 'Molt gran',
     size7: 'Màxim',
-    defaultFont: 'Font per defecte'
+    defaultFont: 'Font per defecte',
+    viewSource: 'Veure la font'
   },
   tree: {
     noNodes: 'No hi han nodes disponibles',

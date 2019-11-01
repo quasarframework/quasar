@@ -12,7 +12,7 @@
 
     "style-fn": {
       "type": "Function",
-      "desc": "Override default CSS style applied to the component (sets minHeight); Function(offset: Number) => CSS props/value: Object",
+      "desc": "Override default CSS style applied to the component (sets minHeight); Function(offset: Number) => CSS props/value: Object; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "offset": {
           "type": "Number",

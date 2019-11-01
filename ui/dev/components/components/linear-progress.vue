@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
-      <q-toggle v-model="dark" :dark="dark" label="Dark" />
+      <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
 
       <div class="caption">
         <span class="desktop-only">Click</span>
@@ -89,7 +89,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       progress: 0.67,
       progressBuffer: 0.41,
       buffer: 0.67

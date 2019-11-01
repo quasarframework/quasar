@@ -87,7 +87,8 @@ export default {
     size5: '大きい', // 'Big',
     size6: 'とても大きい', // 'Very big',
     size7: '最大', // 'Maximum',
-    defaultFont: '初期フォント' // 'Default Font'
+    defaultFont: '初期フォント', // 'Default Font',
+    viewSource: 'ソースを見る'
   },
   tree: {
     noNodes: 'ノードがありません', // 'No nodes available',

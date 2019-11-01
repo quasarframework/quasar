@@ -35,7 +35,7 @@ export default {
 }
 ```
 
-We can also use Screen plugin outside of a Vue component:
+We can also use the Screen plugin outside of a Vue component:
 ```js
 import { Screen } from 'quasar'
 

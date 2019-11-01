@@ -10,7 +10,7 @@ Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js base
 * SPAs (Single Page App)
 * SSR (Server-side Rendered App) (+ optional PWA client takeover)
 * PWAs (Progressive Web App)
-* Mobile Apps (Android, iOS, …) through Apache Cordova
+* Mobile Apps (Android, iOS, …) through Cordova or Capacitor
 * Multi-platform Desktop Apps (using Electron)
 
 Quasar's motto is: **write code once and simultaneously deploy it** as a website, a Mobile App and/or an Electron App. Yes, one codebase for all of them, helping you develop an app in record time by using a state of the art CLI and backed by best-practice, blazing fast Quasar web components.
@@ -93,7 +93,7 @@ Quasar comes equipped with over 40 language packs out of the box. On top of that
 And finally, it’s worth mentioning the significant amount of time taken to write great, bloat-free, focused and complete documentation, so that developers can quickly pick up Quasar. We put special effort into our documentation to be sure there is no confusion.
 
 ## Underlying technologies
-[Vue](https://vuejs.org/), [Nodejs](https://nodejs.org/), [Webpack](https://webpack.js.org/), [Cordova](https://cordova.apache.org/), [Electron](https://electronjs.org/).
+[Vue](https://vuejs.org/), [Nodejs](https://nodejs.org/), [Webpack](https://webpack.js.org/), [Cordova](https://cordova.apache.org/), [Capacitor](https://capacitor.ionicframework.com), [Electron](https://electronjs.org/).
 
 Except for Vue, which takes half a day to pick up and will change you forever, there is no requirement for you to know the other technologies. They are all integrated and configured in Quasar for you.
 

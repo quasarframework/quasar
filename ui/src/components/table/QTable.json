@@ -10,11 +10,62 @@
     },
 
     "row-key": {
-      "type": "String",
-      "desc": "Property of each row that defines the unique key of each row; The value of property must be string or number",
+      "type": [ "String", "Function" ],
+      "desc": "Property of each row that defines the unique key of each row (the result must be a primitive, not Object, Array, etc); The value of property must be string or a function taking a row and returning the desired (nested) key in the row; If supplying a function then for best performance, reference it from your scope and do not define it inline",
       "default": "id",
-      "examples": [ "myprop" ],
+      "examples": [ "row-key=\"name\"", ":row-key=\"row => row.name\"" ],
       "category": "general"
+    },
+
+    "virtual-scroll": {
+      "type": "Boolean",
+      "desc": "Display data using QVirtualScroll (for non-grid mode only)",
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-slice-size": {
+      "type": "Number",
+      "desc": "Number of rows to render in the virtual list",
+      "default": "30",
+      "examples": [
+        ":virtual-scroll-slice-size=\"60\""
+      ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-item-size": {
+      "type": "Number",
+      "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
+      "default": "48 (24 if dense)",
+      "examples": [
+        ":virtual-scroll-item-size=\"48\""
+      ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-sticky-size-start": {
+      "type": "Number",
+      "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [
+        ":virtual-scroll-sticky-size-start=\"48\""
+      ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
+    },
+
+    "virtual-scroll-sticky-size-end": {
+      "type": "Number",
+      "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
+      "default": "0",
+      "examples": [
+        ":virtual-scroll-sticky-size-end=\"48\""
+      ],
+      "category": "virtual-scroll",
+      "addedIn": "v1.2.0"
     },
 
     "color": {
@@ -25,7 +76,13 @@
     "grid": {
       "type": "Boolean",
       "desc": "Display data as a grid instead of the default table",
-      "category": "style"
+      "category": "behavior"
+    },
+
+    "grid-header": {
+      "type": "Boolean",
+      "desc": "Display header for grid-mode also",
+      "category": "behavior|content"
     },
 
     "dense": {
@@ -135,7 +192,7 @@
 
     "selected-rows-label": {
       "type": "Function",
-      "desc": "Text to display when user selected at least one row",
+      "desc": "Text to display when user selected at least one row; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "numberOfRows": {
           "type": "Number",
@@ -161,7 +218,7 @@
 
     "pagination-label": {
       "type": "Function",
-      "desc": "Text to override default pagination label at bottom of table (unless 'pagination' scoped slot is used)",
+      "desc": "Text to override default pagination label at bottom of table (unless 'pagination' scoped slot is used); For best performance, reference it from your scope and do not define it inline",
       "params": {
         "firstRowIndex": {
           "type": "Number",
@@ -257,7 +314,7 @@
 
     "filter-method": {
       "type": "Function",
-      "desc": "The actual filtering mechanism",
+      "desc": "The actual filtering mechanism; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "rows": {
           "type": "Array",
@@ -378,7 +435,7 @@
 
     "sort-method": {
       "type": "Function",
-      "desc": "The actual sort mechanism. Function (rows, sortBy, descending) => sorted rows",
+      "desc": "The actual sort mechanism. Function (rows, sortBy, descending) => sorted rows; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "rows": {
           "type": "Array",
@@ -1011,6 +1068,25 @@
   },
 
   "events": {
+    "row-click": {
+      "desc": "Emitted when user clicks/taps on a row; Is not emitted when using body/row/item scoped slots",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+
+        "row": {
+          "type": "Object",
+          "desc": "The row upon which user has clicked/tapped",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.2.6"
+    },
+
     "request": {
       "desc": "Emitted when a server request is triggered",
       "params": {
@@ -1350,6 +1426,10 @@
 
     "toggleFullscreen": {
       "desc": "Toggles fullscreen mode"
+    },
+
+    "resetVirtualScroll": {
+      "desc": "Resets the virtual scroll (if using it) computations; Needed for custom edge-cases"
     }
   }
 }

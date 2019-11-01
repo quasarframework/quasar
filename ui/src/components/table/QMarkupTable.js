@@ -1,13 +1,15 @@
 import Vue from 'vue'
 
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QMarkupTable',
 
+  mixins: [ DarkMixin ],
+
   props: {
     dense: Boolean,
-    dark: Boolean,
     flat: Boolean,
     bordered: Boolean,
     square: Boolean,
@@ -22,7 +24,7 @@ export default Vue.extend({
   computed: {
     classes () {
       return `q-table--${this.separator}-separator` +
-        (this.dark === true ? ` q-table--dark q-table__card--dark` : '') +
+        (this.isDark === true ? ` q-table--dark q-table__card--dark q-dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +
         (this.flat === true ? ` q-table--flat` : '') +
         (this.bordered === true ? ` q-table--bordered` : '') +

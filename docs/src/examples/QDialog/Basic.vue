@@ -35,7 +35,7 @@
     </q-dialog>
 
     <q-dialog v-model="prompt" persistent>
-      <q-card style="min-width: 400px">
+      <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-h6">Your address</div>
         </q-card-section>

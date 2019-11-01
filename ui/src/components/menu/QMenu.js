@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
+import DarkMixin from '../../mixins/dark.js'
 import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
@@ -19,7 +20,7 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
+  mixins: [ DarkMixin, AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   directives: {
     ClickOutside
@@ -83,7 +84,8 @@ export default Vue.extend({
     },
 
     menuClass () {
-      return this.square === true ? ' q-menu--square' : ''
+      return (this.square === true ? ' q-menu--square' : '') +
+        (this.isDark === true ? ' q-menu--dark q-dark' : '')
     },
 
     hideOnRouteChange () {
@@ -155,7 +157,16 @@ export default Vue.extend({
       this.__anchorCleanup(true)
 
       // check null for IE
-      if (this.__refocusTarget !== void 0 && this.__refocusTarget !== null) {
+      if (
+        this.__refocusTarget !== void 0 &&
+        this.__refocusTarget !== null &&
+        (
+          // menu was hidden from code or ESC plugin
+          evt === void 0 ||
+          // menu was not closed from a mouse or touch clickOutside
+          evt.qClickOutside !== true
+        )
+      ) {
         this.__refocusTarget.focus()
       }
 
@@ -184,10 +195,8 @@ export default Vue.extend({
     __unconfigureScrollTarget () {
       if (this.scrollTarget !== void 0) {
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        if (this.scrollTarget !== window) {
-          window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
-        }
       }
+      window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
     },
 
     __configureScrollTarget () {
@@ -233,8 +242,17 @@ export default Vue.extend({
 
     __onClickOutside (e) {
       if (this.persistent !== true && this.showing === true) {
+        const targetClassList = e.target.classList
+
         this.hide(e)
-        stopAndPrevent(e)
+        if (
+          // always prevent touch event
+          e.type === 'touchstart' ||
+          // prevent click if it's on a dialog backdrop
+          targetClassList.contains('q-dialog__backdrop')
+        ) {
+          stopAndPrevent(e)
+        }
         return true
       }
     },
@@ -242,7 +260,7 @@ export default Vue.extend({
     __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        // stop propagating this events from children
+        // stop propagating these events from children
         input: stop,
         'popup-show': stop,
         'popup-hide': stop

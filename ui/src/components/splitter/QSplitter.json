@@ -6,22 +6,38 @@
   "props": {
     "value": {
       "type": "Number",
-      "desc": "Model of the component defining the split ratio percent (0.0 < x < 100.0) between panes; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Model of the component defining the split ratio percent (0.0 < x < 100.0) between panels; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [ "v-model=\"ratio\"" ],
       "category": "model"
     },
 
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Apply the model size to the second panel (by default it applies to the first)",
+      "category": "model",
+      "addedIn": "v1.2.6"
+    },
+
+    "unit": {
+      "type": "String",
+      "desc": "CSS unit for the model",
+      "default": "%",
+      "values": [ "%", "px" ],
+      "category": "model",
+      "addedIn": "v1.2.6"
+    },
+
     "horizontal": {
       "type": "Boolean",
-      "desc": "Allows the splitter to split its two panes horizontally, instead of vertically",
+      "desc": "Allows the splitter to split its two panels horizontally, instead of vertically",
       "category": "content"
     },
 
     "limits": {
       "type": "Array",
-      "desc": "An array of two values representing a ratio of minimum and maximum split area of the two panes (0.0 < x < 100.0)",
-      "default": "[10, 90]",
-      "examples": [ ":limits=\"[30, 70]\"" ],
+      "desc": "An array of two values representing the minimum and maximum split size of the two panels; When 'px' unit is set then you can use Infinity as the second value to make it unbound on the other side",
+      "default": "For '%' unit: [10, 90]; For 'px' unit: [50, Infinity]",
+      "examples": [ ":limits=\"[30, 70]\"", ":limits=\"[0, Infinity]\"" ],
       "category": "content|model"
     },
 
@@ -82,11 +98,11 @@
     },
 
     "before": {
-      "desc": "Content of the pane on left/top"
+      "desc": "Content of the panel on left/top"
     },
 
     "after": {
-      "desc": "Content of the pane on right/bottom"
+      "desc": "Content of the panel on right/bottom"
     },
 
     "separator": {
@@ -100,7 +116,7 @@
       "params": {
         "value": {
           "type": "Number",
-          "desc": "New model value (0.0 < x < 100.0) defining the ratio between panes",
+          "desc": "New model value (0.0 < x < 100.0) defining the ratio between panels",
           "examples": [ 0.22 ]
         }
       }

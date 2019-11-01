@@ -32,10 +32,6 @@ function getMatch (userAgent, platformMatch) {
   }
 }
 
-function getClientUserAgent () {
-  return (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
-}
-
 function getPlatformMatch (userAgent) {
   return /(ipad)/.exec(userAgent) ||
     /(ipod)/.exec(userAgent) ||
@@ -187,103 +183,119 @@ function getPlatform (userAgent) {
     if (window.process && window.process.versions && window.process.versions.electron) {
       browser.electron = true
     }
-    else if (document.location.href.indexOf('chrome-extension://') === 0) {
-      browser.chromeExt = true
+    else if (document.location.href.indexOf('-extension://') > -1) {
+      browser.bex = true
     }
-    else if (window._cordovaNative || window.cordova) {
+    else if (window.Capacitor !== void 0) {
+      browser.capacitor = true
+      browser.nativeMobile = true
+      browser.nativeMobileWrapper = 'capacitor'
+    }
+    else if (window._cordovaNative !== void 0 || window.cordova !== void 0) {
       browser.cordova = true
+      browser.nativeMobile = true
+      browser.nativeMobileWrapper = 'cordova'
     }
 
-    fromSSR = browser.cordova === void 0 &&
+    fromSSR = browser.nativeMobile === void 0 &&
       browser.electron === void 0 &&
       !!document.querySelector('[data-server-rendered]')
 
-    fromSSR === true && (onSSR = true)
+    if (fromSSR === true) {
+      onSSR = true
+    }
   }
 
   return browser
 }
 
-let webStorage
+const userAgent = isSSR === false
+  ? (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+  : ''
 
-export function hasWebStorage () {
-  if (webStorage !== void 0) {
-    return webStorage
-  }
-
-  try {
-    if (window.localStorage) {
-      webStorage = true
-      return true
-    }
-  }
-  catch (e) {}
-
-  webStorage = false
-  return false
+const ssrClient = {
+  has: {
+    touch: false,
+    webStorage: false
+  },
+  within: { iframe: false }
 }
 
-function getClientProperties () {
-  return {
+// We export "client" for hydration error-free parts,
+// like touch directives who do not (and must NOT) wait
+// for the client takeover;
+// Do NOT import this directly in your app, unless you really know
+// what you are doing.
+export const client = isSSR === false
+  ? {
+    userAgent,
+    is: getPlatform(userAgent),
     has: {
       touch: (() => 'ontouchstart' in window ||
         window.navigator.maxTouchPoints > 0
       )(),
-      webStorage: hasWebStorage()
+      webStorage: (() => {
+        try {
+          if (window.localStorage) {
+            return true
+          }
+        }
+        catch (e) {}
+        return false
+      })()
     },
     within: {
       iframe: window.self !== window.top
     }
   }
-}
+  : ssrClient
 
-export default {
-  has: {
-    touch: false,
-    webStorage: false
-  },
-  within: { iframe: false },
-
-  parseSSR (/* ssrContext */ ssr) {
-    if (ssr) {
-      const userAgent = (ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || '').toLowerCase()
-      return {
-        userAgent,
-        is: getPlatform(userAgent),
-        has: this.has,
-        within: this.within
-      }
-    }
-
-    const userAgent = getClientUserAgent()
-    return {
-      userAgent,
-      is: getPlatform(userAgent),
-      ...getClientProperties()
-    }
-  },
-
+const Platform = {
   install ($q, queues) {
     if (isSSR === true) {
+      // we're on server-side, so we push
+      // to the server queue instead of
+      // applying directly
       queues.server.push((q, ctx) => {
         q.platform = this.parseSSR(ctx.ssr)
       })
-      return
     }
+    else if (fromSSR === true) {
+      // must match with server-side before
+      // client taking over in order to prevent
+      // hydration errors
+      Object.assign(this, client, ssrClient)
 
-    this.userAgent = getClientUserAgent()
-    this.is = getPlatform(this.userAgent)
-
-    if (fromSSR === true) {
+      // takeover should increase accuracy for
+      // the rest of the props; we also avoid
+      // hydration errors
       queues.takeover.push(q => {
         onSSR = fromSSR = false
-        Object.assign(q.platform, getClientProperties())
+        Object.assign(q.platform, client)
       })
+
+      // we need to make platform reactive
+      // for the takeover phase
       Vue.util.defineReactive($q, 'platform', this)
     }
     else {
-      Object.assign(this, getClientProperties())
+      // we don't have any business with SSR, so
+      // directly applying...
+      Object.assign(this, client)
       $q.platform = this
     }
   }
 }
+
+if (isSSR === true) {
+  Platform.parseSSR = (/* ssrContext */ ssr) => {
+    const userAgent = (ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || '').toLowerCase()
+    return {
+      ...client,
+      userAgent,
+      is: getPlatform(userAgent)
+    }
+  }
+}
+
+export default Platform

@@ -67,7 +67,7 @@
 
   &__progress
     height 0 !important
-    td
+    th
       padding 0 !important
       border-bottom 1px solid transparent !important
     .q-linear-progress
@@ -107,9 +107,7 @@
       margin-right 4px
 
   &--col-auto-width
-    opacity 1 !important
     width 1px
-    padding-right 0 !important
 
   &--flat
     box-shadow none
@@ -118,7 +116,7 @@
   &--square
     border-radius 0
 
-  &__linear-progress, &--grid .q-table__middle
+  &__linear-progress
     height 2px
 
   &--no-wrap
@@ -127,12 +125,18 @@
 
   &--grid
     box-shadow none
+    .q-table__top
+      padding-bottom 4px
+    .q-table__middle
+      min-height 2px
+      margin-bottom 4px
+      thead
+        &, th
+          border 0 !important
+    .q-table__linear-progress
+      bottom 0
     .q-table__bottom
       border-top 0
-    .q-table
-      height 2px
-      thead
-        border 0
 
   &__grid-item-card
     vertical-align top
@@ -191,12 +195,6 @@
   .q-table__top
     border-bottom 1px solid $table-border-color
 
-.q-table .q-table--col-auto-width
-  border-left 0
-  border-right 0
-  & + td, & + th
-    border-left 0
-
 /*
  * dense size
  */
@@ -229,11 +227,6 @@
 .q-table // @stylint ignore
   thead, tr, th, td
     border-color $table-border-color
-  th
-    opacity .54
-    transition opacity $table-transition
-    &.sortable:hover, &.sorted
-      opacity .86
   tbody tr
     &.selected
       background $table-selected-background
@@ -244,10 +237,10 @@
  * On dark background
  */
 .q-table__card--dark
-  color #fff
-  background $grey-9
+  border-color $separator-dark-color
 
 .q-table--dark
+  border-color $separator-dark-color
 
   .q-table__bottom
     border-top 1px solid $table-dark-border-color

@@ -6,7 +6,7 @@
     <q-btn label="Left" icon="keyboard_arrow_left" color="primary" @click="open('left')" />
 
     <q-dialog v-model="dialog" :position="position">
-      <q-card style="width: 500px">
+      <q-card style="width: 350px">
         <q-linear-progress :value="0.6" color="pink" />
 
         <q-card-section class="row items-center no-wrap">

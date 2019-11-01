@@ -36,6 +36,12 @@ As a helper, you can use `clearable` prop so user can reset model to `null` thro
 ### Disable and readonly
 <doc-example title="Disable and readonly" file="QSelect/DisableReadonly" />
 
+### Slots with QBtn type "submit"
+
+::: warning
+When placing a QBtn with type "submit" in one of the "before", "after", "prepend", or "append" slots of a QField, QInput or QSelect, you should also add a `@click` listener on the QBtn in question. This listener should call the method that submits your form. All "click" events in such slots are not propagated to their parent elements.
+:::
+
 ### Menu transitions
 
 ::: warning
@@ -131,9 +137,9 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 ### Native attributes with `use-input`
 
-All the attributes set on `QSelect` that are not in the list of `props` in the **API** will be passed to the native `input` field used (please check `use-input` prop description first to understand what it does) for filtering / autocomplete / adding new value. Some examples: autocomplete, placeholder.
+All the attributes set on QSelect that are not in the list of props in the API will be passed to the native input field used (please check `use-input` prop description first to understand what it does) for filtering / autocomplete / adding new value. Some examples: autocomplete, placeholder.
 
-More information about [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
+More information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
 <doc-example title="Filtering options" file="QSelect/InputFilter" />
 
@@ -218,6 +224,27 @@ To get the best performance while using lots of options freeze the array you are
 :::
 
 <doc-example title="100k options" file="QSelect/RenderPerf" />
+
+## Keyboard navigation
+
+When QSelect is focused:
+  - pressing <kbd>ENTER</kbd>, <kbd>ARROW DOWN</kbd> (or <kbd>SPACE</kbd> if `use-input` is not set) will open the list of options
+  - if `use-chips` is set:
+    - pressing <kbd>SHIFT</kbd> + <kbd>TAB</kbd> will navigate backwards through the QChips (if a QChip is selected <kbd>TAB</kbd> will navigate forward through the QChips)
+    - pressing <kbd>ENTER</kbd> when a QChip is selected will remove that option from the selection
+    - pressing <kbd>BACKSPACE</kbd> will remove the last option from the selection (when `use-input` is set the input should be empty)
+  - pressing <kbd>TAB</kbd> (or <kbd>SHIFT</kbd> + <kbd>TAB</kbd> if `use-chips` is not set or the first QChip is selected) will navigate to the next or previous focusable element on page
+  - typing text (<kbd>0</kbd> - <kbd>9</kbd> or <kbd>A</kbd> - <kbd>Z</kbd>) if `use-input` is not set will:
+    - create a search buffer (will be reset when a new key is not typed for 1.5 seconds) that will be used to search in the options labels
+    - select the next option starting with that letter (after the current focused one) if the first key in buffer is typed multiple times
+    - select the next option (starting with the current focused one) that matches the typed text (the match is fuzzy - the option label should start with the first letter and contain all the letters)
+
+When the list of options is opened:
+  - pressing <kbd>ARROW UP</kbd> or <kbd>ARROW DOWN</kbd> will navigate up or down in the list of options
+  - when navigating using arrow keys, navigation will wrap when reaching the start or end of the list
+  - pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` is not set) when an option is selected in the list will:
+    - select the option and close the list of options if `multiple` is not set
+    - toggle the option if `multiple` is set
 
 ## QSelect API
 <doc-api file="QSelect" />

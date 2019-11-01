@@ -30,7 +30,7 @@
 
     "options": {
       "type": "Function",
-      "desc": "Optionally configure what time is the user allowed to set; Overriden by 'hour-options', 'minute-options' and 'second-options' if those are set",
+      "desc": "Optionally configure what time is the user allowed to set; Overriden by 'hour-options', 'minute-options' and 'second-options' if those are set; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "hr": {
           "type": "Number",
@@ -95,6 +95,13 @@
     }
   },
 
+  "slots": {
+    "default": {
+      "desc": "This is where additional buttons can go",
+      "addedIn": "v1.2.8"
+    }
+  },
+
   "events": {
     "input": {
       "extends": "input",
@@ -149,6 +156,13 @@
           }
         }
       }
+    }
+  },
+
+  "methods": {
+    "setNow": {
+      "desc": "Change model to current moment",
+      "addedIn": "v1.1.7"
     }
   }
 }

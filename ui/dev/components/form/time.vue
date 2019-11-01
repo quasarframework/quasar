@@ -1,8 +1,8 @@
 <template>
-  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <div style="max-width: 600px" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="withSeconds" label="With Seconds" />
@@ -17,6 +17,30 @@
         v-model="time"
         v-bind="props"
         :style="style"
+        flat
+        bordered
+      />
+
+      <q-time
+        v-model="time"
+        v-bind="props"
+        :style="style"
+        flat
+        bordered
+      >
+        <div class="row items-center justify-end q-gutter-sm">
+          <q-btn label="Cancel" color="primary" flat />
+          <q-btn label="OK" color="primary" flat />
+        </div>
+      </q-time>
+
+      <q-time
+        v-model="time"
+        v-bind="props"
+        :style="style"
+        landscape
+        flat
+        bordered
       />
 
       <q-time
@@ -24,7 +48,14 @@
         v-bind="props"
         :style="style"
         landscape
-      />
+        flat
+        bordered
+      >
+        <div class="row items-center justify-end q-gutter-sm">
+          <q-btn label="Cancel" color="primary" flat />
+          <q-btn label="OK" color="primary" flat />
+        </div>
+      </q-time>
 
       <div class="text-h6">
         Null/Undefined model
@@ -140,7 +171,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       disable: false,
       readonly: false,
       withSeconds: false,

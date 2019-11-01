@@ -1,19 +1,10 @@
 ---
 title: Cordova Troubleshooting and Tips
-desc: Tips and tricks for a Quasar hybrid mobile app.
+desc: Tips and tricks for a Quasar hybrid mobile app with Cordova.
 ---
 
 ## $q.cordova
 While you are developing a Mobile App with Cordova Mode, you can access `this.$q.cordova` in your Vue files. This is an alias to the global `cordova` Object.
-
-## Browser Simulator
-Use Google Chrome's emulator from Developer Tools. It's a fantastic tool. You can select which device to emulate, but keep in mind that it's an *emulator* and not the real deal. (if you have an actual device, see Remote Debugging below, which is more precise.)
-
-::: danger
-If you change from desktop to mobile emulator or backwards, hit the refresh button as Quasar Platform detection is not dynamic (nor it should be).
-:::
-
-![Google Chrome emulator](https://cdn.quasar.dev/img/browser-simulator.png "Google Chrome emulator")
 
 ## Android Tips
 
@@ -81,6 +72,16 @@ The output should contain each one entry for the Android SDK 'tools'-folder and 
 ```
 
 > If you ensured your paths are set correctly and still get the error on `cordova requirements` you can try the following fix: [Replacing the Android Studio 'tools' folder manually](https://github.com/meteor/meteor/issues/8464#issuecomment-288112504)
+
+### Android Studio
+
+In Android Studio (if you open it on `/src-cordova/platforms/android`), you will be greeted with a message recommending to upgrade the Gradle version. **DO NOT UPGRADE GRADLE** as it will break the Cordova project. Same goes for any other requested upgrades.
+
+<img src="https://cdn.quasar.dev/img/gradle-upgrade-notice.png" alt="Gradle upgrade" class="q-mb-md fit rounded-borders" style="max-width: 350px">
+
+If you encounter any IDE errors then click on File > Invalidate caches and restart.
+
+<img src="https://cdn.quasar.dev/img/gradle-invalidate-cache.png" alt="Gradle upgrade" class="fit rounded-borders" style="max-width: 350px">
 
 ### Setting up device on Linux
 

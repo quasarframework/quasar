@@ -6,7 +6,7 @@ export default [
     email: 'razvan@quasar.dev',
     twitter: 'quasarframework',
     github: 'rstoenescu',
-    desc: 'Architecture and development of Quasar on all fronts.'
+    desc: 'Architecture and development of Quasar on all fronts'
   },
 
   {
@@ -15,7 +15,7 @@ export default [
     avatar: 'dan_popescu.jpg',
     email: 'dan@quasar.dev',
     github: 'pdanpdan',
-    desc: 'Focuses on Quasar UI components, directives and plugins.'
+    desc: 'Focuses on Quasar UI components, directives and plugins'
   },
 
   {
@@ -25,15 +25,7 @@ export default [
     email: 'jeff@quasar.dev',
     twitter: 'jgalbraith64',
     github: 'hawkeye64',
-    desc: 'UI app extensions, the Quasar Radio Show and community outreach.'
-  },
-
-  {
-    name: 'Lucas Nogueira',
-    role: 'Senior Developer',
-    avatar: 'lucas_nogueira.jpg',
-    github: 'lucasfernog',
-    desc: 'Quasar CLI development, Webview Quasar mode.'
+    desc: 'UI components, App Extensions and community outreach'
   },
 
   {
@@ -41,15 +33,23 @@ export default [
     role: 'Senior Developer',
     avatar: 'allan_gaunt.png',
     github: 'webnoob',
-    desc: 'Web products and security research.'
+    desc: 'BEX (browser extension App CLI mode), web products and security research'
   },
 
   {
     name: 'Scott Molinari',
-    role: 'DevOps / Senior Developer',
+    role: 'Media Manager',
     avatar: 'scott_molinari.jpg',
     github: 'smolinari',
-    desc: 'Helps with docs, bug reports, external systems, writes articles and offers community support.'
+    desc: 'Manages our Facebook page, blog and forum. Helps with docs, bug reports, external systems, writes and manages articles and offers community support.'
+  },
+
+  {
+    name: 'Lucas Nogueira',
+    role: 'Senior Developer',
+    avatar: 'lucas_nogueira.jpg',
+    github: 'lucasfernog',
+    desc: 'Quasar App CLI development, docs enhancements'
   },
 
   {
@@ -57,6 +57,14 @@ export default [
     role: 'Senior Developer',
     avatar: 'tobias_mesquita.jpg',
     github: 'TobyMosque',
+    desc: 'Help desk'
+  },
+
+  {
+    name: 'Aldrin Marquez',
+    role: 'Community Staff',
+    avatar: 'aldrin_marquez.jpg',
+    github: 'metalsadman',
     desc: 'Help desk'
   },
 
@@ -69,19 +77,19 @@ export default [
   },
 
   {
-    name: 'Noah Klayman',
-    role: 'DevOps / Community Staff',
-    avatar: 'noah_klayman.jpeg',
-    github: 'nklayman',
-    desc: 'GraphQL, App Extensions'
+    name: 'Stanislav Valasek',
+    role: 'Community Staff',
+    avatar: 'stanislav_valasek.jpg',
+    github: 'valasek',
+    desc: 'Marketing, Open Source Compliance, Community experience.'
   },
 
   {
-    name: 'Aldrin Marquez',
-    role: 'Community Staff',
-    avatar: 'aldrin_marquez.jpg',
-    github: 'metalsadman',
-    desc: 'Help desk'
+    name: 'Noah Klayman',
+    role: 'Developer / Community Staff',
+    avatar: 'noah_klayman.jpeg',
+    github: 'nklayman',
+    desc: 'Capacitor App CLI mode'
   },
 
   {
@@ -93,27 +101,11 @@ export default [
   },
 
   {
-    name: 'James Harrington',
-    role: 'Community Staff',
-    avatar: 'james_harrington.jpeg',
-    github: 'codenamezjames',
-    desc: 'Help desk'
-  },
-
-  {
     name: 'Ross Ball',
-    role: 'Designer / Community Staff',
+    role: 'Designer',
     avatar: 'ross_ball.jpeg',
     github: 'rossity',
     desc: 'Quasar Themes'
-  },
-
-  {
-    name: 'James Gilchrist',
-    role: 'Community Staff',
-    avatar: 'james_gilchrist.png',
-    github: 'jpgilchrist',
-    desc: 'Help desk'
   },
 
   {
@@ -133,18 +125,10 @@ export default [
   },
 
   {
-    name: 'David Watson',
+    name: 'Adam Purdy',
     role: 'Community Staff',
-    avatar: 'david_watson.jpg',
-    github: 'realtimeappsolutions',
-    desc: 'Marketing and PR.'
-  },
-
-  {
-    name: 'Stanislav Valasek',
-    role: 'Community Staff',
-    avatar: 'stanislav_valasek.jpg',
-    github: 'valasek',
-    desc: 'Marketing, Open Source Compliance, Community experience.'
+    avatar: 'adam_purdy.jpg',
+    github: 'adamkpurdy',
+    desc: 'Firebase Support Owner & Maintainer, Quasar support member.'
   }
 ]

@@ -20,7 +20,11 @@ process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
 :::
 
+### Horizontal
+
 <doc-example title="Horizontal" file="QStepper/TypeHorizontal" />
+
+### Vertical
 
 <doc-example title="Vertical" file="QStepper/TypeVertical" />
 

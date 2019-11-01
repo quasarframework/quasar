@@ -70,12 +70,10 @@ export function getEmptyStorage () {
 
   return {
     has: fn,
-    get: {
-      length: fn,
-      item: fn,
-      index: fn,
-      all: fn
-    },
+    getLength: fn,
+    getItem: fn,
+    getIndex: fn,
+    getAll: fn,
     set: fn,
     remove: fn,
     clear: fn,

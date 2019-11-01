@@ -37,7 +37,34 @@ module.exports.generate = function (data) {
         html: {
           'types-syntax': 'typescript',
           tags: data.components.map(({ api: { events, props, scopedSlots, slots }, name }) => {
-            let result = {
+            let slotTypes = []
+            if (slots) {
+              Object.entries(slots).forEach(([name, slotApi]) => {
+                slotTypes.push({
+                  name,
+                  description: getDescription(slotApi),
+                  'doc-url': 'https://quasar.dev'
+                })
+              })
+            }
+
+            if (scopedSlots) {
+              Object.entries(scopedSlots).forEach(([name, slotApi]) => {
+                slotTypes.push({
+                  name,
+                  'vue-properties': slotApi.scope && Object.entries(slotApi.scope).map(([name, api]) => ({
+                    name,
+                    type: resolveType(api),
+                    description: getDescription(api),
+                    'doc-url': 'https://quasar.dev'
+                  })),
+                  description: getDescription(slotApi),
+                  'doc-url': 'https://quasar.dev'
+                })
+              })
+            }
+
+            const result = {
               name,
               source: {
                 module: 'quasar',
@@ -76,22 +103,7 @@ module.exports.generate = function (data) {
                 description: getDescription(eventApi),
                 'doc-url': 'https://quasar.dev'
               })),
-              slots: slots && Object.entries(slots).map(([name, slotApi]) => ({
-                name,
-                description: getDescription(slotApi),
-                'doc-url': 'https://quasar.dev'
-              })),
-              'vue-scoped-slots': scopedSlots && Object.entries(scopedSlots).map(([name, slotApi]) => ({
-                name,
-                properties: slotApi.scope && Object.entries(slotApi.scope).map(([name, api]) => ({
-                  name,
-                  type: resolveType(api),
-                  description: getDescription(api),
-                  'doc-url': 'https://quasar.dev'
-                })),
-                description: getDescription(slotApi),
-                'doc-url': 'https://quasar.dev'
-              })),
+              slots: slotTypes,
               description: `${name} - Quasar component`,
               'doc-url': 'https://quasar.dev'
             }

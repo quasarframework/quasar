@@ -40,6 +40,9 @@ export function position (e) {
   else if (e.changedTouches && e.changedTouches[0]) {
     e = e.changedTouches[0]
   }
+  else if (e.targetTouches && e.targetTouches[0]) {
+    e = e.targetTouches[0]
+  }
 
   return {
     top: e.clientY,
@@ -113,11 +116,11 @@ export function preventDraggable (el, status) {
   const fn = status === true
     ? el => {
       el.__dragPrevented = true
-      el.addEventListener('dragstart', prevent)
+      el.addEventListener('dragstart', prevent, listenOpts.notPassiveCapture)
     }
     : el => {
       delete el.__dragPrevented
-      el.removeEventListener('dragstart', prevent)
+      el.removeEventListener('dragstart', prevent, listenOpts.notPassiveCapture)
     }
 
   el.querySelectorAll('a, img').forEach(fn)

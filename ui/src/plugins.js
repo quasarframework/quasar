@@ -3,6 +3,7 @@ import AppFullscreen from './plugins/AppFullscreen.js'
 import AppVisibility from './plugins/AppVisibility.js'
 import BottomSheet from './plugins/BottomSheet.js'
 import Cookies from './plugins/Cookies.js'
+import Dark from './plugins/Dark.js'
 import Dialog from './plugins/Dialog.js'
 import LoadingBar from './plugins/LoadingBar.js'
 import Loading from './plugins/Loading.js'
@@ -19,6 +20,7 @@ export {
   AppVisibility,
   BottomSheet,
   Cookies,
+  Dark,
   Dialog,
   LoadingBar,
   Loading,

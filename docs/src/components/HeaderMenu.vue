@@ -4,19 +4,19 @@ div
     q-list(dense padding)
       q-item-label(header) Latest (v{{ $q.version }})
       q-item(clickable, to="/start/release-notes")
-          q-item-section.text-teal(avatar)
-            q-icon(name="assignment")
-          q-item-section Release notes
+        q-item-section.text-teal(avatar)
+          q-icon(name="assignment")
+        q-item-section Release notes
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar/issues", target="_blank", rel="noopener")
-          q-item-section.text-purple(avatar)
-            q-icon(name="bug_report")
-          q-item-section Report a bug
+        q-item-section.text-purple(avatar)
+          q-icon(name="bug_report")
+        q-item-section Report a bug
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
-          q-item-section(avatar)
-            q-icon(name="fab fa-github")
-          q-item-section Repository
+        q-item-section(avatar)
+          q-icon(name="fab fa-github")
+        q-item-section Repository
 
       q-separator.q-mb-sm.q-mt-md
 
@@ -51,6 +51,14 @@ div
           q-icon(name="style")
         q-item-section Theme Builder
 
+      q-item(clickable, to="/style/dark-mode")
+        q-item-section(avatar)
+          q-icon(name="invert_colors")
+        q-item-section
+          .row.no-wrap.items-center
+            span Dark Mode
+            q-badge.q-ml-sm new
+
       q-item(clickable, tag="a", href="/layout-builder", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(name="dashboard")
@@ -67,7 +75,6 @@ div
         q-item-section
           .row.no-wrap.items-center
             span Flex Playground
-            q-badge.q-ml-sm new
 
       q-item-label.q-mt-md(header) Playground
 
@@ -127,7 +134,6 @@ div
         q-item-section
           .row.no-wrap.items-center
             span Facebook
-            q-badge.q-ml-sm new
 
       q-item-label.q-mt-md(header) Donate
 

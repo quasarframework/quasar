@@ -6,7 +6,6 @@ const
   nodeExternals = require('webpack-node-externals')
 
 const
-  env = require('./env'),
   resolve = file => path.resolve(__dirname, '..', file),
   chain = new WebpackChain()
 

@@ -35,8 +35,8 @@ Make sure that you [installed the icon library](/options/installing-icon-librari
 | material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Requires Quasar 1.0.5+** |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
 | fontawesome-v5 | fa[s,r,l,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
-| mdi-v4 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters |
-| mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters |
+| mdi-v4 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v4 or mdi-v3 |
+| mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v4 or mdi-v3 |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters |
 

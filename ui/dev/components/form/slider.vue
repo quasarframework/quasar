@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
       <p class="caption">
@@ -161,7 +161,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       dense: false,
 
       nullValue: null,

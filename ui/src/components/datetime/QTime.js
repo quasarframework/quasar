@@ -84,12 +84,13 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        'q-time--dark': this.dark,
-        'q-time--readonly': this.readonly === true && this.disable !== true,
-        'disabled': this.disable,
-        [`q-time--${this.landscape === true ? 'landscape' : 'portrait'}`]: true
-      }
+      return `q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
+        (this.isDark === true ? ' q-time--dark q-dark' : '') +
+        (this.readonly === true && this.disable !== true ? ' q-time--readonly' : '') +
+        (this.disable === true ? ' disable' : '') +
+        (this.bordered === true ? ` q-time--bordered` : '') +
+        (this.square === true ? ` q-time--square no-border-radius` : '') +
+        (this.flat === true ? ` q-time--flat no-shadow` : '')
     },
 
     computedMask () {
@@ -234,6 +235,14 @@ export default Vue.extend({
   },
 
   methods: {
+    setNow () {
+      this.__updateValue({
+        ...this.__getCurrentDate(),
+        ...this.__getCurrentTime()
+      })
+      this.view = 'Hour'
+    },
+
     __click (evt) {
       this.__drag({ isFirst: true, evt })
       this.__drag({ isFinal: true, evt })
@@ -531,7 +540,7 @@ export default Vue.extend({
             tabindex: this.computedTabindex
           },
           on: {
-            click: this.__setNow
+            click: this.setNow
           }
         }) : null
       ])
@@ -575,14 +584,6 @@ export default Vue.extend({
       if (this.innerModel.hour === null) { return }
       this.innerModel.hour += 12
       this.__verifyAndUpdate()
-    },
-
-    __setNow () {
-      this.__updateValue({
-        ...this.__getCurrentDate(),
-        ...this.__getCurrentTime()
-      })
-      this.view = 'Hour'
     },
 
     __verifyAndUpdate () {
@@ -650,6 +651,17 @@ export default Vue.extend({
   },
 
   render (h) {
+    const content = [
+      this.__getClock(h)
+    ]
+
+    const slot = this.$scopedSlots.default
+    if (slot !== void 0) {
+      content.push(
+        h('div', { staticClass: 'q-time__actions' }, slot())
+      )
+    }
+
     return h('div', {
       staticClass: 'q-time',
       class: this.classes,
@@ -657,7 +669,7 @@ export default Vue.extend({
       attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),
-      this.__getClock(h)
+      h('div', { staticClass: 'q-time__main col overflow-auto' }, content)
     ])
   }
 })
