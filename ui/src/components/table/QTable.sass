@@ -227,11 +227,27 @@
 .q-table // @stylint ignore
   thead, tr, th, td
     border-color: $table-border-color
-  tbody tr
-    &.selected
-      background: $table-selected-background
-    &:hover
-      background: $table-hover-background
+
+  tbody
+    td
+      position: relative
+      &:before, &:after
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 0
+        pointer-events: none
+      &:before
+        background: $table-hover-background
+      &:after
+        background: $table-selected-background
+
+    tr.selected td:after
+      content: ''
+
+body.desktop .q-table tbody tr:hover td:before
+  content: ''
 
 /*
  * On dark background
@@ -247,11 +263,12 @@
 
   thead, tr, th, td
     border-color: $table-dark-border-color
-  tbody tr
-    &.selected
-      background: $table-dark-selected-background
-    &:hover
+
+  tbody td
+    &:before
       background: $table-dark-hover-background
+    &:after
+      background: $table-dark-selected-background
 
   &.q-table--vertical-separator, &.q-table--cell-separator
     .q-table__top
