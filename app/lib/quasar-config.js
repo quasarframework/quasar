@@ -16,7 +16,7 @@ const
   cssVariables = require('./helpers/css-variables')
 
 function encode (obj) {
-  return JSON.stringify(obj, (key, value) => {
+  return JSON.stringify(obj, (_, value) => {
     return typeof value === 'function'
       ? `/fn(${value.toString()})`
       : value
@@ -122,7 +122,7 @@ class QuasarConfig {
         catch (e) {
           if (e.message !== 'NETWORK_ERROR') {
             console.log(e)
-            warn(`quasar.conf.js has JS errors. Please fix them then save file again.`)
+            warn(`⚠️  quasar.conf.js has JS errors. Please fix them then save file again.`)
             warn()
           }
 
@@ -209,6 +209,8 @@ class QuasarConfig {
         builder: {}
       },
       cordova: {},
+      capacitor: {},
+      bin: {},
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
@@ -463,7 +465,7 @@ class QuasarConfig {
         gzip: false
       })
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
@@ -473,15 +475,19 @@ class QuasarConfig {
       })
     }
 
-    if (this.ctx.mode.cordova) {
-      cfg.build.distDir = appPaths.resolve.app(path.join('src-cordova', 'www'))
-    }
-    else if (!path.isAbsolute(cfg.build.distDir)) {
+    if (!path.isAbsolute(cfg.build.distDir)) {
       cfg.build.distDir = appPaths.resolve.app(cfg.build.distDir)
     }
 
-    if (this.ctx.mode.electron) {
-      cfg.build.packagedElectronDist = cfg.build.distDir
+    if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
+      cfg.build.packagedDistDir = path.join(cfg.build.distDir, this.ctx.targetName)
+    }
+
+    if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
+      cfg.build.distDir = appPaths.resolve[this.ctx.modeName]('www')
+    }
+    else if (this.ctx.mode.electron) {
+      cfg.build.packagedDistDir = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
 
@@ -585,7 +591,7 @@ class QuasarConfig {
         }
       })
 
-      if (this.ctx.mode.cordova || this.ctx.mode.electron) {
+      if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
         cfg.devServer.open = false
 
         if (this.ctx.mode.electron) {
@@ -712,7 +718,7 @@ class QuasarConfig {
 
       cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${host}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
     }
-    else if (this.ctx.mode.cordova) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
       cfg.build.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {
@@ -759,12 +765,12 @@ class QuasarConfig {
         }, cfg.electron, {
           packager: {
             dir: cfg.build.distDir,
-            out: cfg.build.packagedElectronDist
+            out: cfg.build.packagedDistDir
           },
           builder: {
             directories: {
               app: cfg.build.distDir,
-              output: path.join(cfg.build.packagedElectronDist, 'Packaged')
+              output: path.join(cfg.build.packagedDistDir, 'Packaged')
             }
           }
         })

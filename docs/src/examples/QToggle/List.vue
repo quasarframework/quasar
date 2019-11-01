@@ -10,7 +10,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item multiline tag="label" v-ripple>
+      <q-item tag="label" v-ripple>
         <q-item-section>
           <q-item-label>Friend request</q-item-label>
           <q-item-label caption>Allow notification</q-item-label>
@@ -20,7 +20,7 @@
         </q-item-section>
       </q-item>
 
-      <q-item multiline tag="label" v-ripple>
+      <q-item tag="label" v-ripple>
         <q-item-section>
           <q-item-label>Picture uploaded</q-item-label>
           <q-item-label caption>Allow notification when uploading images</q-item-label>

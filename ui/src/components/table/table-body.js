@@ -2,9 +2,9 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 
 export default {
   methods: {
-    getTableRowBody (h, row, body) {
+    getTableRowBody (row, body) {
       const
-        key = row[this.rowKey],
+        key = this.getRowKey(row),
         selected = this.isRowSelected(key)
 
       return body(this.addBodyRowMeta({
@@ -19,7 +19,7 @@ export default {
     getTableRow (h, row) {
       const
         bodyCell = this.$scopedSlots['body-cell'],
-        key = row[this.rowKey],
+        key = this.getRowKey(row),
         selected = this.isRowSelected(key),
         child = bodyCell
           ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, col })))
@@ -40,7 +40,7 @@ export default {
             props: {
               value: selected,
               color: this.color,
-              dark: this.dark,
+              dark: this.isDark,
               dense: this.dense
             },
             on: {
@@ -52,7 +52,20 @@ export default {
         ])
       )
 
-      return h('tr', { key, class: { selected } }, child)
+      const data = {
+        key,
+        class: { selected }
+      }
+
+      if (this.$listeners['row-click'] !== void 0) {
+        data.on = {
+          click: evt => {
+            this.$emit('row-click', evt, row)
+          }
+        }
+      }
+
+      return h('tr', data, child)
     },
 
     getTableBody (h) {
@@ -60,9 +73,10 @@ export default {
         body = this.$scopedSlots.body,
         topRow = this.$scopedSlots['top-row'],
         bottomRow = this.$scopedSlots['bottom-row'],
-        child = body !== void 0
-          ? this.computedRows.map(row => this.getTableRowBody(h, row, body))
-          : this.computedRows.map(row => this.getTableRow(h, row))
+        mapFn = body !== void 0
+          ? row => this.getTableRowBody(row, body)
+          : row => this.getTableRow(h, row),
+        child = this.computedRows.map(mapFn)
 
       if (topRow !== void 0) {
         child.unshift(topRow({ cols: this.computedCols }))
@@ -77,10 +91,9 @@ export default {
     getTableRowVirtual (h) {
       const body = this.$scopedSlots.body
 
-      if (body !== void 0) {
-        return props => this.getTableRowBody(h, props.item, body)
-      }
-      return props => this.getTableRow(h, props.item)
+      return body !== void 0
+        ? props => this.getTableRowBody(props.item, body)
+        : props => this.getTableRow(h, props.item)
     },
 
     addBodyRowMeta (data) {

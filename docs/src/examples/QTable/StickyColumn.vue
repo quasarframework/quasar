@@ -6,7 +6,7 @@
       :data="data"
       :columns="columns"
       row-key="name"
-    ></q-table>
+    />
   </div>
 </template>
 

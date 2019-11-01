@@ -86,7 +86,8 @@ export default {
     size5: 'Великий',
     size6: 'Дуже великий',
     size7: 'Величезний',
-    defaultFont: 'Шрифт за замовчуванням'
+    defaultFont: 'Шрифт за замовчуванням',
+    viewSource: 'Переглянути джерело'
   },
   tree: {
     noNodes: 'Немає доступних вузлів',

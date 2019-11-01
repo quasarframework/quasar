@@ -5,7 +5,6 @@
       ref="editor"
       toolbar-text-color="white"
       toolbar-toggle-color="yellow-8"
-      toolbar-flat
       toolbar-bg="primary"
       :toolbar="[
         ['token'],

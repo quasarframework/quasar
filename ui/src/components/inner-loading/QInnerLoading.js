@@ -1,12 +1,13 @@
 import Vue from 'vue'
 
 import TransitionMixin from '../../mixins/transition.js'
+import DarkMixin from '../../mixins/dark.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 export default Vue.extend({
   name: 'QInnerLoading',
 
-  mixins: [ TransitionMixin ],
+  mixins: [ DarkMixin, TransitionMixin ],
 
   props: {
     showing: Boolean,
@@ -15,9 +16,7 @@ export default Vue.extend({
     size: {
       type: [String, Number],
       default: 42
-    },
-
-    dark: Boolean
+    }
   },
 
   render (h) {
@@ -37,7 +36,7 @@ export default Vue.extend({
     }, [
       this.showing === true ? h('div', {
         staticClass: 'q-inner-loading absolute-full column flex-center',
-        class: this.dark ? 'q-inner-loading--dark' : null,
+        class: this.isDark === true ? 'q-inner-loading--dark' : null,
         on: this.$listeners
       }, content) : null
     ])

@@ -47,10 +47,10 @@ q-page.doc-page
   .doc-page-footer
     q-separator.q-mb-sm
 
-    .q-mb-sm(v-if="noEdit === false")
+    .q-mb-md(v-if="noEdit === false")
       | Caught a mistake? <doc-link :to="editHref">Suggest an edit on GitHub</doc-link>
 
-    .doc-page-footer__icons.row.items-center
+    .doc-page-footer__icons.row.items-center.q-gutter-sm
       a(href="https://github.quasar.dev", target="_blank", rel="noopener")
         q-icon(name="fab fa-github")
 
@@ -69,10 +69,10 @@ q-page.doc-page
       a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
         q-icon(name="fab fa-facebook")
 
-      a(href="https://donate.quasar.dev", rel="noopener", target="_blank")
+      a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
         q-icon(name="fas fa-medkit")
 
-    div.q-mt-sm
+    div.q-mt-md
       | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
 
     div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
@@ -138,6 +138,7 @@ export default {
 .doc-page-related
   color: $grey-9
   transition: color .28s
+  border: 1px solid rgba(0,0,0,.1)
 
   &:hover
     color: $primary
@@ -153,7 +154,6 @@ export default {
     font-size: 28px
 
     a
-      margin: 0 8px 8px
       text-decoration: none
       outline: 0
       color: $primary

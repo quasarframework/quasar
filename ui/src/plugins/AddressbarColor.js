@@ -47,14 +47,14 @@ function setColor (hexColor) {
 export default {
   install ({ $q, cfg }) {
     this.set = isSSR === false && Platform.is.mobile === true && (
-      Platform.is.cordova === true ||
+      Platform.is.nativeMobile === true ||
       Platform.is.winphone === true || Platform.is.safari === true ||
       Platform.is.webkit === true || Platform.is.vivaldi === true
     )
       ? hexColor => {
         const val = hexColor || getBrand('primary')
 
-        if (Platform.is.cordova === true && window.StatusBar) {
+        if (Platform.is.nativeMobile === true && window.StatusBar) {
           window.StatusBar.backgroundColorByHexString(val)
         }
         else {

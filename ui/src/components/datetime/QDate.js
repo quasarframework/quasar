@@ -8,6 +8,7 @@ import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 
 const yearsInterval = 20
+const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
 
 export default Vue.extend({
   name: 'QDate',
@@ -42,7 +43,7 @@ export default Vue.extend({
     defaultView: {
       type: String,
       default: 'Calendar',
-      validator: v => ['Calendar', 'Years', 'Months'].includes(v)
+      validator: viewIsValid
     }
   },
 
@@ -91,7 +92,10 @@ export default Vue.extend({
     classes () {
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
-        (this.dark === true ? ' q-date--dark' : '') +
+        (this.isDark === true ? ' q-date--dark q-dark' : '') +
+        (this.bordered === true ? ` q-date--bordered` : '') +
+        (this.square === true ? ` q-date--square no-border-radius` : '') +
+        (this.flat === true ? ` q-date--flat no-shadow` : '') +
         (this.readonly === true && this.disable !== true ? ' q-date--readonly' : '') +
         (this.disable === true ? ' disabled' : '')
     },
@@ -258,6 +262,25 @@ export default Vue.extend({
   },
 
   methods: {
+    setToday () {
+      this.__updateValue({ ...this.today }, 'today')
+      this.view = 'Calendar'
+    },
+
+    setView (view) {
+      if (viewIsValid(view) === true) {
+        this.view = view
+      }
+    },
+
+    offsetCalendar (type, descending) {
+      if (['month', 'year'].includes(type)) {
+        this[`__goTo${type === 'month' ? 'Month' : 'Year'}`](
+          descending === true ? -1 : 1
+        )
+      }
+    },
+
     __getModels (val, mask, locale) {
       const external = __splitDate(
         val,
@@ -367,7 +390,7 @@ export default Vue.extend({
               tabindex: this.computedTabindex
             },
             on: {
-              click: this.__setToday
+              click: this.setToday
             }
           }) : null
         ])
@@ -535,12 +558,8 @@ export default Vue.extend({
 
       return h('div', {
         key: 'months-view',
-        staticClass: 'q-date__view q-date__months column flex-center'
-      }, [
-        h('div', {
-          staticClass: 'q-date__months-content row'
-        }, content)
-      ])
+        staticClass: 'q-date__view q-date__months flex flex-center'
+      }, content)
     },
 
     __getYearsView (h) {
@@ -576,7 +595,7 @@ export default Vue.extend({
       }
 
       return h('div', {
-        staticClass: 'q-date__view q-date__years flex flex-center full-height'
+        staticClass: 'q-date__view q-date__years flex flex-center'
       }, [
         h('div', {
           staticClass: 'col-auto'
@@ -596,7 +615,7 @@ export default Vue.extend({
         ]),
 
         h('div', {
-          staticClass: 'q-date__years-content col full-height row items-center'
+          staticClass: 'q-date__years-content col self-stretch row items-center'
         }, years),
 
         h('div', {
@@ -655,7 +674,7 @@ export default Vue.extend({
     __setYear (year) {
       this.innerModel.year = year
       this.emitImmediately === true && this.__updateValue({ year }, 'year')
-      this.view = 'Calendar'
+      this.view = this.extModel.month === null || this.defaultView === 'Years' ? 'Months' : 'Calendar'
     },
 
     __setMonth (month) {
@@ -666,11 +685,6 @@ export default Vue.extend({
 
     __setDay (day) {
       this.__updateValue({ day }, 'day')
-    },
-
-    __setToday () {
-      this.__updateValue({ ...this.today }, 'today')
-      this.view = 'Calendar'
     },
 
     __updateValue (date, reason) {
@@ -737,6 +751,25 @@ export default Vue.extend({
   },
 
   render (h) {
+    const content = [
+      h('div', {
+        staticClass: 'q-date__content col relative-position'
+      }, [
+        h('transition', {
+          props: { name: 'q-transition--fade' }
+        }, [
+          this[`__get${this.view}View`](h)
+        ])
+      ])
+    ]
+
+    const slot = this.$scopedSlots.default
+    if (slot !== void 0) {
+      content.push(
+        h('div', { staticClass: 'q-date__actions' }, slot())
+      )
+    }
+
     return h('div', {
       staticClass: 'q-date',
       class: this.classes,
@@ -745,18 +778,10 @@ export default Vue.extend({
       this.__getHeader(h),
 
       h('div', {
-        staticClass: 'q-date__content relative-position overflow-auto',
+        staticClass: 'q-date__main col column',
         attrs: { tabindex: -1 },
         ref: 'blurTarget'
-      }, [
-        h('transition', {
-          props: {
-            name: 'q-transition--fade'
-          }
-        }, [
-          this[`__get${this.view}View`](h)
-        ])
-      ])
+      }, content)
     ])
   }
 })

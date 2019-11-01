@@ -12,8 +12,12 @@ import QCardActions from '../card/QCardActions.js'
 import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 
+import DarkMixin from '../../mixins/dark.js'
+
 export default Vue.extend({
   name: 'DialogPlugin',
+
+  mixins: [ DarkMixin ],
 
   inheritAttrs: false,
 
@@ -35,9 +39,7 @@ export default Vue.extend({
     color: String,
 
     cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object],
-
-    dark: Boolean
+    cardStyle: [String, Array, Object]
   },
 
   computed: {
@@ -58,7 +60,7 @@ export default Vue.extend({
     },
 
     vmColor () {
-      return this.color || (this.dark === true ? 'amber' : 'primary')
+      return this.color || (this.isDark === true ? 'amber' : 'primary')
     },
 
     okProps () {
@@ -112,7 +114,7 @@ export default Vue.extend({
             color: this.vmColor,
             dense: true,
             autofocus: true,
-            dark: this.dark
+            dark: this.isDark
           },
           on: {
             input: v => { this.prompt.model = v },
@@ -136,7 +138,7 @@ export default Vue.extend({
             color: this.vmColor,
             inline: this.options.inline,
             options: this.options.items,
-            dark: this.dark
+            dark: this.isDark
           },
           on: {
             input: v => { this.options.model = v }
@@ -249,12 +251,10 @@ export default Vue.extend({
     }, [
       h(QCard, {
         staticClass: 'q-dialog-plugin' +
-          (this.dark === true ? ' q-dialog-plugin--dark' : ''),
+          (this.isDark === true ? ' q-dialog-plugin--dark q-dark' : ''),
         style: this.cardStyle,
         class: this.cardClass,
-        props: {
-          dark: this.dark
-        }
+        props: { dark: this.isDark }
       }, child)
     ])
   }

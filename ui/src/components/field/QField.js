@@ -4,16 +4,17 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
+import { stop, prevent } from '../../utils/event.js'
 import uid from '../../utils/uid.js'
 
 export default Vue.extend({
   name: 'QField',
 
-  inheritAttrs: false,
+  mixins: [ DarkMixin, ValidateMixin ],
 
-  mixins: [ ValidateMixin ],
+  inheritAttrs: false,
 
   props: {
     label: String,
@@ -25,7 +26,6 @@ export default Vue.extend({
 
     color: String,
     bgColor: String,
-    dark: Boolean,
 
     filled: Boolean,
     outlined: Boolean,
@@ -130,7 +130,7 @@ export default Vue.extend({
 
         'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned,
-        'q-field--dark': this.dark,
+        'q-field--dark': this.isDark,
 
         'q-field--auto-height': this.__getControl === void 0,
 
@@ -217,7 +217,8 @@ export default Vue.extend({
       this.$scopedSlots.prepend !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
-          key: 'prepend'
+          key: 'prepend',
+          on: this.slotsEvents
         }, this.$scopedSlots.prepend())
       )
 
@@ -230,7 +231,8 @@ export default Vue.extend({
       this.$scopedSlots.append !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-          key: 'append'
+          key: 'append',
+          on: this.slotsEvents
         }, this.$scopedSlots.append())
       )
 
@@ -432,7 +434,15 @@ export default Vue.extend({
 
     __clearValue (e) {
       stop(e)
+      if (this.type === 'file') {
+        // do not let focus be triggered
+        // as it will make the native file dialog
+        // appear for another selection
+        prevent(e)
+        this.$refs.input.value = null
+      }
       this.$emit('input', null)
+      this.$emit('clear', this.value)
     },
 
     __emitValue (value) {
@@ -452,7 +462,8 @@ export default Vue.extend({
       }
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
-        staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
+        staticClass: 'q-field__before q-field__marginal row no-wrap items-center',
+        on: this.slotsEvents
       }, this.$scopedSlots.before()) : null,
 
       h('div', {
@@ -472,7 +483,8 @@ export default Vue.extend({
       ]),
 
       this.$scopedSlots.after !== void 0 ? h('div', {
-        staticClass: 'q-field__after q-field__marginal row no-wrap items-center'
+        staticClass: 'q-field__after q-field__marginal row no-wrap items-center',
+        on: this.slotsEvents
       }, this.$scopedSlots.after()) : null
     ])
   },
@@ -480,10 +492,11 @@ export default Vue.extend({
   created () {
     this.__onPreRender !== void 0 && this.__onPreRender()
 
+    this.slotsEvents = { click: prevent }
+
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
-        focus: this.focus,
         focusin: this.__onControlFocusin,
         focusout: this.__onControlFocusout,
         'popup-show': this.__onControlPopupShow,
@@ -492,7 +505,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.autofocus === true && this.$el.focus()
+    this.autofocus === true && this.focus()
   },
 
   beforeDestroy () {

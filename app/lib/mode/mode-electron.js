@@ -38,12 +38,16 @@ class Mode {
       cmdParam.concat(Object.keys(electronDeps).map(dep => {
         return `${dep}@${electronDeps[dep]}`
       })),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       () => warn('Failed to install Electron dependencies')
     )
 
     log(`Creating Electron source folder...`)
-    fse.copySync(appPaths.resolve.cli('templates/electron'), appPaths.electronDir)
+    fse.copySync(
+      appPaths.resolve.cli('templates/electron'),
+      appPaths.electronDir
+    )
+
     log(`Electron support was added`)
   }
 
@@ -72,7 +76,7 @@ class Mode {
     spawnSync(
       nodePackager,
       cmdParam.concat(deps),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       () => warn('Failed to uninstall Electron dependencies')
     )
 

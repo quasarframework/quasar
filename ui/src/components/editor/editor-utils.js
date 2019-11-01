@@ -175,20 +175,28 @@ function getDropdown (h, vm, btn) {
 
 export function getToolbar (h, vm) {
   if (vm.caret) {
-    return vm.buttons.map(group => __getGroup(
-      h,
-      group.map(btn => {
-        if (btn.type === 'slot') {
-          return slot(vm, btn.slot)
-        }
-
-        if (btn.type === 'dropdown') {
-          return getDropdown(h, vm, btn)
-        }
-
-        return getBtn(h, vm, btn)
+    return vm.buttons
+      .filter(f => {
+        return !vm.isViewingSource || f.find(fb => fb.cmd === 'viewsource')
       })
-    ))
+      .map(group => __getGroup(
+        h,
+        group.map(btn => {
+          if (vm.isViewingSource && btn.cmd !== 'viewsource') {
+            return false
+          }
+
+          if (btn.type === 'slot') {
+            return slot(vm, btn.slot)
+          }
+
+          if (btn.type === 'dropdown') {
+            return getDropdown(h, vm, btn)
+          }
+
+          return getBtn(h, vm, btn)
+        })
+      ))
   }
 }
 

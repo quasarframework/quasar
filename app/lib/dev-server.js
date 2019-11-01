@@ -16,7 +16,7 @@ function openBrowser (url, opts) {
   const openDefault = () => {
     log('Opening default browser at ' + url)
     log()
-    open(url, { wait: true }).catch(() => {
+    open(url, { wait: true, url: true }).catch(() => {
       warn(`⚠️  Failed to open default browser`)
       warn()
     })
@@ -25,7 +25,7 @@ function openBrowser (url, opts) {
   if (opts) {
     log('Opening browser at ' + url + ' with options: ' + opts)
     log()
-    open(url, { app: opts, wait: true }).catch(() => {
+    open(url, { app: opts, wait: true, url: true }).catch(() => {
       warn(`⚠️  Failed to open specific browser`)
       warn()
       openDefault()

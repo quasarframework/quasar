@@ -5,7 +5,7 @@ desc: Where, how and what you can configure in a Quasar app.
 Quasar makes use of some awesome development tools under it's hood, like [Webpack](https://webpack.js.org/). One of the great things about Quasar is its handling of most of the complex configuration needed by the underlying tools for you. As a result, you don't even need to know Webpack or any of the other development tools in order to use Quasar.
 
 So what can you configure through `/quasar.conf.js`?
-* Quasar components, directives and plugins that you'll be using in your website/app.
+* Quasar components, directives and plugins that you'll be using in your website/app
 * Default [Quasar Language Pack](/options/quasar-language-packs)
 * [Icon libraries](/options/installing-icon-libraries) that you wish to use
 * Default [Quasar Icon Set](/options/quasar-icon-sets) for Quasar components
@@ -284,7 +284,7 @@ Then (just an example showing you how to reference a variable defined above, in 
 <%= htmlWebpackPlugin.options.title %>
 ```
 
-### Property; sourceFiles
+### Property: sourceFiles
 Use this property to change the default names of some files of your website/app if you have to. All paths must be relative to the root folder of your project.
 
 ```js

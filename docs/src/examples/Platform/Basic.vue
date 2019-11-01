@@ -4,7 +4,7 @@
       Browser User Agent: "<strong>{{ $q.platform.userAgent }}</strong>"
     </div>
 
-    <q-markup-table>
+    <q-markup-table flat bordered>
       <thead>
         <tr>
           <th class="text-left">Property</th>

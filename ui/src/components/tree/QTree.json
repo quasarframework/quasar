@@ -104,7 +104,7 @@
 
     "filter-method": {
       "type": "Function",
-      "desc": "The function to use to filter the tree nodes",
+      "desc": "The function to use to filter the tree nodes; For best performance, reference it from your scope and do not define it inline",
       "default": "(see source code)",
       "params": {
         "node": {

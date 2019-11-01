@@ -12,24 +12,24 @@ Based on your needs, you might also want to check the [Style & Identity &gt; Vis
 ## Usage
 Usage inside a Vue component JS:
 
-``` js
+```js
 this.$q.platform.is.mobile
 ```
 Usage inside a Vue component template:
 
-``` js
+```js
 $q.platform.is.cordova
 ```
 
 You must import it when you use it outside of a Vue component :
 
-``` js
+```js
 import { Platform } from 'quasar'
 ```
 
 `Platform.is` by itself returns an object containing details about the current platform. For example when running Chrome on a MacOS desktop machine, `Platform.is` would return something similar to:
 
-``` js
+```js
 {
   chrome: true,
   desktop: true,
@@ -66,32 +66,33 @@ The following properties are available to the Platform object. It's not an exhau
 
 | Property               | Type    | Meaning                                                  |
 | ---                    | ---     | ---                                                      |
-| `Platform.is.mobile`     | boolean | Is the code running on a mobile device?                |
-| `Platform.is.cordova`    | boolean | Is the code running within Cordova?                    |
-| `Platform.is.electron`   | boolean | Is the code running within Electron?                   |
-| `Platform.is.desktop`    | boolean | Is the code running on a desktop browser?              |
-| `Platform.is.chromeExt`  | boolean | Is the code running is a Chrome extension environment? |
-| `Platform.is.android`    | boolean | Is the app running on an Android device?               |
-| `Platform.is.blackberry` | boolean | Is the app running on a Blackberry device? |
-| `Platform.is.cros`       | boolean | Is the app running on device with the Chrome OS operating system? |
-| `Platform.is.ios`        | boolean | Is the app running on a iOS device? |
-| `Platform.is.ipad`       | boolean | Is the app running on an iPad? |
-| `Platform.is.iphone`     | boolean | Is the app running on an iPhone? |
-| `Platform.is.ipod`       | boolean | Is the app running on an iPod? |
-| `Platform.is.kindle`     | boolean | Is the app running on a Kindle device? |
-| `Platform.is.linux`      | boolean | Is the code running on a device with the Linux operating system? |
-| `Platform.is.mac`        | boolean | Is the code running on a device with the MacOS operating system? |
-| `Platform.is.win`        | boolean | Is the code running on a device with the Windows operating system? |
-| `Platform.is.winphone`   | boolean | Is the code running on a Windows Phone device? |
-| `Platform.is.playbook`   | boolean | Is the code running on a Blackberry Playbook device? |
-| `Platform.is.silk`       | boolean | Is the code running the Kindle Silk browser? |
-| `Platform.is.chrome`     | boolean | Is the code running inside the Google Chrome browser? |
-| `Platform.is.opera`      | boolean | Is the code running inside the Opera browser? |
-| `Platform.is.safari`     | boolean | Is the code running inside the Apple Safari browser? |
-| `Platform.is.edge`       | boolean | Is the code running inside the Microsoft Edge browser? |
-| `Platform.is.ie`         | boolean | Is the code running inside the Microsoft Internet Explorer browser? |
-| `Platform.has.touch`     | boolean | Is the code running on a touch capable screen?         |
-| `Platform.within.iframe` | boolean | Is the app running within an IFRAME?                   |
+| `Platform.is.mobile`     | Boolean | Is the code running on a mobile device?                |
+| `Platform.is.cordova`    | Boolean | Is the code running within Cordova?                    |
+| `Platform.is.capacitor`  | Boolean | Is the code running with Capacitor? (requires @quasar/app v1.2+) |
+| `Platform.is.electron`   | Boolean | Is the code running within Electron?                   |
+| `Platform.is.desktop`    | Boolean | Is the code running on a desktop browser?              |
+| `Platform.is.bex`        | Boolean | Is the code running in a browser extension? (requires @quasar/app v1.2+) |
+| `Platform.is.android`    | Boolean | Is the app running on an Android device?               |
+| `Platform.is.blackberry` | Boolean | Is the app running on a Blackberry device? |
+| `Platform.is.cros`       | Boolean | Is the app running on device with the Chrome OS operating system? |
+| `Platform.is.ios`        | Boolean | Is the app running on an iOS device? |
+| `Platform.is.ipad`       | Boolean | Is the app running on an iPad? |
+| `Platform.is.iphone`     | Boolean | Is the app running on an iPhone? |
+| `Platform.is.ipod`       | Boolean | Is the app running on an iPod? |
+| `Platform.is.kindle`     | Boolean | Is the app running on a Kindle device? |
+| `Platform.is.linux`      | Boolean | Is the code running on a device with the Linux operating system? |
+| `Platform.is.mac`        | Boolean | Is the code running on a device with the MacOS operating system? |
+| `Platform.is.win`        | Boolean | Is the code running on a device with the Windows operating system? |
+| `Platform.is.winphone`   | Boolean | Is the code running on a Windows Phone device? |
+| `Platform.is.playbook`   | Boolean | Is the code running on a Blackberry Playbook device? |
+| `Platform.is.silk`       | Boolean | Is the code running the Kindle Silk browser? |
+| `Platform.is.chrome`     | Boolean | Is the code running inside the Google Chrome browser? |
+| `Platform.is.opera`      | Boolean | Is the code running inside the Opera browser? |
+| `Platform.is.safari`     | Boolean | Is the code running inside the Apple Safari browser? |
+| `Platform.is.edge`       | Boolean | Is the code running inside the Microsoft Edge browser? |
+| `Platform.is.ie`         | Boolean | Is the code running inside the Microsoft Internet Explorer browser? |
+| `Platform.has.touch`     | Boolean | Is the code running on a touch capable screen?         |
+| `Platform.within.iframe` | Boolean | Is the app running within an IFRAME?                   |
 
 ::: tip
 Running on mobile means you can have this code running on a mobile device (phone or tablet) but with a browser, not within a Cordova wrapper.
@@ -113,7 +114,7 @@ function (ssrContext) {
 }
 ```
 
-The `ssrContext` is available in App Plugins or preFetch feature where it is supplied as parameter.
+The `ssrContext` is available in [boot files](/quasar-cli/cli-documentation/boot-files). And also in the [preFetch](/quasar-cli/cli-documentation/prefetch-feature) feature, where it is supplied as a parameter.
 
 The reason for all this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Platform needs to be bound to each request separately.
 

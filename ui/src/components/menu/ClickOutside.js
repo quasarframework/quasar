@@ -1,5 +1,5 @@
 import { listenOpts } from '../../utils/event.js'
-import Platform from '../../plugins/Platform.js'
+import { getVmOfNode, isVmChildOf } from '../../utils/vm.js'
 
 let timer
 
@@ -44,28 +44,26 @@ export default {
       handler (evt) {
         const target = evt.target
 
-        if (target === void 0 || target.nodeType === 8 || (ctx.toggleEl !== void 0 && ctx.toggleEl.contains(target))) {
-          return
-        }
+        if (
+          target !== void 0 &&
+          target.nodeType !== 8 &&
+          // directives that prevent click by using pointer-events none generate click on html element
+          target !== document.documentElement &&
+          (
+            ctx.toggleEl === void 0 ||
+            ctx.toggleEl.contains(target) === false
+          ) &&
+          (
+            target === document.body ||
+            isVmChildOf(getVmOfNode(target), vmEl) === false
+          )
+        ) {
+          // mark the event as beeing processed by clickOutside
+          // used to prevent refocus after menu close
+          evt.qClickOutside = true
 
-        if (target !== document.body) {
-          for (let node = target; node !== null; node = node.parentNode) {
-            // node.__vue__ can be null if the instance was destroyed
-            if (node.__vue__ === null) {
-              return
-            }
-            if (node.__vue__ !== void 0) {
-              for (let vm = node.__vue__; vm !== void 0; vm = vm.$parent) {
-                if (vmEl === vm) {
-                  return
-                }
-              }
-              break
-            }
-          }
+          return ctx.trigger(evt)
         }
-
-        return ctx.trigger(evt)
       }
     }
 
@@ -76,18 +74,17 @@ export default {
     el.__qclickoutside = ctx
 
     if (handlers.click.length === 0) {
-      document.addEventListener('mousedown', globalHandler, notPassiveCapture)
+      // use click to be able to prevent click in handler
+      document.addEventListener('click', globalHandler, notPassiveCapture)
       document.addEventListener('touchstart', globalHandler, notPassiveCapture)
-      Platform.is.desktop === true && document.addEventListener('focusin', globalHandler, passiveCapture)
+      document.addEventListener('focusin', globalHandler, passiveCapture)
     }
 
     handlers.click.push(ctx.handler)
 
-    if (Platform.is.desktop === true) {
-      ctx.timerFocusin = setTimeout(() => {
-        handlers.focus.push(ctx.handler)
-      }, 500)
-    }
+    ctx.timerFocusin = setTimeout(() => {
+      handlers.focus.push(ctx.handler)
+    }, 500)
   },
 
   update (el, { value, oldValue, arg }) {
@@ -115,9 +112,9 @@ export default {
 
       if (handlers.click.length === 0) {
         clearTimeout(timer)
-        document.removeEventListener('mousedown', globalHandler, notPassiveCapture)
+        document.removeEventListener('click', globalHandler, notPassiveCapture)
         document.removeEventListener('touchstart', globalHandler, notPassiveCapture)
-        Platform.is.desktop === true && document.removeEventListener('focusin', globalHandler, passiveCapture)
+        document.removeEventListener('focusin', globalHandler, passiveCapture)
       }
 
       delete el[el.__qclickoutside_old ? '__qclickoutside_old' : '__qclickoutside']

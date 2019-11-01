@@ -1,5 +1,6 @@
 <template>
   <div class="q-layout-padding">
+    <q-toggle v-model="dense" label="Dense" />
     <h4>Emulate server-side</h4>
     {{ serverPagination }}
     <q-table
@@ -11,12 +12,13 @@
       :filter="filter"
       selection="multiple"
       :selected.sync="selected"
-      row-key="name"
+      :row-key="getRowKey"
       :pagination.sync="serverPagination"
       @request="request"
       :loading="loading"
       flat
       bordered
+      :dense="dense"
     >
       <template v-slot:top-right="props">
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
@@ -437,6 +439,7 @@ const data = [
 export default {
   data () {
     return {
+      dense: false,
       filter: '',
       filterDyn: '',
       serverPagination: {
@@ -471,6 +474,10 @@ export default {
     }
   },
   methods: {
+    getRowKey (row) {
+      return row.name
+    },
+
     request (props) {
       this.loading = true
       console.log('REQUEST', props)

@@ -49,10 +49,12 @@ export default {
     },
 
     pagesNumber () {
-      return Math.max(
-        1,
-        Math.ceil(this.computedRowsNumber / this.computedPagination.rowsPerPage)
-      )
+      return this.computedPagination.rowsPerPage === 0
+        ? 1
+        : Math.max(
+          1,
+          Math.ceil(this.computedRowsNumber / this.computedPagination.rowsPerPage)
+        )
     },
 
     isLastPage () {

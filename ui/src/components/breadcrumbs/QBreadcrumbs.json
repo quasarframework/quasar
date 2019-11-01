@@ -38,7 +38,7 @@
       "type": "String",
       "default": "left",
       "desc": "Specify how to align the breadcrumbs horizontally",
-      "values": [ "left", "center", "right", "between", "around" ],
+      "values": [ "left", "center", "right", "between", "around", "evenly" ],
       "examples": [ "left", "center" ],
       "category": "content"
     }

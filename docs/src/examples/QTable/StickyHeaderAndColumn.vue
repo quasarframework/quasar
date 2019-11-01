@@ -6,7 +6,7 @@
       :data="data"
       :columns="columns"
       row-key="name"
-    ></q-table>
+    />
   </div>
 </template>
 
@@ -178,17 +178,15 @@ export default {
   .q-table__middle
     max-height: 200px
 
-  .q-table__top,
-  .q-table__bottom,
-  tr:first-child th, /* bg color is important for th; just specify one */
   td:first-child /* bg color is important for td; just specify one */
-    background-color: #c1f4cd
+    background-color: #c1f4cd !important
 
   tr:first-child th
     position: sticky
     top: 0
     opacity: 1 /* opacity is important */
     z-index: 2 /* higher than z-index for td below */
+    background: #fff /* bg color is important; just specify one */
 
   tr:first-child th:first-child
     z-index: 3 /* highest z-index */

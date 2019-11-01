@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ checked }}</em></span>
       </div>
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
       <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
@@ -18,6 +18,7 @@
         Indeterminate
       </p>
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Tap me to change between 3 states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="accent" label="Tap me to change between 3 states" />
 
       <p class="caption">
         Tests
@@ -58,6 +59,44 @@
       <q-checkbox v-model="checked" disable color="primary" label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" disable color="accent" label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" disable color="teal" label="Disabled Checkbox" :dark="dark" :dense="dense" :keep-color="keepColor" />
+
+      <p class="caption">
+        Array true/false val
+      </p>
+      <q-checkbox
+        v-model="modelArr"
+        :true-value="trueVal"
+        :false-value="falseVal"
+        color="primary"
+        label="Array model"
+        :dark="dark"
+        :dense="dense"
+        :keep-color="keepColor"
+      />
+      <div class="label bg-secondary text-white">
+        Model is: {{ modelArr }}
+      </div>
+      <q-checkbox
+        v-model="modelArrComplex"
+        :val="trueVal"
+        color="primary"
+        label="Array model 1 - [true]"
+        :dark="dark"
+        :dense="dense"
+        :keep-color="keepColor"
+      />
+      <q-checkbox
+        v-model="modelArrComplex"
+        :val="falseVal"
+        color="primary"
+        label="Array model 1 - [false]"
+        :dark="dark"
+        :dense="dense"
+        :keep-color="keepColor"
+      />
+      <div class="label bg-secondary text-white">
+        Model is: {{ modelArrComplex }}
+      </div>
 
       <p class="caption">
         Option Group
@@ -138,17 +177,25 @@
 <script>
 export default {
   data () {
+    const
+      trueVal = [true],
+      falseVal = [false]
+
     return {
       val: true,
       ind: false,
       checked: true,
       group: ['op2'],
       selection: ['one', 'two', 'three'],
-      dark: false,
+      dark: null,
       dense: false,
       keepColor: false,
       indModel: null,
-      customChecked: 'Custom Not Active'
+      customChecked: 'Custom Not Active',
+      trueVal,
+      falseVal,
+      modelArr: falseVal,
+      modelArrComplex: [falseVal, trueVal]
     }
   },
   watch: {

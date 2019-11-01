@@ -22,6 +22,8 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 
 <doc-example title="Custom button" file="QBtnDropdown/CustomButton" />
 
+<doc-example title="Custom dropdown icon" file="QBtnDropdown/CustomDropdownIcon" />
+
 <doc-example title="Label slot" file="QBtnDropdown/LabelSlot" />
 
 <doc-example title="Using v-model" file="QBtnDropdown/Model" />

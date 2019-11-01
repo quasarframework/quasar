@@ -42,7 +42,7 @@
 
     "option-value": {
       "type": [ "Function", "String" ],
-      "desc": "Property of option which holds the 'value'",
+      "desc": "Property of option which holds the 'value'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "value",
       "examples": [
         "option-value=\"modelNumber\"",
@@ -53,7 +53,7 @@
 
     "option-label": {
       "type": [ "Function", "String" ],
-      "desc": "Property of option which holds the 'label'",
+      "desc": "Property of option which holds the 'label'; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "label",
       "examples": [
         "option-label=\"itemName\"",
@@ -64,7 +64,7 @@
 
     "option-disable": {
       "type": [ "Function", "String" ],
-      "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean",
+      "desc": "Property of option which tells it's disabled; The value of the property must be a Boolean; If using a function then for best performance, reference it from your scope and do not define it inline",
       "default": "disable",
       "examples": [
         "option-disable=\"cannotSelect\"",
@@ -189,6 +189,28 @@
       "default": 500,
       "examples": [ 650 ],
       "category": "content"
+    },
+
+    "input-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the underlying input tag",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.1.7"
+    },
+
+    "input-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the underlying input tag",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.1.7"
     },
 
     "transition-show": {

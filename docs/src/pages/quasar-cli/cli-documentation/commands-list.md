@@ -519,7 +519,7 @@ $ quasar run -h
 ```
 
 ## serve
-This command can be used in production too and it is being supplied by the globall installation of `@quasar/cli` package.
+This command can be used in production too and it is being supplied by the global installation of `@quasar/cli` package.
 
 ```bash
 $ quasar serve -h

@@ -2,7 +2,7 @@
   <div class="q-layout-padding q-mx-auto">
     <div class="row justify-center">
       <div class="q-gutter-md" style="max-width: 700px">
-        <q-toggle v-model="dark" label="Dark" />
+        <q-toggle v-model="dark" label="Dark" :false-value="null" />
         <q-btn label="Alert" flat color="primary" @click="alert" />
         <q-btn label="Alert - custom" flat color="primary" @click="alertCustom" />
         <q-btn label="Confirm" flat color="primary" @click="confirm" />
@@ -94,7 +94,9 @@
     </div>
 
     <div class="text-center text-caption q-mt-xl" style="height: 1500px">
-      Page has scroll on purpose
+      <div v-for="n in 10" :key="n">
+        Page has scroll on purpose
+      </div>
     </div>
   </div>
 </template>
@@ -110,7 +112,7 @@ export default {
 
   data () {
     return {
-      dark: false
+      dark: null
     }
   },
 

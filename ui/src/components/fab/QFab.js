@@ -33,7 +33,7 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: this.value
+      showing: this.value === true
     }
   },
 

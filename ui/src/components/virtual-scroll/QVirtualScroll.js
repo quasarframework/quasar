@@ -2,10 +2,15 @@ import Vue from 'vue'
 
 import QList from '../list/QList.js'
 import QMarkupTable from '../table/QMarkupTable.js'
-import TableMiddle from '../table/table-middle.js'
+import getTableMiddle from '../table/get-table-middle.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 
 import { listenOpts } from '../../utils/event.js'
+
+const comps = {
+  list: QList,
+  table: QMarkupTable
+}
 
 export default Vue.extend({
   name: 'QVirtualScroll',
@@ -16,7 +21,7 @@ export default Vue.extend({
     type: {
       type: String,
       default: 'list',
-      validator: v => ['list', 'table'].includes(v)
+      validator: v => ['list', 'table', '__qtable'].includes(v)
     },
 
     items: {
@@ -34,11 +39,6 @@ export default Vue.extend({
 
     scrollTarget: {
       default: void 0
-    },
-
-    wrap: {
-      type: Boolean,
-      default: true
     }
   },
 
@@ -142,24 +142,22 @@ export default Vue.extend({
       return
     }
 
-    const child = this.__padVirtualScroll(
+    let child = this.__padVirtualScroll(
       h,
       this.type === 'list' ? 'div' : 'tbody',
       this.virtualScrollScope.map(this.$scopedSlots.default)
     )
 
     if (this.$scopedSlots.before !== void 0) {
-      child.unshift(this.$scopedSlots.before())
+      child = this.$scopedSlots.before().concat(child)
     }
     if (this.$scopedSlots.after !== void 0) {
-      child.push(this.$scopedSlots.after())
+      child = child.concat(this.$scopedSlots.after())
     }
 
-    return h(
-      this.type === 'list'
-        ? QList
-        : (this.wrap === false ? TableMiddle : QMarkupTable)
-      , {
+    return this.type === '__qtable'
+      ? getTableMiddle(h, { staticClass: this.classes }, child)
+      : h(comps[this.type], {
         class: this.classes,
         attrs: this.attrs,
         props: this.$attrs,

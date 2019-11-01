@@ -31,6 +31,7 @@ const
   pwaDir = resolve(appDir, 'src-pwa'),
   ssrDir = resolve(appDir, 'src-ssr'),
   cordovaDir = resolve(appDir, 'src-cordova'),
+  capacitorDir = resolve(appDir, 'src-capacitor'),
   electronDir = resolve(appDir, 'src-electron')
 
 module.exports = {
@@ -40,6 +41,7 @@ module.exports = {
   pwaDir,
   ssrDir,
   cordovaDir,
+  capacitorDir,
   electronDir,
 
   resolve: {
@@ -49,6 +51,7 @@ module.exports = {
     pwa: dir => join(pwaDir, dir),
     ssr: dir => join(ssrDir, dir),
     cordova: dir => join(cordovaDir, dir),
+    capacitor: dir => join(capacitorDir, dir),
     electron: dir => join(electronDir, dir)
   }
 }

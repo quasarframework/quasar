@@ -40,7 +40,7 @@ export default Vue.extend({
 
       clearTimeout(this.timer)
       clearTimeout(this.timerFallback)
-      this.el.removeEventListener('transitionend', this.animListener)
+      this.el !== void 0 && this.el.removeEventListener('transitionend', this.animListener)
       this.animListener = null
     }
   },

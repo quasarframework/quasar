@@ -14,7 +14,7 @@
           </div>
           <div class="col-xs-12 col-md-4">
             <q-toggle v-model="accordion" label="Accordion mode" />
-            <q-toggle v-model="dark" label="On dark background" />
+            <q-toggle v-model="dark" label="On dark background" :false-value="null" />
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
           </div>
           <div class="col-xs-12 col-md-4">
@@ -122,7 +122,7 @@ export default {
       ticked: ['Node 2.2'],
       expanded: ['Node 2.1.4 - Disabled', 'Node 2.1.3 - freeze exp / tickable'],
       selectableNodes: true,
-      dark: false,
+      dark: null,
       accordion: false,
       filter: '',
       defaultExpandAll: false,

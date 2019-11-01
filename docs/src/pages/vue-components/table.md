@@ -33,7 +33,9 @@ Let’s take an example of configuring the `columns` property. We are going to t
 columns: [ // array of Objects
   // column Object definition
   {
-    // unique id (used by row-key, pagination.sortBy, ...)
+    // unique id
+    // identifies column
+    // (used by pagination.sortBy, "body-cell-[name]" slot, ...)
     name: 'desc',
 
     // label for header
@@ -61,7 +63,11 @@ columns: [ // array of Objects
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
     // (optional) you can format the data with a function
-    format: (val, row) => `${val}%`,
+    format: (val, row) => `${val}%`
+    // one more format example:
+    // format: val => val
+    //   ? /* Unicode checkmark checked */ "\u2611"
+    //   : /* Unicode checkmark unchecked */ "\u2610",
 
     style: 'width: 500px',
     classes: 'my-special-class'
@@ -115,6 +121,22 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
+### Virtual scrolling
+
+<q-badge label="v1.2.0" />
+
+Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
+
+<doc-example title="Basic virtual scroll" file="QTable/VirtscrollBasic" />
+
+You can have both virtual scroll and pagination:
+
+<doc-example title="Virtual scroll and pagination" file="QTable/VirtscrollPagination" />
+
+The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height. Also note that this will NOT work in IE11 due to the lack of support for CSS prop "position" with value "sticky".
+
+<doc-example title="Virtual scroll with sticky header" file="QTable/VirtscrollSticky" />
+
 ### Selection
 
 ::: warning
@@ -150,6 +172,8 @@ You can use the `grid` prop along with `$q.screen` to create a responsive behavi
 In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
 
 <doc-example title="Grid style" file="QTable/GridStyle" />
+
+<doc-example title="Grid with header" file="QTable/GridHeader" />
 
 <doc-example title="Colored grid style" file="QTable/GridStyleColored" />
 

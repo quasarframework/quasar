@@ -13,10 +13,13 @@ export default {
   },
 
   watch: {
-    filter () {
-      this.$nextTick(() => {
-        this.setPagination({ page: 1 }, true)
-      })
+    filter: {
+      handler () {
+        this.$nextTick(() => {
+          this.setPagination({ page: 1 }, true)
+        })
+      },
+      deep: true
     }
   }
 }

@@ -71,6 +71,6 @@ export default Vue.extend({
   beforeDestroy () {
     clearTimeout(this.timer)
     cancelAnimationFrame(this.timer)
-    this.target.removeEventListener('scroll', this.trigger, listenOpts.passive)
+    this.target !== void 0 && this.target.removeEventListener('scroll', this.trigger, listenOpts.passive)
   }
 })

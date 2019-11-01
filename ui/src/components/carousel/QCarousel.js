@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
+import DarkMixin from '../../mixins/dark.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
@@ -11,7 +12,7 @@ import slot from '../../utils/slot.js'
 export default Vue.extend({
   name: 'QCarousel',
 
-  mixins: [ PanelParentMixin, FullscreenMixin ],
+  mixins: [ DarkMixin, PanelParentMixin, FullscreenMixin ],
 
   props: {
     height: String,
@@ -50,7 +51,8 @@ export default Vue.extend({
       return {
         fullscreen: this.inFullscreen,
         'q-carousel--arrows': this.padding === true && this.arrows === true,
-        'q-carousel--navigation': this.padding === true && this.navigation === true
+        'q-carousel--navigation': this.padding === true && this.navigation === true,
+        'q-carousel--dark q-dark': this.isDark
       }
     },
 

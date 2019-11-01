@@ -142,6 +142,8 @@ export class Caret {
         return res === `"${param}"` || res === param
       case 'fullscreen':
         return this.vm.inFullscreen
+      case 'viewsource':
+        return this.vm.isViewingSource
       case void 0:
         return false
       default:
@@ -227,6 +229,12 @@ export class Caret {
     }
     else if (cmd === 'fullscreen') {
       this.vm.toggleFullscreen()
+      done()
+      return
+    }
+    else if (cmd === 'viewsource') {
+      this.vm.isViewingSource = !this.vm.isViewingSource
+      this.vm.__setContent(this.vm.value)
       done()
       return
     }

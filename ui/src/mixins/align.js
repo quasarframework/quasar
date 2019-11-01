@@ -5,6 +5,7 @@ const
     right: 'end',
     between: 'between',
     around: 'around',
+    evenly: 'evenly',
     stretch: 'stretch'
   },
   alignValues = Object.keys(alignMap)

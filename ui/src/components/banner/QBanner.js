@@ -1,9 +1,12 @@
 import Vue from 'vue'
 
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBanner',
+
+  mixins: [ DarkMixin ],
 
   props: {
     inlineActions: Boolean,
@@ -19,6 +22,7 @@ export default Vue.extend({
       class: {
         'q-banner--top-padding': actions !== void 0 && !this.inlineActions,
         'q-banner--dense': this.dense,
+        'q-banner--dark q-dark': this.isDark,
         'rounded-borders': this.rounded
       },
       on: this.$listeners

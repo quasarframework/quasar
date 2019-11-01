@@ -18,7 +18,7 @@ module.exports = function (argv, cmd) {
     }
   }
 
-  if (!['spa', 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.mode)) {
+  if (!['spa', 'pwa', 'cordova', 'capacitor', 'electron', 'ssr'].includes(argv.mode)) {
     warn(`⚠️  Unknown mode "${ argv.mode }"`)
     warn()
     process.exit(1)
@@ -26,6 +26,20 @@ module.exports = function (argv, cmd) {
 
   if (cmd === 'inspect') {
     return
+  }
+
+  if (argv.mode === 'capacitor') {
+    const targets = ['android', 'ios']
+    if (!argv.target) {
+      warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
+      warn()
+      process.exit(1)
+    }
+    if (!targets.includes(argv.target)) {
+      warn(`⚠️  Unknown target "${ argv.target }" for Capacitor`)
+      warn()
+      process.exit(1)
+    }
   }
 
   if (argv.mode === 'cordova') {

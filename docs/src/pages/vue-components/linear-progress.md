@@ -16,8 +16,11 @@ The QLinearProgress component displays a colored loading bar. The bar can either
 <doc-installation components="QLinearProgress" />
 
 ## Usage
+
+### Determined state
 <doc-example title="Determined state" file="QLinearProgress/Determinate" />
 
+### Indeterminate state
 <doc-example title="Indeterminate state" file="QLinearProgress/Indeterminate" />
 
 ::: tip
@@ -26,7 +29,11 @@ For indeterminate state (above) or query state (below) you don't need to specify
 
 <doc-example title="Query state" file="QLinearProgress/Query" />
 
+### Reversed
+
 <doc-example title="Reverse progress direction" file="QLinearProgress/Reverse" />
+
+### Style
 
 <doc-example title="Custom height" file="QLinearProgress/CustomHeight" />
 
@@ -34,9 +41,19 @@ For indeterminate state (above) or query state (below) you don't need to specify
 
 <doc-example title="Stripe" file="QLinearProgress/Stripe" />
 
+<doc-example title="On a dark background" file="QLinearProgress/OnDarkBackground" dark />
+
+### Buffer
+
 <doc-example title="Buffer" file="QLinearProgress/Buffering" />
 
-<doc-example title="On a dark background" file="QLinearProgress/OnDarkBackground" dark />
+### With a label
+
+To add a label to the progress bar you can use the default slot. Take care to:
+  - use a `size` big enough to allow showing the label
+  - set a text color for the label so that it is visible both on the filled and unfilled areas, or use text-shadow CSS, or use a QBadge as in the example below
+
+<doc-example title="With a label" file="QLinearProgress/Label" />
 
 ## QLinearProgress API
 <doc-api file="QLinearProgress" />

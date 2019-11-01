@@ -1,13 +1,25 @@
 import Vue from 'vue'
 
 import HistoryMixin from '../../mixins/history.js'
-import TouchPan from '../../directives/TouchPan.js'
-import { between } from '../../utils/format.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
+import DarkMixin from '../../mixins/dark.js'
+
+import TouchPan from '../../directives/TouchPan.js'
+
+import { between } from '../../utils/format.js'
 import slot from '../../utils/slot.js'
 
 const duration = 150
+
+const directiveTemplate = {
+  name: 'touch-pan',
+  modifiers: {
+    horizontal: true,
+    mouse: true,
+    mouseAllDir: true
+  }
+}
 
 export default Vue.extend({
   name: 'QDrawer',
@@ -20,7 +32,7 @@ export default Vue.extend({
     }
   },
 
-  mixins: [ HistoryMixin, ModelToggleMixin, PreventScrollMixin ],
+  mixins: [ DarkMixin, HistoryMixin, ModelToggleMixin, PreventScrollMixin ],
 
   directives: {
     TouchPan
@@ -65,7 +77,8 @@ export default Vue.extend({
     overlay: Boolean,
     persistent: Boolean,
     noSwipeOpen: Boolean,
-    noSwipeClose: Boolean
+    noSwipeClose: Boolean,
+    noSwipeBackdrop: Boolean
   },
 
   data () {
@@ -78,7 +91,7 @@ export default Vue.extend({
       belowBreakpoint,
       showing: this.showIfAbove === true && belowBreakpoint === false
         ? true
-        : this.value
+        : this.value === true
     }
   },
 
@@ -94,6 +107,7 @@ export default Vue.extend({
         this.lastDesktopState !== false
       ) { // from xs to lg
         if (this.showing === true) {
+          this.__applyPosition(0)
           this.__applyBackdrop(0)
           this.__cleanup()
         }
@@ -195,7 +209,8 @@ export default Vue.extend({
     fixed () {
       return this.overlay === true ||
         this.miniToOverlay === true ||
-        this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1
+        this.layout.view.indexOf(this.rightSide ? 'R' : 'L') > -1 ||
+        (this.$q.platform.is.ios && this.layout.container === true)
     },
 
     onLayout () {
@@ -256,6 +271,7 @@ export default Vue.extend({
     classes () {
       return `q-drawer--${this.side}` +
         (this.bordered === true ? ' q-drawer--bordered' : '') +
+        (this.isDark === true ? ' q-drawer--dark q-dark' : '') +
         (
           this.belowBreakpoint === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
@@ -289,6 +305,24 @@ export default Vue.extend({
     hideOnRouteChange () {
       return this.persistent !== true &&
         (this.belowBreakpoint === true || this.onScreenOverlay === true)
+    },
+
+    openDirective () {
+      if (this.belowBreakpoint === true) {
+        return [{
+          ...directiveTemplate,
+          value: this.__openByTouch
+        }]
+      }
+    },
+
+    closeDirective () {
+      if (this.belowBreakpoint === true) {
+        return [{
+          ...directiveTemplate,
+          value: this.__closeByTouch
+        }]
+      }
     }
   },
 
@@ -308,7 +342,11 @@ export default Vue.extend({
         ) {
           position += this.stateDirection * this.layout.scrollbarWidth
         }
-        this.$refs.content.style.transform = `translateX(${position}px)`
+
+        if (this.__lastPosition !== position) {
+          this.$refs.content.style.transform = `translateX(${position}px)`
+          this.__lastPosition = position
+        }
       }
     },
 
@@ -496,7 +534,7 @@ export default Vue.extend({
 
     if (
       this.showIfAbove === true &&
-      this.value === false &&
+      this.value !== true &&
       this.showing === true &&
       this.$listeners.input !== void 0
     ) {
@@ -509,12 +547,8 @@ export default Vue.extend({
     this.$emit('mini-state', this.isMini)
 
     const fn = () => {
-      if (this.showing === true) {
-        this.__show(false, true)
-      }
-      else {
-        this.__hide(false, true)
-      }
+      const action = this.showing === true ? 'show' : 'hide'
+      this[`__${action}`](false, true)
     }
 
     if (this.layout.width !== 0) {
@@ -550,29 +584,11 @@ export default Vue.extend({
   },
 
   render (h) {
-    const directives = [{
-      name: 'touch-pan',
-      modifiers: {
-        horizontal: true,
-        mouse: true,
-        mouseAllDir: true
-      },
-      value: this.__closeByTouch
-    }]
-
     const child = [
       this.noSwipeOpen !== true && this.belowBreakpoint === true
         ? h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
-          directives: [{
-            name: 'touch-pan',
-            modifiers: {
-              horizontal: true,
-              mouse: true,
-              mouseAllDir: true
-            },
-            value: this.__openByTouch
-          }]
+          directives: this.openDirective
         })
         : null,
 
@@ -584,7 +600,9 @@ export default Vue.extend({
           ? { backgroundColor: this.lastBackdropBg }
           : null,
         on: { click: this.hide },
-        directives
+        directives: this.noSwipeBackdrop !== true
+          ? this.closeDirective
+          : void 0
       }) : null
     ]
 
@@ -613,8 +631,8 @@ export default Vue.extend({
         class: this.classes,
         style: this.style,
         on: this.onNativeEvents,
-        directives: this.belowBreakpoint === true && this.noSwipeClose !== true
-          ? directives
+        directives: this.noSwipeClose !== true
+          ? this.closeDirective
           : void 0
       }, content)
     ]))
