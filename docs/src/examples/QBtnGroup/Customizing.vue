@@ -29,15 +29,13 @@ export default {
       refs.forEach(ref => {
         this.$refs[ref].$el.classList.remove('active')
       })
-      // we need to check target in event here
-      // if the text was clicked on, then we need gandparent element,
-      // otherwise we're good
-      if (event.target.nodeName === 'BUTTON') {
-        event.target.classList.add('active')
+      // make sure the target is the actual button
+      // and not child of the button
+      let target = event.target
+      while (target.nodeName !== 'BUTTON') {
+        target = target.parentElement
       }
-      else {
-        event.target.parentElement.parentElement.classList.add('active')
-      }
+      target.classList.add('active')
     }
   }
 }
