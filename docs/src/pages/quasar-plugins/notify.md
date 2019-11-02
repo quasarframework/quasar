@@ -79,6 +79,15 @@ Notify.setDefaults({
   actions: [{ icon: 'close', color: 'white' }]
 })
 ```
+Add the created notify-defaults.js file to the boot array in `quasar.conf.js`:
+```js
+module.exports = function(ctx) {
+  return {
+    // ...
+    boot: ['notify-defaults'],
+    // ...
+  }
+```
 
 ::: warning
 You can only set default `actions` through this method. Specifying `actions` with handlers in quasar.conf.js cannot and will NOT work.
