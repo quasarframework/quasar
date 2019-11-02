@@ -230,6 +230,10 @@ We can also customize only one particular column only. The syntax for this slot 
 
 <doc-example title="Body-cell-[name] slot" file="QTable/SlotBodyCellName" />
 
+Using slot with `rowspan` attribute
+
+<doc-example title="Rowspan attribute" file="QTable/RowSpan" />
+
 ### Header slots
 
 The example below shows how you can use a slot to customize the entire header row:
