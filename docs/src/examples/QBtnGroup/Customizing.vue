@@ -29,9 +29,15 @@ export default {
       refs.forEach(ref => {
         this.$refs[ref].$el.classList.remove('active')
       })
-      // event is actually text element,
-      // so must select QBtn which is grandparent
-      event.target.parentElement.parentElement.classList.add('active')
+      // we need to check target in event here
+      // if the text was clicked on, then we need gandparent element,
+      // otherwise we're good
+      if (event.target.nodeName === 'BUTTON') {
+        event.target.classList.add('active')
+      }
+      else {
+        event.target.parentElement.parentElement.classList.add('active')
+      }
     }
   }
 }
