@@ -58,3 +58,17 @@
       display: flex
       align-items: center
       flex-wrap: nowrap
+
+  &--dark
+    border-color: $editor-border-dark-color
+
+    .q-editor
+
+      &__content hr
+        background: $editor-hr-dark-color
+
+      &__toolbar
+        border-color: $editor-border-dark-color
+
+    .q-editor__toolbar-group + .q-editor__toolbar-group:before
+      background: $editor-border-dark-color

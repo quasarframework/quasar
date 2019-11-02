@@ -1,11 +1,13 @@
 @import '../../css/helpers/math.sass'
 
 .q-time
-  max-width: 100%
   box-shadow: $shadow-2
   border-radius: $generic-border-radius
   background: #fff
   outline: none
+  width: 290px
+  min-width: 290px
+  max-width: 100%
 
   &--bordered
     border: 1px solid $separator-color
@@ -17,6 +19,9 @@
     background-color: var(--q-color-primary)
     padding: 16px
     font-weight: 300
+
+  &__actions
+    padding: 0 16px 16px
 
   &__header-label
     font-size: 28px
@@ -164,8 +169,6 @@
   &--portrait
     display: inline-flex
     flex-direction: column
-    width: 290px
-    min-width: 180px
 
     .q-time__header
       border-top-right-radius: inherit
@@ -174,12 +177,13 @@
     .q-time__header-ampm
       margin-left: 12px
 
+    &.q-time--bordered .q-time__content
+      margin: 1px 0
+
   &--landscape
     display: inline-flex
     align-items: stretch
-    width: 420px
-    min-width: 310px
-    min-height: 180px
+    min-width: 420px
 
     > div
       display: flex
@@ -188,11 +192,10 @@
 
     .q-time__header
       border-bottom-left-radius: inherit
-      width: 110px
+      min-width: 156px
 
     .q-time__header-ampm
       margin-top: 12px
 
   &--dark
-    color: #fff
-    background: $grey-9
+    border-color: $separator-dark-color

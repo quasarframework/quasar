@@ -39,6 +39,11 @@
       "category": "style"
     },
 
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    },
+
     "mini-to-overlay": {
       "type": "Boolean",
       "desc": "Mini mode will expand as an overlay",

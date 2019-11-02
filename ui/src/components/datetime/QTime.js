@@ -85,7 +85,7 @@ export default Vue.extend({
   computed: {
     classes () {
       return `q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
-        (this.dark === true ? ' q-time--dark' : '') +
+        (this.isDark === true ? ' q-time--dark q-dark' : '') +
         (this.readonly === true && this.disable !== true ? ' q-time--readonly' : '') +
         (this.disable === true ? ' disable' : '') +
         (this.bordered === true ? ` q-time--bordered` : '') +
@@ -651,6 +651,17 @@ export default Vue.extend({
   },
 
   render (h) {
+    const content = [
+      this.__getClock(h)
+    ]
+
+    const slot = this.$scopedSlots.default
+    if (slot !== void 0) {
+      content.push(
+        h('div', { staticClass: 'q-time__actions' }, slot())
+      )
+    }
+
     return h('div', {
       staticClass: 'q-time',
       class: this.classes,
@@ -658,7 +669,7 @@ export default Vue.extend({
       attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),
-      this.__getClock(h)
+      h('div', { staticClass: 'q-time__main col overflow-auto' }, content)
     ])
   }
 })

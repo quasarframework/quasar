@@ -14,7 +14,7 @@ export default {
               staticClass: 'q-table__linear-progress',
               props: {
                 color: this.color,
-                dark: this.dark,
+                dark: this.isDark,
                 indeterminate: true
               }
             })
@@ -55,8 +55,8 @@ export default {
             : h(QTh, {
               key: col.name,
               props: { props },
-              style: col.style,
-              class: col.classes
+              style: col.headerStyle,
+              class: col.headerClasses
             }, col.label)
         }
       }
@@ -72,7 +72,7 @@ export default {
             props: {
               color: this.color,
               value: this.someRowsSelected ? null : this.allRowsSelected,
-              dark: this.dark,
+              dark: this.isDark,
               dense: this.dense
             },
             on: {
@@ -81,7 +81,7 @@ export default {
                   val = false
                 }
                 this.__updateSelection(
-                  this.computedRows.map(row => row[this.rowKey]),
+                  this.computedRows.map(this.getRowKey),
                   this.computedRows,
                   val
                 )
@@ -106,7 +106,7 @@ export default {
               val = false
             }
             this.__updateSelection(
-              this.computedRows.map(row => row[this.rowKey]),
+              this.computedRows.map(this.getRowKey),
               this.computedRows,
               val
             )

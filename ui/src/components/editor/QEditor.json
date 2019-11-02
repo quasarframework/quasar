@@ -30,6 +30,11 @@
       "desc": "Dense mode; toolbar buttons are shown on one-line only"
     },
 
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    },
+
     "disable": {
       "extends": "disable"
     },

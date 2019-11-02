@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
       <div class="q-gutter-sm q-mb-md">
-        <q-toggle v-model="dark" :dark="dark" label="Dark" />
+        <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
         <q-toggle v-model="square" :dark="dark" label="Square" />
         <q-toggle v-model="flat" :dark="dark" label="Flat" />
         <q-toggle v-model="bordered" :dark="dark" label="Bordered" />
@@ -134,7 +134,7 @@
                   {{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}
                 </div>
               </div>
-              <q-btn v-if="scope.canAddFiles" icon="add_box" round dense flat>
+              <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" round dense flat>
                 <q-uploader-add-trigger />
               </q-btn>
               <q-btn v-if="scope.canUpload" icon="cloud_upload" @click="scope.upload" round dense flat />
@@ -166,7 +166,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       square: false,
       flat: false,
       bordered: false,

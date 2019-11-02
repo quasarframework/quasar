@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
+import DarkMixin from '../../mixins/dark.js'
 import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
@@ -19,7 +20,7 @@ import {
 export default Vue.extend({
   name: 'QMenu',
 
-  mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
+  mixins: [ DarkMixin, AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
 
   directives: {
     ClickOutside
@@ -83,7 +84,8 @@ export default Vue.extend({
     },
 
     menuClass () {
-      return this.square === true ? ' q-menu--square' : ''
+      return (this.square === true ? ' q-menu--square' : '') +
+        (this.isDark === true ? ' q-menu--dark q-dark' : '')
     },
 
     hideOnRouteChange () {

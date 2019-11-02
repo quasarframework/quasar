@@ -118,7 +118,7 @@ For larger edits change the Quasar source files (located [here](https://github.c
 
 #### Fork
 
-Navigate to the Quasar [GitHub repository](https://github.com/quasarframework/quasar) and press "Fork" in the upper right hand corner.
+Navigate to the Quasar [GitHub repository](https://github.com/quasarframework/quasar) and press "Fork" in the upper right-hand corner.
 
 ::: warning Select dev branch
 Make sure you have `dev` branch selected and this is where all the work is done.
@@ -192,7 +192,7 @@ Ensure the changesets you introduced are included. Fill in some details about yo
 
 ## Write your Story
 
-We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium pulblication channel and we'll also make sure your article gets the attention it deservers with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you!
+We're always looking for great write-ups on how you are using Quasar or the great experiences you've had with Quasar. If you write an article, we will publish it on our Medium pulblication channel and we'll also make sure your article gets the attention it deserves with our social media presence. If you are interested, please contact blog(at)quasar.dev. We'd love to hear from you!
 
 ## Create new Quasar App Extension
 

@@ -34,7 +34,7 @@
 
     "items-fn": {
       "type": "Function",
-      "desc": "Function to return the scope for the items to be displayed; Should return an array for items starting from 'from' index for size length",
+      "desc": "Function to return the scope for the items to be displayed; Should return an array for items starting from 'from' index for size length; For best performance, reference it from your scope and do not define it inline",
       "params": {
         "from": {
           "type": "Number",

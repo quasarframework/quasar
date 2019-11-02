@@ -60,7 +60,7 @@
 
     "events": {
       "type": [ "Array", "Function" ],
-      "desc": "A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not)",
+      "desc": "A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not); If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [
         ":events=\"['2018/11/05', '2018/11/06', '2018/11/09', '2018/11/23']\"",
         ":events=\"date => date[9] % 3 === 0\""
@@ -70,7 +70,7 @@
 
     "event-color": {
       "type": [ "String", "Function" ],
-      "desc": "Color name (from the Quasar Color Palette); If using a function, it receives the date as a String and must return a String (color for the received date)",
+      "desc": "Color name (from the Quasar Color Palette); If using a function, it receives the date as a String and must return a String (color for the received date); If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [
         "teal-10",
         ":event-color=\"(date) => date[9] % 2 === 0 ? 'teal' : 'orange'\""
@@ -80,7 +80,7 @@
 
     "options": {
       "type": [ "Array", "Function" ],
-      "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not)",
+      "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline",
       "examples": [
         ":options=\"['2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26' ]\"",
         ":options=\"date => date[9] % 3 === 0\"",
@@ -110,6 +110,13 @@
       "type": "Boolean",
       "desc": "Don’t display the header",
       "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where additional buttons can go",
+      "addedIn": "v1.2.8"
     }
   },
 

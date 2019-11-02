@@ -16,6 +16,11 @@
 
     "rounded": {
       "extends": "rounded"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
     }
   },
 

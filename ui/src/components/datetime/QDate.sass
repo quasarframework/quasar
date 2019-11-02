@@ -3,10 +3,9 @@
   box-shadow: $shadow-2
   border-radius: $generic-border-radius
   background: #fff
+  width: 290px
+  min-width: 290px
   max-width: 100%
-
-  .q-btn
-    font-weight: normal
 
   &--bordered
     border: 1px solid $separator-color
@@ -18,8 +17,14 @@
     background-color: var(--q-color-primary)
     padding: 16px
 
-  &__content
+  &__actions
+    padding: 0 16px 16px
+
+  &__content, &__main
     outline: none
+
+  &__content .q-btn
+    font-weight: normal
 
   &__header-link
     opacity: .64
@@ -42,7 +47,7 @@
   &__view
     height: 100%
     width: 100%
-    min-width: 288px
+    min-height: 290px
     padding: 16px
 
   &__navigation
@@ -88,6 +93,7 @@
 
   &__calendar-days-container
     height: 75%
+    min-height: 192px
 
   &__calendar-days > div
     height: 16.66% !important
@@ -112,9 +118,6 @@
   &__years-item, &__months-item
     flex: 0 0 33.3333%
 
-  &__months-content
-    flex: 0 0 83.3333%
-
   &.disabled, &--readonly
     .q-date__header, .q-date__content
       pointer-events: none
@@ -126,8 +129,6 @@
     flex-direction: column
 
   &--portrait-standard
-    height: 410px
-    width: 290px
 
     .q-date__content
       height: calc(100% - 86px) // workaround for iOS -- 86px is header height
@@ -141,8 +142,6 @@
       height: 30px
 
   &--portrait-minimal
-    height: 324px
-    width: 290px
 
     .q-date__content
       height: 100% // workaround for iOS -- 86px is header height
@@ -150,6 +149,7 @@
   &--landscape
     flex-direction: row
     align-items: stretch
+    min-width: 420px
 
     > div
       display: flex
@@ -159,8 +159,7 @@
       height: 100%
 
   &--landscape-standard
-    height: 321px
-    width: 420px
+    min-width: 420px
 
     .q-date__header
       border-bottom-left-radius: inherit
@@ -171,11 +170,10 @@
       flex-direction: column
     .q-date__header-today
       margin-top: 12px
+      margin-left: -8px
 
   &--landscape-minimal
-    height: 321px
     width: 310px
 
   &--dark
-    color: #fff
-    background: $grey-9
+    border-color: $separator-dark-color

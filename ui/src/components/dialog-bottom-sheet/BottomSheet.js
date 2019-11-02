@@ -11,8 +11,12 @@ import QCardSection from '../card/QCardSection.js'
 import QItem from '../list/QItem.js'
 import QItemSection from '../list/QItemSection.js'
 
+import DarkMixin from '../../mixins/dark.js'
+
 export default Vue.extend({
   name: 'BottomSheetPlugin',
+
+  mixins: [ DarkMixin ],
 
   inheritAttrs: false,
 
@@ -24,9 +28,7 @@ export default Vue.extend({
     grid: Boolean,
 
     cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object],
-
-    dark: Boolean
+    cardStyle: [String, Array, Object]
   },
 
   methods: {
@@ -50,7 +52,7 @@ export default Vue.extend({
         return action.label === void 0
           ? h(QSeparator, {
             staticClass: 'col-all',
-            props: { dark: this.dark }
+            props: { dark: this.isDark }
           })
           : h('div', {
             staticClass: 'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
@@ -86,14 +88,14 @@ export default Vue.extend({
         const img = action.avatar || action.img
 
         return action.label === void 0
-          ? h(QSeparator, { props: { spaced: true, dark: this.dark } })
+          ? h(QSeparator, { props: { spaced: true, dark: this.isDark } })
           : h(QItem, {
             staticClass: 'q-bottom-sheet__item',
             class: action.classes,
             props: {
               tabindex: 0,
               clickable: true,
-              dark: this.dark
+              dark: this.isDark
             },
             on: {
               click: () => this.onOk(action),
@@ -163,7 +165,7 @@ export default Vue.extend({
     }, [
       h(QCard, {
         staticClass: `q-bottom-sheet q-bottom-sheet--${this.grid === true ? 'grid' : 'list'}` +
-          (this.dark === true ? ' q-bottom-sheet--dark' : ''),
+          (this.isDark === true ? ' q-bottom-sheet--dark q-dark' : ''),
         style: this.cardStyle,
         class: this.cardClass
       }, child)

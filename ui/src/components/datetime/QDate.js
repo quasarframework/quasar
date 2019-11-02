@@ -92,7 +92,7 @@ export default Vue.extend({
     classes () {
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
-        (this.dark === true ? ' q-date--dark' : '') +
+        (this.isDark === true ? ' q-date--dark q-dark' : '') +
         (this.bordered === true ? ` q-date--bordered` : '') +
         (this.square === true ? ` q-date--square no-border-radius` : '') +
         (this.flat === true ? ` q-date--flat no-shadow` : '') +
@@ -558,12 +558,8 @@ export default Vue.extend({
 
       return h('div', {
         key: 'months-view',
-        staticClass: 'q-date__view q-date__months column flex-center'
-      }, [
-        h('div', {
-          staticClass: 'q-date__months-content row'
-        }, content)
-      ])
+        staticClass: 'q-date__view q-date__months flex flex-center'
+      }, content)
     },
 
     __getYearsView (h) {
@@ -599,7 +595,7 @@ export default Vue.extend({
       }
 
       return h('div', {
-        staticClass: 'q-date__view q-date__years flex flex-center full-height'
+        staticClass: 'q-date__view q-date__years flex flex-center'
       }, [
         h('div', {
           staticClass: 'col-auto'
@@ -619,7 +615,7 @@ export default Vue.extend({
         ]),
 
         h('div', {
-          staticClass: 'q-date__years-content col full-height row items-center'
+          staticClass: 'q-date__years-content col self-stretch row items-center'
         }, years),
 
         h('div', {
@@ -755,6 +751,25 @@ export default Vue.extend({
   },
 
   render (h) {
+    const content = [
+      h('div', {
+        staticClass: 'q-date__content col relative-position'
+      }, [
+        h('transition', {
+          props: { name: 'q-transition--fade' }
+        }, [
+          this[`__get${this.view}View`](h)
+        ])
+      ])
+    ]
+
+    const slot = this.$scopedSlots.default
+    if (slot !== void 0) {
+      content.push(
+        h('div', { staticClass: 'q-date__actions' }, slot())
+      )
+    }
+
     return h('div', {
       staticClass: 'q-date',
       class: this.classes,
@@ -763,18 +778,10 @@ export default Vue.extend({
       this.__getHeader(h),
 
       h('div', {
-        staticClass: 'q-date__content relative-position overflow-auto',
+        staticClass: 'q-date__main col column',
         attrs: { tabindex: -1 },
         ref: 'blurTarget'
-      }, [
-        h('transition', {
-          props: {
-            name: 'q-transition--fade'
-          }
-        }, [
-          this[`__get${this.view}View`](h)
-        ])
-      ])
+      }, content)
     ])
   }
 })

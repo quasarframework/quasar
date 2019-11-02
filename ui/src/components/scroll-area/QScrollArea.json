@@ -21,6 +21,13 @@
       "category": "style"
     },
 
+    "visible": {
+      "type": "Boolean",
+      "desc": "(Desktop only) Manually control the visibility of the scrollbar; Overrides default mouse over/leave behavior",
+      "category": "behavior",
+      "addedIn": "v1.3.0"
+    },
+
     "delay": {
       "type": [ "Number", "String" ],
       "desc": "When content changes, the scrollbar appears; this delay defines the amount of time (in milliseconds) before scrollbars dissapear again (if component is not hovered)",

@@ -4,7 +4,9 @@ desc: Quick tutorial about Vue principles and how to use it with Quasar.
 ---
 Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue documentation](https://vuejs.org/v2/guide/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
 
-If you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at the [Udemy Course - Vue JS 2 - The Complete Guide](https://www.udemy.com/vuejs-2-the-complete-guide/learn/v4/overview). We also recommend taking a look at another tutorial on [Quasar Framework: Cross-Platform VueJS Vuex & Firebase Apps](https://dannys.link/quasarf) later on.
+::: tip
+If you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at [Vue and Quasar video tutorials](/video-tutorials).
+:::
 
 After reading the Vue documentation, let's clear up some of the most frequently asked questions, like *"How can I use Quasar components, Vue properties, methods and events"*.
 
@@ -171,13 +173,13 @@ framework: 'all'
 This **will not** take advantage of tree shaking, causing your bundle to become bloated with unnecessary/unused code. **Not recommended for production**. Use this only for quick testing purposes.
 :::
 
-### Self Closing Tags
+### Self-Closing Tags
 
 ::: danger
 Do NOT use self-closing tag form when you are using **Quasar UMD version**. Your browser is interpreting the HTML before Vue parses your DOM elements, so your HTML syntax must be correct. Unknown tags (like Vue components) cannot be self-closing because your browser will interpret those as if you are opening a tag but never closing it.
 :::
 
-Some Quasar components do not need you to include HTML content inside of them. In this case, you can use them as self closing tags. One example with QIcon below:
+Some Quasar components do not need you to include HTML content inside of them. In this case, you can use them as self-closing tags. One example with QIcon below:
 
 ```html
 <q-icon name="cloud" />

@@ -67,7 +67,7 @@ export default {
 
       ;['components', 'directives'].forEach(type => {
         if (this[type] !== void 0) {
-          parts.push(`// not needed if using auto-import feature:
+          parts.push(`// NOT needed if using auto-import feature:
     ${type}: [
       ${this.nameAsString(this[type], 6)}
     ]`)

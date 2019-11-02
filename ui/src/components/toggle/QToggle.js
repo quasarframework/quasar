@@ -19,7 +19,7 @@ export default Vue.extend({
     classes () {
       return {
         'disabled': this.disable,
-        'q-toggle--dark': this.dark,
+        'q-toggle--dark': this.isDark,
         'q-toggle--dense': this.dense,
         'reverse': this.leftLabel
       }

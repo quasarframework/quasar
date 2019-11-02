@@ -9,6 +9,7 @@ import QSeparator from '../separator/QSeparator.js'
 
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
+import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
@@ -17,7 +18,7 @@ const eventName = 'q:expansion-item:close'
 export default Vue.extend({
   name: 'QExpansionItem',
 
-  mixins: [ RouterLinkMixin, ModelToggleMixin ],
+  mixins: [ DarkMixin, RouterLinkMixin, ModelToggleMixin ],
 
   props: {
     icon: String,
@@ -28,7 +29,6 @@ export default Vue.extend({
     caption: String,
     captionLines: [ Number, String ],
 
-    dark: Boolean,
     dense: Boolean,
 
     expandIcon: String,
@@ -198,7 +198,7 @@ export default Vue.extend({
         style: this.headerStyle,
         class: this.headerClass,
         props: {
-          dark: this.dark,
+          dark: this.isDark,
           disable: this.disable,
           dense: this.dense,
           insetLevel: this.headerInsetLevel
@@ -242,11 +242,11 @@ export default Vue.extend({
         node.push(
           h(QSeparator, {
             staticClass: 'q-expansion-item__border q-expansion-item__border--top absolute-top',
-            props: { dark: this.dark }
+            props: { dark: this.isDark }
           }),
           h(QSeparator, {
             staticClass: 'q-expansion-item__border q-expansion-item__border--bottom absolute-bottom',
-            props: { dark: this.dark }
+            props: { dark: this.isDark }
           })
         )
       }

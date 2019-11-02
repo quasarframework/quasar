@@ -1,9 +1,10 @@
 <template>
   <div class="q-layout-padding">
     <q-toggle v-model="horizontal" label="Horizontal" />
+    <q-toggle v-model="alwaysVisible" label="Always visible" />
 
     <div style="height: 300px;" />
-    <q-scroll-area ref="scroll" style="width: 400px; height: 500px;" class="bg-yellow" :horizontal="horizontal">
+    <q-scroll-area ref="scroll" style="width: 400px; height: 500px;" class="bg-yellow" :horizontal="horizontal" :always-visible="alwaysVisible">
       <div :class="{ 'flex no-wrap' : horizontal }">
         <div style="margin-top: 150px" />
         <div style="margin-bottom: 25px" :style="horizontal ? 'width: 160px' : ''" v-for="n in number">
@@ -35,7 +36,8 @@ export default {
   data () {
     return {
       number: 10,
-      horizontal: false
+      horizontal: false,
+      alwaysVisible: false
     }
   },
   methods: {

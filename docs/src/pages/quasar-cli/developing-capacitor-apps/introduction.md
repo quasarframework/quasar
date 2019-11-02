@@ -9,6 +9,3 @@ desc: Introduction on one of the technologies behind Quasar hybrid mobile apps.
 For running Capacitor mode you will need @quasar/app v1.2+ and also "quasar" v1.2+.
 :::
 
-::: warning
-Capacitor support in Quasar CLI is currently in a short beta stage. Things may break, and you should not use this in a production environment yet. If you find any issues, please report them on the [Quasar Github Repo](https://github.com/quasarframework/quasar) after carefully reading these docs pages.
-:::

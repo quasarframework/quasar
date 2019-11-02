@@ -48,8 +48,6 @@ Contains the full path (String) to the root of the app on which this App Extensi
 
 ## api.compatibleWith
 
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
-
 Ensure the App Extension is compatible with a package installed in the host app through a semver condition.
 
 If the semver condition is not met, then @quasar/app errors out and halts execution.
@@ -66,8 +64,6 @@ api.compatibleWith('@quasar/app', '1.x')
 
 ## api.hasPackage
 
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
-
 Determine if some package is installed in the host app through a semver condition.
 
 Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
@@ -81,7 +77,7 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 if (api.hasPackage('vuelidate')) {
   // hey, this app has it (any version of it)
 }
-if (api.hasPackage('quasar', '^1.0.0-beta.0')) {
+if (api.hasPackage('quasar', '^1.0.0')) {
   // hey, this app has v1 installed
 }
 ```
@@ -102,8 +98,6 @@ if (api.hasExtension(extId)) {
 ```
 
 ## api.getPackageVersion
-
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
 
 Get the version of a host app package.
 
@@ -223,8 +217,6 @@ Possibilities are limited only by your imagination.
 
 ## api.getPersistentConf
 
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
-
 Get the internal persistent config of this extension. Returns empty object if it has none.
 
 ```js
@@ -235,8 +227,6 @@ api.getPersistentConf()
 ```
 
 ## api.setPersistentConf
-
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
 
 Set the internal persistent config of this extension. If it already exists, it is overwritten.
 
@@ -250,8 +240,6 @@ api.setPersistentConf({
 ```
 
 ## api.mergePersistentConf
-
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
 
 Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.
 

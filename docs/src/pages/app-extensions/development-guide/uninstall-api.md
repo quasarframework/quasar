@@ -79,8 +79,6 @@ The above example deletes "my-folder" from the root of the app.
 
 ## api.getPersistentConf
 
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
-
 Get the internal persistent config of this extension. Returns empty object if it has none.
 
 ```js

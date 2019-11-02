@@ -69,6 +69,7 @@
       Focus placeholder
     </div>
     <div class="row q-gutter-sm">
+      <q-input v-model="text" label="QInput" />
       <q-btn :type="btnType" label="Show QSelect" @click="$refs.sel.showPopup()" />
       <q-checkbox v-model="forceMenu" toggle-indeterminate :label="forceMenuLabel" />
       <q-select
@@ -155,7 +156,8 @@ export default {
       forceMenu: false,
       forceA: false,
       model: null,
-      options: [ 'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle' ]
+      options: [ 'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle' ],
+      text: ''
     }
   },
 

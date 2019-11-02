@@ -10,11 +10,13 @@ export default Vue.extend({
   },
 
   render (h) {
+    const on = this.$listeners
+
     return h(
       'tr',
       this.props === void 0 || this.props.header === true
-        ? {}
-        : { class: this.props.__trClass },
+        ? on
+        : { ...on, class: this.props.__trClass },
       slot(this, 'default')
     )
   }

@@ -13,9 +13,14 @@ Also check out its “sibling”, the [QSlider](/vue-components/slider) componen
 <doc-installation components="QRange" />
 
 ## Usage
+
 Notice we are using an object for the selection, which holds values for both the lower value of the selected range - `rangeValues.min` and the higher value - `rangeValues.max`.
 
+### Standard
+
 <doc-example title="Standard" file="QRange/Standard" />
+
+### With step
 
 <doc-example title="With Step" file="QRange/Step" />
 
@@ -25,15 +30,21 @@ The `step` property can also be a floating point number (or numeric `0` if you n
 
 In the example below, move the slider to see the label.
 
-<doc-example title="With label" file="QRange/Label" />
-
 <doc-example title="Snaps to steps" file="QRange/Snap" />
 
-<doc-example title="Markers" file="QRange/Markers" />
+### With label
+
+<doc-example title="With label" file="QRange/Label" />
 
 <doc-example title="Always display label" file="QRange/LabelAlways" />
 
 <doc-example title="Custom label values" file="QRange/LabelValue" />
+
+### Markers
+
+<doc-example title="Markers" file="QRange/Markers" />
+
+### Dragging range
 
 Use the `drag-range` or `drag-only-range` props to allow the user to move the selected range or only a predetermined range as a whole.
 
@@ -43,17 +54,25 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 <doc-example title="Drag only range (fixed interval)" file="QRange/DragOnly" />
 
-<doc-example title="Dark" file="QRange/Dark" dark />
+### Lazy input
 
 <doc-example title="Lazy input" file="QRange/Lazy" />
+
+### Null values
+
+<doc-example title="Null values" file="QRange/Null" />
+
+### Dark, readonly, disable
+
+<doc-example title="Dark" file="QRange/Dark" dark />
 
 <doc-example title="Readonly" file="QRange/Readonly" />
 
 <doc-example title="Disable" file="QRange/Disable" />
 
-<doc-example title="Null values" file="QRange/Null" />
+### With QItem
 
-<doc-example title="Usage with a list" file="QRange/List" />
+<doc-example title="With QItem" file="QRange/List" />
 
 ## QRange API
 <doc-api file="QRange" />

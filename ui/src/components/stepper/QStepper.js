@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import { PanelParentMixin } from '../../mixins/panel.js'
+import DarkMixin from '../../mixins/dark.js'
 import StepHeader from './StepHeader.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
@@ -14,11 +15,9 @@ export default Vue.extend({
     }
   },
 
-  mixins: [ PanelParentMixin ],
+  mixins: [ DarkMixin, PanelParentMixin ],
 
   props: {
-    dark: Boolean,
-
     flat: Boolean,
     bordered: Boolean,
     vertical: Boolean,
@@ -38,11 +37,11 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-stepper--${this.vertical ? 'vertical' : 'horizontal'}` +
-        (this.flat || this.dark ? ' q-stepper--flat no-shadow' : '') +
-        (this.bordered || (this.dark && !this.flat) ? ' q-stepper--bordered' : '') +
+      return `q-stepper--${this.vertical === true ? 'vertical' : 'horizontal'}` +
+        (this.flat === true || this.isDark === true ? ' q-stepper--flat no-shadow' : '') +
+        (this.bordered === true || (this.isDark === true && this.flat === false) ? ' q-stepper--bordered' : '') +
         (this.contracted === true ? ' q-stepper--contracted' : '') +
-        (this.dark === true ? ' q-stepper--dark' : '')
+        (this.isDark === true ? ' q-stepper--dark q-dark' : '')
     }
   },
 

@@ -44,7 +44,6 @@ const gettingStarted = [
   },
   {
     name: 'VS Code Configuration',
-    badge: 'new',
     path: 'vs-code-configuration'
   }
 ]
@@ -181,7 +180,6 @@ const cli = [
       },
       {
         name: 'CSS Preprocessors',
-        badge: 'new',
         path: 'css-preprocessors'
       },
       {
@@ -483,8 +481,12 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    badge: 'new',
     path: 'theme-builder'
+  },
+  {
+    name: 'Dark Mode',
+    badge: 'new',
+    path: 'dark-mode'
   },
   {
     name: 'Spacing',
@@ -508,7 +510,6 @@ const style = [
   },
   {
     name: 'Sass/SCSS Variables',
-    badge: 'new',
     path: 'sass-scss-variables'
   },
   {
@@ -545,7 +546,6 @@ const layout = [
       },
       {
         name: 'Flex Playground',
-        badge: 'new',
         path: 'flex-playground'
       }
     ]
@@ -572,13 +572,11 @@ const layout = [
   },
   {
     name: 'Layout Builder',
-    badge: 'new',
     external: true,
     path: '/layout-builder'
   },
   {
     name: 'Layout Gallery',
-    badge: 'new',
     path: 'gallery'
   },
   {
@@ -605,8 +603,18 @@ const directives = [
     path: 'go-back'
   },
   {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
+  },
+  {
     name: 'Material Ripples',
     path: 'material-ripple'
+  },
+  {
+    name: 'Mutation',
+    badge: 'new',
+    path: 'mutation'
   },
   {
     name: 'Scroll',
@@ -654,6 +662,11 @@ const plugins = [
   {
     name: 'Cookies',
     path: 'cookies'
+  },
+  {
+    name: 'Dark',
+    path: 'dark',
+    badge: 'new'
   },
   {
     name: 'Dialog',
@@ -1068,6 +1081,92 @@ const utils = [
   }
 ]
 
+/*
+// FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
+const firebaseAuthTypes = [{
+  name: 'Email',
+  path: 'email'
+}]
+
+const backends = [
+  {
+    name: 'AWS -- Amplify',
+    path: 'aws-amplify'
+  },
+  {
+    name: 'GraphQL',
+    path: 'graphQL'
+  },
+  {
+    name: 'Feathers JS',
+    path: 'feathersjs'
+  },
+  {
+    name: 'Firebase',
+    opened: false,
+    children: [
+      {
+        name: 'Introduction',
+        path: 'firebase/introduction'
+      },
+      {
+        name: 'Installation',
+        path: 'firebase/install'
+      },
+      {
+        name: 'Service Structure',
+        path: 'firebase/structure'
+      },
+      {
+        name: 'Route Guarding',
+        path: 'firebase/routeGuards'
+      },
+      {
+        name: 'Authentication',
+        path: 'firebase/authTypes',
+        children: firebaseAuthTypes
+      },
+      {
+        name: 'Data Store',
+        path: 'firebase/dataStore'
+      },
+      {
+        name: 'Hosting',
+        path: 'firebase/hosting'
+      },
+      {
+        name: 'Messaging',
+        path: 'firebase/messaging'
+      },
+      {
+        name: 'Storage',
+        path: 'firebase/storage'
+      },
+      {
+        name: 'SSR',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Vuex',
+        path: 'firebase/vuex'
+      },
+      {
+        name: 'Custom Implementations',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Firebase CLI',
+        path: 'firebase/cli'
+      }
+    ]
+  },
+  {
+    name: 'Laravel',
+    path: 'laravel'
+  }
+]
+*/
+
 module.exports = [
   {
     name: 'Introduction to Quasar',
@@ -1167,4 +1266,14 @@ module.exports = [
     path: 'quasar-utils',
     children: utils
   }
+
+  /*
+  // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
+  ,{
+    name: 'Backend & API',
+    icon: 'storage',
+    path: 'backend-and-api',
+    children: backends
+  }
+  */
 ]
