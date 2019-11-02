@@ -3,7 +3,8 @@ const
   fs = require('fs'),
   merge = require('webpack-merge'),
   chokidar = require('chokidar'),
-  debounce = require('lodash.debounce')
+  debounce = require('lodash.debounce'),
+  openInEditor = require('launch-editor-middleware')
 
 const
   appPaths = require('./app-paths'),
@@ -580,6 +581,8 @@ class QuasarConfig {
             app.use((cfg.build.publicPath || '/') + 'statics', express.static(appPaths.resolve.src('statics'), {
               maxAge: 0
             }))
+
+            app.use('/__open-in-editor', openInEditor())
 
             if (this.ctx.mode.cordova) {
               const folder = appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
