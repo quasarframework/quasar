@@ -57,7 +57,11 @@ export default {
           ])
         }
 
-      return h('div', { staticClass: 'row' }, this.computedRows.map(row => {
+      return h('div', {
+        staticClass: 'row',
+        class: this.cardContainerClass,
+        style: this.cardContainerStyle
+      }, this.computedRows.map(row => {
         const
           key = this.getRowKey(row),
           selected = this.isRowSelected(key)

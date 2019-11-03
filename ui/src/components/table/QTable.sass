@@ -238,16 +238,12 @@ body.desktop .q-table tbody tr:hover td:before
 /*
  * On dark background
  */
-.q-table__card--dark
-  border-color: $separator-dark-color
+.q-table__card--dark, .q-table--dark
+  border-color: $table-dark-border-color
 
 .q-table--dark
-  border-color: $separator-dark-color
 
-  .q-table__bottom
-    border-top: 1px solid $table-dark-border-color
-
-  thead, tr, th, td
+  .q-table__bottom, thead, tr, th, td
     border-color: $table-dark-border-color
 
   tbody td
@@ -258,4 +254,4 @@ body.desktop .q-table tbody tr:hover td:before
 
   &.q-table--vertical-separator, &.q-table--cell-separator
     .q-table__top
-      border-bottom: 1px solid $table-dark-border-color
+      border-color: $table-dark-border-color
