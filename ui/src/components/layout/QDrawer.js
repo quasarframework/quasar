@@ -611,7 +611,10 @@ export default Vue.extend({
         staticClass: 'q-drawer__content fit ' + (this.layout.container === true ? 'overflow-auto' : 'scroll'),
         class: this.contentClass,
         style: this.contentStyle
-      }, this.isMini === true && this.$scopedSlots.mini !== void 0 ? this.$scopedSlots.mini() : slot(this, 'default'))
+      }, this.isMini === true && this.$scopedSlots.mini !== void 0
+        ? this.$scopedSlots.mini()
+        : slot(this, 'default')
+      )
     ]
 
     if (this.elevated === true && this.showing === true) {

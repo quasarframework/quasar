@@ -51,9 +51,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    const label = this.$scopedSlots.label !== void 0
-      ? this.$scopedSlots.label()
-      : []
+    const label = slot(this, 'label', [])
 
     const Arrow = [
       h(QIcon, {

@@ -235,10 +235,7 @@ export const PanelParentMixin = {
   },
 
   render (h) {
-    this.panels = this.$scopedSlots.default !== void 0
-      ? this.$scopedSlots.default()
-      : []
-
+    this.panels = slot(this, 'default', [])
     return this.__renderPanels(h)
   }
 }

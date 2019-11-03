@@ -2,8 +2,10 @@ import Vue from 'vue'
 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
+
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
+import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QPopupEdit',
@@ -104,10 +106,10 @@ export default Vue.extend({
 
     __getContent (h) {
       const
-        child = this.$scopedSlots.default === void 0 ? [] : [ this.$scopedSlots.default(this.defaultSlotScope) ],
-        title = this.$scopedSlots.title !== void 0
-          ? this.$scopedSlots.title()
-          : this.title
+        title = slot(this, 'title', this.title),
+        child = this.$scopedSlots.default === void 0
+          ? []
+          : [].concat(this.$scopedSlots.default(this.defaultSlotScope))
 
       title && child.unshift(
         h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
