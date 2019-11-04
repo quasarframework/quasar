@@ -10,9 +10,11 @@ import Bridge from '../bridge'
 export default function connect () {
   window.QBexInit({
     connect (cb) {
-      const port = chrome.runtime.connect({
-        name: 'app'
-      })
+      const
+        tabId = chrome.devtools ? chrome.devtools.inspectedWindow.tabId : void 0,
+        port = chrome.runtime.connect({
+          name: tabId ? 'app:' + tabId : 'app'
+        })
 
       let disconnected = false
       port.onDisconnect.addListener(() => {
