@@ -27,7 +27,7 @@ Install Vue CLI v3+ as follows:
 $ npm install -g @vue/cli
 ```
 
-If you don't yet have a project created with @vue/cli v3+, then do so with:
+If you don't yet have a project created with @vue/cli v3+, then do so with the command below. **Make sure that you checkmark on Babel from the Vue CLI feature list prompt that will appear on screen**.
 
 ```bash
 $ vue create my-app
