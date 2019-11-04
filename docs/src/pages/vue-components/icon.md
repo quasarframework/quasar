@@ -95,11 +95,41 @@ img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQV
 
 ### Custom mapping
 
-<q-badge label="v1.3.1+" />
+<q-badge label="v1.4.0+" />
 
-Should you want, you can customize the mapping of icon names. This is especially useful when you are using a custom icon library (that doesn't come with Quasar and its `@quasar/extras` package).
+Should you want, you can customize the mapping of icon names.
 
 This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
+
+The syntax for `$q.iconMapFn` is as follows:
+
+```js
+/* Syntax */
+iconMapFn (String: iconName) => Object / void 0 (undefined)
+
+/*
+ The returned Object (if any) must be one of the following forms:
+
+ 1. Defines how to interpret icon
+ {
+   cls: String // class name(s)
+   content: String // optional, in case you are using a ligature font
+                   // and you need it as content of the QIcon
+  }
+
+  2. Acts essentially as a map to another icon
+  {
+    icon: String // the mapped icon String, which will be handled
+                 // by Quasar as if the original QIcon name was this value
+  }
+*/
+```
+
+Let's take both cases now.
+
+#### 1. Support for custom icon library
+
+This is especially useful when you are using a custom icon library (that doesn't come with Quasar and its `@quasar/extras` package).
 
 ```js
 created () {
@@ -127,22 +157,6 @@ created () {
     // takes over
   }
 }
-```
-
-The syntax for `$q.iconMapFn` is as follows:
-
-```js
-/* Syntax */
-iconMapFn (String: iconName) => Object / void 0 (undefined)
-
-/*
- the returned Object (if any) must be of the following form:
- {
-   cls: String // class name(s)
-   content: String // optional, in case you are using a ligature font
-                   // and you need it as content of the QIcon
-  }
-*/
 ```
 
 Notice in the examples above that we are returning a `my-app-icon` class that gets applied to QIcon if our icon starts with `app:` prefix. We can use it to define how QIcon should react to it, from a CSS point of view.
@@ -178,6 +192,28 @@ css: [
 ```
 
 And also add "my-app-icon.woff2" and "my-app-icon.woff" files into the same folder as "my-app-icon.css" (or somewhere else, but edit the relative paths (see "src:" above) to the woff/woff2 files).
+
+#### 2. Simply mapping a few icons
+
+```js
+const myIcons = {
+  'app:icon1': 'img:/path/to/icon1.svg',
+  'app:icon2': 'img:/path/to/icon2.svg',
+  'app:copy': 'fas fa-copy',
+}
+
+// ...
+created () {
+  this.$q.iconMapFn = (iconName) => {
+    const icon = myIcons[iconName]
+    if (icon !== void 0) {
+      return { icon: icon }
+    }
+  }
+}
+```
+
+Now we can use `<q-icon name="app:copy" />` or `<q-icon name="app:icon1" />` and QIcon will treat "app:copy" and "app:icon1" as if they were written as "fas fa-copy" and "img:/path/to/icon1.svg".
 
 ## QIcon API
 <doc-api file="QIcon" />

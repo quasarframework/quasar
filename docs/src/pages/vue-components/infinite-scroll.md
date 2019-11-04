@@ -4,6 +4,7 @@ desc: The QInfiniteScroll Vue component allows you to load new content as the us
 related:
   - /vue-components/spinners
   - /vue-components/pull-to-refresh
+  - /vue-components/intersection
 ---
 
 The QInfiteScroll component allows you to load new content as the user scrolls the page.
