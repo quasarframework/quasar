@@ -288,40 +288,44 @@ export default Vue.extend({
     },
 
     __getFooter (h) {
-      return h(QTabs, {
-        staticClass: 'q-color-picker__footer',
-        props: {
-          value: this.view,
-          dense: true,
-          align: 'justify'
-        },
-        on: {
-          input: val => { this.view = val }
-        }
+      return h('div', {
+        staticClass: 'q-color-picker__footer relative-position overflow-hidden'
       }, [
-        h(QTab, {
+        h(QTabs, {
+          staticClass: 'absolute-full',
           props: {
-            icon: this.$q.iconSet.colorPicker.spectrum,
-            name: 'spectrum',
-            ripple: false
+            value: this.view,
+            dense: true,
+            align: 'justify'
+          },
+          on: {
+            input: val => { this.view = val }
           }
-        }),
+        }, [
+          h(QTab, {
+            props: {
+              icon: this.$q.iconSet.colorPicker.spectrum,
+              name: 'spectrum',
+              ripple: false
+            }
+          }),
 
-        h(QTab, {
-          props: {
-            icon: this.$q.iconSet.colorPicker.tune,
-            name: 'tune',
-            ripple: false
-          }
-        }),
+          h(QTab, {
+            props: {
+              icon: this.$q.iconSet.colorPicker.tune,
+              name: 'tune',
+              ripple: false
+            }
+          }),
 
-        h(QTab, {
-          props: {
-            icon: this.$q.iconSet.colorPicker.palette,
-            name: 'palette',
-            ripple: false
-          }
-        })
+          h(QTab, {
+            props: {
+              icon: this.$q.iconSet.colorPicker.palette,
+              name: 'palette',
+              ripple: false
+            }
+          })
+        ])
       ])
     },
 
