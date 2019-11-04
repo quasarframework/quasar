@@ -46,7 +46,7 @@ export default {
       else {
         mapFn = col => {
           const props = {
-            col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+            col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap, resizableColumns: this.$q.platform.is.mobile ? '' : this.resizableColumns
           }
           const slot = this.$scopedSlots[`header-cell-${col.name}`]
 

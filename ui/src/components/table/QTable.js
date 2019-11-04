@@ -74,6 +74,7 @@ export default Vue.extend({
     wrapCells: Boolean,
 
     virtualScroll: Boolean,
+    resizableColumns: Boolean,
     ...commonVirtPropsObj,
 
     noDataLabel: String,
@@ -198,6 +199,7 @@ export default Vue.extend({
         (this.isDark === true ? ` q-table--dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +
         (this.wrapCells === false ? ` q-table--no-wrap` : '') +
+        (this.resizableColumns === true && !this.$q.platform.is.mobile ? ` q-table--resizable-columns` : '') +
         (this.inFullscreen === true ? ` fullscreen scroll` : '')
     },
 

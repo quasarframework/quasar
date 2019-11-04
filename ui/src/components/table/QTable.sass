@@ -32,6 +32,33 @@
     border-style: solid
     border-width: 0
 
+  .block-click
+    pointer-events: none  
+
+  th .resizable-elem
+    display: inline-block
+    position: absolute
+    right: 0
+    margin-right: 5px
+    height: 100%
+    top: 0
+    width: 8px
+    cursor: col-resize
+    border-right: 1px solid rgba(0,0,0,0.12)
+
+  .resizable-columns th
+    padding: 0 !important
+    text-align: center !important
+    border-top: 1px solid rgba(0,0,0,0.12) !important
+    overflow: hidden
+    text-overflow: ellipsis
+    padding-right: 7px !important
+
+  .resizable-columns td
+    text-align: center !important
+    overflow: hidden
+    text-overflow: ellipsis
+
   tbody td
     font-size: 13px
 
