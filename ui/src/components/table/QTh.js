@@ -36,7 +36,6 @@ export default Vue.extend({
       tableElem.querySelector('table').style.width = '100%'
       let tableWidth = tableElem.querySelector('table').getBoundingClientRect().width
       let thList = tableElem.querySelectorAll('th')
-      tableElem.classList.add('resizable-columns')
       thList.forEach(th => {
         th.style.width = tableWidth / thList.length + 'px'
       })

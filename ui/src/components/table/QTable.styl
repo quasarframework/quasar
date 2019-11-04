@@ -221,6 +221,36 @@
     margin-right 8px
 
 /*
+ * On resizable columns
+ */
+.q-table--resizable-columns
+  .block-click
+    pointer-events: none  
+
+  th
+    padding: 0 !important
+    text-align: center !important
+    border-top: 1px solid rgba(0,0,0,0.12) !important
+    overflow: hidden
+    text-overflow: ellipsis
+    padding-right: 7px !important
+    .resizable-elem
+      display: inline-block
+      position: absolute
+      right: 0
+      margin-right: 5px
+      height: 100%
+      top: 0
+      width: 8px
+      cursor: col-resize
+      border-right: 1px solid rgba(0,0,0,0.12)
+
+  td
+    text-align: center !important
+    overflow: hidden
+    text-overflow: ellipsis
+
+/*
  * On light background
  */
 .q-table__bottom // @stylint ignore
