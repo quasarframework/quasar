@@ -93,5 +93,91 @@ You can also base64 encode an image and supply it. The example below is with a Q
 img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" ... />
 ```
 
+### Custom mapping
+
+<q-badge label="v1.3.1+" />
+
+Should you want, you can customize the mapping of icon names. This is especially useful when you are using a custom icon library (that doesn't come with Quasar and its `@quasar/extras` package).
+
+This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
+
+```js
+created () {
+  // Example of adding support for
+  // <q-icon name="app:...." />
+  // This includes support for all "icon" props
+  // of Quasar components
+
+  this.$q.iconMapFn = (iconName) => {
+    // iconName is the content of QIcon "name" prop
+
+    // your custom approach, the following
+    // is just an example:
+    if (iconName.startsWith('app:') === true) {
+      // we strip the "app:" part
+      const name = iconName.substring(4)
+
+      return {
+        cls: 'my-app-icon ' + name
+      }
+    }
+
+    // when we don't return anything from our
+    // iconMapFn, the default Quasar icon mapping
+    // takes over
+  }
+}
+```
+
+The syntax for `$q.iconMapFn` is as follows:
+
+```js
+/* Syntax */
+iconMapFn (String: iconName) => Object / void 0 (undefined)
+
+/*
+ the returned Object (if any) must be of the following form:
+ {
+   cls: String // class name(s)
+   content: String // optional, in case you are using a ligature font
+                   // and you need it as content of the QIcon
+  }
+*/
+```
+
+Notice in the examples above that we are returning a `my-app-icon` class that gets applied to QIcon if our icon starts with `app:` prefix. We can use it to define how QIcon should react to it, from a CSS point of view.
+
+Let's assume we have our own webfont called "My App Icon".
+
+```css
+/*
+  For this example, we are creating:
+  /src/css/my-app-icon.css
+*/
+
+.my-app-icon {
+  font-family: 'My App Icon';
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'My App Icon';
+  font-style: normal; /* whatever is required for your */
+  font-weight: 400;   /* webfont.... */
+  src: url("./my-app-icon.woff2") format("woff2"), url("./my-app-icon.woff") format("woff");
+}
+```
+
+We should then edit our `quasar.conf.js` (if using Quasar CLI) to add the newly created CSS file into our app:
+
+```js
+css: [
+  // ....
+  'my-app-icon.css'
+]
+```
+
+And also add "my-app-icon.woff2" and "my-app-icon.woff" files into the same folder as "my-app-icon.css" (or somewhere else, but edit the relative paths (see "src:" above) to the woff/woff2 files).
+
 ## QIcon API
 <doc-api file="QIcon" />

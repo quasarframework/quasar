@@ -29,13 +29,26 @@ export default Vue.extend({
 
       const commonCls = 'q-icon' +
         (this.left === true ? ' on-left' : '') +
-        (this.right === true ? ' on-right' : '')
+        (this.right === true ? ' on-right' : '') +
+        (this.color !== void 0 ? ` text-${this.color}` : '')
 
       if (icon.startsWith('img:') === true) {
         return {
           img: true,
           cls: commonCls,
           src: icon.substring(4)
+        }
+      }
+
+      if (this.$q.iconMapFn !== void 0) {
+        const res = this.$q.iconMapFn(icon)
+        if (res !== void 0) {
+          return {
+            cls: res.cls + ' ' + commonCls,
+            content: res.content !== void 0
+              ? res.content
+              : ' '
+          }
         }
       }
 
@@ -85,8 +98,7 @@ export default Vue.extend({
       }
 
       return {
-        cls: cls + ' ' + commonCls +
-          (this.color !== void 0 ? ` text-${this.color}` : ''),
+        cls: cls + ' ' + commonCls,
         content
       }
     }
