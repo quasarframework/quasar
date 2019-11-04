@@ -45,11 +45,10 @@ export default Vue.extend({
 
   methods: {
     click (e) {
-      if (e.defaultPrevented === true) {
-        return
-      }
-
       if (e !== void 0) {
+        if (e.defaultPrevented === true) {
+          return
+        }
         const el = document.activeElement
         // focus button if it came from ENTER on form
         // prevent the new submit (already done)
