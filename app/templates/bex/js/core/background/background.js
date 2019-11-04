@@ -23,9 +23,14 @@ attachGlobalBackgroundHooks(chrome)
  * @param port
  */
 const addConnection = (port) => {
-  const
-    tab = port.sender.tab,
-    connectionId = tab.id + ':' + tab.windowId
+  const tab = port.sender.tab
+
+  let connectionId = tab.id
+  if (port.name.indexOf(':') > -1) {
+    const split = port.name.split(':')
+    connectionId = split[1]
+    port.name = split[0]
+  }
 
   let currentConnection = connections[connectionId]
   if (!currentConnection) {
