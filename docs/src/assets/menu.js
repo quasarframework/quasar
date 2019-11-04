@@ -848,6 +848,11 @@ const components = [
     path: 'inner-loading'
   },
   {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
+  },
+  {
     name: 'Knob',
     path: 'knob'
   },

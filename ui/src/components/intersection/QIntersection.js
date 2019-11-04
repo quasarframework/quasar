@@ -12,9 +12,12 @@ export default Vue.extend({
 
   props: {
     once: Boolean,
+    transition: String,
+
     margin: String,
     threshold: [ Number, Array ],
-    transition: String
+
+    disable: Boolean
   },
 
   data () {
@@ -41,6 +44,10 @@ export default Vue.extend({
     __trigger (entry) {
       if (this.showing !== entry.isIntersecting) {
         this.showing = entry.isIntersecting
+
+        if (this.$listeners.visibility !== void 0) {
+          this.$emit('visibility', this.showing)
+        }
       }
     }
   },
@@ -52,7 +59,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-intersection',
-      directives: [{
+      directives: this.disable === true ? null : [{
         name: 'intersection',
         value: this.value,
         modifiers: {
