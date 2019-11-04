@@ -288,8 +288,11 @@ export default Vue.extend({
     },
 
     __getFooter (h) {
-      return h(QTabs, {
-        staticClass: 'q-color-picker__footer',
+      return h('div', {
+        staticClass: 'q-color-picker__footer relative-position overflow-hidden'
+      }, [
+      h(QTabs, {
+        staticClass: 'absolute-full',
         props: {
           value: this.view,
           dense: true,
@@ -322,6 +325,7 @@ export default Vue.extend({
             ripple: false
           }
         })
+      ])
       ])
     },
 
