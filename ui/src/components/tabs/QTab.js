@@ -61,7 +61,7 @@ export default Vue.extend({
   },
 
   methods: {
-    activate (e, keyboard) {
+    __activate (e, keyboard) {
       keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
 
       if (this.disable !== true) {
@@ -71,7 +71,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      e.keyCode === 13 && this.activate(e, true)
+      e.keyCode === 13 && this.__activate(e, true)
     },
 
     __getContent (h) {
@@ -103,7 +103,7 @@ export default Vue.extend({
         h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
 
         h('div', {
-          staticClass: 'q-tab__content flex-center relative-position no-pointer-events non-selectable',
+          staticClass: 'q-tab__content self-stretch flex-center relative-position no-pointer-events q-anchor--skip non-selectable',
           class: this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column'
         }, content.concat(slot(this, 'default')))
       ]
@@ -113,7 +113,7 @@ export default Vue.extend({
       return node
     },
 
-    __render (h, tag, props) {
+    __renderTab (h, tag, props) {
       const data = {
         staticClass: 'q-tab relative-position self-stretch flex flex-center text-center',
         class: this.classes,
@@ -128,7 +128,7 @@ export default Vue.extend({
         [tag === 'div' ? 'on' : 'nativeOn']: {
           input: stop,
           ...this.$listeners,
-          click: this.activate,
+          click: this.__activate,
           keyup: this.__onKeyup
         }
       }
@@ -142,6 +142,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    return this.__render(h, 'div')
+    return this.__renderTab(h, 'div')
   }
 })

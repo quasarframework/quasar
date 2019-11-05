@@ -1,5 +1,6 @@
 ---
 title: Notify
+desc: A Quasar plugin to display animated messages to users like notifications, toasts and snackbars.
 ---
 Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast or snackbar.
 
@@ -63,7 +64,17 @@ First we create the boot file. Let's name it "notify-defaults.js".
 
 ```bash
 $ quasar new boot notify-defaults
-# we then add 'notify-defaults' to quasar.conf.js > boot Array
+```
+
+Add the created notify-defaults.js file to the boot array in `quasar.conf.js`:
+
+```js
+module.exports = function(ctx) {
+  return {
+    // ...
+    boot: ['notify-defaults'],
+    // ...
+  }
 ```
 
 We then edit the newly created `/src/boot/notify-defaults.js`:
@@ -87,7 +98,7 @@ We could also set the defaults in some Vue file:
 
 ```js
 // inside of a Vue component
-this.$q.setDefaults({
+this.$q.notify.setDefaults({
   position: 'top-right',
   timeout: 2500,
   textColor: 'white',

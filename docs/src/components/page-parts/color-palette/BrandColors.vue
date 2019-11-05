@@ -19,6 +19,7 @@ export default {
         'primary',
         'secondary',
         'accent',
+        'dark',
         'positive',
         'negative',
         'info',
@@ -29,8 +30,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .brand-color
-  width 130px
-  height 40px
+  width: 130px
+  height: 40px
 </style>

@@ -1,8 +1,8 @@
 <template>
-  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <div style="max-width: 600px" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
@@ -22,11 +22,35 @@
         Standard
       </div>
 
-      <q-input v-bind="props" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
+      <q-input :dark="false" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
 
       <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label />
 
       <q-input v-bind="props" v-model="text" label="Label" />
+
+      <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" />
+
+      <q-input v-bind="props" v-model="invalid" pattern="[a-z]*" label="Only [a-z]" placeholder="Write something" />
+
+      <q-input v-bind="props" v-model="number" type="number" label="Number" placeholder="Write a number" />
+
+      <q-input v-bind="props" v-model="number" type="number" step="0.1" label="Number - step 0.1" placeholder="Write a number" />
+
+      <q-input v-bind="props" v-model="email" type="email" label="eMail" placeholder="Write an email address" />
+
+      <q-input v-bind="props" v-model="text" label="Tooltip and menu">
+        <q-icon slot="prepend" name="event">
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-icon>
+        <q-icon slot="append" name="delete">
+          <q-tooltip>Tooltip</q-tooltip>
+        </q-icon>
+        <q-menu fit no-focus>
+          <div class="q-pa-md text-center">
+            Menu
+          </div>
+        </q-menu>
+      </q-input>
 
       <q-input v-bind="props" v-model="text">
         <q-icon slot="prepend" name="event" />
@@ -381,7 +405,7 @@
       </q-input>
 
       <q-input :dark="dark" v-model="text" filled hint="With menu" style="margin-bottom: 100px">
-        <q-menu fit auto-close>
+        <q-menu fit auto-close no-focus>
           <q-list padding style="min-width: 100px">
             <q-item
               v-for="n in 2"
@@ -417,7 +441,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       dense: false,
       disable: false,
       readonly: false,
@@ -440,6 +464,10 @@ export default {
 
       pass: '',
       password: true,
+
+      invalid: '123',
+      number: 1.1,
+      email: 'a',
 
       prefix: null,
       suffix: null,

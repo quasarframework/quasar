@@ -36,9 +36,15 @@ module.exports = function (chain, cfg) {
   }
 
   if (cfg.ctx.mode.ssr) {
-    if (!opts.directoryIndex) {
+    if (pluginMode === 'GenerateSW' && !opts.directoryIndex) {
       opts.directoryIndex = '/'
     }
+
+    if (!opts.exclude) {
+      opts.exclude = []
+    }
+
+    opts.exclude.push('../vue-ssr-client-manifest.json')
 
     // if Object form:
     if (cfg.ssr.pwa && cfg.ssr.pwa !== true) {

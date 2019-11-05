@@ -10,7 +10,6 @@ const
   warn = logger('app:dev-server', 'red')
 
 let alreadyNotified = false
-
 module.exports = class DevServer {
   constructor (quasarConfig) {
     this.quasarConfig = quasarConfig
@@ -83,6 +82,13 @@ module.exports = class DevServer {
       // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
       return createBundleRenderer(bundle, {
         ...options,
+        ...(cfg.build.preloadChunks !== true
+          ? {
+            shouldPreload: () => false,
+            shouldPrefetch: () => false
+          }
+          : {}
+        ),
 
         // for component caching
         cache: new LRU({
@@ -211,8 +217,12 @@ module.exports = class DevServer {
 
     const serverCompilerWatcher = serverCompiler.watch({}, () => {})
 
+    const originalAfter = cfg.devServer.after
+
     // start building & launch server
     const server = new WebpackDevServer(clientCompiler, {
+      ...cfg.devServer,
+
       after: app => {
         if (cfg.ctx.mode.pwa) {
           app.use('/manifest.json', (req, res) => {
@@ -229,12 +239,42 @@ module.exports = class DevServer {
           maxAge: 0
         }))
 
-        SsrExtension.getModule().extendApp({ app })
+        originalAfter && originalAfter(app)
+
+        SsrExtension.getModule().extendApp({
+          app,
+
+          ssr: {
+            renderToString ({ req, res }, fn) {
+              const context = {
+                url: req.url,
+                req,
+                res
+              }
+
+              renderer.renderToString(context, (err, html) => {
+                if (err) {
+                  handleError(err)
+                  return
+                }
+                if (cfg.__meta) {
+                  html = context.$getMetaHTML(html)
+                }
+
+                fn(err, html)
+              })
+            },
+
+            settings: Object.assign(
+              {},
+              JSON.parse(cfg.ssr.__templateOpts),
+              { debug: true }
+            )
+          }
+        })
 
         app.get('*', render)
-      },
-
-      ...cfg.devServer
+      }
     })
 
     readyPromise.then(() => {

@@ -1,5 +1,6 @@
 ---
 title: Popup Edit
+desc: The QPopupEdit Vue component can be used to edit a value 'in place', like for example on a cell in QTable.
 related:
   - /vue-components/input
   - /vue-components/menu
@@ -27,19 +28,30 @@ There is also a `title` slot, which you can use to inject your own title, as dem
 
 <doc-example title="Simple edit, with title prop and slot" file="QPopupEdit/Simple" />
 
+### Customizing
+
+<doc-example title="Custom style" file="QPopupEdit/CustomStyle" />
+
 ### Persistent and with buttons
 You can also add two buttons with the `buttons` prop, "Cancel" and "Set" (the default labels). These buttons help to control the user's input. Along with the `buttons` prop, you also have the `persistent` prop, which denies the user from closing the popup with the escape key or clicking/ tapping outside of the popup. The `persistent` prop is demonstrated in the "carbs" column. Lastly, you can control the labels of the two buttons with the `label-set` and `label-cancel` props, as seen in the "Protein" column. Notice "Save" is replacing "Set" and "Close" is replacing "Cancel".
 
 <doc-example title="Persistent edit, and with buttons" file="QPopupEdit/WithButtons" />
 
-### Textarea
+### Default scoped slot
+You can use also use the default scoped slot with parameters too (as opposed to all other examples on this page which use the default scoped slot without any parameters) should you wish to fully customize your QPopupEdit content:
+
+<doc-example title="Default scoped slot parameters" file="QPopupEdit/DefaultScopedSlotParameters" />
+
+### Textarea / QEditor
 Since QPopupEdit wraps QInput, you can basically use any type of QInput. For instance, you can also use a text area as shown below in the "Comments" column.
 
 ::: tip
-When using a text area for input, you'll need to also use `@keyup.enter.stop` in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too.
+When using a multi-line control (textarea, QEditor) for input, you'll need to also use `@keyup.enter.stop` on the component in order to stop the enter key from closing the popup. You'll also need to add buttons for controlling the popup too.
 :::
 
-<doc-example title="Text area edit" file="QPopupEdit/TextArea" />
+<doc-example title="QInput textarea" file="QPopupEdit/TextArea" />
+
+<doc-example title="QEditor" file="QPopupEdit/QEditor" />
 
 ### Validation
 QPopupEdit also allows for simple validation of the input. To use it, you give it a callback function in the form of an arrow function and it should return a Boolean. `(value) => Boolean`. This is **demonstrated in the "Protein" column** below.

@@ -1,6 +1,6 @@
 {
   "name": "quasar.dev",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Official Quasar Docs Website",
   "productName": "quasar-docs",
   "cordovaId": "org.cordova.quasar.app",
@@ -10,7 +10,7 @@
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
     "build": "quasar build -m ssr",
-    "deploy": "yarn build && cd dist/ssr && now --public --target production",
+    "deploy": "yarn build && cd dist/quasar.dev && now --public --prod -V 1 && now alias `pbpaste` quasar.dev",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
@@ -18,15 +18,16 @@
     "@quasar/extras": "^1.1.2",
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
-    "quasar": "^1.0.0-beta.0",
+    "quasar": "^1.0.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0-beta.0",
+    "@quasar/app": "^1.0.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.10.0",
     "eslint-loader": "^2.1.1",
+    "eslint-plugin-quasar": "^1.0.0-alpha.16",
     "eslint-plugin-vue": "^5.0.0",
     "gray-matter": "^4.0.2",
     "markdown-it": "^8.4.2",

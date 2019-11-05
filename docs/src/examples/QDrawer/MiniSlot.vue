@@ -10,13 +10,13 @@
 
       <q-drawer
         v-model="drawer"
+        show-if-above
 
         :mini="!drawer || miniState"
         @click.capture="drawerClick"
 
         :width="200"
         :breakpoint="500"
-        show-if-above
         bordered
         content-class="bg-grey-3"
       >
@@ -93,7 +93,7 @@
 export default {
   data () {
     return {
-      drawer: true,
+      drawer: false,
       miniState: true
     }
   },
@@ -115,15 +115,15 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .mini-slot
-  transition background-color .28s
+  transition: background-color .28s
   &:hover
-    background-color rgba(0, 0, 0, .04)
+    background-color: rgba(0, 0, 0, .04)
 
 .mini-icon
-  font-size 1.718em
+  font-size: 1.718em
 
   & + &
-    margin-top 18px
+    margin-top: 18px
 </style>

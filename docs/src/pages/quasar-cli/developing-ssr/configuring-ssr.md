@@ -1,5 +1,6 @@
 ---
 title: Configuring SSR
+desc: How to manage your server-side rendered apps with Quasar CLI.
 related:
   - /quasar-cli/quasar-conf-js
 ---

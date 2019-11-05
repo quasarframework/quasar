@@ -1,5 +1,6 @@
 ---
 title: Uploader
+desc: The QUploader Vue component is a way for the user to upload files to a backend server.
 ---
 Quasar supplies a way for you to upload files through the QUploader component.
 
@@ -97,15 +98,17 @@ For the file picker to work on IE11 when wrapping QUploaderAddTrigger with a QBt
 
 <doc-example title="Custom files list" file="QUploader/SlotList" />
 
-## Server endpoint
+## Server endpoint examples
 
 QUploader works by default with the HTTP(S) protocol to upload files (but it's not limited to it as you'll see in the section following this one).
 
-Below is a basic server example written in Nodejs. It does nothing other than receiving the files, so consider it as a starting point.
-
 ::: tip
-It is by no means required to use a Nodejs server like above -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).
+It is by no means required to use a Nodejs server or Spring or ASP.NET like below -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).
 :::
+
+### Nodejs
+
+Below is a basic server example written in Nodejs. It does nothing other than receiving the files, so consider it as a starting point.
 
 ```js
 const
@@ -151,6 +154,104 @@ app.listen(port, () => {
 })
 ```
 
+### ASP.NET MVC/Core
+QUploader seamlessly integrates with a Microsoft ASP.NET MVC/Core 2.x Web API backend.
+In your Vue file, configure the QUploader component with the desired Web API endpoint:
+
+```vue
+<q-uploader
+  url="http://localhost:4444/fileuploader/upload"
+  label="Upload"
+  style="max-width: 300px"
+/>
+```
+
+If your server requires authentication such as a JWT token, use QUploader's factory function to specify the xhr header that will be used by QUploader. For example:
+
+```html
+<template>
+  <q-uploader
+    label="Upload"
+    :factory="factoryFn"
+    style="max-width: 300px"
+  />
+</template>
+
+<script>
+export default {
+  methods: {
+    factoryFn (file) {
+      return new Promise((resolve, reject) => {
+        // Retrieve JWT token from your store.
+        const token = "myToken";
+        resolve({
+          url: http://localhost:4444/fileuploader/upload,
+          method: 'POST',
+          headers: [
+            { name: 'Content-Type', value: 'application/json-patch+json'},
+            { name: 'Authorization', value: `Bearer ${token}` }
+          ]
+        })
+      })
+    }
+  }
+}
+</script>
+```
+
+The file(s) payload of QUploader will be a properly formed ```IFormFileCollection``` object that you can read via your ASP.NET Web API controller's ```.Request``` property.
+ASP.NET Core 2.2 Controller:
+
+```
+[Route("api/[controller]")]
+[ApiController]
+public class FileUploaderController : ControllerBase
+{
+    [HttpPost]
+    public async Task upload()
+    {
+        // Request's .Form.Files property will
+        // contain QUploader's files.
+        var files = this.Request.Form.Files;
+        foreach (var file in files)
+        {
+            if (file == null || file.Length == 0)
+                continue;
+
+            // Do something with the file.
+            var fileName = file.FileName;
+            var fileSize = file.Length;
+            // save to server...
+            // ...
+        }
+    }
+}
+```
+
+### Spring
+
+Below is a [Spring](https://spring.io/guides/gs/uploading-files/) example. Attribute `fieldName="file"` is mapping with `@RequestPart(value = "file")`.
+
+```
+// java
+@RestController
+public class UploadRest {
+	@PostMapping("/upload")
+	public void handleFileUpload(@RequestPart(value = "file") final MultipartFile uploadfile) throws IOException {
+		saveUploadedFiles(uploadfile);
+	}
+
+	private String saveUploadedFiles(final MultipartFile file) throws IOException {
+		final byte[] bytes = file.getBytes();
+		final Path path = Paths.get("YOUR_ABSOLUTE_PATH" + file.getOriginalFilename());
+		Files.write(path, bytes);
+	}
+}
+
+// html
+<q-uploader fieldName="file" url="YOUR_URL_BACK/upload" with-credentials />
+```
+
 ## Supporting other services
 QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
@@ -164,6 +265,8 @@ For the default XHR implementation, check out [source code](https://github.com/q
 We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit.
 :::
 
+For the UMD version, you can extend `Quasar.components.QUploaderBase`.
+
 ```js
 // MyUploader.js
 import { QUploaderBase } from 'quasar'
@@ -171,7 +274,7 @@ import { QUploaderBase } from 'quasar'
 export default {
   name: 'MyUploader',
 
-  mixins: [ UploaderBase ],
+  mixins: [ QUploaderBase ],
 
   computed: {
     // [REQUIRED]
@@ -208,8 +311,6 @@ export default {
   }
 }
 ```
-
-For the UMD version, you can extend `Quasar.components.QUploaderBase`.
 
 ## QUploader API
 <doc-api file="QUploader" />

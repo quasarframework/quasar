@@ -37,15 +37,15 @@ export default {
         message: 'Saved your text to local storage',
         color: 'green-4',
         textColor: 'white',
-        icon: 'fas fa-check-circle'
+        icon: 'cloud_done'
       })
     },
     uploadIt () {
       this.$q.notify({
-        message: 'Server unavailable. Check connectivity',
+        message: 'Server unavailable. Check connectivity.',
         color: 'red-5',
         textColor: 'white',
-        icon: 'fas fa-exclamation-triangle'
+        icon: 'warning'
       })
     }
   }

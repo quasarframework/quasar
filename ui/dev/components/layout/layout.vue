@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-layout :view="view" @scroll="onScroll">
-      <q-header v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
+      <q-header height-hint="204" v-model="header" :bordered="bordered" :elevated="elevated" :reveal="headerReveal" :class="marginalClass">
         <q-bar>
           <q-icon name="network_wifi" />
           <div>9:34</div>
@@ -49,7 +49,7 @@
         </q-tabs>
       </q-header>
 
-      <q-footer v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
+      <q-footer height-hint="100" v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
@@ -74,7 +74,8 @@
         :overlay="rightOverlay"
         :behavior="rightBehavior"
         :breakpoint="rightBreakpoint"
-        :content-class="drawerClass"
+        :mini="rightMini"
+        :mini-to-overlay="rightMiniToOverlay"
         @on-layout="drawerOnLayout"
       >
         <q-scroll-area
@@ -148,6 +149,7 @@
           side="left"
           :mini="leftMini"
           :mini-width="72"
+          @mini-state="onMiniState"
           :bordered="bordered"
           :elevated="elevated"
           @click.capture="e => {
@@ -161,7 +163,7 @@
           :overlay="leftOverlay"
           :behavior="leftBehavior"
           :breakpoint="leftBreakpoint"
-          :content-class="drawerClass"
+          :mini-to-overlay="leftMiniToOverlay"
         >
           <!--
         <div slot="mini">
@@ -314,7 +316,7 @@
           <router-view />
         </transition>
 
-        <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px; left: auto;">
+        <div class="fixed-bottom-right bg-grey-5 q-pa-sm" style="bottom: 8px; right: 8px; left: auto;z-index: 6000;">
           <q-toggle dense v-model="showConfig" label="Config" />
         </div>
       </q-page-container>
@@ -336,10 +338,13 @@
             <q-toggle dense v-model="leftOverlay" label="Left as Overlay" />
           </div>
           <div>
-            <q-select v-model="leftBehavior" :options="drawerBehaviorOptions" />
+            <q-toggle dense v-model="leftMiniToOverlay" label="Left Mini to Overlay" />
           </div>
           <div>
-            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="leftBreakpoint" />
+            <q-select emit-value v-model="leftBehavior" :options="drawerBehaviorOptions" />
+          </div>
+          <div>
+            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model.number="leftBreakpoint" />
           </div>
         </div>
         <div class="col q-ma-xs">
@@ -356,10 +361,13 @@
             <q-toggle dense v-model="rightOverlay" label="Right as Overlay" />
           </div>
           <div>
-            <q-select v-model="rightBehavior" :options="drawerBehaviorOptions" />
+            <q-toggle dense v-model="rightMiniToOverlay" label="Right Mini to Overlay" />
           </div>
           <div>
-            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model="rightBreakpoint" />
+            <q-select emit-value v-model="rightBehavior" :options="drawerBehaviorOptions" />
+          </div>
+          <div>
+            <q-input type="number" align="right" prefix="Bkpt" placeholder="Bkpt" v-model.number="rightBreakpoint" />
           </div>
         </div>
       </div>
@@ -474,8 +482,8 @@ export default {
       toggle: false,
       header: true,
       footer: true,
-      left: true,
-      right: true,
+      left: true, // this.$q.screen.width > 1023,
+      right: this.$q.screen.width > 1023,
 
       headerReveal: false,
       footerReveal: false,
@@ -485,8 +493,10 @@ export default {
       rightBehavior: 'default',
       leftBreakpoint: 992,
       rightBreakpoint: 992,
-      leftMini: true,
+      leftMini: false,
+      leftMiniToOverlay: false,
       rightMini: false,
+      rightMiniToOverlay: false,
 
       bordered: false,
       elevated: false,
@@ -527,11 +537,6 @@ export default {
       return this.whiteLayout
         ? 'bg-white text-black'
         : 'bg-primary text-white'
-    },
-    drawerClass () {
-      return this.whiteLayout
-        ? 'bg-white'
-        : 'bg-grey-3'
     }
   },
   watch: {
@@ -560,6 +565,9 @@ export default {
       else {
         console.log('goNormal abort')
       }
+    },
+    onMiniState (val) {
+      console.log('left drawer @mini-state ->', val)
     }
   }
 }

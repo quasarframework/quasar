@@ -11,24 +11,26 @@ export default Vue.extend({
   },
 
   render (h) {
+    const on = this.$listeners
+
     if (this.props === void 0) {
       return h('td', {
+        on,
         class: { 'q-table--col-auto-width': this.autoWidth }
       }, slot(this, 'default'))
     }
 
-    let col
     const name = this.$vnode.key
 
-    if (name) {
-      col = this.props.colsMap[name]
-      if (col === void 0) { return }
-    }
-    else {
-      col = this.props.col
-    }
+    const col = this.props.colsMap !== void 0 && name
+      ? this.props.colsMap[name]
+      : this.props.col
+
+    if (col === void 0) { return }
 
     return h('td', {
+      on,
+      style: col.__tdStyle,
       class: col.__tdClass +
         (this.autoWidth === true ? ' q-table--col-auto-width' : '')
     }, slot(this, 'default'))

@@ -85,7 +85,8 @@ export default {
     size5: '大',
     size6: '非常大',
     size7: '超級大',
-    defaultFont: '預設字型'
+    defaultFont: '預設字型',
+    viewSource: '查看資料'
   },
   tree: {
     noNodes: '無節點',

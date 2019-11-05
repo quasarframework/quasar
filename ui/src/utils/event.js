@@ -40,6 +40,9 @@ export function position (e) {
   else if (e.changedTouches && e.changedTouches[0]) {
     e = e.changedTouches[0]
   }
+  else if (e.targetTouches && e.targetTouches[0]) {
+    e = e.targetTouches[0]
+  }
 
   return {
     top: e.clientY,
@@ -105,6 +108,24 @@ export function stopAndPrevent (e) {
   e.stopPropagation()
 }
 
+export function preventDraggable (el, status) {
+  if (el === void 0 || (status === true && el.__dragPrevented === true)) {
+    return
+  }
+
+  const fn = status === true
+    ? el => {
+      el.__dragPrevented = true
+      el.addEventListener('dragstart', prevent, listenOpts.notPassiveCapture)
+    }
+    : el => {
+      delete el.__dragPrevented
+      el.removeEventListener('dragstart', prevent, listenOpts.notPassiveCapture)
+    }
+
+  el.querySelectorAll('a, img').forEach(fn)
+}
+
 export function create (name, { bubbles = false, cancelable = false } = {}) {
   try {
     return new Event(name, { bubbles, cancelable })
@@ -128,5 +149,6 @@ export default {
   stop,
   prevent,
   stopAndPrevent,
+  preventDraggable,
   create
 }

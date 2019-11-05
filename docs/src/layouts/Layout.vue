@@ -14,25 +14,26 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
+      q-btn.q-ml-xs(v-show="hasRightDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
 
   q-drawer(
     v-model="leftDrawerState"
-    bordered
     show-if-above
+    bordered
     content-class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
       .row.justify-center.q-my-lg
         q-btn(
           type="a"
-          href="https://www.patreon.com/quasarframework"
+          href="https://donate.quasar.dev"
           target="_blank"
+          rel="noopener"
           size="13px"
           color="primary"
-          icon="fab fa-patreon"
-          label="Become a Patron"
+          icon="favorite_border"
+          label="Donate to Quasar"
         )
 
       app-menu.q-my-lg
@@ -44,12 +45,13 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         autocomplete="off"
         spellcheck="false"
       )
-        q-input.full-width.doc-algolia(
+        q-input.full-width.doc-algolia.bg-primary(
           ref="docAlgolia"
           v-model="search"
           dense
-          standout="bg-primary text-white"
           square
+          dark
+          borderless
           placeholder="Search..."
         )
           template(v-slot:append)
@@ -57,13 +59,15 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
               name="search"
               @click="$refs.docAlgolia.focus()"
             )
+      .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
 
   q-drawer(
+    v-if="hasRightDrawer"
     v-model="rightDrawerState"
+    show-if-above
     side="right"
     content-class="bg-grey-1"
     :width="180"
-    show-if-above
     @on-layout="updateRightDrawerOnLayout"
   )
     q-scroll-area.fit
@@ -104,11 +108,6 @@ import HeaderMenu from 'components/HeaderMenu'
 export default {
   name: 'Layout',
 
-  meta: {
-    title: 'Welcome!',
-    titleTemplate: title => `${title} | Quasar Framework`
-  },
-
   components: {
     AppMenu,
     HeaderMenu
@@ -116,8 +115,8 @@ export default {
 
   watch: {
     $route () {
-      this.leftDrawerState = true
-      this.rightDrawerState = true
+      this.leftDrawerState = this.$q.screen.width > 1023
+      this.rightDrawerState = this.$q.screen.width > 1023
       this.$nextTick(() => {
         this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
       })
@@ -149,6 +148,10 @@ export default {
       set (val) {
         this.$store.commit('updateRightDrawerState', val)
       }
+    },
+
+    hasRightDrawer () {
+      return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
     }
   },
 
@@ -237,7 +240,6 @@ export default {
       },
       handleSelected: (a, b, suggestion, c, context) => {
         const url = suggestion.url
-          .replace('https://v1.quasar-framework.org', '') // TODO remove when Algolia is updated
           .replace('https://quasar.dev', '')
 
         this.search = ''
@@ -253,43 +255,66 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 @import '../css/docsearch'
 
 .header
-  background linear-gradient(145deg, $primary 11%, $dark-primary 75%)
+  background: linear-gradient(145deg, $primary 11%, $dark-primary 75%)
 
 .header-logo
-  width 25px
-  height 25px
+  width: 25px
+  height: 25px
 
 .doc-layout-avatar > div
-  border-radius 0
+  border-radius: 0
 
 .layout-drawer-toolbar
-  border-bottom 1px solid $separator-color
+  > form
+    margin-right: -2px
+  &__shadow
+    bottom: -10px
+    &:after
+      content: ''
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 10px
+      left: 0
+      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2), 0 0px 10px rgba(0, 0, 0, 0.24)
 
-.q-drawer--mobile .doc-toc
-  .q-item
-    margin-left 3px
-  .q-item--active
-    font-weight 600
+.doc-algolia
+  .q-field__control
+    padding: 0 18px 0 16px !important
+  &.q-field--focused
+    .q-icon
+      color: #fff
+
+.q-drawer--mobile
+  .layout-drawer-toolbar form
+    margin-right: -1px
+  .doc-algolia .q-field__control
+    padding-right: 17px !important
+  .doc-toc
+    .q-item
+      margin-left: 3px
+    .q-item--active
+      font-weight: 600
 
 .doc-toc .q-item
-  border-radius 10px 0 0 10px
-  margin-top 1px
-  margin-bottom 1px
+  border-radius: 10px 0 0 10px
+  margin-top: 1px
+  margin-bottom: 1px
 
   &.q-item--active
-    background lighten($primary, 90%)
+    background: scale-color($primary, $lightness: 90%)
 
 .doc-left-drawer
-  overflow inherit !important
+  overflow: inherit !important
 
 .quasar-logo
   img
-    transform rotate(0deg)
-    transition transform .8s ease-in-out
+    transform: rotate(0deg)
+    transition: transform .8s ease-in-out
   &:hover img
-    transform rotate(-360deg)
+    transform: rotate(-360deg)
 </style>

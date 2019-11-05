@@ -9,6 +9,7 @@
       "params": {
         "opts": {
           "desc": "Dialog options",
+          "tsType": "QDialogOptions",
           "definition": {
             "title": {
               "type": "String",
@@ -20,6 +21,11 @@
               "type": "String",
               "desc": "A text with more information about what needs to be input, selected or confirmed.",
               "examples": [ "Are you certain you want to continue?" ]
+            },
+
+            "html": {
+              "type": "Boolean",
+              "desc": "Render title and message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
             },
 
             "position": {
@@ -170,10 +176,16 @@
               "__exemption": [ "examples" ]
             },
 
+            "parent": {
+              "type": "Object",
+              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify Vue parent component",
+              "examples": [ "parent: this" ]
+            },
+
             "root": {
               "type": "Object",
-              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify root of your App",
-              "examples": [ "root: this.$root" ]
+              "desc": "Deprecated alias for parent",
+              "examples": [ "root: this" ]
             }
           }
         }

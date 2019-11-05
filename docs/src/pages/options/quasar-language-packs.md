@@ -1,5 +1,6 @@
 ---
 title: Quasar Language Packs
+desc: How to configure the Quasar language packs in a Quasar app.
 related:
   - /options/rtl-support
   - /options/app-internationalization

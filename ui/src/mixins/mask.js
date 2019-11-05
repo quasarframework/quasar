@@ -140,19 +140,19 @@ export default {
           mask.push(c)
           negateChar = c.negate
           if (firstMatch === true) {
-            extract.push('(?:' + negateChar + '+?)?(' + c.pattern + '+)?(?:' + negateChar + '+?)?(' + c.pattern + '+)?')
+            extract.push('(?:' + negateChar + '+)?(' + c.pattern + '+)?(?:' + negateChar + '+)?(' + c.pattern + '+)?')
             firstMatch = false
           }
-          extract.push('(?:' + negateChar + '+?)?(' + c.pattern + ')?')
+          extract.push('(?:' + negateChar + '+)?(' + c.pattern + ')?')
         }
         else if (esc !== void 0) {
-          unmaskChar = '\\' + esc
+          unmaskChar = '\\' + (esc === '\\' ? '' : esc)
           mask.push(esc)
           unmask.push('([^' + unmaskChar + ']+)?' + unmaskChar + '?')
         }
         else {
           const c = char1 !== void 0 ? char1 : char2
-          unmaskChar = c.replace(escRegex, '\\\\$&')
+          unmaskChar = c === '\\' ? '\\\\\\\\' : c.replace(escRegex, '\\\\$&')
           mask.push(c)
           unmask.push('([^' + unmaskChar + ']+)?' + unmaskChar + '?')
         }
@@ -165,14 +165,21 @@ export default {
           '(' + (unmaskChar === '' ? '.' : '[^' + unmaskChar + ']') + '+)?' +
           '$'
         ),
-        extractMatcher = new RegExp(
-          '^' +
-          (this.reverseFillMask === true ? fillCharEscaped + '*' : '') +
-          extract.join('') +
-          '(' + (negateChar === '' ? '.' : negateChar) + '+)?' +
-          (this.reverseFillMask === true ? '' : fillCharEscaped + '*') +
-          '$'
-        )
+        extractLast = extract.length - 1,
+        extractMatcher = extract.map((re, index) => {
+          if (index === 0 && this.reverseFillMask === true) {
+            return new RegExp('^' + fillCharEscaped + '*' + re)
+          }
+          else if (index === extractLast) {
+            return new RegExp(
+              '^' + re +
+              '(' + (negateChar === '' ? '.' : negateChar) + '+)?' +
+              (this.reverseFillMask === true ? '$' : fillCharEscaped + '*')
+            )
+          }
+
+          return new RegExp('^' + re)
+        })
 
       this.computedMask = mask
       this.computedUnmask = val => {
@@ -181,9 +188,22 @@ export default {
           val = unmaskMatch.slice(1).join('')
         }
 
-        const extractMatch = extractMatcher.exec(val)
-        if (extractMatch !== null) {
-          return extractMatch.slice(1).join('')
+        const
+          extractMatch = [],
+          extractMatcherLength = extractMatcher.length
+
+        for (let i = 0, str = val; i < extractMatcherLength; i++) {
+          const m = extractMatcher[i].exec(str)
+
+          if (m === null) {
+            break
+          }
+
+          str = str.slice(m.shift().length)
+          extractMatch.push(...m)
+        }
+        if (extractMatch.length > 0) {
+          return extractMatch.join('')
         }
 
         return val
@@ -192,21 +212,21 @@ export default {
       this.maskReplaced = this.maskMarked.split(MARKER).join(fillChar)
     },
 
-    __updateMaskValue (rawVal, updateMaskInternals) {
+    __updateMaskValue (rawVal, updateMaskInternals, inputType) {
       const
         inp = this.$refs.input,
-        oldCursor = this.reverseFillMask === true
-          ? inp.value.length - inp.selectionEnd
-          : inp.selectionEnd,
+        end = inp.selectionEnd,
+        endReverse = inp.value.length - end,
         unmasked = this.__unmask(rawVal)
 
       // Update here so unmask uses the original fillChar
       updateMaskInternals === true && this.__updateMaskInternals()
 
       const
+        preMasked = this.__mask(unmasked),
         masked = this.fillMask !== false
-          ? this.__fillWithMask(this.__mask(unmasked))
-          : this.__mask(unmasked),
+          ? this.__fillWithMask(preMasked)
+          : preMasked,
         changed = this.innerValue !== masked
 
       // We want to avoid "flickering" so we set value immediately
@@ -215,27 +235,48 @@ export default {
       changed === true && (this.innerValue = masked)
 
       this.$nextTick(() => {
+        if (masked === this.maskReplaced) {
+          const cursor = this.reverseFillMask === true ? this.maskReplaced.length : 0
+          inp.setSelectionRange(cursor, cursor, 'forward')
+
+          return
+        }
+
+        if (inputType === 'insertFromPaste' && this.reverseFillMask !== true) {
+          const cursor = end - 1
+          this.__moveCursorRight(inp, cursor, cursor)
+
+          return
+        }
+
+        if (['deleteContentBackward', 'deleteContentForward'].indexOf(inputType) > -1) {
+          const cursor = this.reverseFillMask === true
+            ? Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, endReverse) + 1)) + 1
+            : end
+          inp.setSelectionRange(cursor, cursor, 'forward')
+
+          return
+        }
+
         if (this.reverseFillMask === true) {
           if (changed === true) {
-            const cursor = Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : oldCursor + 1))
+            const cursor = Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, endReverse + 1)))
             this.__moveCursorRightReverse(inp, cursor, cursor)
           }
           else {
-            const cursor = masked.length - oldCursor
-            inp.setSelectionRange(cursor, cursor)
-          }
-        }
-        else if (changed === true) {
-          if (masked === this.maskReplaced) {
-            this.__moveCursorLeft(inp, 0, 0)
-          }
-          else {
-            const cursor = Math.max(0, this.maskMarked.indexOf(MARKER), oldCursor - 1)
-            this.__moveCursorRight(inp, cursor, cursor)
+            const cursor = masked.length - endReverse
+            inp.setSelectionRange(cursor, cursor, 'backward')
           }
         }
         else {
-          this.__moveCursorLeft(inp, oldCursor, oldCursor)
+          if (changed === true) {
+            const cursor = Math.max(0, this.maskMarked.indexOf(MARKER), Math.min(preMasked.length, end) - 1)
+            this.__moveCursorRight(inp, cursor, cursor)
+          }
+          else {
+            const cursor = end - 1
+            this.__moveCursorRight(inp, cursor, cursor)
+          }
         }
       })
 
@@ -244,6 +285,14 @@ export default {
         : masked
 
       this.value !== val && this.__emitValue(val, true)
+    },
+
+    __moveCursorForPaste (inp, start, end) {
+      const preMasked = this.__mask(this.__unmask(inp.value))
+
+      start = Math.max(0, this.maskMarked.indexOf(MARKER), Math.min(preMasked.length, start))
+
+      inp.setSelectionRange(start, end, 'forward')
     },
 
     __moveCursorLeft (inp, start, end, selection) {
@@ -453,7 +502,7 @@ export default {
 
     __unmask (val) {
       return typeof val !== 'string' || this.computedUnmask === void 0
-        ? val
+        ? (typeof val === 'number' ? this.computedUnmask('' + val) : val)
         : this.computedUnmask(val)
     },
 

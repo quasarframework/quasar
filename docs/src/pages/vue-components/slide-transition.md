@@ -1,5 +1,6 @@
 ---
 title: Slide Transition
+desc: The QSlideTransition Vue component slides the encapsulated element up or down, based on its visibility. Works alongside v-show and v-if.
 related:
   - /vue-components/expansion-item
   - /options/transitions

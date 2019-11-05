@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
       <p class="caption">
@@ -13,6 +13,8 @@
       <q-range :dark="dark" :dense="dense" @change="onChange" @input="onInput" v-model="standalone" :min="0" :max="50" />
       <q-range :dark="dark" :dense="dense" @change="val => { standalone = val; onChange(val); }" @input="onInput" :value="standalone" :min="0" :max="50" label />
       <q-range :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
+
+      <q-range :dark="dark" :dense="dense" v-model="standalone" label-color="orange" label-text-color="black" :min="0" :max="50" label />
 
       <p class="caption">
         Step 0
@@ -110,6 +112,7 @@
         </span>
       </p>
       <q-range :dark="dark" :dense="dense" v-model="onlyRange" :min="0" :max="100" :step="5" drag-only-range label />
+      <q-range :dark="dark" :dense="dense" :value="onlyRange" @change="val => { onlyRange = val }" :min="0" :max="100" :step="5" drag-only-range label />
 
       <p class="caption">
         Readonly State
@@ -120,6 +123,30 @@
         Disabled State
       </p>
       <q-range :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" disable />
+
+      <p class="caption">
+        Null Min Value
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ getNullLabel(nullMin.min) }} to {{ nullMin.max }}</em> &nbsp;&nbsp;(0 to 50)</span>
+        </span>
+      </p>
+      <q-range :dark="dark" :dense="dense" v-model="nullMin" :min="0" :max="50" />
+
+      <p class="caption">
+        Null Max Value
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ nullMax.min }} to {{ getNullLabel(nullMax.max) }}</em> &nbsp;&nbsp;(0 to 50)</span>
+        </span>
+      </p>
+      <q-range :dark="dark" :dense="dense" v-model="nullMax" :min="0" :max="50" />
+
+      <p class="caption">
+        Null Min and Max Values
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ getNullLabel(nullMinMax.min) }} to {{ getNullLabel(nullMinMax.max) }}</em> &nbsp;&nbsp;(20 to 50)</span>
+        </span>
+      </p>
+      <q-range :dark="dark" :dense="dense" v-model="nullMinMax" :min="20" :max="50" />
 
       <p class="caption">
         Coloring
@@ -159,8 +186,23 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       dense: false,
+
+      nullMin: {
+        min: null,
+        max: 20
+      },
+
+      nullMax: {
+        min: 20,
+        max: null
+      },
+
+      nullMinMax: {
+        min: null,
+        max: null
+      },
 
       standalone: {
         min: 10,
@@ -233,6 +275,9 @@ export default {
     },
     onInput (val) {
       console.log('@input', JSON.stringify(val))
+    },
+    getNullLabel (val) {
+      return val === null ? 'null' : val
     }
   }
 }

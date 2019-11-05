@@ -12,11 +12,10 @@ module.exports = function (banner, color = 'green') {
 
     prevTime = curr
 
-    if (msg) {
-      console.log(` ${chalk[color](banner)} ${msg} ${chalk.green(`+${ms(diff)}`)}`)
-    }
-    else {
-      console.log()
-    }
+    console.log(
+      msg
+        ? ` ${chalk[color](banner)} ${msg} ${chalk.gray(`+${ms(diff)}`)}`
+        : ''
+    )
   }
 }

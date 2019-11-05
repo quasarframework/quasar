@@ -1,9 +1,10 @@
 <template>
-  <div class="bg-white">
+  <div>
     <div class="q-layout-padding q-mx-auto" style="max-width: 600px;">
       <p class="caption">
         Explore the possibilities
       </p>
+      <pre>Model: {{ open }}</pre>
       <q-list bordered padding>
         <q-expansion-item
           expand-separator
@@ -35,6 +36,19 @@
           </q-card>
         </q-expansion-item>
 
+        <q-expansion-item
+          :value="open"
+          expand-separator
+          icon="perm_identity"
+          label="With a model and events - decoupled"
+        >
+          <q-card>
+            <q-card-section>
+              {{ lorem }}
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
         <q-item>
           <q-item-section avatar>
             <q-icon name="signal_wifi_off" />
@@ -53,7 +67,7 @@
           </q-card>
         </q-expansion-item>
 
-        <q-expansion-item header-inset expand-separator label="With header inset">
+        <q-expansion-item :header-inset-level="1" expand-separator label="With header inset">
           <q-card>
             <q-card-section>
               {{ lorem }}
@@ -61,7 +75,7 @@
           </q-card>
         </q-expansion-item>
 
-        <q-expansion-item content-inset expand-separator icon="map" label="With content inset">
+        <q-expansion-item :content-inset-level="1" expand-separator icon="map" label="With content inset">
           <div class="q-py-md q-pr-md">
             {{ lorem }}
           </div>

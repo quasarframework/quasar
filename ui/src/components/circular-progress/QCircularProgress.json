@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/size" ],
+
   "behavior": {
     "$listeners": true
   },
@@ -41,10 +43,6 @@
     "track-color": {
       "extends": "color",
       "desc": "Color name for the track of the component from the Quasar Color Palette"
-    },
-
-    "size": {
-      "extends": "size"
     },
 
     "font-size": {

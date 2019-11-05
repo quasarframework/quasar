@@ -14,6 +14,10 @@ export default Vue.extend({
       type: Number,
       default: 500
     },
+    debounce: {
+      type: [String, Number],
+      default: 100
+    },
     scrollTarget: {},
     disable: Boolean,
     reverse: Boolean
@@ -39,6 +43,10 @@ export default Vue.extend({
 
     scrollTarget () {
       this.updateScrollTarget()
+    },
+
+    debounce (val) {
+      this.__setDebounce(val)
     }
   },
 
@@ -75,7 +83,7 @@ export default Vue.extend({
 
       const heightBefore = getScrollHeight(this.scrollContainer)
 
-      this.$emit('load', this.index, () => {
+      this.$emit('load', this.index, stop => {
         if (this.working === true) {
           this.fetching = false
           this.$nextTick(() => {
@@ -88,7 +96,12 @@ export default Vue.extend({
               this.scrollContainer.scrollTop = scrollPosition + heightDifference
             }
 
-            this.$el.closest('body') && this.poll()
+            if (stop === true) {
+              this.stop()
+            }
+            else {
+              this.$el.closest('body') && this.poll()
+            }
           })
         }
       })
@@ -135,12 +148,22 @@ export default Vue.extend({
       if (this.working === true) {
         this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
       }
+    },
+
+    __setDebounce (val) {
+      val = parseInt(val, 10)
+      if (val <= 0) {
+        this.poll = this.immediatePoll
+      }
+      else {
+        this.poll = debounce(this.immediatePoll, isNaN(val) === true ? 100 : val)
+      }
     }
   },
 
   mounted () {
     this.immediatePoll = this.poll
-    this.poll = debounce(this.poll, 100)
+    this.__setDebounce(this.debounce)
 
     this.updateScrollTarget()
     this.immediatePoll()
@@ -161,19 +184,15 @@ export default Vue.extend({
   },
 
   render (h) {
-    const content = this.$scopedSlots.default !== void 0
-      ? this.$scopedSlots.default()
-      : []
-    const body = this.fetching === true
-      ? [ h('div', { staticClass: 'q-infinite-scroll__loading' }, slot(this, 'loading')) ]
-      : []
+    const child = slot(this, 'default', [])
 
-    return h(
-      'div',
-      { staticClass: 'q-infinite-scroll' },
-      this.reverse === false
-        ? content.concat(body)
-        : body.concat(content)
+    child[this.reverse === false ? 'push' : 'unshift'](
+      h('div', {
+        staticClass: 'q-infinite-scroll__loading',
+        class: this.fetching === true ? '' : 'invisible'
+      }, slot(this, 'loading'))
     )
+
+    return h('div', { staticClass: 'q-infinite-scroll' }, child)
   }
 })

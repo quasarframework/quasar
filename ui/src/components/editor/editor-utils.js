@@ -1,11 +1,11 @@
 import QBtn from '../btn/QBtn.js'
-import QBtnDropdown from '../btn/QBtnDropdown.js'
+import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
 import QInput from '../input/QInput.js'
 import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
-import QList from '../list/QList.js'
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
+import QList from '../item/QList.js'
+import QItem from '../item/QItem.js'
+import QItemSection from '../item/QItemSection.js'
 
 import { prevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
@@ -175,20 +175,28 @@ function getDropdown (h, vm, btn) {
 
 export function getToolbar (h, vm) {
   if (vm.caret) {
-    return vm.buttons.map(group => __getGroup(
-      h,
-      group.map(btn => {
-        if (btn.type === 'slot') {
-          return slot(vm, btn.slot)
-        }
-
-        if (btn.type === 'dropdown') {
-          return getDropdown(h, vm, btn)
-        }
-
-        return getBtn(h, vm, btn)
+    return vm.buttons
+      .filter(f => {
+        return !vm.isViewingSource || f.find(fb => fb.cmd === 'viewsource')
       })
-    ))
+      .map(group => __getGroup(
+        h,
+        group.map(btn => {
+          if (vm.isViewingSource && btn.cmd !== 'viewsource') {
+            return false
+          }
+
+          if (btn.type === 'slot') {
+            return slot(vm, btn.slot)
+          }
+
+          if (btn.type === 'dropdown') {
+            return getDropdown(h, vm, btn)
+          }
+
+          return getBtn(h, vm, btn)
+        })
+      ))
   }
 }
 
@@ -255,7 +263,9 @@ export function getLinkEditor (h, vm) {
               case 27: // ESCAPE key
                 prevent(event)
                 vm.caret.restore()
-                !vm.editLinkUrl && document.execCommand('unlink')
+                if (!vm.editLinkUrl || vm.editLinkUrl === 'https://') {
+                  document.execCommand('unlink')
+                }
                 vm.editLinkUrl = null
                 break
             }

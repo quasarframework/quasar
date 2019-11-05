@@ -1,5 +1,6 @@
 ---
 title: Layout Page
+desc: How to use QPageContainer and QPage components. They define the contents of your Quasar app pages.
 related:
   - /layout/layout
 ---

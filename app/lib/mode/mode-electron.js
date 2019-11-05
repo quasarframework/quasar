@@ -6,12 +6,13 @@ const
   log = logger('app:mode-electron'),
   warn = logger('app:mode-electron', 'red'),
   { spawnSync } = require('../helpers/spawn'),
-  nodePackager = require('../helpers/node-packager')
+  nodePackager = require('../helpers/node-packager'),
+  { bundlerIsInstalled } = require('../electron/bundler')
 
 const
   electronDeps = {
-    'electron': '^4.0.5',
-    'electron-debug': '^2.1.0',
+    'electron': '^5.0.0',
+    'electron-debug': '^3.0.0',
     'electron-devtools-installer': '^2.2.4',
     'devtron': '^1.4.0'
   }
@@ -37,12 +38,16 @@ class Mode {
       cmdParam.concat(Object.keys(electronDeps).map(dep => {
         return `${dep}@${electronDeps[dep]}`
       })),
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       () => warn('Failed to install Electron dependencies')
     )
 
     log(`Creating Electron source folder...`)
-    fse.copySync(appPaths.resolve.cli('templates/electron'), appPaths.electronDir)
+    fse.copySync(
+      appPaths.resolve.cli('templates/electron'),
+      appPaths.electronDir
+    )
+
     log(`Electron support was added`)
   }
 
@@ -59,11 +64,19 @@ class Mode {
       ? ['uninstall', '--save-dev']
       : ['remove']
 
+    const deps = Object.keys(electronDeps)
+
+    ;['packager', 'builder'].forEach(bundlerName => {
+      if (bundlerIsInstalled(bundlerName)) {
+        deps.push(`electron-${bundlerName}`)
+      }
+    })
+
     log(`Uninstalling Electron dependencies...`)
     spawnSync(
       nodePackager,
-      cmdParam.concat(Object.keys(electronDeps)),
-      appPaths.appDir,
+      cmdParam.concat(deps),
+      { cwd: appPaths.appDir },
       () => warn('Failed to uninstall Electron dependencies')
     )
 

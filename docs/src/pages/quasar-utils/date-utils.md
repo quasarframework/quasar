@@ -1,5 +1,6 @@
 ---
 title: Date Utils
+desc: A set of Quasar methods for manipulating JS Date objects without the high additional cost of dedicated libraries.
 ---
 
 Quasar provides a set of useful functions to manipulate JS Date easily in most use cases, without the high additional cost of integrating dedicated libraries like Momentjs.
@@ -176,16 +177,22 @@ To get the minimum/maximum date of a date set (i.e. array) use:
 ``` js
 import { date } from 'quasar'
 
-let dates = [ new Date(2017, 6, 24), new Date(2017, 5, 20), new Date(2017, 6, 26) ]
-let min = date.getMinDate(dates) // `min` is 2017-5-20
-let max = date.getMaxDate(dates) // `max` is 2017-6-26
-
-// Or simply use multiple parameters:
-
 let min = date.getMinDate(new Date(2017, 6, 24), new Date(2017, 5, 20), new Date(2017, 6, 26))
 // `min` is 2017-5-20
 let max = date.getMaxDate(new Date(2017, 6, 24), new Date(2017, 5, 20), new Date(2017, 6, 26))
 // `max` is 2017-6-26
+
+// Or use an array:
+let dates = [ new Date(2017, 6, 24), new Date(2017, 5, 20), new Date(2017, 6, 26) ]
+let min = date.getMinDate(...dates) // `min` is 2017-5-20
+let max = date.getMaxDate(...dates) // `max` is 2017-6-26
+```
+
+Note that the returning value is a timestamp.
+
+```js
+console.log(max) // 1497906000000
+console.log(new Date(max)) // Wed Jul 26 2017 00:00:00 GMT+0300 (Eastern European Summer Time)
 ```
 
 ### Time range
@@ -361,12 +368,17 @@ console.log(newDate.getDate() === clonedDate.getDate()) // false
 
 ### Extract Date
 
-Using locale set by current Quasar language pack:
+Using locale set by current Quasar language pack, this allows you to parse any string into a date object based on the format passed:
 
 ```js
 import { date } from 'quasar'
 
+// Example 1
 const date = date.extractDate('2019-10-29 --- 23:12', 'YYYY-MM-DD --- HH:mm')
+// date is a new Date() object
+
+Example 2
+const date = date.extractDate('21/03/1985', 'DD/MM/YYYY')
 // date is a new Date() object
 ```
 

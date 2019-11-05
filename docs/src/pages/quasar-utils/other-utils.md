@@ -1,5 +1,6 @@
 ---
 title: Other Utils
+desc: A set of miscellaneous Quasar methods for debouncing or throttling functions, deep copying objects, cross-platform URL opening or handling DOM events. 
 ---
 
 ::: tip
@@ -44,6 +45,22 @@ window.addEventListener(
 )
 ```
 
+Or calling as a method in a .vue file:
+
+```js
+methods: {
+  myMethod () { .... }
+},
+
+created () {
+  this.myMethod = debounce(this.myMethod, 500)
+}
+```
+
+::: warning
+Debouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between *all* rendered instances of this component, so debouncing is also shared. This should be avoided by following the code snippet above.
+:::
+
 There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).
 
 ``` js
@@ -76,6 +93,22 @@ window.addEventListener(
   }, 300 /* execute at most once every 0.3s */)
 )
 ```
+
+Or calling as a method in a .vue file:
+
+```js
+methods: {
+  myMethod () { .... }
+},
+
+created () {
+  this.myMethod = throttle(this.myMethod, 500)
+}
+```
+
+::: warning
+Throttling your functions using a method declaration like `myMethod: throttle(function () { // Code }, 500)` will mean that the throttled method will be shared between *all* rendered instances of this component, so throttling is also shared. This should be avoided by following the code snippet above.
+:::
 
 ## (Deep) Copy Objects
 A basic respawn of `jQuery.extend()`. Takes same parameters:

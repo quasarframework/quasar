@@ -28,7 +28,11 @@ export function getModel (ratio, min, max, step, decimals) {
   return between(model, min, max)
 }
 
+import DarkMixin from '../../mixins/dark.js'
+
 export let SliderMixin = {
+  mixins: [ DarkMixin ],
+
   directives: {
     TouchPan
   },
@@ -49,8 +53,9 @@ export let SliderMixin = {
     },
 
     color: String,
+
     labelColor: String,
-    dark: Boolean,
+    labelTextColor: String,
     dense: Boolean,
 
     label: Boolean,
@@ -73,17 +78,15 @@ export let SliderMixin = {
 
   computed: {
     classes () {
-      return {
-        [`text-${this.color}`]: this.color,
-        [`q-slider--${this.active ? '' : 'in'}active`]: true,
-        'disabled': this.disable,
-        'q-slider--editable': this.editable,
-        'q-slider--focus': this.focus === 'both',
-        'q-slider--label': this.label || this.labelAlways,
-        'q-slider--label-always': this.labelAlways,
-        'q-slider--dark': this.dark,
-        'q-slider--dense': this.dense
-      }
+      return `q-slider q-slider--${this.active === true ? '' : 'in'}active` +
+        (this.color !== void 0 ? ` text-${this.color}` : '') +
+        (this.disable === true ? ' disabled' : '') +
+        (this.editable === true ? ' q-slider--editable' : '') +
+        (this.focus === 'both' ? ' q-slider--focus' : '') +
+        (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
+        (this.labelAlways === true ? ' q-slider--label-always' : '') +
+        (this.isDark === true ? ' q-slider--dark' : '') +
+        (this.dense === true ? ' q-slider--dense' : '')
     },
 
     editable () {
@@ -118,7 +121,8 @@ export let SliderMixin = {
       if (event.isFinal) {
         if (this.dragging) {
           this.__updatePosition(event.evt)
-          this.__updateValue(true)
+          // only if touch, because we also have mousedown/up:
+          event.touch === true && this.__updateValue(true)
           this.dragging = false
         }
         this.active = false

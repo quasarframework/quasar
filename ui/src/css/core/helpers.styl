@@ -18,12 +18,21 @@
     color inherit
     opacity .7
   &:-ms-input-placeholder
+    color inherit !important
+    opacity .7 !important
+  &::-ms-input-placeholder
+    color inherit
+    opacity .7
+  &::placeholder
     color inherit
     opacity .7
 
 /* body */
 .q-body--fullscreen-mixin, .q-body--prevent-scroll
-  overflow hidden !important
+  position fixed !important
+
+.q-body--force-scrollbar
+  overflow-y scroll
 
 .q-no-input-spinner
   -moz-appearance textfield !important

@@ -1,5 +1,6 @@
 ---
 title: CSS Spacing Classes
+desc: The list of CSS classes supplied by Quasar to simplify the specification of responsive paddings and margins.
 ---
 There are CSS classes supplied by Quasar to help you with spacing for DOM elements or components.
 
@@ -19,7 +20,7 @@ D - direction
 S - size
   - values:
       none,
-      auto (just for margin),
+      auto (ONLY for specific margins: q-ml-*, q-mr-*, q-mx-*),
       xs (extra small),
       sm (small),
       md (medium),

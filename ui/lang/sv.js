@@ -82,7 +82,8 @@ export default {
     size5: 'Stor',
     size6: 'Väldigt stor',
     size7: 'Maximalt stor',
-    defaultFont: 'Standardteckensnitt'
+    defaultFont: 'Standardteckensnitt',
+    viewSource: 'Visa källa'
   },
   tree: {
     noNodes: 'Inga noder tillgängliga',

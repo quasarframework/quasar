@@ -12,8 +12,12 @@ import QCardActions from '../card/QCardActions.js'
 import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 
+import DarkMixin from '../../mixins/dark.js'
+
 export default Vue.extend({
   name: 'DialogPlugin',
+
+  mixins: [ DarkMixin ],
 
   inheritAttrs: false,
 
@@ -22,6 +26,8 @@ export default Vue.extend({
     message: String,
     prompt: Object,
     options: Object,
+
+    html: Boolean,
 
     ok: {
       type: [String, Object, Boolean],
@@ -33,9 +39,7 @@ export default Vue.extend({
     color: String,
 
     cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object],
-
-    dark: Boolean
+    cardStyle: [String, Array, Object]
   },
 
   computed: {
@@ -56,7 +60,7 @@ export default Vue.extend({
     },
 
     vmColor () {
-      return this.color || (this.dark === true ? 'amber' : 'primary')
+      return this.color || (this.isDark === true ? 'amber' : 'primary')
     },
 
     okProps () {
@@ -110,13 +114,13 @@ export default Vue.extend({
             color: this.vmColor,
             dense: true,
             autofocus: true,
-            dark: this.dark
+            dark: this.isDark
           },
           on: {
             input: v => { this.prompt.model = v },
             keyup: evt => {
               // if ENTER key
-              if (evt.keyCode === 13) {
+              if (this.prompt.type !== 'textarea' && evt.keyCode === 13) {
                 this.onOk()
               }
             }
@@ -134,7 +138,7 @@ export default Vue.extend({
             color: this.vmColor,
             inline: this.options.inline,
             options: this.options.items,
-            dark: this.dark
+            dark: this.isDark
           },
           on: {
             input: v => { this.options.model = v }
@@ -188,6 +192,17 @@ export default Vue.extend({
       if (this.options) {
         return this.options.model
       }
+    },
+
+    getSection (h, staticClass, text) {
+      return this.html === true
+        ? h(QCardSection, {
+          staticClass,
+          domProps: {
+            innerHTML: text
+          }
+        })
+        : h(QCardSection, { staticClass }, [ text ])
     }
   },
 
@@ -196,17 +211,13 @@ export default Vue.extend({
 
     if (this.title) {
       child.push(
-        h(QCardSection, {
-          staticClass: 'q-dialog__title'
-        }, [ this.title ])
+        this.getSection(h, 'q-dialog__title', this.title)
       )
     }
 
     if (this.message) {
       child.push(
-        h(QCardSection, {
-          staticClass: 'q-dialog__message scroll'
-        }, [ this.message ])
+        this.getSection(h, 'q-dialog__message scroll', this.message)
       )
     }
 
@@ -240,12 +251,10 @@ export default Vue.extend({
     }, [
       h(QCard, {
         staticClass: 'q-dialog-plugin' +
-          (this.dark === true ? ' q-dialog-plugin--dark' : ''),
+          (this.isDark === true ? ' q-dialog-plugin--dark q-dark' : ''),
         style: this.cardStyle,
         class: this.cardClass,
-        props: {
-          dark: this.dark
-        }
+        props: { dark: this.isDark }
       }, child)
     ])
   }

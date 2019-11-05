@@ -8,7 +8,16 @@
       "category": "behavior"
     },
 
-    "scrollTarget": {
+    "debounce": {
+      "type": [ "String", "Number" ],
+      "desc": "Debounce amount (in milliseconds)",
+      "default": 100,
+      "examples": [ "0", "530" ],
+      "category": "behavior",
+      "addedIn": "v1.1.0"
+    },
+
+    "scroll-target": {
       "type": [ "Element", "String" ],
       "desc": "CSS selector or DOM element to be used as scroll container instead of the auto detected one",
       "examples": [
@@ -24,7 +33,7 @@
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Scroll area should behave like a messenger - starting scrolled to bottom and loading whean reaching the top",
+      "desc": "Scroll area should behave like a messenger - starting scrolled to bottom and loading when reaching the top",
       "category": "behavior"
     }
   },
@@ -51,7 +60,12 @@
         "done": {
           "type": "Function",
           "desc": "Function to call when you made all necessary updates. DO NOT forget to call it otherwise your loading message will continue to be displayed",
-          "params": null,
+          "params": {
+            "stop": {
+              "type": "Boolean",
+              "desc": "Stops QInfiniteScroll if it's Boolean 'true'; Specify it in case there's nothing more to load"
+            }
+          },
           "returns": null
         }
       }

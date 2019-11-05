@@ -1,11 +1,43 @@
 <template>
-  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <div style="max-width: 600px" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="inline" label="Inline" />
+      </div>
+
+      <div>
+        <q-chip>{{ hex }}</q-chip>
+        <q-chip>{{ hexa }}</q-chip>
+        <q-chip>{{ rgb }}</q-chip>
+        <q-chip>{{ rgba }}</q-chip>
+      </div>
+      <p>
+        v-model + @change
+      </p>
+      <div class="row items-start q-gutter-md">
+        <q-color v-bind="props" v-model="hex" @change="onChange" />
+        <q-color v-bind="props" v-model="hexa" @change="onChange" />
+        <q-color v-bind="props" v-model="rgb" @change="onChange" />
+        <q-color v-bind="props" v-model="rgba" @change="onChange" />
+      </div>
+
+      <div>
+        <q-chip>{{ hex }}</q-chip>
+        <q-chip>{{ hexa }}</q-chip>
+        <q-chip>{{ rgb }}</q-chip>
+        <q-chip>{{ rgba }}</q-chip>
+      </div>
+      <p>
+        :value + @change
+      </p>
+      <div class="row items-start q-gutter-md">
+        <q-color v-bind="props" :value="hex" @change="val => { hex = val; onChange(val) }" />
+        <q-color v-bind="props" :value="hexa" @change="val => { hexa = val; onChange(val) }" />
+        <q-color v-bind="props" :value="rgb" @change="val => { rgb = val; onChange(val) }" />
+        <q-color v-bind="props" :value="rgba" @change="val => { rgba = val; onChange(val) }" />
       </div>
 
       <div>
@@ -55,15 +87,92 @@
       </div>
 
       <div class="text-h6">
+        Custom palette
+      </div>
+      <div>
+        <q-chip>{{ hex }}</q-chip>
+        <q-chip>{{ hexa }}</q-chip>
+        <q-chip>{{ rgb }}</q-chip>
+        <q-chip>{{ rgba }}</q-chip>
+      </div>
+      <div class="row q-gutter-md">
+        <q-color
+          v-bind="props"
+          :palette="customPalette"
+          v-model="hex"
+          default-view="palette"
+          no-header
+          no-footer
+        />
+        <q-color
+          v-bind="props"
+          :palette="customPalette"
+          v-model="hexa"
+          default-view="palette"
+          no-header
+          no-footer
+        />
+        <q-color
+          v-bind="props"
+          :palette="customPalette"
+          v-model="rgb"
+          default-view="palette"
+          no-header
+          no-footer
+        />
+        <q-color
+          v-bind="props"
+          :palette="customPalette"
+          v-model="rgba"
+          default-view="palette"
+          no-header
+          no-footer
+        />
+      </div>
+
+      <div class="text-h6">
         Input: {{ inputModelHex }}
       </div>
       <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="inputModelHex" :rules="['anyColor']">
-          <q-icon slot="append" name="colorize" class="cursor-pointer">
-            <q-popup-proxy>
-              <q-color v-model="inputModelHex" />
-            </q-popup-proxy>
-          </q-icon>
+          <template v-slot:append>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+
+        <q-input :dark="dark" hint="Some hint" filled v-model="inputModelHex" :rules="['anyColor']">
+          <template v-slot:before>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+          <template v-slot:after>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+          <template v-slot:prepend>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+          <template v-slot:append>
+            <q-icon name="colorize" class="cursor-pointer">
+              <q-popup-proxy>
+                <q-color v-model="inputModelHex" />
+              </q-popup-proxy>
+            </q-icon>
+          </template>
         </q-input>
       </div>
     </div>
@@ -74,7 +183,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       disable: false,
       readonly: false,
       inline: true,
@@ -88,6 +197,8 @@ export default {
       nullHexa: null,
       nullRgb: null,
       nullRgba: null,
+
+      customPalette: ['#ff0000', '#ffff00', '#0000f5', 'rgb(255,0,0)', 'rgb(255,255,0)', 'rgb(0,0,245)', 'rgba(255,0,0,0.5)'],
 
       inputModelHex: '#FF00FF'
     }
@@ -107,6 +218,11 @@ export default {
   methods: {
     setNull () {
       this.nullHex = this.nullHexa = this.nullRgb = this.nullRgba = null
+    },
+
+    onChange (val) {
+      console.log('@change', JSON.stringify(val))
+      this.$q.notify('@change ' + JSON.stringify(val))
     }
   }
 }

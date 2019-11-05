@@ -1,5 +1,6 @@
 ---
 title: Form
+desc: The QForm Vue component renders a form and allows easy validation of child form components like QInput, QSelect or QField.
 related:
   - /vue-components/input
   - /vue-components/select
@@ -44,7 +45,7 @@ this.$refs.myForm.validate().then(success => {
   }
   else {
     // oh no, user has filled in
-    // at least an invalid value
+    // at least one invalid value
   }
 })
 

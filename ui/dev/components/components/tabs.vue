@@ -1,6 +1,6 @@
 <template>
-  <div class="tabs-demo bg-grey-3 q-py-xl">
-    <div class="text-primary">
+  <div class="tabs-demo q-py-xl">
+    <div class="">
       <div>
         <q-checkbox v-model="dense" label="Dense" />
       </div>
@@ -36,8 +36,26 @@
       </div>
 
       <q-tabs :dense="dense">
-        <q-tab label="Item one" />
-        <q-tab label="Item two" />
+        <q-tab label="Item one - tooltip">
+          <q-tooltip>
+            <q-icon name="wifi" /> Wifi
+          </q-tooltip>
+        </q-tab>
+        <q-tab label="Item two - menu">
+          <q-menu transition-show="jump-down">
+            <input v-model="gigi">
+            <q-list padding style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-popup
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-tab>
         <q-tab label="Item three" />
         <q-btn-dropdown stretch flat label="Dropdown">
           <q-list link>
@@ -332,6 +350,29 @@
         <q-route-tab v-if="loose" key="14" :to="{ name: 'r.3' }" label="r.3 *" />
       </q-tabs>
 
+      <h4>Tabs model (respect model): {{ tabModel }}</h4>
+      <q-tabs :dense="dense" :value="tabModel" @input="onChangeTab1" class="bg-grey-1 text-teal">
+        <q-tab name="one" label="One" />
+        <q-tab name="two" label="Two -> One" />
+        <q-tab name="three" label="Three (no way)" />
+        <q-tab name="four" label="Four" />
+        <q-tab name="five" label="Five" />
+      </q-tabs>
+      <q-tabs :dense="dense" :value="tabModel" @input="onChangeTab2" class="bg-grey-1 text-teal">
+        <q-tab name="one" label="One -> Two" />
+        <q-tab name="two" label="Two" />
+        <q-tab name="three" label="Three" />
+        <q-tab name="four" label="Four (no way)" />
+        <q-tab name="five" label="Five" />
+      </q-tabs>
+      <q-tabs :dense="dense" v-model="tabModel" class="bg-grey-1 text-teal">
+        <q-tab name="one" label="One" />
+        <q-tab name="two" label="Two" />
+        <q-tab name="three" label="Three" />
+        <q-tab name="four" label="Four" />
+        <q-tab name="five" label="Five" />
+      </q-tabs>
+
       <h4>Tabs content (animated, swipeable)</h4>
       <q-option-group
         type="radio"
@@ -367,7 +408,7 @@
           swipeable
           animated
           infinite
-          class="text-black text-center"
+          class="text-center"
         >
           <q-tab-panel :name="panelTest ? 'two' : 'one'">
             <q-btn dense round icon="map" class="absolute-bottom-right" />
@@ -394,7 +435,7 @@
         animated
         transition-prev="scale"
         transition-next="scale"
-        class="text-black text-center"
+        class="text-center"
       >
         <q-tab-panel name="one">
           <q-btn dense round icon="map" class="absolute-bottom-right" />
@@ -420,7 +461,7 @@
         animated
         transition-prev="fade"
         transition-next="fade"
-        class="q-mt-lg text-black text-center"
+        class="q-mt-lg text-center"
         style="height: 150px"
       >
         <q-tab-panel name="one">
@@ -456,8 +497,10 @@ export default {
   data () {
     return {
       text: '',
+      gigi: '',
       dense: false,
       tab: 'one',
+      tabModel: null,
       vtab: 'one',
       panelTest: false,
       some: false,
@@ -467,7 +510,23 @@ export default {
   },
 
   methods: {
-    //
+    onChangeTab1 (val) {
+      if (val === 'two') {
+        this.tabModel = 'one'
+      }
+      else if (val !== 'three') {
+        this.tabModel = val
+      }
+    },
+
+    onChangeTab2 (val) {
+      if (val === 'one') {
+        this.tabModel = 'two'
+      }
+      else if (val !== 'four') {
+        this.tabModel = val
+      }
+    }
   }
 }
 </script>

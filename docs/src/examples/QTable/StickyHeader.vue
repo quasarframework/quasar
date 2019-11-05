@@ -8,7 +8,7 @@
       row-key="name"
       flat
       bordered
-    ></q-table>
+    />
   </div>
 </template>
 
@@ -170,20 +170,26 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .my-sticky-header-table
   /* max height is important */
   .q-table__middle
-    max-height 200px
+    max-height: 200px
 
   .q-table__top,
   .q-table__bottom,
-  thead tr:first-child th /* bg color is important for th; just specify one */
-    background-color #c1f4cd
-
   thead tr:first-child th
-    position sticky
-    top 0
-    opacity 1
-    z-index 1
+    /* bg color is important for th; just specify one */
+    background-color: #c1f4cd
+
+  thead tr th
+    position: sticky
+    z-index: 1
+  thead tr:first-child th
+    top: 0
+
+  /* this is when the loading indicator appears */
+  &.q-table--loading thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
 </style>

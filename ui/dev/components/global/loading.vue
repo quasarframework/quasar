@@ -4,6 +4,9 @@
       <p class="caption">
         Notify the user something is going on under the covers.
       </p>
+      <div>
+        {{ state }}
+      </div>
       <div class="q-gutter-sm">
         <q-btn push color="secondary" @click="noMessage()">
           Show
@@ -27,6 +30,33 @@
       <q-btn push color="secondary" @click="changeMessage()">
         Show & Change
       </q-btn>
+      <p class="caption">
+        Show multiple times in a row
+      </p>
+      <div>
+        <q-input v-model.number="showCount" type="number" min="1" max="10" style="max-width: 150px;" filled />
+        <q-btn class="q-mt-md" push color="secondary" @click="showMultiple()">
+          Show Multiple Times
+        </q-btn>
+      </div>
+
+      <p class="caption">
+        Show for a short time - check .q-body--loading class on body
+      </p>
+      <div class="row q-gutter-sm">
+        <q-btn push color="black" @click="shortLoading()">
+          Show and hide
+        </q-btn>
+        <q-btn push color="black" @click="shortLoading(0)">
+          Show for 0ms
+        </q-btn>
+        <q-btn push color="black" @click="shortLoading(500)">
+          Show for 500ms
+        </q-btn>
+        <q-btn push color="black" @click="shortLoading(1000)">
+          Show for 1000ms
+        </q-btn>
+      </div>
     </div>
   </div>
 </template>
@@ -38,12 +68,12 @@ import {
   QSpinnerGears
 } from 'quasar'
 
-function show (options) {
+function show (options, timeout = 3000) {
   Loading.show(options)
 
   setTimeout(() => {
     Loading.hide()
-  }, 3000)
+  }, timeout)
 }
 
 export default {
@@ -64,6 +94,39 @@ export default {
     }, 5000)
   },
   */
+
+  data () {
+    return {
+      showCount: 3
+    }
+  },
+
+  computed: {
+    state () {
+      return Loading.isActive
+    }
+  },
+
+  mounted () {
+    this.$q.loading.setDefaults({
+      spinnerColor: 'amber'
+    })
+    this.$q.loading.show({
+      message: 'With defaults'
+    })
+    setTimeout(() => {
+      this.$q.loading.show({
+        message: 'Discarded defaults',
+        ignoreDefaults: true
+      })
+      setTimeout(() => {
+        this.$q.loading.hide()
+        this.$q.loading.setDefaults({
+          spinnerColor: void 0
+        })
+      }, 1000)
+    }, 1000)
+  },
 
   methods: {
     noMessage () {
@@ -95,6 +158,27 @@ export default {
           message: 'Updated message'
         })
       }, 3000)
+    },
+    async showMultiple () {
+      for (let i = 0; i < this.showCount; i++) {
+        Loading.show()
+
+        await new Promise(resolve => setTimeout(resolve, 2000))
+
+        Loading.hide()
+      }
+    },
+
+    shortLoading (timeout) {
+      if (timeout === void 0) {
+        Loading.show({ delay: 500 })
+        Loading.show({ delay: 500 })
+        Loading.hide()
+      }
+      else {
+        show({ delay: 500 }, timeout)
+        Loading.show({ delay: 500 })
+      }
     }
   }
 }

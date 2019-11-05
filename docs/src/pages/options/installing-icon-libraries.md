@@ -1,11 +1,12 @@
 ---
 title: Installing Icon Libraries
+desc: How to use icon libraries in a Quasar app.
 related:
   - /options/quasar-icon-sets
   - /vue-components/icon
 ---
 
-You'll most likely want icons in your website/app and Quasar offers an easy way out of the box, for following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons) and [Themify Icons](https://themify.me/themify-icons).
+You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons) and [Themify Icons](https://themify.me/themify-icons).
 
 ::: tip
 You can choose to install one or more of these icon libraries.
@@ -22,12 +23,15 @@ extras: [
 ]
 ```
 
-Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
+Icon sets are available through [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. You don't need to import it in your app, just configure `/quasar.conf.js` as indicated above.
 
 Adding more than one set (showing all options):
 ```js
 extras: [
   'material-icons',
+  'material-icons-outlined',
+  'material-icons-round',
+  'material-icons-sharp',
   'mdi-v3',
   'ionicons-v4',
   'eva-icons',
@@ -54,6 +58,12 @@ The example link tag below would include Fontawesome v5.6.3 icons. Do a Google s
   <!-- CDN example for Material Icons -->
   <link
     href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    rel="stylesheet"
+  >
+
+  <!-- CDN example for Material Icons Outlined (similar thing for Round and Sharp versions) -->
+  <link
+    href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
     rel="stylesheet"
   >
 
@@ -104,15 +114,15 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
   }
   ```
 6. Edit `/src/boot/fontawesome-pro.js`:
-```js
-// required
-import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
-import '@fortawesome/fontawesome-pro/css/light.min.css'
-// do you want these too?
-// import '@fortawesome/fontawesome-pro/css/brands.min.css'
-// import '@fortawesome/fontawesome-pro/css/solid.min.css'
-// import '@fortawesome/fontawesome-pro/css/regular.min.css'
-```
+  ```js
+  // required
+  import '@fortawesome/fontawesome-pro/css/fontawesome.css'
+  import '@fortawesome/fontawesome-pro/css/light.css'
+  // do you want these too?
+  // import '@fortawesome/fontawesome-pro/css/brands.css'
+  // import '@fortawesome/fontawesome-pro/css/solid.css'
+  // import '@fortawesome/fontawesome-pro/css/regular.css'
+  ```
 7. (Optional) Override default icons:
 
 Since the default `font-weight` for fontawesome-pro is `light` or `fal`, some icons used by the framework components may not be desirable. The best way to handle this is to override it in the boot file that you created.
@@ -130,13 +140,14 @@ chip: {
 ```
 
 _Then_, override it in your `/src/boot/fontawesome-pro.js`
+
 ```js
+import Vue from 'vue'
+
 import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
 import '@fortawesome/fontawesome-pro/css/solid.min.css'
 import '@fortawesome/fontawesome-pro/css/light.min.css'
 
-export default ({ Vue }) => {
-  // example
-  Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
-}
+// example
+Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
 ```

@@ -142,6 +142,8 @@ export class Caret {
         return res === `"${param}"` || res === param
       case 'fullscreen':
         return this.vm.inFullscreen
+      case 'viewsource':
+        return this.vm.isViewingSource
       case void 0:
         return false
       default:
@@ -170,6 +172,9 @@ export class Caret {
         return previousEl && previousEl.nodeName.toLowerCase() === 'li'
       }
       return false
+    }
+    if (name === 'link') {
+      return this.selection || this.is('link')
     }
   }
 
@@ -210,18 +215,26 @@ export class Caret {
         if (!url.length) {
           return
         }
-        this.vm.editLinkUrl = urlRegex.test(url) ? url : ''
-        document.execCommand('createLink', false, this.vm.editLinkUrl === '' ? ' ' : this.vm.editLinkUrl)
+        this.vm.editLinkUrl = urlRegex.test(url) ? url : 'https://'
+        document.execCommand('createLink', false, this.vm.editLinkUrl)
       }
       else {
         this.vm.editLinkUrl = link
       }
-      this.range.selectNodeContents(this.parent)
-      this.save()
+      this.vm.$nextTick(() => {
+        this.range.selectNodeContents(this.parent)
+        this.save()
+      })
       return
     }
     else if (cmd === 'fullscreen') {
       this.vm.toggleFullscreen()
+      done()
+      return
+    }
+    else if (cmd === 'viewsource') {
+      this.vm.isViewingSource = !this.vm.isViewingSource
+      this.vm.__setContent(this.vm.value)
       done()
       return
     }
@@ -242,7 +255,7 @@ export class Caret {
   }
 
   selectWord (sel) {
-    if (!sel.isCollapsed) {
+    if (!sel || !sel.isCollapsed) {
       return sel
     }
 

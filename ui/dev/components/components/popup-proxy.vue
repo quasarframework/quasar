@@ -5,7 +5,7 @@
         Width {{ $q.screen.width }} --> {{ type }}
       </h6>
 
-      <div class="popup-surface-test">
+      <div class="popup-surface-test" tabindex="0">
         <div>Handles click</div>
 
         <q-popup-proxy>
@@ -23,7 +23,7 @@
         </q-popup-proxy>
       </div>
 
-      <div class="popup-surface-test">
+      <div class="popup-surface-test" tabindex="0">
         <div>Handles click - touch position</div>
 
         <q-popup-proxy touch-position>
@@ -41,10 +41,27 @@
         </q-popup-proxy>
       </div>
 
-      <div class="popup-surface-test">
+      <div class="popup-surface-test" tabindex="0">
         <div>Handles right-click (context)</div>
 
         <q-popup-proxy context-menu>
+          <q-banner>
+            <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
+
+            <input v-model="text">
+            You have lost connection to the internet. This app is offline.
+            <q-btn label="Close" v-close-popup />
+            <div>Popup text.</div>
+
+            <q-btn slot="action" flat color="primary" label="close" v-close-popup />
+          </q-banner>
+        </q-popup-proxy>
+      </div>
+
+      <div class="popup-surface-test" tabindex="0">
+        <div>Handles right-click (context) - touch position</div>
+
+        <q-popup-proxy context-menu touch-position>
           <q-banner>
             <q-icon slot="avatar" name="signal_wifi_off" color="primary" />
 
@@ -105,13 +122,13 @@
                         <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                           <q-item-section>Menu Item {{ n }}</q-item-section>
                         </q-item>
-                        <q-item clickable v-close-popup:2>
+                        <q-item clickable v-close-popup="2">
                           <q-item-section>Close dialog</q-item-section>
                         </q-item>
                       </q-list>
                     </q-menu>
                   </q-item>
-                  <q-item clickable v-close-popup:2>
+                  <q-item clickable v-close-popup="2">
                     <q-item-section>Close dialog</q-item-section>
                   </q-item>
                 </q-list>
@@ -160,6 +177,17 @@
             </q-banner>
           </q-popup-proxy>
         </q-btn>
+        <q-btn push color="primary" label="Decoupled (small screen)">
+          <q-popup-proxy :value="model" seamless position="bottom">
+            <q-banner>
+              <template v-slot:avatar>
+                <q-icon name="signal_wifi_off" color="primary" />
+              </template>
+              You have lost connection to the internet. This app is offline.
+              <q-btn color="primary" label="Close" @click="model = false" />
+            </q-banner>
+          </q-popup-proxy>
+        </q-btn>
       </div>
 
       <div class="q-mt-xl">
@@ -187,7 +215,7 @@ export default {
       type: this.$q.screen.width < 600 ? 'dialog' : 'menu',
       input: '',
       date: '2018/11/03',
-      model: false,
+      model: true,
       dialog: false
     }
   },

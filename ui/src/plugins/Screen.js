@@ -72,7 +72,7 @@ export default {
       this.sm = this.gt.xs && this.lt.md
       this.md = this.gt.sm && this.lt.lg
       this.lg = this.gt.md && this.lt.xl
-      this.xl = w > s.xl
+      this.xl = this.gt.lg
     }
 
     let updateEvt, updateSizes = {}, updateDebounce = 16

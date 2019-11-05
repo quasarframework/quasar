@@ -13,8 +13,8 @@ export default Vue.extend({
       class: this.classes,
       on: this.$listeners,
       attrs: {
-        'width': this.size,
-        'height': this.size,
+        'width': this.cSize,
+        'height': this.cSize,
         'viewBox': '0 0 100 100',
         'xmlns': 'http://www.w3.org/2000/svg',
         'preserveAspectRatio': 'xMidYMid'

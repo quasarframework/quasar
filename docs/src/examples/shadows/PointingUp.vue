@@ -10,11 +10,11 @@
   </div>
 </template>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .shadow-box
-  width 90px
-  height 90px
-  margin 25px
-  border-radius 50%
-  font-size 12px
+  width: 90px
+  height: 90px
+  margin: 25px
+  border-radius: 50%
+  font-size: 12px
 </style>

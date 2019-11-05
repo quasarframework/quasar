@@ -13,9 +13,10 @@ export function copyHeading (id) {
 
   this.$q.notify({
     message: 'Anchor has been copied to clipboard.',
-    color: 'primary',
+    color: 'white',
+    textColor: 'primary',
     position: 'top',
-    actions: [ { icon: 'close', color: 'white' } ],
+    actions: [ { icon: 'close', color: 'primary' } ],
     timeout: 2000
   })
 }

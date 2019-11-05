@@ -76,7 +76,8 @@ export default {
     file: String,
     noEdit: Boolean,
     dark: Boolean,
-    scrollable: Boolean
+    scrollable: Boolean,
+    overflow: Boolean
   },
 
   data () {
@@ -96,10 +97,10 @@ export default {
       }
     },
 
-    componentClass () { // eslint-disable-line
-      if (this.scrollable === true) {
-        return 'doc-example__content--scrollable scroll-y'
-      }
+    componentClass () {
+      return this.scrollable === true
+        ? 'doc-example__content--scrollable scroll-y'
+        : (this.overflow === true ? 'overflow-auto' : '')
     },
 
     slugifiedTitle () {
@@ -156,33 +157,33 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .doc-example
   &__toolbar
-    background white
-    color $grey-8
+    background: white
+    color: $grey-8
     > .q-btn
-      color $grey-7
+      color: $grey-7
 
   &__tabs
-    background $grey-3
-    color $grey-7
+    background: $grey-3
+    color: $grey-7
 
   &--dark
     .doc-example__toolbar
-      background $grey-10
-      color white
+      background: $grey-10
+      color: #fff
       > .q-btn
-        color $grey-3
+        color: $grey-3
     .doc-example__separator
-      background-color $grey-8
+      background-color: $grey-8
     .doc-example__tabs
-      background $grey-9
-      color $grey-5
+      background: $grey-9
+      color: $grey-5
 
   &__content
-    position relative
+    position: relative
 
     &--scrollable
-      height 500px
+      height: 500px
 </style>

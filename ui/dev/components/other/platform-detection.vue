@@ -5,7 +5,11 @@
         Based on the device you are using to view this, Quasar detects the following:
       </p>
 
-      <table class="q-table striped">
+      <p>
+        User agent: "<strong>{{ $q.platform.userAgent }}</strong>"
+      </p>
+
+      <q-markup-table bordered flat>
         <thead>
           <tr>
             <th class="text-left">
@@ -23,10 +27,14 @@
             <td>{{ value }}</td>
           </tr>
         </tbody>
-      </table>
+      </q-markup-table>
 
       <p class="caption">
         Your device <strong>{{ touch }}</strong> touch capability.
+      </p>
+
+      <p class="caption">
+        Body classes: "{{ bodyClasses }}"
       </p>
     </div>
   </div>
@@ -34,10 +42,20 @@
 
 <script>
 export default {
+  data () {
+    return {
+      bodyClasses: ''
+    }
+  },
+
   computed: {
     touch () {
       return this.$q.platform.has.touch ? 'has' : 'does not have'
     }
+  },
+
+  mounted () {
+    this.bodyClasses = document.body.classList.value
   }
 }
 </script>

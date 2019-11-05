@@ -17,6 +17,13 @@
           @input="onInput"
         />
         <q-knob
+          v-model="model"
+          :min="min"
+          :max="max"
+          :angle="90"
+          @change="onChange"
+        />
+        <q-knob
           :value="model"
           :min="min"
           :max="max"

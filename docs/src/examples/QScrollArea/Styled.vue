@@ -5,7 +5,6 @@
         :thumb-style="thumbStyle"
         :content-style="contentStyle"
         :content-active-style="contentActiveStyle"
-        class="xxx"
         style="height: 200px; max-width: 300px;"
       >
         <div v-for="n in 100" :key="n" class="q-pa-xs">

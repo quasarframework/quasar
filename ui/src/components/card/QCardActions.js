@@ -15,7 +15,7 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-card__actions--${this.vertical === true ? 'vert column justify-start' : 'horiz row ' + this.alignClass}`
+      return `q-card__actions--${this.vertical === true ? 'vert column' : 'horiz row'} ${this.alignClass}`
     }
   },
 

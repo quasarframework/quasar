@@ -1,5 +1,6 @@
 ---
 title: List and List Items
+desc: How to use the QList, QItem, QItemSection and QItemLabel Vue components.
 related:
   - /vue-components/expansion-item
   - /vue-components/slide-item
@@ -30,7 +31,7 @@ List Items have the following pre-built child components:
 
 ### QItemSection
 
-<doc-example title="Left avatar/thumbnai QItemSection" file="QItem/AvatarLeft" />
+<doc-example title="Left avatar/thumbnail QItemSection" file="QItem/AvatarLeft" />
 
 <doc-example title="Right avatar/thumbnail QItemSection" file="QItem/AvatarRight" />
 

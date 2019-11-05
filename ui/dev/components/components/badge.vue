@@ -1,5 +1,5 @@
 <template>
-  <div class="q-layout-padding bg-grey-3" style="min-height: 100vh">
+  <div class="q-layout-padding" style="min-height: 100vh">
     <div class="q-gutter-md" style="max-width: 500px">
       <q-badge color="blue">
         #4D96F2
@@ -33,7 +33,7 @@
         </q-badge>
       </div>
 
-      <q-item clickable v-ripple class="bg-grey-2">
+      <q-item clickable v-ripple>
         <q-item-section avatar>
           <q-avatar rounded>
             <img src="https://cdn.quasar.dev/img/chaosmonkey.png">

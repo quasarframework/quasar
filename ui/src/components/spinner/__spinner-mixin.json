@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/size" ],
+
   "docs": {
     "page": "spinners",
     "apiAnchor": "Other-Spinners-API"
@@ -9,10 +11,6 @@
   },
 
   "props": {
-    "size": {
-      "extends": "size"
-    },
-
     "color": {
       "extends": "color"
     }

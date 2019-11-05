@@ -1,5 +1,6 @@
 ---
 title: Getting Started - Pick a Quasar Flavour
+desc: 'Get started with Quasar by picking one of its flavours: Quasar CLI, Vue CLI or UMD'
 ---
 
 **If you'd like to learn more about what Quasar can do for you**, read the [Introduction to Quasar](/introduction-to-quasar). Otherwise, let's get started by choosing how you'd like to use Quasar.
@@ -12,11 +13,11 @@ There are three ways of using Quasar. Pick the one that suits you best:
 
 Here's a quick comparison:
 
-| Feature                                                                                    | UMD     | Quasar CLI | Vue CLI 3 Plugin              |
+| Feature                                                                                    | Quasar UMD | Quasar CLI | Vue CLI 3 Plugin              |
 | ------------------------------------------------------------------------------------------ | ------- | ---------- | ----------------------------- |
 | Ability to embed into an existing project                                                  | **Yes** | -          | **Yes, if it is Vue CLI app** |
 | Progressive integration of Quasar                                                          | **Yes** | -          | -                             |
-| Ability to serve Quasar from CDN                                                           | **Yes** | -          | -                             |
+| Include Quasar from public CDN                                                             | **Yes** | -          | -                             |
 | Build SPA, PWA                                                                             | **Yes** | **Yes**    | **Yes**                       |
 | Build SSR (+ optional PWA client takeover)                                                 | -       | **Yes**    | Yes*                          |
 | Build Mobile Apps, Electron Apps                                                           | **Yes** | **Yes**    | Yes*                          |

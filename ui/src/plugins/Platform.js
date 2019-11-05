@@ -9,13 +9,14 @@ export let fromSSR = false
 export let onSSR = isSSR
 
 function getMatch (userAgent, platformMatch) {
-  const match = /(edge)\/([\w.]+)/.exec(userAgent) ||
+  const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
     /(vivaldi)[\/]([\w.]+)/.exec(userAgent) ||
-    /(chrome)[\/]([\w.]+)/.exec(userAgent) ||
+    /(chrome|crios)[\/]([\w.]+)/.exec(userAgent) ||
     /(iemobile)[\/]([\w.]+)/.exec(userAgent) ||
     /(version)(applewebkit)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
     /(webkit)[\/]([\w.]+).*(version)[\/]([\w.]+).*(safari)[\/]([\w.]+)/.exec(userAgent) ||
+    /(firefox|fxios)[\/]([\w.]+)/.exec(userAgent) ||
     /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
     /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
     /(msie) ([\w.]+)/.exec(userAgent) ||
@@ -50,8 +51,6 @@ function getPlatformMatch (userAgent) {
 }
 
 function getPlatform (userAgent) {
-  userAgent = (userAgent || navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
-
   const
     platformMatch = getPlatformMatch(userAgent),
     matched = getMatch(userAgent, platformMatch),
@@ -68,6 +67,7 @@ function getPlatform (userAgent) {
   }
 
   const knownMobiles = browser.android ||
+    browser.ios ||
     browser.bb ||
     browser.blackberry ||
     browser.ipad ||
@@ -81,6 +81,19 @@ function getPlatform (userAgent) {
   // These are all considered mobile platforms, meaning they run a mobile browser
   if (knownMobiles === true || userAgent.indexOf('mobile') > -1) {
     browser.mobile = true
+
+    if (browser.edga || browser.edgios) {
+      browser.edge = true
+      matched.browser = 'edge'
+    }
+    else if (browser.crios) {
+      browser.chrome = true
+      matched.browser = 'chrome'
+    }
+    else if (browser.fxios) {
+      browser.firefox = true
+      matched.browser = 'firefox'
+    }
   }
   // If it's not mobile we should consider it's desktop platform, meaning it runs a desktop browser
   // It's a workaround for anonymized user agents
@@ -119,12 +132,6 @@ function getPlatform (userAgent) {
   if (browser.rv || browser.iemobile) {
     matched.browser = 'ie'
     browser.ie = true
-  }
-
-  // Edge is officially known as Microsoft Edge, so rewrite the key to match
-  if (browser.edge) {
-    matched.browser = 'edge'
-    browser.edge = true
   }
 
   // Blackberry browsers are marked as Safari on BlackBerry
@@ -176,94 +183,119 @@ function getPlatform (userAgent) {
     if (window.process && window.process.versions && window.process.versions.electron) {
       browser.electron = true
     }
-    else if (document.location.href.indexOf('chrome-extension://') === 0) {
-      browser.chromeExt = true
+    else if (document.location.href.indexOf('-extension://') > -1) {
+      browser.bex = true
     }
-    else if (window._cordovaNative || window.cordova) {
+    else if (window.Capacitor !== void 0) {
+      browser.capacitor = true
+      browser.nativeMobile = true
+      browser.nativeMobileWrapper = 'capacitor'
+    }
+    else if (window._cordovaNative !== void 0 || window.cordova !== void 0) {
       browser.cordova = true
+      browser.nativeMobile = true
+      browser.nativeMobileWrapper = 'cordova'
     }
 
-    fromSSR = browser.cordova === void 0 &&
+    fromSSR = browser.nativeMobile === void 0 &&
       browser.electron === void 0 &&
       !!document.querySelector('[data-server-rendered]')
 
-    fromSSR === true && (onSSR = true)
+    if (fromSSR === true) {
+      onSSR = true
+    }
   }
 
   return browser
 }
 
-let webStorage
+const userAgent = isSSR === false
+  ? (navigator.userAgent || navigator.vendor || window.opera).toLowerCase()
+  : ''
 
-export function hasWebStorage () {
-  if (webStorage !== void 0) {
-    return webStorage
-  }
-
-  try {
-    if (window.localStorage) {
-      webStorage = true
-      return true
-    }
-  }
-  catch (e) {}
-
-  webStorage = false
-  return false
+const ssrClient = {
+  has: {
+    touch: false,
+    webStorage: false
+  },
+  within: { iframe: false }
 }
 
-function getClientProperties () {
-  return {
+// We export "client" for hydration error-free parts,
+// like touch directives who do not (and must NOT) wait
+// for the client takeover;
+// Do NOT import this directly in your app, unless you really know
+// what you are doing.
+export const client = isSSR === false
+  ? {
+    userAgent,
+    is: getPlatform(userAgent),
     has: {
       touch: (() => 'ontouchstart' in window ||
         window.navigator.maxTouchPoints > 0
       )(),
-      webStorage: hasWebStorage()
+      webStorage: (() => {
+        try {
+          if (window.localStorage) {
+            return true
+          }
+        }
+        catch (e) {}
+        return false
+      })()
     },
     within: {
       iframe: window.self !== window.top
     }
   }
-}
+  : ssrClient
 
-export default {
-  has: {
-    touch: false,
-    webStorage: false
-  },
-  within: { iframe: false },
-
-  parseSSR (/* ssrContext */ ssr) {
-    return ssr ? {
-      is: getPlatform(ssr.req.headers['user-agent']),
-      has: this.has,
-      within: this.within
-    } : {
-      is: getPlatform(),
-      ...getClientProperties()
-    }
-  },
-
+const Platform = {
   install ($q, queues) {
     if (isSSR === true) {
+      // we're on server-side, so we push
+      // to the server queue instead of
+      // applying directly
       queues.server.push((q, ctx) => {
         q.platform = this.parseSSR(ctx.ssr)
       })
-      return
     }
+    else if (fromSSR === true) {
+      // must match with server-side before
+      // client taking over in order to prevent
+      // hydration errors
+      Object.assign(this, client, ssrClient)
 
-    this.is = getPlatform()
-
-    if (fromSSR === true) {
+      // takeover should increase accuracy for
+      // the rest of the props; we also avoid
+      // hydration errors
       queues.takeover.push(q => {
         onSSR = fromSSR = false
-        Object.assign(q.platform, getClientProperties())
+        Object.assign(q.platform, client)
       })
+
+      // we need to make platform reactive
+      // for the takeover phase
       Vue.util.defineReactive($q, 'platform', this)
     }
     else {
-      Object.assign(this, getClientProperties())
+      // we don't have any business with SSR, so
+      // directly applying...
+      Object.assign(this, client)
       $q.platform = this
     }
   }
 }
+
+if (isSSR === true) {
+  Platform.parseSSR = (/* ssrContext */ ssr) => {
+    const userAgent = (ssr.req.headers['user-agent'] || ssr.req.headers['User-Agent'] || '').toLowerCase()
+    return {
+      ...client,
+      userAgent,
+      is: getPlatform(userAgent)
+    }
+  }
+}
+
+export default Platform

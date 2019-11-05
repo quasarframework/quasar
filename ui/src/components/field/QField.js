@@ -4,15 +4,17 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
-import { stop } from '../../utils/event.js'
+import { stop, prevent } from '../../utils/event.js'
+import uid from '../../utils/uid.js'
 
 export default Vue.extend({
   name: 'QField',
 
-  inheritAttrs: false,
+  mixins: [ DarkMixin, ValidateMixin ],
 
-  mixins: [ ValidateMixin ],
+  inheritAttrs: false,
 
   props: {
     label: String,
@@ -24,7 +26,6 @@ export default Vue.extend({
 
     color: String,
     bgColor: String,
-    dark: Boolean,
 
     filled: Boolean,
     outlined: Boolean,
@@ -53,7 +54,7 @@ export default Vue.extend({
     autofocus: Boolean,
 
     maxlength: [Number, String],
-    maxValues: [Number, String] // do not add to JSON, internally needed by QSelect
+    maxValues: [Number, String] // private, do not add to JSON; internally needed by QSelect
   },
 
   data () {
@@ -62,7 +63,8 @@ export default Vue.extend({
 
       // used internally by validation for QInput
       // or menu handling for QSelect
-      innerLoading: false
+      innerLoading: false,
+      targetUid: this.$attrs.for === void 0 ? 'qf_' + uid() : this.$attrs.for
     }
   },
 
@@ -128,14 +130,14 @@ export default Vue.extend({
 
         'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned,
-        'q-field--dark': this.dark,
+        'q-field--dark': this.isDark,
 
         'q-field--auto-height': this.__getControl === void 0,
 
         'q-field--with-bottom': this.hideBottomSpace !== true && this.shouldRenderBottom === true,
         'q-field--error': this.hasError,
 
-        'q-field--readonly': this.readonly,
+        'q-field--readonly': this.readonly === true && this.disable !== true,
         'q-field--disabled': this.disable
       }
     },
@@ -166,26 +168,47 @@ export default Vue.extend({
       }
 
       return cls
+    },
+
+    controlSlotScope () {
+      return {
+        id: this.targetUid,
+        field: this.$el,
+        editable: this.editable,
+        focused: this.focused,
+        floatingLabel: this.floatingLabel,
+        value: this.value,
+        emitValue: this.__emitValue
+      }
     }
   },
 
   methods: {
     focus () {
-      if (this.showPopup !== void 0 && this.$q.platform.is.desktop !== true) {
+      if (this.showPopup !== void 0 && this.hasDialog === true) {
         this.showPopup()
         return
       }
 
-      let target = this.$refs.target
-      if (target !== void 0) {
-        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
-        target !== null && target.focus()
-      }
+      this.__focus()
     },
 
     blur () {
       const el = document.activeElement
-      this.$el.contains(el) && el.blur()
+      // IE can have null document.activeElement
+      if (el !== null && this.$el.contains(el)) {
+        el.blur()
+      }
+    },
+
+    __focus () {
+      const el = document.activeElement
+      let target = this.$refs.target
+      // IE can have null document.activeElement
+      if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
+        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target !== null && target !== el && target.focus()
+      }
     },
 
     __getContent (h) {
@@ -194,7 +217,8 @@ export default Vue.extend({
       this.$scopedSlots.prepend !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
-          key: 'prepend'
+          key: 'prepend',
+          on: this.slotsEvents
         }, this.$scopedSlots.prepend())
       )
 
@@ -202,6 +226,14 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
         }, this.__getControlContainer(h))
+      )
+
+      this.$scopedSlots.append !== void 0 && node.push(
+        h('div', {
+          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
+          key: 'append',
+          on: this.slotsEvents
+        }, this.$scopedSlots.append())
       )
 
       this.hasError === true && this.noErrorIcon === false && node.push(
@@ -221,8 +253,7 @@ export default Vue.extend({
           )
         )
       }
-
-      if (this.clearable === true && this.hasValue === true && this.editable === true) {
+      else if (this.clearable === true && this.hasValue === true && this.editable === true) {
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
             h(QIcon, {
@@ -235,13 +266,6 @@ export default Vue.extend({
           ])
         )
       }
-
-      this.$scopedSlots.append !== void 0 && node.push(
-        h('div', {
-          staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
-          key: 'append'
-        }, this.$scopedSlots.append())
-      )
 
       this.__getInnerAppend !== void 0 && node.push(
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
@@ -281,7 +305,7 @@ export default Vue.extend({
               ...this.$attrs,
               autofocus: this.autofocus
             }
-          }, this.$scopedSlots.control())
+          }, this.$scopedSlots.control(this.controlSlotScope))
         )
       }
 
@@ -358,18 +382,22 @@ export default Vue.extend({
     },
 
     __getInnerAppendNode (h, key, content) {
-      return h('div', {
+      return content === null ? null : h('div', {
         staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
         key
       }, content)
     },
 
     __onControlPopupShow (e) {
+      e !== void 0 && stop(e)
+      this.$emit('popup-show', e)
       this.hasPopupOpen = true
       this.__onControlFocusin(e)
     },
 
     __onControlPopupHide (e) {
+      e !== void 0 && stop(e)
+      this.$emit('popup-hide', e)
       this.hasPopupOpen = false
       this.__onControlFocusout(e)
     },
@@ -406,7 +434,19 @@ export default Vue.extend({
 
     __clearValue (e) {
       stop(e)
+      if (this.type === 'file') {
+        // do not let focus be triggered
+        // as it will make the native file dialog
+        // appear for another selection
+        prevent(e)
+        this.$refs.input.value = null
+      }
       this.$emit('input', null)
+      this.$emit('clear', this.value)
+    },
+
+    __emitValue (value) {
+      this.$emit('input', value)
     }
   },
 
@@ -414,12 +454,16 @@ export default Vue.extend({
     this.__onPreRender !== void 0 && this.__onPreRender()
     this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
 
-    return h('div', {
+    return h('label', {
       staticClass: 'q-field row no-wrap items-start',
-      class: this.classes
+      class: this.classes,
+      attrs: {
+        for: this.targetUid
+      }
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
-        staticClass: 'q-field__before q-field__marginal row no-wrap items-center'
+        staticClass: 'q-field__before q-field__marginal row no-wrap items-center',
+        on: this.slotsEvents
       }, this.$scopedSlots.before()) : null,
 
       h('div', {
@@ -439,7 +483,8 @@ export default Vue.extend({
       ]),
 
       this.$scopedSlots.after !== void 0 ? h('div', {
-        staticClass: 'q-field__after q-field__marginal row no-wrap items-center'
+        staticClass: 'q-field__after q-field__marginal row no-wrap items-center',
+        on: this.slotsEvents
       }, this.$scopedSlots.after()) : null
     ])
   },
@@ -447,10 +492,11 @@ export default Vue.extend({
   created () {
     this.__onPreRender !== void 0 && this.__onPreRender()
 
+    this.slotsEvents = { click: prevent }
+
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
-        focus: this.focus,
         focusin: this.__onControlFocusin,
         focusout: this.__onControlFocusout,
         'popup-show': this.__onControlPopupShow,
@@ -459,7 +505,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.autofocus === true && setTimeout(this.focus)
+    this.autofocus === true && this.focus()
   },
 
   beforeDestroy () {

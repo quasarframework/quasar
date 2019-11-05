@@ -1,8 +1,14 @@
-import History from '../history.js'
+import { isSSR } from '../plugins/Platform.js'
+import TimeoutMixin from './timeout.js'
 
 export default {
+  mixins: [ TimeoutMixin ],
+
   props: {
-    value: Boolean
+    value: {
+      type: Boolean,
+      default: void 0
+    }
   },
 
   data () {
@@ -13,14 +19,11 @@ export default {
 
   watch: {
     value (val) {
-      if (this.disable === true && val === true) {
-        this.$emit('input', false)
-        return
-      }
+      this.__processModelChange(val)
+    },
 
-      if (val !== this.showing) {
-        this[val ? 'show' : 'hide']()
-      }
+    $route () {
+      this.hideOnRouteChange === true && this.hide()
     }
   },
 
@@ -30,37 +33,41 @@ export default {
     },
 
     show (evt) {
-      if (this.disable === true || this.showing === true) {
+      if (this.disable === true || (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)) {
         return
       }
-      if (this.__showCondition !== void 0 && this.__showCondition(evt) !== true) {
+
+      if (this.$listeners.input !== void 0 && isSSR === false) {
+        this.$emit('input', true)
+        this.payload = evt
+        this.$nextTick(() => {
+          if (this.payload === evt) {
+            this.payload = void 0
+          }
+        })
+      }
+      if (this.value === void 0 || this.$listeners.input === void 0 || isSSR === true) {
+        this.__processShow(evt)
+      }
+    },
+
+    __processShow (evt) {
+      if (this.showing === true) {
         return
       }
+
+      // need to call it before setting showing to true
+      // in order to not ruin the animation
+      this.__preparePortal !== void 0 && this.__preparePortal()
+
+      this.showing = true
 
       this.$emit('before-show', evt)
 
-      if (this.$q.platform.is.ie === true) {
-        // IE sometimes performs a focus on body after click;
-        // the delay prevents the click-outside to trigger on this focus
-        setTimeout(() => {
-          this.showing = true
-        }, 0)
-      }
-      else {
-        this.showing = true
-      }
-
-      this.$emit('input', true)
-
-      if (this.$options.modelToggle !== void 0 && this.$options.modelToggle.history === true) {
-        this.__historyEntry = {
-          handler: this.hide
-        }
-        History.add(this.__historyEntry)
-      }
-
       if (this.__show !== void 0) {
+        this.__clearTick()
         this.__show(evt)
+        this.__prepareTick()
       }
       else {
         this.$emit('show', evt)
@@ -68,33 +75,50 @@ export default {
     },
 
     hide (evt) {
-      if (this.disable === true || this.showing === false) {
+      if (this.disable === true) {
         return
       }
 
-      this.$emit('before-hide', evt)
-      this.showing = false
-      this.value !== false && this.$emit('input', false)
+      if (this.$listeners.input !== void 0 && isSSR === false) {
+        this.$emit('input', false)
+        this.payload = evt
+        this.$nextTick(() => {
+          if (this.payload === evt) {
+            this.payload = void 0
+          }
+        })
+      }
+      if (this.value === void 0 || this.$listeners.input === void 0 || isSSR === true) {
+        this.__processHide(evt)
+      }
+    },
 
-      this.__removeHistory()
+    __processHide (evt) {
+      if (this.showing === false) {
+        return
+      }
+
+      this.showing = false
+
+      this.$emit('before-hide', evt)
 
       if (this.__hide !== void 0) {
+        this.__clearTick()
         this.__hide(evt)
+        this.__prepareTick()
       }
       else {
         this.$emit('hide', evt)
       }
     },
 
-    __removeHistory () {
-      if (this.__historyEntry !== void 0) {
-        History.remove(this.__historyEntry)
-        this.__historyEntry = void 0
+    __processModelChange (val) {
+      if (this.disable === true && val === true) {
+        this.$listeners.input !== void 0 && this.$emit('input', false)
+      }
+      else if ((val === true) !== this.showing) {
+        this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)
       }
     }
-  },
-
-  beforeDestroy () {
-    this.showing === true && this.__removeHistory()
   }
 }

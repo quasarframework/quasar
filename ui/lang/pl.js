@@ -82,7 +82,8 @@ export default {
     size5: 'Duża',
     size6: 'Bardzo duża',
     size7: 'Maksymalna',
-    defaultFont: 'Domyślna czcionka'
+    defaultFont: 'Domyślna czcionka',
+    viewSource: 'Pokaż źródło'
   },
   tree: {
     noNodes: 'Brak dostępnych gałęzi',

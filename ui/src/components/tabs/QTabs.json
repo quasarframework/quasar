@@ -66,6 +66,12 @@
       "category": "content"
     },
 
+    "stretch": {
+      "type": "Boolean",
+      "desc": "When used on flexbox parent, tabs will stretch to parent's height",
+      "category": "content"
+    },
+
     "shrink": {
       "type": "Boolean",
       "desc": "By default, QTabs is set to grow to the available space; However, you can reverse that with this prop; Useful (and required) when placing the component in a QToolbar",

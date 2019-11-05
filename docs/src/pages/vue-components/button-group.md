@@ -1,5 +1,6 @@
 ---
 title: Button Group
+desc: The QBtnGroup Vue component groups QBtn and QBtnDropdown into a single unit.
 related:
   - /vue-components/button
   - /vue-components/button-dropdown

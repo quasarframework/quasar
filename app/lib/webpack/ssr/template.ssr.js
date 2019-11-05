@@ -31,6 +31,15 @@ const rendererOptions = {
   runInNewContext: false
 }
 
+if (settings.preloadChunks !== true) {
+  const fn = () => false
+  Object.assign(rendererOptions, {
+    shouldPreload: fn,
+    shouldPrefetch: fn
+  })
+}
+
+// https://ssr.vuejs.org/api/#renderer-options
 // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
 let renderer = createBundleRenderer(bundle, rendererOptions)
 

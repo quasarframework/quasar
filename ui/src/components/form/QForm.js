@@ -10,7 +10,8 @@ export default Vue.extend({
   props: {
     autofocus: Boolean,
     noErrorFocus: Boolean,
-    noResetFocus: Boolean
+    noResetFocus: Boolean,
+    greedy: Boolean
   },
 
   mounted () {
@@ -41,19 +42,23 @@ export default Vue.extend({
           if (typeof valid.then === 'function') {
             promises.push(
               valid.then(
-                v => ({ valid: v, comp }),
+                valid => ({ valid, comp }),
                 error => ({ valid: false, comp, error })
               )
             )
           }
           else if (valid !== true) {
-            emit(false)
+            if (this.greedy === false) {
+              emit(false)
 
-            if (focus === true && typeof comp.focus === 'function') {
-              comp.focus()
+              if (focus === true && typeof comp.focus === 'function') {
+                comp.focus()
+              }
+
+              return Promise.resolve(false)
             }
 
-            return Promise.resolve(false)
+            promises.push({ valid: false, comp })
           }
         }
       }
@@ -68,9 +73,15 @@ export default Vue.extend({
       return Promise.all(promises).then(
         res => {
           if (index === this.validateIndex) {
-            const { valid, comp } = res[0]
+            const errors = res.filter(r => r.valid !== true)
 
-            emit(valid)
+            if (errors.length === 0) {
+              emit(true)
+              return true
+            }
+
+            emit(false)
+            const { valid, comp } = errors[0]
 
             if (
               focus === true &&
@@ -80,7 +91,7 @@ export default Vue.extend({
               comp.focus()
             }
 
-            return valid
+            return false
           }
         }
       )
@@ -100,7 +111,7 @@ export default Vue.extend({
       evt !== void 0 && stopAndPrevent(evt)
 
       this.validate().then(val => {
-        val === true && this.$emit('submit')
+        val === true && this.$emit('submit', evt)
       })
     },
 

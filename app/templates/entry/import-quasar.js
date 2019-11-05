@@ -26,7 +26,7 @@ import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
 %>
 
 import Vue from 'vue'
-<% if (framework.all) { %>
+<% if (framework.all === true) { %>
 import Quasar from 'quasar'
 <% } else {
   let importStatement = []

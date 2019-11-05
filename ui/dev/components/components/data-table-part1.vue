@@ -1,8 +1,9 @@
 <template>
   <div>
     <div class="q-layout-padding" style="max-width: 1400px;">
+      <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
       <h4>QMarkupTable</h4>
-      <q-markup-table :separator="separator" wrap-cells>
+      <q-markup-table flat bordered :separator="separator" wrap-cells>
         <thead>
           <tr>
             <th class="text-left">
@@ -138,6 +139,8 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        bordered
+        flat
         binary-state-sort
         :rows-per-page-options="[]"
         row-key="name"
@@ -147,7 +150,6 @@
             <q-td key="desc" :props="props">
               {{ props.row.name }}
               <q-popup-edit
-                ref="popupEdit"
                 content-class="bg-primary text-white"
                 buttons
                 color="white"
@@ -191,6 +193,25 @@
             </q-td>
             <q-td key="sodium" :props="props">
               {{ props.row.sodium }}
+              <q-popup-edit persistent v-model="props.row.sodium" :validate="val => val > 10">
+                <template v-slot="{ initialValue, value, emitValue, validate, set, cancel }">
+                  <q-input
+                    autofocus
+                    dense
+                    :value="value"
+                    hint="Sodium level"
+                    :rules="[
+                      val => validate(value) || 'Please enter more than 10'
+                    ]"
+                    @input="emitValue"
+                  >
+                    <template v-slot:after>
+                      <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
+                      <q-btn flat dense color="positive" icon="save" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
+                    </template>
+                  </q-input>
+                </template>
+              </q-popup-edit>
             </q-td>
             <q-td key="calcium" :props="props">
               {{ props.row.calcium }}
@@ -203,8 +224,13 @@
       </q-table>
 
       <h2>Grid style</h2>
+      <q-toggle v-model="gridHeader" label="Grid header" />
+      <q-toggle v-model="gridLoading" label="Grid loading" />
+
       <q-table
         grid
+        :grid-header="gridHeader"
+        :loading="gridLoading"
         :data="data"
         :columns="columns"
         :filter="filter"
@@ -212,6 +238,7 @@
         :selected.sync="selected"
         @selection="onSelection"
         :visible-columns="visibleColumns"
+        card-container-class="justify-center"
         row-key="name"
       >
         <template v-slot:top-right>
@@ -286,6 +313,7 @@
         dark
         class="bg-black"
         color="orange"
+        bordered
         :separator="separator"
         :data="data"
         :columns="columns"
@@ -415,6 +443,22 @@
         <template v-slot:header-cell="props">
           <q-th :props="props">
             # {{ props.col.label }}
+          </q-th>
+        </template>
+      </q-table>
+
+      <h2>header-cell-[name]</h2>
+      <q-table
+        :data="data"
+        :columns="columns"
+        :title="title"
+        :filter="filter"
+        row-key="name"
+      >
+        <template v-slot:header-cell-calories="props">
+          <q-th :props="props">
+            <q-icon size="1.5em" name="thumb_up" />
+            {{ props.col.label }}
           </q-th>
         </template>
       </q-table>
@@ -728,6 +772,8 @@ export default {
       visibleColumns: ['desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron'],
       separator: 'horizontal',
       selected: [],
+      gridHeader: false,
+      gridLoading: false,
 
       serverPagination: {
         page: 1,
@@ -743,12 +789,14 @@ export default {
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
+          style: 'background: #26a69a',
+          headerStyle: 'background: #26a69a',
           field: row => row.name,
           format: val => `~${val}`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, classes: 'bg-grey', style: 'width: 10px' },
+        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, headerClasses: 'bg-primary text-white', classes: 'bg-primary text-white', style: 'width: 10px' },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
@@ -907,6 +955,7 @@ export default {
       console.log(added ? 'selected' : 'un-selected', rows)
     }
   },
+
   mounted () {
     this.request({
       pagination: this.serverPagination,

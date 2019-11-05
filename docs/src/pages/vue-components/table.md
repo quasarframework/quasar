@@ -1,5 +1,6 @@
 ---
 title: Table
+desc: The QTable Vue component allows you to display data in a tabular manner and it's packed with a lot of related features. It's generally called a datatable.
 related:
   - /vue-components/markup-table
   - /vue-components/pagination
@@ -32,7 +33,9 @@ Let’s take an example of configuring the `columns` property. We are going to t
 columns: [ // array of Objects
   // column Object definition
   {
-    // unique id (used by row-key, pagination.sortBy, ...)
+    // unique id
+    // identifies column
+    // (used by pagination.sortBy, "body-cell-[name]" slot, ...)
     name: 'desc',
 
     // label for header
@@ -53,7 +56,7 @@ columns: [ // array of Objects
 
     // (optional) compare function if you have
     // some custom data or want a specific way to compare two rows
-    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)
+    sort: (a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10),
     // function return value:
     //   * is less than 0 then sort a to an index lower than b, i.e. a comes first
     //   * is 0 then leave a and b unchanged with respect to each other, but sorted with respect to all different elements
@@ -61,10 +64,18 @@ columns: [ // array of Objects
 
     // (optional) you can format the data with a function
     format: (val, row) => `${val}%`
+    // one more format example:
+    // format: val => val
+    //   ? /* Unicode checkmark checked */ "\u2611"
+    //   : /* Unicode checkmark unchecked */ "\u2610",
 
-    // v0.17.9+; if using scoped slots, apply this yourself instead
+    // body td:
     style: 'width: 500px',
     classes: 'my-special-class'
+
+    // (v1.3.0+) header th:
+    headerStyle: 'width: 500px',
+    headerClasses: 'my-special-class'
   },
   { name: 'calories', label: 'Calories', field: 'calories', sortable: true },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
@@ -115,6 +126,22 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
+### Virtual scrolling
+
+<q-badge label="v1.2.0" />
+
+Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
+
+<doc-example title="Basic virtual scroll" file="QTable/VirtscrollBasic" />
+
+You can have both virtual scroll and pagination:
+
+<doc-example title="Virtual scroll and pagination" file="QTable/VirtscrollPagination" />
+
+The example below shows how virtual scroll can be used along with a sticky header. Notice the `virtual-scroll-sticky-start` prop which is set to the header height. Also note that this will NOT work in IE11 due to the lack of support for CSS prop "position" with value "sticky".
+
+<doc-example title="Virtual scroll with sticky header" file="QTable/VirtscrollSticky" />
+
 ### Selection
 
 ::: warning
@@ -151,6 +178,8 @@ In the example below, we let QTable deal with displaying the grid mode (not usin
 
 <doc-example title="Grid style" file="QTable/GridStyle" />
 
+<doc-example title="Grid with header" file="QTable/GridHeader" />
+
 <doc-example title="Colored grid style" file="QTable/GridStyleColored" />
 
 However, if you want to fully customize the content, check the example below, where:
@@ -186,6 +215,42 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 ### Custom top
 
 <doc-example title="Custom top with add/remove row" file="QTable/CustomTop" />
+
+### Body slots
+
+The example below shows how you can use a slot to customize the entire row:
+
+<doc-example title="Body slot" file="QTable/SlotBody" />
+
+Bellow, we use a slot which gets applied to each body cell:
+
+<doc-example title="Body-cell slot" file="QTable/SlotBodyCell" />
+
+We can also customize only one particular column only. The syntax for this slot is `body-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+
+<doc-example title="Body-cell-[name] slot" file="QTable/SlotBodyCellName" />
+
+### Header slots
+
+The example below shows how you can use a slot to customize the entire header row:
+
+<doc-example title="Header slot" file="QTable/SlotHeader" />
+
+Bellow, we use a slot which gets applied to each header cell:
+
+<doc-example title="Header-cell slot" file="QTable/SlotHeaderCell" />
+
+Starting with **v1.1.1+**, we can also customize only one particular header cell only. The syntax for this slot is `header-cell-[name]`, where `[name]` should be replaced by the property of each row which is used as the row-key.
+
+<doc-example title="Header-cell-[name] slot" file="QTable/SlotHeaderCellName" />
+
+### No data
+
+<doc-example title="No Data Label" file="QTable/NoData" />
+
+Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
+
+<doc-example title="No Data Slot" file="QTable/NoDataSlot" />
 
 ### Custom sorting
 

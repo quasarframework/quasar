@@ -1,5 +1,6 @@
 ---
 title: CSS Visibility
+desc: The list of CSS classes supplied by Quasar to manage responsiveness and visibility of components and DOM elements.
 ---
 There are some CSS classes that you can use out of the box for common functionality.
 
@@ -53,7 +54,9 @@ Visible only on:
 | --- | --- |
 | `desktop-only` | Visible only on desktop |
 | `mobile-only` | Visible only on mobile |
+| `native-mobile-only` | Visible only on Cordova/Capacitor |
 | `cordova-only` | Visible only on Cordova wrapped Apps |
+| `capacitor-only` | Visible only on Cordova wrapped Apps |
 | `electron-only` | Visible only on Electron wrapped Apps |
 | `touch-only` | Visible only on touch capable platforms |
 | `platform-ios-only` | Visible only on an iOS platform |
@@ -66,7 +69,9 @@ Hide on:
 | --- | --- |
 | `desktop-hide` | Hide on desktop |
 | `mobile-hide` | Hide on mobile |
+| `native-mobile-hide` | Hide on Cordova/Capacitor |
 | `cordova-hide` | Hide on Cordova wrapped Apps |
+| `capacitor-hide` | Hide on Cordova wrapped Apps |
 | `electron-hide` | Hide on Electron wrapped Apps |
 | `touch-hide` | Hide on touch capable platforms |
 | `platform-ios-hide` | Hide on iOS platform |

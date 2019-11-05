@@ -2,16 +2,8 @@ const
   path = require('path')
 
 const
-  { logError, writeFile } = require('./build.utils'),
-  resolve = file => path.resolve(__dirname, '../dist/vetur', file),
-  kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
-
-function kebabCase (str) {
-  return str.replace(
-    kebabRegex,
-    match => '-' + match.toLowerCase()
-  ).substring(1)
-}
+  { logError, writeFile, kebabCase } = require('./build.utils'),
+  resolve = file => path.resolve(__dirname, '../dist/vetur', file)
 
 function getTags (data) {
   const tags = {}

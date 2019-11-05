@@ -24,10 +24,33 @@ module.exports = async function getApi(item) {
 
       if (hooks.describeApi !== void 0 && hooks.describeApi[item]) {
         const fs = require('fs')
-        const file = hooks.describeApi[item]
+        const path = require('path')
 
-        if (!fs.existsSync(file)) {
-          throw `⚠️  Extension(${instance.extId}): registerDescribeApi - there is no file at ${file}`
+        let file
+        const {
+          callerPath,
+          relativePath
+        } = hooks.describeApi[item]
+
+        if (relativePath.charAt(0) === '~') {
+          try {
+            file = relativePath.slice(1)
+            file = require.resolve(
+              file, {
+                paths: [callerPath, appPaths.appDir]
+              }
+            )
+          } catch (e) {
+            warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no package "${file}" installed`)
+            process.exit(1)
+          }
+        } else {
+          file = path.resolve(callerPath, relativePath)
+
+          if (!fs.existsSync(file)) {
+            warn(`⚠️  Extension(${instance.extId}): registerDescribeApi - there is no file at ${file}`)
+            process.exit(1)
+          }
         }
 
         try {
@@ -36,11 +59,14 @@ module.exports = async function getApi(item) {
             supplier: instance.extId
           }
         } catch (e) {
-          throw `⚠️  Extension(${instance.extId}): Malformed API file at ${file}`
+          warn(`⚠️  Extension(${instance.extId}): Malformed API file at ${file}`)
+          process.exit(1)
         }
       }
     }
   }
 
-  throw `No API found for requested "${item}"`
+  warn(`⚠️  No API found for requested "${item}"`)
+  warn()
+  process.exit(1)
 }

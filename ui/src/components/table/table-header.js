@@ -9,12 +9,12 @@ export default {
 
       this.loading === true && child.push(
         h('tr', { staticClass: 'q-table__progress' }, [
-          h('td', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
+          h('th', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
             h(QLinearProgress, {
               staticClass: 'q-table__linear-progress',
               props: {
                 color: this.color,
-                dark: this.dark,
+                dark: this.isDark,
                 indeterminate: true
               }
             })
@@ -44,20 +44,23 @@ export default {
         })
       }
       else {
-        mapFn = col => h(QTh, {
-          key: col.name,
-          props: {
-            props: {
-              col,
-              cols: this.computedCols,
-              sort: this.sort,
-              colsMap: this.computedColsMap
-            }
-          },
-          style: col.style,
-          class: col.classes
-        }, col.label)
+        mapFn = col => {
+          const props = {
+            col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+          }
+          const slot = this.$scopedSlots[`header-cell-${col.name}`]
+
+          return slot !== void 0
+            ? slot(props)
+            : h(QTh, {
+              key: col.name,
+              props: { props },
+              style: col.headerStyle,
+              class: col.headerClasses
+            }, col.label)
+        }
       }
+
       const child = this.computedCols.map(mapFn)
 
       if (this.singleSelection === true && this.grid !== true) {
@@ -69,7 +72,7 @@ export default {
             props: {
               color: this.color,
               value: this.someRowsSelected ? null : this.allRowsSelected,
-              dark: this.dark,
+              dark: this.isDark,
               dense: this.dense
             },
             on: {
@@ -78,7 +81,7 @@ export default {
                   val = false
                 }
                 this.__updateSelection(
-                  this.computedRows.map(row => row[this.rowKey]),
+                  this.computedRows.map(this.getRowKey),
                   this.computedRows,
                   val
                 )
@@ -103,11 +106,13 @@ export default {
               val = false
             }
             this.__updateSelection(
-              this.computedRows.map(row => row[this.rowKey]),
+              this.computedRows.map(this.getRowKey),
               this.computedRows,
               val
             )
-          }
+          },
+          configurable: true,
+          enumerable: true
         })
         data.partialSelected = this.someRowsSelected
         data.multipleSelect = true

@@ -1,5 +1,6 @@
 ---
 title: Ajax Requests
+desc: Using Axios for fetching data in a Quasar app.
 ---
 
 > Quasar recommends Axios during project initialization: `Use Axios for Ajax calls? (Y/n)`
@@ -7,15 +8,19 @@ title: Ajax Requests
 Then you should create a new boot file `axios.js` that looks like this:
 (Here you can also specify additional settings for your axios instance)
 
-```
+
+```js
+// src/boot/axios.js
+
+import Vue from 'vue'
 import axios from 'axios'
 
-export default async ({ Vue }) => {
-  Vue.prototype.$axios = axios
-  // ^ ^ ^ this will allow you to use this.$axios
-  //       so you won't necessarily have to import axios in each vue file
-}
+Vue.prototype.$axios = axios
+// ^ ^ ^ this will allow you to use this.$axios
+//       so you won't necessarily have to import axios in each vue file
 ```
+
+Also make sure to yarn/npm install the `axios` package.
 
 ::: tip
 Be sure to check out [Prefetch Feature](/quasar-cli/cli-documentation/prefetch-feature) if you are using Quasar CLI.

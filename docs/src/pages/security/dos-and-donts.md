@@ -1,5 +1,6 @@
 ---
 title: Security DO's and DON'Ts
+desc: The list of Quasar security recommendations.
 ---
 **DO** periodically review the security of your application, because any lapse may be putting yourself, your team, your users and even your server at risk of serious exploitation. **DON'T** ignore this page because you think you know everything.
 
@@ -29,7 +30,7 @@ Although you may be tempted to use `eval()`, even if you know what you are doing
 ![Don't be eval()](https://cdn.quasar.dev/img/dont-be-eval.png "Don't be eval()")
 
 ## Quasar Components
-Two Quasar components and two Plugins can be empowered to prevent the rendering of "insecure content". This is an opt-in feature (available starting in `quasar@1.0.0-beta.10`) that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
+Two Quasar components and two Plugins can be empowered to prevent the rendering of "insecure content". This is an opt-in feature that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
 
 ### QSelect
 If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot), **DO** prevent the component from rendering HTML in the labels and sublabels with one or more of the `sanitize` properties. Generally speaking, this is not user-supplied data. If you are customizing this slot, it is your responsibility to do sanitization yourself.
@@ -46,6 +47,9 @@ Many developers have asked that the Loading plugin be able to display HTML, so t
 
 ### Notify
 Being able to style the Notify plugin with HTML is not enabled by default (because it is not Spec compliant with Material Design), but if you do set the boolean prop `html: true` then you are responsible for sanitizing it.
+
+### Dialog
+Being able to style the Dialog plugin with HTML is not enabled by default (because it is not Spec compliant with Material Design), but if you do set the boolean prop `html: true` then you are responsible for sanitizing the title and message.
 
 ### QInput
 Any field that enables users to enter keystrokes, paste from the buffer or drop a file is a security risk. We won't go into the nitty-gritty details of this, but just remember it is YOUR responsibility to maintain safety. Only you can prevent help-desk fires!

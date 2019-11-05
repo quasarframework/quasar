@@ -25,7 +25,7 @@ export default {
     format24h: true
   },
   table: {
-    noData: 'Geen gegevens bechikbaar',
+    noData: 'Geen gegevens beschikbaar',
     noResults: 'Geen records gevonden',
     loading: 'Laden...',
     selectedRecords: function (rows) {
@@ -82,7 +82,8 @@ export default {
     size5: 'Groot',
     size6: 'Heel groot',
     size7: 'Maximum',
-    defaultFont: 'Standaard lettertype'
+    defaultFont: 'Standaard lettertype',
+    viewSource: 'Bekijk bron'
   },
   tree: {
     noNodes: 'Geen nodes beschikbaar',

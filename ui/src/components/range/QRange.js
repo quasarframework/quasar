@@ -3,7 +3,8 @@ import Vue from 'vue'
 import {
   getRatio,
   getModel,
-  SliderMixin
+  SliderMixin,
+  keyCodes
 } from '../slider/slider-utils.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
@@ -24,8 +25,8 @@ export default Vue.extend({
     value: {
       type: Object,
       default: () => ({
-        min: 0,
-        max: 0
+        min: null,
+        max: null
       }),
       validator (val) {
         return 'min' in val && 'max' in val
@@ -36,7 +37,9 @@ export default Vue.extend({
     dragOnlyRange: Boolean,
 
     leftLabelColor: String,
+    leftLabelTextColor: String,
     rightLabelColor: String,
+    rightLabelTextColor: String,
 
     leftLabelValue: [String, Number],
     rightLabelValue: [String, Number]
@@ -44,7 +47,10 @@ export default Vue.extend({
 
   data () {
     return {
-      model: { ...this.value },
+      model: {
+        min: this.value.min === null ? this.min : this.value.min,
+        max: this.value.max === null ? this.max : this.value.max
+      },
       curMinRatio: 0,
       curMaxRatio: 0
     }
@@ -52,11 +58,15 @@ export default Vue.extend({
 
   watch: {
     'value.min' (val) {
-      this.model.min = val
+      this.model.min = val === null
+        ? this.min
+        : val
     },
 
     'value.max' (val) {
-      this.model.max = val
+      this.model.max = val === null
+        ? this.max
+        : val
     },
 
     min (value) {
@@ -114,11 +124,15 @@ export default Vue.extend({
     },
 
     minThumbClass () {
-      return this.preventFocus === false && this.focus === 'min' ? 'q-slider--focus' : null
+      return this.preventFocus === false && this.focus === 'min'
+        ? 'q-slider--focus'
+        : null
     },
 
     maxThumbClass () {
-      return this.preventFocus === false && this.focus === 'max' ? 'q-slider--focus' : null
+      return this.preventFocus === false && this.focus === 'max'
+        ? 'q-slider--focus'
+        : null
     },
 
     events () {
@@ -169,8 +183,22 @@ export default Vue.extend({
       }
     },
 
+    minPinTextClass () {
+      const color = this.leftLabelTextColor || this.labelTextColor
+      if (color) {
+        return `text-${color}`
+      }
+    },
+
     maxPinClass () {
       const color = this.rightLabelColor || this.labelColor
+      if (color) {
+        return `text-${color}`
+      }
+    },
+
+    maxPinTextClass () {
+      const color = this.rightLabelTextColor || this.labelTextColor
       if (color) {
         return `text-${color}`
       }
@@ -193,8 +221,8 @@ export default Vue.extend({
     __updateValue (change) {
       if (this.model.min !== this.value.min || this.model.max !== this.value.max) {
         this.$emit('input', this.model)
-        change === true && this.$emit('change', this.model)
       }
+      change === true && this.$emit('change', this.model)
     },
 
     __getDragging (event) {
@@ -208,8 +236,8 @@ export default Vue.extend({
         width,
         valueMin: this.model.min,
         valueMax: this.model.max,
-        ratioMin: (this.value.min - this.min) / diff,
-        ratioMax: (this.value.max - this.min) / diff
+        ratioMin: (this.model.min - this.min) / diff,
+        ratioMax: (this.model.max - this.min) / diff
       }
 
       let
@@ -315,6 +343,12 @@ export default Vue.extend({
         max: pos.max
       }
 
+      // If either of the values to be emitted are null, set them to the defaults the user has entered.
+      if (this.model.min === null || this.model.max === null) {
+        this.model.min = pos.min || this.min
+        this.model.max = pos.max || this.max
+      }
+
       if (this.snap !== true || this.step === 0) {
         this.curMinRatio = pos.minR
         this.curMaxRatio = pos.maxR
@@ -331,8 +365,7 @@ export default Vue.extend({
     },
 
     __keydown (evt) {
-      // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
-      if (![34, 37, 40, 33, 39, 38].includes(evt.keyCode)) {
+      if (!keyCodes.includes(evt.keyCode)) {
         return
       }
 
@@ -345,22 +378,31 @@ export default Vue.extend({
       if (this.dragOnlyRange) {
         const interval = this.dragOnlyRange ? this.model.max - this.model.min : 0
 
-        this.model.min = between(
+        const min = between(
           parseFloat((this.model.min + offset).toFixed(this.decimals)),
           this.min,
           this.max - interval
         )
 
-        this.model.max = parseFloat((this.model.min + interval).toFixed(this.decimals))
+        this.model = {
+          min,
+          max: parseFloat((min + interval).toFixed(this.decimals))
+        }
+      }
+      else if (this.focus === false) {
+        return
       }
       else {
         const which = this.focus
 
-        this.model[which] = between(
-          parseFloat((this.model[which] + offset).toFixed(this.decimals)),
-          which === 'min' ? this.min : this.model.min,
-          which === 'max' ? this.max : this.model.max
-        )
+        this.model = {
+          ...this.model,
+          [which]: between(
+            parseFloat((this.model[which] + offset).toFixed(this.decimals)),
+            which === 'min' ? this.min : this.model.min,
+            which === 'max' ? this.max : this.model.max
+          )
+        }
       }
 
       this.__updateValue()
@@ -394,7 +436,10 @@ export default Vue.extend({
         }, [
           h('div', { staticClass: 'q-slider__pin-value-marker' }, [
             h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
-            h('div', { staticClass: 'q-slider__pin-value-marker-text' }, [
+            h('div', {
+              staticClass: 'q-slider__pin-value-marker-text',
+              class: this[which + 'PinTextClass']
+            }, [
               this[which + 'Label']
             ])
           ])
@@ -407,7 +452,9 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-slider',
+      staticClass: this.value.min === null || this.value.max === null
+        ? 'q-slider--no-value'
+        : void 0,
       attrs: {
         role: 'slider',
         'aria-valuemin': this.min,

@@ -1,34 +1,28 @@
-import Vue from 'vue'
-
-let inject
-
-function fillInject (root) {
-  const
-    options = (new Vue()).$root.$options,
-    skip = [ 'el', 'methods', 'render', 'mixins' ]
-      .concat(Vue.config._lifecycleHooks)
-      .concat(Object.keys(options).filter(key => options[key] !== null))
-
-  inject = {}
-
-  Object.keys(root)
-    .filter(name => skip.includes(name) === false)
-    .forEach(p => {
-      inject[p] = root[p]
-    })
-}
-
-export function getVm (root, vm) {
-  inject === void 0 && root !== void 0 && fillInject(root.$root.$options)
-  return new Vue(inject !== void 0 ? { ...inject, ...vm } : vm)
-}
-
-export function getAllChildren (vm) {
-  let children = vm.$children
-  vm.$children.forEach(child => {
-    if (child.$children.length > 0) {
-      children = children.concat(getAllChildren(child))
-    }
+export function getAllChildren (vm, children = []) {
+  vm.$children.forEach(function (child) {
+    children.push(child)
+    child.$children.length > 0 && getAllChildren(child, children)
   })
   return children
+}
+
+export function getVmOfNode (el) {
+  for (let node = el; node !== null; node = node.parentNode) {
+    // node.__vue__ can be null if the instance was destroyed
+    if (node.__vue__ === null) {
+      return
+    }
+    if (node.__vue__ !== void 0) {
+      return node.__vue__
+    }
+  }
+}
+
+export function isVmChildOf (childVm, parentVm) {
+  for (let vm = childVm; vm !== void 0; vm = vm.$parent) {
+    if (vm === parentVm) {
+      return true
+    }
+  }
+  return false
 }

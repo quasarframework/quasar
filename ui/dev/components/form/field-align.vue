@@ -1,5 +1,5 @@
 <template>
-  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <div class="q-gutter-xs">
       <q-radio :dark="dark" v-model="type" val="filled" label="Filled" />
       <q-radio :dark="dark" v-model="type" val="outlined" label="Outlined" />
@@ -8,7 +8,7 @@
       <q-radio :dark="dark" v-model="type" val="borderless" label="Borderless" />
     </div>
     <div class="q-gutter-xs">
-      <q-toggle :dark="dark" v-model="dark" label="Dark" />
+      <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
       <q-toggle :dark="dark" v-model="dense" label="Dense" />
       <q-toggle :dark="dark" v-model="disable" label="Disable" />
       <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
@@ -366,6 +366,39 @@
         </template>
       </q-select>
     </div>
+
+    <div class="q-my-md">
+      Label size
+    </div>
+    <div class="row q-col-gutter-y-sm">
+      <q-input style="width: 300px" v-bind="props" v-model="text" :label="longLabel" />
+      <q-separator vertical spaced inset />
+      <q-input style="width: 300px" v-bind="props" v-model="text" :label="longLabel">
+        <template #before>
+          <q-icon name="event" />
+        </template>
+
+        <template #prepend>
+          <q-icon name="event" />
+        </template>
+
+        <template #append>
+          <q-icon name="search" />
+        </template>
+
+        <template #after>
+          <q-icon name="search" />
+        </template>
+      </q-input>
+      <q-separator vertical spaced inset />
+      <q-select style="width: 300px" v-bind="props" v-model="text" :options="options" :label="longLabel" hide-dropdown-icon />
+      <q-separator vertical spaced inset />
+      <q-select style="width: 300px" v-bind="props" v-model="text" :options="options" :label="longLabel" clearable hide-dropdown-icon />
+      <q-separator vertical spaced inset />
+      <q-select style="width: 300px" v-bind="props" v-model="text" :options="options" :label="longLabel" clearable />
+      <q-separator vertical spaced inset />
+      <q-select style="width: 300px" v-bind="props" v-model="text" :options="options" :label="longLabel" />
+    </div>
   </div>
 </template>
 
@@ -374,7 +407,7 @@ export default {
   data () {
     return {
       type: 'outlined',
-      dark: false,
+      dark: null,
       dense: false,
       disable: false,
       readonly: false,
@@ -394,7 +427,9 @@ export default {
       fontSize: 14,
 
       text: '$$TSP',
-      options: ['$$TSP', '$$$$$']
+      options: ['$$TSP', '$$$$$'],
+
+      longLabel: 'A long label - 1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     }
   },
 

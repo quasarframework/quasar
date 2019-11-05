@@ -1,9 +1,12 @@
 ---
 title: How To Use Vue
+desc: Quick tutorial about Vue principles and how to use it with Quasar.
 ---
 Before you begin with Quasar, it is a good idea to get acquainted with ES6 and have a fairly good knowledge about how Vue works. ([Quick overview of ES6](https://github.com/lukehoban/es6features) and [ES6 complete list of features](http://es6-features.org/#Constants) -- don't worry, you don't need to understand ALL of ES6). For devs experienced with reactive UIs, the [Vue documentation](https://vuejs.org/v2/guide/) itself takes a half-day at most to read top-to-bottom and will help you understand how Quasar components can be used and configured.
 
-If you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at the [Udemy Course - Vue JS 2 - The Complete Guide](https://www.udemy.com/vuejs-2-the-complete-guide/learn/v4/overview).
+::: tip
+If you are a total beginner to Vue and reactive UI libraries and want a good tutorial, we recommend you take a look at [Vue and Quasar video tutorials](/video-tutorials).
+:::
 
 After reading the Vue documentation, let's clear up some of the most frequently asked questions, like *"How can I use Quasar components, Vue properties, methods and events"*.
 
@@ -32,19 +35,30 @@ export default {
 ```
 
 ### CSS preprocessors
-For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Stylus](http://stylus-lang.com/) is available out of the box. For SCSS/SASS or LESS, you'll need to install their Webpack loaders (example: `yarn add --dev less-loader`).
+For the `<style>` tag, you can also use whatever CSS preprocessor you want. [Sass/SCSS](https://sass-lang.com) (recommended) and [Stylus](http://stylus-lang.com/) are available out of the box.
 
-After installing the loader you need (remember Stylus is already installed for you), you can specify you want your chosen preprocessor to handle the CSS code you're writing:
+You can specify you want your chosen preprocessor to handle the CSS code you're writing:
 
 ```html
+<!-- notice lang="sass" -->
+<style lang="sass">
+.some-div
+  font-size: 15px
+</style>
+
+<!-- notice lang="scss" -->
+<style lang="scss">
+.some-div {
+  font-size: 15px;
+}
+</style>
+
 <!-- notice lang="stylus" -->
 <style lang="stylus">
 .some-div
   font-size 15px
 </style>
 ```
-
-In the above example, you would replace `stylus` with the preprocessor you've chosen.
 
 ## Using Quasar Directives
 Quasar comes with a few custom [Vue Directives](https://vuejs.org/v2/guide/custom-directive.html). These directives can be applied on almost any DOM element or Component.
@@ -100,12 +114,12 @@ framework: {
 ```
 
 ## Using Quasar Plugins
-Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, ActionSheet, AppVisibility and so on.
+Quasar Plugins are features that you can use both in your Vue files as well as outside of them, like Notify, BottomSheet, AppVisibility and so on.
 
 In order to use them, you need to add a reference to them in `/quasar.conf.js`:
 ```js
 framework: {
-  plugins: ['Notify', 'ActionSheet']
+  plugins: ['Notify', 'BottomSheet']
 }
 ```
 
@@ -159,13 +173,13 @@ framework: 'all'
 This **will not** take advantage of tree shaking, causing your bundle to become bloated with unnecessary/unused code. **Not recommended for production**. Use this only for quick testing purposes.
 :::
 
-### Self Closing Tags
+### Self-Closing Tags
 
 ::: danger
 Do NOT use self-closing tag form when you are using **Quasar UMD version**. Your browser is interpreting the HTML before Vue parses your DOM elements, so your HTML syntax must be correct. Unknown tags (like Vue components) cannot be self-closing because your browser will interpret those as if you are opening a tag but never closing it.
 :::
 
-Some Quasar components do not need you to include HTML content inside of them. In this case, you can use them as self closing tags. One example with QIcon below:
+Some Quasar components do not need you to include HTML content inside of them. In this case, you can use them as self-closing tags. One example with QIcon below:
 
 ```html
 <q-icon name="cloud" />

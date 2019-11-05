@@ -1,10 +1,10 @@
 {
+  "mixins": [ "components/page-sticky/QPageSticky" ],
+  
   "docs": {
     "route": "layout",
     "page": "page-scroller"
   },
-
-  "mixins": ["components/layout/QPageSticky"],
 
   "behavior": {
     "$listeners": true

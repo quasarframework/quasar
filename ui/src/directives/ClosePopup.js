@@ -1,15 +1,35 @@
+import { closePortals } from '../mixins/portal.js'
+
+/*
+ * depth
+ *   < 0  --> close all chain
+ *   0    --> disabled
+ *   > 0  --> close chain up to N parent
+ */
+
+function getDepth (value) {
+  if (value === false) {
+    return 0
+  }
+  if (value === true || value === void 0) {
+    return 1
+  }
+
+  const depth = parseInt(value, 10)
+  return isNaN(depth) ? 0 : depth
+}
+
 export default {
   name: 'close-popup',
 
   bind (el, { value }, vnode) {
     const ctx = {
-      enabled: value !== false,
+      depth: getDepth(value),
 
       handler (evt) {
         // allow @click to be emitted
-        ctx.enabled !== false && setTimeout(() => {
-          const vm = (vnode.componentInstance || vnode.context).$root
-          vm.__qClosePopup !== void 0 && vm.__qClosePopup(evt)
+        ctx.depth !== 0 && setTimeout(() => {
+          closePortals(vnode.componentInstance || vnode.context, evt, ctx.depth)
         })
       },
 
@@ -23,13 +43,14 @@ export default {
     }
 
     el.__qclosepopup = ctx
+
     el.addEventListener('click', ctx.handler)
     el.addEventListener('keyup', ctx.handlerKey)
   },
 
-  update (el, { value }) {
-    if (el.__qclosepopup !== void 0) {
-      el.__qclosepopup.enabled = value !== false
+  update (el, { value, oldValue }) {
+    if (value !== oldValue) {
+      el.__qclosepopup.depth = getDepth(value)
     }
   },
 

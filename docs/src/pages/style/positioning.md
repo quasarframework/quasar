@@ -1,5 +1,6 @@
 ---
 title: CSS Positioning Classes
+desc: The list of CSS classes supplied by Quasar to simplify the positioning of a DOM element.
 ---
 There are CSS classes supplied by Quasar to help you position a DOM element easily:
 

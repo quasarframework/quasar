@@ -31,9 +31,38 @@
           </q-menu>
         </q-btn>
 
+        <q-btn color="primary" label="Decoupled">
+          <q-menu
+            :value="toggle"
+            ref="popover11"
+            persistent
+            transition-show="jump-up"
+            anchor="top right"
+            @show="log('@show popover11 decoupled')"
+            @hide="log('@hide popover11 decoupled')"
+          >
+            <input v-model="gigi">
+            <q-list padding style="min-width: 100px">
+              <q-item
+                v-for="n in 20"
+                :key="n"
+                clickable
+                v-close-popup
+                @click="showNotify()"
+              >
+                <q-item-section>Label</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+
         <q-btn color="primary" icon="map">
           <q-menu @show="log('@show popover_map')" @hide="log('@hide popover_map')">
             <q-list style="min-width: 100px">
+              <div style="height: 50px" class="bg-grey-3">
+                Weee
+              </div>
+
               <q-item
                 v-for="n in 20"
                 :key="n"
@@ -60,6 +89,17 @@
                 <q-item-section>Label</q-item-section>
               </q-item>
             </q-list>
+          </q-menu>
+        </q-btn>
+
+        <q-btn color="primary" label="Menu with select">
+          <q-menu cover @show="log('@show cover')" @hide="log('@hide cover')" content-class="q-pa-md">
+            <div class="column q-gutter-md">
+              <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu" />
+              <q-select v-model="selectModelM" :options="selectOptions" behavior="menu" filled multiple label="Select multiple - menu" />
+              <q-select v-model="selectModelS" :options="selectOptions" behavior="dialog" filled label="Select single - dialog" />
+              <q-select v-model="selectModelM" :options="selectOptions" behavior="dialog" filled multiple label="Select multiple - dialog" />
+            </div>
           </q-menu>
         </q-btn>
 
@@ -112,7 +152,7 @@
                           <q-item v-for="n in 5" :key="n" v-close-popup clickable>
                             <q-item-section>Menu Item {{ n }}</q-item-section>
                           </q-item>
-                          <q-item clickable v-close-popup:2>
+                          <q-item clickable v-close-popup="2">
                             <q-item-section>Close dialog</q-item-section>
                           </q-item>
                         </q-list>
@@ -262,6 +302,22 @@
               </q-list>
             </q-menu>
           </q-img>
+          <div>With model: {{ menuModelTouch }}</div>
+          <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
+            <q-menu v-model="menuModelTouch" :touch-position="touchPosition" :context-menu="contextMenu">
+              <q-list>
+                <q-item
+                  v-for="n in 5"
+                  :key="n"
+                  v-close-popup
+                  clickable
+                  @click="showNotify()"
+                >
+                  <q-item-section>Label</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
+          </q-img>
         </q-card>
 
         <q-card class="q-mx-auto" style="width: 500px; max-width: 90vw;">
@@ -387,7 +443,7 @@
                         :key="x"
                         clickable
                       >
-                        <q-item-section>Submenu Label</q-item-section>
+                        <q-item-section>Submenu autoclose</q-item-section>
                         <q-item-section side>
                           <q-icon name="keyboard_arrow_right" />
                         </q-item-section>
@@ -397,6 +453,25 @@
                               v-for="y in 3"
                               :key="y"
                               clickable
+                            >
+                              <q-item-section>3rd level Label</q-item-section>
+                            </q-item>
+                          </q-list>
+                        </q-menu>
+                      </q-item>
+
+                      <q-item clickable>
+                        <q-item-section>Submenu closepopup</q-item-section>
+                        <q-item-section side>
+                          <q-icon name="keyboard_arrow_right" />
+                        </q-item-section>
+                        <q-menu anchor="top right" self="top left">
+                          <q-list>
+                            <q-item
+                              v-for="y in 3"
+                              :key="y"
+                              clickable
+                              v-close-popup
                             >
                               <q-item-section>3rd level Label</q-item-section>
                             </q-item>
@@ -466,15 +541,20 @@ export default {
       gigi: '',
       fit: false,
       cover: false,
-      toggle: false,
+      toggle: true,
       anchorOrigin: { vertical: 'bottom', horizontal: 'left' },
       selfOrigin: { vertical: 'top', horizontal: 'left' },
       terms: '',
       modelDate: null,
       model: 30,
+      menuModelTouch: false,
       min: 0,
       max: 50,
       list,
+
+      selectModelS: null,
+      selectModelM: null,
+      selectOptions: list,
 
       vIfTest: true,
       touchPosition: true,

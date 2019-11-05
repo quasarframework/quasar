@@ -1,5 +1,6 @@
 ---
 title: App Icons
+desc: Managing all the app icons in a Quasar app.
 ---
 
 If you were to target all platforms that Quasar currently supports, you will need to make around 80 different files of 4 different media types (png, ico, icns and svg). If you just use a tool like Gimp, Photoshop or Affinity Designer, you will find that these files are rather large and the process of making them and naming them is prone to operator error. You will probably want to compress the PNG files at least, and also remove unnecessary app-metadata from the SVG.
@@ -9,19 +10,19 @@ This page documents all of the icons you will need for each of the build targets
 
 <img src="https://cdn.quasar.dev/img/iconfactory.png" style="float:right;max-width:15%;min-width:240px;padding-top:40px" />
 
-## The Icon Factory
+## The Icon Genie
 
 ::: tip
-We highly recommend using the Quasar Icon Factory app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
+We highly recommend using the Quasar Icon Genie app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
 :::
 
 
-You will have to place the source image as a png with transparancy (1240x1240) in the source folder and choose which minification strategy you want to use. Then when you run `$ quasar dev`  - it will produce the right icons and put them in all the right places for you, no matter what `--mode` you are using; if you are just serving an HMR locally or producing final assets with `build`.
+You will have to place the source image as a png with transparency (1240x1240) in the source folder and choose which minification strategy you want to use. Then when you run `$ quasar dev`  - it will produce the right icons and put them in all the right places for you, no matter what `--mode` you are using; if you are just serving an HMR locally or producing final assets with `build`.
 
-Check out the [Icon Factory repository](https://github.com/quasarframework/app-extension-icon-factory/blob/dev/README.md) for explicit details about how it works, or just dive in and install it into your project like [any app extension](/app-extensions/introduction) (and follow the instructions):
+Check out the [Icon Genie repository](https://github.com/quasarframework/app-extension-icon-genie/blob/dev/README.md) for explicit details about how it works, or just dive in and install it into your project like [any app extension](/app-extensions/introduction) (and follow the instructions):
 
 ```bash
-$ quasar ext add @quasar/icon-factory
+$ quasar ext add @quasar/icon-genie
 ```
 
 ## Build Targets
@@ -58,7 +59,7 @@ src/
 
 ### Cordova
 
-Cordova is the most complicated of the build targets, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splashscreens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml - unless of course you are using the Icon Factory, in which case that is all taken care of for you.
+Cordova is the most complicated of the build targets, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splashscreens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml - unless of course you are using the Icon Genie, in which case that is all taken care of for you.
 
 ```bash
 $ cd src-cordova

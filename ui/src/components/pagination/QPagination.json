@@ -38,6 +38,26 @@
       "extends": "text-color"
     },
 
+    "input-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the input (if using one)",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "input-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the input (if using one)",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
     "size": {
       "type": "String",
       "desc": "Button size in CSS units, including unit name",
@@ -53,6 +73,26 @@
       "type": "Boolean",
       "desc": "Use an input instead of buttons",
       "category": "content"
+    },
+
+    "to-fn": {
+      "type": "Function",
+      "desc": "Generate link for page buttons; For best performance, reference it from your scope and do not define it inline",
+      "params": {
+        "page": {
+          "type": "Number",
+          "desc": "Page number to navigate to",
+          "examples": [ 2 ]
+        }
+      },
+      "returns": {
+        "type": ["Object", "String"],
+        "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
+        "__exemption": [ "examples" ]
+      },
+      "examples": [ ":to-fn=\"page => ({ query: { page } })\"" ],
+      "category": "content",
+      "addedIn": "v1.2.6"
     },
 
     "boundary-links": {
@@ -111,7 +151,7 @@
       }
     },
 
-    "setOffset": {
+    "setByOffset": {
       "desc": "Increment/Decrement current page by offset",
       "params": {
         "offset": {

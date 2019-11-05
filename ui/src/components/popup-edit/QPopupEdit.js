@@ -2,9 +2,9 @@ import Vue from 'vue'
 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
+
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
-
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
@@ -19,7 +19,6 @@ export default Vue.extend({
     labelSet: String,
     labelCancel: String,
 
-    persistent: Boolean,
     color: {
       type: String,
       default: 'primary'
@@ -29,8 +28,13 @@ export default Vue.extend({
       default: () => true
     },
 
+    /* menu props overrides */
+    cover: {
+      type: Boolean,
+      default: true
+    },
     contentClass: String,
-    contentStyle: [String, Array, Object],
+    /* end of menu props */
 
     disable: Boolean
   },
@@ -45,6 +49,17 @@ export default Vue.extend({
     classes () {
       return 'q-popup-edit' +
         (this.contentClass ? ' ' + this.contentClass : '')
+    },
+
+    defaultSlotScope () {
+      return {
+        initialValue: this.initialValue,
+        value: this.value,
+        emitValue: this.__emitValue,
+        validate: this.validate,
+        set: this.set,
+        cancel: this.cancel
+      }
     }
   },
 
@@ -71,6 +86,13 @@ export default Vue.extend({
       return !isDeepEqual(this.value, this.initialValue)
     },
 
+    __emitValue (val) {
+      if (this.disable === true) {
+        return
+      }
+      this.$emit('input', val)
+    },
+
     __close () {
       this.validated = true
       this.$refs.menu.hide()
@@ -84,10 +106,10 @@ export default Vue.extend({
 
     __getContent (h) {
       const
-        child = [].concat(slot(this, 'default')),
-        title = this.$scopedSlots.title !== void 0
-          ? this.$scopedSlots.title()
-          : this.title
+        title = slot(this, 'title', this.title),
+        child = this.$scopedSlots.default === void 0
+          ? []
+          : [].concat(this.$scopedSlots.default(this.defaultSlotScope))
 
       title && child.unshift(
         h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
@@ -124,18 +146,19 @@ export default Vue.extend({
     return h(QMenu, {
       ref: 'menu',
       props: {
-        contentClass: this.classes,
-        contentStyle: this.contentStyle,
-        cover: true,
-        persistent: this.persistent,
-        noFocus: true
+        ...this.$attrs,
+        cover: this.cover,
+        contentClass: this.classes
       },
       on: {
-        show: () => {
-          this.$emit('show')
+        'before-show': () => {
           this.validated = false
           this.initialValue = clone(this.value)
           this.watcher = this.$watch('value', this.__reposition)
+          this.$emit('before-show')
+        },
+        show: () => {
+          this.$emit('show')
         },
         'before-hide': () => {
           this.watcher()
@@ -144,6 +167,7 @@ export default Vue.extend({
             this.$emit('cancel', this.value, this.initialValue)
             this.$emit('input', this.initialValue)
           }
+          this.$emit('before-hide')
         },
         hide: () => {
           this.$emit('hide')

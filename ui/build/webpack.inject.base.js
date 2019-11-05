@@ -6,7 +6,8 @@ const
 
 const
   env = require('./env'),
-  projectRoot = path.resolve(__dirname, '../')
+  projectRoot = path.resolve(__dirname, '../'),
+  postCssConfig = require(path.resolve(__dirname, '../.postcssrc.js'))
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -28,7 +29,6 @@ module.exports = function (chain) {
   chain.resolve.alias
     .merge({
       quasar: resolve(`src/index.esm.js`),
-      'quasar-css': resolve(`src/css/index.styl`),
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),
       data: resolve('dev/data')
@@ -93,6 +93,12 @@ module.exports = function (chain) {
   injectRule(chain, 'stylus', /\.styl(us)?$/, 'stylus-loader', {
     preferPathResolver: 'webpack'
   })
+  injectRule(chain, 'scss', /\.scss$/, 'sass-loader')
+  injectRule(chain, 'sass', /\.sass$/, 'sass-loader', {
+    sassOptions: {
+      indentedSyntax: true
+    }
+  })
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
@@ -147,20 +153,13 @@ function injectRule (chain, lang, test, loader, options) {
     })
 
   const postCssOpts = {
-    sourceMap: true
+    sourceMap: true,
+    ...postCssConfig
   }
 
-  if (env.rtl) {
-    const rtlOptions = env.rtl === true
-      ? {}
-      : env.rtl
-
-    postCssOpts.plugins = () => {
-      return [
-        require('postcss-rtl')(rtlOptions)
-      ]
-    }
-  }
+  env.rtl && postCssOpts.plugins.push(
+    require('postcss-rtl')(env.rtl === true ? {} : env.rtl)
+  )
 
   rule.use('postcss-loader')
     .loader('postcss-loader')

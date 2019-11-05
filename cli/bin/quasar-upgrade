@@ -94,6 +94,7 @@ function upgradeQuasar () {
   }
 
   const packager = require('../lib/node-packager')(root)
+  const getPackageJson = require('../lib/get-package-json')(root)
 
   console.log()
   log(`Gathering information with ${packager}...`)
@@ -104,13 +105,13 @@ function upgradeQuasar () {
   for (const type of Object.keys(deps)) {
     for (const packageName of Object.keys(pkg[type] || {})) {
       // is it a Quasar package?
-      if (packageName !== 'quasar' && !packageName.startsWith('@quasar/')) {
+      if (packageName !== 'quasar' && packageName !== 'eslint-plugin-quasar' && !packageName.startsWith('@quasar/')) {
         continue
       }
 
-      const json = path.join(root, 'node_modules', packageName, 'package.json')
-      const curVersion = fs.existsSync(json)
-        ? require(json).version
+      const json = getPackageJson(packageName)
+      const curVersion = json !== null
+        ? json.version
         : null
 
       const latestVersion = getLatestVersion(packager, packageName, curVersion)
@@ -137,6 +138,8 @@ function upgradeQuasar () {
   }
 
   if (!updateAvailable) {
+    // The string `Congrats!` in the following log line is parsed by
+    // @quasar/wizard AE. Do not change under any circumstances.
     console.log('  Congrats! All Quasar packages are up to date.\n')
     return
   }

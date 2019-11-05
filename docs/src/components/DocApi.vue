@@ -13,8 +13,10 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
         v-for="tab in tabs"
         :key="`api-tab-${tab}`"
         :name="tab"
-        :label="tab"
       )
+        .row.no-wrap.items-center
+          span.q-mr-xs.text-uppercase.text-weight-medium {{ tab }}
+          q-badge(v-if="tabCount[tab]") {{ tabCount[tab] }}
 
     q-input.q-mx-sm(
       v-if="$q.screen.gt.xs"
@@ -37,7 +39,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
   q-tab-panels(v-model="currentTab", animated)
     q-tab-panel(v-for="tab in tabs", :name="tab", :key="tab" class="q-pa-none")
       .row.no-wrap.api-container(v-if="aggregationModel[tab]")
-        .col-auto.row.items-center.bg-grey-1.text-grey-7.q-py-lg
+        .col-auto.row.no-wrap.bg-grey-1.text-grey-7.q-py-lg
           q-tabs(
             v-model="currentInnerTab[tab]",
             active-color="primary",
@@ -53,9 +55,10 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
               class="inner-tab"
               :name="category"
             )
-              .row.no-wrap.items-center
-                q-badge(v-if="apiCount(tab, category)") {{ formattedApiCount(tab, category) }}
-                span.q-ml-xs.text-capitalize.text-weight-medium {{ category }}
+              .row.no-wrap.items-center.self-stretch
+                span.q-mr-xs.text-capitalize.text-weight-medium {{ category }}
+                .col
+                q-badge(v-if="apiInnerCount(tab, category)") {{ formattedApiInnerCount(tab, category) }}
 
         q-separator(vertical)
 
@@ -119,7 +122,8 @@ export default {
         props: null
       },
       filter: '',
-      filteredApi: {}
+      filteredApi: {},
+      tabCount: {}
     }
   },
 
@@ -129,6 +133,9 @@ export default {
 
       if (val === '') {
         this.filteredApi = this.api
+        this.tabs.forEach(tab => {
+          this.tabCount[tab] = this.apiCount(tab)
+        })
         return
       }
 
@@ -145,7 +152,7 @@ export default {
 
           Object.keys(tabApi).forEach(name => {
             if (
-              (name.indexOf(val) > -1) ||
+              (name.toLowerCase().indexOf(val) > -1) ||
               (tabApi[name].desc !== void 0 && tabApi[name].desc.toLowerCase().indexOf(val) > -1)
             ) {
               filtered[name] = tabApi[name]
@@ -156,6 +163,7 @@ export default {
 
         if (this.aggregationModel[tab]) {
           api[tab] = {}
+
           for (let group in this.api[tab]) {
             if (this.api[tab].hasOwnProperty(group)) {
               api[tab][group] = filterApi(this.api[tab][group])
@@ -183,6 +191,9 @@ export default {
       })
 
       this.filteredApi = api
+      this.tabs.forEach(tab => {
+        this.tabCount[tab] = this.apiCount(tab)
+      })
     }
   },
 
@@ -190,13 +201,14 @@ export default {
     parseJson (name, { type, behavior, docs, ...api }) {
       this.aggregationModel = {}
 
-      if (type === 'component') {
+      if (type === 'component' && api.props !== void 0) {
         for (let apiGroup of ['props']) {
           api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
           this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
           this.aggregationModel[apiGroup] = true
         }
       }
+
       this.api = api
       this.filteredApi = api
       this.apiType = type
@@ -217,6 +229,9 @@ export default {
       }
 
       this.currentTab = this.tabs[0]
+      this.tabs.forEach(tab => {
+        this.tabCount[tab] = this.apiCount(tab)
+      })
     },
 
     onFilterClick () {
@@ -230,28 +245,49 @@ export default {
       return Object.keys((api || this.filteredApi)[tab]).sort()
     },
 
-    apiCount (tab, category) {
+    apiCount (tab) {
+      if (this.apiType !== 'plugin' && tab === 'props') {
+        let total = 0
+
+        if (this.currentTabMaxCategoryPropCount > 0) {
+          Object.keys(this.filteredApi[tab]).forEach(key => {
+            total += Object.keys(this.filteredApi[tab][key]).length
+          })
+        }
+
+        return total
+      }
+
+      if (['value', 'arg', 'quasarConfOptions', 'injection'].includes(tab)) {
+        return 1
+      }
+
+      return Object.keys(this.filteredApi[tab]).length
+    },
+
+    apiInnerCount (tab, category) {
       return Object.keys(this.filteredApi[tab][category]).length
     },
 
-    formattedApiCount (tab, category) {
-      return pad(this.apiCount(tab, category), (this.currentTabMaxCategoryPropCount + '').length)
+    formattedApiInnerCount (tab, category) {
+      return pad(this.apiInnerCount(tab, category), (this.currentTabMaxCategoryPropCount + '').length)
     }
   },
 
   computed: {
     currentTabMaxCategoryPropCount () {
-      const calculateFn = () => {
+      if (this.aggregationModel[this.currentTab]) {
         let max = -1
         for (let category in this.filteredApi[this.currentTab]) {
-          let count = this.apiCount(this.currentTab, category)
+          let count = this.apiInnerCount(this.currentTab, category)
           if (count > max) {
             max = count
           }
         }
         return max
       }
-      return this.aggregationModel[this.currentTab] ? calculateFn() : 0
+
+      return 0
     }
   },
 
@@ -268,14 +304,16 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .doc-api
   .q-tab
-    height 40px
+    height: 40px
 
   .inner-tab
-    justify-content left
+    justify-content: left
+    .q-tab__content
+      width: 100%
 
   .api-container
-    max-height 600px
+    max-height: 600px
 </style>

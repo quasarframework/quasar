@@ -1,6 +1,7 @@
 import Layout from 'layouts/Layout.vue'
 import getListingComponent from 'components/getListingComponent.js'
 import menu from 'assets/menu.js'
+import layoutGallery from 'assets/layout-gallery.js'
 
 const docsPages = []
 
@@ -13,13 +14,17 @@ function parseMenuNode (node, __path) {
       component: getListingComponent(
         node.name,
         node.children.map(node => {
-          const to = prefix + (
-            node.path !== void 0
-              ? '/' + node.path
-              : (node.listPath !== void 0 ? '/' + node.listPath : '')
-          )
+          const to = node.external === true
+            ? node.path
+            : (
+              prefix + (
+                node.path !== void 0
+                  ? '/' + node.path
+                  : (node.listPath !== void 0 ? '/' + node.listPath : '')
+              )
+            )
 
-          if (node.listPath !== void 0) {
+          if (node.external !== true && node.listPath !== void 0) {
             docsPages.push({
               path: to,
               component: getListingComponent(
@@ -44,7 +49,7 @@ function parseMenuNode (node, __path) {
 
     node.children.forEach(node => parseMenuNode(node, prefix))
   }
-  else {
+  else if (node.external !== true) {
     docsPages.push({
       path: prefix,
       component: () => import(`pages/${prefix.substring(1)}.md`)
@@ -70,18 +75,34 @@ const routes = [
     component: Layout,
     children: docsPages
   },
+
+  // externals
   {
     path: '/layout-builder',
     component: () => import('layouts/LayoutBuilder.vue')
-  }
+  },
+
+  ...layoutGallery.map(layout => ({
+    path: layout.demoLink,
+    component: () => import(`layouts/gallery/${layout.path}.vue`),
+    children: [
+      {
+        path: '',
+        component: () => import(`components/page-parts/layout/LayoutGalleryPage.vue`),
+        meta: {
+          title: layout.name,
+          screenshot: layout.screenshot,
+          sourceLink: layout.sourceLink
+        }
+      }
+    ]
+  }))
 ]
 
 // Always leave this as last one
-if (process.env.MODE !== 'ssr') {
-  routes.push({
-    path: '*',
-    component: () => import('pages/Error404.vue')
-  })
-}
+routes.push({
+  path: process.env.MODE === 'ssr' ? '/not-found' : '*',
+  component: () => import('pages/Error404.vue')
+})
 
 export default routes

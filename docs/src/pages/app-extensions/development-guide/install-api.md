@@ -1,5 +1,6 @@
 ---
 title: App Extension Install API
+desc: The API for the install script of a Quasar App Extension. Initializes the app space by rendering or changing files and more.
 ---
 
 This page refers to `src/install.js` file which is executed on the installation of the App Extension only. Not all App Extensions will need an install -- this is an optional step.
@@ -17,7 +18,7 @@ module.exports = function (api) {
 Contains the `ext-id` (String) of this App Extension.
 
 ## api.prompts
-Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts).
+Is an Object which has the answers to the prompts when this App Extension gets installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ## api.resolve
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
@@ -47,8 +48,6 @@ Contains the full path (String) to the root of the app on which this App Extensi
 
 ## api.compatibleWith
 
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
-
 Ensure the App Extension is compatible with a package installed in the host app through a semver condition.
 
 If the semver condition is not met, then @quasar/app errors out and halts execution.
@@ -65,8 +64,6 @@ api.compatibleWith('@quasar/app', '1.x')
 
 ## api.hasPackage
 
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
-
 Determine if some package is installed in the host app through a semver condition.
 
 Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
@@ -80,7 +77,7 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 if (api.hasPackage('vuelidate')) {
   // hey, this app has it (any version of it)
 }
-if (api.hasPackage('quasar', '^1.0.0-beta.0')) {
+if (api.hasPackage('quasar', '^1.0.0')) {
   // hey, this app has v1 installed
 }
 ```
@@ -101,8 +98,6 @@ if (api.hasExtension(extId)) {
 ```
 
 ## api.getPackageVersion
-
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
 
 Get the version of a host app package.
 
@@ -222,8 +217,6 @@ Possibilities are limited only by your imagination.
 
 ## api.getPersistentConf
 
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
-
 Get the internal persistent config of this extension. Returns empty object if it has none.
 
 ```js
@@ -234,8 +227,6 @@ api.getPersistentConf()
 ```
 
 ## api.setPersistentConf
-
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
 
 Set the internal persistent config of this extension. If it already exists, it is overwritten.
 
@@ -250,8 +241,6 @@ api.setPersistentConf({
 
 ## api.mergePersistentConf
 
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
-
 Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.
 
 ```js
@@ -264,7 +253,7 @@ api.mergePersistentConf({
 ```
 
 ## api.onExitLog
-Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit.
+Adds a message to be printed after App CLI finishes up installing the App Extension and is about to exit. Can be called multiple times to register multiple exit logs.
 
 ```js
 /**

@@ -11,8 +11,11 @@
       type="radio"
       v-model="icon"
       :options="[
-        {value: 'cloud', label: 'A Material icon'},
-        {value: 'mdi-airballoon', label: 'A MDI icon'},
+        {value: 'add_box', label: 'A Material icon'},
+        {value: 'o_add_box', label: 'A Material Outlined icon'},
+        {value: 'r_add_box', label: 'A Material Round icon'},
+        {value: 's_add_box', label: 'A Material Sharp icon'},
+        {value: 'mdi-airballoon', label: 'A MDI v4 icon'},
         {value: 'fab fa-github', label: 'A Font Awesome icon'},
         {value: 'ion-airplane', label: 'A Ionicon (platform dependent)'},
         {value: 'ion-md-airplane', label: 'A Ionicon (md)'},
@@ -44,7 +47,10 @@
 
 <script>
 import matSet from '../../../icon-set/material-icons.js'
-import mdiSet from '../../../icon-set/mdi-v3.js'
+import matOutlinedSet from '../../../icon-set/material-icons-outlined.js'
+import matRoundSet from '../../../icon-set/material-icons-round.js'
+import matSharpSet from '../../../icon-set/material-icons-sharp.js'
+import mdiSet from '../../../icon-set/mdi-v4.js'
 import fontawesomeSet from '../../../icon-set/fontawesome-v5.js'
 import ioniconsSet from '../../../icon-set/ionicons-v4.js'
 import evaSet from '../../../icon-set/eva-icons.js'
@@ -70,13 +76,13 @@ function parseSet (setName, set) {
 export default {
   data () {
     return {
-      icon: 'cloud',
+      icon: 'add_box',
       text: 'gigi'
     }
   },
   computed: {
     sets () {
-      return [matSet, mdiSet, fontawesomeSet, ioniconsSet, evaSet, themifySet]
+      return [matSet, mdiSet, fontawesomeSet, ioniconsSet, evaSet, themifySet, matOutlinedSet, matRoundSet, matSharpSet]
         .map(({ name, ...set }) => parseSet(name, set))
     }
   },

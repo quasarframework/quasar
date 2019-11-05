@@ -1,5 +1,6 @@
 ---
 title: App Extension Index API
+desc: The API for the index script of a Quasar App Extension. Provides access to Quasar context, registers new CLI commands, extends Webpack config and more.
 ---
 
 This page refers to `src/index.js` file, which is executed on `quasar dev` and `quasar build`. This is the main process where you can modify the build to suit the needs of your App Extension. For instance, registering a boot file, modifying the webpack process, registering CSS, registering a UI component, registering a Quasar CLI command, etc.
@@ -30,7 +31,7 @@ if (api.ctx.dev === true && api.ctx.mode === 'electron') {
 Contains the `ext-id` (String) of this App Extension.
 
 ## api.prompts
-Is an Object which has the answers to the prompts when this App Extension got installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts).
+Is an Object which has the answers to the prompts when this App Extension got installed. For more info on prompts, check out [Prompts API](/app-extensions/development-guide/prompts-api).
 
 ## api.resolve
 Resolves paths within the app on which this App Extension is running. Eliminates the need to import `path` and resolve the paths yourself.
@@ -60,8 +61,6 @@ Contains the full path (String) to the root of the app on which this App Extensi
 
 ## api.compatibleWith
 
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
-
 Ensure the App Extension is compatible with a package installed in the host app through a semver condition.
 
 If the semver condition is not met, then @quasar/app errors out and halts execution.
@@ -78,8 +77,6 @@ api.compatibleWith('@quasar/app', '1.x')
 
 ## api.hasPackage
 
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
-
 Determine if some package is installed in the host app through a semver condition.
 
 Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
@@ -93,7 +90,7 @@ Example of semver condition: `'1.x || >=2.5.0 || 5.0.0 - 7.2.3'`.
 if (api.hasPackage('vuelidate')) {
   // hey, this app has it (any version of it)
 }
-if (api.hasPackage('quasar', '^1.0.0-beta.0')) {
+if (api.hasPackage('quasar', '^1.0.0')) {
   // hey, this app has v1 installed
 }
 ```
@@ -114,8 +111,6 @@ if (api.hasExtension(extId)) {
 ```
 
 ## api.getPackageVersion
-
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
 
 Get the version of a host app package.
 
@@ -138,7 +133,7 @@ Extends quasar.conf.js
  * @param {function} fn
  *   (cfg: Object, ctx: Object) => undefined
  */
-api.extendQuasarConf ((cfg, ctx, api) => {
+api.extendQuasarConf ((conf, api) => {
   // do something with quasar.conf.js:
   // add, change anything
 })
@@ -150,7 +145,7 @@ api.extendQuasarConf ((cfg, ctx, api) => {
 module.exports = function (api, ctx) {
   api.extendQuasarConf((conf, api) => {
     // make sure my-ext boot file is registered
-    conf.boot.push('~quasar-app-extension-my-ext/src/boot/qmarkdown.js')
+    conf.boot.push('~quasar-app-extension-my-ext/src/boot/my-ext-bootfile.js')
 
     // make sure boot file transpiles
     conf.build.transpileDependencies.push(/quasar-app-extension-my-ext[\\/]src[\\/]boot/)
@@ -158,7 +153,7 @@ module.exports = function (api, ctx) {
     // the regex above matches those files too!
 
     // make sure my-ext css goes through webpack
-    conf.css.push('~quasar-app-extension-qmarkdown/src/component/my-ext.styl')
+    conf.css.push('~quasar-app-extension-my-ext/src/component/my-ext.styl')
   })
 }
 ```
@@ -179,6 +174,8 @@ api.chainWebpack((cfg, { isClient, isServer }, api) => {
   // add/remove/change cfg (Webpack chain Object)
 })
 ```
+
+The configuration is a Webpack chain Object. The API for it is described on [webpack-chain](https://github.com/neutrinojs/webpack-chain) docs.
 
 ## api.extendWebpack
 Extend webpack config
@@ -220,20 +217,20 @@ api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
 ```
 
 ## api.registerCommand
-Register a command that will become available as `quasar run <ext-id> <cmd> [args]`.
+Register a command that will become available as `quasar run <ext-id> <cmd> [args]` (or the short form: `quasar <ext-id> <cmd> [args]`).
 
 ```js
 /**
  * @param {string} commandName
  * @param {function} fn
- *   (args: { [ string ] }, params: {object} }) => ?Promise
+ *   ({ args: [ string, ... ], params: {object} }) => ?Promise
  */
-api.registerCommand('start', (args, params) => {
+api.registerCommand('start', ({ args, params }) => {
   // do something here
 
   // this registers the "start" command
   // and this handler is executed when running
-  // "$ quasar ext run <ext-id> start
+  // $ quasar run <ext-id> start
 })
 ```
 
@@ -271,8 +268,6 @@ Always test with the `quasar describe` command to ensure you got the syntax righ
 
 ## api.getPersistentConf
 
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
-
 Get the internal persistent config of this extension. Returns empty object if it has none.
 
 ```js
@@ -283,8 +278,6 @@ api.getPersistentConf()
 ```
 
 ## api.setPersistentConf
-
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
 
 Set the internal persistent config of this extension. If it already exists, it is overwritten.
 
@@ -299,8 +292,6 @@ api.setPersistentConf({
 
 ## api.mergePersistentConf
 
-<q-badge label="@quasar/app v1.0.0-beta.25+" />
-
 Deep merge into the internal persistent config of this extension. If extension does not have any config already set, this is essentially equivalent to setting it for the first time.
 
 ```js
@@ -314,32 +305,48 @@ api.mergePersistentConf({
 
 ## api.beforeDev
 
-<q-badge label="@quasar/app v1.0.0-beta.18+" />
-
 Prepare external services before `$ quasar dev` command runs, like starting some backend or any other service that the app relies on.
+
+Can use async/await or directly return a Promise.
 
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.beforeDev((api) => {
+api.beforeDev((api, { quasarConf }) => {
+  // do something
+})
+```
+
+## api.afterDev
+
+Run hook after Quasar dev server is started (`$ quasar build`). At this point, the dev server has been started and is available should you wish to do something with it.
+
+Can use async/await or directly return a Promise.
+
+```js
+/**
+ * @param {function} fn
+ *   (api, { quasarConf }) => ?Promise
+ */
+api.afterDev((api, { quasarConf }) => {
   // do something
 })
 ```
 
 ## api.beforeBuild
 
-<q-badge label="@quasar/app v1.0.0-beta.16+" />
-
 Run hook before Quasar builds app for production (`$ quasar build`). At this point, the distributables folder hasn't been created yet.
+
+Can use async/await or directly return a Promise.
 
 ```js
 /**
  * @param {function} fn
- *   () => ?Promise
+ *   (api, { quasarConf }) => ?Promise
  */
-api.beforeBuild((api) => {
+api.beforeBuild((api, { quasarConf }) => {
   // do something
 })
 ```
@@ -348,12 +355,35 @@ api.beforeBuild((api) => {
 
 Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it.
 
+Can use async/await or directly return a Promise.
+
+```js
+/**
+ * @param {function} fn
+ *   (api, { quasarConf }) => ?Promise
+ */
+api.afterBuild((api, { quasarConf }) => {
+  // do something
+})
+```
+
+## api.onPublish
+
+<q-badge label="@quasar/app v1.0.0-rc.7+" />
+
+Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed.
+
+Can use async/await or directly return a Promise.
+
 ```js
 /**
  * @param {function} fn
  *   () => ?Promise
+ * @param {object} opts
+ *   * arg - argument supplied to "--publish"/"-P" parameter
+ *   * distDir - folder where distributables were built
  */
-api.afterBuild((api) => {
+api.onPublish((api, opts) => {
   // do something
 })
 ```

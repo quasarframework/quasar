@@ -76,7 +76,7 @@
     />
     <q-editor
       ref="editor"
-      class="bg-white"
+      class="bg-grey"
       v-model="model"
       :flat="flat"
       :square="square"
@@ -133,7 +133,8 @@
           label: 'Dropdown Test',
           highlight: true,
           options: ['gogu', 'outdent', 'indent', 'gigi']
-        }]
+        }],
+        ['viewsource']
       ]"
       :fonts="{
         arial: 'Arial',
@@ -172,10 +173,10 @@
       </q-btn-dropdown>
     </q-editor>
 
-    <p class="caption bg-yellow">
+    <div class="caption bg-yellow">
       Model
-    </p>
-    <span>{{ model }}</span>
+    </div>
+    <div>{{ model }}</div>
   </div>
 </template>
 

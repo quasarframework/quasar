@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/size" ],
+
   "docs": {
     "page": "spinners"
   },
@@ -8,10 +10,6 @@
   },
 
   "props": {
-    "size": {
-      "extends": "size"
-    },
-
     "color": {
       "extends": "color"
     },

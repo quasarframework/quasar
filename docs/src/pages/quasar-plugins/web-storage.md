@@ -1,5 +1,6 @@
 ---
 title: Local/Session Storage Plugins
+desc: A Quasar plugin that wraps the Local/Session Storage, retrieving data with its original JS type.
 ---
 
 Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API).

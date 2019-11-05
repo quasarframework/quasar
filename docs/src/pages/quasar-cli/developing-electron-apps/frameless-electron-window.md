@@ -1,5 +1,6 @@
 ---
 title: Frameless Electron Window
+desc: How to hide the window frame in a Quasar desktop app.
 related:
   - /vue-components/bar
 ---

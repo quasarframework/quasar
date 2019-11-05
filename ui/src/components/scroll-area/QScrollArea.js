@@ -4,8 +4,8 @@ import { between } from '../../utils/format.js'
 import { getMouseWheelDistance, prevent } from '../../utils/event.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import slot from '../../utils/slot.js'
-import QResizeObserver from '../observer/QResizeObserver.js'
-import QScrollObserver from '../observer/QScrollObserver.js'
+import QResizeObserver from '../resize-observer/QResizeObserver.js'
+import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 export default Vue.extend({
@@ -32,17 +32,28 @@ export default Vue.extend({
       type: [String, Number],
       default: 1000
     },
+
+    visible: {
+      type: Boolean,
+      default: null
+    },
     horizontal: Boolean
   },
 
   data () {
     return {
       active: false,
-      hover: false,
+      hover: this.visible === true,
       containerWidth: 0,
       containerHeight: 0,
       scrollPosition: 0,
       scrollSize: 0
+    }
+  },
+
+  watch: {
+    visible (val) {
+      this.hover = val === true
     }
   },
 
@@ -110,6 +121,17 @@ export default Vue.extend({
     thumbClass () {
       return `q-scrollarea__thumb--${this.horizontal === true ? 'h absolute-bottom' : 'v absolute-right'}` +
         (this.thumbHidden === true ? ' q-scrollarea__thumb--invisible' : '')
+    },
+
+    desktopEvents () {
+      return this.visible === null
+        ? {
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          mouseenter: () => { this.hover = true },
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          mouseleave: () => { this.hover = false }
+        }
+        : null
     }
   },
 
@@ -251,7 +273,7 @@ export default Vue.extend({
   render (h) {
     if (this.$q.platform.is.desktop !== true) {
       return h('div', {
-        staticClass: 'q-scroll-area',
+        staticClass: 'q-scrollarea',
         style: this.contentStyle
       }, [
         h('div', {
@@ -263,10 +285,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-scrollarea',
-      on: {
-        mouseenter: () => { this.hover = true },
-        mouseleave: () => { this.hover = false }
-      }
+      on: this.desktopEvents
     }, [
       h('div', {
         ref: 'target',

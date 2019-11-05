@@ -28,22 +28,22 @@
       "definition": {
         "sm": {
           "type": "Number",
-          "desc": "Breakpoint width size",
+          "desc": "Breakpoint width size (minimum size)",
           "examples": [ 600 ]
         },
         "md": {
           "type": "Number",
-          "desc": "Breakpoint width size",
+          "desc": "Breakpoint width size (minimum size)",
           "examples": [ 1024 ]
         },
         "lg": {
           "type": "Number",
-          "desc": "Breakpoint width size",
+          "desc": "Breakpoint width size (minimum size)",
           "examples": [ 1440 ]
         },
         "xl": {
           "type": "Number",
-          "desc": "Breakpoint width size",
+          "desc": "Breakpoint width size (minimum size)",
           "examples": [ 1920 ]
         }
       },
@@ -148,22 +148,22 @@
           "definition": {
             "sm": {
               "type": "Number",
-              "desc": "Breakpoint width size",
+              "desc": "Breakpoint width size (minimum size)",
               "examples": [ 600 ]
             },
             "md": {
               "type": "Number",
-              "desc": "Breakpoint width size",
+              "desc": "Breakpoint width size (minimum size)",
               "examples": [ 1024 ]
             },
             "lg": {
               "type": "Number",
-              "desc": "Breakpoint width size",
+              "desc": "Breakpoint width size (minimum size)",
               "examples": [ 1440 ]
             },
             "xl": {
               "type": "Number",
-              "desc": "Breakpoint width size",
+              "desc": "Breakpoint width size (minimum size)",
               "examples": [ 1920 ]
             }
           },

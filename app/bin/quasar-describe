@@ -179,7 +179,7 @@ function printProp (prop, propName, indentLevel) {
       printProp(prop.scope[propName], propName, indentLevel + 2)
     }
   }
-  if (!prop.values && prop.examples !== void 0) {
+  if (prop.examples !== void 0) {
     console.log(`${indent}Example${prop.examples.length > 1 ? 's' : ''}:`)
     prop.examples.forEach(example => {
       console.log(`${indent}  ${example}`)
@@ -428,7 +428,7 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
 
   console.log('\n ' + chalk.underline('quasar.conf > framework > config'))
 
-  if (keys.length === void 0) {
+  if (keys.length === 0) {
     console.log('\n   ' + chalk.italic('*No configuration options*'))
     return
   }
@@ -445,7 +445,7 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
     }
   }
 
-  console.log('\n   Property name: ' + chalk.green(conf.propName))
+  console.log('\n   Property name: ' + chalk.green(quasarConfOptions.propName))
   console.log('   Definition:')
   for (let propName in conf) {
     console.log()

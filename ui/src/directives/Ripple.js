@@ -1,6 +1,6 @@
 import { css } from '../utils/dom.js'
-import { position, stop } from '../utils/event.js'
-import Platform from '../plugins/Platform.js'
+import { position, stop, listenOpts } from '../utils/event.js'
+import { client } from '../plugins/Platform.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
@@ -33,10 +33,11 @@ function showRipple (evt, el, ctx, forceCenter) {
   node.appendChild(innerNode)
   el.appendChild(node)
 
-  ctx.abort = () => {
-    node && node.remove()
+  const abort = () => {
+    node.remove()
     clearTimeout(timer)
   }
+  ctx.abort.push(abort)
 
   let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
@@ -49,8 +50,8 @@ function showRipple (evt, el, ctx, forceCenter) {
       innerNode.style.opacity = 0
 
       timer = setTimeout(() => {
-        node && node.remove()
-        ctx.abort = void 0
+        node.remove()
+        ctx.abort.splice(ctx.abort.indexOf(abort), 1)
       }, 275)
     }, 250)
   }, 50)
@@ -64,12 +65,14 @@ function updateCtx (ctx, { value, modifiers, arg }) {
       ? {
         stop: value.stop === true || modifiers.stop === true,
         center: value.center === true || modifiers.center === true,
-        color: value.color || arg
+        color: value.color || arg,
+        keyCodes: [].concat(value.keyCodes || 13)
       }
       : {
         stop: modifiers.stop,
         center: modifiers.center,
-        color: arg
+        color: arg,
+        keyCodes: [13]
       }
   }
 }
@@ -80,16 +83,17 @@ export default {
   inserted (el, binding) {
     const ctx = {
       modifiers: {},
+      abort: [],
 
       click (evt) {
         // on ENTER in form IE emits a PointerEvent with negative client cordinates
-        if (ctx.enabled === true && (Platform.is.ie !== true || evt.clientX >= 0)) {
+        if (ctx.enabled === true && (client.is.ie !== true || evt.clientX >= 0)) {
           showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
       },
 
       keyup (evt) {
-        if (ctx.enabled === true && evt.keyCode === 13 && evt.qKeyEvent !== true) {
+        if (ctx.enabled === true && ctx.modifiers.keyCodes.indexOf(evt.keyCode) > -1 && evt.qKeyEvent !== true) {
           showRipple(evt, el, ctx, true)
         }
       }
@@ -102,8 +106,8 @@ export default {
     }
 
     el.__qripple = ctx
-    el.addEventListener('click', ctx.click)
-    el.addEventListener('keyup', ctx.keyup)
+    el.addEventListener('click', ctx.click, listenOpts.passive)
+    el.addEventListener('keyup', ctx.keyup, listenOpts.passive)
   },
 
   update (el, binding) {
@@ -113,9 +117,9 @@ export default {
   unbind (el) {
     const ctx = el.__qripple_old || el.__qripple
     if (ctx !== void 0) {
-      ctx.abort !== void 0 && ctx.abort()
-      el.removeEventListener('click', ctx.click)
-      el.removeEventListener('keyup', ctx.keyup)
+      ctx.abort.forEach(fn => { fn() })
+      el.removeEventListener('click', ctx.click, listenOpts.passive)
+      el.removeEventListener('keyup', ctx.keyup, listenOpts.passive)
       delete el[el.__qripple_old ? '__qripple_old' : '__qripple']
     }
   }

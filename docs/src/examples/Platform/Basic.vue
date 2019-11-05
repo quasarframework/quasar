@@ -1,6 +1,10 @@
 <template>
   <div class="q-pa-md">
-    <q-markup-table>
+    <div class="q-mb-md">
+      Browser User Agent: "<strong>{{ $q.platform.userAgent }}</strong>"
+    </div>
+
+    <q-markup-table flat bordered>
       <thead>
         <tr>
           <th class="text-left">Property</th>

@@ -82,7 +82,8 @@ export default {
     size5: 'Gréisser',
     size6: 'Ganz grouss',
     size7: 'Maximum',
-    defaultFont: 'Standard Schrëft'
+    defaultFont: 'Standard Schrëft',
+    viewSource: 'Umthombo wokubuka'
   },
   tree: {
     noNodes: 'Keng Kniet verfügbar',

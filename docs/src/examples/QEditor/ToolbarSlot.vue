@@ -5,7 +5,6 @@
       ref="editor"
       toolbar-text-color="white"
       toolbar-toggle-color="yellow-8"
-      toolbar-flat
       toolbar-bg="primary"
       :toolbar="[
         ['token'],
@@ -66,13 +65,13 @@ export default {
   }
 }
 </script>
-<style lang="stylus">
-  .editor_token
-    background rgba(0, 0, 0, .6)
-    color white
-    padding 3px
-    &, .q-icon
-      border-radius 3px
-    .q-icon
-      background rgba(0, 0, 0, .2)
+<style lang="sass">
+.editor_token
+  background: rgba(0, 0, 0, .6)
+  color: white
+  padding: 3px
+  &, .q-icon
+    border-radius: 3px
+  .q-icon
+    background: rgba(0, 0, 0, .2)
 </style>
