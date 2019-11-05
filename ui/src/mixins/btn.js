@@ -1,5 +1,5 @@
-import AlignMixin from '../../mixins/align.js'
-import RippleMixin from '../../mixins/ripple.js'
+import AlignMixin from './align.js'
+import RippleMixin from './ripple.js'
 
 const sizes = {
   xs: 8,

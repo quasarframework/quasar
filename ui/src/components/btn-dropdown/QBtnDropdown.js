@@ -1,10 +1,10 @@
 import Vue from 'vue'
 
-import BtnMixin from './btn-mixin.js'
+import BtnMixin from '../../mixins/btn.js'
 
 import QIcon from '../icon/QIcon.js'
-import QBtn from './QBtn.js'
-import QBtnGroup from './QBtnGroup.js'
+import QBtn from '../btn/QBtn.js'
+import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
 import slot from '../../utils/slot.js'

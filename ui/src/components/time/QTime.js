@@ -6,7 +6,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
-import DateTimeMixin from './datetime-mixin.js'
+import DateTimeMixin from '../../mixins/datetime.js'
 
 export default Vue.extend({
   name: 'QTime',

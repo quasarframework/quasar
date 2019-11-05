@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import QResizeObserver from '../observer/QResizeObserver.js'
+import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import slot from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 

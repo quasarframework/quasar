@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/datetime/datetime-mixin" ],
+  "mixins": [ "mixins/datetime" ],
 
   "behavior": {
     "$listeners": true

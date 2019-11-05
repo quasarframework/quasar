@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
-import DateTimeMixin from './datetime-mixin.js'
+import DateTimeMixin from '../../mixins/datetime.js'
 
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'

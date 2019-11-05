@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
-import BtnMixin from './btn-mixin.js'
+import BtnMixin from '../../mixins/btn.js'
 
 import slot from '../../utils/slot.js'
 import { stopAndPrevent, listenOpts } from '../../utils/event.js'

@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/btn/__btn-mixin", "mixins/model-toggle" ],
+  "mixins": [ "mixins/btn", "mixins/model-toggle" ],
 
   "props": {
     "value": {

@@ -1,5 +1,5 @@
-import { toJalaali } from '../../utils/date-persian.js'
-import DarkMixin from '../../mixins/dark.js'
+import { toJalaali } from '../utils/date-persian.js'
+import DarkMixin from './dark.js'
 
 export default {
   mixins: [ DarkMixin ],
