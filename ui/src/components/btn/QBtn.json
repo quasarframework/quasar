@@ -1,7 +1,7 @@
 {
   "mixins": [ "mixins/btn" ],
   
-  "docs": {
+  "meta" {
     "page": "button"
   },
 

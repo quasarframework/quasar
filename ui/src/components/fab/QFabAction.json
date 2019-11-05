@@ -1,5 +1,5 @@
 {
-  "docs": {
+  "meta" {
     "route": "layout",
     "page": "floating-action-button"
   },

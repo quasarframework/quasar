@@ -1,5 +1,5 @@
 {
-  "docs": {
+  "meta" {
     "route": "options",
     "page": "screen-plugin",
     "apiAnchor": "API"

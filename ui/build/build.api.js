@@ -36,9 +36,9 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
-  plugin: [ 'docs', 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'docs', 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
-  directive: [ 'docs', 'value', 'arg', 'modifiers' ]
+  plugin: [ 'meta', 'injection', 'quasarConfOptions', 'props', 'methods' ],
+  component: ['meta', 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods'],
+  directive: ['meta', 'value', 'arg', 'modifiers']
 }
 
 const objectTypes = {
@@ -197,7 +197,7 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   }
 
   type = type.startsWith('Promise') ? 'Promise' : type
-  
+
   if (objectTypes[type] === void 0) {
     logError(`${banner} object has unrecognized API type prop value: "${type}"`)
     console.error(obj)
@@ -366,11 +366,11 @@ function parseAPI (file, apiType) {
       continue
     }
 
-    if (type === 'docs') {
+    if (type === 'meta') {
       parseObject({
         banner: `${banner} "${type}"`,
         api,
-        itemName: 'docs',
+        itemName: 'meta',
         masterType: type
       })
       continue
@@ -412,20 +412,22 @@ function getPage (fileName) {
   let page
   if (fileName.startsWith('Q')) {
     page = fileName.slice(1)
-  } else {
+  }
+  else {
     page = fileName
-  }    
+  }
   // kebab-case
   return page.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase()
 }
 
 function orderAPI (api, apiType, fileName) {
-  let docs = api.docs || {}
-  docs.page = docs.page || getPage(fileName)
-  docs.route = docs.route || routes[apiType]
-  if (docs.apiAnchor === void 0) {
-    docs.apiAnchor = apiType === 'directive' ? 'API' : fileName + '-API'
-  }
+  const metaDef = api.meta || {},
+    meta = {}
+  meta.url = `https://v1.quasar.dev/${metaDef.route || routes[apiType]}/${metaDef.page || getPage(fileName)}}`
+
+  meta.apiAnchor = metaDef.apiAnchor === void 0
+    ? (apiType === 'directive' ? 'API' : fileName + '-API')
+    : metaDef.apiAnchor
 
   const ordered = {
     type: apiType
@@ -436,8 +438,8 @@ function orderAPI (api, apiType, fileName) {
       ordered[section] = api[section]
     }
   })
-  
-  ordered.docs = docs
+
+  ordered.meta = meta
 
   return ordered
 }
@@ -492,7 +494,6 @@ function fillAPI (apiType) {
             .replace(/\s+/g, '-')
             .toLowerCase()
         }
-
 
         if (api[prop] === void 0 || api[prop][key] === void 0) {
           logError(`${name}: missing "${prop}" -> "${key}" definition`)

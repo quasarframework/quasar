@@ -39,8 +39,6 @@ if (!item || argv.help) {
   process.exit(0)
 }
 
-const quasarBaseUrl = 'https://v1.quasar-framework.org/'
-
 const sections = {
   components: 'vue-components',
   directives: 'vue-directives',
@@ -49,18 +47,15 @@ const sections = {
 }
 
 function docs (api, supplier, openOptions) {
-  let route, page, apiAnchor, url
+  let apiAnchor, url
 
   if (supplier === void 0) {
-    page = api.docs.page
-    route = api.docs.route
-    apiAnchor = api.docs.apiAnchor
-
-    url = quasarBaseUrl + route + '/' + page
+    url = api.meta.url
+    apiAnchor = api.meta.apiAnchor
 
     if (argv.api) {
       if (apiAnchor === false) {
-        log(`${item} docs page does not contain a API anchor. Opening default page...`)
+        log(`${item} docs page does not contain an API anchor. Opening default page...`)
       }
       else {
         url += '#' + apiAnchor
@@ -68,34 +63,16 @@ function docs (api, supplier, openOptions) {
     }
   }
   else {
-    if (!api.docs && !api.docs.page) {
-      warn(`App Extension API file does not contain a definition for key 'docs'.`)
+    if (!api.meta && !api.meta.url) {
+      warn(`App Extension API file does not contain a definition for key 'meta.url'.`)
       process.exit(1)
     }
 
-    if (typeof api.docs === 'string') {
-      page = api.docs
-      apiAnchor = ''
-    }
-    else {
-      page = api.docs.page
-      apiAnchor = api.docs.apiAnchor
-    }
+    url = api.meta.url
+    apiAnchor = api.meta.apiAnchor
 
-    url = page
-
-    if (!url) {
-      warn(`App Extension API file has an invalid definition for 'docs'.`)
-      process.exit(1)
-    }
-
-    if (argv.api) {
-      if (apiAnchor) {
-        url += '#' + apiAnchor
-      }
-      else {
-        log(`Opening default App Extension docs page because its API file does not contain a definition for 'apiAnchor'`)
-      }
+    if (argv.api && apiAnchor) {
+      url += '#' + apiAnchor
     }
   }
 
