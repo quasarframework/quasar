@@ -3,7 +3,7 @@
     "$listeners": true
   },
 
-  "meta" {
+  "meta": {
     "page": "table"
   },
 

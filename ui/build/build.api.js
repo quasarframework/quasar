@@ -117,7 +117,7 @@ const objectTypes = {
     required: [ 'desc' ]
   },
 
-  docs: {
+  meta: {
     props: [ 'route', 'page', 'apiAnchor' ],
     required: []
   },

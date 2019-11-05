@@ -1,7 +1,7 @@
 {
   "mixins": [ "mixins/size" ],
 
-  "meta" {
+  "meta": {
     "page": "spinners"
   },
 

@@ -1,5 +1,5 @@
 {
-  "meta" {
+  "meta": {
     "route": "options",
     "page": "platform-detection",
     "apiAnchor": "API"

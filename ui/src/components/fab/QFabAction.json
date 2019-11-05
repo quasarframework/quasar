@@ -1,5 +1,5 @@
 {
-  "meta" {
+  "meta": {
     "route": "layout",
     "page": "floating-action-button"
   },
