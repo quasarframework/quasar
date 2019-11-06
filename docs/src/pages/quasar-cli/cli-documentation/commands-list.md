@@ -372,6 +372,9 @@ $ quasar describe -h
     # filtering only props by "co":
     $ quasar describe QIcon -p -f co
 
+    # Open docs URL:
+    $ quasar describe QIcon -d
+
   Options
     --filter, -f <filter> Filters the API
     --props, -p           Displays the API props
