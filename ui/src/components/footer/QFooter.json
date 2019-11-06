@@ -3,6 +3,11 @@
     "$listeners": true
   },
 
+  "meta": {
+    "route": "layout",
+    "page": "header-and-footer"
+  },
+
   "props": {
     "value": {
       "type": "Boolean",

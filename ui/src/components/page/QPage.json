@@ -3,6 +3,10 @@
     "$listeners": true
   },
 
+  "meta": {
+    "route": "layout"
+  },
+
   "props": {
     "padding": {
       "type": "Boolean",

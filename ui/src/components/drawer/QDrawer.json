@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/model-toggle" ],
 
+  "meta": {
+    "route": "layout"
+  },
+
   "props": {
     "side": {
       "type": "String",

@@ -1,7 +1,6 @@
 {
   "meta": {
-    "route": "layout",
-    "page": "layout"
+    "route": "layout"
   },
 
   "props": {

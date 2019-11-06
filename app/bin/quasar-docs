@@ -39,13 +39,6 @@ if (!item || argv.help) {
   process.exit(0)
 }
 
-const sections = {
-  components: 'vue-components',
-  directives: 'vue-directives',
-  plugins: 'quasar-plugins',
-  extensions: 'app-extensions/development-guide/introduction'
-}
-
 function docs (api, supplier, openOptions) {
   let apiAnchor, url
 
@@ -97,25 +90,20 @@ async function run () {
 
     await quasarConfig.compile()
 
-    if (sections[item]) {
-      openBrowser(quasarBaseUrl + sections[item], quasarConfig.getBuildConfig().__openOptions)
+    const { api, supplier } = await getApi(item)
+
+    console.log()
+    console.log(` Found ${chalk.green(item)} ${api.type} API`)
+
+    if (supplier === void 0) {
+      console.log(` ${chalk.italic(`Supplied by Quasar Framework`)}`)
     }
     else {
-      const { api, supplier } = await getApi(item)
-
-      console.log()
-      console.log(` Found ${chalk.green(item)} ${api.type} API`)
-
-      if (supplier === void 0) {
-        console.log(` ${chalk.italic(`Supplied by Quasar Framework`)}`)
-      }
-      else {
-        console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
-      }
-
-      docs(api, supplier, quasarConfig.getBuildConfig().__openOptions)
-      console.log()
+      console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
     }
+
+    docs(api, supplier, quasarConfig.getBuildConfig().__openOptions)
+    console.log()
   } catch (e) {
     warn(e)
     process.exit(1)

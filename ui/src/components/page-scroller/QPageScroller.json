@@ -2,8 +2,7 @@
   "mixins": [ "components/page-sticky/QPageSticky" ],
   
   "meta": {
-    "route": "layout",
-    "page": "page-scroller"
+    "route": "layout"
   },
 
   "behavior": {

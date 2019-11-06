@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "route": "vue-directives"
+  },
   "props": {
     "once": {
       "type": "Boolean",

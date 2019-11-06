@@ -1,4 +1,6 @@
-const appPaths = require('../app-paths')
+const appPaths = require('../app-paths'),
+  logger = require('./logger'),
+  warn = logger('app:docs', 'red')
 
 module.exports = async function getApi(item) {
   try {

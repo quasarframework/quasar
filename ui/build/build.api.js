@@ -3,14 +3,15 @@ const
   path = require('path'),
   merge = require('webpack-merge'),
   fs = require('fs'),
-  { logError, writeFile } = require('./build.utils'),
-  ast = require('./ast')
+  request = require('request')
 
 const
   root = path.resolve(__dirname, '..'),
   resolvePath = file => path.resolve(root, file),
   dest = path.join(root, 'dist/api'),
-  extendApi = require(resolvePath('src/api.extends.json'))
+  extendApi = require(resolvePath('src/api.extends.json')),
+  { logError, writeFile } = require('./build.utils'),
+  ast = require('./ast')
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
@@ -420,10 +421,29 @@ function getPage (fileName) {
   return page.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase()
 }
 
+function checkUrl (url, callback) {
+  request({
+    method: 'HEAD',
+    uri: url,
+    followRedirect: false
+  }, (error, response) => {
+    console.log(`${url} valid`)
+    const valid = !error && response.statusCode === 200
+    callback(valid)
+  })
+}
+
 function orderAPI (api, apiType, fileName) {
   const metaDef = api.meta || {},
     meta = {}
-  meta.url = `https://v1.quasar.dev/${metaDef.route || routes[apiType]}/${metaDef.page || getPage(fileName)}}`
+  // TODO change URL to v1.quasar.dev
+  meta.url = `https://quasar.dev/${metaDef.route || routes[apiType]}/${metaDef.page || getPage(fileName)}`
+  checkUrl(meta.url, valid => {
+    if (!valid) {
+      logError(`URL ${meta.url} for file ${fileName} not found`)
+      process.exit(1)
+    }
+  })
 
   meta.apiAnchor = metaDef.apiAnchor === void 0
     ? (apiType === 'directive' ? 'API' : fileName + '-API')
