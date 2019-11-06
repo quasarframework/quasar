@@ -16,7 +16,7 @@ export default Vue.extend({
       'tr',
       this.props === void 0 || this.props.header === true
         ? on
-        : { ...on, class: this.props.__trClass },
+        : { on, class: this.props.__trClass },
       slot(this, 'default')
     )
   }
