@@ -2,7 +2,7 @@
   "mixins": [ "mixins/btn", "mixins/model-toggle" ],
 
   "meta": {
-    "page": "button-dropdown"
+    "docsPage": "button-dropdown"
   },
 
   "props": {

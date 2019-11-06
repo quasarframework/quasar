@@ -2,7 +2,7 @@
   "mixins": [ "mixins/size" ],
 
   "meta": {
-    "page": "spinners"
+    "docsPage": "spinners"
   },
 
   "behavior": {

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "page": "tab-panels"
+    "docsPage": "tab-panels"
   },
 
   "mixins": [ "mixins/panel-child" ],

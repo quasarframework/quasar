@@ -1,6 +1,6 @@
 {
   "meta": {
-    "route": "vue-directives"
+    "docsRoute": "vue-directives"
   },
   "props": {
     "once": {

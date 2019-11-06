@@ -5,10 +5,10 @@ const
   chalk = require('chalk')
 
 const
-  appPaths = require('../lib/app-paths'),
   getApi = require('../lib/helpers/get-api'),
   logger = require('../lib/helpers/logger'),
-  warn = logger('app:describe', 'red')
+  warn = logger('app:describe', 'red'),
+  openBrowser = require('../lib/helpers/open-browser')
 
 const partArgs = {
   p: 'props',
@@ -19,7 +19,8 @@ const partArgs = {
   a: 'arg',
   M: 'modifiers',
   i: 'injection',
-  q: 'quasar'
+  q: 'quasar',
+  d: 'docs'
 }
 
 const partArgsKeys = Object.keys(partArgs)
@@ -56,6 +57,9 @@ if (!item || argv.help) {
     # filtering only props by "co":
     $ quasar describe QIcon -p -f co
 
+    # Open docs URL:
+    $ quasar describe QIcon -d
+
   Options
     --filter, -f <filter> Filters the API
     --props, -p           Displays the API props
@@ -67,6 +71,7 @@ if (!item || argv.help) {
     --modifiers, -M       Displays the API modifiers
     --injection, -i       Displays the API injection
     --quasar, -q          Displays the API quasar conf options
+    --docs, -d            Opens the docs API URL
     --help, -h            Displays this message
   `)
   process.exit(0)
@@ -81,7 +86,9 @@ if (partArgsKeys.some(part => argv[part])) {
 }
 else {
   Object.values(partArgs).forEach(part => {
-    apiParts[part] = true
+    if (part !== 'docs') {
+      apiParts[part] = true
+    }
   })
 }
 
@@ -454,6 +461,9 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
 }
 
 function describe (api) {
+  if (apiParts.docs) {
+    openBrowser(api.meta.docsUrl)
+  }
   switch (api.type) {
     case 'component':
       apiParts.props === true && printProperties(api)

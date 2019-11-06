@@ -1,7 +1,7 @@
 {
   "meta": {
-    "route": "layout",
-    "page": "floating-action-button"
+    "docsRoute": "layout",
+    "docsPage": "floating-action-button"
   },
 
   "behavior": {

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "page": "carousel"
+    "docsPage": "carousel"
   },
 
   "mixins": ["mixins/panel-child"],

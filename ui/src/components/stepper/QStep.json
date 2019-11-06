@@ -1,6 +1,6 @@
 {
   "meta": {
-    "page": "stepper"
+    "docsPage": "stepper"
   },
   
   "mixins": [ "mixins/panel-child" ],

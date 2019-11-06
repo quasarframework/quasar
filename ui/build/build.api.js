@@ -119,7 +119,7 @@ const objectTypes = {
   },
 
   meta: {
-    props: [ 'route', 'page', 'apiAnchor' ],
+    props: [ 'docsRoute', 'docsPage', 'docsApiAnchor' ],
     required: []
   },
 
@@ -421,33 +421,14 @@ function getPage (fileName) {
   return page.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase()
 }
 
-function checkUrl (url, callback) {
-  request({
-    method: 'HEAD',
-    uri: url,
-    followRedirect: false
-  }, (error, response) => {
-    console.log(`${url} valid`)
-    const valid = !error && response.statusCode === 200
-    callback(valid)
-  })
-}
-
 function orderAPI (api, apiType, fileName) {
   const metaDef = api.meta || {},
-    meta = {}
+    meta = {},
+    docsApiAnchor = metaDef.docsApiAnchor === void 0
+      ? (apiType === 'directive' ? 'API' : fileName + '-API')
+      : metaDef.docsApiAnchor
   // TODO change URL to v1.quasar.dev
-  meta.url = `https://quasar.dev/${metaDef.route || routes[apiType]}/${metaDef.page || getPage(fileName)}`
-  checkUrl(meta.url, valid => {
-    if (!valid) {
-      logError(`URL ${meta.url} for file ${fileName} not found`)
-      process.exit(1)
-    }
-  })
-
-  meta.apiAnchor = metaDef.apiAnchor === void 0
-    ? (apiType === 'directive' ? 'API' : fileName + '-API')
-    : metaDef.apiAnchor
+  meta.docsUrl = `https://quasar.dev/${metaDef.docsRoute || routes[apiType]}/${metaDef.docsPage || getPage(fileName)}#${docsApiAnchor}`
 
   const ordered = {
     type: apiType

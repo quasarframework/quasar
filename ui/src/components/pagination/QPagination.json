@@ -79,7 +79,7 @@
       "type": "Function",
       "desc": "Generate link for page buttons; For best performance, reference it from your scope and do not define it inline",
       "params": {
-        "page": {
+        "docsPage": {
           "type": "Number",
           "desc": "Page number to navigate to",
           "examples": [ 2 ]

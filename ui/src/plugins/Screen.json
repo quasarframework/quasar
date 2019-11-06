@@ -1,8 +1,8 @@
 {
   "meta": {
-    "route": "options",
-    "page": "screen-plugin",
-    "apiAnchor": "API"
+    "docsRoute": "options",
+    "docsPage": "screen-plugin",
+    "docsApiAnchor": "API"
   },
 
   "injection": "$q.screen",

@@ -2,7 +2,7 @@
   "mixins": [ "components/page-sticky/QPageSticky" ],
   
   "meta": {
-    "route": "layout"
+    "docsRoute": "layout"
   },
 
   "behavior": {

@@ -4,8 +4,8 @@
   },
 
   "meta": {
-    "route": "layout",
-    "page": "header-and-footer"
+    "docsRoute": "layout",
+    "docsPage": "header-and-footer"
   },
 
   "props": {

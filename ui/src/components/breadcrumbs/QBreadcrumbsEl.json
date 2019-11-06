@@ -1,6 +1,6 @@
 {
   "meta": {
-    "page": "breadcrumbs"
+    "docsPage": "breadcrumbs"
   },
 
   "mixins": [ "mixins/router-link" ],

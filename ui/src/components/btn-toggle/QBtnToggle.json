@@ -2,7 +2,7 @@
   "mixins": [ "mixins/ripple" ],
 
   "meta": {
-    "page": "button-toggle"
+    "docsPage": "button-toggle"
   },
 
   "behavior": {

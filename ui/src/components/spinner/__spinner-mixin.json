@@ -2,8 +2,8 @@
   "mixins": [ "mixins/size" ],
 
   "meta": {
-    "page": "spinners",
-    "apiAnchor": "Other-Spinners-API"
+    "docsPage": "spinners",
+    "docsApiAnchor": "Other-Spinners-API"
   },
 
   "behavior": {

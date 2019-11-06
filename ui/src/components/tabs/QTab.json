@@ -1,6 +1,6 @@
 {
   "meta": {
-    "page": "tabs"
+    "docsPage": "tabs"
   },
 
   "mixins": [ "mixins/ripple" ],
