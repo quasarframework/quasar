@@ -79,6 +79,11 @@ export default Vue.extend({
     inputClass: [Array, String, Object],
     inputStyle: [Array, String, Object],
 
+    tabindex: {
+      type: [String, Number],
+      default: 0
+    },
+
     transitionShow: String,
     transitionHide: String,
 
@@ -191,7 +196,7 @@ export default Vue.extend({
     },
 
     selectedScope () {
-      const tabindex = this.focused === true ? 0 : -1
+      const tabindex = this.focused === true ? this.tabindex : -1
 
       return this.innerValue.map((opt, i) => ({
         index: i,
@@ -664,7 +669,7 @@ export default Vue.extend({
       }
 
       if (this.useChips === true) {
-        const tabindex = this.focused === true ? 0 : -1
+        const tabindex = this.focused === true ? this.tabindex : -1
 
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
@@ -711,7 +716,7 @@ export default Vue.extend({
           ref: isShadowField === true ? void 0 : 'target',
           staticClass: 'no-outline',
           attrs: {
-            tabindex: 0,
+            tabindex: this.tabindex,
             id: isShadowField === true ? void 0 : this.targetUid
           },
           on: {
@@ -798,7 +803,7 @@ export default Vue.extend({
           // required for Android in order to show ENTER key when in form
           type: 'search',
           ...this.$attrs,
-          tabindex: 0,
+          tabindex: this.tabindex,
           autofocus: fromDialog === true ? false : this.autofocus,
           id: this.targetUid,
           disabled: this.disable === true,
