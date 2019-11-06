@@ -9,7 +9,7 @@
 /* global chrome */
 
 import Bridge from '../bridge'
-import attachActivatedContentHooks from '../../activatedContentHooks'
+import attachActivatedContentHooks from '../../../src-bex/js/activatedContentHooks'
 
 const port = chrome.runtime.connect({
   name: 'contentScript'

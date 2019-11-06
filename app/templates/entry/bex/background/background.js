@@ -9,8 +9,8 @@
 
 /* global chrome */
 
-import attachActivatedBackgroundHooks from '../../activatedBackgroundHooks'
-import attachGlobalBackgroundHooks from '../../globalBackgroundHooks'
+import attachActivatedBackgroundHooks from '../../../src-bex/js/activatedBackgroundHooks'
+import attachGlobalBackgroundHooks from '../../../src-bex/js/globalBackgroundHooks'
 import Bridge from '../bridge'
 
 const connections = {}
