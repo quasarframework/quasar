@@ -4,7 +4,7 @@ const
   archiver = require('archiver')
 
 
-class WebpackBexPackager {
+class BexPackager {
   constructor (options) {
     this.options = options
     this.chromeDir = path.join(options.dest, 'chrome')
@@ -67,4 +67,4 @@ class WebpackBexPackager {
   }
 }
 
-module.exports = WebpackBexPackager
+module.exports = BexPackager

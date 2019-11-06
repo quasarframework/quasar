@@ -32,8 +32,8 @@ module.exports = function (cfg, configName) {
   chain.entry('bex-background')
     .add(appPaths.resolve.app('.quasar/bex/background/background.js'))
 
-  chain.entry('bex-contentScript')
-  .add(appPaths.resolve.app('.quasar/bex/content/contentScript.js'))
+  chain.entry('bex-content-script')
+  .add(appPaths.resolve.app('.quasar/bex/content/content-script.js'))
 
   chain.output
     .path(outputPath)

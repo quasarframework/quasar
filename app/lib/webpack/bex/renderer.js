@@ -43,9 +43,9 @@ module.exports = function (chain, cfg) {
     cfg.build.htmlFilename = path.join('www', 'index.html')
 
     // Register our plugin, update the manifest and package the browser extension.
-    const WebpackBexPackager = require('./webpackBexPackager')
+    const BexPackager = require('./plugin.bex-packager')
     chain.plugin('webpack-bex-packager')
-      .use(WebpackBexPackager, [{
+      .use(BexPackager, [{
         src: cfg.bex.builder.directories.input,
         dest: cfg.bex.builder.directories.output,
         name: require(path.join(appPaths.appDir, 'package.json')).name

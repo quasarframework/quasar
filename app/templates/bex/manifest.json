@@ -21,11 +21,11 @@
   "content_scripts": [{
     "matches": ["<all_urls>"],
     "js": [
-      "www/bex-contentScript.js",
-      "js/contentScript.js"
+      "www/bex-content-script.js",
+      "js/content-script.js"
     ],
     "css": [
-      "css/contentCss.css"
+      "css/content-css.css"
     ]
   }],
   "permissions": [
