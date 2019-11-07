@@ -45,6 +45,7 @@
     "compression": "1.7.4",
     "connect-history-api-fallback": "1.6.0",
     "consolidate": "0.15.1",
+    "cors": "^2.8.5",
     "cross-spawn": "7.0.1",
     "download-git-repo": "1.1.0",
     "express": "4.17.1",

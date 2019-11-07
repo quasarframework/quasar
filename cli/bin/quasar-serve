@@ -11,6 +11,7 @@ const argv = parseArgs(process.argv.slice(2), {
     colors: 'colors',
     o: 'open',
     c: 'cache',
+    cors: 'cors',
     m: 'micro',
     history: 'history',
     i: 'index',
@@ -20,7 +21,7 @@ const argv = parseArgs(process.argv.slice(2), {
     P: 'proxy',
     h: 'help'
   },
-  boolean: ['g', 'https', 'colors', 'history', 'h'],
+  boolean: ['g', 'https', 'colors', 'history', 'h', 'cors'],
   string: ['H', 'C', 'K', 'i'],
   default: {
     p: process.env.PORT || 4000,
@@ -70,6 +71,7 @@ if (argv.help) {
                             File must export Array ({ path, rule })
                             See example below. "rule" is defined at:
                             https://github.com/chimurai/http-proxy-middleware
+    --cors                  Enable CORS for all requests
     --help, -h              Displays this message
 
   Proxy file example
@@ -146,6 +148,11 @@ if (ssrDetected === false) {
   }
 
   const app = express()
+
+  if (argv.cors) {
+    const cors = require('cors')
+    app.use(cors())
+  }
 
   if (!argv.silent) {
     app.get('*', (req, _, next) => {
@@ -231,7 +238,8 @@ if (ssrDetected === false) {
       ['Cache (max-age)', argv.cache || 'disabled'],
       microCacheSeconds ? ['Micro-cache', microCacheSeconds + 's'] : '',
       argv.history ? ['History mode', 'enabled'] : '',
-      argv.history ? ['History mode index', argv.index] : '',
+      ['Index file', argv.index],
+      argv.cors ? ['CORS', 'enabled'] : '',
       argv.proxy ? ['Proxy definitions', argv.proxy] : ''
     ]
     .filter(msg => msg)
