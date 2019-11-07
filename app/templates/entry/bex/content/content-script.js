@@ -3,13 +3,13 @@
  * DO NOT EDIT.
  *
  * You are probably looking into adding hooks in your code. This should be done by means of
- * src-bex/activatedContentHooks (which has access to the browser instance and communication bridge)
+ * src-bex/js/content-hooks.js which has access to the browser instance and communication bridge
  **/
 
 /* global chrome */
 
 import Bridge from '../bridge'
-import attachActivatedContentHooks from '../../../src-bex/js/activated-content-hooks'
+import attachContentHooks from '../../../src-bex/js/content-hooks'
 
 const port = chrome.runtime.connect({
   name: 'contentScript'
@@ -31,4 +31,4 @@ let bridge = new Bridge({
   }
 })
 
-attachActivatedContentHooks(window, chrome, bridge)
+attachContentHooks(bridge)
