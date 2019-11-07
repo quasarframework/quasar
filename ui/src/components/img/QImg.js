@@ -27,6 +27,8 @@ export default Vue.extend({
       default: 'fade'
     },
 
+    imgClass: [ Array, String, Object ],
+
     noDefaultSpinner: Boolean,
     spinnerColor: String,
     spinnerSize: String
@@ -197,6 +199,7 @@ export default Vue.extend({
       const content = this.url !== void 0 ? h('div', {
         key: this.url,
         staticClass: 'q-img__image absolute-full',
+        class: this.imgClass,
         style: {
           backgroundImage: `url("${this.url}")`,
           backgroundSize: this.contain ? 'contain' : 'cover',
