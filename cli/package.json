@@ -58,7 +58,7 @@
     "minimist": "1.2.0",
     "multimatch": "2.1.0",
     "open": "7.0.0",
-    "ora": "4.0.2",
+    "ora": "3.4.0",
     "read-metadata": "1.0.0",
     "rimraf": "3.0.0",
     "route-cache": "0.4.4",
