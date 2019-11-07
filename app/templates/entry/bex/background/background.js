@@ -3,19 +3,16 @@
  * DO NOT EDIT.
  *
  * You are probably looking into adding hooks in your code. This should be done by means of
- * src-bex/activatedBackgroundHooks (which have access to the browser instance and communication bridge) or
- * src-bex/globalBackgroundHooks (which have access to the browser instance)
+ * src-bex/js/background-hooks.js which have access to the browser instance and communication bridge
+ * and all the active client connections.
  **/
 
 /* global chrome */
 
-import attachActivatedBackgroundHooks from '../../../src-bex/js/activated-background-hooks'
-import attachGlobalBackgroundHooks from '../../../src-bex/js/global-background-hooks'
+import attachBackgroundHooks from '../../../src-bex/js/background-hooks'
 import Bridge from '../bridge'
 
 const connections = {}
-
-attachGlobalBackgroundHooks(chrome)
 
 /**
  * Create a link between App and ContentScript connections
@@ -85,7 +82,7 @@ chrome.runtime.onConnect.addListener(port => {
     }
   })
 
-  attachActivatedBackgroundHooks(chrome, bridge)
+  attachBackgroundHooks(bridge, connections)
 
   // Map a messaging layer between the App and ContentScript
   for (let connectionId of Object.keys(connections)) {
