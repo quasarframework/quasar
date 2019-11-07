@@ -23,13 +23,13 @@ console.log(`
     --version, -v Print Quasar CLI version
 
   Commands
-    create        Create a project folder
-    info          Display info about your machine
-                    (and your App if in a project folder)
-    upgrade       Check (and optionally) upgrade Quasar packages
-                    from a Quasar project folder
-    serve         Create an ad-hoc server on App's distributables
-    help          Displays this message
+    create    Create a project folder
+    info      Display info about your machine
+                   (and your App if in a project folder)
+    upgrade   Check (and optionally) upgrade Quasar packages
+                   from a Quasar project folder
+    serve     Create an ad-hoc server on App's distributables
+    help, -h  Displays this message
 
   --------------
   => IMPORTANT !

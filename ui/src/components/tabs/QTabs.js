@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
-import QResizeObserver from '../observer/QResizeObserver.js'
+import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'

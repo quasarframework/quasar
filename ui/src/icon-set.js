@@ -4,7 +4,6 @@ import { isSSR } from './plugins/Platform.js'
 import materialIcons from '../icon-set/material-icons.js'
 
 export default {
-  __installed: false,
   install ($q, iconSet) {
     this.set = (iconDef = materialIcons) => {
       iconDef.set = this.set
@@ -21,5 +20,9 @@ export default {
     }
 
     this.set(iconSet)
+
+    if (isSSR !== true) {
+      Vue.util.defineReactive($q, 'iconMapFn', void 0)
+    }
   }
 }

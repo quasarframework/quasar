@@ -156,7 +156,7 @@
         </q-card-section>
       </q-card>
 
-      <q-card dark bordered class="bg-grey-9">
+      <q-card dark bordered class="bg-grey-9 text-whiteq">
         <q-card-section>
           <div class="text-h6">
             Our Changing Planet

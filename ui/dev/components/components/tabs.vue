@@ -1,6 +1,6 @@
 <template>
-  <div class="tabs-demo bg-grey-3 q-py-xl">
-    <div class="text-primary">
+  <div class="tabs-demo q-py-xl">
+    <div class="">
       <div>
         <q-checkbox v-model="dense" label="Dense" />
       </div>
@@ -408,7 +408,7 @@
           swipeable
           animated
           infinite
-          class="text-black text-center"
+          class="text-center"
         >
           <q-tab-panel :name="panelTest ? 'two' : 'one'">
             <q-btn dense round icon="map" class="absolute-bottom-right" />
@@ -435,7 +435,7 @@
         animated
         transition-prev="scale"
         transition-next="scale"
-        class="text-black text-center"
+        class="text-center"
       >
         <q-tab-panel name="one">
           <q-btn dense round icon="map" class="absolute-bottom-right" />
@@ -461,7 +461,7 @@
         animated
         transition-prev="fade"
         transition-next="fade"
-        class="q-mt-lg text-black text-center"
+        class="q-mt-lg text-center"
         style="height: 150px"
       >
         <q-tab-panel name="one">

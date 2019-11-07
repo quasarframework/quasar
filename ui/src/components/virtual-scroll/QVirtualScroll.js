@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import QList from '../list/QList.js'
-import QMarkupTable from '../table/QMarkupTable.js'
+import QList from '../item/QList.js'
+import QMarkupTable from '../markup-table/QMarkupTable.js'
 import getTableMiddle from '../table/get-table-middle.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 

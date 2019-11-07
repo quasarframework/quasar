@@ -2,7 +2,7 @@
   <div class="q-layout-padding" :class="classes">
     <div style="max-width: 600px; margin-bottom: 100vh" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="border" label="Border" />
         <q-toggle :dark="dark" v-model="individualBorder" label="Individual Border" />
@@ -235,7 +235,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       border: false,
       dense: false,
       individualBorder: false,

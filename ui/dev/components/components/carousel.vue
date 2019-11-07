@@ -23,7 +23,7 @@
       padding
       :arrows="arrows"
       height="200px"
-      class="bg-white shadow-1 rounded-borders"
+      class="shadow-1 rounded-borders"
     >
       <q-carousel-slide :name="0" class="column no-wrap flex-center">
         <q-icon name="style" color="primary" size="56px" />

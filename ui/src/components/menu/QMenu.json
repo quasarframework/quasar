@@ -6,6 +6,11 @@
   },
 
   "props": {
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    },
+
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",

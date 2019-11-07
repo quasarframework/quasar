@@ -42,7 +42,7 @@ export default Vue.extend({
           if (typeof valid.then === 'function') {
             promises.push(
               valid.then(
-                v => ({ valid: v, comp }),
+                valid => ({ valid, comp }),
                 error => ({ valid: false, comp, error })
               )
             )
@@ -73,9 +73,15 @@ export default Vue.extend({
       return Promise.all(promises).then(
         res => {
           if (index === this.validateIndex) {
-            const { valid, comp } = res[0]
+            const errors = res.filter(r => r.valid !== true)
 
-            emit(valid)
+            if (errors.length === 0) {
+              emit(true)
+              return true
+            }
+
+            emit(false)
+            const { valid, comp } = errors[0]
 
             if (
               focus === true &&
@@ -85,7 +91,7 @@ export default Vue.extend({
               comp.focus()
             }
 
-            return valid
+            return false
           }
         }
       )

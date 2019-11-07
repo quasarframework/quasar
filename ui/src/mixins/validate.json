@@ -49,6 +49,14 @@
           "desc": "Optional value to validate against",
           "__exemption": [ "examples" ]
         }
+      },
+      "returns": {
+        "type": [ "Boolean", "Promise<boolean>" ],
+        "desc": "True/false if no async rules, otherwise a Promise with the outcome (true -> validation was a success, false -> invalid models detected)",
+        "examples": [
+          "true",
+          "validate().then(outcome => { ... })"
+        ]
       }
     }
   }

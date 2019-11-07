@@ -44,7 +44,6 @@ const gettingStarted = [
   },
   {
     name: 'VS Code Configuration',
-    badge: 'new',
     path: 'vs-code-configuration'
   }
 ]
@@ -181,7 +180,6 @@ const cli = [
       },
       {
         name: 'CSS Preprocessors',
-        badge: 'new',
         path: 'css-preprocessors'
       },
       {
@@ -483,8 +481,12 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    badge: 'new',
     path: 'theme-builder'
+  },
+  {
+    name: 'Dark Mode',
+    badge: 'new',
+    path: 'dark-mode'
   },
   {
     name: 'Spacing',
@@ -508,7 +510,6 @@ const style = [
   },
   {
     name: 'Sass/SCSS Variables',
-    badge: 'new',
     path: 'sass-scss-variables'
   },
   {
@@ -545,7 +546,6 @@ const layout = [
       },
       {
         name: 'Flex Playground',
-        badge: 'new',
         path: 'flex-playground'
       }
     ]
@@ -572,13 +572,11 @@ const layout = [
   },
   {
     name: 'Layout Builder',
-    badge: 'new',
     external: true,
     path: '/layout-builder'
   },
   {
     name: 'Layout Gallery',
-    badge: 'new',
     path: 'gallery'
   },
   {
@@ -605,8 +603,18 @@ const directives = [
     path: 'go-back'
   },
   {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
+  },
+  {
     name: 'Material Ripples',
     path: 'material-ripple'
+  },
+  {
+    name: 'Mutation',
+    badge: 'new',
+    path: 'mutation'
   },
   {
     name: 'Scroll',
@@ -654,6 +662,11 @@ const plugins = [
   {
     name: 'Cookies',
     path: 'cookies'
+  },
+  {
+    name: 'Dark',
+    path: 'dark',
+    badge: 'new'
   },
   {
     name: 'Dialog',
@@ -820,10 +833,12 @@ const components = [
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {
     name: 'Img',
+    badge: 'update',
     path: 'img'
   },
   {
@@ -833,6 +848,11 @@ const components = [
   {
     name: 'Inner Loading',
     path: 'inner-loading'
+  },
+  {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
   },
   {
     name: 'Knob',
@@ -930,6 +950,7 @@ const components = [
   },
   {
     name: 'Table',
+    badge: 'update',
     path: 'table'
   },
   {
@@ -1068,6 +1089,7 @@ const utils = [
   }
 ]
 
+/*
 // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
 const firebaseAuthTypes = [{
   name: 'Email',
@@ -1147,6 +1169,7 @@ const backends = [
     path: 'laravel'
   }
 ]
+*/
 
 module.exports = [
   {
@@ -1246,12 +1269,15 @@ module.exports = [
     icon: 'healing',
     path: 'quasar-utils',
     children: utils
-  },
+  }
+
+  /*
   // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
-  {
+  ,{
     name: 'Backend & API',
     icon: 'storage',
     path: 'backend-and-api',
     children: backends
   }
+  */
 ]

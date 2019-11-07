@@ -1,5 +1,5 @@
 <template>
-  <div :class="dark ? 'bg-black text-white' : 'bg-white'">
+  <div :class="dark ? 'bg-black text-white' : ''">
     <div class="q-layout-padding q-mx-auto" style="max-width: 500px">
       <q-item tag="label" dark class="q-my-sm bg-primary shadow-1" style="border-radius: 30px">
         <q-item-section>
@@ -7,7 +7,7 @@
         </q-item-section>
 
         <q-item-section side>
-          <q-toggle v-model="dark" color="accent" :dark="dark" />
+          <q-toggle v-model="dark" color="accent" :dark="dark" :false-value="null" />
         </q-item-section>
       </q-item>
 
@@ -772,7 +772,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       separator: false,
 
       check1: true,

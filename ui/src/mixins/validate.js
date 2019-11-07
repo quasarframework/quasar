@@ -137,25 +137,27 @@ export default {
 
       return Promise.all(promises).then(
         res => {
-          if (index === this.validateIndex) {
-            if (res === void 0 || Array.isArray(res) === false || res.length === 0) {
-              update(false)
-              return true
-            }
-            else {
-              const msg = res.find(r => r === false || typeof r === 'string')
-              update(msg !== void 0, msg)
-              return msg === void 0
-            }
+          if (index !== this.validateIndex) {
+            return true
           }
-          return true
+
+          if (res === void 0 || Array.isArray(res) === false || res.length === 0) {
+            update(false)
+            return true
+          }
+
+          const msg = res.find(r => r === false || typeof r === 'string')
+          update(msg !== void 0, msg)
+          return msg === void 0
         },
-        (e) => {
+        e => {
           if (index === this.validateIndex) {
             console.error(e)
             update(true)
             return false
           }
+
+          return true
         }
       )
     },

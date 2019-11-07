@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
-import QScrollObserver from '../observer/QScrollObserver.js'
-import QResizeObserver from '../observer/QResizeObserver.js'
+import QScrollObserver from '../scroll-observer/QScrollObserver.js'
+import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/Platform.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
 import slot from '../../utils/slot.js'

@@ -162,6 +162,11 @@
         </div>
         <q-btn outline color="primary" label="Button" class="on-right" @click="onClick" />
       </form>
+
+      <div class="row" style="width: 150px; margin: 50px;">
+        <q-btn color="indigo" class="col-3" icon="search" to="test" />
+        <q-btn color="indigo" class="col-3" icon="search" />
+      </div>
     </div>
   </div>
 </template>

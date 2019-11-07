@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import DarkMixin from '../../mixins/dark.js'
 import RippleMixin from '../../mixins/ripple.js'
 import SizeMixin from '../../mixins/size.js'
 
@@ -19,7 +20,7 @@ const sizes = {
 export default Vue.extend({
   name: 'QChip',
 
-  mixins: [ RippleMixin, SizeMixin ],
+  mixins: [ RippleMixin, SizeMixin, DarkMixin ],
 
   model: {
     event: 'remove'
@@ -57,7 +58,7 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      const text = this.outline
+      const text = this.outline === true
         ? this.color || this.textColor
         : this.textColor
 
@@ -69,7 +70,8 @@ export default Vue.extend({
         'q-chip--outline': this.outline,
         'q-chip--selected': this.selected,
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
-        'q-chip--square': this.square
+        'q-chip--square': this.square,
+        'q-chip--dark q-dark': this.isDark
       }
     },
 

@@ -76,7 +76,7 @@ function parseSet (setName, set) {
 export default {
   data () {
     return {
-      icon: 'cloud',
+      icon: 'add_box',
       text: 'gigi'
     }
   },

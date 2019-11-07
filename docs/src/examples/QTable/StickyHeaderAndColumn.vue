@@ -178,18 +178,22 @@ export default {
   .q-table__middle
     max-height: 200px
 
-  td:first-child /* bg color is important for td; just specify one */
+  td:first-child
+    /* bg color is important for td; just specify one */
     background-color: #c1f4cd !important
 
-  tr:first-child th
+  tr th
     position: sticky
-    top: 0
-    opacity: 1 /* opacity is important */
-    z-index: 2 /* higher than z-index for td below */
-    background: #fff /* bg color is important; just specify one */
+    /* higher than z-index for td below */
+    z-index: 2
+    /* bg color is important; just specify one */
+    background: #fff
 
+  tr:first-child th
+    top: 0
   tr:first-child th:first-child
-    z-index: 3 /* highest z-index */
+    /* highest z-index */
+    z-index: 3
 
   td:first-child
     z-index: 1
@@ -197,4 +201,11 @@ export default {
   td:first-child, th:first-child
     position: sticky
     left: 0
+
+  /* this is when the loading indicator appears */
+  &.q-table--loading thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
+    /* highest z-index */
+    z-index: 3
 </style>

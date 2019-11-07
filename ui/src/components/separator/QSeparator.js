@@ -1,10 +1,13 @@
 import Vue from 'vue'
 
+import DarkMixin from '../../mixins/dark.js'
+
 export default Vue.extend({
   name: 'QSeparator',
 
+  mixins: [ DarkMixin ],
+
   props: {
-    dark: Boolean,
     spaced: Boolean,
     inset: [Boolean, String],
     vertical: Boolean,
@@ -15,7 +18,7 @@ export default Vue.extend({
     classes () {
       return {
         [`bg-${this.color}`]: this.color,
-        'q-separator--dark': this.dark,
+        'q-separator--dark': this.isDark,
         'q-separator--spaced': this.spaced,
         'q-separator--inset': this.inset === true,
         'q-separator--item-inset': this.inset === 'item',

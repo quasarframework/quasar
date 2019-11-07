@@ -30,21 +30,37 @@ QRouteTab won't and cannot work with the UMD version because in that environment
 QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action. On a desktop you will see chevons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
 :::
 
+### Basic
+
 <doc-example title="Basic" file="QTabs/Basic" />
+
+### Vertical
 
 <doc-example title="Vertical (example with QSplitter)" file="QTabs/Vertical" />
 
+### Dense
+
 <doc-example title="Dense" file="QTabs/Dense" />
+
+### Individual colors
 
 <doc-example title="Individual colors" file="QTabs/IndividualColor" />
 
+### Ripple
+
 <doc-example title="No ripple and custom ripple color" file="QTabs/Ripples" />
+
+### Custom indicator
 
 In the examples below, please notice the last two QTabs: indicator at top and no indicator.
 
 <doc-example title="Custom indicator" file="QTabs/CustomIndicator" />
 
+### Tab notifications
+
 <doc-example title="Tab notifications" file="QTabs/Notifying" />
+
+### Alignment
 
 QTabs are responsive and the `align` prop (see below) becomes active when the container width (not window width) is bigger than the configured breakpoint. For demoing purposes, the tabs below have breakpoint disabled.
 
@@ -52,15 +68,17 @@ QTabs are responsive and the `align` prop (see below) becomes active when the co
 
 In the second QTabs from the example below, if window width is below 1024px then the "Movies" and "Photos" tabs will be replaced by a "More..." dropdown.
 
+### With dropdown
+
 <doc-example title="With a dropdown" file="QTabs/Dropdown" />
 
-## Using along QToolbar
+### On QToolbar
 
 Notice we need to specify the `shrink` prop. By default, QTabs tries to expand to all the available horizontal space, but in this case we are using it as a child of QToolbar so we don't want that.
 
 <doc-example title="Tabs in a QToolbar" file="QTabs/TabsInToolbar" />
 
-## Using along QTabsPanel
+### Along with QTabsPanel
 
 ::: tip
 QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near a QTabs.

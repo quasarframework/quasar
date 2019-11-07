@@ -1,5 +1,5 @@
 <template>
-  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <div class="q-gutter-xs">
       <q-radio :dark="dark" v-model="type" val="filled" label="Filled" />
       <q-radio :dark="dark" v-model="type" val="outlined" label="Outlined" />
@@ -8,7 +8,7 @@
       <q-radio :dark="dark" v-model="type" val="borderless" label="Borderless" />
     </div>
     <div class="q-gutter-xs">
-      <q-toggle :dark="dark" v-model="dark" label="Dark" />
+      <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
       <q-toggle :dark="dark" v-model="dense" label="Dense" />
       <q-toggle :dark="dark" v-model="disable" label="Disable" />
       <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
@@ -407,7 +407,7 @@ export default {
   data () {
     return {
       type: 'outlined',
-      dark: false,
+      dark: null,
       dense: false,
       disable: false,
       readonly: false,
