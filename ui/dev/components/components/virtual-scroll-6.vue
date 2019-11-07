@@ -45,20 +45,22 @@
           <template v-slot="{ item: row, index: rowNr }">
             <tr :key="rowNr" :class="rowNr === listIndex ? 'text-primary' : ''">
               <td v-for="column in columns" :key="column">
-                <div>{{ row[column] }}</div>
-                <div v-if="rowNr % 3 === 0">
-                  {{ row[column] }} again
-                </div>
-                <div v-if="rowNr % 5 === 0">
-                  {{ row[column] }} again again
-                </div>
-                <q-img v-if="column === 'col2'" :src="row[column]" />
+                <template v-if="column !== 'col2'">
+                  <div>{{ row[column] }}</div>
+                  <div v-if="rowNr % 3 === 0">
+                    {{ row[column] }} again
+                  </div>
+                  <div v-if="rowNr % 5 === 0">
+                    {{ row[column] }} again again
+                  </div>
+                </template>
+                <q-img v-else :src="row[column].src" :style="setSize ? { height: (2 * row[column].height) + 'px', width: (2 * row[column].width) + 'px' } : void 0" />
               </td>
             </tr>
           </template>
         </q-virtual-scroll>
 
-        <div class="q-pa-md">
+        <div class="row q-pa-md">
           <div class="col">
             <q-input
               type="number"
@@ -71,6 +73,7 @@
               @input="onIndexChange"
             />
           </div>
+          <q-toggle v-model="setSize" label="Preset size" />
         </div>
       </q-page>
     </q-page-container>
@@ -115,7 +118,11 @@ for (let i = 0; i <= listSize; i++) {
       const
         width = getRandomInt(100, 150),
         height = getRandomInt(150, 350)
-      row[columns[j]] = 'https://www.fillmurray.com/' + width + '/' + height + '?ver=' + j
+      row[columns[j]] = {
+        src: 'https://www.fillmurray.com/' + width + '/' + height + '?ver=' + j,
+        width,
+        height
+      }
     }
   }
   heavyList.push(row)
@@ -127,7 +134,8 @@ export default {
       heavyList,
       columns,
       listSize,
-      listIndex: 8200
+      listIndex: 8200,
+      setSize: false
     }
   },
   methods: {
