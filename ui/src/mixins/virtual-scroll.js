@@ -313,7 +313,7 @@ export default {
       })
     },
 
-    __updateVirtualScrollSizes (from, toIndex) {
+    __updateVirtualScrollSizes (from) {
       const contentEl = this.$refs.content
 
       if (contentEl !== void 0) {
