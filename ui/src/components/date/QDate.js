@@ -11,6 +11,7 @@ const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
 
 const KEYCODE_TAB = 9
+const KEYCODE_ENTER = 13
 
 export default Vue.extend({
   name: 'QDate',
@@ -380,6 +381,7 @@ export default Vue.extend({
                 on: {
                   click: () => { this.view = 'Years' },
                   keyup: e => {
+                    e.keyCode === KEYCODE_ENTER && (this.view = 'Years')
                     if (e.keyCode === KEYCODE_TAB) {
                       this.$refs.subtitle.classList.add('focus-only')
                     }
@@ -409,6 +411,7 @@ export default Vue.extend({
                   on: {
                     click: () => { this.view = 'Calendar' },
                     keyup: e => {
+                      e.keyCode === KEYCODE_ENTER && (this.view = 'Calendar')
                       if (e.keyCode === KEYCODE_TAB) {
                         this.$refs.headerTitle.classList.add('focus-only')
                       }
