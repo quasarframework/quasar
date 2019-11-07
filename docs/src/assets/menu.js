@@ -833,10 +833,12 @@ const components = [
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {
     name: 'Img',
+    badge: 'update',
     path: 'img'
   },
   {
@@ -948,6 +950,7 @@ const components = [
   },
   {
     name: 'Table',
+    badge: 'update',
     path: 'table'
   },
   {
