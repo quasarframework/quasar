@@ -293,7 +293,7 @@
         ":card-container-style=\"{ backgroundColor: '#ff0000' }\""
       ],
       "category": "style",
-      "addedIn": "v1.3.1"
+      "addedIn": "v1.4.0"
     },
 
     "card-container-class": {
@@ -305,9 +305,9 @@
         ":card-container-class=\"{ 'my-special-class': [Boolean condition] }\""
       ],
       "category": "style",
-      "addedIn": "v1.3.1"
+      "addedIn": "v1.4.0"
     },
-    
+
     "card-style": {
       "type": [ "String", "Array", "Object" ],
       "desc": "CSS style to apply to the card (when in grid mode)",
