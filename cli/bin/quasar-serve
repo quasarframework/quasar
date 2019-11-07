@@ -135,7 +135,7 @@ if (ssrDetected === false) {
   const app = express()
 
   if (!argv.silent) {
-    app.get('*', (req, res, next) => {
+    app.get('*', (req, _, next) => {
       console.log(
         `GET ${green(req.url)} ${grey('[' + req.ip + ']')} ${new Date()}`
       )
