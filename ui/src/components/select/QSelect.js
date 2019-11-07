@@ -195,9 +195,11 @@ export default Vue.extend({
       )
     },
 
-    selectedScope () {
-      const tabindex = this.focused === true ? this.tabindex : -1
+    computedTabindex () {
+      return this.focused === true ? this.tabindex : -1
+    },
 
+    selectedScope () {
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
@@ -205,7 +207,7 @@ export default Vue.extend({
         selected: true,
         removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
-        tabindex
+        tabindex: this.computedTabindex
       }))
     },
 
@@ -669,15 +671,13 @@ export default Vue.extend({
       }
 
       if (this.useChips === true) {
-        const tabindex = this.focused === true ? this.tabindex : -1
-
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
             removable: this.__isDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
-            tabindex
+            tabindex: this.computedTabindex
           },
           on: {
             remove () { scope.removeAtIndex(i) }
