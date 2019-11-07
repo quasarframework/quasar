@@ -2,7 +2,7 @@
   <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
     <div class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
@@ -337,7 +337,7 @@ const localeOptions = languages.map(lang => ({
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       disable: false,
       readonly: false,
       fullWidth: false,

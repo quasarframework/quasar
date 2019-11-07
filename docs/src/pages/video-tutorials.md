@@ -7,6 +7,17 @@ components:
 
 The following video tutorials have been created by the community on Udemy platform.
 
-If you want to have your own video tutorial listed here, please email `razvan.stoenescu [at] gmail [dot] com` with the details. Thank you.
+::: tip TIPS
+* **By purchasing a course with the links below you will also help Quasar because we get a share of the sale.**
+* If you want to have your own video tutorial listed here, please email `razvan.stoenescu [at] gmail [dot] com` with the details. Thank you.
+:::
 
-<tutorial-listing class="q-mt-lg" />
+## Quasar video tutorials
+
+<tutorial-listing which="quasar" />
+
+## Vue video tutorials
+
+Quasar is based on Vue, so knowledge about it is important too.
+
+<tutorial-listing which="vue" />

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ checked }}</em></span>
       </div>
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
       <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
@@ -18,6 +18,7 @@
         Indeterminate
       </p>
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Tap me to change between 3 states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="accent" label="Tap me to change between 3 states" />
 
       <p class="caption">
         Tests
@@ -186,7 +187,7 @@ export default {
       checked: true,
       group: ['op2'],
       selection: ['one', 'two', 'three'],
-      dark: false,
+      dark: null,
       dense: false,
       keepColor: false,
       indModel: null,

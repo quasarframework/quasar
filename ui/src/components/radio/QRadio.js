@@ -1,10 +1,13 @@
 import Vue from 'vue'
 
+import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QRadio',
+
+  mixins: [ DarkMixin ],
 
   props: {
     value: {
@@ -19,7 +22,6 @@ export default Vue.extend({
 
     color: String,
     keepColor: Boolean,
-    dark: Boolean,
     dense: Boolean,
 
     disable: Boolean,
@@ -34,7 +36,7 @@ export default Vue.extend({
     classes () {
       return {
         'disabled': this.disable,
-        'q-radio--dark': this.dark,
+        'q-radio--dark': this.isDark,
         'q-radio--dense': this.dense,
         'reverse': this.leftLabel
       }

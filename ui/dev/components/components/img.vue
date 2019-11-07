@@ -43,6 +43,21 @@
 
       <q-img
         :src="url"
+        alt="Image"
+        style="max-width: 400px"
+        img-class="blurry"
+      >
+        <div slot="loading" class="text-h2 text-white">
+          Loading...
+        </div>
+
+        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
+          Caption
+        </div>
+      </q-img>
+
+      <q-img
+        :src="url"
         placeholder-src="https://picsum.photos/500/300/?blur"
         :ratio="16/9"
         spinner-color="white"
@@ -129,3 +144,8 @@ export default {
   }
 }
 </script>
+
+<style lang="sass">
+.blurry
+  filter: blur(3px) sepia()
+</style>

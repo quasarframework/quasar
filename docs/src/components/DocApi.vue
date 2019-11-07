@@ -152,7 +152,7 @@ export default {
 
           Object.keys(tabApi).forEach(name => {
             if (
-              (name.indexOf(val) > -1) ||
+              (name.toLowerCase().indexOf(val) > -1) ||
               (tabApi[name].desc !== void 0 && tabApi[name].desc.toLowerCase().indexOf(val) > -1)
             ) {
               filtered[name] = tabApi[name]
@@ -163,6 +163,7 @@ export default {
 
         if (this.aggregationModel[tab]) {
           api[tab] = {}
+
           for (let group in this.api[tab]) {
             if (this.api[tab].hasOwnProperty(group)) {
               api[tab][group] = filterApi(this.api[tab][group])
@@ -245,13 +246,15 @@ export default {
     },
 
     apiCount (tab) {
-      if (tab === 'props') {
+      if (this.apiType !== 'plugin' && tab === 'props') {
         let total = 0
+
         if (this.currentTabMaxCategoryPropCount > 0) {
           Object.keys(this.filteredApi[tab]).forEach(key => {
             total += Object.keys(this.filteredApi[tab][key]).length
           })
         }
+
         return total
       }
 
@@ -273,7 +276,7 @@ export default {
 
   computed: {
     currentTabMaxCategoryPropCount () {
-      const calculateFn = () => {
+      if (this.aggregationModel[this.currentTab]) {
         let max = -1
         for (let category in this.filteredApi[this.currentTab]) {
           let count = this.apiInnerCount(this.currentTab, category)
@@ -283,7 +286,8 @@ export default {
         }
         return max
       }
-      return this.aggregationModel[this.currentTab] ? calculateFn() : 0
+
+      return 0
     }
   },
 

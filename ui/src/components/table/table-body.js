@@ -28,9 +28,8 @@ export default {
             return slot !== void 0
               ? slot(this.addBodyCellMetaData({ row, col }))
               : h('td', {
-                staticClass: col.__tdClass,
-                style: col.style,
-                class: col.classes
+                class: col.__tdClass,
+                style: col.__tdStyle
               }, this.getCellValue(col, row))
           })
 
@@ -40,7 +39,7 @@ export default {
             props: {
               value: selected,
               color: this.color,
-              dark: this.dark,
+              dark: this.isDark,
               dense: this.dense
             },
             on: {

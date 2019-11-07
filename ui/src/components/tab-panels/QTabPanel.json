@@ -5,6 +5,13 @@
     "$listeners": true
   },
 
+  "props": {
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    }
+  },
+
   "slots": {
     "default": {
       "extends": "default"

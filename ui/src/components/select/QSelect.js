@@ -4,9 +4,9 @@ import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
 import QChip from '../chip/QChip.js'
 
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
-import QItemLabel from '../list/QItemLabel.js'
+import QItem from '../item/QItem.js'
+import QItemSection from '../item/QItemSection.js'
+import QItemLabel from '../item/QItemLabel.js'
 
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
@@ -79,6 +79,11 @@ export default Vue.extend({
     inputClass: [Array, String, Object],
     inputStyle: [Array, String, Object],
 
+    tabindex: {
+      type: [String, Number],
+      default: 0
+    },
+
     transitionShow: String,
     transitionHide: String,
 
@@ -126,6 +131,10 @@ export default Vue.extend({
   },
 
   computed: {
+    isOptionsDark () {
+      return this.isDark === true || this.optionsDark === true
+    },
+
     virtualScrollLength () {
       return Array.isArray(this.options)
         ? this.options.length
@@ -149,10 +158,6 @@ export default Vue.extend({
     menuContentClass () {
       return (this.virtualScrollHorizontal === true ? 'q-virtual-scroll--horizontal' : '') +
         (this.popupContentClass ? ' ' + this.popupContentClass : '')
-    },
-
-    menuClass () {
-      return this.menuContentClass + (this.optionsDark === true ? ' q-select__menu--dark' : '')
     },
 
     innerValue () {
@@ -190,9 +195,11 @@ export default Vue.extend({
       )
     },
 
-    selectedScope () {
-      const tabindex = this.focused === true ? 0 : -1
+    computedTabindex () {
+      return this.focused === true ? this.tabindex : -1
+    },
 
+    selectedScope () {
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
@@ -200,7 +207,7 @@ export default Vue.extend({
         selected: true,
         removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
-        tabindex
+        tabindex: this.computedTabindex
       }))
     },
 
@@ -224,7 +231,7 @@ export default Vue.extend({
           disable,
           tabindex: -1,
           dense: this.optionsDense,
-          dark: this.optionsDark
+          dark: this.isOptionsDark
         }
 
         if (disable !== true) {
@@ -664,15 +671,13 @@ export default Vue.extend({
       }
 
       if (this.useChips === true) {
-        const tabindex = this.focused === true ? 0 : -1
-
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
             removable: this.__isDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
-            tabindex
+            tabindex: this.computedTabindex
           },
           on: {
             remove () { scope.removeAtIndex(i) }
@@ -711,7 +716,7 @@ export default Vue.extend({
           ref: isShadowField === true ? void 0 : 'target',
           staticClass: 'no-outline',
           attrs: {
-            tabindex: 0,
+            tabindex: this.tabindex,
             id: isShadowField === true ? void 0 : this.targetUid
           },
           on: {
@@ -798,7 +803,7 @@ export default Vue.extend({
           // required for Android in order to show ENTER key when in form
           type: 'search',
           ...this.$attrs,
-          tabindex: 0,
+          tabindex: this.tabindex,
           autofocus: fromDialog === true ? false : this.autofocus,
           id: this.targetUid,
           disabled: this.disable === true,
@@ -966,8 +971,9 @@ export default Vue.extend({
           value: this.menu,
           fit: true,
           cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
-          contentClass: this.menuClass,
+          contentClass: this.menuContentClass,
           contentStyle: this.popupContentStyle,
+          dark: this.isOptionsDark,
           noParentEvent: true,
           noRefocus: true,
           noFocus: true,
@@ -1006,7 +1012,7 @@ export default Vue.extend({
           },
           props: {
             ...this.$props,
-            dark: this.optionsDark,
+            dark: this.isOptionsDark,
             square: true,
             loading: this.innerLoading,
             filled: true,
@@ -1051,6 +1057,7 @@ export default Vue.extend({
         ref: 'dialog',
         props: {
           value: this.dialog,
+          dark: this.isOptionsDark,
           position: this.useInput === true ? 'top' : void 0,
           transitionShow: this.transitionShowComputed,
           transitionHide: this.transitionHide
@@ -1063,7 +1070,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'q-select__dialog' +
-            (this.optionsDark === true ? ' q-select__menu--dark' : '') +
+            (this.isOptionsDark === true ? ' q-select__dialog--dark q-dark' : '') +
             (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
         }, content)
       ])

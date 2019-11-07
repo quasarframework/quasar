@@ -17,7 +17,6 @@ Simply replace the version string in all the CSS and JS tags that refer to Quasa
 ```bash
 # run these commands inside
 # of a Quasar v1 project
-# (need global @quasar/cli to be >= 1.0.0-beta.3)
 
 # check for upgradable packages
 $ quasar upgrade
@@ -208,11 +207,11 @@ $ npm install -g @quasar/cli
 
   ```bash
   Global packages
-    @quasar/cli - 1.0.0-beta.0
+    @quasar/cli - 1.0.0
 
   Important local packages
-    quasar - 1.0.0-beta.3 -- High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase
-    @quasar/app - 1.0.0-beta.5 -- Quasar Framework App CLI
+    quasar - 1.0.0 -- High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase
+    @quasar/app - 1.0.0 -- Quasar Framework App CLI
     @quasar/extras - 1.0.0 -- Quasar Framework fonts, icons and animations
   ```
 

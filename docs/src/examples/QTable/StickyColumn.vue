@@ -174,15 +174,14 @@ export default {
     highlight the sticky column on any browser window */
   max-width: 600px
 
-  /* bg color is important for th; just specify one */
   thead tr:first-child th:first-child
+    /* bg color is important for th; just specify one */
     background-color: #fff
-    opacity: 1
 
   td:first-child
     background-color: #f5f5dc
 
-  thead tr:first-child th:first-child,
+  th:first-child,
   td:first-child
     position: sticky
     left: 0

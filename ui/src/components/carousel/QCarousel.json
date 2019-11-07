@@ -2,6 +2,11 @@
   "mixins": [ "mixins/panel-parent", "mixins/fullscreen" ],
 
   "props": {
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    },
+
     "transition-prev": {
       "default": "fade",
       "category": "behavior"

@@ -51,6 +51,14 @@ div
           q-icon(name="style")
         q-item-section Theme Builder
 
+      q-item(clickable, to="/style/dark-mode")
+        q-item-section(avatar)
+          q-icon(name="invert_colors")
+        q-item-section
+          .row.no-wrap.items-center
+            span Dark Mode
+            q-badge.q-ml-sm new
+
       q-item(clickable, tag="a", href="/layout-builder", target="_blank")
         q-item-section.text-primary(avatar)
           q-icon(name="dashboard")

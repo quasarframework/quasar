@@ -184,20 +184,15 @@ export default Vue.extend({
   },
 
   render (h) {
-    const content = slot(this, 'default')
-    const body = [
+    const child = slot(this, 'default', [])
+
+    child[this.reverse === false ? 'push' : 'unshift'](
       h('div', {
         staticClass: 'q-infinite-scroll__loading',
         class: this.fetching === true ? '' : 'invisible'
       }, slot(this, 'loading'))
-    ]
-
-    return h(
-      'div',
-      { staticClass: 'q-infinite-scroll' },
-      this.reverse === false
-        ? content.concat(body)
-        : body.concat(content)
     )
+
+    return h('div', { staticClass: 'q-infinite-scroll' }, child)
   }
 })

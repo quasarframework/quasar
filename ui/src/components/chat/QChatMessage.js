@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import slot from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QChatMessage',
 
@@ -73,6 +75,17 @@ export default Vue.extend({
     },
 
     __getMessage (h) {
+      const content = slot(this, 'default', [])
+
+      if (this.stamp !== void 0) {
+        content.push(
+          h('div', {
+            staticClass: 'q-message-stamp',
+            domProps: { [this.stampSanitize === true ? 'textContent' : 'innerHTML']: this.stamp }
+          })
+        )
+      }
+
       return h('div', {
         staticClass: 'q-message-text',
         class: this.messageClass
@@ -80,14 +93,7 @@ export default Vue.extend({
         h('span', {
           staticClass: 'q-message-text-content',
           class: this.textClass
-        }, this.$scopedSlots.default().concat([
-          this.stamp !== void 0
-            ? h('div', {
-              staticClass: 'q-message-stamp',
-              domProps: { [this.stampSanitize === true ? 'textContent' : 'innerHTML']: this.stamp }
-            })
-            : null
-        ]))
+        }, content)
       ])
     }
   },

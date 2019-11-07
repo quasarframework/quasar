@@ -16,7 +16,11 @@ They are basically [QItem](/vue-components/list-and-list-items) components wrapp
 
 ## Usage
 
+### Basic
+
 <doc-example title="Basic" file="QExpansionItem/Basic" />
+
+### Controlling expansion state
 
 <doc-example title="Controlling expansion state" file="QExpansionItem/ControlExpansionState" />
 

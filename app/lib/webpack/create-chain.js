@@ -316,6 +316,7 @@ module.exports = function (cfg, configName) {
         .minimizer('js')
         .use(TerserPlugin, [{
           terserOptions: cfg.build.uglifyOptions,
+          extractComments: false,
           cache: true,
           parallel: true,
           sourceMap: cfg.build.sourceMap

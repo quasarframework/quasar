@@ -5,7 +5,7 @@
 .q-table
   width 100%
   max-width 100%
-  border-collapse collapse
+  border-collapse separate
   border-spacing 0
 
   thead tr, tbody td
@@ -69,10 +69,10 @@
     height 0 !important
     th
       padding 0 !important
-      border-bottom 1px solid transparent !important
+      border 0 !important
     .q-linear-progress
       position absolute
-      bottom -1px
+      bottom 0
 
   &__middle
     max-width 100%
@@ -166,32 +166,18 @@
 /*
  * Separators
  */
-.q-table--horizontal-separator
-  thead, tbody tr:not(:last-child) td
-    border-width 0 0 1px 0
+.q-table--horizontal-separator, .q-table--cell-separator
+  thead th, tbody tr:not(:last-child) td
+    border-bottom-width 1px
 
-.q-table--vertical-separator
+.q-table--vertical-separator, .q-table--cell-separator
   td, th
-    border-width 0 0 0 1px
-  thead tr:last-child th
+    border-left-width 1px
+  thead tr:last-child th,
+  &.q-table--loading tr:nth-last-child(2) th
     border-bottom-width 1px
   td:first-child, th:first-child
     border-left 0
-
-.q-table--cell-separator
-  td, th
-    border-width 1px
-  td:first-child, th:first-child
-    border-left 0
-  td:last-child, th:last-child
-    border-right 0
-  thead tr:first-child th
-    border-top 0
-  tbody
-    tr:last-child td
-      border-bottom 0
-
-.q-table--vertical-separator, .q-table--cell-separator
   .q-table__top
     border-bottom 1px solid $table-border-color
 
@@ -227,34 +213,45 @@
 .q-table // @stylint ignore
   thead, tr, th, td
     border-color $table-border-color
-  tbody tr
-    &.selected
-      background $table-selected-background
-    &:hover
-      background $table-hover-background
+
+  tbody
+    td
+      position relative
+      &:before, &:after
+        position absolute
+        top 0
+        left 0
+        right 0
+        bottom 0
+        pointer-events none
+      &:before
+        background $table-hover-background
+      &:after
+        background $table-selected-background
+
+    tr.selected td:after
+      content ''
+
+body.desktop .q-table tbody tr:hover td:before
+  content ''
 
 /*
  * On dark background
  */
-.q-table__card--dark
-  color #fff
-  background $grey-9
-  border-color $separator-dark-color
+.q-table__card--dark, .q-table--dark
+  border-color $table-dark-border-color
 
 .q-table--dark
-  border-color $separator-dark-color
 
-  .q-table__bottom
-    border-top 1px solid $table-dark-border-color
-
-  thead, tr, th, td
+  .q-table__bottom, thead, tr, th, td
     border-color $table-dark-border-color
-  tbody tr
-    &.selected
-      background $table-dark-selected-background
-    &:hover
+
+  tbody td
+    &:before
       background $table-dark-hover-background
+    &:after
+      background $table-dark-selected-background
 
   &.q-table--vertical-separator, &.q-table--cell-separator
     .q-table__top
-      border-bottom 1px solid $table-dark-border-color
+      border-color $table-dark-border-color

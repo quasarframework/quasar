@@ -36,8 +36,8 @@ Running dev server on a Windows machine and consuming the output in IE11 might r
 If you are developing for UMD and want IE 11 support you will need to add the following HTML tag before the Vue and Quasar tags:
 
 ```
-<!-- replace 1.0.0-beta.16 with your version of Quasar -->
-<script src="https://cdn.jsdelivr.net/npm/quasar@1.0.0-beta.16/dist/quasar.ie.polyfills.umd.min.js"></script>
+<!-- replace "1.0.0" with your version of Quasar -->
+<script src="https://cdn.jsdelivr.net/npm/quasar@1.0.0/dist/quasar.ie.polyfills.umd.min.js"></script>
 ```
 
 ## What does it do?

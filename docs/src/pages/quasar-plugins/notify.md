@@ -64,7 +64,17 @@ First we create the boot file. Let's name it "notify-defaults.js".
 
 ```bash
 $ quasar new boot notify-defaults
-# we then add 'notify-defaults' to quasar.conf.js > boot Array
+```
+
+Add the created notify-defaults.js file to the boot array in `quasar.conf.js`:
+
+```js
+module.exports = function(ctx) {
+  return {
+    // ...
+    boot: ['notify-defaults'],
+    // ...
+  }
 ```
 
 We then edit the newly created `/src/boot/notify-defaults.js`:

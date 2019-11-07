@@ -4,7 +4,7 @@
       <p class="caption">
         Please scroll down to see the image have a short bounce effect when being visible for first time.
       </p>
-      <p v-for="n in 15">
+      <p v-for="n in 15" :key="'a_' + n">
         {{ n }} {{ loremipsum }}
       </p>
 
@@ -15,7 +15,7 @@
         <img v-scroll-fire="bounceImage" src="~assets/quasar.jpg" style="width: 200px">
       </p>
 
-      <p v-for="n in 15">
+      <p v-for="n in 15" :key="'b_' + n">
         {{ n }} {{ loremipsum }}
       </p>
     </div>
