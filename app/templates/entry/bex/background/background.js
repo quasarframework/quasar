@@ -41,7 +41,8 @@ const addConnection = (port) => {
 
   currentConnection[port.name] = {
     port,
-    connected: true
+    connected: true,
+    listening: false
   }
 
   return currentConnection[port.name]
@@ -54,14 +55,32 @@ chrome.runtime.onConnect.addListener(port => {
     thisConnection.connected = false
   })
 
-  // Create a comms layer between the background script and the App / ContentScript
+  /**
+   * Create a comms layer between the background script and the App / ContentScript
+   * Note: This hooks into all connections as the background script should be able to send
+   * messages to all apps / content scripts within it's realm (the BEX)
+   * @type {Bridge}
+   */
   const bridge = new Bridge({
     listen (fn) {
-      thisConnection.port.onMessage.addListener(fn)
+      for(let connectionId in connections) {
+        const connection = connections[connectionId]
+        if (connection.app && !connection.app.listening) {
+          connection.app.listening = true
+          connection.app.port.onMessage.addListener(fn)
+        }
+
+        if (connection.contentScript && !connection.contentScript.listening) {
+          connection.contentScript.port.onMessage.addListener(fn)
+          connection.contentScript.listening = true
+        }
+      }
     },
     send (data) {
-      if (thisConnection.connected) {
-        thisConnection.port.postMessage(data)
+      for(let connectionId in connections) {
+        const connection = connections[connectionId]
+        connection.app && connection.app.connected && connection.app.port.postMessage(data)
+        connection.contentScript && connection.contentScript.connected && connection.contentScript.port.postMessage(data)
       }
     }
   })
