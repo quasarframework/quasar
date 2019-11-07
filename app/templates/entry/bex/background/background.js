@@ -85,7 +85,7 @@ chrome.runtime.onConnect.addListener(port => {
   attachBackgroundHooks(bridge, connections)
 
   // Map a messaging layer between the App and ContentScript
-  for (let connectionId of Object.keys(connections)) {
+  for (let connectionId in connections) {
     const connection = connections[connectionId]
     if (connection.app && connection.contentScript) {
       mapConnections(connection.app, connection.contentScript)
