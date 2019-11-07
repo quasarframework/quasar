@@ -350,10 +350,18 @@ export default Vue.extend({
       }
     },
 
-    __applyBackdrop (x) {
+    __applyBackdrop (x, retry) {
       if (this.$refs.backdrop !== void 0) {
         this.$refs.backdrop.style.backgroundColor =
           this.lastBackdropBg = `rgba(0,0,0,${x * 0.4})`
+      }
+      else {
+        // rendered nodes might not have
+        // picked up this.showing change yet,
+        // so we need one retry
+        retry !== true && this.$nextTick(() => {
+          this.__applyBackdrop(x, true)
+        })
       }
     },
 
