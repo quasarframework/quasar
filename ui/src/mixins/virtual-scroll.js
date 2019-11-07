@@ -240,7 +240,8 @@ export default {
 
       let
         toIndex = 0,
-        listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart
+        listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart,
+        offset = 0
 
       for (let j = 0; listOffset >= this.virtualScrollSizesAgg[j] && toIndex < listLastIndex; j++) {
         listOffset -= this.virtualScrollSizesAgg[j]
@@ -251,6 +252,10 @@ export default {
         listOffset -= this.virtualScrollSizes[toIndex]
         if (listOffset > -scrollDetails.scrollViewSize) {
           toIndex++
+          offset = listOffset
+        }
+        else {
+          offset = this.virtualScrollSizes[toIndex] + listOffset
         }
       }
 
@@ -258,7 +263,7 @@ export default {
         scrollEl,
         scrollDetails,
         toIndex,
-        listOffset
+        offset
       )
     },
 
@@ -317,12 +322,14 @@ export default {
       const contentEl = this.$refs.content
 
       if (contentEl !== void 0) {
-        const children = contentEl.children
+        const
+          children = contentEl.children,
+          sizeProp = this.virtualScrollHorizontal === true ? 'offsetWidth' : 'offsetHeight'
 
         for (let i = children.length - 1; i >= 0; i--) {
           const
             index = from + i,
-            diff = children[i][this.virtualScrollHorizontal === true ? 'offsetWidth' : 'offsetHeight'] - this.virtualScrollSizes[index]
+            diff = children[i][sizeProp] - this.virtualScrollSizes[index]
 
           if (diff !== 0) {
             this.virtualScrollSizes[index] += diff
