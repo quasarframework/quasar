@@ -1,10 +1,9 @@
 /* MaterialDesignIcons.com 4.5.95 */
 @font-face {
-    font-family: "Material Design Icons";
-    src: url("../fonts/materialdesignicons-webfont.eot?v=4.5.95");
-    src: url("../fonts/materialdesignicons-webfont.eot?#iefix&v=4.5.95") format("embedded-opentype"), url("../fonts/materialdesignicons-webfont.woff2?v=4.5.95") format("woff2"), url("../fonts/materialdesignicons-webfont.woff?v=4.5.95") format("woff"), url("../fonts/materialdesignicons-webfont.ttf?v=4.5.95") format("truetype");
-    font-weight: normal;
-    font-style: normal;
+  font-family: "Material Design Icons";
+  src: url("./materialdesignicons-webfont.woff2") format("woff2"), url("./materialdesignicons-webfont.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
 }
 
 .mdi:before,
