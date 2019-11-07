@@ -17,6 +17,12 @@
     background-color var(--q-color-primary)
     padding 16px
 
+  &__header-bkg
+    border-top-left-radius inherit
+    color white
+    background-color $primary
+    background-color var(--q-color-primary)
+
   &__actions
     padding 0 16px 16px
 
@@ -112,6 +118,11 @@
   &__today
     box-shadow 0 0 1px 0 currentColor
 
+  &__header-close
+    margin 10px
+    margin-right 0px
+    margin-bottom 0px
+
   &__years-content
     padding 0 8px
 
@@ -164,6 +175,11 @@
       min-width 110px
       width 110px
 
+    .q-date__header-bkg
+      border-bottom-left-radius inherit
+      min-width 110px
+      width 110px
+
     .q-date__header-title
       flex-direction column
     .q-date__header-today
@@ -175,3 +191,6 @@
 
   &--dark
     border-color $separator-dark-color
+
+  .focus-only:focus
+    outline: 2px solid white;  

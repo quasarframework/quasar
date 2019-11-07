@@ -39,7 +39,8 @@ export default {
     arrowLeft: 'ti-angle-left',
     arrowRight: 'ti-angle-right',
     now: 'ti-time',
-    today: 'ti-calendar'
+    today: 'ti-calendar',
+    close: 'ti-close'
   },
   editor: {
     bold: 'format_bold',

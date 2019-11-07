@@ -39,7 +39,8 @@ export default {
     arrowLeft: 'eva-arrow-ios-back-outline',
     arrowRight: 'eva-arrow-ios-forward-outline',
     now: 'eva-clock-outline',
-    today: 'eva-calendar-outline'
+    today: 'eva-calendar-outline',
+    close: 'eva-close'
   },
   editor: {
     bold: 'format_bold',

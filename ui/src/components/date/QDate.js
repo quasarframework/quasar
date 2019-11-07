@@ -10,6 +10,8 @@ import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
 
+const KEYCODE_TAB = 9
+
 export default Vue.extend({
   name: 'QDate',
 
@@ -39,6 +41,7 @@ export default Vue.extend({
 
     firstDayOfWeek: [String, Number],
     todayBtn: Boolean,
+    closeBtn: Boolean,
     minimal: Boolean,
     defaultView: {
       type: String,
@@ -332,35 +335,36 @@ export default Vue.extend({
       if (this.minimal === true) { return }
 
       return h('div', {
-        staticClass: 'q-date__header',
-        class: this.headerClass
+        staticClass: 'row q-date__header-bkg',
+        class: this.headerClass,
+        attrs: { role: 'region', 'aria-label': 'Calendar header' }
       }, [
-        h('div', {
-          staticClass: 'relative-position'
+        this.closeBtn === true ? h('div', {
+          staticClass: 'col-shrink'
         }, [
-          h('transition', {
+          h(QBtn, {
+            staticClass: 'q-date__header-close',
+            attrs: { 'aria-label': 'close pop up calendar' },
             props: {
-              name: 'q-transition--fade'
-            }
-          }, [
-            h('div', {
-              key: 'h-yr-' + this.headerSubtitle,
-              staticClass: 'q-date__header-subtitle q-date__header-link',
-              class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
-              attrs: { tabindex: this.computedTabindex },
-              on: {
-                click: () => { this.view = 'Years' },
-                keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
-              }
-            }, [ this.headerSubtitle ])
-          ])
-        ]),
+              icon: this.$q.iconSet.datetime.close,
+              flat: true,
+              size: 'md',
+              dense: true,
+              round: true,
+              tabindex: this.computedTabindex
+            },
+            directives: [{
+              name: 'close-popup',
+              value: true
+            }]
+          })
+        ]) : null,
 
         h('div', {
-          staticClass: 'q-date__header-title relative-position flex no-wrap'
+          staticClass: 'col q-date__header'
         }, [
           h('div', {
-            staticClass: 'relative-position col'
+            staticClass: 'relative-position'
           }, [
             h('transition', {
               props: {
@@ -368,31 +372,67 @@ export default Vue.extend({
               }
             }, [
               h('div', {
-                key: 'h-sub' + this.headerTitle,
-                staticClass: 'q-date__header-title-label q-date__header-link',
-                class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
-                attrs: { tabindex: this.computedTabindex },
+                key: 'h-yr-' + this.headerSubtitle,
+                ref: 'subtitle',
+                staticClass: 'q-date__header-subtitle q-date__header-link',
+                class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
+                attrs: { tabindex: this.computedTabindex, role: 'button' },
                 on: {
-                  click: () => { this.view = 'Calendar' },
-                  keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
+                  click: () => { this.view = 'Years' },
+                  keyup: e => {
+                    if (e.keyCode === KEYCODE_TAB) {
+                      this.$refs.subtitle.classList.add('focus-only')
+                    }
+                  }
                 }
-              }, [ this.headerTitle ])
+              }, [ this.headerSubtitle ])
             ])
           ]),
 
-          this.todayBtn === true ? h(QBtn, {
-            staticClass: 'q-date__header-today',
-            props: {
-              icon: this.$q.iconSet.datetime.today,
-              flat: true,
-              size: 'sm',
-              round: true,
-              tabindex: this.computedTabindex
-            },
-            on: {
-              click: this.setToday
-            }
-          }) : null
+          h('div', {
+            staticClass: 'q-date__header-title relative-position flex no-wrap'
+          }, [
+            h('div', {
+              staticClass: 'relative-position col'
+            }, [
+              h('transition', {
+                props: {
+                  name: 'q-transition--fade'
+                }
+              }, [
+                h('div', {
+                  key: 'h-sub' + this.headerTitle,
+                  ref: 'headerTitle',
+                  staticClass: 'q-date__header-title-label q-date__header-link',
+                  class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
+                  attrs: { tabindex: this.computedTabindex, role: 'button' },
+                  on: {
+                    click: () => { this.view = 'Calendar' },
+                    keyup: e => {
+                      if (e.keyCode === KEYCODE_TAB) {
+                        this.$refs.headerTitle.classList.add('focus-only')
+                      }
+                    }
+                  }
+                }, [ this.headerTitle ])
+              ])
+            ]),
+
+            this.todayBtn === true ? h(QBtn, {
+              staticClass: 'q-date__header-today',
+              attrs: { 'aria-label': 'select today\'s date' },
+              props: {
+                icon: this.$q.iconSet.datetime.today,
+                flat: true,
+                size: 'sm',
+                round: true,
+                tabindex: this.computedTabindex
+              },
+              on: {
+                click: this.setToday
+              }
+            }) : null
+          ])
         ])
       ])
     },

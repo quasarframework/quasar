@@ -39,7 +39,8 @@ export default {
     arrowLeft: 'o_chevron_left',
     arrowRight: 'o_chevron_right',
     now: 'o_access_time',
-    today: 'o_today'
+    today: 'o_today',
+    close: 'o_close'
   },
   editor: {
     bold: 'o_format_bold',

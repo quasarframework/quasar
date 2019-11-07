@@ -39,7 +39,8 @@ export default {
     arrowLeft: 'fas fa-chevron-left',
     arrowRight: 'fas fa-chevron-right',
     now: 'far fa-clock',
-    today: 'far fa-calendar-check'
+    today: 'far fa-calendar-check',
+    close: 'fas fa-times'
   },
   editor: {
     bold: 'fas fa-bold',

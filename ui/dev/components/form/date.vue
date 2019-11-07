@@ -9,6 +9,7 @@
         <q-toggle :dark="dark" v-model="biggerHeight" label="More Height" />
         <q-toggle :dark="dark" v-model="minimal" label="Minimal" />
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
+        <q-toggle :dark="dark" v-model="closeBtn" label="Close Button" />
         <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
       </div>
 
@@ -344,6 +345,7 @@ export default {
       biggerHeight: false,
       minimal: false,
       todayBtn: false,
+      closeBtn: false,
 
       mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
 
@@ -385,6 +387,7 @@ export default {
         readonly: this.readonly,
         minimal: this.minimal,
         todayBtn: this.todayBtn,
+        closeBtn: this.closeBtn,
         calendar: this.persian ? 'persian' : 'gregorian'
       }
     },

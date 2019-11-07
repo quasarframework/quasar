@@ -39,7 +39,8 @@ export default {
     arrowLeft: 'mdi-chevron-left',
     arrowRight: 'mdi-chevron-right',
     now: 'mdi-clock-outline',
-    today: 'mdi-calendar-today'
+    today: 'mdi-calendar-today',
+    close: 'mdi-close'
   },
   editor: {
     bold: 'mdi-format-bold',
