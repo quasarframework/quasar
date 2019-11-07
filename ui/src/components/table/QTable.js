@@ -264,6 +264,9 @@ export default Vue.extend({
             items: this.computedRows,
             type: '__qtable'
           },
+          on: {
+            'virtual-scroll': (e) => this.$emit('virtual-scroll', e)
+          },
           class: this.tableClass,
           style: this.tableStyle,
           scopedSlots: {
