@@ -19,6 +19,7 @@ export default {
         'primary',
         'secondary',
         'accent',
+        'dark',
         'positive',
         'negative',
         'info',

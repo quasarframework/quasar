@@ -4,15 +4,16 @@ import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 import { Caret } from './editor-caret.js'
 
 import FullscreenMixin from '../../mixins/fullscreen.js'
-import { isSSR } from '../../plugins/Platform.js'
+import DarkMixin from '../../mixins/dark.js'
 
+import { isSSR } from '../../plugins/Platform.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
 
 export default Vue.extend({
   name: 'QEditor',
 
-  mixins: [ FullscreenMixin ],
+  mixins: [ FullscreenMixin, DarkMixin ],
 
   props: {
     value: {
@@ -387,14 +388,15 @@ export default Vue.extend({
       {
         staticClass: 'q-editor',
         style: {
-          height: this.inFullscreen ? '100vh' : null
+          height: this.inFullscreen === true ? '100vh' : null
         },
         'class': {
           disabled: this.disable,
           'fullscreen column': this.inFullscreen,
           'q-editor--square no-border-radius': this.square,
           'q-editor--flat': this.flat,
-          'q-editor--dense': this.dense
+          'q-editor--dense': this.dense,
+          'q-editor--dark q-dark': this.isDark
         }
       },
       [

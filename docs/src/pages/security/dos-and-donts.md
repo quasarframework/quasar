@@ -30,7 +30,7 @@ Although you may be tempted to use `eval()`, even if you know what you are doing
 ![Don't be eval()](https://cdn.quasar.dev/img/dont-be-eval.png "Don't be eval()")
 
 ## Quasar Components
-Two Quasar components and two Plugins can be empowered to prevent the rendering of "insecure content". This is an opt-in feature (available starting in `quasar@1.0.0-beta.10`) that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
+Two Quasar components and two Plugins can be empowered to prevent the rendering of "insecure content". This is an opt-in feature that is performed by adding a `sanitize` type of boolean prop to the component. These components are discussed below.
 
 ### QSelect
 If you are not customizing menu-related scoped-slots (i.e. `option` scoped slot), **DO** prevent the component from rendering HTML in the labels and sublabels with one or more of the `sanitize` properties. Generally speaking, this is not user-supplied data. If you are customizing this slot, it is your responsibility to do sanitization yourself.

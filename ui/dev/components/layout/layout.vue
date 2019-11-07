@@ -76,7 +76,6 @@
         :breakpoint="rightBreakpoint"
         :mini="rightMini"
         :mini-to-overlay="rightMiniToOverlay"
-        :content-class="drawerClass"
         @on-layout="drawerOnLayout"
       >
         <q-scroll-area
@@ -165,7 +164,6 @@
           :behavior="leftBehavior"
           :breakpoint="leftBreakpoint"
           :mini-to-overlay="leftMiniToOverlay"
-          :content-class="drawerClass"
         >
           <!--
         <div slot="mini">
@@ -318,7 +316,7 @@
           <router-view />
         </transition>
 
-        <div class="fixed-bottom-right bg-grey-5 q-pa-sm z-max" style="bottom: 8px; right: 8px; left: auto;">
+        <div class="fixed-bottom-right bg-grey-5 q-pa-sm" style="bottom: 8px; right: 8px; left: auto;z-index: 6000;">
           <q-toggle dense v-model="showConfig" label="Config" />
         </div>
       </q-page-container>
@@ -539,11 +537,6 @@ export default {
       return this.whiteLayout
         ? 'bg-white text-black'
         : 'bg-primary text-white'
-    },
-    drawerClass () {
-      return this.whiteLayout
-        ? 'bg-white'
-        : 'bg-grey-5'
     }
   },
   watch: {

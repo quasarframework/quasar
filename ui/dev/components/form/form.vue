@@ -7,7 +7,7 @@
 
     <q-toggle v-model="show" label="Show form" />
     <q-toggle v-model="autofocus" label="Autofocus" />
-    <q-toggle v-model="dark" label="Dark" />
+    <q-toggle v-model="dark" label="Dark" :false-value="null" />
     <q-toggle v-model="greedy" label="Greedy" />
     <q-option-group class="q-mb-lg" inline v-model="autofocusEl" dense="dense" :options="autofocusEls" />
 
@@ -154,7 +154,7 @@ export default {
       ],
       autofocusEl: 1,
 
-      dark: false,
+      dark: null,
       greedy: false,
 
       user: null,

@@ -240,7 +240,6 @@ export default {
       },
       handleSelected: (a, b, suggestion, c, context) => {
         const url = suggestion.url
-          .replace('https://v1.quasar-framework.org', '') // TODO remove when Algolia is updated
           .replace('https://quasar.dev', '')
 
         this.search = ''

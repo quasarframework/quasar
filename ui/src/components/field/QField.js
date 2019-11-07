@@ -4,6 +4,7 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
 import { stop, prevent } from '../../utils/event.js'
 import uid from '../../utils/uid.js'
@@ -11,9 +12,9 @@ import uid from '../../utils/uid.js'
 export default Vue.extend({
   name: 'QField',
 
-  inheritAttrs: false,
+  mixins: [ DarkMixin, ValidateMixin ],
 
-  mixins: [ ValidateMixin ],
+  inheritAttrs: false,
 
   props: {
     label: String,
@@ -25,7 +26,6 @@ export default Vue.extend({
 
     color: String,
     bgColor: String,
-    dark: Boolean,
 
     filled: Boolean,
     outlined: Boolean,
@@ -130,7 +130,7 @@ export default Vue.extend({
 
         'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned,
-        'q-field--dark': this.dark,
+        'q-field--dark': this.isDark,
 
         'q-field--auto-height': this.__getControl === void 0,
 

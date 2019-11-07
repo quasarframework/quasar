@@ -4,7 +4,7 @@
   max-width 350px
   vertical-align top
 
-  min-width 150px
+  min-width 220px
 
   border-radius $generic-border-radius
   box-shadow $shadow-2
@@ -51,6 +51,8 @@
     background-image url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
 
   &__footer
+    height 40px
+
     .q-tab--inactive
       background linear-gradient(to bottom, rgba(0,0,0,.3) 0%, rgba(0,0,0,.15) 25%, rgba(0,0,0,.1))
 
@@ -77,14 +79,14 @@
     transform translate(-5px, -5px)
 
   &__hue .q-slider__track-container
-    background linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%) // @stylint ignore
+    background linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%) !important // @stylint ignore
     opacity 1
 
   &__alpha .q-slider__track-container
     color white
     opacity 1
     height 8px
-    background-color white
+    background-color white !important
     background-image url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
     &:after
       content ''
@@ -159,9 +161,6 @@
     background inherit
 
   &--dark
-
-    background $grey-9
-    color white
 
     .q-color-picker__tune-tab input
       border 1px solid alpha(#fff, .3)

@@ -163,20 +163,20 @@ $primary   ?= #027BE3
 $secondary ?= #26A69A
 $accent    ?= #9C27B0
 
+// used by dark mode
+$dark-page ?= #121212
+$dark      ?= #1d1d1d
+
 $positive  ?= #21BA45
 $negative  ?= #C10015
 $info      ?= #31CCEC
 $warning   ?= #F2C037
 
-$light     ?= #bdbdbd
-$dark      ?= #424242
-$faded     ?= #777
-
 $dimmed-background       ?= rgba(0, 0, 0, .4)
 $light-dimmed-background ?= rgba(255, 255, 255, .6)
 
 $separator-color         ?= rgba(0, 0, 0, .12)
-$separator-dark-color    ?= rgba(255, 255, 255, .48)
+$separator-dark-color    ?= rgba(255, 255, 255, .28)
 
 $red ?= #f44336
 $red-1 ?= #ffebee
@@ -567,10 +567,12 @@ $chat-message-text-padding      ?= 8px
 $item-base-color                ?= $grey-5
 
 $editor-border-color            ?= $separator-color
+$editor-border-dark-color       ?= $separator-dark-color
 $editor-content-padding         ?= 10px
 $editor-content-min-height      ?= 10em
 $editor-toolbar-padding         ?= 4px
 $editor-hr-color                ?= $editor-border-color
+$editor-hr-dark-color           ?= $editor-border-dark-color
 $editor-button-gutter           ?= 4px
 
 $fab-margin                     ?= 5px

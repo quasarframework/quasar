@@ -17,6 +17,7 @@
         :ratio="1"
         basic
         spinner-color="white"
+        class="rounded-borders"
       >
         <div class="absolute-bottom text-center text-italic text-body2">
           None
@@ -31,6 +32,7 @@
         style="width: 150px"
         ratio="1"
         spinner-color="white"
+        class="rounded-borders"
       >
         <div class="absolute-bottom text-center text-body2">
           {{ transition }}

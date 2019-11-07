@@ -44,10 +44,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    const tooltip = this.$scopedSlots.tooltip !== void 0
-      ? this.$scopedSlots.tooltip()
-      : []
-
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
       class: this.showing === true ? 'q-fab--opened' : null,
@@ -63,7 +59,7 @@ export default Vue.extend({
         on: {
           click: this.toggle
         }
-      }, tooltip.concat([
+      }, slot(this, 'tooltip', []).concat([
         h(QIcon, {
           staticClass: 'q-fab__icon absolute-full',
           props: { name: this.icon || this.$q.iconSet.fab.icon }

@@ -48,7 +48,7 @@ On some phones this will have little effect:
 It all depends on the Web Fullscreen API support of the platform the code is running on.
 :::
 
-### Watching for fullscreen changes
+## Watching for fullscreen changes
 
 ``` vue
 <template>...</template>

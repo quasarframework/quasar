@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
+import DarkMixin from '../../mixins/dark.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -30,6 +31,8 @@ const palette = [
 export default Vue.extend({
   name: 'QColor',
 
+  mixins: [ DarkMixin ],
+
   directives: {
     TouchPan
   },
@@ -56,8 +59,7 @@ export default Vue.extend({
     noFooter: Boolean,
 
     disable: Boolean,
-    readonly: Boolean,
-    dark: Boolean
+    readonly: Boolean
   },
 
   data () {
@@ -187,7 +189,7 @@ export default Vue.extend({
       staticClass: 'q-color-picker',
       class: {
         disabled: this.disable,
-        'q-color-picker--dark': this.dark
+        'q-color-picker--dark q-dark': this.isDark
       }
     }, child)
   },
@@ -286,40 +288,44 @@ export default Vue.extend({
     },
 
     __getFooter (h) {
-      return h(QTabs, {
-        staticClass: 'q-color-picker__footer',
-        props: {
-          value: this.view,
-          dense: true,
-          align: 'justify'
-        },
-        on: {
-          input: val => { this.view = val }
-        }
+      return h('div', {
+        staticClass: 'q-color-picker__footer relative-position overflow-hidden'
       }, [
-        h(QTab, {
+        h(QTabs, {
+          staticClass: 'absolute-full',
           props: {
-            icon: this.$q.iconSet.colorPicker.spectrum,
-            name: 'spectrum',
-            ripple: false
+            value: this.view,
+            dense: true,
+            align: 'justify'
+          },
+          on: {
+            input: val => { this.view = val }
           }
-        }),
+        }, [
+          h(QTab, {
+            props: {
+              icon: this.$q.iconSet.colorPicker.spectrum,
+              name: 'spectrum',
+              ripple: false
+            }
+          }),
 
-        h(QTab, {
-          props: {
-            icon: this.$q.iconSet.colorPicker.tune,
-            name: 'tune',
-            ripple: false
-          }
-        }),
+          h(QTab, {
+            props: {
+              icon: this.$q.iconSet.colorPicker.tune,
+              name: 'tune',
+              ripple: false
+            }
+          }),
 
-        h(QTab, {
-          props: {
-            icon: this.$q.iconSet.colorPicker.palette,
-            name: 'palette',
-            ripple: false
-          }
-        })
+          h(QTab, {
+            props: {
+              icon: this.$q.iconSet.colorPicker.palette,
+              name: 'palette',
+              ripple: false
+            }
+          })
+        ])
       ])
     },
 
@@ -405,7 +411,7 @@ export default Vue.extend({
               min: 0,
               max: 255,
               color: 'red',
-              dark: this.dark,
+              dark: this.isDark,
               readonly: !this.editable
             },
             on: {
@@ -436,7 +442,7 @@ export default Vue.extend({
               min: 0,
               max: 255,
               color: 'green',
-              dark: this.dark,
+              dark: this.isDark,
               readonly: !this.editable
             },
             on: {
@@ -468,7 +474,7 @@ export default Vue.extend({
               max: 255,
               color: 'blue',
               readonly: !this.editable,
-              dark: this.dark
+              dark: this.isDark
             },
             on: {
               input: value => this.__onNumericChange({ target: { value } }, 'b', 255),
@@ -497,7 +503,7 @@ export default Vue.extend({
               value: this.model.a,
               color: 'grey',
               readonly: !this.editable,
-              dark: this.dark
+              dark: this.isDark
             },
             on: {
               input: value => this.__onNumericChange({ target: { value } }, 'a', 100),

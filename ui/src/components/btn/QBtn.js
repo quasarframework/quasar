@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
-import BtnMixin from './btn-mixin.js'
+import BtnMixin from '../../mixins/btn.js'
 
 import slot from '../../utils/slot.js'
 import { stopAndPrevent, listenOpts } from '../../utils/event.js'
@@ -21,10 +21,7 @@ export default Vue.extend({
   mixins: [ BtnMixin ],
 
   props: {
-    percentage: {
-      type: Number,
-      validator: v => v >= 0 && v <= 100
-    },
+    percentage: Number,
     darkPercentage: Boolean
   },
 
@@ -40,16 +37,20 @@ export default Vue.extend({
           { keyCodes: [] },
           this.ripple === true ? {} : this.ripple
         )
+    },
+
+    computedPercentage () {
+      return Math.max(0, Math.min(100, this.percentage))
     }
   },
 
   methods: {
     click (e) {
-      if (e.defaultPrevented === true) {
-        return
-      }
-
       if (e !== void 0) {
+        if (e.defaultPrevented === true) {
+          return
+        }
+
         const el = document.activeElement
         // focus button if it came from ENTER on form
         // prevent the new submit (already done)
@@ -263,8 +264,8 @@ export default Vue.extend({
       child.push(
         h('div', {
           staticClass: 'q-btn__progress absolute-full',
-          class: this.darkPercentage ? 'q-btn__progress--dark' : null,
-          style: { transform: `scale3d(${this.percentage / 100},1,1)` }
+          class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
+          style: { transform: `scale3d(${this.computedPercentage / 100},1,1)` }
         })
       )
     }

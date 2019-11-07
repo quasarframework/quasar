@@ -30,13 +30,14 @@
             q-toolbar
               q-btn(flat, dense, round, icon="arrow_back")
               q-space
+              q-toggle.q-mr-sm(dense, v-model="darkMode", :dark="dark.primary", color="red", label="Dark page")
               q-btn(flat, dense, round, icon="search")
               q-btn(flat, dense, round, icon="menu")
 
             q-toolbar(inset)
               q-toolbar-title Quasar
 
-          .q-px-md.q-py-lg
+          .q-px-md.q-py-lg(:class="pageClass")
             .row.q-col-gutter-md
               .col-12.col-sm-6.col-md-4.col-lg-3(
                 v-for="color in sideColors"
@@ -48,7 +49,7 @@
                       .ellipsis.text-capitalize {{ color }}
                       q-space
                       q-icon(
-                        v-if="color !== 'secondary'"
+                        v-if="color !== 'secondary' && color !== 'dark'"
                         :name="$q.iconSet.type[color]"
                         size="24px"
                       )
@@ -118,6 +119,8 @@ export default {
         secondary: '#26A69A',
         accent: '#9C27B0',
 
+        dark: '#1d1d1d',
+
         positive: '#21BA45',
         negative: '#C10015',
         info: '#31CCEC',
@@ -128,6 +131,7 @@ export default {
         primary: true,
         secondary: true,
         accent: true,
+        dark: true,
 
         positive: true,
         negative: true,
@@ -135,10 +139,11 @@ export default {
         warning: false
       },
 
+      darkMode: false,
       exportDialog: false,
       exportTab: 'sass',
-      list: ['primary', 'secondary', 'accent', 'positive', 'negative', 'info', 'warning'],
-      sideColors: ['secondary', 'positive', 'negative', 'info', 'warning']
+      list: ['primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning'],
+      sideColors: ['secondary', 'dark', 'positive', 'negative', 'info', 'warning']
     }
   },
 
@@ -153,6 +158,10 @@ export default {
 
     'colors.accent' (val) {
       this.update('accent', val)
+    },
+
+    'colors.dark' (val) {
+      this.update('dark', val)
     },
 
     'colors.positive' (val) {
@@ -173,11 +182,18 @@ export default {
   },
 
   computed: {
+    pageClass () {
+      return this.darkMode === true
+        ? 'bg-grey-10 text-white'
+        : 'bg-white text-black'
+    },
+
     sassExport () {
       return `// src/css/quasar.variables.sass\n\n` +
         `$primary   : ${this.colors.primary}\n` +
         `$secondary : ${this.colors.secondary}\n` +
         `$accent    : ${this.colors.accent}\n\n` +
+        `$dark      : ${this.colors.dark}\n\n` +
         `$positive  : ${this.colors.positive}\n` +
         `$negative  : ${this.colors.negative}\n` +
         `$info      : ${this.colors.info}\n` +
@@ -189,6 +205,7 @@ export default {
         `$primary   : ${this.colors.primary};\n` +
         `$secondary : ${this.colors.secondary};\n` +
         `$accent    : ${this.colors.accent};\n\n` +
+        `$dark      : ${this.colors.dark};\n\n` +
         `$positive  : ${this.colors.positive};\n` +
         `$negative  : ${this.colors.negative};\n` +
         `$info      : ${this.colors.info};\n` +
@@ -200,6 +217,7 @@ export default {
         `$primary   = ${this.colors.primary}\n` +
         `$secondary = ${this.colors.secondary}\n` +
         `$accent    = ${this.colors.accent}\n\n` +
+        `$dark      = ${this.colors.dark}\n\n` +
         `$positive  = ${this.colors.positive}\n` +
         `$negative  = ${this.colors.negative}\n` +
         `$info      = ${this.colors.info}\n` +
@@ -217,6 +235,8 @@ return {
         primary: '${this.colors.primary}',
         secondary: '${this.colors.secondary}',
         accent: '${this.colors.accent}',
+
+        dark: '${this.colors.dark}',
 
         positive: '${this.colors.positive}',
         negative: '${this.colors.negative}',
@@ -238,6 +258,8 @@ window.quasarConfig = {
     secondary: '${this.colors.secondary}',
     accent: '${this.colors.accent}',
 
+    dark: '${this.colors.dark}',
+
     positive: '${this.colors.positive}',
     negative: '${this.colors.negative}',
     info: '${this.colors.info}',
@@ -256,6 +278,8 @@ Vue.use(Quasar, {
       primary: '${this.colors.primary}',
       secondary: '${this.colors.secondary}',
       accent: '${this.colors.accent}',
+
+      dark: '${this.colors.dark}',
 
       positive: '${this.colors.positive}',
       negative: '${this.colors.negative}',

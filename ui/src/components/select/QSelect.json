@@ -213,6 +213,10 @@
       "addedIn": "v1.1.7"
     },
 
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
     "transition-show": {
       "extends": "transition",
       "desc": "Transition when showing the menu/dialog; One of Quasar's embedded transitions",
