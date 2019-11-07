@@ -265,7 +265,7 @@ export default Vue.extend({
             type: '__qtable'
           },
           on: {
-            'virtual-scroll': (e) => this.$emit('virtual-scroll', e)
+            'virtual-scroll': this.__onVScroll
           },
           class: this.tableClass,
           style: this.tableStyle,
@@ -282,6 +282,10 @@ export default Vue.extend({
           header,
           this.getTableBody(h)
         ])
+    },
+
+    __onVScroll (info) {
+      this.$emit('virtual-scroll', info)
     }
   }
 })
