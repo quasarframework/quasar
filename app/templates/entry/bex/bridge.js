@@ -32,7 +32,6 @@ export default class Bridge extends EventEmitter {
     })
 
     this._sendingQueue = []
-    this._receivingQueue = []
     this._sending = false
     this._maxMessageSize = 32 * 1024 * 1024 // 32mb
   }
@@ -46,6 +45,14 @@ export default class Bridge extends EventEmitter {
    */
   send (event, payload) {
     return this._send([{ event, payload }])
+  }
+
+  /**
+   * Return all registered events
+   * @returns {*}
+   */
+  getEvents () {
+    return this._events
   }
 
   _emit (message) {
