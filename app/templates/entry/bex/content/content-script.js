@@ -10,6 +10,7 @@
 
 import Bridge from '../bridge'
 import attachContentHooks from '../../../src-bex/js/content-hooks'
+import { listenForWindowEvents } from './window-event-listener'
 
 const port = chrome.runtime.connect({
   name: 'contentScript'
@@ -27,8 +28,29 @@ let bridge = new Bridge({
   send (data) {
     if (!disconnected) {
       port.postMessage(data)
+      window.postMessage({
+        ...data,
+        from: 'bex-content-script'
+      }, '*')
     }
   }
 })
+
+// Inject our dom script for communications.
+function injectScript (url) {
+  const script = document.createElement('script')
+  script.src = url
+  script.onload = function () {
+    this.remove()
+  }
+  ;(document.head || document.documentElement).appendChild(script)
+}
+
+if (document instanceof HTMLDocument) {
+  injectScript(chrome.extension.getURL('www/bex-dom.js'))
+}
+
+// Listen for event from the web page
+listenForWindowEvents(bridge, 'bex-dom')
 
 attachContentHooks(bridge)
