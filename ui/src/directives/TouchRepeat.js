@@ -51,7 +51,7 @@ export default {
 
     const durationsLast = durations.length - 1
 
-    let ctx = {
+    const ctx = {
       keyboard,
       handler: value,
 
@@ -91,7 +91,7 @@ export default {
       },
 
       touchStart (evt) {
-        const target = evt.target
+        const target = client.is.ios === true && client.is.iosEmulated !== true ? document : evt.target
         if (target !== void 0) {
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'passiveCapture' ],
@@ -221,7 +221,7 @@ export default {
   },
 
   update (el, binding) {
-    let ctx = el.__qtouchrepeat
+    const ctx = el.__qtouchrepeat
 
     if (ctx !== void 0 && binding.oldValue !== binding.value) {
       ctx.handler = binding.value
@@ -229,7 +229,7 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
+    const ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
 
     if (ctx !== void 0) {
       clearTimeout(ctx.timer)

@@ -99,7 +99,7 @@ export default {
       },
 
       touchStart (evt) {
-        const target = evt.target
+        const target = client.is.ios === true && client.is.iosEmulated !== true ? document : evt.target
         if (target !== void 0) {
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'touchMove', 'notPassiveCapture' ],
@@ -141,7 +141,7 @@ export default {
   update,
 
   unbind (el) {
-    let ctx = el.__qtouchhold_old || el.__qtouchhold
+    const ctx = el.__qtouchhold_old || el.__qtouchhold
     if (ctx !== void 0) {
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')

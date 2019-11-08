@@ -143,8 +143,10 @@ export default Vue.extend({
       // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile === true) {
         this.anchorEl.removeEventListener('touchstart', this.__delayShow, passive)
+
+        const target = this.$q.platform.is.ios === true && this.$q.platform.is.iosEmulated !== true ? document : this.anchorEl
         ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
-          this.anchorEl.removeEventListener(evt, this.__delayHide, passive)
+          target.removeEventListener(evt, this.__delayHide, passive)
         })
       }
       else {
@@ -162,8 +164,10 @@ export default Vue.extend({
       // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile) {
         this.anchorEl.addEventListener('touchstart', this.__delayShow, passive)
+
+        const target = this.$q.platform.is.ios === true && this.$q.platform.is.iosEmulated !== true ? document : this.anchorEl
         ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
-          this.anchorEl.addEventListener(evt, this.__delayHide, passive)
+          target.addEventListener(evt, this.__delayHide, passive)
         })
       }
       else {
