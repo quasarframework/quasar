@@ -64,35 +64,37 @@ Now, let's say we want to render different components or DOM elements, based on 
 
 The following properties are available to the Platform object. It's not an exhaustive list though. See the API section below for more details.
 
-| Property               | Type    | Meaning                                                  |
-| ---                    | ---     | ---                                                      |
-| `Platform.is.mobile`     | Boolean | Is the code running on a mobile device?                |
-| `Platform.is.cordova`    | Boolean | Is the code running within Cordova?                    |
-| `Platform.is.capacitor`  | Boolean | Is the code running with Capacitor? (requires @quasar/app v1.2+) |
-| `Platform.is.electron`   | Boolean | Is the code running within Electron?                   |
-| `Platform.is.desktop`    | Boolean | Is the code running on a desktop browser?              |
-| `Platform.is.bex`        | Boolean | Is the code running in a browser extension? (requires @quasar/app v1.2+) |
-| `Platform.is.android`    | Boolean | Is the app running on an Android device?               |
-| `Platform.is.blackberry` | Boolean | Is the app running on a Blackberry device? |
-| `Platform.is.cros`       | Boolean | Is the app running on device with the Chrome OS operating system? |
-| `Platform.is.ios`        | Boolean | Is the app running on an iOS device? |
-| `Platform.is.ipad`       | Boolean | Is the app running on an iPad? |
-| `Platform.is.iphone`     | Boolean | Is the app running on an iPhone? |
-| `Platform.is.ipod`       | Boolean | Is the app running on an iPod? |
-| `Platform.is.kindle`     | Boolean | Is the app running on a Kindle device? |
-| `Platform.is.linux`      | Boolean | Is the code running on a device with the Linux operating system? |
-| `Platform.is.mac`        | Boolean | Is the code running on a device with the MacOS operating system? |
-| `Platform.is.win`        | Boolean | Is the code running on a device with the Windows operating system? |
-| `Platform.is.winphone`   | Boolean | Is the code running on a Windows Phone device? |
-| `Platform.is.playbook`   | Boolean | Is the code running on a Blackberry Playbook device? |
-| `Platform.is.silk`       | Boolean | Is the code running the Kindle Silk browser? |
-| `Platform.is.chrome`     | Boolean | Is the code running inside the Google Chrome browser? |
-| `Platform.is.opera`      | Boolean | Is the code running inside the Opera browser? |
-| `Platform.is.safari`     | Boolean | Is the code running inside the Apple Safari browser? |
-| `Platform.is.edge`       | Boolean | Is the code running inside the Microsoft Edge browser? |
-| `Platform.is.ie`         | Boolean | Is the code running inside the Microsoft Internet Explorer browser? |
-| `Platform.has.touch`     | Boolean | Is the code running on a touch capable screen?         |
-| `Platform.within.iframe` | Boolean | Is the app running within an IFRAME?                   |
+| Property                  | Type    | Meaning                                                  |
+| ---                       | ---     | ---                                                      |
+| `Platform.is.mobile`      | Boolean | Is the code running on a mobile device?                |
+| `Platform.is.cordova`     | Boolean | Is the code running within Cordova?                    |
+| `Platform.is.capacitor`   | Boolean | Is the code running with Capacitor? (requires @quasar/app v1.2+) |
+| `Platform.is.electron`    | Boolean | Is the code running within Electron?                   |
+| `Platform.is.desktop`     | Boolean | Is the code running on a desktop browser?              |
+| `Platform.is.bex`         | Boolean | Is the code running in a browser extension? (requires @quasar/app v1.2+) |
+| `Platform.is.android`     | Boolean | Is the app running on an Android device?               |
+| `Platform.is.blackberry`  | Boolean | Is the app running on a Blackberry device? |
+| `Platform.is.cros`        | Boolean | Is the app running on device with the Chrome OS operating system? |
+| `Platform.is.ios`         | Boolean | Is the app running on an iOS device? |
+| `Platform.is.iosEmulated` | Boolean | Is the app running in a browser emulating an iOS device? |
+| `Platform.is.iosDesktop`  | Boolean | Is the code running on an iOS device requesting desktop mode?              |
+| `Platform.is.ipad`        | Boolean | Is the app running on an iPad? |
+| `Platform.is.iphone`      | Boolean | Is the app running on an iPhone? |
+| `Platform.is.ipod`        | Boolean | Is the app running on an iPod? |
+| `Platform.is.kindle`      | Boolean | Is the app running on a Kindle device? |
+| `Platform.is.linux`       | Boolean | Is the code running on a device with the Linux operating system? |
+| `Platform.is.mac`         | Boolean | Is the code running on a device with the MacOS operating system? |
+| `Platform.is.win`         | Boolean | Is the code running on a device with the Windows operating system? |
+| `Platform.is.winphone`    | Boolean | Is the code running on a Windows Phone device? |
+| `Platform.is.playbook`    | Boolean | Is the code running on a Blackberry Playbook device? |
+| `Platform.is.silk`        | Boolean | Is the code running the Kindle Silk browser? |
+| `Platform.is.chrome`      | Boolean | Is the code running inside the Google Chrome browser? |
+| `Platform.is.opera`       | Boolean | Is the code running inside the Opera browser? |
+| `Platform.is.safari`      | Boolean | Is the code running inside the Apple Safari browser? |
+| `Platform.is.edge`        | Boolean | Is the code running inside the Microsoft Edge browser? |
+| `Platform.is.ie`          | Boolean | Is the code running inside the Microsoft Internet Explorer browser? |
+| `Platform.has.touch`      | Boolean | Is the code running on a touch capable screen?         |
+| `Platform.within.iframe`  | Boolean | Is the app running within an IFRAME?                   |
 
 ::: tip
 Running on mobile means you can have this code running on a mobile device (phone or tablet) but with a browser, not within a Cordova wrapper.
