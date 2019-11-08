@@ -340,7 +340,7 @@ export default Vue.extend({
           true
         )
 
-        this.$refs.target.focus()
+        this.$refs.target !== void 0 && this.$refs.target.focus()
         this.hidePopup()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
@@ -1092,7 +1092,8 @@ export default Vue.extend({
       // IE can have null document.activeElement
       if (
         (el === null || el.id !== this.targetUid) &&
-        this.$refs.target !== el
+        this.$refs.target !== el &&
+        this.$refs.target !== void 0
       ) {
         this.$refs.target.focus()
       }
