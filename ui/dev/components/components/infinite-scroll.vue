@@ -47,7 +47,7 @@
       </div>
 
       <div v-if="container" id="reverse-target" :style="styles">
-        <q-infinite-scroll reverse @load="loadReverse" :disable="disable" :reverse="reverse" v-if="active" scroll-target="#reverse-target">
+        <q-infinite-scroll @load="loadReverse" :disable="disable" :reverse="reverse === false" v-if="active" scroll-target="#reverse-target">
           <template v-slot:loading>
             <div class="row justify-center q-my-md">
               <q-spinner color="primary" name="dots" size="40px" />
