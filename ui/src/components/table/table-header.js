@@ -5,7 +5,7 @@ import QTh from './QTh.js'
 export default {
   methods: {
     getTableHeader (h) {
-      const child = [ this.getTableHeaderRow(h) ]
+      const child = this.getTableHeaderRow(h)
 
       this.loading === true && child.push(
         h('tr', { staticClass: 'q-table__progress' }, [
@@ -33,7 +33,7 @@ export default {
       if (header !== void 0) {
         return header(this.addTableHeaderRowMeta({
           header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
-        }))
+        })).slice()
       }
 
       let mapFn
@@ -91,10 +91,12 @@ export default {
         ]))
       }
 
-      return h('tr', {
-        style: this.tableHeaderStyle,
-        class: this.tableHeaderClass
-      }, child)
+      return [
+        h('tr', {
+          style: this.tableHeaderStyle,
+          class: this.tableHeaderClass
+        }, child)
+      ]
     },
 
     addTableHeaderRowMeta (data) {

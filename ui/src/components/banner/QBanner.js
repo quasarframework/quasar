@@ -16,6 +16,22 @@ export default Vue.extend({
 
   render (h) {
     const actions = slot(this, 'action')
+    const child = [
+      h('div', {
+        staticClass: 'q-banner__avatar col-auto row items-center'
+      }, slot(this, 'avatar')),
+
+      h('div', {
+        staticClass: 'q-banner__content col text-body2'
+      }, slot(this, 'default'))
+    ]
+
+    actions !== void 0 && child.push(
+      h('div', {
+        staticClass: 'q-banner__actions row items-center justify-end',
+        class: `col-${this.inlineActions === true ? 'auto' : 'all'}`
+      }, actions)
+    )
 
     return h('div', {
       staticClass: 'q-banner row items-center',
@@ -26,23 +42,6 @@ export default Vue.extend({
         'rounded-borders': this.rounded
       },
       on: this.$listeners
-    }, [
-
-      h('div', {
-        staticClass: 'q-banner__avatar col-auto row items-center'
-      }, slot(this, 'avatar')),
-
-      h('div', {
-        staticClass: 'q-banner__content col text-body2'
-      }, slot(this, 'default')),
-
-      actions !== void 0
-        ? h('div', {
-          staticClass: 'q-banner__actions row items-center justify-end',
-          class: this.inlineActions ? 'col-auto' : 'col-all'
-        }, actions)
-        : null
-
-    ])
+    }, child)
   }
 })

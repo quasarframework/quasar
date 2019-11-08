@@ -122,9 +122,6 @@ export default Vue.extend({
         style: this.sizeStyle,
         on: this.$listeners,
         attrs: { 'aria-hidden': true }
-      }, [
-        this.type.content,
-        slot(this, 'default')
-      ])
+      }, [ this.type.content ].concat(slot(this, 'default')))
   }
 })

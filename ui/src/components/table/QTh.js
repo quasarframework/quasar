@@ -14,18 +14,17 @@ export default Vue.extend({
 
   render (h) {
     const on = this.$listeners
+    const def = slot(this, 'default', [])
 
     if (this.props === void 0) {
       return h('th', {
         on,
         class: this.autoWidth === true ? 'q-table--col-auto-width' : null
-      }, slot(this, 'default'))
+      }, def)
     }
 
-    let col
-    const
-      name = this.$vnode.key,
-      child = [].concat(slot(this, 'default'))
+    let col, child = def
+    const name = this.$vnode.key
 
     if (name) {
       col = this.props.colsMap[name]
@@ -40,7 +39,7 @@ export default Vue.extend({
         ? 'unshift'
         : 'push'
 
-      child[action](
+      child = child.slice()[action](
         h(QIcon, {
           props: { name: this.$q.iconSet.table.arrowUp },
           staticClass: col.__iconClass

@@ -663,11 +663,11 @@ export default Vue.extend({
       }
 
       if (this.$scopedSlots['selected-item'] !== void 0) {
-        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope))
+        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope)).slice()
       }
 
       if (this.$scopedSlots.selected !== void 0) {
-        return this.$scopedSlots.selected()
+        return this.$scopedSlots.selected().slice()
       }
 
       if (this.useChips === true) {

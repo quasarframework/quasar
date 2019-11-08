@@ -270,7 +270,9 @@ export default Vue.extend({
           class: this.tableClass,
           style: this.tableStyle,
           scopedSlots: {
-            before: () => header,
+            before: header === null
+              ? void 0
+              : () => header,
             default: this.getTableRowVirtual(h)
           }
         })

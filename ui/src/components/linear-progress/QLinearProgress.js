@@ -81,12 +81,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-linear-progress',
-      style: this.sizeStyle,
-      class: this.classes,
-      on: this.$listeners
-    }, [
+    const child = [
       h('div', {
         staticClass: 'q-linear-progress__track absolute-full',
         style: this.trackStyle,
@@ -103,6 +98,16 @@ export default Vue.extend({
         staticClass: 'q-linear-progress__stripe absolute-full',
         style: this.stripeStyle
       }) : null
-    ].concat(slot(this, 'default')))
+    ]
+
+    const def = slot(this, 'default')
+    def !== void 0 && child.concat(def)
+
+    return h('div', {
+      staticClass: 'q-linear-progress',
+      style: this.sizeStyle,
+      class: this.classes,
+      on: this.$listeners
+    }, child)
   }
 })

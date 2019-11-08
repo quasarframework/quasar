@@ -33,7 +33,7 @@ export default {
       }
 
       if (hasSelection === true) {
-        child.push(topSelection(this.marginalsProps))
+        child.concat(topSelection(this.marginalsProps))
       }
       else {
         if (topLeft !== void 0) {
