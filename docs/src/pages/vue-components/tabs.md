@@ -78,6 +78,10 @@ Notice we need to specify the `shrink` prop. By default, QTabs tries to expand t
 
 <doc-example title="Tabs in a QToolbar" file="QTabs/TabsInToolbar" />
 
+### Dynamic update
+
+<doc-example title="Dynamic tabs" file="QTabs/DynamicTabs" />
+
 ### Along with QTabsPanel
 
 ::: tip
