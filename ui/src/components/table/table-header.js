@@ -1,4 +1,3 @@
-import QLinearProgress from '../linear-progress/QLinearProgress.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
 
@@ -9,16 +8,10 @@ export default {
 
       this.loading === true && child.push(
         h('tr', { staticClass: 'q-table__progress' }, [
-          h('th', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
-            h(QLinearProgress, {
-              staticClass: 'q-table__linear-progress',
-              props: {
-                color: this.color,
-                dark: this.isDark,
-                indeterminate: true
-              }
-            })
-          ])
+          h('th', {
+            staticClass: 'relative-position',
+            attrs: { colspan: '100%' }
+          }, this.__getProgress(h))
         ])
       )
 

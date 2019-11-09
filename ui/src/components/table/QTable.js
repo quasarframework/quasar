@@ -6,6 +6,7 @@ import TableBody from './table-body.js'
 import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
+import QLinearProgress from '../linear-progress/QLinearProgress.js'
 
 import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
 import DarkMixin from '../../mixins/dark.js'
@@ -288,6 +289,20 @@ export default Vue.extend({
 
     __onVScroll (info) {
       this.$emit('virtual-scroll', info)
+    },
+
+    __getProgress (h) {
+      return [
+        h(QLinearProgress, {
+          staticClass: 'q-table__linear-progress',
+          props: {
+            color: this.color,
+            dark: this.isDark,
+            indeterminate: true,
+            trackColor: 'transparent'
+          }
+        })
+      ]
     }
   }
 })
