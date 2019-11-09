@@ -205,7 +205,7 @@ export default Vue.extend({
         attrs: this.attrs
       }
 
-    if (this.isDisabled === false) {
+    if (this.isActionable === true) {
       data.on = {
         ...this.$listeners,
         click: this.click,
