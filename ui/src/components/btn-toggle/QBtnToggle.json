@@ -150,12 +150,23 @@
       "type": "Boolean",
       "desc": "When used on flexbox parent, button will stretch to parent's height",
       "category": "content"
-    }
+    },
+
+    "clearable": {
+      "type": "Boolean",
+      "desc": "Clears model on click of the selected button",
+      "category": "model",
+      "addedIn": "v1.5.0"
+    },
   },
 
   "events": {
     "input": {
       "extends": "input"
+    },
+    "clear": {
+      "desc": "When using the 'clearable' property, this event is emitted when the selected button is clicked",
+      "addedIn": "v1.5.0"
     }
   }
 }

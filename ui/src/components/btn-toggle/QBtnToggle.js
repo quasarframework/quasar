@@ -52,7 +52,9 @@ export default Vue.extend({
     stack: Boolean,
     stretch: Boolean,
 
-    spread: Boolean
+    spread: Boolean,
+
+    clearable: Boolean
   },
 
   computed: {
@@ -63,8 +65,14 @@ export default Vue.extend({
 
   methods: {
     __set (value, opt) {
-      if (this.readonly !== true && value !== this.value) {
-        this.$emit('input', value, opt)
+      if (this.readonly !== true) {
+        if (this.clearable === true && value === this.value) {
+          this.$emit('input', null, null)
+          this.$emit('clear')
+        }
+        else if (value !== this.value) {
+          this.$emit('input', value, opt)
+        }
       }
     }
   },
