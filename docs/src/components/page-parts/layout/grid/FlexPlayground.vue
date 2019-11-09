@@ -49,7 +49,7 @@
 
 <script>
 import Child from './FlexChild'
-import { copyToClipboard } from '../../../../assets/page-utils'
+import { copyToClipboard } from 'assets/page-utils'
 
 const queryParams = {
   containerGroup: 'string',
