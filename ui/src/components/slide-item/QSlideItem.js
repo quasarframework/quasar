@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
+import DarkMixin from '../../mixins/dark.js'
 import slot from '../../utils/slot.js'
 
 const slotsDef = [
@@ -12,6 +13,8 @@ const slotsDef = [
 
 export default Vue.extend({
   name: 'QSlideItem',
+
+  mixins: [ DarkMixin ],
 
   props: {
     leftColor: String,
@@ -166,7 +169,8 @@ export default Vue.extend({
     )
 
     return h('div', {
-      staticClass: 'q-slide-item q-item-type overflow-hidden'
+      staticClass: 'q-slide-item q-item-type overflow-hidden',
+      class: this.isDark === true ? `q-slide-item--dark q-dark` : ''
     }, content)
   },
 
