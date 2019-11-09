@@ -52,7 +52,9 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           square
           dark
           borderless
-          placeholder="Search..."
+          :placeholder="searchPlaceholder"
+          @focus="onSearchFocus"
+          @blur="onSearchBlur"
         )
           template(v-slot:append)
             q-icon(
@@ -126,6 +128,7 @@ export default {
   data () {
     return {
       search: '',
+      searchFocused: false,
       rightDrawerOnLayout: false,
       activeToc: void 0
     }
@@ -152,6 +155,12 @@ export default {
 
     hasRightDrawer () {
       return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
+    },
+
+    searchPlaceholder () {
+      return this.searchFocused === true
+        ? 'Type to start searching...'
+        : (this.$q.platform.is.desktop === true ? `Type ' / ' to focus here...` : 'Search...')
     }
   },
 
@@ -227,30 +236,56 @@ export default {
       if (last !== void 0) {
         this.activeToc = last
       }
+    },
+
+    focusOnSearch (evt) {
+      if (evt.target.tagName !== 'INPUT') {
+        this.search = ''
+        setTimeout(() => {
+          this.$refs.docAlgolia.focus()
+        })
+      }
+    },
+
+    onSearchFocus () {
+      this.searchFocused = true
+    },
+
+    onSearchBlur () {
+      this.searchFocused = false
     }
   },
 
   mounted () {
-    import('docsearch.js').then(docsearch => docsearch.default({
-      apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
-      indexName: 'quasar-framework',
-      inputSelector: '.doc-algolia input',
-      algoliaOptions: {
-        hitsPerPage: 7
-      },
-      handleSelected: (a, b, suggestion, c, context) => {
-        const url = suggestion.url
-          .replace('https://quasar.dev', '')
+    import('docsearch.js').then(docsearch => {
+      docsearch.default({
+        apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
+        indexName: 'quasar-framework',
+        inputSelector: '.doc-algolia input',
+        algoliaOptions: {
+          hitsPerPage: 7
+        },
+        handleSelected: (a, b, suggestion, c, context) => {
+          const url = suggestion.url.replace('https://quasar.dev', '')
 
-        this.search = ''
-        this.$router.push(url)
-        this.$refs.docAlgolia.blur()
+          this.search = ''
+          this.$router.push(url)
+          this.$refs.docAlgolia.blur()
+        }
+      })
+
+      if (this.$q.platform.is.desktop === true) {
+        window.addEventListener('keydown', this.focusOnSearch)
       }
-    }))
+    })
   },
 
   beforeDestroy () {
     clearTimeout(this.scrollTimer)
+
+    if (this.$q.platform.is.desktop === true) {
+      window.removeEventListener('keydown', this.focusOnSearch)
+    }
   }
 }
 </script>
