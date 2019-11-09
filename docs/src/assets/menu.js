@@ -1088,8 +1088,6 @@ const utils = [
     path: 'other-utils'
   }
 ]
-
-// FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
 const firebaseAuthTypes = [{
   name: 'Email',
   path: 'email'
@@ -1268,8 +1266,6 @@ module.exports = [
     path: 'quasar-utils',
     children: utils
   },
-
-  // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
   {
     name: 'Backend & API',
     icon: 'storage',
