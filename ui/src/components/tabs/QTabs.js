@@ -2,10 +2,10 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
+import TimeoutMixin from '../../mixins/timeout.js'
 
 import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
-import debounce from '../../utils/debounce.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -42,6 +42,8 @@ const
 
 export default Vue.extend({
   name: 'QTabs',
+
+  mixins: [ TimeoutMixin ],
 
   provide () {
     return {
@@ -207,10 +209,14 @@ export default Vue.extend({
     },
 
     __recalculateScroll () {
-      this._isDestroyed !== true && this.__updateContainer({
-        width: this.$el.offsetWidth,
-        height: this.$el.offsetHeight
+      this.__nextTick(() => {
+        this._isDestroyed !== true && this.__updateContainer({
+          width: this.$el.offsetWidth,
+          height: this.$el.offsetHeight
+        })
       })
+
+      this.__prepareTick()
     },
 
     __updateContainer ({ width, height }) {
@@ -352,7 +358,6 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
-    this.__updateContainer = debounce(this.__updateContainer, 200)
   },
 
   beforeDestroy () {
