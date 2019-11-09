@@ -6,13 +6,13 @@
     </div>
     <q-input filled v-model="child.width" dense label="Width (ex: '200px', '20em')" @input="emitChange">
       <template v-if="child.width.length > 0" v-slot:append>
-        <q-btn icon="clear" size="xs" flat dense @click="width = ''"/>
+        <q-btn icon="clear" size="xs" flat dense @click="child.width = ''"/>
       </template>
     </q-input>
 
     <q-input filled v-model="child.height" dense label="Height (ex: '300px', '25em')" @input="emitChange">
       <template v-if="child.height.length > 0" v-slot:append>
-        <q-btn icon="clear" size="xs" flat dense @click="height = ''"/>
+        <q-btn icon="clear" size="xs" flat dense @click="child.height = ''"/>
       </template>
     </q-input>
     <q-select color="blue-12" v-model="child.widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @input="emitChange" />
