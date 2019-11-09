@@ -37,7 +37,7 @@
 
   &__card
     color: #000
-    background-color: #fff
+    background-color: $table-background-color
     border-radius: $table-border-radius
     box-shadow: $table-box-shadow
 
@@ -163,9 +163,7 @@
     &--selected
       transform: scale(0.95)
 
-/*
- * Separators
- */
+*/
 .q-table--horizontal-separator, .q-table--cell-separator
   thead th, tbody tr:not(:last-child) td
     border-bottom-width: 1px
@@ -181,9 +179,7 @@
   .q-table__top
     border-bottom: 1px solid $table-border-color
 
-/*
- * dense size
- */
+*/
 
 .q-table--dense
   .q-table__bottom
@@ -204,9 +200,7 @@
   .q-table__bottom-item
     margin-right: 8px
 
-/*
- * On light background
- */
+*/
 .q-table__bottom // @stylint ignore
   border-top: 1px solid $table-border-color
 
@@ -235,9 +229,7 @@
 body.desktop .q-table tbody tr:hover td:before
   content: ''
 
-/*
- * On dark background
- */
+*/
 .q-table__card--dark, .q-table--dark
   border-color: $table-dark-border-color
 
