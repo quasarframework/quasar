@@ -16,7 +16,7 @@ $ quasar new page Auth
 
 In the `Auth.vue` page we've created a basic, but rich user form for registering and login in users.:
 
-*A link to the sample app repo* => **/src/pages/Auth.vue**
+[**/src/pages/Auth.vue**](https://github.com/quasarframework/firebase-sample-apps/blob/master/authentication/email/src/pages/Auth.vue)
 
 Notice the use of the Vuex convenience method: [`mapActions`](https://vuex.vuejs.org/api/#mapactions). These are very helpful and will be using them along with [`mapGetters`](https://vuex.vuejs.org/api/#mapgetters) in future parts of the docs.
 Now that the form is in place we need to start to augment a few more files. First, let's take a look at our `serverConnection` file:
@@ -61,7 +61,7 @@ This service is very straight forward and provides an interface to the Firebase 
 
 Next we have some updates to our `base` service.
 
-*A link to the sample app repo* => **/src/service/base.js**
+[**/src/service/base.js**](https://github.com/quasarframework/firebase-sample-apps/blob/master/authentication/email/src/services/firebase/base.js)
 
 The base auth service has changed substantially and we need to break a few things down for clarity. First off is the `ensureAuthIsInitialized` method. 
 
@@ -149,14 +149,27 @@ This can grow and get more complex as your needs change, but the most important 
 
 Then we have some more [Vuex](https://vuex.vuejs.org/) implementation we need to do. It's a good practice to separate your applications state, and we will be doing the same in these docs. We will only be showing the Vuex portions relevant to firebase, and not the minor state handling of the loading state. You can find the full codebase in the example app.
 
-*A link to the sample app repo* => **/src/store/auth/state.js**
-
 Our auth state params.
-
-*A link to the sample app repo* => **/src/store/auth/actions.js**
+**/src/store/auth/state.js**
+```js
+export default {
+  isAuthenticated: false,
+  isReady: false,
+  isSignedIn: false
+}
+```
 
 Notice the use of async functions to call the actual service methods in our service.
 
+[**/src/store/auth/actions.js**](https://github.com/quasarframework/firebase-sample-apps/blob/master/authentication/email/src/store/auth/actions.js)
+
+
 Finally our auth state mutation for when the `onAuthStateChanged` method is fired.
 
-*A link to the sample app repo* => **/src/store/auth/mutations.js**
+```js
+export function setAuthState (state, data) {
+  state.isAuthenticated = data.isAuthenticated
+  state.isReady = data.isReady
+  state.isSignedIn = data.isSignedIn
+}
+```

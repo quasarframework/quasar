@@ -1089,7 +1089,6 @@ const utils = [
   }
 ]
 
-/*
 // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
 const firebaseAuthTypes = [{
   name: 'Email',
@@ -1169,7 +1168,6 @@ const backends = [
     path: 'laravel'
   }
 ]
-*/
 
 module.exports = [
   {
@@ -1269,15 +1267,14 @@ module.exports = [
     icon: 'healing',
     path: 'quasar-utils',
     children: utils
-  }
+  },
 
-  /*
   // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
-  ,{
+  {
     name: 'Backend & API',
     icon: 'storage',
     path: 'backend-and-api',
     children: backends
   }
-  */
+
 ]

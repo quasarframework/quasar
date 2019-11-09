@@ -18,7 +18,7 @@ Specific pieces of the sample application will be called out from a procedural p
 Firebase & Vuejs doc references will be highlighted and linked for additional context and explanation when needed, as well as referencing articles around the web that might offer even further insight or opinions on how to work with firebase.
 
 ::: tip Friendly Reminder
-Something that needs to be said from the beginning is do not forget to reference the [Firebase Docs](https://firebase.google.com/docs/web/setup) first and foremost. A lot of questions can and should be answered by researching the docs first. The intent of this category of documents on the relationship between Quasar and Firebase is to highlight the specfics in regards to implementation of Firebase services into a Quasar application. If there isn't something specific to the way Firebase is approached via Quasar, then it will not be in this documentations section. Examples would be CLI, Hosting, API references... etc.
+Something that needs to be said from the beginning is do not forget to reference the [Firebase Docs](https://firebase.google.com/docs/web/setup) first and foremost. A lot of questions can and should be answered by researching the docs first. The intent of this category of documents on the relationship between Quasar and Firebase is to highlight the specfics in regards to implementation of Firebase services into a Quasar application. If there isn't something specific to the way Firebase is approached via Quasar, then it will not be in this documentation section. Examples would be CLI, Hosting, API references... etc.
 :::
 
 If you have any questions or comments please submit a Docs PR, or find us in the #firebase channel on the Quasar Discord server.
