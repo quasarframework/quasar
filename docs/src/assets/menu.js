@@ -1206,7 +1206,8 @@ module.exports = [
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'start',
-    children: gettingStarted
+    children: gettingStarted,
+    type: 'cli'
   },
   {
     name: 'Contribution Guide',
@@ -1218,7 +1219,8 @@ module.exports = [
     name: 'Quasar Options & Helpers',
     icon: 'tune',
     path: 'options',
-    children: options
+    children: options,
+    type: 'ui'
   },
   {
     name: 'Security',
@@ -1230,49 +1232,57 @@ module.exports = [
     name: 'Quasar CLI',
     icon: 'build',
     path: 'quasar-cli',
-    children: cli
+    children: cli,
+    type: 'cli'
   },
   {
     name: 'Style & Identity',
     icon: 'style',
     path: 'style',
-    children: style
+    children: style,
+    type: 'ui'
   },
   {
     name: 'Layout and Grid',
     icon: 'view_quilt',
     path: 'layout',
-    children: layout
+    children: layout,
+    type: 'ui'
   },
   {
     name: 'Vue Components',
     icon: 'widgets',
     path: 'vue-components',
-    children: components
+    children: components,
+    type: 'ui'
   },
   {
     name: 'Vue Directives',
     icon: 'swap_calls',
     path: 'vue-directives',
-    children: directives
+    children: directives,
+    type: 'ui'
   },
   {
     name: 'Quasar Plugins',
     icon: 'extension',
     path: 'quasar-plugins',
-    children: plugins
+    children: plugins,
+    type: 'ui'
   },
   {
     name: 'App Extensions',
     icon: 'note_add',
     path: 'app-extensions',
-    children: appExtensions
+    children: appExtensions,
+    type: 'cli'
   },
   {
     name: 'Quasar Utils',
     icon: 'healing',
     path: 'quasar-utils',
-    children: utils
+    children: utils,
+    type: 'ui'
   }
 
   /*

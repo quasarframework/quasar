@@ -25,18 +25,29 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
       .row.justify-center.q-my-lg
-        q-btn(
-          type="a"
-          href="https://donate.quasar.dev"
-          target="_blank"
-          rel="noopener"
-          size="13px"
-          color="primary"
-          icon="favorite_border"
-          label="Donate to Quasar"
-        )
+        .column.q-gutter-y-md.full-width.items-center
+          q-btn(
+            type="a"
+            href="https://donate.quasar.dev"
+            target="_blank"
+            rel="noopener"
+            size="13px"
+            color="primary"
+            icon="favorite_border"
+            label="Donate to Quasar"
+            style="width: 200px"
+          )
+          .row.full-width
+            q-btn.col(
+              v-for="option in menuOptions"
+              :key="option.value"
+              @click="updateMenuOption(option.value)"
+              :label="option.label"
+              :color="menuOption === option.value ? 'primary' : 'white'"
+              :text-color="menuOption === option.value ? 'white' : 'black'"
+            )
 
-      app-menu.q-my-lg
+      app-menu.q-my-lg(:type="menuOption")
 
     .absolute-top.bg-white.layout-drawer-toolbar
       form(
@@ -130,7 +141,12 @@ export default {
       search: '',
       searchFocused: false,
       rightDrawerOnLayout: false,
-      activeToc: void 0
+      activeToc: void 0,
+      menuOption: null,
+      menuOptions: [
+        { label: 'CLI', value: 'cli' },
+        { label: 'UI', value: 'ui' }
+      ]
     }
   },
 
@@ -253,6 +269,10 @@ export default {
 
     onSearchBlur () {
       this.searchFocused = false
+    },
+
+    updateMenuOption (value) {
+      this.menuOption = this.menuOption === value ? null : value
     }
   },
 

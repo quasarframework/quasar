@@ -4,9 +4,21 @@ import './AppMenu.sass'
 export default {
   name: 'AppMenu',
 
+  props: {
+    type: String
+  },
+
   watch: {
     $route (route) {
       this.showMenu(this.$refs[route.path])
+    }
+  },
+
+  computed: {
+    visibleMenu () {
+      return this.type === null
+        ? Menu
+        : Menu.filter(entry => entry.type === this.type)
     }
   },
 
@@ -87,7 +99,7 @@ export default {
   },
 
   render (h) {
-    return h('q-list', { staticClass: 'app-menu' }, Menu.map(
+    return h('q-list', { staticClass: 'app-menu' }, this.visibleMenu.map(
       item => this.getDrawerMenu(h, item, '/' + item.path, 0)
     ))
   },
