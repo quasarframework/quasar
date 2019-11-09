@@ -207,7 +207,7 @@ export default Vue.extend({
     },
 
     __recalculateScroll () {
-      this.$el !== void 0 && this.__updateContainer({
+      this._isDestroyed !== true && this.__updateContainer({
         width: this.$el.offsetWidth,
         height: this.$el.offsetHeight
       })
