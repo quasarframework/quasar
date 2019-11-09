@@ -8,7 +8,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
     div.col-auto
       q-btn(dense, flat, round, icon="fab fa-github", @click="openGitHub")
         q-tooltip View on GitHub
-      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
+      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open(parts)")
         q-tooltip Edit in Codepen
       q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
         q-tooltip View Source
@@ -50,7 +50,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   .row
     component.col.doc-example__content(:is="component", :class="componentClass")
 
-  codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle", :parts="parts")
+  codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
 </template>
 
 <script>
