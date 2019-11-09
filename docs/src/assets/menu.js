@@ -1139,10 +1139,6 @@ const backends = [
         path: 'firebase/dataStore'
       },
       {
-        name: 'Hosting',
-        path: 'firebase/hosting'
-      },
-      {
         name: 'Messaging',
         path: 'firebase/messaging'
       },
@@ -1152,7 +1148,7 @@ const backends = [
       },
       {
         name: 'SSR',
-        path: 'firebase/custom'
+        path: 'firebase/ssr'
       },
       {
         name: 'Vuex',
@@ -1163,8 +1159,8 @@ const backends = [
         path: 'firebase/custom'
       },
       {
-        name: 'Firebase CLI',
-        path: 'firebase/cli'
+        name: 'Other Firebase Tools & Services',
+        path: 'firebase/toolsAndServices'
       }
     ]
   },
