@@ -5,6 +5,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
 import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
+import debounce from '../../utils/debounce.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -45,6 +46,7 @@ export default Vue.extend({
   provide () {
     return {
       tabs: this.tabs,
+      __recalculateScroll: this.__recalculateScroll,
       __activateTab: this.__activateTab,
       __activateRoute: this.__activateRoute
     }
@@ -204,6 +206,13 @@ export default Vue.extend({
       }
     },
 
+    __recalculateScroll () {
+      this.$el !== void 0 && this.__updateContainer({
+        width: this.$el.offsetWidth,
+        height: this.$el.offsetHeight
+      })
+    },
+
     __updateContainer ({ width, height }) {
       const scroll = this.vertical === true
         ? this.$refs.content.scrollHeight > height + 1
@@ -343,6 +352,7 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
+    this.__updateContainer = debounce(this.__updateContainer, 200)
   },
 
   beforeDestroy () {
