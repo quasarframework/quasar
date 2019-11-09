@@ -592,15 +592,19 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = [
-      this.noSwipeOpen !== true && this.belowBreakpoint === true
-        ? h('div', {
+    const child = []
+
+    if (this.noSwipeOpen !== true && this.belowBreakpoint === true) {
+      child.push(
+        h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
           directives: this.openDirective
         })
-        : null,
+      )
+    }
 
-      this.belowBreakpoint === true ? h('div', {
+    this.belowBreakpoint === true && child.push(
+      h('div', {
         ref: 'backdrop',
         staticClass: 'fullscreen q-drawer__backdrop',
         class: this.backdropClass,
@@ -611,8 +615,8 @@ export default Vue.extend({
         directives: this.noSwipeBackdrop !== true
           ? this.closeDirective
           : void 0
-      }) : null
-    ]
+      })
+    )
 
     const content = [
       h('div', {
@@ -633,9 +637,7 @@ export default Vue.extend({
       )
     }
 
-    return h('div', {
-      staticClass: 'q-drawer-container'
-    }, child.concat([
+    child.push(
       h('aside', {
         ref: 'content',
         staticClass: `q-drawer`,
@@ -646,6 +648,10 @@ export default Vue.extend({
           ? this.closeDirective
           : void 0
       }, content)
-    ]))
+    )
+
+    return h('div', {
+      staticClass: 'q-drawer-container'
+    }, child)
   }
 })

@@ -145,11 +145,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-splitter no-wrap',
-      class: this.classes,
-      on: this.$listeners
-    }, [
+    let child = [
       h('div', {
         ref: 'before',
         staticClass: 'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
@@ -187,6 +183,17 @@ export default Vue.extend({
         class: this.afterClass,
         on: { input: stop }
       }, slot(this, 'after'))
-    ].concat(slot(this, 'default')))
+    ]
+
+    const def = slot(this, 'default')
+    if (def !== void 0) {
+      child = child.concat(def)
+    }
+
+    return h('div', {
+      staticClass: 'q-splitter no-wrap',
+      class: this.classes,
+      on: this.$listeners
+    }, child)
   }
 })

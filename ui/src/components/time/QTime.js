@@ -521,7 +521,7 @@ export default Vue.extend({
                     staticClass: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}`,
                     class: pos.val === current
                       ? this.headerClass.concat(' q-time__clock-position--active')
-                      : (pos.disable ? 'q-time__clock-position--disable' : null)
+                      : (pos.disable === true ? 'q-time__clock-position--disable' : null)
                   }, [ h('span', [ pos.label ]) ]))
                 ])
               ])

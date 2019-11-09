@@ -133,7 +133,7 @@ export default Vue.extend({
     },
 
     computedData () {
-      let rows = this.data.slice().map((row, i) => {
+      let rows = this.data.map((row, i) => {
         row.__index = i
         return row
       })

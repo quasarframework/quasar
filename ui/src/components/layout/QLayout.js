@@ -109,6 +109,7 @@ export default Vue.extend({
       h(QScrollObserver, {
         on: { scroll: this.__onPageScroll }
       }),
+
       h(QResizeObserver, {
         on: { resize: this.__onPageResize }
       })

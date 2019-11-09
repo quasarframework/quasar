@@ -280,7 +280,7 @@ export default Vue.extend({
     removeAtIndex (index) {
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
-          const model = [].concat(this.value)
+          const model = this.value.slice()
           this.$emit('remove', { index, value: model.splice(index, 1) })
           this.$emit('input', model)
         }
@@ -315,11 +315,11 @@ export default Vue.extend({
         return
       }
 
-      const model = [].concat(this.value)
-
-      if (this.maxValues !== void 0 && model.length >= this.maxValues) {
+      if (this.maxValues !== void 0 && this.value.length >= this.maxValues) {
         return
       }
+
+      const model = this.value.slice()
 
       this.$emit('add', { index: model.length, value: val })
       model.push(val)
@@ -359,7 +359,7 @@ export default Vue.extend({
       }
 
       const
-        model = [].concat(this.value),
+        model = this.value.slice(),
         index = this.value.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
 
       if (index > -1) {

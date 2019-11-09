@@ -39,10 +39,10 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      const content = slot(this, 'default')
+      const def = slot(this, 'default')
       return this.icon !== void 0
-        ? [ h(QIcon, { props: { name: this.icon } }) ].concat(content)
-        : content
+        ? [ h(QIcon, { props: { name: this.icon } }) ].concat(def)
+        : def
     }
   },
 

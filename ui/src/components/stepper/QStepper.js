@@ -47,12 +47,12 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      const top = slot(this, 'message', [])
+      let top = slot(this, 'message', [])
 
       if (this.vertical === true) {
         this.__isValidPanelName(this.value) && this.__updatePanelIndex()
 
-        return top.slice().concat(
+        return top.concat(
           h('div', {
             staticClass: 'q-stepper__content',
             // stop propagation of content emitted @input
