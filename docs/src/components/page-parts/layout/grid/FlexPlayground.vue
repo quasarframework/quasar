@@ -27,7 +27,7 @@
     <q-btn class="float-right" round dense flat icon="share" @click="share">
       <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
     </q-btn>
-    <q-btn class="float-right" round dense flat icon="fab fa-codepen" @click="$refs.codepen.open(codepenParts())">
+    <q-btn class="float-right" round dense flat icon="fab fa-codepen" @click="editInCodepen">
       <q-tooltip>Edit in Codepen</q-tooltip>
     </q-btn>
     <q-btn class="float-right" label="Add Child" icon="add" dense flat :disabled="children.length >= 10" @click="addChild" />
@@ -225,7 +225,7 @@ export default {
         this.copied = false
       }, 1500)
     },
-    codepenParts () {
+    editInCodepen () {
       const children = this.children.map((child, index) => {
         const childRef = this.$refs[`child${index}`]
         return `<div class="${childRef[0].classes} bg-grey-6" style="${childRef[0].styles}">
@@ -247,9 +247,7 @@ export default {
           </div>
         </div>
       `
-      return {
-        template
-      }
+      this.$refs.codepen.open({ template })
     }
   }
 }
