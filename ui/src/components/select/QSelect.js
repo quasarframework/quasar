@@ -280,7 +280,7 @@ export default Vue.extend({
     removeAtIndex (index) {
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
-          const model = [].concat(this.value)
+          const model = this.value.slice()
           this.$emit('remove', { index, value: model.splice(index, 1) })
           this.$emit('input', model)
         }
@@ -315,11 +315,11 @@ export default Vue.extend({
         return
       }
 
-      const model = [].concat(this.value)
-
-      if (this.maxValues !== void 0 && model.length >= this.maxValues) {
+      if (this.maxValues !== void 0 && this.value.length >= this.maxValues) {
         return
       }
+
+      const model = this.value.slice()
 
       this.$emit('add', { index: model.length, value: val })
       model.push(val)
@@ -340,7 +340,7 @@ export default Vue.extend({
           true
         )
 
-        this.$refs.target.focus()
+        this.$refs.target !== void 0 && this.$refs.target.focus()
         this.hidePopup()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
@@ -359,7 +359,7 @@ export default Vue.extend({
       }
 
       const
-        model = [].concat(this.value),
+        model = this.value.slice(),
         index = this.value.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
 
       if (index > -1) {
@@ -663,11 +663,11 @@ export default Vue.extend({
       }
 
       if (this.$scopedSlots['selected-item'] !== void 0) {
-        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope))
+        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope)).slice()
       }
 
       if (this.$scopedSlots.selected !== void 0) {
-        return this.$scopedSlots.selected()
+        return this.$scopedSlots.selected().slice()
       }
 
       if (this.useChips === true) {
@@ -1092,7 +1092,8 @@ export default Vue.extend({
       // IE can have null document.activeElement
       if (
         (el === null || el.id !== this.targetUid) &&
-        this.$refs.target !== el
+        this.$refs.target !== el &&
+        this.$refs.target !== void 0
       ) {
         this.$refs.target.focus()
       }

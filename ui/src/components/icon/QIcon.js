@@ -110,21 +110,27 @@ export default Vue.extend({
   },
 
   render (h) {
-    return this.type.img === true
-      ? h('img', {
+    if (this.type.img === true) {
+      return h('img', {
         staticClass: this.type.cls,
         style: this.sizeStyle,
         on: this.$listeners,
         attrs: { src: this.type.src }
       })
-      : h('i', {
-        staticClass: this.type.cls,
-        style: this.sizeStyle,
-        on: this.$listeners,
-        attrs: { 'aria-hidden': true }
-      }, [
-        this.type.content,
-        slot(this, 'default')
-      ])
+    }
+
+    let child = [ this.type.content ]
+    const def = slot(this, 'default')
+
+    if (def !== void 0) {
+      child = child.concat(def)
+    }
+
+    return h('i', {
+      staticClass: this.type.cls,
+      style: this.sizeStyle,
+      on: this.$listeners,
+      attrs: { 'aria-hidden': true }
+    }, child)
   }
 })

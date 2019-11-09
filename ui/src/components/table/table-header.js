@@ -1,24 +1,17 @@
-import QLinearProgress from '../linear-progress/QLinearProgress.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
 
 export default {
   methods: {
     getTableHeader (h) {
-      const child = [ this.getTableHeaderRow(h) ]
+      const child = this.getTableHeaderRow(h)
 
       this.loading === true && child.push(
         h('tr', { staticClass: 'q-table__progress' }, [
-          h('th', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
-            h(QLinearProgress, {
-              staticClass: 'q-table__linear-progress',
-              props: {
-                color: this.color,
-                dark: this.isDark,
-                indeterminate: true
-              }
-            })
-          ])
+          h('th', {
+            staticClass: 'relative-position',
+            attrs: { colspan: '100%' }
+          }, this.__getProgress(h))
         ])
       )
 
@@ -33,7 +26,7 @@ export default {
       if (header !== void 0) {
         return header(this.addTableHeaderRowMeta({
           header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
-        }))
+        })).slice()
       }
 
       let mapFn
@@ -91,10 +84,12 @@ export default {
         ]))
       }
 
-      return h('tr', {
-        style: this.tableHeaderStyle,
-        class: this.tableHeaderClass
-      }, child)
+      return [
+        h('tr', {
+          style: this.tableHeaderStyle,
+          class: this.tableHeaderClass
+        }, child)
+      ]
     },
 
     addTableHeaderRowMeta (data) {

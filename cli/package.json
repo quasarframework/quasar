@@ -1,6 +1,6 @@
 {
   "name": "@quasar/cli",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Quasar Framework global CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -45,6 +45,7 @@
     "compression": "1.7.4",
     "connect-history-api-fallback": "1.6.0",
     "consolidate": "0.15.1",
+    "cors": "^2.8.5",
     "cross-spawn": "7.0.1",
     "download-git-repo": "1.1.0",
     "express": "4.17.1",
@@ -57,7 +58,7 @@
     "minimist": "1.2.0",
     "multimatch": "2.1.0",
     "open": "7.0.0",
-    "ora": "4.0.2",
+    "ora": "3.4.0",
     "read-metadata": "1.0.0",
     "rimraf": "3.0.0",
     "route-cache": "0.4.4",

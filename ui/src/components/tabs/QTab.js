@@ -18,7 +18,8 @@ export default Vue.extend({
         console.error('QTab/QRouteTab components need to be child of QTabsBar')
       }
     },
-    __activateTab: {}
+    __activateTab: {},
+    __recalculateScroll: {}
   },
 
   props: {
@@ -139,6 +140,14 @@ export default Vue.extend({
 
       return h(tag, data, this.__getContent(h))
     }
+  },
+
+  mounted () {
+    this.__recalculateScroll()
+  },
+
+  beforeDestroy () {
+    this.__recalculateScroll()
   },
 
   render (h) {

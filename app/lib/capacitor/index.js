@@ -105,7 +105,7 @@ class CapacitorRunner {
 
   async __buildAndroid (argv, cfg) {
     const buildPath = appPaths.resolve.capacitor(
-      'android/app/build/outputs/apk/' + (this.ctx.debug ? 'debug' : 'release')
+      'android/app/build/outputs'
     )
 
     // Remove old build output

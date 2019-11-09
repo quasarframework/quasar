@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
+import TimeoutMixin from '../../mixins/timeout.js'
 
 import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
@@ -42,9 +43,12 @@ const
 export default Vue.extend({
   name: 'QTabs',
 
+  mixins: [ TimeoutMixin ],
+
   provide () {
     return {
       tabs: this.tabs,
+      __recalculateScroll: this.__recalculateScroll,
       __activateTab: this.__activateTab,
       __activateRoute: this.__activateRoute
     }
@@ -202,6 +206,17 @@ export default Vue.extend({
           this.bufferTimer = void 0
         }, 1)
       }
+    },
+
+    __recalculateScroll () {
+      this.__nextTick(() => {
+        this._isDestroyed !== true && this.__updateContainer({
+          width: this.$el.offsetWidth,
+          height: this.$el.offsetHeight
+        })
+      })
+
+      this.__prepareTick()
     },
 
     __updateContainer ({ width, height }) {

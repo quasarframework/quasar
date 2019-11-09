@@ -535,26 +535,32 @@ $ quasar serve -h
     control is yielded to /index.js and params have no effect.
 
   Options
-    --port, -p             Port to use (default: 8080)
-    --hostname, -H         Address to use (default: 0.0.0.0)
-    --gzip, -g             Compress content (default: true)
-    --silent, -s           Supress log message
-    --colors               Log messages with colors (default: true)
-    --open, -o             Open browser window after starting
-    --cache, -c <number>   Cache time (max-age) in seconds;
-                           Does not apply to /service-worker.js
-                           (default: 86400 - 24 hours)
-    --micro, -m <seconds>  Use micro-cache (default: 1 second)
-    --history              Use history api fallback;
-                           All requests fallback to index.html
-    --https                Enable HTTPS
-    --cert, -C [path]      Path to SSL cert file (Optional)
-    --key, -K [path]       Path to SSL key file (Optional)
-    --proxy <file.js>      Proxy specific requests defined in file;
-                           File must export Array ({ path, rule })
-                           See example below. "rule" is defined at:
-                           https://github.com/chimurai/http-proxy-middleware
-    --help, -h             Displays this message
+    --port, -p              Port to use (default: 4000)
+    --hostname, -H          Address to use (default: 0.0.0.0)
+    --gzip, -g              Compress content (default: true)
+    --silent, -s            Supress log message
+    --colors                Log messages with colors (default: true)
+    --open, -o              Open browser window after starting
+    --cache, -c <number>    Cache time (max-age) in seconds;
+                            Does not apply to /service-worker.js
+                            (default: 86400 - 24 hours)
+    --micro, -m <seconds>   Use micro-cache (default: 1 second)
+
+    --history               Use history api fallback;
+                              All requests fallback to /index.html,
+                              unless using "--index" parameter
+    --index, -i <file>      History mode (only!) index url path
+                              (default: index.html)
+
+    --https                 Enable HTTPS
+    --cert, -C [path]       Path to SSL cert file (Optional)
+    --key, -K [path]        Path to SSL key file (Optional)
+    --proxy <file.js>       Proxy specific requests defined in file;
+                            File must export Array ({ path, rule })
+                            See example below. "rule" is defined at:
+                            https://github.com/chimurai/http-proxy-middleware
+    --cors                  Enable CORS for all requests
+    --help, -h              Displays this message
 
   Proxy file example
     module.exports = [

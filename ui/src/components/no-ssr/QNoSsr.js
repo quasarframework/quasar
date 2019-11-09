@@ -24,15 +24,11 @@ export default Vue.extend({
         : (node.length > 1 ? h(this.tag, node) : node[0])
     }
 
-    if (this.$scopedSlots.placeholder !== void 0) {
-      const node = slot(this, 'placeholder')
-      return node === void 0
-        ? node
-        : (
-          node.length > 1
-            ? h(this.tag, { staticClass: 'q-no-ssr-placeholder' }, node)
-            : node[0]
-        )
+    const node = slot(this, 'placeholder')
+    if (node !== void 0) {
+      return node.length > 1
+        ? h(this.tag, { staticClass: 'q-no-ssr-placeholder' }, node)
+        : node[0]
     }
 
     if (this.placeholder !== void 0) {

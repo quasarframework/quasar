@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
 
+import slot from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
@@ -520,7 +521,7 @@ export default Vue.extend({
                     staticClass: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}`,
                     class: pos.val === current
                       ? this.headerClass.concat(' q-time__clock-position--active')
-                      : (pos.disable ? 'q-time__clock-position--disable' : null)
+                      : (pos.disable === true ? 'q-time__clock-position--disable' : null)
                   }, [ h('span', [ pos.label ]) ]))
                 ])
               ])
@@ -651,16 +652,14 @@ export default Vue.extend({
   },
 
   render (h) {
-    const content = [
+    const child = [
       this.__getClock(h)
     ]
 
-    const slot = this.$scopedSlots.default
-    if (slot !== void 0) {
-      content.push(
-        h('div', { staticClass: 'q-time__actions' }, slot())
-      )
-    }
+    const def = slot(this, 'default')
+    def !== void 0 && child.push(
+      h('div', { staticClass: 'q-time__actions' }, def)
+    )
 
     return h('div', {
       staticClass: 'q-time',
@@ -669,7 +668,7 @@ export default Vue.extend({
       attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),
-      h('div', { staticClass: 'q-time__main col overflow-auto' }, content)
+      h('div', { staticClass: 'q-time__main col overflow-auto' }, child)
     ])
   }
 })

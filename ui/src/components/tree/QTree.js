@@ -453,7 +453,7 @@ export default Vue.extend({
         body = node.body
           ? this.$scopedSlots[`body-${node.body}`] || this.$scopedSlots['default-body']
           : this.$scopedSlots['default-body'],
-        slotScope = header || body
+        slotScope = header !== void 0 || body !== void 0
           ? this.__getSlotScope(node, meta, key)
           : null
 

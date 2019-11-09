@@ -205,7 +205,7 @@ export default Vue.extend({
         attrs: this.attrs
       }
 
-    if (this.isDisabled === false) {
+    if (this.isActionable === true) {
       data.on = {
         ...this.$listeners,
         click: this.click,
@@ -240,9 +240,8 @@ export default Vue.extend({
       )
     }
 
-    inner.push(
-      slot(this, 'default')
-    )
+    const def = slot(this, 'default')
+    def !== void 0 && inner.push(def)
 
     if (this.iconRight !== void 0 && this.isRound === false) {
       inner.push(
@@ -260,15 +259,13 @@ export default Vue.extend({
       })
     ]
 
-    if (this.loading === true && this.percentage !== void 0) {
-      child.push(
-        h('div', {
-          staticClass: 'q-btn__progress absolute-full',
-          class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
-          style: { transform: `scale3d(${this.computedPercentage / 100},1,1)` }
-        })
-      )
-    }
+    this.loading === true && this.percentage !== void 0 && child.push(
+      h('div', {
+        staticClass: 'q-btn__progress absolute-full',
+        class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
+        style: { transform: `scale3d(${this.computedPercentage / 100},1,1)` }
+      })
+    )
 
     child.push(
       h('div', {
@@ -277,18 +274,16 @@ export default Vue.extend({
       }, inner)
     )
 
-    if (this.loading !== null) {
-      child.push(
-        h('transition', {
-          props: { name: 'q-transition--fade' }
-        }, this.loading === true ? [
-          h('div', {
-            key: 'loading',
-            staticClass: 'absolute-full flex flex-center'
-          }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(QSpinner) ])
-        ] : void 0)
-      )
-    }
+    this.loading !== null && child.push(
+      h('transition', {
+        props: { name: 'q-transition--fade' }
+      }, this.loading === true ? [
+        h('div', {
+          key: 'loading',
+          staticClass: 'absolute-full flex flex-center'
+        }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(QSpinner) ])
+      ] : void 0)
+    )
 
     return h(this.isLink === true ? 'a' : 'button', data, child)
   }

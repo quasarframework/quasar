@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
-import slot from '../../utils/slot.js'
+import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -66,8 +66,10 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      const child = [].concat(slot(this, 'default'))
-      this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }))
+      const child = uniqueSlot(this, 'default', [])
+      this.isClickable === true && child.unshift(
+        h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' })
+      )
       return child
     },
 

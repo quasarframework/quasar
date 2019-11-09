@@ -3,7 +3,6 @@
   outline: 0
   border: 0
   vertical-align: middle
-  cursor: pointer
   padding: $button-padding
   font-size: $button-font-size
   line-height: $button-line-height
@@ -30,24 +29,27 @@
   &.disabled
     opacity: .7 !important
 
-  &--standard:not(.disabled)
-    &:before
-      // This places the button active raise shadow behind adjacent elements
-      // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.
-      // Visible active raise shadow can be removed by specifying a background color to the button
-      // Visible active raise shadow can be removed by specifying a flat or outline button type
-      content: ''
-      position: absolute
-      top: 0
-      right: 0
-      bottom: 0
-      left: 0
-      border-radius: inherit
-      transition: $button-transition
-    &:active,
-    &.q-btn--active
+  &--actionable
+    cursor: pointer
+
+    &.q-btn--standard
       &:before
-        box-shadow: $button-shadow-active
+        // This places the button active raise shadow behind adjacent elements
+        // Active raise shadow will still be visible under adjacent transparent elements, this is ok and coherent with a desired transparency effect.
+        // Visible active raise shadow can be removed by specifying a background color to the button
+        // Visible active raise shadow can be removed by specifying a flat or outline button type
+        content: ''
+        position: absolute
+        top: 0
+        right: 0
+        bottom: 0
+        left: 0
+        border-radius: inherit
+        transition: $button-transition
+      &:active,
+      &.q-btn--active
+        &:before
+          box-shadow: $button-shadow-active
 
 
   &--no-uppercase
@@ -63,9 +65,9 @@
   &--push
     border-radius: $button-push-border-radius
     border-bottom: 3px solid rgba(0, 0, 0, .15)
-    &:active,
-    &.q-btn--active
-      &:not(.disabled)
+    &.q-btn--actionable
+      &:active,
+      &.q-btn--active.q-btn--actionable
         transform: translateY(3px)
         border-bottom-width: 0
     .q-focus-helper, .q-ripple-container

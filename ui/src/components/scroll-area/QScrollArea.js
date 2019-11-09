@@ -310,9 +310,10 @@ export default Vue.extend({
         }, [
           h(QResizeObserver, {
             on: { resize: this.__updateScrollSize }
-          }),
+          })
+        ].concat(
           slot(this, 'default')
-        ]),
+        )),
 
         h(QScrollObserver, {
           props: { horizontal: this.horizontal },

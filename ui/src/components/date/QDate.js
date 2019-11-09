@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 
+import slot from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
@@ -763,12 +764,10 @@ export default Vue.extend({
       ])
     ]
 
-    const slot = this.$scopedSlots.default
-    if (slot !== void 0) {
-      content.push(
-        h('div', { staticClass: 'q-date__actions' }, slot())
-      )
-    }
+    const def = slot(this, 'default')
+    def !== void 0 && content.push(
+      h('div', { staticClass: 'q-date__actions' }, def)
+    )
 
     return h('div', {
       staticClass: 'q-date',

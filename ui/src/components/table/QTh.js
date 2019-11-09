@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import slot from '../../utils/slot.js'
+import slot, { uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QTh',
@@ -22,10 +22,8 @@ export default Vue.extend({
       }, slot(this, 'default'))
     }
 
-    let col
-    const
-      name = this.$vnode.key,
-      child = [].concat(slot(this, 'default'))
+    let col, child
+    const name = this.$vnode.key
 
     if (name) {
       col = this.props.colsMap[name]
@@ -40,12 +38,16 @@ export default Vue.extend({
         ? 'unshift'
         : 'push'
 
+      child = uniqueSlot(this, 'default', [])
       child[action](
         h(QIcon, {
           props: { name: this.$q.iconSet.table.arrowUp },
           staticClass: col.__iconClass
         })
       )
+    }
+    else {
+      child = slot(this, 'default')
     }
 
     const evt = col.sortable === true

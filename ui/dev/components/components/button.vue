@@ -155,6 +155,12 @@
         <q-btn color="primary" :type="tag" :loading="!!loading[1]" @click="simulateProgress(1)" label="Button">
           <span slot="loading">Loading...</span>
         </q-btn>
+        <q-btn push color="primary" :type="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
+          <q-spinner-oval slot="loading" />
+        </q-btn>
+        <q-btn push color="primary" :type="tag" :loading="!!loading[1]" @click="simulateProgress(1)" label="Button">
+          <span slot="loading">Loading...</span>
+        </q-btn>
         <q-btn :type="tag" :loading="!!loading[2]" color="orange" @click="simulateProgress(2)" label="Button">
           <q-spinner-bars slot="loading" />
         </q-btn>
@@ -281,6 +287,14 @@
 
       <div class="q-gutter-sm">
         <q-btn :type="tag" :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
+          Btn with progress
+          <span slot="loading" class="row items-center">
+            <q-spinner class="on-left" />
+            Computing...
+          </span>
+        </q-btn>
+
+        <q-btn push :type="tag" :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
           <span slot="loading" class="row items-center">
             <q-spinner class="on-left" />
