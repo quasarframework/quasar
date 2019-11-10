@@ -241,8 +241,9 @@ export default {
     focusOnSearch (evt) {
       if (
         evt.target.tagName !== 'INPUT' &&
-        evt.keyCode === 191 // "/"
+        String.fromCharCode(evt.keyCode) === '/'
       ) {
+        evt.preventDefault()
         this.search = ''
         setTimeout(() => {
           this.$refs.docAlgolia.focus()
@@ -278,7 +279,7 @@ export default {
       })
 
       if (this.$q.platform.is.desktop === true) {
-        window.addEventListener('keydown', this.focusOnSearch)
+        window.addEventListener('keypress', this.focusOnSearch)
       }
     })
   },
@@ -287,7 +288,7 @@ export default {
     clearTimeout(this.scrollTimer)
 
     if (this.$q.platform.is.desktop === true) {
-      window.removeEventListener('keydown', this.focusOnSearch)
+      window.removeEventListener('keypress', this.focusOnSearch)
     }
   }
 }
