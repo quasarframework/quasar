@@ -34,13 +34,19 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
             dark
             dense
             outlined
-            :placeholder="searchPlaceholder"
+            placeholder="Search..."
             @focus="onSearchFocus"
             @blur="onSearchBlur"
           )
-            template(v-slot:append)
+            template(v-slot:prepend)
               q-icon(
                 name="search"
+                @click="$refs.docAlgolia.focus()"
+              )
+            template(v-slot:append)
+              q-badge(
+                label="/"
+                color="blue-5"
                 @click="$refs.docAlgolia.focus()"
               )
 
@@ -170,12 +176,6 @@ export default {
 
     hasRightDrawer () {
       return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
-    },
-
-    searchPlaceholder () {
-      return this.searchFocused === true
-        ? 'Type to start searching...'
-        : (this.$q.platform.is.desktop === true ? `Type ' / ' to focus here...` : 'Search...')
     }
   },
 
