@@ -10,7 +10,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
           img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Quasar
 
-      q-tabs(v-model="menuOption")
+      q-tabs.menus-tabs(v-model="menuOption")
         q-route-tab(
           v-for="option in menuOptions"
           :key="option.value"
@@ -378,4 +378,8 @@ export default {
     transition: transform .8s ease-in-out
   &:hover img
     transform: rotate(-360deg)
+
+@media (max-width: $breakpoint-sm-max)
+  .menus-tabs, .q-toolbar__title
+    display: none
 </style>
