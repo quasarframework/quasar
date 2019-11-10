@@ -18,7 +18,7 @@ export default {
     visibleMenu () {
       return this.type === null
         ? Menu
-        : Menu.filter(entry => entry.type === this.type)
+        : Menu.filter(entry => entry.__type === this.type)
     }
   },
 

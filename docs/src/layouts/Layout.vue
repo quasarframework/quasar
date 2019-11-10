@@ -1,5 +1,5 @@
 <template lang="pug">
-q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
+q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   q-header.header(elevated)
     q-toolbar
       q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
@@ -10,7 +10,39 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Quasar
 
+      q-tabs(v-model="menuOption")
+        q-route-tab(
+          v-for="option in menuOptions"
+          :key="option.value"
+          :label="option.label"
+          :name="option.value"
+          :to="option.to"
+        )
+
       q-space
+
+      div
+        form(
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
+        )
+          q-input.full-width.doc-algolia(
+            ref="docAlgolia"
+            v-model="search"
+            dark
+            dense
+            outlined
+            :placeholder="searchPlaceholder"
+            @focus="onSearchFocus"
+            @blur="onSearchBlur"
+          )
+            template(v-slot:append)
+              q-icon(
+                name="search"
+                @click="$refs.docAlgolia.focus()"
+              )
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
@@ -23,7 +55,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     bordered
     content-class="doc-left-drawer"
   )
-    q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
+    q-scroll-area.full-height
       .row.justify-center.q-my-lg
         .column.q-gutter-y-md.full-width.items-center
           q-btn(
@@ -37,42 +69,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
             label="Donate to Quasar"
             style="width: 200px"
           )
-          .row.full-width
-            q-btn.col(
-              v-for="option in menuOptions"
-              :key="option.value"
-              @click="updateMenuOption(option.value)"
-              :label="option.label"
-              :color="menuOption === option.value ? 'primary' : 'white'"
-              :text-color="menuOption === option.value ? 'white' : 'black'"
-            )
 
       app-menu.q-my-lg(:type="menuOption")
-
-    .absolute-top.bg-white.layout-drawer-toolbar
-      form(
-        autocorrect="off"
-        autocapitalize="off"
-        autocomplete="off"
-        spellcheck="false"
-      )
-        q-input.full-width.doc-algolia.bg-primary(
-          ref="docAlgolia"
-          v-model="search"
-          dense
-          square
-          dark
-          borderless
-          :placeholder="searchPlaceholder"
-          @focus="onSearchFocus"
-          @blur="onSearchBlur"
-        )
-          template(v-slot:append)
-            q-icon(
-              name="search"
-              @click="$refs.docAlgolia.focus()"
-            )
-      .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
 
   q-drawer(
     v-if="hasRightDrawer"
@@ -144,8 +142,9 @@ export default {
       activeToc: void 0,
       menuOption: null,
       menuOptions: [
-        { label: 'CLI', value: 'cli' },
-        { label: 'UI', value: 'ui' }
+        { label: 'Guide', value: 'guide', to: '/start' },
+        { label: 'CLI', value: 'cli', to: '/quasar-cli' },
+        { label: 'UI', value: 'ui', to: '/vue-components' }
       ]
     }
   },
@@ -340,7 +339,10 @@ export default {
 .doc-algolia
   .q-field__control
     padding: 0 18px 0 16px !important
+    height: 40px
   &.q-field--focused
+    .q-field__control:after
+      border-color: #fff
     .q-icon
       color: #fff
 

@@ -1179,110 +1179,117 @@ module.exports = [
   {
     name: 'Introduction to Quasar',
     icon: 'room',
-    path: 'introduction-to-quasar'
+    path: 'introduction-to-quasar',
+    __type: 'guide'
   },
   {
     name: 'Sponsors and Backers',
     icon: 'favorite',
-    path: 'sponsors-and-backers'
+    path: 'sponsors-and-backers',
+    __type: 'guide'
   },
   {
     name: 'Why Donations Are Important',
     icon: 'assignment_late',
-    path: 'why-donate'
+    path: 'why-donate',
+    __type: 'guide'
   },
   {
     name: 'Video Tutorials',
     icon: 'ondemand_video',
     path: 'video-tutorials',
-    badge: 'new'
+    badge: 'new',
+    __type: 'guide'
   },
   {
     name: 'Meet the Team',
     icon: 'people',
-    path: 'meet-the-team'
+    path: 'meet-the-team',
+    __type: 'guide'
   },
   {
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'start',
     children: gettingStarted,
-    type: 'cli'
+    __type: 'guide'
   },
   {
     name: 'Contribution Guide',
     icon: 'code',
     path: 'contribution-guide',
-    children: contributionGuide
+    children: contributionGuide,
+    __type: 'guide'
   },
   {
     name: 'Quasar Options & Helpers',
     icon: 'tune',
     path: 'options',
     children: options,
-    type: 'ui'
+    __type: 'ui'
   },
   {
     name: 'Security',
     icon: 'security',
     path: 'security',
-    children: security
+    children: security,
+    __type: 'guide'
   },
   {
     name: 'Quasar CLI',
     icon: 'build',
     path: 'quasar-cli',
     children: cli,
-    type: 'cli'
+    __type: 'cli'
   },
   {
     name: 'Style & Identity',
     icon: 'style',
     path: 'style',
     children: style,
-    type: 'ui'
+    __type: 'ui'
   },
   {
     name: 'Layout and Grid',
     icon: 'view_quilt',
     path: 'layout',
     children: layout,
-    type: 'ui'
+    __type: 'ui'
   },
   {
     name: 'Vue Components',
     icon: 'widgets',
     path: 'vue-components',
     children: components,
-    type: 'ui'
+    __type: 'ui'
   },
   {
     name: 'Vue Directives',
     icon: 'swap_calls',
     path: 'vue-directives',
     children: directives,
-    type: 'ui'
+    __type: 'ui'
   },
   {
     name: 'Quasar Plugins',
     icon: 'extension',
     path: 'quasar-plugins',
     children: plugins,
-    type: 'ui'
+    __type: 'ui'
   },
   {
     name: 'App Extensions',
     icon: 'note_add',
     path: 'app-extensions',
     children: appExtensions,
-    type: 'cli'
+    __type: 'cli'
   },
   {
     name: 'Quasar Utils',
     icon: 'healing',
     path: 'quasar-utils',
     children: utils,
-    type: 'ui'
+    __type: 'ui'
   }
 
   /*
