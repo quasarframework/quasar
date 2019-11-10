@@ -239,7 +239,10 @@ export default {
     },
 
     focusOnSearch (evt) {
-      if (evt.target.tagName !== 'INPUT') {
+      if (
+        evt.target.tagName !== 'INPUT' &&
+        evt.keyCode === 191 // "/"
+      ) {
         this.search = ''
         setTimeout(() => {
           this.$refs.docAlgolia.focus()
