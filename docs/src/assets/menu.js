@@ -1123,7 +1123,7 @@ const backends = [
         path: 'firebase/structure'
       },
       {
-        name: 'Route Guarding',
+        name: 'Route Guars',
         path: 'firebase/routeGuards'
       },
       {
