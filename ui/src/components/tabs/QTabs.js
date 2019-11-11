@@ -223,7 +223,7 @@ export default Vue.extend({
       const
         containerSize = this.vertical === true ? height : width,
         scrollSize = this.vertical === true ? this.$refs.content.scrollHeight : this.$refs.content.scrollWidth,
-        scroll = scrollSize > containerSize + 1 || (containerSize === this.prevContainerSize && this.scrollable === true)
+        scroll = scrollSize > containerSize || (containerSize === this.prevContainerSize && this.scrollable === true)
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
