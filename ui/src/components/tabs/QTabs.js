@@ -157,16 +157,16 @@ export default Vue.extend({
 
     classes () {
       return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
+        ` q-tabs--${this.vertical === true ? 'vertical' : 'horizontal'}` +
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
-        (this.stretch === true ? ' self-stretch' : '') +
-        (this.vertical === true ? ' q-tabs--vertical' : '')
+        (this.stretch === true ? ' self-stretch' : '')
     },
 
     domProps () {
       return this.vertical === true
-        ? { container: 'height', content: 'scrollHeight' }
-        : { container: 'width', content: 'scrollWidth' }
+        ? { container: 'height', content: 'scrollHeight', posLeft: 'top', posRight: 'bottom' }
+        : { container: 'width', content: 'scrollWidth', posLeft: 'left', posRight: 'right' }
     }
   },
 
@@ -391,7 +391,7 @@ export default Vue.extend({
 
     this.$q.platform.is.desktop === true && child.push(
       h(QIcon, {
-        staticClass: 'q-tabs__arrow q-tabs__arrow--left absolute-left q-tab__icon',
+        staticClass: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon',
         class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left) },
         nativeOn: {
@@ -404,7 +404,7 @@ export default Vue.extend({
       }),
 
       h(QIcon, {
-        staticClass: 'q-tabs__arrow q-tabs__arrow--right absolute-right q-tab__icon',
+        staticClass: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon',
         class: this.rightArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right) },
         nativeOn: {
