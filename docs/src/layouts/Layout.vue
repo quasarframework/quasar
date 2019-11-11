@@ -55,6 +55,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           :placeholder="searchPlaceholder"
           @focus="onSearchFocus"
           @blur="onSearchBlur"
+          @touchstart.stop
+          @mousedown.stop
         )
           template(v-slot:append)
             q-icon(
