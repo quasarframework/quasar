@@ -220,20 +220,22 @@ export default Vue.extend({
     },
 
     __updateContainer ({ width, height }) {
-      const scroll = this.vertical === true
-        ? this.$refs.content.scrollHeight > height + 1
-        : this.$refs.content.scrollWidth > width + 1
+      const
+        containerSize = this.vertical === true ? height : width,
+        scrollSize = this.vertical === true ? this.$refs.content.scrollHeight : this.$refs.content.scrollWidth,
+        scroll = scrollSize > containerSize + 1 || (containerSize === this.prevContainerSize && this.scrollable === true)
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
+        scroll === true && this.$nextTick(() => this.__updateArrows())
       }
 
-      scroll === true && this.$nextTick(() => this.__updateArrows())
-
-      const justify = (this.vertical === true ? height : width) < parseInt(this.breakpoint, 10)
+      const justify = containerSize < parseInt(this.breakpoint, 10)
       if (this.justify !== justify) {
         this.justify = justify
       }
+
+      this.prevContainerSize = containerSize
     },
 
     __animate (oldName, newName) {
