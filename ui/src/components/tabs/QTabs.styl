@@ -65,6 +65,7 @@
     opacity .85
 
 .q-tabs
+  position relative
   transition color .3s, background-color .3s
 
   &--not-scrollable
@@ -74,11 +75,14 @@
       border-radius inherit
 
   &__arrow
+    height 100%
     cursor pointer
+    font-size 32px
     min-width 36px
+    text-shadow 0 0 3px #000, 0 0 7px #000
 
     &--faded
-      opacity .5
+      display none
 
   &__content
     overflow hidden
