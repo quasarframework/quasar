@@ -26,7 +26,9 @@ The QImg component makes working with images (any picture format) easy and also 
 
 ### Image style
 
-<q-badge label="v1.4.0+" /> In the example below, we add a blur and sepia effect. Furthermore, we make use of the `rounded-borders` CSS helper class.
+<q-badge label="v1.4.0+" />
+
+In the example below, we add a blur and sepia effect. Furthermore, we make use of the `rounded-borders` CSS helper class.
 
 <doc-example title="Custom image style" file="QImg/CustomImageStyle" />
 
