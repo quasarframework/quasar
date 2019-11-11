@@ -3,18 +3,18 @@ title: Installation
 desc: A set of Firebase installtion instructions for the Quasar framework.
 ---
 
-If you're new to firebase you must create a firebase account with a Google identity and create a project in the console.
+If you're new to Firebase you must create a Firebase account with a Google identity and create a project in the console.
 
-> Perform **steps 1 & 2** with the firebase setup up [instructions](https://firebase.google.com/docs/web/setup).
+> Perform **steps 1 & 2** with the Firebase setup up [instructions](https://firebase.google.com/docs/web/setup).
 
-Once you've gotten your account and project setup in firebase it's time to install dependencies in your Quasar app and start the configuration process.
+Once you've gotten your account and project setup in Firebase it's time to install dependencies in your Quasar app and start the configuration process.
 
 ::: tip Pro Tip
 If you are developing an app that will live in a production environment, Firebase recommends creating separate projects in the Firebase console.
-One for production, one for dev, and even a public testing endpoint if you’d like. The point here is to keep production data safe from development. This will be highlighted later [here](/backend-and-api/firebase/custom).
+One for production, one for dev, and even a public testing endpoint if you’d like. The point here is to keep production data safe from development. This will be highlighted later.
 :::
 
-Install firebase to your quasar app preferably via yarn:
+Install Firebase to your quasar application preferably via yarn:
 
 ```bash
 yarn add firebase
@@ -26,9 +26,9 @@ yarn add firebase
 npm install firebase
 ```
 
-Next is the configuration of the firebase sdk for initiallizing your project via Firebase's [`initializeApp`](https://firebase.google.com/docs/reference/js/firebase.html#initialize-app) method. This is where a Firebase application in the console will contain your sdk’s `firebaseConfig` object.
+Next, configurethe Firebase sdk for initiallizing your project via Firebase's [`initializeApp`](https://firebase.google.com/docs/reference/js/firebase.html#initialize-app) method. This is where a Firebase application in the console will contain your sdk’s `firebaseConfig` object.
 
-::: tip You can get access to your firebase config object at any time by:
+::: tip You can get access to your Firebase config object at any time by:
 
 - Sign in to Firebase, then open your project.
 - Click the <q-icon name="settings" /> Settings icon, then select Project settings.

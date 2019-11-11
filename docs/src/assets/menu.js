@@ -1094,18 +1094,18 @@ const firebaseAuthTypes = [{
 }]
 
 const backends = [
-  {
-    name: 'AWS -- Amplify',
-    path: 'aws-amplify'
-  },
-  {
-    name: 'GraphQL',
-    path: 'graphQL'
-  },
-  {
-    name: 'Feathers JS',
-    path: 'feathersjs'
-  },
+  // {
+  //   name: 'AWS -- Amplify',
+  //   path: 'aws-amplify'
+  // },
+  // {
+  //   name: 'GraphQL',
+  //   path: 'graphQL'
+  // },
+  // {
+  //   name: 'Feathers JS',
+  //   path: 'feathersjs'
+  // },
   {
     name: 'Firebase',
     opened: false,
@@ -1130,41 +1130,41 @@ const backends = [
         name: 'Authentication',
         path: 'firebase/authTypes',
         children: firebaseAuthTypes
-      },
-      {
-        name: 'Data Store',
-        path: 'firebase/dataStore'
-      },
-      {
-        name: 'Messaging',
-        path: 'firebase/messaging'
-      },
-      {
-        name: 'Storage',
-        path: 'firebase/storage'
-      },
-      {
-        name: 'SSR',
-        path: 'firebase/ssr'
-      },
-      {
-        name: 'Vuex',
-        path: 'firebase/vuex'
-      },
-      {
-        name: 'Custom Implementations',
-        path: 'firebase/custom'
-      },
-      {
-        name: 'Other Firebase Tools & Services',
-        path: 'firebase/toolsAndServices'
       }
+      // {
+      //   name: 'Data Store',
+      //   path: 'firebase/dataStore'
+      // },
+      // {
+      //   name: 'Messaging',
+      //   path: 'firebase/messaging'
+      // },
+      // {
+      //   name: 'Storage',
+      //   path: 'firebase/storage'
+      // },
+      // {
+      //   name: 'SSR',
+      //   path: 'firebase/ssr'
+      // },
+      // {
+      //   name: 'Vuex',
+      //   path: 'firebase/vuex'
+      // },
+      // {
+      //   name: 'Custom Implementations',
+      //   path: 'firebase/custom'
+      // },
+      // {
+      //   name: 'Other Firebase Tools & Services',
+      //   path: 'firebase/toolsAndServices'
+      // }
     ]
-  },
-  {
-    name: 'Laravel',
-    path: 'laravel'
   }
+  // {
+  //   name: 'Laravel',
+  //   path: 'laravel'
+  // }
 ]
 
 module.exports = [

@@ -5,9 +5,9 @@ desc: Application initiallization and strucuture instrcutions for firebase imple
 
 A typical Quasar app structure can be seen [here](https://quasar.dev/quasar-cli/cli-documentation/directory-structure).
 
-First, we need to create a boot file. Be sure to read up on Quasar’s boot files [here](https://quasar.dev/quasar-cli/cli-documentation/boot-files). This is a great review, and also a core tenant to understanding how Firebase is embedded into a Quasar app, and also the root place to start when debugging Firebase issues. Once the Firebase boot file is created, we’ll then need to add its name to the boot config array in the `quasar.conf.js`
+First, create a boot file. Once the Firebase boot file is created, add its name to the boot config array in the `quasar.conf.js`. Be sure to read up on Quasar’s boot files [here](https://quasar.dev/quasar-cli/cli-documentation/boot-files). This is a great review, and also a core tenant to understanding how Firebase is embedded into a Quasar app, and also the root place to start when debugging Firebase issues. 
 
-> A simple approach would be to create the firebase boot file, initialize your firebase app with your config, extend the Vue instance with a reference to firebase, and then use the firebase SDK throughout your app. [Here](https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app-with-firebase-authentication-system-in-15-minutes-fdce6f289c3c) is a popluar medium article as a primer for Firebase and Vuejs.
+> A simple approach is to create the Firebase boot file, initialize your Firebase app with your config, extend the Vue instance with a reference to Firebase, and then use the Firebase SDK throughout your app. [Here](https://medium.com/@anas.mammeri/vue-2-firebase-how-to-build-a-vue-app-with-firebase-authentication-system-in-15-minutes-fdce6f289c3c) is a popluar medium article as a primer for Firebase and Vuejs.
 
 ```bash
 $ quasar new boot firebase
@@ -74,7 +74,7 @@ Then in a Vue single file component:
 A better way is to focus on the separation of concerns(SOC) and use Quasar's app extension [Qenv](https://github.com/quasarframework/app-extension-qenv) to handle our different environment configurations. Be sure to read up on the docs to understand how this will come into play with the following section of code.
 :::
 
-Qenv will allow us to keep the config in the source directory, but will also give us the option for git to ignore the file and will be bundled on the desired build type. Either for dev, test, or production. Remember the tip from before though, and create separate Firebase projects in your console. Please refer to qenv installation and setup [here](https://github.com/quasarframework/app-extension-qenv).
+Qenv will allow us to keep the config in the source directory, but will also give us the option for git to ignore the file and will be bundled on the desired build type. Either for dev, test, or production. Remember the tip from before; create separate Firebase projects in your console. Please refer to qenv installation and setup [here](https://github.com/quasarframework/app-extension-qenv).
 
 Once you’ve install qenv and have set up your `.quasar.env.json` file and updated your [scripts block](https://github.com/quasarframework/app-extension-qenv#specifying-the-environment) in your `package.json` we now are ready to start moving into our application structure.
 
@@ -108,9 +108,10 @@ export default async () => {
   }
 }
 ```
-Calling the `fBInit(config)` method is just a validation that our service structure is working. This does not guarantee that the initialization happened with a valid API key. This will be done when the app performs any auth() functionality, which will start to be highlighted in the next section of the docs.
 
-Were also going to create a new directory in our application structure called services, and put our base service inside.
+Calling the `fBInit(config)` method is just a validation that the service structure is working. This does not guarantee that the initialization happened with a valid API key. This will be done when the app performs any auth() functionality, which will start to be highlighted in the next section of the docs.
+
+Create a new directory in our application structure called services, and put the base service inside.
 From here we have our basic boot file structure:
 
 **/src/services/base.js**
@@ -129,4 +130,4 @@ export const fBInit = (config) => {
 }
 ```
 
-For our service structure and simplicity's sake, we're only going to focus on one method that will initialize the app. In time, this base service file will be the location of more than just initialization. Ideally, you should break your services up in separate files for testing, and maintenance concerns.
+For service structure and simplicity's sake, focus will only be on one method that will initialize the app. In time, this base service file will be the location of more than just initialization. Ideally, services should be broken up into separate files for testing, and maintenance concerns.

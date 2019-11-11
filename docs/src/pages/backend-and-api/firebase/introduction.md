@@ -1,6 +1,6 @@
 ---
 title: Quasar-Firebase Introduction
-desc: Introduction of firebase and the integration and approach of working with firebase within a Quasar project
+desc: Introduction of Firebase and the integration and approach of working with Firebase within a Quasar project
 ---
 Firebase is Google's mobile platform that helps you quickly develop high-quality apps and grow your business. It was initially created as a startup in 2011 and was publicly available in 2012. In October 2014 Google acquired Firebase which evolved into a platform that has 18+ products and is currently being used by 1.5 million apps as of October 2018. [Wiki](https://en.wikipedia.org/wiki/Firebase)
 
