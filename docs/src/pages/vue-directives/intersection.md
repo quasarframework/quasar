@@ -3,8 +3,10 @@ title: Intersection Directive
 desc: Vue directive that uses Intersection Observer API to call a method when user scrolls and brings a component into or out of view.
 badge: "v1.3.0+"
 related:
+  - /vue-components/intersection
   - /vue-directives/scroll-fire
   - /vue-directives/scroll
+  - /options/transitions
 ---
 
 "Intersection" is a Quasar directive that enables a method to be called when the user scrolls and the DOM element (or component) that it is applied to comes into or out of the viewport.
@@ -68,7 +70,9 @@ Below is a more advanced example of what you can do. The code takes advantage of
 
 <doc-example title="Advanced" file="Intersection/Advanced" />
 
-In the example below, we show multiple cards, but only the visible ones get rendered. The secret is in the wrapper which has `v-intersection` attached to it and a fixed height and width (which acts as a necessary filler when the inner content is not rendered).
+In the example below, we show multiple cards, but only the visible ones get rendered. The secret is in the wrapper which has `v-intersection` attached to it and a fixed height and width (which acts as a necessary filler when the inner content is not rendered -- so that scrolling won't erratically jump).
+
+> The example below can also be written by using [QIntersection](/vue-components/intersection) component which makes everything even more easy.
 
 <doc-example title="Scrolling Cards" file="Intersection/ScrollingCards" scrollable />
 

@@ -833,10 +833,12 @@ const components = [
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {
     name: 'Img',
+    badge: 'update',
     path: 'img'
   },
   {
@@ -846,6 +848,11 @@ const components = [
   {
     name: 'Inner Loading',
     path: 'inner-loading'
+  },
+  {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
   },
   {
     name: 'Knob',
@@ -943,6 +950,7 @@ const components = [
   },
   {
     name: 'Table',
+    badge: 'update',
     path: 'table'
   },
   {

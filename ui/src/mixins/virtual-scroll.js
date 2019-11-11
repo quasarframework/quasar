@@ -225,6 +225,8 @@ export default {
       }
       this.prevScrollStart = void 0
 
+      this.__updateVirtualScrollSizes(this.virtualScrollSliceRange.from)
+
       if (scrollMaxStart > 0 && scrollDetails.scrollStart >= scrollMaxStart) {
         this.__setVirtualScrollSliceRange(
           scrollEl,
@@ -238,7 +240,8 @@ export default {
 
       let
         toIndex = 0,
-        listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart
+        listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart,
+        offset = 0
 
       for (let j = 0; listOffset >= this.virtualScrollSizesAgg[j] && toIndex < listLastIndex; j++) {
         listOffset -= this.virtualScrollSizesAgg[j]
@@ -249,6 +252,10 @@ export default {
         listOffset -= this.virtualScrollSizes[toIndex]
         if (listOffset > -scrollDetails.scrollViewSize) {
           toIndex++
+          offset = listOffset
+        }
+        else {
+          offset = this.virtualScrollSizes[toIndex] + listOffset
         }
       }
 
@@ -256,7 +263,7 @@ export default {
         scrollEl,
         scrollDetails,
         toIndex,
-        listOffset
+        offset
       )
     },
 
@@ -286,22 +293,7 @@ export default {
 
       this.$nextTick(() => {
         if (rangeChanged === true) {
-          const contentEl = this.$refs.content
-
-          if (contentEl !== void 0) {
-            const children = contentEl.children
-
-            for (let i = children.length - 1; i >= 0; i--) {
-              const
-                index = from + i,
-                diff = children[i][this.virtualScrollHorizontal === true ? 'offsetWidth' : 'offsetHeight'] - this.virtualScrollSizes[index]
-
-              if (diff !== 0) {
-                this.virtualScrollSizes[index] += diff
-                this.virtualScrollSizesAgg[Math.floor(index / aggBucketSize)] += diff
-              }
-            }
-          }
+          this.__updateVirtualScrollSizes(from)
         }
 
         const
@@ -324,6 +316,27 @@ export default {
           this.virtualScrollHorizontal
         )
       })
+    },
+
+    __updateVirtualScrollSizes (from) {
+      const contentEl = this.$refs.content
+
+      if (contentEl !== void 0) {
+        const
+          children = contentEl.children,
+          sizeProp = this.virtualScrollHorizontal === true ? 'offsetWidth' : 'offsetHeight'
+
+        for (let i = children.length - 1; i >= 0; i--) {
+          const
+            index = from + i,
+            diff = children[i][sizeProp] - this.virtualScrollSizes[index]
+
+          if (diff !== 0) {
+            this.virtualScrollSizes[index] += diff
+            this.virtualScrollSizesAgg[Math.floor(index / aggBucketSize)] += diff
+          }
+        }
+      }
     },
 
     __resetVirtualScroll (toIndex, fullReset) {

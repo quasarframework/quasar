@@ -44,6 +44,51 @@ export default Vue.extend({
   },
 
   render (h) {
+    const content = [
+      h('div', {
+        staticClass: 'q-checkbox__bg absolute'
+      }, [
+        h('svg', {
+          staticClass: 'q-checkbox__check fit absolute-full',
+          attrs: { viewBox: '0 0 24 24' }
+        }, [
+          h('path', {
+            attrs: {
+              fill: 'none',
+              d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
+            }
+          })
+        ]),
+
+        h('div', { staticClass: 'q-checkbox__check-indet absolute' })
+      ])
+    ]
+
+    this.disable !== true && content.unshift(
+      h('input', {
+        staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
+        attrs: { type: 'checkbox' },
+        on: { change: this.toggle }
+      })
+    )
+
+    const child = [
+      h('div', {
+        staticClass: 'q-checkbox__inner relative-position',
+        class: this.innerClass
+      }, content)
+    ]
+
+    const def = slot(this, 'default')
+
+    if (this.label !== void 0 || def !== void 0) {
+      child.push(
+        h('div', {
+          staticClass: 'q-checkbox__label q-anchor--skip'
+        }, (this.label !== void 0 ? [ this.label ] : []).concat(def))
+      )
+    }
+
     return h('div', {
       staticClass: 'q-checkbox cursor-pointer no-outline row inline no-wrap items-center',
       class: this.classes,
@@ -52,43 +97,6 @@ export default Vue.extend({
         click: this.toggle,
         keydown: this.__keyDown
       }
-    }, [
-      h('div', {
-        staticClass: 'q-checkbox__inner relative-position',
-        class: this.innerClass
-      }, [
-        this.disable !== true
-          ? h('input', {
-            staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
-            attrs: { type: 'checkbox' },
-            on: { change: this.toggle }
-          })
-          : null,
-
-        h('div', {
-          staticClass: 'q-checkbox__bg absolute'
-        }, [
-          h('svg', {
-            staticClass: 'q-checkbox__check fit absolute-full',
-            attrs: { viewBox: '0 0 24 24' }
-          }, [
-            h('path', {
-              attrs: {
-                fill: 'none',
-                d: 'M1.73,12.91 8.1,19.28 22.79,4.59'
-              }
-            })
-          ]),
-
-          h('div', { staticClass: 'q-checkbox__check-indet absolute' })
-        ])
-      ]),
-
-      this.label !== void 0 || this.$scopedSlots.default !== void 0
-        ? h('div', {
-          staticClass: 'q-checkbox__label q-anchor--skip'
-        }, (this.label !== void 0 ? [ this.label ] : []).concat(slot(this, 'default')))
-        : null
-    ])
+    }, child)
   }
 })

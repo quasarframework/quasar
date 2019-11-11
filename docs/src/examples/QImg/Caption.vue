@@ -6,7 +6,7 @@
           src="https://cdn.quasar.dev/img/parallax2.jpg"
           style="width: 100%"
         >
-          <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
+          <div class="absolute-bottom text-subtitle1 text-center">
             Caption
           </div>
         </q-img>
@@ -14,7 +14,7 @@
 
       <div class="col-6">
         <q-img src="https://cdn.quasar.dev/img/parallax2.jpg">
-          <div class="absolute-top text-center q-pa-xs">
+          <div class="absolute-top text-center">
             Caption
           </div>
         </q-img>

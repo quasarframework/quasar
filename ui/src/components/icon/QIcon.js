@@ -29,7 +29,25 @@ export default Vue.extend({
 
       const commonCls = 'q-icon' +
         (this.left === true ? ' on-left' : '') +
-        (this.right === true ? ' on-right' : '')
+        (this.right === true ? ' on-right' : '') +
+        (this.color !== void 0 ? ` text-${this.color}` : '')
+
+      if (this.$q.iconMapFn !== void 0) {
+        const res = this.$q.iconMapFn(icon)
+        if (res !== void 0) {
+          if (res.icon !== void 0) {
+            icon = res.icon
+          }
+          else {
+            return {
+              cls: res.cls + ' ' + commonCls,
+              content: res.content !== void 0
+                ? res.content
+                : ' '
+            }
+          }
+        }
+      }
 
       if (icon.startsWith('img:') === true) {
         return {
@@ -85,29 +103,34 @@ export default Vue.extend({
       }
 
       return {
-        cls: cls + ' ' + commonCls +
-          (this.color !== void 0 ? ` text-${this.color}` : ''),
+        cls: cls + ' ' + commonCls,
         content
       }
     }
   },
 
   render (h) {
-    return this.type.img === true
-      ? h('img', {
+    if (this.type.img === true) {
+      return h('img', {
         staticClass: this.type.cls,
         style: this.sizeStyle,
         on: this.$listeners,
         attrs: { src: this.type.src }
       })
-      : h('i', {
-        staticClass: this.type.cls,
-        style: this.sizeStyle,
-        on: this.$listeners,
-        attrs: { 'aria-hidden': true }
-      }, [
-        this.type.content,
-        slot(this, 'default')
-      ])
+    }
+
+    let child = [ this.type.content ]
+    const def = slot(this, 'default')
+
+    if (def !== void 0) {
+      child = child.concat(def)
+    }
+
+    return h('i', {
+      staticClass: this.type.cls,
+      style: this.sizeStyle,
+      on: this.$listeners,
+      attrs: { 'aria-hidden': true }
+    }, child)
   }
 })

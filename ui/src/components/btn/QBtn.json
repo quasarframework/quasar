@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/btn/__btn-mixin" ],
+  "mixins": [ "mixins/btn" ],
 
   "behavior": {
     "$listeners": true

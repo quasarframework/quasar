@@ -7,10 +7,11 @@
 
       <q-toggle v-model="active" label="Active" />
       <q-toggle v-model="disable" label="Disable" class="q-mr-sm" />
+      <q-toggle v-model="reverse" label="Reverse" class="q-mr-sm" />
       <q-toggle v-model="container" label="Container" />
 
       <div ref="scrollTarget" :style="styles">
-        <q-infinite-scroll @load="loadRef" :disable="disable" v-if="active" :scroll-target="container ? $refs.scrollTarget : void 0">
+        <q-infinite-scroll @load="loadRef" :disable="disable" :reverse="reverse" v-if="active" :scroll-target="container ? $refs.scrollTarget : void 0">
           <div v-for="(item, index) in itemsRef" :key="index" class="caption">
             <q-chip square color="secondary" class="shadow-1">
               {{ index + 1 }}
@@ -28,7 +29,7 @@
       </div>
 
       <div v-if="container" id="scroll-target" :style="styles">
-        <q-infinite-scroll @load="loadId" :disable="disable" v-if="active" scroll-target="#scroll-target">
+        <q-infinite-scroll @load="loadId" :disable="disable" :reverse="reverse" v-if="active" scroll-target="#scroll-target">
           <div v-for="(item, index) in itemsId" :key="index" class="caption">
             <q-chip square color="secondary" class="shadow-1">
               {{ index + 1 }}
@@ -46,7 +47,7 @@
       </div>
 
       <div v-if="container" id="reverse-target" :style="styles">
-        <q-infinite-scroll reverse @load="loadReverse" :disable="disable" v-if="active" scroll-target="#reverse-target">
+        <q-infinite-scroll @load="loadReverse" :disable="disable" :reverse="reverse === false" v-if="active" scroll-target="#reverse-target">
           <template v-slot:loading>
             <div class="row justify-center q-my-md">
               <q-spinner color="primary" name="dots" size="40px" />
@@ -77,6 +78,7 @@ export default {
       itemsId: [{}, {}, {}, {}, {}],
       disable: false,
       container: false,
+      reverse: false,
       active: true
     }
   },

@@ -52,7 +52,7 @@
 <script>
 
 // eslint-disable-next-line no-unused-vars
-import { Dark } from 'quasar'
+import Quasar, { Dark } from 'quasar'
 
 import Vue from 'vue'
 import languages from '../lang/index.json'
@@ -98,6 +98,7 @@ export default {
   },
   mounted () {
     window.$q = this.$q
+    window.Quasar = Quasar
     /*
     this.$nextTick(() => {
       Dark.set(false)

@@ -6,6 +6,7 @@ import TableBody from './table-body.js'
 import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
+import QLinearProgress from '../linear-progress/QLinearProgress.js'
 
 import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
 import DarkMixin from '../../mixins/dark.js'
@@ -92,6 +93,8 @@ export default Vue.extend({
     tableClass: [String, Array, Object],
     tableHeaderStyle: [String, Array, Object],
     tableHeaderClass: [String, Array, Object],
+    cardContainerClass: [String, Array, Object],
+    cardContainerStyle: [String, Array, Object],
     cardStyle: [String, Array, Object],
     cardClass: [String, Array, Object]
   },
@@ -131,7 +134,7 @@ export default Vue.extend({
     },
 
     computedData () {
-      let rows = this.data.slice().map((row, i) => {
+      let rows = this.data.map((row, i) => {
         row.__index = i
         return row
       })
@@ -262,10 +265,15 @@ export default Vue.extend({
             items: this.computedRows,
             type: '__qtable'
           },
+          on: {
+            'virtual-scroll': this.__onVScroll
+          },
           class: this.tableClass,
           style: this.tableStyle,
           scopedSlots: {
-            before: () => header,
+            before: header === null
+              ? void 0
+              : () => header,
             default: this.getTableRowVirtual(h)
           }
         })
@@ -277,6 +285,24 @@ export default Vue.extend({
           header,
           this.getTableBody(h)
         ])
+    },
+
+    __onVScroll (info) {
+      this.$emit('virtual-scroll', info)
+    },
+
+    __getProgress (h) {
+      return [
+        h(QLinearProgress, {
+          staticClass: 'q-table__linear-progress',
+          props: {
+            color: this.color,
+            dark: this.isDark,
+            indeterminate: true,
+            trackColor: 'transparent'
+          }
+        })
+      ]
     }
   }
 })

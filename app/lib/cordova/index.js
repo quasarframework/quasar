@@ -68,7 +68,7 @@ class CordovaRunner {
     const cfg = quasarConfig.getBuildConfig()
     const buildPath = appPaths.resolve.cordova(
       this.target === 'android'
-        ? 'platforms/android/app/build/outputs/apk/' + (this.ctx.debug ? 'debug' : 'release')
+        ? 'platforms/android/app/build/outputs'
         : 'platforms/ios/build/emulator'
     )
 

@@ -4,33 +4,33 @@
       <q-btn :label="index" size="sm" flat dense :class="buttonClasses" @click="emitChange" />
       <q-btn icon="clear" size="xs" flat dense @click="onDelete"/>
     </div>
-    <q-input filled v-model="width" dense label="Width (ex: '200px', '20em')" @input="emitChange">
-      <template v-if="width.length > 0" v-slot:append>
-        <q-btn icon="clear" size="xs" flat dense @click="width = ''"/>
+    <q-input filled v-model="child.width" dense label="Width (ex: '200px', '20em')" @input="emitChange">
+      <template v-if="child.width.length > 0" v-slot:append>
+        <q-btn icon="clear" size="xs" flat dense @click="child.width = ''"/>
       </template>
     </q-input>
 
-    <q-input filled v-model="height" dense label="Height (ex: '300px', '25em')" @input="emitChange">
-      <template v-if="height.length > 0" v-slot:append>
-        <q-btn icon="clear" size="xs" flat dense @click="height = ''"/>
+    <q-input filled v-model="child.height" dense label="Height (ex: '300px', '25em')" @input="emitChange">
+      <template v-if="child.height.length > 0" v-slot:append>
+        <q-btn icon="clear" size="xs" flat dense @click="child.height = ''"/>
       </template>
     </q-input>
-    <q-select color="blue-12" v-model="widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @input="emitChange" />
-    <q-select color="blue-12" v-model="breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options dense options-dense @input="emitChange">
-      <template v-if="breakpointGroup" v-slot:append>
-        <q-icon name="cancel" @click.stop="breakpointGroup = null" class="cursor-pointer" />
+    <q-select color="blue-12" v-model="child.widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @input="emitChange" />
+    <q-select color="blue-12" v-model="child.breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options dense options-dense @input="emitChange">
+      <template v-if="child.breakpointGroup" v-slot:append>
+        <q-icon name="cancel" @click.stop="child.breakpointGroup = null" class="cursor-pointer" />
       </template>
     </q-select>
-    <q-select color="blue-12" v-model="alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @input="emitChange" />
-    <q-select color="blue-12" v-model="offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @input="emitChange" />
-    <q-select color="blue-12" v-model="gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
-      <template v-if="gutterGroup" v-slot:append>
-        <q-icon name="cancel" @click.stop="gutterGroup = null" class="cursor-pointer" />
+    <q-select color="blue-12" v-model="child.alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @input="emitChange" />
+    <q-select color="blue-12" v-model="child.offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @input="emitChange" />
+    <q-select color="blue-12" v-model="child.gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
+      <template v-if="child.gutterGroup" v-slot:append>
+        <q-icon name="cancel" @click.stop="child.gutterGroup = null" class="cursor-pointer" />
       </template>
     </q-select>
-    <q-select color="blue-12" v-model="colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
-      <template v-if="colGutterGroup" v-slot:append>
-        <q-icon name="cancel" @click.stop="colGutterGroup = null" class="cursor-pointer" />
+    <q-select color="blue-12" v-model="child.colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
+      <template v-if="child.colGutterGroup" v-slot:append>
+        <q-icon name="cancel" @click.stop="child.colGutterGroup = null" class="cursor-pointer" />
       </template>
     </q-select>
   </div>
@@ -42,14 +42,12 @@ export default {
 
   props: {
     index: Number,
-    selectedIndex: Number
+    selectedIndex: Number,
+    child: Object
   },
 
   data () {
     return {
-      width: '',
-      height: '',
-      widthGroup: '',
       widthOptions: [
         { label: 'none', value: '' },
         { label: 'col', value: 'col' },
@@ -69,7 +67,6 @@ export default {
         { label: 'col-11', value: 'col-11' },
         { label: 'col-12', value: 'col-12' }
       ],
-      breakpointGroup: null,
       breakpointOptions: [
         { label: 'col-xs-1', value: 'col-xs-1' },
         { label: 'col-xs-2', value: 'col-xs-2' },
@@ -132,7 +129,6 @@ export default {
         { label: 'col-xl-11', value: 'col-xl-11' },
         { label: 'col-xl-12', value: 'col-xl-12' }
       ],
-      alignmentGroup: '',
       alignmentOptions: [
         { label: 'none', value: '' },
         { label: 'self-start', value: 'self-start' },
@@ -141,7 +137,6 @@ export default {
         { label: 'self-stretch', value: 'self-stretch' },
         { label: 'self-baseline', value: 'self-baseline' }
       ],
-      offsetGroup: '',
       offsetOptions: [
         { label: 'none', value: '' },
         { label: 'offset-1', value: 'offset-1' },
@@ -157,7 +152,6 @@ export default {
         { label: 'offset-11', value: 'offset-11' },
         { label: 'offset-12', value: 'offset-12' }
       ],
-      gutterGroup: null,
       gutterOptions: [
         { label: 'q-gutter-xs', value: 'q-gutter-xs' },
         { label: 'q-gutter-sm', value: 'q-gutter-sm' },
@@ -175,7 +169,6 @@ export default {
         { label: 'q-gutter-y-lg', value: 'q-gutter-y-lg' },
         { label: 'q-gutter-y-xl', value: 'q-gutter-y-xl' }
       ],
-      colGutterGroup: null,
       colGutterOptions: [
         { label: 'q-col-gutter-xs', value: 'q-col-gutter-xs' },
         { label: 'q-col-gutter-sm', value: 'q-col-gutter-sm' },
@@ -207,17 +200,17 @@ export default {
 
     styles () {
       return '' +
-        (this.height ? ('min-height: ' + this.height + '; max-height: ' + this.height + '; ') : '') +
-        (this.width ? ('min-width: ' + this.width + '; max-width: ' + this.width + ';') : '')
+        (this.child.height ? ('min-height: ' + this.child.height + '; max-height: ' + this.child.height + '; ') : '') +
+        (this.child.width ? ('min-width: ' + this.child.width + '; max-width: ' + this.child.width + ';') : '')
     },
 
     classes () {
-      return (this.widthGroup +
-        ' ' + (this.breakpointGroup === null ? '' : this.breakpointGroup) +
-        ' ' + this.alignmentGroup +
-        ' ' + this.offsetGroup +
-        ' ' + (this.gutterGroup === null ? '' : this.gutterGroup) +
-        ' ' + (this.colGutterGroup === null ? '' : this.colGutterGroup))
+      return (this.child.widthGroup +
+        ' ' + (this.child.breakpointGroup === null ? '' : this.child.breakpointGroup) +
+        ' ' + this.child.alignmentGroup +
+        ' ' + this.child.offsetGroup +
+        ' ' + (this.child.gutterGroup === null ? '' : this.child.gutterGroup) +
+        ' ' + (this.child.colGutterGroup === null ? '' : this.child.colGutterGroup))
         .replace(/,/g, ' ')
         .replace(/' '/g, ' ')
     }

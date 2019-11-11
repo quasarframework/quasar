@@ -24,10 +24,14 @@
     <div class="text-weight-medium q-mt-sm">Container Classes</div>
     <q-input filled v-model="classes" dense readonly class="q-py-sm" />
     <div class="text-subtitle2 float-left">Results <span class="text-weight-thin">(children: {{ children.length }}/10)</span></div>
+    <q-btn class="float-right" round dense flat icon="share" @click="share">
+      <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
+    </q-btn>
     <q-btn class="float-right" label="Add Child" icon="add" dense flat :disabled="children.length >= 10" @click="addChild" />
     <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
       <div id="parent" :class="classes" style="overflow: hidden;">
         <child v-for="(child, index) in children" :key="index"
+          :child="child"
           :ref="'child' + index"
           :index="index"
           :selected-index="selectedIndex"
@@ -45,6 +49,19 @@
 
 <script>
 import Child from './FlexChild'
+import { copyToClipboard } from 'assets/page-utils'
+
+const queryParams = {
+  containerGroup: 'string',
+  directionGroup: 'string',
+  wrapGroup: 'string',
+  justifyGroup: 'string',
+  itemsGroup: 'string',
+  contentGroup: 'string',
+  children: 'object',
+  childClasses: 'string',
+  childStyles: 'string'
+}
 
 export default {
   name: 'FlexPlayground',
@@ -110,12 +127,28 @@ export default {
       children: [],
       childClasses: '',
       childStyles: '',
-      selectedIndex: 0
+      selectedIndex: 0,
+      copied: false
     }
   },
 
   mounted () {
-    this.addChild()
+    const query = this.$route.query
+    for (let param in queryParams) {
+      if (param in query) {
+        const paramType = queryParams[param]
+        switch (paramType) {
+          case 'object':
+            this[param] = JSON.parse(query[param])
+            break
+          default:
+            this[param] = query[param]
+        }
+      }
+    }
+    if (!query.children) {
+      this.addChild()
+    }
   },
 
   computed: {
@@ -134,7 +167,16 @@ export default {
   methods: {
     addChild () {
       if (this.children.length < 10) {
-        this.children.push({})
+        this.children.push({
+          width: '',
+          height: '',
+          widthGroup: '',
+          breakpointGroup: null,
+          alignmentGroup: '',
+          offsetGroup: '',
+          gutterGroup: null,
+          colGutterGroup: null
+        })
       }
     },
     onDelete (index) {
@@ -145,6 +187,36 @@ export default {
       let child = this.$refs['child' + index][0]
       this.childClasses = child.classes
       this.childStyles = child.styles
+    },
+    share () {
+      let playgroudUrl = window.location.href
+      if (playgroudUrl.includes('?')) {
+        playgroudUrl = playgroudUrl.substring(0, playgroudUrl.indexOf('?'))
+      }
+      let queryString = '',
+        index = 0,
+        paramsCount = Object.keys(queryParams).length
+      for (let param in queryParams) {
+        const paramType = queryParams[param]
+        let value
+        switch (paramType) {
+          case 'object':
+            value = JSON.stringify(this[param])
+            break
+          default:
+            value = this[param]
+        }
+        queryString += `${param}=${encodeURIComponent(value)}`
+        index++
+        if (index < paramsCount) {
+          queryString += '&'
+        }
+      }
+      copyToClipboard(`${playgroudUrl}?${queryString}`)
+      this.copied = true
+      setTimeout(() => {
+        this.copied = false
+      }, 1500)
     }
   }
 }

@@ -238,6 +238,7 @@
         :selected.sync="selected"
         @selection="onSelection"
         :visible-columns="visibleColumns"
+        card-container-class="justify-center"
         row-key="name"
       >
         <template v-slot:top-right>

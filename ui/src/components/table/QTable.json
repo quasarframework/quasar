@@ -285,22 +285,45 @@
       "category": "style"
     },
 
-    "card-style": {
+    "card-container-style": {
       "type": [ "String", "Array", "Object" ],
-      "desc": "CSS style to apply to the card",
+      "desc": "CSS style to apply to the cards container (when in grid mode)",
       "examples": [
         "background-color: #ff0000",
-        ":table-style=\"{ backgroundColor: '#ff0000' }\""
+        ":card-container-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.4.0"
+    },
+
+    "card-container-class": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to the cards container (when in grid mode)",
+      "examples": [
+        "my-special-class",
+        "justify-center",
+        ":card-container-class=\"{ 'my-special-class': [Boolean condition] }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.4.0"
+    },
+
+    "card-style": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to the card (when in grid mode)",
+      "examples": [
+        "background-color: #ff0000",
+        ":card-style=\"{ backgroundColor: '#ff0000' }\""
       ],
       "category": "style"
     },
 
     "card-class": {
       "type": [ "String", "Array", "Object" ],
-      "desc": "CSS classes to apply to the card",
+      "desc": "CSS classes to apply to the card (when in grid mode)",
       "examples": [
         "my-special-class",
-        ":table-class=\"{ 'my-special-class': [Boolean condition] }\""
+        ":card-class=\"{ 'my-special-class': [Boolean condition] }\""
       ],
       "category": "style"
     },
@@ -1256,6 +1279,39 @@
           ]
         }
       }
+    },
+
+    "virtual-scroll": {
+      "desc": "Emitted when the virtual scroll occurs, if using virtual scroll",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new scroll position",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "desc": "Index of the list item that was scrolled into view (0 based)",
+              "examples": [ 30 ]
+            },
+            "from": {
+              "type": "Number",
+              "desc": "The index of the first list item that is rendered (0 based)",
+              "examples": [ 10 ]
+            },
+            "to": {
+              "type": "Number",
+              "desc": "The index of the last list item that is rendered (0 based)",
+              "examples": [ 50 ]
+            },
+            "direction": {
+              "type": "String",
+              "desc": "Direction of change",
+              "values": [ "increase", "decrease" ]
+            }
+          }
+        }
+      },
+      "addedIn": "v1.4.1"
     }
   },
 

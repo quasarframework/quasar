@@ -1,5 +1,11 @@
-export default function (vm, slotName) {
+export default function (vm, slotName, otherwise) {
   return vm.$scopedSlots[slotName] !== void 0
     ? vm.$scopedSlots[slotName]()
-    : void 0
+    : otherwise
+}
+
+export function uniqueSlot (vm, slotName, otherwise) {
+  return vm.$scopedSlots[slotName] !== void 0
+    ? vm.$scopedSlots[slotName]().slice()
+    : otherwise
 }

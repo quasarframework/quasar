@@ -4,9 +4,9 @@ import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
 import QChip from '../chip/QChip.js'
 
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
-import QItemLabel from '../list/QItemLabel.js'
+import QItem from '../item/QItem.js'
+import QItemSection from '../item/QItemSection.js'
+import QItemLabel from '../item/QItemLabel.js'
 
 import QMenu from '../menu/QMenu.js'
 import QDialog from '../dialog/QDialog.js'
@@ -78,6 +78,11 @@ export default Vue.extend({
 
     inputClass: [Array, String, Object],
     inputStyle: [Array, String, Object],
+
+    tabindex: {
+      type: [String, Number],
+      default: 0
+    },
 
     transitionShow: String,
     transitionHide: String,
@@ -190,9 +195,11 @@ export default Vue.extend({
       )
     },
 
-    selectedScope () {
-      const tabindex = this.focused === true ? 0 : -1
+    computedTabindex () {
+      return this.focused === true ? this.tabindex : -1
+    },
 
+    selectedScope () {
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
@@ -200,7 +207,7 @@ export default Vue.extend({
         selected: true,
         removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
-        tabindex
+        tabindex: this.computedTabindex
       }))
     },
 
@@ -273,7 +280,7 @@ export default Vue.extend({
     removeAtIndex (index) {
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
-          const model = [].concat(this.value)
+          const model = this.value.slice()
           this.$emit('remove', { index, value: model.splice(index, 1) })
           this.$emit('input', model)
         }
@@ -308,11 +315,11 @@ export default Vue.extend({
         return
       }
 
-      const model = [].concat(this.value)
-
-      if (this.maxValues !== void 0 && model.length >= this.maxValues) {
+      if (this.maxValues !== void 0 && this.value.length >= this.maxValues) {
         return
       }
+
+      const model = this.value.slice()
 
       this.$emit('add', { index: model.length, value: val })
       model.push(val)
@@ -333,7 +340,7 @@ export default Vue.extend({
           true
         )
 
-        this.$refs.target.focus()
+        this.$refs.target !== void 0 && this.$refs.target.focus()
         this.hidePopup()
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
@@ -352,7 +359,7 @@ export default Vue.extend({
       }
 
       const
-        model = [].concat(this.value),
+        model = this.value.slice(),
         index = this.value.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
 
       if (index > -1) {
@@ -656,23 +663,21 @@ export default Vue.extend({
       }
 
       if (this.$scopedSlots['selected-item'] !== void 0) {
-        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope))
+        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope)).slice()
       }
 
       if (this.$scopedSlots.selected !== void 0) {
-        return this.$scopedSlots.selected()
+        return this.$scopedSlots.selected().slice()
       }
 
       if (this.useChips === true) {
-        const tabindex = this.focused === true ? 0 : -1
-
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
             removable: this.__isDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
-            tabindex
+            tabindex: this.computedTabindex
           },
           on: {
             remove () { scope.removeAtIndex(i) }
@@ -711,7 +716,7 @@ export default Vue.extend({
           ref: isShadowField === true ? void 0 : 'target',
           staticClass: 'no-outline',
           attrs: {
-            tabindex: 0,
+            tabindex: this.tabindex,
             id: isShadowField === true ? void 0 : this.targetUid
           },
           on: {
@@ -798,7 +803,7 @@ export default Vue.extend({
           // required for Android in order to show ENTER key when in form
           type: 'search',
           ...this.$attrs,
-          tabindex: 0,
+          tabindex: this.tabindex,
           autofocus: fromDialog === true ? false : this.autofocus,
           id: this.targetUid,
           disabled: this.disable === true,
@@ -1087,7 +1092,8 @@ export default Vue.extend({
       // IE can have null document.activeElement
       if (
         (el === null || el.id !== this.targetUid) &&
-        this.$refs.target !== el
+        this.$refs.target !== el &&
+        this.$refs.target !== void 0
       ) {
         this.$refs.target.focus()
       }

@@ -14,7 +14,8 @@ export default Vue.extend({
   },
 
   inject: {
-    __activateRoute: {}
+    __activateRoute: {},
+    __recalculateScroll: {}
   },
 
   watch: {
@@ -61,10 +62,12 @@ export default Vue.extend({
   },
 
   mounted () {
+    this.__recalculateScroll()
     this.$router !== void 0 && this.__checkActivation()
   },
 
   beforeDestroy () {
+    this.__recalculateScroll()
     this.__activateRoute({ remove: true, name: this.name })
   },
 

@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/layout/QPageSticky" ],
+  "mixins": [ "components/page-sticky/QPageSticky" ],
 
   "behavior": {
     "$listeners": true
