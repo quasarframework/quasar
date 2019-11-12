@@ -14,8 +14,8 @@
         .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
         .q-pt-md.q-pl-sm
           .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center
-            q-btn(color="white", text-color="primary", to="/introduction-to-quasar", label="About")
-            q-btn(color="white", text-color="primary", to="/start", label="Docs")
+            q-btn(color="white", text-color="primary", to="/start", label="Get Started")
+            q-btn(color="white", text-color="primary", to="/introduction-to-quasar", label="Why Quasar?")
             q-btn(color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
             q-btn(color="white", text-color="black", to="/video-tutorials", label="Video Tutorials", icon-right="new_releases")
             .text-body2 v{{ $q.version }}
