@@ -158,7 +158,7 @@
       "desc": "DOM element id to be used as 'for' attribute of the label and as 'id' for the focus target",
       "examples": [ "for=\"myFieldsId\"" ],
       "category": "behavior",
-      "addedIn": "v1.4.1"
+      "addedIn": "v1.4.2"
     }
   },
 
