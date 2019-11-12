@@ -3,11 +3,15 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
 
+import DarkMixin from '../../mixins/dark.js'
+
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 
 export default Vue.extend({
   name: 'QPagination',
+
+  mixins: [ DarkMixin ],
 
   props: {
     value: {
@@ -206,13 +210,14 @@ export default Vue.extend({
       contentMiddle.push(h(QInput, {
         staticClass: 'inline',
         style: {
-          width: `${this.inputPlaceholder.length / 2}em`
+          width: `${this.inputPlaceholder.length / 1.5}em`
         },
         props: {
           type: 'number',
           dense: true,
           value: this.newPage,
           disable: this.disable,
+          dark: this.isDark,
           borderless: true,
           inputClass: this.inputClass,
           inputStyle: this.inputStyle
@@ -223,9 +228,9 @@ export default Vue.extend({
           max: this.max
         },
         on: {
-          input: value => (this.newPage = value),
-          keyup: e => (e.keyCode === 13 && this.__update()),
-          blur: () => this.__update()
+          input: value => { this.newPage = value },
+          keyup: e => { e.keyCode === 13 && this.__update() },
+          blur: () => { this.__update() }
         }
       }))
     }

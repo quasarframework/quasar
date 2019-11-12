@@ -1,5 +1,5 @@
 import { client } from '../plugins/Platform.js'
-import { addEvt, cleanEvt } from '../utils/touch.js'
+import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -51,7 +51,7 @@ export default {
 
     const durationsLast = durations.length - 1
 
-    let ctx = {
+    const ctx = {
       keyboard,
       handler: value,
 
@@ -91,8 +91,8 @@ export default {
       },
 
       touchStart (evt) {
-        const target = evt.target
-        if (target !== void 0) {
+        if (evt.target !== void 0) {
+          const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'passiveCapture' ],
             [ target, 'touchcancel', 'touchEnd', 'passiveCapture' ],
@@ -124,7 +124,7 @@ export default {
           touch: mouseEvent !== true && keyboardEvent !== true,
           mouse: mouseEvent === true,
           keyboard: keyboardEvent === true,
-          startTime: new Date().getTime(),
+          startTime: Date.now(),
           repeatCount: 0
         }
 
@@ -150,7 +150,7 @@ export default {
             }
           }
 
-          ctx.event.duration = new Date().getTime() - ctx.event.startTime
+          ctx.event.duration = Date.now() - ctx.event.startTime
           ctx.event.repeatCount += 1
 
           ctx.handler(ctx.event)
@@ -190,7 +190,11 @@ export default {
 
         if (client.is.mobile === true || triggered === true) {
           document.documentElement.style.cursor = ''
-          document.body.classList.remove('non-selectable')
+          clearSelection()
+          // delay needed otherwise selection still occurs
+          setTimeout(() => {
+            document.body.classList.remove('non-selectable')
+          }, 10)
         }
 
         cleanEvt(ctx, 'temp')
@@ -221,7 +225,7 @@ export default {
   },
 
   update (el, binding) {
-    let ctx = el.__qtouchrepeat
+    const ctx = el.__qtouchrepeat
 
     if (ctx !== void 0 && binding.oldValue !== binding.value) {
       ctx.handler = binding.value
@@ -229,7 +233,7 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
+    const ctx = el.__qtouchrepeat_old || el.__qtouchrepeat
 
     if (ctx !== void 0) {
       clearTimeout(ctx.timer)

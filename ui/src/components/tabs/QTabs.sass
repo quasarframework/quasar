@@ -65,6 +65,7 @@
     opacity: .85
 
 .q-tabs
+  position: relative
   transition: color .3s, background-color .3s
 
   &--not-scrollable
@@ -75,10 +76,12 @@
 
   &__arrow
     cursor: pointer
+    font-size: 32px
     min-width: 36px
+    text-shadow: 0 0 3px #fff, 0 0 1px #fff, 0 0 1px #000
 
     &--faded
-      opacity: .5
+      display: none
 
   &__content
     overflow: hidden
@@ -98,18 +101,41 @@
   &__offset
     display: none
 
+  &--horizontal .q-tabs__arrow
+    height: 100%
+
+    &--left
+      top: 0
+      left: 0
+      bottom: 0
+
+    &--right
+      top: 0
+      right: 0
+      bottom: 0
+
   &--vertical
     display: block !important
     height: 100%
 
     .q-tabs__content
       display: block !important
-      height: calc(100% - 72px)
+      height: 100%
 
     .q-tabs__arrow
       width: 100%
       height: 36px
       text-align: center
+
+      &--left
+        top: 0
+        left: 0
+        right: 0
+
+      &--right
+        left: 0
+        right: 0
+        bottom: 0
 
     .q-tab
       padding: 0 8px

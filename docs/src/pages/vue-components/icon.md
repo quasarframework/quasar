@@ -95,9 +95,9 @@ img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQV
 
 ### Custom mapping
 
-<q-badge label="v1.4.0+" /> Should you want, you can customize the mapping of icon names.
+<q-badge label="v1.4.0+" />
 
-This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
+Should you want, you can customize the mapping of icon names. This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
 
 The syntax for `$q.iconMapFn` is as follows:
 

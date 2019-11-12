@@ -1,5 +1,5 @@
 import { client } from '../plugins/Platform.js'
-import { getModifierDirections, updateModifiers, addEvt, cleanEvt } from '../utils/touch.js'
+import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent, listenOpts, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -32,12 +32,14 @@ export default {
 
     const mouseCapture = modifiers.mouseCapture === true ? 'Capture' : ''
 
-    let ctx = {
+    const ctx = {
       handler: value,
       sensitivity: parseArg(arg),
 
       modifiers: modifiers,
       direction: getModifierDirections(modifiers),
+
+      noop () {},
 
       mouseStart (evt) {
         if (ctx.event === void 0 && leftClick(evt)) {
@@ -51,9 +53,11 @@ export default {
 
       touchStart (evt) {
         if (ctx.event === void 0 && evt.target !== void 0) {
+          const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
-            [ evt.target, 'touchcancel', 'end', 'notPassiveCapture' ],
-            [ evt.target, 'touchend', 'end', 'notPassiveCapture' ]
+            [ target, 'touchmove', 'move', 'notPassiveCapture' ],
+            [ target, 'touchcancel', 'end', 'notPassiveCapture' ],
+            [ target, 'touchend', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt)
         }
@@ -67,7 +71,7 @@ export default {
         ctx.event = {
           x: pos.left,
           y: pos.top,
-          time: new Date().getTime(),
+          time: Date.now(),
           mouse: mouseEvent === true,
           dir: false
         }
@@ -83,7 +87,7 @@ export default {
           return
         }
 
-        const time = new Date().getTime() - ctx.event.time
+        const time = Date.now() - ctx.event.time
 
         if (time === 0) {
           return
@@ -170,9 +174,9 @@ export default {
 
         if (ctx.event.dir !== false) {
           stopAndPrevent(evt)
-          document.addEventListener('click', stopAndPrevent, notPassiveCapture)
 
           if (ctx.event.mouse === true) {
+            document.addEventListener('click', stopAndPrevent, notPassiveCapture)
             document.body.classList.add('non-selectable')
             clearSelection()
           }
@@ -204,10 +208,13 @@ export default {
 
         if (ctx.event.dir !== false) {
           stopAndPrevent(evt)
-          setTimeout(() => {
-            document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
-          }, 50)
-          ctx.event.mouse === true && document.body.classList.remove('non-selectable')
+
+          if (ctx.event.mouse === true) {
+            setTimeout(() => {
+              document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
+            }, 50)
+            document.body.classList.remove('non-selectable')
+          }
         }
 
         ctx.event = void 0
@@ -225,10 +232,9 @@ export default {
     ])
 
     if (client.has.touch === true) {
-      const capture = modifiers.capture === true ? 'Capture' : ''
       addEvt(ctx, 'main', [
-        [ el, 'touchstart', 'touchStart', `passive${capture}` ],
-        [ el, 'touchmove', 'move', `notPassive${capture}` ]
+        [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+        [ el, 'touchmove', 'noop', `notPassiveCapture` ]
       ])
     }
   },
@@ -242,14 +248,14 @@ export default {
     const ctx = el.__qtouchswipe_old || el.__qtouchswipe
 
     if (ctx !== void 0) {
-      client.is.firefox === true && preventDraggable(el, false)
-
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')
 
-      if (ctx.event !== void 0 && ctx.event.dir !== false) {
+      client.is.firefox === true && preventDraggable(el, false)
+
+      if (ctx.event !== void 0 && ctx.event.dir !== false && ctx.event.mouse === true) {
         document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
-        ctx.event.mouse === true && document.body.classList.remove('non-selectable')
+        document.body.classList.remove('non-selectable')
       }
 
       delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']

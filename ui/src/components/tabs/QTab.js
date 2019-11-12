@@ -104,7 +104,7 @@ export default Vue.extend({
         h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
 
         h('div', {
-          staticClass: 'q-tab__content self-stretch flex-center relative-position no-pointer-events q-anchor--skip non-selectable',
+          staticClass: 'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable',
           class: this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column'
         }, content.concat(slot(this, 'default')))
       ]
