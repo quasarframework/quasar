@@ -1,7 +1,40 @@
 import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, listenOpts, cloneMouseEvent, cloneTouchEvent } from '../utils/event.js'
+import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, listenOpts } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
+
+function cloneEvent (evt) {
+  try {
+    return evt.type.indexOf('mouse') > -1
+      ? new MouseEvent(evt.type, evt)
+      : new TouchEvent(evt.type, evt)
+  }
+  catch (e) {
+    // IE11 doesn't have touch capability, so
+    // we'll end up here only with Mouse events
+
+    const clone = document.createEvent('MouseEvents')
+    clone.initMouseEvent(
+      evt.type,
+      evt.bubbles,
+      evt.cancelable,
+      evt.view,
+      evt.detail,
+      evt.screenX,
+      evt.screenY,
+      evt.clientX,
+      evt.clientY,
+      evt.ctrlKey,
+      evt.altKey,
+      evt.shiftKey,
+      evt.metaKey,
+      evt.button,
+      evt.relatedTarget
+    )
+
+    return clone
+  }
+}
 
 const { notPassiveCapture } = listenOpts
 
@@ -161,7 +194,11 @@ export default {
       },
 
       touchStart (evt) {
-        if (ctx.event === void 0 && evt.target !== void 0) {
+        if (
+          ctx.event === void 0 &&
+          evt.target !== void 0 &&
+          (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1)
+        ) {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'notPassiveCapture' ],
@@ -173,13 +210,6 @@ export default {
       },
 
       start (evt, mouseEvent) {
-        if (
-          ctx.event !== void 0 ||
-          (evt.ignoreQDirectives !== void 0 && evt.ignoreQDirectives.indexOf(ctx.uid) > -1)
-        ) {
-          return
-        }
-
         client.is.firefox === true && preventDraggable(el, true)
 
         const pos = position(evt)
@@ -189,7 +219,10 @@ export default {
           (mouseEvent === true && modifiers.mouseAllDir === true) ||
           (mouseEvent !== true && modifiers.stop === true)
         ) {
-          const clone = evt.type === 'mousedown' ? cloneMouseEvent(evt) : cloneTouchEvent(evt)
+          const clone = cloneEvent(evt)
+
+          evt.defaultPrevented === true && prevent(clone)
+          evt.cancelBubble === true && stop(clone)
 
           if (clone.ignoreQDirectives === void 0) {
             clone.ignoreQDirectives = []
@@ -316,7 +349,6 @@ export default {
 
         ctx.event = void 0
         ctx.initialEvent = void 0
-        ctx.touchAttached = void 0
       }
     }
 
