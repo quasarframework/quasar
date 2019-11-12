@@ -6,6 +6,9 @@
       </q-btn>
       <q-btn color="amber" push to="/b">
         Link /b
+        <q-badge color="red" floating>
+          4
+        </q-badge>
       </q-btn>
       <q-btn color="orange" push to="/c">
         Link /c
@@ -18,6 +21,9 @@
       </q-btn>
       <q-btn color="amber" unelevated to="/b">
         Link /b
+        <q-badge color="red" floating>
+          4
+        </q-badge>
       </q-btn>
       <q-btn color="orange" unelevated to="/c">
         Link /c
@@ -106,6 +112,9 @@
       </q-btn>
       <q-btn color="amber">
         Btn 2
+        <q-badge color="red" floating>
+          4
+        </q-badge>
       </q-btn>
       <q-btn color="orange">
         Btn 3
@@ -130,6 +139,9 @@
                 </q-btn>
                 <q-btn color="amber" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
                   Second
+                  <q-badge color="red" floating>
+                    4
+                  </q-badge>
                 </q-btn>
                 <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
                   Third
@@ -142,6 +154,9 @@
                 </q-btn>
                 <q-btn color="amber" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size" disable>
                   Second
+                  <q-badge color="red" floating>
+                    4
+                  </q-badge>
                 </q-btn>
                 <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size" disable>
                   Third
@@ -154,6 +169,9 @@
                 </q-btn>
                 <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
                   Second
+                  <q-badge color="red" floating>
+                    4
+                  </q-badge>
                 </q-btn>
 
                 <q-separator vertical />
