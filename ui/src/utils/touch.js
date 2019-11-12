@@ -1,3 +1,4 @@
+import { isSSR, client } from '../plugins/Platform.js'
 import { listenOpts } from './event.js'
 
 const directions = ['left', 'right', 'up', 'down', 'horizontal', 'vertical']
@@ -80,3 +81,13 @@ export function cleanEvt (ctx, target) {
     ctx[target] = void 0
   }
 }
+
+const isDesktopIos = client.is.mac === true && client.has.touch === true
+
+export const getTouchTarget = (
+  isSSR === true ||
+  (client.is.ios !== true && isDesktopIos === false) ||
+  window.navigator.vendor.toLowerCase().indexOf('apple') === -1
+)
+  ? target => target
+  : () => document

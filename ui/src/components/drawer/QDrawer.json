@@ -13,7 +13,7 @@
 
     "overlay": {
       "type": "Boolean",
-      "desc": "Puts drawer into overlay mode (does not occupies space on screen, narrowing the page)",
+      "desc": "Puts drawer into overlay mode (does not occupy space on screen, narrowing the page)",
       "category": "behavior"
     },
 
