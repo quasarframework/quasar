@@ -99,7 +99,7 @@ function getChanges (evt, ctx, isFinal) {
       direction: dir,
       isFirst: ctx.event.isFirst,
       isFinal: isFinal === true,
-      duration: new Date().getTime() - ctx.event.time,
+      duration: Date.now() - ctx.event.time,
       distance: {
         x: absX,
         y: absY
@@ -181,7 +181,7 @@ export default {
         ctx.event = {
           x: pos.left,
           y: pos.top,
-          time: new Date().getTime(),
+          time: Date.now(),
           mouse: mouseEvent === true,
           detected: false,
           isFirst: true,
