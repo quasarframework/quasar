@@ -7,6 +7,7 @@ import BtnMixin from '../../mixins/btn.js'
 
 import slot from '../../utils/slot.js'
 import { stopAndPrevent, listenOpts } from '../../utils/event.js'
+import { getTouchTarget } from '../../utils/touch.js'
 
 const { passiveCapture } = listenOpts
 
@@ -120,10 +121,10 @@ export default Vue.extend({
     __onTouchstart (e) {
       if (touchTarget !== this.$el) {
         touchTarget !== void 0 && this.__cleanup()
-
         touchTarget = e.target
-        touchTarget.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
-        touchTarget.addEventListener('touchend', this.__onPressEnd, passiveCapture)
+        const target = getTouchTarget(touchTarget)
+        target.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
+        target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
       }
 
       this.$emit('touchstart', e)
@@ -132,7 +133,6 @@ export default Vue.extend({
     __onMousedown (e) {
       if (mouseTarget !== this.$el) {
         mouseTarget !== void 0 && this.__cleanup()
-
         mouseTarget = this.$el
         document.addEventListener('mouseup', this.__onPressEnd, passiveCapture)
       }
@@ -161,8 +161,9 @@ export default Vue.extend({
       this.__cleanup()
     },
 
-    __cleanup () {
+    __cleanup (destroying) {
       if (
+        destroying !== true &&
         (touchTarget === this.$el || mouseTarget === this.$el) &&
         this.$refs.blurTarget !== void 0 &&
         this.$refs.blurTarget !== document.activeElement
@@ -170,9 +171,10 @@ export default Vue.extend({
         this.$refs.blurTarget.focus()
       }
 
-      if (touchTarget !== void 0 && touchTarget === this.$el) {
-        touchTarget.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
-        touchTarget.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
+      if (touchTarget === this.$el) {
+        const target = getTouchTarget(touchTarget)
+        target.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
+        target.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
         touchTarget = void 0
       }
 
@@ -192,7 +194,7 @@ export default Vue.extend({
   },
 
   beforeDestroy () {
-    this.__cleanup()
+    this.__cleanup(true)
   },
 
   render (h) {
@@ -216,14 +218,14 @@ export default Vue.extend({
       if (this.$q.platform.has.touch === true) {
         data.on.touchstart = this.__onTouchstart
       }
+    }
 
-      if (this.ripple !== false) {
-        data.directives = [{
-          name: 'ripple',
-          value: this.computedRipple,
-          modifiers: { center: this.isRound }
-        }]
-      }
+    if (this.disable !== true && this.ripple !== false) {
+      data.directives = [{
+        name: 'ripple',
+        value: this.computedRipple,
+        modifiers: { center: this.isRound }
+      }]
     }
 
     if (this.icon !== void 0) {
