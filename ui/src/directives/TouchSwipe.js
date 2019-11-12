@@ -1,9 +1,7 @@
 import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent, listenOpts, preventDraggable } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
-
-const { notPassiveCapture } = listenOpts
 
 function parseArg (arg) {
   // delta (min velocity -- dist / time)
@@ -32,7 +30,7 @@ export default {
 
     const mouseCapture = modifiers.mouseCapture === true ? 'Capture' : ''
 
-    let ctx = {
+    const ctx = {
       handler: value,
       sensitivity: parseArg(arg),
 
@@ -71,7 +69,7 @@ export default {
         ctx.event = {
           x: pos.left,
           y: pos.top,
-          time: new Date().getTime(),
+          time: Date.now(),
           mouse: mouseEvent === true,
           dir: false
         }
@@ -87,7 +85,7 @@ export default {
           return
         }
 
-        const time = new Date().getTime() - ctx.event.time
+        const time = Date.now() - ctx.event.time
 
         if (time === 0) {
           return
@@ -176,7 +174,7 @@ export default {
           stopAndPrevent(evt)
 
           if (ctx.event.mouse === true) {
-            document.addEventListener('click', stopAndPrevent, notPassiveCapture)
+            document.body.classList.add('no-pointer-events')
             document.body.classList.add('non-selectable')
             clearSelection()
           }
@@ -211,7 +209,7 @@ export default {
 
           if (ctx.event.mouse === true) {
             setTimeout(() => {
-              document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
+              document.body.classList.remove('no-pointer-events')
             }, 50)
             document.body.classList.remove('non-selectable')
           }
@@ -254,7 +252,7 @@ export default {
       client.is.firefox === true && preventDraggable(el, false)
 
       if (ctx.event !== void 0 && ctx.event.dir !== false && ctx.event.mouse === true) {
-        document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
+        document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
       }
 

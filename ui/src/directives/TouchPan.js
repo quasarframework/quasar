@@ -1,9 +1,40 @@
 import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, listenOpts } from '../utils/event.js'
+import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
-const { notPassiveCapture } = listenOpts
+function cloneEvent (evt) {
+  try {
+    return evt.type.indexOf('mouse') > -1
+      ? new MouseEvent(evt.type, evt)
+      : new TouchEvent(evt.type, evt)
+  }
+  catch (e) {
+    // IE11 doesn't have touch capability, so
+    // we'll end up here only with Mouse events
+
+    const clone = document.createEvent('MouseEvents')
+    clone.initMouseEvent(
+      evt.type,
+      evt.bubbles,
+      evt.cancelable,
+      evt.view,
+      evt.detail,
+      evt.screenX,
+      evt.screenY,
+      evt.clientX,
+      evt.clientY,
+      evt.ctrlKey,
+      evt.altKey,
+      evt.shiftKey,
+      evt.metaKey,
+      evt.button,
+      evt.relatedTarget
+    )
+
+    return clone
+  }
+}
 
 function getChanges (evt, ctx, isFinal) {
   let
@@ -67,33 +98,56 @@ function getChanges (evt, ctx, isFinal) {
     }
   }
 
+  let synthetic = false
+
   if (dir === void 0 && isFinal !== true) {
-    return
+    if (ctx.event.isFirst === true || ctx.event.lastDir === void 0) {
+      return {}
+    }
+
+    dir = ctx.event.lastDir
+    synthetic = true
+
+    if (dir === 'left' || dir === 'right') {
+      pos.left -= distX
+      absX = 0
+      distX = 0
+    }
+    else {
+      pos.top -= distY
+      absY = 0
+      distY = 0
+    }
   }
 
   return {
-    evt,
-    touch: ctx.event.mouse !== true,
-    mouse: ctx.event.mouse === true,
-    position: pos,
-    direction: dir,
-    isFirst: ctx.event.isFirst,
-    isFinal: isFinal === true,
-    duration: new Date().getTime() - ctx.event.time,
-    distance: {
-      x: absX,
-      y: absY
-    },
-    offset: {
-      x: distX,
-      y: distY
-    },
-    delta: {
-      x: pos.left - ctx.event.lastX,
-      y: pos.top - ctx.event.lastY
+    synthetic,
+    payload: {
+      evt,
+      touch: ctx.event.mouse !== true,
+      mouse: ctx.event.mouse === true,
+      position: pos,
+      direction: dir,
+      isFirst: ctx.event.isFirst,
+      isFinal: isFinal === true,
+      duration: Date.now() - ctx.event.time,
+      distance: {
+        x: absX,
+        y: absY
+      },
+      offset: {
+        x: distX,
+        y: distY
+      },
+      delta: {
+        x: pos.left - ctx.event.lastX,
+        y: pos.top - ctx.event.lastY
+      }
     }
   }
 }
+
+let uid = 0
 
 export default {
   name: 'touch-pan',
@@ -115,6 +169,7 @@ export default {
     }
 
     const ctx = {
+      uid: 'qvtp_' + (uid++),
       handler: value,
       modifiers,
       direction: getModifierDirections(modifiers),
@@ -122,7 +177,11 @@ export default {
       noop () {},
 
       mouseStart (evt) {
-        if (ctx.event === void 0 && leftClick(evt) === true) {
+        if (
+          ctx.event === void 0 &&
+          leftClick(evt) === true &&
+          (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1)
+        ) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
@@ -133,7 +192,11 @@ export default {
       },
 
       touchStart (evt) {
-        if (ctx.event === void 0 && evt.target !== void 0) {
+        if (
+          ctx.event === void 0 &&
+          evt.target !== void 0 &&
+          (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1)
+        ) {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'notPassiveCapture' ],
@@ -154,13 +217,28 @@ export default {
           (mouseEvent === true && modifiers.mouseAllDir === true) ||
           (mouseEvent !== true && modifiers.stop === true)
         ) {
+          const clone = cloneEvent(evt)
+
+          evt.defaultPrevented === true && prevent(clone)
+          evt.cancelBubble === true && stop(clone)
+
+          if (clone.ignoreQDirectives === void 0) {
+            clone.ignoreQDirectives = []
+          }
+          clone.ignoreQDirectives.push(ctx.uid)
+
+          ctx.initialEvent = {
+            target: evt.target,
+            event: clone
+          }
+
           stop(evt)
         }
 
         ctx.event = {
           x: pos.left,
           y: pos.top,
-          time: new Date().getTime(),
+          time: Date.now(),
           mouse: mouseEvent === true,
           detected: false,
           isFirst: true,
@@ -178,22 +256,23 @@ export default {
         if (ctx.event.detected === true) {
           ctx.event.isFirst !== true && handleEvent(evt, ctx.event.mouse)
 
-          const changes = getChanges(evt, ctx, false)
+          const { payload, synthetic } = getChanges(evt, ctx, false)
 
-          if (changes !== void 0) {
-            if (ctx.handler(changes) === false) {
+          if (payload !== void 0) {
+            if (ctx.handler(payload) === false) {
               ctx.end(evt)
             }
             else {
               if (ctx.event.isFirst === true) {
                 handleEvent(evt, ctx.event.mouse)
                 document.documentElement.style.cursor = 'grabbing'
-                client.is.desktop === true && document.body.classList.add('no-pointer-events')
+                ctx.event.mouse === true && document.body.classList.add('no-pointer-events')
                 document.body.classList.add('non-selectable')
                 clearSelection()
               }
-              ctx.event.lastX = changes.position.left
-              ctx.event.lastY = changes.position.top
+              ctx.event.lastX = payload.position.left
+              ctx.event.lastY = payload.position.top
+              ctx.event.lastDir = synthetic === true ? void 0 : payload.direction
               ctx.event.isFirst = false
             }
           }
@@ -201,13 +280,9 @@ export default {
           return
         }
 
-        if (
-          ctx.direction.all === true ||
-          (ctx.event.mouse === true && modifiers.mouseAllDir === true)
-        ) {
+        if (ctx.direction.all === true) {
           ctx.event.detected = true
           ctx.move(evt)
-          ctx.event.mouse === true && document.addEventListener('click', stopAndPrevent, notPassiveCapture)
           return
         }
 
@@ -232,9 +307,8 @@ export default {
         ) {
           ctx.event.detected = true
           ctx.move(evt)
-          ctx.event.mouse === true && document.addEventListener('click', stopAndPrevent, notPassiveCapture)
         }
-        else {
+        else if (ctx.event.mouse !== true || modifiers.mouseAllDir !== true || (Date.now() - ctx.event.time) > 200) {
           ctx.end(evt, true)
         }
       },
@@ -248,12 +322,11 @@ export default {
         client.is.firefox === true && preventDraggable(el, false)
 
         document.documentElement.style.cursor = ''
-        client.is.desktop === true && document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
 
         if (ctx.event.detected === true && ctx.event.mouse === true) {
           setTimeout(() => {
-            document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
+            document.body.classList.remove('no-pointer-events')
           }, 50)
         }
 
@@ -262,10 +335,15 @@ export default {
           ctx.event.detected === true &&
           ctx.event.isFirst !== true
         ) {
-          ctx.handler(getChanges(evt, ctx, true))
+          ctx.handler(getChanges(evt, ctx, true).payload)
+        }
+
+        if (abort === true && ctx.event.detected !== true && ctx.initialEvent !== void 0) {
+          ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
         }
 
         ctx.event = void 0
+        ctx.initialEvent = void 0
       }
     }
 
@@ -300,11 +378,10 @@ export default {
       client.is.firefox === true && preventDraggable(el, false)
 
       document.documentElement.style.cursor = ''
-      client.is.desktop === true && document.body.classList.remove('no-pointer-events')
       document.body.classList.remove('non-selectable')
 
       if (ctx.event !== void 0 && ctx.event.detected === true && ctx.event.mouse === true) {
-        document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
+        document.body.classList.remove('no-pointer-events')
       }
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
