@@ -13,7 +13,10 @@ export default function (/* { ssrContext } */) {
     state: {
       leftDrawerState: false,
       rightDrawerState: false,
-      toc: []
+      toc: [],
+      apiTab: null,
+      apiFilter: null,
+      apiInnerTab: null
     },
 
     mutations: {
@@ -29,6 +32,18 @@ export default function (/* { ssrContext } */) {
         state.toc = newToc.length > 0
           ? [{ id: 'Introduction', title: 'Introduction' }].concat(newToc)
           : []
+      },
+
+      updateApiTab (state, tab) {
+        state.apiTab = tab
+      },
+
+      updateApiFilter (state, filter) {
+        state.apiFilter = filter
+      },
+
+      updateApiInnerTab (state, tab) {
+        state.apiInnerTab = tab
       }
     }
   })

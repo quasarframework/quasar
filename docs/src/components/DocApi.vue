@@ -117,11 +117,6 @@ export default {
   data () {
     return {
       ready: false,
-      currentTab: null,
-      currentInnerTab: {
-        props: null
-      },
-      filter: '',
       filteredApi: {},
       tabCount: {}
     }
@@ -204,7 +199,9 @@ export default {
       if (type === 'component' && api.props !== void 0) {
         for (let apiGroup of ['props']) {
           api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
-          this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
+          if (this.currentInnerTab[apiGroup] === null) {
+            this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
+          }
           this.aggregationModel[apiGroup] = true
         }
       }
@@ -275,6 +272,33 @@ export default {
   },
 
   computed: {
+    currentTab: {
+      get () {
+        return this.$store.state.apiTab
+      },
+      set (val) {
+        this.$store.commit('updateApiTab', val)
+      }
+    },
+    filter: {
+      get () {
+        return this.$store.state.apiFilter
+      },
+      set (val) {
+        this.$store.commit('updateApiFilter', val)
+      }
+    },
+    currentInnerTab () {
+      const self = this
+      return {
+        get props () {
+          return self.$store.state.apiInnerTab
+        },
+        set props (val) {
+          self.$store.commit('updateApiInnerTab', val)
+        }
+      }
+    },
     currentTabMaxCategoryPropCount () {
       if (this.aggregationModel[this.currentTab]) {
         let max = -1
@@ -299,6 +323,12 @@ export default {
     ).then(json => {
       this.parseJson(this.file, json.default)
       this.ready = true
+      const routeApiTab = this.$route.query.apiTab
+      if (routeApiTab) {
+        this.currentTab = routeApiTab
+        this.currentInnerTab[routeApiTab] = this.$route.query.apiInnerTab || null
+      }
+      this.filter = this.$route.query.apiFilter || ''
     })
   }
 }
