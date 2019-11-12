@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, listenOpts } from '../utils/event.js'
+import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function cloneEvent (evt) {
@@ -35,8 +35,6 @@ function cloneEvent (evt) {
     return clone
   }
 }
-
-const { notPassiveCapture } = listenOpts
 
 function getChanges (evt, ctx, isFinal) {
   let
@@ -268,7 +266,7 @@ export default {
               if (ctx.event.isFirst === true) {
                 handleEvent(evt, ctx.event.mouse)
                 document.documentElement.style.cursor = 'grabbing'
-                client.is.desktop === true && document.body.classList.add('no-pointer-events')
+                ctx.event.mouse === true && document.body.classList.add('no-pointer-events')
                 document.body.classList.add('non-selectable')
                 clearSelection()
               }
@@ -285,7 +283,6 @@ export default {
         if (ctx.direction.all === true) {
           ctx.event.detected = true
           ctx.move(evt)
-          ctx.event.mouse === true && document.addEventListener('click', stopAndPrevent, notPassiveCapture)
           return
         }
 
@@ -310,7 +307,6 @@ export default {
         ) {
           ctx.event.detected = true
           ctx.move(evt)
-          ctx.event.mouse === true && document.addEventListener('click', stopAndPrevent, notPassiveCapture)
         }
         else if (ctx.event.mouse !== true || modifiers.mouseAllDir !== true || (Date.now() - ctx.event.time) > 200) {
           ctx.end(evt, true)
@@ -326,12 +322,11 @@ export default {
         client.is.firefox === true && preventDraggable(el, false)
 
         document.documentElement.style.cursor = ''
-        client.is.desktop === true && document.body.classList.remove('no-pointer-events')
         document.body.classList.remove('non-selectable')
 
         if (ctx.event.detected === true && ctx.event.mouse === true) {
           setTimeout(() => {
-            document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
+            document.body.classList.remove('no-pointer-events')
           }, 50)
         }
 
@@ -383,11 +378,10 @@ export default {
       client.is.firefox === true && preventDraggable(el, false)
 
       document.documentElement.style.cursor = ''
-      client.is.desktop === true && document.body.classList.remove('no-pointer-events')
       document.body.classList.remove('non-selectable')
 
       if (ctx.event !== void 0 && ctx.event.detected === true && ctx.event.mouse === true) {
-        document.removeEventListener('click', stopAndPrevent, notPassiveCapture)
+        document.body.classList.remove('no-pointer-events')
       }
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
