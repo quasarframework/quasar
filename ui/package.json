@@ -20,7 +20,8 @@
     "build": "node build/script.build.js",
     "test": "eslint --ext .js,.vue src dev",
     "lint": "eslint --ext .js,.vue src dev",
-    "lint-fix": "eslint --ext .js,.vue src dev --fix"
+    "lint-fix": "eslint --ext .js,.vue src dev --fix",
+    "generate:api": "node scripts/generate-api-definition.js"
   },
   "repository": {
     "type": "git",
