@@ -32,7 +32,7 @@ export default {
 
     const mouseCapture = modifiers.mouseCapture === true ? 'Capture' : ''
 
-    let ctx = {
+    const ctx = {
       handler: value,
       sensitivity: parseArg(arg),
 

@@ -71,7 +71,7 @@ function getChanges (evt, ctx, isFinal) {
 
   if (dir === void 0 && isFinal !== true) {
     if (ctx.event.isFirst === true || ctx.event.lastDir === void 0) {
-      return
+      return {}
     }
 
     dir = ctx.event.lastDir
@@ -90,26 +90,28 @@ function getChanges (evt, ctx, isFinal) {
   }
 
   return {
-    evt,
-    touch: ctx.event.mouse !== true,
-    mouse: ctx.event.mouse === true,
     synthetic,
-    position: pos,
-    direction: dir,
-    isFirst: ctx.event.isFirst,
-    isFinal: isFinal === true,
-    duration: new Date().getTime() - ctx.event.time,
-    distance: {
-      x: absX,
-      y: absY
-    },
-    offset: {
-      x: distX,
-      y: distY
-    },
-    delta: {
-      x: pos.left - ctx.event.lastX,
-      y: pos.top - ctx.event.lastY
+    payload: {
+      evt,
+      touch: ctx.event.mouse !== true,
+      mouse: ctx.event.mouse === true,
+      position: pos,
+      direction: dir,
+      isFirst: ctx.event.isFirst,
+      isFinal: isFinal === true,
+      duration: new Date().getTime() - ctx.event.time,
+      distance: {
+        x: absX,
+        y: absY
+      },
+      offset: {
+        x: distX,
+        y: distY
+      },
+      delta: {
+        x: pos.left - ctx.event.lastX,
+        y: pos.top - ctx.event.lastY
+      }
     }
   }
 }
@@ -185,8 +187,7 @@ export default {
           isFirst: true,
           isFinal: false,
           lastX: pos.left,
-          lastY: pos.top,
-          lastDir: void 0
+          lastY: pos.top
         }
       },
 
@@ -198,10 +199,10 @@ export default {
         if (ctx.event.detected === true) {
           ctx.event.isFirst !== true && handleEvent(evt, ctx.event.mouse)
 
-          const changes = getChanges(evt, ctx, false)
+          const { payload, synthetic } = getChanges(evt, ctx, false)
 
-          if (changes !== void 0) {
-            if (ctx.handler(changes) === false) {
+          if (payload !== void 0) {
+            if (ctx.handler(payload) === false) {
               ctx.end(evt)
             }
             else {
@@ -212,9 +213,9 @@ export default {
                 document.body.classList.add('non-selectable')
                 clearSelection()
               }
-              ctx.event.lastX = changes.position.left
-              ctx.event.lastY = changes.position.top
-              ctx.event.lastDir = changes.synthetic === true ? void 0 : changes.direction
+              ctx.event.lastX = payload.position.left
+              ctx.event.lastY = payload.position.top
+              ctx.event.lastDir = synthetic === true ? void 0 : payload.direction
               ctx.event.isFirst = false
             }
           }
@@ -283,7 +284,7 @@ export default {
           ctx.event.detected === true &&
           ctx.event.isFirst !== true
         ) {
-          ctx.handler(getChanges(evt, ctx, true))
+          ctx.handler(getChanges(evt, ctx, true).payload)
         }
 
         ctx.event = void 0
