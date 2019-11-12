@@ -199,9 +199,7 @@ export default {
       if (type === 'component' && api.props !== void 0) {
         for (let apiGroup of ['props']) {
           api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
-          if (this.currentInnerTab[apiGroup] === null) {
-            this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
-          }
+          this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
           this.aggregationModel[apiGroup] = true
         }
       }
