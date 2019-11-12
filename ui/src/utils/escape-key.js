@@ -1,5 +1,3 @@
-import Platform from '../plugins/Platform.js'
-
 let handlers = []
 
 export default {
@@ -16,14 +14,14 @@ export default {
   },
 
   register (comp, fn) {
-    if (Platform.is.desktop === true) {
+    if (comp.$q.platform.is.desktop === true) {
       this.__installed !== true && this.__install()
       handlers.push({ comp, fn })
     }
   },
 
   pop (comp) {
-    if (Platform.is.desktop === true) {
+    if (comp.$q.platform.is.desktop === true) {
       const index = handlers.findIndex(h => h.comp === comp)
       if (index > -1) {
         handlers.splice(index, 1)
