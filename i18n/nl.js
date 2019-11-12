@@ -29,7 +29,7 @@ export default {
     refresh: 'Vernieuwen...'
   },
   table: {
-    noData: 'Geen data bechikbaar',
+    noData: 'Geen data beschikbaar',
     noResults: 'Geen records gevonden',
     loading: 'Laden...',
     selectedRecords: function (rows) {
