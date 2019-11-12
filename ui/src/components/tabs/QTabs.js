@@ -157,10 +157,16 @@ export default Vue.extend({
 
     classes () {
       return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
+        ` q-tabs--${this.vertical === true ? 'vertical' : 'horizontal'}` +
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
-        (this.stretch === true ? ' self-stretch' : '') +
-        (this.vertical === true ? ' q-tabs--vertical' : '')
+        (this.stretch === true ? ' self-stretch' : '')
+    },
+
+    domProps () {
+      return this.vertical === true
+        ? { container: 'height', content: 'scrollHeight', posLeft: 'top', posRight: 'bottom' }
+        : { container: 'width', content: 'scrollWidth', posLeft: 'left', posRight: 'right' }
     }
   },
 
@@ -219,18 +225,19 @@ export default Vue.extend({
       this.__prepareTick()
     },
 
-    __updateContainer ({ width, height }) {
-      const scroll = this.vertical === true
-        ? this.$refs.content.scrollHeight > height + 1
-        : this.$refs.content.scrollWidth > width + 1
+    __updateContainer (domSize) {
+      const
+        size = domSize[this.domProps.container],
+        scrollSize = this.$refs.content[this.domProps.content],
+        scroll = scrollSize > size
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
+        scroll === true && this.$nextTick(() => this.__updateArrows())
       }
 
-      scroll === true && this.$nextTick(() => this.__updateArrows())
+      const justify = size < parseInt(this.breakpoint, 10)
 
-      const justify = (this.vertical === true ? height : width) < parseInt(this.breakpoint, 10)
       if (this.justify !== justify) {
         this.justify = justify
       }
@@ -274,7 +281,7 @@ export default Vue.extend({
         })
       }
 
-      if (newTab && this.scrollable) {
+      if (newTab && this.scrollable === true) {
         const
           { left, width, top, height } = this.$refs.content.getBoundingClientRect(),
           newPos = newTab.$el.getBoundingClientRect()
@@ -299,12 +306,12 @@ export default Vue.extend({
       const
         content = this.$refs.content,
         rect = content.getBoundingClientRect(),
-        left = this.vertical === true ? content.scrollTop : content.scrollLeft
+        pos = this.vertical === true ? content.scrollTop : content.scrollLeft
 
-      this.leftArrow = left > 0
+      this.leftArrow = pos > 0
       this.rightArrow = this.vertical === true
-        ? left + rect.height + 5 < content.scrollHeight
-        : left + rect.width + 5 < content.scrollWidth
+        ? Math.ceil(pos + rect.height) < content.scrollHeight
+        : Math.ceil(pos + rect.width) < content.scrollWidth
     },
 
     __animScrollTo (value) {
@@ -333,24 +340,24 @@ export default Vue.extend({
     __scrollTowards (value) {
       let
         content = this.$refs.content,
-        left = this.vertical === true ? content.scrollTop : content.scrollLeft,
-        direction = value < left ? -1 : 1,
+        pos = this.vertical === true ? content.scrollTop : content.scrollLeft,
+        direction = value < pos ? -1 : 1,
         done = false
 
-      left += direction * 5
-      if (left < 0) {
+      pos += direction * 5
+      if (pos < 0) {
         done = true
-        left = 0
+        pos = 0
       }
       else if (
-        (direction === -1 && left <= value) ||
-        (direction === 1 && left >= value)
+        (direction === -1 && pos <= value) ||
+        (direction === 1 && pos >= value)
       ) {
         done = true
-        left = value
+        pos = value
       }
 
-      content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] = left
+      content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] = pos
       this.__updateArrows()
       return done
     }
@@ -358,6 +365,10 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
+
+    if (this.$q.platform.is.desktop !== true) {
+      this.__updateArrows = () => {}
+    }
   },
 
   beforeDestroy () {
@@ -366,21 +377,21 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-tabs row no-wrap items-center',
-      class: this.classes,
-      on: {
-        input: stop,
-        ...this.$listeners
-      },
-      attrs: { role: 'tablist' }
-    }, [
+    const child = [
       h(QResizeObserver, {
         on: { resize: this.__updateContainer }
       }),
 
+      h('div', {
+        ref: 'content',
+        staticClass: 'q-tabs__content row no-wrap items-center self-stretch',
+        class: this.alignClass
+      }, slot(this, 'default'))
+    ]
+
+    this.$q.platform.is.desktop === true && child.push(
       h(QIcon, {
-        staticClass: 'q-tabs__arrow q-tabs__arrow--left q-tab__icon',
+        staticClass: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon',
         class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.leftIcon || (this.vertical === true ? this.$q.iconSet.tabs.up : this.$q.iconSet.tabs.left) },
         nativeOn: {
@@ -392,14 +403,8 @@ export default Vue.extend({
         }
       }),
 
-      h('div', {
-        ref: 'content',
-        staticClass: 'q-tabs__content row no-wrap items-center self-stretch',
-        class: this.alignClass
-      }, slot(this, 'default')),
-
       h(QIcon, {
-        staticClass: 'q-tabs__arrow q-tabs__arrow--right q-tab__icon',
+        staticClass: 'q-tabs__arrow q-tabs__arrow--right absolute q-tab__icon',
         class: this.rightArrow === true ? '' : 'q-tabs__arrow--faded',
         props: { name: this.rightIcon || (this.vertical === true ? this.$q.iconSet.tabs.down : this.$q.iconSet.tabs.right) },
         nativeOn: {
@@ -410,6 +415,16 @@ export default Vue.extend({
           touchend: this.__stopAnimScroll
         }
       })
-    ])
+    )
+
+    return h('div', {
+      staticClass: 'q-tabs row no-wrap items-center',
+      class: this.classes,
+      on: {
+        input: stop,
+        ...this.$listeners
+      },
+      attrs: { role: 'tablist' }
+    }, child)
   }
 })
