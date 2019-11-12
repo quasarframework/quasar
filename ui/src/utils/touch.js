@@ -82,7 +82,9 @@ export function cleanEvt (ctx, target) {
   }
 }
 
-const isDesktopIos = client.is.mac === true && client.has.touch === true
+const isDesktopIos = isSSR === false
+  ? client.is.mac === true && client.has.touch === true
+  : false
 
 export const getTouchTarget = (
   isSSR === true ||
