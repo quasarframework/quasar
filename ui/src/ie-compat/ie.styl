@@ -69,14 +69,17 @@ ie_style = @block
         min-width 56px
 
   /* QBtn */
-  .q-btn
-    &:not(.disabled):active,
-    &:not(.disabled):focus,
-    &.q-btn--active
+  button.q-btn--actionable:active:hover
+    .q-btn__content
+      margin -1px 1px 1px -1px
+
+  .q-btn-group > button.q-btn--push.q-btn--actionable
+    .q-btn__content
+      transition $button-transition
+
+    &:active:hover
       .q-btn__content
-        position relative
-        top 0
-        left 0
+        margin 0
 
   /* QCarousel */
   .q-carousel__slide > *
