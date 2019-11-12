@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, listenOpts } from '../utils/event.js'
+import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, listenOpts, cloneMouseEvent, cloneTouchEvent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 const { notPassiveCapture } = listenOpts
@@ -116,6 +116,8 @@ function getChanges (evt, ctx, isFinal) {
   }
 }
 
+let uid = 0
+
 export default {
   name: 'touch-pan',
 
@@ -136,6 +138,7 @@ export default {
     }
 
     const ctx = {
+      uid: 'qvtp_' + (uid++),
       handler: value,
       modifiers,
       direction: getModifierDirections(modifiers),
@@ -143,7 +146,11 @@ export default {
       noop () {},
 
       mouseStart (evt) {
-        if (ctx.event === void 0 && leftClick(evt) === true) {
+        if (
+          ctx.event === void 0 &&
+          leftClick(evt) === true &&
+          (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1)
+        ) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
@@ -166,6 +173,13 @@ export default {
       },
 
       start (evt, mouseEvent) {
+        if (
+          ctx.event !== void 0 ||
+          (evt.ignoreQDirectives !== void 0 && evt.ignoreQDirectives.indexOf(ctx.uid) > -1)
+        ) {
+          return
+        }
+
         client.is.firefox === true && preventDraggable(el, true)
 
         const pos = position(evt)
@@ -175,6 +189,18 @@ export default {
           (mouseEvent === true && modifiers.mouseAllDir === true) ||
           (mouseEvent !== true && modifiers.stop === true)
         ) {
+          const clone = evt.type === 'mousedown' ? cloneMouseEvent(evt) : cloneTouchEvent(evt)
+
+          if (clone.ignoreQDirectives === void 0) {
+            clone.ignoreQDirectives = []
+          }
+          clone.ignoreQDirectives.push(ctx.uid)
+
+          ctx.initialEvent = {
+            target: evt.target,
+            event: clone
+          }
+
           stop(evt)
         }
 
@@ -223,10 +249,7 @@ export default {
           return
         }
 
-        if (
-          ctx.direction.all === true ||
-          (ctx.event.mouse === true && modifiers.mouseAllDir === true)
-        ) {
+        if (ctx.direction.all === true) {
           ctx.event.detected = true
           ctx.move(evt)
           ctx.event.mouse === true && document.addEventListener('click', stopAndPrevent, notPassiveCapture)
@@ -256,7 +279,7 @@ export default {
           ctx.move(evt)
           ctx.event.mouse === true && document.addEventListener('click', stopAndPrevent, notPassiveCapture)
         }
-        else {
+        else if (ctx.event.mouse !== true || modifiers.mouseAllDir !== true || (Date.now() - ctx.event.time) > 200) {
           ctx.end(evt, true)
         }
       },
@@ -287,7 +310,13 @@ export default {
           ctx.handler(getChanges(evt, ctx, true).payload)
         }
 
+        if (abort === true && ctx.event.detected !== true && ctx.initialEvent !== void 0) {
+          ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
+        }
+
         ctx.event = void 0
+        ctx.initialEvent = void 0
+        ctx.touchAttached = void 0
       }
     }
 
