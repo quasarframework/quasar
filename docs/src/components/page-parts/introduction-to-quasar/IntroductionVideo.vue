@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    p.text-subtitle1 Because only Quasar ets you do this ...
+    p.text-subtitle1 Because only Quasar lets you do this ...
     .thumbnail-container.relative-position(@click='showVideo = true')
       q-img(v-if='!showVideo' src='statics/quasar-app-in-30-minutes.jpg')
         q-icon.play-button.absolute-center(v-if='!showVideo' color='white' name='play_circle_outline' size='150px')
