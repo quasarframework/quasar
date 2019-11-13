@@ -4,7 +4,8 @@
       "extends": "value",
       "type": "Any",
       "examples": [ "v-model=\"myValue\"" ],
-      "category": "model"
+      "category": "model",
+      "required": true
     },
 
     "title": {

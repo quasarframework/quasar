@@ -420,6 +420,21 @@ const astExceptions = {
   }
 }
 
+function validateArray (name, key, property, expected, propApi) {
+  const apiVal = propApi[property]
+  if (expected.length === 1 && expected[0] === apiVal) {
+    return
+  }
+  if (
+    !Array.isArray(apiVal) ||
+    apiVal.length !== expected.length ||
+    !expected.every(t => apiVal.includes(t))
+  ) {
+    logError(`${name}: wrong definition for prop "${key}" on "${property}": expected ${expected} but found ${apiVal}`)
+    process.exit(1)
+  }
+}
+
 function fillAPI (apiType) {
   return file => {
     const
@@ -433,7 +448,7 @@ function fillAPI (apiType) {
         encoding: 'utf-8'
       })
 
-      ast.evaluate(definition, topSections[apiType], (prop, key) => {
+      ast.evaluate(definition, topSections[apiType], (prop, key, definition) => {
         if (key.startsWith('__')) {
           return
         }
@@ -452,10 +467,38 @@ function fillAPI (apiType) {
             .toLowerCase()
         }
 
-
         if (api[prop] === void 0 || api[prop][key] === void 0) {
           logError(`${name}: missing "${prop}" -> "${key}" definition`)
           process.exit(1)
+        }
+
+        if (definition) {
+          const propApi = api[prop][key]
+          if (typeof definition === 'string' && propApi.type !== definition) {
+            logError(`${name}: wrong definition for prop "${key}": expected "${definition}" but found "${propApi.type}"`)
+            process.exit(1)
+          }
+          else if (Array.isArray(definition)) {
+            validateArray(name, key, 'type', definition, propApi)
+          }
+          else {
+            if (definition.type) {
+              if (Array.isArray(definition.type)) {
+                validateArray(name, key, 'type', definition.type, propApi)
+              }
+              else if (propApi.type !== definition.type) {
+                logError(`${name}: wrong definition for prop "${key}" on "type": expected "${definition.type}" but found "${propApi.type}"`)
+                process.exit(1)
+              }
+            }
+            if (definition.required && Boolean(definition.required) !== propApi.required) {
+              logError(`${name}: wrong definition for prop "${key}" on "required": expected "${definition.required}" but found "${propApi.required}"`)
+              process.exit(1)
+            }
+            if (definition.validator && Array.isArray(definition.validator)) {
+              validateArray(name, key, 'values', definition.validator, propApi)
+            }
+          }
         }
       })
     }

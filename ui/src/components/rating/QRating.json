@@ -9,7 +9,8 @@
     "value": {
       "extends": "value",
       "type": "Number",
-      "examples": [ ":value=\"2\"" ]
+      "examples": [ ":value=\"2\"" ],
+      "required": true
     },
 
     "max": {
