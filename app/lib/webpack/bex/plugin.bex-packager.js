@@ -35,7 +35,7 @@ class BexPackager {
       }
 
       findAndReplaceInSection(manifestData.background.scripts, 'www/bex-background.js', 'www/js/bex-background.js')
-      findAndReplaceInSection(manifestData.content_scripts[0].js, 'www/bex-contentScript.js', 'www/js/bex-contentScript.js')
+      findAndReplaceInSection(manifestData.content_scripts[0].js, 'www/bex-content-script.js', 'www/js/bex-content-script.js')
       const newValue = JSON.stringify(manifestData)
       fse.writeFileSync(manifestFilePath, newValue, 'utf-8')
     }
