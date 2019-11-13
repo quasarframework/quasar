@@ -422,15 +422,19 @@ const astExceptions = {
 
 function validateArray (name, key, property, expected, propApi) {
   const apiVal = propApi[property]
+
   if (expected.length === 1 && expected[0] === apiVal) {
     return
   }
+
+  const expectedVal = expected.filter(t => t.startsWith('__') === false)
+
   if (
     !Array.isArray(apiVal) ||
-    apiVal.length !== expected.length ||
-    !expected.every(t => apiVal.includes(t))
+    apiVal.length !== expectedVal.length ||
+    !expectedVal.every(t => apiVal.includes(t))
   ) {
-    logError(`${name}: wrong definition for prop "${key}" on "${property}": expected ${expected} but found ${apiVal}`)
+    logError(`${name}: wrong definition for prop "${key}" on "${property}": expected ${expectedVal} but found ${apiVal}`)
     process.exit(1)
   }
 }
@@ -491,7 +495,7 @@ function fillAPI (apiType) {
                 process.exit(1)
               }
             }
-            if (definition.required && Boolean(definition.required) !== propApi.required) {
+            if (key !== 'value' && definition.required && Boolean(definition.required) !== propApi.required) {
               logError(`${name}: wrong definition for prop "${key}" on "required": expected "${definition.required}" but found "${propApi.required}"`)
               process.exit(1)
             }

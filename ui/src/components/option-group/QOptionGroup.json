@@ -4,8 +4,7 @@
       "extends": "value",
       "type": "Any",
       "examples": [ "v-model=\"group\"" ],
-      "category": "model",
-      "required": true
+      "category": "model"
     },
 
     "options": {
