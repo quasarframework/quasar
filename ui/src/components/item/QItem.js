@@ -75,8 +75,13 @@ export default Vue.extend({
 
     __onClick (e) {
       if (this.isClickable === true) {
-        if (e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
-          this.$refs.blurTarget.focus()
+        if (this.$refs.blurTarget !== void 0) {
+          if (e.qKeyEvent !== true && document.activeElement === this.$el) {
+            this.$refs.blurTarget.focus()
+          }
+          else if (document.activeElement === this.$refs.blurTarget) {
+            this.$el.focus()
+          }
         }
 
         this.$emit('click', e)
