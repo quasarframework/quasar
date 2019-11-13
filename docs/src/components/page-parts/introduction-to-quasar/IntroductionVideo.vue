@@ -1,8 +1,7 @@
 <template lang="pug">
-  div
-    p.text-subtitle1 Because only Quasar lets you do this ...
+  .rounded-borders.overflow-hidden
     .thumbnail-container.relative-position(@click='showVideo = true')
-      q-img(v-if='!showVideo' src='statics/quasar-app-in-30-minutes.jpg')
+      q-img(v-if="!showVideo" src="https://cdn.quasar.dev/img/quasar-app-in-30-minutes.jpg")
         q-icon.play-button.absolute-center(v-if='!showVideo' color='white' name='play_circle_outline' size='150px')
     .embed-container(v-if='showVideo')
       iframe(src='https://www.youtube.com/embed/GV-D85D9KJQ?autoplay=1' frameborder='0' allowfullscreen='')
@@ -11,6 +10,7 @@
 <script>
 export default {
   name: 'IntroductionVideo',
+
   data () {
     return {
       showVideo: false
@@ -58,12 +58,10 @@ export default {
   overflow: hidden
   max-width: 100%
 
-.embed-container iframe,
-.embed-container object,
-.embed-container embed
-  position: absolute
-  top: 0
-  left: 0
-  width: 100%
-  height: 100%
+  iframe, object, embed
+    position: absolute
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
 </style>
