@@ -429,7 +429,7 @@ export function endOfDate (date, unit) {
     case 'year':
       t.setMonth(11)
     case 'month':
-      t.setDate(daysInMonth(date))
+      t.setDate(daysInMonth(t))
     case 'day':
       t.setHours(23)
     case 'hour':
