@@ -164,5 +164,51 @@
       "desc": "Change model to current moment",
       "addedIn": "v1.1.7"
     }
+  },
+  "css": {
+    "shadow-2": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "separator-color": {
+      "desc": "",
+      "extends": "separator-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "primary": {
+      "desc": "",
+      "extends": "primary",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "secondary": {
+      "desc": "",
+      "extends": "secondary"
+    },
+    "separator-dark-color": {
+      "desc": "",
+      "extends": "separator-dark-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

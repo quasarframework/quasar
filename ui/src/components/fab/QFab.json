@@ -105,5 +105,23 @@
     "hide": {
       "desc": "Collapses fab actions list"
     }
+  },
+  "css": {
+    "z-fab": {
+      "desc": "QFab's z-index",
+      "type": "Number",
+      "affects": [{
+        "selector": ".q-fab",
+        "property": "z-index"
+      }]
+    },
+    "fab-margin": {
+      "desc": "QFab's action buttons margin",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-fab__actions .q-btn",
+        "property": "margin"
+      }]
+    }
   }
 }

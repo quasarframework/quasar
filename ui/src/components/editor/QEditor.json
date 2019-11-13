@@ -269,5 +269,90 @@
         "__exemption": [ "examples" ]
       }
     }
+  },
+
+  "css": {
+    "editor-border-color": {
+      "desc": "QEditor's border color for its container and toolbar",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-editor",
+        "property": "border",
+        "template": "1px solid $value"
+      }, {
+        "selector": ".q-editor__toolbar",
+        "property": "border",
+        "template": "1px solid $value"
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "QEditor's border radius",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": ".q-editor",
+        "property": "border-radius"
+      }]
+    },
+    "editor-content-padding": {
+      "desc": "QEditor's content padding",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-editor__content",
+        "property": "padding"
+      }]
+    },
+    "editor-content-min-height": {
+      "desc": "QEditor's content minimum height",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-editor__content",
+        "property": "min-height"
+      }]
+    },
+    "editor-hr-color": {
+      "desc": "QEditor's content <hr> color",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-editor",
+        "property": "background"
+      }]
+    },
+    "editor-button-gutter": {
+      "desc": "QEditor's buttons margins",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-editor .q-btn",
+        "property": "margin"
+      }, {
+        "selector": ".q-editor__toolbar-group + .q-editor__toolbar-group:before",
+        "property": "top"
+      }, {
+        "selector": ".q-editor__toolbar-group + .q-editor__toolbar-group:before",
+        "property": "bottom"
+      }, {
+        "selector": ".q-editor__toolbar-group + .q-editor__toolbar-group:before",
+        "property": "left",
+        "template": "-$value"
+      }]
+    },
+    "editor-border-dark-color": {
+      "desc": "QEditor's border color for content, toolbar and toolbar group separator",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-editor--dark, .q-editor--dark .q-editor__toolbar",
+        "property": "border-color"
+      }, {
+        "selector": ".q-editor--dark .q-editor__toolbar-group + .q-editor__toolbar-group:before",
+        "property": "background"
+      }]
+    },
+    "editor-hr-dark-color": {
+      "desc": "QEditor's content <hr> color when the \"dark\" prop is true",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-editor--dark .q-editor__content hr",
+        "property": ""
+      }]
+    }
   }
 }

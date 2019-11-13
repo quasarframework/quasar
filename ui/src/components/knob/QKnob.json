@@ -126,5 +126,16 @@
         }
       }
     }
+  },
+
+  "css": {
+    "shadow-4": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

@@ -15,5 +15,28 @@
       "desc": "When user clicks/taps on the component, should we toggle through the indeterminate state too?",
       "category": "behavior"
     }
+  },
+  "css": {
+    "checkbox-transition": {
+      "desc": "QCheckbox's transition",
+      "type": "transition",
+      "affects": [{
+        "selector": ".q-checkbox__bg",
+        "property": "transition"
+      }]
+    },
+    "primary": {
+      "desc": "QCheckbox's default color",
+      "extends": "primary"
+    },
+    "option-focus-transition": {
+      "desc": "QCheckbox's transform transition on desktop",
+      "type": "transition",
+      "affects": [{
+        "selector": "body.desktop .q-checkbox__inner:before",
+        "property": "transition",
+        "template": "transform $value"
+      }]
+    }
   }
 }

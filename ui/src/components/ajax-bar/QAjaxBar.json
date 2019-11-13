@@ -68,5 +68,15 @@
     "stop": {
       "desc": "Notify bar that one process you were waiting has finished"
     }
+  },
+  "css": {
+    "z-max": {
+      "desc": "QAjaxBar's loading bar z-index",
+      "extends": "z-max",
+      "affects": [{
+        "selector": ".q-loading-bar",
+        "property": "z-index"
+      }]
+    }
   }
 }

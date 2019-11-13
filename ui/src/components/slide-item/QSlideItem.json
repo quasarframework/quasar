@@ -159,5 +159,23 @@
     "reset": {
       "desc": "Reset to initial state (not swiped to any side)"
     }
+  },
+  "css": {
+    "green": {
+      "desc": "",
+      "type": "color"
+    },
+    "orange": {
+      "desc": "",
+      "type": "color"
+    },
+    "blue": {
+      "desc": "",
+      "type": "color"
+    },
+    "purple": {
+      "desc": "",
+      "type": "color"
+    }
   }
 }

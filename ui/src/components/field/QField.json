@@ -100,5 +100,95 @@
     "blur": {
       "desc": "Blur field (lose focus)"
     }
+  },
+  "css": {
+    "field-transition:": {
+      "desc": "",
+      "type": "transition",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "input-autofill-color": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "input-font-size": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "primary": {
+      "desc": "",
+      "extends": "primary",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "input-text-color": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "field-transition": {
+      "desc": "",
+      "type": "transition",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "input-label-color": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "field-transition,": {
+      "desc": "",
+      "type": "transition",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "shadow-2": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "negative": {
+      "desc": "",
+      "extends": "negative",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

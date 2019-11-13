@@ -107,5 +107,19 @@
       "extends": "input",
       "desc": "Emitted on lazy model value change (after user slides then releases the thumb)"
     }
+  },
+  "css": {
+    "primary": {
+      "desc": "",
+      "extends": "primary"
+    },
+    "generic-border-radius": {
+      "desc": "",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

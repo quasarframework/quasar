@@ -610,5 +610,15 @@
         }
       }
     }
+  },
+  "css": {
+    "generic-border-radius": {
+      "desc": "",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

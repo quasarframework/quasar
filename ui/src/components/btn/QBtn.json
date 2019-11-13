@@ -47,5 +47,99 @@
         }
       }
     }
+  },
+
+  "css": {
+    "button-padding": {
+      "desc": "Button's default padding",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-btn",
+        "property": "padding"
+      }]
+    },
+    "button-font-size": {
+      "desc": "Button's font size",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-btn",
+        "property": "font-size"
+      }]
+    },
+    "button-line-height": {
+      "desc": "Button's line-height and child icon/spinner font-size",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-btn",
+        "property": "line-height"
+      }, {
+        "selector": ".q-btn .q-icon, .q-btn .q-spinner",
+        "property": "font-size"
+      }]
+    },
+    "button-transition": {
+      "desc": "Button's transition",
+      "type": "transition",
+      "affects": [{
+        "selector": ".q-btn",
+        "property": "transition"
+      }]
+    },
+    "button-shadow": {
+      "desc": "Button's default shadow",
+      "type": "shadow",
+      "affects": [{
+        "selector": ".q-btn",
+        "property": "box-shadow"
+      }]
+    },
+    "button-font-weight": {
+      "desc": "Button's font-weight",
+      "type": "Number",
+      "affects": [{
+        "selector": ".q-btn",
+        "property": "font-weight"
+      }]
+    },
+    "button-shadow-active": {
+      "desc": "Active button's shadow",
+      "type": "shadow",
+      "affects": [{
+        "selector": ".q-btn--standard:active, .q-btn--active:before",
+        "property": "box-shadow"
+      }]
+    },
+    "button-border-radius": {
+      "desc": "Button's default border radius",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-btn--rectangle",
+        "property": "border-radius"
+      }]
+    },
+    "button-push-border-radius": {
+      "desc": "QBtn's border radius when the \"push\" prop is true",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-btn--push",
+        "property": "border-radius"
+      }]
+    },
+    "button-rounded-border-radius": {
+      "desc": "Button's border radius when the \"rounded\" prop is true",
+      "type": "size",
+      "affects": [{
+        "selector": "q-btn--rounded",
+        "property": "border-radius"
+      }]
+    },
+    "button-dense-padding": {
+      "desc": "QBtn's padding when the \"dense\" prop is true",
+      "type": "size",
+      "affects": [{
+        "selector": ".qbtn--dense",
+        "property": "padding"
+      }]
+    }
   }
 }

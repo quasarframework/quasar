@@ -26,5 +26,23 @@
     "color": {
       "extends": "color"
     }
+  },
+  "css": {
+    "separator-color": {
+      "desc": "",
+      "extends": "separator-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "separator-dark-color": {
+      "desc": "",
+      "extends": "separator-dark-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

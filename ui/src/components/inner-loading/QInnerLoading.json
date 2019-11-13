@@ -40,5 +40,23 @@
     "default": {
       "desc": "Default slot is used for replacing default Spinner; Suggestions: a spinner or text"
     }
+  },
+  "css": {
+    "light-dimmed-background": {
+      "desc": "",
+      "extends": "light-dimmed-background",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "dimmed-background": {
+      "desc": "",
+      "extends": "dimmed-background",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

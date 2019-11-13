@@ -95,5 +95,79 @@
     "updatePosition": {
       "desc": "There are some custom scenarios for which Quasar cannot automatically reposition the tooltip without significant performance drawbacks so the optimal solution is for you to call this method when you need it"
     }
+  },
+  "css": {
+    "tooltip-fontsize": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "tooltip-color": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "tooltip-background": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "z-tooltip": {
+      "desc": "",
+      "type": "Number",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "tooltip-padding": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "tooltip-border-radius": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "breakpoint-xs-max": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "tooltip-mobile-fontsize": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "tooltip-mobile-padding": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

@@ -15,5 +15,63 @@
     "default": {
       "extends": "default"
     }
+  },
+  "css": {
+    "toolbar-padding": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "toolbar-min-height": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "toolbar-inset-size": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "toolbar-title-font-size": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "toolbar-title-font-weight": {
+      "desc": "",
+      "type": "Number",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "toolbar-title-letter-spacing": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "toolbar-title-padding": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

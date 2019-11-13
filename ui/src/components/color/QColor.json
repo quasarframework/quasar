@@ -74,5 +74,57 @@
       "extends": "input",
       "desc": "Emitted on lazy model value change (after user finishes selecting a color)"
     }
+  },
+  "css": {
+    "generic-border-radius": {
+      "desc": "QColorPicker's border radius",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": ".q-color-picker",
+        "property": "border-radius"
+      }]
+    },
+    "shadow-2": {
+      "desc": "QColorPicker's shadow",
+      "type": "shadow",
+      "affects": [{
+        "selector": ".q-color-picker",
+        "property": "box-shadow"
+      }]
+    },
+    "grey-7": {
+      "desc": "QColorPicker's slider track background color when the picker has alpha",
+      "type": "color",
+       "affects": [{
+         "selector": ".q-color-picker__alpha .q-slider__track-container",
+         "property": "background",
+         "template": "linear-gradient(90deg, rgba(255, 255, 255, 0), $value)"
+       }]
+    },
+    "grey-9": {
+      "desc": "QColorPicker's slider text color",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-color-picker__slider .q-slider",
+        "property": "color"
+      }]
+    },
+    "grey-4": {
+      "desc": "QColorPicker's input border color on the tune tab",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-color-picker__tune-tab input",
+        "property": "border",
+        "template": "1px solid $value"
+      }]
+    },
+    "grey-5": {
+      "desc": "QColorPicker's slider text color when the \"dark\" prop is true",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-color-picker--dark .q-slider",
+        "property": "box-shadow"
+      }]
+    }
   }
 }

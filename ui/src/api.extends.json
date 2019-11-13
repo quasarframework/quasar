@@ -230,5 +230,283 @@
       },
       "desc": "Triggers component to toggle between show/hide"
     }
+  },
+  
+  "css": {
+    "body-font-size": {
+      "desc": "Body's font size",
+      "type": "size",
+      "affects": [{
+        "selector": "body",
+        "property": "font-size"
+      }]
+    },
+    "body-line-height": {
+      "desc": "Body's line height",
+      "type": "size",
+      "affects": [{
+        "selector": "body",
+        "property": "line-height"
+      }]
+    },
+
+    "primary": {
+      "desc": "App's primary color",
+      "type": "color"
+    },
+    "secondary": {
+      "desc": "App's secondary color",
+      "type": "color"
+    },
+    "accent": {
+      "desc": "App's accent color",
+      "type": "color"
+    },
+
+    "dark-page": {
+      "desc": "App's body background on global dark mode",
+      "type": "color",
+      "affects": [{
+        "selector": "body.body--dark",
+        "property": "background"
+      }]
+    },
+    "dark": {
+      "desc": "App's dark color",
+      "type": "color",
+      "affects": [{
+        "selector": ".bg-dark",
+        "property": "background"
+      }, {
+        "selector": ".text-dark",
+        "property": "color"
+      }]
+    },
+
+    "positive": {
+      "desc": "App's positive color",
+      "type": "color"
+    },
+    "negative": {
+      "desc": "App's negative color",
+      "type": "color"
+    },
+    "info": {
+      "desc": "App's info color",
+      "type": "color"
+    },
+    "warning": {
+      "desc": "App's warning color",
+      "type": "color"
+    },
+
+    "dimmed-background": {
+      "desc": "App's dimmed background color",
+      "type": "color"
+    },
+    "light-dimmed-background": {
+      "desc": "App's light dimmed background color",
+      "type": "color"
+    },
+
+    "separator-color": {
+      "desc": "App's separator color",
+      "type": "color"
+    },
+    "separator-dark-color": {
+      "desc": "App's separator color on dark theme",
+      "type": "color"
+    },
+
+    "ios-statusbar-height": {
+      "type": "size"
+    },
+
+    "z-max": {
+      "type": "Number",
+      "desc": "Z-index for elements above everything else"
+    },
+
+    "shadow-transition": {
+      "desc": "Shadow transition",
+      "type": "transition"
+    },
+    "inset-shadow": {
+      "desc": "Inset shadow",
+      "type": "shadow"
+    },
+
+    "elevation-umbra": {
+      "desc": "Shadow's umbra elevation",
+      "type": "color"
+    },
+    "elevation-penumbra": {
+      "desc": "Shadow's penumbra elevation",
+      "type": "color"
+    },
+    "elevation-ambient": {
+      "desc": "Shadow's ambient elevation",
+      "type": "color"
+    },
+
+    "shadow-1": {
+      "type": "shadow"
+    },
+    "shadow-2": {
+      "type": "shadow"
+    },
+    "shadow-3": {
+      "type": "shadow"
+    },
+    "shadow-4": {
+			"type": "shadow"
+		},
+    "shadow-5": {
+			"type": "shadow"
+		},
+    "shadow-6": {
+			"type": "shadow"
+		},
+    "shadow-7": {
+			"type": "shadow"
+		},
+    "shadow-8": {
+			"type": "shadow"
+		},
+    "shadow-9": {
+			"type": "shadow"
+		},
+    "shadow-10": {
+			"type": "shadow"
+		},
+    "shadow-11": {
+			"type": "shadow"
+		},
+    "shadow-12": {
+			"type": "shadow"
+		},
+    "shadow-13": {
+			"type": "shadow"
+		},
+    "shadow-14": {
+			"type": "shadow"
+		},
+    "shadow-15": {
+			"type": "shadow"
+		},
+    "shadow-16": {
+			"type": "shadow"
+		},
+    "shadow-17": {
+			"type": "shadow"
+		},
+    "shadow-18": {
+			"type": "shadow"
+		},
+    "shadow-19": {
+			"type": "shadow"
+		},
+    "shadow-20": {
+			"type": "shadow"
+		},
+    "shadow-21": {
+			"type": "shadow"
+		},
+    "shadow-22": {
+			"type": "shadow"
+		},
+    "shadow-23": {
+			"type": "shadow"
+		},
+    "shadow-24": {
+			"type": "shadow"
+		},
+
+    "shadow-up-1": {
+			"type": "shadow"
+		},
+    "shadow-up-2": {
+			"type": "shadow"
+		},
+    "shadow-up-3": {
+			"type": "shadow"
+		},
+    "shadow-up-4": {
+			"type": "shadow"
+		},
+    "shadow-up-5": {
+			"type": "shadow"
+		},
+    "shadow-up-6": {
+			"type": "shadow"
+		},
+    "shadow-up-7": {
+			"type": "shadow"
+		},
+    "shadow-up-8": {
+			"type": "shadow"
+		},
+    "shadow-up-9": {
+			"type": "shadow"
+		},
+    "shadow-up-10": {
+			"type": "shadow"
+		},
+    "shadow-up-11": {
+			"type": "shadow"
+		},
+    "shadow-up-12": {
+			"type": "shadow"
+		},
+    "shadow-up-13": {
+			"type": "shadow"
+		},
+    "shadow-up-14": {
+			"type": "shadow"
+		},
+    "shadow-up-15": {
+			"type": "shadow"
+		},
+    "shadow-up-16": {
+			"type": "shadow"
+		},
+    "shadow-up-17": {
+			"type": "shadow"
+		},
+    "shadow-up-18": {
+			"type": "shadow"
+		},
+    "shadow-up-19": {
+			"type": "shadow"
+		},
+    "shadow-up-20": {
+			"type": "shadow"
+		},
+    "shadow-up-21": {
+			"type": "shadow"
+		},
+    "shadow-up-22": {
+			"type": "shadow"
+		},
+    "shadow-up-23": {
+			"type": "shadow"
+		},
+    "shadow-up-24": {
+			"type": "shadow"
+		},
+
+    "generic-border-radius": {
+      "desc": "App's default border radius",
+			"type": "size"
+		},
+    "generic-hover-transition": {
+      "desc": "App's default hover transition",
+			"type": "transition"
+		},
+    "typography-font-family": {
+      "desc": "App's font family",
+			"type": "font-family"
+		}
+
   }
 }

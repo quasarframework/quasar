@@ -68,5 +68,23 @@
     "input": {
       "extends": "input"
     }
+  },
+  "css": {
+    "rating-grade-color": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "rating-shadow": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

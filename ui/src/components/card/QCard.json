@@ -25,5 +25,40 @@
     "default": {
       "extends": "default"
     }
+  },
+  "css": {
+    "shadow-2": {
+      "desc": "QCard's shadow",
+      "extends": "shadow-2",
+      "affects": [{
+        "selector": ".q-card",
+        "property": "box-shadow"
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "QCard's border radius",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": ".q-card",
+        "property": "border-radius"
+      }]
+    },
+    "separator-color": {
+      "desc": "QCard's border color when using the \"bordered\" prop",
+      "extends": "separator-color",
+      "affects": [{
+        "selector": ".q-card--bordered",
+        "property": "border",
+        "template": "1px solid $value"
+      }]
+    },
+    "separator-dark-color": {
+      "desc": "QCard's border color when using the \"dark\" prop",
+      "extends": "separator-dark-color",
+      "affects": [{
+        "selector": ".q-card--dark",
+        "property": "border-color"
+      }]
+    }
   }
 }

@@ -152,5 +152,63 @@
         }
       }
     }
+  },
+  "css": {
+    "img-width": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "img-loading-font-size": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "img-background-repeat": {
+      "desc": "",
+      "type": "background-repeat",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "img-content-position": {
+      "desc": "",
+      "type": "position",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "img-content-padding": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "img-content-color": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "img-content-background": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }
