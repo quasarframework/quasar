@@ -110,7 +110,7 @@ If your comment simply reads "+1", then odds are that other reviewers aren't goi
 
 You can help improve the Quasar documentation by making it more coherent, consistent, or readable, adding missing information, correcting factual errors, fixing typos, or bringing them up to date with the latest edge Quasar.
 
-:::tip Typos or small changes can be fixed directly from the documentation
+::: tip Typos or small changes can be fixed directly from the documentation
 Use a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on the next screen `Create pull request`.
 :::
 
