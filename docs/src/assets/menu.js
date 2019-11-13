@@ -1177,7 +1177,7 @@ const backends = [
 
 module.exports = [
   {
-    name: 'Introduction to Quasar',
+    name: 'Why Quasar?',
     icon: 'room',
     path: 'introduction-to-quasar'
   },

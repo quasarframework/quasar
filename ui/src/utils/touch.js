@@ -82,14 +82,10 @@ export function cleanEvt (ctx, target) {
   }
 }
 
-const isDesktopIos = isSSR === false
-  ? client.is.mac === true && client.has.touch === true
-  : false
-
-export const getTouchTarget = (
-  isSSR === true ||
-  (client.is.ios !== true && isDesktopIos === false) ||
-  window.navigator.vendor.toLowerCase().indexOf('apple') === -1
+export const getTouchTarget = isSSR === false && (
+  client.is.ios === true ||
+  (client.is.mac === true && client.has.touch === true) || // is desktop view requested iOS
+  window.navigator.vendor.toLowerCase().indexOf('apple') > -1
 )
-  ? target => target
-  : () => document
+  ? () => document
+  : target => target

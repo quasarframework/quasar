@@ -29,13 +29,8 @@ export default Vue.extend({
       default: () => []
     },
 
-    itemsFn: {
-      type: Function
-    },
-
-    itemsSize: {
-      type: Number
-    },
+    itemsFn: Function,
+    itemsSize: Number,
 
     scrollTarget: {
       default: void 0

@@ -40,7 +40,7 @@
     },
 
     "text": {
-      "type": "String",
+      "type": "Array",
       "desc": "Array of strings that are the message body. Strings are not sanitized (see details in docs)",
       "examples": [ ":text=\"['How are you?']\"", ":text=\"['I\\'m good, thank you!', 'And you?']\"" ],
       "category": "content"
