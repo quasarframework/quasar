@@ -9,7 +9,8 @@ const
   resolvePath = file => path.resolve(distRoot, file),
   extraInterfaces = {},
   // eslint-disable-next-line no-useless-escape
-  toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
+  toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() }),
+  apiBlacklist = []
 
 function writeLine (fileContent, line = '', indent = 0) {
   fileContent.push(`${line.padStart(line.length + (indent * 4), ' ')}\n`)
@@ -146,7 +147,7 @@ function getInjectionDefinition (injectionName, typeDef) {
   }
 }
 
-function copyPredefinedTypes (dir, parentDir) {
+function copyPredefinedTypes (dir, parentDir, blacklists = false) {
   fs.readdirSync(dir).forEach(file => {
     const fullPath = path.resolve(dir, file)
     const stats = fs.lstatSync(fullPath)
@@ -155,13 +156,16 @@ function copyPredefinedTypes (dir, parentDir) {
         resolvePath(parentDir ? parentDir + file : file),
         fs.readFileSync(fullPath)
       )
+      if (blacklists) {
+        apiBlacklist.push(file.replace('.d.ts', ''))
+      }
     }
     else if (stats.isDirectory()) {
       const p = resolvePath(parentDir ? parentDir + file : file)
       if (!fs.existsSync(p)) {
         fs.mkdirSync(p)
       }
-      copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
+      copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/', file === 'api')
     }
   })
 }
@@ -216,6 +220,11 @@ function writeIndexDTS (apis) {
   apis.forEach(data => {
     const content = data.api
     const typeName = data.name
+    if (apiBlacklist.includes(typeName)) {
+      writeLine(contents, `export * from './api/${typeName}'`)
+      writeLine(contents)
+      return
+    }
 
     const extendsVue = (content.type === 'component' || content.type === 'mixin')
     const typeValue = `${extendsVue ? `VueConstructor<${typeName}>` : typeName}`
