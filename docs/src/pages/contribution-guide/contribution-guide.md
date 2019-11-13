@@ -110,11 +110,23 @@ If your comment simply reads "+1", then odds are that other reviewers aren't goi
 
 You can help improve the Quasar documentation by making it more coherent, consistent, or readable, adding missing information, correcting factual errors, fixing typos, or bringing them up to date with the latest edge Quasar.
 
-::: tip Typos or small changes can be fixed directly from the documentation
-Use a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on next screen `Create pull request`.
+:::tip Typos or small changes can be fixed directly from the documentation
+Use a pencil icon in the top right corner of every documentation page. Edit the source file, preview the changes, add a description of your change and hit `Propose a file change` and on the next screen `Create pull request`.
 :::
 
 For larger edits change the Quasar source files (located [here](https://github.com/quasarframework/quasar/tree/dev/docs/src/pages) on GitHub).
+
+### Documentation Best Practices
+
+Over time we consolidated a set of rules which we follow and following them will speed up the merge process:
+- Capitalize titles, see [How to Use Capitalize My Title](https://capitalizemytitle.com/).
+- Use the present tense.
+- Be concise, avoid text / code duplication.
+- Link to the external sources which are used as master information sources and are usually updated more frequently, like [Mozilla MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript), [Vue.js API](https://vuejs.org/v2/api/) rather than compiled tutorials which tend to be outdated soon.
+- Do the proofreading before opening a PR
+- Do not repeat texts from other sources, but repeat keep only things which are relevant and shows in a context Quasar specific features
+- Use official names. For example use `Firebase` instead of `firebase`
+- Exclude from PR all drafts and unfinished pages
 
 #### Fork
 
