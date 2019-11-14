@@ -2,7 +2,7 @@
   <div class="q-layout-padding q-mx-auto" style="max-width: 600px">
     <h6>Pan the items below (QPullToRefresh on list)</h6>
 
-    <div class="scroll q-pa-sm bg-grey-4" style="max-height: 50vh">
+    <div class="scroll q-pa-sm bg-grey-4" style="max-height: 75vh">
       <q-pull-to-refresh @refresh="refresh">
         <q-list bordered separator>
           <q-item>
@@ -13,6 +13,71 @@
               <q-slider v-model="slider" :min="0" :max="20" />
             </q-item-section>
           </q-item>
+
+          <q-slide-item
+            @left="onLeft"
+            @right="onRight"
+            @click.native="onClickItem"
+          >
+            <template v-slot:left>
+              <q-icon name="alarm" />
+            </template>
+            <template v-slot:right>
+              <q-icon name="alarm" />
+            </template>
+            <q-item>
+              <q-item-section side class="q-gutter-y-sm">
+                <q-btn size="sm" unelevated color="primary" label="Btn" @click="onClick" />
+                <q-btn size="sm" unelevated color="primary" to="#test" label="Link" @click="onClick" />
+              </q-item-section>
+              <q-item-section>
+                <q-item-label>
+                  Item LR
+                  <q-slider v-model="slider" :min="0" :max="20" />
+                </q-item-label>
+              </q-item-section>
+              <q-slide-item
+                @left="onLeft"
+                @right="onRight"
+                @click.native="onClickItem"
+              >
+                <template v-slot:left>
+                  <q-icon name="alarm" />
+                </template>
+                <template v-slot:right>
+                  <q-icon name="alarm" />
+                </template>
+                <q-item class="bg-yellow">
+                  <q-item-section side class="q-gutter-y-sm">
+                    <q-btn size="sm" unelevated color="primary" label="Btn" @click="onClick" />
+                    <q-btn size="sm" unelevated color="primary" to="#test" label="Link" @click="onClick" />
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>
+                      Item LR
+                    </q-item-label>
+                    <q-slider v-model="slider" :min="0" :max="20" />
+                  </q-item-section>
+                  <q-item-section side class="q-gutter-y-sm">
+                    <q-chip size="md" square color="deep-orange" text-color="white">
+                      Left
+                    </q-chip>
+                    <q-chip size="md" square color="deep-orange" text-color="white">
+                      Right
+                    </q-chip>
+                  </q-item-section>
+                </q-item>
+              </q-slide-item>
+              <q-item-section side class="q-gutter-y-sm">
+                <q-chip size="md" square color="deep-orange" text-color="white">
+                  Left
+                </q-chip>
+                <q-chip size="md" square color="deep-orange" text-color="white">
+                  Right
+                </q-chip>
+              </q-item-section>
+            </q-item>
+          </q-slide-item>
 
           <q-slide-item
             @left="onLeft"
