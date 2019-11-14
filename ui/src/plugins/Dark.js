@@ -76,6 +76,10 @@ export default {
     document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
   },
 
+  toggle () {
+    this.set(!this.isActive)
+  },
+
   __media: void 0,
 
   __updateMedia () {
