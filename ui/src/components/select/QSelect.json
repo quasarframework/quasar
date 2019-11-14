@@ -110,7 +110,8 @@
 
     "options-selected-class": {
       "type": "String",
-      "desc": "CSS class name for options that are active/selected",
+      "desc": "CSS class name for options that are active/selected; Set it to an empty string to stop applying the default",
+      "default": "'text-' + QSelect color prop (text-primary if color is default)",
       "examples": [ "text-orange" ],
       "category": "options"
     },
