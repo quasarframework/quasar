@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
+import TouchSwipe from '../../directives/TouchSwipe.js'
 
 import slot from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
@@ -15,6 +16,10 @@ export default Vue.extend({
   name: 'QDate',
 
   mixins: [ DateTimeMixin ],
+
+  directives: {
+    TouchSwipe
+  },
 
   props: {
     title: String,
@@ -49,11 +54,14 @@ export default Vue.extend({
   },
 
   data () {
-    const { inner, external } = this.__getModels(this.value, this.mask, this.__getComputedLocale())
+    const
+      { inner, external } = this.__getModels(this.value, this.mask, this.__getComputedLocale()),
+      direction = this.$q.lang.rtl === true ? 'right' : 'left'
+
     return {
       view: this.defaultView,
-      monthDirection: 'left',
-      yearDirection: 'left',
+      monthDirection: direction,
+      yearDirection: direction,
       startYear: inner.year - inner.year % yearsInterval,
       innerModel: inner,
       extModel: external
@@ -72,7 +80,7 @@ export default Vue.extend({
       }
 
       if (inner.dateHash !== this.innerModel.dateHash) {
-        this.monthDirection = this.innerModel.dateHash < inner.dateHash ? 'left' : 'right'
+        this.monthDirection = (this.innerModel.dateHash < inner.dateHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
         if (inner.year !== this.innerModel.year) {
           this.yearDirection = this.monthDirection
         }
@@ -142,7 +150,7 @@ export default Vue.extend({
 
     dateArrow () {
       const val = [ this.$q.iconSet.datetime.arrowLeft, this.$q.iconSet.datetime.arrowRight ]
-      return this.$q.lang.rtl ? val.reverse() : val
+      return this.$q.lang.rtl === true ? val.reverse() : val
     },
 
     computedFirstDayOfWeek () {
@@ -259,6 +267,17 @@ export default Vue.extend({
       }
 
       return res
+    },
+
+    contentPanelDirectives () {
+      return [{
+        name: 'touch-swipe',
+        value: this.__contentPanelSwipe,
+        modifiers: {
+          horizontal: true,
+          mouse: true
+        }
+      }]
     }
   },
 
@@ -652,22 +671,22 @@ export default Vue.extend({
       if (month === 13) {
         month = 1
         this.innerModel.year++
-        yearDir = 'left'
+        yearDir = (this.$q.lang.rtl !== true) ? 'left' : 'right'
       }
       else if (month === 0) {
         month = 12
         this.innerModel.year--
-        yearDir = 'right'
+        yearDir = (this.$q.lang.rtl !== true) ? 'right' : 'left'
       }
 
-      this.monthDirection = offset > 0 ? 'left' : 'right'
+      this.monthDirection = (offset > 0) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
       this.yearDirection = yearDir
       this.innerModel.month = month
       this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
     __goToYear (offset) {
-      this.monthDirection = this.yearDirection = offset > 0 ? 'left' : 'right'
+      this.monthDirection = this.yearDirection = (offset > 0) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
       this.innerModel.year = Number(this.innerModel.year) + offset
       this.emitImmediately === true && this.__updateValue({}, 'year')
     },
@@ -732,7 +751,7 @@ export default Vue.extend({
         const curHash = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(this.innerModel.day)
 
         if (newHash !== curHash) {
-          this.monthDirection = curHash < newHash ? 'left' : 'right'
+          this.monthDirection = (curHash < newHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
           if (date.year !== this.innerModel.year) {
             this.yearDirection = this.monthDirection
           }
@@ -748,13 +767,28 @@ export default Vue.extend({
           })
         }
       }
+    },
+
+    __contentPanelSwipe (evt) {
+      const direction = (evt.direction === 'left') === (this.$q.lang.rtl !== true) ? 1 : -1
+
+      if (this.view === 'Years') {
+        this.startYear += direction * yearsInterval
+      }
+      else if (this.view === 'Months') {
+        this.__goToYear(direction)
+      }
+      else {
+        this.__goToMonth(direction)
+      }
     }
   },
 
   render (h) {
     const content = [
       h('div', {
-        staticClass: 'q-date__content col relative-position'
+        staticClass: 'q-date__content col relative-position',
+        directives: this.contentPanelDirectives
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
