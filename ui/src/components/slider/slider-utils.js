@@ -10,7 +10,7 @@ export function getRatio (evt, dragging, rtl) {
     pos = position(evt),
     val = between((pos.left - dragging.left) / dragging.width, 0, 1)
 
-  return rtl ? 1.0 - val : val
+  return rtl === true ? 1.0 - val : val
 }
 
 export function getModel (ratio, min, max, step, decimals) {

@@ -121,10 +121,10 @@ export default Vue.extend({
         pos: this.position,
         active,
         horiz: this.horizontal,
-        reverse: this.$q.lang.rtl && ['top', 'bottom'].includes(this.position)
+        reverse: this.$q.lang.rtl === true && ['top', 'bottom'].includes(this.position)
           ? !this.reverse
           : this.reverse,
-        dir: this.$q.lang.rtl ? -1 : 1
+        dir: this.$q.lang.rtl === true ? -1 : 1
       })
 
       o[this.sizeProp] = this.size
