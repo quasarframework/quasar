@@ -49,7 +49,7 @@ Example of adding a few npm scripts into your `package.json`:
 }
 ```
 
-The above will allow you to run `$ yarn dev` or `$yarn build` without the need of a globally installed `@quasar/cli`, should you wish to do so.
+The above will allow you to run `$ yarn dev` or `$ yarn build` without the need of a globally installed `@quasar/cli`, should you wish to do so.
 
 Alternatively, you can even use [npx](https://github.com/npm/npx) to run quasar commands without the need of a globally installed `@quasar/cli`.
 
