@@ -51,6 +51,7 @@ When enabled (through `quasar.conf.js > framework > cssAddon: true`) it provides
 
 Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 
+## Table of permutations
 
 | Prefix | Type | Direction | Size | Example |
 |--------|------|-----------|------|---------
