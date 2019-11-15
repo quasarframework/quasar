@@ -25,7 +25,7 @@ export PATH="$(yarn global bin):$PATH"
 Then we create a project folder with Quasar CLI:
 
 ```bash
-$ quasar create <folder_name>
+$ quasar init <folder_name>
 ```
 
 Note that you don't need separate projects if you want to build any of the available platforms. This one project can seamlessly handle all of them.
