@@ -17,9 +17,11 @@
         @mousedown="e => onEvt('mousedown', e)"
         @mousemove="e => onEvt('mousemove', e)"
         @mouseup="e => onEvt('mouseup', e)"
-        class="custom-area row flex-center"
+        class="custom-area row flex-center relative-position"
         ref="area"
       >
+        <q-icon class="absolute-top-left" size="md" name="drag_indicator" draggable />
+
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
         </div>

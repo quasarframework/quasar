@@ -179,6 +179,8 @@ export default {
       mouseStart (evt) {
         if (
           ctx.event === void 0 &&
+          evt.target !== void 0 &&
+          evt.target.draggable !== true &&
           leftClick(evt) === true &&
           (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1)
         ) {
@@ -195,6 +197,7 @@ export default {
         if (
           ctx.event === void 0 &&
           evt.target !== void 0 &&
+          evt.target.draggable !== true &&
           (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1)
         ) {
           const target = getTouchTarget(evt.target)
