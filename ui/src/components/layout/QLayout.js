@@ -93,6 +93,10 @@ export default Vue.extend({
           width: `calc(100% + ${this.scrollbarWidth}px)`
         }
       }
+    },
+
+    totalWidth () {
+      return this.width + this.scrollbarWidth
     }
   },
 
