@@ -88,7 +88,7 @@
 
     "default-opened": {
       "type": "Boolean",
-      "desc": "Puts expansion item into open state on initial render; Overriden by v-model if used",
+      "desc": "Puts expansion item into open state on initial render; Overridden by v-model if used",
       "category": "behavior"
     },
 

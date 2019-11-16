@@ -538,7 +538,7 @@ $ quasar serve -h
     --port, -p              Port to use (default: 4000)
     --hostname, -H          Address to use (default: 0.0.0.0)
     --gzip, -g              Compress content (default: true)
-    --silent, -s            Supress log message
+    --silent, -s            Suppress log message
     --colors                Log messages with colors (default: true)
     --open, -o              Open browser window after starting
     --cache, -c <number>    Cache time (max-age) in seconds;
