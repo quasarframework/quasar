@@ -89,11 +89,11 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
 1. Open the [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab the npm TOKENID (login if necessary).
 2. Create or append TOKENID into the `.npmrc` file  (file path same as package.json):
   ```
-  @fontawesome:registry=https://npm.fontawesome.com/TOKENID
+  @fortawesome:registry=https://npm.fontawesome.com/TOKENID
   ```
 3. Install Fontawesome webfonts:
   ```bash
-  $ yarn add @fontawesome/fontawesome-pro
+  $ yarn add @fortawesome/fontawesome-pro
   ```
 4. Create new boot file:
   ```bash
@@ -116,12 +116,12 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
 6. Edit `/src/boot/fontawesome-pro.js`:
   ```js
   // required
-  import '@fontawesome/fontawesome-pro/css/fontawesome.css'
-  import '@fontawesome/fontawesome-pro/css/light.css'
+  import '@fortawesome/fontawesome-pro/css/fontawesome.css'
+  import '@fortawesome/fontawesome-pro/css/light.css'
   // do you want these too?
-  // import '@fontawesome/fontawesome-pro/css/brands.css'
-  // import '@fontawesome/fontawesome-pro/css/solid.css'
-  // import '@fontawesome/fontawesome-pro/css/regular.css'
+  // import '@fortawesome/fontawesome-pro/css/brands.css'
+  // import '@fortawesome/fontawesome-pro/css/solid.css'
+  // import '@fortawesome/fontawesome-pro/css/regular.css'
   ```
 7. (Optional) Override default icons:
 
@@ -144,9 +144,9 @@ _Then_, override it in your `/src/boot/fontawesome-pro.js`
 ```js
 import Vue from 'vue'
 
-import '@fontawesome/fontawesome-pro/css/fontawesome.min.css'
-import '@fontawesome/fontawesome-pro/css/solid.min.css'
-import '@fontawesome/fontawesome-pro/css/light.min.css'
+import '@fortawesome/fontawesome-pro/css/fontawesome.min.css'
+import '@fortawesome/fontawesome-pro/css/solid.min.css'
+import '@fortawesome/fontawesome-pro/css/light.min.css'
 
 // example
 Vue.prototype.$q.iconSet.chip.remove = 'fas fa-times-circle'
