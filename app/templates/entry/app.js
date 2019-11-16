@@ -23,11 +23,6 @@ import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
-<% if (ctx.mode.capacitor) { %>
-import { Plugins } from '@capacitor/core'
-const { SplashScreen } = Plugins
-<% } %>
-
 export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
