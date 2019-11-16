@@ -27,7 +27,7 @@ QRouteTab won't and cannot work with the UMD version because in that environment
 ## Usage
 
 ::: tip
-QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action. On a desktop you will see chevons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
+QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action. On a desktop you will see chevrons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
 :::
 
 ### Basic

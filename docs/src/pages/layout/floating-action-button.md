@@ -21,7 +21,7 @@ If you want a non-expandable FAB, all you need is a round button – wrapped in 
 
 <doc-example title="Basic" file="QFab/NonExpandable" />
 
-### Exandable
+### Expandable
 
 <doc-example title="Expandable" file="QFab/Expandable" />
 
