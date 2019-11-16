@@ -50,10 +50,7 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
     <%= store ? 'store,' : '' %>
-    render: h => h(App)<% if (ctx.mode.capacitor) { %>,
-    mounted () {
-      SplashScreen.hide()
-    }<% } %>
+    render: h => h(App)
   }
 
   <% if (ctx.mode.ssr) { %>
