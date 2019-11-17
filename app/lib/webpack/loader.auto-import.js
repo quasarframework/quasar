@@ -47,7 +47,12 @@ function extract (content, form) {
 }
 
 module.exports = function (content) {
-  if (!this.resourceQuery) {
+  // regex to match functional components
+  let funcCompRegex = new RegExp(
+    'var\\s+component\\s*=\\s*normalizer\\((?:[^,]+,){3}\\s*true,'
+  )
+
+  if (!this.resourceQuery && !content.match(funcCompRegex)) {  
     const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
     const { comp, dir } = extract(file, this.query)
 
