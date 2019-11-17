@@ -1,5 +1,8 @@
 // Configuration for your app
-const path = require('path')
+const fs = require('fs'),
+  path = require('path')
+
+const apiDocsMetaGenerator = require('./build/api-docs-meta')
 
 module.exports = function (ctx) {
   return {
@@ -71,6 +74,16 @@ module.exports = function (ctx) {
 
         rule.use('md-loader')
           .loader(require.resolve('./build/md-loader'))
+      },
+
+      beforeDev () {
+        if (!fs.existsSync(apiDocsMetaGenerator.outputFolder)) {
+          apiDocsMetaGenerator.generate()
+        }
+      },
+
+      beforeBuild () {
+        apiDocsMetaGenerator.generate()
       }
     },
 

@@ -1,4 +1,6 @@
 import './ApiRows.sass'
+import { QBtn } from 'quasar'
+import DocExamplesDialog from './DocExamplesDialog'
 
 function getEventParams (event) {
   const params = event.params === void 0 || event.params.length === 0
@@ -56,7 +58,8 @@ export default {
   props: {
     which: String,
     apiKey: String,
-    api: Object
+    api: Object,
+    docsMeta: Object
   },
 
   methods: {
@@ -67,6 +70,15 @@ export default {
           ? h('div', { staticClass: 'api-row__value' }, [ propValue ])
           : slot
       ])
+    },
+
+    __openLiveExamples (prop) {
+      return () => {
+        this.$q.dialog({
+          component: DocExamplesDialog,
+          docsMeta: prop.docsMeta
+        })
+      }
     },
 
     getProp (h, prop, propName, level, onlyChildren) {
@@ -233,6 +245,23 @@ export default {
       }
 
       if (prop.examples !== void 0) {
+        const examples = prop.examples.map(example => h('div', {
+          staticClass: 'api-row__example'
+        }, [example]))
+
+        if (prop.docsMeta !== void 0 && prop.docsMeta.examples !== void 0) {
+          examples.push(h(QBtn, {
+            props: {
+              label: 'Live Examples',
+              flat: true,
+              color: 'accent'
+            },
+            on: {
+              click: this.__openLiveExamples(prop)
+            }
+          }))
+        }
+
         child.push(
           this.getDiv(h, 12,
             `Example${prop.examples.length > 1 ? 's' : ''}`,
@@ -240,9 +269,7 @@ export default {
             h(
               'div',
               { staticClass: 'api-row--indent api-row__value' },
-              prop.examples.map(example => h('div', {
-                staticClass: 'api-row__example'
-              }, [ example ]))
+              examples
             )
           )
         )
@@ -253,12 +280,15 @@ export default {
         : child
     },
 
-    props (h, props) {
+    props (h, props, docsMeta) {
       const child = []
 
       for (let propName in props) {
         child.push(
-          this.getProp(h, props[propName], propName, 0)
+          this.getProp(h, {
+            ...props[propName],
+            docsMeta: docsMeta[propName] || {}
+          }, propName, 0)
         )
       }
 
@@ -500,9 +530,10 @@ export default {
 
   render (h) {
     const api = this.api[this.apiKey || this.which]
+    const meta = (this.docsMeta && this.docsMeta[this.which]) || {}
 
     const content = Object.keys(api).length !== 0
-      ? this[this.which](h, api)
+      ? this[this.which](h, api, meta)
       : [
         h('div', { staticClass: 'q-pa-md text-grey-7' }, [
           'No matching entries found. Please refine the filter.'

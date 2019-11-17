@@ -69,9 +69,9 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
           transition-next="slide-up"
         )
           q-tab-panel(v-for="category in apiTabs(tab)", :name="category", :key="category", class="q-pa-none")
-            ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]")
+            ApiRows(:which="tab", :apiKey="category", :api="filteredApi[tab]" :docsMeta="docsMeta")
       .api-container(v-else)
-        ApiRows(:which="tab", :api="filteredApi")
+        ApiRows(:which="tab", :api="filteredApi" :docsMeta="docsMeta")
 </template>
 
 <script>
@@ -123,7 +123,8 @@ export default {
       },
       filter: '',
       filteredApi: {},
-      tabCount: {}
+      tabCount: {},
+      docsMeta: null
     }
   },
 
@@ -297,6 +298,12 @@ export default {
       /* webpackMode: "lazy-once" */
       `quasar/dist/api/${this.file}.json`
     ).then(json => {
+      let docsMeta = null
+      try {
+        docsMeta = require(`../statics/api/${this.file}.json`)
+      }
+      catch {}
+      this.docsMeta = docsMeta
       this.parseJson(this.file, json.default)
       this.ready = true
     })
