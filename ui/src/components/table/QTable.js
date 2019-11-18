@@ -139,7 +139,7 @@ export default Vue.extend({
       if (rows.length === 0) {
         return {
           rowsNumber: 0,
-          rows: []
+          rows
         }
       }
 

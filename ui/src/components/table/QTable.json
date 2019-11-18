@@ -1275,7 +1275,7 @@
           "type": "Array",
           "desc": "The updated selected array",
           "examples": [
-            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6, __index: 0 } ]"
+            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6 } ]"
           ]
         }
       }
