@@ -27,6 +27,9 @@
     <q-btn class="float-right" round dense flat icon="share" @click="share">
       <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
     </q-btn>
+    <q-btn class="float-right" round dense flat icon="fab fa-codepen" @click="editInCodepen">
+      <q-tooltip>Edit in Codepen</q-tooltip>
+    </q-btn>
     <q-btn class="float-right" label="Add Child" icon="add" dense flat :disabled="children.length >= 10" @click="addChild" />
     <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
       <div id="parent" :class="classes" style="overflow: hidden;">
@@ -44,11 +47,14 @@
     <q-input filled v-model="childClasses" dense readonly class="q-py-sm" />
     <div class="text-weight-medium q-mt-sm">Child Styles</div>
     <q-input filled v-model="childStyles" dense readonly class="q-py-sm" />
+
+    <codepen ref="codepen" title="Flex example" slugifiedTitle="flex-example" />
   </div>
 </template>
 
 <script>
 import Child from './FlexChild'
+import Codepen from '../../../Codepen'
 import { copyToClipboard } from 'assets/page-utils'
 
 const queryParams = {
@@ -67,7 +73,8 @@ export default {
   name: 'FlexPlayground',
 
   components: {
-    Child
+    Child,
+    Codepen
   },
 
   data () {
@@ -217,6 +224,30 @@ export default {
       setTimeout(() => {
         this.copied = false
       }, 1500)
+    },
+    editInCodepen () {
+      const children = this.children.map((child, index) => {
+        const childRef = this.$refs[`child${index}`]
+        return `<div class="${childRef[0].classes} bg-grey-6" style="${childRef[0].styles}">
+          <q-card>
+            <q-card-section>
+              Child #${index}
+            </q-card-section>
+          </q-card>
+        </div>`
+      })
+
+      const template = `
+        <div class="flex flex-center column">
+          <div class="text-h6">Flex playground example</div>
+          <div class="row bg-blue-grey-2" style="min-height: 400px; width: 80%; padding: 24px;">
+            <div id="parent" class="${this.classes}" style="overflow: hidden;">
+              ${children}
+            </div>
+          </div>
+        </div>
+      `
+      this.$refs.codepen.open({ template })
     }
   }
 }

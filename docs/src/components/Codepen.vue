@@ -32,11 +32,10 @@ export default {
 
   props: {
     title: String,
-    slugifiedTitle: String,
-    parts: Object
+    slugifiedTitle: String
   },
 
-  data: () => ({ active: false }),
+  data: () => ({ active: false, parts: {} }),
 
   computed: {
     css () {
@@ -79,6 +78,7 @@ export default {
         .replace(/___TEMP_REPLACEMENT___/gs, '>')
         .trim()
     },
+
     editors () {
       const flag = (this.html && 0b100) | (this.css && 0b010) | (this.js && 0b001)
       return flag.toString(2)
@@ -124,7 +124,8 @@ export default {
   },
 
   methods: {
-    open () {
+    open (parts) {
+      this.parts = parts
       if (this.active) {
         this.$el.submit()
         return
