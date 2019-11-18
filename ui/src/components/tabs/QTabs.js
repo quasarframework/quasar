@@ -229,7 +229,7 @@ export default Vue.extend({
       const
         size = domSize[this.domProps.container],
         scrollSize = this.$refs.content[this.domProps.content],
-        scroll = size > 0 && scrollSize > size // when there is not tab, in Chrome,  size === 0 and scrollSize === 1
+        scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
