@@ -40,7 +40,12 @@ export default {
       noop () {},
 
       mouseStart (evt) {
-        if (ctx.event === void 0 && leftClick(evt)) {
+        if (
+          ctx.event === void 0 &&
+          evt.target !== void 0 &&
+          evt.target.draggable !== true &&
+          leftClick(evt)
+        ) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', `notPassive${mouseCapture}` ],
             [ document, 'mouseup', 'end', 'notPassiveCapture' ]
@@ -50,7 +55,11 @@ export default {
       },
 
       touchStart (evt) {
-        if (ctx.event === void 0 && evt.target !== void 0) {
+        if (
+          ctx.event === void 0 &&
+          evt.target !== void 0 &&
+          evt.target.draggable !== true
+        ) {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'notPassiveCapture' ],
