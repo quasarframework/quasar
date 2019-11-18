@@ -164,6 +164,77 @@ The `reverse-fill-mask` is useful if you want to force the user to fill the mask
 
 <doc-example title="Filling the mask in reverse" file="QInput/MaskFillReverse" />
 
+### Using third party mask processors
+
+You can easily use any third party mask processor by doing a few small adjustments to your QInput.
+
+Starting from a QInput like this:
+
+```html
+<q-input
+  filled
+  v-model="price"
+  label="Price with 2 decimals"
+  mask="#.##"
+  fill-mask="#"
+  reverse-fill-mask
+  hint="Mask: #.00"
+  input-class="text-right"
+/>
+```
+
+You can use v-money directive:
+
+```html
+<q-field
+  filled
+  v-model="price"
+  label="Price with v-money directive"
+  hint="Mask: $ #,###.00 #"
+>
+  <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+    <input :id="id" class="q-field__native text-right" :value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+  </template>
+</q-field>
+```
+
+```javascript
+moneyFormatForDirective: {
+  decimal: '.',
+  thousands: ',',
+  prefix: '$ ',
+  suffix: ' #',
+  precision: 2,
+  masked: false /* doesn't work with directive */
+}
+```
+
+Or you can use money component:
+
+```html
+<q-field
+  filled
+  v-model="price"
+  label="Price with v-money component"
+  hint="Mask: $ #,###.00 #"
+>
+  <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+    <money :id="id" class="q-field__native text-right" :value="value" @input="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
+  </template>
+</q-field>
+```
+
+```javascript
+moneyFormatForComponent: {
+  decimal: '.',
+  thousands: ',',
+  prefix: '$ ',
+  suffix: ' #',
+  precision: 2,
+  masked: true
+}
+```
+
 ## Validation
 
 ### Internal validation
