@@ -79,6 +79,12 @@
         </div>
       </template>
     </q-btn-toggle>
+
+    <q-btn-toggle v-model="model" :options="[
+      {label: 'One Clearable', value: 'one'},
+      {label: 'Two', value: 'two'}
+    ]" clearable
+    />
   </div>
 </template>
 
