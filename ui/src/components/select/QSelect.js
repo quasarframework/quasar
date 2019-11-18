@@ -225,7 +225,7 @@ export default Vue.extend({
         const itemProps = {
           clickable: true,
           active: false,
-          activeClass: this.optionsSelectedClass,
+          activeClass: this.computedOptionsSelectedClass,
           manualFocus: true,
           focused: false,
           disable,
@@ -273,6 +273,12 @@ export default Vue.extend({
         this.standout !== true &&
         this.borderless !== true &&
         this.rounded !== true
+    },
+
+    computedOptionsSelectedClass () {
+      return this.optionsSelectedClass !== void 0
+        ? this.optionsSelectedClass
+        : (this.color !== void 0 ? `text-${this.color}` : '')
     }
   },
 
