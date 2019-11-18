@@ -126,12 +126,14 @@ export default {
   methods: {
     open (parts) {
       this.parts = parts
+
       if (this.active) {
         this.$el.submit()
         return
       }
 
       this.active = true
+
       this.$nextTick(() => {
         this.$el.submit()
       })

@@ -8,7 +8,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
     div.col-auto
       q-btn(dense, flat, round, icon="fab fa-github", @click="openGitHub")
         q-tooltip View on GitHub
-      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open(parts)")
+      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, icon="fab fa-codepen", @click="openCodepen")
         q-tooltip Edit in Codepen
       q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
         q-tooltip View Source
@@ -152,6 +152,10 @@ export default {
 
     openGitHub () {
       openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${this.file}.vue`)
+    },
+
+    openCodepen () {
+      this.$refs.codepen.open(this.parts)
     }
   }
 }
