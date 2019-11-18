@@ -52,7 +52,7 @@ function extract (content, form) {
 }
 
 module.exports = function (content) {
-  if (!this.resourceQuery && !content.match(funcCompRegex)) {  
+  if (!this.resourceQuery && funcCompRegex.test(content) === false) {
     const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
     const { comp, dir } = extract(file, this.query)
 
