@@ -125,7 +125,7 @@ export default Vue.extend({
         this.$q.iconSet.pagination.next,
         this.$q.iconSet.pagination.last
       ]
-      return this.$q.lang.rtl ? ico.reverse() : ico
+      return this.$q.lang.rtl === true ? ico.reverse() : ico
     }
   },
 
