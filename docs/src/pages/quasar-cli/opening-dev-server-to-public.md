@@ -26,7 +26,7 @@ Forwarding HTTP traffic from https://randomsubdomain.serveo.net
 Press g to start a GUI session and ctrl-c to quit.
 ```
 
-3. if you want to get fancy, you can even request your own subdomain like so
+3. If you want to get fancy, you can even request your own subdomain like so
 ``` bash
 $ ssh -R mysubdomain:80:localhost:8080 serveo.net
 Hi there
