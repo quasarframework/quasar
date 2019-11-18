@@ -118,7 +118,7 @@ function runWindows (mode, bin, target) {
         : appPaths.resolve.capacitor('android')
 
       open(folder, {
-        app: studioPath,
+        app: `"${studioPath}"`,
         wait: false
       })
 
