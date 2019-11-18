@@ -234,6 +234,7 @@ export default Vue.extend({
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
       }
+
       // Arrows need to be updated even if the scroll status was already true
       scroll === true && this.$nextTick(() => this.__updateArrows())
 
