@@ -67,7 +67,7 @@ export default {
     hr: 'remove',
     undo: 'ion-undo',
     redo: 'ion-redo',
-    header: 'format_size',
+    heading: 'format_size',
     code: 'ion-code',
     size: 'format_size',
     font: 'font_download',
