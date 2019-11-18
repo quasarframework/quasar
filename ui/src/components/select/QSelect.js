@@ -278,7 +278,7 @@ export default Vue.extend({
     computedOptionsSelectedClass () {
       return this.optionsSelectedClass !== void 0
         ? this.optionsSelectedClass
-        : 'text-' + this.color
+        : (this.color !== void 0 ? `text-${this.color}` : '')
     }
   },
 
