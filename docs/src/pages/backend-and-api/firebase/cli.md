@@ -1,4 +1,4 @@
 ---
 title: CLI
-desc: Firebase ClI instrcutions for the Quasar framework.
+desc: Firebase ClI instructions for the Quasar framework.
 ---

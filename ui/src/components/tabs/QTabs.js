@@ -229,12 +229,14 @@ export default Vue.extend({
       const
         size = domSize[this.domProps.container],
         scrollSize = this.$refs.content[this.domProps.content],
-        scroll = scrollSize > size
+        scroll = size > 0 && scrollSize > size // when there is no tab, in Chrome, size === 0 and scrollSize === 1
 
       if (this.scrollable !== scroll) {
         this.scrollable = scroll
-        scroll === true && this.$nextTick(() => this.__updateArrows())
       }
+
+      // Arrows need to be updated even if the scroll status was already true
+      scroll === true && this.$nextTick(() => this.__updateArrows())
 
       const justify = size < parseInt(this.breakpoint, 10)
 

@@ -8,7 +8,7 @@ Email Authentication is one of a handful of authentication methods provided by F
 - In the Firebase console, open the Auth section.
 - On the Sign-in method tab, enable the Email/password sign-in method and click Save.
 
-Moving forward a form is needed for the user to register or login. This can be achieved by creating a page called `Auth.vue` which will house both registration and loggin in.
+Moving forward a form is needed for the user to register or login. This can be achieved by creating a page called `Auth.vue` which will house both registration and logging in.
 
 ```bash
 $ quasar new page Auth
@@ -50,7 +50,7 @@ export default ({ router, store, Vue }) => {
 }
 ```
 
-A couple of additions now that we're going to be authenticating users. First we're combining our separate services, `base` & `email` into one service: `firebaseService`. Then we need to listen for changes in Firebase when the Auth service initializes and when a user authentication status changes. This is where `onAuthStateChanged` will be handled. Once the service is done initialzing we pass the user state over to the method `handleOnAuthStateChanged` over to our base service. We're also setting up our navigational guard here in the boot file with vue-router's `beforeEach` hook. Again we pass the applications route state over to our base serverice as well.
+A couple of additions now that we're going to be authenticating users. First we're combining our separate services, `base` & `email` into one service: `firebaseService`. Then we need to listen for changes in Firebase when the Auth service initializes and when a user authentication status changes. This is where `onAuthStateChanged` will be handled. Once the service is done initializing we pass the user state over to the method `handleOnAuthStateChanged` over to our base service. We're also setting up our navigational guard here in the boot file with vue-router's `beforeEach` hook. Again we pass the applications route state over to our base service as well.
 
 Additionally we are also going to add the service to our Vue instance as well as our store instance to allow the application to use the service anywhere else in the app.
 
@@ -89,7 +89,7 @@ export const ensureAuthIsInitialized = async (store) => {
   })
 }
 ```
-This will allow our application to hold routing until the firebase service has actually finised initializing, and providing an auth state for the user. This is what allow us to stay on a `requiresAuth` page and not route us back to login. Also note the use of declairing the observable as an assigned function, and then later calling it, [`unsubscribe()`](https://firebase.google.com/docs/reference/js/firebase.auth.Auth.html#optional-completed:-firebase.unsubscribe) to allow us to resolve the auth service once it's done initiallizing, and then unsubscribe listening to the observable which is useful when dealing with the navigational guards. If this isn't set up this way, you'll end up with multiple observables in memory everytime your user is being routed around your app. A lot of us have learned this the hard way.
+This will allow our application to hold routing until the firebase service has actually finished initializing, and providing an auth state for the user. This is what allow us to stay on a `requiresAuth` page and not route us back to login. Also note the declaration of the observable as an assigned function, and then later calling it, [`unsubscribe()`](https://firebase.google.com/docs/reference/js/firebase.auth.Auth.html#optional-completed:-firebase.unsubscribe) to allow us to resolve the auth service once it's done initializing, and then unsubscribe listening to the observable which is useful when dealing with the navigational guards. If this isn't set up this way, you'll end up with multiple observables in memory every time your user is being routed around your app. A lot of us have learned this the hard way.
 
 Next method is the `handleOnAuthStateChanged` method.
 ```js
@@ -150,7 +150,7 @@ export const routerBeforeEach = async (to, from, next, store) => {
 
 This can grow and get more complex as your needs change, but the most important thing here is to halt the application from routing until the firebase service is done initializing.
 
-Then we have some more [Vuex](https://vuex.vuejs.org/) implementation we need to do. It's a good practice to separate your applications state, and we will be doing the same in these docs. We will only be showing the vuex portions relavant to firebase, and not the minor state handling of the loading state. You can find the full code base in the example app.
+Then we have some more [Vuex](https://vuex.vuejs.org/) implementation we need to do. It's a good practice to separate your applications state, and we will be doing the same in these docs. We will only be showing the vuex portions relevant to firebase, and not the minor state handling of the loading state. You can find the full code base in the example app.
 
 *A link to the sample app repo* => **/src/store/auth/state.js**
 

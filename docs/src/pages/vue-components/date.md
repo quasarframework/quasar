@@ -85,7 +85,7 @@ Using the mask to connect a QDate and [QTime](/vue-components/time) to the same 
 <doc-example title="QDate and QTime on same model" file="QDate/MaskDateTime" overflow />
 
 ::: tip
-If you want to programatically set the value of QDate, you can do so by just re-assigning the value that you pass. However, the updated value needs to be a string in the same format as your mask. Eg. in the case your mask is `'dddd, MMM D, YYYY'`, passing `'2019/04/28'` as value won't work, you would need to pass `'Sunday, Apr 28, 2019'` instead.
+If you want to programmatically set the value of QDate, you can do so by just re-assigning the value that you pass. However, the updated value needs to be a string in the same format as your mask. Eg. in the case your mask is `'dddd, MMM D, YYYY'`, passing `'2019/04/28'` as value won't work, you would need to pass `'Sunday, Apr 28, 2019'` instead.
 :::
 
 ### Custom ad-hoc locale

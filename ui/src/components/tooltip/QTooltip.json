@@ -4,13 +4,13 @@
   "props": {
     "max-height": {
       "extends": "size",
-      "desc": "The maximimum height of the Tooltip; Size in CSS units, including unit name",
+      "desc": "The maximum height of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
     },
 
     "max-width": {
       "extends": "size",
-      "desc": "The maximimum width of the Tooltip; Size in CSS units, including unit name",
+      "desc": "The maximum width of the Tooltip; Size in CSS units, including unit name",
       "category": "content"
     },
 
