@@ -123,11 +123,7 @@ Example with a QSelect to dynamically change the Quasar components language:
 <script>
 import languages from 'quasar/lang/index.json'
 const appLanguages = languages.filter(lang =>
-  [
-    'de',
-    'en-us'
-  ]
-    .indexOf(lang.isoName) !== -1
+  [ 'de', 'en-us' ].includes(lang.isoName)
 )
 
 export default {
