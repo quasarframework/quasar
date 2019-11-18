@@ -182,7 +182,7 @@ export default {
           evt.target !== void 0 &&
           evt.target.draggable !== true &&
           leftClick(evt) === true &&
-          (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1)
+          (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
         ) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
@@ -198,7 +198,7 @@ export default {
           ctx.event === void 0 &&
           evt.target !== void 0 &&
           evt.target.draggable !== true &&
-          (evt.ignoreQDirectives === void 0 || evt.ignoreQDirectives.indexOf(ctx.uid) === -1)
+          (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
         ) {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
@@ -225,10 +225,11 @@ export default {
           evt.defaultPrevented === true && prevent(clone)
           evt.cancelBubble === true && stop(clone)
 
-          if (clone.ignoreQDirectives === void 0) {
-            clone.ignoreQDirectives = []
-          }
-          clone.ignoreQDirectives.push(ctx.uid)
+          clone.qClonedBy = evt.qClonedBy === void 0
+            ? [ctx.uid]
+            : evt.qClonedBy.concat(ctx.uid)
+          clone.qKeyEvent = evt.qKeyEvent
+          clone.qClickOutside = evt.qClickOutside
 
           ctx.initialEvent = {
             target: evt.target,

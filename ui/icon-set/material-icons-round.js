@@ -67,7 +67,7 @@ export default {
     hr: 'r_remove',
     undo: 'r_undo',
     redo: 'r_redo',
-    header: 'r_format_size',
+    heading: 'r_format_size',
     code: 'r_code',
     size: 'r_format_size',
     font: 'r_font_download',

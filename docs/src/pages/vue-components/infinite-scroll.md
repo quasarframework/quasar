@@ -7,7 +7,7 @@ related:
   - /vue-components/intersection
 ---
 
-The QInfiteScroll component allows you to load new content as the user scrolls the page.
+The QInfiniteScroll component allows you to load new content as the user scrolls the page.
 
 ## Installation
 <doc-installation components="QInfiniteScroll" />
