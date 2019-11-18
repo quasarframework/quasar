@@ -66,11 +66,13 @@ export default Vue.extend({
   methods: {
     __set (value, opt) {
       if (this.readonly !== true) {
-        if (this.clearable === true && value === this.value) {
-          this.$emit('input', null, null)
-          this.$emit('clear')
+        if (this.value === value) {
+          if (this.clearable === true) {
+            this.$emit('input', null, null)
+            this.$emit('clear')
+          }
         }
-        else if (value !== this.value) {
+        else {
           this.$emit('input', value, opt)
         }
       }
