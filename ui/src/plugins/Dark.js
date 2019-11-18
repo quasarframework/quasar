@@ -21,6 +21,9 @@ export default {
 
             q.dark.isActive = val === true
             q.dark.mode = val
+          },
+          toggle: () => {
+            q.dark.set(q.dark.isActive === false)
           }
         }
 
@@ -74,6 +77,10 @@ export default {
 
     document.body.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
     document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
+  },
+
+  toggle () {
+    this.set(this.isActive === false)
   },
 
   __media: void 0,
