@@ -154,7 +154,7 @@ export default Vue.extend({
       }
 
       if (this.columnToSort) {
-        rows = this.sortMethod(rows, sortBy, descending)
+        rows = this.sortMethod(rows.slice() /* We need immutable sort */, sortBy, descending)
       }
 
       const rowsNumber = rows.length
