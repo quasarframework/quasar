@@ -228,19 +228,15 @@ export default Vue.extend({
       }]
     }
 
-    if (this.icon !== void 0) {
-      inner.push(
-        h(QIcon, {
-          props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
-        })
-      )
-    }
+    this.icon !== void 0 && inner.push(
+      h(QIcon, {
+        props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
+      })
+    )
 
-    if (this.hasLabel === true) {
-      inner.push(
-        h('div', [ this.label ])
-      )
-    }
+    this.hasLabel === true && inner.push(
+      h('div', [ this.label ])
+    )
 
     const def = slot(this, 'default')
     def !== void 0 && inner.push(def)
