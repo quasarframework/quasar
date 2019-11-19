@@ -36,6 +36,8 @@ export default Vue.extend({
       }
     },
 
+    emitImmediately: Boolean,
+
     horizontal: Boolean,
     disable: Boolean,
 
@@ -128,6 +130,10 @@ export default Vue.extend({
       this.__normalized = Math.min(this.__maxValue, this.computedLimits[1], Math.max(this.computedLimits[0], val))
 
       this.$refs[this.side].style[this.prop] = this.__getCSSValue(this.__normalized)
+
+      if (this.emitImmediately === true && this.value !== this.__normalized) {
+        this.$emit('input', this.__normalized)
+      }
     },
 
     __normalize (val, limits) {
