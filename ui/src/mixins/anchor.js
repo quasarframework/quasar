@@ -1,6 +1,7 @@
 import { clearSelection } from '../utils/selection.js'
 import { prevent } from '../utils/event.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
+import { testKeyCodes } from '../utils/key-composition'
 
 export default {
   props: {
@@ -61,7 +62,7 @@ export default {
     },
 
     __toggleKey (evt) {
-      if (evt !== void 0 && evt.keyCode === 13 && evt.qKeyEvent !== true) {
+      if (testKeyCodes(evt, 13) === true) {
         this.toggle(evt)
       }
     },

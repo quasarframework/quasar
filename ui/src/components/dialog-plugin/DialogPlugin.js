@@ -4,6 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
+import { testKeyCodes } from '../../utils/key-composition'
 
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
@@ -120,7 +121,7 @@ export default Vue.extend({
             input: v => { this.prompt.model = v },
             keyup: evt => {
               // if ENTER key
-              if (this.prompt.type !== 'textarea' && evt.keyCode === 13) {
+              if (this.prompt.type !== 'textarea' && testKeyCodes(evt, 13) === true) {
                 this.onOk()
               }
             }

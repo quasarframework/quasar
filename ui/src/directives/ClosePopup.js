@@ -1,4 +1,5 @@
 import { closePortals } from '../mixins/portal.js'
+import { testKeyCodes } from '../utils/key-composition'
 
 /*
  * depth
@@ -34,7 +35,7 @@ export default {
       },
 
       handlerKey (evt) {
-        evt.keyCode === 13 && ctx.handler(evt)
+        testKeyCodes(evt, 13) === true && ctx.handler(evt)
       }
     }
 

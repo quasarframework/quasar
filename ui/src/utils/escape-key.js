@@ -1,13 +1,12 @@
+import { testKeyCodes } from './key-composition'
+
 let handlers = []
 
 export default {
   __install () {
     this.__installed = true
     window.addEventListener('keyup', evt => {
-      if (
-        handlers.length !== 0 &&
-        (evt.which === 27 || evt.keyCode === 27)
-      ) {
+      if (handlers.length !== 0 && testKeyCodes(evt, 27) === true) {
         handlers[handlers.length - 1].fn(evt)
       }
     })
