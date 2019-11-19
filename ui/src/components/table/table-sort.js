@@ -73,18 +73,14 @@ export default {
         sortBy = col
         descending = false
       }
+      else if (this.binaryStateSort === true) {
+        descending = !descending
+      }
+      else if (descending === true) {
+        sortBy = null
+      }
       else {
-        if (this.binaryStateSort === true) {
-          descending = !descending
-        }
-        else {
-          if (descending === true) {
-            sortBy = null
-          }
-          else {
-            descending = true
-          }
-        }
+        descending = true
       }
 
       this.setPagination({ sortBy, descending, page: 1 })

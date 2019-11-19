@@ -153,13 +153,13 @@ export default Vue.extend({
         rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
-      if (this.columnToSort) {
-        rows = this.sortMethod(rows, sortBy, descending)
+      if (this.columnToSort !== void 0) {
+        rows = this.sortMethod(rows.slice(), sortBy, descending)
       }
 
       const rowsNumber = rows.length
 
-      if (rowsPerPage) {
+      if (rowsPerPage !== 0) {
         rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
       }
 
