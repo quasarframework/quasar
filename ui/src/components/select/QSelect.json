@@ -110,7 +110,7 @@
 
     "options-selected-class": {
       "type": "String",
-      "desc": "CSS class name for options that are active/selected",
+      "desc": "CSS class name for options that are active/selected; Set it to an empty string to stop applying the default (which is text-* where * is the 'color' prop value)",
       "examples": [ "text-orange" ],
       "category": "options"
     },

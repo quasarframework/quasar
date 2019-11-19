@@ -134,15 +134,12 @@ export default Vue.extend({
     },
 
     computedData () {
-      let rows = this.data.map((row, i) => {
-        row.__index = i
-        return row
-      })
+      let rows = this.data
 
       if (rows.length === 0) {
         return {
           rowsNumber: 0,
-          rows: []
+          rows
         }
       }
 

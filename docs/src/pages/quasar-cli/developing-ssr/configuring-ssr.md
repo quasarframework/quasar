@@ -43,7 +43,7 @@ build: {
 }
 ```
 
-If you want more information, please see this page that goes into more detail about [extending webpack](/quasar-cli/quasar-conf-js#Extending-Webpack-Config-Object) in the `quasar.conf.js` file.
+If you want more information, please see this page that goes into more detail about [handling webpack](/quasar-cli/cli-documentation/handling-webpack) in the `quasar.conf.js` file.
 
 ## Nodejs Server
 Adding SSR mode to a Quasar project means a new folder will be created: `/src-ssr`, which contains SSR specific files which define your production Node webserver:

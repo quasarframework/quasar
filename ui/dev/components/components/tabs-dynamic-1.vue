@@ -9,6 +9,11 @@
           <q-input dark dense borderless input-class="text-right" v-model.number="width" type="number" :min="300" />
         </q-item-section>
       </q-item>
+      <q-item dark class="bg-primary" dense v-ripple clickable @click="toggleAll">
+        <q-item-section>
+          <q-item-label>Toggle all</q-item-label>
+        </q-item-section>
+      </q-item>
       <q-item v-for="item in allTabs" :key="item.tab.name" tag="label" dense v-ripple>
         <q-item-section side>
           <q-checkbox :value="item.selected" @input="status => { setTabSelected(item.tab, status) }" />
@@ -97,6 +102,15 @@ export default {
         if (index > -1) {
           this.tabs.splice(index, 1)
         }
+      }
+    },
+
+    toggleAll () {
+      if (this.tabs.length > 0) {
+        this.tabs = []
+      }
+      else {
+        this.tabs = this.allTabs.map(t => t.tab)
       }
     }
   }

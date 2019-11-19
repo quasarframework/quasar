@@ -65,7 +65,7 @@ export default Vue.extend({
     },
 
     dir () {
-      return (this.$q.lang.rtl ? -1 : 1) * (this.reverse ? -1 : 1)
+      return (this.$q.lang.rtl === true ? -1 : 1) * (this.reverse ? -1 : 1)
     },
 
     viewBox () {

@@ -1,5 +1,5 @@
 <template>
-  <div :class="classes" :style="styles" style="overflow: auto;" @click="emitChange">
+  <div :class="classes" :style="styles" @click="emitChange">
     <div class="row justify-between items-center">
       <q-btn :label="index" size="sm" flat dense :class="buttonClasses" @click="emitChange" />
       <q-btn icon="clear" size="xs" flat dense @click="onDelete"/>
@@ -199,7 +199,7 @@ export default {
     },
 
     styles () {
-      return '' +
+      return 'overflow: auto;' +
         (this.child.height ? ('min-height: ' + this.child.height + '; max-height: ' + this.child.height + '; ') : '') +
         (this.child.width ? ('min-width: ' + this.child.width + '; max-width: ' + this.child.width + ';') : '')
     },

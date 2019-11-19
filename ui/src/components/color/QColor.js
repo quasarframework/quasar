@@ -151,7 +151,7 @@ export default Vue.extend({
     spectrumPointerStyle () {
       return {
         top: `${100 - this.model.v}%`,
-        [this.$q.lang.rtl ? 'right' : 'left']: `${this.model.s}%`
+        [this.$q.lang.rtl === true ? 'right' : 'left']: `${this.model.s}%`
       }
     },
 
@@ -557,7 +557,7 @@ export default Vue.extend({
 
       let x = Math.min(width, Math.max(0, left - rect.left))
 
-      if (this.$q.lang.rtl) {
+      if (this.$q.lang.rtl === true) {
         x = width - x
       }
 

@@ -43,14 +43,14 @@
 
     "title": {
       "type": "String",
-      "desc": "Title of timeline entry; Is overriden if using 'title' slot",
+      "desc": "Title of timeline entry; Is overridden if using 'title' slot",
       "examples": [ "December party" ],
       "category": "content"
     },
 
     "subtitle": {
       "type": "String",
-      "desc": "Subtitle of timeline entry; Is overriden if using 'subtitle' slot",
+      "desc": "Subtitle of timeline entry; Is overridden if using 'subtitle' slot",
       "examples": [ "All invited" ],
       "category": "content"
     },

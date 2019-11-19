@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { isSSR, fromSSR } from './Platform.js'
 
-export default {
+const Dark = {
   isActive: false,
   mode: false,
 
@@ -21,6 +21,9 @@ export default {
 
             q.dark.isActive = val === true
             q.dark.mode = val
+          },
+          toggle: () => {
+            q.dark.set(q.dark.isActive === false)
           }
         }
 
@@ -76,9 +79,15 @@ export default {
     document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
   },
 
+  toggle () {
+    Dark.set(Dark.isActive === false)
+  },
+
   __media: void 0,
 
   __updateMedia () {
     this.set(this.__media.matches)
   }
 }
+
+export default Dark

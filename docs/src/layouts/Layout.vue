@@ -245,6 +245,9 @@ export default {
       ) {
         evt.preventDefault()
         this.search = ''
+        if (!this.leftDrawerState) {
+          this.leftDrawerState = true
+        }
         setTimeout(() => {
           this.$refs.docAlgolia.focus()
         })

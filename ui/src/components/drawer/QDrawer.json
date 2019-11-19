@@ -135,7 +135,7 @@
 
   "slots": {
     "default": {
-      "desc": "Default slot in the devland unslotted content of the component (overriden by 'mini' slot if used and drawer is in mini mode)"
+      "desc": "Default slot in the devland unslotted content of the component (overridden by 'mini' slot if used and drawer is in mini mode)"
     },
 
     "mini": {

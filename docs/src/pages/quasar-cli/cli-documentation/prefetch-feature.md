@@ -78,7 +78,7 @@ Now, let's see how the hooks are called when the user visits these routes in the
 | `/` | App.vue then LandingPage | App.vue hook is called since our app boots up. |
 | `/shop/all` | ShopLayout then ShopAll | - |
 | `/shop/new` | ShopNew | ShopNew is a child of ShopLayout, and ShopLayout is already rendered, so ShopLayout isn't called again. |
-| `/shop/product/pijamas` | ShopProduct | - |
+| `/shop/product/pyjamas` | ShopProduct | - |
 | `/shop/product/shoes` | ShopProduct | Quasar notices the same component is already rendered, but the route has been updated and it has route params, so it calls the hook again. |
 | `/shop/product/shoes/overview` | ShopProduct then ShopProductOverview | ShopProduct has route params so it is called even though it's already rendered. |
 | `/` | LandingPage | - |

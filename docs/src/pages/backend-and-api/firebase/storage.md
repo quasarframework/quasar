@@ -1,4 +1,4 @@
 ---
 title: Storage
-desc: Application strucuture instrcutions for firebase implementation on the Quasar framework.
+desc: Application structure instructions for firebase implementation on the Quasar framework.
 ---

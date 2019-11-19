@@ -27,6 +27,12 @@
       "addedIn": "v1.2.6"
     },
 
+    "emit-immediately": {
+      "type": "Boolean",
+      "desc": "Emit model while user is panning on the separator",
+      "category": "model"
+    },
+
     "horizontal": {
       "type": "Boolean",
       "desc": "Allows the splitter to split its two panels horizontally, instead of vertically",

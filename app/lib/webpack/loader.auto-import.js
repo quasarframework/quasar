@@ -8,6 +8,11 @@ const compRegex = {
   '?combined': new RegExp(data.regex.components, 'g')
 }
 
+// regex to match functional components
+const funcCompRegex = new RegExp(
+  'var\\s+component\\s*=\\s*normalizer\\((?:[^,]+,){3}\\s*true,'
+)
+
 const dirRegex = new RegExp(data.regex.directives, 'g')
 
 function extract (content, form) {
@@ -47,7 +52,7 @@ function extract (content, form) {
 }
 
 module.exports = function (content) {
-  if (!this.resourceQuery) {
+  if (!this.resourceQuery && funcCompRegex.test(content) === false) {
     const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
     const { comp, dir } = extract(file, this.query)
 

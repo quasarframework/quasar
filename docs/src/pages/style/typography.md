@@ -22,7 +22,7 @@ We'll handle the typography supplied by Quasar in the sections below.
 | `text-justify` | Text will be justified |
 | `text-bold` | Text will be in bold |
 | `text-italic` | Text will be in italic |
-| `text-no-wrap` | Non wrapable text (applies `white-space: nowrap`) |
+| `text-no-wrap` | Non wrappable text (applies `white-space: nowrap`) |
 | `text-strike` | Applies `text-decoration: line-through` |
 | `text-uppercase` | Transform text to uppercase |
 | `text-lowercase` | Transform text to lowercase |

@@ -39,7 +39,7 @@ Read more on `register-service-worker.js` and how to interact with the Service W
 :::
 
 ## Quasar.conf.js
-This is the place where you can configure Workbox's behavior and also tweak your manifest.json.
+This is the place where you can configure Workbox behavior and also tweak your manifest.json.
 
 ```js
 pwa: {
@@ -107,7 +107,7 @@ When to use InjectManifest:
 * You want more control over your service worker.
 * You want to precache files.
 * You have more complex needs in terms of routing.
-* You would like to use your service worker with other API's (e.g. Web Push).
+* You would like to use your service worker with other APIs (e.g. Web Push).
 
 When NOT to use InjectManifest:
 * You want the easiest path to adding a service worker to your site.

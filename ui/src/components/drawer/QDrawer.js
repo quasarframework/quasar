@@ -84,7 +84,7 @@ export default Vue.extend({
   data () {
     const belowBreakpoint = (
       this.behavior === 'mobile' ||
-      (this.behavior !== 'desktop' && this.layout.width <= this.breakpoint)
+      (this.behavior !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
     )
 
     return {
@@ -117,7 +117,7 @@ export default Vue.extend({
       }
     },
 
-    'layout.width' (val) {
+    'layout.totalWidth' (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
         (this.behavior !== 'desktop' && val <= this.breakpoint)
@@ -132,14 +132,14 @@ export default Vue.extend({
     behavior (val) {
       this.__updateLocal('belowBreakpoint', (
         val === 'mobile' ||
-        (val !== 'desktop' && this.layout.width <= this.breakpoint)
+        (val !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
       ))
     },
 
     breakpoint (val) {
       this.__updateLocal('belowBreakpoint', (
         this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && this.layout.width <= val)
+        (this.behavior !== 'desktop' && this.layout.totalWidth <= val)
       ))
     },
 
@@ -559,12 +559,12 @@ export default Vue.extend({
       this[`__${action}`](false, true)
     }
 
-    if (this.layout.width !== 0) {
+    if (this.layout.totalWidth !== 0) {
       fn()
       return
     }
 
-    this.watcher = this.$watch('layout.width', () => {
+    this.watcher = this.$watch('layout.totalWidth', () => {
       this.watcher()
       this.watcher = void 0
 

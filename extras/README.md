@@ -78,4 +78,4 @@ Using [semver 2.0](http://semver.org/) notation for 'quasar-extras' package.
 
 ## License
 
-All assets included in this repository are exclusive property of their respective owners and licenced under their own respective licenses. Quasar does not take any credit in packages included here.
+All assets included in this repository are exclusive property of their respective owners and licensed under their own respective licenses. Quasar does not take any credit in packages included here.

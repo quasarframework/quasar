@@ -737,6 +737,72 @@
       }
     },
 
+    "top": {
+      "desc": "Slot to define how table top looks like",
+      "scope": {
+        "pagination": {
+          "type": "Object",
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
+        },
+        "pagesNumber": {
+          "type": "Number",
+          "desc": "Number of pages available",
+          "examples": [ 5 ]
+        },
+        "isFirstPage": {
+          "type": "Boolean",
+          "desc": "Are we on first page?"
+        },
+        "isLastPage": {
+          "type": "Boolean",
+          "desc": "Are we on last page?"
+        },
+        "prevPage": {
+          "type": "Function",
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
+        },
+        "nextPage": {
+          "type": "Function",
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "inFullscreen": {
+          "type": "Boolean",
+          "desc": "Is table in fullscreen mode?"
+        },
+        "toggleFullscreen": {
+          "type": "Function",
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
+        }
+      }
+    },
+
     "bottom": {
       "desc": "Slot to define how table bottom looks like",
       "scope": {
@@ -1275,7 +1341,7 @@
           "type": "Array",
           "desc": "The updated selected array",
           "examples": [
-            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6, __index: 0 } ]"
+            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6 } ]"
           ]
         }
       }

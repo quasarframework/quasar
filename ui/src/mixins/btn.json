@@ -144,7 +144,7 @@
 
     "loading": {
       "type": "Boolean",
-      "desc": "Put button into loading state (displays a QSpinner -- can be overriden by using a 'loading' slot)",
+      "desc": "Put button into loading state (displays a QSpinner -- can be overridden by using a 'loading' slot)",
       "category": "behavior|state"
     },
 

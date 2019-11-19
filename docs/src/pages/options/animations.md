@@ -67,7 +67,7 @@ You can also group components or DOM elements in a transition so that the same e
 >
   <!-- We wrap a "p" tag and a QBtn -->
   <p key="text">
-     Lorum Ipsum
+     Lorem Ipsum
   </p>
   <q-btn
     key="email-button"
