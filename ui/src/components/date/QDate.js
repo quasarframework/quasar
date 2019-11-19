@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
+import TouchSwipe from '../../directives/TouchSwipe.js'
 
 import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
@@ -16,6 +17,10 @@ export default Vue.extend({
   name: 'QDate',
 
   mixins: [ DateTimeMixin ],
+
+  directives: {
+    TouchSwipe
+  },
 
   props: {
     title: String,
@@ -263,6 +268,17 @@ export default Vue.extend({
       }
 
       return res
+    },
+
+    contentPanelDirectives () {
+      return [{
+        name: 'touch-swipe',
+        value: this.__contentPanelSwipe,
+        modifiers: {
+          horizontal: true,
+          mouse: true
+        }
+      }]
     }
   },
 
@@ -735,13 +751,29 @@ export default Vue.extend({
           })
         }
       }
+    },
+
+    __contentPanelSwipe (evt) {
+      const direction = (evt.direction === 'left') === (this.$q.lang.rtl !== true) ? 1 : -1
+
+      if (this.view === 'Years') {
+        this.startYear += direction * yearsInterval
+      }
+      else if (this.view === 'Months') {
+        // if not emitImmediately then there is no visual feedback for year change
+        this.emitImmediately === true && this.__goToYear(direction)
+      }
+      else {
+        this.__goToMonth(direction)
+      }
     }
   },
 
   render (h) {
     const content = [
       h('div', {
-        staticClass: 'q-date__content col relative-position'
+        staticClass: 'q-date__content col relative-position',
+        directives: this.contentPanelDirectives
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
