@@ -34,6 +34,8 @@
       :limits="limits"
       :disable="disable"
 
+      @pan="evt => { panData = evt }"
+
       class="q-mt-md"
       style="height: 700px; border: 1px solid black"
     >
@@ -68,6 +70,7 @@
         </div>
       </template>
     </q-splitter>
+    <pre>Live @pan: {{ panData }}</pre>
 
     <q-splitter
       v-model="model"
@@ -182,7 +185,8 @@ export default {
       modelUnit: '%',
       funkyLimits: false,
       disable: false,
-      showSeparator: true
+      showSeparator: true,
+      panData: null
     }
   },
 

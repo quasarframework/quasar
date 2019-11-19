@@ -117,6 +117,9 @@ export default Vue.extend({
         }
 
         this.$el.classList.remove('q-splitter--active')
+
+        this.$listeners.pan !== void 0 && this.$emit('pan', { ...evt, splitValue: this.__normalized })
+
         return
       }
 
@@ -128,6 +131,8 @@ export default Vue.extend({
       this.__normalized = Math.min(this.__maxValue, this.computedLimits[1], Math.max(this.computedLimits[0], val))
 
       this.$refs[this.side].style[this.prop] = this.__getCSSValue(this.__normalized)
+
+      this.$listeners.pan !== void 0 && this.$emit('pan', { ...evt, splitValue: this.__normalized })
     },
 
     __normalize (val, limits) {
