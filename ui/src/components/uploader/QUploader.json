@@ -396,5 +396,44 @@
         }
       }
     }
+  },
+
+  "css": {
+    "shadow": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "separator-color": {
+      "desc": "",
+      "extends": "separator-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "primary": {
+      "desc": "",
+      "extends": "primary"
+    },
+    "separator-dark-color": {
+      "desc": "",
+      "extends": "separator-dark-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

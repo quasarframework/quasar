@@ -3,6 +3,7 @@ title: Sass/SCSS Variables
 desc: How to use the Sass/SCSS variables defined by Quasar.
 components:
   - style/SassVariables
+  - style/ComponentVariables
 related:
   - /quasar-cli/cli-documentation/css-preprocessors
   - /style/stylus-variables
@@ -82,3 +83,6 @@ Quasar's own CSS is compiled using the variables file (if it exists), but you ca
 ## Variables list
 
 <sass-variables />
+
+## Component Variables
+<component-variables />

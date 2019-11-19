@@ -29,7 +29,7 @@
 
     "label": {
       "type": [ "String", "Number" ],
-      "desc": "Chip's content as string; overrides default slot if specified",
+      "desc": "QChip's content as string; overrides default slot if specified",
       "examples": [ "John Doe", "Book" ],
       "category": "content"
     },
@@ -124,6 +124,32 @@
           "desc": "Render state (render or not)"
         }
       }
+    }
+  },
+  "css": {
+    "chip-height": {
+      "desc": "QChip's height",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-chip",
+        "property": "height"
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "QChip's and avatar's border radius when the \"square\" prop is true",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": ".q-chip--square, .q-chip--square .q-avatar",
+        "property": "border-radius"
+      }]
+    },
+    "shadow-1": {
+      "desc": "QChip's shadow when focused on desktop",
+      "extends": "shadow-1",
+      "affects": [{
+        "selector": "body.desktop .q-chip--clickable:focus",
+        "property": "box-shadow"
+      }]
     }
   }
 }

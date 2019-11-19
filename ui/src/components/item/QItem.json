@@ -62,5 +62,31 @@
     "default": {
       "desc": "This is where QItem's content goes"
     }
+  },
+  "css": {
+    "grey-7": {
+      "desc": "",
+      "type": "color"
+    },
+    "separator-color": {
+      "desc": "",
+      "extends": "separator-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "separator-dark-color": {
+      "desc": "",
+      "extends": "separator-dark-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "primary": {
+      "desc": "",
+      "extends": "primary"
+    }
   }
 }

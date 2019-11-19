@@ -1547,5 +1547,79 @@
     "resetVirtualScroll": {
       "desc": "Resets the virtual scroll (if using it) computations; Needed for custom edge-cases"
     }
+  },
+  "css": {
+    "table-border-radius": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "table-box-shadow": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "table-transition": {
+      "desc": "",
+      "type": "transition",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "table-border-color": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "table-hover-background": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "table-selected-background": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "table-dark-border-color": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "table-dark-hover-background": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "table-dark-selected-background": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

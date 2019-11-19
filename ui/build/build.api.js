@@ -10,7 +10,8 @@ const
   root = path.resolve(__dirname, '..'),
   resolvePath = file => path.resolve(root, file),
   dest = path.join(root, 'dist/api'),
-  extendApi = require(resolvePath('src/api.extends.json'))
+  extendApi = require(resolvePath('src/api.extends.json')),
+  globalCss = JSON.parse(JSON.stringify(extendApi.css))
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
@@ -37,7 +38,7 @@ function getMixedInAPI (api, mainFile) {
 
 const topSections = {
   plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  component: [ 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods', 'css' ],
   directive: [ 'value', 'arg', 'modifiers' ]
 }
 
@@ -154,6 +155,13 @@ const objectTypes = {
   quasarConfOptions: {
     props: [ 'propName', 'definition', 'link', 'addedIn' ],
     required: [ 'propName', 'definition' ]
+  },
+
+  // component only
+  css: {
+    props: ['desc', 'type', 'affects'],
+    required: ['desc'],
+    isArray: [ 'affects' ]
   }
 }
 
@@ -505,6 +513,18 @@ function fillAPI (apiType) {
           }
         }
       })
+
+      for (let variable in api.css) {
+        const { type, ...variableDef } = api.css[variable]
+        let globalVariableDefinition = globalCss[variable]
+        if (!globalVariableDefinition) {
+          globalVariableDefinition = globalCss[variable] = {}
+        }
+        if (!globalVariableDefinition.references) {
+          globalVariableDefinition.references = {}
+        }
+        globalVariableDefinition.references[name.replace('.json', '')] = variableDef
+      }
     }
 
     // copy API file to dest
@@ -530,6 +550,8 @@ module.exports.generate = function () {
     const components = glob.sync(resolvePath('src/components/**/Q*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
       .map(fillAPI('component'))
+
+    writeFile(path.join(dest, '../variables.json'), JSON.stringify(globalCss, null, 2))
 
     resolve({ components, directives, plugins })
   }).catch(err => {

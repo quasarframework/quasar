@@ -114,5 +114,47 @@
     "shake": {
       "desc": "Shakes dialog"
     }
+  },
+  "css": {
+    "generic-border-radius": {
+      "desc": "QDialog's border radius",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": ".q-dialog__inner > div",
+        "property": "border-radius"
+      }]
+    },
+    "shadow-4": {
+      "desc": "QDialog's shadow",
+      "type": "shadow",
+      "affects": [{
+        "selector": ".q-dialog__inner > div",
+        "property": "box-shadow"
+      }]
+    },
+    "dimmed-background": {
+      "desc": "QDialog's backdrop background color",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-dialog__backdrop",
+        "property": "background"
+      }]
+    },
+    "ios-statusbar-height": {
+      "desc": "QDialog's padding top when displayed on an iOS device and the \"iosStatusBarPadding\" CLI config set to true",
+      "extends": "ios-statusbar-height",
+      "affects": [{
+        "selector": "body.q-ios-padding .q-dialog__inner",
+        "property": "padding-top"
+      }]
+    },
+    "breakpoint-xs-max": {
+      "desc": "QDialog's breakpoint to set width as 100%",
+      "type": "size"
+    },
+    "breakpoint-sm-min": {
+      "desc": "QDialog's breakpoint to set max-width",
+      "type": "size"
+    }
   }
 }

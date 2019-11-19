@@ -142,5 +142,47 @@
     "focus": {
       "desc": "Focus menu; if you have content with autofocus attribute, it will directly focus it"
     }
+  },
+  "css": {
+    "menu-max-width": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "menu-box-shadow": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "menu-background": {
+      "desc": "",
+      "type": "color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "z-menu": {
+      "desc": "",
+      "type": "Number",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

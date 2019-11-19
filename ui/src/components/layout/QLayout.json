@@ -87,5 +87,107 @@
         }
       }
     }
+  },
+  "css": {
+    "layout-shadow": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "primary": {
+      "desc": "",
+      "extends": "primary"
+    },
+    "layout-border": {
+      "desc": "",
+      "type": "border",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "z-marginals": {
+      "desc": "",
+      "type": "Number",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "z-side": {
+      "desc": "",
+      "type": "Number",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "z-fixed-drawer": {
+      "desc": "",
+      "type": "Number",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "ios-statusbar-height": {
+      "desc": "",
+      "extends": "ios-statusbar-height",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "toolbar-min-height": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "breakpoint-xs-max": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "breakpoint-sm-min": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "breakpoint-md-max": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "breakpoint-lg-min": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "separator-dark-color": {
+      "desc": "",
+      "extends": "separator-dark-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

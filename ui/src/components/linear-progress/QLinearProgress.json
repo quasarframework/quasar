@@ -67,5 +67,11 @@
     "default": {
       "desc": "Suggestion: QTooltip"
     }
+  },
+  "css": {
+    "primary": {
+      "desc": "",
+      "extends": "primary"
+    }
   }
 }

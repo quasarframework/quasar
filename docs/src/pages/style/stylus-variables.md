@@ -3,6 +3,7 @@ title: Stylus Variables
 desc: How to use the Stylus variables defined by Quasar.
 components:
   - style/StylusVariables
+  - style/ComponentVariables
 related:
   - /quasar-cli/cli-documentation/css-preprocessors
   - /style/sass-scss-variables
@@ -73,3 +74,6 @@ Quasar's own CSS is compiled using the variables file (if it exists), but you ca
 ## Variables list
 
 <stylus-variables />
+
+## Component Variables
+<component-variables />

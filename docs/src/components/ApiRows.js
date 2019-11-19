@@ -265,6 +265,18 @@ export default {
       return child
     },
 
+    css (h, css) {
+      const child = []
+
+      for (let variableName in css) {
+        child.push(
+          this.getProp(h, css[variableName], `$${variableName}`, 0)
+        )
+      }
+
+      return child
+    },
+
     slots (h, slots) {
       const child = []
 

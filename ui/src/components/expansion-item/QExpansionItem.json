@@ -158,5 +158,16 @@
     "header": {
       "desc": "Slot used for overriding default header"
     }
+  },
+  "css": {
+    "separator-color": {
+      "desc": "QExpansionItem's container border color",
+      "extends": "separator-color",
+      "affects": [{
+        "selector": ".q-expansion-item--popup > .q-expansion-item__container",
+        "property": "border-color",
+        "template": "1px solid $value"
+      }]
+    }
   }
 }

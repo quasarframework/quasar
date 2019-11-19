@@ -95,5 +95,55 @@
     "message": {
       "desc": "Slot specific for putting a message on top of each step (if horizontal stepper) or above steps (if vertical); Suggestion: QBanner, div.q-pa-lg"
     }
+  },
+  "css": {
+    "shadow-2": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "grey": {
+      "desc": "",
+      "type": "color"
+    },
+    "primary": {
+      "desc": "",
+      "extends": "primary"
+    },
+    "negative": {
+      "desc": "",
+      "extends": "negative",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "separator-color": {
+      "desc": "",
+      "extends": "separator-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "separator-dark-color": {
+      "desc": "",
+      "extends": "separator-dark-color",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

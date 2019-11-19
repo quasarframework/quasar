@@ -19,5 +19,27 @@
       "examples": [ "visibility_off" ],
       "category": "content"
     }
+  },
+  "css": {
+    "toggle-transition": {
+      "desc": "",
+      "type": "transition",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "primary": {
+      "desc": "",
+      "extends": "primary"
+    },
+    "option-focus-transition": {
+      "desc": "",
+      "type": "transition",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

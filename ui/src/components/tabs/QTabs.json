@@ -117,5 +117,39 @@
     "input": {
       "extends": "input"
     }
+  },
+  "css": {
+    "button-font-size": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "button-line-height": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "button-font-weight": {
+      "desc": "",
+      "type": "Number",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "breakpoint-lg-min": {
+      "desc": "",
+      "type": "size",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

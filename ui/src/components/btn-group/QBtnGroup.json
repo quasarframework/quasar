@@ -57,5 +57,47 @@
     "default": {
       "desc": "Suggestion: QBtn"
     }
+  },
+  "css": {
+    "button-border-radius": {
+      "desc": "QBtnGroup's default border radius",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-btn-group",
+        "property": "border-radius"
+      }]
+    },
+    "button-shadow": {
+      "desc": "QBtnGroup's shadow",
+      "type": "shadow",
+      "affects": [{
+        "selector": ".q-btn-group",
+        "property": "box-shadow"
+      }]
+    },
+    "button-push-border-radius": {
+      "desc": "QBtnGroup's border radius when using the \"push\" prop",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-btn-group--push",
+        "property": "border-radius"
+      }]
+    },
+    "button-transition": {
+      "desc": "QBtnGroup content transition when using the \"push\" prop",
+      "type": "transition",
+      "affects": [{
+        "selector": ".q-btn-group--push",
+        "property": "transition"
+      }]
+    },
+    "button-rounded-border-radius": {
+      "desc": "QBtnGroup's border radius when using the \"rounded\" prop",
+      "type": "size",
+      "affects": [{
+        "selector": ".q-btn-group--rounded",
+        "property": "border-radius"
+      }]
+    }
   }
 }

@@ -197,5 +197,48 @@
         }
       }
     }
+  },
+  "css": {
+    "shadow-2": {
+      "desc": "QDate's shadow",
+      "extends": "shadow-2",
+      "affects": [{
+        "selector": ".q-date",
+        "property": "box-shadow"
+      }]
+    },
+    "generic-border-radius": {
+      "desc": "QDate's border radius when the \"bordered\" prop is true",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": ".q-date",
+        "property": "border-radius"
+      }]
+    },
+    "separator-color": {
+      "desc": "QDate's border color when the \"bordered\" prop is true",
+      "extends": "separator-color",
+      "affects": [{
+        "selector": ".q-date",
+        "property": "border",
+        "template": "1px solid $value"
+      }]
+    },
+    "primary": {
+      "desc": "QDate's header background color",
+      "extends": "primary"
+    },
+    "secondary": {
+      "desc": "QDate's event background color",
+      "extends": "secondary"
+    },
+    "separator-dark-color": {
+      "desc": "QDate's border color when the \"dark\" prop is true",
+      "extends": "separator-dark-color",
+      "affects": [{
+        "selector": ".q-date--dark",
+        "property": "border-color"
+      }]
+    }
   }
 }

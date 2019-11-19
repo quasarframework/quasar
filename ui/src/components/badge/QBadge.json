@@ -49,5 +49,19 @@
     "default": {
       "desc": "This is where QBadge content goes, if not using 'label' property"
     }
+  },
+  "css": {
+    "primary": {
+      "desc": "QBadge default background color",
+      "extends": "primary"
+    },
+    "generic-border-radius": {
+      "desc": "QBadge's border radius",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": ".q-badge",
+        "property": "border-radius"
+      }]
+    }
   }
 }

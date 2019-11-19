@@ -72,5 +72,19 @@
     "set": {
       "desc": "Sets the Radio's v-model to equal the val"
     }
+  },
+  "css": {
+    "radio-transition": {
+      "desc": "",
+      "type": "transition",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    },
+    "primary": {
+      "desc": "",
+      "extends": "primary"
+    }
   }
 }

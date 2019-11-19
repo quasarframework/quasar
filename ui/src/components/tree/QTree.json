@@ -494,5 +494,19 @@
         }
       }
     }
+  },
+  "css": {
+    "grey": {
+      "desc": "",
+      "type": "color"
+    },
+    "generic-border-radius": {
+      "desc": "",
+      "extends": "generic-border-radius",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }

@@ -11,5 +11,16 @@
       "examples": [ "https://www.youtube.com/embed/k3_tw44QsZQ" ],
       "category": "model"
     }
+  },
+
+  "css": {
+    "shadow-1": {
+      "desc": "",
+      "type": "shadow",
+      "affects": [{
+        "selector": "",
+        "property": ""
+      }]
+    }
   }
 }
