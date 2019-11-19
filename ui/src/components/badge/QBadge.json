@@ -5,7 +5,8 @@
 
   "props": {
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "default": "primary"
     },
 
     "text-color": {
@@ -42,6 +43,13 @@
       "desc": "Sets vertical-align CSS prop",
       "values": [ "top", "middle", "bottom" ],
       "category": "content"
+    },
+
+    "outlined": {
+      "type": "Boolean",
+      "desc": "Use 'outlined' design for the badge",
+      "category": "content",
+      "addedIn": "1.5.0"
     }
   },
 
