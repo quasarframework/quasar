@@ -31,6 +31,9 @@ console.log(this.$q.dark.mode) // "auto", true, false
 
 // set status
 this.$q.dark.set(true) // or "false" or "auto"
+
+// toggle
+this.$q.dark.toggle()
 ```
 
 On a **SSR build**, you can set this from a `created` hook from your `/src/App.vue`:
@@ -61,6 +64,9 @@ console.log(Dark.mode) // "auto", true, false
 
 // set status
 Dark.set(true) // or "false" or "auto"
+
+// toggle
+Dark.toggle()
 ```
 
 ### Through quasar.conf.js
