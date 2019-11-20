@@ -34,13 +34,15 @@ export default {
 
     allRowsSelected () {
       if (this.multipleSelection === true) {
-        return this.computedRows.length > 0 && this.computedRows.every(row => this.selectedKeys[ this.getRowKey(row) ] === true)
+        return this.computedRows.length > 0 &&
+          this.computedRows.every(row => this.selectedKeys[ this.getRowKey(row) ] === true)
       }
     },
 
     someRowsSelected () {
       if (this.multipleSelection === true) {
-        return !this.allRowsSelected && this.computedRows.some(row => this.selectedKeys[ this.getRowKey(row) ] === true)
+        return !this.allRowsSelected &&
+          this.computedRows.some(row => this.selectedKeys[ this.getRowKey(row) ] === true)
       }
     },
 

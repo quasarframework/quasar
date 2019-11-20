@@ -4,6 +4,7 @@ import DarkMixin from '../../mixins/dark.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import { isKeyCode } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QItem',
@@ -89,7 +90,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      if (e.keyCode === 13 && this.isClickable === true) {
+      if (this.isClickable === true && isKeyCode(e, 13) === true) {
         stopAndPrevent(e)
 
         // for ripple

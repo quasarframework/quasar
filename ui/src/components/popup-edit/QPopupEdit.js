@@ -6,6 +6,7 @@ import QBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
 import slot from '../../utils/slot.js'
+import { isKeyCode } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QPopupEdit',
@@ -59,6 +60,35 @@ export default Vue.extend({
         validate: this.validate,
         set: this.set,
         cancel: this.cancel
+      }
+    },
+
+    menuEvents () {
+      return {
+        'before-show': () => {
+          this.validated = false // eslint-disable-line
+          this.initialValue = clone(this.value) // eslint-disable-line
+          this.watcher = this.$watch('value', this.__reposition) // eslint-disable-line
+          this.$emit('before-show')
+        },
+        show: () => {
+          this.$emit('show')
+        },
+        'before-hide': () => {
+          this.watcher()
+
+          if (this.validated === false && this.__hasChanged()) {
+            this.$emit('cancel', this.value, this.initialValue)
+            this.$emit('input', this.initialValue)
+          }
+          this.$emit('before-hide')
+        },
+        hide: () => {
+          this.$emit('hide')
+        },
+        keyup: e => {
+          isKeyCode(e, 13) === true && this.set()
+        }
       }
     }
   },
@@ -150,32 +180,7 @@ export default Vue.extend({
         cover: this.cover,
         contentClass: this.classes
       },
-      on: {
-        'before-show': () => {
-          this.validated = false
-          this.initialValue = clone(this.value)
-          this.watcher = this.$watch('value', this.__reposition)
-          this.$emit('before-show')
-        },
-        show: () => {
-          this.$emit('show')
-        },
-        'before-hide': () => {
-          this.watcher()
-
-          if (this.validated === false && this.__hasChanged()) {
-            this.$emit('cancel', this.value, this.initialValue)
-            this.$emit('input', this.initialValue)
-          }
-          this.$emit('before-hide')
-        },
-        hide: () => {
-          this.$emit('hide')
-        },
-        keyup: e => {
-          e.keyCode === 13 && this.set()
-        }
-      }
+      on: this.menuEvents
     }, this.__getContent(h))
   }
 })

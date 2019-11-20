@@ -32,6 +32,7 @@ export default Vue.extend({
     dense: Boolean,
 
     expandIcon: String,
+    expandedIcon: String,
     expandIconClass: [ Array, String, Object ],
     duration: Number,
 
@@ -93,7 +94,9 @@ export default Vue.extend({
     },
 
     expansionIcon () {
-      return this.expandIcon || (this.denseToggle ? this.$q.iconSet.expansionItem.denseIcon : this.$q.iconSet.expansionItem.icon)
+      return this.expandedIcon !== void 0 && this.showing === true
+        ? this.expandedIcon
+        : this.expandIcon || this.$q.iconSet.expansionItem[this.denseToggle === true ? 'denseIcon' : 'icon']
     },
 
     activeToggleIcon () {
@@ -137,7 +140,7 @@ export default Vue.extend({
         h(QIcon, {
           staticClass: 'q-expansion-item__toggle-icon q-focusable',
           class: {
-            'rotate-180': this.showing,
+            'rotate-180': this.expandedIcon === void 0 ? this.showing : false,
             invisible: this.disable
           },
           props: {

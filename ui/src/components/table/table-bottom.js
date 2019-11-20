@@ -83,7 +83,8 @@ export default {
                 dark: this.isDark,
                 borderless: true,
                 dense: true,
-                optionsDense: true
+                optionsDense: true,
+                optionsCover: true
               },
               on: {
                 input: pag => {

@@ -41,6 +41,8 @@
           expand-separator
           icon="perm_identity"
           label="With a model and events - decoupled"
+          expand-icon="text_rotation_down"
+          expanded-icon="text_rotate_up"
         >
           <q-card>
             <q-card-section>
