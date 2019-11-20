@@ -6,16 +6,13 @@ export default Vue.extend({
   name: 'QBadge',
 
   props: {
-    color: {
-      type: String,
-      default: 'primary'
-    },
+    color: String,
     textColor: String,
 
     floating: Boolean,
     transparent: Boolean,
     multiLine: Boolean,
-    outlined: Boolean,
+    outline: Boolean,
 
     label: [Number, String],
 
@@ -33,11 +30,17 @@ export default Vue.extend({
     },
 
     classes () {
+      const text = this.outline === true
+        ? this.color || this.textColor
+        : this.textColor
+
       return 'q-badge flex inline items-center no-wrap' +
         ` q-badge--${this.multiLine === true ? 'multi' : 'single'}-line` +
-        (this.outlined === false ? ` bg-${this.color}` : '') +
-        (this.outlined === true ? ' q-badge--outlined' : '') +
-        (this.textColor !== void 0 ? ` text-${this.textColor}` : '') +
+        (this.outline === true
+          ? ' q-badge--outline'
+          : (this.color !== void 0 ? ` bg-${this.color}` : '')
+        ) +
+        (text !== void 0 ? ` text-${text}` : '') +
         (this.floating === true ? ' q-badge--floating' : '') +
         (this.transparent === true ? ' q-badge--transparent' : '')
     }

@@ -5,8 +5,7 @@
 
   "props": {
     "color": {
-      "extends": "color",
-      "default": "primary"
+      "extends": "color"
     },
 
     "text-color": {
@@ -45,11 +44,11 @@
       "category": "content"
     },
 
-    "outlined": {
+    "outline": {
       "type": "Boolean",
-      "desc": "Use 'outlined' design for the badge",
+      "desc": "Use 'outline' design (colored text and borders only)",
       "category": "content",
-      "addedIn": "1.5.0"
+      "addedIn": "1.4.5"
     }
   },
 
