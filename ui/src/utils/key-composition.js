@@ -1,7 +1,6 @@
 let lastKeyCompositionStatus = false
 
 export function onKeyDownComposition (evt) {
-  console.log('update', evt.isComposing === true)
   lastKeyCompositionStatus = evt.isComposing === true
 }
 
@@ -13,7 +12,6 @@ export function shouldIgnoreKey (evt) {
 }
 
 export function isKeyCode (evt, keyCodes) {
-  console.log('isKeyCode', keyCodes)
   return (
     lastKeyCompositionStatus === true ||
     evt !== Object(evt) ||
