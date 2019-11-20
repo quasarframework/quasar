@@ -1,7 +1,7 @@
 import { clearSelection } from '../utils/selection.js'
 import { prevent } from '../utils/event.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { testKeyCodes } from '../utils/key-composition'
+import { isKeyCode } from '../utils/key-composition'
 
 export default {
   props: {
@@ -62,9 +62,7 @@ export default {
     },
 
     __toggleKey (evt) {
-      if (testKeyCodes(evt, 13) === true) {
-        this.toggle(evt)
-      }
+      isKeyCode(evt, 13) === true && this.toggle(evt)
     },
 
     __mobileCleanup (evt) {

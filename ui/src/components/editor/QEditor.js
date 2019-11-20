@@ -9,7 +9,7 @@ import DarkMixin from '../../mixins/dark.js'
 import { isSSR } from '../../plugins/Platform.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
-import { ignoreKey } from '../../utils/key-composition'
+import { shouldIgnoreKey } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QEditor',
@@ -280,7 +280,7 @@ export default Vue.extend({
     __onKeydown (e) {
       this.$emit('keydown', e)
 
-      if (e.ctrlKey !== true || ignoreKey(e) === true) {
+      if (e.ctrlKey !== true || shouldIgnoreKey(e) === true) {
         this.refreshToolbar()
         this.$q.platform.is.ie && this.$nextTick(this.__onInput)
         return

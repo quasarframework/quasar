@@ -3,8 +3,8 @@ import Vue from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import { uniqueSlot } from '../../utils/slot.js'
-import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
-import { testKeyCodes } from '../../utils/key-composition'
+import { stopAndPrevent } from '../../utils/event.js'
+import { isKeyCode } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QItem',
@@ -90,7 +90,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      if (this.isClickable === true && testKeyCodes(e, 13) === true) {
+      if (this.isClickable === true && isKeyCode(e, 13) === true) {
         stopAndPrevent(e)
 
         // for ripple
@@ -98,8 +98,6 @@ export default Vue.extend({
 
         // for click trigger
         const evt = new MouseEvent('click', e)
-        e.defaultPrevented === true && prevent(evt)
-        e.cancelBubble === true && stop(evt)
         evt.qKeyEvent = true
         this.$el.dispatchEvent(evt)
       }

@@ -1,6 +1,6 @@
 import { css } from '../utils/dom.js'
 import { position, stop, listenOpts } from '../utils/event.js'
-import { testKeyCodes } from '../utils/key-composition'
+import { isKeyCode } from '../utils/key-composition'
 import { client } from '../plugins/Platform.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
@@ -94,7 +94,7 @@ export default {
       },
 
       keyup (evt) {
-        if (ctx.enabled === true && testKeyCodes(evt, ctx.modifiers.keyCodes) === true) {
+        if (ctx.enabled === true && isKeyCode(evt, ctx.modifiers.keyCodes) === true) {
           showRipple(evt, el, ctx, true)
         }
       }

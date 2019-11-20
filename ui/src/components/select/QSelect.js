@@ -14,7 +14,7 @@ import QDialog from '../dialog/QDialog.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
-import { ignoreKey, testKeyCodes } from '../../utils/key-composition'
+import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition'
 
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
@@ -448,11 +448,12 @@ export default Vue.extend({
       // if ESC and we have an opened menu
       // then stop propagation (might be caught by a QDialog
       // and so it will also close the QDialog, which is wrong)
-      if (testKeyCodes(e, 27) === true && this.menu === true) {
+      if (isKeyCode(e, 27) === true && this.menu === true) {
         stop(e)
         // on ESC we need to close the dialog also
         this.hidePopup()
       }
+
       this.$emit('keyup', e)
     },
 
@@ -463,7 +464,7 @@ export default Vue.extend({
     __onTargetKeydown (e) {
       this.$emit('keydown', e)
 
-      if (ignoreKey(e) === true) {
+      if (shouldIgnoreKey(e) === true) {
         return
       }
 

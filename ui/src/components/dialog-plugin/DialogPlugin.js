@@ -4,7 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
-import { testKeyCodes } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition'
 
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
@@ -94,6 +94,34 @@ export default Vue.extend({
           label: this.cancelLabel,
           ripple: false
         }
+    },
+
+    inputEvents () {
+      return {
+        // eslint-disable-next-line
+        input: v => { this.prompt.model = v },
+        keyup: evt => {
+          // if ENTER key
+          if (this.prompt.type !== 'textarea' && isKeyCode(evt, 13) === true) {
+            this.onOk()
+          }
+        }
+      }
+    },
+
+    optionsEvents () {
+      return {
+        // eslint-disable-next-line
+        input: v => { this.options.model = v }
+      }
+    },
+
+    dialogEvents () {
+      return {
+        hide: () => {
+          this.$emit('hide')
+        }
+      }
     }
   },
 
@@ -117,15 +145,7 @@ export default Vue.extend({
             autofocus: true,
             dark: this.isDark
           },
-          on: {
-            input: v => { this.prompt.model = v },
-            keyup: evt => {
-              // if ENTER key
-              if (this.prompt.type !== 'textarea' && testKeyCodes(evt, 13) === true) {
-                this.onOk()
-              }
-            }
-          }
+          on: this.inputEvents
         })
       ]
     },
@@ -141,9 +161,7 @@ export default Vue.extend({
             options: this.options.items,
             dark: this.isDark
           },
-          on: {
-            input: v => { this.options.model = v }
-          }
+          on: this.optionsEvents
         })
       ]
     },
@@ -244,11 +262,7 @@ export default Vue.extend({
         value: this.value
       },
 
-      on: {
-        hide: () => {
-          this.$emit('hide')
-        }
-      }
+      on: this.dialogEvents
     }, [
       h(QCard, {
         staticClass: 'q-dialog-plugin' +

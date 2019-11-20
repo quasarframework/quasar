@@ -6,7 +6,7 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { ignoreKey } from '../../utils/key-composition'
+import { shouldIgnoreKey } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QTree',
@@ -484,7 +484,7 @@ export default Vue.extend({
               this.__onClick(node, meta, e)
             },
             keypress: e => {
-              if (ignoreKey(e) !== true) {
+              if (shouldIgnoreKey(e) !== true) {
                 if (e.keyCode === 13) { this.__onClick(node, meta, e, true) }
                 else if (e.keyCode === 32) { this.__onExpandClick(node, meta, e, true) }
               }

@@ -7,7 +7,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import { testKeyCodes } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QPagination',
@@ -127,6 +127,15 @@ export default Vue.extend({
         this.$q.iconSet.pagination.last
       ]
       return this.$q.lang.rtl === true ? ico.reverse() : ico
+    },
+
+    inputEvents () {
+      return {
+        // eslint-disable-next-line
+        input: value => { this.newPage = value },
+        keyup: e => { isKeyCode(e, 13) === true && this.__update() },
+        blur: this.__update
+      }
     }
   },
 
@@ -228,11 +237,7 @@ export default Vue.extend({
           min: this.min,
           max: this.max
         },
-        on: {
-          input: value => { this.newPage = value },
-          keyup: e => { testKeyCodes(e, 13) === true && this.__update() },
-          blur: () => { this.__update() }
-        }
+        on: this.inputEvents
       }))
     }
     else { // is type select

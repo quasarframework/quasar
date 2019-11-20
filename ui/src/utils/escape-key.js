@@ -1,4 +1,4 @@
-import { testKeyCodes } from './key-composition'
+import { isKeyCode } from './key-composition'
 
 let handlers = []
 
@@ -6,7 +6,7 @@ export default {
   __install () {
     this.__installed = true
     window.addEventListener('keyup', evt => {
-      if (handlers.length !== 0 && testKeyCodes(evt, 27) === true) {
+      if (handlers.length !== 0 && isKeyCode(evt, 27) === true) {
         handlers[handlers.length - 1].fn(evt)
       }
     })

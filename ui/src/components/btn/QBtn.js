@@ -8,7 +8,7 @@ import BtnMixin from '../../mixins/btn.js'
 import slot from '../../utils/slot.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
-import { testKeyCodes } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition'
 
 const { passiveCapture } = listenOpts
 
@@ -100,7 +100,7 @@ export default Vue.extend({
     },
 
     __onKeydown (e) {
-      if (testKeyCodes(e, [13, 32]) === true) {
+      if (isKeyCode(e, [ 13, 32 ]) === true) {
         stopAndPrevent(e)
 
         if (keyboardTarget !== this.$el) {
@@ -143,7 +143,7 @@ export default Vue.extend({
 
     __onPressEnd (e) {
       if (e !== void 0 && e.type === 'keyup') {
-        if (keyboardTarget === this.$el && testKeyCodes(e, [13, 32]) === true) {
+        if (keyboardTarget === this.$el && isKeyCode(e, [ 13, 32 ]) === true) {
           // for click trigger
           const evt = new MouseEvent('click', e)
           evt.qKeyEvent = true
