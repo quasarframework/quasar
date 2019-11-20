@@ -1,3 +1,5 @@
+import { ignoreKey } from '../utils/key-composition'
+
 // leave NAMED_MASKS at top of file (code referenced from docs)
 const NAMED_MASKS = {
   date: '####/##/##',
@@ -405,6 +407,10 @@ export default {
     },
 
     __onMaskedKeydown (e) {
+      if (ignoreKey(e) === true) {
+        return
+      }
+
       const
         inp = this.$refs.input,
         start = inp.selectionStart,

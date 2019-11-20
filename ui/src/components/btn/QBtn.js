@@ -6,8 +6,9 @@ import QSpinner from '../spinner/QSpinner.js'
 import BtnMixin from '../../mixins/btn.js'
 
 import slot from '../../utils/slot.js'
-import { stopAndPrevent, listenOpts } from '../../utils/event.js'
+import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
+import { testKeyCodes } from '../../utils/key-composition'
 
 const { passiveCapture } = listenOpts
 
@@ -99,7 +100,7 @@ export default Vue.extend({
     },
 
     __onKeydown (e) {
-      if ([13, 32].includes(e.keyCode) === true) {
+      if (testKeyCodes(e, [13, 32]) === true) {
         stopAndPrevent(e)
 
         if (keyboardTarget !== this.$el) {
@@ -142,11 +143,12 @@ export default Vue.extend({
 
     __onPressEnd (e) {
       if (e !== void 0 && e.type === 'keyup') {
-        if (keyboardTarget === this.$el && [13, 32].includes(e.keyCode) === true) {
+        if (keyboardTarget === this.$el && testKeyCodes(e, [13, 32]) === true) {
           // for click trigger
           const evt = new MouseEvent('click', e)
           evt.qKeyEvent = true
-          e.defaultPrevented === true && evt.preventDefault()
+          e.defaultPrevented === true && prevent(evt)
+          e.cancelBubble === true && stop(evt)
           this.$el.dispatchEvent(evt)
 
           stopAndPrevent(e)

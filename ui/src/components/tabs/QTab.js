@@ -6,6 +6,7 @@ import RippleMixin from '../../mixins/ripple.js'
 
 import { stop } from '../../utils/event.js'
 import slot from '../../utils/slot.js'
+import { testKeyCodes } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QTab',
@@ -72,7 +73,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      e.keyCode === 13 && this.__activate(e, true)
+      testKeyCodes(e, 13) === true && this.__activate(e, true)
     },
 
     __getContent (h) {

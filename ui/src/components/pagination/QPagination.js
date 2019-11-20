@@ -7,6 +7,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
+import { testKeyCodes } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QPagination',
@@ -229,7 +230,7 @@ export default Vue.extend({
         },
         on: {
           input: value => { this.newPage = value },
-          keyup: e => { e.keyCode === 13 && this.__update() },
+          keyup: e => { testKeyCodes(e, 13) === true && this.__update() },
           blur: () => { this.__update() }
         }
       }))

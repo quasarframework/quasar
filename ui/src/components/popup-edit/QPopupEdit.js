@@ -6,6 +6,7 @@ import QBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
 import slot from '../../utils/slot.js'
+import { testKeyCodes } from '../../utils/key-composition'
 
 export default Vue.extend({
   name: 'QPopupEdit',
@@ -173,7 +174,7 @@ export default Vue.extend({
           this.$emit('hide')
         },
         keyup: e => {
-          e.keyCode === 13 && this.set()
+          testKeyCodes(e, 13) === true && this.set()
         }
       }
     }, this.__getContent(h))
