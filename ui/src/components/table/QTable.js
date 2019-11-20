@@ -154,7 +154,11 @@ export default Vue.extend({
       }
 
       if (this.columnToSort !== void 0) {
-        rows = this.sortMethod(rows.slice(), sortBy, descending)
+        rows = this.sortMethod(
+          this.data === rows ? rows.slice() : rows,
+          sortBy,
+          descending
+        )
       }
 
       const rowsNumber = rows.length
