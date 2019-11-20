@@ -3,39 +3,6 @@ import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarge
 import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
-function cloneEvent (evt) {
-  try {
-    return evt.type.indexOf('mouse') > -1
-      ? new MouseEvent(evt.type, evt)
-      : new TouchEvent(evt.type, evt)
-  }
-  catch (e) {
-    // IE11 doesn't have touch capability, so
-    // we'll end up here only with Mouse events
-
-    const clone = document.createEvent('MouseEvents')
-    clone.initMouseEvent(
-      evt.type,
-      evt.bubbles,
-      evt.cancelable,
-      evt.view,
-      evt.detail,
-      evt.screenX,
-      evt.screenY,
-      evt.clientX,
-      evt.clientY,
-      evt.ctrlKey,
-      evt.altKey,
-      evt.shiftKey,
-      evt.metaKey,
-      evt.button,
-      evt.relatedTarget
-    )
-
-    return clone
-  }
-}
-
 function getChanges (evt, ctx, isFinal) {
   let
     pos = position(evt),
@@ -220,7 +187,9 @@ export default {
           (mouseEvent === true && modifiers.mouseAllDir === true) ||
           (mouseEvent !== true && modifiers.stop === true)
         ) {
-          const clone = cloneEvent(evt)
+          const clone = evt.type.indexOf('mouse') > -1
+            ? new MouseEvent(evt.type, evt)
+            : new TouchEvent(evt.type, evt)
 
           evt.defaultPrevented === true && prevent(clone)
           evt.cancelBubble === true && stop(clone)
