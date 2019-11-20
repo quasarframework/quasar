@@ -164,7 +164,12 @@ export default Vue.extend({
       const rowsNumber = rows.length
 
       if (rowsPerPage !== 0) {
-        rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
+        if (this.firstRowIndex === 0 && this.data !== rows) {
+          rows.length = this.lastRowIndex
+        }
+        else {
+          rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
+        }
       }
 
       return { rowsNumber, rows }
