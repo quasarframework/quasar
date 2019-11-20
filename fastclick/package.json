@@ -42,6 +42,10 @@
     "click",
     "delay"
   ],
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
   "licenses": [
     {
       "type": "MIT",

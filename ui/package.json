@@ -48,6 +48,10 @@
   "bugs": {
     "url": "https://github.com/quasarframework/quasar/issues"
   },
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
   "homepage": "https://quasar.dev",
   "devDependencies": {
     "@babel/core": "^7.5.5",
