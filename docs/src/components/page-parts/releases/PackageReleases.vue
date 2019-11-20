@@ -6,7 +6,7 @@ q-splitter.release__splitter(:value="20" :limits="[14, 90]")
       q-tabs.text-primary(vertical v-model="selectedVersion")
         q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.key" :name="releaseInfo.key")
           .q-tab__label {{ releaseInfo.version }}
-          .text-grey-9 {{ releaseInfo.formattedCreatedAt }}
+          small.text-grey-7 {{ releaseInfo.formattedCreatedAt }}
   template(#after)
     q-tab-panels.releases-container(v-model="selectedVersion" animated transition-prev="slide-down" transition-next="slide-up")
       q-tab-panel.q-pa-none(v-for="releaseInfo in filteredReleases" :key="releaseInfo.key" :name="releaseInfo.key")
