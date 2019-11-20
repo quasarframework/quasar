@@ -110,7 +110,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-radio cursor-pointer no-outline row inline no-wrap items-center',
       class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
+      attrs: { tabindex: this.computedTabindex, role: 'radio', 'aria-checked': this.isTrue },
       on: {
         click: this.set,
         keydown: this.__keyDown

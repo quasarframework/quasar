@@ -49,6 +49,10 @@ export default Vue.extend({
 
     model () {
       return Array.isArray(this.value) ? this.value.slice() : this.value
+    },
+
+    role () {
+      return this.type === 'radio' ? 'radiogroup' : 'group'
     }
   },
 
@@ -74,7 +78,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-option-group q-gutter-x-sm',
-      class: this.inline ? 'q-option-group--inline' : null
+      class: this.inline ? 'q-option-group--inline' : null,
+      attrs: { role: 'radiogroup' }
     }, this.options.map(opt => h('div', [
       h(this.component, {
         props: {
