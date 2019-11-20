@@ -207,7 +207,7 @@ export default Vue.extend({
       let target = this.$refs.target
       // IE can have null document.activeElement
       if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
-        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
         target !== null && target !== el && target.focus()
       }
     },
