@@ -175,9 +175,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-carousel__slides-container',
           directives: this.panelDirectives
-        }, [
-          this.__getPanelContent(h)
-        ])
+        }, this.__getPanelContent(h))
       ].concat(this.__getContent(h)))
     }
   },

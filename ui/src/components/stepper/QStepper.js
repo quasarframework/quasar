@@ -86,9 +86,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-stepper__content q-panel-parent',
           directives: this.panelDirectives
-        }, [
-          this.__getPanelContent(h)
-        ])
+        }, this.__getPanelContent(h))
       )
     },
 
