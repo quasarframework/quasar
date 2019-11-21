@@ -5,6 +5,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
+import { cache } from 'utils/vm.js'
 
 export default Vue.extend({
   name: 'QSplitter',
@@ -157,7 +158,7 @@ export default Vue.extend({
         staticClass: 'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
         style: this.styles.before,
         class: this.beforeClass,
-        on: { input: stop }
+        on: cache(this, 'stop', { input: stop })
       }, slot(this, 'before')),
 
       h('div', {
@@ -167,7 +168,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'absolute-full q-splitter__separator-area',
-          directives: this.disable === true ? void 0 : [{
+          directives: this.disable === true ? void 0 : cache(this, 'dir#' + this.horizontal, [{
             name: 'touch-pan',
             value: this.__pan,
             modifiers: {
@@ -178,7 +179,7 @@ export default Vue.extend({
               mouse: true,
               mouseAllDir: true
             }
-          }]
+          }])
         }, slot(this, 'separator'))
       ]),
 
@@ -187,7 +188,7 @@ export default Vue.extend({
         staticClass: 'q-splitter__panel q-splitter__after' + (this.reverse === true ? '' : ' col'),
         style: this.styles.after,
         class: this.afterClass,
-        on: { input: stop }
+        on: cache(this, 'stop', { input: stop })
       }, slot(this, 'after'))
     ]
 

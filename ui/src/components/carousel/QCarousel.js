@@ -8,6 +8,7 @@ import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
 import { mergeSlot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QCarousel',
@@ -116,12 +117,12 @@ export default Vue.extend({
         h(QBtn, {
           staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
           props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
-          on: { click: this.previous }
+          on: cache(this, 'prev', { click: this.previous })
         }),
         h(QBtn, {
           staticClass: 'q-carousel__control q-carousel__next-arrow absolute',
           props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
-          on: { click: this.next }
+          on: cache(this, 'next', { click: this.next })
         })
       )
 
@@ -139,9 +140,7 @@ export default Vue.extend({
               flat: true,
               size: 'sm'
             },
-            on: {
-              click: () => { this.goTo(name) }
-            }
+            on: cache(this, 'nav#' + name, { click: () => { this.goTo(name) } })
           })
         }))
       }
@@ -154,9 +153,8 @@ export default Vue.extend({
             attrs: {
               src: slide.imgSrc
             },
-            on: {
-              click: () => { this.goTo(slide.name) }
-            }
+            key: 'tmb#' + slide.name,
+            on: cache(this, 'tmb#' + slide.name, { click: () => { this.goTo(slide.name) } })
           })
         }))
       }

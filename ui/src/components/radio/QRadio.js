@@ -3,6 +3,7 @@ import Vue from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QRadio',
@@ -86,7 +87,7 @@ export default Vue.extend({
       h('input', {
         staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
         attrs: { type: 'checkbox' },
-        on: { change: this.set }
+        on: cache(this, 'inp', { change: this.set })
       })
     )
 
@@ -111,10 +112,10 @@ export default Vue.extend({
       staticClass: 'q-radio cursor-pointer no-outline row inline no-wrap items-center',
       class: this.classes,
       attrs: { tabindex: this.computedTabindex },
-      on: {
+      on: cache(this, 'inpExt', {
         click: this.set,
         keydown: this.__keyDown
-      }
+      })
     }, child)
   }
 })

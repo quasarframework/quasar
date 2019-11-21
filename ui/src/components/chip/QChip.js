@@ -8,6 +8,7 @@ import SizeMixin from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { mergeSlotSafely } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 const sizes = {
   xs: 8,
@@ -167,10 +168,10 @@ export default Vue.extend({
 
     const data = this.isClickable ? {
       attrs: { tabindex: this.computedTabindex },
-      on: {
+      on: cache(this, 'click', {
         click: this.__onClick,
         keyup: this.__onKeyup
-      },
+      }),
       directives: [{ name: 'ripple', value: this.ripple }]
     } : {}
 

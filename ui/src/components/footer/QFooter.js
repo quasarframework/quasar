@@ -4,6 +4,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/Platform.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QFooter',
@@ -132,7 +133,7 @@ export default Vue.extend({
     const child = [
       h(QResizeObserver, {
         props: { debounce: 0 },
-        on: { resize: this.__onResize }
+        on: cache(this, 'resize', { resize: this.__onResize })
       })
     ]
 

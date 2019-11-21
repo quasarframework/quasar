@@ -13,6 +13,8 @@ import QItemSection from '../item/QItemSection.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
+import { cache } from '../../utils/vm.js'
+
 export default Vue.extend({
   name: 'BottomSheetPlugin',
 
@@ -157,11 +159,11 @@ export default Vue.extend({
         position: 'bottom'
       },
 
-      on: {
+      on: cache(this, 'hide', {
         hide: () => {
           this.$emit('hide')
         }
-      }
+      })
     }, [
       h(QCard, {
         staticClass: `q-bottom-sheet q-bottom-sheet--${this.grid === true ? 'grid' : 'list'}` +

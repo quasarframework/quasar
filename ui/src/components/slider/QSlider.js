@@ -9,6 +9,7 @@ import {
 
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QSlider',
@@ -168,7 +169,7 @@ export default Vue.extend({
       },
       class: this.classes,
       on: this.events,
-      directives: this.editable ? [{
+      directives: this.editable ? cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
@@ -178,7 +179,7 @@ export default Vue.extend({
           mouse: true,
           mouseAllDir: true
         }
-      }] : null
+      }]) : null
     }, [
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {

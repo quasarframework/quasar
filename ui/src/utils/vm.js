@@ -1,3 +1,5 @@
+import { isSSR } from '../plugins/Platform.js'
+
 export function getAllChildren (vm, children = []) {
   vm.$children.forEach(function (child) {
     children.push(child)
@@ -25,4 +27,20 @@ export function isVmChildOf (childVm, parentVm) {
     }
   }
   return false
+}
+
+export function cache (vm, key, on) {
+  if (isSSR === true) { return on }
+
+  const fullKey = key + '#' + Object.keys(on).join('#')
+
+  if (vm.$__cacheOn === void 0) {
+    vm.$__cacheOn = {}
+  }
+
+  if (vm.$__cacheOn[fullKey] === void 0) {
+    vm.$__cacheOn[fullKey] = on
+  }
+
+  return vm.$__cacheOn[fullKey]
 }
