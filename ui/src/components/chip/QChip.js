@@ -7,7 +7,7 @@ import RippleMixin from '../../mixins/ripple.js'
 import SizeMixin from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { mergeSlotSafely } from '../../utils/slot.js'
 
 const sizes = {
   xs: 8,
@@ -129,10 +129,14 @@ export default Vue.extend({
         })
       )
 
+      const label = this.label !== void 0
+        ? [ this.label ]
+        : void 0
+
       child.push(
         h('div', {
           staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
-        }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
+        }, mergeSlotSafely(label, this, 'default'))
       )
 
       this.iconRight && child.push(

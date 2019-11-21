@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/Platform.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -150,7 +150,7 @@ export default Vue.extend({
         ...this.$listeners,
         input: stop
       }
-    }, child.concat(slot(this, 'default')))
+    }, mergeSlot(child, this, 'default'))
   },
 
   created () {

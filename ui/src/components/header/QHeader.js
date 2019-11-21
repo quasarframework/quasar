@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -116,14 +116,12 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = [
+    const child = mergeSlot([
       h(QResizeObserver, {
         props: { debounce: 0 },
         on: { resize: this.__onResize }
       })
-    ].concat(
-      slot(this, 'default')
-    )
+    ], this, 'default')
 
     this.elevated === true && child.push(
       h('div', {

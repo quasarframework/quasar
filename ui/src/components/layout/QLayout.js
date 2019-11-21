@@ -4,7 +4,7 @@ import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/Platform.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QLayout',
@@ -109,7 +109,7 @@ export default Vue.extend({
       staticClass: 'q-layout q-layout--' +
         (this.container === true ? 'containerized' : 'standard'),
       style: this.style
-    }, [
+    }, mergeSlot([
       h(QScrollObserver, {
         on: { scroll: this.__onPageScroll }
       }),
@@ -117,9 +117,7 @@ export default Vue.extend({
       h(QResizeObserver, {
         on: { resize: this.__onPageResize }
       })
-    ].concat(
-      slot(this, 'default')
-    ))
+    ], this, 'default'))
 
     return this.container === true
       ? h('div', {

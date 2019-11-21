@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { PanelParentMixin } from '../../mixins/panel.js'
 import DarkMixin from '../../mixins/dark.js'
 import StepHeader from './StepHeader.js'
-import slot from '../../utils/slot.js'
+import slot, { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -97,7 +97,7 @@ export default Vue.extend({
         staticClass: 'q-stepper',
         class: this.classes,
         on: this.$listeners
-      }, this.__getContent(h).concat(slot(this, 'navigation')))
+      }, mergeSlot(this.__getContent(h), this, 'navigation'))
     }
   }
 })

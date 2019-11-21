@@ -26,7 +26,7 @@ export default function (ctx) {
   }
   else {
     const mixins = ctx.app.mixins || []
-    if (!mixins.includes(mixin)) {
+    if (mixins.includes(mixin) === false) {
       ctx.app.mixins = mixins.concat(mixin)
     }
   }

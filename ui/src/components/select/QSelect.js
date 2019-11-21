@@ -15,6 +15,7 @@ import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition'
+import { mergeSlot } from '../../utils/slot.js'
 
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
@@ -768,11 +769,8 @@ export default Vue.extend({
       if (this.$scopedSlots['before-options'] !== void 0) {
         options = this.$scopedSlots['before-options']().concat(options)
       }
-      if (this.$scopedSlots['after-options'] !== void 0) {
-        options = options.concat(this.$scopedSlots['after-options']())
-      }
 
-      return options
+      return mergeSlot(options, this, 'after-options')
     },
 
     __getInnerAppend (h) {

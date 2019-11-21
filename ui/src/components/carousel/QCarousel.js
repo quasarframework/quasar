@@ -7,7 +7,7 @@ import { PanelParentMixin } from '../../mixins/panel.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QCarousel',
@@ -163,7 +163,7 @@ export default Vue.extend({
         }))
       }
 
-      return node.concat(slot(this, 'control'))
+      return mergeSlot(node, this, 'control')
     },
 
     __renderPanels (h) {

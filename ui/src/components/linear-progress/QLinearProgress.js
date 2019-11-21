@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 
 function width (val) {
   return { transform: `scale3d(${val},1,1)` }
@@ -81,7 +81,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    let child = [
+    const child = [
       h('div', {
         staticClass: 'q-linear-progress__track absolute-full',
         style: this.trackStyle,
@@ -102,16 +102,11 @@ export default Vue.extend({
       })
     )
 
-    const def = slot(this, 'default')
-    if (def !== void 0) {
-      child = child.concat(def)
-    }
-
     return h('div', {
       staticClass: 'q-linear-progress',
       style: this.sizeStyle,
       class: this.classes,
       on: this.$listeners
-    }, child)
+    }, mergeSlot(child, this, 'default'))
   }
 })

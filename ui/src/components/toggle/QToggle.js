@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
 import QIcon from '../icon/QIcon.js'
-import slot from '../../utils/slot.js'
+import slot, { mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QToggle',
@@ -41,6 +41,39 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = h('div', {
+      staticClass: 'q-toggle__inner relative-position',
+      class: this.innerClass
+    }, [
+      this.disable !== true
+        ? h('input', {
+          staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
+          attrs: { type: 'toggle' },
+          on: { change: this.toggle }
+        })
+        : null,
+
+      h('div', { staticClass: 'q-toggle__track' }),
+      h('div', { staticClass: 'q-toggle__thumb-container absolute' }, [
+        h('div', {
+          staticClass: 'q-toggle__thumb row flex-center'
+        }, this.computedIcon !== void 0
+          ? [ h(QIcon, { props: { name: this.computedIcon } }) ]
+          : null
+        )
+      ])
+    ])
+
+    const label = this.label !== void 0
+      ? mergeSlot([ this.label ], this, 'default')
+      : slot(this, 'default')
+
+    label !== void 0 && child.push(
+      h('div', {
+        staticClass: 'q-toggle__label q-anchor--skip'
+      }, label)
+    )
+
     return h('div', {
       staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
       class: this.classes,
@@ -49,33 +82,6 @@ export default Vue.extend({
         click: this.toggle,
         keydown: this.__keyDown
       }
-    }, [
-      h('div', {
-        staticClass: 'q-toggle__inner relative-position',
-        class: this.innerClass
-      }, [
-        this.disable !== true
-          ? h('input', {
-            staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
-            attrs: { type: 'toggle' },
-            on: { change: this.toggle }
-          })
-          : null,
-
-        h('div', { staticClass: 'q-toggle__track' }),
-        h('div', { staticClass: 'q-toggle__thumb-container absolute' }, [
-          h('div', {
-            staticClass: 'q-toggle__thumb row flex-center'
-          }, this.computedIcon !== void 0
-            ? [ h(QIcon, { props: { name: this.computedIcon } }) ]
-            : null
-          )
-        ])
-      ]),
-
-      h('div', {
-        staticClass: 'q-toggle__label q-anchor--skip'
-      }, (this.label !== void 0 ? [ this.label ] : []).concat(slot(this, 'default')))
-    ])
+    }, child)
   }
 })
