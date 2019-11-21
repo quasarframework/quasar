@@ -7,7 +7,7 @@ export default {
       type: Function,
       default (data, sortBy, descending) {
         const col = this.columns.find(def => def.name === sortBy)
-        if (col === null || col.field === void 0) {
+        if (col === null || col === void 0 || col.field === void 0) {
           return data
         }
 
