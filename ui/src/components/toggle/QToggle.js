@@ -41,28 +41,30 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = h('div', {
-      staticClass: 'q-toggle__inner relative-position',
-      class: this.innerClass
-    }, [
-      this.disable !== true
-        ? h('input', {
-          staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
-          attrs: { type: 'toggle' },
-          on: { change: this.toggle }
-        })
-        : null,
+    const child = [
+      h('div', {
+        staticClass: 'q-toggle__inner relative-position',
+        class: this.innerClass
+      }, [
+        this.disable !== true
+          ? h('input', {
+            staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
+            attrs: { type: 'toggle' },
+            on: { change: this.toggle }
+          })
+          : null,
 
-      h('div', { staticClass: 'q-toggle__track' }),
-      h('div', { staticClass: 'q-toggle__thumb-container absolute' }, [
-        h('div', {
-          staticClass: 'q-toggle__thumb row flex-center'
-        }, this.computedIcon !== void 0
-          ? [ h(QIcon, { props: { name: this.computedIcon } }) ]
-          : null
-        )
+        h('div', { staticClass: 'q-toggle__track' }),
+        h('div', { staticClass: 'q-toggle__thumb-container absolute' }, [
+          h('div', {
+            staticClass: 'q-toggle__thumb row flex-center'
+          }, this.computedIcon !== void 0
+            ? [ h(QIcon, { props: { name: this.computedIcon } }) ]
+            : null
+          )
+        ])
       ])
-    ])
+    ]
 
     const label = this.label !== void 0
       ? mergeSlot([ this.label ], this, 'default')
