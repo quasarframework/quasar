@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import slot, { uniqueSlot } from '../../utils/slot.js'
+import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QTh',

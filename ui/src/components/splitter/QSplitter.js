@@ -3,7 +3,7 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import DarkMixin from '../../mixins/dark.js'
-import slot, { mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({

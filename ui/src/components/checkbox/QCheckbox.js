@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
 
-import slot, { mergeSlot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QCheckbox',

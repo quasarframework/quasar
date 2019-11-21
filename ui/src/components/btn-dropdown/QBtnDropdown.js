@@ -7,7 +7,7 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBtnDropdown',

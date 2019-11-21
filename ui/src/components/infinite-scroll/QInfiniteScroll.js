@@ -4,7 +4,7 @@ import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
 import { getScrollTarget, getScrollHeight, getScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
-import slot, { uniqueSlot } from '../../utils/slot.js'
+import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QInfiniteScroll',

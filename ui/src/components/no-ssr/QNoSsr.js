@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import CanRenderMixin from '../../mixins/can-render.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QNoSsr',

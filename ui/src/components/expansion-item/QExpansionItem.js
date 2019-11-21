@@ -11,7 +11,7 @@ import { RouterLinkMixin } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 const eventName = 'q:expansion-item:close'
 

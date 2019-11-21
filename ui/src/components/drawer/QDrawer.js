@@ -8,7 +8,7 @@ import DarkMixin from '../../mixins/dark.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 const duration = 150
 

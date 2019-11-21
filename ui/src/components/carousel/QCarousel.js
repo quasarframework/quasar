@@ -112,20 +112,18 @@ export default Vue.extend({
     __getContent (h) {
       const node = []
 
-      if (this.arrows === true) {
-        node.push(
-          h(QBtn, {
-            staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
-            props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
-            on: { click: this.previous }
-          }),
-          h(QBtn, {
-            staticClass: 'q-carousel__control q-carousel__next-arrow absolute',
-            props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
-            on: { click: this.next }
-          })
-        )
-      }
+      this.arrows === true && node.push(
+        h(QBtn, {
+          staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
+          props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
+          on: { click: this.previous }
+        }),
+        h(QBtn, {
+          staticClass: 'q-carousel__control q-carousel__next-arrow absolute',
+          props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
+          on: { click: this.next }
+        })
+      )
 
       if (this.navigation === true) {
         node.push(this.__getNavigationContainer(h, 'buttons', panel => {
@@ -147,7 +145,7 @@ export default Vue.extend({
           })
         }))
       }
-      else if (this.thumbnails) {
+      else if (this.thumbnails === true) {
         node.push(this.__getNavigationContainer(h, 'thumbnails', panel => {
           const slide = panel.componentOptions.propsData
 

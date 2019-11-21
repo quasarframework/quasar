@@ -1,4 +1,4 @@
-export default function (vm, slotName, otherwise) {
+export function slot (vm, slotName, otherwise) {
   return vm.$scopedSlots[slotName] !== void 0
     ? vm.$scopedSlots[slotName]()
     : otherwise
