@@ -203,7 +203,7 @@ export default Vue.extend({
     let inner = []
     const
       data = {
-        staticClass: 'q-btn inline q-btn-item non-selectable no-outline',
+        staticClass: 'q-btn q-btn-item non-selectable no-outline',
         class: this.classes,
         style: this.style,
         attrs: this.attrs
