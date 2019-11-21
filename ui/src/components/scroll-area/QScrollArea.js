@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { between } from '../../utils/format.js'
 import { getMouseWheelDistance, prevent } from '../../utils/event.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
-import slot from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -307,13 +307,11 @@ export default Vue.extend({
           staticClass: 'absolute',
           style: this.mainStyle,
           class: `full-${this.horizontal === true ? 'height' : 'width'}`
-        }, [
+        }, mergeSlot([
           h(QResizeObserver, {
             on: { resize: this.__updateScrollSize }
           })
-        ].concat(
-          slot(this, 'default')
-        )),
+        ], this, 'default')),
 
         h(QScrollObserver, {
           props: { horizontal: this.horizontal },

@@ -7,7 +7,7 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
 
 let maximizedModals = 0

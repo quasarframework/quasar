@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 const slotsDef = [
   ['left', 'center', 'start', 'width'],

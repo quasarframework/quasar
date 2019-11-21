@@ -9,7 +9,7 @@ import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../../utils/touch.js'
 import { clearSelection } from '../../utils/selection.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'

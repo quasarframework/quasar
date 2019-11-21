@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIcon',
@@ -119,18 +119,11 @@ export default Vue.extend({
       })
     }
 
-    let child = [ this.type.content ]
-    const def = slot(this, 'default')
-
-    if (def !== void 0) {
-      child = child.concat(def)
-    }
-
     return h('i', {
       staticClass: this.type.cls,
       style: this.sizeStyle,
       on: this.$listeners,
       attrs: { 'aria-hidden': true }
-    }, child)
+    }, mergeSlot([ this.type.content ], this, 'default'))
   }
 })

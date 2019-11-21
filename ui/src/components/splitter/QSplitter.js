@@ -3,7 +3,7 @@ import Vue from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import DarkMixin from '../../mixins/dark.js'
-import slot from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -191,15 +191,10 @@ export default Vue.extend({
       }, slot(this, 'after'))
     ]
 
-    const def = slot(this, 'default')
-    if (def !== void 0) {
-      child = child.concat(def)
-    }
-
     return h('div', {
       staticClass: 'q-splitter no-wrap',
       class: this.classes,
       on: this.$listeners
-    }, child)
+    }, mergeSlot(child, this, 'default'))
   }
 })

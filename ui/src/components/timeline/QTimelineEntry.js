@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import slot, { uniqueSlot } from '../../utils/slot.js'
+import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QTimelineEntry',
@@ -53,10 +53,10 @@ export default Vue.extend({
   },
 
   render (h) {
-    const def = uniqueSlot(this, 'default', [])
+    const child = uniqueSlot(this, 'default', [])
 
     if (this.body !== void 0) {
-      def.unshift(this.body)
+      child.unshift(this.body)
     }
 
     if (this.heading === true) {
@@ -66,7 +66,7 @@ export default Vue.extend({
         h(
           this.tag,
           { staticClass: 'q-timeline__heading-title' },
-          def
+          child
         )
       ]
 
@@ -107,7 +107,7 @@ export default Vue.extend({
 
       h('div', { staticClass: 'q-timeline__content' }, [
         h('h6', { staticClass: 'q-timeline__title' }, slot(this, 'title', [ this.title ]))
-      ].concat(def))
+      ].concat(child))
     ]
 
     return h('li', {

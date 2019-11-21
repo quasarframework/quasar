@@ -3,7 +3,7 @@ import Vue from 'vue'
 import TouchSwipe from '../directives/TouchSwipe.js'
 
 import { stop } from '../utils/event.js'
-import slot from '../utils/slot.js'
+import { slot } from '../utils/slot.js'
 
 const PanelWrapper = Vue.extend({
   name: 'QTabPanelWrapper',

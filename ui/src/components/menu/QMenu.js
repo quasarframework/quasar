@@ -11,7 +11,7 @@ import { getScrollTarget } from '../../utils/scroll.js'
 import { create, stop, position, listenOpts, stopAndPrevent } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 import {
   validatePosition, validateOffset, setPosition, parsePosition

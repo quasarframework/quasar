@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QRadio',
@@ -97,15 +97,15 @@ export default Vue.extend({
       }, content)
     ]
 
-    const def = slot(this, 'default')
+    const label = this.label !== void 0
+      ? mergeSlot([ this.label ], this, 'default')
+      : slot(this, 'default')
 
-    if (this.label !== void 0 || def !== void 0) {
-      child.push(
-        h('div', {
-          staticClass: 'q-radio__label q-anchor--skip'
-        }, (this.label !== void 0 ? [ this.label ] : []).concat(def))
-      )
-    }
+    label !== void 0 && child.push(
+      h('div', {
+        staticClass: 'q-radio__label q-anchor--skip'
+      }, label)
+    )
 
     return h('div', {
       staticClass: 'q-radio cursor-pointer no-outline row inline no-wrap items-center',

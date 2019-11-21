@@ -66,6 +66,17 @@
           Bookmark
         </q-chip>
         <q-chip v-bind="chipProps" icon="alarm" label="Set alarm" />
+        <q-chip v-bind="chipProps" icon="feedback" label="With tooltip">
+          <q-tooltip>
+            With tooltip
+          </q-tooltip>
+        </q-chip>
+        <q-chip v-bind="chipProps" icon="feedback">
+          With tooltip2
+          <q-tooltip>
+            With tooltip and inline label
+          </q-tooltip>
+        </q-chip>
         <q-chip v-bind="chipProps" icon="directions">
           Get directions
         </q-chip>

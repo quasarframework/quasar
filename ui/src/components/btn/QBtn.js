@@ -5,7 +5,7 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import BtnMixin from '../../mixins/btn.js'
 
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition'
@@ -200,10 +200,10 @@ export default Vue.extend({
   },
 
   render (h) {
+    let inner = []
     const
-      inner = [],
       data = {
-        staticClass: 'q-btn inline q-btn-item non-selectable no-outline',
+        staticClass: 'q-btn q-btn-item non-selectable no-outline',
         class: this.classes,
         style: this.style,
         attrs: this.attrs
@@ -240,8 +240,7 @@ export default Vue.extend({
       h('div', [ this.label ])
     )
 
-    const def = slot(this, 'default')
-    def !== void 0 && inner.push(def)
+    inner = mergeSlot(inner, this, 'default')
 
     if (this.iconRight !== void 0 && this.isRound === false) {
       inner.push(
