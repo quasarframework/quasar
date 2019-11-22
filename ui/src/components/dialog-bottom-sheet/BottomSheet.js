@@ -13,7 +13,7 @@ import QItemSection from '../item/QItemSection.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'BottomSheetPlugin',
@@ -159,7 +159,7 @@ export default Vue.extend({
         position: 'bottom'
       },
 
-      on: cache(this, 'hide', {
+      on: getCache(this, 'hide') || cache(this, 'hide', {
         hide: () => {
           this.$emit('hide')
         }

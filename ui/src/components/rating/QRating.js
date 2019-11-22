@@ -5,7 +5,7 @@ import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
 import SizeMixin from '../../mixins/size.js'
 
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QRating',
@@ -131,7 +131,7 @@ export default Vue.extend({
           },
           props: { name: name || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
-          on: cache(this, 'ico#' + i, {
+          on: getCache(this, 'ico#' + i) || cache(this, 'ico#' + i, {
             click: () => { this.__set(i) },
             mouseover: () => { this.__setHoverValue(i) },
             mouseout: () => { this.mouseModel = 0 },

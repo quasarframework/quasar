@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './Platform.js'
 import uid from '../utils/uid.js'
-import { cache } from '../utils/vm.js'
+import { getCache, cache } from '../utils/vm.js'
 
 let
   vm,
@@ -59,7 +59,7 @@ const Loading = {
               name: 'q-transition--fade',
               appear: true
             },
-            on: cache(this, 'tr', {
+            on: getCache(this, 'tr') || cache(this, 'tr', {
               'after-leave': () => {
                 // might be called to finalize
                 // previous leave, even if it was cancelled

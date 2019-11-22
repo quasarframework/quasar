@@ -9,7 +9,7 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 const duration = 150
 
@@ -612,7 +612,7 @@ export default Vue.extend({
         style: this.lastBackdropBg !== void 0
           ? { backgroundColor: this.lastBackdropBg }
           : null,
-        on: cache(this, 'bkdrop', { click: this.hide }),
+        on: getCache(this, 'bkdrop') || cache(this, 'bkdrop', { click: this.hide }),
         directives: this.noSwipeBackdrop !== true
           ? this.closeDirective
           : void 0

@@ -5,7 +5,7 @@ import DarkMixin from '../../mixins/dark.js'
 import StepHeader from './StepHeader.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QStepper',
@@ -58,7 +58,7 @@ export default Vue.extend({
             staticClass: 'q-stepper__content',
             // stop propagation of content emitted @input
             // which would tamper with Panel's model
-            on: cache(this, 'stop', { input: stop })
+            on: getCache(this, 'stop') || cache(this, 'stop', { input: stop })
           }, slot(this, 'default'))
         )
       }

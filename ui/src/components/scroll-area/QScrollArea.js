@@ -4,7 +4,7 @@ import { between } from '../../utils/format.js'
 import { getMouseWheelDistance, prevent } from '../../utils/event.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
@@ -127,7 +127,7 @@ export default Vue.extend({
 
     desktopEvents () {
       return this.visible === null
-        ? cache(this, 'desk', {
+        ? getCache(this, 'desk') || cache(this, 'desk', {
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           mouseenter: () => { this.hover = true },
           // eslint-disable-next-line vue/no-side-effects-in-computed-properties
@@ -292,10 +292,10 @@ export default Vue.extend({
       h('div', {
         ref: 'target',
         staticClass: 'scroll relative-position overflow-hidden fit',
-        on: cache(this, 'wheel', {
+        on: getCache(this, 'wheel') || cache(this, 'wheel', {
           wheel: this.__mouseWheel
         }),
-        directives: cache(this, 'touch#' + this.horizontal, [{
+        directives: getCache(this, 'touch#' + this.horizontal) || cache(this, 'touch#' + this.horizontal, [{
           name: 'touch-pan',
           modifiers: {
             vertical: !this.horizontal,
@@ -311,25 +311,25 @@ export default Vue.extend({
           class: `full-${this.horizontal === true ? 'height' : 'width'}`
         }, mergeSlot([
           h(QResizeObserver, {
-            on: cache(this, 'resizeIn', { resize: this.__updateScrollSize })
+            on: getCache(this, 'resizeIn') || cache(this, 'resizeIn', { resize: this.__updateScrollSize })
           })
         ], this, 'default')),
 
         h(QScrollObserver, {
           props: { horizontal: this.horizontal },
-          on: cache(this, 'scroll', { scroll: this.__updateScroll })
+          on: getCache(this, 'scroll') || cache(this, 'scroll', { scroll: this.__updateScroll })
         })
       ]),
 
       h(QResizeObserver, {
-        on: cache(this, 'resizeOut', { resize: this.__updateContainer })
+        on: getCache(this, 'resizeOut') || cache(this, 'resizeOut', { resize: this.__updateContainer })
       }),
 
       h('div', {
         staticClass: 'q-scrollarea__thumb',
         style: this.style,
         class: this.thumbClass,
-        directives: this.thumbHidden === true ? null : cache(this, 'thumb' + this.horizontal, [{
+        directives: this.thumbHidden === true ? null : getCache(this, 'thumb' + this.horizontal) || cache(this, 'thumb' + this.horizontal, [{
           name: 'touch-pan',
           modifiers: {
             vertical: !this.horizontal,

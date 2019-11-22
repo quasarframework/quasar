@@ -7,7 +7,7 @@ import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
@@ -353,7 +353,7 @@ export default Vue.extend({
               staticClass: 'q-date__header-subtitle q-date__header-link',
               class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
-              on: cache(this, 'vY', {
+              on: getCache(this, 'vY') || cache(this, 'vY', {
                 click: () => { this.view = 'Years' },
                 keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
               })
@@ -377,7 +377,7 @@ export default Vue.extend({
                 staticClass: 'q-date__header-title-label q-date__header-link',
                 class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
-                on: cache(this, 'vC', {
+                on: getCache(this, 'vC') || cache(this, 'vC', {
                   click: () => { this.view = 'Calendar' },
                   keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
                 })
@@ -394,13 +394,20 @@ export default Vue.extend({
               round: true,
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'today', { click: this.setToday })
+            key: 'today',
+            on: getCache(this, 'today') || cache(this, 'today', { click: this.setToday })
           }) : null
         ])
       ])
     },
 
     __getNavigation (h, { label, view, key, dir, goTo, cls }) {
+      const keys = [
+        'go-#' + view,
+        'view#' + view,
+        'go+#' + view
+      ]
+
       return [
         h('div', {
           staticClass: 'row items-center q-date__arrow'
@@ -414,7 +421,8 @@ export default Vue.extend({
               icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'go-#' + view, { click () { goTo(-1) } })
+            key: keys[0],
+            on: getCache(this, keys[0]) || cache(this, keys[0], { click () { goTo(-1) } })
           })
         ]),
 
@@ -435,7 +443,8 @@ export default Vue.extend({
                   label,
                   tabindex: this.computedTabindex
                 },
-                on: cache(this, 'view#' + view, { click: () => { this.view = view } })
+                key: keys[1],
+                on: getCache(this, keys[1]) || cache(this, keys[1], { click: () => { this.view = view } })
               })
             ])
           ])
@@ -453,13 +462,16 @@ export default Vue.extend({
               icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'go+#' + view, { click () { goTo(1) } })
+            key: keys[2],
+            on: getCache(this, keys[2]) || cache(this, keys[2], { click () { goTo(1) } })
           })
         ])
       ]
     },
 
     __getCalendarView (h) {
+      const keys = this.days.map(day => 'day#' + day.i)
+
       return [
         h('div', {
           key: 'calendar-view',
@@ -498,7 +510,7 @@ export default Vue.extend({
               h('div', {
                 key: this.innerModel.year + '/' + this.innerModel.month,
                 staticClass: 'q-date__calendar-days fit'
-              }, this.days.map(day => h('div', {
+              }, this.days.map((day, i) => h('div', {
                 staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}`
               }, [
                 day.in === true
@@ -513,7 +525,8 @@ export default Vue.extend({
                       label: day.i,
                       tabindex: this.computedTabindex
                     },
-                    on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
+                    key: keys[i],
+                    on: getCache(this, keys[i]) || cache(this, keys[i], { click: () => { this.__setDay(day.i) } })
                   }, day.event !== false ? [
                     h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
@@ -527,9 +540,11 @@ export default Vue.extend({
 
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
+      let active, key
 
       const content = this.computedLocale.monthsShort.map((month, i) => {
-        const active = this.innerModel.month === i + 1
+        active = this.innerModel.month === i + 1
+        key = 'month#' + i
 
         return h('div', {
           staticClass: 'q-date__months-item flex flex-center'
@@ -544,7 +559,8 @@ export default Vue.extend({
               textColor: active ? this.computedTextColor : null,
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
+            key,
+            on: getCache(this, key) || cache(this, key, { click: () => { this.__setMonth(i + 1) } })
           })
         ])
       })
@@ -561,8 +577,11 @@ export default Vue.extend({
         stop = start + yearsInterval,
         years = []
 
+      let active, key
+
       for (let i = start; i <= stop; i++) {
-        const active = this.innerModel.year === i
+        active = this.innerModel.year === i
+        key = 'year#' + i
 
         years.push(
           h('div', {
@@ -579,11 +598,15 @@ export default Vue.extend({
                 textColor: active ? this.computedTextColor : null,
                 tabindex: this.computedTabindex
               },
-              on: cache(this, 'year#' + i, { click: () => { this.__setYear(i) } })
+              on: getCache(this, key) || cache(this, key, { click: () => { this.__setYear(i) } })
             })
           ])
         )
       }
+
+      const
+        keyM = 'y-#' + yearsInterval,
+        keyP = 'y+#' + yearsInterval
 
       return h('div', {
         staticClass: 'q-date__view q-date__years flex flex-center'
@@ -599,7 +622,8 @@ export default Vue.extend({
               icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'y-#' + yearsInterval, { click: () => { this.startYear -= yearsInterval } })
+            key: keyM,
+            on: getCache(this, keyM) || cache(this, keyM, { click: () => { this.startYear -= yearsInterval } })
           })
         ]),
 
@@ -618,7 +642,8 @@ export default Vue.extend({
               icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'y+#' + yearsInterval, { click: () => { this.startYear += yearsInterval } })
+            key: keyP,
+            on: getCache(this, keyP) || cache(this, keyP, { click: () => { this.startYear += yearsInterval } })
           })
         ])
       ])

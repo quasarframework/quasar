@@ -9,7 +9,7 @@ import {
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 const dragType = {
   MIN: 0,
@@ -468,7 +468,7 @@ export default Vue.extend({
       },
       class: this.classes,
       on: this.events,
-      directives: this.editable === true ? cache(this, 'dir', [{
+      directives: this.editable === true ? getCache(this, 'dir') || cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {

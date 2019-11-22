@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 import FabMixin from './fab-mixin.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QFab',
@@ -57,7 +57,7 @@ export default Vue.extend({
           icon: void 0,
           fab: true
         },
-        on: cache(this, 'tog', {
+        on: getCache(this, 'tog') || cache(this, 'tog', {
           click: this.toggle
         })
       }, slot(this, 'tooltip', []).concat([

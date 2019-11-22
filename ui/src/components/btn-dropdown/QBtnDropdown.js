@@ -8,7 +8,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QBtnDropdown',
@@ -81,7 +81,7 @@ export default Vue.extend({
           contentStyle: this.contentStyle,
           separateClosePopup: true
         },
-        on: cache(this, 'menu', {
+        on: getCache(this, 'menu') || cache(this, 'menu', {
           'before-show': e => {
             this.showing = true
             this.$emit('before-show', e)
@@ -111,7 +111,7 @@ export default Vue.extend({
           noWrap: true,
           round: false
         },
-        on: cache(this, 'nonSpl', {
+        on: getCache(this, 'nonSpl') || cache(this, 'nonSpl', {
           click: e => {
             this.$emit('click', e)
           }
@@ -128,7 +128,7 @@ export default Vue.extend({
         iconRight: this.iconRight,
         round: false
       },
-      on: cache(this, 'spl', {
+      on: getCache(this, 'spl') || cache(this, 'spl', {
         click: e => {
           this.hide()
           this.$emit('click', e)

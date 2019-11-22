@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { listenOpts } from '../../utils/event.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { isSSR } from '../../plugins/Platform.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QResizeObserver',
@@ -90,7 +90,7 @@ export default Vue.extend({
         data: this.url,
         'aria-hidden': true
       },
-      on: cache(this, 'load', {
+      on: getCache(this, 'load') || cache(this, 'load', {
         load: this.__onObjLoad
       })
     })

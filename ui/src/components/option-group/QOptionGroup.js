@@ -6,7 +6,7 @@ import QToggle from '../toggle/QToggle.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 const components = {
   radio: QRadio,
@@ -92,7 +92,7 @@ export default Vue.extend({
           dense: this.dense,
           keepColor: opt.keepColor || this.keepColor
         },
-        on: cache(this, 'inp', {
+        on: getCache(this, 'inp') || cache(this, 'inp', {
           input: this.__update
         })
       })

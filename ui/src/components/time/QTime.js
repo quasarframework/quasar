@@ -7,7 +7,7 @@ import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 
 export default Vue.extend({
@@ -396,7 +396,7 @@ export default Vue.extend({
           staticClass: 'q-time__link',
           class: this.view === 'Hour' ? 'q-time__link--active' : 'cursor-pointer',
           attrs: { tabindex: this.computedTabindex },
-          on: cache(this, 'vH', {
+          on: getCache(this, 'vH') || cache(this, 'vH', {
             click: () => { this.view = 'Hour' },
             keyup: this.__onKeyupHour
           })
@@ -409,7 +409,7 @@ export default Vue.extend({
               staticClass: 'q-time__link',
               class: this.view === 'Minute' ? 'q-time__link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
-              on: cache(this, 'vM', {
+              on: getCache(this, 'vM') || cache(this, 'vM', {
                 click: () => { this.view = 'Minute' },
                 keyup: this.__onKeyupMinute
               })
@@ -429,7 +429,7 @@ export default Vue.extend({
                 staticClass: 'q-time__link',
                 class: this.view === 'Second' ? 'q-time__link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
-                on: cache(this, 'vS', {
+                on: getCache(this, 'vS') || cache(this, 'vS', {
                   click: () => { this.view = 'Second' },
                   keyup: this.__onKeyupSecond
                 })
@@ -456,7 +456,7 @@ export default Vue.extend({
             staticClass: 'q-time__link',
             class: this.isAM === true ? 'q-time__link--active' : 'cursor-pointer',
             attrs: { tabindex: this.computedTabindex },
-            on: cache(this, 'AM', {
+            on: getCache(this, 'AM') || cache(this, 'AM', {
               click: this.__setAm,
               keyup: e => { e.keyCode === 13 && this.__setAm() }
             })
@@ -466,7 +466,7 @@ export default Vue.extend({
             staticClass: 'q-time__link',
             class: this.isAM !== true ? 'q-time__link--active' : 'cursor-pointer',
             attrs: { tabindex: this.computedTabindex },
-            on: cache(this, 'PM', {
+            on: getCache(this, 'PM') || cache(this, 'PM', {
               click: this.__setPm,
               keyup: e => { e.keyCode === 13 && this.__setPm() }
             })
@@ -496,10 +496,10 @@ export default Vue.extend({
             }, [
               h('div', {
                 staticClass: 'q-time__clock cursor-pointer non-selectable',
-                on: cache(this, 'click', {
+                on: getCache(this, 'click') || cache(this, 'click', {
                   click: this.__click
                 }),
-                directives: cache(this, 'touch', [{
+                directives: getCache(this, 'touch') || cache(this, 'touch', [{
                   name: 'touch-pan',
                   value: this.__drag,
                   modifiers: {
@@ -541,7 +541,7 @@ export default Vue.extend({
             textColor: this.textColor,
             tabindex: this.computedTabindex
           },
-          on: cache(this, 'now', {
+          on: getCache(this, 'now') || cache(this, 'now', {
             click: this.setNow
           })
         }) : null

@@ -1,7 +1,7 @@
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
 
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default {
   methods: {
@@ -70,7 +70,7 @@ export default {
               dark: this.isDark,
               dense: this.dense
             },
-            on: cache(this, 'inp', {
+            on: getCache(this, 'inp') || cache(this, 'inp', {
               input: val => {
                 if (this.someRowsSelected) {
                   val = false

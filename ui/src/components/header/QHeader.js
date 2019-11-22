@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QHeader',
@@ -120,7 +120,7 @@ export default Vue.extend({
     const child = mergeSlot([
       h(QResizeObserver, {
         props: { debounce: 0 },
-        on: cache(this, 'resize', { resize: this.__onResize })
+        on: getCache(this, 'resize') || cache(this, 'resize', { resize: this.__onResize })
       })
     ], this, 'default')
 

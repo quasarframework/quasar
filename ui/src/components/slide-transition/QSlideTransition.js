@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QSlideTransition',
@@ -56,7 +56,7 @@ export default Vue.extend({
         css: false,
         appear: this.appear
       },
-      on: cache(this, 'tr', {
+      on: getCache(this, 'tr') || cache(this, 'tr', {
         enter: (el, done) => {
           let pos = 0
           this.el = el

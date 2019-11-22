@@ -15,7 +15,7 @@ import QOptionGroup from '../option-group/QOptionGroup.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'DialogPlugin',
@@ -124,7 +124,7 @@ export default Vue.extend({
             autofocus: true,
             dark: this.isDark
           },
-          on: cache(this, 'prompt', {
+          on: getCache(this, 'prompt') || cache(this, 'prompt', {
             input: v => { this.prompt.model = v },
             keyup: evt => {
               // if ENTER key
@@ -148,7 +148,7 @@ export default Vue.extend({
             options: this.options.items,
             dark: this.isDark
           },
-          on: cache(this, 'opts', {
+          on: getCache(this, 'opts') || cache(this, 'opts', {
             input: v => { this.options.model = v }
           })
         })
@@ -162,14 +162,14 @@ export default Vue.extend({
         child.push(h(QBtn, {
           props: this.cancelProps,
           attrs: { autofocus: this.focus === 'cancel' && !this.hasForm },
-          on: cache(this, 'cancel', { click: this.onCancel })
+          on: getCache(this, 'cancel') || cache(this, 'cancel', { click: this.onCancel })
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
           props: this.okProps,
           attrs: { autofocus: this.focus === 'ok' && !this.hasForm },
-          on: cache(this, 'ok', { click: this.onOk })
+          on: getCache(this, 'ok') || cache(this, 'ok', { click: this.onOk })
         }))
       }
 
@@ -251,7 +251,7 @@ export default Vue.extend({
         value: this.value
       },
 
-      on: cache(this, 'hide', {
+      on: getCache(this, 'hide') || cache(this, 'hide', {
         hide: () => {
           this.$emit('hide')
         }

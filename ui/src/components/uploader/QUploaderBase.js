@@ -7,7 +7,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop, stopAndPrevent } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default {
   mixins: [ DarkMixin ],
@@ -367,7 +367,7 @@ export default {
             accept: this.accept,
             ...(this.multiple === true ? { multiple: true } : {})
           },
-          on: cache(this, 'input', {
+          on: getCache(this, 'input') || cache(this, 'input', {
             mousedown: stop, // need to stop refocus from QBtn
             change: this.__addFiles
           })
@@ -487,7 +487,7 @@ export default {
         'disabled q-uploader--disable': this.disable
       },
       on: this.canAddFiles === true
-        ? cache(this, 'drag', { dragover: this.__onDragOver })
+        ? getCache(this, 'drag') || cache(this, 'drag', { dragover: this.__onDragOver })
         : null
     }, [
       h('div', {
@@ -501,7 +501,7 @@ export default {
 
       this.dnd === true ? h('div', {
         staticClass: 'q-uploader__dnd absolute-full',
-        on: cache(this, 'dnd', {
+        on: getCache(this, 'dnd') || cache(this, 'dnd', {
           dragenter: stopAndPrevent,
           dragover: stopAndPrevent,
           dragleave: this.__onDragLeave,

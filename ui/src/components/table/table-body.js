@@ -1,6 +1,6 @@
 import QCheckbox from '../checkbox/QCheckbox.js'
 
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default {
   methods: {
@@ -44,7 +44,7 @@ export default {
               dark: this.isDark,
               dense: this.dense
             },
-            on: cache(this, 'sel#' + key + '#' + row, {
+            on: getCache(this, 'sel#' + key + '#' + row) || cache(this, 'sel#' + key + '#' + row, {
               input: adding => {
                 this.__updateSelection([key], [row], adding)
               }

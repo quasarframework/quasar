@@ -8,7 +8,7 @@ import DarkMixin from '../../mixins/dark.js'
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import { isKeyCode } from '../../utils/key-composition.js'
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QPagination',
@@ -229,7 +229,7 @@ export default Vue.extend({
           min: this.min,
           max: this.max
         },
-        on: cache(this, 'inp', {
+        on: getCache(this, 'inp') || cache(this, 'inp', {
           input: value => { this.newPage = value },
           keyup: e => { isKeyCode(e, 13) === true && this.__update() },
           blur: this.__update
@@ -342,7 +342,7 @@ export default Vue.extend({
       h('div', {
         staticClass: 'row justify-center',
         on: this.input === true
-          ? cache(this, 'stop', { input: stop })
+          ? getCache(this, 'stop') || cache(this, 'stop', { input: stop })
           : {}
       }, [
         contentMiddle

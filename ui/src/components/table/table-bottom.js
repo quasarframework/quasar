@@ -2,7 +2,7 @@ import QSelect from '../select/QSelect.js'
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
-import { cache } from '../../utils/vm.js'
+import { getCache, cache } from '../../utils/vm.js'
 
 export default {
   computed: {
@@ -88,7 +88,7 @@ export default {
                 optionsDense: true,
                 optionsCover: true
               },
-              on: cache(this, 'pgSize', {
+              on: getCache(this, 'pgSize') || cache(this, 'pgSize', {
                 input: pag => {
                   this.setPagination({
                     page: 1,
@@ -124,7 +124,7 @@ export default {
                 flat: true,
                 disable: this.isFirstPage
               },
-              on: cache(this, 'pgPrev', { click: this.prevPage })
+              on: getCache(this, 'pgPrev') || cache(this, 'pgPrev', { click: this.prevPage })
             }),
 
             h(QBtn, {
@@ -136,7 +136,7 @@ export default {
                 flat: true,
                 disable: this.isLastPage
               },
-              on: cache(this, 'pgNext', { click: this.nextPage })
+              on: getCache(this, 'pgNext') || cache(this, 'pgNext', { click: this.nextPage })
             })
           )
         }

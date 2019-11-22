@@ -29,11 +29,17 @@ export function isVmChildOf (childVm, parentVm) {
   return false
 }
 
-export function cache (vm, key, obj) {
-  if (isSSR === true) return obj
+export function getCache (vm, key) {
+  if (isSSR === true) return false
 
   const k = `__qcache_${key}`
   return vm[k] === void 0
-    ? (vm[k] = obj)
+    ? false
     : vm[k]
+}
+
+export function cache (vm, key, obj) {
+  return isSSR === true
+    ? obj
+    : (vm[`__qcache_${key}`] = obj)
 }
