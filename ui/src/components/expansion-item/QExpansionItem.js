@@ -12,6 +12,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 const eventName = 'q:expansion-item:close'
 
@@ -132,10 +133,10 @@ export default Vue.extend({
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide
         },
-        on: this.activeToggleIcon === true ? {
+        on: this.activeToggleIcon === true ? cache(this, 'inpExt', {
           click: this.__toggleIcon,
           keyup: this.__toggleIconKeyboard
-        } : void 0
+        }) : void 0
       }, [
         h(QIcon, {
           staticClass: 'q-expansion-item__toggle-icon q-focusable',

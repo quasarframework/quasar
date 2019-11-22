@@ -6,6 +6,7 @@ import TimeoutMixin from '../../mixins/timeout.js'
 
 import { stop } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -381,7 +382,7 @@ export default Vue.extend({
   render (h) {
     const child = [
       h(QResizeObserver, {
-        on: { resize: this.__updateContainer }
+        on: cache(this, 'resize', { resize: this.__updateContainer })
       }),
 
       h('div', {

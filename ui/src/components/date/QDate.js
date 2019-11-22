@@ -7,6 +7,7 @@ import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
+import { cache } from '../../utils/vm.js'
 
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
@@ -352,10 +353,10 @@ export default Vue.extend({
               staticClass: 'q-date__header-subtitle q-date__header-link',
               class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
-              on: {
+              on: cache(this, 'vY', {
                 click: () => { this.view = 'Years' },
                 keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
-              }
+              })
             }, [ this.headerSubtitle ])
           ])
         ]),
@@ -376,10 +377,10 @@ export default Vue.extend({
                 staticClass: 'q-date__header-title-label q-date__header-link',
                 class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
-                on: {
+                on: cache(this, 'vC', {
                   click: () => { this.view = 'Calendar' },
                   keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
-                }
+                })
               }, [ this.headerTitle ])
             ])
           ]),
@@ -393,9 +394,7 @@ export default Vue.extend({
               round: true,
               tabindex: this.computedTabindex
             },
-            on: {
-              click: this.setToday
-            }
+            on: cache(this, 'today', { click: this.setToday })
           }) : null
         ])
       ])
@@ -415,9 +414,7 @@ export default Vue.extend({
               icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
-            on: {
-              click () { goTo(-1) }
-            }
+            on: cache(this, 'go-#' + view, { click () { goTo(-1) } })
           })
         ]),
 
@@ -438,9 +435,7 @@ export default Vue.extend({
                   label,
                   tabindex: this.computedTabindex
                 },
-                on: {
-                  click: () => { this.view = view }
-                }
+                on: cache(this, 'view#' + view, { click: () => { this.view = view } })
               })
             ])
           ])
@@ -458,9 +453,7 @@ export default Vue.extend({
               icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
-            on: {
-              click () { goTo(1) }
-            }
+            on: cache(this, 'go+#' + view, { click () { goTo(1) } })
           })
         ])
       ]
@@ -520,9 +513,7 @@ export default Vue.extend({
                       label: day.i,
                       tabindex: this.computedTabindex
                     },
-                    on: {
-                      click: () => { this.__setDay(day.i) }
-                    }
+                    on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
                   }, day.event !== false ? [
                     h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
@@ -553,9 +544,7 @@ export default Vue.extend({
               textColor: active ? this.computedTextColor : null,
               tabindex: this.computedTabindex
             },
-            on: {
-              click: () => { this.__setMonth(i + 1) }
-            }
+            on: cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
           })
         ])
       })
@@ -590,9 +579,7 @@ export default Vue.extend({
                 textColor: active ? this.computedTextColor : null,
                 tabindex: this.computedTabindex
               },
-              on: {
-                click: () => { this.__setYear(i) }
-              }
+              on: cache(this, 'year#' + i, { click: () => { this.__setYear(i) } })
             })
           ])
         )
@@ -612,9 +599,7 @@ export default Vue.extend({
               icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
-            on: {
-              click: () => { this.startYear -= yearsInterval }
-            }
+            on: cache(this, 'y-#' + yearsInterval, { click: () => { this.startYear -= yearsInterval } })
           })
         ]),
 
@@ -633,9 +618,7 @@ export default Vue.extend({
               icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
-            on: {
-              click: () => { this.startYear += yearsInterval }
-            }
+            on: cache(this, 'y+#' + yearsInterval, { click: () => { this.startYear += yearsInterval } })
           })
         ])
       ])
