@@ -820,7 +820,7 @@ export default Vue.extend({
           disabled: this.disable === true,
           readonly: this.readonly === true
         },
-        on: cache(this, 'inp', on)
+        on: cache(this, 'inp#' + this.hasDialog, on)
       })
     },
 
