@@ -9,7 +9,7 @@ import QItemSection from '../item/QItemSection.js'
 
 import { prevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
-import { shouldIgnoreKey } from '../../utils/key-composition'
+import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {

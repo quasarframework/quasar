@@ -4,7 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
-import { isKeyCode } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
@@ -14,6 +14,8 @@ import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 
 import DarkMixin from '../../mixins/dark.js'
+
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'DialogPlugin',
@@ -35,6 +37,11 @@ export default Vue.extend({
       default: true
     },
     cancel: [String, Object, Boolean],
+    focus: {
+      type: String,
+      default: 'ok',
+      validator: v => ['ok', 'cancel', 'none'].includes(v)
+    },
 
     stackButtons: Boolean,
     color: String,
@@ -94,34 +101,6 @@ export default Vue.extend({
           label: this.cancelLabel,
           ripple: false
         }
-    },
-
-    inputEvents () {
-      return {
-        // eslint-disable-next-line
-        input: v => { this.prompt.model = v },
-        keyup: evt => {
-          // if ENTER key
-          if (this.prompt.type !== 'textarea' && isKeyCode(evt, 13) === true) {
-            this.onOk()
-          }
-        }
-      }
-    },
-
-    optionsEvents () {
-      return {
-        // eslint-disable-next-line
-        input: v => { this.options.model = v }
-      }
-    },
-
-    dialogEvents () {
-      return {
-        hide: () => {
-          this.$emit('hide')
-        }
-      }
     }
   },
 
@@ -145,7 +124,15 @@ export default Vue.extend({
             autofocus: true,
             dark: this.isDark
           },
-          on: this.inputEvents
+          on: cache(this, 'prompt', {
+            input: v => { this.prompt.model = v },
+            keyup: evt => {
+              // if ENTER key
+              if (this.prompt.type !== 'textarea' && isKeyCode(evt, 13) === true) {
+                this.onOk()
+              }
+            }
+          })
         })
       ]
     },
@@ -161,7 +148,9 @@ export default Vue.extend({
             options: this.options.items,
             dark: this.isDark
           },
-          on: this.optionsEvents
+          on: cache(this, 'opts', {
+            input: v => { this.options.model = v }
+          })
         })
       ]
     },
@@ -172,15 +161,15 @@ export default Vue.extend({
       if (this.cancel) {
         child.push(h(QBtn, {
           props: this.cancelProps,
-          attrs: { autofocus: !this.prompt && !this.ok },
-          on: { click: this.onCancel }
+          attrs: { autofocus: this.focus === 'cancel' && !this.hasForm },
+          on: cache(this, 'cancel', { click: this.onCancel })
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
           props: this.okProps,
-          attrs: { autofocus: !this.prompt },
-          on: { click: this.onOk }
+          attrs: { autofocus: this.focus === 'ok' && !this.hasForm },
+          on: cache(this, 'ok', { click: this.onOk })
         }))
       }
 
@@ -262,7 +251,11 @@ export default Vue.extend({
         value: this.value
       },
 
-      on: this.dialogEvents
+      on: cache(this, 'hide', {
+        hide: () => {
+          this.$emit('hide')
+        }
+      })
     }, [
       h(QCard, {
         staticClass: 'q-dialog-plugin' +

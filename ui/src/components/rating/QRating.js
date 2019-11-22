@@ -5,6 +5,8 @@ import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
 import SizeMixin from '../../mixins/size.js'
 
+import { cache } from '../../utils/vm.js'
+
 export default Vue.extend({
   name: 'QRating',
 
@@ -40,7 +42,7 @@ export default Vue.extend({
 
   computed: {
     editable () {
-      return !this.readonly && !this.disable
+      return this.readonly !== true && this.disable !== true
     },
 
     classes () {
@@ -51,8 +53,8 @@ export default Vue.extend({
 
     iconData () {
       const
-        len = Array.isArray(this.icon) ? this.icon.length : 0,
-        selectedLen = Array.isArray(this.iconSelected) ? this.iconSelected.length : 0
+        len = Array.isArray(this.icon) === true ? this.icon.length : 0,
+        selectedLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0
 
       return {
         len,
@@ -129,14 +131,14 @@ export default Vue.extend({
           },
           props: { name: name || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
-          on: {
-            click: () => this.__set(i),
-            mouseover: () => this.__setHoverValue(i),
+          on: cache(this, 'ico#' + i, {
+            click: () => { this.__set(i) },
+            mouseover: () => { this.__setHoverValue(i) },
             mouseout: () => { this.mouseModel = 0 },
-            focus: () => this.__setHoverValue(i),
+            focus: () => { this.__setHoverValue(i) },
             blur: () => { this.mouseModel = 0 },
             keyup: e => { this.__keyup(e, i) }
-          }
+          })
         })
       )
     }

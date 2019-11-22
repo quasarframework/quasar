@@ -1,4 +1,4 @@
-import { isKeyCode } from './key-composition'
+import { isKeyCode } from './key-composition.js'
 
 let handlers = []
 

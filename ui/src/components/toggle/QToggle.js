@@ -3,6 +3,7 @@ import Vue from 'vue'
 import CheckboxMixin from '../../mixins/checkbox.js'
 import QIcon from '../icon/QIcon.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QToggle',
@@ -50,7 +51,7 @@ export default Vue.extend({
           ? h('input', {
             staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
             attrs: { type: 'toggle' },
-            on: { change: this.toggle }
+            on: cache(this, 'inp', { change: this.toggle })
           })
           : null,
 
@@ -80,10 +81,10 @@ export default Vue.extend({
       staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
       class: this.classes,
       attrs: { tabindex: this.computedTabindex },
-      on: {
+      on: cache(this, 'inpExt', {
         click: this.toggle,
         keydown: this.__keyDown
-      }
+      })
     }, child)
   }
 })

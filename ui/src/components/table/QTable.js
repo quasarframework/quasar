@@ -19,6 +19,8 @@ import RowSelection from './table-row-selection.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
+import { cache } from '../../utils/vm.js'
+
 const commonVirtPropsObj = {}
 commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })
 
@@ -271,9 +273,9 @@ export default Vue.extend({
             items: this.computedRows,
             type: '__qtable'
           },
-          on: {
+          on: cache(this, 'virtScr', {
             'virtual-scroll': this.__onVScroll
-          },
+          }),
           class: this.tableClass,
           style: this.tableStyle,
           scopedSlots: {

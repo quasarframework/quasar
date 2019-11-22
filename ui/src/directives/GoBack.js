@@ -1,5 +1,5 @@
 import { client } from '../plugins/Platform.js'
-import { isKeyCode } from '../utils/key-composition'
+import { isKeyCode } from '../utils/key-composition.js'
 
 export default {
   name: 'go-back',

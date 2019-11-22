@@ -260,9 +260,7 @@ export default Vue.extend({
             h(QIcon, {
               staticClass: 'cursor-pointer',
               props: { name: this.clearIcon || this.$q.iconSet.field.clear },
-              on: {
-                click: this.__clearValue
-              }
+              on: this.clearableEvents
             })
           ])
         )
@@ -494,6 +492,8 @@ export default Vue.extend({
     this.__onPreRender !== void 0 && this.__onPreRender()
 
     this.slotsEvents = { click: prevent }
+
+    this.clearableEvents = { click: this.__clearValue }
 
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()

@@ -3,6 +3,7 @@ import Vue from 'vue'
 import CheckboxMixin from '../../mixins/checkbox.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QCheckbox',
@@ -68,7 +69,7 @@ export default Vue.extend({
       h('input', {
         staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
         attrs: { type: 'checkbox' },
-        on: { change: this.toggle }
+        on: cache(this, 'inp', { change: this.toggle })
       })
     )
 
@@ -93,10 +94,10 @@ export default Vue.extend({
       staticClass: 'q-checkbox cursor-pointer no-outline row inline no-wrap items-center',
       class: this.classes,
       attrs: { tabindex: this.computedTabindex },
-      on: {
+      on: cache(this, 'inpExt', {
         click: this.toggle,
         keydown: this.__keyDown
-      }
+      })
     }, child)
   }
 })

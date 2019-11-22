@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
+import { cache } from '../../utils/vm.js'
 import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 import DarkMixin from '../../mixins/dark.js'
 
@@ -212,9 +213,9 @@ export default Vue.extend({
               dense: true,
               align: 'justify'
             },
-            on: {
+            on: cache(this, 'topVTab', {
               input: val => { this.topView = val }
-            }
+            })
           }, [
             h(QTab, {
               props: {
@@ -239,10 +240,10 @@ export default Vue.extend({
             h('input', {
               staticClass: 'fit',
               domProps: { value: this.model[this.topView] },
-              attrs: !this.editable ? {
+              attrs: this.editable !== true ? {
                 readonly: true
               } : null,
-              on: {
+              on: cache(this, 'topIn', {
                 input: evt => {
                   this.__updateErrorIcon(this.__onEditorChange(evt) === true)
                 },
@@ -250,7 +251,7 @@ export default Vue.extend({
                   this.__onEditorChange(evt, true) === true && this.$forceUpdate()
                   this.__updateErrorIcon(false)
                 }
-              }
+              })
             }),
 
             h(QIcon, {
@@ -298,9 +299,9 @@ export default Vue.extend({
             dense: true,
             align: 'justify'
           },
-          on: {
+          on: cache(this, 'ftIn', {
             input: val => { this.view = val }
-          }
+          })
         }, [
           h(QTab, {
             props: {
@@ -335,12 +336,12 @@ export default Vue.extend({
           ref: 'spectrum',
           staticClass: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer',
           style: this.spectrumStyle,
-          class: { readonly: !this.editable },
-          on: this.editable
-            ? { click: this.__spectrumClick }
+          class: { readonly: this.editable !== true },
+          on: this.editable === true
+            ? cache(this, 'spectrT', { click: this.__spectrumClick })
             : null,
-          directives: this.editable
-            ? [{
+          directives: this.editable === true
+            ? cache(this, 'spectrDir', [{
               name: 'touch-pan',
               modifiers: {
                 prevent: true,
@@ -348,7 +349,7 @@ export default Vue.extend({
                 mouse: true
               },
               value: this.__spectrumPan
-            }]
+            }])
             : null
         }, [
           h('div', { style: { paddingBottom: '100%' } }),
@@ -372,12 +373,12 @@ export default Vue.extend({
                 min: 0,
                 max: 360,
                 fillHandleAlways: true,
-                readonly: !this.editable
+                readonly: this.editable !== true
               },
-              on: {
+              on: cache(this, 'hueSlide', {
                 input: this.__onHueChange,
                 change: val => this.__onHueChange(val, true)
-              }
+              })
             })
           ]),
           this.hasAlpha === true
@@ -388,12 +389,12 @@ export default Vue.extend({
                   min: 0,
                   max: 100,
                   fillHandleAlways: true,
-                  readonly: !this.editable
+                  readonly: this.editable !== true
                 },
-                on: {
+                on: cache(this, 'alphaSlide', {
                   input: value => this.__onNumericChange({ target: { value } }, 'a', 100),
                   change: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
-                }
+                })
               })
             ])
             : null
@@ -412,12 +413,12 @@ export default Vue.extend({
               max: 255,
               color: 'red',
               dark: this.isDark,
-              readonly: !this.editable
+              readonly: this.editable !== true
             },
-            on: {
+            on: cache(this, 'rSlide', {
               input: value => this.__onNumericChange({ target: { value } }, 'r', 255),
               change: value => this.__onNumericChange({ target: { value } }, 'r', 255, true)
-            }
+            })
           }),
           h('input', {
             domProps: {
@@ -425,12 +426,12 @@ export default Vue.extend({
             },
             attrs: {
               maxlength: 3,
-              readonly: !this.editable
+              readonly: this.editable !== true
             },
-            on: {
+            on: cache(this, 'rIn', {
               input: evt => this.__onNumericChange(evt, 'r', 255),
               blur: evt => this.__onNumericChange(evt, 'r', 255, true)
-            }
+            })
           })
         ]),
 
@@ -443,12 +444,12 @@ export default Vue.extend({
               max: 255,
               color: 'green',
               dark: this.isDark,
-              readonly: !this.editable
+              readonly: this.editable !== true
             },
-            on: {
+            on: cache(this, 'gSlide', {
               input: value => this.__onNumericChange({ target: { value } }, 'g', 255),
               change: value => this.__onNumericChange({ target: { value } }, 'g', 255, true)
-            }
+            })
           }),
           h('input', {
             domProps: {
@@ -456,12 +457,12 @@ export default Vue.extend({
             },
             attrs: {
               maxlength: 3,
-              readonly: !this.editable
+              readonly: this.editable !== true
             },
-            on: {
+            on: cache(this, 'gIn', {
               input: evt => this.__onNumericChange(evt, 'g', 255),
               blur: evt => this.__onNumericChange(evt, 'g', 255, true)
-            }
+            })
           })
         ]),
 
@@ -473,13 +474,13 @@ export default Vue.extend({
               min: 0,
               max: 255,
               color: 'blue',
-              readonly: !this.editable,
+              readonly: this.editable !== true,
               dark: this.isDark
             },
-            on: {
+            on: cache(this, 'bSlide', {
               input: value => this.__onNumericChange({ target: { value } }, 'b', 255),
               change: value => this.__onNumericChange({ target: { value } }, 'b', 255, true)
-            }
+            })
           }),
           h('input', {
             domProps: {
@@ -487,12 +488,12 @@ export default Vue.extend({
             },
             attrs: {
               maxlength: 3,
-              readonly: !this.editable
+              readonly: this.editable !== true
             },
-            on: {
+            on: cache(this, 'bIn', {
               input: evt => this.__onNumericChange(evt, 'b', 255),
               blur: evt => this.__onNumericChange(evt, 'b', 255, true)
-            }
+            })
           })
         ]),
 
@@ -502,13 +503,13 @@ export default Vue.extend({
             props: {
               value: this.model.a,
               color: 'grey',
-              readonly: !this.editable,
+              readonly: this.editable !== true,
               dark: this.isDark
             },
-            on: {
+            on: cache(this, 'aSlide', {
               input: value => this.__onNumericChange({ target: { value } }, 'a', 100),
               change: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
-            }
+            })
           }),
           h('input', {
             domProps: {
@@ -516,12 +517,12 @@ export default Vue.extend({
             },
             attrs: {
               maxlength: 3,
-              readonly: !this.editable
+              readonly: this.editable !== true
             },
-            on: {
+            on: cache(this, 'aIn', {
               input: evt => this.__onNumericChange(evt, 'a', 100),
               blur: evt => this.__onNumericChange(evt, 'a', 100, true)
-            }
+            })
           })
         ]) : null
       ]
@@ -537,11 +538,11 @@ export default Vue.extend({
         }, this.computedPalette.map(color => h('div', {
           staticClass: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },
-          on: this.editable ? {
+          on: this.editable === true ? cache(this, 'palette', {
             click: () => {
               this.__onPalettePick(color)
             }
-          } : null
+          }) : null
         })))
       ]
     },

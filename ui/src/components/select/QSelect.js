@@ -14,8 +14,9 @@ import QDialog from '../dialog/QDialog.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
-import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition'
+import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
 import { mergeSlot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
@@ -692,9 +693,9 @@ export default Vue.extend({
             textColor: this.color,
             tabindex: this.computedTabindex
           },
-          on: {
+          on: cache(this, 'rem#' + i, {
             remove () { scope.removeAtIndex(i) }
-          }
+          })
         }, [
           h('span', {
             domProps: {
@@ -732,11 +733,11 @@ export default Vue.extend({
             tabindex: this.tabindex,
             id: isShadowField === true ? void 0 : this.targetUid
           },
-          on: {
+          on: cache(this, 'ctrl', {
             keydown: this.__onTargetKeydown,
             keyup: this.__onTargetKeyup,
             keypress: this.__onTargetKeypress
-          }
+          })
         }))
       }
 
@@ -819,7 +820,7 @@ export default Vue.extend({
           disabled: this.disable === true,
           readonly: this.readonly === true
         },
-        on
+        on: cache(this, 'inp#' + this.hasDialog, on)
       })
     },
 
@@ -992,10 +993,10 @@ export default Vue.extend({
           transitionHide: this.transitionHide,
           separateClosePopup: true
         },
-        on: {
+        on: cache(this, 'menu', {
           '&scroll': this.__onVirtualScrollEvt,
           'before-hide': this.__closeMenu
-        }
+        })
       }, child)
     },
 
@@ -1048,10 +1049,10 @@ export default Vue.extend({
           staticClass: 'scroll',
           class: this.menuContentClass,
           style: this.popupContentStyle,
-          on: {
+          on: cache(this, 'virtMenu', {
             click: prevent,
             '&scroll': this.__onVirtualScrollEvt
-          }
+          })
         }, (
           this.noOptions === true
             ? (
@@ -1072,11 +1073,11 @@ export default Vue.extend({
           transitionShow: this.transitionShowComputed,
           transitionHide: this.transitionHide
         },
-        on: {
+        on: cache(this, 'dialog', {
           'before-hide': this.__onDialogBeforeHide,
           hide: this.__onDialogHide,
           show: this.__onDialogShow
-        }
+        })
       }, [
         h('div', {
           staticClass: 'q-select__dialog' +

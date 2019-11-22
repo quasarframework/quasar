@@ -1,5 +1,5 @@
 import { setBrand } from './utils/colors.js'
-import { onKeyDownComposition } from './utils/key-composition'
+import { onKeyDownComposition } from './utils/key-composition.js'
 import { isSSR, fromSSR, client } from './plugins/Platform.js'
 
 function getMobilePlatform (is) {

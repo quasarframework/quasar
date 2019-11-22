@@ -6,7 +6,7 @@ import RippleMixin from '../../mixins/ripple.js'
 
 import { stop } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
-import { isKeyCode } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 export default Vue.extend({
   name: 'QTab',

@@ -1,7 +1,7 @@
 import { clearSelection } from '../utils/selection.js'
 import { prevent } from '../utils/event.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { isKeyCode } from '../utils/key-composition'
+import { isKeyCode } from '../utils/key-composition.js'
 
 export default {
   props: {

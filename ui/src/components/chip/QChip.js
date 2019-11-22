@@ -8,6 +8,7 @@ import SizeMixin from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { mergeSlotSafely } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 const sizes = {
   xs: 8,
@@ -118,7 +119,7 @@ export default Vue.extend({
     __getContent (h) {
       const child = []
 
-      this.isClickable && child.push(
+      this.isClickable === true && child.push(
         h('div', { staticClass: 'q-focus-helper' })
       )
 
@@ -165,19 +166,19 @@ export default Vue.extend({
   render (h) {
     if (this.value === false) { return }
 
-    const data = this.isClickable ? {
-      attrs: { tabindex: this.computedTabindex },
-      on: {
-        click: this.__onClick,
-        keyup: this.__onKeyup
-      },
-      directives: [{ name: 'ripple', value: this.ripple }]
-    } : {}
-
-    Object.assign(data, {
+    const data = {
       staticClass: 'q-chip row inline no-wrap items-center',
       class: this.classes,
       style: this.style
+    }
+
+    this.isClickable === true && Object.assign(data, {
+      attrs: { tabindex: this.computedTabindex },
+      on: cache(this, 'click', {
+        click: this.__onClick,
+        keyup: this.__onKeyup
+      }),
+      directives: [{ name: 'ripple', value: this.ripple }]
     })
 
     return h('div', data, this.__getContent(h))
