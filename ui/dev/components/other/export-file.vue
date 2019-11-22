@@ -20,7 +20,17 @@ export default {
 
   methods: {
     exportMe () {
-      exportFile('some-file.txt', this.copyText)
+      const status = exportFile('some-file.txt', this.copyText) // [...Array(8000000).keys()].join('--')
+
+      if (status === true) {
+        this.$q.notify('Success')
+      }
+      else {
+        this.$q.notify({
+          color: 'negative',
+          message: 'Failed: ' + status
+        })
+      }
     }
   }
 }

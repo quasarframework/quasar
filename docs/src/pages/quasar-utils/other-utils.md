@@ -49,7 +49,7 @@ import { exportFile } from 'quasar'
 
 // mimeType is optional;
 // default mimeType is "text/plain"
-exportFile(fileName, rawData[, mimeType])
+(status) exportFile(fileName, rawData[, mimeType])
 ```
 
 The simplest example:
@@ -57,7 +57,15 @@ The simplest example:
 ``` js
 import { exportFile } from 'quasar'
 
-exportFile('important.txt', 'Some important content')
+const status = exportFile('important.txt', 'Some important content')
+
+if (status === true) {
+  // browser allowed it
+}
+else {
+  // browser denied it
+  console.log('Error: ' + status)
+}
 ```
 
 ## Debounce Function
