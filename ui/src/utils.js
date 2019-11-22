@@ -1,5 +1,6 @@
 import clone from './utils/clone.js'
 import colors from './utils/colors.js'
+import copyToClipboard from './utils/copy-to-clipboard.js'
 import date from './utils/date.js'
 import debounce from './utils/debounce.js'
 import dom from './utils/dom.js'
@@ -18,6 +19,7 @@ function noop () {}
 export {
   clone,
   colors,
+  copyToClipboard,
   date,
   debounce,
   dom,
