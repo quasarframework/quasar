@@ -29,18 +29,11 @@ export function isVmChildOf (childVm, parentVm) {
   return false
 }
 
-export function cache (vm, key, on) {
-  if (isSSR === true) { return on }
+export function cache (vm, key, obj) {
+  if (isSSR === true) return obj
 
-  const fullKey = key + '#' + Object.keys(on).join('#')
-
-  if (vm.$__cacheOn === void 0) {
-    vm.$__cacheOn = {}
-  }
-
-  if (vm.$__cacheOn[fullKey] === void 0) {
-    vm.$__cacheOn[fullKey] = on
-  }
-
-  return vm.$__cacheOn[fullKey]
+  const k = `__qcache_${key}`
+  return vm[k] === void 0
+    ? (vm[k] = obj)
+    : vm[k]
 }
