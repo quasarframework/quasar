@@ -156,7 +156,7 @@ export default Vue.extend({
     },
 
     minEvents () {
-      if (this.editable && !this.$q.platform.is.mobile && this.dragOnlyRange !== true) {
+      if (this.editable === true && this.$q.platform.is.mobile !== true && this.dragOnlyRange !== true) {
         return {
           focus: () => { this.__focus('min') },
           blur: this.__blur,
@@ -167,7 +167,7 @@ export default Vue.extend({
     },
 
     maxEvents () {
-      if (this.editable && !this.$q.platform.is.mobile && this.dragOnlyRange !== true) {
+      if (this.editable === true && this.$q.platform.is.mobile !== true && this.dragOnlyRange !== true) {
         return {
           focus: () => { this.__focus('max') },
           blur: this.__blur,
@@ -468,7 +468,7 @@ export default Vue.extend({
       },
       class: this.classes,
       on: this.events,
-      directives: this.editable ? cache(this, 'dir', [{
+      directives: this.editable === true ? cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {

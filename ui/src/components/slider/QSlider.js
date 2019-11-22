@@ -169,7 +169,7 @@ export default Vue.extend({
       },
       class: this.classes,
       on: this.events,
-      directives: this.editable ? cache(this, 'dir', [{
+      directives: this.editable === true ? cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
