@@ -37,6 +37,11 @@ export default Vue.extend({
       default: true
     },
     cancel: [String, Object, Boolean],
+    focus: {
+      type: String,
+      default: 'ok',
+      validator: v => ['ok', 'cancel', 'none'].includes(v)
+    },
 
     stackButtons: Boolean,
     color: String,
@@ -156,14 +161,14 @@ export default Vue.extend({
       if (this.cancel) {
         child.push(h(QBtn, {
           props: this.cancelProps,
-          attrs: { autofocus: !this.prompt && !this.ok },
+          attrs: { autofocus: this.focus === 'cancel' && !this.hasForm },
           on: cache(this, 'cancel', { click: this.onCancel })
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
           props: this.okProps,
-          attrs: { autofocus: !this.prompt },
+          attrs: { autofocus: this.focus === 'ok' && !this.hasForm },
           on: cache(this, 'ok', { click: this.onOk })
         }))
       }
