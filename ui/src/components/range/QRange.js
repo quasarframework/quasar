@@ -9,7 +9,7 @@ import {
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import { cache } from 'utils/vm.js'
+import { cache } from '../../utils/vm.js'
 
 const dragType = {
   MIN: 0,
