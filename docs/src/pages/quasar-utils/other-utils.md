@@ -38,6 +38,28 @@ copyToClipboard('some text')
   })
 ```
 
+## Export file
+
+<q-badge label="v1.5.0+" />
+
+The following is a helper to trigger a file download.
+
+``` js
+import { exportFile } from 'quasar'
+
+// mimeType is optional;
+// default mimeType is "text/plain"
+exportFile(fileName, rawData[, mimeType])
+```
+
+The simplest example:
+
+``` js
+import { exportFile } from 'quasar'
+
+exportFile('important.txt', 'Some important content')
+```
+
 ## Debounce Function
 If your App uses JavaScript to accomplish taxing tasks, a debounce function is essential to ensuring a given task doesn't fire so often that it bricks browser performance. Debouncing a function limits the rate at which the function can fire.
 

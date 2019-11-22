@@ -5,6 +5,7 @@ import date from './utils/date.js'
 import debounce from './utils/debounce.js'
 import dom from './utils/dom.js'
 import event from './utils/event.js'
+import exportFile from './utils/export-file.js'
 import extend from './utils/extend.js'
 import format from './utils/format.js'
 import frameDebounce from './utils/frame-debounce.js'
@@ -24,6 +25,7 @@ export {
   debounce,
   dom,
   event,
+  exportFile,
   extend,
   format,
   frameDebounce,
