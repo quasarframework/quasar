@@ -1,16 +1,16 @@
 .q-btn
+  display: inline-flex
   position: relative
   outline: 0
   border: 0
   vertical-align: middle
-  padding: $button-padding
+  padding: 0
   font-size: $button-font-size
   line-height: $button-line-height
   text-decoration: none
   color: inherit
   background: transparent
   transition: $button-transition
-  min-height: 2.572em
   box-shadow: $button-shadow
   font-weight: $button-font-weight
   text-transform: uppercase
@@ -18,16 +18,22 @@
   @at-root #{selector-unify('button', &)}
     -webkit-appearance: button
 
-  @at-root #{selector-unify('a', &)}
-    display: inline-flex
-    align-items: center
-    justify-content: center
+    .q-btn__wrapper
+      height: inherit
 
   .q-icon, .q-spinner
     font-size: $button-line-height
 
   &.disabled
     opacity: .7 !important
+
+  &__wrapper
+    position: relative
+    padding: $button-padding
+    min-height: 2.572em
+    top: 50%
+    left: 50%
+    transform: translateX(-50%) translateY(-50%)
 
   &--actionable
     cursor: pointer
@@ -64,40 +70,52 @@
 
   &--push
     border-radius: $button-push-border-radius
-    border-bottom: 3px solid rgba(0, 0, 0, .15)
+    border-bottom: 2px solid rgba(0, 0, 0, .15)
+
+    .q-btn__wrapper
+      margin: 0
+      transition: $button-transition
+
     &.q-btn--actionable
       &:active,
-      &.q-btn--active.q-btn--actionable
+      &.q-btn--active
         transform: translateY(3px)
         border-bottom-width: 0
+
+        .q-btn__wrapper
+          margin: 1px 0
+
     .q-focus-helper, .q-ripple-container
       height: auto
-      bottom: -3px
+      bottom: -2px
 
   &--rounded
     border-radius: $button-rounded-border-radius
 
   &--round
     border-radius: 50%
-    padding: 0
-    min-height: 0
-    height: 3em
-    width: 3em
-    min-width: 3em
-    min-height: 3em
+
+    .q-btn__wrapper
+      padding: 0
+      height: 3em
+      width: 3em
+      min-width: 3em
+      min-height: 3em
 
   &--flat, &--outline, &--unelevated
     box-shadow: none
 
   &--dense
-    padding: $button-dense-padding
-    min-height: 2em
+    .q-btn__wrapper
+      padding: $button-dense-padding
+      min-height: 2em
     &.q-btn--round
-      padding: 0
-      height: 2.4em
-      width: 2.4em
-      min-height: 2.4em
-      min-width: 2.4em
+      .q-btn__wrapper
+        padding: 0
+        height: 2.4em
+        width: 2.4em
+        min-height: 2.4em
+        min-width: 2.4em
     .on-left
       margin-right: 6px
     .on-right
@@ -108,10 +126,10 @@
       font-size: 24px
       width: 100%
       height: 100%
-  &--fab
+  &--fab .q-btn__wrapper
     height: 56px
     width: 56px
-  &--fab-mini
+  &--fab-mini .q-btn__wrapper
     height: 40px
     width: 40px
 

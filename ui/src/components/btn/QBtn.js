@@ -201,13 +201,12 @@ export default Vue.extend({
 
   render (h) {
     let inner = []
-    const
-      data = {
-        staticClass: 'q-btn q-btn-item non-selectable no-outline',
-        class: this.classes,
-        style: this.style,
-        attrs: this.attrs
-      }
+    const data = {
+      staticClass: 'q-btn q-btn-item non-selectable no-outline',
+      class: this.classes,
+      style: this.style,
+      attrs: this.attrs
+    }
 
     if (this.isActionable === true) {
       data.on = {
@@ -268,9 +267,13 @@ export default Vue.extend({
 
     child.push(
       h('div', {
-        staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
-        class: this.innerClasses
-      }, inner)
+        staticClass: 'q-btn__wrapper col column no-wrap q-anchor--skip'
+      }, [
+        h('div', {
+          staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
+          class: this.innerClasses
+        }, inner)
+      ])
     )
 
     this.loading !== null && child.push(

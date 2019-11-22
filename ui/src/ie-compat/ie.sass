@@ -25,6 +25,7 @@
       min-height: 24px !important
 
   /* Flex Basis */
+  .q-btn__wrapper,
   .q-btn__content,
   .q-time__content,
   .q-toolbar__title,
@@ -69,16 +70,12 @@
       margin: -1px 1px 1px -1px
 
   a.q-btn--push.q-btn--actionable:hover
-    .q-btn__content
+    .q-btn__content, .q-btn__wrapper
       pointer-events: none
 
-  .q-btn-group > button.q-btn--push.q-btn--actionable
+  .q-btn-group > .q-btn--push.q-btn--actionable
     .q-btn__content
-      transition: $button-transition
-
-    &:active:hover
-      .q-btn__content
-        margin: 0
+      transition: none
 
   /* QCarousel */
   .q-carousel__slide > *

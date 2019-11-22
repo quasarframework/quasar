@@ -29,13 +29,20 @@
               </q-badge>
             </q-btn>
             <q-btn :type="type" v-bind="prop" icon="clear" color="primary" />
+            <q-btn :type="type" v-bind="prop" icon="clear" color="primary" loading />
             <q-btn :type="type" v-bind="prop" icon="clear" color="primary" style="max-width: 0; min-height: 0" />
             <q-btn :type="type" v-bind="prop" dense icon="clear" color="primary" />
             <q-btn :type="type" v-bind="prop" dense icon="clear" color="primary" style="max-width: 0; min-height: 0" />
             <q-btn :type="type" v-bind="prop" icon="clear" label="Label" color="primary" />
+            <q-btn :type="type" v-bind="prop" icon="clear" label="Label" color="primary" loading />
             <q-btn :type="type" v-bind="prop" label="Label" color="primary" />
             <q-btn :type="type" v-bind="prop" size="sm" no-caps label="Label" color="primary" />
             <q-btn :type="type" v-bind="prop" size="sm" no-caps label="Label" color="primary" style="height: 6em" />
+
+            <q-btn :type="type" v-bind="prop" icon="clear" label="Label" color="primary" stack />
+            <q-btn :type="type" v-bind="prop" icon="clear" label="Label" color="primary" stack loading />
+            <q-btn :type="type" v-bind="prop" icon="clear" label="Long label. Long label. Long label. Long label. Long label." color="primary" no-wrap />
+            <q-btn :type="type" v-bind="prop" icon="clear" label="Long label. Long label. Long label. Long label. Long label." color="primary" stack no-wrap />
 
             <q-btn :type="type" v-bind="prop" color="deep-orange">
               <div class="row items-center no-wrap">
