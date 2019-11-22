@@ -9,7 +9,7 @@ import DarkMixin from '../../mixins/dark.js'
 import { isSSR } from '../../plugins/Platform.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
-import { shouldIgnoreKey } from '../../utils/key-composition'
+import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 export default Vue.extend({
   name: 'QEditor',

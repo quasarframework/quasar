@@ -7,7 +7,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
-import { isKeyCode } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition.js'
 import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({

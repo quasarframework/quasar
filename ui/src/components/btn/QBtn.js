@@ -8,7 +8,7 @@ import BtnMixin from '../../mixins/btn.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
-import { isKeyCode } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 const { passiveCapture } = listenOpts
 

@@ -4,7 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
-import { isKeyCode } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'

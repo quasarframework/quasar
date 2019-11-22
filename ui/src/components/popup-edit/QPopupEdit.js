@@ -6,7 +6,7 @@ import QBtn from '../btn/QBtn.js'
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { slot } from '../../utils/slot.js'
-import { isKeyCode } from '../../utils/key-composition'
+import { isKeyCode } from '../../utils/key-composition.js'
 import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({

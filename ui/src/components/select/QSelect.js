@@ -14,7 +14,7 @@ import QDialog from '../dialog/QDialog.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
-import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition'
+import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
