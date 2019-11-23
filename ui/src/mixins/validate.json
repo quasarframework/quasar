@@ -33,7 +33,14 @@
       "type": "Boolean",
       "desc": "Check validation status against the 'rules' only after field loses focus for first time",
       "category": "behavior"
-    }
+    },
+
+    "validate-not-dirty": {
+      "type": "Boolean",
+      "desc": "Triggers validation even when component is not on \"dirty\" state",
+      "category": "behavior",
+      "addedIn": "v1.5.0"
+     }
   },
 
   "methods": {

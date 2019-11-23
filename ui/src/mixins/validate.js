@@ -12,7 +12,8 @@ export default {
     noErrorIcon: Boolean,
 
     rules: Array,
-    lazyRules: Boolean
+    lazyRules: Boolean,
+    validateNotDirty: Boolean
   },
 
   data () {
@@ -28,7 +29,8 @@ export default {
       if (this.rules === void 0) {
         return
       }
-      if (this.lazyRules === true && this.isDirty === false) {
+
+      if (this.validateNotDirty === false && this.lazyRules === true && this.isDirty === false) {
         return
       }
 
