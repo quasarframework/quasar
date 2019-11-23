@@ -76,5 +76,11 @@
     "input": {
       "extends": "input"
     }
+  },
+
+  "slots": {
+    "icon-content-[name]": {
+      "desc": "Slot to define the content of the icon at index [name]. Suggestion: QTooltip"
+    }
   }
 }

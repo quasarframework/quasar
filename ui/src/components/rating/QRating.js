@@ -6,6 +6,7 @@ import QIcon from '../icon/QIcon.js'
 import SizeMixin from '../../mixins/size.js'
 
 import { cache } from '../../utils/vm.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QRating',
@@ -148,7 +149,7 @@ export default Vue.extend({
             blur: () => { this.mouseModel = 0 },
             keyup: e => { this.__keyup(e, i) }
           })
-        })
+        }, slot(this, `icon-content-${i}`))
       )
     }
 

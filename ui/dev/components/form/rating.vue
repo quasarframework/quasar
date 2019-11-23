@@ -39,6 +39,21 @@
         Disabled State
       </p>
       <q-rating size="2rem" color="primary" v-model="ratingModel" max="6" icon="create" disable />
+
+      <p class="caption">
+        Slots
+      </p>
+      <q-rating size="2rem" color="primary" v-model="ratingModel" max="3">
+        <template #icon-content-1>
+          <q-tooltip>Not bad</q-tooltip>
+        </template>
+        <template #icon-content-2>
+          <q-tooltip>Good</q-tooltip>
+        </template>
+        <template #icon-content-3>
+          <q-tooltip>Very good!</q-tooltip>
+        </template>
+      </q-rating>
     </div>
   </div>
 </template>
