@@ -6,13 +6,13 @@
       :max="3"
       color="primary"
     >
-      <template #icon-content-1>
+      <template v-slot:icon-content-1>
         <q-tooltip>Not bad</q-tooltip>
       </template>
-      <template #icon-content-2>
+      <template v-slot:icon-content-2>
         <q-tooltip>Good</q-tooltip>
       </template>
-      <template #icon-content-3>
+      <template v-slot:icon-content-3>
         <q-tooltip>Very good!</q-tooltip>
       </template>
     </q-rating>
