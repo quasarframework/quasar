@@ -19,6 +19,15 @@
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="star_border" icon-selected="star" />
         <br>
         <q-rating size="3rem" color="red" v-model="moodModel" :max="4" :icon="ratingIcons" />
+        <br>
+        <q-rating size="3rem" :color="ratingColors" v-model="moodModel" :max="4" :icon="ratingIcons" />
+        <q-rating
+          v-model="ratingModel"
+          size="3.5em"
+          :color="ratingColors"
+          unselected-color="grey"
+          icon="star"
+        />
       </div>
 
       <p class="caption">
@@ -30,6 +39,21 @@
         Disabled State
       </p>
       <q-rating size="2rem" color="primary" v-model="ratingModel" max="6" icon="create" disable />
+
+      <p class="caption">
+        Slots
+      </p>
+      <q-rating size="2rem" color="primary" v-model="ratingModel" max="3">
+        <template #icon-content-1>
+          <q-tooltip>Not bad</q-tooltip>
+        </template>
+        <template #icon-content-2>
+          <q-tooltip>Good</q-tooltip>
+        </template>
+        <template #icon-content-3>
+          <q-tooltip>Very good!</q-tooltip>
+        </template>
+      </q-rating>
     </div>
   </div>
 </template>
@@ -45,7 +69,8 @@ export default {
         'sentiment_dissatisfied',
         'sentiment_satisfied',
         'sentiment_very_satisfied'
-      ]
+      ],
+      ratingColors: ['light-green-3', 'light-green-6', 'green', 'green-9', 'green-10']
     }
   },
   watch: {

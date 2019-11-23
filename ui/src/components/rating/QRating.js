@@ -6,6 +6,7 @@ import QIcon from '../icon/QIcon.js'
 import SizeMixin from '../../mixins/size.js'
 
 import { cache } from '../../utils/vm.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QRating',
@@ -26,9 +27,10 @@ export default Vue.extend({
     icon: [String, Array],
     iconSelected: [String, Array],
 
-    color: String,
+    color: [String, Array],
 
     noReset: Boolean,
+    unselectedColor: String,
 
     readonly: Boolean,
     disable: Boolean
@@ -48,19 +50,23 @@ export default Vue.extend({
     classes () {
       return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
         (this.disable === true ? ' disabled' : '') +
-        (this.color !== void 0 ? ` text-${this.color}` : '')
+        (this.color !== void 0 && Array.isArray(this.color) === false && this.unselectedColor === void 0 ? ` text-${this.color}` : '') +
+        (this.unselectedColor !== void 0 ? ' q-rating--uncolored' : '')
     },
 
     iconData () {
       const
         len = Array.isArray(this.icon) === true ? this.icon.length : 0,
-        selectedLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0
+        selectedLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0,
+        colorLen = Array.isArray(this.color) === true ? this.color.length : 0
 
       return {
         len,
         selectedLen,
+        colorLen,
         icon: len > 0 ? this.icon[len - 1] : this.icon,
-        selected: selectedLen > 0 ? this.iconSelected[selectedLen - 1] : this.iconSelected
+        selected: selectedLen > 0 ? this.iconSelected[selectedLen - 1] : this.iconSelected,
+        selectedColor: colorLen > 0 ? this.color[colorLen - 1] : void 0
       }
     }
   },
@@ -117,7 +123,10 @@ export default Vue.extend({
         exSelected = this.mouseModel && this.value >= i && this.mouseModel < i,
         name = icons.selected !== void 0 && (active === true || exSelected === true)
           ? (i <= icons.selectedLen ? this.iconSelected[i - 1] : icons.selected)
-          : (i <= icons.len ? this.icon[i - 1] : icons.icon)
+          : (i <= icons.len ? this.icon[i - 1] : icons.icon),
+        color = active === true
+          ? (i <= icons.colorLen ? this.color[i - 1] : icons.selectedColor)
+          : (this.unselectedColor !== void 0 ? this.unselectedColor : void 0)
 
       child.push(
         h(QIcon, {
@@ -127,7 +136,8 @@ export default Vue.extend({
           class: {
             'q-rating__icon--active': active,
             'q-rating__icon--exselected': exSelected,
-            'q-rating__icon--hovered': this.mouseModel === i
+            'q-rating__icon--hovered': this.mouseModel === i,
+            [`text-${color}`]: color !== void 0
           },
           props: { name: name || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
@@ -139,7 +149,7 @@ export default Vue.extend({
             blur: () => { this.mouseModel = 0 },
             keyup: e => { this.__keyup(e, i) }
           })
-        })
+        }, slot(this, `icon-content-${i}`))
       )
     }
 

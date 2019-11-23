@@ -46,7 +46,10 @@
     },
 
     "color": {
-      "extends": "color"
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name for component from the Quasar Color Palette; v1.5.0+: If an array is provided each rating value will use the corresponding color in the array (0 based)",
+      "examples": [ "primary", "teal-10", "[\"accent\", \"grey-7\"] "]
     },
 
     "no-reset": {
@@ -61,12 +64,25 @@
 
     "disable": {
       "extends": "disable"
+    },
+
+    "unselected-color": {
+      "extends": "color",
+      "desc": "Color name from the Quasar Palette for unselected icons",
+      "addedIn": "v1.5.0"
     }
   },
 
   "events": {
     "input": {
       "extends": "input"
+    }
+  },
+
+  "slots": {
+    "icon-content-[index]": {
+      "desc": "Slot to define the content of the icon at '[index]'. Suggestion: QTooltip",
+      "addedIn": "v1.5.0"
     }
   }
 }
