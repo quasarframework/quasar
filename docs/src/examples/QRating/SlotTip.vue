@@ -6,13 +6,13 @@
       :max="3"
       color="primary"
     >
-      <template v-slot:icon-content-1>
+      <template v-slot:tip-1>
         <q-tooltip>Not bad</q-tooltip>
       </template>
-      <template v-slot:icon-content-2>
+      <template v-slot:tip-2>
         <q-tooltip>Good</q-tooltip>
       </template>
-      <template v-slot:icon-content-3>
+      <template v-slot:tip-3>
         <q-tooltip>Very good!</q-tooltip>
       </template>
     </q-rating>
@@ -23,7 +23,7 @@
 export default {
   data () {
     return {
-      ratingModel: 3
+      ratingModel: 2
     }
   }
 }

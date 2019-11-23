@@ -28,9 +28,9 @@ export default Vue.extend({
     iconSelected: [String, Array],
 
     color: [String, Array],
+    colorSelected: [String, Array],
 
     noReset: Boolean,
-    unselectedColor: String,
 
     readonly: Boolean,
     disable: Boolean
@@ -50,23 +50,25 @@ export default Vue.extend({
     classes () {
       return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
         (this.disable === true ? ' disabled' : '') +
-        (this.color !== void 0 && Array.isArray(this.color) === false && this.unselectedColor === void 0 ? ` text-${this.color}` : '') +
-        (this.unselectedColor !== void 0 ? ' q-rating--uncolored' : '')
+        (this.color !== void 0 && Array.isArray(this.color) === false ? ` text-${this.color}` : '')
     },
 
     iconData () {
       const
-        len = Array.isArray(this.icon) === true ? this.icon.length : 0,
-        selectedLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0,
-        colorLen = Array.isArray(this.color) === true ? this.color.length : 0
+        iconLen = Array.isArray(this.icon) === true ? this.icon.length : 0,
+        selIconLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0,
+        colorLen = Array.isArray(this.color) === true ? this.color.length : 0,
+        selColorLen = Array.isArray(this.colorSelected) === true ? this.colorSelected.length : 0
 
       return {
-        len,
-        selectedLen,
+        iconLen,
+        icon: iconLen > 0 ? this.icon[iconLen - 1] : this.icon,
+        selIconLen,
+        selIcon: selIconLen > 0 ? this.iconSelected[selIconLen - 1] : this.iconSelected,
         colorLen,
-        icon: len > 0 ? this.icon[len - 1] : this.icon,
-        selected: selectedLen > 0 ? this.iconSelected[selectedLen - 1] : this.iconSelected,
-        selectedColor: colorLen > 0 ? this.color[colorLen - 1] : void 0
+        color: colorLen > 0 ? this.color[colorLen - 1] : this.color,
+        selColorLen,
+        selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected
       }
     }
   },
@@ -119,14 +121,14 @@ export default Vue.extend({
 
     for (let i = 1; i <= this.max; i++) {
       const
-        active = (!this.mouseModel && this.value >= i) || (this.mouseModel && this.mouseModel >= i),
-        exSelected = this.mouseModel && this.value >= i && this.mouseModel < i,
-        name = icons.selected !== void 0 && (active === true || exSelected === true)
-          ? (i <= icons.selectedLen ? this.iconSelected[i - 1] : icons.selected)
-          : (i <= icons.len ? this.icon[i - 1] : icons.icon),
-        color = active === true
-          ? (i <= icons.colorLen ? this.color[i - 1] : icons.selectedColor)
-          : (this.unselectedColor !== void 0 ? this.unselectedColor : void 0)
+        active = (this.mouseModel === 0 && this.value >= i) || (this.mouseModel > 0 && this.mouseModel >= i),
+        exSelected = this.mouseModel > 0 && this.value >= i && this.mouseModel < i,
+        name = icons.selIcon !== void 0 && (active === true || exSelected === true)
+          ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
+          : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon),
+        color = icons.selColor !== void 0 && active === true
+          ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
+          : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
 
       child.push(
         h(QIcon, {
@@ -141,7 +143,7 @@ export default Vue.extend({
           },
           props: { name: name || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
-          on: cache(this, 'ico#' + i, {
+          on: cache(this, 'i#' + i, {
             click: () => { this.__set(i) },
             mouseover: () => { this.__setHoverValue(i) },
             mouseout: () => { this.mouseModel = 0 },
@@ -149,7 +151,7 @@ export default Vue.extend({
             blur: () => { this.mouseModel = 0 },
             keyup: e => { this.__keyup(e, i) }
           })
-        }, slot(this, `icon-content-${i}`))
+        }, slot(this, `tip-${i}`))
       )
     }
 

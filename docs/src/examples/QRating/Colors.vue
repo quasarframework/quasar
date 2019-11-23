@@ -4,9 +4,8 @@
       <q-rating
         v-model="ratingModel"
         size="3.5em"
-        :color="ratingColors"
-        icon="star"
-        unselected-color="grey"
+        color="grey"
+        :color-selected="ratingColors"
       />
     </div>
   </div>

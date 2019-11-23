@@ -52,6 +52,13 @@
       "examples": [ "primary", "teal-10", "[\"accent\", \"grey-7\"] "]
     },
 
+    "color-selected": {
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name from the Quasar Palette for selected icons",
+      "addedIn": "v1.5.0"
+    },
+
     "no-reset": {
       "type": "Boolean",
       "desc": "When used, disables default behavior of clicking/tapping on icon which represents current model value to reset model to 0",
@@ -64,12 +71,6 @@
 
     "disable": {
       "extends": "disable"
-    },
-
-    "unselected-color": {
-      "extends": "color",
-      "desc": "Color name from the Quasar Palette for unselected icons",
-      "addedIn": "v1.5.0"
     }
   },
 
@@ -80,8 +81,8 @@
   },
 
   "slots": {
-    "icon-content-[index]": {
-      "desc": "Slot to define the content of the icon at '[index]'. Suggestion: QTooltip",
+    "tip-[index]": {
+      "desc": "Slot to define the tooltip of icon at '[index]' (1-based); Suggestion: QTooltip",
       "addedIn": "v1.5.0"
     }
   }
