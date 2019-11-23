@@ -19,6 +19,15 @@
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="star_border" icon-selected="star" />
         <br>
         <q-rating size="3rem" color="red" v-model="moodModel" :max="4" :icon="ratingIcons" />
+        <br>
+        <q-rating size="3rem" :color="ratingColors" v-model="moodModel" :max="4" :icon="ratingIcons" />
+        <q-rating
+          v-model="ratingModel"
+          size="3.5em"
+          :color="ratingColors"
+          unselected-color="grey"
+          icon="star"
+        />
       </div>
 
       <p class="caption">
@@ -45,7 +54,8 @@ export default {
         'sentiment_dissatisfied',
         'sentiment_satisfied',
         'sentiment_very_satisfied'
-      ]
+      ],
+      ratingColors: ['light-green-3', 'light-green-6', 'green', 'green-9', 'green-10']
     }
   },
   watch: {
