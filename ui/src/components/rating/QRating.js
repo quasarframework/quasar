@@ -50,7 +50,7 @@ export default Vue.extend({
     classes () {
       return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
         (this.disable === true ? ' disabled' : '') +
-        (this.color !== void 0 && !Array.isArray(this.color) && this.unselectedColor === void 0 ? ` text-${this.color}` : '') +
+        (this.color !== void 0 && Array.isArray(this.color) === false && this.unselectedColor === void 0 ? ` text-${this.color}` : '') +
         (this.unselectedColor !== void 0 ? ' q-rating--uncolored' : '')
     },
 
