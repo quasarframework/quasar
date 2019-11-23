@@ -44,12 +44,14 @@ export default {
       return
     }
 
-    let update = force => {
-      if (window.innerHeight !== this.height) {
-        this.height = window.innerHeight
-      }
+    const update = force => {
+      const
+        w = window.innerWidth,
+        h = window.innerHeight
 
-      const w = window.innerWidth
+      if (h !== this.height) {
+        this.height = h
+      }
 
       if (w !== this.width) {
         this.width = w
@@ -89,7 +91,11 @@ export default {
     }
 
     const start = () => {
-      const style = getComputedStyle(document.body)
+      const
+        style = getComputedStyle(document.body),
+        target = window.visualViewport !== void 0 && window.visualViewport.onresize !== void 0
+          ? window.visualViewport
+          : window
 
       // if css props available
       if (style.getPropertyValue('--q-size-sm')) {
@@ -109,11 +115,11 @@ export default {
 
       this.setDebounce = delay => {
         const fn = () => { update() }
-        updateEvt && window.removeEventListener('resize', updateEvt, listenOpts.passive)
+        updateEvt !== void 0 && target.removeEventListener('resize', updateEvt, listenOpts.passive)
         updateEvt = delay > 0
           ? debounce(fn, delay)
           : fn
-        window.addEventListener('resize', updateEvt, listenOpts.passive)
+        target.addEventListener('resize', updateEvt, listenOpts.passive)
       }
 
       this.setDebounce(updateDebounce)
