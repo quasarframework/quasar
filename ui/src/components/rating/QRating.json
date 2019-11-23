@@ -81,7 +81,7 @@
 
   "slots": {
     "icon-content-[index]": {
-      "desc": "Slot to define the content of the icon at index [index]. Suggestion: QTooltip",
+      "desc": "Slot to define the content of the icon at '[index]'. Suggestion: QTooltip",
       "addedIn": "v1.5.0"
     }
   }
