@@ -71,19 +71,19 @@
   },
   "css": {
     "rating-grade-color": {
-      "desc": "",
+      "desc": "QRating's color",
       "type": "color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-rating",
+        "property": "color"
       }]
     },
     "rating-shadow": {
-      "desc": "",
+      "desc": "QRating's icon text shadow",
       "type": "shadow",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-rating__icon",
+        "property": "text-shadow"
       }]
     }
   }

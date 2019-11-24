@@ -110,15 +110,19 @@
   },
   "css": {
     "primary": {
-      "desc": "",
-      "extends": "primary"
+      "desc": "QSlider's color",
+      "extends": "primary",
+      "affects": [{
+        "selector": ".q-slider",
+        "property": "color"
+      }]
     },
     "generic-border-radius": {
-      "desc": "",
+      "desc": "QSlider's pin value marker border radius",
       "extends": "generic-border-radius",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-slider__pin-value-marker-bg",
+        "property": "border-radius"
       }]
     }
   }

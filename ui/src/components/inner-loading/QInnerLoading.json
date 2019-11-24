@@ -43,19 +43,19 @@
   },
   "css": {
     "light-dimmed-background": {
-      "desc": "",
+      "desc": "QInnerLoading's background",
       "extends": "light-dimmed-background",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-inner-loading",
+        "property": "background"
       }]
     },
     "dimmed-background": {
-      "desc": "",
+      "desc": "QInnerLoading's background when using the \"dark\" prop",
       "extends": "dimmed-background",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-inner-loading--dark",
+        "property": "background"
       }]
     }
   }

@@ -155,59 +155,59 @@
   },
   "css": {
     "img-width": {
-      "desc": "",
+      "desc": "QImg's width",
       "type": "size",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-img",
+        "property": "width"
       }]
     },
     "img-loading-font-size": {
-      "desc": "",
+      "desc": "QImg's spinner font size",
       "type": "size",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-img__loading .q-spinner",
+        "property": "font-size"
       }]
     },
     "img-background-repeat": {
-      "desc": "",
+      "desc": "QImg's image background-repeat",
       "type": "background-repeat",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-img__image",
+        "property": "background-repeat"
       }]
     },
     "img-content-position": {
-      "desc": "",
+      "desc": "QImg's content position",
       "type": "position",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-img__content > div",
+        "property": "position"
       }]
     },
     "img-content-padding": {
-      "desc": "",
+      "desc": "QImg's content padding",
       "type": "size",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-img__content > div",
+        "property": "padding"
       }]
     },
     "img-content-color": {
-      "desc": "",
+      "desc": "QImg's content text color",
       "type": "color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-img__content > div",
+        "property": "color"
       }]
     },
     "img-content-background": {
-      "desc": "",
+      "desc": "QImg's content background",
       "type": "color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-img__content > div",
+        "property": "background"
       }]
     }
   }

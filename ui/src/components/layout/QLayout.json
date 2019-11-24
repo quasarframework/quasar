@@ -90,55 +90,71 @@
   },
   "css": {
     "layout-shadow": {
-      "desc": "",
+      "desc": "QLayout's shadow",
       "type": "shadow",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-layout__shadow:after",
+        "property": "box-shadow"
       }]
     },
     "primary": {
-      "desc": "",
-      "extends": "primary"
+      "desc": "QHeader's and QFooter's background color",
+      "extends": "primary",
+      "affects": [{
+        "selector": ".q-layout__section--marginal",
+        "property": "background-color"
+      }]
     },
     "layout-border": {
-      "desc": "",
+      "desc": "QHeader's border-bottom, QFooter's border-top, QDrawer's border-[left|right] when using the \"bordered\" prop",
       "type": "border",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-header--bordered",
+        "property": "border-bottom"
+      }, {
+        "selector": ".q-footer--bordered",
+        "property": "border-top"
+      }, {
+        "selector": ".q-header--bordered",
+        "property": "border-bottom"
+      }, {
+        "selector": ".q-drawer--left",
+        "property": "border-right"
+      }, {
+        "selector": ".q-drawer--right",
+        "property": "border-left"
       }]
     },
     "z-marginals": {
-      "desc": "",
+      "desc": "QHeader's, QFooter's and QDrawer's opener z-index",
       "type": "Number",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-header, .q-footer, .q-drawer__opener",
+        "property": "z-index"
       }]
     },
     "z-side": {
-      "desc": "",
+      "desc": "QDrawer's z-index",
       "type": "Number",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-drawer",
+        "property": "z-index"
       }]
     },
     "z-fixed-drawer": {
-      "desc": "",
+      "desc": "QDrawer's z-index when on top",
       "type": "Number",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-drawer--on-top",
+        "property": "z-index"
       }]
     },
     "ios-statusbar-height": {
-      "desc": "",
+      "desc": "QDrawer's padding top when using a header slot and QHeader's padding top",
       "extends": "ios-statusbar-height",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": "body.q-ios-padding .q-layout--standard .q-header > .q-toolbar:nth-child(2), body.q-ios-padding .q-layout--standard.q-header > .q-tabs:nth - child(2).q-tabs-head, body.q-ios-padding .q-layout--standard.q-drawer--top-padding.q-drawer__content",
+        "property": "padding-top"
       }]
     },
     "toolbar-min-height": {
@@ -149,44 +165,12 @@
         "property": ""
       }]
     },
-    "breakpoint-xs-max": {
-      "desc": "",
-      "type": "size",
-      "affects": [{
-        "selector": "",
-        "property": ""
-      }]
-    },
-    "breakpoint-sm-min": {
-      "desc": "",
-      "type": "size",
-      "affects": [{
-        "selector": "",
-        "property": ""
-      }]
-    },
-    "breakpoint-md-max": {
-      "desc": "",
-      "type": "size",
-      "affects": [{
-        "selector": "",
-        "property": ""
-      }]
-    },
-    "breakpoint-lg-min": {
-      "desc": "",
-      "type": "size",
-      "affects": [{
-        "selector": "",
-        "property": ""
-      }]
-    },
     "separator-dark-color": {
-      "desc": "",
+      "desc": "QHeader's, QFooter's and QDrawer's border color when using the \"dark\" prop",
       "extends": "separator-dark-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": "body.body--dark .q-header, body.body--dark .q-footer, body.body--dark .q-drawer",
+        "property": "border-color"
       }]
     }
   }

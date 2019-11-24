@@ -145,43 +145,43 @@
   },
   "css": {
     "menu-max-width": {
-      "desc": "",
+      "desc": "QMenu's max width",
       "type": "size",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-menu",
+        "property": "max-width"
       }]
     },
     "menu-box-shadow": {
-      "desc": "",
+      "desc": "QMenu's shadow",
       "type": "shadow",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-menu",
+        "property": "box-shadow"
       }]
     },
     "menu-background": {
-      "desc": "",
+      "desc": "QMenu's background",
       "type": "color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-menu",
+        "property": "background"
       }]
     },
     "generic-border-radius": {
-      "desc": "",
+      "desc": "QMenu's border radius",
       "extends": "generic-border-radius",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-menu",
+        "property": "border-radius"
       }]
     },
     "z-menu": {
-      "desc": "",
+      "desc": "QMenu's z-index",
       "type": "Number",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-menu",
+        "property": "z-index"
       }]
     }
   }

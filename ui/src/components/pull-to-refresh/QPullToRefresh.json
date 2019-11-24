@@ -51,8 +51,12 @@
   },
   "css": {
     "primary": {
-      "desc": "",
-      "extends": "primary"
+      "desc": "QPullToRefresh's puller color",
+      "extends": "primary",
+      "affects": [{
+        "selector": ".q-pull-to-refresh__puller",
+        "property": "color"
+      }]
     }
   }
 }

@@ -613,11 +613,11 @@
   },
   "css": {
     "generic-border-radius": {
-      "desc": "",
+      "desc": "QSelect's dialog border radius on iOS",
       "extends": "generic-border-radius",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": "body.platform-ios.native-mobile .q-dialog__inner--top > div",
+        "property": "border-radius"
       }]
     }
   }

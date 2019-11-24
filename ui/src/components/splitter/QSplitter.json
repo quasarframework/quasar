@@ -125,19 +125,19 @@
 
   "css": {
     "separator-color": {
-      "desc": "",
+      "desc": "QSplitter's separator color",
       "extends": "separator-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-splitter__separator",
+        "property": "background-color"
       }]
     },
     "separator-dark-color": {
-      "desc": "",
+      "desc": "QSplitter's separator color when using the \"dark\" prop",
       "extends": "separator-dark-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-splitter--dark .q-splitter__separator",
+        "property": "background-color"
       }]
     }
   }

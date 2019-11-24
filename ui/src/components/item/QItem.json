@@ -65,28 +65,42 @@
   },
   "css": {
     "grey-7": {
-      "desc": "",
-      "type": "color"
+      "desc": "QItem's label header and section's side text color",
+      "type": "color",
+      "affects": [
+        {
+          "selector": ".q-item__section--side, .q-item__label--header",
+          "property": "color"
+        }
+      ]
     },
     "separator-color": {
-      "desc": "",
+      "desc": "QItem's separator color",
       "extends": "separator-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-list--separator > .q-item-type + .q-item-type, .q-list--separator > .q-virtual-scroll__content > .q-item-type + .q-item-type",
+        "property": "border-top",
+        "template": "1px solid $value"
       }]
     },
     "separator-dark-color": {
-      "desc": "",
+      "desc": "QItem's border color and separator's border top color when using the \"dark\" prop",
       "extends": "separator-dark-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-list--dark.q-list--separator > .q-item-type + .q-item-type, .q-list--dark.q-list--separator > .q-virtual-scroll__content > .q-item-type + .q-item-type",
+        "property": "border-top-color"
+      }, {
+        "selector": ".q-list--dark, .q-item--dark",
+        "property": "border-color"
       }]
     },
     "primary": {
-      "desc": "",
-      "extends": "primary"
+      "desc": "QItem's active color when integrated to Vue Router",
+      "extends": "primary",
+      "affects": [{
+        "selector": ".q-item.q-router-link--active, &--active",
+        "property": "color"
+      }]
     }
   }
 }

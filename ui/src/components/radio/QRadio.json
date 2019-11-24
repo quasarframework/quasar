@@ -75,16 +75,21 @@
   },
   "css": {
     "radio-transition": {
-      "desc": "",
+      "desc": "QRadio's transition",
       "type": "transition",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-radio__inner-circle, body.desktop .q-radio__inner:before",
+        "property": "transition",
+        "template": "transform $value"
       }]
     },
     "primary": {
-      "desc": "",
-      "extends": "primary"
+      "desc": "QRadio's selected color",
+      "extends": "primary",
+      "affects": [{
+        "selector": ".q-radio--active",
+        "property": "color"
+      }]
     }
   }
 }

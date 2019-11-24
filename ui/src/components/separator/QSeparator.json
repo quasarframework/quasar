@@ -29,19 +29,19 @@
   },
   "css": {
     "separator-color": {
-      "desc": "",
+      "desc": "QSeparator's color",
       "extends": "separator-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-separator",
+        "property": "color"
       }]
     },
     "separator-dark-color": {
-      "desc": "",
+      "desc": "QSeparator's color when using the \"dark\" prop",
       "extends": "separator-dark-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-separator--dark",
+        "property": "color"
       }]
     }
   }

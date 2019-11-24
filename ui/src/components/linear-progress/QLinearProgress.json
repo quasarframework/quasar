@@ -70,8 +70,12 @@
   },
   "css": {
     "primary": {
-      "desc": "",
-      "extends": "primary"
+      "desc": "QLinearProgress' color",
+      "extends": "primary",
+      "affects": [{
+        "selector": ".q-linear-progress",
+        "property": "color"
+      }]
     }
   }
 }

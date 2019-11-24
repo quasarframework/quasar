@@ -98,51 +98,69 @@
   },
   "css": {
     "shadow-2": {
-      "desc": "",
+      "desc": "QStepper's shadow",
       "type": "shadow",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-stepper",
+        "property": "box-shadow"
       }]
     },
     "generic-border-radius": {
-      "desc": "",
+      "desc": "QStepper's border radius",
       "extends": "generic-border-radius",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-stepper",
+        "property": "border-radius"
       }]
     },
     "grey": {
-      "desc": "",
-      "type": "color"
+      "desc": "QStepper's tab color",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-stepper__tab",
+        "property": "color"
+      }]
     },
     "primary": {
-      "desc": "",
-      "extends": "primary"
+      "desc": "QStepper's active/done tab color",
+      "extends": "primary",
+      "affects": [{
+        "selector": ".q-stepper__tab--active, .q-stepper__tab--done",
+        "property": "color"
+      }]
     },
     "negative": {
-      "desc": "",
+      "desc": "QStepper's tab color when the tab has error",
       "extends": "negative",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-stepper__tab--error",
+        "property": "color"
       }]
     },
     "separator-color": {
-      "desc": "",
+      "desc": "QStepper's separators color",
       "extends": "separator-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-stepper--vertical .q-stepper__dot:before, .q-stepper--vertical .q-stepper__dot:after",
+        "property": "background"
+      }, {
+        "selector": ".q-stepper__header--border, .q-stepper--bordered",
+        "property": "border-bottom",
+        "template": "1px solid $value"
       }]
     },
     "separator-dark-color": {
-      "desc": "",
+      "desc": "QStepper's separator color when using the \"dark\" prop",
       "extends": "separator-dark-color",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-stepper--dark.q-stepper--bordered, .q-stepper--dark .q-stepper__header--border",
+        "property": "border-color"
+      }, {
+        "selector": ".q-stepper--dark.q-stepper--horizontal .q-stepper__line:before, .q-stepper--dark.q-stepper--horizontal .q-stepper__line:before:after, .q-stepper--dark.q-stepper--vertical .q-stepper__dot:before, .q-stepper--dark.q-stepper--vertical .q-stepper__dot:after, .q-steper--dark .q-stepper__tab--disabled .q-stepper__dot",
+        "property": "background"
+      }, {
+        "selector": ".q-stepper--dark .q-stepper__tab--disabled",
+        "property": "color"
       }]
     }
   }

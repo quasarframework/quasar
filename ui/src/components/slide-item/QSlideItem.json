@@ -162,20 +162,36 @@
   },
   "css": {
     "green": {
-      "desc": "",
-      "type": "color"
+      "desc": "QSlideItem's left content background color",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-slide-item__left",
+        "property": "background"
+      }]
     },
     "orange": {
-      "desc": "",
-      "type": "color"
+      "desc": "QSlideItem's right content background color",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-slide-item__right",
+        "property": "background"
+      }]
     },
     "blue": {
-      "desc": "",
-      "type": "color"
+      "desc": "QSlideItem's top content background color",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-slide-item__top",
+        "property": "background"
+      }]
     },
     "purple": {
-      "desc": "",
-      "type": "color"
+      "desc": "QSlideItem's bottom content background color",
+      "type": "color",
+      "affects": [{
+        "selector": ".q-slide-item__bottom",
+        "property": "background"
+      }]
     }
   }
 }

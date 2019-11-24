@@ -102,92 +102,109 @@
     }
   },
   "css": {
-    "field-transition:": {
-      "desc": "",
+    "field-transition": {
+      "desc": "QField's animation transition",
       "type": "transition",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-field__prefix, .q-field__suffix",
+        "property": "transition",
+        "template": "opacity $value"
+      }, {
+        "selector": ".q-field__label",
+        "property": "transition",
+        "template": "transform $value, right $value"
+      }, {
+        "selector": ".q-field--filled:before",
+        "property": "transition",
+        "template": "opacity $value, background $value"
+      }, {
+        "selector": ".q-field--filled:after",
+        "property": "transition",
+        "template": "transform $value"
+      }, {
+        "selector": ".q-field--outlined:before, .q-field--outlined:after",
+        "property": "transition",
+        "template": "border-color $value"
+      }, {
+        "selector": ".q-field--standard .q-field__control:before",
+        "property": "transition",
+        "template": "border-color $value"
+      }, {
+        "selector": ".q-field--standard .q-field__control:after",
+        "property": "transition",
+        "template": "transition $value"
+      }, {
+        "selector": ".q-field--standout .q-field__control",
+        "property": "transition",
+        "template": "box-shadow $value, background-color $value"
+      }, {
+        "selector": ".q-field--standout .q-field__control:before",
+        "property": "transition",
+        "template": "opacity $value, background $value"
       }]
     },
     "input-autofill-color": {
-      "desc": "",
-      "type": "color",
-      "affects": [{
-        "selector": "",
-        "property": ""
-      }]
+      "desc": "QField's color on browser's autocomplete mode",
+      "type": "color"
     },
     "input-font-size": {
-      "desc": "",
+      "desc": "QField's font size",
       "type": "size",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-field",
+        "property": "font-size"
       }]
     },
     "primary": {
-      "desc": "",
+      "desc": "QField's control text color",
       "extends": "primary",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-field__control",
+        "property": "color"
       }]
     },
     "input-text-color": {
-      "desc": "",
+      "desc": "QField's content, prefix and suffix text color",
       "type": "color",
       "affects": [{
-        "selector": "",
-        "property": ""
-      }]
-    },
-    "field-transition": {
-      "desc": "",
-      "type": "transition",
-      "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-field__native, .q-field__prefix, .q-field__suffix",
+        "property": "color"
       }]
     },
     "input-label-color": {
-      "desc": "",
+      "desc": "QField's label text color",
       "type": "color",
       "affects": [{
-        "selector": "",
-        "property": ""
-      }]
-    },
-    "field-transition,": {
-      "desc": "",
-      "type": "transition",
-      "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-field__label",
+        "property": "color"
       }]
     },
     "generic-border-radius": {
-      "desc": "",
+      "desc": "QField's border radius on standout, outlined and filled styles",
       "extends": "generic-border-radius",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-field--filled .q-field__control",
+        "property": "border-radius",
+        "template": "$value $value 0 0"
+      }, {
+        "selector": ".q-field--outlined .q-field__control, .q-field--standout .q-field__control",
+        "property": "border-radius"
       }]
     },
     "shadow-2": {
-      "desc": "",
+      "desc": "QField's control focused shadow when using the \"standout\" prop",
       "type": "shadow",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-field--standout.q-field--focused .q-field__control",
+        "property": "box-shadow"
       }]
     },
     "negative": {
-      "desc": "",
+      "desc": "QField's error color",
       "extends": "negative",
       "affects": [{
-        "selector": "",
-        "property": ""
+        "selector": ".q-field--error .q-field__bottom",
+        "property": "color"
       }]
     }
   }
