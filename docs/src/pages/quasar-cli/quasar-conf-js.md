@@ -102,6 +102,7 @@ Let's take each option one by one:
 | build | Object | Build configuration options. |
 | sourceFiles | Object | Change the default name of parts of your app. |
 | cordova | Object | Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). |
+| capacitor | Object | Quasar CLI Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). |
 | pwa | Object | PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). |
 | ssr | Object | SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). |
 | electron | Object | Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). |
