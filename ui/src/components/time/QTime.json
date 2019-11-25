@@ -168,7 +168,7 @@
   "css": {
     "shadow-2": {
       "desc": "",
-      "type": "shadow",
+      "extends": "shadow-2",
       "affects": [{
         "selector": "",
         "property": ""

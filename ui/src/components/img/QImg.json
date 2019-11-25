@@ -156,7 +156,11 @@
   "css": {
     "img-width": {
       "desc": "QImg's width",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 100,
+        "unit": "%"
+      },
       "affects": [{
         "selector": ".q-img",
         "property": "width"
@@ -164,7 +168,12 @@
     },
     "img-loading-font-size": {
       "desc": "QImg's spinner font size",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 50,
+        "unit": "px"
+      },
+      "category": "Typography",
       "affects": [{
         "selector": ".q-img__loading .q-spinner",
         "property": "font-size"
@@ -188,7 +197,9 @@
     },
     "img-content-padding": {
       "desc": "QImg's content padding",
-      "type": "size",
+      "type": "Spacing",
+      "value": "16px",
+      "category": "Spacing",
       "affects": [{
         "selector": ".q-img__content > div",
         "property": "padding"
@@ -196,7 +207,7 @@
     },
     "img-content-color": {
       "desc": "QImg's content text color",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-img__content > div",
         "property": "color"
@@ -204,7 +215,7 @@
     },
     "img-content-background": {
       "desc": "QImg's content background",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-img__content > div",
         "property": "background"

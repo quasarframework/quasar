@@ -99,7 +99,12 @@
   "css": {
     "tooltip-fontsize": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 10,
+        "unit": "px"
+      },
+      "category": "Typography",
       "affects": [{
         "selector": "",
         "property": ""
@@ -107,7 +112,7 @@
     },
     "tooltip-color": {
       "desc": "",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": "",
         "property": ""
@@ -115,7 +120,7 @@
     },
     "tooltip-background": {
       "desc": "",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": "",
         "property": ""
@@ -124,6 +129,7 @@
     "z-tooltip": {
       "desc": "",
       "type": "Number",
+      "category": "Elevation",
       "affects": [{
         "selector": "",
         "property": ""
@@ -131,7 +137,9 @@
     },
     "tooltip-padding": {
       "desc": "",
-      "type": "size",
+      "type": "Spacing",
+      "value": "6px 10px",
+      "category": "Spacing",
       "affects": [{
         "selector": "",
         "property": ""
@@ -139,7 +147,12 @@
     },
     "tooltip-border-radius": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 4,
+        "unit": "px"
+      },
+      "category": "Shape System",
       "affects": [{
         "selector": "",
         "property": ""
@@ -147,7 +160,8 @@
     },
     "breakpoint-xs-max": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "category": "responsiveness",
       "affects": [{
         "selector": "",
         "property": ""
@@ -155,7 +169,12 @@
     },
     "tooltip-mobile-fontsize": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 14,
+        "unit": "px"
+      },
+      "category": "Typography",
       "affects": [{
         "selector": "",
         "property": ""
@@ -163,7 +182,9 @@
     },
     "tooltip-mobile-padding": {
       "desc": "",
-      "type": "size",
+      "type": "Spacing",
+      "value": "8px 16px",
+      "category": "Spacing",
       "affects": [{
         "selector": "",
         "property": ""

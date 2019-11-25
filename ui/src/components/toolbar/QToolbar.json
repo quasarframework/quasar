@@ -19,7 +19,9 @@
   "css": {
     "toolbar-padding": {
       "desc": "",
-      "type": "size",
+      "type": "Spacing",
+      "value": "0 12px",
+      "category": "Spacing",
       "affects": [{
         "selector": "",
         "property": ""
@@ -27,7 +29,11 @@
     },
     "toolbar-min-height": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 50,
+        "unit": "px"
+      },
       "affects": [{
         "selector": "",
         "property": ""
@@ -35,7 +41,11 @@
     },
     "toolbar-inset-size": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 58,
+        "unit": "px"
+      },
       "affects": [{
         "selector": "",
         "property": ""
@@ -43,7 +53,12 @@
     },
     "toolbar-title-font-size": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 21,
+        "unit": "px"
+      },
+      "category": "Typography",
       "affects": [{
         "selector": "",
         "property": ""
@@ -52,6 +67,7 @@
     "toolbar-title-font-weight": {
       "desc": "",
       "type": "Number",
+      "category": "Typography",
       "affects": [{
         "selector": "",
         "property": ""
@@ -59,7 +75,12 @@
     },
     "toolbar-title-letter-spacing": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 0.01,
+        "unit": "em"
+      },
+      "category": "Typography",
       "affects": [{
         "selector": "",
         "property": ""
@@ -67,7 +88,9 @@
     },
     "toolbar-title-padding": {
       "desc": "",
-      "type": "size",
+      "type": "Spacing",
+      "value": "0 12px",
+      "category": "Spacing",
       "affects": [{
         "selector": "",
         "property": ""

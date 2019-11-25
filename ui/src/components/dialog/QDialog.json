@@ -126,7 +126,7 @@
     },
     "shadow-4": {
       "desc": "QDialog's shadow",
-      "type": "shadow",
+      "extends": "shadow-4",
       "affects": [{
         "selector": ".q-dialog__inner > div",
         "property": "box-shadow"
@@ -134,7 +134,7 @@
     },
     "dimmed-background": {
       "desc": "QDialog's backdrop background color",
-      "type": "color",
+      "extends": "dimmed-background",
       "affects": [{
         "selector": ".q-dialog__backdrop",
         "property": "background"
@@ -150,11 +150,13 @@
     },
     "breakpoint-xs-max": {
       "desc": "QDialog's breakpoint to set width as 100%",
-      "type": "size"
+      "type": "Size",
+      "category": "Responsiveness"
     },
     "breakpoint-sm-min": {
       "desc": "QDialog's breakpoint to set max-width",
-      "type": "size"
+      "type": "Size",
+      "category": "Responsiveness"
     }
   }
 }

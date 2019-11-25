@@ -86,7 +86,7 @@
     },
     "shadow-2": {
       "desc": "QColorPicker's shadow",
-      "type": "shadow",
+      "extends": "shadow-2",
       "affects": [{
         "selector": ".q-color-picker",
         "property": "box-shadow"
@@ -94,7 +94,7 @@
     },
     "grey-7": {
       "desc": "QColorPicker's slider track background color when the picker has alpha",
-      "type": "color",
+      "extends": "grey-7",
        "affects": [{
          "selector": ".q-color-picker__alpha .q-slider__track-container",
          "property": "background",
@@ -103,7 +103,7 @@
     },
     "grey-9": {
       "desc": "QColorPicker's slider text color",
-      "type": "color",
+      "extends": "grey-9",
       "affects": [{
         "selector": ".q-color-picker__slider .q-slider",
         "property": "color"
@@ -111,7 +111,7 @@
     },
     "grey-4": {
       "desc": "QColorPicker's input border color on the tune tab",
-      "type": "color",
+      "extends": "grey-4",
       "affects": [{
         "selector": ".q-color-picker__tune-tab input",
         "property": "border",
@@ -120,7 +120,7 @@
     },
     "grey-5": {
       "desc": "QColorPicker's slider text color when the \"dark\" prop is true",
-      "type": "color",
+      "extends": "grey-5",
       "affects": [{
         "selector": ".q-color-picker--dark .q-slider",
         "property": "box-shadow"

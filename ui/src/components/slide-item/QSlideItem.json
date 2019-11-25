@@ -163,7 +163,7 @@
   "css": {
     "green": {
       "desc": "QSlideItem's left content background color",
-      "type": "color",
+      "extends": "green",
       "affects": [{
         "selector": ".q-slide-item__left",
         "property": "background"
@@ -171,7 +171,7 @@
     },
     "orange": {
       "desc": "QSlideItem's right content background color",
-      "type": "color",
+      "extends": "orange",
       "affects": [{
         "selector": ".q-slide-item__right",
         "property": "background"
@@ -179,7 +179,7 @@
     },
     "blue": {
       "desc": "QSlideItem's top content background color",
-      "type": "color",
+      "extends": "blue",
       "affects": [{
         "selector": ".q-slide-item__top",
         "property": "background"
@@ -187,7 +187,7 @@
     },
     "purple": {
       "desc": "QSlideItem's bottom content background color",
-      "type": "color",
+      "extends": "purple",
       "affects": [{
         "selector": ".q-slide-item__bottom",
         "property": "background"

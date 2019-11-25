@@ -131,7 +131,7 @@
   "css": {
     "shadow-4": {
       "desc": "QKnob's focused shadow when editable",
-      "type": "shadow",
+      "extends": "shadow-4",
       "affects": [{
         "selector": ".q-knob--editable:focus:before",
         "property": "box-shadow"

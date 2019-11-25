@@ -1485,7 +1485,12 @@
   "css": {
     "table-border-radius": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 4,
+        "unit": "px"
+      },
+      "category": "Shape System",
       "affects": [{
         "selector": "",
         "property": ""
@@ -1493,7 +1498,8 @@
     },
     "table-box-shadow": {
       "desc": "",
-      "type": "shadow",
+      "type": "Shadow",
+      "category": "Elevation",
       "affects": [{
         "selector": "",
         "property": ""
@@ -1501,7 +1507,8 @@
     },
     "table-transition": {
       "desc": "",
-      "type": "transition",
+      "type": "Transition",
+      "category": "Animation",
       "affects": [{
         "selector": "",
         "property": ""
@@ -1509,7 +1516,7 @@
     },
     "table-border-color": {
       "desc": "",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": "",
         "property": ""
@@ -1517,7 +1524,7 @@
     },
     "table-hover-background": {
       "desc": "",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": "",
         "property": ""
@@ -1525,7 +1532,7 @@
     },
     "table-selected-background": {
       "desc": "",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": "",
         "property": ""
@@ -1533,7 +1540,7 @@
     },
     "table-dark-border-color": {
       "desc": "",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": "",
         "property": ""
@@ -1541,7 +1548,7 @@
     },
     "table-dark-hover-background": {
       "desc": "",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": "",
         "property": ""
@@ -1549,7 +1556,7 @@
     },
     "table-dark-selected-background": {
       "desc": "",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": "",
         "property": ""

@@ -72,7 +72,7 @@
   "css": {
     "rating-grade-color": {
       "desc": "QRating's color",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-rating",
         "property": "color"
@@ -80,7 +80,8 @@
     },
     "rating-shadow": {
       "desc": "QRating's icon text shadow",
-      "type": "shadow",
+      "type": "Shadow",
+      "category": "Elevation",
       "affects": [{
         "selector": ".q-rating__icon",
         "property": "text-shadow"

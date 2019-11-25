@@ -129,7 +129,11 @@
   "css": {
     "chip-height": {
       "desc": "QChip's height",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 2,
+        "unit": "em"
+      },
       "affects": [{
         "selector": ".q-chip",
         "property": "height"

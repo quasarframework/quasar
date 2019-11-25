@@ -76,7 +76,8 @@
   "css": {
     "radio-transition": {
       "desc": "QRadio's transition",
-      "type": "transition",
+      "type": "Transition",
+      "category": "Animation",
       "affects": [{
         "selector": ".q-radio__inner-circle, body.desktop .q-radio__inner:before",
         "property": "transition",

@@ -274,7 +274,7 @@
   "css": {
     "editor-border-color": {
       "desc": "QEditor's border color for its container and toolbar",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-editor",
         "property": "border",
@@ -295,7 +295,12 @@
     },
     "editor-content-padding": {
       "desc": "QEditor's content padding",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 10,
+        "unit": "px"
+      },
+      "category": "Spacing",
       "affects": [{
         "selector": ".q-editor__content",
         "property": "padding"
@@ -303,7 +308,11 @@
     },
     "editor-content-min-height": {
       "desc": "QEditor's content minimum height",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 10,
+        "unit": "em"
+      },
       "affects": [{
         "selector": ".q-editor__content",
         "property": "min-height"
@@ -311,7 +320,7 @@
     },
     "editor-hr-color": {
       "desc": "QEditor's content <hr> color",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-editor",
         "property": "background"
@@ -319,7 +328,12 @@
     },
     "editor-button-gutter": {
       "desc": "QEditor's buttons margins",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 4,
+        "unit": "px"
+      },
+      "category": "Spacing",
       "affects": [{
         "selector": ".q-editor .q-btn",
         "property": "margin"
@@ -337,7 +351,7 @@
     },
     "editor-border-dark-color": {
       "desc": "QEditor's border color for content, toolbar and toolbar group separator",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-editor--dark, .q-editor--dark .q-editor__toolbar",
         "property": "border-color"
@@ -348,7 +362,7 @@
     },
     "editor-hr-dark-color": {
       "desc": "QEditor's content <hr> color when the \"dark\" prop is true",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-editor--dark .q-editor__content hr",
         "property": ""

@@ -146,7 +146,11 @@
   "css": {
     "menu-max-width": {
       "desc": "QMenu's max width",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 95,
+        "unit": "vw"
+      },
       "affects": [{
         "selector": ".q-menu",
         "property": "max-width"
@@ -154,7 +158,8 @@
     },
     "menu-box-shadow": {
       "desc": "QMenu's shadow",
-      "type": "shadow",
+      "type": "Shadow",
+      "category": "Elevation",
       "affects": [{
         "selector": ".q-menu",
         "property": "box-shadow"
@@ -162,7 +167,7 @@
     },
     "menu-background": {
       "desc": "QMenu's background",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-menu",
         "property": "background"
@@ -179,6 +184,7 @@
     "z-menu": {
       "desc": "QMenu's z-index",
       "type": "Number",
+      "category": "Elevation",
       "affects": [{
         "selector": ".q-menu",
         "property": "z-index"

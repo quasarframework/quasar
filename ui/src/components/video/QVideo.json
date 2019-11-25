@@ -16,7 +16,7 @@
   "css": {
     "shadow-1": {
       "desc": "",
-      "type": "shadow",
+      "extends": "shadow-1",
       "affects": [{
         "selector": "",
         "property": ""

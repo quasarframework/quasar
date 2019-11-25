@@ -19,7 +19,8 @@
   "css": {
     "checkbox-transition": {
       "desc": "QCheckbox's transition",
-      "type": "transition",
+      "type": "Transition",
+      "category": "Animation",
       "affects": [{
         "selector": ".q-checkbox__bg",
         "property": "transition"
@@ -31,7 +32,8 @@
     },
     "option-focus-transition": {
       "desc": "QCheckbox's transform transition on desktop",
-      "type": "transition",
+      "type": "Transition",
+      "category": "Animation",
       "affects": [{
         "selector": "body.desktop .q-checkbox__inner:before",
         "property": "transition",

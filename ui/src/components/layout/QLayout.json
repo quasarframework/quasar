@@ -91,7 +91,8 @@
   "css": {
     "layout-shadow": {
       "desc": "QLayout's shadow",
-      "type": "shadow",
+      "type": "Shadow",
+      "category": "Elevation",
       "affects": [{
         "selector": ".q-layout__shadow:after",
         "property": "box-shadow"
@@ -110,24 +111,25 @@
       "type": "border",
       "affects": [{
         "selector": ".q-header--bordered",
-        "property": "border-bottom"
+        "property": "borderBottom"
       }, {
         "selector": ".q-footer--bordered",
         "property": "border-top"
       }, {
         "selector": ".q-header--bordered",
-        "property": "border-bottom"
+        "property": "borderBottom"
       }, {
         "selector": ".q-drawer--left",
-        "property": "border-right"
+        "property": "borderRight"
       }, {
         "selector": ".q-drawer--right",
-        "property": "border-left"
+        "property": "borderLeft"
       }]
     },
     "z-marginals": {
       "desc": "QHeader's, QFooter's and QDrawer's opener z-index",
       "type": "Number",
+      "category": "Elevation",
       "affects": [{
         "selector": ".q-header, .q-footer, .q-drawer__opener",
         "property": "z-index"
@@ -136,6 +138,7 @@
     "z-side": {
       "desc": "QDrawer's z-index",
       "type": "Number",
+      "category": "Elevation",
       "affects": [{
         "selector": ".q-drawer",
         "property": "z-index"
@@ -144,6 +147,7 @@
     "z-fixed-drawer": {
       "desc": "QDrawer's z-index when on top",
       "type": "Number",
+      "category": "Elevation",
       "affects": [{
         "selector": ".q-drawer--on-top",
         "property": "z-index"
@@ -159,7 +163,11 @@
     },
     "toolbar-min-height": {
       "desc": "",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 50,
+        "unit": "px"
+      },
       "affects": [{
         "selector": "",
         "property": ""

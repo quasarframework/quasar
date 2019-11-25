@@ -73,6 +73,7 @@
     "z-max": {
       "desc": "QAjaxBar's loading bar z-index",
       "extends": "z-max",
+      "value": 9998,
       "affects": [{
         "selector": ".q-loading-bar",
         "property": "z-index"

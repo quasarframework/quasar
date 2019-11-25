@@ -110,6 +110,7 @@
     "z-fab": {
       "desc": "QFab's z-index",
       "type": "Number",
+      "category": "Elevation",
       "affects": [{
         "selector": ".q-fab",
         "property": "z-index"
@@ -117,7 +118,12 @@
     },
     "fab-margin": {
       "desc": "QFab's action buttons margin",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 5,
+        "unit": "px"
+      },
+      "category": "Spacing",
       "affects": [{
         "selector": ".q-fab__actions .q-btn",
         "property": "margin"

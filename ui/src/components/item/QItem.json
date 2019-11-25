@@ -66,7 +66,7 @@
   "css": {
     "grey-7": {
       "desc": "QItem's label header and section's side text color",
-      "type": "color",
+      "extends": "grey-7",
       "affects": [
         {
           "selector": ".q-item__section--side, .q-item__label--header",
@@ -98,7 +98,7 @@
       "desc": "QItem's active color when integrated to Vue Router",
       "extends": "primary",
       "affects": [{
-        "selector": ".q-item.q-router-link--active, &--active",
+        "selector": ".q-item.q-router-link--active, .q-item--active",
         "property": "color"
       }]
     }

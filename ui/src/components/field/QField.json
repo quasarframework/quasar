@@ -104,7 +104,8 @@
   "css": {
     "field-transition": {
       "desc": "QField's animation transition",
-      "type": "transition",
+      "type": "Transition",
+      "category": "Animation",
       "affects": [{
         "selector": ".q-field__prefix, .q-field__suffix",
         "property": "transition",
@@ -145,11 +146,16 @@
     },
     "input-autofill-color": {
       "desc": "QField's color on browser's autocomplete mode",
-      "type": "color"
+      "type": "Color"
     },
     "input-font-size": {
       "desc": "QField's font size",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 14,
+        "unit": "px"
+      },
+      "category": "Typography",
       "affects": [{
         "selector": ".q-field",
         "property": "font-size"
@@ -165,7 +171,7 @@
     },
     "input-text-color": {
       "desc": "QField's content, prefix and suffix text color",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-field__native, .q-field__prefix, .q-field__suffix",
         "property": "color"
@@ -173,7 +179,7 @@
     },
     "input-label-color": {
       "desc": "QField's label text color",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-field__label",
         "property": "color"
@@ -193,7 +199,7 @@
     },
     "shadow-2": {
       "desc": "QField's control focused shadow when using the \"standout\" prop",
-      "type": "shadow",
+      "extends": "shadow-2",
       "affects": [{
         "selector": ".q-field--standout.q-field--focused .q-field__control",
         "property": "box-shadow"

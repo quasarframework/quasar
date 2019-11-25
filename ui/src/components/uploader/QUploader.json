@@ -401,7 +401,7 @@
   "css": {
     "shadow": {
       "desc": "",
-      "type": "shadow",
+      "extends": "shadow",
       "affects": [{
         "selector": "",
         "property": ""

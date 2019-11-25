@@ -93,7 +93,11 @@
   "css": {
     "chat-message-avatar-size": {
       "desc": "Width and height of the QChatMessage's avatar",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 48,
+        "unit": "px"
+      },
       "affects": [{
         "selector": ".q-message-avatar",
         "property": "width"
@@ -102,12 +106,16 @@
         "property": "height"
       }, {
         "selector": ".q-message-avatar",
-        "property": "min-width"
+        "property": "minWidth"
       }]
     },
     "chat-message-distance": {
       "desc": "QChatMessage's bottom margin",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 8,
+        "unit": "px"
+      },
       "affects": [{
         "selector": ".q-message",
         "property": "margin-bottom"
@@ -115,7 +123,7 @@
     },
     "chat-message-received-bg": {
       "desc": "QChatMessage's background color when the \"sent\" prop is false",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-message-received .q-message-text",
         "property": "color"
@@ -123,7 +131,11 @@
     },
     "chat-message-border-radius": {
       "desc": "QChatMessage's top-left, top-right and bottom-right border radius when \"sent\" prop is false; QChatMessage's top-left, top-right, bottom-left border radius otherwise",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 4,
+        "unit": "px"
+      },
       "affects": [{
         "selector": ".q-message-received .q-message-text",
         "property": "border-radius",
@@ -136,7 +148,7 @@
     },
     "chat-message-received-color": {
       "desc": "QChatMessage's content text color when the \"sent\" prop is false",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-message-received .q-message-text-content",
         "property": "color"
@@ -144,7 +156,7 @@
     },
     "chat-message-sent-bg": {
       "desc": "QChatMessage's background color when the \"sent\" prop is true",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-message-sent .q-message-text",
         "property": "color"
@@ -152,7 +164,7 @@
     },
     "chat-message-sent-color": {
       "desc": "QChatMessage's content text color when the \"sent\" prop is true",
-      "type": "color",
+      "type": "Color",
       "affects": [{
         "selector": ".q-message-sent .q-message-text-content",
         "property": "color"
@@ -160,7 +172,11 @@
     },
     "chat-message-text-padding": {
       "desc": "QChatMessage's text padding",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 8,
+        "unit": "px"
+      },
       "affects": [{
         "selector": ".q-message-text",
         "property": "padding"
@@ -168,7 +184,7 @@
     },
     "min-line-height": {
       "desc": "QChatMessage's text minimum value for line height",
-      "type": "size",
+      "extends": "min-line-height",
       "affects": [{
         "selector": ".q-message-text",
         "property": "line-height"

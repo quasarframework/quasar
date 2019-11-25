@@ -23,7 +23,8 @@
   "css": {
     "toggle-transition": {
       "desc": "",
-      "type": "transition",
+      "type": "Transition",
+      "category": "Animation",
       "affects": [{
         "selector": "",
         "property": ""
@@ -35,7 +36,8 @@
     },
     "option-focus-transition": {
       "desc": "",
-      "type": "transition",
+      "type": "Transition",
+      "category": "Animation",
       "affects": [{
         "selector": "",
         "property": ""

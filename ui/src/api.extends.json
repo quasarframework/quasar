@@ -231,11 +231,16 @@
       "desc": "Triggers component to toggle between show/hide"
     }
   },
-  
+
   "css": {
     "body-font-size": {
       "desc": "Body's font size",
-      "type": "size",
+      "type": "Size",
+      "category": "Typography",
+      "value": {
+        "size": 14,
+        "unit": "px"
+      },
       "affects": [{
         "selector": "body",
         "property": "font-size"
@@ -243,29 +248,50 @@
     },
     "body-line-height": {
       "desc": "Body's line height",
-      "type": "size",
+      "type": "Size",
+      "value": {
+        "size": 1.5,
+        "unit": null
+      },
+      "category": "Typography",
       "affects": [{
         "selector": "body",
         "property": "line-height"
       }]
     },
 
+    "min-line-height": {
+      "type": "Size",
+      "value": {
+        "size": 1.12,
+        "unit": null
+      }
+    },
+
     "primary": {
       "desc": "App's primary color",
-      "type": "color"
+      "type": "Color",
+      "category": "Brand",
+      "value": "#027BE3"
     },
     "secondary": {
       "desc": "App's secondary color",
-      "type": "color"
+      "type": "Color",
+      "category": "Brand",
+      "value": "#26A69A"
     },
     "accent": {
       "desc": "App's accent color",
-      "type": "color"
+      "type": "Color",
+      "category": "Brand",
+      "value": "#9C27B0"
     },
 
     "dark-page": {
       "desc": "App's body background on global dark mode",
-      "type": "color",
+      "type": "Color",
+      "category": "Brand",
+      "value": "#121212",
       "affects": [{
         "selector": "body.body--dark",
         "property": "background"
@@ -273,7 +299,9 @@
     },
     "dark": {
       "desc": "App's dark color",
-      "type": "color",
+      "type": "Color",
+      "category": "Brand",
+      "value": "#1d1d1d",
       "affects": [{
         "selector": ".bg-dark",
         "property": "background"
@@ -285,41 +313,1479 @@
 
     "positive": {
       "desc": "App's positive color",
-      "type": "color"
+      "type": "Color",
+      "category": "Brand",
+      "value": "#21BA45"
     },
     "negative": {
       "desc": "App's negative color",
-      "type": "color"
+      "type": "Color",
+      "category": "Brand",
+      "value": "#C10015"
     },
     "info": {
       "desc": "App's info color",
-      "type": "color"
+      "type": "Color",
+      "category": "Brand",
+      "value": "#31CCEC"
     },
     "warning": {
       "desc": "App's warning color",
-      "type": "color"
+      "type": "Color",
+      "category": "Brand",
+      "value": "#F2C037"
+    },
+
+    "red": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f44336"
+    },
+    "red-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffcdd2"
+    },
+    "red-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffcdd2"
+    },
+    "red-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ef9a9a"
+    },
+    "red-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e57373"
+    },
+    "red-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ef5350"
+    },
+    "red-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f44336"
+    },
+    "red-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e53935"
+    },
+    "red-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d32f2f"
+    },
+    "red-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#c62828"
+    },
+    "red-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b71c1c"
+    },
+    "red-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff8a80"
+    },
+    "red-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff5252"
+    },
+    "red-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff1744"
+    },
+    "red-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d50000"
+    },
+    "pink": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e91e63"
+    },
+    "pink-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fce4ec"
+    },
+    "pink-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f8bbd0"
+    },
+    "pink-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f48fb1"
+    },
+    "pink-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f06292"
+    },
+    "pink-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ec407a"
+    },
+    "pink-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e91e63"
+    },
+    "pink-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d81b60"
+    },
+    "pink-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#c2185b"
+    },
+    "pink-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ad1457"
+    },
+    "pink-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#880e4f"
+    },
+    "pink-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff80ab"
+    },
+    "pink-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff4081"
+    },
+    "pink-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f50057"
+    },
+    "pink-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#c51162"
+    },
+    "purple": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#9c27b0"
+    },
+    "purple-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f3e5f5"
+    },
+    "purple-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e1bee7"
+    },
+    "purple-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ce93d8"
+    },
+    "purple-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ba68c8"
+    },
+    "purple-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ab47bc"
+    },
+    "purple-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#9c27b0"
+    },
+    "purple-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#8e24aa"
+    },
+    "purple-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#7b1fa2"
+    },
+    "purple-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#6a1b9a"
+    },
+    "purple-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#4a148c"
+    },
+    "purple-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ea80fc"
+    },
+    "purple-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e040fb"
+    },
+    "purple-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d500f9"
+    },
+    "purple-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#aa00ff"
+    },
+    "deep-purple": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#673ab7"
+    },
+    "deep-purple-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ede7f6"
+    },
+    "deep-purple-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d1c4e9"
+    },
+    "deep-purple-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b39ddb"
+    },
+    "deep-purple-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#9575cd"
+    },
+    "deep-purple-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#7e57c2"
+    },
+    "deep-purple-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#673ab7"
+    },
+    "deep-purple-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#5e35b1"
+    },
+    "deep-purple-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#512da8"
+    },
+    "deep-purple-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#4527a0"
+    },
+    "deep-purple-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#311b92"
+    },
+    "deep-purple-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b388ff"
+    },
+    "deep-purple-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#7c4dff"
+    },
+    "deep-purple-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#651fff"
+    },
+    "deep-purple-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#6200ea"
+    },
+    "indigo": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#3f51b5"
+    },
+    "indigo-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e8eaf6"
+    },
+    "indigo-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#c5cae9"
+    },
+    "indigo-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#9fa8da"
+    },
+    "indigo-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#7986cb"
+    },
+    "indigo-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#5c6bc0"
+    },
+    "indigo-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#3f51b5"
+    },
+    "indigo-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#3949ab"
+    },
+    "indigo-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#303f9f"
+    },
+    "indigo-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#283593"
+    },
+    "indigo-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#1a237e"
+    },
+    "indigo-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#8c9eff"
+    },
+    "indigo-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#536dfe"
+    },
+    "indigo-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#3d5afe"
+    },
+    "indigo-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#304ffe"
+    },
+    "blue": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#2196f3"
+    },
+    "blue-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e3f2fd"
+    },
+    "blue-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#bbdefb"
+    },
+    "blue-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#90caf9"
+    },
+    "blue-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#64b5f6"
+    },
+    "blue-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#42a5f5"
+    },
+    "blue-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#2196f3"
+    },
+    "blue-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#1e88e5"
+    },
+    "blue-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#1976d2"
+    },
+    "blue-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#1565c0"
+    },
+    "blue-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#0d47a1"
+    },
+    "blue-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#82b1ff"
+    },
+    "blue-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#448aff"
+    },
+    "blue-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#2979ff"
+    },
+    "blue-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#2962ff"
+    },
+    "light-blue": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#03a9f4"
+    },
+    "light-blue-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e1f5fe"
+    },
+    "light-blue-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b3e5fc"
+    },
+    "light-blue-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#81d4fa"
+    },
+    "light-blue-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#4fc3f7"
+    },
+    "light-blue-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#29b6f6"
+    },
+    "light-blue-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#03a9f4"
+    },
+    "light-blue-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#039be5"
+    },
+    "light-blue-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#0288d1"
+    },
+    "light-blue-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#0277bd"
+    },
+    "light-blue-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#01579b"
+    },
+    "light-blue-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#80d8ff"
+    },
+    "light-blue-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#40c4ff"
+    },
+    "light-blue-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00b0ff"
+    },
+    "light-blue-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#0091ea"
+    },
+    "cyan": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00bcd4"
+    },
+    "cyan-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e0f7fa"
+    },
+    "cyan-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b2ebf2"
+    },
+    "cyan-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#80deea"
+    },
+    "cyan-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#4dd0e1"
+    },
+    "cyan-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#26c6da"
+    },
+    "cyan-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00bcd4"
+    },
+    "cyan-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00acc1"
+    },
+    "cyan-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#0097a7"
+    },
+    "cyan-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00838f"
+    },
+    "cyan-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#006064"
+    },
+    "cyan-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#84ffff"
+    },
+    "cyan-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#18ffff"
+    },
+    "cyan-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00e5ff"
+    },
+    "cyan-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00b8d4"
+    },
+    "teal": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#009688"
+    },
+    "teal-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e0f2f1"
+    },
+    "teal-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b2dfdb"
+    },
+    "teal-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#80cbc4"
+    },
+    "teal-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#4db6ac"
+    },
+    "teal-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#26a69a"
+    },
+    "teal-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#009688"
+    },
+    "teal-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00897b"
+    },
+    "teal-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00796b"
+    },
+    "teal-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00695c"
+    },
+    "teal-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#004d40"
+    },
+    "teal-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#a7ffeb"
+    },
+    "teal-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#64ffda"
+    },
+    "teal-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#1de9b6"
+    },
+    "teal-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00bfa5"
+    },
+    "green": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#4caf50"
+    },
+    "green-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e8f5e9"
+    },
+    "green-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#c8e6c9"
+    },
+    "green-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#a5d6a7"
+    },
+    "green-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#81c784"
+    },
+    "green-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#66bb6a"
+    },
+    "green-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#4caf50"
+    },
+    "green-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#43a047"
+    },
+    "green-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#388e3c"
+    },
+    "green-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#2e7d32"
+    },
+    "green-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#1b5e20"
+    },
+    "green-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b9f6ca"
+    },
+    "green-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#69f0ae"
+    },
+    "green-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00e676"
+    },
+    "green-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#00c853"
+    },
+    "light-green": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#8bc34a"
+    },
+    "light-green-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f1f8e9"
+    },
+    "light-green-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#dcedc8"
+    },
+    "light-green-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#c5e1a5"
+    },
+    "light-green-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#aed581"
+    },
+    "light-green-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#9ccc65"
+    },
+    "light-green-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#8bc34a"
+    },
+    "light-green-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#7cb342"
+    },
+    "light-green-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#689f38"
+    },
+    "light-green-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#558b2f"
+    },
+    "light-green-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#33691e"
+    },
+    "light-green-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ccff90"
+    },
+    "light-green-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b2ff59"
+    },
+    "light-green-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#76ff03"
+    },
+    "light-green-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#64dd17"
+    },
+    "lime": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#cddc39"
+    },
+    "lime-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f9fbe7"
+    },
+    "lime-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f0f4c3"
+    },
+    "lime-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e6ee9c"
+    },
+    "lime-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#dce775"
+    },
+    "lime-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d4e157"
+    },
+    "lime-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#cddc39"
+    },
+    "lime-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#c0ca33"
+    },
+    "lime-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#afb42b"
+    },
+    "lime-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#9e9d24"
+    },
+    "lime-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#827717"
+    },
+    "lime-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f4ff81"
+    },
+    "lime-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#eeff41"
+    },
+    "lime-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#c6ff00"
+    },
+    "lime-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#aeea00"
+    },
+    "yellow": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffeb3b"
+    },
+    "yellow-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fffde7"
+    },
+    "yellow-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fff9c4"
+    },
+    "yellow-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fff59d"
+    },
+    "yellow-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fff176"
+    },
+    "yellow-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffee58"
+    },
+    "yellow-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffeb3b"
+    },
+    "yellow-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fdd835"
+    },
+    "yellow-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fbc02d"
+    },
+    "yellow-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f9a825"
+    },
+    "yellow-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f57f17"
+    },
+    "yellow-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffff8d"
+    },
+    "yellow-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffff00"
+    },
+    "yellow-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffea00"
+    },
+    "yellow-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffd600"
+    },
+    "amber": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffc107"
+    },
+    "amber-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fff8e1"
+    },
+    "amber-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffecb3"
+    },
+    "amber-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffe082"
+    },
+    "amber-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffd54f"
+    },
+    "amber-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffca28"
+    },
+    "amber-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffc107"
+    },
+    "amber-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffb300"
+    },
+    "amber-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffa000"
+    },
+    "amber-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff8f00"
+    },
+    "amber-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff6f00"
+    },
+    "amber-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffe57f"
+    },
+    "amber-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffd740"
+    },
+    "amber-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffc400"
+    },
+    "amber-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffab00"
+    },
+    "orange": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff9800"
+    },
+    "orange-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fff3e0"
+    },
+    "orange-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffe0b2"
+    },
+    "orange-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffcc80"
+    },
+    "orange-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffb74d"
+    },
+    "orange-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffa726"
+    },
+    "orange-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff9800"
+    },
+    "orange-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fb8c00"
+    },
+    "orange-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f57c00"
+    },
+    "orange-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ef6c00"
+    },
+    "orange-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e65100"
+    },
+    "orange-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffd180"
+    },
+    "orange-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffab40"
+    },
+    "orange-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff9100"
+    },
+    "orange-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff6d00"
+    },
+    "deep-orange": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff5722"
+    },
+    "deep-orange-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fbe9e7"
+    },
+    "deep-orange-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffccbc"
+    },
+    "deep-orange-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ffab91"
+    },
+    "deep-orange-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff8a65"
+    },
+    "deep-orange-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff7043"
+    },
+    "deep-orange-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff5722"
+    },
+    "deep-orange-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f4511e"
+    },
+    "deep-orange-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e64a19"
+    },
+    "deep-orange-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d84315"
+    },
+    "deep-orange-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#bf360c"
+    },
+    "deep-orange-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff9e80"
+    },
+    "deep-orange-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff6e40"
+    },
+    "deep-orange-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#ff3d00"
+    },
+    "deep-orange-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#dd2c00"
+    },
+    "brown": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#795548"
+    },
+    "brown-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#efebe9"
+    },
+    "brown-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d7ccc8"
+    },
+    "brown-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#bcaaa4"
+    },
+    "brown-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#a1887f"
+    },
+    "brown-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#8d6e63"
+    },
+    "brown-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#795548"
+    },
+    "brown-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#6d4c41"
+    },
+    "brown-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#5d4037"
+    },
+    "brown-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#4e342e"
+    },
+    "brown-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#3e2723"
+    },
+    "brown-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#d7ccc8"
+    },
+    "brown-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#bcaaa4"
+    },
+    "brown-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#8d6e63"
+    },
+    "brown-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#5d4037"
+    },
+    "grey": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#9e9e9e"
+    },
+    "grey-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#fafafa"
+    },
+    "grey-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f5f5f5"
+    },
+    "grey-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#eeeeee"
+    },
+    "grey-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#e0e0e0"
+    },
+    "grey-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#bdbdbd"
+    },
+    "grey-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#9e9e9e"
+    },
+    "grey-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#757575"
+    },
+    "grey-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#616161"
+    },
+    "grey-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#424242"
+    },
+    "grey-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#212121"
+    },
+    "grey-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#f5f5f5"
+    },
+    "grey-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#eeeeee"
+    },
+    "grey-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#bdbdbd"
+    },
+    "grey-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#616161"
+    },
+    "blue-grey": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#607d8b"
+    },
+    "blue-grey-1": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#eceff1"
+    },
+    "blue-grey-2": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#cfd8dc"
+    },
+    "blue-grey-3": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b0bec5"
+    },
+    "blue-grey-4": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#90a4ae"
+    },
+    "blue-grey-5": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#78909c"
+    },
+    "blue-grey-6": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#607d8b"
+    },
+    "blue-grey-7": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#546e7a"
+    },
+    "blue-grey-8": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#455a64"
+    },
+    "blue-grey-9": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#37474f"
+    },
+    "blue-grey-10": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#263238"
+    },
+    "blue-grey-11": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#cfd8dc"
+    },
+    "blue-grey-12": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#b0bec5"
+    },
+    "blue-grey-13": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#78909c"
+    },
+    "blue-grey-14": {
+      "type": "Color",
+      "category": "Color Palette",
+      "value": "#455a64"
     },
 
     "dimmed-background": {
       "desc": "App's dimmed background color",
-      "type": "color"
+      "type": "Color"
     },
     "light-dimmed-background": {
       "desc": "App's light dimmed background color",
-      "type": "color"
+      "type": "Color"
     },
 
     "separator-color": {
       "desc": "App's separator color",
-      "type": "color"
+      "type": "Color"
     },
     "separator-dark-color": {
       "desc": "App's separator color on dark theme",
-      "type": "color"
+      "type": "Color"
     },
 
     "ios-statusbar-height": {
-      "type": "size"
+      "type": "Size",
+      "value": {
+        "size": 20,
+        "unit": "px"
+      }
     },
 
     "z-max": {
@@ -329,184 +1795,247 @@
 
     "shadow-transition": {
       "desc": "Shadow transition",
-      "type": "transition"
+      "type": "Transition",
+      "category": "Animation"
     },
     "inset-shadow": {
       "desc": "Inset shadow",
-      "type": "shadow"
+      "type": "Shadow",
+      "category": "Elevation"
     },
 
     "elevation-umbra": {
       "desc": "Shadow's umbra elevation",
-      "type": "color"
+      "type": "Color",
+      "category": "Elevation"
     },
     "elevation-penumbra": {
       "desc": "Shadow's penumbra elevation",
-      "type": "color"
+      "type": "Color",
+      "category": "Elevation"
     },
     "elevation-ambient": {
       "desc": "Shadow's ambient elevation",
-      "type": "color"
+      "type": "Color",
+      "category": "Elevation"
     },
 
+    "shadow": {
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-1": {
-      "type": "shadow"
+      "type": "Shadow",
+      "category": "Elevation"
     },
     "shadow-2": {
-      "type": "shadow"
+      "type": "Shadow",
+      "category": "Elevation"
     },
     "shadow-3": {
-      "type": "shadow"
+      "type": "Shadow",
+      "category": "Elevation"
     },
     "shadow-4": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-5": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-6": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-7": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-8": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-9": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-10": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-11": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-12": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-13": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-14": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-15": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-16": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-17": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-18": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-19": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-20": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-21": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-22": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-23": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-24": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
 
     "shadow-up-1": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-2": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-3": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-4": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-5": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-6": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-7": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-8": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-9": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-10": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-11": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-12": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-13": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-14": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-15": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-16": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-17": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-18": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-19": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-20": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-21": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-22": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-23": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
     "shadow-up-24": {
-			"type": "shadow"
-		},
+      "type": "Shadow",
+      "category": "Elevation"
+    },
 
     "generic-border-radius": {
       "desc": "App's default border radius",
-			"type": "size"
-		},
+      "type": "Size",
+      "value": {
+        "size": 4,
+        "unit": "px"
+      },
+      "category": "Shape System"
+    },
     "generic-hover-transition": {
       "desc": "App's default hover transition",
-			"type": "transition"
-		},
+      "type": "Transition",
+      "category": "Animation"
+    },
     "typography-font-family": {
       "desc": "App's font family",
-			"type": "font-family"
-		}
-
+      "type": "font-family",
+      "category": "Typography"
+    }
   }
 }

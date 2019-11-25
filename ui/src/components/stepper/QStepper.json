@@ -99,7 +99,7 @@
   "css": {
     "shadow-2": {
       "desc": "QStepper's shadow",
-      "type": "shadow",
+      "extends": "shadow-2",
       "affects": [{
         "selector": ".q-stepper",
         "property": "box-shadow"
@@ -115,7 +115,7 @@
     },
     "grey": {
       "desc": "QStepper's tab color",
-      "type": "color",
+      "extends": "grey",
       "affects": [{
         "selector": ".q-stepper__tab",
         "property": "color"

@@ -159,7 +159,7 @@ const objectTypes = {
 
   // component only
   css: {
-    props: ['desc', 'type', 'affects'],
+    props: ['desc', 'type', 'category', 'value', 'affects'],
     required: ['desc'],
     isArray: [ 'affects' ]
   }

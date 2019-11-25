@@ -498,7 +498,7 @@
   "css": {
     "grey": {
       "desc": "",
-      "type": "color"
+      "extends": "grey"
     },
     "generic-border-radius": {
       "desc": "",
