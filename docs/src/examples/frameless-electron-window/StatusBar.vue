@@ -116,6 +116,10 @@
 // is only needed if we build same app with other
 // Quasar Modes as well (SPA/PWA/Cordova/SSR...)
 
+// accessing this.$q.electron requires that you
+// 1. set /quasar.conf.js > electron > injectIntoQ = true
+// 2. enable Electron nodeIntegration (from your main thread)
+
 export default {
   methods: {
     minimize () {

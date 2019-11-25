@@ -58,7 +58,7 @@ import <%= importName %> from '<%= asset.path %>'
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
 
-<% if (ctx.mode.electron) { %>
+<% if (ctx.mode.electron && electron.injectIntoQ === true) { %>
 import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>

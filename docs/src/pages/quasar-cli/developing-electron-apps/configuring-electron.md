@@ -26,6 +26,11 @@ electron: {
     // of the Webpack configuration
   },
 
+  // accessing this.$q.electron requires that you
+  // 1. set /quasar.conf.js > electron > injectIntoQ = true
+  // 2. enable Electron nodeIntegration (from your main thread)
+  injectIntoQ: false,
+
   bundler: 'packager', // or 'builder'
 
   // electron-packager options
