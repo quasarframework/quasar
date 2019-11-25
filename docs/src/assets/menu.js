@@ -480,10 +480,6 @@ const style = [
     path: 'color-palette'
   },
   {
-    name: 'Theme Builder',
-    path: 'theme-builder'
-  },
-  {
     name: 'Dark Mode',
     badge: 'new',
     path: 'dark-mode'

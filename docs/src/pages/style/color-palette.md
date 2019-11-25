@@ -13,7 +13,7 @@ Most of the colors that Quasar Components use are strongly linked with these thr
 <brand-colors />
 
 ::: tip TIPS
-* Also check [Theme Builder](/style/theme-builder) for a tool on customizing the brand colors of your website/app.
+* Also check [Theme Builder](/theme-builder) for a tool on customizing the brand colors of your website/app.
 * `dark` was added in Quasar v1.3.0.
 :::
 

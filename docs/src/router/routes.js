@@ -81,6 +81,10 @@ const routes = [
     path: '/layout-builder',
     component: () => import('layouts/LayoutBuilder.vue')
   },
+  {
+    path: '/theme-builder',
+    component: () => import('layouts/ThemeBuilder.vue')
+  },
 
   ...layoutGallery.map(layout => ({
     path: layout.demoLink,

@@ -46,7 +46,7 @@ div
 
       q-item-label.q-mt-md(header) Helpers
 
-      q-item(clickable, to="/style/theme-builder")
+      q-item(clickable, to="/theme-builder")
         q-item-section.text-teal(avatar)
           q-icon(name="style")
         q-item-section Theme Builder

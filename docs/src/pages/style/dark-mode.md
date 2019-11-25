@@ -4,7 +4,7 @@ desc: Handle dark mode with Quasar.
 badge: v1.3+
 related:
   - /quasar-plugins/dark
-  - /style/theme-builder
+  - /theme-builder
 ---
 
 Dark Mode is a supplemental mode that can be used to display mostly dark surfaces on the UI. The design reduces the light emitted by device screens while maintaining the minimum color contrast ratios required for readability.
