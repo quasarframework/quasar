@@ -143,7 +143,7 @@ export default {
           if (!componentVariables[componentName]) {
             componentVariables[componentName] = {}
           }
-          componentVariables[componentName][name] = variable
+          componentVariables[componentName][name] = variable.references[componentName]
         }
       }
     }

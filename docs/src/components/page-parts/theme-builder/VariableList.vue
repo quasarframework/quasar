@@ -22,6 +22,7 @@ import { groupBy } from 'assets/page-utils'
 import SizeVariableItem from './item/SizeVariableItem'
 import TextVariableItem from './item/TextVariableItem'
 import ColorVariableItem from './item/ColorVariableItem'
+import SpacingVariableItem from './item/SpacingVariableItem'
 
 export default {
   props: {
@@ -47,6 +48,8 @@ export default {
           return SizeVariableItem
         case 'Color':
           return ColorVariableItem
+        case 'Spacing':
+          return SpacingVariableItem
         default:
           return TextVariableItem
       }

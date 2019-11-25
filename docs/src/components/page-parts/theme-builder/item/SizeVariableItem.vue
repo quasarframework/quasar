@@ -13,18 +13,21 @@ q-item(clickable v-ripple dense)
         :max="100"
         :value="value.size"
         @input="onSizeChange"
+        label
       )
       q-select.col-auto(
         :options="units"
         :value="value.unit"
         @input="onUnitChange"
         dense
+        options-dense
       )
 </template>
 
 <script>
 
 import { clone } from 'quasar'
+import { sizeUnits } from './util'
 
 export default {
   props: {
@@ -35,19 +38,7 @@ export default {
 
   data () {
     return {
-      units: [
-        'px',
-        '%',
-        'em',
-        'rem',
-        'ex',
-        'ch',
-        'vw',
-        'vh',
-        'vmin',
-        'vmax',
-        'fr'
-      ]
+      units: sizeUnits
     }
   },
 

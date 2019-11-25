@@ -467,7 +467,7 @@ function fillAPI (apiType) {
       })
 
       for (let variable in api.css) {
-        const { type, ...variableDef } = api.css[variable]
+        const variableDef = api.css[variable]
         let globalVariableDefinition = globalCss[variable]
         if (!globalVariableDefinition) {
           globalVariableDefinition = globalCss[variable] = {}
