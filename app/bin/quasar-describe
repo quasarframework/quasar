@@ -7,8 +7,7 @@ const
 const
   getApi = require('../lib/helpers/get-api'),
   logger = require('../lib/helpers/logger'),
-  warn = logger('app:describe', 'red'),
-  openBrowser = require('../lib/helpers/open-browser')
+  warn = logger('app:describe', 'red')
 
 const partArgs = {
   p: 'props',
@@ -487,8 +486,6 @@ function describe (api) {
   if (api.meta && api.meta.docsUrl) {
     console.log('\n ' + chalk.underline('Documentation URL'))
     console.log('\n   ' + chalk.green(api.meta.docsUrl))
-
-    apiParts.docs && openBrowser(api.meta.docsUrl)
   }
 }
 
@@ -497,16 +494,24 @@ async function run () {
     const { api, supplier } = await getApi(item)
 
     console.log()
-    console.log(` Describing ${chalk.green(item)} ${api.type} API`)
 
-    if (supplier === void 0) {
-      console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
+    if (apiParts.docs && api.meta && api.meta.docsUrl) {
+      const openBrowser = require('../lib/helpers/open-browser')
+      openBrowser({ url: api.meta.docsUrl, wait: false })
     }
     else {
-      console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
+      console.log(` Describing ${chalk.green(item)} ${api.type} API`)
+
+      if (supplier === void 0) {
+        console.log(` ${chalk.italic(`Description is based on your project's Quasar version`)}`)
+      }
+      else {
+        console.log(` ${chalk.italic(`Supplied by "${supplier}" App Extension`)}`)
+      }
+
+      describe(api)
     }
 
-    describe(api)
     console.log()
   }
   catch (e) {
