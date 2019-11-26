@@ -1,4 +1,9 @@
 {
+  "meta": {
+    "docsRoute": "layout",
+    "docsPage": "page"
+  },
+
   "behavior": {
     "$listeners": true
   },

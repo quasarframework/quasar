@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "timeline"
+  },
+
   "behavior": {
     "$listeners": true
   },

@@ -3,14 +3,15 @@ const
   path = require('path'),
   merge = require('webpack-merge'),
   fs = require('fs'),
-  { logError, writeFile } = require('./build.utils'),
-  ast = require('./ast')
+  request = require('request')
 
 const
   root = path.resolve(__dirname, '..'),
   resolvePath = file => path.resolve(root, file),
   dest = path.join(root, 'dist/api'),
-  extendApi = require(resolvePath('src/api.extends.json'))
+  extendApi = require(resolvePath('src/api.extends.json')),
+  { logError, writeFile } = require('./build.utils'),
+  ast = require('./ast')
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
@@ -36,9 +37,9 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
-  plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
-  directive: [ 'value', 'arg', 'modifiers' ]
+  plugin: [ 'meta', 'injection', 'quasarConfOptions', 'props', 'methods' ],
+  component: ['meta', 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods'],
+  directive: ['meta', 'value', 'arg', 'modifiers']
 }
 
 const objectTypes = {
@@ -115,6 +116,11 @@ const objectTypes = {
   Component: {
     props: [ 'desc' ],
     required: [ 'desc' ]
+  },
+
+  meta: {
+    props: [ 'docsRoute', 'docsPage', 'docsApiAnchor' ],
+    required: []
   },
 
   // special type, not common
@@ -361,6 +367,16 @@ function parseAPI (file, apiType) {
       continue
     }
 
+    if (type === 'meta') {
+      parseObject({
+        banner: `${banner} "${type}"`,
+        api,
+        itemName: 'meta',
+        masterType: type
+      })
+      continue
+    }
+
     if (['value', 'arg'].includes(type)) {
       parseObject({
         banner: `${banner} "${type}"`,
@@ -387,7 +403,33 @@ function parseAPI (file, apiType) {
   return api
 }
 
-function orderAPI (api, apiType) {
+const routes = {
+  component: 'vue-components',
+  directive: 'vue-directives',
+  plugin: 'quasar-plugins'
+}
+
+function getPage (fileName) {
+  let page
+  if (fileName.startsWith('Q')) {
+    page = fileName.slice(1)
+  }
+  else {
+    page = fileName
+  }
+  // kebab-case
+  return page.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase()
+}
+
+function orderAPI (api, apiType, fileName) {
+  const metaDef = api.meta || {},
+    meta = {},
+    docsApiAnchor = metaDef.docsApiAnchor === void 0
+      ? (apiType === 'directive' ? 'API' : fileName + '-API')
+      : metaDef.docsApiAnchor
+  // TODO change URL to v1.quasar.dev
+  meta.docsUrl = `https://quasar.dev/${metaDef.docsRoute || routes[apiType]}/${metaDef.docsPage || getPage(fileName)}#${docsApiAnchor}`
+
   const ordered = {
     type: apiType
   }
@@ -397,6 +439,8 @@ function orderAPI (api, apiType) {
       ordered[section] = api[section]
     }
   })
+
+  ordered.meta = meta
 
   return ordered
 }
@@ -445,7 +489,7 @@ function fillAPI (apiType) {
       name = path.basename(file),
       filePath = path.join(dest, name)
 
-    const api = orderAPI(parseAPI(file, apiType), apiType)
+    const api = orderAPI(parseAPI(file, apiType), apiType, name.replace('.json', ''))
 
     if (apiType === 'component') {
       const definition = fs.readFileSync(file.replace('.json', '.js'), {

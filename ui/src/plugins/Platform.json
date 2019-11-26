@@ -1,4 +1,10 @@
 {
+  "meta": {
+    "docsRoute": "options",
+    "docsPage": "platform-detection",
+    "docsApiAnchor": "API"
+  },
+
   "injection": "$q.platform",
 
   "props": {

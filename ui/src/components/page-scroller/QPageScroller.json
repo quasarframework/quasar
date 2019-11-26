@@ -1,5 +1,9 @@
 {
   "mixins": [ "components/page-sticky/QPageSticky" ],
+  
+  "meta": {
+    "docsRoute": "layout"
+  },
 
   "behavior": {
     "$listeners": true
@@ -23,7 +27,7 @@
     },
 
     "offset": {
-      "default": [18, 18],
+      "default": [ 18, 18 ],
       "category": "content"
     }
   }

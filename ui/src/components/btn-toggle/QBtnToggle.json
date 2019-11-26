@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/ripple" ],
 
+  "meta": {
+    "docsPage": "button-toggle"
+  },
+
   "behavior": {
     "$listeners": true
   },

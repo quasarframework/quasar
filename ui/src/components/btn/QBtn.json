@@ -1,5 +1,9 @@
 {
   "mixins": [ "mixins/btn" ],
+  
+  "meta": {
+    "docsPage": "button"
+  },
 
   "behavior": {
     "$listeners": true

@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "carousel"
+  },
+
   "behavior": {
     "$listeners": true
   },

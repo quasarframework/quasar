@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "toolbar"
+  },
+
   "behavior": {
     "$listeners": true
   },

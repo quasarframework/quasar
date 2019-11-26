@@ -19,7 +19,7 @@
     "display-value": {
       "type": [ "Number", "String" ],
       "desc": "Override default selection string, if not using 'selected' slot/scoped slot and if not using 'use-chips' prop",
-      "examples": [ "Options: x, y, z"],
+      "examples": [ "Options: x, y, z" ],
       "category": "selection"
     },
 

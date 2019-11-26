@@ -1,4 +1,9 @@
 {
+  "meta": {
+    "docsRoute": "layout",
+    "docsPage": "floating-action-button"
+  },
+
   "behavior": {
     "$listeners": true
   },

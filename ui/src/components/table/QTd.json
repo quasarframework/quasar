@@ -3,6 +3,10 @@
     "$listeners": true
   },
 
+  "meta": {
+    "docsPage": "table"
+  },
+
   "props": {
     "props": {
       "type": "Object",

@@ -4,38 +4,12 @@ const
 
 const
   appPaths = require('./app-paths'),
-  logger = require('./helpers/logger')
+  logger = require('./helpers/logger'),
+  openBrowser = require('./helpers/open-browser')
   log = logger('app:dev-server'),
   warn = logger('app:dev-server', 'red')
 
 let alreadyNotified = false
-
-function openBrowser (url, opts) {
-  const open = require('open')
-
-  const openDefault = () => {
-    log('Opening default browser at ' + url)
-    log()
-    open(url, { wait: true, url: true }).catch(() => {
-      warn(`⚠️  Failed to open default browser`)
-      warn()
-    })
-  }
-
-  if (opts) {
-    log('Opening browser at ' + url + ' with options: ' + opts)
-    log()
-    open(url, { app: opts, wait: true, url: true }).catch(() => {
-      warn(`⚠️  Failed to open specific browser`)
-      warn()
-      openDefault()
-    })
-  }
-  else {
-    openDefault()
-  }
-}
-
 module.exports = class DevServer {
   constructor (quasarConfig) {
     this.quasarConfig = quasarConfig

@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/size" ],
 
+  "meta": {
+    "docsPage": "spinners"
+  },
+
   "behavior": {
     "$listeners": true
   },

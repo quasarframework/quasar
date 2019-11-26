@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsRoute": "layout"
+  },
+
   "props": {
     "position": {
       "type": "String",

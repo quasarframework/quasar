@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "stepper"
+  },
+  
   "mixins": [ "mixins/panel-child" ],
 
   "behavior": {

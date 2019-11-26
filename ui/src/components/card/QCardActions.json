@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "card"
+  },
+
   "behavior": {
     "$listeners": true
   },

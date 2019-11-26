@@ -1,4 +1,10 @@
 {
+  "meta": {
+    "docsRoute": "options",
+    "docsPage": "screen-plugin",
+    "docsApiAnchor": "API"
+  },
+
   "injection": "$q.screen",
 
   "props": {

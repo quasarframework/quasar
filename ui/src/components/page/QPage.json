@@ -3,6 +3,10 @@
     "$listeners": true
   },
 
+  "meta": {
+    "docsRoute": "layout"
+  },
+
   "props": {
     "padding": {
       "type": "Boolean",

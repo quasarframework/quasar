@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "button-group"
+  },
+
   "behavior": {
     "$listeners": true
   },

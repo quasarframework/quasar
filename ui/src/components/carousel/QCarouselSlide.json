@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "carousel"
+  },
+
   "mixins": [ "mixins/panel-child" ],
 
   "behavior": {

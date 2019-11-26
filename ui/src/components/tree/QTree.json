@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsApiAnchor": "API"
+  },
+  
   "props": {
     "nodes": {
       "type": "Array",

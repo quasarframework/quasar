@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "tab-panels"
+  },
+
   "mixins": [ "mixins/panel-child" ],
 
   "behavior": {

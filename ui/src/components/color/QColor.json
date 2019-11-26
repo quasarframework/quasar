@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsPage": "color-picker"
+  },
+
   "props": {
     "value": {
       "extends": "value",
