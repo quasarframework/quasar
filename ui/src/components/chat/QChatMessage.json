@@ -124,6 +124,7 @@
     "chat-message-received-bg": {
       "desc": "QChatMessage's background color when the \"sent\" prop is false",
       "type": "Color",
+      "value": "$green-4",
       "affects": [{
         "selector": ".q-message-received .q-message-text",
         "property": "color"
@@ -132,10 +133,7 @@
     "chat-message-border-radius": {
       "desc": "QChatMessage's top-left, top-right and bottom-right border radius when \"sent\" prop is false; QChatMessage's top-left, top-right, bottom-left border radius otherwise",
       "type": "Size",
-      "value": {
-        "size": 4,
-        "unit": "px"
-      },
+      "value": "$generic-border-radius",
       "affects": [{
         "selector": ".q-message-received .q-message-text",
         "property": "border-radius",
@@ -149,6 +147,7 @@
     "chat-message-received-color": {
       "desc": "QChatMessage's content text color when the \"sent\" prop is false",
       "type": "Color",
+      "value": "#000",
       "affects": [{
         "selector": ".q-message-received .q-message-text-content",
         "property": "color"
@@ -157,6 +156,7 @@
     "chat-message-sent-bg": {
       "desc": "QChatMessage's background color when the \"sent\" prop is true",
       "type": "Color",
+      "value": "$grey-4",
       "affects": [{
         "selector": ".q-message-sent .q-message-text",
         "property": "color"
@@ -165,6 +165,7 @@
     "chat-message-sent-color": {
       "desc": "QChatMessage's content text color when the \"sent\" prop is true",
       "type": "Color",
+      "value": "#000",
       "affects": [{
         "selector": ".q-message-sent .q-message-text-content",
         "property": "color"

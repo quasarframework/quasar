@@ -275,6 +275,7 @@
     "editor-border-color": {
       "desc": "QEditor's border color for its container and toolbar",
       "type": "Color",
+      "value": "$separator-color",
       "affects": [{
         "selector": ".q-editor",
         "property": "border",
@@ -321,6 +322,7 @@
     "editor-hr-color": {
       "desc": "QEditor's content <hr> color",
       "type": "Color",
+      "value": "$editor-border-color",
       "affects": [{
         "selector": ".q-editor",
         "property": "background"
@@ -352,6 +354,7 @@
     "editor-border-dark-color": {
       "desc": "QEditor's border color for content, toolbar and toolbar group separator",
       "type": "Color",
+      "value": "$separator-dark-color",
       "affects": [{
         "selector": ".q-editor--dark, .q-editor--dark .q-editor__toolbar",
         "property": "border-color"
@@ -363,6 +366,7 @@
     "editor-hr-dark-color": {
       "desc": "QEditor's content <hr> color when the \"dark\" prop is true",
       "type": "Color",
+      "value": "$editor-border-dark-color",
       "affects": [{
         "selector": ".q-editor--dark .q-editor__content hr",
         "property": ""

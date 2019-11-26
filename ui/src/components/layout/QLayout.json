@@ -92,6 +92,7 @@
     "layout-shadow": {
       "desc": "QLayout's shadow",
       "type": "Shadow",
+      "value": "0 0 10px 2px rgba(0,0,0,0.2), 0 0px 10px rgba(0,0,0,0.24)",
       "category": "Elevation",
       "affects": [{
         "selector": ".q-layout__shadow:after",
@@ -109,6 +110,7 @@
     "layout-border": {
       "desc": "QHeader's border-bottom, QFooter's border-top, QDrawer's border-[left|right] when using the \"bordered\" prop",
       "type": "border",
+      "value": "1px solid $separator-color",
       "affects": [{
         "selector": ".q-header--bordered",
         "property": "borderBottom"
@@ -129,6 +131,7 @@
     "z-marginals": {
       "desc": "QHeader's, QFooter's and QDrawer's opener z-index",
       "type": "Number",
+      "value": 2000,
       "category": "Elevation",
       "affects": [{
         "selector": ".q-header, .q-footer, .q-drawer__opener",
@@ -138,6 +141,7 @@
     "z-side": {
       "desc": "QDrawer's z-index",
       "type": "Number",
+      "value": 1000,
       "category": "Elevation",
       "affects": [{
         "selector": ".q-drawer",
@@ -147,6 +151,7 @@
     "z-fixed-drawer": {
       "desc": "QDrawer's z-index when on top",
       "type": "Number",
+      "value": 3000,
       "category": "Elevation",
       "affects": [{
         "selector": ".q-drawer--on-top",

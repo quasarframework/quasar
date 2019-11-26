@@ -67,6 +67,7 @@
     "toolbar-title-font-weight": {
       "desc": "",
       "type": "Number",
+      "value": 400,
       "category": "Typography",
       "affects": [{
         "selector": "",

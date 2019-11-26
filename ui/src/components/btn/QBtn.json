@@ -62,12 +62,7 @@
     },
     "button-font-size": {
       "desc": "Button's font size",
-      "type": "Size",
-      "value": {
-        "size": 14,
-        "unit": "px"
-      },
-      "category": "Typography",
+      "extends": "button-font-size",
       "affects": [{
         "selector": ".q-btn",
         "property": "font-size"
@@ -75,12 +70,7 @@
     },
     "button-line-height": {
       "desc": "Button's line-height and child icon/spinner font-size",
-      "type": "Size",
-      "value": {
-        "size": 1.718,
-        "unit": "em"
-      },
-      "category": "Typography",
+      "extends": "button-line-height",
       "affects": [{
         "selector": ".q-btn",
         "property": "line-height"
@@ -91,8 +81,7 @@
     },
     "button-transition": {
       "desc": "Button's transition",
-      "type": "Transition",
-      "category": "Animation",
+      "extends": "button-transition",
       "affects": [{
         "selector": ".q-btn",
         "property": "transition"
@@ -100,8 +89,7 @@
     },
     "button-shadow": {
       "desc": "Button's default shadow",
-      "type": "Shadow",
-      "category": "Elevation",
+      "extends": "button-shadow",
       "affects": [{
         "selector": ".q-btn",
         "property": "box-shadow"
@@ -109,8 +97,7 @@
     },
     "button-font-weight": {
       "desc": "Button's font-weight",
-      "type": "Number",
-      "category": "Typography",
+      "extends": "button-font-weight",
       "affects": [{
         "selector": ".q-btn",
         "property": "fontWeight"
@@ -119,6 +106,7 @@
     "button-shadow-active": {
       "desc": "Active button's shadow",
       "type": "Shadow",
+      "value": "$shadow-5",
       "category": "Elevation",
       "affects": [{
         "selector": ".q-btn--standard:active, .q-btn--active:before",
@@ -127,12 +115,7 @@
     },
     "button-border-radius": {
       "desc": "Button's default border radius",
-      "type": "Size",
-      "value": {
-        "size": 3,
-        "unit": "px"
-      },
-      "category": "Shape System",
+      "extends": "button-border-radius",
       "affects": [{
         "selector": ".q-btn--rectangle",
         "property": "border-radius"
@@ -140,12 +123,7 @@
     },
     "button-push-border-radius": {
       "desc": "QBtn's border radius when the \"push\" prop is true",
-      "type": "Size",
-      "value": {
-        "size": 7,
-        "unit": "px"
-      },
-      "category": "Shape System",
+      "extends": "button-push-border-radius",
       "affects": [{
         "selector": ".q-btn--push",
         "property": "border-radius"
@@ -153,12 +131,7 @@
     },
     "button-rounded-border-radius": {
       "desc": "Button's border radius when the \"rounded\" prop is true",
-      "type": "Size",
-      "value": {
-        "size": 28,
-        "unit": "px"
-      },
-      "category": "Shape System",
+      "extends": "button-rounded-border-radius",
       "affects": [{
         "selector": "q-btn--rounded",
         "property": "border-radius"

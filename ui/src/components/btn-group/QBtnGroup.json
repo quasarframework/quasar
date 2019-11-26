@@ -61,12 +61,7 @@
   "css": {
     "button-border-radius": {
       "desc": "QBtnGroup's default border radius",
-      "type": "Size",
-      "value": {
-        "size": 3,
-        "unit": "px"
-      },
-      "category": "Shape System",
+      "extends": "button-border-radius",
       "affects": [{
         "selector": ".q-btn-group",
         "property": "border-radius"
@@ -74,8 +69,7 @@
     },
     "button-shadow": {
       "desc": "QBtnGroup's shadow",
-      "type": "Shadow",
-      "category": "Elevation",
+      "extends": "button-shadow",
       "affects": [{
         "selector": ".q-btn-group",
         "property": "box-shadow"
@@ -83,12 +77,7 @@
     },
     "button-push-border-radius": {
       "desc": "QBtnGroup's border radius when using the \"push\" prop",
-      "type": "Size",
-      "value": {
-        "size": 7,
-        "unit": "px"
-      },
-      "category": "Shape System",
+      "extends": "button-push-border-radius",
       "affects": [{
         "selector": ".q-btn-group--push",
         "property": "border-radius"
@@ -96,8 +85,7 @@
     },
     "button-transition": {
       "desc": "QBtnGroup content transition when using the \"push\" prop",
-      "type": "Transition",
-      "category": "Animation",
+      "extends": "button-transition",
       "affects": [{
         "selector": ".q-btn-group--push",
         "property": "transition"
@@ -105,12 +93,7 @@
     },
     "button-rounded-border-radius": {
       "desc": "QBtnGroup's border radius when using the \"rounded\" prop",
-      "type": "Size",
-      "value": {
-        "size": 28,
-        "unit": "px"
-      },
-      "category": "Shape System",
+      "extends": "button-rounded-border-radius",
       "affects": [{
         "selector": ".q-btn-group--rounded",
         "property": "border-radius"

@@ -110,6 +110,7 @@
     "z-fab": {
       "desc": "QFab's z-index",
       "type": "Number",
+      "value": 990,
       "category": "Elevation",
       "affects": [{
         "selector": ".q-fab",

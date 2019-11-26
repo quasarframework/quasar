@@ -1764,20 +1764,24 @@
 
     "dimmed-background": {
       "desc": "App's dimmed background color",
-      "type": "Color"
+      "type": "Color",
+      "value": "rgba(0, 0, 0, .4)"
     },
     "light-dimmed-background": {
       "desc": "App's light dimmed background color",
-      "type": "Color"
+      "type": "Color",
+      "value": "rgba(255, 255, 255, .6)"
     },
 
     "separator-color": {
       "desc": "App's separator color",
-      "type": "Color"
+      "type": "Color",
+      "value": "rgba(0, 0, 0, .12)"
     },
     "separator-dark-color": {
       "desc": "App's separator color on dark theme",
-      "type": "Color"
+      "type": "Color",
+      "value": "rgba(255, 255, 255, .28)"
     },
 
     "ios-statusbar-height": {
@@ -1790,232 +1794,282 @@
 
     "z-max": {
       "type": "Number",
-      "desc": "Z-index for elements above everything else"
+      "desc": "Z-index for elements above everything else",
+      "value": 9998
     },
 
     "shadow-transition": {
       "desc": "Shadow transition",
       "type": "Transition",
-      "category": "Animation"
+      "category": "Animation",
+      "value": "box-shadow .28s cubic-bezier(.4, 0, .2, 1)"
     },
     "inset-shadow": {
       "desc": "Inset shadow",
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": "0 7px 9px -7px rgba($shadow-color, .7) inset"
     },
 
     "elevation-umbra": {
       "desc": "Shadow's umbra elevation",
       "type": "Color",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": "rgba($shadow-color, .2)"
     },
     "elevation-penumbra": {
       "desc": "Shadow's penumbra elevation",
       "type": "Color",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": "rgba($shadow-color, .14)"
     },
     "elevation-ambient": {
       "desc": "Shadow's ambient elevation",
       "type": "Color",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": "rgba($shadow-color, .12)"
     },
 
-    "shadow": {
-      "type": "Shadow",
-      "category": "Elevation"
-    },
     "shadow-1": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-2": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-3": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-4": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-5": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-6": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-7": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-8": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-9": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-10": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-11": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-12": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-13": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-14": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-15": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-16": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-17": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-18": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-19": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-20": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-21": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-22": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-23": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-24": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
 
     "shadow-up-1": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-2": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-3": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-4": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-5": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-6": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-7": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-8": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-9": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-10": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-11": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-12": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-13": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-14": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-15": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-16": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-17": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-18": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-19": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-20": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-21": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-22": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-23": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
     "shadow-up-24": {
       "type": "Shadow",
-      "category": "Elevation"
+      "category": "Elevation",
+      "value": ""
     },
 
     "generic-border-radius": {
@@ -2030,12 +2084,75 @@
     "generic-hover-transition": {
       "desc": "App's default hover transition",
       "type": "Transition",
-      "category": "Animation"
+      "category": "Animation",
+      "value": ".3s cubic-bezier(.25, .8, .5, 1)"
     },
     "typography-font-family": {
       "desc": "App's font family",
       "type": "font-family",
+      "category": "Typography",
+      "value": "'Roboto', '-apple-system', 'Helvetica Neue', Helvetica, Arial, sans-serif"
+    },
+
+    "button-border-radius": {
+      "type": "Size",
+      "value": {
+        "size": 3,
+        "unit": "px"
+      }
+    },
+    "button-shadow": {
+      "type": "Shadow",
+      "value": "$shadow-2",
+      "category": "Elevation"
+    },
+    "button-push-border-radius": {
+      "type": "Size",
+      "value": {
+        "size": 7,
+        "unit": "px"
+      },
+      "category": "Shape System"
+    },
+    "button-transition": {
+      "type": "Transition",
+      "value": "$generic-hover-transition",
+      "category": "Animation"
+    },
+    "button-rounded-border-radius": {
+      "type": "Size",
+      "value": {
+        "size": 28,
+        "unit": "px"
+      },
+      "category": "Shape System"
+    },
+    "button-font-size": {
+      "type": "Size",
+      "value": {
+        "size": 14,
+        "unit": "px"
+      },
       "category": "Typography"
+    },
+    "button-line-height": {
+      "type": "Size",
+      "value": {
+        "size": 1.718,
+        "unit": "em"
+      },
+      "category": "Typography"
+    },
+    "button-font-weight": {
+      "type": "Number",
+      "value": 500,
+      "category": "Typography"
+    },
+
+    "option-focus-transition": {
+      "type": "Transition",
+      "category": "Animation",
+      "value": ".22s cubic-bezier(0,0,.2,1)"
     }
   }
 }

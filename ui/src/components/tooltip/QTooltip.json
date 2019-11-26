@@ -113,6 +113,7 @@
     "tooltip-color": {
       "desc": "",
       "type": "Color",
+      "value": "#fafafa",
       "affects": [{
         "selector": "",
         "property": ""
@@ -121,6 +122,7 @@
     "tooltip-background": {
       "desc": "",
       "type": "Color",
+      "value": "$grey-7",
       "affects": [{
         "selector": "",
         "property": ""
@@ -129,6 +131,7 @@
     "z-tooltip": {
       "desc": "",
       "type": "Number",
+      "value": 9000,
       "category": "Elevation",
       "affects": [{
         "selector": "",
@@ -161,6 +164,7 @@
     "breakpoint-xs-max": {
       "desc": "",
       "type": "Size",
+      "value": "",
       "category": "responsiveness",
       "affects": [{
         "selector": "",

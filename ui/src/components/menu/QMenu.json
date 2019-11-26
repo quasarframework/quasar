@@ -159,6 +159,7 @@
     "menu-box-shadow": {
       "desc": "QMenu's shadow",
       "type": "Shadow",
+      "value": "$shadow-2",
       "category": "Elevation",
       "affects": [{
         "selector": ".q-menu",
@@ -168,6 +169,7 @@
     "menu-background": {
       "desc": "QMenu's background",
       "type": "Color",
+      "value": "#fff",
       "affects": [{
         "selector": ".q-menu",
         "property": "background"
@@ -184,6 +186,7 @@
     "z-menu": {
       "desc": "QMenu's z-index",
       "type": "Number",
+      "value": 6000,
       "category": "Elevation",
       "affects": [{
         "selector": ".q-menu",

@@ -105,6 +105,7 @@
     "field-transition": {
       "desc": "QField's animation transition",
       "type": "Transition",
+      "value": ".36s cubic-bezier(.4,0,.2,1)",
       "category": "Animation",
       "affects": [{
         "selector": ".q-field__prefix, .q-field__suffix",
@@ -146,7 +147,8 @@
     },
     "input-autofill-color": {
       "desc": "QField's color on browser's autocomplete mode",
-      "type": "Color"
+      "type": "Color",
+      "value": "inherit"
     },
     "input-font-size": {
       "desc": "QField's font size",
@@ -172,6 +174,7 @@
     "input-text-color": {
       "desc": "QField's content, prefix and suffix text color",
       "type": "Color",
+      "value": "rgba(0,0,0,.87)",
       "affects": [{
         "selector": ".q-field__native, .q-field__prefix, .q-field__suffix",
         "property": "color"
@@ -180,6 +183,7 @@
     "input-label-color": {
       "desc": "QField's label text color",
       "type": "Color",
+      "value": "rgba(0,0,0,.6)",
       "affects": [{
         "selector": ".q-field__label",
         "property": "color"

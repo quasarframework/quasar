@@ -182,6 +182,7 @@
     "img-background-repeat": {
       "desc": "QImg's image background-repeat",
       "type": "background-repeat",
+      "value": "no-repeat",
       "affects": [{
         "selector": ".q-img__image",
         "property": "background-repeat"
@@ -190,6 +191,7 @@
     "img-content-position": {
       "desc": "QImg's content position",
       "type": "position",
+      "value": "absolute",
       "affects": [{
         "selector": ".q-img__content > div",
         "property": "position"
@@ -208,6 +210,7 @@
     "img-content-color": {
       "desc": "QImg's content text color",
       "type": "Color",
+      "value": "#fff",
       "affects": [{
         "selector": ".q-img__content > div",
         "property": "color"
@@ -216,6 +219,7 @@
     "img-content-background": {
       "desc": "QImg's content background",
       "type": "Color",
+      "value": "rgba(0, 0, 0, .47)",
       "affects": [{
         "selector": ".q-img__content > div",
         "property": "background"

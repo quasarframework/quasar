@@ -151,11 +151,13 @@
     "breakpoint-xs-max": {
       "desc": "QDialog's breakpoint to set width as 100%",
       "type": "Size",
+      "value": "",
       "category": "Responsiveness"
     },
     "breakpoint-sm-min": {
       "desc": "QDialog's breakpoint to set max-width",
       "type": "Size",
+      "value": "",
       "category": "Responsiveness"
     }
   }

@@ -399,9 +399,9 @@
   },
 
   "css": {
-    "shadow": {
+    "shadow-2": {
       "desc": "",
-      "extends": "shadow",
+      "extends": "shadow-2",
       "affects": [{
         "selector": "",
         "property": ""

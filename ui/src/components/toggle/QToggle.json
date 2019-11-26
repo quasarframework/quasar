@@ -24,6 +24,7 @@
     "toggle-transition": {
       "desc": "",
       "type": "Transition",
+      "value": ".22s cubic-bezier(.4,0,.2,1)",
       "category": "Animation",
       "affects": [{
         "selector": "",
@@ -36,8 +37,7 @@
     },
     "option-focus-transition": {
       "desc": "",
-      "type": "Transition",
-      "category": "Animation",
+      "extends": "option-focus-transition",
       "affects": [{
         "selector": "",
         "property": ""

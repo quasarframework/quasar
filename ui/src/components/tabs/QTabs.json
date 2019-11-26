@@ -121,12 +121,7 @@
   "css": {
     "button-font-size": {
       "desc": "",
-      "type": "Size",
-      "value": {
-        "size": 14,
-        "unit": "px"
-      },
-      "category": "Typography",
+      "extends": "button-font-size",
       "affects": [{
         "selector": "",
         "property": ""
@@ -134,12 +129,7 @@
     },
     "button-line-height": {
       "desc": "",
-      "type": "Size",
-      "value": {
-        "size": 1.718,
-        "unit": "em"
-      },
-      "category": "Typography",
+      "extends": "button-line-height",
       "affects": [{
         "selector": "",
         "property": ""
@@ -147,8 +137,7 @@
     },
     "button-font-weight": {
       "desc": "",
-      "type": "Number",
-      "category": "Typography",
+      "extends": "button-font-weight",
       "affects": [{
         "selector": "",
         "property": ""
@@ -157,6 +146,7 @@
     "breakpoint-lg-min": {
       "desc": "",
       "type": "Size",
+      "value": "",
       "category": "Responsiveness",
       "affects": [{
         "selector": "",
