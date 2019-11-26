@@ -484,8 +484,11 @@ function describe (api) {
       break
   }
 
-  if (apiParts.docs && api.meta && api.meta.docsUrl) {
-    openBrowser(api.meta.docsUrl)
+  if (api.meta && api.meta.docsUrl) {
+    console.log('\n ' + chalk.underline('Documentation URL'))
+    console.log('\n   ' + chalk.green(api.meta.docsUrl))
+
+    apiParts.docs && openBrowser(api.meta.docsUrl)
   }
 }
 
