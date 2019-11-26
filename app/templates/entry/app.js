@@ -23,7 +23,7 @@ import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
-<% if (ctx.mode.capacitor) { %>
+<% if (ctx.mode.capacitor && capacitor.hideSplashcreen !== false) { %>
 import { Plugins } from '@capacitor/core'
 const { SplashScreen } = Plugins
 <% } %>
@@ -50,7 +50,7 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
     <%= store ? 'store,' : '' %>
-    render: h => h(App)<% if (ctx.mode.capacitor) { %>,
+    render: h => h(App)<% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>,
     mounted () {
       SplashScreen.hide()
     }<% } %>

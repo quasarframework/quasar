@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/datetime" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/time"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -59,7 +63,7 @@
       "type": "Array",
       "desc": "Optionally configure what hours is the user allowed to set; Overrides 'options' prop if that is also set",
       "examples": [
-        ":hour-options=\"[3, 6, 9]\""
+        ":hour-options=\"[ 3, 6, 9 ]\""
       ],
       "category": "behavior"
     },

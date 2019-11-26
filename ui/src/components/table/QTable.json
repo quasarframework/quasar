@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/fullscreen" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/table"
+  },
+
   "props": {
     "data": {
       "type": "Array",
@@ -429,7 +433,7 @@
     "rows-per-page-options": {
       "type": "Array",
       "desc": "Options for user to pick (Numbers); Number 0 means 'Show all rows in one page'",
-      "default": "[3, 5, 7, 10, 15, 20, 25, 50, 0]",
+      "default": "[ 3, 5, 7, 10, 15, 20, 25, 50, 0 ]",
       "examples": [
         ":rows-per-page-options=\"[10, 20]\""
       ],

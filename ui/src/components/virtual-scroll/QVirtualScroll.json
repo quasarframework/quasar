@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/virtual-scroll" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/virtual-scroll"
+  },
+
   "props": {
     "type": {
       "type": "String",

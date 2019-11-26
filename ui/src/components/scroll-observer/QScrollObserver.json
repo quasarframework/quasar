@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/scroll-observer"
+  },
+
   "props": {
     "debounce": {
       "type": [ "String", "Number" ],

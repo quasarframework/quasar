@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/btn", "mixins/model-toggle" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/button-dropdown"
+  },
+
   "props": {
     "value": {
       "desc": "Controls Menu show/hidden state; Either use this property (along with a listener for 'input' event) OR use v-model directive",

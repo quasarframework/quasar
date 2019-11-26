@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/pagination"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -92,7 +96,7 @@
         }
       },
       "returns": {
-        "type": ["Object", "String"],
+        "type": [ "Object", "String" ],
         "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
         "__exemption": [ "examples" ]
       },

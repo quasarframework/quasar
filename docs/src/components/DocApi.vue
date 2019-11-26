@@ -198,7 +198,7 @@ export default {
   },
 
   methods: {
-    parseJson (name, { type, behavior, ...api }) {
+    parseJson (name, { type, behavior, meta, ...api }) {
       this.aggregationModel = {}
 
       if (type === 'component' && api.props !== void 0) {

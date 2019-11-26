@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/slide-item"
+  },
+
   "props": {
     "left-color": {
       "extends": "color",

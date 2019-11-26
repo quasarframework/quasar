@@ -2,15 +2,15 @@ const
   glob = require('glob'),
   path = require('path'),
   merge = require('webpack-merge'),
-  fs = require('fs'),
-  { logError, writeFile } = require('./build.utils'),
-  ast = require('./ast')
+  fs = require('fs')
 
 const
   root = path.resolve(__dirname, '..'),
   resolvePath = file => path.resolve(root, file),
   dest = path.join(root, 'dist/api'),
-  extendApi = require(resolvePath('src/api.extends.json'))
+  extendApi = require(resolvePath('src/api.extends.json')),
+  { logError, writeFile } = require('./build.utils'),
+  ast = require('./ast')
 
 function getMixedInAPI (api, mainFile) {
   api.mixins.forEach(mixin => {
@@ -36,9 +36,9 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
-  plugin: [ 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
-  directive: [ 'value', 'arg', 'modifiers' ]
+  plugin: [ 'meta', 'injection', 'quasarConfOptions', 'props', 'methods' ],
+  component: [ 'meta', 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  directive: [ 'meta', 'value', 'arg', 'modifiers' ]
 }
 
 const objectTypes = {
@@ -115,6 +115,11 @@ const objectTypes = {
   Component: {
     props: [ 'desc' ],
     required: [ 'desc' ]
+  },
+
+  meta: {
+    props: [ 'docsUrl' ],
+    required: []
   },
 
   // special type, not common
@@ -214,7 +219,6 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
     }
 
     if (!def.props.includes(prop)) {
-      console.log(def)
       logError(`${banner} object has unrecognized API prop "${prop}" for its type (${type})`)
       console.error(obj)
       console.log()
@@ -324,6 +328,11 @@ function parseAPI (file, apiType) {
 
   const banner = `build.api.js: ${path.relative(root, file)} -> `
 
+  if (api.meta === void 0 || api.meta.docsUrl === void 0) {
+    logError(`${banner} API file does not contain meta > docsUrl`)
+    process.exit(1)
+  }
+
   // "props", "slots", ...
   for (let type in api) {
     if (!topSections[apiType].includes(type)) {
@@ -344,18 +353,18 @@ function parseAPI (file, apiType) {
       continue
     }
 
-    if (['value', 'arg', 'quasarConfOptions'].includes(type)) {
+    if (['value', 'arg', 'quasarConfOptions', 'meta'].includes(type)) {
       if (Object(api[type]) !== api[type]) {
         logError(`${banner} "${type}"/"${type}" is not an object`)
         process.exit(1)
       }
     }
 
-    if (type === 'quasarConfOptions') {
+    if (['meta', 'quasarConfOptions'].includes(type)) {
       parseObject({
         banner: `${banner} "${type}"`,
         api,
-        itemName: 'quasarConfOptions',
+        itemName: type,
         masterType: type
       })
       continue

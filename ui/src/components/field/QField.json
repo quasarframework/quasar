@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/field/__QField" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/field"
+  },
+
   "props": {
     "maxlength": {
       "type": [ "String", "Number" ],

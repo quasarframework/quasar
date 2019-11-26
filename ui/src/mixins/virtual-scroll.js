@@ -241,7 +241,7 @@ export default {
       let
         toIndex = 0,
         listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart,
-        offset = 0
+        offset = listOffset
 
       for (let j = 0; listOffset >= this.virtualScrollSizesAgg[j] && toIndex < listLastIndex; j++) {
         listOffset -= this.virtualScrollSizesAgg[j]

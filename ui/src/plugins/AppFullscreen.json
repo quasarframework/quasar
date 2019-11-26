@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/app-fullscreen"
+  },
+
   "injection": "$q.fullscreen",
 
   "props": {
@@ -28,7 +32,7 @@
         "type": "Promise<any>",
         "desc": "A Promise with the outcome (true -> validation was a success, false -> invalid models detected)",
         "examples": [
-          "request().then(() => { ... }).catch(err => { ... })"
+          "request().then(response => { ... }).catch(err => { ... })"
         ]
       }
     },
@@ -39,7 +43,7 @@
         "type": "Promise<any>",
         "desc": "A Promise with the outcome (true -> validation was a success, false -> invalid models detected)",
         "examples": [
-          "exit().then(() => { ... }).catch(err => { ... })"
+          "exit().then(response => { ... }).catch(err => { ... })"
         ]
       }
     },
@@ -57,7 +61,7 @@
         "type": "Promise<any>",
         "desc": "A Promise with the outcome (true -> validation was a success, false -> invalid models detected)",
         "examples": [
-          "toggle().then(() => { ... }).catch(err => { ... })"
+          "toggle().then(response => { ... }).catch(err => { ... })"
         ]
       }
     }

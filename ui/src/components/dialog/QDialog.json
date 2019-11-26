@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/model-toggle", "mixins/portal" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/dialog"
+  },
+
   "props": {
     "persistent": {
       "type": "Boolean",

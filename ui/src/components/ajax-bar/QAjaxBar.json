@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/ajax-bar"
+  },
+
   "props": {
     "position": {
       "type": "String",

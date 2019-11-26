@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/page-sticky/QPageSticky" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/page-scroller"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -23,7 +27,7 @@
     },
 
     "offset": {
-      "default": [18, 18],
+      "default": [ 18, 18 ],
       "category": "content"
     }
   }

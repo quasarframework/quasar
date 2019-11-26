@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/app-visibility"
+  },
+
   "injection": "$q.appVisible",
 
   "props": {

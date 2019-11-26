@@ -89,7 +89,7 @@ function getWindowsPath (bin) {
     return bin.windowsAndroidStudio
   }
 
-  const studioPath = 'C:\\Program\ Files\\Android\\Android Studio\\bin\\studio64.exe'
+  const studioPath = 'C:\\Program Files\\Android\\Android Studio\\bin\\studio64.exe'
   if (fs.existsSync(studioPath)) {
     return studioPath
   }
@@ -136,7 +136,7 @@ function runWindows (mode, bin, target) {
 
   warn(`⚠️  Cannot determine path to IDE executable`)
   console.log(' Please set quasar.conf.js > bin > windowsAndroidStudio with the escaped path to your studio64.exe')
-  console.log(` Example: 'C:\\\\Program\\ Files\\\\Android\\\\Android Studio\\\\bin\\\\studio64.exe'`)
+  console.log(` Example: 'C:\\\\Program Files\\\\Android\\\\Android Studio\\\\bin\\\\studio64.exe'`)
   process.exit(1)
 }
 

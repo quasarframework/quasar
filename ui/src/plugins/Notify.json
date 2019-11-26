@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/notify"
+  },
+
   "injection": "$q.notify",
 
   "quasarConfOptions": {
@@ -83,7 +87,7 @@
       "desc": "Creates a notification; Same as calling $q.notify(...)",
       "params": {
         "opts": {
-          "type": ["Object", "String"],
+          "type": [ "Object", "String" ],
           "desc": "For syntax, check quasar.conf options parameters",
           "definition": {
             "color": {
