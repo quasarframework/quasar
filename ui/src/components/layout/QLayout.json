@@ -169,10 +169,7 @@
     "toolbar-min-height": {
       "desc": "",
       "type": "Size",
-      "value": {
-        "size": 50,
-        "unit": "px"
-      },
+      "value": "50px",
       "affects": [{
         "selector": "",
         "property": ""

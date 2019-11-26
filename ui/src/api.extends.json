@@ -237,10 +237,7 @@
       "desc": "Body's font size",
       "type": "Size",
       "category": "Typography",
-      "value": {
-        "size": 14,
-        "unit": "px"
-      },
+      "value": "14px",
       "affects": [{
         "selector": "body",
         "property": "font-size"
@@ -1786,10 +1783,7 @@
 
     "ios-statusbar-height": {
       "type": "Size",
-      "value": {
-        "size": 20,
-        "unit": "px"
-      }
+      "value": "20px"
     },
 
     "z-max": {
@@ -2075,10 +2069,7 @@
     "generic-border-radius": {
       "desc": "App's default border radius",
       "type": "Size",
-      "value": {
-        "size": 4,
-        "unit": "px"
-      },
+      "value": "4px",
       "category": "Shape System"
     },
     "generic-hover-transition": {
@@ -2096,10 +2087,7 @@
 
     "button-border-radius": {
       "type": "Size",
-      "value": {
-        "size": 3,
-        "unit": "px"
-      }
+      "value": "3px"
     },
     "button-shadow": {
       "type": "Shadow",
@@ -2108,10 +2096,7 @@
     },
     "button-push-border-radius": {
       "type": "Size",
-      "value": {
-        "size": 7,
-        "unit": "px"
-      },
+      "value": "7px",
       "category": "Shape System"
     },
     "button-transition": {
@@ -2121,26 +2106,17 @@
     },
     "button-rounded-border-radius": {
       "type": "Size",
-      "value": {
-        "size": 28,
-        "unit": "px"
-      },
+      "value": "28px",
       "category": "Shape System"
     },
     "button-font-size": {
       "type": "Size",
-      "value": {
-        "size": 14,
-        "unit": "px"
-      },
+      "value": "14px",
       "category": "Typography"
     },
     "button-line-height": {
       "type": "Size",
-      "value": {
-        "size": 1.718,
-        "unit": "em"
-      },
+      "value": "1.718em",
       "category": "Typography"
     },
     "button-font-weight": {

@@ -94,10 +94,7 @@
     "chat-message-avatar-size": {
       "desc": "Width and height of the QChatMessage's avatar",
       "type": "Size",
-      "value": {
-        "size": 48,
-        "unit": "px"
-      },
+      "value": "48px",
       "affects": [{
         "selector": ".q-message-avatar",
         "property": "width"
@@ -112,10 +109,7 @@
     "chat-message-distance": {
       "desc": "QChatMessage's bottom margin",
       "type": "Size",
-      "value": {
-        "size": 8,
-        "unit": "px"
-      },
+      "value": "8px",
       "affects": [{
         "selector": ".q-message",
         "property": "margin-bottom"
@@ -174,10 +168,7 @@
     "chat-message-text-padding": {
       "desc": "QChatMessage's text padding",
       "type": "Size",
-      "value": {
-        "size": 8,
-        "unit": "px"
-      },
+      "value": "8px",
       "affects": [{
         "selector": ".q-message-text",
         "property": "padding"

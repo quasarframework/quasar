@@ -1,5 +1,5 @@
 export function parseSize (size) {
-  const match = /(\d+)(\S+)/g.exec(size) || []
+  const match = /([\d\.]+)(\S+)/g.exec(size) || []
   return {
     size: parseFloat(match[1]) || 0,
     unit: match[2] || 'px'

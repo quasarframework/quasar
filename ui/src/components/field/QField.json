@@ -153,10 +153,7 @@
     "input-font-size": {
       "desc": "QField's font size",
       "type": "Size",
-      "value": {
-        "size": 14,
-        "unit": "px"
-      },
+      "value": "14px",
       "category": "Typography",
       "affects": [{
         "selector": ".q-field",

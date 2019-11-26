@@ -120,10 +120,7 @@
     "fab-margin": {
       "desc": "QFab's action buttons margin",
       "type": "Size",
-      "value": {
-        "size": 5,
-        "unit": "px"
-      },
+      "value": "5px",
       "category": "Spacing",
       "affects": [{
         "selector": ".q-fab__actions .q-btn",

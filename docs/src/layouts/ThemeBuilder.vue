@@ -175,9 +175,6 @@ export default {
     },
 
     applyVariable (variable, value = variable.value) {
-      if (variable.type === 'Size') {
-        value = `${value.size}${value.unit}`
-      }
       variable.affects !== void 0 && this.__applyVariable(variable.affects, value)
       if (variable.references !== void 0) {
         for (const component in variable.references) {

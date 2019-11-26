@@ -147,10 +147,7 @@
     "menu-max-width": {
       "desc": "QMenu's max width",
       "type": "Size",
-      "value": {
-        "size": 95,
-        "unit": "vw"
-      },
+      "value": "95vw",
       "affects": [{
         "selector": ".q-menu",
         "property": "max-width"

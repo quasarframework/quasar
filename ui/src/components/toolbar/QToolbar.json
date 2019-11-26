@@ -30,10 +30,7 @@
     "toolbar-min-height": {
       "desc": "",
       "type": "Size",
-      "value": {
-        "size": 50,
-        "unit": "px"
-      },
+      "value": "50px",
       "affects": [{
         "selector": "",
         "property": ""
@@ -42,10 +39,7 @@
     "toolbar-inset-size": {
       "desc": "",
       "type": "Size",
-      "value": {
-        "size": 58,
-        "unit": "px"
-      },
+      "value": "58px",
       "affects": [{
         "selector": "",
         "property": ""
@@ -54,10 +48,7 @@
     "toolbar-title-font-size": {
       "desc": "",
       "type": "Size",
-      "value": {
-        "size": 21,
-        "unit": "px"
-      },
+      "value": "21px",
       "category": "Typography",
       "affects": [{
         "selector": "",
@@ -77,10 +68,7 @@
     "toolbar-title-letter-spacing": {
       "desc": "",
       "type": "Size",
-      "value": {
-        "size": 0.01,
-        "unit": "em"
-      },
+      "value": "0.01em",
       "category": "Typography",
       "affects": [{
         "selector": "",

@@ -100,10 +100,7 @@
     "tooltip-fontsize": {
       "desc": "",
       "type": "Size",
-      "value": {
-        "size": 10,
-        "unit": "px"
-      },
+      "value": "10px",
       "category": "Typography",
       "affects": [{
         "selector": "",
@@ -151,10 +148,7 @@
     "tooltip-border-radius": {
       "desc": "",
       "type": "Size",
-      "value": {
-        "size": 4,
-        "unit": "px"
-      },
+      "value": "4px",
       "category": "Shape System",
       "affects": [{
         "selector": "",
@@ -174,10 +168,7 @@
     "tooltip-mobile-fontsize": {
       "desc": "",
       "type": "Size",
-      "value": {
-        "size": 14,
-        "unit": "px"
-      },
+      "value": "14px",
       "category": "Typography",
       "affects": [{
         "selector": "",

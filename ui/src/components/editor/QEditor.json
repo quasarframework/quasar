@@ -297,10 +297,7 @@
     "editor-content-padding": {
       "desc": "QEditor's content padding",
       "type": "Size",
-      "value": {
-        "size": 10,
-        "unit": "px"
-      },
+      "value": "10px",
       "category": "Spacing",
       "affects": [{
         "selector": ".q-editor__content",
@@ -310,10 +307,7 @@
     "editor-content-min-height": {
       "desc": "QEditor's content minimum height",
       "type": "Size",
-      "value": {
-        "size": 10,
-        "unit": "em"
-      },
+      "value": "10em",
       "affects": [{
         "selector": ".q-editor__content",
         "property": "min-height"
@@ -331,10 +325,7 @@
     "editor-button-gutter": {
       "desc": "QEditor's buttons margins",
       "type": "Size",
-      "value": {
-        "size": 4,
-        "unit": "px"
-      },
+      "value": "4px",
       "category": "Spacing",
       "affects": [{
         "selector": ".q-editor .q-btn",

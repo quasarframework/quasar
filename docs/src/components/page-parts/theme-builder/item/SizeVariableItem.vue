@@ -2,7 +2,7 @@
 q-item(clickable v-ripple dense)
   q-item-section {{ variableName }}
    q-tooltip {{ variable.desc }}
-  q-item-section(side) {{ variable.value.size }}{{ variable.value.unit }}
+  q-item-section(side) {{ variable.value }}
   q-menu(
     fit
     touch-position
@@ -11,14 +11,14 @@ q-item(clickable v-ripple dense)
       q-slider.col(
         :min="0"
         :max="100"
-        :value="value.size"
-        @input="onSizeChange"
+        v-model="model.size"
+        @input="onChange"
         label
       )
       q-select.col-auto(
         :options="units"
-        :value="value.unit"
-        @input="onUnitChange"
+        v-model="model.unit"
+        @input="onChange"
         dense
         options-dense
       )
@@ -26,33 +26,26 @@ q-item(clickable v-ripple dense)
 
 <script>
 
-import { clone } from 'quasar'
-import { sizeUnits } from './util'
+import { sizeUnits, parseSize } from './util'
 
 export default {
   props: {
-    value: Object,
+    value: String,
     variable: Object,
     variableName: String
   },
 
   data () {
+    const model = parseSize(this.value)
     return {
-      units: sizeUnits
+      units: sizeUnits,
+      model
     }
   },
 
   methods: {
-    onChange (prop, value) {
-      const model = clone(this.value)
-      model[prop] = value
-      this.$emit('input', model)
-    },
-    onSizeChange (value) {
-      this.onChange('size', value)
-    },
-    onUnitChange (value) {
-      this.onChange('unit', value)
+    onChange () {
+      this.$emit('input', `${this.model.size}${this.model.unit}`)
     }
   }
 }

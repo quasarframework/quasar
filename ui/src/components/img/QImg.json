@@ -157,10 +157,7 @@
     "img-width": {
       "desc": "QImg's width",
       "type": "Size",
-      "value": {
-        "size": 100,
-        "unit": "%"
-      },
+      "value": "100%",
       "affects": [{
         "selector": ".q-img",
         "property": "width"
@@ -169,10 +166,7 @@
     "img-loading-font-size": {
       "desc": "QImg's spinner font size",
       "type": "Size",
-      "value": {
-        "size": 50,
-        "unit": "px"
-      },
+      "value": "50px",
       "category": "Typography",
       "affects": [{
         "selector": ".q-img__loading .q-spinner",
