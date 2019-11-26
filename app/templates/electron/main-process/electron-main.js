@@ -17,7 +17,13 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 1000,
     height: 600,
-    useContentSize: true
+    useContentSize: true,
+    webPreferences: {
+      // keep in sync with /quasar.conf.js > electron > nodeIntegration
+      // (where its default value is "true")
+      // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
+      nodeIntegration: true
+    }
   })
 
   mainWindow.loadURL(process.env.APP_URL)
