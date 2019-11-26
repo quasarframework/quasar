@@ -328,6 +328,11 @@ function parseAPI (file, apiType) {
 
   const banner = `build.api.js: ${path.relative(root, file)} -> `
 
+  if (api.meta === void 0 || api.meta.docsUrl === void 0) {
+    logError(`${banner} API file does not contain meta > docsUrl`)
+    process.exit(1)
+  }
+
   // "props", "slots", ...
   for (let type in api) {
     if (!topSections[apiType].includes(type)) {
