@@ -3,7 +3,7 @@
     "docsPage": "carousel"
   },
 
-  "mixins": ["mixins/panel-child"],
+  "mixins": [ "mixins/panel-child" ],
 
   "behavior": {
     "$listeners": true

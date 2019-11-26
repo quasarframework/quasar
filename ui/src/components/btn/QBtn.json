@@ -19,7 +19,7 @@
     "percentage": {
       "type": "Number",
       "desc": "Percentage (0.0 < x < 100.0); To be used along 'loading' prop; Display a progress bar on the background",
-      "examples": [23],
+      "examples": [ 23 ],
       "category": "behavior"
     },
 

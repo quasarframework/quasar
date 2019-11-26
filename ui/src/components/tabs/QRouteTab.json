@@ -3,7 +3,7 @@
     "docsPage": "tabs"
   },
 
-  "mixins": ["components/tabs/QTab", "mixins/router-link"],
+  "mixins": [ "components/tabs/QTab", "mixins/router-link" ],
 
   "props": {
     "to": {

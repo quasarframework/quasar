@@ -404,7 +404,7 @@
           "type": "Boolean",
           "desc": "Is sorting in descending order?"
         },
-        "docsPage": {
+        "page": {
           "type": "Number",
           "desc": "Page number (1-based)",
           "examples": [ 3 ]
@@ -429,7 +429,7 @@
     "rows-per-page-options": {
       "type": "Array",
       "desc": "Options for user to pick (Numbers); Number 0 means 'Show all rows in one page'",
-      "default": "[3, 5, 7, 10, 15, 20, 25, 50, 0]",
+      "default": "[ 3, 5, 7, 10, 15, 20, 25, 50, 0 ]",
       "examples": [
         ":rows-per-page-options=\"[10, 20]\""
       ],
@@ -753,7 +753,7 @@
               "type": "Boolean",
               "desc": "Is sorting in descending order?"
             },
-            "docsPage": {
+            "page": {
               "type": "Number",
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
@@ -819,7 +819,7 @@
               "type": "Boolean",
               "desc": "Is sorting in descending order?"
             },
-            "docsPage": {
+            "page": {
               "type": "Number",
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
@@ -885,7 +885,7 @@
               "type": "Boolean",
               "desc": "Is sorting in descending order?"
             },
-            "docsPage": {
+            "page": {
               "type": "Number",
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
@@ -951,7 +951,7 @@
               "type": "Boolean",
               "desc": "Is sorting in descending order?"
             },
-            "docsPage": {
+            "page": {
               "type": "Number",
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
@@ -1017,7 +1017,7 @@
               "type": "Boolean",
               "desc": "Is sorting in descending order?"
             },
-            "docsPage": {
+            "page": {
               "type": "Number",
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
@@ -1124,7 +1124,7 @@
                   "type": "Boolean",
                   "desc": "Is sorting in descending order?"
                 },
-                "docsPage": {
+                "page": {
                   "type": "Number",
                   "desc": "Page number (1-based)",
                   "examples": [ 3 ]
@@ -1253,7 +1253,7 @@
               "type": "Boolean",
               "desc": "Is sorting in descending order?"
             },
-            "docsPage": {
+            "page": {
               "type": "Number",
               "desc": "Page number (1-based)",
               "examples": [ 3 ]
@@ -1303,7 +1303,7 @@
                   "type": "Boolean",
                   "desc": "Is sorting in descending order?"
                 },
-                "docsPage": {
+                "page": {
                   "type": "Number",
                   "desc": "Page number (1-based)",
                   "examples": [ 3 ]
@@ -1386,7 +1386,7 @@
               "type": "Boolean",
               "desc": "Is sorting in descending order?"
             },
-            "docsPage": {
+            "page": {
               "type": "Number",
               "desc": "Page number (1-based)",
               "examples": [ 3 ]

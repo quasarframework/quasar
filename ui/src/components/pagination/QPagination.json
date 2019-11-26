@@ -79,14 +79,14 @@
       "type": "Function",
       "desc": "Generate link for page buttons; For best performance, reference it from your scope and do not define it inline",
       "params": {
-        "docsPage": {
+        "page": {
           "type": "Number",
           "desc": "Page number to navigate to",
           "examples": [ 2 ]
         }
       },
       "returns": {
-        "type": ["Object", "String"],
+        "type": [ "Object", "String" ],
         "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
         "__exemption": [ "examples" ]
       },

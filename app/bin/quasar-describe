@@ -461,9 +461,6 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
 }
 
 function describe (api) {
-  if (apiParts.docs) {
-    openBrowser(api.meta.docsUrl)
-  }
   switch (api.type) {
     case 'component':
       apiParts.props === true && printProperties(api)
@@ -485,6 +482,9 @@ function describe (api) {
       apiParts.props === true && printProperties(api)
       apiParts.methods === true && printMethods(api)
       break
+  }
+  if (apiParts.meta && api.meta.docsUrl) {
+    openBrowser(api.meta.docsUrl)
   }
 }
 

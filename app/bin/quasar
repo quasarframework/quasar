@@ -9,7 +9,6 @@ const commands = [
   'clean',
   'inspect',
   'describe',
-  'docs',
   'ext',
   'run',
   'mode',

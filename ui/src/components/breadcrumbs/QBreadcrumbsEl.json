@@ -13,7 +13,7 @@
     "label": {
       "type": "String",
       "desc": "The label text for the breadcrumb",
-      "examples": ["Home", "Index"],
+      "examples": [ "Home", "Index" ],
       "category": "content"
     },
 

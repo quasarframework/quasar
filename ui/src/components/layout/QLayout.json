@@ -38,12 +38,12 @@
             "height": {
               "type": "Number",
               "desc": "Layout height",
-              "examples": [575]
+              "examples": [ 575 ]
             },
             "width": {
               "type": "Number",
               "desc": "Layout height",
-              "examples": [575]
+              "examples": [ 575 ]
             }
           }
         }
@@ -60,12 +60,12 @@
             "position": {
               "type": "Number",
               "desc": "Scroll offset (from top)",
-              "examples": [575]
+              "examples": [ 575 ]
             },
             "direction": {
               "type": "String",
               "desc": "Direction of scroll",
-              "values": ["up", "down"]
+              "values": [ "up", "down" ]
             },
             "directionChanged": {
               "type": "Boolean",
@@ -74,7 +74,7 @@
             "inflexionPosition": {
               "type": "Number",
               "desc": "Last scroll offset where scroll direction has changed",
-              "examples": [575]
+              "examples": [ 575 ]
             }
           }
         }

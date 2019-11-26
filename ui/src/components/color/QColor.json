@@ -7,7 +7,7 @@
     "value": {
       "extends": "value",
       "type": "String",
-      "examples": ["v-model=\"myColor\""]
+      "examples": [ "v-model=\"myColor\"" ]
     },
 
     "default-value": {
