@@ -4,12 +4,14 @@ if (process.env.NODE_ENV === void 0) {
   process.env.NODE_ENV = 'development'
 }
 
-const parseArgs = require('minimist')
+const parseArgs = require('minimist'),
+  path = require('path')
 
 const
   logger = require('../lib/helpers/logger'),
   log = logger('app:dev'),
-  warn = logger('app:dev', 'red')
+  warn = logger('app:dev', 'red'),
+  { spawn } = require('../lib/helpers/spawn')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -19,9 +21,10 @@ const argv = parseArgs(process.argv.slice(2), {
     p: 'port',
     H: 'hostname',
     i: 'ide',
-    h: 'help'
+    h: 'help',
+    d: 'devtools'
   },
-  boolean: ['h', 'i'],
+  boolean: ['h', 'i', 'd'],
   string: ['m', 'T', 'H'],
   default: {
     m: 'spa'
@@ -66,6 +69,8 @@ if (argv.help) {
     --ide, -i        Open IDE (Android Studio / XCode) instead of letting Cordova
                         booting up the emulator, in which case the "--emulator"
                         param will have no effect
+
+    --devtools, -d   Open Vue Devtools
 
     Only for Capacitor mode:
     --target, -T     (required) App target
@@ -149,7 +154,8 @@ async function goLive () {
     mode: argv.mode,
     target: argv.target,
     emulator: argv.emulator,
-    dev: true
+    dev: true,
+    devtools: argv.devtools
   })
 
   // register app extensions
@@ -217,6 +223,11 @@ async function goLive () {
 
   let dev = startDev()
     .then(async (devServer) => {
+      if (argv.devtools) {
+        spawn('../node_modules/.bin/vue-devtools', [], {
+          cwd: __dirname
+        })
+      }
       if (typeof buildConfig.build.afterDev === 'function') {
         await buildConfig.build.afterDev({ quasarConf: buildConfig })
       }

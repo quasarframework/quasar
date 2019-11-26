@@ -33,6 +33,21 @@ import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 import '<%= asset.path %>'
 <% }) %>
 
+<% if (ctx.dev && ctx.devtools) { %>
+import vueDevtools from '@vue/devtools'
+
+function onDeviceReady() {
+  vueDevtools.connect('<%= devtools.host %>', <%= devtools.port %>)
+}
+
+if (window.location.protocol === 'file:') {
+  document.addEventListener('deviceready', onDeviceReady, false)
+} else {
+  onDeviceReady()
+}
+
+<% } %>
+
 import Vue from 'vue'
 import createApp from './app.js'
 

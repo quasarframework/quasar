@@ -12,7 +12,8 @@ module.exports = function (opts) {
     bundler: {},
     bundlerName: opts.bundler,
     debug: opts.debug || false,
-    publish: opts.publish
+    publish: opts.publish,
+    devtools: opts.devtools || false
   }
   ctx.mode[opts.mode] = true
 

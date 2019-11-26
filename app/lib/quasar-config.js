@@ -191,6 +191,7 @@ class QuasarConfig {
         }
       },
       devServer: {},
+      devtools: {},
       animations: [],
       extras: [],
       sourceFiles: {},
@@ -277,6 +278,12 @@ class QuasarConfig {
             port: cfg.devServer.port
           }
         }
+      }
+      if (cfg.devtools.host === undefined) {
+        cfg.devtools.host = cfg.devServer.host
+      }
+      if (cfg.devtools.port === undefined) {
+        cfg.devtools.port = 8098
       }
     }
 

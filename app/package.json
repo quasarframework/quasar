@@ -41,6 +41,7 @@
   "dependencies": {
     "@quasar/babel-preset-app": "1.1.7",
     "@quasar/fastclick": "1.1.4",
+    "@vue/devtools": "5.3.3",
     "@vue/preload-webpack-plugin": "1.1.1",
     "autoprefixer": "9.7.2",
     "chalk": "3.0.0",
