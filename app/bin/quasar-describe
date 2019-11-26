@@ -495,9 +495,15 @@ async function run () {
 
     console.log()
 
-    if (apiParts.docs && api.meta && api.meta.docsUrl) {
-      const openBrowser = require('../lib/helpers/open-browser')
-      openBrowser({ url: api.meta.docsUrl, wait: false })
+    if (apiParts.docs) {
+      if (api.meta && api.meta.docsUrl) {
+        const openBrowser = require('../lib/helpers/open-browser')
+        openBrowser({ url: api.meta.docsUrl, wait: false })
+      }
+      else {
+        console.log(` Opening the docs URL also requires "quasar" v1.5.0+`)
+        console.log()
+      }
     }
     else {
       console.log(` Describing ${chalk.green(item)} ${api.type} API`)
@@ -510,9 +516,8 @@ async function run () {
       }
 
       describe(api)
+      console.log()
     }
-
-    console.log()
   }
   catch (e) {
     warn(e)
