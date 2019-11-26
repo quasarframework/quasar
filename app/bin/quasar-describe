@@ -483,6 +483,7 @@ function describe (api) {
       apiParts.methods === true && printMethods(api)
       break
   }
+
   if (apiParts.docs && api.meta && api.meta.docsUrl) {
     openBrowser(api.meta.docsUrl)
   }

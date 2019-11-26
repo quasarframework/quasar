@@ -2,7 +2,7 @@
   "mixins": [ "mixins/ripple" ],
 
   "meta": {
-    "docsPage": "button-toggle"
+    "docsUrl": "https://v1.quasar.dev/vue-components/button-toggle"
   },
 
   "behavior": {

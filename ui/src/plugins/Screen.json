@@ -1,8 +1,6 @@
 {
   "meta": {
-    "docsRoute": "options",
-    "docsPage": "screen-plugin",
-    "docsApiAnchor": "API"
+    "docsUrl": "https://v1.quasar.dev/options/screen-plugin"
   },
 
   "injection": "$q.screen",

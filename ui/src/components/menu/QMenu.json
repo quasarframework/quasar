@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/model-toggle", "mixins/portal", "mixins/anchor" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/menu"
+  },
+
   "behavior": {
     "$listeners": true
   },

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsPage": "tab-panels"
+    "docsUrl": "https://v1.quasar.dev/vue-components/tab-panels"
   },
 
   "mixins": [ "mixins/panel-child" ],

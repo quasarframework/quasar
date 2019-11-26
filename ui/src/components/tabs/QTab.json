@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsPage": "tabs"
+    "docsUrl": "https://v1.quasar.dev/vue-components/tabs"
   },
 
   "mixins": [ "mixins/ripple" ],

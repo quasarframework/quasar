@@ -2,7 +2,7 @@
   "mixins": [ "mixins/btn", "mixins/model-toggle" ],
 
   "meta": {
-    "docsPage": "button-dropdown"
+    "docsUrl": "https://v1.quasar.dev/vue-components/button-dropdown"
   },
 
   "props": {

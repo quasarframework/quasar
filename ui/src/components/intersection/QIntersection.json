@@ -1,7 +1,8 @@
 {
   "meta": {
-    "docsRoute": "vue-directives"
+    "docsUrl": "https://v1.quasar.dev/vue-components/intersection"
   },
+
   "props": {
     "once": {
       "type": "Boolean",

@@ -1,10 +1,10 @@
 {
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/table"
   },
 
-  "meta": {
-    "docsPage": "table"
+  "behavior": {
+    "$listeners": true
   },
 
   "props": {

@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/touch-pan"
+  },
+
   "value": {
     "type": "Function",
     "desc": "Handler for panning",

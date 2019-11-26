@@ -1,11 +1,10 @@
 {
-  "behavior": {
-    "$listeners": true
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/header-and-footer"
   },
 
-  "meta": {
-    "docsRoute": "layout",
-    "docsPage": "header-and-footer"
+  "behavior": {
+    "$listeners": true
   },
 
   "props": {

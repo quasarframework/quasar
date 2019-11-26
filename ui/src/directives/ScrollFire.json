@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/scroll-fire"
+  },
+
   "value": {
     "type": "Function",
     "desc": "Function to call when scrolling and element comes into the viewport",

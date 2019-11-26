@@ -2,7 +2,7 @@
   "mixins": [ "mixins/model-toggle" ],
 
   "meta": {
-    "docsRoute": "layout"
+    "docsUrl": "https://v1.quasar.dev/layout/drawer"
   },
 
   "props": {

@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/ripple" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/chip"
+  },
+
   "props": {
     "dense": {
       "extends": "dense"

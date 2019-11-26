@@ -1,8 +1,8 @@
 {
   "mixins": [ "components/page-sticky/QPageSticky" ],
-  
+
   "meta": {
-    "docsRoute": "layout"
+    "docsUrl": "https://v1.quasar.dev/layout/page-scroller"
   },
 
   "behavior": {

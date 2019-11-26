@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/checkbox" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/checkbox"
+  },
+
   "props": {
     "indeterminate-value": {
       "type": "Any",

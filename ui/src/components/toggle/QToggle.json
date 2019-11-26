@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/checkbox" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/toggle"
+  },
+
   "props": {
     "icon": {
       "extends": "icon"
@@ -10,7 +14,7 @@
       "type": "String",
       "desc": "The icon to be used when the toggle is on",
       "examples": [ "visibility" ],
-      "category": "content"      
+      "category": "content"
     },
 
     "unchecked-icon": {

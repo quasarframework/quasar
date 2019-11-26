@@ -1,7 +1,6 @@
 {
   "meta": {
-    "docsRoute": "layout",
-    "docsPage": "floating-action-button"
+    "docsUrl": "https://v1.quasar.dev/layout/floating-action-button"
   },
 
   "behavior": {

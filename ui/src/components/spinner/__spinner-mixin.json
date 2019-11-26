@@ -2,8 +2,7 @@
   "mixins": [ "mixins/size" ],
 
   "meta": {
-    "docsPage": "spinners",
-    "docsApiAnchor": "Other-Spinners-API"
+    "docsUrl": "https://v1.quasar.dev/vue-components/spinners"
   },
 
   "behavior": {

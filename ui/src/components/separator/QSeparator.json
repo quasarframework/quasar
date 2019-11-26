@@ -1,8 +1,8 @@
 {
   "meta": {
-    "docsApiAnchor": "API"
+    "docsUrl": "https://v1.quasar.dev/vue-components/separator"
   },
-  
+
   "props": {
     "dark": {
       "extends": "dark"

@@ -1,7 +1,6 @@
 {
   "meta": {
-    "docsRoute": "layout",
-    "docsPage": "page"
+    "docsUrl": "https://v1.quasar.dev/layout/page"
   },
 
   "behavior": {

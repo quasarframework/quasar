@@ -1,8 +1,6 @@
 {
   "meta": {
-    "docsRoute": "options",
-    "docsPage": "platform-detection",
-    "docsApiAnchor": "API"
+    "docsUrl": "https://v1.quasar.dev/options/platform-detection"
   },
 
   "injection": "$q.platform",

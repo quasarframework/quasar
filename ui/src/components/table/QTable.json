@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/fullscreen" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/table"
+  },
+
   "props": {
     "data": {
       "type": "Array",

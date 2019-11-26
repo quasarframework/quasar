@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/datetime" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/date"
+  },
+
   "behavior": {
     "$listeners": true
   },

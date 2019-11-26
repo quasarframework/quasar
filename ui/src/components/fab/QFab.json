@@ -1,10 +1,9 @@
 {
-  "meta": {
-    "docsRoute": "layout",
-    "docsPage": "floating-action-button"
-  },
-
   "mixins": [ "mixins/model-toggle" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/floating-action-button"
+  },
 
   "behavior": {
     "$listeners": true

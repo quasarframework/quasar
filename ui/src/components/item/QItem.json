@@ -1,9 +1,9 @@
 {
-  "meta": {
-    "docsPage": "list-and-list-items"
-  },
-
   "mixins": [ "mixins/router-link" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/list-and-list-items"
+  },
 
   "behavior": {
     "$listeners": true

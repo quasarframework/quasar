@@ -1,6 +1,6 @@
 {
   "meta": {
-    "docsPage": "breadcrumbs"
+    "docsUrl": "https://v1.quasar.dev/vue-components/breadcrumbs"
   },
 
   "mixins": [ "mixins/router-link" ],

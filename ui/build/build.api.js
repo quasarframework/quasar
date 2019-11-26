@@ -2,8 +2,7 @@ const
   glob = require('glob'),
   path = require('path'),
   merge = require('webpack-merge'),
-  fs = require('fs'),
-  request = require('request')
+  fs = require('fs')
 
 const
   root = path.resolve(__dirname, '..'),
@@ -38,8 +37,8 @@ function getMixedInAPI (api, mainFile) {
 
 const topSections = {
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: ['meta', 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods'],
-  directive: ['meta', 'value', 'arg', 'modifiers']
+  component: [ 'meta', 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  directive: [ 'meta', 'value', 'arg', 'modifiers' ]
 }
 
 const objectTypes = {
@@ -119,7 +118,7 @@ const objectTypes = {
   },
 
   meta: {
-    props: [ 'docsRoute', 'docsPage', 'docsApiAnchor' ],
+    props: [ 'docsUrl' ],
     required: []
   },
 
@@ -220,7 +219,6 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
     }
 
     if (!def.props.includes(prop)) {
-      console.log(def)
       logError(`${banner} object has unrecognized API prop "${prop}" for its type (${type})`)
       console.error(obj)
       console.log()
@@ -350,28 +348,18 @@ function parseAPI (file, apiType) {
       continue
     }
 
-    if (['value', 'arg', 'quasarConfOptions'].includes(type)) {
+    if (['value', 'arg', 'quasarConfOptions', 'meta'].includes(type)) {
       if (Object(api[type]) !== api[type]) {
         logError(`${banner} "${type}"/"${type}" is not an object`)
         process.exit(1)
       }
     }
 
-    if (type === 'quasarConfOptions') {
+    if (['meta', 'quasarConfOptions'].includes(type)) {
       parseObject({
         banner: `${banner} "${type}"`,
         api,
-        itemName: 'quasarConfOptions',
-        masterType: type
-      })
-      continue
-    }
-
-    if (type === 'meta') {
-      parseObject({
-        banner: `${banner} "${type}"`,
-        api,
-        itemName: 'meta',
+        itemName: type,
         masterType: type
       })
       continue
@@ -403,33 +391,7 @@ function parseAPI (file, apiType) {
   return api
 }
 
-const routes = {
-  component: 'vue-components',
-  directive: 'vue-directives',
-  plugin: 'quasar-plugins'
-}
-
-function getPage (fileName) {
-  let page
-  if (fileName.startsWith('Q')) {
-    page = fileName.slice(1)
-  }
-  else {
-    page = fileName
-  }
-  // kebab-case
-  return page.replace(/([a-z])([A-Z])/g, '$1-$2').replace(/[\s_]+/g, '-').toLowerCase()
-}
-
-function orderAPI (api, apiType, fileName) {
-  const metaDef = api.meta || {},
-    meta = {},
-    docsApiAnchor = metaDef.docsApiAnchor === void 0
-      ? (apiType === 'directive' ? 'API' : fileName + '-API')
-      : metaDef.docsApiAnchor
-  // TODO change URL to v1.quasar.dev
-  meta.docsUrl = `https://quasar.dev/${metaDef.docsRoute || routes[apiType]}/${metaDef.docsPage || getPage(fileName)}#${docsApiAnchor}`
-
+function orderAPI (api, apiType) {
   const ordered = {
     type: apiType
   }
@@ -439,8 +401,6 @@ function orderAPI (api, apiType, fileName) {
       ordered[section] = api[section]
     }
   })
-
-  ordered.meta = meta
 
   return ordered
 }
@@ -489,7 +449,7 @@ function fillAPI (apiType) {
       name = path.basename(file),
       filePath = path.join(dest, name)
 
-    const api = orderAPI(parseAPI(file, apiType), apiType, name.replace('.json', ''))
+    const api = orderAPI(parseAPI(file, apiType), apiType)
 
     if (apiType === 'component') {
       const definition = fs.readFileSync(file.replace('.json', '.js'), {
