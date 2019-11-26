@@ -7,7 +7,8 @@ import { PanelParentMixin } from '../../mixins/panel.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QCarousel',
@@ -62,7 +63,7 @@ export default Vue.extend({
         this.nextIcon || this.$q.iconSet.carousel.right
       ]
 
-      return this.$q.lang.rtl
+      return this.$q.lang.rtl === true
         ? ico.reverse()
         : ico
     },
@@ -112,20 +113,18 @@ export default Vue.extend({
     __getContent (h) {
       const node = []
 
-      if (this.arrows === true) {
-        node.push(
-          h(QBtn, {
-            staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
-            props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
-            on: { click: this.previous }
-          }),
-          h(QBtn, {
-            staticClass: 'q-carousel__control q-carousel__next-arrow absolute',
-            props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
-            on: { click: this.next }
-          })
-        )
-      }
+      this.arrows === true && node.push(
+        h(QBtn, {
+          staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
+          props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
+          on: cache(this, 'prev', { click: this.previous })
+        }),
+        h(QBtn, {
+          staticClass: 'q-carousel__control q-carousel__next-arrow absolute',
+          props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
+          on: cache(this, 'next', { click: this.next })
+        })
+      )
 
       if (this.navigation === true) {
         node.push(this.__getNavigationContainer(h, 'buttons', panel => {
@@ -141,13 +140,11 @@ export default Vue.extend({
               flat: true,
               size: 'sm'
             },
-            on: {
-              click: () => { this.goTo(name) }
-            }
+            on: cache(this, 'nav#' + name, { click: () => { this.goTo(name) } })
           })
         }))
       }
-      else if (this.thumbnails) {
+      else if (this.thumbnails === true) {
         node.push(this.__getNavigationContainer(h, 'thumbnails', panel => {
           const slide = panel.componentOptions.propsData
 
@@ -156,14 +153,13 @@ export default Vue.extend({
             attrs: {
               src: slide.imgSrc
             },
-            on: {
-              click: () => { this.goTo(slide.name) }
-            }
+            key: 'tmb#' + slide.name,
+            on: cache(this, 'tmb#' + slide.name, { click: () => { this.goTo(slide.name) } })
           })
         }))
       }
 
-      return node.concat(slot(this, 'control'))
+      return mergeSlot(node, this, 'control')
     },
 
     __renderPanels (h) {
@@ -175,9 +171,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-carousel__slides-container',
           directives: this.panelDirectives
-        }, [
-          this.__getPanelContent(h)
-        ])
+        }, this.__getPanelContent(h))
       ].concat(this.__getContent(h)))
     }
   },

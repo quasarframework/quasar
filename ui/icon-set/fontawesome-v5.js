@@ -67,7 +67,7 @@ export default {
     hr: 'far fa-minus-square',
     undo: 'fas fa-undo',
     redo: 'fas fa-redo',
-    header: 'fas fa-heading',
+    heading: 'fas fa-heading',
     code: 'fas fa-code',
     size: 'fas fa-text-height',
     font: 'fas fa-font',

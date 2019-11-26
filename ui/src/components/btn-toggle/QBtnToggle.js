@@ -3,7 +3,7 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 import RippleMixin from '../../mixins/ripple.js'
 
@@ -52,7 +52,9 @@ export default Vue.extend({
     stack: Boolean,
     stretch: Boolean,
 
-    spread: Boolean
+    spread: Boolean,
+
+    clearable: Boolean
   },
 
   computed: {
@@ -63,8 +65,16 @@ export default Vue.extend({
 
   methods: {
     __set (value, opt) {
-      if (this.readonly !== true && value !== this.value) {
-        this.$emit('input', value, opt)
+      if (this.readonly !== true) {
+        if (this.value === value) {
+          if (this.clearable === true) {
+            this.$emit('input', null, null)
+            this.$emit('clear')
+          }
+        }
+        else {
+          this.$emit('input', value, opt)
+        }
       }
     }
   },

@@ -64,12 +64,12 @@ export default {
       return this.round === true || this.fab === true || this.fabMini === true
     },
 
-    isDisabled () {
-      return this.disable === true || this.loading === true
+    isActionable () {
+      return this.disable !== true && this.loading !== true
     },
 
     computedTabIndex () {
-      return this.isDisabled === true ? -1 : this.tabindex || 0
+      return this.isActionable === true ? this.tabindex || 0 : -1
     },
 
     hasRouterLink () {
@@ -96,7 +96,7 @@ export default {
       if (this.hasRouterLink === true) {
         att.href = this.$router.resolve(this.to).href
       }
-      if (this.isDisabled === true) {
+      if (this.disable === true) {
         att.disabled = true
       }
       return att
@@ -119,7 +119,7 @@ export default {
 
       return `q-btn--${this.design} q-btn--${this.isRound === true ? 'round' : 'rectangle'}` +
         (colors !== void 0 ? ' ' + colors : '') +
-        (this.isDisabled !== true ? ' q-focusable q-hoverable' : ' disabled') +
+        (this.isActionable === true ? ' q-btn--actionable q-focusable q-hoverable' : (this.disable === true ? ' disabled' : '')) +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
         (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
         (this.rounded === true ? ' q-btn--rounded' : '') +

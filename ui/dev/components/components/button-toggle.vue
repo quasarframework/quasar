@@ -5,31 +5,30 @@
       <strong>{{ model }}</strong>
     </p>
 
-    <q-btn-toggle v-model="model" toggle-color="primary"
-                  unelevated rounded
-                  :options="[
-                    {label: 'One', value: 'one'},
-                    {label: 'Two', value: 'two'},
-                    {label: 'Three', value: 'three'}
-                  ]"
+    <q-btn-toggle
+      v-model="model"
+      toggle-color="primary"
+      unelevated
+      rounded
+      :options="optionsO1"
     />
 
-    <q-btn-toggle v-model="model" toggle-color="primary" color="white" text-color="black"
-                  spread no-caps
-                  :options="[
-                    {label: 'One', value: 'one'},
-                    {label: 'Two', value: 'two'},
-                    {label: 'Three', value: 'three'}
-                  ]"
+    <q-btn-toggle
+      v-model="model"
+      toggle-color="primary"
+      color="white"
+      text-color="black"
+      spread
+      no-caps
+      :options="optionsO1"
     />
 
-    <q-btn-toggle v-model="model" toggle-color="primary"
-                  outline rounded
-                  :options="[
-                    {label: 'One tooltip', value: 'one', slot: 'one'},
-                    {label: 'Two tooltip', value: 'two', slot: 'two'},
-                    {label: 'Three tooltip', value: 'three', slot: 'three'}
-                  ]"
+    <q-btn-toggle
+      v-model="model"
+      toggle-color="primary"
+      outline
+      rounded
+      :options="optionsS1"
     >
       <template v-slot:one>
         <q-tooltip>One!</q-tooltip>
@@ -44,13 +43,12 @@
       </template>
     </q-btn-toggle>
 
-    <q-btn-toggle v-model="model" toggle-color="primary"
-                  push rounded
-                  :options="[
-                    {value: 'one', slot: 'one'},
-                    {value: 'two', slot: 'two'},
-                    {value: 'three', slot: 'three'}
-                  ]"
+    <q-btn-toggle
+      v-model="model"
+      toggle-color="primary"
+      push
+      rounded
+      :options="optionsS2"
     >
       <template v-slot:one>
         <div class="row items-center no-wrap">
@@ -79,6 +77,21 @@
         </div>
       </template>
     </q-btn-toggle>
+
+    <q-btn-toggle
+      v-model="model"
+      :options="optionsO2"
+      clearable
+    />
+
+    <q-btn-toggle
+      :value="modelD"
+      @input="updateD"
+      toggle-color="primary"
+      unelevated
+      rounded
+      :options="optionsD"
+    />
   </div>
 </template>
 
@@ -87,13 +100,43 @@ export default {
   data () {
     return {
       model: '',
+      modelD: '',
       options: [true, false],
+      optionsO1: [
+        { label: 'One', value: 'one' },
+        { label: 'Two', value: 'two' },
+        { label: 'Three', value: 'three' }
+      ],
+      optionsO2: [
+        { label: 'One Clearable', value: 'one' },
+        { label: 'Two', value: 'two' }
+      ],
+      optionsS1: [
+        { label: 'One tooltip', value: 'one', slot: 'one' },
+        { label: 'Two tooltip', value: 'two', slot: 'two' },
+        { label: 'Three tooltip', value: 'three', slot: 'three' }
+      ],
+      optionsS2: [
+        { value: 'one', slot: 'one' },
+        { value: 'two', slot: 'two' },
+        { value: 'three', slot: 'three' }
+      ],
+      optionsD: [
+        { label: 'One', value: 'one', count: 0 },
+        { label: 'Two', value: 'two', count: 0 },
+        { label: 'Three', value: 'three', count: 0 }
+      ],
       sizes: ['sm', 'md', 'lg']
     }
   },
   methods: {
     log (name, data) {
       console.log(name, JSON.stringify(data))
+    },
+
+    updateD (value, opt) {
+      this.modelD = value
+      opt.count++
     }
   }
 }

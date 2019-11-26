@@ -48,7 +48,7 @@
 
   "events": {
     "input": {
-      "desc": "Emitted when component's model changes (current panel name); Is also used by v-model",
+      "desc": "Emitted when the component changes the model; This event _isn't_ fired if the model is changed externally; Is also used by v-model",
       "params": {
         "value": {
           "type": [ "String", "Number" ],

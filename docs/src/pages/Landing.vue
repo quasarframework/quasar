@@ -14,16 +14,18 @@
         .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
         .q-pt-md.q-pl-sm
           .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center
-            q-btn(color="white", text-color="primary", to="/introduction-to-quasar", label="About")
-            q-btn(color="white", text-color="primary", to="/start", label="Docs")
-            q-btn(color="white", text-color="primary", to="/quasar-cli/installation", label="Install")
-            q-btn(color="white", text-color="black", to="/video-tutorials", label="Video Tutorials", icon-right="new_releases")
+            q-btn(color="white", text-color="primary", no-caps, to="/start", label="Get Started")
+            q-btn(color="white", text-color="primary", no-caps, to="/introduction-to-quasar", label="Why Quasar?")
+            q-btn(color="white", text-color="primary", no-caps, to="/video-tutorials", label="Video Tutorials", icon-right="new_releases")
             .text-body2 v{{ $q.version }}
         .landing__arrow-down.row.justify-center.absolute
           q-icon.landing__arrow-down-icon.q-mt-xl(name="keyboard_arrow_down" size="50px")
 
   section.landing__front.text-center
     div
+      .row.justify-center
+        introduction-video.landing__video
+
       .q-gutter-md.row.justify-center
         q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="User Interface Components", to="/vue-components")
         q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
@@ -178,6 +180,7 @@
 import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
+import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
 
 export default {
   name: 'Landing',
@@ -185,7 +188,8 @@ export default {
   components: {
     Sponsor,
     SponsorList,
-    LandingTopBar
+    LandingTopBar,
+    IntroductionVideo
   },
 
   meta: {
@@ -229,6 +233,11 @@ export default {
     background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9) 15%)
     > div
       max-width: 700px !important
+
+  &__video
+    width: 530px
+    max-width: 100%
+    margin-bottom: 72px
 
   &__logo
     width: 72px

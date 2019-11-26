@@ -53,7 +53,7 @@
           "params": {
             "value": {
               "type": "Any",
-              "desc": "Value to be emited",
+              "desc": "Value to be emitted",
               "examples": [ 0, "Changed text" ]
             }
           },

@@ -7,7 +7,7 @@
         transition="flip-right"
         class="example-item"
       >
-        <q-item class="q-my-sm" clickable v-ripple>
+        <q-item clickable v-ripple>
           <q-item-section avatar>
             <q-avatar color="primary" text-color="white">
               Q

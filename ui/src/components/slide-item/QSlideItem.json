@@ -24,6 +24,11 @@
       "desc": "Color name for bottom-side background from the Quasar Color Palette",
       "category": "style",
       "addedIn": "v1.1.3"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.4.1"
     }
   },
 

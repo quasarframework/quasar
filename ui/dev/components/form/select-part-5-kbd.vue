@@ -9,6 +9,7 @@
         <!-- Single -->
         <q-select
           filled
+          color="amber"
           v-model="modelS"
           label="Single"
           :options="options"
@@ -26,6 +27,7 @@
 
         <q-select
           filled
+          color="green"
           v-model="modelS"
           label="Single - useInput"
           :options="options"
@@ -46,6 +48,7 @@
 
         <q-select
           filled
+          color="purple"
           v-model="modelS"
           label="Single - useInput - hideSelected"
           :options="options"
@@ -67,6 +70,7 @@
 
         <q-select
           filled
+          color="deep-orange"
           v-model="modelS"
           label="Single - useInput - fillInput"
           :options="options"

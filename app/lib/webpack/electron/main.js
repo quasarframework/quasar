@@ -8,8 +8,8 @@ const
 
 module.exports = function (cfg, configName) {
   const
-    { dependencies:appDeps = {} } = require(appPaths.resolve.cli('package.json')),
-    { dependencies:cliDeps = {} } = require(appPaths.resolve.app('package.json'))
+    { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json')),
+    { dependencies:cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
 
   const chain = new WebpackChain()
   const resolveModules = [

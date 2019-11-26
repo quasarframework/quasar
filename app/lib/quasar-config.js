@@ -557,6 +557,7 @@ class QuasarConfig {
 
     if (this.ctx.dev) {
       const originalBefore = cfg.devServer.before
+      const openInEditor = require('launch-editor-middleware')
 
       cfg.devServer = merge({
         publicPath: cfg.build.publicPath,
@@ -586,6 +587,8 @@ class QuasarConfig {
               app.use('/', express.static(folder, { maxAge: 0 }))
             }
           }
+
+          app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
 
           originalBefore && originalBefore(app)
         }
@@ -739,17 +742,23 @@ class QuasarConfig {
       'process.env': cfg.build.env
     }
 
-    if (this.ctx.mode.electron && this.ctx.dev) {
-      cfg.build.env.__statics = `"${appPaths.resolve.src('statics').replace(/\\/g, '\\\\')}"`
-    }
-
     appFilesValidations(cfg)
 
     if (this.ctx.mode.electron) {
-      if (this.ctx.prod) {
+      if (this.ctx.dev) {
+        cfg.electron = merge({
+          nodeIntegration: true
+        }, cfg.electron)
+
+        if (cfg.electron.nodeIntegration) {
+          cfg.build.env.__statics = `"${appPaths.resolve.src('statics').replace(/\\/g, '\\\\')}"`
+        }
+      }
+      else {
         const bundler = require('./electron/bundler')
 
         cfg.electron = merge({
+          nodeIntegration: true,
           packager: {
             asar: true,
             icon: appPaths.resolve.electron('icons/icon'),

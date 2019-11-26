@@ -2,8 +2,9 @@ import Vue from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/Platform.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QFooter',
@@ -118,10 +119,10 @@ export default Vue.extend({
         css = {}
 
       if (view[0] === 'l' && this.layout.left.space === true) {
-        css[this.$q.lang.rtl ? 'right' : 'left'] = `${this.layout.left.size}px`
+        css[this.$q.lang.rtl === true ? 'right' : 'left'] = `${this.layout.left.size}px`
       }
       if (view[2] === 'r' && this.layout.right.space === true) {
-        css[this.$q.lang.rtl ? 'left' : 'right'] = `${this.layout.right.size}px`
+        css[this.$q.lang.rtl === true ? 'left' : 'right'] = `${this.layout.right.size}px`
       }
 
       return css
@@ -132,7 +133,7 @@ export default Vue.extend({
     const child = [
       h(QResizeObserver, {
         props: { debounce: 0 },
-        on: { resize: this.__onResize }
+        on: cache(this, 'resize', { resize: this.__onResize })
       })
     ]
 
@@ -150,7 +151,7 @@ export default Vue.extend({
         ...this.$listeners,
         input: stop
       }
-    }, child.concat(slot(this, 'default')))
+    }, mergeSlot(child, this, 'default'))
   },
 
   created () {

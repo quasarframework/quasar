@@ -17,24 +17,26 @@
         @mousedown="e => onEvt('mousedown', e)"
         @mousemove="e => onEvt('mousemove', e)"
         @mouseup="e => onEvt('mouseup', e)"
-        class="custom-area row flex-center"
+        class="custom-area row flex-center relative-position"
         ref="area"
       >
+        <q-icon class="absolute-top-left" size="md" name="drag_indicator" draggable />
+
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
         </div>
         <div v-else class="text-center q-pa-xl custom-area-placeholder">
-          <q-icon name="arrow_upward" />
+          <q-icon size="md" name="arrow_upward" />
           <div class="row items-center">
-            <q-icon name="arrow_back" />
+            <q-icon size="md" name="arrow_back" />
             <div>Pan in any direction</div>
-            <q-icon name="arrow_forward" />
+            <q-icon size="md" name="arrow_forward" />
           </div>
-          <q-icon name="arrow_downward" />
+          <q-icon size="md" name="arrow_downward" />
         </div>
 
         <div v-if="panning" class="touch-signal">
-          <q-icon name="touch_app" />
+          <q-icon size="md" name="touch_app" />
         </div>
       </div>
 
@@ -59,12 +61,12 @@
         <div v-else class="text-center q-pa-xl custom-area-placeholder">
           <div class="row items-center">
             <div>Pan right</div>
-            <q-icon name="arrow_forward" />
+            <q-icon size="md" name="arrow_forward" />
           </div>
         </div>
 
         <div v-if="panningRight" class="touch-signal">
-          <q-icon name="touch_app" />
+          <q-icon size="md" name="touch_app" />
         </div>
       </div>
 
@@ -87,15 +89,15 @@
           <pre>{{ infoUpRight }}</pre>
         </div>
         <div v-else class="text-center q-pa-xl custom-area-placeholder">
-          <q-icon name="arrow_upward" />
+          <q-icon size="md" name="arrow_upward" />
           <div class="row items-center">
             <div>Pan up & right</div>
-            <q-icon name="arrow_forward" />
+            <q-icon size="md" name="arrow_forward" />
           </div>
         </div>
 
         <div v-if="panningUpRight" class="touch-signal">
-          <q-icon name="touch_app" />
+          <q-icon size="md" name="touch_app" />
         </div>
       </div>
 
@@ -126,13 +128,13 @@
           <pre>{{ infoHorizontal }}</pre>
         </div>
         <div v-else class="row items-center q-pa-xl custom-area-placeholder">
-          <q-icon name="arrow_back" />
+          <q-icon size="md" name="arrow_back" />
           <div>Pan to left or right only</div>
-          <q-icon name="arrow_forward" />
+          <q-icon size="md" name="arrow_forward" />
         </div>
 
         <div v-if="panningHorizontal" class="touch-signal">
-          <q-icon name="touch_app" />
+          <q-icon size="md" name="touch_app" />
         </div>
       </div>
 
@@ -155,15 +157,15 @@
           <pre>{{ infoVertical }}</pre>
         </div>
         <div v-else class="text-center q-pa-xl custom-area-placeholder">
-          <q-icon name="arrow_upward" />
+          <q-icon size="md" name="arrow_upward" />
           <div>
             Pan to up or down only
           </div>
-          <q-icon name="arrow_downward" />
+          <q-icon size="md" name="arrow_downward" />
         </div>
 
         <div v-if="panningVertical" class="touch-signal">
-          <q-icon name="touch_app" />
+          <q-icon size="md" name="touch_app" />
         </div>
       </div>
 
@@ -177,7 +179,7 @@
       <div
         v-touch-pan.prevent.mouse="handlePanTest"
         @click="e => onEvt('click', e)"
-        class="row flex-center"
+        class="row flex-center bg-blue-4"
       >
         <div @touchstart="handleEvt" @mousedown="handleEvt" style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2 relative-position">
           <div>
@@ -189,17 +191,17 @@
           </div>
 
           <div v-else class="text-center q-pa-xl custom-area-placeholder">
-            <q-icon name="arrow_upward" />
+            <q-icon size="md" name="arrow_upward" />
             <div class="row items-center">
-              <q-icon name="arrow_back" />
+              <q-icon size="md" name="arrow_back" />
               <div>Pan in any direction</div>
-              <q-icon name="arrow_forward" />
+              <q-icon size="md" name="arrow_forward" />
             </div>
-            <q-icon name="arrow_downward" />
+            <q-icon size="md" name="arrow_downward" />
           </div>
 
           <div v-if="panningTest" class="touch-signal">
-            <q-icon name="touch_app" />
+            <q-icon size="md" name="touch_app" />
           </div>
         </div>
       </div>
@@ -211,7 +213,7 @@
       <div
         v-touch-pan.prevent.capture.mouse.mouseCapture="handlePanTestCapture"
         @click="e => onEvt('click', e)"
-        class="row flex-center"
+        class="row flex-center bg-blue-4"
       >
         <div @touchstart.stop @mousedown.stop style="padding: 24px" class="cursor-pointer bg-primary text-white rounded-borders shadow-2 relative-position">
           <div v-if="infoTestCapture" class="custom-info">
@@ -219,17 +221,17 @@
           </div>
 
           <div v-else class="text-center q-pa-xl custom-area-placeholder">
-            <q-icon name="arrow_upward" />
+            <q-icon size="md" name="arrow_upward" />
             <div class="row items-center">
-              <q-icon name="arrow_back" />
+              <q-icon size="md" name="arrow_back" />
               <div>Pan in any direction</div>
-              <q-icon name="arrow_forward" />
+              <q-icon size="md" name="arrow_forward" />
             </div>
-            <q-icon name="arrow_downward" />
+            <q-icon size="md" name="arrow_downward" />
           </div>
 
           <div v-if="panningTestCapture" class="touch-signal">
-            <q-icon name="touch_app" />
+            <q-icon size="md" name="touch_app" />
           </div>
         </div>
       </div>

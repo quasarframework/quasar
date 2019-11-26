@@ -1,4 +1,3 @@
-import './polyfills.js'
 import { version } from '../package.json'
 import Platform, { isSSR } from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'

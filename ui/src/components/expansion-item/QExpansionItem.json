@@ -15,6 +15,12 @@
       "extends": "icon"
     },
 
+    "expanded-icon": {
+      "extends": "icon",
+      "desc": "Expand icon name (following Quasar convention) for when QExpansionItem is expanded; When used, it also disables the rotation animation of the expand icon; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.4.5"
+    },
+
     "expand-icon-class": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Apply custom class(es) to the expand icon item section",
@@ -88,7 +94,7 @@
 
     "default-opened": {
       "type": "Boolean",
-      "desc": "Puts expansion item into open state on initial render; Overriden by v-model if used",
+      "desc": "Puts expansion item into open state on initial render; Overridden by v-model if used",
       "category": "behavior"
     },
 

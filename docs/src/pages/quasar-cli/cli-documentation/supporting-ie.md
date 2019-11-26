@@ -42,4 +42,4 @@ If you are developing for UMD and want IE 11 support you will need to add the fo
 
 ## What does it do?
 
-You can check out what enabling the IE11 support means on [Github](https://github.com/quasarframework/quasar/tree/dev/ui/src/ie-compat) (what pollyfils are injected and the needed CSS fixes).
+You can check out what enabling the IE11 support means on [Github](https://github.com/quasarframework/quasar/tree/dev/ui/src/ie-compat) (what polyfills are injected and the needed CSS fixes).

@@ -27,6 +27,10 @@
           "required": true
         }
       }
+    },
+
+    "toggle": {
+      "desc": "Toggle dark mode status"
     }
   }
 }

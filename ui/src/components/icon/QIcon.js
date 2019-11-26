@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIcon',
@@ -110,21 +110,20 @@ export default Vue.extend({
   },
 
   render (h) {
-    return this.type.img === true
-      ? h('img', {
+    if (this.type.img === true) {
+      return h('img', {
         staticClass: this.type.cls,
         style: this.sizeStyle,
         on: this.$listeners,
         attrs: { src: this.type.src }
       })
-      : h('i', {
-        staticClass: this.type.cls,
-        style: this.sizeStyle,
-        on: this.$listeners,
-        attrs: { 'aria-hidden': true }
-      }, [
-        this.type.content,
-        slot(this, 'default')
-      ])
+    }
+
+    return h('i', {
+      staticClass: this.type.cls,
+      style: this.sizeStyle,
+      on: this.$listeners,
+      attrs: { 'aria-hidden': true }
+    }, mergeSlot([ this.type.content ], this, 'default'))
   }
 })

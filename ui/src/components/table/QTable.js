@@ -6,6 +6,7 @@ import TableBody from './table-body.js'
 import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
+import QLinearProgress from '../linear-progress/QLinearProgress.js'
 
 import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
 import DarkMixin from '../../mixins/dark.js'
@@ -17,6 +18,8 @@ import Pagination from './table-pagination.js'
 import RowSelection from './table-row-selection.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
+
+import { cache } from '../../utils/vm.js'
 
 const commonVirtPropsObj = {}
 commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })
@@ -133,15 +136,12 @@ export default Vue.extend({
     },
 
     computedData () {
-      let rows = this.data.slice().map((row, i) => {
-        row.__index = i
-        return row
-      })
+      let rows = this.data
 
       if (rows.length === 0) {
         return {
           rowsNumber: 0,
-          rows: []
+          rows
         }
       }
 
@@ -155,14 +155,23 @@ export default Vue.extend({
         rows = this.filterMethod(rows, this.filter, this.computedCols, this.getCellValue)
       }
 
-      if (this.columnToSort) {
-        rows = this.sortMethod(rows, sortBy, descending)
+      if (this.columnToSort !== void 0) {
+        rows = this.sortMethod(
+          this.data === rows ? rows.slice() : rows,
+          sortBy,
+          descending
+        )
       }
 
       const rowsNumber = rows.length
 
-      if (rowsPerPage) {
-        rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
+      if (rowsPerPage !== 0) {
+        if (this.firstRowIndex === 0 && this.data !== rows) {
+          rows.length = this.lastRowIndex
+        }
+        else {
+          rows = rows.slice(this.firstRowIndex, this.lastRowIndex)
+        }
       }
 
       return { rowsNumber, rows }
@@ -264,10 +273,15 @@ export default Vue.extend({
             items: this.computedRows,
             type: '__qtable'
           },
+          on: cache(this, 'virtScr', {
+            'virtual-scroll': this.__onVScroll
+          }),
           class: this.tableClass,
           style: this.tableStyle,
           scopedSlots: {
-            before: () => header,
+            before: header === null
+              ? void 0
+              : () => header,
             default: this.getTableRowVirtual(h)
           }
         })
@@ -279,6 +293,24 @@ export default Vue.extend({
           header,
           this.getTableBody(h)
         ])
+    },
+
+    __onVScroll (info) {
+      this.$emit('virtual-scroll', info)
+    },
+
+    __getProgress (h) {
+      return [
+        h(QLinearProgress, {
+          staticClass: 'q-table__linear-progress',
+          props: {
+            color: this.color,
+            dark: this.isDark,
+            indeterminate: true,
+            trackColor: 'transparent'
+          }
+        })
+      ]
     }
   }
 })

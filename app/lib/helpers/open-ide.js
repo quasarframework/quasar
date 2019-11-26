@@ -85,6 +85,10 @@ function runLinux (mode, bin, target) {
 }
 
 function getWindowsPath (bin) {
+  if (bin.windowsAndroidStudio && fs.existsSync(bin.windowsAndroidStudio)) {
+    return bin.windowsAndroidStudio
+  }
+
   const studioPath = 'C:\\Program Files\\Android\\Android Studio\\bin\\studio64.exe'
   if (fs.existsSync(studioPath)) {
     return studioPath
@@ -103,10 +107,6 @@ function getWindowsPath (bin) {
     }
   }
   catch (e) {}
-
-  if (bin.windowsAndroidStudio && fs.existsSync(bin.windowsAndroidStudio)) {
-    return bin.windowsAndroidStudio
-  }
 }
 
 function runWindows (mode, bin, target) {
@@ -118,7 +118,7 @@ function runWindows (mode, bin, target) {
         : appPaths.resolve.capacitor('android')
 
       open(folder, {
-        app: studioPath,
+        app: `"${studioPath}"`,
         wait: false
       })
 

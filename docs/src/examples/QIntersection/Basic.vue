@@ -4,7 +4,7 @@
       <q-intersection
         v-for="index in 60"
         :key="index"
-        class="example-item flex flex-center"
+        class="example-item"
       >
         <q-card class="q-ma-sm">
           <img src="https://cdn.quasar.dev/img/mountains.jpg">

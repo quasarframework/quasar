@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBadge',
@@ -12,6 +12,7 @@ export default Vue.extend({
     floating: Boolean,
     transparent: Boolean,
     multiLine: Boolean,
+    outline: Boolean,
 
     label: [Number, String],
 
@@ -29,10 +30,17 @@ export default Vue.extend({
     },
 
     classes () {
+      const text = this.outline === true
+        ? this.color || this.textColor
+        : this.textColor
+
       return 'q-badge flex inline items-center no-wrap' +
         ` q-badge--${this.multiLine === true ? 'multi' : 'single'}-line` +
-        (this.color !== void 0 ? ` bg-${this.color}` : '') +
-        (this.textColor !== void 0 ? ` text-${this.textColor}` : '') +
+        (this.outline === true
+          ? ' q-badge--outline'
+          : (this.color !== void 0 ? ` bg-${this.color}` : '')
+        ) +
+        (text !== void 0 ? ` text-${text}` : '') +
         (this.floating === true ? ' q-badge--floating' : '') +
         (this.transparent === true ? ' q-badge--transparent' : '')
     }

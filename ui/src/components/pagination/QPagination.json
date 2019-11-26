@@ -38,6 +38,12 @@
       "extends": "text-color"
     },
 
+    "dark": {
+      "extends": "dark",
+      "desc": "Notify the component that the background is a dark color (useful when you are using it along with the 'input' prop)",
+      "addedIn": "v1.4.2"
+    },
+
     "input-style": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Style definitions to be attributed to the input (if using one)",

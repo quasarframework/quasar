@@ -1,6 +1,6 @@
 ---
 title: Installation
-desc: A set of Firebase installtion instructions for the Quasar framework.
+desc: A set of Firebase installation instructions for the Quasar framework.
 ---
 
 If your new to firebase you must create a firebase account with a google identity and create a project in the console. 
@@ -26,7 +26,7 @@ yarn add firebase
 npm install firebase
 ```
 
-Next is the configuration of the firebase sdk for initiallizing your project via firebase's [`initializeApp`](https://firebase.google.com/docs/reference/js/firebase.html#initialize-app) method. This is where a firebase application in the console will contain your sdk’s `firebaseConfig` object.
+Next is the configuration of the firebase sdk for initializing your project via firebase's [`initializeApp`](https://firebase.google.com/docs/reference/js/firebase.html#initialize-app) method. This is where a firebase application in the console will contain your sdk’s `firebaseConfig` object.
 
 ::: tip You can get access to your firebase config object at any time by:
 

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 import { getAllChildren } from '../../utils/vm.js'
 
 export default Vue.extend({

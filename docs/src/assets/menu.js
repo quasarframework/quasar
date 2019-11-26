@@ -435,6 +435,11 @@ const cli = [
         path: 'app-icons-electron'
       },
       {
+        name: 'Node Integration',
+        badge: 'update',
+        path: 'node-integration'
+      },
+      {
         name: 'Electron Packages',
         path: 'electron-packages'
       },
@@ -833,10 +838,12 @@ const components = [
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {
     name: 'Img',
+    badge: 'update',
     path: 'img'
   },
   {
@@ -948,6 +955,7 @@ const components = [
   },
   {
     name: 'Table',
+    badge: 'update',
     path: 'table'
   },
   {
@@ -1082,6 +1090,7 @@ const utils = [
   },
   {
     name: 'Other Utils',
+    badge: 'update',
     path: 'other-utils'
   }
 ]
@@ -1174,7 +1183,7 @@ const backends = [
 
 module.exports = [
   {
-    name: 'Introduction to Quasar',
+    name: 'Why Quasar?',
     icon: 'room',
     path: 'introduction-to-quasar'
   },

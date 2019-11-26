@@ -8,7 +8,8 @@ import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
 import { prevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {
@@ -256,6 +257,10 @@ export function getLinkEditor (h, vm) {
         on: {
           input: val => { link = val },
           keydown: event => {
+            if (shouldIgnoreKey(event) === true) {
+              return
+            }
+
             switch (event.keyCode) {
               case 13: // ENTER key
                 prevent(event)

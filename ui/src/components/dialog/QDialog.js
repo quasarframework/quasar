@@ -7,8 +7,9 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
+import { cache } from '../../utils/vm.js'
 
 let maximizedModals = 0
 
@@ -301,9 +302,9 @@ export default Vue.extend({
         }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
-            on: {
+            on: cache(this, 'bkdrop', {
               click: this.__onBackdropClick
-            }
+            })
           })
         ] : null),
 

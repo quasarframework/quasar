@@ -102,6 +102,7 @@ Let's take each option one by one:
 | build | Object | Build configuration options. |
 | sourceFiles | Object | Change the default name of parts of your app. |
 | cordova | Object | Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). |
+| capacitor | Object | Quasar CLI Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). |
 | pwa | Object | PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). |
 | ssr | Object | SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). |
 | electron | Object | Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). |
@@ -160,7 +161,8 @@ More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
 
 ### Auto import feature
 
-<q-badge label="@quasar/app v1.1.1+" /> <q-badge class="q-ml-sm" label="quasar v1.1.2+" />
+<q-badge label="@quasar/app v1.1.1+" />
+<q-badge class="q-ml-sm" label="quasar v1.1.2+" />
 
 You can also configure the Quasar CLI to auto import the in-use Quasar components and directives that you are using, through `framework: { all }` property:
 

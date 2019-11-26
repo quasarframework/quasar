@@ -2,7 +2,8 @@ import Vue from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
 import QIcon from '../icon/QIcon.js'
-import slot from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QToggle',
@@ -41,15 +42,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
-      class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
-      on: {
-        click: this.toggle,
-        keydown: this.__keyDown
-      }
-    }, [
+    const child = [
       h('div', {
         staticClass: 'q-toggle__inner relative-position',
         class: this.innerClass
@@ -58,7 +51,7 @@ export default Vue.extend({
           ? h('input', {
             staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
             attrs: { type: 'toggle' },
-            on: { change: this.toggle }
+            on: cache(this, 'inp', { change: this.toggle })
           })
           : null,
 
@@ -71,11 +64,27 @@ export default Vue.extend({
             : null
           )
         ])
-      ]),
+      ])
+    ]
 
+    const label = this.label !== void 0
+      ? mergeSlot([ this.label ], this, 'default')
+      : slot(this, 'default')
+
+    label !== void 0 && child.push(
       h('div', {
         staticClass: 'q-toggle__label q-anchor--skip'
-      }, (this.label !== void 0 ? [ this.label ] : []).concat(slot(this, 'default')))
-    ])
+      }, label)
+    )
+
+    return h('div', {
+      staticClass: 'q-toggle cursor-pointer no-outline row inline no-wrap items-center',
+      class: this.classes,
+      attrs: { tabindex: this.computedTabindex },
+      on: cache(this, 'inpExt', {
+        click: this.toggle,
+        keydown: this.__keyDown
+      })
+    }, child)
   }
 })

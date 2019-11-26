@@ -25,17 +25,20 @@ export default {
         hasSelection = this.hasSelectionMode === true &&
           topSelection !== void 0 &&
           this.rowsSelectedNumber > 0,
-        staticClass = 'q-table__top relative-position row items-center',
-        child = []
+        staticClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
         return h('div', { staticClass }, [ top(this.marginalsProps) ])
       }
 
+      let child
+
       if (hasSelection === true) {
-        child.push(topSelection(this.marginalsProps))
+        child = topSelection(this.marginalsProps).slice()
       }
       else {
+        child = []
+
         if (topLeft !== void 0) {
           child.push(
             h('div', { staticClass: 'q-table-control' }, [

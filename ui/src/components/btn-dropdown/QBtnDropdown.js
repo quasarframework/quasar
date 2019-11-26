@@ -7,7 +7,8 @@ import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QBtnDropdown',
@@ -80,7 +81,7 @@ export default Vue.extend({
           contentStyle: this.contentStyle,
           separateClosePopup: true
         },
-        on: {
+        on: cache(this, 'menu', {
           'before-show': e => {
             this.showing = true
             this.$emit('before-show', e)
@@ -97,7 +98,7 @@ export default Vue.extend({
             this.$emit('hide', e)
             this.$emit('input', false)
           }
-        }
+        })
       }, slot(this, 'default'))
     )
 
@@ -110,11 +111,11 @@ export default Vue.extend({
           noWrap: true,
           round: false
         },
-        on: {
+        on: cache(this, 'nonSpl', {
           click: e => {
             this.$emit('click', e)
           }
-        }
+        })
       }, label.concat(Arrow))
     }
 
@@ -127,12 +128,12 @@ export default Vue.extend({
         iconRight: this.iconRight,
         round: false
       },
-      on: {
+      on: cache(this, 'spl', {
         click: e => {
           this.hide()
           this.$emit('click', e)
         }
-      }
+      })
     }, label)
 
     return h(QBtnGroup, {
@@ -172,9 +173,11 @@ export default Vue.extend({
     toggle (evt) {
       this.$refs.menu && this.$refs.menu.toggle(evt)
     },
+
     show (evt) {
       this.$refs.menu && this.$refs.menu.show(evt)
     },
+
     hide (evt) {
       this.$refs.menu && this.$refs.menu.hide(evt)
     }

@@ -11,7 +11,8 @@ import { RouterLinkMixin } from '../../mixins/router-link.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 const eventName = 'q:expansion-item:close'
 
@@ -32,6 +33,7 @@ export default Vue.extend({
     dense: Boolean,
 
     expandIcon: String,
+    expandedIcon: String,
     expandIconClass: [ Array, String, Object ],
     duration: Number,
 
@@ -93,7 +95,9 @@ export default Vue.extend({
     },
 
     expansionIcon () {
-      return this.expandIcon || (this.denseToggle ? this.$q.iconSet.expansionItem.denseIcon : this.$q.iconSet.expansionItem.icon)
+      return this.expandedIcon !== void 0 && this.showing === true
+        ? this.expandedIcon
+        : this.expandIcon || this.$q.iconSet.expansionItem[this.denseToggle === true ? 'denseIcon' : 'icon']
     },
 
     activeToggleIcon () {
@@ -129,15 +133,15 @@ export default Vue.extend({
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide
         },
-        on: this.activeToggleIcon === true ? {
+        on: this.activeToggleIcon === true ? cache(this, 'inpExt', {
           click: this.__toggleIcon,
           keyup: this.__toggleIconKeyboard
-        } : void 0
+        }) : void 0
       }, [
         h(QIcon, {
           staticClass: 'q-expansion-item__toggle-icon q-focusable',
           class: {
-            'rotate-180': this.showing,
+            'rotate-180': this.expandedIcon === void 0 ? this.showing : false,
             invisible: this.disable
           },
           props: {
@@ -160,7 +164,7 @@ export default Vue.extend({
       let child
 
       if (this.$scopedSlots.header !== void 0) {
-        child = [].concat(this.$scopedSlots.header())
+        child = this.$scopedSlots.header().slice()
       }
       else {
         child = [

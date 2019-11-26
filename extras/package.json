@@ -1,10 +1,10 @@
 {
   "name": "@quasar/extras",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "Quasar Framework fonts, icons and animations",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/quasarframework/quasar-extras.git"
+    "url": "git+https://github.com/quasarframework/quasar.git"
   },
   "keywords": [
     "quasar",
@@ -13,9 +13,13 @@
   "author": "Razvan Stoenescu",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/quasarframework/quasar-extras/issues"
+    "url": "https://github.com/quasarframework/quasar/issues"
   },
-  "homepage": "https://github.com/quasarframework/quasar-extras#readme",
+  "funding": {
+    "type": "github",
+    "url": "https://donate.quasar.dev"
+  },
+  "homepage": "https://quasar.dev",
   "publishConfig": {
     "access": "public"
   }

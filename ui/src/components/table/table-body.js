@@ -1,5 +1,7 @@
 import QCheckbox from '../checkbox/QCheckbox.js'
 
+import { cache } from '../../utils/vm.js'
+
 export default {
   methods: {
     getTableRowBody (row, body) {
@@ -42,11 +44,11 @@ export default {
               dark: this.isDark,
               dense: this.dense
             },
-            on: {
+            on: cache(this, 'sel#' + key + '#' + row, {
               input: adding => {
                 this.__updateSelection([key], [row], adding)
               }
-            }
+            })
           })
         ])
       )
@@ -74,14 +76,15 @@ export default {
         bottomRow = this.$scopedSlots['bottom-row'],
         mapFn = body !== void 0
           ? row => this.getTableRowBody(row, body)
-          : row => this.getTableRow(h, row),
-        child = this.computedRows.map(mapFn)
+          : row => this.getTableRow(h, row)
+
+      let child = this.computedRows.map(mapFn)
 
       if (topRow !== void 0) {
-        child.unshift(topRow({ cols: this.computedCols }))
+        child = topRow({ cols: this.computedCols }).concat(child)
       }
       if (bottomRow !== void 0) {
-        child.push(bottomRow({ cols: this.computedCols }))
+        child = child.concat(bottomRow({ cols: this.computedCols }))
       }
 
       return h('tbody', child)

@@ -17,7 +17,7 @@
 
     "overlay": {
       "type": "Boolean",
-      "desc": "Puts drawer into overlay mode (does not occupies space on screen, narrowing the page)",
+      "desc": "Puts drawer into overlay mode (does not occupy space on screen, narrowing the page)",
       "category": "behavior"
     },
 
@@ -139,7 +139,7 @@
 
   "slots": {
     "default": {
-      "desc": "Default slot in the devland unslotted content of the component (overriden by 'mini' slot if used and drawer is in mini mode)"
+      "desc": "Default slot in the devland unslotted content of the component (overridden by 'mini' slot if used and drawer is in mini mode)"
     },
 
     "mini": {

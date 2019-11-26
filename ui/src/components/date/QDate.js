@@ -3,9 +3,11 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 
+import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
+import { cache } from '../../utils/vm.js'
 
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
@@ -48,11 +50,14 @@ export default Vue.extend({
   },
 
   data () {
-    const { inner, external } = this.__getModels(this.value, this.mask, this.__getComputedLocale())
+    const
+      { inner, external } = this.__getModels(this.value, this.mask, this.__getComputedLocale()),
+      direction = this.$q.lang.rtl === true ? 'right' : 'left'
+
     return {
       view: this.defaultView,
-      monthDirection: 'left',
-      yearDirection: 'left',
+      monthDirection: direction,
+      yearDirection: direction,
       startYear: inner.year - inner.year % yearsInterval,
       innerModel: inner,
       extModel: external
@@ -71,7 +76,7 @@ export default Vue.extend({
       }
 
       if (inner.dateHash !== this.innerModel.dateHash) {
-        this.monthDirection = this.innerModel.dateHash < inner.dateHash ? 'left' : 'right'
+        this.monthDirection = (this.innerModel.dateHash < inner.dateHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
         if (inner.year !== this.innerModel.year) {
           this.yearDirection = this.monthDirection
         }
@@ -141,7 +146,7 @@ export default Vue.extend({
 
     dateArrow () {
       const val = [ this.$q.iconSet.datetime.arrowLeft, this.$q.iconSet.datetime.arrowRight ]
-      return this.$q.lang.rtl ? val.reverse() : val
+      return this.$q.lang.rtl === true ? val.reverse() : val
     },
 
     computedFirstDayOfWeek () {
@@ -348,10 +353,10 @@ export default Vue.extend({
               staticClass: 'q-date__header-subtitle q-date__header-link',
               class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
-              on: {
+              on: cache(this, 'vY', {
                 click: () => { this.view = 'Years' },
                 keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
-              }
+              })
             }, [ this.headerSubtitle ])
           ])
         ]),
@@ -372,10 +377,10 @@ export default Vue.extend({
                 staticClass: 'q-date__header-title-label q-date__header-link',
                 class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
-                on: {
+                on: cache(this, 'vC', {
                   click: () => { this.view = 'Calendar' },
                   keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
-                }
+                })
               }, [ this.headerTitle ])
             ])
           ]),
@@ -389,9 +394,7 @@ export default Vue.extend({
               round: true,
               tabindex: this.computedTabindex
             },
-            on: {
-              click: this.setToday
-            }
+            on: cache(this, 'today', { click: this.setToday })
           }) : null
         ])
       ])
@@ -411,9 +414,7 @@ export default Vue.extend({
               icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
-            on: {
-              click () { goTo(-1) }
-            }
+            on: cache(this, 'go-#' + view, { click () { goTo(-1) } })
           })
         ]),
 
@@ -434,9 +435,7 @@ export default Vue.extend({
                   label,
                   tabindex: this.computedTabindex
                 },
-                on: {
-                  click: () => { this.view = view }
-                }
+                on: cache(this, 'view#' + view, { click: () => { this.view = view } })
               })
             ])
           ])
@@ -454,9 +453,7 @@ export default Vue.extend({
               icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
-            on: {
-              click () { goTo(1) }
-            }
+            on: cache(this, 'go+#' + view, { click () { goTo(1) } })
           })
         ])
       ]
@@ -516,9 +513,7 @@ export default Vue.extend({
                       label: day.i,
                       tabindex: this.computedTabindex
                     },
-                    on: {
-                      click: () => { this.__setDay(day.i) }
-                    }
+                    on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
                   }, day.event !== false ? [
                     h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
@@ -549,9 +544,7 @@ export default Vue.extend({
               textColor: active ? this.computedTextColor : null,
               tabindex: this.computedTabindex
             },
-            on: {
-              click: () => { this.__setMonth(i + 1) }
-            }
+            on: cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
           })
         ])
       })
@@ -586,9 +579,7 @@ export default Vue.extend({
                 textColor: active ? this.computedTextColor : null,
                 tabindex: this.computedTabindex
               },
-              on: {
-                click: () => { this.__setYear(i) }
-              }
+              on: cache(this, 'year#' + i, { click: () => { this.__setYear(i) } })
             })
           ])
         )
@@ -608,9 +599,7 @@ export default Vue.extend({
               icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
-            on: {
-              click: () => { this.startYear -= yearsInterval }
-            }
+            on: cache(this, 'y-#' + yearsInterval, { click: () => { this.startYear -= yearsInterval } })
           })
         ]),
 
@@ -629,9 +618,7 @@ export default Vue.extend({
               icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
-            on: {
-              click: () => { this.startYear += yearsInterval }
-            }
+            on: cache(this, 'y+#' + yearsInterval, { click: () => { this.startYear += yearsInterval } })
           })
         ])
       ])
@@ -651,22 +638,22 @@ export default Vue.extend({
       if (month === 13) {
         month = 1
         this.innerModel.year++
-        yearDir = 'left'
+        yearDir = (this.$q.lang.rtl !== true) ? 'left' : 'right'
       }
       else if (month === 0) {
         month = 12
         this.innerModel.year--
-        yearDir = 'right'
+        yearDir = (this.$q.lang.rtl !== true) ? 'right' : 'left'
       }
 
-      this.monthDirection = offset > 0 ? 'left' : 'right'
+      this.monthDirection = (offset > 0) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
       this.yearDirection = yearDir
       this.innerModel.month = month
       this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
     __goToYear (offset) {
-      this.monthDirection = this.yearDirection = offset > 0 ? 'left' : 'right'
+      this.monthDirection = this.yearDirection = (offset > 0) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
       this.innerModel.year = Number(this.innerModel.year) + offset
       this.emitImmediately === true && this.__updateValue({}, 'year')
     },
@@ -731,7 +718,7 @@ export default Vue.extend({
         const curHash = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(this.innerModel.day)
 
         if (newHash !== curHash) {
-          this.monthDirection = curHash < newHash ? 'left' : 'right'
+          this.monthDirection = (curHash < newHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
           if (date.year !== this.innerModel.year) {
             this.yearDirection = this.monthDirection
           }
@@ -763,12 +750,10 @@ export default Vue.extend({
       ])
     ]
 
-    const slot = this.$scopedSlots.default
-    if (slot !== void 0) {
-      content.push(
-        h('div', { staticClass: 'q-date__actions' }, slot())
-      )
-    }
+    const def = slot(this, 'default')
+    def !== void 0 && content.push(
+      h('div', { staticClass: 'q-date__actions' }, def)
+    )
 
     return h('div', {
       staticClass: 'q-date',

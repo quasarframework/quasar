@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QSlideTransition',
@@ -55,7 +56,7 @@ export default Vue.extend({
         css: false,
         appear: this.appear
       },
-      on: {
+      on: cache(this, 'tr', {
         enter: (el, done) => {
           let pos = 0
           this.el = el
@@ -106,7 +107,7 @@ export default Vue.extend({
             this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
           }, 100)
         }
-      }
+      })
     }, slot(this, 'default'))
   }
 })

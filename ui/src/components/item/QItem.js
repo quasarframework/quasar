@@ -2,8 +2,9 @@ import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
-import slot from '../../utils/slot.js'
+import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 export default Vue.extend({
   name: 'QItem',
@@ -66,15 +67,22 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      const child = [].concat(slot(this, 'default'))
-      this.isClickable === true && child.unshift(h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }))
+      const child = uniqueSlot(this, 'default', [])
+      this.isClickable === true && child.unshift(
+        h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' })
+      )
       return child
     },
 
     __onClick (e) {
       if (this.isClickable === true) {
-        if (e.qKeyEvent !== true && this.$refs.blurTarget !== void 0) {
-          this.$refs.blurTarget.focus()
+        if (this.$refs.blurTarget !== void 0) {
+          if (e.qKeyEvent !== true && document.activeElement === this.$el) {
+            this.$refs.blurTarget.focus()
+          }
+          else if (document.activeElement === this.$refs.blurTarget) {
+            this.$el.focus()
+          }
         }
 
         this.$emit('click', e)
@@ -82,7 +90,7 @@ export default Vue.extend({
     },
 
     __onKeyup (e) {
-      if (e.keyCode === 13 && this.isClickable === true) {
+      if (this.isClickable === true && isKeyCode(e, 13) === true) {
         stopAndPrevent(e)
 
         // for ripple

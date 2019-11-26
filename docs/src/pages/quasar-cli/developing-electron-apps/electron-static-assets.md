@@ -4,6 +4,10 @@ desc: Handling the static assets in a Quasar desktop app.
 ---
 Please read about [Handling Assets](/quasar-cli/cli-documentation/handling-assets) first, which applies to the renderer process. However, when we deal with Electron then Quasar CLI offers a handy `__static` variable in addition. Statics can be consumed by both the main process and renderer process, but since the paths change when building for production (due to packaging), then usage with `fs` and other modules that need a full path can be a little tricky. So `__statics` can come into play.
 
+::: warning
+These features require that you don't disable the [Node Integration](/quasar-cli/developing-electron-apps/node-integration).
+:::
+
 ## On the subject of using __dirname & __filename
 Since the main process is bundled using webpack, the use of `__dirname` and `__filename` will not provide an expected value in production. Referring to the File Tree, you'll notice that in production the electron-main.js is placed inside the `dist/electron-*` folder. Based on this knowledge, use `__dirname` & `__filename` accordingly.
 

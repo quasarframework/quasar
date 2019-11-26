@@ -1,4 +1,3 @@
-import QLinearProgress from '../linear-progress/QLinearProgress.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QSeparator from '../separator/QSeparator.js'
 
@@ -77,23 +76,15 @@ export default {
     },
 
     getGridHeader (h) {
-      return h('div', { staticClass: 'q-table__middle' }, [
-        this.gridHeader === true
-          ? h('table', { staticClass: 'q-table' }, [
+      const child = this.gridHeader === true
+        ? [
+          h('table', { staticClass: 'q-table' }, [
             this.getTableHeader(h)
           ])
-          : (this.loading === true
-            ? h(QLinearProgress, {
-              staticClass: 'q-table__linear-progress',
-              props: {
-                color: this.color,
-                dark: this.isDark,
-                indeterminate: true
-              }
-            })
-            : null
-          )
-      ])
+        ]
+        : (this.loading === true ? this.__getProgress(h) : void 0)
+
+      return h('div', { staticClass: 'q-table__middle' }, child)
     }
   }
 }
