@@ -3,8 +3,7 @@ const
   fs = require('fs'),
   merge = require('webpack-merge'),
   chokidar = require('chokidar'),
-  debounce = require('lodash.debounce'),
-  openInEditor = require('launch-editor-middleware')
+  debounce = require('lodash.debounce')
 
 const
   appPaths = require('./app-paths'),
@@ -558,6 +557,7 @@ class QuasarConfig {
 
     if (this.ctx.dev) {
       const originalBefore = cfg.devServer.before
+      const openInEditor = require('launch-editor-middleware')
 
       cfg.devServer = merge({
         publicPath: cfg.build.publicPath,
@@ -588,7 +588,7 @@ class QuasarConfig {
             }
           }
 
-          app.use('/__open-in-editor', openInEditor())
+          app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
 
           originalBefore && originalBefore(app)
         }
