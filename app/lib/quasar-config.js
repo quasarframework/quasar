@@ -3,7 +3,8 @@ const
   fs = require('fs'),
   merge = require('webpack-merge'),
   chokidar = require('chokidar'),
-  debounce = require('lodash.debounce')
+  debounce = require('lodash.debounce'),
+  openInEditor = require('launch-editor-middleware')
 
 const
   appPaths = require('./app-paths'),
@@ -586,6 +587,8 @@ class QuasarConfig {
               app.use('/', express.static(folder, { maxAge: 0 }))
             }
           }
+
+          app.use('/__open-in-editor', openInEditor())
 
           originalBefore && originalBefore(app)
         }
