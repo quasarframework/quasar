@@ -145,7 +145,7 @@ export default Vue.extend({
     barEvents () {
       return {
         click: e => {
-          const pos = (this.horizontal === true ? e.offsetX : e.offsetY) - this.thumbSize / 2
+          const pos = e[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
           this.__setScroll(pos / this.containerSize * this.scrollSize)
         }
       }
