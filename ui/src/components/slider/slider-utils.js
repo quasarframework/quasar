@@ -115,7 +115,7 @@ export let SliderMixin = {
     },
 
     isReversed () {
-      return (this.reverse === true ? 1 : -1) * (this.$q.lang.rtl === true ? -1 : 1) === 1
+      return this.reverse !== (this.$q.lang.rtl === true)
     },
 
     horizProp () {

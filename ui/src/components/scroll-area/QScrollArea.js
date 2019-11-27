@@ -18,19 +18,12 @@ export default Vue.extend({
   },
 
   props: {
-    barStyle: Object,
-    thumbStyle: {
-      type: Object,
-      default: () => ({})
-    },
-    contentStyle: {
-      type: Object,
-      default: () => ({})
-    },
-    contentActiveStyle: {
-      type: Object,
-      default: () => ({})
-    },
+    barStyle: [ Array, String, Object ],
+
+    thumbStyle: Object,
+    contentStyle: [ Array, String, Object ],
+    contentActiveStyle: [ Array, String, Object ],
+
     delay: {
       type: [String, Number],
       default: 1000
@@ -40,6 +33,7 @@ export default Vue.extend({
       type: Boolean,
       default: null
     },
+
     horizontal: Boolean
   },
 
