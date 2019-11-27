@@ -18,6 +18,7 @@ export default Vue.extend({
   },
 
   props: {
+    barStyle: Object,
     thumbStyle: {
       type: Object,
       default: () => ({})
@@ -125,6 +126,11 @@ export default Vue.extend({
         (this.thumbHidden === true ? ' q-scrollarea__thumb--invisible' : '')
     },
 
+    barClass () {
+      return `q-scrollarea__bar--${this.horizontal === true ? 'h absolute-bottom' : 'v absolute-right'}` +
+        (this.thumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
+    },
+
     desktopEvents () {
       return this.visible === null
         ? cache(this, 'desk', {
@@ -134,6 +140,15 @@ export default Vue.extend({
           mouseleave: () => { this.hover = false }
         })
         : null
+    },
+
+    barEvents () {
+      return {
+        click: e => {
+          const pos = e[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
+          this.__setScroll(pos / this.containerSize * this.scrollSize)
+        }
+      }
     }
   },
 
@@ -291,7 +306,7 @@ export default Vue.extend({
     }, [
       h('div', {
         ref: 'target',
-        staticClass: 'scroll relative-position overflow-hidden fit',
+        staticClass: 'scroll relative-position fit hide-scrollbar',
         on: cache(this, 'wheel', {
           wheel: this.__mouseWheel
         }),
@@ -323,6 +338,13 @@ export default Vue.extend({
 
       h(QResizeObserver, {
         on: cache(this, 'resizeOut', { resize: this.__updateContainer })
+      }),
+
+      h('div', {
+        staticClass: 'q-scrollarea__bar',
+        style: this.barStyle,
+        class: this.barClass,
+        on: this.barEvents
       }),
 
       h('div', {
