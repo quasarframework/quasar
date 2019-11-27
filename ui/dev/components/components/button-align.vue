@@ -107,10 +107,10 @@
 
             <q-btn :type="type" v-bind="prop" :loading="loading" :percentage="percentage" color="primary" @click="startProgress">
               Btn with progress
-              <span slot="loading" class="row items-center">
+              <div slot="loading" class="row items-center">
                 <q-spinner class="on-left" />
                 Computing...
-              </span>
+              </div>
             </q-btn>
 
             <q-btn :type="type" v-bind="prop" round :loading="loading" :percentage="percentage" color="primary" @click="startProgress" icon="wifi" />
