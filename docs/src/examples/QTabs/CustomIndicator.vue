@@ -35,7 +35,7 @@
       <q-tabs
         v-model="tab"
         inline-label
-        top-indicator
+        switch-indicator
         indicator-color="primary"
         class="bg-lime shadow-2"
       >

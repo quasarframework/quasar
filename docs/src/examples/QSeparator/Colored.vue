@@ -4,7 +4,7 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/avatar6.jpg">
+            <img src="https://cdn.quasar.dev/img/avatar6.jpg">
           </q-avatar>
         </q-item-section>
         <q-item-section>Jane</q-item-section>
@@ -15,7 +15,7 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/avatar3.jpg">
+            <img src="https://cdn.quasar.dev/img/avatar3.jpg">
           </q-avatar>
         </q-item-section>
         <q-item-section>Lily</q-item-section>
@@ -24,7 +24,7 @@
       <q-item>
         <q-item-section avatar>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/avatar5.jpg">
+            <img src="https://cdn.quasar.dev/img/avatar5.jpg">
           </q-avatar>
         </q-item-section>
         <q-item-section>Mary</q-item-section>

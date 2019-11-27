@@ -9,6 +9,8 @@
 
       <q-select standout v-model="model" :options="options" label="Standout" />
 
+      <q-select standout="bg-teal text-white" v-model="model" :options="options" label="Custom standout" />
+
       <q-select borderless v-model="model" :options="options" label="Borderless" />
 
       <q-select rounded filled v-model="model" :options="options" label="Rounded filled" />

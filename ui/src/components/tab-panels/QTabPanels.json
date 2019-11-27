@@ -1,0 +1,17 @@
+{
+  "mixins": [ "mixins/panel-parent" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/tab-panels"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

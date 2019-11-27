@@ -1,0 +1,133 @@
+{
+  "mixins": [ "mixins/ripple" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/chip"
+  },
+
+  "props": {
+    "dense": {
+      "extends": "dense"
+    },
+
+    "size": {
+      "type": "String",
+      "desc": "QChip size name or a CSS unit including unit name",
+      "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
+      "category": "style",
+      "addedIn": "v1.2.2"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "icon-right": {
+      "extends": "icon"
+    },
+
+    "label": {
+      "type": [ "String", "Number" ],
+      "desc": "Chip's content as string; overrides default slot if specified",
+      "examples": [ "John Doe", "Book" ],
+      "category": "content"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "value": {
+      "type": "Boolean",
+      "desc": "Model of the component determining if QChip should be rendered or not",
+      "default": true,
+      "category": "model"
+    },
+
+    "selected": {
+      "type": "Boolean",
+      "sync": true,
+      "desc": "Model for QChip if it's selected or not",
+      "category": "model"
+    },
+
+    "square": {
+      "extends": "square",
+      "desc": "Sets a low value for border-radius instead of the default one, making it close to a square"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Display using the 'outline' design",
+      "category": "style"
+    },
+
+    "clickable": {
+      "type": "Boolean",
+      "desc": "Is QChip clickable? If it's the case, then it will add hover effects and emit 'click' events",
+      "category": "state"
+    },
+
+    "removable": {
+      "type": "Boolean",
+      "desc": "If set, then it displays a 'remove' icon that when clicked the QChip emits 'remove' event",
+      "category": "state"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where QChip content goes, if not using 'label' property"
+    }
+  },
+
+  "events": {
+    "click": {
+      "desc": "Emitted on QChip click if 'clickable' property is set",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "update:selected": {
+      "desc": "Used by Vue on 'selected.sync' prop for updating its value",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "Selected state"
+        }
+      }
+    },
+
+    "remove": {
+      "desc": "Works along with 'value' and 'removable' prop. Emitted when toggling rendering state of the QChip",
+      "params": {
+        "state": {
+          "type": "Boolean",
+          "desc": "Render state (render or not)"
+        }
+      }
+    }
+  }
+}

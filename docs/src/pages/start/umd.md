@@ -1,5 +1,6 @@
 ---
 title: Quasar UMD - CDN install
+desc: How to use the Unified Module Definition form of Quasar.
 ---
 If you want to embed Quasar into your existing website project, integrating it in a progressive manner, then go for the UMD/Standalone (Unified Module Definition) version.
 
@@ -26,41 +27,41 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
 
   <!--
     Finally, add Quasar's CSS:
-    Replace version below (1.0.0-beta.0) with your desired version of Quasar.
+    Replace version below (1.0.0) with your desired version of Quasar.
     Add ".rtl" for the RTL support (example: quasar.rtl.min.css).
   -->
-  <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.min.css" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 
-  <!-- Do you want IE support? Replace "1.0.0-beta.0" with your desired Quasar version -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.ie.polyfills.umd.min.js"></script>
+  <!-- Do you want IE support? Replace "1.0.0" with your desired Quasar version -->
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.ie.polyfills.umd.min.js"></script>
 
   <!-- You need Vue too -->
   <script src="https://cdn.jsdelivr.net/npm/vue@latest/dist/vue.min.js"></script>
 
   <!--
     Add Quasar's JS:
-    Replace version below (1.0.0-beta.0) with your desired version of Quasar.
+    Replace version below (1.0.0) with your desired version of Quasar.
   -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.umd.min.js"></script>
 
   <!--
     If you want to add a Quasar Language pack (other than "en-us").
     Notice "pt-br" in "i18n.pt-br.umd.min.js" for Brazilian Portuguese language pack.
-    Replace version below (1.0.0-beta.0) with your desired version of Quasar.
+    Replace version below (1.0.0) with your desired version of Quasar.
     Also check final <script> tag below to enable the language
-    Language pack list: https://github.com/quasarframework/quasar/tree/dev/quasar/lang
+    Language pack list: https://github.com/quasarframework/quasar/tree/dev/ui/lang
   -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/lang/pt-br.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/lang/pt-br.umd.min.js"></script>
 
   <!--
     If you want to make Quasar components (not your own) use a specific set of icons (unless you're using Material Icons already).
-    Replace version below (1.0.0-beta.0) with your desired version of Quasar.
-    Icon sets list: https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set
+    Replace version below (1.0.0) with your desired version of Quasar.
+    Icon sets list: https://github.com/quasarframework/quasar/tree/dev/ui/icon-set
   -->
-  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/icon-set/fontawesome-v5.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/icon-set/fontawesome-v5.umd.min.js"></script>
 
   <script>
     // if using a Quasar language pack other than the default "en-us";
@@ -70,7 +71,7 @@ UMD is all about adding Quasar style and javascript tags. This is a full list. C
     // if you want Quasar components to use a specific icon library
     // other than the default Material Icons;
     // requires the icon set style tag from above
-    Quasar.icons.set(Quasar.iconSet.fontawesomeV5) // fontawesomeV5 is just an example
+    Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5) // fontawesomeV5 is just an example
 
     /*
       Example kicking off the UI.
@@ -106,15 +107,15 @@ And you're done. Inspect `index.html` file that was created in the new folder an
 
 Notice that as opposed to the Main Starter Kit, you don't need to import anything. All components, directives and Quasar plugins are ready to be used out of the box.
 
-However, the disadvantage is that you won't benefit from the top notch development experience provided by Quasar CLI -- which allows you to simultaneously develop and build SPA, PWA, SSR, Mobile and Electron Apps.
+However, the disadvantage is that you won't benefit from the top-notch development experience provided by Quasar CLI -- which allows you to simultaneously develop and build SPA, PWA, SSR, Mobile and Electron Apps.
 
 ## JsFiddle / Codepen
-You can fork and use these links for reporting issues on Github too:
+You can fork and use these links for reporting issues on GitHub too:
 
 | Supplier | URL |
 | --- | --- |
-| jsFiddle | [https://jsfiddle.net/rstoenescu/rmaodk0f/](https://jsfiddle.net/rstoenescu/rmaodk0f/) |
-| Codepen | [https://codepen.io/rstoenescu/pen/VgQbdx](https://codepen.io/rstoenescu/pen/VgQbdx) |
+| jsFiddle | [https://jsfiddle.quasar.dev](https://jsfiddle.quasar.dev) |
+| Codepen | [https://codepen.quasar.dev](https://codepen.quasar.dev) |
 
 These links (obviously) use the Quasar UMD version.
 
@@ -203,7 +204,7 @@ Quasar.plugins.bottomSheet.create({...})
 An example.
 
 ```js
-Quasar.utils.openURL('https://quasar-framework.org')
+Quasar.utils.openURL('https://quasar.dev')
 ```
 
 ### Changing Quasar Icon Set
@@ -213,7 +214,7 @@ Assuming you have already included the CDN link to your favorite Quasar Icon Set
 Quasar.iconSet.set(Quasar.iconSet.fontawesomeV5)
 ```
 
-The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/icon-set).
+The list of available [Quasar Icon Sets](/options/quasar-icon-sets) can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/icon-set).
 
 ### Changing Quasar Language Pack
 Assuming you have already included the CDN link to your desired Quasar I18n Language (unless you want "en-us" language pack which is used by default), you can then tell Quasar to use it:
@@ -227,4 +228,4 @@ Quasar.lang.set(Quasar.lang.de)
 Quasar.lang.set(Quasar.lang.ptBr)
 ```
 
-The list of available languages can be found on [Github](https://github.com/quasarframework/quasar/tree/dev/quasar/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!
+The list of available languages can be found on [GitHub](https://github.com/quasarframework/quasar/tree/dev/ui/lang). **If your desired language pack is not available yet, you can help by providing a PR.** We welcome any languages!

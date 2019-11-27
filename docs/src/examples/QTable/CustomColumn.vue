@@ -22,7 +22,8 @@ export default {
           format: val => `${val}`,
           sortable: true,
           classes: 'bg-grey-2 ellipsis',
-          style: 'max-width: 100px'
+          style: 'max-width: 100px',
+          headerClasses: 'bg-primary text-white'
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
         { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },

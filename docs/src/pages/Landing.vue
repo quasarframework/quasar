@@ -1,59 +1,66 @@
 <template lang="pug">
 .landing.text-white
+  .landing__space.fixed
+
   section
-    .landing__hero
+    .landing__hero.flex.flex-center
+      .relative-position
+        .text-h1
+          .text-weight-bold Quasar
+          .landing__hero-row.row.no-wrap.items-baseline
+            span Framew
+            img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
+            span rk
+        .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+        .q-pt-md.q-pl-sm
+          .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center
+            q-btn(color="white", text-color="primary", no-caps, to="/start", label="Get Started")
+            q-btn(color="white", text-color="primary", no-caps, to="/introduction-to-quasar", label="Why Quasar?")
+            q-btn(color="white", text-color="primary", no-caps, to="/video-tutorials", label="Video Tutorials", icon-right="new_releases")
+            .text-body2 v{{ $q.version }}
+        .landing__arrow-down.row.justify-center.absolute
+          q-icon.landing__arrow-down-icon.q-mt-xl(name="keyboard_arrow_down" size="50px")
 
-      div(style="height: 28vh")
-      .landing__hero-content.row.justify-center.q-gutter-xl
-
-        .row
-          img.landing__logo(src="https://cdn.quasar-framework.org/logo/svg/quasar-logo.svg")
-
-        .flex.justify-end
-          .q-gutter-sm
-            .text-h1
-              div.text-weight-bold Quasar
-              div Framework
-
-            .text-subtitle1.text-italic.q-pl-sm High performance, <strong>Material Design 2</strong>, full front end stack with <strong>Vuejs</strong>
-            .q-pt-md.q-pl-sm
-              .landing__hero-btns.q-gutter-md.row.items-center
-                q-btn(push, color="white", text-color="primary", to="/introduction-to-quasar", label="About")
-                q-btn(push, color="white", text-color="primary", to="/start", label="Get started")
-                .text-body2 v{{ $q.version }}
-
-      .landing__arrow.absolute-bottom.text-center
-        q-icon(name="expand_more").text-h2.text-white
-
-  section.padding.landing__front.text-center
+  section.landing__front.text-center
     div
-      div.q-mb-lg Quasar (pronounced /ˈkweɪ.zɑɹ/) is an MIT licensed open-source Vue.js based framework, which allows you as a web developer to quickly create responsive++ websites/apps in many flavours:
+      .row.justify-center
+        introduction-video.landing__video
+
       .q-gutter-md.row.justify-center
+        q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="User Interface Components", to="/vue-components")
         q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
         q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
         q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
-        q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps/introduction")
-        q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
-
-      div.q-mt-lg Write code once and simultaneously deploy it as a website, a Mobile App and/or an Electron App. Yes, <strong>same codebase for all</strong>, helping you develop an app in record time by using a state of the art CLI and backed by well-written, very fast Quasar web components.
+        q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps")
+        q-btn(color="indigo", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
-        .feature-item.q-mx-md
-          img.doc-img(src="https://cdn.quasar-framework.org/img/responsive.png")
+        img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
       .col-12.text-center
         .q-gutter-lg
           q-icon(name="fab fa-apple")
           q-icon(name="fab fa-windows")
-          q-icon(name="fab fa-android")
           q-icon(name="fab fa-linux")
+          q-icon(name="fab fa-android")
+          q-icon(name="fab fa-chrome")
+          q-icon(name="fab fa-firefox")
+          q-icon(name="fab fa-edge")
+          q-icon(name="fab fa-safari")
       .col-12.text-center
         h4 All Platforms in One Go
-        p One source code for all platforms simultaneously: responsive desktop/mobile websites (SPA or SSR), PWAs (Progressive Web Apps), mobile apps (that look native) and Desktop apps (through Electron).
+        p One source code for all platforms simultaneously through Quasar CLI with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
 
   section.padding.bg-primary.landing__swirl-bg
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
+
+      .col-xs-12.col-sm-5
+        .feature-item
+          q-icon(name="gps_fixed")
+          h6 Quasar's goal
+          p What we want to achieve with Quasar is to raise the bar for web development as a whole. Make it go forward, evolve. Change minds. Point out when there’s a better alternative to current establishment. You deserve a stellar development experience.
+
       .col-xs-12.col-sm-5
         .feature-item
           q-icon(name="fab fa-google")
@@ -62,32 +69,31 @@
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-users")
+          q-icon(name="group_add")
           h6 Big community
           p We have grown into a big community. You can get help or advise others through Quasar's Discord chat server or the Quasar Forum. You're not alone.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-bolt")
+          q-icon(name="flash_on")
           h6 Top Class, Fast Web Components
           p There's a component for almost every web development need out there. Each of these components are carefully crafted to offer the best possible experience to your users. Quasar is designed with performance and responsiveness in mind – so the overhead of using Quasar is barely noticeable. This is an area we take special pride in.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-cogs")
+          q-icon(name="settings_applications")
           h6 Best practices integrated by default
           p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, sourcemapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-align-right")
+          q-icon(name="format_align_right")
           h6 Full RTL support
           p RTL (right to left) support for both Quasar components and developer's own code. Developer-written website/app CSS code gets automatically converted to RTL, if an RTL language pack is used.
 
       .col-xs-12.col-sm-5
         .feature-item
           .q-gutter-sm
-            q-icon(name="fas fa-browser")
             q-icon(name="fab fa-chrome")
             q-icon(name="fab fa-firefox")
             q-icon(name="fab fa-safari")
@@ -97,116 +103,98 @@
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-language")
+          q-icon(name="language")
+          q-icon(name="translate")
           h6 Internationalization and Localization
           p There's more than 40 Quasar language packs available. If your desired language pack is missing it takes just 5 minutes to add it.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-graduation-cap")
+          q-icon(name="collections_bookmark")
           h6 Great documentation
           p It's worth mentioning the significant amount of time that is spent on writing great, bloat-free, focused, complete documentation pages so you as a developer can quickly pick up Quasar.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-sign-in-alt")
-          h6 Progressively migrate your existing project
-          p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and JS HTML tag into an existing project and you're ready to use it. No build step is required.
+          q-icon(name="security")
+          h6 We care deeply about Security
+          p We are always paranoid about the security of Quasar and the security of apps built with Quasar. We are on a constant lookout to inform you about any security threats that you might need to know about. We have Security guidelines and we are even offering our security expertise through the Quasar Audit program.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-star")
+          q-icon(name="exit_to_app")
+          h6 Progressively migrate your existing project
+          p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and a JS HTML tags into an existing project and you're ready to use it. No build step is required.
+
+      .col-xs-12.col-sm-5
+        .feature-item
+          q-icon(name="star")
           h6 Unparalleled developer experience through Quasar CLI
           p Quasar CLI takes care of all the quirks involved in developing an SPA, PWA, SSR, Mobile and Electron App.
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fas fa-chart-line")
+          q-icon(name="important_devices")
           h6 Focus on your App
           p Your full focus is on your App's content rather than all other boilerplating stuff around it (build system, layout, and much more). You'll be spending time only on what matters, which is your product. Quasar greatly increases your productivity.
 
   section.padding.bg-white.text-grey-10.text-center
     div
-      .text-h6.text-primary.q-mb-xl Proudly sponsored by
-      .q-gutter-md.flex.flex-center
-        a
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/think-health-data.png')
-        a(href='https://truelogic.com', target='_blank')
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/truelogic.png')
-        a(href='https://www.tayloredtechnology.net', target='_blank')
-          img(width='200px', src='https://cdn.quasar-framework.org/sponsors/taylored-technology-big.jpeg')
-        a(href='http://campuscloudservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/campus-cloud-services.png')
-        a(href='https://www.jugglestreet.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/juggle-street.png')
-        a(href='http://comcomservices.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/com-com-services.png')
-        a(href='http://www.kalisio.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/kalisio.png')
-        a(href='http://platformpurple.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/platform-purple.png')
-        a(href='http://www.bgasoft.com', target='_blank')
-          img(width='222px', src='https://cdn.quasar-framework.org/sponsors/bgasoft.png')
-        a(href='https://www.letsbutterfly.com/', target='_blank')
-          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/letsbutterfly.png')
+      .text-h6.text-primary.q-mb-xl Silver, Gold and Platinum Sponsors:
 
-      .text-h6.text-primary.q-mt-xl.q-mb-lg.q-pt-md Partners
-      .q-gutter-md.flex.flex-center
+      sponsor-list.justify-center
 
-        a(href='https://utopian.io/', target='_blank')
-          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/utopian.png')
-
-        a(href='https://wallabyjs.com/', target='_blank')
-          img(width='110px', src='https://cdn.quasar-framework.org/sponsors/wallaby.png')
-
-        a(href='https://snyk.io/', target='_blank')
-          img(width='170px', src='https://cdn.quasar-framework.org/sponsors/snyk.png')
-
-  section.landing__footer
+  section.landing__footer.flex.flex-center
     div.text-center
-      div.footer__icons.row.flex-center
-        a(href="https://github.com/quasarframework/quasar", target="_blank")
+      div.landing__footer-icons.row.flex-center.q-gutter-md
+        a(href="https://github.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-github")
 
-        a(href="https://twitter.com/quasarframework", target="_blank")
-          q-icon(name="fab fa-twitter")
-
-        a(href="https://medium.com/quasar-framework", target="_blank")
+        a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
           q-icon(name="fab fa-medium")
 
-        a(href="https://discord.gg/5TDhbDg", target="_blank")
-          q-icon(name="fab fa-discord")
+        a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="chat")
 
-        a(href="https://forum.quasar-framework.org/", target="_blank")
-          q-icon(name="fas fa-comments")
+        a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+          q-icon(name="forum")
 
-      div.q-mt-md
-        | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
+        a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="fab fa-twitter")
+
+        a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="fab fa-facebook")
+
+        a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
+          q-icon(name="fas fa-medkit")
+
+      div.q-mt-lg
+        | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
 
       div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
 
-  section.fixed-top.landing__toolbar.text-white
-    q-toolbar.q-pa-none
-      q-btn.quasar-logo.text-bold(flat, no-caps, no-wrap, to="/start")
-        q-avatar
-          img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
-        q-toolbar-title(shrink) Docs
-
-      q-space
-
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.com/quasarframework/quasar", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.com/quasarframework", target="_blank")
-      q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://medium.com/quasar-framework", target="_blank")
-      q-btn.q-mr-xs(type="a", flat, icon="fab fa-discord", href="https://discord.gg/5TDhbDg", target="_blank")
-      q-btn.gt-xs(type="a", flat, icon="fas fa-comments", href="https://forum.quasar-framework.org/", target="_blank")
+  landing-top-bar
 </template>
 
 <script>
+import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
+import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
+import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
+import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
+
 export default {
   name: 'Landing',
 
+  components: {
+    Sponsor,
+    SponsorList,
+    LandingTopBar,
+    IntroductionVideo
+  },
+
   meta: {
-    title: 'Quasar Framework'
+    title: 'Quasar Framework',
+    titleTemplate: ''
   },
 
   created () {
@@ -215,117 +203,149 @@ export default {
 }
 </script>
 
-<style lang="stylus">
-@import '~quasar-variables'
-
+<style lang="sass">
 .landing
-  background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') no-repeat center center fixed
-  background-size cover
+
+  background: #111
 
   > section
-    display flex
-    justify-content center
-    padding 0 16px
+    display: flex
+    justify-content: center
+    padding: 0 16px
 
     &.padding
-      padding 180px 16px
+      padding: 180px 16px
 
     > div
-      position relative
-      max-width 1040px
-      width 100%
-
-  &__toolbar
-    background linear-gradient(to bottom, #000, transparent)
-    padding 0 !important
-
-    .q-btn
-      border-radius 0 0 5px 5px
-      align-self stretch
+      position: relative
+      max-width: 1040px
+      width: 100%
 
   &__hero
-    min-height 100vh
+    min-height: 100vh
 
-  &__arrow
-    bottom 8px
-    opacity .4
+    .text-h1
+      margin-left: 2px
+      margin-bottom: 28px
 
   &__front
-    background linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6) 15%)
+    padding: 130px 16px 100px !important
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.9) 15%)
+    > div
+      max-width: 700px !important
+
+  &__video
+    width: 530px
+    max-width: 100%
+    margin-bottom: 72px
 
   &__logo
-    width 150px
-    height 150px
-    margin-top 21px
-    animation logo-rotate 240s linear infinite
+    width: 72px
+    height: 72px
+    margin: 0 4px
+    animation: logo-rotate 80s linear infinite
+
+  &__space
+    width: 400vw
+    height: 400vh
+    top: 50%
+    left: 50%
+    margin-top: -200vh
+    margin-left: -200vw
+    animation: logo-rotate 200s linear infinite
+    background-size: 240px
+    backface-visibility: visible
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8yIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDI0MCAyNDAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDI0MCAyNDAiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxyZWN0IHg9IjEwNiIgeT0iOTAiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48cmVjdCB4PSI3NCIgeT0iNjMiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIyMyIgeT0iNjYiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSI1MCIgeT0iMTEwIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iNjMiIHk9IjEyOCIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjxyZWN0IHg9IjQ1IiB5PSIxNDkiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSI5MiIgeT0iMTUxIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iNTgiIHk9IjgiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIxNDciIHk9IjMzIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMiIgaGVpZ2h0PSIyIi8+PHJlY3QgeD0iOTEiIHk9IjQzIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iMTY5IiB5PSIyOSIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjxyZWN0IHg9IjE4MiIgeT0iMTkiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIxNjEiIHk9IjU5IiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iMTM4IiB5PSI5NSIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjxyZWN0IHg9IjE5OSIgeT0iNzEiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIzIiBoZWlnaHQ9IjMiLz48cmVjdCB4PSIyMTMiIHk9IjE1MyIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjIiIGhlaWdodD0iMiIvPjxyZWN0IHg9IjEyOCIgeT0iMTYzIiBmaWxsPSIjRkZGRkZGIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIi8+PHJlY3QgeD0iMjA1IiB5PSIxNzQiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIxNTIiIHk9IjIwMCIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjxyZWN0IHg9IjUyIiB5PSIyMTEiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiLz48cmVjdCB5PSIxOTEiIGZpbGw9IiNGRkZGRkYiIHdpZHRoPSIxIiBoZWlnaHQ9IjEiLz48cmVjdCB4PSIxMTAiIHk9IjE4NCIgZmlsbD0iI0ZGRkZGRiIgd2lkdGg9IjEiIGhlaWdodD0iMSIvPjwvc3ZnPg==)
+
+  &__arrow-down
+    top: 100%
+    left: 50%
+    transform: translateX(-50%)
+  &__arrow-down-icon
+    animation: landing-bounce 2s infinite
 
   &__features
     .q-icon
-      font-size 64px
+      font-size: 64px
 
     h4, h6
-      margin 26px 0
+      margin: 26px 0
+
+    h6
+      margin-top: 18px
 
     p
-      opacity .6
-      font-size 16px
+      opacity: .6
+      font-size: 16px
 
   &__footer
-    background linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 65%, #000)
-    padding-top 72px !important
-    padding-bottom 72px !important
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 65%, #000)
+    padding-top: 72px !important
+    padding-bottom: 72px !important
 
     .doc-link
-      color #fff
+      color: #fff
 
       &:hover
-        opacity .8
+        opacity: .8
 
   &__swirl-bg
-    background-repeat no-repeat !important
-    background-position top center
-    background-size contain !important
-    background-image url(https://cdn.quasar-framework.org/img/landing_first_section.png) !important
+    background-repeat: no-repeat !important
+    background-position: top center
+    background-size: contain !important
+    background-image: url(https://cdn.quasar.dev/img/landing_first_section.png) !important
+
+  &__footer-icons
+    font-size: 28px
+
+    a
+      text-decoration: none
+      outline: 0
+      color: white
+      transition: color .28s
+
+      &:hover
+        color: $grey-4
 
 @keyframes logo-rotate
   100%
-    transform rotate(-360deg)
+    transform: rotate(-360deg)
+
+@keyframes landing-bounce
+  0%, 20%, 50%, 80%, 100%
+    transform: translate3d(0, 0, 0)
+  40%
+    transform: translate3d(0, -30px, 0)
+  60%
+    transform: translate3d(0, -15px, 0)
 
 @media (max-width: 718px)
   .landing
+
     &__hero
-      text-align center
+      text-align: center
+
+      .landing__hero-row
+        justify-content: center
 
       .text-h1
-        font-size 3rem
-        line-height 3.05rem
-        margin-bottom 24px
+        font-size: 4rem
+        line-height: 4.05rem
 
     > section.padding
-      padding-top 90px
-      padding-bottom 90px
+      padding-top: 90px
+      padding-bottom: 90px
 
     .feature-item
-      text-align center
-
-    &__hero-content
-      padding-bottom 180px
+      text-align: center
 
     &__hero-btns
-      justify-content center
+      justify-content: center
 
-body.mobile .landing
-  background unset
+    &__logo
+      width: 46px
+      height: 46px
 
-  &:before
-    content ''
-    position fixed /* stretch a fixed position to the whole screen */
-    top 0
-    height 100vh /* fix for mobile browser address bar appearing disappearing */
-    left 0
-    right 0
-    bottom 0
-    z-index -1 /* needed to keep in the background */
-    background #000 url('https://cdn.quasar-framework.org/img/quasar-cover.jpg') center center
-    background-size cover
+    &__swirl-bg
+      background-image: none !important
 </style>

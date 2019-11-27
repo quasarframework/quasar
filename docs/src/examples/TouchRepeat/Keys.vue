@@ -34,17 +34,18 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .custom-area
-  width 80%
-  height 200px
-  border-radius 3px
+  width: 96%
+  height: 250px
+  border-radius: 3px
+  padding: 8px
 
   &:focus
-    outline 1px solid #ccc
-    outline-offset 3px
+    outline: 1px solid #ccc
+    outline-offset: 3px
 
 .custom-info pre
-  width 250px
-  font-size 12px
+  width: 190px
+  font-size: 12px
 </style>

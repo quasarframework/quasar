@@ -1,22 +1,24 @@
 const warn = require('./logger')('app:ensure-argv', 'red')
 
 module.exports = function (argv, cmd) {
-  if (cmd === 'mode') {
-    if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.add)) {
-      warn(`⚠️  Unknown mode "${ argv.add }" to add`)
-      warn()
-      process.exit(1)
-    }
-    if (![undefined, 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.remove)) {
-      warn(`⚠️  Unknown mode "${ argv.remove }" to remove`)
-      warn()
-      process.exit(1)
-    }
+  if (argv.mode) {
+    if (argv.mode === 'ios') {
+      argv.m = argv.mode = 'cordova'
+      argv.T = argv.target = 'ios'
 
-    return
+      console.log()
+      console.log(` Converting to long form: -m cordova -T ios`)
+    }
+    else if (argv.mode === 'android') {
+      argv.m = argv.mode = 'cordova'
+      argv.T = argv.target = 'android'
+
+      console.log()
+      console.log(` Converting to long form: -m cordova -T android`)
+    }
   }
 
-  if (!['spa', 'pwa', 'cordova', 'electron', 'ssr'].includes(argv.mode)) {
+  if (!['spa', 'pwa', 'cordova', 'capacitor', 'electron', 'ssr'].includes(argv.mode)) {
     warn(`⚠️  Unknown mode "${ argv.mode }"`)
     warn()
     process.exit(1)
@@ -26,8 +28,22 @@ module.exports = function (argv, cmd) {
     return
   }
 
+  if (argv.mode === 'capacitor') {
+    const targets = ['android', 'ios']
+    if (!argv.target) {
+      warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
+      warn()
+      process.exit(1)
+    }
+    if (!targets.includes(argv.target)) {
+      warn(`⚠️  Unknown target "${ argv.target }" for Capacitor`)
+      warn()
+      process.exit(1)
+    }
+  }
+
   if (argv.mode === 'cordova') {
-    const targets = ['android', 'ios', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
+    const targets = ['android', 'ios', 'electron', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
     if (!argv.target) {
       warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
       warn()

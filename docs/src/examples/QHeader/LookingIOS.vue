@@ -5,7 +5,7 @@
         <q-toolbar>
           <q-toolbar-title class="text-center">
             <q-avatar>
-              <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+              <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
             </q-avatar>
             Quasar Framework
           </q-toolbar-title>

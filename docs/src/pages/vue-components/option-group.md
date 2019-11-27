@@ -1,5 +1,6 @@
 ---
 title: Option Group
+desc: The QOptionGroup Vue component allows you better control for grouping binary form input components like checkboxes, radios or toggles.
 related:
   - /vue-components/radio
   - /vue-components/checkbox
@@ -13,27 +14,38 @@ The QOptionGroup component is a helper component that allows you better control 
 <doc-installation components="QOptionGroup" />
 
 ## Usage
+
+### Standard
+
 <doc-example title="Standard" file="QOptionGroup/Standard" />
+
+### With QCheckbox or QToggle
 
 <doc-example title="With checkboxes" file="QOptionGroup/Checkbox" />
 
 ::: warning
-The model for checkboxes must be an array
+The model for checkboxes/toggles must be an array.
 :::
 
 <doc-example title="With toggles" file="QOptionGroup/Toggle" />
 
-::: warning
-The model for toggles must be an array
-:::
+### With labels on left side
 
 <doc-example title="With option labels on the left side" file="QOptionGroup/Label" />
 
+### Inline
+
 <doc-example title="Inline" file="QOptionGroup/Inline" />
+
+### Dense
 
 <doc-example title="Dense and inline" file="QOptionGroup/DenseInline" />
 
+### Disable
+
 <doc-example title="Disabled" file="QOptionGroup/Disable" />
+
+### Dark
 
 <doc-example title="On a dark background" file="QOptionGroup/Dark" dark />
 

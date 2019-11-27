@@ -6,7 +6,7 @@ function makeTag (tagName, attributes) {
   }
 }
 
-function fillPwaTags (data, { pwa: { manifest }}) {
+function fillPwaTags (data, { pwa: { manifest, metaVariables }}) {
   data.head.push(
     // Add to home screen for Android and modern mobile browsers
     makeTag('link', {
@@ -21,11 +21,11 @@ function fillPwaTags (data, { pwa: { manifest }}) {
     // Add to home screen for Safari on iOS
     makeTag('meta', {
       name: 'apple-mobile-web-app-capable',
-      content: 'yes'
+      content: metaVariables.appleMobileWebAppCapable
     }),
     makeTag('meta', {
       name: 'apple-mobile-web-app-status-bar-style',
-      content: manifest.background_color
+      content: metaVariables.appleMobileWebAppStatusBarStyle
     }),
     makeTag('meta', {
       name: 'apple-mobile-web-app-title',
@@ -33,22 +33,37 @@ function fillPwaTags (data, { pwa: { manifest }}) {
     }),
     makeTag('link', {
       rel: 'apple-touch-icon',
-      href: 'statics/icons/apple-icon-152x152.png'
+      href: metaVariables.appleTouchIcon120
     }),
-    /* makeTag('link', {
+    makeTag('link', {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      href: metaVariables.appleTouchIcon180
+    }),
+    makeTag('link', {
+      rel: 'apple-touch-icon',
+      sizes: '152x152',
+      href: metaVariables.appleTouchIcon152
+    }),
+    makeTag('link', {
+      rel: 'apple-touch-icon',
+      sizes: '167x167',
+      href: metaVariables.appleTouchIcon167
+    }),
+    makeTag('link', {
       rel: 'mask-icon',
-      href: 'statics/icons/safari-pinned-tab.svg',
+      href: metaVariables.appleSafariPinnedTab,
       color: manifest.theme_color
-    }), */
+    }),
 
     // Add to home screen for Windows
     makeTag('meta', {
       name: 'msapplication-TileImage',
-      content: 'statics/icons/ms-icon-144x144.png'
+      content: metaVariables.msapplicationTileImage
     }),
     makeTag('meta', {
       name: 'msapplication-TileColor',
-      content: manifest.background_color
+      content: metaVariables.msapplicationTileColor
     })
   )
 }

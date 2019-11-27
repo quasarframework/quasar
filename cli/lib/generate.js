@@ -139,7 +139,7 @@ function renderTemplateFiles (skipInterpolation) {
           err.message = `[${file}] ${err.message}`
           return next(err)
         }
-        files[file].contents = new Buffer(res)
+        files[file].contents = Buffer.from(res)
         next()
       })
     }, done)

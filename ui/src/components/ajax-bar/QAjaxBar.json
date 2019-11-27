@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/ajax-bar"
+  },
+
+  "props": {
+    "position": {
+      "type": "String",
+      "desc": "Position within window of where QAjaxBar should be displayed",
+      "default": "top",
+      "values": [ "top", "right", "bottom", "left" ],
+      "examples": [ "bottom" ],
+      "category": "content"
+    },
+
+    "size": {
+      "extends": "size",
+      "default": "2px"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "skip-hijack": {
+      "type": "Boolean",
+      "desc": "Skip Ajax hijacking (not a reactive prop)",
+      "category": "behavior"
+    },
+
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Reverse direction of progress",
+      "category": "behavior"
+    }
+  },
+
+  "events": {
+    "start": {
+      "desc": "Emitted when bar is triggered to appear"
+    },
+
+    "stop": {
+      "desc": "Emitted when bar has finished its job"
+    }
+  },
+
+  "methods": {
+    "start": {
+      "desc": "Notify bar you are waiting for a new process to finish",
+      "params": {
+        "speed": {
+          "type": "Number",
+          "default": 300,
+          "desc": "Delay (in milliseconds) between progress auto-increments; If delay is 0 then it disables auto-incrementing",
+          "examples": [ 400, 0 ]
+        }
+      }
+    },
+
+    "increment": {
+      "desc": "Manually trigger a bar progress increment",
+      "params": {
+        "amount": {
+          "type": "Number",
+          "desc": "Amount (0 < x <= 100) to increment with",
+          "examples": [ 1 ]
+        }
+      }
+    },
+
+    "stop": {
+      "desc": "Notify bar that one process you were waiting has finished"
+    }
+  }
+}

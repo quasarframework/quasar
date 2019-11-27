@@ -1,5 +1,6 @@
 ---
 title: Formatter Utils
+desc: A set of Quasar methods for formatting values. Capitalizing, padding, normalizing and more. 
 ---
 
 ### Helping Tree-Shake
@@ -25,6 +26,10 @@ import { format } from 'quasar'
 console.log( format.capitalize('some text') )
 console.log( format.humanStorageSize(13087) )
 ```
+
+::: tip
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+:::
 
 ## Capitalize
 ``` js

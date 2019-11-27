@@ -1,0 +1,34 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/separator"
+  },
+
+  "props": {
+    "dark": {
+      "extends": "dark"
+    },
+
+    "spaced": {
+      "type": "Boolean",
+      "desc": "If set to true, the top and bottom margins will be set to 8px",
+      "category": "content"
+    },
+
+    "inset": {
+      "type": [ "Boolean", "String" ],
+      "desc": "if set to true, the left and right margins will be set to 16px. If set to item, the left and right margins will be set to 72px. If set to item-thumbnail, the left margin is set to 116px and right margin is set to 0px",
+      "examples": [ "item", "item-thumbnail" ],
+      "category": "content"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "If set to true, the separator will be vertical.",
+      "category": "content"
+    },
+
+    "color": {
+      "extends": "color"
+    }
+  }
+}

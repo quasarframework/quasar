@@ -1,0 +1,113 @@
+{
+  "mixins": [ "mixins/model-toggle" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/floating-action-button"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "value": {
+      "desc": "Controls state of fab actions (showing/hidden); Works best with v-model directive, otherwise use along listening to 'input' event",
+      "category": "model"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "active-icon": {
+      "extends": "icon"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "direction": {
+      "type": "String",
+      "desc": "Direction to expand Fab Actions to",
+      "default": "right",
+      "values": [ "up", "right", "down", "left" ],
+      "examples": [ "bottom" ],
+      "category": "behavior"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "By default, Fab Actions are hidden when user navigates to another route and this prop disables this behavior",
+      "category": "behavior"
+    },
+
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type",
+      "default": "a",
+      "values": [
+        "a", "submit", "button", "reset"
+      ],
+      "category": "general"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for Fab button",
+      "category": "style"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for Fab button",
+      "category": "style"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for Fab button",
+      "category": "style"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Apply the glossy effect over the button",
+      "category": "style"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where QFabActions may go into"
+    },
+
+    "tooltip": {
+      "desc": "Slot specifically designed for a QTooltip"
+    }
+  },
+
+  "events": {
+    "input": {
+      "desc": "Emitted when fab actions are shown/hidden; Captured by v-model directive"
+    }
+  },
+
+  "methods": {
+    "show": {
+      "desc": "Expands fab actions list"
+    },
+
+    "hide": {
+      "desc": "Collapses fab actions list"
+    }
+  }
+}

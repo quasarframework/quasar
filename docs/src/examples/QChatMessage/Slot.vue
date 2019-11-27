@@ -3,7 +3,7 @@
     <div style="width: 100%; max-width: 400px">
       <q-chat-message
         name="me"
-        avatar="https://cdn.quasar-framework.org/img/avatar3.jpg"
+        avatar="https://cdn.quasar.dev/img/avatar3.jpg"
         :text="[`I'm waiting for your answer..`]"
         stamp="7 minutes ago"
         sent
@@ -11,7 +11,7 @@
       />
       <q-chat-message
         name="Jane"
-        avatar="https://cdn.quasar-framework.org/img/avatar5.jpg"
+        avatar="https://cdn.quasar.dev/img/avatar5.jpg"
         text-color="white"
         bg-color="primary"
       >

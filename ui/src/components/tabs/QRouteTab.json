@@ -1,0 +1,14 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/tabs"
+  },
+
+  "mixins": [ "components/tabs/QTab", "mixins/router-link" ],
+
+  "props": {
+    "to": {
+      "required": true,
+      "category": "general"
+    }
+  }
+}

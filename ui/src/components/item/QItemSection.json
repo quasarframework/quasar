@@ -1,0 +1,47 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/list-and-list-items"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "avatar": {
+      "type": "Boolean",
+      "desc": "Render an avatar item side (does not needs 'side' prop to be set)",
+      "category": "content"
+    },
+
+    "thumbnail": {
+      "type": "Boolean",
+      "desc": "Render a thumbnail item side (does not needs 'side' prop to be set)",
+      "category": "content"
+    },
+
+    "side": {
+      "type": "Boolean",
+      "desc": "Renders as a side of the item",
+      "category": "content"
+    },
+
+    "top": {
+      "type": "Boolean",
+      "desc": "Align content to top (useful for multi-line items)",
+      "category": "content"
+    },
+
+    "no-wrap": {
+      "type": "Boolean",
+      "desc": "Do not wrap text (useful for item's main content)",
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Section's actual content"
+    }
+  }
+}

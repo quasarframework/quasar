@@ -26,18 +26,16 @@ import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
 %>
 
 import Vue from 'vue'
-<% if (framework.all) { %>
+<% if (framework.all === true) { %>
 import Quasar from 'quasar'
 <% } else {
   let importStatement = []
 
   ;['components', 'directives', 'plugins'].forEach(type => {
-    if (framework[type]) {
-      let items = framework[type].filter(item => item)
-      if (items.length > 0) {
-        useStatement.push(type + ': {' + items.join(',') + '}')
-        importStatement = importStatement.concat(items)
-      }
+    let items = framework[type]
+    if (items.length > 0) {
+      useStatement.push(type + ': {' + items.join(',') + '}')
+      importStatement = importStatement.concat(items)
     }
   })
 

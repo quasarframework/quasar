@@ -1,13 +1,19 @@
 ---
 title: Carousel
+desc: The QCarousel Vue component allows you to display a series of slides, useful for wizards or an image gallery.
 ---
 
-The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards too.
+The QCarousel component allows you to display more information with less real estate, using slides. Useful for creating Wizards or an image gallery too.
 
 ## Installation
 <doc-installation :components="['QCarousel', 'QCarouselControl', 'QCarouselSlide']" />
 
 ## Usage
+
+::: danger
+Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
+:::
+
 Below is an almost stripped down basic Carousel (it is just animated and only has custom transitions specified) with no navigation embedded. For this reason, we are controlling the current slide through the model.
 
 <doc-example title="Basic" file="QCarousel/Basic" />
@@ -42,6 +48,9 @@ Don't use the property `navigation` with `thumbnails` as it supercedes and thumb
 
 ### Controls
 <doc-example title="Controls" file="QCarousel/Controls" />
+
+### Fullscreen
+<doc-example title="Fullscreen" file="QCarousel/Fullscreen" />
 
 ## QCarousel API
 <doc-api file="QCarousel" />

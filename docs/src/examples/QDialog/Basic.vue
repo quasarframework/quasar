@@ -15,7 +15,7 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="OK" color="primary" v-close-dialog />
+          <q-btn flat label="OK" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -28,14 +28,14 @@
         </q-card-section>
 
         <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="primary" v-close-dialog />
-          <q-btn flat label="Turn on Wifi" color="primary" v-close-dialog />
+          <q-btn flat label="Cancel" color="primary" v-close-popup />
+          <q-btn flat label="Turn on Wifi" color="primary" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
     <q-dialog v-model="prompt" persistent>
-      <q-card style="min-width: 400px">
+      <q-card style="min-width: 350px">
         <q-card-section>
           <div class="text-h6">Your address</div>
         </q-card-section>
@@ -45,8 +45,8 @@
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancel" v-close-dialog />
-          <q-btn flat label="Add address" v-close-dialog />
+          <q-btn flat label="Cancel" v-close-popup />
+          <q-btn flat label="Add address" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>

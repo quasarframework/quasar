@@ -1,5 +1,6 @@
 ---
 title: Layout Header and Footer
+desc: How to use the QHeader and QFooter components. The top and bottom bars of your Quasar app.
 related:
   - /layout/layout
   - /layout/page
@@ -9,7 +10,7 @@ related:
   - /vue-components/bar
 ---
 
-QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer. If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
+QLayout allows you to configure your views as a 3x3 matrix, containing an optional Header and/or Footer (mostly used for navbar, but can be anything). If you haven’t already, please read [QLayout](/layout/layout) documentation page first.
 
 ## Installation
 Pick only what you are using from the list below.
@@ -27,6 +28,10 @@ Since the header and footer needs a layout and QLayout by default manages the en
 :::
 
 <doc-example title="Basic" file="QHeader/Basic" />
+
+You can use `glossy` class on toolbars in header and footer.
+
+<doc-example title="Glossy" file="QHeader/Glossy" />
 
 ### Various content
 

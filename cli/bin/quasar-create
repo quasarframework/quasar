@@ -32,7 +32,7 @@ if (argv.help) {
     $ quasar create my-project --kit umd
       # installs an App project and installs the umd demo
     $ quasar create my-project --kit user/github-starter-kit
-      # installs an App project with a custom starter kit from Github
+      # installs an App project with a custom starter kit from GitHub
     $ quasar create my-project --kit ./starter-kit-folder
       # installs an App project using a starter kit located at ./starter-kit-folder
 
@@ -40,9 +40,9 @@ if (argv.help) {
     $ quasar create my-extension-project --kit app-extension
       # installs an App Extension project with the latest Quasar App Extension starter kit
     $ quasar create my-extension-project --kit user/github-extension-starter-kit
-      # installs an App Extension project with a custom starter kit from Github
+      # installs an App Extension project with a custom starter kit from GitHub
     $ quasar create my-extension-project --kit user/github-extension-starter-kit --branch dev
-      # installs an App Extension project with a custom starter kit from Github using the dev branch
+      # installs an App Extension project with a custom starter kit from GitHub using the dev branch
 
   Options
     --kit, -k      Use specific starter kit

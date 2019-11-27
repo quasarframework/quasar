@@ -1,5 +1,6 @@
 ---
 title: QNoSsr
+desc: The QNoSsr Vue component makes it easy to differentiate content between server-side and client-side.
 related:
   - /quasar-cli/developing-ssr/introduction
 ---
@@ -13,14 +14,17 @@ Alternatively, you can also use it to render content only on server-side and it 
 <doc-installation components="QNoSsr" />
 
 ## Usage
-Basic:
+
+### Basic
+
 ```html
 <q-no-ssr>
   <div>This won't be rendered on server</div>
 </q-no-ssr>
 ```
 
-Multiple client nodes:
+### Multiple client nodes
+
 ```html
 <q-no-ssr>
   <div>This won't be rendered on server.</div>
@@ -28,7 +32,8 @@ Multiple client nodes:
 </q-no-ssr>
 ```
 
-Multiple client nodes with tag prop:
+### Multiple client nodes with tag prop
+
 ```html
 <q-no-ssr tag="blockquote">
   <div>This won't be rendered on server.</div>
@@ -36,14 +41,16 @@ Multiple client nodes with tag prop:
 </q-no-ssr>
 ```
 
-Placeholder property:
+### Placeholder property
+
 ```html
 <q-no-ssr placeholder="Rendered on server">
   <div>This won't be rendered on server</div>
 </q-no-ssr>
 ```
 
-Placeholder slot:
+### Placeholder slot
+
 ```html
 <q-no-ssr>
   <div>This won't be rendered on server</div>
@@ -53,7 +60,8 @@ Placeholder slot:
 </q-no-ssr>
 ```
 
-Multiple content in placeholder slot:
+### Multiple content in placeholder slot
+
 ```html
 <q-no-ssr>
   <div>This won't be rendered on server</div>
@@ -64,7 +72,8 @@ Multiple content in placeholder slot:
 </q-no-ssr>
 ```
 
-Only placeholder slot:
+### Only placeholder slot
+
 ```html
 <q-no-ssr>
   <template v-slot:placeholder>

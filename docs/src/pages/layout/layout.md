@@ -1,5 +1,6 @@
 ---
 title: Layout
+desc: How to use the QLayout component. Manages the whole window of your Quasar app.
 related:
   - /layout/header-and-footer
   - /layout/drawer
@@ -23,12 +24,22 @@ In the card below we're installing all Quasar components related to a QLayout, b
 ## Layout Builder
 Scaffold your layout(s) by clicking on the button below.
 
+::: warning
+The Layout Builder might use components not already inserted into quasar.conf.js.
+
+You are likely going to need the following components - QLayout, QHeader, QToolbar, QToolbarTitle, QBtn, QAvatar, QTabs, QRouteTab, QDrawer, QPageContainer, QFooter.
+:::
+
+::: tip
+Keep an eye on your developer console for handy helpers on which components are being used but not declared in your quasar.conf.js file.
+:::
+
 <q-btn push color="primary" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ## Usage
 
 ::: warning Using margin CSS will break the layout
-QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use *CSS margins* as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However use can safely use *CSS padding*.
+QLayout depends on taking up the whole screen and so QPageContainer, QHeader, QFooter and QLayoutDrawer positions are managed by it (through the `view` prop). You **cannot** use *CSS margins* as a style neither on QLayout itself nor on any of the QLayout components mentioned above. However you can safely use *CSS padding*.
 :::
 
 ::: tip
@@ -40,7 +51,7 @@ Quasar introduces a unique and excellent layout concept, which allows you to eas
 
 To explain how this works, imagine your Layout is a 3x3 matrix of containers (depicted in blue below). The first row of containers would be the header and the last row would be the footer. The first column of containers would be the "left" and last column would be the "right". The center of the matrix, below the header and above the footer, would be the page or main content container.
 
-This matrix of containers or "QLayout View" can be represented by a string that you should supply to `view` property of QLayout. This string must contain exactly 11 characters:
+This matrix of containers or "QLayout View" can be represented by a string that you should supply to the `view` property of QLayout. This string must contain exactly 11 characters:
 
 - 3 defining the header row
 - then a space
@@ -61,7 +72,8 @@ These settings are completely up to you to use as you'd like. You could even go 
 <q-btn push color="red" icon-right="launch" label="Layout Builder" type="a" href="/layout-builder" target="_blank" rel="noopener noreferrer" />
 
 ::: warning
-It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
+* It is important that you specify all sections of a QLayout, even if you don't use them. For example, even if you don't use footer or right side drawer, still specify them within your QLayout's `view` prop.
+* When QDrawer is set into overlay mode, **it will force it to go into fixed position**, regardless if QLayout's "view" prop is configured with  "l/r" or "L/R". Also, **if on iOS platform and QLayout is containerized**, the fixed position will also be forced upon QDrawer due to platform limitations that cannot be overcome.
 :::
 
 ### Containerized QLayout

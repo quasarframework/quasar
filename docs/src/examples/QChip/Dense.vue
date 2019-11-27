@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-md">
     <div>
-      <q-chip dense icon="event" size="10px">Add to calendar</q-chip>
+      <q-chip dense icon="event">Add to calendar</q-chip>
       <q-chip dense icon="bookmark">Bookmark</q-chip>
       <q-chip dense icon="alarm" label="Set alarm" />
       <q-chip dense icon="directions">Get directions</q-chip>
@@ -30,7 +30,7 @@
       </q-chip>
       <q-chip dense>
         <q-avatar>
-          <img src="https://cdn.quasar-framework.org/img/avatar3.jpg">
+          <img src="https://cdn.quasar.dev/img/avatar3.jpg">
         </q-avatar>
         Mary
       </q-chip>

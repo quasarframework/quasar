@@ -1,0 +1,299 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/popup-edit"
+  },
+
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": "Any",
+      "examples": [ "v-model=\"myValue\"" ],
+      "category": "model"
+    },
+
+    "title": {
+      "type": "String",
+      "desc": "Optional title (unless 'title' slot is used)",
+      "examples": [ "Calories" ],
+      "category": "content"
+    },
+
+    "buttons": {
+      "type": "Boolean",
+      "desc": "Show Set and Cancel buttons",
+      "category": "content"
+    },
+
+    "label-set": {
+      "type": "String",
+      "desc": "Override Set button label",
+      "examples": [ "OK" ],
+      "category": "content"
+    },
+
+    "label-cancel": {
+      "type": "String",
+      "desc": "Override Cancel button label",
+      "examples": [ "Cancel" ],
+      "category": "content"
+    },
+
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content",
+      "examples": [
+        "my-special-class"
+      ],
+      "category": "style"
+    },
+
+    "content-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the content",
+      "examples": [
+        "background-color: #ff0000",
+        ":content-style=\"{ color: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "color": {
+      "extends": "color",
+      "default": "primary"
+    },
+
+    "validate": {
+      "type": "Function",
+      "desc": "Validates model then triggers 'save' and closes Popup; Returns a Boolean ('true' means valid, 'false' means abort); Syntax: validate(value); For best performance, reference it from your scope and do not define it inline",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "Model to validate",
+          "examples": [ "My car" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is the model valid or not?"
+      },
+      "examples": [
+        ":validate=\"myValidation\""
+      ],
+      "category": "model"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "fit": {
+      "type": "Boolean",
+      "desc": "Allows the menu to match at least the full width of its target",
+      "category": "position"
+    },
+
+    "cover": {
+      "type": "Boolean",
+      "default": true,
+      "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective",
+      "category": "position"
+    },
+
+    "anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the menu relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom middle", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
+    },
+
+    "self": {
+      "type": "String",
+      "desc": "Two values setting the menu's own position relative to its target",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom middle", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position"
+    },
+
+    "offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "style"
+    },
+
+    "touch-position": {
+      "type": "Boolean",
+      "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",
+      "category": "behavior"
+    },
+
+    "persistent": {
+      "type": "Boolean",
+      "desc": "Avoid menu closing by hitting ESC key or by clicking/tapping outside of the Popup",
+      "category": "behavior"
+    },
+
+    "separate-close-popup": {
+      "type": "Boolean",
+      "desc": "Separate from parent menu, marking it as a separate closing point for v-close-popup (without this, chained menus close all together)",
+      "category": "behavior"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Forces menu to have squared borders",
+      "category": "style"
+    },
+
+    "max-height": {
+      "extends": "size",
+      "desc": "The maximum height of the menu; Size in CSS units, including unit name",
+      "category": "style"
+    },
+
+    "max-width": {
+      "extends": "size",
+      "desc": "The maximum width of the menu; Size in CSS units, including unit name",
+      "category": "style"
+    }
+  },
+
+  "slots": {
+    "title": {
+      "desc": "Slot for custom title (overrides 'title' prop when used)"
+    }
+  },
+
+  "scopedSlots": {
+    "default": {
+      "desc": "Used for injecting the form component",
+      "scope": {
+        "initialValue": {
+          "type": "Any",
+          "desc": "Initial value",
+          "examples": [ 0.241, "Text" ]
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Current value",
+          "examples": [ 0.241, "Text" ]
+        },
+        "emitValue": {
+          "type": "Function",
+          "desc": "Function that emits an @input event in the context of the popup edit",
+          "params": {
+            "value": {
+              "type": "Any",
+              "desc": "Value to be emitted",
+              "examples": [ 0, "Changed text" ]
+            }
+          },
+          "returns": null
+        },
+        "validate": {
+          "type": "Function",
+          "desc": "Function that checks if the value is valid",
+          "params": {
+            "value": {
+              "type": "Any",
+              "desc": "Value to be checked",
+              "examples": [ 0, "Changed text" ]
+            }
+          },
+          "returns": {
+            "type": "Boolean",
+            "desc": "Checked value is valid or not"
+          }
+        },
+        "set": {
+          "type": "Function",
+          "desc": "Function that sets the value and closes the popup",
+          "params": null,
+          "returns": null
+        },
+        "cancel": {
+          "type": "Function",
+          "desc": "Function that cancels the editing and reverts the value to the initialValue",
+          "params": null,
+          "returns": null
+        }
+      }
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input",
+      "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
+    },
+
+    "before-show": {
+      "extends": "before-show",
+      "desc": "Emitted right before Popup gets shown"
+    },
+
+    "show": {
+      "desc": "Emitted right after Popup gets shown"
+    },
+
+    "before-hide": {
+      "extends": "before-hide",
+      "desc": "Emitted right before Popup gets dismissed"
+    },
+
+    "hide": {
+      "desc": "Emitted right after Popup gets dismissed"
+    },
+
+    "save": {
+      "desc": "Emitted when value has been successfully validated and it should be saved",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "Validated value to be saved",
+          "__exemption": [ "examples" ]
+        },
+        "initialValue": {
+          "type": "Any",
+          "desc": "Initial value, before changes",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "cancel": {
+      "desc": "Emitted when user cancelled the change (hit ESC key or clicking outside of Popup or hit 'Cancel' button)",
+      "params": {
+        "value": {
+          "type": "Any",
+          "desc": "Edited value",
+          "__exemption": [ "examples" ]
+        },
+        "initialValue": {
+          "type": "Any",
+          "desc": "Initial value, before changes",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Trigger a model update; Validates model (and emits 'save' event if it's the case) then closes Popup"
+    },
+
+    "cancel": {
+      "desc": "Triggers a model reset to its initial value ('cancel' event is emitted) then closes Popup"
+    }
+  }
+}

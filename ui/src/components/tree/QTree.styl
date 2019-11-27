@@ -1,0 +1,112 @@
+.q-tree
+  position relative
+  color $grey
+
+  &__node
+    padding 0 0 3px 22px
+
+    &:after
+      content ''
+      position absolute
+      top -3px
+      bottom 0
+      width 1px
+      right auto
+      left -13px
+      border-left 1px solid currentColor
+    &:last-child:after
+      display none
+
+  &__node-header:before
+    content ''
+    position absolute
+    top -3px
+    bottom 50%
+    width 35px
+    left -35px
+    border-left 1px solid currentColor
+    border-bottom 1px solid currentColor
+
+  &__children
+    padding-left 25px
+    &.disabled
+      pointer-events none
+
+  &__node-body
+    padding 5px 0 8px 5px
+
+  &__node--parent
+    padding-left 2px
+    > .q-tree__node-header:before
+      width 15px
+      left -15px
+    > .q-tree__node-collapsible > .q-tree__node-body
+      padding 5px 0 8px 27px
+      &:after
+        content ''
+        position absolute
+        top 0
+        width 1px
+        height 100%
+        right auto
+        left 12px
+        border-left 1px solid currentColor
+        bottom 50px
+
+  &__node--link
+    cursor pointer
+
+  &__node-header
+    padding 4px
+    margin-top 3px
+    border-radius $generic-border-radius
+    outline none
+    &.disabled
+      pointer-events none
+
+  &__node-header-content
+    color black
+    transition color .3s
+
+  &__node--selected .q-tree__node-header-content
+    color $grey
+
+  &__icon, &__node-header-content .q-icon, &__spinner
+    font-size 21px
+
+  &__img
+    height 42px
+
+  &__avatar, &__node-header-content .q-avatar
+    font-size 28px
+    border-radius 50%
+    width 28px
+    height 28px
+
+  &__arrow, &__spinner
+    font-size 16px
+
+  &__arrow
+    transition transform .3s
+
+    &--rotate
+      transform rotate3d(0, 0, 1, 90deg)
+
+  // remove connectors before root
+  > .q-tree__node
+    padding 0
+    &:after, > .q-tree__node-header:before
+      display none
+  // leave space for root empty node
+  > .q-tree__node--child > .q-tree__node-header
+    padding-left 24px
+
+  &--dark .q-tree__node-header-content
+    color white
+
+[dir=rtl]
+  .q-tree__arrow
+    transform rotate3d(0, 0, 1, 180deg) /* rtl:ignore */
+    &--rotate
+      transform rotate3d(0, 0, 1, 90deg) /* rtl:ignore */
+

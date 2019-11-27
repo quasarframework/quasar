@@ -1,5 +1,6 @@
 ---
 title: Local/Session Storage Plugins
+desc: A Quasar plugin that wraps the Local/Session Storage, retrieving data with its original JS type.
 ---
 
 Quasar provides a wrapper over [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API).
@@ -36,6 +37,17 @@ let value = this.$q.localStorage.getItem(key)
 
 this.$q.sessionStorage.set(key, value)
 let value = this.$q.sessionStorage.getItem(key)
+```
+
+For a bulletproof approach when setting a value, it's best to also catch any potential errors raised by the underlying Local/Session Storage Web API, like when exceeding quota:
+
+```js
+try {
+  this.$q.localStorage.set(key, value)
+} catch (e) {
+  // data wasn't successfully saved due to
+  // a Web Storage API error
+}
 ```
 
 ::: tip

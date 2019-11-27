@@ -1,0 +1,64 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/tabs"
+  },
+
+  "mixins": [ "mixins/ripple" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "icon": {
+      "extends": "icon"
+    },
+
+    "label": {
+      "type": [ "Number", "String" ],
+      "desc": "A number or string to label the tab",
+      "examples": [ "Home" ],
+      "category": "content"
+    },
+
+    "alert": {
+      "type": [ "Boolean", "String" ],
+      "desc": "Adds an alert symbol to the tab, notifying the user there are some updates; If its value is not a Boolean, then you can specify a color",
+      "examples": [
+        "alert",
+        "alert=\"purple\""
+      ],
+      "category": "content"
+    },
+
+    "name": {
+      "type": [ "Number", "String" ],
+      "desc": "Panel name",
+      "default": "A random UID",
+      "examples": [
+        "home", ":name=\"1\""
+      ],
+      "category": "general"
+    },
+
+    "no-caps": {
+      "type": "Boolean",
+      "desc": "Turns off capitalizing all letters within the tab (which is the default)",
+      "category": "content"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Suggestion: QMenu, QTooltip"
+    }
+  }
+}

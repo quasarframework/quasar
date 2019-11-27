@@ -1,0 +1,55 @@
+{
+  "mixins": [ "mixins/btn" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/button"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "round": {
+      "type": "Boolean",
+      "desc": "Makes a circle shaped button",
+      "category": "style"
+    },
+
+    "percentage": {
+      "type": "Number",
+      "desc": "Percentage (0.0 < x < 100.0); To be used along 'loading' prop; Display a progress bar on the background",
+      "examples": [ 23 ],
+      "category": "behavior"
+    },
+
+    "dark-percentage": {
+      "type": "Boolean",
+      "desc": "Progress bar on the background should have dark color; To be used along with 'percentage' and 'loading' props",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Use for custom content, instead of relying on 'icon' and 'label' props"
+    },
+
+    "loading": {
+      "desc": "Override the default QSpinner when in 'loading' state"
+    }
+  },
+
+  "methods": {
+    "click": {
+      "desc": "Emulate click on QBtn",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  }
+}

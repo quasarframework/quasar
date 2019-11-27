@@ -1,68 +1,75 @@
 <template lang="pug">
-q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
+q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
   q-header.header(elevated)
     q-toolbar
       q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
         q-icon(name="menu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
-        q-avatar
-          img(src="https://cdn.quasar-framework.org/img/quasar-logo.png")
+        q-avatar.doc-layout-avatar
+          img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Quasar
 
       q-space
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
+      q-btn.q-ml-xs(v-show="hasRightDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
         q-icon(name="assignment")
-
-  q-footer.text-white.text-center.footer
-    div.footer__icons.row.flex-center
-      a(href="https://github.com/quasarframework/quasar", target="_blank")
-        q-icon(name="fab fa-github")
-
-      a(href="https://twitter.com/quasarframework", target="_blank")
-        q-icon(name="fab fa-twitter")
-
-      a(href="https://medium.com/quasar-framework", target="_blank")
-        q-icon(name="fab fa-medium")
-
-      a(href="https://discord.gg/5TDhbDg", target="_blank")
-        q-icon(name="fab fa-discord")
-
-      a(href="https://forum.quasar-framework.org/", target="_blank")
-        q-icon(name="fas fa-comments")
-    div
-      | Released under the <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link>
-
-    div Copyright © 2015 - {{ year }} PULSARDEV SRL, Razvan Stoenescu
 
   q-drawer(
     v-model="leftDrawerState"
-    bordered
     show-if-above
+    bordered
+    content-class="doc-left-drawer"
   )
-    q-scroll-area.fit
-      .flex.justify-center
-        q-btn.q-my-lg(
+    q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
+      .row.justify-center.q-my-lg
+        q-btn(
           type="a"
-          href="https://www.patreon.com/quasarframework"
+          href="https://donate.quasar.dev"
           target="_blank"
+          rel="noopener"
           size="13px"
-          color="red"
-          icon="fab fa-patreon"
-          label="Become a Patron"
+          color="primary"
+          icon="favorite_border"
+          label="Donate to Quasar"
         )
 
-      app-menu.q-mb-lg
+      app-menu.q-my-lg
+
+    .absolute-top.bg-white.layout-drawer-toolbar
+      form(
+        autocorrect="off"
+        autocapitalize="off"
+        autocomplete="off"
+        spellcheck="false"
+      )
+        q-input.full-width.doc-algolia.bg-primary(
+          ref="docAlgolia"
+          v-model="search"
+          dense
+          square
+          dark
+          borderless
+          :placeholder="searchPlaceholder"
+          @focus="onSearchFocus"
+          @blur="onSearchBlur"
+        )
+          template(v-slot:append)
+            q-icon(
+              name="search"
+              @click="$refs.docAlgolia.focus()"
+            )
+      .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
 
   q-drawer(
+    v-if="hasRightDrawer"
     v-model="rightDrawerState"
-    side="right"
-    content-class="bg-grey-2"
-    :width="180"
     show-if-above
+    side="right"
+    content-class="bg-grey-1"
+    :width="180"
     @on-layout="updateRightDrawerOnLayout"
   )
     q-scroll-area.fit
@@ -92,7 +99,7 @@ q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
       router-view
 
   q-page-scroller
-    q-btn(fab, color="red", icon="keyboard_arrow_up")
+    q-btn(fab-mini, color="primary", glossy, icon="keyboard_arrow_up")
 </template>
 
 <script>
@@ -103,11 +110,6 @@ import HeaderMenu from 'components/HeaderMenu'
 export default {
   name: 'Layout',
 
-  meta: {
-    title: 'Welcome!',
-    titleTemplate: title => `${title} | Quasar Framework`
-  },
-
   components: {
     AppMenu,
     HeaderMenu
@@ -115,8 +117,8 @@ export default {
 
   watch: {
     $route () {
-      this.leftDrawerState = true
-      this.rightDrawerState = true
+      this.leftDrawerState = this.$q.screen.width > 1023
+      this.rightDrawerState = this.$q.screen.width > 1023
       this.$nextTick(() => {
         this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
       })
@@ -125,8 +127,8 @@ export default {
 
   data () {
     return {
-      year: (new Date()).getFullYear(),
       search: '',
+      searchFocused: false,
       rightDrawerOnLayout: false,
       activeToc: void 0
     }
@@ -149,6 +151,16 @@ export default {
       set (val) {
         this.$store.commit('updateRightDrawerState', val)
       }
+    },
+
+    hasRightDrawer () {
+      return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
+    },
+
+    searchPlaceholder () {
+      return this.searchFocused === true
+        ? 'Type to start searching...'
+        : (this.$q.platform.is.desktop === true ? `Type ' / ' to focus here...` : 'Search...')
     }
   },
 
@@ -224,55 +236,127 @@ export default {
       if (last !== void 0) {
         this.activeToc = last
       }
+    },
+
+    focusOnSearch (evt) {
+      if (
+        evt.target.tagName !== 'INPUT' &&
+        String.fromCharCode(evt.keyCode) === '/'
+      ) {
+        evt.preventDefault()
+        this.search = ''
+        if (!this.leftDrawerState) {
+          this.leftDrawerState = true
+        }
+        setTimeout(() => {
+          this.$refs.docAlgolia.focus()
+        })
+      }
+    },
+
+    onSearchFocus () {
+      this.searchFocused = true
+    },
+
+    onSearchBlur () {
+      this.searchFocused = false
     }
+  },
+
+  mounted () {
+    import('docsearch.js').then(docsearch => {
+      docsearch.default({
+        apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
+        indexName: 'quasar-framework',
+        inputSelector: '.doc-algolia input',
+        algoliaOptions: {
+          hitsPerPage: 7
+        },
+        handleSelected: (a, b, suggestion, c, context) => {
+          const url = suggestion.url.replace('https://quasar.dev', '')
+
+          this.search = ''
+          this.$router.push(url)
+          this.$refs.docAlgolia.blur()
+        }
+      })
+
+      if (this.$q.platform.is.desktop === true) {
+        window.addEventListener('keypress', this.focusOnSearch)
+      }
+    })
   },
 
   beforeDestroy () {
     clearTimeout(this.scrollTimer)
+
+    if (this.$q.platform.is.desktop === true) {
+      window.removeEventListener('keypress', this.focusOnSearch)
+    }
   }
 }
 </script>
 
-<style lang="stylus">
-@import '~quasar-variables'
+<style lang="sass">
+@import '../css/docsearch'
 
-.header, .footer
-  background linear-gradient(145deg, $primary 11%, $dark-primary 45%)
+.header
+  background: linear-gradient(145deg, $primary 11%, $dark-primary 75%)
 
 .header-logo
-  width 25px
-  height 25px
+  width: 25px
+  height: 25px
 
-.footer
-  font-size 11px
-  padding 16px 0
+.doc-layout-avatar > div
+  border-radius: 0
 
-  &__icons
-    font-size 28px
-    a
-      margin 0 8px 8px
-      text-decoration none
-      outline 0
-      color inherit
-    .q-icon:hover
-      color lighten($primary, 50%)
-  .doc-link
-    color inherit
+.layout-drawer-toolbar
+  > form
+    margin-right: -2px
+  &__shadow
+    bottom: -10px
+    &:after
+      content: ''
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 10px
+      left: 0
+      box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.2), 0 0px 10px rgba(0, 0, 0, 0.24)
 
-.q-drawer--standard .doc-toc
-  .q-item
-    border-radius 5px 0 0 5px
-    border-left 3px solid transparent
-  .q-item--active
-    border-left 3px solid $primary
-.q-drawer--mobile .doc-toc
-  .q-item--active
-    font-weight 600
+.doc-algolia
+  .q-field__control
+    padding: 0 18px 0 16px !important
+  &.q-field--focused
+    .q-icon
+      color: #fff
+
+.q-drawer--mobile
+  .layout-drawer-toolbar form
+    margin-right: -1px
+  .doc-algolia .q-field__control
+    padding-right: 17px !important
+  .doc-toc
+    .q-item
+      margin-left: 3px
+    .q-item--active
+      font-weight: 600
+
+.doc-toc .q-item
+  border-radius: 10px 0 0 10px
+  margin-top: 1px
+  margin-bottom: 1px
+
+  &.q-item--active
+    background: scale-color($primary, $lightness: 90%)
+
+.doc-left-drawer
+  overflow: inherit !important
 
 .quasar-logo
   img
-    transform rotate(0deg)
-    transition transform .8s ease-in-out
+    transform: rotate(0deg)
+    transition: transform .8s ease-in-out
   &:hover img
-    transform rotate(-360deg)
+    transform: rotate(-360deg)
 </style>

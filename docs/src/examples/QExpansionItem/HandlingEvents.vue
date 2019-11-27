@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md" style="max-width: 350px">
     <q-expansion-item
-      class="shadow-1"
+      class="shadow-1 overflow-hidden"
       style="border-radius: 30px"
       icon="explore"
       label="Counter"

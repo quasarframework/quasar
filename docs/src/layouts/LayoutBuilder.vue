@@ -6,13 +6,14 @@
       :reveal="cfg.headerReveal"
       :elevated="cfg.headerSep === 'elevated'"
       :bordered="cfg.headerSep === 'bordered'"
+      height-hint="98"
     >
       <q-toolbar>
         <q-btn v-if="pick.left" dense flat round icon="menu" @click="play.left = !play.left" />
 
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Layout Builder
         </q-toolbar-title>
@@ -331,7 +332,7 @@
             <q-separator />
 
             <q-card-actions align="right">
-              <q-btn color="primary" flat label="Close" v-close-dialog />
+              <q-btn color="primary" flat label="Close" v-close-popup />
             </q-card-actions>
           </q-card>
         </q-dialog>
@@ -341,6 +342,7 @@
     <q-drawer
       v-if="pick.left"
       v-model="play.left"
+      show-if-above
       :behavior="cfg.leftBehavior"
       :overlay="cfg.leftOverlay"
       :elevated="cfg.leftSep === 'elevated'"
@@ -360,6 +362,7 @@
     <q-drawer
       v-if="pick.right"
       v-model="play.right"
+      show-if-above
       side="right"
       :behavior="cfg.rightBehavior"
       :overlay="cfg.rightOverlay"
@@ -376,10 +379,10 @@
         </div>
       </q-scroll-area>
 
-      <q-img class="absolute-top" src="https://cdn.quasar-framework.org/img/material.png" style="height: 204px">
+      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 204px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
           <div class="text-weight-bold">Razvan Stoenescu</div>
           <div>@rstoenescu</div>
@@ -407,6 +410,8 @@
 </template>
 
 <script>
+import getMeta from 'assets/get-meta.js'
+
 export default {
   created () {
     this.drawerBehaviorOptions = [
@@ -420,6 +425,15 @@ export default {
       { label: 'Elevated', value: 'elevated' },
       { label: 'Bordered', value: 'bordered' }
     ]
+  },
+
+  meta: {
+    title: 'Layout Builder',
+
+    meta: getMeta(
+      'Layout Builder | Quasar Framework',
+      'Tool to build Quasar layouts. Configure the layout parts then export the code.'
+    )
   },
 
   data () {
@@ -464,8 +478,8 @@ export default {
       play: {
         header: true,
         footer: true,
-        left: true,
-        right: true,
+        left: false,
+        right: false,
 
         scroll: true
       }
@@ -474,7 +488,13 @@ export default {
 
   computed: {
     isContracted () {
-      return this.$q.screen.lt.sm || (this.$q.screen.md && this.play.left && this.play.right)
+      return this.$q.screen.lt.sm === true || (
+        this.$q.screen.md === true &&
+        this.play.left === true &&
+        this.cfg.leftOverlay === false &&
+        this.play.right === true &&
+        this.cfg.rightOverlay === false
+      )
     },
 
     bgTopL () {
@@ -509,13 +529,13 @@ export default {
 
       if (this.pick.header) {
         code += `
-    <q-header ${this.cfg.headerReveal ? 'reveal ' : ''}${this.cfg.headerSep !== 'none' ? this.cfg.headerSep + ' ' : ''}class="bg-primary text-white">
+    <q-header ${this.cfg.headerReveal ? 'reveal ' : ''}${this.cfg.headerSep !== 'none' ? this.cfg.headerSep + ' ' : ''}class="bg-primary text-white"${this.pick.navtabs ? ' height-hint="98"' : ''}>
       <q-toolbar>${this.pick.left ? `
         <q-btn dense flat round icon="menu" @click="left = !left" />
 ` : ''}
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>${this.pick.right ? `
@@ -534,7 +554,7 @@ export default {
 
       if (this.pick.left) {
         code += `
-    <q-drawer v-model="left" side="left"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.leftBehavior !== 'default' ? ` behavior="${this.cfg.leftBehavior}"` : ''}${this.cfg.leftSep !== 'none' ? ' ' + this.cfg.leftSep : ''}>
+    <q-drawer ${this.cfg.leftBehavior !== 'mobile' && !this.cfg.leftOverlay ? 'show-if-above ' : ''}v-model="left" side="left"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.leftBehavior !== 'default' ? ` behavior="${this.cfg.leftBehavior}"` : ''}${this.cfg.leftSep !== 'none' ? ' ' + this.cfg.leftSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
@@ -542,7 +562,7 @@ export default {
 
       if (this.pick.right) {
         code += `
-    <q-drawer v-model="right" side="right"${this.cfg.leftOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
+    <q-drawer ${this.cfg.rightBehavior !== 'mobile' && !this.cfg.rightOverlay ? 'show-if-above ' : ''}v-model="right" side="right"${this.cfg.rightOverlay ? ' overlay' : ''}${this.cfg.rightBehavior !== 'default' ? ` behavior="${this.cfg.rightBehavior}"` : ''}${this.cfg.rightSep !== 'none' ? ' ' + this.cfg.rightSep : ''}>
       <!-- drawer content -->
     </q-drawer>
 `
@@ -560,7 +580,7 @@ export default {
       <q-toolbar>
         <q-toolbar-title>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
           Title
         </q-toolbar-title>
@@ -577,8 +597,8 @@ export default {
 export default {
   data () {
     return {${this.pick.left ? `
-      left: true${this.pick.right ? ',' : ''}` : ''}${this.pick.right ? `
-      right: true` : ''}
+      left: false${this.pick.right ? ',' : ''}` : ''}${this.pick.right ? `
+      right: false` : ''}
     }
   }
 }
@@ -590,12 +610,15 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
+body
+  background: $grey-1
+
 .export-code
   .doc-code__inner
-    max-height 50vh
+    max-height: 50vh
   .doc-code + div
-    right 22px !important
+    right: 22px !important
   .q-badge
-    right 72px !important
+    right: 72px !important
 </style>

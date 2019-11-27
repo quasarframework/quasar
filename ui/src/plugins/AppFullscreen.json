@@ -1,0 +1,69 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/app-fullscreen"
+  },
+
+  "injection": "$q.fullscreen",
+
+  "props": {
+    "isCapable": {
+      "type": "Boolean",
+      "desc": "Does browser support it?"
+    },
+
+    "isActive": {
+      "type": "Boolean",
+      "desc": "Is Fullscreen active?",
+      "reactive": true
+    }
+  },
+
+  "methods": {
+    "request": {
+      "desc": "Request going into Fullscreen (with optional target)",
+      "params": {
+        "target": {
+          "type": "String",
+          "desc": "Optional CSS selector of target to request Fullscreen on",
+          "examples": [ "div.dashboard div.description" ]
+        }
+      },
+      "returns": {
+        "type": "Promise<any>",
+        "desc": "A Promise with the outcome (true -> validation was a success, false -> invalid models detected)",
+        "examples": [
+          "request().then(response => { ... }).catch(err => { ... })"
+        ]
+      }
+    },
+
+    "exit": {
+      "desc": "Request exiting out of Fullscreen mode",
+      "returns": {
+        "type": "Promise<any>",
+        "desc": "A Promise with the outcome (true -> validation was a success, false -> invalid models detected)",
+        "examples": [
+          "exit().then(response => { ... }).catch(err => { ... })"
+        ]
+      }
+    },
+
+    "toggle": {
+      "desc": "Request toggling Fullscreen mode (with optional target if requesting going into Fullscreen only)",
+      "params": {
+        "target": {
+          "type": "String",
+          "desc": "Optional CSS selector of target to request Fullscreen on",
+          "examples": [ "div.dashboard div.description" ]
+        }
+      },
+      "returns": {
+        "type": "Promise<any>",
+        "desc": "A Promise with the outcome (true -> validation was a success, false -> invalid models detected)",
+        "examples": [
+          "toggle().then(response => { ... }).catch(err => { ... })"
+        ]
+      }
+    }
+  }
+}

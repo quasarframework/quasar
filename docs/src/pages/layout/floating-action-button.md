@@ -1,5 +1,6 @@
 ---
 title: Floating Action Button
+desc: How to use the QFab component. Floating Action Buttons for your Quasar app.
 related:
   - /layout/layout
   - /layout/page
@@ -20,7 +21,7 @@ If you want a non-expandable FAB, all you need is a round button – wrapped in 
 
 <doc-example title="Basic" file="QFab/NonExpandable" />
 
-### Exandable
+### Expandable
 
 <doc-example title="Expandable" file="QFab/Expandable" />
 

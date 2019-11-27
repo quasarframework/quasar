@@ -1,5 +1,6 @@
 ---
 title: App Vuex Store
+desc: How to manage the Vuex Store in a Quasar App.
 ---
 In large applications, state management often becomes complex due to multiple pieces of state scattered across many components and the interactions between them. It is often overlooked that the source of truth in Vue instances is the raw data object - a Vue instance simply proxies access to it. Therefore, if you have a piece of state that should be shared by multiple instances, you should avoid duplicating it and share it by identity.
 
@@ -57,28 +58,34 @@ import showcase from './showcase'
 
 Vue.use(Vuex)
 
-const store = new Vuex.Store({
-  modules: {
-    // then we reference it
-    showcase
-  }
-})
+export default function (/* { ssrContext } */) {
+  const Store = new Vuex.Store({
+    modules: {
+      // then we reference it
+      showcase
+    },
 
-/* 
-   if we want some HMR magic for it, we handle
-   the hot update like below. Notice we guard this
-   code with "process.env.DEV" -- so this doesn't
-   get into our production build (and it shouldn't). 
-*/
-
-if (process.env.DEV && module.hot) {
-  module.hot.accept(['./showcase'], () => {
-    const newShowcase = require('./showcase').default
-    store.hotUpdate({ modules: { showcase: newShowcase } })
+    // enable strict mode (adds overhead!)
+    // for dev mode only
+    strict: process.env.DEV
   })
-}
 
-export default store
+  /*
+    if we want some HMR magic for it, we handle
+    the hot update like below. Notice we guard this
+    code with "process.env.DEV" -- so this doesn't
+    get into our production build (and it shouldn't).
+  */
+
+  if (process.env.DEV && module.hot) {
+    module.hot.accept(['./showcase'], () => {
+      const newShowcase = require('./showcase').default
+      Store.hotUpdate({ modules: { showcase: newShowcase } })
+    })
+  }
+
+  return Store
+}
 ```
 
 Now we can use this Vuex Module in our Vue files. Here is a quick example. Assume we configured `drawerState` in the state and added `updateDrawerState` mutation.
@@ -120,4 +127,4 @@ export default {
 ```
 
 ## Store Code Splitting
-You can take advantage of the [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature#Store-Code-Splitting) to code split code for modules.
+You can take advantage of the [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature#Store-Code-Splitting) to code-split Vuex modules.

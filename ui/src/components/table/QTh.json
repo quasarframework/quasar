@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/table"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "props": {
+      "type": "Object",
+      "desc": "QTable's header column scoped slot property",
+      "examples": [ ":props=\"props\"" ],
+      "category": "general"
+    },
+
+    "auto-width": {
+      "type": "Boolean",
+      "desc": "Tries to shrink header column width size; Useful for columns with a checkbox/radio/toggle",
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

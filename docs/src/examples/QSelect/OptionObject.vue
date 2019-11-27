@@ -1,7 +1,10 @@
 <template>
   <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
-      <q-badge color="secondary">Model: "{{ model }}"</q-badge>
+      <q-badge color="secondary" multi-line>
+        Model: "{{ model }}"
+      </q-badge>
+
       <q-select filled v-model="model" :options="options" label="Standard" />
     </div>
   </div>
@@ -17,32 +20,32 @@ export default {
           label: 'Google',
           value: 'Google',
           description: 'Search engine',
-          icon: 'mail'
+          category: '1'
         },
         {
           label: 'Facebook',
           value: 'Facebook',
           description: 'Social media',
-          icon: 'bluetooth'
+          category: '1'
         },
         {
           label: 'Twitter',
           value: 'Twitter',
           description: 'Quick updates',
-          icon: 'map'
+          category: '2'
         },
         {
           label: 'Apple',
           value: 'Apple',
           description: 'iStuff',
-          icon: 'golf_course'
+          category: '2'
         },
         {
           label: 'Oracle',
           value: 'Oracle',
           disable: true,
           description: 'Databases',
-          icon: 'casino'
+          category: '3'
         }
       ]
     }

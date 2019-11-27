@@ -7,7 +7,7 @@
     <q-badge color="orange" text-color="black" label="2" />
 
     <q-badge color="purple">
-      <q-icon name="fab fa-bluetooth-b" color="white" />
+      <q-icon name="bluetooth" color="white" />
     </q-badge>
 
     <q-badge color="red">
@@ -25,7 +25,7 @@
     <q-item clickable v-ripple class="bg-grey-2">
       <q-item-section avatar>
         <q-avatar rounded>
-          <img src="https://cdn.quasar-framework.org/img/chaosmonkey.png">
+          <img src="https://cdn.quasar.dev/img/chaosmonkey.png">
         </q-avatar>
       </q-item-section>
 
@@ -37,7 +37,7 @@
           <q-badge color="yellow-6" text-color="black">
             3
             <q-icon
-              name="fas fa-exclamation-triangle"
+              name="warning"
               size="14px"
               class="q-ml-xs"
             />

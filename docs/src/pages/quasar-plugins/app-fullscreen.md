@@ -1,5 +1,6 @@
 ---
 title: Fullscreen Plugin
+desc: A Quasar plugin to toggle the fullscreen state of your app through the Web Fullscreen API.
 ---
 There are times when you want your website or App to run in fullscreen.
 Quasar makes it easy by wrapping the [Web Fullscreen API](https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API).
@@ -22,9 +23,21 @@ import { AppFullscreen } from 'quasar'
 
 // Requesting fullscreen mode:
 AppFullscreen.request()
+  .then(() => { // v1.5.0+
+    // success!
+  })
+  .catch(err => { // v1.5.0+
+    // oh, no!!!
+  })
 
 // Exiting fullscreen mode:
 AppFullscreen.exit()
+  .then(() => { // v1.5.0+
+    // success!
+  })
+  .catch(err => { // v1.5.0+
+    // oh, no!!!
+  })
 ```
 
 ``` js
@@ -32,12 +45,26 @@ AppFullscreen.exit()
 
 // Requesting fullscreen mode:
 this.$q.fullscreen.request()
+  .then(() => { // v1.5.0+
+    // success!
+  })
+  .catch(err => { // v1.5.0+
+    // oh, no!!!
+  })
 
 // Exiting fullscreen mode:
 this.$q.fullscreen.exit()
+  .then(() => { // v1.5.0+
+    // success!
+  })
+  .catch(err => { // v1.5.0+
+    // oh, no!!!
+  })
 ```
 
-<doc-example title="AppFullscreen" file="AppFullscreen/Basic" />
+<doc-example title="Basic" file="AppFullscreen/Basic" />
+
+<doc-example title="On custom element" file="AppFullscreen/Targeted" />
 
 ::: warning
 On some phones this will have little effect:
@@ -47,7 +74,7 @@ On some phones this will have little effect:
 It all depends on the Web Fullscreen API support of the platform the code is running on.
 :::
 
-### Watching for fullscreen changes
+## Watching for fullscreen changes
 
 ``` vue
 <template>...</template>

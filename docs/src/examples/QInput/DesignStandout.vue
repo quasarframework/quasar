@@ -5,6 +5,8 @@
 
       <q-input standout v-model="text" :dense="dense" />
 
+      <q-input standout="bg-teal text-white" v-model="text" label="Custom standout" :dense="dense" />
+
       <q-input standout v-model="text" label="Label (stacked)" stack-label :dense="dense" />
 
       <q-input standout v-model="text" label="Label" :dense="dense" />
@@ -24,7 +26,7 @@
       <q-input standout v-model="text" :dense="dense">
         <template v-slot:append>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/quasar-logo.png">
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
           </q-avatar>
         </template>
       </q-input>
@@ -60,7 +62,7 @@
       <q-input standout bottom-slots v-model="text" label="Label" counter maxlength="12" :dense="dense">
         <template v-slot:before>
           <q-avatar>
-            <img src="https://cdn.quasar-framework.org/img/avatar5.jpg">
+            <img src="https://cdn.quasar.dev/img/avatar5.jpg">
           </q-avatar>
         </template>
 

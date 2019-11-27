@@ -1,5 +1,6 @@
 ---
 title: Lazy Loading / Code Splitting
+desc: How to create Webpack chunks in a Quasar app.
 ---
 When your website/app is small, you can load all layouts/pages/components into the initial bundle and serve everything at startup. But when your code gets complex and has many layouts/pages/components, it won't be optimal to do this as it will massively impact loading time. Fortunately, there is a way to solve this.
 
@@ -45,7 +46,7 @@ export default {
 </script>
 ```
 
-Now let's change this and make the page be loaded on demand only, using dynamic imports:
+Now let's change this and make the component be loaded on demand only, using dynamic imports:
 ```vue
 <script>
 export default {
@@ -100,5 +101,17 @@ So how can we limit the number of chunks created in this case? The idea is to li
   import('./folder/my/jsons/' + asset)
   ```
 3. Try to import from folders containing only files. Take the previous example and imagine ./folder/my/jsons further contains sub-folders. We made the dynamic import better by specifying a more specific path, but it's still not optimal in this case. Best is to use terminal folders that only contain files, so we limit the number of matched paths.
+
+4. Use [Webpack magic comments](https://webpack.js.org/api/module-methods/#magic-comments) `webpackInclude` and `webpackExclude` to constrain the bundled chunks with a regular expression, for example:
+  ```js
+  await import(
+    /* webpackInclude: /(ar|en-us|ro)\.js$/ */
+    `quasar/lang/${langIso}`
+  )
+    .then(lang => {
+      Quasar.lang.set(lang.default)
+    })
+  ```
+  will result in bundling only the language packs you need for your site/app, instead of bundling all the language packs (more than 40!) which might hamper the performance of the commands `quasar dev` and `quasar build`.
 
 Remember that the number of matched paths equals to the number of chunks being generated.

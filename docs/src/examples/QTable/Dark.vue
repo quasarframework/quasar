@@ -6,8 +6,7 @@
       :columns="columns"
       row-key="name"
       dark
-      class="bg-indigo-8"
-      color="orange"
+      color="amber"
     />
   </div>
 </template>

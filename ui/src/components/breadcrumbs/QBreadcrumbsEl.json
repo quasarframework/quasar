@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/breadcrumbs"
+  },
+
+  "mixins": [ "mixins/router-link" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "label": {
+      "type": "String",
+      "desc": "The label text for the breadcrumb",
+      "examples": [ "Home", "Index" ],
+      "category": "content"
+    },
+
+    "icon": {
+      "extends": "icon"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where custom content goes, unless 'icon' and 'label' props are not enough"
+    }
+  }
+}

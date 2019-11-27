@@ -1,0 +1,25 @@
+{
+  "mixins": [ "mixins/size" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/spinners"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "thickness": {
+      "type": "Number",
+      "desc": "Override value to use for stroke-width",
+      "default": 5,
+      "examples": [ "2", "5" ],
+      "category": "style"
+    }
+  }
+}

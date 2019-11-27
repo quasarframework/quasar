@@ -4,26 +4,6 @@ const gettingStarted = [
     path: 'pick-quasar-flavour'
   },
   {
-    name: 'How to use Vue',
-    path: 'how-to-use-vue'
-  },
-  {
-    name: 'Playground',
-    path: 'playground'
-  },
-  {
-    name: 'Roadmap',
-    path: 'roadmap'
-  },
-  {
-    name: 'Upgrade guide',
-    path: 'upgrade-guide'
-  },
-  {
-    name: 'Contribution Guide',
-    path: 'contribution-guide'
-  },
-  {
     name: 'Quasar Flavours',
     opened: true,
     children: [
@@ -40,6 +20,58 @@ const gettingStarted = [
         path: 'vue-cli-plugin'
       }
     ]
+  },
+  {
+    name: 'How to use Vue',
+    path: 'how-to-use-vue'
+  },
+  {
+    name: 'Playground',
+    path: 'playground'
+  },
+  {
+    name: 'Release notes',
+    badge: 'updated',
+    path: 'release-notes'
+  },
+  {
+    name: 'Roadmap',
+    path: 'roadmap'
+  },
+  {
+    name: 'Upgrade guide',
+    path: 'upgrade-guide'
+  },
+  {
+    name: 'VS Code Configuration',
+    path: 'vs-code-configuration'
+  }
+]
+
+const contributionGuide = [
+  {
+    name: 'Contribution Guide',
+    path: 'contribution-guide'
+  },
+  {
+    name: 'Running Projects',
+    path: 'running-projects',
+    badge: 'new'
+  },
+  {
+    name: 'Start a New Project',
+    path: 'new-project',
+    badge: 'new'
+  },
+  {
+    name: 'Project Maintainer Role',
+    path: 'project-maintainer',
+    badge: 'new'
+  },
+  {
+    name: 'Commit Conventions',
+    path: 'commit-conventions',
+    badge: 'new'
   }
 ]
 
@@ -47,6 +79,14 @@ const options = [
   {
     name: 'Vue Prototype Injections',
     path: 'vue-prototype-injections'
+  },
+  {
+    name: 'App Icons',
+    path: 'app-icons'
+  },
+  {
+    name: 'SEO',
+    path: 'seo'
   },
   {
     name: 'Quasar Language Packs',
@@ -90,6 +130,351 @@ const options = [
   }
 ]
 
+const security = [
+  {
+    name: `DO's and DON'Ts`,
+    path: 'dos-and-donts'
+  },
+  {
+    name: 'Report a vulnerability',
+    path: 'report-a-vulnerability'
+  },
+  {
+    name: 'Get help!',
+    path: 'get-help'
+  }
+]
+
+const cli = [
+  {
+    name: 'Installation',
+    path: 'installation'
+  },
+  {
+    name: 'quasar.conf.js',
+    path: 'quasar-conf-js'
+  },
+  {
+    name: 'App Icons',
+    path: 'app-icons'
+  },
+  {
+    name: 'Testing & Auditing',
+    path: 'testing-and-auditing'
+  },
+  {
+    name: 'CLI Documentation',
+    path: 'cli-documentation',
+    children: [
+      {
+        name: 'Directory Structure',
+        path: 'directory-structure'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Commands List',
+        path: 'commands-list'
+      },
+      {
+        name: 'CSS Preprocessors',
+        path: 'css-preprocessors'
+      },
+      {
+        name: 'Routing',
+        path: 'routing'
+      },
+      {
+        name: 'Lazy Loading - Code Splitting',
+        path: 'lazy-loading'
+      },
+      {
+        name: 'Handling Assets',
+        path: 'handling-assets'
+      },
+      {
+        name: 'Boot Files',
+        path: 'boot-files'
+      },
+      {
+        name: 'Prefetch Feature',
+        path: 'prefetch-feature'
+      },
+      {
+        name: 'API Proxying',
+        path: 'api-proxying'
+      },
+      {
+        name: 'Handling Webpack',
+        path: 'handling-webpack'
+      },
+      {
+        name: 'Handling process.env',
+        path: 'handling-process-env'
+      },
+      {
+        name: 'Vuex Store',
+        path: 'vuex-store'
+      },
+      {
+        name: 'Linter',
+        path: 'linter'
+      },
+      {
+        name: 'Supporting IE',
+        path: 'supporting-ie'
+      }
+    ]
+  },
+  {
+    name: 'Developing SPA',
+    path: 'developing-spa',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'App Icons for SPA',
+        path: 'app-icons-spa'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Deploying',
+        path: 'deploying'
+      }
+    ]
+  },
+  {
+    name: 'Developing SSR',
+    path: 'developing-ssr',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Writing Universal Code',
+        path: 'writing-universal-code'
+      },
+      {
+        name: 'Configuring SSR',
+        path: 'configuring-ssr'
+      },
+      {
+        name: 'App Icons for SSR',
+        path: 'app-icons-ssr'
+      },
+      {
+        name: 'SEO for SSR',
+        path: 'seo-for-ssr'
+      },
+      {
+        name: 'Client Side Hydration',
+        path: 'client-side-hydration'
+      },
+      {
+        name: 'Handling 404 and 500 Errors',
+        path: 'handling-404-and-500-errors'
+      },
+      {
+        name: 'SSR with PWA',
+        path: 'ssr-with-pwa'
+      },
+      {
+        name: 'SSR Frequently Asked Questions',
+        path: 'ssr-frequently-asked-questions'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Deploying',
+        path: 'deploying'
+      }
+    ]
+  },
+  {
+    name: 'Developing PWA',
+    path: 'developing-pwa',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Configuring PWA',
+        path: 'configuring-pwa'
+      },
+      {
+        name: 'App Icons for PWA',
+        path: 'app-icons-pwa'
+      },
+      {
+        name: 'Handling Service Worker',
+        path: 'handling-service-worker'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      }
+    ]
+  },
+  {
+    name: 'Developing Mobile Apps',
+    path: 'developing-mobile-apps'
+  },
+  {
+    name: 'Developing Cordova Apps',
+    path: 'developing-cordova-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring Cordova',
+        path: 'configuring-cordova'
+      },
+      {
+        name: 'App Icons for Cordova',
+        path: 'app-icons-cordova'
+      },
+      {
+        name: 'Cordova Plugins',
+        path: 'cordova-plugins'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Managing Google Analytics',
+        path: 'managing-google-analytics'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
+  },
+  {
+    name: 'Developing Capacitor Apps',
+    path: 'developing-capacitor-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring Capacitor',
+        path: 'configuring-capacitor'
+      },
+      {
+        name: 'App Icons for Capacitor',
+        path: 'app-icons-capacitor'
+      },
+      {
+        name: 'Capacitor API',
+        path: 'capacitor-api'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      },
+      {
+        name: 'Managing Google Analytics',
+        path: 'managing-google-analytics'
+      },
+      {
+        name: 'Publishing to Store',
+        path: 'publishing-to-store'
+      }
+    ]
+  },
+  {
+    name: 'Developing Electron Apps',
+    path: 'developing-electron-apps',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring Electron',
+        path: 'configuring-electron'
+      },
+      {
+        name: 'App Icons for Electron',
+        path: 'app-icons-electron'
+      },
+      {
+        name: 'Node Integration',
+        badge: 'update',
+        path: 'node-integration'
+      },
+      {
+        name: 'Electron Packages',
+        path: 'electron-packages'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Electron Static Assets',
+        path: 'electron-static-assets'
+      },
+      {
+        name: 'Frameless Electron Window',
+        path: 'frameless-electron-window'
+      },
+      {
+        name: 'Electron Security Concerns',
+        path: 'electron-security-concerns'
+      },
+      {
+        name: 'Troubleshooting and Tips',
+        path: 'troubleshooting-and-tips'
+      }
+    ]
+  },
+  {
+    name: 'Ajax Requests',
+    path: 'ajax-requests'
+  },
+  {
+    name: 'Opening Dev Server To Public',
+    path: 'opening-dev-server-to-public'
+  }
+]
+
 const style = [
   {
     name: 'Typography',
@@ -101,8 +486,12 @@ const style = [
   },
   {
     name: 'Theme Builder',
-    path: 'theme-builder',
-    badge: 'new'
+    path: 'theme-builder'
+  },
+  {
+    name: 'Dark Mode',
+    badge: 'new',
+    path: 'dark-mode'
   },
   {
     name: 'Spacing',
@@ -113,12 +502,24 @@ const style = [
     path: 'shadows'
   },
   {
+    name: 'Breakpoints',
+    path: 'breakpoints'
+  },
+  {
     name: 'Visibility',
     path: 'visibility'
   },
   {
     name: 'Positioning',
     path: 'positioning'
+  },
+  {
+    name: 'Sass/SCSS Variables',
+    path: 'sass-scss-variables'
+  },
+  {
+    name: 'Stylus Variables',
+    path: 'stylus-variables'
   },
   {
     name: 'Other Helper Classes',
@@ -147,6 +548,10 @@ const layout = [
       {
         name: 'Grid Gutter',
         path: 'gutter'
+      },
+      {
+        name: 'Flex Playground',
+        path: 'flex-playground'
       }
     ]
   },
@@ -171,13 +576,21 @@ const layout = [
     path: 'page'
   },
   {
+    name: 'Layout Builder',
+    external: true,
+    path: '/layout-builder'
+  },
+  {
+    name: 'Layout Gallery',
+    path: 'gallery'
+  },
+  {
     name: 'Page Sticky',
     path: 'page-sticky'
   },
   {
     name: 'Page Scroller',
-    path: 'page-scroller',
-    badge: 'new'
+    path: 'page-scroller'
   },
   {
     name: 'Floating Action Button',
@@ -187,22 +600,26 @@ const layout = [
 
 const directives = [
   {
-    name: 'Close Dialog',
-    path: 'close-dialog',
-    badge: 'new'
-  },
-  {
-    name: 'Close Menu',
-    path: 'close-menu',
-    badge: 'new'
+    name: 'Close Popup',
+    path: 'close-popup'
   },
   {
     name: 'Go Back (Handling Back Button)',
     path: 'go-back'
   },
   {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
+  },
+  {
     name: 'Material Ripples',
     path: 'material-ripple'
+  },
+  {
+    name: 'Mutation',
+    badge: 'new',
+    path: 'mutation'
   },
   {
     name: 'Scroll',
@@ -222,8 +639,7 @@ const directives = [
   },
   {
     name: 'Touch Repeat',
-    path: 'touch-repeat',
-    badge: 'new'
+    path: 'touch-repeat'
   },
   {
     name: 'Touch Swipe',
@@ -251,6 +667,11 @@ const plugins = [
   {
     name: 'Cookies',
     path: 'cookies'
+  },
+  {
+    name: 'Dark',
+    path: 'dark',
+    badge: 'new'
   },
   {
     name: 'Dialog',
@@ -285,23 +706,19 @@ const components = [
   },
   {
     name: 'Avatar',
-    path: 'avatar',
-    badge: 'new'
+    path: 'avatar'
   },
   {
     name: 'Badge',
-    path: 'badge',
-    badge: 'new'
+    path: 'badge'
   },
   {
     name: 'Banner',
-    path: 'banner',
-    badge: 'new'
+    path: 'banner'
   },
   {
     name: 'Bar',
-    path: 'bar',
-    badge: 'new'
+    path: 'bar'
   },
   {
     name: 'Breadcrumbs',
@@ -309,6 +726,7 @@ const components = [
   },
   {
     name: 'Buttons',
+    listPath: 'buttons',
     children: [
       {
         name: 'Button',
@@ -342,8 +760,7 @@ const components = [
   },
   {
     name: 'Circular Progress',
-    path: 'circular-progress',
-    badge: 'new'
+    path: 'circular-progress'
   },
   {
     name: 'Color Picker',
@@ -363,6 +780,7 @@ const components = [
   },
   {
     name: 'Form Components',
+    listPath: 'form-components',
     children: [
       {
         name: 'Input Textfield',
@@ -371,6 +789,14 @@ const components = [
       {
         name: 'Select',
         path: 'select'
+      },
+      {
+        name: 'Form',
+        path: 'form'
+      },
+      {
+        name: 'Field (wrapper)',
+        path: 'field'
       },
       {
         name: 'Radio',
@@ -412,12 +838,13 @@ const components = [
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {
     name: 'Img',
-    path: 'img',
-    badge: 'new'
+    badge: 'update',
+    path: 'img'
   },
   {
     name: 'Infinite Scroll',
@@ -426,6 +853,11 @@ const components = [
   {
     name: 'Inner Loading',
     path: 'inner-loading'
+  },
+  {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
   },
   {
     name: 'Knob',
@@ -441,8 +873,7 @@ const components = [
   },
   {
     name: 'Markup Table',
-    path: 'markup-table',
-    badge: 'new'
+    path: 'markup-table'
   },
   {
     name: 'Menu',
@@ -454,6 +885,7 @@ const components = [
   },
   {
     name: 'Observers',
+    listPath: 'observers',
     children: [
       {
         name: 'Resize Observer (for Element)',
@@ -479,8 +911,7 @@ const components = [
   },
   {
     name: 'Popup Proxy',
-    path: 'popup-proxy',
-    badge: 'new'
+    path: 'popup-proxy'
   },
   {
     name: 'Pull to refresh',
@@ -496,13 +927,11 @@ const components = [
   },
   {
     name: 'Separator',
-    path: 'separator',
-    badge: 'new'
+    path: 'separator'
   },
   {
     name: 'Slide Item',
-    path: 'slide-item',
-    badge: 'new'
+    path: 'slide-item'
   },
   {
     name: 'Slide Transition',
@@ -510,8 +939,7 @@ const components = [
   },
   {
     name: 'Space',
-    path: 'space',
-    badge: 'new'
+    path: 'space'
   },
   {
     name: 'Spinners',
@@ -519,8 +947,7 @@ const components = [
   },
   {
     name: 'Splitter',
-    path: 'splitter',
-    badge: 'new'
+    path: 'splitter'
   },
   {
     name: 'Stepper',
@@ -528,6 +955,7 @@ const components = [
   },
   {
     name: 'Table',
+    badge: 'update',
     path: 'table'
   },
   {
@@ -536,8 +964,7 @@ const components = [
   },
   {
     name: 'Tab Panels',
-    path: 'tab-panels',
-    badge: 'new'
+    path: 'tab-panels'
   },
   {
     name: 'Timeline',
@@ -562,6 +989,81 @@ const components = [
   {
     name: 'Video',
     path: 'video'
+  },
+  {
+    name: 'Virtual Scroll',
+    badge: 'new',
+    path: 'virtual-scroll'
+  }
+]
+
+const appExtensions = [
+  {
+    name: 'Introduction',
+    path: 'introduction'
+  },
+  {
+    name: 'Discover App Extensions',
+    path: 'discover'
+  },
+  {
+    name: 'Development Guide',
+    path: 'development-guide',
+    opened: true,
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Prompts API',
+        path: 'prompts-api'
+      },
+      {
+        name: 'Install API',
+        path: 'install-api'
+      },
+      {
+        name: 'Index API',
+        path: 'index-api'
+      },
+      {
+        name: 'Uninstall API',
+        path: 'uninstall-api'
+      }
+    ]
+  },
+  {
+    name: 'Tips and Tricks',
+    path: 'tips-and-tricks',
+    opened: true,
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Provide a UI component',
+        path: 'provide-a-ui-component'
+      },
+      {
+        name: 'Provide a directive',
+        path: 'provide-a-directive'
+      },
+      {
+        name: 'Inject Quasar Plugin',
+        path: 'inject-quasar-plugin'
+      },
+      {
+        name: 'Starter kit equivalent',
+        badge: 'new',
+        path: 'starter-kit-equivalent'
+      },
+      {
+        name: 'Chain Webpack',
+        path: 'chain-webpack'
+      }
+    ]
   }
 ]
 
@@ -583,263 +1085,105 @@ const utils = [
     path: 'formatter-utils'
   },
   {
+    name: 'Scrolling Utils',
+    path: 'scrolling-utils'
+  },
+  {
     name: 'Other Utils',
+    badge: 'update',
     path: 'other-utils'
   }
 ]
 
-const cli = [
+/*
+// FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
+const firebaseAuthTypes = [{
+  name: 'Email',
+  path: 'email'
+}]
+
+const backends = [
   {
-    name: 'Installation',
-    path: 'installation'
+    name: 'AWS -- Amplify',
+    path: 'aws-amplify'
   },
   {
-    name: 'quasar.conf.js',
-    path: 'quasar-conf-js'
+    name: 'GraphQL',
+    path: 'graphQL'
   },
   {
-    name: 'Testing & Auditing',
-    path: 'testing-and-auditing'
+    name: 'Feathers JS',
+    path: 'feathersjs'
   },
   {
-    name: 'CLI Documentation',
-    path: 'cli-documentation',
-    children: [
-      {
-        name: 'Directory Structure',
-        path: 'directory-structure'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Commands List',
-        path: 'commands-list'
-      },
-      {
-        name: 'Routing',
-        path: 'routing'
-      },
-      {
-        name: 'Lazy Loading - Code Splitting',
-        path: 'lazy-loading'
-      },
-      {
-        name: 'Handling Assets',
-        path: 'handling-assets'
-      },
-      {
-        name: 'Boot Files',
-        path: 'boot-files'
-      },
-      {
-        name: 'Prefetch Feature',
-        path: 'prefetch-feature'
-      },
-      {
-        name: 'API Proxying',
-        path: 'api-proxying'
-      },
-      {
-        name: 'Handling Webpack',
-        path: 'handling-webpack'
-      },
-      {
-        name: 'Vuex Store',
-        path: 'vuex-store'
-      },
-      {
-        name: 'Linter',
-        path: 'linter'
-      },
-      {
-        name: 'Supporting IE',
-        path: 'supporting-ie'
-      }
-    ]
-  },
-  {
-    name: 'App Extensions',
-    path: 'app-extensions',
+    name: 'Firebase',
+    opened: false,
     children: [
       {
         name: 'Introduction',
-        path: 'introduction'
+        path: 'firebase/introduction'
+      },
+      {
+        name: 'Installation',
+        path: 'firebase/install'
+      },
+      {
+        name: 'Service Structure',
+        path: 'firebase/structure'
+      },
+      {
+        name: 'Route Guarding',
+        path: 'firebase/routeGuards'
+      },
+      {
+        name: 'Authentication',
+        path: 'firebase/authTypes',
+        children: firebaseAuthTypes
+      },
+      {
+        name: 'Data Store',
+        path: 'firebase/dataStore'
+      },
+      {
+        name: 'Hosting',
+        path: 'firebase/hosting'
+      },
+      {
+        name: 'Messaging',
+        path: 'firebase/messaging'
+      },
+      {
+        name: 'Storage',
+        path: 'firebase/storage'
+      },
+      {
+        name: 'SSR',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Vuex',
+        path: 'firebase/vuex'
+      },
+      {
+        name: 'Custom Implementations',
+        path: 'firebase/custom'
+      },
+      {
+        name: 'Firebase CLI',
+        path: 'firebase/cli'
       }
     ]
   },
   {
-    name: 'Developing SPA',
-    path: 'developing-spa',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Deploying',
-        path: 'deploying'
-      }
-    ]
-  },
-  {
-    name: 'Developing SSR',
-    path: 'developing-ssr',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Writing Universal Code',
-        path: 'writing-universal-code'
-      },
-      {
-        name: 'Configuring SSR',
-        path: 'configuring-ssr'
-      },
-      {
-        name: 'Client Side Hydration',
-        path: 'client-side-hydration'
-      },
-      {
-        name: 'Handling 404 and 500 Errors',
-        path: 'handling-404-and-500-errors'
-      },
-      {
-        name: 'SSR with PWA',
-        path: 'ssr-with-pwa'
-      },
-      {
-        name: 'SSR Frequently Asked Questions',
-        path: 'ssr-frequently-asked-questions'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Deploying',
-        path: 'deploying'
-      }
-    ]
-  },
-  {
-    name: 'Developing PWA',
-    path: 'developing-pwa',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Configuring PWA',
-        path: 'configuring-pwa'
-      },
-      {
-        name: 'Handling Service Worker',
-        path: 'handling-service-worker'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      }
-    ]
-  },
-  {
-    name: 'Developing Mobile Apps',
-    path: 'developing-mobile-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Preparation',
-        path: 'preparation'
-      },
-      {
-        name: 'Configuring Cordova',
-        path: 'configuring-cordova'
-      },
-      {
-        name: 'Cordova Plugins',
-        path: 'cordova-plugins'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Troubleshooting and Tips',
-        path: 'troubleshooting-and-tips'
-      },
-      {
-        name: 'Managing Google Analytics',
-        path: 'managing-google-analytics'
-      },
-      {
-        name: 'Publishing to Store',
-        path: 'publishing-to-store'
-      }
-    ]
-  },
-  {
-    name: 'Developing Electron Apps',
-    path: 'developing-electron-apps',
-    children: [
-      {
-        name: 'Introduction',
-        path: 'introduction'
-      },
-      {
-        name: 'Preparation',
-        path: 'preparation'
-      },
-      {
-        name: 'Configuring Electron',
-        path: 'configuring-electron'
-      },
-      {
-        name: 'Electron Packages',
-        path: 'electron-packages'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Electron Static Assets',
-        path: 'electron-static-assets'
-      },
-      {
-        name: 'Electron Security Concerns',
-        path: 'electron-security-concerns'
-      },
-      {
-        name: 'Troubleshooting and Tips',
-        path: 'troubleshooting-and-tips'
-      }
-    ]
-  },
-  {
-    name: 'Ajax Requests',
-    path: 'ajax-requests'
-  },
-  {
-    name: 'Opening Dev Server To Public',
-    path: 'opening-dev-server-to-public'
+    name: 'Laravel',
+    path: 'laravel'
   }
 ]
+*/
 
 module.exports = [
   {
-    name: 'Introduction to Quasar',
+    name: 'Why Quasar?',
     icon: 'room',
     path: 'introduction-to-quasar'
   },
@@ -849,16 +1193,44 @@ module.exports = [
     path: 'sponsors-and-backers'
   },
   {
+    name: 'Why Donations Are Important',
+    icon: 'assignment_late',
+    path: 'why-donate'
+  },
+  {
+    name: 'Video Tutorials',
+    icon: 'ondemand_video',
+    path: 'video-tutorials',
+    badge: 'new'
+  },
+  {
+    name: 'Meet the Team',
+    icon: 'people',
+    path: 'meet-the-team'
+  },
+  {
     name: 'Getting Started',
     icon: 'flight_takeoff',
     path: 'start',
     children: gettingStarted
   },
   {
+    name: 'Contribution Guide',
+    icon: 'code',
+    path: 'contribution-guide',
+    children: contributionGuide
+  },
+  {
     name: 'Quasar Options & Helpers',
     icon: 'tune',
     path: 'options',
     children: options
+  },
+  {
+    name: 'Security',
+    icon: 'security',
+    path: 'security',
+    children: security
   },
   {
     name: 'Quasar CLI',
@@ -897,9 +1269,25 @@ module.exports = [
     children: plugins
   },
   {
+    name: 'App Extensions',
+    icon: 'note_add',
+    path: 'app-extensions',
+    children: appExtensions
+  },
+  {
     name: 'Quasar Utils',
     icon: 'healing',
     path: 'quasar-utils',
     children: utils
   }
+
+  /*
+  // FIREBASE DOCS: UNCOMMENT WHEN READY TO RELEASE
+  ,{
+    name: 'Backend & API',
+    icon: 'storage',
+    path: 'backend-and-api',
+    children: backends
+  }
+  */
 ]

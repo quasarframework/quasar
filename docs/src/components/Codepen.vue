@@ -4,6 +4,7 @@ form(
   method="POST"
   action="https://codepen.io/pen/define/"
   target="_blank"
+  rel="noopener"
   class="hidden"
 )
   input(
@@ -31,10 +32,10 @@ export default {
 
   props: {
     title: String,
-    parts: Object
+    slugifiedTitle: String
   },
 
-  data: () => ({ active: false }),
+  data: () => ({ active: false, parts: {} }),
 
   computed: {
     css () {
@@ -73,7 +74,7 @@ export default {
         .replace(/([\w]+=")([^"]*?)(")/gs, function (match, p1, p2, p3) {
           return p1 + p2.replace(/>/g, '___TEMP_REPLACEMENT___') + p3
         })
-        .replace(/<(q-[\w-]+)([^>]+?)\/>/gs, '<$1$2></$1>')
+        .replace(/<(q-[\w-]+|div)([^>]+?)\/>/gs, '<$1$2></$1>')
         .replace(/___TEMP_REPLACEMENT___/gs, '>')
         .trim()
     },
@@ -103,7 +104,11 @@ export default {
       const data = {
         title: this.computedTitle,
         html:
-          `<div id="q-app">
+          `<!--
+  Forked from:
+  ${window.location.origin + window.location.pathname}#${this.slugifiedTitle}
+-->
+<div id="q-app">
   ${this.html}
 </div>`,
         css: this.css,
@@ -119,13 +124,16 @@ export default {
   },
 
   methods: {
-    open () {
+    open (parts) {
+      this.parts = parts
+
       if (this.active) {
         this.$el.submit()
         return
       }
 
       this.active = true
+
       this.$nextTick(() => {
         this.$el.submit()
       })

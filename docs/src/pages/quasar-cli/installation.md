@@ -1,36 +1,34 @@
 ---
 title: Quasar CLI Installation
+desc: How to install the Quasar CLI on your development machine.
 ---
 
 Make sure you have Node >=8 and NPM >=5 installed on your machine.
 
 ```bash
-# Uninstall quasar-cli if you have it from <1.0 versions
-$ npm uninstall -g quasar-cli
-# or..
-$ yarn global remove quasar-cli
-
 # Node.js >= 8.9.0 is required.
-$ npm install -g @quasar/cli
-# or:
+
 $ yarn global add @quasar/cli
+# or
+$ npm install -g @quasar/cli
 ```
 
-::: tip TIPS
-* The v1.0+ CLI is compatible with pre v1.0 project folders too, so you DON'T need to worry that your older projects won't run anymore.
-* You are not required to have vue cli installed anymore in order to generate a Quasar project folder.
+::: tip
+If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
+
+```bash
+# in ~/.bashrc or equivalent
+export PATH="$(yarn global bin):$PATH"
+```
 :::
 
 Then we create a project folder with Quasar CLI:
-```bash
-# currently installs v0.17, for v1 see below
-$ quasar create <folder_name>
 
-## for Quasar v1.0-beta, run this instead:
-$ quasar create <folder_name> -b dev
+```bash
+$ quasar create <folder_name>
 ```
 
-Note that you don't need separate projects if you want to build any of the options described above. This one project can seamlessly handle all of them.
+Note that you don't need separate projects if you want to build any of the available platforms. This one project can seamlessly handle all of them.
 
 To continue your learning about Quasar, you should familiarize yourself with the Quasar CLI in depth, because you will be using it a lot.
 
@@ -51,9 +49,9 @@ Example of adding a few npm scripts into your `package.json`:
 }
 ```
 
-The above will allow you to run `$ yarn dev`/`$ npm run dev` or `$yarn build`/`$ npm run build` without the need of a globally installed `@quasar/cli`, should you wish to do so.
+The above will allow you to run `$ yarn dev` or `$ yarn build` without the need of a globally installed `@quasar/cli`, should you wish to do so.
 
-Alternatively, you can even use [npx](https://github.com/zkat/npx) to run quasar commands without the need of a globally installed `@quasar/cli`.
+Alternatively, you can even use [npx](https://github.com/npm/npx) to run quasar commands without the need of a globally installed `@quasar/cli`.
 
 ```bash
 $ npx quasar dev

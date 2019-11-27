@@ -1,6 +1,4 @@
-export function copyHeading (id) {
-  const text = window.location.origin + window.location.pathname + '#' + id
-
+export function copyToClipboard (text) {
   var textArea = document.createElement('textarea')
   textArea.className = 'fixed-top'
   textArea.value = text
@@ -10,12 +8,19 @@ export function copyHeading (id) {
 
   document.execCommand('copy')
   document.body.removeChild(textArea)
+}
+
+export function copyHeading (id) {
+  const text = window.location.origin + window.location.pathname + '#' + id
+
+  copyToClipboard(text)
 
   this.$q.notify({
     message: 'Anchor has been copied to clipboard.',
-    color: 'primary',
+    color: 'white',
+    textColor: 'primary',
     position: 'top',
-    actions: [ { icon: 'close', color: 'white' } ],
+    actions: [ { icon: 'close', color: 'primary' } ],
     timeout: 2000
   })
 }

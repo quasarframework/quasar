@@ -1,10 +1,11 @@
 ---
 title: Writing Universal Code
+desc: Guide on how to write code for a Quasar server-side rendered app.
 ---
 
 Writing `universal` code (also called `isomorphic`) means writing code that runs on both the server and the client. Due to use-case and platform API differences, the behavior of our code will not be exactly the same when running in different environments. Here we will go over the key things you need to be aware of.
 
-![Quasar SSR Build System](https://cdn.quasar-framework.org/img/ssr-build.png "Quasar SSR Build System")
+![Quasar SSR Build System](https://cdn.quasar.dev/img/ssr-build.png "Quasar SSR Build System")
 
 ## Data Reactivity on the Server
 In a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution.
@@ -56,7 +57,7 @@ For tasks shared between server and client but use different platform APIs, it's
 For browser-only APIs, the common approach is to lazily access them inside client-only lifecycle hooks.
 
 ## Boot Files
-Note that if a 3rd party library is not written with universal usage in mind, it could be tricky to integrate it into an server-rendered app. You *might* be able to get it working by mocking some of the globals, but it would be hacky and may interfere with the environment detection code of other libraries.
+Note that if a 3rd party library is not written with universal usage in mind, it could be tricky to integrate it into a server-rendered app. You *might* be able to get it working by mocking some of the globals, but it would be hacky and may interfere with the environment detection code of other libraries.
 
 When you add a 3rd party library to your project (through a [Boot File](/quasar-cli/cli-documentation/boot-files)), take into consideration whether it can run on server and on client. If it needs to run only on server or only on client, then specify this in quasar.conf.js:
 

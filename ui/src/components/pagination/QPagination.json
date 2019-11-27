@@ -1,0 +1,175 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/pagination"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "value": {
+      "type": "Number",
+      "desc": "Current page (must be between min/max)",
+      "required": true,
+      "examples": [ 3 ],
+      "category": "model"
+    },
+
+    "min": {
+      "type": "Number",
+      "desc": "Minimum page (must be lower than 'max')",
+      "default": 1,
+      "examples": [ 3 ],
+      "category": "model"
+    },
+
+    "max": {
+      "type": "Number",
+      "desc": "Number of last page (must be higher than 'min')",
+      "default": 100,
+      "required": true,
+      "examples": [ 10 ],
+      "category": "model"
+    },
+
+    "color": {
+      "extends": "color",
+      "default": "primary"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "desc": "Notify the component that the background is a dark color (useful when you are using it along with the 'input' prop)",
+      "addedIn": "v1.4.2"
+    },
+
+    "input-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the input (if using one)",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "input-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the input (if using one)",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
+    "size": {
+      "type": "String",
+      "desc": "Button size in CSS units, including unit name",
+      "examples": [ "20px" ],
+      "category": "style"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "input": {
+      "type": "Boolean",
+      "desc": "Use an input instead of buttons",
+      "category": "content"
+    },
+
+    "to-fn": {
+      "type": "Function",
+      "desc": "Generate link for page buttons; For best performance, reference it from your scope and do not define it inline",
+      "params": {
+        "page": {
+          "type": "Number",
+          "desc": "Page number to navigate to",
+          "examples": [ 2 ]
+        }
+      },
+      "returns": {
+        "type": [ "Object", "String" ],
+        "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
+        "__exemption": [ "examples" ]
+      },
+      "examples": [ ":to-fn=\"page => ({ query: { page } })\"" ],
+      "category": "content",
+      "addedIn": "v1.2.6"
+    },
+
+    "boundary-links": {
+      "type": "Boolean",
+      "desc": "Show boundary button links",
+      "category": "content"
+    },
+
+    "boundary-numbers": {
+      "type": "Boolean",
+      "desc": "Always show first and last page buttons (if not using 'input')",
+      "category": "content"
+    },
+
+    "direction-links": {
+      "type": "Boolean",
+      "desc": "Show direction buttons",
+      "category": "content"
+    },
+
+    "ellipses": {
+      "type": "Boolean",
+      "desc": "Show ellipses (...) when pages are available",
+      "category": "content"
+    },
+
+    "max-pages": {
+      "type": "Number",
+      "default": 0,
+      "desc": "Maximum number of page links to display at a time; 0 means Infinite",
+      "examples": [ 5 ],
+      "category": "model"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input",
+      "params": {
+        "value": {
+          "type": "String"
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "set": {
+      "desc": "Go directly to the specified page",
+      "params": {
+        "pageNumber": {
+          "type": "Number",
+          "desc": "Page number to go to",
+          "examples": [ 3 ]
+        }
+      }
+    },
+
+    "setByOffset": {
+      "desc": "Increment/Decrement current page by offset",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Offset page, can be negative or positive",
+          "examples": [ 3 ]
+        }
+      }
+    }
+  }
+}

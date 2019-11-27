@@ -1,5 +1,5 @@
 <template lang="pug">
-q-card.doc-installation.q-my-lg
+q-card.doc-installation.q-my-lg(flat, bordered)
   q-tabs.text-grey-7.bg-white(v-model="currentTab", align="left", indicator-color="primary", dense, :breakpoint="0")
     q-tab(
       v-for="tab in ['Quasar CLI', 'UMD', 'Vue CLI']"
@@ -65,13 +65,20 @@ export default {
     QuasarCli () {
       const parts = []
 
-      ;['components', 'directives', 'plugins'].forEach(type => {
+      ;['components', 'directives'].forEach(type => {
         if (this[type] !== void 0) {
-          parts.push(`${type}: [
+          parts.push(`// NOT needed if using auto-import feature:
+    ${type}: [
       ${this.nameAsString(this[type], 6)}
     ]`)
         }
       })
+
+      if (this.plugins !== void 0) {
+        parts.push(`plugins: [
+      ${this.nameAsString(this.plugins, 6)}
+    ]`)
+      }
 
       if (this.config !== void 0) {
         parts.push(`config: {

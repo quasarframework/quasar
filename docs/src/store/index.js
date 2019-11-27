@@ -11,8 +11,8 @@ Vue.use(Vuex)
 export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     state: {
-      leftDrawerState: true,
-      rightDrawerState: true,
+      leftDrawerState: false,
+      rightDrawerState: false,
       toc: []
     },
 
@@ -26,7 +26,9 @@ export default function (/* { ssrContext } */) {
       },
 
       updateToc (state, newToc) {
-        state.toc = [{ id: 'Introduction', title: 'Introduction' }].concat(newToc)
+        state.toc = newToc.length > 0
+          ? [{ id: 'Introduction', title: 'Introduction' }].concat(newToc)
+          : []
       }
     }
   })

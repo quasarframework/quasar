@@ -9,7 +9,7 @@
                 style="width: 70px"
                 :ratio="1"
                 class="rounded-borders"
-                src="https://cdn.quasar-framework.org/img/donuts.png"
+                src="https://cdn.quasar.dev/img/donuts.png"
               />
 
               <div class="text-h4 q-ml-md text-white">Treats</div>

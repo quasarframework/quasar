@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/timeline"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "color": {
+      "extends": "color"
+    },
+
+    "side": {
+      "type": "String",
+      "desc": "Side to place the timeline entries in dense and comfortable layout; For loose layout it gets overridden by QTimelineEntry side prop",
+      "default": "right",
+      "values": [ "left", "right" ],
+      "category": "behavior"
+    },
+
+    "layout": {
+      "type": "String",
+      "desc": "Layout of the timeline. Dense keeps content and labels on one side. Comfortable keeps content on one side and labels on the opposite side. Loose puts content on both sides.",
+      "default": "dense",
+      "values": [ "dense", "comfortable", "loose" ],
+      "category": "behavior"
+    },
+
+    "dark": {
+      "extends": "dark"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Used for content of component"
+    }
+  }
+}

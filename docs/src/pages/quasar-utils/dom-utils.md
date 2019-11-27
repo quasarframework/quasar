@@ -1,5 +1,6 @@
 ---
 title: DOM Utils
+desc: A set of Quasar methods for DOM elements which helps you in retrieving the offset on screen viewport, getting and setting styles and waiting for the DOM to be ready.
 ---
 
 ### Helping Tree-Shake
@@ -23,6 +24,10 @@ import { dom } from 'quasar'
 console.log(dom.offset(DomElement))
 // { top: 10, left: 100 }
 ```
+
+::: tip
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+:::
 
 ## Offset on screen viewport
 ``` js

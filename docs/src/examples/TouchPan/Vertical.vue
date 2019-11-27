@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md row justify-center">
     <q-card
-      v-touch-pan.vertical.prevent.mouse.mousePrevent="handlePan"
+      v-touch-pan.vertical.prevent.mouse="handlePan"
       class="custom-area cursor-pointer bg-primary text-white shadow-2 relative-position row flex-center"
     >
       <div v-if="info" class="custom-info">
@@ -49,24 +49,25 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .custom-area
-  width 80%
-  height 450px
-  border-radius 3px
+  width: 90%
+  height: 480px
+  border-radius: 3px
+  padding: 8px
 
 .custom-info pre
-  width 250px
-  font-size 12px
+  width: 180px
+  font-size: 12px
 
 .touch-signal
-  position absolute
-  top 16px
-  right 16px
-  width 35px
-  height 35px
-  font-size 25px
-  border-radius 50% !important
-  text-align center
-  background rgba(255, 255, 255, .2)
+  position: absolute
+  top: 16px
+  right: 16px
+  width: 35px
+  height: 35px
+  font-size: 25px
+  border-radius: 50% !important
+  text-align: center
+  background: rgba(255, 255, 255, .2)
 </style>

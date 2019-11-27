@@ -4,8 +4,8 @@
       v-model="current"
       color="purple"
       :max="10"
-      :maxPages="6"
-      :boundaryNumbers="true"
+      :max-pages="6"
+      :boundary-numbers="true"
     >
     </q-pagination>
   </div>

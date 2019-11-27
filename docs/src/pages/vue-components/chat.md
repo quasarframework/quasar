@@ -1,5 +1,6 @@
 ---
 title: Chat Message
+desc: The QChatMessage Vue component displays a chat entry containing one or more user messages.
 ---
 
 Quasar supplies a chat component called QChatMessage which is really a chat entry that renders the data given by the props.
@@ -35,6 +36,14 @@ Using the property `sent` is intended for the sender of the chat message. The ot
 ### More advanced
 
 <doc-example title="Slot" file="QChatMessage/Slot" />
+
+### Sanitization
+
+::: warning
+Always sanitize values if you do not trust the origin (if the value comes from user input).
+:::
+
+<doc-example title="Sanitized content" file="QChatMessage/Sanitize" />
 
 
 ## QChatMessage API

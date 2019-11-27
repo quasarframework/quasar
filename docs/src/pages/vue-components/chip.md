@@ -1,5 +1,6 @@
 ---
 title: Chip
+desc: The QChip Vue component is a simple UI block entity, representing for example more advanced underlying data, such as a contact, but in a compact way.
 related:
   - /vue-components/avatar
   - /vue-components/icon
@@ -21,6 +22,10 @@ Also check out [QBadge](/vue-components/badge).
 <doc-example title="Basic" file="QChip/Basic" />
 
 <doc-example title="Dense" file="QChip/Dense" />
+
+Custom sizes (below) have been introduced in v1.2.2+:
+
+<doc-example title="Custom size" file="QChip/Sizes" />
 
 <doc-example title="Square" file="QChip/Square" />
 

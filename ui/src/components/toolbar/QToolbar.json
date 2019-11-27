@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/toolbar"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "inset": {
+      "type": "Boolean",
+      "desc": "Apply an inset to content (useful for subsequent toolbars)",
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

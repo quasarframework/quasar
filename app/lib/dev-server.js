@@ -4,15 +4,12 @@ const
 
 const
   appPaths = require('./app-paths'),
-  log = require('./helpers/logger')('app:dev-server')
+  logger = require('./helpers/logger'),
+  openBrowser = require('./helpers/open-browser')
+  log = logger('app:dev-server'),
+  warn = logger('app:dev-server', 'red')
 
 let alreadyNotified = false
-
-function openBrowser (url) {
-  const opn = require('opn')
-  opn(url)
-}
-
 module.exports = class DevServer {
   constructor (quasarConfig) {
     this.quasarConfig = quasarConfig
@@ -52,8 +49,8 @@ module.exports = class DevServer {
         if (alreadyNotified) { return }
         alreadyNotified = true
 
-        if (cfg.devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL)
+        if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
         }
       })
     })
@@ -76,13 +73,23 @@ module.exports = class DevServer {
       express = require('express'),
       chokidar = require('chokidar'),
       { createBundleRenderer } = require('vue-server-renderer'),
-      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
+      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance(),
+      SsrExtension = require('./ssr/ssr-extension')
 
     let renderer
 
     function createRenderer (bundle, options) {
       // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
-      return createBundleRenderer(bundle, Object.assign(options, {
+      return createBundleRenderer(bundle, {
+        ...options,
+        ...(cfg.build.preloadChunks !== true
+          ? {
+            shouldPreload: () => false,
+            shouldPrefetch: () => false
+          }
+          : {}
+        ),
+
         // for component caching
         cache: new LRU({
           max: 1000,
@@ -90,7 +97,7 @@ module.exports = class DevServer {
         }),
         // recommended for performance
         runInNewContext: false
-      }))
+      })
     }
 
     function render (req, res) {
@@ -210,38 +217,71 @@ module.exports = class DevServer {
 
     const serverCompilerWatcher = serverCompiler.watch({}, () => {})
 
+    const originalAfter = cfg.devServer.after
+
     // start building & launch server
-    const server = new WebpackDevServer(clientCompiler, Object.assign(
-      {
-        after: app => {
-          if (cfg.ctx.mode.pwa) {
-            app.use('/manifest.json', (req, res) => {
-              res.setHeader('Content-Type', 'application/json')
-              res.send(pwa.manifest)
-            })
-            app.use('/service-worker.js', (req, res) => {
-              res.setHeader('Content-Type', 'text/javascript')
-              res.send(pwa.serviceWorker)
-            })
-          }
+    const server = new WebpackDevServer(clientCompiler, {
+      ...cfg.devServer,
 
-          app.use('/statics', express.static(appPaths.resolve.src('statics'), {
-            maxAge: 0
-          }))
-
-          cfg.__ssrExtension.extendApp({ app })
-
-          app.get('*', render)
+      after: app => {
+        if (cfg.ctx.mode.pwa) {
+          app.use('/manifest.json', (req, res) => {
+            res.setHeader('Content-Type', 'application/json')
+            res.send(pwa.manifest)
+          })
+          app.use('/service-worker.js', (req, res) => {
+            res.setHeader('Content-Type', 'text/javascript')
+            res.send(pwa.serviceWorker)
+          })
         }
-      },
-      cfg.devServer
-    ))
+
+        app.use('/statics', express.static(appPaths.resolve.src('statics'), {
+          maxAge: 0
+        }))
+
+        originalAfter && originalAfter(app)
+
+        SsrExtension.getModule().extendApp({
+          app,
+
+          ssr: {
+            renderToString ({ req, res }, fn) {
+              const context = {
+                url: req.url,
+                req,
+                res
+              }
+
+              renderer.renderToString(context, (err, html) => {
+                if (err) {
+                  handleError(err)
+                  return
+                }
+                if (cfg.__meta) {
+                  html = context.$getMetaHTML(html)
+                }
+
+                fn(err, html)
+              })
+            },
+
+            settings: Object.assign(
+              {},
+              JSON.parse(cfg.ssr.__templateOpts),
+              { debug: true }
+            )
+          }
+        })
+
+        app.get('*', render)
+      }
+    })
 
     readyPromise.then(() => {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
-        if (cfg.devServer.open) {
-          openBrowser(cfg.build.APP_URL)
+        if (cfg.__devServer.open) {
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
         }
       })
     })

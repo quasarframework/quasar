@@ -1,5 +1,6 @@
 ---
 title: List and List Items
+desc: How to use the QList, QItem, QItemSection and QItemLabel Vue components.
 related:
   - /vue-components/expansion-item
   - /vue-components/slide-item
@@ -30,7 +31,7 @@ List Items have the following pre-built child components:
 
 ### QItemSection
 
-<doc-example title="Left avatar/thumbnai QItemSection" file="QItem/AvatarLeft" />
+<doc-example title="Left avatar/thumbnail QItemSection" file="QItem/AvatarLeft" />
 
 <doc-example title="Right avatar/thumbnail QItemSection" file="QItem/AvatarRight" />
 
@@ -74,7 +75,7 @@ For more complex menus, consider also using [QExpansionItem](/vue-components/exp
 You can use QItems together with Vue Router through `<router-link>` properties bound to it. These allow for listening to the current app route and also triggering a route when clicked/tapped.
 
 ```vue
-<q-item to="/inbox" exact />
+<q-item to="/inbox" exact>
   <q-item-section avatar>
     <q-icon name="inbox" />
   </q-item-section>

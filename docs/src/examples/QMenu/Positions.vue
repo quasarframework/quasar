@@ -8,10 +8,10 @@
           self="top left"
         >
           <q-list style="min-width: 100px">
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>anchor="top right"</q-item-section>
             </q-item>
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>self="top left"</q-item-section>
             </q-item>
           </q-list>
@@ -24,10 +24,10 @@
           self="center middle"
         >
           <q-list style="min-width: 100px">
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>anchor="center middle"</q-item-section>
             </q-item>
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>self="center middle"</q-item-section>
             </q-item>
           </q-list>
@@ -40,10 +40,10 @@
           self="bottom left"
         >
           <q-list style="min-width: 100px">
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>anchor="bottom right"</q-item-section>
             </q-item>
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>self="bottom left"</q-item-section>
             </q-item>
           </q-list>
@@ -55,10 +55,10 @@
           :offset="[0, 20]"
         >
           <q-list style="min-width: 100px">
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>:offset="[0, 20]"</q-item-section>
             </q-item>
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>:offset="[0, 20]"</q-item-section>
             </q-item>
           </q-list>
@@ -70,10 +70,10 @@
           :offset="[50, 10]"
         >
           <q-list style="min-width: 100px">
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>:offset="[50, 10]"</q-item-section>
             </q-item>
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>:offset="[50, 10]"</q-item-section>
             </q-item>
           </q-list>
@@ -85,10 +85,10 @@
           :offset="[-50, 10]"
         >
           <q-list style="min-width: 100px">
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>:offset="[-50, 10]"</q-item-section>
             </q-item>
-            <q-item clickable v-close-menu>
+            <q-item clickable v-close-popup>
               <q-item-section>:offset="[-50, 10]"</q-item-section>
             </q-item>
           </q-list>

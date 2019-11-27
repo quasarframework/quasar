@@ -1,5 +1,11 @@
 ---
 title: Grid Row
+desc: How to use the Quasar grid for rows.
+related:
+  - /layout/grid/introduction-to-flexbox
+  - /layout/grid/column
+  - /layout/grid/gutter
+  - /layout/grid/flex-playground
 ---
 
 In the hope that you've previously read the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox) theory, let's get deeper into Rows.
@@ -68,3 +74,8 @@ Move columns to the right using `.offset-md-*` classes. These classes increase t
 To nest your content with the default grid, add a new .row and set of `.col-sm-*` columns within an existing `.col-sm-*` column. Nested rows should include a set of columns that add up to 12 or fewer (it is not required that you use all 12 available columns).
 
 <doc-example title="Nesting" file="grid/RowNesting" />
+
+## Flex Playground
+To see the Flex in action, you can use the Flex Playground to interactively learn more.
+
+<q-btn push color="primary" icon-right="launch" label="Flex Playground" to="/layout/grid/flex-playground" />

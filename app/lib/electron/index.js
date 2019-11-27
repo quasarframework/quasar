@@ -1,11 +1,14 @@
+const webpack = require('webpack')
+
 const
-  spawn = require('../helpers/spawn'),
-  webpack = require('webpack'),
   logger = require('../helpers/logger'),
   log = logger('app:electron'),
   warn = logger('app:electron', 'red'),
+  { spawn } = require('../helpers/spawn'),
   appPaths = require('../app-paths'),
-  nodePackager = require('../helpers/node-packager')
+  nodePackager = require('../helpers/node-packager'),
+  getPackageJson = require('../helpers/get-package-json'),
+  getPackage = require('../helpers/get-package')
 
 class ElectronRunner {
   constructor () {
@@ -13,7 +16,9 @@ class ElectronRunner {
     this.watcher = null
   }
 
-  async run (quasarConfig) {
+  init () {}
+
+  async run (quasarConfig, argv) {
     const url = quasarConfig.getBuildConfig().build.APP_URL
 
     if (this.pid) {
@@ -29,7 +34,7 @@ class ElectronRunner {
 
     const compiler = webpack(quasarConfig.getWebpackConfig().main)
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       log(`Building main Electron process...`)
       this.watcher = compiler.watch({}, async (err, stats) => {
         if (err) {
@@ -49,12 +54,12 @@ class ElectronRunner {
         log()
 
         if (stats.hasErrors()) {
-          warn(`Electron main build failed with errors`)
+          warn(`⚠️  Electron main build failed with errors`)
           return
         }
 
         await this.__stopElectron()
-        this.__startElectron()
+        this.__startElectron(argv._)
 
         resolve()
       })
@@ -64,11 +69,11 @@ class ElectronRunner {
   build (quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
 
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       spawn(
         nodePackager,
         [ 'install', '--production' ],
-        cfg.build.distDir,
+        { cwd: cfg.build.distDir },
         code => {
           if (code) {
             warn(`⚠️  [FAIL] ${nodePackager} failed installing dependencies`)
@@ -78,7 +83,7 @@ class ElectronRunner {
         }
       )
     }).then(() => {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(async resolve => {
         if (typeof cfg.electron.beforePackaging === 'function') {
           log('Running beforePackaging()')
           log()
@@ -109,7 +114,10 @@ class ElectronRunner {
         log()
 
         const bundlePromise = bundlerName === 'packager'
-          ? bundler(bundlerConfig)
+          ? bundler({
+            ...bundlerConfig,
+            electronVersion: getPackageJson('electron').version
+          })
           : bundler.build(bundlerConfig)
 
         bundlePromise
@@ -131,7 +139,7 @@ class ElectronRunner {
   }
 
   stop () {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const finalize = () => {
         this.__stopElectron().then(resolve)
       }
@@ -146,15 +154,15 @@ class ElectronRunner {
     })
   }
 
-  __startElectron () {
+  __startElectron (extraParams) {
     log(`Booting up Electron process...`)
     this.pid = spawn(
-      require(appPaths.resolve.app('node_modules/electron')),
+      getPackage('electron'),
       [
         '--inspect=5858',
         appPaths.resolve.app('.quasar/electron/electron-main.js')
-      ],
-      appPaths.appDir,
+      ].concat(extraParams),
+      { cwd: appPaths.appDir },
       code => {
         if (code) {
           warn()
@@ -186,7 +194,7 @@ class ElectronRunner {
 
     log('Shutting down Electron process...')
     this.pid = 0
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.killPromise = resolve
       process.kill(pid)
     })

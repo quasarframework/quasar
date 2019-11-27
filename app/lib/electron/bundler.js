@@ -1,8 +1,14 @@
 const fs = require('fs')
 const
   appPath = require('../app-paths'),
-  packagerVersion = '12.0.1',
+  getPackageJson = require('../helpers/get-package-json'),
+  getPackage = require('../helpers/get-package'),
   log = require('../helpers/logger')('app:electron-bundle')
+
+const versions = {
+  packager: '14.1.1',
+  builder: '21.0.0'
+}
 
 function isValidName (bundlerName) {
   return ['packager', 'builder'].includes(bundlerName)
@@ -10,24 +16,35 @@ function isValidName (bundlerName) {
 
 function installBundler (bundlerName) {
   const
-    spawn = require('../helpers/spawn'),
+    { spawnSync } = require('../helpers/spawn'),
     nodePackager = require('../helpers/node-packager'),
-    version = bundlerName === 'packager' ? `^${packagerVersion}` : 'latest',
     cmdParam = nodePackager === 'npm'
       ? ['install', '--save-dev']
       : ['add', '--dev']
 
   log(`Installing required Electron bundler (electron-${bundlerName})...`)
-  spawn.sync(
+  spawnSync(
     nodePackager,
-    cmdParam.concat([`electron-${bundlerName}@${version}`]),
-    appPaths.appDir,
-    () => warn(`Failed to install electron-${bundlerName}`)
+    cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
+    { cwd: appPath.appDir },
+    () => warn(`⚠️  Failed to install electron-${bundlerName}`)
   )
 }
 
-function isInstalled (bundlerName) {
-  return fs.existsSync(appPath.resolve.app(`node_modules/electron-${bundlerName}`))
+function bundlerIsInstalled (bundlerName) {
+  return getPackageJson(`electron-${bundlerName}`) !== void 0
+}
+
+module.exports.bundlerIsInstalled = bundlerIsInstalled
+
+function bundlerVersionIsOk (bundlerName) {
+  const
+    semver = require('semver'),
+    pkg = getPackageJson(`electron-${bundlerName}`)
+
+  if (semver.satisfies(pkg.version, `>= ${versions[bundlerName]}`)) {
+    return true
+  }
 }
 
 module.exports.ensureInstall = function (bundlerName) {
@@ -37,30 +54,17 @@ module.exports.ensureInstall = function (bundlerName) {
     process.exit(1)
   }
 
-  if (bundlerName === 'packager') {
-    if (isInstalled('packager')) {
-      const
-        semver = require('semver'),
-        pkg = require(appPath.resolve.app(`node_modules/electron-${bundlerName}/package.json`))
-
-      if (semver.satisfies(pkg.version, `>= ${packagerVersion}`)) {
-        return
-      }
-    }
+  if (!bundlerIsInstalled(bundlerName) || !bundlerVersionIsOk(bundlerName)) {
+    installBundler(bundlerName)
   }
-  else if (isInstalled('builder')) {
-    return
-  }
-
-  installBundler(bundlerName)
 }
 
 module.exports.getDefaultName = function () {
-  if (isInstalled('packager')) {
+  if (bundlerIsInstalled('packager')) {
     return 'packager'
   }
 
-  if (isInstalled('builder')) {
+  if (bundlerIsInstalled('builder')) {
     return 'builder'
   }
 
@@ -68,13 +72,13 @@ module.exports.getDefaultName = function () {
 }
 
 module.exports.getBundler = function (bundlerName) {
-  return require(appPath.resolve.app(`node_modules/electron-${bundlerName}`))
+  return getPackage(`electron-${bundlerName}`)
 }
 
 module.exports.ensureBuilderCompatibility = function () {
-  if (fs.existsSync(appPaths.resolve.electron('icons/linux-256x256.png'))) {
+  if (fs.existsSync(appPath.resolve.electron('icons/linux-256x256.png'))) {
     console.log()
-    console.log(`\n⚠️  electron-builder requires a change to your src-electron/icons folder:
+    console.log(`\n ⚠️  electron-builder requires a change to your src-electron/icons folder:
   * replace linux-256x256.png with a 512x512 px png file named "linux-512x512.png"
   * make sure to delete the old linux-256x256.png file
 `)

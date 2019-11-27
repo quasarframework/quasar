@@ -2,19 +2,19 @@ const
   logger = require('./logger'),
   log = logger('app:spawn'),
   warn = logger('app:spawn', 'red'),
-  spawn = require('cross-spawn')
+  crossSpawn = require('cross-spawn')
 
 /*
  Returns pid, takes onClose
  */
-module.exports = function (cmd, params, cwd, onClose) {
+module.exports.spawn = function (cmd, params, opts, onClose) {
   log(`Running "${cmd} ${params.join(' ')}"`)
   log()
 
-  const runner = spawn(
+  const runner = crossSpawn(
     cmd,
     params,
-    { stdio: 'inherit', stdout: 'inherit', stderr: 'inherit', cwd }
+    { stdio: 'inherit', stdout: 'inherit', stderr: 'inherit', ...opts }
   )
 
   runner.on('close', code => {
@@ -26,20 +26,24 @@ module.exports = function (cmd, params, cwd, onClose) {
     onClose && onClose(code)
   })
 
+  if (opts.detach === true) {
+    runner.unref()
+  }
+
   return runner.pid
 }
 
 /*
  Returns nothing, takes onFail
  */
-module.exports.sync = function (cmd, params, cwd, onFail) {
+module.exports.spawnSync = function (cmd, params, opts, onFail) {
   log(`[sync] Running "${cmd} ${params.join(' ')}"`)
   log()
 
-  const runner = spawn.sync(
+  const runner = crossSpawn.sync(
     cmd,
     params,
-    { stdio: 'inherit', stdout: 'inherit', stderr: 'inherit', cwd }
+    { stdio: 'inherit', stdout: 'inherit', stderr: 'inherit', ...opts }
   )
 
   if (runner.status || runner.error) {

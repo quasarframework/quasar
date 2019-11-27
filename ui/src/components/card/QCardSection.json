@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/card"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

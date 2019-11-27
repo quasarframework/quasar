@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/close-popup"
+  },
+
+  "value": {
+    "type": [ "Boolean", "Number", "String" ],
+    "desc": "If value is 0 or 'false' then directive is disabled; if value is < 0 then it closes all popups in the chain; if value is 1 or 'true' or undefined then it closes only the parent popup; if value is > 1 it closes the specified number of parent popups in the chain (note that chained QMenus are considered 1 popup only & QPopupProxy separates chained menus)",
+    "examples": [
+      "v-close-popup",
+      "v-close-popup=\"booleanState\"",
+      "v-close-popup=\"-1\"",
+      "v-close-popup=\"2\"",
+      "v-close-popup=\"0\""
+    ]
+  }
+}

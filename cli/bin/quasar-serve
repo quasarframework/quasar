@@ -11,22 +11,25 @@ const argv = parseArgs(process.argv.slice(2), {
     colors: 'colors',
     o: 'open',
     c: 'cache',
+    cors: 'cors',
     m: 'micro',
     history: 'history',
+    i: 'index',
     https: 'https',
     C: 'cert',
     K: 'key',
     P: 'proxy',
     h: 'help'
   },
-  boolean: ['g', 'https', 'colors', 'S', 'history', 'h'],
-  string: ['H', 'C', 'K'],
+  boolean: ['g', 'https', 'colors', 'history', 'h', 'cors'],
+  string: ['H', 'C', 'K', 'i'],
   default: {
     p: process.env.PORT || 4000,
     H: process.env.HOSTNAME || '0.0.0.0',
     g: true,
     c: 24 * 60 * 60,
     m: 1,
+    i: 'index.html',
     colors: true
   }
 })
@@ -44,26 +47,32 @@ if (argv.help) {
     control is yielded to /index.js and params have no effect.
 
   Options
-    --port, -p             Port to use (default: 4000)
-    --hostname, -H         Address to use (default: 0.0.0.0)
-    --gzip, -g             Compress content (default: true)
-    --silent, -s           Supress log message
-    --colors               Log messages with colors (default: true)
-    --open, -o             Open browser window after starting
-    --cache, -c <number>   Cache time (max-age) in seconds;
-                           Does not apply to /service-worker.js
-                           (default: 86400 - 24 hours)
-    --micro, -m <seconds>  Use micro-cache (default: 1 second)
-    --history              Use history api fallback;
-                           All requests fallback to index.html
-    --https                Enable HTTPS
-    --cert, -C [path]      Path to SSL cert file (Optional)
-    --key, -K [path]       Path to SSL key file (Optional)
-    --proxy <file.js>      Proxy specific requests defined in file;
-                           File must export Array ({ path, rule })
-                           See example below. "rule" is defined at:
-                           https://github.com/chimurai/http-proxy-middleware
-    --help, -h             Displays this message
+    --port, -p              Port to use (default: 4000)
+    --hostname, -H          Address to use (default: 0.0.0.0)
+    --gzip, -g              Compress content (default: true)
+    --silent, -s            Suppress log message
+    --colors                Log messages with colors (default: true)
+    --open, -o              Open browser window after starting
+    --cache, -c <number>    Cache time (max-age) in seconds;
+                            Does not apply to /service-worker.js
+                            (default: 86400 - 24 hours)
+    --micro, -m <seconds>   Use micro-cache (default: 1 second)
+
+    --history               Use history api fallback;
+                              All requests fallback to /index.html,
+                              unless using "--index" parameter
+    --index, -i <file>      History mode (only!) index url path
+                              (default: index.html)
+
+    --https                 Enable HTTPS
+    --cert, -C [path]       Path to SSL cert file (Optional)
+    --key, -K [path]        Path to SSL key file (Optional)
+    --proxy <file.js>       Proxy specific requests defined in file;
+                            File must export Array ({ path, rule })
+                            See example below. "rule" is defined at:
+                            https://github.com/chimurai/http-proxy-middleware
+    --cors                  Enable CORS for all requests
+    --help, -h              Displays this message
 
   Proxy file example
     module.exports = [
@@ -127,15 +136,26 @@ if (ssrDetected === false) {
       : false
 
   function serve (path, cache) {
-    return express.static(resolve(path), {
+    const opts = {
       maxAge: cache ? parseInt(argv.cache, 10) * 1000 : 0
-    })
+    }
+
+    if (argv.history !== true) {
+      opts.index = argv.index
+    }
+
+    return express.static(resolve(path), opts)
   }
 
   const app = express()
 
+  if (argv.cors) {
+    const cors = require('cors')
+    app.use(cors())
+  }
+
   if (!argv.silent) {
-    app.get('*', (req, res, next) => {
+    app.get('*', (req, _, next) => {
       console.log(
         `GET ${green(req.url)} ${grey('[' + req.ip + ']')} ${new Date()}`
       )
@@ -155,7 +175,13 @@ if (ssrDetected === false) {
 
   if (argv.history) {
     const history = require('connect-history-api-fallback')
-    app.use(history())
+    app.use(
+      history({
+        index: argv.index.startsWith('/')
+          ? argv.index
+          : '/' + argv.index
+      })
+    )
   }
 
   app.use('/', serve('.', true))
@@ -212,6 +238,8 @@ if (ssrDetected === false) {
       ['Cache (max-age)', argv.cache || 'disabled'],
       microCacheSeconds ? ['Micro-cache', microCacheSeconds + 's'] : '',
       argv.history ? ['History mode', 'enabled'] : '',
+      ['Index file', argv.index],
+      argv.cors ? ['CORS', 'enabled'] : '',
       argv.proxy ? ['Proxy definitions', argv.proxy] : ''
     ]
     .filter(msg => msg)
@@ -222,8 +250,7 @@ if (ssrDetected === false) {
     if (argv.open) {
       const isMinimalTerminal = require('../lib/is-minimal-terminal')
       if (!isMinimalTerminal) {
-        const opn = require('opn')
-        opn(url)
+        require('open')(url, { url: true })
       }
     }
   })

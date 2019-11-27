@@ -1,0 +1,44 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/banner"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "inline-actions": {
+      "type": "Boolean",
+      "desc": "Display actions on same row as content",
+      "category": "content"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where Banner content goes"
+    },
+
+    "avatar": {
+      "desc": "Slot for displaying an avatar (suggestions: QIcon, QAvatar)"
+    },
+
+    "action": {
+      "desc": "Slot for Banner action (suggestions: QBtn)"
+    }
+  }
+}

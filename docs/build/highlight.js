@@ -15,7 +15,7 @@ module.exports = function (str, lang) {
     const code = prism.highlight(str, prism.languages[lang], lang)
 
     return `<pre v-pre class="doc-code language-${lang}">` +
-      `<code class="doc-code__inner doc-code__inner--prerendered shadow-2 language-${lang}">${code}</code>` +
+      `<code class="doc-code__inner doc-code__inner--prerendered language-${lang}">${code}</code>` +
       `</pre>`
   }
 

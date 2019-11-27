@@ -1,5 +1,6 @@
 ---
 title: Handling Webpack
+desc: How to manage Webpack in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
 ---
@@ -18,7 +19,10 @@ build: {
       enforce: 'pre',
       test: /\.(js|vue)$/,
       loader: 'eslint-loader',
-      exclude: /(node_modules|quasar)/
+      exclude: /(node_modules|quasar)/,
+      options: {
+        formatter: require('eslint').CLIEngine.getFormatter('stylish')
+      }
     })
   }
 }
@@ -88,7 +92,6 @@ Quasar comes with a bunch of useful Webpack aliases preconfigured. You can use t
 | `pages` | /src/pages |
 | `assets` | /src/assets |
 | `boot` | /src/boot |
-| `quasar-variables` | /.quasar/variables.styl |
 
 Also if you configure to build with the Vue compiler version (quasar.conf > build > vueCompiler: true), `vue$` resolves to  `vue/dist/vue.esm.js`.
 
@@ -144,8 +147,6 @@ So, you need a loader for it. You search Google to see what webpack loader you n
 
 ``` bash
 $ yarn add --dev json-loader
-# or:
-$ npm install --save-dev json-loader
 ```
 
 After installing your new loader, we want to tell Webpack to use it. So we edit `/quasar.conf.js` and change `build.extendWebpack()` to add entries to `module/rules` for this new loader:
@@ -183,8 +184,6 @@ So you want to be able to write SASS/SCSS CSS code. You need a loader for it. We
 
 ``` bash
 $ yarn add --dev sass-loader node-sass
-# or:
-$ npm install --save-dev sass-loader node-sass
 ```
 
 And you're done. For SCSS/SASS it's all it takes. You don't need to further configure `/quasar.conf.js`.
@@ -213,8 +212,6 @@ First, you need to install some dependencies:
 
 ```bash
 $ yarn add --dev pug pug-plain-loader
-# or:
-$ npm install --save-dev pug pug-plain-loader
 ```
 
 Then you need to extend the webpack configuration through quasar.conf.js:

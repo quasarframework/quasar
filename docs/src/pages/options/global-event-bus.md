@@ -1,5 +1,6 @@
 ---
 title: Global Event Bus
+desc: How to use a global event bus in a Quasar app.
 ---
 Sometimes you need an event bus or a publish/subscribe channel. Vue already has an event bus for each component. For convenience, you can use the root Vue component for this through `this.$root` to register and listen for events.
 
@@ -39,7 +40,7 @@ this.$root.$emit('event_name', 'some message')
 Example using event to open drawer from another component or page. Not recommended -- a better way would be through [Vuex](https://vuex.vuejs.org), but the example below is for educational purposes only.
 
 ```js
-// (1) This code is inside layout file that have a drawer
+// (1) This code is inside layout file that has a drawer
 //     if this.leftDrawerOpen is true, drawer is displayed
 
 // (2) Listen for an event in created
@@ -68,3 +69,20 @@ methods: {
 }
 ```
 
+### Usage with QDialog and QMenu
+
+These components use Quasar Portals so that content can be rendered at the end of the `<body>` tag in order to:
+1. avoid css pollution
+2. avoid z-index issues
+3. avoid possible parent CSS overflow
+4. work correctly on iOS
+
+If you need to use a bus in these components, you must create your own global bus through a .js file:
+
+```js
+import Vue from 'vue'
+const bus = new Vue()
+export default bus
+```
+
+And then import this file wherever you need access to this bus.

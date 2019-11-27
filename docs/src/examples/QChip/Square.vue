@@ -1,8 +1,8 @@
 <template>
   <div class="q-pa-md q-gutter-md">
     <div>
-      <q-chip square icon="event" size="10px">Add to calendar</q-chip>
-      <q-chip square icon="bookmark">Bookmark</q-chip>
+      <q-chip square icon="event">Add to calendar</q-chip>
+      <q-chip class="glossy" square icon="bookmark">Bookmark</q-chip>
       <q-chip square icon="alarm" label="Set alarm" />
       <q-chip square icon="directions">Get directions</q-chip>
     </div>
@@ -10,7 +10,7 @@
       <q-chip square color="primary" text-color="white" icon="event">
         Add to calendar
       </q-chip>
-      <q-chip square color="teal" text-color="white" icon="bookmark">
+      <q-chip class="glossy" square color="teal" text-color="white" icon="bookmark">
         Bookmark
       </q-chip>
       <q-chip square color="orange" text-color="white" icon-right="star">
@@ -30,7 +30,7 @@
       </q-chip>
       <q-chip square>
         <q-avatar>
-          <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+          <img src="https://cdn.quasar.dev/img/boy-avatar.png">
         </q-avatar>
         John
       </q-chip>

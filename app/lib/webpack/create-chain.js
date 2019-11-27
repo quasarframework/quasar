@@ -3,7 +3,8 @@ const
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
-  WebpackProgress = require('./plugin.progress')
+  WebpackProgress = require('./plugin.progress'),
+  BootDefaultExport = require('./plugin.boot-default-export')
 
 const
   appPaths = require('../app-paths'),
@@ -12,7 +13,7 @@ const
 module.exports = function (cfg, configName) {
   const
     chain = new WebpackChain(),
-    needsHash = !cfg.ctx.dev && !['electron', 'cordova'].includes(cfg.ctx.modeName),
+    needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName),
     fileHash = needsHash ? '.[hash:8]' : '',
     chunkHash = needsHash ? '.[contenthash:8]' : '',
     resolveModules = [
@@ -20,6 +21,14 @@ module.exports = function (cfg, configName) {
       appPaths.resolve.app('node_modules'),
       appPaths.resolve.cli('node_modules')
     ]
+
+  if (configName === 'Capacitor') {
+    // need to also look into /src-capacitor
+    // for deps like @capacitor/core
+    resolveModules.push(
+      appPaths.resolve.capacitor('node_modules')
+    )
+  }
 
   chain.entry('app').add(appPaths.resolve.app('.quasar/client-entry.js'))
   chain.mode(cfg.ctx.dev ? 'development' : 'production')
@@ -53,18 +62,11 @@ module.exports = function (cfg, configName) {
       layouts: appPaths.resolve.src(`layouts`),
       pages: appPaths.resolve.src(`pages`),
       assets: appPaths.resolve.src(`assets`),
-      boot: appPaths.resolve.src(`boot`),
-      'quasar-variables': appPaths.resolve.app(`.quasar/app.quasar-variables.styl`),
-
-      // CLI/App using this one:
-      'quasar-styl': appPaths.resolve.app(`.quasar/app.quasar.styl`),
-      'quasar-addon-styl': cfg.framework.cssAddon
-        ? `quasar/src/css/flex-addon.styl`
-        : appPaths.resolve.app(`.quasar/empty.styl`)
+      boot: appPaths.resolve.src(`boot`)
     })
 
   if (cfg.framework.all === true) {
-    chain.resolve.alias.set('quasar$', appPaths.resolve.app(`node_modules/quasar/dist/quasar.esm.js`))
+    chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.esm.js')
   }
   if (cfg.build.vueCompiler) {
     chain.resolve.alias.set('vue$', 'vue/dist/vue.esm.js')
@@ -75,22 +77,29 @@ module.exports = function (cfg, configName) {
 
   chain.module.noParse(/^(vue|vue-router|vuex|vuex-router-sync)$/)
 
-  chain.module.rule('vue')
+  const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
-    .use('vue-loader')
-      .loader('vue-loader')
-      .options({
-        productionMode: cfg.ctx.prod,
-        compilerOptions: {
-          preserveWhitespace: false
-        },
-        transformAssetUrls: {
-          video: 'src',
-          source: 'src',
-          img: 'src',
-          image: 'xlink:href'
-        }
-      })
+
+  if (cfg.framework.all === 'auto') {
+    vueRule.use('quasar-auto-import')
+      .loader(path.join(__dirname, 'loader.auto-import.js'))
+      .options(cfg.framework.autoImportComponentCase)
+  }
+
+  vueRule.use('vue-loader')
+    .loader('vue-loader')
+    .options({
+      productionMode: cfg.ctx.prod,
+      compilerOptions: {
+        preserveWhitespace: false
+      },
+      transformAssetUrls: {
+        video: 'src',
+        source: 'src',
+        img: 'src',
+        image: 'xlink:href'
+      }
+    })
 
   chain.module.rule('babel')
     .test(/\.jsx?$/)
@@ -99,6 +108,19 @@ module.exports = function (cfg, configName) {
         // always transpile js(x) in Vue files
         if (/\.vue\.jsx?$/.test(filepath)) {
           return false
+        }
+
+        if (filepath.match(/[\\/]node_modules[\\/]quasar[\\/]/)) {
+          if (configName === 'Server') {
+            // transpile only if not from 'quasar/dist' folder
+            if (!filepath.match(/[\\/]node_modules[\\/]quasar[\\/]dist/)) {
+              return false
+            }
+          }
+          else {
+            // always transpile Quasar
+            return false
+          }
         }
 
         if (cfg.build.transpileDependencies.some(dep => filepath.match(dep))) {
@@ -113,7 +135,7 @@ module.exports = function (cfg, configName) {
       .loader('babel-loader')
         .options({
           extends: appPaths.resolve.app('babel.config.js'),
-          plugins: cfg.framework.all !== true ? [
+          plugins: cfg.framework.all !== true && configName !== 'Server' ? [
             [
               'transform-imports', {
                 quasar: {
@@ -130,6 +152,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `img/[name]${fileHash}.[ext]`
       })
@@ -139,6 +162,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `fonts/[name]${fileHash}.[ext]`
       })
@@ -148,6 +172,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `media/[name]${fileHash}.[ext]`
       })
@@ -156,9 +181,12 @@ module.exports = function (cfg, configName) {
     rtl: cfg.build.rtl,
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
-    minify: cfg.build.minify
-      ? !cfg.build.extractCSS
-      : false
+    serverExtract: configName === 'Server' && cfg.build.extractCSS,
+    minify: cfg.build.minify,
+    stylusLoaderOptions: cfg.build.stylusLoaderOptions,
+    sassLoaderOptions: cfg.build.sassLoaderOptions,
+    scssLoaderOptions: cfg.build.scssLoaderOptions,
+    lessLoaderOptions: cfg.build.lessLoaderOptions
   })
 
   chain.plugin('vue-loader')
@@ -171,6 +199,9 @@ module.exports = function (cfg, configName) {
     chain.plugin('progress')
       .use(WebpackProgress, [{ name: configName }])
   }
+
+  chain.plugin('boot-default-export')
+    .use(BootDefaultExport)
 
   chain.performance
     .hints(false)
@@ -225,11 +256,11 @@ module.exports = function (cfg, configName) {
               chunks: 'initial',
               priority: -10,
               // a module is extracted into the vendor chunk if...
-              test: add || rem
+              test: add.length > 0 || rem.length > 0
                 ? module => {
                   if (module.resource) {
-                    if (add && add.test(module.resource)) { return true }
-                    if (rem && rem.test(module.resource)) { return false }
+                    if (add.length > 0 && add.test(module.resource)) { return true }
+                    if (rem.length > 0 && rem.test(module.resource)) { return false }
                   }
                   return regex.test(module.resource)
                 }
@@ -258,7 +289,13 @@ module.exports = function (cfg, configName) {
           [{
             from: appPaths.resolve.src('statics'),
             to: 'statics',
-            ignore: ['.*']
+            ignore: ['.*'],
+            ignore: ['.*'].concat(
+              // avoid useless files to be copied
+              ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+                ? [ 'icons/*', 'app-logo-128x128.png' ]
+                : []
+            )
           }]
         ])
     }
@@ -271,7 +308,9 @@ module.exports = function (cfg, configName) {
 
     if (cfg.ctx.debug) {
       // reset default webpack 4 minimizer
-      chain.optimization.minimizer.clear()
+      chain.optimization.minimizers.delete('js')
+      // also:
+      chain.optimization.minimize(false)
     }
     else if (cfg.build.minify) {
       const TerserPlugin = require('terser-webpack-plugin')
@@ -280,6 +319,7 @@ module.exports = function (cfg, configName) {
         .minimizer('js')
         .use(TerserPlugin, [{
           terserOptions: cfg.build.uglifyOptions,
+          extractComments: false,
           cache: true,
           parallel: true,
           sourceMap: cfg.build.sourceMap
@@ -287,7 +327,7 @@ module.exports = function (cfg, configName) {
     }
 
     // configure CSS extraction & optimize
-    if (cfg.build.extractCSS) {
+    if (configName !== 'Server' && cfg.build.extractCSS) {
       const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
       // extract css into its own file
@@ -302,8 +342,7 @@ module.exports = function (cfg, configName) {
 
         const cssProcessorOptions = {
           parser: require('postcss-safe-parser'),
-          autoprefixer: { disable: true },
-          mergeLonghand: false
+          autoprefixer: { disable: true }
         }
         if (cfg.build.sourceMap) {
           cssProcessorOptions.map = { inline: false }
@@ -315,7 +354,15 @@ module.exports = function (cfg, configName) {
           .use(OptimizeCSSPlugin, [{
             canPrint: false,
             cssProcessor: require('cssnano'),
-            cssProcessorOptions
+            cssProcessorOptions,
+            cssProcessorPluginOptions: {
+              preset: ['default', {
+                mergeLonghand: false,
+                convertValues: false,
+                cssDeclarationSorter: false,
+                reduceTransforms: false
+              }]
+            }
           }])
       }
     }

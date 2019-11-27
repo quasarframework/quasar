@@ -1,5 +1,6 @@
 ---
 title: Editor (WYSIWYG)
+desc: The QEditor Vue component is a WYSIWYG editor that enables writing and pasting HTML.
 ---
 
 The QEditor component is a WYSIWYG (“what you see is what you get”) editor component that enables the user to write and even paste HTML. It uses the so-called Design Mode and the cross-browser `contentEditable` interface. Here are some go-to reference pages from the MDN webdocs with more detailed information about the underlying technology:
@@ -121,7 +122,7 @@ User can pick only one option from each dropdown.
 ## Caveats
 
 ### Autocorrect & spellcheck
-There may be occassions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
+There may be occasions where you want to turn off the integrated autocorrect, autocomplete, autocapitalization and spelling correction "features" that many modern browsers offer. To do this, simply wrap the `<q-editor>` component in a `<form>` element, like this:
 
 ```html
 <form

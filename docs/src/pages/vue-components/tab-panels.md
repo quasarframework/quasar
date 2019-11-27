@@ -1,5 +1,6 @@
 ---
 title: Tab Panels
+desc: The QTabPanel Vue component is a way of displaying more information using less window real estate.
 related:
   - /vue-components/tabs
 ---
@@ -22,7 +23,15 @@ Works great along with [QTabs](/vue-components/tabs), a component which offers a
 Do not be mistaken by the "QTabPanels" component name. Panels do not require QTabs. They can be used as standalone too.
 :::
 
+::: danger
+Please take notice of the Boolean `keep-alive` prop for QTabPanels, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QTabPanel.
+:::
+
+### Basic
+
 <doc-example title="Basic" file="QTabPanels/Basic" />
+
+### With QTabs
 
 ::: tip
 QTabPanels can be used as standalone too. They do not depend on the presence of a QTabs. Also, they can be placed anywhere within a page, not just near QTabs.
@@ -30,13 +39,23 @@ QTabPanels can be used as standalone too. They do not depend on the presence of 
 
 <doc-example title="With QTabs" file="QTabPanels/WithQTabs" />
 
+### Coloring
+
 <doc-example title="Coloring" file="QTabPanels/Coloring" />
 
+### With vertical QTabs and QSplitter
+
+<doc-example title="With vertical QTabs and QSplitter" file="QTabs/Vertical" />
+
 For a full list of transitions, please check out [Transitions](/options/transitions).
+
+### Custom transitions
 
 <doc-example title="Custom transition examples" file="QTabPanels/Transition" />
 
 In the example below, use your mouse to swipe through the panels or, if on a touch capable device, swipe with your fingers.
+
+### Swipeable and infinite
 
 <doc-example title="Swipeable and infinite" file="QTabPanels/Swipeable" />
 

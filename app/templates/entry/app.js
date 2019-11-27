@@ -9,10 +9,11 @@
  *
  * Boot files are your "main.js"
  **/
+import Vue from 'vue'
 import './import-quasar.js'
 
 <% if (ctx.mode.ssr) { %>
-import <%= framework.all ? 'Quasar' : '{ Quasar }' %> from 'quasar'
+import <%= framework.all === true ? 'Quasar' : '{ Quasar }' %> from 'quasar'
 <% } %>
 
 import App from 'app/<%= sourceFiles.rootComponent %>'
@@ -22,15 +23,20 @@ import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
+<% if (ctx.mode.capacitor && capacitor.hideSplashcreen !== false) { %>
+import { Plugins } from '@capacitor/core'
+const { SplashScreen } = Plugins
+<% } %>
+
 export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
   const store = typeof createStore === 'function'
-    ? createStore(<%= ctx.mode.ssr ? '{ ssrContext }' : '' %>)
+    ? createStore({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %>})
     : createStore
   <% } %>
   const router = typeof createRouter === 'function'
-    ? createRouter({<%= ctx.mode.ssr ? 'ssrContext' + (store ? ', ' : '') : '' %><%= store ? 'store' : '' %>})
+    ? createRouter({Vue, <%= ctx.mode.ssr ? 'ssrContext' + (store ? ', ' : '') : '' %><%= store ? 'store' : '' %>})
     : createRouter
   <% if (store) { %>
   // make router instance available in store
@@ -44,7 +50,10 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
     <%= store ? 'store,' : '' %>
-    render: h => h(App)
+    render: h => h(App)<% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>,
+    mounted () {
+      SplashScreen.hide()
+    }<% } %>
   }
 
   <% if (ctx.mode.ssr) { %>

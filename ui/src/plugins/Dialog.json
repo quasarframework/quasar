@@ -1,0 +1,207 @@
+{
+  "mixins": [ "utils/global-dialog" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/dialog"
+  },
+
+  "injection": "$q.dialog",
+
+  "methods": {
+    "create": {
+      "tsInjectionPoint": true,
+      "params": {
+        "opts": {
+          "desc": "Dialog options",
+          "tsType": "QDialogOptions",
+          "definition": {
+            "title": {
+              "type": "String",
+              "desc": "A text for the heading title of the dialog",
+              "examples": [ "Continue?" ]
+            },
+
+            "message": {
+              "type": "String",
+              "desc": "A text with more information about what needs to be input, selected or confirmed.",
+              "examples": [ "Are you certain you want to continue?" ]
+            },
+
+            "html": {
+              "type": "Boolean",
+              "desc": "Render title and message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
+            },
+
+            "position": {
+              "type": "String",
+              "desc": "Position of the Dialog on screen. Standard is centered.",
+              "values": [ "top", "right", "bottom", "left", "standard" ],
+              "default": "standard"
+            },
+
+            "prompt": {
+              "type": "Object",
+              "desc": "An object definition of the input field for the prompting question.",
+              "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
+              "definition": {
+                "model": {
+                  "type": [ "Array", "String" ],
+                  "desc": "The value of the input: Array for Selection, String for prompt",
+                  "examples": [ "this.dialogVal" ]
+                },
+
+                "type": {
+                  "type": "String",
+                  "desc": "Optional property to determine the input field type. It can be either a text or number input field type",
+                  "default": "text",
+                  "examples": [ "number" ]
+                }
+              }
+            },
+
+            "options": {
+              "type": "Object",
+              "desc": "An object definition for creating the selection form content",
+              "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
+              "definition": {
+                "type": {
+                  "type": "String",
+                  "desc": "The type of selection",
+                  "values": [ "radio", "checkbox", "toggle" ]
+                },
+
+                "model": {
+                  "type": "Array",
+                  "desc": "The value of the selection",
+                  "examples": [ "[]" ]
+                },
+
+                "items": {
+                  "type": "Array",
+                  "desc": "The list of options to interact with; Equivalent to options prop of the QOptionsGroup component",
+                  "examples": [
+                    "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
+                  ]
+                }
+              }
+            },
+
+            "ok": {
+              "type": [ "String", "Object", "Boolean" ],
+              "desc": "Props for an 'OK' button",
+              "definition": {
+                "...props": {
+                  "type": "Any",
+                  "desc": "See QBtn for available props",
+                  "__exemption": [ "examples" ]
+                }
+              }
+            },
+
+            "cancel": {
+              "type": [ "String", "Object", "Boolean" ],
+              "desc": "Props for a 'CANCEL' button",
+              "definition": {
+                "...props": {
+                  "type": "Any",
+                  "desc": "See QBtn for available props",
+                  "__exemption": [ "examples" ]
+                }
+              }
+            },
+
+            "focus": {
+              "type": "String",
+              "desc": "What button to focus, unless you also have 'prompt' or 'options'",
+              "values": [ "ok", "cancel", "none" ],
+              "default": "ok",
+              "addedIn": "v1.5.0"
+            },
+
+            "stackButtons": {
+              "type": "Boolean",
+              "desc": "Makes buttons be stacked instead of vertically aligned"
+            },
+
+            "color": {
+              "extends": "color"
+            },
+
+            "dark": {
+              "extends": "dark",
+              "desc": "Apply dark mode"
+            },
+
+            "persistent": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog if clicking outside of it or hitting ESC key; Also, an app route change won't dismiss it"
+            },
+
+            "no-esc-dismiss": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog by hitting ESC key; No need to set it if 'persistent' prop is also set"
+            },
+
+            "no-backdrop-dismiss": {
+              "type": "Boolean",
+              "desc": "User cannot dismiss Dialog by clicking outside of it; No need to set it if 'persistent' prop is also set"
+            },
+
+            "no-route-dismiss": {
+              "type": "Boolean",
+              "desc": "Changing route app won't dismiss Dialog; No need to set it if 'persistent' prop is also set"
+            },
+
+            "seamless": {
+              "type": "Boolean",
+              "desc": "Put Dialog into seamless mode; Does not use a backdrop so user is able to interact with the rest of the page too"
+            },
+
+            "maximized": {
+              "type": "Boolean",
+              "desc": "Put Dialog into maximized mode"
+            },
+
+            "full-width": {
+              "type": "Boolean",
+              "desc": "Dialog will try to render with same width as the window"
+            },
+
+            "full-height": {
+              "type": "Boolean",
+              "desc": "Dialog will try to render with same height as the window"
+            },
+
+            "transition-show": {
+              "extends": "transition",
+              "default": "scale"
+            },
+
+            "transition-hide": {
+              "extends": "transition",
+              "default": "scale"
+            },
+
+            "component": {
+              "type": "Any",
+              "desc": "Use custom dialog component; use along with 'root' prop where possible; if using this prop, all others described here will be supplied to your custom component",
+              "__exemption": [ "examples" ]
+            },
+
+            "parent": {
+              "type": "Object",
+              "desc": "Required if using 'component' prop and you need access to vuex store, router and so on; Specify Vue parent component",
+              "examples": [ "parent: this" ]
+            },
+
+            "root": {
+              "type": "Object",
+              "desc": "Deprecated alias for parent",
+              "examples": [ "root: this" ]
+            }
+          }
+        }
+      }
+    }
+  }
+}

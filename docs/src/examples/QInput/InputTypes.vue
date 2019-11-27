@@ -13,8 +13,6 @@
         </template>
       </q-input>
 
-      <q-input v-model="number" filled type="number" hint="Number" />
-
       <q-input v-model="email" filled type="email" hint="Email" />
 
       <q-input v-model="search" filled type="search" hint="Search">
@@ -30,8 +28,6 @@
       <q-input v-model="time" filled type="time" hint="Native time" />
 
       <q-input v-model="date" filled type="date" hint="Native date" />
-
-      <q-input v-model="file" filled type="file" hint="Native file" />
     </div>
   </div>
 </template>
@@ -43,16 +39,12 @@ export default {
       password: '',
       isPwd: true,
 
-      number: null,
-
       email: '',
       search: '',
       tel: '',
       url: '',
       time: '',
-      date: '',
-
-      file: null
+      date: ''
     }
   }
 }

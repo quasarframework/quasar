@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-img
-      src="https://cdn.quasar-framework.org/img/parallax1.jpg"
+      src="https://cdn.quasar.dev/img/parallax1.jpg"
       style="height: 100px"
     >
       <q-menu
@@ -10,10 +10,10 @@
       >
 
         <q-list dense style="min-width: 100px">
-          <q-item clickable v-close-menu>
+          <q-item clickable v-close-popup>
             <q-item-section>Open...</q-item-section>
           </q-item>
-          <q-item clickable v-close-menu>
+          <q-item clickable v-close-popup>
             <q-item-section>New</q-item-section>
           </q-item>
           <q-separator />
@@ -53,7 +53,7 @@
 
           </q-item>
           <q-separator />
-          <q-item clickable v-close-menu>
+          <q-item clickable v-close-popup>
             <q-item-section>Quit</q-item-section>
           </q-item>
         </q-list>

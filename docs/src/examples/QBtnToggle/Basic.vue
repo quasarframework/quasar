@@ -16,9 +16,7 @@
 export default {
   data () {
     return {
-      model: null,
-      states: 'two',
-      field: 'cake'
+      model: null
     }
   }
 }

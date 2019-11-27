@@ -1,0 +1,135 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/splitter"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "value": {
+      "type": "Number",
+      "desc": "Model of the component defining the split ratio percent (0.0 < x < 100.0) between panels; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "examples": [ "v-model=\"ratio\"" ],
+      "category": "model"
+    },
+
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Apply the model size to the second panel (by default it applies to the first)",
+      "category": "model",
+      "addedIn": "v1.2.6"
+    },
+
+    "unit": {
+      "type": "String",
+      "desc": "CSS unit for the model",
+      "default": "%",
+      "values": [ "%", "px" ],
+      "category": "model",
+      "addedIn": "v1.2.6"
+    },
+
+    "emit-immediately": {
+      "type": "Boolean",
+      "desc": "Emit model while user is panning on the separator",
+      "category": "model"
+    },
+
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Allows the splitter to split its two panels horizontally, instead of vertically",
+      "category": "content"
+    },
+
+    "limits": {
+      "type": "Array",
+      "desc": "An array of two values representing the minimum and maximum split size of the two panels; When 'px' unit is set then you can use Infinity as the second value to make it unbound on the other side",
+      "default": "For '%' unit: [10, 90]; For 'px' unit: [50, Infinity]",
+      "examples": [ ":limits=\"[30, 70]\"", ":limits=\"[0, Infinity]\"" ],
+      "category": "content|model"
+    },
+
+    "disable": {
+      "extends": "disable"
+    },
+
+    "before-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the 'before' panel",
+      "examples": [
+        "bg-deep-orange",
+        ":before-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
+    "after-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the 'after' panel",
+      "examples": [
+        "bg-deep-orange",
+        ":after-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
+    "separator-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the splitter separator",
+      "examples": [
+        "bg-deep-orange",
+        ":separator-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
+    },
+
+    "separator-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the splitter separator",
+      "examples": [
+        "background-color: #ff0000",
+        ":separator-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style"
+    },
+
+    "dark": {
+      "type": "Boolean",
+      "desc": "Applies a default lighter color on the separator; To be used when background is darker; Avoid using when you are overriding through separator-class or separator-style props",
+      "category": "style"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Default slot in the devland unslotted content of the component; Suggestion: QTooltip, QMenu"
+    },
+
+    "before": {
+      "desc": "Content of the panel on left/top"
+    },
+
+    "after": {
+      "desc": "Content of the panel on right/bottom"
+    },
+
+    "separator": {
+      "desc": "Content to be placed inside the separator; By default it is centered"
+    }
+  },
+
+  "events": {
+    "input": {
+      "desc": "Emitted when component's model value changes; Is also used by v-model",
+      "params": {
+        "value": {
+          "type": "Number",
+          "desc": "New model value (0.0 < x < 100.0) defining the ratio between panels",
+          "examples": [ 0.22 ]
+        }
+      }
+    }
+  }
+}

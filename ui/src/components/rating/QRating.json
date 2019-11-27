@@ -1,0 +1,93 @@
+{
+  "mixins": [ "mixins/size" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/rating"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "value": {
+      "extends": "value",
+      "type": "Number",
+      "examples": [ ":value=\"2\"" ]
+    },
+
+    "max": {
+      "type": [ "Number", "String" ],
+      "desc": "Number of icons to display",
+      "default": 5,
+      "examples": [ "3", ":max=\"5\"" ],
+      "category": "general"
+    },
+
+    "icon": {
+      "type": [ "String", "Array" ],
+      "desc": "Icon name following Quasar convention; make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)",
+      "examples": [
+        "map",
+        "ion-add",
+        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:statics/path/to/some_image.png"
+      ],
+      "category": "content"
+    },
+
+    "icon-selected": {
+      "type": [ "String", "Array" ],
+      "desc": "Icon name following Quasar convention to be used when selected (optional); make sure you have the icon library installed unless you are using 'img:' prefix; If an array is provided each rating value will use the corresponding icon in the array (0 based)",
+      "examples": [
+        "map",
+        "ion-add",
+        "img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg",
+        "img:statics/path/to/some_image.png"
+      ],
+      "category": "content",
+      "addedIn": "v1.1.0"
+    },
+
+    "color": {
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name for component from the Quasar Color Palette; v1.5.0+: If an array is provided each rating value will use the corresponding color in the array (0 based)",
+      "examples": [ "primary", "teal-10", "[\"accent\", \"grey-7\"] "]
+    },
+
+    "color-selected": {
+      "extends": "color",
+      "type": [ "String", "Array" ],
+      "desc": "Color name from the Quasar Palette for selected icons",
+      "addedIn": "v1.5.0"
+    },
+
+    "no-reset": {
+      "type": "Boolean",
+      "desc": "When used, disables default behavior of clicking/tapping on icon which represents current model value to reset model to 0",
+      "category": "model"
+    },
+
+    "readonly": {
+      "extends": "readonly"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input"
+    }
+  },
+
+  "slots": {
+    "tip-[index]": {
+      "desc": "Slot to define the tooltip of icon at '[index]' (1-based); Suggestion: QTooltip",
+      "addedIn": "v1.5.0"
+    }
+  }
+}

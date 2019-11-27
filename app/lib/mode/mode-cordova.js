@@ -5,18 +5,18 @@ const
   logger = require('../helpers/logger'),
   log = logger('app:mode-cordova'),
   warn = logger('app:mode-cordova', 'red'),
-  spawn = require('../helpers/spawn')
+  { spawnSync } = require('../helpers/spawn')
 
-function ensureNpmInstalled () {
+function installDependencies () {
   if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
     return
   }
 
   log('Installing dependencies in /src-cordova')
-  spawn.sync(
+  spawnSync(
     'npm',
     [ 'install' ],
-    appPaths.cordovaDir,
+    { cwd: appPaths.cordovaDir },
     () => {
       warn(`⚠️  [FAIL] npm failed installing dependencies in /src-cordova`)
       process.exit(1)
@@ -39,16 +39,31 @@ class Mode {
       pkg = require(appPaths.resolve.app('package.json')),
       appName = pkg.productName || pkg.name || 'Quasar App'
 
+    if (/^[0-9]/.test(appName)) {
+      warn(
+        `⚠️  App product name cannot start with a number. ` +
+        `Please change the "productName" prop in your /package.json then try again.`
+      )
+      return
+    }
+
     log('Creating Cordova source folder...')
 
-    spawn.sync(
+    spawnSync(
       'cordova',
       ['create', 'src-cordova', pkg.cordovaId || 'org.quasar.cordova.app', appName],
-      appPaths.appDir,
+      { cwd: appPaths.appDir },
       () => {
         warn(`⚠️  There was an error trying to install Cordova support`)
         process.exit(1)
       }
+    )
+
+    const www = appPaths.resolve.cordova('www')
+    fse.removeSync(www)
+    fse.copySync(
+      appPaths.resolve.cli('templates/cordova'),
+      appPaths.cordovaDir
     )
 
     log(`Cordova support was installed`)
@@ -57,8 +72,15 @@ class Mode {
     warn(`If you want a different App name then remove Cordova support, edit productName field from package.json then add Cordova support again.`)
     warn()
 
+    console.log(` ⚠️  WARNING!`)
+    console.log(` ⚠️  If developing for iOS, it is HIGHLY recommended that you install the Ionic Webview Plugin.`)
+    console.log(` ⚠️  Please refer to docs: https://quasar.dev/quasar-cli/developing-cordova-apps/preparation`)
+    console.log(` ⚠️  --------`)
+    console.log()
+
     if (!target) {
-      log(`Please manually add Cordova platforms using Cordova CLI from the newly created "src-cordova" folder.`)
+      console.log()
+      console.log(` No Cordova platform has been added yet as these get installed on demand automatically when running "quasar dev" or "quasar build".`)
       log()
       return
     }
@@ -74,15 +96,15 @@ class Mode {
     fse.ensureDir(appPaths.resolve.cordova(`www`))
 
     if (this.hasPlatform(target)) {
-      ensureNpmInstalled()
+      installDependencies()
       return
     }
 
     log(`Adding Cordova platform "${target}"`)
-    spawn.sync(
+    spawnSync(
       'cordova',
       ['platform', 'add', target],
-      appPaths.cordovaDir,
+      { cwd: appPaths.cordovaDir },
       () => {
         warn(`⚠️  There was an error trying to install Cordova platform "${target}"`)
         process.exit(1)

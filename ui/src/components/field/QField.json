@@ -1,0 +1,108 @@
+{
+  "mixins": [ "components/field/__QField" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/field"
+  },
+
+  "props": {
+    "maxlength": {
+      "type": [ "String", "Number" ],
+      "desc": "Specify a max length of model",
+      "examples": [ "12" ],
+      "category": "model"
+    },
+
+    "item-aligned": {
+      "type": "Boolean",
+      "desc": "Match inner content alignments to QItem",
+      "category": "style"
+    }
+  },
+
+  "scopedSlots": {
+    "control": {
+      "desc": "Slot for controls; Suggestion QSlider, QRange, QKnob, ...",
+      "scope": {
+        "id": {
+          "type": "String",
+          "desc": "Element id used in the `for` attribute of the field label. Can be used to link the control to the label",
+          "examples": [ "qf_363270c0-7a83-62b1-8dcf-6dfd64ee38fa" ]
+        },
+        "field": {
+          "type": "Object",
+          "desc": "DOM element of the field",
+          "__exemption": [ "examples" ]
+        },
+        "editable": {
+          "type": "Boolean",
+          "desc": "Field is editable"
+        },
+        "focused": {
+          "type": "Boolean",
+          "desc": "Field has focus"
+        },
+        "floatingLabel": {
+          "type": "Boolean",
+          "desc": "Field's label is floating"
+        },
+        "value": {
+          "type": "Any",
+          "desc": "Field's value",
+          "examples": [ 0.241, "Text" ]
+        },
+        "emitValue": {
+          "type": "Function",
+          "desc": "Function that emits an @input event in the context of the field",
+          "params": {
+            "value": {
+              "type": "Any",
+              "desc": "Value to be emitted",
+              "examples": [ 0, "Changed text" ]
+            }
+          },
+          "returns": null
+        }
+      }
+    }
+  },
+
+  "events": {
+    "input": {
+      "extends": "input",
+      "desc": "Emitted when the model changes, only when used with 'clearable' or the 'control' scoped slot."
+    },
+
+    "focus": {
+      "desc": "Emitted when component gets focused",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "blur": {
+      "desc": "Emitted when component loses focus",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "__exemption": [ "examples" ]
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "focus": {
+      "desc": "Focus field"
+    },
+
+    "blur": {
+      "desc": "Blur field (lose focus)"
+    }
+  }
+}

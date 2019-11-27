@@ -30,15 +30,21 @@ module.exports = function (chain, cfg) {
     log('[InjectManifest] Using your custom service-worker written file')
   }
 
-  let opts = Object.assign(
-    defaultOptions,
-    cfg.pwa.workboxOptions
-  )
+  let opts = {
+    ...defaultOptions,
+    ...cfg.pwa.workboxOptions
+  }
 
   if (cfg.ctx.mode.ssr) {
-    if (!opts.directoryIndex) {
+    if (pluginMode === 'GenerateSW' && !opts.directoryIndex) {
       opts.directoryIndex = '/'
     }
+
+    if (!opts.exclude) {
+      opts.exclude = []
+    }
+
+    opts.exclude.push('../vue-ssr-client-manifest.json')
 
     // if Object form:
     if (cfg.ssr.pwa && cfg.ssr.pwa !== true) {
@@ -51,7 +57,7 @@ module.exports = function (chain, cfg) {
       if (!opts.runtimeCaching.find(entry => entry.urlPattern === '/')) {
         opts.runtimeCaching.unshift({
           urlPattern: '/',
-          handler: 'networkFirst'
+          handler: 'NetworkFirst'
         })
       }
     }
@@ -69,7 +75,7 @@ module.exports = function (chain, cfg) {
       opts.runtimeCaching = opts.runtimeCaching || []
       opts.runtimeCaching.push({
         urlPattern: /^http/,
-        handler: 'networkFirst'
+        handler: 'NetworkFirst'
       })
     }
   }

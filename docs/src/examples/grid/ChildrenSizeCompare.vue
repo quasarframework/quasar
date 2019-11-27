@@ -26,7 +26,7 @@
 
     <q-separator class="q-my-md" />
 
-    <p>.q-gutter and .col-6 sized children - 2 .col-2 adds up to <strong>more than 100%</strong></p>
+    <p>.q-gutter and .col-6 sized children - 2 .col-6 adds up to <strong>more than 100%</strong></p>
     <div class="row">
       <div class="col bg-red-4">
         <div class="row q-gutter-lg">
@@ -52,7 +52,7 @@
   </div>
 </template>
 
-<style lang="stylus">
+<style lang="sass">
 .semi-transparent
-  opacity .7
+  opacity: .7
 </style>

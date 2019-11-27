@@ -1,0 +1,16 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/app-visibility"
+  },
+
+  "injection": "$q.appVisible",
+
+  "props": {
+    "appVisible": {
+      "tsInjectionPoint": true,
+      "type": "Boolean",
+      "desc": "Does the app have user focus? Or the app runs in the background / another tab has the user's attention",
+      "reactive": true
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/carousel"
+  },
+
+  "mixins": [ "mixins/panel-child" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "name": {
+      "desc": "Slide name",
+      "examples": [
+        "accounts", "firstSlide", ":name=\"1\""
+      ],
+      "category": "model"
+    },
+
+    "img-src": {
+      "type": "String",
+      "desc": "URL pointing to a slide background image (use statics folder)",
+      "examples": [
+        "statics/my-background.png",
+        "https://placeimg.com/500/300/nature"
+      ],
+      "category": "model"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

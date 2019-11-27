@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/page"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Encapsulates a QPage (either directly or through <router-view>)"
+    }
+  }
+}

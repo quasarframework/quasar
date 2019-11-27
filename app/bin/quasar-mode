@@ -1,67 +1,116 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  chalk = require('chalk')
+const parseArgs = require('minimist')
 
 const
-  log = require('../lib/helpers/logger')('app:mode')
-  appPaths = require('../lib/app-paths')
+  logger = require('../lib/helpers/logger'),
+  log = logger('app:mode'),
+  warn = logger('app:mode', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
-    a: 'add',
-    r: 'remove',
+    y: 'yes',
     h: 'help'
   },
-  string: ['a', 'r'],
-  boolean: ['h']
+  boolean: ['y', 'h']
 })
 
-if (argv.help) {
+function showHelp() {
   console.log(`
   Description
-    Add/Remove support for PWA / Cordova / Electron modes.
+    Add/Remove support for PWA / Cordova / Capacitor / Electron modes.
+
   Usage
-    $ quasar mode -r|-a pwa|ssr|cordova|electron
+    $ quasar mode [add|remove] [pwa|ssr|cordova|capacitor|electron] [--yes]
 
     # determine what modes are currently installed:
     $ quasar mode
+
   Options
-    --add, -a     Add support for mode [pwa|ssr|cordova|electron]
-    --remove, -r  Remove support for mode [pwa|ssr|cordova|electron]
+    --yes, -y     Skips the "Are you sure?" question
+                  when removing a Quasar mode
     --help, -h    Displays this message
   `)
   process.exit(0)
 }
 
-require('../lib/helpers/ensure-argv')(argv, 'mode')
+if (argv.help) {
+  showHelp()
+  process.exit(1)
+}
+
+if (argv._.length !== 0 && argv._.length !== 2) {
+  console.log()
+  warn(`⚠️  Wrong number of parameters (${argv._.length}).`)
+  showHelp()
+  process.exit(1)
+}
+
 const
   getMode = require('../lib/mode'),
   { green, grey } = require('chalk')
 
-if (argv.add) {
-  getMode(argv.add).add()
-  process.exit(0)
+async function run () {
+  let [ action, mode ] = argv._
+
+  if (!['add', 'remove'].includes(action)) {
+    console.log()
+    warn(`⚠️  Unknown action specified (${ action }).`)
+    showHelp()
+    process.exit(1)
+  }
+
+  if (![undefined, 'pwa', 'cordova', 'capacitor', 'electron', 'ssr'].includes(mode)) {
+    warn(`⚠️  Unknown mode "${ mode }" to ${action}`)
+    warn()
+    process.exit(1)
+  }
+
+  const cliMode = getMode(mode)
+
+  if (action === 'remove' && argv.yes !== true && cliMode.isInstalled) {
+    console.log()
+
+    const inquirer = require('inquirer')
+    const answer = await inquirer.prompt([{
+      name: 'go',
+      type: 'confirm',
+      message: `Will also remove /src-${mode} folder. Are you sure?`,
+      default: false
+    }])
+
+    if (!answer.go) {
+      console.log()
+      console.log(`⚠️  Aborted...`)
+      console.log()
+      process.exit(0)
+    }
+  }
+
+  cliMode[action]()
 }
-else if (argv.remove) {
-  getMode(argv.remove).remove()
-  process.exit(0)
+
+function displayModes () {
+  log(`Detecting installed modes...`)
+
+  const info = []
+  ;['pwa', 'ssr', 'cordova', 'capacitor', 'electron'].forEach(mode => {
+    info.push([
+      `Mode ${mode.toUpperCase()}`,
+      getMode(mode).isInstalled ? green('yes') : grey('no')
+    ])
+  })
+
+  console.log(
+    '\n' +
+    info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
+    '\n'
+  )
 }
 
-log(`Detecting installed modes...`)
-
-const info = []
-;['pwa', 'ssr', 'cordova', 'electron'].forEach(mode => {
-  const QuasarMode = getMode(mode)
-  info.push([
-    `Mode ${mode.toUpperCase()}`,
-    getMode(mode).isInstalled ? green('yes') : grey('no')
-  ])
-})
-
-console.log(
-  '\n' +
-  info.map(msg => ' ' + msg[0].padEnd(16, '.') + ' ' + msg[1]).join('\n') +
-  '\n'
-)
+if (argv._.length === 2) {
+  run()
+}
+else {
+  displayModes()
+}

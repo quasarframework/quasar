@@ -1,0 +1,63 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/breadcrumbs"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "separator": {
+      "type": "String",
+      "desc": "The string used to separate the breadcrumbs",
+      "default": "/",
+      "examples": [ "-", "|", ">" ],
+      "category": "content"
+    },
+
+    "active-color": {
+      "extends": "color",
+      "desc": "The color of the active breadcrumb, which can be any color from the Quasar Color Palette",
+      "default": "primary",
+      "category": "style"
+    },
+
+    "gutter": {
+      "type": "String",
+      "desc": "The gutter value allows you control over the space between the breadcrumb elements.",
+      "default": "sm",
+      "values": [ "none", "xs", "sm", "md", "lg", "xl" ],
+      "examples": [ "md", "lg" ],
+      "category": "content"
+    },
+
+    "separator-color": {
+      "extends": "color",
+      "desc": "The color used to color the separator, which can be any color from the Quasar Color Palette",
+      "category": "style"
+    },
+
+    "align": {
+      "type": "String",
+      "default": "left",
+      "desc": "Specify how to align the breadcrumbs horizontally",
+      "values": [ "left", "center", "right", "between", "around", "evenly" ],
+      "examples": [ "left", "center" ],
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  },
+
+  "scopedSlots": {
+    "separator": {
+      "desc": "HTML or component you can slot in to separate the breadcrumbs",
+      "scope": {}
+    }
+  }
+}

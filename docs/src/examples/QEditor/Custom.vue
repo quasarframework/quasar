@@ -2,9 +2,10 @@
   <div class="q-pa-md q-gutter-sm">
     <q-editor
       v-model="editor"
+      flat
+      content-class="bg-amber-3"
       toolbar-text-color="white"
       toolbar-toggle-color="yellow-8"
-      toolbar-flat
       toolbar-bg="primary"
       :toolbar="[
         ['bold', 'italic', 'underline'],

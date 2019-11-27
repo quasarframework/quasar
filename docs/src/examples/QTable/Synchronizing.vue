@@ -159,7 +159,7 @@ export default {
             continue
           }
           ++found
-          if (found > startRow) {
+          if (found >= startRow) {
             data.push(row)
             ++items
           }

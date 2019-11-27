@@ -7,12 +7,12 @@ Quasar Framework is an MIT licensed open source project and completely free to u
     <tr>
       <td align="center" valign="middle">
         <a>
-          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/think-health-data.png">
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/think-health-data.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="https://truelogic.com" target="_blank">
-          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/truelogic.png">
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/truelogic.png">
         </a>
       </td>
     </tr>
@@ -21,7 +21,7 @@ Quasar Framework is an MIT licensed open source project and completely free to u
       <tr>
       <td align="center" valign="middle">
         <a href="https://www.tayloredtechnology.net" target="_blank">
-          <img width="200px" src="https://cdn.quasar-framework.org/sponsors/taylored-technology-big.jpeg">
+          <img width="200px" src="https://cdn.quasar.dev/sponsors/taylored-technology-big.jpeg">
         </a>
       </td>
     </tr>
@@ -30,7 +30,7 @@ Quasar Framework is an MIT licensed open source project and completely free to u
 
 # Backers
 
-You can join them in supporting Quasar development by [pledging on Patreon](https://www.patreon.com/quasarframework)! Backers in the same pledge level appear in the order of pledge date.
+You can join them in [supporting Quasar](https://donate.quasar.dev) development! Backers in the same pledge level appear in the order of pledge date.
 
 ### $500
 
@@ -39,7 +39,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="http://campuscloudservices.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/campus-cloud-services.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/campus-cloud-services.png">
         </a>
       </td>
     </tr>
@@ -53,7 +53,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.jugglestreet.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/juggle-street.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/juggle-street.png">
         </a>
       </td>
     </tr>
@@ -67,12 +67,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="http://comcomservices.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/com-com-services.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/com-com-services.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="http://www.kalisio.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/kalisio.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/kalisio.png">
         </a>
       </td>
     </tr>
@@ -80,12 +80,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="http://platformpurple.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/platform-purple.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/platform-purple.png">
         </a>
       </td>
       <td align="center" valign="middle">
         <a href="http://www.bgasoft.com" target="_blank">
-          <img width="222px" src="https://cdn.quasar-framework.org/sponsors/bgasoft.png">
+          <img width="222px" src="https://cdn.quasar.dev/sponsors/bgasoft.png">
         </a>
       </td>
     </tr>
@@ -93,11 +93,19 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
     <tr>
       <td align="center" valign="middle">
         <a href="https://www.letsbutterfly.com/" target="_blank">
-          <img width="170px" src="https://cdn.quasar-framework.org/sponsors/letsbutterfly.png">
+          <img width="170px" src="https://cdn.quasar.dev/sponsors/letsbutterfly.png">
         </a>
       </td>
       <td align="center" valign="middle">
-        Jeff Cole
+        <a href="https://www.projectfinance.io/" target="_blank">
+          <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/project-finance.png">
+        </a>
+      </td>
+    </tr>
+    <tr></tr>
+    <tr>
+      <td align="center" valign="middle">
+        Ronald Stevens
       </td>
     </tr>
   </tbody>
@@ -115,11 +123,20 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Andy Burnett
 - Heitor Lessa
 - Aprixon Information Services GmbH
+- Flippen Group
+- Ryan Hill
 
-### $10+
+### $25+
 
-- Valerian Cure ($25)
-- Shawn Makinson ($25)
+- David Watson ($30)
+- 上田 進也(合同会社サンドボックス) (Sandbox Gmbh) ($30)
+- Valerian Cure
+- Shawn Makinson
+- Jim O'Quinn
+- Agilus Informática
+
+### $15+
+
 - Max Matteo Staack ($20)
 - Carlos Tulloch ($20)
 - MSG Group ($20)
@@ -128,9 +145,16 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Ciprian Popa ($20)
 - G Edwards ($20)
 - Martin Thompson ($20)
-- Shone Radulovic ($15)
-- Sam Cassar ($15)
-- 上田 進也 (Sandbox Gmbh) ($20)
+- Shapovalov Pavel ($20)
+- RAKOTOSEHENO Alain ($20)
+- Shone Radulovic
+- Sam Cassar
+- Francis Vithayathil
+- Michael Svendsen
+
+### $10+
+
+- Vaidotas Beržinskas ($13.37)
 - Laurent Aapro ($12)
 - Alex Tyutchev ($11)
 - Marek Urbanowicz
@@ -166,14 +190,9 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Kévin Marrec
 - 良平 勝目
 - Jörg Walter
-- Ruan de Andrade
-- Tanner Faulkner
-- Christian Kyony
-- Talles Dantas
 - Mast
 - altShiftDev
 - Simon Kimber
-- Arjan Dhupia
 - RED CAD Solutions AG
 - Yatima Kagurazaka
 - Matyáš Racek
@@ -182,8 +201,6 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Chad Shryock
 - Ross Ball
 - KPA Productions
-- Roman Sujatinov
-- Tanya Trimbakova
 - eae
 - Tomer Shalev
 - Ildemaro Martinez Jr.
@@ -193,16 +210,12 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Jonathan G
 - rangepoker
 - Amitabh Akolkar
-- Ryohei Katsume
 - David Flasterstein
 - Jay McGuinness
-- Matheus Botura Pimenta
 - Jesse Sudich (Outflank Pay Tracker)
-- Controle Digital 
-- Tobias Mesquita
+- Controle Digital
 - Volentix
 - Pascual Strømsnæs
-- Job Stoit
 - Taillefer Brice
 - Nafaa Boutefer
 - Bryan WB (eKyNoX)
@@ -214,8 +227,54 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Tatsuki Sugiura
 - Ravi Ranganathan
 - Carl Farrington
+- Andrey Solovieff
+- Ian Claxton
+- Pascal de Sélys
+- Constantine
+- Ivar de Pieterman
+- Birch P Browning
+- Дмитрий Полянин
+- Guillaume Malignon
+- Alvin Tse Chen Hao
+- ThomasD
+- Michael Freeman
+- Michael Cole
+- Marek Bartos
+- Kasper
+- Paolo Nesti Poggi
+- Michael Alford
+- Joseph Phillips
+- David McLean
+- Alfonso Herrera
+- Mojimo
+- Todd E
+- Chip Drop
+- Jeff Jorczak
+- Furatama
+- Godwin Peter .O
+- Support Logient
+- Oleksander Mashianov
+- James
+- VHCI Business Development SRL
+- Fergus Meiklejohn
+- Aydin Sakar
+- Mike Ryan
+- synMedico
+- Andrew Heim
+- Andre Alexandre Duarte
+- Patrick Pinheiro Monteiro
+- Stuart Petersmann
+- Jonathan Labéjof
+- Vesa Laitinen
+- Bryan Kim
+- Jérémy R.
+- Luciano Pereira
+- Ioan Mircea Ciuchea
+- Elad Yaniv
+- Robert Willie
+- Noel Costa
+- Ievgen Iaroslavtsev
 
-- Jim O'Quinn ($5)
 - Ken ($5)
 - Mahesh Narayanamurthi ($5)
 - Rogério Queiroz ($5)
@@ -223,6 +282,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Felipe Santiago ($5)
 - Hugo Ramses Moreno Ramos (5$)
 - Louis Ameline ($5)
+- Peter Dzurcanin ($5)
+- LeeDy ($5)
 - Joe L Wroten ($1)
 - Yasuhiro Kawagoe ($1)
 - Shawn Taylor ($1)
@@ -234,6 +295,7 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Robert Preston $250
 - Remo Laubacher $200
 - Egor Molodov $200
+- BigJump Limited 175 EUR
 - Max Matteo Staack 150 EUR
 - Jeff Galbraith 129 EUR
 - Max Matteo Staack $123
@@ -245,6 +307,8 @@ You can join them in supporting Quasar development by [pledging on Patreon](http
 - Polaris Microsystems, L.L.C. $50
 - Jochen Geiger $50
 - Nikolay Ivanov Teofilov $50
+- Rohit Chatterjee $50
 - Martin Beaudet $30
 - Jomo Daniels $30
 - Daniel Connell $20
+- Jens Lück $20

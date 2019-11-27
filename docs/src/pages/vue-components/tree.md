@@ -1,5 +1,6 @@
 ---
 title: Tree
+desc: The QTree is a highly configurable Vue component which displays hierarchical data, such as a table of contents in a tree structure.
 ---
 Quasar Tree represents a highly configurable component that displays hierarchical data, such as a table of contents in a tree structure.
 
@@ -7,7 +8,12 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 <doc-installation components="QTree" />
 
 ## Usage
+
+### Basic
+
 <doc-example title="Basic" file="QTree/Basic" />
+
+### Dark
 
 <doc-example title="Dark" file="QTree/Dark" dark />
 
@@ -27,9 +33,15 @@ Notice (in the example below) the custom header and body slots.
 
 <doc-example title="Customizing nodes" file="QTree/SlotsCustomized" />
 
-In the example below, sibling nodes get contracted when one gets expanded.
+::: warning
+Clicking or pressing `SPACE` or `ENTER` on the custom header selects the tree item (and the custom header is blurred).
+
+If you don't want this to happen just wrap the content of the custom header in a `<div @click.stop @keyup.13.32.stop>`.
+:::
 
 ### Accordion, filtering and selectable
+
+In the example below, sibling nodes get contracted when one gets expanded.
 
 <doc-example title="Accordion mode" file="QTree/Accordion" />
 
@@ -67,7 +79,7 @@ You can customize the filtering method by specifying the `filter-method` prop. T
 
 <doc-example title="Custom filter" file="QTree/FilterCustom" />
 
-## API
+## QTree API
 <doc-api file="QTree" />
 
 ### Nodes model structure

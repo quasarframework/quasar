@@ -1,5 +1,6 @@
 ---
 title: Quasar CLI
+desc: How to use the Quasar CLI, the premium developer experience for free.
 ---
 
 Quasar CLI is the pride of Quasar Framework. You can seamlessly build:
@@ -33,4 +34,4 @@ Developing for production (`$ quasar build`):
 * All static assets are compiled with version hashes for efficient long-term caching, and a production index.html is auto-generated with proper URLs to these generated assets.
 * ...many more
 
-Take note of the '/quasar.conf.js' file in the root of your project folder. This file helps you quickly configure the way your website/App works. We'll go over it in the [Configuration](/quasar-cli/quasar-conf-js) section.
+Take note of the `/quasar.conf.js` file in the root of your project folder. This file helps you quickly configure the way your website/App works. We'll go over it in the [Configuration](/quasar-cli/quasar-conf-js) section.

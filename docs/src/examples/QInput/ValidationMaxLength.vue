@@ -8,7 +8,7 @@
       :rules="[ val => val.length <= 3 || 'Please use maximum 3 characters']"
     />
 
-    <q-btn class="q-mt-sm" label="Reset" @click="reset" color="primary"/>
+    <q-btn class="q-mt-sm" label="Reset Validation" @click="reset" color="primary"/>
   </div>
 </template>
 

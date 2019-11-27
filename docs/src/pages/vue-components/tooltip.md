@@ -1,11 +1,12 @@
 ---
 title: Tooltip
+desc: The QTooltip Vue component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or briefly touching and holding on mobile platforms), the tooltip will appear.
 related:
   - /vue-components/menu
 components:
   - tooltip/TooltipPositioning
 ---
-The QTooltip component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or quickly tapping on mobile platforms), the Tooltip will appear.
+The QTooltip component is to be used when you want to offer the user more information about a certain area in your App. When hovering the mouse over the target element (or quickly tapping on mobile platforms), the tooltip will appear.
 
 ## Installation
 <doc-installation components="QTooltip" />

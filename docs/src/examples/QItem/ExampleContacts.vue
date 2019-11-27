@@ -28,7 +28,7 @@
       <q-item v-for="contact in offline" :key="contact.id" class="q-mb-sm" clickable v-ripple>
         <q-item-section avatar>
           <q-avatar>
-            <img :src="`https://cdn.quasar-framework.org/img/${contact.avatar}`">
+            <img :src="`https://cdn.quasar.dev/img/${contact.avatar}`">
           </q-avatar>
         </q-item-section>
 

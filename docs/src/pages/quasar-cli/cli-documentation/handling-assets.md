@@ -1,5 +1,6 @@
 ---
 title: App Handling Assets
+desc: How to use regular app assets and static assets in a Quasar app.
 ---
 You will notice in the project structure we have two directories for assets: `/src/statics/` and `/src/assets/`. What is the difference between them? Some are static assets while the others are processed and embedded by the build system.
 
@@ -14,7 +15,7 @@ Since these assets may be inlined/copied/renamed during build, they are essentia
 
 ### Asset Resolving Rules
 
-Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependency. They will be replaced with a auto-generated URL based on your Webpack output configuration.
+Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependency. They will be replaced with an auto-generated URL based on your Webpack output configuration.
 
 URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. Quasar provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
 
@@ -30,6 +31,15 @@ Quasar has some smart algorithms behind the curtains which ensure that no matter
 <!-- BAD! Don't! -->
 <img src="/statics/logo.png">
 ```
+
+::: tip Assets vs Statics
+Files in the "assets" folder are only included in your build if they have a literal reference in one of your Vue files.
+Every file and folder from the "statics" folder are copied into your production build as-is, no matter what.
+:::
+
+::: danger
+When not building a SPA/PWA/SSR, then `/src/statics/icons/*` and `/src/statics/app-logo-128x128.png` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
+:::
 
 ## Vue Binding Requires Statics Only
 Please note that whenever you bind "src" to a variable in your Vue scope, it must be one from the statics folder. The reason is simple: the URL is dynamic, so Webpack (which packs up assets at compile time) doesn't know which file you'll be referencing at runtime, so it won't process the URL.
@@ -55,7 +65,7 @@ export default {
 </script>
 ```
 
-You can force serving static assets by binding `src` to a value with Vue. Instead of `src="statics/path/to/image"` use `:src="'statics/path/to/image'"`. Please note the usage of single and double quotes.
+You can force serving static assets by binding `src` to a value with Vue. Instead of `src="statics/path/to/image"` use `:src=" 'statics/path/to/image' "` or `:src="imageSrc"`. Please note the usage of single quotes within double quotes on the second code example (spaces have been added to see this visually on the documentation website - normally you would not have the spaces).
 
 ## Getting Asset Paths in JavaScript
 

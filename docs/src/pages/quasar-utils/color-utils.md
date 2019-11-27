@@ -1,5 +1,6 @@
 ---
 title: Color Utils
+desc: A set of Quasar methods for changing app brand colors and manipulating color strings.
 ---
 
 Quasar provides a set of useful functions to manipulate colors easily in most use cases, without the high additional cost of integrating dedicated libraries.
@@ -16,6 +17,10 @@ const { setBrand } = colors
 
 setBrand('primary', '#f33')
 ```
+
+::: tip
+For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
+:::
 
 ## Color Conversion
 These functions take a color as string or Object and convert it to another format.

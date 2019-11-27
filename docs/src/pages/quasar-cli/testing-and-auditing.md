@@ -1,26 +1,27 @@
 ---
 title: Testing & Auditing
+desc: How to unit and end to end test a Quasar app and also how to audit for quality and security.
 ---
 
-Your Quasar projects have the ability to add unit and e2e testing harnesses, as well as an ever-growing suite of product quality auditing tools. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the dedicated [Quasar Testing](https://testing.quasar-framework.org) docs site. For issues, please report to the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing). If you are a beginner, consider reading one of the books in the "Further Reading" section.
+Your Quasar projects have the ability to add unit and e2e testing harnesses, as well as an ever-growing suite of product quality auditing tools. This introduction will not go into details about how to write and use tests, for that please consult the specially prepared and maintained documentation at the [Testing repo at GitHub](https://github.com/quasarframework/quasar-testing). If you are a beginner, consider reading one of the books in the "Further Reading" section.
 
 ## High level overview
 
-You can install multiple pre-rigged testing harnesses to your existent 1.0+ Quasar application by running a simple command. This command will pull and install a node module (with dependencies) into your project's `package.json`, place necessary configuration files as appropriate and if you so choose, it will also add script commands that expose some of the functionality of the respective harness. You can add multiple harnesses and even use them for your continuous integration pipelines - as appropriate.
+You can install multiple pre-rigged testing harnesses to your existing 1.0+ Quasar application by running a simple command. This command will pull and install a node module (with dependencies) into your project's `package.json`, place necessary configuration files as appropriate and if you so choose, it will also add script commands that expose some of the functionality of the respective harness. You can add multiple harnesses and even use them for your continuous integration pipelines - as appropriate.
 
 Testing is not in and of itself hard. The most complicated part is setting up the testing harness. The trick lies in knowing what to test. If you are new to testing, it is absolutely imperative that you familiarize yourself with some of the concepts and patterns. There are some links for further reading at the end of this document page.
 
 ## Testing documentation
 
-Testing has its own documentation website (https://testing.quasar-framework.org), so head there for full info.
+Testing has its own documentation website (https://testing.quasar.dev), so head there for full info.
 
-<q-btn color="primary" label="testing.quasar-framework.org" icon-right="launch" no-caps type="a"  href="https://testing.quasar-framework.org" target="_blank" />
+<q-btn color="primary" label="testing.quasar.dev" icon-right="launch" no-caps type="a"  href="https://testing.quasar.dev" target="_blank" />
 
 ## Installing
 
 ```shell
 $ cd your-quasar-project
-$ quasar ext --add @quasar/testing
+$ quasar ext add @quasar/testing
 ```
 
 The lightweight extension installer will ask you which testing harnesses you want to install. Then it will install the respective extensions for these harnesses, which you can configure as you like. It is how multiple testing harnesses are ideally managed within a Quasar project.
@@ -29,13 +30,12 @@ It will provide you with a new `quasar run` command that you can use to execute 
 
 ```shell
 # Example to run jest && dev server in pwa mode
-# "--" must be placed before any args you want to pass to the test command
-$ quasar run @quasar/testing test -- --unit jest --dev="-m pwa"
+$ quasar test --unit jest --dev="-m pwa"
 ```
 
 If you ever need to review your choices you can take a look at `quasar.extensions.json`.
 
-If you don't want to install the base package, you don't have to do so. You can install each test harness app extension individually. They are completely standalone.
+If you don't want to install the base package, you don't have to do so. You can install each test harness app extension individually. They are completely standalone, but you won't have the tight integration with the `quasar test` command functionality.
 
 ## Further Reading
 

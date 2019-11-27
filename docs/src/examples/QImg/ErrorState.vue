@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-img
-      src="https://cdn.quasar-framework.org/img/non-existent-image-src.png"
+      src="https://cdn.quasar.dev/img/non-existent-image-src.png"
       style="height: 140px; max-width: 150px"
     >
       <template v-slot:error>
@@ -17,13 +17,13 @@
 export default {
   data () {
     return {
-      url: 'https://cdn.quasar-framework.org/img/no-image-src.png'
+      url: 'https://cdn.quasar.dev/img/no-image-src.png'
     }
   },
 
   methods: {
     refresh () {
-      this.url = 'https://cdn.quasar-framework.org/img/no-image-src.png?t=' + Math.random()
+      this.url = 'https://cdn.quasar.dev/img/no-image-src.png?t=' + Math.random()
     }
   }
 }

@@ -1,14 +1,15 @@
 ---
 title: AddressbarColor Plugin
+desc: A Quasar plugin for changing the addressbar color on newer mobile browsers.
 ---
 Newer mobile browsers have the ability to specify a color for the addressbar, like in the image below.
 
 ::: warning
 * There isn't yet a Web standard for this so it won't work for all mobile browsers.
-* This applies when building a website only. For coloring top bar on a mobile app (built with Cordova wrapper), please refer to [Cordova plugins](https://cordova.apache.org/plugins/).
+* This applies when building a website only. For coloring top bar on a mobile app (built with Cordova mode), please refer to [cordova-plugin-statusbar](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-statusbar/).
 :::
 
-![Mobile Addressbar Coloring](https://cdn.quasar-framework.org/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
+![Mobile Addressbar Coloring](https://cdn.quasar.dev/img/mobile-address-bar-colors.jpg "Mobile Addressbar Coloring")
 
 ## Installation
 <doc-installation plugins="AddressbarColor" />

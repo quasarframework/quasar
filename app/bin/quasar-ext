@@ -5,30 +5,42 @@ const
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
-    a: 'add',
-    r: 'remove',
-    s: 'skip-pkg',
-
     h: 'help'
   },
-  boolean: ['h', 's'],
-  string: ['a', 'r']
+  boolean: ['h']
 })
 
-if (argv.help) {
+function showHelp () {
   console.log(`
   Description
     Manage Quasar App Extensions
 
   Usage
-    $ quasar ext [-a|-r]
+    # display list of installed extensions
+    $ quasar ext
+
+    # Add Quasar App Extension
+    $ quasar ext add <ext-id>
+
+    # Remove Quasar App Extension
+    $ quasar ext remove <ext-id>
+
+    # Add Quasar App Extension, but
+    # skip installing the npm package
+    # (assumes it's already installed)
+    $ quasar ext invoke <ext-id>
+
+    # Remove Quasar App Extension, but
+    # skip uninstalling the npm package
+    $ quasar ext uninvoke <ext-id>
 
   Options
-    --add, -a        Add Quasar App Extension
-    --remove, -r     Remove Quasar App Extension
-    --skip-pkg       Skip yarn/npm package install/uninstall
     --help, -h       Displays this message
   `)
+}
+
+if (argv.help) {
+  showHelp()
   process.exit(0)
 }
 
@@ -36,23 +48,37 @@ const
   logger = require('../lib/helpers/logger'),
   warn = logger('app:extension', 'red')
 
-async function run () {
-  const name = argv.add || argv.remove
-  if (name) {
-    if (!name || !name.length) {
-      warn(`⚠️  Please specify the Quasar App Extension name`)
-      process.exit(1)
-    }
+if (argv._.length !== 0 && argv._.length !== 2) {
+  console.log()
+  warn(`⚠️  Wrong number of parameters (${argv._.length}).`)
+  showHelp()
+  process.exit(1)
+}
 
-    const Extension = require('../lib/app-extension/Extension')
-    const extension = new Extension(name)
+async function run (action, name) {
+  const Extension = require('../lib/app-extension/Extension')
+  const extension = new Extension(name)
 
-    await extension[argv.add ? 'install' : 'uninstall'](argv['skip-pkg'])
-    process.exit(0)
-  }
+  await extension[
+    action === 'add' || action === 'invoke'
+      ? 'install'
+      : 'uninstall'
+    ](action === 'invoke' || action === 'uninvoke')
+}
 
+if (argv._.length === 0) {
   const extensionJson = require('../lib/app-extension/extension-json')
   extensionJson.list()
 }
+else {
+  const [ action, name ] = argv._
 
-run()
+  if (!['add', 'remove', 'invoke', 'uninvoke'].includes(action)) {
+    console.log()
+    warn(`⚠️  Unknown action specified (${action}).`)
+    showHelp()
+    process.exit(1)
+  }
+
+  run(action, name)
+}

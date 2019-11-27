@@ -3,7 +3,7 @@
     <div
       v-for="color in brandColors"
       :key="color"
-      class="brand-color shadow-1 text-center row inline flex-center text-white rounded-borders"
+      class="brand-color text-center row inline flex-center text-white rounded-borders"
       :class="`bg-${color}`"
     >
       <div class="col">{{ color }}</div>
@@ -19,6 +19,7 @@ export default {
         'primary',
         'secondary',
         'accent',
+        'dark',
         'positive',
         'negative',
         'info',
@@ -29,8 +30,8 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
+<style lang="sass" scoped>
 .brand-color
-  width 130px
-  height 40px
+  width: 130px
+  height: 40px
 </style>

@@ -1,0 +1,34 @@
+{
+  "mixins": [ "components/page-sticky/QPageSticky" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/page-scroller"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "scroll-offset": {
+      "type": "Number",
+      "desc": "Scroll offset (in pixels) from which point the component is shown on page",
+      "default": 1000,
+      "examples": [ 550 ],
+      "category": "behavior"
+    },
+
+    "duration": {
+      "type": "Number",
+      "desc": "Duration (in milliseconds) of the scrolling until it reaches its target",
+      "default": 300,
+      "examples": [ 500 ],
+      "category": "behavior"
+    },
+
+    "offset": {
+      "default": [ 18, 18 ],
+      "category": "content"
+    }
+  }
+}

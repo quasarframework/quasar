@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/toolbar"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "shrink": {
+      "type": "Boolean",
+      "desc": "By default, QToolbarTitle is set to grow to the available space. However, you can reverse that with this prop",
+      "category": "behavior"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

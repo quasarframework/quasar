@@ -1,5 +1,6 @@
 ---
 title: Button Group
+desc: The QBtnGroup Vue component groups QBtn and QBtnDropdown into a single unit.
 related:
   - /vue-components/button
   - /vue-components/button-dropdown
@@ -17,6 +18,8 @@ You can conveniently group [QBtn](/vue-components/button) and [QBtnDropdown](/vu
 ::: warning
 You must use same design props (flat, outline, push, ...) on both the parent QBtnGroup and the children QBtn/QBtnDropdown.
 :::
+
+<doc-example title="Spread horizontally" file="QBtnGroup/GroupSpread" />
 
 <doc-example title="With QBtnDropdown" file="QBtnGroup/WithDropdown" />
 

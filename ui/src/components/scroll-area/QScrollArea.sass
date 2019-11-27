@@ -1,0 +1,32 @@
+.q-scrollarea
+  position: relative
+
+  &__bar,
+  &__thumb
+    opacity: .2
+    transition: opacity .3s
+    will-change: opacity
+
+    &--v
+      right: 0
+      width: 10px
+
+    &--h
+      bottom: 0
+      height: 10px
+
+    &--invisible
+      opacity: 0 !important
+
+  &__thumb
+    background: #000
+
+    &:hover
+      opacity: .3
+      cursor: grab
+    &:active
+      opacity: .5
+
+    &--invisible
+      &:hover
+        cursor: inherit

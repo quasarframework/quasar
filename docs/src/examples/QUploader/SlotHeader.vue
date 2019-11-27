@@ -18,14 +18,15 @@
             <div class="q-uploader__title">Upload your files</div>
             <div class="q-uploader__subtitle">{{ scope.uploadSizeLabel }} / {{ scope.uploadProgressLabel }}</div>
           </div>
-          <q-btn v-if="scope.editable" icon="add_box" @click="scope.pickFiles" round dense flat >
+          <q-btn v-if="scope.canAddFiles" type="a" icon="add_box" round dense flat>
+            <q-uploader-add-trigger />
             <q-tooltip>Pick Files</q-tooltip>
           </q-btn>
-          <q-btn v-if="scope.editable && scope.queuedFiles.length > 0" icon="cloud_upload" @click="scope.upload" round dense flat >
+          <q-btn v-if="scope.canUpload" icon="cloud_upload" @click="scope.upload" round dense flat >
             <q-tooltip>Upload Files</q-tooltip>
           </q-btn>
 
-          <q-btn v-if="scope.editable && scope.isUploading" icon="clear" @click="scope.abort" round dense flat >
+          <q-btn v-if="scope.isUploading" icon="clear" @click="scope.abort" round dense flat >
             <q-tooltip>Abort Upload</q-tooltip>
           </q-btn>
         </div>

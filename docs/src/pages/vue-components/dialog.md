@@ -1,8 +1,9 @@
 ---
 title: Dialog
+desc: The QDialog component provides a UI for modals with functionalities like positioning, styling, maximizing and more.
 related:
   - /quasar-plugins/dialog
-  - /vue-directives/close-dialog
+  - /vue-directives/close-popup
   - /vue-components/card
   - /vue-components/popup-proxy
 ---
@@ -20,15 +21,28 @@ When the user hits the phone/tablet back button (only for Cordova apps), the Dia
 :::
 
 ## Installation
-<doc-installation components="QDialog" directives="CloseDialog" />
+<doc-installation components="QDialog" directives="ClosePopup" />
 
 ## Usage
+
+::: warning Note
+It's best that your QDialog main content is a QCard. However, if you are planning on using any other component (like QForm) or tag, make sure that the direct child of QDialog is rendered with a `<div>` tag (or wrap it with one yourself).
+:::
+
+### Basic
+
 <doc-example title="Basic" file="QDialog/Basic" />
+
+### Styling
 
 <doc-example title="Styling" file="QDialog/Style" />
 
 ### Positioning
 <doc-example title="Positions" file="QDialog/Positioning" />
+
+::: tip
+Do not mistake "position" prop with the show/hide animation. If you want a custom animation, you should use `transition-show` and `transition-hide` which can be applied regardless of "position" or "maximized".
+:::
 
 <doc-example title="Maximized" file="QDialog/Maximized" />
 
@@ -38,6 +52,10 @@ Dialogs can contain any content. Some examples:
 <doc-example title="Various content" file="QDialog/VariousContent" />
 
 <doc-example title="With containerized QLayout" file="QDialog/Layout" />
+
+::: tip
+If you are going to use the containerized QLayout, you'll need to put a width on your QDialog, if using left/right position, or a height, if using top/bottom position. You can use vw and vh units.
+:::
 
 ### Handling scroll
 <doc-example title="Scrollable dialogs" file="QDialog/Scrollable" />

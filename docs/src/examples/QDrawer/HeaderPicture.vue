@@ -10,9 +10,9 @@
 
       <q-drawer
         v-model="drawer"
+        show-if-above
         :width="200"
         :breakpoint="400"
-        show-if-above
       >
         <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
           <q-list padding>
@@ -58,10 +58,10 @@
           </q-list>
         </q-scroll-area>
 
-        <q-img class="absolute-top" src="https://cdn.quasar-framework.org/img/material.png" style="height: 150px">
+        <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
           <div class="absolute-bottom bg-transparent">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar-framework.org/img/boy-avatar.png">
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
             <div class="text-weight-bold">Razvan Stoenescu</div>
             <div>@rstoenescu</div>
@@ -84,7 +84,7 @@
 export default {
   data () {
     return {
-      drawer: true
+      drawer: false
     }
   }
 }

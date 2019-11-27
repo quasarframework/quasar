@@ -1,0 +1,46 @@
+{
+  "mixins": [ "mixins/size" ],
+
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/avatar"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "font-size": {
+      "type": "String",
+      "desc": "The size in CSS units, including unit name, of the content (icon, text)",
+      "examples": [ "18px", "2rem" ],
+      "category": "style"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "icon": {
+      "extends": "icon"
+    },
+
+    "square": {
+      "extends": "square"
+    },
+
+    "rounded": {
+      "extends": "rounded"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "Optional; Suggestions: one character string, <img> tag"
+    }
+  }
+}

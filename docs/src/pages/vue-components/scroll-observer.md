@@ -1,5 +1,6 @@
 ---
 title: Scroll Observer
+desc: The QScrollObserver Vue component emits an event whenever the user scrolls the page or the parent scrollable container.
 related:
   - /vue-components/resize-observer
 ---
@@ -43,8 +44,15 @@ One more example with QScrollArea:
 </q-scroll-area>
 ```
 
+## Horizontal
+For capturing horizontal scrolling, use the `horizontal` Boolean prop:
+
+```html
+<q-scroll-observer horizontal @scroll="scrollHandler" />
+```
+
 ## Layout Scrolling
-When scrolling on a Layout with a Page, rather than injecting a QScrollObservable (and by so doing registering additional scroll events) you can take advantage of [QLayout](/components/layout.html)´s `@scroll` event directly on your component defining the Layout.
+When scrolling on a Layout with a Page, rather than injecting a QScrollObservable (and by so doing registering additional scroll events) you can take advantage of [QLayout](/layout/layout)´s `@scroll` event directly on your component defining the Layout.
 
 ```html
 <q-layout @scroll="scrollHandler">...</q-layout>
