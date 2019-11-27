@@ -350,7 +350,7 @@ export default {
             flat: true,
             dense: true
           },
-          on: icon === 'add' ? null : { click: fn }
+          on: icon === 'add' ? { click: fn } : null
         }, icon === 'add' ? this.__getInputControl(h) : null)
       }
     },
