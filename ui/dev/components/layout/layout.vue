@@ -53,14 +53,14 @@
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
-            Footer
+            Footer - Mouseover <small>{{ mouseInfo.current }}</small>
           </q-toolbar-title>
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
         <q-toolbar>
           <q-btn flat round dense icon="menu" @click="left = !left" />
           <q-toolbar-title>
-            Footer
+            Footer - Mouseout <small>{{ mouseInfo.previous }}</small>
           </q-toolbar-title>
           <q-btn flat round dense icon="menu" @click="right = !right" />
         </q-toolbar>
@@ -164,6 +164,8 @@
           :behavior="leftBehavior"
           :breakpoint="leftBreakpoint"
           :mini-to-overlay="leftMiniToOverlay"
+          @mouseover="logMouseEvents"
+          @mouseout="logMouseEvents"
         >
           <!--
         <div slot="mini">
@@ -521,7 +523,12 @@ export default {
 
       showConfig: true,
       inp: '',
-      slider: 1
+      slider: 1,
+
+      mouseInfo: {
+        current: null,
+        previous: null
+      }
     }
   },
   computed: {
@@ -568,6 +575,14 @@ export default {
     },
     onMiniState (val) {
       console.log('left drawer @mini-state ->', val)
+    },
+    logMouseEvents (evt) {
+      if (evt.type === 'mouseover') {
+        this.mouseInfo.current = evt.target.nodeName + ' [' + evt.target.classList + ']'
+      }
+      else if (evt.type === 'mouseout') {
+        this.mouseInfo.previous = evt.target.nodeName + ' [' + evt.target.classList + ']'
+      }
     }
   }
 }

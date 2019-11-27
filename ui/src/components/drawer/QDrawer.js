@@ -22,6 +22,8 @@ const directiveTemplate = {
   }
 }
 
+const nativeEvents = ['mouseover', 'mouseout', 'mouseenter', 'mouseleave']
+
 export default Vue.extend({
   name: 'QDrawer',
 
@@ -293,13 +295,12 @@ export default Vue.extend({
 
     onNativeEvents () {
       if (this.belowBreakpoint !== true) {
-        return {
-          '!click': e => { this.$emit('click', e) },
-          mouseover: e => { this.$emit('mouseover', e) },
-          mouseout: e => { this.$emit('mouseout', e) },
-          mouseenter: e => { this.$emit('mouseenter', e) },
-          mouseleave: e => { this.$emit('mouseleave', e) }
-        }
+        return nativeEvents.reduce((acc, evtName) => {
+          acc[evtName] = e => { this.$listeners[evtName] !== void 0 && this.$emit(evtName, e) }
+          return acc
+        }, {
+          '!click': e => { this.$emit('click', e) }
+        })
       }
     },
 
