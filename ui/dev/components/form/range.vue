@@ -17,6 +17,14 @@
       <q-range :dark="dark" :dense="dense" v-model="standalone" label-color="orange" label-text-color="black" :min="0" :max="50" label />
 
       <p class="caption">
+        Reverse
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ stepZero.min }} to {{ stepZero.max }}</em> &nbsp;&nbsp;(0 to 100)</span>
+        </span>
+      </p>
+      <q-range reverse :dark="dark" :dense="dense" v-model="stepZero" :step="0" />
+
+      <p class="caption">
         Step 0
         <span class="label inline bg-secondary text-white">
           Model <span class="right-detail"><em>{{ stepZero.min }} to {{ stepZero.max }}</em> &nbsp;&nbsp;(0 to 100)</span>

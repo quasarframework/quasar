@@ -59,7 +59,10 @@ export default Vue.extend({
     },
 
     trackStyle () {
-      return { width: (100 * this.ratio) + '%' }
+      return {
+        [this.horizProp]: 0,
+        width: 100 * this.ratio + '%'
+      }
     },
 
     thumbStyle () {
@@ -69,9 +72,9 @@ export default Vue.extend({
     },
 
     thumbClass () {
-      return this.preventFocus === false && this.focus === true
-        ? 'q-slider--focus'
-        : null
+      if (this.preventFocus === false && this.focus === true) {
+        return 'q-slider--focus'
+      }
     },
 
     pinClass () {
@@ -121,7 +124,7 @@ export default Vue.extend({
       const ratio = getRatio(
         event,
         dragging,
-        this.$q.lang.rtl
+        this.isReversed
       )
 
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
@@ -183,7 +186,7 @@ export default Vue.extend({
     }, [
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
-          staticClass: 'q-slider__track absolute-full',
+          staticClass: 'q-slider__track absolute',
           style: this.trackStyle
         }),
 

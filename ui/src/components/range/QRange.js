@@ -125,15 +125,15 @@ export default Vue.extend({
     },
 
     minThumbClass () {
-      return this.preventFocus === false && this.focus === 'min'
-        ? 'q-slider--focus'
-        : null
+      if (this.preventFocus === false && this.focus === 'min') {
+        return 'q-slider--focus'
+      }
     },
 
     maxThumbClass () {
-      return this.preventFocus === false && this.focus === 'max'
-        ? 'q-slider--focus'
-        : null
+      if (this.preventFocus === false && this.focus === 'max') {
+        return 'q-slider--focus'
+      }
     },
 
     events () {
@@ -242,7 +242,7 @@ export default Vue.extend({
       }
 
       let
-        ratio = getRatio(event, dragging, this.$q.lang.rtl),
+        ratio = getRatio(event, dragging, this.isReversed),
         type
 
       if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
@@ -276,7 +276,7 @@ export default Vue.extend({
 
     __updatePosition (event, dragging = this.dragging) {
       let
-        ratio = getRatio(event, dragging, this.$q.lang.rtl),
+        ratio = getRatio(event, dragging, this.isReversed),
         model = getModel(ratio, this.min, this.max, this.step, this.decimals),
         pos
 
@@ -482,7 +482,7 @@ export default Vue.extend({
     }, [
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
-          staticClass: 'q-slider__track absolute-full',
+          staticClass: 'q-slider__track absolute',
           style: this.trackStyle
         }),
 

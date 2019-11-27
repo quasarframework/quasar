@@ -62,6 +62,10 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 <doc-example title="Null values" file="QRange/Null" />
 
+### Reverse
+
+<doc-example title="In reverse" file="QRange/Reverse" />
+
 ### Dark, readonly, disable
 
 <doc-example title="Dark" file="QRange/Dark" dark />
