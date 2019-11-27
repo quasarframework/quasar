@@ -4,14 +4,12 @@ if (process.env.NODE_ENV === void 0) {
   process.env.NODE_ENV = 'development'
 }
 
-const parseArgs = require('minimist'),
-  path = require('path')
+const parseArgs = require('minimist')
 
 const
   logger = require('../lib/helpers/logger'),
   log = logger('app:dev'),
-  warn = logger('app:dev', 'red'),
-  { spawn } = require('../lib/helpers/spawn')
+  warn = logger('app:dev', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -209,11 +207,19 @@ async function goLive () {
     ModeRunner.init(ctx)
   }
 
+  function startVueDevtools () {
+    const { spawn } = require('../lib/helpers/spawn')
+    spawn('../node_modules/.bin/vue-devtools', [], {
+      cwd: __dirname
+    })
+  }
+
   function startDev (oldDevServer) {
     let devServer
 
     return Promise.resolve()
       .then(() => oldDevServer && oldDevServer.stop())
+      .then(() => argv.devtools && startVueDevtools())
       .then(() => generator.build()) // Update generated files
       .then(() => devServer = new DevServer(quasarConfig))
       .then(() => devServer.listen()) // Start listening
@@ -223,11 +229,6 @@ async function goLive () {
 
   let dev = startDev()
     .then(async (devServer) => {
-      if (argv.devtools) {
-        spawn('../node_modules/.bin/vue-devtools', [], {
-          cwd: __dirname
-        })
-      }
       if (typeof buildConfig.build.afterDev === 'function') {
         await buildConfig.build.afterDev({ quasarConf: buildConfig })
       }

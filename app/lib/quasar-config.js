@@ -280,7 +280,7 @@ class QuasarConfig {
         }
       }
       if (cfg.devtools.host === undefined) {
-        cfg.devtools.host = cfg.devServer.host
+        cfg.devtools.host = cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host
       }
       if (cfg.devtools.port === undefined) {
         cfg.devtools.port = 8098
