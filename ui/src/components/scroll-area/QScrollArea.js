@@ -18,10 +18,7 @@ export default Vue.extend({
   },
 
   props: {
-    barStyle: {
-      type: Object,
-      default: () => ({})
-    },
+    barStyle: Object,
     thumbStyle: {
       type: Object,
       default: () => ({})
