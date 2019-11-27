@@ -6,6 +6,9 @@
   > .q-btn-item
     border-radius inherit
 
+    .q-btn__wrapper:before
+      box-shadow none
+
     .q-badge--floating
       right 0
 
@@ -38,8 +41,6 @@
 
   &--push
     > .q-btn--push
-      > .q-btn__wrapper:before
-        box-shadow none
       &.q-btn--actionable
         transform none
 
@@ -55,9 +56,6 @@
 
   &--flat, &--outline, &--unelevated
     box-shadow none
-    > .q-btn-item
-      .q-btn__wrapper:before
-        box-shadow none
 
   &--outline
     > .q-separator
