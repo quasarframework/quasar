@@ -129,7 +129,9 @@ export default Vue.extend({
     },
 
     focus () {
-      let target = this.$el.querySelector('[autofocus]') || [...this.$el.querySelectorAll('[tabindex]')].find(el => el.tabIndex > -1)
+      const target = this.$el.querySelector('[autofocus]') ||
+        [].find.call(this.$el.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+
       target !== null && target !== void 0 && target.focus()
     }
   },
