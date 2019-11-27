@@ -65,8 +65,10 @@
     border-radius $button-border-radius
 
   &--outline
-    border 1px solid currentColor
     background transparent !important
+
+    .q-btn__wrapper:before
+      border 1px solid currentColor
 
   &--push
     border-radius $button-push-border-radius
@@ -82,7 +84,7 @@
 
       &:active,
       &.q-btn--active
-        transform translateY(3px)
+        transform translateY(2px)
 
         .q-btn__wrapper:before
           border-bottom-width 0
