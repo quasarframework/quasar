@@ -64,6 +64,8 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 ### Reverse
 
+<q-badge label="v1.5.0+" />
+
 <doc-example title="In reverse" file="QRange/Reverse" />
 
 ### Dark, readonly, disable

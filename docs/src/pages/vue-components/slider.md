@@ -52,6 +52,8 @@ In the example below, move the slider to see the label.
 
 ### Reverse
 
+<q-badge label="v1.5.0+" />
+
 <doc-example title="In reverse" file="QSlider/Reverse" />
 
 ### Dark, readonly, disable
