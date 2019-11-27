@@ -48,6 +48,15 @@
 .overflow-hidden-y
   overflow-y: hidden !important
 
+.hide-scrollbar
+  scrollbar-width: none
+  -ms-overflow-style: none
+
+  &::-webkit-scrollbar
+    width: 0
+    height: 0
+    display: none
+
 .dimmed, .light-dimmed
   &:after
     content: ''

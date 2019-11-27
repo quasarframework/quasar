@@ -29,6 +29,14 @@ You can also take a look at [Layout Drawer](/layout/drawer) too see some more ex
 
 <doc-example title="Styled" file="QScrollArea/Styled" />
 
+<doc-example title="Styled thumb and bar" file="QScrollArea/StyledBar" />
+
+### Scroll navigation
+
+<q-badge label="v1.5.0+" />
+
+The component allows full keyboard navigation and will scroll into view on native browser search. Also you can quick scroll to a position by clicking on the target position on the scroll bar (by default the scroll bar is transparent but active).
+
 ### Controlling scrollbar visibility
 
 <q-badge label="v1.3.0+" />

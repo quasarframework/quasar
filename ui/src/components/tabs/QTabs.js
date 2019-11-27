@@ -387,7 +387,7 @@ export default Vue.extend({
 
       h('div', {
         ref: 'content',
-        staticClass: 'q-tabs__content row no-wrap items-center self-stretch',
+        staticClass: 'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar',
         class: this.alignClass
       }, slot(this, 'default'))
     ]
