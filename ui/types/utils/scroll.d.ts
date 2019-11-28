@@ -1,18 +1,18 @@
 export namespace scroll {
-  function getScrollTarget(el: Element | Window): Element;
+  function getScrollTarget(el: HTMLElement): HTMLElement | Window;
 
-  function getScrollHeight(el: Element | Window): number;
-  function getScrollWidth(el: Element | Window): number;
+  function getScrollHeight(el: HTMLElement | Window): number;
+  function getScrollWidth(el: HTMLElement | Window): number;
 
-  function getScrollPosition(scrollTarget: Element | Window): number;
-  function getHorizontalScrollPosition(scrollTarget: Element | Window): number;
+  function getScrollPosition(scrollTarget: HTMLElement | Window): number;
+  function getHorizontalScrollPosition(scrollTarget: HTMLElement | Window): number;
 
-  function animScrollTo(el: Element | Window, to: number, duration: number): void;
-  function animHorizontalScrollTo(el: Element | Window, to: number, duration: number): void;
+  function animScrollTo(el: HTMLElement | Window, to: number, duration: number): void;
+  function animHorizontalScrollTo(el: HTMLElement | Window, to: number, duration: number): void;
 
-  function setScrollPosition(scrollTarget: Element | Window, offset: number, duration?: number): void;
-  function setHorizontalScrollPosition(scrollTarget: Element | Window, offset: number, duration?: number): void;
+  function setScrollPosition(scrollTarget: HTMLElement | Window, offset: number, duration?: number): void;
+  function setHorizontalScrollPosition(scrollTarget: HTMLElement | Window, offset: number, duration?: number): void;
 
   function getScrollbarWidth(): number;
-  function hasScrollbar(el: Element | Window, onY?: boolean): boolean;
+  function hasScrollbar(el: HTMLElement | Window, onY?: boolean): boolean;
 }
