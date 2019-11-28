@@ -1,9 +1,9 @@
 export interface ListenOpts {
   hasPassive: boolean;
-  passive?: AddEventListenerOptions;
-  notPassive?: AddEventListenerOptions;
-  passiveCapture?: AddEventListenerOptions;
-  notPassiveCapture?: AddEventListenerOptions;
+  passive: undefined | { passive: true };
+  notPassive: undefined | { passive: false };
+  passiveCapture: true | { passive: true; capture: true };
+  notPassiveCapture: true | { passive: false; capture: true };
 }
 
 export namespace event {
@@ -13,7 +13,7 @@ export namespace event {
   function rightClick(evt: MouseEvent): boolean;
   function position(evt: TouchEvent): { top: number; left: number };
   function getEventPath(evt: Event): EventTarget[];
-  function getMouseWheelDistance(evt: WheelEvent): {x: number; y: number };
+  function getMouseWheelDistance(evt: WheelEvent): { x: number; y: number };
   function stop(evt: Event): void;
   function prevent(evt: Event): void;
   function stopAndPrevent(evt: Event): void;
