@@ -190,8 +190,9 @@ class QuasarConfig {
           mangle: {}
         }
       },
-      devServer: {},
-      devtools: {},
+      devServer: {
+        vueDevtools: {}
+      },
       animations: [],
       extras: [],
       sourceFiles: {},
@@ -279,11 +280,11 @@ class QuasarConfig {
           }
         }
       }
-      if (cfg.devtools.host === undefined) {
-        cfg.devtools.host = cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host
+      if (cfg.devServer.vueDevtools.host === undefined) {
+        cfg.devServer.vueDevtools.host = cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host
       }
-      if (cfg.devtools.port === undefined) {
-        cfg.devtools.port = 8098
+      if (cfg.devServer.vueDevtools.port === undefined) {
+        cfg.devServer.vueDevtools.port = 8098
       }
     }
 

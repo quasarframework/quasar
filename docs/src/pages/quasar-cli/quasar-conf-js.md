@@ -99,7 +99,6 @@ Let's take each option one by one:
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
 | devServer | Object | Webpack dev server [options](https://webpack.js.org/configuration/dev-server/). Some properties are overwritten based on the Quasar mode you're using in order to ensure a correct config. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL. |
-| devtools | Object | Configure Vue Devtools host and port. |
 | build | Object | Build configuration options. |
 | sourceFiles | Object | Change the default name of parts of your app. |
 | cordova | Object | Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). |

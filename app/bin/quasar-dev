@@ -208,10 +208,26 @@ async function goLive () {
   }
 
   function startVueDevtools () {
-    const { spawn } = require('../lib/helpers/spawn')
-    spawn('../node_modules/.bin/vue-devtools', [], {
-      cwd: __dirname
-    })
+    const { spawn, spawnSync } = require('../lib/helpers/spawn'),
+      getPackagePath = require('../lib/helpers/get-package-path'),
+      getPackageJson = require('../lib/helpers/get-package-json')
+
+    if (getPackageJson('@vue/devtools') === void 0) {
+      const nodePackager = require('../lib/helpers/node-packager'),
+        appPaths = require('../lib/app-paths'),
+        cmdParam = nodePackager === 'npm' ?
+        ['install', '--save-dev'] :
+        ['add', '--dev']
+      log('Retrieving required package vue-devtools...')
+      spawnSync(
+        nodePackager,
+        cmdParam.concat('@vue/devtools'),
+        { cwd: appPaths.appDir },
+        () => warn('⚠️  Failed to install vue-devtools')
+      )
+    }
+
+    spawn(getPackagePath('@vue/devtools/bin.js'), [], {})
   }
 
   function startDev (oldDevServer) {

@@ -36,15 +36,13 @@ import '<%= asset.path %>'
 <% if (ctx.dev && ctx.devtools) { %>
 import vueDevtools from '@vue/devtools'
 
-function onDeviceReady() {
-  vueDevtools.connect('<%= devtools.host %>', <%= devtools.port %>)
+function connectDevtools() {
+  vueDevtools.connect('<%= devServer.vueDevtools.host %>', <%= devServer.vueDevtools.port %>)
 }
 
-if (window.location.protocol === 'file:') {
-  document.addEventListener('deviceready', onDeviceReady, false)
-} else {
-  onDeviceReady()
-}
+<% if (!ctx.mode.cordova) { %>
+  connectDevtools()
+<% } %>
 
 <% } %>
 
@@ -172,6 +170,9 @@ async function start () {
     <% if (ctx.mode.cordova) { %>
     document.addEventListener('deviceready', () => {
     Vue.prototype.$q.cordova = window.cordova
+    <% if (ctx.dev && ctx.devtools) { %>
+    connectDevtools()
+    <% } %>
     <% } else if (ctx.mode.capacitor) { %>
     Vue.prototype.$q.capacitor = window.Capacitor
     <% } %>
