@@ -343,7 +343,7 @@ export default Vue.extend({
         staticClass: 'row justify-center',
         on: this.input === true
           ? cache(this, 'stop', { input: stop })
-          : {}
+          : null
       }, [
         contentMiddle
       ]),

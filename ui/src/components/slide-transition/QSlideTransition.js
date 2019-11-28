@@ -82,6 +82,7 @@ export default Vue.extend({
             this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
           }, 100)
         },
+
         leave: (el, done) => {
           let pos
           this.el = el

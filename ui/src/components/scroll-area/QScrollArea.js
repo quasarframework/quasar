@@ -294,7 +294,7 @@ export default Vue.extend({
         directives: cache(this, 'touch#' + this.horizontal, [{
           name: 'touch-pan',
           modifiers: {
-            vertical: !this.horizontal,
+            vertical: this.horizontal !== true,
             horizontal: this.horizontal,
             mightPrevent: true
           },
@@ -337,7 +337,7 @@ export default Vue.extend({
         staticClass: 'q-scrollarea__thumb',
         style: this.style,
         class: this.thumbClass,
-        directives: this.thumbHidden === true ? null : cache(this, 'thumb' + this.horizontal, [{
+        directives: this.thumbHidden === true ? null : cache(this, 'thumb#' + this.horizontal, [{
           name: 'touch-pan',
           modifiers: {
             vertical: !this.horizontal,
