@@ -10,7 +10,8 @@ ie_style = @block
 
   /* Min Height */
   .q-item,
-  .q-toolbar
+  .q-toolbar,
+  .q-notification
     &:after
       content ''
       font-size 0
@@ -30,6 +31,11 @@ ie_style = @block
       min-height 24px
   .q-toolbar:after
     min-height $toolbar-min-height
+  .q-notification
+    &--standard:after
+      min-height 48px
+    &--multi-line
+      min-height 68px
 
   /* Flex Basis */
   .q-btn__wrapper,
