@@ -569,6 +569,7 @@ export default Vue.extend({
             staticClass: 'q-date__years-item flex flex-center'
           }, [
             h(QBtn, {
+              key: 'yr' + i,
               staticClass: this.today.year === i ? 'q-date__today' : null,
               props: {
                 flat: !active,
@@ -579,7 +580,7 @@ export default Vue.extend({
                 textColor: active ? this.computedTextColor : null,
                 tabindex: this.computedTabindex
               },
-              on: cache(this, 'year#' + i, { click: () => { this.__setYear(i) } })
+              on: cache(this, 'yr#' + i, { click: () => { this.__setYear(i) } })
             })
           ])
         )
@@ -599,7 +600,7 @@ export default Vue.extend({
               icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'y-#' + yearsInterval, { click: () => { this.startYear -= yearsInterval } })
+            on: cache(this, 'y-', { click: () => { this.startYear -= yearsInterval } })
           })
         ]),
 
@@ -618,7 +619,7 @@ export default Vue.extend({
               icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'y+#' + yearsInterval, { click: () => { this.startYear += yearsInterval } })
+            on: cache(this, 'y+', { click: () => { this.startYear += yearsInterval } })
           })
         ])
       ])

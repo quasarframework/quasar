@@ -1,7 +1,5 @@
 import QCheckbox from '../checkbox/QCheckbox.js'
 
-import { cache } from '../../utils/vm.js'
-
 export default {
   methods: {
     getTableRowBody (row, body) {
@@ -44,11 +42,11 @@ export default {
               dark: this.isDark,
               dense: this.dense
             },
-            on: cache(this, 'sel#' + key + '#' + row, {
+            on: {
               input: adding => {
-                this.__updateSelection([key], [row], adding)
+                this.__updateSelection([ key ], [ row ], adding)
               }
-            })
+            }
           })
         ])
       )
@@ -102,7 +100,7 @@ export default {
       this.hasSelectionMode === true && Object.defineProperty(data, 'selected', {
         get: () => this.isRowSelected(data.key),
         set: adding => {
-          this.__updateSelection([data.key], [data.row], adding)
+          this.__updateSelection([ data.key ], [ data.row ], adding)
         },
         configurable: true,
         enumerable: true

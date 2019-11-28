@@ -123,26 +123,6 @@ export default Vue.extend({
     barClass () {
       return `q-scrollarea__bar--${this.horizontal === true ? 'h absolute-bottom' : 'v absolute-right'}` +
         (this.thumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
-    },
-
-    desktopEvents () {
-      return this.visible === null
-        ? cache(this, 'desk', {
-          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-          mouseenter: () => { this.hover = true },
-          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-          mouseleave: () => { this.hover = false }
-        })
-        : null
-    },
-
-    barEvents () {
-      return {
-        click: e => {
-          const pos = e[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
-          this.__setScroll(pos / this.containerSize * this.scrollSize)
-        }
-      }
     }
   },
 
@@ -296,7 +276,14 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-scrollarea',
-      on: this.desktopEvents
+      on: this.visible === null
+        ? cache(this, 'desk', {
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          mouseenter: () => { this.hover = true },
+          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+          mouseleave: () => { this.hover = false }
+        })
+        : null
     }, [
       h('div', {
         ref: 'target',
@@ -338,7 +325,12 @@ export default Vue.extend({
         staticClass: 'q-scrollarea__bar',
         style: this.barStyle,
         class: this.barClass,
-        on: this.barEvents
+        on: cache(this, 'bar', {
+          click: e => {
+            const pos = e[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
+            this.__setScroll(pos / this.containerSize * this.scrollSize)
+          }
+        })
       }),
 
       h('div', {
