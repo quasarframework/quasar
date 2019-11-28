@@ -273,7 +273,7 @@ export default Vue.extend({
             items: this.computedRows,
             type: '__qtable'
           },
-          on: cache(this, 'virtScr', {
+          on: cache(this, 'vs', {
             'virtual-scroll': this.__onVScroll
           }),
           class: this.tableClass,

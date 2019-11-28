@@ -9,31 +9,39 @@ str-fe(selector, name, noProc, i = '')
 ie_style = @block
 
   /* Min Height */
-  .row, .flex
+  .q-item,
+  .q-toolbar,
+  .q-notification
     &:after
       content ''
-      display block
       font-size 0
-      min-height inherit
+      visibility collapse
+      display inline
+      width 0
 
-  .q-notification,
-  .q-banner,
-  .q-field__native, .q-field__control
-    &:after
-      min-height 0 !important
-
-  .q-item
-    &:after
-      min-height 32px !important
-
-  .q-list--dense > .q-item, .q-item--dense
-    &:after
-      min-height 24px !important
+  .q-banner > .q-banner__avatar
+    min-height 38px
+  .q-banner--dense > .q-banner__avatar
+    min-height 20px
+  .q-item:after
+    min-height 32px
+  .q-list--dense > .q-item,
+  .q-item--dense
+    &after
+      min-height 24px
+  .q-toolbar:after
+    min-height $toolbar-min-height
+  .q-notification
+    &--standard:after
+      min-height 48px
+    &--multi-line
+      min-height 68px
 
   /* Flex Basis */
-  .q-btn__content
-  .q-time__content
-  .q-toolbar__title
+  .q-btn__wrapper,
+  .q-btn__content,
+  .q-time__content,
+  .q-toolbar__title,
   .q-menu .q-item__section--main
     flex-basis auto
 
@@ -70,20 +78,17 @@ ie_style = @block
 
   /* QBtn */
   button.q-btn--actionable:active:hover
-    .q-btn__content
+    .q-btn__wrapper
       margin -1px 1px 1px -1px
 
-  a.q-btn--push.q-btn--actionable:hover
-    .q-btn__content
-      pointer-events none
+  .q-btn-group--push
+    > button.q-btn--push.q-btn--actionable:active:hover
+      .q-btn__wrapper
+        margin 1px 1px -1px -1px
 
-  .q-btn-group > button.q-btn--push.q-btn--actionable
-    .q-btn__content
-      transition $button-transition
-
-    &:active:hover
-      .q-btn__content
-        margin 0
+  .q-btn
+    display inline-flex
+    flex-wrap nowrap
 
   /* QCarousel */
   .q-carousel__slide > *
@@ -93,13 +98,6 @@ ie_style = @block
   .q-tabs--vertical
     .q-tab__indicator
       height auto
-
-  /* QFab */
-  .q-fab--opened .q-fab__actions
-    &--left
-    &--right
-      display block
-      white-space nowrap
 
   /* QSpinner */
   .q-spinner
@@ -115,9 +113,16 @@ ie_style = @block
     .q-icon
       margin-left -6px
 
-  /* QDate */
-  .q-date__main, .q-time--portrait .q-time__main
+  /* QDate, QTime */
+  .q-date__main
     min-height 290px !important
+  .q-date__months
+    align-items stretch
+  .q-time--portrait .q-time__main,
+    display flex
+    flex-direction column
+    flex-wrap nowrap
+    flex 1 0 auto
 
   /* QField */
   .q-field

@@ -222,7 +222,7 @@ The example below shows how you can use a slot to customize the entire row:
 
 <doc-example title="Body slot" file="QTable/SlotBody" />
 
-Bellow, we use a slot which gets applied to each body cell:
+Below, we use a slot which gets applied to each body cell:
 
 <doc-example title="Body-cell slot" file="QTable/SlotBodyCell" />
 

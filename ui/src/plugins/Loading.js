@@ -1,9 +1,10 @@
 import Vue from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
-import { isSSR } from './Platform.js'
+import { isSSR, client } from './Platform.js'
 import uid from '../utils/uid.js'
 import { cache } from '../utils/vm.js'
+import { preventScroll } from '../mixins/prevent-scroll.js'
 
 let
   vm,
@@ -46,12 +47,15 @@ const Loading = {
 
       const node = document.createElement('div')
       document.body.appendChild(node)
-      document.body.classList.add('q-body--loading')
 
       vm = new Vue({
         name: 'QLoading',
 
         el: node,
+
+        mounted () {
+          preventScroll(true, client)
+        },
 
         render: (h) => {
           return h('transition', {
@@ -64,8 +68,8 @@ const Loading = {
                 // might be called to finalize
                 // previous leave, even if it was cancelled
                 if (this.isActive !== true && vm !== void 0) {
+                  preventScroll(false, client)
                   vm.$destroy()
-                  document.body.classList.remove('q-body--loading')
                   vm.$el.remove()
                   vm = void 0
                 }

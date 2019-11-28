@@ -66,13 +66,15 @@ export default {
           h(QCheckbox, {
             props: {
               color: this.color,
-              value: this.someRowsSelected ? null : this.allRowsSelected,
+              value: this.someRowsSelected === true
+                ? null
+                : this.allRowsSelected,
               dark: this.isDark,
               dense: this.dense
             },
             on: cache(this, 'inp', {
               input: val => {
-                if (this.someRowsSelected) {
+                if (this.someRowsSelected === true) {
                   val = false
                 }
                 this.__updateSelection(
@@ -97,9 +99,11 @@ export default {
     addTableHeaderRowMeta (data) {
       if (this.multipleSelection === true) {
         Object.defineProperty(data, 'selected', {
-          get: () => this.someRowsSelected ? 'some' : this.allRowsSelected,
+          get: () => this.someRowsSelected === true
+            ? 'some'
+            : this.allRowsSelected,
           set: val => {
-            if (this.someRowsSelected) {
+            if (this.someRowsSelected === true) {
               val = false
             }
             this.__updateSelection(
