@@ -1,3 +1,6 @@
+button.q-btn
+  -webkit-appearance: button
+
 .q-btn
   display: inline-block
   position: relative
@@ -13,9 +16,6 @@
   overflow: visible
   font-weight: $button-font-weight
   text-transform: uppercase
-
-  @at-root #{selector-unify('button', &)}
-    -webkit-appearance: button
 
   .q-icon, .q-spinner
     font-size: $button-line-height
@@ -44,6 +44,9 @@
 
   &--actionable
     cursor: pointer
+
+    label, input, textarea, button, a
+      pointer-events: all
 
     &.q-btn--standard
       .q-btn__wrapper:before
