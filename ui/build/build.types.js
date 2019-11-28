@@ -210,6 +210,7 @@ function writeIndexDTS (apis) {
   writeLine(quasarTypeContents, `export * from './utils'`)
   writeLine(quasarTypeContents, `export * from './globals'`)
   writeLine(quasarTypeContents, `export * from './boot'`)
+  writeLine(quasarTypeContents, `export * from './extras'`)
 
   const injections = {}
 
