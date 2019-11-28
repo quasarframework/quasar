@@ -100,6 +100,7 @@ export default {
 
       const self = this
       const xhr = new XMLHttpRequest()
+      const errorMessage = 'Sorry, nothing found. Please refine search terms.'
 
       xhr.addEventListener('load', function () {
         self.loading = false
@@ -111,12 +112,14 @@ export default {
         }
 
         if (json.results.length === 0) {
-          self.errorMessage = 'Sorry, nothing found. Please refine search terms.'
+          self.errorMessage = errorMessage
           return
         }
 
         self.errorMessage = null
-        self.results = json.results.map(item => {
+        self.results = json.results.filter(result => {
+          return result.flags.deprecated === void 0
+        }).map(item => {
           item = item.package
 
           item.official = item.name.startsWith('@quasar/')
@@ -128,6 +131,10 @@ export default {
 
           return item
         })
+
+        if (self.results.length === 0) {
+          self.errorMessage = errorMessage
+        }
       })
       xhr.addEventListener('error', () => {
         this.loading = false

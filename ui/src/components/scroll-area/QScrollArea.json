@@ -4,6 +4,14 @@
   },
 
   "props": {
+    "bar-style": {
+      "type": [ "Array", "String", "Object"],
+      "desc": "Object with CSS properties and values for styling the custom scrollbar",
+      "examples": [ ":bar-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
+      "category": "style",
+      "addedIn": "1.5.0"
+    },
+
     "thumb-style": {
       "type": "Object",
       "desc": "Object with CSS properties and values for styling the thumb of custom scrollbar",
@@ -12,14 +20,14 @@
     },
 
     "content-style": {
-      "type": "Object",
+      "type": [ "Array", "String", "Object"],
       "desc": "Object with CSS properties and values for styling the container of QScrollArea",
       "examples": [ ":content-style=\"{ backgroundColor: '#C0C0C0' }\"" ],
       "category": "style"
     },
 
     "content-active-style": {
-      "type": "Object",
+      "type": [ "Array", "String", "Object"],
       "desc": "Object with CSS properties and values for styling the container of QScrollArea when scroll area becomes active (is mouse hovered)",
       "examples": [ ":content-active-style=\"{ backgroundColor: 'white' }\"" ],
       "category": "style"

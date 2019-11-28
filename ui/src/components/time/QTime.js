@@ -401,7 +401,9 @@ export default Vue.extend({
             keyup: this.__onKeyupHour
           })
         }, [ this.stringModel.hour ]),
+
         h('div', [ ':' ]),
+
         h(
           'div',
           this.minLink === true
@@ -422,6 +424,7 @@ export default Vue.extend({
       if (this.withSeconds === true) {
         label.push(
           h('div', [ ':' ]),
+
           h(
             'div',
             this.secLink === true

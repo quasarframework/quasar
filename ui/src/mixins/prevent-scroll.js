@@ -94,7 +94,7 @@ function apply (action, is) {
   }
 }
 
-function prevent (state, is) {
+export function preventScroll (state, is) {
   let action = 'add'
 
   if (state === true) {
@@ -145,7 +145,7 @@ export default {
         (this.preventedScroll !== void 0 || state === true)
       ) {
         this.preventedScroll = state
-        prevent(state, this.$q.platform.is)
+        preventScroll(state, this.$q.platform.is)
       }
     }
   }

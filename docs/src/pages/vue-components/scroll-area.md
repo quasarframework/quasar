@@ -29,6 +29,8 @@ You can also take a look at [Layout Drawer](/layout/drawer) too see some more ex
 
 <doc-example title="Styled" file="QScrollArea/Styled" />
 
+<doc-example title="Styled thumb and bar" file="QScrollArea/StyledBar" />
+
 ### Controlling scrollbar visibility
 
 <q-badge label="v1.3.0+" />

@@ -538,7 +538,7 @@ export default Vue.extend({
         }, this.computedPalette.map(color => h('div', {
           staticClass: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },
-          on: this.editable === true ? cache(this, 'palette', {
+          on: this.editable === true ? cache(this, 'palette#' + color, {
             click: () => {
               this.__onPalettePick(color)
             }

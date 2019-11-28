@@ -142,6 +142,11 @@ export default Vue.extend({
     },
 
     __onPressEnd (e) {
+      // needed for IE (because it emits blur when focusing button from focus helper)
+      if (e !== void 0 && e.type === 'blur' && document.activeElement === this.$el) {
+        return
+      }
+
       if (e !== void 0 && e.type === 'keyup') {
         if (keyboardTarget === this.$el && isKeyCode(e, [ 13, 32 ]) === true) {
           // for click trigger
@@ -201,13 +206,12 @@ export default Vue.extend({
 
   render (h) {
     let inner = []
-    const
-      data = {
-        staticClass: 'q-btn q-btn-item non-selectable no-outline',
-        class: this.classes,
-        style: this.style,
-        attrs: this.attrs
-      }
+    const data = {
+      staticClass: 'q-btn q-btn-item non-selectable no-outline',
+      class: this.classes,
+      style: this.style,
+      attrs: this.attrs
+    }
 
     if (this.isActionable === true) {
       data.on = {
@@ -260,17 +264,25 @@ export default Vue.extend({
 
     this.loading === true && this.percentage !== void 0 && child.push(
       h('div', {
-        staticClass: 'q-btn__progress absolute-full',
-        class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
-        style: { transform: `scale3d(${this.computedPercentage / 100},1,1)` }
-      })
+        staticClass: 'q-btn__progress absolute-full'
+      }, [
+        h('div', {
+          staticClass: 'q-btn__progress-indicator absolute-full',
+          class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
+          style: { transform: `scale(${this.computedPercentage / 100},1)` }
+        })
+      ])
     )
 
     child.push(
       h('div', {
-        staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
-        class: this.innerClasses
-      }, inner)
+        staticClass: 'q-btn__wrapper col row no-wrap q-anchor--skip'
+      }, [
+        h('div', {
+          staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
+          class: this.innerClasses
+        }, inner)
+      ])
     )
 
     this.loading !== null && child.push(
