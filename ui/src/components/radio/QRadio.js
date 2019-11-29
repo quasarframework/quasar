@@ -93,7 +93,7 @@ export default Vue.extend({
 
     const child = [
       h('div', {
-        staticClass: 'q-radio__inner relative-position',
+        staticClass: 'q-radio__inner relative-position no-pointer-events',
         class: this.innerClass
       }, content)
     ]

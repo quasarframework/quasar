@@ -123,6 +123,7 @@ export default Vue.extend({
         staticClass: 'q-circular-progress__svg',
         style: this.svgStyle,
         attrs: {
+          focusable: 'false',
           viewBox: this.viewBoxAttr
         }
       }, [
