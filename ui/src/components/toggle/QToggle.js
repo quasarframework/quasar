@@ -65,7 +65,7 @@ export default Vue.extend({
 
     const child = [
       h('div', {
-        staticClass: 'q-toggle__inner relative-position',
+        staticClass: 'q-toggle__inner relative-position no-pointer-events',
         class: this.innerClass
       }, inner)
     ]

@@ -13,6 +13,7 @@ export default Vue.extend({
       class: this.classes,
       on: this.$listeners,
       attrs: {
+        focusable: 'false',
         'width': this.cSize,
         'height': this.cSize,
         'stroke': 'currentColor',

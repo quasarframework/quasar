@@ -51,7 +51,7 @@ export default Vue.extend({
       }, [
         h('svg', {
           staticClass: 'q-checkbox__check fit absolute-full',
-          attrs: { viewBox: '0 0 24 24' }
+          attrs: { focusable: 'false', viewBox: '0 0 24 24' }
         }, [
           h('path', {
             attrs: {
@@ -75,7 +75,7 @@ export default Vue.extend({
 
     const child = [
       h('div', {
-        staticClass: 'q-checkbox__inner relative-position',
+        staticClass: 'q-checkbox__inner relative-position no-pointer-events',
         class: this.innerClass
       }, content)
     ]
