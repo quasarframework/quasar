@@ -21,7 +21,8 @@ export default {
     dense: Boolean,
 
     disable: Boolean,
-    tabindex: [String, Number]
+    tabindex: [String, Number],
+    for: String
   },
 
   computed: {

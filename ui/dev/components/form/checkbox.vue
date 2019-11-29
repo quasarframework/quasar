@@ -133,7 +133,44 @@
       />
 
       <p class="caption">
-        Inside of a List
+        Inside a Label
+      </p>
+      <div class="column q-gutter-y-sm">
+        <label>
+          <q-checkbox v-model="checked" color="orange" label="Checkbox - own label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        </label>
+
+        <label tabindex="0">
+          <q-checkbox v-model="checked" color="orange" label="Checkbox - own label (tabindex)" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        </label>
+
+        <label>
+          <q-checkbox v-model="checked" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          Checkbox - external label
+        </label>
+
+        <label tabindex="0">
+          <q-checkbox v-model="checked" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          Checkbox - external label (tabindex)
+        </label>
+
+        <q-field v-model="checked" label="Checkbox field" stack-label :dark="dark" :dense="dense">
+          <template v-slot:control="{ id, value, emitValue }">
+            <q-checkbox
+              :for="id"
+              :value="value"
+              @input="emitValue"
+              color="orange"
+              :dark="dark"
+              :dense="dense"
+              :keep-color="keepColor"
+            />
+          </template>
+        </q-field>
+      </div>
+
+      <p class="caption">
+        Inside a List
       </p>
       <q-list :dark="dark" :dense="dense">
         <q-item tag="label">

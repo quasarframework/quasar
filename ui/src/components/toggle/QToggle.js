@@ -58,7 +58,10 @@ export default Vue.extend({
     this.disable !== true && inner.unshift(
       h('input', {
         staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
-        attrs: { type: 'checkbox' }
+        attrs: {
+          id: this.for,
+          type: 'checkbox'
+        }
       })
     )
 

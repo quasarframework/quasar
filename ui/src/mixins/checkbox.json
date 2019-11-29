@@ -68,6 +68,14 @@
 
     "tabindex": {
       "extends": "tabindex"
+    },
+
+    "for": {
+      "type": "String",
+      "desc": "DOM element 'id' to be used on the real input field",
+      "examples": [ "for=\"myFieldsId\"" ],
+      "category": "behavior",
+      "addedIn": "v1.5.2"
     }
   },
 

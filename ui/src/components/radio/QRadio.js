@@ -26,7 +26,8 @@ export default Vue.extend({
     dense: Boolean,
 
     disable: Boolean,
-    tabindex: [String, Number]
+    tabindex: [String, Number],
+    for: String
   },
 
   computed: {
@@ -90,7 +91,10 @@ export default Vue.extend({
     this.disable !== true && content.unshift(
       h('input', {
         staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
-        attrs: { type: 'radio' }
+        attrs: {
+          id: this.for,
+          type: 'radio'
+        }
       })
     )
 
