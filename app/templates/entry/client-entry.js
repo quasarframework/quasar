@@ -29,9 +29,6 @@ import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
 import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 <% } %>
 
-<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
-import '<%= asset.path %>'
-<% }) %>
 
 import Vue from 'vue'
 import createApp from './app.js'
@@ -73,6 +70,10 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr &&
 <% if (ctx.mode.pwa) { %>console.info('[Quasar] Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
+<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
+  import '<%= asset.path %>'
+<% }) %>
+    
 const { app, <%= store ? 'store, ' : '' %>router } = createApp()
 
 <% if (ctx.mode.cordova && ctx.target.ios) { %>
