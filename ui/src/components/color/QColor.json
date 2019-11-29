@@ -44,6 +44,21 @@
       "category": "content"
     },
 
+    "square": {
+      "extends": "square",
+      "addedIn": "v1.5.2"
+    },
+
+    "flat": {
+      "extends": "flat",
+      "addedIn": "v1.5.2"
+    },
+
+    "bordered": {
+      "extends": "bordered",
+      "addedIn": "v1.5.2"
+    },
+
     "no-header": {
       "type": "Boolean",
       "desc": "Do not render header",

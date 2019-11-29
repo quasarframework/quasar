@@ -9,6 +9,9 @@
   border-radius: $generic-border-radius
   box-shadow: $shadow-2
 
+  &--bordered
+    border: 1px solid $separator-color
+
   &__header
     height: 88px
 
@@ -150,11 +153,10 @@
     text-align: center
   .q-tabs
     overflow: hidden
-  .q-tab
-    &--active
-      box-shadow: 0px 0px 14px 3px rgba(0,0,0,0.2)
-      .q-focus-helper
-        display: none
+  .q-tab--active
+    box-shadow: 0px 0px 14px 3px rgba(0,0,0,0.2)
+    .q-focus-helper
+      display: none
   .q-tab__indicator
     display: none
   .q-tab-panels
