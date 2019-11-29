@@ -109,7 +109,7 @@ export default Vue.extend({
 
   watch: {
     innerValue: {
-      handler () {
+      handler (innerValue) {
         if (
           this.useInput === true &&
           this.fillInput === true &&
@@ -123,6 +123,14 @@ export default Vue.extend({
           if (this.dialog === true || this.menu === true) {
             this.filter('')
           }
+        }
+
+        if (
+          this.useInput === true &&
+          this.mapOptions === true &&
+          this.innerValueCache !== innerValue
+        ) {
+          this.innerValueCache = innerValue
         }
       },
       immediate: true
@@ -168,13 +176,16 @@ export default Vue.extend({
         mapNull = this.mapOptions === true && this.multiple !== true,
         val = this.value !== void 0 && (this.value !== null || mapNull === true)
           ? (this.multiple === true && Array.isArray(this.value) ? this.value : [ this.value ])
+          : [],
+        innerValueCache = this.useInput === true && this.mapOptions === true && this.innerValueCache !== void 0
+          ? this.innerValueCache
           : []
 
       return this.mapOptions === true && Array.isArray(this.options) === true
         ? (
           this.value === null && mapNull === true
-            ? val.map(v => this.__getOption(v)).filter(v => v !== null)
-            : val.map(v => this.__getOption(v))
+            ? val.map(v => this.__getOption(v, innerValueCache)).filter(v => v !== null)
+            : val.map(v => this.__getOption(v, innerValueCache))
         )
         : val
     },
@@ -400,8 +411,10 @@ export default Vue.extend({
       }
     },
 
-    __getOption (value) {
-      return this.options.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) || value
+    __getOption (value, innerValueCache) {
+      return this.options.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) ||
+        innerValueCache.find(opt => isDeepEqual(this.__getOptionValue(opt), value)) ||
+        value
     },
 
     __getOptionValue (opt) {
