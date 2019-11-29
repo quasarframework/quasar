@@ -191,6 +191,8 @@ const data = [
   }
 ]
 
+const reNumber = /^[+-]?(?:\d+\.?|\d*\.\d+|\d+e[+-]?\d+)$/
+
 export default {
   data () {
     return {
@@ -203,7 +205,7 @@ export default {
 
   methods: {
     proteinRangeValidation (val) {
-      if (val < 4 || val > 7) {
+      if (reNumber.test(val) !== true || val < 4 || val > 7) {
         this.errorProtein = true
         this.errorMessageProtein = 'The value must be between 4 and 7!'
         return false
