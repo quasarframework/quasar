@@ -200,6 +200,9 @@ export default Vue.extend({
           document.activeElement.scrollIntoView()
         }
 
+        // required in order to avoid the "double-tap needed" issue
+        this.$q.platform.is.ios === true && this.__portal.$el.click()
+
         this.$emit('show', evt)
       }, 300)
     },
