@@ -6,7 +6,7 @@ div.relative
     dense
     flat
     icon="content_copy"
-    @click="copyToClipboard"
+    @click="copy"
   )
     q-tooltip Copy to Clipboard
 
@@ -26,7 +26,7 @@ import { copyToClipboard } from 'quasar'
 
 export default {
   props: {
-    text: [Function, String]
+    text: [ Function, String ]
   },
 
   data () {
@@ -36,14 +36,21 @@ export default {
   },
 
   methods: {
-    copyToClipboard () {
-      copyToClipboard(typeof this.text === 'string' ? this.text : this.text())
-      this.copied = true
-      clearTimeout(this.timer)
-      this.timer = setTimeout(() => {
-        this.copied = false
-        this.timer = null
-      }, 2000)
+    copy () {
+      const text = typeof this.text === 'function'
+        ? this.text()
+        : this.text
+
+      copyToClipboard(text)
+        .then(() => {
+          this.copied = true
+          clearTimeout(this.timer)
+          this.timer = setTimeout(() => {
+            this.copied = false
+            this.timer = null
+          }, 2000)
+        })
+        .catch(() => {})
     }
   }
 }

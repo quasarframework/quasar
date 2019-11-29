@@ -21,15 +21,25 @@
         <q-select color="blue-12" v-model="contentGroup" :options="contentOptions" label="Align Content" emit-value map-options dense options-dense />
       </div>
     </div>
+
     <div class="text-weight-medium q-mt-sm">Container Classes</div>
-    <q-input filled v-model="classes" dense readonly class="q-py-sm" />
-    <div class="text-subtitle2 float-left">Results <span class="text-weight-thin">(children: {{ children.length }}/10)</span></div>
+    <q-input filled v-model="classes" dense readonly class="q-py-sm">
+      <template #append>
+        <copy-button :text="classes" />
+      </template>
+    </q-input>
+
+    <div class="text-subtitle2 float-left">
+      Results <span class="text-weight-thin">(children: {{ children.length }}/10)</span>
+    </div>
+
     <q-btn class="float-right" round dense flat icon="share" @click="share">
       <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
     </q-btn>
     <q-btn class="float-right" round dense flat icon="fab fa-codepen" @click="editInCodepen">
       <q-tooltip>Edit in Codepen</q-tooltip>
     </q-btn>
+
     <q-btn class="float-right" label="Add Child" icon="add" dense flat :disabled="children.length >= 10" @click="addChild" />
     <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
       <div id="parent" :class="classes" style="overflow: hidden;">
@@ -43,6 +53,7 @@
         />
       </div>
     </div>
+
     <div class="text-weight-medium q-mt-sm">Child Classes</div>
     <q-input filled v-model="childClasses" dense readonly class="q-py-sm">
       <template #append>

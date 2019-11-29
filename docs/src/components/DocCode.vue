@@ -4,9 +4,7 @@ div
     slot
 
   .absolute(style="top: 8px; right: 8px;")
-    copy-button(
-      :text="markup"
-    )
+    copy-button(:text="getMarkup")
 </template>
 
 <script>
@@ -29,8 +27,8 @@ export default {
   },
 
   methods: {
-    markup () {
-      return this.$el.querySelector('pre')
+    getMarkup () {
+      return this.$el.querySelector('pre').innerText
     }
   }
 }
