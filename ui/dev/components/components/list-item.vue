@@ -668,7 +668,7 @@
 
         <q-item tag="label">
           <q-item-section side>
-            <q-checkbox :dark="dark" v-model="check3" />
+            <q-toggle :dark="dark" v-model="check3" />
           </q-item-section>
 
           <q-item-section>

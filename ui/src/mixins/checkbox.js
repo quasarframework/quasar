@@ -87,7 +87,11 @@ export default {
     },
 
     __keyDown (e) {
-      if (e.keyCode === 13 || e.keyCode === 32) {
+      e.keyCode === 32 && this.toggle(e)
+    },
+
+    __keyUp (e) {
+      if (e.qKeyEvent !== true && e.keyCode === 13) {
         this.toggle(e)
       }
     }

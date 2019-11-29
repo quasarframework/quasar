@@ -67,7 +67,11 @@ export default Vue.extend({
     },
 
     __keyDown (e) {
-      if (e.keyCode === 13 || e.keyCode === 32) {
+      e.keyCode === 32 && this.set(e)
+    },
+
+    __keyUp (e) {
+      if (e.qKeyEvent !== true && e.keyCode === 13) {
         this.set(e)
       }
     }
@@ -86,8 +90,7 @@ export default Vue.extend({
     this.disable !== true && content.unshift(
       h('input', {
         staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
-        attrs: { type: 'checkbox' },
-        on: cache(this, 'inp', { change: this.set })
+        attrs: { type: 'radio' }
       })
     )
 
@@ -114,7 +117,8 @@ export default Vue.extend({
       attrs: { tabindex: this.computedTabindex },
       on: cache(this, 'inpExt', {
         click: this.set,
-        keydown: this.__keyDown
+        keydown: this.__keyDown,
+        keyup: this.__keyUp
       })
     }, child)
   }

@@ -27,7 +27,6 @@
       <q-checkbox v-model="checked" label="Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <q-checkbox v-model="checked" label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-checkbox v-model="checked" no-focus color="teal" label="Checkbox Label - skip focus" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" color="orange" label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
