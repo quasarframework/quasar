@@ -39,7 +39,6 @@ export default {
     copyToClipboard () {
       copyToClipboard(typeof this.text === 'string' ? this.text : this.text())
       this.copied = true
-      this.copied = true
       clearTimeout(this.timer)
       this.timer = setTimeout(() => {
         this.copied = false
