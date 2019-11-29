@@ -68,8 +68,7 @@ export default Vue.extend({
     this.disable !== true && content.unshift(
       h('input', {
         staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
-        attrs: { type: 'checkbox' },
-        on: cache(this, 'inp', { change: this.toggle })
+        attrs: { type: 'checkbox' }
       })
     )
 
@@ -96,7 +95,8 @@ export default Vue.extend({
       attrs: { tabindex: this.computedTabindex },
       on: cache(this, 'inpExt', {
         click: this.toggle,
-        keydown: this.__keyDown
+        keydown: this.__onKeydown,
+        keyup: this.__onKeyup
       })
     }, child)
   }
