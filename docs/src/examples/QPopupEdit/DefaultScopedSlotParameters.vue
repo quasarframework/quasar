@@ -16,7 +16,7 @@
           >
             <template v-slot:after>
               <q-btn flat dense color="negative" icon="cancel" @click.stop="cancel" />
-              <q-btn flat dense color="positive" icon="save" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
+              <q-btn flat dense color="positive" icon="check_circle" @click.stop="set" :disable="validate(value) === false || initialValue === value" />
             </template>
           </q-input>
         </template>
