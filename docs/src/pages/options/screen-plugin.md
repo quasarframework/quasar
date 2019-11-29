@@ -41,6 +41,37 @@ import { Screen } from 'quasar'
 
 // Screen.gt.md
 // Screen.md
+// Screen.name ('xs', 'sm', ...; Quasar v1.5.2+)
+```
+
+## CSS helper
+
+<q-badge label="v1.5.2+" />
+
+You can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen-xl`.
+
+```css
+body.screen--xs {
+  .my-div {
+    color: #000;
+  }
+}
+
+body.screen--sm {
+  .my-div {
+    color: #fff;
+  }
+}
+```
+
+Or a sexy variant in Sass or Stylus:
+
+```css
+.my-div
+  body.screen-xs &
+    color: #000
+  body.screen-sm &
+    color: #fff
 ```
 
 ## Configuration

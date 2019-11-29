@@ -506,6 +506,11 @@ const style = [
     path: 'breakpoints'
   },
   {
+    name: 'Body classes',
+    badge: 'update',
+    path: 'body-classes'
+  },
+  {
     name: 'Visibility',
     path: 'visibility'
   },
