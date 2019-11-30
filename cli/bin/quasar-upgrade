@@ -146,6 +146,8 @@ function upgradeQuasar () {
 
   if (!argv.install) {
     console.log()
+    console.log(` See ${green('https://quasar.dev/start/release-notes')} for release notes.`)
+    console.log()
     console.log(' Run "quasar upgrade -i" to do the actual upgrade.')
     console.log()
     return
@@ -168,7 +170,8 @@ function upgradeQuasar () {
       // installing the new version might fail on Windows
       removeSync(path.join(root, 'node_modules', dep.packageName))
 
-      params.push(`${dep.packageName}@^${dep.latestVersion}`)
+      const notPinned = pkg.dependencies[dep.packageName].startsWith('^')
+      params.push(`${dep.packageName}@${notPinned ? '^' : ''}${dep.latestVersion}`)
     })
 
     console.log()

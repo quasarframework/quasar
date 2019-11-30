@@ -21,15 +21,25 @@
         <q-select color="blue-12" v-model="contentGroup" :options="contentOptions" label="Align Content" emit-value map-options dense options-dense />
       </div>
     </div>
+
     <div class="text-weight-medium q-mt-sm">Container Classes</div>
-    <q-input filled v-model="classes" dense readonly class="q-py-sm" />
-    <div class="text-subtitle2 float-left">Results <span class="text-weight-thin">(children: {{ children.length }}/10)</span></div>
+    <q-input filled v-model="classes" dense readonly class="q-py-sm">
+      <template #append>
+        <copy-button :text="classes" />
+      </template>
+    </q-input>
+
+    <div class="text-subtitle2 float-left">
+      Results <span class="text-weight-thin">(children: {{ children.length }}/10)</span>
+    </div>
+
     <q-btn class="float-right" round dense flat icon="share" @click="share">
       <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
     </q-btn>
     <q-btn class="float-right" round dense flat icon="fab fa-codepen" @click="editInCodepen">
       <q-tooltip>Edit in Codepen</q-tooltip>
     </q-btn>
+
     <q-btn class="float-right" label="Add Child" icon="add" dense flat :disabled="children.length >= 10" @click="addChild" />
     <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
       <div id="parent" :class="classes" style="overflow: hidden;">
@@ -43,10 +53,20 @@
         />
       </div>
     </div>
+
     <div class="text-weight-medium q-mt-sm">Child Classes</div>
-    <q-input filled v-model="childClasses" dense readonly class="q-py-sm" />
+    <q-input filled v-model="childClasses" dense readonly class="q-py-sm">
+      <template #append>
+        <copy-button :text="childClasses" />
+      </template>
+    </q-input>
+
     <div class="text-weight-medium q-mt-sm">Child Styles</div>
-    <q-input filled v-model="childStyles" dense readonly class="q-py-sm" />
+    <q-input filled v-model="childStyles" dense readonly class="q-py-sm">
+      <template #append>
+        <copy-button :text="childStyles" />
+      </template>
+    </q-input>
 
     <codepen ref="codepen" title="Flex example" slugifiedTitle="flex-example" />
   </div>
@@ -55,7 +75,8 @@
 <script>
 import Child from './FlexChild'
 import Codepen from '../../../Codepen'
-import { copyToClipboard } from 'assets/page-utils'
+import CopyButton from '../../../CopyButton'
+import { copyToClipboard } from 'quasar'
 
 const queryParams = {
   containerGroup: 'string',
@@ -74,7 +95,8 @@ export default {
 
   components: {
     Child,
-    Codepen
+    Codepen,
+    CopyButton
   },
 
   data () {
@@ -254,7 +276,7 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.row > div
+.row:not(.q-field__append) > div
   padding: 8px
   background: rgba(227,242,253,.6)
   border: 1px solid rgba(187,222,251,.9)

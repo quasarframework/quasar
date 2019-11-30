@@ -20,6 +20,14 @@
       "examples": [ 721 ]
     },
 
+    "name": {
+      "type": "String",
+      "desc": "Tells current window breakpoint",
+      "values": [ "xs", "sm", "md", "lg", "xl" ],
+      "reactive": true,
+      "addedIn": "v1.5.2"
+    },
+
     "sizes": {
       "type": "Object",
       "desc": "Breakpoints (in pixels)",

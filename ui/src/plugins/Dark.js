@@ -63,6 +63,7 @@ const Dark = {
     if (val === 'auto') {
       if (this.__media === void 0) {
         this.__media = window.matchMedia('(prefers-color-scheme: dark)')
+        this.__updateMedia = () => { this.set('auto') }
         this.__media.addListener(this.__updateMedia)
       }
 
@@ -83,11 +84,7 @@ const Dark = {
     Dark.set(Dark.isActive === false)
   },
 
-  __media: void 0,
-
-  __updateMedia () {
-    this.set(this.__media.matches)
-  }
+  __media: void 0
 }
 
 export default Dark

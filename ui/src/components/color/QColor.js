@@ -59,6 +59,10 @@ export default Vue.extend({
     noHeader: Boolean,
     noFooter: Boolean,
 
+    square: Boolean,
+    flat: Boolean,
+    bordered: Boolean,
+
     disable: Boolean,
     readonly: Boolean
   },
@@ -168,6 +172,15 @@ export default Vue.extend({
       return this.palette !== void 0 && this.palette.length > 0
         ? this.palette
         : palette
+    },
+
+    classes () {
+      return 'q-color-picker' +
+        (this.bordered === true ? ' q-color-picker--bordered' : '') +
+        (this.square === true ? ' q-color-picker--square no-border-radius' : '') +
+        (this.flat === true ? ' q-color-picker--flat no-shadow' : '') +
+        (this.disable === true ? ' disabled' : '') +
+        (this.isDark === true ? ' q-color-picker--dark q-dark' : '')
     }
   },
 
@@ -186,13 +199,7 @@ export default Vue.extend({
       this.__getFooter(h)
     )
 
-    return h('div', {
-      staticClass: 'q-color-picker',
-      class: {
-        disabled: this.disable,
-        'q-color-picker--dark q-dark': this.isDark
-      }
-    }, child)
+    return h('div', { class: this.classes }, child)
   },
 
   methods: {

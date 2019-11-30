@@ -420,7 +420,7 @@ export default Vue.extend({
       }, [
         h('svg', {
           staticClass: 'q-slider__thumb absolute',
-          attrs: { width: '21', height: '21' }
+          attrs: { focusable: 'false' /* needed for IE11 */, width: '21', height: '21' }
         }, [
           h('circle', {
             attrs: {

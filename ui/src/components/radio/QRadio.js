@@ -64,12 +64,6 @@ export default Vue.extend({
       if (this.disable !== true && this.isTrue !== true) {
         this.$emit('input', this.val)
       }
-    },
-
-    __keyDown (e) {
-      if (e.keyCode === 13 || e.keyCode === 32) {
-        this.set(e)
-      }
     }
   },
 
@@ -86,14 +80,13 @@ export default Vue.extend({
     this.disable !== true && content.unshift(
       h('input', {
         staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
-        attrs: { type: 'checkbox' },
-        on: cache(this, 'inp', { change: this.set })
+        attrs: { type: 'radio' }
       })
     )
 
     const child = [
       h('div', {
-        staticClass: 'q-radio__inner relative-position',
+        staticClass: 'q-radio__inner relative-position no-pointer-events',
         class: this.innerClass
       }, content)
     ]
@@ -114,7 +107,16 @@ export default Vue.extend({
       attrs: { tabindex: this.computedTabindex },
       on: cache(this, 'inpExt', {
         click: this.set,
-        keydown: this.__keyDown
+        keydown: e => {
+          if (e.keyCode === 13 || e.keyCode === 32) {
+            stopAndPrevent(e)
+          }
+        },
+        keyup: e => {
+          if (e.keyCode === 13 || e.keyCode === 32) {
+            this.set(e)
+          }
+        }
       })
     }, child)
   }

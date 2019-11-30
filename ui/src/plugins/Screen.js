@@ -10,6 +10,8 @@ export default {
   width: 0,
   height: 0,
 
+  name: 'xs',
+
   sizes: {
     sm: 600,
     md: 1024,
@@ -60,7 +62,7 @@ export default {
         return
       }
 
-      const s = this.sizes
+      let s = this.sizes
 
       this.gt.xs = w >= s.sm
       this.gt.sm = w >= s.md
@@ -71,10 +73,23 @@ export default {
       this.lt.lg = w < s.lg
       this.lt.xl = w < s.xl
       this.xs = this.lt.sm
-      this.sm = this.gt.xs && this.lt.md
-      this.md = this.gt.sm && this.lt.lg
-      this.lg = this.gt.md && this.lt.xl
+      this.sm = this.gt.xs === true && this.lt.md === true
+      this.md = this.gt.sm === true && this.lt.lg === true
+      this.lg = this.gt.md === true && this.lt.xl === true
       this.xl = this.gt.lg
+
+      s = (this.xs === true && 'xs') ||
+        (this.sm === true && 'sm') ||
+        (this.md === true && 'md') ||
+        (this.lg === true && 'lg') ||
+        'xl'
+
+      if (s !== this.name) {
+        this.name = s
+        document.body.classList.remove(`screen--${this.__oldName}`)
+        document.body.classList.add(`screen--${s}`)
+        this.__oldName = s
+      }
     }
 
     let updateEvt, updateSizes = {}, updateDebounce = 16
@@ -141,5 +156,7 @@ export default {
     }
 
     Vue.util.defineReactive($q, 'screen', this)
-  }
+  },
+
+  __oldName: 'xs'
 }

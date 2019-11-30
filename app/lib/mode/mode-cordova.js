@@ -93,7 +93,7 @@ class Mode {
   }
 
   addPlatform (target) {
-    fse.ensureDir(appPaths.resolve.cordova(`www`))
+    fse.ensureDirSync(appPaths.resolve.cordova(`www`))
 
     if (this.hasPlatform(target)) {
       installDependencies()

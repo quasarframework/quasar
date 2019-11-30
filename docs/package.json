@@ -15,7 +15,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.1.2",
+    "@quasar/extras": "^1.0.0",
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
     "quasar": "^1.0.0",
