@@ -146,6 +146,8 @@ function upgradeQuasar () {
 
   if (!argv.install) {
     console.log()
+    console.log(` See ${green('https://quasar.dev/start/release-notes')} for release notes.`)
+    console.log()
     console.log(' Run "quasar upgrade -i" to do the actual upgrade.')
     console.log()
     return
