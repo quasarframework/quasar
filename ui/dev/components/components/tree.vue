@@ -119,8 +119,8 @@ export default {
     return {
       selected: null,
       tickStrategy: 'leaf',
-      ticked: ['Node 2.2'],
-      expanded: ['Node 2.1.4 - Disabled', 'Node 2.1.3 - freeze exp / tickable'],
+      ticked: ['Node 2.2', 'Node child - disabled'],
+      expanded: ['Node 2.1.4 - Disabled', 'Node 2.1.3 - freeze exp / tickable', 'Node parent'],
       selectableNodes: true,
       dark: null,
       accordion: false,
@@ -295,6 +295,18 @@ export default {
             {
               label: 'Node 2.5 - Lazy load empty',
               lazy: true
+            }
+          ]
+        },
+        {
+          label: 'Node parent',
+          children: [
+            {
+              label: 'Node child - disabled',
+              disabled: true
+            },
+            {
+              label: 'Node child - enabled'
             }
           ]
         }

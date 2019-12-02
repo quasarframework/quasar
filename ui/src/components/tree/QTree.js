@@ -598,8 +598,8 @@ export default Vue.extend({
     },
 
     __onTickedClick (meta, state) {
-      if (meta.indeterminate && state) {
-        state = false
+      if (meta.indeterminate && state !== true) {
+        state = true
       }
       if (meta.strictTicking) {
         this.setTicked([ meta.key ], state)
