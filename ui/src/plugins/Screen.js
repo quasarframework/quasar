@@ -91,8 +91,8 @@ export default {
         if (classes === true) {
           document.body.classList.remove(`screen--${this.__oldName}`)
           document.body.classList.add(`screen--${s}`)
+          this.__oldName = s
         }
-        this.__oldName = s
       }
     }
 
