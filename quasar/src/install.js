@@ -17,7 +17,7 @@ export const $q = {
 }
 
 export default function (Vue, opts = {}) {
-  if (Vue.__qInstalled) { return }
+  if (Vue.__qInstalled === true) { return }
   Vue.__qInstalled = true
 
   const cfg = opts.config || {}
