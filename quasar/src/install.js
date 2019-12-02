@@ -17,8 +17,8 @@ export const $q = {
 }
 
 export default function (Vue, opts = {}) {
-  if (Vue.__quasarInstalled) { return }
-  Vue.__quasarInstalled = true
+  if (Vue.__qInstalled) { return }
+  Vue.__qInstalled = true
 
   const cfg = opts.config || {}
 
