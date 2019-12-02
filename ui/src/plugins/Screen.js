@@ -40,11 +40,13 @@ export default {
   setSizes () {},
   setDebounce () {},
 
-  install ($q, queues) {
+  install ($q, queues, cfg) {
     if (isSSR === true) {
       $q.screen = this
       return
     }
+
+    const classes = cfg.screen !== void 0 && cfg.screen.bodyClasses === true
 
     const update = force => {
       const
@@ -86,8 +88,10 @@ export default {
 
       if (s !== this.name) {
         this.name = s
-        document.body.classList.remove(`screen--${this.__oldName}`)
-        document.body.classList.add(`screen--${s}`)
+        if (classes === true) {
+          document.body.classList.remove(`screen--${this.__oldName}`)
+          document.body.classList.add(`screen--${s}`)
+        }
         this.__oldName = s
       }
     }
