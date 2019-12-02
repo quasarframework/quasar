@@ -103,16 +103,16 @@ export default Vue.extend({
         const
           key = node[this.nodeKey],
           isParent = node.children && node.children.length > 0,
-          isLeaf = !isParent,
-          selectable = !node.disabled && this.hasSelection && node.selectable !== false,
-          expandable = !node.disabled && node.expandable !== false,
+          isLeaf = isParent !== true,
+          selectable = node.disabled !== true && this.hasSelection === true && node.selectable !== false,
+          expandable = node.disabled !== true && node.expandable !== false,
           hasTicking = tickStrategy !== 'none',
           strictTicking = tickStrategy === 'strict',
           leafFilteredTicking = tickStrategy === 'leaf-filtered',
           leafTicking = tickStrategy === 'leaf' || tickStrategy === 'leaf-filtered'
 
-        let tickable = !node.disabled && node.tickable !== false
-        if (leafTicking && tickable && parent && !parent.tickable) {
+        let tickable = node.disabled !== true && node.tickable !== false
+        if (leafTicking === true && tickable === true && parent && parent.tickable !== true) {
           tickable = false
         }
 
@@ -128,59 +128,59 @@ export default Vue.extend({
           isLeaf,
           lazy,
           disabled: node.disabled,
-          link: !node.disabled && (selectable || (expandable && (isParent || lazy === true))),
+          link: node.disabled !== true && (selectable === true || (expandable === true && (isParent === true || lazy === true))),
           children: [],
           matchesFilter: this.filter ? this.filterMethod(node, this.filter) : true,
 
-          selected: key === this.selected && selectable,
+          selected: key === this.selected && selectable === true,
           selectable,
-          expanded: isParent ? this.innerExpanded.includes(key) : false,
+          expanded: isParent === true ? this.innerExpanded.includes(key) : false,
           expandable,
-          noTick: node.noTick || (!strictTicking && lazy && lazy !== 'loaded'),
+          noTick: node.noTick === true || (strictTicking !== true && lazy && lazy !== 'loaded'),
           tickable,
           tickStrategy,
           hasTicking,
           strictTicking,
           leafFilteredTicking,
           leafTicking,
-          ticked: strictTicking
+          ticked: strictTicking === true
             ? this.innerTicked.includes(key)
-            : (isLeaf ? this.innerTicked.includes(key) : false)
+            : (isLeaf === true ? this.innerTicked.includes(key) : false)
         }
 
         meta[key] = m
 
-        if (isParent) {
+        if (isParent === true) {
           m.children = node.children.map(n => travel(n, m))
 
           if (this.filter) {
-            if (!m.matchesFilter) {
+            if (m.matchesFilter !== true) {
               m.matchesFilter = m.children.some(n => n.matchesFilter)
             }
-            if (
-              m.matchesFilter &&
-              !m.noTick &&
-              !m.disabled &&
-              m.tickable &&
-              leafFilteredTicking &&
-              m.children.every(n => !n.matchesFilter || n.noTick || !n.tickable)
+            else if (
+              m.noTick !== true &&
+              m.disabled !== true &&
+              m.tickable === true &&
+              leafFilteredTicking === true &&
+              m.children.every(n => n.matchesFilter !== true || n.noTick === true || n.tickable !== true) === true
             ) {
               m.tickable = false
             }
           }
 
-          if (m.matchesFilter) {
-            if (!m.noTick && !strictTicking && m.children.every(n => n.noTick)) {
+          if (m.matchesFilter === true) {
+            if (m.noTick !== true && strictTicking !== true && m.children.every(n => n.noTick) === true) {
               m.noTick = true
             }
 
             if (leafTicking) {
               m.ticked = false
-              m.indeterminate = m.children.some(node => node.indeterminate)
+              m.indeterminate = m.children.some(node => node.indeterminate === true)
+              m.tickable = m.tickable === true && m.children.some(node => node.tickable)
 
-              if (!m.indeterminate) {
+              if (m.indeterminate !== true) {
                 const sel = m.children
-                  .reduce((acc, meta) => meta.ticked ? acc + 1 : acc, 0)
+                  .reduce((acc, meta) => meta.ticked === true ? acc + 1 : acc, 0)
 
                 if (sel === m.children.length) {
                   m.ticked = true
@@ -188,6 +188,11 @@ export default Vue.extend({
                 else if (sel > 0) {
                   m.indeterminate = true
                 }
+              }
+
+              if (m.indeterminate === true) {
+                m.indeterminateNextState = m.children
+                  .every(meta => meta.tickable !== true || meta.ticked !== true)
               }
             }
           }
@@ -227,7 +232,7 @@ export default Vue.extend({
         if (result || !node) {
           return result
         }
-        if (Array.isArray(node)) {
+        if (Array.isArray(node) === true) {
           return reduce.call(Object(node), find, result)
         }
         if (node[this.nodeKey] === key) {
@@ -303,7 +308,7 @@ export default Vue.extend({
             }
             this.$nextTick(() => {
               const m = this.meta[key]
-              if (m && m.isParent) {
+              if (m && m.isParent === true) {
                 this.__setExpanded(key, true)
               }
             })
@@ -313,7 +318,7 @@ export default Vue.extend({
           }
         })
       }
-      else if (meta.isParent && meta.expandable) {
+      else if (meta.isParent === true && meta.expandable === true) {
         this.__setExpanded(key, state)
       }
     },
@@ -332,7 +337,7 @@ export default Vue.extend({
             const collapse = []
             if (this.meta[key].parent) {
               this.meta[key].parent.children.forEach(m => {
-                if (m.key !== key && m.expandable) {
+                if (m.key !== key && m.expandable === true) {
                   collapse.push(m.key)
                 }
               })
@@ -346,7 +351,7 @@ export default Vue.extend({
               })
             }
             if (collapse.length > 0) {
-              target = target.filter(k => !collapse.includes(k))
+              target = target.filter(k => collapse.includes(k) === false)
             }
           }
         }
@@ -385,7 +390,7 @@ export default Vue.extend({
           .filter((key, index, self) => self.indexOf(key) === index)
       }
       else {
-        target = target.filter(k => !keys.includes(k))
+        target = target.filter(k => keys.includes(k) === false)
       }
 
       if (emit === true) {
@@ -444,7 +449,7 @@ export default Vue.extend({
           ? this.$scopedSlots[`header-${node.header}`] || this.$scopedSlots['default-header']
           : this.$scopedSlots['default-header']
 
-      const children = meta.isParent
+      const children = meta.isParent === true
         ? this.__getChildren(h, node.children)
         : []
 
@@ -513,16 +518,16 @@ export default Vue.extend({
                 : null
             ),
 
-          meta.hasTicking && !meta.noTick
+          meta.hasTicking === true && meta.noTick !== true
             ? h(QCheckbox, {
               staticClass: 'q-mr-xs',
               props: {
-                value: meta.indeterminate ? null : meta.ticked,
+                value: meta.indeterminate === true ? null : meta.ticked,
                 color: this.computedControlColor,
                 dark: this.isDark,
                 dense: true,
                 keepColor: true,
-                disable: !meta.tickable
+                disable: meta.tickable !== true
               },
               on: {
                 keydown: stopAndPrevent,
@@ -598,8 +603,8 @@ export default Vue.extend({
     },
 
     __onTickedClick (meta, state) {
-      if (meta.indeterminate && state) {
-        state = false
+      if (meta.indeterminate === true) {
+        state = meta.indeterminateNextState
       }
       if (meta.strictTicking) {
         this.setTicked([ meta.key ], state)
@@ -608,14 +613,18 @@ export default Vue.extend({
         const keys = []
         const travel = meta => {
           if (meta.isParent) {
-            if (!state && !meta.noTick && meta.tickable) {
+            if (state !== true && meta.noTick !== true && meta.tickable === true) {
               keys.push(meta.key)
             }
-            if (meta.leafTicking) {
+            if (meta.leafTicking === true) {
               meta.children.forEach(travel)
             }
           }
-          else if (!meta.noTick && meta.tickable && (!meta.leafFilteredTicking || meta.matchesFilter)) {
+          else if (
+            meta.noTick !== true &&
+            meta.tickable === true &&
+            (meta.leafFilteredTicking !== true || meta.matchesFilter === true)
+          ) {
             keys.push(meta.key)
           }
         }
