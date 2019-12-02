@@ -176,10 +176,11 @@ export default Vue.extend({
             if (leafTicking) {
               m.ticked = false
               m.indeterminate = m.children.some(node => node.indeterminate === true)
+              m.tickable = m.tickable === true && m.children.some(node => node.tickable)
 
-              if (!m.indeterminate) {
+              if (m.indeterminate !== true) {
                 const sel = m.children
-                  .reduce((acc, meta) => meta.ticked ? acc + 1 : acc, 0)
+                  .reduce((acc, meta) => meta.ticked === true ? acc + 1 : acc, 0)
 
                 if (sel === m.children.length) {
                   m.ticked = true
@@ -187,6 +188,11 @@ export default Vue.extend({
                 else if (sel > 0) {
                   m.indeterminate = true
                 }
+              }
+
+              if (m.indeterminate === true) {
+                m.indeterminateNextState = m.children
+                  .every(meta => meta.tickable !== true || meta.ticked !== true)
               }
             }
           }
@@ -597,8 +603,8 @@ export default Vue.extend({
     },
 
     __onTickedClick (meta, state) {
-      if (meta.indeterminate === true && state === true) {
-        state = false
+      if (meta.indeterminate === true) {
+        state = meta.indeterminateNextState
       }
       if (meta.strictTicking) {
         this.setTicked([ meta.key ], state)
