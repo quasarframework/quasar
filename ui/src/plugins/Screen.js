@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR, fromSSR } from './Platform.js'
+import { isSSR, fromSSR, client } from './Platform.js'
 import { listenOpts } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
@@ -87,12 +87,11 @@ export default {
         'xl'
 
       if (s !== this.name) {
-        this.name = s
         if (classes === true) {
-          document.body.classList.remove(`screen--${this.__oldName}`)
+          document.body.classList.remove(`screen--${this.name}`)
           document.body.classList.add(`screen--${s}`)
-          this.__oldName = s
         }
+        this.name = s
       }
     }
 
@@ -133,15 +132,31 @@ export default {
       }
 
       this.setDebounce = delay => {
-        const fn = () => { update() }
         updateEvt !== void 0 && target.removeEventListener('resize', updateEvt, listenOpts.passive)
         updateEvt = delay > 0
-          ? debounce(fn, delay)
-          : fn
+          ? debounce(update, delay)
+          : update
         target.addEventListener('resize', updateEvt, listenOpts.passive)
       }
 
       this.setDebounce(updateDebounce)
+
+      if (client.is.ios === true && window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0) {
+        const elStyle = document.body.style
+
+        target.addEventListener('scroll', () => {
+          const { offsetLeft: left, offsetTop: top } = target
+
+          if (left !== this.__left) {
+            elStyle.setProperty('--q-vp-left', left + 'px')
+            this.__left = left
+          }
+          if (top !== this.__top) {
+            elStyle.setProperty('--q-vp-top', top + 'px')
+            this.__top = top
+          }
+        }, listenOpts.passive)
+      }
 
       if (Object.keys(updateSizes).length > 0) {
         this.setSizes(updateSizes)
@@ -160,7 +175,5 @@ export default {
     }
 
     Vue.util.defineReactive($q, 'screen', this)
-  },
-
-  __oldName: 'xs'
+  }
 }

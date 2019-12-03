@@ -177,7 +177,10 @@ export default Vue.extend({
         this.scrollTarget.removeEventListener('scroll', this.hide, passive)
         this.scrollTarget = void 0
       }
-      window.removeEventListener('scroll', this.updatePosition, passive)
+      const target = window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0
+        ? window.visualViewport
+        : window
+      target.removeEventListener('scroll', this.updatePosition, passive)
     },
 
     __configureScrollTarget () {
@@ -187,7 +190,10 @@ export default Vue.extend({
           this.scrollTarget.addEventListener('scroll', this.hide, passive)
         }
         if (this.noParentEvent === true || this.scrollTarget !== window) {
-          window.addEventListener('scroll', this.updatePosition, passive)
+          const target = window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0
+            ? window.visualViewport
+            : window
+          target.addEventListener('scroll', this.updatePosition, passive)
         }
       }
     },
