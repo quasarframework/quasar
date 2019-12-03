@@ -51,6 +51,10 @@ if (boot.length > 0) {
 import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
+<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
+  import '<%= asset.path %>'
+<% }) %>
+
 <% if (preFetch) { %>
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
@@ -69,10 +73,6 @@ Vue.config.productionTip = false
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
 <% if (ctx.mode.pwa) { %>console.info('[Quasar] Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
-
-<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
-  import '<%= asset.path %>'
-<% }) %>
     
 const { app, <%= store ? 'store, ' : '' %>router } = createApp()
 
