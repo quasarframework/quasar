@@ -29,10 +29,6 @@ import 'quasar/dist/quasar.<%= __css.quasarSrcExt %>'
 import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 <% } %>
 
-<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
-import '<%= asset.path %>'
-<% }) %>
-
 import Vue from 'vue'
 import createApp from './app.js'
 
@@ -53,6 +49,10 @@ if (boot.length > 0) {
 %>
 import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
+
+<% css.length > 0 && css.filter(asset => asset.client !== false).forEach(asset => { %>
+  import '<%= asset.path %>'
+<% }) %>
 
 <% if (preFetch) { %>
 import { addPreFetchHooks } from './client-prefetch.js'
