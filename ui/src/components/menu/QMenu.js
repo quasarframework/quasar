@@ -133,7 +133,7 @@ export default Vue.extend({
       }
 
       if (this.unwatch === void 0) {
-        this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
+        this.unwatch = this.$watch(() => this.$q.screen.width + '|' + this.$q.screen.height, this.updatePosition)
       }
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
@@ -204,7 +204,10 @@ export default Vue.extend({
       if (this.scrollTarget !== void 0) {
         this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
       }
-      window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
+      const target = window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0
+        ? window.visualViewport
+        : window
+      target.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
     },
 
     __configureScrollTarget () {
@@ -212,7 +215,10 @@ export default Vue.extend({
         this.scrollTarget = getScrollTarget(this.anchorEl)
         this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
         if (this.scrollTarget !== window) {
-          window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
+          const target = window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0
+            ? window.visualViewport
+            : window
+          target.addEventListener('scroll', this.updatePosition, listenOpts.passive)
         }
       }
     },

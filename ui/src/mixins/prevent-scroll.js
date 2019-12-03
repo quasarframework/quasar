@@ -73,7 +73,12 @@ function apply (action, is) {
     }
 
     body.classList.add('q-body--prevent-scroll')
-    is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    if (is.ios === true) {
+      const target = window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0
+        ? window.visualViewport
+        : window
+      target.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    }
   }
 
   if (is.desktop === true && is.mac === true) {
@@ -82,7 +87,12 @@ function apply (action, is) {
   }
 
   if (action === 'remove') {
-    is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    if (is.ios === true) {
+      const target = window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0
+        ? window.visualViewport
+        : window
+      target.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    }
 
     body.classList.remove('q-body--prevent-scroll')
     body.classList.remove('q-body--force-scrollbar')
