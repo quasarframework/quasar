@@ -2,8 +2,7 @@
 q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
   q-header.header(elevated)
     q-toolbar
-      q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu")
-        q-icon(name="menu")
+      q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu", icon="menu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         q-avatar.doc-layout-avatar
