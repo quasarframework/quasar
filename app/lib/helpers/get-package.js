@@ -9,7 +9,5 @@ module.exports = function (pkgName) {
       })
     )
   }
-  catch (e) {
-    return null
-  }
+  catch (e) {}
 }
