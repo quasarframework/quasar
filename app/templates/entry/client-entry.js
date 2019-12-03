@@ -33,19 +33,6 @@ import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 import '<%= asset.path %>'
 <% }) %>
 
-<% if (ctx.dev && ctx.devtools) { %>
-import vueDevtools from '@vue/devtools'
-
-function connectDevtools() {
-  vueDevtools.connect('<%= devServer.vueDevtools.host %>', <%= devServer.vueDevtools.port %>)
-}
-
-<% if (!ctx.mode.cordova) { %>
-  connectDevtools()
-<% } %>
-
-<% } %>
-
 import Vue from 'vue'
 import createApp from './app.js'
 
@@ -170,14 +157,11 @@ async function start () {
     <% if (ctx.mode.cordova) { %>
     document.addEventListener('deviceready', () => {
     Vue.prototype.$q.cordova = window.cordova
-    <% if (ctx.dev && ctx.devtools) { %>
-    connectDevtools()
-    <% } %>
     <% } else if (ctx.mode.capacitor) { %>
     Vue.prototype.$q.capacitor = window.Capacitor
     <% } %>
 
-      new Vue(app)
+    new Vue(app)
 
     <% if (ctx.mode.cordova) { %>
     }, false) // on deviceready

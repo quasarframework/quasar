@@ -56,8 +56,7 @@ module.exports = class DevServer {
     })
 
     // start building & launch server
-    const { vueDevtools, ...devServerConfig } = cfg.devServer
-    const server = new WebpackDevServer(compiler, devServerConfig)
+    const server = new WebpackDevServer(compiler, cfg.devServer)
 
     this.__cleanup = () => {
       this.__cleanup = null

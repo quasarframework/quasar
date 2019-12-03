@@ -68,7 +68,7 @@ if (argv.help) {
                         booting up the emulator, in which case the "--emulator"
                         param will have no effect
 
-    --devtools, -d   Open Vue Devtools
+    --devtools, -d   Open remote Vue Devtools
 
     Only for Capacitor mode:
     --target, -T     (required) App target
@@ -140,6 +140,45 @@ async function parseAddress ({ host, port }) {
   return { host, port }
 }
 
+function startVueDevtools () {
+  const { spawn, spawnSync } = require('../lib/helpers/spawn')
+  const getPackagePath = require('../lib/helpers/get-package-path')
+
+  let vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
+
+  function run () {
+    log(`Booting up remote Vue Devtools...`)
+    spawn(vueDevtoolsBin, [], {})
+  }
+
+  if (vueDevtoolsBin !== void 0) {
+    run()
+    return
+  }
+
+  const nodePackager = require('../lib/helpers/node-packager'),
+    appPaths = require('../lib/app-paths'),
+    cmdParam = nodePackager === 'npm' ?
+    ['install', '--save-dev'] :
+    ['add', '--dev']
+
+  log('Installing vue-devtools package...')
+  spawnSync(
+    nodePackager,
+    cmdParam.concat('@vue/devtools'),
+    { cwd: appPaths.appDir },
+    () => warn('⚠️  Failed to install vue-devtools')
+  )
+
+  // a small delay is a must, otherwise require.resolve
+  // after a yarn/npm install will fail
+  return new Promise(resolve => {
+    vueDevtoolsBin = getPackagePath('@vue/devtools/bin.js')
+    run()
+    resolve()
+  })
+}
+
 async function goLive () {
   const
     DevServer = require('../lib/dev-server'),
@@ -153,7 +192,7 @@ async function goLive () {
     target: argv.target,
     emulator: argv.emulator,
     dev: true,
-    devtools: argv.devtools
+    vueDevtools: argv.devtools
   })
 
   // register app extensions
@@ -187,6 +226,10 @@ async function goLive () {
 
   buildConfig = quasarConfig.getBuildConfig()
 
+  if (buildConfig.__vueDevtools !== false) {
+    await startVueDevtools()
+  }
+
   if (typeof buildConfig.build.beforeDev === 'function') {
     await buildConfig.build.beforeDev({ quasarConf: buildConfig })
   }
@@ -207,44 +250,25 @@ async function goLive () {
     ModeRunner.init(ctx)
   }
 
-  function startVueDevtools () {
-    const { spawn, spawnSync } = require('../lib/helpers/spawn'),
-      getPackagePath = require('../lib/helpers/get-package-path'),
-      getPackageJson = require('../lib/helpers/get-package-json')
-
-    if (getPackageJson('@vue/devtools') === void 0) {
-      const nodePackager = require('../lib/helpers/node-packager'),
-        appPaths = require('../lib/app-paths'),
-        cmdParam = nodePackager === 'npm' ?
-        ['install', '--save-dev'] :
-        ['add', '--dev']
-      log('Retrieving required package vue-devtools...')
-      spawnSync(
-        nodePackager,
-        cmdParam.concat('@vue/devtools'),
-        { cwd: appPaths.appDir },
-        () => warn('⚠️  Failed to install vue-devtools')
-      )
-    }
-
-    spawn(getPackagePath('@vue/devtools/bin.js'), [], {})
-  }
-
   function startDev (oldDevServer) {
     let devServer
 
     return Promise.resolve()
-      .then(() => oldDevServer && oldDevServer.stop())
-      .then(() => argv.devtools && startVueDevtools())
-      .then(() => generator.build()) // Update generated files
-      .then(() => devServer = new DevServer(quasarConfig))
-      .then(() => devServer.listen()) // Start listening
-      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv))
+      .then(() => {
+        if (oldDevServer !== void 0) {
+          oldDevServer.stop()
+          oldDevServer = void 0
+        }
+      })
+      .then(() => { generator.build() }) // Update generated files
+      .then(() => { devServer = new DevServer(quasarConfig) })
+      .then(() => { devServer.listen() }) // Start listening
+      .then(() => { ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv) })
       .then(() => devServer) // Pass new builder to watch chain
   }
 
   let dev = startDev()
-    .then(async (devServer) => {
+    .then(async (payload) => {
       if (typeof buildConfig.build.afterDev === 'function') {
         await buildConfig.build.afterDev({ quasarConf: buildConfig })
       }
@@ -254,7 +278,7 @@ async function goLive () {
         await hook.fn(hook.api, { quasarConf: buildConfig })
       })
 
-      return devServer
+      return payload
     })
 }
 
