@@ -150,7 +150,12 @@ export default Vue.extend({
 
       this.__setTimeout(() => {
         // required in order to avoid the "double-tap needed" issue
-        this.$q.platform.is.ios === true && this.__portal.$el.click()
+        if (this.$q.platform.is.ios === true) {
+          // if auto-close, then this click should
+          // not close the menu
+          this.__avoidAutoClose = this.autoClose
+          this.__portal.$el.click()
+        }
 
         this.$emit('show', evt)
       }, 300)
@@ -213,8 +218,15 @@ export default Vue.extend({
     },
 
     __onAutoClose (e) {
-      closePortalMenus(this, e)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      // if auto-close, then the ios double-tap fix which
+      // issues a click should not close the menu
+      if (this.__avoidAutoClose !== true) {
+        closePortalMenus(this, e)
+        this.$listeners.click !== void 0 && this.$emit('click', e)
+      }
+      else {
+        this.__avoidAutoClose = false
+      }
     },
 
     updatePosition () {
