@@ -32,9 +32,6 @@ $ quasar dev -m [android|ios]
 # Electron App
 $ quasar dev -m electron
 
-# Open Vue Devtools
-$ quasar dev --devtools
-
 # passing extra parameters and/or options to
 # underlying "cordova" or "electron" executables:
 $ quasar dev -m ios -- some params --and options --here
