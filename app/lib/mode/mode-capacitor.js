@@ -108,6 +108,8 @@ class Mode {
   }
 
   addPlatform (target) {
+    fse.ensureFileSync(appPaths.resolve.capacitor(`www/index.html`))
+
     if (this.hasPlatform(target)) {
       installDependencies()
       return
