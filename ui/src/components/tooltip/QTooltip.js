@@ -6,15 +6,12 @@ import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
-import { listenOpts } from '../../utils/event.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../../utils/touch.js'
 import { clearSelection } from '../../utils/selection.js'
 import { slot } from '../../utils/slot.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
-
-const { passive } = listenOpts
 
 export default Vue.extend({
   name: 'QTooltip',
@@ -174,27 +171,19 @@ export default Vue.extend({
 
     __unconfigureScrollTarget () {
       if (this.scrollTarget !== void 0) {
-        this.scrollTarget.removeEventListener('scroll', this.hide, passive)
+        this.__changeScrollEvent(this.scrollTarget)
         this.scrollTarget = void 0
       }
-      const target = window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0
-        ? window.visualViewport
-        : window
-      target.removeEventListener('scroll', this.updatePosition, passive)
     },
 
     __configureScrollTarget () {
       if (this.anchorEl !== void 0) {
         this.scrollTarget = getScrollTarget(this.anchorEl)
-        if (this.noParentEvent !== true) {
-          this.scrollTarget.addEventListener('scroll', this.hide, passive)
-        }
-        if (this.noParentEvent === true || this.scrollTarget !== window) {
-          const target = window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0
-            ? window.visualViewport
-            : window
-          target.addEventListener('scroll', this.updatePosition, passive)
-        }
+        const fn = this.noParentEvent === true
+          ? this.updatePosition
+          : this.hide
+
+        this.__changeScrollEvent(this.scrollTarget, fn)
       }
     },
 

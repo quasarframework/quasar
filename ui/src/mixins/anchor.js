@@ -1,5 +1,5 @@
 import { clearSelection } from '../utils/selection.js'
-import { prevent } from '../utils/event.js'
+import { prevent, listenOpts } from '../utils/event.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
@@ -157,6 +157,19 @@ export default {
       else {
         this.anchorEl = void 0
       }
+    },
+
+    __changeScrollEvent (scrollTarget, fn) {
+      const fnProp = `${fn !== void 0 ? 'add' : 'remove'}EventListener`
+      const fnHandler = fn !== void 0 ? fn : this.__scrollFn
+
+      if (scrollTarget !== window) {
+        scrollTarget[fnProp]('scroll', fnHandler, listenOpts.passive)
+      }
+
+      window[fnProp]('scroll', fnHandler, listenOpts.passive)
+
+      this.__scrollFn = fn
     }
   },
 

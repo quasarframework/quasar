@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { isSSR, fromSSR, client } from './Platform.js'
+import { isSSR, fromSSR } from './Platform.js'
 import { listenOpts } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
@@ -111,7 +111,7 @@ export default {
     const start = () => {
       const
         style = getComputedStyle(document.body),
-        target = window.visualViewport !== void 0 && window.visualViewport.onresize !== void 0
+        target = window.visualViewport !== void 0
           ? window.visualViewport
           : window
 
@@ -140,23 +140,6 @@ export default {
       }
 
       this.setDebounce(updateDebounce)
-
-      if (client.is.ios === true && window.visualViewport !== void 0 && window.visualViewport.onscroll !== void 0) {
-        const elStyle = document.body.style
-
-        target.addEventListener('scroll', () => {
-          const { offsetLeft: left, offsetTop: top } = target
-
-          if (left !== this.__left) {
-            elStyle.setProperty('--q-vp-left', left + 'px')
-            this.__left = left
-          }
-          if (top !== this.__top) {
-            elStyle.setProperty('--q-vp-top', top + 'px')
-            this.__top = top
-          }
-        }, listenOpts.passive)
-      }
 
       if (Object.keys(updateSizes).length > 0) {
         this.setSizes(updateSizes)
