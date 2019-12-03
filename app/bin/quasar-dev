@@ -19,9 +19,10 @@ const argv = parseArgs(process.argv.slice(2), {
     p: 'port',
     H: 'hostname',
     i: 'ide',
-    h: 'help'
+    h: 'help',
+    d: 'devtools'
   },
-  boolean: ['h', 'i'],
+  boolean: ['h', 'i', 'd'],
   string: ['m', 'T', 'H'],
   default: {
     m: 'spa'
@@ -66,6 +67,8 @@ if (argv.help) {
     --ide, -i        Open IDE (Android Studio / XCode) instead of letting Cordova
                         booting up the emulator, in which case the "--emulator"
                         param will have no effect
+
+    --devtools, -d   Open Vue Devtools
 
     Only for Capacitor mode:
     --target, -T     (required) App target
@@ -149,7 +152,8 @@ async function goLive () {
     mode: argv.mode,
     target: argv.target,
     emulator: argv.emulator,
-    dev: true
+    dev: true,
+    devtools: argv.devtools
   })
 
   // register app extensions
@@ -203,11 +207,35 @@ async function goLive () {
     ModeRunner.init(ctx)
   }
 
+  function startVueDevtools () {
+    const { spawn, spawnSync } = require('../lib/helpers/spawn'),
+      getPackagePath = require('../lib/helpers/get-package-path'),
+      getPackageJson = require('../lib/helpers/get-package-json')
+
+    if (getPackageJson('@vue/devtools') === void 0) {
+      const nodePackager = require('../lib/helpers/node-packager'),
+        appPaths = require('../lib/app-paths'),
+        cmdParam = nodePackager === 'npm' ?
+        ['install', '--save-dev'] :
+        ['add', '--dev']
+      log('Retrieving required package vue-devtools...')
+      spawnSync(
+        nodePackager,
+        cmdParam.concat('@vue/devtools'),
+        { cwd: appPaths.appDir },
+        () => warn('⚠️  Failed to install vue-devtools')
+      )
+    }
+
+    spawn(getPackagePath('@vue/devtools/bin.js'), [], {})
+  }
+
   function startDev (oldDevServer) {
     let devServer
 
     return Promise.resolve()
       .then(() => oldDevServer && oldDevServer.stop())
+      .then(() => argv.devtools && startVueDevtools())
       .then(() => generator.build()) // Update generated files
       .then(() => devServer = new DevServer(quasarConfig))
       .then(() => devServer.listen()) // Start listening

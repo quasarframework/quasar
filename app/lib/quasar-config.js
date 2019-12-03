@@ -190,7 +190,9 @@ class QuasarConfig {
           mangle: {}
         }
       },
-      devServer: {},
+      devServer: {
+        vueDevtools: {}
+      },
       animations: [],
       extras: [],
       sourceFiles: {},
@@ -277,6 +279,12 @@ class QuasarConfig {
             port: cfg.devServer.port
           }
         }
+      }
+      if (cfg.devServer.vueDevtools.host === undefined) {
+        cfg.devServer.vueDevtools.host = cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host
+      }
+      if (cfg.devServer.vueDevtools.port === undefined) {
+        cfg.devServer.vueDevtools.port = 8098
       }
     }
 
