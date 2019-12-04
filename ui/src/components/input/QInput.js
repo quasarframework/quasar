@@ -97,7 +97,7 @@ export default Vue.extend({
         this.$refs.input !== void 0 &&
         this.$refs.input !== el &&
         // IE can have null document.activeElement
-        (el === null || el.id !== this.targetUid)
+        (el === null || el.id !== this.getTargetUid())
       ) {
         this.$refs.input.focus()
       }
@@ -238,7 +238,7 @@ export default Vue.extend({
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         ...this.$attrs,
-        id: this.targetUid,
+        id: this.getTargetUid(),
         type: this.type,
         maxlength: this.maxlength,
         disabled: this.disable === true,

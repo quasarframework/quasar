@@ -731,7 +731,7 @@ export default Vue.extend({
           staticClass: 'no-outline',
           attrs: {
             tabindex: this.tabindex,
-            id: isShadowField === true ? void 0 : this.targetUid
+            id: isShadowField === true ? void 0 : this.getTargetUid()
           },
           on: cache(this, 'ctrl', {
             keydown: this.__onTargetKeydown,
@@ -816,7 +816,7 @@ export default Vue.extend({
           ...this.$attrs,
           tabindex: this.tabindex,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
-          id: this.targetUid,
+          id: this.getTargetUid(),
           disabled: this.disable === true,
           readonly: this.readonly === true
         },
@@ -1019,7 +1019,7 @@ export default Vue.extend({
         h(QField, {
           staticClass: `col-auto ${this.fieldClass}`,
           attrs: {
-            for: this.targetUid
+            for: this.getTargetUid()
           },
           props: {
             ...this.$props,
@@ -1102,7 +1102,7 @@ export default Vue.extend({
       const el = document.activeElement
       // IE can have null document.activeElement
       if (
-        (el === null || el.id !== this.targetUid) &&
+        (el === null || el.id !== this.getTargetUid()) &&
         this.$refs.target !== el &&
         this.$refs.target !== void 0
       ) {

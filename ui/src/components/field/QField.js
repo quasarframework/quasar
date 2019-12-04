@@ -6,8 +6,9 @@ import QSpinner from '../spinner/QSpinner.js'
 import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
 import { slot } from '../../utils/slot.js'
-import uid from '../../utils/uid.js'
 import { stop, prevent } from '../../utils/event.js'
+
+let uid = 0
 
 export default Vue.extend({
   name: 'QField',
@@ -65,7 +66,7 @@ export default Vue.extend({
       // used internally by validation for QInput
       // or menu handling for QSelect
       innerLoading: false,
-      targetUid: this.for === void 0 ? `f_${uid()}` : this.for
+      targetUid: this.for
     }
   },
 
@@ -173,7 +174,7 @@ export default Vue.extend({
 
     controlSlotScope () {
       return {
-        id: this.targetUid,
+        id: this.getTargetUid(),
         field: this.$el,
         editable: this.editable,
         focused: this.focused,
@@ -181,6 +182,12 @@ export default Vue.extend({
         value: this.value,
         emitValue: this.__emitValue
       }
+    },
+
+    getTargetUid () {
+      const id = this.for === void 0 ? this.targetUid : this.for
+
+      return () => id
     }
   },
 
@@ -206,7 +213,7 @@ export default Vue.extend({
       const el = document.activeElement
       let target = this.$refs.target
       // IE can have null document.activeElement
-      if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
+      if (target !== void 0 && (el === null || el.id !== this.getTargetUid())) {
         target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
         target !== null && target !== el && target.focus()
       }
@@ -457,7 +464,7 @@ export default Vue.extend({
       staticClass: 'q-field row no-wrap items-start',
       class: this.classes,
       attrs: {
-        for: this.targetUid
+        for: this.getTargetUid()
       }
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
@@ -506,6 +513,10 @@ export default Vue.extend({
   },
 
   mounted () {
+    if (this.for === void 0) {
+      this.targetUid = `f_${uid++}`
+    }
+
     this.autofocus === true && this.focus()
   },
 
