@@ -7,7 +7,8 @@ import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
 import { slot } from '../../utils/slot.js'
 import { stop, prevent } from '../../utils/event.js'
-import uid from '../../utils/uid.js'
+
+let id = 0
 
 export default Vue.extend({
   name: 'QField',
@@ -65,7 +66,7 @@ export default Vue.extend({
       // used internally by validation for QInput
       // or menu handling for QSelect
       innerLoading: false,
-      targetUid: this.for === void 0 ? 'qf_' + uid() : this.for
+      targetUid: this.for === void 0 ? `f_${id++}` : this.for
     }
   },
 
