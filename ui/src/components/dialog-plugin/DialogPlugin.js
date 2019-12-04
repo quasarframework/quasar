@@ -161,14 +161,14 @@ export default Vue.extend({
       if (this.cancel) {
         child.push(h(QBtn, {
           props: this.cancelProps,
-          attrs: { 'data-autofocus': this.focus === 'cancel' && !this.hasForm },
+          attrs: { autofocus: this.focus === 'cancel' && !this.hasForm },
           on: cache(this, 'cancel', { click: this.onCancel })
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
           props: this.okProps,
-          attrs: { 'data-autofocus': this.focus === 'ok' && !this.hasForm },
+          attrs: { autofocus: this.focus === 'ok' && !this.hasForm },
           on: cache(this, 'ok', { click: this.onOk })
         }))
       }
