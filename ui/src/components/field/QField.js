@@ -302,7 +302,7 @@ export default Vue.extend({
             staticClass: 'q-field__native row',
             attrs: {
               ...this.$attrs,
-              autofocus: this.autofocus
+              'data-autofocus': this.autofocus
             }
           }, this.$scopedSlots.control(this.controlSlotScope))
         )
