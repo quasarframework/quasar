@@ -134,7 +134,7 @@ export default Vue.extend({
         return
       }
 
-      node = node.querySelector('[autofocus], [data-autofocus]') || node
+      node = node.querySelector('[autofocus]') || node
       node.focus()
     },
 
