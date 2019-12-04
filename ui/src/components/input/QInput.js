@@ -234,7 +234,7 @@ export default Vue.extend({
 
       const attrs = {
         tabindex: 0,
-        autofocus: this.autofocus,
+        'data-autofocus': this.autofocus,
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         ...this.$attrs,
