@@ -5,7 +5,7 @@
     </div>
 
     <div class="row q-col-gutter-md">
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 q-gutter-y-md">
         <!-- Single -->
         <q-select
           filled
@@ -113,7 +113,7 @@
         </q-select>
       </div>
 
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 q-gutter-y-md">
         <!-- Multiple -->
         <q-select
           filled
@@ -222,7 +222,7 @@
         </q-select>
       </div>
 
-      <div class="col-xs-12 col-md-4">
+      <div class="col-xs-12 col-md-4 q-gutter-y-md">
         <!-- Multiple Chips -->
         <q-select
           filled
@@ -334,6 +334,30 @@
             </q-item>
           </template>
         </q-select>
+
+        <q-select
+          filled
+          v-model="modelO"
+          map-options
+          emit-value
+          multiple
+          use-chips
+          label="Obj (map-options, emit-value) - Multiple Chips - useInput"
+          :options="objOptions"
+          use-input
+          input-debounce="0"
+          @filter="filterFnObj"
+          clearable
+          :behavior="behavior"
+        >
+          <template v-slot:no-option>
+            <q-item>
+              <q-item-section class="text-grey">
+                No results
+              </q-item-section>
+            </q-item>
+          </template>
+        </q-select>
       </div>
     </div>
   </div>
@@ -345,14 +369,17 @@ const
     'Google 1', 'Facebook 1', 'Twitter 1', 'Apple 1', 'Oracle 1',
     'Google 2', 'Facebook 2', 'Twitter 2', 'Apple 2', 'Oracle 2',
     'Google 3', 'Facebook 3', 'Twitter 3', 'Apple 3', 'Oracle 3'
-  ]
+  ],
+  objOptions = options.map((label, value) => ({ label, value }))
 
 export default {
   data () {
     return {
       modelS: null,
       modelM: null,
+      modelO: [3, 4, 5],
       options,
+      objOptions,
       forceMenu: null
     }
   },
@@ -386,6 +413,21 @@ export default {
       update(() => {
         const needle = val.toLowerCase()
         this.options = options.filter(v => v.toLowerCase().indexOf(needle) > -1)
+      })
+    },
+
+    filterFnObj (val, update) {
+      console.log('filterFnObj', val)
+      if (val === '') {
+        update(() => {
+          this.objOptions = objOptions
+        })
+        return
+      }
+
+      update(() => {
+        const needle = val.toLowerCase()
+        this.objOptions = objOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
       })
     }
   }
