@@ -1018,11 +1018,9 @@ export default Vue.extend({
       const content = [
         h(QField, {
           staticClass: `col-auto ${this.fieldClass}`,
-          attrs: {
-            for: this.targetUid
-          },
           props: {
             ...this.$props,
+            for: this.targetUid,
             dark: this.isOptionsDark,
             square: true,
             loading: this.innerLoading,
