@@ -8,6 +8,11 @@ import DarkMixin from '../../mixins/dark.js'
 import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
 import { stop, prevent } from '../../utils/event.js'
+import { fromSSR } from '../../plugins/Platform.js'
+
+function getTargetUid (val) {
+  return val === void 0 ? `f_${uid()}` : val
+}
 
 export default Vue.extend({
   name: 'QField',
@@ -61,11 +66,19 @@ export default Vue.extend({
   data () {
     return {
       focused: false,
+      targetUid: getTargetUid(this.for),
 
       // used internally by validation for QInput
       // or menu handling for QSelect
-      innerLoading: false,
-      targetUid: this.for === void 0 ? `f_${uid()}` : this.for
+      innerLoading: false
+    }
+  },
+
+  watch: {
+    for (val) {
+      // don't transform targetUid into a computed
+      // prop as it will break SSR
+      this.targetUid = getTargetUid(val)
     }
   },
 
@@ -506,6 +519,10 @@ export default Vue.extend({
   },
 
   mounted () {
+    if (fromSSR === true && this.for === void 0) {
+      this.targetUid = getTargetUid()
+    }
+
     this.autofocus === true && this.focus()
   },
 
