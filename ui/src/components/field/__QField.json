@@ -62,8 +62,17 @@
 
     "clearable": {
       "type": "Boolean",
-      "desc": "Appends clearable icon when a value (not undefined or null) is set; When clicked, model becomes null",
+      "desc": "Appends clearable icon when a value (not undefined or null or clear-value) is set; When clicked, model becomes clear-value (default null)",
       "category": "behavior|content"
+    },
+
+    "clear-value": {
+      "type": "Any",
+      "desc": "Value used for checking if the clearable icon should show and used to clear; If you use an object it should NOT BE LITERAL",
+      "default": null,
+      "examples": [ 0, "" ],
+      "category": "model",
+      "addedIn": "1.5.3"
     },
 
     "clear-icon": {
