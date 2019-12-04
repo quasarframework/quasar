@@ -92,18 +92,14 @@ export default Vue.extend({
 
   methods: {
     focus () {
-      const
-        el = document.activeElement,
-        target = this.$refs.input
-      // IE can have null document.activeElement
-      if (el !== null && el.id === this.targetUid) {
-        if (this.editable === true && this.focused === false) {
-          this.focused = true
-          this.$emit('focus', { type: 'focusin', target: el })
-        }
-      }
-      else if (target !== void 0) {
-        target.focus()
+      const el = document.activeElement
+      if (
+        this.$refs.input !== void 0 &&
+        this.$refs.input !== el &&
+        // IE can have null document.activeElement
+        (el === null || el.id !== this.targetUid)
+      ) {
+        this.$refs.input.focus()
       }
     },
 
@@ -238,7 +234,7 @@ export default Vue.extend({
 
       const attrs = {
         tabindex: 0,
-        autofocus: this.autofocus,
+        'data-autofocus': this.autofocus,
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         ...this.$attrs,

@@ -219,13 +219,7 @@ export default Vue.extend({
       const el = document.activeElement
       let target = this.$refs.target
       // IE can have null document.activeElement
-      if (el !== null && el.id === this.targetUid) {
-        if (this.editable === true && this.focused === false) {
-          this.focused = true
-          this.$emit('focus', { type: 'focusin', target: el })
-        }
-      }
-      else if (target !== void 0) {
+      if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
         target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
         target !== null && target !== el && target.focus()
       }
@@ -321,7 +315,7 @@ export default Vue.extend({
             staticClass: 'q-field__native row',
             attrs: {
               ...this.$attrs,
-              autofocus: this.autofocus
+              'data-autofocus': this.autofocus
             }
           }, this.$scopedSlots.control(this.controlSlotScope))
         )

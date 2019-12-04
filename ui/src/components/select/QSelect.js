@@ -815,7 +815,7 @@ export default Vue.extend({
           type: 'search',
           ...this.$attrs,
           tabindex: this.tabindex,
-          autofocus: fromDialog === true ? false : this.autofocus,
+          'data-autofocus': fromDialog === true ? false : this.autofocus,
           id: this.targetUid,
           disabled: this.disable === true,
           readonly: this.readonly === true
