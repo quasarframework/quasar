@@ -46,9 +46,6 @@ export default Vue.extend({
     counter: Boolean,
 
     clearable: Boolean,
-    clearValue: {
-      default: null
-    },
     clearIcon: String,
 
     disable: Boolean,
@@ -82,7 +79,6 @@ export default Vue.extend({
 
       return value !== void 0 &&
         value !== null &&
-        value !== this.clearValue &&
         ('' + value).length > 0
     },
 
@@ -444,7 +440,7 @@ export default Vue.extend({
         prevent(e)
         this.$refs.input.value = null
       }
-      this.$emit('input', this.clearValue)
+      this.$emit('input', null)
       this.$emit('clear', this.value)
     },
 
