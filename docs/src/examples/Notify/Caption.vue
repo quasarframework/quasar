@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn color="purple" @click="showNotif" label="Show Notification" />
+    <q-btn color="purple" @click="showNotif" label="Show with caption" />
   </div>
 </template>
 
@@ -10,7 +10,8 @@ export default {
     showNotif () {
       this.$q.notify({
         message: 'Jim pinged you',
-        color: 'purple'
+        caption: '5 minutes ago',
+        color: 'secondary'
       })
     }
   }

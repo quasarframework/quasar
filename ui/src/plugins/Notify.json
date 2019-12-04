@@ -22,6 +22,13 @@
         "examples": [ "John Doe pinged you" ]
       },
 
+      "caption": {
+        "type": "String",
+        "desc": "The content of your optional caption",
+        "examples": [ "5 minutes ago" ],
+        "addedIn": "v1.5.5"
+      },
+
       "html": {
         "type": "Boolean",
         "desc": "Render message as HTML; This can lead to XSS attacks, so make sure that you sanitize the message first"
@@ -103,6 +110,13 @@
               "desc": "The content of your message",
               "examples": [ "John Doe pinged you" ],
               "required": true
+            },
+
+            "caption": {
+              "type": "String",
+              "desc": "The content of your optional caption",
+              "examples": [ "5 minutes ago" ],
+              "addedIn": "v1.5.5"
             },
 
             "html": {
@@ -218,6 +232,13 @@
               "desc": "The content of your message",
               "examples": [ "John Doe pinged you" ],
               "required": true
+            },
+
+            "caption": {
+              "type": "String",
+              "desc": "The content of your optional caption",
+              "examples": [ "5 minutes ago" ],
+              "addedIn": "v1.5.5"
             },
 
             "html": {
