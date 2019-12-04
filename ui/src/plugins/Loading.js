@@ -7,7 +7,7 @@ import { preventScroll } from '../mixins/prevent-scroll.js'
 
 let
   vm,
-  id = 0,
+  uid = 0,
   timeout,
   props = {},
   originalDefaults = {
@@ -33,7 +33,7 @@ const Loading = {
       : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
-    props.uid = `l_${id++}`
+    props.uid = `l_${uid++}`
 
     this.isActive = true
 

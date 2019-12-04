@@ -7,7 +7,7 @@ import QBtn from '../components/btn/QBtn.js'
 import clone from '../utils/clone.js'
 import { isSSR } from './Platform.js'
 
-let id = 0
+let uid = 0
 let defaults = {}
 
 const positionList = [
@@ -63,7 +63,7 @@ const Notifications = {
         notif.position = 'bottom'
       }
 
-      notif.__uid = id++
+      notif.__uid = uid++
 
       if (notif.timeout === void 0) {
         notif.timeout = 5000

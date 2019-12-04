@@ -7,7 +7,7 @@ import { stop } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
-let id = 0
+let uid = 0
 
 export default Vue.extend({
   name: 'QTab',
@@ -32,7 +32,7 @@ export default Vue.extend({
 
     name: {
       type: [Number, String],
-      default: () => `t_${id++}`
+      default: () => `t_${uid++}`
     },
 
     noCaps: Boolean,
