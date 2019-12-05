@@ -186,12 +186,14 @@ export default Vue.extend({
   render (h) {
     const child = uniqueSlot(this, 'default', [])
 
-    this.disable !== true && child[this.reverse === false ? 'push' : 'unshift'](
-      h('div', {
-        staticClass: 'q-infinite-scroll__loading',
-        class: this.fetching === true ? '' : 'invisible'
-      }, slot(this, 'loading'))
-    )
+    if (this.disable !== true && this.working === true) {
+      child[this.reverse === false ? 'push' : 'unshift'](
+        h('div', {
+          staticClass: 'q-infinite-scroll__loading',
+          class: this.fetching === true ? '' : 'invisible'
+        }, slot(this, 'loading'))
+      )
+    }
 
     return h('div', { staticClass: 'q-infinite-scroll' }, child)
   }
