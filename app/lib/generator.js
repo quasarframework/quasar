@@ -10,7 +10,7 @@ const
 
 class Generator {
   constructor (quasarConfig) {
-    const { ctx, preFetch } = quasarConfig.getBuildConfig()
+    const { ctx, preFetch, templates } = quasarConfig.getBuildConfig()
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig
@@ -39,7 +39,7 @@ class Generator {
       return {
         filename,
         dest: path.join(quasarFolder, filename),
-        template: compileTemplate(content)
+        template: (templates && templates[file]) ? templates[file] : compileTemplate(content)
       }
     })
   }
