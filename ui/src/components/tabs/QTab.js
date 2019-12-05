@@ -1,12 +1,13 @@
 import Vue from 'vue'
 
-import uid from '../../utils/uid.js'
 import QIcon from '../icon/QIcon.js'
 import RippleMixin from '../../mixins/ripple.js'
 
 import { stop } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { isKeyCode } from '../../utils/key-composition.js'
+
+let uid = 0
 
 export default Vue.extend({
   name: 'QTab',
@@ -31,7 +32,7 @@ export default Vue.extend({
 
     name: {
       type: [Number, String],
-      default: () => uid()
+      default: () => `t_${uid++}`
     },
 
     noCaps: Boolean,

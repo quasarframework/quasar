@@ -229,6 +229,16 @@ devServer: {
 }
 ```
 
+Starting with **@quasar/app v1.3.2**, you can also configure automatically opening remote Vue Devtools:
+
+```js
+// quasar.conf.js
+
+devServer: {
+  vueDevtools: true
+}
+```
+
 ### Property: build
 | Property | Type | Description |
 | --- | --- | --- |

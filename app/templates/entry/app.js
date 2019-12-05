@@ -28,6 +28,10 @@ import { Plugins } from '@capacitor/core'
 const { SplashScreen } = Plugins
 <% } %>
 
+<% if (__vueDevtools !== false) { %>
+import vueDevtools from '@vue/devtools'
+<% } %>
+
 export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
@@ -36,7 +40,7 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     : createStore
   <% } %>
   const router = typeof createRouter === 'function'
-    ? createRouter({Vue, <%= ctx.mode.ssr ? 'ssrContext' + (store ? ', ' : '') : '' %><%= store ? 'store' : '' %>})
+    ? createRouter({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %><%= store ? ', store' : '' %>})
     : createRouter
   <% if (store) { %>
   // make router instance available in store
@@ -50,9 +54,15 @@ export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
     <%= store ? 'store,' : '' %>
-    render: h => h(App)<% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>,
+    render: h => h(App)<% if (__needsAppMountHook === true) { %>,
     mounted () {
+      <% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
       SplashScreen.hide()
+      <% } %>
+
+      <% if (__vueDevtools !== false) { %>
+      vueDevtools.connect('<%= __vueDevtools.host %>', <%= __vueDevtools.port %>)
+      <% } %>
     }<% } %>
   }
 

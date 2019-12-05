@@ -80,7 +80,7 @@ button.q-btn
       border-bottom: 3px solid rgba(0, 0, 0, .15)
 
     &.q-btn--actionable
-      transition: $button-transition
+      transition: transform $button-transition
 
       .q-btn__wrapper:before
         transition: top $button-transition, bottom $button-transition, border-bottom-width $button-transition
@@ -144,11 +144,11 @@ button.q-btn
 
   &__progress
     border-radius: inherit
-    overflow: hidden
+    z-index: 0
 
     &-indicator
-      transition: transform .3s
-      transform-origin: top left
+      z-index: -1
+      transform: translateX(-100%)
       background: rgba(255, 255, 255, .25)
     &--dark
       .q-btn__progress-indicator

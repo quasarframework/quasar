@@ -87,12 +87,11 @@ export default {
         'xl'
 
       if (s !== this.name) {
-        this.name = s
         if (classes === true) {
-          document.body.classList.remove(`screen--${this.__oldName}`)
+          document.body.classList.remove(`screen--${this.name}`)
           document.body.classList.add(`screen--${s}`)
-          this.__oldName = s
         }
+        this.name = s
       }
     }
 
@@ -112,7 +111,7 @@ export default {
     const start = () => {
       const
         style = getComputedStyle(document.body),
-        target = window.visualViewport !== void 0 && window.visualViewport.onresize !== void 0
+        target = window.visualViewport !== void 0
           ? window.visualViewport
           : window
 
@@ -133,11 +132,10 @@ export default {
       }
 
       this.setDebounce = delay => {
-        const fn = () => { update() }
         updateEvt !== void 0 && target.removeEventListener('resize', updateEvt, listenOpts.passive)
         updateEvt = delay > 0
-          ? debounce(fn, delay)
-          : fn
+          ? debounce(update, delay)
+          : update
         target.addEventListener('resize', updateEvt, listenOpts.passive)
       }
 
@@ -160,7 +158,5 @@ export default {
     }
 
     Vue.util.defineReactive($q, 'screen', this)
-  },
-
-  __oldName: 'xs'
+  }
 }

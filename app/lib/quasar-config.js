@@ -215,9 +215,7 @@ class QuasarConfig {
     }, this.quasarConfigFunction(this.ctx))
 
     if (cfg.framework === void 0 || cfg.framework === 'all') {
-      cfg.framework = {
-        all: true
-      }
+      cfg.framework = { all: true }
     }
     if (!cfg.framework.components) {
       cfg.framework.components = []
@@ -330,6 +328,10 @@ class QuasarConfig {
 
       this.oldConfigSnapshot = newConfigSnapshot
     }
+
+    // make sure these exist
+    cfg.__needsAppMountHook = false
+    cfg.__vueDevtools = false
 
     // make sure it exists
     cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
@@ -594,6 +596,19 @@ class QuasarConfig {
         }
       })
 
+      if (this.ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
+        cfg.__needsAppMountHook = true
+        cfg.__vueDevtools = {
+          host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
+          port: 8098
+        }
+      }
+
+      // make sure the prop is not supplied to webpack dev server
+      if (cfg.devServer.hasOwnProperty('vueDevtools')) {
+        delete cfg.devServer.vueDevtools
+      }
+
       if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
         cfg.devServer.open = false
 
@@ -829,6 +844,10 @@ class QuasarConfig {
 
         bundler.ensureInstall(cfg.electron.bundler)
       }
+    }
+
+    if (this.ctx.capacitor && cfg.capacitor.hideSplashscreen !== false) {
+      cfg.__needsAppMountHook = true
     }
 
     cfg.__html = {
