@@ -10,6 +10,15 @@
         </template>
       </q-field>
 
+      <q-field color="purple-12" label-color="purple-12" label="Label" stack-label>
+        <template v-slot:prepend>
+          <q-icon name="event" />
+        </template>
+        <template v-slot:control>
+          <div class="self-center full-width no-outline" tabindex="0">{{text}}</div>
+        </template>
+      </q-field>
+
       <q-field color="teal" filled label="Label" stack-label>
         <template v-slot:prepend>
           <q-icon name="event" />

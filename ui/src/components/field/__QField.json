@@ -42,6 +42,10 @@
       "category": "content"
     },
 
+    "label-color" : {
+      "extends": "color"
+    },
+
     "color": {
       "extends": "color"
     },
