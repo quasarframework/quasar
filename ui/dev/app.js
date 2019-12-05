@@ -34,7 +34,7 @@ import '@quasar/extras/animate/fadeOut.css'
 Vue.use(Quasar, {
   // iconSet,
   config: {
-    dark: 'auto'
+    // dark: 'auto'
   }
 })
 

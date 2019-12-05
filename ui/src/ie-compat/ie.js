@@ -663,9 +663,9 @@ function initializePromise(promise, resolver) {
   }
 }
 
-var id = 0;
+var uid = 0;
 function nextId() {
-  return id++;
+  return uid++;
 }
 
 function makePromise(promise) {

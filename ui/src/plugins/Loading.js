@@ -2,12 +2,12 @@ import Vue from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR, client } from './Platform.js'
-import uid from '../utils/uid.js'
 import { cache } from '../utils/vm.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 
 let
   vm,
+  uid = 0,
   timeout,
   props = {},
   originalDefaults = {
@@ -33,6 +33,7 @@ const Loading = {
       : { ...defaults, ...opts }
 
     props.customClass += ` text-${props.backgroundColor}`
+    props.uid = `l_${uid++}`
 
     this.isActive = true
 
@@ -78,7 +79,7 @@ const Loading = {
           }, [
             this.isActive === true ? h('div', {
               staticClass: 'q-loading fullscreen column flex-center z-max',
-              key: uid(),
+              key: props.uid,
               class: props.customClass.trim()
             }, [
               h(props.spinner, {
@@ -121,6 +122,8 @@ const Loading = {
   }
 }
 
-Vue.util.defineReactive(Loading, 'isActive', Loading.isActive)
+if (isSSR === false) {
+  Vue.util.defineReactive(Loading, 'isActive', Loading.isActive)
+}
 
 export default Loading

@@ -161,7 +161,7 @@ async function start () {
     Vue.prototype.$q.capacitor = window.Capacitor
     <% } %>
 
-      new Vue(app)
+    new Vue(app)
 
     <% if (ctx.mode.cordova) { %>
     }, false) // on deviceready

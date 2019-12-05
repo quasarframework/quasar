@@ -1,8 +1,7 @@
 <template>
   <div id="q-app">
-    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
-      <router-view />
-    </transition>
+    <router-view />
+
     <q-card
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
       class="rounded-borders shadow-4 fixed"

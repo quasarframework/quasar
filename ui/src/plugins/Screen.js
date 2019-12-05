@@ -40,11 +40,13 @@ export default {
   setSizes () {},
   setDebounce () {},
 
-  install ($q, queues) {
+  install ($q, queues, cfg) {
     if (isSSR === true) {
       $q.screen = this
       return
     }
+
+    const classes = cfg.screen !== void 0 && cfg.screen.bodyClasses === true
 
     const update = force => {
       const
@@ -85,10 +87,11 @@ export default {
         'xl'
 
       if (s !== this.name) {
+        if (classes === true) {
+          document.body.classList.remove(`screen--${this.name}`)
+          document.body.classList.add(`screen--${s}`)
+        }
         this.name = s
-        document.body.classList.remove(`screen--${this.__oldName}`)
-        document.body.classList.add(`screen--${s}`)
-        this.__oldName = s
       }
     }
 
@@ -108,7 +111,7 @@ export default {
     const start = () => {
       const
         style = getComputedStyle(document.body),
-        target = window.visualViewport !== void 0 && window.visualViewport.onresize !== void 0
+        target = window.visualViewport !== void 0
           ? window.visualViewport
           : window
 
@@ -129,11 +132,10 @@ export default {
       }
 
       this.setDebounce = delay => {
-        const fn = () => { update() }
         updateEvt !== void 0 && target.removeEventListener('resize', updateEvt, listenOpts.passive)
         updateEvt = delay > 0
-          ? debounce(fn, delay)
-          : fn
+          ? debounce(update, delay)
+          : update
         target.addEventListener('resize', updateEvt, listenOpts.passive)
       }
 
@@ -156,7 +158,5 @@ export default {
     }
 
     Vue.util.defineReactive($q, 'screen', this)
-  },
-
-  __oldName: 'xs'
+  }
 }

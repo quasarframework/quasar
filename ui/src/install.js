@@ -21,8 +21,8 @@ export const $q = {
 }
 
 export default function (Vue, opts = {}) {
-  if (this.__installed) { return }
-  this.__installed = true
+  if (this.__qInstalled === true) { return }
+  this.__qInstalled = true
 
   const cfg = opts.config || {}
 
@@ -30,7 +30,7 @@ export default function (Vue, opts = {}) {
   Platform.install($q, queues)
   Body.install(queues, cfg)
   Dark.install($q, queues, cfg)
-  Screen.install($q, queues)
+  Screen.install($q, queues, cfg)
   History.install($q, cfg)
   Lang.install($q, queues, opts.lang)
   IconSet.install($q, opts.iconSet)

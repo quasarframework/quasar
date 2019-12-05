@@ -80,7 +80,9 @@ export default {
           cls = getBodyClasses(q.platform, cfg),
           fn = ctx.ssr.setBodyClasses
 
-        cls.push('screen--xs')
+        if (cfg.screen !== void 0 && cfg.screen.bodyClass === true) {
+          cls.push('screen--xs')
+        }
 
         if (typeof fn === 'function') {
           fn(cls)

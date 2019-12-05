@@ -8,7 +8,7 @@ import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { create, stop, position, listenOpts, stopAndPrevent } from '../../utils/event.js'
+import { create, stop, position, stopAndPrevent } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
 import { slot } from '../../utils/slot.js'
@@ -100,7 +100,7 @@ export default Vue.extend({
         : void 0
 
       if (node !== void 0 && node.contains(document.activeElement) !== true) {
-        node = node.querySelector('[autofocus]') || node
+        node = node.querySelector('[autofocus], [data-autofocus]') || node
         node.focus()
       }
     },
@@ -133,7 +133,7 @@ export default Vue.extend({
       }
 
       if (this.unwatch === void 0) {
-        this.unwatch = this.$watch('$q.screen.width', this.updatePosition)
+        this.unwatch = this.$watch(() => this.$q.screen.width + '|' + this.$q.screen.height, this.updatePosition)
       }
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
@@ -150,7 +150,12 @@ export default Vue.extend({
 
       this.__setTimeout(() => {
         // required in order to avoid the "double-tap needed" issue
-        this.$q.platform.is.ios === true && this.__portal.$el.click()
+        if (this.$q.platform.is.ios === true) {
+          // if auto-close, then this click should
+          // not close the menu
+          this.__avoidAutoClose = this.autoClose
+          this.__portal.$el.click()
+        }
 
         this.$emit('show', evt)
       }, 300)
@@ -197,24 +202,28 @@ export default Vue.extend({
 
     __unconfigureScrollTarget () {
       if (this.scrollTarget !== void 0) {
-        this.scrollTarget.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
+        this.__changeScrollEvent(this.scrollTarget)
+        this.scrollTarget = void 0
       }
-      window.removeEventListener('scroll', this.updatePosition, listenOpts.passive)
     },
 
     __configureScrollTarget () {
       if (this.anchorEl !== void 0) {
         this.scrollTarget = getScrollTarget(this.anchorEl)
-        this.scrollTarget.addEventListener('scroll', this.updatePosition, listenOpts.passive)
-        if (this.scrollTarget !== window) {
-          window.addEventListener('scroll', this.updatePosition, listenOpts.passive)
-        }
+        this.__changeScrollEvent(this.scrollTarget, this.updatePosition)
       }
     },
 
     __onAutoClose (e) {
-      closePortalMenus(this, e)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      // if auto-close, then the ios double-tap fix which
+      // issues a click should not close the menu
+      if (this.__avoidAutoClose !== true) {
+        closePortalMenus(this, e)
+        this.$listeners.click !== void 0 && this.$emit('click', e)
+      }
+      else {
+        this.__avoidAutoClose = false
+      }
     },
 
     updatePosition () {
