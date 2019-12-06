@@ -39,7 +39,7 @@ QTabPanels can be used as standalone too. They do not depend on the presence of 
 
 <doc-example title="With QTabs" file="QTabPanels/WithQTabs" />
 
-<doc-example title="With QTabs nested" file="QTabPanels/WithQTabsNested" />
+<doc-example title="A more complex example" file="QTabPanels/WithNestedQTabs" />
 
 ### Coloring
 
