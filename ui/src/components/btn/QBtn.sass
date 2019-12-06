@@ -1,8 +1,16 @@
-button.q-btn
-  -webkit-appearance: button
+.column
+  > .q-btn.self-stretch
+    width: auto
+
+.row,
+.flex
+  > .q-btn.self-stretch
+    height: auto
 
 .q-btn
   display: inline-block
+  flex-direction: column
+  align-items: stretch
   position: relative
   outline: 0
   border: 0
@@ -16,6 +24,9 @@ button.q-btn
   overflow: visible
   font-weight: $button-font-weight
   text-transform: uppercase
+  text-align: center
+  width: fit-content
+  height: fit-content
 
   .q-icon, .q-spinner
     font-size: $button-line-height

@@ -33,7 +33,6 @@
 
   /* Flex Basis */
   .q-btn__wrapper,
-  .q-btn__content,
   .q-time__content,
   .q-toolbar__title,
   .q-menu .q-item__section--main
@@ -76,19 +75,33 @@
     .q-btn__wrapper
       margin: -1px 1px 1px -1px
 
-  .q-btn-group--push
-    > button.q-btn--push.q-btn--actionable:active:hover
-      .q-btn__wrapper
-        margin: 1px 1px -1px -1px
-
-  .q-btn
-    display: inline-flex
-    flex-wrap: nowrap
-
   .q-btn-group
+    &--push
+      > button.q-btn--push.q-btn--actionable:active:hover
+        .q-btn__wrapper
+          margin: 1px 1px -1px -1px
     > .q-btn
       > .q-focus-helper
         z-index: -1
+
+  .q-btn
+    display: inline-flex
+
+    &--wrap
+      flex-direction: row
+
+  // No solution yet for .column > .q-btn:not(.self-stretch) without .items-...
+  .row:not(.q-btn-group),
+  .flex
+    > .q-btn
+      height: 100%
+
+  /* QFab */
+  .q-fab__actions
+    &--right,
+    &--left
+      .q-btn
+        height: auto
 
   /* QCarousel */
   .q-carousel__slide > *
