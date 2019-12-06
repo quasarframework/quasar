@@ -85,6 +85,11 @@
     display: inline-flex
     flex-wrap: nowrap
 
+  .q-btn-group
+    > .q-btn
+      > .q-focus-helper
+        z-index: -1
+
   /* QCarousel */
   .q-carousel__slide > *
     max-width: 100%
@@ -113,7 +118,7 @@
     min-height: 290px !important
   .q-date__months
     align-items: stretch
-  .q-time--portrait .q-time__main,
+  .q-time--portrait .q-time__main
     display: flex
     flex-direction: column
     flex-wrap: nowrap

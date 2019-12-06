@@ -3,6 +3,27 @@
     <div class="row no-wrap q-col-gutter-x-md">
       <div v-for="type in ['a', 'button']" :key="type" class="col q-gutter-y-md">
         <div v-for="(prop, i) in props" :key="i" class="q-gutter-y-md">
+          <div class="row q-gutter-md items-start">
+            <q-btn :type="type" v-bind="prop" label="xs" size="xs" color="primary" />
+            <q-btn :type="type" v-bind="prop" label="sm" size="sm" color="primary" />
+            <q-btn :type="type" v-bind="prop" label="md" size="md" color="primary" />
+            <q-btn :type="type" v-bind="prop" label="lg" size="lg" color="primary" />
+            <q-btn :type="type" v-bind="prop" label="xl" size="xl" color="primary" />
+          </div>
+          <div class="row q-gutter-md items-center">
+            <q-btn :type="type" v-bind="prop" label="xs" size="xs" color="primary" />
+            <q-btn :type="type" v-bind="prop" label="sm" size="sm" color="primary" />
+            <q-btn :type="type" v-bind="prop" label="md" size="md" color="primary" />
+            <q-btn :type="type" v-bind="prop" label="lg" size="lg" color="primary" />
+            <q-btn :type="type" v-bind="prop" label="xl" size="xl" color="primary" />
+          </div>
+          <div class="row q-gutter-md">
+            <q-btn :type="type" v-bind="prop" stretch label="xs stretch" size="xs" color="primary" />
+            <q-btn :type="type" v-bind="prop" stretch label="sm stretch" size="sm" color="primary" />
+            <q-btn :type="type" v-bind="prop" stretch label="md stretch" size="md" color="primary" />
+            <q-btn :type="type" v-bind="prop" stretch label="lg stretch" size="lg" color="primary" />
+            <q-btn :type="type" v-bind="prop" stretch label="xl stretch" size="xl" color="primary" />
+          </div>
           <div class="row q-gutter-md items-center">
             <q-btn :type="type" v-bind="prop" round icon="clear" color="primary">
               <q-badge color="orange" floating>

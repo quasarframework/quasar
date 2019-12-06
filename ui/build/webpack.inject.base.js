@@ -77,7 +77,8 @@ module.exports = function (chain) {
       .loader('url-loader')
       .options({
         limit: 10000,
-        name: 'img/[name].[ext]'
+        name: 'img/[name].[ext]',
+        esModule: false
       })
 
   chain.module.rule('fonts')
@@ -86,7 +87,8 @@ module.exports = function (chain) {
       .loader('url-loader')
       .options({
         limit: 10000,
-        name: 'fonts/[name].[ext]'
+        name: 'fonts/[name].[ext]',
+        esModule: false
       })
 
   injectRule(chain, 'css', /\.css$/)

@@ -138,6 +138,7 @@ export default Vue.extend({
       if (mouseTarget !== this.$el) {
         mouseTarget !== void 0 && this.__cleanup()
         mouseTarget = this.$el
+        this.$el.classList.add('q-btn--active')
         document.addEventListener('mouseup', this.__onPressEnd, passiveCapture)
       }
 
