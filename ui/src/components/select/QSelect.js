@@ -55,7 +55,10 @@ export default Vue.extend({
     maxValues: [Number, String],
 
     optionsDense: Boolean,
-    optionsDark: Boolean,
+    optionsDark: {
+      type: Boolean,
+      default: null
+    },
     optionsSelectedClass: String,
     optionsCover: Boolean,
     optionsSanitize: Boolean,
@@ -137,7 +140,9 @@ export default Vue.extend({
 
   computed: {
     isOptionsDark () {
-      return this.isDark === true || this.optionsDark === true
+      return this.optionsDark === null
+        ? this.isDark === true
+        : this.optionsDark
     },
 
     virtualScrollLength () {
