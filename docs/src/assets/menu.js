@@ -417,6 +417,50 @@ const cli = [
     ]
   },
   {
+    name: 'Developing Browser Extensions',
+    path: 'developing-browser-extensions',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring BEX',
+        path: 'configuring-bex'
+      },
+      {
+        name: 'Types',
+        path: 'types'
+      },
+      {
+        name: 'Communication / Events',
+        path: 'communication',
+        children: [
+          {
+            name: 'Introduction',
+            path: 'introduction'
+          },
+          {
+            name: 'Background Hooks',
+            path: 'background-hooks'
+          },
+          {
+            name: 'Content Hooks',
+            path: 'content-hooks'
+          },
+          {
+            name: 'DOM Hooks',
+            path: 'dom-hooks'
+          }
+        ]
+      }
+    ]
+  },
+  {
     name: 'Ajax Requests',
     path: 'ajax-requests'
   },
