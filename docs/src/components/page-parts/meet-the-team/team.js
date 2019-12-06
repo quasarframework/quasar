@@ -131,7 +131,7 @@ export default [
     github: 'adamkpurdy',
     desc: 'Firebase Support Owner & Maintainer, Quasar support member.'
   },
-  
+
   {
     name: 'Paolo Caleffi',
     role: 'Senior developer',
