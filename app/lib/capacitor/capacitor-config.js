@@ -107,7 +107,7 @@ class CapacitorConfig {
       this.__handleSSLonIOS(add)
     }
     else {
-      this.__handleSSLonAndroid()
+      this.__handleSSLonAndroid(add)
     }
   }
 
@@ -189,37 +189,38 @@ class CapacitorConfig {
     }
   }
 
-  __handleSSLonAndroid () {
+  __handleSSLonAndroid (add) {
     const mainActivityPath = appPaths.resolve.capacitor(
       'android/app/src/main/java/org/cordova/quasar/app/MainActivity.java'
     )
     const enableHttpsSelfSignedPath = appPaths.resolve.capacitor(
       'android/app/src/main/java/org/cordova/quasar/app/EnableHttpsSelfSigned.java'
     )
-
     if (fs.existsSync(mainActivityPath)) {
-      // Allow unsigned certificates in MainActivity
       let mainActivity = fs.readFileSync(mainActivityPath, 'utf8')
 
-      if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
-        mainActivity = mainActivity.replace(
-          /this\.init\(.*}}\);/ms,
-          match => `${match}
+      const sslString = `
     if (BuildConfig.DEBUG) {
       EnableHttpsSelfSigned.enable(findViewById(R.id.webview));
     }
-    `
-        )
+      `
+      if (add) {
+        // Allow unsigned certificates in MainActivity
+        if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
+          mainActivity = mainActivity.replace(
+            /this\.init\(.*}}\);/ms,
+            match => `${match}
+${sslString}
+              `
+          )
+        }
 
-        fs.writeFileSync(mainActivityPath, mainActivity, 'utf-8')
-      }
-
-      // Add helper file
-      if (!fs.existsSync(enableHttpsSelfSignedPath)) {
-        const appId = mainActivity.match(/package ([a-zA-Z\.]*);/)[1]
-        fs.writeFileSync(
-          enableHttpsSelfSignedPath,
-          `
+        // Add helper file
+        if (!fs.existsSync(enableHttpsSelfSignedPath)) {
+          const appId = mainActivity.match(/package ([a-zA-Z\.]*);/)[1]
+          fs.writeFileSync(
+            enableHttpsSelfSignedPath,
+            `
 package ${appId};
 import android.net.http.SslError;
 import android.webkit.SslErrorHandler;
@@ -235,8 +236,19 @@ public class EnableHttpsSelfSigned {
     });
   }
 }`
-        )
+          )
+        }
       }
+      else {
+        if (/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
+          mainActivity = mainActivity.replace(sslString, '')
+        }
+        if (fs.existsSync(enableHttpsSelfSignedPath)) {
+          fs.unlinkSync(enableHttpsSelfSignedPath)
+        }
+      }
+
+      fs.writeFileSync(mainActivityPath, mainActivity, 'utf-8')
     }
   }
 }
