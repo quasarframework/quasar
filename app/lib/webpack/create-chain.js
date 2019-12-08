@@ -93,12 +93,7 @@ module.exports = function (cfg, configName) {
       compilerOptions: {
         preserveWhitespace: false
       },
-      transformAssetUrls: {
-        video: 'src',
-        source: 'src',
-        img: 'src',
-        image: 'xlink:href'
-      }
+      transformAssetUrls: cfg.build.transformAssetUrls
     })
 
   chain.module.rule('babel')
