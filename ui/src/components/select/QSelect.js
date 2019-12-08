@@ -817,7 +817,7 @@ export default Vue.extend({
         staticClass: 'q-select__input q-placeholder col',
         style: this.inputStyle,
         class: this.computedInputClass,
-        domProps: { value: this.inputValue !== void 0 ? this.innerValue : '' },
+        domProps: { value: this.inputValue !== void 0 ? this.inputValue : '' },
         attrs: {
           // required for Android in order to show ENTER key when in form
           type: 'search',
