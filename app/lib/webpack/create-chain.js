@@ -80,7 +80,7 @@ module.exports = function (cfg, configName) {
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
 
-  if (cfg.framework.all === 'auto') {
+  if (cfg.framework.all === 'auto' && configName !== 'Server') {
     vueRule.use('quasar-auto-import')
       .loader(path.join(__dirname, 'loader.auto-import.js'))
       .options(cfg.framework.autoImportComponentCase)
@@ -253,7 +253,7 @@ module.exports = function (cfg, configName) {
           cacheGroups: {
             vendors: {
               name: 'vendor',
-              chunks: 'initial',
+              chunks: 'all',
               priority: -10,
               // a module is extracted into the vendor chunk if...
               test: add.length > 0 || rem.length > 0
@@ -270,7 +270,7 @@ module.exports = function (cfg, configName) {
               name: `chunk-common`,
               minChunks: 2,
               priority: -20,
-              chunks: 'initial',
+              chunks: 'all',
               reuseExistingChunk: true
             }
           }
