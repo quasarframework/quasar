@@ -80,7 +80,7 @@ module.exports = function (cfg, configName) {
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
 
-  if (cfg.framework.all === 'auto' && configName !== 'Server') {
+  if (cfg.framework.all === 'auto') {
     vueRule.use('quasar-auto-import')
       .loader(path.join(__dirname, 'loader.auto-import.js'))
       .options(cfg.framework.autoImportComponentCase)
