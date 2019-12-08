@@ -109,6 +109,7 @@
       :columns="columns"
       :filter="filter"
       :visible-columns="visibleColumns"
+      no-data-label="I didn't find anything for you"
       row-key="name"
       color="primary"
     >
@@ -145,6 +146,15 @@
             </q-list>
           </q-menu>
         </q-btn>
+      </template>
+
+      <template v-slot:no-data="props">
+        <q-banner class="full-width bg-warning">
+          <template v-slot:avatar>
+            <q-icon :name="props.icon" color="primary" />
+          </template>
+          {{ props.message }}
+        </q-banner>
       </template>
     </q-table>
 
