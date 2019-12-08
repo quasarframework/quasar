@@ -204,6 +204,7 @@ class CapacitorConfig {
       EnableHttpsSelfSigned.enable(findViewById(R.id.webview));
     }
       `
+
       if (add) {
         // Allow unsigned certificates in MainActivity
         if (!/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
@@ -243,6 +244,7 @@ public class EnableHttpsSelfSigned {
         if (/EnableHttpsSelfSigned\.enable/.test(mainActivity)) {
           mainActivity = mainActivity.replace(sslString, '')
         }
+
         if (fs.existsSync(enableHttpsSelfSignedPath)) {
           fs.unlinkSync(enableHttpsSelfSignedPath)
         }
