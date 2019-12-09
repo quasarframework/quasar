@@ -51,11 +51,35 @@ Let's discuss about each of these two requirements:
 
 ### Marking CSS rules as exceptions
 If you need an exception so your CSS code will not add a corresponding RTL rule, then add this comment:
+
 ```css
 .my-class {
   margin-left: 10px /* rtl:ignore */;
 }
 ```
+
+...or, if you are using Stylus:
+
+```css
+.my-class
+  margin-left 10px /* rtl:ignore */
+```
+
+...or SCSS with indented form:
+
+```css
+.my-class
+  margin-left: 10px #{"/* rtl:ignore */"}
+```
+
+...or default SCSS:
+
+```css
+.my-class {
+  margin-left: 10px #{"/* rtl:ignore */"};
+}
+```
+
 Now both RTL and non-RTL UI mode will have `margin-left` prop.
 
 Sometimes you'll need to make exceptions for whole DOM elements / components. In this case, add `dir="ltr"` or `dir="rtl"` HTML attribute to the outermost DOM element / component template:
