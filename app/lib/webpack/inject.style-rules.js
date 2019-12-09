@@ -88,7 +88,6 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
       .options(postCssOpts)
 
     if (loader) {
-      console.log('loaderOptions', loaderOptions)
       rule.use(loader)
         .loader(loader)
         .options({
