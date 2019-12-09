@@ -56,6 +56,13 @@ If you need an exception so your CSS code will not add a corresponding RTL rule,
   margin-left: 10px /* rtl:ignore */;
 }
 ```
+or, if you are using SASS
+```css
+.my-class {
+  margin-left: 10px #{"/* rtl:ignore */"};
+}
+```
+
 Now both RTL and non-RTL UI mode will have `margin-left` prop.
 
 Sometimes you'll need to make exceptions for whole DOM elements / components. In this case, add `dir="ltr"` or `dir="rtl"` HTML attribute to the outermost DOM element / component template:
