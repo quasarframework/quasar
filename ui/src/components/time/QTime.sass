@@ -79,7 +79,7 @@
   &__clock-pointer
     width: 1px
     height: 50%
-    transform-origin: top center /* rtl:ignore */
+    transform-origin: top center #{"/* rtl:ignore */"}
     min-height: 0
     position: absolute
     left: 50%
@@ -115,7 +115,7 @@
     line-height: 32px
     margin: 0
     padding: 0
-    transform: translate(-50%, -50%) /* rtl:ignore */
+    transform: translate(-50%, -50%) #{"/* rtl:ignore */"}
     border-radius: 50%
 
     &--disable
@@ -133,7 +133,7 @@
 
     &__clock-pos-#{$pos}
       top: toFixed(percentage($top * 0.5), 100)
-      left: toFixed(percentage($left * 0.5), 100) /* rtl:ignore */
+      left: toFixed(percentage($left * 0.5), 100) #{"/* rtl:ignore */"}
 
   @for $pos from 12 through 23
     $angle: (270 + 30 * $pos)
@@ -142,7 +142,7 @@
 
     &__clock-pos-#{$pos}
       top: toFixed(percentage(.15 + $top * .35), 100)
-      left: toFixed(percentage(.15 + $left * .35), 100) /* rtl:ignore */
+      left: toFixed(percentage(.15 + $left * .35), 100) #{"/* rtl:ignore */"}
 
   &__now-button
     background-color: $primary
