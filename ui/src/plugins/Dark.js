@@ -34,6 +34,10 @@ const Dark = {
       return
     }
 
+    const initialVal = dark !== void 0
+      ? dark
+      : false
+
     if (fromSSR === true) {
       const ssrSet = val => {
         this.__fromSSR = val
@@ -42,7 +46,7 @@ const Dark = {
       const originalSet = this.set
 
       this.set = ssrSet
-      ssrSet(dark)
+      ssrSet(initialVal)
 
       queues.takeover.push(() => {
         this.set = originalSet
@@ -50,7 +54,7 @@ const Dark = {
       })
     }
     else {
-      this.set(dark)
+      this.set(initialVal)
     }
 
     Vue.util.defineReactive(this, 'isActive', this.isActive)

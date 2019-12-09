@@ -13,7 +13,10 @@ const
   appFilesValidations = require('./app-files-validations'),
   extensionRunner = require('./app-extension/extensions-runner'),
   supportIE = require('./helpers/support-ie'),
-  cssVariables = require('./helpers/css-variables')
+  cssVariables = require('./helpers/css-variables'),
+  getDevlandFile = require('./helpers/get-devland-file')
+
+const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -180,6 +183,7 @@ class QuasarConfig {
       },
       build: {
         transpileDependencies: [],
+        transformAssetUrls: {},
         stylusLoaderOptions: {},
         sassLoaderOptions: {},
         scssLoaderOptions: {},
@@ -378,6 +382,13 @@ class QuasarConfig {
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
 
     cfg.build = merge({
+      transformAssetUrls: Object.assign({
+        video: ['src', 'poster'],
+        source: 'src',
+        img: 'src',
+        image: ['xlink:href', 'href'],
+        use: ['xlink:href', 'href']
+      }, transformAssetUrls),
       showProgress: true,
       scopeHoisting: true,
       productName: this.pkg.productName,

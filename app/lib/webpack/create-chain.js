@@ -93,12 +93,7 @@ module.exports = function (cfg, configName) {
       compilerOptions: {
         preserveWhitespace: false
       },
-      transformAssetUrls: {
-        video: 'src',
-        source: 'src',
-        img: 'src',
-        image: 'xlink:href'
-      }
+      transformAssetUrls: cfg.build.transformAssetUrls
     })
 
   chain.module.rule('babel')
@@ -253,7 +248,7 @@ module.exports = function (cfg, configName) {
           cacheGroups: {
             vendors: {
               name: 'vendor',
-              chunks: 'initial',
+              chunks: 'all',
               priority: -10,
               // a module is extracted into the vendor chunk if...
               test: add.length > 0 || rem.length > 0
@@ -270,7 +265,7 @@ module.exports = function (cfg, configName) {
               name: `chunk-common`,
               minChunks: 2,
               priority: -20,
-              chunks: 'initial',
+              chunks: 'all',
               reuseExistingChunk: true
             }
           }

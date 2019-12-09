@@ -160,7 +160,6 @@ export default Vue.extend({
           push: this.push,
           size: this.size,
           color: this.color,
-          stretch: this.stretch,
           textColor: this.textColor,
           dense: this.dense,
           ripple: this.ripple

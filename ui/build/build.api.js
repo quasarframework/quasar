@@ -9,7 +9,7 @@ const
   resolvePath = file => path.resolve(root, file),
   dest = path.join(root, 'dist/api'),
   extendApi = require(resolvePath('src/api.extends.json')),
-  { logError, writeFile } = require('./build.utils'),
+  { logError, writeFile, kebabCase } = require('./build.utils'),
   ast = require('./ast')
 
 function getMixedInAPI (api, mainFile) {
@@ -50,9 +50,9 @@ const objectTypes = {
   },
 
   String: {
-    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn' ],
+    props: [ 'tsInjectionPoint', 'desc', 'required', 'reactive', 'sync', 'link', 'values', 'default', 'examples', 'category', 'addedIn', 'transformAssetUrls' ],
     required: [ 'desc', 'examples' ],
-    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync' ],
+    isBoolean: [ 'tsInjectionPoint', 'required', 'reactive', 'sync', 'transformAssetUrls' ],
     isArray: [ 'examples', 'values' ]
   },
 
@@ -526,6 +526,31 @@ function fillAPI (apiType) {
   }
 }
 
+function writeTransformAssetUrls (components) {
+  const transformAssetUrls = {}
+
+  components.forEach(({ name, api }) => {
+    if (api.props !== void 0) {
+      let props = Object.keys(api.props)
+        .filter(name => api.props[name].transformAssetUrls === true)
+
+      if (props.length > 0) {
+        props = props.length > 1
+          ? props
+          : props[0]
+
+        transformAssetUrls[name] = props
+        transformAssetUrls[kebabCase(name)] = props
+      }
+    }
+  })
+
+  writeFile(
+    path.join(root, 'dist/transform-asset-urls.json'),
+    JSON.stringify(transformAssetUrls, null, 2)
+  )
+}
+
 module.exports.generate = function () {
   return new Promise((resolve) => {
     const plugins = glob.sync(resolvePath('src/plugins/*.json'))
@@ -539,6 +564,8 @@ module.exports.generate = function () {
     const components = glob.sync(resolvePath('src/components/**/Q*.json'))
       .filter(file => !path.basename(file).startsWith('__'))
       .map(fillAPI('component'))
+
+    writeTransformAssetUrls(components)
 
     resolve({ components, directives, plugins })
   }).catch(err => {

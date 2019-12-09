@@ -186,10 +186,12 @@ function writeQuasarPluginProps (contents, nameName, props, isLast) {
 }
 
 function addQuasarPluginOptions (contents, components, directives, plugins) {
+  writeLine(contents, `import { QuasarIconSet } from './extras'`)
+  writeLine(contents, `import { QuasarLanguage } from './lang'`)
   writeLine(contents, `export interface QuasarPluginOptions {`)
-  writeLine(contents, `lang: any,`, 1)
+  writeLine(contents, `lang: QuasarLanguage,`, 1)
   writeLine(contents, `config: any,`, 1)
-  writeLine(contents, `iconSet: any,`, 1)
+  writeLine(contents, `iconSet: QuasarIconSet,`, 1)
   writeQuasarPluginProps(contents, 'components', components)
   writeQuasarPluginProps(contents, 'directives', directives)
   writeQuasarPluginProps(contents, 'plugins', plugins, true)
@@ -210,6 +212,8 @@ function writeIndexDTS (apis) {
   writeLine(quasarTypeContents, `export * from './utils'`)
   writeLine(quasarTypeContents, `export * from './globals'`)
   writeLine(quasarTypeContents, `export * from './boot'`)
+  writeLine(quasarTypeContents, `export * from './extras'`)
+  writeLine(quasarTypeContents, `export * from './lang'`)
 
   const injections = {}
 

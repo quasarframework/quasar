@@ -36,8 +36,14 @@
 
     "avatar": {
       "type": "String",
-      "desc": "URL to the avatar image; Icon takes precedence if used, so it replaces avatar; Suggestion: use a static resource",
-      "examples": [ "statics/boy-avatar.png", "statics/linux-avatar.png" ],
+      "desc": "URL to the avatar image; Icon takes precedence if used, so it replaces avatar",
+      "transformAssetUrls": true,
+      "examples": [
+        "(statics folder) src=\"statics/img/my-bg.png\"",
+        "(assets folder) src=\"~assets/my-img.png\"",
+        "(relative path format) :src=\"require('./my_img.jpg')\"",
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
+      ],
       "category": "content"
     },
 
