@@ -196,7 +196,7 @@ export class Caret {
 
   apply (cmd, param, done = () => {}) {
     if (cmd === 'formatBlock') {
-      if (['BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].indexOf(param) > -1 && this.is(cmd, param)) {
+      if (['BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(param) && this.is(cmd, param)) {
         cmd = 'outdent'
         param = null
       }
