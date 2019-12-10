@@ -230,7 +230,7 @@ export default Vue.extend({
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
         this.__updateState(false, this.maximized)
-        if (this.useBackdrop === true) {
+        if (this.seamless !== true) {
           this.__preventScroll(false)
           this.__preventFocusout(false)
         }
