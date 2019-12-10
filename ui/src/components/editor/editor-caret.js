@@ -137,7 +137,7 @@ export class Caret {
       return false
     }
 
-    if (el !== null && list.indexOf(el.nodeName.toLowerCase()) > -1) {
+    if (el !== null && list.includes(el.nodeName.toLowerCase() === true) {
       return true
     }
 
