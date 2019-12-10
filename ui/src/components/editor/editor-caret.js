@@ -267,23 +267,13 @@ export class Caret {
       return
     }
 
-    if (this.vm.$q.platform.is.ie === true || this.vm.$q.platform.is.edge === true) {
-      // workaround for IE/Edge, otherwise it messes up
-      // the DOM of toolbar
-      const dummyDiv = document.createElement('div')
-      this.vm.$refs.content.appendChild(dummyDiv)
-      document.execCommand(cmd, false, param)
-      dummyDiv.remove()
-    }
-    else {
-      document.execCommand(cmd, false, param)
-    }
+    document.execCommand(cmd, false, param)
 
     done()
   }
 
   selectWord (sel) {
-    if (sel === null || sel.isCollapsed !== true) {
+    if (sel === null || sel.isCollapsed !== true || /* IE 11 */ sel.modify === void 0) {
       return sel
     }
 
