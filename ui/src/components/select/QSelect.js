@@ -141,7 +141,7 @@ export default Vue.extend({
   computed: {
     isOptionsDark () {
       return this.optionsDark === null
-        ? this.isDark === true
+        ? this.isDark
         : this.optionsDark
     },
 
