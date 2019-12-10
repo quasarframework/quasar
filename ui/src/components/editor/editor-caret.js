@@ -5,7 +5,7 @@ function getBlockElement (el, parent) {
 
   const nodeName = el.nodeName.toLowerCase()
 
-  if (['div', 'li', 'ul', 'ol', 'blockquote'].indexOf(nodeName) > -1) {
+  if (['div', 'li', 'ul', 'ol', 'blockquote'].includes(nodeName) === true) {
     return el
   }
 
