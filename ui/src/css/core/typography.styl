@@ -1,14 +1,14 @@
 body
-  min-width 100px
-  min-height 100%
-  font-family $typography-font-family
-  -ms-text-size-adjust 100%
-  -webkit-text-size-adjust 100%
-  -webkit-font-smoothing antialiased
-  -moz-osx-font-smoothing grayscale
-  font-smoothing antialiased
-  line-height $body-line-height
-  font-size $body-font-size
+  min-width: 100px
+  min-height: 100%
+  font-family: $typography-font-family
+  -ms-text-size-adjust: 100%
+  -webkit-text-size-adjust: 100%
+  -webkit-font-smoothing: antialiased
+  -moz-osx-font-smoothing: grayscale
+  font-smoothing: antialiased
+  line-height: $body-line-height
+  font-size: $body-font-size
 
 for $heading, $value in $h-tags
   {$heading}
@@ -29,42 +29,42 @@ p
       letter-spacing: $value.letter-spacing
 
   &uppercase
-    text-transform uppercase
+    text-transform: uppercase
   &lowercase
-    text-transform lowercase
+    text-transform: lowercase
   &capitalize
-    text-transform capitalize
+    text-transform: capitalize
 
   &center
-    text-align center
+    text-align: center
   &left
-    text-align left
+    text-align: left
   &right
-    text-align right
+    text-align: right
   &justify
-    text-align justify
-    hyphens auto
+    text-align: justify
+    hyphens: auto
 
   &italic
-    font-style italic
+    font-style: italic
   &bold
-    font-weight bold
+    font-weight: bold
 
   &no-wrap
-    white-space nowrap
+    white-space: nowrap
 
   &strike
-    text-decoration line-through
+    text-decoration: line-through
 
   for $weight, $value in $text-weights
     &weight-{$weight}
-      font-weight $value
+      font-weight: $value
 
 small
-  font-size 80%
+  font-size: 80%
 big
-  font-size 170%
+  font-size: 170%
 sub
-  bottom -.25em
+  bottom: -.25em
 sup
-  top -.5em
+  top: -.5em
