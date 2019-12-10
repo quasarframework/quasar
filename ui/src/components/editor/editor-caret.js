@@ -15,7 +15,7 @@ function getBlockElement (el, parent) {
       : el.currentStyle,
     display = style.display
 
-  if (['block', 'table'].indexOf(display) > -1) {
+  if (display === 'block' || display === 'table') {
     return el
   }
 
