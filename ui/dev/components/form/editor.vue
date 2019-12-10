@@ -77,6 +77,7 @@
     <q-editor
       ref="editor"
       class="bg-grey"
+      max-height="300px"
       v-model="model"
       :flat="flat"
       :square="square"
