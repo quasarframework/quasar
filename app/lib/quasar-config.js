@@ -340,15 +340,13 @@ class QuasarConfig {
     // make sure it exists
     cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
 
-    cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
-    if (cfg.vendor.add) {
-      cfg.vendor.add = new RegExp(cfg.vendor.add)
-    }
+    cfg.vendor.add = cfg.vendor.add.length > 0
+      ? new RegExp(cfg.vendor.add.filter(v => v).join('|'))
+      : void 0
 
-    cfg.vendor.remove = cfg.vendor.remove.filter(v => v).join('|')
-    if (cfg.vendor.remove) {
-      cfg.vendor.remove = new RegExp(cfg.vendor.remove)
-    }
+    cfg.vendor.remove = cfg.vendor.remove.length > 0
+      ? new RegExp(cfg.vendor.remove.filter(v => v).join('|'))
+      : void 0
 
     if (cfg.css.length > 0) {
       cfg.css = cfg.css.filter(_ => _)
