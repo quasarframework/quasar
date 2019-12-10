@@ -236,9 +236,11 @@ export function getLinkEditor (h, vm, ie11) {
     let link = vm.editLinkUrl
     const updateLink = () => {
       vm.caret.restore()
+
       if (link !== vm.editLinkUrl) {
         document.execCommand('createLink', false, link === '' ? ' ' : link)
       }
+
       vm.editLinkUrl = null
 
       ie11 === true && vm.$nextTick(vm.__onInput)

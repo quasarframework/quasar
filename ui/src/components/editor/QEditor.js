@@ -331,7 +331,7 @@ export default Vue.extend({
       this.caret.restore()
       this.caret.apply(cmd, param, () => {
         this.focus()
-        this.caret.restore()
+        this.caret.save()
         if (this.$q.platform.is.ie === true || this.$q.platform.is.edge === true) {
           this.$nextTick(this.__onInput)
         }

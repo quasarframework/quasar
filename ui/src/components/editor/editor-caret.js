@@ -248,7 +248,7 @@ export class Caret {
 
       this.vm.$nextTick(() => {
         range.selectNodeContents(this.parent)
-        this.save()
+        this.save(range)
       })
 
       return
