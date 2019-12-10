@@ -262,8 +262,8 @@ async function goLive () {
       })
       .then(() => { generator.build() }) // Update generated files
       .then(() => { devServer = new DevServer(quasarConfig) })
-      .then(() => { devServer.listen() }) // Start listening
-      .then(() => { ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv) })
+      .then(() => devServer.listen()) // Start listening
+      .then(() => ModeRunner !== void 0 && ModeRunner.run(quasarConfig, argv))
       .then(() => devServer) // Pass new builder to watch chain
   }
 
