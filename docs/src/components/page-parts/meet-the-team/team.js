@@ -129,7 +129,7 @@ export default [
     role: 'Community Staff',
     avatar: 'adam_purdy.jpg',
     github: 'adamkpurdy',
-    desc: 'Firebase Support Owner & Maintainer, Quasar support member.'
+    desc: 'Firebase & Quasar support member.'
   },
 
   {
