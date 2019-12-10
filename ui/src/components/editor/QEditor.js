@@ -254,7 +254,7 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      if (this.editWatcher) {
+      if (this.editWatcher === true) {
         this.__setContent(v)
       }
       else {
@@ -265,7 +265,7 @@ export default Vue.extend({
 
   methods: {
     __onInput () {
-      if (this.editWatcher) {
+      if (this.editWatcher === true) {
         const val = this.isViewingSource
           ? this.$refs.content.innerText
           : this.$refs.content.innerHTML
@@ -301,14 +301,37 @@ export default Vue.extend({
     },
 
     __onBlur () {
-      this.caret.save()
+      this.$q.platform.is.ie !== true && this.caret.save()
       this.$emit('blur')
+    },
+
+    __onMouseup (e) {
+      this.caret.save()
+      if (this.$listeners.mouseup !== void 0) {
+        this.$emit('mouseup', e)
+      }
+    },
+
+    __onKeyup (e) {
+      this.caret.save()
+      if (this.$listeners.keyup !== void 0) {
+        this.$emit('keyup', e)
+      }
+    },
+
+    __onTouchend (e) {
+      this.caret.save()
+      if (this.$listeners.touchend !== void 0) {
+        this.$emit('touchend', e)
+      }
     },
 
     runCmd (cmd, param, update = true) {
       this.focus()
+      this.caret.restore()
       this.caret.apply(cmd, param, () => {
         this.focus()
+        this.caret.restore()
         if (this.$q.platform.is.ie === true || this.$q.platform.is.edge === true) {
           this.$nextTick(this.__onInput)
         }
@@ -375,13 +398,26 @@ export default Vue.extend({
           key: 'qedt_btm',
           staticClass: 'q-editor__toolbar row no-wrap items-center scroll-x',
           class: this.toolbarBackgroundClass
-        }, getLinkEditor(h, this))
+        }, getLinkEditor(h, this, this.$q.platform.is.ie))
       )
 
       toolbars = h('div', {
         key: 'toolbar_ctainer',
         staticClass: 'q-editor__toolbars-container'
       }, bars)
+    }
+
+    const on = {
+      ...this.$listeners,
+      input: this.__onInput,
+      keydown: this.__onKeydown,
+      click: this.__onClick,
+      blur: this.__onBlur,
+
+      // save caret
+      mouseup: this.__onMouseup,
+      keyup: this.__onKeyup,
+      touchend: this.__onTouchend
     }
 
     return h(
@@ -414,13 +450,7 @@ export default Vue.extend({
             domProps: isSSR
               ? { innerHTML: this.value }
               : undefined,
-            on: {
-              ...this.$listeners,
-              input: this.__onInput,
-              keydown: this.__onKeydown,
-              click: this.__onClick,
-              blur: this.__onBlur
-            }
+            on
           }
         )
       ]
