@@ -48,6 +48,12 @@ Calculates the [relative luminance](http://www.w3.org/TR/WCAG20/#relativeluminan
 Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
 Returns a value between 0 and 1.
 
+### brightness (color)
+Calculates the [color contrast](https://www.w3.org/TR/AERT/#color-contrast) of the `color`.
+
+Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
+Returns a value between 0 and 255. A value of < 128 would be considered a dark color.
+
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
 ::: warning

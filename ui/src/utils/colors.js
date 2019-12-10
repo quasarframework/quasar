@@ -215,6 +215,18 @@ export function luminosity (color) {
   return 0.2126 * R + 0.7152 * G + 0.0722 * B
 }
 
+export function brightness (color) {
+  if (typeof color !== 'string' && (!color || color.r === void 0)) {
+    throw new TypeError('Expected a string or a {r, g, b} object as color')
+  }
+
+  const rgb = typeof color === 'string'
+    ? textToRgb(color)
+    : color
+
+  return (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000
+}
+
 export function setBrand (color, value, element = document.body) {
   if (typeof color !== 'string') {
     throw new TypeError('Expected a string as color')
@@ -248,6 +260,7 @@ export default {
   textToRgb,
   lighten,
   luminosity,
+  brightness,
   setBrand,
   getBrand
 }
