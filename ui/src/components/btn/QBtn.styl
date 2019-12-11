@@ -1,11 +1,24 @@
 .column
-  > .q-btn.self-stretch
+  > .q-btn.self-stretch,
+  &.items-stretch > .q-btn
     width: auto
 
-.row,
-.flex
+.row
+  > .q-btn
+    height: 100%
   > .q-btn.self-stretch
     height: auto
+
+.row
+  &.items-start,
+  &.items-end,
+  &.items-center,
+  &.items-baseline,
+  &.items-stretch,
+  &.q-toolbar,
+  &.q-bar
+    > .q-btn
+      height: auto
 
 .q-btn
   display: inline-block
@@ -26,9 +39,6 @@
   text-transform: uppercase
   text-align: center
   width: fit-content
-  // fallback for old Chrome
-  height: auto
-  height: fit-content
 
   .q-icon, .q-spinner
     font-size: $button-line-height

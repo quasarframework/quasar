@@ -62,6 +62,7 @@ ie_style = @block
 
   for $name, $size in $sizes
     $noProcNotZero = $size > 0
+
     @media (min-width $size)
       {str-fe('.col<name>', s('-%s', unquote($name)), $noProcNotZero)}
         .row > &, .flex > &
@@ -94,19 +95,6 @@ ie_style = @block
 
     &--wrap
       flex-direction: row
-
-  // No solution yet for .column > .q-btn:not(.self-stretch) without .items-...
-  .row:not(.q-btn-group),
-  .flex
-    > .q-btn:not(.self-stretch)
-      height: 100%
-
-  /* QFab */
-  .q-fab__actions
-    &--right,
-    &--left
-      .q-btn
-        height: auto
 
   /* QCarousel */
   .q-carousel__slide > *

@@ -124,6 +124,54 @@
 
     <q-separator spaced />
 
+    <div class="bg-yellow overflow-hidden">
+      <div class="column no-wrap q-gutter-y-md" :class="rowClass">
+        <q-btn round icon="android" />
+
+        <q-btn v-bind="props" color="orange" text-color="black" stack>
+          <div class="bg-grey-6">
+            Stack
+          </div>
+          <div class="bg-grey-2">
+            Test 1 Test 1 Test 1
+          </div>
+          <div class="bg-grey-4">
+            Test 2 Test 2 Test 2
+          </div>
+        </q-btn>
+
+        <q-btn v-bind="props" type="button" color="orange" text-color="black" stack stretch>
+          <div class="bg-grey-6">
+            Button + Stack + stretch
+          </div>
+          <div class="bg-grey-2">
+            Test 1 Test 1 Test 1
+          </div>
+          <div class="bg-grey-4">
+            Test 2 Test 2 Test 2
+          </div>
+        </q-btn>
+
+        <q-btn v-bind="props" type="a" color="orange" text-color="black" stack stretch>
+          <div class="bg-grey-6">
+            A + Stack + stretch
+          </div>
+          <div class="bg-grey-2">
+            Test 1 Test 1 Test 1
+          </div>
+          <div class="bg-grey-4">
+            Test 2 Test 2 Test 2
+          </div>
+        </q-btn>
+
+        <div class="bg-red" style="height: 180px">
+          Test
+        </div>
+      </div>
+    </div>
+
+    <q-separator spaced />
+
     <div class="bg-yellow">
       <div class="row no-wrap q-gutter-x-md" :class="rowClass">
         <q-btn v-bind="props" type="button" color="orange" text-color="black" stack stretch style="width: 300px">
