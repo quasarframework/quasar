@@ -13,154 +13,154 @@ ie_style = @block
   .q-toolbar,
   .q-notification
     &:after
-      content ''
-      font-size 0
-      visibility collapse
-      display inline
-      width 0
+      content: ''
+      font-size: 0
+      visibility: collapse
+      display: inline
+      width: 0
 
   .q-banner > .q-banner__avatar
-    min-height 38px
+    min-height: 38px
   .q-banner--dense > .q-banner__avatar
-    min-height 20px
+    min-height: 20px
   .q-item:after
-    min-height 32px
+    min-height: 32px
   .q-list--dense > .q-item,
   .q-item--dense
     &after
-      min-height 24px
+      min-height: 24px
   .q-toolbar:after
-    min-height $toolbar-min-height
+    min-height: $toolbar-min-height
   .q-notification
     &--standard:after
-      min-height 48px
+      min-height: 48px
     &--multi-line
-      min-height 68px
+      min-height: 68px
 
   /* Flex Basis */
   .q-btn__wrapper,
   .q-time__content,
   .q-toolbar__title,
   .q-menu .q-item__section--main
-    flex-basis auto
+    flex-basis: auto
 
   .q-banner__content,
   .q-notification__message
-    flex-basis 0 !important
+    flex-basis: 0 !important
 
   .q-menu,
   .q-dialog__inner
     > .q-banner > .q-banner__content
-      flex-basis auto !important
+      flex-basis: auto !important
 
   .q-tab__content
-    flex-basis auto
-    min-width 100%
+    flex-basis: auto
+    min-width: 100%
 
   .column
-    min-width 0%
+    min-width: 0%
 
   for $name, $size in $sizes
     $noProcNotZero = $size > 0
     @media (min-width $size)
       {str-fe('.col<name>', s('-%s', unquote($name)), $noProcNotZero)}
         .row > &, .flex > &
-          flex-basis auto
-          min-width 0%
+          flex-basis: auto
+          min-width: 0%
 
   /* QItem */
   .q-item
     &__section
       &--avatar
         // overwritten above by min-width 0%
-        min-width 56px
+        min-width: 56px
 
   /* QBtn */
   button.q-btn--actionable:active:hover
     .q-btn__wrapper
-      margin -1px 1px 1px -1px
+      margin: -1px 1px 1px -1px
 
   .q-btn-group
     &--push
       > button.q-btn--push.q-btn--actionable:active:hover
         .q-btn__wrapper
-          margin 1px 1px -1px -1px
+          margin: 1px 1px -1px -1px
     > .q-btn
       > .q-focus-helper
-        z-index -1
+        z-index: -1
 
   .q-btn
-    display inline-flex
+    display: inline-flex
 
     &--wrap
-      flex-direction row
+      flex-direction: row
 
   // No solution yet for .column > .q-btn:not(.self-stretch) without .items-...
   .row:not(.q-btn-group),
   .flex
-    > .q-btn
-      height 100%
+    > .q-btn:not(.self-stretch)
+      height: 100%
 
   /* QFab */
   .q-fab__actions
     &--right,
     &--left
       .q-btn
-        height auto
+        height: auto
 
   /* QCarousel */
   .q-carousel__slide > *
-    max-width 100%
+    max-width: 100%
 
   /* QTabs */
   .q-tabs--vertical
     .q-tab__indicator
-      height auto
+      height: auto
 
   /* QSpinner */
   .q-spinner
-    animation q-ie-spinner 2s linear infinite /* rtl:ignore */
-    transform-origin center center /* rtl:ignore */
-    opacity .5
+    animation: q-ie-spinner 2s linear infinite /* rtl:ignore */
+    transform-origin: center center /* rtl:ignore */
+    opacity: .5
 
     &.q-spinner-mat .path
-      stroke-dasharray 89, 200
+      stroke-dasharray: 89, 200
 
   /* QToggle Icon */
   .q-toggle__thumb
     .q-icon
-      margin-left -6px
+      margin-left: -6px
 
   /* QDate, QTime */
   .q-date__main
-    min-height 290px !important
+    min-height: 290px !important
   .q-date__months
-    align-items stretch
-  .q-time--portrait .q-time__main,
-    display flex
-    flex-direction column
-    flex-wrap nowrap
-    flex 1 0 auto
+    align-items: stretch
+  .q-time--portrait .q-time__main
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    flex: 1 0 auto
 
   /* QField */
   .q-field
     &__prefix, &__suffix
-      flex 1 0 auto
+      flex: 1 0 auto
 
     ::-ms-clear
-      display none
+      display: none
 
     &__bottom--stale
       .q-field__messages
-        left 12px
+        left: 12px
 
     &--borderless, &--standard
       .q-field__bottom--stale
         .q-field__messages
-          left 0
+          left: 0
 
     &--float .q-field__label
-      max-width 100%
+      max-width: 100%
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   {ie_style}
@@ -170,8 +170,8 @@ ie_style = @block
 
 @keyframes q-ie-spinner
   0%
-    opacity .5
+    opacity: .5
   50%
-    opacity 1
+    opacity: 1
   100%
-    opacity .5
+    opacity: .5
