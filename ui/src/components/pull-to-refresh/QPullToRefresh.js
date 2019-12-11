@@ -7,7 +7,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 const
   PULLER_HEIGHT = 40,

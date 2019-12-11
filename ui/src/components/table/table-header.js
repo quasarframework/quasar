@@ -1,24 +1,19 @@
-import QLinearProgress from '../linear-progress/QLinearProgress.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
+
+import { cache } from '../../utils/vm.js'
 
 export default {
   methods: {
     getTableHeader (h) {
-      const child = [ this.getTableHeaderRow(h) ]
+      const child = this.getTableHeaderRow(h)
 
       this.loading === true && child.push(
         h('tr', { staticClass: 'q-table__progress' }, [
-          h('th', { staticClass: 'relative-position', attrs: { colspan: '100%' } }, [
-            h(QLinearProgress, {
-              staticClass: 'q-table__linear-progress',
-              props: {
-                color: this.color,
-                dark: this.dark,
-                indeterminate: true
-              }
-            })
-          ])
+          h('th', {
+            staticClass: 'relative-position',
+            attrs: { colspan: '100%' }
+          }, this.__getProgress(h))
         ])
       )
 
@@ -33,7 +28,7 @@ export default {
       if (header !== void 0) {
         return header(this.addTableHeaderRowMeta({
           header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
-        }))
+        })).slice()
       }
 
       let mapFn
@@ -55,8 +50,8 @@ export default {
             : h(QTh, {
               key: col.name,
               props: { props },
-              style: col.style,
-              class: col.classes
+              style: col.headerStyle,
+              class: col.headerClasses
             }, col.label)
         }
       }
@@ -71,13 +66,15 @@ export default {
           h(QCheckbox, {
             props: {
               color: this.color,
-              value: this.someRowsSelected ? null : this.allRowsSelected,
-              dark: this.dark,
+              value: this.someRowsSelected === true
+                ? null
+                : this.allRowsSelected,
+              dark: this.isDark,
               dense: this.dense
             },
-            on: {
+            on: cache(this, 'inp', {
               input: val => {
-                if (this.someRowsSelected) {
+                if (this.someRowsSelected === true) {
                   val = false
                 }
                 this.__updateSelection(
@@ -86,23 +83,27 @@ export default {
                   val
                 )
               }
-            }
+            })
           })
         ]))
       }
 
-      return h('tr', {
-        style: this.tableHeaderStyle,
-        class: this.tableHeaderClass
-      }, child)
+      return [
+        h('tr', {
+          style: this.tableHeaderStyle,
+          class: this.tableHeaderClass
+        }, child)
+      ]
     },
 
     addTableHeaderRowMeta (data) {
       if (this.multipleSelection === true) {
         Object.defineProperty(data, 'selected', {
-          get: () => this.someRowsSelected ? 'some' : this.allRowsSelected,
+          get: () => this.someRowsSelected === true
+            ? 'some'
+            : this.allRowsSelected,
           set: val => {
-            if (this.someRowsSelected) {
+            if (this.someRowsSelected === true) {
               val = false
             }
             this.__updateSelection(

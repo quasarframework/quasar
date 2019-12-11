@@ -1,3 +1,5 @@
+import { shouldIgnoreKey } from '../utils/key-composition.js'
+
 // leave NAMED_MASKS at top of file (code referenced from docs)
 const NAMED_MASKS = {
   date: '####/##/##',
@@ -140,10 +142,10 @@ export default {
           mask.push(c)
           negateChar = c.negate
           if (firstMatch === true) {
-            extract.push('(?:' + negateChar + '+?)?(' + c.pattern + '+)?(?:' + negateChar + '+?)?(' + c.pattern + '+)?')
+            extract.push('(?:' + negateChar + '+)?(' + c.pattern + '+)?(?:' + negateChar + '+)?(' + c.pattern + '+)?')
             firstMatch = false
           }
-          extract.push('(?:' + negateChar + '+?)?(' + c.pattern + ')?')
+          extract.push('(?:' + negateChar + '+)?(' + c.pattern + ')?')
         }
         else if (esc !== void 0) {
           unmaskChar = '\\' + (esc === '\\' ? '' : esc)
@@ -212,12 +214,11 @@ export default {
       this.maskReplaced = this.maskMarked.split(MARKER).join(fillChar)
     },
 
-    __updateMaskValue (rawVal, updateMaskInternals) {
+    __updateMaskValue (rawVal, updateMaskInternals, inputType) {
       const
         inp = this.$refs.input,
-        oldCursor = this.reverseFillMask === true
-          ? inp.value.length - inp.selectionEnd
-          : inp.selectionEnd,
+        end = inp.selectionEnd,
+        endReverse = inp.value.length - end,
         unmasked = this.__unmask(rawVal)
 
       // Update here so unmask uses the original fillChar
@@ -236,27 +237,48 @@ export default {
       changed === true && (this.innerValue = masked)
 
       this.$nextTick(() => {
+        if (masked === this.maskReplaced) {
+          const cursor = this.reverseFillMask === true ? this.maskReplaced.length : 0
+          inp.setSelectionRange(cursor, cursor, 'forward')
+
+          return
+        }
+
+        if (inputType === 'insertFromPaste' && this.reverseFillMask !== true) {
+          const cursor = end - 1
+          this.__moveCursorRight(inp, cursor, cursor)
+
+          return
+        }
+
+        if (['deleteContentBackward', 'deleteContentForward'].indexOf(inputType) > -1) {
+          const cursor = this.reverseFillMask === true
+            ? Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, endReverse) + 1)) + 1
+            : end
+          inp.setSelectionRange(cursor, cursor, 'forward')
+
+          return
+        }
+
         if (this.reverseFillMask === true) {
           if (changed === true) {
-            const cursor = Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, oldCursor + 1)))
+            const cursor = Math.max(0, masked.length - (masked === this.maskReplaced ? 0 : Math.min(preMasked.length, endReverse + 1)))
             this.__moveCursorRightReverse(inp, cursor, cursor)
           }
           else {
-            const cursor = masked.length - oldCursor
-            inp.setSelectionRange(cursor, cursor)
-          }
-        }
-        else if (changed === true) {
-          if (masked === this.maskReplaced) {
-            this.__moveCursorLeft(inp, 0, 0)
-          }
-          else {
-            const cursor = Math.max(0, this.maskMarked.indexOf(MARKER), Math.min(preMasked.length, oldCursor) - 1)
-            this.__moveCursorRight(inp, cursor, cursor)
+            const cursor = masked.length - endReverse
+            inp.setSelectionRange(cursor, cursor, 'backward')
           }
         }
         else {
-          this.__moveCursorLeft(inp, oldCursor, oldCursor)
+          if (changed === true) {
+            const cursor = Math.max(0, this.maskMarked.indexOf(MARKER), Math.min(preMasked.length, end) - 1)
+            this.__moveCursorRight(inp, cursor, cursor)
+          }
+          else {
+            const cursor = end - 1
+            this.__moveCursorRight(inp, cursor, cursor)
+          }
         }
       })
 
@@ -265,6 +287,14 @@ export default {
         : masked
 
       this.value !== val && this.__emitValue(val, true)
+    },
+
+    __moveCursorForPaste (inp, start, end) {
+      const preMasked = this.__mask(this.__unmask(inp.value))
+
+      start = Math.max(0, this.maskMarked.indexOf(MARKER), Math.min(preMasked.length, start))
+
+      inp.setSelectionRange(start, end, 'forward')
     },
 
     __moveCursorLeft (inp, start, end, selection) {
@@ -377,6 +407,10 @@ export default {
     },
 
     __onMaskedKeydown (e) {
+      if (shouldIgnoreKey(e) === true) {
+        return
+      }
+
       const
         inp = this.$refs.input,
         start = inp.selectionStart,

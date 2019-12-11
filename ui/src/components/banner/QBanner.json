@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/banner"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -16,6 +20,11 @@
 
     "rounded": {
       "extends": "rounded"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
     }
   },
 

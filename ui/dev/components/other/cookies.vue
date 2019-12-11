@@ -8,7 +8,7 @@
     <q-btn label="Refresh" no-caps @click="refresh" color="accent" class="q-ma-sm" />
     <q-btn label="DEL ssr_cookie" no-caps @click="del('ssr_cookie')" color="accent" class="q-ma-sm" />
     <br><br>
-    <table class="q-table striped" style="width: 400px">
+    <q-markup-table flat bordered>
       <thead>
         <tr>
           <th class="text-left">
@@ -26,7 +26,7 @@
           <td>{{ value }}</td>
         </tr>
       </tbody>
-    </table>
+    </q-markup-table>
   </div>
 </template>
 

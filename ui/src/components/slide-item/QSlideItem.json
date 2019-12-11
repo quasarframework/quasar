@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/slide-item"
+  },
+
+  "props": {
+    "left-color": {
+      "extends": "color",
+      "desc": "Color name for left-side background from the Quasar Color Palette",
+      "category": "style"
+    },
+
+    "right-color": {
+      "extends": "color",
+      "desc": "Color name for right-side background from the Quasar Color Palette",
+      "category": "style"
+    },
+
+    "top-color": {
+      "extends": "color",
+      "desc": "Color name for top-side background from the Quasar Color Palette",
+      "category": "style",
+      "addedIn": "v1.1.3"
+    },
+
+    "bottom-color": {
+      "extends": "color",
+      "desc": "Color name for bottom-side background from the Quasar Color Palette",
+      "category": "style",
+      "addedIn": "v1.1.3"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.4.1"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where item's sections go; Suggestion: QItemSection"
+    },
+
+    "left": {
+      "desc": "Left side content when sliding"
+    },
+
+    "right": {
+      "desc": "Right side content when sliding"
+    },
+
+    "top": {
+      "desc": "Top side content when sliding",
+      "addedIn": "v1.1.3"
+    },
+
+    "bottom": {
+      "desc": "Bottom side content when sliding",
+      "addedIn": "v1.1.3"
+    }
+  },
+
+  "events": {
+    "left": {
+      "desc": "Emitted when user finished sliding the item to the left",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "right": {
+      "desc": "Emitted when user finished sliding the item to the right",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "top": {
+      "desc": "Emitted when user finished sliding the item up",
+      "addedIn": "v1.1.3",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "bottom": {
+      "desc": "Emitted when user finished sliding the item down",
+      "addedIn": "v1.1.3",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    },
+
+    "action": {
+      "desc": "Emitted when user finished sliding the item to either sides",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Details",
+          "definition": {
+            "side": {
+              "type": "String",
+              "desc": "Side to which sliding has taken effect",
+              "values": [ "left", "right", "top", "bottom" ]
+            },
+            "reset": {
+              "type": "Function",
+              "desc": "When called, it resets the component to its initial non-slided state",
+              "params": null,
+              "returns": null
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "methods": {
+    "reset": {
+      "desc": "Reset to initial state (not swiped to any side)"
+    }
+  }
+}

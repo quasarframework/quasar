@@ -20,5 +20,21 @@ import { AppVisibility } from 'quasar'
 
 <doc-example title="AppVisibility" file="AppVisibility/Basic" />
 
+## Watching for status change
+
+``` vue
+<template>...</template>
+
+<script>
+export default {
+  watch: {
+    '$q.appVisible' (val) {
+      console.log(val ? 'App became visible' : 'App went in the background')
+    }
+  }
+}
+</script>
+```
+
 ## AppVisibility API
 <doc-api file="AppVisibility" />

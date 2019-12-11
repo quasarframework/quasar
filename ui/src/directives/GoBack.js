@@ -1,4 +1,5 @@
 import { client } from '../plugins/Platform.js'
+import { isKeyCode } from '../utils/key-composition.js'
 
 export default {
   name: 'go-back',
@@ -25,8 +26,8 @@ export default {
       },
 
       goBackKey (e) {
-        // ENTER
-        e.keyCode === 13 && ctx.goBack()
+        // if ENTER key
+        isKeyCode(e, 13) === true && ctx.goBack()
       }
     }
 

@@ -11,7 +11,7 @@ const
 
 const
   electronDeps = {
-    'electron': '^5.0.0',
+    'electron': '^7.0.0',
     'electron-debug': '^3.0.0',
     'electron-devtools-installer': '^2.2.4',
     'devtron': '^1.4.0'

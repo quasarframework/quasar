@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ checked }}</em></span>
       </div>
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
       <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
@@ -18,6 +18,7 @@
         Indeterminate
       </p>
       <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Tap me to change between 3 states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="accent" label="Tap me to change between 3 states" />
 
       <p class="caption">
         Tests
@@ -26,7 +27,6 @@
       <q-checkbox v-model="checked" label="Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <q-checkbox v-model="checked" label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
-      <q-checkbox v-model="checked" no-focus color="teal" label="Checkbox Label - skip focus" :dark="dark" :dense="dense" :keep-color="keepColor" />
       <q-checkbox v-model="checked" color="orange" label="Checkbox Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
@@ -133,7 +133,43 @@
       />
 
       <p class="caption">
-        Inside of a List
+        Inside a Label
+      </p>
+      <div class="column q-gutter-y-sm">
+        <label>
+          <q-checkbox v-model="checked" color="orange" label="Checkbox - own label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        </label>
+
+        <label tabindex="0">
+          <q-checkbox v-model="checked" color="orange" label="Checkbox - own label (tabindex)" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        </label>
+
+        <label>
+          <q-checkbox v-model="checked" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          Checkbox - external label
+        </label>
+
+        <label tabindex="0">
+          <q-checkbox v-model="checked" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          Checkbox - external label (tabindex)
+        </label>
+
+        <q-field v-model="checked" label="Checkbox field" stack-label :dark="dark" :dense="dense">
+          <template v-slot:control="{ value, emitValue }">
+            <q-checkbox
+              :value="value"
+              @input="emitValue"
+              color="orange"
+              :dark="dark"
+              :dense="dense"
+              :keep-color="keepColor"
+            />
+          </template>
+        </q-field>
+      </div>
+
+      <p class="caption">
+        Inside a List
       </p>
       <q-list :dark="dark" :dense="dense">
         <q-item tag="label">
@@ -186,7 +222,7 @@ export default {
       checked: true,
       group: ['op2'],
       selection: ['one', 'two', 'three'],
-      dark: false,
+      dark: null,
       dense: false,
       keepColor: false,
       indModel: null,

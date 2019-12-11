@@ -28,9 +28,8 @@ export default {
             return slot !== void 0
               ? slot(this.addBodyCellMetaData({ row, col }))
               : h('td', {
-                staticClass: col.__tdClass,
-                style: col.style,
-                class: col.classes
+                class: col.__tdClass,
+                style: col.__tdStyle
               }, this.getCellValue(col, row))
           })
 
@@ -40,12 +39,12 @@ export default {
             props: {
               value: selected,
               color: this.color,
-              dark: this.dark,
+              dark: this.isDark,
               dense: this.dense
             },
             on: {
               input: adding => {
-                this.__updateSelection([key], [row], adding)
+                this.__updateSelection([ key ], [ row ], adding)
               }
             }
           })
@@ -58,6 +57,7 @@ export default {
       }
 
       if (this.$listeners['row-click'] !== void 0) {
+        data.class['cursor-pointer'] = true
         data.on = {
           click: evt => {
             this.$emit('row-click', evt, row)
@@ -75,14 +75,15 @@ export default {
         bottomRow = this.$scopedSlots['bottom-row'],
         mapFn = body !== void 0
           ? row => this.getTableRowBody(row, body)
-          : row => this.getTableRow(h, row),
-        child = this.computedRows.map(mapFn)
+          : row => this.getTableRow(h, row)
+
+      let child = this.computedRows.map(mapFn)
 
       if (topRow !== void 0) {
-        child.unshift(topRow({ cols: this.computedCols }))
+        child = topRow({ cols: this.computedCols }).concat(child)
       }
       if (bottomRow !== void 0) {
-        child.push(bottomRow({ cols: this.computedCols }))
+        child = child.concat(bottomRow({ cols: this.computedCols }))
       }
 
       return h('tbody', child)
@@ -100,7 +101,7 @@ export default {
       this.hasSelectionMode === true && Object.defineProperty(data, 'selected', {
         get: () => this.isRowSelected(data.key),
         set: adding => {
-          this.__updateSelection([data.key], [data.row], adding)
+          this.__updateSelection([ data.key ], [ data.row ], adding)
         },
         configurable: true,
         enumerable: true

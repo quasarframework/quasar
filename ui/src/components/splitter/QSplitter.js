@@ -2,11 +2,15 @@ import Vue from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
-import slot from '../../utils/slot.js'
+import DarkMixin from '../../mixins/dark.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QSplitter',
+
+  mixins: [ DarkMixin ],
 
   directives: {
     TouchPan
@@ -33,9 +37,10 @@ export default Vue.extend({
       }
     },
 
+    emitImmediately: Boolean,
+
     horizontal: Boolean,
     disable: Boolean,
-    dark: Boolean,
 
     beforeClass: [Array, String, Object],
     afterClass: [Array, String, Object],
@@ -67,7 +72,7 @@ export default Vue.extend({
       return (this.horizontal === true ? 'column' : 'row') +
         ` q-splitter--${this.horizontal === true ? 'horizontal' : 'vertical'}` +
         ` q-splitter--${this.disable === true ? 'disabled' : 'workable'}` +
-        (this.dark === true ? ' q-splitter--dark' : '')
+        (this.isDark === true ? ' q-splitter--dark' : '')
     },
 
     prop () {
@@ -126,6 +131,10 @@ export default Vue.extend({
       this.__normalized = Math.min(this.__maxValue, this.computedLimits[1], Math.max(this.computedLimits[0], val))
 
       this.$refs[this.side].style[this.prop] = this.__getCSSValue(this.__normalized)
+
+      if (this.emitImmediately === true && this.value !== this.__normalized) {
+        this.$emit('input', this.__normalized)
+      }
     },
 
     __normalize (val, limits) {
@@ -143,17 +152,13 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-splitter no-wrap',
-      class: this.classes,
-      on: this.$listeners
-    }, [
+    let child = [
       h('div', {
         ref: 'before',
         staticClass: 'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
         style: this.styles.before,
         class: this.beforeClass,
-        on: { input: stop }
+        on: cache(this, 'stop', { input: stop })
       }, slot(this, 'before')),
 
       h('div', {
@@ -163,7 +168,7 @@ export default Vue.extend({
       }, [
         h('div', {
           staticClass: 'absolute-full q-splitter__separator-area',
-          directives: this.disable === true ? void 0 : [{
+          directives: this.disable === true ? void 0 : cache(this, 'dir#' + this.horizontal, [{
             name: 'touch-pan',
             value: this.__pan,
             modifiers: {
@@ -174,7 +179,7 @@ export default Vue.extend({
               mouse: true,
               mouseAllDir: true
             }
-          }]
+          }])
         }, slot(this, 'separator'))
       ]),
 
@@ -183,8 +188,14 @@ export default Vue.extend({
         staticClass: 'q-splitter__panel q-splitter__after' + (this.reverse === true ? '' : ' col'),
         style: this.styles.after,
         class: this.afterClass,
-        on: { input: stop }
+        on: cache(this, 'stop', { input: stop })
       }, slot(this, 'after'))
-    ].concat(slot(this, 'default')))
+    ]
+
+    return h('div', {
+      staticClass: 'q-splitter no-wrap',
+      class: this.classes,
+      on: this.$listeners
+    }, mergeSlot(child, this, 'default'))
   }
 })

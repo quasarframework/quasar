@@ -1,7 +1,16 @@
 {
   "mixins": [ "mixins/panel-parent", "mixins/fullscreen" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/carousel"
+  },
+
   "props": {
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    },
+
     "transition-prev": {
       "default": "fade",
       "category": "behavior"

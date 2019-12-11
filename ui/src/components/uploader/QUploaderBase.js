@@ -3,17 +3,20 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
+import DarkMixin from '../../mixins/dark.js'
+
 import { stop, stopAndPrevent } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
+import { cache } from '../../utils/vm.js'
 
 export default {
+  mixins: [ DarkMixin ],
+
   props: {
     label: String,
 
     color: String,
     textColor: String,
-
-    dark: Boolean,
 
     square: Boolean,
     flat: Boolean,
@@ -364,10 +367,10 @@ export default {
             accept: this.accept,
             ...(this.multiple === true ? { multiple: true } : {})
           },
-          on: {
+          on: cache(this, 'input', {
             mousedown: stop, // need to stop refocus from QBtn
             change: this.__addFiles
-          }
+          })
         })
       ]
     },
@@ -377,30 +380,32 @@ export default {
         return this.$scopedSlots.header(this)
       }
 
-      return h('div', {
-        staticClass: 'q-uploader__header-content flex flex-center no-wrap q-gutter-xs'
-      }, [
-        this.__getBtn(h, this.queuedFiles.length > 0, 'removeQueue', this.removeQueuedFiles),
-        this.__getBtn(h, this.uploadedFiles.length > 0, 'removeUploaded', this.removeUploadedFiles),
+      return [
+        h('div', {
+          staticClass: 'q-uploader__header-content flex flex-center no-wrap q-gutter-xs'
+        }, [
+          this.__getBtn(h, this.queuedFiles.length > 0, 'removeQueue', this.removeQueuedFiles),
+          this.__getBtn(h, this.uploadedFiles.length > 0, 'removeUploaded', this.removeUploadedFiles),
 
-        this.isUploading === true
-          ? h(QSpinner, { staticClass: 'q-uploader__spinner' })
-          : null,
-
-        h('div', { staticClass: 'col column justify-center' }, [
-          this.label !== void 0
-            ? h('div', { staticClass: 'q-uploader__title' }, [ this.label ])
+          this.isUploading === true
+            ? h(QSpinner, { staticClass: 'q-uploader__spinner' })
             : null,
 
-          h('div', { staticClass: 'q-uploader__subtitle' }, [
-            this.uploadSizeLabel + ' / ' + this.uploadProgressLabel
-          ])
-        ]),
+          h('div', { staticClass: 'col column justify-center' }, [
+            this.label !== void 0
+              ? h('div', { staticClass: 'q-uploader__title' }, [ this.label ])
+              : null,
 
-        this.__getBtn(h, this.canAddFiles, 'add', this.pickFiles),
-        this.__getBtn(h, this.hideUploadBtn === false && this.canUpload === true, 'upload', this.upload),
-        this.__getBtn(h, this.isUploading, 'clear', this.abort)
-      ])
+            h('div', { staticClass: 'q-uploader__subtitle' }, [
+              this.uploadSizeLabel + ' / ' + this.uploadProgressLabel
+            ])
+          ]),
+
+          this.__getBtn(h, this.canAddFiles, 'add', this.pickFiles),
+          this.__getBtn(h, this.hideUploadBtn === false && this.canUpload === true, 'upload', this.upload),
+          this.__getBtn(h, this.isUploading, 'clear', this.abort)
+        ])
+      ]
     },
 
     __getList (h) {
@@ -475,22 +480,20 @@ export default {
     return h('div', {
       staticClass: 'q-uploader column no-wrap',
       class: {
-        'q-uploader--dark': this.dark,
+        'q-uploader--dark q-dark': this.isDark,
         'q-uploader--bordered': this.bordered,
         'q-uploader--square no-border-radius': this.square,
         'q-uploader--flat no-shadow': this.flat,
         'disabled q-uploader--disable': this.disable
       },
       on: this.canAddFiles === true
-        ? { dragover: this.__onDragOver }
+        ? cache(this, 'drag', { dragover: this.__onDragOver })
         : null
     }, [
       h('div', {
         staticClass: 'q-uploader__header',
         class: this.colorClass
-      }, [
-        this.__getHeader(h)
-      ]),
+      }, this.__getHeader(h)),
 
       h('div', {
         staticClass: 'q-uploader__list scroll'
@@ -498,12 +501,12 @@ export default {
 
       this.dnd === true ? h('div', {
         staticClass: 'q-uploader__dnd absolute-full',
-        on: {
+        on: cache(this, 'dnd', {
           dragenter: stopAndPrevent,
           dragover: stopAndPrevent,
           dragleave: this.__onDragLeave,
           drop: this.__onDrop
-        }
+        })
       }) : null,
 
       this.isBusy === true ? h('div', {

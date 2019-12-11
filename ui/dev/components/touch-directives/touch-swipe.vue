@@ -9,8 +9,10 @@
       <div
         v-touch-swipe.mouse="handleSwipe"
         @click="onClick"
-        class="custom-area row flex-center"
+        class="custom-area row flex-center relative-position"
       >
+        <q-icon class="absolute-top-left" size="md" name="drag_indicator" draggable />
+
         <div v-if="info" class="custom-info">
           <pre>{{ info }}</pre>
         </div>

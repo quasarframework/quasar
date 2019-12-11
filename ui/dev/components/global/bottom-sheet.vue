@@ -3,7 +3,7 @@
     <div style="max-width: 500px" class="q-mx-auto">
       <h1>Bottom Sheet</h1>
 
-      <q-toggle v-model="dark" label="Dark" />
+      <q-toggle v-model="dark" label="Dark" :false-value="null" />
 
       <div class="q-gutter-sm">
         <q-btn flat color="primary" label="List" @click="show()" />
@@ -63,7 +63,7 @@ const actions = [
 export default {
   data () {
     return {
-      dark: false
+      dark: null
     }
   },
 

@@ -1,4 +1,5 @@
 import { setBrand } from './utils/colors.js'
+import { onKeyDownComposition } from './utils/key-composition.js'
 import { isSSR, fromSSR, client } from './plugins/Platform.js'
 
 function getMobilePlatform (is) {
@@ -79,6 +80,10 @@ export default {
           cls = getBodyClasses(q.platform, cfg),
           fn = ctx.ssr.setBodyClasses
 
+        if (cfg.screen !== void 0 && cfg.screen.bodyClass === true) {
+          cls.push('screen--xs')
+        }
+
         if (typeof fn === 'function') {
           fn(cls)
         }
@@ -101,6 +106,8 @@ export default {
         // needed for iOS button active state
         document.body.addEventListener('touchstart', () => {})
       }
+
+      window.addEventListener('keydown', onKeyDownComposition, true)
     }
   }
 }

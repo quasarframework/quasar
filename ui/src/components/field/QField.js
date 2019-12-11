@@ -4,16 +4,22 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
-import slot from '../../utils/slot.js'
-import { stop, prevent } from '../../utils/event.js'
+import DarkMixin from '../../mixins/dark.js'
+import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
+import { stop, prevent } from '../../utils/event.js'
+import { fromSSR } from '../../plugins/Platform.js'
+
+function getTargetUid (val) {
+  return val === void 0 ? `f_${uid()}` : val
+}
 
 export default Vue.extend({
   name: 'QField',
 
-  inheritAttrs: false,
+  mixins: [ DarkMixin, ValidateMixin ],
 
-  mixins: [ ValidateMixin ],
+  inheritAttrs: false,
 
   props: {
     label: String,
@@ -25,7 +31,6 @@ export default Vue.extend({
 
     color: String,
     bgColor: String,
-    dark: Boolean,
 
     filled: Boolean,
     outlined: Boolean,
@@ -53,6 +58,7 @@ export default Vue.extend({
 
     autofocus: Boolean,
 
+    for: [String],
     maxlength: [Number, String],
     maxValues: [Number, String] // private, do not add to JSON; internally needed by QSelect
   },
@@ -60,11 +66,19 @@ export default Vue.extend({
   data () {
     return {
       focused: false,
+      targetUid: getTargetUid(this.for),
 
       // used internally by validation for QInput
       // or menu handling for QSelect
-      innerLoading: false,
-      targetUid: this.$attrs.for === void 0 ? 'qf_' + uid() : this.$attrs.for
+      innerLoading: false
+    }
+  },
+
+  watch: {
+    for (val) {
+      // don't transform targetUid into a computed
+      // prop as it will break SSR
+      this.targetUid = getTargetUid(val)
     }
   },
 
@@ -130,7 +144,7 @@ export default Vue.extend({
 
         'q-field--dense': this.dense,
         'q-field--item-aligned q-item-type': this.itemAligned,
-        'q-field--dark': this.dark,
+        'q-field--dark': this.isDark,
 
         'q-field--auto-height': this.__getControl === void 0,
 
@@ -206,7 +220,7 @@ export default Vue.extend({
       let target = this.$refs.target
       // IE can have null document.activeElement
       if (target !== void 0 && (el === null || el.id !== this.targetUid)) {
-        target.matches('[tabindex]') || (target = target.querySelector('[tabindex]'))
+        target.hasAttribute('tabindex') === true || (target = target.querySelector('[tabindex]'))
         target !== null && target !== el && target.focus()
       }
     },
@@ -259,9 +273,7 @@ export default Vue.extend({
             h(QIcon, {
               staticClass: 'cursor-pointer',
               props: { name: this.clearIcon || this.$q.iconSet.field.clear },
-              on: {
-                click: this.__clearValue
-              }
+              on: this.clearableEvents
             })
           ])
         )
@@ -303,7 +315,7 @@ export default Vue.extend({
             staticClass: 'q-field__native row',
             attrs: {
               ...this.$attrs,
-              autofocus: this.autofocus
+              'data-autofocus': this.autofocus
             }
           }, this.$scopedSlots.control(this.controlSlotScope))
         )
@@ -494,6 +506,8 @@ export default Vue.extend({
 
     this.slotsEvents = { click: prevent }
 
+    this.clearableEvents = { click: this.__clearValue }
+
     this.controlEvents = this.__getControlEvents !== void 0
       ? this.__getControlEvents()
       : {
@@ -505,6 +519,10 @@ export default Vue.extend({
   },
 
   mounted () {
+    if (fromSSR === true && this.for === void 0) {
+      this.targetUid = getTargetUid()
+    }
+
     this.autofocus === true && this.focus()
   },
 

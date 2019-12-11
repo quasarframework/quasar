@@ -1,4 +1,7 @@
 $field-transition: .36s cubic-bezier(.4,0,.2,1)
+// right changes quicker and overflows the container
+$field-transition-label-right-down: .396s cubic-bezier(.4,0,.2,1)
+$field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
 @keyframes q-autofill
   to
@@ -13,7 +16,7 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
 
   &__marginal
     height: 56px
-    color: rgba(0, 0, 0, .54)
+    color: rgba(0,0,0,.54)
     font-size: 24px
 
     > * + *
@@ -41,7 +44,7 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
     font-size: 12px
     min-height: 12px
     line-height: 1
-    color: rgba(0, 0, 0, .54)
+    color: rgba(0,0,0,.54)
     padding: 8px 12px 0
 
     &--animated
@@ -157,11 +160,12 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
     text-decoration: inherit
     text-transform: inherit
     transform-origin: left top
-    transition: transform $field-transition, right $field-transition
+    transition: transform $field-transition, right $field-transition-label-right-up
 
   &--float .q-field__label
     transform: translateY(-40%) scale(.75)
     right: calc(-100% / 3)
+    transition: transform $field-transition, right $field-transition-label-right-down
 
   .q-field__native, .q-select__input
     &:-webkit-autofill
@@ -217,9 +221,9 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
 
     &.q-field--dark
       .q-field__control, .q-field__control:before
-        background: rgba(255, 255, 255, .07)
+        background: rgba(255,255,255,.07)
       &.q-field--focused .q-field__control:before
-        background: rgba(255, 255, 255, .1)
+        background: rgba(255,255,255,.1)
 
     &.q-field--readonly
       .q-field__control:before
@@ -289,7 +293,7 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
   &--dark
 
     .q-field__control:before
-      border-color: rgba(255, 255, 255, .6)
+      border-color: rgba(255,255,255,.6)
 
     .q-field__control:hover:before
       border-color: #fff
@@ -298,7 +302,7 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
       color: #fff
 
     &:not(.q-field--focused) .q-field__label, .q-field__marginal, .q-field__bottom
-      color: rgba(255, 255, 255, .7)
+      color: rgba(255,255,255,.7)
 
   &--standout
 
@@ -334,9 +338,9 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
 
     &.q-field--dark
       .q-field__control
-        background: rgba(255, 255, 255, .07)
+        background: rgba(255,255,255,.07)
         &:before
-          background: rgba(255, 255, 255, .07)
+          background: rgba(255,255,255,.07)
       &.q-field--focused
         .q-field__control
           background: #fff
@@ -344,7 +348,7 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
           color: #000
       &.q-field--readonly
         .q-field__control:before
-          border-color: rgba(255, 255, 255, .24)
+          border-color: rgba(255,255,255,.24)
 
   &--labeled
     .q-field__native, .q-field__prefix, .q-field__suffix
@@ -458,7 +462,7 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
 .q-transition--field-message
   &-enter-active,
   &-leave-active
-    transition: transform .6s cubic-bezier(.86, 0, .07, 1), opacity .6s cubic-bezier(.86, 0, .07, 1)
+    transition: transform .6s cubic-bezier(.86,0,.07,1), opacity .6s cubic-bezier(.86,0,.07,1)
 
   &-enter, &-leave-to
     opacity: 0

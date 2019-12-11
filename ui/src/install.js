@@ -1,11 +1,15 @@
-import './polyfills.js'
 import { version } from '../package.json'
 import Platform, { isSSR } from './plugins/Platform.js'
 import Screen from './plugins/Screen.js'
+import Dark from './plugins/Dark.js'
 import History from './history.js'
 import Lang from './lang.js'
 import Body from './body.js'
 import IconSet from './icon-set.js'
+
+const autoInstalled = [
+  Platform, Screen, Dark
+]
 
 export const queues = {
   server: [], // on SSR update
@@ -17,15 +21,16 @@ export const $q = {
 }
 
 export default function (Vue, opts = {}) {
-  if (this.__installed) { return }
-  this.__installed = true
+  if (this.__qInstalled === true) { return }
+  this.__qInstalled = true
 
   const cfg = opts.config || {}
 
   // required plugins
   Platform.install($q, queues)
   Body.install(queues, cfg)
-  Screen.install($q, queues)
+  Dark.install($q, queues, cfg)
+  Screen.install($q, queues, cfg)
   History.install($q, cfg)
   Lang.install($q, queues, opts.lang)
   IconSet.install($q, opts.iconSet)
@@ -59,7 +64,7 @@ export default function (Vue, opts = {}) {
     const param = { $q, queues, cfg }
     Object.keys(opts.plugins).forEach(key => {
       const p = opts.plugins[key]
-      if (typeof p.install === 'function' && p !== Platform && p !== Screen) {
+      if (typeof p.install === 'function' && autoInstalled.includes(p) === false) {
         p.install(param)
       }
     })

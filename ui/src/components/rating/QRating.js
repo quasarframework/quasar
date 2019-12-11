@@ -5,6 +5,9 @@ import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
 import SizeMixin from '../../mixins/size.js'
 
+import { cache } from '../../utils/vm.js'
+import { slot } from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QRating',
 
@@ -24,7 +27,8 @@ export default Vue.extend({
     icon: [String, Array],
     iconSelected: [String, Array],
 
-    color: String,
+    color: [String, Array],
+    colorSelected: [String, Array],
 
     noReset: Boolean,
 
@@ -40,25 +44,31 @@ export default Vue.extend({
 
   computed: {
     editable () {
-      return !this.readonly && !this.disable
+      return this.readonly !== true && this.disable !== true
     },
 
     classes () {
       return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
         (this.disable === true ? ' disabled' : '') +
-        (this.color !== void 0 ? ` text-${this.color}` : '')
+        (this.color !== void 0 && Array.isArray(this.color) === false ? ` text-${this.color}` : '')
     },
 
     iconData () {
       const
-        len = Array.isArray(this.icon) ? this.icon.length : 0,
-        selectedLen = Array.isArray(this.iconSelected) ? this.iconSelected.length : 0
+        iconLen = Array.isArray(this.icon) === true ? this.icon.length : 0,
+        selIconLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0,
+        colorLen = Array.isArray(this.color) === true ? this.color.length : 0,
+        selColorLen = Array.isArray(this.colorSelected) === true ? this.colorSelected.length : 0
 
       return {
-        len,
-        selectedLen,
-        icon: len > 0 ? this.icon[len - 1] : this.icon,
-        selected: selectedLen > 0 ? this.iconSelected[selectedLen - 1] : this.iconSelected
+        iconLen,
+        icon: iconLen > 0 ? this.icon[iconLen - 1] : this.icon,
+        selIconLen,
+        selIcon: selIconLen > 0 ? this.iconSelected[selIconLen - 1] : this.iconSelected,
+        colorLen,
+        color: colorLen > 0 ? this.color[colorLen - 1] : this.color,
+        selColorLen,
+        selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected
       }
     }
   },
@@ -111,11 +121,14 @@ export default Vue.extend({
 
     for (let i = 1; i <= this.max; i++) {
       const
-        active = (!this.mouseModel && this.value >= i) || (this.mouseModel && this.mouseModel >= i),
-        exSelected = this.mouseModel && this.value >= i && this.mouseModel < i,
-        name = icons.selected !== void 0 && (active === true || exSelected === true)
-          ? (i <= icons.selectedLen ? this.iconSelected[i - 1] : icons.selected)
-          : (i <= icons.len ? this.icon[i - 1] : icons.icon)
+        active = (this.mouseModel === 0 && this.value >= i) || (this.mouseModel > 0 && this.mouseModel >= i),
+        exSelected = this.mouseModel > 0 && this.value >= i && this.mouseModel < i,
+        name = icons.selIcon !== void 0 && (active === true || exSelected === true)
+          ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
+          : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon),
+        color = icons.selColor !== void 0 && active === true
+          ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
+          : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
 
       child.push(
         h(QIcon, {
@@ -125,19 +138,20 @@ export default Vue.extend({
           class: {
             'q-rating__icon--active': active,
             'q-rating__icon--exselected': exSelected,
-            'q-rating__icon--hovered': this.mouseModel === i
+            'q-rating__icon--hovered': this.mouseModel === i,
+            [`text-${color}`]: color !== void 0
           },
           props: { name: name || this.$q.iconSet.rating.icon },
           attrs: { tabindex },
-          on: {
-            click: () => this.__set(i),
-            mouseover: () => this.__setHoverValue(i),
+          on: cache(this, 'i#' + i, {
+            click: () => { this.__set(i) },
+            mouseover: () => { this.__setHoverValue(i) },
             mouseout: () => { this.mouseModel = 0 },
-            focus: () => this.__setHoverValue(i),
+            focus: () => { this.__setHoverValue(i) },
             blur: () => { this.mouseModel = 0 },
             keyup: e => { this.__keyup(e, i) }
-          }
-        })
+          })
+        }, slot(this, `tip-${i}`))
       )
     }
 

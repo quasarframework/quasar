@@ -4,10 +4,10 @@ import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 
-import uid from '../utils/uid.js'
 import clone from '../utils/clone.js'
 import { isSSR } from './Platform.js'
 
+let uid = 0
 let defaults = {}
 
 const positionList = [
@@ -63,7 +63,7 @@ const Notifications = {
         notif.position = 'bottom'
       }
 
-      notif.__uid = uid()
+      notif.__uid = uid++
 
       if (notif.timeout === void 0) {
         notif.timeout = 5000
@@ -81,11 +81,11 @@ const Notifications = {
         this.remove(notif)
       }
 
-      const actions =
-        (config.actions || []).concat(defaults.actions || [])
+      const actions = (config.actions || [])
+        .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
 
-      if (actions.length > 0) {
-        notif.actions = actions.map(item => {
+      notif.actions = actions.length > 0
+        ? actions.map(item => {
           const
             handler = item.handler,
             action = clone(item)
@@ -99,21 +99,17 @@ const Notifications = {
 
           return action
         })
-      }
+        : void 0
 
       if (typeof config.onDismiss === 'function') {
         notif.onDismiss = config.onDismiss
       }
 
-      if (notif.closeBtn) {
-        const btn = [{
-          closeBtn: true,
-          label: notif.closeBtn,
-          handler: close
-        }]
+      if (typeof notif.closeBtn === 'string') {
+        const btn = { label: notif.closeBtn, handler: close }
         notif.actions = notif.actions
           ? notif.actions.concat(btn)
-          : btn
+          : [ btn ]
       }
 
       if (notif.timeout > 0) {
@@ -130,7 +126,7 @@ const Notifications = {
         `q-notification row items-center`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
-        `q-notification--${notif.multiLine ? 'multi-line' : 'standard'}`,
+        `q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}`,
         notif.classes
       ].filter(n => n).join(' ')
 
@@ -179,48 +175,71 @@ const Notifications = {
           mode: 'out-in'
         }
       }, this.notifs[pos].map(notif => {
-        const msg = notif.html === true
-          ? h('div', { staticClass: 'q-notification__message col', domProps: { innerHTML: notif.message } })
-          : h('div', { staticClass: 'q-notification__message col' }, [ notif.message ])
+        let msgChild
+        const msgData = { staticClass: 'q-notification__message col' }
+
+        if (notif.html === true) {
+          msgData.domProps = {
+            innerHTML: notif.caption
+              ? `<div>${notif.message}</div><div class="q-notification__caption">${notif.caption}</div>`
+              : notif.message
+          }
+        }
+        else {
+          const msgNode = [ notif.message ]
+          msgChild = notif.caption
+            ? [
+              h('div', msgNode),
+              h('div', { staticClass: 'q-notification__caption' }, [ notif.caption ])
+            ]
+            : msgNode
+        }
+
+        const mainChild = []
+
+        if (notif.icon) {
+          mainChild.push(
+            h(QIcon, {
+              staticClass: 'q-notification__icon col-auto',
+              props: { name: notif.icon }
+            })
+          )
+        }
+        else if (notif.avatar) {
+          mainChild.push(
+            h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
+              h('img', { attrs: { src: notif.avatar } })
+            ])
+          )
+        }
+
+        mainChild.push(
+          h('div', msgData, msgChild)
+        )
+
+        const child = [
+          h('div', {
+            staticClass: 'row items-center ' + (notif.multiLine === true ? 'col-all' : 'col')
+          }, mainChild)
+        ]
+
+        notif.actions !== void 0 && child.push(
+          h('div', {
+            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine === true ? 'col-all justify-end' : 'col-auto')
+          }, notif.actions.map(action => h(QBtn, {
+            props: { flat: true, ...action },
+            on: { click: action.handler }
+          })))
+        )
 
         return h('div', {
           ref: `notif_${notif.__uid}`,
           key: notif.__uid,
           staticClass: notif.staticClass
-        }, [
-
-          h('div', { staticClass: 'row items-center ' + (notif.multiLine ? 'col-all' : 'col') }, [
-            notif.icon ? h(QIcon, {
-              staticClass: 'q-notification__icon col-auto',
-              props: { name: notif.icon }
-            }) : null,
-
-            notif.avatar ? h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
-              h('img', { attrs: { src: notif.avatar } })
-            ]) : null,
-
-            msg
-          ]),
-
-          notif.actions ? h('div', {
-            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine ? 'col-all justify-end' : 'col-auto')
-          }, notif.actions.map(action => h(QBtn, {
-            props: { flat: true, ...action },
-            on: { click: action.handler }
-          }))) : null
-
-        ])
+        }, child)
       }))
     }))
   }
-}
-
-function init () {
-  const node = document.createElement('div')
-  document.body.appendChild(node)
-
-  this.__vm = new Vue(Notifications)
-  this.__vm.$mount(node)
 }
 
 export default {
@@ -232,18 +251,22 @@ export default {
     opts === Object(opts) && Object.assign(defaults, opts)
   },
 
-  install (args) {
+  install ({ cfg, $q }) {
     if (isSSR === true) {
-      args.$q.notify = () => {}
-      args.$q.notify.setDefaults = () => {}
+      $q.notify = () => {}
+      $q.notify.setDefaults = () => {}
       return
     }
 
-    init.call(this, args)
+    this.setDefaults(cfg.notify)
 
-    this.setDefaults(args.cfg.notify)
+    $q.notify = this.create.bind(this)
+    $q.notify.setDefaults = this.setDefaults
 
-    args.$q.notify = this.create.bind(this)
-    args.$q.notify.setDefaults = this.setDefaults
+    const node = document.createElement('div')
+    document.body.appendChild(node)
+
+    this.__vm = new Vue(Notifications)
+    this.__vm.$mount(node)
   }
 }

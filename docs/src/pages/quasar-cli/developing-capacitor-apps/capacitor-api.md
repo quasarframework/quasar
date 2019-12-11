@@ -107,7 +107,7 @@ export default {
     }
   },
   methods: {
-    captureImage () {
+    async captureImage () {
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: true,

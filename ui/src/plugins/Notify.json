@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/notify"
+  },
+
   "injection": "$q.notify",
 
   "quasarConfOptions": {
@@ -16,6 +20,13 @@
         "type": "String",
         "desc": "The content of your message",
         "examples": [ "John Doe pinged you" ]
+      },
+
+      "caption": {
+        "type": "String",
+        "desc": "The content of your optional caption",
+        "examples": [ "5 minutes ago" ],
+        "addedIn": "v1.5.5"
       },
 
       "html": {
@@ -83,7 +94,7 @@
       "desc": "Creates a notification; Same as calling $q.notify(...)",
       "params": {
         "opts": {
-          "type": ["Object", "String"],
+          "type": [ "Object", "String" ],
           "desc": "For syntax, check quasar.conf options parameters",
           "definition": {
             "color": {
@@ -99,6 +110,13 @@
               "desc": "The content of your message",
               "examples": [ "John Doe pinged you" ],
               "required": true
+            },
+
+            "caption": {
+              "type": "String",
+              "desc": "The content of your optional caption",
+              "examples": [ "5 minutes ago" ],
+              "addedIn": "v1.5.5"
             },
 
             "html": {
@@ -214,6 +232,13 @@
               "desc": "The content of your message",
               "examples": [ "John Doe pinged you" ],
               "required": true
+            },
+
+            "caption": {
+              "type": "String",
+              "desc": "The content of your optional caption",
+              "examples": [ "5 minutes ago" ],
+              "addedIn": "v1.5.5"
             },
 
             "html": {

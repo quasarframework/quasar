@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 import { getAllChildren } from '../../utils/vm.js'
 
 export default Vue.extend({
@@ -42,7 +42,7 @@ export default Vue.extend({
           if (typeof valid.then === 'function') {
             promises.push(
               valid.then(
-                v => ({ valid: v, comp }),
+                valid => ({ valid, comp }),
                 error => ({ valid: false, comp, error })
               )
             )
@@ -73,9 +73,15 @@ export default Vue.extend({
       return Promise.all(promises).then(
         res => {
           if (index === this.validateIndex) {
-            const { valid, comp } = res[0]
+            const errors = res.filter(r => r.valid !== true)
 
-            emit(valid)
+            if (errors.length === 0) {
+              emit(true)
+              return true
+            }
+
+            emit(false)
+            const { valid, comp } = errors[0]
 
             if (
               focus === true &&
@@ -85,7 +91,7 @@ export default Vue.extend({
               comp.focus()
             }
 
-            return valid
+            return false
           }
         }
       )
@@ -123,8 +129,10 @@ export default Vue.extend({
     },
 
     focus () {
-      const target = this.$el.querySelector('[autofocus]') || this.$el.querySelector('[tabindex]')
-      target !== null && target.focus()
+      const target = this.$el.querySelector('[autofocus], [data-autofocus]') ||
+        [].find.call(this.$el.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+
+      target !== null && target !== void 0 && target.focus()
     }
   },
 

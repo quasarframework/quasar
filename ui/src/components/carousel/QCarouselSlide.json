@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/carousel"
+  },
+
   "mixins": [ "mixins/panel-child" ],
 
   "behavior": {
@@ -17,9 +21,12 @@
     "img-src": {
       "type": "String",
       "desc": "URL pointing to a slide background image (use statics folder)",
+      "transformAssetUrls": true,
       "examples": [
-        "statics/my-background.png",
-        "https://placeimg.com/500/300/nature"
+        "(statics folder) src=\"statics/img/my-bg.png\"",
+        "(assets folder) src=\"~assets/my-img.png\"",
+        "(relative path format) :src=\"require('./my_img.jpg')\"",
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
       ],
       "category": "model"
     }

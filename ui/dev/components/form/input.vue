@@ -1,8 +1,8 @@
 <template>
-  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <div style="max-width: 600px" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
         <q-toggle :dark="dark" v-model="dense" label="Dense" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
@@ -22,7 +22,7 @@
         Standard
       </div>
 
-      <q-input v-bind="props" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
+      <q-input :dark="false" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
 
       <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label />
 
@@ -369,6 +369,8 @@
         Various tests
       </div>
 
+      <q-input v-bind="props" v-model="undef" label="Model undefined" />
+
       <q-input :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="events = ''" class="cursor-pointer" />
@@ -441,7 +443,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       dense: false,
       disable: false,
       readonly: false,
@@ -459,6 +461,7 @@ export default {
       rows: '6',
 
       text: '',
+      undef: void 0,
       events: '',
       debounced: '',
 

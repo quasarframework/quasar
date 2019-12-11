@@ -8,7 +8,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
     div.col-auto
       q-btn(dense, flat, round, icon="fab fa-github", @click="openGitHub")
         q-tooltip View on GitHub
-      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, icon="fab fa-codepen", @click="$refs.codepen.open()")
+      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, icon="fab fa-codepen", @click="openCodepen")
         q-tooltip Edit in Codepen
       q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
         q-tooltip View Source
@@ -50,7 +50,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
   .row
     component.col.doc-example__content(:is="component", :class="componentClass")
 
-  codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle", :parts="parts")
+  codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
 </template>
 
 <script>
@@ -76,7 +76,8 @@ export default {
     file: String,
     noEdit: Boolean,
     dark: Boolean,
-    scrollable: Boolean
+    scrollable: Boolean,
+    overflow: Boolean
   },
 
   data () {
@@ -96,10 +97,10 @@ export default {
       }
     },
 
-    componentClass () { // eslint-disable-line
-      if (this.scrollable === true) {
-        return 'doc-example__content--scrollable scroll-y'
-      }
+    componentClass () {
+      return this.scrollable === true
+        ? 'doc-example__content--scrollable scroll-y'
+        : (this.overflow === true ? 'overflow-auto' : '')
     },
 
     slugifiedTitle () {
@@ -151,6 +152,10 @@ export default {
 
     openGitHub () {
       openURL(`https://github.com/quasarframework/quasar/tree/dev/docs/src/examples/${this.file}.vue`)
+    },
+
+    openCodepen () {
+      this.$refs.codepen.open(this.parts)
     }
   }
 }

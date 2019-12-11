@@ -51,11 +51,35 @@ Let's discuss about each of these two requirements:
 
 ### Marking CSS rules as exceptions
 If you need an exception so your CSS code will not add a corresponding RTL rule, then add this comment:
+
 ```css
 .my-class {
   margin-left: 10px /* rtl:ignore */;
 }
 ```
+
+...or, if you are using Stylus:
+
+```css
+.my-class
+  margin-left 10px /* rtl:ignore */
+```
+
+...or SCSS with indented form:
+
+```css
+.my-class
+  margin-left: 10px #{"/* rtl:ignore */"}
+```
+
+...or default SCSS:
+
+```css
+.my-class {
+  margin-left: 10px #{"/* rtl:ignore */"};
+}
+```
+
 Now both RTL and non-RTL UI mode will have `margin-left` prop.
 
 Sometimes you'll need to make exceptions for whole DOM elements / components. In this case, add `dir="ltr"` or `dir="rtl"` HTML attribute to the outermost DOM element / component template:
@@ -86,8 +110,8 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
 <html>
   <head>
     ...
-    <!-- Replace "1.0.0-beta.0" (below) with your Quasar version. -->
-    <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/quasar.rtl.min.css" rel="stylesheet" type="text/css">
+    <!-- Replace "1.0.0" (below) with your Quasar version. -->
+    <link href="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/quasar.rtl.min.css" rel="stylesheet" type="text/css">
   </head>
 
   <body>
@@ -96,9 +120,9 @@ To enable RTL UIs in UMD you need to include the RTL equivalent CSS tag for your
     <!--
       We also need an RTL Quasar language pack; let's take Hebrew as an example;
       include this after Quasar JS tag;
-      Replace "1.0.0-beta.0" (below) with your Quasar version.
+      Replace "1.0.0" (below) with your Quasar version.
     -->
-    <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0-beta.0/dist/lang/he.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quasar@^1.0.0/dist/lang/he.umd.min.js"></script>
     <script>
       Quasar.lang.set(Quasar.lang.he)
     </script>

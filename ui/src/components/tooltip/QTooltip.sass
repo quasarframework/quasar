@@ -13,3 +13,7 @@
   @media (max-width: $breakpoint-xs-max)
     font-size: $tooltip-mobile-fontsize
     padding: $tooltip-mobile-padding
+
+body.platform-ios
+  .q-tooltip
+    transform: translate(var(--q-vp-left), var(--q-vp-top))

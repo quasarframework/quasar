@@ -32,7 +32,6 @@
     border: 1px solid $separator-color
 
   &--dark
-    color: #fff
     border-color: $separator-dark-color
 
   &__section
@@ -41,8 +40,9 @@
 
   &__actions
     padding: 8px
+    align-items: center
 
-    .q-btn
+    .q-btn__wrapper
       padding: 0 8px
 
     &--horiz
@@ -51,6 +51,9 @@
       > .q-btn-item + .q-btn-group
         margin-left: 8px
     &--vert
+      > .q-btn-item
+        width: auto
+
       > .q-btn-item + .q-btn-item,
       > .q-btn-group + .q-btn-item,
       > .q-btn-item + .q-btn-group

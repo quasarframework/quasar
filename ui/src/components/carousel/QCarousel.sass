@@ -1,5 +1,5 @@
 .q-carousel
-  background-color: inherit // needed for fullscreen
+  background-color: #fff // needed for fullscreen
   height: 400px
 
   &__slide
@@ -37,9 +37,11 @@
 
     .q-btn
       margin: 6px 4px
-      padding: 5px
-    .q-btn:not(.q-carousel__navigation-icon--active)
-      opacity: .5
+
+      .q-btn__wrapper
+        padding: 5px
+      &:not(.q-carousel__navigation-icon--active)
+        opacity: .5
 
     img
       margin: 2px

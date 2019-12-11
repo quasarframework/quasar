@@ -33,7 +33,9 @@ Let’s take an example of configuring the `columns` property. We are going to t
 columns: [ // array of Objects
   // column Object definition
   {
-    // unique id (used by row-key, pagination.sortBy, ...)
+    // unique id
+    // identifies column
+    // (used by pagination.sortBy, "body-cell-[name]" slot, ...)
     name: 'desc',
 
     // label for header
@@ -61,10 +63,19 @@ columns: [ // array of Objects
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
     // (optional) you can format the data with a function
-    format: (val, row) => `${val}%`,
+    format: (val, row) => `${val}%`
+    // one more format example:
+    // format: val => val
+    //   ? /* Unicode checkmark checked */ "\u2611"
+    //   : /* Unicode checkmark unchecked */ "\u2610",
 
+    // body td:
     style: 'width: 500px',
     classes: 'my-special-class'
+
+    // (v1.3.0+) header th:
+    headerStyle: 'width: 500px',
+    headerClasses: 'my-special-class'
   },
   { name: 'calories', label: 'Calories', field: 'calories', sortable: true },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
@@ -211,7 +222,7 @@ The example below shows how you can use a slot to customize the entire row:
 
 <doc-example title="Body slot" file="QTable/SlotBody" />
 
-Bellow, we use a slot which gets applied to each body cell:
+Below, we use a slot which gets applied to each body cell:
 
 <doc-example title="Body-cell slot" file="QTable/SlotBodyCell" />
 

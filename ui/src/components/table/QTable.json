@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/fullscreen" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/table"
+  },
+
   "props": {
     "data": {
       "type": "Array",
@@ -285,22 +289,45 @@
       "category": "style"
     },
 
-    "card-style": {
+    "card-container-style": {
       "type": [ "String", "Array", "Object" ],
-      "desc": "CSS style to apply to the card",
+      "desc": "CSS style to apply to the cards container (when in grid mode)",
       "examples": [
         "background-color: #ff0000",
-        ":table-style=\"{ backgroundColor: '#ff0000' }\""
+        ":card-container-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.4.0"
+    },
+
+    "card-container-class": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to the cards container (when in grid mode)",
+      "examples": [
+        "my-special-class",
+        "justify-center",
+        ":card-container-class=\"{ 'my-special-class': [Boolean condition] }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.4.0"
+    },
+
+    "card-style": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to the card (when in grid mode)",
+      "examples": [
+        "background-color: #ff0000",
+        ":card-style=\"{ backgroundColor: '#ff0000' }\""
       ],
       "category": "style"
     },
 
     "card-class": {
       "type": [ "String", "Array", "Object" ],
-      "desc": "CSS classes to apply to the card",
+      "desc": "CSS classes to apply to the card (when in grid mode)",
       "examples": [
         "my-special-class",
-        ":table-class=\"{ 'my-special-class': [Boolean condition] }\""
+        ":card-class=\"{ 'my-special-class': [Boolean condition] }\""
       ],
       "category": "style"
     },
@@ -406,7 +433,7 @@
     "rows-per-page-options": {
       "type": "Array",
       "desc": "Options for user to pick (Numbers); Number 0 means 'Show all rows in one page'",
-      "default": "[3, 5, 7, 10, 15, 20, 25, 50, 0]",
+      "default": "[ 3, 5, 7, 10, 15, 20, 25, 50, 0 ]",
       "examples": [
         ":rows-per-page-options=\"[10, 20]\""
       ],
@@ -710,6 +737,72 @@
           "type": "Object",
           "desc": "Column definitions",
           "__exemption": [ "examples" ]
+        }
+      }
+    },
+
+    "top": {
+      "desc": "Slot to define how table top looks like",
+      "scope": {
+        "pagination": {
+          "type": "Object",
+          "desc": "Pagination object",
+          "definition": {
+            "sortBy": {
+              "type": "String",
+              "desc": "Column name (from column definition)",
+              "examples": [ "calories" ]
+            },
+            "descending": {
+              "type": "Boolean",
+              "desc": "Is sorting in descending order?"
+            },
+            "page": {
+              "type": "Number",
+              "desc": "Page number (1-based)",
+              "examples": [ 3 ]
+            },
+            "rowsPerPage": {
+              "type": "Number",
+              "desc": "How many rows per page? 0 means Infinite",
+              "examples": [ 10 ]
+            }
+          }
+        },
+        "pagesNumber": {
+          "type": "Number",
+          "desc": "Number of pages available",
+          "examples": [ 5 ]
+        },
+        "isFirstPage": {
+          "type": "Boolean",
+          "desc": "Are we on first page?"
+        },
+        "isLastPage": {
+          "type": "Boolean",
+          "desc": "Are we on last page?"
+        },
+        "prevPage": {
+          "type": "Function",
+          "desc": "Navigates to previous page, if available",
+          "params": null,
+          "returns": null
+        },
+        "nextPage": {
+          "type": "Function",
+          "desc": "Navigates to next page, if available",
+          "params": null,
+          "returns": null
+        },
+        "inFullscreen": {
+          "type": "Boolean",
+          "desc": "Is table in fullscreen mode?"
+        },
+        "toggleFullscreen": {
+          "type": "Function",
+          "desc": "Toggles fullscreen mode",
+          "params": null,
+          "returns": null
         }
       }
     },
@@ -1252,10 +1345,43 @@
           "type": "Array",
           "desc": "The updated selected array",
           "examples": [
-            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6, __index: 0 } ]"
+            "[ { name: 'Frozen Yogurt', calories: 159, fat: 6 } ]"
           ]
         }
       }
+    },
+
+    "virtual-scroll": {
+      "desc": "Emitted when the virtual scroll occurs, if using virtual scroll",
+      "params": {
+        "details": {
+          "type": "Object",
+          "desc": "Object of properties on the new scroll position",
+          "definition": {
+            "index": {
+              "type": "Number",
+              "desc": "Index of the list item that was scrolled into view (0 based)",
+              "examples": [ 30 ]
+            },
+            "from": {
+              "type": "Number",
+              "desc": "The index of the first list item that is rendered (0 based)",
+              "examples": [ 10 ]
+            },
+            "to": {
+              "type": "Number",
+              "desc": "The index of the last list item that is rendered (0 based)",
+              "examples": [ 50 ]
+            },
+            "direction": {
+              "type": "String",
+              "desc": "Direction of change",
+              "values": [ "increase", "decrease" ]
+            }
+          }
+        }
+      },
+      "addedIn": "v1.4.1"
     }
   },
 

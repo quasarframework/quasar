@@ -48,6 +48,12 @@ Calculates the [relative luminance](http://www.w3.org/TR/WCAG20/#relativeluminan
 Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
 Returns a value between 0 and 1.
 
+### brightness (color)
+Calculates the [color contrast](https://www.w3.org/TR/AERT/#color-contrast) of the `color`.
+
+Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
+Returns a value between 0 and 255. A value of < 128 would be considered a dark color.
+
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
 ::: warning
@@ -56,7 +62,7 @@ This is only supported on [browsers that support CSS Variables](https://caniuse.
 It is not going to work on IE11, but it will fall back to the brand colors from the CSS theme.
 :::
 
-You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
+You can dynamically customize the brand colors during run-time: `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning`. That means you can have one build of your application with a default color theme but show it with a runtime selected one.
 
 The main color configuration is done using CSS custom properties, stored on the root element (`:root`). Each property has a name of `--q-color-${name}` (example: `--q-color-primary`, `--q-color-secondary`) and should have a valid CSS color as value.
 
@@ -71,7 +77,7 @@ Quasar offers a helper function for setting custom colors in the `colors` utils:
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
 | `colorValue` | String | *Yes* | Valid CSS color value |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be set. |
 
@@ -92,7 +98,7 @@ Quasar offers a helper function for getting custom colors in the `colors` utils:
 
 | Parameter | Type | Required | Description |
 | --- | --- | --- | --- |
-| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `positive`, `negative`, `info`, `warning` |
+| `colorName` | String | *Yes* | One of `primary`, `secondary`, `accent`, `dark`, `positive`, `negative`, `info`, `warning` |
 | `element` | Element | - | (Default: `document.body`) Element where the custom property will be read. |
 
 Example of getting brand colors using the helper:

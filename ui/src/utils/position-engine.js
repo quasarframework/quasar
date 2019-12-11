@@ -1,4 +1,7 @@
 import { getScrollbarWidth } from './scroll.js'
+import { client } from '../plugins/Platform.js'
+
+let vpLeft, vpTop
 
 export function validatePosition (pos) {
   let parts = pos.split(' ')
@@ -73,6 +76,20 @@ export function getTargetProps (el) {
 
 // cfg: { el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit, maxHeight, maxWidth }
 export function setPosition (cfg) {
+  if (client.is.ios === true && window.visualViewport !== void 0) {
+    const elStyle = document.body.style
+    const { offsetLeft: left, offsetTop: top } = window.visualViewport
+
+    if (left !== vpLeft) {
+      elStyle.setProperty('--q-vp-left', left + 'px')
+      vpLeft = left
+    }
+    if (top !== vpTop) {
+      elStyle.setProperty('--q-vp-top', top + 'px')
+      vpTop = top
+    }
+  }
+
   let anchorProps
 
   // scroll position might change

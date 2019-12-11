@@ -13,21 +13,21 @@ fg($name, $size)
     {str-fe('.col<name>', $name, $noProcNotZero)}
       &, &-auto, &-grow, &-shrink
         .row > &, .flex > &
-          width auto
-          min-width 0
-          max-width 100%
+          width: auto
+          min-width: 0
+          max-width: 100%
         .column > &, .flex > &
-          height auto
-          min-height 0
-          max-height 100%
+          height: auto
+          min-height: 0
+          max-height: 100%
       &
-        flex 10000 1 0%
+        flex: 10000 1 0%
       &-auto
-        flex 0 0 auto
+        flex: 0 0 auto
       &-grow
-        flex 1 0 auto
+        flex: 1 0 auto
       &-shrink
-        flex 0 1 auto
+        flex: 0 1 auto
 
     for $i in (0..$flex-cols)
       $ic = s('%s', $i)
@@ -35,101 +35,101 @@ fg($name, $size)
         @extends .col{$name}-auto
       .row
         {str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
-          height auto
-          width (round($i / $flex-cols * 100, 4))%
+          height: auto
+          width: (round($i / $flex-cols * 100, 4))%
         if $i != 0 || $name != ''
           {str-fe('> .offset<name>-<i>', $name, $noProcNotZero, $ic)}
-            margin-left (round($i / $flex-cols * 100, 4))%
+            margin-left: (round($i / $flex-cols * 100, 4))%
       .column
         {str-fe('> .col<name>-<i>', $name, $noProcNotZero, $ic)}
-          height (round($i / $flex-cols * 100, 4))%
-          width auto
+          height: (round($i / $flex-cols * 100, 4))%
+          width: auto
       if $size == 0
         if $i == $flex-cols
           .row > .col-all
-            height auto
-            flex 0 0 100%
+            height: auto
+            flex: 0 0 100%
 
 .row, .column, .flex
-  display flex
-  flex-wrap wrap
+  display: flex
+  flex-wrap: wrap
   &.inline
-    display inline-flex
+    display: inline-flex
 
 .row.reverse
-  flex-direction row-reverse
+  flex-direction: row-reverse
 
 .column
-  flex-direction column
+  flex-direction: column
   &.reverse
-    flex-direction column-reverse
+    flex-direction: column-reverse
 
 .wrap
-  flex-wrap wrap
+  flex-wrap: wrap
 .no-wrap
-  flex-wrap nowrap
+  flex-wrap: nowrap
 .reverse-wrap
-  flex-wrap wrap-reverse
+  flex-wrap: wrap-reverse
 
 .order-
   &first
-    order -10000
+    order: -10000
   &last
-    order 10000
+    order: 10000
   &none
-    order 0
+    order: 0
 
 .justify-
   &start
-    justify-content flex-start
+    justify-content: flex-start
   &end
-    justify-content flex-end
+    justify-content: flex-end
   &center
-    justify-content center
+    justify-content: center
   &between
-    justify-content space-between
+    justify-content: space-between
   &around
-    justify-content space-around
+    justify-content: space-around
   &evenly
-    justify-content space-evenly
+    justify-content: space-evenly
 
 .items-
   &start
-    align-items flex-start
+    align-items: flex-start
   &end
-    align-items flex-end
+    align-items: flex-end
   &center
-    align-items center
+    align-items: center
   &baseline
-    align-items baseline
+    align-items: baseline
   &stretch
-    align-items stretch
+    align-items: stretch
 
 .content-
   &start
-    align-content flex-start
+    align-content: flex-start
   &end
-    align-content flex-end
+    align-content: flex-end
   &center
-    align-content center
+    align-content: center
   &stretch
-    align-content stretch
+    align-content: stretch
   &between
-    align-content space-between
+    align-content: space-between
   &around
-    align-content space-around
+    align-content: space-around
 
 .self-
   &start
-    align-self flex-start
+    align-self: flex-start
   &end
-    align-self flex-end
+    align-self: flex-end
   &center
-    align-self center
+    align-self: center
   &baseline
-    align-self baseline
+    align-self: baseline
   &stretch
-    align-self stretch
+    align-self: stretch
 
 .flex-center
   @extends .items-center
@@ -138,24 +138,24 @@ fg($name, $size)
 for $name, $size in $flex-gutter
   .q-gutter
     &-x-{$name}
-      margin-left (- $size)
+      margin-left: (- $size)
       > *
-        margin-left $size
+        margin-left: $size
     &-y-{$name}
-      margin-top (- $size)
+      margin-top: (- $size)
       > *
-        margin-top $size
+        margin-top: $size
     &-{$name}
       @extends .q-gutter-x-{$name}, .q-gutter-y-{$name}
   .q-col-gutter
     &-x-{$name}
-      margin-left (- $size)
+      margin-left: (- $size)
       > *
-        padding-left ($size)
+        padding-left: ($size)
     &-y-{$name}
-      margin-top (- $size)
+      margin-top: (- $size)
       > *
-        padding-top $size
+        padding-top: $size
     &-{$name}
       @extends .q-col-gutter-x-{$name}, .q-col-gutter-y-{$name}
 

@@ -5,21 +5,46 @@
         Model <span class="right-detail"><em>{{ ratingModel }}</em></span>
       </div>
 
-      <div style="font-size: 2rem; margin-top: 20px;">
+      <div class="column q-gutter-md" style="font-size: 2rem; margin-top: 20px;">
         <q-rating v-model="ratingModel" max="3" @change="onChange" @input="onInput" />
-        <br>
         <q-rating v-model="ratingModel" color="primary" max="5" icon="pets" @input="onInput" />
-        <br>
         <q-rating color="teal" v-model="ratingModel" max="9" icon="thumb_up" />
-        <br>
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="favorite_border" />
-        <br>
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-        <br>
         <q-rating size="3rem" color="red" v-model="ratingModel" :max="6" icon="star_border" icon-selected="star" />
-        <br>
         <q-rating size="3rem" color="red" v-model="moodModel" :max="4" :icon="ratingIcons" />
+        <q-rating size="3rem" :color="ratingColors" v-model="moodModel" :max="4" :icon="ratingIcons" />
+        <q-rating size="3rem" :color="ratingColors" v-model="moodModel" :max="5" icon="star" :icon-selected="ratingIcons" />
+        <q-rating
+          v-model="ratingModel"
+          size="3.5em"
+          color="grey"
+          :color-selected="ratingColors"
+          icon="star"
+        />
+        <q-rating
+          v-model="ratingModel"
+          size="3.5em"
+          color="grey"
+          color-selected="green-7"
+          icon="star"
+        />
       </div>
+
+      <p class="caption">
+        Slots
+      </p>
+      <q-rating size="2rem" color="primary" v-model="ratingModel" max="3">
+        <template #tip-1>
+          <q-tooltip>Bad</q-tooltip>
+        </template>
+        <template #tip-2>
+          <q-tooltip>Good</q-tooltip>
+        </template>
+        <template #tip-3>
+          <q-tooltip>Very good!</q-tooltip>
+        </template>
+      </q-rating>
 
       <p class="caption">
         Readonly State
@@ -45,7 +70,8 @@ export default {
         'sentiment_dissatisfied',
         'sentiment_satisfied',
         'sentiment_very_satisfied'
-      ]
+      ],
+      ratingColors: ['light-green-3', 'light-green-6', 'green', 'green-9', 'green-10']
     }
   },
   watch: {

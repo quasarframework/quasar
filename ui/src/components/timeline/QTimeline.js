@@ -1,9 +1,12 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
+import DarkMixin from '../../mixins/dark.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QTimeline',
+
+  mixins: [ DarkMixin ],
 
   provide () {
     return {
@@ -25,17 +28,13 @@ export default Vue.extend({
       type: String,
       default: 'dense',
       validator: v => ['dense', 'comfortable', 'loose'].includes(v)
-    },
-    dark: Boolean
+    }
   },
 
   computed: {
     classes () {
-      return {
-        'q-timeline--dark': this.dark,
-        [`q-timeline--${this.layout}`]: true,
-        [`q-timeline--${this.layout}--${this.side}`]: true
-      }
+      return `q-timeline--${this.layout} q-timeline--${this.layout}--${this.side}` +
+        (this.isDark === true ? ' q-timeline--dark' : '')
     }
   },
 

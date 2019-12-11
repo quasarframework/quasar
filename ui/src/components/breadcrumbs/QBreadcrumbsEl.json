@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/breadcrumbs"
+  },
+
   "mixins": [ "mixins/router-link" ],
 
   "behavior": {
@@ -9,7 +13,7 @@
     "label": {
       "type": "String",
       "desc": "The label text for the breadcrumb",
-      "examples": ["Home", "Index"],
+      "examples": [ "Home", "Index" ],
       "category": "content"
     },
 

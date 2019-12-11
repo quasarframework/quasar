@@ -8,6 +8,11 @@ const
  Returns pid, takes onClose
  */
 module.exports.spawn = function (cmd, params, opts, onClose) {
+  if (!cmd) {
+    warn(`⚠️  Command name was not available. Please run again.`)
+    process.exit(1)
+  }
+
   log(`Running "${cmd} ${params.join(' ')}"`)
   log()
 

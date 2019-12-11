@@ -4,6 +4,7 @@ import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
 
 import clone from '../../utils/clone.js'
+import { isKeyCode } from '../../utils/key-composition.js'
 
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
@@ -12,8 +13,14 @@ import QCardActions from '../card/QCardActions.js'
 import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 
+import DarkMixin from '../../mixins/dark.js'
+
+import { cache } from '../../utils/vm.js'
+
 export default Vue.extend({
   name: 'DialogPlugin',
+
+  mixins: [ DarkMixin ],
 
   inheritAttrs: false,
 
@@ -30,14 +37,17 @@ export default Vue.extend({
       default: true
     },
     cancel: [String, Object, Boolean],
+    focus: {
+      type: String,
+      default: 'ok',
+      validator: v => ['ok', 'cancel', 'none'].includes(v)
+    },
 
     stackButtons: Boolean,
     color: String,
 
     cardClass: [String, Array, Object],
-    cardStyle: [String, Array, Object],
-
-    dark: Boolean
+    cardStyle: [String, Array, Object]
   },
 
   computed: {
@@ -58,7 +68,7 @@ export default Vue.extend({
     },
 
     vmColor () {
-      return this.color || (this.dark === true ? 'amber' : 'primary')
+      return this.color || (this.isDark === true ? 'amber' : 'primary')
     },
 
     okProps () {
@@ -112,17 +122,17 @@ export default Vue.extend({
             color: this.vmColor,
             dense: true,
             autofocus: true,
-            dark: this.dark
+            dark: this.isDark
           },
-          on: {
+          on: cache(this, 'prompt', {
             input: v => { this.prompt.model = v },
             keyup: evt => {
               // if ENTER key
-              if (this.prompt.type !== 'textarea' && evt.keyCode === 13) {
+              if (this.prompt.type !== 'textarea' && isKeyCode(evt, 13) === true) {
                 this.onOk()
               }
             }
-          }
+          })
         })
       ]
     },
@@ -136,11 +146,11 @@ export default Vue.extend({
             color: this.vmColor,
             inline: this.options.inline,
             options: this.options.items,
-            dark: this.dark
+            dark: this.isDark
           },
-          on: {
+          on: cache(this, 'opts', {
             input: v => { this.options.model = v }
-          }
+          })
         })
       ]
     },
@@ -151,15 +161,15 @@ export default Vue.extend({
       if (this.cancel) {
         child.push(h(QBtn, {
           props: this.cancelProps,
-          attrs: { autofocus: !this.prompt && !this.ok },
-          on: { click: this.onCancel }
+          attrs: { 'data-autofocus': this.focus === 'cancel' && !this.hasForm },
+          on: cache(this, 'cancel', { click: this.onCancel })
         }))
       }
       if (this.ok) {
         child.push(h(QBtn, {
           props: this.okProps,
-          attrs: { autofocus: !this.prompt },
-          on: { click: this.onOk }
+          attrs: { 'data-autofocus': this.focus === 'ok' && !this.hasForm },
+          on: cache(this, 'ok', { click: this.onOk })
         }))
       }
 
@@ -241,20 +251,18 @@ export default Vue.extend({
         value: this.value
       },
 
-      on: {
+      on: cache(this, 'hide', {
         hide: () => {
           this.$emit('hide')
         }
-      }
+      })
     }, [
       h(QCard, {
         staticClass: 'q-dialog-plugin' +
-          (this.dark === true ? ' q-dialog-plugin--dark' : ''),
+          (this.isDark === true ? ' q-dialog-plugin--dark q-dark' : ''),
         style: this.cardStyle,
         class: this.cardClass,
-        props: {
-          dark: this.dark
-        }
+        props: { dark: this.isDark }
       }, child)
     ])
   }

@@ -98,15 +98,17 @@ For the file picker to work on IE11 when wrapping QUploaderAddTrigger with a QBt
 
 <doc-example title="Custom files list" file="QUploader/SlotList" />
 
-## Server endpoint
+## Server endpoint examples
 
 QUploader works by default with the HTTP(S) protocol to upload files (but it's not limited to it as you'll see in the section following this one).
 
-Below is a basic server example written in Nodejs. It does nothing other than receiving the files, so consider it as a starting point.
-
 ::: tip
-It is by no means required to use a Nodejs server like above -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).
+It is by no means required to use a Nodejs server or Spring or ASP.NET like below -- you can handle file upload however you want, as long as the method you are using fits the HTTP protocol. Example with [PHP](https://secure.php.net/manual/en/features.file-upload.php).
 :::
+
+### Nodejs
+
+Below is a basic server example written in Nodejs. It does nothing other than receiving the files, so consider it as a starting point.
 
 ```js
 const
@@ -150,68 +152,6 @@ app.post('/upload', (req, res) => {
 app.listen(port, () => {
   console.log('\nUpload server running on http://localhost:' + port)
 })
-```
-
-## Supporting other services
-QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
-
-### Instructions
-
-Below is an example with the API that you need to supply. You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.
-
-::: tip
-For the default XHR implementation, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/uploader-xhr-mixin.js).
-:::
-
-::: warning Help appreciated
-We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit.
-:::
-
-For the UMD version, you can extend `Quasar.components.QUploaderBase`.
-
-```js
-// MyUploader.js
-import { QUploaderBase } from 'quasar'
-
-export default {
-  name: 'MyUploader',
-
-  mixins: [ QUploaderBase ],
-
-  computed: {
-    // [REQUIRED]
-    // we're working on uploading files
-    isUploading () {
-      // return <Boolean>
-    },
-
-    // [optional]
-    // shows overlay on top of the
-    // uploader signaling it's waiting
-    // on something (blocks all controls)
-    isBusy () {
-      // return <Boolean>
-    }
-  },
-
-  methods: {
-    // [REQUIRED]
-    // abort and clean up any process
-    // that is in progress
-    abort () {
-      // ...
-    },
-
-    // [REQUIRED]
-    upload () {
-      if (this.canUpload === false) {
-        return
-      }
-
-      // ...
-    }
-  }
-}
 ```
 
 ### ASP.NET MVC/Core
@@ -285,6 +225,90 @@ public class FileUploaderController : ControllerBase
             // ...
         }
     }
+}
+```
+
+### Spring
+
+Below is a [Spring](https://spring.io/guides/gs/uploading-files/) example. Attribute `fieldName="file"` is mapping with `@RequestPart(value = "file")`.
+
+```
+// java
+@RestController
+public class UploadRest {
+	@PostMapping("/upload")
+	public void handleFileUpload(@RequestPart(value = "file") final MultipartFile uploadfile) throws IOException {
+		saveUploadedFiles(uploadfile);
+	}
+
+	private String saveUploadedFiles(final MultipartFile file) throws IOException {
+		final byte[] bytes = file.getBytes();
+		final Path path = Paths.get("YOUR_ABSOLUTE_PATH" + file.getOriginalFilename());
+		Files.write(path, bytes);
+	}
+}
+
+// html
+<q-uploader fieldName="file" url="YOUR_URL_BACK/upload" with-credentials />
+```
+
+## Supporting other services
+QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
+
+Below is an example with the API that you need to supply. You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.
+
+::: tip
+For the default XHR implementation, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/uploader-xhr-mixin.js).
+:::
+
+::: warning Help appreciated
+We'd be more than happy to accept PRs on supporting other upload services as well, so others can benefit.
+:::
+
+For the UMD version, you can extend `Quasar.components.QUploaderBase`.
+
+```js
+// MyUploader.js
+import { QUploaderBase } from 'quasar'
+
+export default {
+  name: 'MyUploader',
+
+  mixins: [ QUploaderBase ],
+
+  computed: {
+    // [REQUIRED]
+    // we're working on uploading files
+    isUploading () {
+      // return <Boolean>
+    },
+
+    // [optional]
+    // shows overlay on top of the
+    // uploader signaling it's waiting
+    // on something (blocks all controls)
+    isBusy () {
+      // return <Boolean>
+    }
+  },
+
+  methods: {
+    // [REQUIRED]
+    // abort and clean up any process
+    // that is in progress
+    abort () {
+      // ...
+    },
+
+    // [REQUIRED]
+    upload () {
+      if (this.canUpload === false) {
+        return
+      }
+
+      // ...
+    }
+  }
 }
 ```
 

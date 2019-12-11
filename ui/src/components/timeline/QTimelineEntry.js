@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import { slot, uniqueSlot } from '../../utils/slot.js'
+
 export default Vue.extend({
   name: 'QTimelineEntry',
 
@@ -51,12 +53,10 @@ export default Vue.extend({
   },
 
   render (h) {
-    const defSlot = this.$scopedSlots.default !== void 0
-      ? this.$scopedSlots.default()
-      : []
+    const child = uniqueSlot(this, 'default', [])
 
     if (this.body !== void 0) {
-      defSlot.unshift(this.body)
+      child.unshift(this.body)
     }
 
     if (this.heading === true) {
@@ -66,7 +66,7 @@ export default Vue.extend({
         h(
           this.tag,
           { staticClass: 'q-timeline__heading-title' },
-          defSlot
+          child
         )
       ]
 
@@ -97,12 +97,7 @@ export default Vue.extend({
 
     const content = [
       h('div', { staticClass: 'q-timeline__subtitle' }, [
-        h(
-          'span',
-          this.$scopedSlots.subtitle !== void 0
-            ? this.$scopedSlots.subtitle()
-            : [ this.subtitle ]
-        )
+        h('span', slot(this, 'subtitle', [ this.subtitle ]))
       ]),
 
       h('div', {
@@ -111,14 +106,8 @@ export default Vue.extend({
       }, dot),
 
       h('div', { staticClass: 'q-timeline__content' }, [
-        h(
-          'h6',
-          { staticClass: 'q-timeline__title' },
-          this.$scopedSlots.title !== void 0
-            ? this.$scopedSlots.title()
-            : [ this.title ]
-        )
-      ].concat(defSlot))
+        h('h6', { staticClass: 'q-timeline__title' }, slot(this, 'title', [ this.title ]))
+      ].concat(child))
     ]
 
     return h('li', {

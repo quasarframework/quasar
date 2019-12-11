@@ -5,12 +5,12 @@ import TouchPan from '../../directives/TouchPan.js'
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [34, 37, 40, 33, 39, 38]
 
-export function getRatio (evt, dragging, rtl) {
+export function getRatio (evt, dragging, reverse) {
   const
     pos = position(evt),
     val = between((pos.left - dragging.left) / dragging.width, 0, 1)
 
-  return rtl ? 1.0 - val : val
+  return reverse === true ? 1.0 - val : val
 }
 
 export function getModel (ratio, min, max, step, decimals) {
@@ -28,7 +28,11 @@ export function getModel (ratio, min, max, step, decimals) {
   return between(model, min, max)
 }
 
+import DarkMixin from '../../mixins/dark.js'
+
 export let SliderMixin = {
+  mixins: [ DarkMixin ],
+
   directives: {
     TouchPan
   },
@@ -52,13 +56,14 @@ export let SliderMixin = {
 
     labelColor: String,
     labelTextColor: String,
-    dark: Boolean,
     dense: Boolean,
 
     label: Boolean,
     labelAlways: Boolean,
     markers: Boolean,
     snap: Boolean,
+
+    reverse: Boolean,
 
     disable: Boolean,
     readonly: Boolean,
@@ -76,13 +81,14 @@ export let SliderMixin = {
   computed: {
     classes () {
       return `q-slider q-slider--${this.active === true ? '' : 'in'}active` +
+        (this.isReversed === true ? ' q-slider--reversed' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
         (this.disable === true ? ' disabled' : '') +
         (this.editable === true ? ' q-slider--editable' : '') +
         (this.focus === 'both' ? ' q-slider--focus' : '') +
         (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
         (this.labelAlways === true ? ' q-slider--label-always' : '') +
-        (this.dark === true ? ' q-slider--dark' : '') +
+        (this.isDark === true ? ' q-slider--dark' : '') +
         (this.dense === true ? ' q-slider--dense' : '')
     },
 
@@ -108,8 +114,12 @@ export let SliderMixin = {
       return this.editable === true ? this.tabindex || 0 : -1
     },
 
+    isReversed () {
+      return this.reverse !== (this.$q.lang.rtl === true)
+    },
+
     horizProp () {
-      return this.$q.lang.rtl === true ? 'right' : 'left'
+      return this.isReversed === true ? 'right' : 'left'
     }
   },
 

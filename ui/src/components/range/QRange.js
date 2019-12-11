@@ -9,6 +9,7 @@ import {
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
+import { cache } from '../../utils/vm.js'
 
 const dragType = {
   MIN: 0,
@@ -124,15 +125,15 @@ export default Vue.extend({
     },
 
     minThumbClass () {
-      return this.preventFocus === false && this.focus === 'min'
-        ? 'q-slider--focus'
-        : null
+      if (this.preventFocus === false && this.focus === 'min') {
+        return 'q-slider--focus'
+      }
     },
 
     maxThumbClass () {
-      return this.preventFocus === false && this.focus === 'max'
-        ? 'q-slider--focus'
-        : null
+      if (this.preventFocus === false && this.focus === 'max') {
+        return 'q-slider--focus'
+      }
     },
 
     events () {
@@ -155,7 +156,7 @@ export default Vue.extend({
     },
 
     minEvents () {
-      if (this.editable && !this.$q.platform.is.mobile && this.dragOnlyRange !== true) {
+      if (this.editable === true && this.$q.platform.is.mobile !== true && this.dragOnlyRange !== true) {
         return {
           focus: () => { this.__focus('min') },
           blur: this.__blur,
@@ -166,7 +167,7 @@ export default Vue.extend({
     },
 
     maxEvents () {
-      if (this.editable && !this.$q.platform.is.mobile && this.dragOnlyRange !== true) {
+      if (this.editable === true && this.$q.platform.is.mobile !== true && this.dragOnlyRange !== true) {
         return {
           focus: () => { this.__focus('max') },
           blur: this.__blur,
@@ -241,7 +242,7 @@ export default Vue.extend({
       }
 
       let
-        ratio = getRatio(event, dragging, this.$q.lang.rtl),
+        ratio = getRatio(event, dragging, this.isReversed),
         type
 
       if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
@@ -275,7 +276,7 @@ export default Vue.extend({
 
     __updatePosition (event, dragging = this.dragging) {
       let
-        ratio = getRatio(event, dragging, this.$q.lang.rtl),
+        ratio = getRatio(event, dragging, this.isReversed),
         model = getModel(ratio, this.min, this.max, this.step, this.decimals),
         pos
 
@@ -419,7 +420,7 @@ export default Vue.extend({
       }, [
         h('svg', {
           staticClass: 'q-slider__thumb absolute',
-          attrs: { width: '21', height: '21' }
+          attrs: { focusable: 'false' /* needed for IE11 */, width: '21', height: '21' }
         }, [
           h('circle', {
             attrs: {
@@ -467,7 +468,7 @@ export default Vue.extend({
       },
       class: this.classes,
       on: this.events,
-      directives: this.editable ? [{
+      directives: this.editable === true ? cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
@@ -477,11 +478,11 @@ export default Vue.extend({
           mouse: true,
           mouseAllDir: true
         }
-      }] : null
+      }]) : null
     }, [
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
-          staticClass: 'q-slider__track absolute-full',
+          staticClass: 'q-slider__track absolute',
           style: this.trackStyle
         }),
 

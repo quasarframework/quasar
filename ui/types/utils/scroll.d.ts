@@ -1,5 +1,5 @@
 export namespace scroll {
-  function getScrollTarget(el: Element | Window): Element;
+  function getScrollTarget(el: Element): Element | Window;
 
   function getScrollHeight(el: Element | Window): number;
   function getScrollWidth(el: Element | Window): number;

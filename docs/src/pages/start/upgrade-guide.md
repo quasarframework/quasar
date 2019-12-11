@@ -17,7 +17,6 @@ Simply replace the version string in all the CSS and JS tags that refer to Quasa
 ```bash
 # run these commands inside
 # of a Quasar v1 project
-# (need global @quasar/cli to be >= 1.0.0-beta.3)
 
 # check for upgradable packages
 $ quasar upgrade
@@ -192,27 +191,40 @@ The best way to start upgrading your project is to follow these steps:
 
 16) **Remove** the global Legacy Quasar `quasar-cli` and **install** the new `@quasar/cli`. (You will still be able to run legacy 0.17 projects with it)
 
-**Remove** global Quasar CLI
+**Remove** global Quasar CLI (use Yarn or NPM, depending with which you've installed it in the first place):
 
 ```bash
+$ yarn global remove quasar-cli
+# or (depending on what you've installed it with)
 $ npm remove -g quasar-cli
 ```
 
 **Install** global Quasar CLI
 
 ```bash
+$ yarn global add @quasar/cli
+# or
 $ npm install -g @quasar/cli
 ```
+
+::: tip
+If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
+
+```bash
+# in ~/.bashrc or equivalent
+export PATH="$(yarn global bin):$PATH"
+```
+:::
 
 17) Last, but not least, do a sanity check with `quasar info`:
 
   ```bash
   Global packages
-    @quasar/cli - 1.0.0-beta.0
+    @quasar/cli - 1.0.0
 
   Important local packages
-    quasar - 1.0.0-beta.3 -- High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase
-    @quasar/app - 1.0.0-beta.5 -- Quasar Framework App CLI
+    quasar - 1.0.0 -- High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase
+    @quasar/app - 1.0.0 -- Quasar Framework App CLI
     @quasar/extras - 1.0.0 -- Quasar Framework fonts, icons and animations
   ```
 

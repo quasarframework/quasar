@@ -14,7 +14,7 @@
           </div>
           <div class="col-xs-12 col-md-4">
             <q-toggle v-model="accordion" label="Accordion mode" />
-            <q-toggle v-model="dark" label="On dark background" />
+            <q-toggle v-model="dark" label="On dark background" :false-value="null" />
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
           </div>
           <div class="col-xs-12 col-md-4">
@@ -119,10 +119,24 @@ export default {
     return {
       selected: null,
       tickStrategy: 'leaf',
-      ticked: ['Node 2.2'],
-      expanded: ['Node 2.1.4 - Disabled', 'Node 2.1.3 - freeze exp / tickable'],
+      ticked: [
+        'Node 2.2',
+        'Node child - 1 - disabled',
+        'Node child - 3 - disabled',
+        'Node child - 1 - enabled - untickable',
+        'Node child - 4 - enabled - untickable'
+      ],
+      expanded: [
+        'Node 2.1.4 - Disabled',
+        'Node 2.1.3 - freeze exp / tickable',
+        'Node parent - untickable ticked child',
+        'Node parent - untickable unticked child',
+        'Node parent - all untickable ticked children',
+        'Node parent - all untickable unticked children',
+        'Node parent - all untickable mix ticked children'
+      ],
       selectableNodes: true,
-      dark: false,
+      dark: null,
       accordion: false,
       filter: '',
       defaultExpandAll: false,
@@ -295,6 +309,75 @@ export default {
             {
               label: 'Node 2.5 - Lazy load empty',
               lazy: true
+            }
+          ]
+        },
+        {
+          label: 'Node parent - untickable ticked child',
+          children: [
+            {
+              label: 'Node child - 1 - disabled',
+              disabled: true
+            },
+            {
+              label: 'Node child - 1 - enabled - 1'
+            },
+            {
+              label: 'Node child - 1 - enabled - 2'
+            },
+            {
+              label: 'Node child - 1 - enabled - untickable',
+              tickable: false
+            }
+          ]
+        },
+        {
+          label: 'Node parent - untickable unticked child',
+          children: [
+            {
+              label: 'Node child - 2 - disabled',
+              disabled: true
+            },
+            {
+              label: 'Node child - 2 - enabled - 1'
+            },
+            {
+              label: 'Node child - 2 - enabled - 2'
+            },
+            {
+              label: 'Node child - 2 - enabled - untickable',
+              tickable: false
+            }
+          ]
+        },
+        {
+          label: 'Node parent - all untickable ticked children',
+          children: [
+            {
+              label: 'Node child - 3 - disabled',
+              disabled: true
+            }
+          ]
+        },
+        {
+          label: 'Node parent - all untickable unticked children',
+          children: [
+            {
+              label: 'Node child - 4 - disabled',
+              disabled: true
+            }
+          ]
+        },
+        {
+          label: 'Node parent - all untickable mix ticked children',
+          children: [
+            {
+              label: 'Node child - 4 - disabled',
+              disabled: true
+            },
+            {
+              label: 'Node child - 4 - enabled - untickable',
+              tickable: false
             }
           ]
         }

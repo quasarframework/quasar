@@ -1,8 +1,11 @@
 <template>
-  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
+  <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
     <div style="max-width: 600px" class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
+        <q-toggle :dark="dark" v-model="bordered" label="Bordered" />
+        <q-toggle :dark="dark" v-model="flat" label="Flat" />
+        <q-toggle :dark="dark" v-model="square" label="Square" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="inline" label="Inline" />
@@ -183,7 +186,10 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
+      bordered: false,
+      flat: false,
+      square: false,
       disable: false,
       readonly: false,
       inline: true,
@@ -208,6 +214,9 @@ export default {
     props () {
       return {
         dark: this.dark,
+        bordered: this.bordered,
+        flat: this.flat,
+        square: this.square,
         disable: this.disable,
         readonly: this.readonly,
         inline: this.inline

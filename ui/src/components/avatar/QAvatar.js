@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
 import QIcon from '../icon/QIcon.js'
-import slot from '../../utils/slot.js'
+import { mergeSlotSafely } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QAvatar',
@@ -37,15 +37,11 @@ export default Vue.extend({
     }
   },
 
-  methods: {
-    __getContent (h) {
-      return this.icon !== void 0
-        ? [ h(QIcon, { props: { name: this.icon } }) ].concat(slot(this, 'default'))
-        : slot(this, 'default')
-    }
-  },
-
   render (h) {
+    const icon = this.icon !== void 0
+      ? [ h(QIcon, { props: { name: this.icon } }) ]
+      : void 0
+
     return h('div', {
       staticClass: 'q-avatar',
       style: this.sizeStyle,
@@ -55,9 +51,7 @@ export default Vue.extend({
         staticClass: 'q-avatar__content row flex-center overflow-hidden',
         class: this.contentClass,
         style: this.contentStyle
-      }, [
-        this.__getContent(h)
-      ])
+      }, mergeSlotSafely(icon, this, 'default'))
     ])
   }
 })

@@ -93,12 +93,7 @@ module.exports = function (cfg, configName) {
       compilerOptions: {
         preserveWhitespace: false
       },
-      transformAssetUrls: {
-        video: 'src',
-        source: 'src',
-        img: 'src',
-        image: 'xlink:href'
-      }
+      transformAssetUrls: cfg.build.transformAssetUrls
     })
 
   chain.module.rule('babel')
@@ -152,6 +147,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `img/[name]${fileHash}.[ext]`
       })
@@ -161,6 +157,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `fonts/[name]${fileHash}.[ext]`
       })
@@ -170,6 +167,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `media/[name]${fileHash}.[ext]`
       })
@@ -250,14 +248,14 @@ module.exports = function (cfg, configName) {
           cacheGroups: {
             vendors: {
               name: 'vendor',
-              chunks: 'initial',
+              chunks: 'all',
               priority: -10,
               // a module is extracted into the vendor chunk if...
-              test: add.length > 0 || rem.length > 0
+              test: add !== void 0 || rem !== void 0
                 ? module => {
                   if (module.resource) {
-                    if (add.length > 0 && add.test(module.resource)) { return true }
-                    if (rem.length > 0 && rem.test(module.resource)) { return false }
+                    if (add !== void 0 && add.test(module.resource)) { return true }
+                    if (rem !== void 0 && rem.test(module.resource)) { return false }
                   }
                   return regex.test(module.resource)
                 }
@@ -267,7 +265,7 @@ module.exports = function (cfg, configName) {
               name: `chunk-common`,
               minChunks: 2,
               priority: -20,
-              chunks: 'initial',
+              chunks: 'all',
               reuseExistingChunk: true
             }
           }
@@ -316,6 +314,7 @@ module.exports = function (cfg, configName) {
         .minimizer('js')
         .use(TerserPlugin, [{
           terserOptions: cfg.build.uglifyOptions,
+          extractComments: false,
           cache: true,
           parallel: true,
           sourceMap: cfg.build.sourceMap

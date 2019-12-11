@@ -1,18 +1,21 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
+import DarkMixin from '../../mixins/dark.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBar',
 
+  mixins: [ DarkMixin ],
+
   props: {
-    dense: Boolean,
-    dark: Boolean
+    dense: Boolean
   },
 
   computed: {
     classes () {
-      return `q-bar--${this.dense ? 'dense' : 'standard'} q-bar--${this.dark ? 'dark' : 'light'}`
+      return `q-bar--${this.dense === true ? 'dense' : 'standard'} ` +
+        `q-bar--${this.isDark === true ? 'dark' : 'light'}`
     }
   },
 

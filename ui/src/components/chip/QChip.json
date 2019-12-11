@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/ripple" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/chip"
+  },
+
   "props": {
     "dense": {
       "extends": "dense"
@@ -12,6 +16,11 @@
       "examples": [ "xs", "sm", "md", "lg", "xl", "25px", "2rem" ],
       "category": "style",
       "addedIn": "v1.2.2"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
     },
 
     "icon": {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import AlignMixin from '../../mixins/align.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBreadcrumbs',
@@ -52,7 +52,9 @@ export default Vue.extend({
     const
       child = [],
       len = nodes.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
-      separator = this.$scopedSlots.separator || (() => this.separator)
+      separator = this.$scopedSlots.separator !== void 0
+        ? this.$scopedSlots.separator
+        : () => this.separator
 
     nodes.forEach(comp => {
       if (comp.tag !== void 0 && comp.tag.endsWith('-QBreadcrumbsEl')) {

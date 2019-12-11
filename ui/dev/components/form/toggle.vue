@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="`bg-${dark ? 'black' : 'white'}${dark ? ' text-white' : ''}`">
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
       <div class="label bg-secondary text-white">
         Model <span class="right-detail"><em>{{ checked }}</em></span>
       </div>
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
       <q-toggle v-model="keepColor" :dark="dark" :dense="dense" label="Keep Color" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
@@ -93,7 +93,43 @@
       />
 
       <p class="caption">
-        Inside of a List
+        Inside a Label
+      </p>
+      <div class="column q-gutter-y-sm">
+        <label>
+          <q-toggle v-model="checked" color="orange" label="Toggle - own label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        </label>
+
+        <label tabindex="0">
+          <q-toggle v-model="checked" color="orange" label="Toggle - own label (tabindex)" :dark="dark" :dense="dense" :keep-color="keepColor" />
+        </label>
+
+        <label>
+          <q-toggle v-model="checked" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          Toggle - external label
+        </label>
+
+        <label tabindex="0">
+          <q-toggle v-model="checked" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          Toggle - external label (tabindex)
+        </label>
+
+        <q-field v-model="checked" label="Toggle field" stack-label :dark="dark" :dense="dense">
+          <template v-slot:control="{ value, emitValue }">
+            <q-toggle
+              :value="value"
+              @input="emitValue"
+              color="orange"
+              :dark="dark"
+              :dense="dense"
+              :keep-color="keepColor"
+            />
+          </template>
+        </q-field>
+      </div>
+
+      <p class="caption">
+        Inside a List
       </p>
       <q-list :dark="dark" :dense="dense">
         <q-item tag="label">
@@ -138,7 +174,7 @@ export default {
       checked: true,
       group: ['op3'],
       selection: ['two'],
-      dark: false,
+      dark: null,
       dense: false,
       keepColor: false
     }

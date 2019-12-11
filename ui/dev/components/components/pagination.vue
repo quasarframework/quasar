@@ -19,7 +19,6 @@
                     :boundary-links="boundaryLinks"
                     :direction-links="directionLinks"
                     :input="inputType"
-                    :input-class="inputClass"
                     :to-fn="toFn"
       />
 

@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/fullscreen" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/editor"
+  },
+
   "props": {
     "value": {
       "type": "String",
@@ -28,6 +32,11 @@
     "dense": {
       "extends": "dense",
       "desc": "Dense mode; toolbar buttons are shown on one-line only"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
     },
 
     "disable": {
@@ -72,55 +81,55 @@
         "label": {
           "type": "String",
           "desc": "Label of the button",
-          "examples": ["Addresses"]
+          "examples": [ "Addresses" ]
         },
         "tip": {
           "type": "String",
           "desc": "Text to be displayed as a tooltip on hover",
-          "examples": ["Add a contact from the Address Book"]
+          "examples": [ "Add a contact from the Address Book" ]
         },
         "htmlTip": {
           "type": "String",
           "desc": "HTML formatted text to be displayed within a tooltip on hover",
-          "examples": ["Add a <span class=\"red\">user</span> from the address book"]
+          "examples": [ "Add a <span class=\"red\">user</span> from the address book" ]
         },
         "icon": {
           "type": "String",
           "desc": "Icon of the button",
-          "examples": ["fas fa-address-book"]
+          "examples": [ "fas fa-address-book" ]
         },
         "key": {
           "type": "Number",
           "desc": "Keycode of a key to be used together with the <ctrl> key for use as a shortcut to trigger this element",
-          "examples": ["12", "36"]
+          "examples": [ "12", "36" ]
         },
         "handler": {
           "type": "Function",
           "desc": "Either this or \"cmd\" is required. Function for when button gets clicked/tapped.",
           "params": null,
           "returns": null,
-          "examples": ["() => this.uploadFile()"]
+          "examples": [ "() => this.uploadFile()" ]
         },
         "cmd": {
           "type": "String",
           "desc": "Either this or \"handler\" is required. This must be a valid execCommand method according to the designMode API.",
-          "examples": ["insertHTML", "justifyFull"]
+          "examples": [ "insertHTML", "justifyFull" ]
         },
         "param": {
-          "type": ["String", "Function"],
+          "type": [ "String", "Function" ],
           "desc": "Only set a param if using a \"cmd\". This is commonly text or HTML to inject, but is highly dependent upon the specific cmd being called.",
-          "examples": ["<img src=\"://uploads/001.jpg\" alt=\"nice pic\" />"]
+          "examples": [ "<img src=\"://uploads/001.jpg\" alt=\"nice pic\" />" ]
         },
         "disable": {
-          "type": ["Boolean", "Function"],
+          "type": [ "Boolean", "Function" ],
           "desc": "Is button disabled? If specifying a function, return a Boolean value.",
-          "examples": ["() => this.userIsActive()"]
+          "examples": [ "() => this.userIsActive()" ]
         },
         "type": {
           "type": "String",
           "desc": "Pass the value \"no-state\" if the button should not have an \"active\" state",
-          "values": [null, "no-state"],
-          "examples": ["no-state"]
+          "values": [ null, "no-state" ],
+          "examples": [ "no-state" ]
         }
       },
       "category": "toolbar"
@@ -165,7 +174,7 @@
       "type": "String",
       "desc": "Choose the active color (from the Quasar Palette) of toolbar commands button",
       "default": "primary",
-      "examples": ["secondary", "blue-3"],
+      "examples": [ "secondary", "blue-3" ],
       "category": "toolbar"
     },
 
@@ -173,7 +182,7 @@
       "type": "String",
       "desc": "Toolbar background color (from Quasar Palette)",
       "default": "grey-3",
-      "examples": ["secondary", "blue-3"],
+      "examples": [ "secondary", "blue-3" ],
       "category": "toolbar"
     },
 
@@ -203,7 +212,7 @@
     },
 
     "content-class": {
-      "type": ["Object", "Array", "String"],
+      "type": [ "Object", "Array", "String" ],
       "desc": "CSS classes for the input area",
       "examples": [
         "my-special-class",

@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/slider"
+  },
+
   "props": {
     "value": {
       "type": "Number",
@@ -29,6 +33,13 @@
       "default": 1,
       "examples": [ ":step=\"1\"" ],
       "category": "model"
+    },
+
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Work in reverse (changes horizontal direction)",
+      "category": "behavior",
+      "addedIn": "v1.5.0"
     },
 
     "color": {

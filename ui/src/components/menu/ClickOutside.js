@@ -49,6 +49,7 @@ export default {
           target.nodeType !== 8 &&
           // directives that prevent click by using pointer-events none generate click on html element
           target !== document.documentElement &&
+          target.classList.contains('no-pointer-events') === false &&
           (
             ctx.toggleEl === void 0 ||
             ctx.toggleEl.contains(target) === false

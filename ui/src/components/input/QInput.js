@@ -107,6 +107,13 @@ export default Vue.extend({
       this.$refs.input !== void 0 && this.$refs.input.select()
     },
 
+    __onPaste (e) {
+      if (this.hasMask === true && this.reverseFillMask !== true) {
+        const inp = e.target
+        this.__moveCursorForPaste(inp, inp.selectionStart, inp.selectionEnd)
+      }
+    },
+
     __onInput (e) {
       if (e && e.target && e.target.composing === true) {
         return
@@ -120,7 +127,7 @@ export default Vue.extend({
       const val = e.target.value
 
       if (this.hasMask === true) {
-        this.__updateMaskValue(val)
+        this.__updateMaskValue(val, false, e.inputType)
       }
       else {
         this.__emitValue(val)
@@ -200,7 +207,7 @@ export default Vue.extend({
 
       this.type !== 'file' && this.$nextTick(() => {
         if (this.$refs.input !== void 0) {
-          this.$refs.input.value = this.innerValue
+          this.$refs.input.value = this.innerValue !== void 0 ? this.innerValue : ''
         }
       })
     },
@@ -209,6 +216,7 @@ export default Vue.extend({
       const on = {
         ...this.$listeners,
         input: this.__onInput,
+        paste: this.__onPaste,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
         // switching focus before confirming composition choice
         // this also fixes the issue where some browsers e.g. iOS Chrome
@@ -226,7 +234,7 @@ export default Vue.extend({
 
       const attrs = {
         tabindex: 0,
-        autofocus: this.autofocus,
+        'data-autofocus': this.autofocus,
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         ...this.$attrs,
@@ -252,7 +260,7 @@ export default Vue.extend({
           ? {
             value: this.hasOwnProperty('tempValue') === true
               ? this.tempValue
-              : this.innerValue
+              : (this.innerValue !== void 0 ? this.innerValue : '')
           }
           : null
       })

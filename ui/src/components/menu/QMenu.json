@@ -1,11 +1,20 @@
 {
   "mixins": [ "mixins/model-toggle", "mixins/portal", "mixins/anchor" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/menu"
+  },
+
   "behavior": {
     "$listeners": true
   },
 
   "props": {
+    "dark": {
+      "extends": "dark",
+      "addedIn": "v1.3.0"
+    },
+
     "fit": {
       "type": "Boolean",
       "desc": "Allows the menu to match at least the full width of its target",
@@ -94,13 +103,13 @@
 
     "max-height": {
       "extends": "size",
-      "desc": "The maximimum height of the menu; Size in CSS units, including unit name",
+      "desc": "The maximum height of the menu; Size in CSS units, including unit name",
       "category": "style"
     },
 
     "max-width": {
       "extends": "size",
-      "desc": "The maximimum width of the menu; Size in CSS units, including unit name",
+      "desc": "The maximum width of the menu; Size in CSS units, including unit name",
       "category": "style"
     },
 

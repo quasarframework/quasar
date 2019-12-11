@@ -17,5 +17,6 @@ rimraf(dest)
 fs.symlinkSync(src, dest, 'dir')
 
 open(
-  resolve(__dirname, '../dev-umd/index.umd.html')
+  resolve(__dirname, '../dev-umd/index.umd.html'),
+  { url: true }
 )

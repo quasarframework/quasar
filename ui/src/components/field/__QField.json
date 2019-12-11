@@ -151,6 +151,14 @@
       "type": "Boolean",
       "desc": "Focus field on initial component render",
       "category": "behavior"
+    },
+
+    "for": {
+      "type": "String",
+      "desc": "DOM element id to be used as 'for' attribute of the label and as 'id' for the focus target",
+      "examples": [ "for=\"myFieldsId\"" ],
+      "category": "behavior",
+      "addedIn": "v1.4.2"
     }
   },
 

@@ -50,9 +50,14 @@ export default {
   methods: {
     toggleFullscreen () {
       AppFullscreen.toggle()
-      setTimeout(() => {
-        console.log(AppFullscreen.isActive)
-      }, 100)
+        .then(() => {
+          setTimeout(() => {
+            console.log(AppFullscreen.isActive)
+          }, 1000)
+        })
+        .catch(err => {
+          console.error(err)
+        })
     }
   }
 }

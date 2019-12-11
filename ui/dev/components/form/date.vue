@@ -1,8 +1,8 @@
 <template>
   <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
-    <div style="max-width: 600px" class="q-gutter-y-md">
+    <div class="q-gutter-y-md">
       <div class="q-gutter-x-md">
-        <q-toggle :dark="dark" v-model="dark" label="Dark" />
+        <q-toggle :dark="dark" v-model="dark" label="Dark" :false-value="null" />
         <q-toggle :dark="dark" v-model="disable" label="Disable" />
         <q-toggle :dark="dark" v-model="readonly" label="Readonly" />
         <q-toggle :dark="dark" v-model="fullWidth" label="Full Width" />
@@ -14,7 +14,20 @@
 
       <div>{{ date }}</div>
 
-      <div class="q-gutter-y-md column">
+      <div class="q-gutter-md">
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          @input="inputLog"
+          flat bordered
+        >
+          <div class="row items-center justify-end q-gutter-sm">
+            <q-btn label="Cancel" color="primary" flat />
+            <q-btn label="OK" color="primary" flat />
+          </div>
+        </q-date>
+
         <q-date
           v-model="date"
           v-bind="props"
@@ -34,6 +47,20 @@
         />
 
         <q-date
+          v-model="date"
+          v-bind="props"
+          :style="style"
+          landscape
+          @input="inputLog"
+          flat bordered
+        >
+          <div class="row items-center justify-end q-gutter-sm">
+            <q-btn label="Cancel" color="primary" flat />
+            <q-btn label="OK" color="primary" flat />
+          </div>
+        </q-date>
+
+        <q-date
           title="Title"
           subtitle="Subtitle"
           v-model="date"
@@ -48,7 +75,7 @@
         Null/Undefined model
         <q-btn outline color="primary" size="sm" label="Reset" @click="nullDate = null" />
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-date
           v-model="nullDate"
           v-bind="props"
@@ -67,7 +94,7 @@
       <div class="text-h6">
         Colored
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-date
           v-model="date"
           v-bind="props"
@@ -87,7 +114,7 @@
       <div class="text-h6">
         Events
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-date
           v-model="date"
           v-bind="props"
@@ -108,7 +135,7 @@
       <div class="text-h6">
         Limited options
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-date
           v-model="date"
           v-bind="props"
@@ -134,7 +161,7 @@
       <div class="text-h6">
         Default view
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-date
           v-model="date"
           v-bind="props"
@@ -153,7 +180,7 @@
       <div class="text-h6">
         Negative years: {{ dateNeg }}
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-date
           v-model="dateNeg"
           v-bind="props"
@@ -176,7 +203,7 @@
       <div class="text-h6 q-mt-xl q-mb-none">
         ParseFormat: {{ dateParse }}
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="mask" label="Mask" />
         <q-select :dark="dark" filled v-model="locale" label="Locale" :options="localeOptions" emit-value map-options clearable />
 
@@ -194,7 +221,7 @@
       <div class="text-h6">
         Input: {{ input }}
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="input" mask="date" :rules="['date']">
           <q-icon slot="append" name="event" class="cursor-pointer" @click.prevent>
             <q-popup-proxy>
@@ -211,7 +238,7 @@
       <div class="text-h6">
         Input with close on selection: {{ input }}
       </div>
-      <div class="q-gutter-md column">
+      <div class="q-gutter-md">
         <q-input :dark="dark" filled v-model="inputFull">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
@@ -310,7 +337,7 @@ const localeOptions = languages.map(lang => ({
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       disable: false,
       readonly: false,
       fullWidth: false,

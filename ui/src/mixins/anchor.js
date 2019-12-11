@@ -1,7 +1,7 @@
 import { clearSelection } from '../utils/selection.js'
 import { prevent, listenOpts } from '../utils/event.js'
-
-const { passive, notPassive } = listenOpts
+import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
+import { isKeyCode } from '../utils/key-composition.js'
 
 export default {
   props: {
@@ -16,7 +16,7 @@ export default {
   watch: {
     contextMenu (val) {
       if (this.anchorEl !== void 0) {
-        this.__unconfigureAnchorEl(!val)
+        this.__unconfigureAnchorEl()
         this.__configureAnchorEl(val)
       }
     },
@@ -62,24 +62,7 @@ export default {
     },
 
     __toggleKey (evt) {
-      if (evt !== void 0 && evt.keyCode === 13 && evt.qKeyEvent !== true) {
-        this.toggle(evt)
-      }
-    },
-
-    __mobileTouch (evt) {
-      this.__mobileCleanup(evt)
-
-      if (this.__showCondition(evt) !== true) {
-        return
-      }
-
-      this.hide(evt)
-      this.anchorEl.classList.add('non-selectable')
-
-      this.touchTimer = setTimeout(() => {
-        this.show(evt)
-      }, 300)
+      isKeyCode(evt, 13) === true && this.toggle(evt)
     },
 
     __mobileCleanup (evt) {
@@ -91,48 +74,61 @@ export default {
       }
     },
 
-    __unconfigureAnchorEl (context = this.contextMenu) {
-      if (this.anchorEl === void 0) {
+    __mobilePrevent: prevent,
+
+    __mobileTouch (evt) {
+      this.__mobileCleanup(evt)
+
+      if (this.__showCondition(evt) !== true) {
         return
       }
 
-      if (context === true) {
-        if (this.$q.platform.is.mobile === true) {
-          this.anchorEl.removeEventListener('touchstart', this.__mobileTouch, passive)
-          ;['touchcancel', 'touchmove', 'touchend'].forEach(evt => {
-            this.anchorEl.removeEventListener(evt, this.__mobileCleanup, passive)
-          })
-        }
-        else {
-          this.anchorEl.removeEventListener('click', this.hide, passive)
-          this.anchorEl.removeEventListener('contextmenu', this.__contextClick, notPassive)
-        }
-      }
-      else {
-        this.anchorEl.removeEventListener('click', this.toggle, passive)
-        this.anchorEl.removeEventListener('keyup', this.__toggleKey, passive)
-      }
+      this.hide(evt)
+      this.anchorEl.classList.add('non-selectable')
+
+      const target = getTouchTarget(evt.target)
+      addEvt(this, 'anchor', [
+        [ target, 'touchmove', '__mobileCleanup', 'passive' ],
+        [ target, 'touchend', '__mobileCleanup', 'passive' ],
+        [ target, 'touchcancel', '__mobileCleanup', 'passive' ],
+        [ this.anchorEl, 'contextmenu', '__mobilePrevent', 'notPassive' ]
+      ])
+
+      this.touchTimer = setTimeout(() => {
+        this.show(evt)
+      }, 300)
+    },
+
+    __unconfigureAnchorEl () {
+      cleanEvt(this, 'anchor')
     },
 
     __configureAnchorEl (context = this.contextMenu) {
       if (this.noParentEvent === true || this.anchorEl === void 0) { return }
 
+      let evts
+
       if (context === true) {
         if (this.$q.platform.is.mobile === true) {
-          this.anchorEl.addEventListener('touchstart', this.__mobileTouch, passive)
-          ;['touchcancel', 'touchmove', 'touchend'].forEach(evt => {
-            this.anchorEl.addEventListener(evt, this.__mobileCleanup, passive)
-          })
+          evts = [
+            [ this.anchorEl, 'touchstart', '__mobileTouch', 'passive' ]
+          ]
         }
         else {
-          this.anchorEl.addEventListener('click', this.hide, passive)
-          this.anchorEl.addEventListener('contextmenu', this.__contextClick, notPassive)
+          evts = [
+            [ this.anchorEl, 'click', 'hide', 'passive' ],
+            [ this.anchorEl, 'contextmenu', '__contextClick', 'notPassive' ]
+          ]
         }
       }
       else {
-        this.anchorEl.addEventListener('click', this.toggle, passive)
-        this.anchorEl.addEventListener('keyup', this.__toggleKey, passive)
+        evts = [
+          [ this.anchorEl, 'click', 'toggle', 'passive' ],
+          [ this.anchorEl, 'keyup', '__toggleKey', 'passive' ]
+        ]
       }
+
+      addEvt(this, 'anchor', evts)
     },
 
     __setAnchorEl (el) {
@@ -161,6 +157,19 @@ export default {
       else {
         this.anchorEl = void 0
       }
+    },
+
+    __changeScrollEvent (scrollTarget, fn) {
+      const fnProp = `${fn !== void 0 ? 'add' : 'remove'}EventListener`
+      const fnHandler = fn !== void 0 ? fn : this.__scrollFn
+
+      if (scrollTarget !== window) {
+        scrollTarget[fnProp]('scroll', fnHandler, listenOpts.passive)
+      }
+
+      window[fnProp]('scroll', fnHandler, listenOpts.passive)
+
+      this.__scrollFn = fn
     }
   },
 
@@ -191,9 +200,6 @@ export default {
     clearTimeout(this.touchTimer)
     this.noParentEventWatcher !== void 0 && this.noParentEventWatcher()
     this.__anchorCleanup !== void 0 && this.__anchorCleanup()
-
-    if (this.anchorEl !== void 0) {
-      this.__unconfigureAnchorEl()
-    }
+    this.__unconfigureAnchorEl()
   }
 }

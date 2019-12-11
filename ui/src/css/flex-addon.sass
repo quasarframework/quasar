@@ -192,7 +192,7 @@
         $noProcNotZero2: ($size2 > 0)
 
         @for $i from 0 through $flex-cols
-          $ic: quote($i)
+          $ic: quote('' + $i)
           $internal-size: toFixed(percentage($i / $flex-cols), 10000)
 
           #{str-fr('.row<name>', $name)}

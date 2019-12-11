@@ -146,6 +146,7 @@
         </div>
         <q-btn fab-mini outline color="negative" icon="undo" type="reset" class="on-right" title="Reset" @click="onClick" />
         <q-btn fab outline color="primary" icon="send" type="submit" class="on-right" title="Submit" @click="onClick" />
+        <q-btn fab outline color="primary" icon="send" type="a" class="on-right" title="Submit" @click="onClick" />
       </form>
 
       <form @submit.prevent="submit" class="shadow-2 q-pa-md q-my-sm row items-center">
@@ -162,6 +163,11 @@
         </div>
         <q-btn outline color="primary" label="Button" class="on-right" @click="onClick" />
       </form>
+
+      <div class="row" style="width: 150px; margin: 50px;">
+        <q-btn color="indigo" class="col-3" icon="search" to="test" />
+        <q-btn color="indigo" class="col-3" icon="search" />
+      </div>
     </div>
   </div>
 </template>

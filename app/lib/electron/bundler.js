@@ -6,7 +6,7 @@ const
   log = require('../helpers/logger')('app:electron-bundle')
 
 const versions = {
-  packager: '13.1.0',
+  packager: '14.1.1',
   builder: '21.0.0'
 }
 

@@ -11,6 +11,8 @@ q-card(flat bordered)
 
 <script>
 import PackageReleases from './PackageReleases'
+import { date } from 'quasar'
+const { extractDate } = date
 
 export default {
   name: 'QuasarReleases',
@@ -81,6 +83,7 @@ export default {
             prerelease: release.prerelease,
             url: release.html_url,
             createdAt: release.created_at,
+            formattedCreatedAt: extractDate(release.created_at, 'YYYY-MM-DD').toLocaleDateString(),
             key: `${packageName}v${version}`,
             version
           }

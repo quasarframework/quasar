@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/uploader"
+  },
+
   "props": {
     "label": {
       "type": "String",
@@ -126,7 +130,7 @@
     "url": {
       "type": [ "String", "Function" ],
       "desc": "URL or path to the server which handles the upload. Takes String or factory function, which returns String. Function is called right before upload; If using a function then for best performance, reference it from your scope and do not define it inline",
-      "examples": ["https://example.com/path", "files => `https://example.com?count=${files.length}`"],
+      "examples": [ "https://example.com/path", "files => `https://example.com?count=${files.length}`" ],
       "category": "upload"
     },
 

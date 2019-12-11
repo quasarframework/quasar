@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/img"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -7,10 +11,12 @@
     "src": {
       "type": "String",
       "desc": "Path to image",
+      "transformAssetUrls": true,
       "examples": [
-        "(statics folder) statics/img/something.png",
+        "(statics folder) src=\"statics/img/something.png\"",
+        "(assets folder) src=\"~assets/my-img.gif\"",
         "(relative path format) :src=\"require('./my_img.jpg')\"",
-        "(URL) https://some-site.net/some-img.gif"
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
       ],
       "category": "model"
     },
@@ -45,7 +51,13 @@
     "placeholder-src": {
       "type": "String",
       "desc": "While waiting for your image to load, you can use a placeholder image",
-      "examples": [ "https://some-site.net/some-placeholder.jpg" ],
+      "transformAssetUrls": true,
+      "examples": [
+        "(statics folder) src=\"statics/img/some-placeholder.png\"",
+        "(assets folder) src=\"~assets/my-placeholder.gif\"",
+        "(relative path format) :src=\"require('./placeholder.jpg')\"",
+        "(URL) src=\"https://placeimg.com/500/300/nature\""
+      ],
       "category": "model"
     },
 
@@ -82,6 +94,17 @@
     "transition": {
       "extends": "transition",
       "default": "fade"
+    },
+
+    "img-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the container of image; Does not apply to the caption",
+      "examples": [
+        "my-special-class",
+        ":img-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.4.0"
     },
 
     "spinner-color": {

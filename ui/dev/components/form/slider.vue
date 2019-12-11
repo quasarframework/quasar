@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : null">
-      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" />
+    <div class="q-layout-padding" :class="dark ? 'bg-black text-white' : ''">
+      <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
 
       <p class="caption">
@@ -15,6 +15,14 @@
       <q-slider :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" />
 
       <q-slider :dark="dark" :dense="dense" label-color="orange" label-text-color="black" v-model="standalone" :min="0" :max="50" label />
+
+      <p class="caption">
+        Reverse
+        <span class="label inline bg-secondary text-white">
+          Model <span class="right-detail"><em>{{ stepZero }}</em> &nbsp;&nbsp;(0 to 100)</span>
+        </span>
+      </p>
+      <q-slider :dark="dark" :dense="dense" v-model="stepZero" reverse />
 
       <p class="caption">
         Step 0
@@ -161,7 +169,7 @@
 export default {
   data () {
     return {
-      dark: false,
+      dark: null,
       dense: false,
 
       nullValue: null,

@@ -5,7 +5,7 @@ desc: A Quasar plugin to easily handle the meta tags of an app, helping you to a
 **Better SEO for your website!** The Meta plugin can dynamically change page title, manage `<meta>` tags, manage `<html>` and `<body>` DOM element attributes, add/remove/change `<style>` and `<script>` tags in the head of your document (useful for CDN stylesheets or for json-ld markup, for example), or manage `<noscript>` tags.
 
 ::: tip
-Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) builds**. It doesn't quite makes sense to use it for SPA (Single Page Applications) too since the meta information in this case will be added at run-time and not supplied directly by the webserver (as on SSR builds).
+Take full advantage of this feature by using it with **Quasar CLI**, especially **for the SSR (Server-Side Rendering) builds**. It doesn't quite make sense to use it for SPA (Single Page Applications) too since the meta information in this case will be added at run-time and not supplied directly by the webserver (as on SSR builds).
 :::
 
 ## Installation

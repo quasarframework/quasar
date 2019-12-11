@@ -1,3 +1,5 @@
+import { isSSR } from '../plugins/Platform.js'
+
 export function getAllChildren (vm, children = []) {
   vm.$children.forEach(function (child) {
     children.push(child)
@@ -25,4 +27,13 @@ export function isVmChildOf (childVm, parentVm) {
     }
   }
   return false
+}
+
+export function cache (vm, key, obj) {
+  if (isSSR === true) return obj
+
+  const k = `__qcache_${key}`
+  return vm[k] === void 0
+    ? (vm[k] = obj)
+    : vm[k]
 }

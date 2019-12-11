@@ -7,7 +7,7 @@ export default {
       type: Function,
       default (data, sortBy, descending) {
         const col = this.columns.find(def => def.name === sortBy)
-        if (col === null || col.field === void 0) {
+        if (col === void 0 || col.field === void 0) {
           return data
         }
 
@@ -73,18 +73,14 @@ export default {
         sortBy = col
         descending = false
       }
+      else if (this.binaryStateSort === true) {
+        descending = !descending
+      }
+      else if (descending === true) {
+        sortBy = null
+      }
       else {
-        if (this.binaryStateSort === true) {
-          descending = !descending
-        }
-        else {
-          if (descending === true) {
-            sortBy = null
-          }
-          else {
-            descending = true
-          }
-        }
+        descending = true
       }
 
       this.setPagination({ sortBy, descending, page: 1 })

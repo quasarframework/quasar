@@ -26,7 +26,7 @@
 export default {
   data () {
     return {
-      separator: 'horizontal',
+      separator: 'vertical',
 
       columns: [
         {

@@ -9,6 +9,7 @@ import {
 
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QSlider',
@@ -58,7 +59,10 @@ export default Vue.extend({
     },
 
     trackStyle () {
-      return { width: (100 * this.ratio) + '%' }
+      return {
+        [this.horizProp]: 0,
+        width: 100 * this.ratio + '%'
+      }
     },
 
     thumbStyle () {
@@ -68,9 +72,9 @@ export default Vue.extend({
     },
 
     thumbClass () {
-      return this.preventFocus === false && this.focus === true
-        ? 'q-slider--focus'
-        : null
+      if (this.preventFocus === false && this.focus === true) {
+        return 'q-slider--focus'
+      }
     },
 
     pinClass () {
@@ -120,7 +124,7 @@ export default Vue.extend({
       const ratio = getRatio(
         event,
         dragging,
-        this.$q.lang.rtl
+        this.isReversed
       )
 
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
@@ -168,7 +172,7 @@ export default Vue.extend({
       },
       class: this.classes,
       on: this.events,
-      directives: this.editable ? [{
+      directives: this.editable === true ? cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
@@ -178,11 +182,11 @@ export default Vue.extend({
           mouse: true,
           mouseAllDir: true
         }
-      }] : null
+      }]) : null
     }, [
       h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
         h('div', {
-          staticClass: 'q-slider__track absolute-full',
+          staticClass: 'q-slider__track absolute',
           style: this.trackStyle
         }),
 
@@ -201,7 +205,7 @@ export default Vue.extend({
       }, [
         h('svg', {
           staticClass: 'q-slider__thumb absolute',
-          attrs: { width: '21', height: '21' }
+          attrs: { focusable: 'false' /* needed for IE11 */, width: '21', height: '21' }
         }, [
           h('circle', {
             attrs: {

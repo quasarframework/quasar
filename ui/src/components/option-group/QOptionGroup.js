@@ -4,6 +4,10 @@ import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
 
+import DarkMixin from '../../mixins/dark.js'
+
+import { cache } from '../../utils/vm.js'
+
 const components = {
   radio: QRadio,
   checkbox: QCheckbox,
@@ -12,6 +16,8 @@ const components = {
 
 export default Vue.extend({
   name: 'QOptionGroup',
+
+  mixins: [ DarkMixin ],
 
   props: {
     value: {
@@ -31,7 +37,6 @@ export default Vue.extend({
 
     color: String,
     keepColor: Boolean,
-    dark: Boolean,
     dense: Boolean,
 
     leftLabel: Boolean,
@@ -83,13 +88,13 @@ export default Vue.extend({
           color: opt.color || this.color,
           checkedIcon: opt.checkedIcon,
           uncheckedIcon: opt.uncheckedIcon,
-          dark: opt.dark || this.dark,
+          dark: opt.dark || this.isDark,
           dense: this.dense,
           keepColor: opt.keepColor || this.keepColor
         },
-        on: {
+        on: cache(this, 'inp', {
           input: this.__update
-        }
+        })
       })
     ])))
   }

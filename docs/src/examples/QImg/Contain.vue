@@ -6,7 +6,7 @@
         style="max-width: 400px; height: 200px;"
         contain
       >
-        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
+        <div class="absolute-bottom text-subtitle1 text-center">
           Contain
         </div>
       </q-img>
@@ -15,7 +15,7 @@
         src="https://placeimg.com/500/300/nature"
         style="max-width: 400px; height: 200px;"
       >
-        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
+        <div class="absolute-bottom text-subtitle1 text-center">
           Default
         </div>
       </q-img>

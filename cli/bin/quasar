@@ -58,12 +58,11 @@ else {
     ]
 
     if (cmd) {
-      if (cmd.length === 1) {
-        const mapToCmd = {
-          i: 'info',
-          h: 'help'
-        }
-        cmd = mapToCmd[cmd]
+      if (cmd === '-h') {
+        cmd = 'help'
+      }
+      else if (cmd === 'i') {
+        cmd = 'info'
       }
 
       if (commands.includes(cmd)) {
@@ -90,6 +89,7 @@ else {
     else {
       cmd = 'help'
     }
+
     require(`./quasar-${cmd}`)
   }
 }

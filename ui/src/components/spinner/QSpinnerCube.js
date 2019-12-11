@@ -13,6 +13,7 @@ export default Vue.extend({
       class: this.classes,
       on: this.$listeners,
       attrs: {
+        focusable: 'false' /* needed for IE11 */,
         'width': this.cSize,
         'height': this.cSize,
         'xmlns': 'http://www.w3.org/2000/svg',

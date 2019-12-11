@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/field/__QField", "mixins/virtual-scroll" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/select"
+  },
+
   "props": {
     "value": {
       "type": [ "Number", "String", "Array" ],
@@ -19,7 +23,7 @@
     "display-value": {
       "type": [ "Number", "String" ],
       "desc": "Override default selection string, if not using 'selected' slot/scoped slot and if not using 'use-chips' prop",
-      "examples": [ "Options: x, y, z"],
+      "examples": [ "Options: x, y, z" ],
       "category": "selection"
     },
 
@@ -110,7 +114,7 @@
 
     "options-selected-class": {
       "type": "String",
-      "desc": "CSS class name for options that are active/selected",
+      "desc": "CSS class name for options that are active/selected; Set it to an empty string to stop applying the default (which is text-* where * is the 'color' prop value)",
       "examples": [ "text-orange" ],
       "category": "options"
     },
@@ -211,6 +215,10 @@
       ],
       "category": "style",
       "addedIn": "v1.1.7"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
     },
 
     "transition-show": {

@@ -33,6 +33,26 @@ this.$q.notify({...})
 If you define any actions, the notification will automatically be dismissed when the user picks it.
 :::
 
+### With caption
+
+<q-badge label="v1.5.5+" style="margin-bottom: 0" />
+
+<doc-example title="Caption" file="Notify/Caption" />
+
+### With icon or avatar
+
+<doc-example title="With icon" file="Notify/Icon" />
+
+<doc-example title="With avatar" file="Notify/Avatar" />
+
+### With actions
+
+<doc-example title="With actions" file="Notify/Actions" />
+
+### Multiline
+
+<doc-example title="Multiline" file="Notify/Multiline" />
+
 ### Positioning
 
 <doc-example title="Positioning & different options" file="Notify/Positioning" />
@@ -64,7 +84,17 @@ First we create the boot file. Let's name it "notify-defaults.js".
 
 ```bash
 $ quasar new boot notify-defaults
-# we then add 'notify-defaults' to quasar.conf.js > boot Array
+```
+
+Add the created notify-defaults.js file to the boot array in `quasar.conf.js`:
+
+```js
+module.exports = function(ctx) {
+  return {
+    // ...
+    boot: ['notify-defaults'],
+    // ...
+  }
 ```
 
 We then edit the newly created `/src/boot/notify-defaults.js`:

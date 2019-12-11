@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white">
+  <div>
     <div class="q-layout-padding q-mx-auto" style="max-width: 600px;">
       <p class="caption">
         Explore the possibilities
@@ -41,6 +41,8 @@
           expand-separator
           icon="perm_identity"
           label="With a model and events - decoupled"
+          expand-icon="text_rotation_down"
+          expanded-icon="text_rotate_up"
         >
           <q-card>
             <q-card-section>
