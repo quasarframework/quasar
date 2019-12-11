@@ -41,6 +41,7 @@ export default {
           }
 
           if (this.$listeners['row-click'] !== void 0) {
+            data.staticClass += ' cursor-pointer'
             data.on = {
               click: evt => {
                 this.$emit('row-click', evt, scope.row)
