@@ -24,7 +24,8 @@
     "no-hover": {
       "type": "Boolean",
       "desc": "Disable hover effect",
-      "addedIn": "v1.5.9"
+      "addedIn": "v1.5.9",
+      "category": "style"
     }
   },
 
