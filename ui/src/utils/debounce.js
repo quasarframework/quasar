@@ -18,9 +18,9 @@ export default function (fn, wait = 250, immediate) {
     timeout = setTimeout(later, wait)
   }
 
-  debounced.cancel = function () {
+  debounced.cancel = () => {
     clearTimeout(timeout)
-  }.bind(debounced) // eslint-disable-line
+  }
 
   return debounced
 }
