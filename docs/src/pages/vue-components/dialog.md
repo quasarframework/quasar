@@ -24,7 +24,16 @@ When the user hits the phone/tablet back button (only for Cordova apps), the Dia
 <doc-installation components="QDialog" directives="ClosePopup" />
 
 ## Usage
+
+::: warning Note
+It's best that your QDialog main content is a QCard. However, if you are planning on using any other component (like QForm) or tag, make sure that the direct child of QDialog is rendered with a `<div>` tag (or wrap it with one yourself).
+:::
+
+### Basic
+
 <doc-example title="Basic" file="QDialog/Basic" />
+
+### Styling
 
 <doc-example title="Styling" file="QDialog/Style" />
 

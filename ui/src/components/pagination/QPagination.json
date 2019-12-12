@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/pagination"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -36,6 +40,12 @@
 
     "text-color": {
       "extends": "text-color"
+    },
+
+    "dark": {
+      "extends": "dark",
+      "desc": "Notify the component that the background is a dark color (useful when you are using it along with the 'input' prop)",
+      "addedIn": "v1.4.2"
     },
 
     "input-style": {
@@ -86,7 +96,7 @@
         }
       },
       "returns": {
-        "type": ["Object", "String"],
+        "type": [ "Object", "String" ],
         "desc": "Object or String that can be passed to a <router-link> as `to` parameter",
         "__exemption": [ "examples" ]
       },

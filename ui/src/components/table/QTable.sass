@@ -59,7 +59,7 @@
 
   &__title
     font-size: 20px
-    letter-spacing: 0.005em
+    letter-spacing: .005em
     font-weight: 400
 
   &__separator
@@ -161,7 +161,7 @@
     transition: transform $table-transition
 
     &--selected
-      transform: scale(0.95)
+      transform: scale(.95)
 
 /*
  * Separators
@@ -232,7 +232,7 @@
     tr.selected td:after
       content: ''
 
-body.desktop .q-table tbody tr:hover td:before
+body.desktop .q-table > tbody > tr:not(.q-tr--no-hover):hover > td:not(.q-td--no-hover):before
   content: ''
 
 /*
@@ -246,11 +246,12 @@ body.desktop .q-table tbody tr:hover td:before
   .q-table__bottom, thead, tr, th, td
     border-color: $table-dark-border-color
 
-  tbody td
-    &:before
-      background: $table-dark-hover-background
-    &:after
-      background: $table-dark-selected-background
+  tbody
+    td
+      &:before
+        background: $table-dark-hover-background
+      &:after
+        background: $table-dark-selected-background
 
   &.q-table--vertical-separator, &.q-table--cell-separator
     .q-table__top

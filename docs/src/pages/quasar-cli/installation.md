@@ -7,8 +7,20 @@ Make sure you have Node >=8 and NPM >=5 installed on your machine.
 
 ```bash
 # Node.js >= 8.9.0 is required.
+
+$ yarn global add @quasar/cli
+# or
 $ npm install -g @quasar/cli
 ```
+
+::: tip
+If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
+
+```bash
+# in ~/.bashrc or equivalent
+export PATH="$(yarn global bin):$PATH"
+```
+:::
 
 Then we create a project folder with Quasar CLI:
 
@@ -37,7 +49,7 @@ Example of adding a few npm scripts into your `package.json`:
 }
 ```
 
-The above will allow you to run `$ yarn dev` or `$yarn build` without the need of a globally installed `@quasar/cli`, should you wish to do so.
+The above will allow you to run `$ yarn dev` or `$ yarn build` without the need of a globally installed `@quasar/cli`, should you wish to do so.
 
 Alternatively, you can even use [npx](https://github.com/npm/npx) to run quasar commands without the need of a globally installed `@quasar/cli`.
 

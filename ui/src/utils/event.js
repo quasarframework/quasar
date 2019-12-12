@@ -131,12 +131,16 @@ export function create (name, { bubbles = false, cancelable = false } = {}) {
     return new Event(name, { bubbles, cancelable })
   }
   catch (e) {
-    // IE doesn't support `new Event()`, so...`
+    // IE doesn't support `new Event()`, so...
     const evt = document.createEvent('Event')
     evt.initEvent(name, bubbles, cancelable)
     return evt
   }
 }
+
+/*
+ * also update /types/utils/event.d.ts
+ */
 
 export default {
   listenOpts,

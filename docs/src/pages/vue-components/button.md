@@ -16,15 +16,28 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 <doc-installation components="QBtn" />
 
 ## Usage
+
+### Standard
+
 <doc-example title="Standard buttons" file="QBtn/Standard" />
+
+### Custom colors
 
 <doc-example title="Custom colors" file="QBtn/CustomColor" />
 
-<doc-example title="With icons" file="QBtn/WithIcons" />
+### With icon
+
+<doc-example title="With icon" file="QBtn/WithIcons" />
+
+### Round
 
 <doc-example title="Round buttons" file="QBtn/Round" />
 
+### Custom content
+
 <doc-example title="Custom content" file="QBtn/CustomContent" />
+
+<doc-example title="Truncate label" file="QBtn/TruncateLabel" />
 
 ### Design
 

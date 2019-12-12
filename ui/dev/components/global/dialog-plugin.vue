@@ -5,7 +5,10 @@
         <q-toggle v-model="dark" label="Dark" :false-value="null" />
         <q-btn label="Alert" flat color="primary" @click="alert" />
         <q-btn label="Alert - custom" flat color="primary" @click="alertCustom" />
-        <q-btn label="Confirm" flat color="primary" @click="confirm" />
+        <q-btn label="Confirm" flat color="primary" @click="confirm()" />
+        <q-btn label="Confirm (ok)" flat color="primary" @click="confirm('ok')" />
+        <q-btn label="Confirm (cancel)" flat color="primary" @click="confirm('cancel')" />
+        <q-btn label="Confirm (none)" flat color="primary" @click="confirm('none')" />
         <q-btn label="Prompt" flat color="primary" @click="prompt" />
         <q-btn label="Radio Options" flat color="primary" @click="radio" />
         <q-btn label="Checkbox Options" flat color="primary" @click="checkbox" />
@@ -155,7 +158,7 @@ export default {
       })
     },
 
-    confirm () {
+    confirm (focus) {
       this.dialogHandler = this.$q.dialog({
         title: 'Confirm',
         message: 'Would you like to turn on the wifi?',
@@ -167,6 +170,7 @@ export default {
           push: true,
           color: 'negative'
         },
+        focus,
         persistent: true,
         dark: this.dark
       }).onOk(() => {

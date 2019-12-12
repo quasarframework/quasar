@@ -17,13 +17,13 @@ To learn how to use them, please visit the [Visibility](/style/visibility) page.
 
 You might also want to take a look at the [Introduction to Flexbox](/layout/grid/introduction-to-flexbox#Responsive-Design) on the "Responsive Design" section.
 
-### Stylus
+### Sass and Stylus
 
 You can also use the breakpoints in Stylus:
 
 ```
-@media (max-width $breakpoint-xs-max)
-  font-size 10px
+@media (max-width: $breakpoint-xs-max)
+  font-size: 10px
 ```
 
 The syntax for these variables is shown below, where `<breakpoint>` is to be replaced by "xs", "sm", "md", "lg" or "xl":
@@ -38,4 +38,16 @@ There's also:
 ```
 $sizes.<breakpoint>
 // replace <breakpoint> with xs, sm, md, lg or xl
+```
+
+Starting with **Quasar v1.5.3+**, [if enabled (only)](/options/screen-plugin#How-to-enable-body-classes), you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen-xl`.
+
+```css
+// v1.5.3+
+
+.my-div
+  body.screen-xs &
+    color: #000
+  body.screen-sm &
+    color: #fff
 ```

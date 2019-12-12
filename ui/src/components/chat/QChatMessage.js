@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import slot from '../../utils/slot.js'
+import { uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QChatMessage',
@@ -75,7 +75,7 @@ export default Vue.extend({
     },
 
     __getMessage (h) {
-      const content = slot(this, 'default', [])
+      const content = uniqueSlot(this, 'default', [])
 
       if (this.stamp !== void 0) {
         content.push(

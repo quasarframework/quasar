@@ -3,7 +3,8 @@ import Vue from 'vue'
 import TouchSwipe from '../directives/TouchSwipe.js'
 
 import { stop } from '../utils/event.js'
-import slot from '../utils/slot.js'
+import { slot } from '../utils/slot.js'
+import { cache } from '../utils/vm.js'
 
 const PanelWrapper = Vue.extend({
   name: 'QTabPanelWrapper',
@@ -14,9 +15,7 @@ const PanelWrapper = Vue.extend({
       attrs: { role: 'tabpanel' },
       // stop propagation of content emitted @input
       // which would tamper with Panel's model
-      on: {
-        input: stop
-      }
+      on: cache(this, 'stop', { input: stop })
     }, slot(this, 'default'))
   }
 })
@@ -218,7 +217,7 @@ export const PanelParentMixin = {
             attrs: { role: 'tabpanel' },
             // stop propagation of content emitted @input
             // which would tamper with Panel's model
-            on: { input: stop }
+            on: cache(this, 'stop', { input: stop })
           }, [ panel ])
         ]
 

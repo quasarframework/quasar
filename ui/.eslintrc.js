@@ -10,7 +10,7 @@ module.exports = {
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/strongly-recommended',
+    'plugin:vue/essential',
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
     'standard'
   ],
@@ -34,6 +34,12 @@ module.exports = {
     'vue/require-v-for-key': 'off',
     'vue/return-in-computed-property': 'off',
     'vue/require-render-return': 'off',
+    'vue/singleline-html-element-content-newline': 'off',
+    'vue/no-side-effects-in-computed-properties': 'off',
+    'vue/return-in-computed-property': 'off',
+    'vue/array-bracket-spacing': 'off',
+    'vue/object-curly-spacing': 'off',
+    'vue/script-indent': 'off',
 
     // allow async-await
     'generator-star-spacing': 'off',

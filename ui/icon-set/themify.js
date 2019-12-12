@@ -67,7 +67,7 @@ export default {
     hr: 'ti-minus',
     undo: 'ti-share-alt',
     redo: 'ti-share',
-    header: 'ti-paragraph',
+    heading: 'ti-paragraph',
     code: 'code',
     size: 'ti-smallcap',
     font: 'font_download',

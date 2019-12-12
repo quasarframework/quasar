@@ -89,7 +89,8 @@ If you have a Fontawesome 5 Pro license and want to use it instead of the Fontaw
 1. Open the [Linked Accounts section](https://fontawesome.com/account) in Fontawesome's user account page to grab the npm TOKENID (login if necessary).
 2. Create or append TOKENID into the `.npmrc` file  (file path same as package.json):
   ```
-  @fortawesome:registry=https://npm.fontawesome.com/TOKENID
+  @fortawesome:registry=https://npm.fontawesome.com/
+  //npm.fontawesome.com/:_authToken=TOKENID
   ```
 3. Install Fontawesome webfonts:
   ```bash

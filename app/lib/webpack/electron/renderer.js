@@ -4,9 +4,15 @@ const
   injectHotUpdate = require('../inject.hot-update')
 
 module.exports = function (chain, cfg) {
+  const nodeIntegration = cfg.electron.nodeIntegration === true
+
+  injectHtml(chain, cfg)
+  injectClientSpecifics(chain, cfg)
+  injectHotUpdate(chain, cfg)
+
   if (cfg.ctx.build) {
     chain.output
-      .libraryTarget('commonjs2')
+      .libraryTarget(nodeIntegration ? 'var' : 'commonjs2')
   }
 
   chain.node
@@ -15,17 +21,15 @@ module.exports = function (chain, cfg) {
       __filename: cfg.ctx.dev
     })
 
-  chain.resolve.extensions
-    .add('.node')
+  if (nodeIntegration) {
+    chain.resolve.extensions
+      .add('.node')
 
-  chain.target('electron-renderer')
+    chain.target('electron-renderer')
 
-  chain.module.rule('node')
-    .test(/\.node$/)
-    .use('node-loader')
-      .loader('node-loader')
-
-  injectHtml(chain, cfg)
-  injectClientSpecifics(chain, cfg)
-  injectHotUpdate(chain, cfg)
+    chain.module.rule('node')
+      .test(/\.node$/)
+      .use('node-loader')
+        .loader('node-loader')
+  }
 }

@@ -191,17 +191,30 @@ The best way to start upgrading your project is to follow these steps:
 
 16) **Remove** the global Legacy Quasar `quasar-cli` and **install** the new `@quasar/cli`. (You will still be able to run legacy 0.17 projects with it)
 
-**Remove** global Quasar CLI
+**Remove** global Quasar CLI (use Yarn or NPM, depending with which you've installed it in the first place):
 
 ```bash
+$ yarn global remove quasar-cli
+# or (depending on what you've installed it with)
 $ npm remove -g quasar-cli
 ```
 
 **Install** global Quasar CLI
 
 ```bash
+$ yarn global add @quasar/cli
+# or
 $ npm install -g @quasar/cli
 ```
+
+::: tip
+If you are using Yarn, make sure that the Yarn [global install location](https://yarnpkg.com/lang/en/docs/cli/global/) is in your PATH:
+
+```bash
+# in ~/.bashrc or equivalent
+export PATH="$(yarn global bin):$PATH"
+```
+:::
 
 17) Last, but not least, do a sanity check with `quasar info`:
 

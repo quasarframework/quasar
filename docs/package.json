@@ -10,12 +10,12 @@
     "dev": "quasar dev",
     "dev:ssr": "quasar dev -m ssr",
     "build": "quasar build -m ssr",
-    "deploy": "yarn build && cd dist/quasar.dev && now --public --prod -V 1 && now alias `pbpaste` quasar.dev",
+    "deploy": "yarn build && cd dist/quasar.dev && now --public -V 1 && now alias `pbpaste` quasar.dev",
     "lint": "eslint --ext .js,.vue src",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.1.2",
+    "@quasar/extras": "^1.0.0",
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
     "quasar": "^1.0.0",

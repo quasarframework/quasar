@@ -369,6 +369,8 @@
         Various tests
       </div>
 
+      <q-input v-bind="props" v-model="undef" label="Model undefined" />
+
       <q-input :hide-hint="hideHint" :disable="disable" :readonly="readonly" :prefix="prefix" :suffix="suffix" filled v-model="events" label="Events" @input="onInput" @focus="onFocus" @blur="onBlur">
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="events = ''" class="cursor-pointer" />
@@ -459,6 +461,7 @@ export default {
       rows: '6',
 
       text: '',
+      undef: void 0,
       events: '',
       debounced: '',
 

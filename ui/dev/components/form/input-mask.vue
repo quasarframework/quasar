@@ -74,6 +74,32 @@
         label="Masked input"
         :input-class="{ 'text-right': fillRight }"
       />
+
+      <pre>
+        Variable mask 1: {{ variableMask1 }} - {{ variableMaskValue1 }}
+        Variable mask 2: {{ variableMask2 }} - {{ variableMaskValue2 }}
+        Variable mask 3: {{ variableMask3 }} - {{ variableMaskValue3 }}
+      </pre>
+      <q-input
+        v-model="variableMaskValue1"
+        filled
+        label="Variable mask (put 8 on second position) - no fill mask"
+        :mask="variableMask1"
+      />
+      <q-input
+        v-model="variableMaskValue2"
+        filled
+        label="Variable mask (put 8 on second position) - fill mask SPACE"
+        :mask="variableMask2"
+        fill-mask=" "
+      />
+      <q-input
+        v-model="variableMaskValue3"
+        filled
+        label="Variable mask (put 8 on second position) - fill mask #"
+        :mask="variableMask3"
+        fill-mask="#"
+      />
     </div>
   </div>
 </template>
@@ -91,6 +117,9 @@ export default {
       text7: '',
       text8: '',
       text9: '',
+      variableMaskValue1: '',
+      variableMaskValue2: '',
+      variableMaskValue3: '',
 
       // mask: '(###) ###S - (###)',
       mask: '#.##',
@@ -106,6 +135,33 @@ export default {
   computed: {
     fillMaskComp () {
       return this.fillMask === false ? false : this.fillMaskText
+    },
+
+    variableMask1 () {
+      if (this.variableMaskValue1[1] === '8' || (this.variableMaskValue1[1] === '.' && this.variableMaskValue1[2] === '8')) {
+        return '#.###.###'
+      }
+      else {
+        return '###.#.###'
+      }
+    },
+
+    variableMask2 () {
+      if (this.variableMaskValue2[1] === '8' || (this.variableMaskValue2[1] === '.' && this.variableMaskValue2[2] === '8')) {
+        return '#.###.###'
+      }
+      else {
+        return '###.#.###'
+      }
+    },
+
+    variableMask3 () {
+      if (this.variableMaskValue3[1] === '8' || (this.variableMaskValue3[1] === '.' && this.variableMaskValue3[2] === '8')) {
+        return '#.###.###'
+      }
+      else {
+        return '###.#.###'
+      }
     }
   }
 }

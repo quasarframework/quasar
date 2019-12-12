@@ -1,10 +1,11 @@
 import Vue from 'vue'
 
-import QScrollObserver from '../observer/QScrollObserver.js'
-import QResizeObserver from '../observer/QResizeObserver.js'
+import QScrollObserver from '../scroll-observer/QScrollObserver.js'
+import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import { onSSR } from '../../plugins/Platform.js'
 import { getScrollbarWidth } from '../../utils/scroll.js'
-import slot from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QLayout',
@@ -93,6 +94,10 @@ export default Vue.extend({
           width: `calc(100% + ${this.scrollbarWidth}px)`
         }
       }
+    },
+
+    totalWidth () {
+      return this.width + this.scrollbarWidth
     }
   },
 
@@ -105,23 +110,22 @@ export default Vue.extend({
       staticClass: 'q-layout q-layout--' +
         (this.container === true ? 'containerized' : 'standard'),
       style: this.style
-    }, [
+    }, mergeSlot([
       h(QScrollObserver, {
-        on: { scroll: this.__onPageScroll }
+        on: cache(this, 'scroll', { scroll: this.__onPageScroll })
       }),
+
       h(QResizeObserver, {
-        on: { resize: this.__onPageResize }
+        on: cache(this, 'resizeOut', { resize: this.__onPageResize })
       })
-    ].concat(
-      slot(this, 'default')
-    ))
+    ], this, 'default'))
 
     return this.container === true
       ? h('div', {
         staticClass: 'q-layout-container overflow-hidden'
       }, [
         h(QResizeObserver, {
-          on: { resize: this.__onContainerResize }
+          on: cache(this, 'resizeIn', { resize: this.__onContainerResize })
         }),
         h('div', {
           staticClass: 'absolute-full',

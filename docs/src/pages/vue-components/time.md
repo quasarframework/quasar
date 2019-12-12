@@ -103,7 +103,9 @@ More info: [QInput](/vue-components/input).
 
 ### With additional buttons
 
-<q-badge label="v1.2.8+" /> You can use the default slot for adding buttons:
+<q-badge label="v1.2.8+" />
+
+You can use the default slot for adding buttons:
 
 <doc-example title="With additional buttons" file="QTime/AdditionalButtons" overflow />
 

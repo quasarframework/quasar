@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/size" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/avatar"
+  },
+
   "behavior": {
     "$listeners": true
   },

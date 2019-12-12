@@ -13,7 +13,10 @@ const
   appFilesValidations = require('./app-files-validations'),
   extensionRunner = require('./app-extension/extensions-runner'),
   supportIE = require('./helpers/support-ie'),
-  cssVariables = require('./helpers/css-variables')
+  cssVariables = require('./helpers/css-variables'),
+  getDevlandFile = require('./helpers/get-devland-file')
+
+const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -180,6 +183,7 @@ class QuasarConfig {
       },
       build: {
         transpileDependencies: [],
+        transformAssetUrls: {},
         stylusLoaderOptions: {},
         sassLoaderOptions: {},
         scssLoaderOptions: {},
@@ -215,9 +219,7 @@ class QuasarConfig {
     }, this.quasarConfigFunction(this.ctx))
 
     if (cfg.framework === void 0 || cfg.framework === 'all') {
-      cfg.framework = {
-        all: true
-      }
+      cfg.framework = { all: true }
     }
     if (!cfg.framework.components) {
       cfg.framework.components = []
@@ -331,18 +333,20 @@ class QuasarConfig {
       this.oldConfigSnapshot = newConfigSnapshot
     }
 
+    // make sure these exist
+    cfg.__needsAppMountHook = false
+    cfg.__vueDevtools = false
+
     // make sure it exists
     cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
 
-    cfg.vendor.add = cfg.vendor.add.filter(v => v).join('|')
-    if (cfg.vendor.add) {
-      cfg.vendor.add = new RegExp(cfg.vendor.add)
-    }
+    cfg.vendor.add = cfg.vendor.add.length > 0
+      ? new RegExp(cfg.vendor.add.filter(v => v).join('|'))
+      : void 0
 
-    cfg.vendor.remove = cfg.vendor.remove.filter(v => v).join('|')
-    if (cfg.vendor.remove) {
-      cfg.vendor.remove = new RegExp(cfg.vendor.remove)
-    }
+    cfg.vendor.remove = cfg.vendor.remove.length > 0
+      ? new RegExp(cfg.vendor.remove.filter(v => v).join('|'))
+      : void 0
 
     if (cfg.css.length > 0) {
       cfg.css = cfg.css.filter(_ => _)
@@ -376,6 +380,13 @@ class QuasarConfig {
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
 
     cfg.build = merge({
+      transformAssetUrls: Object.assign({
+        video: ['src', 'poster'],
+        source: 'src',
+        img: 'src',
+        image: ['xlink:href', 'href'],
+        use: ['xlink:href', 'href']
+      }, transformAssetUrls),
       showProgress: true,
       scopeHoisting: true,
       productName: this.pkg.productName,
@@ -557,6 +568,7 @@ class QuasarConfig {
 
     if (this.ctx.dev) {
       const originalBefore = cfg.devServer.before
+      const openInEditor = require('launch-editor-middleware')
 
       cfg.devServer = merge({
         publicPath: cfg.build.publicPath,
@@ -587,9 +599,24 @@ class QuasarConfig {
             }
           }
 
+          app.use('/__open-in-editor', openInEditor(void 0, appPaths.appDir))
+
           originalBefore && originalBefore(app)
         }
       })
+
+      if (this.ctx.vueDevtools === true || cfg.devServer.vueDevtools === true) {
+        cfg.__needsAppMountHook = true
+        cfg.__vueDevtools = {
+          host: cfg.devServer.host === '0.0.0.0' ? 'localhost' : cfg.devServer.host,
+          port: 8098
+        }
+      }
+
+      // make sure the prop is not supplied to webpack dev server
+      if (cfg.devServer.hasOwnProperty('vueDevtools')) {
+        delete cfg.devServer.vueDevtools
+      }
 
       if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
         cfg.devServer.open = false
@@ -739,17 +766,23 @@ class QuasarConfig {
       'process.env': cfg.build.env
     }
 
-    if (this.ctx.mode.electron && this.ctx.dev) {
-      cfg.build.env.__statics = `"${appPaths.resolve.src('statics').replace(/\\/g, '\\\\')}"`
-    }
-
     appFilesValidations(cfg)
 
     if (this.ctx.mode.electron) {
-      if (this.ctx.prod) {
+      if (this.ctx.dev) {
+        cfg.electron = merge({
+          nodeIntegration: true
+        }, cfg.electron)
+
+        if (cfg.electron.nodeIntegration) {
+          cfg.build.env.__statics = `"${appPaths.resolve.src('statics').replace(/\\/g, '\\\\')}"`
+        }
+      }
+      else {
         const bundler = require('./electron/bundler')
 
         cfg.electron = merge({
+          nodeIntegration: true,
           packager: {
             asar: true,
             icon: appPaths.resolve.electron('icons/icon'),
@@ -820,6 +853,10 @@ class QuasarConfig {
 
         bundler.ensureInstall(cfg.electron.bundler)
       }
+    }
+
+    if (this.ctx.capacitor && cfg.capacitor.hideSplashscreen !== false) {
+      cfg.__needsAppMountHook = true
     }
 
     cfg.__html = {

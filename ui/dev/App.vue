@@ -1,15 +1,14 @@
 <template>
   <div id="q-app">
-    <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in" :duration="300" @leave="resetScroll">
-      <router-view />
-    </transition>
+    <router-view />
+
     <q-card
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
       class="rounded-borders shadow-4 fixed"
     >
       <q-btn dense flat size="sm" icon="visibility" @click="showSelector = !showSelector" class="absolute-top-right z-top" />
       <template v-if="showSelector">
-        <q-toggle :value="$q.dark.isActive" @input="val => { $q.dark.set(val) }" :label="`Dark Mode (${$q.dark.mode})`" />
+        <q-toggle :value="$q.dark.isActive" @input="$q.dark.toggle" :label="`Dark Mode (${$q.dark.mode})`" />
 
         <q-btn dense flat size="sm" :icon="lang === 'he' ? 'navigate_before' : 'navigate_next'" @click="lang = lang === 'en-us' ? 'he' : 'en-us'" class="absolute-bottom-right z-top" />
         <q-select
@@ -52,7 +51,7 @@
 <script>
 
 // eslint-disable-next-line no-unused-vars
-import { Dark } from 'quasar'
+import Quasar, { Dark } from 'quasar'
 
 import Vue from 'vue'
 import languages from '../lang/index.json'
@@ -98,6 +97,7 @@ export default {
   },
   mounted () {
     window.$q = this.$q
+    window.Quasar = Quasar
     /*
     this.$nextTick(() => {
       Dark.set(false)

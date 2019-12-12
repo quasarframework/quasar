@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/quasar-plugins/web-storage"
+  },
+
   "methods": {
     "has": {
       "desc": "Check if storage item exists",

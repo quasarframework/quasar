@@ -5,12 +5,12 @@ import TouchPan from '../../directives/TouchPan.js'
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [34, 37, 40, 33, 39, 38]
 
-export function getRatio (evt, dragging, rtl) {
+export function getRatio (evt, dragging, reverse) {
   const
     pos = position(evt),
     val = between((pos.left - dragging.left) / dragging.width, 0, 1)
 
-  return rtl ? 1.0 - val : val
+  return reverse === true ? 1.0 - val : val
 }
 
 export function getModel (ratio, min, max, step, decimals) {
@@ -63,6 +63,8 @@ export let SliderMixin = {
     markers: Boolean,
     snap: Boolean,
 
+    reverse: Boolean,
+
     disable: Boolean,
     readonly: Boolean,
     tabindex: [String, Number]
@@ -79,6 +81,7 @@ export let SliderMixin = {
   computed: {
     classes () {
       return `q-slider q-slider--${this.active === true ? '' : 'in'}active` +
+        (this.isReversed === true ? ' q-slider--reversed' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
         (this.disable === true ? ' disabled' : '') +
         (this.editable === true ? ' q-slider--editable' : '') +
@@ -111,8 +114,12 @@ export let SliderMixin = {
       return this.editable === true ? this.tabindex || 0 : -1
     },
 
+    isReversed () {
+      return this.reverse !== (this.$q.lang.rtl === true)
+    },
+
     horizProp () {
-      return this.$q.lang.rtl === true ? 'right' : 'left'
+      return this.isReversed === true ? 'right' : 'left'
     }
   },
 

@@ -6,13 +6,12 @@ import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
-import { listenOpts } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { addEvt, cleanEvt, getTouchTarget } from '../../utils/touch.js'
+import { clearSelection } from '../../utils/selection.js'
+import { slot } from '../../utils/slot.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
-
-const { passive } = listenOpts
 
 export default Vue.extend({
   name: 'QTooltip',
@@ -97,6 +96,7 @@ export default Vue.extend({
 
     __anchorCleanup () {
       this.__unconfigureScrollTarget()
+      cleanEvt(this, 'tooltipTemp')
     },
 
     updatePosition () {
@@ -123,7 +123,17 @@ export default Vue.extend({
     },
 
     __delayShow (evt) {
-      this.$q.platform.is.mobile === true && document.body.classList.add('non-selectable')
+      if (this.$q.platform.is.mobile === true) {
+        clearSelection()
+        document.body.classList.add('non-selectable')
+
+        const target = getTouchTarget(this.anchorEl)
+        const evts = ['touchmove', 'touchcancel', 'touchend', 'click']
+          .map(e => ([ target, e, '__delayHide', 'passiveCapture' ]))
+
+        addEvt(this, 'tooltipTemp', evts)
+      }
+
       this.__setTimeout(() => {
         this.show(evt)
       }, this.delay)
@@ -131,67 +141,49 @@ export default Vue.extend({
 
     __delayHide (evt) {
       this.__clearTimeout()
-      this.$q.platform.is.mobile === true && document.body.classList.remove('non-selectable')
-      this.hide(evt)
-    },
 
-    __unconfigureAnchorEl () {
-      if (this.anchorEl === void 0) {
-        return
-      }
-
-      // mobile hover ref https://stackoverflow.com/a/22444532
       if (this.$q.platform.is.mobile === true) {
-        this.anchorEl.removeEventListener('touchstart', this.__delayShow, passive)
-        ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
-          this.anchorEl.removeEventListener(evt, this.__delayHide, passive)
-        })
-      }
-      else {
-        this.anchorEl.removeEventListener('mouseenter', this.__delayShow, passive)
+        cleanEvt(this, 'tooltipTemp')
+        clearSelection()
+        // delay needed otherwise selection still occurs
+        setTimeout(() => {
+          document.body.classList.remove('non-selectable')
+        }, 10)
       }
 
-      if (this.$q.platform.is.ios !== true) {
-        this.anchorEl.removeEventListener('mouseleave', this.__delayHide, passive)
-      }
+      this.hide(evt)
     },
 
     __configureAnchorEl () {
       if (this.noParentEvent === true || this.anchorEl === void 0) { return }
 
-      // mobile hover ref https://stackoverflow.com/a/22444532
-      if (this.$q.platform.is.mobile) {
-        this.anchorEl.addEventListener('touchstart', this.__delayShow, passive)
-        ;['touchcancel', 'touchmove', 'click'].forEach(evt => {
-          this.anchorEl.addEventListener(evt, this.__delayHide, passive)
-        })
-      }
-      else {
-        this.anchorEl.addEventListener('mouseenter', this.__delayShow, passive)
-      }
+      const evts = this.$q.platform.is.mobile === true
+        ? [
+          [ this.anchorEl, 'touchstart', '__delayShow', 'passive' ]
+        ]
+        : [
+          [ this.anchorEl, 'mouseenter', '__delayShow', 'passive' ],
+          [ this.anchorEl, 'mouseleave', '__delayHide', 'passive' ]
+        ]
 
-      if (this.$q.platform.is.ios !== true) {
-        this.anchorEl.addEventListener('mouseleave', this.__delayHide, passive)
-      }
+      addEvt(this, 'anchor', evts)
     },
 
     __unconfigureScrollTarget () {
       if (this.scrollTarget !== void 0) {
-        this.scrollTarget.removeEventListener('scroll', this.hide, passive)
+        this.__changeScrollEvent(this.scrollTarget)
         this.scrollTarget = void 0
       }
-      window.removeEventListener('scroll', this.updatePosition, passive)
     },
 
     __configureScrollTarget () {
       if (this.anchorEl !== void 0) {
         this.scrollTarget = getScrollTarget(this.anchorEl)
-        if (this.noParentEvent !== true) {
-          this.scrollTarget.addEventListener('scroll', this.hide, passive)
-        }
-        if (this.noParentEvent === true || this.scrollTarget !== window) {
-          window.addEventListener('scroll', this.updatePosition, passive)
-        }
+        const fn = this.noParentEvent === true
+          ? this.updatePosition
+          : this.hide
+
+        this.__changeScrollEvent(this.scrollTarget, fn)
       }
     },
 

@@ -1,14 +1,15 @@
 import QBtn from '../btn/QBtn.js'
-import QBtnDropdown from '../btn/QBtnDropdown.js'
+import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
 import QInput from '../input/QInput.js'
 import QIcon from '../icon/QIcon.js'
 import QTooltip from '../tooltip/QTooltip.js'
-import QList from '../list/QList.js'
-import QItem from '../list/QItem.js'
-import QItemSection from '../list/QItemSection.js'
+import QList from '../item/QList.js'
+import QItem from '../item/QItem.js'
+import QItemSection from '../item/QItemSection.js'
 
 import { prevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 function run (e, btn, vm) {
   if (btn.handler) {
@@ -229,16 +230,20 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
   return def
 }
 
-export function getLinkEditor (h, vm) {
+export function getLinkEditor (h, vm, ie11) {
   if (vm.caret) {
     const color = vm.toolbarColor || vm.toolbarTextColor
     let link = vm.editLinkUrl
     const updateLink = () => {
       vm.caret.restore()
+
       if (link !== vm.editLinkUrl) {
         document.execCommand('createLink', false, link === '' ? ' ' : link)
       }
+
       vm.editLinkUrl = null
+
+      ie11 === true && vm.$nextTick(vm.__onInput)
     }
 
     return [
@@ -256,6 +261,10 @@ export function getLinkEditor (h, vm) {
         on: {
           input: val => { link = val },
           keydown: event => {
+            if (shouldIgnoreKey(event) === true) {
+              return
+            }
+
             switch (event.keyCode) {
               case 13: // ENTER key
                 prevent(event)
@@ -286,6 +295,8 @@ export function getLinkEditor (h, vm) {
               vm.caret.restore()
               document.execCommand('unlink')
               vm.editLinkUrl = null
+
+              ie11 === true && vm.$nextTick(vm.__onInput)
             }
           }
         }),

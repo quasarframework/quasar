@@ -7,7 +7,5 @@ module.exports = function (pkgName, folder = appPaths.appDir) {
       paths: [ folder ]
     })
   }
-  catch (e) {
-    return null
-  }
+  catch (e) {}
 }

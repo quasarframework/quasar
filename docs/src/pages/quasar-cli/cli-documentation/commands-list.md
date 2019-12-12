@@ -114,7 +114,7 @@ $ quasar dev -h
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -125,6 +125,15 @@ $ quasar dev -h
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
+    --ide, -i        Open IDE (Android Studio / XCode) instead of letting Cordova
+                        booting up the emulator, in which case the "--emulator"
+                        param will have no effect
+
+    --devtools, -d   Open remote Vue Devtools
+
+    Only for Capacitor mode:
+    --target, -T     (required) App target
+                        [android|ios]
 ```
 
 The Quasar development server allows you to develop your App by compiling and maintaining code in-memory. A web server will serve your App while offering hot-reload out of the box. Running in-memory offers faster rebuilds when you change your code.
@@ -210,10 +219,12 @@ $ quasar build -h
     $ quasar build -m ios -- some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                      - Capacitor
+                        [android|ios]
                       - Electron with default "electron-packager" bundler (default: yours)
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
@@ -222,10 +233,15 @@ $ quasar build -h
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
     --debug, -d     Build for debugging purposes
-    --skip-pkg, -s  Build only UI (skips creating Cordova/Electron executables)
+    --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
+                      - Capacitor (it only fills in /src/capacitor/www folder with the UI code)
                       - Electron (it only creates the /dist/electron/UnPackaged folder)
     --help, -h      Displays this message
+
+    ONLY for Cordova and Capacitor mode:
+    --ide, -i       Open IDE (Android Studio / XCode) instead of finalizing with a
+                    terminal/console-only build
 
     ONLY for Electron mode:
     --bundler, -b   Bundler (electron-packager or electron-builder)
@@ -371,6 +387,9 @@ $ quasar describe -h
     $ quasar describe QIcon -f si
     # filtering only props by "co":
     $ quasar describe QIcon -p -f co
+
+    # Open docs URL:
+    $ quasar describe QIcon -d
 
   Options
     --filter, -f <filter> Filters the API
@@ -535,26 +554,32 @@ $ quasar serve -h
     control is yielded to /index.js and params have no effect.
 
   Options
-    --port, -p             Port to use (default: 8080)
-    --hostname, -H         Address to use (default: 0.0.0.0)
-    --gzip, -g             Compress content (default: true)
-    --silent, -s           Supress log message
-    --colors               Log messages with colors (default: true)
-    --open, -o             Open browser window after starting
-    --cache, -c <number>   Cache time (max-age) in seconds;
-                           Does not apply to /service-worker.js
-                           (default: 86400 - 24 hours)
-    --micro, -m <seconds>  Use micro-cache (default: 1 second)
-    --history              Use history api fallback;
-                           All requests fallback to index.html
-    --https                Enable HTTPS
-    --cert, -C [path]      Path to SSL cert file (Optional)
-    --key, -K [path]       Path to SSL key file (Optional)
-    --proxy <file.js>      Proxy specific requests defined in file;
-                           File must export Array ({ path, rule })
-                           See example below. "rule" is defined at:
-                           https://github.com/chimurai/http-proxy-middleware
-    --help, -h             Displays this message
+    --port, -p              Port to use (default: 4000)
+    --hostname, -H          Address to use (default: 0.0.0.0)
+    --gzip, -g              Compress content (default: true)
+    --silent, -s            Suppress log message
+    --colors                Log messages with colors (default: true)
+    --open, -o              Open browser window after starting
+    --cache, -c <number>    Cache time (max-age) in seconds;
+                            Does not apply to /service-worker.js
+                            (default: 86400 - 24 hours)
+    --micro, -m <seconds>   Use micro-cache (default: 1 second)
+
+    --history               Use history api fallback;
+                              All requests fallback to /index.html,
+                              unless using "--index" parameter
+    --index, -i <file>      History mode (only!) index url path
+                              (default: index.html)
+
+    --https                 Enable HTTPS
+    --cert, -C [path]       Path to SSL cert file (Optional)
+    --key, -K [path]        Path to SSL key file (Optional)
+    --proxy <file.js>       Proxy specific requests defined in file;
+                            File must export Array ({ path, rule })
+                            See example below. "rule" is defined at:
+                            https://github.com/chimurai/http-proxy-middleware
+    --cors                  Enable CORS for all requests
+    --help, -h              Displays this message
 
   Proxy file example
     module.exports = [

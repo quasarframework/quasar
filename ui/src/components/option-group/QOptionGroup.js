@@ -6,6 +6,8 @@ import QToggle from '../toggle/QToggle.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
+import { cache } from '../../utils/vm.js'
+
 const components = {
   radio: QRadio,
   checkbox: QCheckbox,
@@ -90,9 +92,9 @@ export default Vue.extend({
           dense: this.dense,
           keepColor: opt.keepColor || this.keepColor
         },
-        on: {
+        on: cache(this, 'inp', {
           input: this.__update
-        }
+        })
       })
     ])))
   }

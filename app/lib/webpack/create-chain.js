@@ -93,12 +93,7 @@ module.exports = function (cfg, configName) {
       compilerOptions: {
         preserveWhitespace: false
       },
-      transformAssetUrls: {
-        video: 'src',
-        source: 'src',
-        img: 'src',
-        image: 'xlink:href'
-      }
+      transformAssetUrls: cfg.build.transformAssetUrls
     })
 
   chain.module.rule('babel')
@@ -152,6 +147,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `img/[name]${fileHash}.[ext]`
       })
@@ -161,6 +157,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `fonts/[name]${fileHash}.[ext]`
       })
@@ -170,6 +167,7 @@ module.exports = function (cfg, configName) {
     .use('url-loader')
       .loader('url-loader')
       .options({
+        esModule: false,
         limit: 10000,
         name: `media/[name]${fileHash}.[ext]`
       })
@@ -203,6 +201,48 @@ module.exports = function (cfg, configName) {
   chain.performance
     .hints(false)
     .maxAssetSize(500000)
+
+  if (configName !== 'Server') {
+    const
+      add = cfg.vendor.add,
+      rem = cfg.vendor.remove,
+      regex = /[\\/]node_modules[\\/]/
+
+    chain.optimization
+      .splitChunks({
+        cacheGroups: {
+          vendors: {
+            name: 'vendor',
+            chunks: 'all',
+            priority: -10,
+            // a module is extracted into the vendor chunk if...
+            test: add !== void 0 || rem !== void 0
+              ? module => {
+                if (module.resource) {
+                  if (add !== void 0 && add.test(module.resource)) { return true }
+                  if (rem !== void 0 && rem.test(module.resource)) { return false }
+                }
+                return regex.test(module.resource)
+              }
+              : module => regex.test(module.resource)
+          },
+          common: {
+            name: `chunk-common`,
+            minChunks: 2,
+            priority: -20,
+            chunks: 'all',
+            reuseExistingChunk: true
+          }
+        }
+      })
+
+    // extract webpack runtime and module manifest to its own file in order to
+    // prevent vendor hash from being updated whenever app bundle is updated
+    if (cfg.build.webpackManifest) {
+      chain.optimization.runtimeChunk('single')
+    }
+  }
+
 
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
@@ -240,45 +280,6 @@ module.exports = function (cfg, configName) {
         ])
 
     if (configName !== 'Server') {
-      const
-        add = cfg.vendor.add,
-        rem = cfg.vendor.remove,
-        regex = /[\\/]node_modules[\\/]/
-
-      chain.optimization
-        .splitChunks({
-          cacheGroups: {
-            vendors: {
-              name: 'vendor',
-              chunks: 'initial',
-              priority: -10,
-              // a module is extracted into the vendor chunk if...
-              test: add.length > 0 || rem.length > 0
-                ? module => {
-                  if (module.resource) {
-                    if (add.length > 0 && add.test(module.resource)) { return true }
-                    if (rem.length > 0 && rem.test(module.resource)) { return false }
-                  }
-                  return regex.test(module.resource)
-                }
-                : module => regex.test(module.resource)
-            },
-            common: {
-              name: `chunk-common`,
-              minChunks: 2,
-              priority: -20,
-              chunks: 'initial',
-              reuseExistingChunk: true
-            }
-          }
-        })
-
-      // extract webpack runtime and module manifest to its own file in order to
-      // prevent vendor hash from being updated whenever app bundle is updated
-      if (cfg.build.webpackManifest) {
-        chain.optimization.runtimeChunk('single')
-      }
-
       // copy statics to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
       chain.plugin('copy-webpack')

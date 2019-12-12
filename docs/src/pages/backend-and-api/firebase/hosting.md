@@ -1,4 +1,4 @@
 ---
 title: Hosting
-desc: Firebase Hosting instrcutions for the Quasar framework.
+desc: Firebase Hosting instructions for the Quasar framework.
 ---

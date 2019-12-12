@@ -67,7 +67,90 @@
       />
 
       <p class="caption">
-        Inside of a List
+        Inside a Label
+      </p>
+      <div class="column q-gutter-y-sm">
+        <div class="row q-col-gutter-x-sm">
+          <label class="col">
+            <q-radio v-model="option" val="opt1" color="orange" label="Radio Opt 1 - own label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          </label>
+          <label class="col">
+            <q-radio v-model="option" val="opt2" color="orange" label="Radio Opt 2 - own label" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          </label>
+        </div>
+
+        <q-separator />
+
+        <div class="row q-col-gutter-x-sm">
+          <label tabindex="0" class="col">
+            <q-radio v-model="option" val="opt1" color="orange" label="Radio Opt 1 - own label (tabindex)" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          </label>
+          <label tabindex="0" class="col">
+            <q-radio v-model="option" val="opt2" color="orange" label="Radio Opt 2 - own label (tabindex)" :dark="dark" :dense="dense" :keep-color="keepColor" />
+          </label>
+        </div>
+
+        <q-separator />
+
+        <div class="row q-col-gutter-x-sm">
+          <label class="col">
+            <q-radio v-model="option" val="opt1" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+            Radio Opt 1 - external label
+          </label>
+          <label class="col">
+            <q-radio v-model="option" val="opt2" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+            Radio Opt 2 - external label
+          </label>
+        </div>
+
+        <q-separator />
+
+        <div class="row q-col-gutter-x-sm">
+          <label tabindex="0" class="col">
+            <q-radio v-model="option" val="opt1" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+            Radio Opt 1 - external label (tabindex)
+          </label>
+          <label tabindex="0" class="col">
+            <q-radio v-model="option" val="opt2" color="orange" :dark="dark" :dense="dense" :keep-color="keepColor" />
+            Radio Opt 2 - external label (tabindex)
+          </label>
+        </div>
+
+        <q-separator />
+
+        <div class="row q-col-gutter-x-sm">
+          <q-field v-model="option" label="Radio Opt 1 field" stack-label :dark="dark" :dense="dense" class="col">
+            <template v-slot:control="{ id, value, emitValue }">
+              <q-radio
+                :for="id"
+                :value="value"
+                val="opt1"
+                @input="emitValue"
+                color="orange"
+                :dark="dark"
+                :dense="dense"
+                :keep-color="keepColor"
+              />
+            </template>
+          </q-field>
+          <q-field v-model="option" label="Radio Opt 2 field" stack-label :dark="dark" :dense="dense" class="col">
+            <template v-slot:control="{ value, emitValue }">
+              <q-radio
+                :value="value"
+                val="opt2"
+                @input="emitValue"
+                color="orange"
+                :dark="dark"
+                :dense="dense"
+                :keep-color="keepColor"
+              />
+            </template>
+          </q-field>
+        </div>
+      </div>
+
+      <p class="caption">
+        Inside a List
       </p>
       <q-list :dark="dark" :dense="dense">
         <q-item tag="label">

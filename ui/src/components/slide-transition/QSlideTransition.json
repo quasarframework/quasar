@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/slide-transition"
+  },
+
   "props": {
     "appear": {
       "type": "Boolean",
@@ -14,7 +18,7 @@
       "category": "behavior"
     }
   },
-  
+
   "slots": {
     "default": {
       "desc": "This is where content goes"

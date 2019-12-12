@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/virtual-scroll" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/virtual-scroll"
+  },
+
   "props": {
     "type": {
       "type": "String",
@@ -22,11 +26,11 @@
     },
 
     "items-size": {
-      "type": [ "String", "Number"],
+      "type": "Number",
       "desc": "Number of available items in the list; Required and used only if 'itemsFn' is provided",
       "default": "void 0",
       "examples": [
-        "items-size=\"100000\"",
+        ":items-size=\"100000\"",
         ":items-size=\"500\""
       ],
       "category": "content"

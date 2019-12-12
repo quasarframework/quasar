@@ -20,8 +20,8 @@ function getMatch (userAgent, platformMatch) {
     /(webkit)[\/]([\w.]+)/.exec(userAgent) ||
     /(opera)(?:.*version|)[\/]([\w.]+)/.exec(userAgent) ||
     /(msie) ([\w.]+)/.exec(userAgent) ||
-    userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent) ||
-    userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent) ||
+    (userAgent.indexOf('trident') >= 0 && /(rv)(?::| )([\w.]+)/.exec(userAgent)) ||
+    (userAgent.indexOf('compatible') < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec(userAgent)) ||
     []
 
   return {
@@ -180,7 +180,7 @@ function getPlatform (userAgent) {
   browser.platform = matched.platform
 
   if (isSSR === false) {
-    if (window.process && window.process.versions && window.process.versions.electron) {
+    if (userAgent.indexOf('electron') > -1) {
       browser.electron = true
     }
     else if (document.location.href.indexOf('-extension://') > -1) {

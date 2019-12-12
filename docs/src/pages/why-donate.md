@@ -1,6 +1,6 @@
 ---
 title: Why Donate?
-desc: Quasar Team's manifest on why it is essential to donate towards the development of the framework.
+desc: Quasar Team's manifesto on why it is essential to donate towards the development of the framework.
 components:
   - sponsors-and-backers/DonatingButtons
 ---
@@ -9,7 +9,7 @@ Quasar Framework is an MIT-licensed open-source project maintained by Razvan Sto
 
 Like most open source products, Quasar can't do it alone. We rely on *sponsors, backers and supporters* to keep things going. When Quasar starts to bring you some financial stability, please be considerate of the tens of thousands of hours that went into its creation and send some money back to the team that made it possible. And finally, if your company relies on Quasar, the best way to guarantee that Quasar continues to be there for you is to invest in its maintenance!
 
-## Our Manifest
+## Our Manifesto
 
 The dream of open source is a noble cause, where communities grow and code is nurtured. In line with the philosophy of Free Open Source, Quasar has committed itself to the tenets of Good Labs' [![Greater-Good Affirmation](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation).
 

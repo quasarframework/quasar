@@ -20,6 +20,7 @@ export default Vue.extend({
       class: this.classes,
       on: this.$listeners,
       attrs: {
+        focusable: 'false' /* needed for IE11 */,
         'width': this.cSize,
         'height': this.cSize,
         'viewBox': '25 25 50 50'

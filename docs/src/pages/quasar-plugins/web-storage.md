@@ -39,6 +39,17 @@ this.$q.sessionStorage.set(key, value)
 let value = this.$q.sessionStorage.getItem(key)
 ```
 
+For a bulletproof approach when setting a value, it's best to also catch any potential errors raised by the underlying Local/Session Storage Web API, like when exceeding quota:
+
+```js
+try {
+  this.$q.localStorage.set(key, value)
+} catch (e) {
+  // data wasn't successfully saved due to
+  // a Web Storage API error
+}
+```
+
 ::: tip
 For an exhaustive list of methods, please check the API section.
 :::

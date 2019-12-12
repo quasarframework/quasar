@@ -4,38 +4,12 @@ const
 
 const
   appPaths = require('./app-paths'),
-  logger = require('./helpers/logger')
+  logger = require('./helpers/logger'),
+  openBrowser = require('./helpers/open-browser')
   log = logger('app:dev-server'),
   warn = logger('app:dev-server', 'red')
 
 let alreadyNotified = false
-
-function openBrowser (url, opts) {
-  const open = require('open')
-
-  const openDefault = () => {
-    log('Opening default browser at ' + url)
-    log()
-    open(url, { wait: true, url: true }).catch(() => {
-      warn(`⚠️  Failed to open default browser`)
-      warn()
-    })
-  }
-
-  if (opts) {
-    log('Opening browser at ' + url + ' with options: ' + opts)
-    log()
-    open(url, { app: opts, wait: true, url: true }).catch(() => {
-      warn(`⚠️  Failed to open specific browser`)
-      warn()
-      openDefault()
-    })
-  }
-  else {
-    openDefault()
-  }
-}
-
 module.exports = class DevServer {
   constructor (quasarConfig) {
     this.quasarConfig = quasarConfig
@@ -76,7 +50,7 @@ module.exports = class DevServer {
         alreadyNotified = true
 
         if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
         }
       })
     })
@@ -307,7 +281,7 @@ module.exports = class DevServer {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
         if (cfg.__devServer.open) {
-          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
         }
       })
     })

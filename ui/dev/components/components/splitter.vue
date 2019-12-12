@@ -7,6 +7,7 @@
       <q-toggle v-model="disable" label="Disable" />
       <q-toggle v-model="funkyLimits" label="Funky limits" />
       <q-toggle v-model="showSeparator" label="Show separator" />
+      <q-toggle v-model="emitImmediately" label="Emit immediately" />
       <q-input
         v-model="model"
         standout
@@ -33,6 +34,7 @@
       :unit="modelUnit"
       :limits="limits"
       :disable="disable"
+      :emit-immediately="emitImmediately"
 
       class="q-mt-md"
       style="height: 700px; border: 1px solid black"
@@ -75,6 +77,7 @@
       :unit="modelUnit"
       :limits="limits"
       :disable="disable"
+      :emit-immediately="emitImmediately"
 
       class="q-mt-md stylish-splitter"
       separator-class="bg-deep-orange"
@@ -182,7 +185,8 @@ export default {
       modelUnit: '%',
       funkyLimits: false,
       disable: false,
-      showSeparator: true
+      showSeparator: true,
+      emitImmediately: false
     }
   },
 

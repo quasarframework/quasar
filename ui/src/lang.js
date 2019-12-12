@@ -28,7 +28,7 @@ export default {
     this.set = (lang = langEn) => {
       lang.set = this.set
       lang.getLocale = this.getLocale
-      lang.rtl = lang.rtl || false
+      lang.rtl = lang.rtl === true || false
 
       if (isSSR === false) {
         const el = document.documentElement
