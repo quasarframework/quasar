@@ -3,6 +3,7 @@ const
   webpack = require('webpack'),
   WebpackChain = require('webpack-chain'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
+  hash = require('hash-sum'),
   WebpackProgress = require('./plugin.progress'),
   BootDefaultExport = require('./plugin.boot-default-export')
 
@@ -244,6 +245,39 @@ module.exports = function (cfg, configName) {
   }
 
 
+  const chunkName = (name, h) => path.basename(
+    name.resource.replace(/\?.*$/, '')
+  ) + `_${h}`
+
+  chain.plugin('named-chunks')
+    .use(webpack.NamedChunksPlugin, [
+      cfg.ctx.dev
+        ? chunk => {
+          if (chunk.name) return chunk.name
+
+          const h = hash(
+            Array.from(chunk.modulesIterable, m => m.id).join('_')
+          )
+
+          if (chunk.entryModule && chunk.entryModule.rawRequest) {
+            return chunkName(chunk.entryModule, h)
+          }
+
+          if (chunk._modules) {
+            const m = chunk._modules.entries().next().value[0]
+            if (m.resource) {
+              return chunkName(m, h)
+            }
+          }
+
+          return h
+        }
+        : chunk => chunk.name || hash(
+          Array.from(chunk.modulesIterable, m => m.id).join('_')
+        )
+    ])
+
+
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
     const
@@ -268,16 +302,6 @@ module.exports = function (cfg, configName) {
       .use(webpack.HashedModuleIdsPlugin, [{
         hashDigest: 'hex'
       }])
-
-    // keep chunk ids stable so async chunks have consistent hash
-    const hash = require('hash-sum')
-    chain
-      .plugin('named-chunks')
-        .use(webpack.NamedChunksPlugin, [
-          chunk => chunk.name || hash(
-            Array.from(chunk.modulesIterable, m => m.id).join('_')
-          )
-        ])
 
     if (configName !== 'Server') {
       // copy statics to dist folder

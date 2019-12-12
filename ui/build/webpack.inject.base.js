@@ -2,7 +2,8 @@ const
   path = require('path'),
   VueLoaderPlugin = require('vue-loader/lib/plugin'),
   FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
-  webpack = require('webpack')
+  webpack = require('webpack'),
+  hash = require('hash-sum')
 
 const
   env = require('./env'),
@@ -131,6 +132,32 @@ module.exports = function (chain) {
     .use(FriendlyErrorsPlugin, [{
       clearConsole: true
     }])
+
+  const chunkName = (name, h) => path.basename(name.resource.replace(/\?.*$/, '')) + `_${h}`
+
+  chain.plugin('named-chunks')
+    .use(webpack.NamedChunksPlugin, [
+      chunk => {
+        if (chunk.name) return chunk.name
+
+        const h = hash(
+          Array.from(chunk.modulesIterable, m => m.id).join('_')
+        )
+
+        if (chunk.entryModule && chunk.entryModule.rawRequest) {
+          return chunkName(chunk.entryModule, h)
+        }
+
+        if (chunk._modules) {
+          const m = chunk._modules.entries().next().value[0]
+          if (m.resource) {
+            return chunkName(m, h)
+          }
+        }
+
+        return h
+      }
+    ])
 
   chain.plugin('webpack-progress')
     .use(webpack.ProgressPlugin)
