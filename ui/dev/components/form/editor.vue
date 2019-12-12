@@ -77,8 +77,8 @@
     <q-editor
       ref="editor"
       class="bg-grey"
-      max-height="300px"
-      v-model="model"
+      max-height="100px"
+      v-model="modelScroll"
       :flat="flat"
       :square="square"
       :dense="dense"
@@ -193,7 +193,8 @@ export default {
       push: false,
       outline: false,
       rounded: false,
-      model: 'Editor in <a href="http://quasar.dev">Quasar</a></div><div>Second line'
+      model: 'Editor in <a href="http://quasar.dev">Quasar</a></div><div>Second line',
+      modelScroll: 'Editor in <a href="http://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line'
     }
   },
   watch: {
