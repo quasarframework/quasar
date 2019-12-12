@@ -37,7 +37,7 @@ chain.plugin('hot-module-replacement')
   .use(webpack.HotModuleReplacementPlugin)
 
 chain.plugin('friendly-errors')
-  .init((Plugin, args) => new Plugin({
+  .init(Plugin => new Plugin({
     compilationSuccessInfo: {
       messages: [
         `Running SPA with Quasar v${env.quasarVersion} at ${env.uri}\n`
