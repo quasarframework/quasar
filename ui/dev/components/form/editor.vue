@@ -61,6 +61,12 @@
         }]
       ]"
     />
+
+    <div class="caption bg-yellow">
+      Model
+    </div>
+    <div>{{ model }}</div>
+
     <br><br><br>
 
     <q-select
@@ -177,7 +183,7 @@
     <div class="caption bg-yellow">
       Model
     </div>
-    <div>{{ model }}</div>
+    <div>{{ modelScroll }}</div>
   </div>
 </template>
 
