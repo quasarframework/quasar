@@ -103,28 +103,6 @@ module.exports = function (chain) {
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
 
-  chain.optimization
-    .splitChunks({
-      cacheGroups: {
-        vendors: {
-          name: 'vendor',
-          chunks: 'all',
-          priority: -10,
-          // a module is extracted into the vendor chunk if...
-          test: /[\\/]node_modules[\\/]/
-        },
-        common: {
-          name: `chunk-common`,
-          minChunks: 2,
-          priority: -20,
-          chunks: 'all',
-          reuseExistingChunk: true
-        }
-      }
-    })
-
-  chain.optimization.runtimeChunk('single')
-
   chain.performance
     .hints(false)
     .maxAssetSize(1000000)

@@ -49,6 +49,28 @@ chain.plugin('friendly-errors')
 chain.optimization
   .namedModules(true) // HMR shows filenames in console on update
 
+chain.optimization
+  .splitChunks({
+    cacheGroups: {
+      vendors: {
+        name: 'vendor',
+        chunks: 'all',
+        priority: -10,
+        // a module is extracted into the vendor chunk if...
+        test: /[\\/]node_modules[\\/]/
+      },
+      common: {
+        name: `chunk-common`,
+        minChunks: 2,
+        priority: -20,
+        chunks: 'all',
+        reuseExistingChunk: true
+      }
+    }
+  })
+
+chain.optimization.runtimeChunk('single')
+
 const webpackConfig = chain.toConfig()
 
 // tap entries for HMR
