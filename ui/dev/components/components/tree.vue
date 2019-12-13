@@ -4,7 +4,7 @@
       <div>
         <div class="row q-gutter-sm items-center">
           <div class="col-xs-12 col-md-4">
-            <q-select v-model="tickStrategy" :options="[
+            <q-select v-model="tickStrategy" map-options emit-value :options="[
               {label: 'None', value: 'none'},
               {label: 'Leaf', value: 'leaf'},
               {label: 'Leaf Filtered', value: 'leaf-filtered'},
@@ -16,6 +16,7 @@
             <q-toggle v-model="accordion" label="Accordion mode" />
             <q-toggle v-model="dark" label="On dark background" :false-value="null" />
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
+            <q-toggle v-model="noConnectors" label="No connectors" />
           </div>
           <div class="col-xs-12 col-md-4">
             <q-input v-model="filter" label="Filter" />
@@ -49,6 +50,7 @@
           :accordion="accordion"
           :color="color"
           :filter="filter"
+          :no-connectors="noConnectors"
           @lazy-load="onLazyLoad"
         >
           <!--
@@ -117,6 +119,7 @@ export default {
     */
 
     return {
+      noConnectors: false,
       selected: null,
       tickStrategy: 'leaf',
       ticked: [
@@ -133,7 +136,8 @@ export default {
         'Node parent - untickable unticked child',
         'Node parent - all untickable ticked children',
         'Node parent - all untickable unticked children',
-        'Node parent - all untickable mix ticked children'
+        'Node parent - all untickable mix ticked children',
+        'Node child - 5 - disabled'
       ],
       selectableNodes: true,
       dark: null,
@@ -360,15 +364,6 @@ export default {
           ]
         },
         {
-          label: 'Node parent - all untickable unticked children',
-          children: [
-            {
-              label: 'Node child - 4 - disabled',
-              disabled: true
-            }
-          ]
-        },
-        {
           label: 'Node parent - all untickable mix ticked children',
           children: [
             {
@@ -378,6 +373,25 @@ export default {
             {
               label: 'Node child - 4 - enabled - untickable',
               tickable: false
+            }
+          ]
+        },
+        {
+          label: 'Node parent - all untickable unticked children',
+          children: [
+            {
+              label: 'Node child - 5 - disabled',
+              disabled: true,
+              children: [
+                {
+                  label: 'Node child - 5.1 - disabled',
+                  disabled: true
+                },
+                {
+                  label: 'Node child - 5.2 - enabled - untickable',
+                  tickable: false
+                }
+              ]
             }
           ]
         }
