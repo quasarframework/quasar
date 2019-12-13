@@ -1,50 +1,18 @@
 import { StringDictionary } from "./ts-helpers";
 
-export type QuasarLanguageCodes =
-  | "ar"
-  | "bg"
-  | "ca"
-  | "cs"
-  | "da"
-  | "de"
-  | "el"
-  | "en-gb"
-  | "en-us"
-  | "eo"
-  | "es"
-  | "fa-ir"
-  | "fi"
-  | "fr"
-  | "gn"
-  | "he"
-  | "hr"
-  | "hu"
-  | "id"
-  | "it"
-  | "ja"
-  | "km"
-  | "ko-kr"
-  | "lu"
-  | "lv"
-  | "ml"
-  | "ms"
-  | "nb-no"
-  | "nl"
-  | "pl"
-  | "pt-br"
-  | "pt"
-  | "ro"
-  | "ru"
-  | "sk"
-  | "sl"
-  | "sr"
-  | "sv"
-  | "th"
-  | "tr"
-  | "uk"
-  | "vi"
-  | "zh-hans"
-  | "zh-hant";
+/*
+  `QuasarLanguageCodes` is a discriminated union of available languages iso codes.
+  That list is generated at build-time based on `lang/index.json`
+    (itself generated at build time, but before TS typings).
+  We need its reference to be defined **before** build-time because
+    it's used by the framework configuration.
+  This empty interface is filled at build-time thanks to interface merging,
+    it allows `QuasarLanguageCodes` to exist (with value `never`) before build
+    and to have the right value when referenced by the end-user.
+*/
+export interface QuasarLanguageCodesHolder {}
+
+export type QuasarLanguageCodes = keyof QuasarLanguageCodesHolder;
 
 type QuasarLanguageGeneralLabel =
   | "clear"
