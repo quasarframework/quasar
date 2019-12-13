@@ -38,9 +38,9 @@ build: {
     chain.module.rule('eslint')
       .test(/\.(js|vue)$/)
       .enforce('pre')
-       .exclude
-          .add((/[\\/]node_modules[\\/]/))
-          .end()
+      .exclude
+        .add((/[\\/]node_modules[\\/]/))
+        .end()
       .use('eslint-loader')
         .loader('eslint-loader')
   }
