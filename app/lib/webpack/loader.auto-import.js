@@ -1,7 +1,9 @@
+const stringifyRequest = require('loader-utils/lib/stringifyRequest')
 const getDevlandFile = require('../helpers/get-devland-file')
 
 const data = getDevlandFile('quasar/dist/babel-transforms/auto-import.json')
 const importTransform = getDevlandFile('quasar/dist/babel-transforms/imports.js')
+const runtimePath = require.resolve('./runtime.auto-import.js')
 
 const compRegex = {
   '?kebab': new RegExp(data.regex.kebabComponents || data.regex.components, 'g'),
@@ -81,12 +83,12 @@ module.exports = function (content) {
         ? content.indexOf('/* hot reload */')
         : -1
 
-      const code =
+      const code = `\nimport qInstall from ${stringifyRequest(this, runtimePath)}` +
         (hasComp === true
-          ? `\n${compImport}\ncomponent.options.components = Object.assign({${comp}}, component.options.components)\n`
+          ? `\n${compImport}\nqInstall(component, 'components', {${comp}})\n`
           : '') +
         (hasDir === true
-          ? `\n${dirImport}\ncomponent.options.directives = Object.assign({${dir}}, component.options.directives)\n`
+          ? `\n${dirImport}\nqInstall(component, 'directives', {${dir}})\n`
           : '')
 
       return index === -1
