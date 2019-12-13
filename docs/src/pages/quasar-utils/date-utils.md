@@ -46,7 +46,7 @@ let formattedString = date.formatDate(timeStamp, 'YYYY-MM-DDTHH:mm:ss.SSSZ')
 For i18n, you can use a third parameter:
 
 ```js
-let formattedString = date.formatDate(timesStamp, 'MMMM - dddd', {
+let formattedString = date.formatDate(timeStamp, 'MMMM - dddd', {
   days: ['Duminica', 'Luni', /* and all the rest of days - remember starting with Sunday */],
   daysShort: ['Dum', 'Lun', /* and all the rest of days - remember starting with Sunday */],
   months: ['Ianuarie', 'Februarie', /* and all the rest of months */],
