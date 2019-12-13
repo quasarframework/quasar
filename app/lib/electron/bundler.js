@@ -29,6 +29,13 @@ function installBundler (bundlerName) {
     { cwd: appPath.appDir },
     () => warn(`⚠️  Failed to install electron-${bundlerName}`)
   )
+
+  spawnSync(
+    nodePackager,
+    nodePackager === 'npm' ? [ 'install' ] : [],
+    { cwd: appPath.appDir },
+    () => warn(`⚠️  Failed to install dependencies`)
+  )
 }
 
 function bundlerIsInstalled (bundlerName) {
