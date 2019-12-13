@@ -104,6 +104,12 @@
   &--dark .q-tree__node-header-content
     color: #fff
 
+  &--no-connectors
+    .q-tree__node:after,
+    .q-tree__node-header:before,
+    .q-tree__node-body:after
+      display: none !important
+
 [dir=rtl]
   .q-tree__arrow
     transform: rotate3d(0, 0, 1, 180deg) /* rtl:ignore */

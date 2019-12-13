@@ -16,6 +16,7 @@
             <q-toggle v-model="accordion" label="Accordion mode" />
             <q-toggle v-model="dark" label="On dark background" :false-value="null" />
             <q-toggle v-model="selectableNodes" label="Selectable nodes" />
+            <q-toggle v-model="noConnectors" label="No connectors" />
           </div>
           <div class="col-xs-12 col-md-4">
             <q-input v-model="filter" label="Filter" />
@@ -49,6 +50,7 @@
           :accordion="accordion"
           :color="color"
           :filter="filter"
+          :no-connectors="noConnectors"
           @lazy-load="onLazyLoad"
         >
           <!--
@@ -117,6 +119,7 @@ export default {
     */
 
     return {
+      noConnectors: false,
       selected: null,
       tickStrategy: 'leaf',
       ticked: [
