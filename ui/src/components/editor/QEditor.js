@@ -312,7 +312,6 @@ export default Vue.extend({
         if (this.$refs.content !== void 0 && this.__offsetBottom !== void 0) {
           this.$refs.content.scrollTop = this.$refs.content.scrollHeight - this.__offsetBottom
         }
-        this.caret.restore()
       })
     },
 
