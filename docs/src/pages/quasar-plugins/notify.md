@@ -35,7 +35,7 @@ If you define any actions, the notification will automatically be dismissed when
 
 ### With caption
 
-<q-badge label="v1.5.5+" style="margin-bottom: 0" />
+<q-badge label="v1.5.5+" />
 
 <doc-example title="Caption" file="Notify/Caption" />
 
