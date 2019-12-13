@@ -83,6 +83,8 @@ module.exports = function (content) {
         ? content.indexOf('/* hot reload */')
         : -1
 
+      // stringifyRequest needed so it doesn't
+      // messes up consistency of hashes between builds
       const code = `\nimport qInstall from ${stringifyRequest(this, runtimePath)}` +
         (hasComp === true
           ? `\n${compImport}\nqInstall(component, 'components', {${comp}})\n`
