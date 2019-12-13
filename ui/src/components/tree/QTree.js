@@ -482,7 +482,7 @@ export default Vue.extend({
           class: {
             'q-tree__node--link q-hoverable q-focusable': meta.link,
             'q-tree__node--selected': meta.selected,
-            disabled: meta.disabled
+            'q-tree__node--disabled': meta.disabled
           },
           attrs: { tabindex: meta.link ? 0 : -1 },
           on: {
@@ -565,7 +565,7 @@ export default Vue.extend({
 
               h('div', {
                 staticClass: 'q-tree__children',
-                class: { disabled: meta.disabled }
+                class: { 'q-tree__node--disabled': meta.disabled }
               }, children)
             ])
           ])
