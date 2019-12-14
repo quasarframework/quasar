@@ -185,12 +185,8 @@ export default {
   thead tr th
     position: sticky
     z-index: 1
-
+  thead tr:last-child th /* this will be the loading indicator */
+    top: 48px /* height of all previous header rows */
   thead tr:first-child th
     top: 0
-
-  /* this is when the loading indicator appears */
-  &.q-table--loading thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
 </style>
