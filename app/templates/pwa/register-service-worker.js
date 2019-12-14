@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 import { register } from 'register-service-worker'
 
 // The ready(), registered(), cached(), updatefound() and updated()
