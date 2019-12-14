@@ -12,7 +12,8 @@ module.exports = async function getApi(item) {
     return {
       api
     }
-  } catch (e) {}
+  }
+  catch (e) {}
 
   const extensionJson = require('../app-extension/extension-json')
   const extensions = Object.keys(extensionJson.getList())

@@ -45,9 +45,8 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-const
-  getMode = require('../lib/mode'),
-  { green, grey } = require('chalk')
+const getMode = require('../lib/mode')
+const { green, grey } = require('chalk')
 
 async function run () {
   let [ action, mode ] = argv._

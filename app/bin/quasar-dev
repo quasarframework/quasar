@@ -6,10 +6,9 @@ if (process.env.NODE_ENV === void 0) {
 
 const parseArgs = require('minimist')
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:dev'),
-  warn = logger('app:dev', 'red')
+const logger = require('../lib/helpers/logger')
+const log = logger('app:dev')
+const warn = logger('app:dev', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

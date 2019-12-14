@@ -1,13 +1,12 @@
 const fse = require('fs-extra')
 
-const
-  log = require('../helpers/logger')('app:capacitor'),
-  warn = require('../helpers/logger')('app:capacitor', 'red'),
-  CapacitorConfig = require('./capacitor-config'),
-  { spawn, spawnSync } = require('../helpers/spawn'),
-  onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths'),
-  openIde = require('../helpers/open-ide')
+const log = require('../helpers/logger')('app:capacitor')
+const warn = require('../helpers/logger')('app:capacitor', 'red')
+const CapacitorConfig = require('./capacitor-config')
+const { spawn, spawnSync } = require('../helpers/spawn')
+const onShutdown = require('../helpers/on-shutdown')
+const appPaths = require('../app-paths')
+const openIde = require('../helpers/open-ide')
 
 const capacitorCliPath = require('./capacitor-cli-path')
 
@@ -31,9 +30,8 @@ class CapacitorRunner {
   }
 
   async run (quasarConfig) {
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      url = cfg.build.APP_URL
+    const cfg = quasarConfig.getBuildConfig()
+    const url = cfg.build.APP_URL
 
     if (this.url === url) {
       return

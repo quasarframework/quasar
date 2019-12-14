@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist')
+const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -52,11 +51,10 @@ if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:inspect'),
-  warn = logger('app:inspect', 'red'),
-  QuasarConfig = require('../lib/quasar-config')
+const logger = require('../lib/helpers/logger')
+const log = logger('app:inspect')
+const warn = logger('app:inspect', 'red')
+const QuasarConfig = require('../lib/quasar-config')
 
 const depth = parseInt(argv.depth, 10) || Infinity
 

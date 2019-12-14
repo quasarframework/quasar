@@ -21,15 +21,14 @@ function getAppDir () {
   process.exit(1)
 }
 
-const
-  appDir = getAppDir(),
-  cliDir = resolve(__dirname, '..'),
-  srcDir = resolve(appDir, 'src'),
-  pwaDir = resolve(appDir, 'src-pwa'),
-  ssrDir = resolve(appDir, 'src-ssr'),
-  cordovaDir = resolve(appDir, 'src-cordova'),
-  capacitorDir = resolve(appDir, 'src-capacitor'),
-  electronDir = resolve(appDir, 'src-electron')
+const appDir = getAppDir()
+const cliDir = resolve(__dirname, '..')
+const srcDir = resolve(appDir, 'src')
+const pwaDir = resolve(appDir, 'src-pwa')
+const ssrDir = resolve(appDir, 'src-ssr')
+const cordovaDir = resolve(appDir, 'src-cordova')
+const capacitorDir = resolve(appDir, 'src-capacitor')
+const electronDir = resolve(appDir, 'src-electron')
 
 module.exports = {
   cliDir,

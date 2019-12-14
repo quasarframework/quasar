@@ -79,9 +79,8 @@ if (type.length === 1) {
 
 function getPaths (asset, names) {
   return names.map(name => {
-    const
-      hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext)),
-      ext = hasExtension ? '' : asset.ext
+    const hasExtension = !asset.ext || (asset.ext && name.endsWith(asset.ext))
+    const ext = hasExtension ? '' : asset.ext
 
     return appPaths.resolve.src(path.join(asset.folder, name + ext))
   })

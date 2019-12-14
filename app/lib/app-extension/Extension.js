@@ -326,11 +326,10 @@ module.exports = class Extension {
     }
 
     if (api.__needsNodeModulesUpdate) {
-      const
-        nodePackager = require('../helpers/node-packager'),
-        cmdParam = nodePackager === 'npm'
-          ? ['install']
-          : []
+      const nodePackager = require('../helpers/node-packager')
+      const cmdParam = nodePackager === 'npm'
+        ? ['install']
+        : []
 
       log(`Updating dependencies...`)
       spawnSync(

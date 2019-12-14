@@ -27,7 +27,7 @@ module.exports = class SsrProdArtifacts {
       /*
        * /ssr.js
        */
-      const ssrFile = path.join(__dirname, 'template.ssr.js')
+      const ssrFile = path.join(__dirname, 'template.ssr._js')
       const ssrTemplate = compileTemplate(fs.readFileSync(ssrFile, 'utf-8'))({
         opts: this.cfg.ssr.__templateOpts,
         flags: this.cfg.ssr.__templateFlags
