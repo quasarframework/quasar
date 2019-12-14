@@ -189,8 +189,15 @@ export default {
     /* bg color is important; just specify one */
     background: #fff
 
-  tr:first-child th
+  /* this will be the loading indicator */
+  thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
+    /* highest z-index */
+    z-index: 3
+  thead tr:first-child th
     top: 0
+    z-index: 1
   tr:first-child th:first-child
     /* highest z-index */
     z-index: 3
@@ -201,11 +208,4 @@ export default {
   td:first-child, th:first-child
     position: sticky
     left: 0
-
-  /* this is when the loading indicator appears */
-  &.q-table--loading thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
-    /* highest z-index */
-    z-index: 3
 </style>
