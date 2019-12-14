@@ -199,12 +199,28 @@ function addQuasarPluginOptions (contents, components, directives, plugins) {
   writeLine(contents)
 }
 
+function addQuasarLangCodes (contents) {
+  // We are able to read this file only because
+  //  it's been generated before type generation take place
+  const langJson = require('../lang/index.json')
+
+  // Assure we are doing a module augmentation instead of a module overwrite
+  writeLine(contents, `import './lang'`)
+  writeLine(contents, `declare module './lang' {`)
+  writeLine(contents, `export interface QuasarLanguageCodesHolder {`, 2)
+  langJson.forEach(({ isoName }) => writeLine(contents, `'${isoName}': true`, 3))
+  writeLine(contents, `}`, 2)
+  writeLine(contents, `}`)
+}
+
 function writeIndexDTS (apis) {
   var contents = []
   var quasarTypeContents = []
   var components = []
   var directives = []
   var plugins = []
+
+  addQuasarLangCodes(quasarTypeContents)
 
   writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
   writeLine(contents)
