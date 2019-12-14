@@ -1,15 +1,12 @@
-const
-  path = require('path'),
-  semver = require('semver'),
-  merge = require('webpack-merge')
+const semver = require('semver')
+const merge = require('webpack-merge')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  warn = logger('app:extension(index)', 'red'),
-  getPackageJson = require('../helpers/get-package-json'),
-  getCallerPath = require('../helpers/get-caller-path'),
-  extensionJson = require('./extension-json')
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const warn = logger('app:extension(index)', 'red')
+const getPackageJson = require('../helpers/get-package-json')
+const getCallerPath = require('../helpers/get-caller-path')
+const extensionJson = require('./extension-json')
 
 /**
  * API for extension's /index.js script

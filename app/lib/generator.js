@@ -1,12 +1,10 @@
-const
-  fs = require('fs'),
-  path = require('path'),
-  compileTemplate = require('lodash.template')
+const fs = require('fs')
+const path = require('path')
+const compileTemplate = require('lodash.template')
 
-const
-  log = require('./helpers/logger')('app:generator')
-  appPaths = require('./app-paths'),
-  quasarFolder = appPaths.resolve.app('.quasar')
+const log = require('./helpers/logger')('app:generator')
+const appPaths = require('./app-paths')
+const quasarFolder = appPaths.resolve.app('.quasar')
 
 class Generator {
   constructor (quasarConfig) {
@@ -29,12 +27,12 @@ class Generator {
     }
 
     this.files = paths.map(file => {
-      const
-        content = fs.readFileSync(
-          appPaths.resolve.cli(`templates/entry/${file}`),
-          'utf-8'
-        ),
-        filename = path.basename(file)
+      const content = fs.readFileSync(
+        appPaths.resolve.cli(`templates/entry/${file}`),
+        'utf-8'
+      )
+
+      const filename = path.basename(file)
 
       return {
         filename,

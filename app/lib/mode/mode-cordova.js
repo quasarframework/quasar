@@ -1,11 +1,11 @@
-const
-  fs = require('fs'),
-  fse = require('fs-extra'),
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:mode-cordova'),
-  warn = logger('app:mode-cordova', 'red'),
-  { spawnSync } = require('../helpers/spawn')
+const fs = require('fs')
+const fse = require('fs-extra')
+
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:mode-cordova')
+const warn = logger('app:mode-cordova', 'red')
+const { spawnSync } = require('../helpers/spawn')
 
 function installDependencies () {
   if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
@@ -35,9 +35,8 @@ class Mode {
       return
     }
 
-    const
-      pkg = require(appPaths.resolve.app('package.json')),
-      appName = pkg.productName || pkg.name || 'Quasar App'
+    const pkg = require(appPaths.resolve.app('package.json'))
+    const appName = pkg.productName || pkg.name || 'Quasar App'
 
     if (/^[0-9]/.test(appName)) {
       warn(

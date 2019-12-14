@@ -1,26 +1,24 @@
-const
-  path = require('path'),
-  webpack = require('webpack'),
-  WebpackChain = require('webpack-chain'),
-  VueLoaderPlugin = require('vue-loader/lib/plugin'),
-  WebpackProgress = require('./plugin.progress'),
-  BootDefaultExport = require('./plugin.boot-default-export')
+const path = require('path')
+const webpack = require('webpack')
+const WebpackChain = require('webpack-chain')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const WebpackProgress = require('./plugin.progress')
+const BootDefaultExport = require('./plugin.boot-default-export')
 
-const
-  appPaths = require('../app-paths'),
-  injectStyleRules = require('./inject.style-rules')
+const appPaths = require('../app-paths')
+const injectStyleRules = require('./inject.style-rules')
 
 module.exports = function (cfg, configName) {
-  const
-    chain = new WebpackChain(),
-    needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName),
-    fileHash = needsHash ? '.[hash:8]' : '',
-    chunkHash = needsHash ? '.[contenthash:8]' : '',
-    resolveModules = [
-      'node_modules',
-      appPaths.resolve.app('node_modules'),
-      appPaths.resolve.cli('node_modules')
-    ]
+  const chain = new WebpackChain()
+
+  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+  const fileHash = needsHash ? '.[hash:8]' : ''
+  const chunkHash = needsHash ? '.[contenthash:8]' : ''
+  const resolveModules = [
+    'node_modules',
+    appPaths.resolve.app('node_modules'),
+    appPaths.resolve.cli('node_modules')
+  ]
 
   if (configName === 'Capacitor') {
     // need to also look into /src-capacitor
@@ -203,10 +201,8 @@ module.exports = function (cfg, configName) {
     .maxAssetSize(500000)
 
   if (configName !== 'Server') {
-    const
-      add = cfg.vendor.add,
-      rem = cfg.vendor.remove,
-      regex = /[\\/]node_modules[\\/]/
+    const { add, remove } = cfg.vendor
+    const regex = /[\\/]node_modules[\\/]/
 
     chain.optimization
       .splitChunks({
@@ -216,11 +212,11 @@ module.exports = function (cfg, configName) {
             chunks: 'all',
             priority: -10,
             // a module is extracted into the vendor chunk if...
-            test: add !== void 0 || rem !== void 0
+            test: add !== void 0 || remove !== void 0
               ? module => {
                 if (module.resource) {
                   if (add !== void 0 && add.test(module.resource)) { return true }
-                  if (rem !== void 0 && rem.test(module.resource)) { return false }
+                  if (remove !== void 0 && remove.test(module.resource)) { return false }
                 }
                 return regex.test(module.resource)
               }
@@ -246,9 +242,8 @@ module.exports = function (cfg, configName) {
 
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
-    const
-      FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
-      { devCompilationSuccess } = require('../helpers/banner')
+    const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+    const { devCompilationSuccess } = require('../helpers/banner')
 
     chain.optimization
       .noEmitOnErrors(true)

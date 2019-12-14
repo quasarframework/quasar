@@ -1,17 +1,17 @@
-const
-  fs = require('fs'),
-  fse = require('fs-extra'),
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:mode-ssr'),
-  warn = logger('app:mode-ssr', 'red')
+const fs = require('fs')
+const fse = require('fs-extra')
+
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:mode-ssr')
+const warn = logger('app:mode-ssr', 'red')
 
 class Mode {
   get isInstalled () {
     return fs.existsSync(appPaths.ssrDir)
   }
 
-  add (params) {
+  add () {
     if (this.isInstalled) {
       warn(`SSR support detected already. Aborting.`)
       return

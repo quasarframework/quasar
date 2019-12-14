@@ -2,11 +2,10 @@ const fs = require('fs')
 const fse = require('fs-extra')
 const path = require('path')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:capacitor-conf')
-  warn = logger('app:capacitor-conf', 'red')
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:capacitor-conf')
+const warn = logger('app:capacitor-conf', 'red')
 
 class CapacitorConfig {
   prepare (cfg) {
@@ -112,10 +111,9 @@ class CapacitorConfig {
   }
 
   __handleSSLonIOS (add) {
-    const
-      file = appPaths.resolve.capacitor('node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift'),
-      needle = 'public func getWebView() -> WKWebView {',
-      content = `
+    const file = appPaths.resolve.capacitor('node_modules/@capacitor/ios/ios/Capacitor/Capacitor/CAPBridgeViewController.swift')
+    const needle = 'public func getWebView() -> WKWebView {'
+    const content = `
   // The following part was dynamically added by Quasar.
   // This should NOT be part of the app when building for production,
   // and it will be removed by Quasar automatically on "quasar build":

@@ -77,11 +77,15 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../lib/helpers/ensure-argv')(argv, 'dev')
-require('../lib/helpers/banner')(argv, 'dev')
+const ensureArgv = require('../lib/helpers/ensure-argv')
+ensureArgv(argv, 'dev')
+
+const banner = require('../lib/helpers/banner')
+banner(argv, 'dev')
 
 if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
+  const installMissing = require('../lib/mode/install-missing')
+  installMissing(argv.mode, argv.target)
 }
 
 const findPort = require('../lib/helpers/net').findClosestOpenPort
@@ -156,9 +160,9 @@ function startVueDevtools () {
     return
   }
 
-  const nodePackager = require('../lib/helpers/node-packager'),
-    appPaths = require('../lib/app-paths'),
-    cmdParam = nodePackager === 'npm' ?
+  const nodePackager = require('../lib/helpers/node-packager')
+  const appPaths = require('../lib/app-paths')
+  const cmdParam = nodePackager === 'npm' ?
     ['install', '--save-dev'] :
     ['add', '--dev']
 
@@ -180,12 +184,11 @@ function startVueDevtools () {
 }
 
 async function goLive () {
-  const
-    DevServer = require('../lib/dev-server'),
-    QuasarConfig = require('../lib/quasar-config'),
-    Generator = require('../lib/generator'),
-    getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
-    extensionRunner = require('../lib/app-extension/extensions-runner')
+  const DevServer = require('../lib/dev-server')
+  const QuasarConfig = require('../lib/quasar-config')
+  const Generator = require('../lib/generator')
+  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const extensionRunner = require('../lib/app-extension/extensions-runner')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
@@ -198,20 +201,19 @@ async function goLive () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const
-    quasarConfig = new QuasarConfig(ctx, {
-      port: argv.port,
-      host: argv.hostname,
-      onAddress: parseAddress,
-      onBuildChange () {
-        log(`Build changes detected. Rebuilding app...`)
-        dev = dev.then(startDev)
-      },
-      onAppChange () {
-        log(`App changes detected. Updating app...`)
-        generator.build()
-      }
-    })
+  const quasarConfig = new QuasarConfig(ctx, {
+    port: argv.port,
+    host: argv.hostname,
+    onAddress: parseAddress,
+    onBuildChange () {
+      log(`Build changes detected. Rebuilding app...`)
+      dev = dev.then(startDev)
+    },
+    onAppChange () {
+      log(`App changes detected. Updating app...`)
+      generator.build()
+    }
+  })
 
   try {
     await quasarConfig.prepare()
@@ -240,11 +242,10 @@ async function goLive () {
     await hook.fn(hook.api, { quasarConf: buildConfig })
   })
 
-  const
-    generator = new Generator(quasarConfig),
-    ModeRunner = ['cordova', 'capacitor', 'electron'].includes(argv.mode)
-      ? require('../lib/' + argv.mode)
-      : void 0
+  const generator = new Generator(quasarConfig)
+  const ModeRunner = ['cordova', 'capacitor', 'electron'].includes(argv.mode)
+    ? require('../lib/' + argv.mode)
+    : void 0
 
   if (ModeRunner !== void 0) {
     ModeRunner.init(ctx)
@@ -267,19 +268,18 @@ async function goLive () {
       .then(() => devServer) // Pass new builder to watch chain
   }
 
-  let dev = startDev()
-    .then(async (payload) => {
-      if (typeof buildConfig.build.afterDev === 'function') {
-        await buildConfig.build.afterDev({ quasarConf: buildConfig })
-      }
-      // run possible afterDev hooks
-      await extensionRunner.runHook('afterDev', async hook => {
-        log(`Extension(${hook.api.extId}): Running afterDev hook...`)
-        await hook.fn(hook.api, { quasarConf: buildConfig })
-      })
-
-      return payload
+  let dev = startDev().then(async (payload) => {
+    if (typeof buildConfig.build.afterDev === 'function') {
+      await buildConfig.build.afterDev({ quasarConf: buildConfig })
+    }
+    // run possible afterDev hooks
+    await extensionRunner.runHook('afterDev', async hook => {
+      log(`Extension(${hook.api.extId}): Running afterDev hook...`)
+      await hook.fn(hook.api, { quasarConf: buildConfig })
     })
+
+    return payload
+  })
 }
 
 goLive()

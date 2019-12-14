@@ -1,15 +1,12 @@
-const
-  webpack = require('webpack'),
-  WebpackChain = require('webpack-chain'),
-  WebpackProgress = require('../plugin.progress')
+const webpack = require('webpack')
+const WebpackChain = require('webpack-chain')
+const WebpackProgress = require('../plugin.progress')
 
-const
-  appPaths = require('../../app-paths')
+const appPaths = require('../../app-paths')
 
 module.exports = function (cfg, configName) {
-  const
-    { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json')),
-    { dependencies:cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
+  const { dependencies:appDeps = {} } = require(appPaths.resolve.app('package.json'))
+  const { dependencies:cliDeps = {} } = require(appPaths.resolve.cli('package.json'))
 
   const chain = new WebpackChain()
   const resolveModules = [
@@ -101,11 +98,10 @@ module.exports = function (cfg, configName) {
     chain.plugin('package-json')
       .use(ElectronPackageJson)
 
-    const
-      fs = require('fs'),
-      copyArray = [],
-      npmrc = appPaths.resolve.app('.npmrc')
-      yarnrc = appPaths.resolve.app('.yarnrc')
+    const fs = require('fs')
+    const copyArray = []
+    const npmrc = appPaths.resolve.app('.npmrc')
+    const yarnrc = appPaths.resolve.app('.yarnrc')
 
     fs.existsSync(npmrc) && copyArray.push({
       from: npmrc,

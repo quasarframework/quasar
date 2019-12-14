@@ -1,13 +1,11 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  chalk = require('chalk')
+const parseArgs = require('minimist')
+const chalk = require('chalk')
 
-const
-  getApi = require('../lib/helpers/get-api'),
-  logger = require('../lib/helpers/logger'),
-  warn = logger('app:describe', 'red')
+const getApi = require('../lib/helpers/get-api')
+const logger = require('../lib/helpers/logger')
+const warn = logger('app:describe', 'red')
 
 const partArgs = {
   p: 'props',

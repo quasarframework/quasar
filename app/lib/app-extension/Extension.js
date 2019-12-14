@@ -1,19 +1,17 @@
-const
-  logger = require('../helpers/logger'),
-  log = logger('app:extension'),
-  warn = logger('app:extension', 'red'),
-  appPaths = require('../app-paths'),
-  { spawnSync } = require('../helpers/spawn'),
-  extensionJson = require('./extension-json')
+const logger = require('../helpers/logger')
+const log = logger('app:extension')
+const warn = logger('app:extension', 'red')
+const appPaths = require('../app-paths')
+const { spawnSync } = require('../helpers/spawn')
+const extensionJson = require('./extension-json')
 
 async function renderFolders ({ source, rawCopy, scope }) {
-  const
-    fs = require('fs-extra'),
-    path = require('path'),
-    fglob = require('fast-glob'),
-    isBinary = require('isbinaryfile').isBinaryFileSync,
-    inquirer = require('inquirer'),
-    compileTemplate = require('lodash.template')
+  const fs = require('fs-extra')
+  const path = require('path')
+  const fglob = require('fast-glob')
+  const isBinary = require('isbinaryfile').isBinaryFileSync
+  const inquirer = require('inquirer')
+  const compileTemplate = require('lodash.template')
 
   let overwrite
   const files = fglob.sync(['**/*'], { cwd: source })
@@ -136,19 +134,17 @@ module.exports = class Extension {
         process.exit(1)
       }
     }
-    else {
-      if (isInstalled) {
-        const inquirer = require('inquirer')
-        const answer = await inquirer.prompt([{
-          name: 'reinstall',
-          type: 'confirm',
-          message: `Already installed. Reinstall?`,
-          default: false
-        }])
+    else if (isInstalled) {
+      const inquirer = require('inquirer')
+      const answer = await inquirer.prompt([{
+        name: 'reinstall',
+        type: 'confirm',
+        message: `Already installed. Reinstall?`,
+        default: false
+      }])
 
-        if (!answer.reinstall) {
-          return
-        }
+      if (!answer.reinstall) {
+        return
       }
     }
 
@@ -186,11 +182,9 @@ module.exports = class Extension {
         process.exit(1)
       }
     }
-    else {
-      if (!isInstalled) {
-        warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
-        return
-      }
+    else if (!isInstalled) {
+      warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
+      return
     }
 
     const prompts = extensionJson.getPrompts(this.extId)
@@ -256,11 +250,10 @@ module.exports = class Extension {
   }
 
   __installPackage () {
-    const
-      nodePackager = require('../helpers/node-packager'),
-      cmdParam = nodePackager === 'npm'
-        ? ['install', '--save-dev']
-        : ['add', '--dev']
+    const nodePackager = require('../helpers/node-packager')
+    const cmdParam = nodePackager === 'npm'
+      ? ['install', '--save-dev']
+      : ['add', '--dev']
 
     log(`Retrieving "${this.packageFullName}"...`)
     spawnSync(
@@ -272,11 +265,10 @@ module.exports = class Extension {
   }
 
   __uninstallPackage () {
-    const
-      nodePackager = require('../helpers/node-packager'),
-      cmdParam = nodePackager === 'npm'
-        ? ['uninstall', '--save-dev']
-        : ['remove']
+    const nodePackager = require('../helpers/node-packager')
+    const cmdParam = nodePackager === 'npm'
+      ? ['uninstall', '--save-dev']
+      : ['remove']
 
     log(`Uninstalling "${this.packageName}"...`)
     spawnSync(

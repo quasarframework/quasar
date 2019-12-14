@@ -1,21 +1,18 @@
-const
-  fs = require('fs'),
-  et = require('elementtree')
+const fs = require('fs')
+const et = require('elementtree')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:cordova-conf')
-  warn = logger('app:cordova-conf', 'red')
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:cordova-conf')
+const warn = logger('app:cordova-conf', 'red')
 
 const filePath = appPaths.resolve.cordova('config.xml')
 
 function setFields (root, cfg) {
   Object.keys(cfg).forEach(key => {
-    const
-      el = root.find(key),
-      values = cfg[key],
-      isObject = Object(values) === values
+    const el = root.find(key)
+    const values = cfg[key]
+    const isObject = Object(values) === values
 
     if (!el) {
       if (isObject) {

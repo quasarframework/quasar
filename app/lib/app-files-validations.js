@@ -1,9 +1,7 @@
-const
-  fs = require('fs'),
-  { green } = require('chalk')
+const fs = require('fs')
+const { green } = require('chalk')
 
-const
-  appPaths = require('./app-paths')
+const appPaths = require('./app-paths')
 
 module.exports = function (cfg) {
   let file, content, error = false

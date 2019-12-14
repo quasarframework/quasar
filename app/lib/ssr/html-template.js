@@ -1,8 +1,8 @@
-const
-  compileTemplate = require('lodash.template'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  { fillBaseTag } = require('../webpack/plugin.html-addons'),
-  { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')
+const compileTemplate = require('lodash.template')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const { fillBaseTag } = require('../webpack/plugin.html-addons')
+const { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')
 
 function injectSsrInterpolation (html) {
   return html

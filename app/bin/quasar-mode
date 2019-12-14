@@ -2,10 +2,9 @@
 
 const parseArgs = require('minimist')
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:mode'),
-  warn = logger('app:mode', 'red')
+const logger = require('../lib/helpers/logger')
+const log = logger('app:mode')
+const warn = logger('app:mode', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {

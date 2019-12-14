@@ -1,6 +1,5 @@
-const
-  appPaths = require('../../app-paths'),
-  getFixedDeps = require('../../helpers/get-fixed-deps')
+const appPaths = require('../../app-paths')
+const getFixedDeps = require('../../helpers/get-fixed-deps')
 
 module.exports = class ElectronPackageJson {
   apply (compiler) {

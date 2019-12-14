@@ -1,20 +1,18 @@
-const
-  path = require('path'),
-  fs = require('fs'),
-  merge = require('webpack-merge'),
-  chokidar = require('chokidar'),
-  debounce = require('lodash.debounce')
+const path = require('path')
+const fs = require('fs')
+const merge = require('webpack-merge')
+const chokidar = require('chokidar')
+const debounce = require('lodash.debounce')
 
-const
-  appPaths = require('./app-paths'),
-  logger = require('./helpers/logger'),
-  log = logger('app:quasar-conf'),
-  warn = logger('app:quasar-conf', 'red'),
-  appFilesValidations = require('./app-files-validations'),
-  extensionRunner = require('./app-extension/extensions-runner'),
-  supportIE = require('./helpers/support-ie'),
-  cssVariables = require('./helpers/css-variables'),
-  getDevlandFile = require('./helpers/get-devland-file')
+const appPaths = require('./app-paths')
+const logger = require('./helpers/logger')
+const log = logger('app:quasar-conf')
+const warn = logger('app:quasar-conf', 'red')
+const appFilesValidations = require('./app-files-validations')
+const extensionRunner = require('./app-extension/extensions-runner')
+const supportIE = require('./helpers/support-ie')
+const cssVariables = require('./helpers/css-variables')
+const getDevlandFile = require('./helpers/get-devland-file')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
 

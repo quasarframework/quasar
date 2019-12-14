@@ -42,14 +42,14 @@ if (argv.help) {
   showHelp()
 }
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:new'),
-  warn = logger('app:new', 'red'),
-  appPaths = require('../lib/app-paths'),
-  path = require('path'),
-  fs = require('fs'),
-  fse = require('fs-extra')
+const path = require('path')
+const fs = require('fs')
+const fse = require('fs-extra')
+
+const logger = require('../lib/helpers/logger')
+const log = logger('app:new')
+const warn = logger('app:new', 'red')
+const appPaths = require('../lib/app-paths')
 
 if (argv._.length < 2) {
   console.log()
@@ -117,33 +117,33 @@ function createFile (asset, file) {
   )
 }
 
-const
-  mapping = {
-    page: {
-      folder: 'pages',
-      ext: '.vue',
-      reference: 'src/router/routes.js'
-    },
-    layout: {
-      folder: 'layouts',
-      ext: '.vue',
-      reference: 'src/router/routes.js'
-    },
-    component: {
-      folder: 'components',
-      ext: '.vue'
-    },
-    store: {
-      folder: 'store',
-      reference: 'src/store/index.js'
-    },
-    boot: {
-      folder: 'boot',
-      ext: '.js',
-      reference: 'quasar.conf.js > boot'
-    }
+const mapping = {
+  page: {
+    folder: 'pages',
+    ext: '.vue',
+    reference: 'src/router/routes.js'
   },
-  asset = mapping[type]
+  layout: {
+    folder: 'layouts',
+    ext: '.vue',
+    reference: 'src/router/routes.js'
+  },
+  component: {
+    folder: 'components',
+    ext: '.vue'
+  },
+  store: {
+    folder: 'store',
+    reference: 'src/store/index.js'
+  },
+  boot: {
+    folder: 'boot',
+    ext: '.js',
+    reference: 'quasar.conf.js > boot'
+  }
+}
+
+const asset = mapping[type]
 
 const filesToCreate = getPaths(asset, names)
 

@@ -1,7 +1,6 @@
-const
-  logger = require('../helpers/logger'),
-  warn = logger('app:mode', 'red'),
-  getMode = require('./index')
+const logger = require('../helpers/logger')
+const warn = logger('app:mode', 'red')
+const getMode = require('./index')
 
 module.exports = function (mode, target) {
   const Mode = getMode(mode)

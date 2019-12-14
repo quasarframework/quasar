@@ -1,6 +1,5 @@
-const
-  appPaths = require('../../app-paths'),
-  PwaManifestPlugin = require('./plugin.pwa-manifest')
+const appPaths = require('../../app-paths')
+const PwaManifestPlugin = require('./plugin.pwa-manifest')
 
 module.exports = function (chain, cfg) {
   // write manifest.json file

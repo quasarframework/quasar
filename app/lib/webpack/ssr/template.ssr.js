@@ -3,17 +3,15 @@
  * DO NOT EDIT.
  **/
 
-const
-  fs = require('fs'),
-  path = require('path'),
-  LRU = require('lru-cache'),
-  { createBundleRenderer } = require('vue-server-renderer')
+const fs = require('fs')
+const path = require('path')
+const LRU = require('lru-cache')
+const { createBundleRenderer } = require('vue-server-renderer')
 
-const
-  resolve = file => path.join(__dirname, file),
-  template = fs.readFileSync(resolve('template.html'), 'utf-8'),
-  bundle = require('./vue-ssr-server-bundle.json'),
-  clientManifest = require('./vue-ssr-client-manifest.json')
+const resolve = file => path.join(__dirname, file)
+const template = fs.readFileSync(resolve('template.html'), 'utf-8')
+const bundle = require('./vue-ssr-server-bundle.json')
+const clientManifest = require('./vue-ssr-client-manifest.json')
 
 const settings = <%= opts %>
 

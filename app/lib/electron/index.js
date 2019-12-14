@@ -1,14 +1,13 @@
 const webpack = require('webpack')
 
-const
-  logger = require('../helpers/logger'),
-  log = logger('app:electron'),
-  warn = logger('app:electron', 'red'),
-  { spawn } = require('../helpers/spawn'),
-  appPaths = require('../app-paths'),
-  nodePackager = require('../helpers/node-packager'),
-  getPackageJson = require('../helpers/get-package-json'),
-  getPackage = require('../helpers/get-package')
+const logger = require('../helpers/logger')
+const log = logger('app:electron')
+const warn = logger('app:electron', 'red')
+const { spawn } = require('../helpers/spawn')
+const appPaths = require('../app-paths')
+const nodePackager = require('../helpers/node-packager')
+const getPackageJson = require('../helpers/get-package-json')
+const getPackage = require('../helpers/get-package')
 
 class ElectronRunner {
   constructor () {
@@ -103,11 +102,10 @@ class ElectronRunner {
         resolve()
       })
     }).then(() => {
-      const
-        bundlerName = cfg.electron.bundler,
-        bundlerConfig = cfg.electron[bundlerName],
-        bundler = require('./bundler').getBundler(bundlerName),
-        pkgName = `electron-${bundlerName}`
+      const bundlerName = cfg.electron.bundler
+      const bundlerConfig = cfg.electron[bundlerName]
+      const bundler = require('./bundler').getBundler(bundlerName)
+      const pkgName = `electron-${bundlerName}`
 
       return new Promise((resolve, reject) => {
         log(`Bundling app with electron-${bundlerName}...`)
