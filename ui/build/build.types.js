@@ -202,8 +202,7 @@ function addQuasarPluginOptions (contents, components, directives, plugins) {
 function addQuasarLangCodes (contents) {
   // We are able to read this file only because
   //  it's been generated before type generation take place
-  const langFile = path.resolve(__dirname, '../lang/index.json')
-  const langJson = JSON.parse(fs.readFileSync(langFile, 'utf-8'))
+  const langJson = require('../lang/index.json')
 
   // Assure we are doing a module augmentation instead of a module overwrite
   writeLine(contents, `import './lang'`)
