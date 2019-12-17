@@ -508,10 +508,14 @@ class QuasarConfig {
         : (cfg.build.vueRouterMode === 'hash' ? '' : '/')
 
     /* careful if you configure the following; make sure that you really know what you are doing */
-    cfg.build.vueRouterBase = cfg.build.vueRouterBase || formatRouterBase(cfg.build.publicPath)
+    cfg.build.vueRouterBase = cfg.build.vueRouterBase !== void 0
+      ? cfg.build.vueRouterBase
+      : formatRouterBase(cfg.build.publicPath)
 
     /* careful if you configure the following; make sure that you really know what you are doing */
-    cfg.build.appBase = cfg.build.appBase || cfg.build.publicPath
+    cfg.build.appBase = cfg.build.appBase !== void 0
+      ? cfg.build.appBase
+      : cfg.build.publicPath
 
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
