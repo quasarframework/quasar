@@ -85,7 +85,7 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.n
 async function start () {
   const { app, <%= store ? 'store, ' : '' %>router } = await createApp()
 
-  <% if (ctx.mode.ssr && store) { %>
+  <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
   if (window.__INITIAL_STATE__) {

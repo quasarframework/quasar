@@ -537,6 +537,7 @@ class QuasarConfig {
     if (this.ctx.mode.ssr) {
       cfg.ssr = merge({
         pwa: false,
+        manualHydration: false,
         componentCache: {
           max: 1000,
           maxAge: 1000 * 60 * 15

@@ -27,6 +27,7 @@ return {
   // ...
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
+    manualHydration: true/false, // (@quasar/app v1.4.2+) Manually hydrate the store
     componentCache: {...} // lru-cache package options
   }
 }
