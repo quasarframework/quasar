@@ -148,6 +148,7 @@ function injectRule (chain, lang, test, loader, options) {
   rule.use('css-loader')
     .loader('css-loader')
     .options({
+      esModule: false,
       importLoaders: 2 + (loader ? 1 : 0),
       sourceMap: true
     })
