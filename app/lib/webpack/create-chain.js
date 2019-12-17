@@ -200,7 +200,7 @@ module.exports = function (cfg, configName) {
     .hints(false)
     .maxAssetSize(500000)
 
-  if (configName !== 'Server') {
+  if (configName !== 'Server' && cfg.vendor.disable !== true) {
     const { add, remove } = cfg.vendor
     const regex = /[\\/]node_modules[\\/]/
 

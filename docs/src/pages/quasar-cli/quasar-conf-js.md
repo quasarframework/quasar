@@ -127,6 +127,9 @@ By default, everything that comes from `node_modules` will be injected into the 
 // quasar.conf.js
 return {
   vendor: {
+    /* optional; @quasar/app v1.4.2+;
+       disables vendor chunk: */ disable: true,
+
     add: ['src/plugins/my-special-plugin'],
     remove: ['axios', 'vue$']
   }
