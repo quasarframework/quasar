@@ -207,6 +207,7 @@ class QuasarConfig {
         metaVariables: {}
       },
       electron: {
+        unPackagedInstallParams: [],
         packager: {},
         builder: {}
       },

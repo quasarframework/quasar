@@ -24,7 +24,14 @@ electron: {
   // https://www.electron.build/configuration/configuration
   builder: {
     //...
-  }
+  },
+
+  // Requires: @quasar/app v1.4.2+
+  // Specify additional parameters when yarn/npm installing
+  // the UnPackaged folder, right before bundling with either
+  // electron packager or electron builder;
+  // Example: [ '--ignore-optional', '--some-other-param' ]
+  unPackagedInstallParams: [],
 
   // Requires: @quasar/app v1.3.0+
   // Keep in sync with /src-electron/main-process/electron-main

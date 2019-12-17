@@ -71,7 +71,7 @@ class ElectronRunner {
     return new Promise(resolve => {
       spawn(
         nodePackager,
-        [ 'install', '--production' ],
+        [ 'install', '--production' ].concat(cfg.electron.unPackagedInstallParams),
         { cwd: cfg.build.distDir },
         code => {
           if (code) {
