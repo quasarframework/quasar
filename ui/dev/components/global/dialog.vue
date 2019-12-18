@@ -751,6 +751,9 @@
           </div>
         </q-card-section>
         <q-card-section>
+          <q-input v-model="iOStext" />
+        </q-card-section>
+        <q-card-section>
           <q-input v-model="iOStext" autofocus />
         </q-card-section>
       </q-card>
@@ -768,6 +771,9 @@
         </q-card-section>
         <q-card-section>
           <q-input v-model="iOStext" autofocus />
+        </q-card-section>
+        <q-card-section>
+          <q-input v-model="iOStext" />
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -799,8 +805,8 @@
           </div>
         </q-card-section>
         <q-card-section>
-          <q-input v-for="n in 15" :key="n" v-model="iOStext" />
-          <q-input v-model="iOStext" autofocus />
+          <q-input v-for="n in 15" :key="n" v-model="iOStext" :label="`${n} of 15`" />
+          <q-input v-model="iOStext" autofocus label="Last one" />
         </q-card-section>
       </q-card>
     </q-dialog>
