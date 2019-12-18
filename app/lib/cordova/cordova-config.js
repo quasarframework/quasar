@@ -69,6 +69,11 @@ class CordovaConfig {
       }
     }
 
+    // needed for QResizeObserver until ResizeObserver Web API is supported by all platforms
+    if (!root.find(`allow-navigation[@href='about:*']`)) {
+      et.SubElement(root, 'allow-navigation', { href: 'about:*' })
+    }
+
     this.__save(doc)
   }
 
