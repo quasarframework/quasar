@@ -133,10 +133,10 @@
       "extends": "dense"
     },
 
-    "items-aligned": {
+    "item-aligned": {
       "type": "Boolean",
-      "desc": "Align content to match QItem",
-      "category": "content"
+      "desc": "Match inner content alignment to that of QItem",
+      "category": "style"
     },
 
     "disable": {
