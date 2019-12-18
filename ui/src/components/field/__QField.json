@@ -135,7 +135,7 @@
 
     "item-aligned": {
       "type": "Boolean",
-      "desc": "Match inner content alignments to QItem",
+      "desc": "Match inner content alignment to that of QItem",
       "category": "style"
     },
 
