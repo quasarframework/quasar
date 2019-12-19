@@ -103,15 +103,15 @@ function apply (action, is) {
 
     body.classList.add('q-body--prevent-scroll')
     if (is.ios === true) {
-      window.scrollTo(0, 0)
       if (hasViewport === true) {
+        window.scrollTo(0, 0)
         window.visualViewport.addEventListener('resize', onAppleResize, listenOpts.passiveCapture)
         window.visualViewport.addEventListener('scroll', onAppleResize, listenOpts.passiveCapture)
+        window.scrollTo(0, 0)
       }
       else {
         window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
       }
-      window.scrollTo(0, 0)
     }
   }
 
