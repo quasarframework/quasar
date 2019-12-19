@@ -97,8 +97,11 @@ export const updateDrawerState = (state, opened) => {
 }
 
 // src/store/showcase/state.js
-export default {
-  drawerState: true
+// Always use a function to return state if you use SSR
+export default function () {
+  return {
+    drawerState: true
+  }
 }
 ```
 

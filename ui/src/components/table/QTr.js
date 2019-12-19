@@ -6,7 +6,8 @@ export default Vue.extend({
   name: 'QTr',
 
   props: {
-    props: Object
+    props: Object,
+    noHover: Boolean
   },
 
   render (h) {
@@ -16,7 +17,11 @@ export default Vue.extend({
       'tr',
       this.props === void 0 || this.props.header === true
         ? on
-        : { on, class: this.props.__trClass },
+        : {
+          on,
+          class: this.props.__trClass +
+            (this.noHover === true ? ' q-tr--no-hover' : '')
+        },
       slot(this, 'default')
     )
   }

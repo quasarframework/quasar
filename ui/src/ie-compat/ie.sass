@@ -85,23 +85,10 @@
         z-index: -1
 
   .q-btn
-    display: inline-flex
+    overflow: visible
 
     &--wrap
       flex-direction: row
-
-  // No solution yet for .column > .q-btn:not(.self-stretch) without .items-...
-  .row:not(.q-btn-group),
-  .flex
-    > .q-btn
-      height: 100%
-
-  /* QFab */
-  .q-fab__actions
-    &--right,
-    &--left
-      .q-btn
-        height: auto
 
   /* QCarousel */
   .q-carousel__slide > *

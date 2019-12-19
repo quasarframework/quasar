@@ -1,7 +1,6 @@
-const
-  createChain = require('./create-chain'),
-  log = require('../helpers/logger')('app:webpack'),
-  extensionRunner = require('../app-extension/extensions-runner')
+const createChain = require('./create-chain')
+const log = require('../helpers/logger')('app:webpack')
+const extensionRunner = require('../app-extension/extensions-runner')
 
 async function getWebpackConfig (chain, cfg, {
   name,
@@ -86,9 +85,8 @@ async function getCapacitor (cfg) {
 }
 
 async function getElectron (cfg) {
-  const
-    rendererChain = createChain(cfg, 'Renderer process'),
-    mainChain = require('./electron/main')(cfg, 'Main process')
+  const rendererChain = createChain(cfg, 'Renderer process')
+  const mainChain = require('./electron/main')(cfg, 'Main process')
 
   require('./electron/renderer')(rendererChain, cfg)
 
@@ -107,9 +105,8 @@ async function getElectron (cfg) {
 }
 
 async function getSSR (cfg) {
-  const
-    client = createChain(cfg, 'Client'),
-    server = createChain(cfg, 'Server')
+  const client = createChain(cfg, 'Client')
+  const server = createChain(cfg, 'Server')
 
   require('./ssr/client')(client, cfg)
   if (cfg.ctx.mode.pwa) {

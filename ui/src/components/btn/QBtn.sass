@@ -1,14 +1,27 @@
 .column
-  > .q-btn.self-stretch
+  > .q-btn.self-stretch,
+  &.items-stretch > .q-btn
     width: auto
 
-.row,
-.flex
+.row
+  > .q-btn
+    height: 100%
   > .q-btn.self-stretch
     height: auto
 
+.row
+  &.items-start,
+  &.items-end,
+  &.items-center,
+  &.items-baseline,
+  &.items-stretch,
+  &.q-toolbar,
+  &.q-bar
+    > .q-btn
+      height: auto
+
 .q-btn
-  display: inline-block
+  display: inline-flex
   flex-direction: column
   align-items: stretch
   position: relative
@@ -21,12 +34,10 @@
   text-decoration: none
   color: inherit
   background: transparent
-  overflow: visible
   font-weight: $button-font-weight
   text-transform: uppercase
   text-align: center
   width: fit-content
-  height: fit-content
 
   .q-icon, .q-spinner
     font-size: $button-line-height
@@ -134,11 +145,11 @@
       width: 100%
       height: 100%
   &--fab .q-btn__wrapper
-    height: 56px
-    width: 56px
+    min-height: 56px
+    min-width: 56px
   &--fab-mini .q-btn__wrapper
-    height: 40px
-    width: 40px
+    min-height: 40px
+    min-width: 40px
 
   // workaround for alignment/sizing change when showing loader
   &__content

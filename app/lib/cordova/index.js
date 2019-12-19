@@ -1,12 +1,11 @@
 const fse = require('fs-extra')
 
-const
-  log = require('../helpers/logger')('app:cordova'),
-  CordovaConfig = require('./cordova-config'),
-  { spawn } = require('../helpers/spawn'),
-  onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths'),
-  openIde = require('../helpers/open-ide')
+const log = require('../helpers/logger')('app:cordova')
+const CordovaConfig = require('./cordova-config')
+const { spawn } = require('../helpers/spawn')
+const onShutdown = require('../helpers/on-shutdown')
+const appPaths = require('../app-paths')
+const openIde = require('../helpers/open-ide')
 
 class CordovaRunner {
   constructor () {
@@ -28,9 +27,8 @@ class CordovaRunner {
   }
 
   async run (quasarConfig, argv) {
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      url = cfg.build.APP_URL
+    const cfg = quasarConfig.getBuildConfig()
+    const url = cfg.build.APP_URL
 
     if (this.url === url) {
       return

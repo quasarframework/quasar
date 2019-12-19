@@ -1,9 +1,8 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
-const
-  appPaths = require('../app-paths'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  HtmlAddonsPlugin = require('./plugin.html-addons').plugin
+const appPaths = require('../app-paths')
+const HtmlAddonsPlugin = require('./plugin.html-addons').plugin
 
 module.exports = function (chain, cfg) {
   chain.plugin('html-webpack')

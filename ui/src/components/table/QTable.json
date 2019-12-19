@@ -1174,6 +1174,25 @@
       "addedIn": "v1.2.6"
     },
 
+    "row-dblclick": {
+      "desc": "Emitted when user quickly double clicks/taps on a row; Is not emitted when using body/row/item scoped slots; Please check JS dblclick event support before using",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+
+        "row": {
+          "type": "Object",
+          "desc": "The row upon which user has double clicked/tapped",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.5.10"
+    },
+
     "request": {
       "desc": "Emitted when a server request is triggered",
       "params": {

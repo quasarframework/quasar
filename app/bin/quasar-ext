@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist')
+const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -44,9 +43,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const
-  logger = require('../lib/helpers/logger'),
-  warn = logger('app:extension', 'red')
+const logger = require('../lib/helpers/logger')
+const warn = logger('app:extension', 'red')
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()

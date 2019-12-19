@@ -6,7 +6,6 @@ const
 
 const
   env = require('./env'),
-  projectRoot = path.resolve(__dirname, '../'),
   postCssConfig = require(path.resolve(__dirname, '../.postcssrc.js'))
 
 function resolve (dir) {
@@ -34,11 +33,13 @@ module.exports = function (chain) {
       data: resolve('dev/data')
     })
 
+  chain.module.noParse(/^(vue|vue-router)$/)
+
   chain.module.rule('lint')
     .test(/\.(js|vue)$/)
     .enforce('pre')
     .exclude
-      .add(/node_modules/)
+      .add(/[\\/]node_modules[\\/]/)
       .end()
     .use('eslint-loader')
       .loader('eslint-loader')
@@ -62,11 +63,8 @@ module.exports = function (chain) {
 
   chain.module.rule('babel')
     .test(/\.js$/)
-    .include
-      .add(projectRoot)
-      .end()
     .exclude
-      .add(/node_modules/)
+      .add(/[\\/]node_modules[\\/]/)
       .end()
     .use('babel-loader')
       .loader('babel-loader')
@@ -150,6 +148,7 @@ function injectRule (chain, lang, test, loader, options) {
   rule.use('css-loader')
     .loader('css-loader')
     .options({
+      esModule: false,
       importLoaders: 2 + (loader ? 1 : 0),
       sourceMap: true
     })

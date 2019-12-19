@@ -28,6 +28,13 @@
       "category": "content"
     },
 
+    "no-connectors": {
+      "type": "Boolean",
+      "desc": "Do not display the connector lines between nodes",
+      "category": "style",
+      "addedIn": "v1.5.10"
+    },
+
     "color": {
       "extends": "color"
     },

@@ -51,16 +51,19 @@ export default {
         ])
       )
 
-      const data = {
-        key,
-        class: { selected }
-      }
+      const data = { key, class: { selected }, on: {} }
 
       if (this.$listeners['row-click'] !== void 0) {
-        data.on = {
-          click: evt => {
-            this.$emit('row-click', evt, row)
-          }
+        data.class['cursor-pointer'] = true
+        data.on.click = evt => {
+          this.$emit('row-click', evt, row)
+        }
+      }
+
+      if (this.$listeners['row-dblclick'] !== void 0) {
+        data.class['cursor-pointer'] = true
+        data.on.dblclick = evt => {
+          this.$emit('row-dblclick', evt, row)
         }
       }
 

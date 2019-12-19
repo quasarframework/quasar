@@ -88,31 +88,31 @@ if (argv.help) {
   process.exit(0)
 }
 
-const chalk = require('chalk')
+const ensureArgv = require('../lib/helpers/ensure-argv')
+ensureArgv(argv, 'build')
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:build'),
-  warn = logger('app:build', 'red'),
-  banner = require('../lib/helpers/banner')
-
-require('../lib/helpers/ensure-argv')(argv, 'build')
+const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 
 if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
+  const installMissing = require('../lib/mode/install-missing')
+  installMissing(argv.mode, argv.target)
 }
 
-const
-  path = require('path'),
-  webpack = require('webpack')
+const chalk = require('chalk')
 
-const
-  QuasarConfig = require('../lib/quasar-config'),
-  Generator = require('../lib/generator'),
-  artifacts = require('../lib/artifacts'),
-  getQuasarCtx = require('../lib/helpers/get-quasar-ctx'),
-  extensionRunner = require('../lib/app-extension/extensions-runner')
+const logger = require('../lib/helpers/logger')
+const log = logger('app:build')
+const warn = logger('app:build', 'red')
+
+const path = require('path')
+const webpack = require('webpack')
+
+const QuasarConfig = require('../lib/quasar-config')
+const Generator = require('../lib/generator')
+const artifacts = require('../lib/artifacts')
+const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+const extensionRunner = require('../lib/app-extension/extensions-runner')
 
 function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
@@ -169,10 +169,9 @@ async function build () {
 
   await quasarConfig.compile()
 
-  const
-    generator = new Generator(quasarConfig),
-    webpackConfig = quasarConfig.getWebpackConfig(),
-    buildConfig = quasarConfig.getBuildConfig()
+  const generator = new Generator(quasarConfig)
+  const webpackConfig = quasarConfig.getWebpackConfig()
+  const buildConfig = quasarConfig.getBuildConfig()
 
   let outputFolder = buildConfig.build.packagedDistDir ||
     buildConfig.build.distDir

@@ -182,9 +182,13 @@ export default {
   thead tr:first-child th /* bg color is important for th; just specify one */
     background-color: #fff
 
-  thead tr:first-child th
+  thead tr th
     position: sticky
-    top: 0
-    opacity: 1
     z-index: 1
+  /* this will be the loading indicator */
+  thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
+  thead tr:first-child th
+    top: 0
 </style>

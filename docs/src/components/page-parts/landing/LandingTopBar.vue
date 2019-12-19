@@ -13,8 +13,7 @@ section.fixed-top.landing-top-bar.text-white
     q-btn.q-mr-xs(type="a", flat, icon="chat", href="https://chat.quasar.dev", target="_blank", rel="noopener")
     q-btn.q-mr-xs(type="a", flat, icon="forum", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
     q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.quasar.dev", target="_blank", rel="noopener")
-    q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-facebook", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
-    q-btn.gt-xs(type="a", flat, icon="email", to="/newsletter", rel="noopener")
+    q-btn.gt-xs(type="a", flat, icon="fab fa-facebook", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
 </template>
 
 <style lang="stylus">

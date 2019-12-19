@@ -1,10 +1,9 @@
 const ExtractLoader = require('mini-css-extract-plugin').loader
 const merge = require('webpack-merge')
 
-const
-  appPaths = require('../app-paths'),
-  cssVariables = require('../helpers/css-variables'),
-  postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
+const appPaths = require('../app-paths')
+const cssVariables = require('../helpers/css-variables')
+const postCssConfig = require(appPaths.resolve.app('.postcssrc.js'))
 
 function injectRule (chain, pref, lang, test, loader, loaderOptions) {
   const baseRule = chain.module.rule(lang).test(test)

@@ -1,21 +1,18 @@
-const
-  { ProgressPlugin } = require('webpack'),
-  throttle = require('lodash.throttle'),
-  { green, grey } = require('chalk'),
-  log = require('../helpers/logger')('app:progress'),
-  logUpdate = require('log-update'),
-  ms = require('ms')
+const { ProgressPlugin } = require('webpack')
+const throttle = require('lodash.throttle')
+const { green, grey } = require('chalk')
+const log = require('../helpers/logger')('app:progress')
+const logUpdate = require('log-update')
+const ms = require('ms')
 
-const
-  isMinimalTerminal = require('../helpers/is-minimal-terminal'),
-  logLine = isMinimalTerminal
-    ? () => {}
-    : logUpdate.create(process.stdout, { showCursor: true })
+const isMinimalTerminal = require('../helpers/is-minimal-terminal')
+const logLine = isMinimalTerminal
+  ? () => {}
+  : logUpdate.create(process.stdout, { showCursor: true })
 
-const
-  compilations = {},
-  barLength = 25,
-  barItems = Array.apply(null, { length: barLength })
+const compilations = {}
+const barLength = 25
+const barItems = Array.apply(null, { length: barLength })
 
 let maxLengthName = 0
 
@@ -81,10 +78,9 @@ module.exports = class WebpackProgress extends ProgressPlugin {
   }
 
   updateProgress (percent, msg, details) {
-    const
-      progress = Math.floor(percent * 100),
-      wasRunning = this.state.running,
-      running = progress < 100
+    const progress = Math.floor(percent * 100)
+    const wasRunning = this.state.running
+    const running = progress < 100
 
     Object.assign(this.state, {
       progress,

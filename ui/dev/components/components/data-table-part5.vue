@@ -1,12 +1,47 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      class="my-sticky-header-column-table"
       title="Treats"
       :data="data"
       :columns="columns"
       row-key="name"
-    />
+      selection="multiple"
+      :selected.sync="selected"
+      no-hover
+    >
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td auto-width>
+            <q-toggle dense v-model="props.selected" />
+          </q-td>
+          <q-td key="desc" :props="props" no-hover>
+            {{ props.row.name }}
+            <q-btn dense round flat :icon="props.expand ? 'arrow_drop_up' : 'arrow_drop_down'" @click="props.expand = !props.expand" />
+          </q-td>
+          <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
+          <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
+          <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
+          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
+          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
+          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
+          <q-td key="iron" :props="props">
+            <q-badge color="amber">
+              {{ props.row.iron }}
+            </q-badge>
+          </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props" no-hover>
+          <q-td colspan="100%">
+            <q-table
+              :data="data"
+              :columns="columns"
+            >
+              <q-tr :props="props" />
+            </q-table>
+          </q-td>
+        </q-tr>
+      </template>
+    </q-table>
   </div>
 </template>
 
@@ -14,9 +49,10 @@
 export default {
   data () {
     return {
+      selected: [],
       columns: [
         {
-          name: 'name',
+          name: 'desc',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
@@ -24,43 +60,14 @@ export default {
           format: val => `${val}`,
           sortable: true
         },
-        {
-          name: 'calories',
-          align: 'center',
-          label: 'Calories',
-          field: 'calories',
-          sortable: true
-        },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs', sortable: true },
-        {
-          name: 'protein',
-          label: 'Protein (g)',
-          field: 'protein',
-          sortable: true
-        },
-        {
-          name: 'sodium',
-          label: 'Sodium (mg)',
-          field: 'sodium',
-          sortable: true
-        },
-        {
-          name: 'calcium',
-          label: 'Calcium (%)',
-          field: 'calcium',
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-        },
-        {
-          name: 'iron',
-          label: 'Iron (%)',
-          field: 'iron',
-          sortable: true,
-          sort: (a, b) => parseInt(a, 10) - parseInt(b, 10)
-        }
+        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
+        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
+        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+        { name: 'protein', label: 'Protein (g)', field: 'protein' },
+        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
-
       data: [
         {
           name: 'Frozen Yogurt',
@@ -167,45 +174,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-.my-sticky-header-column-table
-  /* specifying max-width so the example can
-    highlight the sticky column on any browser window */
-  max-width: 600px
-
-  /* max height is important */
-  .q-table__middle
-    max-height: 200px
-
-  td:first-child
-    /* bg color is important for td; just specify one */
-    background-color: #c1f4cd !important
-
-  tr th
-    position: sticky
-    /* higher than z-index for td below */
-    z-index: 2
-    /* bg color is important; just specify one */
-    background: #fff
-
-  /* this will be the loading indicator */
-  thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
-    /* highest z-index */
-    z-index: 3
-  thead tr:first-child th
-    top: 0
-    z-index: 1
-  tr:first-child th:first-child
-    /* highest z-index */
-    z-index: 3
-
-  td:first-child
-    z-index: 1
-
-  td:first-child, th:first-child
-    position: sticky
-    left: 0
-</style>

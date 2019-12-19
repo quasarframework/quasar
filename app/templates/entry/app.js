@@ -32,15 +32,15 @@ const { SplashScreen } = Plugins
 import vueDevtools from '@vue/devtools'
 <% } %>
 
-export default function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
+export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // create store and router instances
   <% if (store) { %>
   const store = typeof createStore === 'function'
-    ? createStore({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %>})
+    ? await createStore({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %>})
     : createStore
   <% } %>
   const router = typeof createRouter === 'function'
-    ? createRouter({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %><%= store ? ', store' : '' %>})
+    ? await createRouter({Vue<%= ctx.mode.ssr ? ', ssrContext' : '' %><%= store ? ', store' : '' %>})
     : createRouter
   <% if (store) { %>
   // make router instance available in store

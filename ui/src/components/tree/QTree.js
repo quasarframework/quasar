@@ -57,6 +57,7 @@ export default Vue.extend({
     },
 
     duration: Number,
+    noConnectors: Boolean,
 
     noNodesLabel: String,
     noResultsLabel: String
@@ -64,10 +65,10 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        [`text-${this.color}`]: this.color,
-        'q-tree--dark': this.isDark
-      }
+      return `q-tree` +
+        (this.noConnectors === true ? ` q-tree--no-connectors` : '') +
+        (this.isDark === true ? ` q-tree--dark` : '') +
+        (this.color !== void 0 ? ` text-${this.color}` : '')
     },
 
     hasSelection () {
@@ -481,7 +482,7 @@ export default Vue.extend({
           class: {
             'q-tree__node--link q-hoverable q-focusable': meta.link,
             'q-tree__node--selected': meta.selected,
-            disabled: meta.disabled
+            'q-tree__node--disabled': meta.disabled
           },
           attrs: { tabindex: meta.link ? 0 : -1 },
           on: {
@@ -564,7 +565,7 @@ export default Vue.extend({
 
               h('div', {
                 staticClass: 'q-tree__children',
-                class: { disabled: meta.disabled }
+                class: { 'q-tree__node--disabled': meta.disabled }
               }, children)
             ])
           ])
@@ -639,7 +640,6 @@ export default Vue.extend({
 
     return h(
       'div', {
-        staticClass: 'q-tree',
         class: this.classes
       },
       children.length === 0

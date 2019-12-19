@@ -137,7 +137,7 @@ export class Caret {
       return false
     }
 
-    if (el !== null && list.includes(el.nodeName.toLowerCase() === true) {
+    if (el !== null && list.includes(el.nodeName.toLowerCase()) === true) {
       return true
     }
 
@@ -227,9 +227,7 @@ export class Caret {
       return
     }
     else if (cmd === 'link') {
-      const
-        link = this.getParentAttribute('href'),
-        range = this.range
+      const link = this.getParentAttribute('href')
 
       if (link === null) {
         const selection = this.selectWord(this.selection)
@@ -241,15 +239,15 @@ export class Caret {
 
         this.vm.editLinkUrl = urlRegex.test(url) ? url : 'https://'
         document.execCommand('createLink', false, this.vm.editLinkUrl)
+
+        this.save(selection.getRangeAt(0))
       }
       else {
         this.vm.editLinkUrl = link
-      }
 
-      this.vm.$nextTick(() => {
-        range.selectNodeContents(this.parent)
+        this.range.selectNodeContents(this.parent)
         this.save()
-      })
+      }
 
       return
     }

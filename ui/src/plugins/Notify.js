@@ -81,8 +81,8 @@ const Notifications = {
         this.remove(notif)
       }
 
-      const actions =
-        (config.actions || []).concat(defaults.actions || [])
+      const actions = (config.actions || [])
+        .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
 
       notif.actions = actions.length > 0
         ? actions.map(item => {

@@ -30,7 +30,7 @@
 
     "alternative-labels": {
       "type": "Boolean",
-      "desc": "Use alternative labels (applies only to horizontal stepper)",
+      "desc": "Use alternative labels - stacks the icon on top of the label (applies only to horizontal stepper)",
       "category": "header"
     },
 
