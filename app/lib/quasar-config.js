@@ -865,7 +865,7 @@ class QuasarConfig {
       }
     }
 
-    if (this.ctx.capacitor && cfg.capacitor.hideSplashscreen !== false) {
+    if (this.ctx.mode.capacitor && cfg.capacitor.hideSplashscreen !== false) {
       cfg.__needsAppMountHook = true
     }
 
