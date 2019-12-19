@@ -7,12 +7,13 @@ const logger = require('../helpers/logger')
 const log = logger('app:capacitor-conf')
 const warn = logger('app:capacitor-conf', 'red')
 
+const ensureConsistency = require('../capacitor/ensure-consistency')
+
 class CapacitorConfig {
   prepare (cfg) {
-    this.pkg = require(appPaths.resolve.app('package.json'))
+    ensureConsistency()
 
-    // Make sure there is an index.html, otherwise Capacitor will crash
-    fse.ensureFileSync(appPaths.resolve.capacitor('www/index.html'))
+    this.pkg = require(appPaths.resolve.app('package.json'))
 
     this.__updateCapPkg(cfg, this.pkg)
     log(`Updated src-capacitor/package.json`)

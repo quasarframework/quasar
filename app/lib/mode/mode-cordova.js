@@ -7,23 +7,6 @@ const log = logger('app:mode-cordova')
 const warn = logger('app:mode-cordova', 'red')
 const { spawnSync } = require('../helpers/spawn')
 
-function installDependencies () {
-  if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
-    return
-  }
-
-  log('Installing dependencies in /src-cordova')
-  spawnSync(
-    'npm',
-    [ 'install' ],
-    { cwd: appPaths.cordovaDir },
-    () => {
-      warn(`⚠️  [FAIL] npm failed installing dependencies in /src-cordova`)
-      process.exit(1)
-    }
-  )
-}
-
 class Mode {
   get isInstalled () {
     return fs.existsSync(appPaths.cordovaDir)
@@ -58,12 +41,8 @@ class Mode {
       }
     )
 
-    const www = appPaths.resolve.cordova('www')
-    fse.removeSync(www)
-    fse.copySync(
-      appPaths.resolve.cli('templates/cordova'),
-      appPaths.cordovaDir
-    )
+    const { ensureWWW } = require('../cordova/ensure-consistency')
+    ensureWWW()
 
     log(`Cordova support was installed`)
     log(`App name was taken from package.json: "${appName}"`)
@@ -92,10 +71,10 @@ class Mode {
   }
 
   addPlatform (target) {
-    fse.ensureDirSync(appPaths.resolve.cordova(`www`))
+    const ensureConsistency = require('../cordova/ensure-consistency')
+    ensureConsistency()
 
     if (this.hasPlatform(target)) {
-      installDependencies()
       return
     }
 

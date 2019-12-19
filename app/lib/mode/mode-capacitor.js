@@ -9,24 +9,6 @@ const warn = logger('app:mode-capacitor', 'red')
 const { spawnSync } = require('../helpers/spawn')
 const nodePackager = require('../helpers/node-packager')
 
-function installDependencies () {
-  if (fs.existsSync(appPaths.resolve.capacitor('node_modules'))) {
-    return
-  }
-
-  const cmdParam = nodePackager === 'npm'
-    ? ['install']
-    : []
-
-  log(`Installing Capacitor dependencies...`)
-  spawnSync(
-    nodePackager,
-    cmdParam,
-    { cwd: appPaths.capacitorDir },
-    () => warn('Failed to install Capacitor dependencies')
-  )
-}
-
 class Mode {
   get isInstalled () {
     return fs.existsSync(appPaths.capacitorDir)
@@ -72,7 +54,8 @@ class Mode {
       fs.writeFileSync(dest, compileTemplate(content)(scope), 'utf-8')
     })
 
-    installDependencies()
+    const { ensureDeps } = require('../capacitor/ensure-consistency')
+    ensureDeps()
 
     const capacitorCliPath = require('../capacitor/capacitor-cli-path')
 
@@ -106,10 +89,10 @@ class Mode {
   }
 
   addPlatform (target) {
-    fse.ensureFileSync(appPaths.resolve.capacitor(`www/index.html`))
+    const ensureConsistency = require('../capacitor/ensure-consistency')
+    ensureConsistency()
 
     if (this.hasPlatform(target)) {
-      installDependencies()
       return
     }
 

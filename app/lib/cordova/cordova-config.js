@@ -5,6 +5,7 @@ const appPaths = require('../app-paths')
 const logger = require('../helpers/logger')
 const log = logger('app:cordova-conf')
 const warn = logger('app:cordova-conf', 'red')
+const ensureConsistency = require('../cordova/ensure-consistency')
 
 const filePath = appPaths.resolve.cordova('config.xml')
 
@@ -38,6 +39,8 @@ function setFields (root, cfg) {
 
 class CordovaConfig {
   prepare (cfg) {
+    ensureConsistency()
+
     const doc = et.parse(fs.readFileSync(filePath, 'utf-8'))
     this.pkg = require(appPaths.resolve.app('package.json'))
     this.APP_URL = cfg.build.APP_URL
