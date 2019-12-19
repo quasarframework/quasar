@@ -61,6 +61,7 @@ function onAppleResize (evt) {
   if (vpPendingUpdate === true) {
     return
   }
+
   vpPendingUpdate = true
 
   requestAnimationFrame(() => {

@@ -201,21 +201,21 @@ export default Vue.extend({
               : innerHeight
 
           if (top > 0 && bottom > height / 2) {
-            const
-              scrollTop = Math.min(
-                document.scrollingElement.scrollHeight - height,
-                bottom >= innerHeight
-                  ? Infinity
-                  : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
-              ),
-              fn = () => {
-                requestAnimationFrame(() => {
-                  document.scrollingElement.scrollTop += Math.ceil((scrollTop - document.scrollingElement.scrollTop) / 8)
-                  if (document.scrollingElement.scrollTop !== scrollTop) {
-                    fn()
-                  }
-                })
-              }
+            const scrollTop = Math.min(
+              document.scrollingElement.scrollHeight - height,
+              bottom >= innerHeight
+                ? Infinity
+                : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
+            )
+
+            const fn = () => {
+              requestAnimationFrame(() => {
+                document.scrollingElement.scrollTop += Math.ceil((scrollTop - document.scrollingElement.scrollTop) / 8)
+                if (document.scrollingElement.scrollTop !== scrollTop) {
+                  fn()
+                }
+              })
+            }
 
             fn()
           }
