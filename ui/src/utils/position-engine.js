@@ -136,7 +136,7 @@ export function setPosition (cfg) {
     cfg.el.style.maxHeight = Math.floor(props.maxHeight) + 'px'
   }
   if (props.maxWidth !== void 0) {
-    cfg.el.style.width = Math.floor(props.maxWidth) + 'px'
+    cfg.el.style.maxWidth = Math.floor(props.maxWidth) + 'px'
   }
 
   // restore scroll position
