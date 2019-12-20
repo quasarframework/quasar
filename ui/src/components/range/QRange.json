@@ -151,6 +151,15 @@
       "category": "content"
     },
 
+    "thumb-path": {
+      "type": "String",
+      "desc": "Set custom thumbs svg path",
+      "default": "M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0",
+      "examples": [ "M5 5 h10 v10 h-10 v-10" ],
+      "category": "style",
+      "addedIn": "v1.5.10"
+    },
+
     "dark": {
       "extends": "dark"
     },

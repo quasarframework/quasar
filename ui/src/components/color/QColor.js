@@ -279,7 +279,7 @@ export default Vue.extend({
         }
       }, [
         h(QTabPanel, {
-          staticClass: 'q-color-picker__spectrum-tab',
+          staticClass: 'q-color-picker__spectrum-tab overflow-hidden',
           props: { name: 'spectrum' }
         }, this.__getSpectrumTab(h)),
 
@@ -289,7 +289,7 @@ export default Vue.extend({
         }, this.__getTuneTab(h)),
 
         h(QTabPanel, {
-          staticClass: 'q-pa-sm q-color-picker__palette-tab',
+          staticClass: 'q-color-picker__palette-tab',
           props: { name: 'palette' }
         }, this.__getPaletteTab(h))
       ])
@@ -338,6 +338,8 @@ export default Vue.extend({
     },
 
     __getSpectrumTab (h) {
+      const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
+
       return [
         h('div', {
           ref: 'spectrum',
@@ -373,14 +375,15 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-color-picker__sliders'
         }, [
-          h('div', { staticClass: 'q-color-picker__hue q-mx-sm non-selectable' }, [
+          h('div', { staticClass: 'q-color-picker__hue non-selectable' }, [
             h(QSlider, {
               props: {
                 value: this.model.h,
                 min: 0,
                 max: 360,
                 fillHandleAlways: true,
-                readonly: this.editable !== true
+                readonly: this.editable !== true,
+                thumbPath
               },
               on: cache(this, 'hueSlide', {
                 input: this.__onHueChange,
@@ -389,14 +392,15 @@ export default Vue.extend({
             })
           ]),
           this.hasAlpha === true
-            ? h('div', { staticClass: 'q-mx-sm q-color-picker__alpha non-selectable' }, [
+            ? h('div', { staticClass: 'q-color-picker__alpha non-selectable' }, [
               h(QSlider, {
                 props: {
                   value: this.model.a,
                   min: 0,
                   max: 100,
                   fillHandleAlways: true,
-                  readonly: this.editable !== true
+                  readonly: this.editable !== true,
+                  thumbPath
                 },
                 on: cache(this, 'alphaSlide', {
                   input: value => this.__onNumericChange({ target: { value } }, 'a', 100),

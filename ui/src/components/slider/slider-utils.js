@@ -67,7 +67,12 @@ export let SliderMixin = {
 
     disable: Boolean,
     readonly: Boolean,
-    tabindex: [String, Number]
+    tabindex: [String, Number],
+
+    thumbPath: {
+      type: String,
+      default: 'M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0'
+    }
   },
 
   data () {
@@ -124,6 +129,33 @@ export let SliderMixin = {
   },
 
   methods: {
+    __getThumbSvg (h) {
+      return h('svg', {
+        staticClass: 'q-slider__thumb absolute',
+        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 20 20', width: '20', height: '20' }
+      }, [
+        h('path', {
+          attrs: {
+            d: this.thumbPath
+          }
+        })
+      ])
+    },
+
+    __getPinStyle (percent, ratio) {
+      const offset = `${Math.ceil(20 * Math.abs(0.5 - ratio))}px`
+      return {
+        pin: {
+          transformOrigin: `${this.$q.lang.rtl === true ? offset : (this.$q.platform.is.ie === true ? '100%' : `calc(100% - ${offset})`)} 50%`
+        },
+
+        pinTextContainer: {
+          [this.$q.lang.rtl === true ? 'left' : 'right']: `${percent * 100}%`,
+          transform: `translateX(${Math.ceil((this.$q.lang.rtl === true ? -1 : 1) * 20 * percent)}px)`
+        }
+      }
+    },
+
     __pan (event) {
       if (event.isFinal) {
         if (this.dragging) {
