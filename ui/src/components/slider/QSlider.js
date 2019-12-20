@@ -105,6 +105,17 @@ export default Vue.extend({
       return this.labelValue !== void 0
         ? this.labelValue
         : this.model
+    },
+
+    valueMarkerStyle () {
+      const
+        percent = (this.isReversed === true ? -100 : 100) * (0.5 - this.ratio),
+        rotate = this.$q.lang.rtl === true ? -45 : 45,
+        translate = `calc(${percent}% ${percent <= 0 ? '+' : '-'} ${Math.ceil(28 * Math.abs(this.ratio - 0.5))}px)`
+
+      return {
+        transform: `rotate(${rotate}deg) translateX(${translate})`
+      }
     }
   },
 
@@ -219,7 +230,7 @@ export default Vue.extend({
         this.label === true || this.labelAlways === true ? h('div', {
           class: this.pinClass
         }, [
-          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
+          h('div', { staticClass: 'q-slider__pin-value-marker', style: this.valueMarkerStyle }, [
             h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
             h('div', { class: this.pinTextClass }, [
               this.computedLabel
