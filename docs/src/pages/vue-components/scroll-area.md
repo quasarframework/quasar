@@ -18,7 +18,7 @@ This is especially useful for desktop as scrollbars are hidden on a mobile devic
 The following examples are best seen on desktop as they make too little sense on a mobile device.
 
 ::: tip
-You can also take a look at [Layout Drawer](/layout/drawer) too see some more examples of it in action.
+You can also take a look at [Layout Drawer](/layout/drawer) to see some more examples of it in action.
 :::
 
 ### Basic
