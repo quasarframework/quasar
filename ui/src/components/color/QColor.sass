@@ -4,16 +4,21 @@
   max-width: 350px
   vertical-align: top
 
-  min-width: 220px
+  min-width: 180px
 
   border-radius: $generic-border-radius
   box-shadow: $shadow-2
+
+  .q-tab
+    min-height: 32px !important
+    height: 32px !important
+    padding: 0 !important
 
   &--bordered
     border: 1px solid $separator-color
 
   &__header
-    height: 88px
+    height: 68px
 
     input
       line-height: 24px
@@ -48,13 +53,13 @@
           background: rgba(255,255,255,.2)
 
   &__header-banner
-    height: 52px
+    height: 36px
   &__header-bg
     background: #fff
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
 
   &__footer
-    height: 40px
+    height: 32px
 
     .q-tab--inactive
       background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, rgba(0,0,0,.15) 25%, rgba(0,0,0,.1))
@@ -66,7 +71,7 @@
     height: 100%
 
   &__spectrum-tab
-    padding: 10px
+    padding: 0 !important
 
   &__spectrum-white
     background: linear-gradient(to right, #fff, rgba(255,255,255,0))
@@ -101,22 +106,24 @@
       background: linear-gradient(90deg, rgba(255,255,255,0), $grey-7)
 
   &__sliders
-    padding: 4px 0 12px
+    padding: 4px 16px 16px
 
     .q-slider__track-container
-      height: 9px
+      height: 10px
+      margin-top: -5px
 
     .q-slider__track
       display: none
 
-    .q-slider__thumb-container
-      top: 4px
-
     .q-slider__thumb
-      stroke-width: 13px
+      path
+        stroke-width: 2px
+        fill: transparent
+    .q-slider--active path
+      stroke-width: 3px
 
     .q-slider
-      height: 20px
+      height: 16px
       margin-top: 8px
       color: $grey-9
 
@@ -132,9 +139,12 @@
       font-size: 11px
       border: 1px solid $grey-4
       border-radius: $generic-border-radius
-      width: 4em
+      width: 3.5em
 
   /* Palette Tab */
+
+  &__palette-tab
+    padding: 0 !important
 
   &__palette-rows
     &--editable .q-color-picker__cube

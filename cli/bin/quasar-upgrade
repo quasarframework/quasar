@@ -170,8 +170,13 @@ function upgradeQuasar () {
       // installing the new version might fail on Windows
       removeSync(path.join(root, 'node_modules', dep.packageName))
 
-      const notPinned = pkg.dependencies[dep.packageName].startsWith('^')
-      params.push(`${dep.packageName}@${notPinned ? '^' : ''}${dep.latestVersion}`)
+      const pinned = /^\d/.test(
+        pkg.dependencies[dep.packageName] ||
+        pkg.devDependencies[dep.packageName] ||
+        '^' // fallback, just in case
+      )
+
+      params.push(`${dep.packageName}@${pinned ? '' : '^'}${dep.latestVersion}`)
     })
 
     console.log()

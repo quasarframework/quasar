@@ -146,58 +146,60 @@ export function setPosition (cfg) {
 }
 
 function applyBoundaries (props, anchorProps, targetProps, anchorOrigin, selfOrigin) {
-  const margin = getScrollbarWidth()
-  let { innerHeight, innerWidth } = window
+  const
+    currentHeight = targetProps.bottom,
+    currentWidth = targetProps.right,
+    margin = getScrollbarWidth(),
+    innerHeight = window.innerHeight - margin,
+    innerWidth = window.innerWidth - margin
 
-  // don't go bellow scrollbars
-  innerHeight -= margin
-  innerWidth -= margin
-
-  if (props.top < 0 || props.top + targetProps.bottom > innerHeight) {
+  if (props.top < 0 || props.top + currentHeight > innerHeight) {
     if (selfOrigin.vertical === 'center') {
-      props.top = anchorProps[selfOrigin.vertical] > innerHeight / 2
-        ? innerHeight - targetProps.bottom
+      props.top = anchorProps[anchorOrigin.vertical] > innerHeight / 2
+        ? innerHeight - currentHeight
         : 0
-      props.maxHeight = Math.min(targetProps.bottom, innerHeight)
+      props.maxHeight = Math.min(currentHeight, innerHeight)
     }
-    else if (anchorProps[selfOrigin.vertical] > innerHeight / 2) {
+    else if (anchorProps[anchorOrigin.vertical] > innerHeight / 2) {
       const anchorY = Math.min(
         innerHeight,
         anchorOrigin.vertical === 'center'
           ? anchorProps.center
           : (anchorOrigin.vertical === selfOrigin.vertical ? anchorProps.bottom : anchorProps.top)
       )
-      props.maxHeight = Math.min(targetProps.bottom, anchorY)
-      props.top = Math.max(0, anchorY - props.maxHeight)
+      props.maxHeight = Math.min(currentHeight, anchorY)
+      props.top = Math.max(0, anchorY - currentHeight)
     }
     else {
       props.top = anchorOrigin.vertical === 'center'
         ? anchorProps.center
         : (anchorOrigin.vertical === selfOrigin.vertical ? anchorProps.top : anchorProps.bottom)
-      props.maxHeight = Math.min(targetProps.bottom, innerHeight - props.top)
+      props.maxHeight = Math.min(currentHeight, innerHeight - props.top)
     }
   }
 
-  if (props.left < 0 || props.left + targetProps.right > innerWidth) {
-    props.maxWidth = Math.min(targetProps.right, innerWidth)
+  if (props.left < 0 || props.left + currentWidth > innerWidth) {
+    props.maxWidth = Math.min(currentWidth, innerWidth)
     if (selfOrigin.horizontal === 'middle') {
-      props.left = anchorProps[selfOrigin.horizontal] > innerWidth / 2 ? innerWidth - targetProps.right : 0
+      props.left = anchorProps[anchorOrigin.horizontal] > innerWidth / 2
+        ? innerWidth - currentWidth
+        : 0
     }
-    else if (anchorProps[selfOrigin.horizontal] > innerWidth / 2) {
+    else if (anchorProps[anchorOrigin.horizontal] > innerWidth / 2) {
       const anchorX = Math.min(
         innerWidth,
         anchorOrigin.horizontal === 'middle'
-          ? anchorProps.center
+          ? anchorProps.middle
           : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.right : anchorProps.left)
       )
-      props.maxWidth = Math.min(targetProps.right, anchorX)
+      props.maxWidth = Math.min(currentWidth, anchorX)
       props.left = Math.max(0, anchorX - props.maxWidth)
     }
     else {
       props.left = anchorOrigin.horizontal === 'middle'
-        ? anchorProps.center
+        ? anchorProps.middle
         : (anchorOrigin.horizontal === selfOrigin.horizontal ? anchorProps.left : anchorProps.right)
-      props.maxWidth = Math.min(targetProps.right, innerWidth - props.left)
+      props.maxWidth = Math.min(currentWidth, innerWidth - props.left)
     }
   }
 }

@@ -9,14 +9,17 @@ const logger = require('../helpers/logger')
 const log = logger('app:ensure-consistency')
 const warn = logger('app:ensure-consistency', 'red')
 
-function ensureWWW () {
+function ensureWWW (forced) {
   const www = appPaths.resolve.capacitor('www')
 
-  fse.removeSync(www)
-  fse.copySync(
-    appPaths.resolve.cli('templates/capacitor/www'),
-    appPaths.resolve.capacitor('www')
-  )
+  forced === true && fse.removeSync(www)
+
+  if (!fs.existsSync(www)) {
+    fse.copySync(
+      appPaths.resolve.cli('templates/capacitor/www'),
+      appPaths.resolve.capacitor('www')
+    )
+  }
 }
 
 function ensureDeps () {

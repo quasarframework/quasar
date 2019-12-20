@@ -215,6 +215,16 @@ export default Vue.extend({
       return this.rightLabelValue !== void 0
         ? this.rightLabelValue
         : this.model.max
+    },
+
+    minPinStyle () {
+      const percent = (this.reverse === true ? -this.ratioMin : this.ratioMin - 1)
+      return this.__getPinStyle(percent, this.ratioMin)
+    },
+
+    maxPinStyle () {
+      const percent = (this.reverse === true ? -this.ratioMax : this.ratioMax - 1)
+      return this.__getPinStyle(percent, this.ratioMax)
     }
   },
 
@@ -410,6 +420,35 @@ export default Vue.extend({
     },
 
     __getThumb (h, which) {
+      const child = [
+        this.__getThumbSvg(h),
+        h('div', { staticClass: 'q-slider__focus-ring' })
+      ]
+
+      if (this.label === true || this.labelAlways === true) {
+        child.push(
+          h('div', {
+            staticClass: 'q-slider__pin absolute',
+            style: this[which + 'PinStyle'].pin,
+            class: this[which + 'PinClass']
+          }, [
+            h('div', { staticClass: 'q-slider__pin-text-container', style: this[which + 'PinStyle'].pinTextContainer }, [
+              h('span', {
+                staticClass: 'q-slider__pin-text',
+                class: this[which + 'PinTextClass']
+              }, [
+                this[which + 'Label']
+              ])
+            ])
+          ]),
+
+          h('div', {
+            staticClass: 'q-slider__arrow',
+            class: this[which + 'PinClass']
+          })
+        )
+      }
+
       return h('div', {
         ref: which + 'Thumb',
         staticClass: 'q-slider__thumb-container absolute non-selectable',
@@ -417,37 +456,7 @@ export default Vue.extend({
         class: this[which + 'ThumbClass'],
         on: this[which + 'Events'],
         attrs: { tabindex: this.dragOnlyRange !== true ? this.computedTabindex : null }
-      }, [
-        h('svg', {
-          staticClass: 'q-slider__thumb absolute',
-          attrs: { focusable: 'false' /* needed for IE11 */, width: '21', height: '21' }
-        }, [
-          h('circle', {
-            attrs: {
-              cx: '10.5',
-              cy: '10.5',
-              r: '7.875'
-            }
-          })
-        ]),
-
-        this.label === true || this.labelAlways === true ? h('div', {
-          staticClass: 'q-slider__pin absolute flex flex-center',
-          class: this[which + 'PinClass']
-        }, [
-          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
-            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
-            h('div', {
-              staticClass: 'q-slider__pin-value-marker-text',
-              class: this[which + 'PinTextClass']
-            }, [
-              this[which + 'Label']
-            ])
-          ])
-        ]) : null,
-
-        h('div', { staticClass: 'q-slider__focus-ring' })
-      ])
+      }, child)
     }
   },
 
