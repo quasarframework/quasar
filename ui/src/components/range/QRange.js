@@ -215,6 +215,27 @@ export default Vue.extend({
       return this.rightLabelValue !== void 0
         ? this.rightLabelValue
         : this.model.max
+    },
+
+    minValueMarkerStyle () {
+      const
+        percent = (this.isReversed === true ? -100 : 100) * (0.5 - this.ratioMin),
+        rotate = this.$q.lang.rtl === true ? -45 : 45,
+        translate = `calc(${percent}% ${percent <= 0 ? '+' : '-'} ${Math.ceil(28 * Math.abs(this.ratioMin - 0.5))}px)`
+      return {
+        transform: `rotate(${rotate}deg) translateX(${translate})`
+      }
+    },
+
+    maxValueMarkerStyle () {
+      const
+        percent = (this.isReversed === true ? -100 : 100) * (0.5 - this.ratioMax),
+        rotate = this.$q.lang.rtl === true ? -45 : 45,
+        translate = `calc(${percent}% ${percent <= 0 ? '+' : '-'} ${Math.ceil(28 * Math.abs(this.ratioMax - 0.5))}px)`
+
+      return {
+        transform: `rotate(${rotate}deg) translateX(${translate})`
+      }
     }
   },
 
@@ -435,7 +456,7 @@ export default Vue.extend({
           staticClass: 'q-slider__pin absolute flex flex-center',
           class: this[which + 'PinClass']
         }, [
-          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
+          h('div', { staticClass: 'q-slider__pin-value-marker', style: this[which + 'ValueMarkerStyle'] }, [
             h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
             h('div', {
               staticClass: 'q-slider__pin-value-marker-text',
