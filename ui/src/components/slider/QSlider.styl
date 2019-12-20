@@ -36,14 +36,14 @@
   &__thumb-container
     top: 11px
     width: 21px
-    transform: translate3d(-10px, 0, 0) /* rtl:ignore */
+    transform: translate(-10px) /* rtl:ignore */
     will-change: left
     outline: 0
 
   &__thumb
     top: 0
     left: 0
-    transform: scale3d(.571, .571, .571)
+    transform: scale(.571)
     transition: transform .18s ease-out, fill .18s ease-out, stroke .18s ease-out
     stroke-width: 3.5
     stroke: currentColor
@@ -105,7 +105,7 @@
 
   &--focus
     .q-slider__thumb
-      transform: scale3d(.571, .571, .571)
+      transform: scale(.571)
 
   &--focus, body.desktop &.q-slider--editable:hover
     .q-slider__focus-ring
@@ -125,10 +125,10 @@
     cursor: grabbing
 
     .q-slider__thumb
-      transform: scale3d(1, 1, 1)
+      transform: scale(1)
 
     .q-slider__focus-ring, &.q-slider--label .q-slider__thumb
-      transform: scale3d(0, 0, 0) !important
+      transform: scale(0) !important
 
   body.desktop &.q-slider--editable:hover .q-slider__pin
     transform: rotate(-45deg) scale3d(1, 1, 1) translate3d(19px, -20px, 0)
@@ -152,4 +152,4 @@
 
   &--reversed
     .q-slider__thumb-container
-      transform: translate3d(10px, 0, 0) /* rtl:ignore */
+      transform: translate(10px) /* rtl:ignore */
