@@ -42,7 +42,7 @@ class Mode {
     )
 
     const { ensureWWW } = require('../cordova/ensure-consistency')
-    ensureWWW()
+    ensureWWW(true)
 
     log(`Cordova support was installed`)
     log(`App name was taken from package.json: "${appName}"`)

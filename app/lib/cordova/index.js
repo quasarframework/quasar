@@ -10,7 +10,7 @@ const openIde = require('../helpers/open-ide')
 class CordovaRunner {
   constructor () {
     this.pid = 0
-    this.config = new CordovaConfig()
+    this.cordovaConfig = new CordovaConfig()
 
     onShutdown(() => {
       this.stop()
@@ -103,7 +103,7 @@ class CordovaRunner {
   }
 
   __runCordovaCommand (cfg, args) {
-    this.config.prepare(cfg)
+    this.cordovaConfig.prepare(cfg)
 
     if (this.target === 'ios' && cfg.cordova.noIosLegacyBuildFlag !== true) {
       args.push(`--buildFlag=-UseModernBuildSystem=0`)
@@ -128,7 +128,7 @@ class CordovaRunner {
 
   __cleanup () {
     this.pid = 0
-    this.config.reset()
+    this.cordovaConfig.reset()
   }
 }
 

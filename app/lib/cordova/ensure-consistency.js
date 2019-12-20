@@ -8,14 +8,17 @@ const logger = require('../helpers/logger')
 const log = logger('app:ensure-consistency')
 const warn = logger('app:ensure-consistency', 'red')
 
-function ensureWWW () {
+function ensureWWW (forced) {
   const www = appPaths.resolve.cordova('www')
 
-  fse.removeSync(www)
-  fse.copySync(
-    appPaths.resolve.cli('templates/cordova'),
-    appPaths.cordovaDir
-  )
+  forced === true && fse.removeSync(www)
+
+  if (!fs.existsSync(www)) {
+    fse.copySync(
+      appPaths.resolve.cli('templates/cordova'),
+      appPaths.cordovaDir
+    )
+  }
 }
 
 function ensureDeps () {
