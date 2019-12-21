@@ -278,9 +278,7 @@ export default Vue.extend({
       staticClass: 'q-scrollarea',
       on: this.visible === null
         ? cache(this, 'desk', {
-          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           mouseenter: () => { this.hover = true },
-          // eslint-disable-next-line vue/no-side-effects-in-computed-properties
           mouseleave: () => { this.hover = false }
         })
         : null
