@@ -173,7 +173,7 @@ export default Vue.extend({
         scrollHeight = getScrollHeight(this.scrollContainer),
         containerHeight = height(this.scrollContainer)
 
-      setScrollPosition(this.scrollContainer.scrollTop, scrollHeight - containerHeight)
+      setScrollPosition(this.scrollContainer, scrollHeight - containerHeight)
     }
   },
 
