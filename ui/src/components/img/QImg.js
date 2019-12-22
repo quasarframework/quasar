@@ -28,6 +28,7 @@ export default Vue.extend({
     },
 
     imgClass: [ Array, String, Object ],
+    imgStyle: Object,
 
     noDefaultSpinner: Boolean,
     spinnerColor: String,
@@ -75,6 +76,16 @@ export default Vue.extend({
         att['aria-label'] = this.alt
       }
       return att
+    },
+
+    style () {
+      return Object.assign(
+        {
+          backgroundSize: this.contain ? 'contain' : 'cover',
+          backgroundPosition: this.position
+        },
+        this.imgStyle,
+        { backgroundImage: `url("${this.url}")` })
     }
   },
 
@@ -200,11 +211,7 @@ export default Vue.extend({
         key: this.url,
         staticClass: 'q-img__image absolute-full',
         class: this.imgClass,
-        style: {
-          backgroundImage: `url("${this.url}")`,
-          backgroundSize: this.contain ? 'contain' : 'cover',
-          backgroundPosition: this.position
-        }
+        style: this.style
       }) : null
 
       return this.basic === true

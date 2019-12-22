@@ -52,6 +52,13 @@
       "type": "Boolean",
       "desc": "Register for horizontal scroll instead of vertical (which is default)",
       "category": "behavior"
+    },
+
+    "force-on-mobile": {
+      "type": "Boolean",
+      "desc": "Use custom scrollbar on mobile too; The scroll area will not benefit from inertial scrolling on mobile",
+      "category": "behavior",
+      "addedIn": "v1.5.11"
     }
   },
 
