@@ -17,7 +17,7 @@ export default Vue.extend({
   inject: {
     tabs: {
       default () {
-        console.error('QTab/QRouteTab components need to be child of QTabsBar')
+        console.error('QTab/QRouteTab components need to be child of QTabs')
       }
     },
     __activateTab: {},
