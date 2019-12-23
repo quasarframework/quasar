@@ -95,15 +95,24 @@ function getMethodDefinition (key, methodDef, required) {
     def += ` * @returns ${returns.desc}\n`
   }
 
-  def += ` */\n${key} (`
+  def += ` */\n${key}`
 
-  if (methodDef.params) {
-    // TODO: Verify if this should be optional even for plugins
-    const params = getPropDefinitions(methodDef.params, false, false)
-    def += params.join(', ')
+  if (methodDef.tsType !== void 0) {
+    def += `: ${methodDef.tsType}`
+    addToExtraInterfaces(methodDef)
   }
+  else {
+    def += ' ('
 
-  def += `): ${returns ? getTypeVal(returns, required) : 'void'}`
+    if (methodDef.params) {
+      // TODO: Verify if this should be optional even for plugins
+      const params = getPropDefinitions(methodDef.params, false, false)
+      def += params.join(', ')
+    }
+
+    def += `): ${returns ? getTypeVal(returns, required) : 'void'}`
+    addToExtraInterfaces(returns, true)
+  }
 
   return def
 }
@@ -167,15 +176,25 @@ function copyPredefinedTypes (dir, parentDir) {
 }
 
 function addToExtraInterfaces (def, required) {
-  if (
-    def !== void 0 &&
-    def.tsType !== void 0 &&
-    extraInterfaces[def.tsType] === void 0 &&
-    def.definition !== void 0
-  ) {
-    extraInterfaces[def.tsType] = getObjectParamDefinition(
-      def.definition, required
-    )
+  if (def !== void 0 && def.tsType !== void 0) {
+    // When a type name is found and it has a definition,
+    //  it's added for later usage if a previous definition isn't already there.
+    // When the new interface doesn't have a definition, we initialize its key anyway
+    //  to mark its existence, but with an undefined value.
+    // In this way it can be overwritten if a definition is found later on.
+    // Interfaces without definition at the end of the build script
+    //  are considered external custom types and imported as such
+    if (
+      extraInterfaces[def.tsType] === void 0 &&
+      def.definition !== void 0
+    ) {
+      extraInterfaces[def.tsType] = getObjectParamDefinition(
+        def.definition, required
+      )
+    }
+    else if (!extraInterfaces.hasOwnProperty(def.tsType)) {
+      extraInterfaces[def.tsType] = void 0
+    }
   }
 }
 
@@ -230,6 +249,7 @@ function writeIndexDTS (apis) {
   writeLine(quasarTypeContents, `export * from './boot'`)
   writeLine(quasarTypeContents, `export * from './extras'`)
   writeLine(quasarTypeContents, `export * from './lang'`)
+  writeLine(quasarTypeContents, `export * from './api'`)
 
   const injections = {}
 
@@ -264,7 +284,6 @@ function writeIndexDTS (apis) {
       const method = content.methods[methodKey]
       const methodDefinition = getMethodDefinition(methodKey, method, content.type === 'plugin')
       writeLines(contents, methodDefinition, 1)
-      addToExtraInterfaces(method.returns, true)
     }
 
     // Close class declaration
@@ -288,11 +307,16 @@ function writeIndexDTS (apis) {
   })
 
   Object.keys(extraInterfaces).forEach(name => {
-    writeLine(contents, `export interface ${name} {`)
-    extraInterfaces[name].forEach(def => {
-      writeLines(contents, def, 1)
-    })
-    writeLine(contents, `}\n`)
+    if (extraInterfaces[name] === void 0) {
+      writeLine(contents, `import { ${name} } from './api'`)
+    }
+    else {
+      writeLine(contents, `export interface ${name} {`)
+      extraInterfaces[name].forEach(def => {
+        writeLines(contents, def, 1)
+      })
+      writeLine(contents, `}\n`)
+    }
   })
 
   // Write injection types
