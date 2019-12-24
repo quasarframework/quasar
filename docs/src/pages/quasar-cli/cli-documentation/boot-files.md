@@ -41,6 +41,16 @@ export default async ({ app, router, store, Vue }) => {
 }
 ```
 
+Starting with v1.6, you can wrap the returned function with `boot` helper to get a better IDE autocomplete experience:
+```js
+import { boot } from 'quasar'
+
+export default boot(async ({ app, router, store, Vue }) => {
+  // something to do
+  await something()
+})
+```
+
 Notice we are using the [ES6 destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment). Only assign what you actually need/use.
 
 ::: danger
