@@ -1,0 +1,3 @@
+{
+  "mixins": [ "components/skeleton/_skeleton-mixin" ]
+}

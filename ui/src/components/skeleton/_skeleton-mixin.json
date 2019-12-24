@@ -1,0 +1,42 @@
+{
+  "meta": {
+    "docsUrl": "https://quasarframework.github.io/quasar-ui-qskeleton/docs"
+  },
+  "props": {
+    "rtl": {
+      "type": "Boolean",
+      "category": "behavior",
+      "desc": "Makes the skeleton display right-to-left"
+    },
+    "duration": {
+      "type": ["Number", "String"],
+      "category": "behavior",
+      "default": 2,
+      "desc": "The duration time to use for the animation",
+      "examples": [
+        ":duration=\"4\"",
+        "duration=\"3\""
+      ]
+    },
+    "width": {
+      "type": ["Number", "String"],
+      "category": "behavior",
+      "default": 400,
+      "desc": "The max-width to use for displaying the skeleton, anything less than this value will be responsive",
+      "examples": [
+        ":width=\"400\"",
+        "width=\"300\""
+      ]
+    },
+    "height": {
+      "type": ["Number", "String"],
+      "category": "behavior",
+      "default": 110,
+      "desc": "The max-height to use for displaying the skeleton, anything less than this value will be responsive",
+      "examples": [
+        ":height=\"100\"",
+        "height=\"180\""
+      ]
+    }
+  }
+}

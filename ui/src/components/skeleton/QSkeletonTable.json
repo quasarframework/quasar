@@ -1,0 +1,26 @@
+{
+  "mixins": [ "components/skeleton/_skeleton-mixin" ],
+  "props": {
+    "rows": {
+      "type": ["Number", "String"],
+      "default": 5,
+      "category": "behavior",
+      "desc": "The number of rows to be displayed",
+      "examples": [
+        ":rows=\"7\"",
+        "rows=\"3\""
+      ]
+    },
+    "columns": {
+      "type": ["Number", "String"],
+      "default": 5,
+      "category": "behavior",
+      "desc": "The number of columns to be displayed",
+      "examples": [
+        ":columns=\"7\"",
+        "columns=\"3\""
+      ]
+    }
+  }
+
+}
