@@ -7,6 +7,7 @@ import * as components from './components.js'
 import * as directives from './directives.js'
 import * as plugins from './plugins.js'
 import * as utils from './utils.js'
+import * as typeHelpers from './type-helpers'
 import lang from './lang.js'
 import iconSet from './icon-set.js'
 
@@ -28,5 +29,6 @@ export default {
   ...components,
   ...directives,
   ...plugins,
-  ...utils
+  ...utils,
+  ...typeHelpers
 }

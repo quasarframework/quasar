@@ -1,14 +1,12 @@
-import Vue, { ComponentOptions, VueConstructor } from 'vue';
-import VueRouter from 'vue-router';
-import { HasSsr, HasStore } from './feature-flag';
+import { Request, Response } from "express";
+import Vue, { ComponentOptions, VueConstructor } from "vue";
+import VueRouter from "vue-router";
+import { HasSsr, HasStore } from "./feature-flag";
 
 export interface QSsrContext {
-  req: {
-    headers: Record<string, string>;
-  };
-  res: {
-    setHeader(name: string, value: string): void;
-  };
+  req: Request;
+  res: Response;
+  url: Request["url"];
 }
 
 export type HasSsrBootParams = HasSsr<{ ssrContext?: QSsrContext | null }>;
@@ -23,3 +21,7 @@ export interface BootFileParams<TStore = any>
   urlPath: string;
   redirect: (url: string) => void;
 }
+
+type BootCallback = (params: BootFileParams) => void | Promise<void>;
+
+export function boot(callback: BootCallback): BootCallback;
