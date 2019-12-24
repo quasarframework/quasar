@@ -85,6 +85,17 @@ module.exports = function (ctx) {
 
 The possibilities are endless.
 
+---
+
+Starting with v1.6, you can wrap the returned function with `configure` helper to get a better IDE autocomplete experience:
+```js
+const { configure } = require('quasar');
+
+module.exports = configure(function (ctx) {
+  /* configuration options */
+})
+```
+
 ## Options to Configure
 Let's take each option one by one:
 
