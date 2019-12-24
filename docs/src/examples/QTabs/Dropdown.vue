@@ -48,7 +48,7 @@
         <q-tab name="mails" label="Mails" icon="mail" />
         <q-tab name="alarms" label="Alarms" icon="alarm" />
         <q-btn-dropdown auto-close stretch flat>
-          <template #label>
+          <template v-slot:label>
             <div>
               <div class="row justify-around items-center no-wrap">
                 <q-icon name="more" />
