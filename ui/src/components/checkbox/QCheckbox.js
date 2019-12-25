@@ -7,6 +7,7 @@ import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QCheckbox',
+  inheritAttrs: false,
 
   mixins: [ CheckboxMixin ],
 
@@ -68,7 +69,10 @@ export default Vue.extend({
     this.disable !== true && content.unshift(
       h('input', {
         staticClass: 'q-checkbox__native q-ma-none q-pa-none invisible',
-        attrs: { type: 'checkbox' }
+        attrs: {
+          ...this.$attrs,
+          type: 'checkbox'
+        }
       })
     )
 

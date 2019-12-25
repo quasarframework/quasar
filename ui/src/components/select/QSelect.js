@@ -25,6 +25,7 @@ const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
 export default Vue.extend({
   name: 'QSelect',
+  inheritAttrs: false,
 
   mixins: [ QField, VirtualScroll, CompositionMixin ],
 
@@ -825,8 +826,8 @@ export default Vue.extend({
         domProps: { value: this.inputValue !== void 0 ? this.inputValue : '' },
         attrs: {
           // required for Android in order to show ENTER key when in form
-          type: 'search',
           ...this.$attrs,
+          type: 'search',
           tabindex: this.tabindex,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
           id: this.targetUid,

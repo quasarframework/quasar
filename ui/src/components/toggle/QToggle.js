@@ -7,6 +7,7 @@ import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QToggle',
+  inheritAttrs: false,
 
   mixins: [ CheckboxMixin ],
 
@@ -58,7 +59,10 @@ export default Vue.extend({
     this.disable !== true && inner.unshift(
       h('input', {
         staticClass: 'q-toggle__native absolute q-ma-none q-pa-none invisible',
-        attrs: { type: 'checkbox' }
+        attrs: {
+          ...this.$attrs,
+          type: 'checkbox'
+        }
       })
     )
 

@@ -31,6 +31,7 @@ const palette = [
 
 export default Vue.extend({
   name: 'QColor',
+  inheritAttrs: false,
 
   mixins: [ DarkMixin ],
 
@@ -247,9 +248,10 @@ export default Vue.extend({
             h('input', {
               staticClass: 'fit',
               domProps: { value: this.model[this.topView] },
-              attrs: this.editable !== true ? {
-                readonly: true
-              } : null,
+              attrs: {
+                ...this.$attrs,
+                readonly: this.editable !== true
+              },
               on: cache(this, 'topIn', {
                 input: evt => {
                   this.__updateErrorIcon(this.__onEditorChange(evt) === true)
@@ -436,6 +438,7 @@ export default Vue.extend({
               value: this.model.r
             },
             attrs: {
+              ...this.$attrs,
               maxlength: 3,
               readonly: this.editable !== true
             },
@@ -467,6 +470,7 @@ export default Vue.extend({
               value: this.model.g
             },
             attrs: {
+              ...this.$attrs,
               maxlength: 3,
               readonly: this.editable !== true
             },
@@ -498,6 +502,7 @@ export default Vue.extend({
               value: this.model.b
             },
             attrs: {
+              ...this.$attrs,
               maxlength: 3,
               readonly: this.editable !== true
             },
@@ -527,6 +532,7 @@ export default Vue.extend({
               value: this.model.a
             },
             attrs: {
+              ...this.$attrs,
               maxlength: 3,
               readonly: this.editable !== true
             },

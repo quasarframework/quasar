@@ -11,6 +11,7 @@ import { cache } from '../../utils/vm.js'
 
 export default {
   mixins: [ DarkMixin ],
+  inheritAttrs: false,
 
   props: {
     label: String,
@@ -361,6 +362,7 @@ export default {
           ref: 'input',
           staticClass: 'q-uploader__input overflow-hidden absolute-full',
           attrs: {
+            ...this.$attrs,
             tabindex: -1,
             type: 'file',
             title: '', // try to remove default tooltip
