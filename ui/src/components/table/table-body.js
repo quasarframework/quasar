@@ -82,7 +82,7 @@ export default {
       let child = this.computedRows.map(mapFn)
 
       if (topRow !== void 0) {
-        child = topRow({ cols: this.computedCols }).concat(child)
+        child = (topRow({ cols: this.computedCols }) || []).concat(child)
       }
       if (bottomRow !== void 0) {
         child = child.concat(bottomRow({ cols: this.computedCols }))
