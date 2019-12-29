@@ -116,7 +116,7 @@ export default Vue.extend({
         style: this.sizeStyle,
         on: this.$listeners,
         attrs: { src: this.type.src }
-      })
+      }, mergeSlot([ this.type.content ], this, 'default'))
     }
 
     return h('i', {
