@@ -163,7 +163,7 @@ export default {
 
   mounted () {
     const query = this.$route.query
-    for (let param in queryParams) {
+    for (const param in queryParams) {
       if (param in query) {
         const paramType = queryParams[param]
         switch (paramType) {
@@ -213,7 +213,7 @@ export default {
     },
     onChange (index) {
       this.selectedIndex = index
-      let child = this.$refs['child' + index][0]
+      const child = this.$refs['child' + index][0]
       this.childClasses = child.classes
       this.childStyles = child.styles
     },
@@ -223,9 +223,9 @@ export default {
         playgroudUrl = playgroudUrl.substring(0, playgroudUrl.indexOf('?'))
       }
       let queryString = '',
-        index = 0,
-        paramsCount = Object.keys(queryParams).length
-      for (let param in queryParams) {
+        index = 0
+      const paramsCount = Object.keys(queryParams).length
+      for (const param in queryParams) {
         const paramType = queryParams[param]
         let value
         switch (paramType) {

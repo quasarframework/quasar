@@ -213,7 +213,7 @@ export default {
       const toc = this.$store.state.toc
       let last
 
-      for (let i in toc) {
+      for (const i in toc) {
         const section = toc[i]
         const item = document.getElementById(section.id)
 

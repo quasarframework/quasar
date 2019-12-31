@@ -3,7 +3,6 @@ module.exports = {
 
   parserOptions: {
     parser: 'babel-eslint',
-    sourceType: 'module'
   },
 
   env: {
@@ -39,6 +38,9 @@ module.exports = {
     'one-var': 'off',
     'prefer-promise-reject-errors': 'off',
 
+    'no-void': 'off',
+    'quotes': 'off',
+    'array-bracket-spacing': ['error', 'always'],
     'brace-style': ['error', 'stroustrup'],
 
     'import/first': 'off',
