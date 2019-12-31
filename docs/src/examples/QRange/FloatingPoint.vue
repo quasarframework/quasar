@@ -9,7 +9,6 @@
       :min="0.1"
       :max="1.5"
       :step="0.1"
-      :decimals="1"
       color="green"
     />
 
@@ -22,7 +21,6 @@
       :min="0.1"
       :max="1.5"
       :step="0"
-      :decimals="1"
       color="amber"
     />
   </div>

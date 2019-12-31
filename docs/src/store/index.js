@@ -27,7 +27,7 @@ export default function (/* { ssrContext } */) {
 
       updateToc (state, newToc) {
         state.toc = newToc.length > 0
-          ? [{ id: 'Introduction', title: 'Introduction' }].concat(newToc)
+          ? [ { id: 'Introduction', title: 'Introduction' } ].concat(newToc)
           : []
       }
     }

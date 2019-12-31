@@ -34,8 +34,8 @@
 export default {
   data () {
     return {
-      itemsRef: [{}, {}, {}, {}, {}, {}, {}],
-      itemsId: [{}, {}, {}, {}, {}, {}, {}]
+      itemsRef: [ {}, {}, {}, {}, {}, {}, {} ],
+      itemsId: [ {}, {}, {}, {}, {}, {}, {} ]
     }
   },
 

@@ -13,7 +13,7 @@
 export default {
   data () {
     return {
-      group: ['op1'],
+      group: [ 'op1' ],
       options: [
         {
           label: 'Option 1',

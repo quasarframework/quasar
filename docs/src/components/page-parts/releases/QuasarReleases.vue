@@ -66,7 +66,9 @@ export default {
           }
 
           const vIndex = release.name.indexOf('-v'),
-            packageName = ['v1.0.0', 'v1.0.0-beta.5'].includes(release.name) ? 'quasar' : release.name.substring(0, vIndex),
+            packageName = [ 'v1.0.0', 'v1.0.0-beta.5' ].includes(release.name)
+              ? 'quasar'
+              : release.name.substring(0, vIndex),
             version = release.name.substring(vIndex + 2)
 
           if (version.startsWith('0')) {
