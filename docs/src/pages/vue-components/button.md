@@ -65,11 +65,11 @@ Should you wish, you can also display a deterministic progress within the button
 
 The two examples below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
 
-<doc-example title="Links" file="QBtn/Links" />
+<doc-example title="Links" file="QBtn/Links" no-edit />
 
 For more convoluted use-cases, you can also directly use the native Vue `<router-link>` component to wrap a QBtn. This also gives the opportunity to control the state according to app's current route:
 
-<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" />
+<doc-example title="Scoped slot of RouterLink" file="QBtn/RouterLink" no-edit />
 
 ### Other options
 
