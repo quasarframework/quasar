@@ -47,7 +47,7 @@ module.exports.generate = function () {
     catch (e) { }
 
     if (newLangJson.split(/[\n\r]+/).join('\n') !== oldLangJson.split(/[\n\r]+/).join('\n')) {
-      writeFile(langFile, newLangJson)
+      return writeFile(langFile, newLangJson)
     }
   }
   catch (err) {
