@@ -51,6 +51,10 @@ Enjoy some pre-made recipes. Your imagination is the only limit.
 
 <doc-example title="Facebook" file="QSkeleton/RecipeFacebook" />
 
+<doc-example title="Twitter" file="QSkeleton/RecipeTwitter" />
+
+<doc-example title="Twitch" file="QSkeleton/RecipeTwitch" />
+
 <doc-example title="Table" file="QSkeleton/RecipeTable" />
 
 <doc-example title="List" file="QSkeleton/RecipeList" />
