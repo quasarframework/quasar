@@ -6,6 +6,7 @@ related:
   - /vue-components/circular-progress
   - /vue-components/inner-loading
   - /vue-components/spinners
+  - /vue-components/skeleton
   - /quasar-plugins/loading-bar
   - /vue-components/ajax-bar
 ---

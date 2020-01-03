@@ -1,5 +1,5 @@
 <template>
-  <div class="q-layout-padding">
+  <div class="q-layout-padding" style="max-width: 500px">
     <div>
       <q-toggle v-model="bordered" label="Bordered" />
       <q-toggle v-model="dark" label="Dark" :false-value="null" />
@@ -49,13 +49,11 @@
         </q-item-section>
       </q-item>
 
-      <q-skeleton v-bind="props" size="200px" square />
+      <q-skeleton v-bind="props" height="200px" square />
 
       <q-card-actions align="right" class="q-gutter-md">
         <q-skeleton v-bind="props" type="QBadge" />
         <q-skeleton v-bind="props" type="QChip" />
-        <q-skeleton v-bind="props" type="QBtn" />
-        <q-skeleton v-bind="props" type="QBtn" />
         <q-skeleton v-bind="props" type="QBtn" />
         <q-skeleton v-bind="props" type="QBtn" />
       </q-card-actions>
@@ -77,13 +75,11 @@
         </q-item-section>
       </q-item>
 
-      <q-skeleton v-bind="props" size="200px" square />
+      <q-skeleton v-bind="props" height="200px" square />
 
       <q-card-actions align="right" class="q-gutter-md">
         <q-skeleton v-bind="props" type="QBadge" animation="pulse" />
         <q-skeleton v-bind="props" type="QChip" animation="pulse" />
-        <q-skeleton v-bind="props" type="QBtn" animation="pulse" />
-        <q-skeleton v-bind="props" type="QBtn" animation="pulse" />
         <q-skeleton v-bind="props" type="QBtn" animation="pulse" />
         <q-skeleton v-bind="props" type="QBtn" animation="pulse" />
       </q-card-actions>
