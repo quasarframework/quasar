@@ -98,10 +98,10 @@ addAssets(builds, 'icon-set', 'iconSet')
 build(builds)
 
 require('./build.api').generate()
-  .then(data => {
+  .then(async (data) => {
+    await require('./build.lang-index').generate()
     require('./build.transforms').generate()
     require('./build.vetur').generate(data)
-    require('./build.lang-index').generate()
     require('./build.types').generate(data)
     require('./build.web-types').generate(data)
   })
