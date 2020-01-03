@@ -28,6 +28,7 @@ module.exports = function (chain) {
   chain.resolve.alias
     .merge({
       quasar: resolve(`src/index.esm.js`),
+      src: resolve('src'),
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),
       data: resolve('dev/data')
