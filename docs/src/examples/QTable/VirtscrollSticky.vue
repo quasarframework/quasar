@@ -6,7 +6,7 @@
       table-style="max-height: 400px"
       :pagination.sync="pagination"
       :rows-per-page-options="[0]"
-      :virtual-scroll-sticky-start="48"
+      :virtual-scroll-sticky-size-start="48"
       row-key="index"
 
       title="Treats"

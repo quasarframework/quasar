@@ -138,7 +138,7 @@ export default {
         script,
         style
       }
-      this.tabs = ['template', 'script', 'style'].filter(type => this.parts[type])
+      this.tabs = [ 'template', 'script', 'style' ].filter(type => this.parts[type])
     },
 
     parseTemplate (target, template) {

@@ -56,7 +56,7 @@
 export default {
   data () {
     return {
-      color: ['cyan']
+      color: [ 'cyan' ]
     }
   }
 }

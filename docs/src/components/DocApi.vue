@@ -83,11 +83,12 @@ const { pad } = format
 const groupBy = (list, groupKey, defaultGroupKeyValue) => {
   const res = {}
 
-  for (let key in list) {
-    if (list.hasOwnProperty(key)) {
-      let value = list[key]
-      let groupKeyValue = (value[groupKey] || defaultGroupKeyValue).split('|')
-      for (let groupKeyV of groupKeyValue) {
+  for (const key in list) {
+    if (list[key] !== void 0) {
+      const value = list[key]
+      const groupKeyValue = (value[groupKey] || defaultGroupKeyValue).split('|')
+
+      for (const groupKeyV of groupKeyValue) {
         if (res[groupKeyV] === void 0) {
           res[groupKeyV] = {}
         }
@@ -164,8 +165,8 @@ export default {
         if (this.aggregationModel[tab]) {
           api[tab] = {}
 
-          for (let group in this.api[tab]) {
-            if (this.api[tab].hasOwnProperty(group)) {
+          for (const group in this.api[tab]) {
+            if (this.api[tab][group] !== void 0) {
               api[tab][group] = filterApi(this.api[tab][group])
             }
           }
@@ -173,7 +174,7 @@ export default {
           if (this.currentTab === tab) {
             let apiWithResultsCount = 0,
               lastFoundApiWithResults = null
-            for (let group in this.api[tab]) {
+            for (const group in this.api[tab]) {
               if (Object.keys(api[tab][group]).length > 0) {
                 apiWithResultsCount++
                 lastFoundApiWithResults = group
@@ -202,7 +203,7 @@ export default {
       this.aggregationModel = {}
 
       if (type === 'component' && api.props !== void 0) {
-        for (let apiGroup of ['props']) {
+        for (const apiGroup of [ 'props' ]) {
           api[apiGroup] = groupBy(api[apiGroup], 'category', 'general')
           this.currentInnerTab[apiGroup] = this.apiTabs(apiGroup, api)[0]
           this.aggregationModel[apiGroup] = true
@@ -258,7 +259,7 @@ export default {
         return total
       }
 
-      if (['value', 'arg', 'quasarConfOptions', 'injection'].includes(tab)) {
+      if ([ 'value', 'arg', 'quasarConfOptions', 'injection' ].includes(tab)) {
         return 1
       }
 
@@ -278,8 +279,8 @@ export default {
     currentTabMaxCategoryPropCount () {
       if (this.aggregationModel[this.currentTab]) {
         let max = -1
-        for (let category in this.filteredApi[this.currentTab]) {
-          let count = this.apiInnerCount(this.currentTab, category)
+        for (const category in this.filteredApi[this.currentTab]) {
+          const count = this.apiInnerCount(this.currentTab, category)
           if (count > max) {
             max = count
           }

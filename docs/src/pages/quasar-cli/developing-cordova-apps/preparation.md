@@ -30,10 +30,22 @@ PATH=$PATH:$ANDROID_HOME/tools; PATH=$PATH:$ANDROID_HOME/platform-tools
 
 #### Windows
 
+After installing Android Studio, you need to install two more pieces of software:
+* JDK from Oracle. It can be found [here](https://www.oracle.com/java/technologies/jdk8-downloads.html)
+* Gradle. It used to usable from Android Studio but now you have to install it separately. There is a very specific version that cordova requires. You can download it [here](https://downloads.gradle-dn.com/distributions/gradle-4.10.3-all.zip)
+
+Then you will have to set environment variables. You will need to set the following variables. Cordova has a good guide for it already. It can be found [here](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#setting-environment-variables). You need to:
+* add ANDRIOD_HOME. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
+* add two ANDROID_HOME directories to your path: %ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools
+* add Gradle to your path. Note that gradle does not have an installer. You just put the binary files where you want them, then add the bin directory to your path.
+
+If you have an init script for your command prompt or powershell, you can try this:
 ```bash
 setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
-setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
+setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools;<gradle_path>\bin;"
 ```
+
+After the tools are installed, setup Android Studio with the correct SDK and create a virtual machine. 
 
 * Start Android studio by changing into the folder you installed it in and run `./studio.sh`. Next step is to install the individual SDKs:
 
@@ -41,7 +53,7 @@ setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
 
   ![SDK manager](https://cdn.quasar.dev/img/Android-Studio-SDK-Menu.png "SDK manager")
 
-* Select the desired SDKs. As per August 2018 Cordova supports 5.0 and up and click on "Apply" to install the SDKs.
+* Select the desired SDKs. As per December 2019 Cordova requires android-28 (Android 9.0 - Pie) so be sure to include it. Click on "Apply" to install the SDKs.
 
   ![SDK selection](https://cdn.quasar.dev/img/Android-Studio-SDK-selection.png "SDK selection")
 

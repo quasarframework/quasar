@@ -6,7 +6,7 @@ const rollup = require('rollup')
 const uglify = require('uglify-es')
 const buble = require('@rollup/plugin-buble')
 const json = require('@rollup/plugin-json')
-const nodeResolve = require('rollup-plugin-node-resolve')
+const nodeResolve = require('@rollup/plugin-node-resolve')
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
 
@@ -98,10 +98,10 @@ addAssets(builds, 'icon-set', 'iconSet')
 build(builds)
 
 require('./build.api').generate()
-  .then(data => {
+  .then(async (data) => {
+    await require('./build.lang-index').generate()
     require('./build.transforms').generate()
     require('./build.vetur').generate(data)
-    require('./build.lang-index').generate()
     require('./build.types').generate(data)
     require('./build.web-types').generate(data)
   })

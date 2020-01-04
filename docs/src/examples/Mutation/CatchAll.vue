@@ -27,7 +27,7 @@
 
 <script>
 function domToObj (domEl, whitelist) {
-  let obj = {}
+  const obj = {}
   for (let i = 0; i < whitelist.length; i++) {
     if (domEl[whitelist[i]] instanceof NodeList) {
       obj[whitelist[i]] = Array.from(domEl[whitelist[i]])
@@ -67,7 +67,7 @@ export default {
     handler (mutationRecords) {
       const info = []
 
-      for (let index in mutationRecords) {
+      for (const index in mutationRecords) {
         const record = mutationRecords[index]
 
         info.push(

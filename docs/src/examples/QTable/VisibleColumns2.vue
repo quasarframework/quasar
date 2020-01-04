@@ -7,7 +7,7 @@
       row-key="name"
       :visible-columns="visibleColumns"
     >
-      <template v-slot:top="props">
+      <template v-slot:top>
         <img
           style="height: 50px; width: 50px"
           src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg"
@@ -38,7 +38,7 @@
 export default {
   data () {
     return {
-      visibleColumns: ['calories', 'desc', 'protein', 'sodium', 'iron'],
+      visibleColumns: [ 'calories', 'desc', 'protein', 'sodium', 'iron' ],
       columns: [
         {
           name: 'desc',

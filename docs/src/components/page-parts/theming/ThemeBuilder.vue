@@ -142,8 +142,8 @@ export default {
       darkMode: false,
       exportDialog: false,
       exportTab: 'sass',
-      list: ['primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning'],
-      sideColors: ['secondary', 'dark', 'positive', 'negative', 'info', 'warning']
+      list: [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ],
+      sideColors: [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warning' ]
     }
   },
 
