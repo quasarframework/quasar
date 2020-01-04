@@ -6,7 +6,7 @@ const rollup = require('rollup')
 const uglify = require('uglify-es')
 const buble = require('@rollup/plugin-buble')
 const json = require('@rollup/plugin-json')
-const nodeResolve = require('rollup-plugin-node-resolve')
+const nodeResolve = require('@rollup/plugin-node-resolve')
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
 
