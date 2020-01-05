@@ -930,6 +930,11 @@ const components = [
     path: 'separator'
   },
   {
+    name: 'Skeleton',
+    badge: 'new',
+    path: 'skeleton'
+  },
+  {
     name: 'Slide Item',
     path: 'slide-item'
   },
@@ -993,7 +998,6 @@ const components = [
   },
   {
     name: 'Virtual Scroll',
-    badge: 'new',
     path: 'virtual-scroll'
   }
 ]

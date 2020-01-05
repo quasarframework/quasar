@@ -48,11 +48,7 @@ export default Vue.extend({
   computed: {
     style () {
       return this.size !== void 0
-        ? (
-          this.type === 'circle'
-            ? { width: this.size, height: this.size }
-            : { height: this.size }
-        )
+        ? { width: this.size, height: this.size }
         : { width: this.width, height: this.height }
     },
 

@@ -13,11 +13,8 @@
     content: '\00a0'
 
   &--type
-    &-rect,
     &-text
-      width: 100%
-    &-text
-      transform: scale(1, .8)
+      transform: scale(1, .5)
 
     &-circle,
     &-QAvatar
@@ -83,7 +80,7 @@
       z-index: 1
 
   &--anim-blink:after
-    background: rgba(255,255,255,.5)
+    background: rgba(255,255,255,.7)
     animation: q-skeleton--fade 1.5s linear .5s infinite
   &--anim-wave:after
     background: linear-gradient(90deg, transparent, rgba(255,255,255,.5), transparent)
