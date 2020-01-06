@@ -17,8 +17,8 @@
         }
       },
       "returns": {
-        "type": "String",
-        "desc": "Cookie value",
+        "type": [ "String", "null" ],
+        "desc": "Cookie value; Returns null if cookie not found",
         "examples": [ "john12" ]
       }
     },

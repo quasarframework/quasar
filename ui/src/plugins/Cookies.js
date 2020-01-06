@@ -133,7 +133,7 @@ function set (key, val, opts = {}, ssr) {
 
 function get (key, ssr) {
   let
-    result = key ? undefined : {},
+    result = key ? null : {},
     cookieSource = ssr ? ssr.req.headers : document,
     cookies = cookieSource.cookie ? cookieSource.cookie.split('; ') : [],
     i = 0,
