@@ -118,7 +118,7 @@ export default {
 
         self.errorMessage = null
         self.results = json.results.filter(result => {
-          return result.flags.deprecated === void 0
+          return result.flags === void 0 || result.flags.deprecated === void 0
         }).map(item => {
           item = item.package
 
