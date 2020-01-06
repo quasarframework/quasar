@@ -48,10 +48,10 @@ function convertTypeVal (type, def, required) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
       let lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
-      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'any'
+      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'Object'
     }
 
-    return 'any'
+    return 'Object'
   }
 
   return t
