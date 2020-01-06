@@ -112,10 +112,19 @@ The (optional) `options` parameter is an Object which is explained below, proper
 ### Option: expires
 
 ``` js
-expires: 10
+expires: 10 // in 10 days
+expires: -1 // yesterday
+expires: 'Mon, 06 Jan 2020 12:52:55 GMT'
+expires: new Date() // some JS Date Object
+
+// Following formats require Quasar v1.6.2+:
+
+expires: '1d 3h 5m' // in 1 day, 3 hours, 5 minutes
+expires: '2d' // in 2 days
+expires: '15m 10s' // in 15 minutes, 10 seconds
 ```
 
-Define lifetime of the cookie. Value can be a Number which will be interpreted as days from time of creation or a Date object. If omitted, the cookie becomes a session cookie.
+Define lifetime of the cookie. Value can be a Number which will be interpreted as days from time of creation or a Date object or a raw stringified Date ("Mon, 06 Jan 2020 12:52:55 GMT") or a special string format ("1d", "15m", "13d", "1d 15m", "1d 3h 5m 3s"). If omitted, the cookie becomes a session cookie.
 
 ### Option: path
 
