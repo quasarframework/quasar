@@ -125,7 +125,7 @@ export default Vue.extend({
     __onTouchstart (e) {
       if (touchTarget !== this.$el) {
         touchTarget !== void 0 && this.__cleanup()
-        touchTarget = e.target
+        touchTarget = this.$el
         const target = getTouchTarget(touchTarget)
         target.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
         target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
