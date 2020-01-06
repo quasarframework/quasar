@@ -425,6 +425,9 @@ const astExceptions = {
   'QField.json': {
     props: {
       maxValues: true
+    },
+    slots: {
+      rawControl: true
     }
   }
 }
@@ -460,6 +463,25 @@ function fillAPI (apiType) {
       const definition = fs.readFileSync(file.replace('.json', '.js'), {
         encoding: 'utf-8'
       })
+
+      const slotRegex = /(this\.\$scopedSlots\[['`](\S+)['`]\]|slot\(this, '(\S+)'|this\.\$scopedSlots\.([A-Za-z]+)\()/g
+      let slotMatch
+      while ((slotMatch = slotRegex.exec(definition)) !== null) {
+        const slotName = (slotMatch[2] || slotMatch[3] || slotMatch[4]).replace(/(\${.+})/g, '[name]')
+
+        if (
+          astExceptions[name] !== void 0 &&
+          astExceptions[name].slots !== void 0 &&
+          astExceptions[name].slots[slotName] === true
+        ) {
+          continue
+        }
+
+        if (!(api.slots || {})[slotName] && !(api.scopedSlots || {})[slotName]) {
+          logError(`${name}: missing "slot|scopedSlots" -> "${slotName}" definition`)
+          process.exit(1)
+        }
+      }
 
       ast.evaluate(definition, topSections[apiType], (prop, key, definition) => {
         if (key.startsWith('__')) {
