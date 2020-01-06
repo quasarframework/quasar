@@ -42,7 +42,6 @@
           options-dense
           emit-value
           map-options
-          dense-options
           v-model="iconSet"
         />
       </template>
