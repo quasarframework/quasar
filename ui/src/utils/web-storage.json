@@ -40,9 +40,9 @@
         }
       },
       "returns": {
-        "type": "Any",
+        "type": [ "Date", "RegExp", "Number", "Boolean", "Function", "Object", "Array", "String", "null" ],
         "desc": "Storage item value",
-        "examples": [ "john12" ]
+        "examples": [ "john12", 702 ]
       }
     },
 
@@ -57,9 +57,9 @@
         }
       },
       "returns": {
-        "type": "Any",
-        "desc": "Storage item value",
-        "examples": [ "john12" ]
+        "type": [ "Number", "null" ],
+        "desc": "Storage item index",
+        "examples": [ 7 ]
       }
     },
 
@@ -85,7 +85,7 @@
         },
 
         "value": {
-          "type": "Any",
+          "type": [ "Date", "RegExp", "Number", "Boolean", "Function", "Object", "Array", "String", "null" ],
           "desc": "Entry value",
           "required": true,
           "examples": [ "john12" ]
