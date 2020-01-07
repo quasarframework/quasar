@@ -1,5 +1,5 @@
 <template lang="pug">
-q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
+q-layout.doc-layout(view="hHh LpR lff", @scroll="onScroll")
   q-header.header(elevated)
     q-toolbar
       q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu", icon="menu")
@@ -9,7 +9,45 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           img(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
         q-toolbar-title(shrink) Quasar
 
+      q-tabs.menus-tabs(v-model="menuOption")
+        q-route-tab(
+          v-for="option in menuOptions"
+          :key="option.value"
+          :label="option.label"
+          :name="option.value"
+          :to="option.to"
+        )
+
       q-space
+
+      div
+        form(
+          autocorrect="off"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
+        )
+          q-input.full-width.doc-algolia(
+            ref="docAlgolia"
+            v-model="search"
+            dark
+            dense
+            outlined
+            placeholder="Search..."
+            @focus="onSearchFocus"
+            @blur="onSearchBlur"
+          )
+            template(v-slot:prepend)
+              q-icon(
+                name="search"
+                @click="$refs.docAlgolia.focus()"
+              )
+            template(v-slot:append)
+              q-badge(
+                label="/"
+                color="blue-5"
+                @click="$refs.docAlgolia.focus()"
+              )
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
@@ -22,45 +60,22 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     bordered
     content-class="doc-left-drawer"
   )
-    q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
+    q-scroll-area.full-height
       .row.justify-center.q-my-lg
-        q-btn(
-          type="a"
-          href="https://donate.quasar.dev"
-          target="_blank"
-          rel="noopener"
-          size="13px"
-          color="primary"
-          icon="favorite_border"
-          label="Donate to Quasar"
-        )
+        .column.q-gutter-y-md.full-width.items-center
+          q-btn(
+            type="a"
+            href="https://donate.quasar.dev"
+            target="_blank"
+            rel="noopener"
+            size="13px"
+            color="primary"
+            icon="favorite_border"
+            label="Donate to Quasar"
+            style="width: 200px"
+          )
 
-      app-menu.q-my-lg
-
-    .absolute-top.bg-white.layout-drawer-toolbar
-      form(
-        autocorrect="off"
-        autocapitalize="off"
-        autocomplete="off"
-        spellcheck="false"
-      )
-        q-input.full-width.doc-algolia.bg-primary(
-          ref="docAlgolia"
-          v-model="search"
-          dense
-          square
-          dark
-          borderless
-          :placeholder="searchPlaceholder"
-          @focus="onSearchFocus"
-          @blur="onSearchBlur"
-        )
-          template(v-slot:append)
-            q-icon(
-              name="search"
-              @click="$refs.docAlgolia.focus()"
-            )
-      .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
+      app-menu.q-my-lg(:type="menuOption")
 
   q-drawer(
     v-if="hasRightDrawer"
@@ -129,7 +144,13 @@ export default {
       search: '',
       searchFocused: false,
       rightDrawerOnLayout: false,
-      activeToc: void 0
+      activeToc: void 0,
+      menuOption: null,
+      menuOptions: [
+        { label: 'Guide', value: 'guide', to: '/start' },
+        { label: 'CLI', value: 'cli', to: '/quasar-cli' },
+        { label: 'UI', value: 'ui', to: '/vue-components' }
+      ]
     }
   },
 
@@ -154,12 +175,6 @@ export default {
 
     hasRightDrawer () {
       return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
-    },
-
-    searchPlaceholder () {
-      return this.searchFocused === true
-        ? 'Type to start searching...'
-        : (this.$q.platform.is.desktop === true ? `Type ' / ' to focus here...` : 'Search...')
     }
   },
 
@@ -259,6 +274,10 @@ export default {
 
     onSearchBlur () {
       this.searchFocused = false
+    },
+
+    updateMenuOption (value) {
+      this.menuOption = this.menuOption === value ? null : value
     }
   },
 
@@ -326,7 +345,10 @@ export default {
 .doc-algolia
   .q-field__control
     padding: 0 18px 0 16px !important
+    height: 40px
   &.q-field--focused
+    .q-field__control:after
+      border-color: #fff
     .q-icon
       color: #fff
 
@@ -358,4 +380,8 @@ export default {
     transition: transform .8s ease-in-out
   &:hover img
     transform: rotate(-360deg)
+
+@media (max-width: $breakpoint-sm-max)
+  .menus-tabs, .q-toolbar__title
+    display: none
 </style>
