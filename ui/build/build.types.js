@@ -9,7 +9,7 @@ const
   resolvePath = file => path.resolve(distRoot, file),
   extraInterfaces = {},
   // eslint-disable-next-line no-useless-escape
-  toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
+  toCamelCase = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
 
 function writeLine (fileContent, line = '', indent = 0) {
   fileContent.push(`${line.padStart(line.length + (indent * 4), ' ')}\n`)
