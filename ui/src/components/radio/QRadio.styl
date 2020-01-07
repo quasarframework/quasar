@@ -22,7 +22,7 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
     border-width: 10px
     border-style: solid
     border-radius: 50%
-    transform: scale3d(0, 0, 0)
+    transform: scale3d(0, 0, 1)
     transition: transform $radio-transition
 
   &__label
@@ -48,7 +48,7 @@ $radio-transition = .22s cubic-bezier(0,0,.2,1) 0ms
       color: $primary
       color: var(--q-color-primary)
       .q-radio__inner-circle
-        transform: scale3d(.5, .5, .5)
+        transform: scale3d(.5, .5, 1)
 
   &.disabled
     opacity: .75 !important
@@ -88,7 +88,7 @@ body.desktop
       border-radius: 50%
       background: currentColor
       opacity: .12
-      transform: scale3d(0, 0, 0)
+      transform: scale3d(0, 0, 1)
       transition: transform $radio-transition
 
     &:focus:not(.disabled),
@@ -99,4 +99,4 @@ body.desktop
     &--dense:focus:not(.disabled),
     &--dense:hover:not(.disabled)
       .q-radio__inner:before
-        transform: scale3d(1.5, 1.5, 1.5)
+        transform: scale3d(1.5, 1.5, 1)

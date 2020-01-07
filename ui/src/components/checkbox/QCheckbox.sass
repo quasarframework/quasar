@@ -43,7 +43,7 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
     border-color: #fff
     border-width: 1px
     border-style: solid
-    transform: translate3d(0, -50%, 0) rotate3d(0, 0, 1, -280deg) scale3d(0, 0, 0)
+    transform: translate3d(0, -50%, 0) rotate3d(0, 0, 1, -280deg) scale3d(0, 0, 1)
 
   &__inner
     width: 40px
@@ -109,7 +109,7 @@ body.desktop
       border-radius: 50%
       background: currentColor
       opacity: .12
-      transform: scale3d(0, 0, 0)
+      transform: scale3d(0, 0, 1)
       transition: transform $option-focus-transition
 
     &:focus:not(.disabled),
@@ -120,10 +120,10 @@ body.desktop
     &--dense:focus:not(.disabled),
     &--dense:hover:not(.disabled)
       .q-checkbox__inner:before
-        transform: scale3d(1.5, 1.5, 1.5)
+        transform: scale3d(1.5, 1.5, 1)
 
   .q-table--dense
     .q-checkbox--dense:focus:not(.disabled),
     .q-checkbox--dense:hover:not(.disabled)
       .q-checkbox__inner:before
-        transform: scale3d(1.4, 1.4, 1.4)
+        transform: scale3d(1.4, 1.4, 1)
