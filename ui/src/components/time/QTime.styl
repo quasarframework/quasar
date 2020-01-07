@@ -75,9 +75,9 @@
     background: currentColor
 
   &__clock-pointer
-    width: 1px
+    width: 2px
     height: 50%
-    transform-origin: top center /* rtl:ignore */
+    transform-origin: 0 0 /* rtl:ignore */
     min-height: 0
     position: absolute
     left: 50%
@@ -91,10 +91,10 @@
     &:before, &:after
       content: ''
       position: absolute
-      left: 0
+      left: 50%
       border-radius: 50%
       background: currentColor
-      transform: translateX(-44%)
+      transform: translateX(-50%)
     &:before
       bottom: -4px
       width: 8px
@@ -148,17 +148,6 @@
     color: #fff
     top: 12px
     right: 12px
-
-  &__event
-    position: absolute
-    bottom: 2px
-    left: 50%
-    height: 5px
-    width: 10px
-    border-radius: 5px
-    background-color: $secondary
-    background-color: var(--q-color-secondary)
-    transform: translate3d(-50%, 0, 0)
 
   &.disabled, &--readonly
     .q-time__header-ampm, .q-time__content
