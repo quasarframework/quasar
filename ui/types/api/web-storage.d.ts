@@ -7,13 +7,13 @@ type WebStorageGetMethodReturnType =
   | object;
 
 export type WebStorageGetItemMethodType = <
-  T extends WebStorageGetMethodReturnType = string
+  T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType
 >(
   key: string
 ) => T | null;
 
 export type WebStorageGetIndexMethodType = <
-  T extends WebStorageGetMethodReturnType = string
+  T extends WebStorageGetMethodReturnType = WebStorageGetMethodReturnType
 >(
   index: number
 ) => T | null;
