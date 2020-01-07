@@ -143,7 +143,7 @@ export default Vue.extend({
         this.computedFormat24h === true &&
         this.innerModel.hour >= 12
       ) {
-        transform += ' scale3d(.7,.7,.7)'
+        transform += ' scale3d(.7,.7,1)'
       }
 
       return { transform }
