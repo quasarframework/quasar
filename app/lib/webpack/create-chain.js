@@ -73,7 +73,11 @@ module.exports = function (cfg, configName) {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  chain.module.noParse(/^(vue|vue-router|vuex|vuex-router-sync)$/)
+  chain.module.noParse(
+    cfg.framework.all === true
+      ? /^(vue|vue-router|vuex|vuex-router-sync|quasar)$/
+      : /^(vue|vue-router|vuex|vuex-router-sync)$/
+  )
 
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
