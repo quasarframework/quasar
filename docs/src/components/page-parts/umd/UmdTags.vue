@@ -78,14 +78,7 @@ const googleMap = {
   'material-icons-sharp': 'Material+Icons+Sharp'
 }
 
-function camelize (str) {
-  const result = str
-    .split('-')
-    .map(str => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase())
-    .join('')
-
-  return result.charAt(0).toLowerCase() + result.slice(1)
-}
+const camelize = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
 
 export default {
   data () {
