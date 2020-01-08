@@ -106,14 +106,14 @@ You can learn more about managing your app in iTunes Connect from the [official 
 ### Building the app for production
 
 ```bash
-$ quasar build -m capacitor -T ios --ide
+$ quasar build -m capacitor -T ios
 ```
 
-If everything went well, Xcode will open automatically.
+This will compile the web assets (and if "--ide" param is also specified, it will open up Xcode where you need to trigger a release build).
 
 ### Configuring the project in Xcode
 
-Once Xcode opens up the project, you should see the details about your app in the general view.
+Once Xcode opens up the project ("--ide" param required), you should see the details about your app in the general view.
 
 You should just check that the bundle identifier is set up correctly, so that it’s the same as the value you specified earlier in the app ID. Also, make sure that the version and build numbers are correct. Team option should be set to your Apple developer account. Under the deployment target you can choose which devices your application will support.
 
