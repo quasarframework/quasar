@@ -157,5 +157,12 @@ If you don't set a font (or the user doesn't choose one), the print dialogue wil
 ### Internationalization
 The tooltips content of QEditor are translated by the [Quasar Language Pack](/options/quasar-language-packs), so merely changing the language will also change the interface. If your desired language pack is missing - or you find an error, please consider providing the update as PR.
 
+### Icon sets
+QEditor will use the proper icons set when the [Quasar Icon Sets](/options/quasar-icon-sets) is changed and you don't override the toolbar with your own icons.
+
+::: warning
+The `eva-icons` icon set does not include a complete set of editor icons and will also require the `material-design` icons in order to be displayed properly.
+:::
+
 ## QEditor API
 <doc-api file="QEditor" />
