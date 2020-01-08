@@ -57,7 +57,7 @@
         </q-btn>
 
         <q-btn color="primary" icon="map">
-          <q-menu @show="log('@show popover_map')" @hide="log('@hide popover_map')">
+          <q-menu @show="log('@show popover_map')" @hide="log('@hide popover_map')" transition-show="flip-right" transition-hide="flip-left">
             <q-list style="min-width: 100px">
               <div style="height: 50px" class="bg-grey-3">
                 Weee
