@@ -161,7 +161,7 @@ The tooltips content of QEditor are translated by the [Quasar Language Pack](/op
 QEditor will use the proper icons set when the [Quasar Icon Sets](/options/quasar-icon-sets) is changed and you don't override the toolbar with your own icons.
 
 ::: warning
-The `eva-icons` icon set does not include a complete set of editor icons and will also require the `material-design` icons in order to be displayed properly.
+Some icon sets, like eva, don't fulfill all of our needs and will also require the `material-icons` in order to be displayed properly.
 :::
 
 ## QEditor API
