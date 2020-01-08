@@ -214,8 +214,9 @@
                   4
                 </q-badge>
               </q-btn>
-              <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size">
-                Third
+              <q-btn color="orange" :push="push" :rounded="rounded" :outline="outline" :flat="flat" :size="size" stack>
+                <div>Third</div>
+                <div>More height</div>
               </q-btn>
             </q-btn-group>
 
