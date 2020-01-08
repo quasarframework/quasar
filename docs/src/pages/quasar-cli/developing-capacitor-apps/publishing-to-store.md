@@ -10,7 +10,7 @@ So, you've finished working on your Mobile App. Now it's time to deploy it. Let'
 To generate a release build for Android, we can use the following Quasar CLI command:
 
 ```bash
-$ quasar build -m capacitor -T android
+$ quasar build -m capacitor -T android --ide
 ```
 
 This will compile the web assets and open up Android Studio IDE where you need to trigger a release build.
@@ -106,7 +106,7 @@ You can learn more about managing your app in iTunes Connect from the [official 
 ### Building the app for production
 
 ```bash
-$ quasar build -m capacitor -T ios
+$ quasar build -m capacitor -T ios --ide
 ```
 
 If everything went well, Xcode will open automatically.
