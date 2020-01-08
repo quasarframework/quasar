@@ -22,5 +22,11 @@
   "homepage": "https://quasar.dev",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.0",
+    "@mdi/svg": "^4.7.95",
+    "glob": "^7.1.6",
+    "material-design-icons": "^3.0.1"
   }
 }
