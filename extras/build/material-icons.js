@@ -1,14 +1,13 @@
 const prefix = 'mat'
 const packageName = 'material-design-icons'
 
-let skipped = 0
-
 // ------------
 
 const glob = require('glob')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve } = require('path')
 
+let skipped = 0
 const dist = resolve(__dirname, `../${prefix}-svg.js`)
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/`)
