@@ -133,7 +133,10 @@ export default Vue.extend({
       staticClass: this.type.cls,
       style: this.sizeStyle,
       on: this.$listeners,
-      attrs: { 'aria-hidden': true }
+      attrs: {
+        'aria-hidden': true,
+        role: 'presentation'
+      }
     }
 
     if (this.type.svg === true) {
