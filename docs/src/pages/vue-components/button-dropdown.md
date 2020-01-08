@@ -28,9 +28,11 @@ In case you are looking for a dropdown "input" instead of "button" use [Select](
 
 <doc-example title="Using v-model" file="QBtnDropdown/Model" />
 
-<doc-example title="Split and router link on main" file="QBtnDropdown/Link" />
-
 <doc-example title="Disable" file="QBtnDropdown/Disable" />
+
+The following example won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
+
+<doc-example title="Split and router link on main" file="QBtnDropdown/Link" no-edit />
 
 ## QBtnDropdown API
 <doc-api file="QBtnDropdown" />

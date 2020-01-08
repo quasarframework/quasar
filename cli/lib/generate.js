@@ -1,19 +1,17 @@
 // Adapted from Vue CLI v2 "init" command
 
-const
-  chalk = require('chalk'),
-  Metalsmith = require('metalsmith'),
-  Handlebars = require('handlebars'),
-  async = require('async'),
-  render = require('consolidate').handlebars.render,
-  path = require('path'),
-  multimatch = require('multimatch')
+const chalk = require('chalk')
+const Metalsmith = require('metalsmith')
+const Handlebars = require('handlebars')
+const async = require('async')
+const render = require('consolidate').handlebars.render
+const path = require('path')
+const multimatch = require('multimatch')
 
-const
-  getOptions = require('./options'),
-  ask = require('./ask'),
-  filter = require('./filter'),
-  logger = require('./logger')
+const getOptions = require('./options')
+const ask = require('./ask')
+const filter = require('./filter')
+const logger = require('./logger')
 
 // register handlebars helper
 Handlebars.registerHelper('if_eq', function (a, b, opts) {

@@ -12,6 +12,33 @@ But first, let's learn how we can configure the Electron build.
 You may notice that `/quasar.conf.js` contains a property called `electron`.
 ```js
 electron: {
+  bundler: 'packager', // or 'builder'
+
+  // electron-packager options
+  // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
+  packager: {
+    //...
+  },
+
+  // electron-builder options
+  // https://www.electron.build/configuration/configuration
+  builder: {
+    //...
+  },
+
+  // Requires: @quasar/app v1.4.2+
+  // Specify additional parameters when yarn/npm installing
+  // the UnPackaged folder, right before bundling with either
+  // electron packager or electron builder;
+  // Example: [ '--ignore-optional', '--some-other-param' ]
+  unPackagedInstallParams: [],
+
+  // Requires: @quasar/app v1.3.0+
+  // Keep in sync with /src-electron/main-process/electron-main
+  // > BrowserWindow > webPreferences > nodeIntegration
+  // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
+  nodeIntegration: true,
+
   // optional; webpack config Object for
   // the Main Process ONLY (/src-electron/main-process/)
   extendWebpack (cfg) {
@@ -24,18 +51,6 @@ electron: {
   chainWebpack (chain) {
     // chain is a webpack-chain instance
     // of the Webpack configuration
-  },
-
-  bundler: 'packager', // or 'builder'
-
-  // electron-packager options
-  packager: {
-    //...
-  },
-
-  // electron-builder options
-  builder: {
-    //...
   }
 }
 ```

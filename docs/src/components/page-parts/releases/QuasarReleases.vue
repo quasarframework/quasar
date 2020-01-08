@@ -11,6 +11,8 @@ q-card(flat bordered)
 
 <script>
 import PackageReleases from './PackageReleases'
+import { date } from 'quasar'
+const { extractDate } = date
 
 export default {
   name: 'QuasarReleases',
@@ -64,7 +66,9 @@ export default {
           }
 
           const vIndex = release.name.indexOf('-v'),
-            packageName = ['v1.0.0', 'v1.0.0-beta.5'].includes(release.name) ? 'quasar' : release.name.substring(0, vIndex),
+            packageName = [ 'v1.0.0', 'v1.0.0-beta.5' ].includes(release.name)
+              ? 'quasar'
+              : release.name.substring(0, vIndex),
             version = release.name.substring(vIndex + 2)
 
           if (version.startsWith('0')) {
@@ -81,6 +85,7 @@ export default {
             prerelease: release.prerelease,
             url: release.html_url,
             createdAt: release.created_at,
+            formattedCreatedAt: extractDate(release.created_at, 'YYYY-MM-DD').toLocaleDateString(),
             key: `${packageName}v${version}`,
             version
           }

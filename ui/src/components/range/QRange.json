@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/range"
+  },
+
   "props": {
     "value": {
       "type": "Object",
@@ -41,6 +45,13 @@
       "default": 1,
       "examples": [ ":step=\"1\"" ],
       "category": "model"
+    },
+
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Work in reverse (changes horizontal direction)",
+      "category": "behavior",
+      "addedIn": "v1.5.0"
     },
 
     "drag-range": {
@@ -138,6 +149,15 @@
       "type": "Boolean",
       "desc": "Snap thumbs on valid values, rather than sliding freely; Suggestion: use with 'step' prop",
       "category": "content"
+    },
+
+    "thumb-path": {
+      "type": "String",
+      "desc": "Set custom thumbs svg path",
+      "default": "M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0",
+      "examples": [ "M5 5 h10 v10 h-10 v-10" ],
+      "category": "style",
+      "addedIn": "v1.5.10"
     },
 
     "dark": {

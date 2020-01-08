@@ -17,32 +17,32 @@
           </q-td>
           <q-td key="calories" :props="props">
             {{ props.row.calories }}
-            <q-popup-edit v-model="props.row.calories" buttons>
-              <q-input v-model="props.row.calories" dense autofocus />
+            <q-popup-edit v-model.number="props.row.calories" buttons>
+              <q-input type="number" v-model.number="props.row.calories" dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="fat" :props="props">
             <div class="text-pre-wrap">{{ props.row.fat }}</div>
-            <q-popup-edit v-model="props.row.fat" buttons>
-              <q-input v-model="props.row.fat" dense autofocus />
+            <q-popup-edit v-model.number="props.row.fat" buttons>
+              <q-input type="number" v-model.number="props.row.fat" dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="carbs" :props="props">
             {{ props.row.carbs }}
-            <q-popup-edit v-model="props.row.carbs" buttons persistent>
-              <q-input v-model="props.row.carbs"  dense autofocus />
+            <q-popup-edit v-model.number="props.row.carbs" buttons persistent>
+              <q-input type="number" v-model.number="props.row.carbs"  dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="protein" :props="props">
             {{ props.row.protein }}
-            <q-popup-edit v-model="props.row.protein" buttons label-set="Save" label-cancel="Close">
-              <q-input v-model="props.row.protein" dense autofocus />
+            <q-popup-edit v-model.number="props.row.protein" buttons label-set="Save" label-cancel="Close">
+              <q-input type="number" v-model.number="props.row.protein" dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="sodium" :props="props">
             {{ props.row.sodium }}
-            <q-popup-edit v-model="props.row.sodium" buttons>
-              <q-input v-model="props.row.sodium" dense autofocus />
+            <q-popup-edit v-model.number="props.row.sodium" buttons>
+              <q-input type="number" v-model.number="props.row.sodium" dense autofocus />
             </q-popup-edit>
           </q-td>
           <q-td key="calcium" :props="props">

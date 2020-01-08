@@ -1,9 +1,10 @@
 ---
 title: Spinners
-desc: The QSpinner and its derivated Vue components are used to show the user a timely process is currently taking place. It gives the user the feeling the system is continuing to work for longer term activities.
+desc: The QSpinner and its derived Vue components are used to show the user a timely process is currently taking place. It gives the user the feeling the system is continuing to work for longer term activities.
 related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress
+  - /vue-components/skeleton
   - /vue-components/inner-loading
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar

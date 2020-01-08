@@ -97,8 +97,11 @@ export const updateDrawerState = (state, opened) => {
 }
 
 // src/store/showcase/state.js
-export default {
-  drawerState: true
+// Always use a function to return state if you use SSR
+export default function () {
+  return {
+    drawerState: true
+  }
 }
 ```
 
@@ -127,4 +130,4 @@ export default {
 ```
 
 ## Store Code Splitting
-You can take advantage of the [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature#Store-Code-Splitting) to code split code for modules.
+You can take advantage of the [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature#Store-Code-Splitting) to code-split Vuex modules.

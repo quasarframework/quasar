@@ -13,7 +13,7 @@
 export default {
   data () {
     return {
-      expanded: ['Satisfied customers (with avatar)', 'Good food (with icon)'],
+      expanded: [ 'Satisfied customers (with avatar)', 'Good food (with icon)' ],
       simple: [
         {
           label: 'Satisfied customers (with avatar)',

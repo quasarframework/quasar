@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist')
+const parseArgs = require('minimist')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -36,10 +35,9 @@ if (!extId && argv.help) {
   process.exit(0)
 }
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:run'),
-  warn = logger('app:run', 'red')
+const logger = require('../lib/helpers/logger')
+const log = logger('app:run')
+const warn = logger('app:run', 'red')
 
 function getArgv (argv) {
   const { _, ...params } = argv

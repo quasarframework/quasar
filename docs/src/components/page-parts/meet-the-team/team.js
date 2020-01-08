@@ -130,5 +130,13 @@ export default [
     avatar: 'adam_purdy.jpg',
     github: 'adamkpurdy',
     desc: 'Firebase Support Owner & Maintainer, Quasar support member.'
+  },
+
+  {
+    name: 'Paolo Caleffi',
+    role: 'Senior developer',
+    avatar: 'paolo_caleffi.jpg',
+    github: 'IlCallo',
+    desc: 'Typescript support'
   }
 ]

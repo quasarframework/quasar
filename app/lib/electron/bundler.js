@@ -1,12 +1,12 @@
 const fs = require('fs')
-const
-  appPath = require('../app-paths'),
-  getPackageJson = require('../helpers/get-package-json'),
-  getPackage = require('../helpers/get-package'),
-  log = require('../helpers/logger')('app:electron-bundle')
+
+const appPath = require('../app-paths')
+const getPackageJson = require('../helpers/get-package-json')
+const getPackage = require('../helpers/get-package')
+const log = require('../helpers/logger')('app:electron-bundle')
 
 const versions = {
-  packager: '13.1.0',
+  packager: '14.1.1',
   builder: '21.0.0'
 }
 
@@ -15,12 +15,11 @@ function isValidName (bundlerName) {
 }
 
 function installBundler (bundlerName) {
-  const
-    { spawnSync } = require('../helpers/spawn'),
-    nodePackager = require('../helpers/node-packager'),
-    cmdParam = nodePackager === 'npm'
-      ? ['install', '--save-dev']
-      : ['add', '--dev']
+  const { spawnSync } = require('../helpers/spawn')
+  const nodePackager = require('../helpers/node-packager')
+  const cmdParam = nodePackager === 'npm'
+    ? ['install', '--save-dev']
+    : ['add', '--dev']
 
   log(`Installing required Electron bundler (electron-${bundlerName})...`)
   spawnSync(
@@ -38,9 +37,8 @@ function bundlerIsInstalled (bundlerName) {
 module.exports.bundlerIsInstalled = bundlerIsInstalled
 
 function bundlerVersionIsOk (bundlerName) {
-  const
-    semver = require('semver'),
-    pkg = getPackageJson(`electron-${bundlerName}`)
+  const semver = require('semver')
+  const pkg = getPackageJson(`electron-${bundlerName}`)
 
   if (semver.satisfies(pkg.version, `>= ${versions[bundlerName]}`)) {
     return true

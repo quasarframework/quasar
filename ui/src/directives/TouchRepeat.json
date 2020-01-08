@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/touch-repeat"
+  },
+
   "value": {
     "type": "Function",
     "desc": "Handler for touch-repeat",
@@ -57,7 +61,7 @@
           },
           "startTime": {
             "type": "Number",
-            "desc": "Unix timestamp of the moment when event started; Equivalent to new Date().getTime()",
+            "desc": "Unix timestamp of the moment when event started; Equivalent to Date.now()",
             "examples": [ 1558603256472 ]
           }
         }

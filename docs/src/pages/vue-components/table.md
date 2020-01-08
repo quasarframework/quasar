@@ -69,8 +69,13 @@ columns: [ // array of Objects
     //   ? /* Unicode checkmark checked */ "\u2611"
     //   : /* Unicode checkmark unchecked */ "\u2610",
 
+    // body td:
     style: 'width: 500px',
     classes: 'my-special-class'
+
+    // (v1.3.0+) header th:
+    headerStyle: 'width: 500px',
+    headerClasses: 'my-special-class'
   },
   { name: 'calories', label: 'Calories', field: 'calories', sortable: true },
   { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
@@ -217,7 +222,7 @@ The example below shows how you can use a slot to customize the entire row:
 
 <doc-example title="Body slot" file="QTable/SlotBody" />
 
-Bellow, we use a slot which gets applied to each body cell:
+Below, we use a slot which gets applied to each body cell:
 
 <doc-example title="Body-cell slot" file="QTable/SlotBodyCell" />
 

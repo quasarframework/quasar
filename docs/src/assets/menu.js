@@ -31,7 +31,6 @@ const gettingStarted = [
   },
   {
     name: 'Release notes',
-    badge: 'updated',
     path: 'release-notes'
   },
   {
@@ -55,23 +54,19 @@ const contributionGuide = [
   },
   {
     name: 'Running Projects',
-    path: 'running-projects',
-    badge: 'new'
+    path: 'running-projects'
   },
   {
     name: 'Start a New Project',
-    path: 'new-project',
-    badge: 'new'
+    path: 'new-project'
   },
   {
     name: 'Project Maintainer Role',
-    path: 'project-maintainer',
-    badge: 'new'
+    path: 'project-maintainer'
   },
   {
     name: 'Commit Conventions',
-    path: 'commit-conventions',
-    badge: 'new'
+    path: 'commit-conventions'
   }
 ]
 
@@ -435,6 +430,11 @@ const cli = [
         path: 'app-icons-electron'
       },
       {
+        name: 'Node Integration',
+        badge: 'update',
+        path: 'node-integration'
+      },
+      {
         name: 'Electron Packages',
         path: 'electron-packages'
       },
@@ -499,6 +499,11 @@ const style = [
   {
     name: 'Breakpoints',
     path: 'breakpoints'
+  },
+  {
+    name: 'Body classes',
+    badge: 'update',
+    path: 'body-classes'
   },
   {
     name: 'Visibility',
@@ -833,10 +838,12 @@ const components = [
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {
     name: 'Img',
+    badge: 'update',
     path: 'img'
   },
   {
@@ -846,6 +853,11 @@ const components = [
   {
     name: 'Inner Loading',
     path: 'inner-loading'
+  },
+  {
+    name: 'Intersection',
+    badge: 'new',
+    path: 'intersection'
   },
   {
     name: 'Knob',
@@ -918,6 +930,11 @@ const components = [
     path: 'separator'
   },
   {
+    name: 'Skeleton',
+    badge: 'new',
+    path: 'skeleton'
+  },
+  {
     name: 'Slide Item',
     path: 'slide-item'
   },
@@ -943,6 +960,7 @@ const components = [
   },
   {
     name: 'Table',
+    badge: 'update',
     path: 'table'
   },
   {
@@ -967,6 +985,7 @@ const components = [
   },
   {
     name: 'Tree',
+    badge: 'update',
     path: 'tree'
   },
   {
@@ -979,7 +998,6 @@ const components = [
   },
   {
     name: 'Virtual Scroll',
-    badge: 'new',
     path: 'virtual-scroll'
   }
 ]
@@ -1077,6 +1095,7 @@ const utils = [
   },
   {
     name: 'Other Utils',
+    badge: 'update',
     path: 'other-utils'
   }
 ]
@@ -1169,7 +1188,7 @@ const backends = [
 
 module.exports = [
   {
-    name: 'Introduction to Quasar',
+    name: 'Why Quasar?',
     icon: 'room',
     path: 'introduction-to-quasar'
   },

@@ -41,6 +41,54 @@ import { Screen } from 'quasar'
 
 // Screen.gt.md
 // Screen.md
+// Screen.name ('xs', 'sm', ...; Quasar v1.5.2+)
+```
+
+## Body classes
+
+<q-badge label="v1.5.3+" />
+
+**If you enable it (see how to do it after the examples below)**, you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen-xl`.
+
+```css
+body.screen--xs {
+  .my-div {
+    color: #000;
+  }
+}
+
+body.screen--sm {
+  .my-div {
+    color: #fff;
+  }
+}
+```
+
+Or a sexy variant in Sass or Stylus:
+
+```css
+.my-div
+  body.screen-xs &
+    color: #000
+  body.screen-sm &
+    color: #fff
+```
+
+### How to enable body classes
+
+In order to enable the behavior above, edit your /quasar.conf.js file like below. Please note that this will increase a bit the time for First Meaningful Paint.
+
+```js
+// file: /quasar.conf.js
+// with Quasar v1.5.3+
+
+framework: {
+  config: {
+    screen: {
+      bodyClasses: true // <<< add this
+    }
+  }
+}
 ```
 
 ## Configuration

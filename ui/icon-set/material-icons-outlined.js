@@ -67,7 +67,7 @@ export default {
     hr: 'o_remove',
     undo: 'o_undo',
     redo: 'o_redo',
-    header: 'o_format_size',
+    heading: 'o_format_size',
     code: 'o_code',
     size: 'o_format_size',
     font: 'o_font_download',

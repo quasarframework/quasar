@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 import { getAllChildren } from '../../utils/vm.js'
 
 export default Vue.extend({
@@ -129,8 +129,10 @@ export default Vue.extend({
     },
 
     focus () {
-      const target = this.$el.querySelector('[autofocus]') || this.$el.querySelector('[tabindex]')
-      target !== null && target.focus()
+      const target = this.$el.querySelector('[autofocus], [data-autofocus]') ||
+        [].find.call(this.$el.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+
+      target !== null && target !== void 0 && target.focus()
     }
   },
 

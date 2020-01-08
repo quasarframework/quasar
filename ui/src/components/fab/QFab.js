@@ -4,7 +4,8 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 import FabMixin from './fab-mixin.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QFab',
@@ -44,10 +45,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    const tooltip = this.$scopedSlots.tooltip !== void 0
-      ? this.$scopedSlots.tooltip()
-      : []
-
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
       class: this.showing === true ? 'q-fab--opened' : null,
@@ -60,10 +57,10 @@ export default Vue.extend({
           icon: void 0,
           fab: true
         },
-        on: {
+        on: cache(this, 'tog', {
           click: this.toggle
-        }
-      }, tooltip.concat([
+        })
+      }, slot(this, 'tooltip', []).concat([
         h(QIcon, {
           staticClass: 'q-fab__icon absolute-full',
           props: { name: this.icon || this.$q.iconSet.fab.icon }

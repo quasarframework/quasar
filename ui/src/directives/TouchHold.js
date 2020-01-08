@@ -1,5 +1,5 @@
 import { client } from '../plugins/Platform.js'
-import { addEvt, cleanEvt } from '../utils/touch.js'
+import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -60,7 +60,7 @@ export default {
       start (evt, mouseEvent) {
         ctx.origin = position(evt)
 
-        const startTime = new Date().getTime()
+        const startTime = Date.now()
 
         if (client.is.mobile === true) {
           document.body.classList.add('non-selectable')
@@ -70,10 +70,7 @@ export default {
         ctx.triggered = false
 
         ctx.timer = setTimeout(() => {
-          if (client.is.mobile !== true) {
-            document.body.classList.add('non-selectable')
-            clearSelection()
-          }
+          clearSelection()
           ctx.triggered = true
 
           ctx.handler({
@@ -81,26 +78,33 @@ export default {
             touch: mouseEvent !== true,
             mouse: mouseEvent === true,
             position: ctx.origin,
-            duration: new Date().getTime() - startTime
+            duration: Date.now() - startTime
           })
         }, ctx.duration)
       },
 
       end (evt) {
         cleanEvt(ctx, 'temp')
-        document.body.classList.remove('non-selectable')
 
         if (ctx.triggered === true) {
+          if (client.is.mobile === true) {
+            clearSelection()
+            // delay needed otherwise selection still occurs
+            setTimeout(() => {
+              document.body.classList.remove('non-selectable')
+            }, 10)
+          }
           stopAndPrevent(evt)
         }
         else {
+          client.is.mobile === true && document.body.classList.remove('non-selectable')
           clearTimeout(ctx.timer)
         }
       },
 
       touchStart (evt) {
-        const target = evt.target
-        if (target !== void 0) {
+        if (evt.target !== void 0) {
+          const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'touchMove', 'notPassiveCapture' ],
             [ target, 'touchcancel', 'end', 'notPassiveCapture' ],
@@ -141,13 +145,13 @@ export default {
   update,
 
   unbind (el) {
-    let ctx = el.__qtouchhold_old || el.__qtouchhold
+    const ctx = el.__qtouchhold_old || el.__qtouchhold
     if (ctx !== void 0) {
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')
 
       clearTimeout(ctx.timer)
-      document.body.classList.remove('non-selectable')
+      client.is.mobile === true && document.body.classList.remove('non-selectable')
 
       delete el[el.__qtouchhold_old ? '__qtouchhold_old' : '__qtouchhold']
     }

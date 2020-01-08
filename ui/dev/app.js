@@ -10,10 +10,10 @@ import Quasar from 'quasar'
 /************************************************
  * Enable either Sass or Stylus -- but NEVER BOTH
  ************************************************/
-// import '../src/css/index.sass'
+import '../src/css/index.sass'
 // import '../src/css/flex-addon.sass'
 
-import '../src/css/index.styl'
+// import '../src/css/index.styl'
 // import '../src/css/flex-addon.styl'
 /************************************************/
 
@@ -34,7 +34,7 @@ import '@quasar/extras/animate/fadeOut.css'
 Vue.use(Quasar, {
   // iconSet,
   config: {
-    dark: 'auto'
+    // dark: 'auto'
   }
 })
 

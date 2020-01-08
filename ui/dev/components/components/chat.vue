@@ -21,7 +21,9 @@
         name="Vladimir"
         :text="['Use your own spacing or class q-message-avatar']"
       >
-        <q-icon name="face" size="4em" slot="avatar" />
+        <template v-slot:avatar>
+          <q-icon name="face" size="4em" />
+        </template>
       </q-chat-message>
 
       <br><br><br><br>

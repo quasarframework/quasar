@@ -1,7 +1,8 @@
 const warn = require('./logger')('app:external-ip')
 
 module.exports = async function () {
-  const interfaces = await require('./net').getExternalNetworkInterface()
+  const { getExternalNetworkInterface } = require('./net')
+  const interfaces = await getExternalNetworkInterface()
 
   if (interfaces.length === 0) {
     warn(`⚠️  No external IP detected. Can't run without one. Manually specify one?`)
@@ -19,7 +20,7 @@ module.exports = async function () {
     type: 'list',
     name: 'address',
     message: 'What external IP should Quasar use?',
-    choices: interfaces.map(interface => interface.address)
+    choices: interfaces.map(intf => intf.address)
   }])
 
   return answer.address

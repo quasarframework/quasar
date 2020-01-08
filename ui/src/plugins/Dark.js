@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { isSSR, fromSSR } from './Platform.js'
 
-export default {
+const Dark = {
   isActive: false,
   mode: false,
 
@@ -21,6 +21,9 @@ export default {
 
             q.dark.isActive = val === true
             q.dark.mode = val
+          },
+          toggle: () => {
+            q.dark.set(q.dark.isActive === false)
           }
         }
 
@@ -31,6 +34,10 @@ export default {
       return
     }
 
+    const initialVal = dark !== void 0
+      ? dark
+      : false
+
     if (fromSSR === true) {
       const ssrSet = val => {
         this.__fromSSR = val
@@ -39,7 +46,7 @@ export default {
       const originalSet = this.set
 
       this.set = ssrSet
-      ssrSet(dark)
+      ssrSet(initialVal)
 
       queues.takeover.push(() => {
         this.set = originalSet
@@ -47,7 +54,7 @@ export default {
       })
     }
     else {
-      this.set(dark)
+      this.set(initialVal)
     }
 
     Vue.util.defineReactive(this, 'isActive', this.isActive)
@@ -60,6 +67,7 @@ export default {
     if (val === 'auto') {
       if (this.__media === void 0) {
         this.__media = window.matchMedia('(prefers-color-scheme: dark)')
+        this.__updateMedia = () => { this.set('auto') }
         this.__media.addListener(this.__updateMedia)
       }
 
@@ -76,9 +84,11 @@ export default {
     document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
   },
 
-  __media: void 0,
+  toggle () {
+    Dark.set(Dark.isActive === false)
+  },
 
-  __updateMedia () {
-    this.set(this.__media.matches)
-  }
+  __media: void 0
 }
+
+export default Dark

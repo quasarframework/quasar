@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/tree"
+  },
+
   "props": {
     "nodes": {
       "type": "Array",
@@ -22,6 +26,13 @@
       "default": "label",
       "examples": [ "name", "description" ],
       "category": "content"
+    },
+
+    "no-connectors": {
+      "type": "Boolean",
+      "desc": "Do not display the connector lines between nodes",
+      "category": "style",
+      "addedIn": "v1.5.10"
     },
 
     "color": {

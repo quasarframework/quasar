@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/options/platform-detection"
+  },
+
   "injection": "$q.platform",
 
   "props": {

@@ -1,30 +1,30 @@
 :root
   for $name, $size in $sizes
-    --q-size-{$name} $size
+    --q-size-{$name}: $size
 
 .fit
-  width 100% !important
-  height 100% !important
+  width: 100% !important
+  height: 100% !important
 .full-height
-  height 100% !important
+  height: 100% !important
 .full-width
-  width 100% !important
-  margin-left 0 !important
-  margin-right 0 !important
+  width: 100% !important
+  margin-left: 0 !important
+  margin-right: 0 !important
 
 .window-height
-  margin-top 0 !important
-  margin-bottom 0 !important
-  height 100vh !important
+  margin-top: 0 !important
+  margin-bottom: 0 !important
+  height: 100vh !important
 .window-width
-  margin-left 0 !important
-  margin-right 0 !important
-  width 100vw !important
+  margin-left: 0 !important
+  margin-right: 0 !important
+  width: 100vw !important
 
 .block
-  display block !important
+  display: block !important
 .inline-block
-  display inline-block !important
+  display: inline-block !important
 
 for $space, $value in $spaces
 
@@ -59,8 +59,9 @@ for $space, $value in $spaces
     @extends .q-mt-{$space}, .q-mb-{$space}
 
 .q-ml-auto
-  margin-left auto
+  margin-left: auto
 .q-mr-auto
-  margin-right auto
+  margin-right: auto
 .q-mx-auto
-  @extends .q-ml-auto, .q-mr-auto
+  margin-left: auto
+  margin-right: auto

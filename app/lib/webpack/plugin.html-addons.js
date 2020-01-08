@@ -30,9 +30,9 @@ module.exports.plugin = class HtmlAddonsPlugin {
 
   apply (compiler) {
     compiler.hooks.compilation.tap('webpack-plugin-html-addons', compilation => {
-      if (this.cfg.build.publicPath) {
+      if (this.cfg.build.appBase) {
         compilation.hooks.htmlWebpackPluginBeforeHtmlProcessing.tapAsync('webpack-plugin-html-base-tag', (data, callback) => {
-          data.html = fillBaseTag(data.html, this.cfg.build.publicPath)
+          data.html = fillBaseTag(data.html, this.cfg.build.appBase)
           callback(null, data)
         })
       }
@@ -43,7 +43,7 @@ module.exports.plugin = class HtmlAddonsPlugin {
             makeTag('script', { src: 'cordova.js' }, true)
           )
         }
-        else if (this.cfg.ctx.mode.electron && this.cfg.ctx.prod) {
+        else if (this.cfg.ctx.mode.electron && this.cfg.ctx.prod && this.cfg.electron.nodeIntegration === true) {
           // set statics path in production;
           // the reason we add this is here is because the folder path
           // needs to be evaluated at runtime

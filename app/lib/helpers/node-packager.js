@@ -1,9 +1,8 @@
 const fs = require('fs')
 
-const
-  appPaths = require('../app-paths'),
-  spawn = require('cross-spawn').sync,
-  warn = require('./logger')('app:node-packager', 'red')
+const appPaths = require('../app-paths')
+const spawn = require('cross-spawn').sync
+const warn = require('./logger')('app:node-packager', 'red')
 
 function isInstalled (cmd) {
   try {

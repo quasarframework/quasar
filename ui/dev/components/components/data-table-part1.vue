@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="q-layout-padding" style="max-width: 1400px;">
+      <q-select class="q-mt-md" filled v-model="separator" :options="['horizontal', 'vertical', 'cell', 'none']" />
       <h4>QMarkupTable</h4>
       <q-markup-table flat bordered :separator="separator" wrap-cells>
         <thead>
@@ -237,6 +238,7 @@
         :selected.sync="selected"
         @selection="onSelection"
         :visible-columns="visibleColumns"
+        card-container-class="justify-center"
         row-key="name"
       >
         <template v-slot:top-right>
@@ -787,12 +789,14 @@ export default {
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
+          style: 'background: #26a69a',
+          headerStyle: 'background: #26a69a',
           field: row => row.name,
           format: val => `~${val}`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, classes: 'bg-grey', style: 'width: 10px' },
+        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, headerClasses: 'bg-primary text-white', classes: 'bg-primary text-white', style: 'width: 10px' },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },

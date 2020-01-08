@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/anchor" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/popup-proxy"
+  },
+
   "props": {
     "value": {
       "type": "Boolean",

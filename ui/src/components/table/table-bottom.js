@@ -2,6 +2,8 @@ import QSelect from '../select/QSelect.js'
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
+import { cache } from '../../utils/vm.js'
+
 export default {
   computed: {
     navIcon () {
@@ -83,16 +85,17 @@ export default {
                 dark: this.isDark,
                 borderless: true,
                 dense: true,
-                optionsDense: true
+                optionsDense: true,
+                optionsCover: true
               },
-              on: {
+              on: cache(this, 'pgSize', {
                 input: pag => {
                   this.setPagination({
                     page: 1,
                     rowsPerPage: pag.value
                   })
                 }
-              }
+              })
             })
           ])
         )
@@ -121,7 +124,7 @@ export default {
                 flat: true,
                 disable: this.isFirstPage
               },
-              on: { click: this.prevPage }
+              on: cache(this, 'pgPrev', { click: this.prevPage })
             }),
 
             h(QBtn, {
@@ -133,7 +136,7 @@ export default {
                 flat: true,
                 disable: this.isLastPage
               },
-              on: { click: this.nextPage }
+              on: cache(this, 'pgNext', { click: this.nextPage })
             })
           )
         }

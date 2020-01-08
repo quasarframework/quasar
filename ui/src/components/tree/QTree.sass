@@ -10,12 +10,29 @@
       position: absolute
       top: -3px
       bottom: 0
-      width: 1px
+      width: 2px
       right: auto
       left: -13px
       border-left: 1px solid currentColor
     &:last-child:after
       display: none
+
+    &--disabled
+      pointer-events: none
+
+      .disabled
+        opacity: 1 !important
+
+      > div,
+      > i,
+      > .disabled
+        opacity: .6 !important
+
+        .q-tree__node--disabled
+          > div,
+          > i,
+          > .disabled
+            opacity: 1 !important
 
   &__node-header:before
     content: ''
@@ -29,8 +46,6 @@
 
   &__children
     padding-left: 25px
-    &.disabled
-      pointer-events: none
 
   &__node-body
     padding: 5px 0 8px 5px
@@ -46,7 +61,7 @@
         content: ''
         position: absolute
         top: 0
-        width: 1px
+        width: 2px
         height: 100%
         right: auto
         left: 12px
@@ -60,9 +75,7 @@
     padding: 4px
     margin-top: 3px
     border-radius: $generic-border-radius
-    outline: none
-    &.disabled
-      pointer-events: none
+    outline: 0
 
   &__node-header-content
     color: #000
@@ -104,9 +117,16 @@
   &--dark .q-tree__node-header-content
     color: #fff
 
+  &--no-connectors
+    .q-tree__node:after,
+    .q-tree__node-header:before,
+    .q-tree__node-body:after
+      display: none !important
+
 [dir=rtl]
   .q-tree__arrow
-    transform: rotate3d(0, 0, 1, 180deg) /* rtl:ignore */
+    transform: rotate3d(0, 0, 1, 180deg) #{"/* rtl:ignore */"}
+
     &--rotate
-      transform: rotate3d(0, 0, 1, 90deg) /* rtl:ignore */
+      transform: rotate3d(0, 0, 1, 90deg) #{"/* rtl:ignore */"}
 

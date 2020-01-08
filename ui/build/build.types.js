@@ -9,7 +9,7 @@ const
   resolvePath = file => path.resolve(distRoot, file),
   extraInterfaces = {},
   // eslint-disable-next-line no-useless-escape
-  toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
+  toCamelCase = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
 
 function writeLine (fileContent, line = '', indent = 0) {
   fileContent.push(`${line.padStart(line.length + (indent * 4), ' ')}\n`)
@@ -48,10 +48,10 @@ function convertTypeVal (type, def, required) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
       let lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
-      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'any'
+      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'Object'
     }
 
-    return 'any'
+    return 'Object'
   }
 
   return t
@@ -186,15 +186,31 @@ function writeQuasarPluginProps (contents, nameName, props, isLast) {
 }
 
 function addQuasarPluginOptions (contents, components, directives, plugins) {
+  writeLine(contents, `import { QuasarIconSet } from './extras'`)
+  writeLine(contents, `import { QuasarLanguage } from './lang'`)
   writeLine(contents, `export interface QuasarPluginOptions {`)
-  writeLine(contents, `lang: any,`, 1)
+  writeLine(contents, `lang: QuasarLanguage,`, 1)
   writeLine(contents, `config: any,`, 1)
-  writeLine(contents, `iconSet: any,`, 1)
+  writeLine(contents, `iconSet: QuasarIconSet,`, 1)
   writeQuasarPluginProps(contents, 'components', components)
   writeQuasarPluginProps(contents, 'directives', directives)
   writeQuasarPluginProps(contents, 'plugins', plugins, true)
   writeLine(contents, `}`)
   writeLine(contents)
+}
+
+function addQuasarLangCodes (contents) {
+  // We are able to read this file only because
+  //  it's been generated before type generation take place
+  const langJson = require('../lang/index.json')
+
+  // Assure we are doing a module augmentation instead of a module overwrite
+  writeLine(contents, `import './lang'`)
+  writeLine(contents, `declare module './lang' {`)
+  writeLine(contents, `export interface QuasarLanguageCodesHolder {`, 2)
+  langJson.forEach(({ isoName }) => writeLine(contents, `'${isoName}': true`, 3))
+  writeLine(contents, `}`, 2)
+  writeLine(contents, `}`)
 }
 
 function writeIndexDTS (apis) {
@@ -204,12 +220,16 @@ function writeIndexDTS (apis) {
   var directives = []
   var plugins = []
 
+  addQuasarLangCodes(quasarTypeContents)
+
   writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)
   writeLine(quasarTypeContents, `export * from './globals'`)
   writeLine(quasarTypeContents, `export * from './boot'`)
+  writeLine(quasarTypeContents, `export * from './extras'`)
+  writeLine(quasarTypeContents, `export * from './lang'`)
 
   const injections = {}
 

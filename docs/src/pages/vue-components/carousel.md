@@ -30,6 +30,7 @@ In the examples above, you can also swipe with your finger (or swiping with the 
 
 ### Media content
 <doc-example title="Image slides" file="QCarousel/ImageSlides" />
+<doc-example title="Multi-image slides" file="QCarousel/MultiImageSlides" />
 
 <doc-example title="Captions" file="QCarousel/Captions" />
 

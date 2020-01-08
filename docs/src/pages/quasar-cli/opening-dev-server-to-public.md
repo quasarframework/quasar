@@ -26,7 +26,7 @@ Forwarding HTTP traffic from https://randomsubdomain.serveo.net
 Press g to start a GUI session and ctrl-c to quit.
 ```
 
-3. if you want to get fancy, you can even request your own subdomain like so
+3. If you want to get fancy, you can even request your own subdomain like so
 ``` bash
 $ ssh -R mysubdomain:80:localhost:8080 serveo.net
 Hi there
@@ -61,7 +61,7 @@ Web Interface                 http://127.0.0.1:4040
 Forwarding                    http://92832de0.ngrok.io -> localhost:8080
 Forwarding                    https://92832de0.ngrok.io -> localhost:8080
 
-Connnections                  ttl     opn     rt1     rt5     p50     p90
+Connections                  ttl     opn     rt1     rt5     p50     p90
                               0       0       0.00    0.00    0.00    0.00
 ```
 Please be careful as the 'Forwarding' URL will be accessible to anyone until this connection is closed again.

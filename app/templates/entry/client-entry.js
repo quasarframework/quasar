@@ -58,7 +58,7 @@ import <%= importName %> from '<%= asset.path %>'
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
 
-<% if (ctx.mode.electron) { %>
+<% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
 import electron from 'electron'
 Vue.prototype.$q.electron = electron
 <% } %>
@@ -73,8 +73,6 @@ console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr &&
 <% if (ctx.mode.pwa) { %>console.info('[Quasar] Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
-const { app, <%= store ? 'store, ' : '' %>router } = createApp()
-
 <% if (ctx.mode.cordova && ctx.target.ios) { %>
 import '@quasar/fastclick'
 <% } else if (ctx.mode.pwa) { %>
@@ -85,6 +83,16 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.n
 <% } %>
 
 async function start () {
+  const { app, <%= store ? 'store, ' : '' %>router } = await createApp()
+
+  <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
+  // prime the store with server-initialized state.
+  // the state is determined during SSR and inlined in the page markup.
+  if (window.__INITIAL_STATE__) {
+    store.replaceState(window.__INITIAL_STATE__)
+  }
+  <% } %>
+
   <% if (bootNames.length > 0) { %>
   let routeUnchanged = true
   const redirect = url => {
@@ -128,15 +136,6 @@ async function start () {
   <% } %>
 
   <% if (ctx.mode.ssr) { %>
-
-    // prime the store with server-initialized state.
-    // the state is determined during SSR and inlined in the page markup.
-    <% if (store) { %>
-    if (window.__INITIAL_STATE__) {
-      store.replaceState(window.__INITIAL_STATE__)
-    }
-    <% } %>
-
     const appInstance = new Vue(app)
 
     // wait until router has resolved all async before hooks
@@ -161,7 +160,7 @@ async function start () {
     Vue.prototype.$q.capacitor = window.Capacitor
     <% } %>
 
-      new Vue(app)
+    new Vue(app)
 
     <% if (ctx.mode.cordova) { %>
     }, false) // on deviceready

@@ -6,7 +6,6 @@ const
 
 const
   env = require('./env'),
-  projectRoot = path.resolve(__dirname, '../'),
   postCssConfig = require(path.resolve(__dirname, '../.postcssrc.js'))
 
 function resolve (dir) {
@@ -29,16 +28,19 @@ module.exports = function (chain) {
   chain.resolve.alias
     .merge({
       quasar: resolve(`src/index.esm.js`),
+      src: resolve('src'),
       assets: resolve('dev/assets'),
       components: resolve('dev/components'),
       data: resolve('dev/data')
     })
 
+  chain.module.noParse(/^(vue|vue-router)$/)
+
   chain.module.rule('lint')
     .test(/\.(js|vue)$/)
     .enforce('pre')
     .exclude
-      .add(/node_modules/)
+      .add(/[\\/]node_modules[\\/]/)
       .end()
     .use('eslint-loader')
       .loader('eslint-loader')
@@ -62,11 +64,8 @@ module.exports = function (chain) {
 
   chain.module.rule('babel')
     .test(/\.js$/)
-    .include
-      .add(projectRoot)
-      .end()
     .exclude
-      .add(/node_modules/)
+      .add(/[\\/]node_modules[\\/]/)
       .end()
     .use('babel-loader')
       .loader('babel-loader')
@@ -77,7 +76,8 @@ module.exports = function (chain) {
       .loader('url-loader')
       .options({
         limit: 10000,
-        name: 'img/[name].[ext]'
+        name: 'img/[name].[ext]',
+        esModule: false
       })
 
   chain.module.rule('fonts')
@@ -86,7 +86,8 @@ module.exports = function (chain) {
       .loader('url-loader')
       .options({
         limit: 10000,
-        name: 'fonts/[name].[ext]'
+        name: 'fonts/[name].[ext]',
+        esModule: false
       })
 
   injectRule(chain, 'css', /\.css$/)
@@ -148,6 +149,7 @@ function injectRule (chain, lang, test, loader, options) {
   rule.use('css-loader')
     .loader('css-loader')
     .options({
+      esModule: false,
       importLoaders: 2 + (loader ? 1 : 0),
       sourceMap: true
     })

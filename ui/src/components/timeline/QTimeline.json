@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/timeline"
+  },
+
   "behavior": {
     "$listeners": true
   },
@@ -10,7 +14,7 @@
 
     "side": {
       "type": "String",
-      "desc": "Side to place the timeline entries in dense and comfortable layout; For loose layout it gets overriden by QTimelineEntry side prop",
+      "desc": "Side to place the timeline entries in dense and comfortable layout; For loose layout it gets overridden by QTimelineEntry side prop",
       "default": "right",
       "values": [ "left", "right" ],
       "category": "behavior"

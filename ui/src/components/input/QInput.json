@@ -1,6 +1,10 @@
 {
   "mixins": [ "components/field/__QField", "mixins/mask" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/input"
+  },
+
   "behavior": {
     "$listeners": {
       "target": "to the inner native input element"

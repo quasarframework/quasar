@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/floating-action-button"
+  },
+
   "behavior": {
     "$listeners": true
   },

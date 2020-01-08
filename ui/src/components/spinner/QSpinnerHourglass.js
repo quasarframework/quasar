@@ -13,6 +13,7 @@ export default Vue.extend({
       class: this.classes,
       on: this.$listeners,
       attrs: {
+        focusable: 'false' /* needed for IE11 */,
         'width': this.cSize,
         'height': this.cSize,
         'viewBox': '0 0 100 100',
@@ -52,7 +53,7 @@ export default Vue.extend({
                 'to': '0',
                 'dur': '1s',
                 'repeatCount': 'indefinite',
-                'vlaues': '25;0;0',
+                'values': '25;0;0',
                 'keyTimes': '0;0.5;1'
               }
             }),
@@ -63,7 +64,7 @@ export default Vue.extend({
                 'to': '45',
                 'dur': '1s',
                 'repeatCount': 'indefinite',
-                'vlaues': '20;45;45',
+                'values': '20;45;45',
                 'keyTimes': '0;0.5;1'
               }
             })
@@ -90,7 +91,7 @@ export default Vue.extend({
                 'to': '25',
                 'dur': '1s',
                 'repeatCount': 'indefinite',
-                'vlaues': '0;25;25',
+                'values': '0;25;25',
                 'keyTimes': '0;0.5;1'
               }
             }),
@@ -101,7 +102,7 @@ export default Vue.extend({
                 'to': '55',
                 'dur': '1s',
                 'repeatCount': 'indefinite',
-                'vlaues': '80;55;55',
+                'values': '80;55;55',
                 'keyTimes': '0;0.5;1'
               }
             })

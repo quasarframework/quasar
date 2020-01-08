@@ -27,7 +27,7 @@ QRouteTab won't and cannot work with the UMD version because in that environment
 ## Usage
 
 ::: tip
-QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action. On a desktop you will see chevons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
+QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action. On a desktop you will see chevrons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
 :::
 
 ### Basic
@@ -77,6 +77,10 @@ In the second QTabs from the example below, if window width is below 1024px then
 Notice we need to specify the `shrink` prop. By default, QTabs tries to expand to all the available horizontal space, but in this case we are using it as a child of QToolbar so we don't want that.
 
 <doc-example title="Tabs in a QToolbar" file="QTabs/TabsInToolbar" />
+
+### Dynamic update
+
+<doc-example title="Dynamic tabs" file="QTabs/DynamicTabs" />
 
 ### Along with QTabsPanel
 

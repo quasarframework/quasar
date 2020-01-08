@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/color-picker"
+  },
+
   "props": {
     "value": {
       "extends": "value",
@@ -38,6 +42,21 @@
         ":palette=\"[ '#019A9D', '#D9B801', 'rgb(23,120,0)', '#B2028A' ]\""
       ],
       "category": "content"
+    },
+
+    "square": {
+      "extends": "square",
+      "addedIn": "v1.5.2"
+    },
+
+    "flat": {
+      "extends": "flat",
+      "addedIn": "v1.5.2"
+    },
+
+    "bordered": {
+      "extends": "bordered",
+      "addedIn": "v1.5.2"
     },
 
     "no-header": {

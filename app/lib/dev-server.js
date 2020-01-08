@@ -1,50 +1,20 @@
-const
-  webpack = require('webpack'),
-  WebpackDevServer = require('webpack-dev-server')
+const webpack = require('webpack')
+const WebpackDevServer = require('webpack-dev-server')
 
-const
-  appPaths = require('./app-paths'),
-  logger = require('./helpers/logger')
-  log = logger('app:dev-server'),
-  warn = logger('app:dev-server', 'red')
+const appPaths = require('./app-paths')
+const logger = require('./helpers/logger')
+const openBrowser = require('./helpers/open-browser')
+const log = logger('app:dev-server')
 
 let alreadyNotified = false
-
-function openBrowser (url, opts) {
-  const open = require('open')
-
-  const openDefault = () => {
-    log('Opening default browser at ' + url)
-    log()
-    open(url, { wait: true, url: true }).catch(() => {
-      warn(`⚠️  Failed to open default browser`)
-      warn()
-    })
-  }
-
-  if (opts) {
-    log('Opening browser at ' + url + ' with options: ' + opts)
-    log()
-    open(url, { app: opts, wait: true, url: true }).catch(() => {
-      warn(`⚠️  Failed to open specific browser`)
-      warn()
-      openDefault()
-    })
-  }
-  else {
-    openDefault()
-  }
-}
-
 module.exports = class DevServer {
   constructor (quasarConfig) {
     this.quasarConfig = quasarConfig
   }
 
   async listen () {
-    const
-      webpackConfig = this.quasarConfig.getWebpackConfig(),
-      cfg = this.quasarConfig.getBuildConfig()
+    const webpackConfig = this.quasarConfig.getWebpackConfig()
+    const cfg = this.quasarConfig.getBuildConfig()
 
     log(`Booting up...`)
     log()
@@ -76,7 +46,7 @@ module.exports = class DevServer {
         alreadyNotified = true
 
         if (cfg.__devServer.open && ['spa', 'pwa'].includes(cfg.ctx.modeName)) {
-          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
         }
       })
     })
@@ -93,14 +63,13 @@ module.exports = class DevServer {
   }
 
   listenSSR (webpackConfig, cfg, resolve) {
-    const
-      fs = require('fs'),
-      LRU = require('lru-cache'),
-      express = require('express'),
-      chokidar = require('chokidar'),
-      { createBundleRenderer } = require('vue-server-renderer'),
-      ouchInstance = require('./helpers/cli-error-handling').getOuchInstance(),
-      SsrExtension = require('./ssr/ssr-extension')
+    const fs = require('fs')
+    const LRU = require('lru-cache')
+    const express = require('express')
+    const chokidar = require('chokidar')
+    const { createBundleRenderer } = require('vue-server-renderer')
+    const ouchInstance = require('./helpers/cli-error-handling').getOuchInstance()
+    const SsrExtension = require('./ssr/ssr-extension')
 
     let renderer
 
@@ -165,11 +134,10 @@ module.exports = class DevServer {
       })
     }
 
-    let
-      bundle,
-      template,
-      clientManifest,
-      pwa
+    let bundle
+    let template
+    let clientManifest
+    let pwa
 
     let ready
     const readyPromise = new Promise(r => { ready = r })
@@ -185,9 +153,8 @@ module.exports = class DevServer {
     }
 
     // read template from disk and watch
-    const
-      { getIndexHtml } = require('./ssr/html-template'),
-      templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
+    const { getIndexHtml } = require('./ssr/html-template')
+    const templatePath = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
 
     function getTemplate () {
       return getIndexHtml(fs.readFileSync(templatePath, 'utf-8'), cfg)
@@ -200,9 +167,8 @@ module.exports = class DevServer {
       update()
     })
 
-    const
-      serverCompiler = webpack(webpackConfig.server),
-      clientCompiler = webpack(webpackConfig.client)
+    const serverCompiler = webpack(webpackConfig.server)
+    const clientCompiler = webpack(webpackConfig.client)
 
     serverCompiler.hooks.done.tapAsync('done-compiling', ({ compilation: { errors, warnings, assets }}, cb) => {
       errors.forEach(err => console.error(err))
@@ -307,7 +273,7 @@ module.exports = class DevServer {
       server.listen(cfg.devServer.port, cfg.devServer.host, () => {
         resolve()
         if (cfg.__devServer.open) {
-          openBrowser(cfg.build.APP_URL, cfg.__devServer.openOptions)
+          openBrowser({ url: cfg.build.APP_URL, opts: cfg.__devServer.openOptions })
         }
       })
     })

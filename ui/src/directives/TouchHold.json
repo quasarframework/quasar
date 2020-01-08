@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/touch-hold"
+  },
+
   "value": {
     "type": "Function",
     "desc": "Function to call after user has hold touch/click for the specified amount of time",

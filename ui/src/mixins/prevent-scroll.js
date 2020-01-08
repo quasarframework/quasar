@@ -1,11 +1,12 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
 import { hasScrollbar, getScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
-import Platform from '../plugins/Platform.js'
 
 let
   registered = 0,
   scrollPositionX,
   scrollPositionY,
+  maxScrollTop,
+  vpPendingUpdate = false,
   bodyLeft,
   bodyTop,
   closeTimer
@@ -56,8 +57,35 @@ function onAppleScroll (e) {
   }
 }
 
-function apply (action) {
-  const body = document.body
+function onAppleResize (evt) {
+  if (vpPendingUpdate === true) {
+    return
+  }
+
+  vpPendingUpdate = true
+
+  requestAnimationFrame(() => {
+    vpPendingUpdate = false
+
+    const
+      { height } = evt.target,
+      { clientHeight, scrollTop } = document.scrollingElement
+
+    if (maxScrollTop === void 0 || height !== window.innerHeight) {
+      maxScrollTop = clientHeight - height
+      document.scrollingElement.scrollTop = scrollTop
+    }
+
+    if (scrollTop > maxScrollTop) {
+      document.scrollingElement.scrollTop -= Math.ceil((scrollTop - maxScrollTop) / 8)
+    }
+  })
+}
+
+function apply (action, is) {
+  const
+    body = document.body,
+    hasViewport = window.visualViewport !== void 0
 
   if (action === 'add') {
     const overflowY = window.getComputedStyle(body).overflowY
@@ -74,16 +102,34 @@ function apply (action) {
     }
 
     body.classList.add('q-body--prevent-scroll')
-    Platform.is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    if (is.ios === true) {
+      if (hasViewport === true) {
+        window.scrollTo(0, 0)
+        window.visualViewport.addEventListener('resize', onAppleResize, listenOpts.passiveCapture)
+        window.visualViewport.addEventListener('scroll', onAppleResize, listenOpts.passiveCapture)
+        window.scrollTo(0, 0)
+      }
+      else {
+        window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+      }
+    }
   }
 
-  if (Platform.is.desktop === true && Platform.is.mac === true) {
+  if (is.desktop === true && is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
     window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
   }
 
   if (action === 'remove') {
-    Platform.is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    if (is.ios === true) {
+      if (hasViewport === true) {
+        window.visualViewport.removeEventListener('resize', onAppleResize, listenOpts.passiveCapture)
+        window.visualViewport.removeEventListener('scroll', onAppleResize, listenOpts.passiveCapture)
+      }
+      else {
+        window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+      }
+    }
 
     body.classList.remove('q-body--prevent-scroll')
     body.classList.remove('q-body--force-scrollbar')
@@ -92,10 +138,11 @@ function apply (action) {
     body.style.top = bodyTop
 
     window.scrollTo(scrollPositionX, scrollPositionY)
+    maxScrollTop = void 0
   }
 }
 
-function prevent (state) {
+export function preventScroll (state, is) {
   let action = 'add'
 
   if (state === true) {
@@ -124,18 +171,18 @@ function prevent (state) {
 
     action = 'remove'
 
-    if (Platform.is.ios === true && Platform.is.nativeMobile === true) {
+    if (is.ios === true && is.nativeMobile === true) {
       clearTimeout(closeTimer)
 
       closeTimer = setTimeout(() => {
-        apply(action)
+        apply(action, is)
         closeTimer = void 0
       }, 100)
       return
     }
   }
 
-  apply(action)
+  apply(action, is)
 }
 
 export default {
@@ -146,7 +193,7 @@ export default {
         (this.preventedScroll !== void 0 || state === true)
       ) {
         this.preventedScroll = state
-        prevent(state)
+        preventScroll(state, this.$q.platform.is)
       }
     }
   }

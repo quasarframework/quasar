@@ -68,7 +68,7 @@ export default {
           val.splice(this.index, 1)
         }
         else {
-          val = this.value.concat([this.val])
+          val = this.value.concat([ this.val ])
         }
       }
       else if (this.isTrue === true) {
@@ -86,7 +86,13 @@ export default {
       this.$emit('input', val)
     },
 
-    __keyDown (e) {
+    __onKeydown (e) {
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        stopAndPrevent(e)
+      }
+    },
+
+    __onKeyup (e) {
       if (e.keyCode === 13 || e.keyCode === 32) {
         this.toggle(e)
       }

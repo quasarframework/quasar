@@ -61,6 +61,12 @@
         }]
       ]"
     />
+
+    <div class="caption bg-yellow">
+      Model
+    </div>
+    <div>{{ model }}</div>
+
     <br><br><br>
 
     <q-select
@@ -77,7 +83,8 @@
     <q-editor
       ref="editor"
       class="bg-grey"
-      v-model="model"
+      max-height="100px"
+      v-model="modelScroll"
       :flat="flat"
       :square="square"
       :dense="dense"
@@ -176,7 +183,7 @@
     <div class="caption bg-yellow">
       Model
     </div>
-    <div>{{ model }}</div>
+    <div>{{ modelScroll }}</div>
   </div>
 </template>
 
@@ -192,7 +199,8 @@ export default {
       push: false,
       outline: false,
       rounded: false,
-      model: 'Editor in <a href="http://quasar.dev">Quasar</a></div><div>Second line'
+      model: 'Editor in <a href="http://quasar.dev">Quasar</a></div><div>Second line',
+      modelScroll: 'Editor in <a href="http://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line'
     }
   },
   watch: {

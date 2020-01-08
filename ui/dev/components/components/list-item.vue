@@ -623,6 +623,24 @@
         </q-item>
 
         <q-item tag="label">
+          <q-item-section>
+            Label for input:
+          </q-item-section>
+          <q-item-section class="scroll">
+            <q-input v-model="text" filled />
+          </q-item-section>
+        </q-item>
+
+        <q-item tag="label">
+          <q-item-section>
+            Label for input:
+          </q-item-section>
+          <q-item-section class="scroll">
+            <q-input v-model="text" label="Has label" filled />
+          </q-item-section>
+        </q-item>
+
+        <q-item tag="label">
           <q-item-section side>
             <q-checkbox :dark="dark" v-model="check1" />
           </q-item-section>

@@ -1,4 +1,3 @@
-import QLinearProgress from '../linear-progress/QLinearProgress.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QSeparator from '../separator/QSeparator.js'
 
@@ -38,14 +37,23 @@ export default {
           const data = {
             staticClass: 'q-table__grid-item-card' + this.cardDefaultClass,
             class: this.cardClass,
-            style: this.cardStyle
+            style: this.cardStyle,
+            on: {}
+          }
+
+          if (this.$listeners['row-click'] !== void 0 || this.$listeners['row-dblclick'] !== void 0) {
+            data.staticClass += ' cursor-pointer'
           }
 
           if (this.$listeners['row-click'] !== void 0) {
-            data.on = {
-              click: evt => {
-                this.$emit('row-click', evt, scope.row)
-              }
+            data.on.click = evt => {
+              this.$emit('row-click', evt, scope.row)
+            }
+          }
+
+          if (this.$listeners['row-dblclick'] !== void 0) {
+            data.on.dblclick = evt => {
+              this.$emit('row-dblclick', evt, scope.row)
             }
           }
 
@@ -57,7 +65,11 @@ export default {
           ])
         }
 
-      return h('div', { staticClass: 'row' }, this.computedRows.map(row => {
+      return h('div', {
+        staticClass: 'row',
+        class: this.cardContainerClass,
+        style: this.cardContainerStyle
+      }, this.computedRows.map(row => {
         const
           key = this.getRowKey(row),
           selected = this.isRowSelected(key)
@@ -73,23 +85,15 @@ export default {
     },
 
     getGridHeader (h) {
-      return h('div', { staticClass: 'q-table__middle' }, [
-        this.gridHeader === true
-          ? h('table', { staticClass: 'q-table' }, [
+      const child = this.gridHeader === true
+        ? [
+          h('table', { staticClass: 'q-table' }, [
             this.getTableHeader(h)
           ])
-          : (this.loading === true
-            ? h(QLinearProgress, {
-              staticClass: 'q-table__linear-progress',
-              props: {
-                color: this.color,
-                dark: this.isDark,
-                indeterminate: true
-              }
-            })
-            : null
-          )
-      ])
+        ]
+        : (this.loading === true ? this.__getProgress(h) : void 0)
+
+      return h('div', { staticClass: 'q-table__middle' }, child)
     }
   }
 }

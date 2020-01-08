@@ -1,4 +1,8 @@
 {
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/popup-edit"
+  },
+
   "props": {
     "value": {
       "extends": "value",
@@ -152,13 +156,13 @@
 
     "max-height": {
       "extends": "size",
-      "desc": "The maximimum height of the menu; Size in CSS units, including unit name",
+      "desc": "The maximum height of the menu; Size in CSS units, including unit name",
       "category": "style"
     },
 
     "max-width": {
       "extends": "size",
-      "desc": "The maximimum width of the menu; Size in CSS units, including unit name",
+      "desc": "The maximum width of the menu; Size in CSS units, including unit name",
       "category": "style"
     }
   },
@@ -189,7 +193,7 @@
           "params": {
             "value": {
               "type": "Any",
-              "desc": "Value to be emited",
+              "desc": "Value to be emitted",
               "examples": [ 0, "Changed text" ]
             }
           },

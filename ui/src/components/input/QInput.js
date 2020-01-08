@@ -207,7 +207,7 @@ export default Vue.extend({
 
       this.type !== 'file' && this.$nextTick(() => {
         if (this.$refs.input !== void 0) {
-          this.$refs.input.value = this.innerValue
+          this.$refs.input.value = this.innerValue !== void 0 ? this.innerValue : ''
         }
       })
     },
@@ -234,7 +234,7 @@ export default Vue.extend({
 
       const attrs = {
         tabindex: 0,
-        autofocus: this.autofocus,
+        'data-autofocus': this.autofocus,
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         ...this.$attrs,
@@ -260,7 +260,7 @@ export default Vue.extend({
           ? {
             value: this.hasOwnProperty('tempValue') === true
               ? this.tempValue
-              : this.innerValue
+              : (this.innerValue !== void 0 ? this.innerValue : '')
           }
           : null
       })

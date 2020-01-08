@@ -1,5 +1,4 @@
-const
-  appPaths = require('../app-paths')
+const appPaths = require('../app-paths')
 
 module.exports = function (pkgName, folder = appPaths.appDir) {
   try {
@@ -7,7 +6,5 @@ module.exports = function (pkgName, folder = appPaths.appDir) {
       paths: [ folder ]
     })
   }
-  catch (e) {
-    return null
-  }
+  catch (e) {}
 }

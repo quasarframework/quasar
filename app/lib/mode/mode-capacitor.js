@@ -2,31 +2,12 @@ const fs = require('fs')
 const fse = require('fs-extra')
 const compileTemplate = require('lodash.template')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:mode-capacitor'),
-  warn = logger('app:mode-capacitor', 'red'),
-  { spawnSync } = require('../helpers/spawn'),
-  nodePackager = require('../helpers/node-packager')
-
-function installDependencies () {
-  if (fs.existsSync(appPaths.resolve.capacitor('node_modules'))) {
-    return
-  }
-
-  const cmdParam = nodePackager === 'npm'
-    ? ['install']
-    : []
-
-  log(`Installing Capacitor dependencies...`)
-  spawnSync(
-    nodePackager,
-    cmdParam,
-    { cwd: appPaths.capacitorDir },
-    () => warn('Failed to install Capacitor dependencies')
-  )
-}
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:mode-capacitor')
+const warn = logger('app:mode-capacitor', 'red')
+const { spawnSync } = require('../helpers/spawn')
+const nodePackager = require('../helpers/node-packager')
 
 class Mode {
   get isInstalled () {
@@ -39,10 +20,9 @@ class Mode {
       return
     }
 
-    const
-      pkgPath = appPaths.resolve.app('package.json'),
-      pkg = require(pkgPath),
-      appName = pkg.productName || pkg.name || 'Quasar App'
+    const pkgPath = appPaths.resolve.app('package.json')
+    const pkg = require(pkgPath)
+    const appName = pkg.productName || pkg.name || 'Quasar App'
 
     if (/^[0-9]/.test(appName)) {
       warn(
@@ -74,7 +54,8 @@ class Mode {
       fs.writeFileSync(dest, compileTemplate(content)(scope), 'utf-8')
     })
 
-    installDependencies()
+    const { ensureDeps } = require('../capacitor/ensure-consistency')
+    ensureDeps()
 
     const capacitorCliPath = require('../capacitor/capacitor-cli-path')
 
@@ -108,8 +89,10 @@ class Mode {
   }
 
   addPlatform (target) {
+    const ensureConsistency = require('../capacitor/ensure-consistency')
+    ensureConsistency()
+
     if (this.hasPlatform(target)) {
-      installDependencies()
       return
     }
 

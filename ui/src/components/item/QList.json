@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/list-and-list-items"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "bordered": {
+      "extends": "bordered"
+    },
+
+    "dense": {
+      "extends": "dense"
+    },
+
+    "separator": {
+      "type": "Boolean",
+      "desc": "Applies a separator between contained items",
+      "category": "content"
+    },
+
+    "dark": {
+      "extends": "dark"
+    },
+
+    "padding": {
+      "type": "Boolean",
+      "desc": "Applies a material design-like padding on top and bottom",
+      "category": "content"
+    }
+  },
+
+  "slots": {
+    "default": {
+      "desc": "This is where the content goes; Suggestion: QItem, QExpansionItem, ..."
+    }
+  }
+}

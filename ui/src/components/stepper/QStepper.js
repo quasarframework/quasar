@@ -3,8 +3,9 @@ import Vue from 'vue'
 import { PanelParentMixin } from '../../mixins/panel.js'
 import DarkMixin from '../../mixins/dark.js'
 import StepHeader from './StepHeader.js'
-import slot from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QStepper',
@@ -47,19 +48,19 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      const top = slot(this, 'message')
+      let top = slot(this, 'message', [])
 
       if (this.vertical === true) {
         this.__isValidPanelName(this.value) && this.__updatePanelIndex()
 
-        return (top !== void 0 ? top : []).concat([
+        return top.concat(
           h('div', {
             staticClass: 'q-stepper__content',
             // stop propagation of content emitted @input
             // which would tamper with Panel's model
-            on: { input: stop }
+            on: cache(this, 'stop', { input: stop })
           }, slot(this, 'default'))
-        ])
+        )
       }
 
       return [
@@ -80,14 +81,14 @@ export default Vue.extend({
             }
           })
         }))
-      ].concat((top !== void 0 ? top : [])).concat([
+      ].concat(
+        top,
+
         h('div', {
           staticClass: 'q-stepper__content q-panel-parent',
           directives: this.panelDirectives
-        }, [
-          this.__getPanelContent(h)
-        ])
-      ])
+        }, this.__getPanelContent(h))
+      )
     },
 
     __renderPanels (h) {
@@ -95,7 +96,7 @@ export default Vue.extend({
         staticClass: 'q-stepper',
         class: this.classes,
         on: this.$listeners
-      }, this.__getContent(h).concat(slot(this, 'navigation')))
+      }, mergeSlot(this.__getContent(h), this, 'navigation'))
     }
   }
 })

@@ -7,8 +7,9 @@ import PreventScrollMixin from '../../mixins/prevent-scroll.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
+import { cache } from '../../utils/vm.js'
 
 let maximizedModals = 0
 
@@ -133,7 +134,7 @@ export default Vue.extend({
         return
       }
 
-      node = node.querySelector('[autofocus]') || node
+      node = node.querySelector('[autofocus], [data-autofocus]') || node
       node.focus()
     },
 
@@ -192,12 +193,37 @@ export default Vue.extend({
 
       this.__setTimeout(() => {
         if (this.$q.platform.is.ios === true && document.activeElement) {
-          const { top } = document.activeElement.getBoundingClientRect()
-          if (top < 0) {
-            document.scrollingElement.scrollTop += top - window.innerHeight / 2
+          const
+            { top, bottom } = document.activeElement.getBoundingClientRect(),
+            { innerHeight } = window,
+            height = window.visualViewport !== void 0
+              ? window.visualViewport.height
+              : innerHeight
+
+          if (top > 0 && bottom > height / 2) {
+            const scrollTop = Math.min(
+              document.scrollingElement.scrollHeight - height,
+              bottom >= innerHeight
+                ? Infinity
+                : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
+            )
+
+            const fn = () => {
+              requestAnimationFrame(() => {
+                document.scrollingElement.scrollTop += Math.ceil((scrollTop - document.scrollingElement.scrollTop) / 8)
+                if (document.scrollingElement.scrollTop !== scrollTop) {
+                  fn()
+                }
+              })
+            }
+
+            fn()
           }
           document.activeElement.scrollIntoView()
         }
+
+        // required in order to avoid the "double-tap needed" issue
+        this.$q.platform.is.ios === true && this.__portal.$el.click()
 
         this.$emit('show', evt)
       }, 300)
@@ -226,7 +252,7 @@ export default Vue.extend({
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
         this.__updateState(false, this.maximized)
-        if (this.useBackdrop === true) {
+        if (this.seamless !== true) {
           this.__preventScroll(false)
           this.__preventFocusout(false)
         }
@@ -301,9 +327,9 @@ export default Vue.extend({
         }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
-            on: {
+            on: cache(this, 'bkdrop', {
               click: this.__onBackdropClick
-            }
+            })
           })
         ] : null),
 

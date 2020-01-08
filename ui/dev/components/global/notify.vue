@@ -88,6 +88,7 @@ export default {
         textColor,
         icon: random > 30 ? icon : null,
         message,
+        caption: random < 30 ? '5 minutes ago' : null,
         position,
         avatar,
         multiLine,
@@ -142,6 +143,42 @@ export default {
       actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
     })
     */
+    this.$q.notify({
+      message: 'You need to know about this!',
+      caption: 'This is a caption',
+      timeout: 0,
+      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
+    })
+    this.$q.notify({
+      message: 'You need to know about this!',
+      caption: 'This is a caption',
+      timeout: 0,
+      color: 'yellow',
+      textColor: 'black',
+      multiLine: true,
+      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+      actions: [ { label: 'Reply', handler: () => console.log('wooow') } ]
+    })
+    this.$q.notify({
+      html: true,
+      icon: 'map',
+      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+      message: 'HTML; You need to know about this!',
+      caption: 'This is a caption',
+      timeout: 0
+    })
+    this.$q.notify({
+      html: true,
+      message: 'HTML; You need to know about this!',
+      caption: 'This is a caption',
+      timeout: 0,
+      closeBtn: 'Close',
+      color: 'yellow',
+      textColor: 'black',
+      multiLine: true,
+      avatar: 'https://cdn.quasar.dev/img/boy-avatar.png',
+      actions: [ { label: 'Reply', handler: () => console.log('wooow') } ]
+    })
   }
 }
 </script>

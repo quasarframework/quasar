@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QImg',
@@ -26,6 +26,9 @@ export default Vue.extend({
       type: String,
       default: 'fade'
     },
+
+    imgClass: [ Array, String, Object ],
+    imgStyle: Object,
 
     noDefaultSpinner: Boolean,
     spinnerColor: String,
@@ -73,6 +76,16 @@ export default Vue.extend({
         att['aria-label'] = this.alt
       }
       return att
+    },
+
+    style () {
+      return Object.assign(
+        {
+          backgroundSize: this.contain ? 'contain' : 'cover',
+          backgroundPosition: this.position
+        },
+        this.imgStyle,
+        { backgroundImage: `url("${this.url}")` })
     }
   },
 
@@ -197,11 +210,8 @@ export default Vue.extend({
       const content = this.url !== void 0 ? h('div', {
         key: this.url,
         staticClass: 'q-img__image absolute-full',
-        style: {
-          backgroundImage: `url("${this.url}")`,
-          backgroundSize: this.contain ? 'contain' : 'cover',
-          backgroundPosition: this.position
-        }
+        class: this.imgClass,
+        style: this.style
       }) : null
 
       return this.basic === true

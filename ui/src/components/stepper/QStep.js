@@ -4,7 +4,7 @@ import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import { PanelChildMixin } from '../../mixins/panel.js'
 import StepHeader from './StepHeader.js'
 
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 const StepWrapper = Vue.extend({
   name: 'QStepWrapper',

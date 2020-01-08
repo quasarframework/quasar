@@ -9,6 +9,7 @@ import DarkMixin from '../../mixins/dark.js'
 import { isSSR } from '../../plugins/Platform.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
+import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
 export default Vue.extend({
   name: 'QEditor',
@@ -126,13 +127,13 @@ export default Vue.extend({
         undo: { type: 'no-state', cmd: 'undo', icon: i.undo, tip: e.undo, key: 90 },
         redo: { type: 'no-state', cmd: 'redo', icon: i.redo, tip: e.redo, key: 89 },
 
-        h1: { cmd: 'formatBlock', param: 'H1', icon: i.header1 || i.header, tip: e.header1, htmlTip: `<h1 class="q-ma-none">${e.header1}</h1>` },
-        h2: { cmd: 'formatBlock', param: 'H2', icon: i.header2 || i.header, tip: e.header2, htmlTip: `<h2 class="q-ma-none">${e.header2}</h2>` },
-        h3: { cmd: 'formatBlock', param: 'H3', icon: i.header3 || i.header, tip: e.header3, htmlTip: `<h3 class="q-ma-none">${e.header3}</h3>` },
-        h4: { cmd: 'formatBlock', param: 'H4', icon: i.header4 || i.header, tip: e.header4, htmlTip: `<h4 class="q-ma-none">${e.header4}</h4>` },
-        h5: { cmd: 'formatBlock', param: 'H5', icon: i.header5 || i.header, tip: e.header5, htmlTip: `<h5 class="q-ma-none">${e.header5}</h5>` },
-        h6: { cmd: 'formatBlock', param: 'H6', icon: i.header6 || i.header, tip: e.header6, htmlTip: `<h6 class="q-ma-none">${e.header6}</h6>` },
-        p: { cmd: 'formatBlock', param: 'DIV', icon: i.header, tip: e.paragraph },
+        h1: { cmd: 'formatBlock', param: 'H1', icon: i.heading1 || i.heading, tip: e.heading1, htmlTip: `<h1 class="q-ma-none">${e.heading1}</h1>` },
+        h2: { cmd: 'formatBlock', param: 'H2', icon: i.heading2 || i.heading, tip: e.heading2, htmlTip: `<h2 class="q-ma-none">${e.heading2}</h2>` },
+        h3: { cmd: 'formatBlock', param: 'H3', icon: i.heading3 || i.heading, tip: e.heading3, htmlTip: `<h3 class="q-ma-none">${e.heading3}</h3>` },
+        h4: { cmd: 'formatBlock', param: 'H4', icon: i.heading4 || i.heading, tip: e.heading4, htmlTip: `<h4 class="q-ma-none">${e.heading4}</h4>` },
+        h5: { cmd: 'formatBlock', param: 'H5', icon: i.heading5 || i.heading, tip: e.heading5, htmlTip: `<h5 class="q-ma-none">${e.heading5}</h5>` },
+        h6: { cmd: 'formatBlock', param: 'H6', icon: i.heading6 || i.heading, tip: e.heading6, htmlTip: `<h6 class="q-ma-none">${e.heading6}</h6>` },
+        p: { cmd: 'formatBlock', param: 'DIV', icon: i.heading, tip: e.paragraph },
         code: { cmd: 'formatBlock', param: 'PRE', icon: i.code, htmlTip: `<code>${e.code}</code>` },
 
         'size-1': { cmd: 'fontSize', param: '1', icon: i.size1 || i.size, tip: e.size1, htmlTip: `<font size="1">${e.size1}</font>` },
@@ -253,7 +254,7 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      if (this.editWatcher) {
+      if (this.editWatcher === true) {
         this.__setContent(v)
       }
       else {
@@ -264,7 +265,7 @@ export default Vue.extend({
 
   methods: {
     __onInput () {
-      if (this.editWatcher) {
+      if (this.editWatcher === true) {
         const val = this.isViewingSource
           ? this.$refs.content.innerText
           : this.$refs.content.innerHTML
@@ -279,7 +280,7 @@ export default Vue.extend({
     __onKeydown (e) {
       this.$emit('keydown', e)
 
-      if (!e.ctrlKey) {
+      if (e.ctrlKey !== true || shouldIgnoreKey(e) === true) {
         this.refreshToolbar()
         this.$q.platform.is.ie && this.$nextTick(this.__onInput)
         return
@@ -300,14 +301,47 @@ export default Vue.extend({
     },
 
     __onBlur () {
-      this.caret.save()
+      const { scrollTop, scrollHeight } = this.$refs.content
+      this.__offsetBottom = scrollHeight - scrollTop
+      this.$q.platform.is.ie !== true && this.caret.save()
       this.$emit('blur')
+    },
+
+    __onFocus () {
+      this.$nextTick(() => {
+        if (this.$refs.content !== void 0 && this.__offsetBottom !== void 0) {
+          this.$refs.content.scrollTop = this.$refs.content.scrollHeight - this.__offsetBottom
+        }
+      })
+    },
+
+    __onMouseup (e) {
+      this.caret.save()
+      if (this.$listeners.mouseup !== void 0) {
+        this.$emit('mouseup', e)
+      }
+    },
+
+    __onKeyup (e) {
+      this.caret.save()
+      if (this.$listeners.keyup !== void 0) {
+        this.$emit('keyup', e)
+      }
+    },
+
+    __onTouchend (e) {
+      this.caret.save()
+      if (this.$listeners.touchend !== void 0) {
+        this.$emit('touchend', e)
+      }
     },
 
     runCmd (cmd, param, update = true) {
       this.focus()
+      this.caret.restore()
       this.caret.apply(cmd, param, () => {
         this.focus()
+        this.caret.save()
         if (this.$q.platform.is.ie === true || this.$q.platform.is.edge === true) {
           this.$nextTick(this.__onInput)
         }
@@ -374,13 +408,27 @@ export default Vue.extend({
           key: 'qedt_btm',
           staticClass: 'q-editor__toolbar row no-wrap items-center scroll-x',
           class: this.toolbarBackgroundClass
-        }, getLinkEditor(h, this))
+        }, getLinkEditor(h, this, this.$q.platform.is.ie))
       )
 
       toolbars = h('div', {
         key: 'toolbar_ctainer',
         staticClass: 'q-editor__toolbars-container'
       }, bars)
+    }
+
+    const on = {
+      ...this.$listeners,
+      input: this.__onInput,
+      keydown: this.__onKeydown,
+      click: this.__onClick,
+      blur: this.__onBlur,
+      focus: this.__onFocus,
+
+      // save caret
+      mouseup: this.__onMouseup,
+      keyup: this.__onKeyup,
+      touchend: this.__onTouchend
     }
 
     return h(
@@ -413,13 +461,7 @@ export default Vue.extend({
             domProps: isSSR
               ? { innerHTML: this.value }
               : undefined,
-            on: {
-              ...this.$listeners,
-              input: this.__onInput,
-              keydown: this.__onKeydown,
-              click: this.__onClick,
-              blur: this.__onBlur
-            }
+            on
           }
         )
       ]

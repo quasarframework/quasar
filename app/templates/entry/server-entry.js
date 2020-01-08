@@ -57,7 +57,7 @@ import <%= importName %> from '<%= asset.path %>'
 // return a Promise that resolves to the app instance.
 export default context => {
   return new Promise(async (resolve, reject) => {
-    const { app, <%= store ? 'store, ' : '' %>router } = createApp(context)
+    const { app, <%= store ? 'store, ' : '' %>router } = await createApp(context)
 
     <% if (bootNames.length > 0) { %>
     let routeUnchanged = true

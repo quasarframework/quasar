@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
-import slot from '../../utils/slot.js'
+import { slot } from '../../utils/slot.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -165,7 +165,7 @@ export default Vue.extend({
         angle = normalizeToInterval(angle - this.angle, 0, 360)
       }
 
-      if (this.$q.lang.rtl) {
+      if (this.$q.lang.rtl === true) {
         angle = 360 - angle
       }
 

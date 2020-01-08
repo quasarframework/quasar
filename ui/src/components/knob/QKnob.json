@@ -1,6 +1,10 @@
 {
   "mixins": [ "mixins/size" ],
 
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/knob"
+  },
+
   "props": {
     "value": {
       "type": "Number",
@@ -18,7 +22,7 @@
 
     "max": {
       "type": "Number",
-      "desc": "The maximimum value that the model (the knob value) should go to",
+      "desc": "The maximum value that the model (the knob value) should go to",
       "examples": [ "100", "50" ],
       "category": "model"
     },
