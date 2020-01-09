@@ -26,7 +26,7 @@
         ":ratio=\"16/9\""
       ],
       "category": "style",
-      "addedIn": "1.6.2"
+      "addedIn": "v1.7.0"
     }
   }
 }
