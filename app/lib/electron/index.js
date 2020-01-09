@@ -162,16 +162,15 @@ class ElectronRunner {
       ].concat(extraParams),
       { cwd: appPaths.appDir },
       code => {
-        if (code) {
+        if (this.killPromise) {
+          this.killPromise()
+          this.killPromise = null
+        }
+        else if (code) {
           warn()
           warn(`⚠️  Electron process ended with error code: ${code}`)
           warn()
           process.exit(1)
-        }
-
-        if (this.killPromise) {
-          this.killPromise()
-          this.killPromise = null
         }
         else { // else it wasn't killed by us
           warn()
