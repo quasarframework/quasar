@@ -100,9 +100,8 @@ const svgIconSetBanner = setName => `
  */
 `
 
-async function run () {
+function run () {
   addAssets(builds, 'lang', 'lang')
-  await addSvgIconSets()
   addAssets(builds, 'icon-set', 'iconSet')
 
   build(builds)
@@ -110,6 +109,7 @@ async function run () {
   require('./build.api').generate()
     .then(async (data) => {
       await require('./build.lang-index').generate()
+      addSvgIconSets()
       require('./build.transforms').generate()
       require('./build.vetur').generate(data)
       require('./build.types').generate(data)
@@ -127,7 +127,7 @@ function resolve (_path) {
   return path.resolve(__dirname, '..', _path)
 }
 
-async function addSvgIconSets () {
+function addSvgIconSets () {
   // generic conversion
   const convert = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
 
@@ -178,7 +178,7 @@ async function addSvgIconSets () {
 
   const iconNames = iconTypes.map(type => type.name)
 
-  iconTypes.forEach(async type => {
+  iconTypes.forEach(type => {
     const original = fs.readFileSync(resolve(`icon-set/${type.name}.js`), 'utf-8')
 
     const importList = toObject(iconNames)
@@ -201,7 +201,7 @@ async function addSvgIconSets () {
 
     const content = svgIconSetBanner(type.name) + '\n' + importString + '\n\n' + contentString
 
-    await buildUtils.writeFile(resolve(`icon-set/svg-${type.name}.js`), content, 'utf-8')
+    buildUtils.writeFile(resolve(`icon-set/svg-${type.name}.js`), content, 'utf-8')
   })
 }
 
