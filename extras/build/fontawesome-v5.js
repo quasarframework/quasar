@@ -34,17 +34,17 @@ function getBanner () {
   return `/* Fontawesome Free v${version} */\n\n`
 }
 
-const svgExports = []
+const svgExports = new Set()
 
 iconTypes.forEach(type => {
   const svgFiles = glob.sync(svgFolder + `/${type}/*.svg`)
 
   svgFiles.forEach(file => {
-    svgExports.push(extract('fa' + type.charAt(0) + '-', file))
+    svgExports.add(extract('fa' + type.charAt(0) + '-', file))
   })
 })
 
-writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
+writeFileSync(dist, getBanner() + Array.from(svgExports).filter(x => x !== null).join('\n'), 'utf-8')
 
 if (skipped.length > 0) {
   console.log(`fontawesome - skipped (${skipped.length}): ${skipped}`)

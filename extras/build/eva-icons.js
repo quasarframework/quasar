@@ -12,10 +12,10 @@ const dist = resolve(__dirname, `../eva-icons/index.js`)
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/`)
 const iconTypes = ['fill', 'outline']
 
-function extract (suffix, file) {
+function extract (file) {
   const content = readFileSync(file, 'utf-8')
 
-  const name = ('eva-' + basename(file, '.svg') + suffix).replace(/(-\w)/g, m => m[1].toUpperCase())
+  const name = ('eva-' + basename(file, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase())
 
   try {
     const dPath = content.match(/ d="([\w ,\.-]+)"/)[1]
@@ -34,21 +34,17 @@ function getBanner () {
   return `/* Fontawesome Free v${version} */\n\n`
 }
 
-const svgExports = []
+const svgExports = new Set()
 
 iconTypes.forEach(type => {
   const svgFiles = glob.sync(svgFolder + `/${type}/svg/*.svg`)
 
-  const suffix = type !== 'fill'
-    ? '-' + type
-    : ''
-
   svgFiles.forEach(file => {
-    svgExports.push(extract(suffix, file))
+    svgExports.add(extract(file))
   })
 })
 
-writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
+writeFileSync(dist, getBanner() + Array.from(svgExports).filter(x => x !== null).join('\n'), 'utf-8')
 
 if (skipped.length > 0) {
   console.log(`eva icons - skipped (${skipped.length}): ${skipped}`)

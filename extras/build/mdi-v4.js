@@ -34,13 +34,13 @@ function getBanner () {
   return `/* MDI v${version} */\n\n`
 }
 
-const svgExports = []
+const svgExports = new Set()
 
 svgFiles.forEach(file => {
-  svgExports.push(extract(file))
+  svgExports.add(extract(file))
 })
 
-writeFileSync(dist, getBanner() + svgExports.join('\n'), 'utf-8')
+writeFileSync(dist, getBanner() + Array.from(svgExports).join('\n'), 'utf-8')
 
 if (skipped.length > 0) {
   console.log(`mdi - skipped (${skipped.length}): ${skipped}`)
