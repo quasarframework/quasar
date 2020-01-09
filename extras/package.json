@@ -28,6 +28,7 @@
     "@mdi/svg": "4.7.95",
     "eva-icons": "1.1.2",
     "glob": "7.1.6",
-    "material-design-icons": "3.0.1"
+    "material-design-icons": "3.0.1",
+    "themify-icons": "https://github.com/lykmapipo/themify-icons"
   }
 }
