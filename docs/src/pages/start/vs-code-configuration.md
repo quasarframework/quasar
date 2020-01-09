@@ -72,8 +72,6 @@ To edit the settings use the command `Open Settings JSON` in the Command Palette
         "source.fixAll": true
     },
 
-    "prettier.eslintIntegration": true,
-
     "vetur.format.defaultFormatter.html": "prettyhtml",
     "vetur.format.defaultFormatter.js": "prettier-eslint"
 }
