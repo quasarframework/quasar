@@ -75,8 +75,8 @@ module.exports = function (cfg, configName) {
 
   chain.module.noParse(
     cfg.framework.all === true
-      ? /^(vue|vue-router|vuex|vuex-router-sync|quasar)$/
-      : /^(vue|vue-router|vuex|vuex-router-sync)$/
+      ? /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar)$/
+      : /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras)$/
   )
 
   const vueRule = chain.module.rule('vue')

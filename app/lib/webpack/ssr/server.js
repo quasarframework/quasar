@@ -31,7 +31,7 @@ module.exports = function (chain, cfg) {
   chain.externals(nodeExternals({
     // do not externalize CSS files in case we need to import it from a dep
     whitelist: [
-      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]src[\\/]|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/])/
+      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]src[\\/]|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/
     ].concat(cfg.build.transpileDependencies)
   }))
 
