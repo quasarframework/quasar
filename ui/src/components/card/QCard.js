@@ -14,15 +14,19 @@ export default Vue.extend({
     bordered: Boolean
   },
 
+  computed: {
+    classes () {
+      return 'q-card' +
+        (this.isDark === true ? ' q-card--dark q-dark' : '') +
+        (this.bordered === true ? ' q-card--bordered' : '') +
+        (this.square === true ? ' q-card--square no-border-radius' : '') +
+        (this.flat === true ? ' q-card--flat no-shadow' : '')
+    }
+  },
+
   render (h) {
     return h('div', {
-      staticClass: 'q-card',
-      class: {
-        'q-card--dark q-dark': this.isDark,
-        'q-card--bordered': this.bordered,
-        'q-card--square no-border-radius': this.square,
-        'q-card--flat no-shadow': this.flat
-      },
+      class: this.classes,
       on: this.$listeners
     }, slot(this, 'default'))
   }

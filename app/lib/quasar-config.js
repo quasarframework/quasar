@@ -825,6 +825,11 @@ class QuasarConfig {
           cfg.electron.bundler = bundler.getDefaultName()
         }
 
+        if (this.opts.argv !== void 0) {
+          const { ensureElectronArgv } = require('./helpers/ensure-argv')
+          ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
+        }
+
         if (cfg.electron.bundler === 'packager') {
           if (cfg.ctx.targetName) {
             cfg.electron.packager.platform = cfg.ctx.targetName

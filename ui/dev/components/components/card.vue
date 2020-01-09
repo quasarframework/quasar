@@ -2,6 +2,151 @@
   <div>
     <div class="q-layout-padding card-examples row items-start q-gutter-md">
       <q-card class="bigger">
+        <q-card-section horizontal>
+          <img src="https://cdn.quasar.dev/img/parallax2.jpg" class="col-4" />
+
+          <q-card-section class="col-5">
+            {{ lorem }}
+          </q-card-section>
+
+          <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" />
+        </q-card-section>
+      </q-card>
+
+      <q-card class="bigger" flat>
+        <q-card-section horizontal>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" />
+        </q-card-section>
+      </q-card>
+
+      <q-card class="bigger" flat bordered>
+        <q-card-section horizontal>
+          <img src="https://cdn.quasar.dev/img/parallax2.jpg" class="col-4" />
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions>
+          <q-btn flat round icon="event" />
+          <q-btn flat>
+            5:30PM
+          </q-btn>
+          <q-btn flat>
+            7:30PM
+          </q-btn>
+          <q-btn flat>
+            9:00PM
+          </q-btn>
+          <q-btn flat color="primary">
+            Reserve
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <q-card class="bigger" flat bordered>
+        <q-card-section horizontal>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="col-4" />
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions align="center">
+          <q-btn flat round icon="event" />
+          <q-btn flat>
+            5:30PM
+          </q-btn>
+          <q-btn flat>
+            7:30PM
+          </q-btn>
+          <q-btn flat>
+            9:00PM
+          </q-btn>
+          <q-btn flat color="primary">
+            Reserve
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <q-card class="bigger">
+        <q-item>
+          <q-item-section avatar>
+            <q-avatar>
+              <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            </q-avatar>
+          </q-item-section>
+
+          <q-item-section>
+            <q-item-label>Title</q-item-label>
+            <q-item-label caption>
+              Subhead
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-separator />
+
+        <q-card-section horizontal>
+          <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" class="col-4" />
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-separator vertical />
+
+          <q-card-actions vertical class="justify-center">
+            <q-btn flat round icon="event" />
+            <q-btn flat>
+              5:30PM
+            </q-btn>
+            <q-btn flat>
+              7:30PM
+            </q-btn>
+            <q-btn flat>
+              9:00PM
+            </q-btn>
+            <q-btn flat color="primary">
+              Reserve
+            </q-btn>
+          </q-card-actions>
+        </q-card-section>
+
+        <q-separator />
+
+        <q-card-actions>
+          <q-btn flat round icon="event" />
+          <q-btn flat>
+            5:30PM
+          </q-btn>
+          <q-btn flat>
+            7:30PM
+          </q-btn>
+          <q-btn flat>
+            9:00PM
+          </q-btn>
+          <q-btn flat color="primary">
+            Reserve
+          </q-btn>
+        </q-card-actions>
+      </q-card>
+
+      <q-card class="bigger">
         <q-img :src="require('assets/donuts.png')" />
 
         <q-card-section>

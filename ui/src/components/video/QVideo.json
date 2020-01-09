@@ -16,6 +16,17 @@
         "src=\"https://www.youtube.com/embed/k3_tw44QsZQ\""
       ],
       "category": "model"
+    },
+
+    "ratio": {
+      "type": "Number",
+      "desc": "Aspect ratio for the iframe",
+      "examples": [
+        ":ratio=\"4/3\"",
+        ":ratio=\"16/9\""
+      ],
+      "category": "style",
+      "addedIn": "v1.7.0"
     }
   }
 }

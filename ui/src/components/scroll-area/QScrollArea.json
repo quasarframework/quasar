@@ -9,7 +9,7 @@
       "desc": "Object with CSS properties and values for styling the custom scrollbar",
       "examples": [ ":bar-style=\"{ right: '4px', borderRadius: '5px', background: 'red', width: '10px', opacity: 1 }\"" ],
       "category": "style",
-      "addedIn": "1.5.0"
+      "addedIn": "v1.5.0"
     },
 
     "thumb-style": {
