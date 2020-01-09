@@ -23,13 +23,13 @@ export default Vue.extend({
       }
     },
 
-    computedClass () {
+    classes () {
       if (this.aspect !== void 0) {
         return 'q-video--responsive'
       }
     },
 
-    computedStyle () {
+    style () {
       if (this.aspect !== void 0) {
         return { paddingTop: (100 / this.aspect) + '%' }
       }
@@ -39,8 +39,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-video',
-      class: this.computedClass,
-      style: this.computedStyle,
+      class: this.classes,
+      style: this.style,
       on: this.$listeners
     }, [
       h('iframe', this.iframeData)
