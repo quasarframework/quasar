@@ -31,7 +31,7 @@ export default Vue.extend({
 
     computedStyle () {
       if (this.aspect !== void 0) {
-        return 'padding-top: ' + (100 / this.aspect) + '%'
+        return { paddingTop: (100 / this.aspect) + '%' }
       }
     }
   },
