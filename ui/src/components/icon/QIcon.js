@@ -50,12 +50,12 @@ export default Vue.extend({
       }
 
       if (icon.startsWith('M') === true) {
-        const [ path, viewBox ] = icon.split('|')
+        const cfg = icon.split('|')
         return {
           svg: true,
           cls: commonCls + ' q-svg-icon',
-          path,
-          viewBox
+          path: cfg[0],
+          viewBox: cfg[1] !== void 0 ? cfg[1] : '0 0 24 24'
         }
       }
 

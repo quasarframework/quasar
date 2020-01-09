@@ -120,7 +120,7 @@ function addAssets (builds, type, injectName) {
     plugins = [ buble(bubleConfig) ]
 
   files
-    .filter(file => file.endsWith('.js'))
+    .filter(file => file.endsWith('.js') && file.indexOf('svg-') === -1)
     .forEach(file => {
       const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
       builds.push({

@@ -1,4 +1,3 @@
-const prefix = 'mdi-'
 const packageName = '@mdi/svg'
 
 // ------------
@@ -7,8 +6,8 @@ const glob = require('glob')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
-let skipped = 0
-const dist = resolve(__dirname, `../${prefix}svg.js`)
+let skipped = []
+const dist = resolve(__dirname, `../mdi-v4/index.js`)
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svg/`)
 const svgFiles = glob.sync(svgFolder + '/**/*.svg')
@@ -16,16 +15,16 @@ const svgFiles = glob.sync(svgFolder + '/**/*.svg')
 function extract (file) {
   const content = readFileSync(file, 'utf-8')
 
-  const name = (prefix + basename(file, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase())
+  const name = ('mdi-' + basename(file, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase())
 
   try {
     const dPath = content.match(/ d="([\w ,\.-]+)"/)[1]
     const viewBox = content.match(/viewBox="([0-9 ]+)"/)[1]
 
-    return `export const ${name} = "${dPath}|${viewBox}"`
+    return `export const ${name} = '${dPath}${viewBox !== '0 0 24 24' ? `|${viewBox}` : ''}'`
   }
   catch (err) {
-    skipped++
+    skipped.push(name)
     return null
   }
 }
@@ -43,6 +42,6 @@ svgFiles.forEach(file => {
 
 writeFileSync(dist, getBanner() + svgExports.join('\n'), 'utf-8')
 
-if (skipped > 0) {
-  console.log('mdi - skipped: ' + skipped)
+if (skipped.length > 0) {
+  console.log(`mdi - skipped (${skipped.length}): ${skipped}`)
 }
