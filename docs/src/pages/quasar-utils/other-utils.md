@@ -88,7 +88,7 @@ import { debounce } from 'quasar'
 window.addEventListener(
   'resize',
   debounce(function() {
-    .... things to do ...
+    // .... things to do ...
   }, 300 /*ms to wait*/)
 )
 ```
