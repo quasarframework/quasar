@@ -13,7 +13,7 @@
       </p>
       <q-video
         src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
-        :aspect="16/9"
+        :ratio="16/9"
       />
 
       <p class="caption">
@@ -21,7 +21,7 @@
       </p>
       <q-video
         src="https://www.youtube.com/embed/k3_tw44QsZQ?rel=0"
-        :aspect="4/3"
+        :ratio="4/3"
       />
 
       <p class="caption">

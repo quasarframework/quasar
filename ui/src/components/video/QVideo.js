@@ -9,7 +9,7 @@ export default Vue.extend({
       required: true
     },
 
-    aspect: Number
+    ratio: Number
   },
 
   computed: {
@@ -24,14 +24,14 @@ export default Vue.extend({
     },
 
     classes () {
-      if (this.aspect !== void 0) {
+      if (this.ratio !== void 0) {
         return 'q-video--responsive'
       }
     },
 
     style () {
-      if (this.aspect !== void 0) {
-        return { paddingTop: (100 / this.aspect) + '%' }
+      if (this.ratio !== void 0) {
+        return { paddingTop: (100 / this.ratio) + '%' }
       }
     }
   },

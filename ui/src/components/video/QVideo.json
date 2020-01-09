@@ -18,12 +18,12 @@
       "category": "model"
     },
 
-    "aspect": {
+    "ratio": {
       "type": "Number",
       "desc": "Aspect ratio for the iframe",
       "examples": [
-        ":aspect=\"4/3\"",
-        ":aspect=\"16/9\""
+        ":ratio=\"4/3\"",
+        ":ratio=\"16/9\""
       ],
       "category": "style",
       "addedIn": "1.6.2"
