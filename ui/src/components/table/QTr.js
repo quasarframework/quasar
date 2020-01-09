@@ -10,19 +10,17 @@ export default Vue.extend({
     noHover: Boolean
   },
 
-  render (h) {
-    const on = this.$listeners
+  computed: {
+    classes () {
+      return 'q-tr' + (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
+        (this.noHover === true ? ' q-tr--no-hover' : '')
+    }
+  },
 
-    return h(
-      'tr',
-      this.props === void 0 || this.props.header === true
-        ? on
-        : {
-          on,
-          class: this.props.__trClass +
-            (this.noHover === true ? ' q-tr--no-hover' : '')
-        },
-      slot(this, 'default')
-    )
+  render (h) {
+    return h('tr', {
+      on: this.$listeners,
+      class: this.classes
+    }, slot(this, 'default'))
   }
 })
