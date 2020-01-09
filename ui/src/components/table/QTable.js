@@ -115,7 +115,7 @@ export default Vue.extend({
 
   watch: {
     needsReset () {
-      this.hasVirtScroll === true && this.$refs.virtScroll.reset()
+      this.hasVirtScroll === true && this.$refs.virtScroll !== void 0 && this.$refs.virtScroll.reset()
     }
   },
 
