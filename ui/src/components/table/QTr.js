@@ -11,17 +11,13 @@ export default Vue.extend({
   },
 
   render (h) {
-    const on = this.$listeners
-
     return h(
       'tr',
-      this.props === void 0 || this.props.header === true
-        ? on
-        : {
-          on,
-          class: this.props.__trClass +
-            (this.noHover === true ? ' q-tr--no-hover' : '')
-        },
+      {
+        on: this.$listeners,
+        class: (this.props === void 0 || this.props.header === true ? '' : this.props.__trClass) +
+          (this.noHover === true ? ' q-tr--no-hover' : '')
+      },
       slot(this, 'default')
     )
   }
