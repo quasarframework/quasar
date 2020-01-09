@@ -7,7 +7,9 @@ export default Vue.extend({
     src: {
       type: String,
       required: true
-    }
+    },
+
+    aspect: Number
   },
 
   computed: {
@@ -19,12 +21,26 @@ export default Vue.extend({
           allowfullscreen: true
         }
       }
+    },
+
+    classes () {
+      if (this.aspect !== void 0) {
+        return 'q-video--responsive'
+      }
+    },
+
+    style () {
+      if (this.aspect !== void 0) {
+        return { paddingTop: (100 / this.aspect) + '%' }
+      }
     }
   },
 
   render (h) {
     return h('div', {
       staticClass: 'q-video',
+      class: this.classes,
+      style: this.style,
       on: this.$listeners
     }, [
       h('iframe', this.iframeData)
