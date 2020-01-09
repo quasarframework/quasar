@@ -301,7 +301,7 @@
           </div>
         </q-card-section>
 
-        <q-card-actions>
+        <q-card-actions align="right">
           <q-btn flat>
             Action 1
           </q-btn>
