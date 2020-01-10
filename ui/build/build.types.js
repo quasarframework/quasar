@@ -48,10 +48,10 @@ function convertTypeVal (type, def, required) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
       let lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
-      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'Object'
+      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'LooseDictionary'
     }
 
-    return 'Object'
+    return 'LooseDictionary'
   }
 
   return t
@@ -223,6 +223,7 @@ function writeIndexDTS (apis) {
   addQuasarLangCodes(quasarTypeContents)
 
   writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
+  writeLine(contents, `import { LooseDictionary } from './ts-helpers'`)
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)
