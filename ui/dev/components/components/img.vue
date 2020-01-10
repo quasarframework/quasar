@@ -44,6 +44,26 @@
       <q-img
         :src="url"
         alt="Image"
+        style="max-width: 400px; border-radius: 50%"
+      >
+        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
+          Radius 50%
+        </div>
+      </q-img>
+
+      <q-img
+        :src="url"
+        alt="Image"
+        style="max-width: 400px; border-radius: 15px"
+      >
+        <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
+          Radius 15px
+        </div>
+      </q-img>
+
+      <q-img
+        :src="url"
+        alt="Image"
         style="max-width: 400px"
         img-class="blurry"
       >
