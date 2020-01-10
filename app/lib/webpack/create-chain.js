@@ -13,7 +13,7 @@ module.exports = function (cfg, configName) {
 
   const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
   const fileHash = needsHash ? '.[hash:8]' : ''
-  const chunkHash = needsHash ? '.[contenthash:8]' : ''
+  const chunkHash = needsHash ? '.[hash:8]' : ''
   const resolveModules = [
     'node_modules',
     appPaths.resolve.app('node_modules'),
@@ -330,7 +330,7 @@ module.exports = function (cfg, configName) {
       // extract css into its own file
       chain.plugin('mini-css-extract')
         .use(MiniCssExtractPlugin, [{
-          filename: 'css/[name].[contenthash:8].css'
+          filename: 'css/[name].[hash:8].css'
         }])
 
       // dedupe & minify CSS (only if extracted)
