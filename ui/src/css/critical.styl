@@ -13,12 +13,18 @@
   font-display: block // flash of invisible text until the font loads
                      // https://font-display.glitch.me/
 
+  fill: currentColor // for svg paths
+
   &:before
     width: 100%
     height: 100%
     display: flex !important
     align-items: center
     justify-content: center
+
+  > svg
+    width: 100%
+    height: 100%
 
 .q-icon,
 .material-icons,
@@ -33,7 +39,3 @@
   justify-content: center
   vertical-align: middle
 
-.q-svg-icon
-  vertical-align: text-bottom
-  path
-    fill: currentColor
