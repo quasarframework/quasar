@@ -2,6 +2,9 @@
   "name": "@quasar/extras",
   "version": "1.3.3",
   "description": "Quasar Framework fonts, icons and animations",
+  "scripts": {
+    "build": "node build/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/quasarframework/quasar.git"
