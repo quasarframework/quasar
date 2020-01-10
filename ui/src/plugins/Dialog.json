@@ -184,7 +184,7 @@
 
             "component": {
               "type": "Any",
-              "desc": "Use custom dialog component; use along with 'root' prop where possible; if using this prop, all others described here will be supplied to your custom component",
+              "desc": "Use custom dialog component; use along with 'parent' prop where possible; if using this prop, all others described here will be supplied to your custom component",
               "__exemption": [ "examples" ]
             },
 
@@ -198,6 +198,12 @@
               "type": "Object",
               "desc": "Deprecated alias for parent",
               "examples": [ "root: this" ]
+            },
+
+            "...props": {
+              "type": "Any",
+              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used",
+              "__exemption": [ "examples" ]
             }
           }
         }
