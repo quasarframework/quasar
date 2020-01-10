@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     onRequest (props) {
-      const { page, rowsPerPage, rowsNumber, sortBy, descending } = props.pagination
+      const { page, rowsPerPage, sortBy, descending } = props.pagination
       const filter = props.filter
 
       this.loading = true
@@ -119,7 +119,7 @@ export default {
         this.pagination.rowsNumber = this.getRowsNumberCount(filter)
 
         // get all rows if "All" (0) is selected
-        const fetchCount = rowsPerPage === 0 ? rowsNumber : rowsPerPage
+        const fetchCount = rowsPerPage === 0 ? this.pagination.rowsNumber : rowsPerPage
 
         // calculate starting row of data
         const startRow = (page - 1) * rowsPerPage
