@@ -27,8 +27,6 @@ Press ctrl-c to quit.
 
 It's not currently possible to request your own subdomain.
 
-> This guide previously suggested to use [Serveo](http://serveo.net/), which is currently not available.
-
 ## Using Ngrok
 
 1. Download and install ngrok [here](https://ngrok.com/download).
