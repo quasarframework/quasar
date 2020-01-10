@@ -193,7 +193,7 @@ You can use v-money directive:
   hint="Mask: $ #,###.00 #"
 >
   <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-    <input :id="id" class="q-field__native text-right" :value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
+    <input :id="id" class="q-field__input text-right" :value="value" @change="e => emitValue(e.target.value)" v-money="moneyFormatForDirective" v-show="floatingLabel">
   </template>
 </q-field>
 ```
@@ -219,7 +219,7 @@ Or you can use money component:
   hint="Mask: $ #,###.00 #"
 >
   <template v-slot:control="{ id, floatingLabel, value, emitValue }">
-    <money :id="id" class="q-field__native text-right" :value="value" @input="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
+    <money :id="id" class="q-field__input text-right" :value="value" @input="emitValue" v-bind="moneyFormatForComponent" v-show="floatingLabel" />
   </template>
 </q-field>
 ```

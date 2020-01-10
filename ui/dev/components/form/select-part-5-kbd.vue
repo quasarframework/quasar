@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding">
-    <div class="bg-black text-white q-pa-sm">
+    <div class="bg-black text-white q-pa-sm q-mb-xl">
       <q-checkbox v-model="forceMenu" toggle-indeterminate dark :label="forceMenuLabel" /> / ModelS: {{ modelS || 'null' }} / ModelM: {{ modelM || 'null' }}
     </div>
 

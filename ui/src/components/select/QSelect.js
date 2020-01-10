@@ -161,8 +161,8 @@ export default Vue.extend({
       }
 
       return this.inputClass === void 0
-        ? 'q-select__input--padding'
-        : [this.inputClass, 'q-select__input--padding']
+        ? 'q-field__input--padding'
+        : [this.inputClass, 'q-field__input--padding']
     },
 
     menuContentClass () {
@@ -819,7 +819,7 @@ export default Vue.extend({
 
       return h('input', {
         ref: 'target',
-        staticClass: 'q-select__input q-placeholder col',
+        staticClass: 'q-field__input q-placeholder col',
         style: this.inputStyle,
         class: this.computedInputClass,
         domProps: { value: this.inputValue !== void 0 ? this.inputValue : '' },
@@ -950,7 +950,7 @@ export default Vue.extend({
           if (this.hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
             if (
-              (this.useInput === true && e.target.classList.contains('q-select__input') !== true) ||
+              (this.useInput === true && e.target.classList.contains('q-field__input') !== true) ||
               (this.useInput !== true && e.target.classList.contains('no-outline') === true)
             ) {
               return
