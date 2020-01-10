@@ -70,6 +70,7 @@
   &--anim-pop
     position: relative
     overflow: hidden
+    z-index: 1
     &:after
       content: ''
       position: absolute
@@ -77,7 +78,7 @@
       right: 0
       bottom: 0
       left: 0
-      z-index: 1
+      z-index: 0
 
   &--anim-blink:after
     background: rgba(255,255,255,.7)

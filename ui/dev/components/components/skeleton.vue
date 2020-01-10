@@ -24,6 +24,16 @@
       <q-skeleton v-bind="props" type="circle" size="100px" animation="blink" />
     </div>
 
+    <q-dialog v-model="dialog">
+      <q-card>
+        <q-card-section>
+          <q-skeleton type="QRadio" />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
+    <q-btn @click="dialog = true" label="Open Dialog" class="q-mt-md" />
+
     <h6>Predefined types</h6>
     <div class="q-gutter-md">
       <div v-for="type in skeletonTypes" :key="type">
@@ -95,7 +105,8 @@ export default {
     return {
       bordered: false,
       dark: null,
-      skeletonTypes
+      skeletonTypes,
+      dialog: false
     }
   },
 
