@@ -30,6 +30,12 @@
 
       <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" />
 
+      <q-field v-bind="props" v-model="text" required label="Required - Custom input">
+        <template v-slot:control="{ id, floatingLabel, value, emitValue }">
+          <input :id="id" class="q-field__input" :value="value" @input="e => emitValue(e.target.value)" v-show="floatingLabel">
+        </template>
+      </q-field>
+
       <q-input v-bind="props" v-model="invalid" pattern="[a-z]*" label="Only [a-z]" placeholder="Write something" />
 
       <q-input v-bind="props" v-model="number" type="number" label="Number" placeholder="Write a number" />

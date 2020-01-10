@@ -38,6 +38,11 @@
             ,{ label: 'Fontawesome v5', value: 'fontawesome-v5' }
             ,{ label: 'Eva Icons', value: 'eva-icons' }
             ,{ label: 'Themify', value: 'themify' }
+            ,{ label: 'SVG Material', value: 'svg-material-icons' }
+            ,{ label: 'SVG MDI v4', value: 'svg-mdi-v4' }
+            ,{ label: 'SVG Fontawesome v5', value: 'svg-fontawesome-v5' }
+            ,{ label: 'SVG Eva Icons', value: 'svg-eva-icons' }
+            ,{ label: 'SVG Themify', value: 'svg-themify' }
           ]"
           options-dense
           emit-value

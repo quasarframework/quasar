@@ -49,6 +49,16 @@ export default Vue.extend({
         }
       }
 
+      if (icon.startsWith('M') === true) {
+        const cfg = icon.split('|')
+        return {
+          svg: true,
+          cls: commonCls + ' q-svg-icon',
+          path: cfg[0],
+          viewBox: cfg[1] !== void 0 ? cfg[1] : '0 0 24 24'
+        }
+      }
+
       if (icon.startsWith('img:') === true) {
         return {
           img: true,
@@ -119,11 +129,29 @@ export default Vue.extend({
       })
     }
 
-    return h('i', {
+    const data = {
       staticClass: this.type.cls,
       style: this.sizeStyle,
       on: this.$listeners,
-      attrs: { 'aria-hidden': true }
-    }, mergeSlot([ this.type.content ], this, 'default'))
+      attrs: {
+        'aria-hidden': true,
+        role: 'presentation'
+      }
+    }
+
+    if (this.type.svg === true) {
+      data.attrs.focusable = 'false' /* needed for IE11 */
+      data.attrs.viewBox = this.type.viewBox
+
+      return h('svg', data, mergeSlot([
+        h('path', {
+          attrs: { d: this.type.path }
+        })
+      ], this, 'default'))
+    }
+
+    return h('i', data, mergeSlot([
+      this.type.content
+    ], this, 'default'))
   }
 })

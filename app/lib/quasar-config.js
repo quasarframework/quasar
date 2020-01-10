@@ -889,7 +889,9 @@ class QuasarConfig {
         ? {
           removeComments: true,
           collapseWhitespace: true,
-          removeAttributeQuotes: true
+          removeAttributeQuotes: true,
+          collapseBooleanAttributes: true,
+          removeScriptTypeAttributes: true
           // more options:
           // https://github.com/kangax/html-minifier#options-quick-reference
         }

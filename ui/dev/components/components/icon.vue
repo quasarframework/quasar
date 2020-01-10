@@ -2,7 +2,6 @@
   <div class="q-layout-padding">
     <div>
       <q-icon :name="icon" class="gigi" style="font-size: 5rem;" @click="clicked" />
-      <span style="margin: 0 15px;">{{ icon }}</span>
       <q-icon :name="icon" class="gigi" style="font-size: 5rem;">
         <q-tooltip>{{ icon }}</q-tooltip>
       </q-icon>
@@ -12,15 +11,21 @@
       v-model="icon"
       :options="[
         {value: 'add_box', label: 'A Material icon'},
+        {value: matAddBox, label: 'A Material SVG icon'},
         {value: 'o_add_box', label: 'A Material Outlined icon'},
         {value: 'r_add_box', label: 'A Material Round icon'},
         {value: 's_add_box', label: 'A Material Sharp icon'},
         {value: 'mdi-airballoon', label: 'A MDI v4 icon'},
-        {value: 'fab fa-github', label: 'A Font Awesome icon'},
+        {value: mdiAirballoon, label: 'A MDI v4 SVG icon'},
+        {value: 'fab fa-github', label: 'A Fontawesome icon'},
+        {value: fabGithub, label: 'A Fontawesome SVG icon'},
         {value: 'ion-airplane', label: 'A Ionicon (platform dependent)'},
         {value: 'ion-md-airplane', label: 'A Ionicon (md)'},
         {value: 'ion-ios-airplane', label: 'A Ionicon (ios)'},
-        {value: 'eva-paper-plane-outline', label: 'A Eva icon'}
+        {value: 'eva-paper-plane-outline', label: 'A Eva icon'},
+        {value: evaPaperPlaneOutline, label: 'A Eva SVG icon'},
+        {value: 'ti-fullscreen', label: 'A Themify icon'},
+        {value: tiFullscreen, label: 'A Themify SVG icon'}
       ]"
       style="margin-top: 25px"
     />
@@ -56,6 +61,18 @@ import ioniconsSet from '../../../icon-set/ionicons-v4.js'
 import evaSet from '../../../icon-set/eva-icons.js'
 import themifySet from '../../../icon-set/themify.js'
 
+import svgMatSet from '../../../icon-set/svg-material-icons.js'
+import svgMdiSet from '../../../icon-set/svg-mdi-v4.js'
+import svgFontawesomeSet from '../../../icon-set/svg-fontawesome-v5.js'
+import svgEvaSet from '../../../icon-set/svg-eva-icons.js'
+import svgThemifySet from '../../../icon-set/svg-themify.js'
+
+import { matAddBox } from '@quasar/extras/material-icons'
+import { mdiAirballoon } from '@quasar/extras/mdi-v4'
+import { fabGithub } from '@quasar/extras/fontawesome-v5'
+import { evaPaperPlaneOutline } from '@quasar/extras/eva-icons'
+import { tiFullscreen } from '@quasar/extras/themify'
+
 function parseSet (setName, set) {
   const icons = []
   Object.keys(set).forEach(key => {
@@ -77,12 +94,17 @@ export default {
   data () {
     return {
       icon: 'add_box',
-      text: 'gigi'
+      text: 'gigi',
+      matAddBox,
+      mdiAirballoon,
+      fabGithub,
+      evaPaperPlaneOutline,
+      tiFullscreen
     }
   },
   computed: {
     sets () {
-      return [matSet, mdiSet, fontawesomeSet, ioniconsSet, evaSet, themifySet, matOutlinedSet, matRoundSet, matSharpSet]
+      return [matSet, mdiSet, fontawesomeSet, ioniconsSet, evaSet, themifySet, matOutlinedSet, matRoundSet, matSharpSet, svgMatSet, svgMdiSet, svgFontawesomeSet, svgEvaSet, svgThemifySet]
         .map(({ name, ...set }) => parseSet(name, set))
     }
   },
