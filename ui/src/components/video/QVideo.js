@@ -26,15 +26,13 @@ export default Vue.extend({
     },
 
     classes () {
-      if (this.ratio !== void 0) {
-        return 'q-video--responsive'
-      }
+      return 'q-video' +
+        (this.ratio !== void 0 ? ' q-video--responsive' : '')
     }
   },
 
   render (h) {
     return h('div', {
-      staticClass: 'q-video',
       class: this.classes,
       style: this.ratioStyle,
       on: this.$listeners
