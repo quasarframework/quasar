@@ -1,5 +1,3 @@
-$dialog-minimized-padding: 24px
-
 .q-dialog
 
   &__title
@@ -30,7 +28,7 @@ $dialog-minimized-padding: 24px
         min-width: 64px
 
     &--minimized
-      padding: $dialog-minimized-padding
+      padding: 24px
       > div
         max-height: calc(100vh - 48px)
 
@@ -86,10 +84,10 @@ body.q-ios-padding .q-dialog__inner
   padding-top: env(safe-area-inset-top) !important
   padding-bottom: env(safe-area-inset-bottom) !important
   &--minimized
-    padding-top: calc(env(safe-area-inset-top) + $dialog-minimized-padding) !important
-    padding-bottom: calc(env(safe-area-inset-bottom) + $dialog-minimized-padding) !important
+    padding-top: calc(env(safe-area-inset-top) + 24px) !important
+    padding-bottom: calc(env(safe-area-inset-bottom) + 24px) !important
   > div
-    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - ($dialog-minimized-padding * 2)) !important
+    max-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - (24px * 2)) !important
 
 @media (max-width: $breakpoint-xs-max)
   .q-dialog__inner
