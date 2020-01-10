@@ -1,11 +1,14 @@
 import Vue from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
+import RatioMixin from '../../mixins/ratio.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QImg',
+
+  mixins: [ RatioMixin ],
 
   props: {
     src: String,
@@ -21,7 +24,7 @@ export default Vue.extend({
       type: String,
       default: '50% 50%'
     },
-    ratio: [String, Number],
+
     transition: {
       type: String,
       default: 'fade'
@@ -56,16 +59,6 @@ export default Vue.extend({
   },
 
   computed: {
-    aspectRatio () {
-      return this.ratio || this.naturalRatio
-    },
-
-    padding () {
-      return this.aspectRatio !== void 0
-        ? (1 / this.aspectRatio) * 100 + '%'
-        : void 0
-    },
-
     url () {
       return this.currentSrc || this.placeholderSrc || void 0
     },
@@ -267,7 +260,7 @@ export default Vue.extend({
       on: this.$listeners
     }, [
       h('div', {
-        style: { paddingBottom: this.padding }
+        style: this.ratioStyle
       }),
       this.__getImage(h),
       this.__getContent(h)
