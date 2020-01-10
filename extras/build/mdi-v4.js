@@ -3,6 +3,7 @@ const packageName = '@mdi/svg'
 // ------------
 
 const glob = require('glob')
+const fse = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -46,8 +47,27 @@ svgFiles.forEach(file => {
   svgExports.push(extract(file))
 })
 
-writeFileSync(dist, getBanner() + svgExports.join('\n'), 'utf-8')
-
-if (skipped.length > 0) {
-  console.log(`mdi - skipped (${skipped.length}): ${skipped}`)
+if (svgExports.length === 0) {
+  console.log('WARNING. MDI skipped completely')
 }
+else {
+  writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
+
+  if (skipped.length > 0) {
+    console.log(`mdi - skipped (${skipped.length}): ${skipped}`)
+  }
+}
+
+// then update webfont files
+
+const webfont = [
+  'materialdesignicons-webfont.woff',
+  'materialdesignicons-webfont.woff2'
+]
+
+webfont.forEach(file => {
+  fse.copySync(
+    resolve(__dirname, `../node_modules/@mdi/font/fonts/${file}`),
+    resolve(__dirname, `../mdi-v4/${file}`)
+  )
+})

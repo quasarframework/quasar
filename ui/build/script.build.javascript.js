@@ -143,6 +143,12 @@ function addSvgIconSets () {
       convert
     },
     {
+      name: 'ionicons-v4',
+      regex: /^ion-/,
+      convert: str => (/ion-(md|ios)-/.test(str) === true ? str : str.replace(/ion-/, 'ion-md-'))
+        .replace(/(-\w)/g, m => m[1].toUpperCase())
+    },
+    {
       name: 'fontawesome-v5',
       regex: /^fa[brs] fa-/,
       convert: str => str.replace(' fa-', '-').replace(/(-\w)/g, m => m[1].toUpperCase())

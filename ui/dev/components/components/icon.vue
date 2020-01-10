@@ -35,6 +35,8 @@
         {value: 'ion-airplane', label: 'A Ionicon (platform dependent)'},
         {value: 'ion-md-airplane', label: 'A Ionicon (md)'},
         {value: 'ion-ios-airplane', label: 'A Ionicon (ios)'},
+        {value: ionMdAirplane, label: 'A SVG Ionicon (md)'},
+        {value: ionIosAirplane, label: 'A SVG Ionicon (ios)'},
         {value: 'eva-paper-plane-outline', label: 'A Eva icon'},
         {value: evaPaperPlaneOutline, label: 'A Eva SVG icon'},
         {value: 'ti-fullscreen', label: 'A Themify icon'},
@@ -76,12 +78,14 @@ import themifySet from '../../../icon-set/themify.js'
 
 import svgMatSet from '../../../icon-set/svg-material-icons.js'
 import svgMdiSet from '../../../icon-set/svg-mdi-v4.js'
+import svgIoniconsSet from '../../../icon-set/svg-ionicons-v4.js'
 import svgFontawesomeSet from '../../../icon-set/svg-fontawesome-v5.js'
 import svgEvaSet from '../../../icon-set/svg-eva-icons.js'
 import svgThemifySet from '../../../icon-set/svg-themify.js'
 
 import { matAddBox } from '@quasar/extras/material-icons'
 import { mdiAirballoon } from '@quasar/extras/mdi-v4'
+import { ionMdAirplane, ionIosAirplane } from '@quasar/extras/ionicons-v4'
 import { fabGithub } from '@quasar/extras/fontawesome-v5'
 import { evaPaperPlaneOutline } from '@quasar/extras/eva-icons'
 import { tiFullscreen } from '@quasar/extras/themify'
@@ -110,6 +114,8 @@ export default {
       text: 'gigi',
       matAddBox,
       mdiAirballoon,
+      ionMdAirplane,
+      ionIosAirplane,
       fabGithub,
       evaPaperPlaneOutline,
       tiFullscreen
@@ -120,7 +126,7 @@ export default {
       return [
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
         mdiSet, fontawesomeSet, ioniconsSet, evaSet, themifySet,
-        svgMatSet, svgMdiSet, svgFontawesomeSet, svgEvaSet, svgThemifySet
+        svgMatSet, svgMdiSet, svgIoniconsSet, svgFontawesomeSet, svgEvaSet, svgThemifySet
       ].map(({ name, ...set }) => parseSet(name, set))
     }
   },

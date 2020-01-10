@@ -28,9 +28,12 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "5.12.0",
+    "@mdi/font": "^4.7.95",
     "@mdi/svg": "4.7.95",
     "eva-icons": "1.1.2",
+    "fs-extra": "^8.1.0",
     "glob": "7.1.6",
+    "ionicons": "^4.6.3",
     "material-design-icons": "3.0.1",
     "themify-icons": "https://github.com/lykmapipo/themify-icons"
   }

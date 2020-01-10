@@ -3,6 +3,7 @@ const packageName = 'eva-icons'
 // ------------
 
 const glob = require('glob')
+const fse = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -50,8 +51,27 @@ iconTypes.forEach(type => {
   })
 })
 
-writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
-
-if (skipped.length > 0) {
-  console.log(`eva icons - skipped (${skipped.length}): ${skipped}`)
+if (svgExports.length === 0) {
+  console.log('WARNING. Eva-icons skipped completely')
 }
+else {
+  writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
+
+  if (skipped.length > 0) {
+    console.log(`eva-icons - skipped (${skipped.length}): ${skipped}`)
+  }
+}
+
+// then update webfont files
+
+const webfont = [
+  'Eva-Icons.woff2',
+  'Eva-Icons.woff'
+]
+
+webfont.forEach(file => {
+  fse.copySync(
+    resolve(__dirname, `../node_modules/${packageName}/style/fonts/${file}`),
+    resolve(__dirname, `../eva-icons/${file}`)
+  )
+})

@@ -3,6 +3,7 @@ const packageName = 'themify-icons'
 // ------------
 
 const glob = require('glob')
+const fse = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -36,8 +37,7 @@ function extract (file) {
 }
 
 function getBanner () {
-  const { version } = require(resolve(__dirname, `../node_modules/${packageName}/bower.json`))
-  return `/* Themify v${version} */\n\n`
+  return `/* Themify v1.0.1 */\n\n`
 }
 
 const svgExports = []
@@ -46,8 +46,26 @@ svgFiles.forEach(file => {
   svgExports.push(extract(file))
 })
 
-writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
-
-if (skipped.length > 0) {
-  console.log(`themify - skipped (${skipped.length}): ${skipped}`)
+if (svgExports.length === 0) {
+  console.log('WARNING. Themify skipped completely')
 }
+else {
+  writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
+
+  if (skipped.length > 0) {
+    console.log(`themify - skipped (${skipped.length}): ${skipped}`)
+  }
+}
+
+// then update webfont files
+
+const webfont = [
+  'themify.woff'
+]
+
+webfont.forEach(file => {
+  fse.copySync(
+    resolve(__dirname, `../node_modules/${packageName}/fonts/${file}`),
+    resolve(__dirname, `../themify/${file}`)
+  )
+})
