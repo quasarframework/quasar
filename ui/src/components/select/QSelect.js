@@ -496,7 +496,7 @@ export default Vue.extend({
         return
       }
 
-      if (e.target !== this.$refs.target) { return }
+      if (e.target === void 0 || e.target.id !== this.targetUid) { return }
 
       // down
       if (
@@ -601,13 +601,11 @@ export default Vue.extend({
       }
 
       // enter, space (when not using use-input), or tab (when not using multiple and option selected)
+      // same target is checked above
       if (
-        e.target !== this.$refs.target ||
-        (
-          e.keyCode !== 13 &&
-          (this.useInput === true || e.keyCode !== 32) &&
-          (tabShouldSelect === false || e.keyCode !== 9)
-        )
+        e.keyCode !== 13 &&
+        (this.useInput === true || e.keyCode !== 32) &&
+        (tabShouldSelect === false || e.keyCode !== 9)
       ) { return }
 
       e.keyCode !== 9 && stopAndPrevent(e)
@@ -640,6 +638,11 @@ export default Vue.extend({
           }
 
           this.updateInputValue('', this.multiple !== true, true)
+
+          if (this.multiple !== true) {
+            this.$refs.target !== void 0 && this.$refs.target.focus()
+            this.hidePopup()
+          }
         }
 
         if (this.$listeners['new-value'] !== void 0) {
