@@ -150,23 +150,25 @@ function getInjectionDefinition (injectionName, typeDef) {
 }
 
 function copyPredefinedTypes (dir, parentDir) {
-  fs.readdirSync(dir).forEach(file => {
-    const fullPath = path.resolve(dir, file)
-    const stats = fs.lstatSync(fullPath)
-    if (stats.isFile()) {
-      writeFile(
-        resolvePath(parentDir ? parentDir + file : file),
-        fs.readFileSync(fullPath)
-      )
-    }
-    else if (stats.isDirectory()) {
-      const p = resolvePath(parentDir ? parentDir + file : file)
-      if (!fs.existsSync(p)) {
-        fs.mkdirSync(p)
+  fs.readdirSync(dir)
+    .filter(file => path.basename(file).startsWith('.') !== true)
+    .forEach(file => {
+      const fullPath = path.resolve(dir, file)
+      const stats = fs.lstatSync(fullPath)
+      if (stats.isFile()) {
+        writeFile(
+          resolvePath(parentDir ? parentDir + file : file),
+          fs.readFileSync(fullPath)
+        )
       }
-      copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
-    }
-  })
+      else if (stats.isDirectory()) {
+        const p = resolvePath(parentDir ? parentDir + file : file)
+        if (!fs.existsSync(p)) {
+          fs.mkdirSync(p)
+        }
+        copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
+      }
+    })
 }
 
 function addToExtraInterfaces (def, required) {
