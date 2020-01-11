@@ -6,19 +6,21 @@ const rollup = require('rollup')
 const uglify = require('uglify-es')
 const buble = require('@rollup/plugin-buble')
 const json = require('@rollup/plugin-json')
-const nodeResolve = require('rollup-plugin-node-resolve')
+const nodeResolve = require('@rollup/plugin-node-resolve')
+
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
+
+function resolve (_path) {
+  return path.resolve(__dirname, '..', _path)
+}
 
 const bubleConfig = {
   objectAssign: 'Object.assign'
 }
 
-const defaultRollupPlugins = [
-  nodeResolve({
-    extensions: ['.js'],
-    preferBuiltins: false
-  }),
+const rollupPlugins = [
+  nodeResolve(),
   json(),
   buble(bubleConfig)
 ]
@@ -92,32 +94,8 @@ const builds = [
   }
 ]
 
-addAssets(builds, 'lang', 'lang')
-addAssets(builds, 'icon-set', 'iconSet')
-
-build(builds)
-
-require('./build.api').generate()
-  .then(data => {
-    require('./build.transforms').generate()
-    require('./build.vetur').generate(data)
-    require('./build.lang-index').generate()
-    require('./build.types').generate(data)
-    require('./build.web-types').generate(data)
-  })
-
-/**
- * Helpers
- */
-
-function resolve (_path) {
-  return path.resolve(__dirname, '..', _path)
-}
-
 function addAssets (builds, type, injectName) {
-  const
-    files = fs.readdirSync(resolve(type)),
-    plugins = [ buble(bubleConfig) ]
+  const files = fs.readdirSync(resolve(type))
 
   files
     .filter(file => file.endsWith('.js'))
@@ -126,8 +104,7 @@ function addAssets (builds, type, injectName) {
       builds.push({
         rollup: {
           input: {
-            input: resolve(`${type}/${file}`),
-            plugins
+            input: resolve(`${type}/${file}`)
           },
           output: {
             file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
@@ -149,9 +126,7 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  if (opts.rollup.input.plugins === void 0) {
-    opts.rollup.input.plugins = defaultRollupPlugins
-  }
+  opts.rollup.input.plugins = rollupPlugins
 
   opts.rollup.input.external = opts.rollup.input.external || []
   opts.rollup.input.external.push('vue')
@@ -227,5 +202,21 @@ function buildEntry (config) {
     .catch(err => {
       console.error(err)
       process.exit(1)
+    })
+}
+
+module.exports = function () {
+  require('./build.lang-index').generate()
+    .then(() => require('./build.svg-icon-sets').generate())
+    .then(() => require('./build.api').generate())
+    .then(data => {
+      require('./build.transforms').generate()
+      require('./build.vetur').generate(data)
+      require('./build.types').generate(data)
+      require('./build.web-types').generate(data)
+
+      addAssets(builds, 'lang', 'lang')
+      addAssets(builds, 'icon-set', 'iconSet')
+      build(builds)
     })
 }

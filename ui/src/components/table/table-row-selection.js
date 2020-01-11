@@ -33,7 +33,7 @@ export default {
     },
 
     allRowsSelected () {
-      return this.computedRows.every(
+      return this.computedRows.length > 0 && this.computedRows.every(
         row => this.selectedKeys[ this.getRowKey(row) ] === true
       )
     },

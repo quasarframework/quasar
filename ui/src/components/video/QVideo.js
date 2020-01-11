@@ -1,7 +1,11 @@
 import Vue from 'vue'
 
+import RatioMixin from '../../mixins/ratio.js'
+
 export default Vue.extend({
   name: 'QVideo',
+
+  mixins: [ RatioMixin ],
 
   props: {
     src: {
@@ -19,12 +23,18 @@ export default Vue.extend({
           allowfullscreen: true
         }
       }
+    },
+
+    classes () {
+      return 'q-video' +
+        (this.ratio !== void 0 ? ' q-video--responsive' : '')
     }
   },
 
   render (h) {
     return h('div', {
-      staticClass: 'q-video',
+      class: this.classes,
+      style: this.ratioStyle,
       on: this.$listeners
     }, [
       h('iframe', this.iframeData)

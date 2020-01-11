@@ -35,7 +35,7 @@ Ask questions at the official community forum: [https://forum.quasar.dev](https:
 
 ## Contributing
 
-I'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature).
+I'm excited if you want to contribute to Quasar under any form (report bugs, write a plugin, fix an issue, write a new feature). Please read the [Contributing Guide](../CONTRIBUTING.md).
 
 ## Semver
 Quasar is following [Semantic Versioning 2.0](https://semver.org/).

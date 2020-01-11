@@ -1,4 +1,10 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, nativeTheme } from 'electron'
+
+try {
+  if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
+    require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
+  }
+} catch (_) { }
 
 /**
  * Set `__statics` path to static files in production;

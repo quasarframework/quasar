@@ -80,9 +80,6 @@
       > button.q-btn--push.q-btn--actionable:active:hover
         .q-btn__wrapper
           margin: 1px 1px -1px -1px
-    > .q-btn
-      > .q-focus-helper
-        z-index: -1
 
   .q-btn
     overflow: visible
@@ -143,6 +140,10 @@
 
     &--float .q-field__label
       max-width: 100%
+
+  /* focus-helper */
+  .q-focus-helper
+    z-index: 1
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none)
   @include ie_style

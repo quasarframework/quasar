@@ -136,14 +136,14 @@ export default Vue.extend({
         amount = this.innerModel[this.view.toLowerCase()],
         degrees = Math.round(amount * (360 / divider)) - 180
 
-      let transform = `rotate3d(0,0,1,${degrees}deg) translate3d(-50%,0,0)`
+      let transform = `rotate(${degrees}deg) translateX(-50%)`
 
       if (
         forHour === true &&
         this.computedFormat24h === true &&
         this.innerModel.hour >= 12
       ) {
-        transform += ' scale3d(.7,.7,.7)'
+        transform += ' scale(.7)'
       }
 
       return { transform }

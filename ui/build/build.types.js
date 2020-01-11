@@ -9,7 +9,7 @@ const
   resolvePath = file => path.resolve(distRoot, file),
   extraInterfaces = {},
   // eslint-disable-next-line no-useless-escape
-  toCamelCase = s => s.replace(/(\-\w)/g, m => { return m[1].toUpperCase() })
+  toCamelCase = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
 
 function writeLine (fileContent, line = '', indent = 0) {
   fileContent.push(`${line.padStart(line.length + (indent * 4), ' ')}\n`)
@@ -48,10 +48,10 @@ function convertTypeVal (type, def, required) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
       let lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
-      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'any'
+      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'LooseDictionary'
     }
 
-    return 'any'
+    return 'LooseDictionary'
   }
 
   return t
@@ -63,21 +63,24 @@ function getTypeVal (def, required) {
     : convertTypeVal(def.type, def, required)
 }
 
-function getPropDefinition (key, propDef, required, docs = false) {
+function getPropDefinition (key, propDef, required, docs = false, isMethodParam = false) {
   const propName = toCamelCase(key)
 
-  if (!propName.startsWith('...')) {
+  if (propName.startsWith('...')) {
+    return isMethodParam ? `${propName}: any[]` : '[index: string]: any';
+  }
+  else {
     const propType = getTypeVal(propDef, required)
     addToExtraInterfaces(propDef)
     return `${docs ? `/**\n * ${propDef.desc}\n */\n` : ''}${propName}${!propDef.required && !required ? '?' : ''} : ${propType}`
   }
 }
 
-function getPropDefinitions (propDefs, required, docs = false) {
+function getPropDefinitions (propDefs, required, docs = false, areMethodParams = false) {
   const defs = []
 
   for (const key in propDefs) {
-    const def = getPropDefinition(key, propDefs[key], required, docs)
+    const def = getPropDefinition(key, propDefs[key], required, docs, areMethodParams)
     def && defs.push(def)
   }
 
@@ -156,23 +159,25 @@ function getInjectionDefinition (injectionName, typeDef) {
 }
 
 function copyPredefinedTypes (dir, parentDir) {
-  fs.readdirSync(dir).forEach(file => {
-    const fullPath = path.resolve(dir, file)
-    const stats = fs.lstatSync(fullPath)
-    if (stats.isFile()) {
-      writeFile(
-        resolvePath(parentDir ? parentDir + file : file),
-        fs.readFileSync(fullPath)
-      )
-    }
-    else if (stats.isDirectory()) {
-      const p = resolvePath(parentDir ? parentDir + file : file)
-      if (!fs.existsSync(p)) {
-        fs.mkdirSync(p)
+  fs.readdirSync(dir)
+    .filter(file => path.basename(file).startsWith('.') !== true)
+    .forEach(file => {
+      const fullPath = path.resolve(dir, file)
+      const stats = fs.lstatSync(fullPath)
+      if (stats.isFile()) {
+        writeFile(
+          resolvePath(parentDir ? parentDir + file : file),
+          fs.readFileSync(fullPath)
+        )
       }
-      copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
-    }
-  })
+      else if (stats.isDirectory()) {
+        const p = resolvePath(parentDir ? parentDir + file : file)
+        if (!fs.existsSync(p)) {
+          fs.mkdirSync(p)
+        }
+        copyPredefinedTypes(fullPath, parentDir ? parentDir + file : file + '/')
+      }
+    })
 }
 
 function addToExtraInterfaces (def, required) {
@@ -242,6 +247,7 @@ function writeIndexDTS (apis) {
   addQuasarLangCodes(quasarTypeContents)
 
   writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
+  writeLine(contents, `import { LooseDictionary } from './ts-helpers'`)
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)

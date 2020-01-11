@@ -52,7 +52,7 @@
       "type": "Boolean",
       "desc": "Use 'outline' design (colored text and borders only)",
       "category": "content",
-      "addedIn": "1.4.5"
+      "addedIn": "v1.4.5"
     }
   },
 

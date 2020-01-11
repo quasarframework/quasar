@@ -118,5 +118,11 @@
     "shake": {
       "desc": "Shakes dialog"
     }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
   }
 }

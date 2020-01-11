@@ -86,6 +86,7 @@
     white-space: nowrap
 
     &-text-container
+      min-height: 25px
       padding: 2px 8px
       border-radius: $generic-border-radius
       background: currentColor
@@ -111,7 +112,7 @@
   &--focus, body.desktop &.q-slider--editable:hover
     .q-slider__focus-ring
       background: currentColor
-      transform: scale3d(1.55, 1.55, 1.55)
+      transform: scale3d(1.55, 1.55, 1)
       opacity: .25
     .q-slider__thumb, .q-slider__track
       visibility: visible

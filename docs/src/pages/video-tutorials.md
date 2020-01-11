@@ -8,7 +8,7 @@ components:
 
 <introduction-video />
 
-The video tutorials below have been created by the community on Udemy platform.
+The video tutorials below have been created by the community.
 
 ::: tip
 If you want to have your own video tutorial listed here, please email `razvan.stoenescu [at] gmail [dot] com` with the details. Thank you.

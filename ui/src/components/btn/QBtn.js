@@ -125,8 +125,8 @@ export default Vue.extend({
     __onTouchstart (e) {
       if (touchTarget !== this.$el) {
         touchTarget !== void 0 && this.__cleanup()
-        touchTarget = e.target
-        const target = getTouchTarget(touchTarget)
+        touchTarget = this.$el
+        const target = this.touchTargetEl = getTouchTarget(e.target)
         target.addEventListener('touchcancel', this.__onPressEnd, passiveCapture)
         target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
       }
@@ -183,10 +183,10 @@ export default Vue.extend({
       }
 
       if (touchTarget === this.$el) {
-        const target = getTouchTarget(touchTarget)
+        const target = this.touchTargetEl
         target.removeEventListener('touchcancel', this.__onPressEnd, passiveCapture)
         target.removeEventListener('touchend', this.__onPressEnd, passiveCapture)
-        touchTarget = void 0
+        touchTarget = this.touchTargetEl = void 0
       }
 
       if (mouseTarget === this.$el) {

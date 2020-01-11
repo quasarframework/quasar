@@ -425,11 +425,14 @@ const astExceptions = {
   'QField.json': {
     props: {
       maxValues: true
+    },
+    slots: {
+      rawControl: true
     }
   }
 }
 
-function validateArray (name, key, property, expected, propApi) {
+function arrayHasError (name, key, property, expected, propApi) {
   const apiVal = propApi[property]
 
   if (expected.length === 1 && expected[0] === apiVal) {
@@ -444,7 +447,7 @@ function validateArray (name, key, property, expected, propApi) {
     !expectedVal.every(t => apiVal.includes(t))
   ) {
     logError(`${name}: wrong definition for prop "${key}" on "${property}": expected ${expectedVal} but found ${apiVal}`)
-    process.exit(1)
+    return true
   }
 }
 
@@ -457,9 +460,30 @@ function fillAPI (apiType) {
     const api = orderAPI(parseAPI(file, apiType), apiType)
 
     if (apiType === 'component') {
+      let hasError = false
+
       const definition = fs.readFileSync(file.replace('.json', '.js'), {
         encoding: 'utf-8'
       })
+
+      const slotRegex = /(this\.\$scopedSlots\[['`](\S+)['`]\]|slot\(this, '(\S+)'|this\.\$scopedSlots\.([A-Za-z]+)\()/g
+      let slotMatch
+      while ((slotMatch = slotRegex.exec(definition)) !== null) {
+        const slotName = (slotMatch[2] || slotMatch[3] || slotMatch[4]).replace(/(\${.+})/g, '[name]')
+
+        if (
+          astExceptions[name] !== void 0 &&
+          astExceptions[name].slots !== void 0 &&
+          astExceptions[name].slots[slotName] === true
+        ) {
+          continue
+        }
+
+        if (!(api.slots || {})[slotName] && !(api.scopedSlots || {})[slotName]) {
+          logError(`${name}: missing "slot|scopedSlots" -> "${slotName}" definition`)
+          hasError = true // keep looping through to find as many as can be found before exiting
+        }
+      }
 
       ast.evaluate(definition, topSections[apiType], (prop, key, definition) => {
         if (key.startsWith('__')) {
@@ -482,38 +506,51 @@ function fillAPI (apiType) {
 
         if (api[prop] === void 0 || api[prop][key] === void 0) {
           logError(`${name}: missing "${prop}" -> "${key}" definition`)
-          process.exit(1)
+          hasError = true // keep looping through to find as many as can be found before exiting
         }
 
         if (definition) {
           const propApi = api[prop][key]
           if (typeof definition === 'string' && propApi.type !== definition) {
             logError(`${name}: wrong definition for prop "${key}": expected "${definition}" but found "${propApi.type}"`)
-            process.exit(1)
+            hasError = true // keep looping through to find as many as can be found before exiting
           }
           else if (Array.isArray(definition)) {
-            validateArray(name, key, 'type', definition, propApi)
+            if (arrayHasError(name, key, 'type', definition, propApi)) {
+              hasError = true // keep looping through to find as many as can be found before exiting
+            }
           }
           else {
             if (definition.type) {
               if (Array.isArray(definition.type)) {
-                validateArray(name, key, 'type', definition.type, propApi)
+                if (arrayHasError(name, key, 'type', definition.type, propApi)) {
+                  hasError = true
+                }
               }
               else if (propApi.type !== definition.type) {
                 logError(`${name}: wrong definition for prop "${key}" on "type": expected "${definition.type}" but found "${propApi.type}"`)
-                process.exit(1)
+                hasError = true // keep looping through to find as many as can be found before exiting
               }
             }
+
             if (key !== 'value' && definition.required && Boolean(definition.required) !== propApi.required) {
               logError(`${name}: wrong definition for prop "${key}" on "required": expected "${definition.required}" but found "${propApi.required}"`)
-              process.exit(1)
+              hasError = true // keep looping through to find as many as can be found before exiting
             }
+
             if (definition.validator && Array.isArray(definition.validator)) {
-              validateArray(name, key, 'values', definition.validator, propApi)
+              if (arrayHasError(name, key, 'values', definition.validator, propApi)) {
+                hasError = true // keep looping through to find as many as can be found before exiting
+              }
             }
           }
         }
       })
+
+      if (hasError === true) {
+        logError(`Errors were found...exiting`)
+        process.exit(1)
+      }
     }
 
     // copy API file to dest

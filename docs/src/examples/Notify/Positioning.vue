@@ -69,7 +69,9 @@ const alerts = [
 export default {
   methods: {
     showNotif (position) {
-      const { color, textColor, multiLine, icon, message, avatar } = alerts[ Math.floor(Math.random(alerts.length) * 10) % alerts.length ]
+      const { color, textColor, multiLine, icon, message, avatar } = alerts[
+        Math.floor(Math.random(alerts.length) * 10) % alerts.length
+      ]
       const random = Math.random() * 100
 
       const twoActions = random > 70

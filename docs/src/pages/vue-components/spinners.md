@@ -4,6 +4,7 @@ desc: The QSpinner and its derived Vue components are used to show the user a ti
 related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress
+  - /vue-components/skeleton
   - /vue-components/inner-loading
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar

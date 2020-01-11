@@ -13,7 +13,7 @@
           <div class="text-h6">Small</div>
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="q-pt-none">
           Click/Tap on the backdrop.
         </q-card-section>
 
@@ -31,7 +31,7 @@
           <div class="text-h6">Medium</div>
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="q-pt-none">
           Click/Tap on the backdrop.
         </q-card-section>
 
@@ -50,7 +50,7 @@
           <div class="text-h6">Full Width</div>
         </q-card-section>
 
-        <q-card-section>
+        <q-card-section class="q-pt-none">
           Click/Tap on the backdrop.
         </q-card-section>
 
@@ -69,7 +69,7 @@
           <div class="text-h6">Full Height</div>
         </q-card-section>
 
-        <q-card-section class="col">
+        <q-card-section class="col q-pt-none">
           Click/Tap on the backdrop.
         </q-card-section>
 

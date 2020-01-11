@@ -3,6 +3,8 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/img"
   },
 
+  "mixins": [ "mixins/ratio" ],
+
   "behavior": {
     "$listeners": true
   },

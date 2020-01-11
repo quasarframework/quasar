@@ -156,7 +156,7 @@ async function build () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx)
+  const quasarConfig = new QuasarConfig(ctx, { argv })
 
   try {
     await quasarConfig.prepare()
