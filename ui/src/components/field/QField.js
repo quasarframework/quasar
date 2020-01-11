@@ -183,9 +183,12 @@ export default Vue.extend({
 
       return cls
     },
-    
+
     labelClass () {
-      if (this.labelColor !== void 0) {
+      if (
+        this.labelColor !== void 0 &&
+        this.hasError !== true
+      ) {
         return 'text-' + this.labelColor
       }
     },
