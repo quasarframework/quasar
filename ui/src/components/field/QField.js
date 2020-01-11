@@ -184,6 +184,12 @@ export default Vue.extend({
 
       return cls
     },
+    
+    labelClass () {
+      if (this.labelColor !== void 0) {
+        return 'text-' + this.labelColor
+      }
+    },
 
     controlSlotScope () {
       return {
@@ -291,14 +297,6 @@ export default Vue.extend({
       return node
     },
 
-    __getFieldLabelColor(h) {
-      const cls = [];
-      if (this.labelColor !== void 0) {
-        cls.push('text-' + this.labelColor)
-      }
-      return cls;
-    },
-
     __getControlContainer (h) {
       const node = []
 
@@ -333,7 +331,7 @@ export default Vue.extend({
       this.label !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__label no-pointer-events absolute ellipsis',
-          class: this.__getFieldLabelColor(h)
+          class: this.labelClass
         }, [ this.label ])
       )
 
