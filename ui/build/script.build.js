@@ -1,10 +1,8 @@
 process.env.NODE_ENV = 'production'
 
-const
-  type = process.argv[2],
-  { join } = require('path'),
-  { createFolder } = require('./build.utils'),
-  { green, blue } = require('chalk')
+const type = process.argv[2]
+const { createFolder } = require('./build.utils')
+const { green } = require('chalk')
 
 /*
   Build:

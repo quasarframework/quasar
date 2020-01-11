@@ -25,6 +25,88 @@
 
       <q-card class="bigger" flat bordered>
         <q-card-section horizontal>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-separator vertical />
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card-section>
+      </q-card>
+
+      <q-card class="bigger" flat bordered>
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+
+        <q-card-section horizontal>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card-section>
+
+        <q-card-section horizontal>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card-section>
+
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+      </q-card>
+
+      <q-card class="bigger" flat bordered>
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+
+        <q-card-section class="q-py-none">
+          {{ lorem }}
+        </q-card-section>
+
+        <q-card-section horizontal class="q-pt-md">
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card-section>
+
+        <q-card-section horizontal>
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+
+          <q-card-section>
+            {{ lorem }}
+          </q-card-section>
+        </q-card-section>
+
+        <q-card-section>
+          {{ lorem }}
+        </q-card-section>
+      </q-card>
+
+      <q-card class="bigger" flat bordered>
+        <q-card-section horizontal>
           <img src="https://cdn.quasar.dev/img/parallax2.jpg" class="col-4" />
 
           <q-card-section>

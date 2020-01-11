@@ -46,8 +46,8 @@
     </q-dialog>
 
     <q-dialog v-model="card">
-      <q-card>
-        <q-img src="https://media-cdn.tripadvisor.com/media/photo-s/0a/47/a8/91/chicken-salad-sandwich.jpg" />
+      <q-card class="my-card">
+        <q-img src="https://cdn.quasar.dev/img/chicken-salad.jpg" />
 
         <q-card-section>
           <q-btn
@@ -59,28 +59,32 @@
           />
 
           <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">Cafe Basilico</div>
-            <div class="col-auto text-grey q-pt-md">
-              <q-icon name="place" /> 250 ft
+            <div class="col text-h6 ellipsis">
+              Cafe Basilico
+            </div>
+            <div class="col-auto text-grey text-caption q-pt-md row no-wrap items-center">
+              <q-icon name="place" />
+              250 ft
             </div>
           </div>
 
           <q-rating v-model="stars" :max="5" size="32px" />
         </q-card-section>
 
-        <q-card-section>
-          <div class="text-subtitle1">$・Italian, Cafe</div>
-          <div class="text-subtitle2 text-grey">Small plates, salads & sandwiches in an intimate setting.</div>
+        <q-card-section class="q-pt-none">
+          <div class="text-subtitle1">
+            $・Italian, Cafe
+          </div>
+          <div class="text-caption text-grey">
+            Small plates, salads & sandwiches in an intimate setting.
+          </div>
         </q-card-section>
 
         <q-separator />
 
-        <q-card-actions>
-          <q-btn flat round icon="event" v-close-popup />
-          <q-btn flat v-close-popup>5:30PM</q-btn>
-          <q-btn flat v-close-popup>7:30PM</q-btn>
-          <q-btn flat v-close-popup>9:00PM</q-btn>
-          <q-btn flat color="primary" v-close-popup>Reserve</q-btn>
+        <q-card-actions align="right">
+          <q-btn v-close-popup flat color="primary" label="Reserve" />
+          <q-btn v-close-popup flat color="primary" round icon="event" />
         </q-card-actions>
       </q-card>
     </q-dialog>

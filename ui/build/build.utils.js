@@ -1,10 +1,9 @@
-const
-  fs = require('fs'),
-  path = require('path'),
-  zlib = require('zlib'),
-  { green, blue, red, magenta, grey, underline } = require('chalk'),
-  kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
+const fs = require('fs')
+const path = require('path')
+const zlib = require('zlib')
+const { green, blue, red, magenta, grey, underline } = require('chalk')
 
+const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 const tableData = []
 
 process.on('exit', code => {
@@ -34,6 +33,7 @@ process.on('exit', code => {
     })
 
     console.log()
+    console.log(' Summary:')
     console.log(output)
   }
 })
