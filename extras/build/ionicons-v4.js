@@ -1,4 +1,4 @@
-const packageName = '@fortawesome/fontawesome-free'
+const packageName = 'ionicons'
 
 // ------------
 
@@ -8,14 +8,14 @@ const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
 let skipped = []
-const dist = resolve(__dirname, `../fontawesome-v5/index.js`)
+const dist = resolve(__dirname, `../ionicons-v4/index.js`)
 
-const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svgs/`)
-const iconTypes = ['brands', 'regular', 'solid']
+const svgFolder = resolve(__dirname, `../node_modules/${packageName}/dist/ionicons/svg/`)
+const svgFiles = glob.sync(svgFolder + '/*.svg')
 const iconNames = new Set()
 
-function extract (prefix, file) {
-  const name = (prefix + basename(file, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase())
+function extract (file) {
+  const name = ('ion-' + basename(file, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase())
 
   if (iconNames.has(name)) {
     return null
@@ -38,44 +38,36 @@ function extract (prefix, file) {
 
 function getBanner () {
   const { version } = require(resolve(__dirname, `../node_modules/${packageName}/package.json`))
-  return `/* Fontawesome Free v${version} */\n\n`
+  return `/* Ionicons v${version} */\n\n`
 }
 
 const svgExports = []
 
-iconTypes.forEach(type => {
-  const svgFiles = glob.sync(svgFolder + `/${type}/*.svg`)
-
-  svgFiles.forEach(file => {
-    svgExports.push(extract('fa' + type.charAt(0) + '-', file))
-  })
+svgFiles.forEach(file => {
+  svgExports.push(extract(file))
 })
 
 if (svgExports.length === 0) {
-  console.log('WARNING. Fontawesome skipped completely')
+  console.log('WARNING. Ionicons skipped completely')
 }
 else {
   writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
 
   if (skipped.length > 0) {
-    console.log(`fontawesome - skipped (${skipped.length}): ${skipped}`)
+    console.log(`ionicons - skipped (${skipped.length}): ${skipped}`)
   }
 }
 
 // then update webfont files
 
 const webfont = [
-  'fa-brands-400.woff',
-  'fa-brands-400.woff2',
-  'fa-regular-400.woff',
-  'fa-regular-400.woff2',
-  'fa-solid-900.woff',
-  'fa-solid-900.woff2'
+  'ionicons.woff',
+  'ionicons.woff2'
 ]
 
 webfont.forEach(file => {
   fse.copySync(
-    resolve(__dirname, `../node_modules/${packageName}/webfonts/${file}`),
-    resolve(__dirname, `../fontawesome-v5/${file}`)
+    resolve(__dirname, `../node_modules/${packageName}/dist/fonts/${file}`),
+    resolve(__dirname, `../ionicons-v4/${file}`)
   )
 })

@@ -47,8 +47,13 @@ svgFiles.forEach(file => {
   svgExports.push(extract(file))
 })
 
-writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
+if (svgExports.length === 0) {
+  console.log('WARNING. Material-icons skipped completely')
+}
+else {
+  writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
 
-if (skipped.length > 0) {
-  console.log(`material icons - skipped (${skipped.length}): ${skipped}`)
+  if (skipped.length > 0) {
+    console.log(`material-icons - skipped (${skipped.length}): ${skipped}`)
+  }
 }

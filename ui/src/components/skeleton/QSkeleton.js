@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 
+import { slot } from '../../utils/slot.js'
+
 export const skeletonTypes = [
   'text', 'rect', 'circle',
   'QBtn', 'QBadge', 'QChip', 'QToolbar',
@@ -65,6 +67,6 @@ export default Vue.extend({
       staticClass: 'q-skeleton',
       class: this.classes,
       style: this.style
-    })
+    }, slot(this, 'default'))
   }
 })

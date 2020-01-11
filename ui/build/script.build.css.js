@@ -21,19 +21,6 @@ const nano = postcss([
   })
 ])
 
-Promise
-  .all([
-    generateStylusBase('src/css/index.styl'),
-    generateStylusAddon(),
-
-    generateSassFile('src/css/index.sass', 'dist/quasar.sass'),
-    validateSassFile('src/css/flex-addon.sass')
-  ])
-  .catch(e => {
-    console.error(e)
-    process.exit(1)
-  })
-
 function generateSassFile (source, destination) {
   const src = path.join(__dirname, '..', source)
   const dest = path.join(__dirname, '..', destination)
@@ -185,4 +172,19 @@ function compileStylus (code) {
         }
       })
   })
+}
+
+module.exports = function () {
+  Promise
+    .all([
+      generateStylusBase('src/css/index.styl'),
+      generateStylusAddon(),
+
+      generateSassFile('src/css/index.sass', 'dist/quasar.sass'),
+      validateSassFile('src/css/flex-addon.sass')
+    ])
+    .catch(e => {
+      console.error(e)
+      process.exit(1)
+    })
 }

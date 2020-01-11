@@ -68,5 +68,11 @@
       "examples": [ "div", "span" ],
       "category": "content"
     }
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
   }
 }
