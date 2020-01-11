@@ -17,9 +17,9 @@ Why this package? Because it strips down unnecessary package files (so faster do
 
 Please make sure you have latest `@quasar/extras` npm package version installed into your project folder in order for you to benefit from everything below.
 
-### Webfonts:
+### Webfonts
 
-| Package | Version | quasar.conf.js extras name | Description | Notes | License |
+| Vendor | Version | quasar.conf.js extras name | Description | Notes | License |
 | --- | --- | --- | --- | --- | --- |
 | Roboto Font | CDN v19 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
 | Roboto Font Latin Extended | CDN v19 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
@@ -41,7 +41,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 > Quasar v1.7+ required for svg Quasar Icon Sets.
 
-| Package | Version | Quasar IconSet name | Import Icons from | Notes | License |
+| Vendor | Version | Quasar IconSet name | Import Icons from | Notes | License |
 | --- | --- | --- | --- | --- | --- |
 | [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | 3.0.1 | `svg-material-icons` | `@quasar/extras/material-icons` | The svgs are 3 years old! | [License](material-icons/LICENSE) |
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | | | | *Not yet available* | [License](material-icons-outlined/LICENSE) |
