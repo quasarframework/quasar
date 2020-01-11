@@ -43,7 +43,8 @@
     },
 
     "label-color" : {
-      "extends": "color"
+      "extends": "color",
+      "addedIn": "v1.7.0"
     },
 
     "color": {
