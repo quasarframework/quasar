@@ -740,6 +740,7 @@ const components = [
   },
   {
     name: 'Card',
+    badge: 'update',
     path: 'card'
   },
   {
@@ -987,6 +988,7 @@ const components = [
   },
   {
     name: 'Video',
+    badge: 'update',
     path: 'video'
   },
   {
