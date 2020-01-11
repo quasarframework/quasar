@@ -11,15 +11,16 @@ const nodeResolve = require('@rollup/plugin-node-resolve')
 const buildConf = require('./build.conf')
 const buildUtils = require('./build.utils')
 
+function resolve (_path) {
+  return path.resolve(__dirname, '..', _path)
+}
+
 const bubleConfig = {
   objectAssign: 'Object.assign'
 }
 
-const defaultRollupPlugins = [
-  nodeResolve({
-    extensions: ['.js'],
-    preferBuiltins: false
-  }),
+const rollupPlugins = [
+  nodeResolve(),
   json(),
   buble(bubleConfig)
 ]
@@ -93,24 +94,17 @@ const builds = [
   }
 ]
 
-function resolve (_path) {
-  return path.resolve(__dirname, '..', _path)
-}
-
 function addAssets (builds, type, injectName) {
-  const
-    files = fs.readdirSync(resolve(type)),
-    plugins = [ buble(bubleConfig) ]
+  const files = fs.readdirSync(resolve(type))
 
   files
-    .filter(file => file.endsWith('.js') && file.indexOf('svg-') === -1)
+    .filter(file => file.endsWith('.js'))
     .forEach(file => {
       const name = file.substr(0, file.length - 3).replace(/-([a-z])/g, g => g[1].toUpperCase())
       builds.push({
         rollup: {
           input: {
-            input: resolve(`${type}/${file}`),
-            plugins
+            input: resolve(`${type}/${file}`)
           },
           output: {
             file: addExtension(resolve(`dist/${type}/${file}`), 'umd'),
@@ -132,9 +126,7 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  if (opts.rollup.input.plugins === void 0) {
-    opts.rollup.input.plugins = defaultRollupPlugins
-  }
+  opts.rollup.input.plugins = rollupPlugins
 
   opts.rollup.input.external = opts.rollup.input.external || []
   opts.rollup.input.external.push('vue')
@@ -214,18 +206,17 @@ function buildEntry (config) {
 }
 
 module.exports = function () {
-  addAssets(builds, 'lang', 'lang')
-  addAssets(builds, 'icon-set', 'iconSet')
-
   require('./build.lang-index').generate()
+    .then(() => require('./build.svg-icon-sets').generate())
     .then(() => require('./build.api').generate())
     .then(data => {
-      require('./build.svg-icon-sets').generate()
       require('./build.transforms').generate()
       require('./build.vetur').generate(data)
       require('./build.types').generate(data)
       require('./build.web-types').generate(data)
 
+      addAssets(builds, 'lang', 'lang')
+      addAssets(builds, 'icon-set', 'iconSet')
       build(builds)
     })
 }

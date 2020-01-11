@@ -30,6 +30,7 @@
     },
 
     "getItem": {
+      "tsType": "WebStorageGetItemMethodType",
       "desc": "Get a storage item value",
       "params": {
         "key": {
@@ -47,6 +48,7 @@
     },
 
     "getIndex": {
+      "tsType": "WebStorageGetIndexMethodType",
       "desc": "Get the storage item value at specific index",
       "params": {
         "index": {

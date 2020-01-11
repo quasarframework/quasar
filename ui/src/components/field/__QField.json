@@ -42,6 +42,12 @@
       "category": "content"
     },
 
+    "label-color" : {
+      "extends": "color",
+      "desc": "Color name for the label from the Quasar Color Palette; Overrides the 'color' prop; The difference from 'color' prop is that the label will always have this color, even when field is not focused",
+      "addedIn": "v1.7.0"
+    },
+
     "color": {
       "extends": "color"
     },

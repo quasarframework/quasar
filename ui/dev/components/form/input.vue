@@ -26,9 +26,9 @@
 
       <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label />
 
-      <q-input v-bind="props" v-model="text" label="Label" />
+      <q-input v-bind="props" v-model="text" label="Label" label-color="green" />
 
-      <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" />
+      <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" color="green" />
 
       <q-field v-bind="props" v-model="text" required label="Required - Custom input">
         <template v-slot:control="{ id, floatingLabel, value, emitValue }">
@@ -98,9 +98,9 @@
 
       <q-input v-bind="props" filled v-model="text" />
 
-      <q-input v-bind="props" filled v-model="text" label="Label (stacked)" stack-label />
+      <q-input v-bind="props" filled v-model="text" label="Label (stacked) g" stack-label />
 
-      <q-input v-bind="props" filled v-model="text" label="Label" />
+      <q-input v-bind="props" filled v-model="text" label="Label" label-color="green" />
 
       <q-input :dense="dense" dark filled v-model="text" label="Label" color="orange" bg-color="black">
         <q-icon slot="prepend" name="event" />
@@ -163,11 +163,11 @@
 
       <q-input v-bind="props" outlined v-model="text" />
 
-      <q-input v-bind="props" outlined v-model="text" label="Label (stacked)" stack-label />
+      <q-input v-bind="props" outlined v-model="text" label="Label (stacked) g" stack-label />
 
-      <q-input v-bind="props" outlined v-model="text" label="Label" />
+      <q-input v-bind="props" outlined v-model="text" label="Label" label-color="green" />
 
-      <q-input v-bind="props" outlined v-model="text" label="Label (stacked)" stack-label>
+      <q-input v-bind="props" outlined v-model="text" label="Label (stacked) g" stack-label>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />
@@ -215,9 +215,9 @@
 
       <q-input v-bind="props" standout v-model="text" />
 
-      <q-input v-bind="props" standout v-model="text" label="Label (stacked)" stack-label />
+      <q-input v-bind="props" standout v-model="text" label="Label (stacked) g" stack-label />
 
-      <q-input v-bind="props" standout v-model="text" label="Label" />
+      <q-input v-bind="props" standout v-model="text" label="Label" label-color="green" />
 
       <q-input v-bind="props" standout v-model="text">
         <q-icon slot="prepend" name="event" />
@@ -294,11 +294,11 @@
 
       <q-input v-bind="props" borderless v-model="text" />
 
-      <q-input v-bind="props" borderless v-model="text" label="Label (stacked)" stack-label />
+      <q-input v-bind="props" borderless v-model="text" label="Label (stacked) g" stack-label />
 
-      <q-input v-bind="props" borderless v-model="text" label="Label" />
+      <q-input v-bind="props" borderless v-model="text" label="Label" label-color="green" />
 
-      <q-input v-bind="props" borderless v-model="text" label="Label (stacked)" stack-label>
+      <q-input v-bind="props" borderless v-model="text" label="Label (stacked) g" stack-label>
         <q-icon slot="prepend" name="event" />
         <q-icon slot="append" name="close" @click="text = ''" class="cursor-pointer" />
         <q-icon slot="append" name="delete" />

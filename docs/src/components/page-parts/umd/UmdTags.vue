@@ -262,15 +262,21 @@ export default {
   created () {
     this.langOptions = languages.map(lang => ({ label: lang.nativeName, value: lang.isoName }))
     this.iconSetOptions = [
-      { label: 'Material', value: 'material-icons' },
-      { label: 'Material Outlined', value: 'material-icons-outlined' },
-      { label: 'Material Round', value: 'material-icons-round' },
-      { label: 'Material Sharp', value: 'material-icons-sharp' },
-      { label: 'MDI v4', value: 'mdi-v4' },
-      { label: 'Ionicons v4', value: 'ionicons-v4' },
-      { label: 'Fontawesome v5', value: 'fontawesome-v5' },
-      { label: 'Eva Icons', value: 'eva-icons' },
-      { label: 'Themify', value: 'themify' }
+      { label: 'Material (webfont)', value: 'material-icons' },
+      { label: 'Material (svg)', value: 'svg-material-icons' },
+      { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
+      { label: 'Material Round (webfont)', value: 'material-icons-round' },
+      { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
+      { label: 'MDI v4 (webfont)', value: 'mdi-v4' },
+      { label: 'MDI v4 (svg)', value: 'svg-mdi-v4' },
+      { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },
+      { label: 'Ionicons v4 (svg)', value: 'svg-ionicons-v4' },
+      { label: 'Fontawesome v5 (webfont)', value: 'fontawesome-v5' },
+      { label: 'Fontawesome v5 (svg)', value: 'svg-fontawesome-v5' },
+      { label: 'Eva Icons (webfont)', value: 'eva-icons' },
+      { label: 'Eva Icons (svg)', value: 'svg-eva-icons' },
+      { label: 'Themify (webfont)', value: 'themify' },
+      { label: 'Themify (svg)', value: 'svg-themify' }
     ]
   }
 }

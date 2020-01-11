@@ -72,29 +72,31 @@ module.exports.generate = function () {
 
   const iconNames = iconTypes.map(type => type.name)
 
-  iconTypes.forEach(type => {
-    const original = fs.readFileSync(resolve(`icon-set/${type.name}.js`), 'utf-8')
+  return Promise.all(
+    iconTypes.map(type => {
+      const original = fs.readFileSync(resolve(`icon-set/${type.name}.js`), 'utf-8')
 
-    const importList = toObject(iconNames)
+      const importList = toObject(iconNames)
 
-    const contentString = original
-      .replace(/name: '(.+)'/, `name: ""`)
-      .replace(/'(.+)'/g, m => {
-        const { importName, variableName } = convertWebfont(m.substring(1, m.length - 1))
-        if (!importList[importName].includes(variableName)) {
-          importList[importName].push(variableName)
-        }
-        return variableName
-      })
-      .replace(/name: ""/, `name: 'svg-${type.name}'`)
+      const contentString = original
+        .replace(/name: '(.+)'/, `name: ""`)
+        .replace(/'(.+)'/g, m => {
+          const { importName, variableName } = convertWebfont(m.substring(1, m.length - 1))
+          if (!importList[importName].includes(variableName)) {
+            importList[importName].push(variableName)
+          }
+          return variableName
+        })
+        .replace(/name: ""/, `name: 'svg-${type.name}'`)
 
-    const importString = Object.keys(importList)
-      .filter(listName => importList[listName].length > 0)
-      .map(listName => `import {\n  ` + importList[listName].join(',\n  ') + `\n} from '@quasar/extras/${listName}'`)
-      .join('\n\n')
+      const importString = Object.keys(importList)
+        .filter(listName => importList[listName].length > 0)
+        .map(listName => `import {\n  ` + importList[listName].join(',\n  ') + `\n} from '@quasar/extras/${listName}'`)
+        .join('\n\n')
 
-    const content = svgIconSetBanner(type.name) + '\n' + importString + '\n\n' + contentString
+      const content = svgIconSetBanner(type.name) + '\n' + importString + '\n\n' + contentString
 
-    buildUtils.writeFile(resolve(`icon-set/svg-${type.name}.js`), content, 'utf-8')
-  })
+      return buildUtils.writeFile(resolve(`icon-set/svg-${type.name}.js`), content, 'utf-8')
+    })
+  )
 }
