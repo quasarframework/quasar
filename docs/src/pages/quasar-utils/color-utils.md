@@ -54,6 +54,13 @@ Calculates the [color contrast](https://www.w3.org/TR/AERT/#color-contrast) of t
 Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
 Returns a value between 0 and 255. A value of < 128 would be considered a dark color.
 
+### blend (fgColor, bgColor)
+Calculates the [blend](https://www.w3.org/TR/compositing-1/#simplealphacompositing) of two colors.
+
+Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `fgColor`/`bgColor`.
+If the alpha channel of the `fgColor` is completely opaque, then the result will be the `fgColor`.
+If the alpha channel of the `bgColor` is completely opaque, then the resulting blended color will also be opaque.
+
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
 ::: warning
