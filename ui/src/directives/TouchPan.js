@@ -121,7 +121,7 @@ export default {
 
   bind (el, { value, modifiers }) {
     // early return, we don't need to do anything
-    if (modifiers.mouse !== true && client.has.touch !== true) {
+    if (value === null || (modifiers.mouse !== true && client.has.touch !== true)) {
       return
     }
 
