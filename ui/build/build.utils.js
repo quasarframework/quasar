@@ -13,7 +13,7 @@ process.on('exit', code => {
     tableData.sort((a, b) => {
       return a[0] === b[0]
         ? a[1] < b[1] ? -1 : 1
-        : a[0] < b[1] ? -1 : 1
+        : a[0] < b[0] ? -1 : 1
     })
 
     tableData.unshift([
