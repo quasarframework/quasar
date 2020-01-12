@@ -31,7 +31,7 @@ PATH=$PATH:$ANDROID_HOME/tools; PATH=$PATH:$ANDROID_HOME/platform-tools
 #### Windows
 
 After installing Android Studio, you need to install two more pieces of software:
-* JDK from Oracle. It can be found [here](https://www.oracle.com/java/technologies/jdk8-downloads.html)
+* JDK from Oracle. It can be found [here](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 * Gradle. It used to usable from Android Studio but now you have to install it separately. There is a very specific version that cordova requires. You can download it [here](https://downloads.gradle-dn.com/distributions/gradle-4.10.3-all.zip)
 
 Then you will have to set environment variables. You will need to set the following variables. Cordova has a good guide for it already. It can be found [here](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#setting-environment-variables). You need to:
