@@ -2,9 +2,9 @@
  * This file runs in a Node context (it's NOT transpiled by Babel), so use only
  * the ES6 features that are supported by your Node version. https://node.green/
  *
- * All content of this folder will be copied as is to the output folder. So only import:
- *  1. node_modules (and yarn/npm install dependencies -- NOT to devDependecies though)
- *  2. create files in this folder and import only those with the relative path
+ * WARNING!
+ * If you import anything from node_modules, then make sure that the package is specified
+ * in package.json > dependencies and NOT in devDependencies
  *
  * Note: This file is used only for PRODUCTION. It is not picked up while in dev mode.
  *   If you are looking to add common DEV & PROD logic to the express app, then use
@@ -16,7 +16,7 @@ const
   compression = require('compression')
 
 const
-  ssr = require('../ssr'),
+  ssr = require('quasar-ssr'),
   extension = require('./extension'),
   app = express(),
   port = process.env.PORT || 3000

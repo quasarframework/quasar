@@ -24,6 +24,8 @@ module.exports = class IndexAPI {
       extendWebpack: [],
       chainWebpackMainElectronProcess: [],
       extendWebpackMainElectronProcess: [],
+      chainWebpackWebserver: [],
+      extendWebpackWebserver: [],
       chainWebpack: [],
       beforeDev: [],
       afterDev: [],
@@ -190,6 +192,26 @@ module.exports = class IndexAPI {
    */
   extendWebpackMainElectronProcess (fn) {
     this.__addHook('extendWebpackMainElectronProcess', fn)
+  }
+
+  /**
+   * Chain webpack config of SSR webserver
+   *
+   * @param {function} fn
+   *   (cfg: ChainObject) => undefined
+   */
+  chainWebpackWebserver (fn) {
+    this.__addHook('chainWebpackWebserver', fn)
+  }
+
+  /**
+   * Extend webpack config of SSR webserver
+   *
+   * @param {function} fn
+   *   (cfg: Object) => undefined
+   */
+  extendWebpackWebserver (fn) {
+    this.__addHook('extendWebpackWebserver', fn)
   }
 
   /**

@@ -216,6 +216,38 @@ api.extendWebpackMainElectronProcess((cfg, { isClient, isServer }, api) => {
 })
 ```
 
+## api.chainWebpackWebserver
+
+<q-badge label="@quasar/app v1.5+" />
+
+Chain webpack config of SSR webserver (content of /src-ssr)
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: ChainObject) => undefined
+ */
+api.chainWebpackWebserver ((cfg, { isClient, isServer }, api) => {
+  // add/remove/change cfg (Webpack chain Object)
+})
+```
+
+## api.extendWebpackWebserver
+
+<q-badge label="@quasar/app v1.5+" />
+
+Extend webpack config Object of SSR webserver (content of /src-ssr)
+
+```js
+/**
+ * @param {function} fn
+ *   (cfg: Object) => undefined
+ */
+api.extendWebpackWebserver((cfg, { isClient, isServer }, api) => {
+  // add/remove/change cfg (Webpack configuration Object)
+})
+```
+
 ## api.registerCommand
 Register a command that will become available as `quasar run <ext-id> <cmd> [args]` (or the short form: `quasar <ext-id> <cmd> [args]`).
 

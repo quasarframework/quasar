@@ -116,7 +116,7 @@ const extensionRunner = require('../lib/app-extension/extensions-runner')
 
 function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
-    return [ webpackConfig.server, webpackConfig.client ]
+    return [ webpackConfig.server, webpackConfig.client, webpackConfig.webserver ]
   }
   if (mode === 'electron') {
     return [ webpackConfig.renderer, webpackConfig.main ]
