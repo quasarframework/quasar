@@ -227,6 +227,9 @@ async function goLive () {
 
   buildConfig = quasarConfig.getBuildConfig()
 
+  const regenerateTypesFeatureFlags = require("../lib/helpers/types-feature-flags");
+  regenerateTypesFeatureFlags(buildConfig);
+
   if (buildConfig.__vueDevtools !== false) {
     await startVueDevtools()
   }
