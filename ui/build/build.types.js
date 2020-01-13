@@ -67,7 +67,7 @@ function getPropDefinition (key, propDef, required, docs = false, isMethodParam 
   const propName = toCamelCase(key)
 
   if (propName.startsWith('...')) {
-    return isMethodParam ? `${propName}: any[]` : '[index: string]: any';
+    return isMethodParam ? `${propName}: any[]` : '[index: string]: any'
   }
   else {
     const propType = getTypeVal(propDef, required)
@@ -109,7 +109,7 @@ function getMethodDefinition (key, methodDef, required) {
 
     if (methodDef.params) {
       // TODO: Verify if this should be optional even for plugins
-      const params = getPropDefinitions(methodDef.params, false, false)
+      const params = getPropDefinitions(methodDef.params, false, false, true)
       def += params.join(', ')
     }
 
