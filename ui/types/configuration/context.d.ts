@@ -2,11 +2,11 @@ import { Configuration as ElectronBuilderConfiguration } from "electron-builder"
 import { QuasarCapacitorTargets } from "./capacitor-conf";
 import { QuasarCordovaTargets } from "./cordova-conf";
 import {
-  QuasarBuilderArchs,
-  QuasarPackagerArchs,
-  QuasarBuilderTargets,
+  ElectronBuilderArchs,
+  ElectronPackagerArchs,
+  ElectronBuilderTargets,
   QuasarElectronBundlers,
-  QuasarPackagerTargets
+  ElectronPackagerTargets
 } from "./electron-conf";
 
 type QuasarModes = "spa" | "ssr" | "pwa" | "cordova" | "capacitor" | "electron";
@@ -76,14 +76,14 @@ interface ElectronBuilderQuasarContext extends BaseElectronQuasarContext {
    * @default 'current system'
    */
   target: {
-    [index in QuasarBuilderTargets]?: true;
+    [index in ElectronBuilderTargets]?: true;
   };
   /** App target name. */
-  targetName: QuasarBuilderTargets;
+  targetName: ElectronBuilderTargets;
   arch: {
-    [index in QuasarBuilderArchs]?: true;
+    [index in ElectronBuilderArchs]?: true;
   };
-  archName: QuasarBuilderArchs;
+  archName: ElectronBuilderArchs;
   /**
    * Publish options.
    *
@@ -107,14 +107,14 @@ interface ElectronPackagerQuasarContext extends BaseElectronQuasarContext {
    * @default 'current system'
    */
   target: {
-    [index in QuasarPackagerTargets]?: true;
+    [index in ElectronPackagerTargets]?: true;
   };
   /** App target name. */
-  targetName: QuasarPackagerTargets;
+  targetName: ElectronPackagerTargets;
   arch: {
-    [index in QuasarPackagerArchs]?: true;
+    [index in ElectronPackagerArchs]?: true;
   };
-  archName: QuasarPackagerArchs;
+  archName: ElectronPackagerArchs;
 }
 
 type ElectronQuasarContext =
