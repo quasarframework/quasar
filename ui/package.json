@@ -121,5 +121,8 @@
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
-  ]
+  ],
+  "resolutions": {
+    "@babel/parser": "7.7.5"
+  }
 }

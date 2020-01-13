@@ -9,14 +9,14 @@
   dependencies:
     "@babel/highlight" "^7.8.0"
 
-"@babel/compat-data@^7.8.0":
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.8.0.tgz#1d3a9fbda3c58774395cd617d263a196dfa45d92"
-  integrity sha512-ixPUWJpnd9hHvRkyIE3mJ6PY5DEWmR08UkcpdqI5kV5g/d6knT8Wth1LE5v5sVTIJkm9dGpQsXnhwxcf2/PjAg==
+"@babel/compat-data@^7.8.0", "@babel/compat-data@^7.8.1":
+  version "7.8.1"
+  resolved "https://registry.yarnpkg.com/@babel/compat-data/-/compat-data-7.8.1.tgz#fc0bbbb7991e4fb2b47e168e60f2cc2c41680be9"
+  integrity sha512-Z+6ZOXvyOWYxJ50BwxzdhRnRsGST8Y3jaZgxYig575lTjVSs3KtJnmESwZegg6e2Dn0td1eDhoWlp1wI4BTCPw==
   dependencies:
     browserslist "^4.8.2"
     invariant "^2.2.4"
-    semver "^7.1.1"
+    semver "^5.5.0"
 
 "@babel/core@^7.5.5":
   version "7.8.0"
@@ -74,15 +74,15 @@
     "@babel/types" "^7.8.0"
 
 "@babel/helper-compilation-targets@^7.8.0":
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/@babel/helper-compilation-targets/-/helper-compilation-targets-7.8.0.tgz#63d3924bc04b68b2d24d25b8cc452ee86dcb3a59"
-  integrity sha512-VcMSwBCqA2mGqmFFnLYtaC+Zkok5pVMOypeGn76RpSBAoFqc1olWjYoNqTn09YMChTi6rsbPIkkEOAwfsKSqRg==
+  version "7.8.1"
+  resolved "https://registry.yarnpkg.com/@babel/helper-compilation-targets/-/helper-compilation-targets-7.8.1.tgz#309da97e93e6ca74896393d0c8da7af39cb4cea8"
+  integrity sha512-Fsrljg8DHSdnKSzC0YFopX7lseRpVfWMYuC1Dnvf7tw972E2KDjZ4XEaqjO9aJL0sLcG4KNRXxowDxHYIcZ+Cw==
   dependencies:
-    "@babel/compat-data" "^7.8.0"
+    "@babel/compat-data" "^7.8.1"
     browserslist "^4.8.2"
     invariant "^2.2.4"
     levenary "^1.1.0"
-    semver "^7.1.1"
+    semver "^5.5.0"
 
 "@babel/helper-create-class-features-plugin@^7.8.0":
   version "7.8.0"
@@ -253,10 +253,10 @@
     esutils "^2.0.2"
     js-tokens "^4.0.0"
 
-"@babel/parser@^7.0.0", "@babel/parser@^7.8.0":
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.8.0.tgz#54682775f1fb25dd29a93a02315aab29a6a292bb"
-  integrity sha512-VVtsnUYbd1+2A2vOVhm4P2qNXQE8L/W859GpUHfUcdhX8d3pEKThZuIr6fztocWx9HbK+00/CR0tXnhAggJ4CA==
+"@babel/parser@7.7.5", "@babel/parser@^7.0.0", "@babel/parser@^7.8.0":
+  version "7.7.5"
+  resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.7.5.tgz#cbf45321619ac12d83363fcf9c94bb67fa646d71"
+  integrity sha512-KNlOe9+/nk4i29g0VXgl8PEXIRms5xKLJeuZ6UptN0fHv+jDiriG+y94X6qAgWTR0h3KaoM1wK5G5h7MHFRSig==
 
 "@babel/plugin-proposal-async-generator-functions@^7.8.0":
   version "7.8.0"
@@ -727,9 +727,9 @@
     "@babel/helper-plugin-utils" "^7.8.0"
 
 "@babel/preset-env@^7.5.5":
-  version "7.8.0"
-  resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.8.0.tgz#f0a0a353091cb2135e9aea21ed9c4563c51bd31f"
-  integrity sha512-g3wnth3Ct+ZvnaHcvb5PQyojqNj0whXTkO7hatXgz+lQ2FphOoXrG1JMIfeaHgDakGzx3LiNe0KsWO69xSVFDA==
+  version "7.8.2"
+  resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.8.2.tgz#dd55bd61f5d0bb1237915173c0e94aa350de3089"
+  integrity sha512-AF2YUl2bGsLWTtFL68upTTB7nDo05aEcKjHmXJE+aXRvsx5K+9yRsHQP3MjnTrLOWe/eFyUr93dfILROsKC4eg==
   dependencies:
     "@babel/compat-data" "^7.8.0"
     "@babel/helper-compilation-targets" "^7.8.0"
@@ -3361,9 +3361,9 @@ eslint-loader@^2.2.1:
     rimraf "^2.6.1"
 
 eslint-module-utils@^2.4.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.5.1.tgz#ea59ab958c11cd8b769c8749487aad713f2d5753"
-  integrity sha512-GcNwsYv8MfoEBSbAmV+PSVn2RlhpCShbLImtNviAYa/LE0PgNqxH5tLi1Ld9yeFwdjHsarXK+7G9vsyddmB6dw==
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.5.2.tgz#7878f7504824e1b857dd2505b59a8e5eda26a708"
+  integrity sha512-LGScZ/JSlqGKiT8OC+cYRxseMjyqt6QO54nl281CK93unD89ijSeRV6An8Ci/2nvWVKe8K/Tqdm75RQoIOCr+Q==
   dependencies:
     debug "^2.6.9"
     pkg-dir "^2.0.0"
