@@ -169,7 +169,7 @@ function remove (key, options, ssr) {
 }
 
 function has (key, ssr) {
-  return get(key, ssr) !== undefined
+  return get(key, ssr) !== null
 }
 
 export function getObject (ctx = {}) {
