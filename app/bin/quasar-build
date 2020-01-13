@@ -173,6 +173,9 @@ async function build () {
   const webpackConfig = quasarConfig.getWebpackConfig()
   const buildConfig = quasarConfig.getBuildConfig()
 
+  const regenerateTypesFeatureFlags = require("../lib/helpers/types-feature-flags");
+  regenerateTypesFeatureFlags(buildConfig);
+
   let outputFolder = buildConfig.build.packagedDistDir ||
     buildConfig.build.distDir
 
