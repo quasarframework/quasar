@@ -21,6 +21,8 @@ import {
   mdiTune,
   mdiPaletteSwatch,
   mdiRefresh,
+  mdiChevronUp,
+  mdiChevronDown,
   mdiCircle,
   mdiViewCarousel,
   mdiCloseCircle,
@@ -66,7 +68,6 @@ import {
   mdiNumeric6Box,
   mdiNumeric7Box,
   mdiFormatFont,
-  mdiChevronDown,
   mdiPlus,
   mdiClose,
   mdiAlertCircle,
@@ -74,7 +75,6 @@ import {
   mdiPageLast,
   mdiStar,
   mdiPencil,
-  mdiChevronUp,
   mdiPlay,
   mdiPlusBox,
   mdiCloudUpload,
@@ -112,6 +112,8 @@ export default {
   carousel: {
     left: mdiChevronLeft,
     right: mdiChevronRight,
+    up: mdiChevronUp,
+    down: mdiChevronDown,
     navigationIcon: mdiCircle,
     thumbnails: mdiViewCarousel
   },

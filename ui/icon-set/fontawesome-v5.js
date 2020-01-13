@@ -28,6 +28,8 @@ export default {
   carousel: {
     left: 'fas fa-chevron-left',
     right: 'fas fa-chevron-right', // TODO
+    up: 'fas fa-chevron-up',
+    down: 'fas fa-chevron-down',
     navigationIcon: 'fas fa-circle',
     thumbnails: 'fas fa-th'
   },

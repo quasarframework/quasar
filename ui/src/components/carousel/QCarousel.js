@@ -30,10 +30,16 @@ export default Vue.extend({
     autoplay: [Number, Boolean],
 
     arrows: Boolean,
+    arrowsVertical: Boolean,
     prevIcon: String,
     nextIcon: String,
 
     navigation: Boolean,
+    navigationPosition: {
+      type: String,
+      default: 'bottom',
+      validator: v => ['top', 'right', 'bottom', 'left'].includes(v)
+    },
     navigationIcon: String,
 
     thumbnails: Boolean
@@ -51,16 +57,16 @@ export default Vue.extend({
     classes () {
       return {
         fullscreen: this.inFullscreen,
-        'q-carousel--arrows': this.padding === true && this.arrows === true,
-        'q-carousel--navigation': this.padding === true && this.navigation === true,
+        [`q-carousel--arrows${this.arrowsVertical === true ? '--vertical' : ''}`]: this.padding === true && this.arrows === true,
+        [`q-carousel--navigation--${this.navigationPosition}`]: this.padding === true && this.navigation === true,
         'q-carousel--dark q-dark': this.isDark
       }
     },
 
     arrowIcons () {
       const ico = [
-        this.prevIcon || this.$q.iconSet.carousel.left,
-        this.nextIcon || this.$q.iconSet.carousel.right
+        this.prevIcon || (this.arrowsVertical === true ? this.$q.iconSet.carousel.up : this.$q.iconSet.carousel.left),
+        this.nextIcon || (this.arrowsVertical === true ? this.$q.iconSet.carousel.down : this.$q.iconSet.carousel.right)
       ]
 
       return this.$q.lang.rtl === true
@@ -101,7 +107,8 @@ export default Vue.extend({
 
     __getNavigationContainer (h, type, mapping) {
       return h('div', {
-        staticClass: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x q-carousel__navigation--' + type,
+        staticClass: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x q-carousel__navigation--' + type +
+          ' q-carousel__navigation--' + this.navigationPosition,
         class: this.controlColor ? `text-${this.controlColor}` : null
       }, [
         h('div', {
@@ -115,12 +122,12 @@ export default Vue.extend({
 
       this.arrows === true && node.push(
         h(QBtn, {
-          staticClass: 'q-carousel__control q-carousel__prev-arrow absolute',
+          staticClass: `q-carousel__control q-carousel__prev-arrow${this.arrowsVertical === true ? '--vertical' : ''} absolute`,
           props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
           on: cache(this, 'prev', { click: this.previous })
         }),
         h(QBtn, {
-          staticClass: 'q-carousel__control q-carousel__next-arrow absolute',
+          staticClass: `q-carousel__control q-carousel__next-arrow${this.arrowsVertical === true ? '--vertical' : ''} absolute`,
           props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
           on: cache(this, 'next', { click: this.next })
         })

@@ -32,16 +32,12 @@ export const PanelParentMixin = {
 
     animated: Boolean,
     infinite: Boolean,
-    swipeable: Boolean,
 
-    transitionPrev: {
-      type: String,
-      default: 'slide-right'
-    },
-    transitionNext: {
-      type: String,
-      default: 'slide-left'
-    },
+    swipeable: Boolean,
+    swipeableVertical: Boolean,
+
+    transitionPrev: String,
+    transitionNext: String,
 
     keepAlive: Boolean
   },
@@ -60,7 +56,8 @@ export const PanelParentMixin = {
           name: 'touch-swipe',
           value: this.__swipe,
           modifiers: {
-            horizontal: true,
+            horizontal: this.swipeableVertical !== true,
+            vertical: this.swipeableVertical,
             mouse: true
           }
         }]
@@ -71,6 +68,22 @@ export const PanelParentMixin = {
       return typeof this.value === 'string' || typeof this.value === 'number'
         ? this.value
         : String(this.value)
+    },
+
+    evtDirectionNext () {
+      return this.swipeableVertical === true ? 'up' : 'left'
+    },
+
+    transitionPrevComputed () {
+      return typeof this.transitionPrev === 'string' && this.transitionPrev.length > 0
+        ? this.transitionPrev
+        : this.swipeableVertical === true ? 'slide-down' : 'slide-right'
+    },
+
+    transitionNextComputed () {
+      return typeof this.transitionNext === 'string' && this.transitionNext.length > 0
+        ? this.transitionNext
+        : this.swipeableVertical === true ? 'slide-up' : 'slide-left'
     }
   },
 
@@ -142,7 +155,7 @@ export const PanelParentMixin = {
 
     __updatePanelTransition (direction) {
       const val = direction !== 0 && this.animated === true && this.panelIndex !== -1
-        ? 'q-transition--' + (direction === -1 ? this.transitionPrev : this.transitionNext)
+        ? 'q-transition--' + (direction === -1 ? this.transitionPrevComputed : this.transitionNextComputed)
         : null
 
       if (this.panelTransition !== val) {
@@ -180,7 +193,7 @@ export const PanelParentMixin = {
     },
 
     __swipe (evt) {
-      this.__go((this.$q.lang.rtl === true ? -1 : 1) * (evt.direction === 'left' ? 1 : -1))
+      this.__go((this.$q.lang.rtl === true ? -1 : 1) * (evt.direction === this.evtDirectionNext ? 1 : -1))
     },
 
     __updatePanelIndex () {

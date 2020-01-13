@@ -28,6 +28,8 @@ export default {
   carousel: {
     left: 's_chevron_left',
     right: 's_chevron_right',
+    up: 's_keyboard_arrow_up',
+    down: 's_keyboard_arrow_down',
     navigationIcon: 's_lens',
     thumbnails: 's_view_carousel'
   },

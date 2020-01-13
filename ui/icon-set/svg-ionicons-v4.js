@@ -42,6 +42,8 @@ import {
   ionMdOptions,
   ionMdApps,
   ionMdRefresh,
+  ionIosArrowUp,
+  ionIosArrowDown,
   ionMdSquare,
   ionMdGrid,
   ionMdCloseCircle,
@@ -62,8 +64,6 @@ import {
   ionMdStar,
   ionMdCreate,
   ionMdWarning,
-  ionIosArrowUp,
-  ionIosArrowDown,
   ionMdPlay,
   ionMdAddCircle,
   ionMdCloudUpload,
@@ -101,6 +101,8 @@ export default {
   carousel: {
     left: ionIosArrowBack,
     right: ionIosArrowForward,
+    up: ionIosArrowUp,
+    down: ionIosArrowDown,
     navigationIcon: ionMdSquare,
     thumbnails: ionMdGrid
   },

@@ -28,6 +28,8 @@ export default {
   carousel: {
     left: 'ion-ios-arrow-back',
     right: 'ion-ios-arrow-forward',
+    up: 'ion-ios-arrow-up',
+    down: 'ion-ios-arrow-down',
     navigationIcon: 'ion-square',
     thumbnails: 'ion-grid'
   },
