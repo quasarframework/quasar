@@ -290,7 +290,7 @@ module.exports = function (cfg, configName) {
       }
 
       chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, copyArray)
+        .use(CopyWebpackPlugin, [ copyArray ])
     }
 
     // Scope hoisting ala Rollupjs
