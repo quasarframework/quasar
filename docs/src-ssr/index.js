@@ -16,7 +16,7 @@ const
   compression = require('compression')
 
 const
-  ssr = require('../ssr'),
+  ssr = require('quasar-ssr'),
   extension = require('./extension'),
   app = express(),
   port = process.env.PORT || 3000

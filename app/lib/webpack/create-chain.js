@@ -1,3 +1,4 @@
+const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
@@ -281,20 +282,26 @@ module.exports = function (cfg, configName) {
     if (configName !== 'Server') {
       // copy statics to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
+
+      const copyArray = []
+      const staticsFolder = appPaths.resolve.src('statics')
+
+      if (fs.existsSync(staticsFolder)) {
+        copyArray.push({
+          from: staticsFolder,
+          to: 'statics',
+          ignore: ['.*'],
+          ignore: ['.*'].concat(
+            // avoid useless files to be copied
+            ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+              ? [ 'icons/*', 'app-logo-128x128.png' ]
+              : []
+          )
+        })
+      }
+
       chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, [
-          [{
-            from: appPaths.resolve.src('statics'),
-            to: 'statics',
-            ignore: ['.*'],
-            ignore: ['.*'].concat(
-              // avoid useless files to be copied
-              ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-                ? [ 'icons/*', 'app-logo-128x128.png' ]
-                : []
-            )
-          }]
-        ])
+        .use(CopyWebpackPlugin, copyArray)
     }
 
     // Scope hoisting ala Rollupjs
