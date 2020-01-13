@@ -52,7 +52,7 @@
 
       <q-item>
         <q-item-section avatar top>
-          <q-icon name="fab fa-github" color="black" size="34px" />
+          <q-icon name="account_tree" color="black" size="34px" />
         </q-item-section>
 
         <q-item-section top class="col-2 gt-sm">
@@ -85,7 +85,7 @@
 
       <q-item>
         <q-item-section avatar top>
-          <q-icon name="fab fa-github" color="black" size="34px" />
+          <q-icon name="account_tree" color="black" size="34px" />
         </q-item-section>
 
         <q-item-section top class="col-2 gt-sm">

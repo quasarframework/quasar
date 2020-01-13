@@ -60,6 +60,7 @@ Notice in the example below that we want to avoid Vue observable wrapping, so we
 <template>
   <div>
     <q-icon :name="matMenu" />
+    <q-icon :name="fasFont" />
     <q-btn :icon="mdiAbTesting" />
   </div>
 </template>
@@ -67,12 +68,14 @@ Notice in the example below that we want to avoid Vue observable wrapping, so we
 <script>
 import { matMenu } from '@quasar/extras/material-icons'
 import { mdiAbTesting } from '@quasar/extras/mdi-v4'
+import { fasFont } from '@quasar/extras/fontawesome-v5'
 
 export default {
   // ...
   created () {
     this.matMenu = matMenu
     this.mdiAbTesting = mdiAbTesting
+    this.fasFont = fasFont
   }
 }
 ```

@@ -52,10 +52,10 @@ q-page.doc-page
 
     .doc-page-footer__icons.row.items-center.q-gutter-sm
       a(href="https://github.quasar.dev", target="_blank", rel="noopener")
-        q-icon(name="fab fa-github")
+        q-icon(:name="fabGithub")
 
       a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-        q-icon(name="fab fa-medium")
+        q-icon(:name="fabMedium")
 
       a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
         q-icon(name="chat")
@@ -64,13 +64,13 @@ q-page.doc-page
         q-icon(name="forum")
 
       a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
-        q-icon(name="fab fa-twitter")
+        q-icon(:name="fabTwitter")
 
       a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
-        q-icon(name="fab fa-facebook")
+        q-icon(:name="fabFacebook")
 
       a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
-        q-icon(name="fas fa-medkit")
+        q-icon(:name="fasMedkit")
 
     div.q-mt-md
       | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
@@ -80,6 +80,9 @@ q-page.doc-page
 
 <script>
 import { copyHeading } from 'assets/page-utils'
+import {
+  fabGithub, fabMedium, fabTwitter, fabFacebook, fasMedkit
+} from '@quasar/extras/fontawesome-v5'
 
 const year = (new Date()).getFullYear()
 
@@ -108,6 +111,14 @@ export default {
 
   methods: {
     copyHeading
+  },
+
+  created () {
+    this.fabGithub = fabGithub
+    this.fabMedium = fabMedium
+    this.fabTwitter = fabTwitter
+    this.fabFacebook = fabFacebook
+    this.fasMedkit = fasMedkit
   }
 }
 </script>

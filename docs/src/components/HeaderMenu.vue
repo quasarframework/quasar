@@ -15,7 +15,7 @@ div
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework/quasar", target="_blank", rel="noopener")
         q-item-section(avatar)
-          q-icon(name="fab fa-github")
+          q-icon(:name="fabGithub")
         q-item-section Repository
 
       q-separator.q-mb-sm.q-mt-md
@@ -71,7 +71,7 @@ div
 
       q-item(clickable, to="/layout/grid/flex-playground")
         q-item-section.text-orange(avatar)
-          q-icon(name="fas fa-flask")
+          q-icon(:name="fasFlask")
         q-item-section
           .row.no-wrap.items-center
             span Flex Playground
@@ -80,17 +80,17 @@ div
 
       q-item(clickable, tag="a", href="https://codepen.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-brown-5(avatar)
-          q-icon(name="fab fa-codepen")
+          q-icon(:name="fabCodepen")
         q-item-section Codepen
 
       q-item(clickable, tag="a", href="https://jsfiddle.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-primary(avatar)
-          q-icon(name="fab fa-jsfiddle")
+          q-icon(:name="fabJsfiddle")
         q-item-section jsFiddle
 
       q-item(clickable, tag="a", href="https://codesandbox.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-black(avatar)
-          q-icon(name="fas fa-cubes")
+          q-icon(:name="fasCubes")
         q-item-section Codesandbox
 
   q-btn-dropdown.text-bold(:align="align", flat, no-caps, stretch, label="Support", auto-close)
@@ -108,14 +108,14 @@ div
 
       q-item(clickable, tag="a", href="https://github.com/quasarframework", rel="noopener", target="_blank")
         q-item-section(avatar)
-          q-icon(name="fab fa-github")
+          q-icon(:name="fabGithub")
         q-item-section Github Repositories
 
       q-item-label.q-mt-md(header) Social
 
       q-item(clickable, tag="a", href="https://blog.quasar.dev", rel="noopener", target="_blank")
         q-item-section.text-primary(avatar)
-          q-icon(name="fab fa-medium")
+          q-icon(:name="fabMedium")
         q-item-section Blog
 
       q-item(clickable, tag="a", href="https://forum.quasar.dev/category/1/announcements", target="_blank", rel="noopener")
@@ -125,12 +125,12 @@ div
 
       q-item(clickable, tag="a", href="https://twitter.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-blue(avatar)
-          q-icon(name="fab fa-twitter")
+          q-icon(:name="fabTwitter")
         q-item-section Twitter
 
       q-item(clickable, tag="a", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
         q-item-section.text-primary(avatar)
-          q-icon(name="fab fa-facebook")
+          q-icon(:name="fabFacebook")
         q-item-section
           .row.no-wrap.items-center
             span Facebook
@@ -139,14 +139,32 @@ div
 
       q-item(clickable, tag="a", href="https://donate.quasar.dev", target="_blank", rel="noopener")
         q-item-section(avatar)
-          q-icon(name="fab fa-github")
+          q-icon(:name="fabGithub")
         q-item-section Github Sponsorship
 </template>
 
 <script>
+import {
+  fabGithub, fasFlask, fabCodepen, fabJsfiddle,
+  fasCubes, fabMedium, fabTwitter, fabFacebook
+} from '@quasar/extras/fontawesome-v5'
+
 export default {
+  name: 'HeaderMenu',
+
   props: {
     align: String
+  },
+
+  created () {
+    this.fabGithub = fabGithub
+    this.fasFlask = fasFlask
+    this.fabCodepen = fabCodepen
+    this.fabJsfiddle = fabJsfiddle
+    this.fasCubes = fasCubes
+    this.fabMedium = fabMedium
+    this.fabTwitter = fabTwitter
+    this.fabFacebook = fabFacebook
   }
 }
 </script>

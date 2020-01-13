@@ -36,7 +36,7 @@
     <q-btn class="float-right" round dense flat icon="share" @click="share">
       <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
     </q-btn>
-    <q-btn class="float-right" round dense flat icon="fab fa-codepen" @click="editInCodepen">
+    <q-btn class="float-right" round dense flat :icon="fabCodepen" @click="editInCodepen">
       <q-tooltip>Edit in Codepen</q-tooltip>
     </q-btn>
 
@@ -77,6 +77,8 @@ import Child from './FlexChild'
 import Codepen from '../../../Codepen'
 import CopyButton from '../../../CopyButton'
 import { copyToClipboard } from 'quasar'
+
+import { fabCodepen } from '@quasar/extras/fontawesome-v5'
 
 const queryParams = {
   containerGroup: 'string',
@@ -178,6 +180,10 @@ export default {
     if (!query.children) {
       this.addChild()
     }
+  },
+
+  created () {
+    this.fabCodepen = fabCodepen
   },
 
   computed: {

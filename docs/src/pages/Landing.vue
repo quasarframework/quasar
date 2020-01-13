@@ -40,14 +40,14 @@
         img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
       .col-12.text-center
         .q-gutter-lg
-          q-icon(name="fab fa-apple")
-          q-icon(name="fab fa-windows")
-          q-icon(name="fab fa-linux")
-          q-icon(name="fab fa-android")
-          q-icon(name="fab fa-chrome")
-          q-icon(name="fab fa-firefox")
-          q-icon(name="fab fa-edge")
-          q-icon(name="fab fa-safari")
+          q-icon(:name="fabApple")
+          q-icon(:name="fabWindows")
+          q-icon(:name="fabLinux")
+          q-icon(:name="fabAndroid")
+          q-icon(:name="fabChrome")
+          q-icon(:name="fabFirefox")
+          q-icon(:name="fabEdge")
+          q-icon(:name="fabSafari")
       .col-12.text-center
         h4 All Platforms in One Go
         p One source code for all platforms simultaneously through Quasar CLI with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
@@ -63,7 +63,7 @@
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fab fa-google")
+          q-icon(:name="fabGoogle")
           h6 Material Design 2.0
           p Quasar is focused on following the Material 2.0 Guidelines and to stay up-to-date to them.
 
@@ -94,10 +94,10 @@
       .col-xs-12.col-sm-5
         .feature-item
           .q-gutter-sm
-            q-icon(name="fab fa-chrome")
-            q-icon(name="fab fa-firefox")
-            q-icon(name="fab fa-safari")
-            q-icon(name="fab fa-edge")
+            q-icon(:name="fabChrome")
+            q-icon(:name="fabFirefox")
+            q-icon(:name="fabSafari")
+            q-icon(:name="fabEdge")
           h6 Wide platform support
           p Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry. We care a great deal about your website or app's behavior both on desktop browsers and on mobile browsers.
 
@@ -148,25 +148,25 @@
     div.text-center
       div.landing__footer-icons.row.flex-center.q-gutter-md
         a(href="https://github.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-github")
+          q-icon(:name="fabGithub")
 
         a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-medium")
+          q-icon(:name="fabMedium")
 
-        a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
+        a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
           q-icon(name="chat")
 
-        a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
+        a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
           q-icon(name="forum")
 
         a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-twitter")
+          q-icon(:name="fabTwitter")
 
         a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-facebook")
+          q-icon(:name="fabFacebook")
 
-        a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fas fa-medkit")
+        a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
+          q-icon(:name="fasMedkit")
 
       div.q-mt-lg
         | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
@@ -181,6 +181,12 @@ import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
+
+import {
+  fabGithub, fabMedium, fabTwitter, fabFacebook, fasMedkit,
+  fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
+  fabFirefox, fabEdge, fabSafari, fabGoogle
+} from '@quasar/extras/fontawesome-v5'
 
 export default {
   name: 'Landing',
@@ -199,6 +205,21 @@ export default {
 
   created () {
     this.year = (new Date()).getFullYear()
+
+    this.fabGithub = fabGithub
+    this.fabMedium = fabMedium
+    this.fabTwitter = fabTwitter
+    this.fabFacebook = fabFacebook
+    this.fasMedkit = fasMedkit
+    this.fabApple = fabApple
+    this.fabWindows = fabWindows
+    this.fabLinux = fabLinux
+    this.fabAndroid = fabAndroid
+    this.fabChrome = fabChrome
+    this.fabFirefox = fabFirefox
+    this.fabEdge = fabEdge
+    this.fabSafari = fabSafari
+    this.fabGoogle = fabGoogle
   }
 }
 </script>
