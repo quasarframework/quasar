@@ -290,7 +290,6 @@ module.exports = function (cfg, configName) {
         copyArray.push({
           from: staticsFolder,
           to: 'statics',
-          ignore: ['.*'],
           ignore: ['.*'].concat(
             // avoid useless files to be copied
             ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
