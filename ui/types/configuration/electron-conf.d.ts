@@ -5,28 +5,20 @@ import { WebpackConfiguration } from "../ts-helpers";
 
 export type QuasarElectronBundlers = "builder" | "packager";
 
-export type QuasarBuilderArchs = "ia32" | "x64" | "armv7l" | "arm64" | "all";
-export type QuasarPackagerArchs =
-  | "ia32"
-  | "x64"
-  | "armv7l"
-  | "arm64"
-  | "all"
-  | "mips64el";
+export type ElectronBuilderArchs = "ia32" | "x64" | "armv7l" | "arm64" | "all";
 
-export type QuasarBuilderTargets =
+export type ElectronBuilderTargets =
   | "darwin"
   | "mac"
   | "win32"
   | "win"
   | "linux"
   | "all";
-export type QuasarPackagerTargets =
-  | "darwin"
-  | "win32"
-  | "linux"
-  | "mas"
-  | "all";
+
+export {
+  arch as ElectronPackagerArchs,
+  platform as ElectronPackagerTargets
+} from "electron-packager";
 
 interface QuasarBaseElectronConfiguration {
   /** Webpack config object for the Main Process ONLY (`/src-electron/main-process/`) */
@@ -52,7 +44,7 @@ interface QuasarBaseElectronConfiguration {
   bundler: QuasarElectronBundlers;
 }
 
-interface QuasarPackagerElectronConfiguration
+interface QuasarElectronPackagerConfiguration
   extends QuasarBaseElectronConfiguration {
   bundler: "packager";
 
@@ -63,7 +55,7 @@ interface QuasarPackagerElectronConfiguration
   packager?: Omit<ElectronPackagerOptions, "dir" | "out">;
 }
 
-interface QuasarBuilderElectronConfiguration
+interface QuasarElectronBuilderConfiguration
   extends QuasarBaseElectronConfiguration {
   bundler: "builder";
 
@@ -72,5 +64,5 @@ interface QuasarBuilderElectronConfiguration
 }
 
 export type QuasarElectronConfiguration =
-  | QuasarPackagerElectronConfiguration
-  | QuasarBuilderElectronConfiguration;
+  | QuasarElectronPackagerConfiguration
+  | QuasarElectronBuilderConfiguration;
