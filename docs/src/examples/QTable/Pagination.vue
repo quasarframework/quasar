@@ -15,7 +15,7 @@ export default {
   data () {
     return {
       pagination: {
-        sortBy: 'name',
+        sortBy: 'desc',
         descending: false,
         page: 2,
         rowsPerPage: 3
