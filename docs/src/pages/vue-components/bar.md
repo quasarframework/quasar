@@ -20,11 +20,11 @@ For responsiveness, use [Visibility](/style/visibility#Window-Width-Related) Qua
 
 ### Styling
 
-<doc-example title="MacOS style" file="QBar/MacOS" />
+<doc-example title="MacOS style" file="QBar/MacOS" no-edit />
 
 <doc-example title="Windows style" file="QBar/Windows" />
 
-<doc-example title="iOS style" file="QBar/iOS" />
+<doc-example title="iOS style" file="QBar/iOS" no-edit />
 
 <doc-example title="Android style" file="QBar/Android" />
 

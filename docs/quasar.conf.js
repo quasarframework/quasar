@@ -11,8 +11,7 @@ module.exports = function (ctx) {
     ],
 
     css: [
-      'app.sass',
-      'docs-font/docs-font.css'
+      'app.sass'
     ],
 
     extras: [

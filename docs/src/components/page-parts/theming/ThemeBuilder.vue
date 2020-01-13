@@ -23,9 +23,9 @@
           div(:class="`bg-primary text-${dark.primary === true ? 'white' : 'black'} shadow-2`")
             q-bar(dense, :dark="dark.primary")
               q-space
-              q-icon.q-mr-xs(name="fas fa-square", size="12px", style="opacity: 0.5")
-              q-icon.q-mr-xs(name="fas fa-circle", size="12px", style="opacity: 0.5")
-              q-icon.q-mr-sm.rotate-90(name="fas fa-play", size="12px", style="opacity: 0.5")
+              q-icon.q-mr-xs(:name="fasSquare", size="12px", style="opacity: 0.5")
+              q-icon.q-mr-xs(:name="fasCircle", size="12px", style="opacity: 0.5")
+              q-icon.q-mr-sm.rotate-90(:name="fasPlay", size="12px", style="opacity: 0.5")
 
             q-toolbar
               q-btn(flat, dense, round, icon="arrow_back")
@@ -110,6 +110,10 @@
 <script>
 import { colors } from 'quasar'
 const { setBrand, luminosity } = colors
+
+import {
+  fasSquare, fasCircle, fasPlay
+} from '@quasar/extras/fontawesome-v5'
 
 export default {
   data () {
@@ -296,6 +300,12 @@ Vue.use(Quasar, {
       setBrand(color, val, document.getElementById('theme-picker'))
       this.dark[color] = luminosity(val) <= 0.4
     }
+  },
+
+  created () {
+    this.fasSquare = fasSquare
+    this.fasCircle = fasCircle
+    this.fasPlay = fasPlay
   }
 }
 </script>

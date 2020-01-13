@@ -96,7 +96,18 @@ module.exports.generate = function () {
 
       const content = svgIconSetBanner(type.name) + '\n' + importString + '\n\n' + contentString
 
-      return buildUtils.writeFile(resolve(`icon-set/svg-${type.name}.js`), content, 'utf-8')
+      const iconFile = resolve(`icon-set/svg-${type.name}.js`)
+
+      let oldContent = ''
+
+      try {
+        oldContent = fs.readFileSync(iconFile, 'utf-8')
+      }
+      catch (e) { }
+
+      return content.split(/[\n\r]+/).join('\n') !== oldContent.split(/[\n\r]+/).join('\n')
+        ? buildUtils.writeFile(iconFile, content, 'utf-8')
+        : Promise.resolve()
     })
   )
 }

@@ -8,13 +8,30 @@ section.fixed-top.landing-top-bar.text-white
 
     q-space
 
-    q-btn.q-mr-xs(type="a", flat, icon="fab fa-github", href="https://github.quasar.dev", target="_blank", rel="noopener")
-    q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-medium", href="https://blog.quasar.dev", target="_blank", rel="noopener")
+    q-btn.q-mr-xs(type="a", flat, :icon="fabGithub", href="https://github.quasar.dev", target="_blank", rel="noopener")
+    q-btn.q-mr-xs.gt-xs(type="a", flat, :icon="fabMedium", href="https://blog.quasar.dev", target="_blank", rel="noopener")
     q-btn.q-mr-xs(type="a", flat, icon="chat", href="https://chat.quasar.dev", target="_blank", rel="noopener")
     q-btn.q-mr-xs(type="a", flat, icon="forum", href="https://forum.quasar.dev/", target="_blank", rel="noopener")
-    q-btn.q-mr-xs.gt-xs(type="a", flat, icon="fab fa-twitter", href="https://twitter.quasar.dev", target="_blank", rel="noopener")
-    q-btn.gt-xs(type="a", flat, icon="fab fa-facebook", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
+    q-btn.q-mr-xs.gt-xs(type="a", flat, :icon="fabTwitter", href="https://twitter.quasar.dev", target="_blank", rel="noopener")
+    q-btn.gt-xs(type="a", flat, :icon="fabFacebook", href="https://facebook.quasar.dev", target="_blank", rel="noopener")
 </template>
+
+<script>
+import {
+  fabGithub, fabMedium, fabTwitter, fabFacebook
+} from '@quasar/extras/fontawesome-v5'
+
+export default {
+  name: 'LandingTopBar',
+
+  created () {
+    this.fabGithub = fabGithub
+    this.fabMedium = fabMedium
+    this.fabTwitter = fabTwitter
+    this.fabFacebook = fabFacebook
+  }
+}
+</script>
 
 <style lang="stylus">
 .landing-top-bar
