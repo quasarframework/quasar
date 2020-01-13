@@ -435,6 +435,11 @@ const cli = [
         path: 'node-integration'
       },
       {
+        name: 'Preload Script',
+        badge: 'new',
+        path: 'electron-preload-script'
+      },
+      {
         name: 'Electron Packages',
         path: 'electron-packages'
       },
