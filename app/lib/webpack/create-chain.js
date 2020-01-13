@@ -269,16 +269,6 @@ module.exports = function (cfg, configName) {
         hashDigest: 'hex'
       }])
 
-    // keep chunk ids stable so async chunks have consistent hash
-    const hash = require('hash-sum')
-    chain
-      .plugin('named-chunks')
-        .use(webpack.NamedChunksPlugin, [
-          chunk => chunk.name || hash(
-            Array.from(chunk.modulesIterable, m => m.id).join('_')
-          )
-        ])
-
     if (configName !== 'Server') {
       // copy statics to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
