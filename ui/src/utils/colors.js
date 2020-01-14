@@ -306,6 +306,8 @@ export default {
   lighten,
   luminosity,
   brightness,
+  blend,
+  updateAlpha,
   setBrand,
   getBrand
 }
