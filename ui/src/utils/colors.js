@@ -252,7 +252,10 @@ export function blend (fgColor, bgColor) {
     g = Math.round(((g1 * a1 + g2 * a2 * (1 - a1)) / a) * 255),
     b = Math.round(((b1 * a1 + b2 * a2 * (1 - a1)) / a) * 255)
 
-  return rgbToHex({ r, g, b, a: Math.round(a * 100) })
+  const ret = { r, g, b, a: Math.round(a * 100) }
+  return typeof fgColor === 'string'
+    ? rgbToHex(ret)
+    : ret
 }
 
 export function updateAlpha (color, value) {
