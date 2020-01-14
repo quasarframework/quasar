@@ -255,6 +255,23 @@ export function blend (fgColor, bgColor) {
   return rgbToHex({ r, g, b, a: Math.round(a * 100) })
 }
 
+export function updateAlpha (color, value) {
+  if (typeof color !== 'string') {
+    throw new TypeError('Expected a string as color')
+  }
+
+  if (value === void 0 || value < -1 || value > 1) {
+    throw new TypeError('Expected value to be between -1 and 1')
+  }
+
+  const { r, g, b, a } = textToRgb(color)
+  const alpha = a !== void 0 ? a / 100 : 1
+
+  return rgbToHex({
+    r, g, b, a: Math.round(Math.min(1, Math.max(0, alpha + value)) * 100)
+  })
+}
+
 export function setBrand (color, value, element = document.body) {
   if (typeof color !== 'string') {
     throw new TypeError('Expected a string as color')
@@ -289,6 +306,8 @@ export default {
   lighten,
   luminosity,
   brightness,
+  blend,
+  updateAlpha,
   setBrand,
   getBrand
 }

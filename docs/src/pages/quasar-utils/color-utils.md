@@ -61,6 +61,13 @@ Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `fgColor`/`bgColor`.
 If the alpha channel of the `fgColor` is completely opaque, then the result will be the `fgColor`.
 If the alpha channel of the `bgColor` is completely opaque, then the resulting blended color will also be opaque.
 
+### updateAlpha (color, value)
+Increments or decrements the alpha of a string color.
+
+Accepts a HEX/A String as `color` and a value >= -1 and <= 1 as `value`.
+Use a negative value to decrement and a positive number to increment (ex: `updateAlpha('ff0000', -0.1)` to decrement alpha by 10%).
+Returns HEX/A String.
+
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
 
 ::: warning
