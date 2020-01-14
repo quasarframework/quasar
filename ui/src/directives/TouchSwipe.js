@@ -1,5 +1,5 @@
 import { client } from '../plugins/Platform.js'
-import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
+import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget, shouldStart } from '../utils/touch.js'
 import { position, leftClick, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -40,12 +40,7 @@ export default {
       noop () {},
 
       mouseStart (evt) {
-        if (
-          ctx.event === void 0 &&
-          evt.target !== void 0 &&
-          evt.target.draggable !== true &&
-          leftClick(evt)
-        ) {
+        if (shouldStart(evt, ctx) && leftClick(evt)) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', `notPassive${mouseCapture}` ],
             [ document, 'mouseup', 'end', 'notPassiveCapture' ]
@@ -55,11 +50,7 @@ export default {
       },
 
       touchStart (evt) {
-        if (
-          ctx.event === void 0 &&
-          evt.target !== void 0 &&
-          evt.target.draggable !== true
-        ) {
+        if (shouldStart(evt, ctx)) {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'notPassiveCapture' ],
@@ -186,6 +177,19 @@ export default {
             document.body.classList.add('no-pointer-events')
             document.body.classList.add('non-selectable')
             clearSelection()
+
+            ctx.styleCleanup = withDelay => {
+              ctx.styleCleanup = void 0
+
+              document.body.classList.remove('non-selectable')
+
+              const remove = () => {
+                document.body.classList.remove('no-pointer-events')
+              }
+
+              if (withDelay === true) { setTimeout(remove, 50) }
+              else { remove() }
+            }
           }
 
           ctx.handler({
@@ -212,17 +216,8 @@ export default {
 
         cleanEvt(ctx, 'temp')
         client.is.firefox === true && preventDraggable(el, false)
-
-        if (ctx.event.dir !== false) {
-          stopAndPrevent(evt)
-
-          if (ctx.event.mouse === true) {
-            setTimeout(() => {
-              document.body.classList.remove('no-pointer-events')
-            }, 50)
-            document.body.classList.remove('non-selectable')
-          }
-        }
+        ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
+        ctx.event.dir !== false && stopAndPrevent(evt)
 
         ctx.event = void 0
       }
@@ -259,11 +254,7 @@ export default {
       cleanEvt(ctx, 'temp')
 
       client.is.firefox === true && preventDraggable(el, false)
-
-      if (ctx.event !== void 0 && ctx.event.dir !== false && ctx.event.mouse === true) {
-        document.body.classList.remove('no-pointer-events')
-        document.body.classList.remove('non-selectable')
-      }
+      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
 
       delete el[el.__qtouchswipe_old ? '__qtouchswipe_old' : '__qtouchswipe']
     }

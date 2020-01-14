@@ -65,7 +65,7 @@ export default {
           // so we need to avoid it
           ctx.skipMouse = false
         }
-        else if (ctx.event === void 0 && leftClick(evt) === true) {
+        else if (ctx.event === void 0 && typeof ctx.handler === 'function' && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'passiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
@@ -75,7 +75,7 @@ export default {
       },
 
       keyboardStart (evt) {
-        if (isKeyCode(evt, keyboard) === true) {
+        if (typeof ctx.handler === 'function' && isKeyCode(evt, keyboard) === true) {
           if (durations[0] === 0 || ctx.event !== void 0) {
             stopAndPrevent(evt)
             el.focus()
@@ -92,7 +92,7 @@ export default {
       },
 
       touchStart (evt) {
-        if (evt.target !== void 0) {
+        if (evt.target !== void 0 && typeof ctx.handler === 'function') {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'passiveCapture' ],
@@ -104,21 +104,31 @@ export default {
         }
       },
 
-      touchEnd (evt) {
-        if (ctx.event !== void 0) {
-          ctx.skipMouse = true
-          ctx.end(evt)
-        }
-      },
-
       start (evt, mouseEvent, keyboardEvent) {
         if (keyboardEvent !== true) {
           ctx.origin = position(evt)
         }
 
+        function styleCleanup (withDelay) {
+          ctx.styleCleanup = void 0
+
+          document.documentElement.style.cursor = ''
+
+          const remove = () => {
+            document.body.classList.remove('non-selectable')
+          }
+
+          if (withDelay === true) {
+            clearSelection()
+            setTimeout(remove, 10)
+          }
+          else { remove() }
+        }
+
         if (client.is.mobile === true) {
           document.body.classList.add('non-selectable')
           clearSelection()
+          ctx.styleCleanup = styleCleanup
         }
 
         ctx.event = {
@@ -148,6 +158,7 @@ export default {
               document.documentElement.style.cursor = 'pointer'
               document.body.classList.add('non-selectable')
               clearSelection()
+              ctx.styleCleanup = styleCleanup
             }
           }
 
@@ -182,26 +193,23 @@ export default {
         }
       },
 
+      touchEnd (evt) {
+        if (ctx.event !== void 0) {
+          ctx.skipMouse = true
+          ctx.end(evt)
+        }
+      },
+
       end () {
         if (ctx.event === void 0) {
           return
         }
 
-        const triggered = ctx.event.repeatCount > 0
-
-        if (client.is.mobile === true || triggered === true) {
-          document.documentElement.style.cursor = ''
-          clearSelection()
-          // delay needed otherwise selection still occurs
-          setTimeout(() => {
-            document.body.classList.remove('non-selectable')
-          }, 10)
-        }
+        ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
 
         cleanEvt(ctx, 'temp')
         clearTimeout(ctx.timer)
 
-        ctx.timer = void 0
         ctx.event = void 0
       }
     }
@@ -242,10 +250,7 @@ export default {
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')
 
-      if (client.is.mobile === true || (ctx.event !== void 0 && ctx.event.repeatCount > 0)) {
-        document.documentElement.style.cursor = ''
-        document.body.classList.remove('non-selectable')
-      }
+      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
 
       delete el[el.__qtouchrepeat_old ? '__qtouchrepeat_old' : '__qtouchrepeat']
     }

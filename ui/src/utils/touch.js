@@ -89,3 +89,12 @@ export const getTouchTarget = isSSR === false && (
 )
   ? () => document
   : target => target
+
+export function shouldStart (evt, ctx) {
+  return ctx.event === void 0 &&
+    evt.target !== void 0 &&
+    evt.target.draggable !== true &&
+    typeof ctx.handler === 'function' &&
+    evt.target.nodeName.toUpperCase() !== 'INPUT' &&
+    (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
+}
