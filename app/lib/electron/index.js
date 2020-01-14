@@ -1,4 +1,7 @@
 const webpack = require('webpack')
+const chokidar = require('chokidar')
+const fs = require('fs')
+const debounce = require('lodash.debounce')
 
 const logger = require('../helpers/logger')
 const log = logger('app:electron')
@@ -35,6 +38,7 @@ class ElectronRunner {
 
     return new Promise(resolve => {
       log(`Building main Electron process...`)
+
       this.watcher = compiler.watch({}, async (err, stats) => {
         if (err) {
           console.log(err)
@@ -62,6 +66,24 @@ class ElectronRunner {
 
         resolve()
       })
+
+      const preloadFile = appPaths.resolve.electron('main-process/electron-preload.js')
+
+      if (fs.existsSync(preloadFile)) {
+        // Start watching for electron-preload.js changes
+        this.preloadWatcher = chokidar
+          .watch(preloadFile, { watchers: { chokidar: { ignoreInitial: true } } })
+
+        this.preloadWatcher.on('change', debounce(async () => {
+          console.log()
+          log(`electron-preload.js changed`)
+
+          await this.__stopElectron()
+          this.__startElectron(argv._)
+
+          resolve()
+        }, 1000))
+      }
     })
   }
 
@@ -138,17 +160,29 @@ class ElectronRunner {
 
   stop () {
     return new Promise(resolve => {
+      let counter = 0
+      const maxCounter = (this.watcher ? 1 : 0) + (this.preloadWatcher ? 1 : 0)
+
       const finalize = () => {
-        this.__stopElectron().then(resolve)
+        counter++
+        if (maxCounter <= counter) {
+          this.__stopElectron().then(resolve)
+        }
       }
 
       if (this.watcher) {
         this.watcher.close(finalize)
         this.watcher = null
-        return
       }
 
-      finalize()
+      if (this.preloadWatcher) {
+        this.preloadWatcher.close().then(finalize)
+        this.preloadWatcher = null
+      }
+
+      if (maxCounter === 0) {
+        finalize()
+      }
     })
   }
 
