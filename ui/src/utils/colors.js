@@ -255,20 +255,20 @@ export function blend (fgColor, bgColor) {
   return rgbToHex({ r, g, b, a: Math.round(a * 100) })
 }
 
-export function updateAlpha (color, value) {
+export function changeAlpha (color, offset) {
   if (typeof color !== 'string') {
     throw new TypeError('Expected a string as color')
   }
 
-  if (value === void 0 || value < -1 || value > 1) {
-    throw new TypeError('Expected value to be between -1 and 1')
+  if (offset === void 0 || offset < -1 || offset > 1) {
+    throw new TypeError('Expected offset to be between -1 and 1')
   }
 
   const { r, g, b, a } = textToRgb(color)
-  const alpha = a !== void 0 ? a / 100 : 1
+  const alpha = a !== void 0 ? a / 100 : 0
 
   return rgbToHex({
-    r, g, b, a: Math.round(Math.min(1, Math.max(0, alpha + value)) * 100)
+    r, g, b, a: Math.round(Math.min(1, Math.max(0, alpha + offset)) * 100)
   })
 }
 
@@ -307,7 +307,7 @@ export default {
   luminosity,
   brightness,
   blend,
-  updateAlpha,
+  changeAlpha,
   setBrand,
   getBrand
 }
