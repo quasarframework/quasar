@@ -220,9 +220,13 @@ export default {
           lastX: pos.left,
           lastY: pos.top
         }
+
+        if (detected === true) {
+          ctx.move(evt, true)
+        }
       },
 
-      move (evt) {
+      move (evt, startEvent) {
         if (ctx.event === void 0) {
           return
         }
@@ -238,7 +242,9 @@ export default {
             }
             else {
               if (ctx.event.isFirst === true) {
-                handleEvent(evt, ctx.event.mouse)
+                // mouse listener is passive, so avoid handling start event
+                startEvent !== true && handleEvent(evt, ctx.event.mouse)
+
                 document.documentElement.style.cursor = 'grabbing'
                 ctx.event.mouse === true && document.body.classList.add('no-pointer-events')
                 document.body.classList.add('non-selectable')

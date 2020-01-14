@@ -168,7 +168,9 @@ export let SliderMixin = {
       }
       else if (event.isFirst) {
         this.dragging = this.__getDragging(event.evt)
+        console.log('started')
         this.__updatePosition(event.evt)
+        this.__updateValue()
         this.active = true
       }
       else {
