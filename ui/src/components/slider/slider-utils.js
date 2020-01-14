@@ -184,6 +184,7 @@ export let SliderMixin = {
 
     __activate (evt) {
       this.__updatePosition(evt, this.__getDragging(evt))
+      this.__updateValue()
 
       this.preventFocus = true
       this.active = true

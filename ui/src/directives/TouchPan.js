@@ -135,6 +135,14 @@ export default {
       }
     }
 
+    function shouldStart (evt) {
+      return ctx.event === void 0 &&
+        evt.target !== void 0 &&
+        evt.target.draggable !== true &&
+        evt.target.nodeName.toUpperCase() !== 'INPUT' &&
+        (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
+    }
+
     const ctx = {
       uid: 'qvtp_' + (uid++),
       handler: value,
@@ -145,11 +153,8 @@ export default {
 
       mouseStart (evt) {
         if (
-          ctx.event === void 0 &&
-          evt.target !== void 0 &&
-          evt.target.draggable !== true &&
-          leftClick(evt) === true &&
-          (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
+          shouldStart(event) === true &&
+          leftClick(evt) === true
         ) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
@@ -161,18 +166,15 @@ export default {
       },
 
       touchStart (evt) {
-        if (
-          ctx.event === void 0 &&
-          evt.target !== void 0 &&
-          evt.target.draggable !== true &&
-          (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
-        ) {
+        if (shouldStart(evt) === true) {
           const target = getTouchTarget(evt.target)
+
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'notPassiveCapture' ],
             [ target, 'touchcancel', 'end', 'passiveCapture' ],
             [ target, 'touchend', 'end', 'passiveCapture' ]
           ])
+
           ctx.start(evt)
         }
       },
@@ -180,14 +182,13 @@ export default {
       start (evt, mouseEvent) {
         client.is.firefox === true && preventDraggable(el, true)
 
-        let detected = mouseEvent === true && modifiers.mouseAllDir === true
         const pos = position(evt)
 
-        // stop propagation so possible upper v-touch-pan don't catch this as well
-        if (
-          detected === true ||
-          (mouseEvent !== true && modifiers.stop === true)
-        ) {
+        /*
+         * Stop propagation so possible upper v-touch-pan don't catch this as well;
+         * If we're not the target (based on modifiers), we'll re-emit the event later
+         */
+        if (mouseEvent === true || modifiers.stop === true) {
           const clone = evt.type.indexOf('mouse') > -1
             ? new MouseEvent(evt.type, evt)
             : new TouchEvent(evt.type, evt)
@@ -214,19 +215,15 @@ export default {
           y: pos.top,
           time: Date.now(),
           mouse: mouseEvent === true,
-          detected,
+          detected: false,
           isFirst: true,
           isFinal: false,
           lastX: pos.left,
           lastY: pos.top
         }
-
-        if (detected === true) {
-          ctx.move(evt, true)
-        }
       },
 
-      move (evt, startEvent) {
+      move (evt) {
         if (ctx.event === void 0) {
           return
         }
@@ -242,13 +239,28 @@ export default {
             }
             else {
               if (ctx.event.isFirst === true) {
-                // mouse listener is passive, so avoid handling start event
-                startEvent !== true && handleEvent(evt, ctx.event.mouse)
+                handleEvent(evt, ctx.event.mouse)
 
                 document.documentElement.style.cursor = 'grabbing'
                 ctx.event.mouse === true && document.body.classList.add('no-pointer-events')
                 document.body.classList.add('non-selectable')
                 clearSelection()
+
+                ctx.styleCleanup = withDelay => {
+                  ctx.styleCleanup = void 0
+
+                  document.documentElement.style.cursor = ''
+                  document.body.classList.remove('non-selectable')
+
+                  if (ctx.event !== void 0 && ctx.event.detected === true && ctx.event.mouse === true) {
+                    const remove = () => {
+                      document.body.classList.remove('no-pointer-events')
+                    }
+
+                    if (withDelay === true) { setTimeout(remove, 50) }
+                    else { remove() }
+                  }
+                }
               }
               ctx.event.lastX = payload.position.left
               ctx.event.lastY = payload.position.top
@@ -288,7 +300,7 @@ export default {
           ctx.event.detected = true
           ctx.move(evt)
         }
-        else if (ctx.event.mouse !== true || modifiers.mouseAllDir !== true || (Date.now() - ctx.event.time) > 200) {
+        else if (ctx.event.mouse !== true || modifiers.mouseAllDir !== true) {
           ctx.end(evt, true)
         }
       },
@@ -300,15 +312,7 @@ export default {
 
         cleanEvt(ctx, 'temp')
         client.is.firefox === true && preventDraggable(el, false)
-
-        document.documentElement.style.cursor = ''
-        document.body.classList.remove('non-selectable')
-
-        if (ctx.event.detected === true && ctx.event.mouse === true) {
-          setTimeout(() => {
-            document.body.classList.remove('no-pointer-events')
-          }, 50)
-        }
+        ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
 
         if (
           abort !== true &&
@@ -356,13 +360,7 @@ export default {
       cleanEvt(ctx, 'temp')
 
       client.is.firefox === true && preventDraggable(el, false)
-
-      document.documentElement.style.cursor = ''
-      document.body.classList.remove('non-selectable')
-
-      if (ctx.event !== void 0 && ctx.event.detected === true && ctx.event.mouse === true) {
-        document.body.classList.remove('no-pointer-events')
-      }
+      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
 
       delete el[el.__qtouchpan_old ? '__qtouchpan_old' : '__qtouchpan']
     }
