@@ -46,12 +46,8 @@ module.exports = function (chain, cfg) {
       .use(SsrProdArtifacts, [ cfg ])
 
     const fs = require('fs')
-    const copyArray = [{
-      // copy src-ssr to dist folder in /server
-      from: cfg.ssr.__dir,
-      to: '../server',
-      ignore: ['.*']
-    }]
+    const copyArray = []
+
     const npmrc = appPaths.resolve.app('.npmrc')
     const yarnrc = appPaths.resolve.app('.yarnrc')
 

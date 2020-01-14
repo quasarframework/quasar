@@ -115,7 +115,7 @@ async function getSSR (cfg) {
 
   require('./ssr/server')(server, cfg)
 
-  return {
+  const webpackCfg = {
     client: await getWebpackConfig(client, cfg, {
       name: 'Client',
       hot: true,
@@ -126,6 +126,17 @@ async function getSSR (cfg) {
       invokeParams: { isClient: false, isServer: true }
     })
   }
+
+  if (cfg.ctx.prod) {
+    const webserverChain = require('./ssr/webserver')(cfg, 'Webserver')
+    webpackCfg.webserver = await getWebpackConfig(webserverChain, cfg, {
+      name: 'Webserver',
+      cfgExtendBase: cfg.ssr,
+      hookSuffix: 'Webserver'
+    })
+  }
+
+  return webpackCfg
 }
 
 module.exports = async function (cfg) {

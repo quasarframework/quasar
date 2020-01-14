@@ -17,6 +17,7 @@ If you want to jump right in and start developing, you can skip the "quasar mode
 ```bash
 $ quasar dev -m ssr
 ```
+
 This will add SSR mode automatically, if it is missing.
 
 ## Quasar.conf.js
@@ -28,7 +29,25 @@ return {
   ssr: {
     pwa: true/false, // should a PWA take over (default: false), or just a SPA?
     manualHydration: true/false, // (@quasar/app v1.4.2+) Manually hydrate the store
-    componentCache: {...} // lru-cache package options
+    componentCache: {...} // lru-cache package options,
+
+    // -- @quasar/app v1.5+ --
+    // optional; webpack config Object for
+    // the Webserver part ONLY (/src-ssr/)
+    // which is invoked for production (NOT for dev)
+    extendWebpack (cfg) {
+      // directly change props of cfg;
+      // no need to return anything
+    },
+
+    // -- @quasar/app v1.5+ --
+    // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
+    // the Webserver part ONLY (/src-ssr/)
+    // which is invoked for production (NOT for dev)
+    chainWebpack (chain) {
+      // chain is a webpack-chain instance
+      // of the Webpack configuration
+    }
   }
 }
 ```
@@ -61,13 +80,40 @@ Notice a few things:
 
 1. These files run in a Node context (they are NOT transpiled by Babel), so use only the ES6 features that are supported by your Node version. (https://node.green/)
 
-2. All content of this folder will be copied as is to the output folder. So only import:
-  - node_modules (and yarn install your dependencies -- NOT as devDependecies though)
-  - create files in this folder and import only those with the relative path
+2. If you import anything from node_modules, then make sure that the package is specified in package.json > dependencies and NOT in devDependencies.
 
 3. Do not change the names of these two files. You can however add any additional files that you may need. Just take into consideration that if you want common configuration of the Node webserver for both production & development, you need to add that to `/src-ssr/extension.js` file.
 
 4. When `/src-ssr/extension.js` is used by the development server, it assumes the configuration is ready to be used by an Express server. So plan accordingly. If you switch to another server, you may want to decouple extension.js from the production server (index.js).
+
+5. (@quasar/app v1.5+) The `/src-ssr` is built through a Webpack config for production (only). **You will see this marked as "Webserver" when Quasar App CLI builds your app.** You can chain/extend the Webpack configuration of these files through quasar.conf.js:
+
+```
+return {
+  // ...
+  ssr: {
+    // ...
+
+    // -- @quasar/app v1.5+ --
+    // optional; webpack config Object for
+    // the Webserver part ONLY (/src-ssr/)
+    // which is invoked for production (NOT for dev)
+    extendWebpack (cfg) {
+      // directly change props of cfg;
+      // no need to return anything
+    },
+
+    // -- @quasar/app v1.5+ --
+    // optional; EQUIVALENT to extendWebpack() but uses webpack-chain;
+    // the Webserver part ONLY (/src-ssr/)
+    // which is invoked for production (NOT for dev)
+    chainWebpack (chain) {
+      // chain is a webpack-chain instance
+      // of the Webpack configuration
+    }
+  }
+}
+```
 
 ## Helping SEO
 One of the main reasons when you develop a SSR instead of a SPA is for taking care of the SEO. And SEO can be greatly improved by using the [Quasar Meta Plugin](/quasar-plugins/meta) to manage dynamic html markup required by the search engines.

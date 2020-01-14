@@ -40,6 +40,20 @@ class Generator {
         template: compileTemplate(content)
       }
     })
+
+    if (ctx.prod && ctx.mode.ssr) {
+      const ssrFile = path.join(__dirname, 'ssr/template.prod-webserver.js')
+
+      this.files.push({
+        filename: 'ssr.js',
+        dest: path.join(quasarFolder, 'ssr-config.js'),
+        template: compileTemplate(fs.readFileSync(ssrFile, 'utf-8')),
+        dataFn: quasarConfig => ({
+          opts: quasarConfig.ssr.__templateOpts,
+          flags: quasarConfig.ssr.__templateFlags
+        })
+      })
+    }
   }
 
   build () {
@@ -57,7 +71,11 @@ class Generator {
     }
 
     this.files.forEach(file => {
-      fs.writeFileSync(file.dest, file.template(data), 'utf-8')
+      const templateData = file.dataFn !== void 0
+        ? file.dataFn(data)
+        : data
+
+      fs.writeFileSync(file.dest, file.template(templateData), 'utf-8')
     })
 
     if (!this.alreadyGenerated) {

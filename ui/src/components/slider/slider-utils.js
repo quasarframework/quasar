@@ -169,6 +169,7 @@ export let SliderMixin = {
       else if (event.isFirst) {
         this.dragging = this.__getDragging(event.evt)
         this.__updatePosition(event.evt)
+        this.__updateValue()
         this.active = true
       }
       else {
@@ -183,6 +184,7 @@ export let SliderMixin = {
 
     __activate (evt) {
       this.__updatePosition(evt, this.__getDragging(evt))
+      this.__updateValue()
 
       this.preventFocus = true
       this.active = true
