@@ -44,5 +44,7 @@ window.electron = require('electron')
 
 ## Limitations on electron-preload.js
 1. This file is not transpiled by Babel.
-2. You cannot import files with a relative path from it, as it is copied as-is into the final app bundle.
+2. This file is not going through any linting.
+3. You cannot import files with a relative path from it, as it is copied as-is into the final app bundle.
+4. You need to have this file already created before starting up the "quasar dev" command, otherwise any changes in it will not trigger a reload.
 
