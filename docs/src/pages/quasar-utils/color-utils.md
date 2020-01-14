@@ -55,17 +55,24 @@ Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
 Returns a value between 0 and 255. A value of < 128 would be considered a dark color.
 
 ### blend (fgColor, bgColor)
+
+<q-badge label="v1.7.1+" />
+
 Calculates the [blend](https://www.w3.org/TR/compositing-1/#simplealphacompositing) of two colors.
 
-Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `fgColor`/`bgColor`.
+Accepts a HEX/A String or a RGB/A Object as `fgColor`/`bgColor`.
 If the alpha channel of the `fgColor` is completely opaque, then the result will be the `fgColor`.
 If the alpha channel of the `bgColor` is completely opaque, then the resulting blended color will also be opaque.
+Returns the same type as input for fgColor.
 
-### updateAlpha (color, value)
+### updateAlpha (color, offset)
+
+<q-badge label="v1.7.2+" />
+
 Increments or decrements the alpha of a string color.
 
-Accepts a HEX/A String as `color` and a value >= -1 and <= 1 as `value`.
-Use a negative value to decrement and a positive number to increment (ex: `updateAlpha('ff0000', -0.1)` to decrement alpha by 10%).
+Accepts a HEX/A String as `color` and a number between -1 and 1 (including edges) as `offset`.
+Use a negative value to decrement and a positive number to increment (ex: `updateAlpha('#ff0000', -0.1)` to decrement alpha by 10%).
 Returns HEX/A String.
 
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)
