@@ -11,8 +11,9 @@
         Notice that on touch capable devices the scrolling is not blocked if first timer is > 0.
       </p>
 
+      <q-toggle v-model="disable" label="Directive disabled" />
       <div
-        v-touch-repeat.mouse="handleHold1"
+        v-touch-repeat.mouse="computedHandleHold1"
         @click="onClick"
         class="custom-area row flex-center"
       >
@@ -128,6 +129,7 @@ export default {
       info1: null,
       info2: null,
       info3: null,
+      disable: false,
 
       repeatTestStopPropagation: true,
       infoTest: null,
@@ -137,6 +139,13 @@ export default {
       testN: 0
     }
   },
+
+  computed: {
+    computedHandleHold1 () {
+      return this.disable === true ? void 0 : this.handleHold1
+    }
+  },
+
   methods: {
     handleHold1 ({ evt, ...info }) {
       this.info1 = info

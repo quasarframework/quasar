@@ -9,10 +9,11 @@
         Page scrolling is prevented, but you can opt out if you wish.
       </p>
       <div>
+        <q-toggle v-model="disable" label="Directive disabled" />
         Click status: {{ clickStatus }}
       </div>
       <div
-        v-touch-pan.prevent.mouse="handlePan"
+        v-touch-pan.prevent.mouse="computedHandlePan"
         @click="e => onEvt('click', e)"
         @mousedown="e => onEvt('mousedown', e)"
         @mousemove="e => onEvt('mousemove', e)"
@@ -248,6 +249,7 @@ export default {
       info: null,
       panning: false,
       clickStatus: null,
+      disable: false,
 
       infoRight: null,
       panningRight: false,
@@ -269,6 +271,13 @@ export default {
       panningTestCapture: false
     }
   },
+
+  computed: {
+    computedHandlePan () {
+      return this.disable === true ? void 0 : this.handlePan
+    }
+  },
+
   methods: {
     handlePan ({ evt, ...info }) {
       this.info = info
