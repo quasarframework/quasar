@@ -180,11 +180,12 @@ export default {
       start (evt, mouseEvent) {
         client.is.firefox === true && preventDraggable(el, true)
 
+        let detected = mouseEvent === true && modifiers.mouseAllDir === true
         const pos = position(evt)
 
         // stop propagation so possible upper v-touch-pan don't catch this as well
         if (
-          (mouseEvent === true && modifiers.mouseAllDir === true) ||
+          detected === true ||
           (mouseEvent !== true && modifiers.stop === true)
         ) {
           const clone = evt.type.indexOf('mouse') > -1
@@ -213,7 +214,7 @@ export default {
           y: pos.top,
           time: Date.now(),
           mouse: mouseEvent === true,
-          detected: false,
+          detected,
           isFirst: true,
           isFinal: false,
           lastX: pos.left,
