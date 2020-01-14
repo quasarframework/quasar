@@ -246,11 +246,22 @@ export default Vue.extend({
     },
 
     __click (evt) {
-      this.__drag({ isFirst: true, evt })
+      // __activate() has already updated the offset
+      // we only need to change the view now, so:
+
+      if (this.$q.platform.is.desktop !== true) {
+        this.__drag({ isFirst: true, evt })
+      }
+
       this.__drag({ isFinal: true, evt })
     },
 
-    __drag (event) {
+    __activate (evt) {
+      this.__drag({ isFirst: true, evt }, true)
+      this.__drag({ isFinal: true, evt }, true)
+    },
+
+    __drag (event, noViewChange) {
       // cases when on a popup getting closed
       // on previously emitted value
       if (this._isBeingDestroyed === true || this._isDestroyed === true) {
@@ -275,7 +286,7 @@ export default Vue.extend({
 
       this.__updateClock(event.evt)
 
-      if (event.isFinal) {
+      if (event.isFinal && noViewChange !== true) {
         this.dragging = false
 
         if (this.view === 'Hour') {
@@ -500,7 +511,8 @@ export default Vue.extend({
               h('div', {
                 staticClass: 'q-time__clock cursor-pointer non-selectable',
                 on: cache(this, 'click', {
-                  click: this.__click
+                  click: this.__click,
+                  mousedown: this.__activate
                 }),
                 directives: cache(this, 'touch', [{
                   name: 'touch-pan',
