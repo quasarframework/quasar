@@ -250,6 +250,7 @@ Vue.prototype.$axios = axios
 ### vue-i18n
 
 ```js
+import Vue from 'vue'
 // we import the external package
 import VueI18n from 'vue-i18n'
 
