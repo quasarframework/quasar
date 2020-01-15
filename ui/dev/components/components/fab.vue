@@ -14,15 +14,15 @@
       </p>
 
       <div class="column items-center" style="margin-top: 100px; margin-bottom: 100px;">
-        <q-fab v-model="toggle" color="purple" icon="keyboard_arrow_up" direction="up">
+        <q-fab v-model="toggle" color="purple" direction="up">
           <q-fab-action color="amber" to="/" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
-          <q-fab-action color="amber" @click="notify('alarm')" icon="alarm" />
+          <q-fab-action color="amber" @click="notify('alarm')" :icon="mdiMenu" />
         </q-fab>
 
         <br>
 
-        <q-fab v-model="toggleDisabled" icon="keyboard_arrow_left" direction="left" disable>
+        <q-fab v-model="toggleDisabled" :icon="mdiMenu" direction="left" disable>
           <q-fab-action color="primary" @click="notify('mail')" icon="mail" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="alarm" />
@@ -30,7 +30,7 @@
 
         <br>
 
-        <q-fab :value="toggle" color="secondary" push icon="keyboard_arrow_right" direction="right">
+        <q-fab :value="toggle" color="secondary" push :icon="mdiMenu" direction="right">
           <q-fab-action color="primary" @click="notify('mail')" icon="ion-aperture" disable />
           <q-fab-action color="primary" @click="notify('alarm')" icon="mdi-map" />
           <q-fab-action color="primary" @click="notify('alarm')" icon="fas fa-address-book" />
@@ -77,10 +77,19 @@
 &nbsp;
       </div>
 
+      <div class="q-gutter-lg">
+        <q-btn fab :icon="mdiMenu" />
+        <q-btn fab-mini :icon="mdiMenu" />
+
+        <q-btn fab icon="menu" />
+        <q-btn fab-mini icon="menu" />
+      </div>
+
       <q-fab
         color="primary"
         direction="up"
         class="fixed-bottom-right"
+        :icon="mdiMenu"
         style="right: 18px; bottom: 18px;"
       >
         <q-tooltip ref="tooltip0" slot="tooltip" anchor="center left" self="center right" :offset="[20, 0]">
@@ -102,7 +111,13 @@
 </template>
 
 <script>
+import { mdiMenu } from '@quasar/extras/mdi-v4'
+
 export default {
+  created () {
+    this.mdiMenu = mdiMenu
+  },
+
   data () {
     return {
       toggle: true,
