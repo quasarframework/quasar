@@ -77,8 +77,9 @@ module.exports = (_, opts) => {
     ]
   ]
 
-  // use @babel/runtime-corejs{2,3} so that helpers will reference core-js instead
-  if (presetEnv.corejs && presetEnv.useBuiltIns === 'usage') {
+  // Use @babel/runtime-corejs2 so that helpers will reference existing core-js.
+  // Not using @babel/runtime-corejs3 that would just duplicate code with core-js-pure.
+  if (presetEnv.corejs == 2 && presetEnv.useBuiltIns === 'usage') {
     plugins.push([
       require('babel-plugin-module-resolver'), {
         alias: {
