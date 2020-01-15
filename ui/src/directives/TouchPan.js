@@ -173,6 +173,8 @@ export default {
 
         const pos = position(evt)
 
+        ctx.lastEvt = evt
+
         /*
          * Stop propagation so possible upper v-touch-pan don't catch this as well;
          * If we're not the target (based on modifiers), we'll re-emit the event later
@@ -216,6 +218,8 @@ export default {
         if (ctx.event === void 0) {
           return
         }
+
+        ctx.lastEvt = evt
 
         if (ctx.event.detected === true) {
           ctx.event.isFirst !== true && handleEvent(evt, ctx.event.mouse)
@@ -310,7 +314,7 @@ export default {
           ctx.event.detected === true &&
           ctx.event.isFirst !== true
         ) {
-          ctx.handler(getChanges(evt, ctx, true).payload)
+          ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true).payload)
         }
 
         if (abort === true && ctx.event.detected !== true && ctx.initialEvent !== void 0) {
@@ -319,6 +323,7 @@ export default {
 
         ctx.event = void 0
         ctx.initialEvent = void 0
+        ctx.lastEvt = void 0
       }
     }
 

@@ -217,7 +217,7 @@ export default {
         cleanEvt(ctx, 'temp')
         client.is.firefox === true && preventDraggable(el, false)
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
-        ctx.event.dir !== false && stopAndPrevent(evt)
+        ctx.event.dir !== false && evt !== void 0 && stopAndPrevent(evt)
 
         ctx.event = void 0
       }
@@ -233,12 +233,10 @@ export default {
       [ el, 'mousedown', 'mouseStart', `passive${mouseCapture}` ]
     ])
 
-    if (client.has.touch === true) {
-      addEvt(ctx, 'main', [
-        [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
-        [ el, 'touchmove', 'noop', `notPassiveCapture` ]
-      ])
-    }
+    client.has.touch === true && addEvt(ctx, 'main', [
+      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchmove', 'noop', `notPassiveCapture` ]
+    ])
   },
 
   update (el, binding) {
