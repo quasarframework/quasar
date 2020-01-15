@@ -88,7 +88,7 @@ export default {
           ctx.start(evt, false, true)
         }
       },
-      
+
       touchStart (evt) {
         if (evt.target !== void 0 && typeof ctx.handler === 'function') {
           const target = getTouchTarget(evt.target)
