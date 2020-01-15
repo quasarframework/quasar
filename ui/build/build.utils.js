@@ -6,6 +6,8 @@ const { green, blue, red, magenta, grey, underline } = require('chalk')
 const kebabRegex = /[A-Z\u00C0-\u00D6\u00D8-\u00DE]/g
 const tableData = []
 
+const { version } = require('../package.json')
+
 process.on('exit', code => {
   if (code === 0 && tableData.length > 0) {
     const { table } = require('table')
@@ -33,7 +35,7 @@ process.on('exit', code => {
     })
 
     console.log()
-    console.log(' Summary:')
+    console.log(` Summary of Quasar v${version}:`)
     console.log(output)
   }
 })

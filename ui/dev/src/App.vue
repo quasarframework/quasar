@@ -9,3 +9,8 @@ export default {
   name: 'App'
 }
 </script>
+
+<style lang="sass">
+body
+  background: $grey-3
+</style>
