@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import pages from '../pages'
+import pages from 'src/router/pages-list'
 
 let list = {}
 pages.map(page => page.slice(0, page.length - 4)).forEach(page => {

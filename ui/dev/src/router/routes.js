@@ -1,18 +1,13 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-
-import pages from './pages'
-
-Vue.use(VueRouter)
+import pages from './pages-list'
 
 function load (component) {
-  return () => import(`./components/${component}.vue`)
+  return () => import(`pages/${component}.vue`)
 }
 
 function component (path) {
   return {
     path: '/' + path.slice(0, path.length - 4),
-    component: () => import(`./components/${path}`)
+    component: () => import(`pages/${path}`)
   }
 }
 
@@ -24,7 +19,7 @@ const metaChildren = [
 ]
 
 let routes = [
-  { path: '/', component: load('index') },
+  { path: '/', component: load('Index') },
   {
     path: '/meta/layout_1',
     component: load('meta/layout_1'),
@@ -100,9 +95,12 @@ pages.forEach(page => {
   }
 })
 
-export function createRouter () {
-  return new VueRouter({
-    mode: 'history',
-    routes
+// Always leave this as last one
+if (process.env.MODE !== 'ssr') {
+  routes.push({
+    path: '*',
+    component: () => import('pages/Error404.vue')
   })
 }
+
+export default routes

@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { skeletonTypes } from 'src/components/skeleton/QSkeleton.js'
+import { skeletonTypes } from 'quasar/src/components/skeleton/QSkeleton.js'
 
 export default {
   data () {
