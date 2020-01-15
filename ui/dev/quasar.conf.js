@@ -1,5 +1,3 @@
-const path = require('path')
-
 module.exports = function (ctx) {
   return {
     boot: [
@@ -27,10 +25,13 @@ module.exports = function (ctx) {
     supportIE: true,
 
     build: {
+      rtl: false,
       vueRouterMode: 'history',
       showProgress: true,
 
       chainWebpack (chain) {
+        const path = require('path')
+
         chain.resolve.alias
           .set('quasar$', path.join(__dirname, '../src/index.esm.js'))
           .set('quasar/dist/quasar.ie.polyfills.js$', path.join(__dirname, '../src/ie-compat/ie.js'))
