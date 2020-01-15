@@ -47,6 +47,7 @@
 
     <h2>With slots</h2>
     <q-table
+      ref="virtualScrollTable"
       :dense="dense"
       table-style="max-height: 500px"
       class="table-sticky"
@@ -58,10 +59,10 @@
       :loading="loading"
       :visible-columns="visibleColumns"
       row-key="index"
-      virtual-scroll
+      :virtual-scroll="pagination.rowsPerPage === 0"
       :virtual-scroll-sticky-start="dense ? 24 : 48"
+      @virtual-scroll="onVirtualScroll"
       :pagination.sync="pagination"
-      :rows-per-page-options="[0]"
     >
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -79,6 +80,17 @@
         </q-tr>
       </template>
     </q-table>
+    <div class="q-pa-md">
+      <q-input
+        type="number"
+        :value="listIndex"
+        :min="0"
+        :max="pagination.rowsPerPage === 0 ? listSize : pagination.rowsPerPage - 1"
+        label="Scroll to index"
+        input-class="text-right"
+        @input="onIndexChange"
+      />
+    </div>
 
     <h2>With slots & different sizes</h2>
     <q-table
@@ -223,7 +235,8 @@ const seed = [
 
 // we generate lots of rows here
 let data = []
-for (let i = 0; i < 1000; i++) {
+const listSize = 1000
+for (let i = 0; i < listSize; i++) {
   data = data.concat(seed.slice(0).map(r => ({ ...r })))
 }
 data.forEach((row, index) => {
@@ -242,6 +255,9 @@ export default {
       pagination: {
         rowsPerPage: 0
       },
+
+      listSize: listSize * seed.length - 1,
+      listIndex: 50,
 
       columns: [
         {
@@ -269,8 +285,21 @@ export default {
     }
   },
 
+  methods: {
+    onIndexChange (index) {
+      this.$refs.virtualScrollTable.scrollTo(index)
+    },
+    onVirtualScroll ({ index }) {
+      this.listIndex = index
+    }
+  },
+
   created () {
     this.data = data
+  },
+
+  mounted () {
+    this.$refs.virtualScrollTable.scrollTo(this.listIndex)
   }
 }
 </script>

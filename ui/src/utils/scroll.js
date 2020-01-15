@@ -26,7 +26,7 @@ export function getHorizontalScrollPosition (scrollTarget) {
   return scrollTarget.scrollLeft
 }
 
-export function animScrollTo (el, to, duration) {
+export function animScrollTo (el, to, duration = 0) {
   const pos = getScrollPosition(el)
 
   if (duration <= 0) {
@@ -45,7 +45,7 @@ export function animScrollTo (el, to, duration) {
   })
 }
 
-export function animHorizontalScrollTo (el, to, duration) {
+export function animHorizontalScrollTo (el, to, duration = 0) {
   const pos = getHorizontalScrollPosition(el)
 
   if (duration <= 0) {
@@ -66,7 +66,7 @@ export function animHorizontalScrollTo (el, to, duration) {
 
 function setScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
-    window.scrollTo(0, offset)
+    window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, offset)
     return
   }
   scrollTarget.scrollTop = offset
@@ -74,7 +74,7 @@ function setScroll (scrollTarget, offset) {
 
 function setHorizontalScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
-    window.scrollTo(offset, 0)
+    window.scrollTo(offset, window.pageYOffset || window.scrollY || document.body.scrollTop || 0)
     return
   }
   scrollTarget.scrollLeft = offset
