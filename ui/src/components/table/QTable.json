@@ -1569,6 +1569,19 @@
 
     "resetVirtualScroll": {
       "desc": "Resets the virtual scroll (if using it) computations; Needed for custom edge-cases"
+    },
+
+    "scrollTo": {
+      "desc": "Scroll the table to the row with the specified index in page (0 based)",
+      "params": {
+        "index": {
+          "type": [ "String", "Number" ],
+          "desc": "The index of the row in page (0 based)",
+          "required": true,
+          "examples": [ "1", 23 ]
+        }
+      },
+      "addedIn": "v1.7.2"
     }
   }
 }
