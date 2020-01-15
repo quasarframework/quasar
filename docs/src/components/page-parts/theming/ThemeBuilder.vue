@@ -28,11 +28,11 @@
               q-icon.q-mr-sm.rotate-90(:name="fasPlay", size="12px", style="opacity: 0.5")
 
             q-toolbar
-              q-btn(flat, dense, round, icon="arrow_back")
+              q-btn(flat, dense, round, :icon="mdiArrowLeft")
               q-space
               q-toggle.q-mr-sm(dense, v-model="darkMode", :dark="dark.primary", color="red", label="Dark page")
-              q-btn(flat, dense, round, icon="search")
-              q-btn(flat, dense, round, icon="menu")
+              q-btn(flat, dense, round, :icon="mdiMagnify")
+              q-btn(flat, dense, round, :icon="mdiMenu")
 
             q-toolbar(inset)
               q-toolbar-title Quasar
@@ -45,7 +45,7 @@
               )
                 q-card(flat, :class="`bg-${color} text-${dark[color] === true ? 'white' : 'black'}`")
                   q-card-section
-                    .text-h6.row.no-wrap
+                    .text-h6.row.no-wrap.items-center
                       .ellipsis.text-capitalize {{ color }}
                       q-space
                       q-icon(
@@ -115,7 +115,21 @@ import {
   fasSquare, fasCircle, fasPlay
 } from '@quasar/extras/fontawesome-v5'
 
+import {
+  mdiArrowLeft, mdiMagnify, mdiMenu
+} from '@quasar/extras/mdi-v4'
+
 export default {
+  created () {
+    this.fasSquare = fasSquare
+    this.fasCircle = fasCircle
+    this.fasPlay = fasPlay
+
+    this.mdiArrowLeft = mdiArrowLeft
+    this.mdiMagnify = mdiMagnify
+    this.mdiMenu = mdiMenu
+  },
+
   data () {
     return {
       colors: {
@@ -300,12 +314,6 @@ Vue.use(Quasar, {
       setBrand(color, val, document.getElementById('theme-picker'))
       this.dark[color] = luminosity(val) <= 0.4
     }
-  },
-
-  created () {
-    this.fasSquare = fasSquare
-    this.fasCircle = fasCircle
-    this.fasPlay = fasPlay
   }
 }
 </script>

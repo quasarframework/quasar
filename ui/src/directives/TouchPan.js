@@ -1,5 +1,5 @@
 import { client } from '../plugins/Platform.js'
-import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
+import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget, shouldStart } from '../utils/touch.js'
 import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
@@ -135,14 +135,6 @@ export default {
       }
     }
 
-    function shouldStart (evt) {
-      return ctx.event === void 0 &&
-        evt.target !== void 0 &&
-        evt.target.draggable !== true &&
-        evt.target.nodeName.toUpperCase() !== 'INPUT' &&
-        (evt.qClonedBy === void 0 || evt.qClonedBy.indexOf(ctx.uid) === -1)
-    }
-
     const ctx = {
       uid: 'qvtp_' + (uid++),
       handler: value,
@@ -152,10 +144,7 @@ export default {
       noop () {},
 
       mouseStart (evt) {
-        if (
-          shouldStart(event) === true &&
-          leftClick(evt) === true
-        ) {
+        if (shouldStart(event, ctx) && leftClick(evt)) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
@@ -166,7 +155,7 @@ export default {
       },
 
       touchStart (evt) {
-        if (shouldStart(evt) === true) {
+        if (shouldStart(evt)) {
           const target = getTouchTarget(evt.target)
 
           addEvt(ctx, 'temp', [
@@ -239,10 +228,12 @@ export default {
             }
             else {
               if (ctx.event.isFirst === true) {
+                const hasMouse = ctx.event.mouse === true
+
                 handleEvent(evt, ctx.event.mouse)
 
                 document.documentElement.style.cursor = 'grabbing'
-                ctx.event.mouse === true && document.body.classList.add('no-pointer-events')
+                hasMouse === true && document.body.classList.add('no-pointer-events')
                 document.body.classList.add('non-selectable')
                 clearSelection()
 
@@ -252,7 +243,7 @@ export default {
                   document.documentElement.style.cursor = ''
                   document.body.classList.remove('non-selectable')
 
-                  if (ctx.event !== void 0 && ctx.event.detected === true && ctx.event.mouse === true) {
+                  if (hasMouse === true) {
                     const remove = () => {
                       document.body.classList.remove('no-pointer-events')
                     }

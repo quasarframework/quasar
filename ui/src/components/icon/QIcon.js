@@ -17,7 +17,9 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return 'q-icon' +
+      // "notranslate" class is for Google Translate
+      // to avoid tampering with Material Icons ligature font
+      return 'q-icon notranslate' +
         (this.left === true ? ' on-left' : '') +
         (this.right === true ? ' on-right' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')

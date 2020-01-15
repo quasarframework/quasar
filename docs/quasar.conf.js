@@ -81,6 +81,7 @@ module.exports = function (ctx) {
 
     framework: {
       all: true,
+      iconSet: 'svg-mdi-v4',
 
       config: {
         loadingBar: {

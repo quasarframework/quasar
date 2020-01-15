@@ -2,7 +2,7 @@
 q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
   q-header.header(elevated)
     q-toolbar
-      q-btn.q-mr-sm(flat, dense, round, @click="leftDrawerState = !leftDrawerState", aria-label="Menu", icon="menu")
+      q-btn.q-mr-sm(flat, dense, round, @click="toggleLeftDrawer", aria-label="Menu", :icon="mdiMenu")
 
       q-btn.quasar-logo.text-bold(key="logo", flat, no-caps, no-wrap, stretch, to="/")
         q-avatar.doc-layout-avatar
@@ -13,8 +13,15 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(v-show="hasRightDrawer", flat, dense, round, @click="rightDrawerState = !rightDrawerState", aria-label="Menu")
-        q-icon(name="assignment")
+      q-btn.q-ml-xs(
+        v-show="hasRightDrawer",
+        flat,
+        dense,
+        round,
+        @click="toggleRightDrawer",
+        aria-label="Menu"
+        :icon="mdiClipboardText"
+      )
 
   q-drawer(
     v-model="leftDrawerState"
@@ -31,7 +38,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           rel="noopener"
           size="13px"
           color="primary"
-          icon="favorite_border"
+          :icon="mdiHeartOutline"
           label="Donate to Quasar"
         )
 
@@ -57,7 +64,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
         )
           template(v-slot:append)
             q-icon(
-              name="search"
+              :name="mdiMagnify"
               @click="$refs.docAlgolia.focus()"
             )
       .layout-drawer-toolbar__shadow.absolute-full.overflow-hidden.no-pointer-events
@@ -106,8 +113,19 @@ import { scroll } from 'quasar'
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
 
+import {
+  mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify
+} from '@quasar/extras/mdi-v4'
+
 export default {
   name: 'Layout',
+
+  created () {
+    this.mdiMenu = mdiMenu
+    this.mdiClipboardText = mdiClipboardText
+    this.mdiHeartOutline = mdiHeartOutline
+    this.mdiMagnify = mdiMagnify
+  },
 
   components: {
     AppMenu,
@@ -164,6 +182,14 @@ export default {
   },
 
   methods: {
+    toggleLeftDrawer () {
+      this.leftDrawerState = !this.leftDrawerState
+    },
+
+    toggleRightDrawer () {
+      this.rightDrawerState = !this.rightDrawerState
+    },
+
     resetScroll (el, done) {
       document.documentElement.scrollTop = 0
       document.body.scrollTop = 0

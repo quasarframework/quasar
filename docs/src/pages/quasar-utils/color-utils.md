@@ -65,14 +65,14 @@ If the alpha channel of the `fgColor` is completely opaque, then the result will
 If the alpha channel of the `bgColor` is completely opaque, then the resulting blended color will also be opaque.
 Returns the same type as input for fgColor.
 
-### updateAlpha (color, offset)
+### changeAlpha (color, offset)
 
 <q-badge label="v1.7.2+" />
 
 Increments or decrements the alpha of a string color.
 
 Accepts a HEX/A String as `color` and a number between -1 and 1 (including edges) as `offset`.
-Use a negative value to decrement and a positive number to increment (ex: `updateAlpha('#ff0000', -0.1)` to decrement alpha by 10%).
+Use a negative value to decrement and a positive number to increment (ex: `changeAlpha('#ff0000', -0.1)` to decrement alpha by 10%).
 Returns HEX/A String.
 
 ## Dynamic Change of Brand Colors (Dynamic Theme Colors)

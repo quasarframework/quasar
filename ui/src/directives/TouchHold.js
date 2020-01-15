@@ -38,7 +38,7 @@ export default {
 
     const ctx = {
       mouseStart (evt) {
-        if (leftClick(evt) === true) {
+        if (typeof ctx.handler === 'function' && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'mouseMove', 'notPassiveCapture' ],
             [ document, 'click', 'end', 'notPassiveCapture' ]
@@ -47,13 +47,15 @@ export default {
         }
       },
 
-      mouseMove (evt) {
-        const { top, left } = position(evt)
-        if (
-          Math.abs(left - ctx.origin.left) >= ctx.mouseSensitivity ||
-          Math.abs(top - ctx.origin.top) >= ctx.mouseSensitivity
-        ) {
-          ctx.end(evt)
+      touchStart (evt) {
+        if (evt.target !== void 0 && typeof ctx.handler === 'function') {
+          const target = getTouchTarget(evt.target)
+          addEvt(ctx, 'temp', [
+            [ target, 'touchmove', 'touchMove', 'notPassiveCapture' ],
+            [ target, 'touchcancel', 'end', 'notPassiveCapture' ],
+            [ target, 'touchend', 'end', 'notPassiveCapture' ]
+          ])
+          ctx.start(evt)
         }
       },
 
@@ -65,6 +67,20 @@ export default {
         if (client.is.mobile === true) {
           document.body.classList.add('non-selectable')
           clearSelection()
+
+          ctx.styleCleanup = withDelay => {
+            ctx.styleCleanup = void 0
+
+            const remove = () => {
+              document.body.classList.remove('non-selectable')
+            }
+
+            if (withDelay === true) {
+              clearSelection()
+              setTimeout(remove, 10)
+            }
+            else { remove() }
+          }
         }
 
         ctx.triggered = false
@@ -83,34 +99,13 @@ export default {
         }, ctx.duration)
       },
 
-      end (evt) {
-        cleanEvt(ctx, 'temp')
-
-        if (ctx.triggered === true) {
-          if (client.is.mobile === true) {
-            clearSelection()
-            // delay needed otherwise selection still occurs
-            setTimeout(() => {
-              document.body.classList.remove('non-selectable')
-            }, 10)
-          }
-          stopAndPrevent(evt)
-        }
-        else {
-          client.is.mobile === true && document.body.classList.remove('non-selectable')
-          clearTimeout(ctx.timer)
-        }
-      },
-
-      touchStart (evt) {
-        if (evt.target !== void 0) {
-          const target = getTouchTarget(evt.target)
-          addEvt(ctx, 'temp', [
-            [ target, 'touchmove', 'touchMove', 'notPassiveCapture' ],
-            [ target, 'touchcancel', 'end', 'notPassiveCapture' ],
-            [ target, 'touchend', 'end', 'notPassiveCapture' ]
-          ])
-          ctx.start(evt)
+      mouseMove (evt) {
+        const { top, left } = position(evt)
+        if (
+          Math.abs(left - ctx.origin.left) >= ctx.mouseSensitivity ||
+          Math.abs(top - ctx.origin.top) >= ctx.mouseSensitivity
+        ) {
+          ctx.end(evt)
         }
       },
 
@@ -121,6 +116,20 @@ export default {
           Math.abs(top - ctx.origin.top) >= ctx.touchSensitivity
         ) {
           ctx.end(evt)
+        }
+      },
+
+      end (evt) {
+        cleanEvt(ctx, 'temp')
+
+        // delay needed otherwise selection still occurs
+        ctx.styleCleanup !== void 0 && ctx.styleCleanup(ctx.triggered)
+
+        if (ctx.triggered === true) {
+          stopAndPrevent(evt)
+        }
+        else {
+          clearTimeout(ctx.timer)
         }
       }
     }
@@ -151,7 +160,7 @@ export default {
       cleanEvt(ctx, 'temp')
 
       clearTimeout(ctx.timer)
-      client.is.mobile === true && document.body.classList.remove('non-selectable')
+      ctx.styleCleanup !== void 0 && ctx.styleCleanup()
 
       delete el[el.__qtouchhold_old ? '__qtouchhold_old' : '__qtouchhold']
     }

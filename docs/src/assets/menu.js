@@ -1078,6 +1078,7 @@ const utils = [
   },
   {
     name: 'Color Utils',
+    badge: 'update',
     path: 'color-utils'
   },
   {

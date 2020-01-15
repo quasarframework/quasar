@@ -6,7 +6,6 @@ function updateBinding (el, { value, oldValue }) {
 
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-    console.error('v-scroll requires a function as parameter', el)
     return
   }
 

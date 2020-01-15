@@ -4420,7 +4420,7 @@
   font-family: 'Font Awesome 5 Brands';
   font-style: normal;
   font-weight: normal;
-  font-display: auto;
+  font-display: block;
   src: url("./fa-brands-400.woff2") format("woff2"), url("./fa-brands-400.woff") format("woff"); }
 
 .fab {
@@ -4429,7 +4429,7 @@
   font-family: 'Font Awesome 5 Free';
   font-style: normal;
   font-weight: 400;
-  font-display: auto;
+  font-display: block;
   src: url("./fa-regular-400.woff2") format("woff2"), url("./fa-regular-400.woff") format("woff"); }
 
 .far {
@@ -4439,7 +4439,7 @@
   font-family: 'Font Awesome 5 Free';
   font-style: normal;
   font-weight: 900;
-  font-display: auto;
+  font-display: block;
   src: url("./fa-solid-900.woff2") format("woff2"), url("./fa-solid-900.woff") format("woff"); }
 
 .fa,
