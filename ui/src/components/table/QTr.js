@@ -6,18 +6,21 @@ export default Vue.extend({
   name: 'QTr',
 
   props: {
-    props: Object
+    props: Object,
+    noHover: Boolean
+  },
+
+  computed: {
+    classes () {
+      return 'q-tr' + (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
+        (this.noHover === true ? ' q-tr--no-hover' : '')
+    }
   },
 
   render (h) {
-    const on = this.$listeners
-
-    return h(
-      'tr',
-      this.props === void 0 || this.props.header === true
-        ? on
-        : { on, class: this.props.__trClass },
-      slot(this, 'default')
-    )
+    return h('tr', {
+      on: this.$listeners,
+      class: this.classes
+    }, slot(this, 'default'))
   }
 })

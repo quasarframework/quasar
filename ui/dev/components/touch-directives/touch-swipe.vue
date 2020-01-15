@@ -6,8 +6,10 @@
         <span class="mobile-only">Swipe</span>
         on the area below to see it in action.
       </p>
+
+      <q-toggle v-model="disable" label="Directive disabled" />
       <div
-        v-touch-swipe.mouse="handleSwipe"
+        v-touch-swipe.mouse="computedHandleSwipe"
         @click="onClick"
         class="custom-area row flex-center relative-position"
       >
@@ -135,9 +137,17 @@ export default {
       infoCustom: null,
       infoTest: null,
       infoTestCapture: null,
-      swipeTestStopPropagation: true
+      swipeTestStopPropagation: true,
+      disable: false
     }
   },
+
+  computed: {
+    computedHandleSwipe () {
+      return this.disable === true ? void 0 : this.handleSwipe
+    }
+  },
+
   methods: {
     handleSwipe ({ evt, ...info }) {
       this.info = info

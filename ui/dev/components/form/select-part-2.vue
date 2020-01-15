@@ -754,15 +754,17 @@ export default {
     },
 
     createInputFn (val, update) {
-      update(() => {
-        if (val === '') {
-          this.createInputOptions = stringOptions
-        }
-        else {
-          const needle = val.toLowerCase()
-          this.createInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-        }
-      })
+      setTimeout(() => {
+        update(() => {
+          if (val === '') {
+            this.createInputOptions = stringOptions
+          }
+          else {
+            const needle = val.toLowerCase()
+            this.createInputOptions = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
+          }
+        })
+      }, 500)
     },
 
     simpleFilterFn (val, update) {

@@ -13,6 +13,13 @@
       "desc": "QTable's row scoped slot property",
       "examples": [ ":props=\"props\"" ],
       "category": "general"
+    },
+
+    "no-hover": {
+      "type": "Boolean",
+      "desc": "Disable hover effect",
+      "addedIn": "v1.5.9",
+      "category": "style"
     }
   },
 

@@ -142,8 +142,9 @@ function parseMeta (component, meta) {
   if (component._inactive === true) { return }
 
   // if it has meta
-  if (component.__qMeta !== void 0) {
+  if (hasMeta(component) === true) {
     extend(true, meta, component.__qMeta)
+
     if (component.$options.meta.stopPropagation === true) {
       return
     }

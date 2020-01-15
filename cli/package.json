@@ -1,6 +1,6 @@
 {
   "name": "@quasar/cli",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Quasar Framework global CLI",
   "bin": {
     "quasar": "./bin/quasar"

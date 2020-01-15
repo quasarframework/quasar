@@ -2,6 +2,8 @@
   <div id="q-app">
     <router-view />
 
+    <q-btn v-if="$q.platform.is.mobile" to="/" round icon="home" dense size="xs" class="fixed dev-home-btn z-max" color="accent" />
+
     <q-card
       style="padding: 11px; right: 11px; bottom: 10px; z-index: 6000;"
       class="rounded-borders shadow-4 fixed"
@@ -36,11 +38,16 @@
             ,{ label: 'Fontawesome v5', value: 'fontawesome-v5' }
             ,{ label: 'Eva Icons', value: 'eva-icons' }
             ,{ label: 'Themify', value: 'themify' }
+            ,{ label: 'SVG Material', value: 'svg-material-icons' }
+            ,{ label: 'SVG MDI v4', value: 'svg-mdi-v4' }
+            ,{ label: 'SVG Ionicons v4', value: 'svg-ionicons-v4' }
+            ,{ label: 'SVG Fontawesome v5', value: 'svg-fontawesome-v5' }
+            ,{ label: 'SVG Eva Icons', value: 'svg-eva-icons' }
+            ,{ label: 'SVG Themify', value: 'svg-themify' }
           ]"
           options-dense
           emit-value
           map-options
-          dense-options
           v-model="iconSet"
         />
       </template>
@@ -106,3 +113,9 @@ export default {
   }
 }
 </script>
+
+<style lang="stylus">
+.dev-home-btn
+  top: 36px
+  right: 8px
+</style>

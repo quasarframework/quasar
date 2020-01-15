@@ -2,10 +2,9 @@
 
 const parseArgs = require('minimist')
 
-const
-  logger = require('../lib/helpers/logger'),
-  log = logger('app:mode'),
-  warn = logger('app:mode', 'red')
+const logger = require('../lib/helpers/logger')
+const log = logger('app:mode')
+const warn = logger('app:mode', 'red')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -46,9 +45,8 @@ if (argv._.length !== 0 && argv._.length !== 2) {
   process.exit(1)
 }
 
-const
-  getMode = require('../lib/mode'),
-  { green, grey } = require('chalk')
+const getMode = require('../lib/mode')
+const { green, grey } = require('chalk')
 
 async function run () {
   let [ action, mode ] = argv._

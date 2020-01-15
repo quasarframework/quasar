@@ -1,6 +1,6 @@
 ---
 title: Bar
-desc: The QBar Vue component which is used to create the top bar on different platforms.
+desc: The QBar Vue component is used to create the top bar on different platforms.
 related:
   - /quasar-cli/developing-electron-apps/frameless-electron-window
 ---
@@ -20,11 +20,11 @@ For responsiveness, use [Visibility](/style/visibility#Window-Width-Related) Qua
 
 ### Styling
 
-<doc-example title="MacOS style" file="QBar/MacOS" />
+<doc-example title="MacOS style" file="QBar/MacOS" no-edit />
 
 <doc-example title="Windows style" file="QBar/Windows" />
 
-<doc-example title="iOS style" file="QBar/iOS" />
+<doc-example title="iOS style" file="QBar/iOS" no-edit />
 
 <doc-example title="Android style" file="QBar/Android" />
 

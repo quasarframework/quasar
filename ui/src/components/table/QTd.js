@@ -7,7 +7,15 @@ export default Vue.extend({
 
   props: {
     props: Object,
-    autoWidth: Boolean
+    autoWidth: Boolean,
+    noHover: Boolean
+  },
+
+  computed: {
+    classes () {
+      return 'q-td' + (this.autoWidth === true ? ' q-table--col-auto-width' : '') +
+        (this.noHover === true ? ' q-td--no-hover' : '')
+    }
   },
 
   render (h) {
@@ -16,7 +24,7 @@ export default Vue.extend({
     if (this.props === void 0) {
       return h('td', {
         on,
-        class: { 'q-table--col-auto-width': this.autoWidth }
+        class: this.classes
       }, slot(this, 'default'))
     }
 
@@ -31,8 +39,7 @@ export default Vue.extend({
     return h('td', {
       on,
       style: col.__tdStyle,
-      class: col.__tdClass +
-        (this.autoWidth === true ? ' q-table--col-auto-width' : '')
+      class: this.classes + ' ' + col.__tdClass
     }, slot(this, 'default'))
   }
 })

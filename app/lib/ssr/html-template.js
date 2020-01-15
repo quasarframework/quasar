@@ -1,8 +1,8 @@
-const
-  compileTemplate = require('lodash.template'),
-  HtmlWebpackPlugin = require('html-webpack-plugin'),
-  { fillBaseTag } = require('../webpack/plugin.html-addons'),
-  { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')
+const compileTemplate = require('lodash.template')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
+const { fillBaseTag } = require('../webpack/plugin.html-addons')
+const { fillPwaTags } = require('../webpack/pwa/plugin.html-pwa')
 
 function injectSsrInterpolation (html) {
   return html
@@ -69,8 +69,8 @@ module.exports.getIndexHtml = function (template, cfg) {
 
   html = injectSsrInterpolation(html)
 
-  if (cfg.build.publicPath) {
-    html = fillBaseTag(html, cfg.build.publicPath)
+  if (cfg.build.appBase) {
+    html = fillBaseTag(html, cfg.build.appBase)
   }
 
   if (cfg.build.minify) {

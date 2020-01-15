@@ -115,7 +115,7 @@ export default Vue.extend({
 
   watch: {
     needsReset () {
-      this.hasVirtScroll === true && this.$refs.virtScroll.reset()
+      this.hasVirtScroll === true && this.$refs.virtScroll !== void 0 && this.$refs.virtScroll.reset()
     }
   },
 
@@ -295,6 +295,31 @@ export default Vue.extend({
           header,
           this.getTableBody(h)
         ])
+    },
+
+    scrollTo (toIndex) {
+      if (this.$refs.virtScroll !== void 0) {
+        this.$refs.virtScroll.scrollTo(toIndex)
+        return
+      }
+
+      toIndex = parseInt(toIndex, 10)
+      const rowEl = this.$el.querySelector(`tbody tr:nth-of-type(${toIndex + 1})`)
+
+      if (rowEl !== null) {
+        const scrollTarget = this.$el.querySelector('.q-table__middle.scroll')
+        const { offsetTop } = rowEl
+        const direction = offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
+
+        scrollTarget.scrollTop = offsetTop
+
+        this.$emit('virtual-scroll', {
+          index: toIndex,
+          from: 0,
+          to: this.pagination.rowsPerPage - 1,
+          direction
+        })
+      }
     },
 
     __onVScroll (info) {

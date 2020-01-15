@@ -62,30 +62,38 @@ module.exports = function (argv, cmd) {
       warn()
       process.exit(1)
     }
+  }
+}
 
-    if ([undefined, 'packager'].includes(argv.bundler)) {
-      if (![undefined, 'all', 'darwin', 'win32', 'linux', 'mas'].includes(argv.target)) {
-        warn(`⚠️  Unknown target "${ argv.target }" for electron-packager`)
-        warn()
-        process.exit(1)
-      }
-      if (![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'mips64el', 'all'].includes(argv.arch)) {
-        warn(`⚠️  Unknown architecture "${ argv.arch }" for electron-packager`)
-        warn()
-        process.exit(1)
-      }
+module.exports.ensureElectronArgv = function (bundlerName, argv) {
+  if (!['packager', 'builder'].includes(bundlerName)) {
+    warn(`⚠️  Unknown bundler "${ bundlerName }" for Electron`)
+    warn()
+    process.exit(1)
+  }
+
+  if (bundlerName === 'packager') {
+    if (![undefined, 'all', 'darwin', 'win32', 'linux', 'mas'].includes(argv.target)) {
+      warn(`⚠️  Unknown target "${ argv.target }" for electron-packager`)
+      warn()
+      process.exit(1)
     }
-    else { // electron-builder bundler
-      if (![undefined, 'all', 'darwin', 'mac', 'win32', 'win', 'linux'].includes(argv.target)) {
-        warn(`⚠️  Unknown target "${ argv.target }" for electron-builder`)
-        warn()
-        process.exit(1)
-      }
-      if (![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'all'].includes(argv.arch)) {
-        warn(`⚠️  Unknown architecture "${ argv.arch }" for electron-builder`)
-        warn()
-        process.exit(1)
-      }
+    if (![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'mips64el', 'all'].includes(argv.arch)) {
+      warn(`⚠️  Unknown architecture "${ argv.arch }" for electron-packager`)
+      warn()
+      process.exit(1)
+    }
+  }
+  else { // electron-builder bundler
+    if (![undefined, 'all', 'darwin', 'mac', 'win32', 'win', 'linux'].includes(argv.target)) {
+      warn(`⚠️  Unknown target "${ argv.target }" for electron-builder`)
+      warn()
+      process.exit(1)
+    }
+    if (![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'all'].includes(argv.arch)) {
+      warn(`⚠️  Unknown architecture "${ argv.arch }" for electron-builder`)
+      warn()
+      process.exit(1)
     }
   }
 }

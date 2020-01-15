@@ -1,14 +1,12 @@
-const
-  ms = require('ms'),
-  chalk = require('chalk')
+const ms = require('ms')
+const chalk = require('chalk')
 
 let prevTime
 
 module.exports = function (banner, color = 'green') {
   return function (msg) {
-    const
-      curr = +new Date(),
-      diff = curr - (prevTime || curr)
+    const curr = Date.now()
+    const diff = curr - (prevTime || curr)
 
     prevTime = curr
 

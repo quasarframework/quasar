@@ -9,8 +9,9 @@
         Notice that on touch capable devices the scrolling is not blocked.
       </p>
 
+      <q-toggle v-model="disable" label="Directive disabled" />
       <div
-        v-touch-hold.mouse="handleHold"
+        v-touch-hold.mouse="computedHandler"
         @click="onEvt('click')"
         @mousedown="onEvt('mousedown')"
         @mousemove="onEvt('mousemove')"
@@ -136,6 +137,7 @@ export default {
       info: null,
       infoExtended: null,
       infoCustom: null,
+      disable: false,
 
       infoTest: null,
       holdTestStopPropagation: true,
@@ -143,6 +145,13 @@ export default {
       infoTestCapture: null
     }
   },
+
+  computed: {
+    computedHandler () {
+      return this.disable === true ? void 0 : this.handleHold
+    }
+  },
+
   methods: {
     handleHold ({ evt, ...info }) {
       this.info = info

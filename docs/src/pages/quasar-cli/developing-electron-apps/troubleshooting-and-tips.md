@@ -49,3 +49,18 @@ When running your application in development you may have noticed a message from
 
 ┗ ----------------------------
 ```
+
+## Application does not open on Windows with Dark Theme
+Some Chrome DevTools Extensions do not play well with Windows Dark Theme on electron 6+. Quasar offers a workaround in the default `electron-main.js`, that removes the `DevTools Extensions` before starting the application.
+
+```javascript
+import { app, BrowserWindow, nativeTheme } from 'electron'
+
+try {
+  if (process.platform === 'win32' && nativeTheme.shouldUseDarkColors === true) {
+    require('fs').unlinkSync(require('path').join(app.getPath('userData'), 'DevTools Extensions'))
+  }
+} catch (_) { }
+```
+
+Please follow [electron bug report](https://github.com/electron/electron/issues/19468) for more details.

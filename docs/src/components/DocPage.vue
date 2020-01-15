@@ -5,7 +5,7 @@ q-page.doc-page
     span {{ title }}
     q-badge.q-ml-sm.doc-page__badge(v-if="badge") {{ badge }}
     a.doc-page__top-link.float-right(v-if="noEdit === false", :href="editHref", target="_blank", rel="noopener noreferrer")
-      q-icon(name="edit", @click.stop)
+      q-icon(:name="mdiPencil", @click.stop)
         q-tooltip Improve page
 
   slot
@@ -23,7 +23,7 @@ q-page.doc-page
             .doc-page-nav__categ.text-uppercase {{ link.category || 'Docs' }}
             .doc-page-nav__name.text-weight-bold {{ link.name }}
 
-          q-icon.col-auto.q-pl-lg(name="launch")
+          q-icon.col-auto.q-pl-lg(:name="mdiLaunch")
 
   .doc-page-nav.text-primary.q-pb-xl(v-if="nav !== void 0")
     .text-h6.q-pb-md Ready for more?
@@ -35,7 +35,7 @@ q-page.doc-page
       )
         .row.no-wrap.items-center
           q-icon.col-auto(
-            :name="`chevron_${link.dir}`"
+            :name="link.dir === 'left' ? mdiChevronLeft : mdiChevronRight"
             v-if="link.dir !== void 0"
             :class="link.dir === 'right' ? 'order-last q-pl-md' : 'order-first q-pr-md'"
           )
@@ -52,25 +52,25 @@ q-page.doc-page
 
     .doc-page-footer__icons.row.items-center.q-gutter-sm
       a(href="https://github.quasar.dev", target="_blank", rel="noopener")
-        q-icon(name="fab fa-github")
+        q-icon(:name="fabGithub")
 
       a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-        q-icon(name="fab fa-medium")
+        q-icon(:name="mdiBlogger")
 
       a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
-        q-icon(name="chat")
+        q-icon(:name="mdiChat")
 
       a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
-        q-icon(name="forum")
+        q-icon(:name="mdiForum")
 
       a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
-        q-icon(name="fab fa-twitter")
+        q-icon(:name="fabTwitter")
 
       a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
-        q-icon(name="fab fa-facebook")
+        q-icon(:name="fabFacebook")
 
       a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
-        q-icon(name="fas fa-medkit")
+        q-icon(:name="mdiCharity")
 
     div.q-mt-md
       | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
@@ -79,12 +79,37 @@ q-page.doc-page
 </template>
 
 <script>
+import {
+  fabGithub, fabTwitter, fabFacebook
+} from '@quasar/extras/fontawesome-v5'
+
+import {
+  mdiBlogger, mdiForum, mdiChat, mdiCharity,
+  mdiPencil, mdiLaunch,
+  mdiChevronLeft, mdiChevronRight
+} from '@quasar/extras/mdi-v4'
+
 import { copyHeading } from 'assets/page-utils'
 
 const year = (new Date()).getFullYear()
 
 export default {
   name: 'DocPage',
+
+  created () {
+    this.fabGithub = fabGithub
+    this.fabTwitter = fabTwitter
+    this.fabFacebook = fabFacebook
+
+    this.mdiBlogger = mdiBlogger
+    this.mdiForum = mdiForum
+    this.mdiChat = mdiChat
+    this.mdiCharity = mdiCharity
+    this.mdiPencil = mdiPencil
+    this.mdiLaunch = mdiLaunch
+    this.mdiChevronLeft = mdiChevronLeft
+    this.mdiChevronRight = mdiChevronRight
+  },
 
   props: {
     title: String,

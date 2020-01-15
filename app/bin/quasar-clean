@@ -23,7 +23,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-require('../lib/artifacts').cleanAll()
+const Artifacts = require('../lib/artifacts')
+Artifacts.cleanAll()
 
 console.log()
 log(`Done cleaning build artifacts`)

@@ -1,5 +1,7 @@
 import { QIcon } from 'quasar'
 
+import { farFileAlt, fasFolderOpen } from '@quasar/extras/fontawesome-v5'
+
 import DocPage from './DocPage.vue'
 import DocLink from './DocLink.vue'
 
@@ -32,7 +34,7 @@ export default function (title, links) {
         return h('div', { staticClass: 'doc-page-listing' }, [
           h(QIcon, {
             props: {
-              name: link.page === true ? 'far fa-file-alt' : 'fas fa-folder-open'
+              name: link.page === true ? farFileAlt : fasFolderOpen
             }
           }),
 

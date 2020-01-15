@@ -1,17 +1,17 @@
-const
-  fs = require('fs'),
-  fse = require('fs-extra'),
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:mode-pwa'),
-  warn = logger('app:mode-pwa', 'red')
+const fs = require('fs')
+const fse = require('fs-extra')
+
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:mode-pwa')
+const warn = logger('app:mode-pwa', 'red')
 
 class Mode {
   get isInstalled () {
     return fs.existsSync(appPaths.pwaDir)
   }
 
-  add (params) {
+  add () {
     if (this.isInstalled) {
       warn(`PWA support detected already. Aborting.`)
       return

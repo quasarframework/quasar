@@ -3,6 +3,8 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/img"
   },
 
+  "mixins": [ "mixins/ratio" ],
+
   "behavior": {
     "$listeners": true
   },
@@ -105,6 +107,14 @@
       ],
       "category": "style",
       "addedIn": "v1.4.0"
+    },
+
+    "img-style": {
+      "type": "Object",
+      "desc": "Apply CSS to the container of the image; Does not apply to the caption",
+      "examples": [ ":img-style=\"{ transform: 'rotate(45deg)' }\" "],
+      "category": "style",
+      "addedIn": "v1.5.11"
     },
 
     "spinner-color": {

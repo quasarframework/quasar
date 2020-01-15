@@ -115,10 +115,10 @@
         Regular (rectangle) and Circular
       </div>
       <q-btn :type="tag" color="primary" label="Some very, but very long button title that should wrap to the next line without any problems" />
-      <div class="q-gutter-sm">
+      <div class="q-gutter-md q-py-md">
         <q-btn :type="tag" icon="alarm" color="orange" label="Icoon" />
         <q-btn :type="tag" icon="ion-shuffle" label="Icoon" />
-        <q-btn :type="tag" icon="fa-bath" label="Icoon" />
+        <q-btn :type="tag" icon="fas fa-bath" label="Icoon" />
         <q-btn :type="tag" icon-right="check" label="Icoon" />
         <q-btn :type="tag" icon-right="more_horiz" label="Icoon" />
         <q-btn :type="tag" icon="cloud" icon-right="alarm" label="Icoon" />
@@ -142,13 +142,13 @@
         <q-btn :type="tag" icon="alarm" label="Icoon" />
         <q-btn :type="tag" icon-right="check" label="Icoon" />
         <q-btn :type="tag" icon="ion-shuffle" label="Icoon" />
-        <q-btn :type="tag" icon="fa-bath" label="Icoon" />
+        <q-btn :type="tag" icon="fas fa-bath" label="Icoon" />
         <q-btn :type="tag" icon-right="more_horiz" label="Icoon" />
         <q-btn :type="tag" icon="cloud" icon-right="alarm" label="Icoon" />
         <q-btn :type="tag" icon="edit" icon-right="alarm" label="Icoon" />
       </div>
 
-      <div class="q-gutter-sm">
+      <div class="q-gutter-md q-py-md">
         <q-btn color="primary" :type="tag" :loading="!!loading[0]" @click="simulateProgress(0)" label="Button">
           <q-spinner-oval slot="loading" />
         </q-btn>
@@ -228,7 +228,7 @@
         </q-chip>
       </div>
 
-      <div class="q-gutter-sm">
+      <div class="q-gutter-md q-py-md">
         <q-btn :type="tag" color="primary" icon="alarm" label="Label" />
         <q-btn :type="tag" color="primary" icon-right="alarm" label="Label" />
         <q-btn :type="tag" color="primary" icon="alarm" icon-right="alarm" label="Label" />
@@ -262,7 +262,7 @@
           <q-tooltip>Popover</q-tooltip>
         </q-btn>
       </div>
-      <div class="q-gutter-sm">
+      <div class="q-gutter-md q-py-md">
         <q-btn :type="tag" round color="primary" icon="alarm" label="Label" />
         <q-btn :type="tag" round color="primary" icon-right="alarm" label="Label" />
         <q-btn :type="tag" round color="primary" icon="alarm" icon-right="alarm" label="Label" />
@@ -285,7 +285,7 @@
         </q-btn>
       </div>
 
-      <div class="q-gutter-sm">
+      <div class="q-gutter-md q-py-md">
         <q-btn :type="tag" :loading="loading2" :percentage="percentage" color="primary" @click="startProgress">
           Btn with progress
           <span slot="loading" class="row items-center">

@@ -301,8 +301,18 @@ export default Vue.extend({
     },
 
     __onBlur () {
+      const { scrollTop, scrollHeight } = this.$refs.content
+      this.__offsetBottom = scrollHeight - scrollTop
       this.$q.platform.is.ie !== true && this.caret.save()
       this.$emit('blur')
+    },
+
+    __onFocus () {
+      this.$nextTick(() => {
+        if (this.$refs.content !== void 0 && this.__offsetBottom !== void 0) {
+          this.$refs.content.scrollTop = this.$refs.content.scrollHeight - this.__offsetBottom
+        }
+      })
     },
 
     __onMouseup (e) {
@@ -413,6 +423,7 @@ export default Vue.extend({
       keydown: this.__onKeydown,
       click: this.__onClick,
       blur: this.__onBlur,
+      focus: this.__onFocus,
 
       // save caret
       mouseup: this.__onMouseup,

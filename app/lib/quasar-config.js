@@ -1,20 +1,18 @@
-const
-  path = require('path'),
-  fs = require('fs'),
-  merge = require('webpack-merge'),
-  chokidar = require('chokidar'),
-  debounce = require('lodash.debounce')
+const path = require('path')
+const fs = require('fs')
+const merge = require('webpack-merge')
+const chokidar = require('chokidar')
+const debounce = require('lodash.debounce')
 
-const
-  appPaths = require('./app-paths'),
-  logger = require('./helpers/logger'),
-  log = logger('app:quasar-conf'),
-  warn = logger('app:quasar-conf', 'red'),
-  appFilesValidations = require('./app-files-validations'),
-  extensionRunner = require('./app-extension/extensions-runner'),
-  supportIE = require('./helpers/support-ie'),
-  cssVariables = require('./helpers/css-variables'),
-  getDevlandFile = require('./helpers/get-devland-file')
+const appPaths = require('./app-paths')
+const logger = require('./helpers/logger')
+const log = logger('app:quasar-conf')
+const warn = logger('app:quasar-conf', 'red')
+const appFilesValidations = require('./app-files-validations')
+const extensionRunner = require('./app-extension/extensions-runner')
+const supportIE = require('./helpers/support-ie')
+const cssVariables = require('./helpers/css-variables')
+const getDevlandFile = require('./helpers/get-devland-file')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
 
@@ -209,6 +207,7 @@ class QuasarConfig {
         metaVariables: {}
       },
       electron: {
+        unPackagedInstallParams: [],
         packager: {},
         builder: {}
       },
@@ -340,13 +339,15 @@ class QuasarConfig {
     // make sure it exists
     cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
 
-    cfg.vendor.add = cfg.vendor.add.length > 0
-      ? new RegExp(cfg.vendor.add.filter(v => v).join('|'))
-      : void 0
+    if (cfg.vendor.disable !== true) {
+      cfg.vendor.add = cfg.vendor.add.length > 0
+        ? new RegExp(cfg.vendor.add.filter(v => v).join('|'))
+        : void 0
 
-    cfg.vendor.remove = cfg.vendor.remove.length > 0
-      ? new RegExp(cfg.vendor.remove.filter(v => v).join('|'))
-      : void 0
+      cfg.vendor.remove = cfg.vendor.remove.length > 0
+        ? new RegExp(cfg.vendor.remove.filter(v => v).join('|'))
+        : void 0
+    }
 
     if (cfg.css.length > 0) {
       cfg.css = cfg.css.filter(_ => _)
@@ -507,7 +508,15 @@ class QuasarConfig {
         ? formatPublicPath(cfg.build.publicPath)
         : (cfg.build.vueRouterMode === 'hash' ? '' : '/')
 
-    cfg.build.vueRouterBase = formatRouterBase(cfg.build.publicPath)
+    /* careful if you configure the following; make sure that you really know what you are doing */
+    cfg.build.vueRouterBase = cfg.build.vueRouterBase !== void 0
+      ? cfg.build.vueRouterBase
+      : formatRouterBase(cfg.build.publicPath)
+
+    /* careful if you configure the following; make sure that you really know what you are doing */
+    cfg.build.appBase = cfg.build.appBase !== void 0
+      ? cfg.build.appBase
+      : cfg.build.publicPath
 
     cfg.sourceFiles = merge({
       rootComponent: 'src/App.vue',
@@ -539,6 +548,7 @@ class QuasarConfig {
     if (this.ctx.mode.ssr) {
       cfg.ssr = merge({
         pwa: false,
+        manualHydration: false,
         componentCache: {
           max: 1000,
           maxAge: 1000 * 60 * 15
@@ -815,6 +825,11 @@ class QuasarConfig {
           cfg.electron.bundler = bundler.getDefaultName()
         }
 
+        if (this.opts.argv !== void 0) {
+          const { ensureElectronArgv } = require('./helpers/ensure-argv')
+          ensureElectronArgv(cfg.electron.bundler, this.opts.argv)
+        }
+
         if (cfg.electron.bundler === 'packager') {
           if (cfg.ctx.targetName) {
             cfg.electron.packager.platform = cfg.ctx.targetName
@@ -855,7 +870,7 @@ class QuasarConfig {
       }
     }
 
-    if (this.ctx.capacitor && cfg.capacitor.hideSplashscreen !== false) {
+    if (this.ctx.mode.capacitor && cfg.capacitor.hideSplashscreen !== false) {
       cfg.__needsAppMountHook = true
     }
 
@@ -874,7 +889,9 @@ class QuasarConfig {
         ? {
           removeComments: true,
           collapseWhitespace: true,
-          removeAttributeQuotes: true
+          removeAttributeQuotes: true,
+          collapseBooleanAttributes: true,
+          removeScriptTypeAttributes: true
           // more options:
           // https://github.com/kangax/html-minifier#options-quick-reference
         }

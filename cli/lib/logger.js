@@ -1,8 +1,7 @@
 // Adapted from Vue CLI v2 "init" command
 
-const
-  chalk = require('chalk'),
-  format = require('util').format
+const chalk = require('chalk')
+const format = require('util').format
 
 /**
  * Prefix.

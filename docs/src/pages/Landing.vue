@@ -16,10 +16,10 @@
           .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center
             q-btn(color="white", text-color="primary", no-caps, to="/start", label="Get Started")
             q-btn(color="white", text-color="primary", no-caps, to="/introduction-to-quasar", label="Why Quasar?")
-            q-btn(color="white", text-color="primary", no-caps, to="/video-tutorials", label="Video Tutorials", icon-right="new_releases")
+            q-btn(color="white", text-color="primary", no-caps, to="/video-tutorials", label="Video Tutorials")
             .text-body2 v{{ $q.version }}
         .landing__arrow-down.row.justify-center.absolute
-          q-icon.landing__arrow-down-icon.q-mt-xl(name="keyboard_arrow_down" size="50px")
+          q-icon.landing__arrow-down-icon.q-mt-xl(:name="mdiChevronDown" size="50px")
 
   section.landing__front.text-center
     div
@@ -27,12 +27,12 @@
         introduction-video.landing__video
 
       .q-gutter-md.row.justify-center
-        q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="User Interface Components", to="/vue-components")
-        q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
-        q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
-        q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
-        q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps")
-        q-btn(color="indigo", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
+        q-btn(color="red", no-caps, no-wrap, :icon-right="mdiLaunch", label="User Interface Components", to="/vue-components")
+        q-btn(color="primary", no-caps, no-wrap, :icon-right="mdiLaunch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
+        q-btn(color="teal", no-caps, no-wrap, :icon-right="mdiLaunch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
+        q-btn(color="accent", no-caps, no-wrap, :icon-right="mdiLaunch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
+        q-btn(color="orange", no-caps, no-wrap, :icon-right="mdiLaunch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps")
+        q-btn(color="indigo", no-caps, no-wrap, :icon-right="mdiLaunch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
@@ -40,14 +40,14 @@
         img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
       .col-12.text-center
         .q-gutter-lg
-          q-icon(name="fab fa-apple")
-          q-icon(name="fab fa-windows")
-          q-icon(name="fab fa-linux")
-          q-icon(name="fab fa-android")
-          q-icon(name="fab fa-chrome")
-          q-icon(name="fab fa-firefox")
-          q-icon(name="fab fa-edge")
-          q-icon(name="fab fa-safari")
+          q-icon(:name="fabApple")
+          q-icon(:name="fabWindows")
+          q-icon(:name="fabLinux")
+          q-icon(:name="fabAndroid")
+          q-icon(:name="fabChrome")
+          q-icon(:name="fabFirefox")
+          q-icon(:name="fabEdge")
+          q-icon(:name="fabSafari")
       .col-12.text-center
         h4 All Platforms in One Go
         p One source code for all platforms simultaneously through Quasar CLI with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
@@ -63,7 +63,7 @@
 
       .col-xs-12.col-sm-5
         .feature-item
-          q-icon(name="fab fa-google")
+          q-icon(:name="fabGoogle")
           h6 Material Design 2.0
           p Quasar is focused on following the Material 2.0 Guidelines and to stay up-to-date to them.
 
@@ -94,10 +94,10 @@
       .col-xs-12.col-sm-5
         .feature-item
           .q-gutter-sm
-            q-icon(name="fab fa-chrome")
-            q-icon(name="fab fa-firefox")
-            q-icon(name="fab fa-safari")
-            q-icon(name="fab fa-edge")
+            q-icon(:name="fabChrome")
+            q-icon(:name="fabFirefox")
+            q-icon(:name="fabSafari")
+            q-icon(:name="fabEdge")
           h6 Wide platform support
           p Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry. We care a great deal about your website or app's behavior both on desktop browsers and on mobile browsers.
 
@@ -148,25 +148,25 @@
     div.text-center
       div.landing__footer-icons.row.flex-center.q-gutter-md
         a(href="https://github.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-github")
+          q-icon(:name="fabGithub")
 
         a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-medium")
+          q-icon(:name="mdiBlogger")
 
-        a(href="https://chat.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="chat")
+        a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
+          q-icon(:name="mdiChat")
 
-        a(href="https://forum.quasar.dev/", target="_blank", rel="noopener")
-          q-icon(name="forum")
+        a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
+          q-icon(:name="mdiForum")
 
         a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-twitter")
+          q-icon(:name="fabTwitter")
 
         a(href="https://facebook.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fab fa-facebook")
+          q-icon(:name="fabFacebook")
 
-        a(href="https://donate.quasar.dev", target="_blank", rel="noopener")
-          q-icon(name="fas fa-medkit")
+        a(href="https://donate.quasar.dev", rel="sponsored", target="_blank")
+          q-icon(:name="fasMedkit")
 
       div.q-mt-lg
         | <doc-link to="https://github.com/quasarframework/quasar/blob/dev/LICENSE">MIT LICENSE</doc-link> | <doc-link to="https://www.iubenda.com/privacy-policy/40685560">Privacy Policy</doc-link> | <doc-link to="https://github.com/quasarframework/quasar-art">Quasar Artwork</doc-link>
@@ -181,6 +181,17 @@ import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
+
+import {
+  fabGithub, fabTwitter, fabFacebook, fasMedkit,
+  fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
+  fabFirefox, fabEdge, fabSafari, fabGoogle
+} from '@quasar/extras/fontawesome-v5'
+
+import {
+  mdiChevronDown, mdiLaunch, mdiBlogger,
+  mdiChat, mdiForum
+} from '@quasar/extras/mdi-v4'
 
 export default {
   name: 'Landing',
@@ -199,6 +210,26 @@ export default {
 
   created () {
     this.year = (new Date()).getFullYear()
+
+    this.fabGithub = fabGithub
+    this.fabTwitter = fabTwitter
+    this.fabFacebook = fabFacebook
+    this.fasMedkit = fasMedkit
+    this.fabApple = fabApple
+    this.fabWindows = fabWindows
+    this.fabLinux = fabLinux
+    this.fabAndroid = fabAndroid
+    this.fabChrome = fabChrome
+    this.fabFirefox = fabFirefox
+    this.fabEdge = fabEdge
+    this.fabSafari = fabSafari
+    this.fabGoogle = fabGoogle
+
+    this.mdiChevronDown = mdiChevronDown
+    this.mdiLaunch = mdiLaunch
+    this.mdiBlogger = mdiBlogger
+    this.mdiChat = mdiChat
+    this.mdiForum = mdiForum
   }
 }
 </script>
@@ -315,9 +346,9 @@ export default {
   0%, 20%, 50%, 80%, 100%
     transform: translate3d(0, 0, 0)
   40%
-    transform: translate3d(0, -30px, 0)
+    transform: translateY(-30px)
   60%
-    transform: translate3d(0, -15px, 0)
+    transform: translateY(-15px)
 
 @media (max-width: 718px)
   .landing

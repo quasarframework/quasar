@@ -10,29 +10,72 @@
 <a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 [![https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg](https://good-labs.github.io/greater-good-affirmation/assets/images/badge.svg)](https://good-labs.github.io/greater-good-affirmation)
 
+## Why?
+Why this package? Because it strips down unnecessary package files (so faster download times), all in one place, tested and ready to use with Quasar. One other reason is that the material icons npm package sometimes fails to be downloaded by NPM.
+
 ## Contents
 
 Please make sure you have latest `@quasar/extras` npm package version installed into your project folder in order for you to benefit from everything below.
 
-| Package | quasar.conf.js extras name | Version | Description | Notes | License |
+### Webfonts
+
+| Vendor | Version | quasar.conf.js extras name | Description | Notes | License |
 | --- | --- | --- | --- | --- | --- |
-| Roboto Font | `roboto-font` | CDN v19 | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
-| Roboto Font Latin Extended | `roboto-font-latin-ext` | CDN v19 | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) | `material-icons` | CDN v47 | Material icons font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons/LICENSE) |
-| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | `material-icons-outlined` | CDN v14 | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
-| [Material Icons Round](https://material.io/tools/icons/?style=round) | `material-icons-round` | CDN v14 | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
-| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | `material-icons-sharp` | CDN v15 | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
-| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | `mdi-v4` | 4.5.95 | Extended Material Design icons font | | [License](mdi-v4/LICENSE) |
-| MDI v3 (Material Design Icons) | `mdi-v3` | 3.6.95 | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | `fontawesome-v5` | 5.11.2 | Fontawesome icons font | | [License](fontawesome-v5/FONT-LICENSE) |
-| [Ionicons](http://ionicons.com/) | `ionicons-v4` | 4.6.3 | Ionicons font | | [Font License](/ionicons-v4/FONT_LICENSE) [Icon License](ionicons-v4/ICON-LICENSE) |
-| [Eva Icons](https://akveo.github.io/eva-icons) | `eva-icons` | 1.1.1 | Eva Icons font | | [License](eva-icons/LICENSE) |
-| [Themify Icons](https://themify.me/themify-icons) | `themify` | 1.0.0 | Themify Icons font | | [License](themify/LICENSE) |
-| [Animate.css](https://daneden.github.io/animate.css/) | Use `animations` prop | 3.5.2 | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
+| Roboto Font | CDN v19 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
+| Roboto Font Latin Extended | CDN v19 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v47 | `material-icons` | Material icons font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons/LICENSE) |
+| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v14 | `material-icons-outlined` | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
+| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v14 | `material-icons-round` | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
+| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v15 | `material-icons-sharp` | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
+| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | 4.7.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/LICENSE) |
+| MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.0 | `fontawesome-v5` | Fontawesome icons font | | [License](fontawesome-v5/FONT-LICENSE) |
+| [Ionicons](http://ionicons.com/) | 4.6.3 | `ionicons-v4` | Ionicons font | | [Font License](/ionicons-v4/FONT_LICENSE) [Icon License](ionicons-v4/ICON-LICENSE) |
+| [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.2 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
+| [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `themify` | Themify Icons font | | [License](themify/LICENSE) |
+| [Animate.css](https://daneden.github.io/animate.css/) | 3.5.2 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
 
 > Either install MDI v4 or MDI v3, but never both at the same time.
 
-Why this package? Because it strips down unnecessary package files (so faster download times), all in one place, tested and ready to use with Quasar. One other reason is that the material icons npm package sometimes fails to be downloaded by NPM.
+### SVG
+
+> Quasar v1.7+ required for svg Quasar Icon Sets.
+
+| Vendor | Version | Quasar IconSet name | Import Icons from | Notes | License |
+| --- | --- | --- | --- | --- | --- |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | 3.0.1 | `svg-material-icons` | `@quasar/extras/material-icons` | The svgs are 3 years old! | [License](material-icons/LICENSE) |
+| [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | | | | *Not yet available* | [License](material-icons-outlined/LICENSE) |
+| [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | | | | *Not yet available* | [License](material-icons-round/LICENSE) |
+| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | | | | *Not yet available* | [License](material-icons-sharp/LICENSE) |
+| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | 4.7.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | | [License](mdi-v4/LICENSE) |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.0 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/FONT-LICENSE) |
+| [Ionicons](http://ionicons.com/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | | [Font License](/ionicons-v4/FONT_LICENSE) [Icon License](ionicons-v4/ICON-LICENSE) |
+| [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.2 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
+| [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `svg-themify` | `@quasar/extras/themify` | | [License](themify/LICENSE) |
+
+Example:
+
+```vue
+// some .vue file in devland
+<template>
+  <div>
+    <q-icon :name="matMenu" />
+    <q-btn :icon="mdiAbTesting" />
+  </div>
+</template>
+
+<script>
+import { matMenu } from '@quasar/extras/material-icons'
+import { mdiAbTesting } from '@quasar/extras/mdi-v4'
+
+export default {
+  // ...
+  created () {
+    this.matMenu = matMenu
+    this.mdiAbTesting = mdiAbTesting
+  }
+}
+```
 
 ### QIcon cheatsheet
 
@@ -51,6 +94,16 @@ Why this package? Because it strips down unnecessary package files (so faster do
 | mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters | |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters | |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters | |
+
+### SVG name format
+Svg icons will be defined as String with the following syntax:
+
+```
+Syntax: "<path>|<viewBox>" or "<path>" (with implicit viewBox of '0 0 24 24')
+Examples:
+  M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3z|0 0 24 24
+  M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3z
+```
 
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/quasarframework/quasar/blob/dev/backers.md).

@@ -36,7 +36,7 @@
     <q-btn class="float-right" round dense flat icon="share" @click="share">
       <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
     </q-btn>
-    <q-btn class="float-right" round dense flat icon="fab fa-codepen" @click="editInCodepen">
+    <q-btn class="float-right" round dense flat :icon="fabCodepen" @click="editInCodepen">
       <q-tooltip>Edit in Codepen</q-tooltip>
     </q-btn>
 
@@ -77,6 +77,8 @@ import Child from './FlexChild'
 import Codepen from '../../../Codepen'
 import CopyButton from '../../../CopyButton'
 import { copyToClipboard } from 'quasar'
+
+import { fabCodepen } from '@quasar/extras/fontawesome-v5'
 
 const queryParams = {
   containerGroup: 'string',
@@ -163,7 +165,7 @@ export default {
 
   mounted () {
     const query = this.$route.query
-    for (let param in queryParams) {
+    for (const param in queryParams) {
       if (param in query) {
         const paramType = queryParams[param]
         switch (paramType) {
@@ -178,6 +180,10 @@ export default {
     if (!query.children) {
       this.addChild()
     }
+  },
+
+  created () {
+    this.fabCodepen = fabCodepen
   },
 
   computed: {
@@ -213,7 +219,7 @@ export default {
     },
     onChange (index) {
       this.selectedIndex = index
-      let child = this.$refs['child' + index][0]
+      const child = this.$refs['child' + index][0]
       this.childClasses = child.classes
       this.childStyles = child.styles
     },
@@ -223,9 +229,9 @@ export default {
         playgroudUrl = playgroudUrl.substring(0, playgroudUrl.indexOf('?'))
       }
       let queryString = '',
-        index = 0,
-        paramsCount = Object.keys(queryParams).length
-      for (let param in queryParams) {
+        index = 0
+      const paramsCount = Object.keys(queryParams).length
+      for (const param in queryParams) {
         const paramType = queryParams[param]
         let value
         switch (paramType) {

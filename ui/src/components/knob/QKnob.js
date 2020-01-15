@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -84,21 +85,36 @@ export default Vue.extend({
 
     computedStep () {
       return this.step === 0 ? 1 : this.step
+    },
+
+    events () {
+      return this.$q.platform.is.mobile === true
+        ? { click: this.__click }
+        : {
+          mousedown: this.__activate,
+          click: this.__click,
+          keydown: this.__keydown,
+          keyup: this.__keyup
+        }
     }
   },
 
   methods: {
+    __updateCenterPosition () {
+      const { top, left, width, height } = this.$el.getBoundingClientRect()
+      this.centerPosition = {
+        top: top + height / 2,
+        left: left + width / 2
+      }
+    },
+
     __pan (event) {
       if (event.isFinal) {
         this.__updatePosition(event.evt, true)
         this.dragging = false
       }
       else if (event.isFirst) {
-        const { top, left, width, height } = this.$el.getBoundingClientRect()
-        this.centerPosition = {
-          top: top + height / 2,
-          left: left + width / 2
-        }
+        this.__updateCenterPosition()
         this.dragging = true
         this.__updatePosition(event.evt)
       }
@@ -108,11 +124,7 @@ export default Vue.extend({
     },
 
     __click (evt) {
-      const { top, left, width, height } = this.$el.getBoundingClientRect()
-      this.centerPosition = {
-        top: top + height / 2,
-        left: left + width / 2
-      }
+      this.__updateCenterPosition()
       this.__updatePosition(evt, true)
     },
 
@@ -140,6 +152,12 @@ export default Vue.extend({
       if (keyCodes.includes(evt.keyCode)) {
         this.__updateValue(true)
       }
+    },
+
+    __activate (evt) {
+      this.__updateCenterPosition()
+      this.__updatePosition(evt)
+      this.__updateValue()
     },
 
     __updatePosition (evt, change) {
@@ -213,12 +231,8 @@ export default Vue.extend({
 
     if (this.editable === true) {
       data.attrs = { tabindex: this.tabindex }
-      data.on = {
-        click: this.__click,
-        keydown: this.__keydown,
-        keyup: this.__keyup
-      }
-      data.directives = [{
+      data.on = this.events
+      data.directives = cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
@@ -226,7 +240,7 @@ export default Vue.extend({
           stop: true,
           mouse: true
         }
-      }]
+      }])
     }
 
     return h(QCircularProgress, data, slot(this, 'default'))

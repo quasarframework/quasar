@@ -5,6 +5,7 @@ related:
   - /vue-components/linear-progress
   - /vue-components/circular-progress
   - /vue-components/spinners
+  - /vue-components/skeleton
   - /quasar-plugins/loading
   - /quasar-plugins/loading-bar
 ---

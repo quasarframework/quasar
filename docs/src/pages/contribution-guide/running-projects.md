@@ -15,8 +15,7 @@ desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
 | UI App Ext | Create and maintain UI extensions | Jeff | |
 | Firebase | Docs and possibly an App Ext | Adam | [repo](https://github.com/quasarframework/app-extension-firebase) |
 | Quasar ESLint plugin | Plugin for ESLint with Quasar upgrade support warnings  | Jeff | [repo](https://github.com/quasarframework/eslint-plugin-quasar)|
-| Typescript | Full Typescript support for Quasar | Noah | [repo](https://github.com/quasarframework/app-extension-typescript) |
-| Electron mode | Maintenance and enhancements  | Noah | [CLI repo](https://github.com/quasarframework/quasar/tree/dev/cli) integration |
+| Typescript | Full Typescript support for Quasar | Kerry, Paolo | [repo](https://github.com/quasarframework/app-extension-typescript) |
 | Quasar Testing AE | Maintenance and enhancements | Noah, Adam | [repo](https://github.com/quasarframework/quasar-testing)|
 
 ## List of Projects Where New Maintainer is Needed
@@ -29,6 +28,7 @@ We can promise you that your Javascript and Vue.js skills will reach the stars!
 | Project | Required Skills | Links |
 | --- | --- | --- | --- |
 | Marketing | Monetization strategy and its implementation, PR, Newsletter, Articles |  |
-| Cordova mode | [Apache Cordova](https://cordova.apache.org/)| [What is Cordova](https://quasar.dev/quasar-cli/developing-cordova-apps/introduction),<br/> [CLI repo](https://github.com/quasarframework/quasar/tree/dev/cli) integration |
+| Cordova mode | [Apache Cordova](https://cordova.apache.org/)| [repo](https://github.com/quasarframework/quasar/tree/dev/cli) |
+| Electron mode | Maintenance and enhancements | [repo](https://github.com/quasarframework/quasar/tree/dev/cli) |
 | Icon Genie | JS, Vue.js, minification strategies, graphic design | [repo](https://github.com/quasarframework/app-extension-icon-genie)|
 | Wizard AE | JS, Vue.js | [repo](https://github.com/quasarframework/app-extension-wizard) |

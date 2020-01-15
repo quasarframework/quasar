@@ -37,14 +37,23 @@ export default {
           const data = {
             staticClass: 'q-table__grid-item-card' + this.cardDefaultClass,
             class: this.cardClass,
-            style: this.cardStyle
+            style: this.cardStyle,
+            on: {}
+          }
+
+          if (this.$listeners['row-click'] !== void 0 || this.$listeners['row-dblclick'] !== void 0) {
+            data.staticClass += ' cursor-pointer'
           }
 
           if (this.$listeners['row-click'] !== void 0) {
-            data.on = {
-              click: evt => {
-                this.$emit('row-click', evt, scope.row)
-              }
+            data.on.click = evt => {
+              this.$emit('row-click', evt, scope.row)
+            }
+          }
+
+          if (this.$listeners['row-dblclick'] !== void 0) {
+            data.on.dblclick = evt => {
+              this.$emit('row-dblclick', evt, scope.row)
             }
           }
 

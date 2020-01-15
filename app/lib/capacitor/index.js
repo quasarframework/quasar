@@ -1,20 +1,19 @@
 const fse = require('fs-extra')
 
-const
-  log = require('../helpers/logger')('app:capacitor'),
-  warn = require('../helpers/logger')('app:capacitor', 'red'),
-  CapacitorConfig = require('./capacitor-config'),
-  { spawn, spawnSync } = require('../helpers/spawn'),
-  onShutdown = require('../helpers/on-shutdown'),
-  appPaths = require('../app-paths'),
-  openIde = require('../helpers/open-ide')
+const log = require('../helpers/logger')('app:capacitor')
+const warn = require('../helpers/logger')('app:capacitor', 'red')
+const CapacitorConfig = require('./capacitor-config')
+const { spawn, spawnSync } = require('../helpers/spawn')
+const onShutdown = require('../helpers/on-shutdown')
+const appPaths = require('../app-paths')
+const openIde = require('../helpers/open-ide')
 
 const capacitorCliPath = require('./capacitor-cli-path')
 
 class CapacitorRunner {
   constructor () {
     this.pid = 0
-    this.config = new CapacitorConfig()
+    this.capacitorConfig = new CapacitorConfig()
 
     onShutdown(() => {
       this.stop()
@@ -31,9 +30,8 @@ class CapacitorRunner {
   }
 
   async run (quasarConfig) {
-    const
-      cfg = quasarConfig.getBuildConfig(),
-      url = cfg.build.APP_URL
+    const cfg = quasarConfig.getBuildConfig()
+    const url = cfg.build.APP_URL
 
     if (this.url === url) {
       return
@@ -44,11 +42,11 @@ class CapacitorRunner {
     }
 
     this.url = url
-    this.config.prepare(cfg)
+    this.capacitorConfig.prepare(cfg)
 
     await this.__runCapacitorCommand(['sync', this.target])
 
-    this.config.prepareSSL(cfg.devServer.https, this.target)
+    this.capacitorConfig.prepareSSL(cfg.devServer.https, this.target)
 
     await openIde('capacitor', cfg.bin, this.target, true)
   }
@@ -56,11 +54,11 @@ class CapacitorRunner {
   async build (quasarConfig, argv) {
     const cfg = quasarConfig.getBuildConfig()
 
-    this.config.prepare(cfg)
+    this.capacitorConfig.prepare(cfg)
 
     await this.__runCapacitorCommand(['sync', this.target])
 
-    this.config.prepareSSL(false, this.target)
+    this.capacitorConfig.prepareSSL(false, this.target)
 
     if (argv['skip-pkg'] === true) {
       return
@@ -158,7 +156,7 @@ class CapacitorRunner {
 
   __cleanup () {
     this.pid = 0
-    this.config.reset()
+    this.capacitorConfig.reset()
   }
 }
 

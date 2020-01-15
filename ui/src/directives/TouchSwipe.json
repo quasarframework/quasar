@@ -5,7 +5,7 @@
 
   "value": {
     "type": "Function",
-    "desc": "Handler for swipe",
+    "desc": "Handler for swipe (use a non-function to disable)",
     "params": {
       "details": {
         "type": "Object",
@@ -54,7 +54,7 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-swipe=\"fnToCall\"" ]
+    "examples": [ "v-touch-swipe=\"fnToCall\"", "v-touch-swipe=\"void 0\"" ]
   },
 
   "arg": {

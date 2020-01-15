@@ -35,19 +35,49 @@ function read (string) {
   return string
 }
 
+function getString (msOffset) {
+  const time = new Date()
+  time.setMilliseconds(time.getMilliseconds() + msOffset)
+  return time.toUTCString()
+}
+
+function parseExpireString (str) {
+  let timestamp = 0
+
+  const days = str.match(/(\d+)d/)
+  const hours = str.match(/(\d+)h/)
+  const minutes = str.match(/(\d+)m/)
+  const seconds = str.match(/(\d+)s/)
+
+  if (days) { timestamp += days[1] * 864e+5 }
+  if (hours) { timestamp += hours[1] * 36e+5 }
+  if (minutes) { timestamp += minutes[1] * 6e+4 }
+  if (seconds) { timestamp += seconds[1] * 1000 }
+
+  return timestamp === 0
+    ? str
+    : getString(timestamp)
+}
+
 function set (key, val, opts = {}, ssr) {
   let expire, expireValue
 
   if (opts.expires !== void 0) {
-    expireValue = parseFloat(opts.expires)
-
-    if (isNaN(expireValue)) {
-      expire = opts.expires
+    // if it's a Date Object
+    if (Object.prototype.toString.call(opts.expires) === '[object Date]') {
+      expire = opts.expires.toUTCString()
     }
+    // if it's a String (eg. "15m", "1h", "13d", "1d 15m", "31s")
+    // possible units: d (days), h (hours), m (minutes), s (seconds)
+    else if (typeof opts.expires === 'string') {
+      expire = parseExpireString(opts.expires)
+    }
+    // otherwise it must be a Number (defined in days)
     else {
-      expire = new Date()
-      expire.setMilliseconds(expire.getMilliseconds() + expireValue * 864e+5)
-      expire = expire.toUTCString()
+      expireValue = parseFloat(opts.expires)
+      expire = isNaN(expireValue) === false
+        ? getString(expireValue * 864e+5)
+        : opts.expires
     }
   }
 
@@ -103,7 +133,7 @@ function set (key, val, opts = {}, ssr) {
 
 function get (key, ssr) {
   let
-    result = key ? undefined : {},
+    result = key ? null : {},
     cookieSource = ssr ? ssr.req.headers : document,
     cookies = cookieSource.cookie ? cookieSource.cookie.split('; ') : [],
     i = 0,
@@ -139,7 +169,7 @@ function remove (key, options, ssr) {
 }
 
 function has (key, ssr) {
-  return get(key, ssr) !== undefined
+  return get(key, ssr) !== null
 }
 
 export function getObject (ctx = {}) {

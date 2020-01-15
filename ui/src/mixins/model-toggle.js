@@ -23,7 +23,7 @@ export default {
     },
 
     $route () {
-      this.hideOnRouteChange === true && this.hide()
+      this.hideOnRouteChange === true && this.showing === true && this.hide()
     }
   },
 

@@ -137,14 +137,16 @@ export default {
       ]
     }
   },
+
   methods: {
     customSort (rows, sortBy, descending) {
-      let data = [...rows]
+      const data = [ ...rows ]
 
       if (sortBy) {
         data.sort((a, b) => {
-          let x = descending ? b : a
-          let y = descending ? a : b
+          const x = descending ? b : a
+          const y = descending ? a : b
+
           if (sortBy === 'name') {
             // string sort
             return x[sortBy] > y[sortBy] ? 1 : x[sortBy] < y[sortBy] ? -1 : 0

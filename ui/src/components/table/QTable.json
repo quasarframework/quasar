@@ -1174,6 +1174,25 @@
       "addedIn": "v1.2.6"
     },
 
+    "row-dblclick": {
+      "desc": "Emitted when user quickly double clicks/taps on a row; Is not emitted when using body/row/item scoped slots; Please check JS dblclick event support before using",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object",
+          "required": true,
+          "__exemption": [ "examples" ]
+        },
+
+        "row": {
+          "type": "Object",
+          "desc": "The row upon which user has double clicked/tapped",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.5.10"
+    },
+
     "request": {
       "desc": "Emitted when a server request is triggered",
       "params": {
@@ -1550,6 +1569,19 @@
 
     "resetVirtualScroll": {
       "desc": "Resets the virtual scroll (if using it) computations; Needed for custom edge-cases"
+    },
+
+    "scrollTo": {
+      "desc": "Scroll the table to the row with the specified index in page (0 based)",
+      "params": {
+        "index": {
+          "type": [ "String", "Number" ],
+          "desc": "The index of the row in page (0 based)",
+          "required": true,
+          "examples": [ "1", 23 ]
+        }
+      },
+      "addedIn": "v1.7.2"
     }
   }
 }

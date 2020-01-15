@@ -6,9 +6,9 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
     q-space
 
     div.col-auto
-      q-btn(dense, flat, round, icon="fab fa-github", @click="openGitHub")
+      q-btn(dense, flat, round, :icon="fabGithub", @click="openGitHub")
         q-tooltip View on GitHub
-      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, icon="fab fa-codepen", @click="openCodepen")
+      q-btn.q-ml-sm(v-if="noEdit === false", dense, flat, round, :icon="fabCodepen", @click="openCodepen")
         q-tooltip Edit in Codepen
       q-btn.q-ml-sm(dense, flat, round, icon="code", @click="expanded = !expanded")
         q-tooltip View Source
@@ -55,6 +55,10 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
 
 <script>
 import { openURL } from 'quasar'
+
+import {
+  fabGithub, fabCodepen
+} from '@quasar/extras/fontawesome-v5'
 
 import { slugify } from 'assets/page-utils'
 
@@ -126,6 +130,11 @@ export default {
     })
   },
 
+  created () {
+    this.fabGithub = fabGithub
+    this.fabCodepen = fabCodepen
+  },
+
   methods: {
     parseComponent (comp) {
       const
@@ -138,7 +147,7 @@ export default {
         script,
         style
       }
-      this.tabs = ['template', 'script', 'style'].filter(type => this.parts[type])
+      this.tabs = [ 'template', 'script', 'style' ].filter(type => this.parts[type])
     },
 
     parseTemplate (target, template) {

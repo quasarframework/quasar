@@ -32,9 +32,9 @@ export default {
   },
 
   props: {
-    components: [Array, String],
-    directives: [Array, String],
-    plugins: [Array, String],
+    components: [ Array, String ],
+    directives: [ Array, String ],
+    plugins: [ Array, String ],
     config: Object // TODO
   },
 
@@ -65,7 +65,7 @@ export default {
     QuasarCli () {
       const parts = []
 
-      ;['components', 'directives'].forEach(type => {
+      ;[ 'components', 'directives' ].forEach(type => {
         if (this[type] !== void 0) {
           parts.push(`// NOT needed if using auto-import feature:
     ${type}: [
@@ -117,7 +117,7 @@ window.quasarConfig = {
     VueCli () {
       const types = [], imports = []
 
-      ;['components', 'directives', 'plugins'].forEach(type => {
+      ;[ 'components', 'directives', 'plugins' ].forEach(type => {
         if (this[type] !== void 0) {
           imports.push(this.nameAsString(this[type], 2, false))
           types.push(`${type}: {

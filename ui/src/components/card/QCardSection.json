@@ -7,6 +7,15 @@
     "$listeners": true
   },
 
+  "props": {
+    "horizontal": {
+      "type": "Boolean",
+      "desc": "Display a horizontal section (will have no padding and can contain other QCardSection)",
+      "category": "content",
+      "addedIn": "v1.7.0"
+    }
+  },
+
   "slots": {
     "default": {
       "extends": "default"

@@ -2,6 +2,7 @@
   font-family: 'Material Icons Sharp';
   font-style: normal;
   font-weight: 400;
+  font-display: block;
   src: url('./web-font/oPWQ_lt5nv4pWNJpghLP75WiFR4kLh3kvmvRImcycg.woff2') format('woff2'), url('./web-font/oPWQ_lt5nv4pWNJpghLP75WiFR4kLh3kvmvX.woff') format('woff');
 }
 

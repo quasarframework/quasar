@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
-import { getScrollTarget, getScrollHeight, getScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
@@ -93,7 +93,7 @@ export default Vue.extend({
                 scrollPosition = getScrollPosition(this.scrollContainer),
                 heightDifference = heightAfter - heightBefore
 
-              this.scrollContainer.scrollTop = scrollPosition + heightDifference
+              setScrollPosition(this.scrollContainer, scrollPosition + heightDifference)
             }
 
             if (stop === true) {
@@ -173,7 +173,7 @@ export default Vue.extend({
         scrollHeight = getScrollHeight(this.scrollContainer),
         containerHeight = height(this.scrollContainer)
 
-      this.scrollContainer.scrollTop = scrollHeight - containerHeight
+      setScrollPosition(this.scrollContainer, scrollHeight - containerHeight)
     }
   },
 

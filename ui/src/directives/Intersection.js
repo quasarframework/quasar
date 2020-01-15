@@ -31,13 +31,15 @@ function update (el, ctx, { modifiers, value }) {
     ctx.observer !== void 0 && ctx.observer.unobserve(el)
 
     ctx.observer = new IntersectionObserver(([ entry ]) => {
-      const res = ctx.handler(entry, ctx.observer)
+      if (typeof ctx.handler === 'function') {
+        const res = ctx.handler(entry, ctx.observer)
 
-      if (
-        res === false ||
-        (ctx.once === true && entry.isIntersecting === true)
-      ) {
-        destroy(el)
+        if (
+          res === false ||
+          (ctx.once === true && entry.isIntersecting === true)
+        ) {
+          destroy(el)
+        }
       }
     }, cfg)
 

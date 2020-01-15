@@ -161,8 +161,8 @@ export default Vue.extend({
       }
 
       return this.inputClass === void 0
-        ? 'q-select__input--padding'
-        : [this.inputClass, 'q-select__input--padding']
+        ? 'q-field__input--padding'
+        : [this.inputClass, 'q-field__input--padding']
     },
 
     menuContentClass () {
@@ -496,7 +496,7 @@ export default Vue.extend({
         return
       }
 
-      if (e.target !== this.$refs.target) { return }
+      if (e.target === void 0 || e.target.id !== this.targetUid) { return }
 
       // down
       if (
@@ -601,13 +601,11 @@ export default Vue.extend({
       }
 
       // enter, space (when not using use-input), or tab (when not using multiple and option selected)
+      // same target is checked above
       if (
-        e.target !== this.$refs.target ||
-        (
-          e.keyCode !== 13 &&
-          (this.useInput === true || e.keyCode !== 32) &&
-          (tabShouldSelect === false || e.keyCode !== 9)
-        )
+        e.keyCode !== 13 &&
+        (this.useInput === true || e.keyCode !== 32) &&
+        (tabShouldSelect === false || e.keyCode !== 9)
       ) { return }
 
       e.keyCode !== 9 && stopAndPrevent(e)
@@ -640,6 +638,11 @@ export default Vue.extend({
           }
 
           this.updateInputValue('', this.multiple !== true, true)
+
+          if (this.multiple !== true) {
+            this.$refs.target !== void 0 && this.$refs.target.focus()
+            this.hidePopup()
+          }
         }
 
         if (this.$listeners['new-value'] !== void 0) {
@@ -819,7 +822,7 @@ export default Vue.extend({
 
       return h('input', {
         ref: 'target',
-        staticClass: 'q-select__input q-placeholder col',
+        staticClass: 'q-field__input q-placeholder col',
         style: this.inputStyle,
         class: this.computedInputClass,
         domProps: { value: this.inputValue !== void 0 ? this.inputValue : '' },
@@ -950,7 +953,7 @@ export default Vue.extend({
           if (this.hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
             if (
-              (this.useInput === true && e.target.classList.contains('q-select__input') !== true) ||
+              (this.useInput === true && e.target.classList.contains('q-field__input') !== true) ||
               (this.useInput !== true && e.target.classList.contains('no-outline') === true)
             ) {
               return

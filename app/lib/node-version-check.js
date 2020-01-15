@@ -1,7 +1,6 @@
-const
-  version = process.version.split('.'),
-  major = parseInt(version[0].replace(/\D/g,''), 10)
-  minor = parseInt(version[1].replace(/\D/g,''), 10)
+const version = process.version.split('.')
+const major = parseInt(version[0].replace(/\D/g,''), 10)
+const minor = parseInt(version[1].replace(/\D/g,''), 10)
 
 if (major < 8 || (major === 8 && minor < 9)) {
   console.warn('\x1b[41m%s\x1b[0m', 'INCOMPATIBLE NODE VERSION')

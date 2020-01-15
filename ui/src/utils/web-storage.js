@@ -96,9 +96,9 @@ export function getStorage (type) {
     getLength: () => webStorage.length,
     getItem: get,
     getIndex: index => {
-      if (index < webStorage.length) {
-        return get(webStorage.key(index))
-      }
+      return index < webStorage.length
+        ? get(webStorage.key(index))
+        : null
     },
     getAll: () => {
       let result = {}, key, len = webStorage.length

@@ -1,11 +1,9 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  chalk = require('chalk')
+const parseArgs = require('minimist')
+const chalk = require('chalk')
 
-const
-  getPackageJson = require('../lib/helpers/get-package-json')
+const getPackageJson = require('../lib/helpers/get-package-json')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -26,9 +24,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const
-  os = require('os'),
-  spawn = require('cross-spawn').sync
+const os = require('os')
+const spawn = require('cross-spawn').sync
 
 function getSpawnOutput (command) {
   try {

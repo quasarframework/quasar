@@ -9,7 +9,7 @@
       no-results-label="The filter didn't uncover any results"
       row-key="name"
     >
-      <template v-slot:top-right="props">
+      <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
           <q-icon slot="append" name="search" />
         </q-input>

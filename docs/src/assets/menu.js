@@ -31,7 +31,6 @@ const gettingStarted = [
   },
   {
     name: 'Release notes',
-    badge: 'updated',
     path: 'release-notes'
   },
   {
@@ -55,23 +54,19 @@ const contributionGuide = [
   },
   {
     name: 'Running Projects',
-    path: 'running-projects',
-    badge: 'new'
+    path: 'running-projects'
   },
   {
     name: 'Start a New Project',
-    path: 'new-project',
-    badge: 'new'
+    path: 'new-project'
   },
   {
     name: 'Project Maintainer Role',
-    path: 'project-maintainer',
-    badge: 'new'
+    path: 'project-maintainer'
   },
   {
     name: 'Commit Conventions',
-    path: 'commit-conventions',
-    badge: 'new'
+    path: 'commit-conventions'
   }
 ]
 
@@ -440,6 +435,11 @@ const cli = [
         path: 'node-integration'
       },
       {
+        name: 'Preload Script',
+        badge: 'new',
+        path: 'electron-preload-script'
+      },
+      {
         name: 'Electron Packages',
         path: 'electron-packages'
       },
@@ -490,7 +490,6 @@ const style = [
   },
   {
     name: 'Dark Mode',
-    badge: 'new',
     path: 'dark-mode'
   },
   {
@@ -614,7 +613,6 @@ const directives = [
   },
   {
     name: 'Intersection',
-    badge: 'new',
     path: 'intersection'
   },
   {
@@ -623,7 +621,6 @@ const directives = [
   },
   {
     name: 'Mutation',
-    badge: 'new',
     path: 'mutation'
   },
   {
@@ -675,8 +672,7 @@ const plugins = [
   },
   {
     name: 'Dark',
-    path: 'dark',
-    badge: 'new'
+    path: 'dark'
   },
   {
     name: 'Dialog',
@@ -749,6 +745,7 @@ const components = [
   },
   {
     name: 'Card',
+    badge: 'update',
     path: 'card'
   },
   {
@@ -848,7 +845,6 @@ const components = [
   },
   {
     name: 'Img',
-    badge: 'update',
     path: 'img'
   },
   {
@@ -861,7 +857,6 @@ const components = [
   },
   {
     name: 'Intersection',
-    badge: 'new',
     path: 'intersection'
   },
   {
@@ -935,6 +930,11 @@ const components = [
     path: 'separator'
   },
   {
+    name: 'Skeleton',
+    badge: 'new',
+    path: 'skeleton'
+  },
+  {
     name: 'Slide Item',
     path: 'slide-item'
   },
@@ -993,11 +993,11 @@ const components = [
   },
   {
     name: 'Video',
+    badge: 'update',
     path: 'video'
   },
   {
     name: 'Virtual Scroll',
-    badge: 'new',
     path: 'virtual-scroll'
   }
 ]
@@ -1061,7 +1061,6 @@ const appExtensions = [
       },
       {
         name: 'Starter kit equivalent',
-        badge: 'new',
         path: 'starter-kit-equivalent'
       },
       {
@@ -1079,6 +1078,7 @@ const utils = [
   },
   {
     name: 'Color Utils',
+    badge: 'update',
     path: 'color-utils'
   },
   {
@@ -1205,8 +1205,7 @@ module.exports = [
   {
     name: 'Video Tutorials',
     icon: 'ondemand_video',
-    path: 'video-tutorials',
-    badge: 'new'
+    path: 'video-tutorials'
   },
   {
     name: 'Meet the Team',
