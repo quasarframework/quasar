@@ -56,9 +56,6 @@ export default {
       keyboard,
       handler: value,
 
-      // needed by addEvt / cleanEvt
-      stopAndPrevent,
-
       mouseStart (evt) {
         if (ctx.skipMouse === true) {
           // touch actions finally generate this event
@@ -68,7 +65,7 @@ export default {
         else if (ctx.event === void 0 && typeof ctx.handler === 'function' && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'passiveCapture' ],
-            [ document, 'mouseup', 'end', 'passiveCapture' ]
+            [ document, 'click', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt, true)
         }
@@ -85,7 +82,8 @@ export default {
           }
 
           addEvt(ctx, 'temp', [
-            [ document, 'keyup', 'end', 'passiveCapture' ]
+            [ document, 'keyup', 'end', 'notPassiveCapture' ],
+            [ document, 'click', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt, false, true)
         }
@@ -96,9 +94,8 @@ export default {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'passiveCapture' ],
-            [ target, 'touchcancel', 'touchEnd', 'passiveCapture' ],
-            [ target, 'touchend', 'touchEnd', 'passiveCapture' ],
-            [ document, 'contextmenu', 'stopAndPrevent', 'notPassiveCapture' ]
+            [ target, 'touchcancel', 'touchEnd', 'notPassiveCapture' ],
+            [ target, 'touchend', 'touchEnd', 'notPassiveCapture' ]
           ])
           ctx.start(evt)
         }
@@ -200,12 +197,13 @@ export default {
         }
       },
 
-      end () {
+      end (evt) {
         if (ctx.event === void 0) {
           return
         }
 
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
+        ctx.event.repeatCount > 0 && stopAndPrevent(evt)
 
         cleanEvt(ctx, 'temp')
         clearTimeout(ctx.timer)
