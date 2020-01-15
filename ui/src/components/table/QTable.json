@@ -1580,7 +1580,8 @@
           "required": true,
           "examples": [ "1", 23 ]
         }
-      }
+      },
+      "addedIn": "v1.7.2"
     }
   }
 }
