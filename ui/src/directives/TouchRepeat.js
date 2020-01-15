@@ -71,18 +71,6 @@ export default {
         }
       },
 
-      touchStart (evt) {
-        if (evt.target !== void 0) {
-          const target = getTouchTarget(evt.target)
-          addEvt(ctx, 'temp', [
-            [ target, 'touchmove', 'move', 'passiveCapture' ],
-            [ target, 'touchcancel', 'touchEnd', 'notPassiveCapture' ],
-            [ target, 'touchend', 'touchEnd', 'notPassiveCapture' ]
-          ])
-          ctx.start(evt)
-        }
-      },
-
       keyboardStart (evt) {
         if (typeof ctx.handler === 'function' && isKeyCode(evt, keyboard) === true) {
           if (durations[0] === 0 || ctx.event !== void 0) {
@@ -98,6 +86,18 @@ export default {
             [ document, 'click', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt, false, true)
+        }
+      },
+      
+      touchStart (evt) {
+        if (evt.target !== void 0 && typeof ctx.handler === 'function') {
+          const target = getTouchTarget(evt.target)
+          addEvt(ctx, 'temp', [
+            [ target, 'touchmove', 'move', 'passiveCapture' ],
+            [ target, 'touchcancel', 'touchEnd', 'notPassiveCapture' ],
+            [ target, 'touchend', 'touchEnd', 'notPassiveCapture' ]
+          ])
+          ctx.start(evt)
         }
       },
 
