@@ -16,10 +16,10 @@
           .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center
             q-btn(color="white", text-color="primary", no-caps, to="/start", label="Get Started")
             q-btn(color="white", text-color="primary", no-caps, to="/introduction-to-quasar", label="Why Quasar?")
-            q-btn(color="white", text-color="primary", no-caps, to="/video-tutorials", label="Video Tutorials", icon-right="new_releases")
+            q-btn(color="white", text-color="primary", no-caps, to="/video-tutorials", label="Video Tutorials")
             .text-body2 v{{ $q.version }}
         .landing__arrow-down.row.justify-center.absolute
-          q-icon.landing__arrow-down-icon.q-mt-xl(name="keyboard_arrow_down" size="50px")
+          q-icon.landing__arrow-down-icon.q-mt-xl(:name="mdiChevronDown" size="50px")
 
   section.landing__front.text-center
     div
@@ -27,12 +27,12 @@
         introduction-video.landing__video
 
       .q-gutter-md.row.justify-center
-        q-btn(color="red", push, no-caps, no-wrap, icon-right="launch", label="User Interface Components", to="/vue-components")
-        q-btn(color="primary", push, no-caps, no-wrap, icon-right="launch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
-        q-btn(color="teal", push, no-caps, no-wrap, icon-right="launch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
-        q-btn(color="accent", push, no-caps, no-wrap, icon-right="launch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
-        q-btn(color="orange", push, no-caps, no-wrap, icon-right="launch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps")
-        q-btn(color="indigo", push, no-caps, no-wrap, icon-right="launch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
+        q-btn(color="red", push, no-caps, no-wrap, :icon-right="mdiLaunch", label="User Interface Components", to="/vue-components")
+        q-btn(color="primary", push, no-caps, no-wrap, :icon-right="mdiLaunch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
+        q-btn(color="teal", push, no-caps, no-wrap, :icon-right="mdiLaunch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
+        q-btn(color="accent", push, no-caps, no-wrap, :icon-right="mdiLaunch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
+        q-btn(color="orange", push, no-caps, no-wrap, :icon-right="mdiLaunch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps")
+        q-btn(color="indigo", push, no-caps, no-wrap, :icon-right="mdiLaunch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
@@ -151,13 +151,13 @@
           q-icon(:name="fabGithub")
 
         a(href="https://blog.quasar.dev", target="_blank", rel="noopener")
-          q-icon(:name="fabMedium")
+          q-icon(:name="mdiBlogger")
 
         a(href="https://chat.quasar.dev", rel="noopener", target="_blank")
-          q-icon(name="chat")
+          q-icon(:name="mdiChat")
 
         a(href="https://forum.quasar.dev/", rel="noopener", target="_blank")
-          q-icon(name="forum")
+          q-icon(:name="mdiForum")
 
         a(href="https://twitter.quasar.dev", target="_blank", rel="noopener")
           q-icon(:name="fabTwitter")
@@ -183,10 +183,15 @@ import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
 
 import {
-  fabGithub, fabMedium, fabTwitter, fabFacebook, fasMedkit,
+  fabGithub, fabTwitter, fabFacebook, fasMedkit,
   fabApple, fabWindows, fabLinux, fabAndroid, fabChrome,
   fabFirefox, fabEdge, fabSafari, fabGoogle
 } from '@quasar/extras/fontawesome-v5'
+
+import {
+  mdiChevronDown, mdiLaunch, mdiBlogger,
+  mdiChat, mdiForum
+} from '@quasar/extras/mdi-v4'
 
 export default {
   name: 'Landing',
@@ -207,7 +212,6 @@ export default {
     this.year = (new Date()).getFullYear()
 
     this.fabGithub = fabGithub
-    this.fabMedium = fabMedium
     this.fabTwitter = fabTwitter
     this.fabFacebook = fabFacebook
     this.fasMedkit = fasMedkit
@@ -220,6 +224,12 @@ export default {
     this.fabEdge = fabEdge
     this.fabSafari = fabSafari
     this.fabGoogle = fabGoogle
+
+    this.mdiChevronDown = mdiChevronDown
+    this.mdiLaunch = mdiLaunch
+    this.mdiBlogger = mdiBlogger
+    this.mdiChat = mdiChat
+    this.mdiForum = mdiForum
   }
 }
 </script>
