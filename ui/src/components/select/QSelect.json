@@ -591,6 +591,19 @@
       }
     },
 
+    "moveOptionSelection": {
+      "desc": "Move selected option from menu by index offset",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Number of options to move up or down",
+          "default": 1,
+          "examples": [ -1, 1, 5 ]
+        }
+      },
+      "addedIn": "v1.7.4"
+    },
+
     "filter": {
       "desc": "Filter options",
       "params": {

@@ -412,6 +412,32 @@ export default Vue.extend({
       }
     },
 
+    moveOptionSelection (offset = 1) {
+      if (this.menu === true) {
+        let index = this.optionIndex
+        do {
+          index = normalizeToInterval(
+            index + offset,
+            -1,
+            this.virtualScrollLength - 1
+          )
+        }
+        while (index !== -1 && index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
+
+        if (this.optionIndex !== index) {
+          this.setOptionIndex(index)
+          this.scrollTo(index)
+
+          if (index >= 0 && this.useInput === true && this.fillInput === true) {
+            const inputValue = this.__getOptionLabel(this.options[index])
+            if (this.inputValue !== inputValue) {
+              this.inputValue = inputValue
+            }
+          }
+        }
+      }
+    },
+
     __getOption (value, innerValueCache) {
       const fn = opt => isDeepEqual(this.__getOptionValue(opt), value)
       return this.options.find(fn) || innerValueCache.find(fn) || value
@@ -521,35 +547,12 @@ export default Vue.extend({
       }
 
       // up, down
-      const optionsLength = this.virtualScrollLength
-
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
-
-        if (this.menu === true) {
-          let index = this.optionIndex
-          do {
-            index = normalizeToInterval(
-              index + (e.keyCode === 38 ? -1 : 1),
-              -1,
-              optionsLength - 1
-            )
-          }
-          while (index !== -1 && index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
-
-          if (this.optionIndex !== index) {
-            this.setOptionIndex(index)
-            this.scrollTo(index)
-
-            if (index >= 0 && this.useInput === true && this.fillInput === true) {
-              const inputValue = this.__getOptionLabel(this.options[index])
-              if (this.inputValue !== inputValue) {
-                this.inputValue = inputValue
-              }
-            }
-          }
-        }
+        this.moveOptionSelection(e.keyCode === 38 ? -1 : 1)
       }
+
+      const optionsLength = this.virtualScrollLength
 
       // keyboard search when not having use-input
       if (optionsLength > 0 && this.useInput !== true && e.keyCode >= 48 && e.keyCode <= 90) {

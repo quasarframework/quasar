@@ -410,9 +410,13 @@ export default {
         return
       }
 
-      update(() => {
+      update((ref) => {
         const needle = val.toLowerCase()
         this.options = options.filter(v => v.toLowerCase().indexOf(needle) > -1)
+
+        setTimeout(() => {
+          ref.moveOptionSelection()
+        })
       })
     },
 
