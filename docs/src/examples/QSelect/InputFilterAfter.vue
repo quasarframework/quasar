@@ -6,7 +6,7 @@
         v-model="model"
         use-input
         input-debounce="0"
-        label="Focus first option after filtering"
+        label="Focus after filtering"
         :options="options"
         @filter="filterFn"
         @filter-abort="abortFilterFn"
@@ -26,7 +26,7 @@
         v-model="model"
         use-input
         input-debounce="0"
-        label="Autoselect first option after filtering"
+        label="Autoselect after filtering"
         :options="options"
         @filter="filterFnAutoselect"
         @filter-abort="abortFilterFn"
@@ -47,7 +47,12 @@
 <script>
 const stringOptions = [
   'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
-]
+].reduce((acc, opt) => {
+  for (let i = 1; i <= 5; i++) {
+    acc.push(opt + ' ' + i)
+  }
+  return acc
+}, [])
 
 export default {
   data () {
@@ -76,11 +81,14 @@ export default {
           // next function is available in Quasar v1.7.4+;
           // "ref" is the Vue reference to the QSelect
           ref => {
-            // DO NOT use moveOptionSelection with fill-input
-            ref.moveOptionSelection()
+            if (val !== '' && ref.options.length > 0) {
+              // DO NOT use setOptionIndex or moveOptionSelection with fill-input
+              ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
+              ref.moveOptionSelection() // focus the first selectable option
+            }
           }
         )
-      }, 1500)
+      }, 300)
     },
 
     filterFnAutoselect (val, update, abort) {
@@ -101,12 +109,14 @@ export default {
           // next function is available in Quasar v1.7.4+;
           // "ref" is the Vue reference to the QSelect
           ref => {
-            // DO NOT use moveOptionSelection or toggleOption with fill-input
-            ref.moveOptionSelection()
-            ref.toggleOption(ref.options[ref.optionIndex], true)
+            if (val !== '' && ref.options.length > 0 && ref.optionIndex === -1) {
+              // DO NOT use setmoveOptionSelection or toggleOption with fill-input
+              ref.moveOptionSelection() // focus the first selectable option
+              ref.toggleOption(ref.options[ref.optionIndex], true) // toggle the focused option
+            }
           }
         )
-      }, 1500)
+      }, 300)
     },
 
     abortFilterFn () {
