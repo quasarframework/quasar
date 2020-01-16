@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
-import { getScrollTargetEnhanced, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
@@ -134,7 +134,7 @@ export default Vue.extend({
         this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
       }
 
-      this.scrollContainer = getScrollTargetEnhanced(this.scrollTarget, this.$el)
+      this.scrollContainer = getScrollTarget(this.$el, this.scrollTarget)
 
       if (this.working === true) {
         this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
