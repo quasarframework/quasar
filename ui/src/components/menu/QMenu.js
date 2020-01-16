@@ -213,7 +213,7 @@ export default Vue.extend({
 
     __configureScrollTarget () {
       if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
-        this.__scrollTarget = getScrollTargetEnhanced(this.anchorEl, this.scrollTarget)
+        this.__scrollTarget = getScrollTarget(this.anchorEl, this.scrollTarget)
         this.__changeScrollEvent(this.__scrollTarget, this.updatePosition)
       }
     },
