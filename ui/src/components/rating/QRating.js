@@ -25,11 +25,11 @@ export default Vue.extend({
     },
 
     icon: [String, Array],
-    iconHalfSelected: [String, Array],
+    iconHalf: [String, Array],
     iconSelected: [String, Array],
 
     color: [String, Array],
-    colorHalfSelected: [String, Array],
+    colorHalf: [String, Array],
     colorSelected: [String, Array],
 
     noReset: Boolean,
@@ -52,6 +52,7 @@ export default Vue.extend({
 
     classes () {
       return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
+        (this.noDimming === true ? ' q-rating--no-dimming' : '') +
         (this.disable === true ? ' disabled' : '') +
         (this.color !== void 0 && Array.isArray(this.color) === false ? ` text-${this.color}` : '')
     },
@@ -60,10 +61,10 @@ export default Vue.extend({
       const
         iconLen = Array.isArray(this.icon) === true ? this.icon.length : 0,
         selIconLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0,
-        halfIconLen = Array.isArray(this.iconHalfSelected) === true ? this.iconHalfSelected.length : 0,
+        halfIconLen = Array.isArray(this.iconHalf) === true ? this.iconHalf.length : 0,
         colorLen = Array.isArray(this.color) === true ? this.color.length : 0,
         selColorLen = Array.isArray(this.colorSelected) === true ? this.colorSelected.length : 0,
-        halfColorLen = Array.isArray(this.colorHalfSelected) === true ? this.colorHalfSelected.length : 0
+        halfColorLen = Array.isArray(this.colorHalf) === true ? this.colorHalf.length : 0
 
       return {
         iconLen,
@@ -71,13 +72,13 @@ export default Vue.extend({
         selIconLen,
         selIcon: selIconLen > 0 ? this.iconSelected[selIconLen - 1] : this.iconSelected,
         halfIconLen,
-        halfIcon: halfIconLen > 0 ? this.iconHalfSelected[selIconLen - 1] : this.iconHalfSelected,
+        halfIcon: halfIconLen > 0 ? this.iconHalf[selIconLen - 1] : this.iconHalf,
         colorLen,
         color: colorLen > 0 ? this.color[colorLen - 1] : this.color,
         selColorLen,
         selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected,
         halfColorLen,
-        halfColor: halfColorLen > 0 ? this.colorHalfSelected[halfColorLen - 1] : this.colorHalfSelected
+        halfColor: halfColorLen > 0 ? this.colorHalf[halfColorLen - 1] : this.colorHalf
       }
     }
   },
@@ -129,7 +130,7 @@ export default Vue.extend({
       icons = this.iconData,
       ceil = Math.ceil(this.value)
 
-    const halfIndex = this.iconHalfSelected === void 0 || ceil === this.value
+    const halfIndex = this.iconHalf === void 0 || ceil === this.value
       ? -1
       : ceil
 
@@ -139,14 +140,14 @@ export default Vue.extend({
         half = halfIndex === i && this.mouseModel < i,
         exSelected = this.mouseModel > 0 && ceil >= i && this.mouseModel < i,
         name = half === true
-          ? (i <= icons.halfIconLen ? this.iconHalfSelected[i - 1] : icons.halfIcon)
+          ? (i <= icons.halfIconLen ? this.iconHalf[i - 1] : icons.halfIcon)
           : (
             icons.selIcon !== void 0 && (active === true || exSelected === true)
               ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
               : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon)
           ),
         color = half === true
-          ? (i <= icons.halfColorLen ? this.colorHalfSelected[i - 1] : icons.halfColor)
+          ? (i <= icons.halfColorLen ? this.colorHalf[i - 1] : icons.halfColor)
           : (
             icons.selColor !== void 0 && active === true
               ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
@@ -161,7 +162,6 @@ export default Vue.extend({
           class: {
             'q-rating__icon--active': active === true || half === true,
             'q-rating__icon--exselected': exSelected,
-            'q-rating__icon--no-dimming': this.noDimming,
             'q-rating__icon--hovered': this.mouseModel === i,
             [`text-${color}`]: color !== void 0
           },
