@@ -149,6 +149,8 @@ More information: [native input attributes](https://developer.mozilla.org/en-US/
 
 <doc-example title="Lazy autocomplete" file="QSelect/InputFilterLazy" />
 
+<doc-example title="Selecting option after filtering" file="QSelect/InputFilterAfter" />
+
 ## Create new values
 
 ::: tip

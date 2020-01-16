@@ -581,6 +581,11 @@
           "desc": "Option to add to model",
           "required": true,
           "__exemption": [ "examples" ]
+        },
+        "keepOpen": {
+          "type": "Boolean",
+          "desc": "Don't close the menu and do not clear the filter",
+          "addedIn": "v1.7.4"
         }
       }
     },
