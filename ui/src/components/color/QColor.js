@@ -347,7 +347,10 @@ export default Vue.extend({
           style: this.spectrumStyle,
           class: { readonly: this.editable !== true },
           on: this.editable === true
-            ? cache(this, 'spectrT', { click: this.__spectrumClick })
+            ? cache(this, 'spectrT', {
+              click: this.__spectrumClick,
+              mousedown: this.__activate
+            })
             : null,
           directives: this.editable === true
             ? cache(this, 'spectrDir', [{
@@ -831,6 +834,13 @@ export default Vue.extend({
         evt.pageX - window.pageXOffset,
         evt.pageY - window.pageYOffset,
         true
+      )
+    },
+
+    __activate (evt) {
+      this.__onSpectrumChange(
+        evt.pageX - window.pageXOffset,
+        evt.pageY - window.pageYOffset
       )
     }
   }
