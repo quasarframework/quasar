@@ -73,11 +73,9 @@ export default {
             }
           },
 
+          // next function is available in Quasar v1.7.4+;
+          // "ref" is the Vue reference to the QSelect
           ref => {
-            // with Quasar v1.7.4+
-            // here you have access to "ref" which
-            // is the Vue reference of the QSelect
-
             // DO NOT use moveOptionSelection with fill-input
             ref.moveOptionSelection()
           }
@@ -100,11 +98,9 @@ export default {
             }
           },
 
+          // next function is available in Quasar v1.7.4+;
+          // "ref" is the Vue reference to the QSelect
           ref => {
-            // with Quasar v1.7.4+
-            // here you have access to "ref" which
-            // is the Vue reference of the QSelect
-
             // DO NOT use moveOptionSelection or toggleOption with fill-input
             ref.moveOptionSelection()
             ref.toggleOption(ref.options[ref.optionIndex], true)
