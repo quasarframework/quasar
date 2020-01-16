@@ -7,7 +7,7 @@ import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
 import ClickOutside from './ClickOutside.js'
-import { getScrollTargetEnhanced } from '../../utils/scroll.js'
+import { getScrollTarget } from '../../utils/scroll.js'
 import { create, stop, position, stopAndPrevent } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
 
@@ -205,16 +205,16 @@ export default Vue.extend({
     },
 
     __unconfigureScrollTarget () {
-      if (this.computedScrollTarget !== void 0) {
-        this.__changeScrollEvent(this.computedScrollTarget)
-        this.computedScrollTarget = void 0
+      if (this.__scrollTarget !== void 0) {
+        this.__changeScrollEvent(this.__scrollTarget)
+        this.__scrollTarget = void 0
       }
     },
 
     __configureScrollTarget () {
       if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
-        this.computedScrollTarget = getScrollTargetEnhanced(this.scrollTarget, this.anchorEl)
-        this.__changeScrollEvent(this.computedScrollTarget, this.updatePosition)
+        this.__scrollTarget = getScrollTargetEnhanced(this.anchorEl, this.scrollTarget)
+        this.__changeScrollEvent(this.__scrollTarget, this.updatePosition)
       }
     },
 
