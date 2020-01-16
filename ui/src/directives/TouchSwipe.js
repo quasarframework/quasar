@@ -217,7 +217,7 @@ export default {
         cleanEvt(ctx, 'temp')
         client.is.firefox === true && preventDraggable(el, false)
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
-        ctx.event.dir !== false && evt !== void 0 && stopAndPrevent(evt)
+        evt !== void 0 && ctx.event.dir !== false && stopAndPrevent(evt)
 
         ctx.event = void 0
       }
