@@ -179,7 +179,7 @@ export default {
       typeof this.__unconfigureScrollTarget === 'function'
     ) {
       this.noParentEventWatcher = this.$watch('noParentEvent', () => {
-        if (this.computedScrollTarget !== void 0) {
+        if (this.__scrollTarget !== void 0) {
           this.__unconfigureScrollTarget()
           this.__configureScrollTarget()
         }
