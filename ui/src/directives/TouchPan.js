@@ -144,7 +144,7 @@ export default {
       noop () {},
 
       mouseStart (evt) {
-        if (shouldStart(event, ctx) && leftClick(evt)) {
+        if (shouldStart(evt, ctx) && leftClick(evt)) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
@@ -155,7 +155,7 @@ export default {
       },
 
       touchStart (evt) {
-        if (shouldStart(evt)) {
+        if (shouldStart(evt, ctx)) {
           const target = getTouchTarget(evt.target)
 
           addEvt(ctx, 'temp', [
