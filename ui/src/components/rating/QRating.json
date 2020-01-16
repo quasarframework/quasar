@@ -86,6 +86,7 @@
     "no-dimming": {
       "type": "Boolean",
       "desc": "Does not lower opacity for unselected icons",
+      "category": "style",
       "addedIn": "v1.7.4"
     },
 

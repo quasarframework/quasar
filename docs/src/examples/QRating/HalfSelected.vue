@@ -1,13 +1,10 @@
 <template>
   <div class="q-pa-md">
     <div class="q-gutter-y-md column">
-      <div>Average rating:</div>
-
       <q-rating
-        :value="model"
-        @input="addRating"
+        v-model="model1"
         max="7"
-        size="3.5em"
+        size="3em"
         color="green-5"
         icon="star_border"
         icon-selected="star"
@@ -15,10 +12,9 @@
       />
 
       <q-rating
-        :value="model"
-        @input="addRating"
+        v-model="model2"
         max="7"
-        size="3.5em"
+        size="3em"
         color="yellow"
         icon="star_border"
         icon-selected="star"
@@ -27,17 +23,25 @@
       />
 
       <q-rating
-        :value="model"
-        @input="addRating"
+        v-model="model3"
         max="7"
-        size="3.5em"
-        color="grey-4"
-        color-half="blue"
-        color-selected="green"
+        size="3em"
+        color="red"
+        color-selected="red-9"
         icon="favorite_border"
         icon-selected="favorite"
+        icon-half="favorite"
         no-dimming
       />
+
+      <div>
+        <q-btn
+          color="grey"
+          no-caps
+          label="Reset"
+          @click="resetModels"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -46,21 +50,17 @@
 export default {
   data () {
     return {
-      ratingModel: [ 3.5 ]
-    }
-  },
-
-  computed: {
-    model () {
-      return this.ratingModel.length === 0
-        ? 0
-        : this.ratingModel.reduce((acc, rating) => acc + rating, 0) / this.ratingModel.length
+      model1: 3.5,
+      model2: 2.3,
+      model3: 4.5
     }
   },
 
   methods: {
-    addRating (value) {
-      this.ratingModel.push(value)
+    resetModels () {
+      this.model1 = 3.5
+      this.model2 = 2.3
+      this.model3 = 4.5
     }
   }
 }

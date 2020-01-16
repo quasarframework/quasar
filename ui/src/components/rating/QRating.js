@@ -138,7 +138,7 @@ export default Vue.extend({
       const
         active = (this.mouseModel === 0 && this.value >= i) || (this.mouseModel > 0 && this.mouseModel >= i),
         half = halfIndex === i && this.mouseModel < i,
-        exSelected = this.mouseModel > 0 && ceil >= i && this.mouseModel < i,
+        exSelected = this.mouseModel > 0 && (half === true ? ceil : this.value) >= i && this.mouseModel < i,
         name = half === true
           ? (i <= icons.halfIconLen ? this.iconHalf[i - 1] : icons.halfIcon)
           : (

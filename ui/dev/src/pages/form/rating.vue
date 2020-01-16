@@ -58,6 +58,17 @@
         <q-rating size="3rem" color="red-10" color-half="red-5" v-model="halfModel" :max="6" icon-selected="favorite" icon-half="favorite" icon="favorite_border" />
         <q-rating size="3rem" color="red" v-model="halfModel" :max="6" icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" icon-half="star_half" />
         <q-rating size="3rem" color="red" v-model="halfModel" :max="6" icon="star_border" icon-selected="star" icon-half="star_half" />
+        <q-rating
+          v-model="halfModel"
+          max="7"
+          size="2em"
+          color="grey-4"
+          color-half="blue"
+          color-selected="green"
+          icon="favorite_border"
+          icon-selected="favorite"
+          no-dimming
+        />
       </div>
 
       <p class="caption q-mt-lg">
