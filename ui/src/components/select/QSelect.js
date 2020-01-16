@@ -909,7 +909,8 @@ export default Vue.extend({
         fn => {
           if (this.focused === true && this.filterId === filterId) {
             clearTimeout(this.filterId)
-            typeof fn === 'function' && fn()
+            typeof fn === 'function' && fn(this)
+
             this.$nextTick(() => {
               this.innerLoading = false
               if (this.menu === true) {

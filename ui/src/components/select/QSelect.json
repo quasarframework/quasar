@@ -479,7 +479,14 @@
             "callbackFn": {
               "type": "Function",
               "desc": "Callback to call to make the actual updates",
-              "params": null,
+              "params": {
+                "ref": {
+                  "type": "Object",
+                  "desc": "Vue reference to the QSelect which triggered the filtering",
+                  "__exemption": [ "examples" ],
+                  "addedIn": "v1.7.4"
+                }
+              },
               "returns": null
             }
           },
