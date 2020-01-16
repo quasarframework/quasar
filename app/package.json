@@ -39,7 +39,7 @@
     "url": "https://donate.quasar.dev"
   },
   "dependencies": {
-    "@quasar/babel-preset-app": "1.1.7",
+    "@quasar/babel-preset-app": "1.1.8",
     "@quasar/fastclick": "1.1.4",
     "@vue/preload-webpack-plugin": "1.1.1",
     "autoprefixer": "9.7.3",
