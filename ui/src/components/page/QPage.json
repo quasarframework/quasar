@@ -25,7 +25,7 @@
         },
         "height": {
           "type": "Number",
-          "desc": "Total height (in pixels)",
+          "desc": "Value in pixels of container height (if containerized) or window height otherwise",
           "examples": [ 1200 ],
           "addedIn": "v1.7.4"
         }
