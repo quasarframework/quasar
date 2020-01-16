@@ -56,13 +56,10 @@ export default {
       keyboard,
       handler: value,
 
+      noop () {},
+
       mouseStart (evt) {
-        if (ctx.skipMouse === true) {
-          // touch actions finally generate this event
-          // so we need to avoid it
-          ctx.skipMouse = false
-        }
-        else if (ctx.event === void 0 && typeof ctx.handler === 'function' && leftClick(evt) === true) {
+        if (ctx.event === void 0 && typeof ctx.handler === 'function' && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'passiveCapture' ],
             [ document, 'click', 'end', 'notPassiveCapture' ]
@@ -94,8 +91,8 @@ export default {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
             [ target, 'touchmove', 'move', 'passiveCapture' ],
-            [ target, 'touchcancel', 'touchEnd', 'notPassiveCapture' ],
-            [ target, 'touchend', 'touchEnd', 'notPassiveCapture' ]
+            [ target, 'touchcancel', 'end', 'notPassiveCapture' ],
+            [ target, 'touchend', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt)
         }
@@ -181,18 +178,6 @@ export default {
 
       move (evt) {
         if (ctx.event !== void 0 && shouldEnd(evt, ctx.origin) === true) {
-          if (ctx.event.touch === true) {
-            ctx.touchEnd(evt)
-          }
-          else {
-            ctx.end(evt)
-          }
-        }
-      },
-
-      touchEnd (evt) {
-        if (ctx.event !== void 0) {
-          ctx.skipMouse = true
           ctx.end(evt)
         }
       },
@@ -203,7 +188,7 @@ export default {
         }
 
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
-        ctx.event.repeatCount > 0 && stopAndPrevent(evt)
+        evt !== void 0 && ctx.event.repeatCount > 0 && stopAndPrevent(evt)
 
         cleanEvt(ctx, 'temp')
         clearTimeout(ctx.timer)
@@ -223,7 +208,8 @@ export default {
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [
-      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ]
+      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchend', 'noop', 'notPassiveCapture' ]
     ])
 
     keyboard.length > 0 && addEvt(ctx, 'main', [
@@ -235,6 +221,7 @@ export default {
     const ctx = el.__qtouchrepeat
 
     if (ctx !== void 0 && binding.oldValue !== binding.value) {
+      typeof binding.value !== 'function' && ctx.end()
       ctx.handler = binding.value
     }
   },

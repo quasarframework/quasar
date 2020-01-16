@@ -47,6 +47,7 @@ export function getModifierDirections (mod) {
 
 export function updateModifiers (ctx, { oldValue, value, modifiers }) {
   if (oldValue !== value) {
+    typeof value !== 'function' && ctx.end()
     ctx.handler = value
   }
 

@@ -8,6 +8,7 @@ function update (el, binding) {
 
   if (ctx !== void 0) {
     if (binding.oldValue !== binding.value) {
+      typeof binding.value !== 'function' && ctx.end()
       ctx.handler = binding.value
     }
 
@@ -37,6 +38,8 @@ export default {
     }
 
     const ctx = {
+      noop () { },
+
       mouseStart (evt) {
         if (typeof ctx.handler === 'function' && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
@@ -126,7 +129,7 @@ export default {
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(ctx.triggered)
 
         if (ctx.triggered === true) {
-          stopAndPrevent(evt)
+          evt !== void 0 && stopAndPrevent(evt)
         }
         else {
           clearTimeout(ctx.timer)
@@ -147,7 +150,8 @@ export default {
     ])
 
     client.has.touch === true && addEvt(ctx, 'main', [
-      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ]
+      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchend', 'noop', 'notPassiveCapture' ]
     ])
   },
 

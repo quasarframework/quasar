@@ -144,7 +144,7 @@ export default {
       noop () {},
 
       mouseStart (evt) {
-        if (shouldStart(event, ctx) && leftClick(evt)) {
+        if (shouldStart(evt, ctx) && leftClick(evt)) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
@@ -155,7 +155,7 @@ export default {
       },
 
       touchStart (evt) {
-        if (shouldStart(evt)) {
+        if (shouldStart(evt, ctx)) {
           const target = getTouchTarget(evt.target)
 
           addEvt(ctx, 'temp', [
@@ -172,6 +172,8 @@ export default {
         client.is.firefox === true && preventDraggable(el, true)
 
         const pos = position(evt)
+
+        ctx.lastEvt = evt
 
         /*
          * Stop propagation so possible upper v-touch-pan don't catch this as well;
@@ -216,6 +218,8 @@ export default {
         if (ctx.event === void 0) {
           return
         }
+
+        ctx.lastEvt = evt
 
         if (ctx.event.detected === true) {
           ctx.event.isFirst !== true && handleEvent(evt, ctx.event.mouse)
@@ -310,7 +314,7 @@ export default {
           ctx.event.detected === true &&
           ctx.event.isFirst !== true
         ) {
-          ctx.handler(getChanges(evt, ctx, true).payload)
+          ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true).payload)
         }
 
         if (abort === true && ctx.event.detected !== true && ctx.initialEvent !== void 0) {
@@ -319,6 +323,7 @@ export default {
 
         ctx.event = void 0
         ctx.initialEvent = void 0
+        ctx.lastEvt = void 0
       }
     }
 
