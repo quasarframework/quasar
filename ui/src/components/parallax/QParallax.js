@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
-import { getScrollTargetEnhanced } from '../../utils/scroll.js'
+import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 
@@ -51,7 +51,7 @@ export default Vue.extend({
     },
 
     __onResize () {
-      if (this.computedScrollTarget) {
+      if (this.__scrollTarget) {
         this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
         this.__updatePos()
       }
@@ -60,14 +60,14 @@ export default Vue.extend({
     __updatePos () {
       let containerTop, containerHeight, containerBottom, top, bottom
 
-      if (this.computedScrollTarget === window) {
+      if (this.__scrollTarget === window) {
         containerTop = 0
         containerHeight = window.innerHeight
         containerBottom = containerHeight
       }
       else {
-        containerTop = offset(this.computedScrollTarget).top
-        containerHeight = height(this.computedScrollTarget)
+        containerTop = offset(this.__scrollTarget).top
+        containerHeight = height(this.__scrollTarget)
         containerBottom = containerTop + containerHeight
       }
 
@@ -87,15 +87,15 @@ export default Vue.extend({
     },
 
     __configureScrollTarget () {
-      this.computedScrollTarget = getScrollTargetEnhanced(this.scrollTarget, this.$el)
-      this.computedScrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
+      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
+      this.__scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
       this.__onResize()
     },
 
     __unconfigureScrollTarget () {
-      if (this.computedScrollTarget !== void 0) {
-        this.computedScrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
-        this.computedScrollTarget = void 0
+      if (this.__scrollTarget !== void 0) {
+        this.__scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
+        this.__scrollTarget = void 0
       }
     }
   },
