@@ -76,6 +76,8 @@ export default Vue.extend({
       this.__showPortal()
 
       this.__nextTick(() => {
+        this.observer = new MutationObserver(mutations => this.updatePosition())
+        this.observer.observe(this.__portal.$el, { attributes: false, childList: true, characterData: true, subtree: true })
         this.updatePosition()
         this.__configureScrollTarget()
       })
@@ -86,6 +88,7 @@ export default Vue.extend({
     },
 
     __hide (evt) {
+      this.observer.disconnect()
       this.__anchorCleanup()
 
       this.__setTimeout(() => {
