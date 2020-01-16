@@ -266,12 +266,12 @@ export default {
       }
 
       if (this.maxTotalSize !== void 0) {
-        let size = 0
+        let size = this.uploadSize
         for (let i = 0; i < files.length; i++) {
           size += files[i].size
           if (size > this.maxTotalSize) {
             if (i > 0) {
-              files = files.slice(0, i - 1)
+              files = files.slice(0, i)
               break
             }
             else {
