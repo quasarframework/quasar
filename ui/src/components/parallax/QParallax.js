@@ -19,6 +19,10 @@ export default Vue.extend({
       type: Number,
       default: 1,
       validator: v => v >= 0 && v <= 1
+    },
+
+    scrollTarget: {
+      default: void 0
     }
   },
 
@@ -32,6 +36,11 @@ export default Vue.extend({
   watch: {
     height () {
       this.__updatePos()
+    },
+
+    scrollTarget () {
+      this.__unconfigureScrollTarget()
+      this.__configureScrollTarget()
     }
   },
 
@@ -42,7 +51,7 @@ export default Vue.extend({
     },
 
     __onResize () {
-      if (this.scrollTarget) {
+      if (this.__scrollTarget) {
         this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
         this.__updatePos()
       }
@@ -51,14 +60,14 @@ export default Vue.extend({
     __updatePos () {
       let containerTop, containerHeight, containerBottom, top, bottom
 
-      if (this.scrollTarget === window) {
+      if (this.__scrollTarget === window) {
         containerTop = 0
         containerHeight = window.innerHeight
         containerBottom = containerHeight
       }
       else {
-        containerTop = offset(this.scrollTarget).top
-        containerHeight = height(this.scrollTarget)
+        containerTop = offset(this.__scrollTarget).top
+        containerHeight = height(this.__scrollTarget)
         containerBottom = containerTop + containerHeight
       }
 
@@ -75,6 +84,19 @@ export default Vue.extend({
     __setPos (offset) {
       // apply it immediately without any delay
       this.media.style.transform = `translate3D(-50%,${Math.round(offset)}px, 0)`
+    },
+
+    __configureScrollTarget () {
+      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
+      this.__scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
+      this.__onResize()
+    },
+
+    __unconfigureScrollTarget () {
+      if (this.__scrollTarget !== void 0) {
+        this.__scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
+        this.__scrollTarget = void 0
+      }
     }
   },
 
@@ -120,17 +142,14 @@ export default Vue.extend({
 
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize
 
-    this.scrollTarget = getScrollTarget(this.$el)
-
     window.addEventListener('resize', this.resizeHandler, listenOpts.passive)
-    this.scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
 
-    this.__onResize()
+    this.__configureScrollTarget()
   },
 
   beforeDestroy () {
     window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)
-    this.scrollTarget !== void 0 && this.scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
+    this.__unconfigureScrollTarget()
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = null
   }
 })

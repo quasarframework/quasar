@@ -63,13 +63,7 @@
     },
 
     "scroll-target": {
-      "type": [ "Element", "String" ],
-      "desc": "CSS selector or DOM element to be used as scroll container instead of the component's own container",
-      "examples": [
-        ":scroll-target=\"$refs.scrollTarget\"",
-        "scroll-target=\"body\""
-      ],
-      "category": "behavior"
+      "extends": "scroll-target"
     }
   },
 
