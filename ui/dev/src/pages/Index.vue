@@ -9,7 +9,7 @@
       </div>
 
       <div class="q-py-md">
-        <q-input clearable outlined v-model="filter">
+        <q-input clearable outlined v-model="filter" autofocus>
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>

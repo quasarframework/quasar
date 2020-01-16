@@ -4,6 +4,7 @@
       <q-select
         filled
         v-model="model"
+        clearable
         use-input
         input-debounce="0"
         label="Focus after filtering"
@@ -24,6 +25,7 @@
       <q-select
         filled
         v-model="model"
+        clearable
         use-input
         input-debounce="0"
         label="Autoselect after filtering"
