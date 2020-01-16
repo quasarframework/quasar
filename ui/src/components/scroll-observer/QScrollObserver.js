@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-import { getScrollPosition, getScrollTargetEnhanced, getHorizontalScrollPosition } from '../../utils/scroll.js'
+import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 
 export default Vue.extend({
@@ -55,13 +55,19 @@ export default Vue.extend({
     },
 
     __emit () {
+      const fn = this.horizontal === true
+          ? getHorizontalScrollPosition
+          : getScrollPosition
+
       const
-        pos = Math.max(0, (this.horizontal === true ? getHorizontalScrollPosition(this.computedScrollTarget) : getScrollPosition(this.computedScrollTarget))),
+        pos = Math.max(0, fn(this.__scrollTarget)),
         delta = pos - this.pos,
-        dir = this.horizontal
+        dir = this.horizontal === true
           ? delta < 0 ? 'left' : 'right'
           : delta < 0 ? 'up' : 'down'
+
       this.dirChanged = this.dir !== dir
+
       if (this.dirChanged) {
         this.dir = dir
         this.dirChangePos = this.pos
@@ -73,15 +79,15 @@ export default Vue.extend({
     },
 
     __configureScrollTarget () {
-      this.computedScrollTarget = getScrollTargetEnhanced(this.scrollTarget, this.$el.parentNode)
-      this.computedScrollTarget.addEventListener('scroll', this.trigger, listenOpts.passive)
+      this.__scrollTarget = getScrollTarget(this.$el.parentNode, this.scrollTarget)
+      this.__scrollTarget.addEventListener('scroll', this.trigger, listenOpts.passive)
       this.trigger(true)
     },
 
     __unconfigureScrollTarget () {
-      if (this.computedScrollTarget !== void 0) {
-        this.computedScrollTarget.removeEventListener('scroll', this.trigger, listenOpts.passive)
-        this.computedScrollTarget = void 0
+      if (this.__scrollTarget !== void 0) {
+        this.__scrollTarget.removeEventListener('scroll', this.trigger, listenOpts.passive)
+        this.__scrollTarget = void 0
       }
     }
   },
