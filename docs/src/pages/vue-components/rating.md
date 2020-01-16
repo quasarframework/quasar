@@ -27,6 +27,8 @@ In the example below, when using the `icon-selected` prop, notice we can still u
 
 <doc-example title="Different icon for each rating" file="QRating/ArrayIcon" />
 
+<doc-example title="Different icon and color when half selected" file="QRating/HalfSelected" />
+
 ### Colors
 
 <q-badge label="v1.5.0+" />
