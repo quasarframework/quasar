@@ -102,7 +102,7 @@
             {{ right }}
             <q-input v-model="inp" />
 
-            <q-slider v-model="slider" />
+            <q-slider v-model="slider" class="q-my-lg" />
 
             <q-btn to="/layout-quick/a" replace>
               Replace Go to A

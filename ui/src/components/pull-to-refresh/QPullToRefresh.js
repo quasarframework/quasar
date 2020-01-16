@@ -149,7 +149,7 @@ export default Vue.extend({
           modifiers: {
             down: true,
             mightPrevent: true,
-            mouse: !this.noMouse
+            mouse: this.noMouse !== true
           },
           value: this.__pull
         }]

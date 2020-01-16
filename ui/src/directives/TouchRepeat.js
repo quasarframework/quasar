@@ -178,7 +178,7 @@ export default {
 
       move (evt) {
         if (ctx.event !== void 0 && shouldEnd(evt, ctx.origin) === true) {
-          ctx.end(evt)
+          clearTimeout(ctx.timer)
         }
       },
 

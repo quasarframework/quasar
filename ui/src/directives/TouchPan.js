@@ -170,10 +170,9 @@ export default {
 
       start (evt, mouseEvent) {
         client.is.firefox === true && preventDraggable(el, true)
+        ctx.lastEvt = evt
 
         const pos = position(evt)
-
-        ctx.lastEvt = evt
 
         /*
          * Stop propagation so possible upper v-touch-pan don't catch this as well;

@@ -43,7 +43,7 @@ export default {
       mouseStart (evt) {
         if (typeof ctx.handler === 'function' && leftClick(evt) === true) {
           addEvt(ctx, 'temp', [
-            [ document, 'mousemove', 'mouseMove', 'notPassiveCapture' ],
+            [ document, 'mousemove', 'move', 'passiveCapture' ],
             [ document, 'click', 'end', 'notPassiveCapture' ]
           ])
           ctx.start(evt, true)
@@ -54,7 +54,7 @@ export default {
         if (evt.target !== void 0 && typeof ctx.handler === 'function') {
           const target = getTouchTarget(evt.target)
           addEvt(ctx, 'temp', [
-            [ target, 'touchmove', 'touchMove', 'notPassiveCapture' ],
+            [ target, 'touchmove', 'move', 'passiveCapture' ],
             [ target, 'touchcancel', 'end', 'notPassiveCapture' ],
             [ target, 'touchend', 'end', 'notPassiveCapture' ]
           ])
@@ -87,6 +87,9 @@ export default {
         }
 
         ctx.triggered = false
+        ctx.sensitivity = mouseEvent === true
+          ? ctx.mouseSensitivity
+          : ctx.touchSensitivity
 
         ctx.timer = setTimeout(() => {
           clearSelection()
@@ -102,23 +105,13 @@ export default {
         }, ctx.duration)
       },
 
-      mouseMove (evt) {
+      move (evt) {
         const { top, left } = position(evt)
         if (
-          Math.abs(left - ctx.origin.left) >= ctx.mouseSensitivity ||
-          Math.abs(top - ctx.origin.top) >= ctx.mouseSensitivity
+          Math.abs(left - ctx.origin.left) >= ctx.sensitivity ||
+          Math.abs(top - ctx.origin.top) >= ctx.sensitivity
         ) {
-          ctx.end(evt)
-        }
-      },
-
-      touchMove (evt) {
-        const { top, left } = position(evt)
-        if (
-          Math.abs(left - ctx.origin.left) >= ctx.touchSensitivity ||
-          Math.abs(top - ctx.origin.top) >= ctx.touchSensitivity
-        ) {
-          ctx.end(evt)
+          clearTimeout(ctx.timer)
         }
       },
 
