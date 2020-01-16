@@ -33,7 +33,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Ionicons](http://ionicons.com/) | 4.6.3 | `ionicons-v4` | Ionicons font | | [Font License](/ionicons-v4/FONT_LICENSE) [Icon License](ionicons-v4/ICON-LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.2 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `themify` | Themify Icons font | | [License](themify/LICENSE) |
-| [Animate.css](https://daneden.github.io/animate.css/) | 3.5.2 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
+| [Animate.css](https://daneden.github.io/animate.css/) | 3.7.2 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
 
 > Either install MDI v4 or MDI v3, but never both at the same time.
 
