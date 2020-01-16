@@ -7,6 +7,9 @@ import Vue from 'vue'
 export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
 export let onSSR = isSSR
+export let iosEmulated = false
+
+let unpatchedClientBrowser
 
 function getMatch (userAgent, platformMatch) {
   const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
@@ -53,8 +56,6 @@ function getPlatformMatch (userAgent) {
 const hasTouch = isSSR === false
   ? 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
   : false
-
-let unpatchedClientBrowser
 
 function applyIosCorrection (is) {
   unpatchedClientBrowser = { is: Object.assign({}, is) }
@@ -334,6 +335,10 @@ if (isSSR === true) {
       is: getPlatform(userAgent)
     }
   }
+}
+else {
+  iosEmulated = client.is.ios === true &&
+    window.navigator.vendor.toLowerCase().indexOf('apple') === -1
 }
 
 export default Platform
