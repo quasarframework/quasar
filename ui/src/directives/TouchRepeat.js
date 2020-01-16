@@ -188,7 +188,7 @@ export default {
         }
 
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
-        ctx.event.repeatCount > 0 && evt !== void 0 && stopAndPrevent(evt)
+        evt !== void 0 && ctx.event.repeatCount > 0 && stopAndPrevent(evt)
 
         cleanEvt(ctx, 'temp')
         clearTimeout(ctx.timer)
