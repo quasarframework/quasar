@@ -50,6 +50,30 @@ function getPlatformMatch (userAgent) {
     []
 }
 
+const hasTouch = isSSR === false
+  ? 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
+  : false
+
+let unpatchedClientBrowser
+
+function applyIosCorrection (is) {
+  unpatchedClientBrowser = { is: Object.assign({}, is) }
+
+  delete is.mac
+  delete is.desktop
+
+  const platform = Math.min(window.innerHeight, window.innerWidth) > 414
+    ? 'ipad'
+    : 'iphone'
+
+  Object.assign(is, {
+    mobile: true,
+    ios: true,
+    platform,
+    [ platform ]: true
+  })
+}
+
 function getPlatform (userAgent) {
   const
     platformMatch = getPlatformMatch(userAgent),
@@ -196,6 +220,21 @@ function getPlatform (userAgent) {
       browser.nativeMobile = true
       browser.nativeMobileWrapper = 'cordova'
     }
+    else if (
+      hasTouch === true &&
+      browser.desktop === true &&
+      browser.mac === true &&
+      browser.safari === true
+    ) {
+      /*
+       * Correction needed for iOS since the default
+       * setting on iPad is to request desktop view; if we have
+       * touch support and the user agent says it's a
+       * desktop, we infer that it's an iPhone/iPad with desktop view
+       * so we must fix the false positives
+       */
+      applyIosCorrection(browser)
+    }
 
     fromSSR = browser.nativeMobile === void 0 &&
       browser.electron === void 0 &&
@@ -231,9 +270,7 @@ export const client = isSSR === false
     userAgent,
     is: getPlatform(userAgent),
     has: {
-      touch: (() => 'ontouchstart' in window ||
-        window.navigator.maxTouchPoints > 0
-      )(),
+      touch: hasTouch,
       webStorage: (() => {
         try {
           if (window.localStorage) {
@@ -264,7 +301,8 @@ const Platform = {
       // must match with server-side before
       // client taking over in order to prevent
       // hydration errors
-      Object.assign(this, client, ssrClient)
+      Object.assign(this, client, unpatchedClientBrowser, ssrClient)
+      unpatchedClientBrowser = void 0
 
       // takeover should increase accuracy for
       // the rest of the props; we also avoid
