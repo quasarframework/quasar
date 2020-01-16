@@ -5,7 +5,7 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
 
-import { getScrollTargetEnhanced } from '../../utils/scroll.js'
+import { getScrollTarget } from '../../utils/scroll.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../../utils/touch.js'
 import { clearSelection } from '../../utils/selection.js'
 import { slot } from '../../utils/slot.js'
@@ -174,20 +174,20 @@ export default Vue.extend({
     },
 
     __unconfigureScrollTarget () {
-      if (this.computedScrollTarget !== void 0) {
-        this.__changeScrollEvent(this.computedScrollTarget)
-        this.computedScrollTarget = void 0
+      if (this.__scrollTarget !== void 0) {
+        this.__changeScrollEvent(this.__scrollTarget)
+        this.__scrollTarget = void 0
       }
     },
 
     __configureScrollTarget () {
       if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
-        this.computedScrollTarget = getScrollTargetEnhanced(this.scrollTarget, this.anchorEl)
+        this.__scrollTarget = getScrollTarget(this.anchorEl, this.scrollTarget)
         const fn = this.noParentEvent === true
           ? this.updatePosition
           : this.hide
 
-        this.__changeScrollEvent(this.computedScrollTarget, fn)
+        this.__changeScrollEvent(this.__scrollTarget, fn)
       }
     },
 
