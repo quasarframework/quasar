@@ -403,6 +403,7 @@ export default {
   methods: {
     filterFn (val, update) {
       console.log('filterFn', val)
+
       if (val === '') {
         update(() => {
           this.options = options
@@ -410,14 +411,15 @@ export default {
         return
       }
 
-      update((ref) => {
-        const needle = val.toLowerCase()
-        this.options = options.filter(v => v.toLowerCase().indexOf(needle) > -1)
-
-        setTimeout(() => {
+      update(
+        () => {
+          const needle = val.toLowerCase()
+          this.options = options.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        },
+        ref => {
           ref.moveOptionSelection()
-        })
-      })
+        }
+      )
     },
 
     filterFnObj (val, update) {

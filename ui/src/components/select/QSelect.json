@@ -479,15 +479,21 @@
             "callbackFn": {
               "type": "Function",
               "desc": "Callback to call to make the actual updates",
+              "params": null,
+              "returns": null
+            },
+            "afterFn": {
+              "type": "Function",
+              "desc": "Callback to call at the end after the update has been fully processed by QSelect",
               "params": {
                 "ref": {
                   "type": "Object",
                   "desc": "Vue reference to the QSelect which triggered the filtering",
-                  "__exemption": [ "examples" ],
-                  "addedIn": "v1.7.4"
+                  "__exemption": [ "examples" ]
                 }
               },
-              "returns": null
+              "returns": null,
+              "addedIn": "v1.7.4"
             }
           },
           "returns": null

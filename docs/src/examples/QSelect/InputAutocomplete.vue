@@ -40,13 +40,9 @@ export default {
 
   methods: {
     filterFn (val, update, abort) {
-      update((/* ref */) => {
+      update(() => {
         const needle = val.toLowerCase()
         this.options = stringOptions.filter(v => v.toLowerCase().indexOf(needle) > -1)
-
-        // with Quasar v1.7.4+
-        // here you have access to "ref" which
-        // is the Vue reference of the QSelect
       })
     }
   }

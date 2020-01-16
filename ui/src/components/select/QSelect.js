@@ -909,10 +909,11 @@ export default Vue.extend({
       this.$emit(
         'filter',
         val,
-        fn => {
+        (fn, afterFn) => {
           if (this.focused === true && this.filterId === filterId) {
             clearTimeout(this.filterId)
-            typeof fn === 'function' && fn(this)
+
+            typeof fn === 'function' && fn()
 
             this.$nextTick(() => {
               this.innerLoading = false
@@ -922,6 +923,8 @@ export default Vue.extend({
               else {
                 this.menu = true
               }
+
+              typeof afterFn === 'function' && afterFn(this)
             })
           }
         },

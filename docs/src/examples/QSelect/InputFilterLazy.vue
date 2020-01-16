@@ -67,11 +67,7 @@ export default {
       // call abort() at any time if you can't retrieve data somehow
 
       setTimeout(() => {
-        update((/* ref */) => {
-          // with Quasar v1.7.4+
-          // here you have access to "ref" which
-          // is the Vue reference of the QSelect
-
+        update(() => {
           if (val === '') {
             this.options = stringOptions
           }
