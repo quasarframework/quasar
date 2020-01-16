@@ -347,7 +347,7 @@ export default Vue.extend({
       this.$emit('input', model)
     },
 
-    toggleOption (opt) {
+    toggleOption (opt, keepOpen) {
       if (this.editable !== true || opt === void 0 || this.__isDisabled(opt) === true) {
         return
       }
@@ -355,14 +355,17 @@ export default Vue.extend({
       const optValue = this.__getOptionValue(opt)
 
       if (this.multiple !== true) {
-        this.updateInputValue(
-          this.fillInput === true ? this.__getOptionLabel(opt) : '',
-          true,
-          true
-        )
-
         this.$refs.target !== void 0 && this.$refs.target.focus()
-        this.hidePopup()
+
+        if (keepOpen !== true) {
+          this.updateInputValue(
+            this.fillInput === true ? this.__getOptionLabel(opt) : '',
+            true,
+            true
+          )
+
+          this.hidePopup()
+        }
 
         if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
@@ -924,7 +927,7 @@ export default Vue.extend({
                 this.menu = true
               }
 
-              typeof afterFn === 'function' && afterFn(this)
+              typeof afterFn === 'function' && this.$nextTick(() => { afterFn(this) })
             })
           }
         },
