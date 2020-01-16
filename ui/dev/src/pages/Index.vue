@@ -7,14 +7,25 @@
       <div class="text-caption text-center">
         Quasar v{{ $q.version }}
       </div>
+
+      <div class="q-py-md">
+        <q-input clearable outlined v-model="filter">
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+
       <q-list
         dense
-        v-for="(category, title) in list"
+        v-for="(category, title) in filteredList"
         :key="`category-${title}`"
+        class="q-mb-xl"
       >
-        <h4 class="text-uppercase">
+        <q-item-label header class="text-uppercase text-weight-bold">
           {{ title }}
-        </h4>
+        </q-item-label>
+
         <q-item
           v-for="feature in category"
           :key="`${feature.route}${feature.title}`"
@@ -46,9 +57,35 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
 })
 
 export default {
+  created () {
+    this.list = list
+  },
+
+  computed: {
+    filteredList () {
+      if (!this.filter) {
+        return this.list
+      }
+
+      const newList = {}
+
+      Object.keys(this.list).forEach(categName => {
+        const filtered = this.list[categName]
+          .filter(feature => feature.title.toLowerCase().indexOf(this.filter) > -1)
+
+        console.log(filtered)
+        if (filtered.length > 0) {
+          newList[categName] = filtered
+        }
+      })
+
+      return newList
+    }
+  },
+
   data () {
     return {
-      list
+      filter: ''
     }
   }
 }
