@@ -76,7 +76,7 @@ export default {
           ? this.indeterminateValue
           : this.falseValue
       }
-      else if (this.isFalse === true) {
+      else if (this.isIndeterminate === false || this.isFalse === true) {
         val = this.trueValue
       }
       else {
