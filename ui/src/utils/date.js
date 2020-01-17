@@ -466,28 +466,51 @@ function getDiff (t, sub, interval) {
 }
 
 export function getDateDiff (date, subtract, unit = 'days') {
-  let
-    t = new Date(date),
-    sub = new Date(subtract)
+  const
+    sign = date >= subtract ? 1 : -1,
+    d1 = new Date(sign === 1 ? date : subtract),
+    d2 = new Date(sign === 1 ? subtract : date)
 
-  switch (unit) {
-    case 'years':
-      return (t.getFullYear() - sub.getFullYear())
+  let offset = d1 % 1000 >= d2 % 1000 ? 0 : -1
+  d1.setMilliseconds(0)
+  d2.setMilliseconds(0)
+  if (unit === 'seconds') {
+    return sign * (getDiff(d1, d2, 1000) + offset)
+  }
 
-    case 'months':
-      return (t.getFullYear() - sub.getFullYear()) * 12 + t.getMonth() - sub.getMonth()
+  offset = d1 % MILLISECONDS_IN_MINUTE > d2 % MILLISECONDS_IN_MINUTE || (offset === 0 && d1 % MILLISECONDS_IN_MINUTE === d2 % MILLISECONDS_IN_MINUTE) ? 0 : -1
+  d1.setSeconds(0)
+  d2.setSeconds(0)
+  if (unit === 'minutes') {
+    return sign * (getDiff(d1, d2, MILLISECONDS_IN_MINUTE) + offset)
+  }
 
-    case 'days':
-      return getDiff(startOfDate(t, 'day'), startOfDate(sub, 'day'), MILLISECONDS_IN_DAY)
+  offset = d1 % MILLISECONDS_IN_HOUR > d2 % MILLISECONDS_IN_HOUR || (offset === 0 && d1 % MILLISECONDS_IN_HOUR === d2 % MILLISECONDS_IN_HOUR) ? 0 : -1
+  d1.setMinutes(0)
+  d2.setMinutes(0)
+  if (unit === 'hours') {
+    return sign * (getDiff(d1, d2, MILLISECONDS_IN_HOUR) + offset)
+  }
 
-    case 'hours':
-      return getDiff(startOfDate(t, 'hour'), startOfDate(sub, 'hour'), MILLISECONDS_IN_HOUR)
+  offset = d1 % MILLISECONDS_IN_DAY > d2 % MILLISECONDS_IN_DAY || (offset === 0 && d1 % MILLISECONDS_IN_DAY === d2 % MILLISECONDS_IN_DAY) ? 0 : -1
+  d1.setHours(0)
+  d2.setHours(0)
+  if (unit === 'days') {
+    return sign * (getDiff(d1, d2, MILLISECONDS_IN_DAY) + offset)
+  }
 
-    case 'minutes':
-      return getDiff(startOfDate(t, 'minute'), startOfDate(sub, 'minute'), MILLISECONDS_IN_MINUTE)
+  offset = d1.getDate() > d2.getDate() || (offset === 0 && d1.getDate() === d2.getDate()) ? 0 : -1
+  d1.setDate(1)
+  d2.setDate(1)
+  if (unit === 'months') {
+    return sign * ((d1.getFullYear() - d2.getFullYear()) * 12 + d1.getMonth() - d2.getMonth() + offset)
+  }
 
-    case 'seconds':
-      return getDiff(startOfDate(t, 'second'), startOfDate(sub, 'second'), 1000)
+  offset = d1.getMonth() > d2.getMonth() || (offset === 0 && d1.getMonth() === d2.getMonth()) ? 0 : -1
+  d1.setMonth(0)
+  d2.setMonth(0)
+  if (unit === 'years') {
+    return sign * (d1.getFullYear() - d2.getFullYear() + offset)
   }
 }
 
