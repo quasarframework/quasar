@@ -30,7 +30,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
     )
       template(v-slot:append)
         q-icon.cursor-pointer(
-          :name="filter !== '' ? 'clear' : 'search'"
+          :name="inputIcon"
           @click="onFilterClick"
         )
 
@@ -75,6 +75,8 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
 </template>
 
 <script>
+import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v4'
+
 import ApiRows from './ApiRows.js'
 import CardTitle from './CardTitle.vue'
 import { format } from 'quasar'
@@ -289,6 +291,10 @@ export default {
       }
 
       return 0
+    },
+
+    inputIcon () {
+      return this.filter !== '' ? mdiClose : mdiMagnify
     }
   },
 

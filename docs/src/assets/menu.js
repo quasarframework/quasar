@@ -919,6 +919,7 @@ const components = [
   },
   {
     name: 'Rating',
+    badge: 'update',
     path: 'rating'
   },
   {
