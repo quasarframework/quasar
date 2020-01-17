@@ -9,7 +9,7 @@
       </div>
 
       <div class="q-py-md">
-        <q-input clearable outlined v-model="filter" autofocus>
+        <q-input clearable outlined v-model="filter" :autofocus="$q.platform.is.desktop">
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>
@@ -73,7 +73,6 @@ export default {
         const filtered = this.list[categName]
           .filter(feature => feature.title.toLowerCase().indexOf(this.filter) > -1)
 
-        console.log(filtered)
         if (filtered.length > 0) {
           newList[categName] = filtered
         }

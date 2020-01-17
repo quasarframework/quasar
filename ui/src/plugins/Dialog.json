@@ -45,16 +45,33 @@
               "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
               "definition": {
                 "model": {
-                  "type": [ "Array", "String" ],
-                  "desc": "The value of the input: Array for Selection, String for prompt",
-                  "examples": [ "this.dialogVal" ]
+                  "type": "String",
+                  "desc": "The initial value of the input",
+                  "required": true,
+                  "__exemption": [ "examples" ]
                 },
 
                 "type": {
                   "type": "String",
-                  "desc": "Optional property to determine the input field type. It can be either a text or number input field type",
+                  "desc": "Optional property to determine the input field type",
                   "default": "text",
-                  "examples": [ "number" ]
+                  "examples": [ "text", "number", "textarea" ]
+                },
+
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is typed content valid?",
+                  "params": {
+                    "val": {
+                      "type": "String",
+                      "desc": "The value of the input",
+                      "__exemption": [ "examples" ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The text passed validation or not"
+                  }
                 }
               }
             },
@@ -64,16 +81,18 @@
               "desc": "An object definition for creating the selection form content",
               "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
               "definition": {
-                "type": {
-                  "type": "String",
-                  "desc": "The type of selection",
-                  "values": [ "radio", "checkbox", "toggle" ]
-                },
-
                 "model": {
                   "type": "Array",
                   "desc": "The value of the selection",
+                  "required": true,
                   "examples": [ "[]" ]
+                },
+
+                "type": {
+                  "type": "String",
+                  "desc": "The type of selection",
+                  "default": "radio",
+                  "values": [ "radio", "checkbox", "toggle" ]
                 },
 
                 "items": {
@@ -82,6 +101,27 @@
                   "examples": [
                     "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
                   ]
+                },
+
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is the model valid?",
+                  "params": {
+                    "model": {
+                      "type": [ "String", "Array" ],
+                      "desc": "The current model (String if it's of type radio or Array otherwise)",
+                      "examples": [
+                        "opt2",
+                        "[ 'opt1' ]",
+                        "[]",
+                        "[ 'opt1', 'opt3' ]"
+                      ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The selection passed validation or not"
+                  }
                 }
               }
             },

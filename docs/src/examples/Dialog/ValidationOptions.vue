@@ -12,10 +12,11 @@ export default {
     radio () {
       this.$q.dialog({
         title: 'Options',
-        message: 'Choose an option:',
+        message: 'Choose your option, but make sure it\'s the second one :)',
         options: {
           type: 'radio',
           model: 'opt1',
+          isValid: val => val === 'opt2',
           // inline: true
           items: [
             { label: 'Option 1', value: 'opt1', color: 'secondary' },
@@ -27,20 +28,17 @@ export default {
         persistent: true
       }).onOk(data => {
         // console.log('>>>> OK, received', data)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
     },
 
     checkbox () {
       this.$q.dialog({
         title: 'Options',
-        message: 'Choose your options:',
+        message: 'Choose your options, but make sure you also pick the second one.',
         options: {
           type: 'checkbox',
           model: [],
+          isValid: model => model.includes('opt2'),
           // inline: true
           items: [
             { label: 'Option 1', value: 'opt1', color: 'secondary' },
@@ -52,20 +50,17 @@ export default {
         persistent: true
       }).onOk(data => {
         // console.log('>>>> OK, received', data)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
     },
 
     toggle () {
       this.$q.dialog({
         title: 'Options',
-        message: 'Choose your options:',
+        message: 'Choose your options, but make sure you also pick the first two.',
         options: {
           type: 'toggle',
           model: [],
+          isValid: model => model.includes('opt1') && model.includes('opt2'),
           // inline: true,
           items: [
             { label: 'Option 1', value: 'opt1', color: 'secondary' },
@@ -77,10 +72,6 @@ export default {
         persistent: true
       }).onOk(data => {
         // console.log('>>>> OK, received', data)
-      }).onCancel(() => {
-        // console.log('>>>> Cancel')
-      }).onDismiss(() => {
-        // console.log('I am triggered on both OK and Cancel')
       })
     }
   }
