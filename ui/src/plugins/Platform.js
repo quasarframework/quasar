@@ -7,9 +7,9 @@ import Vue from 'vue'
 export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
 export let onSSR = isSSR
-export let iosEmulated = false
 
-let unpatchedClientBrowser
+export let iosEmulated = false
+export let iosCorrection
 
 function getMatch (userAgent, platformMatch) {
   const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
@@ -58,7 +58,7 @@ const hasTouch = isSSR === false
   : false
 
 function applyIosCorrection (is) {
-  unpatchedClientBrowser = { is: Object.assign({}, is) }
+  iosCorrection = { is: Object.assign({}, is) }
 
   delete is.mac
   delete is.desktop
@@ -302,8 +302,7 @@ const Platform = {
       // must match with server-side before
       // client taking over in order to prevent
       // hydration errors
-      Object.assign(this, client, unpatchedClientBrowser, ssrClient)
-      unpatchedClientBrowser = void 0
+      Object.assign(this, client, iosCorrection, ssrClient)
 
       // takeover should increase accuracy for
       // the rest of the props; we also avoid
@@ -311,6 +310,7 @@ const Platform = {
       queues.takeover.push(q => {
         onSSR = fromSSR = false
         Object.assign(q.platform, client)
+        iosCorrection = void 0
       })
 
       // we need to make platform reactive
