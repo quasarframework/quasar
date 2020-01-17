@@ -23,7 +23,7 @@ q-page.doc-page
             .doc-page-nav__categ.text-uppercase {{ link.category || 'Docs' }}
             .doc-page-nav__name.text-weight-bold {{ link.name }}
 
-          q-icon.col-auto.q-pl-lg(:name="mdiLaunch")
+          q-icon.q-ml-lg(:name="mdiLaunch")
 
   .doc-page-nav.text-primary.q-pb-xl(v-if="nav !== void 0")
     .text-h6.q-pb-md Ready for more?
@@ -34,10 +34,10 @@ q-page.doc-page
         :to="link.path"
       )
         .row.no-wrap.items-center
-          q-icon.col-auto(
+          q-icon(
             :name="link.dir === 'left' ? mdiChevronLeft : mdiChevronRight"
             v-if="link.dir !== void 0"
-            :class="link.dir === 'right' ? 'order-last q-pl-md' : 'order-first q-pr-md'"
+            :class="link.dir === 'right' ? 'order-last q-ml-md' : 'order-first q-mr-md'"
           )
 
           .col
