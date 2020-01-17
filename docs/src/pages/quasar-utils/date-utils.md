@@ -277,8 +277,8 @@ The unit parameter indicates the unit of measurement, if not specified then it i
 | `minutes` | distance in minutes |
 | `hours` | distance in hours |
 | `days` | distance in days |
-| `months` | distance in months |
-| `years` | distance in years |
+| `months` | distance in calendar months |
+| `years` | distance in calendar years |
 
 ### Calendar
 To get the [ISO week number in year](https://en.wikipedia.org/wiki/ISO_week_date) for a given date object use:
