@@ -17,7 +17,7 @@ export default Vue.extend({
 
   computed: {
     isIndeterminate () {
-      return this.value === void 0 || this.value === this.indeterminateValue
+      return this.value === this.indeterminateValue || this.value === this.indeterminateValue
     },
 
     classes () {
