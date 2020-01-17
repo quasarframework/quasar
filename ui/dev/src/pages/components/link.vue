@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding">
     <div class="flex q-gutter-md" style="margin-bottom: 50px">
-      <a class="q-link rounded-borders q-pa-md cursor-pointer column justify-center bg-white">
+      <a class="dev-link rounded-borders q-pa-md cursor-pointer column justify-center bg-white">
         <div class="row no-wrap items-center">
           <q-icon class="order-last q-ml-md" :name="matAddBox" size="3rem" />
           <div class="col">
@@ -10,7 +10,7 @@
           </div>
         </div>
       </a>
-      <a class="q-link rounded-borders q-pa-md cursor-pointer column justify-center bg-white">
+      <a class="dev-link rounded-borders q-pa-md cursor-pointer column justify-center bg-white">
         <div class="row no-wrap items-center">
           <q-icon class="order-first q-mr-md" :name="matAddBox" size="3rem" />
           <div class="col">
@@ -22,7 +22,7 @@
     </div>
 
     <div class="flex q-gutter-md" style="margin-bottom: 50px">
-      <a class="q-link rounded-borders q-pa-md cursor-pointer column justify-center bg-white">
+      <a class="dev-link rounded-borders q-pa-md cursor-pointer column justify-center bg-white">
         <div class="row no-wrap items-center">
           <q-icon class="order-last q-ml-md" name="add_box" size="3rem" />
           <div class="col">
@@ -31,7 +31,7 @@
           </div>
         </div>
       </a>
-      <a class="q-link rounded-borders q-pa-md cursor-pointer column justify-center bg-white">
+      <a class="dev-link rounded-borders q-pa-md cursor-pointer column justify-center bg-white">
         <div class="row no-wrap items-center">
           <q-icon class="order-first q-mr-md" name="add_box" size="3rem" />
           <div class="col">
@@ -57,7 +57,7 @@ export default {
 </script>
 
 <style lang="sass">
-.q-link
+.dev-link
   position: relative
   &:before
     content: ''
