@@ -68,10 +68,11 @@ export default {
       }
 
       const newList = {}
+      const filter = this.filter.toLowerCase()
 
       Object.keys(this.list).forEach(categName => {
         const filtered = this.list[categName]
-          .filter(feature => feature.title.toLowerCase().indexOf(this.filter) > -1)
+          .filter(feature => feature.title.toLowerCase().indexOf(filter) > -1)
 
         if (filtered.length > 0) {
           newList[categName] = filtered
