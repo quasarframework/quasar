@@ -77,15 +77,17 @@ export function getTargetProps (el) {
 // cfg: { el, anchorEl, anchorOrigin, selfOrigin, offset, absoluteOffset, cover, fit, maxHeight, maxWidth }
 export function setPosition (cfg) {
   if (client.is.ios === true && window.visualViewport !== void 0) {
-    const elStyle = document.body.style
+    // uses the q-position-engine CSS class
+
+    const el = document.body.style
     const { offsetLeft: left, offsetTop: top } = window.visualViewport
 
     if (left !== vpLeft) {
-      elStyle.setProperty('--q-vp-left', left + 'px')
+      el.setProperty('--q-pe-left', left + 'px')
       vpLeft = left
     }
     if (top !== vpTop) {
-      elStyle.setProperty('--q-vp-top', top + 'px')
+      el.setProperty('--q-pe-top', top + 'px')
       vpTop = top
     }
   }
