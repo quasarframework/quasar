@@ -47,6 +47,10 @@
       "category": "behavior"
     },
 
+    "size": {
+      "addedIn": "v1.8.0"
+    },
+
     "label": {
       "type": "String",
       "desc": "Label to display along the component (or use the default slot instead of this prop)",

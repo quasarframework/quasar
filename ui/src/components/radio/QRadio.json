@@ -45,6 +45,10 @@
       "category": "behavior"
     },
 
+    "size": {
+      "addedIn": "v1.8.0"
+    },
+
     "dark": {
       "extends": "dark"
     },

@@ -803,14 +803,17 @@ const components = [
       },
       {
         name: 'Radio',
+        badge: 'update',
         path: 'radio'
       },
       {
         name: 'Checkbox',
+        badge: 'update',
         path: 'checkbox'
       },
       {
         name: 'Toggle',
+        badge: 'update',
         path: 'toggle'
       },
       {

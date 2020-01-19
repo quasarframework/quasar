@@ -28,7 +28,20 @@
       "type": "String",
       "desc": "The icon to be used when the model is indeterminate",
       "examples": [ "help" ],
-      "category": "content"
+      "category": "content",
+      "addedIn": "v1.8.0"
+    },
+
+    "indeterminate-value": {
+      "addedIn": "v1.8.0"
+    },
+
+    "toggle-indeterminate": {
+      "addedIn": "v1.8.0"
+    },
+
+    "size": {
+      "addedIn": "v1.8.0"
     }
   }
 }
