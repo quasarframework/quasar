@@ -12,7 +12,7 @@
 
     "returns": {
       "type": "Boolean",
-      "desc": "Only value of interest is the Boolean false, in which case observing the mutations stops"
+      "desc": "If you return Boolean false from the handler, the observer stops"
     },
 
     "params": {
