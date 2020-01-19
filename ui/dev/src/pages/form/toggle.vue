@@ -115,12 +115,13 @@
       <q-option-group
         type="toggle"
         v-model="group"
-        :dark="dark" :dense="dense"
+        size="lg"
+        :dark="dark" dense
         :keep-color="keepColor"
         :options="[
           { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
           { label: 'Option 3', value: 'op3', dark, keepColor },
-          { label: 'Option 4', value: 'op4', dark, keepColor }
+          { label: 'Option 4', value: 'op4', dark, keepColor, size: 'xs' }
         ]"
       />
 
