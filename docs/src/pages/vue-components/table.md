@@ -190,7 +190,7 @@ However, if you want to fully customize the content, check the example below, wh
 
 ### Expanding rows
 
-<doc-example title="Expanded row and custom selector" file="QTable/ExpandedRow" />
+<doc-example title="Expanded row" file="QTable/ExpandedRow" />
 
 ### Before/after slots
 
