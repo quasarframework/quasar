@@ -273,10 +273,10 @@ The unit parameter indicates the unit of measurement, if not specified then it i
 
 | Unit | Description |
 | --- | --- |
-| `seconds` | distance in seconds |
-| `minutes` | distance in minutes |
-| `hours` | distance in hours |
-| `days` | distance in days |
+| `seconds` | distance in seconds (disregarding milliseconds) |
+| `minutes` | distance in minutes (disregarding seconds, ...) |
+| `hours` | distance in hours (disregarding minutes, seconds, ...) |
+| `days` | distance in calendar days |
 | `months` | distance in calendar months |
 | `years` | distance in calendar years |
 
