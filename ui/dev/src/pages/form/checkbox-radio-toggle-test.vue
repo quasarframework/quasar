@@ -21,6 +21,74 @@
       <q-toggle v-model="checked2" :disable="disable" :dark="dark" color="accent" label="Toggle Label" :keep-color="keepColor" />
       <q-toggle v-model="checked3" :disable="disable" :dark="dark" color="teal" label="Toggle Label" :keep-color="keepColor" />
     </div>
+
+    <div class="row items-center q-mb-md">
+      <span class="text-h6 q-mr-md">Sizes</span> 
+      <div>
+        ( <q-toggle v-model="dense" label="Dense" :dark="dark" /> )
+      </div>
+    </div>
+    <q-markup-table :dark="dark">
+      <tbody>
+        <tr v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
+          <td>
+            <q-radio
+              :size="size"
+              :label="size"
+              v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor"
+            />
+          </td>
+          <td>
+            <q-checkbox
+              :size="size"
+              :label="size"
+              v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
+            />
+          </td>
+          <td>
+            <q-toggle
+              :size="size"
+              :label="size"
+              unchecked-icon="visibility_off" checked-icon="visibility"
+              v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </q-markup-table>
+
+    <q-markup-table class="q-mt-lg" separator="cell" :dark="dark">
+      <tbody>
+        <tr>
+          <td v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
+            <q-radio
+              :size="size"
+              :label="size"
+              v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
+            <q-checkbox
+              :size="size"
+              :label="size"
+              v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td v-for="size in ['xs', 'sm', 'md', 'lg', 'xl']" :key="size">
+            <q-toggle
+              :size="size"
+              :label="size"
+              unchecked-icon="visibility_off" checked-icon="visibility"
+              v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
+            />
+          </td>
+        </tr>
+      </tbody>
+    </q-markup-table>
   </div>
 </template>
 
@@ -31,6 +99,7 @@ export default {
       keepColor: true,
       disable: true,
       dark: null,
+      dense: false,
 
       checked: true,
       checked2: false,

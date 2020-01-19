@@ -1,6 +1,8 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
+import OptionSizeMixin from '../../mixins/option-size.js'
+
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
@@ -8,7 +10,7 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QRadio',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, OptionSizeMixin ],
 
   props: {
     value: {
@@ -60,7 +62,11 @@ export default Vue.extend({
 
   methods: {
     set (e) {
-      e !== void 0 && stopAndPrevent(e)
+      if (e !== void 0) {
+        stopAndPrevent(e)
+        document.activeElement !== null && document.activeElement.blur()
+      }
+
       if (this.disable !== true && this.isTrue !== true) {
         this.$emit('input', this.val)
       }
@@ -69,11 +75,22 @@ export default Vue.extend({
 
   render (h) {
     const content = [
-      h('div', {
-        staticClass: 'q-radio__bg absolute'
+      h('svg', {
+        staticClass: 'q-radio__bg absolute',
+        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24' }
       }, [
-        h('div', { staticClass: 'q-radio__outer-circle absolute-full' }),
-        h('div', { staticClass: 'q-radio__inner-circle absolute-full' })
+        h('path', {
+          attrs: {
+            d: 'M12,22a10,10 0 0 1 -10,-10a10,10 0 0 1 10,-10a10,10 0 0 1 10,10a10,10 0 0 1 -10,10m0,-22a12,12 0 0 0 -12,12a12,12 0 0 0 12,12a12,12 0 0 0 12,-12a12,12 0 0 0 -12,-12'
+          }
+        }),
+
+        h('path', {
+          staticClass: 'q-radio__check',
+          attrs: {
+            d: 'M12,6a6,6 0 0 0 -6,6a6,6 0 0 0 6,6a6,6 0 0 0 6,-6a6,6 0 0 0 -6,-6'
+          }
+        })
       ])
     ]
 
@@ -87,7 +104,8 @@ export default Vue.extend({
     const child = [
       h('div', {
         staticClass: 'q-radio__inner relative-position no-pointer-events',
-        class: this.innerClass
+        class: this.innerClass,
+        style: this.sizeStyle
       }, content)
     ]
 

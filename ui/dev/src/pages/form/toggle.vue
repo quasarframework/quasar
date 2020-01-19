@@ -17,6 +17,38 @@
       <q-toggle v-model="checked" color="teal" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
+        Sizes
+      </p>
+      <div>
+        <q-toggle
+          v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+          :key="size"
+          :size="size"
+          :label="size"
+          unchecked-icon="visibility_off" checked-icon="visibility"
+          v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
+        />
+      </div>
+      <div>
+        <q-toggle
+          v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+          :key="size"
+          :size="size"
+          :label="size"
+          :unchecked-icon="mdiEyeOff" :checked-icon="mdiEye" 
+          v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
+        />
+      </div>
+
+      <p class="caption">
+        Indeterminate
+      </p>
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+      <q-toggle v-model="indModel" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="accent" label="Three states" />
+      <q-toggle size="100px" v-model="indModel" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+
+      <p class="caption">
         Label on the left side
       </p>
       <q-toggle v-model="checked" color="orange" left-label label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
@@ -168,12 +200,19 @@
 </template>
 
 <script>
+import { mdiEye, mdiEyeOff } from '@quasar/extras/mdi-v4'
+
 export default {
+  created () {
+    this.mdiEye = mdiEye
+    this.mdiEyeOff = mdiEyeOff
+  },
   data () {
     return {
       checked: true,
       group: ['op3'],
       selection: ['two'],
+      indModel: null,
       dark: null,
       dense: false,
       keepColor: false

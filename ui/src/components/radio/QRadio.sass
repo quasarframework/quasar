@@ -4,42 +4,28 @@ $radio-transition: .22s cubic-bezier(0,0,.2,1) 0ms
   vertical-align: middle
 
   &__bg
-    left: 10px
-    top: 10px
+    top: 25%
+    left: 25%
     width: 50%
     height: 50%
+
+    path
+      fill: currentColor
 
   &__native
     width: 1px
     height: 1px
 
-  &__outer-circle
-    border-width: 2px
-    border-style: solid
-    border-radius: 50%
-
-  &__inner-circle
-    border-width: 10px
-    border-style: solid
-    border-radius: 50%
+  &__check
+    transform-origin: 50% 50%
     transform: scale3d(0, 0, 1)
     transition: transform $radio-transition
 
-  &__label
-    padding-left: 4px
-    padding-right: 0
-    font-size: 14px
-    line-height: 20px
-
-  &.reverse &__label
-    padding-right: 4px
-    padding-left: 0
-
   &__inner
-    width: 40px
-    min-width: 40px
-    height: 40px
-    padding: 10px
+    font-size: 40px
+    width: 1em
+    min-width: 1em
+    height: 1em
     outline: 0
     border-radius: 50%
     color: rgba(0,0,0,.54)
@@ -47,8 +33,8 @@ $radio-transition: .22s cubic-bezier(0,0,.2,1) 0ms
     &--active
       color: $primary
       color: var(--q-color-primary)
-      .q-radio__inner-circle
-        transform: scale3d(.5, .5, 1)
+      .q-radio__check
+        transform: scale3d(1, 1, 1)
 
   &.disabled
     opacity: .75 !important
@@ -64,16 +50,23 @@ $radio-transition: .22s cubic-bezier(0,0,.2,1) 0ms
 
   &--dense
 
+    .q-radio__inner
+      width: .5em
+      min-width: .5em
+      height: .5em
+
     .q-radio__bg
       left: 0
       top: 0
       width: 100%
       height: 100%
+    
+    .q-radio__label
+      padding-left: .5em
 
-    .q-radio__inner
-      width: 20px
-      min-width: 20px
-      height: 20px
+    &.reverse .q-radio__label
+      padding-left: 0
+      padding-right: .5em
 
 body.desktop
 

@@ -1,16 +1,19 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
-
-const sizes = {
-  xs: 8,
-  sm: 10,
-  md: 14,
-  lg: 20,
-  xl: 24
-}
+import { getSizeMixin } from './size.js'
 
 export default {
-  mixins: [ RippleMixin, AlignMixin ],
+  mixins: [
+    RippleMixin,
+    AlignMixin,
+    getSizeMixin({
+      xs: 8,
+      sm: 10,
+      md: 14,
+      lg: 20,
+      xl: 24
+    })
+  ],
 
   props: {
     type: String,
@@ -53,10 +56,8 @@ export default {
 
   computed: {
     style () {
-      if (this.fab === false && this.fabMini === false && this.size) {
-        return {
-          fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size
-        }
+      if (this.fab === false && this.fabMini === false) {
+        return this.sizeStyle
       }
     },
 
