@@ -57,6 +57,9 @@ ie_style = @block
     flex-basis: auto
     min-width: 100%
 
+  .q-card__actions--vert
+    flex: 0 0 auto
+
   .column
     min-width: 0%
 
@@ -92,6 +95,12 @@ ie_style = @block
 
     &--wrap
       flex-direction: row
+
+    &--fab .q-icon
+      margin: 0
+
+  .q-fab > .q-btn--fab .q-icon
+    margin: auto
 
   /* QCarousel */
   .q-carousel__slide > *
