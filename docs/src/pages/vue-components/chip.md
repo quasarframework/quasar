@@ -37,12 +37,6 @@ Custom sizes (below) have been introduced in v1.2.2+:
 
 <doc-example title="Removable" file="QChip/Removable" />
 
-::: tip
-From v1.8.0 the label passed through the prop is truncated to fit.
-If you are using default slot wrap the text in a div with class ellipsis.
-Add a QTooltip or a title attr as desired to show the full label.
-:::
-
 <doc-example title="Long label truncation" file="QChip/Ellipsis" />
 
 ## QChip API
