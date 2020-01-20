@@ -104,7 +104,7 @@ export default Vue.extend({
 
         const max = this.maxlength !== void 0
           ? this.maxlength
-          : this.maxValues || this.maxFiles
+          : this.maxValues
 
         return len + (max !== void 0 ? ' / ' + max : '')
       }

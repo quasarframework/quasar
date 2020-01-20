@@ -20,7 +20,8 @@
       "examples": [
         ":max-files=\"5\"",
         "10"
-      ]
+      ],
+      "category": "behavior"
     },
 
     "display-value": {
@@ -34,6 +35,43 @@
       "type": "Boolean",
       "desc": "Use QChip to show picked files",
       "category": "selection"
+    },
+
+    "counter-label": {
+      "type": "Function",
+      "desc": "Label for the counter; The 'counter' prop is necessary to enable this one",
+      "params": {
+        "props": {
+          "type": "Object",
+          "desc": "Object containing counter label information",
+          "definition": {
+            "totalSize": {
+              "type": "String",
+              "desc": "The total size of files in human readable format",
+              "examples": [ "1.42 MB" ]
+            },
+            "filesNumber": {
+              "type": "Number",
+              "desc": "Number of picked files",
+              "examples": [ 5 ]
+            },
+            "maxFiles": {
+              "type": [ "Number", "String" ],
+              "desc": "Maximum number of files (same as 'max-files' prop, if specified); When 'max-files' is not specified, this has 'void 0' as value",
+              "examples": [ 5 ]
+            }
+          }
+        }
+      },
+      "returns": {
+        "type": "String",
+        "desc": "String to display for the counter label",
+        "__exemption": [ "examples" ]
+      },
+      "examples": [
+        ":counter-label=\"counterLabelFn\""
+      ],
+      "category": "behavior"
     },
 
     "tabindex": {

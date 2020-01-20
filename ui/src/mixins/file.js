@@ -55,7 +55,7 @@ export default {
 
       // filter max file size
       if (this.maxFileSize !== void 0) {
-        files = files.filter(files, file => file.size <= this.maxFileSize)
+        files = files.filter(file => file.size <= this.maxFileSize)
         if (files.length === 0) { return }
       }
 

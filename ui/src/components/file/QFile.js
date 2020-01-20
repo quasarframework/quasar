@@ -5,6 +5,7 @@ import QChip from '../chip/QChip.js'
 
 import FileMixin from '../../mixins/file.js'
 
+import { humanStorageSize } from '../../utils/format.js'
 import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
@@ -16,16 +17,18 @@ export default Vue.extend({
     value: [ File, FileList, Array ],
 
     useChips: Boolean,
-    displayValue: [String, Number],
-    maxFiles: [Number, String],
+    displayValue: [ String, Number ],
+    maxFiles: [ Number, String ],
 
     tabindex: {
       type: [String, Number],
       default: 0
     },
 
-    inputClass: [Array, String, Object],
-    inputStyle: [Array, String, Object]
+    counterLabel: Function,
+
+    inputClass: [ Array, String, Object ],
+    inputStyle: [ Array, String, Object ]
   },
 
   data () {
@@ -45,6 +48,29 @@ export default Vue.extend({
       return this.innerValue
         .map(file => file.name)
         .join(', ')
+    },
+
+    totalSize () {
+      return humanStorageSize(
+        this.innerValue.reduce((acc, file) => acc + file.size, 0)
+      )
+    },
+
+    counterProps () {
+      return {
+        totalSize: this.totalSize,
+        filesNumber: this.innerValue.length,
+        maxFiles: this.maxFiles
+      }
+    },
+
+    computedCounter () {
+      if (this.counterLabel !== void 0) {
+        return this.counterLabel(this.counterProps)
+      }
+
+      const max = this.maxFiles
+      return `${this.innerValue.length}${max !== void 0 ? ' / ' + max : ''} (${this.totalSize})`
     }
   },
 
@@ -156,9 +182,8 @@ export default Vue.extend({
           type: 'file',
           title: '', // try to remove default tooltip,
           accept: this.accept,
-          disabled: this.disable === true,
-          readonly: this.readonly === true,
-          ...this.$attrs
+          ...this.$attrs,
+          disabled: this.editable !== true
         },
         on: cache(this, 'input', {
           change: this.__addFiles
