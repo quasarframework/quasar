@@ -13,7 +13,8 @@ export default Vue.extend({
   computed: {
     classes () {
       return 'q-tr' + (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
-        (this.noHover === true ? ' q-tr--no-hover' : '')
+        (this.noHover === true ? ' q-tr--no-hover' : '') +
+        (this.$listeners['click'] !== void 0 ? 'cursor-pointer' = '')
     }
   },
 
