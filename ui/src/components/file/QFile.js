@@ -37,6 +37,14 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    value (val) {
+      if (val === void 0 || val === null) {
+        this.$refs.input.value = null
+      }
+    }
+  },
+
   computed: {
     innerValue () {
       return this.value !== void 0 && this.value !== null
@@ -152,6 +160,7 @@ export default Vue.extend({
           })
         }, [
           h('span', {
+            staticClass: 'ellipsis',
             domProps: {
               textContent: file.name
             }
@@ -200,5 +209,6 @@ export default Vue.extend({
 
   created () {
     this.fieldClass = 'q-file q-field--auto-height'
+    this.type = 'file' // necessary for QField's clearable
   }
 })
