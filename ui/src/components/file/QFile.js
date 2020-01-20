@@ -17,6 +17,12 @@ export default Vue.extend({
 
     useChips: Boolean,
     displayValue: [String, Number],
+    maxFiles: [Number, String],
+
+    tabindex: {
+      type: [String, Number],
+      default: 0
+    },
 
     inputClass: [Array, String, Object],
     inputStyle: [Array, String, Object]
@@ -29,10 +35,6 @@ export default Vue.extend({
   },
 
   computed: {
-    fieldClass () {
-      return 'q-file q-field--auto-height'
-    },
-
     innerValue () {
       return this.value !== void 0 && this.value !== null
         ? (this.multiple === true ? Array.from(this.value) : [ this.value ])
@@ -47,18 +49,6 @@ export default Vue.extend({
   },
 
   methods: {
-    focus () {
-      const el = document.activeElement
-      if (
-        this.$refs.input !== void 0 &&
-        this.$refs.input !== el &&
-        // IE can have null document.activeElement
-        (el === null || el.id !== this.targetUid)
-      ) {
-        this.$refs.input.focus()
-      }
-    },
-
     removeAtIndex (index) {
       const files = this.innerValue.slice()
       files.splice(index, 1)
@@ -76,22 +66,41 @@ export default Vue.extend({
       this.$emit('input', this.multiple === true ? files : files[0])
     },
 
+    __onKeyup (e) {
+      // only on ENTER
+      e.keyCode === 13 && this.pickFiles(e)
+    },
+
+    __getFileInput () {
+      return this.$refs.input
+    },
+
     __addFiles (e, fileList) {
       const files = this.__processFiles(e, fileList)
-      files !== void 0 && this.__emitValue(files)
+
+      files !== void 0 && this.__emitValue(
+        this.maxFiles !== void 0
+          ? files.slice(0, parseInt(this.maxFiles, 10))
+          : files
+      )
     },
 
     __getControl (h) {
-      const child = [ this.__getInput(h) ]
-        .concat(this.__getSelection(h))
-
-      const dnd = this.__getDnd(h, 'file')
-      dnd !== void 0 && child.push(dnd)
-
       return h('div', {
+        ref: 'target',
         staticClass: 'q-field__native row items-center cursor-pointer',
-        on: cache(this, 'drag', { dragover: this.__onDragOver })
-      }, child)
+        attrs: {
+          tabindex: this.tabindex
+        },
+        on: cache(this, 'native', {
+          dragover: this.__onDragOver,
+          keyup: this.__onKeyup
+        })
+      }, [ this.__getInput(h) ].concat(this.__getSelection(h)))
+    },
+
+    __getControlChild (h) {
+      return this.__getDnd(h, 'file')
     },
 
     __getSelection (h) {
@@ -107,10 +116,10 @@ export default Vue.extend({
         return this.innerValue.map((file, i) => h(QChip, {
           key: 'file-' + i,
           props: {
-            removable: this.disable !== true,
+            removable: this.editable,
             dense: true,
             textColor: this.color,
-            tabindex: this.computedTabindex
+            tabindex: this.tabindex
           },
           on: cache(this, 'rem#' + i, {
             remove: () => { this.removeAtIndex(i) }
@@ -142,12 +151,14 @@ export default Vue.extend({
         ref: 'input',
         staticClass: 'q-field__input fit absolute-full cursor-pointer',
         attrs: {
+          id: this.targetUid,
           tabindex: -1,
           type: 'file',
-          title: '', // try to remove default tooltip
+          title: '', // try to remove default tooltip,
           accept: this.accept,
           disabled: this.disable === true,
-          readonly: this.readonly === true
+          readonly: this.readonly === true,
+          ...this.$attrs
         },
         on: cache(this, 'input', {
           change: this.__addFiles
@@ -160,5 +171,9 @@ export default Vue.extend({
 
       return h('input', data)
     }
+  },
+
+  created () {
+    this.fieldClass = 'q-file q-field--auto-height'
   }
 })

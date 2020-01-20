@@ -981,7 +981,7 @@ export default Vue.extend({
       }
     },
 
-    __getPopup (h) {
+    __getControlChild (h) {
       if (
         this.editable !== false && (
           this.dialog === true || // dialog always has menu displayed, so need to render it

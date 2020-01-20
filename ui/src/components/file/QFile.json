@@ -14,6 +14,15 @@
       "category": "model"
     },
 
+    "max-files": {
+      "type": [ "Number", "String" ],
+      "desc": "Maximum number of files to contain",
+      "examples": [
+        ":max-files=\"5\"",
+        "10"
+      ]
+    },
+
     "display-value": {
       "type": [ "Number", "String" ],
       "desc": "Override default selection string, if not using 'file' or 'selected' scoped slots and if not using 'use-chips' prop",
@@ -25,6 +34,10 @@
       "type": "Boolean",
       "desc": "Use QChip to show picked files",
       "category": "selection"
+    },
+
+    "tabindex": {
+      "extends": "tabindex"
     },
 
     "input-class": {
@@ -99,6 +112,10 @@
   "methods": {
     "focus": {
       "desc": "Focus component"
+    },
+
+    "blur": {
+      "desc": "Blur component (lose focus)"
     },
 
     "removeAtIndex": {
