@@ -123,12 +123,12 @@ export default Vue.extend({
       )
 
       const label = this.label !== void 0
-        ? [ this.label ]
+        ? [h('div', { staticClass: 'ellipsis' }, [this.label])]
         : void 0
 
       child.push(
         h('div', {
-          staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
+          staticClass: 'q-chip__content col row no-wrap items-center q-anchor--skip'
         }, mergeSlotSafely(label, this, 'default'))
       )
 
