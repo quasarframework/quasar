@@ -81,7 +81,8 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.27.14",
     "table": "^5.4.6",
-    "uglify-es": "^3.3.9"
+    "uglify-es": "^3.3.9",
+    "vue": "^2.6.11"
   },
   "vetur": {
     "tags": "dist/vetur/quasar-tags.json",
