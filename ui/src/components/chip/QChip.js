@@ -123,7 +123,7 @@ export default Vue.extend({
       )
 
       const label = this.label !== void 0
-        ? [h('div', { staticClass: 'ellipsis' }, [this.label])]
+        ? [ h('div', { staticClass: 'ellipsis' }, [ this.label ]) ]
         : void 0
 
       child.push(
