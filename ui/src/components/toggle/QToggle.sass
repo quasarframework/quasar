@@ -18,17 +18,26 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
     left: .25em
     width: .5em
     height: .5em
-    border-radius: 50%
-    background: #fff
-    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)
     transition: left $toggle-transition
     user-select: none
+
+    &:after
+      content: ''
+      position: absolute
+      top: 0
+      right: 0
+      bottom: 0
+      left: 0
+      border-radius: 50%
+      background: #fff
+      box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12)
 
     .q-icon
       font-size: .3em
       min-width: 1em
       color: #000
       opacity: .54
+      z-index: 1
 
   &__inner
     font-size: 40px
@@ -49,11 +58,12 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
         opacity: .54
       .q-toggle__thumb
         left: .65em
-    
+
     &--indeterminate, &--active
       .q-toggle__thumb
-        background-color: currentColor
-        
+        &:after
+          background-color: currentColor
+
         .q-icon
           color: #fff
           opacity: 1
@@ -77,18 +87,18 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
       min-width: .8em
       height: .5em
       padding: .07625em 0
-    
+
     .q-toggle__thumb
       top: 0
       left: 0
-    
+
     .q-toggle__inner--indeterminate
       .q-toggle__thumb
         left: .15em
     .q-toggle__inner--active
       .q-toggle__thumb
         left: .3em
-    
+
     .q-toggle__label
       padding-left: .5em
 
