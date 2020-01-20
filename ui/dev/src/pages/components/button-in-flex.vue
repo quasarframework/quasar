@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding">
-    <div style="max-width: 600px;" class="q-gutter-y-md">
+    <div style="max-width: 700px;" class="q-gutter-y-md">
       <div class="row no-wrap btn-flex-container">
         <q-btn label="Btn1" color="primary" />
         <q-btn label="Btn2" color="primary" />
@@ -9,6 +9,8 @@
         <div class="btn-box">row</div>
         <button>Native btn</button>
         <a class="btn-border" :href="$route.path">Native link</a>
+        <q-btn fab icon="android" />
+        <q-btn fab-mini icon="android" />
       </div>
 
       <div class="row items-center no-wrap btn-flex-container">
@@ -19,6 +21,8 @@
         <div class="btn-box">row items-center</div>
         <button>Native btn</button>
         <a class="btn-border" :href="$route.path">Native link</a>
+        <q-btn fab icon="android" />
+        <q-btn fab-mini icon="android" />
       </div>
 
       <div class="column no-wrap btn-flex-container">
@@ -29,6 +33,8 @@
         <div class="btn-box">column</div>
         <button>Native btn</button>
         <a class="btn-border" :href="$route.path">Native link</a>
+        <q-btn fab icon="android" />
+        <q-btn fab-mini icon="android" />
       </div>
 
       <div class="column items-center no-wrap btn-flex-container">
@@ -39,6 +45,8 @@
         <div class="btn-box">column items-center</div>
         <button>Native btn</button>
         <a class="btn-border" :href="$route.path">Native link</a>
+        <q-btn fab icon="android" />
+        <q-btn fab-mini icon="android" />
       </div>
     </div>
   </div>
@@ -47,7 +55,7 @@
 <style lang="sass">
 .btn-flex-container
   border: 1px solid $primary
-  height: 300px
+  height: 400px
 .btn-box
   color: #fff
   background: #000
