@@ -152,8 +152,8 @@ app.post('/upload', (req, res) => {
     console.log('Fields', fields)
     console.log('Received:', Object.keys(files))
     console.log()
+    res.send('Thank you')
   })
-  res.send('Thank you')
 })
 
 app.listen(port, () => {
