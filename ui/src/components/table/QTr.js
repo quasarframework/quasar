@@ -13,15 +13,15 @@ export default Vue.extend({
   computed: {
     classes () {
       return 'q-tr' + (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
-        (this.noHover === true ? ' q-tr--no-hover' : '') +
-        (this.$listeners['click'] !== void 0 ? ' cursor-pointer' = '')
+        (this.noHover === true ? ' q-tr--no-hover' : '')
     }
   },
 
   render (h) {
     return h('tr', {
       on: this.$listeners,
-      class: this.classes
+      staticClass: this.classes,
+      class: this.$listeners.click !== void 0 ? 'cursor-pointer' : ''
     }, slot(this, 'default'))
   }
 })
