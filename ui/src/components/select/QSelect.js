@@ -691,7 +691,7 @@ export default Vue.extend({
           ? [
             h('span', {
               domProps: {
-                'textContent': this.inputValue
+                textContent: this.inputValue
               }
             })
           ]
