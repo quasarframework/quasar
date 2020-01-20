@@ -40,6 +40,10 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Custom label values" file="QRange/LabelValue" />
 
+The example below is better highlighting how QRange handles label positioning so that it always stays inside the QRange's box horizontally.
+
+<doc-example title="Long label" file="QRange/LabelLong" />
+
 ### Markers
 
 <doc-example title="Markers" file="QRange/Markers" />
