@@ -794,6 +794,11 @@ const components = [
         path: 'select'
       },
       {
+        name: 'File picker',
+        badge: 'new',
+        path: 'file-picker'
+      },
+      {
         name: 'Form',
         path: 'form'
       },
