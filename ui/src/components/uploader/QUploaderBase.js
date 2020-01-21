@@ -10,7 +10,7 @@ import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
 import { cache } from '../../utils/vm.js'
 
-export default {
+export default Vue.extend({
   mixins: [ DarkMixin, FileMixin ],
 
   props: {
@@ -420,4 +420,4 @@ export default {
       ]) : null
     ])
   }
-}
+})
