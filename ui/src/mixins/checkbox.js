@@ -11,7 +11,8 @@ export default {
 
   props: {
     value: {
-      required: true
+      required: true,
+      default: null
     },
     val: {},
 
@@ -47,8 +48,8 @@ export default {
     },
 
     isIndeterminate () {
-      return this.value === void 0 ||
-        (this.value === this.indeterminateValue && this.value !== this.falseValue)
+      return this.value === this.indeterminateValue &&
+        this.value !== this.falseValue
     },
 
     index () {
@@ -81,7 +82,7 @@ export default {
 
     innerClass () {
       const cls = `q-${this.type}__inner--${this.isTrue ? 'active' : (this.isFalse === true ? 'inactive' : 'indeterminate')}`
-      
+
       return cls + (this.isTrue === true
         ? (this.color !== void 0 ? ' text-' + this.color : '')
         : (this.keepColor === true && this.color !== void 0 ? ' text-' + this.color : ''))

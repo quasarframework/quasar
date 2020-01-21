@@ -29,7 +29,7 @@ export default Vue.extend({
     __getInner (h) {
       return [
         h('div', { staticClass: 'q-toggle__track' }),
-  
+
         h('div', {
           staticClass: 'q-toggle__thumb absolute flex flex-center no-wrap'
         }, this.computedIcon !== void 0
