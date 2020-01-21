@@ -101,6 +101,7 @@ const options = [
   },
   {
     name: 'Quasar Icon Sets',
+    badge: 'update',
     path: 'quasar-icon-sets'
   },
   {
