@@ -6,6 +6,8 @@
         v-model="model"
         clearable
         use-input
+        hide-selected
+        fill-input
         input-debounce="0"
         label="Focus after filtering"
         :options="options"
@@ -27,6 +29,8 @@
         v-model="model"
         clearable
         use-input
+        hide-selected
+        fill-input
         input-debounce="0"
         label="Autoselect after filtering"
         :options="options"
@@ -84,9 +88,8 @@ export default {
           // "ref" is the Vue reference to the QSelect
           ref => {
             if (val !== '' && ref.options.length > 0) {
-              // DO NOT use setOptionIndex or moveOptionSelection with fill-input
               ref.setOptionIndex(-1) // reset optionIndex in case there is something selected
-              ref.moveOptionSelection() // focus the first selectable option
+              ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
             }
           }
         )
@@ -112,8 +115,7 @@ export default {
           // "ref" is the Vue reference to the QSelect
           ref => {
             if (val !== '' && ref.options.length > 0 && ref.optionIndex === -1) {
-              // DO NOT use setmoveOptionSelection or toggleOption with fill-input
-              ref.moveOptionSelection() // focus the first selectable option
+              ref.moveOptionSelection(1, true) // focus the first selectable option and do not update the input-value
               ref.toggleOption(ref.options[ref.optionIndex], true) // toggle the focused option
             }
           }
