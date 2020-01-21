@@ -16,16 +16,16 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
     width: 1px
     height: 1px
 
-  &__check
+  &__svg
     color: #fff
 
-  &__check-det
+  &__truthy
     stroke: currentColor
     stroke-width: 3.12px
     stroke-dashoffset: 29.78334
     stroke-dasharray: 29.78334
 
-  &__check-indet
+  &__indet
     fill: currentColor
     transform-origin: 50% 50%
     transform: rotate(-280deg) scale(0)
@@ -39,19 +39,19 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
     border-radius: 50%
     color: rgba(0,0,0,.54)
 
-    &--active, &--indeterminate
+    &--truthy, &--indet
       color: $primary
       color: var(--q-color-primary)
       .q-checkbox__bg
         background: currentColor
 
-    &--active
+    &--truthy
       path
         stroke-dashoffset: 0
         transition: stroke-dashoffset .18s cubic-bezier(.4,0,.6,1) 0ms
 
-    &--indeterminate
-      .q-checkbox__check-indet
+    &--indet
+      .q-checkbox__indet
         transform: rotate(0) scale(1)
         transition: transform $checkbox-transition
 
@@ -63,7 +63,7 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
       color: rgba(255,255,255,.7)
       &:before
         opacity: .32 !important
-      &--active, &--indeterminate
+      &--truthy, &--indet
         color: $primary
         color: var(--q-color-primary)
 
@@ -79,7 +79,7 @@ $checkbox-transition = .22s cubic-bezier(0,0,.2,1) 0ms
       top: 5%
       width: 90%
       height: 90%
-    
+
     .q-checkbox__label
       padding-left: .5em
 

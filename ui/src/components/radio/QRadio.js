@@ -46,13 +46,14 @@ export default Vue.extend({
     },
 
     innerClass () {
-      if (this.isTrue === true) {
-        return 'q-radio__inner--active' +
-          (this.color !== void 0 ? ' text-' + this.color : '')
-      }
-      else if (this.keepColor === true && this.color !== void 0) {
-        return 'text-' + this.color
-      }
+      const color = this.color !== void 0 && (
+        this.keepColor === true ||
+        this.isTrue === true
+      )
+        ? ` text-${this.color}`
+        : ''
+
+      return `q-radio__inner--${this.isTrue === true ? 'truthy' : 'falsy'}${color}`
     },
 
     computedTabindex () {
