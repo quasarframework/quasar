@@ -10,6 +10,7 @@ import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
 import { create, stop, position, stopAndPrevent } from '../../utils/event.js'
 import EscapeKey from '../../utils/escape-key.js'
+import frameDebounce from '../../utils/frame-debounce.js'
 
 import { slot } from '../../utils/slot.js'
 
@@ -242,7 +243,8 @@ export default Vue.extend({
         return
       }
 
-      setPosition({
+      this.positioningTimer !== void 0 && this.positioningTimer.cancel()
+      this.positioningTimer = this.__setPositionDebounced({
         el,
         offset: this.offset,
         anchorEl: this.anchorEl,
@@ -309,11 +311,16 @@ export default Vue.extend({
     }
   },
 
+  created () {
+    this.__setPositionDebounced = frameDebounce(setPosition)
+  },
+
   mounted () {
     this.__processModelChange(this.value)
   },
 
   beforeDestroy () {
+    this.positioningTimer !== void 0 && this.positioningTimer.cancel()
     // When the menu is destroyed while open we can only emit the event on anchorEl
     if (this.showing === true && this.anchorEl !== void 0) {
       this.anchorEl.dispatchEvent(

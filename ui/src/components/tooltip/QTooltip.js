@@ -12,6 +12,7 @@ import { slot } from '../../utils/slot.js'
 import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
+import frameDebounce from '../../utils/frame-debounce.js'
 
 export default Vue.extend({
   name: 'QTooltip',
@@ -115,7 +116,8 @@ export default Vue.extend({
         return
       }
 
-      setPosition({
+      this.positioningTimer !== void 0 && this.positioningTimer.cancel()
+      this.positioningTimer = this.__setPositionDebounced({
         el,
         offset: this.offset,
         anchorEl: this.anchorEl,
@@ -207,7 +209,15 @@ export default Vue.extend({
     }
   },
 
+  created () {
+    this.__setPositionDebounced = frameDebounce(setPosition)
+  },
+
   mounted () {
     this.__processModelChange(this.value)
+  },
+
+  beforeDestroy () {
+    this.positioningTimer !== void 0 && this.positioningTimer.cancel()
   }
 })
