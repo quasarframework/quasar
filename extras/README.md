@@ -44,7 +44,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 | Vendor | Version | Quasar IconSet name | Import Icons from | Notes | License |
 | --- | --- | --- | --- | --- | --- |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | 3.0.1 | `svg-material-icons` | `@quasar/extras/material-icons` | The svgs are 3 years old! | [License](material-icons/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | 3.0.1 | `svg-material-icons` | `@quasar/extras/material-icons` | **The svgs are many years old!** Recommending the use of MDI svgs instead. | [License](material-icons/LICENSE) |
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | | | | *Not yet available* | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | | | | *Not yet available* | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | | | | *Not yet available* | [License](material-icons-sharp/LICENSE) |
