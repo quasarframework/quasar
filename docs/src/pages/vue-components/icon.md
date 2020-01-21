@@ -7,7 +7,9 @@ related:
 ---
 
 The QIcon component allows you to easily insert icons within other components or any other area of your pages.
-Quasar currently supports: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons) and [Themify Icons](https://themify.me/themify-icons).
+Quasar supports out of the box: [Material Icons](https://material.io/icons/), [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons) and [Line Awesome](https://icons8.com/line-awesome).
+
+Furthermore you can [add support by yourself](/vue-components/icon#Custom-mapping) for any icon lib.
 
 There are multiple types of icons in Quasar: webfont-based, svg-based (v1.7+) and image-based. You are not bound to using only one type in your website/app.
 
@@ -32,15 +34,16 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 | Quasar IconSet name | Name prefix | Examples | Notes |
 | --- | --- | --- | --- |
 | material-icons | *None* | thumb_up | Notice the underline character instead of dash or space |
-| material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space; **Requires Quasar 1.0.5+** |
-| material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space; **Requires Quasar 1.0.5+** |
-| material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Requires Quasar 1.0.5+** |
+| material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
+| material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
+| material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space; **Quasar 1.0.5+** |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix |
-| fontawesome-v5 | fa[s,r,l,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
+| fontawesome-v5 | fa[s,r,l,d,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) |
 | mdi-v4 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v4 or mdi-v3 |
 | mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters; Use only one of mdi-v4 or mdi-v3 |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters |
+| line-awesome | la[s,r,l,d,b] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags); **Quasar 1.8+ & @quasar/extras v1.5+** |
 
 ### Svg icons
 
@@ -84,14 +87,15 @@ export default {
 If you are only using svg icons (and have configured a [Quasar Icon Set](/options/quasar-icon-sets)) then you don't need the webfont equivalent in your app at all.
 :::
 
-| Vendor | Quasar IconSet name | Import Icons from |
-| --- | --- | --- |
-| Material Icons (Google) | svg-material-icons | @quasar/extras/material-icons |
-| MDI (Material Design Icons) | svg-mdi-v4 | @quasar/extras/mdi-v4 |
-| Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 |
-| Ionicons | svg-ionicons-v4 | @quasar/extras/ionicons-v4 |
-| Eva Icons | svg-eva-icons | @quasar/extras/eva-icons |
-| Themify Icons | svg-themify | @quasar/extras/themify |
+| Vendor | Quasar IconSet name | Import Icons from | Notes |
+| --- | --- | --- | --- |
+| Material Icons (Google) | svg-material-icons | @quasar/extras/material-icons | |
+| MDI (Material Design Icons) | svg-mdi-v4 | @quasar/extras/mdi-v4 | |
+| Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
+| Ionicons | svg-ionicons-v4 | @quasar/extras/ionicons-v4 | |
+| Eva Icons | svg-eva-icons | @quasar/extras/eva-icons | |
+| Themify Icons | svg-themify | @quasar/extras/themify | |
+| Line Awesome* | svg-line-awesome | @quasar/extras/line-awesome | `@quasar/extras` v1.5+ |
 
 You can also supply your own svg icons. An svg icon is essentially a String with the following syntax:
 

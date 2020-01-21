@@ -97,7 +97,7 @@ export default {
   },
   carousel: {
     left: laChevronLeftSolid,
-    right: laChevronRightSolid, // TODO
+    right: laChevronRightSolid,
     navigationIcon: laCircleSolid,
     thumbnails: laThSolid
   },
