@@ -367,7 +367,7 @@ export default Vue.extend({
           this.hidePopup()
         }
 
-        if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
+        if (isDeepEqual(this.__getOptionValue(this.innerValue), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         return
@@ -384,7 +384,7 @@ export default Vue.extend({
 
       const
         model = this.value.slice(),
-        index = this.value.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
+        index = this.innerValue.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
 
       if (index > -1) {
         this.$emit('remove', { index, value: model.splice(index, 1) })
