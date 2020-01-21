@@ -8,34 +8,31 @@
         Quasar v{{ $q.version }}
       </div>
 
-      <div class="q-py-md">
-        <q-input clearable outlined v-model="filter" :autofocus="$q.platform.is.desktop">
+      <div class="q-pt-md">
+        <q-input ref="filter" clearable outlined v-model="filter" :autofocus="$q.platform.is.desktop">
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>
         </q-input>
       </div>
 
-      <q-list
-        dense
-        v-for="(category, title) in filteredList"
-        :key="`category-${title}`"
-        class="q-mb-xl"
-      >
-        <q-item-label header class="text-uppercase text-weight-bold">
-          {{ title }}
-        </q-item-label>
+      <q-list dense class="q-mb-xl">
+        <template v-for="(category, title) in filteredList">
+          <q-item-label :key="`category-${title}`" header class="q-mt-lg text-uppercase text-weight-bold">
+            {{ title }}
+          </q-item-label>
 
-        <q-item
-          v-for="feature in category"
-          :key="`${feature.route}${feature.title}`"
-          :to="feature.route"
-        >
-          <q-item-section>{{ feature.title }}</q-item-section>
-          <q-item-section side>
-            <q-icon name="chevron_right" />
-          </q-item-section>
-        </q-item>
+          <q-item
+            v-for="feature in category"
+            :key="`${feature.route}${feature.title}`"
+            :to="feature.route"
+          >
+            <q-item-section>{{ feature.title }}</q-item-section>
+            <q-item-section side>
+              <q-icon name="chevron_right" />
+            </q-item-section>
+          </q-item>
+        </template>
       </q-list>
     </div>
   </div>
@@ -63,6 +60,20 @@ const store = {
 export default {
   created () {
     this.list = list
+  },
+
+  mounted () {
+    window.addEventListener('keydown', this.onKeyup, { passive: false, capture: true })
+  },
+
+  beforeDestroy () {
+    window.removeEventListener('keydown', this.onKeyup, { passive: false, capture: true })
+  },
+
+  data () {
+    return {
+      store: store
+    }
   },
 
   computed: {
@@ -97,9 +108,42 @@ export default {
     }
   },
 
-  data () {
-    return {
-      store: store
+  methods: {
+    onKeyup (evt) {
+      if (evt.keyCode === 38) { // up
+        this.moveSelection(evt, 'previousSibling')
+      }
+      else if (evt.keyCode === 40) { // down
+        this.moveSelection(evt, 'nextSibling')
+      }
+    },
+
+    moveSelection (evt, op) {
+      evt.preventDefault()
+
+      let el = document.activeElement
+
+      if (!el || el === document.body || el.tagName.toUpperCase() === 'INPUT') {
+        this.focus(document.querySelector('.q-item'))
+        return
+      }
+
+      if (el[op]) {
+        do { el = el[op] }
+        while (el && el.tagName.toUpperCase() !== 'A')
+
+        if (!el) {
+          this.focus(this.$refs.filter.$el)
+        }
+        else if (el.tagName.toUpperCase() === 'A') {
+          this.focus(el)
+        }
+      }
+    },
+
+    focus (el) {
+      el.focus()
+      el.scrollIntoView(false)
     }
   }
 }
