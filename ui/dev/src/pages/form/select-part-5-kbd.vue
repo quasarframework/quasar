@@ -417,7 +417,8 @@ export default {
           this.options = options.filter(v => v.toLowerCase().indexOf(needle) > -1)
         },
         ref => {
-          ref.moveOptionSelection()
+          ref.setOptionIndex(-1)
+          ref.moveOptionSelection(1, true)
         }
       )
     },

@@ -610,6 +610,11 @@
           "desc": "Number of options to move up or down",
           "default": 1,
           "examples": [ -1, 1, 5 ]
+        },
+        "skipInputValue": {
+          "type": "Boolean",
+          "desc": "Don't set input-value on navigation",
+          "addedIn": "v1.8.0"
         }
       },
       "addedIn": "v1.7.4"

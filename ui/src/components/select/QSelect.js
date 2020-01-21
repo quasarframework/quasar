@@ -415,7 +415,7 @@ export default Vue.extend({
       }
     },
 
-    moveOptionSelection (offset = 1) {
+    moveOptionSelection (offset = 1, skipInputValue) {
       if (this.menu === true) {
         let index = this.optionIndex
         do {
@@ -431,7 +431,7 @@ export default Vue.extend({
           this.setOptionIndex(index)
           this.scrollTo(index)
 
-          if (index >= 0 && this.useInput === true && this.fillInput === true) {
+          if (skipInputValue !== true && index >= 0 && this.useInput === true && this.fillInput === true) {
             const inputValue = this.__getOptionLabel(this.options[index])
             if (this.inputValue !== inputValue) {
               this.inputValue = inputValue
