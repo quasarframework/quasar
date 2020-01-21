@@ -95,15 +95,10 @@ export function setPosition (cfg) {
   let anchorProps
 
   // scroll position might change
-  // if max-height changes, so we
+  // if max-height/-width changes, so we
   // need to restore it after we calculate
   // the new positioning
-  const scrollTop = cfg.el.scrollTop
-
-  let elStyle = {
-    maxHeight: cfg.maxHeight,
-    maxWidth: cfg.maxWidth
-  }
+  const { scrollLeft, scrollTop } = cfg.el
 
   if (cfg.absoluteOffset === void 0) {
     anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [0, 0] : cfg.offset)
@@ -115,6 +110,11 @@ export function setPosition (cfg) {
       left = anchorLeft + cfg.absoluteOffset.left
 
     anchorProps = { top, left, width: 1, height: 1, right: left + 1, center: top, middle: left, bottom: top + 1 }
+  }
+
+  let elStyle = {
+    maxHeight: cfg.maxHeight,
+    maxWidth: cfg.maxWidth
   }
 
   if (cfg.fit === true || cfg.cover === true) {
@@ -152,6 +152,9 @@ export function setPosition (cfg) {
   // restore scroll position
   if (cfg.el.scrollTop !== scrollTop) {
     cfg.el.scrollTop = scrollTop
+  }
+  if (cfg.el.scrollLeft !== scrollLeft) {
+    cfg.el.scrollLeft = scrollLeft
   }
 }
 
