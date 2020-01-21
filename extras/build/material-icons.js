@@ -4,6 +4,7 @@ const packageName = 'material-design-icons'
 
 const glob = require('glob')
 const { readFileSync, writeFileSync } = require('fs')
+const { copySync } = require('fs-extra')
 const { resolve } = require('path')
 
 let skipped = []
@@ -61,3 +62,8 @@ else {
     console.log(`material-icons - skipped (${skipped.length}): ${skipped}`)
   }
 }
+
+copySync(
+  resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
+  resolve(__dirname, `../material-icons/LICENSE`)
+)

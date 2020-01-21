@@ -3,7 +3,7 @@ const packageName = 'line-awesome'
 // ------------
 
 const glob = require('glob')
-const fse = require('fs-extra')
+const { copySync } = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -74,8 +74,13 @@ const webfont = [
 ]
 
 webfont.forEach(file => {
-  fse.copySync(
+  copySync(
     resolve(__dirname, `../node_modules/${packageName}/dist/line-awesome/fonts/${file}`),
     resolve(__dirname, `../line-awesome/${file}`)
   )
 })
+
+copySync(
+  resolve(__dirname, `../node_modules/${packageName}/LICENSE.md`),
+  resolve(__dirname, `../line-awesome/LICENSE.md`)
+)

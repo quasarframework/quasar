@@ -3,7 +3,7 @@ const packageName = 'themify-icons'
 // ------------
 
 const glob = require('glob')
-const fse = require('fs-extra')
+const { copySync } = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -68,7 +68,7 @@ const webfont = [
 ]
 
 webfont.forEach(file => {
-  fse.copySync(
+  copySync(
     resolve(__dirname, `../node_modules/${packageName}/fonts/${file}`),
     resolve(__dirname, `../themify/${file}`)
   )

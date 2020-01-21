@@ -3,7 +3,7 @@ const packageName = 'ionicons'
 // ------------
 
 const glob = require('glob')
-const fse = require('fs-extra')
+const { copySync } = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -70,8 +70,13 @@ const webfont = [
 ]
 
 webfont.forEach(file => {
-  fse.copySync(
+  copySync(
     resolve(__dirname, `../node_modules/${packageName}/dist/fonts/${file}`),
     resolve(__dirname, `../ionicons-v4/${file}`)
   )
 })
+
+copySync(
+  resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
+  resolve(__dirname, `../ionicons-v4/LICENSE`)
+)

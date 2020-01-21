@@ -3,7 +3,7 @@ const packageName = '@mdi/svg'
 // ------------
 
 const glob = require('glob')
-const fse = require('fs-extra')
+const { copySync } = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -70,8 +70,17 @@ const webfont = [
 ]
 
 webfont.forEach(file => {
-  fse.copySync(
+  copySync(
     resolve(__dirname, `../node_modules/@mdi/font/fonts/${file}`),
     resolve(__dirname, `../mdi-v4/${file}`)
   )
 })
+
+copySync(
+  resolve(__dirname, `../node_modules/@mdi/font/license.md`),
+  resolve(__dirname, `../mdi-v4/license.md`)
+)
+copySync(
+  resolve(__dirname, `../node_modules/@mdi/svg/LICENSE`),
+  resolve(__dirname, `../mdi-v4/LICENSE`)
+)

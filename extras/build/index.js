@@ -1,5 +1,5 @@
-// require('./webfonts.js')
-// require('./animate')
+require('./webfonts.js')
+require('./animate')
 
 require('./material-icons.js')
 require('./mdi-v4.js')

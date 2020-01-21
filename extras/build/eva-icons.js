@@ -3,7 +3,7 @@ const packageName = 'eva-icons'
 // ------------
 
 const glob = require('glob')
-const fse = require('fs-extra')
+const { copySync } = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -74,7 +74,7 @@ const webfont = [
 ]
 
 webfont.forEach(file => {
-  fse.copySync(
+  copySync(
     resolve(__dirname, `../node_modules/${packageName}/style/fonts/${file}`),
     resolve(__dirname, `../eva-icons/${file}`)
   )
