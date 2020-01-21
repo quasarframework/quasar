@@ -23,7 +23,11 @@ function extract (file) {
   const content = readFileSync(file, 'utf-8')
 
   try {
-    const dPath = content.match(/ d="([\w ,\.-]+)"/)[1]
+    const dPath = content.match(/ d="([\w ,\.-]+)"/g)
+      .map(str => str.match(/ d="([\w ,\.-]+)"/)[1])
+      .join('z')
+      .replace(/zz/g, 'z')
+
     const viewBox = content.match(/viewBox="([0-9 ]+)"/)[1]
 
     iconNames.add(name)
