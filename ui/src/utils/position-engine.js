@@ -114,7 +114,8 @@ export function setPosition (cfg) {
 
   let elStyle = {
     maxHeight: cfg.maxHeight,
-    maxWidth: cfg.maxWidth
+    maxWidth: cfg.maxWidth,
+    visibility: 'visible'
   }
 
   if (cfg.fit === true || cfg.cover === true) {
