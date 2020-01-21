@@ -44,9 +44,9 @@
 <script>
 import pages from 'src/router/pages-list'
 
-let list = {}
+const list = {}
 pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
-  let [folder, file] = page.split('/')
+  const [folder, file] = page.split('/')
   if (!list[folder]) {
     list[folder] = []
   }
@@ -55,6 +55,10 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
     title: file.split(/-/).map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' ')
   })
 })
+
+const store = {
+  filter: ''
+}
 
 export default {
   created () {
@@ -80,12 +84,22 @@ export default {
       })
 
       return newList
+    },
+
+    filter: {
+      get () {
+        return this.store.filter
+      },
+
+      set (val) {
+        this.store.filter = val
+      }
     }
   },
 
   data () {
     return {
-      filter: ''
+      store: store
     }
   }
 }
