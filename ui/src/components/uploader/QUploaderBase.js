@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -11,6 +13,8 @@ import { humanStorageSize } from '../../utils/format.js'
 import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
+  name: 'QUploaderBase',
+
   mixins: [ DarkMixin, FileMixin ],
 
   props: {
