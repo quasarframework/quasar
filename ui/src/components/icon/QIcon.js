@@ -73,7 +73,7 @@ export default Vue.extend({
 
       let content = ' '
 
-      if (/^fa[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
+      if (/^[l|f]a[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
         cls = icon
       }
       else if (icon.startsWith('bt-') === true) {
