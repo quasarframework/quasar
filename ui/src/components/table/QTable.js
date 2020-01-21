@@ -230,19 +230,31 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = [ this.getTop(h) ]
     const data = { staticClass: this.containerClass }
 
-    if (this.grid === false) {
-      data.class = this.cardClass
-      data.style = this.cardStyle
+    if (this.grid === true) {
+      child.push(this.getGridHeader(h))
+    }
+    else {
+      Object.assign(data, {
+        class: this.cardClass,
+        style: this.cardStyle
+      })
     }
 
-    return h('div', data, [
-      this.getTop(h),
-      this.grid === true ? this.getGridHeader(h) : null,
+    child.push(
       this.getBody(h),
       this.getBottom(h)
-    ])
+    )
+
+    if (this.loading === true && this.$scopedSlots.loading !== void 0) {
+      child.push(
+        this.$scopedSlots.loading()
+      )
+    }
+
+    return h('div', data, child)
   },
 
   methods: {

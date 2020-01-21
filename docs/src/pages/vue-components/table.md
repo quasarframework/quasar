@@ -210,7 +210,11 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 ### Loading state
 
-<doc-example title="Loading" file="QTable/Loading" />
+<doc-example title="Default loading" file="QTable/Loading" />
+
+The example below requires Quasar v1.8+:
+
+<doc-example title="Custom loading" file="QTable/CustomLoading" />
 
 ### Custom top
 

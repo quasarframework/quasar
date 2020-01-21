@@ -8,7 +8,11 @@
       color="primary"
       row-key="name"
       :loading="loading"
-    />
+    >
+      <template v-slot:loading>
+        <q-inner-loading showing color="primary" />
+      </template>
+    </q-table>
   </div>
 </template>
 

@@ -9,6 +9,24 @@
     <q-table
       :data="data"
       :columns="columns"
+      :grid="$q.screen.lt.md"
+      title="Loading slot"
+      row-key="name"
+      :loading="loading"
+      class="q-my-lg"
+      :color="$q.dark.isActive || dark ? 'amber' : 'primary'"
+      :dark="dark"
+      flat
+      bordered
+    >
+      <template v-slot:loading>
+        <q-inner-loading showing />
+      </template>
+    </q-table>
+
+    <q-table
+      :data="data"
+      :columns="columns"
       title="Responsive with grid (no slot)"
       row-key="name"
       :loading="loading"
