@@ -35,7 +35,7 @@
           :key="size"
           :size="size"
           :label="size"
-          :unchecked-icon="mdiEyeOff" :checked-icon="mdiEye" 
+          :unchecked-icon="mdiEyeOff" :checked-icon="mdiEye"
           v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
         />
       </div>
@@ -44,9 +44,16 @@
         Indeterminate
       </p>
       <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
-      <q-toggle v-model="indModel" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
-      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="accent" label="Three states" />
-      <q-toggle size="100px" v-model="indModel" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color label="Three states" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="orange" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" size="100px" />
+
+      <p class="caption">
+        Indeterminate + icon-color
+      </p>
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" icon-color="red" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" icon-color="red" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" size="100px" icon-color="black" />
 
       <p class="caption">
         Label on the left side
@@ -82,6 +89,7 @@
         <q-toggle icon="mdi-account" v-model="checked" />
         <q-toggle icon="eva-alert-circle-outline" v-model="checked" />
         <q-toggle icon="ti-save" v-model="checked" />
+        <q-toggle icon="las la-phone-volume" v-model="checked" />
       </div>
 
       <p class="caption">

@@ -12,7 +12,9 @@ export default Vue.extend({
     icon: String,
     checkedIcon: String,
     uncheckedIcon: String,
-    indeterminateIcon: String
+    indeterminateIcon: String,
+
+    iconColor: String
   },
 
   computed: {
@@ -22,6 +24,12 @@ export default Vue.extend({
           ? this.checkedIcon
           : (this.isIndeterminate === true ? this.indeterminateIcon : this.uncheckedIcon)
       ) || this.icon
+    },
+
+    computedIconColor () {
+      if (this.isTrue === true) {
+        return this.iconColor
+      }
     }
   },
 
@@ -33,7 +41,14 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-toggle__thumb absolute flex flex-center no-wrap'
         }, this.computedIcon !== void 0
-          ? [ h(QIcon, { props: { name: this.computedIcon } }) ]
+          ? [
+            h(QIcon, {
+              props: {
+                name: this.computedIcon,
+                color: this.computedIconColor
+              }
+            })
+          ]
           : void 0
         )
       ]

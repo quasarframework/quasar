@@ -81,11 +81,15 @@ export default {
     },
 
     innerClass () {
-      const cls = `q-${this.type}__inner--${this.isTrue ? 'active' : (this.isFalse === true ? 'inactive' : 'indeterminate')}`
+      const state = this.isTrue === true ? 'truthy' : (this.isFalse === true ? 'falsy' : 'indet')
+      const color = this.color !== void 0 && (
+        this.keepColor === true ||
+        (this.type === 'toggle' ? this.isTrue === true : this.isFalse !== true)
+      )
+        ? ` text-${this.color}`
+        : ''
 
-      return cls + (this.isTrue === true
-        ? (this.color !== void 0 ? ' text-' + this.color : '')
-        : (this.keepColor === true && this.color !== void 0 ? ' text-' + this.color : ''))
+      return `q-${this.type}__inner--${state}${color}`
     }
   },
 

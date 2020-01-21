@@ -46,12 +46,11 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
     height: 1em
     padding: .325em .3em
 
-    &--indeterminate
+    &--indet
       .q-toggle__thumb
         left: .45em
-        color: $grey
 
-    &--active
+    &--truthy
       color: $primary
       color: var(--q-color-primary)
       .q-toggle__track
@@ -59,8 +58,6 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
       .q-toggle__thumb
         left: .65em
 
-    &--indeterminate, &--active
-      .q-toggle__thumb
         &:after
           background-color: currentColor
 
@@ -74,7 +71,7 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
   &--dark
     .q-toggle__inner
       color: #fff
-      &--active
+      &--truthy
         color: $primary
         color: var(--q-color-primary)
     .q-toggle__thumb:before
@@ -92,10 +89,10 @@ $toggle-transition: .22s cubic-bezier(.4,0,.2,1)
       top: 0
       left: 0
 
-    .q-toggle__inner--indeterminate
+    .q-toggle__inner--indet
       .q-toggle__thumb
         left: .15em
-    .q-toggle__inner--active
+    .q-toggle__inner--truthy
       .q-toggle__thumb
         left: .3em
 

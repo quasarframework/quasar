@@ -28,8 +28,10 @@
       <p class="caption">
         Indeterminate
       </p>
-      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Tap me to change between 3 states" />
-      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="accent" label="Tap me to change between 3 states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color label="Three states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="orange" label="Three states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" label="Three states" size="100px" />
 
       <p class="caption">
         Tests
