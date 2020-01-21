@@ -117,7 +117,7 @@
         "scroll-target=\"body\""
       ],
       "category": "behavior",
-      "addedIn": "v1.7.5"
+      "addedIn": "v1.8.0"
     }
   },
 

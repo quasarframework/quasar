@@ -61,7 +61,7 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 ### Basic validation
 
-<q-badge label="v1.7.5+" />
+<q-badge label="v1.8+" />
 
 There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>ENTER</kbd>) until the expected values are filled in.
 
