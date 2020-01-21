@@ -100,8 +100,10 @@ export function setPosition (cfg) {
   // the new positioning
   const scrollTop = cfg.el.scrollTop
 
-  cfg.el.style.maxHeight = cfg.maxHeight
-  cfg.el.style.maxWidth = cfg.maxWidth
+  let elStyle = {
+    maxHeight: cfg.maxHeight,
+    maxWidth: cfg.maxWidth
+  }
 
   if (cfg.absoluteOffset === void 0) {
     anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [0, 0] : cfg.offset)
@@ -116,11 +118,13 @@ export function setPosition (cfg) {
   }
 
   if (cfg.fit === true || cfg.cover === true) {
-    cfg.el.style.minWidth = anchorProps.width + 'px'
+    elStyle.minWidth = anchorProps.width + 'px'
     if (cfg.cover === true) {
-      cfg.el.style.minHeight = anchorProps.height + 'px'
+      elStyle.minHeight = anchorProps.height + 'px'
     }
   }
+
+  Object.assign(cfg.el.style, elStyle)
 
   const
     targetProps = getTargetProps(cfg.el),
@@ -131,15 +135,19 @@ export function setPosition (cfg) {
 
   applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
 
-  cfg.el.style.top = Math.max(0, Math.floor(props.top)) + 'px'
-  cfg.el.style.left = Math.max(0, Math.floor(props.left)) + 'px'
+  elStyle = {
+    top: Math.max(0, Math.floor(props.top)) + 'px',
+    left: Math.max(0, Math.floor(props.left)) + 'px'
+  }
 
   if (props.maxHeight !== void 0) {
-    cfg.el.style.maxHeight = Math.floor(props.maxHeight) + 'px'
+    elStyle.maxHeight = Math.floor(props.maxHeight) + 'px'
   }
   if (props.maxWidth !== void 0) {
-    cfg.el.style.maxWidth = Math.floor(props.maxWidth) + 'px'
+    elStyle.maxWidth = Math.floor(props.maxWidth) + 'px'
   }
+
+  Object.assign(cfg.el.style, elStyle)
 
   // restore scroll position
   if (cfg.el.scrollTop !== scrollTop) {
