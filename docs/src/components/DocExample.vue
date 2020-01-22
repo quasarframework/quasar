@@ -49,7 +49,7 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
 
   .row
     q-linear-progress(v-if="loading", color="primary", indeterminate)
-    component(v-else).col.doc-example__content(:is="component", :class="componentClass")
+    component.col.doc-example__content(v-else, :is="component", :class="componentClass")
 
   codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
 </template>
