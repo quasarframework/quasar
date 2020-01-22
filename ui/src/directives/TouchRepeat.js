@@ -197,7 +197,7 @@ export default {
       }
     }
 
-    if (el.__qtouchrepeat) {
+    if (el.__qtouchrepeat !== void 0) {
       el.__qtouchrepeat_old = el.__qtouchrepeat
     }
 

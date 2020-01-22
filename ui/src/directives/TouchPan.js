@@ -346,8 +346,7 @@ export default {
   },
 
   update (el, binding) {
-    const ctx = el.__qtouchpan
-    ctx !== void 0 && updateModifiers(ctx, binding)
+    el.__qtouchpan !== void 0 && updateModifiers(el.__qtouchpan, binding)
   },
 
   unbind (el) {

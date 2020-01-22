@@ -47,6 +47,6 @@ Notice below that the inner dialog is a child of the main dialog. This is the on
 
 <doc-example title="Dialog in Dialog" file="ClosePopup/DialogInDialog" />
 
-## API
+## ClosePopup API
 <doc-api file="ClosePopup" />
 

@@ -75,5 +75,5 @@ However, if you are using `capture` or `mouseCapture` modifiers then events will
 ### Note on HMR
 Due to performance reasons, when doing HMR updates, all modifiers EXCEPT for direction ones (`left`, `right`, `up`, `down`, `horizontal`, `vertical`) are NOT updated, so you will require a window refresh.
 
-## API
+## TouchPan API
 <doc-api file="TouchPan" />

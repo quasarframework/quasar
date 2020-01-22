@@ -65,5 +65,5 @@ However, if you are using `capture`, `mouseCapture` or `keyCapture` modifiers th
 ### Note on HMR
 Due to performance reasons, when doing HMR updates, the argument and modifiers are not updated, so you will require a window refresh.
 
-## API
+## TouchRepeat API
 <doc-api file="TouchRepeat" />

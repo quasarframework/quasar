@@ -240,8 +240,7 @@ export default {
   },
 
   update (el, binding) {
-    const ctx = el.__qtouchswipe
-    ctx !== void 0 && updateModifiers(ctx, binding)
+    el.__qtouchswipe !== void 0 && updateModifiers(el.__qtouchswipe, binding)
   },
 
   unbind (el) {
