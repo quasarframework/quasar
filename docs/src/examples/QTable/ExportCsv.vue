@@ -24,12 +24,31 @@
 <script>
 import { exportFile } from 'quasar'
 
+function wrapCsvValue (val, format = val => val) {
+  const formatted = format(val)
+  return `"${
+    String(formatted === void 0 || formatted === null ? '' : formatted)
+      .split('"').join('""')
+      /**
+       * Excel accepts \n and \r in strings, but some other CSV parsers do not
+       * Uncomment the next two lines to escape new lines
+       */
+      // .split('\n').join('\\n')
+      // .split('\r').join('\\r')
+  }"`
+}
+
 export default {
   methods: {
     exportTable () {
       // naive encoding to csv format
-      const content = [ this.columns.map(col => `"${col.label}"`).join(',') ].concat(
-        this.data.map(row => Object.keys(row).map(key => `"${row[key]}"`).join(','))
+      const content = [ this.columns.map(col => wrapCsvValue(col.label)) ].concat(
+        this.data.map(row => this.columns.map(col => wrapCsvValue(
+          typeof col.field === 'function'
+            ? col.field(row)
+            : row[col.field === void 0 ? col.name : col.field],
+          col.format
+        )).join(','))
       ).join('\r\n')
 
       const status = exportFile(
@@ -57,16 +76,16 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `${val}`,
+          format: val => `Name: ${val}`,
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-        { name: 'protein', label: 'Protein (g)', field: 'protein' },
-        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-        { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        { name: 'fat', label: 'Fat ("g")', field: 'fat', sortable: true },
+        { name: 'carbs', label: 'Carbs ("g")', field: 'carbs' },
+        { name: 'protein', label: 'Protein ("g")', field: 'protein' },
+        { name: 'calcium', label: 'Calcium ("%")', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
+        { name: 'sodium', label: 'Sodium ("mg")', field: 'sodium' },
+        { name: 'iron', label: 'Iron ("%")', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
       ],
 
       data: [
@@ -81,7 +100,7 @@ export default {
           iron: '1%'
         },
         {
-          name: 'Ice cream sandwich',
+          name: `Ice cream\nsandwich`,
           calories: 237,
           fat: 9.0,
           carbs: 37,
@@ -161,7 +180,7 @@ export default {
           iron: '22%'
         },
         {
-          name: 'KitKat',
+          name: '"KitKat"',
           calories: 518,
           fat: 26.0,
           carbs: 65,
