@@ -150,13 +150,11 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Single selection" file="QTable/SingleSelection" />
 
-<doc-example title="Multiple selection and custom selected rows label" file="QTable/MultipleSelection" />
+<doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
 ### Visible columns, custom top, fullscreen
 
 <doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
-
-Another example:
 
 <doc-example title="Visible columns" file="QTable/VisibleColumns2" />
 
@@ -214,7 +212,7 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 The example below requires Quasar v1.8+:
 
-<doc-example title="Custom loading" file="QTable/CustomLoading" />
+<doc-example title="Custom loading state" file="QTable/CustomLoading" />
 
 ### Custom top
 

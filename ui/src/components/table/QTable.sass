@@ -51,7 +51,7 @@
     > div:last-child
       border-bottom-left-radius: inherit
       border-bottom-right-radius: inherit
-    
+
     > .q-inner-loading
       border-radius: inherit !important
 
@@ -190,8 +190,10 @@
  */
 
 .q-table--dense
+  .q-table__top
+    padding: 6px 16px
   .q-table__bottom
-    min-height: 42px
+    min-height: 33px
 
   .q-table__sort-icon
     font-size: 110%
@@ -207,6 +209,13 @@
 
   .q-table__bottom-item
     margin-right: 8px
+
+  .q-table__select
+    .q-field__control, .q-field__native
+      min-height: 24px
+      padding: 0
+    .q-field__marginal
+      height: 24px
 
 /*
  * On light background

@@ -14,7 +14,6 @@
           label="Export to csv"
           no-caps
           @click="exportTable"
-          size="sm"
         />
       </template>
     </q-table>

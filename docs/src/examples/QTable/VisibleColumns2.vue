@@ -18,7 +18,7 @@
         <q-select
           v-model="visibleColumns"
           multiple
-          borderless
+          outlined
           dense
           options-dense
           :display-value="$q.lang.table.columns"
@@ -26,6 +26,7 @@
           map-options
           :options="columns"
           option-value="name"
+          options-cover
           style="min-width: 150px"
         />
       </template>

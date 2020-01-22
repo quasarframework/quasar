@@ -10,9 +10,11 @@
       :data="data"
       :columns="columns"
       :grid="$q.screen.lt.md"
-      title="Loading slot"
       row-key="name"
+      title="Loading slot"
       :loading="loading"
+      :separator="separator"
+      dense
       class="q-my-lg"
       :color="$q.dark.isActive || dark ? 'amber' : 'primary'"
       :dark="dark"
@@ -20,7 +22,7 @@
       bordered
     >
       <template v-slot:loading>
-        <q-inner-loading showing />
+        <q-inner-loading showing color="primary" />
       </template>
     </q-table>
 
