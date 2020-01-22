@@ -126,33 +126,42 @@ export default Vue.extend({
     },
 
     __getToggleIcon (h) {
-      return h(QItemSection, {
+      const data = {
         staticClass: `q-focusable relative-position cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         class: this.expandIconClass,
         props: {
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide
-        },
-        attrs: this.activeToggleIcon === true
-          ? { tabindex: 0 }
-          : void 0,
-        on: this.activeToggleIcon === true ? cache(this, 'inpExt', {
-          click: this.__toggleIcon,
-          keyup: this.__toggleIconKeyboard
-        }) : null
-      }, [
-        h('div', {
-          ref: 'blurTarget',
-          staticClass: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
-          attrs: { tabindex: -1 }
-        }),
+        }
+      }
 
+      const child = [
         h(QIcon, {
           staticClass: 'q-expansion-item__toggle-icon',
-          class: this.showing === true ? 'rotate-180' : void 0,
+          class: this.showing === true ? 'q-expansion-item__toggle-icon--rotated' : void 0,
           props: { name: this.expansionIcon }
         })
-      ])
+      ]
+
+      if (this.activeToggleIcon === true) {
+        Object.assign(data, {
+          attrs: { tabindex: 0 },
+          on: cache(this, 'inpExt', {
+            click: this.__toggleIcon,
+            keyup: this.__toggleIconKeyboard
+          })
+        })
+
+        child.unshift(
+          h('div', {
+            ref: 'blurTarget',
+            staticClass: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
+            attrs: { tabindex: -1 }
+          })
+        )
+      }
+
+      return h(QItemSection, data, child)
     },
 
     __getHeader (h) {
