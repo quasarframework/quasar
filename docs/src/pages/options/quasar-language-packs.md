@@ -122,7 +122,7 @@ export default {
 
 ## Change Quasar Language Pack at Runtime
 
-Example with a QSelect to dynamically change the Quasar components language:
+Example with a QSelect to dynamically change the Quasar components language. Change `src/pages/Index.vue` file to this.
 
 ```html
 <template>
@@ -137,39 +137,27 @@ Example with a QSelect to dynamically change the Quasar components language:
     options-dense
     style="min-width: 150px"
   />
+  {{ $t("failed") }}
 </template>
 
 <script>
-import languages from 'quasar/lang/index.json'
-const appLanguages = languages.filter(lang =>
-  [ 'de', 'en-us' ].includes(lang.isoName)
-)
-
 export default {
-  data () {
+  name: "PageIndex",
+  data() {
     return {
-      lang: this.$q.lang.isoName
-    }
+      lang: this.$q.lang.isoName,
+      langOptions: [
+        { value: "en-us", label: "English" },
+        { value: "de", label: "German" }
+      ]
+    };
   },
-
   watch: {
-    lang (lang) {
-      // dynamic import, so loading on demand only
-      import(
-        /* webpackInclude: /(de|en-us)\.js$/ */
-        `quasar/lang/${lang}`
-        ).then(lang => {
-        this.$q.lang.set(lang.default)
-      })
+    lang(lang) {
+      this.$i18n.locale = lang;
     }
-  },
-
-  created () {
-    this.langOptions = appLanguages.map(lang => ({
-      label: lang.nativeName, value: lang.isoName
-    }))
   }
-}
+};
 </script>
 ```
 
