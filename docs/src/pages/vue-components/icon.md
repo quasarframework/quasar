@@ -100,7 +100,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 
 ## Svg icons
 
-<q-badge label="Quasar v1.7.0+" />
+<q-badge label="Quasar v1.7+" />
 <q-badge class="q-ml-sm" label="@quasar/extras v1.4+" />
 
 There are many advantages of using only svg icons in your website/app:
@@ -221,7 +221,7 @@ Examples:
 
 ## Inlined svg
 
-<q-badge label="v1.7.0+" />
+<q-badge label="v1.7+" />
 
 If you don't want to use the webfont or svg variants from above, note that QIcon also supports one inlined `<svg>` tag (the content of the svg can be anything, not only a path).
 
@@ -280,7 +280,7 @@ img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQV
 
 ## Custom mapping
 
-<q-badge label="v1.4.0+" />
+<q-badge label="v1.4+" />
 
 Should you want, you can customize the mapping of icon names. This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
 

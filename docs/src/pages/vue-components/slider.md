@@ -56,7 +56,7 @@ The example below is better highlighting how QSlider handles label positioning s
 
 ### Reverse
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 <doc-example title="In reverse" file="QSlider/Reverse" />
 

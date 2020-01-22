@@ -45,7 +45,7 @@ In the second row in the example below, the property `keep-color` is being used 
 
 ### Sizes
 
-<q-badge label="v1.8.0" />
+<q-badge label="v1.8+" />
 
 Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).
 

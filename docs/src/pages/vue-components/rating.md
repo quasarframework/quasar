@@ -29,7 +29,7 @@ In the example below, when using the `icon-selected` prop, notice we can still u
 
 ### Colors
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 When using the `color-selected` prop, notice we can still use `color` as well. The latter becomes the color(s) of the icons when they are not selected.
 
@@ -49,7 +49,7 @@ When using the `color-selected` prop, notice we can still use `color` as well. T
 
 ### Tooltips
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 Notice how we can add tooltips to each icon in the example below.
 

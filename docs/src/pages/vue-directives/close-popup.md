@@ -22,7 +22,7 @@ This directive is a helper when dealing with [QDialog](/vue-components/dialog) a
 
 ### Closing multiple levels
 
-<q-badge label="Quasar v1.1.0+" />
+<q-badge label="Quasar v1.1+" />
 
 You can also close multiple levels of popups by supplying a level number to the directive:
 

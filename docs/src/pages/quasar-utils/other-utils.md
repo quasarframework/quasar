@@ -22,7 +22,7 @@ If you want to open the telephone dialer in a Cordova app, don't use `openURL()`
 
 ## Copy to Clipboard
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 The following is a helper to copy some text to Clipboard. The method returns a Promise.
 
@@ -40,7 +40,7 @@ copyToClipboard('some text')
 
 ## Export file
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 The following is a helper to trigger a file download.
 

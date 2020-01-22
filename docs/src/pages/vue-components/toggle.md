@@ -44,7 +44,7 @@ Instead of the default `true`/`false` values, you can use custom ones.
 
 ### Indeterminate state
 
-<q-badge label="v1.8.0" />
+<q-badge label="v1.8+" />
 
 In the example below, as soon as you click on the first QToggle it starts toggling between true/false. The second QToggle, on the other hand toggles between the three states (indeterminate/true/false) with help from `toggle-indeterminate`. You can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be considered `null`.
 
@@ -64,7 +64,7 @@ If you have a number of toggles for a selection, use can use an Array as the mod
 
 ### Sizes
 
-<q-badge label="v1.8.0" />
+<q-badge label="v1.8+" />
 
 Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).
 
