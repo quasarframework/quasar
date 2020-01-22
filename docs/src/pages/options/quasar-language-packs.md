@@ -103,8 +103,27 @@ boot: [
 Notice the use of the [Webpack magic comment](https://webpack.js.org/api/module-methods/#magic-comments) `webpackInclude`. Otherwise all the available language packs will be bundled, resulting in an increase in the compilation time and the bundle size. See [Caveat for dynamic imports](https://quasar.dev/quasar-cli/cli-documentation/lazy-loading#Caveat-for-dynamic-imports)
 :::
 
+## Add new language
+
+Let's say you want to add new German language.
+
+1. Create the new file `src/i18n/de/index.js` and copy there the content of the file `src/i18n/en-us/index.js` then make changes to the language strings.
+2. Now change `src/i18n/index.js` and add the new `de` language there.
+
+```js
+import enUS from "./en-us";
+import de from "./de";
+
+export default {
+  en: enUS,
+  de: de
+};
+```
+
 ## Change Quasar Language Pack at Runtime
+
 Example with a QSelect to dynamically change the Quasar components language:
+
 ```html
 <template>
   <q-select
