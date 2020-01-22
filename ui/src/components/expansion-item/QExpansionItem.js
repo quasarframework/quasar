@@ -127,36 +127,34 @@ export default Vue.extend({
 
     __getToggleIcon (h) {
       return h(QItemSection, {
-        staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
+        staticClass: `q-focusable relative-position cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         class: this.expandIconClass,
         props: {
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide
         },
-        on: this.activeToggleIcon === true ? cache(this, 'inpExt', {
+        attrs: { tabindex: 0 },
+        on: cache(this, 'inpExt', {
           click: this.__toggleIcon,
           keyup: this.__toggleIconKeyboard
-        }) : void 0
+        })
       }, [
+        h('div', {
+          staticClass: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
+          attrs: { tabindex: -1 },
+          ref: 'blurTarget'
+        }),
+
         h(QIcon, {
-          staticClass: 'q-expansion-item__toggle-icon q-focusable',
+          staticClass: 'q-expansion-item__toggle-icon',
           class: {
-            'rotate-180': this.expandedIcon === void 0 ? this.showing : false,
+            'rotate-180': this.showing,
             invisible: this.disable
           },
           props: {
             name: this.expansionIcon
-          },
-          attrs: this.activeToggleIcon === true
-            ? { tabindex: 0 }
-            : void 0
-        }, [
-          h('div', {
-            staticClass: 'q-focus-helper q-focus-helper--round',
-            attrs: { tabindex: -1 },
-            ref: 'blurTarget'
-          })
-        ])
+          }
+        })
       ])
     },
 
@@ -195,7 +193,11 @@ export default Vue.extend({
         )
       }
 
-      child[this.switchToggleSide === true ? 'unshift' : 'push'](this.__getToggleIcon(h))
+      if (this.activeToggleIcon === true) {
+        child[this.switchToggleSide === true ? 'unshift' : 'push'](
+          this.__getToggleIcon(h)
+        )
+      }
 
       const data = {
         ref: 'item',

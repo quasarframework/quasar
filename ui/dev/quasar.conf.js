@@ -23,6 +23,7 @@ module.exports = function (ctx) {
     ],
 
     framework: {
+      // iconSet: 'svg-mdi-v4',
       all: true
     },
 

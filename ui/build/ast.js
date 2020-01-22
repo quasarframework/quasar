@@ -35,7 +35,7 @@ function getPropDefinition (innerProp) {
   else if (innerProp.value.type === 'ArrayExpression') {
     definition.type = innerProp.value.elements.map(e => e.name)
   }
-  else {
+  else if (innerProp.value.type !== 'ConditionalExpression') {
     const jsonContent = innerProp.value.properties.map(p => {
       let value
       if (p.value) {
