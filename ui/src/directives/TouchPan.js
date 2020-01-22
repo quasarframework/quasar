@@ -282,23 +282,21 @@ export default {
           absX = Math.abs(distX),
           absY = Math.abs(distY)
 
-        if (absX === absY) {
-          return
-        }
-
-        if (
-          (ctx.direction.horizontal === true && absX > absY) ||
-          (ctx.direction.vertical === true && absX < absY) ||
-          (ctx.direction.up === true && absX < absY && distY < 0) ||
-          (ctx.direction.down === true && absX < absY && distY > 0) ||
-          (ctx.direction.left === true && absX > absY && distX < 0) ||
-          (ctx.direction.right === true && absX > absY && distX > 0)
-        ) {
-          ctx.event.detected = true
-          ctx.move(evt)
-        }
-        else if (ctx.event.mouse !== true) {
-          ctx.end(evt, true)
+        if (absX !== absY) {
+          if (
+            (ctx.direction.horizontal === true && absX > absY) ||
+            (ctx.direction.vertical === true && absX < absY) ||
+            (ctx.direction.up === true && absX < absY && distY < 0) ||
+            (ctx.direction.down === true && absX < absY && distY > 0) ||
+            (ctx.direction.left === true && absX > absY && distX < 0) ||
+            (ctx.direction.right === true && absX > absY && distX > 0)
+          ) {
+            ctx.event.detected = true
+            ctx.move(evt)
+          }
+          else {
+            ctx.end(evt, true)
+          }
         }
       },
 
@@ -311,16 +309,16 @@ export default {
         client.is.firefox === true && preventDraggable(el, false)
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
 
-        if (
-          abort !== true &&
+        if (abort === true) {
+          if (ctx.event.detected !== true && ctx.initialEvent !== void 0) {
+            ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
+          }
+        }
+        else if (
           ctx.event.detected === true &&
           ctx.event.isFirst !== true
         ) {
           ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true).payload)
-        }
-
-        if (abort === true && ctx.event.detected !== true && ctx.initialEvent !== void 0) {
-          ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
         }
 
         ctx.event = void 0

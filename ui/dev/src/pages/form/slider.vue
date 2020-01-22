@@ -1,10 +1,10 @@
 <template>
-  <div class="q-py-md column no-wrap" style="height: 100vh" :class="dark ? 'bg-black text-white' : ''">
-    <div class="row q-col-gutter-md q-pl-md q-pr-xl">
+  <div class="column no-wrap" style="height: 100vh" :class="dark ? 'bg-black text-white' : ''">
+    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2">
       <q-toggle v-model="dark" :dark="dark" :dense="dense" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" :dense="dense" label="Dense" />
       <q-toggle v-model="defaultLabels" :dark="dark" :dense="dense" label="Default labels" />
-      <q-input class="col" v-model="labelTemplate" label="Label template - use {model}" />
+      <q-input outlined square class="col" v-model="labelTemplate" label="Label template - use {model}" />
     </div>
 
     <div class="col scroll q-pl-md q-pr-xl">
