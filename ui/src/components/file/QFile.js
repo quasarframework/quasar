@@ -5,6 +5,7 @@ import QChip from '../chip/QChip.js'
 
 import FileMixin from '../../mixins/file.js'
 
+import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
 import { cache } from '../../utils/vm.js'
 
@@ -14,7 +15,10 @@ export default Vue.extend({
   mixins: [ QField, FileMixin ],
 
   props: {
-    value: [ File, FileList, Array ],
+    /* SSR does not know about File & FileList */
+    value: isSSR === true
+      ? {}
+      : [ File, FileList, Array ],
 
     useChips: Boolean,
     displayValue: [ String, Number ],
