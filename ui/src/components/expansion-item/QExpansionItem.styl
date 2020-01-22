@@ -12,10 +12,12 @@
       transform: rotate(180deg)
 
   &__toggle-focus
-    top: auto !important
-    left: auto !important
     width: 1em !important
     height: 1em !important
+    position: relative !important
+
+    + .q-expansion-item__toggle-icon
+      margin-top: -1em
 
   &--standard
     &.q-expansion-item--expanded
