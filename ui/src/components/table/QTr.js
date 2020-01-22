@@ -20,8 +20,7 @@ export default Vue.extend({
   render (h) {
     return h('tr', {
       on: this.$listeners,
-      staticClass: this.classes,
-      class: this.$listeners.click !== void 0 ? 'cursor-pointer' : ''
+      class: this.classes
     }, slot(this, 'default'))
   }
 })
