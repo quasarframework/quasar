@@ -120,17 +120,22 @@ export default Vue.extend({
     },
 
     __getControl (h) {
-      return h('div', {
+      const data = {
         ref: 'target',
         staticClass: 'q-field__native row items-center cursor-pointer',
         attrs: {
           tabindex: this.tabindex
-        },
-        on: cache(this, 'native', {
+        }
+      }
+
+      if (this.editable === true) {
+        data.on = cache(this, 'native', {
           dragover: this.__onDragOver,
           keyup: this.__onKeyup
         })
-      }, [ this.__getInput(h) ].concat(this.__getSelection(h)))
+      }
+
+      return h('div', data, [ this.__getInput(h) ].concat(this.__getSelection(h)))
     },
 
     __getControlChild (h) {
