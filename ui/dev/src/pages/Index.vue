@@ -9,7 +9,7 @@
       </div>
 
       <div class="q-pt-md">
-        <q-input ref="filter" clearable outlined v-model="filter" :autofocus="$q.platform.is.desktop">
+        <q-input ref="filter" clearable outlined v-model="filter">
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>
@@ -64,6 +64,7 @@ export default {
 
   mounted () {
     window.addEventListener('keydown', this.onKeyup, { passive: false, capture: true })
+    this.$q.platform.is.desktop === true && this.$refs.filter.focus()
   },
 
   beforeDestroy () {

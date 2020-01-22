@@ -24,18 +24,24 @@
 <script>
 import { exportFile } from 'quasar'
 
-function wrapCsvValue (val, format = val => val) {
-  const formatted = format(val)
-  return `"${
-    String(formatted === void 0 || formatted === null ? '' : formatted)
-      .split('"').join('""')
-      /**
-       * Excel accepts \n and \r in strings, but some other CSV parsers do not
-       * Uncomment the next two lines to escape new lines
-       */
-      // .split('\n').join('\\n')
-      // .split('\r').join('\\r')
-  }"`
+function wrapCsvValue (val, formatFn) {
+  let formatted = formatFn !== void 0
+    ? formatFn(val)
+    : val
+
+  formatted = formatted === void 0 || formatted === null
+    ? ''
+    : String(formatted)
+
+  formatted = formatted.split('"').join('""')
+  /**
+   * Excel accepts \n and \r in strings, but some other CSV parsers do not
+   * Uncomment the next two lines to escape new lines
+   */
+  // .split('\n').join('\\n')
+  // .split('\r').join('\\r')
+
+  return `"${formatted}"`
 }
 
 export default {
@@ -76,16 +82,15 @@ export default {
           label: 'Dessert (100g serving)',
           align: 'left',
           field: row => row.name,
-          format: val => `Name: ${val}`,
           sortable: true
         },
-        { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat ("g")', field: 'fat', sortable: true },
-        { name: 'carbs', label: 'Carbs ("g")', field: 'carbs' },
-        { name: 'protein', label: 'Protein ("g")', field: 'protein' },
-        { name: 'calcium', label: 'Calcium ("%")', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-        { name: 'sodium', label: 'Sodium ("mg")', field: 'sodium' },
-        { name: 'iron', label: 'Iron ("%")', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+        { name: 'calories', align: 'center', label: 'Calories', field: 'calories' },
+        { name: 'fat', label: 'Fat (g)', field: 'fat' },
+        { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
+        { name: 'protein', label: 'Protein (g)', field: 'protein' },
+        { name: 'calcium', label: 'Calcium (%)', field: 'calcium' },
+        { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
+        { name: 'iron', label: 'Iron (%)', field: 'iron' }
       ],
 
       data: [
@@ -100,7 +105,7 @@ export default {
           iron: '1%'
         },
         {
-          name: `Ice cream\nsandwich`,
+          name: `Ice cream sandwich`,
           calories: 237,
           fat: 9.0,
           carbs: 37,
@@ -180,7 +185,7 @@ export default {
           iron: '22%'
         },
         {
-          name: '"KitKat"',
+          name: 'KitKat',
           calories: 518,
           fat: 26.0,
           carbs: 65,
