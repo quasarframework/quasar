@@ -133,27 +133,24 @@ export default Vue.extend({
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide
         },
-        attrs: { tabindex: 0 },
-        on: cache(this, 'inpExt', {
+        attrs: this.activeToggleIcon === true
+          ? { tabindex: 0 }
+          : void 0,
+        on: this.activeToggleIcon === true ? cache(this, 'inpExt', {
           click: this.__toggleIcon,
           keyup: this.__toggleIconKeyboard
-        })
+        }) : null
       }, [
         h('div', {
+          ref: 'blurTarget',
           staticClass: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
-          attrs: { tabindex: -1 },
-          ref: 'blurTarget'
+          attrs: { tabindex: -1 }
         }),
 
         h(QIcon, {
           staticClass: 'q-expansion-item__toggle-icon',
-          class: {
-            'rotate-180': this.showing,
-            invisible: this.disable
-          },
-          props: {
-            name: this.expansionIcon
-          }
+          class: this.showing === true ? 'rotate-180' : void 0,
+          props: { name: this.expansionIcon }
         })
       ])
     },
@@ -193,11 +190,9 @@ export default Vue.extend({
         )
       }
 
-      if (this.activeToggleIcon === true) {
-        child[this.switchToggleSide === true ? 'unshift' : 'push'](
-          this.__getToggleIcon(h)
-        )
-      }
+      this.disable !== true && child[this.switchToggleSide === true ? 'unshift' : 'push'](
+        this.__getToggleIcon(h)
+      )
 
       const data = {
         ref: 'item',
