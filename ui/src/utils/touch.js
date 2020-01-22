@@ -51,7 +51,10 @@ export function updateModifiers (ctx, { oldValue, value, modifiers }) {
     ctx.handler = value
   }
 
-  if (directions.some(direction => modifiers[direction] !== ctx.modifiers[direction])) {
+  if (
+    ctx.modifiers.mouseAllDir !== modifiers.mouseAllDir ||
+    directions.some(direction => modifiers[direction] !== ctx.modifiers[direction])
+  ) {
     ctx.modifiers = modifiers
     ctx.direction = getModifierDirections(modifiers)
   }

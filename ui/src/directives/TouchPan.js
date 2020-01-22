@@ -268,7 +268,7 @@ export default {
 
         if (
           ctx.direction.all === true ||
-          (ctx.event.mouse === true && modifiers.mouseAllDir === true)
+          (ctx.event.mouse === true && ctx.modifiers.mouseAllDir === true)
         ) {
           ctx.event.detected = true
           ctx.move(evt)
