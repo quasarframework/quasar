@@ -111,6 +111,8 @@ export default {
 <div id="q-app">
   ${this.html}
 </div>`,
+        head: '',
+        html_pre_processor: 'none',
         css: this.css,
         css_pre_processor: this.cssPreprocessor,
         css_external: cssResources,
