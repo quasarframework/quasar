@@ -63,6 +63,10 @@ Under the covers, QFile uses a native input. Due to browser security policy, it 
 
 <doc-example title="With chips" file="QFile/WithChips" />
 
+### Using progress indicator
+
+<doc-example title="With progress indicator" file="QFile/WithProgress" />
+
 ### Restricting files
 
 <doc-example title="Basic restrictions" file="QFile/RestrictionBasic" />
