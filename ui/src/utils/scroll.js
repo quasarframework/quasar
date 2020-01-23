@@ -7,7 +7,12 @@ const scrollTargets = isSSR === false
 
 export function getScrollTarget (el, target) {
   if (typeof target === 'string') {
-    target = document.querySelector(target)
+    try {
+      target = document.querySelector(target)
+    }
+    catch (err) {
+      target = void 0
+    }
   }
 
   if (target === void 0 || target === null) {
