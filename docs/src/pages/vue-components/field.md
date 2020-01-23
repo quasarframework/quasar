@@ -8,7 +8,7 @@ The QField component is used to provide common functionality and aspect to form 
 QField allows you to display any form control (or almost anything as a matter of fact) inside it. Just place your desired content inside the `control` slot.
 
 ::: danger
-Do NOT wrap QInput, QFile or QSelect with QField. These two components already inherit QField.
+Do NOT wrap QInput, QFile or QSelect with QField as these components already inherit QField.
 :::
 
 ## Installation
