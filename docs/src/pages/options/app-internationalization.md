@@ -142,7 +142,7 @@ export default {
   name: "PageIndex",
   data() {
     return {
-      lang: this.$q.lang.isoName,
+      lang: this.$i18n.locale,
       langOptions: [
         { value: "en-us", label: "English" },
         { value: "de", label: "German" }
