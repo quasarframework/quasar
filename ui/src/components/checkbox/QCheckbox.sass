@@ -89,7 +89,7 @@ $checkbox-transition: .22s cubic-bezier(0,0,.2,1) 0ms
 
 body.desktop
 
-  .q-checkbox
+  .q-checkbox:not(.disabled)
     &__inner:before
       content: ''
       position: absolute
@@ -103,12 +103,13 @@ body.desktop
       transform: scale3d(0, 0, 1)
       transition: transform $option-focus-transition
 
-    &:focus:not(.disabled),
-    &:hover:not(.disabled)
+    &:focus,
+    &:hover
       .q-checkbox__inner:before
         transform: scale3d(1, 1, 1)
 
-    &--dense:focus:not(.disabled),
-    &--dense:hover:not(.disabled)
+  .q-checkbox--dense:not(.disabled)
+    &:focus,
+    &:hover
       .q-checkbox__inner:before
         transform: scale3d(1.4, 1.4, 1)

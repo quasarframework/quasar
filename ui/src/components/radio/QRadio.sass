@@ -70,7 +70,7 @@ $radio-transition: .22s cubic-bezier(0,0,.2,1) 0ms
 
 body.desktop
 
-  .q-radio
+  .q-radio:not(.disabled)
     &__inner:before
       content: ''
       position: absolute
@@ -84,12 +84,13 @@ body.desktop
       transform: scale3d(0, 0, 1)
       transition: transform $radio-transition
 
-    &:focus:not(.disabled),
-    &:hover:not(.disabled)
+    &:focus,
+    &:hover
       .q-radio__inner:before
         transform: scale3d(1, 1, 1)
 
-    &--dense:focus:not(.disabled),
-    &--dense:hover:not(.disabled)
+  .q-radio--dense:not(.disabled)
+    &:focus,
+    &:hover
       .q-radio__inner:before
         transform: scale3d(1.5, 1.5, 1)
