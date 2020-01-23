@@ -1,6 +1,6 @@
 <template>
   <div class="q-layout-padding">
-    <form action="https://reqbin.com/echo/post/json" method="post" enctype="multipart/form-data" target="wind1" style="max-width: 600px;" class="q-gutter-y-md">
+    <form action="http://localhost:4444/upload" method="post" enctype="multipart/form-data" target="wind1" style="max-width: 600px;" class="q-gutter-y-md">
       <q-file name="file1" filled v-model="fileS" label="Single" clearable />
       <q-file name="file2" color="yellow" filled v-model="fileM" multiple label="Multiple" clearable />
 
