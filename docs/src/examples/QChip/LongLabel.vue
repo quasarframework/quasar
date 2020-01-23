@@ -48,8 +48,10 @@
       </q-chip>
     </div>
 
-    <q-btn color="primary" label="Reset" @click="reset" class="q-mt-sm" />
-    <q-toggle v-model="truncate" label="Truncate labels" />
+    <div class="row items-center q-mt-sm">
+      <q-btn color="primary" label="Reset" @click="reset" class="q-mr-sm" />
+      <q-toggle v-model="truncate" label="Truncate labels" />
+    </div>
   </div>
 </template>
 
