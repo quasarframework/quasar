@@ -139,14 +139,23 @@ export default {
     },
 
     __pickAnchorEl () {
-      if (this.target === false) {
+      if (this.target === false || this.target === '') {
         this.anchorEl = void 0
       }
       else if (this.target === true) {
         this.__setAnchorEl(this.parentEl)
       }
       else {
-        let el = typeof this.target === 'string' ? document.querySelector(this.target) : this.target
+        let el = this.target
+
+        if (typeof this.target === 'string') {
+          try {
+            el = document.querySelector(this.target)
+          }
+          catch (err) {
+            el = void 0
+          }
+        }
 
         if (el !== void 0 && el !== null) {
           this.anchorEl = el._isVue === true && el.$el !== void 0 ? el.$el : el
