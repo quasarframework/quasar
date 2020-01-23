@@ -43,9 +43,32 @@ export default Vue.extend({
 
   watch: {
     value (val) {
-      if (val === void 0 || val === null) {
-        this.$refs.input.value = null
+      if (this.$refs.input === void 0) {
+        return
       }
+
+      try {
+        if (val === void 0 || val === null) {
+          this.$refs.input.value = ''
+          return
+        }
+
+        const dt = 'DataTransfer' in window
+          ? new DataTransfer()
+          : ('ClipboardEvent' in window
+            ? new ClipboardEvent('').clipboardData
+            : void 0
+          )
+
+        if (dt !== void 0) {
+          (Array.isArray(val) === true ? val : [val]).forEach(file => {
+            dt.items.add(file)
+          })
+
+          this.$refs.input.files = dt.files
+        }
+      }
+      catch (e) { }
     }
   },
 
