@@ -11,6 +11,46 @@ Internationalization is a design process that ensures a product (a website or ap
 The recommended package for handling website/app is [vue-i18n](https://github.com/kazupon/vue-i18n). This package should be added through a [Boot File](/quasar-cli/cli-documentation/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
 :::
 
+## Setup manually
+
+If you missed enabling i18n during `quasar create` wizard, here is how you can set it up manually.
+
+1. Create file `src/boot/i18n.js` with following content.
+
+```javascript
+import Vue from "vue";
+import VueI18n from "vue-i18n";
+import messages from "src/i18n";
+
+Vue.use(VueI18n);
+
+const i18n = new VueI18n({
+	locale: "en-us",
+	fallbackLocale: "en-us",
+	messages
+});
+
+export default ({ app }) => {
+	app.i18n = i18n;
+};
+
+export { i18n };
+```
+
+2. Now add this to `quasar.config.js` in `boot` section.
+
+```js
+module.exports = function(ctx) {
+    return {
+        // something here
+        boot: ["i18n"],
+        // something here
+    }
+}
+```
+
+Now you are ready to use it in you pages.
+
 ## Setting up Translation Blocks in your SFCs
 The following is an example recipe for using **vue-i18n** embedded `<i18n>` template components in your vue files with **vue-i18n-loader**, which you have to add in your `quasar.conf.js`. In this case the translations are stored in yaml format in the block.
 
@@ -30,6 +70,92 @@ build: {
     ...
   }
 }
+```
+
+## How to use
+
+There are 3 main cases:
+
+```html
+<template>
+    <q-page>
+        <q-btn :label="$t('mykey2')">
+        {{ $t('mykey1') }}
+        <span v-html="content"></span>
+    </q-page>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      content: this.$t('mykey3')
+    }
+  }
+};
+</script>
+```
+
+1. `mykey1` in HTML body
+2. `mykey2` in attribute
+3. `mykey3` programmatically
+
+## Add new language
+
+Let's say you want to add new German language.
+
+1. Create the new file `src/i18n/de/index.js` and copy there the content of the file `src/i18n/en-us/index.js` then make changes to the language strings.
+2. Now change `src/i18n/index.js` and add the new `de` language there.
+
+```js
+import enUS from "./en-us";
+import de from "./de";
+
+export default {
+  'en-us': enUS,
+  de: de
+};
+```
+
+## Create language switcher
+
+Change you `src/pages/Index.vue` to this.
+
+```html
+<template>
+  <q-select
+    v-model="lang"
+    :options="langOptions"
+    label="Quasar Language"
+    dense
+    borderless
+    emit-value
+    map-options
+    options-dense
+    style="min-width: 150px"
+  />
+  {{ $t("failed") }}
+</template>
+
+<script>
+export default {
+  name: "PageIndex",
+  data() {
+    return {
+      lang: this.$q.lang.isoName,
+      langOptions: [
+        { value: "en-us", label: "English" },
+        { value: "de", label: "German" }
+      ]
+    };
+  },
+  watch: {
+    lang(lang) {
+      this.$i18n.locale = lang;
+    }
+  }
+};
+</script>
 ```
 
 ## UPPERCASE
