@@ -58,5 +58,5 @@ However, if you are using `capture` or `mouseCapture` modifiers then events will
 ### Note on HMR
 Due to performance reasons, when doing HMR updates, the modifiers are NOT updated, so you will require a window refresh.
 
-## API
+## TouchHold API
 <doc-api file="TouchHold" />

@@ -4,6 +4,7 @@ const packageName = 'material-design-icons'
 
 const glob = require('glob')
 const { readFileSync, writeFileSync } = require('fs')
+const { copySync } = require('fs-extra')
 const { resolve } = require('path')
 
 let skipped = []
@@ -24,7 +25,11 @@ function extract (file) {
   const content = readFileSync(file, 'utf-8')
 
   try {
-    const dPath = content.match(/ d="([\w ,\.-]+)"/)[1]
+    const dPath = content.match(/ d="([\w ,\.-]+)"/g)
+      .map(str => str.match(/ d="([\w ,\.-]+)"/)[1])
+      .join('z')
+      .replace(/zz/g, 'z')
+
     const viewBox = content.match(/viewBox="([0-9 ]+)"/)[1]
 
     iconNames.add(name)
@@ -57,3 +62,8 @@ else {
     console.log(`material-icons - skipped (${skipped.length}): ${skipped}`)
   }
 }
+
+copySync(
+  resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
+  resolve(__dirname, `../material-icons/LICENSE`)
+)

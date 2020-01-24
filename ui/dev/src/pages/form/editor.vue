@@ -20,7 +20,7 @@
       ]"
       :hide-toolbar="hideToolbar"
       :definitions="{
-        bold: {cmd: 'bold', label: 'Bold', icon: null, tip: 'My bold tooltip'},
+        bold: {cmd: 'bold', label: 'Bold', tip: 'My bold tooltip'},
         italic: {cmd: 'italic', tip: 'My italic tooltip'},
         customItalic: {cmd: 'italic', icon: 'camera_enhance', tip: 'Italic'},
         save: {tip: 'Save your work', icon: 'save', label: 'Save', handler: saveWork},

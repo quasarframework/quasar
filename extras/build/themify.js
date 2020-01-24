@@ -3,7 +3,7 @@ const packageName = 'themify-icons'
 // ------------
 
 const glob = require('glob')
-const fse = require('fs-extra')
+const { copySync } = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
@@ -24,7 +24,11 @@ function extract (file) {
   const content = readFileSync(file, 'utf-8')
 
   try {
-    const dPath = content.match(/ d="([\w ,\.-]+)"/)[1]
+    const dPath = content.match(/ d="([\w ,\.-]+)"/g)
+      .map(str => str.match(/ d="([\w ,\.-]+)"/)[1])
+      .join('z')
+      .replace(/zz/g, 'z')
+
     const viewBox = content.match(/viewBox="([0-9 ]+)"/)[1]
 
     iconNames.add(name)
@@ -64,7 +68,7 @@ const webfont = [
 ]
 
 webfont.forEach(file => {
-  fse.copySync(
+  copySync(
     resolve(__dirname, `../node_modules/${packageName}/fonts/${file}`),
     resolve(__dirname, `../themify/${file}`)
   )

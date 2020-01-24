@@ -144,7 +144,7 @@ export default {
       noop () {},
 
       mouseStart (evt) {
-        if (shouldStart(event, ctx) && leftClick(evt)) {
+        if (shouldStart(evt, ctx) && leftClick(evt)) {
           addEvt(ctx, 'temp', [
             [ document, 'mousemove', 'move', 'notPassiveCapture' ],
             [ document, 'mouseup', 'end', 'passiveCapture' ]
@@ -155,7 +155,7 @@ export default {
       },
 
       touchStart (evt) {
-        if (shouldStart(evt)) {
+        if (shouldStart(evt, ctx)) {
           const target = getTouchTarget(evt.target)
 
           addEvt(ctx, 'temp', [
@@ -170,6 +170,7 @@ export default {
 
       start (evt, mouseEvent) {
         client.is.firefox === true && preventDraggable(el, true)
+        ctx.lastEvt = evt
 
         const pos = position(evt)
 
@@ -217,6 +218,8 @@ export default {
           return
         }
 
+        ctx.lastEvt = evt
+
         if (ctx.event.detected === true) {
           ctx.event.isFirst !== true && handleEvent(evt, ctx.event.mouse)
 
@@ -263,7 +266,10 @@ export default {
           return
         }
 
-        if (ctx.direction.all === true) {
+        if (
+          ctx.direction.all === true ||
+          (ctx.event.mouse === true && ctx.modifiers.mouseAllDir === true)
+        ) {
           ctx.event.detected = true
           ctx.move(evt)
           return
@@ -276,23 +282,21 @@ export default {
           absX = Math.abs(distX),
           absY = Math.abs(distY)
 
-        if (absX === absY) {
-          return
-        }
-
-        if (
-          (ctx.direction.horizontal === true && absX > absY) ||
-          (ctx.direction.vertical === true && absX < absY) ||
-          (ctx.direction.up === true && absX < absY && distY < 0) ||
-          (ctx.direction.down === true && absX < absY && distY > 0) ||
-          (ctx.direction.left === true && absX > absY && distX < 0) ||
-          (ctx.direction.right === true && absX > absY && distX > 0)
-        ) {
-          ctx.event.detected = true
-          ctx.move(evt)
-        }
-        else if (ctx.event.mouse !== true || modifiers.mouseAllDir !== true) {
-          ctx.end(evt, true)
+        if (absX !== absY) {
+          if (
+            (ctx.direction.horizontal === true && absX > absY) ||
+            (ctx.direction.vertical === true && absX < absY) ||
+            (ctx.direction.up === true && absX < absY && distY < 0) ||
+            (ctx.direction.down === true && absX < absY && distY > 0) ||
+            (ctx.direction.left === true && absX > absY && distX < 0) ||
+            (ctx.direction.right === true && absX > absY && distX > 0)
+          ) {
+            ctx.event.detected = true
+            ctx.move(evt)
+          }
+          else {
+            ctx.end(evt, true)
+          }
         }
       },
 
@@ -305,20 +309,21 @@ export default {
         client.is.firefox === true && preventDraggable(el, false)
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
 
-        if (
-          abort !== true &&
+        if (abort === true) {
+          if (ctx.event.detected !== true && ctx.initialEvent !== void 0) {
+            ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
+          }
+        }
+        else if (
           ctx.event.detected === true &&
           ctx.event.isFirst !== true
         ) {
-          ctx.handler(getChanges(evt, ctx, true).payload)
-        }
-
-        if (abort === true && ctx.event.detected !== true && ctx.initialEvent !== void 0) {
-          ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
+          ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true).payload)
         }
 
         ctx.event = void 0
         ctx.initialEvent = void 0
+        ctx.lastEvt = void 0
       }
     }
 
@@ -339,8 +344,7 @@ export default {
   },
 
   update (el, binding) {
-    const ctx = el.__qtouchpan
-    ctx !== void 0 && updateModifiers(ctx, binding)
+    el.__qtouchpan !== void 0 && updateModifiers(el.__qtouchpan, binding)
   },
 
   unbind (el) {

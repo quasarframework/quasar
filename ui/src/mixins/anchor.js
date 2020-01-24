@@ -6,7 +6,6 @@ import { isKeyCode } from '../utils/key-composition.js'
 export default {
   props: {
     target: {
-      type: [Boolean, String],
       default: true
     },
     noParentEvent: Boolean,
@@ -140,22 +139,32 @@ export default {
     },
 
     __pickAnchorEl () {
-      if (this.target && typeof this.target === 'string') {
-        const el = document.querySelector(this.target)
-        if (el !== null) {
-          this.anchorEl = el
+      if (this.target === false || this.target === '') {
+        this.anchorEl = void 0
+      }
+      else if (this.target === true) {
+        this.__setAnchorEl(this.parentEl)
+      }
+      else {
+        let el = this.target
+
+        if (typeof this.target === 'string') {
+          try {
+            el = document.querySelector(this.target)
+          }
+          catch (err) {
+            el = void 0
+          }
+        }
+
+        if (el !== void 0 && el !== null) {
+          this.anchorEl = el._isVue === true && el.$el !== void 0 ? el.$el : el
           this.__configureAnchorEl()
         }
         else {
           this.anchorEl = void 0
           console.error(`Anchor: target "${this.target}" not found`, this)
         }
-      }
-      else if (this.target !== false) {
-        this.__setAnchorEl(this.parentEl)
-      }
-      else {
-        this.anchorEl = void 0
       }
     },
 
@@ -179,7 +188,7 @@ export default {
       typeof this.__unconfigureScrollTarget === 'function'
     ) {
       this.noParentEventWatcher = this.$watch('noParentEvent', () => {
-        if (this.scrollTarget !== void 0) {
+        if (this.__scrollTarget !== void 0) {
           this.__unconfigureScrollTarget()
           this.__configureScrollTarget()
         }

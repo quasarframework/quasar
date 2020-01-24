@@ -7,24 +7,32 @@
       <div class="text-caption text-center">
         Quasar v{{ $q.version }}
       </div>
-      <q-list
-        dense
-        v-for="(category, title) in list"
-        :key="`category-${title}`"
-      >
-        <h4 class="text-uppercase">
-          {{ title }}
-        </h4>
-        <q-item
-          v-for="feature in category"
-          :key="`${feature.route}${feature.title}`"
-          :to="feature.route"
-        >
-          <q-item-section>{{ feature.title }}</q-item-section>
-          <q-item-section side>
-            <q-icon name="chevron_right" />
-          </q-item-section>
-        </q-item>
+
+      <div class="q-pt-md">
+        <q-input ref="filter" clearable outlined v-model="filter">
+          <template v-slot:prepend>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+      </div>
+
+      <q-list dense class="q-mb-xl">
+        <template v-for="(category, title) in filteredList">
+          <q-item-label :key="`category-${title}`" header class="q-mt-lg text-uppercase text-weight-bold">
+            {{ title }}
+          </q-item-label>
+
+          <q-item
+            v-for="feature in category"
+            :key="`${feature.route}${feature.title}`"
+            :to="feature.route"
+          >
+            <q-item-section>{{ feature.title }}</q-item-section>
+            <q-item-section side>
+              <q-icon name="chevron_right" />
+            </q-item-section>
+          </q-item>
+        </template>
       </q-list>
     </div>
   </div>
@@ -33,9 +41,9 @@
 <script>
 import pages from 'src/router/pages-list'
 
-let list = {}
+const list = {}
 pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
-  let [folder, file] = page.split('/')
+  const [folder, file] = page.split('/')
   if (!list[folder]) {
     list[folder] = []
   }
@@ -45,10 +53,98 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
   })
 })
 
+const store = {
+  filter: ''
+}
+
 export default {
+  created () {
+    this.list = list
+  },
+
+  mounted () {
+    window.addEventListener('keydown', this.onKeyup, { passive: false, capture: true })
+    this.$q.platform.is.desktop === true && this.$refs.filter.focus()
+  },
+
+  beforeDestroy () {
+    window.removeEventListener('keydown', this.onKeyup, { passive: false, capture: true })
+  },
+
   data () {
     return {
-      list
+      store: store
+    }
+  },
+
+  computed: {
+    filteredList () {
+      if (!this.filter) {
+        return this.list
+      }
+
+      const newList = {}
+      const filter = this.filter.toLowerCase()
+
+      Object.keys(this.list).forEach(categName => {
+        const filtered = this.list[categName]
+          .filter(feature => feature.title.toLowerCase().indexOf(filter) > -1)
+
+        if (filtered.length > 0) {
+          newList[categName] = filtered
+        }
+      })
+
+      return newList
+    },
+
+    filter: {
+      get () {
+        return this.store.filter
+      },
+
+      set (val) {
+        this.store.filter = val
+      }
+    }
+  },
+
+  methods: {
+    onKeyup (evt) {
+      if (evt.keyCode === 38) { // up
+        this.moveSelection(evt, 'previousSibling')
+      }
+      else if (evt.keyCode === 40) { // down
+        this.moveSelection(evt, 'nextSibling')
+      }
+    },
+
+    moveSelection (evt, op) {
+      evt.preventDefault()
+
+      let el = document.activeElement
+
+      if (!el || el === document.body || el.tagName.toUpperCase() === 'INPUT') {
+        this.focus(document.querySelector('.q-item'))
+        return
+      }
+
+      if (el[op]) {
+        do { el = el[op] }
+        while (el && el.tagName.toUpperCase() !== 'A')
+
+        if (!el) {
+          this.focus(this.$refs.filter.$el)
+        }
+        else if (el.tagName.toUpperCase() === 'A') {
+          this.focus(el)
+        }
+      }
+    },
+
+    focus (el) {
+      el.focus()
+      el.scrollIntoView(false)
     }
   }
 }

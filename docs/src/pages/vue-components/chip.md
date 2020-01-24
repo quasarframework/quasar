@@ -37,5 +37,7 @@ Custom sizes (below) have been introduced in v1.2.2+:
 
 <doc-example title="Removable" file="QChip/Removable" />
 
+<doc-example title="Long label truncation" file="QChip/LongLabel" />
+
 ## QChip API
 <doc-api file="QChip" />

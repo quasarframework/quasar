@@ -26,7 +26,11 @@ export default Vue.extend({
         (this.layout.footer.space === true ? this.layout.footer.size : 0)
 
       if (typeof this.styleFn === 'function') {
-        return this.styleFn(offset)
+        const height = this.layout.container === true
+          ? this.layout.containerHeight
+          : this.$q.screen.height
+
+        return this.styleFn(offset, height)
       }
 
       return {

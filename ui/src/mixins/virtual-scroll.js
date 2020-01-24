@@ -232,7 +232,7 @@ export default {
           scrollEl,
           scrollDetails,
           this.virtualScrollLength - 1,
-          scrollMaxStart - this.virtualScrollSizesAgg.reduce(sumFn, 0)
+          scrollDetails.scrollMaxSize - scrollDetails.offsetEnd - this.virtualScrollSizesAgg.reduce(sumFn, 0)
         )
 
         return

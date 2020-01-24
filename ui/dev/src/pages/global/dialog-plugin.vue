@@ -19,6 +19,9 @@
         <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
         <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
         <q-btn label="With HTML" flat color="primary" @click="unsafe" />
+        <q-btn label="Prompt (validation)" flat color="primary" @click="promptValidation" />
+        <q-btn label="Radio (validation)" flat color="primary" @click="radioValidation" />
+        <q-btn label="Checkbox (validation)" flat color="primary" @click="checkboxValidation" />
         <q-btn-dropdown color="accent" label="Open from dropdown" unelevated>
           <q-list flat>
             <q-item @click="alert" clickable v-close-popup>
@@ -205,6 +208,28 @@ export default {
       })
     },
 
+    promptValidation () {
+      this.dialogHandler = this.$q.dialog({
+        title: 'Prompt',
+        message: 'Length > 0',
+        prompt: {
+          model: '',
+          isValid: val => val.length > 0,
+          type: 'text' // optional
+        },
+        cancel: true,
+        persistent: true,
+        color: 'secondary',
+        dark: this.dark
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+
     radio () {
       this.dialogHandler = this.$q.dialog({
         title: 'Options',
@@ -231,6 +256,33 @@ export default {
       })
     },
 
+    radioValidation () {
+      this.dialogHandler = this.$q.dialog({
+        title: 'Options',
+        message: 'Need to select option 2',
+        options: {
+          type: 'radio',
+          model: 'opt1',
+          isValid: val => val === 'opt2',
+          // inline: true
+          items: [
+            { label: 'Option 1', value: 'opt1', color: 'secondary' },
+            { label: 'Option 2', value: 'opt2' },
+            { label: 'Option 3', value: 'opt3' }
+          ]
+        },
+        cancel: true,
+        persistent: true,
+        dark: this.dark
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+
     checkbox () {
       this.dialogHandler = this.$q.dialog({
         title: 'Options',
@@ -238,6 +290,33 @@ export default {
         options: {
           type: 'checkbox',
           model: [],
+          // inline: true
+          items: [
+            { label: 'Option 1', value: 'opt1', color: 'secondary' },
+            { label: 'Option 2', value: 'opt2' },
+            { label: 'Option 3', value: 'opt3' }
+          ]
+        },
+        cancel: true,
+        persistent: true,
+        dark: this.dark
+      }).onOk(data => {
+        console.log('>>>> OK, received', data)
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        this.dialogHandler = void 0
+      })
+    },
+
+    checkboxValidation () {
+      this.dialogHandler = this.$q.dialog({
+        title: 'Options',
+        message: 'Need to checkmark option 1',
+        options: {
+          type: 'checkbox',
+          model: [],
+          isValid: val => val.includes('opt1'),
           // inline: true
           items: [
             { label: 'Option 1', value: 'opt1', color: 'secondary' },

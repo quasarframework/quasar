@@ -492,6 +492,13 @@
     }
   },
 
+  "slots": {
+    "loading": {
+      "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading",
+      "addedIn": "v1.8.0"
+    }
+  },
+
   "scopedSlots": {
     "item": {
       "desc": "Slot to use for defining an item when in 'grid' mode; Suggestion: QCard",

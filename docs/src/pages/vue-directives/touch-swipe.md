@@ -52,5 +52,5 @@ However, if you are using `capture` or `mouseCapture` modifiers then events will
 ### Note on HMR
 Due to performance reasons, when doing HMR updates, the modifiers `capture`, `mouse` and `mouseCapture` are not updated, so you will require a window refresh.
 
-## API
+## TouchSwipe API
 <doc-api file="TouchSwipe" />

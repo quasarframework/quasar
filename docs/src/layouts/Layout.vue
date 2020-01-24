@@ -105,7 +105,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       router-view
 
   q-page-scroller
-    q-btn(fab-mini, color="primary", glossy, icon="keyboard_arrow_up")
+    q-btn(fab-mini, color="primary", glossy, :icon="mdiChevronUp")
 </template>
 
 <script>
@@ -114,7 +114,7 @@ import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
 
 import {
-  mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify
+  mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp
 } from '@quasar/extras/mdi-v4'
 
 export default {
@@ -125,6 +125,7 @@ export default {
     this.mdiClipboardText = mdiClipboardText
     this.mdiHeartOutline = mdiHeartOutline
     this.mdiMagnify = mdiMagnify
+    this.mdiChevronUp = mdiChevronUp
   },
 
   components: {

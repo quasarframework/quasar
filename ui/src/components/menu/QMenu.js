@@ -52,6 +52,10 @@ export default Vue.extend({
       validator: validateOffset
     },
 
+    scrollTarget: {
+      default: void 0
+    },
+
     touchPosition: Boolean,
 
     maxHeight: {
@@ -201,16 +205,16 @@ export default Vue.extend({
     },
 
     __unconfigureScrollTarget () {
-      if (this.scrollTarget !== void 0) {
-        this.__changeScrollEvent(this.scrollTarget)
-        this.scrollTarget = void 0
+      if (this.__scrollTarget !== void 0) {
+        this.__changeScrollEvent(this.__scrollTarget)
+        this.__scrollTarget = void 0
       }
     },
 
     __configureScrollTarget () {
-      if (this.anchorEl !== void 0) {
-        this.scrollTarget = getScrollTarget(this.anchorEl)
-        this.__changeScrollEvent(this.scrollTarget, this.updatePosition)
+      if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
+        this.__scrollTarget = getScrollTarget(this.anchorEl, this.scrollTarget)
+        this.__changeScrollEvent(this.__scrollTarget, this.updatePosition)
       }
     },
 
@@ -287,7 +291,7 @@ export default Vue.extend({
       }, [
         this.showing === true ? h('div', {
           ref: 'inner',
-          staticClass: 'q-menu scroll' + this.menuClass,
+          staticClass: 'q-menu q-position-engine scroll' + this.menuClass,
           class: this.contentClass,
           style: this.contentStyle,
           attrs: {

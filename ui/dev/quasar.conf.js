@@ -12,13 +12,18 @@ module.exports = function (ctx) {
       'fontawesome-v5',
       'eva-icons',
       'themify',
+      'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      'roboto-font',
+      'material-icons-outlined',
+      'material-icons-round',
+      'material-icons-sharp',
+      'material-icons'
     ],
 
     framework: {
+      // iconSet: 'svg-mdi-v4',
       all: true
     },
 

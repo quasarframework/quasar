@@ -15,10 +15,23 @@
       <q-checkbox v-model="checked" checked-icon="visibility" unchecked-icon="visibility_off" style="margin-left: 50px" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
+        Sizes
+      </p>
+      <q-checkbox
+        v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+        :key="size"
+        :size="size"
+        :label="size"
+        v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor"
+      />
+
+      <p class="caption">
         Indeterminate
       </p>
-      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Tap me to change between 3 states" />
-      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="accent" label="Tap me to change between 3 states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color label="Three states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="orange" label="Three states" />
+      <q-checkbox v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" label="Three states" size="100px" />
 
       <p class="caption">
         Tests

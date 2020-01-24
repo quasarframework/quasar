@@ -194,6 +194,20 @@ export default Vue.extend({
       )
     }
 
+    const track = [
+      h('div', {
+        staticClass: 'q-slider__track absolute',
+        style: this.trackStyle
+      })
+    ]
+
+    this.markers === true && track.push(
+      h('div', {
+        staticClass: 'q-slider__track-markers absolute-full fit',
+        style: this.markerStyle
+      })
+    )
+
     return h('div', {
       staticClass: this.value === null ? ' q-slider--no-value' : '',
       attrs: {
@@ -219,19 +233,9 @@ export default Vue.extend({
         }
       }]) : null
     }, [
-      h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
-        h('div', {
-          staticClass: 'q-slider__track absolute',
-          style: this.trackStyle
-        }),
-
-        this.markers === true
-          ? h('div', {
-            staticClass: 'q-slider__track-markers absolute-full fit',
-            style: this.markerStyle
-          })
-          : null
-      ]),
+      h('div', {
+        staticClass: 'q-slider__track-container absolute overflow-hidden'
+      }, track),
 
       h('div', {
         staticClass: 'q-slider__thumb-container absolute non-selectable',

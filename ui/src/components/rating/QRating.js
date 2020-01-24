@@ -25,12 +25,15 @@ export default Vue.extend({
     },
 
     icon: [String, Array],
+    iconHalf: [String, Array],
     iconSelected: [String, Array],
 
     color: [String, Array],
+    colorHalf: [String, Array],
     colorSelected: [String, Array],
 
     noReset: Boolean,
+    noDimming: Boolean,
 
     readonly: Boolean,
     disable: Boolean
@@ -49,6 +52,7 @@ export default Vue.extend({
 
     classes () {
       return `q-rating--${this.editable === true ? '' : 'non-'}editable` +
+        (this.noDimming === true ? ' q-rating--no-dimming' : '') +
         (this.disable === true ? ' disabled' : '') +
         (this.color !== void 0 && Array.isArray(this.color) === false ? ` text-${this.color}` : '')
     },
@@ -57,18 +61,24 @@ export default Vue.extend({
       const
         iconLen = Array.isArray(this.icon) === true ? this.icon.length : 0,
         selIconLen = Array.isArray(this.iconSelected) === true ? this.iconSelected.length : 0,
+        halfIconLen = Array.isArray(this.iconHalf) === true ? this.iconHalf.length : 0,
         colorLen = Array.isArray(this.color) === true ? this.color.length : 0,
-        selColorLen = Array.isArray(this.colorSelected) === true ? this.colorSelected.length : 0
+        selColorLen = Array.isArray(this.colorSelected) === true ? this.colorSelected.length : 0,
+        halfColorLen = Array.isArray(this.colorHalf) === true ? this.colorHalf.length : 0
 
       return {
         iconLen,
         icon: iconLen > 0 ? this.icon[iconLen - 1] : this.icon,
         selIconLen,
         selIcon: selIconLen > 0 ? this.iconSelected[selIconLen - 1] : this.iconSelected,
+        halfIconLen,
+        halfIcon: halfIconLen > 0 ? this.iconHalf[selIconLen - 1] : this.iconHalf,
         colorLen,
         color: colorLen > 0 ? this.color[colorLen - 1] : this.color,
         selColorLen,
-        selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected
+        selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected,
+        halfColorLen,
+        halfColor: halfColorLen > 0 ? this.colorHalf[halfColorLen - 1] : this.colorHalf
       }
     }
   },
@@ -117,18 +127,32 @@ export default Vue.extend({
     const
       child = [],
       tabindex = this.editable === true ? 0 : null,
-      icons = this.iconData
+      icons = this.iconData,
+      ceil = Math.ceil(this.value)
+
+    const halfIndex = this.iconHalf === void 0 || ceil === this.value
+      ? -1
+      : ceil
 
     for (let i = 1; i <= this.max; i++) {
       const
         active = (this.mouseModel === 0 && this.value >= i) || (this.mouseModel > 0 && this.mouseModel >= i),
-        exSelected = this.mouseModel > 0 && this.value >= i && this.mouseModel < i,
-        name = icons.selIcon !== void 0 && (active === true || exSelected === true)
-          ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
-          : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon),
-        color = icons.selColor !== void 0 && active === true
-          ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
-          : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
+        half = halfIndex === i && this.mouseModel < i,
+        exSelected = this.mouseModel > 0 && (half === true ? ceil : this.value) >= i && this.mouseModel < i,
+        name = half === true
+          ? (i <= icons.halfIconLen ? this.iconHalf[i - 1] : icons.halfIcon)
+          : (
+            icons.selIcon !== void 0 && (active === true || exSelected === true)
+              ? (i <= icons.selIconLen ? this.iconSelected[i - 1] : icons.selIcon)
+              : (i <= icons.iconLen ? this.icon[i - 1] : icons.icon)
+          ),
+        color = half === true
+          ? (i <= icons.halfColorLen ? this.colorHalf[i - 1] : icons.halfColor)
+          : (
+            icons.selColor !== void 0 && active === true
+              ? (i <= icons.selColorLen ? this.colorSelected[i - 1] : icons.selColor)
+              : (i <= icons.colorLen ? this.color[i - 1] : icons.color)
+          )
 
       child.push(
         h(QIcon, {
@@ -136,7 +160,7 @@ export default Vue.extend({
           ref: `rt${i}`,
           staticClass: 'q-rating__icon',
           class: {
-            'q-rating__icon--active': active,
+            'q-rating__icon--active': active === true || half === true,
             'q-rating__icon--exselected': exSelected,
             'q-rating__icon--hovered': this.mouseModel === i,
             [`text-${color}`]: color !== void 0

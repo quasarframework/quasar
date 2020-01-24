@@ -146,37 +146,44 @@
 
     "mouseAllDir": {
       "type": "Boolean",
-      "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)"
+      "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)",
+      "reactive": true
     },
 
     "horizontal": {
       "type": "Boolean",
-      "desc": "Catch horizontal (left/right) movement"
+      "desc": "Catch horizontal (left/right) movement",
+      "reactive": true
     },
 
     "vertical": {
       "type": "Boolean",
-      "desc": "Catch vertical (up/down) movement"
+      "desc": "Catch vertical (up/down) movement",
+      "reactive": true
     },
 
     "up": {
       "type": "Boolean",
-      "desc": "Catch panning to up"
+      "desc": "Catch panning to up",
+      "reactive": true
     },
 
     "right": {
       "type": "Boolean",
-      "desc": "Catch panning to right"
+      "desc": "Catch panning to right",
+      "reactive": true
     },
 
     "down": {
       "type": "Boolean",
-      "desc": "Catch panning to down"
+      "desc": "Catch panning to down",
+      "reactive": true
     },
 
     "left": {
       "type": "Boolean",
-      "desc": "Catch panning to left"
+      "desc": "Catch panning to left",
+      "reactive": true
     }
   }
 }

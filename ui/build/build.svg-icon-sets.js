@@ -50,6 +50,13 @@ module.exports.generate = function () {
       name: 'themify',
       regex: /^ti-/,
       convert
+    },
+    {
+      name: 'line-awesome',
+      regex: /^la[brs] la-/,
+      convert: str => (str.startsWith('las la-') === true ? str + '-solid' : str)
+        .replace(/^la[brs] la-/, 'la-')
+        .replace(/(-\w)/g, m => m[1].toUpperCase())
     }
   ]
 

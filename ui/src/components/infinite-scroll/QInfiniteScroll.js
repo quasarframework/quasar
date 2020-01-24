@@ -18,7 +18,9 @@ export default Vue.extend({
       type: [String, Number],
       default: 100
     },
-    scrollTarget: {},
+    scrollTarget: {
+      default: void 0
+    },
     disable: Boolean,
     reverse: Boolean
   },
@@ -132,18 +134,7 @@ export default Vue.extend({
         this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
       }
 
-      if (typeof this.scrollTarget === 'string') {
-        this.scrollContainer = document.querySelector(this.scrollTarget)
-        if (this.scrollContainer === null) {
-          console.error(`InfiniteScroll: scroll target container "${this.scrollTarget}" not found`, this)
-          return
-        }
-      }
-      else {
-        this.scrollContainer = this.scrollTarget === document.defaultView || this.scrollTarget instanceof Element
-          ? this.scrollTarget
-          : getScrollTarget(this.$el)
-      }
+      this.scrollContainer = getScrollTarget(this.$el, this.scrollTarget)
 
       if (this.working === true) {
         this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)

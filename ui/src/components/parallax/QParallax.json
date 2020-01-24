@@ -34,6 +34,10 @@
       "desc": "Speed of parallax effect (0.0 < x < 1.0)",
       "examples": [ ":speed=\"0.24\"" ],
       "category": "behavior"
+    },
+
+    "scroll-target": {
+      "extends": "scroll-target"
     }
   },
 

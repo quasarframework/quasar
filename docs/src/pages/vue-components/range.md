@@ -40,6 +40,10 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Custom label values" file="QRange/LabelValue" />
 
+The example below is better highlighting how QRange handles label positioning so that it always stays inside the QRange's box horizontally.
+
+<doc-example title="Long label" file="QRange/LabelLong" />
+
 ### Markers
 
 <doc-example title="Markers" file="QRange/Markers" />
@@ -64,7 +68,7 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 ### Reverse
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 <doc-example title="In reverse" file="QRange/Reverse" />
 

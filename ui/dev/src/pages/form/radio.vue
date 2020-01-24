@@ -19,6 +19,17 @@
       </div>
 
       <p class="caption">
+        Sizes
+      </p>
+      <q-radio
+        v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+        :key="size"
+        :size="size"
+        :label="size"
+        v-model="option" val="opt1" :dark="dark" :dense="dense" :keep-color="keepColor"
+      />
+
+      <p class="caption">
         Label on the left side
       </p>
       <div class="q-gutter-md">

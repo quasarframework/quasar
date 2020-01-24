@@ -1,9 +1,7 @@
 import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function updateBinding (el, { value, oldValue }) {
-  const ctx = el.__qscroll
-
+function updateBinding (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
     return
@@ -38,12 +36,12 @@ export default {
   inserted (el, binding) {
     let ctx = el.__qscroll
     ctx.scrollTarget = getScrollTarget(el)
-    updateBinding(el, binding)
+    updateBinding(ctx, binding)
   },
 
   update (el, binding) {
-    if (binding.oldValue !== binding.value) {
-      updateBinding(el, binding)
+    if (el.__qscroll !== void 0 && binding.oldValue !== binding.value) {
+      updateBinding(el.__qscroll, binding)
     }
   },
 

@@ -46,6 +46,6 @@ app.post('/upload', (req, res) => {
 })
 
 app.listen(port, () => {
-  console.log('\nUpload server running on http://localhost:' + port)
+  console.log('\nUpload server running on http://localhost:' + port + '/upload')
   console.log('You can now upload from main dev server using QUploader')
 })

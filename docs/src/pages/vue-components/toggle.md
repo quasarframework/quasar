@@ -42,6 +42,14 @@ Instead of the default `true`/`false` values, you can use custom ones.
 
 <doc-example title="Custom model values" file="QToggle/CustomValues" />
 
+### Indeterminate state
+
+<q-badge label="v1.8+" />
+
+In the example below, as soon as you click on the first QToggle it starts toggling between true/false. The second QToggle, on the other hand toggles between the three states (indeterminate/true/false) with help from `toggle-indeterminate`. You can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be considered `null`.
+
+<doc-example title="Indeterminate state" file="QToggle/IndeterminateState" />
+
 ### Array model
 
 If you have a number of toggles for a selection, use can use an Array as the model for all of them and specify `val` prop on each toggle. If the toggle is ticked, its `val` will be inserted into the array and vice versa.
@@ -53,6 +61,14 @@ If you have a number of toggles for a selection, use can use an Array as the mod
 <doc-example title="On a dark background" file="QToggle/DarkBackground" dark />
 
 <doc-example title="Disabled state" file="QToggle/Disabled" />
+
+### Sizes
+
+<q-badge label="v1.8+" />
+
+Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).
+
+<doc-example title="Standard sizes" file="QToggle/StandardSizes" />
 
 ### With QOptionGroup
 

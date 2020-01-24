@@ -128,6 +128,18 @@ const objectTypes = {
     required: [ 'desc' ]
   },
 
+  // special type, not common
+  File: {
+    props: [ 'desc', 'required' ],
+    required: [ 'desc' ]
+  },
+
+  // special type, not common
+  FileList: {
+    props: [ 'desc', 'required' ],
+    required: [ 'desc' ]
+  },
+
   // component only
   slots: {
     props: [ 'desc', 'link', 'addedIn' ],

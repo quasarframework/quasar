@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -36,6 +36,7 @@
     "fs-extra": "^8.1.0",
     "glob": "7.1.6",
     "ionicons": "^4.6.3",
+    "line-awesome": "^1.3.0",
     "material-design-icons": "3.0.1",
     "themify-icons": "https://github.com/lykmapipo/themify-icons"
   }

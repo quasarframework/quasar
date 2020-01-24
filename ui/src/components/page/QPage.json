@@ -22,6 +22,12 @@
           "type": "Number",
           "desc": "Header + Footer height (in pixels)",
           "examples": [ 152 ]
+        },
+        "height": {
+          "type": "Number",
+          "desc": "Value in pixels of container height (if containerized) or window height otherwise",
+          "examples": [ 1200 ],
+          "addedIn": "v1.7.4"
         }
       },
       "returns": {

@@ -27,13 +27,14 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v14 | `material-icons-outlined` | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v14 | `material-icons-round` | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v15 | `material-icons-sharp` | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
-| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | 4.7.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/LICENSE) |
+| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | 4.7.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.0 | `fontawesome-v5` | Fontawesome icons font | | [License](fontawesome-v5/FONT-LICENSE) |
-| [Ionicons](http://ionicons.com/) | 4.6.3 | `ionicons-v4` | Ionicons font | | [Font License](/ionicons-v4/FONT_LICENSE) [Icon License](ionicons-v4/ICON-LICENSE) |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.0 | `fontawesome-v5` | Fontawesome icons font | | [License](fontawesome-v5/LICENSE.txt) |
+| [Ionicons](http://ionicons.com/) | 4.6.3 | `ionicons-v4` | Ionicons font | | [License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.2 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `themify` | Themify Icons font | | [License](themify/LICENSE) |
-| [Animate.css](https://daneden.github.io/animate.css/) | 3.5.2 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
+| [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `line-awesome` | Line Awesome font | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
+| [Animate.css](https://daneden.github.io/animate.css/) | 3.7.2 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
 
 > Either install MDI v4 or MDI v3, but never both at the same time.
 
@@ -43,15 +44,16 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 | Vendor | Version | Quasar IconSet name | Import Icons from | Notes | License |
 | --- | --- | --- | --- | --- | --- |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | 3.0.1 | `svg-material-icons` | `@quasar/extras/material-icons` | The svgs are 3 years old! | [License](material-icons/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | 3.0.1 | `svg-material-icons` | `@quasar/extras/material-icons` | **The svgs are many years old!** Recommending the use of MDI svgs instead. | [License](material-icons/LICENSE) |
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | | | | *Not yet available* | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | | | | *Not yet available* | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | | | | *Not yet available* | [License](material-icons-sharp/LICENSE) |
-| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | 4.7.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | | [License](mdi-v4/LICENSE) |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.0 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/FONT-LICENSE) |
-| [Ionicons](http://ionicons.com/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | | [Font License](/ionicons-v4/FONT_LICENSE) [Icon License](ionicons-v4/ICON-LICENSE) |
+| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | 4.7.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | | [License](mdi-v4/license.md) |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.0 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
+| [Ionicons](http://ionicons.com/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | | [Icon License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.2 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `svg-themify` | `@quasar/extras/themify` | | [License](themify/LICENSE) |
+| [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `svg-line-awesome` | `@quasar/extras/line-awesome` | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
 
 Example:
 
@@ -90,10 +92,11 @@ export default {
 | material-icons-round | r_ | r_thumb_up | Notice the underline character instead of dash or space | |
 | material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space | |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix | |
-| fontawesome-v5 | fa[s,r,l,b] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) | |
+| fontawesome-v5 | fa[s,r,l,b,d] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) | |
 | mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters | |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters | |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters | |
+| line-awesome | la[s,r,l,b,d] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags) | |
 
 ### SVG name format
 Svg icons will be defined as String with the following syntax:

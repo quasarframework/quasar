@@ -299,14 +299,14 @@
         Switch toggle side
       </p>
       <q-list bordered padding inset-separator>
-        <q-expansion-item switch-toggle-side icon="mail" label="Inbox" caption="5 unread emails">
+        <q-expansion-item expand-icon-toggle switch-toggle-side icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
             <q-card-section>
               {{ lorem }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
-        <q-expansion-item switch-toggle-side icon="send" label="Outbox" caption="Empty">
+        <q-expansion-item expand-icon-toggle switch-toggle-side icon="send" label="Outbox" caption="Empty">
           <q-card>
             <q-card-section>
               {{ lorem }}
@@ -314,14 +314,14 @@
           </q-card>
         </q-expansion-item>
         <q-separator />
-        <q-expansion-item switch-toggle-side dense-toggle icon="mail" label="Inbox" caption="5 unread emails">
+        <q-expansion-item expand-icon-toggle switch-toggle-side dense-toggle icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
             <q-card-section>
               {{ lorem }}
             </q-card-section>
           </q-card>
         </q-expansion-item>
-        <q-expansion-item switch-toggle-side dense-toggle icon="mail" label="Inbox" caption="5 unread emails">
+        <q-expansion-item expand-icon-toggle switch-toggle-side dense-toggle icon="mail" label="Inbox" caption="5 unread emails">
           <q-card>
             <q-card-section>
               {{ lorem }}

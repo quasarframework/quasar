@@ -5,27 +5,32 @@
       :data="data"
       :columns="columns"
       row-key="name"
-      selection="multiple"
-      :selected.sync="selected"
     >
+
+      <template v-slot:header="props">
+        <q-tr :props="props">
+          <q-th auto-width />
+          <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+          >
+            {{ col.label }}
+          </q-th>
+        </q-tr>
+      </template>
 
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td auto-width>
-            <q-toggle dense v-model="props.selected" />
+            <q-btn size="sm" color="accent" round dense @click="props.expand = !props.expand" :icon="props.expand ? 'remove' : 'add'" />
           </q-td>
-          <q-td key="desc" :props="props">
-            {{ props.row.name }}
-            <q-btn dense round flat :icon="props.expand ? 'arrow_drop_up' : 'arrow_drop_down'" @click="props.expand = !props.expand" />
-          </q-td>
-          <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
-          <q-td key="fat" :props="props">{{ props.row.fat }}</q-td>
-          <q-td key="carbs" :props="props">{{ props.row.carbs }}</q-td>
-          <q-td key="protein" :props="props">{{ props.row.protein }}</q-td>
-          <q-td key="sodium" :props="props">{{ props.row.sodium }}</q-td>
-          <q-td key="calcium" :props="props">{{ props.row.calcium }}</q-td>
-          <q-td key="iron" :props="props">
-            <q-badge color="amber">{{ props.row.iron }}</q-badge>
+          <q-td
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+          >
+            {{ col.value }}
           </q-td>
         </q-tr>
         <q-tr v-show="props.expand" :props="props">
@@ -43,7 +48,6 @@
 export default {
   data () {
     return {
-      selected: [],
       columns: [
         {
           name: 'desc',

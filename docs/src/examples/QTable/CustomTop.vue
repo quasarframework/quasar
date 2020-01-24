@@ -10,8 +10,8 @@
     >
 
       <template v-slot:top>
-        <q-btn flat dense color="primary" :disable="loading" label="Add row" @click="addRow" />
-        <q-btn class="on-right" flat dense color="primary" :disable="loading" label="Remove row" @click="removeRow" />
+        <q-btn color="primary" :disable="loading" label="Add row" @click="addRow" />
+        <q-btn class="q-ml-sm" color="primary" :disable="loading" label="Remove row" @click="removeRow" />
         <q-space />
         <q-input borderless dense debounce="300" color="primary" v-model="filter">
           <template v-slot:append>

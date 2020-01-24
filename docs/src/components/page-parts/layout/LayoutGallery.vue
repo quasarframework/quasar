@@ -8,8 +8,8 @@
         .row.items-center.no-wrap.q-px-md.q-py-sm
           div {{ layout.name }}
           q-space
-          q-btn(type="a", :href="layout.demoLink", target="_blank", size="12px" flat, round, color="primary", icon="open_in_new")
-          q-btn(type="a", :href="layout.sourceLink", , target="_blank", size="12px" flat, round, icon="code")
+          q-btn(type="a", :href="layout.demoLink", target="_blank", size="12px" flat, round, color="primary", :icon="mdiOpenInNew")
+          q-btn(type="a", :href="layout.sourceLink", , target="_blank", size="12px" flat, round, :icon="mdiCodeTags")
 
         q-separator
 
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { mdiCodeTags, mdiOpenInNew } from '@quasar/extras/mdi-v4'
+
 import list from 'assets/layout-gallery.js'
 
 export default {
@@ -27,6 +29,9 @@ export default {
 
   created () {
     this.list = list
+
+    this.mdiCodeTags = mdiCodeTags
+    this.mdiOpenInNew = mdiOpenInNew
   }
 }
 </script>

@@ -82,32 +82,38 @@
 
     "horizontal": {
       "type": "Boolean",
-      "desc": "Catch horizontal (left/right) movement"
+      "desc": "Catch horizontal (left/right) movement",
+      "reactive": true
     },
 
     "vertical": {
       "type": "Boolean",
-      "desc": "Catch vertical (up/down) movement"
+      "desc": "Catch vertical (up/down) movement",
+      "reactive": true
     },
 
     "up": {
       "type": "Boolean",
-      "desc": "Catch swipe to up"
+      "desc": "Catch swipe to up",
+      "reactive": true
     },
 
     "right": {
       "type": "Boolean",
-      "desc": "Catch swipe to right"
+      "desc": "Catch swipe to right",
+      "reactive": true
     },
 
     "down": {
       "type": "Boolean",
-      "desc": "Catch swipe to down"
+      "desc": "Catch swipe to down",
+      "reactive": true
     },
 
     "left": {
       "type": "Boolean",
-      "desc": "Catch swipe to left"
+      "desc": "Catch swipe to left",
+      "reactive": true
     }
   }
 }

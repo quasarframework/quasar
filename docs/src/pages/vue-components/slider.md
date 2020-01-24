@@ -38,6 +38,10 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Custom label value" file="QSlider/LabelValue" />
 
+The example below is better highlighting how QSlider handles label positioning so that it always stays inside the QSlider's box horizontally.
+
+<doc-example title="Long label" file="QSlider/LabelLong" />
+
 ### Markers
 
 <doc-example title="Markers" file="QSlider/Markers" />
@@ -52,7 +56,7 @@ In the example below, move the slider to see the label.
 
 ### Reverse
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 <doc-example title="In reverse" file="QSlider/Reverse" />
 

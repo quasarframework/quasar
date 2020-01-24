@@ -39,7 +39,7 @@ Below are some of the custom alignments that you can use for the actions through
 
 ### Horizontal
 
-<q-badge label="v1.7.0+" />
+<q-badge label="v1.7+" />
 
 On the examples below, notice the QCardSection with `horizontal` prop on it that wraps other QCardSections. Also note that you can directly use `col-*` classes on children of horizontal QCardSection in order to control the size.
 

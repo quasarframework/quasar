@@ -43,7 +43,10 @@ export default Vue.extend({
       : void 0
 
     return h('transition', {
-      props: { name: this.transition }
+      props: {
+        name: this.transition,
+        appear: true
+      }
     }, child)
   }
 })

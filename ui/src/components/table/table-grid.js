@@ -91,7 +91,11 @@ export default {
             this.getTableHeader(h)
           ])
         ]
-        : (this.loading === true ? this.__getProgress(h) : void 0)
+        : (
+          this.loading === true && this.$scopedSlots.loading === void 0
+            ? this.__getProgress(h)
+            : void 0
+        )
 
       return h('div', { staticClass: 'q-table__middle' }, child)
     }

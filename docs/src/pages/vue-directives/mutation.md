@@ -36,6 +36,6 @@ One use-case for the Mutation Observer is implementing an Undo/Redo stack in you
 
 <doc-example title="Undo/Redo" file="Mutation/UndoRedo" />
 
-## API
+## Mutation API
 
 <doc-api file="Mutation" />

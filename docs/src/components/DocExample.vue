@@ -48,7 +48,8 @@ q-card.doc-example.q-my-lg(:class="classes", flat, bordered)
       q-separator.doc-example__separator
 
   .row
-    component.col.doc-example__content(:is="component", :class="componentClass")
+    q-linear-progress(v-if="loading", color="primary", indeterminate)
+    component.col.doc-example__content(v-else, :is="component", :class="componentClass")
 
   codepen(ref="codepen", :title="title", :slugifiedTitle="slugifiedTitle")
 </template>
@@ -86,6 +87,7 @@ export default {
 
   data () {
     return {
+      loading: true,
       component: null,
       tabs: [],
       currentTab: 'template',
@@ -119,6 +121,7 @@ export default {
       `examples/${this.file}.vue`
     ).then(comp => {
       this.component = comp.default
+      this.loading = false
     })
 
     import(

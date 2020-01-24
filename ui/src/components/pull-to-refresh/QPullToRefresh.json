@@ -21,6 +21,10 @@
 
     "disable": {
       "extends": "disable"
+    },
+
+    "scroll-target": {
+      "extends": "scroll-target"
     }
   },
 

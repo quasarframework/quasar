@@ -17,6 +17,45 @@
       <q-toggle v-model="checked" color="teal" label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
 
       <p class="caption">
+        Sizes
+      </p>
+      <div>
+        <q-toggle
+          v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+          :key="size"
+          :size="size"
+          :label="size"
+          unchecked-icon="visibility_off" checked-icon="visibility"
+          v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
+        />
+      </div>
+      <div>
+        <q-toggle
+          v-for="size in ['xs', 'sm', 'md', 'lg', 'xl', '150px']"
+          :key="size"
+          :size="size"
+          :label="size"
+          :unchecked-icon="mdiEyeOff" :checked-icon="mdiEye"
+          v-model="checked" :dark="dark" :dense="dense" :keep-color="keepColor"
+        />
+      </div>
+
+      <p class="caption">
+        Indeterminate
+      </p>
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" label="Three states" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color label="Three states" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" color="orange" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" size="100px" />
+
+      <p class="caption">
+        Indeterminate + icon-color
+      </p>
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" icon-color="red" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" :keep-color="keepColor" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" icon-color="red" />
+      <q-toggle v-model="indModel" toggle-indeterminate :dark="dark" :dense="dense" keep-color color="orange" unchecked-icon="visibility_off" checked-icon="visibility" indeterminate-icon="help" label="Three states" size="100px" icon-color="black" />
+
+      <p class="caption">
         Label on the left side
       </p>
       <q-toggle v-model="checked" color="orange" left-label label="Toggle Label" :dark="dark" :dense="dense" :keep-color="keepColor" />
@@ -50,6 +89,7 @@
         <q-toggle icon="mdi-account" v-model="checked" />
         <q-toggle icon="eva-alert-circle-outline" v-model="checked" />
         <q-toggle icon="ti-save" v-model="checked" />
+        <q-toggle icon="las la-phone-volume" v-model="checked" />
       </div>
 
       <p class="caption">
@@ -83,12 +123,13 @@
       <q-option-group
         type="toggle"
         v-model="group"
-        :dark="dark" :dense="dense"
+        size="lg"
+        :dark="dark" dense
         :keep-color="keepColor"
         :options="[
           { label: 'Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 ', value: 'op2', dark, keepColor },
           { label: 'Option 3', value: 'op3', dark, keepColor },
-          { label: 'Option 4', value: 'op4', dark, keepColor }
+          { label: 'Option 4', value: 'op4', dark, keepColor, size: 'xs' }
         ]"
       />
 
@@ -168,12 +209,19 @@
 </template>
 
 <script>
+import { mdiEye, mdiEyeOff } from '@quasar/extras/mdi-v4'
+
 export default {
+  created () {
+    this.mdiEye = mdiEye
+    this.mdiEyeOff = mdiEyeOff
+  },
   data () {
     return {
       checked: true,
       group: ['op3'],
       selection: ['two'],
+      indModel: null,
       dark: null,
       dense: false,
       keepColor: false

@@ -128,7 +128,7 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 ### Virtual scrolling
 
-<q-badge label="v1.2.0" />
+<q-badge label="v1.2+" />
 
 Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
 
@@ -150,13 +150,11 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Single selection" file="QTable/SingleSelection" />
 
-<doc-example title="Multiple selection and custom selected rows label" file="QTable/MultipleSelection" />
+<doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
 ### Visible columns, custom top, fullscreen
 
 <doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
-
-Another example:
 
 <doc-example title="Visible columns" file="QTable/VisibleColumns2" />
 
@@ -190,7 +188,7 @@ However, if you want to fully customize the content, check the example below, wh
 
 ### Expanding rows
 
-<doc-example title="Expanded row and custom selector" file="QTable/ExpandedRow" />
+<doc-example title="Expanded row" file="QTable/ExpandedRow" />
 
 ### Before/after slots
 
@@ -210,7 +208,11 @@ When `pagination` has a property named `rowsNumber`, then this means that you’
 
 ### Loading state
 
-<doc-example title="Loading" file="QTable/Loading" />
+<doc-example title="Default loading" file="QTable/Loading" />
+
+The example below requires Quasar v1.8+:
+
+<doc-example title="Custom loading state" file="QTable/CustomLoading" />
 
 ### Custom top
 
@@ -283,6 +285,12 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 :::
 
 <doc-example title="Synchronizing with server" file="QTable/Synchronizing" />
+
+### Exporting data
+
+Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#Export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
+
+<doc-example title="Export to csv" file="QTable/ExportCsv" no-edit />
 
 ## QTable API
 <doc-api file="QTable" />

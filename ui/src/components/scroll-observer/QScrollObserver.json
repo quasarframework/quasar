@@ -15,6 +15,10 @@
       "type": "Boolean",
       "desc": "Register for horizontal scroll instead of vertical (which is default)",
       "category": "behavior"
+    },
+
+    "scroll-target": {
+      "extends": "scroll-target"
     }
   },
 

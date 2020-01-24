@@ -34,6 +34,7 @@ As a helper, you can use `clearable` prop so user can reset model to `null` thro
 <doc-example title="Clearable" file="QSelect/Clearable" />
 
 ### Disable and readonly
+
 <doc-example title="Disable and readonly" file="QSelect/DisableReadonly" />
 
 ### Slots with QBtn type "submit"
@@ -148,6 +149,8 @@ More information: [native input attributes](https://developer.mozilla.org/en-US/
 <doc-example title="Autocomplete on more than 2 chars" file="QSelect/InputFilterMin" />
 
 <doc-example title="Lazy autocomplete" file="QSelect/InputFilterLazy" />
+
+<doc-example title="Selecting option after filtering" file="QSelect/InputFilterAfter" />
 
 ## Create new values
 

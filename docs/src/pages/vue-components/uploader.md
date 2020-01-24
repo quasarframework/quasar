@@ -1,8 +1,15 @@
 ---
 title: Uploader
 desc: The QUploader Vue component is a way for the user to upload files to a backend server.
+related:
+  - /vue-components/file-picker
 ---
+
 Quasar supplies a way for you to upload files through the QUploader component.
+
+:::tip
+If all you want is an input file, you might want to consider using [QFile](/vue-components/file-picker) picker component instead.
+:::
 
 ## Installation
 <doc-installation components="QUploader" />
@@ -145,8 +152,8 @@ app.post('/upload', (req, res) => {
     console.log('Fields', fields)
     console.log('Received:', Object.keys(files))
     console.log()
+    res.send('Thank you')
   })
-  res.send('Thank you')
 })
 
 app.listen(port, () => {

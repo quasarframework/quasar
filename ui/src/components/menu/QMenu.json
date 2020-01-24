@@ -58,6 +58,10 @@
       "category": "position"
     },
 
+    "scroll-target": {
+      "extends": "scroll-target"
+    },
+
     "touch-position": {
       "type": "Boolean",
       "desc": "Allows for the target position to be set by the mouse position, when the target of the menu is either clicked or touched",

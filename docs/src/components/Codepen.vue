@@ -76,6 +76,7 @@ export default {
         })
         .replace(/<(q-[\w-]+|div)([^>]+?)\/>/gs, '<$1$2></$1>')
         .replace(/___TEMP_REPLACEMENT___/gs, '>')
+        .replace(/^\s{2}/gm, '')
         .trim()
     },
 
@@ -111,6 +112,8 @@ export default {
 <div id="q-app">
   ${this.html}
 </div>`,
+        head: '',
+        html_pre_processor: 'none',
         css: this.css,
         css_pre_processor: this.cssPreprocessor,
         css_external: cssResources,

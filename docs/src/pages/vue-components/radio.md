@@ -43,6 +43,14 @@ In the second row in the example below, the property `keep-color` is being used 
 
 <doc-example title="Label on left side" file="QRadio/LabelPosition" />
 
+### Sizes
+
+<q-badge label="v1.8+" />
+
+Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).
+
+<doc-example title="Standard sizes" file="QRadio/StandardSizes" />
+
 ### With QOptionGroup
 
 ::: tip

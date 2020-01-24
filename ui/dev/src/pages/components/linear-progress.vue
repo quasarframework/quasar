@@ -19,8 +19,8 @@
           Change Model
         </q-btn>
         <q-linear-progress :dark="dark" class="q-my-sm" rounded :value="progress" />
-        <q-linear-progress :dark="dark" style="height: 10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
-        <q-linear-progress :dark="dark" style="height: 20px" rounded class="q-my-sm" :value="progress" color="info" />
+        <q-linear-progress :dark="dark" size="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
+        <q-linear-progress :dark="dark" size="20px" rounded class="q-my-sm" :value="progress" color="info" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="warning" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="secondary" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="accent" />
@@ -31,7 +31,7 @@
       <h5>Determinate State - Reverse</h5>
       <div class="group">
         <q-linear-progress :dark="dark" reverse class="q-my-sm" :value="progress" />
-        <q-linear-progress :dark="dark" reverse style="height: 10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
+        <q-linear-progress :dark="dark" reverse size="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
       </div>
 
       <h5>Stripe</h5>
@@ -79,8 +79,21 @@
 
       <h5>Specific Height</h5>
       <div>
-        <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" stripe animate style="height: 45px" />
+        <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" stripe animate size="45px" />
       </div>
+
+      <h5>With label</h5>
+      <q-linear-progress size="25px" :value="progress" color="accent">
+        <div class="absolute-full flex flex-center">
+          <q-badge color="white" text-color="accent" label="Progress" />
+        </div>
+      </q-linear-progress>
+
+      <q-linear-progress size="50px" :value="progress" color="accent" class="q-mt-sm">
+        <div class="absolute-full flex flex-center">
+          <q-badge color="white" text-color="accent" label="Progress" />
+        </div>
+      </q-linear-progress>
     </div>
   </div>
 </template>
