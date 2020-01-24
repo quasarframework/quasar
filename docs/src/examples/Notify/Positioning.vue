@@ -69,6 +69,7 @@ const alerts = [
 export default {
   methods: {
     showNotif (position) {
+      // eslint-disable-next-line
       const { color, textColor, multiLine, icon, message, avatar } = alerts[
         Math.floor(Math.random(alerts.length) * 10) % alerts.length
       ]
