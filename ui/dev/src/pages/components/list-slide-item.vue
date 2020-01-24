@@ -224,11 +224,59 @@
         </div>
       </div>
     </q-list>
+
+    <div>Dynamic slot</div>
+    <q-toggle v-model="slot1Active" label="Left active" />
+    <q-toggle v-model="slot2Active" label="Right active" />
+
+    <q-slide-item @left="onLeft" @right="onRight">
+      <div v-if="slot1Active" slot="left">
+        Left
+      </div>
+      <div v-if="slot2Active" slot="right">
+        Right content.. long
+      </div>
+
+      <q-item>
+        <q-item-section avatar>
+          <q-avatar color="primary" text-color="white" icon="bluetooth" />
+        </q-item-section>
+        <q-item-section>Text only</q-item-section>
+      </q-item>
+    </q-slide-item>
+
+    <q-slide-item @left="onLeft" @right="onRight">
+      <template v-if="slot1Active" v-slot:left>
+        <div>
+          Left
+        </div>
+      </template>
+
+      <template v-if="slot2Active" v-slot:right>
+        <div>
+          Right content.. long
+        </div>
+      </template>
+
+      <q-item>
+        <q-item-section avatar>
+          <q-avatar color="primary" text-color="white" icon="bluetooth" />
+        </q-item-section>
+        <q-item-section>Text only</q-item-section>
+      </q-item>
+    </q-slide-item>
   </div>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+      slot1Active: true,
+      slot2Active: false
+    }
+  },
+
   methods: {
     onLeft ({ reset }) {
       console.log('Left action!')
