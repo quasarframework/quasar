@@ -1,13 +1,15 @@
 import Vue from 'vue'
 
 import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../../utils/scroll.js'
-import { listenOpts } from '../../utils/event.js'
+import { listenOpts, noop } from '../../utils/event.js'
+
+const { passive } = listenOpts
 
 export default Vue.extend({
   name: 'QScrollObserver',
 
   props: {
-    debounce: [String, Number],
+    debounce: [ String, Number ],
     horizontal: Boolean,
 
     scrollTarget: {
@@ -15,7 +17,7 @@ export default Vue.extend({
     }
   },
 
-  render () {}, // eslint-disable-line
+  render: noop, // eslint-disable-line
 
   data () {
     return {
@@ -80,13 +82,13 @@ export default Vue.extend({
 
     __configureScrollTarget () {
       this.__scrollTarget = getScrollTarget(this.$el.parentNode, this.scrollTarget)
-      this.__scrollTarget.addEventListener('scroll', this.trigger, listenOpts.passive)
+      this.__scrollTarget.addEventListener('scroll', this.trigger, passive)
       this.trigger(true)
     },
 
     __unconfigureScrollTarget () {
       if (this.__scrollTarget !== void 0) {
-        this.__scrollTarget.removeEventListener('scroll', this.trigger, listenOpts.passive)
+        this.__scrollTarget.removeEventListener('scroll', this.trigger, passive)
         this.__scrollTarget = void 0
       }
     }

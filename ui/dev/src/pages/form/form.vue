@@ -9,6 +9,8 @@
     <q-toggle v-model="autofocus" label="Autofocus" />
     <q-toggle v-model="dark" label="Dark" :false-value="null" />
     <q-toggle v-model="greedy" label="Greedy" />
+    <q-toggle v-model="loading" label="Loading" />
+    <q-toggle v-model="customInput" label="Custom Input" />
     <q-option-group class="q-mb-lg" inline v-model="autofocusEl" dense="dense" :options="autofocusEls" />
 
     <q-form
@@ -25,6 +27,7 @@
     >
       <div class="q-col-gutter-md">
         <custom-input
+          v-if="customInput"
           filled
           v-model="customValue"
           label="Custom value *"
@@ -78,8 +81,8 @@
         <q-toggle :dark="dark" v-model="accept" label="I accept the license and terms" :autofocus="autofocusEl === 3" />
 
         <div>
-          <q-btn label="Submit" type="submit" color="primary" />
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn label="Submit" type="submit" color="primary" :loading="loading" />
+          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" :loading="loading" />
         </div>
       </div>
     </q-form>
@@ -138,6 +141,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       native: null,
       name: null,
       age: null,
@@ -160,7 +164,8 @@ export default {
 
       user: null,
       pwd: null,
-      customValue: ''
+      customValue: '',
+      customInput: true
     }
   },
 
@@ -194,6 +199,11 @@ export default {
 
     onValidationError () {
       console.log('@validation-error')
+    },
+
+    onClick () {
+      this.$q.notify('click')
+      console.log('cliiick')
     }
   }
 }

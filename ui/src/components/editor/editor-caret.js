@@ -1,3 +1,5 @@
+import { noop } from '../../utils/event.js'
+
 function getBlockElement (el, parent) {
   if (parent && el === parent) {
     return null
@@ -194,7 +196,7 @@ export class Caret {
     }
   }
 
-  apply (cmd, param, done = () => {}) {
+  apply (cmd, param, done = noop) {
     if (cmd === 'formatBlock') {
       if (['BLOCKQUOTE', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'].includes(param) && this.is(cmd, param)) {
         cmd = 'outdent'

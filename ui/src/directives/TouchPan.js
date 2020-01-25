@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget, shouldStart } from '../utils/touch.js'
-import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable } from '../utils/event.js'
+import { position, leftClick, prevent, stop, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function getChanges (evt, ctx, isFinal) {
@@ -141,7 +141,7 @@ export default {
       modifiers,
       direction: getModifierDirections(modifiers),
 
-      noop () {},
+      noop,
 
       mouseStart (evt) {
         if (shouldStart(evt, ctx) && leftClick(evt)) {

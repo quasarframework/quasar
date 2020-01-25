@@ -1,4 +1,5 @@
 import { setBrand } from './utils/colors.js'
+import { noop } from './utils/event.js'
 import { onKeyDownComposition } from './utils/key-composition.js'
 import { isSSR, fromSSR, client, iosCorrection } from './plugins/Platform.js'
 
@@ -112,7 +113,7 @@ export default {
 
     if (client.is.ios === true) {
       // needed for iOS button active state
-      document.body.addEventListener('touchstart', () => {})
+      document.body.addEventListener('touchstart', noop)
     }
 
     window.addEventListener('keydown', onKeyDownComposition, true)

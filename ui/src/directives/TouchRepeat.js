@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 import { isKeyCode } from '../utils/key-composition.js'
 
@@ -56,7 +56,7 @@ export default {
       keyboard,
       handler: value,
 
-      noop () {},
+      noop,
 
       mouseStart (evt) {
         if (ctx.event === void 0 && typeof ctx.handler === 'function' && leftClick(evt) === true) {
