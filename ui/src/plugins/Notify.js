@@ -5,6 +5,7 @@ import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 
 import clone from '../utils/clone.js'
+import { noop } from '../utils/event.js'
 import { isSSR } from './Platform.js'
 
 let uid = 0
@@ -244,7 +245,7 @@ const Notifications = {
 
 export default {
   create (opts) {
-    if (isSSR === true) { return () => {} }
+    if (isSSR === true) { return noop }
     return this.__vm.add(opts)
   },
   setDefaults (opts) {
@@ -253,8 +254,8 @@ export default {
 
   install ({ cfg, $q }) {
     if (isSSR === true) {
-      $q.notify = () => {}
-      $q.notify.setDefaults = () => {}
+      $q.notify = noop
+      $q.notify.setDefaults = noop
       return
     }
 

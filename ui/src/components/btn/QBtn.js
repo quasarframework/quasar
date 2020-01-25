@@ -6,7 +6,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import BtnMixin from '../../mixins/btn.js'
 
 import { mergeSlot } from '../../utils/slot.js'
-import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
+import { stop, prevent, stopAndPrevent, listenOpts, noop } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
@@ -94,7 +94,7 @@ export default Vue.extend({
         // to the same route that the user is currently at
         // https://github.com/vuejs/vue-router/issues/2872
         if (res !== void 0 && typeof res.catch === 'function') {
-          res.catch(() => {})
+          res.catch(noop)
         }
       }
 

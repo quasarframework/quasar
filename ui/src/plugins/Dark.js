@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import { isSSR, fromSSR } from './Platform.js'
+import { noop } from '../utils/event.js'
 
 const Dark = {
   isActive: false,
@@ -30,7 +31,7 @@ const Dark = {
         q.dark.set(dark)
       })
 
-      this.set = () => {}
+      this.set = noop
       return
     }
 

@@ -1,11 +1,12 @@
 import { isSSR } from './plugins/Platform.js'
+import { noop } from './utils/event.js'
 
 const getTrue = () => true
 
 export default {
   __history: [],
-  add: () => {},
-  remove: () => {},
+  add: noop,
+  remove: noop,
 
   install ($q, cfg) {
     if (isSSR === true || $q.platform.is.cordova !== true) {

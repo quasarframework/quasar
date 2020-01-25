@@ -1,4 +1,5 @@
 import Platform, { isSSR } from './Platform.js'
+import { noop } from '../utils/event.js'
 import { getBrand } from '../utils/colors.js'
 
 let metaValue
@@ -61,7 +62,7 @@ export default {
           setColor(val)
         }
       }
-      : () => {}
+      : noop
 
     $q.addressbarColor = this
 
