@@ -23,7 +23,7 @@ $ yarn add vue-i18n
 $ npm install vue-i18n
 ```
 
-2. Create file `src/boot/i18n.js` with following content:
+2. Create a file `src/boot/i18n.js` with following content:
 
 ```js
 import Vue from 'vue'
@@ -49,7 +49,9 @@ export default ({ app }) => {
 export { i18n }
 ```
 
-3. Now reference this file in `quasar.config.js` in `boot` section:
+3. Create a folder (/src/i18n/) in your app which will hold the definitions for each language that you'll support. Example: [src/i18n](https://github.com/quasarframework/quasar-starter-kit/tree/master/template/src/i18n). Notice the "import messages from 'src/i18n'" from step 2. This is step where you write the content that gets imported.
+
+4. Now reference this file in `quasar.config.js` in `boot` section:
 
 ```js
 // quasar.conf.js
@@ -92,11 +94,11 @@ There are 3 main cases:
 
 ```html
 <template>
-    <q-page>
-        <q-btn :label="$t('mykey2')">
-        {{ $t('mykey1') }}
-        <span v-html="content"></span>
-    </q-page>
+  <q-page>
+    <q-btn :label="$t('mykey2')">
+    {{ $t('mykey1') }}
+    <span v-html="content"></span>
+  </q-page>
 </template>
 
 <script>
@@ -106,7 +108,7 @@ export default {
       content: this.$t('mykey3')
     }
   }
-};
+}
 </script>
 ```
 
@@ -122,21 +124,22 @@ Let's say you want to add new German language.
 2. Now change `src/i18n/index.js` and add the new `de` language there.
 
 ```js
-import enUS from "./en-us";
-import de from "./de";
+import enUS from './en-us'
+import de from './de'
 
 export default {
   'en-us': enUS,
   de: de
-};
+}
 ```
 
 ## Create language switcher
 
-Change you `src/pages/Index.vue` to this.
-
 ```html
+<!-- some .vue file -->
+
 <template>
+  <!-- ...... -->
   <q-select
     v-model="lang"
     :options="langOptions"
@@ -148,27 +151,26 @@ Change you `src/pages/Index.vue` to this.
     options-dense
     style="min-width: 150px"
   />
-  {{ $t("failed") }}
+  <!-- ...... -->
 </template>
 
 <script>
 export default {
-  name: "PageIndex",
   data() {
     return {
       lang: this.$i18n.locale,
       langOptions: [
-        { value: "en-us", label: "English" },
-        { value: "de", label: "German" }
+        { value: 'en-us', label: 'English' },
+        { value: 'de', label: 'German' }
       ]
-    };
+    }
   },
   watch: {
     lang(lang) {
-      this.$i18n.locale = lang;
+      this.$i18n.locale = lang
     }
   }
-};
+}
 </script>
 ```
 
