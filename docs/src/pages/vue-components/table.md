@@ -188,7 +188,11 @@ However, if you want to fully customize the content, check the example below, wh
 
 ### Expanding rows
 
-<doc-example title="Expanded row" file="QTable/ExpandedRow" />
+<doc-example title="Internal expansion model" file="QTable/ExpandedRowInternal" />
+
+Starting with v1.8.3, an external expansion model can also be used:
+
+<doc-example title="External expansion model" file="QTable/ExpandedRowExternal" />
 
 ### Before/after slots
 

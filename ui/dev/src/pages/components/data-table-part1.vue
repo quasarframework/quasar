@@ -683,6 +683,7 @@
             <q-td colspan="100%">
               <div class="text-left">
                 This is expand slot for row above: {{ props.row.name }}.
+                <q-input v-model="props.row.input" />
               </div>
             </q-td>
           </q-tr>
@@ -806,6 +807,7 @@ export default {
       data: [
         {
           name: '1Frozen Yogurt',
+          inp: '',
           calories: 159,
           fat: 6.0,
           carbs: 24,
@@ -816,6 +818,7 @@ export default {
         },
         {
           name: '2Ice cream sandwich',
+          inp: '',
           calories: 237,
           fat: 9.0,
           carbs: 37,
@@ -826,6 +829,7 @@ export default {
         },
         {
           name: '3Eclair',
+          inp: '',
           calories: 262,
           fat: 16.0,
           carbs: 23,
@@ -836,6 +840,7 @@ export default {
         },
         {
           name: '4Cupcake',
+          inp: '',
           calories: 305,
           fat: 3.7,
           carbs: 67,
@@ -846,6 +851,7 @@ export default {
         },
         {
           name: '5Gingerbread',
+          inp: '',
           calories: 356,
           fat: 16.0,
           carbs: 49,
@@ -856,6 +862,7 @@ export default {
         },
         {
           name: '6Jelly bean',
+          inp: '',
           calories: 375,
           fat: 0.0,
           carbs: 94,
@@ -866,6 +873,7 @@ export default {
         },
         {
           name: '7Lollipop',
+          inp: '',
           calories: 392,
           fat: 0.2,
           carbs: 98,
@@ -876,6 +884,7 @@ export default {
         },
         {
           name: '8Honeycomb',
+          inp: '',
           calories: 408,
           fat: 3.2,
           carbs: 87,
@@ -886,6 +895,7 @@ export default {
         },
         {
           name: '9Donut',
+          inp: '',
           calories: 452,
           fat: 25.0,
           carbs: 51,
@@ -896,6 +906,7 @@ export default {
         },
         {
           name: '10KitKat',
+          inp: '',
           calories: 518,
           fat: 26.0,
           carbs: 65,
