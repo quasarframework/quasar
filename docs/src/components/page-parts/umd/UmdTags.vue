@@ -213,7 +213,7 @@ export default {
     `
 
       // funky form below otherwise vue-loader will crash
-      return `\n    <` + `script>${prepend}${startup}<` + `script>`
+      return `\n    <` + `script>${prepend}${startup}<` + `/script>`
     },
 
     body () {
