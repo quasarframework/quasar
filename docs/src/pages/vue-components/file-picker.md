@@ -63,7 +63,9 @@ Under the covers, QFile uses a native input. Due to browser security policy, it 
 
 <doc-example title="With chips" file="QFile/WithChips" />
 
-### Using progress indicator
+### Using file slot
+
+The example below highlights how you can customize the display of each file and even incorporate a possible upload progress indicator:
 
 <doc-example title="With progress indicator" file="QFile/WithProgress" />
 

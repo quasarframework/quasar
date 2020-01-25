@@ -6,13 +6,13 @@
       label="Pick files"
       outlined
       multiple
-      :clearable="uploading === null"
+      :clearable="!isUploading"
       style="max-width: 400px"
     >
       <template v-slot:file="{ index, file }">
         <q-chip
           class="full-width q-my-xs"
-          :removable="uploading !== null && uploadProgress[index].percent < 1"
+          :removable="isUploading && uploadProgress[index].percent < 1"
           square
           @remove="cancelFile(index)"
         >
@@ -37,9 +37,19 @@
           </q-tooltip>
         </q-chip>
       </template>
-    </q-file>
 
-    <q-btn class="q-mt-sm" color="primary" label="Upload" @click="upload" />
+      <template v-slot:after v-if="canUpload">
+        <q-btn
+          color="primary"
+          dense
+          icon="cloud_upload"
+          round
+          @click="upload"
+          :disable="!canUpload"
+          :loading="isUploading"
+        />
+      </template>
+    </q-file>
   </div>
 </template>
 
@@ -50,6 +60,16 @@ export default {
       files: null,
       uploadProgress: [],
       uploading: null
+    }
+  },
+
+  computed: {
+    isUploading () {
+      return this.uploading !== null
+    },
+
+    canUpload () {
+      return this.files !== null
     }
   },
 
