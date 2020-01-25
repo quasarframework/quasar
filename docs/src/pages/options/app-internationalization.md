@@ -15,37 +15,51 @@ The recommended package for handling website/app is [vue-i18n](https://github.co
 
 If you missed enabling i18n during `quasar create` wizard, here is how you can set it up manually.
 
-1. Create file `src/boot/i18n.js` with following content.
+1. Install the `vue-i18n` dependency into your app.
 
-```javascript
-import Vue from "vue";
-import VueI18n from "vue-i18n";
-import messages from "src/i18n";
-
-Vue.use(VueI18n);
-
-const i18n = new VueI18n({
-	locale: "en-us",
-	fallbackLocale: "en-us",
-	messages
-});
-
-export default ({ app }) => {
-	app.i18n = i18n;
-};
-
-export { i18n };
+```bash
+$ yarn add vue-i18n
+// or:
+$ npm install vue-i18n
 ```
 
-2. Now add this to `quasar.config.js` in `boot` section.
+2. Create file `src/boot/i18n.js` with following content:
 
 ```js
-module.exports = function(ctx) {
-    return {
-        // something here
-        boot: ["i18n"],
-        // something here
-    }
+import Vue from 'vue'
+import VueI18n from 'vue-i18n'
+
+import messages from 'src/i18n'
+
+Vue.use(VueI18n)
+
+const i18n = new VueI18n({
+  locale: 'en-us',
+  fallbackLocale: 'en-us',
+  messages
+})
+
+export default ({ app }) => {
+  // Set i18n instance on app
+  app.i18n = i18n
+}
+
+// if you need to import it from
+// other files, then:
+export { i18n }
+```
+
+3. Now reference this file in `quasar.config.js` in `boot` section:
+
+```js
+// quasar.conf.js
+return {
+  boot: [
+    // ...
+    'i18n'
+  ],
+
+  // ...
 }
 ```
 
