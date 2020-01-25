@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
 import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function update (el, binding) {
@@ -38,7 +38,7 @@ export default {
     }
 
     const ctx = {
-      noop () { },
+      noop,
 
       mouseStart (evt) {
         if (typeof ctx.handler === 'function' && leftClick(evt) === true) {
