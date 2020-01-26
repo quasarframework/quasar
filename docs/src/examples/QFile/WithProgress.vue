@@ -21,7 +21,6 @@
             :value="uploadProgress[index].percent"
             :color="uploadProgress[index].color"
             track-color="grey-2"
-            stripped
           />
 
           <q-avatar>
