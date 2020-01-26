@@ -51,7 +51,7 @@ export { i18n }
 
 3. Create a folder (/src/i18n/) in your app which will hold the definitions for each language that you'll support. Example: [src/i18n](https://github.com/quasarframework/quasar-starter-kit/tree/master/template/src/i18n). Notice the "import messages from 'src/i18n'" from step 2. This is step where you write the content that gets imported.
 
-4. Now reference this file in `quasar.config.js` in `boot` section:
+4. Now reference this file in `quasar.config.js` in the `boot` section:
 
 ```js
 // quasar.conf.js
@@ -65,7 +65,7 @@ return {
 }
 ```
 
-Now you are ready to use it in you pages.
+Now you are ready to use it in your pages.
 
 ## Setting up Translation Blocks in your SFCs
 The following is an example recipe for using **vue-i18n** embedded `<i18n>` template components in your vue files with **vue-i18n-loader**, which you have to add in your `quasar.conf.js`. In this case the translations are stored in yaml format in the block.
