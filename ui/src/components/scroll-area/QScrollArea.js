@@ -1,7 +1,6 @@
 import Vue from 'vue'
 
 import { between } from '../../utils/format.js'
-import { getMouseWheelDistance, prevent } from '../../utils/event.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
@@ -112,8 +111,8 @@ export default Vue.extend({
 
     dirProps () {
       return this.horizontal === true
-        ? { el: 'scrollLeft', wheel: 'x' }
-        : { el: 'scrollTop', wheel: 'y' }
+        ? 'scrollLeft'
+        : 'scrollTop'
     },
 
     thumbClass () {
@@ -135,7 +134,7 @@ export default Vue.extend({
     getScrollPosition () {
       return this.$q.platform.is.desktop === true
         ? this.scrollPosition
-        : this.$refs.target[this.dirProps.el]
+        : this.$refs.target[this.dirProps]
     },
 
     setScrollPosition (offset, duration) {
@@ -196,39 +195,6 @@ export default Vue.extend({
       this.__setScroll(pos)
     },
 
-    __panContainer (e) {
-      if (e.isFirst === true) {
-        this.refPos = this.scrollPosition
-        this.__setActive(true, true)
-      }
-      if (e.isFinal === true) {
-        this.__setActive(false)
-      }
-
-      const distance = e.distance[this.horizontal === true ? 'x' : 'y']
-      const pos = this.refPos +
-        (e.direction === this.direction ? -1 : 1) * distance
-
-      this.__setScroll(pos)
-
-      if (pos > 0 && pos + this.containerSize < this.scrollSize) {
-        prevent(e.evt)
-      }
-    },
-
-    __mouseWheel (e) {
-      const el = this.$refs.target
-
-      el[this.dirProps.el] += getMouseWheelDistance(e)[this.dirProps.wheel]
-
-      if (
-        el[this.dirProps.el] > 0 &&
-        el[this.dirProps.el] + this.containerSize < this.scrollSize
-      ) {
-        prevent(e)
-      }
-    },
-
     __setActive (active, timer) {
       clearTimeout(this.timer)
 
@@ -258,7 +224,7 @@ export default Vue.extend({
     },
 
     __setScroll (offset) {
-      this.$refs.target[this.dirProps.el] = offset
+      this.$refs.target[this.dirProps] = offset
     }
   },
 
@@ -286,19 +252,7 @@ export default Vue.extend({
     }, [
       h('div', {
         ref: 'target',
-        staticClass: 'scroll relative-position fit hide-scrollbar',
-        on: cache(this, 'wheel', {
-          wheel: this.__mouseWheel
-        }),
-        directives: cache(this, 'touch#' + this.horizontal, [{
-          name: 'touch-pan',
-          modifiers: {
-            vertical: this.horizontal !== true,
-            horizontal: this.horizontal,
-            mightPrevent: true
-          },
-          value: this.__panContainer
-        }])
+        staticClass: 'scroll relative-position fit hide-scrollbar'
       }, [
         h('div', {
           staticClass: 'absolute',

@@ -2,6 +2,7 @@
   <div class="q-layout-padding">
     <q-toggle v-model="horizontal" label="Horizontal" />
     <q-toggle v-model="customStyle" label="Custom style" />
+    <q-toggle v-model="forceOnMobile" label="Force on mobile" />
     <q-checkbox v-model="alwaysVisible" toggle-indeterminate label="Always visible" />
 
     <div style="height: 300px;" />
@@ -13,6 +14,7 @@
       :visible="alwaysVisible"
       :bar-style="customStyle === true ? customBarStyle : void 0"
       :thumb-style="customStyle === true ? customThumbStyle : void 0"
+      :force-on-mobile="forceOnMobile"
     >
       <div :class="{ 'flex no-wrap' : horizontal }">
         <div style="margin-top: 150px" />
@@ -47,7 +49,8 @@ export default {
       number: 10,
       horizontal: false,
       alwaysVisible: true,
-      customStyle: true
+      customStyle: true,
+      forceOnMobile: false
     }
   },
 
