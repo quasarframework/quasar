@@ -61,8 +61,8 @@ export default {
       }
     },
 
-    isRound () {
-      return this.round === true || this.fab === true || this.fabMini === true
+    isRounded () {
+      return this.rounded === true || this.fab === true || this.fabMini === true
     },
 
     isActionable () {
@@ -119,7 +119,7 @@ export default {
       }
 
       return `q-btn--${this.design} ` +
-        `q-btn--${this.isRound === true ? 'round' : `rectangle${this.rounded === true ? ' q-btn--rounded' : ''}`}` +
+        `q-btn--${this.round === true ? 'round' : `rectangle${this.isRounded === true ? ' q-btn--rounded' : ''}`}` +
         (colors !== void 0 ? ' ' + colors : '') +
         (this.isActionable === true ? ' q-btn--actionable q-focusable q-hoverable' : (this.disable === true ? ' disabled' : '')) +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +

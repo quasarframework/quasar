@@ -7,6 +7,8 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import { slot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
+const alignValues = [ 'left', 'center', 'right' ]
+
 export default Vue.extend({
   name: 'QFab',
 
@@ -29,7 +31,13 @@ export default Vue.extend({
       default: 'right',
       validator: v => ['up', 'right', 'down', 'left'].includes(v)
     },
-    persistent: Boolean
+    persistent: Boolean,
+
+    align: {
+      type: String,
+      default: 'center',
+      validator: v => alignValues.includes(v)
+    }
   },
 
   data () {
@@ -41,26 +49,17 @@ export default Vue.extend({
   computed: {
     hideOnRouteChange () {
       return this.persistent !== true
+    },
+
+    classes () {
+      return 'q-fab--align-' + this.align +
+        (this.showing === true ? ' q-fab--opened' : '')
     }
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-fab z-fab row inline justify-center',
-      class: this.showing === true ? 'q-fab--opened' : null,
-      on: this.$listeners
-    }, [
-      h(QBtn, {
-        ref: 'trigger',
-        props: {
-          ...this.$props,
-          icon: void 0,
-          fab: true
-        },
-        on: cache(this, 'tog', {
-          click: this.toggle
-        })
-      }, slot(this, 'tooltip', []).concat([
+    const children = [
+      h('div', { staticClass: 'q-fab__icon-holder' }, [
         h(QIcon, {
           staticClass: 'q-fab__icon absolute-full',
           props: { name: this.icon || this.$q.iconSet.fab.icon }
@@ -69,12 +68,38 @@ export default Vue.extend({
           staticClass: 'q-fab__active-icon absolute-full',
           props: { name: this.activeIcon || this.$q.iconSet.fab.activeIcon }
         })
-      ])),
+      ])
+    ]
 
+    this.label !== '' && children[this.leftLabel === true ? 'unshift' : 'push'](h('div', {
+      staticClass: 'q-fab__label q-fab__label--' +
+        (this.extended === true ? 'extended' : 'collapsed')
+    }, [ this.label ]))
+
+    return h('div', {
+      staticClass: 'q-fab z-fab row inline justify-center',
+      class: this.classes,
+      on: this.$listeners
+    }, [
       h('div', {
-        staticClass: 'q-fab__actions flex no-wrap inline items-center',
+        staticClass: 'q-fab__actions flex no-wrap inline',
         class: `q-fab__actions--${this.direction}`
-      }, slot(this, 'default'))
+      }, slot(this, 'default')),
+
+      h(QBtn, {
+        ref: 'trigger',
+        props: {
+          ...this.$props,
+          noWrap: true,
+          align: void 0,
+          icon: void 0,
+          label: void 0,
+          fab: true
+        },
+        on: cache(this, 'tog', {
+          click: this.toggle
+        })
+      }, slot(this, 'tooltip', []).concat(children))
     ])
   }
 })

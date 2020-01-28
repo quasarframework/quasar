@@ -5,6 +5,9 @@
   position: relative
   vertical-align: middle
 
+  > .q-btn
+    width: 100%
+
   &--opened
     .q-fab__actions
       opacity: 1
@@ -26,39 +29,69 @@
     opacity: 0
     transform: rotate(-180deg)
 
+  &__label
+    transition: font-size .1s cubic-bezier(.65,.815,.735,.395)
+
+    &--extended
+      padding: 0 12px 0 8px
+
+      &:last-child
+        padding: 0 8px 0 12px
+
+    &--collapsed
+      font-size: 0
+
+  &__icon-holder
+    min-width: 24px
+    position: relative
+
   &__actions
     position: absolute
     opacity: 0
     transition: all .2s ease-in
     pointer-events: none
+    align-items: center
+    justify-content: center
+    align-self: center
+
     .q-btn
       margin: $fab-margin
 
     &--right
       transform: scale(.4) translate(-100%, 0)
-      top: 0
-      bottom: 0
-      left: 120%
+      height: 50px
+      left: 100%
+      margin-left: 9px
 
     &--left
       transform: scale(.4) translate(100%, 0)
-      top: 0
-      bottom: 0
-      right: 120%
+      height: 50px
+      right: 100%
+      margin-right: 9px
       flex-direction: row-reverse
 
     &--up
       transform: scale(.4) translate(0, 100%)
+      width: 50px
+      bottom: 100%
+      margin-bottom: 9px
       flex-direction: column-reverse
-      justify-content: center
-      bottom: 120%
-      left: 0
-      right: 0
 
     &--down
       transform: scale(.4) translate(0, -100%)
+      width: 50px
+      top: 100%
+      margin-top: 9px
       flex-direction: column
-      justify-content: center
-      top: 120%
-      left: 0
-      right: 0
+
+  &--align-left
+    > .q-fab__actions
+      &--up, &--down
+        align-items: flex-start
+        left: 3px
+
+  &--align-right
+    > .q-fab__actions
+      &--up, &--down
+        align-items: flex-end
+        right: 3px
