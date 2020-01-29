@@ -104,15 +104,9 @@ If you need async data use a component that retrieves and renders the data.
 
 <q-badge label="v1.8.4+" />
 
-There are 2 utility classes that control VirtualScroll size calculation:
-
-::: tip
-Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
-:::
-
-::: tip
-Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate the element size should be ignored in size calculations.
-:::
+There are two CSS classes that you can use (should you need to) to control VirtualScroll size calculation:
+* Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
+* Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate the element size should be ignored in size calculations.
 
 <doc-example title="Virtual scroll with multiple rows for a data row" file="QTable/VirtscrollMultipleRows" />
 
