@@ -204,15 +204,9 @@ Starting with v1.8.3, an external expansion model can also be used:
 
 <doc-example title="External expansion model" file="QTable/ExpandedRowExternal" />
 
-Starting with v1.8.4, there are 2 utility classes that control VirtualScroll size calculation:
-
-::: tip
-Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
-:::
-
-::: tip
-Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate the element size should be ignored in size calculations.
-:::
+If you are using virtual scroll with QTable, you should know that starting with v1.8.4 there are 2 utility CSS classes that control VirtualScroll size calculation:
+* Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
+* Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
 
 <doc-example title="Virtual scroll with expansion model" file="QTable/VirtscrollExpandedRow" />
 
