@@ -126,21 +126,23 @@ export default {
 
 Some Capacitor plugins, such as Camera, have web-based UI available when not running natively but in an standard web browser. To enable these controls, add @ionic/pwa-elements to your proyect:
 
-```shell
-npm install @ionic/pwa-elements
+```bash
+$ npm install @ionic/pwa-elements
 ```
 
 Then create a boot file to initialize them, for example `src/boot/capacitor.js`:
-```javascript
+
+```js
 import { defineCustomElements } from '@ionic/pwa-elements/loader'
 
 export default () => {
   defineCustomElements(window)
 }
 ```
+
 Don't forget to call the boot script in `quasar.conf.js`
 
-```javascript
+```js
 boot: ['capacitor']
 ```
 
