@@ -70,5 +70,17 @@ For `sizes` property, please read about Resolution Switching: [Different Sizes](
 For `srcset` property, please read about Resolution Switching: [Same size, different resolutions](https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Responsive_images#Resolution_switching_Same_size_different_resolutions).
 :::
 
+### Native context menu
+
+<q-badge label="v1.8.4+" />
+
+In the example below we enable native context menu on the images.
+
+::: warning
+When you are using this option always take care to have the content of the `default` or `error` slots wrapped in a `div` element, or add a `all-pointer-events` class on the element.
+:::
+
+<doc-example title="Native context menu" file="QImg/ContextMenu" />
+
 ## QImg API
 <doc-api file="QImg" />
