@@ -122,6 +122,10 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 <doc-example title="Lazy load options" file="QSelect/OptionLazyLoad" />
 
+You can dynamically load new options when scroll reaches the end:
+
+<doc-example title="Dynamic loading options" file="QSelect/OptionsDynamic" />
+
 ### Cover mode
 
 <doc-example title="Menu covering component" file="QSelect/OptionCover" />

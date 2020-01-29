@@ -178,6 +178,10 @@ export default {
       this.__resetVirtualScroll(this.prevToIndex, true)
     },
 
+    refresh (toIndex) {
+      this.__resetVirtualScroll(toIndex === void 0 ? this.prevToIndex : toIndex)
+    },
+
     scrollTo (toIndex) {
       const scrollEl = this.__getVirtualScrollTarget()
 
@@ -279,11 +283,11 @@ export default {
         from = Math.max(0, to - this.virtualScrollSliceSizeComputed)
       }
 
-      this.__emitScroll(toIndex)
-
       const rangeChanged = from !== this.virtualScrollSliceRange.from || to !== this.virtualScrollSliceRange.to
 
       if (rangeChanged === false && align === void 0) {
+        this.__emitScroll(toIndex)
+
         return
       }
 
@@ -317,6 +321,8 @@ export default {
           scrollPosition,
           this.virtualScrollHorizontal
         )
+
+        this.__emitScroll(toIndex)
       })
     },
 
@@ -467,7 +473,8 @@ export default {
           index,
           from: this.virtualScrollSliceRange.from,
           to: this.virtualScrollSliceRange.to - 1,
-          direction: index < this.prevToIndex ? 'decrease' : 'increase'
+          direction: index < this.prevToIndex ? 'decrease' : 'increase',
+          ref: this
         })
 
         this.prevToIndex = index

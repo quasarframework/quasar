@@ -147,7 +147,10 @@ export default Vue.extend({
       }
 
       if (this.isServerSide === true) {
-        return { rows }
+        return {
+          rowsNumber: rows.length,
+          rows
+        }
       }
 
       const { sortBy, descending, rowsPerPage } = this.computedPagination
