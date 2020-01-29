@@ -124,6 +124,31 @@ export default {
 </script>
 ```
 
+Some Capacitor plugins, such as Camera, have web-based UI available when not running natively but in an standard web browser. To enable these controls, add @ionic/pwa-elements to your proyect:
+
+```bash
+$ npm install @ionic/pwa-elements
+```
+
+Then create a boot file to initialize them, for example `src/boot/capacitor.js`:
+
+```js
+import { defineCustomElements } from '@ionic/pwa-elements/loader'
+
+export default () => {
+  defineCustomElements(window)
+}
+```
+
+Don't forget to call the boot script in `quasar.conf.js`
+
+```js
+boot: ['capacitor']
+```
+
+Now you are able to use the Camera API not just in nativ Android or iOS, but also in web based projects like a SPA or PWA.
+
+
 ### Example: Device
 First step is to read the documentation of the Capacitor API that we want to use. Look at the Capacitor's [Device API](https://capacitor.ionicframework.com/docs/apis/device).
 
