@@ -3,6 +3,8 @@ import frameDebounce from '../utils/frame-debounce.js'
 
 const aggBucketSize = 1000
 
+const slice = Array.prototype.slice
+
 function sumFn (acc, h) {
   return acc + h
 }
@@ -323,18 +325,31 @@ export default {
 
       if (contentEl !== void 0) {
         const
-          children = contentEl.children,
+          children = slice.call(contentEl.children).filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
+          childrenLength = children.length,
           sizeProp = this.virtualScrollHorizontal === true ? 'offsetWidth' : 'offsetHeight'
 
-        for (let i = children.length - 1; i >= 0; i--) {
-          const
-            index = from + i,
-            diff = children[i][sizeProp] - this.virtualScrollSizes[index]
+        let
+          index = from,
+          size, diff
+
+        for (let i = 0; i < childrenLength;) {
+          size = children[i][sizeProp]
+          i++
+
+          while (i < childrenLength && children[i].classList.contains('q-virtual-scroll--with-prev') === true) {
+            size += children[i][sizeProp]
+            i++
+          }
+
+          diff = size - this.virtualScrollSizes[index]
 
           if (diff !== 0) {
             this.virtualScrollSizes[index] += diff
             this.virtualScrollSizesAgg[Math.floor(index / aggBucketSize)] += diff
           }
+
+          index++
         }
       }
     },

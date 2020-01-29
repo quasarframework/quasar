@@ -142,6 +142,12 @@ The example below shows how virtual scroll can be used along with a sticky heade
 
 <doc-example title="Virtual scroll with sticky header" file="QTable/VirtscrollSticky" />
 
+Starting with v1.8.4, there are 2 utility CSS classes that control VirtualScroll size calculation:
+* Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
+* Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
+
+<doc-example title="Virtual scroll with multiple rows for a data row" file="QTable/VirtscrollMultipleRows" />
+
 ### Selection
 
 ::: warning
@@ -188,11 +194,21 @@ However, if you want to fully customize the content, check the example below, wh
 
 ### Expanding rows
 
+::: warning
+Add unique (distinct) `key` on QTr if you generate more than one QTr from a row in data.
+:::
+
 <doc-example title="Internal expansion model" file="QTable/ExpandedRowInternal" />
 
 Starting with v1.8.3, an external expansion model can also be used:
 
 <doc-example title="External expansion model" file="QTable/ExpandedRowExternal" />
+
+If you are using virtual scroll with QTable, you should know that starting with v1.8.4 there are 2 utility CSS classes that control VirtualScroll size calculation:
+* Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate that the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).
+* Use `q-virtual-scroll--skip` class on an element rendered by the VirtualScroll to indicate that the element's size should be ignored in size calculations.
+
+<doc-example title="Virtual scroll with expansion model" file="QTable/VirtscrollExpandedRow" />
 
 ### Before/after slots
 
