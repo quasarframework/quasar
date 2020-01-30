@@ -179,22 +179,31 @@ export default {
          * If we're not the target (based on modifiers), we'll re-emit the event later
          */
         if (mouseEvent === true || modifiers.stop === true) {
-          const clone = evt.type.indexOf('mouse') > -1
-            ? new MouseEvent(evt.type, evt)
-            : new TouchEvent(evt.type, evt)
+          /*
+           * are we directly switching to detected state?
+           * clone event only otherwise
+           */
+          if (
+            ctx.direction.all !== true &&
+            (mouseEvent !== true || ctx.direction.mouseAllDir !== true)
+          ) {
+            const clone = evt.type.indexOf('mouse') > -1
+              ? new MouseEvent(evt.type, evt)
+              : new TouchEvent(evt.type, evt)
 
-          evt.defaultPrevented === true && prevent(clone)
-          evt.cancelBubble === true && stop(clone)
+            evt.defaultPrevented === true && prevent(clone)
+            evt.cancelBubble === true && stop(clone)
 
-          clone.qClonedBy = evt.qClonedBy === void 0
-            ? [ctx.uid]
-            : evt.qClonedBy.concat(ctx.uid)
-          clone.qKeyEvent = evt.qKeyEvent
-          clone.qClickOutside = evt.qClickOutside
+            clone.qClonedBy = evt.qClonedBy === void 0
+              ? [ctx.uid]
+              : evt.qClonedBy.concat(ctx.uid)
+            clone.qKeyEvent = evt.qKeyEvent
+            clone.qClickOutside = evt.qClickOutside
 
-          ctx.initialEvent = {
-            target: evt.target,
-            event: clone
+            ctx.initialEvent = {
+              target: evt.target,
+              event: clone
+            }
           }
 
           stop(evt)
