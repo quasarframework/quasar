@@ -27,6 +27,10 @@ If you want a non-expandable FAB, all you need is a round button – wrapped in 
 
 <doc-example title="With QPageSticky" file="QFab/PageSticky" />
 
+### Draggable
+
+<doc-example title="Draggable" file="QFab/Draggable" />
+
 ## QFab API
 <doc-api file="QFab" />
 

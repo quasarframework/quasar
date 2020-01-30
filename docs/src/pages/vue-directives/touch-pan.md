@@ -72,6 +72,11 @@ When you want to inhibit TouchPan, you can do so by stopping propagation of the 
 
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchPan directive then the inner content, so TouchPan will still trigger.
 
+### Draggable FAB
+
+<doc-example title="Draggable" file="QFab/Draggable" />
+
+
 ### Note on HMR
 Due to performance reasons, when doing HMR updates, all modifiers EXCEPT for direction ones (`left`, `right`, `up`, `down`, `horizontal`, `vertical`) are NOT updated, so you will require a window refresh.
 
