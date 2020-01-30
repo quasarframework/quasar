@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/tag" ],
+
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/card"
   },
@@ -13,6 +15,10 @@
       "desc": "Display a horizontal section (will have no padding and can contain other QCardSection)",
       "category": "content",
       "addedIn": "v1.7.0"
+    },
+
+    "tag": {
+      "addedIn": "v1.8.4"
     }
   },
 

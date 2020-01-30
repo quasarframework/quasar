@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/tag" ],
+
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/timeline"
   },
@@ -15,11 +17,9 @@
     },
 
     "tag": {
-      "type": "String",
       "desc": "Tag to use, if of type 'heading' only",
       "default": "h3",
-      "examples": [ "h1" ],
-      "category": "content"
+      "examples": [ "h1" ]
     },
 
     "side": {
