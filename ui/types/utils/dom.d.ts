@@ -11,5 +11,4 @@ export namespace dom {
   function css(el: Element, css: Partial<CSSStyleDeclaration>): void;
   function cssBatch(elements: Element[], css: Partial<CSSStyleDeclaration>): void;
   function ready<F extends (...args: any[]) => any>(fn: F): ReturnType<F>;
-  function ready(fn?: any): void;
 }
