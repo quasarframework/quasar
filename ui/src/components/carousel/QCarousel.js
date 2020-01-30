@@ -65,8 +65,8 @@ export default Vue.extend({
 
     arrowIcons () {
       const ico = [
-        this.prevIcon || (this.arrowsVertical === true ? this.$q.iconSet.carousel.up : this.$q.iconSet.carousel.left),
-        this.nextIcon || (this.arrowsVertical === true ? this.$q.iconSet.carousel.down : this.$q.iconSet.carousel.right)
+        this.prevIcon || this.$q.iconSet.carousel[this.arrowsVertical === true ? 'up' : 'left'],
+        this.nextIcon || this.$q.iconSet.carousel[this.arrowsVertical === true ? 'down' : 'right']
       ]
 
       return this.$q.lang.rtl === true
