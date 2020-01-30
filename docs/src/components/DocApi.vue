@@ -76,10 +76,11 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
 
 <script>
 import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v4'
+import { format } from 'quasar'
 
 import ApiRows from './ApiRows.js'
 import CardTitle from './CardTitle.vue'
-import { format } from 'quasar'
+
 const { pad } = format
 
 const groupBy = (list, groupKey, defaultGroupKeyValue) => {

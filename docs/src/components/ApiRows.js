@@ -498,8 +498,9 @@ export default {
     const content = Object.keys(api).length !== 0
       ? this[this.which](h, api)
       : [
-        h('div', { staticClass: 'q-pa-md text-grey-7' }, [
-          'No matching entries found. Please refine the filter.'
+        h('div', { staticClass: 'q-pa-md text-grey-9' }, [
+          h('div', [ 'No matching entries found on this tab.' ]),
+          h('div', [ 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.' ])
         ])
       ]
 
