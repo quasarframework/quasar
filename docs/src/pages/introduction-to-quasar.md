@@ -95,7 +95,7 @@ When using Quasar’s CLI, developers benefit from:
 The top-class project initialization feature of the CLI makes getting started very easy for you, as a developer. You can get your idea to reality in record time. In other words, Quasar does the heavy lifting for you, so you are free to focus on your features and not on boilerplate.
 
 #### Automated testing & audit
-Quasar projects have the ability to add Unit and End to End testing harnesses out of the box, as well as an ever-growing suite of product quality and security auditing tools. All this to ensure that your websites/apps have the highest quality possible.
+Quasar projects have the ability to add Unit and End-to-End testing harnesses out of the box, as well as an ever-growing suite of product quality and security auditing tools. All this to ensure that your websites/apps have the highest quality possible.
 
 #### We care deeply about Security
 We are always paranoid about the security of Quasar and the security of apps built with Quasar. We are on a constant lookout to inform you about any security threats that you might need to know about. We have Security guidelines and we are even offering our security expertise through the Quasar Audit program.
