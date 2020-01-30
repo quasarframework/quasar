@@ -122,6 +122,10 @@ The following example shows a glimpse of how you can play with lazy loading the 
 
 <doc-example title="Lazy load options" file="QSelect/OptionLazyLoad" />
 
+You can dynamically load new options when scroll reaches the end:
+
+<doc-example title="Dynamic loading options" file="QSelect/OptionsDynamic" />
+
 ### Cover mode
 
 <doc-example title="Menu covering component" file="QSelect/OptionCover" />
@@ -188,6 +192,10 @@ Filtering and adding the new values to menu:
 Filters new values (in the example below the value to be added requires at least 3 characters to pass), and does not add to menu:
 
 <doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
+
+Generating multiple values from input:
+
+<doc-example title="Generating multiple values" file="QSelect/FilteringAddMultiple" />
 
 ## Sanitization
 

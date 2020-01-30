@@ -9,8 +9,9 @@
       table-style="max-height: 400px"
       virtual-scroll
       :virtual-scroll-item-size="48"
+      @virtual-scroll="onScroll"
       ref="table"
-      :pagination="{ rowsPerPage: 0 }"
+      :pagination="pagination"
       :rows-per-page-options="[0]"
       :expanded.sync="expanded"
     >
@@ -100,21 +101,44 @@ Object.freeze(data)
 
 const expanded = data.map(r => r.index)
 
+const pageSize = 50
+const nextPage = 2
+const lastPage = Math.ceil(data.length / pageSize)
+
 export default {
   data () {
     return {
+      pagination: {
+        rowsPerPage: 0,
+        rowsNumber: data.length
+      },
       columns: [
         { name: 'index', label: '#', field: 'index' },
         { name: 'name', label: 'Dessert', field: 'name' },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true }
       ],
-      data,
+      nextPage,
       expanded
     }
   },
 
-  mounted () {
-    this.$refs.table.$refs.virtScroll.scrollTo(5000)
+  computed: {
+    data () {
+      return Object.freeze(data.slice(0, pageSize * (this.nextPage - 1)))
+    }
+  },
+
+  methods: {
+    onScroll (evt) {
+      const lastIndex = this.data.length - 1
+
+      if (this.nextPage < lastPage && evt.to === lastIndex) {
+        this.nextPage++
+        this.$nextTick(() => {
+          evt.ref.refresh()
+        })
+      }
+    }
   }
 }
 </script>

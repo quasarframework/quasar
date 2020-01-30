@@ -428,6 +428,21 @@
           />
 
           <div class="text-h6">
+            Heavy test with dynamic loading (100k options)
+          </div>
+          <q-select
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy - Dynamic loading"
+            multiple
+            use-chips
+            :options="heavyListDynamic"
+            @focus="onFocus"
+            @blur="onBlur"
+            @virtual-scroll="onScroll"
+          />
+
+          <div class="text-h6">
             Heavy test - Variable size (100k options)
           </div>
           <q-select
@@ -442,6 +457,52 @@
             @filter-abort="delayedAbort"
             @focus="onFocus"
             @blur="onBlur"
+          >
+            <template v-slot:option="scope">
+              <div>
+                <q-item
+                  v-bind="scope.itemProps"
+                  v-on="scope.itemEvents"
+                  :key="scope.index"
+                >
+                  <q-item-section>
+                    <q-item-label>
+                      Option - {{ scope.opt.label }} - {{ scope.index }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-sm" v-if="(scope.index % 5) === 0">
+                      {{ scope.opt.label }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-md text-negative" v-if="(scope.index % 3) === 0">
+                      {{ scope.opt.value }}
+                    </q-item-label>
+
+                    <q-item-label class="q-py-lg text-positive" v-if="(scope.index % 4) === 0">
+                      {{ scope.index }} - {{ scope.opt.label }} - {{ scope.opt.value }}
+                    </q-item-label>
+                  </q-item-section>
+                </q-item>
+
+                <q-separator />
+              </div>
+            </template>
+          </q-select>
+
+          <div class="text-h6">
+            Heavy test with dynamic loading - Variable size (100k options)
+          </div>
+          <q-select
+            v-bind="props"
+            v-model="heavyModel"
+            label="Heavy - Dynamic loading"
+            multiple
+            use-input
+            use-chips
+            :options="heavyListDynamic"
+            @focus="onFocus"
+            @blur="onBlur"
+            @virtual-scroll="onScroll"
           >
             <template v-slot:option="scope">
               <div>
@@ -632,6 +693,10 @@ for (let i = 0; i <= 100000; i++) {
 
 Object.freeze(heavyList)
 
+const pageSize = 50
+const nextPage = 2
+const lastPage = Math.ceil(heavyList.length / pageSize)
+
 export default {
   data () {
     return {
@@ -732,6 +797,8 @@ export default {
       heavyModel: [],
       heavyModelSingle: null,
       heavyFilterInputOptions: null,
+
+      nextPage,
 
       forceMenu: null
     }
@@ -891,6 +958,17 @@ export default {
     },
     onFocus (e) {
       console.log('@focus', e)
+    },
+
+    onScroll (evt) {
+      const lastIndex = this.heavyListDynamic.length - 1
+
+      if (this.nextPage < lastPage && evt.to === lastIndex) {
+        this.nextPage++
+        this.$nextTick(() => {
+          evt.ref.refresh()
+        })
+      }
     }
   },
 
@@ -917,6 +995,10 @@ export default {
       }
 
       return this.forceMenu === false ? 'Force dialog' : 'Based on platform'
+    },
+
+    heavyListDynamic () {
+      return Object.freeze(heavyList.slice(0, pageSize * (this.nextPage - 1)))
     }
   }
 }

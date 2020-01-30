@@ -134,6 +134,10 @@ Notice that when enabling virtual scroll you will need to specify the `table-sty
 
 <doc-example title="Basic virtual scroll" file="QTable/VirtscrollBasic" />
 
+You can dynamically load new rows when scroll reaches the end:
+
+<doc-example title="Dynamic loading virtual scroll" file="QTable/VirtscrollDynamic" />
+
 You can have both virtual scroll and pagination:
 
 <doc-example title="Virtual scroll and pagination" file="QTable/VirtscrollPagination" />
