@@ -82,8 +82,13 @@ export default {
 
       const twoActions = random > 70
       const buttonColor = color ? 'white' : void 0
+      const group = `group_${Math.ceil(Math.random() * 10)}`
 
       this.$q.notify({
+        group,
+        badgeProps: {
+          color: 'deep-orange'
+        },
         color,
         textColor,
         icon: random > 30 ? icon : null,
@@ -101,7 +106,7 @@ export default {
             ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('wooow') } ]
             : null
           ),
-        timeout: Math.random() * 5000 + 3000
+        timeout: Math.random() * 15000 + 300000
       })
       /* closeBtn test
       this.$q.notify({

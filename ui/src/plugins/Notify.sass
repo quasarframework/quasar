@@ -29,6 +29,7 @@ body.q-ios-padding .q-notifications__list
   margin: 10px 10px 0
   transition: transform 1s, opacity 1s
   z-index: $z-notify
+  flex-shrink: 0
 
   min-width: 300px
   max-width: 95vw
@@ -45,6 +46,11 @@ body.q-ios-padding .q-notifications__list
   &__avatar
     font-size: 32px
     padding-right: 8px
+
+  &__badge
+    position: absolute
+    top: -4px
+    right: -20px
 
   &__message
     padding: 8px 0
@@ -70,6 +76,9 @@ body.q-ios-padding .q-notifications__list
 
     .q-notification__actions
       padding: 0
+
+    .q-notification__badge
+      top: -12px
 
   &--top-left-enter, &--top-left-leave-to,
   &--top-enter, &--top-leave-to,

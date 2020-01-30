@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
+import QBadge from '../components/badge/QBadge.js'
 import QBtn from '../components/btn/QBtn.js'
 
 import clone from '../utils/clone.js'
@@ -82,6 +83,29 @@ const Notifications = {
         this.remove(notif)
       }
 
+      if (notif.timeout > 0) {
+        notif.__timeout = setTimeout(() => {
+          close()
+        }, notif.timeout + /* show duration */ 1000)
+      }
+
+      if (notif.group !== void 0) {
+        const mainNotif = this.notifs[notif.position].find(n => n.group === notif.group)
+
+        if (mainNotif !== void 0) {
+          if (mainNotif.__timeout) {
+            clearTimeout(mainNotif.__timeout)
+            mainNotif.__timeout = void 0
+          }
+
+          mainNotif.groupContent.push(close)
+
+          return close
+        }
+
+        notif.groupContent = [close]
+      }
+
       const actions = (config.actions || [])
         .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
 
@@ -113,18 +137,12 @@ const Notifications = {
           : [ btn ]
       }
 
-      if (notif.timeout > 0) {
-        notif.__timeout = setTimeout(() => {
-          close()
-        }, notif.timeout + /* show duration */ 1000)
-      }
-
       if (notif.multiLine === void 0 && notif.actions) {
         notif.multiLine = notif.actions.length > 1
       }
 
       notif.staticClass = [
-        `q-notification row items-center`,
+        `q-notification row items-stretch`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
         `q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}`,
@@ -139,6 +157,28 @@ const Notifications = {
 
     remove (notif) {
       if (notif.__timeout) { clearTimeout(notif.__timeout) }
+
+      if (notif.groupContent !== void 0) {
+        notif.groupContent.slice(1).forEach(fn => fn())
+      }
+      else if (notif.group !== void 0) {
+        const index = this.notifs[notif.position].findIndex(n => n.group === notif.group)
+
+        if (index !== -1) {
+          const mainNotif = this.notifs[notif.position][index]
+
+          mainNotif.groupContent.length--
+
+          if (mainNotif.groupContent.length === 1) {
+            mainNotif.groupContent[0]()
+          }
+          else {
+            this.notifs[notif.position].splice(index, 1, mainNotif)
+          }
+
+          return
+        }
+      }
 
       const index = this.notifs[notif.position].indexOf(notif)
       if (index !== -1) {
@@ -169,7 +209,7 @@ const Notifications = {
 
       return h('transition-group', {
         key: pos,
-        staticClass: `q-notifications__list q-notifications__list--${vert} fixed column ${classes}`,
+        staticClass: `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`,
         tag: 'div',
         props: {
           name: `q-notification--${pos}`,
@@ -220,24 +260,48 @@ const Notifications = {
 
         const child = [
           h('div', {
-            staticClass: 'row items-center ' + (notif.multiLine === true ? 'col-all' : 'col')
+            staticClass: 'row items-center ' + (notif.multiLine === true ? '' : 'col')
           }, mainChild)
         ]
 
         notif.actions !== void 0 && child.push(
           h('div', {
-            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine === true ? 'col-all justify-end' : 'col-auto')
+            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine === true ? 'justify-end' : 'col-auto')
           }, notif.actions.map(action => h(QBtn, {
             props: { flat: true, ...action },
             on: { click: action.handler }
           })))
         )
 
+        if (notif.badge !== false) {
+          const groupCount = Array.isArray(notif.groupContent) === true
+            ? notif.groupContent.length
+            : 0
+
+          if (groupCount > 1) {
+            child.push(
+              h(QBadge, {
+                staticClass: 'q-notification__badge',
+                props: {
+                  transparent: true,
+                  ...notif.badgeProps,
+                  floating: false,
+                  label: groupCount
+                }
+              })
+            )
+          }
+        }
+
         return h('div', {
           ref: `notif_${notif.__uid}`,
           key: notif.__uid,
           staticClass: notif.staticClass
-        }, child)
+        }, [
+          h('div', {
+            staticClass: 'col relative-position ' + (notif.multiLine === true ? 'column no-wrap justify-center' : 'row items-center')
+          }, child)
+        ])
       }))
     }))
   }

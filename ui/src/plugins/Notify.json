@@ -84,6 +84,18 @@
       "multiLine": {
         "type": "Boolean",
         "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
+      },
+
+      "group": {
+        "type": [ "String", "Number" ],
+        "desc": "Key used (together with position) to group notifications together - only the first notification in the group will be shown, together with a badge with the number of grouped notifications",
+        "examples": [ "network_error", "saved" ]
+      },
+
+      "badgeProps": {
+        "type": [ "Object", "Boolean" ],
+        "desc": "QBadge props to be used for the group notification counter; Use false to hide badge; The value in the first notification in group are used",
+        "examples": [ false, "{ color: 'red' }" ]
       }
     }
   },
@@ -192,6 +204,18 @@
             "multiLine": {
               "type": "Boolean",
               "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
+            },
+
+            "group": {
+              "type": [ "String", "Number" ],
+              "desc": "Key used (together with position) to group notifications together - only the first notification in the group will be shown, together with a badge with the number of grouped notifications",
+              "examples": [ "network_error", "saved" ]
+            },
+
+            "badgeProps": {
+              "type": [ "Object", "Boolean" ],
+              "desc": "QBadge props to be used for the group notification counter; Use false to hide badge; The value in the first notification in group are used",
+              "examples": [ false, "{ color: 'red' }" ]
             },
 
             "ignoreDefaults": {
@@ -314,6 +338,18 @@
             "multiLine": {
               "type": "Boolean",
               "desc": "Put notification into multi-line mode; If this prop isn't used and more than one 'action' is specified then notification goes into multi-line mode by default"
+            },
+
+            "group": {
+              "type": [ "String", "Number" ],
+              "desc": "Key used (together with position) to group notifications together - only the first notification in the group will be shown, together with a badge with the number of grouped notifications",
+              "examples": [ "network_error", "saved" ]
+            },
+
+            "badgeProps": {
+              "type": [ "Object", "Boolean" ],
+              "desc": "QBadge props to be used for the group notification counter; Use false to hide badge; The value in the first notification in group are used",
+              "examples": [ false, "{ color: 'red' }" ]
             }
           },
           "required": true,
