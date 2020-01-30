@@ -33,12 +33,11 @@ export default {
 
   methods: {
     createValue (val, done) {
-      // Calling done(var) when new-value-mode is not set or "add", or done(var, "add") adds "var" content to the model
+      // Calling done(var) when new-value-mode is not set or is "add", or done(var, "add") adds "var" content to the model
       // and it resets the input textbox to empty string
       // ----
       // Calling done(var) when new-value-mode is "add-unique", or done(var, "add-unique") adds "var" content to the model
-      // only if is not already set
-      // and it resets the input textbox to empty string
+      // only if is not already set and it resets the input textbox to empty string
       // ----
       // Calling done(var) when new-value-mode is "toggle", or done(var, "toggle") toggles the model with "var" content
       // (adds to model if not already in the model, removes from model if already has it)
