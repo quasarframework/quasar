@@ -252,11 +252,9 @@ export default {
       if (this.apiType !== 'plugin' && tab === 'props') {
         let total = 0
 
-        if (this.currentTabMaxCategoryPropCount > 0) {
-          Object.keys(this.filteredApi[tab]).forEach(key => {
-            total += Object.keys(this.filteredApi[tab][key]).length
-          })
-        }
+        Object.keys(this.filteredApi[tab]).forEach(key => {
+          total += Object.keys(this.filteredApi[tab][key]).length
+        })
 
         return total
       }
