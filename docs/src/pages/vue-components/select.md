@@ -193,6 +193,10 @@ Filters new values (in the example below the value to be added requires at least
 
 <doc-example title="Filtering without adding to menu" file="QSelect/FilteringNoAddToMenu" />
 
+Generating multiple values from input:
+
+<doc-example title="Generating multiple values" file="QSelect/FilteringAddMultiple" />
+
 ## Sanitization
 
 ::: warning
