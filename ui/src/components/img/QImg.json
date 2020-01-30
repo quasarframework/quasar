@@ -136,10 +136,10 @@
       "addedIn": "v1.1.0"
     },
 
-    "enable-menu": {
+    "native-context-menu": {
       "type": "Boolean",
-      "desc": "Enable use of native context menu on image (renders a real img tag)",
-      "category": "content",
+      "desc": "Enable the native context menu of the image",
+      "category": "behavior",
       "addedIn": "v1.8.4"
     }
   },

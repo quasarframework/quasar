@@ -5,7 +5,7 @@
         <q-img
           src="https://cdn.quasar.dev/img/parallax2.jpg"
           style="width: 100%"
-          enable-menu
+          native-context-menu
         >
           <div class="absolute-bottom text-subtitle1 text-center">
             Caption
@@ -14,7 +14,7 @@
       </div>
 
       <div class="col-6">
-        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" enable-menu>
+        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" native-context-menu>
           <div class="absolute-top text-center">
             Caption
           </div>
@@ -22,7 +22,7 @@
       </div>
 
       <div class="col-6">
-        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" enable-menu>
+        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" native-context-menu>
           <div class="absolute-bottom-right text-subtitle2">
             Caption
           </div>
@@ -30,7 +30,7 @@
       </div>
 
       <div class="col-6">
-        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" enable-menu>
+        <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" native-context-menu>
           <q-icon class="absolute-top-left all-pointer-events" size="32px" name="info" color="white">
             <q-tooltip>
               Tooltip

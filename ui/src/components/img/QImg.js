@@ -33,7 +33,7 @@ export default Vue.extend({
     imgClass: [ Array, String, Object ],
     imgStyle: Object,
 
-    enableMenu: Boolean,
+    nativeContextMenu: Boolean,
 
     noDefaultSpinner: Boolean,
     spinnerColor: String,
@@ -202,12 +202,7 @@ export default Vue.extend({
     },
 
     __getImage (h) {
-      const content = this.url !== void 0 ? h('div', {
-        key: this.url,
-        staticClass: 'q-img__image absolute-full',
-        class: this.imgClass,
-        style: this.style
-      }, this.enableMenu === true
+      const nativeImg = this.nativeContextMenu === true
         ? [
           h('img', {
             staticClass: 'absolute-full fit',
@@ -216,8 +211,16 @@ export default Vue.extend({
             }
           })
         ]
+        : void 0
+
+      const content = this.url !== void 0
+        ? h('div', {
+          key: this.url,
+          staticClass: 'q-img__image absolute-full',
+          class: this.imgClass,
+          style: this.style
+        }, nativeImg)
         : null
-      ) : null
 
       return this.basic === true
         ? content
@@ -242,16 +245,17 @@ export default Vue.extend({
           staticClass: 'q-img__loading absolute-full flex flex-center'
         }, this.$scopedSlots.loading !== void 0
           ? this.$scopedSlots.loading()
-          : (this.noDefaultSpinner === false
-            ? [
-              h(QSpinner, {
-                props: {
-                  color: this.spinnerColor,
-                  size: this.spinnerSize
-                }
-              })
-            ]
-            : null
+          : (
+            this.noDefaultSpinner === false
+              ? [
+                h(QSpinner, {
+                  props: {
+                    color: this.spinnerColor,
+                    size: this.spinnerSize
+                  }
+                })
+              ]
+              : void 0
           )
         )
         : h('div', {
@@ -267,7 +271,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-img overflow-hidden' + (this.enableMenu === true ? ' q-img--menu' : ''),
+      staticClass: 'q-img overflow-hidden' + (this.nativeContextMenu === true ? ' q-img--menu' : ''),
       attrs: this.attrs,
       on: this.$listeners
     }, [

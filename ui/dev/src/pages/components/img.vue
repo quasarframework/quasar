@@ -6,7 +6,7 @@
         srcset="https://cdn.quasar.dev/img/image-1x.png 300w, https://cdn.quasar.dev/img/image-2x.png 2x,
           https://cdn.quasar.dev/img/image-3x.png 3x, https://cdn.quasar.dev/img/image-4x.png 4x"
         style="height: 280px; max-width: 300px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div class="absolute-bottom text-body1 text-center">
           With srcset
@@ -22,7 +22,7 @@
           (min-width: 800px) and (max-width: 1200px) 1200w,
           (min-width: 1200px) 1600w"
         style="height: 280px; max-width: 300px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div class="absolute-bottom text-body1 text-center">
           With srcset & sizes
@@ -31,14 +31,14 @@
     </div>
 
     <q-btn push color="teal" label="Refresh" @click="refresh" class="q-my-lg" />
-    <q-toggle v-model="enableMenu" label="Enable context menu" />
+    <q-toggle v-model="nativeContextMenu" label="Enable context menu" />
 
     <div class="q-gutter-lg row items-start">
       <q-img
         :src="url"
         alt="Image"
         style="max-width: 400px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div slot="loading" class="text-h2 text-white">
           Loading...
@@ -49,7 +49,7 @@
         :src="url"
         alt="Image"
         style="max-width: 400px; border-radius: 50%"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
           Radius 50%
@@ -60,7 +60,7 @@
         :src="url"
         alt="Image"
         style="max-width: 400px; border-radius: 15px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
           Radius 15px
@@ -72,7 +72,7 @@
         alt="Image"
         style="max-width: 400px"
         img-class="blurry"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div slot="loading" class="text-h2 text-white">
           Loading...
@@ -89,7 +89,7 @@
         :ratio="16/9"
         spinner-color="white"
         style="max-width: 400px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
           Caption
@@ -103,7 +103,7 @@
         spinner-color="white"
         style="max-width: 400px"
         transition="slide-left"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       />
 
       <q-img
@@ -113,7 +113,7 @@
         ratio="1"
         class="rounded-borders"
         style="max-width: 225px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       />
 
       <q-img
@@ -123,7 +123,7 @@
         transition="slide-up"
         spinner-color="white"
         style="max-width: 225px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <q-spinner-facebook slot="loading" color="white" />
       </q-img>
@@ -134,7 +134,7 @@
         placeholder-src="https://picsum.photos/500/300/?blur"
         contain
         style="max-width: 400px; height: 200px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div class="absolute-bottom text-body1 text-center">
           Contain
@@ -151,7 +151,7 @@
         :src="bogusSrc"
         spinner-color="white"
         style="min-height: 100px; max-width: 225px"
-        :enable-menu="enableMenu"
+        :native-context-menu="nativeContextMenu"
       >
         <div slot="error">
           Error...
@@ -167,7 +167,7 @@ export default {
     return {
       url: 'https://placeimg.com/500/300/nature',
       bogusSrc: 'https://bogu.bogus',
-      enableMenu: false
+      nativeContextMenu: false
     }
   },
 
