@@ -33,6 +33,8 @@ export default Vue.extend({
     imgClass: [ Array, String, Object ],
     imgStyle: Object,
 
+    enableMenu: Boolean,
+
     noDefaultSpinner: Boolean,
     spinnerColor: String,
     spinnerSize: String
@@ -205,7 +207,17 @@ export default Vue.extend({
         staticClass: 'q-img__image absolute-full',
         class: this.imgClass,
         style: this.style
-      }) : null
+      }, this.enableMenu === true
+        ? [
+          h('img', {
+            staticClass: 'absolute-full fit',
+            attrs: {
+              src: this.url
+            }
+          })
+        ]
+        : null
+      ) : null
 
       return this.basic === true
         ? content
@@ -255,7 +267,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-img overflow-hidden',
+      staticClass: 'q-img overflow-hidden' + (this.enableMenu === true ? ' q-img--menu' : ''),
       attrs: this.attrs,
       on: this.$listeners
     }, [

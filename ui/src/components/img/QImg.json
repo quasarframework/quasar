@@ -134,6 +134,13 @@
       "desc": "Do not display the default spinner when loading images (unless you are specifying one through the 'loading' slot)",
       "category": "content",
       "addedIn": "v1.1.0"
+    },
+
+    "enable-menu": {
+      "type": "Boolean",
+      "desc": "Enable use of native context menu on image (renders a real img tag)",
+      "category": "content",
+      "addedIn": "v1.8.4"
     }
   },
 
