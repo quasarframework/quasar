@@ -1,7 +1,7 @@
 import { isSSR, client, iosEmulated } from '../plugins/Platform.js'
 import { listenOpts } from './event.js'
 
-const directions = ['left', 'right', 'up', 'down', 'horizontal', 'vertical']
+const directions = [ 'left', 'right', 'up', 'down', 'horizontal', 'vertical' ]
 
 const modifiersAll = {
   left: true,
@@ -63,12 +63,9 @@ export function updateModifiers (ctx, { oldValue, value, modifiers }) {
 export function addEvt (ctx, target, events) {
   target += 'Evt'
 
-  if (ctx[target] !== void 0) {
-    ctx[target] = ctx[target].concat(events)
-  }
-  else {
-    ctx[target] = events
-  }
+  ctx[target] = ctx[target] !== void 0
+    ? ctx[target].concat(events)
+    : events
 
   events.forEach(evt => {
     evt[0].addEventListener(evt[1], ctx[evt[2]], listenOpts[evt[3]])
