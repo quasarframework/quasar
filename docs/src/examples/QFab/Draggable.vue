@@ -1,13 +1,6 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="lhh LpR lff" container style="height: 500px" class="shadow-2 rounded-borders">
-      <q-header reveal class="bg-black">
-        <q-toolbar>
-          <q-btn flat round dense icon="menu" ></q-btn>
-          <q-toolbar-title>Header</q-toolbar-title>
-        </q-toolbar>
-      </q-header>
-
       <q-page-container>
         <q-page padding>
           <p v-for="n in 15" :key="n">
@@ -19,11 +12,11 @@
               icon="add"
               direction="up"
               color="accent"
-              :disable="fabDragged"
+              :disable="draggingFab"
               v-touch-pan.mouse="moveFab"
             >
-              <q-fab-action @click="onClick" color="primary" icon="person_add" :disable="fabDragged"></q-fab-action>
-              <q-fab-action @click="onClick" color="primary" icon="mail" :disable="fabDragged"></q-fab-action>
+              <q-fab-action @click="onClick" color="primary" icon="person_add" :disable="draggingFab" />
+              <q-fab-action @click="onClick" color="primary" icon="mail" :disable="draggingFab" />
             </q-fab>
           </q-page-sticky>
         </q-page>
@@ -37,7 +30,7 @@ export default {
   data () {
     return {
       fabPos: [ 18, 18 ],
-      fabDragged: false
+      draggingFab: false
     }
   },
 
@@ -47,7 +40,7 @@ export default {
     },
 
     moveFab (ev) {
-      this.fabDragged = ev.isFirst !== true && ev.isFinal !== true
+      this.draggingFab = ev.isFirst !== true && ev.isFinal !== true
 
       this.fabPos = [
         this.fabPos[0] - ev.delta.x,

@@ -49,8 +49,8 @@ When you want to inhibit TouchSwipe, you can do so by stopping propagation of th
 
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchHold directive then the inner content, so TouchSwipe will still trigger.
 
-### Note on HMR
-Due to performance reasons, when doing HMR updates, the modifiers `capture`, `mouse` and `mouseCapture` are not updated, so you will require a window refresh.
+## Note on HMR
+Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
 
 ## TouchSwipe API
 <doc-api file="TouchSwipe" />

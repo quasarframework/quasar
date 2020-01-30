@@ -29,6 +29,8 @@ If you want a non-expandable FAB, all you need is a round button – wrapped in 
 
 ### Draggable
 
+Below is a nice example of using [TouchPan](/vue-directives/touch-pan) for making the QFab draggable across the screen.
+
 <doc-example title="Draggable" file="QFab/Draggable" />
 
 ## QFab API
