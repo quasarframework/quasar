@@ -41,6 +41,8 @@ export default {
       trigger: value,
       toggleEl: arg,
 
+      clickEnabled: false,
+
       handler (evt) {
         const target = evt.target
 
@@ -59,11 +61,26 @@ export default {
             isVmChildOf(getVmOfNode(target), vmEl) === false
           )
         ) {
+          if (evt.type === 'mousedown') {
+            ctx.clickEnabled = true
+
+            return
+          }
+
           // mark the event as beeing processed by clickOutside
           // used to prevent refocus after menu close
           evt.qClickOutside = true
 
+          if (evt.type === 'click' && ctx.clickEnabled !== true) {
+            return
+          }
+
+          ctx.clickEnabled = false
+
           return ctx.trigger(evt)
+        }
+        else if (evt.type === 'mousedown') {
+          ctx.clickEnabled = false
         }
       }
     }
@@ -75,6 +92,7 @@ export default {
     el.__qclickoutside = ctx
 
     if (handlers.click.length === 0) {
+      document.addEventListener('mousedown', globalHandler, passiveCapture)
       // use click to be able to prevent click in handler
       document.addEventListener('click', globalHandler, notPassiveCapture)
       document.addEventListener('touchstart', globalHandler, notPassiveCapture)
