@@ -1,14 +1,19 @@
 import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
+import TagMixin from '../../mixins/tag.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIcon',
 
-  mixins: [ SizeMixin ],
+  mixins: [ SizeMixin, TagMixin ],
 
   props: {
+    tag: {
+      default: 'i'
+    },
+
     name: String,
     color: String,
     left: Boolean,
@@ -135,7 +140,7 @@ export default Vue.extend({
     }
 
     if (this.type.none === true) {
-      return h('div', data, slot(this, 'default'))
+      return h(this.tag, data, slot(this, 'default'))
     }
 
     if (this.type.img === true) {
@@ -154,7 +159,7 @@ export default Vue.extend({
       ], this, 'default'))
     }
 
-    return h('i', data, mergeSlot([
+    return h(this.tag, data, mergeSlot([
       this.type.content
     ], this, 'default'))
   }
