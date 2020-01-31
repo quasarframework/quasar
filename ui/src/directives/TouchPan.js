@@ -229,6 +229,32 @@ export default {
 
         ctx.lastEvt = evt
 
+        const isMouseEvt = ctx.event.mouse === true
+        const start = () => {
+          handleEvent(evt, isMouseEvt)
+
+          document.documentElement.style.cursor = 'grabbing'
+          isMouseEvt === true && document.body.classList.add('no-pointer-events')
+          document.body.classList.add('non-selectable')
+          clearSelection()
+
+          ctx.styleCleanup = withDelay => {
+            ctx.styleCleanup = void 0
+
+            document.documentElement.style.cursor = ''
+            document.body.classList.remove('non-selectable')
+
+            if (isMouseEvt === true) {
+              const remove = () => {
+                document.body.classList.remove('no-pointer-events')
+              }
+
+              if (withDelay === true) { setTimeout(remove, 50) }
+              else { remove() }
+            }
+          }
+        }
+
         if (ctx.event.detected === true) {
           ctx.event.isFirst !== true && handleEvent(evt, ctx.event.mouse)
 
@@ -239,32 +265,10 @@ export default {
               ctx.end(evt)
             }
             else {
-              if (ctx.event.isFirst === true) {
-                const hasMouse = ctx.event.mouse === true
-
-                handleEvent(evt, ctx.event.mouse)
-
-                document.documentElement.style.cursor = 'grabbing'
-                hasMouse === true && document.body.classList.add('no-pointer-events')
-                document.body.classList.add('non-selectable')
-                clearSelection()
-
-                ctx.styleCleanup = withDelay => {
-                  ctx.styleCleanup = void 0
-
-                  document.documentElement.style.cursor = ''
-                  document.body.classList.remove('non-selectable')
-
-                  if (hasMouse === true) {
-                    const remove = () => {
-                      document.body.classList.remove('no-pointer-events')
-                    }
-
-                    if (withDelay === true) { setTimeout(remove, 50) }
-                    else { remove() }
-                  }
-                }
+              if (ctx.styleCleanup === void 0 && ctx.event.isFirst === true) {
+                start()
               }
+
               ctx.event.lastX = payload.position.left
               ctx.event.lastY = payload.position.top
               ctx.event.lastDir = synthetic === true ? void 0 : payload.direction
@@ -277,8 +281,9 @@ export default {
 
         if (
           ctx.direction.all === true ||
-          (ctx.event.mouse === true && ctx.modifiers.mouseAllDir === true)
+          (isMouseEvt === true && ctx.modifiers.mouseAllDir === true)
         ) {
+          start()
           ctx.event.detected = true
           ctx.move(evt)
           return
