@@ -18,6 +18,7 @@
     },
 
     "tag": {
+      "examples": [ "div", "form" ],
       "addedIn": "v1.8.4"
     }
   },

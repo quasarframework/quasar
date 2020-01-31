@@ -43,7 +43,7 @@
 
     "tag": {
       "desc": "HTML tag to render; Suggestion: use 'label' when encapsulating a QCheckbox/QRadio/QToggle so that when user clicks/taps on the whole item it will trigger a model change for the mentioned components",
-      "examples": [ "a", "label" ]
+      "examples": [ "a", "label", "div" ]
     },
 
     "manual-focus": {

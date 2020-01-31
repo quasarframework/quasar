@@ -2,9 +2,8 @@
   "props": {
     "tag": {
       "type": "String",
-      "desc": "HTML tag to render; Suggestion: use 'label' when encapsulating a QCheckbox/QRadio/QToggle so that when user clicks/taps on the whole item it will trigger a model change for the mentioned components",
+      "desc": "HTML tag to render",
       "default": "div",
-      "examples": [ "span", "label", "form" ],
       "category": "content"
     }
   }

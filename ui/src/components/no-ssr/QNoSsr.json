@@ -7,7 +7,7 @@
 
   "props": {
     "tag": {
-      "examples": [ "span", "blockquote" ]
+      "examples": [ "div", "span", "blockquote" ]
     },
 
     "placeholder": {
