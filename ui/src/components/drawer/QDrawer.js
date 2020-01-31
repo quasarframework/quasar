@@ -672,7 +672,9 @@ export default Vue.extend({
         class: this.classes,
         style: this.style,
         on: this.onNativeEvents,
-        directives: this.contentCloseDirective
+        directives: this.belowBreakpoint === true
+          ? this.contentCloseDirective
+          : void 0
       }, content)
     )
 
