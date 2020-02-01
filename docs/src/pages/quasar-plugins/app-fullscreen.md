@@ -18,7 +18,6 @@ For an exhaustive list of properties and methods, please check out the API secti
 :::
 
 ``` js
-// outside of a Vue file
 import { AppFullscreen } from 'quasar'
 
 // Requesting fullscreen mode:
@@ -40,27 +39,6 @@ AppFullscreen.exit()
   })
 ```
 
-``` js
-// inside of a Vue file
-
-// Requesting fullscreen mode:
-this.$q.fullscreen.request()
-  .then(() => { // v1.5.0+
-    // success!
-  })
-  .catch(err => { // v1.5.0+
-    // oh, no!!!
-  })
-
-// Exiting fullscreen mode:
-this.$q.fullscreen.exit()
-  .then(() => { // v1.5.0+
-    // success!
-  })
-  .catch(err => { // v1.5.0+
-    // oh, no!!!
-  })
-```
 
 <doc-example title="Basic" file="AppFullscreen/Basic" />
 
@@ -82,7 +60,7 @@ It all depends on the Web Fullscreen API support of the platform the code is run
 <script>
 export default {
   watch: {
-    '$q.fullscreen.isActive' (val) {
+    'AppFullscreen.isActive' (val) {
       console.log(val ? 'In fullscreen now' : 'Exited fullscreen')
     }
   }
