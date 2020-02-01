@@ -76,9 +76,6 @@ module.exports = function (cfg, configName) {
       .use(WebpackProgress, [{ name: configName }])
   }
 
-  chain.plugin('define')
-    .use(webpack.DefinePlugin, [ cfg.build.env ])
-
   // reset default webpack 4 minimizer
   chain.optimization.minimizers.delete('js')
   // also:
