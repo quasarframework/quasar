@@ -5,7 +5,7 @@ desc: How to handle Electron Node Integration with Quasar CLI.
 
 Electron node integration refers to the ability of accessing Node.js resources from within the "renderer" thread (the UI). It is enabled by default in Quasar CLI, although Electron is encouraging developers to turn it off as a security precaution.
 
-As of "@quasar/app" v1.3.0+, you can turn off the node integration.
+As of "@quasar/app" v1.3+, you can turn off the node integration.
 
 ## What won't work when turning it off
 If you turn off the node integration, then in the renderer thread you won't be able to:

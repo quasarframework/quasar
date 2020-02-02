@@ -499,7 +499,7 @@ async function run () {
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
-        console.log(` Opening the docs URL also requires "quasar" v1.5.0+`)
+        console.log(` Opening the docs URL also requires "quasar" v1.5+`)
         console.log()
       }
     }

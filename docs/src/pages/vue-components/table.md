@@ -73,7 +73,7 @@ columns: [ // array of Objects
     style: 'width: 500px',
     classes: 'my-special-class'
 
-    // (v1.3.0+) header th:
+    // (v1.3+) header th:
     headerStyle: 'width: 500px',
     headerClasses: 'my-special-class'
   },

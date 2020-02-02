@@ -1,7 +1,7 @@
 ---
 title: Intersection Directive
 desc: Vue directive that uses Intersection Observer API to call a method when user scrolls and brings a component into or out of view.
-badge: "v1.3.0+"
+badge: "v1.3+"
 related:
   - /vue-components/intersection
   - /vue-directives/scroll-fire

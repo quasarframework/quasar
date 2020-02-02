@@ -20,7 +20,7 @@ There are two places in `/quasar.conf.js` where you can configure Quasar specifi
 ```js
 return {
   capacitor: {
-    // requires @quasar/app v1.3.0+
+    // requires @quasar/app v1.3+
     hideSplashscreen: false // disables auto-hiding the Splashscreen by Quasar CLI
   }
 }
