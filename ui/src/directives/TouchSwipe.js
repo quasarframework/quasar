@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
 import { getModifierDirections, updateModifiers, addEvt, cleanEvt, getTouchTarget, shouldStart } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent, preventDraggable } from '../utils/event.js'
+import { position, leftClick, stopAndPrevent, preventDraggable, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function parseArg (arg) {
@@ -37,7 +37,7 @@ export default {
       modifiers: modifiers,
       direction: getModifierDirections(modifiers),
 
-      noop () {},
+      noop,
 
       mouseStart (evt) {
         if (shouldStart(evt, ctx) && leftClick(evt)) {
@@ -217,7 +217,7 @@ export default {
         cleanEvt(ctx, 'temp')
         client.is.firefox === true && preventDraggable(el, false)
         ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
-        ctx.event.dir !== false && stopAndPrevent(evt)
+        evt !== void 0 && ctx.event.dir !== false && stopAndPrevent(evt)
 
         ctx.event = void 0
       }
@@ -233,17 +233,14 @@ export default {
       [ el, 'mousedown', 'mouseStart', `passive${mouseCapture}` ]
     ])
 
-    if (client.has.touch === true) {
-      addEvt(ctx, 'main', [
-        [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
-        [ el, 'touchmove', 'noop', `notPassiveCapture` ]
-      ])
-    }
+    client.has.touch === true && addEvt(ctx, 'main', [
+      [ el, 'touchstart', 'touchStart', `passive${modifiers.capture === true ? 'Capture' : ''}` ],
+      [ el, 'touchmove', 'noop', `notPassiveCapture` ]
+    ])
   },
 
   update (el, binding) {
-    const ctx = el.__qtouchswipe
-    ctx !== void 0 && updateModifiers(ctx, binding)
+    el.__qtouchswipe !== void 0 && updateModifiers(el.__qtouchswipe, binding)
   },
 
   unbind (el) {

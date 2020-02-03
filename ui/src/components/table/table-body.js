@@ -110,9 +110,9 @@ export default {
       })
 
       Object.defineProperty(data, 'expand', {
-        get: () => this.rowsExpanded[data.key] === true,
-        set: val => {
-          this.$set(this.rowsExpanded, data.key, val)
+        get: () => this.isRowExpanded(data.key),
+        set: adding => {
+          this.__updateExpanded(data.key, adding)
         },
         configurable: true,
         enumerable: true

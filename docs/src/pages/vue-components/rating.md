@@ -29,15 +29,27 @@ In the example below, when using the `icon-selected` prop, notice we can still u
 
 ### Colors
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 When using the `color-selected` prop, notice we can still use `color` as well. The latter becomes the color(s) of the icons when they are not selected.
 
 <doc-example title="Different color for each rating" file="QRating/Colors" />
 
+### Floating number
+
+<q-badge label="v1.7.4+" />
+
+<doc-example title="Different icon and color when half selected" file="QRating/HalfSelected" />
+
+### No dimming
+
+<q-badge label="v1.7.4+" />
+
+<doc-example title="No dimming" file="QRating/NoDimming" />
+
 ### Tooltips
 
-<q-badge label="v1.5.0+" />
+<q-badge label="v1.5+" />
 
 Notice how we can add tooltips to each icon in the example below.
 

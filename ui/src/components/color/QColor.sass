@@ -10,8 +10,6 @@
   box-shadow: $shadow-2
 
   .q-tab
-    min-height: 32px !important
-    height: 32px !important
     padding: 0 !important
 
   &--bordered
@@ -23,8 +21,13 @@
     input
       line-height: 24px
       border: 0
-    .q-tab--inactive
-      background: linear-gradient(to top, rgba(0,0,0,.3) 0%, rgba(0,0,0,.15) 25%, rgba(0,0,0,.1))
+
+    .q-tab
+      min-height: 32px !important
+      height: 32px !important
+
+      &--inactive
+        background: linear-gradient(to top, rgba(0,0,0,.3) 0%, rgba(0,0,0,.15) 25%, rgba(0,0,0,.1))
 
   &__error-icon
     bottom: 2px
@@ -59,10 +62,14 @@
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAH0lEQVQoU2NkYGAwZkAFZ5G5jPRRgOYEVDeB3EBjBQBOZwTVugIGyAAAAABJRU5ErkJggg==') !important
 
   &__footer
-    height: 32px
+    height: 36px
 
-    .q-tab--inactive
-      background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, rgba(0,0,0,.15) 25%, rgba(0,0,0,.1))
+    .q-tab
+      min-height: 36px !important
+      height: 36px !important
+
+      &--inactive
+        background: linear-gradient(to bottom, rgba(0,0,0,.3) 0%, rgba(0,0,0,.15) 25%, rgba(0,0,0,.1))
 
   /* Saturation Tab */
 

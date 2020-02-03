@@ -481,6 +481,19 @@
               "desc": "Callback to call to make the actual updates",
               "params": null,
               "returns": null
+            },
+            "afterFn": {
+              "type": "Function",
+              "desc": "Callback to call at the end after the update has been fully processed by QSelect",
+              "params": {
+                "ref": {
+                  "type": "Object",
+                  "desc": "Vue reference to the QSelect which triggered the filtering",
+                  "__exemption": [ "examples" ]
+                }
+              },
+              "returns": null,
+              "addedIn": "v1.7.4"
             }
           },
           "returns": null
@@ -568,6 +581,11 @@
           "desc": "Option to add to model",
           "required": true,
           "__exemption": [ "examples" ]
+        },
+        "keepOpen": {
+          "type": "Boolean",
+          "desc": "Don't close the menu and do not clear the filter",
+          "addedIn": "v1.7.4"
         }
       }
     },
@@ -582,6 +600,24 @@
           "examples": [ 10 ]
         }
       }
+    },
+
+    "moveOptionSelection": {
+      "desc": "Move selected option from menu by index offset",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Number of options to move up or down",
+          "default": 1,
+          "examples": [ -1, 1, 5 ]
+        },
+        "skipInputValue": {
+          "type": "Boolean",
+          "desc": "Don't set input-value on navigation",
+          "addedIn": "v1.8.0"
+        }
+      },
+      "addedIn": "v1.7.4"
     },
 
     "filter": {

@@ -24,7 +24,11 @@ export default Vue.extend({
     color: String,
     icon: String,
     noMouse: Boolean,
-    disable: Boolean
+    disable: Boolean,
+
+    scrollTarget: {
+      default: void 0
+    }
   },
 
   data () {
@@ -47,6 +51,12 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    scrollTarget () {
+      this.updateScrollTarget()
+    }
+  },
+
   methods: {
     trigger () {
       this.$emit('refresh', () => {
@@ -57,7 +67,7 @@ export default Vue.extend({
     },
 
     updateScrollTarget () {
-      this.scrollContainer = getScrollTarget(this.$el)
+      this.scrollContainer = getScrollTarget(this.$el, this.scrollTarget)
     },
 
     __pull (event) {
@@ -149,7 +159,7 @@ export default Vue.extend({
           modifiers: {
             down: true,
             mightPrevent: true,
-            mouse: !this.noMouse
+            mouse: this.noMouse !== true
           },
           value: this.__pull
         }]

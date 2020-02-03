@@ -21,6 +21,8 @@ try {
 }
 catch (e) {}
 
+export function noop () {}
+
 export function leftClick (e) {
   return e.button === 0
 }

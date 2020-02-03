@@ -101,7 +101,10 @@ export default Vue.extend({
         const len = typeof this.value === 'string' || typeof this.value === 'number'
           ? ('' + this.value).length
           : (Array.isArray(this.value) === true ? this.value.length : 0)
-        const max = this.maxlength !== void 0 ? this.maxlength : this.maxValues
+
+        const max = this.maxlength !== void 0
+          ? this.maxlength
+          : this.maxValues
 
         return len + (max !== void 0 ? ' / ' + max : '')
       }
@@ -292,8 +295,8 @@ export default Vue.extend({
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
-      this.__getPopup !== void 0 && node.push(
-        this.__getPopup(h)
+      this.__getControlChild !== void 0 && node.push(
+        this.__getControlChild(h)
       )
 
       return node

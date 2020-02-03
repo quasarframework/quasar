@@ -74,7 +74,7 @@ export default {
               this.rowsPerPageLabel || this.$q.lang.table.recordsPerPage
             ]),
             h(QSelect, {
-              staticClass: 'inline q-table__bottom-item',
+              staticClass: 'q-table__select inline q-table__bottom-item',
               props: {
                 color: this.color,
                 value: rowsPerPage,
@@ -109,11 +109,13 @@ export default {
           h('span', rowsPerPage !== 0 ? { staticClass: 'q-table__bottom-item' } : {}, [
             rowsPerPage
               ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
-              : paginationLabel(1, this.computedRowsNumber, this.computedRowsNumber)
+              : paginationLabel(1, this.computedData.rowsNumber, this.computedRowsNumber)
           ])
         ]
 
         if (rowsPerPage !== 0) {
+          const size = this.dense === true ? 'sm' : void 0
+
           control.push(
             h(QBtn, {
               props: {
@@ -122,6 +124,7 @@ export default {
                 icon: this.navIcon[0],
                 dense: true,
                 flat: true,
+                size,
                 disable: this.isFirstPage
               },
               on: cache(this, 'pgPrev', { click: this.prevPage })
@@ -133,6 +136,7 @@ export default {
                 round: true,
                 icon: this.navIcon[1],
                 dense: true,
+                size,
                 flat: true,
                 disable: this.isLastPage
               },

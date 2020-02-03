@@ -33,14 +33,14 @@
       Results <span class="text-weight-thin">(children: {{ children.length }}/10)</span>
     </div>
 
-    <q-btn class="float-right" round dense flat icon="share" @click="share">
+    <q-btn class="float-right" round dense flat :icon="mdiShareVariant" @click="share">
       <q-tooltip>{{ copied ? 'Copied to clipboard' : 'Share URL' }}</q-tooltip>
     </q-btn>
     <q-btn class="float-right" round dense flat :icon="fabCodepen" @click="editInCodepen">
       <q-tooltip>Edit in Codepen</q-tooltip>
     </q-btn>
 
-    <q-btn class="float-right" label="Add Child" icon="add" dense flat :disabled="children.length >= 10" @click="addChild" />
+    <q-btn class="float-right" label="Add Child" :icon="mdiPlus" dense flat :disabled="children.length >= 10" @click="addChild" />
     <div class="row full-width bg-blue-grey-2" style="min-height: 400px">
       <div id="parent" :class="classes" style="overflow: hidden;">
         <child v-for="(child, index) in children" :key="index"
@@ -73,12 +73,13 @@
 </template>
 
 <script>
+import { copyToClipboard } from 'quasar'
+import { fabCodepen } from '@quasar/extras/fontawesome-v5'
+import { mdiPlus, mdiShareVariant } from '@quasar/extras/mdi-v4'
+
 import Child from './FlexChild'
 import Codepen from '../../../Codepen'
 import CopyButton from '../../../CopyButton'
-import { copyToClipboard } from 'quasar'
-
-import { fabCodepen } from '@quasar/extras/fontawesome-v5'
 
 const queryParams = {
   containerGroup: 'string',
@@ -184,6 +185,8 @@ export default {
 
   created () {
     this.fabCodepen = fabCodepen
+    this.mdiPlus = mdiPlus
+    this.mdiShareVariant = mdiShareVariant
   },
 
   computed: {

@@ -1,16 +1,19 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
-
-const sizes = {
-  xs: 8,
-  sm: 10,
-  md: 14,
-  lg: 20,
-  xl: 24
-}
+import { getSizeMixin } from './size.js'
 
 export default {
-  mixins: [ RippleMixin, AlignMixin ],
+  mixins: [
+    RippleMixin,
+    AlignMixin,
+    getSizeMixin({
+      xs: 8,
+      sm: 10,
+      md: 14,
+      lg: 20,
+      xl: 24
+    })
+  ],
 
   props: {
     type: String,
@@ -53,10 +56,8 @@ export default {
 
   computed: {
     style () {
-      if (this.fab === false && this.fabMini === false && this.size) {
-        return {
-          fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size
-        }
+      if (this.fab === false && this.fabMini === false) {
+        return this.sizeStyle
       }
     },
 
@@ -117,13 +118,13 @@ export default {
         colors = `text-${this.textColor}`
       }
 
-      return `q-btn--${this.design} q-btn--${this.isRound === true ? 'round' : 'rectangle'}` +
+      return `q-btn--${this.design} ` +
+        `q-btn--${this.isRound === true ? 'round' : `rectangle${this.rounded === true ? ' q-btn--rounded' : ''}`}` +
         (colors !== void 0 ? ' ' + colors : '') +
         (this.isActionable === true ? ' q-btn--actionable q-focusable q-hoverable' : (this.disable === true ? ' disabled' : '')) +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +
         (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
         (this.noWrap === true ? '' : ' q-btn--wrap') + // this is for IE11
-        (this.rounded === true && this.isRound !== true ? ' q-btn--rounded' : '') +
         (this.dense === true ? ' q-btn--dense' : '') +
         (this.stretch === true ? ' no-border-radius self-stretch' : '') +
         (this.glossy === true ? ' glossy' : '')

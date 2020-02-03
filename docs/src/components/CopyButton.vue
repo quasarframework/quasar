@@ -5,7 +5,7 @@ div.relative
     round
     dense
     flat
-    icon="content_copy"
+    :icon="mdiContentCopy"
     @click="copy"
   )
     q-tooltip Copy to Clipboard
@@ -21,12 +21,16 @@ div.relative
 </template>
 
 <script>
-
 import { copyToClipboard } from 'quasar'
+import { mdiContentCopy } from '@quasar/extras/mdi-v4'
 
 export default {
   props: {
     text: [ Function, String ]
+  },
+
+  created () {
+    this.mdiContentCopy = mdiContentCopy
   },
 
   data () {

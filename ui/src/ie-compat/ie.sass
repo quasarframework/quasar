@@ -38,8 +38,7 @@
   .q-menu .q-item__section--main
     flex-basis: auto
 
-  .q-banner__content,
-  .q-notification__message
+  .q-banner__content
     flex-basis: 0 !important
 
   .q-menu,
@@ -50,6 +49,9 @@
   .q-tab__content
     flex-basis: auto
     min-width: 100%
+
+  .q-card__actions--vert
+    flex: 0 0 auto
 
   .column
     min-width: 0%
@@ -86,6 +88,12 @@
 
     &--wrap
       flex-direction: row
+
+    &--fab .q-icon
+      margin: 0
+
+  .q-fab > .q-btn--fab .q-icon
+    margin: auto
 
   /* QCarousel */
   .q-carousel__slide > *

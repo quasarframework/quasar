@@ -6,7 +6,7 @@ import QSpinner from '../spinner/QSpinner.js'
 import BtnMixin from '../../mixins/btn.js'
 
 import { mergeSlot } from '../../utils/slot.js'
-import { stop, prevent, stopAndPrevent, listenOpts } from '../../utils/event.js'
+import { stop, prevent, stopAndPrevent, listenOpts, noop } from '../../utils/event.js'
 import { getTouchTarget } from '../../utils/touch.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
@@ -94,7 +94,7 @@ export default Vue.extend({
         // to the same route that the user is currently at
         // https://github.com/vuejs/vue-router/issues/2872
         if (res !== void 0 && typeof res.catch === 'function') {
-          res.catch(() => {})
+          res.catch(noop)
         }
       }
 
@@ -201,6 +201,11 @@ export default Vue.extend({
       }
 
       this.$el !== void 0 && this.$el.classList.remove('q-btn--active')
+    },
+
+    __onLoadingEvt (evt) {
+      stopAndPrevent(evt)
+      evt.qSkipRipple = true
     }
   },
 
@@ -266,17 +271,25 @@ export default Vue.extend({
       })
     ]
 
-    this.loading === true && this.percentage !== void 0 && child.push(
-      h('div', {
-        staticClass: 'q-btn__progress absolute-full overflow-hidden'
-      }, [
+    if (this.loading === true) {
+      // stop propagation and ripple
+      data.on = {
+        click: this.__onLoadingEvt,
+        keyup: this.__onLoadingEvt
+      }
+
+      this.percentage !== void 0 && child.push(
         h('div', {
-          staticClass: 'q-btn__progress-indicator fit',
-          class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
-          style: this.percentageStyle
-        })
-      ])
-    )
+          staticClass: 'q-btn__progress absolute-full overflow-hidden'
+        }, [
+          h('div', {
+            staticClass: 'q-btn__progress-indicator fit',
+            class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
+            style: this.percentageStyle
+          })
+        ])
+      )
+    }
 
     child.push(
       h('div', {

@@ -88,13 +88,21 @@ export default {
 
       click (evt) {
         // on ENTER in form IE emits a PointerEvent with negative client cordinates
-        if (ctx.enabled === true && (client.is.ie !== true || evt.clientX >= 0)) {
+        if (
+          ctx.enabled === true &&
+          evt.qSkipRipple !== true &&
+          (client.is.ie !== true || evt.clientX >= 0)
+        ) {
           showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
       },
 
       keyup (evt) {
-        if (ctx.enabled === true && isKeyCode(evt, ctx.modifiers.keyCodes) === true) {
+        if (
+          ctx.enabled === true &&
+          evt.qSkipRipple !== true &&
+          isKeyCode(evt, ctx.modifiers.keyCodes) === true
+        ) {
           showRipple(evt, el, ctx, true)
         }
       }

@@ -16,6 +16,7 @@ import Sort from './table-sort.js'
 import Filter from './table-filter.js'
 import Pagination from './table-pagination.js'
 import RowSelection from './table-row-selection.js'
+import RowExpand from './table-row-expand.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
@@ -40,6 +41,7 @@ export default Vue.extend({
     Filter,
     Pagination,
     RowSelection,
+    RowExpand,
     ColumnSelection
   ],
 
@@ -103,7 +105,6 @@ export default Vue.extend({
 
   data () {
     return {
-      rowsExpanded: {},
       innerPagination: {
         sortBy: null,
         descending: false,
@@ -146,7 +147,10 @@ export default Vue.extend({
       }
 
       if (this.isServerSide === true) {
-        return { rows }
+        return {
+          rowsNumber: rows.length,
+          rows
+        }
       }
 
       const { sortBy, descending, rowsPerPage } = this.computedPagination
@@ -230,19 +234,31 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = [ this.getTop(h) ]
     const data = { staticClass: this.containerClass }
 
-    if (this.grid === false) {
-      data.class = this.cardClass
-      data.style = this.cardStyle
+    if (this.grid === true) {
+      child.push(this.getGridHeader(h))
+    }
+    else {
+      Object.assign(data, {
+        class: this.cardClass,
+        style: this.cardStyle
+      })
     }
 
-    return h('div', data, [
-      this.getTop(h),
-      this.grid === true ? this.getGridHeader(h) : null,
+    child.push(
       this.getBody(h),
       this.getBottom(h)
-    ])
+    )
+
+    if (this.loading === true && this.$scopedSlots.loading !== void 0) {
+      child.push(
+        this.$scopedSlots.loading()
+      )
+    }
+
+    return h('div', data, child)
   },
 
   methods: {

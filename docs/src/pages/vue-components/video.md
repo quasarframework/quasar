@@ -19,7 +19,7 @@ You may also want to check our own HTML 5 video player component: [QMediaPlayer]
 
 ### With aspect ratio
 
-<q-badge label="v1.7.0+" />
+<q-badge label="v1.7+" />
 
 <doc-example title="With aspect ratio" file="QVideo/Ratio" />
 

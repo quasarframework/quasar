@@ -62,8 +62,8 @@ When you want to inhibit TouchRepeat, you can do so by stopping propagation of t
 
 However, if you are using `capture`, `mouseCapture` or `keyCapture` modifiers then events will first reach the TouchRepeat directive then the inner content, so TouchRepeat will still trigger.
 
-### Note on HMR
-Due to performance reasons, when doing HMR updates, the argument and modifiers are not updated, so you will require a window refresh.
+## Note on HMR
+Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
 
-## API
+## TouchRepeat API
 <doc-api file="TouchRepeat" />

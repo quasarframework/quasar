@@ -8,14 +8,16 @@ export default {
     getTableHeader (h) {
       const child = this.getTableHeaderRow(h)
 
-      this.loading === true && child.push(
-        h('tr', { staticClass: 'q-table__progress' }, [
-          h('th', {
-            staticClass: 'relative-position',
-            attrs: { colspan: '100%' }
-          }, this.__getProgress(h))
-        ])
-      )
+      if (this.loading === true && this.$scopedSlots.loading === void 0) {
+        child.push(
+          h('tr', { staticClass: 'q-table__progress' }, [
+            h('th', {
+              staticClass: 'relative-position',
+              attrs: { colspan: '100%' }
+            }, this.__getProgress(h))
+          ])
+        )
+      }
 
       return h('thead', child)
     },

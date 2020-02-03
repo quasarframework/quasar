@@ -7,7 +7,7 @@
     separator
   >
     <template v-slot="{ item, index }">
-      <async-component :key="index" :index="item.index" :sent="item.sent" />
+      <async-component :key="index" :index="item.index" :sent="item.sent"></async-component>
     </template>
   </q-virtual-scroll>
 </template>

@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/size" ],
+
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/option-group"
   },
@@ -37,6 +39,10 @@
       "type": "Boolean",
       "desc": "Should the color (if specified any) be kept when input components are unticked?",
       "category": "behavior"
+    },
+
+    "size": {
+      "addedIn": "v1.8.0"
     },
 
     "dark": {

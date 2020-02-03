@@ -30,7 +30,7 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
     )
       template(v-slot:append)
         q-icon.cursor-pointer(
-          :name="filter !== '' ? 'clear' : 'search'"
+          :name="inputIcon"
           @click="onFilterClick"
         )
 
@@ -75,9 +75,12 @@ q-card.doc-api.q-my-lg(v-if="ready", flat, bordered)
 </template>
 
 <script>
+import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v4'
+import { format } from 'quasar'
+
 import ApiRows from './ApiRows.js'
 import CardTitle from './CardTitle.vue'
-import { format } from 'quasar'
+
 const { pad } = format
 
 const groupBy = (list, groupKey, defaultGroupKeyValue) => {
@@ -250,11 +253,9 @@ export default {
       if (this.apiType !== 'plugin' && tab === 'props') {
         let total = 0
 
-        if (this.currentTabMaxCategoryPropCount > 0) {
-          Object.keys(this.filteredApi[tab]).forEach(key => {
-            total += Object.keys(this.filteredApi[tab][key]).length
-          })
-        }
+        Object.keys(this.filteredApi[tab]).forEach(key => {
+          total += Object.keys(this.filteredApi[tab][key]).length
+        })
 
         return total
       }
@@ -289,6 +290,10 @@ export default {
       }
 
       return 0
+    },
+
+    inputIcon () {
+      return this.filter !== '' ? mdiClose : mdiMagnify
     }
   },
 

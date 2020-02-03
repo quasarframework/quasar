@@ -1,8 +1,15 @@
 ---
 title: Uploader
 desc: The QUploader Vue component is a way for the user to upload files to a backend server.
+related:
+  - /vue-components/file-picker
 ---
+
 Quasar supplies a way for you to upload files through the QUploader component.
+
+:::tip
+If all you want is an input file, you might want to consider using [QFile](/vue-components/file-picker) picker component instead.
+:::
 
 ## Installation
 <doc-installation components="QUploader" />
@@ -145,8 +152,8 @@ app.post('/upload', (req, res) => {
     console.log('Fields', fields)
     console.log('Received:', Object.keys(files))
     console.log()
+    res.send('Thank you')
   })
-  res.send('Thank you')
 })
 
 app.listen(port, () => {
@@ -255,7 +262,9 @@ public class UploadRest {
 ## Supporting other services
 QUploader currently supports uploading through the HTTP protocol. But you can extend the component to support other services as well. Like Firebase for example. Here's how you can do it.
 
-Below is an example with the API that you need to supply. You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.
+Below is an example with the API that you need to supply. **You'll be creating a new Vue component that extends the Base of QUploader that you can then import and use in your website/app.**
+
+Basically, QUploader is QUploaderBase + the xhr mixin. Your component will be QUploaderBase + your service mixin.
 
 ::: tip
 For the default XHR implementation, check out [source code](https://github.com/quasarframework/quasar/blob/dev/ui/src/components/uploader/uploader-xhr-mixin.js).
@@ -308,6 +317,25 @@ export default {
 
       // ...
     }
+  }
+}
+```
+
+Then you register this component globally with Vue or you import it and add it to the "components: {}" in your Vue components.
+
+```js
+// globally registering your component
+import Vue from 'vue'
+import MyUploader from '../../path/to/MyUploader' // the file from above
+Vue.component('MyUploader', MyUploader)
+
+// or declaring it in a .vue file
+import MyUploader from '../../path/to/MyUploader' // the file from above
+export default {
+  // ...
+  components: {
+    // ...
+    MyUploader
   }
 }
 ```

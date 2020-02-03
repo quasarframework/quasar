@@ -11,13 +11,17 @@
 
     &--hovered
       transform: scale(1.3)
-    &--exselected
-      opacity: .7
+
     &--active
       opacity: 1
+    &--exselected
+      opacity: .7
 
     & + &
       margin-left: 2px
+
+  &--no-dimming .q-rating__icon
+    opacity: 1
 
   &--editable .q-icon
     cursor: pointer

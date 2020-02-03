@@ -1,24 +1,26 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
+import { getSizeMixin } from '../../mixins/size.js'
 import { mergeSlot } from '../../utils/slot.js'
 
 function width (val) {
   return { transform: `scale3d(${val},1,1)` }
 }
 
-const sizes = {
-  xs: 2,
-  sm: 4,
-  md: 6,
-  lg: 10,
-  xl: 14
-}
-
 export default Vue.extend({
   name: 'QLinearProgress',
 
-  mixins: [ DarkMixin ],
+  mixins: [
+    DarkMixin,
+    getSizeMixin({
+      xs: 2,
+      sm: 4,
+      md: 6,
+      lg: 10,
+      xl: 14
+    })
+  ],
 
   props: {
     value: {
@@ -26,8 +28,6 @@ export default Vue.extend({
       default: 0
     },
     buffer: Number,
-
-    size: String,
 
     color: String,
     trackColor: String,
@@ -40,22 +40,15 @@ export default Vue.extend({
   },
 
   computed: {
-    sizeStyle () {
-      if (this.size !== void 0) {
-        return { height: this.size in sizes ? `${sizes[this.size]}px` : this.size }
-      }
-    },
-
     motion () {
-      return this.indeterminate || this.query
+      return this.indeterminate === true || this.query === true
     },
 
     classes () {
-      return {
-        [`text-${this.color}`]: this.color !== void 0,
-        'q-linear-progress--reverse': this.reverse === true || this.query === true,
-        'rounded-borders': this.rounded === true
-      }
+      return 'q-linear-progress' +
+        (this.color !== void 0 ? ` text-${this.color}` : '') +
+        (this.reverse === true || this.query === true ? ' q-linear-progress--reverse' : '') +
+        (this.rounded === true ? ' rounded-borders' : '')
     },
 
     trackStyle () {
@@ -103,7 +96,6 @@ export default Vue.extend({
     )
 
     return h('div', {
-      staticClass: 'q-linear-progress',
       style: this.sizeStyle,
       class: this.classes,
       on: this.$listeners

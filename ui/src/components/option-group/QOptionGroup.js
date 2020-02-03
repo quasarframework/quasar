@@ -39,6 +39,8 @@ export default Vue.extend({
     keepColor: Boolean,
     dense: Boolean,
 
+    size: String,
+
     leftLabel: Boolean,
     inline: Boolean,
     disable: Boolean
@@ -89,6 +91,7 @@ export default Vue.extend({
           checkedIcon: opt.checkedIcon,
           uncheckedIcon: opt.uncheckedIcon,
           dark: opt.dark || this.isDark,
+          size: opt.size || this.size,
           dense: this.dense,
           keepColor: opt.keepColor || this.keepColor
         },

@@ -33,7 +33,7 @@ You can also take a look at [Layout Drawer](/layout/drawer) to see some more exa
 
 ### Controlling scrollbar visibility
 
-<q-badge label="v1.3.0+" />
+<q-badge label="v1.3+" />
 
 When using the `visible` Boolean prop, the default mouse over/leave behavior is disabled, leaving you in full control of the scrollbar visibility.
 

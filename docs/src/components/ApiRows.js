@@ -1,3 +1,4 @@
+import { QBadge } from 'quasar'
 import './ApiRows.sass'
 
 function getEventParams (event) {
@@ -75,7 +76,7 @@ export default {
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 4, 'Name', h('q-badge', {
+          this.getDiv(h, 4, 'Name', h(QBadge, {
             props: {
               color: NAME_PROP_COLOR[level],
               label: propName
@@ -271,7 +272,7 @@ export default {
       for (const slot in slots) {
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h('q-badge', {
+            this.getDiv(h, 12, 'Name', h(QBadge, {
               props: {
                 color: NAME_PROP_COLOR[0],
                 label: slot
@@ -334,7 +335,7 @@ export default {
 
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h('q-badge', {
+            this.getDiv(h, 12, 'Name', h(QBadge, {
               props: {
                 color: NAME_PROP_COLOR[0],
                 label: `@${eventName}${getEventParams(event)}`
@@ -367,7 +368,7 @@ export default {
         const method = methods[methodName]
 
         const nodes = [
-          this.getDiv(h, 12, 'Name', h('q-badge', {
+          this.getDiv(h, 12, 'Name', h(QBadge, {
             props: {
               color: NAME_PROP_COLOR[0],
               label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
@@ -446,14 +447,7 @@ export default {
           h(
             'div',
             { staticClass: 'api-row row' },
-            [
-              this.getDiv(h, 12, 'Name', h('q-badge', {
-                props: {
-                  color: NAME_PROP_COLOR[0],
-                  label: modifierName
-                }
-              }))
-            ].concat(this.getProp(h, modifier, void 0, 0, true))
+            this.getProp(h, modifier, modifierName, 0, true)
           )
         )
       }
@@ -504,8 +498,9 @@ export default {
     const content = Object.keys(api).length !== 0
       ? this[this.which](h, api)
       : [
-        h('div', { staticClass: 'q-pa-md text-grey-7' }, [
-          'No matching entries found. Please refine the filter.'
+        h('div', { staticClass: 'q-pa-md text-grey-9' }, [
+          h('div', [ 'No matching entries found on this tab.' ]),
+          h('div', [ 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.' ])
         ])
       ]
 

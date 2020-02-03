@@ -17,7 +17,6 @@
   text-align: center
   width: auto
   height: auto
-  align-self: center
 
   .q-icon, .q-spinner
     font-size: $button-line-height
@@ -122,11 +121,12 @@
   &--fab, &--fab-mini
     .q-icon
       font-size: 24px
-      width: 1em
-      height: 1em
-  &--fab .q-btn__wrapper
-    min-height: 56px
-    min-width: 56px
+  &--fab
+    .q-icon
+      margin: auto
+    .q-btn__wrapper
+      min-height: 56px
+      min-width: 56px
   &--fab-mini .q-btn__wrapper
     min-height: 40px
     min-width: 40px

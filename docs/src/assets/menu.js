@@ -101,6 +101,7 @@ const options = [
   },
   {
     name: 'Quasar Icon Sets',
+    badge: 'update',
     path: 'quasar-icon-sets'
   },
   {
@@ -676,6 +677,7 @@ const plugins = [
   },
   {
     name: 'Dialog',
+    badge: 'update',
     path: 'dialog'
   },
   {
@@ -793,6 +795,11 @@ const components = [
         path: 'select'
       },
       {
+        name: 'File picker',
+        badge: 'new',
+        path: 'file-picker'
+      },
+      {
         name: 'Form',
         path: 'form'
       },
@@ -802,14 +809,17 @@ const components = [
       },
       {
         name: 'Radio',
+        badge: 'update',
         path: 'radio'
       },
       {
         name: 'Checkbox',
+        badge: 'update',
         path: 'checkbox'
       },
       {
         name: 'Toggle',
+        badge: 'update',
         path: 'toggle'
       },
       {
@@ -919,6 +929,7 @@ const components = [
   },
   {
     name: 'Rating',
+    badge: 'update',
     path: 'rating'
   },
   {

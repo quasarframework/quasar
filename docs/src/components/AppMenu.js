@@ -1,3 +1,12 @@
+import {
+  QExpansionItem,
+  QItem,
+  QItemSection,
+  QIcon,
+  QBadge,
+  QList
+} from 'quasar'
+
 import Menu from 'assets/menu.js'
 import './AppMenu.sass'
 
@@ -21,10 +30,11 @@ export default {
     getDrawerMenu (h, menu, path, level) {
       if (menu.children !== void 0) {
         return h(
-          'q-expansion-item',
+          QExpansionItem,
           {
             staticClass: 'non-selectable',
             ref: path,
+            key: `${menu.name}-${path}`,
             props: {
               label: menu.name,
               dense: level > 0,
@@ -63,31 +73,32 @@ export default {
         attrs.target = '_blank'
       }
 
-      return h('q-item', {
+      return h(QItem, {
         ref: path,
+        key: path,
         props,
         attrs,
         staticClass: 'app-menu-entry non-selectable'
       }, [
         menu.icon !== void 0
-          ? h('q-item-section', {
+          ? h(QItemSection, {
             props: { avatar: true }
-          }, [ h('q-icon', { props: { name: menu.icon } }) ])
+          }, [ h(QIcon, { props: { name: menu.icon } }) ])
           : null,
 
-        h('q-item-section', [ menu.name ]),
+        h(QItemSection, [ menu.name ]),
 
         menu.badge !== void 0
-          ? h('q-item-section', {
+          ? h(QItemSection, {
             props: { side: true }
-          }, [ h('q-badge', [ menu.badge ]) ])
+          }, [ h(QBadge, [ menu.badge ]) ])
           : null
       ])
     }
   },
 
   render (h) {
-    return h('q-list', { staticClass: 'app-menu' }, Menu.map(
+    return h(QList, { staticClass: 'app-menu' }, Menu.map(
       item => this.getDrawerMenu(h, item, '/' + item.path, 0)
     ))
   },

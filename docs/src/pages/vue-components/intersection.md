@@ -1,6 +1,6 @@
 ---
 title: Intersection
-badge: v1.4.0+
+badge: v1.4+
 desc: The QIntersection vue component, a wrapper over Quasar's Intersection directive.
 related:
   - /vue-directives/intersection

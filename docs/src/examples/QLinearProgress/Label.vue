@@ -6,7 +6,7 @@
       </div>
     </q-linear-progress>
 
-    <q-linear-progress size="25px" :value="progress2" color="accent" class="q-mt-sm">
+    <q-linear-progress size="50px" :value="progress2" color="accent" class="q-mt-sm">
       <div class="absolute-full flex flex-center">
         <q-badge color="white" text-color="accent" :label="progressLabel2" />
       </div>

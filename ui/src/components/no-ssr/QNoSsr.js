@@ -1,18 +1,16 @@
 import Vue from 'vue'
 
 import CanRenderMixin from '../../mixins/can-render.js'
+import TagMixin from '../../mixins/tag.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QNoSsr',
 
-  mixins: [ CanRenderMixin ],
+  mixins: [ CanRenderMixin, TagMixin ],
 
   props: {
-    tag: {
-      type: String,
-      default: 'div'
-    },
     placeholder: String
   },
 

@@ -409,7 +409,7 @@ function printModifiers ({ modifiers }) {
   for (let modifierName in modifiers) {
     const modifier = modifiers[modifierName]
     console.log('\n   ' + chalk.green(modifierName))
-    printProp(modifier, void 0, 5)
+    printProp(modifier, modifierName, 5)
   }
 }
 
@@ -499,7 +499,7 @@ async function run () {
         openBrowser({ url: api.meta.docsUrl, wait: false })
       }
       else {
-        console.log(` Opening the docs URL also requires "quasar" v1.5.0+`)
+        console.log(` Opening the docs URL also requires "quasar" v1.5+`)
         console.log()
       }
     }

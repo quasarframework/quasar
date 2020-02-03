@@ -40,6 +40,14 @@ In the second row in the example below, the property `keep-color` is being used 
 
 <doc-example title="On a dark background" file="QCheckbox/OnDarkBackground" dark />
 
+### Sizes
+
+<q-badge label="v1.8+" />
+
+Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).
+
+<doc-example title="Standard sizes" file="QCheckbox/StandardSizes" />
+
 ### Indeterminate state
 
 In the example below, as soon as you click on the first checkbox it starts toggling between true/false. The second checkbox, on the other hand toggles between the three states (indeterminate/true/false) with help from `toggle-indeterminate`. You can optionally set the property `indeterminate-value`, otherwise the indeterminate value will be considered `null`.

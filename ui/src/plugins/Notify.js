@@ -5,6 +5,7 @@ import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 
 import clone from '../utils/clone.js'
+import { noop } from '../utils/event.js'
 import { isSSR } from './Platform.js'
 
 let uid = 0
@@ -123,7 +124,7 @@ const Notifications = {
       }
 
       notif.staticClass = [
-        `q-notification row items-center`,
+        `q-notification row items-stretch`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
         `q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}`,
@@ -168,7 +169,7 @@ const Notifications = {
 
       return h('transition-group', {
         key: pos,
-        staticClass: `q-notifications__list q-notifications__list--${vert} fixed column ${classes}`,
+        staticClass: `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`,
         tag: 'div',
         props: {
           name: `q-notification--${pos}`,
@@ -219,13 +220,13 @@ const Notifications = {
 
         const child = [
           h('div', {
-            staticClass: 'row items-center ' + (notif.multiLine === true ? 'col-all' : 'col')
+            staticClass: 'row items-center ' + (notif.multiLine === true ? '' : 'col')
           }, mainChild)
         ]
 
         notif.actions !== void 0 && child.push(
           h('div', {
-            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine === true ? 'col-all justify-end' : 'col-auto')
+            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine === true ? 'justify-end' : 'col-auto')
           }, notif.actions.map(action => h(QBtn, {
             props: { flat: true, ...action },
             on: { click: action.handler }
@@ -236,7 +237,11 @@ const Notifications = {
           ref: `notif_${notif.__uid}`,
           key: notif.__uid,
           staticClass: notif.staticClass
-        }, child)
+        }, [
+          h('div', {
+            staticClass: 'col relative-position ' + (notif.multiLine === true ? 'column no-wrap justify-center' : 'row items-center')
+          }, child)
+        ])
       }))
     }))
   }
@@ -244,7 +249,7 @@ const Notifications = {
 
 export default {
   create (opts) {
-    if (isSSR === true) { return () => {} }
+    if (isSSR === true) { return noop }
     return this.__vm.add(opts)
   },
   setDefaults (opts) {
@@ -253,8 +258,8 @@ export default {
 
   install ({ cfg, $q }) {
     if (isSSR === true) {
-      $q.notify = () => {}
-      $q.notify.setDefaults = () => {}
+      $q.notify = noop
+      $q.notify.setDefaults = noop
       return
     }
 

@@ -460,6 +460,18 @@
       "category": "selection"
     },
 
+    "expanded": {
+      "type": "Array",
+      "desc": "Keeps the array with expanded rows keys",
+      "sync": true,
+      "default": "[]",
+      "examples": [
+        ":expanded.sync=\"expanded\""
+      ],
+      "category": "expansion",
+      "addedIn": "v1.8.3"
+    },
+
     "sort-method": {
       "type": "Function",
       "desc": "The actual sort mechanism. Function (rows, sortBy, descending) => sorted rows; For best performance, reference it from your scope and do not define it inline",
@@ -489,6 +501,13 @@
         "(see source code)"
       ],
       "category": "sorting"
+    }
+  },
+
+  "slots": {
+    "loading": {
+      "desc": "Override default effect when table is in loading state; Suggestion: QInnerLoading",
+      "addedIn": "v1.8.0"
     }
   },
 
@@ -1370,6 +1389,20 @@
       }
     },
 
+    "update:expanded": {
+      "desc": "Used by Vue on 'expanded.sync' prop for updating its value",
+      "params": {
+        "newExpanded": {
+          "type": "Array",
+          "desc": "The updated expanded array",
+          "examples": [
+            "[ 'row-a', 'row-b' ]"
+          ]
+        }
+      },
+      "addedIn": "v1.8.3"
+    },
+
     "virtual-scroll": {
       "desc": "Emitted when the virtual scroll occurs, if using virtual scroll",
       "params": {
@@ -1544,11 +1577,45 @@
           "required": true,
           "examples": [ "calories" ]
         }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is row selected or not?"
       }
     },
 
     "clearSelection": {
       "desc": "Clears user selection (emits 'update:selected' with empty array)"
+    },
+
+    "isRowExpanded": {
+      "desc": "Determine if a row is expanded or not",
+      "params": {
+        "key": {
+          "type": "Any",
+          "desc": "Row key value",
+          "required": true,
+          "examples": [ "calories" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Is row expanded or not?"
+      },
+      "addedIn": "v1.8.3"
+    },
+
+    "setExpanded": {
+      "desc": "Sets the expanded rows keys array; Especially useful if not using an external 'expanded' state otherwise just emits 'update:expanded' with the value",
+      "params": {
+        "expanded": {
+          "type": "Array",
+          "desc": "Array containing keys of the expanded rows",
+          "required": true,
+          "examples": [ "[ 'row-a', 'row-b' ]" ]
+        }
+      },
+      "addedIn": "v1.8.3"
     },
 
     "sort": {

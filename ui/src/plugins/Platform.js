@@ -8,6 +8,9 @@ export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
 export let onSSR = isSSR
 
+export let iosEmulated = false
+export let iosCorrection
+
 function getMatch (userAgent, platformMatch) {
   const match = /(edge|edga|edgios)\/([\w.]+)/.exec(userAgent) ||
     /(opr)[\/]([\w.]+)/.exec(userAgent) ||
@@ -48,6 +51,28 @@ function getPlatformMatch (userAgent) {
     /(bb)/.exec(userAgent) ||
     /(blackberry)/.exec(userAgent) ||
     []
+}
+
+const hasTouch = isSSR === false
+  ? 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
+  : false
+
+function applyIosCorrection (is) {
+  iosCorrection = { is: Object.assign({}, is) }
+
+  delete is.mac
+  delete is.desktop
+
+  const platform = Math.min(window.innerHeight, window.innerWidth) > 414
+    ? 'ipad'
+    : 'iphone'
+
+  Object.assign(is, {
+    mobile: true,
+    ios: true,
+    platform,
+    [ platform ]: true
+  })
 }
 
 function getPlatform (userAgent) {
@@ -196,6 +221,21 @@ function getPlatform (userAgent) {
       browser.nativeMobile = true
       browser.nativeMobileWrapper = 'cordova'
     }
+    else if (
+      hasTouch === true &&
+      browser.desktop === true &&
+      browser.mac === true &&
+      browser.safari === true
+    ) {
+      /*
+       * Correction needed for iOS since the default
+       * setting on iPad is to request desktop view; if we have
+       * touch support and the user agent says it's a
+       * desktop, we infer that it's an iPhone/iPad with desktop view
+       * so we must fix the false positives
+       */
+      applyIosCorrection(browser)
+    }
 
     fromSSR = browser.nativeMobile === void 0 &&
       browser.electron === void 0 &&
@@ -231,9 +271,7 @@ export const client = isSSR === false
     userAgent,
     is: getPlatform(userAgent),
     has: {
-      touch: (() => 'ontouchstart' in window ||
-        window.navigator.maxTouchPoints > 0
-      )(),
+      touch: hasTouch,
       webStorage: (() => {
         try {
           if (window.localStorage) {
@@ -264,7 +302,7 @@ const Platform = {
       // must match with server-side before
       // client taking over in order to prevent
       // hydration errors
-      Object.assign(this, client, ssrClient)
+      Object.assign(this, client, iosCorrection, ssrClient)
 
       // takeover should increase accuracy for
       // the rest of the props; we also avoid
@@ -272,6 +310,7 @@ const Platform = {
       queues.takeover.push(q => {
         onSSR = fromSSR = false
         Object.assign(q.platform, client)
+        iosCorrection = void 0
       })
 
       // we need to make platform reactive
@@ -296,6 +335,10 @@ if (isSSR === true) {
       is: getPlatform(userAgent)
     }
   }
+}
+else {
+  iosEmulated = client.is.ios === true &&
+    window.navigator.vendor.toLowerCase().indexOf('apple') === -1
 }
 
 export default Platform

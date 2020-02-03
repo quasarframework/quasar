@@ -3,12 +3,13 @@ const packageName = 'eva-icons'
 // ------------
 
 const glob = require('glob')
-const fse = require('fs-extra')
+const { copySync } = require('fs-extra')
 const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
 let skipped = []
 const dist = resolve(__dirname, `../eva-icons/index.js`)
+const { parseSvgContent } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/`)
 const iconTypes = ['fill', 'outline']
@@ -24,13 +25,13 @@ function extract (file) {
   const content = readFileSync(file, 'utf-8')
 
   try {
-    const dPath = content.match(/ d="([\w ,\.-]+)"/)[1]
-    const viewBox = content.match(/viewBox="([0-9 ]+)"/)[1]
+    const { dPath, viewBox } = parseSvgContent(name, content)
 
     iconNames.add(name)
-    return `export const ${name} = '${dPath}${viewBox !== '0 0 24 24' ? `|${viewBox}` : ''}'`
+    return `export const ${name} = '${dPath}${viewBox}'`
   }
   catch (err) {
+    console.error(err)
     skipped.push(name)
     return null
   }
@@ -70,7 +71,7 @@ const webfont = [
 ]
 
 webfont.forEach(file => {
-  fse.copySync(
+  copySync(
     resolve(__dirname, `../node_modules/${packageName}/style/fonts/${file}`),
     resolve(__dirname, `../eva-icons/${file}`)
   )

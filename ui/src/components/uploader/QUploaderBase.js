@@ -1,16 +1,21 @@
+import Vue from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
+import FileMixin from '../../mixins/file.js'
 import DarkMixin from '../../mixins/dark.js'
 
-import { stop, stopAndPrevent } from '../../utils/event.js'
+import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
 import { cache } from '../../utils/vm.js'
 
-export default {
-  mixins: [ DarkMixin ],
+export default Vue.extend({
+  name: 'QUploaderBase',
+
+  mixins: [ DarkMixin, FileMixin ],
 
   props: {
     label: String,
@@ -22,11 +27,6 @@ export default {
     flat: Boolean,
     bordered: Boolean,
 
-    multiple: Boolean,
-    accept: String,
-    maxFileSize: Number,
-    maxTotalSize: Number,
-    filter: Function,
     noThumbnails: Boolean,
     autoUpload: Boolean,
     hideUploadBtn: Boolean,
@@ -129,19 +129,6 @@ export default {
   },
 
   methods: {
-    pickFiles (e) {
-      if (this.editable) {
-        const input = this.__getFileInput()
-        input && input.click(e)
-      }
-    },
-
-    addFiles (files) {
-      if (this.editable && files) {
-        this.__addFiles(null, files)
-      }
-    },
-
     reset () {
       if (!this.disable) {
         this.abort()
@@ -233,61 +220,11 @@ export default {
       this.$forceUpdate()
     },
 
-    __addFiles (e, files) {
-      files = Array.prototype.slice.call(files || e.target.files)
+    __addFiles (e, fileList) {
+      const files = this.__processFiles(e, fileList)
       this.__getFileInput().value = ''
 
-      // make sure we don't duplicate files
-      files = files.filter(file => !this.files.some(f => file.name === f.name))
-      if (files.length === 0) { return }
-
-      // filter file types
-      if (this.accept !== void 0) {
-        files = Array.prototype.filter.call(files, file => {
-          return this.extensions.some(ext => (
-            file.type.toUpperCase().startsWith(ext.toUpperCase()) ||
-            file.name.toUpperCase().endsWith(ext.toUpperCase())
-          ))
-        })
-        if (files.length === 0) { return }
-      }
-
-      // filter max file size
-      if (this.maxFileSize !== void 0) {
-        files = Array.prototype.filter.call(files, file => file.size <= this.maxFileSize)
-        if (files.length === 0) { return }
-      }
-
-      // Cordova/iOS allows selecting multiple files even when the
-      // multiple attribute is not specified. We also normalize drag'n'dropped
-      // files here:
-      if (this.multiple !== true) {
-        files = [ files[0] ]
-      }
-
-      if (this.maxTotalSize !== void 0) {
-        let size = 0
-        for (let i = 0; i < files.length; i++) {
-          size += files[i].size
-          if (size > this.maxTotalSize) {
-            if (i > 0) {
-              files = files.slice(0, i - 1)
-              break
-            }
-            else {
-              return
-            }
-          }
-        }
-        if (files.length === 0) { return }
-      }
-
-      // do we have custom filter function?
-      if (typeof this.filter === 'function') {
-        files = this.filter(files)
-      }
-
-      if (files.length === 0) { return }
+      if (files === void 0) { return }
 
       let filesReady = [] // List of image load promises
 
@@ -318,27 +255,6 @@ export default {
         this.$emit('added', files)
         this.autoUpload === true && this.upload()
       })
-    },
-
-    __onDragOver (e) {
-      stopAndPrevent(e)
-      this.dnd = true
-    },
-
-    __onDragLeave (e) {
-      stopAndPrevent(e)
-      this.dnd = false
-    },
-
-    __onDrop (e) {
-      stopAndPrevent(e)
-      let files = e.dataTransfer.files
-
-      if (files.length > 0) {
-        this.__addFiles(null, files)
-      }
-
-      this.dnd = false
     },
 
     __getBtn (h, show, icon, fn) {
@@ -499,15 +415,7 @@ export default {
         staticClass: 'q-uploader__list scroll'
       }, this.__getList(h)),
 
-      this.dnd === true ? h('div', {
-        staticClass: 'q-uploader__dnd absolute-full',
-        on: cache(this, 'dnd', {
-          dragenter: stopAndPrevent,
-          dragover: stopAndPrevent,
-          dragleave: this.__onDragLeave,
-          drop: this.__onDrop
-        })
-      }) : null,
+      this.__getDnd(h, 'uploader'),
 
       this.isBusy === true ? h('div', {
         staticClass: 'q-uploader__overlay absolute-full flex flex-center'
@@ -516,4 +424,4 @@ export default {
       ]) : null
     ])
   }
-}
+})

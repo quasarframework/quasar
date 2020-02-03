@@ -11,6 +11,62 @@ Internationalization is a design process that ensures a product (a website or ap
 The recommended package for handling website/app is [vue-i18n](https://github.com/kazupon/vue-i18n). This package should be added through a [Boot File](/quasar-cli/cli-documentation/boot-files). On the Boot File documentation page you can see a specific example for plugging in vue-i18n.
 :::
 
+## Setup manually
+
+If you missed enabling i18n during `quasar create` wizard, here is how you can set it up manually.
+
+1. Install the `vue-i18n` dependency into your app.
+
+```bash
+$ yarn add vue-i18n
+// or:
+$ npm install vue-i18n
+```
+
+2. Create a file `src/boot/i18n.js` with following content:
+
+```js
+import Vue from 'vue'
+import VueI18n from 'vue-i18n'
+
+import messages from 'src/i18n'
+
+Vue.use(VueI18n)
+
+const i18n = new VueI18n({
+  locale: 'en-us',
+  fallbackLocale: 'en-us',
+  messages
+})
+
+export default ({ app }) => {
+  // Set i18n instance on app
+  app.i18n = i18n
+}
+
+// if you need to import it from
+// other files, then:
+export { i18n }
+```
+
+3. Create a folder (/src/i18n/) in your app which will hold the definitions for each language that you'll support. Example: [src/i18n](https://github.com/quasarframework/quasar-starter-kit/tree/master/template/src/i18n). Notice the "import messages from 'src/i18n'" from step 2. This is step where you write the content that gets imported.
+
+4. Now reference this file in `quasar.config.js` in the `boot` section:
+
+```js
+// quasar.conf.js
+return {
+  boot: [
+    // ...
+    'i18n'
+  ],
+
+  // ...
+}
+```
+
+Now you are ready to use it in your pages.
+
 ## Setting up Translation Blocks in your SFCs
 The following is an example recipe for using **vue-i18n** embedded `<i18n>` template components in your vue files with **vue-i18n-loader**, which you have to add in your `quasar.conf.js`. In this case the translations are stored in yaml format in the block.
 
@@ -30,6 +86,92 @@ build: {
     ...
   }
 }
+```
+
+## How to use
+
+There are 3 main cases:
+
+```html
+<template>
+  <q-page>
+    <q-btn :label="$t('mykey2')">
+    {{ $t('mykey1') }}
+    <span v-html="content"></span>
+  </q-page>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      content: this.$t('mykey3')
+    }
+  }
+}
+</script>
+```
+
+1. `mykey1` in HTML body
+2. `mykey2` in attribute
+3. `mykey3` programmatically
+
+## Add new language
+
+Let's say you want to add new German language.
+
+1. Create the new file `src/i18n/de/index.js` and copy there the content of the file `src/i18n/en-us/index.js` then make changes to the language strings.
+2. Now change `src/i18n/index.js` and add the new `de` language there.
+
+```js
+import enUS from './en-us'
+import de from './de'
+
+export default {
+  'en-us': enUS,
+  de: de
+}
+```
+
+## Create language switcher
+
+```html
+<!-- some .vue file -->
+
+<template>
+  <!-- ...... -->
+  <q-select
+    v-model="lang"
+    :options="langOptions"
+    label="Quasar Language"
+    dense
+    borderless
+    emit-value
+    map-options
+    options-dense
+    style="min-width: 150px"
+  />
+  <!-- ...... -->
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      lang: this.$i18n.locale,
+      langOptions: [
+        { value: 'en-us', label: 'English' },
+        { value: 'de', label: 'German' }
+      ]
+    }
+  },
+  watch: {
+    lang(lang) {
+      this.$i18n.locale = lang
+    }
+  }
+}
+</script>
 ```
 
 ## UPPERCASE

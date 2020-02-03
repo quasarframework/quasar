@@ -15,7 +15,10 @@ Scroll this page to see the example below in action.
 <doc-example title="Basic" file="QScrollObserver/Basic" />
 
 ## Determining Scrolling Container
-All components or directives in Quasar have a simple algorithm to determine the container that supports the scroll: it searches for a parent DOM element which has the `scroll` Quasar CSS Helper class attached to it. If none is found, then it considers that the scrolling takes place on the document itself.
+All components or directives in Quasar have a simple algorithm to determine the container that supports the scroll:
+- if a `scroll-target` property is available on the component then it tries to use it as scroll container
+- then it searches for a parent DOM element which has the `scroll`, `scroll-y` or `overflow-auto` Quasar CSS helper classes attached to it,
+- if none is found, then it considers that the scrolling takes place on the document itself.
 
 Components like [QScrollArea](/vue-components/scroll-area), for example, respect this design and have the `scroll` class embedded into it, so that QScrollObservable (or any other scrolling component or directive) can successfully detect it and attach the necessary event handlers to it.
 

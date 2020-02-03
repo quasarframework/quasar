@@ -58,7 +58,7 @@
 
             q-btn(
               fab
-              icon="map"
+              :icon="mdiMapMarkerRadius"
               color="accent"
               :text-color="dark.accent === true ? 'white' : 'black'"
               class="absolute"
@@ -109,15 +109,16 @@
 
 <script>
 import { colors } from 'quasar'
-const { setBrand, luminosity } = colors
 
 import {
   fasSquare, fasCircle, fasPlay
 } from '@quasar/extras/fontawesome-v5'
 
 import {
-  mdiArrowLeft, mdiMagnify, mdiMenu
+  mdiArrowLeft, mdiMagnify, mdiMenu, mdiMapMarkerRadius
 } from '@quasar/extras/mdi-v4'
+
+const { setBrand, luminosity } = colors
 
 export default {
   created () {
@@ -128,6 +129,7 @@ export default {
     this.mdiArrowLeft = mdiArrowLeft
     this.mdiMagnify = mdiMagnify
     this.mdiMenu = mdiMenu
+    this.mdiMapMarkerRadius = mdiMapMarkerRadius
   },
 
   data () {

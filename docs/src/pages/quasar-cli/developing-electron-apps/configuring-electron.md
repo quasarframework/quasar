@@ -33,7 +33,7 @@ electron: {
   // Example: [ '--ignore-optional', '--some-other-param' ]
   unPackagedInstallParams: [],
 
-  // Requires: @quasar/app v1.3.0+
+  // Requires: @quasar/app v1.3+
   // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
   nodeIntegration: true,
 

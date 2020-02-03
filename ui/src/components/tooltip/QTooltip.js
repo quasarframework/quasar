@@ -51,6 +51,10 @@ export default Vue.extend({
       validator: validateOffset
     },
 
+    scrollTarget: {
+      default: void 0
+    },
+
     delay: {
       type: Number,
       default: 0
@@ -170,20 +174,20 @@ export default Vue.extend({
     },
 
     __unconfigureScrollTarget () {
-      if (this.scrollTarget !== void 0) {
-        this.__changeScrollEvent(this.scrollTarget)
-        this.scrollTarget = void 0
+      if (this.__scrollTarget !== void 0) {
+        this.__changeScrollEvent(this.__scrollTarget)
+        this.__scrollTarget = void 0
       }
     },
 
     __configureScrollTarget () {
-      if (this.anchorEl !== void 0) {
-        this.scrollTarget = getScrollTarget(this.anchorEl)
+      if (this.anchorEl !== void 0 || this.scrollTarget !== void 0) {
+        this.__scrollTarget = getScrollTarget(this.anchorEl, this.scrollTarget)
         const fn = this.noParentEvent === true
           ? this.updatePosition
           : this.hide
 
-        this.__changeScrollEvent(this.scrollTarget, fn)
+        this.__changeScrollEvent(this.__scrollTarget, fn)
       }
     },
 
@@ -192,7 +196,7 @@ export default Vue.extend({
         props: { name: this.transition }
       }, [
         this.showing === true ? h('div', {
-          staticClass: 'q-tooltip no-pointer-events',
+          staticClass: 'q-tooltip q-position-engine no-pointer-events',
           class: this.contentClass,
           style: this.contentStyle,
           attrs: {
