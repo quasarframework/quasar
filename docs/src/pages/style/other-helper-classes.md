@@ -49,4 +49,5 @@ The list below is not complete. Also check the other CSS documentation pages lik
 | `no-border` | Removes any border |
 | `no-border-radius` | Removes any radius the border might have |
 | `rounded-borders` | Applies a generic border radius |
+| `borders-radius-inherit` | Inherit border radius from the parent element (**v1.9+**) |
 

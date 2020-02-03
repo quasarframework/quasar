@@ -9,47 +9,48 @@
     </div>
     <q-btn label="fullscreen" class="fixed-top-left z-top" color="purple" @click="$refs.carousel.toggleFullscreen()" />
     <q-toggle v-model="fullscreen" label="Fullscreen" class="fixed-top-right z-top" />
-    <q-carousel
-      ref="carousel"
-      transition-prev="slide-right"
-      transition-next="slide-left"
-      swipeable
-      animated
-      :fullscreen.sync="fullscreen"
-      v-model="slide"
-      control-color="primary"
-      navigation-icon="radio_button_unchecked"
-      navigation
-      padding
-      :arrows="arrows"
-      height="200px"
-      class="shadow-1 rounded-borders"
-    >
-      <q-carousel-slide :name="0" class="column no-wrap flex-center">
-        <q-icon name="style" color="primary" size="56px" />
-        <div class="q-mt-md text-center">
-          {{ lorem }}
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="1" class="column no-wrap flex-center">
-        <q-icon name="live_tv" color="primary" size="56px" />
-        <div class="q-mt-md text-center">
-          {{ lorem }}
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="2" class="column no-wrap flex-center">
-        <q-icon name="layers" color="primary" size="56px" />
-        <div class="q-mt-md text-center">
-          {{ lorem }}
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="3" class="column no-wrap flex-center">
-        <q-icon name="terrain" color="primary" size="56px" />
-        <div class="q-mt-md text-center">
-          {{ lorem }}
-        </div>
-      </q-carousel-slide>
-    </q-carousel>
+    <q-responsive :ratio="16/9">
+      <q-carousel
+        ref="carousel"
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        swipeable
+        animated
+        :fullscreen.sync="fullscreen"
+        v-model="slide"
+        control-color="primary"
+        navigation-icon="radio_button_unchecked"
+        navigation
+        padding
+        :arrows="arrows"
+        class="shadow-1 rounded-borders"
+      >
+        <q-carousel-slide :name="0" class="column no-wrap flex-center">
+          <q-icon name="style" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="1" class="column no-wrap flex-center">
+          <q-icon name="live_tv" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" class="column no-wrap flex-center">
+          <q-icon name="layers" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="3" class="column no-wrap flex-center">
+          <q-icon name="terrain" color="primary" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
+    </q-responsive>
 
     <div class="caption">
       Scroll. Padding. Video on second slide.

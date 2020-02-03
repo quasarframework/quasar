@@ -933,6 +933,11 @@ const components = [
     path: 'rating'
   },
   {
+    name: 'Responsive',
+    badge: 'new',
+    path: 'responsive'
+  },
+  {
     name: 'Scroll Area',
     path: 'scroll-area'
   },
