@@ -75,7 +75,6 @@ export default {
     el.__qclickoutside = ctx
 
     if (handlers.click.length === 0) {
-      // use click to be able to prevent click in handler
       document.addEventListener('mousedown', globalHandler, notPassiveCapture)
       document.addEventListener('touchstart', globalHandler, notPassiveCapture)
       document.addEventListener('focusin', globalHandler, passiveCapture)

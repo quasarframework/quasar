@@ -7,15 +7,15 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-free/-/fontawesome-free-5.12.0.tgz#8ceb9f09edfb85ea18a6c7bf098f6f5dd5ffd62b"
   integrity sha512-vKDJUuE2GAdBERaQWmmtsciAMzjwNrROXA5KTGSZvayAsmuTGjam5z6QNqNPCwDfVljLWuov1nEC3mEQf/n6fQ==
 
-"@mdi/font@^4.7.95":
-  version "4.7.95"
-  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.7.95.tgz#46fddf35aad64dd623a8b1837f78ca4ed7bc48b1"
-  integrity sha512-/SWooHIFz2dXkQJk3VhEXSbBplOU1lIkGSELAmw0peFEgR8KPqyM//M3vD8WDZETuEOSRVhVqLevP3okrsM5dw==
+"@mdi/font@^4.8.95":
+  version "4.8.95"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-4.8.95.tgz#e026255815fbac2d5155fdf5cd3069b8dc599900"
+  integrity sha512-mfEjd6kkuheZ15CBU7g/q+De9+dah/SEgVH0uZsgCJTSYa+CkXIen35aNyHoixgcEfPV4Or0NLJvyYM5CXUnbQ==
 
-"@mdi/svg@4.7.95":
-  version "4.7.95"
-  resolved "https://registry.yarnpkg.com/@mdi/svg/-/svg-4.7.95.tgz#52eb856be80a6fd7021674d4193c6ff21b5d066c"
-  integrity sha512-zvOaCRMmK9lYJ+k6QCiREoyR/pqytWgQD+/ZjtbzxTHkKkriJN1oUWjL1BqSNOGJWB5nzS1Kkq8gFr9SXpVfQA==
+"@mdi/svg@4.8.95":
+  version "4.8.95"
+  resolved "https://registry.yarnpkg.com/@mdi/svg/-/svg-4.8.95.tgz#a48c3cb027bca12a3aa73ad3ef686d0284251109"
+  integrity sha512-jG+e5B8Y3/vlGWtpKHvDXUCl/evd782GQ4x2Zfpdi6oexZELy+euaXfZNKlqWGUbXVAxqSHyBo6nyAsn60UB5A==
 
 animate.css@^3.7.2:
   version "3.7.2"
@@ -181,3 +181,8 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha1-tSQ9jz7BqjXxNkYFvA0QNuMKtp8=
+
+xmldom@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/xmldom/-/xmldom-0.2.1.tgz#cac9465066f161e1c3302793ea4dbe59c518274f"
+  integrity sha512-kXXiYvmblIgEemGeB75y97FyaZavx6SQhGppLw5TKWAD2Wd0KAly0g23eVLh17YcpxZpnFym1Qk/eaRjy1APPg==
