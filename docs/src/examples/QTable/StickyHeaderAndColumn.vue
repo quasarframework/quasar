@@ -170,13 +170,12 @@ export default {
 
 <style lang="sass">
 .my-sticky-header-column-table
+  /* height or max-height is important */
+  height: 310px
+
   /* specifying max-width so the example can
     highlight the sticky column on any browser window */
   max-width: 600px
-
-  /* max height is important */
-  .q-table__middle
-    max-height: 200px
 
   td:first-child
     /* bg color is important for td; just specify one */

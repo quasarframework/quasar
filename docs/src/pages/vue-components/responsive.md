@@ -38,6 +38,8 @@ Below are just a few examples. QResponsive is not restricted to only QCard and Q
 
 <doc-example title="On QCardSection" file="QResponsive/CardSection" />
 
+<doc-example title="On QTable" file="QResponsive/Table" />
+
 Notice that we will not supply a `height` prop to QCarousel when we use QResponsive on it, since it's QResponsive who will take care of that.
 
 <doc-example title="On QCarousel" file="QResponsive/Carousel" />

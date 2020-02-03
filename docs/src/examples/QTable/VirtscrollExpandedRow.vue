@@ -1,12 +1,12 @@
 <template>
   <div class="q-pa-md">
     <q-table
+      style="height: 400px"
       ref="table"
       title="Treats"
       :data="data"
       :columns="columns"
       row-key="index"
-      table-style="max-height: 400px"
       virtual-scroll
       :virtual-scroll-item-size="48"
       :pagination="pagination"

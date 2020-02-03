@@ -1,39 +1,40 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      title="Treats"
-      :data="data"
-      :columns="columns"
-      row-key="index"
-      no-hover
-      table-style="max-height: 400px"
-      virtual-scroll
-      :virtual-scroll-item-size="48"
-      @virtual-scroll="onScroll"
-      ref="table"
-      :pagination="pagination"
-      :rows-per-page-options="[0]"
-      :expanded.sync="expanded"
-    >
-      <template v-slot:body="props">
-        <q-tr :props="props" :key="`m_${props.row.index}`" no-hover>
-          <q-td auto-width>
-            <q-toggle dense v-model="props.expand" :label="`Row: ${props.row.index}`" />
-          </q-td>
-          <q-td key="name" :props="props">
-            {{ props.row.name }}
-          </q-td>
-          <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
-        </q-tr>
-        <q-tr v-show="props.expand" :props="props" :key="`e_${props.row.index}`" no-hover class="q-virtual-scroll--with-prev">
-          <q-td colspan="100%">
-            <div class="q-pl-xl">
-              Row: {{ props.row.index }} - Fat: {{ props.row.fat }}
-            </div>
-          </q-td>
-        </q-tr>
-      </template>
-    </q-table>
+    <q-responsive :ratio="4/3" style="max-width: 700px">
+      <q-table
+        title="Treats; ratio 4/3"
+        :data="data"
+        :columns="columns"
+        row-key="index"
+        no-hover
+        virtual-scroll
+        :virtual-scroll-item-size="48"
+        @virtual-scroll="onScroll"
+        ref="table"
+        :pagination="pagination"
+        :rows-per-page-options="[0]"
+        :expanded.sync="expanded"
+      >
+        <template v-slot:body="props">
+          <q-tr :props="props" :key="`m_${props.row.index}`" no-hover>
+            <q-td auto-width>
+              <q-toggle dense v-model="props.expand" :label="`Row: ${props.row.index}`" />
+            </q-td>
+            <q-td key="name" :props="props">
+              {{ props.row.name }}
+            </q-td>
+            <q-td key="calories" :props="props">{{ props.row.calories }}</q-td>
+          </q-tr>
+          <q-tr v-show="props.expand" :props="props" :key="`e_${props.row.index}`" no-hover class="q-virtual-scroll--with-prev">
+            <q-td colspan="100%">
+              <div class="q-pl-xl">
+                Row: {{ props.row.index }} - Fat: {{ props.row.fat }}
+              </div>
+            </q-td>
+          </q-tr>
+        </template>
+      </q-table>
+    </q-responsive>
   </div>
 </template>
 

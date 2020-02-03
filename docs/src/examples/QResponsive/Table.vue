@@ -1,54 +1,18 @@
 <template>
   <div class="q-pa-md">
-    <q-table
-      style="height: 400px"
-      ref="table"
-      title="Treats"
-      :data="data"
-      :columns="columns"
-      row-key="index"
-      virtual-scroll
-      :virtual-scroll-item-size="48"
-      :pagination="pagination"
-      :rows-per-page-options="[0]"
-    >
-
-      <template v-slot:header="props">
-        <q-tr :props="props">
-          <q-th />
-
-          <q-th
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.label }}
-          </q-th>
-        </q-tr>
-      </template>
-
-      <template v-slot:body="props">
-        <q-tr :props="props" :key="`m_${props.row.index}`">
-          <q-td>
-            Index: {{ props.row.index }}
-          </q-td>
-
-          <q-td
-            v-for="col in props.cols"
-            :key="col.name"
-            :props="props"
-          >
-            {{ col.value }}
-          </q-td>
-        </q-tr>
-        <q-tr :props="props" :key="`e_${props.row.index}`" class="q-virtual-scroll--with-prev">
-          <q-td colspan="100%">
-            <div class="text-left">This is the second row generated from the same data: {{ props.row.name }} (Index: {{ props.row.index }}).</div>
-          </q-td>
-        </q-tr>
-      </template>
-
-    </q-table>
+    <q-responsive :ratio="16/9">
+      <q-table
+        class="my-sticky-table"
+        virtual-scroll
+        :pagination.sync="pagination"
+        :rows-per-page-options="[0]"
+        :virtual-scroll-sticky-size-start="48"
+        row-key="index"
+        title="Table aspect ratio: 4/3"
+        :data="data"
+        :columns="columns"
+      />
+    </q-responsive>
   </div>
 </template>
 
@@ -156,20 +120,37 @@ const seed = [
   }
 ]
 
-const seedSize = seed.length
-
+// we generate lots of rows here
 let data = []
-for (let i = 0; i < 1000; i++) {
-  data = data.concat(seed.map((r, j) => ({ ...r, index: i * seedSize + j + 1 })))
+for (let i = 0; i < 100; i++) {
+  data = data.concat(seed.slice(0).map(r => ({ ...r })))
 }
+data.forEach((row, index) => {
+  row.index = index
+})
+
+// we are not going to change this array,
+// so why not freeze it to avoid Vue adding overhead
+// with state change detection
 Object.freeze(data)
 
 export default {
   data () {
     return {
+      data,
+
+      pagination: {
+        rowsPerPage: 0
+      },
+
       columns: [
         {
-          name: 'desc',
+          name: 'index',
+          label: '#',
+          field: 'index'
+        },
+        {
+          name: 'name',
           required: true,
           label: 'Dessert (100g serving)',
           align: 'left',
@@ -178,24 +159,32 @@ export default {
           sortable: true
         },
         { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true, style: 'width: 10px' },
+        { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
         { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
         { name: 'protein', label: 'Protein (g)', field: 'protein' },
         { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
         { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
         { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
-      ],
-
-      pagination: {
-        rowsPerPage: 0
-      },
-
-      data
+      ]
     }
-  },
-
-  mounted () {
-    this.$refs.table.$refs.virtScroll.scrollTo(5000)
   }
 }
 </script>
+
+<style lang="sass">
+.my-sticky-table
+  .q-table__top,
+  .q-table__bottom,
+  thead tr:first-child th /* bg color is important for th; just specify one */
+    background-color: #fff
+
+  thead tr th
+    position: sticky
+    z-index: 1
+  /* this will be the loading indicator */
+  thead tr:last-child th
+    /* height of all previous header rows */
+    top: 48px
+  thead tr:first-child th
+    top: 0
+</style>
