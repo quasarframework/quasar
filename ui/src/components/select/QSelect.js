@@ -170,6 +170,12 @@ export default Vue.extend({
         (this.popupContentClass ? ' ' + this.popupContentClass : '')
     },
 
+    optionValueKey () {
+      return typeof this.optionValue === 'string'
+        ? this.optionValue
+        : 'value'
+    },
+
     innerValue () {
       const
         mapNull = this.mapOptions === true && this.multiple !== true,
@@ -450,10 +456,8 @@ export default Vue.extend({
       if (typeof this.optionValue === 'function') {
         return this.optionValue(opt)
       }
-      if (Object(opt) === opt) {
-        return typeof this.optionValue === 'string'
-          ? opt[this.optionValue]
-          : opt.value
+      if (Object(opt) === opt && this.optionValueKey in opt) {
+        return opt[this.optionValueKey]
       }
       return opt
     },
@@ -761,6 +765,25 @@ export default Vue.extend({
             keypress: this.__onTargetKeypress
           })
         }))
+      }
+
+      if (this.disable !== true && this.innerValue.length > 0) {
+        const options = this.innerValue
+          .filter(value => Object(value) !== value)
+          .map(value => h('option', {
+            domProps: {
+              value,
+              selected: true
+            }
+          }))
+
+        child.push(h('select', {
+          staticClass: 'hidden',
+          attrs: {
+            name: this.targetUid,
+            multiple: this.multiple
+          }
+        }, options))
       }
 
       return h('div', { staticClass: 'q-field__native row items-center', attrs: this.$attrs }, child)

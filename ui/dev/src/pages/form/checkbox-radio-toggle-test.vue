@@ -4,26 +4,57 @@
     <q-toggle v-model="disable" label="Disable" :dark="dark" />
     <q-toggle v-model="dark" label="Dark" :dark="dark" :false-value="null" />
 
-    <div class="q-my-lg">
-      <q-radio v-model="option" val="opt1" :disable="disable" :dark="dark" color="primary" label="Disabled Option 1" :keep-color="keepColor" />
-      <q-radio v-model="option" val="opt2" :disable="disable" :dark="dark" color="accent" label="Disabled Option 2" :keep-color="keepColor" />
-      <q-radio v-model="option" val="opt3" :disable="disable" :dark="dark" color="teal" label="Disabled Option 3" :keep-color="keepColor" />
-    </div>
+    <q-card tag="form" @submit.prevent="onSubmit" :dark="dark" :disabled="disable">
+      <q-card-section>
+        <div class="q-mb-lg row q-col-gutter-x-md">
+          <q-select filled class="col" for="select1" v-model="select1" dense :options="options" :dark="dark" :disable="disable" label="Single" clearable />
+          <q-select filled class="col" for="select2" v-model="select2" dense :options="options" :dark="dark" :disable="disable" label="Multiple" multiple clearable />
+        </div>
 
-    <div class="q-my-lg">
-      <q-checkbox v-model="checked" :disable="disable" :dark="dark" color="primary" label="Disabled Checkbox" :keep-color="keepColor" />
-      <q-checkbox v-model="checked2" :disable="disable" :dark="dark" color="accent" label="Disabled Checkbox" :keep-color="keepColor" />
-      <q-checkbox v-model="checked3" :disable="disable" :dark="dark" color="teal" label="Disabled Checkbox" :keep-color="keepColor" />
-    </div>
+        <div class="q-mb-lg row q-col-gutter-x-md">
+          <q-input filled class="col" for="text1" v-model="text1" dense :dark="dark" :disable="disable" clearable label="Text" />
+          <q-input filled class="col" for="textarea1" v-model="text2" dense :dark="dark" :disable="disable" clearable type="textarea" autogrow label="Textarea" />
+          <q-file filled class="col" for="file1" v-model="file" dense :dark="dark" :disable="disable" clearable label="File" />
+        </div>
 
-    <div class="q-my-lg">
-      <q-toggle v-model="checked" :disable="disable" :dark="dark" color="primary" label="Toggle Label" :keep-color="keepColor" />
-      <q-toggle v-model="checked2" :disable="disable" :dark="dark" color="accent" label="Toggle Label" :keep-color="keepColor" />
-      <q-toggle v-model="checked3" :disable="disable" :dark="dark" color="teal" label="Toggle Label" :keep-color="keepColor" />
-    </div>
+        <div class="q-my-lg">
+          <q-radio name="radio1" v-model="option" val="opt1" :disable="disable" :dark="dark" color="primary" :label="`${disable ? 'Disabled ' : ''}Option 1`" :keep-color="keepColor" />
+          <q-radio name="radio1" v-model="option" val="opt2" :disable="disable" :dark="dark" color="accent" :label="`${disable ? 'Disabled ' : ''}Option 2`" :keep-color="keepColor" />
+          <q-radio name="radio1" v-model="option" val="opt3" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Option 3`" :keep-color="keepColor" />
+          <q-radio name="radio1" v-model="option" :val="trueValue" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Option Obj`" :keep-color="keepColor" />
+        </div>
 
-    <div class="row items-center q-mb-md">
-      <span class="text-h6 q-mr-md">Sizes</span> 
+        <div class="q-my-lg">
+          <q-checkbox name="checkbox1" v-model="checked" :disable="disable" :dark="dark" color="primary" :label="`${disable ? 'Disabled ' : ''}Checkbox`" :keep-color="keepColor" />
+          <q-checkbox name="checkbox2" v-model="checked2" :true-value="2" :disable="disable" :dark="dark" color="accent" :label="`${disable ? 'Disabled ' : ''}Checkbox`" :keep-color="keepColor" />
+          <q-checkbox name="checkbox3" v-model="checked3" :true-value="3" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Checkbox`" :keep-color="keepColor" />
+          <q-checkbox name="checkbox4" v-model="checked4" :true-value="trueValue" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Checkbox Obj`" :keep-color="keepColor" />
+        </div>
+
+        <div class="q-my-lg">
+          <q-toggle name="toggle1" v-model="checked" :disable="disable" :dark="dark" color="primary" :label="`${disable ? 'Disabled ' : ''}Toggle Label`" :keep-color="keepColor" />
+          <q-toggle name="toggle2" v-model="checked2" :true-value="2" :disable="disable" :dark="dark" color="accent" :label="`${disable ? 'Disabled ' : ''}Toggle Label`" :keep-color="keepColor" />
+          <q-toggle name="toggle3" v-model="checked3" :true-value="3" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Toggle Label`" :keep-color="keepColor" />
+          <q-toggle name="toggle4" v-model="checked4" :true-value="trueValue" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Toggle Label Obj`" :keep-color="keepColor" />
+        </div>
+      </q-card-section>
+
+      <q-card-actions>
+        <q-btn color="primary" type="submit" label="Submit" class="q-px-md" />
+        <div class="col row q-gutter-sm items-center q-pl-sm">
+          <div
+            v-for="(item, index) in submitResult"
+            :key="index"
+            class="col-grow q-px-sm q-py-xs bg-grey-8 text-white rounded-borders text-center text-no-wrap"
+          >
+            {{ item.name }} = {{ item.value }}
+          </div>
+        </div>
+      </q-card-actions>
+    </q-card>
+
+    <div class="row items-center q-my-md">
+      <span class="text-h6 q-mr-md">Sizes</span>
       <div>
         ( <q-toggle v-model="dense" label="Dense" :dark="dark" /> )
       </div>
@@ -104,11 +135,38 @@ export default {
       checked: true,
       checked2: false,
       checked3: false,
+      checked4: false,
 
-      option: 'opt1'
+      trueValue: {
+        value: true
+      },
+
+      option: 'opt1',
+
+      select1: null,
+      select2: null,
+      options: [ 'Option 1', 'Option 2', { label: 'Option 3 - Obj' }, { label: 'Option 4 - Obj' } ],
+
+      text1: '1',
+      text2: '2',
+
+      file: null,
+
+      submitResult: null
     }
   },
   methods: {
+    onSubmit (evt) {
+      const formData = new FormData(evt.target)
+      const submitResult = []
+      for (const [ name, value ] of formData.entries()) {
+        submitResult.push({
+          name,
+          value: value.name || value
+        })
+      }
+      this.submitResult = submitResult
+    }
   }
 }
 </script>
