@@ -385,6 +385,6 @@ export default {
   &:hover img
     transform: rotate(-360deg)
 
-.q-page-container [id]
-  scroll-margin-top: $toolbar-min-height
+.q-page-container :target
+  scroll-margin-top: ($toolbar-min-height + 16px)
 </style>
