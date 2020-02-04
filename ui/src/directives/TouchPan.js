@@ -328,10 +328,8 @@ export default {
             ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
           }
         }
-        else if (
-          ctx.event.detected === true &&
-          ctx.event.isFirst !== true
-        ) {
+        else if (ctx.event.detected === true) {
+          ctx.event.isFirst === true && ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx).payload)
           ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true).payload)
         }
 
