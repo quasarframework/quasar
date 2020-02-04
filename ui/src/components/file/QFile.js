@@ -222,7 +222,6 @@ export default Vue.extend({
           type: 'file',
           title: '', // try to remove default tooltip,
           accept: this.accept,
-          name: this.targetUid,
           ...this.$attrs,
           id: this.targetUid,
           disabled: this.editable !== true
