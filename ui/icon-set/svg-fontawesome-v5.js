@@ -24,7 +24,6 @@ import {
   fasChevronUp,
   fasChevronDown,
   fasCircle,
-  fasTh,
   fasTimesCircle,
   farClock,
   farCalendarCheck,
@@ -100,8 +99,7 @@ export default {
     right: fasChevronRight, // TODO
     up: fasChevronUp,
     down: fasChevronDown,
-    navigationIcon: fasCircle,
-    thumbnails: fasTh
+    navigationIcon: fasCircle
   },
   chip: {
     remove: fasTimesCircle,

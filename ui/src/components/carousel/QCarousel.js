@@ -19,25 +19,16 @@ export default Vue.extend({
     height: String,
     padding: Boolean,
 
-    transitionPrev: {
-      default: 'fade'
-    },
-    transitionNext: {
-      default: 'fade'
-    },
-
     controlColor: String,
     autoplay: [Number, Boolean],
 
     arrows: Boolean,
-    arrowsVertical: Boolean,
     prevIcon: String,
     nextIcon: String,
 
     navigation: Boolean,
     navigationPosition: {
       type: String,
-      default: 'bottom',
       validator: v => ['top', 'right', 'bottom', 'left'].includes(v)
     },
     navigationIcon: String,
@@ -54,19 +45,26 @@ export default Vue.extend({
       }
     },
 
+    direction () {
+      return this.vertical === true ? 'vertical' : 'horizontal'
+    },
+
     classes () {
-      return {
-        fullscreen: this.inFullscreen,
-        [`q-carousel--arrows${this.arrowsVertical === true ? '--vertical' : ''}`]: this.padding === true && this.arrows === true,
-        [`q-carousel--navigation--${this.navigationPosition}`]: this.padding === true && this.navigation === true,
-        'q-carousel--dark q-dark': this.isDark
-      }
+      return `q-carousel q-panel-parent` +
+        (this.inFullscreen === true ? ' fullscreen' : '') +
+        (this.isDark === true ? ' q-carousel--dark q-dark' : '') +
+        (
+          this.padding === true
+            ? (this.arrows === true ? ` q-carousel--padding-${this.direction}` : '') +
+              (this.navigation === true ? ` q-carousel--padding-${this.navigationPositionComputed}` : '')
+            : ''
+        )
     },
 
     arrowIcons () {
       const ico = [
-        this.prevIcon || this.$q.iconSet.carousel[this.arrowsVertical === true ? 'up' : 'left'],
-        this.nextIcon || this.$q.iconSet.carousel[this.arrowsVertical === true ? 'down' : 'right']
+        this.prevIcon || this.$q.iconSet.carousel[this.vertical === true ? 'up' : 'left'],
+        this.nextIcon || this.$q.iconSet.carousel[this.vertical === true ? 'down' : 'right']
       ]
 
       return this.$q.lang.rtl === true
@@ -76,6 +74,10 @@ export default Vue.extend({
 
     navIcon () {
       return this.navigationIcon || this.$q.iconSet.carousel.navigationIcon
+    },
+
+    navigationPositionComputed () {
+      return this.navigationPosition || (this.vertical === true ? 'right' : 'bottom')
     }
   },
 
@@ -107,9 +109,9 @@ export default Vue.extend({
 
     __getNavigationContainer (h, type, mapping) {
       return h('div', {
-        staticClass: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x q-carousel__navigation--' + type +
-          ' q-carousel__navigation--' + this.navigationPosition,
-        class: this.controlColor ? `text-${this.controlColor}` : null
+        class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x' +
+          `q-carousel__navigation--${type} q-carousel__navigation--${this.navigationPositionComputed}` +
+          (this.controlColor ? ` text-${this.controlColor}` : '')
       }, [
         h('div', {
           staticClass: 'q-carousel__navigation-inner flex no-wrap justify-center'
@@ -120,18 +122,20 @@ export default Vue.extend({
     __getContent (h) {
       const node = []
 
-      this.arrows === true && node.push(
-        h(QBtn, {
-          staticClass: `q-carousel__control q-carousel__prev-arrow${this.arrowsVertical === true ? '--vertical' : ''} absolute`,
-          props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
-          on: cache(this, 'prev', { click: this.previous })
-        }),
-        h(QBtn, {
-          staticClass: `q-carousel__control q-carousel__next-arrow${this.arrowsVertical === true ? '--vertical' : ''} absolute`,
-          props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
-          on: cache(this, 'next', { click: this.next })
-        })
-      )
+      if (this.arrows === true) {
+        node.push(
+          h(QBtn, {
+            staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute`,
+            props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
+            on: cache(this, 'prev', { click: this.previous })
+          }),
+          h(QBtn, {
+            staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute`,
+            props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
+            on: cache(this, 'next', { click: this.next })
+          })
+        )
+      }
 
       if (this.navigation === true) {
         node.push(this.__getNavigationContainer(h, 'buttons', panel => {
@@ -171,7 +175,6 @@ export default Vue.extend({
 
     __renderPanels (h) {
       return h('div', {
-        staticClass: 'q-carousel q-panel-parent',
         style: this.style,
         class: this.classes
       }, [

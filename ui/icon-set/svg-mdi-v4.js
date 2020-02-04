@@ -24,7 +24,6 @@ import {
   mdiChevronUp,
   mdiChevronDown,
   mdiCircle,
-  mdiViewCarousel,
   mdiCloseCircle,
   mdiCheck,
   mdiClockOutline,
@@ -114,8 +113,7 @@ export default {
     right: mdiChevronRight,
     up: mdiChevronUp,
     down: mdiChevronDown,
-    navigationIcon: mdiCircle,
-    thumbnails: mdiViewCarousel
+    navigationIcon: mdiCircle
   },
   chip: {
     remove: mdiCloseCircle,

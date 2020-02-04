@@ -24,7 +24,6 @@ import {
   matKeyboardArrowUp,
   matKeyboardArrowDown,
   matLens,
-  matViewCarousel,
   matCancel,
   matCheck,
   matAccessTime,
@@ -105,8 +104,7 @@ export default {
     right: matChevronRight,
     up: matKeyboardArrowUp,
     down: matKeyboardArrowDown,
-    navigationIcon: matLens,
-    thumbnails: matViewCarousel
+    navigationIcon: matLens
   },
   chip: {
     remove: matCancel,

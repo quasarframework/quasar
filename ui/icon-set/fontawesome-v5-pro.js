@@ -30,8 +30,7 @@ export default {
     right: 'fal fa-chevron-right', // TODO
     up: 'fal fa-chevron-up',
     down: 'fal fa-chevron-down',
-    navigationIcon: 'fal fa-circle',
-    thumbnails: 'fal fa-th'
+    navigationIcon: 'fal fa-circle'
   },
   chip: {
     remove: 'fal fa-times-circle',

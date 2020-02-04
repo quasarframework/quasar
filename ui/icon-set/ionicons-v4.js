@@ -30,8 +30,7 @@ export default {
     right: 'ion-ios-arrow-forward',
     up: 'ion-ios-arrow-up',
     down: 'ion-ios-arrow-down',
-    navigationIcon: 'ion-square',
-    thumbnails: 'ion-grid'
+    navigationIcon: 'ion-square'
   },
   chip: {
     remove: 'ion-close-circle',

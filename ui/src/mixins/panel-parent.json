@@ -31,24 +31,23 @@
       "category": "behavior"
     },
 
-    "swipeable-vertical": {
+    "vertical": {
       "type": "Boolean",
-      "desc": "Use vertical direction for swipe (need swipeable activated)",
-      "category": "behavior",
-      "addedIn": "v1.4.4"
+      "desc": "Default transitions and swipe actions will be on the vertical axis",
+      "category": "behavior"
     },
 
     "transition-prev": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-right (or slide-down if swipeable-vertical is used)",
+      "default": "slide-right/slide-down",
       "category": "behavior"
     },
 
     "transition-next": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-left (or slide-up if swipeable-vertical is used)",
+      "default": "slide-left/slide-up",
       "category": "behavior"
     }
   },

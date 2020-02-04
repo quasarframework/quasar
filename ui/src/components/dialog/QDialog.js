@@ -55,9 +55,8 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'standard',
-      validator (val) {
-        return val === 'standard' || ['top', 'bottom', 'left', 'right'].includes(val)
-      }
+      validator: val => val === 'standard' ||
+        ['top', 'bottom', 'left', 'right'].includes(val)
     },
 
     transitionShow: String,

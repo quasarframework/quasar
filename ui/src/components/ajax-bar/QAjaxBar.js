@@ -82,9 +82,7 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'top',
-      validator (val) {
-        return ['top', 'right', 'bottom', 'left'].includes(val)
-      }
+      validator: val => ['top', 'right', 'bottom', 'left'].includes(val)
     },
     size: {
       type: String,

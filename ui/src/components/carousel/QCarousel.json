@@ -11,16 +11,6 @@
       "addedIn": "v1.3.0"
     },
 
-    "transition-prev": {
-      "default": "fade",
-      "category": "behavior"
-    },
-
-    "transition-next": {
-      "default": "fade",
-      "category": "behavior"
-    },
-
     "height": {
       "extends": "size",
       "desc": "Height of Carousel in CSS units, including unit name"
@@ -54,13 +44,6 @@
       "category": "content"
     },
 
-    "arrows-vertical": {
-      "type": "Boolean",
-      "desc": "Show vertical navigation arrow buttons",
-      "category": "content",
-      "addedIn": "v1.4.4"
-    },
-
     "prev-icon": {
       "extends": "icon"
     },
@@ -78,11 +61,11 @@
     "navigation-position": {
       "type": "String",
       "desc": "Side to stick navigation to",
-      "default": "bottom",
+      "default": "bottom/right",
       "values": [ "top", "right", "bottom", "left" ],
       "examples": [ "left" ],
       "category": "content",
-      "addedIn": "v1.4.4"
+      "addedIn": "v1.9.0"
     },
 
     "navigation-icon": {

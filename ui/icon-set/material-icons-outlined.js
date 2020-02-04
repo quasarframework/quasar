@@ -30,8 +30,7 @@ export default {
     right: 'o_chevron_right',
     up: 'o_keyboard_arrow_up',
     down: 'o_keyboard_arrow_down',
-    navigationIcon: 'o_lens',
-    thumbnails: 'o_view_carousel'
+    navigationIcon: 'o_lens'
   },
   chip: {
     remove: 'o_cancel',

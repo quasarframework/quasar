@@ -45,7 +45,6 @@ import {
   ionIosArrowUp,
   ionIosArrowDown,
   ionMdSquare,
-  ionMdGrid,
   ionMdCloseCircle,
   ionMdTime,
   ionMdCalendar,
@@ -103,8 +102,7 @@ export default {
     right: ionIosArrowForward,
     up: ionIosArrowUp,
     down: ionIosArrowDown,
-    navigationIcon: ionMdSquare,
-    thumbnails: ionMdGrid
+    navigationIcon: ionMdSquare
   },
   chip: {
     remove: ionMdCloseCircle,

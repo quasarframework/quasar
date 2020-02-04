@@ -32,9 +32,8 @@ export const PanelParentMixin = {
 
     animated: Boolean,
     infinite: Boolean,
-
     swipeable: Boolean,
-    swipeableVertical: Boolean,
+    vertical: Boolean,
 
     transitionPrev: String,
     transitionNext: String,
@@ -51,13 +50,13 @@ export const PanelParentMixin = {
 
   computed: {
     panelDirectives () {
-      if (this.swipeable) {
+      if (this.swipeable === true) {
         return [{
           name: 'touch-swipe',
           value: this.__swipe,
           modifiers: {
-            horizontal: this.swipeableVertical !== true,
-            vertical: this.swipeableVertical,
+            horizontal: this.vertical !== true,
+            vertical: this.vertical,
             mouse: true
           }
         }]
@@ -70,20 +69,12 @@ export const PanelParentMixin = {
         : String(this.value)
     },
 
-    evtDirectionNext () {
-      return this.swipeableVertical === true ? 'up' : 'left'
-    },
-
     transitionPrevComputed () {
-      return typeof this.transitionPrev === 'string' && this.transitionPrev.length > 0
-        ? this.transitionPrev
-        : this.swipeableVertical === true ? 'slide-down' : 'slide-right'
+      return this.transitionPrev || `slide-${this.vertical === true ? 'down' : 'right'}`
     },
 
     transitionNextComputed () {
-      return typeof this.transitionNext === 'string' && this.transitionNext.length > 0
-        ? this.transitionNext
-        : this.swipeableVertical === true ? 'slide-up' : 'slide-left'
+      return this.transitionNext || `slide-${this.vertical === true ? 'up' : 'left'}`
     }
   },
 
@@ -193,7 +184,8 @@ export const PanelParentMixin = {
     },
 
     __swipe (evt) {
-      this.__go((this.$q.lang.rtl === true ? -1 : 1) * (evt.direction === this.evtDirectionNext ? 1 : -1))
+      const dir = this.vertical === true ? 'up' : 'left'
+      this.__go((this.$q.lang.rtl === true ? -1 : 1) * (evt.direction === dir ? 1 : -1))
     },
 
     __updatePanelIndex () {

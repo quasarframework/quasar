@@ -52,8 +52,7 @@ import {
   evaRefreshOutline,
   evaArrowIosUpwardOutline,
   evaArrowIosDownwardOutline,
-  evaRadioButtonOn,
-  evaImageOutline,
+  evaShield,
   evaClose,
   evaCheckmark,
   evaClockOutline,
@@ -106,8 +105,7 @@ export default {
     right: evaArrowIosForwardOutline,
     up: evaArrowIosUpwardOutline,
     down: evaArrowIosDownwardOutline,
-    navigationIcon: evaRadioButtonOn,
-    thumbnails: evaImageOutline
+    navigationIcon: evaShield
   },
   chip: {
     remove: evaClose,

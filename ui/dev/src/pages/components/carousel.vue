@@ -6,7 +6,7 @@
     </div>
     <div class="fixed-top full-width z-top row items-center justify-between bg-grey-6">
       <q-btn label="fullscreen" color="purple" @click="$refs.carousel.toggleFullscreen()" />
-      <q-toggle v-model="vertical" label="Vertical swipe" class="q-ml-sm" />
+      <q-toggle v-model="vertical" label="Vertical" class="q-ml-sm" />
       <q-select v-model="navigationPosition" :options="navigationPositions" label="Navigation position" dense borderless style="min-width: 15em" />
       <q-toggle v-model="fullscreen" label="Fullscreen" />
     </div>
@@ -17,18 +17,14 @@
         ref="carousel"
         swipeable
         animated
-        :swipeable-vertical="vertical"
-        transition-prev=""
-        transition-next=""
+        :vertical="vertical"
         :fullscreen.sync="fullscreen"
         v-model="slide"
         control-color="primary"
         navigation
         navigation-icon="radio_button_unchecked"
         :navigation-position="navigationPosition"
-        padding
         :arrows="arrows"
-        :arrows-vertical="vertical"
         class="shadow-1 rounded-borders"
       >
         <q-carousel-slide :name="0" class="column no-wrap flex-center">
@@ -80,11 +76,10 @@
       transition-prev="rotate"
       transition-next="rotate"
       swipeable
-      :swipeable-vertical="vertical"
+      :vertical="vertical"
       animated
       v-model="slide"
       arrows
-      :arrows-vertical="vertical"
       padding
       height="200px"
       class="bg-grey-9 text-white shadow-1 rounded-borders"
@@ -111,7 +106,7 @@
     </div>
     <q-carousel
       arrows
-      :arrows-vertical="vertical"
+      :vertical="vertical"
       animated
       v-model="slide4"
       height="400px"
@@ -153,13 +148,10 @@
     </div>
     <q-carousel
       swipeable
-      :swipeable-vertical="vertical"
-      transition-prev=""
-      transition-next=""
+      :vertical="vertical"
       animated
       v-model="slide3"
       arrows
-      :arrows-vertical="vertical"
       :autoplay="autoplay"
       navigation
       :navigation-position="navigationPosition"
@@ -186,11 +178,10 @@
     </div>
     <q-carousel
       swipeable
-      :swipeable-vertical="vertical"
+      :vertical="vertical"
       animated
       v-model="slide"
       arrows
-      :arrows-vertical="vertical"
       thumbnails
       :navigation-position="navigationPosition"
       infinite
@@ -220,7 +211,7 @@
     </div>
     <q-carousel
       swipeable
-      :swipeable-vertical="vertical"
+      :vertical="vertical"
       animated
       navigation
       navigation-icon="favorite"
@@ -260,8 +251,8 @@ export default {
     autoplay: true,
     arrows: false,
     vertical: false,
-    navigationPosition: 'bottom',
-    navigationPositions: ['top', 'bottom', 'left', 'right'],
+    navigationPosition: void 0,
+    navigationPositions: [void 0, 'top', 'bottom', 'left', 'right'],
     lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
     colors: [
       'primary',
