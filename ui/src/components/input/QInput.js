@@ -237,7 +237,6 @@ export default Vue.extend({
         'data-autofocus': this.autofocus,
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
-        name: this.targetUid,
         ...this.$attrs,
         id: this.targetUid,
         type: this.type,
