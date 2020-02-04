@@ -552,13 +552,11 @@ export default Vue.extend({
                 }])
               }, [
                 h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                  this.innerModel[view] !== null
-                    ? h('div', {
-                      staticClass: 'q-time__clock-pointer',
-                      style: this.pointerStyle,
-                      class: this.color !== void 0 ? `text-${this.color}` : null
-                    })
-                    : null,
+                  h('div', {
+                    staticClass: 'q-time__clock-pointer',
+                    style: this.pointerStyle,
+                    class: this.innerModel[view] === null ? 'hidden' : (this.color !== void 0 ? `text-${this.color}` : '')
+                  }),
 
                   this.positions.map(pos => h('div', {
                     staticClass: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}`,

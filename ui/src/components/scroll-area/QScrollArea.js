@@ -195,6 +195,16 @@ export default Vue.extend({
       this.__setScroll(pos)
     },
 
+    __mouseDown (evt) {
+      const pos = evt[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
+      this.__setScroll(pos / this.containerSize * this.scrollSize)
+
+      // activate thumb pan
+      if (this.$refs.thumb !== void 0) {
+        this.$refs.thumb.dispatchEvent(new MouseEvent(evt.type, evt))
+      }
+    },
+
     __setActive (active, timer) {
       clearTimeout(this.timer)
 
@@ -279,18 +289,16 @@ export default Vue.extend({
         style: this.barStyle,
         class: this.barClass,
         on: cache(this, 'bar', {
-          click: e => {
-            const pos = e[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
-            this.__setScroll(pos / this.containerSize * this.scrollSize)
-          }
+          mousedown: this.__mouseDown
         })
       }),
 
       h('div', {
+        ref: 'thumb',
         staticClass: 'q-scrollarea__thumb',
         style: this.style,
         class: this.thumbClass,
-        directives: this.thumbHidden === true ? null : cache(this, 'thumb#' + this.horizontal, [{
+        directives: cache(this, 'thumb#' + this.horizontal, [{
           name: 'touch-pan',
           modifiers: {
             vertical: !this.horizontal,
