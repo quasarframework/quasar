@@ -384,4 +384,7 @@ export default {
     transition: transform .8s ease-in-out
   &:hover img
     transform: rotate(-360deg)
+
+.q-page-container [id]
+  scroll-margin-top: $toolbar-min-height
 </style>
