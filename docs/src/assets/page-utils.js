@@ -10,8 +10,13 @@ export function copyToClipboard (text) {
   document.body.removeChild(textArea)
 }
 
-export function copyHeading (id) {
-  const text = window.location.origin + window.location.pathname + '#' + id
+export function copyHeading (id, queryParams = null) {
+  const queryString = queryParams === null
+    ? ''
+    : Object.keys(queryParams)
+      .map(param => `${param}=${queryParams[param]}`)
+      .join('&')
+  const text = window.location.origin + window.location.pathname + (queryString === null ? '' : `?${queryString}`) + '#' + id
 
   copyToClipboard(text)
 

@@ -15,9 +15,10 @@ module.exports = function (md) {
       .reduce((acc, t) => acc + t.content, '')
 
     const id = slugify(title)
+    const queryParams = id.endsWith('-API') ? `['apiTab', 'apiFilter', 'apiInnerTab']` : 'null'
     token.attrSet('id', id)
     token.attrSet('class', `doc-heading doc-${token.tag}`)
-    token.attrSet('@click', `copyHeading(\`${id}\`)`)
+    token.attrSet('@click', `copyHeading(\`${id}\`, ${queryParams})`)
 
     if (token.tag === 'h2') {
       md.$data.toc.push(`{id:\`${id}\`,title:\`${title}\`}`)

@@ -71,7 +71,15 @@ module.exports.getVueComponent = function (rendered, data, toc) {
         ${data.badge !== void 0 ? `this.badge = ${JSON.stringify(data.badge)}` : ''}
       },` : ''}
       methods: {
-        copyHeading
+        copyHeading (id, queryParams) {
+          const query = queryParams === null
+            ? null
+            : queryParams.reduce((obj, param) => {
+              obj[param] = this.$store.state[param]
+              return obj
+            }, {})
+          copyHeading.call(this, id, query)
+        }
       }
     }
     </script>`
