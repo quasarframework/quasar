@@ -201,11 +201,17 @@ export default Vue.extend({
         .join(', ')
     },
 
+    sanitizeFn () {
+      return this.optionsSanitize === true
+        ? () => true
+        : opt => opt !== void 0 && opt !== null && opt.sanitize === true
+    },
+
     displayAsText () {
       return this.displayValueSanitize === true || (
         this.displayValue === void 0 && (
           this.optionsSanitize === true ||
-          this.innerValue.some(opt => opt !== null && opt.sanitize === true)
+          this.innerValue.some(this.sanitizeFn)
         )
       )
     },
@@ -218,7 +224,7 @@ export default Vue.extend({
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
-        sanitize: this.optionsSanitize === true || opt.sanitize === true,
+        sanitize: this.sanitizeFn(opt),
         selected: true,
         removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
@@ -265,7 +271,7 @@ export default Vue.extend({
         return {
           index,
           opt,
-          sanitize: this.optionsSanitize === true || opt.sanitize === true,
+          sanitize: this.sanitizeFn(opt),
           selected: itemProps.active,
           focused: itemProps.focused,
           toggleOption: this.toggleOption,
