@@ -11,7 +11,11 @@
       <q-toggle v-model="fullscreen" label="Fullscreen" />
     </div>
 
-    <q-toggle v-model="arrows" label="Show arrows" class="q-ml-sm" />
+    <div class="q-gutter-md">
+      <q-toggle v-model="arrows" label="Show arrows" />
+      <q-toggle v-model="padding" label="Padding" />
+    </div>
+
     <q-responsive :ratio="16/9">
       <q-carousel
         ref="carousel"
@@ -25,6 +29,7 @@
         navigation-icon="radio_button_unchecked"
         :navigation-position="navigationPosition"
         :arrows="arrows"
+        :padding="padding"
         class="shadow-1 rounded-borders"
       >
         <q-carousel-slide :name="0" class="column no-wrap flex-center">
@@ -250,6 +255,7 @@ export default {
     slide4: 'first',
     autoplay: true,
     arrows: false,
+    padding: false,
     vertical: false,
     navigationPosition: void 0,
     navigationPositions: [void 0, 'top', 'bottom', 'left', 'right'],

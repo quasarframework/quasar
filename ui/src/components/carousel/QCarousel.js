@@ -67,7 +67,7 @@ export default Vue.extend({
         this.nextIcon || this.$q.iconSet.carousel[this.vertical === true ? 'down' : 'right']
       ]
 
-      return this.$q.lang.rtl === true
+      return this.vertical === false && this.$q.lang.rtl === true
         ? ico.reverse()
         : ico
     },
@@ -110,7 +110,7 @@ export default Vue.extend({
     __getNavigationContainer (h, type, mapping) {
       return h('div', {
         class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x' +
-          `q-carousel__navigation--${type} q-carousel__navigation--${this.navigationPositionComputed}` +
+          ` q-carousel__navigation--${type} q-carousel__navigation--${this.navigationPositionComputed}` +
           (this.controlColor ? ` text-${this.controlColor}` : '')
       }, [
         h('div', {
@@ -124,16 +124,22 @@ export default Vue.extend({
 
       if (this.arrows === true) {
         node.push(
-          h(QBtn, {
-            staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute`,
-            props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
-            on: cache(this, 'prev', { click: this.previous })
-          }),
-          h(QBtn, {
-            staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute`,
-            props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
-            on: cache(this, 'next', { click: this.next })
-          })
+          h('div', {
+            staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
+          }, [
+            h(QBtn, {
+              props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
+              on: cache(this, 'prev', { click: this.previous })
+            })
+          ]),
+          h('div', {
+            staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
+          }, [
+            h(QBtn, {
+              props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
+              on: cache(this, 'next', { click: this.next })
+            })
+          ])
         )
       }
 

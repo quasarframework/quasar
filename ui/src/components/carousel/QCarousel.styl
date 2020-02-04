@@ -17,13 +17,18 @@
   &__control
     color: #fff
 
-  &__arrow .q-icon
-    font-size: 28px
+  &__arrow
+    pointer-events: none
+
+    .q-icon
+      font-size: 28px
+    .q-btn
+      pointer-events: all
 
   &__prev-arrow--horizontal,
   &__next-arrow--horizontal
-    top: 50%
-    transform: translateY(-50%)
+    top: 14px
+    bottom: 14px
   &__prev-arrow--horizontal
     left: 15px
   &__next-arrow--horizontal
@@ -31,14 +36,15 @@
 
   &__prev-arrow--vertical,
   &__next-arrow--vertical
-    left: 50%
-    transform: translateX(-50%)
+    left: 6px
+    right: 6px
   &__prev-arrow--vertical
     top: 4px
   &__next-arrow--vertical
     bottom: 4px
 
   &__navigation
+
     &--top,
     &--bottom
       left: 15px
@@ -97,18 +103,30 @@
     &-top, &-vertical
       .q-carousel__slide
         padding-top: 56px
+    &-top
+      .q-carousel__arrow
+        top: 56px
 
     &-bottom, &-vertical
       .q-carousel__slide
         padding-bottom: 56px
+    &-bottom
+      .q-carousel__arrow
+        bottom: 56px
 
     &-left, &-horizontal
       .q-carousel__slide
         padding-left: 65px
+    &-left
+      .q-carousel__arrow
+        left: 56px
 
     &-right, &-horizontal
       .q-carousel__slide
         padding-right: 65px
+    &-right
+      .q-carousel__arrow
+        right: 56px
 
   &.fullscreen
     height: 100%
