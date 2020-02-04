@@ -161,10 +161,18 @@
 
     "for": {
       "type": "String",
-      "desc": "DOM element id to be used as 'for' attribute of the label and as 'id' for the focus target",
-      "examples": [ "for=\"myFieldsId\"" ],
+      "desc": "Used to specify the 'id' of the control and also the 'for' attribute of the label that wraps it; If no 'name' prop is specified, then it is used for this attribute as well",
+      "examples": [ "myFieldsId" ],
       "category": "behavior",
       "addedIn": "v1.4.2"
+    },
+
+    "name": {
+      "type": "String",
+      "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists",
+      "examples": [ "car_id" ],
+      "category": "behavior",
+      "addedIn": "v1.9.0"
     }
   },
 

@@ -7,14 +7,14 @@
     <q-card tag="form" @submit.prevent="onSubmit" :dark="dark" :disabled="disable">
       <q-card-section>
         <div class="q-mb-lg row q-col-gutter-x-md">
-          <q-select filled class="col" for="select1" v-model="select1" dense :options="options" :dark="dark" :disable="disable" label="Single" clearable />
-          <q-select filled class="col" for="select2" v-model="select2" dense :options="options" :dark="dark" :disable="disable" label="Multiple" multiple clearable />
+          <q-select name="select1" filled class="col" v-model="select1" dense :options="options" :dark="dark" :disable="disable" label="select1 - Single" clearable />
+          <q-select name="select2" filled class="col" v-model="select2" dense :options="options" :dark="dark" :disable="disable" label="select2 - Multiple" multiple clearable />
         </div>
 
         <div class="q-mb-lg row q-col-gutter-x-md">
-          <q-input filled class="col" for="text1" v-model="text1" dense :dark="dark" :disable="disable" clearable label="Text" />
-          <q-input filled class="col" for="textarea1" v-model="text2" dense :dark="dark" :disable="disable" clearable type="textarea" autogrow label="Textarea" />
-          <q-file filled class="col" for="file1" v-model="file" dense :dark="dark" :disable="disable" clearable label="File" />
+          <q-input name="text1" filled class="col" v-model="text1" dense :dark="dark" :disable="disable" clearable label="text1 - Text" />
+          <q-input name="textarea1" filled class="col" v-model="text2" dense :dark="dark" :disable="disable" clearable type="textarea" autogrow label="textarea1 - Textarea" />
+          <q-file name="file1" filled class="col" v-model="file" dense :dark="dark" :disable="disable" clearable label="file1 - File" />
         </div>
 
         <div class="q-my-lg">
@@ -162,7 +162,7 @@ export default {
       for (const [ name, value ] of formData.entries()) {
         submitResult.push({
           name,
-          value: value.name || value
+          value
         })
       }
       this.submitResult = submitResult

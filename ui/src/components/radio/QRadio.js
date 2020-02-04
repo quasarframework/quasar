@@ -10,8 +10,6 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QRadio',
 
-  inheritAttrs: false,
-
   mixins: [ DarkMixin, OptionSizeMixin ],
 
   props: {
@@ -21,6 +19,8 @@ export default Vue.extend({
     val: {
       required: true
     },
+
+    name: String,
 
     label: String,
     leftLabel: Boolean,
@@ -62,12 +62,16 @@ export default Vue.extend({
       return this.disable === true ? -1 : this.tabindex || 0
     },
 
-    domProps () {
-      return {
-        type: 'radio',
-        value: this.val === Object(this.val) || this.val,
-        checked: this.isTrue
-      }
+    attrs () {
+      const prop = { type: 'radio' }
+
+      this.name !== void 0 && Object.assign(prop, {
+        checked: this.isTrue,
+        name: this.name,
+        value: this.val
+      })
+
+      return prop
     }
   },
 
@@ -108,8 +112,7 @@ export default Vue.extend({
     this.disable !== true && content.unshift(
       h('input', {
         staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
-        attrs: this.$attrs,
-        domProps: this.domProps
+        attrs: this.attrs
       })
     )
 

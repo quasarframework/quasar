@@ -22,6 +22,14 @@
       "category": "model"
     },
 
+    "name": {
+      "type": "String",
+      "desc": "Used to specify the name of the control; Useful if dealing with forms",
+      "examples": [ "car_id" ],
+      "category": "behavior",
+      "addedIn": "v1.9.0"
+    },
+
     "label": {
       "type": "String",
       "desc": "Label to display along the radio control (or use the default slot instead of this prop)",

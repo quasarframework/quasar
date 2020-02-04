@@ -9,14 +9,14 @@ import { cache } from '../utils/vm.js'
 export default {
   mixins: [ DarkMixin, OptionSizeMixin ],
 
-  inheritAttrs: false,
-
   props: {
     value: {
       required: true,
       default: null
     },
     val: {},
+
+    name: String,
 
     trueValue: { default: true },
     falseValue: { default: false },
@@ -94,12 +94,16 @@ export default {
       return `q-${this.type}__inner--${state}${color}`
     },
 
-    domProps () {
-      return {
-        type: 'checkbox',
-        value: this.trueValue === Object(this.trueValue) || this.trueValue,
-        checked: this.isIndeterminate === true ? void 0 : this.isTrue
-      }
+    attrs () {
+      const prop = { type: 'checkbox' }
+
+      this.name !== void 0 && Object.assign(prop, {
+        checked: this.isTrue,
+        name: this.name,
+        value: this.trueValue
+      })
+
+      return prop
     }
   },
 
@@ -159,8 +163,7 @@ export default {
     this.disable !== true && inner.unshift(
       h('input', {
         staticClass: `q-${this.type}__native absolute q-ma-none q-pa-none invisible`,
-        attrs: this.$attrs,
-        domProps: this.domProps
+        attrs: this.attrs
       })
     )
 

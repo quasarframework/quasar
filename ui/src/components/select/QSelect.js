@@ -170,12 +170,6 @@ export default Vue.extend({
         (this.popupContentClass ? ' ' + this.popupContentClass : '')
     },
 
-    optionValueKey () {
-      return typeof this.optionValue === 'string'
-        ? this.optionValue
-        : 'value'
-    },
-
     innerValue () {
       const
         mapNull = this.mapOptions === true && this.multiple !== true,
@@ -240,7 +234,7 @@ export default Vue.extend({
       const { from, to } = this.virtualScrollSliceRange
 
       return this.options.slice(from, to).map((opt, i) => {
-        const disable = this.__isDisabled(opt)
+        const disable = this.__getOptionDisabled(opt) === true
         const index = from + i
 
         const itemProps = {
@@ -300,6 +294,18 @@ export default Vue.extend({
       return this.optionsSelectedClass !== void 0
         ? this.optionsSelectedClass
         : (this.color !== void 0 ? `text-${this.color}` : '')
+    },
+
+    __getOptionValue () {
+      return this.__getPropValueFn('optionValue', 'value')
+    },
+
+    __getOptionLabel () {
+      return this.__getPropValueFn('optionLabel', 'label')
+    },
+
+    __getOptionDisabled () {
+      return this.__getPropValueFn('optionDisable', 'disable')
     }
   },
 
@@ -354,7 +360,7 @@ export default Vue.extend({
     },
 
     toggleOption (opt, keepOpen) {
-      if (this.editable !== true || opt === void 0 || this.__isDisabled(opt) === true) {
+      if (this.editable !== true || opt === void 0 || this.__getOptionDisabled(opt) === true) {
         return
       }
 
@@ -431,7 +437,7 @@ export default Vue.extend({
             this.virtualScrollLength - 1
           )
         }
-        while (index !== -1 && index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
+        while (index !== -1 && index !== this.optionIndex && this.__getOptionDisabled(this.options[index]) === true)
 
         if (this.optionIndex !== index) {
           this.setOptionIndex(index)
@@ -452,38 +458,16 @@ export default Vue.extend({
       return this.options.find(fn) || innerValueCache.find(fn) || value
     },
 
-    __getOptionValue (opt) {
-      if (typeof this.optionValue === 'function') {
-        return this.optionValue(opt)
-      }
-      if (Object(opt) === opt && this.optionValueKey in opt) {
-        return opt[this.optionValueKey]
-      }
-      return opt
-    },
+    __getPropValueFn (propName, defaultVal) {
+      const val = this[propName] !== void 0
+        ? this[propName]
+        : defaultVal
 
-    __getOptionLabel (opt) {
-      if (typeof this.optionLabel === 'function') {
-        return this.optionLabel(opt)
-      }
-      if (Object(opt) === opt) {
-        return typeof this.optionLabel === 'string'
-          ? opt[this.optionLabel]
-          : opt.label
-      }
-      return opt
-    },
-
-    __isDisabled (opt) {
-      if (typeof this.optionDisable === 'function') {
-        return this.optionDisable(opt) === true
-      }
-      if (Object(opt) === opt) {
-        return typeof this.optionDisable === 'string'
-          ? opt[this.optionDisable] === true
-          : opt.disable === true
-      }
-      return false
+      return typeof val === 'function'
+        ? val
+        : opt => Object(opt) === opt && val in opt
+          ? opt[val]
+          : opt
     },
 
     __isSelected (opt) {
@@ -588,7 +572,7 @@ export default Vue.extend({
             index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
           while (index !== this.optionIndex && (
-            this.__isDisabled(this.options[index]) === true ||
+            this.__getOptionDisabled(this.options[index]) === true ||
             searchRe.test(this.__getOptionLabel(this.options[index])) !== true
           ))
         }
@@ -714,7 +698,7 @@ export default Vue.extend({
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
-            removable: this.__isDisabled(scope.opt) !== true,
+            removable: this.__getOptionDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
             tabindex: this.computedTabindex
@@ -767,23 +751,23 @@ export default Vue.extend({
         }))
       }
 
-      if (this.disable !== true && this.innerValue.length > 0) {
-        const options = this.innerValue
-          .filter(value => Object(value) !== value)
-          .map(value => h('option', {
-            domProps: {
-              value,
-              selected: true
-            }
-          }))
-
-        child.push(h('select', {
-          staticClass: 'hidden',
+      if (this.disable !== true && this.nameProp !== void 0 && this.innerValue.length > 0) {
+        const opts = this.innerValue.map(value => h('option', {
           attrs: {
-            name: this.targetUid,
-            multiple: this.multiple
+            value,
+            selected: true
           }
-        }, options))
+        }))
+
+        child.push(
+          h('select', {
+            staticClass: 'hidden',
+            attrs: {
+              name: this.nameProp,
+              multiple: this.multiple
+            }
+          }, opts)
+        )
       }
 
       return h('div', { staticClass: 'q-field__native row items-center', attrs: this.$attrs }, child)
