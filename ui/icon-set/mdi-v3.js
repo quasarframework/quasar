@@ -28,6 +28,8 @@ export default {
   carousel: {
     left: 'mdi-chevron-left',
     right: 'mdi-chevron-right',
+    up: 'mdi-chevron-up',
+    down: 'mdi-chevron-down',
     navigationIcon: 'mdi-circle',
     thumbnails: 'mdi-view-carousel'
   },

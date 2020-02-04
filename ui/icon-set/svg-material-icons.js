@@ -21,6 +21,8 @@ import {
   matTune,
   matStyle,
   matRefresh,
+  matKeyboardArrowUp,
+  matKeyboardArrowDown,
   matLens,
   matViewCarousel,
   matCancel,
@@ -53,7 +55,6 @@ import {
   matRedo,
   matCode,
   matFontDownload,
-  matKeyboardArrowDown,
   matAdd,
   matClose,
   matError,
@@ -63,7 +64,6 @@ import {
   matLastPage,
   matGrade,
   matEdit,
-  matKeyboardArrowUp,
   matPlayArrow,
   matDone,
   matClear,
@@ -103,6 +103,8 @@ export default {
   carousel: {
     left: matChevronLeft,
     right: matChevronRight,
+    up: matKeyboardArrowUp,
+    down: matKeyboardArrowDown,
     navigationIcon: matLens,
     thumbnails: matViewCarousel
   },

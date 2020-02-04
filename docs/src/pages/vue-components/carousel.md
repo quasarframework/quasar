@@ -24,6 +24,8 @@ In the example below there are just a few transitions demoed. For a complete lis
 
 <doc-example title="Transitions, bottom navigation, arrows and auto padding" file="QCarousel/Transitions" />
 
+<doc-example title="Vertical transitions, left navigation, arrows and auto padding" file="QCarousel/VerticalTransitions" />
+
 ::: tip
 In the examples above, you can also swipe with your finger (or swiping with the mouse -- clicking and quickly dragging to left/right then releasing).
 :::
