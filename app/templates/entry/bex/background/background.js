@@ -23,11 +23,16 @@ const addConnection = (port) => {
   const tab = port.sender.tab
 
   let connectionId
+  // Get the port name, connection ID
   if (port.name.indexOf(':') > -1) {
     const split = port.name.split(':')
     connectionId = split[1]
     port.name = split[0]
-  } else {
+  }
+
+  // If we have tab information, use that for the connection ID as FF doesn't support
+  // chrome.tabs on the app side (which we would normally use to get the id).
+  if (tab !== void 0) {
     connectionId = tab.id
   }
 
