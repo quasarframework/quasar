@@ -29,6 +29,11 @@ export default Vue.extend({
       default: null
     },
 
+    defaultDate: {
+      type: String,
+      validator: v => /^-?[\d]+\/[0-1]\d\/[0-3]\d$/.test(v)
+    },
+
     options: Function,
     hourOptions: Array,
     minuteOptions: Array,
@@ -43,7 +48,8 @@ export default Vue.extend({
       this.value,
       this.__getComputedMask(),
       this.__getComputedLocale(),
-      this.calendar
+      this.calendar,
+      this.__getDefaultDateModel()
     )
 
     let view = 'Hour'
@@ -66,7 +72,13 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      const model = __splitDate(v, this.computedMask, this.computedLocale, this.calendar)
+      const model = __splitDate(
+        v,
+        this.computedMask,
+        this.computedLocale,
+        this.calendar,
+        this.defaultDateModel
+      )
 
       if (
         model.dateHash !== this.innerModel.dateHash ||
@@ -121,6 +133,10 @@ export default Vue.extend({
           ? '--'
           : pad(time.second)
       }
+    },
+
+    defaultDateModel () {
+      return this.__getDefaultDateModel()
     },
 
     computedFormat24h () {
@@ -243,6 +259,17 @@ export default Vue.extend({
         ...this.__getCurrentTime()
       })
       this.view = 'Hour'
+    },
+
+    __getDefaultDateModel () {
+      if (typeof this.defaultDate !== 'string') {
+        const date = this.__getCurrentDate()
+        date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
+
+        return date
+      }
+
+      return __splitDate(this.defaultDate, 'YYYY/MM/DD', void 0, this.calendar)
     },
 
     __click (evt) {
