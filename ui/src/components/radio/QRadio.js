@@ -10,6 +10,8 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QRadio',
 
+  inheritAttrs: false,
+
   mixins: [ DarkMixin, OptionSizeMixin ],
 
   props: {
@@ -58,6 +60,14 @@ export default Vue.extend({
 
     computedTabindex () {
       return this.disable === true ? -1 : this.tabindex || 0
+    },
+
+    domProps () {
+      return {
+        type: 'radio',
+        value: this.val === Object(this.val) || this.val,
+        checked: this.isTrue
+      }
     }
   },
 
@@ -98,7 +108,8 @@ export default Vue.extend({
     this.disable !== true && content.unshift(
       h('input', {
         staticClass: 'q-radio__native q-ma-none q-pa-none invisible',
-        attrs: { type: 'radio' }
+        attrs: this.$attrs,
+        domProps: this.domProps
       })
     )
 

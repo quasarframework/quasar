@@ -218,12 +218,12 @@ export default Vue.extend({
         ref: 'input',
         staticClass: 'q-field__input fit absolute-full cursor-pointer',
         attrs: {
-          id: this.targetUid,
           tabindex: -1,
           type: 'file',
           title: '', // try to remove default tooltip,
           accept: this.accept,
           ...this.$attrs,
+          id: this.targetUid,
           disabled: this.editable !== true
         },
         on: cache(this, 'input', {
