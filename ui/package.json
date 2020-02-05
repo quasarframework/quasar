@@ -63,6 +63,7 @@
     "@rollup/plugin-buble": "^0.21.1",
     "@rollup/plugin-json": "^4.0.2",
     "@rollup/plugin-node-resolve": "^7.1.0",
+    "@types/cordova": "^0.0.34",
     "@types/electron-packager": "^14.0.0",
     "@types/express": "^4.17.2",
     "@types/lru-cache": "^5.1.0",
