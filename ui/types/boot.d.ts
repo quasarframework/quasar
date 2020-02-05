@@ -10,9 +10,9 @@ export interface QSsrContext {
 }
 
 export type HasSsrBootParams = HasSsr<{ ssrContext?: QSsrContext | null }>;
-export type HasStoreBootParams<S> = HasStore<{ store: S }>;
+export type HasStoreBootParams<S = any> = HasStore<{ store: S }>;
 
-export interface BootFileParams<TStore = any>
+export interface BootFileParams<TStore>
   extends HasSsrBootParams,
     HasStoreBootParams<TStore> {
   app: ComponentOptions<Vue>;
@@ -22,6 +22,6 @@ export interface BootFileParams<TStore = any>
   redirect: (url: string) => void;
 }
 
-type BootCallback = (params: BootFileParams) => void | Promise<void>;
+type BootCallback<TStore> = (params: BootFileParams<TStore>) => void | Promise<void>;
 
-export function boot(callback: BootCallback): BootCallback;
+export function boot<TStore = any>(callback: BootCallback<TStore>): BootCallback<TStore>;

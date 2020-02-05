@@ -251,6 +251,7 @@ function writeIndexDTS (apis) {
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)
+  writeLine(quasarTypeContents, `export * from './feature-flag'`)
   writeLine(quasarTypeContents, `export * from './globals'`)
   writeLine(quasarTypeContents, `export * from './boot'`)
   writeLine(quasarTypeContents, `export * from './extras'`)
