@@ -29,6 +29,8 @@ export default Vue.extend({
       validator: v => v >= 0
     },
 
+    name: String,
+
     tabindex: {
       type: [Number, String],
       default: 0
@@ -96,6 +98,16 @@ export default Vue.extend({
           keydown: this.__keydown,
           keyup: this.__keyup
         }
+    },
+
+    inputAttrs () {
+      if (this.name !== void 0) {
+        return {
+          type: 'hidden',
+          name: this.name,
+          value: this.value
+        }
+      }
     }
   },
 
@@ -241,6 +253,12 @@ export default Vue.extend({
           mouse: true
         }
       }])
+
+      if (this.name !== void 0) {
+        data.scopedSlots = {
+          internal: () => h('input', { attrs: this.inputAttrs })
+        }
+      }
     }
 
     return h(QCircularProgress, data, slot(this, 'default'))

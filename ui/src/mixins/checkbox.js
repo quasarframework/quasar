@@ -100,7 +100,7 @@ export default {
       this.name !== void 0 && Object.assign(prop, {
         checked: this.isTrue,
         name: this.name,
-        value: this.trueValue
+        value: Object(this.trueValue) === this.trueValue ? JSON.stringify(this.trueValue) : this.trueValue
       })
 
       return prop

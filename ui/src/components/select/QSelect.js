@@ -758,9 +758,14 @@ export default Vue.extend({
       }
 
       if (this.disable !== true && this.nameProp !== void 0 && this.innerValue.length > 0) {
+        const getValue = value => {
+          const v = this.__getOptionValue(value)
+
+          return Object(v) === v ? JSON.stringify(v) : v
+        }
         const opts = this.innerValue.map(value => h('option', {
           attrs: {
-            value,
+            value: getValue(value),
             selected: true
           }
         }))

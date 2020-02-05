@@ -24,6 +24,8 @@ export default Vue.extend({
       default: 5
     },
 
+    name: String,
+
     icon: [String, Array],
     iconHalf: [String, Array],
     iconSelected: [String, Array],
@@ -79,6 +81,16 @@ export default Vue.extend({
         selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected,
         halfColorLen,
         halfColor: halfColorLen > 0 ? this.colorHalf[halfColorLen - 1] : this.colorHalf
+      }
+    },
+
+    inputAttrs () {
+      if (this.name !== void 0) {
+        return {
+          type: 'hidden',
+          name: this.name,
+          value: this.value
+        }
       }
     }
   },
@@ -177,6 +189,10 @@ export default Vue.extend({
           })
         }, slot(this, `tip-${i}`))
       )
+    }
+
+    if (this.editable === true && this.name !== void 0) {
+      child.push(h('input', { attrs: this.inputAttrs }))
     }
 
     return h('div', {

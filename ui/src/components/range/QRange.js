@@ -34,6 +34,8 @@ export default Vue.extend({
       }
     },
 
+    name: String,
+
     dragRange: Boolean,
     dragOnlyRange: Boolean,
 
@@ -225,6 +227,16 @@ export default Vue.extend({
     maxPinStyle () {
       const percent = (this.reverse === true ? -this.ratioMax : this.ratioMax - 1)
       return this.__getPinStyle(percent, this.ratioMax)
+    },
+
+    inputAttrs () {
+      if (this.name !== void 0) {
+        return {
+          type: 'hidden',
+          name: this.name,
+          value: JSON.stringify(this.value)
+        }
+      }
     }
   },
 
@@ -504,7 +516,8 @@ export default Vue.extend({
       ]),
 
       this.__getThumb(h, 'min'),
-      this.__getThumb(h, 'max')
+      this.__getThumb(h, 'max'),
+      this.editable === true && this.name !== void 0 ? h('input', { attrs: this.inputAttrs }) : null
     ])
   }
 })
