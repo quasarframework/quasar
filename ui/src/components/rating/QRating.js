@@ -191,7 +191,7 @@ export default Vue.extend({
       )
     }
 
-    if (this.name !== void 0) {
+    if (this.editable === true && this.name !== void 0) {
       child.push(h('input', { attrs: this.inputAttrs }))
     }
 

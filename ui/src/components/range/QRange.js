@@ -517,7 +517,7 @@ export default Vue.extend({
 
       this.__getThumb(h, 'min'),
       this.__getThumb(h, 'max'),
-      this.name !== void 0 ? h('input', { attrs: this.inputAttrs }) : null
+      this.editable === true && this.name !== void 0 ? h('input', { attrs: this.inputAttrs }) : null
     ])
   }
 })
