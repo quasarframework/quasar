@@ -5,6 +5,10 @@
 
   "mixins": [ "mixins/ratio" ],
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "slots": {
     "default": {
       "extends": "default"
