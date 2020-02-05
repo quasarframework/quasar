@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import QField from '../field/QField.js'
 
+import { FormFieldMixin } from '../../mixins/form.js'
 import MaskMixin from '../../mixins/mask.js'
 import CompositionMixin from '../../mixins/composition.js'
 import debounce from '../../utils/debounce.js'
@@ -10,7 +11,7 @@ import { stop } from '../../utils/event.js'
 export default Vue.extend({
   name: 'QInput',
 
-  mixins: [ QField, MaskMixin, CompositionMixin ],
+  mixins: [ QField, MaskMixin, CompositionMixin, FormFieldMixin ],
 
   props: {
     value: { required: false },

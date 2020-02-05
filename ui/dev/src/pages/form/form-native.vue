@@ -4,7 +4,7 @@
     <q-toggle v-model="disable" label="Disable" :dark="dark" />
     <q-toggle v-model="dark" label="Dark" :dark="dark" :false-value="null" />
 
-    <q-card tag="form" @submit.prevent="onSubmit" :dark="dark" :disabled="disable">
+    <q-card tag="form" @submit.prevent="onSubmit" :dark="dark">
       <q-card-section>
         <div class="q-mb-lg row q-col-gutter-x-md">
           <q-select name="select1" filled class="col" v-model="select1" :options="options1" :dark="dark" :disable="disable" label="select1 - Single" clearable />
@@ -30,10 +30,10 @@
         </div>
 
         <div class="q-my-lg">
-          <q-checkbox name="checkbox1" v-model="checked" :disable="disable" :dark="dark" color="primary" :label="`${disable ? 'Disabled ' : ''}Checkbox`" :keep-color="keepColor" />
-          <q-checkbox name="checkbox2" v-model="checked2" :true-value="2" :disable="disable" :dark="dark" color="accent" :label="`${disable ? 'Disabled ' : ''}Checkbox`" :keep-color="keepColor" />
-          <q-checkbox name="checkbox3" v-model="checked3" :true-value="3" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Checkbox`" :keep-color="keepColor" />
-          <q-checkbox name="checkbox4" v-model="checked4" :true-value="trueValue" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Checkbox Obj`" :keep-color="keepColor" />
+          <q-checkbox name="checkbox1" v-model="checked" :disable="disable" :dark="dark" color="primary" :label="`${disable ? 'Disabled ' : ''}Checkbox 1`" :keep-color="keepColor" />
+          <q-checkbox name="checkbox2" v-model="checked2" :true-value="2" :disable="disable" :dark="dark" color="accent" :label="`${disable ? 'Disabled ' : ''}Checkbox 2`" :keep-color="keepColor" />
+          <q-checkbox name="checkbox3" v-model="checked3" :true-value="3" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Checkbox 3`" :keep-color="keepColor" />
+          <q-checkbox name="checkbox4" v-model="checked4" :true-value="trueValue" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Checkbox Obj 4`" :keep-color="keepColor" />
         </div>
 
         <div class="q-my-lg">
@@ -62,9 +62,16 @@
         <div class="q-my-lg">
           <q-rating name="rating1" size="48px" v-model="rating1" :disable="disable" :dark="dark" />
         </div>
+
+        <div class="q-my-lg">
+          <q-date name="date" v-model="date" :disable="disable" :dark="dark"  />
+          <q-time name="time" v-model="time" :disable="disable" :dark="dark"  />
+        </div>
       </q-card-section>
 
-      <q-card-actions>
+      <q-separator />
+
+      <q-card-actions class="bg-grey-1">
         <q-btn color="primary" type="submit" label="Submit" class="q-px-md" />
         <div class="col row q-gutter-sm items-center q-pl-sm">
           <div
@@ -96,6 +103,9 @@ export default {
       trueValue: {
         value: true
       },
+
+      date: null,
+      time: null,
 
       option: 'opt1',
 

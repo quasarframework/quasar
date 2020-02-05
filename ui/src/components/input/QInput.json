@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/mask" ],
+  "mixins": [ "components/field/__QField", "mixins/mask", "mixins/form" ],
 
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/input"

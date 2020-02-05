@@ -6,6 +6,7 @@ import { slot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import FormMixin from '../../mixins/form.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
@@ -14,9 +15,10 @@ const keyCodes = [34, 37, 40, 33, 39, 38]
 export default Vue.extend({
   name: 'QKnob',
 
-  mixins: [{
-    props: QCircularProgress.options.props
-  }],
+  mixins: [
+    { props: QCircularProgress.options.props },
+    FormMixin
+  ],
 
   directives: {
     TouchPan
@@ -28,8 +30,6 @@ export default Vue.extend({
       default: 1,
       validator: v => v >= 0
     },
-
-    name: String,
 
     tabindex: {
       type: [Number, String],
@@ -98,16 +98,6 @@ export default Vue.extend({
           keydown: this.__keydown,
           keyup: this.__keyup
         }
-    },
-
-    inputAttrs () {
-      if (this.name !== void 0) {
-        return {
-          type: 'hidden',
-          name: this.name,
-          value: this.value
-        }
-      }
     }
   },
 
@@ -226,6 +216,10 @@ export default Vue.extend({
     __updateValue (change) {
       this.value !== this.model && this.$emit('input', this.model)
       change === true && this.$emit('change', this.model)
+    },
+
+    __getNameInput () {
+      return this.$createElement('input', { attrs: this.formAttrs })
     }
   },
 
@@ -256,7 +250,7 @@ export default Vue.extend({
 
       if (this.name !== void 0) {
         data.scopedSlots = {
-          internal: () => h('input', { attrs: this.inputAttrs })
+          internal: this.__getNameInput
         }
       }
     }

@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "mixins/size", "mixins/form" ],
 
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/rating"
@@ -22,14 +22,6 @@
       "default": 5,
       "examples": [ "3", ":max=\"5\"" ],
       "category": "general"
-    },
-
-    "name": {
-      "type": "String",
-      "desc": "Used to specify the name of the control; Useful if dealing with forms",
-      "examples": [ "car_id" ],
-      "category": "behavior",
-      "addedIn": "v1.9.0"
     },
 
     "icon": {

@@ -18,6 +18,7 @@ import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
+import { FormFieldMixin } from '../../mixins/form.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
 
@@ -26,7 +27,7 @@ const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField, VirtualScroll, CompositionMixin ],
+  mixins: [ QField, VirtualScroll, CompositionMixin, FormFieldMixin ],
 
   props: {
     value: {
@@ -302,6 +303,10 @@ export default Vue.extend({
         : (this.color !== void 0 ? `text-${this.color}` : '')
     },
 
+    innerOptionsValue () {
+      return this.innerValue.map(opt => this.__getOptionValue(opt))
+    },
+
     __getOptionValue () {
       return this.__getPropValueFn('optionValue', 'value')
     },
@@ -402,7 +407,7 @@ export default Vue.extend({
 
       const
         model = this.value.slice(),
-        index = this.innerValue.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
+        index = this.innerOptionsValue.findIndex(v => isDeepEqual(v, optValue))
 
       if (index > -1) {
         this.$emit('remove', { index, value: model.splice(index, 1) })
@@ -478,8 +483,7 @@ export default Vue.extend({
 
     __isSelected (opt) {
       const val = this.__getOptionValue(opt)
-      return this.innerValue
-        .find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
+      return this.innerOptionsValue.find(v => isDeepEqual(v, val)) !== void 0
     },
 
     __onTargetKeyup (e) {
@@ -757,17 +761,9 @@ export default Vue.extend({
         }))
       }
 
-      if (this.disable !== true && this.nameProp !== void 0 && this.innerValue.length > 0) {
-        const getValue = value => {
-          const v = this.__getOptionValue(value)
-
-          return Object(v) === v ? JSON.stringify(v) : v
-        }
-        const opts = this.innerValue.map(value => h('option', {
-          attrs: {
-            value: getValue(value),
-            selected: true
-          }
+      if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
+        const opts = this.innerOptionsValue.map(value => h('option', {
+          attrs: { value, selected: true }
         }))
 
         child.push(

@@ -3,7 +3,9 @@ import Vue from 'vue'
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
+
 import SizeMixin from '../../mixins/size.js'
+import FormMixin from '../../mixins/form.js'
 
 import { cache } from '../../utils/vm.js'
 import { slot } from '../../utils/slot.js'
@@ -11,7 +13,7 @@ import { slot } from '../../utils/slot.js'
 export default Vue.extend({
   name: 'QRating',
 
-  mixins: [ SizeMixin ],
+  mixins: [ SizeMixin, FormMixin ],
 
   props: {
     value: {
@@ -23,8 +25,6 @@ export default Vue.extend({
       type: [String, Number],
       default: 5
     },
-
-    name: String,
 
     icon: [String, Array],
     iconHalf: [String, Array],
@@ -81,16 +81,6 @@ export default Vue.extend({
         selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected,
         halfColorLen,
         halfColor: halfColorLen > 0 ? this.colorHalf[halfColorLen - 1] : this.colorHalf
-      }
-    },
-
-    inputAttrs () {
-      if (this.name !== void 0) {
-        return {
-          type: 'hidden',
-          name: this.name,
-          value: this.value
-        }
       }
     }
   },
@@ -191,8 +181,8 @@ export default Vue.extend({
       )
     }
 
-    if (this.editable === true && this.name !== void 0) {
-      child.push(h('input', { attrs: this.inputAttrs }))
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(h, child, 'push')
     }
 
     return h('div', {

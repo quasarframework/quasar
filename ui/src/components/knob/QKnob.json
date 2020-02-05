@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "mixins/size", "mixins/form" ],
 
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/knob"
@@ -33,14 +33,6 @@
       "desc": "A number representing steps in the value of the model, while adjusting the knob",
       "examples": [ "1", "5" ],
       "category": "model"
-    },
-
-    "name": {
-      "type": "String",
-      "desc": "Used to specify the name of the control; Useful if dealing with forms",
-      "examples": [ "car_id" ],
-      "category": "behavior",
-      "addedIn": "v1.9.0"
     },
 
     "color": {

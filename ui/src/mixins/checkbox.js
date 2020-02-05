@@ -1,13 +1,14 @@
 import DarkMixin from './dark.js'
 import { stopAndPrevent } from '../utils/event.js'
 
+import FormMixin from './form.js'
 import OptionSizeMixin from './option-size.js'
 
 import { slot, mergeSlot } from '../utils/slot.js'
 import { cache } from '../utils/vm.js'
 
 export default {
-  mixins: [ DarkMixin, OptionSizeMixin ],
+  mixins: [ DarkMixin, OptionSizeMixin, FormMixin ],
 
   props: {
     value: {
@@ -15,8 +16,6 @@ export default {
       default: null
     },
     val: {},
-
-    name: String,
 
     trueValue: { default: true },
     falseValue: { default: false },
@@ -94,13 +93,13 @@ export default {
       return `q-${this.type}__inner--${state}${color}`
     },
 
-    attrs () {
+    formAttrs () {
       const prop = { type: 'checkbox' }
 
       this.name !== void 0 && Object.assign(prop, {
         checked: this.isTrue,
         name: this.name,
-        value: Object(this.trueValue) === this.trueValue ? JSON.stringify(this.trueValue) : this.trueValue
+        value: this.trueValue
       })
 
       return prop
@@ -160,11 +159,11 @@ export default {
   render (h) {
     const inner = this.__getInner(h)
 
-    this.disable !== true && inner.unshift(
-      h('input', {
-        staticClass: `q-${this.type}__native absolute q-ma-none q-pa-none invisible`,
-        attrs: this.attrs
-      })
+    this.disable !== true && this.__injectFormInput(
+      h,
+      inner,
+      'unshift',
+      `q-${this.type}__native absolute q-ma-none q-pa-none invisible`
     )
 
     const child = [

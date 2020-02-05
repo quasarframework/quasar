@@ -23,8 +23,6 @@ export default Vue.extend({
       validator: v => typeof v === 'number' || v === null
     },
 
-    name: String,
-
     labelValue: [String, Number]
   },
 
@@ -113,16 +111,6 @@ export default Vue.extend({
     pinStyle () {
       const percent = (this.reverse === true ? -this.ratio : this.ratio - 1)
       return this.__getPinStyle(percent, this.ratio)
-    },
-
-    inputAttrs () {
-      if (this.name !== void 0) {
-        return {
-          type: 'hidden',
-          name: this.name,
-          value: this.value
-        }
-      }
     }
   },
 
@@ -206,10 +194,8 @@ export default Vue.extend({
       )
     }
 
-    if (this.editable === true && this.name !== void 0) {
-      child.push(
-        h('input', { attrs: this.inputAttrs })
-      )
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(h, child, 'push')
     }
 
     const track = [

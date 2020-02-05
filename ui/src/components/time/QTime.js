@@ -98,10 +98,9 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
+      return `q-time q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
         (this.isDark === true ? ' q-time--dark q-dark' : '') +
-        (this.readonly === true && this.disable !== true ? ' q-time--readonly' : '') +
-        (this.disable === true ? ' disable' : '') +
+        (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-time--readonly' : '')) +
         (this.bordered === true ? ` q-time--bordered` : '') +
         (this.square === true ? ` q-time--square no-border-radius` : '') +
         (this.flat === true ? ` q-time--flat no-shadow` : '')
@@ -702,8 +701,11 @@ export default Vue.extend({
       h('div', { staticClass: 'q-time__actions' }, def)
     )
 
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(h, child, 'push')
+    }
+
     return h('div', {
-      staticClass: 'q-time',
       class: this.classes,
       on: this.$listeners,
       attrs: { tabindex: -1 }
