@@ -30,10 +30,10 @@ export default Vue.extend({
 
     classes () {
       return 'q-separator' + this.insetClass +
-        ` q-separator--${this.vertical ? 'vertical self-stretch' : 'horizontal col-grow'}` +
+        ` q-separator--${this.vertical === true ? 'vertical self-stretch' : 'horizontal col-grow'}` +
         (this.color !== void 0 ? ` bg-${this.color}` : '') +
         (this.isDark === true ? ' q-separator--dark' : '') +
-        (this.spaced === true ? ' q-separator--spaced': '')
+        (this.spaced === true ? ' q-separator--spaced' : '')
     }
   },
 
