@@ -37,6 +37,18 @@
           <q-toggle name="toggle3" v-model="checked3" :true-value="3" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Toggle Label`" :keep-color="keepColor" />
           <q-toggle name="toggle4" v-model="checked4" :true-value="trueValue" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Toggle Label Obj`" :keep-color="keepColor" />
         </div>
+
+        <div class="q-my-lg">
+          <q-knob name="knob1" size="100px" color="orange" v-model="number" :disable="disable" :dark="dark" />
+          <q-knob name="knob2" size="100px" color="blue" v-model="number" show-value :disable="disable" :dark="dark" />
+          <q-knob name="knob3" size="100px" color="green" v-model="number" show-value :disable="disable" :dark="dark">
+            <div class="text-center">Slot<br/>{{ number }}</div>
+          </q-knob>
+        </div>
+
+        <div class="q-my-lg">
+          <q-slider name="slider1" v-model="number" :disable="disable" :dark="dark" />
+        </div>
       </q-card-section>
 
       <q-card-actions>
@@ -149,6 +161,7 @@ export default {
 
       text1: '1',
       text2: '2',
+      number: 30,
 
       file: null,
 
@@ -162,7 +175,7 @@ export default {
       for (const [ name, value ] of formData.entries()) {
         submitResult.push({
           name,
-          value
+          value: value.name || value
         })
       }
       this.submitResult = submitResult
