@@ -1,6 +1,6 @@
-import Vue, { ComponentOptions, VueConstructor } from 'vue';
-import VueRouter from 'vue-router';
-import { HasSsr, HasStore } from './feature-flag';
+import Vue, { ComponentOptions, VueConstructor } from "vue";
+import VueRouter from "vue-router";
+import { HasSsr, HasStore } from "./feature-flag";
 
 export interface QSsrContext {
   req: {
@@ -12,7 +12,7 @@ export interface QSsrContext {
 }
 
 export type HasSsrBootParams = HasSsr<{ ssrContext?: QSsrContext | null }>;
-export type HasStoreBootParams<S> = HasStore<{ store: S }>;
+export type HasStoreBootParams<S = any> = HasStore<{ store: S }>;
 
 export interface BootFileParams<TStore = any>
   extends HasSsrBootParams,
