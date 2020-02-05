@@ -5,6 +5,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/carousel"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "dark": {
       "extends": "dark",

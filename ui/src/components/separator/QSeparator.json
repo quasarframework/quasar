@@ -3,6 +3,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/separator"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "dark": {
       "extends": "dark"

@@ -186,6 +186,9 @@ export default Vue.extend({
       )
     }
 
-    return h('div', { staticClass: 'q-infinite-scroll' }, child)
+    return h('div', {
+      staticClass: 'q-infinite-scroll',
+      on: this.$listeners
+    }, child)
   }
 })

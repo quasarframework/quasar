@@ -199,7 +199,10 @@ export default Vue.extend({
       this.__getFooter(h)
     )
 
-    return h('div', { class: this.classes }, child)
+    return h('div', {
+      class: this.classes,
+      on: this.$listeners
+    }, child)
   },
 
   methods: {

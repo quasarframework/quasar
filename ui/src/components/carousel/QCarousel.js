@@ -182,7 +182,8 @@ export default Vue.extend({
     __renderPanels (h) {
       return h('div', {
         style: this.style,
-        class: this.classes
+        class: this.classes,
+        on: this.$listeners
       }, [
         h('div', {
           staticClass: 'q-carousel__slides-container',

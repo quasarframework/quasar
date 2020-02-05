@@ -3,6 +3,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/infinite-scroll"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "offset": {
       "type": "Number",

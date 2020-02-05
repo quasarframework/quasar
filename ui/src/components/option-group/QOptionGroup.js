@@ -53,6 +53,11 @@ export default Vue.extend({
 
     model () {
       return Array.isArray(this.value) ? this.value.slice() : this.value
+    },
+
+    classes () {
+      return 'q-option-group q-gutter-x-sm' +
+        (this.inline === true ? ' q-option-group--inline' : '')
     }
   },
 
@@ -77,8 +82,8 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-option-group q-gutter-x-sm',
-      class: this.inline ? 'q-option-group--inline' : null
+      class: this.classes,
+      on: this.$listeners
     }, this.options.map(opt => h('div', [
       h(this.component, {
         props: {

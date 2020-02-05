@@ -62,7 +62,8 @@ export default Vue.extend({
     return h(this.tag, {
       staticClass: 'q-skeleton',
       class: this.classes,
-      style: this.style
+      style: this.style,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

@@ -3,6 +3,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/form"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "autofocus": {
       "type": "Boolean",

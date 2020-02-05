@@ -3,6 +3,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/pull-to-refresh"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "color": {
       "extends": "color"

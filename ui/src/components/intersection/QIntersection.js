@@ -59,6 +59,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-intersection',
+      on: this.$listeners,
       directives: this.disable === true ? null : [{
         name: 'intersection',
         value: this.value,

@@ -5,6 +5,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/option-group"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "value": {
       "extends": "value",
