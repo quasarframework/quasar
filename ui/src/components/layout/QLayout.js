@@ -98,6 +98,11 @@ export default Vue.extend({
 
     totalWidth () {
       return this.width + this.scrollbarWidth
+    },
+
+    classes () {
+      return 'q-layout q-layout--' +
+        (this.container === true ? 'containerized' : 'standard')
     }
   },
 
@@ -107,8 +112,7 @@ export default Vue.extend({
 
   render (h) {
     const layout = h('div', {
-      staticClass: 'q-layout q-layout--' +
-        (this.container === true ? 'containerized' : 'standard'),
+      class: this.classes,
       style: this.style,
       on: this.$listeners
     }, mergeSlot([
