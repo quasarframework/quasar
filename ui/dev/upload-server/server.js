@@ -1,11 +1,10 @@
-const
-  express = require('express'),
-  app = express(),
-  formidable = require('formidable'),
-  path = require('path'),
-  rimraf = require('rimraf'),
-  fs = require('fs'),
-  throttle = require('express-throttle-bandwidth')
+const express = require('express')
+const app = express()
+const formidable = require('formidable')
+const path = require('path')
+const rimraf = require('rimraf')
+const fs = require('fs')
+const throttle = require('express-throttle-bandwidth')
 
 const
   port = process.env.PORT || 4444,
@@ -25,7 +24,7 @@ process.on('exit', () => {
 app.set('port', port)
 app.use(throttle(1024 * 128))
 
-app.use((req, res, next) => {
+app.use((_, res, next) => {
   res.header('Access-Control-Allow-Origin', '*')
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
   next()
