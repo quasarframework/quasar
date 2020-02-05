@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
+import { slot } from '../../utils/slot.js'
 
 const
   radius = 50,
@@ -158,7 +159,9 @@ export default Vue.extend({
           staticClass: 'q-circular-progress__text absolute-full row flex-center content-center',
           style: { fontSize: this.fontSize }
         }, this.$scopedSlots.default !== void 0 ? this.$scopedSlots.default() : [ h('div', [ this.value ]) ])
-        : null
+        : null,
+
+      slot(this, 'internal')
     ])
   }
 })

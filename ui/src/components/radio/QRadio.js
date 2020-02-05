@@ -68,7 +68,7 @@ export default Vue.extend({
       this.name !== void 0 && Object.assign(prop, {
         checked: this.isTrue,
         name: this.name,
-        value: this.val
+        value: Object(this.val) === this.val ? JSON.stringify(this.val) : this.val
       })
 
       return prop
