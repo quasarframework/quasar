@@ -7,8 +7,13 @@
     <q-card tag="form" @submit.prevent="onSubmit" :dark="dark" :disabled="disable">
       <q-card-section>
         <div class="q-mb-lg row q-col-gutter-x-md">
-          <q-select name="select1" filled class="col" v-model="select1" dense :options="options" :dark="dark" :disable="disable" label="select1 - Single" clearable />
-          <q-select name="select2" filled class="col" v-model="select2" dense :options="options" :dark="dark" :disable="disable" label="select2 - Multiple" multiple clearable />
+          <q-select name="select1" filled class="col" v-model="select1" dense :options="options1" :dark="dark" :disable="disable" label="select1 - Single" clearable />
+          <q-select name="select2" filled class="col" v-model="select2" dense :options="options1" :dark="dark" :disable="disable" label="select2 - Multiple" multiple clearable />
+        </div>
+
+        <div class="q-mb-lg row q-col-gutter-x-md">
+          <q-select name="select3" filled class="col" v-model="select3" dense :options="options2" :dark="dark" :disable="disable" label="select3 - obj - Single" clearable />
+          <q-select name="select4" filled class="col" v-model="select4" dense :options="options2" :dark="dark" :disable="disable" label="select4 - obj - Multiple" multiple clearable />
         </div>
 
         <div class="q-mb-lg row q-col-gutter-x-md">
@@ -39,15 +44,23 @@
         </div>
 
         <div class="q-my-lg">
-          <q-knob name="knob1" size="100px" color="orange" v-model="number" :disable="disable" :dark="dark" />
-          <q-knob name="knob2" size="100px" color="blue" v-model="number" show-value :disable="disable" :dark="dark" />
-          <q-knob name="knob3" size="100px" color="green" v-model="number" show-value :disable="disable" :dark="dark">
-            <div class="text-center">Slot<br/>{{ number }}</div>
+          <q-knob name="knob1" size="100px" color="orange" v-model="number1" :disable="disable" :dark="dark" />
+          <q-knob name="knob2" size="100px" color="blue" v-model="number2" show-value :disable="disable" :dark="dark" />
+          <q-knob name="knob3" size="100px" color="green" v-model="number3" show-value :disable="disable" :dark="dark">
+            <div class="text-center">Slot<br/>{{ number3 }}</div>
           </q-knob>
         </div>
 
         <div class="q-my-lg">
-          <q-slider name="slider1" v-model="number" :disable="disable" :dark="dark" />
+          <q-slider name="slider1" v-model="number4" :disable="disable" :dark="dark" />
+        </div>
+
+        <div class="q-my-lg">
+          <q-range name="range1" v-model="range1" :disable="disable" :dark="dark" />
+        </div>
+
+        <div class="q-my-lg">
+          <q-rating name="rating1" size="48px" v-model="rating1" :disable="disable" :dark="dark" />
         </div>
       </q-card-section>
 
@@ -157,11 +170,30 @@ export default {
 
       select1: null,
       select2: null,
-      options: [ 'Option 1', 'Option 2', { label: 'Option 3 - Obj' }, { label: 'Option 4 - Obj' } ],
+      select3: null,
+      select4: null,
+      options1: [ 'Option 1', 'Option 2', { label: 'Option 3 - Obj' }, { label: 'Option 4 - Obj' } ],
+      options2: [
+        { label: 'Option 1 - Obj', value: 'Option 1' },
+        { label: 'Option 2 - Obj', value: 'Option 2' },
+        { label: 'Option 3 - Obj', value: 'Option 3' },
+        { label: 'Option 4 - Obj', value: 'Option 4' }
+      ],
 
       text1: '1',
       text2: '2',
-      number: 30,
+
+      number1: 10,
+      number2: 20,
+      number3: 30,
+      number4: 40,
+
+      range1: {
+        min: 20,
+        max: 60
+      },
+
+      rating1: 3,
 
       file: null,
 
