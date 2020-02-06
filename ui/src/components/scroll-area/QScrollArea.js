@@ -8,17 +8,18 @@ import { cache } from '../../utils/vm.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
+import DarkMixin from '../../mixins/dark.js'
 
 export default Vue.extend({
   name: 'QScrollArea',
+
+  mixins: [ DarkMixin ],
 
   directives: {
     TouchPan
   },
 
   props: {
-    forceOnMobile: Boolean,
-
     barStyle: [ Array, String, Object ],
     thumbStyle: Object,
     contentStyle: [ Array, String, Object ],
@@ -55,6 +56,11 @@ export default Vue.extend({
   },
 
   computed: {
+    classes () {
+      return 'q-scrollarea' +
+        (this.isDark === true ? ' q-scrollarea--dark' : '')
+    },
+
     thumbHidden () {
       return this.scrollSize <= this.containerSize ||
         (this.active === false && this.hover === false)
@@ -78,7 +84,8 @@ export default Vue.extend({
         this.horizontal === true
           ? {
             left: `${pos}px`,
-            width: `${this.thumbSize}px` }
+            width: `${this.thumbSize}px`
+          }
           : {
             top: `${pos}px`,
             height: `${this.thumbSize}px`
@@ -104,9 +111,7 @@ export default Vue.extend({
     },
 
     containerSize () {
-      return this.horizontal === true
-        ? this.containerWidth
-        : this.containerHeight
+      return this[`container${this.horizontal === true ? 'Width' : 'Height'}`]
     },
 
     dirProps () {
@@ -239,20 +244,8 @@ export default Vue.extend({
   },
 
   render (h) {
-    if (this.forceOnMobile !== true && this.$q.platform.is.desktop !== true) {
-      return h('div', {
-        staticClass: 'q-scrollarea',
-        style: this.contentStyle
-      }, [
-        h('div', {
-          ref: 'target',
-          staticClass: 'scroll relative-position fit'
-        }, slot(this, 'default'))
-      ])
-    }
-
     return h('div', {
-      staticClass: 'q-scrollarea',
+      class: this.classes,
       on: this.visible === null
         ? cache(this, 'desk', {
           mouseenter: () => { this.hover = true },
