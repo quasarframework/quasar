@@ -164,6 +164,8 @@ The property `row-key` must be set in order for selection to work properly.
 
 ### Visible columns, custom top, fullscreen
 
+Please note that columns marked as `required` (in the column definition) cannot be toggled and are always visible.
+
 <doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
 
 <doc-example title="Visible columns" file="QTable/VisibleColumns2" />
