@@ -15,7 +15,7 @@ module.exports = function regenerateTypesFeatureFlags(buildConfig) {
     buildConfig.store,
     appPaths.resolve.cli('templates/app/store/store-flag.d.ts'),
     appPaths.resolve.app(getStoreFlagPath(buildConfig.sourceFiles.store))
-  ];
+  ]
 
   // Flags must be available even in pure JS codebases,
   //    because boot and configure wrappers functions files will
@@ -44,4 +44,4 @@ module.exports = function regenerateTypesFeatureFlags(buildConfig) {
       warn(`'${feature}' feature flag was missing and has been regenerated`)
     }
   }
-};
+}
