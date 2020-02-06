@@ -4,7 +4,9 @@ import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { cache } from '../../utils/vm.js'
 import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
+
 import DarkMixin from '../../mixins/dark.js'
+import FormMixin from '../../mixins/form.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -32,7 +34,7 @@ const palette = [
 export default Vue.extend({
   name: 'QColor',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, FormMixin ],
 
   directives: {
     TouchPan
@@ -126,6 +128,14 @@ export default Vue.extend({
         : this.isHex
     },
 
+    formAttrs () {
+      return {
+        type: 'hidden',
+        name: this.name,
+        value: this.model[this.isOutputHex === true ? 'hex' : 'rgb' ]
+      }
+    },
+
     hasAlpha () {
       if (this.forceAlpha !== null) {
         return this.forceAlpha
@@ -190,6 +200,12 @@ export default Vue.extend({
 
   render (h) {
     const child = [ this.__getContent(h) ]
+
+    this.name !== void 0 && this.disable !== true && this.__injectFormInput(
+      h,
+      child,
+      'push'
+    )
 
     this.noHeader !== true && child.unshift(
       this.__getHeader(h)

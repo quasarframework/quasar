@@ -64,8 +64,9 @@
         </div>
 
         <div class="q-my-lg">
-          <q-date name="date" v-model="date" :disable="disable" :dark="dark"  />
-          <q-time name="time" v-model="time" :disable="disable" :dark="dark"  />
+          <q-date name="date" v-model="date" :disable="disable" :dark="dark" />
+          <q-time name="time" v-model="time" :disable="disable" :dark="dark" />
+          <q-color name="color" v-model="color" :disable="disable" :dark="dark" />
         </div>
       </q-card-section>
 
@@ -106,6 +107,7 @@ export default {
 
       date: null,
       time: null,
+      color: 'rgb(2,2,2)',
 
       option: 'opt1',
 
