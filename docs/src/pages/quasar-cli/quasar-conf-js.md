@@ -87,7 +87,7 @@ The possibilities are endless.
 
 ---
 
-Starting with v1.9, you can wrap the returned function with `configure` helper to get a better IDE autocomplete experience:
+Starting with v1.9, you can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through Typescript):
 
 ```js
 const { configure } = require('quasar')
