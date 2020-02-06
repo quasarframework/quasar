@@ -88,8 +88,9 @@ The possibilities are endless.
 ---
 
 Starting with v1.9, you can wrap the returned function with `configure` helper to get a better IDE autocomplete experience:
+
 ```js
-const { configure } = require('quasar');
+const { configure } = require('quasar')
 
 module.exports = configure(function (ctx) {
   /* configuration options */
