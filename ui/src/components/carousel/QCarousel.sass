@@ -104,32 +104,40 @@
         cursor: default
 
   &--padding
-    &-top, &-vertical
+    &-top,
+    &-vertical
       .q-carousel__slide
-        padding-top: 56px
+        padding-top: 64px
     &-top
-      .q-carousel__arrow:not(.q-carousel__next-arrow--vertical)
+      .q-carousel__prev-arrow,
+      .q-carousel__next-arrow--horizontal
         top: 56px
 
-    &-bottom, &-vertical
+    &-bottom,
+    &-vertical
       .q-carousel__slide
-        padding-bottom: 56px
+        padding-bottom: 64px
     &-bottom
-      .q-carousel__arrow:not(.q-carousel__prev-arrow--vertical)
+      .q-carousel__next-arrow,
+      .q-carousel__prev-arrow--horizontal
         bottom: 56px
 
-    &-left, &-horizontal
+    &-left,
+    &-horizontal
       .q-carousel__slide
-        padding-left: 56px
+        padding-left: 64px
     &-left
-      .q-carousel__arrow:not(.q-carousel__next-arrow--horizontal)
+      .q-carousel__prev-arrow,
+      .q-carousel__next-arrow--vertical
         left: 56px
 
-    &-right, &-horizontal
+    &-right,
+    &-horizontal
       .q-carousel__slide
-        padding-right: 56px
+        padding-right: 64px
     &-right
-      .q-carousel__arrow:not(.q-carousel__prev-arrow--horizontal)
+      .q-carousel__next-arrow,
+      .q-carousel__prev-arrow--vertical
         right: 56px
 
   &.fullscreen

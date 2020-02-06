@@ -122,27 +122,6 @@ export default Vue.extend({
     __getContent (h) {
       const node = []
 
-      if (this.arrows === true) {
-        node.push(
-          h('div', {
-            staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
-          }, [
-            h(QBtn, {
-              props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
-              on: cache(this, 'prev', { click: this.previous })
-            })
-          ]),
-          h('div', {
-            staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
-          }, [
-            h(QBtn, {
-              props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
-              on: cache(this, 'next', { click: this.next })
-            })
-          ])
-        )
-      }
-
       if (this.navigation === true) {
         node.push(this.__getNavigationContainer(h, 'buttons', panel => {
           const name = panel.componentOptions.propsData.name
@@ -174,6 +153,27 @@ export default Vue.extend({
             on: cache(this, 'tmb#' + slide.name, { click: () => { this.goTo(slide.name) } })
           })
         }))
+      }
+
+      if (this.arrows === true) {
+        node.push(
+          h('div', {
+            staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
+          }, [
+            h(QBtn, {
+              props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
+              on: cache(this, 'prev', { click: this.previous })
+            })
+          ]),
+          h('div', {
+            staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
+          }, [
+            h(QBtn, {
+              props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
+              on: cache(this, 'next', { click: this.next })
+            })
+          ])
+        )
       }
 
       return mergeSlot(node, this, 'control')
