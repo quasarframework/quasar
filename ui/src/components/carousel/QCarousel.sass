@@ -49,6 +49,8 @@
     &--bottom
       left: 15px
       right: 15px
+      overflow-x: auto
+      overflow-y: hidden
 
     &--top
       top: 8px
@@ -60,6 +62,8 @@
     &--right
       top: 8px
       bottom: 8px
+      overflow-x: hidden
+      overflow-y: auto
 
       > .q-carousel__navigation-inner
         flex-direction: column
@@ -104,28 +108,28 @@
       .q-carousel__slide
         padding-top: 56px
     &-top
-      .q-carousel__arrow
+      .q-carousel__arrow:not(.q-carousel__next-arrow--vertical)
         top: 56px
 
     &-bottom, &-vertical
       .q-carousel__slide
         padding-bottom: 56px
     &-bottom
-      .q-carousel__arrow
+      .q-carousel__arrow:not(.q-carousel__prev-arrow--vertical)
         bottom: 56px
 
     &-left, &-horizontal
       .q-carousel__slide
-        padding-left: 65px
+        padding-left: 56px
     &-left
-      .q-carousel__arrow
+      .q-carousel__arrow:not(.q-carousel__next-arrow--horizontal)
         left: 56px
 
     &-right, &-horizontal
       .q-carousel__slide
-        padding-right: 65px
+        padding-right: 56px
     &-right
-      .q-carousel__arrow
+      .q-carousel__arrow:not(.q-carousel__prev-arrow--horizontal)
         right: 56px
 
   &.fullscreen

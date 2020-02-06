@@ -4,7 +4,7 @@
       v-model="panel"
       animated
       swipeable
-      swipeable-vertical
+      vertical
       infinite
       class="bg-purple text-white shadow-2 rounded-borders"
     >
