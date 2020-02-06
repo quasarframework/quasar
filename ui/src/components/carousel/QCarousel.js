@@ -20,6 +20,11 @@ export default Vue.extend({
     padding: Boolean,
 
     controlColor: String,
+    controlType: {
+      type: String,
+      validator: v => [ 'regular', 'flat', 'outline', 'push', 'unelevated' ].includes(v),
+      default: 'flat'
+    },
     autoplay: [Number, Boolean],
 
     arrows: Boolean,
@@ -50,15 +55,11 @@ export default Vue.extend({
     },
 
     classes () {
-      return `q-carousel q-panel-parent` +
+      return `q-carousel q-panel-parent q-carousel--with${this.padding === true ? '' : 'out'}-padding` +
         (this.inFullscreen === true ? ' fullscreen' : '') +
         (this.isDark === true ? ' q-carousel--dark q-dark' : '') +
-        (
-          this.padding === true
-            ? (this.arrows === true ? ` q-carousel--padding-${this.direction}` : '') +
-              (this.navigation === true ? ` q-carousel--padding-${this.navigationPositionComputed}` : '')
-            : ''
-        )
+        (this.arrows === true ? ` q-carousel--arrows-${this.direction}` : '') +
+        (this.navigation === true ? ` q-carousel--navigation-${this.navigationPositionComputed}` : '')
     },
 
     arrowIcons () {
@@ -78,6 +79,23 @@ export default Vue.extend({
 
     navigationPositionComputed () {
       return this.navigationPosition || (this.vertical === true ? 'right' : 'bottom')
+    },
+
+    controlProps () {
+      return {
+        color: this.controlColor,
+        round: true,
+        [this.controlType]: true,
+        dense: true
+      }
+    },
+
+    transitionPrevComputed () {
+      return this.transitionPrev || `fade`
+    },
+
+    transitionNextComputed () {
+      return this.transitionNext || `fade`
     }
   },
 
@@ -128,24 +146,25 @@ export default Vue.extend({
 
           return h(QBtn, {
             key: name,
-            staticClass: 'q-carousel__navigation-icon',
-            class: { 'q-carousel__navigation-icon--active': name === this.value },
-            props: {
+            class: `q-carousel__navigation-icon q-carousel__navigation-icon--${name === this.value ? '' : 'in'}active`,
+            props: Object.assign({
               icon: this.navIcon,
-              round: true,
-              flat: true,
               size: 'sm'
-            },
+            }, this.controlProps),
             on: cache(this, 'nav#' + name, { click: () => { this.goTo(name) } })
           })
         }))
       }
       else if (this.thumbnails === true) {
+        const color = this.controlColor !== void 0
+          ? ` text-${this.controlColor}`
+          : ''
+
         node.push(this.__getNavigationContainer(h, 'thumbnails', panel => {
           const slide = panel.componentOptions.propsData
 
           return h('img', {
-            class: { 'q-carousel__thumbnail--active': slide.name === this.value },
+            class: `q-carousel__thumbnail q-carousel__thumbnail--${slide.name === this.value ? '' : 'in'}active` + color,
             attrs: {
               src: slide.imgSrc
             },
@@ -161,7 +180,7 @@ export default Vue.extend({
             staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
           }, [
             h(QBtn, {
-              props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[0], round: true, flat: true, dense: true },
+              props: Object.assign({ icon: this.arrowIcons[0] }, this.controlProps),
               on: cache(this, 'prev', { click: this.previous })
             })
           ]),
@@ -169,7 +188,7 @@ export default Vue.extend({
             staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
           }, [
             h(QBtn, {
-              props: { size: 'lg', color: this.controlColor, icon: this.arrowIcons[1], round: true, flat: true, dense: true },
+              props: Object.assign({ icon: this.arrowIcons[1] }, this.controlProps),
               on: cache(this, 'next', { click: this.next })
             })
           ])
@@ -194,7 +213,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.autoplay && this.__startTimer()
+    this.autoplay === true && this.__startTimer()
   },
 
   beforeDestroy () {

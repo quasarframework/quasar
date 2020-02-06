@@ -4,15 +4,12 @@
 
   &__slide
     min-height: 100%
-    padding: 16px
     background-size: cover
     background-position: 50%
+    padding: 16px
 
   &__slides-container
     height: 100%
-
-  .q-carousel__slide
-    height: auto
 
   &__control
     color: #fff
@@ -27,41 +24,41 @@
 
   &__prev-arrow--horizontal,
   &__next-arrow--horizontal
-    top: 14px
-    bottom: 14px
+    top: 16px
+    bottom: 16px
   &__prev-arrow--horizontal
-    left: 15px
+    left: 16px
   &__next-arrow--horizontal
-    right: 15px
+    right: 16px
 
   &__prev-arrow--vertical,
   &__next-arrow--vertical
-    left: 6px
-    right: 6px
+    left: 16px
+    right: 16px
   &__prev-arrow--vertical
-    top: 4px
+    top: 16px
   &__next-arrow--vertical
-    bottom: 4px
+    bottom: 16px
 
   &__navigation
 
     &--top,
     &--bottom
-      left: 15px
-      right: 15px
+      left: 16px
+      right: 16px
       overflow-x: auto
       overflow-y: hidden
 
     &--top
-      top: 8px
+      top: 16px
 
     &--bottom
-      bottom: 8px
+      bottom: 16px
 
     &--left,
     &--right
-      top: 8px
-      bottom: 8px
+      top: 16px
+      bottom: 16px
       overflow-x: hidden
       overflow-y: auto
 
@@ -69,10 +66,10 @@
         flex-direction: column
 
     &--left
-      left: 15px
+      left: 16px
 
     &--right
-      right: 15px
+      right: 16px
 
     &-inner
       flex: 1 1 auto
@@ -82,55 +79,48 @@
 
       .q-btn__wrapper
         padding: 5px
-      &:not(.q-carousel__navigation-icon--active)
-        opacity: .5
 
-    img
-      margin: 2px
-      height: 50px
-      width: auto
-      display: inline-block
-      cursor: pointer
-      border: 1px solid transparent
-      vertical-align: middle
-      opacity: .8
-      transition: opacity .3s
+  &__navigation-icon--inactive
+    opacity: .7
 
-      &:hover,
-      &.q-carousel__thumbnail--active
-        opacity: 1
-      &.q-carousel__thumbnail--active
-        border-color: #fff
-        cursor: default
+  .q-carousel__thumbnail
+    margin: 2px
+    height: 50px
+    width: auto
+    display: inline-block
+    cursor: pointer
+    border: 1px solid transparent
+    border-radius: $generic-border-radius
+    vertical-align: middle
+    opacity: .7
+    transition: opacity .3s
 
-  &--padding
-    &-top, &-vertical
-      .q-carousel__slide
-        padding-top: 56px
-    &-top
-      .q-carousel__arrow:not(.q-carousel__next-arrow--vertical)
-        top: 56px
+  .q-carousel__thumbnail:hover,
+  .q-carousel__thumbnail--active
+    opacity: 1
+  .q-carousel__thumbnail--active
+    border-color: currentColor
+    cursor: default
 
-    &-bottom, &-vertical
-      .q-carousel__slide
-        padding-bottom: 56px
-    &-bottom
-      .q-carousel__arrow:not(.q-carousel__prev-arrow--vertical)
-        bottom: 56px
+  &--navigation-top,
+  &--arrows-vertical
+    &.q-carousel--with-padding .q-carousel__slide, .q-carousel--padding
+      padding-top: 60px
 
-    &-left, &-horizontal
-      .q-carousel__slide
-        padding-left: 56px
-    &-left
-      .q-carousel__arrow:not(.q-carousel__next-arrow--horizontal)
-        left: 56px
+  &--navigation-bottom,
+  &--arrows-vertical
+    &.q-carousel--with-padding .q-carousel__slide, .q-carousel--padding
+      padding-bottom: 60px
 
-    &-right, &-horizontal
-      .q-carousel__slide
-        padding-right: 56px
-    &-right
-      .q-carousel__arrow:not(.q-carousel__prev-arrow--horizontal)
-        right: 56px
+  &--navigation-left,
+  &--arrows-horizontal
+    &.q-carousel--with-padding .q-carousel__slide, .q-carousel--padding
+      padding-left: 60px
+
+  &--navigation-right,
+  &--arrows-horizontal
+    &.q-carousel--with-padding .q-carousel__slide, .q-carousel--padding
+      padding-right: 60px
 
   &.fullscreen
     height: 100%
