@@ -363,6 +363,10 @@ function writeIndexDTS (apis) {
   writeLine(contents, `export const Quasar: PluginObject<Partial<QuasarPluginOptions>>`)
   writeLine(contents)
 
+  // These imports force TS compiler to evaluate contained declarations
+  //  which by defaults would be ignored because inside node_modules
+  //  and not directly referenced by any file
+  writeLine(contents, `import './shims'`)
   writeLine(contents, `import './vue'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))

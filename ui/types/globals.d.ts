@@ -2,6 +2,7 @@ import { QuasarIconSet } from "./extras/icon-set";
 import { HasCapacitor, HasCordova, HasElectron } from "./feature-flag";
 import { QuasarLanguage } from "./lang";
 import * as Cordova from "cordova";
+import * as Electron from "electron";
 
 interface GlobalQuasarLanguage extends QuasarLanguage {
   set(lang: QuasarLanguage): void;
@@ -16,7 +17,7 @@ interface GlobalQuasarIconSet extends QuasarIconSet {
 export interface QVueGlobals
   extends HasCapacitor<{ capacitor: any }>,
     HasCordova<{ cordova: typeof Cordova }>,
-    HasElectron<{ electron: any }> {
+    HasElectron<{ electron: typeof Electron }> {
   version: string;
   lang: GlobalQuasarLanguage;
   iconSet: GlobalQuasarIconSet;
