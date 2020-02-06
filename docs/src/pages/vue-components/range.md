@@ -84,5 +84,11 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 <doc-example title="With QItem" file="QRange/List" />
 
+### Getting creative
+
+Using simple CSS you can get nice effects.
+
+<doc-example title="Getting creative" file="QRange/GettingCreative" />
+
 ## QRange API
 <doc-api file="QRange" />
