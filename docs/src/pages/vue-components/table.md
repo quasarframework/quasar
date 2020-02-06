@@ -127,6 +127,10 @@ The property `row-key` must be set in order for selection to work properly.
 
 ### Visible columns, custom top, fullscreen
 
+::: tip
+Columns marked as `required` cannot be toggled.
+:::
+
 <doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
 
 Another example:
