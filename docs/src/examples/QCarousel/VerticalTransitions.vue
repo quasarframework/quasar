@@ -6,14 +6,13 @@
         transition-prev="scale"
         transition-next="scale"
         swipeable
-        swipeable-vertical
+        vertical
         navigation
         navigation-position="left"
         animated
         control-color="white"
         padding
         arrows
-        arrows-vertical
         height="300px"
         class="bg-primary text-white shadow-1 rounded-borders"
       >
@@ -48,7 +47,7 @@
         transition-prev="jump-down"
         transition-next="jump-up"
         swipeable
-        swipeable-vertical
+        vertical
         animated
         control-color="white"
         navigation-icon="radio_button_unchecked"

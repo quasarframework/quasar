@@ -109,9 +109,9 @@ export default Vue.extend({
 
     __getNavigationContainer (h, type, mapping) {
       return h('div', {
-        class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex scroll-x' +
+        class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex' +
           ` q-carousel__navigation--${type} q-carousel__navigation--${this.navigationPositionComputed}` +
-          (this.controlColor ? ` text-${this.controlColor}` : '')
+          (this.controlColor !== void 0 ? ` text-${this.controlColor}` : '')
       }, [
         h('div', {
           staticClass: 'q-carousel__navigation-inner flex no-wrap justify-center'
