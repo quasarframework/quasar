@@ -210,6 +210,16 @@ export default {
         else {
           this.scrollPage(el)
         }
+
+        el.id = ''
+      }
+
+      window.location.hash = '#' + id
+
+      if (el) {
+        setTimeout(() => {
+          el.id = id
+        }, 300)
       }
     },
 
