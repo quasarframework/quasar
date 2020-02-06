@@ -160,7 +160,6 @@ export default {
     const inner = this.__getInner(h)
 
     this.disable !== true && this.__injectFormInput(
-      h,
       inner,
       'unshift',
       `q-${this.type}__native absolute q-ma-none q-pa-none invisible`

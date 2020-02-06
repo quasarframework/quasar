@@ -108,7 +108,6 @@ export default Vue.extend({
     ]
 
     this.disable !== true && this.__injectFormInput(
-      h,
       content,
       'unshift',
       'q-radio__native q-ma-none q-pa-none invisible'

@@ -756,7 +756,7 @@ export default Vue.extend({
     )
 
     if (this.name !== void 0 && this.disable !== true) {
-      this.__injectFormInput(h, content, 'push')
+      this.__injectFormInput(content, 'push')
     }
 
     return h('div', {

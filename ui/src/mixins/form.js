@@ -14,10 +14,11 @@ export default {
   },
 
   methods: {
-    __injectFormInput (h, child, action, staticClass) {
+    __injectFormInput (child, action, className) {
       child[action](
-        h('input', {
-          staticClass,
+        this.$createElement('input', {
+          staticClass: 'hidden',
+          class: className,
           attrs: this.formAttrs
         })
       )

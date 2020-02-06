@@ -63,10 +63,21 @@
           <q-rating name="rating1" size="48px" v-model="rating1" :disable="disable" :dark="dark" />
         </div>
 
-        <div class="q-my-lg">
+        <div class="q-my-lg q-gutter-md">
           <q-date name="date" v-model="date" :disable="disable" :dark="dark" />
           <q-time name="time" v-model="time" :disable="disable" :dark="dark" />
           <q-color name="color" v-model="color" :disable="disable" :dark="dark" />
+          <q-btn-toggle
+            name="btn-toggle"
+            v-model="btnToggle"
+            toggle-color="primary"
+            color="white"
+            text-color="black"
+            no-caps
+            :options="btnToggleOptions"
+            :disable="disable"
+            :dark="dark"
+          />
         </div>
       </q-card-section>
 
@@ -108,6 +119,12 @@ export default {
       date: null,
       time: null,
       color: 'rgb(2,2,2)',
+      btnToggle: null,
+      btnToggleOptions: [
+        { label: 'One', value: 'one' },
+        { label: 'Two', value: 'two' },
+        { label: 'Three', value: 'three' }
+      ],
 
       option: 'opt1',
 

@@ -201,11 +201,9 @@ export default Vue.extend({
   render (h) {
     const child = [ this.__getContent(h) ]
 
-    this.name !== void 0 && this.disable !== true && this.__injectFormInput(
-      h,
-      child,
-      'push'
-    )
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(child, 'push')
+    }
 
     this.noHeader !== true && child.unshift(
       this.__getHeader(h)

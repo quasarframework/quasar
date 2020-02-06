@@ -30,6 +30,14 @@
       "extends": "color"
     },
 
+    "control-type": {
+      "type": "String",
+      "desc": "Type of button to use for controls (arrows, navigation)",
+      "values": [ "regular", "flat", "outline", "push", "unelevated" ],
+      "category": "style",
+      "addedIn": "v1.9.0"
+    },
+
     "autoplay": {
       "type": [ "Number", "Boolean" ],
       "desc": "Jump to next slide at fixed time intervals (in milliseconds); 'false' disables autoplay, 'true' enables it for 5000ms intervals",
