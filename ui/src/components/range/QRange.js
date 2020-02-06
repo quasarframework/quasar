@@ -487,7 +487,7 @@ export default Vue.extend({
 
     const child = [
       h('div', {
-        staticClass: 'q-slider__track-container absolute overflow-hidden'
+        staticClass: 'q-slider__track-container absolute'
       }, track),
 
       this.__getThumb(h, 'min'),
