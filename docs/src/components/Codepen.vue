@@ -76,7 +76,7 @@ export default {
         .replace(/([\w]+=")([^"]*?)(")/gs, function (match, p1, p2, p3) {
           return p1 + p2.replace(/>/g, '___TEMP_REPLACEMENT___') + p3
         })
-        .replace(/<(q-[\w-]+|div)([^>]+?)\s*\/>/gs, '<$1$2></$1>')
+        .replace(/<(q-[\w-]+|div)([^>]+?)\s*?([\r\n]+\s*)?\/>/gs, '<$1$2$3></$1>')
         .replace(/<(thead|tbody)(.*?)[\n\r]?(\s*)<\/\1>/gs, function (match, p1, p2, p3) {
           return '<template>\n' + p3 + '  <' + p1 + p2.split(/[\n\r]+/g).join('\n  ') + '\n' + p3 + '  </' + p1 + '>\n' + p3 + '</template>'
         })
