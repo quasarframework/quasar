@@ -45,7 +45,7 @@
 
     "width": {
       "type": "String",
-      "desc": "Forces image width, unless 'sizes' prop is specified; Must also include the unit (px or %)",
+      "desc": "Forces image width; Must also include the unit (px or %)",
       "examples": [
         "280px",
         "70%"
@@ -56,7 +56,7 @@
 
     "height": {
       "type": "String",
-      "desc": "Forces image height, unless 'sizes' prop is specified; Must also include the unit (px or %)",
+      "desc": "Forces image height; Must also include the unit (px or %)",
       "examples": [
         "280px",
         "70%"

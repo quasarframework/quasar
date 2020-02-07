@@ -75,7 +75,7 @@ export default Vue.extend({
       return att
     },
 
-    style () {
+    imgContainerStyle () {
       return Object.assign(
         {
           backgroundSize: this.contain ? 'contain' : 'cover',
@@ -233,7 +233,7 @@ export default Vue.extend({
           key: this.url,
           staticClass: 'q-img__image absolute-full',
           class: this.imgClass,
-          style: this.style
+          style: this.imgContainerStyle
         }, nativeImg)
         : null
 
