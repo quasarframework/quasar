@@ -60,6 +60,46 @@
         "examples": [ "top-right" ]
       },
 
+      "group": {
+        "type": "String",
+        "desc": "Inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
+        "default": "(message + caption)",
+        "examples": [ "my-group" ],
+        "addedIn": "v1.9.0"
+      },
+
+      "badge": {
+        "type": "Object",
+        "desc": "Properties for the group badge",
+        "definition": {
+          "color": {
+            "extends": "color",
+            "desc": "Color name for the badge from the Quasar Color Palette"
+          },
+          "textColor": {
+            "extends": "color",
+            "desc": "Color name for the badge text from the Quasar Color Palette"
+          },
+          "style": {
+            "type": [ "Array", "String", "Object" ],
+            "desc": "Style definitions to be attributed to the badge",
+            "examples": [
+              "background-color: #ff0000",
+              ":content-style=\"{ backgroundColor: '#ff0000' }\""
+            ]
+          },
+          "class": {
+            "type": [ "Array", "String", "Object" ],
+            "desc": "Class definitions to be attributed to the badge",
+            "examples": [
+              "my-special-class",
+              ":content-class=\"{ 'my-special-class': <condition> }\""
+            ]
+          }
+        },
+        "addedIn": "v1.9.0"
+      },
+
       "classes": {
         "type": "String",
         "desc": "Add CSS class(es) to the notification for easier customization",
@@ -148,6 +188,46 @@
                 "top", "bottom", "left", "right", "center"
               ],
               "examples": [ "top-right" ]
+            },
+
+            "group": {
+              "type": "String",
+              "desc": "Inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
+              "default": "(message + caption)",
+              "examples": [ "my-group" ],
+              "addedIn": "v1.9.0"
+            },
+
+            "badge": {
+              "type": "Object",
+              "desc": "Properties for the group badge",
+              "definition": {
+                "color": {
+                  "extends": "color",
+                  "desc": "Color name for the badge from the Quasar Color Palette"
+                },
+                "textColor": {
+                  "extends": "color",
+                  "desc": "Color name for the badge text from the Quasar Color Palette"
+                },
+                "style": {
+                  "type": [ "Array", "String", "Object" ],
+                  "desc": "Style definitions to be attributed to the badge",
+                  "examples": [
+                    "background-color: #ff0000",
+                    ":content-style=\"{ backgroundColor: '#ff0000' }\""
+                  ]
+                },
+                "class": {
+                  "type": [ "Array", "String", "Object" ],
+                  "desc": "Class definitions to be attributed to the badge",
+                  "examples": [
+                    "my-special-class",
+                    ":content-class=\"{ 'my-special-class': <condition> }\""
+                  ]
+                }
+              },
+              "addedIn": "v1.9.0"
             },
 
             "classes": {
