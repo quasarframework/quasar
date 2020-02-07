@@ -28,6 +28,18 @@
           With srcset & sizes
         </div>
       </q-img>
+
+      <q-img
+        src="https://cdn.quasar.dev/img/image-src.png"
+        height="280px"
+        width="280px"
+        :native-context-menu="nativeContextMenu"
+      >
+        <div class="absolute-bottom text-body1 text-center">
+          With width & height
+        </div>
+      </q-img>
+
     </div>
 
     <q-btn push color="teal" label="Refresh" @click="refresh" class="q-my-lg" />
