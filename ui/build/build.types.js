@@ -251,8 +251,10 @@ function writeIndexDTS (apis) {
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
   writeLine(quasarTypeContents, `export * from './utils'`)
+  writeLine(quasarTypeContents, `export * from './feature-flag'`)
   writeLine(quasarTypeContents, `export * from './globals'`)
   writeLine(quasarTypeContents, `export * from './boot'`)
+  writeLine(quasarTypeContents, `export * from './configuration'`)
   writeLine(quasarTypeContents, `export * from './extras'`)
   writeLine(quasarTypeContents, `export * from './lang'`)
   writeLine(quasarTypeContents, `export * from './api'`)
@@ -362,6 +364,11 @@ function writeIndexDTS (apis) {
   writeLine(contents, `export const Quasar: PluginObject<Partial<QuasarPluginOptions>>`)
   writeLine(contents)
 
+  // These imports force TS compiler to evaluate contained declarations
+  //  which by defaults would be ignored because inside node_modules
+  //  and not directly referenced by any file
+  writeLine(contents, `import './shims'`)
+  writeLine(contents, `import './wrappers'`)
   writeLine(contents, `import './vue'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))

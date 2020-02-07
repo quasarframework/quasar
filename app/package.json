@@ -38,9 +38,21 @@
     "type": "github",
     "url": "https://donate.quasar.dev"
   },
+  "//": "@types/fs-extra and @types/yargs are needed for electron-builder types",
+  "///": "They can be removed when https://github.com/electron-userland/electron-builder/pull/4574#issuecomment-578484232 is released",
   "dependencies": {
     "@quasar/babel-preset-app": "1.1.8",
     "@quasar/fastclick": "1.1.4",
+    "@types/cordova": "0.0.34",
+    "@types/electron-packager": "14.0.0",
+    "@types/express": "4.17.2",
+    "@types/fs-extra": "8.0.1",
+    "@types/lru-cache": "5.1.0",
+    "@types/terser-webpack-plugin": "2.2.0",
+    "@types/webpack": "4.41.0",
+    "@types/webpack-bundle-analyzer": "2.13.3",
+    "@types/webpack-dev-server": "3.9.0",
+    "@types/yargs": "15.0.0",
     "@vue/preload-webpack-plugin": "1.1.1",
     "autoprefixer": "9.7.3",
     "chalk": "3.0.0",
@@ -101,7 +113,8 @@
     "webpack-dev-server": "3.10.1",
     "webpack-merge": "4.2.2",
     "webpack-node-externals": "1.7.2",
-    "workbox-webpack-plugin": "4.3.1"
+    "workbox-webpack-plugin": "4.3.1",
+    "yargs": "15.1.0"
   },
   "engines": {
     "node": ">= 8.9.0",

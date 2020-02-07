@@ -188,6 +188,7 @@ async function goLive () {
   const Generator = require('../lib/generator')
   const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
   const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const regenerateTypesFeatureFlags = require("../lib/helpers/types-feature-flags")
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
@@ -226,6 +227,8 @@ async function goLive () {
   await quasarConfig.compile()
 
   buildConfig = quasarConfig.getBuildConfig()
+
+  regenerateTypesFeatureFlags(buildConfig)
 
   if (buildConfig.__vueDevtools !== false) {
     await startVueDevtools()
