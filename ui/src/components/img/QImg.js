@@ -187,13 +187,10 @@ export default Vue.extend({
 
       if (!this.sizes && this.width) {
         img.width = this.width
-        console.log('here')
       }
 
       if (!this.sizes && this.height) {
         img.height = this.height
-        console.log(img, this.height)
-        console.log('here2')
       }
     },
 
