@@ -54,7 +54,8 @@
       </div>
     </div>
 
-    <q-btn round icon="touch_app" @click="showGroup" color="primary" class="absolute-top-left" />
+    <q-btn round icon="touch_app" @click="showGroup1" color="primary" class="absolute-top-left" />
+    <q-btn round icon="touch_app" @click="showGroup2" color="secondary" class="absolute-bottom-left" />
   </div>
 </template>
 
@@ -76,7 +77,7 @@ export default {
     }
   },
   methods: {
-    showGroup () {
+    showGroup1 () {
       this.$q.notify({
         message: 'Grouped message ' + Math.random(),
         group: 'some-group',
@@ -84,6 +85,10 @@ export default {
           color: 'teal'
         }
       })
+    },
+
+    showGroup2 () {
+      this.$q.notify('Some message')
     },
 
     alertAsMethod (position) {
