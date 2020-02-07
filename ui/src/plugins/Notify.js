@@ -70,6 +70,7 @@ const Notifications = {
       if (notif.group === void 0) {
         notif.group = `${notif.message}|${notif.caption}`
       }
+
       notif.group += '|' + notif.position
 
       if (notif.timeout === void 0) {
@@ -139,7 +140,11 @@ const Notifications = {
         notif.__badge = 1
 
         if (['left', 'right', 'center'].indexOf(notif.position) > -1) {
-          this.notifs[notif.position].splice(Math.floor(this.notifs[notif.position].length / 2), 0, notif)
+          this.notifs[notif.position].splice(
+            Math.floor(this.notifs[notif.position].length / 2),
+            0,
+            notif
+          )
         }
         else {
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
