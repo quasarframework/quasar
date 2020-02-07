@@ -1,14 +1,17 @@
-.q-tooltip
-  position: fixed !important
+.q-tooltip--style
   font-size: $tooltip-fontsize
   color: $tooltip-color
   background: $tooltip-background
-  z-index: $z-tooltip
-  padding: $tooltip-padding
   border-radius: $tooltip-border-radius
+  text-transform: none
+  font-weight: normal
+
+.q-tooltip
+  z-index: $z-tooltip
+  position: fixed !important
   overflow-y: auto
   overflow-x: hidden
-  pointer-events: none
+  padding: $tooltip-padding
 
   @media (max-width: $breakpoint-xs-max)
     font-size: $tooltip-mobile-fontsize

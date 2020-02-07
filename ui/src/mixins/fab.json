@@ -57,10 +57,10 @@
       "category": "style"
     },
 
-    "extended": {
+    "external-label": {
       "type": "Boolean",
-      "desc": "Display extended Fab (icon and label)",
-      "category": "style|content|extended",
+      "desc": "Display label besides the FABs, as external content",
+      "category": "style|content",
       "addedIn": "v1.9.0"
     },
 
@@ -69,14 +69,50 @@
       "desc": "The label that will be shown when Fab is extended",
       "default": "",
       "examples": [ "Button Label" ],
-      "category": "content|extended",
+      "category": "content",
       "addedIn": "v1.9.0"
     },
 
-    "left-label": {
+    "label-position": {
+      "type": "String",
+      "desc": "Position of the label around the icon",
+      "values": [ "top", "right", "bottom", "left" ],
+      "category": "style|content",
+      "addedIn": "v1.9.0"
+    },
+
+    "hide-label": {
       "type": "Boolean",
-      "desc": "Display label on the left of the icon when Fab is extended",
-      "category": "style|content|extended",
+      "desc": "Hide the label; Useful for animation purposes where you toggle the visibility of the label",
+      "category": "style|content",
+      "addedIn": "v1.9.0"
+    },
+
+    "label-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the label container",
+      "examples": [
+        "my-special-class",
+        ":input-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.9.0"
+    },
+
+    "label-style": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Style definitions to be attributed to the label container",
+      "examples": [
+        "background-color: #ff0000",
+        ":input-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.9.0"
+    },
+
+    "square": {
+      "type": "Boolean",
+      "desc": "Apply a rectangle aspect to the FAB",
       "addedIn": "v1.9.0"
     },
 

@@ -196,7 +196,7 @@ export default Vue.extend({
         props: { name: this.transition }
       }, [
         this.showing === true ? h('div', {
-          staticClass: 'q-tooltip q-position-engine no-pointer-events',
+          staticClass: 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
           class: this.contentClass,
           style: this.contentStyle,
           attrs: {

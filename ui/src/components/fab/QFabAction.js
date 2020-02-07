@@ -7,13 +7,13 @@ import FabMixin from '../../mixins/fab.js'
 
 import { mergeSlot } from '../../utils/slot.js'
 
-const alignMap = {
-  left: 'self-end',
+const anchorMap = {
+  start: 'self-end',
   center: 'self-center',
-  right: 'self-start'
+  end: 'self-start'
 }
 
-const alignValues = Object.keys(alignMap)
+const anchorValues = Object.keys(anchorMap)
 
 export default Vue.extend({
   name: 'QFabAction',
@@ -26,9 +26,9 @@ export default Vue.extend({
       required: true
     },
 
-    verticalAlign: {
+    anchor: {
       type: String,
-      validator: v => alignValues.includes(v)
+      validator: v => anchorValues.includes(v)
     },
 
     to: [String, Object],
@@ -40,6 +40,13 @@ export default Vue.extend({
       default () {
         console.error('QFabAction needs to be child of QFab')
       }
+    }
+  },
+
+  computed: {
+    classes () {
+      const align = anchorMap[this.anchor]
+      return this.formClass + (align !== void 0 ? ` ${align}` : '')
     }
   },
 
@@ -57,15 +64,19 @@ export default Vue.extend({
       })
     ]
 
-    this.label !== '' && this.__injectLabel(h, child)
+    this.label !== '' && child[this.labelProps.action](
+      h('div', this.labelProps.data, [ this.label ])
+    )
 
     return h(QBtn, {
-      class: alignMap[this.verticalAlign],
+      class: this.classes,
       props: {
         ...this.$props,
         noWrap: true,
+        stack: this.stacked,
         icon: void 0,
         label: void 0,
+        noCaps: true,
         fabMini: true
       },
       on: {

@@ -9,8 +9,8 @@ import ModelToggleMixin from '../../mixins/model-toggle.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
-const alignValues = [ 'left', 'center', 'right' ]
 const directions = ['up', 'right', 'down', 'left']
+const alignValues = [ 'left', 'center', 'right' ]
 
 export default Vue.extend({
   name: 'QFab',
@@ -60,7 +60,7 @@ export default Vue.extend({
     },
 
     classes () {
-      return `q-fab--align-${this.actionsVerticalAlign}` +
+      return `q-fab--align-${this.actionsVerticalAlign} ${this.formClass}` +
         (this.showing === true ? ' q-fab--opened' : '')
     }
   },
@@ -79,7 +79,9 @@ export default Vue.extend({
       ])
     ]
 
-    this.label !== '' && this.__injectLabel(h, child)
+    this.label !== '' && child[this.labelProps.action](
+      h('div', this.labelProps.data, [ this.label ])
+    )
 
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
@@ -93,12 +95,15 @@ export default Vue.extend({
 
       h(QBtn, {
         ref: 'trigger',
+        class: this.formClass,
         props: {
           ...this.$props,
           noWrap: true,
+          stack: this.stacked,
           align: void 0,
           icon: void 0,
           label: void 0,
+          noCaps: true,
           fab: true
         },
         on: cache(this, 'tog', {

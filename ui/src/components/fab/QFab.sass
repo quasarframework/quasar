@@ -8,6 +8,9 @@
   > .q-btn
     width: 100%
 
+  &--form-square
+    border-radius: $generic-border-radius
+
   &--opened
     .q-fab__actions
       opacity: 1
@@ -30,25 +33,66 @@
     transform: rotate(-180deg)
 
   &__label
-    transition: font-size .1s cubic-bezier(.65,.815,.735,.395)
 
-    &--extended
-      padding: 0 12px 0 8px
+    &--external
+      position: absolute
+      padding: 0 8px
+      transition: opacity .18s cubic-bezier(.65,.815,.735,.395)
 
-      &:last-child
-        padding: 0 8px 0 12px
+      &-hidden
+        opacity: 0
+        pointer-events: none
 
-    &--collapsed
-      font-size: 0
+    &--external-left
+      top: 50%
+      left: -12px
+      transform: translate(-100%, -50%)
+    &--external-right
+      top: 50%
+      right: -12px
+      transform: translate(100%, -50%)
+    &--external-bottom
+      bottom: -12px
+      left: 50%
+      transform: translate(-50%, 100%)
+    &--external-top
+      top: -12px
+      left: 50%
+      transform: translate(-50%, -100%)
+
+    &--internal
+      padding: 0
+      transition: font-size .12s cubic-bezier(.65,.815,.735,.395), max-height .12s cubic-bezier(.65,.815,.735,.395), opacity  .07s cubic-bezier(.65,.815,.735,.395)
+      max-height: 30px
+
+      &-hidden
+        font-size: 0
+        opacity: 0
+
+      &-top
+        padding-bottom: .12em
+      &-bottom
+        padding-top: .12em
+      &-top, &-bottom
+        &.q-fab__label--internal-hidden
+          max-height: 0
+
+      &-left
+        padding-left: .285em
+        padding-right: .571em
+      &-right
+        padding-right: .285em
+        padding-left: .571em
 
   &__icon-holder
     min-width: 24px
+    min-height: 24px
     position: relative
 
   &__actions
     position: absolute
     opacity: 0
-    transition: all .2s ease-in
+    transition: transform .18s ease-in, opacity .18s ease-in
     pointer-events: none
     align-items: center
     justify-content: center
@@ -59,27 +103,31 @@
       margin: $fab-margin
 
     &--right
-      transform: scale(.4) translate(-100%, 0)
+      transform-origin: 0 50%
+      transform: scale(.4) translateX(-62px)
       height: 56px
       left: 100%
       margin-left: 9px
 
     &--left
-      transform: scale(.4) translate(100%, 0)
+      transform-origin: 100% 50%
+      transform: scale(.4) translateX(62px)
       height: 56px
       right: 100%
       margin-right: 9px
       flex-direction: row-reverse
 
     &--up
-      transform: scale(.4) translate(0, 100%)
+      transform-origin: 50% 100%
+      transform: scale(.4) translateY(62px)
       width: 56px
       bottom: 100%
       margin-bottom: 9px
       flex-direction: column-reverse
 
     &--down
-      transform: scale(.4) translate(0, -100%)
+      transform-origin: 50% 0
+      transform: scale(.4) translateY(-62px)
       width: 56px
       top: 100%
       margin-top: 9px
