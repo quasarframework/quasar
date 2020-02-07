@@ -30,7 +30,6 @@ body.q-ios-padding .q-notifications__list
   transition: transform 1s, opacity 1s
   z-index: $z-notify
 
-  min-width: 300px
   max-width: 95vw
 
   background: #323232
@@ -56,6 +55,14 @@ body.q-ios-padding .q-notifications__list
   &__actions
     color: #c581ff
 
+  &__badge
+    animation: q-notif-badge .42s
+    padding: 4px 8px
+    position: absolute
+    top: -6px
+    left: -22px
+    background: $negative
+
   &--standard
     padding: 0 16px
     min-height: 48px
@@ -67,6 +74,9 @@ body.q-ios-padding .q-notifications__list
   &--multi-line
     min-height: 68px
     padding: 8px 16px
+
+    .q-notification__badge
+      top: -15px
 
     .q-notification__actions
       padding: 0
@@ -114,3 +124,19 @@ body.q-ios-padding .q-notifications__list
 @media (min-width: $breakpoint-sm-min)
   .q-notification
     max-width: 65vw
+
+@keyframes q-notif-badge
+  15%
+    transform: translate3d(-25%, 0, 0) rotate3d(0, 0, 1, -5deg)
+
+  30%
+    transform: translate3d(20%, 0, 0) rotate3d(0, 0, 1, 3deg)
+
+  45%
+    transform: translate3d(-15%, 0, 0) rotate3d(0, 0, 1, -3deg)
+
+  60%
+    transform: translate3d(10%, 0, 0) rotate3d(0, 0, 1, 2deg)
+
+  75%
+    transform: translate3d(-5%, 0, 0) rotate3d(0, 0, 1, -1deg)

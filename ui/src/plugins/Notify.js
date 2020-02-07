@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
+import QBadge from '../components/badge/QBadge.js'
 
 import clone from '../utils/clone.js'
 import { noop } from '../utils/event.js'
@@ -16,6 +17,8 @@ const positionList = [
   'bottom-left', 'bottom-right',
   'top', 'bottom', 'left', 'right', 'center'
 ]
+
+const groups = {}
 
 const Notifications = {
   name: 'QNotifications',
@@ -41,7 +44,7 @@ const Notifications = {
         return false
       }
 
-      const notif = { textColor: 'white' }
+      let notif = { textColor: 'white' }
 
       if (typeof config === 'string' || config.ignoreDefaults !== true) {
         Object.assign(notif, defaults)
@@ -64,7 +67,9 @@ const Notifications = {
         notif.position = 'bottom'
       }
 
-      notif.__uid = uid++
+      if (notif.group === void 0) {
+        notif.group = `${notif.message}|${notif.caption}`
+      }
 
       if (notif.timeout === void 0) {
         notif.timeout = 5000
@@ -78,8 +83,8 @@ const Notifications = {
         notif.timeout = t
       }
 
-      const close = () => {
-        this.remove(notif)
+      if (notif.badge === void 0) {
+        notif.badge = {}
       }
 
       const actions = (config.actions || [])
@@ -94,9 +99,9 @@ const Notifications = {
           action.handler = typeof handler === 'function'
             ? () => {
               handler()
-              !item.noDismiss && close()
+              !item.noDismiss && notif.__close()
             }
-            : () => close()
+            : () => { notif.__close() }
 
           return action
         })
@@ -107,16 +112,10 @@ const Notifications = {
       }
 
       if (typeof notif.closeBtn === 'string') {
-        const btn = { label: notif.closeBtn, handler: close }
+        const btn = { label: notif.closeBtn, handler: () => { notif.__close() } }
         notif.actions = notif.actions
           ? notif.actions.concat(btn)
           : [ btn ]
-      }
-
-      if (notif.timeout > 0) {
-        notif.__timeout = setTimeout(() => {
-          close()
-        }, notif.timeout + /* show duration */ 1000)
       }
 
       if (notif.multiLine === void 0 && notif.actions) {
@@ -131,10 +130,43 @@ const Notifications = {
         notif.classes
       ].filter(n => n).join(' ')
 
-      const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
-      this.notifs[notif.position][action](notif)
+      const groupNotif = groups[notif.group]
 
-      return close
+      // wohoo, new notification
+      if (groupNotif === void 0) {
+        notif.__uid = uid++
+        notif.__badge = 1
+
+        const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
+        this.notifs[notif.position][action](notif)
+
+        groups[notif.group] = notif
+      }
+      // ok, so it's NOT a new one
+      else {
+        // do NOT override position
+        notif.position = groupNotif.position
+
+        // reset timeout if any
+        if (groupNotif.__timeout !== void 0) {
+          clearTimeout(groupNotif.__timeout)
+        }
+
+        notif = Object.assign(groups[notif.group], notif)
+        groups[notif.group].__badge++
+      }
+
+      notif.__close = () => {
+        this.remove(notif)
+      }
+
+      if (notif.timeout > 0) {
+        notif.__timeout = setTimeout(() => {
+          notif.__close()
+        }, notif.timeout + /* show duration */ 1000)
+      }
+
+      return notif.__close
     },
 
     remove (notif) {
@@ -142,6 +174,8 @@ const Notifications = {
 
       const index = this.notifs[notif.position].indexOf(notif)
       if (index !== -1) {
+        groups[notif.group] = void 0
+
         const el = this.$refs[`notif_${notif.__uid}`]
 
         if (el) {
@@ -153,6 +187,7 @@ const Notifications = {
         }
 
         this.notifs[notif.position].splice(index, 1)
+
         if (typeof notif.onDismiss === 'function') {
           notif.onDismiss()
         }
@@ -217,6 +252,18 @@ const Notifications = {
         mainChild.push(
           h('div', msgData, msgChild)
         )
+
+        if (notif.__badge > 1) {
+          mainChild.push(
+            h(QBadge, {
+              key: `${notif.__uid}|${notif.__badge}`,
+              staticClass: 'q-notification__badge self-center',
+              props: { color: notif.badge.color, textColor: notif.badge.textColor },
+              style: notif.badge.style,
+              class: notif.badge.class
+            }, [ notif.__badge ])
+          )
+        }
 
         const child = [
           h('div', {
