@@ -83,6 +83,13 @@ export default Vue.extend({
         },
         this.imgStyle,
         { backgroundImage: `url("${this.url}")` })
+    },
+
+    style () {
+      return {
+        width: this.width,
+        height: this.height
+      }
     }
   },
 
@@ -181,16 +188,14 @@ export default Vue.extend({
         img.srcset = this.srcset
       }
 
-      if (this.sizes && !this.width && !this.height) {
+      if (this.sizes !== void 0) {
         img.sizes = this.sizes
       }
-
-      if (!this.sizes && this.width) {
-        img.width = this.width
-      }
-
-      if (!this.sizes && this.height) {
-        img.height = this.height
+      else {
+        Object.assign(img, {
+          height: this.height,
+          width: this.width
+        })
       }
     },
 
@@ -282,12 +287,9 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-img overflow-hidden' + (this.nativeContextMenu === true ? ' q-img--menu' : ''),
+      style: this.style,
       attrs: this.attrs,
       on: this.$listeners,
-      style: {
-        width: this.width,
-        height: this.height
-      }
     }, [
       h('div', {
         style: this.ratioStyle
