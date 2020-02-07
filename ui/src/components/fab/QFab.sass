@@ -100,21 +100,21 @@
     padding: 3px
 
     .q-btn
-      margin: $fab-margin
+      margin: 5px $fab-margin
 
     &--right
       transform-origin: 0 50%
       transform: scale(.4) translateX(-62px)
       height: 56px
       left: 100%
-      margin-left: 9px
+      margin-left: (4px + $fab-margin)
 
     &--left
       transform-origin: 100% 50%
       transform: scale(.4) translateX(62px)
       height: 56px
       right: 100%
-      margin-right: 9px
+      margin-right: (4px + $fab-margin)
       flex-direction: row-reverse
 
     &--up
@@ -122,7 +122,7 @@
       transform: scale(.4) translateY(62px)
       width: 56px
       bottom: 100%
-      margin-bottom: 9px
+      margin-bottom: (4px + $fab-margin)
       flex-direction: column-reverse
 
     &--down
@@ -130,13 +130,15 @@
       transform: scale(.4) translateY(-62px)
       width: 56px
       top: 100%
-      margin-top: 9px
+      margin-top: (4px + $fab-margin)
       flex-direction: column
 
-  .q-fab__actions
     &--up, &--down
       left: 50%
       margin-left: -28px
+
+      .q-btn
+        margin: $fab-margin 5px
 
   &--align-left
     > .q-fab__actions
