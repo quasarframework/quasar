@@ -43,6 +43,26 @@
       "category": "model"
     },
 
+    "width": {
+      "type": "String",
+      "desc": "Pixels or %",
+      "examples": [
+        "280px",
+        "70%"
+      ],
+      "category": "model"
+    },
+
+    "height": {
+      "type": "String",
+      "desc": "Pixels or %",
+      "examples": [
+        "280px",
+        "70%"
+      ],
+      "category": "model"
+    },
+
     "alt": {
       "type": "String",
       "desc": "Specifies an alternate text for the image, if the image cannot be displayed",
