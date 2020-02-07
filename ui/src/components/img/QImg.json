@@ -45,22 +45,24 @@
 
     "width": {
       "type": "String",
-      "desc": "Pixels or %",
+      "desc": "Pixels or %; Gets overriden if 'sizes' is specified",
       "examples": [
         "280px",
         "70%"
       ],
-      "category": "model"
+      "category": "model",
+      "addedIn": "v1.9.0"
     },
 
     "height": {
       "type": "String",
-      "desc": "Pixels or %",
+      "desc": "Pixels or %; Gets overriden if 'sizes' is specified",
       "examples": [
         "280px",
         "70%"
       ],
-      "category": "model"
+      "category": "model",
+      "addedIn": "v1.9.0"
     },
 
     "alt": {
