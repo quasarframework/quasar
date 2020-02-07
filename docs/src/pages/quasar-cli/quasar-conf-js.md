@@ -90,7 +90,7 @@ The possibilities are endless.
 Starting with v1.9, you can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through Typescript):
 
 ```js
-const { configure } = require('quasar')
+const { configure } = require('quasar/wrappers')
 
 module.exports = configure(function (ctx) {
   /* configuration options */

@@ -8,7 +8,6 @@ export * from './components.js'
 export * from './directives.js'
 export * from './plugins.js'
 export * from './utils.js'
-export * from './type-helpers'
 
 export default {
   ...VuePlugin,

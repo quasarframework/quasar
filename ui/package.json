@@ -9,7 +9,8 @@
     "dist",
     "lang",
     "icon-set",
-    "src"
+    "src",
+    "wrappers"
   ],
   "scripts": {
     "clean": "node build/script.clean.js",

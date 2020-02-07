@@ -4,7 +4,6 @@ import * as components from './components.js'
 import * as directives from './directives.js'
 import * as plugins from './plugins.js'
 import * as utils from './utils.js'
-import * as typeHelpers from './type-helpers'
 
 export default {
   // for when importing all
@@ -24,6 +23,5 @@ export default {
   ...components,
   ...directives,
   ...plugins,
-  ...utils,
-  ...typeHelpers
+  ...utils
 }

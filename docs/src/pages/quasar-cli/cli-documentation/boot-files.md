@@ -46,7 +46,7 @@ export default async ({ app, router, store, Vue }) => {
 Starting with v1.9, you can wrap the returned function with `boot` helper to get a better IDE autocomplete experience (through Typescript):
 
 ```js
-import { boot } from 'quasar'
+import { boot } from 'quasar/wrappers'
 
 export default boot(async ({ app, router, store, Vue }) => {
   // something to do
