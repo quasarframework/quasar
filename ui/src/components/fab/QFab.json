@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/model-toggle", "components/fab/__fab-mixin" ],
+  "mixins": [ "mixins/model-toggle", "mixins/fab" ],
 
   "props": {
     "value": {

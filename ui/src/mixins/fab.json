@@ -113,6 +113,7 @@
     "square": {
       "type": "Boolean",
       "desc": "Apply a rectangle aspect to the FAB",
+      "category": "style",
       "addedIn": "v1.9.0"
     },
 
