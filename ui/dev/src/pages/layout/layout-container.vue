@@ -60,6 +60,10 @@
         <q-page-scroller position="bottom">
           <q-btn fab icon="keyboard_arrow_up" color="red" />
         </q-page-scroller>
+
+        <q-page-scroller position="top" scroll-reverse :scroll-offset="2000">
+          <q-btn fab icon="keyboard_arrow_down" color="red" />
+        </q-page-scroller>
       </q-page-container>
     </q-layout>
 
@@ -119,6 +123,10 @@
 
           <q-page-scroller position="bottom">
             <q-btn fab icon="keyboard_arrow_up" color="red" />
+          </q-page-scroller>
+
+          <q-page-scroller position="top" scroll-reverse :scroll-offset="2000">
+            <q-btn fab icon="keyboard_arrow_down" color="red" />
           </q-page-scroller>
         </q-page>
       </q-page-container>

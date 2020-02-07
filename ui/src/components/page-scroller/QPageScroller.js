@@ -14,6 +14,8 @@ export default Vue.extend({
       default: 1000
     },
 
+    scrollReverse: Boolean,
+
     duration: {
       type: Number,
       default: 300
@@ -34,13 +36,20 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: this.__isVisible(this.layout.scroll.position)
+      showing: this.__isVisible()
     }
   },
 
   watch: {
-    'layout.scroll.position' (val) {
-      const newVal = this.__isVisible(val)
+    'layout.scroll.position' () {
+      const newVal = this.__isVisible()
+      if (this.showing !== newVal) {
+        this.showing = newVal
+      }
+    },
+
+    'layout.height' () {
+      const newVal = this.__isVisible()
       if (this.showing !== newVal) {
         this.showing = newVal
       }
@@ -48,8 +57,10 @@ export default Vue.extend({
   },
 
   methods: {
-    __isVisible (val) {
-      return val > this.scrollOffset
+    __isVisible () {
+      return this.scrollReverse === true
+        ? this.layout.height - this.layout.scroll.position > this.scrollOffset
+        : this.layout.scroll.position > this.scrollOffset
     },
 
     __onClick (e) {
@@ -57,7 +68,7 @@ export default Vue.extend({
         ? getScrollTarget(this.$el)
         : getScrollTarget(this.layout.$el)
 
-      setScrollPosition(target, 0, this.duration)
+      setScrollPosition(target, this.scrollReverse === true ? this.layout.height : 0, this.duration)
       this.$listeners.click !== void 0 && this.$emit('click', e)
     }
   },
