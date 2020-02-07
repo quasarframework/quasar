@@ -91,7 +91,11 @@ body.q-ios-padding .q-notifications__list
 
   &--left-enter, &--left-leave-to,
   &--center-enter, &--center-leave-to,
-  &--right-enter, &--right-leave-to,
+  &--right-enter, &--right-leave-to
+    opacity: 0
+    transform: scaleY(0)
+    z-index: ($z-notify - 1)
+
   &--bottom-left-enter, &--bottom-left-leave-to,
   &--bottom-enter, &--bottom-leave-to,
   &--bottom-right-enter, &--bottom-right-leave-to
