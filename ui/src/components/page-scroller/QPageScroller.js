@@ -14,7 +14,7 @@ export default Vue.extend({
       default: 1000
     },
 
-    scrollReverse: Boolean,
+    reverse: Boolean,
 
     duration: {
       type: Number,
@@ -48,17 +48,30 @@ export default Vue.extend({
       }
     },
 
-    'layout.height' () {
-      const newVal = this.__isVisible()
-      if (this.showing !== newVal) {
-        this.showing = newVal
-      }
+    reverse: {
+      handler (val) {
+        if (val === true) {
+          if (this.heightWatcher === void 0) {
+            this.heightWatcher = this.$watch('layout.height', () => {
+              const newVal = this.__isVisible()
+              if (this.showing !== newVal) {
+                this.showing = newVal
+              }
+            })
+          }
+        }
+        else if (this.heightWatcher !== void 0) {
+          this.heightWatcher()
+          this.heightWatcher = void 0
+        }
+      },
+      immediate: true
     }
   },
 
   methods: {
     __isVisible () {
-      return this.scrollReverse === true
+      return this.reverse === true
         ? this.layout.height - this.layout.scroll.position > this.scrollOffset
         : this.layout.scroll.position > this.scrollOffset
     },
@@ -68,8 +81,8 @@ export default Vue.extend({
         ? getScrollTarget(this.$el)
         : getScrollTarget(this.layout.$el)
 
-      setScrollPosition(target, this.scrollReverse === true ? this.layout.height : 0, this.duration)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      setScrollPosition(target, this.reverse === true ? this.layout.height : 0, this.duration)
+      this.$emit('click', e)
     }
   },
 
@@ -91,5 +104,9 @@ export default Vue.extend({
       ]
       : null
     )
+  },
+
+  beforeDestroy () {
+    this.heightWatcher !== void 0 && this.heightWatcher()
   }
 })
