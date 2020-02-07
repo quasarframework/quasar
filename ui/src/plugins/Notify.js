@@ -123,7 +123,7 @@ const Notifications = {
       }
 
       notif.staticClass = [
-        `q-notification row items-stretch`,
+        `q-notification row items-stretch col-auto`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
         `q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}`,
