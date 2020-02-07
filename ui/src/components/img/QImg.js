@@ -15,6 +15,8 @@ export default Vue.extend({
     srcset: String,
     sizes: String,
     alt: String,
+    width: String,
+    height: String,
 
     placeholderSrc: String,
 
@@ -179,8 +181,19 @@ export default Vue.extend({
         img.srcset = this.srcset
       }
 
-      if (this.sizes) {
+      if (this.sizes && !this.width && !this.height) {
         img.sizes = this.sizes
+      }
+
+      if (!this.sizes && this.width) {
+        img.width = this.width
+        console.log('here')
+      }
+
+      if (!this.sizes && this.height) {
+        img.height = this.height
+        console.log(img, this.height)
+        console.log('here2')
       }
     },
 
@@ -273,7 +286,11 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-img overflow-hidden' + (this.nativeContextMenu === true ? ' q-img--menu' : ''),
       attrs: this.attrs,
-      on: this.$listeners
+      on: this.$listeners,
+      style: {
+        width: this.width,
+        height: this.height
+      }
     }, [
       h('div', {
         style: this.ratioStyle
