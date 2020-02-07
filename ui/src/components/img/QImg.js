@@ -289,11 +289,9 @@ export default Vue.extend({
       staticClass: 'q-img overflow-hidden' + (this.nativeContextMenu === true ? ' q-img--menu' : ''),
       style: this.style,
       attrs: this.attrs,
-      on: this.$listeners,
+      on: this.$listeners
     }, [
-      h('div', {
-        style: this.ratioStyle
-      }),
+      h('div', { style: this.ratioStyle }),
       this.__getImage(h),
       this.__getContent(h)
     ])
