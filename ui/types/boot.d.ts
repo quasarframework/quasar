@@ -22,6 +22,4 @@ export interface BootFileParams<TStore>
   redirect: (url: string) => void;
 }
 
-type BootCallback<TStore> = (params: BootFileParams<TStore>) => void | Promise<void>;
-
-export function boot<TStore = any>(callback: BootCallback<TStore>): BootCallback<TStore>;
+export type BootCallback<TStore> = (params: BootFileParams<TStore>) => void | Promise<void>;

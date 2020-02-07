@@ -368,6 +368,7 @@ function writeIndexDTS (apis) {
   //  which by defaults would be ignored because inside node_modules
   //  and not directly referenced by any file
   writeLine(contents, `import './shims'`)
+  writeLine(contents, `import './wrappers'`)
   writeLine(contents, `import './vue'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
