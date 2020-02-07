@@ -1,5 +1,7 @@
 .q-tab-panels
   background: #fff
 
-.q-tab-panel
+// q-tab-panel gets 16px padding, except when combined
+// with q-card-section to avoid 32px padding
+.q-tab-panel:not(.q-card__section)
   padding: 16px
