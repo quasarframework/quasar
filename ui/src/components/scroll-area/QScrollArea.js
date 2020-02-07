@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
-import { slot, mergeSlot } from '../../utils/slot.js'
+import { mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
