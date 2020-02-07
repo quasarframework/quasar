@@ -1,0 +1,87 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/layout/floating-action-button"
+  },
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "props": {
+    "type":{
+      "type": "String",
+      "desc": "Define the button HTML DOM type",
+      "default": "a",
+      "values": [
+        "a", "submit", "button", "reset"
+      ],
+      "category": "general"
+    },
+
+    "outline": {
+      "type": "Boolean",
+      "desc": "Use 'outline' design for Fab button",
+      "category": "style"
+    },
+
+    "push": {
+      "type": "Boolean",
+      "desc": "Use 'push' design for Fab button",
+      "category": "style"
+    },
+
+    "flat": {
+      "type": "Boolean",
+      "desc": "Use 'flat' design for Fab button",
+      "category": "style"
+    },
+
+    "unelevated": {
+      "type": "Boolean",
+      "desc": "Remove shadow",
+      "category": "style",
+      "addedIn": "v1.8.4"
+    },
+
+    "color": {
+      "extends": "color"
+    },
+
+    "text-color": {
+      "extends": "text-color"
+    },
+
+    "glossy": {
+      "type": "Boolean",
+      "desc": "Apply the glossy effect over the button",
+      "category": "style"
+    },
+
+    "extended": {
+      "type": "Boolean",
+      "desc": "Display extended Fab (icon and label)",
+      "category": "style|content|extended",
+      "addedIn": "v1.8.4"
+    },
+
+    "label": {
+      "type": [ "String", "Number" ],
+      "desc": "The label that will be shown when Fab is extended",
+      "default": "",
+      "examples": [ "Button Label" ],
+      "category": "content|extended",
+      "addedIn": "v1.8.4"
+    },
+
+    "left-label": {
+      "type": "Boolean",
+      "desc": "Display label on the left of the icon when Fab is extended",
+      "category": "style|content|extended",
+      "addedIn": "v1.8.4"
+    },
+
+    "disable": {
+      "extends": "disable"
+    }
+  }
+}

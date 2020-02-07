@@ -239,7 +239,7 @@ export default Vue.extend({
       data.directives = [{
         name: 'ripple',
         value: this.computedRipple,
-        modifiers: { center: this.isRound }
+        modifiers: { center: this.round }
       }]
     }
 
@@ -255,7 +255,7 @@ export default Vue.extend({
 
     inner = mergeSlot(inner, this, 'default')
 
-    if (this.iconRight !== void 0 && this.isRound === false) {
+    if (this.iconRight !== void 0 && this.round === false) {
       inner.push(
         h(QIcon, {
           props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
