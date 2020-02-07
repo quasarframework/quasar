@@ -390,6 +390,8 @@ export default {
       this.prevScrollStart = void 0
 
       if (toIndex >= 0) {
+        this.__updateVirtualScrollSizes(this.virtualScrollSliceRange.from)
+
         this.$nextTick(() => {
           this.scrollTo(toIndex)
         })
