@@ -13,6 +13,7 @@ export default {
     glossy: Boolean,
 
     extended: Boolean,
+
     label: {
       type: [ String, Number ],
       default: ''
@@ -20,5 +21,15 @@ export default {
     leftLabel: Boolean,
 
     disable: Boolean
+  },
+
+  methods: {
+    __injectLabel (h, child) {
+      child[this.leftLabel === true ? 'unshift' : 'push'](
+        h('div', {
+          class: `q-fab__label q-fab__label--${this.extended === true ? 'extended' : 'collapsed'}`
+        }, [ this.label ])
+      )
+    }
   }
 }

@@ -2,16 +2,18 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
-import FabMixin from './fab-mixin.js'
-import { slot } from '../../utils/slot.js'
 
-const alignMapping = {
-  left: 'self-start',
+import FabMixin from '../../mixins/fab.js'
+
+import { mergeSlot } from '../../utils/slot.js'
+
+const alignMap = {
+  left: 'self-end',
   center: 'self-center',
-  right: 'self-end'
+  right: 'self-start'
 }
 
-const alignValues = Object.keys(alignMapping)
+const alignValues = Object.keys(alignMap)
 
 export default Vue.extend({
   name: 'QFabAction',
@@ -24,7 +26,7 @@ export default Vue.extend({
       required: true
     },
 
-    align: {
+    verticalAlign: {
       type: String,
       validator: v => alignValues.includes(v)
     },
@@ -49,19 +51,16 @@ export default Vue.extend({
   },
 
   render (h) {
-    const children = [
+    const child = [
       h(QIcon, {
         props: { name: this.icon }
       })
     ]
 
-    this.label !== '' && children[this.leftLabel === true ? 'unshift' : 'push'](h('div', {
-      staticClass: 'q-fab__label q-fab__label--' +
-        (this.extended === true ? 'extended' : 'collapsed')
-    }, [ this.label ]))
+    this.label !== '' && this.__injectLabel(h, child)
 
     return h(QBtn, {
-      staticClass: alignMapping[this.align],
+      class: alignMap[this.verticalAlign],
       props: {
         ...this.$props,
         noWrap: true,
@@ -73,6 +72,6 @@ export default Vue.extend({
         ...this.$listeners,
         click: this.click
       }
-    }, slot(this, 'default', []).concat(children))
+    }, mergeSlot(child, this, 'default'))
   }
 })

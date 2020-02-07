@@ -40,7 +40,7 @@
       "type": "Boolean",
       "desc": "Remove shadow",
       "category": "style",
-      "addedIn": "v1.8.4"
+      "addedIn": "v1.9.0"
     },
 
     "color": {
@@ -61,7 +61,7 @@
       "type": "Boolean",
       "desc": "Display extended Fab (icon and label)",
       "category": "style|content|extended",
-      "addedIn": "v1.8.4"
+      "addedIn": "v1.9.0"
     },
 
     "label": {
@@ -70,14 +70,14 @@
       "default": "",
       "examples": [ "Button Label" ],
       "category": "content|extended",
-      "addedIn": "v1.8.4"
+      "addedIn": "v1.9.0"
     },
 
     "left-label": {
       "type": "Boolean",
       "desc": "Display label on the left of the icon when Fab is extended",
       "category": "style|content|extended",
-      "addedIn": "v1.8.4"
+      "addedIn": "v1.9.0"
     },
 
     "disable": {

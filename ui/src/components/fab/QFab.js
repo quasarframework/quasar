@@ -2,12 +2,15 @@ import Vue from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
-import FabMixin from './fab-mixin.js'
+
+import FabMixin from '../../mixins/fab.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
-import { slot } from '../../utils/slot.js'
+
+import { slot, mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
 const alignValues = [ 'left', 'center', 'right' ]
+const directions = ['up', 'right', 'down', 'left']
 
 export default Vue.extend({
   name: 'QFab',
@@ -18,7 +21,10 @@ export default Vue.extend({
     return {
       __qFabClose: evt => {
         this.hide(evt)
-        this.$refs.trigger && this.$refs.trigger.$el && this.$refs.trigger.$el.focus()
+
+        if (this.$refs.trigger && this.$refs.trigger.$el) {
+          this.$refs.trigger.$el.focus()
+        }
       }
     }
   },
@@ -26,14 +32,16 @@ export default Vue.extend({
   props: {
     icon: String,
     activeIcon: String,
+
     direction: {
       type: String,
       default: 'right',
-      validator: v => ['up', 'right', 'down', 'left'].includes(v)
+      validator: v => directions.includes(v)
     },
+
     persistent: Boolean,
 
-    align: {
+    actionsVerticalAlign: {
       type: String,
       default: 'center',
       validator: v => alignValues.includes(v)
@@ -52,13 +60,13 @@ export default Vue.extend({
     },
 
     classes () {
-      return 'q-fab--align-' + this.align +
+      return `q-fab--align-${this.actionsVerticalAlign}` +
         (this.showing === true ? ' q-fab--opened' : '')
     }
   },
 
   render (h) {
-    const children = [
+    const child = [
       h('div', { staticClass: 'q-fab__icon-holder' }, [
         h(QIcon, {
           staticClass: 'q-fab__icon absolute-full',
@@ -71,10 +79,7 @@ export default Vue.extend({
       ])
     ]
 
-    this.label !== '' && children[this.leftLabel === true ? 'unshift' : 'push'](h('div', {
-      staticClass: 'q-fab__label q-fab__label--' +
-        (this.extended === true ? 'extended' : 'collapsed')
-    }, [ this.label ]))
+    this.label !== '' && this.__injectLabel(h, child)
 
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
@@ -99,7 +104,7 @@ export default Vue.extend({
         on: cache(this, 'tog', {
           click: this.toggle
         })
-      }, slot(this, 'tooltip', []).concat(children))
+      }, mergeSlot(child, this, 'tooltip'))
     ])
   }
 })

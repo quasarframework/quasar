@@ -7,14 +7,14 @@
       "required": true
     },
 
-    "align": {
+    "vertical-align": {
       "type": "String",
       "desc": "How to align the Fab Action relative to Fab expand side (only when direction is 'up' or 'down'); By default it uses the align specified in QFab",
       "values": [
         "left", "right", "center"
       ],
       "category": "style|content|extended",
-      "addedIn": "v1.8.4"
+      "addedIn": "v1.9.0"
     },
 
     "to": {
