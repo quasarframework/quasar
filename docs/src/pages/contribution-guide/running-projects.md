@@ -9,7 +9,7 @@ desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
 | --- | --- | --- | --- |
 | Core UI, CLI | Ultimate responsibility of the Quasar, Quasar Core | Razvan | [Main repo](https://github.com/quasarframework/quasar) |
 | Media | Quasar is well known in JavaScript / Vue.js / backend / mobile and desktop dev community | Scott | [Facebook](https://www.facebook.com/QuasarFramework), [Medium](https://medium.com/quasar-framework), [Twitter](https://twitter.com/quasarframework) |
-| Procedures | Quasar is perceived as a well-managed and transparent OSS initiative with well-defined responsibilities and processes | Stanislav | [Contribution guide](contribution-guide/contribution-guide),  [Internal rules](https://github.com/rstoenescu/quasar-procedures) |
+| Procedures | Quasar is perceived as a well-managed and transparent OSS initiative with well-defined responsibilities and processes | Stanislav | [Contribution guide](/contribution-guide/contribution-guide),  [Internal rules](https://github.com/rstoenescu/quasar-procedures) |
 | BEX | Browser Extension CLI mode | Allan | [#76](https://github.com/quasarframework/quasar/issues/76)|
 | Capacitor | Capacitor CLI Mode | Noah | [#4388](https://github.com/quasarframework/quasar/issues/4388), [#4988](https://github.com/quasarframework/quasar/issues/4988), [CLI repo](https://github.com/quasarframework/quasar/tree/dev/cli) integration|
 | UI App Ext | Create and maintain UI extensions | Jeff | |
@@ -21,7 +21,7 @@ desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
 ## List of Projects Where New Maintainer is Needed
 These projects are an inevitable part of the Quasar framework, but to keep on our promise "to raise the bar for web development as a whole" we are looking for an active maintainer.
 
-If you are interested, read [The Role of the Project Maintainer](contribution-guide/project-maintainer) and let Razvan know via [Discord chat](https://chat.quasar.dev/).
+If you are interested, read [The Role of the Project Maintainer](/contribution-guide/project-maintainer) and let Razvan know via [Discord chat](https://chat.quasar.dev/).
 
 We can promise you that your Javascript and Vue.js skills will reach the stars!
 
