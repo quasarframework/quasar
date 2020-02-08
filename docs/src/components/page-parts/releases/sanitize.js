@@ -22,7 +22,7 @@ function HtmlWhitelistedSanitizer (escape, tags, css, urls) {
   this.doc = document.implementation.createHTMLDocument()
 
   if (urls == null) {
-    urls = [ 'http://', 'https://' ]
+    urls = ['http://', 'https://']
   }
 
   if (this.allowedTags == null) {
@@ -63,7 +63,7 @@ function HtmlWhitelistedSanitizer (escape, tags, css, urls) {
   }
   if (this.allowedCss == null) {
     // Small set of default css properties
-    this.allowedCss = [ 'border', 'margin', 'padding' ]
+    this.allowedCss = ['border', 'margin', 'padding']
   }
 }
 
@@ -100,7 +100,7 @@ HtmlWhitelistedSanitizer.prototype.sanitizeString = function (input) {
 }
 
 HtmlWhitelistedSanitizer.prototype.sanitizeNode = function (node) {
-  // Note: <form> can have it's nodeName overriden by a child node. It's
+  // Note: <form> can have its nodeName overriden by a child node. It's
   // not a big deal here, so we can punt on this.
   const nodeName = node.nodeName.toLowerCase()
   if (nodeName === '#text') {
