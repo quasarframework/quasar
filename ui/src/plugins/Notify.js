@@ -67,12 +67,6 @@ const Notifications = {
         notif.position = 'bottom'
       }
 
-      if (notif.group === void 0) {
-        notif.group = `${notif.message}|${notif.caption}`
-      }
-
-      notif.group += '|' + notif.position
-
       if (notif.timeout === void 0) {
         notif.timeout = 5000
       }
@@ -97,54 +91,65 @@ const Notifications = {
       const actions = (config.actions || [])
         .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
 
-      notif.actions = actions.length > 0
-        ? actions.map(item => {
-          const
-            handler = item.handler,
-            action = clone(item)
+      notif.actions = actions.map(item => {
+        const
+          handler = item.handler,
+          action = clone(item)
 
-          action.handler = typeof handler === 'function'
-            ? () => {
-              handler()
-              !item.noDismiss && notif.__close()
-            }
-            : () => { notif.__close() }
+        action.handler = typeof handler === 'function'
+          ? () => {
+            handler()
+            !item.noDismiss && notif.__close()
+          }
+          : () => { notif.__close() }
 
-          return action
-        })
-        : void 0
+        return action
+      })
 
       if (typeof config.onDismiss === 'function') {
         notif.onDismiss = config.onDismiss
       }
 
       if (typeof notif.closeBtn === 'string') {
-        const btn = { label: notif.closeBtn, handler: () => { notif.__close() } }
-        notif.actions = notif.actions
-          ? notif.actions.concat(btn)
-          : [ btn ]
+        notif.actions.push({ label: notif.closeBtn, handler: () => { notif.__close() } })
       }
 
-      if (notif.multiLine === void 0 && notif.actions) {
+      if (notif.multiLine === void 0) {
         notif.multiLine = notif.actions.length > 1
       }
 
       notif.staticClass = [
-        `q-notification row items-stretch`,
+        `q-notification row items-stretch col-auto`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
         `q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}`,
         notif.classes
       ].filter(n => n).join(' ')
 
+      if (notif.group === false) {
+        notif.group = void 0
+      }
+      else if (notif.group !== void 0) {
+        if (notif.group === true) {
+          // do not replace notifications with different buttons
+          notif.group = `${notif.message}|${notif.caption}|${notif.multiline}|${notif.actions.map(a => a.label).join('|')}`
+        }
+
+        notif.group += '|' + notif.position
+      }
+
       const groupNotif = groups[notif.group]
+
+      if (notif.actions.length === 0) {
+        notif.actions = void 0
+      }
 
       // wohoo, new notification
       if (groupNotif === void 0) {
         notif.__uid = uid++
         notif.__badge = 1
 
-        if (['left', 'right', 'center'].indexOf(notif.position) > -1) {
+        if (['left', 'right', 'center'].indexOf(notif.position) !== -1) {
           this.notifs[notif.position].splice(
             Math.floor(this.notifs[notif.position].length / 2),
             0,
@@ -156,7 +161,9 @@ const Notifications = {
           this.notifs[notif.position][action](notif)
         }
 
-        groups[notif.group] = notif
+        if (notif.group !== void 0) {
+          groups[notif.group] = notif
+        }
       }
       // ok, so it's NOT a new one
       else {
