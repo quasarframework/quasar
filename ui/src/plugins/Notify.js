@@ -155,9 +155,6 @@ const Notifications = {
       }
       // ok, so it's NOT a new one
       else {
-        // do NOT override position
-        notif.position = groupNotif.position
-
         // reset timeout if any
         if (groupNotif.__timeout !== void 0) {
           clearTimeout(groupNotif.__timeout)

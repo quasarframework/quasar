@@ -63,7 +63,7 @@
       "group": {
         "type": [ "String", "Number" ],
         "desc": "Inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
-        "default": "(message + caption)",
+        "default": "(message + caption + position)",
         "examples": [ "my-group" ],
         "addedIn": "v1.9.0"
       },
@@ -193,7 +193,7 @@
             "group": {
               "type": [ "String", "Number" ],
               "desc": "Inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
-              "default": "(message + caption)",
+              "default": "(message + caption + position)",
               "examples": [ "my-group" ],
               "addedIn": "v1.9.0"
             },
