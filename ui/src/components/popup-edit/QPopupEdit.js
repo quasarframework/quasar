@@ -78,8 +78,8 @@ export default Vue.extend({
 
     cancel () {
       if (this.__hasChanged()) {
-        this.$emit('cancel', this.value, this.initialValue)
         this.$emit('input', this.initialValue)
+        this.$emit('cancel', this.value, this.initialValue)
       }
       this.__close()
     },
