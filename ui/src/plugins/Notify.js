@@ -142,8 +142,6 @@ const Notifications = {
         notif.group += '|' + notif.position
       }
 
-      console.log(notif.group)
-
       if (notif.actions.length === 0) {
         notif.actions = void 0
       }
