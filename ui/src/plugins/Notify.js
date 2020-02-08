@@ -85,8 +85,13 @@ const Notifications = {
         notif.timeout = t
       }
 
-      if (notif.badge === void 0) {
-        notif.badge = {}
+      if (notif.timeout === 0) {
+        notif.progress = false
+      }
+      else if (notif.progress === true) {
+        notif.__progressStyle = {
+          animationDuration: `${notif.timeout + 1000}ms`
+        }
       }
 
       const actions = (config.actions || [])
@@ -125,7 +130,7 @@ const Notifications = {
       }
 
       notif.staticClass = [
-        `q-notification row items-stretch col-auto`,
+        `q-notification row items-stretch`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
         `q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}`,
@@ -261,31 +266,40 @@ const Notifications = {
           h('div', msgData, msgChild)
         )
 
-        if (notif.__badge > 1) {
-          mainChild.push(
-            h(QBadge, {
-              key: `${notif.__uid}|${notif.__badge}`,
-              staticClass: 'q-notification__badge self-center',
-              props: { color: notif.badge.color, textColor: notif.badge.textColor },
-              style: notif.badge.style,
-              class: notif.badge.class
-            }, [ notif.__badge ])
-          )
-        }
-
         const child = [
           h('div', {
-            staticClass: 'row items-center ' + (notif.multiLine === true ? '' : 'col')
+            staticClass: 'row items-center' +
+              (notif.multiLine === true ? '' : ' col')
           }, mainChild)
         ]
 
+        notif.progress === true && child.push(
+          h('div', {
+            key: `${notif.__uid}|p|${notif.__badge}`,
+            staticClass: 'q-notification__progress',
+            style: notif.__progressStyle,
+            class: notif.progressClass
+          })
+        )
+
         notif.actions !== void 0 && child.push(
           h('div', {
-            staticClass: 'q-notification__actions row items-center ' + (notif.multiLine === true ? 'justify-end' : 'col-auto')
+            staticClass: 'q-notification__actions row items-center ' +
+              (notif.multiLine === true ? 'justify-end' : 'col-auto')
           }, notif.actions.map(action => h(QBtn, {
             props: { flat: true, ...action },
             on: { click: action.handler }
           })))
+        )
+
+        notif.__badge > 1 && child.push(
+          h(QBadge, {
+            key: `${notif.__uid}|${notif.__badge}`,
+            staticClass: 'q-notification__badge',
+            props: { color: notif.badgeColor, textColor: notif.badgeTextColor },
+            style: notif.badgeStyle,
+            class: notif.badgeClass
+          }, [ notif.__badge ])
         )
 
         return h('div', {
@@ -294,7 +308,8 @@ const Notifications = {
           staticClass: notif.staticClass
         }, [
           h('div', {
-            staticClass: 'col relative-position ' + (notif.multiLine === true ? 'column no-wrap justify-center' : 'row items-center')
+            staticClass: 'col relative-position border-radius-inherit ' +
+              (notif.multiLine === true ? 'column no-wrap justify-center' : 'row items-center')
           }, child)
         ])
       }))

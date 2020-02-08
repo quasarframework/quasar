@@ -81,14 +81,16 @@ export default {
       this.$q.notify({
         message: 'Grouped message ' + Math.random(),
         group: 'some-group',
-        badge: {
-          color: 'teal'
-        }
+        progress: true,
+        badgeColor: 'teal'
       })
     },
 
     showGroup2 () {
-      this.$q.notify('Some message')
+      this.$q.notify({
+        message: 'Some message',
+        progress: true
+      })
     },
 
     alertAsMethod (position) {
@@ -107,6 +109,7 @@ export default {
         position,
         avatar,
         multiLine,
+        progress: true,
         actions: twoActions
           ? [
             { label: 'Reply', color: buttonColor, handler: () => console.log('wooow') },

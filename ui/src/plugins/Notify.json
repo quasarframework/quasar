@@ -68,35 +68,47 @@
         "addedIn": "v1.9.0"
       },
 
-      "badge": {
-        "type": "Object",
-        "desc": "Properties for the group badge",
-        "definition": {
-          "color": {
-            "extends": "color",
-            "desc": "Color name for the badge from the Quasar Color Palette"
-          },
-          "textColor": {
-            "extends": "color",
-            "desc": "Color name for the badge text from the Quasar Color Palette"
-          },
-          "style": {
-            "type": [ "Array", "String", "Object" ],
-            "desc": "Style definitions to be attributed to the badge",
-            "examples": [
-              "background-color: #ff0000",
-              ":content-style=\"{ backgroundColor: '#ff0000' }\""
-            ]
-          },
-          "class": {
-            "type": [ "Array", "String", "Object" ],
-            "desc": "Class definitions to be attributed to the badge",
-            "examples": [
-              "my-special-class",
-              ":content-class=\"{ 'my-special-class': <condition> }\""
-            ]
-          }
-        },
+      "badgeColor": {
+        "extends": "color",
+        "desc": "Color name for the badge from the Quasar Color Palette",
+        "addedIn": "v1.9.0"
+      },
+      "badgeTextColor": {
+        "extends": "color",
+        "desc": "Color name for the badge text from the Quasar Color Palette",
+        "addedIn": "v1.9.0"
+      },
+      "badgeStyle": {
+        "type": [ "Array", "String", "Object" ],
+        "desc": "Style definitions to be attributed to the badge",
+        "examples": [
+          "background-color: #ff0000",
+          ":content-style=\"{ backgroundColor: '#ff0000' }\""
+        ],
+        "addedIn": "v1.9.0"
+      },
+      "badgeClass": {
+        "type": [ "Array", "String", "Object" ],
+        "desc": "Class definitions to be attributed to the badge",
+        "examples": [
+          "my-special-class",
+          ":content-class=\"{ 'my-special-class': <condition> }\""
+        ],
+        "addedIn": "v1.9.0"
+      },
+
+      "progress": {
+        "type": "Boolean",
+        "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)",
+        "addedIn": "v1.9.0"
+      },
+      "progressClass": {
+        "type": [ "Array", "String", "Object" ],
+        "desc": "Class definitions to be attributed to the progress bar",
+        "examples": [
+          "my-special-class",
+          ":content-class=\"{ 'my-special-class': <condition> }\""
+        ],
         "addedIn": "v1.9.0"
       },
 
@@ -198,35 +210,47 @@
               "addedIn": "v1.9.0"
             },
 
-            "badge": {
-              "type": "Object",
-              "desc": "Properties for the group badge",
-              "definition": {
-                "color": {
-                  "extends": "color",
-                  "desc": "Color name for the badge from the Quasar Color Palette"
-                },
-                "textColor": {
-                  "extends": "color",
-                  "desc": "Color name for the badge text from the Quasar Color Palette"
-                },
-                "style": {
-                  "type": [ "Array", "String", "Object" ],
-                  "desc": "Style definitions to be attributed to the badge",
-                  "examples": [
-                    "background-color: #ff0000",
-                    ":content-style=\"{ backgroundColor: '#ff0000' }\""
-                  ]
-                },
-                "class": {
-                  "type": [ "Array", "String", "Object" ],
-                  "desc": "Class definitions to be attributed to the badge",
-                  "examples": [
-                    "my-special-class",
-                    ":content-class=\"{ 'my-special-class': <condition> }\""
-                  ]
-                }
-              },
+            "badgeColor": {
+              "extends": "color",
+              "desc": "Color name for the badge from the Quasar Color Palette",
+              "addedIn": "v1.9.0"
+            },
+            "badgeTextColor": {
+              "extends": "color",
+              "desc": "Color name for the badge text from the Quasar Color Palette",
+              "addedIn": "v1.9.0"
+            },
+            "badgeStyle": {
+              "type": [ "Array", "String", "Object" ],
+              "desc": "Style definitions to be attributed to the badge",
+              "examples": [
+                "background-color: #ff0000",
+                ":content-style=\"{ backgroundColor: '#ff0000' }\""
+              ],
+              "addedIn": "v1.9.0"
+            },
+            "badgeClass": {
+              "type": [ "Array", "String", "Object" ],
+              "desc": "Class definitions to be attributed to the badge",
+              "examples": [
+                "my-special-class",
+                ":content-class=\"{ 'my-special-class': <condition> }\""
+              ],
+              "addedIn": "v1.9.0"
+            },
+
+            "progress": {
+              "type": "Boolean",
+              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)",
+              "addedIn": "v1.9.0"
+            },
+            "progressClass": {
+              "type": [ "Array", "String", "Object" ],
+              "desc": "Class definitions to be attributed to the progress bar",
+              "examples": [
+                "my-special-class",
+                ":content-class=\"{ 'my-special-class': <condition> }\""
+              ],
               "addedIn": "v1.9.0"
             },
 
@@ -350,6 +374,50 @@
                 "top", "bottom", "left", "right", "center"
               ],
               "examples": [ "top-right" ]
+            },
+
+            "badgeColor": {
+              "extends": "color",
+              "desc": "Color name for the badge from the Quasar Color Palette",
+              "addedIn": "v1.9.0"
+            },
+            "badgeTextColor": {
+              "extends": "color",
+              "desc": "Color name for the badge text from the Quasar Color Palette",
+              "addedIn": "v1.9.0"
+            },
+            "badgeStyle": {
+              "type": [ "Array", "String", "Object" ],
+              "desc": "Style definitions to be attributed to the badge",
+              "examples": [
+                "background-color: #ff0000",
+                ":content-style=\"{ backgroundColor: '#ff0000' }\""
+              ],
+              "addedIn": "v1.9.0"
+            },
+            "badgeClass": {
+              "type": [ "Array", "String", "Object" ],
+              "desc": "Class definitions to be attributed to the badge",
+              "examples": [
+                "my-special-class",
+                ":content-class=\"{ 'my-special-class': <condition> }\""
+              ],
+              "addedIn": "v1.9.0"
+            },
+
+            "progress": {
+              "type": "Boolean",
+              "desc": "Show progress bar to detail when notification will disappear automatically (unless timeout is 0)",
+              "addedIn": "v1.9.0"
+            },
+            "progressClass": {
+              "type": [ "Array", "String", "Object" ],
+              "desc": "Class definitions to be attributed to the progress bar",
+              "examples": [
+                "my-special-class",
+                ":content-class=\"{ 'my-special-class': <condition> }\""
+              ],
+              "addedIn": "v1.9.0"
             },
 
             "classes": {
