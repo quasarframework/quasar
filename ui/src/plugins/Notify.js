@@ -129,8 +129,8 @@ const Notifications = {
       if (notif.group === false) {
         notif.group = void 0
       }
-      else if (notif.group !== void 0) {
-        if (notif.group === true) {
+      else {
+        if (notif.group === void 0 || notif.group === true) {
           // do not replace notifications with different buttons
           notif.group = [
             notif.message,
@@ -142,11 +142,13 @@ const Notifications = {
         notif.group += '|' + notif.position
       }
 
-      const groupNotif = groups[notif.group]
+      console.log(notif.group)
 
       if (notif.actions.length === 0) {
         notif.actions = void 0
       }
+
+      const groupNotif = groups[notif.group]
 
       // wohoo, new notification
       if (groupNotif === void 0) {
@@ -164,6 +166,10 @@ const Notifications = {
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
           this.notifs[notif.position][action](notif)
         }
+
+        if (notif.group !== void 0) {
+          groups[notif.group] = notif
+        }
       }
       // ok, so it's NOT a new one
       else {
@@ -173,7 +179,7 @@ const Notifications = {
         }
 
         notif = Object.assign(groups[notif.group], notif)
-        groups[notif.group].__badge++
+        notif.__badge++
       }
 
       notif.__close = () => {
@@ -194,7 +200,9 @@ const Notifications = {
 
       const index = this.notifs[notif.position].indexOf(notif)
       if (index !== -1) {
-        groups[notif.group] = void 0
+        if (notif.group !== void 0) {
+          delete groups[notif.group]
+        }
 
         const el = this.$refs[`notif_${notif.__uid}`]
 
