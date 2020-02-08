@@ -185,6 +185,10 @@ export default Vue.extend({
     },
 
     __panThumb (e) {
+      if (this.thumbHidden === true) {
+        return
+      }
+
       if (e.isFirst === true) {
         this.refPos = this.scrollPosition
         this.__setActive(true, true)
@@ -201,12 +205,14 @@ export default Vue.extend({
     },
 
     __mouseDown (evt) {
-      const pos = evt[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
-      this.__setScroll(pos / this.containerSize * this.scrollSize)
+      if (this.thumbHidden !== true) {
+        const pos = evt[`offset${this.horizontal === true ? 'X' : 'Y'}`] - this.thumbSize / 2
+        this.__setScroll(pos / this.containerSize * this.scrollSize)
 
-      // activate thumb pan
-      if (this.$refs.thumb !== void 0) {
-        this.$refs.thumb.dispatchEvent(new MouseEvent(evt.type, evt))
+        // activate thumb pan
+        if (this.$refs.thumb !== void 0) {
+          this.$refs.thumb.dispatchEvent(new MouseEvent(evt.type, evt))
+        }
       }
     },
 
