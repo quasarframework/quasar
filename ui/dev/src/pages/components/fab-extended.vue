@@ -3,7 +3,7 @@
     <q-header elevated>
       <q-toolbar class="q-gutter-md justify-around">
         <q-select dark color="yellow" borderless square v-model="fabDirection" :options="fabDirections" label="FAB open direction" style="min-width: 150px" />
-        <q-select dark color="yellow" borderless square v-model="fabAnchor" :options="fabAnchors" label="FAB anchor" style="min-width: 150px" />
+        <q-select dark color="yellow" borderless square v-model="fabVerticalAlign" :options="fabVerticalAligns" label="FAB v-align" style="min-width: 150px" />
         <q-select dark color="yellow" borderless square v-model="fabLabelPosition" :options="fabLabelPositions" label="Label position" style="min-width: 150px" />
         <q-toggle dark color="yellow" v-model="fabExternalLabel" label="External label" />
         <q-toggle dark color="yellow" v-model="fabSquare" label="Square" />
@@ -23,9 +23,9 @@
           <q-fab
             :direction="fabDirection"
             color="primary"
-            :label="`Actions aligned ${fabAnchor}`"
+            :label="`Actions aligned ${fabVerticalAlign}`"
             :label-position="fabLabelPosition"
-            :actions-vertical-align="fabAnchor"
+            :actions-vertical-align="fabVerticalAlign"
             :square="fabSquare"
             :external-label="fabExternalLabel"
             :hide-label="hideLabel"
@@ -139,7 +139,7 @@ export default {
   data () {
     return {
       fabDirection: 'up',
-      fabAnchor: 'center',
+      fabVerticalAlign: 'center',
       fabExtended: true,
       fabExternalLabel: true,
       fabLabelPosition: 'right',
@@ -148,7 +148,7 @@ export default {
       withLabelClass: false,
 
       fabDirections: [ 'right', 'left', 'up', 'down' ],
-      fabAnchors: [ 'center', 'left', 'right' ],
+      fabVerticalAligns: [ 'center', 'left', 'right' ],
       fabLabelPositions: [ 'right', 'left', 'top', 'bottom' ]
     }
   },
@@ -164,14 +164,14 @@ export default {
       if (this.fabDirection === 'up') {
         return {
           position: 'bottom',
-          offset: [ this.fabAnchor === 'center' ? 0 : 18, 18 ]
+          offset: [ this.fabVerticalAlign === 'center' ? 0 : 18, 18 ]
         }
       }
 
       if (this.fabDirection === 'down') {
         return {
           position: 'top',
-          offset: [ this.fabAnchor === 'center' ? 0 : 18, 18 ]
+          offset: [ this.fabVerticalAlign === 'center' ? 0 : 18, 18 ]
         }
       }
 
