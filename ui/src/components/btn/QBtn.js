@@ -17,6 +17,13 @@ let
   keyboardTarget = void 0,
   mouseTarget = void 0
 
+const eventHasKeyModifiers = e => (
+  e.ctrlKey === true ||
+  e.shiftKey === true ||
+  e.altKey === true ||
+  e.metaKey === true
+)
+
 export default Vue.extend({
   name: 'QBtn',
 
@@ -84,7 +91,11 @@ export default Vue.extend({
           this.$el.addEventListener('blur', onClickCleanup, passiveCapture)
         }
 
-        this.hasRouterLink === true && stopAndPrevent(e)
+        if (this.hasRouterLink === true) {
+          if (eventHasKeyModifiers(e) === true) { return }
+
+          stopAndPrevent(e)
+        }
       }
 
       const go = () => {
