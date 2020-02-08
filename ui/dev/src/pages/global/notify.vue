@@ -89,7 +89,6 @@ export default {
     showGroup2 () {
       this.$q.notify({
         message: 'Some message',
-        group: true,
         progress: true
       })
     },
@@ -107,7 +106,6 @@ export default {
         icon: random > 30 ? icon : null,
         message,
         caption: random < 30 ? '5 minutes ago' : null,
-        group: random < 80,
         position,
         avatar,
         multiLine,
@@ -166,14 +164,12 @@ export default {
     this.$q.notify({
       message: 'You need to know about this!',
       caption: 'This is a caption',
-      group: true,
       timeout: 0,
       avatar: 'https://cdn.quasar.dev/img/boy-avatar.png'
     })
     this.$q.notify({
       message: 'You need to know about this!',
       caption: 'This is a caption',
-      group: true,
       timeout: 0,
       color: 'yellow',
       textColor: 'black',
@@ -193,7 +189,6 @@ export default {
       html: true,
       message: 'HTML; You need to know about this!',
       caption: 'This is a caption',
-      group: true,
       timeout: 0,
       closeBtn: 'Close',
       color: 'yellow',

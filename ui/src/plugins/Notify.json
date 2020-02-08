@@ -62,8 +62,8 @@
 
       "group": {
         "type": [ "Boolean", "String", "Number" ],
-        "desc": "True auto groups by (message + caption + multiline + actions labels + position); String or number value inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
-        "default": "false",
+        "desc": "Override the auto generated group with custom one; String or number value inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
+        "default": "(message + caption + multiline + actions labels + position)",
         "examples": [ "my-group" ],
         "addedIn": "v1.9.0"
       },
@@ -204,8 +204,8 @@
 
             "group": {
               "type": [ "Boolean", "String", "Number" ],
-              "desc": "True auto groups by (message + caption + multiline + actions labels + position); String or number value inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
-              "default": "false",
+              "desc": "Override the auto generated group with custom one; String or number value inform this is part of a specific group, regardless of its options; When a new notification is triggered with same group name, it replaces the old one and shows a badge with how many times the notification was triggered",
+              "default": "(message + caption + multiline + actions labels + position)",
               "examples": [ "my-group" ],
               "addedIn": "v1.9.0"
             },

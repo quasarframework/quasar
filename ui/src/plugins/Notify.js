@@ -119,7 +119,7 @@ const Notifications = {
       }
 
       notif.staticClass = [
-        `q-notification row items-stretch col-auto`,
+        `q-notification row items-stretch`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
         `q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}`,
@@ -132,7 +132,11 @@ const Notifications = {
       else if (notif.group !== void 0) {
         if (notif.group === true) {
           // do not replace notifications with different buttons
-          notif.group = `${notif.message}|${notif.caption}|${notif.multiline}|${notif.actions.map(a => a.label).join('|')}`
+          notif.group = [
+            notif.message,
+            notif.caption,
+            notif.multiline
+          ].concat(notif.actions.map(a => a.label)).join('|')
         }
 
         notif.group += '|' + notif.position
@@ -159,10 +163,6 @@ const Notifications = {
         else {
           const action = notif.position.indexOf('top') > -1 ? 'unshift' : 'push'
           this.notifs[notif.position][action](notif)
-        }
-
-        if (notif.group !== void 0) {
-          groups[notif.group] = notif
         }
       }
       // ok, so it's NOT a new one
