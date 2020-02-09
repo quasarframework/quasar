@@ -17,13 +17,6 @@ let
   keyboardTarget = void 0,
   mouseTarget = void 0
 
-const eventHasKeyModifiers = e => (
-  e.ctrlKey === true ||
-  e.shiftKey === true ||
-  e.altKey === true ||
-  e.metaKey === true
-)
-
 export default Vue.extend({
   name: 'QBtn',
 
@@ -92,7 +85,16 @@ export default Vue.extend({
         }
 
         if (this.hasRouterLink === true) {
-          if (eventHasKeyModifiers(e) === true) { return }
+          if (
+            e.ctrlKey === true ||
+            e.shiftKey === true ||
+            e.altKey === true ||
+            e.metaKey === true
+          ) {
+            // if it has meta keys, let vue-router link
+            // handle this by its own
+            return
+          }
 
           stopAndPrevent(e)
         }
