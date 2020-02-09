@@ -84,7 +84,20 @@ export default Vue.extend({
           this.$el.addEventListener('blur', onClickCleanup, passiveCapture)
         }
 
-        this.hasRouterLink === true && stopAndPrevent(e)
+        if (this.hasRouterLink === true) {
+          if (
+            e.ctrlKey === true ||
+            e.shiftKey === true ||
+            e.altKey === true ||
+            e.metaKey === true
+          ) {
+            // if it has meta keys, let vue-router link
+            // handle this by its own
+            return
+          }
+
+          stopAndPrevent(e)
+        }
       }
 
       const go = () => {
