@@ -55,6 +55,7 @@ body.q-ios-padding .q-notifications__list
 
   &__actions
     color: $primary
+    color: var(--q-color-primary)
 
   &__badge
     animation: q-notif-badge .42s
@@ -63,7 +64,13 @@ body.q-ios-padding .q-notifications__list
     top: -6px
     left: -22px
     background: $negative
-    box-shadow: $shadow-2
+    box-shadow: $shadow-1
+    background-color: $negative
+    background-color: var(--q-color-negative)
+    color: #fff
+    border-radius: $generic-border-radius
+    font-size: 12px
+    line-height: 12px
 
   &__progress
     z-index: -1

@@ -128,7 +128,7 @@
       },
 
       "closeBtn": {
-        "type": "String",
+        "type": [ "Boolean", "String" ],
         "desc": "Convenient way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
         "examples": [ "Close me" ]
       },
@@ -288,8 +288,8 @@
             },
 
             "closeBtn": {
-              "type": "String",
-              "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
+              "type": [ "Boolean", "String" ],
+              "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label accordding to the current Quasar language",
               "examples": [ "Close me" ]
             },
 
@@ -454,8 +454,8 @@
             },
 
             "closeBtn": {
-              "type": "String",
-              "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' convoluted prop",
+              "type": [ "Boolean", "String" ],
+              "desc": "Convenience way to add a dismiss button with a specific label, without using the 'actions' prop; If set to true, it uses a label accordding to the current Quasar language",
               "examples": [ "Close me" ]
             },
 

@@ -3,7 +3,6 @@ import Vue from 'vue'
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
-import QBadge from '../components/badge/QBadge.js'
 
 import clone from '../utils/clone.js'
 import { noop } from '../utils/event.js'
@@ -19,22 +18,24 @@ const positionList = [
 ]
 
 const groups = {}
+const positionClass = {}
 
 const Notifications = {
   name: 'QNotifications',
 
-  data: {
-    notifs: {
-      center: [],
-      left: [],
-      right: [],
-      top: [],
-      'top-left': [],
-      'top-right': [],
-      bottom: [],
-      'bottom-left': [],
-      'bottom-right': []
-    }
+  created () {
+    this.notifs = {}
+
+    positionList.forEach(pos => {
+      this.notifs[pos] = []
+
+      const
+        vert = ['left', 'center', 'right'].includes(pos) ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
+        align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
+        classes = ['left', 'right'].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
+
+      positionClass[pos] = `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`
+    })
   },
 
   methods: {
@@ -56,6 +57,8 @@ const Notifications = {
           ? { message: config }
           : clone(config)
       )
+
+      notif.meta = {}
 
       if (notif.position) {
         if (!positionList.includes(notif.position)) {
@@ -83,7 +86,7 @@ const Notifications = {
         notif.progress = false
       }
       else if (notif.progress === true) {
-        notif.__progressStyle = {
+        notif.meta.progressStyle = {
           animationDuration: `${notif.timeout + 1000}ms`
         }
       }
@@ -91,34 +94,35 @@ const Notifications = {
       const actions = (config.actions || [])
         .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
 
-      notif.actions = actions.map(item => {
-        const
-          handler = item.handler,
-          action = clone(item)
-
-        action.handler = typeof handler === 'function'
-          ? () => {
-            handler()
-            !item.noDismiss && notif.__close()
-          }
-          : () => { notif.__close() }
-
-        return action
+      notif.closeBtn && actions.push({
+        label: typeof notif.closeBtn === 'string'
+          ? notif.closeBtn
+          : this.$q.lang.label.close
       })
+
+      notif.actions = actions.map(({ handler, noDismiss, ...item }) => ({
+        props: { flat: true, ...item },
+        on: {
+          click: typeof handler === 'function'
+            ? () => {
+              noDismiss !== true && notif.meta.close()
+              handler()
+            }
+            : () => {
+              notif.meta.close()
+            }
+        }
+      }))
 
       if (typeof config.onDismiss === 'function') {
         notif.onDismiss = config.onDismiss
-      }
-
-      if (typeof notif.closeBtn === 'string') {
-        notif.actions.push({ label: notif.closeBtn, handler: () => { notif.__close() } })
       }
 
       if (notif.multiLine === void 0) {
         notif.multiLine = notif.actions.length > 1
       }
 
-      notif.staticClass = [
+      notif.meta.staticClass = [
         `q-notification row items-stretch`,
         notif.color && `bg-${notif.color}`,
         notif.textColor && `text-${notif.textColor}`,
@@ -136,7 +140,9 @@ const Notifications = {
             notif.message,
             notif.caption,
             notif.multiline
-          ].concat(notif.actions.map(a => a.label)).join('|')
+          ].concat(
+            notif.actions.map(a => `${a.props.label}*${a.props.icon}`)
+          ).join('|')
         }
 
         notif.group += '|' + notif.position
@@ -150,8 +156,8 @@ const Notifications = {
 
       // wohoo, new notification
       if (groupNotif === void 0) {
-        notif.__uid = uid++
-        notif.__badge = 1
+        notif.meta.uid = uid++
+        notif.meta.badge = 1
 
         if (['left', 'right', 'center'].indexOf(notif.position) !== -1) {
           this.notifs[notif.position].splice(
@@ -172,29 +178,38 @@ const Notifications = {
       // ok, so it's NOT a new one
       else {
         // reset timeout if any
-        if (groupNotif.__timeout !== void 0) {
-          clearTimeout(groupNotif.__timeout)
+        if (groupNotif.meta.timer !== void 0) {
+          clearTimeout(groupNotif.meta.timer)
         }
 
-        notif = Object.assign(groups[notif.group], notif)
-        notif.__badge++
+        const original = groups[notif.group]
+
+        notif.meta.uid = original.meta.uid
+        notif.meta.badge = original.meta.badge + 1
+        notif.meta.badgeStaticClass = 'q-notification__badge' +
+          (notif.badgeColor !== void 0 ? ` bg-${notif.badgeColor}` : '') +
+          (notif.badgeTextColor !== void 0 ? ` text-${notif.badgeTextColor}` : '')
+
+        notif = Object.assign(original, notif)
       }
 
-      notif.__close = () => {
+      notif.meta.close = () => {
         this.remove(notif)
       }
 
+      this.$forceUpdate()
+
       if (notif.timeout > 0) {
-        notif.__timeout = setTimeout(() => {
-          notif.__close()
+        notif.meta.timer = setTimeout(() => {
+          notif.meta.close()
         }, notif.timeout + /* show duration */ 1000)
       }
 
-      return notif.__close
+      return notif.meta.close
     },
 
     remove (notif) {
-      if (notif.__timeout) { clearTimeout(notif.__timeout) }
+      if (notif.meta.timer) { clearTimeout(notif.meta.timer) }
 
       const index = this.notifs[notif.position].indexOf(notif)
       if (index !== -1) {
@@ -202,7 +217,7 @@ const Notifications = {
           delete groups[notif.group]
         }
 
-        const el = this.$refs[`notif_${notif.__uid}`]
+        const el = this.$refs[`notif_${notif.meta.uid}`]
 
         if (el) {
           const { width, height } = getComputedStyle(el)
@@ -214,6 +229,8 @@ const Notifications = {
 
         this.notifs[notif.position].splice(index, 1)
 
+        this.$forceUpdate()
+
         if (typeof notif.onDismiss === 'function') {
           notif.onDismiss()
         }
@@ -223,14 +240,9 @@ const Notifications = {
 
   render (h) {
     return h('div', { staticClass: 'q-notifications' }, positionList.map(pos => {
-      const
-        vert = ['left', 'center', 'right'].includes(pos) ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
-        align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
-        classes = ['left', 'right'].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
-
       return h('transition-group', {
         key: pos,
-        staticClass: `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`,
+        staticClass: positionClass[pos],
         tag: 'div',
         props: {
           name: `q-notification--${pos}`,
@@ -238,6 +250,8 @@ const Notifications = {
         }
       }, this.notifs[pos].map(notif => {
         let msgChild
+
+        const meta = notif.meta
         const msgData = { staticClass: 'q-notification__message col' }
 
         if (notif.html === true) {
@@ -288,9 +302,9 @@ const Notifications = {
 
         notif.progress === true && child.push(
           h('div', {
-            key: `${notif.__uid}|p|${notif.__badge}`,
+            key: `${meta.uid}|p|${meta.badge}`,
             staticClass: 'q-notification__progress',
-            style: notif.__progressStyle,
+            style: meta.progressStyle,
             class: notif.progressClass
           })
         )
@@ -299,26 +313,22 @@ const Notifications = {
           h('div', {
             staticClass: 'q-notification__actions row items-center ' +
               (notif.multiLine === true ? 'justify-end' : 'col-auto')
-          }, notif.actions.map(action => h(QBtn, {
-            props: { flat: true, ...action },
-            on: { click: action.handler }
-          })))
+          }, notif.actions.map(a => h(QBtn, { props: a.props, on: a.on })))
         )
 
-        notif.__badge > 1 && child.push(
-          h(QBadge, {
-            key: `${notif.__uid}|${notif.__badge}`,
-            staticClass: 'q-notification__badge',
-            props: { color: notif.badgeColor, textColor: notif.badgeTextColor },
+        meta.badge > 1 && child.push(
+          h('div', {
+            key: `${meta.uid}|${meta.badge}`,
+            staticClass: meta.badgeStaticClass,
             style: notif.badgeStyle,
             class: notif.badgeClass
-          }, [ notif.__badge ])
+          }, [ meta.badge ])
         )
 
         return h('div', {
-          ref: `notif_${notif.__uid}`,
-          key: notif.__uid,
-          staticClass: notif.staticClass
+          ref: `notif_${meta.uid}`,
+          key: meta.uid,
+          staticClass: meta.staticClass
         }, [
           h('div', {
             staticClass: 'col relative-position border-radius-inherit ' +
