@@ -26,6 +26,18 @@
         <q-btn flat round dense icon="more_vert" />
       </q-toolbar>
 
+      <q-toolbar>
+        <q-btn flat round dense>
+          <q-icon name="menu" />
+        </q-btn>
+        <q-toolbar-title align="center">
+          Toolbar Aligned
+        </q-toolbar-title>
+        <q-btn flat round dense>
+          <q-icon name="more_vert" />
+        </q-btn>
+      </q-toolbar>
+
       <q-toolbar class="bg-primary text-white q-my-md">
         <q-btn flat round dense icon="menu" class="q-mr-sm" />
         <q-avatar>
