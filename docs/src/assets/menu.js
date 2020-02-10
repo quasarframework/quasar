@@ -782,6 +782,7 @@ const components = [
   },
   {
     name: 'Floating Action Button',
+    badge: 'update',
     path: 'floating-action-button'
   },
   {
