@@ -4,7 +4,7 @@ import QField from '../field/QField.js'
 import QChip from '../chip/QChip.js'
 
 import { FormFieldMixin } from '../../mixins/form.js'
-import FileMixin, { fileValueMixin } from '../../mixins/file.js'
+import FileMixin, { FileValueMixin } from '../../mixins/file.js'
 
 import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
@@ -13,7 +13,7 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QFile',
 
-  mixins: [ QField, FileMixin, FormFieldMixin, fileValueMixin ],
+  mixins: [ QField, FileMixin, FormFieldMixin, FileValueMixin ],
 
   props: {
     /* SSR does not know about File & FileList */

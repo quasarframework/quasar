@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
-import FileMixin, { fileValueMixin } from '../../mixins/file.js'
+import FileMixin from '../../mixins/file.js'
 import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
@@ -15,12 +15,10 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QUploaderBase',
 
-  mixins: [ DarkMixin, FileMixin, fileValueMixin ],
+  mixins: [ DarkMixin, FileMixin ],
 
   props: {
     label: String,
-
-    name: String,
 
     color: String,
     textColor: String,
@@ -63,18 +61,6 @@ export default Vue.extend({
       }
       else if (oldVal === true && newVal === false) {
         this.$emit('finish')
-      }
-    },
-
-    files (val) {
-      this.__setFileValue(this.$refs.formInput, val)
-    },
-
-    disable (val) {
-      if (val !== true) {
-        this.$nextTick(() => {
-          this.__setFileValue(this.$refs.formInput, this.files)
-        })
       }
     }
   },
@@ -139,17 +125,6 @@ export default Vue.extend({
 
     editable () {
       return this.disable !== true && this.readonly !== true
-    },
-
-    formProps () {
-      return {
-        ref: 'formInput',
-        staticClass: 'hidden',
-        attrs: {
-          type: 'file',
-          name: this.name
-        }
-      }
     }
   },
 
@@ -431,21 +406,11 @@ export default Vue.extend({
       this.__getDnd(h, 'uploader')
     ]
 
-    if (this.isBusy === true) {
-      children.push(
-        h('div', {
-          staticClass: 'q-uploader__overlay absolute-full flex flex-center'
-        }, [
-          h(QSpinner)
-        ])
-      )
-    }
-
-    if (this.name !== void 0 && this.disable !== true) {
-      children.push(
-        h('input', this.formProps)
-      )
-    }
+    this.isBusy === true && children.push(
+      h('div', {
+        staticClass: 'q-uploader__overlay absolute-full flex flex-center'
+      }, [ h(QSpinner) ])
+    )
 
     return h('div', {
       staticClass: 'q-uploader column no-wrap',

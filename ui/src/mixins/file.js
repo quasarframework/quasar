@@ -130,7 +130,7 @@ export default {
   }
 }
 
-export const fileValueMixin = {
+export const FileValueMixin = {
   methods: {
     __setFileValue (input, val) {
       if (input === void 0) {
