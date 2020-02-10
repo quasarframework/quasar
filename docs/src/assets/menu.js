@@ -595,11 +595,8 @@ const layout = [
   },
   {
     name: 'Page Scroller',
+    badge: 'update',
     path: 'page-scroller'
-  },
-  {
-    name: 'Floating Action Button',
-    path: 'floating-action-button'
   }
 ]
 
@@ -782,6 +779,10 @@ const components = [
   {
     name: 'Expansion Item',
     path: 'expansion-item'
+  },
+  {
+    name: 'Floating Action Button',
+    path: 'floating-action-button'
   },
   {
     name: 'Form Components',
