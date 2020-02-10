@@ -114,10 +114,13 @@ ie_style = @block
     &.q-spinner-mat .path
       stroke-dasharray: 89, 200
 
-  /* QToggle Icon */
-  .q-toggle__thumb
-    .q-icon
-      margin-left: -6px
+  /* QCheckbox indeterminate */
+  .q-checkbox
+    &__indet
+      opacity: 0
+    &__inner--indet
+      .q-checkbox__indet
+        opacity: 1
 
   /* QDate, QTime */
   .q-date__main
