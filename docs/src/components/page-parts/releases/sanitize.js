@@ -22,7 +22,7 @@ function HtmlWhitelistedSanitizer (escape, tags, css, urls) {
   this.doc = document.implementation.createHTMLDocument()
 
   if (urls == null) {
-    urls = ['http://', 'https://']
+    urls = [ 'http://', 'https://' ]
   }
 
   if (this.allowedTags == null) {
@@ -63,7 +63,7 @@ function HtmlWhitelistedSanitizer (escape, tags, css, urls) {
   }
   if (this.allowedCss == null) {
     // Small set of default css properties
-    this.allowedCss = ['border', 'margin', 'padding']
+    this.allowedCss = [ 'border', 'margin', 'padding' ]
   }
 }
 

@@ -27,7 +27,14 @@
     },
 
     "control-color": {
-      "extends": "color"
+      "extends": "color",
+      "desc": "Color name for QCarousel button controls (arrows, navigation) from the Quasar Color Palette"
+    },
+
+    "control-text-color": {
+      "extends": "color",
+      "desc": "Color name for text color of QCarousel button controls (arrows, navigation) from the Quasar Color Palette",
+      "addedIn": "v1.9.0"
     },
 
     "control-type": {

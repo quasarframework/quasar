@@ -752,6 +752,7 @@ const components = [
   },
   {
     name: 'Carousel',
+    badge: 'update',
     path: 'carousel'
   },
   {

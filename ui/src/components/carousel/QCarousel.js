@@ -19,12 +19,14 @@ export default Vue.extend({
     height: String,
     padding: Boolean,
 
-    controlColor: String,
     controlType: {
       type: String,
       validator: v => [ 'regular', 'flat', 'outline', 'push', 'unelevated' ].includes(v),
       default: 'flat'
     },
+    controlColor: String,
+    controlTextColor: String,
+
     autoplay: [Number, Boolean],
 
     arrows: Boolean,
@@ -84,6 +86,7 @@ export default Vue.extend({
     controlProps () {
       return {
         color: this.controlColor,
+        textColor: this.controlTextColor,
         round: true,
         [this.controlType]: true,
         dense: true
