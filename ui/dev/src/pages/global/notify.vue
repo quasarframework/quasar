@@ -156,11 +156,9 @@ export default {
       message: '<em>I can</em> <span style="color: red">inject</span> <strong>HTML</strong>',
       html: true
     })
-    /*
-    this.$q.notify.setDefaults({
-      actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
-    })
-    */
+    // this.$q.notify.setDefaults({
+    //   actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
+    // })
     this.$q.notify({
       message: 'You need to know about this!',
       caption: 'This is a caption',

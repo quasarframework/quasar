@@ -58,7 +58,9 @@ const Notifications = {
           : clone(config)
       )
 
-      notif.meta = {}
+      notif.meta = {
+        hasMedia: Boolean(notif.icon || notif.avatar)
+      }
 
       if (notif.position) {
         if (!positionList.includes(notif.position)) {
@@ -122,13 +124,19 @@ const Notifications = {
         notif.multiLine = notif.actions.length > 1
       }
 
-      notif.meta.staticClass = [
-        `q-notification row items-stretch`,
-        notif.color && `bg-${notif.color}`,
-        notif.textColor && `text-${notif.textColor}`,
-        `q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}`,
-        notif.classes
-      ].filter(n => n).join(' ')
+      Object.assign(notif.meta, {
+        staticClass: `q-notification row items-stretch` +
+          ` q-notification--${notif.multiLine === true ? 'multi-line' : 'standard'}` +
+          (notif.color !== void 0 ? ` bg-${notif.color}` : '') +
+          (notif.textColor !== void 0 ? ` text-${notif.textColor}` : '') +
+          (notif.classes !== void 0 ? ` ${notif.classes}` : ''),
+
+        wrapperClass: 'q-notification__wrapper col relative-position border-radius-inherit ' +
+          (notif.multiLine === true ? 'column no-wrap justify-center' : 'row items-center'),
+
+        contentClass: 'q-notification__content row items-center' +
+          (notif.multiLine === true ? '' : ' col')
+      })
 
       if (notif.group === false) {
         notif.group = void 0
@@ -150,6 +158,11 @@ const Notifications = {
 
       if (notif.actions.length === 0) {
         notif.actions = void 0
+      }
+      else {
+        notif.meta.actionsClass = 'q-notification__actions row items-center ' +
+          (notif.multiLine === true ? 'justify-end' : 'col-auto') +
+          (notif.meta.hasMedia === true ? ' q-notification__actions--with-media' : '')
       }
 
       const groupNotif = groups[notif.group]
@@ -273,20 +286,22 @@ const Notifications = {
 
         const mainChild = []
 
-        if (notif.icon) {
-          mainChild.push(
-            h(QIcon, {
-              staticClass: 'q-notification__icon col-auto',
-              props: { name: notif.icon }
-            })
-          )
-        }
-        else if (notif.avatar) {
-          mainChild.push(
-            h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
-              h('img', { attrs: { src: notif.avatar } })
-            ])
-          )
+        if (meta.hasMedia === true) {
+          if (notif.icon) {
+            mainChild.push(
+              h(QIcon, {
+                staticClass: 'q-notification__icon col-auto',
+                props: { name: notif.icon }
+              })
+            )
+          }
+          else if (notif.avatar) {
+            mainChild.push(
+              h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
+                h('img', { attrs: { src: notif.avatar } })
+              ])
+            )
+          }
         }
 
         mainChild.push(
@@ -294,10 +309,7 @@ const Notifications = {
         )
 
         const child = [
-          h('div', {
-            staticClass: 'row items-center' +
-              (notif.multiLine === true ? '' : ' col')
-          }, mainChild)
+          h('div', { staticClass: meta.contentClass }, mainChild)
         ]
 
         notif.progress === true && child.push(
@@ -311,8 +323,7 @@ const Notifications = {
 
         notif.actions !== void 0 && child.push(
           h('div', {
-            staticClass: 'q-notification__actions row items-center ' +
-              (notif.multiLine === true ? 'justify-end' : 'col-auto')
+            staticClass: meta.actionsClass
           }, notif.actions.map(a => h(QBtn, { props: a.props, on: a.on })))
         )
 
@@ -330,10 +341,7 @@ const Notifications = {
           key: meta.uid,
           staticClass: meta.staticClass
         }, [
-          h('div', {
-            staticClass: 'col relative-position border-radius-inherit ' +
-              (notif.multiLine === true ? 'column no-wrap justify-center' : 'row items-center')
-          }, child)
+          h('div', { staticClass: meta.wrapperClass }, child)
         ])
       }))
     }))
