@@ -136,6 +136,13 @@
       "category": "behavior"
     },
 
+    "auto-save": {
+      "type": "Boolean",
+      "default": false,
+      "desc": "Allows the menu to cover its target. When used, the 'self' and 'fit' props are no longer effective",
+      "category": "behavior"
+    },
+
     "persistent": {
       "type": "Boolean",
       "desc": "Avoid menu closing by hitting ESC key or by clicking/tapping outside of the Popup",

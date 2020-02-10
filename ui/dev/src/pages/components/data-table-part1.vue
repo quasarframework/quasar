@@ -133,6 +133,7 @@
       <h2>Popup editing</h2>
       <p class="caption">
         Click on Dessert or Calories cells.
+        <q-toggle v-model="autoSave" label="Save when clicking outside Protein" />
       </p>
       <q-table
         :data="data"
@@ -187,8 +188,18 @@
             </q-td>
             <q-td key="protein" :props="props">
               {{ props.row.protein }}
-              <q-popup-edit v-model="props.row.protein">
-                <q-input v-model="props.row.protein" dense autofocus counter />
+              <q-popup-edit v-model="props.row.protein" :auto-save="autoSave" :validate="val => val >= 5 && val <= 50">
+                <q-input
+                  style="min-width: 300px"
+                  v-model="props.row.protein"
+                  dense
+                  autofocus
+                  counter
+                  :hint="proteinPopupEditHint"
+                  :rules="[
+                    val => (val >= 5 && val <= 50) || 'Please enter between 5 and 10'
+                  ]"
+                />
               </q-popup-edit>
             </q-td>
             <q-td key="sodium" :props="props">
@@ -776,6 +787,8 @@ export default {
       gridHeader: false,
       gridLoading: false,
 
+      autoSave: false,
+
       serverPagination: {
         page: 1,
         rowsNumber: 10
@@ -921,6 +934,10 @@ export default {
   computed: {
     selection () {
       return this.selectionToggle ? 'multiple' : 'single'
+    },
+
+    proteinPopupEditHint () {
+      return 'Value between 5 and 50. Click outside to ' + (this.autoSave === true ? 'SAVE' : 'CANCEL') + '.'
     }
   },
   methods: {

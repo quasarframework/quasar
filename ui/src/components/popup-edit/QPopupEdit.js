@@ -8,6 +8,7 @@ import { isDeepEqual } from '../../utils/is.js'
 import { slot } from '../../utils/slot.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 import { cache } from '../../utils/vm.js'
+import { noop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QPopupEdit',
@@ -20,6 +21,8 @@ export default Vue.extend({
     buttons: Boolean,
     labelSet: String,
     labelCancel: String,
+
+    autoSave: Boolean,
 
     color: {
       type: String,
@@ -62,6 +65,34 @@ export default Vue.extend({
         set: this.set,
         cancel: this.cancel
       }
+    },
+
+    actionCancel () {
+      return () => {
+        this.watcher()
+
+        if (this.validated === false && this.__hasChanged()) {
+          this.$emit('cancel', this.value, this.initialValue)
+          this.$emit('input', this.initialValue)
+        }
+        this.$emit('before-hide')
+      }
+    },
+
+    actionEscapeKey () {
+      return this.autoSave === true
+        ? this.actionCancel
+        : noop
+    },
+
+    actionBeforeHide () {
+      return this.autoSave === true
+        ? () => {
+          this.set()
+
+          this.actionCancel()
+        }
+        : this.actionCancel
     }
   },
 
@@ -152,7 +183,7 @@ export default Vue.extend({
         cover: this.cover,
         contentClass: this.classes
       },
-      on: cache(this, 'menu', {
+      on: cache(this, 'menu#' + this.autoSave, {
         'before-show': () => {
           this.validated = false
           this.initialValue = clone(this.value)
@@ -162,15 +193,8 @@ export default Vue.extend({
         show: () => {
           this.$emit('show')
         },
-        'before-hide': () => {
-          this.watcher()
-
-          if (this.validated === false && this.__hasChanged()) {
-            this.$emit('cancel', this.value, this.initialValue)
-            this.$emit('input', this.initialValue)
-          }
-          this.$emit('before-hide')
-        },
+        'escape-key': this.actionEscapeKey,
+        'before-hide': this.actionBeforeHide,
         hide: () => {
           this.$emit('hide')
         },
