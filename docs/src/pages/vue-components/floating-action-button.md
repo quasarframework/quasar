@@ -45,6 +45,8 @@ When the labels are internal and your QFab opens up vertically (up or down) then
 
 <q-badge label="v1.9+" />
 
+By default, when the label is external on the main QFab (not the sub-actions), it gets shown only when QFab is opened. However, you can override that by setting a Boolean value for `hide-label` prop.
+
 <doc-example title="External label" file="QFab/ExternalLabel" />
 
 <doc-example title="Custom styled external label" file="QFab/ExternalLabelStyled" />

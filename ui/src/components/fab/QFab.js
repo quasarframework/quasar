@@ -33,6 +33,10 @@ export default Vue.extend({
     icon: String,
     activeIcon: String,
 
+    hideLabel: {
+      default: null
+    },
+
     direction: {
       type: String,
       default: 'right',
