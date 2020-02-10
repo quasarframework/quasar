@@ -233,7 +233,7 @@ export default {
       files.forEach(file => {
         this.__updateFile(file, 'uploading', 0)
         if (sendRaw !== true) {
-          form.append(getProp('fieldName', file), file)
+          form.append(getProp('fieldName', file), file, file.name)
         }
         file.xhr = xhr
         file.__abort = xhr.abort

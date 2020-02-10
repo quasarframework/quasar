@@ -3,6 +3,7 @@ import Vue from 'vue'
 import QField from '../field/QField.js'
 
 import { FormFieldMixin } from '../../mixins/form.js'
+import { fileValueMixin } from '../../mixins/file.js'
 import MaskMixin from '../../mixins/mask.js'
 import CompositionMixin from '../../mixins/composition.js'
 import debounce from '../../utils/debounce.js'
@@ -11,7 +12,7 @@ import { stop } from '../../utils/event.js'
 export default Vue.extend({
   name: 'QInput',
 
-  mixins: [ QField, MaskMixin, CompositionMixin, FormFieldMixin ],
+  mixins: [ QField, MaskMixin, CompositionMixin, FormFieldMixin, fileValueMixin ],
 
   props: {
     value: { required: false },
@@ -57,6 +58,8 @@ export default Vue.extend({
 
       // textarea only
       this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
+
+      this.type === 'file' && this.__setFileValue(this.$refs.input, v)
     },
 
     autogrow (autogrow) {
@@ -277,6 +280,7 @@ export default Vue.extend({
   mounted () {
     // textarea only
     this.autogrow === true && this.__adjustHeight()
+    this.type === 'file' && this.__setFileValue(this.$refs.input, this.value)
   },
 
   beforeDestroy () {

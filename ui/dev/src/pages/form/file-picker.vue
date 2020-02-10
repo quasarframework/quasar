@@ -7,6 +7,13 @@
       <q-file name="file3" color="accent" filled v-model="fileS" use-chips label="Single chips" clearable />
       <q-file name="file4" color="accent" filled v-model="fileM" multiple use-chips label="Multiple chips" clearable counter max-files="3" />
 
+      <q-toggle v-model="showFileInput" label="Show copy file pickers" />
+
+      <template v-if="showFileInput">
+        <q-file name="file5" color="accent" filled v-model="fileS" use-chips label="Single chips" clearable />
+        <q-file name="file6" color="accent" filled v-model="fileM" multiple use-chips label="Multiple chips" clearable counter max-files="3" />
+      </template>
+
       <q-btn label="Move first file to single" @click="testMove" />
 
       <q-btn type="submit" label="Submit" />
@@ -19,7 +26,9 @@ export default {
   data () {
     return {
       fileS: null,
-      fileM: null
+      fileM: null,
+
+      showFileInput: false
     }
   },
 

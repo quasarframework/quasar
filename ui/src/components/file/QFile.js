@@ -4,7 +4,7 @@ import QField from '../field/QField.js'
 import QChip from '../chip/QChip.js'
 
 import { FormFieldMixin } from '../../mixins/form.js'
-import FileMixin from '../../mixins/file.js'
+import FileMixin, { fileValueMixin } from '../../mixins/file.js'
 
 import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
@@ -13,7 +13,7 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QFile',
 
-  mixins: [ QField, FileMixin, FormFieldMixin ],
+  mixins: [ QField, FileMixin, FormFieldMixin, fileValueMixin ],
 
   props: {
     /* SSR does not know about File & FileList */
@@ -44,32 +44,7 @@ export default Vue.extend({
 
   watch: {
     value (val) {
-      if (this.$refs.input === void 0) {
-        return
-      }
-
-      try {
-        if (val === void 0 || val === null) {
-          this.$refs.input.value = ''
-          return
-        }
-
-        const dt = 'DataTransfer' in window
-          ? new DataTransfer()
-          : ('ClipboardEvent' in window
-            ? new ClipboardEvent('').clipboardData
-            : void 0
-          )
-
-        if (dt !== void 0) {
-          (Array.isArray(val) === true ? val : [val]).forEach(file => {
-            dt.items.add(file)
-          })
-
-          this.$refs.input.files = dt.files
-        }
-      }
-      catch (e) { }
+      this.__setFileValue(this.$refs.input, val)
     }
   },
 
@@ -244,5 +219,9 @@ export default Vue.extend({
   created () {
     this.fieldClass = 'q-file q-field--auto-height'
     this.type = 'file' // necessary for QField's clearable
+  },
+
+  mounted () {
+    this.__setFileValue(this.$refs.input, this.value)
   }
 })

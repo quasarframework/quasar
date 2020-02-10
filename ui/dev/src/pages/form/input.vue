@@ -440,7 +440,11 @@
         <q-icon slot="after" name="delete" @click="log('after')" />
       </q-input>
 
-      <q-input :dark="dark" v-model="file" type="file" />
+      <q-input :dark="dark" v-model="file" type="file" label="File" stack-label />
+      <q-input :dark="dark" v-model="file" type="file" label="Same file as above" stack-label />
+
+      <q-toggle v-model="showFileInput" :dark="dark" label="Show file input" />
+      <q-input v-if="showFileInput" :dark="dark" v-model="file" type="file" label="Same file as above" stack-label />
     </div>
   </div>
 </template>
@@ -481,7 +485,9 @@ export default {
       prefix: null,
       suffix: null,
 
-      file: null
+      file: null,
+
+      showFileInput: false
     }
   },
   watch: {

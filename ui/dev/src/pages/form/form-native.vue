@@ -23,6 +23,16 @@
         </div>
 
         <div class="q-my-lg">
+          <q-uploader
+            name="uploader"
+            multiple
+            label="Multiple"
+            :dark="dark"
+            :disable="disable"
+          />
+        </div>
+
+        <div class="q-my-lg">
           <q-radio name="radio1" v-model="option" val="opt1" :disable="disable" :dark="dark" color="primary" :label="`${disable ? 'Disabled ' : ''}Option 1`" :keep-color="keepColor" />
           <q-radio name="radio1" v-model="option" val="opt2" :disable="disable" :dark="dark" color="accent" :label="`${disable ? 'Disabled ' : ''}Option 2`" :keep-color="keepColor" />
           <q-radio name="radio1" v-model="option" val="opt3" :disable="disable" :dark="dark" color="teal" :label="`${disable ? 'Disabled ' : ''}Option 3`" :keep-color="keepColor" />
@@ -156,6 +166,8 @@ export default {
       rating1: 3,
 
       file: null,
+
+      files: null,
 
       submitResult: null
     }
