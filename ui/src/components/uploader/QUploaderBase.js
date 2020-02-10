@@ -5,7 +5,7 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 
-import FileMixin from '../../mixins/file.js'
+import FileMixin, { fileValueMixin } from '../../mixins/file.js'
 import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
@@ -15,10 +15,12 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QUploaderBase',
 
-  mixins: [ DarkMixin, FileMixin ],
+  mixins: [ DarkMixin, FileMixin, fileValueMixin ],
 
   props: {
     label: String,
+
+    name: String,
 
     color: String,
     textColor: String,
@@ -61,6 +63,18 @@ export default Vue.extend({
       }
       else if (oldVal === true && newVal === false) {
         this.$emit('finish')
+      }
+    },
+
+    files (val) {
+      this.__setFileValue(this.$refs.formInput, val)
+    },
+
+    disable (val) {
+      if (val !== true) {
+        this.$nextTick(() => {
+          this.__setFileValue(this.$refs.formInput, this.files)
+        })
       }
     }
   },
@@ -125,6 +139,17 @@ export default Vue.extend({
 
     editable () {
       return this.disable !== true && this.readonly !== true
+    },
+
+    formProps () {
+      return {
+        ref: 'formInput',
+        staticClass: 'hidden',
+        attrs: {
+          type: 'file',
+          name: this.name
+        }
+      }
     }
   },
 
@@ -393,6 +418,35 @@ export default Vue.extend({
   },
 
   render (h) {
+    const children = [
+      h('div', {
+        staticClass: 'q-uploader__header',
+        class: this.colorClass
+      }, this.__getHeader(h)),
+
+      h('div', {
+        staticClass: 'q-uploader__list scroll'
+      }, this.__getList(h)),
+
+      this.__getDnd(h, 'uploader')
+    ]
+
+    if (this.isBusy === true) {
+      children.push(
+        h('div', {
+          staticClass: 'q-uploader__overlay absolute-full flex flex-center'
+        }, [
+          h(QSpinner)
+        ])
+      )
+    }
+
+    if (this.name !== void 0 && this.disable !== true) {
+      children.push(
+        h('input', this.formProps)
+      )
+    }
+
     return h('div', {
       staticClass: 'q-uploader column no-wrap',
       class: {
@@ -405,23 +459,6 @@ export default Vue.extend({
       on: this.canAddFiles === true
         ? cache(this, 'drag', { dragover: this.__onDragOver })
         : null
-    }, [
-      h('div', {
-        staticClass: 'q-uploader__header',
-        class: this.colorClass
-      }, this.__getHeader(h)),
-
-      h('div', {
-        staticClass: 'q-uploader__list scroll'
-      }, this.__getList(h)),
-
-      this.__getDnd(h, 'uploader'),
-
-      this.isBusy === true ? h('div', {
-        staticClass: 'q-uploader__overlay absolute-full flex flex-center'
-      }, [
-        h(QSpinner)
-      ]) : null
-    ])
+    }, children)
   }
 })
