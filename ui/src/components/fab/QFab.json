@@ -24,7 +24,7 @@
       "category": "behavior"
     },
 
-    "actions-vertical-align": {
+    "vertical-actions-align": {
       "type": "String",
       "desc": "The side of the Fab where Fab Actions will expand (only when direction is 'up' or 'down')",
       "default": "center",

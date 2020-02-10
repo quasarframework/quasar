@@ -41,7 +41,7 @@ export default Vue.extend({
 
     persistent: Boolean,
 
-    actionsVerticalAlign: {
+    verticalActionsAlign: {
       type: String,
       default: 'center',
       validator: v => alignValues.includes(v)
@@ -60,7 +60,7 @@ export default Vue.extend({
     },
 
     classes () {
-      return `q-fab--align-${this.actionsVerticalAlign} ${this.formClass}` +
+      return `q-fab--align-${this.verticalActionsAlign} ${this.formClass}` +
         (this.showing === true ? ' q-fab--opened' : '')
     }
   },
