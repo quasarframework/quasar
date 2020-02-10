@@ -65,5 +65,11 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 
 <doc-example title="With QItem" file="QRadio/InaList" />
 
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QRadio, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QRadio/NativeForm" />
+
 ## QRadio API
 <doc-api file="QRadio" />
