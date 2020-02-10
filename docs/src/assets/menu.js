@@ -941,6 +941,7 @@ const components = [
   },
   {
     name: 'Scroll Area',
+    badge: 'update',
     path: 'scroll-area'
   },
   {
@@ -987,6 +988,7 @@ const components = [
   },
   {
     name: 'Tab Panels',
+    badge: 'update',
     path: 'tab-panels'
   },
   {

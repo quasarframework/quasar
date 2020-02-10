@@ -63,6 +63,8 @@ In the example below, use your mouse to swipe through the panels or, if on a tou
 
 ### Vertical swipeable and infinite
 
+<q-badge label="v1.9+" />
+
 <doc-example title="Vertical swipeable and infinite" file="QTabPanels/VerticalSwipeable" />
 
 ## QTabPanels API

@@ -3,6 +3,7 @@
     <div>
       <q-toggle v-model="visible" label="Show scrollbar" />
     </div>
+
     <q-scroll-area
       :visible="visible"
       style="height: 200px; max-width: 300px;"
