@@ -105,29 +105,23 @@ export default Vue.extend({
       return Math.round(p * 10000) / 10000
     },
 
-    direction () {
-      return this.horizontal === true
-        ? 'right'
-        : 'down'
-    },
-
     containerSize () {
       return this[`container${this.horizontal === true ? 'Width' : 'Height'}`]
     },
 
     dirProps () {
       return this.horizontal === true
-        ? 'scrollLeft'
-        : 'scrollTop'
+        ? { scroll: 'scrollLeft', classSuffix: 'h absolute-bottom', dir: 'right', dist: 'x' }
+        : { scroll: 'scrollTop', classSuffix: 'v absolute-right', dir: 'down', dist: 'y' }
     },
 
     thumbClass () {
-      return `q-scrollarea__thumb--${this.horizontal === true ? 'h absolute-bottom' : 'v absolute-right'}` +
+      return `q-scrollarea__thumb--${this.dirProps.classSuffix}` +
         (this.thumbHidden === true ? ' q-scrollarea__thumb--invisible' : '')
     },
 
     barClass () {
-      return `q-scrollarea__bar--${this.horizontal === true ? 'h absolute-bottom' : 'v absolute-right'}` +
+      return `q-scrollarea__bar--${this.dirProps.classSuffix}` +
         (this.thumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
     }
   },
@@ -138,9 +132,7 @@ export default Vue.extend({
     },
 
     getScrollPosition () {
-      return this.$q.platform.is.desktop === true
-        ? this.scrollPosition
-        : this.$refs.target[this.dirProps]
+      return this.scrollPosition
     },
 
     setScrollPosition (offset, duration) {
@@ -175,7 +167,7 @@ export default Vue.extend({
     },
 
     __updateScrollSize ({ height, width }) {
-      if (this.horizontal) {
+      if (this.horizontal === true) {
         if (this.scrollSize !== width) {
           this.scrollSize = width
           this.__startTimer()
@@ -205,8 +197,8 @@ export default Vue.extend({
       }
 
       const multiplier = (this.scrollSize - this.containerSize) / (this.containerSize - this.thumbSize)
-      const distance = this.horizontal ? e.distance.x : e.distance.y
-      const pos = this.refPos + (e.direction === this.direction ? 1 : -1) * distance * multiplier
+      const distance = e.distance[this.dirProps.dist]
+      const pos = this.refPos + (e.direction === this.dirProps.dir ? 1 : -1) * distance * multiplier
 
       this.__setScroll(pos)
     },
@@ -226,18 +218,18 @@ export default Vue.extend({
     __startTimer () {
       if (this.tempShowing === true) {
         clearTimeout(this.timer)
-
-        this.timer = setTimeout(() => {
-          this.tempShowing = false
-        }, this.delay)
       }
       else {
         this.tempShowing = true
       }
+
+      this.timer = setTimeout(() => {
+        this.tempShowing = false
+      }, this.delay)
     },
 
     __setScroll (offset) {
-      this.$refs.target[this.dirProps] = offset
+      this.$refs.target[this.dirProps.scroll] = offset
     }
   },
 
@@ -290,7 +282,7 @@ export default Vue.extend({
         directives: cache(this, 'thumb#' + this.horizontal, [{
           name: 'touch-pan',
           modifiers: {
-            vertical: !this.horizontal,
+            vertical: this.horizontal !== true,
             horizontal: this.horizontal,
             prevent: true,
             mouse: true,
