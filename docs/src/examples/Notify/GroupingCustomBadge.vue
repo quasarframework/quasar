@@ -1,8 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <div class="row q-gutter-sm">
-      <q-btn no-caps color="primary" @click="triggerTwice" label="Trigger twice with custom badge" />
-    </div>
+    <q-btn no-caps color="primary" @click="triggerTwice" label="Trigger twice with custom badge" />
   </div>
 </template>
 

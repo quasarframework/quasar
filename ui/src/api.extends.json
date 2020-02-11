@@ -171,8 +171,7 @@
     },
 
     "after-show": {
-      "desc": "Emitted when component show animation is finished",
-      "addedIn": "v1.9.0"
+      "desc": "Emitted when component show animation is finished"
     },
 
     "hide": {
@@ -200,8 +199,7 @@
     },
 
     "after-hide": {
-      "desc": "Emitted when component hide animation is finished",
-      "addedIn": "v1.9.0"
+      "desc": "Emitted when component hide animation is finished"
     },
 
     "click": {

@@ -75,6 +75,30 @@ Should you wish, there is a way to tell the user when the notification will disa
 
 <doc-example title="Timeout progress" file="Notify/TimeoutProgress" />
 
+### Predefined types <q-badge align="top" label="v1.9+" />
+
+There are four predefined types out of the box that you can use: "positive", "negative", "warning" and "info":
+
+<doc-example title="Out of the box types" file="Notify/PredefinedTypesDefault" />
+
+Furthermore, you can register your own types or even override the predefined ones. The best place to do this would be in a [boot file](/quasar-cli/cli-documentation/boot-files).
+
+<doc-example title="Custom type" file="Notify/PredefinedTypesCustom" />
+
+```js
+// How to register in a boot file:
+
+import { Notify } from 'quasar'
+
+Notify.registerType('my-notif', {
+  icon: 'announcement',
+  progress: true,
+  color: 'brown',
+  textColor: 'white',
+  classes: 'glossy'
+})
+```
+
 ### Using HTML
 You can use HTML on message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 
