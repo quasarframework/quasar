@@ -59,6 +59,22 @@ If you define any actions, the notification will automatically be dismissed when
 For a full list of options, check the API section.
 :::
 
+### Grouping <q-badge align="top" label="v1.9+" />
+
+Each notification has an underlying unique group which is computed out of the message + caption + multiLine + actions labels + position. When multiple notifications get triggered with the same group, instead of showing all of them and flooding the view, only the first one remains on screen along with a badge. The badge content represents the number of times that the same notification has been triggered since the first one appeared on screen.
+
+However, if you wish to disable this behavior, specify `group: false`. In the example below, the first button triggers the same notification twice each time is clicked. The second button has grouping disabled. The third button, however, has a custom group name so each subsequent notification replaces the old one and increments the badge number.
+
+<doc-example title="Grouping" file="Notify/Grouping" />
+
+<doc-example title="Custom badge" file="Notify/GroupingCustomBadge" />
+
+### Timeout progress <q-badge align="top" label="v1.9+" />
+
+Should you wish, there is a way to tell the user when the notification will disappear from the screen. That's for the cases when timeout is not set to 0.
+
+<doc-example title="Timeout progress" file="Notify/TimeoutProgress" />
+
 ### Using HTML
 You can use HTML on message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
 
