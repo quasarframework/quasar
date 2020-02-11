@@ -23,7 +23,7 @@ For an exhausting list of options, please read the API cards (at the bottom of t
 ### Non-Expandable
 If you want a non-expandable FAB, all you need is a round button – wrapped in QPageSticky if used on a QLayout.
 
-<doc-example title="Basic" file="QFab/NonExpandable" />
+<doc-example title="Non expandable" file="QFab/NonExpandable" />
 
 ### Expandable
 
