@@ -154,6 +154,16 @@
     }
   },
 
+  "slots": {
+    "default": {
+      "desc": "Slot used for expansion item's content"
+    },
+
+    "header": {
+      "desc": "Slot used for overriding default header"
+    }
+  },
+
   "events": {
     "after-show": {
       "extends": "after-show",
@@ -163,16 +173,6 @@
     "after-hide": {
       "extends": "after-hide",
       "addedIn": "v1.9.0"
-    }
-  },
-
-  "slots": {
-    "default": {
-      "desc": "Slot used for expansion item's content"
-    },
-
-    "header": {
-      "desc": "Slot used for overriding default header"
     }
   }
 }
