@@ -154,6 +154,18 @@
     }
   },
 
+  "events": {
+    "after-show": {
+      "extends": "after-show",
+      "addedIn": "v1.9.0"
+    },
+
+    "after-hide": {
+      "extends": "after-hide",
+      "addedIn": "v1.9.0"
+    }
+  },
+
   "slots": {
     "default": {
       "desc": "Slot used for expansion item's content"

@@ -19,6 +19,16 @@
     }
   },
 
+  "events": {
+    "show": {
+      "extends": "after-show"
+    },
+
+    "hide": {
+      "extends": "after-hide"
+    }
+  },
+
   "slots": {
     "default": {
       "desc": "This is where content goes"
