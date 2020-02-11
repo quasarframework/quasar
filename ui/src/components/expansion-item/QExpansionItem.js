@@ -240,7 +240,11 @@ export default Vue.extend({
         this.__getHeader(h),
 
         h(QSlideTransition, {
-          props: { duration: this.duration }
+          props: { duration: this.duration },
+          on: cache(this, 'slide', {
+            show: () => { this.$emit('after-show') },
+            hide: () => { this.$emit('after-hide') }
+          })
         }, [
           h('div', {
             staticClass: 'q-expansion-item__content relative-position',
