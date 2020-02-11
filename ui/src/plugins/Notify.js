@@ -4,7 +4,6 @@ import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 
-import clone from '../utils/clone.js'
 import { noop } from '../utils/event.js'
 import { isSSR } from './Platform.js'
 
@@ -16,6 +15,29 @@ const positionList = [
   'bottom-left', 'bottom-right',
   'top', 'bottom', 'left', 'right', 'center'
 ]
+
+const notifTypes = {
+  positive: {
+    icon () { return this.$q.iconSet.type.positive },
+    color: 'positive'
+  },
+
+  negative: {
+    icon () { return this.$q.iconSet.type.negative },
+    color: 'negative'
+  },
+
+  warning: {
+    icon () { return this.$q.iconSet.type.warning },
+    color: 'warning',
+    textColor: 'dark'
+  },
+
+  info: {
+    icon () { return this.$q.iconSet.type.info },
+    color: 'info'
+  }
+}
 
 const groups = {}
 const positionClass = {}
@@ -51,12 +73,22 @@ const Notifications = {
         Object.assign(notif, defaults)
       }
 
-      Object.assign(
-        notif,
-        typeof config === 'string'
-          ? { message: config }
-          : clone(config)
-      )
+      if (Object(config) === config) {
+        Object.assign(
+          notif,
+          config.type !== void 0 && notifTypes[config.type] !== void 0
+            ? notifTypes[config.type]
+            : {},
+          config
+        )
+
+        if (typeof notif.icon === 'function') {
+          notif.icon = notif.icon.call(this)
+        }
+      }
+      else {
+        Object.assign(notif, { message: config })
+      }
 
       notif.meta = {
         hasMedia: Boolean(notif.icon || notif.avatar)
@@ -93,7 +125,7 @@ const Notifications = {
         }
       }
 
-      const actions = (config.actions || [])
+      const actions = (config.actions !== void 0 ? config.actions : [])
         .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
 
       notif.closeBtn && actions.push({
@@ -115,10 +147,6 @@ const Notifications = {
             }
         }
       }))
-
-      if (typeof config.onDismiss === 'function') {
-        notif.onDismiss = config.onDismiss
-      }
 
       if (notif.multiLine === void 0) {
         notif.multiLine = notif.actions.length > 1
@@ -356,6 +384,11 @@ export default {
   setDefaults (opts) {
     opts === Object(opts) && Object.assign(defaults, opts)
   },
+  registerType (typeName, typeOpts) {
+    if (isSSR !== true && typeOpts === Object(typeOpts)) {
+      notifTypes[typeName] = typeOpts
+    }
+  },
 
   install ({ cfg, $q }) {
     if (isSSR === true) {
@@ -368,6 +401,7 @@ export default {
 
     $q.notify = this.create.bind(this)
     $q.notify.setDefaults = this.setDefaults
+    $q.notify.registerType = this.registerType
 
     const node = document.createElement('div')
     document.body.appendChild(node)

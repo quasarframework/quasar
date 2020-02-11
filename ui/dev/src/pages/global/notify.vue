@@ -140,6 +140,55 @@ export default {
   },
 
   mounted () {
+    this.$q.notify.registerType('my-error', {
+      icon: 'warning',
+      color: 'purple',
+      position: 'top'
+    })
+
+    this.$q.notify({
+      type: 'my-error',
+      message: 'Type: my-error',
+      position: 'top',
+      onDismiss: () => {
+        console.log('dismissed first my-error')
+      }
+    })
+    this.$q.notify({
+      type: 'my-error',
+      message: 'Type: my-error, with overrided props',
+      icon: 'map',
+      position: 'top'
+    })
+
+    this.$q.notify({
+      type: 'positive',
+      message: 'Positive',
+      position: 'left'
+    })
+    this.$q.notify({
+      type: 'info',
+      message: 'Info',
+      position: 'left'
+    })
+    this.$q.notify({
+      type: 'warning',
+      message: 'Original warning',
+      position: 'left'
+    })
+
+    this.$q.notify({
+      type: 'negative',
+      message: 'Negative',
+      position: 'left'
+    })
+    this.$q.notify({
+      type: 'negative',
+      message: 'Negative with overrided props',
+      icon: 'map',
+      position: 'left'
+    })
+
     this.$q.notify.setDefaults({
       color: 'red'
     })
