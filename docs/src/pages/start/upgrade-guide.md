@@ -220,7 +220,7 @@ export PATH="$(yarn global bin):$PATH"
 
   ```bash
   Global packages
-    @quasar/cli - 1.0.0
+    @quasar/cli - 1.0.5
 
   Important local packages
     quasar - 1.9.0 -- High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase
