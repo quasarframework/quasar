@@ -126,9 +126,7 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
-### Virtual scrolling
-
-<q-badge label="v1.2+" />
+### Virtual scrolling <q-badge align="top" label="v1.2+" />
 
 Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
 

@@ -137,9 +137,7 @@ Examples: "date", "time", "fulltime".
 
 More info: [QInput](/vue-components/input).
 
-### With additional buttons
-
-<q-badge label="v1.2.8+" />
+### With additional buttons <q-badge align="top" label="v1.2.8+" />
 
 You can use the default slot for adding buttons:
 
@@ -156,9 +154,7 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 <q-btn type="a" href="https://codepen.io/rstoenescu/pen/wOGpZg" target="_blank" label="See example" icon-right="launch" color="primary" />
 
-### Native form submit
-
-<q-badge label="v1.9+" />
+### Native form submit <q-badge align="top" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
 

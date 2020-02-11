@@ -100,9 +100,7 @@ If you need async data use a component that retrieves and renders the data.
 
 <doc-example title="Generate items on the fly" file="QVirtualScroll/GenerateItems" />
 
-### Utility classes
-
-<q-badge label="v1.8.4+" />
+### Utility classes <q-badge align="top" label="v1.8.4+" />
 
 There are two CSS classes that you can use (should you need to) to control VirtualScroll size calculation:
 * Use `q-virtual-scroll--with-prev` class on an element rendered by the VirtualScroll to indicate the element should be grouped with the previous one (main use case is for multiple table rows generated from the same row of data).

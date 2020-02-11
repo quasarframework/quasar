@@ -292,9 +292,7 @@ You can also customize the slot for error message:
 
 <doc-example title="Slot for error message" file="QInput/ValidationSlots" />
 
-## Native form submit
-
-<q-badge label="v1.9+" />
+## Native form submit <q-badge align="top" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QInput, otherwise formData will not contain it (if it should):
 

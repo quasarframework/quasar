@@ -40,9 +40,7 @@ In the second row in the example below, the property `keep-color` is being used 
 
 <doc-example title="On a dark background" file="QCheckbox/OnDarkBackground" dark />
 
-### Sizes
-
-<q-badge label="v1.8+" />
+### Sizes <q-badge align="top" label="v1.8+" />
 
 Apart from the standard sizes below, you can define your own through the `size` property (last one is a custom size).
 
@@ -80,9 +78,7 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 
 <doc-example title="Disable" file="QCheckbox/Disable" />
 
-### Native form submit
-
-<q-badge label="v1.9+" />
+### Native form submit <q-badge align="top" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QCheckbox, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 

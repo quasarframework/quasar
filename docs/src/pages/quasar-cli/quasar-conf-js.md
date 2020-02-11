@@ -174,10 +174,7 @@ return {
 
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
 
-### Auto import feature
-
-<q-badge label="@quasar/app v1.1.1+" />
-<q-badge class="q-ml-sm" label="quasar v1.1.2+" />
+### Auto import feature <q-badge align="top" label="@quasar/app v1.1.1+" /> <q-badge align="top" class="q-ml-xs" label="quasar v1.1.2+" />
 
 You can also configure the Quasar CLI to auto import the in-use Quasar components and directives that you are using, through `framework: { all }` property:
 

@@ -186,9 +186,7 @@ boot: [
 ]
 ```
 
-### Redirecting to another page
-
-<q-badge label="@quasar/app 1.0.7+" />
+### Redirecting to another page <q-badge align="top" label="@quasar/app 1.0.7+" />
 
 ```js
 export default ({ urlPath, redirect }) => {

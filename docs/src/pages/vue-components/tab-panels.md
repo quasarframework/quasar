@@ -61,9 +61,7 @@ In the example below, use your mouse to swipe through the panels or, if on a tou
 
 <doc-example title="Swipeable and infinite" file="QTabPanels/Swipeable" />
 
-### Vertical swipeable and infinite
-
-<q-badge label="v1.9+" />
+### Vertical swipeable and infinite <q-badge align="top" label="v1.9+" />
 
 <doc-example title="Vertical swipeable and infinite" file="QTabPanels/VerticalSwipeable" />
 

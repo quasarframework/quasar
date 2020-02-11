@@ -66,9 +66,7 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 <doc-example title="Null values" file="QRange/Null" />
 
-### Reverse
-
-<q-badge label="v1.5+" />
+### Reverse <q-badge align="top" label="v1.5+" />
 
 <doc-example title="In reverse" file="QRange/Reverse" />
 
@@ -90,9 +88,7 @@ Using simple CSS you can get nice effects.
 
 <doc-example title="Getting creative" file="QRange/GettingCreative" />
 
-### Native form submit
-
-<q-badge label="v1.9+" />
+### Native form submit <q-badge align="top" label="v1.9+" />
 
 When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):
 

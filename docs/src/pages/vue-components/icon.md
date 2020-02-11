@@ -98,10 +98,7 @@ If you are using webfont-based icons, make sure that you [installed the icon lib
 * Icon names are in hyphen-separated case and always begin with "la" prefix.
 * Go to [Line Awesome](https://icons8.com/line-awesome), look for your desired icon, click on it. A dialog box will appear. You'll see something like `<i class="lab la-behance-square"></i>`. Remember its name (eg. "lab la-behance-square") and use it.
 
-## Svg icons
-
-<q-badge label="Quasar v1.7+" />
-<q-badge class="q-ml-sm" label="@quasar/extras v1.4+" />
+## Svg icons <q-badge align="top" label="Quasar v1.7+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.4+" />
 
 There are many advantages of using only svg icons in your website/app:
 * Better app footprint -- only used icons will be included in the final build (treeshaking in action)
@@ -219,9 +216,7 @@ Examples:
 </svg>
 ```
 
-## Inlined svg
-
-<q-badge label="v1.7+" />
+## Inlined svg <q-badge align="top" label="v1.7+" />
 
 If you don't want to use the webfont or svg variants from above, note that QIcon also supports one inlined `<svg>` tag (the content of the svg can be anything, not only a path).
 
@@ -278,9 +273,7 @@ You can also base64 encode an image and supply it. The example below is with a Q
 img:data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" ... />
 ```
 
-## Custom mapping
-
-<q-badge label="v1.4+" />
+## Custom mapping <q-badge align="top" label="v1.4+" />
 
 Should you want, you can customize the mapping of icon names. This can be done by overriding `$q.iconMapFn`. The recommended place to do it is in the `created()` hook of your `/src/App.vue` component.
 

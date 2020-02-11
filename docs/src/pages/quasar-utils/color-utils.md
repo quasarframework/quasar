@@ -54,9 +54,7 @@ Calculates the [color contrast](https://www.w3.org/TR/AERT/#color-contrast) of t
 Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
 Returns a value between 0 and 255. A value of < 128 would be considered a dark color.
 
-### blend (fgColor, bgColor)
-
-<q-badge label="v1.7.1+" />
+### blend (fgColor, bgColor) <q-badge align="top" label="v1.7.1+" />
 
 Calculates the [blend](https://www.w3.org/TR/compositing-1/#simplealphacompositing) of two colors.
 
@@ -65,9 +63,7 @@ If the alpha channel of the `fgColor` is completely opaque, then the result will
 If the alpha channel of the `bgColor` is completely opaque, then the resulting blended color will also be opaque.
 Returns the same type as input for fgColor.
 
-### changeAlpha (color, offset)
-
-<q-badge label="v1.7.2+" />
+### changeAlpha (color, offset) <q-badge align="top" label="v1.7.2+" />
 
 Increments or decrements the alpha of a string color.
 

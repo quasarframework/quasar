@@ -28,23 +28,17 @@ In the example below:
 
 <doc-example title="Transitions, bottom navigation, arrows and auto padding" file="QCarousel/Transitions" />
 
-### Vertical
-
-<q-badge label="v1.9+" />
+### Vertical <q-badge align="top" label="v1.9+" />
 
 <doc-example title="Vertical mode" file="QCarousel/Vertical" />
 
-### Control type
-
-<q-badge label="v1.9+" />
+### Control type <q-badge align="top" label="v1.9+" />
 
 The notion of "control" here refers to the arrows and navigation buttons. Since they are buttons, you can also pick their type to better match your design. You also benefit from the `control-color` and `control-text-color` props.
 
 <doc-example title="Control Type" file="QCarousel/ControlType" />
 
-### Navigation position
-
-<q-badge label="v1.9+" />
+### Navigation position <q-badge align="top" label="v1.9+" />
 
 <doc-example title="Navigation position" file="QCarousel/NavigationPosition" />
 
@@ -80,9 +74,7 @@ Don't use the property `navigation` along with `thumbnails` as the first superce
 
 <doc-example title="Controls" file="QCarousel/Controls" />
 
-### With QScrollArea
-
-<q-badge label="v1.9+" />
+### With QScrollArea <q-badge align="top" label="v1.9+" />
 
 Please note how [QScrollArea](/vue-components/scroll-area) is used in the two examples below. Also note the `q-carousel--padding` CSS helper class in the second example.
 

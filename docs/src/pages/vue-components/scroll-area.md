@@ -29,15 +29,11 @@ You can also take a look at [Layout Drawer](/layout/drawer) to see some more exa
 
 <doc-example title="Styled" file="QScrollArea/Styled" />
 
-### Dark
-
-<q-badge label="v1.9+" />
+### Dark <q-badge align="top" label="v1.9+" />
 
 <doc-example title="Dark" file="QScrollArea/Dark" />
 
-### Controlling scrollbar visibility
-
-<q-badge label="v1.3+" />
+### Controlling scrollbar visibility <q-badge align="top" label="v1.3+" />
 
 When using the `visible` Boolean prop, the default mouse over/leave behavior is disabled, leaving you in full control of the scrollbar visibility.
 

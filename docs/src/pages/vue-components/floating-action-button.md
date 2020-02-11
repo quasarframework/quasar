@@ -29,9 +29,7 @@ If you want a non-expandable FAB, all you need is a round button – wrapped in 
 
 <doc-example title="Expandable" file="QFab/Expandable" />
 
-### Internal labels
-
-<q-badge label="v1.9+" />
+### Internal labels <q-badge align="top" label="v1.9+" />
 
 <doc-example title="Internal label" file="QFab/InternalLabel" />
 
@@ -41,9 +39,7 @@ When the labels are internal and your QFab opens up vertically (up or down) then
 
 <doc-example title="Vertical actions alignment" file="QFab/VerticalActionsAlignment" />
 
-### External labels
-
-<q-badge label="v1.9+" />
+### External labels <q-badge align="top" label="v1.9+" />
 
 By default, when the label is external on the main QFab (not the sub-actions), it gets shown only when QFab is opened. However, you can override that by setting a Boolean value for `hide-label` prop.
 
@@ -53,9 +49,7 @@ By default, when the label is external on the main QFab (not the sub-actions), i
 
 <doc-example title="Toggling external label" file="QFab/ExternalLabelToggling" />
 
-### Square style
-
-<q-badge label="v1.9+" />
+### Square style <q-badge align="top" label="v1.9+" />
 
 <doc-example title="Square style" file="QFab/SquareStyle" />
 

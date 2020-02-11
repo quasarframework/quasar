@@ -33,9 +33,7 @@ this.$q.notify({...})
 If you define any actions, the notification will automatically be dismissed when the user picks it.
 :::
 
-### With caption
-
-<q-badge label="v1.5.5+" />
+### With caption <q-badge align="top" label="v1.5.5+" />
 
 <doc-example title="Caption" file="Notify/Caption" />
 
