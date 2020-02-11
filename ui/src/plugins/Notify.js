@@ -74,13 +74,7 @@ const Notifications = {
       }
 
       if (Object(config) === config) {
-        Object.assign(
-          notif,
-          config.type !== void 0 && notifTypes[config.type] !== void 0
-            ? notifTypes[config.type]
-            : {},
-          config
-        )
+        Object.assign(notif, notifTypes[config.type], config)
 
         if (typeof notif.icon === 'function') {
           notif.icon = notif.icon.call(this)
@@ -125,7 +119,7 @@ const Notifications = {
         }
       }
 
-      const actions = (config.actions !== void 0 ? config.actions : [])
+      const actions = (Array.isArray(config.actions) === true ? config.actions : [])
         .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
 
       notif.closeBtn && actions.push({

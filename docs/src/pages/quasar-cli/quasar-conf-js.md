@@ -27,6 +27,9 @@ You'll notice that changing any of these settings does not require you to manual
 :::
 
 ## Structure
+
+### The basics
+
 You'll notice that `/quasar.conf.js` exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
 
 ```js
@@ -52,6 +55,7 @@ module.exports = function (ctx) {
 ```
 
 What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
+
 ```js
 module.exports = function (ctx) {
   extras: [
@@ -63,6 +67,7 @@ module.exports = function (ctx) {
 ```
 
 Or you can use a global CSS file for SPA mode and another one for Cordova mode while avoiding loading any such file for the other modes.
+
 ```js
 module.exports = function (ctx) {
   css: [
@@ -73,6 +78,7 @@ module.exports = function (ctx) {
 ```
 
 Or you can configure the dev server to run on port 8000 for SPA mode, on port 9000 for PWA mode or on port 9090 for the other modes:
+
 ```js
 module.exports = function (ctx) {
   devServer: {
@@ -85,7 +91,7 @@ module.exports = function (ctx) {
 
 The possibilities are endless.
 
----
+### IDE autocompletion
 
 Starting with v1.9, you can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through Typescript):
 
