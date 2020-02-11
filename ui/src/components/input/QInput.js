@@ -58,9 +58,6 @@ export default Vue.extend({
 
       // textarea only
       this.autogrow === true && this.$nextTick(this.__adjustHeightDebounce)
-
-      // file only
-      this.type === 'file' && this.__setFileValue(this.$refs.input, v)
     },
 
     autogrow (autogrow) {
@@ -268,7 +265,7 @@ export default Vue.extend({
               ? this.tempValue
               : (this.innerValue !== void 0 ? this.innerValue : '')
           }
-          : null
+          : this.formDomProps
       })
     }
   },
@@ -281,7 +278,6 @@ export default Vue.extend({
   mounted () {
     // textarea only
     this.autogrow === true && this.__adjustHeight()
-    this.type === 'file' && this.__setFileValue(this.$refs.input, this.value)
   },
 
   beforeDestroy () {

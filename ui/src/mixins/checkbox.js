@@ -99,7 +99,9 @@ export default {
       this.name !== void 0 && Object.assign(prop, {
         checked: this.isTrue,
         name: this.name,
-        value: this.trueValue
+        value: this.modelIsArray === true
+          ? this.val
+          : this.trueValue
       })
 
       return prop

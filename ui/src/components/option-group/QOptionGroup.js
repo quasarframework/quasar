@@ -30,6 +30,8 @@ export default Vue.extend({
       }
     },
 
+    name: String,
+
     type: {
       default: 'radio',
       validator: v => ['radio', 'checkbox', 'toggle'].includes(v)
@@ -89,6 +91,7 @@ export default Vue.extend({
         props: {
           value: this.value,
           val: opt.value,
+          name: this.name,
           disable: this.disable || opt.disable,
           label: opt.label,
           leftLabel: this.leftLabel || opt.leftLabel,

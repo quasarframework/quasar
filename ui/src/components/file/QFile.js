@@ -26,7 +26,7 @@ export default Vue.extend({
     maxFiles: [ Number, String ],
 
     tabindex: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 0
     },
 
@@ -39,12 +39,6 @@ export default Vue.extend({
   data () {
     return {
       dnd: false
-    }
-  },
-
-  watch: {
-    value (val) {
-      this.__setFileValue(this.$refs.input, val)
     }
   },
 
@@ -203,6 +197,7 @@ export default Vue.extend({
           id: this.targetUid,
           disabled: this.editable !== true
         },
+        domProps: this.formDomProps,
         on: cache(this, 'input', {
           change: this.__addFiles
         })
@@ -219,9 +214,5 @@ export default Vue.extend({
   created () {
     this.fieldClass = 'q-file q-field--auto-height'
     this.type = 'file' // necessary for QField's clearable
-  },
-
-  mounted () {
-    this.__setFileValue(this.$refs.input, this.value)
   }
 })
