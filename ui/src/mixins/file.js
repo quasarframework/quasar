@@ -131,37 +131,32 @@ export default {
 }
 
 export const FileValueMixin = {
-  methods: {
-    __setFileValue (input, val) {
-      if (input === void 0) {
-        return
-      }
+  computed: {
+    formDomProps () {
+      if (this.type === 'file' && this.value !== void 0 && this.value !== null) {
+        try {
+          const dt = 'DataTransfer' in window
+            ? new DataTransfer()
+            : ('ClipboardEvent' in window
+              ? new ClipboardEvent('').clipboardData
+              : void 0
+            )
 
-      try {
-        if (val === void 0 || val === null) {
-          input.value = ''
-          return
+          if (dt !== void 0) {
+            ('length' in this.value
+              ? Array.prototype.slice.call(this.value)
+              : [ this.value ]
+            ).forEach(file => {
+              dt.items.add(file)
+            })
+
+            return {
+              files: dt.files
+            }
+          }
         }
-
-        const dt = 'DataTransfer' in window
-          ? new DataTransfer()
-          : ('ClipboardEvent' in window
-            ? new ClipboardEvent('').clipboardData
-            : void 0
-          )
-
-        if (dt !== void 0) {
-          ('length' in val
-            ? Array.prototype.slice.call(val)
-            : [val]
-          ).forEach(file => {
-            dt.items.add(file)
-          })
-
-          input.files = dt.files
-        }
+        catch (e) { }
       }
-      catch (e) { }
     }
   }
 }

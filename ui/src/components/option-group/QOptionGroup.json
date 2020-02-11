@@ -26,6 +26,14 @@
       "category": "model"
     },
 
+    "name": {
+      "type": "String",
+      "desc": "Used to specify the name of the controls; Useful if dealing with forms submitted directly to a URL",
+      "examples": [ "car_id" ],
+      "category": "behavior",
+      "addedIn": "v1.9.0"
+    },
+
     "type": {
       "type": "String",
       "desc": "The type of input component to be used",

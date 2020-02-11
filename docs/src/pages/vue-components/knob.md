@@ -27,5 +27,11 @@ In the example below, `show-value` property also enables the default slot, so yo
 
 <doc-example title="Disable and readonly" file="QKnob/DisableReadonly" />
 
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QKnob, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QKnob/NativeForm" />
+
 ## QKnob API
 <doc-api file="QKnob" />

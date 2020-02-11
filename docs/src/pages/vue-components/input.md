@@ -292,5 +292,11 @@ You can also customize the slot for error message:
 
 <doc-example title="Slot for error message" file="QInput/ValidationSlots" />
 
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QInput, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QInput/NativeForm" />
+
 ## QInput API
 <doc-api file="QInput" />

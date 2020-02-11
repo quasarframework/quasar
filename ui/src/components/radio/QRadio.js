@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import OptionSizeMixin from '../../mixins/option-size.js'
-import FormMixin from '../../mixins/form.js'
+import { FormRadioMixin } from '../../mixins/form.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
@@ -11,7 +11,7 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QRadio',
 
-  mixins: [ DarkMixin, OptionSizeMixin, FormMixin ],
+  mixins: [ DarkMixin, OptionSizeMixin, FormRadioMixin ],
 
   props: {
     value: {
@@ -64,7 +64,6 @@ export default Vue.extend({
       const prop = { type: 'radio' }
 
       this.name !== void 0 && Object.assign(prop, {
-        checked: this.isTrue,
         name: this.name,
         value: this.val
       })

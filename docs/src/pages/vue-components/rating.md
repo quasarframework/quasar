@@ -65,6 +65,12 @@ Apart from the standard sizes below, you can define your own through the `size` 
 
 <doc-example title="Readonly and disable" file="QRating/ReadonlyDisable" />
 
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QRating, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QRating/NativeForm" />
+
 ## QRating API
 
 <doc-api file="QRating" />

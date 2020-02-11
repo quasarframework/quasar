@@ -65,8 +65,7 @@ export default Vue.extend({
 
     formAttrs () {
       return {
-        type: 'radio',
-        checked: true,
+        type: 'hidden',
         name: this.name,
         value: this.value
       }

@@ -34,5 +34,11 @@ First QBtnToggle below has tooltips on each button. Second QBtnToggle has custom
 
 <doc-example title="On a dark background" file="QBtnToggle/Dark" dark />
 
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QBtnToggle, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+
+<doc-example title="Native form" file="QBtnToggle/NativeForm" />
+
 ## QBtnToggle API
 <doc-api file="QBtnToggle" />

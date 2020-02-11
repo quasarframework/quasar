@@ -109,5 +109,11 @@ You can use the default slot for adding buttons:
 
 <doc-example title="With additional buttons" file="QTime/AdditionalButtons" overflow />
 
+### Native form submit
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QTime, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QTime/NativeForm" />
+
 ## QTime API
 <doc-api file="QTime" />
