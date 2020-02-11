@@ -487,7 +487,20 @@
         </q-card>
       </div>
 
-      <div style="margin-bottom: 700px;" />
+      <div style="width: 250vw; height: 400vh">
+        <div class="row q-pa-sm">
+          <div class="col-4">Left col</div>
+          <div class="col-4">
+            <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu - fit" />
+          </div>
+        </div>
+        <div class="row q-pa-sm">
+          <div class="col-4">Left col</div>
+          <div class="col-4">
+            <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu - cover" options-cover />
+          </div>
+        </div>
+      </div>
 
       <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
         <q-menu ref="popover3">
