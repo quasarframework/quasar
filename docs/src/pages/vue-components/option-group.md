@@ -51,7 +51,9 @@ The model for checkboxes/toggles must be an array.
 
 ### Native form submit
 
-When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+<q-badge label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
 
 <doc-example title="Native form" file="QOptionGroup/NativeForm" />
 

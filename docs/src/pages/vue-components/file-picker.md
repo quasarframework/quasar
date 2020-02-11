@@ -90,7 +90,9 @@ You can also apply custom filters (which are executed after user picks files):
 
 ### Native form submit
 
-When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QFile, otherwise formData will not contain it (if it should):
+<q-badge label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QFile, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QFile/NativeForm" />
 

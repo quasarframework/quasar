@@ -92,7 +92,9 @@ Using simple CSS you can get nice effects.
 
 ### Native form submit
 
-When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):
+<q-badge label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QRange/NativeForm" />
 

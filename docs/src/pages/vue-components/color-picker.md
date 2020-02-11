@@ -64,7 +64,9 @@ You can also pick the default view, like in example below, where we also specify
 
 ### Native form submit
 
-When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QColor, otherwise formData will not contain it (if it should):
+<q-badge label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QColor, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QColor/NativeForm" />
 

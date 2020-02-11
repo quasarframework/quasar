@@ -158,7 +158,9 @@ When using the persian calendar, the mask for QDate is forced to `YYYY/MM/DD`.
 
 ### Native form submit
 
-When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with DotNet controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
+<q-badge label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QDate, otherwise formData will not contain it (if it should):
 
 <doc-example title="Native form" file="QDate/NativeForm" />
 

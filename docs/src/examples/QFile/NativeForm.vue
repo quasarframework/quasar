@@ -7,12 +7,14 @@
       <q-file
         name="poster_file"
         v-model="file"
+        filled
         label="Select poster image"
       />
 
       <q-file
         name="cover_files"
         v-model="files"
+        filled
         multiple
         use-chips
         label="Select cover images"

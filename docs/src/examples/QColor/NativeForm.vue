@@ -7,6 +7,7 @@
       <q-color
         name="accent_color"
         v-model="color"
+        style="width: 200px; max-width: 100%;"
       />
 
       <div>

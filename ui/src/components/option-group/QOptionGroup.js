@@ -14,6 +14,8 @@ const components = {
   toggle: QToggle
 }
 
+const typeValues = Object.keys(components)
+
 export default Vue.extend({
   name: 'QOptionGroup',
 
@@ -34,7 +36,7 @@ export default Vue.extend({
 
     type: {
       default: 'radio',
-      validator: v => ['radio', 'checkbox', 'toggle'].includes(v)
+      validator: v => typeValues.includes(v)
     },
 
     color: String,
@@ -54,7 +56,9 @@ export default Vue.extend({
     },
 
     model () {
-      return Array.isArray(this.value) ? this.value.slice() : this.value
+      return Array.isArray(this.value)
+        ? this.value.slice()
+        : this.value
     },
 
     classes () {
@@ -77,7 +81,7 @@ export default Vue.extend({
         console.error('q-option-group: model should not be array')
       }
     }
-    else if (!isArray) {
+    else if (isArray === false) {
       console.error('q-option-group: model should be array in your case')
     }
   },
@@ -91,7 +95,7 @@ export default Vue.extend({
         props: {
           value: this.value,
           val: opt.value,
-          name: this.name,
+          name: this.name || opt.name,
           disable: this.disable || opt.disable,
           label: opt.label,
           leftLabel: this.leftLabel || opt.leftLabel,
