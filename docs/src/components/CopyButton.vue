@@ -16,7 +16,7 @@ div.relative
   )
     q-badge.absolute(
       v-show="copied"
-      style="top: 12px; right: 58px;"
+      style="top: 8px; right: 58px;"
     ) Copied to clipboard
 </template>
 

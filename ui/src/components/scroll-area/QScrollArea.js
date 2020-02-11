@@ -40,18 +40,16 @@ export default Vue.extend({
 
   data () {
     return {
-      active: false,
-      hover: this.visible === true,
+      // state management
+      tempShowing: false,
+      panning: false,
+      hover: false,
+
+      // other...
       containerWidth: 0,
       containerHeight: 0,
       scrollPosition: 0,
       scrollSize: 0
-    }
-  },
-
-  watch: {
-    visible (val) {
-      this.hover = val === true
     }
   },
 
@@ -62,8 +60,11 @@ export default Vue.extend({
     },
 
     thumbHidden () {
-      return this.scrollSize <= this.containerSize ||
-        (this.active === false && this.hover === false)
+      return (
+        (this.visible === null ? this.hover : this.visible) !== true &&
+        this.tempShowing === false &&
+        this.panning === false
+      ) || this.scrollSize <= this.containerSize
     },
 
     thumbSize () {
@@ -151,21 +152,25 @@ export default Vue.extend({
     },
 
     __updateContainer ({ height, width }) {
+      let change = false
+
       if (this.containerWidth !== width) {
         this.containerWidth = width
-        this.__setActive(true, true)
+        change = true
       }
 
       if (this.containerHeight !== height) {
         this.containerHeight = height
-        this.__setActive(true, true)
+        change = true
       }
+
+      change === true && this.__startTimer()
     },
 
     __updateScroll ({ position }) {
       if (this.scrollPosition !== position) {
         this.scrollPosition = position
-        this.__setActive(true, true)
+        this.__startTimer()
       }
     },
 
@@ -173,34 +178,36 @@ export default Vue.extend({
       if (this.horizontal) {
         if (this.scrollSize !== width) {
           this.scrollSize = width
-          this.__setActive(true, true)
+          this.__startTimer()
         }
       }
-      else {
-        if (this.scrollSize !== height) {
-          this.scrollSize = height
-          this.__setActive(true, true)
-        }
+      else if (this.scrollSize !== height) {
+        this.scrollSize = height
+        this.__startTimer()
       }
     },
 
     __panThumb (e) {
-      if (this.thumbHidden === true) {
+      if (e.isFirst === true) {
+        if (this.thumbHidden === true) {
+          return
+        }
+
+        this.refPos = this.scrollPosition
+        this.panning = true
+      }
+      else if (this.panning !== true) {
         return
       }
 
-      if (e.isFirst === true) {
-        this.refPos = this.scrollPosition
-        this.__setActive(true, true)
-      }
-
       if (e.isFinal === true) {
-        this.__setActive(false)
+        this.panning = false
       }
 
       const multiplier = (this.scrollSize - this.containerSize) / (this.containerSize - this.thumbSize)
       const distance = this.horizontal ? e.distance.x : e.distance.y
       const pos = this.refPos + (e.direction === this.direction ? 1 : -1) * distance * multiplier
+
       this.__setScroll(pos)
     },
 
@@ -216,32 +223,17 @@ export default Vue.extend({
       }
     },
 
-    __setActive (active, timer) {
-      clearTimeout(this.timer)
+    __startTimer () {
+      if (this.tempShowing === true) {
+        clearTimeout(this.timer)
 
-      if (active === this.active) {
-        if (active && this.timer) {
-          this.__startTimer()
-        }
-        return
-      }
-
-      if (active) {
-        this.active = true
-        if (timer) {
-          this.__startTimer()
-        }
+        this.timer = setTimeout(() => {
+          this.tempShowing = false
+        }, this.delay)
       }
       else {
-        this.active = false
+        this.tempShowing = true
       }
-    },
-
-    __startTimer () {
-      this.timer = setTimeout(() => {
-        this.active = false
-        this.timer = null
-      }, this.delay)
     },
 
     __setScroll (offset) {
@@ -252,12 +244,10 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       class: this.classes,
-      on: this.visible === null
-        ? cache(this, 'desk', {
-          mouseenter: () => { this.hover = true },
-          mouseleave: () => { this.hover = false }
-        })
-        : null
+      on: cache(this, 'desk', {
+        mouseenter: () => { this.hover = true },
+        mouseleave: () => { this.hover = false }
+      })
     }, [
       h('div', {
         ref: 'target',
