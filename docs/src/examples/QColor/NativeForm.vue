@@ -1,9 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-form
-      @submit="onSubmit"
-      class="q-gutter-md"
-    >
+    <q-form @submit="onSubmit" class="q-gutter-md">
       <q-color
         name="accent_color"
         v-model="color"

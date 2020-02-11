@@ -1,9 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-form
-      @submit="onSubmit"
-      class="q-gutter-md"
-    >
+    <q-form @submit="onSubmit" class="q-gutter-md">
       <q-file
         name="poster_file"
         v-model="file"
@@ -25,7 +22,12 @@
       </div>
     </q-form>
 
-    <q-card flat bordered class="q-mt-md bg-grey-2" v-if="submitResult.length > 0">
+    <q-card v-if="submitEmpty" flat bordered class="q-mt-md bg-grey-2">
+      <q-card-section>
+        Submitted form contains empty formData.
+      </q-card-section>
+    </q-card>
+    <q-card v-else-if="submitResult.length > 0" flat bordered class="q-mt-md bg-grey-2">
       <q-card-section>Submitted form contains the following formData (key = value):</q-card-section>
       <q-separator />
       <q-card-section class="row q-gutter-sm items-center">
@@ -45,6 +47,8 @@ export default {
     return {
       file: null,
       files: null,
+
+      submitEmpty: false,
       submitResult: []
     }
   },
@@ -53,6 +57,7 @@ export default {
     onSubmit (evt) {
       const formData = new FormData(evt.target)
       const submitResult = []
+
       for (const [ name, value ] of formData.entries()) {
         if (value.name.length > 0) {
           submitResult.push({
@@ -61,7 +66,9 @@ export default {
           })
         }
       }
+
       this.submitResult = submitResult
+      this.submitEmpty = submitResult.length === 0
     }
   }
 }

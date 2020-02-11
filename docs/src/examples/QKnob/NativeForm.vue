@@ -1,9 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-form
-      @submit="onSubmit"
-      class="q-gutter-md"
-    >
+    <q-form @submit="onSubmit" class="q-gutter-md">
       <q-knob
         name="volume"
         class="text-white q-ma-md"
@@ -50,12 +47,14 @@ export default {
     onSubmit (evt) {
       const formData = new FormData(evt.target)
       const submitResult = []
+
       for (const [ name, value ] of formData.entries()) {
         submitResult.push({
           name,
           value
         })
       }
+
       this.submitResult = submitResult
     }
   }
