@@ -134,6 +134,10 @@ export default Vue.extend({
       immediate: true
     },
 
+    fillInput () {
+      this.__resetInputValue()
+    },
+
     menu (show) {
       this.__updateMenu(show)
     }
