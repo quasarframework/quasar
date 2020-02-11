@@ -880,6 +880,13 @@ export default Vue.extend({
       // before filter is called the indicator is reset
       this.userInputValue = true
 
+      if (
+        this.focused !== true &&
+        (this.hasDialog !== true || this.dialogFieldFocused === true)
+      ) {
+        this.__focus()
+      }
+
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
           this.filter(this.inputValue)
