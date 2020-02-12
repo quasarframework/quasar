@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",
+    "@vue/cli-service": "^4.2.2",
     "@vue/eslint-config-standard": "^5.0.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
