@@ -1,5 +1,5 @@
 <template lang="pug">
-div.relative
+.relative
   q-btn(
     color="primary"
     round
