@@ -63,12 +63,12 @@ export default {
   },
   watch: {
     lang (lang) {
-      import(`quasar/lang/${lang}`).then(lang => {
+      import('quasar/lang/' + lang).then(lang => {
         this.$q.lang.set(lang.default)
       })
     },
     iconSet (set) {
-      import(`quasar/icon-set/${set}`).then(iconSet => {
+      import('quasar/icon-set/' + set).then(iconSet => {
         this.$q.iconSet.set(iconSet.default)
       })
     }
