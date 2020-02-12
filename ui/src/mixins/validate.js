@@ -179,7 +179,7 @@ export default {
       }
     },
 
-    __triggerValidation (e) {
+    __triggerValidation () {
       if (this.isDirty === false && this.rules !== void 0) {
         this.isDirty = true
         this.validate(this.value)
