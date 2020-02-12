@@ -40,7 +40,7 @@ export default {
     },
 
     __processFiles (e, files) {
-      files = Array.prototype.slice.call(files || e.target.files)
+      files = Array.from(files || e.target.files)
 
       // filter file types
       if (this.accept !== void 0) {
@@ -145,10 +145,10 @@ export const FileValueMixin = {
             : void 0
           )
 
-        if (this.value !== void 0 && this.value !== null) {
+        if (Object(this.value) === this.value) {
           ('length' in this.value
-            ? Array.prototype.slice.call(this.value)
-            : [this.value]
+            ? Array.from(this.value)
+            : [ this.value ]
           ).forEach(file => {
             dt.items.add(file)
           })

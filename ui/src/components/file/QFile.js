@@ -44,8 +44,8 @@ export default Vue.extend({
 
   computed: {
     innerValue () {
-      return this.value !== void 0 && this.value !== null
-        ? (this.multiple === true ? Array.from(this.value) : [ this.value ])
+      return Object(this.value) === this.value
+        ? ('length' in this.value ? Array.from(this.value) : [ this.value ])
         : []
     },
 
