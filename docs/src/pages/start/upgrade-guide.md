@@ -155,9 +155,9 @@ The best way to start upgrading your project is to follow these steps:
   }
   ```
 
-10) In `quasar.conf.js`: **rename** the value `fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v3` and `ionicons` to `ionicons-v4` inside the `extras` section, if you use them. Even if you don't use them it is still good practice to rename them in case you do use them in the future.
+10) In `quasar.conf.js`: **rename** the value `fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v4` and `ionicons` to `ionicons-v4` inside the `extras` section, if you use them. Even if you don't use them it is still good practice to rename them in case you do use them in the future.
 
-11) In `quasar.conf.js` > `framework` > `iconSet` do same **rename** replacements as above to its value (`fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v3` and `ionicons` to `ionicons-v4`)
+11) In `quasar.conf.js` > `framework` > `iconSet` do same **rename** replacements as above to its value (`fontawesome` to `fontawesome-v5`, `mdi` to `mdi-v4` and `ionicons` to `ionicons-v4`)
 
 12) In `quasar.conf.js`: **rename** in `framework` > `i18n` to `lang`
 
@@ -220,12 +220,12 @@ export PATH="$(yarn global bin):$PATH"
 
   ```bash
   Global packages
-    @quasar/cli - 1.0.0
+    @quasar/cli - 1.0.5
 
   Important local packages
-    quasar - 1.0.0 -- High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase
-    @quasar/app - 1.0.0 -- Quasar Framework App CLI
-    @quasar/extras - 1.0.0 -- Quasar Framework fonts, icons and animations
+    quasar - 1.9.0 -- High performance, Material Design 2, full front end stack with Vue.js -- build SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase
+    @quasar/app - 1.5.4 -- Quasar Framework App CLI
+    @quasar/extras - 1.5.1 -- Quasar Framework fonts, icons and animations
   ```
 
   Notice the versions that are different from step 1.
