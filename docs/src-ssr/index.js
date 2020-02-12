@@ -39,6 +39,10 @@ app.use('/', serve('.', true))
 // we extend the custom common dev & prod parts here
 extension.extendApp({ app })
 
+app.get('/layout/floating-action-button', (_, res) => {
+  res.redirect('/vue-components/floating-action-button')
+})
+
 // this should be last get(), rendering with SSR
 app.get('*', (req, res) => {
   res.setHeader('Content-Type', 'text/html')
