@@ -440,11 +440,11 @@
         <q-icon slot="after" name="delete" @click="log('after')" />
       </q-input>
 
-      <q-input :dark="dark" v-model="file" type="file" label="File" stack-label />
-      <q-input :dark="dark" v-model="file" type="file" label="Same file as above" stack-label />
+      <q-input :dark="dark" v-model="file" type="file" label="File" stack-label clearable />
+      <q-input :dark="dark" v-model="file" type="file" label="Same file as above" stack-label clearable />
 
       <q-toggle v-model="showFileInput" :dark="dark" label="Show file input" />
-      <q-input v-if="showFileInput" :dark="dark" v-model="file" type="file" label="Same file as above" stack-label />
+      <q-input v-if="showFileInput" :dark="dark" v-model="file" type="file" label="Same file as above" stack-label clearable />
     </div>
   </div>
 </template>
