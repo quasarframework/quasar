@@ -43,6 +43,21 @@
         </div>
       </q-form>
     </div>
+
+    <div class="q-pa-md" style="max-width: 400px">
+      <h5>
+        Form with that clears after submit
+      </h5>
+
+      <q-toggle v-model="autofocus" label="Autofocus form" />
+
+      <q-form @submit="onSubmitClear" ref="form" :autofocus="autofocus">
+        <q-input dense filled v-model="form.text1" label="Not lazy" :rules="[isReq]" />
+        <q-input dense filled v-model="form.text2" label="Lazy" lazy-rules :rules="[isReq]" />
+
+        <q-btn type="submit" label="go" />
+      </q-form>
+    </div>
   </div>
 </template>
 
@@ -55,7 +70,10 @@ export default {
       name: null,
       age: null,
 
-      accept: false
+      accept: false,
+
+      form: {},
+      autofocus: false
     }
   },
 
@@ -101,6 +119,15 @@ export default {
 
     onVal (status) {
       console.log('VALIDATION', status)
+    },
+
+    isReq (val) {
+      return !!val || 'required'
+    },
+
+    onSubmitClear () {
+      this.form = {}
+      this.$refs.form.reset()
     }
   }
 }
