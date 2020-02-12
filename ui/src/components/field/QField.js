@@ -54,6 +54,11 @@ export default Vue.extend({
     clearable: Boolean,
     clearIcon: String,
 
+    clearVisible: {
+      type: Boolean,
+      default: null
+    },
+
     disable: Boolean,
     readonly: Boolean,
 
@@ -280,7 +285,11 @@ export default Vue.extend({
           )
         )
       }
-      else if (this.clearable === true && this.hasValue === true && this.editable === true) {
+      else if (
+        this.clearable === true &&
+        (this.clearVisible !== null ? this.clearVisible : this.hasValue) === true &&
+        this.editable === true
+      ) {
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
             h(QIcon, {
