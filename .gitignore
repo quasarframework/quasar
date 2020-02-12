@@ -2,6 +2,5 @@
 .Thumbs.db
 *.sublime*
 .idea/
-yarn.lock
 debug.log
 package-lock.json
