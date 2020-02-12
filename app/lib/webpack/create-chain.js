@@ -132,6 +132,7 @@ module.exports = function (cfg, configName) {
     .use('babel-loader')
       .loader('babel-loader')
         .options({
+          compact: false,
           extends: appPaths.resolve.app('babel.config.js'),
           plugins: cfg.framework.all !== true && configName !== 'Server' ? [
             [
