@@ -26,7 +26,7 @@ Do not use it on Quasar components that already have a `ratio` property, like QI
 
 ### Flex row
 
-Note below that we are using a vertical alignment (`items-start`) other than the default, so that flexbox won't force the height on each QResponsive component.
+Note below that we are using a vertical alignment (`items-start`) other than the default (`stretch`), so that flexbox won't force the height on each QResponsive component.
 
 <doc-example title="Basic usage" file="QResponsive/FlexRow" />
 
