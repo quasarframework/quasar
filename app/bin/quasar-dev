@@ -169,7 +169,7 @@ function startVueDevtools () {
   spawnSync(
     nodePackager,
     cmdParam.concat('@vue/devtools'),
-    { cwd: appPaths.appDir },
+    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
     () => warn('⚠️  Failed to install vue-devtools')
   )
 

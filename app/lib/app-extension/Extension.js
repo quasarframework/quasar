@@ -259,7 +259,7 @@ module.exports = class Extension {
     spawnSync(
       nodePackager,
       cmdParam.concat(this.packageFullName),
-      { cwd: appPaths.appDir },
+      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
       () => warn(`⚠️  Failed to install ${this.packageFullName}`)
     )
   }
@@ -274,7 +274,7 @@ module.exports = class Extension {
     spawnSync(
       nodePackager,
       cmdParam.concat(this.packageName),
-      { cwd: appPaths.appDir },
+      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
       () => warn(`⚠️  Failed to uninstall "${this.packageName}"`)
     )
   }
@@ -335,7 +335,7 @@ module.exports = class Extension {
       spawnSync(
         nodePackager,
         cmdParam,
-        { cwd: appPaths.appDir },
+        { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
         () => warn(`⚠️  Failed to update dependencies`)
       )
     }
