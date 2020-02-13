@@ -630,11 +630,9 @@ const proxy = require('http-proxy-middleware')
 
 // ...
 app.use('/api', proxy({
-  '/api': {
     target: `http://my-api.com:5050`,
     pathRewrite: {"^/api" : ""}
-  }
-}))
+  }))
 
 // then app.listen(...)
 ```
