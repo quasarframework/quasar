@@ -161,6 +161,7 @@ export default Vue.extend({
           this.__portal.$el.click()
         }
 
+        this.updatePosition()
         this.$emit('show', evt)
       }, 300)
     },
