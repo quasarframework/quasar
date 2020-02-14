@@ -1,7 +1,9 @@
-import { QuasarIconSets } from "../extras/icon-set";
-import { QuasarLanguageCodes } from "../lang";
-import { QuasarComponents, QuasarDirectives, QuasarPlugins } from "../plugin";
-import { DeepPartial } from "../ts-helpers";
+import {
+  QuasarIconSets,
+  QuasarLanguageCodes,
+  DeepPartial,
+  QuasarPluginOptions
+} from "quasar";
 
 interface QuasarFrameworkInnerConfiguration {
   brand: {
@@ -42,7 +44,7 @@ interface QuasarFrameworkInnerConfiguration {
 }
 
 interface QuasarBaseFrameworkObjectConfiguration {
-  plugins?: (keyof QuasarPlugins)[];
+  plugins?: (keyof QuasarPluginOptions["plugins"])[];
   config?: DeepPartial<QuasarFrameworkInnerConfiguration>;
   iconSet?: QuasarIconSets;
   lang?: QuasarLanguageCodes;
@@ -64,12 +66,14 @@ interface QuasarAllFrameworkObjectConfiguration
 interface QuasarManualFrameworkObjectConfiguration
   extends QuasarBaseFrameworkObjectConfiguration {
   all: false;
-  components?: (keyof QuasarComponents)[];
-  directives?: (keyof QuasarDirectives)[];
+  components?: (keyof QuasarPluginOptions["components"])[];
+  directives?: (keyof QuasarPluginOptions["directives"])[];
 }
 
-export type QuasarFrameworkConfiguration =
-  | "all" // Equal to `{ all: true }`
-  | QuasarAutoFrameworkObjectConfiguration
-  | QuasarAllFrameworkObjectConfiguration
-  | QuasarManualFrameworkObjectConfiguration;
+declare module "quasar" {
+  type QuasarFrameworkConfiguration =
+    | "all" // Equal to `{ all: true }`
+    | QuasarAutoFrameworkObjectConfiguration
+    | QuasarAllFrameworkObjectConfiguration
+    | QuasarManualFrameworkObjectConfiguration;
+}

@@ -5,6 +5,7 @@
   "bin": {
     "quasar": "./bin/quasar"
   },
+  "typings": "types/index.d.ts",
   "files": [
     "assets",
     "bin",

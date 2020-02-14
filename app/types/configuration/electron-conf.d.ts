@@ -1,24 +1,14 @@
 import { Configuration as ElectronBuilderConfiguration } from "electron-builder";
-import { Options as ElectronPackagerOptions } from "electron-packager";
-import * as WebpackChain from "webpack-chain";
-import { WebpackConfiguration } from "../ts-helpers";
-
-export type QuasarElectronBundlers = "builder" | "packager";
-
-export type ElectronBuilderArchs = "ia32" | "x64" | "armv7l" | "arm64" | "all";
-
-export type ElectronBuilderTargets =
-  | "darwin"
-  | "mac"
-  | "win32"
-  | "win"
-  | "linux"
-  | "all";
-
-export {
-  arch as ElectronPackagerArchs,
-  platform as ElectronPackagerTargets
+import {
+  arch,
+  Options as ElectronPackagerOptions,
+  platform
 } from "electron-packager";
+import { WebpackConfiguration } from "quasar";
+import * as WebpackChain from "webpack-chain";
+import "../ts-helpers";
+
+type QuasarElectronBundlersInternal = "builder" | "packager";
 
 interface QuasarBaseElectronConfiguration {
   /** Webpack config object for the Main Process ONLY (`/src-electron/main-process/`) */
@@ -41,7 +31,7 @@ interface QuasarBaseElectronConfiguration {
    *  or we haven’t found the recipe yet.
    */
   // This property definition is here merely to avoid duplicating the TSDoc
-  bundler: QuasarElectronBundlers;
+  bundler: QuasarElectronBundlersInternal;
 }
 
 interface QuasarElectronPackagerConfiguration
@@ -63,6 +53,23 @@ interface QuasarElectronBuilderConfiguration
   builder?: ElectronBuilderConfiguration;
 }
 
-export type QuasarElectronConfiguration =
-  | QuasarElectronPackagerConfiguration
-  | QuasarElectronBuilderConfiguration;
+declare module "quasar" {
+  type QuasarElectronBundlers = QuasarElectronBundlersInternal;
+
+  type ElectronBuilderArchs = "ia32" | "x64" | "armv7l" | "arm64" | "all";
+
+  type ElectronBuilderTargets =
+    | "darwin"
+    | "mac"
+    | "win32"
+    | "win"
+    | "linux"
+    | "all";
+
+  type ElectronPackagerArchs = arch;
+  type ElectronPackagerTargets = platform;
+
+  type QuasarElectronConfiguration =
+    | QuasarElectronPackagerConfiguration
+    | QuasarElectronBuilderConfiguration;
+}
