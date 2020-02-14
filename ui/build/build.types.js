@@ -250,11 +250,11 @@ function writeIndexDTS (apis) {
   writeLine(contents, `import { LooseDictionary } from './ts-helpers'`)
   writeLine(contents)
   writeLine(quasarTypeContents, 'export as namespace quasar')
+  // We expose `ts-helpers` because they are needed by `@quasar/app` augmentations
+  writeLine(quasarTypeContents, `export * from './ts-helpers'`)
   writeLine(quasarTypeContents, `export * from './utils'`)
   writeLine(quasarTypeContents, `export * from './feature-flag'`)
   writeLine(quasarTypeContents, `export * from './globals'`)
-  writeLine(quasarTypeContents, `export * from './boot'`)
-  writeLine(quasarTypeContents, `export * from './configuration'`)
   writeLine(quasarTypeContents, `export * from './extras'`)
   writeLine(quasarTypeContents, `export * from './lang'`)
   writeLine(quasarTypeContents, `export * from './api'`)
@@ -367,9 +367,11 @@ function writeIndexDTS (apis) {
   // These imports force TS compiler to evaluate contained declarations
   //  which by defaults would be ignored because inside node_modules
   //  and not directly referenced by any file
-  writeLine(contents, `import './shims'`)
-  writeLine(contents, `import './wrappers'`)
   writeLine(contents, `import './vue'`)
+  // If `@quasar/app` package is present, this works as "reference" and its types are added to compilation
+  // If it's not (Vue CLI projects) the shim serves as a fallback avoiding TS errors
+  writeLine(contents, `import './shim-quasar-app.d.ts'`)
+  writeLine(contents, `import '@quasar/app'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
 }

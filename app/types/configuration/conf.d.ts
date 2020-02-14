@@ -1,15 +1,17 @@
-import { QuasarAnimations } from "../extras/animations";
-import { QuasarFonts } from "../extras/fonts";
-import { QuasarIconSets } from "../extras/icon-set";
-import { WebpackConfiguration } from "../ts-helpers";
-import { QuasarBuildConfiguration } from "./build";
-import { QuasarCapacitorConfiguration } from "./capacitor-conf";
-import { QuasarCordovaConfiguration } from "./cordova-conf";
-import { QuasarElectronConfiguration } from "./electron-conf";
-import { QuasarFrameworkConfiguration } from "./framework-conf";
-import { QuasarPwaConfiguration } from "./pwa-conf";
-import { QuasarSsrConfiguration } from "./ssr-conf";
-import { QuasarBootConfiguration } from "./boot";
+import {
+  QuasarAnimations,
+  QuasarBootConfiguration,
+  QuasarBuildConfiguration,
+  QuasarFonts,
+  QuasarFrameworkConfiguration,
+  QuasarIconSets,
+  WebpackConfiguration
+} from "quasar";
+import "../ts-helpers";
+import "./build";
+import "./framework-conf";
+import "./pwa-conf";
+import "./ssr-conf";
 
 type QuasarAnimationsConfiguration = "all" | QuasarAnimations[];
 
@@ -25,10 +27,6 @@ interface QuasarDevServerConfiguration
    * @link https://github.com/sindresorhus/open/blob/ed757758dd556ae561b58b80ec7dee5e7c6ffddc/index.d.ts#L26-L33
    */
   open: boolean | string;
-}
-
-interface QuasarHookParams {
-  quasarConf: QuasarConf;
 }
 
 /**
@@ -117,19 +115,25 @@ interface BaseQuasarConfiguration {
   sourceFiles?: QuasarSourceFilesConfiguration;
 }
 
-export type QuasarConf = BaseQuasarConfiguration & {
-  /** PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). */
-  pwa?: QuasarPwaConfiguration;
-} & {
-  /** SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). */
-  ssr?: QuasarSsrConfiguration;
-} & {
-  /** Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). */
-  capacitor?: QuasarCapacitorConfiguration;
-} & {
-  /** Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). */
-  cordova?: QuasarCordovaConfiguration;
-} & {
-  /** Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). */
-  electron?: QuasarElectronConfiguration;
-};
+declare module "quasar" {
+  interface QuasarHookParams {
+    quasarConf: QuasarConf;
+  }
+
+  type QuasarConf = BaseQuasarConfiguration & {
+    /** PWA specific [config](/quasar-cli/developing-pwa/configuring-pwa). */
+    pwa?: QuasarPwaConfiguration;
+  } & {
+    /** SSR specific [config](/quasar-cli/developing-ssr/configuring-ssr). */
+    ssr?: QuasarSsrConfiguration;
+  } & {
+    /** Capacitor specific [config](/quasar-cli/developing-capacitor-apps/configuring-capacitor). */
+    capacitor?: QuasarCapacitorConfiguration;
+  } & {
+    /** Cordova specific [config](/quasar-cli/developing-cordova-apps/configuring-cordova). */
+    cordova?: QuasarCordovaConfiguration;
+  } & {
+    /** Electron specific [config](/quasar-cli/developing-electron-apps/configuring-electron). */
+    electron?: QuasarElectronConfiguration;
+  };
+}
