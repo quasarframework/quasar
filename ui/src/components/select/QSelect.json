@@ -119,16 +119,57 @@
       "category": "options"
     },
 
+    "options-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
+      "category": "options"
+    },
+
     "options-cover": {
       "type": "Boolean",
       "desc": "Expanded menu will cover the component (will not work along with 'use-input' prop for obvious reasons)",
       "category": "options"
     },
 
-    "options-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
-      "category": "options"
+    "menu-shrink": {
+      "type": "Boolean",
+      "desc": "Allow the options list to be narrower than the field (only in menu mode)",
+      "category": "options",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the options list relative to the field (only in menu mode)",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-self": {
+      "type": "String",
+      "desc": "Two values setting the options list's own position relative to its target (only in menu mode)",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the options list horizontally and vertically in pixels (only in menu mode)",
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
     },
 
     "popup-content-class": {

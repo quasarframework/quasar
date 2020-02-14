@@ -26,6 +26,7 @@ export default Vue.extend({
     cover: Boolean,
     persistent: Boolean,
     autoClose: Boolean,
+
     menuAnchor: {
       type: String,
       default: 'bottom right'
@@ -34,6 +35,7 @@ export default Vue.extend({
       type: String,
       default: 'top right'
     },
+    menuOffset: Array,
 
     disableMainBtn: Boolean,
     disableDropdown: Boolean
@@ -77,6 +79,7 @@ export default Vue.extend({
           autoClose: this.autoClose,
           anchor: this.menuAnchor,
           self: this.menuSelf,
+          offset: this.menuOffset,
           contentClass: this.contentClass,
           contentStyle: this.contentStyle,
           separateClosePopup: true
