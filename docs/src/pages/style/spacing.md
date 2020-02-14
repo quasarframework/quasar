@@ -1,6 +1,11 @@
 ---
 title: CSS Spacing Classes
 desc: The list of CSS classes supplied by Quasar to simplify the specification of responsive paddings and margins.
+related:
+  - /style/typography
+  - /style/positioning
+  - /style/visibility
+  - /style/breakpoints
 ---
 There are CSS classes supplied by Quasar to help you with spacing for DOM elements or components. All options are
 prefixed with `q-` and then broken down into type (T), direction (D), and size (S). See the table below
@@ -146,3 +151,9 @@ Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 ::: tip
 See more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#Flex-Addons).
 :::
+
+## Other Related
+| Class Name | Description |
+| --- | --- |
+| `no-margin` | Removes any applied margins |
+| `no-padding` | Removes any applied padding |

@@ -1,6 +1,8 @@
 ---
 title: Breakpoints
 desc: Quasar's list of CSS breakpoints.
+related:
+  - /style/spacing
 ---
 
 Quasar uses the following CSS breakpoints:
