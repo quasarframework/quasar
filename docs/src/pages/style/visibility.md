@@ -75,7 +75,7 @@ Hide on:
 | `mobile-hide` | Hide on mobile |
 | `native-mobile-hide` | Hide on Cordova/Capacitor |
 | `cordova-hide` | Hide on Cordova wrapped Apps |
-| `capacitor-hide` | Hide on Cordova wrapped Apps |
+| `capacitor-hide` | Hide on Capacitor wrapped Apps |
 | `electron-hide` | Hide on Electron wrapped Apps |
 | `touch-hide` | Hide on touch capable platforms |
 | `platform-ios-hide` | Hide on iOS platform |
