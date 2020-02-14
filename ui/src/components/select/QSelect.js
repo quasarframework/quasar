@@ -61,8 +61,14 @@ export default Vue.extend({
       default: null
     },
     optionsSelectedClass: String,
-    optionsCover: Boolean,
     optionsSanitize: Boolean,
+
+    optionsCover: Boolean,
+
+    menuShrink: Boolean,
+    menuAnchor: String,
+    menuSelf: String,
+    menuOffset: Array,
 
     popupContentClass: String,
     popupContentStyle: [String, Array, Object],
@@ -1031,8 +1037,11 @@ export default Vue.extend({
         ref: 'menu',
         props: {
           value: this.menu,
-          fit: true,
+          fit: this.menuShrink !== true,
           cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
+          anchor: this.menuAnchor,
+          self: this.menuSelf,
+          offset: this.menuOffset,
           contentClass: this.menuContentClass,
           contentStyle: this.popupContentStyle,
           dark: this.isOptionsDark,
