@@ -13,8 +13,6 @@
       >
         <q-fab-action :hide-label="hideLabels" color="primary" @click="onClick" icon="mail" label="Email" />
         <q-fab-action :hide-label="hideLabels" color="secondary" @click="onClick" icon="alarm" label="Alarm" />
-        <q-fab-action :hide-label="hideLabels" color="orange" @click="onClick" icon="airplay" label="Airplay" />
-        <q-fab-action :hide-label="hideLabels" color="accent" @click="onClick" icon="room" label="Map" />
       </q-fab>
     </div>
 
