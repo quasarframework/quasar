@@ -4,7 +4,6 @@ const compileTemplate = require('lodash.template')
 
 const log = require('./helpers/logger')('app:generator')
 const appPaths = require('./app-paths')
-const quasarFolder = appPaths.resolve.app('.quasar')
 
 class Generator {
   constructor (quasarConfig) {
@@ -12,6 +11,8 @@ class Generator {
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig
+
+    this.quasarFolder = appPaths.resolve.app('.quasar')
 
     const paths = [
       'app.js',
@@ -36,7 +37,7 @@ class Generator {
 
       return {
         filename,
-        dest: path.join(quasarFolder, filename),
+        dest: path.join(this.quasarFolder, filename),
         template: compileTemplate(content)
       }
     })
@@ -46,7 +47,7 @@ class Generator {
 
       this.files.push({
         filename: 'ssr.js',
-        dest: path.join(quasarFolder, 'ssr-config.js'),
+        dest: path.join(this.quasarFolder, 'ssr-config.js'),
         template: compileTemplate(fs.readFileSync(ssrFile, 'utf-8')),
         dataFn: quasarConfig => ({
           opts: quasarConfig.ssr.__templateOpts,
@@ -60,14 +61,25 @@ class Generator {
     log(`Generating Webpack entry point`)
     const data = this.quasarConfig.getBuildConfig()
 
+    const quasarBaseFolder = appPaths.resolve.appQ('.quasar')
     // ensure .quasar folder
-    if (!fs.existsSync(quasarFolder)) {
-      fs.mkdirSync(quasarFolder)
+    if (!fs.existsSync(quasarBaseFolder)) {
+      fs.mkdirSync(quasarBaseFolder)
     }
-    else if (!fs.lstatSync(quasarFolder).isDirectory()) {
+    else if (!fs.lstatSync(quasarBaseFolder).isDirectory()) {
       const { removeSync } = require('fs-extra')
-      removeSync(quasarFolder)
-      fs.mkdirSync(quasarFolder)
+      removeSync(quasarBaseFolder)
+      fs.mkdirSync(quasarBaseFolder)
+    }
+
+    // ensure .quasar/{mode} folder
+    if (!fs.existsSync(this.quasarFolder)) {
+      fs.mkdirSync(this.quasarFolder)
+    }
+    else if (!fs.lstatSync(this.quasarFolder).isDirectory()) {
+      const { removeSync } = require('fs-extra')
+      removeSync(this.quasarFolder)
+      fs.mkdirSync(this.quasarFolder)
     }
 
     this.files.forEach(file => {

@@ -30,6 +30,10 @@ const cordovaDir = resolve(appDir, 'src-cordova')
 const capacitorDir = resolve(appDir, 'src-capacitor')
 const electronDir = resolve(appDir, 'src-electron')
 
+const quasarBaseFolder = '.quasar'
+const quasarBaseFolderLength = quasarBaseFolder.length
+let quasarFolder = quasarBaseFolder
+
 module.exports = {
   cliDir,
   appDir,
@@ -40,9 +44,16 @@ module.exports = {
   capacitorDir,
   electronDir,
 
+  setQuasarFolder: modeFolder => {
+    quasarFolder = typeof modeFolder === 'string' && modeFolder.length > 0
+      ? quasarBaseFolder + '/' + modeFolder
+      : quasarBaseFolder
+  },
+
   resolve: {
     cli: dir => join(cliDir, dir),
-    app: dir => join(appDir, dir),
+    app: dir => dir.indexOf(quasarBaseFolder) === 0 ? join(appDir, quasarFolder, dir.slice(quasarBaseFolderLength)) : join(appDir, dir),
+    appQ: dir => join(appDir, dir),
     src: dir => join(srcDir, dir),
     pwa: dir => join(pwaDir, dir),
     ssr: dir => join(ssrDir, dir),

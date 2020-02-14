@@ -1,3 +1,5 @@
+const appPaths = require('../app-paths')
+
 module.exports = function (opts) {
   const ctx = {
     dev: opts.dev || false,
@@ -17,6 +19,8 @@ module.exports = function (opts) {
   }
 
   ctx.mode[opts.mode] = true
+
+  appPaths.setQuasarFolder(opts.mode + (opts.dev ? '.dev' : ''))
 
   if (opts.target) {
     ctx.target[opts.target] = true
