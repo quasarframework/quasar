@@ -35,7 +35,7 @@ function ensureDeps () {
   spawnSync(
     nodePackager,
     cmdParam,
-    { cwd: appPaths.capacitorDir },
+    { cwd: appPaths.capacitorDir, env: { ...process.env, NODE_ENV: 'development' } },
     () => warn(`⚠️  [FAIL] failed installing dependencies in /src-capacitor`)
   )
 }
