@@ -34,9 +34,9 @@ It builds your app for production and then uses electron-packager to pack it int
 If you want to build for Windows with a custom icon using a non-Windows platform, you must have [wine](https://www.winehq.org/) installed. [More Info](https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms).
 
 ### Instructions for Lerna monorepo users
-Quasar automatically detects and use your preferred node packager (yarn or npm) to install the dependencies of your Electron build. If your app is part of a [Lerna monorepo](https://lerna.js.org/), you will find that the default build process fails to resolve your symlinked dependencies. To make this work, enable the following configurations.
+Quasar automatically detects and uses your preferred node packager (yarn or npm) to install the dependencies of your Electron build. If your app is part of a [Lerna monorepo](https://lerna.js.org/), you will find that the default build process fails to resolve your symlinked dependencies. To make this work, enable the following configurations.
 
-1. Specify custom dependency installation command (in this case [lerna bootsrap](https://github.com/lerna/lerna/tree/master/commands/bootstrap)) :
+1. Specify custom dependency installation command (in this case [lerna bootstrap](https://github.com/lerna/lerna/tree/master/commands/bootstrap)) :
 ```
 // quasar.conf.js
 
