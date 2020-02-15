@@ -37,26 +37,31 @@ Based on your response, Quasar CLI will create a folder for your App Extension�
 ├── app-extension
 │   ├── package.json
 │   └── src
-│       ├── index.js      # Described in Index API
-│       ├── install.js    # Described in Install API
-│       ├── prompts.js    # Described in Prompts API
-│       └── uninstall.js  # Described in Uninstall API
+│       ├── index.js           # Described in Index API
+│       ├── install.js         # Described in Install API
+│       ├── prompts.js         # Described in Prompts API
+│       └── uninstall.js       # Described in Uninstall API
 └── ui
     ├── package.json
-    ├── build             # build scripts
-    ├── dev               # Quasar app for testing component/directive
+    ├── build                  # build scripts
+    ├── dev                    # Quasar app for testing component/directive
     └── src
-        ├── components    # optionally named "directives" if that was selected
-        ├── mixins        # Where to put your mixin sources
-        ├── index.js      # Exports and Vue injection
-        └── index.sass    # Sass imports
+        ├── components         # (optional) Folder for your component(s)
+        │   ├── Component.js   # (optional) Code for your component(s)
+        │   └── Component.sass # (optional) Sass for your component(s)
+        ├── directives         # (optional) Folder for your directive(s)
+        │   ├── Directive.js   # (optional) Code for your directive(s)
+        │   └── Directive.sass # (optional) Sass for your directive(s)
+        ├── mixins             # (optional) Where to put your mixin sources
+        ├── index.js           # Exports and Vue injection
+        └── index.sass         # Sass imports
 ```
 
-Except for `src/index.js`, all the other files are optional. You can manually add or remove them at any point in time.
+Except for `src/index.js` (from the `app-extension` kit) or `app-extension/src/index.js` (from the `ui` kit) , all the other files are optional. You can manually add or remove them at any point in time.
 
-When using the `UI` kit, you will have two npm packages; one for the App Extension and one for the UI module. For testing with the `dev` app, from the `ui` folder type `yarn dev`. Create pages in the `dev` folder for testing and they will automatically be injected into the test app.
+When using the `UI` kit, you will have two npm packages; one for the App Extension and one for the UI module. For testing with the `dev` app, from the `ui` folder type `yarn dev`. Create pages in the `dev` folder for testing and they will automatically be injected into the test app. Also, check out the `scripts` section in the `package.json` to see what you have available. When you `yarn build`, a `dist` folder will be created and populated with various types of packages (common, esm, and umd).
 
-## Scripts description
+## App Extension Scripts description
 
 | Name | Description |
 | --- | --- |
