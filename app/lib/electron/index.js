@@ -89,11 +89,14 @@ class ElectronRunner {
 
   build (quasarConfig) {
     const cfg = quasarConfig.getBuildConfig()
+    
+    if (!cfg.electron.customInstall) cfg.electron.customInstall = ''
+		const [ customCmd, ...customParams ] = cfg.electron.customInstall.split(' ')
 
     return new Promise(resolve => {
       spawn(
-        nodePackager,
-        [ 'install', '--production' ].concat(cfg.electron.unPackagedInstallParams),
+        customCmd || nodePackager,
+				(customCmd ? customParams : ['install', '--production']).concat(cfg.electron.unPackagedInstallParams),
         { cwd: cfg.build.distDir },
         code => {
           if (code) {
