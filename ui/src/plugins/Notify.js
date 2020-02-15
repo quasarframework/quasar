@@ -133,8 +133,8 @@ const Notifications = {
         on: {
           click: typeof handler === 'function'
             ? () => {
-              noDismiss !== true && notif.meta.close()
               handler()
+              noDismiss !== true && notif.meta.close()
             }
             : () => {
               notif.meta.close()
