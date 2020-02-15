@@ -12,6 +12,11 @@ module.exports = class ElectronPackageJson {
 
       // we don't need this (also, faster install time & smaller bundles)
       delete pkg.devDependencies
+      
+      if (pkg.electronNameAppend){
+        pkg.name = pkg.name + '-electron'
+        delete pkg.electronNameAppend
+      }
 
       pkg.main = './electron-main.js'
       const source = JSON.stringify(pkg)
