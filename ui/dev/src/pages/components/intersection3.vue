@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div>
       <q-toggle v-model="visible" label="Visible" />
-      <q-toggle v-model="once" label="Once (for better experience with table, set this to true)" />
+      <q-toggle v-model="once" label="Once" />
       <q-select v-model="transition" :options="['', 'fade', 'scale', 'flip-right']" style="min-width: 250px" />
     </div>
     <table v-if="visible">
@@ -16,6 +16,7 @@
           :once="once"
           :transition="transition"
           tag="td"
+          class="int-example-item"
         >
           <q-card class="q-ma-sm">
             <img src="https://cdn.quasar.dev/img/mountains.jpg">
