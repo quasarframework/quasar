@@ -871,6 +871,7 @@ const components = [
   },
   {
     name: 'Intersection',
+    badge: 'update',
     path: 'intersection'
   },
   {
