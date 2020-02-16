@@ -1,10 +1,15 @@
 import Vue from 'vue'
 
 import Intersection from '../../directives/Intersection.js'
+import tag from '../../mixins/tag.js'
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIntersection',
+
+  mixins: [
+    tag
+  ],
 
   directives: {
     Intersection
@@ -57,7 +62,7 @@ export default Vue.extend({
       ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
       : void 0
 
-    return h('div', {
+    return h(this.tag, {
       staticClass: 'q-intersection',
       on: this.$listeners,
       directives: this.disable === true ? null : [{

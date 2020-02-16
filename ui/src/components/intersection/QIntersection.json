@@ -8,6 +8,15 @@
   },
 
   "props": {
+    "tag": {
+      "type": "String",
+      "desc": "HTML tag to render for wrapper element",
+      "default": "div",
+      "category": "content",
+      "examples": [ "div", "span", "blockquote" ],
+      "addedIn": "v1.9.3"
+    },
+
     "once": {
       "type": "Boolean",
       "desc": "Get triggered only once",
