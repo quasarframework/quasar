@@ -66,6 +66,67 @@
     }
   },
 
+  "events": {
+    "scroll": {
+      "desc": "Emitted when scroll information changes (and listener is configured)",
+      "params": {
+        "info": {
+          "type": "Object",
+          "__exemption": [ "examples" ],
+          "definition": {
+            "ref": {
+              "type": "Object",
+              "desc": "Vue reference to the QScrollArea which triggered the event",
+              "__exemption": [ "examples" ]
+            },
+            "verticalPosition": {
+              "type": "Number",
+              "desc": "Vertical scroll position (in px); available only if QScrollArea is NOT in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "verticalPercentage": {
+              "type": "Number",
+              "desc": "Vertical scroll percentage (0.0 < x < 1.0); available only if QScrollArea is NOT in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "verticalSize": {
+              "type": "Number",
+              "desc": "Vertical scroll size (in px); available only if QScrollArea is NOT in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "verticalContainerSize": {
+              "type": "Number",
+              "desc": "Height of the container (in px); available only if QScrollArea is NOT in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+
+            "horizontalPosition": {
+              "type": "Number",
+              "desc": "Horizontal scroll position (in px); available only if QScrollArea is in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalPercentage": {
+              "type": "Number",
+              "desc": "Horizontal scroll percentage (0.0 < x < 1.0); available only if QScrollArea is in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalSize": {
+              "type": "Number",
+              "desc": "Horizontal scroll size (in px); available only if QScrollArea is in horizontal mode",
+              "__exemption": [ "examples" ]
+            },
+            "horizontalContainerSize": {
+              "type": "Number",
+              "desc": "Width of the container (in px); available only if QScrollArea is in horizontal mode",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      },
+      "addedIn": "v1.9.3"
+    }
+  },
+
   "methods": {
     "getScrollTarget": {
       "desc": "Get the scrolling DOM element target",

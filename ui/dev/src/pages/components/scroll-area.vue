@@ -2,11 +2,13 @@
   <div class="q-layout-padding">
     <q-toggle v-model="horizontal" label="Horizontal" />
     <q-toggle v-model="customStyle" label="Custom style" />
-    <q-checkbox v-model="alwaysVisible" toggle-indeterminate label="Always visible" />
+    <q-toggle v-model="alwaysVisible" toggle-indeterminate label="Always visible" />
+    <q-toggle v-model="darkVariant" toggle-indeterminate label="Dark variant" />
 
     <div style="height: 300px;" />
 
     <q-scroll-area
+      v-if="!darkVariant"
       ref="scroll"
       style="width: 400px; height: 500px;"
       class="bg-yellow"
@@ -25,6 +27,7 @@
     </q-scroll-area>
 
     <q-scroll-area
+      v-else
       ref="scroll"
       style="width: 400px; height: 500px;"
       class="bg-dark text-white q-mt-lg"
@@ -63,6 +66,7 @@
 export default {
   data () {
     return {
+      darkVariant: false,
       number: 10,
       horizontal: false,
       alwaysVisible: true,

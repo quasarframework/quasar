@@ -17,9 +17,12 @@
 
 <script>
 export default {
-  data: () => ({
-    position: 300
-  }),
+  data () {
+    return {
+      position: 300
+    }
+  },
+
   methods: {
     scroll () {
       this.$refs.scrollArea.setScrollPosition(this.position)
