@@ -82,6 +82,15 @@ export default Vue.extend({
         halfColorLen,
         halfColor: halfColorLen > 0 ? this.colorHalf[halfColorLen - 1] : this.colorHalf
       }
+    },
+
+    attrs () {
+      if (this.disable === true) {
+        return { 'aria-disabled': '' }
+      }
+      if (this.readonly === true) {
+        return { 'aria-readonly': '' }
+      }
     }
   },
 
@@ -189,6 +198,7 @@ export default Vue.extend({
       staticClass: 'q-rating row inline items-center',
       class: this.classes,
       style: this.sizeStyle,
+      attrs: this.attrs,
       on: this.$listeners
     }, child)
   }

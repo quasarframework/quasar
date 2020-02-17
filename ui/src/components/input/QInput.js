@@ -243,8 +243,8 @@ export default Vue.extend({
         id: this.targetUid,
         type: this.type,
         maxlength: this.maxlength,
-        disabled: this.disable === true,
-        readonly: this.readonly === true
+        disabled: this.disable === true ? '' : void 0,
+        readonly: this.readonly === true ? '' : void 0
       }
 
       if (this.autogrow === true) {

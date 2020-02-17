@@ -3,6 +3,8 @@ import Vue from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import { slot } from '../../utils/slot.js'
 
+const attrs = { role: 'toolbar' }
+
 export default Vue.extend({
   name: 'QBar',
 
@@ -23,6 +25,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-bar row no-wrap items-center',
       class: this.classes,
+      attrs,
       on: this.$listeners
     }, slot(this, 'default'))
   }

@@ -195,6 +195,15 @@ export default Vue.extend({
         (this.flat === true ? ' q-color-picker--flat no-shadow' : '') +
         (this.disable === true ? ' disabled' : '') +
         (this.isDark === true ? ' q-color-picker--dark q-dark' : '')
+    },
+
+    attrs () {
+      if (this.disable === true) {
+        return { 'aria-disabled': '' }
+      }
+      if (this.readonly === true) {
+        return { 'aria-readonly': '' }
+      }
     }
   },
 
@@ -219,6 +228,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
+      attrs: this.attrs,
       on: this.$listeners
     }, child)
   },

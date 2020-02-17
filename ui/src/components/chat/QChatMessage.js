@@ -120,7 +120,7 @@ export default Vue.extend({
             this.avatar !== void 0
               ? h('img', {
                 staticClass: 'q-message-avatar',
-                attrs: { src: this.avatar }
+                attrs: { src: this.avatar, 'aria-hidden': 'true' }
               })
               : null
           ),
