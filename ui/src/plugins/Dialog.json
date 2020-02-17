@@ -61,22 +61,26 @@
                 "label": {
                   "type": "String",
                   "desc": "A text label that will “float” up above the input field, once the field gets focus",
-                  "examples": [ "Username" ]
+                  "examples": [ "Username" ],
+                  "addedIn": "v1.9.3"
                 },
             
                 "stack-label": {
                   "type": "Boolean",
-                  "desc": "Label will be always shown above the field regardless of field content (if any)"
+                  "desc": "Label will be always shown above the field regardless of field content (if any)",
+                  "addedIn": "v1.9.3"
                 },
 
                 "filled": {
                   "type": "Boolean",
-                  "desc": "Use 'filled' design for the field"
+                  "desc": "Use 'filled' design for the field",
+                  "addedIn": "v1.9.3"
                 },
             
                 "outlined": {
                   "type": "Boolean",
-                  "desc": "Use 'outlined' design for the field"
+                  "desc": "Use 'outlined' design for the field",
+                  "addedIn": "v1.9.3"
                 },
 
                 "standout": {
@@ -85,7 +89,8 @@
                   "examples": [
                     "standout",
                     "standout=\"bg-primary text-white\""
-                  ]
+                  ],
+                  "addedIn": "v1.9.3"
                 },
 
                 "isValid": {
