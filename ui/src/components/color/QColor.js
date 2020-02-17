@@ -132,7 +132,7 @@ export default Vue.extend({
       return {
         type: 'hidden',
         name: this.name,
-        value: this.model[this.isOutputHex === true ? 'hex' : 'rgb' ]
+        value: this.model[ this.isOutputHex === true ? 'hex' : 'rgb' ]
       }
     },
 
