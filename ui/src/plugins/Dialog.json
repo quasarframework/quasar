@@ -58,6 +58,36 @@
                   "examples": [ "text", "number", "textarea" ]
                 },
 
+                "label": {
+                  "type": "String",
+                  "desc": "A text label that will “float” up above the input field, once the field gets focus",
+                  "examples": [ "Username" ]
+                },
+            
+                "stack-label": {
+                  "type": "Boolean",
+                  "desc": "Label will be always shown above the field regardless of field content (if any)"
+                },
+
+                "filled": {
+                  "type": "Boolean",
+                  "desc": "Use 'filled' design for the field"
+                },
+            
+                "outlined": {
+                  "type": "Boolean",
+                  "desc": "Use 'outlined' design for the field"
+                },
+
+                "standout": {
+                  "type": [ "Boolean", "String" ],
+                  "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
+                  "examples": [
+                    "standout",
+                    "standout=\"bg-primary text-white\""
+                  ]
+                },
+
                 "isValid": {
                   "type": "Function",
                   "desc": "Is typed content valid?",
