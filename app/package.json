@@ -10,7 +10,8 @@
     "assets",
     "bin",
     "lib",
-    "templates"
+    "templates",
+    "types"
   ],
   "keywords": [
     "quasar",
