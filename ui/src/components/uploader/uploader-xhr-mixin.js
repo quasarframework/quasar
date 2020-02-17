@@ -236,7 +236,7 @@ export default {
           form.append(getProp('fieldName', file), file, file.name)
         }
         file.xhr = xhr
-        file.__abort = xhr.abort
+        file.__abort = () => { xhr.abort() }
         maxUploadSize += file.size
       })
 
