@@ -8,7 +8,8 @@ export default {
     value: {
       type: Boolean,
       default: void 0
-    }
+    },
+    stopPropagation: Boolean
   },
 
   data () {
@@ -29,6 +30,9 @@ export default {
 
   methods: {
     toggle (evt) {
+      // Stops the event propagation of the parent component
+      this.stopPropagation === true && evt !== void 0 && evt.stopPropagation()
+
       this[this.showing === true ? 'hide' : 'show'](evt)
     },
 
