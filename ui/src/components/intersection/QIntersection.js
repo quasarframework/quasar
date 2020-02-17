@@ -1,15 +1,13 @@
 import Vue from 'vue'
 
 import Intersection from '../../directives/Intersection.js'
-import tag from '../../mixins/tag.js'
+import TagMixin from '../../mixins/tag.js'
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIntersection',
 
-  mixins: [
-    tag
-  ],
+  mixins: [ TagMixin ],
 
   directives: {
     Intersection
