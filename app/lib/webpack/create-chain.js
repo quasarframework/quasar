@@ -13,8 +13,8 @@ module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
 
   const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-  const fileHash = needsHash ? '.[hash:8]' : ''
-  const chunkHash = needsHash ? '.[contenthash:8]' : ''
+  const fileHash = needsHash ? '.[contenthash:8]' : ''
+  const chunkHash = needsHash ? '.[chunkhash:8]' : ''
   const resolveModules = [
     'node_modules',
     appPaths.resolve.app('node_modules'),
