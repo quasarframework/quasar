@@ -800,7 +800,9 @@ export default Vue.extend({
     __updateErrorIcon (val) {
       // we MUST avoid vue triggering a render,
       // so manually changing this
-      this.$refs.errorIcon.$el.style.opacity = val ? 1 : 0
+      if (this.$refs.errorIcon !== void 0) {
+        this.$refs.errorIcon.$el.style.opacity = val ? 1 : 0
+      }
     },
 
     __parseModel (v) {
