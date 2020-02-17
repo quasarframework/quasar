@@ -509,6 +509,35 @@ export default Vue.extend({
       this.$emit('keyup', e)
     },
 
+    __onTargetAutocomplete (e) {
+      const { value } = e.target
+
+      e.target.value = ''
+
+      if (
+        e.keyCode === void 0 &&
+        typeof value === 'string' &&
+        value.length > 0
+      ) {
+        const needle = value.toLocaleLowerCase()
+
+        let fn = opt => this.__getOptionValue(opt).toLocaleLowerCase() === needle
+        let option = this.options.find(fn)
+
+        if (option !== null) {
+          this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
+        }
+        else {
+          fn = opt => this.__getOptionLabel(opt).toLocaleLowerCase() === needle
+          option = this.options.find(fn)
+
+          if (option !== null) {
+            this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
+          }
+        }
+      }
+    },
+
     __onTargetKeypress (e) {
       this.$emit('keypress', e)
     },
@@ -754,6 +783,19 @@ export default Vue.extend({
       }
       else if (this.editable === true) {
         const isShadowField = this.hasDialog === true && fromDialog !== true && this.menu === true
+
+        if (fromDialog !== true) {
+          child.push(h('input', {
+            staticClass: 'q-select__autocomplete-input no-outline',
+            attrs: {
+              autocomplete: this.$attrs.autocomplete,
+              tabindex: -1
+            },
+            on: cache(this, 'acpl', {
+              keyup: this.__onTargetAutocomplete
+            })
+          }))
+        }
 
         child.push(h('div', {
           // there can be only one (when dialog is opened the control in dialog should be target)
