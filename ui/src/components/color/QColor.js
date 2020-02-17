@@ -3,6 +3,7 @@ import Vue from 'vue'
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { cache } from '../../utils/vm.js'
+import { stop } from '../../utils/event.js'
 import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 
 import DarkMixin from '../../mixins/dark.js'
@@ -119,7 +120,10 @@ export default Vue.extend({
     },
 
     isHex () {
-      return this.value === void 0 || this.value === null || this.value === '' || this.value.startsWith('#')
+      return this.value === void 0 ||
+        this.value === null ||
+        this.value === '' ||
+        this.value.startsWith('#')
     },
 
     isOutputHex () {
@@ -271,6 +275,7 @@ export default Vue.extend({
                 input: evt => {
                   this.__updateErrorIcon(this.__onEditorChange(evt) === true)
                 },
+                change: stop,
                 blur: evt => {
                   this.__onEditorChange(evt, true) === true && this.$forceUpdate()
                   this.__updateErrorIcon(false)
@@ -423,8 +428,8 @@ export default Vue.extend({
                   thumbPath
                 },
                 on: cache(this, 'alphaSlide', {
-                  input: value => this.__onNumericChange({ target: { value } }, 'a', 100),
-                  change: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
+                  input: value => this.__onNumericChange(value, 'a', 100),
+                  change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
                 })
               })
             ])
@@ -447,8 +452,8 @@ export default Vue.extend({
               readonly: this.editable !== true
             },
             on: cache(this, 'rSlide', {
-              input: value => this.__onNumericChange({ target: { value } }, 'r', 255),
-              change: value => this.__onNumericChange({ target: { value } }, 'r', 255, true)
+              input: value => this.__onNumericChange(value, 'r', 255),
+              change: value => this.__onNumericChange(value, 'r', 255, void 0, true)
             })
           }),
           h('input', {
@@ -460,8 +465,9 @@ export default Vue.extend({
               readonly: this.editable !== true
             },
             on: cache(this, 'rIn', {
-              input: evt => this.__onNumericChange(evt, 'r', 255),
-              blur: evt => this.__onNumericChange(evt, 'r', 255, true)
+              input: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt),
+              change: stop,
+              blur: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt, true)
             })
           })
         ]),
@@ -478,8 +484,8 @@ export default Vue.extend({
               readonly: this.editable !== true
             },
             on: cache(this, 'gSlide', {
-              input: value => this.__onNumericChange({ target: { value } }, 'g', 255),
-              change: value => this.__onNumericChange({ target: { value } }, 'g', 255, true)
+              input: value => this.__onNumericChange(value, 'g', 255),
+              change: value => this.__onNumericChange(value, 'g', 255, void 0, true)
             })
           }),
           h('input', {
@@ -491,8 +497,9 @@ export default Vue.extend({
               readonly: this.editable !== true
             },
             on: cache(this, 'gIn', {
-              input: evt => this.__onNumericChange(evt, 'g', 255),
-              blur: evt => this.__onNumericChange(evt, 'g', 255, true)
+              input: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt),
+              change: stop,
+              blur: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt, true)
             })
           })
         ]),
@@ -509,8 +516,8 @@ export default Vue.extend({
               dark: this.isDark
             },
             on: cache(this, 'bSlide', {
-              input: value => this.__onNumericChange({ target: { value } }, 'b', 255),
-              change: value => this.__onNumericChange({ target: { value } }, 'b', 255, true)
+              input: value => this.__onNumericChange(value, 'b', 255),
+              change: value => this.__onNumericChange(value, 'b', 255, void 0, true)
             })
           }),
           h('input', {
@@ -522,8 +529,9 @@ export default Vue.extend({
               readonly: this.editable !== true
             },
             on: cache(this, 'bIn', {
-              input: evt => this.__onNumericChange(evt, 'b', 255),
-              blur: evt => this.__onNumericChange(evt, 'b', 255, true)
+              input: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt),
+              change: stop,
+              blur: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt, true)
             })
           })
         ]),
@@ -538,8 +546,8 @@ export default Vue.extend({
               dark: this.isDark
             },
             on: cache(this, 'aSlide', {
-              input: value => this.__onNumericChange({ target: { value } }, 'a', 100),
-              change: value => this.__onNumericChange({ target: { value } }, 'a', 100, true)
+              input: value => this.__onNumericChange(value, 'a', 100),
+              change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
             })
           }),
           h('input', {
@@ -551,8 +559,9 @@ export default Vue.extend({
               readonly: this.editable !== true
             },
             on: cache(this, 'aIn', {
-              input: evt => this.__onNumericChange(evt, 'a', 100),
-              blur: evt => this.__onNumericChange(evt, 'a', 100, true)
+              input: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt),
+              change: stop,
+              blur: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt, true)
             })
           })
         ]) : null
@@ -565,7 +574,7 @@ export default Vue.extend({
           staticClass: 'row items-center q-color-picker__palette-rows',
           class: this.editable === true
             ? 'q-color-picker__palette-rows--editable'
-            : null
+            : ''
         }, this.computedPalette.map(color => h('div', {
           staticClass: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },
@@ -622,16 +631,18 @@ export default Vue.extend({
       this.__update(rgb, change)
     },
 
-    __onNumericChange (evt, formatModel, max, change) {
-      if (!/^[0-9]+$/.test(evt.target.value)) {
+    __onNumericChange (value, formatModel, max, evt, change) {
+      evt !== void 0 && stop(evt)
+
+      if (!/^[0-9]+$/.test(value)) {
         change && this.$forceUpdate()
         return
       }
 
-      const val = Math.floor(Number(evt.target.value))
+      const val = Math.floor(Number(value))
 
       if (val < 0 || val > max) {
-        change && this.$forceUpdate()
+        change === true && this.$forceUpdate()
         return
       }
 
@@ -653,7 +664,7 @@ export default Vue.extend({
 
       this.__update(rgb, change)
 
-      if (change !== true && evt.target.selectionEnd !== void 0) {
+      if (evt !== void 0 && change !== true && evt.target.selectionEnd !== void 0) {
         const index = evt.target.selectionEnd
         this.$nextTick(() => {
           evt.target.setSelectionRange(index, index)
@@ -664,6 +675,8 @@ export default Vue.extend({
     __onEditorChange (evt, change) {
       let rgb
       const inp = evt.target.value
+
+      stop(evt)
 
       if (this.topView === 'hex') {
         if (
@@ -813,7 +826,7 @@ export default Vue.extend({
         }
       }
 
-      let model = stringToRgb(v)
+      const model = stringToRgb(v)
 
       if (forceAlpha === true && model.a === void 0) {
         model.a = 100

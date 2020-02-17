@@ -176,7 +176,8 @@ export function textToRgb (str) {
   }
 
   if (m[1]) {
-    rgb.a = Math.min(1, parseFloat(m[5]) || 0) * 100
+    const alpha = parseFloat(m[5])
+    rgb.a = Math.min(1, isNaN(alpha) === true ? 1 : alpha) * 100
   }
 
   return rgb
