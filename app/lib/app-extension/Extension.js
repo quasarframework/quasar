@@ -249,11 +249,36 @@ module.exports = class Extension {
     return prompts
   }
 
+  // extracts extension params defined in its package.json file
+  params () {
+    // reads package.json key: 'quasar.extension' if defined.
+    // execSync returns a buffer
+    const paramsBuffer = require('child_process').execSync(
+      `npm view --json ${this.packageFullName} quasar.extension`
+    )
+
+    // parse the buffer and return an object
+    // if key 'quasar.extension' does not exist we return an empty object
+    return paramsBuffer.toString() ? JSON.parse(paramsBuffer) : {}
+  }
+
   __installPackage () {
+    const params = this.params()
+
+    // if install flags are not defined, we target devDependencies as default
+    const npmInstallFlags = 'npmInstallFlags' in params
+      ? params.npmInstallFlags
+      : '--save-dev'
+    const yarnAddFlags = 'yarnAddFlags' in params
+      ? params.yarnAddFlags
+      : '--dev'
+
     const nodePackager = require('../helpers/node-packager')
+
+    // if install flags are defined as empty strings, we don't concatenate
     const cmdParam = nodePackager === 'npm'
-      ? ['install', '--save-dev']
-      : ['add', '--dev']
+      ? npmInstallFlags === '' ? ['install'] : ['install'].concat(npmInstallFlags)
+      : yarnAddFlags === '' ? ['add'] : ['add'].concat(yarnAddFlags)
 
     log(`Retrieving "${this.packageFullName}"...`)
     spawnSync(
@@ -266,14 +291,11 @@ module.exports = class Extension {
 
   __uninstallPackage () {
     const nodePackager = require('../helpers/node-packager')
-    const cmdParam = nodePackager === 'npm'
-      ? ['uninstall', '--save-dev']
-      : ['remove']
 
     log(`Uninstalling "${this.packageName}"...`)
     spawnSync(
       nodePackager,
-      cmdParam.concat(this.packageName),
+      ['remove', this.packageName],
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
       () => warn(`⚠️  Failed to uninstall "${this.packageName}"`)
     )
