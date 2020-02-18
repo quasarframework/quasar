@@ -1,14 +1,16 @@
 const webpack = require('webpack')
+const chokidar = require('chokidar')
+const fs = require('fs')
+const debounce = require('lodash.debounce')
 
-const
-  logger = require('../helpers/logger'),
-  log = logger('app:electron'),
-  warn = logger('app:electron', 'red'),
-  { spawn } = require('../helpers/spawn'),
-  appPaths = require('../app-paths'),
-  nodePackager = require('../helpers/node-packager'),
-  getPackageJson = require('../helpers/get-package-json'),
-  getPackage = require('../helpers/get-package')
+const logger = require('../helpers/logger')
+const log = logger('app:electron')
+const warn = logger('app:electron', 'red')
+const { spawn } = require('../helpers/spawn')
+const appPaths = require('../app-paths')
+const nodePackager = require('../helpers/node-packager')
+const getPackageJson = require('../helpers/get-package-json')
+const getPackage = require('../helpers/get-package')
 
 class ElectronRunner {
   constructor () {
@@ -36,6 +38,7 @@ class ElectronRunner {
 
     return new Promise(resolve => {
       log(`Building main Electron process...`)
+
       this.watcher = compiler.watch({}, async (err, stats) => {
         if (err) {
           console.log(err)
@@ -63,6 +66,24 @@ class ElectronRunner {
 
         resolve()
       })
+
+      const preloadFile = appPaths.resolve.electron('main-process/electron-preload.js')
+
+      if (fs.existsSync(preloadFile)) {
+        // Start watching for electron-preload.js changes
+        this.preloadWatcher = chokidar
+          .watch(preloadFile, { watchers: { chokidar: { ignoreInitial: true } } })
+
+        this.preloadWatcher.on('change', debounce(async () => {
+          console.log()
+          log(`electron-preload.js changed`)
+
+          await this.__stopElectron()
+          this.__startElectron(argv._)
+
+          resolve()
+        }, 1000))
+      }
     })
   }
 
@@ -72,7 +93,7 @@ class ElectronRunner {
     return new Promise(resolve => {
       spawn(
         nodePackager,
-        [ 'install', '--production' ],
+        [ 'install', '--production' ].concat(cfg.electron.unPackagedInstallParams),
         { cwd: cfg.build.distDir },
         code => {
           if (code) {
@@ -103,11 +124,10 @@ class ElectronRunner {
         resolve()
       })
     }).then(() => {
-      const
-        bundlerName = cfg.electron.bundler,
-        bundlerConfig = cfg.electron[bundlerName],
-        bundler = require('./bundler').getBundler(bundlerName),
-        pkgName = `electron-${bundlerName}`
+      const bundlerName = cfg.electron.bundler
+      const bundlerConfig = cfg.electron[bundlerName]
+      const bundler = require('./bundler').getBundler(bundlerName)
+      const pkgName = `electron-${bundlerName}`
 
       return new Promise((resolve, reject) => {
         log(`Bundling app with electron-${bundlerName}...`)
@@ -140,17 +160,29 @@ class ElectronRunner {
 
   stop () {
     return new Promise(resolve => {
+      let counter = 0
+      const maxCounter = (this.watcher ? 1 : 0) + (this.preloadWatcher ? 1 : 0)
+
       const finalize = () => {
-        this.__stopElectron().then(resolve)
+        counter++
+        if (maxCounter <= counter) {
+          this.__stopElectron().then(resolve)
+        }
       }
 
       if (this.watcher) {
         this.watcher.close(finalize)
         this.watcher = null
-        return
       }
 
-      finalize()
+      if (this.preloadWatcher) {
+        this.preloadWatcher.close().then(finalize)
+        this.preloadWatcher = null
+      }
+
+      if (maxCounter === 0) {
+        finalize()
+      }
     })
   }
 
@@ -164,16 +196,15 @@ class ElectronRunner {
       ].concat(extraParams),
       { cwd: appPaths.appDir },
       code => {
-        if (code) {
+        if (this.killPromise) {
+          this.killPromise()
+          this.killPromise = null
+        }
+        else if (code) {
           warn()
           warn(`⚠️  Electron process ended with error code: ${code}`)
           warn()
           process.exit(1)
-        }
-
-        if (this.killPromise) {
-          this.killPromise()
-          this.killPromise = null
         }
         else { // else it wasn't killed by us
           warn()

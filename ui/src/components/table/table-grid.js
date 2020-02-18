@@ -37,15 +37,23 @@ export default {
           const data = {
             staticClass: 'q-table__grid-item-card' + this.cardDefaultClass,
             class: this.cardClass,
-            style: this.cardStyle
+            style: this.cardStyle,
+            on: {}
+          }
+
+          if (this.$listeners['row-click'] !== void 0 || this.$listeners['row-dblclick'] !== void 0) {
+            data.staticClass += ' cursor-pointer'
           }
 
           if (this.$listeners['row-click'] !== void 0) {
-            data.staticClass += ' cursor-pointer'
-            data.on = {
-              click: evt => {
-                this.$emit('row-click', evt, scope.row)
-              }
+            data.on.click = evt => {
+              this.$emit('row-click', evt, scope.row)
+            }
+          }
+
+          if (this.$listeners['row-dblclick'] !== void 0) {
+            data.on.dblclick = evt => {
+              this.$emit('row-dblclick', evt, scope.row)
             }
           }
 
@@ -83,7 +91,11 @@ export default {
             this.getTableHeader(h)
           ])
         ]
-        : (this.loading === true ? this.__getProgress(h) : void 0)
+        : (
+          this.loading === true && this.$scopedSlots.loading === void 0
+            ? this.__getProgress(h)
+            : void 0
+        )
 
       return h('div', { staticClass: 'q-table__middle' }, child)
     }

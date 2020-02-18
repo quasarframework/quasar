@@ -16,6 +16,7 @@ import Sort from './table-sort.js'
 import Filter from './table-filter.js'
 import Pagination from './table-pagination.js'
 import RowSelection from './table-row-selection.js'
+import RowExpand from './table-row-expand.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
@@ -40,6 +41,7 @@ export default Vue.extend({
     Filter,
     Pagination,
     RowSelection,
+    RowExpand,
     ColumnSelection
   ],
 
@@ -103,7 +105,6 @@ export default Vue.extend({
 
   data () {
     return {
-      rowsExpanded: {},
       innerPagination: {
         sortBy: null,
         descending: false,
@@ -115,7 +116,7 @@ export default Vue.extend({
 
   watch: {
     needsReset () {
-      this.hasVirtScroll === true && this.$refs.virtScroll.reset()
+      this.hasVirtScroll === true && this.$refs.virtScroll !== void 0 && this.$refs.virtScroll.reset()
     }
   },
 
@@ -146,7 +147,10 @@ export default Vue.extend({
       }
 
       if (this.isServerSide === true) {
-        return { rows }
+        return {
+          rowsNumber: rows.length,
+          rows
+        }
       }
 
       const { sortBy, descending, rowsPerPage } = this.computedPagination
@@ -206,7 +210,7 @@ export default Vue.extend({
     },
 
     containerClass () {
-      return `q-table__container q-table--${this.separator}-separator` +
+      return `q-table__container q-table--${this.separator}-separator column no-wrap` +
         (this.loading === true ? ' q-table--loading' : '') +
         (this.grid === true ? ' q-table--grid' : this.cardDefaultClass) +
         (this.isDark === true ? ` q-table--dark` : '') +
@@ -230,19 +234,31 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = [ this.getTop(h) ]
     const data = { staticClass: this.containerClass }
 
-    if (this.grid === false) {
-      data.class = this.cardClass
-      data.style = this.cardStyle
+    if (this.grid === true) {
+      child.push(this.getGridHeader(h))
+    }
+    else {
+      Object.assign(data, {
+        class: this.cardClass,
+        style: this.cardStyle
+      })
     }
 
-    return h('div', data, [
-      this.getTop(h),
-      this.grid === true ? this.getGridHeader(h) : null,
+    child.push(
       this.getBody(h),
       this.getBottom(h)
-    ])
+    )
+
+    if (this.loading === true && this.$scopedSlots.loading !== void 0) {
+      child.push(
+        this.$scopedSlots.loading()
+      )
+    }
+
+    return h('div', data, child)
   },
 
   methods: {
@@ -295,6 +311,31 @@ export default Vue.extend({
           header,
           this.getTableBody(h)
         ])
+    },
+
+    scrollTo (toIndex) {
+      if (this.$refs.virtScroll !== void 0) {
+        this.$refs.virtScroll.scrollTo(toIndex)
+        return
+      }
+
+      toIndex = parseInt(toIndex, 10)
+      const rowEl = this.$el.querySelector(`tbody tr:nth-of-type(${toIndex + 1})`)
+
+      if (rowEl !== null) {
+        const scrollTarget = this.$el.querySelector('.q-table__middle.scroll')
+        const { offsetTop } = rowEl
+        const direction = offsetTop < scrollTarget.scrollTop ? 'decrease' : 'increase'
+
+        scrollTarget.scrollTop = offsetTop
+
+        this.$emit('virtual-scroll', {
+          index: toIndex,
+          from: 0,
+          to: this.pagination.rowsPerPage - 1,
+          direction
+        })
+      }
     },
 
     __onVScroll (info) {

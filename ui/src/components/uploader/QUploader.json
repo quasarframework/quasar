@@ -1,114 +1,11 @@
 {
+  "mixins": [ "components/uploader/QUploaderBase" ],
+
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/uploader"
   },
 
   "props": {
-    "label": {
-      "type": "String",
-      "desc": "Label for the uploader",
-      "examples": [ "Upload photo here" ],
-      "category": "content"
-    },
-
-    "color": {
-      "extends": "color"
-    },
-
-    "text-color": {
-      "extends": "text-color"
-    },
-
-    "dark": {
-      "extends": "dark"
-    },
-
-    "square": {
-      "extends": "square"
-    },
-
-    "flat": {
-      "extends": "flat"
-    },
-
-    "bordered": {
-      "extends": "bordered"
-    },
-
-    "multiple": {
-      "type": "Boolean",
-      "desc": "Allow multiple file uploads",
-      "category": "behavior"
-    },
-
-    "accept": {
-      "type": "String",
-      "desc": "Comma separated list of unique file type specifiers. Maps to 'accept' attribute of native input type=file element",
-      "examples": [
-        ".jpg, .pdf, image/*", "image/jpeg, .pdf"
-      ],
-      "category": "behavior"
-    },
-
-    "max-file-size": {
-      "type": "Number",
-      "desc": "Maximum size of individual file in bytes",
-      "examples": [ 1024, 1048576 ],
-      "category": "behavior"
-    },
-
-    "max-total-size": {
-      "type": "Number",
-      "desc": "Maximum size of all files combined in bytes",
-      "examples": [ 1024, 1048576 ],
-      "category": "behavior"
-    },
-
-    "filter": {
-      "type": "Function",
-      "desc": "Custom filter for added files; Only files that pass this filter will be added to the queue and uploaded; For best performance, reference it from your scope and do not define it inline",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Candidate files to be added to queue",
-          "__exemption": [ "examples" ]
-        }
-      },
-      "returns": {
-        "type": "Array",
-        "desc": "Filtered files to be added to queue",
-        "__exemption": [ "examples" ]
-      },
-      "examples": [ ":filter=\"files => files.filter(file => file.size === 1024)\"" ],
-      "category": "behavior"
-    },
-
-    "no-thumbnails": {
-      "type": "Boolean",
-      "desc": "Don't display thumbnails for image files",
-      "category": "content"
-    },
-
-    "auto-upload": {
-      "type": "Boolean",
-      "desc": "Upload files immediately when added",
-      "category": "behavior"
-    },
-
-    "hide-upload-btn": {
-      "type": "Boolean",
-      "desc": "Don't show the upload button",
-      "category": "behavior"
-    },
-
-    "disable": {
-      "extends": "disable"
-    },
-
-    "readonly": {
-      "extends": "readonly"
-    },
-
     "factory": {
       "type": "Function",
       "desc": "Function which should return an Object or a Promise resolving with an Object; For best performance, reference it from your scope and do not define it inline",
@@ -226,49 +123,7 @@
     }
   },
 
-  "scopedSlots": {
-    "header": {
-      "desc": "Slot for custom header; Scope is the QUploader instance itself",
-      "__exemption": [ "scope" ]
-    },
-
-    "list": {
-      "desc": "Slot for custom list; Scope is the QUploader instance itself",
-      "__exemption": [ "scope" ]
-    }
-  },
-
   "events": {
-    "added": {
-      "desc": "Emitted when files are added into the list",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Array of files that were added",
-          "__exemption": [ "examples" ]
-        }
-      }
-    },
-
-    "removed": {
-      "desc": "Emitted when files are removed from the list",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Array of files that were removed",
-          "__exemption": [ "examples" ]
-        }
-      }
-    },
-
-    "start": {
-      "desc": "Started working"
-    },
-
-    "finish": {
-      "desc": "Finished working (regardless of success or fail)"
-    },
-
     "uploaded": {
       "desc": "Emitted when file or batch of files is uploaded",
       "params": {
@@ -359,46 +214,6 @@
 
     "upload": {
       "desc": "Start uploading (same as clicking the upload button)"
-    },
-
-    "pickFiles": {
-      "desc": "Trigger file pick (same as clicking the plus button); Must be called as a direct consequence of user interaction (eg. in a click handler), due to browsers security policy"
-    },
-
-    "addFiles": {
-      "desc": "Add files to uploader programmatically",
-      "params": {
-        "files": {
-          "type": "Array",
-          "desc": "Array of files (instances of File)",
-          "required": true,
-          "__exemption": [ "examples" ]
-        }
-      }
-    },
-
-    "reset": {
-      "desc": "Resets uploader to default; Empties queue, aborts current uploads"
-    },
-
-    "removeUploadedFiles": {
-      "desc": "Removes already uploaded files from the list"
-    },
-
-    "removeQueuedFiles": {
-      "desc": "Remove files that are waiting for upload to start (same as clicking the left clear button)"
-    },
-
-    "removeFile": {
-      "desc": "Remove specified file from the queue",
-      "params": {
-        "file": {
-          "type": "Object",
-          "desc": "File to remove (instance of File)",
-          "required": true,
-          "__exemption": [ "examples" ]
-        }
-      }
     }
   }
 }

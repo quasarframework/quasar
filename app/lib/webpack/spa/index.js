@@ -1,8 +1,7 @@
-const
-  injectHtml = require('../inject.html'),
-  injectClientSpecifics = require('../inject.client-specifics'),
-  injectHotUpdate = require('../inject.hot-update'),
-  injectPreload = require('../inject.preload')
+const injectHtml = require('../inject.html')
+const injectClientSpecifics = require('../inject.client-specifics')
+const injectHotUpdate = require('../inject.hot-update')
+const injectPreload = require('../inject.preload')
 
 module.exports = function (chain, cfg) {
   injectHtml(chain, cfg)

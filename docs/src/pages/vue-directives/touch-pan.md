@@ -72,8 +72,14 @@ When you want to inhibit TouchPan, you can do so by stopping propagation of the 
 
 However, if you are using `capture` or `mouseCapture` modifiers then events will first reach the TouchPan directive then the inner content, so TouchPan will still trigger.
 
-### Note on HMR
-Due to performance reasons, when doing HMR updates, all modifiers EXCEPT for direction ones (`left`, `right`, `up`, `down`, `horizontal`, `vertical`) are NOT updated, so you will require a window refresh.
+## Example with FAB
 
-## API
+Below is a nice example on using TouchPan on a QFab. You can drag it across the screen.
+
+<doc-example title="Draggable" file="QFab/Draggable" />
+
+## Note on HMR
+Due to performance reasons, not all of the modifiers are reactive. Some require a window/page/component refresh to get updated. Please check the API card for the modifiers which are not marked as reactive.
+
+## TouchPan API
 <doc-api file="TouchPan" />

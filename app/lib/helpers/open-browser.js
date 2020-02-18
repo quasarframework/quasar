@@ -1,6 +1,6 @@
-const logger = require('./logger'),
-  log = logger('app:browser'),
-  warn = logger('app:browser', 'red')
+const logger = require('./logger')
+const log = logger('app:browser')
+const warn = logger('app:browser', 'red')
 
 module.exports = function openBrowser({ url, opts, wait = true }) {
   const open = require('open')
@@ -29,7 +29,8 @@ module.exports = function openBrowser({ url, opts, wait = true }) {
       warn()
       openDefault()
     })
-  } else {
+  }
+  else {
     openDefault()
   }
 }

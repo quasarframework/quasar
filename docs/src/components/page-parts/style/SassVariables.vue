@@ -20,7 +20,7 @@ export default {
   },
 
   mounted () {
-    import(`!raw-loader!quasar/src/css/variables.sass`).then(file => {
+    import('!raw-loader!quasar/src/css/variables.sass').then(file => {
       this.file = file.default
       this.ready = true
     })

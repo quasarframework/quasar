@@ -101,6 +101,7 @@ const options = [
   },
   {
     name: 'Quasar Icon Sets',
+    badge: 'update',
     path: 'quasar-icon-sets'
   },
   {
@@ -435,6 +436,11 @@ const cli = [
         path: 'node-integration'
       },
       {
+        name: 'Preload Script',
+        badge: 'new',
+        path: 'electron-preload-script'
+      },
+      {
         name: 'Electron Packages',
         path: 'electron-packages'
       },
@@ -485,7 +491,6 @@ const style = [
   },
   {
     name: 'Dark Mode',
-    badge: 'new',
     path: 'dark-mode'
   },
   {
@@ -590,11 +595,8 @@ const layout = [
   },
   {
     name: 'Page Scroller',
+    badge: 'update',
     path: 'page-scroller'
-  },
-  {
-    name: 'Floating Action Button',
-    path: 'floating-action-button'
   }
 ]
 
@@ -609,7 +611,6 @@ const directives = [
   },
   {
     name: 'Intersection',
-    badge: 'new',
     path: 'intersection'
   },
   {
@@ -618,7 +619,6 @@ const directives = [
   },
   {
     name: 'Mutation',
-    badge: 'new',
     path: 'mutation'
   },
   {
@@ -670,11 +670,11 @@ const plugins = [
   },
   {
     name: 'Dark',
-    path: 'dark',
-    badge: 'new'
+    path: 'dark'
   },
   {
     name: 'Dialog',
+    badge: 'update',
     path: 'dialog'
   },
   {
@@ -695,6 +695,7 @@ const plugins = [
   },
   {
     name: 'Notify',
+    badge: 'update',
     path: 'notify'
   }
 ]
@@ -744,10 +745,12 @@ const components = [
   },
   {
     name: 'Card',
+    badge: 'update',
     path: 'card'
   },
   {
     name: 'Carousel',
+    badge: 'update',
     path: 'carousel'
   },
   {
@@ -779,6 +782,11 @@ const components = [
     path: 'expansion-item'
   },
   {
+    name: 'Floating Action Button',
+    badge: 'update',
+    path: 'floating-action-button'
+  },
+  {
     name: 'Form Components',
     listPath: 'form-components',
     children: [
@@ -791,6 +799,11 @@ const components = [
         path: 'select'
       },
       {
+        name: 'File picker',
+        badge: 'new',
+        path: 'file-picker'
+      },
+      {
         name: 'Form',
         path: 'form'
       },
@@ -800,14 +813,17 @@ const components = [
       },
       {
         name: 'Radio',
+        badge: 'update',
         path: 'radio'
       },
       {
         name: 'Checkbox',
+        badge: 'update',
         path: 'checkbox'
       },
       {
         name: 'Toggle',
+        badge: 'update',
         path: 'toggle'
       },
       {
@@ -843,7 +859,6 @@ const components = [
   },
   {
     name: 'Img',
-    badge: 'update',
     path: 'img'
   },
   {
@@ -856,7 +871,6 @@ const components = [
   },
   {
     name: 'Intersection',
-    badge: 'new',
     path: 'intersection'
   },
   {
@@ -919,15 +933,27 @@ const components = [
   },
   {
     name: 'Rating',
+    badge: 'update',
     path: 'rating'
   },
   {
+    name: 'Responsive',
+    badge: 'new',
+    path: 'responsive'
+  },
+  {
     name: 'Scroll Area',
+    badge: 'update',
     path: 'scroll-area'
   },
   {
     name: 'Separator',
     path: 'separator'
+  },
+  {
+    name: 'Skeleton',
+    badge: 'new',
+    path: 'skeleton'
   },
   {
     name: 'Slide Item',
@@ -964,6 +990,7 @@ const components = [
   },
   {
     name: 'Tab Panels',
+    badge: 'update',
     path: 'tab-panels'
   },
   {
@@ -980,7 +1007,6 @@ const components = [
   },
   {
     name: 'Tree',
-    badge: 'update',
     path: 'tree'
   },
   {
@@ -989,11 +1015,11 @@ const components = [
   },
   {
     name: 'Video',
+    badge: 'update',
     path: 'video'
   },
   {
     name: 'Virtual Scroll',
-    badge: 'new',
     path: 'virtual-scroll'
   }
 ]
@@ -1057,7 +1083,6 @@ const appExtensions = [
       },
       {
         name: 'Starter kit equivalent',
-        badge: 'new',
         path: 'starter-kit-equivalent'
       },
       {
@@ -1075,6 +1100,7 @@ const utils = [
   },
   {
     name: 'Color Utils',
+    badge: 'update',
     path: 'color-utils'
   },
   {
@@ -1201,8 +1227,7 @@ module.exports = [
   {
     name: 'Video Tutorials',
     icon: 'ondemand_video',
-    path: 'video-tutorials',
-    badge: 'new'
+    path: 'video-tutorials'
   },
   {
     name: 'Meet the Team',

@@ -11,8 +11,7 @@ module.exports = function (ctx) {
     ],
 
     css: [
-      'app.sass',
-      'docs-font/docs-font.css'
+      'app.sass'
     ],
 
     extras: [
@@ -82,6 +81,7 @@ module.exports = function (ctx) {
 
     framework: {
       all: true,
+      iconSet: 'svg-mdi-v4',
 
       config: {
         loadingBar: {
@@ -90,7 +90,7 @@ module.exports = function (ctx) {
       }
     },
 
-    animations: ['fadeIn', 'fadeOut'],
+    animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
       pwa: false

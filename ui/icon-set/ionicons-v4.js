@@ -28,8 +28,9 @@ export default {
   carousel: {
     left: 'ion-ios-arrow-back',
     right: 'ion-ios-arrow-forward',
-    navigationIcon: 'ion-square',
-    thumbnails: 'ion-grid'
+    up: 'ion-ios-arrow-up',
+    down: 'ion-ios-arrow-down',
+    navigationIcon: 'ion-square'
   },
   chip: {
     remove: 'ion-close-circle',

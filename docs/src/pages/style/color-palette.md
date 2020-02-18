@@ -14,7 +14,7 @@ Most of the colors that Quasar Components use are strongly linked with these thr
 
 ::: tip TIPS
 * Also check [Theme Builder](/style/theme-builder) for a tool on customizing the brand colors of your website/app.
-* `dark` was added in Quasar v1.3.0.
+* `dark` was added in Quasar v1.3.
 :::
 
 ## Color List
@@ -35,7 +35,7 @@ Use `text-` or `bg-` prefixes as class names to change the color of text or the 
 ```
 
 ## Using Sass/SCSS/Stylus Variables
-In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and so on. Note that for Sass/SCSS you will need "@quasar/app" v1.1.0+ AND Quasar v1.1.1+.
+In your app's `*.vue` files you can use the colors as `$primary`, `$red-1`, and so on. Note that for Sass/SCSS you will need "@quasar/app" v1.1+ AND Quasar v1.1.1+.
 
 ```html
 <!-- Notice lang="sass" -->

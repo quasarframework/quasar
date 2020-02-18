@@ -8,16 +8,29 @@ When writing reusable code for building a mobile App and a website, it's importa
 If you have no knowledge of [Vue Router](http://router.vuejs.org/), we highly recommend you read and understand how it works first.
 :::
 
-## Cordova Use Case
-Quasar handles the back button for you by default, so it can hide any opened Modals/Dialogs **instead of the default behavior** which is to return to the previous page (which is not a nice user experience).
+## Cordova/Capacitor
+Quasar handles the back button for you by default, so it can hide any opened Dialogs **instead of the default behavior** which is to return to the previous page (which is not a nice user experience).
 
 Also, when on the home route (`/`) and user presses the back button on the phone/tablet, Quasar will make your app exit. Should you wish to disable this behavior, then you can do so by configuring quasar.conf.js:
 
 ```js
+// for Cordova (only!):
 return {
   framework: {
     config: {
       cordova: {
+        backButtonExit: true/false
+      }
+    }
+  }
+}
+
+// for Capacitor (only!)
+// and Quasar v1.9.3+:
+return {
+  framework: {
+    config: {
+      capacitor: {
         backButtonExit: true/false
       }
     }
@@ -82,6 +95,6 @@ The same applies to `<router-link>`s.
 Always **think** about how you redirect your App to a new route, depending on what you want to achieve. Think if you really want to push a new route to window history or if you want to "replace" the current route. Otherwise the phone/tablet/browser "Back" button won't work quite as expected. Instead of finally exiting the App, it will make you go through all the routes in the reverse order they were visited. So when you hit back and go to the Login page, you'd expect another back to make the App exit, but it might make your App go to one of the List tabs, depending on the user's navigation history.
 :::
 
-## API
+## GoBack API
 
 <doc-api file="GoBack" />

@@ -23,5 +23,17 @@
     "default": {
       "desc": "This is where content goes"
     }
+  },
+
+  "events": {
+    "show": {
+      "extends": "after-show",
+      "addedIn": "v1.9.0"
+    },
+
+    "hide": {
+      "extends": "after-hide",
+      "addedIn": "v1.9.0"
+    }
   }
 }

@@ -12,10 +12,17 @@
   "props": {
     "scroll-offset": {
       "type": "Number",
-      "desc": "Scroll offset (in pixels) from which point the component is shown on page",
+      "desc": "Scroll offset (in pixels) from which point the component is shown on page; Measured from the top of the page (or from the bottom if in 'reverse' mode)",
       "default": 1000,
       "examples": [ 550 ],
       "category": "behavior"
+    },
+
+    "reverse": {
+      "type": "Boolean",
+      "desc": "Work in reverse (shows when scrolling to the top of the page and scrolls to bottom when triggered)",
+      "category": "behavior",
+      "addedIn": "v1.9.0"
     },
 
     "duration": {

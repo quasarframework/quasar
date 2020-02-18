@@ -20,7 +20,7 @@ There are two places in `/quasar.conf.js` where you can configure Quasar specifi
 ```js
 return {
   capacitor: {
-    // requires @quasar/app v1.3.0+
+    // requires @quasar/app v1.3+
     hideSplashscreen: false // disables auto-hiding the Splashscreen by Quasar CLI
   }
 }
@@ -34,6 +34,21 @@ return {
     config: {
       capacitor: {
         iosStatusBarPadding: true/false, // add the dynamic top padding on iOS mobile devices
+      }
+    }
+  }
+}
+```
+
+Finally, you can also disable the back button hook (used for Dialogs):
+
+```js
+return {
+  framework: {
+    config: {
+      capacitor: {
+        // requires Quasar v1.9.3+
+        backButtonExit: true/false // Quasar handles app exit on mobile phone back button
       }
     }
   }

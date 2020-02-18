@@ -31,17 +31,23 @@
       "category": "behavior"
     },
 
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Default transitions and swipe actions will be on the vertical axis",
+      "category": "behavior"
+    },
+
     "transition-prev": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-right",
+      "default": "slide-right/slide-down",
       "category": "behavior"
     },
 
     "transition-next": {
       "extends": "transition",
       "desc": "One of Quasar's embedded transitions (has effect only if 'animated' prop is set)",
-      "default": "slide-left",
+      "default": "slide-left/slide-up",
       "category": "behavior"
     }
   },

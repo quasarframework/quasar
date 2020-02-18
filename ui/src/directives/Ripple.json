@@ -47,6 +47,7 @@
     "stop": {
       "type": "Boolean",
       "desc": "Stop click/touch event propagation",
+      "reactive": true,
       "examples": [
         "v-ripple.stop"
       ]
@@ -55,6 +56,7 @@
     "center": {
       "type": "Boolean",
       "desc": "Ripple starts from the absolute center",
+      "reactive": true,
       "examples": [
         "v-ripple.center"
       ]

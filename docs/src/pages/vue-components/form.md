@@ -55,11 +55,22 @@ this.$refs.myForm.resetValidation()
 
 ## Turning off Autocompletion
 If you want to turn off the way that some browsers use autocorrection or spellchecking of all of the input elements of your form, you can also add these pure HTML attributes to the QForm component:
+
 ```html
 autocorrect="off"
 autocapitalize="off"
 autocomplete="off"
 spellcheck="false"
+```
+
+## Submitting to a URL
+If you are using the native `action` and `method` attributes on a QForm, please remember to use the `name` prop on each Quasar form component, so that the sent formData to actually contain what the user has filled in.
+
+```html
+<q-form action="https://some-url.com" method="POST">
+  <q-input name="firstname" ...>
+  <!-- ... -->
+</q-form>
 ```
 
 ## QForm API

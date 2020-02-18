@@ -3,6 +3,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/infinite-scroll"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "offset": {
       "type": "Number",
@@ -22,13 +26,7 @@
     },
 
     "scroll-target": {
-      "type": [ "Element", "String" ],
-      "desc": "CSS selector or DOM element to be used as scroll container instead of the auto detected one",
-      "examples": [
-        ":scroll-target=\"$refs.scrollTarget\"",
-        "scroll-target=\"scroll-target\""
-      ],
-      "category": "behavior"
+      "extends": "scroll-target"
     },
 
     "disable": {

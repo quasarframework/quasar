@@ -25,7 +25,7 @@ function showRipple (evt, el, ctx, forceCenter) {
   css(innerNode, {
     height: `${diameter}px`,
     width: `${diameter}px`,
-    transform: `translate3d(${x}, ${y}, 0) scale3d(0.2, 0.2, 1)`,
+    transform: `translate3d(${x},${y},0) scale3d(.2,.2,1)`,
     opacity: 0
   })
 
@@ -42,7 +42,7 @@ function showRipple (evt, el, ctx, forceCenter) {
 
   let timer = setTimeout(() => {
     innerNode.classList.add('q-ripple__inner--enter')
-    innerNode.style.transform = `translate3d(${centerX}, ${centerY}, 0) scale3d(1, 1, 1)`
+    innerNode.style.transform = `translate3d(${centerX},${centerY},0) scale3d(1,1,1)`
     innerNode.style.opacity = 0.2
 
     timer = setTimeout(() => {
@@ -88,13 +88,21 @@ export default {
 
       click (evt) {
         // on ENTER in form IE emits a PointerEvent with negative client cordinates
-        if (ctx.enabled === true && (client.is.ie !== true || evt.clientX >= 0)) {
+        if (
+          ctx.enabled === true &&
+          evt.qSkipRipple !== true &&
+          (client.is.ie !== true || evt.clientX >= 0)
+        ) {
           showRipple(evt, el, ctx, evt.qKeyEvent === true)
         }
       },
 
       keyup (evt) {
-        if (ctx.enabled === true && isKeyCode(evt, ctx.modifiers.keyCodes) === true) {
+        if (
+          ctx.enabled === true &&
+          evt.qSkipRipple !== true &&
+          isKeyCode(evt, ctx.modifiers.keyCodes) === true
+        ) {
           showRipple(evt, el, ctx, true)
         }
       }

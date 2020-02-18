@@ -4,6 +4,7 @@ desc: Managing your startup code in a Quasar app.
 related:
   - /quasar-cli/quasar-conf-js
 ---
+
 A common use case for Quasar applications is to **run code before the root Vue app instance is instantiated**, like injecting and initializing your own dependencies (examples: Vue components, libraries...) or simply configuring some startup code of your app.
 
 Since you won't be having access to any `/main.js` file (so that Quasar CLI can seamlessly initialize and build same codebase for SPA/PWA/SSR/Cordova/Electron) Quasar provides an elegant solution to that problem by allowing users to define so-called boot files.
@@ -34,11 +35,23 @@ export default ({ app, router, store, Vue }) => {
 ```
 
 Starting with v1.0, boot files can also be async:
+
 ```js
 export default async ({ app, router, store, Vue }) => {
   // something to do
   await something()
 }
+```
+
+Starting with v1.9, you can wrap the returned function with `boot` helper to get a better IDE autocomplete experience (through Typescript):
+
+```js
+import { boot } from 'quasar/wrappers'
+
+export default boot(async ({ app, router, store, Vue }) => {
+  // something to do
+  await something()
+})
 ```
 
 Notice we are using the [ES6 destructuring assignment](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment). Only assign what you actually need/use.
@@ -96,6 +109,7 @@ The first step is always to generate a new plugin using Quasar CLI:
 ```bash
 $ quasar new boot <name>
 ```
+
 Where `<name>` should be exchanged by a suitable name for your boot file.
 
 This command creates a new file: `/src/boot/<name>.js` with the following content:
@@ -172,9 +186,7 @@ boot: [
 ]
 ```
 
-### Redirecting to another page
-
-<q-badge label="@quasar/app 1.0.7+" />
+### Redirecting to another page <q-badge align="top" label="@quasar/app 1.0.7+" />
 
 ```js
 export default ({ urlPath, redirect }) => {
@@ -250,6 +262,7 @@ Vue.prototype.$axios = axios
 ### vue-i18n
 
 ```js
+import Vue from 'vue'
 // we import the external package
 import VueI18n from 'vue-i18n'
 

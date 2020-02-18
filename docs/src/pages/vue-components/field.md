@@ -8,7 +8,7 @@ The QField component is used to provide common functionality and aspect to form 
 QField allows you to display any form control (or almost anything as a matter of fact) inside it. Just place your desired content inside the `control` slot.
 
 ::: danger
-Do NOT wrap QInput or QSelect with QField. These two components already inherit QField.
+Do NOT wrap QInput, QFile or QSelect with QField as these components already inherit QField.
 :::
 
 ## Installation
@@ -20,13 +20,13 @@ Do NOT wrap QInput or QSelect with QField. These two components already inherit 
 The examples below use dumb content (text) just to show you the design that QField can use. For checking out examples that wrap real components, see the "Basic Features" section.
 :::
 
-::: warning
-For your QField you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
-:::
-
 ::: danger
 QField does not (and should not) manage your `control` slot, so if you use `label` prop, it might be a good idea to also specify `stack-label`, otherwise it might overlap your control when QField is not focused.
 :::
+
+### Overview
+
+For your QField you can use only one of the main designs (`filled`, `outlined`, `standout`, `borderless`). You cannot use multiple as they are self-exclusive.
 
 <doc-example title="Design Overview" file="QField/DesignOverview" />
 

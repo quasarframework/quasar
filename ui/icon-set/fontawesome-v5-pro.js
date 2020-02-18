@@ -28,8 +28,9 @@ export default {
   carousel: {
     left: 'fal fa-chevron-left',
     right: 'fal fa-chevron-right', // TODO
-    navigationIcon: 'fal fa-circle',
-    thumbnails: 'fal fa-th'
+    up: 'fal fa-chevron-up',
+    down: 'fal fa-chevron-down',
+    navigationIcon: 'fal fa-circle'
   },
   chip: {
     remove: 'fal fa-times-circle',

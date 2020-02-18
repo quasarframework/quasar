@@ -78,8 +78,9 @@ export default Vue.extend({
     },
 
     pinClass () {
-      return 'q-slider__pin absolute flex flex-center' +
-        (this.labelColor !== void 0 ? ` text-${this.labelColor}` : '')
+      if (this.labelColor !== void 0) {
+        return `text-${this.labelColor}`
+      }
     },
 
     pinTextClass () {
@@ -105,6 +106,11 @@ export default Vue.extend({
       return this.labelValue !== void 0
         ? this.labelValue
         : this.model
+    },
+
+    pinStyle () {
+      const percent = (this.reverse === true ? -this.ratio : this.ratio - 1)
+      return this.__getPinStyle(percent, this.ratio)
     }
   },
 
@@ -159,6 +165,53 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = [
+      this.__getThumbSvg(h),
+      h('div', { staticClass: 'q-slider__focus-ring' })
+    ]
+
+    if (this.label === true || this.labelAlways === true) {
+      child.push(
+        h('div', {
+          staticClass: 'q-slider__pin absolute',
+          style: this.pinStyle.pin,
+          class: this.pinClass
+        }, [
+          h('div', { staticClass: 'q-slider__pin-text-container', style: this.pinStyle.pinTextContainer }, [
+            h('span', {
+              staticClass: 'q-slider__pin-text',
+              class: this.pinTextClass
+            }, [
+              this.computedLabel
+            ])
+          ])
+        ]),
+
+        h('div', {
+          staticClass: 'q-slider__arrow',
+          class: this.pinClass
+        })
+      )
+    }
+
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(child, 'push')
+    }
+
+    const track = [
+      h('div', {
+        staticClass: 'q-slider__track absolute',
+        style: this.trackStyle
+      })
+    ]
+
+    this.markers === true && track.push(
+      h('div', {
+        staticClass: 'q-slider__track-markers absolute-full fit',
+        style: this.markerStyle
+      })
+    )
+
     return h('div', {
       staticClass: this.value === null ? ' q-slider--no-value' : '',
       attrs: {
@@ -184,51 +237,15 @@ export default Vue.extend({
         }
       }]) : null
     }, [
-      h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
-        h('div', {
-          staticClass: 'q-slider__track absolute',
-          style: this.trackStyle
-        }),
-
-        this.markers === true
-          ? h('div', {
-            staticClass: 'q-slider__track-markers absolute-full fit',
-            style: this.markerStyle
-          })
-          : null
-      ]),
+      h('div', {
+        staticClass: 'q-slider__track-container absolute'
+      }, track),
 
       h('div', {
         staticClass: 'q-slider__thumb-container absolute non-selectable',
         class: this.thumbClass,
         style: this.thumbStyle
-      }, [
-        h('svg', {
-          staticClass: 'q-slider__thumb absolute',
-          attrs: { focusable: 'false' /* needed for IE11 */, width: '21', height: '21' }
-        }, [
-          h('circle', {
-            attrs: {
-              cx: '10.5',
-              cy: '10.5',
-              r: '7.875'
-            }
-          })
-        ]),
-
-        this.label === true || this.labelAlways === true ? h('div', {
-          class: this.pinClass
-        }, [
-          h('div', { staticClass: 'q-slider__pin-value-marker' }, [
-            h('div', { staticClass: 'q-slider__pin-value-marker-bg' }),
-            h('div', { class: this.pinTextClass }, [
-              this.computedLabel
-            ])
-          ])
-        ]) : null,
-
-        h('div', { staticClass: 'q-slider__focus-ring' })
-      ])
+      }, child)
     ])
   }
 })

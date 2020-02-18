@@ -8,6 +8,7 @@ import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 const
   PULLER_HEIGHT = 40,
@@ -24,7 +25,11 @@ export default Vue.extend({
     color: String,
     icon: String,
     noMouse: Boolean,
-    disable: Boolean
+    disable: Boolean,
+
+    scrollTarget: {
+      default: void 0
+    }
   },
 
   data () {
@@ -47,6 +52,12 @@ export default Vue.extend({
     }
   },
 
+  watch: {
+    scrollTarget () {
+      this.updateScrollTarget()
+    }
+  },
+
   methods: {
     trigger () {
       this.$emit('refresh', () => {
@@ -57,7 +68,7 @@ export default Vue.extend({
     },
 
     updateScrollTarget () {
-      this.scrollContainer = getScrollTarget(this.$el)
+      this.scrollContainer = getScrollTarget(this.$el, this.scrollTarget)
     },
 
     __pull (event) {
@@ -142,21 +153,22 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-pull-to-refresh overflow-hidden',
+      on: this.$listeners,
       directives: this.disable === true
         ? null
-        : [{
+        : cache(this, 'dir#' + this.noMouse, [{
           name: 'touch-pan',
           modifiers: {
             down: true,
             mightPrevent: true,
-            mouse: !this.noMouse
+            mouse: this.noMouse !== true
           },
           value: this.__pull
-        }]
+        }])
     }, [
       h('div', {
         staticClass: 'q-pull-to-refresh__content',
-        class: this.pulling ? 'no-pointer-events' : null
+        class: this.pulling === true ? 'no-pointer-events' : ''
       }, slot(this, 'default')),
 
       h('div', {
@@ -166,7 +178,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-pull-to-refresh__puller row flex-center',
           style: this.style,
-          class: this.animating ? 'q-pull-to-refresh__puller--animating' : null
+          class: this.animating === true ? 'q-pull-to-refresh__puller--animating' : ''
         }, [
           this.state !== 'refreshing'
             ? h(QIcon, {

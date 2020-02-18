@@ -6,16 +6,20 @@ export const sizes = {
   xl: 46
 }
 
-export default {
-  props: {
-    size: String
-  },
+export function getSizeMixin (sizes) {
+  return {
+    props: {
+      size: String
+    },
 
-  computed: {
-    sizeStyle () {
-      if (this.size !== void 0) {
-        return { fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size }
+    computed: {
+      sizeStyle () {
+        if (this.size !== void 0) {
+          return { fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size }
+        }
       }
     }
   }
 }
+
+export default getSizeMixin(sizes)

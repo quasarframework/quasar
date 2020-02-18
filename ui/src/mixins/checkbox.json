@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/size", "mixins/form" ],
+
   "props": {
     "value": {
       "extends": "value",
@@ -29,6 +31,24 @@
       "default": false,
       "examples": [ "Disagree" ],
       "category": "model"
+    },
+
+    "indeterminate-value": {
+      "type": "Any",
+      "desc": "What model value should be considered as 'indeterminate'?",
+      "default": null,
+      "examples": [ 0, "not_answered" ],
+      "category": "behavior"
+    },
+
+    "toggle-indeterminate": {
+      "type": "Boolean",
+      "desc": "When user clicks/taps on the component, should we toggle through the indeterminate state too?",
+      "category": "behavior"
+    },
+
+    "size": {
+      "addedIn": "v1.8.0"
     },
 
     "label": {

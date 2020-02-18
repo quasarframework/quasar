@@ -31,7 +31,7 @@ export default function (Vue, opts = {}) {
   Body.install(queues, cfg)
   Dark.install($q, queues, cfg)
   Screen.install($q, queues, cfg)
-  History.install($q, cfg)
+  History.install(cfg)
   Lang.install($q, queues, opts.lang)
   IconSet.install($q, opts.iconSet)
 

@@ -105,6 +105,19 @@
       "default": "false",
       "desc": "Force use of textContent instead of innerHTML to render text; Use it when the text might be unsafe (from user input)",
       "category": "behavior"
+    },
+
+    "scroll-target": {
+      "type": [ "Element", "String" ],
+      "desc": "CSS selector or DOM element to be used as a custom scroll container instead of the auto detected one",
+      "examples": [
+        ":scroll-target=\"$refs.scrollTarget\"",
+        "scroll-target=\".scroll-target-class\"",
+        "scroll-target=\"#scroll-target-id\"",
+        "scroll-target=\"body\""
+      ],
+      "category": "behavior",
+      "addedIn": "v1.8.0"
     }
   },
 
@@ -157,6 +170,10 @@
       }
     },
 
+    "after-show": {
+      "desc": "Emitted when component show animation is finished"
+    },
+
     "hide": {
       "desc": "Emitted after component has triggered hide()",
       "params": {
@@ -179,6 +196,10 @@
           "__exemption": [ "examples" ]
         }
       }
+    },
+
+    "after-hide": {
+      "desc": "Emitted when component hide animation is finished"
     },
 
     "click": {

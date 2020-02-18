@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/virtual-scroll" ],
+  "mixins": [ "components/field/__QField", "mixins/virtual-scroll", "mixins/form" ],
 
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/select"
@@ -119,16 +119,57 @@
       "category": "options"
     },
 
+    "options-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
+      "category": "options"
+    },
+
     "options-cover": {
       "type": "Boolean",
       "desc": "Expanded menu will cover the component (will not work along with 'use-input' prop for obvious reasons)",
       "category": "options"
     },
 
-    "options-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
-      "category": "options"
+    "menu-shrink": {
+      "type": "Boolean",
+      "desc": "Allow the options list to be narrower than the field (only in menu mode)",
+      "category": "options",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the options list relative to the field (only in menu mode)",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-self": {
+      "type": "String",
+      "desc": "Two values setting the options list's own position relative to its target (only in menu mode)",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the options list horizontally and vertically in pixels (only in menu mode)",
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
     },
 
     "popup-content-class": {
@@ -481,6 +522,19 @@
               "desc": "Callback to call to make the actual updates",
               "params": null,
               "returns": null
+            },
+            "afterFn": {
+              "type": "Function",
+              "desc": "Callback to call at the end after the update has been fully processed by QSelect",
+              "params": {
+                "ref": {
+                  "type": "Object",
+                  "desc": "Vue reference to the QSelect which triggered the filtering",
+                  "__exemption": [ "examples" ]
+                }
+              },
+              "returns": null,
+              "addedIn": "v1.7.4"
             }
           },
           "returns": null
@@ -568,6 +622,11 @@
           "desc": "Option to add to model",
           "required": true,
           "__exemption": [ "examples" ]
+        },
+        "keepOpen": {
+          "type": "Boolean",
+          "desc": "Don't close the menu and do not clear the filter",
+          "addedIn": "v1.7.4"
         }
       }
     },
@@ -582,6 +641,24 @@
           "examples": [ 10 ]
         }
       }
+    },
+
+    "moveOptionSelection": {
+      "desc": "Move selected option from menu by index offset",
+      "params": {
+        "offset": {
+          "type": "Number",
+          "desc": "Number of options to move up or down",
+          "default": 1,
+          "examples": [ -1, 1, 5 ]
+        },
+        "skipInputValue": {
+          "type": "Boolean",
+          "desc": "Don't set input-value on navigation",
+          "addedIn": "v1.8.0"
+        }
+      },
+      "addedIn": "v1.7.4"
     },
 
     "filter": {

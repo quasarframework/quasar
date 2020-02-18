@@ -38,6 +38,10 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Custom label value" file="QSlider/LabelValue" />
 
+The example below is better highlighting how QSlider handles label positioning so that it always stays inside the QSlider's box horizontally.
+
+<doc-example title="Long label" file="QSlider/LabelLong" />
+
 ### Markers
 
 <doc-example title="Markers" file="QSlider/Markers" />
@@ -50,9 +54,7 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Null value" file="QSlider/Null" />
 
-### Reverse
-
-<q-badge label="v1.5.0+" />
+### Reverse <q-badge align="top" label="v1.5+" />
 
 <doc-example title="In reverse" file="QSlider/Reverse" />
 
@@ -67,6 +69,12 @@ In the example below, move the slider to see the label.
 ### With QItem
 
 <doc-example title="With QItem" file="QSlider/List" />
+
+### Native form submit <q-badge align="top" label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSlider, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QSlider/NativeForm" />
 
 ## QSlider API
 <doc-api file="QSlider" />

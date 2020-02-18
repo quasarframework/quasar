@@ -62,7 +62,7 @@ Include the language pack JS tag for your Quasar version and also tell Quasar to
 </script>
 ```
 
-Check what tags you need to include in your HTML files by generating a sample with `$ quasar create <folder> --kit umd` and specifying a language code for Quasar Language Pack (other than the default "en-us").
+Check what tags you need to include in your HTML files on [UMD / Standalone](/start/umd) page.
 
 ### Dynamically Picking Default Language
 Quasar CLI: If your desired Quasar Language Pack must be dynamically selected (example: depends on a cookie), then you need to create a boot file: `$ quasar new boot quasar-lang-pack`. This will create `/src/boot/quasar-lang-pack.js` file. Edit it to:
@@ -79,7 +79,7 @@ export default async () => {
   try {
     await import(
       /* webpackInclude: /(de|en-us)\.js$/ */
-      `quasar/lang/${langIso}`
+      'quasar/lang/' + langIso
       )
       .then(lang => {
         Quasar.lang.set(lang.default)
@@ -138,7 +138,7 @@ export default {
       // dynamic import, so loading on demand only
       import(
         /* webpackInclude: /(de|en-us)\.js$/ */
-        `quasar/lang/${lang}`
+        'quasar/lang/' + lang
         ).then(lang => {
         this.$q.lang.set(lang.default)
       })

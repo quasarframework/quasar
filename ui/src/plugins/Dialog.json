@@ -45,16 +45,68 @@
               "examples": [ "prompt: { model: this.promptVal, type: 'number' }" ],
               "definition": {
                 "model": {
-                  "type": [ "Array", "String" ],
-                  "desc": "The value of the input: Array for Selection, String for prompt",
-                  "examples": [ "this.dialogVal" ]
+                  "type": "String",
+                  "desc": "The initial value of the input",
+                  "required": true,
+                  "__exemption": [ "examples" ]
                 },
 
                 "type": {
                   "type": "String",
-                  "desc": "Optional property to determine the input field type. It can be either a text or number input field type",
+                  "desc": "Optional property to determine the input field type",
                   "default": "text",
-                  "examples": [ "number" ]
+                  "examples": [ "text", "number", "textarea" ]
+                },
+
+                "label": {
+                  "type": "String",
+                  "desc": "A text label that will “float” up above the input field, once the field gets focus",
+                  "examples": [ "Username" ],
+                  "addedIn": "v1.9.3"
+                },
+            
+                "stack-label": {
+                  "type": "Boolean",
+                  "desc": "Label will be always shown above the field regardless of field content (if any)",
+                  "addedIn": "v1.9.3"
+                },
+
+                "filled": {
+                  "type": "Boolean",
+                  "desc": "Use 'filled' design for the field",
+                  "addedIn": "v1.9.3"
+                },
+            
+                "outlined": {
+                  "type": "Boolean",
+                  "desc": "Use 'outlined' design for the field",
+                  "addedIn": "v1.9.3"
+                },
+
+                "standout": {
+                  "type": [ "Boolean", "String" ],
+                  "desc": "Use 'standout' design for the field; Specifies classes to be applied when focused (overriding default ones)",
+                  "examples": [
+                    "standout",
+                    "standout=\"bg-primary text-white\""
+                  ],
+                  "addedIn": "v1.9.3"
+                },
+
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is typed content valid?",
+                  "params": {
+                    "val": {
+                      "type": "String",
+                      "desc": "The value of the input",
+                      "__exemption": [ "examples" ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The text passed validation or not"
+                  }
                 }
               }
             },
@@ -64,16 +116,18 @@
               "desc": "An object definition for creating the selection form content",
               "examples": [ "{ model: this.dialogSelection, type: 'radio', items: [...listOfItems] }" ],
               "definition": {
-                "type": {
-                  "type": "String",
-                  "desc": "The type of selection",
-                  "values": [ "radio", "checkbox", "toggle" ]
-                },
-
                 "model": {
                   "type": "Array",
                   "desc": "The value of the selection",
+                  "required": true,
                   "examples": [ "[]" ]
+                },
+
+                "type": {
+                  "type": "String",
+                  "desc": "The type of selection",
+                  "default": "radio",
+                  "values": [ "radio", "checkbox", "toggle" ]
                 },
 
                 "items": {
@@ -82,6 +136,27 @@
                   "examples": [
                     "[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]"
                   ]
+                },
+
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is the model valid?",
+                  "params": {
+                    "model": {
+                      "type": [ "String", "Array" ],
+                      "desc": "The current model (String if it's of type radio or Array otherwise)",
+                      "examples": [
+                        "opt2",
+                        "[ 'opt1' ]",
+                        "[]",
+                        "[ 'opt1', 'opt3' ]"
+                      ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The selection passed validation or not"
+                  }
                 }
               }
             },
@@ -184,7 +259,7 @@
 
             "component": {
               "type": "Any",
-              "desc": "Use custom dialog component; use along with 'root' prop where possible; if using this prop, all others described here will be supplied to your custom component",
+              "desc": "Use custom dialog component; use along with 'parent' prop where possible; if using this prop, all others described here will be supplied to your custom component",
               "__exemption": [ "examples" ]
             },
 
@@ -198,6 +273,12 @@
               "type": "Object",
               "desc": "Deprecated alias for parent",
               "examples": [ "root: this" ]
+            },
+
+            "...props": {
+              "type": "Any",
+              "desc": "User defined props which will be forwarded to underlying custom component if 'component' prop is used",
+              "__exemption": [ "examples" ]
             }
           }
         }

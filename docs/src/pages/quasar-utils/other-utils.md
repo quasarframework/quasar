@@ -20,9 +20,7 @@ It will take care of the quirks involved when running under Cordova, Electron or
 If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn type="a" href="tel:123456789">`
 :::
 
-## Copy to Clipboard
-
-<q-badge label="v1.5.0+" />
+## Copy to Clipboard <q-badge align="top" label="v1.5+" />
 
 The following is a helper to copy some text to Clipboard. The method returns a Promise.
 
@@ -38,9 +36,7 @@ copyToClipboard('some text')
   })
 ```
 
-## Export file
-
-<q-badge label="v1.5.0+" />
+## Export file <q-badge align="top" label="v1.5+" />
 
 The following is a helper to trigger a file download.
 
@@ -88,7 +84,7 @@ import { debounce } from 'quasar'
 window.addEventListener(
   'resize',
   debounce(function() {
-    .... things to do ...
+    // .... things to do ...
   }, 300 /*ms to wait*/)
 )
 ```
@@ -106,7 +102,7 @@ created () {
 ```
 
 ::: warning
-Debouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between *all* rendered instances of this component, so debouncing is also shared. This should be avoided by following the code snippet above.
+Debouncing your functions using a method declaration like `myMethod: debounce(function () { // Code }, 500)` will mean that the debounced method will be shared between *all* rendered instances of this component, so debouncing is also shared. Moreover, `this.myMethod.cancel()` won't work, because Vue wraps each method with another function to ensure proper `this` binding. This should be avoided by following the code snippet above.
 :::
 
 There's also a `frameDebounce` available which delays calling your function until next browser frame is scheduled to run (read about `requestAnimationFrame`).

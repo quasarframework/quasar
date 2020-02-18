@@ -40,6 +40,10 @@ In the example below, move the slider to see the label.
 
 <doc-example title="Custom label values" file="QRange/LabelValue" />
 
+The example below is better highlighting how QRange handles label positioning so that it always stays inside the QRange's box horizontally.
+
+<doc-example title="Long label" file="QRange/LabelLong" />
+
 ### Markers
 
 <doc-example title="Markers" file="QRange/Markers" />
@@ -62,9 +66,7 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 
 <doc-example title="Null values" file="QRange/Null" />
 
-### Reverse
-
-<q-badge label="v1.5.0+" />
+### Reverse <q-badge align="top" label="v1.5+" />
 
 <doc-example title="In reverse" file="QRange/Reverse" />
 
@@ -79,6 +81,18 @@ Use the `drag-range` or `drag-only-range` props to allow the user to move the se
 ### With QItem
 
 <doc-example title="With QItem" file="QRange/List" />
+
+### Getting creative
+
+Using simple CSS you can get nice effects.
+
+<doc-example title="Getting creative" file="QRange/GettingCreative" />
+
+### Native form submit <q-badge align="top" label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QRange, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QRange/NativeForm" />
 
 ## QRange API
 <doc-api file="QRange" />

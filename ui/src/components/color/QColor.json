@@ -1,6 +1,12 @@
 {
+  "mixins": [ "mixins/form" ],
+
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/color-picker"
+  },
+
+  "behavior": {
+    "$listeners": true
   },
 
   "props": {

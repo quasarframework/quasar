@@ -5,6 +5,8 @@ let
   registered = 0,
   scrollPositionX,
   scrollPositionY,
+  maxScrollTop,
+  vpPendingUpdate = false,
   bodyLeft,
   bodyTop,
   closeTimer
@@ -55,8 +57,35 @@ function onAppleScroll (e) {
   }
 }
 
+function onAppleResize (evt) {
+  if (vpPendingUpdate === true) {
+    return
+  }
+
+  vpPendingUpdate = true
+
+  requestAnimationFrame(() => {
+    vpPendingUpdate = false
+
+    const
+      { height } = evt.target,
+      { clientHeight, scrollTop } = document.scrollingElement
+
+    if (maxScrollTop === void 0 || height !== window.innerHeight) {
+      maxScrollTop = clientHeight - height
+      document.scrollingElement.scrollTop = scrollTop
+    }
+
+    if (scrollTop > maxScrollTop) {
+      document.scrollingElement.scrollTop -= Math.ceil((scrollTop - maxScrollTop) / 8)
+    }
+  })
+}
+
 function apply (action, is) {
-  const body = document.body
+  const
+    body = document.body,
+    hasViewport = window.visualViewport !== void 0
 
   if (action === 'add') {
     const overflowY = window.getComputedStyle(body).overflowY
@@ -73,7 +102,17 @@ function apply (action, is) {
     }
 
     body.classList.add('q-body--prevent-scroll')
-    is.ios === true && window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    if (is.ios === true) {
+      if (hasViewport === true) {
+        window.scrollTo(0, 0)
+        window.visualViewport.addEventListener('resize', onAppleResize, listenOpts.passiveCapture)
+        window.visualViewport.addEventListener('scroll', onAppleResize, listenOpts.passiveCapture)
+        window.scrollTo(0, 0)
+      }
+      else {
+        window.addEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+      }
+    }
   }
 
   if (is.desktop === true && is.mac === true) {
@@ -82,7 +121,15 @@ function apply (action, is) {
   }
 
   if (action === 'remove') {
-    is.ios === true && window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+    if (is.ios === true) {
+      if (hasViewport === true) {
+        window.visualViewport.removeEventListener('resize', onAppleResize, listenOpts.passiveCapture)
+        window.visualViewport.removeEventListener('scroll', onAppleResize, listenOpts.passiveCapture)
+      }
+      else {
+        window.removeEventListener('scroll', onAppleScroll, listenOpts.passiveCapture)
+      }
+    }
 
     body.classList.remove('q-body--prevent-scroll')
     body.classList.remove('q-body--force-scrollbar')
@@ -91,6 +138,7 @@ function apply (action, is) {
     body.style.top = bodyTop
 
     window.scrollTo(scrollPositionX, scrollPositionY)
+    maxScrollTop = void 0
   }
 }
 

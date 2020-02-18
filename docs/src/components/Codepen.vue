@@ -55,6 +55,9 @@ export default {
       const imports = /(import*) ([^'\n]*) from ([^\n]*)/g
       let component = /export default {([\s\S]*)}/g.exec(this.parts.script || '')
       component = ((component && component[1]) || '').trim()
+      if (component.length > 0) {
+        component = ',\n  ' + component
+      }
       let script = /<script>([\s\S]*)export default {/g.exec(this.parts.script || '')
       script = ((script && script[1]) || '')
         .replace(imports, '')
@@ -62,8 +65,7 @@ export default {
       script += script ? '\n\n' : ''
       return script +
         `new Vue({
-  el: '#q-app',
-  ${component}
+  el: '#q-app'${component}
 })`
     },
 
@@ -74,8 +76,12 @@ export default {
         .replace(/([\w]+=")([^"]*?)(")/gs, function (match, p1, p2, p3) {
           return p1 + p2.replace(/>/g, '___TEMP_REPLACEMENT___') + p3
         })
-        .replace(/<(q-[\w-]+|div)([^>]+?)\/>/gs, '<$1$2></$1>')
+        .replace(/<(q-[\w-]+|div)([^>]+?)\s*?([\r\n]+\s*)?\/>/gs, '<$1$2$3></$1>')
+        .replace(/<(thead|tbody)(.*?)[\n\r]?(\s*)<\/\1>/gs, function (match, p1, p2, p3) {
+          return '<template>\n' + p3 + '  <' + p1 + p2.split(/[\n\r]+/g).join('\n  ') + '\n' + p3 + '  </' + p1 + '>\n' + p3 + '</template>'
+        })
         .replace(/___TEMP_REPLACEMENT___/gs, '>')
+        .replace(/^\s{2}/gm, '')
         .trim()
     },
 
@@ -111,6 +117,8 @@ export default {
 <div id="q-app">
   ${this.html}
 </div>`,
+        head: '',
+        html_pre_processor: 'none',
         css: this.css,
         css_pre_processor: this.cssPreprocessor,
         css_external: cssResources,

@@ -1,15 +1,12 @@
-const
-  path = require('path'),
-  semver = require('semver'),
-  merge = require('webpack-merge')
+const semver = require('semver')
+const merge = require('webpack-merge')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  warn = logger('app:extension(index)', 'red'),
-  getPackageJson = require('../helpers/get-package-json'),
-  getCallerPath = require('../helpers/get-caller-path'),
-  extensionJson = require('./extension-json')
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const warn = logger('app:extension(index)', 'red')
+const getPackageJson = require('../helpers/get-package-json')
+const getCallerPath = require('../helpers/get-caller-path')
+const extensionJson = require('./extension-json')
 
 /**
  * API for extension's /index.js script
@@ -27,6 +24,8 @@ module.exports = class IndexAPI {
       extendWebpack: [],
       chainWebpackMainElectronProcess: [],
       extendWebpackMainElectronProcess: [],
+      chainWebpackWebserver: [],
+      extendWebpackWebserver: [],
       chainWebpack: [],
       beforeDev: [],
       afterDev: [],
@@ -193,6 +192,26 @@ module.exports = class IndexAPI {
    */
   extendWebpackMainElectronProcess (fn) {
     this.__addHook('extendWebpackMainElectronProcess', fn)
+  }
+
+  /**
+   * Chain webpack config of SSR webserver
+   *
+   * @param {function} fn
+   *   (cfg: ChainObject) => undefined
+   */
+  chainWebpackWebserver (fn) {
+    this.__addHook('chainWebpackWebserver', fn)
+  }
+
+  /**
+   * Extend webpack config of SSR webserver
+   *
+   * @param {function} fn
+   *   (cfg: Object) => undefined
+   */
+  extendWebpackWebserver (fn) {
+    this.__addHook('extendWebpackWebserver', fn)
   }
 
   /**

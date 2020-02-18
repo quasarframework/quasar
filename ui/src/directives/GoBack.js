@@ -14,7 +14,7 @@ export default {
       goBack () {
         const router = vnode.context.$router
 
-        if (ctx.single) {
+        if (ctx.single === true) {
           router.go(-1)
         }
         else if (client.is.nativeMobile === true) {
@@ -40,9 +40,17 @@ export default {
     el.addEventListener('keyup', ctx.goBackKey)
   },
 
-  update (el, { value, oldValue }) {
-    if (value !== oldValue) {
-      el.__qgoback.value = value
+  update (el, { value, oldValue, modifiers }) {
+    const ctx = el.__qgoback
+
+    if (ctx !== void 0) {
+      if (value !== oldValue) {
+        ctx.value = value
+      }
+
+      if (ctx.single !== modifiers.single) {
+        ctx.single = modifiers.single
+      }
     }
   },
 

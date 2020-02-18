@@ -29,6 +29,7 @@ export default Vue.extend({
     prefix: String,
     suffix: String,
 
+    labelColor: String,
     color: String,
     bgColor: String,
 
@@ -58,7 +59,8 @@ export default Vue.extend({
 
     autofocus: Boolean,
 
-    for: [String],
+    for: String,
+
     maxlength: [Number, String],
     maxValues: [Number, String] // private, do not add to JSON; internally needed by QSelect
   },
@@ -100,15 +102,17 @@ export default Vue.extend({
         const len = typeof this.value === 'string' || typeof this.value === 'number'
           ? ('' + this.value).length
           : (Array.isArray(this.value) === true ? this.value.length : 0)
-        const max = this.maxlength !== void 0 ? this.maxlength : this.maxValues
+
+        const max = this.maxlength !== void 0
+          ? this.maxlength
+          : this.maxValues
 
         return len + (max !== void 0 ? ' / ' + max : '')
       }
     },
 
     floatingLabel () {
-      return this.hasError === true ||
-        this.stackLabel === true ||
+      return this.stackLabel === true ||
         this.focused === true ||
         (
           this.inputValue !== void 0 && this.hideSelected === true
@@ -182,6 +186,15 @@ export default Vue.extend({
       }
 
       return cls
+    },
+
+    labelClass () {
+      if (
+        this.labelColor !== void 0 &&
+        this.hasError !== true
+      ) {
+        return 'text-' + this.labelColor
+      }
     },
 
     controlSlotScope () {
@@ -283,8 +296,8 @@ export default Vue.extend({
         this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
       )
 
-      this.__getPopup !== void 0 && node.push(
-        this.__getPopup(h)
+      this.__getControlChild !== void 0 && node.push(
+        this.__getControlChild(h)
       )
 
       return node
@@ -323,7 +336,8 @@ export default Vue.extend({
 
       this.label !== void 0 && node.push(
         h('div', {
-          staticClass: 'q-field__label no-pointer-events absolute ellipsis'
+          staticClass: 'q-field__label no-pointer-events absolute ellipsis',
+          class: this.labelClass
         }, [ this.label ])
       )
 

@@ -1,7 +1,30 @@
+import { isSSR } from '../plugins/Platform.js'
 import { css } from './dom.js'
 
-export function getScrollTarget (el) {
-  return el.closest('.scroll,.scroll-y,.overflow-auto') || window
+const scrollTargets = isSSR === false
+  ? [ null, document, document.body, document.scrollingElement, document.documentElement ]
+  : []
+
+export function getScrollTarget (el, target) {
+  if (typeof target === 'string') {
+    try {
+      target = document.querySelector(target)
+    }
+    catch (err) {
+      target = void 0
+    }
+  }
+
+  if (target === void 0 || target === null) {
+    target = el.closest('.scroll,.scroll-y,.overflow-auto')
+  }
+  else if (target._isVue === true && target.$el !== void 0) {
+    target = target.$el
+  }
+
+  return scrollTargets.includes(target)
+    ? window
+    : target
 }
 
 export function getScrollHeight (el) {
@@ -26,7 +49,7 @@ export function getHorizontalScrollPosition (scrollTarget) {
   return scrollTarget.scrollLeft
 }
 
-export function animScrollTo (el, to, duration) {
+export function animScrollTo (el, to, duration = 0) {
   const pos = getScrollPosition(el)
 
   if (duration <= 0) {
@@ -45,7 +68,7 @@ export function animScrollTo (el, to, duration) {
   })
 }
 
-export function animHorizontalScrollTo (el, to, duration) {
+export function animHorizontalScrollTo (el, to, duration = 0) {
   const pos = getHorizontalScrollPosition(el)
 
   if (duration <= 0) {
@@ -66,7 +89,7 @@ export function animHorizontalScrollTo (el, to, duration) {
 
 function setScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
-    window.scrollTo(0, offset)
+    window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, offset)
     return
   }
   scrollTarget.scrollTop = offset
@@ -74,7 +97,7 @@ function setScroll (scrollTarget, offset) {
 
 function setHorizontalScroll (scrollTarget, offset) {
   if (scrollTarget === window) {
-    window.scrollTo(offset, 0)
+    window.scrollTo(offset, window.pageYOffset || window.scrollY || document.body.scrollTop || 0)
     return
   }
   scrollTarget.scrollLeft = offset

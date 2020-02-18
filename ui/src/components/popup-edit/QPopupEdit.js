@@ -30,6 +30,8 @@ export default Vue.extend({
       default: () => true
     },
 
+    autoSave: Boolean,
+
     /* menu props overrides */
     cover: {
       type: Boolean,
@@ -50,7 +52,7 @@ export default Vue.extend({
   computed: {
     classes () {
       return 'q-popup-edit' +
-        (this.contentClass ? ' ' + this.contentClass : '')
+        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
     },
 
     defaultSlotScope () {
@@ -67,7 +69,7 @@ export default Vue.extend({
 
   methods: {
     set () {
-      if (this.__hasChanged()) {
+      if (this.__hasChanged() === true) {
         if (this.validate(this.value) === false) {
           return
         }
@@ -77,27 +79,26 @@ export default Vue.extend({
     },
 
     cancel () {
-      if (this.__hasChanged()) {
-        this.$emit('cancel', this.value, this.initialValue)
+      if (this.__hasChanged() === true) {
         this.$emit('input', this.initialValue)
+        this.$emit('cancel', this.value, this.initialValue)
       }
       this.__close()
     },
 
     __hasChanged () {
-      return !isDeepEqual(this.value, this.initialValue)
+      return isDeepEqual(this.value, this.initialValue) === false
     },
 
     __emitValue (val) {
-      if (this.disable === true) {
-        return
+      if (this.disable !== true) {
+        this.$emit('input', val)
       }
-      this.$emit('input', val)
     },
 
     __close () {
       this.validated = true
-      this.$refs.menu.hide()
+      this.$refs.menu.showing === true && this.$refs.menu.hide()
     },
 
     __reposition () {
@@ -162,13 +163,20 @@ export default Vue.extend({
         show: () => {
           this.$emit('show')
         },
+        'escape-key': this.cancel,
         'before-hide': () => {
           this.watcher()
 
-          if (this.validated === false && this.__hasChanged()) {
-            this.$emit('cancel', this.value, this.initialValue)
-            this.$emit('input', this.initialValue)
+          if (this.validated === false && this.__hasChanged() === true) {
+            if (this.autoSave === true && this.validate(this.value) === true) {
+              this.$emit('save', this.value, this.initialValue)
+            }
+            else {
+              this.$emit('cancel', this.value, this.initialValue)
+              this.$emit('input', this.initialValue)
+            }
           }
+
           this.$emit('before-hide')
         },
         hide: () => {

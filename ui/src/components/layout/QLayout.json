@@ -3,6 +3,10 @@
     "docsUrl": "https://v1.quasar.dev/layout/layout"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "view": {
       "type": "String",

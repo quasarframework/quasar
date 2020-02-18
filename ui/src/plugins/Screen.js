@@ -1,10 +1,11 @@
 import Vue from 'vue'
 
 import { isSSR, fromSSR } from './Platform.js'
-import { listenOpts } from '../utils/event.js'
+import { listenOpts, noop } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
 
 const SIZE_LIST = ['sm', 'md', 'lg', 'xl']
+const { passive } = listenOpts
 
 export default {
   width: 0,
@@ -37,8 +38,8 @@ export default {
   lg: false,
   xl: false,
 
-  setSizes () {},
-  setDebounce () {},
+  setSizes: noop,
+  setDebounce: noop,
 
   install ($q, queues, cfg) {
     if (isSSR === true) {
@@ -132,11 +133,11 @@ export default {
       }
 
       this.setDebounce = delay => {
-        updateEvt !== void 0 && target.removeEventListener('resize', updateEvt, listenOpts.passive)
+        updateEvt !== void 0 && target.removeEventListener('resize', updateEvt, passive)
         updateEvt = delay > 0
           ? debounce(update, delay)
           : update
-        target.addEventListener('resize', updateEvt, listenOpts.passive)
+        target.addEventListener('resize', updateEvt, passive)
       }
 
       this.setDebounce(updateDebounce)

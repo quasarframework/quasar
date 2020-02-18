@@ -126,38 +126,44 @@ export default Vue.extend({
     },
 
     __getToggleIcon (h) {
-      return h(QItemSection, {
-        staticClass: `cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
+      const data = {
+        staticClass: `q-focusable relative-position cursor-pointer${this.denseToggle === true && this.switchToggleSide === true ? ' items-end' : ''}`,
         class: this.expandIconClass,
         props: {
           side: this.switchToggleSide !== true,
           avatar: this.switchToggleSide
-        },
-        on: this.activeToggleIcon === true ? cache(this, 'inpExt', {
-          click: this.__toggleIcon,
-          keyup: this.__toggleIconKeyboard
-        }) : void 0
-      }, [
+        }
+      }
+
+      const child = [
         h(QIcon, {
-          staticClass: 'q-expansion-item__toggle-icon q-focusable',
-          class: {
-            'rotate-180': this.expandedIcon === void 0 ? this.showing : false,
-            invisible: this.disable
-          },
-          props: {
-            name: this.expansionIcon
-          },
-          attrs: this.activeToggleIcon === true
-            ? { tabindex: 0 }
-            : void 0
-        }, [
-          h('div', {
-            staticClass: 'q-focus-helper q-focus-helper--round',
-            attrs: { tabindex: -1 },
-            ref: 'blurTarget'
+          staticClass: 'q-expansion-item__toggle-icon',
+          class: this.expandedIcon === void 0 && this.showing === true
+            ? 'q-expansion-item__toggle-icon--rotated'
+            : void 0,
+          props: { name: this.expansionIcon }
+        })
+      ]
+
+      if (this.activeToggleIcon === true) {
+        Object.assign(data, {
+          attrs: { tabindex: 0 },
+          on: cache(this, 'inpExt', {
+            click: this.__toggleIcon,
+            keyup: this.__toggleIconKeyboard
           })
-        ])
-      ])
+        })
+
+        child.unshift(
+          h('div', {
+            ref: 'blurTarget',
+            staticClass: 'q-expansion-item__toggle-focus q-icon q-focus-helper q-focus-helper--rounded',
+            attrs: { tabindex: -1 }
+          })
+        )
+      }
+
+      return h(QItemSection, data, child)
     },
 
     __getHeader (h) {
@@ -195,7 +201,9 @@ export default Vue.extend({
         )
       }
 
-      child[this.switchToggleSide === true ? 'unshift' : 'push'](this.__getToggleIcon(h))
+      this.disable !== true && child[this.switchToggleSide === true ? 'unshift' : 'push'](
+        this.__getToggleIcon(h)
+      )
 
       const data = {
         ref: 'item',
@@ -232,7 +240,11 @@ export default Vue.extend({
         this.__getHeader(h),
 
         h(QSlideTransition, {
-          props: { duration: this.duration }
+          props: { duration: this.duration },
+          on: cache(this, 'slide', {
+            show: () => { this.$emit('after-show') },
+            hide: () => { this.$emit('after-hide') }
+          })
         }, [
           h('div', {
             staticClass: 'q-expansion-item__content relative-position',

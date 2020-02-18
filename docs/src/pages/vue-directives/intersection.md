@@ -1,7 +1,7 @@
 ---
 title: Intersection Directive
 desc: Vue directive that uses Intersection Observer API to call a method when user scrolls and brings a component into or out of view.
-badge: "v1.3.0+"
+badge: "v1.3+"
 related:
   - /vue-components/intersection
   - /vue-directives/scroll-fire
@@ -80,6 +80,6 @@ In the example below, we show multiple cards, but only the visible ones get rend
 In the example above we used a Quasar transition. For a full list, please head to [Transitions](/options/transitions) page.
 :::
 
-## API
+## Intersection API
 
 <doc-api file="Intersection" />

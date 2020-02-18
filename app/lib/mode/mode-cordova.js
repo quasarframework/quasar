@@ -1,28 +1,11 @@
-const
-  fs = require('fs'),
-  fse = require('fs-extra'),
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:mode-cordova'),
-  warn = logger('app:mode-cordova', 'red'),
-  { spawnSync } = require('../helpers/spawn')
+const fs = require('fs')
+const fse = require('fs-extra')
 
-function installDependencies () {
-  if (fs.existsSync(appPaths.resolve.cordova('node_modules'))) {
-    return
-  }
-
-  log('Installing dependencies in /src-cordova')
-  spawnSync(
-    'npm',
-    [ 'install' ],
-    { cwd: appPaths.cordovaDir },
-    () => {
-      warn(`⚠️  [FAIL] npm failed installing dependencies in /src-cordova`)
-      process.exit(1)
-    }
-  )
-}
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:mode-cordova')
+const warn = logger('app:mode-cordova', 'red')
+const { spawnSync } = require('../helpers/spawn')
 
 class Mode {
   get isInstalled () {
@@ -35,9 +18,8 @@ class Mode {
       return
     }
 
-    const
-      pkg = require(appPaths.resolve.app('package.json')),
-      appName = pkg.productName || pkg.name || 'Quasar App'
+    const pkg = require(appPaths.resolve.app('package.json'))
+    const appName = pkg.productName || pkg.name || 'Quasar App'
 
     if (/^[0-9]/.test(appName)) {
       warn(
@@ -59,12 +41,8 @@ class Mode {
       }
     )
 
-    const www = appPaths.resolve.cordova('www')
-    fse.removeSync(www)
-    fse.copySync(
-      appPaths.resolve.cli('templates/cordova'),
-      appPaths.cordovaDir
-    )
+    const { ensureWWW } = require('../cordova/ensure-consistency')
+    ensureWWW(true)
 
     log(`Cordova support was installed`)
     log(`App name was taken from package.json: "${appName}"`)
@@ -93,10 +71,10 @@ class Mode {
   }
 
   addPlatform (target) {
-    fse.ensureDirSync(appPaths.resolve.cordova(`www`))
+    const ensureConsistency = require('../cordova/ensure-consistency')
+    ensureConsistency()
 
     if (this.hasPlatform(target)) {
-      installDependencies()
       return
     }
 

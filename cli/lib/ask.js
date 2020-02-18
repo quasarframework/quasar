@@ -1,9 +1,8 @@
 // Following is adapted from Vue CLI v2 "init" command
 
-const
-  async = require('async'),
-  inquirer = require('inquirer'),
-  evaluate = require('./eval')
+const async = require('async')
+const inquirer = require('inquirer')
+const evaluate = require('./eval')
 
 // Support types from prompt-for which was used before
 const promptMapping = {

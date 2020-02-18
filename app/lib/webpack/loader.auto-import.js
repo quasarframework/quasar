@@ -27,7 +27,8 @@ function transform (itemArray) {
 function extract (content, query) {
   let comp = content.match(compRegex[query])
   let dir = content.match(dirRegex)
-  let compImport, dirImport
+  let compImport
+  let dirImport
 
   if (comp !== null) {
     // avoid duplicates

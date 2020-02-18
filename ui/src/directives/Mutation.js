@@ -31,9 +31,11 @@ function update (el, ctx, { modifiers: { once, ...mod }, value }) {
     ctx.observer !== void 0 && ctx.observer.disconnect()
 
     ctx.observer = new MutationObserver(list => {
-      const res = ctx.handler(list)
-      if (res === false || ctx.once === true) {
-        destroy(el)
+      if (typeof ctx.handler === 'function') {
+        const res = ctx.handler(list)
+        if (res === false || ctx.once === true) {
+          destroy(el)
+        }
       }
     })
 

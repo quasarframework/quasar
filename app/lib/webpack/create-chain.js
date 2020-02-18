@@ -1,26 +1,25 @@
-const
-  path = require('path'),
-  webpack = require('webpack'),
-  WebpackChain = require('webpack-chain'),
-  VueLoaderPlugin = require('vue-loader/lib/plugin'),
-  WebpackProgress = require('./plugin.progress'),
-  BootDefaultExport = require('./plugin.boot-default-export')
+const fs = require('fs')
+const path = require('path')
+const webpack = require('webpack')
+const WebpackChain = require('webpack-chain')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const WebpackProgress = require('./plugin.progress')
+const BootDefaultExport = require('./plugin.boot-default-export')
 
-const
-  appPaths = require('../app-paths'),
-  injectStyleRules = require('./inject.style-rules')
+const appPaths = require('../app-paths')
+const injectStyleRules = require('./inject.style-rules')
 
 module.exports = function (cfg, configName) {
-  const
-    chain = new WebpackChain(),
-    needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName),
-    fileHash = needsHash ? '.[hash:8]' : '',
-    chunkHash = needsHash ? '.[contenthash:8]' : '',
-    resolveModules = [
-      'node_modules',
-      appPaths.resolve.app('node_modules'),
-      appPaths.resolve.cli('node_modules')
-    ]
+  const chain = new WebpackChain()
+
+  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+  const fileHash = needsHash ? '.[contenthash:8]' : ''
+  const chunkHash = needsHash ? '.[chunkhash:8]' : ''
+  const resolveModules = [
+    'node_modules',
+    appPaths.resolve.app('node_modules'),
+    appPaths.resolve.cli('node_modules')
+  ]
 
   if (configName === 'Capacitor') {
     // need to also look into /src-capacitor
@@ -75,7 +74,11 @@ module.exports = function (cfg, configName) {
   chain.resolveLoader.modules
     .merge(resolveModules)
 
-  chain.module.noParse(/^(vue|vue-router|vuex|vuex-router-sync)$/)
+  chain.module.noParse(
+    cfg.framework.all === true
+      ? /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar)$/
+      : /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras)$/
+  )
 
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
@@ -129,6 +132,7 @@ module.exports = function (cfg, configName) {
     .use('babel-loader')
       .loader('babel-loader')
         .options({
+          compact: false,
           extends: appPaths.resolve.app('babel.config.js'),
           plugins: cfg.framework.all !== true && configName !== 'Server' ? [
             [
@@ -202,11 +206,9 @@ module.exports = function (cfg, configName) {
     .hints(false)
     .maxAssetSize(500000)
 
-  if (configName !== 'Server') {
-    const
-      add = cfg.vendor.add,
-      rem = cfg.vendor.remove,
-      regex = /[\\/]node_modules[\\/]/
+  if (configName !== 'Server' && cfg.vendor.disable !== true) {
+    const { add, remove } = cfg.vendor
+    const regex = /[\\/]node_modules[\\/]/
 
     chain.optimization
       .splitChunks({
@@ -216,11 +218,11 @@ module.exports = function (cfg, configName) {
             chunks: 'all',
             priority: -10,
             // a module is extracted into the vendor chunk if...
-            test: add !== void 0 || rem !== void 0
+            test: add !== void 0 || remove !== void 0
               ? module => {
                 if (module.resource) {
                   if (add !== void 0 && add.test(module.resource)) { return true }
-                  if (rem !== void 0 && rem.test(module.resource)) { return false }
+                  if (remove !== void 0 && remove.test(module.resource)) { return false }
                 }
                 return regex.test(module.resource)
               }
@@ -246,9 +248,8 @@ module.exports = function (cfg, configName) {
 
   // DEVELOPMENT build
   if (cfg.ctx.dev) {
-    const
-      FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin'),
-      { devCompilationSuccess } = require('../helpers/banner')
+    const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+    const { devCompilationSuccess } = require('../helpers/banner')
 
     chain.optimization
       .noEmitOnErrors(true)
@@ -269,33 +270,28 @@ module.exports = function (cfg, configName) {
         hashDigest: 'hex'
       }])
 
-    // keep chunk ids stable so async chunks have consistent hash
-    const hash = require('hash-sum')
-    chain
-      .plugin('named-chunks')
-        .use(webpack.NamedChunksPlugin, [
-          chunk => chunk.name || hash(
-            Array.from(chunk.modulesIterable, m => m.id).join('_')
-          )
-        ])
-
     if (configName !== 'Server') {
       // copy statics to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
+
+      const copyArray = []
+      const staticsFolder = appPaths.resolve.src('statics')
+
+      if (fs.existsSync(staticsFolder)) {
+        copyArray.push({
+          from: staticsFolder,
+          to: 'statics',
+          ignore: ['.*'].concat(
+            // avoid useless files to be copied
+            ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+              ? [ 'icons/*', 'app-logo-128x128.png' ]
+              : []
+          )
+        })
+      }
+
       chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, [
-          [{
-            from: appPaths.resolve.src('statics'),
-            to: 'statics',
-            ignore: ['.*'],
-            ignore: ['.*'].concat(
-              // avoid useless files to be copied
-              ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-                ? [ 'icons/*', 'app-logo-128x128.png' ]
-                : []
-            )
-          }]
-        ])
+        .use(CopyWebpackPlugin, [ copyArray ])
     }
 
     // Scope hoisting ala Rollupjs

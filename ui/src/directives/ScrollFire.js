@@ -3,12 +3,9 @@ import { height, offset } from '../utils/dom.js'
 import { getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function updateBinding (el, { value, oldValue }) {
-  const ctx = el.__qscrollfire
-
+function updateBinding (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
-    console.error('v-scroll-fire requires a function as parameter', el)
     return
   }
 
@@ -53,12 +50,12 @@ export default {
   inserted (el, binding) {
     let ctx = el.__qscrollfire
     ctx.scrollTarget = getScrollTarget(el)
-    updateBinding(el, binding)
+    updateBinding(ctx, binding)
   },
 
   update (el, binding) {
-    if (binding.value !== binding.oldValue) {
-      updateBinding(el, binding)
+    if (el.__qscrollfire !== void 0 && binding.value !== binding.oldValue) {
+      updateBinding(el.__qscrollfire, binding)
     }
   },
 

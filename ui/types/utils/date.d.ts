@@ -1,20 +1,17 @@
-export interface BuildDateOptions {
+interface DateOptions {
   milliseconds?: number;
   seconds?: number;
   minutes?: number;
   hours?: number;
-  date?: number;
   month?: number;
   year?: number;
 }
-export interface ModifyDateOptions {
-  milliseconds?: number;
-  seconds?: number;
-  minutes?: number;
-  hours?: number;
+
+export interface BuildDateOptions extends DateOptions {
+  date?: number;
+}
+export interface ModifyDateOptions extends DateOptions {
   days?: number;
-  month?: number;
-  year?: number;
 }
 
 export interface DateLocale {
@@ -40,12 +37,12 @@ export namespace date {
   function endOfDate(date: Date | number | string, option: DateUnitOptions): Date;
   function getMaxDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
   function getMinDate(date: Date | number | string, ...args: (Date | number | string)[]): Date;
-  function getDateDiff(date: Date | number | string, subtract: Date | number | string, unit?: string): Date;
+  function getDateDiff(date: Date | number | string, subtract: Date | number | string, unit?: string): number;
   function getDayOfYear(date: Date | number | string): number;
   function inferDateFormat(date: Date | number | string): "date" | "number" | "string";
   function getDateBetween(date: Date | number | string, min?: Date | number | string, max?: Date | number | string): Date;
   function isSameDate(date: Date | number | string, date2: Date | number | string, unit?: DateUnitOptions): boolean;
   function daysInMonth(date: Date | number | string): number;
-  function formatDate(date: Date | number | string | undefined, format: string, locale?: DateLocale, __forcedYear?: number): string;
+  function formatDate(date: Date | number | string | undefined, format?: string, locale?: DateLocale, __forcedYear?: number): string;
   function clone<D extends Date | number | string>(date: D): D;
 }

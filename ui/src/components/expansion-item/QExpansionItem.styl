@@ -8,6 +8,17 @@
     position: relative
     transition: transform .3s
 
+    &--rotated
+      transform: rotate(180deg)
+
+  &__toggle-focus
+    width: 1em !important
+    height: 1em !important
+    position: relative !important
+
+    & + .q-expansion-item__toggle-icon
+      margin-top: -1em
+
   &--standard
     &.q-expansion-item--expanded
       > div > .q-expansion-item__border
@@ -51,3 +62,10 @@
   &--expanded + &--expanded
     > div > .q-expansion-item__border--top
       opacity: 0
+
+  &--expanded .q-textarea--autogrow textarea
+    animation: q-expansion-done 0s
+
+@keyframes q-expansion-done
+  0%
+    --q-exp-done: 1 // needed for compilation

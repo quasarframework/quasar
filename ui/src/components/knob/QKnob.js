@@ -3,8 +3,10 @@ import Vue from 'vue'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
+import { cache } from '../../utils/vm.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import FormMixin from '../../mixins/form.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
@@ -13,9 +15,10 @@ const keyCodes = [34, 37, 40, 33, 39, 38]
 export default Vue.extend({
   name: 'QKnob',
 
-  mixins: [{
-    props: QCircularProgress.options.props
-  }],
+  mixins: [
+    { props: QCircularProgress.options.props },
+    FormMixin
+  ],
 
   directives: {
     TouchPan
@@ -84,21 +87,36 @@ export default Vue.extend({
 
     computedStep () {
       return this.step === 0 ? 1 : this.step
+    },
+
+    events () {
+      return this.$q.platform.is.mobile === true
+        ? { click: this.__click }
+        : {
+          mousedown: this.__activate,
+          click: this.__click,
+          keydown: this.__keydown,
+          keyup: this.__keyup
+        }
     }
   },
 
   methods: {
+    __updateCenterPosition () {
+      const { top, left, width, height } = this.$el.getBoundingClientRect()
+      this.centerPosition = {
+        top: top + height / 2,
+        left: left + width / 2
+      }
+    },
+
     __pan (event) {
       if (event.isFinal) {
         this.__updatePosition(event.evt, true)
         this.dragging = false
       }
       else if (event.isFirst) {
-        const { top, left, width, height } = this.$el.getBoundingClientRect()
-        this.centerPosition = {
-          top: top + height / 2,
-          left: left + width / 2
-        }
+        this.__updateCenterPosition()
         this.dragging = true
         this.__updatePosition(event.evt)
       }
@@ -108,11 +126,7 @@ export default Vue.extend({
     },
 
     __click (evt) {
-      const { top, left, width, height } = this.$el.getBoundingClientRect()
-      this.centerPosition = {
-        top: top + height / 2,
-        left: left + width / 2
-      }
+      this.__updateCenterPosition()
       this.__updatePosition(evt, true)
     },
 
@@ -140,6 +154,12 @@ export default Vue.extend({
       if (keyCodes.includes(evt.keyCode)) {
         this.__updateValue(true)
       }
+    },
+
+    __activate (evt) {
+      this.__updateCenterPosition()
+      this.__updatePosition(evt)
+      this.__updateValue()
     },
 
     __updatePosition (evt, change) {
@@ -196,6 +216,10 @@ export default Vue.extend({
     __updateValue (change) {
       this.value !== this.model && this.$emit('input', this.model)
       change === true && this.$emit('change', this.model)
+    },
+
+    __getNameInput () {
+      return this.$createElement('input', { attrs: this.formAttrs })
     }
   },
 
@@ -213,12 +237,8 @@ export default Vue.extend({
 
     if (this.editable === true) {
       data.attrs = { tabindex: this.tabindex }
-      data.on = {
-        click: this.__click,
-        keydown: this.__keydown,
-        keyup: this.__keyup
-      }
-      data.directives = [{
+      data.on = this.events
+      data.directives = cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
@@ -226,7 +246,13 @@ export default Vue.extend({
           stop: true,
           mouse: true
         }
-      }]
+      }])
+
+      if (this.name !== void 0) {
+        data.scopedSlots = {
+          internal: this.__getNameInput
+        }
+      }
     }
 
     return h(QCircularProgress, data, slot(this, 'default'))

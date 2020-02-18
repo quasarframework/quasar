@@ -55,9 +55,8 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'standard',
-      validator (val) {
-        return val === 'standard' || ['top', 'bottom', 'left', 'right'].includes(val)
-      }
+      validator: val => val === 'standard' ||
+        ['top', 'bottom', 'left', 'right'].includes(val)
     },
 
     transitionShow: String,
@@ -193,9 +192,31 @@ export default Vue.extend({
 
       this.__setTimeout(() => {
         if (this.$q.platform.is.ios === true && document.activeElement) {
-          const { top } = document.activeElement.getBoundingClientRect()
-          if (top < 0) {
-            document.scrollingElement.scrollTop += top - window.innerHeight / 2
+          const
+            { top, bottom } = document.activeElement.getBoundingClientRect(),
+            { innerHeight } = window,
+            height = window.visualViewport !== void 0
+              ? window.visualViewport.height
+              : innerHeight
+
+          if (top > 0 && bottom > height / 2) {
+            const scrollTop = Math.min(
+              document.scrollingElement.scrollHeight - height,
+              bottom >= innerHeight
+                ? Infinity
+                : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
+            )
+
+            const fn = () => {
+              requestAnimationFrame(() => {
+                document.scrollingElement.scrollTop += Math.ceil((scrollTop - document.scrollingElement.scrollTop) / 8)
+                if (document.scrollingElement.scrollTop !== scrollTop) {
+                  fn()
+                }
+              })
+            }
+
+            fn()
           }
           document.activeElement.scrollIntoView()
         }
@@ -284,7 +305,7 @@ export default Vue.extend({
     __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        // stop propagating this events from children
+        // stop propagating these events from children
         input: stop,
         'popup-show': stop,
         'popup-hide': stop

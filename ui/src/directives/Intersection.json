@@ -17,7 +17,7 @@
         "desc": "The handler function to be called",
         "returns": {
           "type": "Boolean",
-          "desc": "Only value of interest is the Boolean false, in which case observing the element stops"
+          "desc": "If you return Boolean false from the handler, the observer stops"
         },
         "params": {
           "entry": {
@@ -223,6 +223,7 @@
     "once": {
       "type": "Boolean",
       "desc": "Call handler only once, when the conditions are first met",
+      "reactive": true,
       "examples": [
         "v-intersection.once"
       ]

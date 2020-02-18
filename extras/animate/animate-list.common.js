@@ -1,8 +1,10 @@
+
 module.exports.generalAnimations = [
   'bounce',
   'flash',
   'flip',
   'headShake',
+  'heartBeat',
   'hinge',
   'jello',
   'pulse',
@@ -30,6 +32,7 @@ module.exports.inAnimations = [
   'fadeInUpBig',
   'flipInX',
   'flipInY',
+  'jackInTheBox',
   'lightSpeedIn',
   'rollIn',
   'rotateIn',
@@ -76,7 +79,6 @@ module.exports.outAnimations = [
   'slideOutLeft',
   'slideOutRight',
   'slideOutUp',
-  'slideOutRight',
   'zoomOut',
   'zoomOutDown',
   'zoomOutLeft',

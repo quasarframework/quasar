@@ -46,10 +46,9 @@ if (cmd) {
       process.exit(0)
     }
 
-    const
-      logger = require('../lib/helpers/logger'),
-      log = logger('app'),
-      warn = logger('app', 'red')
+    const logger = require('../lib/helpers/logger')
+    const log = logger('app')
+    const warn = logger('app', 'red')
 
     if (cmd === '-h' || cmd === '--help') {
       cmd = 'help'

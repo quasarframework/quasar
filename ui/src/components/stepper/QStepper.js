@@ -21,7 +21,6 @@ export default Vue.extend({
   props: {
     flat: Boolean,
     bordered: Boolean,
-    vertical: Boolean,
     alternativeLabels: Boolean,
     headerNav: Boolean,
     contracted: Boolean,

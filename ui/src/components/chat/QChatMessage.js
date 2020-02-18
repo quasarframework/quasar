@@ -101,7 +101,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-message',
-      class: this.classes
+      class: this.classes,
+      on: this.$listeners
     }, [
       this.label
         ? h('div', {

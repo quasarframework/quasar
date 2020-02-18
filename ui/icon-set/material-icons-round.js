@@ -28,8 +28,9 @@ export default {
   carousel: {
     left: 'r_chevron_left',
     right: 'r_chevron_right',
-    navigationIcon: 'r_lens',
-    thumbnails: 'r_view_carousel'
+    up: 'r_keyboard_arrow_up',
+    down: 'r_keyboard_arrow_down',
+    navigationIcon: 'r_lens'
   },
   chip: {
     remove: 'r_cancel',

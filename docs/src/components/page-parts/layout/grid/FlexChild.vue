@@ -2,43 +2,50 @@
   <div :class="classes" :style="styles" @click="emitChange">
     <div class="row justify-between items-center">
       <q-btn :label="index" size="sm" flat dense :class="buttonClasses" @click="emitChange" />
-      <q-btn icon="clear" size="xs" flat dense @click="onDelete"/>
+      <q-btn :icon="mdiClose" size="xs" flat dense @click="onDelete"/>
     </div>
     <q-input filled v-model="child.width" dense label="Width (ex: '200px', '20em')" @input="emitChange">
       <template v-if="child.width.length > 0" v-slot:append>
-        <q-btn icon="clear" size="xs" flat dense @click="child.width = ''"/>
+        <q-btn :icon="mdiClose" size="xs" flat dense @click="child.width = ''"/>
       </template>
     </q-input>
 
     <q-input filled v-model="child.height" dense label="Height (ex: '300px', '25em')" @input="emitChange">
       <template v-if="child.height.length > 0" v-slot:append>
-        <q-btn icon="clear" size="xs" flat dense @click="child.height = ''"/>
+        <q-btn :icon="mdiClose" size="xs" flat dense @click="child.height = ''"/>
       </template>
     </q-input>
     <q-select color="blue-12" v-model="child.widthGroup" :options="widthOptions" label="Width" emit-value map-options dense options-dense @input="emitChange" />
     <q-select color="blue-12" v-model="child.breakpointGroup" :options="breakpointOptions" label="Break Points" multiple emit-value map-options dense options-dense @input="emitChange">
       <template v-if="child.breakpointGroup" v-slot:append>
-        <q-icon name="cancel" @click.stop="child.breakpointGroup = null" class="cursor-pointer" />
+        <q-icon :name="mdiCloseCircle" @click.stop="child.breakpointGroup = null" class="cursor-pointer" />
       </template>
     </q-select>
     <q-select color="blue-12" v-model="child.alignmentGroup" :options="alignmentOptions" label="Alignment Options" emit-value map-options dense options-dense @input="emitChange" />
     <q-select color="blue-12" v-model="child.offsetGroup" :options="offsetOptions" label="Offset Options" emit-value map-options dense options-dense @input="emitChange" />
     <q-select color="blue-12" v-model="child.gutterGroup" :options="gutterOptions" label="Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
       <template v-if="child.gutterGroup" v-slot:append>
-        <q-icon name="cancel" @click.stop="child.gutterGroup = null" class="cursor-pointer" />
+        <q-icon :name="mdiCloseCircle" @click.stop="child.gutterGroup = null" class="cursor-pointer" />
       </template>
     </q-select>
     <q-select color="blue-12" v-model="child.colGutterGroup" :options="colGutterOptions" label="Col Gutter Options" multiple emit-value map-options dense options-dense @input="emitChange">
       <template v-if="child.colGutterGroup" v-slot:append>
-        <q-icon name="cancel" @click.stop="child.colGutterGroup = null" class="cursor-pointer" />
+        <q-icon :name="mdiCloseCircle" @click.stop="child.colGutterGroup = null" class="cursor-pointer" />
       </template>
     </q-select>
   </div>
 </template>
 
 <script>
+import { mdiClose, mdiCloseCircle } from '@quasar/extras/mdi-v4'
+
 export default {
   name: 'FlexChild',
+
+  created () {
+    this.mdiClose = mdiClose
+    this.mdiCloseCircle = mdiCloseCircle
+  },
 
   props: {
     index: Number,

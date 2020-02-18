@@ -4,6 +4,7 @@ desc: A Quasar plugin that wraps the QAjaxBar component for the easiest way of s
 related:
   - /vue-components/ajax-bar
   - /vue-components/linear-progress
+  - /vue-components/skeleton
 ---
 The Quasar LoadingBar plugin offers an easy way to set up your app with a [QAjaxBar](/vue-components/ajax-bar) in case you don't want to handle a QAjaxBar component yourself.
 

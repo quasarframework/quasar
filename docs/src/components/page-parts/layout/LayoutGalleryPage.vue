@@ -1,7 +1,7 @@
 <template lang="pug">
   q-page.flex.flex-center(padding)
     q-btn(
-      icon="code"
+      :icon="mdiCodeTags"
       label="Source code"
       no-caps
       push
@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { mdiCodeTags } from '@quasar/extras/mdi-v4'
+
 import getMeta from 'assets/get-meta.js'
 
 export default {
@@ -35,6 +37,7 @@ export default {
 
   created () {
     this.sourceLink = this.$route.meta.sourceLink
+    this.mdiCodeTags = mdiCodeTags
   }
 }
 </script>

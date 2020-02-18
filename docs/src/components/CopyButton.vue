@@ -1,11 +1,11 @@
 <template lang="pug">
-div.relative
+.relative
   q-btn(
     color="primary"
     round
     dense
     flat
-    icon="content_copy"
+    :icon="mdiContentCopy"
     @click="copy"
   )
     q-tooltip Copy to Clipboard
@@ -16,17 +16,21 @@ div.relative
   )
     q-badge.absolute(
       v-show="copied"
-      style="top: 12px; right: 58px;"
+      style="top: 8px; right: 58px;"
     ) Copied to clipboard
 </template>
 
 <script>
-
 import { copyToClipboard } from 'quasar'
+import { mdiContentCopy } from '@quasar/extras/mdi-v4'
 
 export default {
   props: {
     text: [ Function, String ]
+  },
+
+  created () {
+    this.mdiContentCopy = mdiContentCopy
   },
 
   data () {

@@ -18,6 +18,7 @@ import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
+import { FormFieldMixin } from '../../mixins/form.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
 
@@ -26,7 +27,7 @@ const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField, VirtualScroll, CompositionMixin ],
+  mixins: [ QField, VirtualScroll, CompositionMixin, FormFieldMixin ],
 
   props: {
     value: {
@@ -60,8 +61,14 @@ export default Vue.extend({
       default: null
     },
     optionsSelectedClass: String,
-    optionsCover: Boolean,
     optionsSanitize: Boolean,
+
+    optionsCover: Boolean,
+
+    menuShrink: Boolean,
+    menuAnchor: String,
+    menuSelf: String,
+    menuOffset: Array,
 
     popupContentClass: String,
     popupContentStyle: [String, Array, Object],
@@ -133,6 +140,10 @@ export default Vue.extend({
       immediate: true
     },
 
+    fillInput () {
+      this.__resetInputValue()
+    },
+
     menu (show) {
       this.__updateMenu(show)
     }
@@ -161,8 +172,8 @@ export default Vue.extend({
       }
 
       return this.inputClass === void 0
-        ? 'q-select__input--padding'
-        : [this.inputClass, 'q-select__input--padding']
+        ? 'q-field__input--padding'
+        : [this.inputClass, 'q-field__input--padding']
     },
 
     menuContentClass () {
@@ -201,11 +212,17 @@ export default Vue.extend({
         .join(', ')
     },
 
+    sanitizeFn () {
+      return this.optionsSanitize === true
+        ? () => true
+        : opt => opt !== void 0 && opt !== null && opt.sanitize === true
+    },
+
     displayAsText () {
       return this.displayValueSanitize === true || (
         this.displayValue === void 0 && (
           this.optionsSanitize === true ||
-          this.innerValue.some(opt => opt !== null && opt.sanitize === true)
+          this.innerValue.some(this.sanitizeFn)
         )
       )
     },
@@ -218,7 +235,7 @@ export default Vue.extend({
       return this.innerValue.map((opt, i) => ({
         index: i,
         opt,
-        sanitize: this.optionsSanitize === true || opt.sanitize === true,
+        sanitize: this.sanitizeFn(opt),
         selected: true,
         removeAtIndex: this.__removeAtIndexAndFocus,
         toggleOption: this.toggleOption,
@@ -234,7 +251,7 @@ export default Vue.extend({
       const { from, to } = this.virtualScrollSliceRange
 
       return this.options.slice(from, to).map((opt, i) => {
-        const disable = this.__isDisabled(opt)
+        const disable = this.__getOptionDisabled(opt) === true
         const index = from + i
 
         const itemProps = {
@@ -265,7 +282,7 @@ export default Vue.extend({
         return {
           index,
           opt,
-          sanitize: this.optionsSanitize === true || opt.sanitize === true,
+          sanitize: this.sanitizeFn(opt),
           selected: itemProps.active,
           focused: itemProps.focused,
           toggleOption: this.toggleOption,
@@ -294,6 +311,22 @@ export default Vue.extend({
       return this.optionsSelectedClass !== void 0
         ? this.optionsSelectedClass
         : (this.color !== void 0 ? `text-${this.color}` : '')
+    },
+
+    innerOptionsValue () {
+      return this.innerValue.map(opt => this.__getOptionValue(opt))
+    },
+
+    __getOptionValue () {
+      return this.__getPropValueFn('optionValue', 'value')
+    },
+
+    __getOptionLabel () {
+      return this.__getPropValueFn('optionLabel', 'label')
+    },
+
+    __getOptionDisabled () {
+      return this.__getPropValueFn('optionDisable', 'disable')
     }
   },
 
@@ -322,6 +355,12 @@ export default Vue.extend({
         : opt
 
       if (this.multiple !== true) {
+        this.fillInput === true && this.updateInputValue(
+          this.__getOptionLabel(opt),
+          true,
+          true
+        )
+
         this.$emit('input', val)
         return
       }
@@ -347,30 +386,35 @@ export default Vue.extend({
       this.$emit('input', model)
     },
 
-    toggleOption (opt) {
-      if (this.editable !== true || opt === void 0 || this.__isDisabled(opt) === true) {
+    toggleOption (opt, keepOpen) {
+      if (this.editable !== true || opt === void 0 || this.__getOptionDisabled(opt) === true) {
         return
       }
 
       const optValue = this.__getOptionValue(opt)
 
       if (this.multiple !== true) {
-        this.updateInputValue(
-          this.fillInput === true ? this.__getOptionLabel(opt) : '',
-          true,
-          true
-        )
-
         this.$refs.target !== void 0 && this.$refs.target.focus()
-        this.hidePopup()
 
-        if (isDeepEqual(this.__getOptionValue(this.value), optValue) !== true) {
+        if (keepOpen !== true) {
+          this.updateInputValue(
+            this.fillInput === true ? this.__getOptionLabel(opt) : '',
+            true,
+            true
+          )
+
+          this.hidePopup()
+        }
+
+        if (isDeepEqual(this.__getOptionValue(this.innerValue), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         return
       }
 
       (this.hasDialog !== true || this.dialogFieldFocused === true) && this.__focus()
+
+      this.__selectInputText()
 
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
@@ -381,7 +425,7 @@ export default Vue.extend({
 
       const
         model = this.value.slice(),
-        index = this.value.findIndex(v => isDeepEqual(this.__getOptionValue(v), optValue))
+        index = this.innerOptionsValue.findIndex(v => isDeepEqual(v, optValue))
 
       if (index > -1) {
         this.$emit('remove', { index, value: model.splice(index, 1) })
@@ -412,51 +456,58 @@ export default Vue.extend({
       }
     },
 
+    moveOptionSelection (offset = 1, skipInputValue) {
+      if (this.menu === true) {
+        let index = this.optionIndex
+        do {
+          index = normalizeToInterval(
+            index + offset,
+            -1,
+            this.virtualScrollLength - 1
+          )
+        }
+        while (index !== -1 && index !== this.optionIndex && this.__getOptionDisabled(this.options[index]) === true)
+
+        if (this.optionIndex !== index) {
+          this.setOptionIndex(index)
+          this.scrollTo(index)
+
+          if (skipInputValue !== true && index >= 0 && this.useInput === true && this.fillInput === true) {
+            const inputValue = this.__getOptionLabel(this.options[index])
+            if (this.inputValue !== inputValue) {
+              this.inputValue = inputValue
+            }
+          }
+        }
+      }
+    },
+
     __getOption (value, innerValueCache) {
       const fn = opt => isDeepEqual(this.__getOptionValue(opt), value)
       return this.options.find(fn) || innerValueCache.find(fn) || value
     },
 
-    __getOptionValue (opt) {
-      if (typeof this.optionValue === 'function') {
-        return this.optionValue(opt)
-      }
-      if (Object(opt) === opt) {
-        return typeof this.optionValue === 'string'
-          ? opt[this.optionValue]
-          : opt.value
-      }
-      return opt
-    },
+    __getPropValueFn (propName, defaultVal) {
+      const val = this[propName] !== void 0
+        ? this[propName]
+        : defaultVal
 
-    __getOptionLabel (opt) {
-      if (typeof this.optionLabel === 'function') {
-        return this.optionLabel(opt)
-      }
-      if (Object(opt) === opt) {
-        return typeof this.optionLabel === 'string'
-          ? opt[this.optionLabel]
-          : opt.label
-      }
-      return opt
-    },
-
-    __isDisabled (opt) {
-      if (typeof this.optionDisable === 'function') {
-        return this.optionDisable(opt) === true
-      }
-      if (Object(opt) === opt) {
-        return typeof this.optionDisable === 'string'
-          ? opt[this.optionDisable] === true
-          : opt.disable === true
-      }
-      return false
+      return typeof val === 'function'
+        ? val
+        : opt => Object(opt) === opt && val in opt
+          ? opt[val]
+          : opt
     },
 
     __isSelected (opt) {
       const val = this.__getOptionValue(opt)
-      return this.innerValue
-        .find(v => isDeepEqual(this.__getOptionValue(v), val)) !== void 0
+      return this.innerOptionsValue.find(v => isDeepEqual(v, val)) !== void 0
+    },
+
+    __selectInputText () {
+      if (this.useInput === true && this.$refs.target !== void 0) {
+        this.$refs.target.select()
+      }
     },
 
     __onTargetKeyup (e) {
@@ -472,6 +523,35 @@ export default Vue.extend({
       this.$emit('keyup', e)
     },
 
+    __onTargetAutocomplete (e) {
+      const { value } = e.target
+
+      e.target.value = ''
+
+      if (
+        e.keyCode === void 0 &&
+        typeof value === 'string' &&
+        value.length > 0
+      ) {
+        const needle = value.toLocaleLowerCase()
+
+        let fn = opt => this.__getOptionValue(opt).toLocaleLowerCase() === needle
+        let option = this.options.find(fn)
+
+        if (option !== null) {
+          this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
+        }
+        else {
+          fn = opt => this.__getOptionLabel(opt).toLocaleLowerCase() === needle
+          option = this.options.find(fn)
+
+          if (option !== null) {
+            this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
+          }
+        }
+      }
+    },
+
     __onTargetKeypress (e) {
       this.$emit('keypress', e)
     },
@@ -483,10 +563,15 @@ export default Vue.extend({
         return
       }
 
-      const tabShouldSelect = e.shiftKey !== true && this.multiple !== true && this.optionIndex > -1
+      const newValueModeValid = this.inputValue.length > 0 &&
+        (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
+      const tabShouldSelect = e.shiftKey !== true &&
+        this.multiple !== true &&
+        (this.optionIndex > -1 || newValueModeValid === true)
 
       // escape
       if (e.keyCode === 27) {
+        prevent(e) // prevent clearing the inputValue
         return
       }
 
@@ -496,7 +581,7 @@ export default Vue.extend({
         return
       }
 
-      if (e.target !== this.$refs.target) { return }
+      if (e.target === void 0 || e.target.id !== this.targetUid) { return }
 
       // down
       if (
@@ -521,35 +606,12 @@ export default Vue.extend({
       }
 
       // up, down
-      const optionsLength = this.virtualScrollLength
-
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
-
-        if (this.menu === true) {
-          let index = this.optionIndex
-          do {
-            index = normalizeToInterval(
-              index + (e.keyCode === 38 ? -1 : 1),
-              -1,
-              optionsLength - 1
-            )
-          }
-          while (index !== -1 && index !== this.optionIndex && this.__isDisabled(this.options[index]) === true)
-
-          if (this.optionIndex !== index) {
-            this.setOptionIndex(index)
-            this.scrollTo(index)
-
-            if (index >= 0 && this.useInput === true && this.fillInput === true) {
-              const inputValue = this.__getOptionLabel(this.options[index])
-              if (this.inputValue !== inputValue) {
-                this.inputValue = inputValue
-              }
-            }
-          }
-        }
+        this.moveOptionSelection(e.keyCode === 38 ? -1 : 1, this.multiple)
       }
+
+      const optionsLength = this.virtualScrollLength
 
       // keyboard search when not having use-input
       if (optionsLength > 0 && this.useInput !== true && e.keyCode >= 48 && e.keyCode <= 90) {
@@ -578,7 +640,7 @@ export default Vue.extend({
             index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
           while (index !== this.optionIndex && (
-            this.__isDisabled(this.options[index]) === true ||
+            this.__getOptionDisabled(this.options[index]) === true ||
             searchRe.test(this.__getOptionLabel(this.options[index])) !== true
           ))
         }
@@ -601,13 +663,11 @@ export default Vue.extend({
       }
 
       // enter, space (when not using use-input), or tab (when not using multiple and option selected)
+      // same target is checked above
       if (
-        e.target !== this.$refs.target ||
-        (
-          e.keyCode !== 13 &&
-          (this.useInput === true || e.keyCode !== 32) &&
-          (tabShouldSelect === false || e.keyCode !== 9)
-        )
+        e.keyCode !== 13 &&
+        (this.useInput === true || e.keyCode !== 32) &&
+        (tabShouldSelect === false || e.keyCode !== 9)
       ) { return }
 
       e.keyCode !== 9 && stopAndPrevent(e)
@@ -617,10 +677,7 @@ export default Vue.extend({
         return
       }
 
-      if (
-        this.inputValue.length > 0 &&
-        (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
-      ) {
+      if (newValueModeValid === true) {
         const done = (val, mode) => {
           if (mode) {
             if (validateNewValueMode(mode) !== true) {
@@ -632,25 +689,32 @@ export default Vue.extend({
             mode = this.newValueMode
           }
 
-          if (val !== void 0 && val !== null) {
-            this[mode === 'toggle' ? 'toggleOption' : 'add'](
-              val,
-              mode === 'add-unique'
-            )
+          if (val === void 0 || val === null) {
+            return
           }
 
           this.updateInputValue('', this.multiple !== true, true)
+
+          this[mode === 'toggle' ? 'toggleOption' : 'add'](
+            val,
+            mode === 'add-unique'
+          )
+
+          if (this.multiple !== true) {
+            this.$refs.target !== void 0 && this.$refs.target.focus()
+            this.hidePopup()
+          }
         }
 
         if (this.$listeners['new-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
-
-          if (this.multiple !== true) {
-            return
-          }
         }
         else {
           done(this.inputValue)
+        }
+
+        if (this.multiple !== true) {
+          return
         }
       }
 
@@ -682,7 +746,7 @@ export default Vue.extend({
           ? [
             h('span', {
               domProps: {
-                'textContent': this.inputValue
+                textContent: this.inputValue
               }
             })
           ]
@@ -701,7 +765,7 @@ export default Vue.extend({
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
-            removable: this.__isDisabled(scope.opt) !== true,
+            removable: this.__getOptionDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
             tabindex: this.computedTabindex
@@ -738,6 +802,19 @@ export default Vue.extend({
       else if (this.editable === true) {
         const isShadowField = this.hasDialog === true && fromDialog !== true && this.menu === true
 
+        if (fromDialog !== true) {
+          child.push(h('input', {
+            staticClass: 'q-select__autocomplete-input no-outline',
+            attrs: {
+              autocomplete: this.$attrs.autocomplete,
+              tabindex: -1
+            },
+            on: cache(this, 'acpl', {
+              keyup: this.__onTargetAutocomplete
+            })
+          }))
+        }
+
         child.push(h('div', {
           // there can be only one (when dialog is opened the control in dialog should be target)
           ref: isShadowField === true ? void 0 : 'target',
@@ -752,6 +829,22 @@ export default Vue.extend({
             keypress: this.__onTargetKeypress
           })
         }))
+      }
+
+      if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
+        const opts = this.innerOptionsValue.map(value => h('option', {
+          attrs: { value, selected: true }
+        }))
+
+        child.push(
+          h('select', {
+            staticClass: 'hidden',
+            attrs: {
+              name: this.nameProp,
+              multiple: this.multiple
+            }
+          }, opts)
+        )
       }
 
       return h('div', { staticClass: 'q-field__native row items-center', attrs: this.$attrs }, child)
@@ -808,7 +901,8 @@ export default Vue.extend({
         change: this.__onChange,
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetKeyup,
-        keypress: this.__onTargetKeypress
+        keypress: this.__onTargetKeypress,
+        focus: this.__selectInputText
       }
 
       on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
@@ -819,7 +913,7 @@ export default Vue.extend({
 
       return h('input', {
         ref: 'target',
-        staticClass: 'q-select__input q-placeholder col',
+        staticClass: 'q-field__input q-placeholder col',
         style: this.inputStyle,
         class: this.computedInputClass,
         domProps: { value: this.inputValue !== void 0 ? this.inputValue : '' },
@@ -852,6 +946,13 @@ export default Vue.extend({
       // mark it here as user input so that if updateInputValue is called
       // before filter is called the indicator is reset
       this.userInputValue = true
+
+      if (
+        this.focused !== true &&
+        (this.hasDialog !== true || this.dialogFieldFocused === true)
+      ) {
+        this.__focus()
+      }
 
       if (this.$listeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
@@ -903,10 +1004,12 @@ export default Vue.extend({
       this.$emit(
         'filter',
         val,
-        fn => {
+        (fn, afterFn) => {
           if (this.focused === true && this.filterId === filterId) {
             clearTimeout(this.filterId)
+
             typeof fn === 'function' && fn()
+
             this.$nextTick(() => {
               this.innerLoading = false
               if (this.menu === true) {
@@ -915,6 +1018,8 @@ export default Vue.extend({
               else {
                 this.menu = true
               }
+
+              typeof afterFn === 'function' && this.$nextTick(() => { afterFn(this) })
             })
           }
         },
@@ -950,7 +1055,7 @@ export default Vue.extend({
           if (this.hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
             if (
-              (this.useInput === true && e.target.classList.contains('q-select__input') !== true) ||
+              (this.useInput === true && e.target.classList.contains('q-field__input') !== true) ||
               (this.useInput !== true && e.target.classList.contains('no-outline') === true)
             ) {
               return
@@ -968,7 +1073,7 @@ export default Vue.extend({
       }
     },
 
-    __getPopup (h) {
+    __getControlChild (h) {
       if (
         this.editable !== false && (
           this.dialog === true || // dialog always has menu displayed, so need to render it
@@ -993,8 +1098,11 @@ export default Vue.extend({
         ref: 'menu',
         props: {
           value: this.menu,
-          fit: true,
+          fit: this.menuShrink !== true,
           cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
+          anchor: this.menuAnchor,
+          self: this.menuSelf,
+          offset: this.menuOffset,
           contentClass: this.menuContentClass,
           contentStyle: this.popupContentStyle,
           dark: this.isOptionsDark,

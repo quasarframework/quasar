@@ -24,13 +24,13 @@ Notice that the content of `QMarkupTable` reflects an accurate markup representa
 This component will *NOT* work as-is within the UMD version of Quasar. Browsers parse the template HTML before Vue kicks in and renders it, so the markup needs to be correct. `<q-markup-table> <thead>` or `<q-markup-table> <tbody>` is not. The solution is to directly use the QMarkupTable Vue rendered tag (`<table class="....`).
 :::
 
-<doc-example title="Basic" file="QMarkupTable/Basic" no-edit />
+<doc-example title="Basic" file="QMarkupTable/Basic" />
 
-<doc-example title="Separators" file="QMarkupTable/Separators" no-edit />
+<doc-example title="Separators" file="QMarkupTable/Separators" />
 
-<doc-example title="Dark" file="QMarkupTable/Dark" no-edit />
+<doc-example title="Dark" file="QMarkupTable/Dark" />
 
-<doc-example title="Customization" file="QMarkupTable/Customization" no-edit />
+<doc-example title="Customization" file="QMarkupTable/Customization" />
 
 ## QMarkupTable API
 <doc-api file="QMarkupTable" />

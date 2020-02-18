@@ -1,7 +1,9 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
+import TagMixin from '../../mixins/tag.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
+
 import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/key-composition.js'
@@ -9,7 +11,7 @@ import { isKeyCode } from '../../utils/key-composition.js'
 export default Vue.extend({
   name: 'QItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin ],
+  mixins: [ DarkMixin, RouterLinkMixin, TagMixin ],
 
   props: {
     active: Boolean,
@@ -19,10 +21,6 @@ export default Vue.extend({
     insetLevel: Number,
 
     tabindex: [ String, Number ],
-    tag: {
-      type: String,
-      default: 'div'
-    },
 
     focused: Boolean,
     manualFocus: Boolean

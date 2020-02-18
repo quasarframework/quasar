@@ -1,3 +1,4 @@
+import { QBadge } from 'quasar'
 import './ApiRows.sass'
 
 function getEventParams (event) {
@@ -75,7 +76,7 @@ export default {
 
       if (propName !== void 0) {
         child.push(
-          this.getDiv(h, 4, 'Name', h('q-badge', {
+          this.getDiv(h, 4, 'Name', h(QBadge, {
             props: {
               color: NAME_PROP_COLOR[level],
               label: propName
@@ -154,7 +155,7 @@ export default {
 
       if (prop.definition !== void 0) {
         const nodes = []
-        for (let propName in prop.definition) {
+        for (const propName in prop.definition) {
           nodes.push(
             this.getProp(h, prop.definition[propName], propName, 2)
           )
@@ -178,7 +179,7 @@ export default {
           nodes = [],
           newLevel = (level + 1) % NAME_PROP_COLOR.length
 
-        for (let propName in prop.params) {
+        for (const propName in prop.params) {
           nodes.push(
             this.getProp(h, prop.params[propName], propName, newLevel)
           )
@@ -213,7 +214,7 @@ export default {
 
       if (prop.scope !== void 0) {
         const nodes = []
-        for (let propName in prop.scope) {
+        for (const propName in prop.scope) {
           nodes.push(
             this.getProp(h, prop.scope[propName], propName, 1)
           )
@@ -256,7 +257,7 @@ export default {
     props (h, props) {
       const child = []
 
-      for (let propName in props) {
+      for (const propName in props) {
         child.push(
           this.getProp(h, props[propName], propName, 0)
         )
@@ -268,10 +269,10 @@ export default {
     slots (h, slots) {
       const child = []
 
-      for (let slot in slots) {
+      for (const slot in slots) {
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h('q-badge', {
+            this.getDiv(h, 12, 'Name', h(QBadge, {
               props: {
                 color: NAME_PROP_COLOR[0],
                 label: slot
@@ -291,7 +292,7 @@ export default {
     scopedSlots (h, scopedSlots) {
       const child = []
 
-      for (let slot in scopedSlots) {
+      for (const slot in scopedSlots) {
         child.push(
           this.getProp(h, scopedSlots[slot], slot, 0)
         )
@@ -315,12 +316,12 @@ export default {
         return child
       }
 
-      for (let eventName in events) {
+      for (const eventName in events) {
         const event = events[eventName]
         const params = []
 
         if (event.params !== void 0) {
-          for (let paramName in event.params) {
+          for (const paramName in event.params) {
             params.push(
               this.getProp(h, event.params[paramName], paramName, 1)
             )
@@ -334,7 +335,7 @@ export default {
 
         child.push(
           h('div', { staticClass: 'api-row row' }, [
-            this.getDiv(h, 12, 'Name', h('q-badge', {
+            this.getDiv(h, 12, 'Name', h(QBadge, {
               props: {
                 color: NAME_PROP_COLOR[0],
                 label: `@${eventName}${getEventParams(event)}`
@@ -363,11 +364,11 @@ export default {
     methods (h, methods) {
       const child = []
 
-      for (let methodName in methods) {
+      for (const methodName in methods) {
         const method = methods[methodName]
 
         const nodes = [
-          this.getDiv(h, 12, 'Name', h('q-badge', {
+          this.getDiv(h, 12, 'Name', h(QBadge, {
             props: {
               color: NAME_PROP_COLOR[0],
               label: `${methodName}${getMethodParams(method)}${getMethodReturnValue(method)}`
@@ -381,7 +382,7 @@ export default {
 
         if (method.params !== void 0) {
           const props = []
-          for (let paramName in method.params) {
+          for (const paramName in method.params) {
             props.push(
               this.getProp(h, method.params[paramName], paramName, 1)
             )
@@ -439,21 +440,14 @@ export default {
     modifiers (h, modifiers) {
       const child = []
 
-      for (let modifierName in modifiers) {
+      for (const modifierName in modifiers) {
         const modifier = modifiers[modifierName]
 
         child.push(
           h(
             'div',
             { staticClass: 'api-row row' },
-            [
-              this.getDiv(h, 12, 'Name', h('q-badge', {
-                props: {
-                  color: NAME_PROP_COLOR[0],
-                  label: modifierName
-                }
-              }))
-            ].concat(this.getProp(h, modifier, void 0, 0, true))
+            this.getProp(h, modifier, modifierName, 0, true)
           )
         )
       }
@@ -472,7 +466,7 @@ export default {
     quasarConfOptions (h, conf) {
       const child = []
 
-      for (let def in conf.definition) {
+      for (const def in conf.definition) {
         child.push(
           this.getProp(h, conf.definition[def], def, 0)
         )
@@ -504,8 +498,9 @@ export default {
     const content = Object.keys(api).length !== 0
       ? this[this.which](h, api)
       : [
-        h('div', { staticClass: 'q-pa-md text-grey-7' }, [
-          'No matching entries found. Please refine the filter.'
+        h('div', { staticClass: 'q-pa-md text-grey-9' }, [
+          h('div', [ 'No matching entries found on this tab.' ]),
+          h('div', [ 'Please check the other tabs/subtabs with a number badge on their label or refine the filter.' ])
         ])
       ]
 

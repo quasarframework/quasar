@@ -172,9 +172,8 @@ export default {
 
 <style lang="sass">
 .my-sticky-header-table
-  /* max height is important */
-  .q-table__middle
-    max-height: 200px
+  /* height or max-height is important */
+  height: 310px
 
   .q-table__top,
   .q-table__bottom,

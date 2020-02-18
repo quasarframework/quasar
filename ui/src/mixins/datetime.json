@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/form" ],
+
   "props": {
     "value": {
       "type": "String",

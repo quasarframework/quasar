@@ -1,11 +1,10 @@
 const fs = require('fs')
 
-const
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:ssr-extension-js'),
-  warn = logger('app:ssr-extension-js', 'red'),
-  ssrExtensionFile = appPaths.resolve.ssr('extension.js')
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:ssr-extension-js')
+const warn = logger('app:ssr-extension-js', 'red')
+const ssrExtensionFile = appPaths.resolve.ssr('extension.js')
 
 class SsrExtension {
   isValid () {

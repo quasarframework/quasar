@@ -1,8 +1,10 @@
+
 export const generalAnimations = [
   'bounce',
   'flash',
   'flip',
   'headShake',
+  'heartBeat',
   'hinge',
   'jello',
   'pulse',
@@ -30,6 +32,7 @@ export const inAnimations = [
   'fadeInUpBig',
   'flipInX',
   'flipInY',
+  'jackInTheBox',
   'lightSpeedIn',
   'rollIn',
   'rotateIn',
@@ -76,7 +79,6 @@ export const outAnimations = [
   'slideOutLeft',
   'slideOutRight',
   'slideOutUp',
-  'slideOutRight',
   'zoomOut',
   'zoomOutDown',
   'zoomOutLeft',

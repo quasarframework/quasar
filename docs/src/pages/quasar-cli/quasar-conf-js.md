@@ -2,7 +2,7 @@
 title: Configuring quasar.conf.js
 desc: Where, how and what you can configure in a Quasar app.
 ---
-Quasar makes use of some awesome development tools under it's hood, like [Webpack](https://webpack.js.org/). One of the great things about Quasar is its handling of most of the complex configuration needed by the underlying tools for you. As a result, you don't even need to know Webpack or any of the other development tools in order to use Quasar.
+Quasar makes use of some awesome development tools under its hood, like [Webpack](https://webpack.js.org/). One of the great things about Quasar is its handling of most of the complex configuration needed by the underlying tools for you. As a result, you don't even need to know Webpack or any of the other development tools in order to use Quasar.
 
 So what can you configure through `/quasar.conf.js`?
 * Quasar components, directives and plugins that you'll be using in your website/app
@@ -27,6 +27,9 @@ You'll notice that changing any of these settings does not require you to manual
 :::
 
 ## Structure
+
+### The basics
+
 You'll notice that `/quasar.conf.js` exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
 
 ```js
@@ -52,6 +55,7 @@ module.exports = function (ctx) {
 ```
 
 What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
+
 ```js
 module.exports = function (ctx) {
   extras: [
@@ -63,6 +67,7 @@ module.exports = function (ctx) {
 ```
 
 Or you can use a global CSS file for SPA mode and another one for Cordova mode while avoiding loading any such file for the other modes.
+
 ```js
 module.exports = function (ctx) {
   css: [
@@ -73,6 +78,7 @@ module.exports = function (ctx) {
 ```
 
 Or you can configure the dev server to run on port 8000 for SPA mode, on port 9000 for PWA mode or on port 9090 for the other modes:
+
 ```js
 module.exports = function (ctx) {
   devServer: {
@@ -84,6 +90,18 @@ module.exports = function (ctx) {
 ```
 
 The possibilities are endless.
+
+### IDE autocompletion
+
+Starting with v1.9, you can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through Typescript):
+
+```js
+const { configure } = require('quasar/wrappers')
+
+module.exports = configure(function (ctx) {
+  /* configuration options */
+})
+```
 
 ## Options to Configure
 Let's take each option one by one:
@@ -127,6 +145,9 @@ By default, everything that comes from `node_modules` will be injected into the 
 // quasar.conf.js
 return {
   vendor: {
+    /* optional; @quasar/app v1.4.2+;
+       disables vendor chunk: */ disable: true,
+
     add: ['src/plugins/my-special-plugin'],
     remove: ['axios', 'vue$']
   }
@@ -159,10 +180,7 @@ return {
 
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
 
-### Auto import feature
-
-<q-badge label="@quasar/app v1.1.1+" />
-<q-badge class="q-ml-sm" label="quasar v1.1.2+" />
+### Auto import feature <q-badge align="top" label="@quasar/app v1.1.1+" /> <q-badge align="top" class="q-ml-xs" label="quasar v1.1.2+" />
 
 You can also configure the Quasar CLI to auto import the in-use Quasar components and directives that you are using, through `framework: { all }` property:
 
@@ -254,19 +272,21 @@ devServer: {
 | onPublish(opts) | Function | Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed. Can use async/await or directly return a Promise. `opts` is Object of form `{arg, distDir}`, where "arg" is the argument supplied (if any) to -P parameter. |
 | publicPath | String | Public path of your app. By default, it uses the root. Use it when your public path is something else, like "&lt;protocol&gt;://&lt;domain&gt;/some/nested/folder" -- in this case, it means the distributables are in "some/nested/folder" on your webserver. |
 | forceDevPublicPath | Boolean | (**@quasar/app 1.0.6+**) Force use of the custom publicPath in dev builds also (only for SPA and PWA modes). Please make sure that this is indeed what you are looking for and that you know what you are doing, otherwise it is not recommended. |
+| appBase | String | (**@quasar/app 1.4.2+**) Force app base tag with your custom value; configure only if you **really** know what you are doing, otherwise you can easily break your app. Highly recommended is to leave this computed by quasar/app. |
+| vueRouterBase | String | (**@quasar/app 1.4.2+**) Force vue router base with your custom value; configure only if you **really** know what you are doing, otherwise you can easily break your app. Highly recommended is to leave this computed by quasar/app. |
 | vueRouterMode | String | Sets [Vue Router mode](https://router.vuejs.org/en/essentials/history-mode.html): 'hash' or 'history'. Pick wisely. History mode requires configuration on your deployment web server too. |
 | htmlFilename | String | Default is 'index.html'. |
 | productName | String | Default value is taken from package.json > productName field. |
 | distDir | String | Folder where Quasar CLI should generate the distributables. Relative path to project root directory. Default is 'dist/{ctx.modeName}'. Applies to all Modes except for Cordova (which is forced to `src-cordova/www`). |
 | devtool | String | Source map [strategy](https://webpack.js.org/configuration/devtool/) to use. |
 | env | Object | Add properties to `process.env` that you can use in your website/app JS code. Each property needs to be JSON encoded. Example: { SOMETHING: JSON.stringify('someValue') }. |
-| gzip | Boolean | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. |
+| gzip | Boolean/Object | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. If using as Object, it represents the compression-webpack-plugin config Object. |
 | scopeHoisting | Boolean | Default: `true`. Use Webpack scope hoisting for slightly better runtime performance. |
 | analyze | Boolean/Object | Show analysis of build bundle with webpack-bundle-analyzer. If using as Object, it represents the webpack-bundle-analyzer config Object. |
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
 | uglifyOptions | Object | Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify). |
 | preloadChunks | Boolean | Default is "true". Preload chunks when browser is idle to improve user's later navigation to the other pages. |
-| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. |
+| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { prependData: '@import "src/css/abstracts/_mixins.scss";'} |
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
 | stylusLoaderOptions | Object | Options to supply to `stylus-loader`. |
 | lessLoaderOptions | Object | Options to supply to `less-loader`. |

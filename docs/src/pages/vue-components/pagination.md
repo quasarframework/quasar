@@ -26,5 +26,7 @@ There are two modes in which QPagination operates: with buttons only or with an 
 
 <doc-example title="With direction links" file="QPagination/DirectionLinks" />
 
+<doc-example title="With icon replacement" file="QPagination/Icons" />
+
 ## QPagination API
 <doc-api file="QPagination" />

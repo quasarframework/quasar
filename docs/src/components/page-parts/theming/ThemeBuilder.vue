@@ -23,16 +23,16 @@
           div(:class="`bg-primary text-${dark.primary === true ? 'white' : 'black'} shadow-2`")
             q-bar(dense, :dark="dark.primary")
               q-space
-              q-icon.q-mr-xs(name="fas fa-square", size="12px", style="opacity: 0.5")
-              q-icon.q-mr-xs(name="fas fa-circle", size="12px", style="opacity: 0.5")
-              q-icon.q-mr-sm.rotate-90(name="fas fa-play", size="12px", style="opacity: 0.5")
+              q-icon.q-mr-xs(:name="fasSquare", size="12px", style="opacity: 0.5")
+              q-icon.q-mr-xs(:name="fasCircle", size="12px", style="opacity: 0.5")
+              q-icon.q-mr-sm.rotate-90(:name="fasPlay", size="12px", style="opacity: 0.5")
 
             q-toolbar
-              q-btn(flat, dense, round, icon="arrow_back")
+              q-btn(flat, dense, round, :icon="mdiArrowLeft")
               q-space
               q-toggle.q-mr-sm(dense, v-model="darkMode", :dark="dark.primary", color="red", label="Dark page")
-              q-btn(flat, dense, round, icon="search")
-              q-btn(flat, dense, round, icon="menu")
+              q-btn(flat, dense, round, :icon="mdiMagnify")
+              q-btn(flat, dense, round, :icon="mdiMenu")
 
             q-toolbar(inset)
               q-toolbar-title Quasar
@@ -45,7 +45,7 @@
               )
                 q-card(flat, :class="`bg-${color} text-${dark[color] === true ? 'white' : 'black'}`")
                   q-card-section
-                    .text-h6.row.no-wrap
+                    .text-h6.row.no-wrap.items-center
                       .ellipsis.text-capitalize {{ color }}
                       q-space
                       q-icon(
@@ -58,7 +58,7 @@
 
             q-btn(
               fab
-              icon="map"
+              :icon="mdiMapMarkerRadius"
               color="accent"
               :text-color="dark.accent === true ? 'white' : 'black'"
               class="absolute"
@@ -109,9 +109,29 @@
 
 <script>
 import { colors } from 'quasar'
+
+import {
+  fasSquare, fasCircle, fasPlay
+} from '@quasar/extras/fontawesome-v5'
+
+import {
+  mdiArrowLeft, mdiMagnify, mdiMenu, mdiMapMarkerRadius
+} from '@quasar/extras/mdi-v4'
+
 const { setBrand, luminosity } = colors
 
 export default {
+  created () {
+    this.fasSquare = fasSquare
+    this.fasCircle = fasCircle
+    this.fasPlay = fasPlay
+
+    this.mdiArrowLeft = mdiArrowLeft
+    this.mdiMagnify = mdiMagnify
+    this.mdiMenu = mdiMenu
+    this.mdiMapMarkerRadius = mdiMapMarkerRadius
+  },
+
   data () {
     return {
       colors: {
@@ -142,8 +162,8 @@ export default {
       darkMode: false,
       exportDialog: false,
       exportTab: 'sass',
-      list: ['primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning'],
-      sideColors: ['secondary', 'dark', 'positive', 'negative', 'info', 'warning']
+      list: [ 'primary', 'secondary', 'accent', 'dark', 'positive', 'negative', 'info', 'warning' ],
+      sideColors: [ 'secondary', 'dark', 'positive', 'negative', 'info', 'warning' ]
     }
   },
 

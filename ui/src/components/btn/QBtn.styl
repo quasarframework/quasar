@@ -1,25 +1,3 @@
-.column
-  > .q-btn.self-stretch,
-  &.items-stretch > .q-btn
-    width: auto
-
-.row
-  > .q-btn
-    height: 100%
-  > .q-btn.self-stretch
-    height: auto
-
-.row
-  &.items-start,
-  &.items-end,
-  &.items-center,
-  &.items-baseline,
-  &.items-stretch,
-  &.q-toolbar,
-  &.q-bar
-    > .q-btn
-      height: auto
-
 .q-btn
   display: inline-flex
   flex-direction: column
@@ -37,7 +15,8 @@
   font-weight: $button-font-weight
   text-transform: uppercase
   text-align: center
-  width: fit-content
+  width: auto
+  height: auto
 
   .q-icon, .q-spinner
     font-size: $button-line-height
@@ -142,12 +121,15 @@
   &--fab, &--fab-mini
     .q-icon
       font-size: 24px
-      width: 100%
-      height: 100%
-  &--fab .q-btn__wrapper
-    min-height: 56px
-    min-width: 56px
+  &--fab
+    .q-icon
+      margin: auto
+    .q-btn__wrapper
+      padding: 16px
+      min-height: 56px
+      min-width: 56px
   &--fab-mini .q-btn__wrapper
+    padding: 8px
     min-height: 40px
     min-width: 40px
 

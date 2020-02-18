@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
-import { getScrollTarget, getScrollHeight, getScrollPosition } from '../../utils/scroll.js'
+import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
@@ -18,7 +18,9 @@ export default Vue.extend({
       type: [String, Number],
       default: 100
     },
-    scrollTarget: {},
+    scrollTarget: {
+      default: void 0
+    },
     disable: Boolean,
     reverse: Boolean
   },
@@ -93,7 +95,7 @@ export default Vue.extend({
                 scrollPosition = getScrollPosition(this.scrollContainer),
                 heightDifference = heightAfter - heightBefore
 
-              this.scrollContainer.scrollTop = scrollPosition + heightDifference
+              setScrollPosition(this.scrollContainer, scrollPosition + heightDifference)
             }
 
             if (stop === true) {
@@ -132,18 +134,7 @@ export default Vue.extend({
         this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
       }
 
-      if (typeof this.scrollTarget === 'string') {
-        this.scrollContainer = document.querySelector(this.scrollTarget)
-        if (this.scrollContainer === null) {
-          console.error(`InfiniteScroll: scroll target container "${this.scrollTarget}" not found`, this)
-          return
-        }
-      }
-      else {
-        this.scrollContainer = this.scrollTarget === document.defaultView || this.scrollTarget instanceof Element
-          ? this.scrollTarget
-          : getScrollTarget(this.$el)
-      }
+      this.scrollContainer = getScrollTarget(this.$el, this.scrollTarget)
 
       if (this.working === true) {
         this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
@@ -173,7 +164,7 @@ export default Vue.extend({
         scrollHeight = getScrollHeight(this.scrollContainer),
         containerHeight = height(this.scrollContainer)
 
-      this.scrollContainer.scrollTop = scrollHeight - containerHeight
+      setScrollPosition(this.scrollContainer, scrollHeight - containerHeight)
     }
   },
 
@@ -195,6 +186,9 @@ export default Vue.extend({
       )
     }
 
-    return h('div', { staticClass: 'q-infinite-scroll' }, child)
+    return h('div', {
+      staticClass: 'q-infinite-scroll',
+      on: this.$listeners
+    }, child)
   }
 })

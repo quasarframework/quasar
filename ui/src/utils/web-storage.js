@@ -1,3 +1,5 @@
+import { noop } from '../utils/event.js'
+
 function encode (value) {
   if (Object.prototype.toString.call(value) === '[object Date]') {
     return '__q_date|' + value.toUTCString()
@@ -66,18 +68,16 @@ function decode (value) {
 }
 
 export function getEmptyStorage () {
-  const fn = () => {}
-
   return {
-    has: fn,
-    getLength: fn,
-    getItem: fn,
-    getIndex: fn,
-    getAll: fn,
-    set: fn,
-    remove: fn,
-    clear: fn,
-    isEmpty: fn
+    has: noop,
+    getLength: noop,
+    getItem: noop,
+    getIndex: noop,
+    getAll: noop,
+    set: noop,
+    remove: noop,
+    clear: noop,
+    isEmpty: noop
   }
 }
 
@@ -96,9 +96,9 @@ export function getStorage (type) {
     getLength: () => webStorage.length,
     getItem: get,
     getIndex: index => {
-      if (index < webStorage.length) {
-        return get(webStorage.key(index))
-      }
+      return index < webStorage.length
+        ? get(webStorage.key(index))
+        : null
     },
     getAll: () => {
       let result = {}, key, len = webStorage.length

@@ -5,7 +5,7 @@
 
   "value": {
     "type": "Function",
-    "desc": "Handler for touch-repeat",
+    "desc": "Handler for touch-repeat (use a non-function to disable)",
     "params": {
       "details": {
         "type": "Object",
@@ -68,7 +68,7 @@
       }
     },
     "returns": null,
-    "examples": [ "v-touch-repeat=\"fnToCall\"" ]
+    "examples": [ "v-touch-repeat=\"fnToCall\"", "v-touch-repeat=\"void 0\"" ]
   },
 
   "arg": {

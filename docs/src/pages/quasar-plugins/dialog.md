@@ -11,10 +11,12 @@ Quasar Dialogs are a great way to offer the user the ability to choose a specifi
 From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions only.
 
 ::: tip
-Dialogs can also be used as a component in your Vue file templates (for complex use-cases, like specific form components with validation, selectable options, etc.). For this, go to [QDialog](/vue-components/dialog) page.
+Dialogs can also be used as a component in your Vue file templates (for complex use-cases, like specific form components, selectable options, etc.). For this, go to [QDialog](/vue-components/dialog) page.
 :::
 
-The advantage of using Dialogs as Quasar Plugins as opposed to Components is that the plugin can also be called from outside of Vue space and doesn't require you to manage their templates. But as a result, their customization cannot be compared to their component counterpart.
+The advantage of using Dialogs as Quasar Plugins as opposed to QDialog component is that the plugin can also be called from outside of Vue space and doesn't require you to manage their templates. But as a result, their customization cannot be compared to their component counterpart.
+
+However, **you can also supply a component for the Dialog Plugin to render** (see the "Invoking custom component" section) which is a great way to avoid cluttering your Vue templates with inline dialogs (and it will also help you better organize your project files and also reuse dialogs).
 
 With the QDialog plugin, you can programmatically build three types of dialogs with the following form content:
  1. A prompt dialog - asking the user to fill in some sort of data in an input field.
@@ -56,6 +58,14 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 <doc-example title="Radios, Checkboxes, Toggles" file="Dialog/Pickers" />
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
+
+### Basic validation <q-badge align="top" label="v1.8+" />
+
+There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>ENTER</kbd>) until the expected values are filled in.
+
+<doc-example title="Prompt with validation" file="Dialog/ValidationPrompt" />
+
+<doc-example title="Options with validation" file="Dialog/ValidationOptions" />
 
 ### Using HTML
 You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.
@@ -161,6 +171,38 @@ export default {
   }
 }
 </script>
+```
+
+## Cordova/Capacitor back button
+Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).
+
+However, should you wish to disable this behavior, edit your /quasar.conf.js file:
+
+```js
+// quasar.conf.js;
+// for Cordova (only!):
+return {
+  framework: {
+    config: {
+      cordova: {
+        backButtonExit: true/false
+      }
+    }
+  }
+}
+
+// quasar.conf.js;
+// for Capacitor (only!)
+// and Quasar v1.9.3+:
+return {
+  framework: {
+    config: {
+      capacitor: {
+        backButtonExit: true/false
+      }
+    }
+  }
+}
 ```
 
 ## Dialog API

@@ -52,7 +52,7 @@ function parseMenuNode (node, __path) {
   else if (node.external !== true) {
     docsPages.push({
       path: prefix,
-      component: () => import(`pages/${prefix.substring(1)}.md`)
+      component: () => import('pages/' + prefix.substring(1) + '.md')
     })
   }
 }
@@ -84,11 +84,11 @@ const routes = [
 
   ...layoutGallery.map(layout => ({
     path: layout.demoLink,
-    component: () => import(`layouts/gallery/${layout.path}.vue`),
+    component: () => import('layouts/gallery/' + layout.path + '.vue'),
     children: [
       {
         path: '',
-        component: () => import(`components/page-parts/layout/LayoutGalleryPage.vue`),
+        component: () => import('components/page-parts/layout/LayoutGalleryPage.vue'),
         meta: {
           title: layout.name,
           screenshot: layout.screenshot,

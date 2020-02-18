@@ -1,9 +1,7 @@
-const
-  nodeExternals = require('webpack-node-externals'),
-  VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
+const nodeExternals = require('webpack-node-externals')
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
-const
-  appPaths = require('../../app-paths')
+const appPaths = require('../../app-paths')
 
 module.exports = function (chain, cfg) {
   chain.entry('app')
@@ -33,7 +31,7 @@ module.exports = function (chain, cfg) {
   chain.externals(nodeExternals({
     // do not externalize CSS files in case we need to import it from a dep
     whitelist: [
-      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]src[\\/]|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/])/
+      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]src[\\/]|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/
     ].concat(cfg.build.transpileDependencies)
   }))
 
@@ -47,16 +45,11 @@ module.exports = function (chain, cfg) {
     chain.plugin('ssr-artifacts')
       .use(SsrProdArtifacts, [ cfg ])
 
-    const
-      fs = require('fs'),
-      copyArray = [{
-        // copy src-ssr to dist folder in /server
-        from: cfg.ssr.__dir,
-        to: '../server',
-        ignore: ['.*']
-      }],
-      npmrc = appPaths.resolve.app('.npmrc')
-      yarnrc = appPaths.resolve.app('.yarnrc')
+    const fs = require('fs')
+    const copyArray = []
+
+    const npmrc = appPaths.resolve.app('.npmrc')
+    const yarnrc = appPaths.resolve.app('.yarnrc')
 
     fs.existsSync(npmrc) && copyArray.push({
       from: npmrc,

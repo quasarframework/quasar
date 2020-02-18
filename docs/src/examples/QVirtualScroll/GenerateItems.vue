@@ -7,7 +7,7 @@
     separator
   >
     <template v-slot="{ item, index }">
-      <async-component :key="index" :index="item.index" :sent="item.sent" />
+      <async-component :key="index" :index="item.index" :sent="item.sent"></async-component>
     </template>
   </q-virtual-scroll>
 </template>
@@ -34,7 +34,7 @@ export default {
             name: this.sent === true ? 'me' : 'Someone else',
             avatar: this.sent === true ? 'https://cdn.quasar.dev/img/avatar4.jpg' : 'https://cdn.quasar.dev/img/avatar3.jpg',
             stamp: `${Math.floor(this.index / 1000)} minutes ago`,
-            text: [`Message with id ${this.index}`]
+            text: [ `Message with id ${this.index}` ]
           }
         }, 300 + Math.random() * 2000)
       },
@@ -49,7 +49,7 @@ export default {
           props: this.asyncContent === null
             ? {
               sent: this.sent,
-              text: [`Retrieving message ${this.index}`]
+              text: [ `Retrieving message ${this.index}` ]
             }
             : this.asyncContent
         })

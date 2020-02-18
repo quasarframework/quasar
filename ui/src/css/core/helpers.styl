@@ -1,5 +1,7 @@
 .rounded-borders
   border-radius: $generic-border-radius
+.border-radius-inherit
+  border-radius: inherit
 
 .no-transition
   transition: none !important
@@ -49,5 +51,9 @@ body.electron
   .q-electron-drag
     -webkit-user-select: none
     -webkit-app-region: drag
-  .q-electron-drag .q-btn, .q-electron-drag--exception
+  .q-electron-drag .q-btn-item, .q-electron-drag--exception
     -webkit-app-region: no-drag
+
+img.responsive
+  max-width: 100%
+  height: auto

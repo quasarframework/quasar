@@ -51,17 +51,19 @@ export default {
         ])
       )
 
-      const data = {
-        key,
-        class: { selected }
-      }
+      const data = { key, class: { selected }, on: {} }
 
       if (this.$listeners['row-click'] !== void 0) {
         data.class['cursor-pointer'] = true
-        data.on = {
-          click: evt => {
-            this.$emit('row-click', evt, row)
-          }
+        data.on.click = evt => {
+          this.$emit('row-click', evt, row)
+        }
+      }
+
+      if (this.$listeners['row-dblclick'] !== void 0) {
+        data.class['cursor-pointer'] = true
+        data.on.dblclick = evt => {
+          this.$emit('row-dblclick', evt, row)
         }
       }
 
@@ -108,9 +110,9 @@ export default {
       })
 
       Object.defineProperty(data, 'expand', {
-        get: () => this.rowsExpanded[data.key] === true,
-        set: val => {
-          this.$set(this.rowsExpanded, data.key, val)
+        get: () => this.isRowExpanded(data.key),
+        set: adding => {
+          this.__updateExpanded(data.key, adding)
         },
         configurable: true,
         enumerable: true

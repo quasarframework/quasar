@@ -10,5 +10,5 @@ export namespace dom {
   function width(el: Element): number;
   function css(el: Element, css: Partial<CSSStyleDeclaration>): void;
   function cssBatch(elements: Element[], css: Partial<CSSStyleDeclaration>): void;
-  function ready(fn: Function): any;
+  function ready<F extends (...args: any[]) => any>(fn: F): ReturnType<F>;
 }

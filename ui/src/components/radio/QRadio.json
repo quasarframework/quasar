@@ -1,4 +1,6 @@
 {
+  "mixins": [ "mixins/size", "mixins/form" ],
+
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/radio"
   },
@@ -41,6 +43,10 @@
       "type": "Boolean",
       "desc": "Should the color (if specified any) be kept when checkbox is unticked?",
       "category": "behavior"
+    },
+
+    "size": {
+      "addedIn": "v1.8.0"
     },
 
     "dark": {

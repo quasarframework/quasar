@@ -17,8 +17,8 @@
         <q-carousel-control
           position="top-right"
           :offset="[18, 18]"
-          class="text-white"
-          style="background: rgba(0, 0, 0, .3); padding: 4px 8px 4px 0; border-radius: 4px"
+          class="text-white rounded-borders"
+          style="background: rgba(0, 0, 0, .3); padding: 4px 8px;"
         >
           <q-toggle dense dark color="orange" v-model="autoplay" label="Auto Play" />
         </q-carousel-control>

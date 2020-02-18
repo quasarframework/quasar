@@ -6,6 +6,7 @@
     opacity: .2
     transition: opacity .3s
     will-change: opacity
+    cursor: grab
 
     &--v
       right: 0
@@ -17,16 +18,15 @@
 
     &--invisible
       opacity: 0 !important
+      pointer-events: none
 
   &__thumb
     background: #000
 
     &:hover
       opacity: .3
-      cursor: grab
     &:active
       opacity: .5
 
-    &--invisible
-      &:hover
-        cursor: inherit
+  &--dark .q-scrollarea__thumb
+    background: #fff

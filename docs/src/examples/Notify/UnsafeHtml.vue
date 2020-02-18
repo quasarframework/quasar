@@ -1,6 +1,6 @@
 <template>
   <div class="q-pa-md">
-    <q-btn color="purple" @click="showNotif" label="Show HTML Notification" />
+    <q-btn no-caps color="purple" @click="showNotif" label="Show HTML Notification" />
   </div>
 </template>
 

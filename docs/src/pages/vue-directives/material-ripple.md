@@ -31,5 +31,5 @@ If for some reason you have a scenario where the ripples need to be disabled, th
 
 <doc-example title="Disable" file="Ripple/Disable" />
 
-## API
+## Ripple API
 <doc-api file="Ripple" />

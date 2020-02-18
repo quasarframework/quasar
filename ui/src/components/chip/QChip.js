@@ -4,24 +4,26 @@ import QIcon from '../icon/QIcon.js'
 
 import DarkMixin from '../../mixins/dark.js'
 import RippleMixin from '../../mixins/ripple.js'
-import SizeMixin from '../../mixins/size.js'
+import { getSizeMixin } from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { mergeSlotSafely } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
 
-const sizes = {
-  xs: 8,
-  sm: 10,
-  md: 14,
-  lg: 20,
-  xl: 24
-}
-
 export default Vue.extend({
   name: 'QChip',
 
-  mixins: [ RippleMixin, SizeMixin, DarkMixin ],
+  mixins: [
+    RippleMixin,
+    DarkMixin,
+    getSizeMixin({
+      xs: 8,
+      sm: 10,
+      md: 14,
+      lg: 20,
+      xl: 24
+    })
+  ],
 
   model: {
     event: 'remove'
@@ -45,8 +47,6 @@ export default Vue.extend({
       type: Boolean,
       default: null
     },
-
-    size: String,
 
     square: Boolean,
     outline: Boolean,
@@ -73,14 +73,6 @@ export default Vue.extend({
         'q-chip--clickable cursor-pointer non-selectable q-hoverable': this.isClickable,
         'q-chip--square': this.square,
         'q-chip--dark q-dark': this.isDark
-      }
-    },
-
-    style () {
-      if (this.size !== void 0) {
-        return {
-          fontSize: this.size in sizes ? `${sizes[this.size]}px` : this.size
-        }
       }
     },
 
@@ -131,12 +123,12 @@ export default Vue.extend({
       )
 
       const label = this.label !== void 0
-        ? [ this.label ]
+        ? [ h('div', { staticClass: 'ellipsis' }, [ this.label ]) ]
         : void 0
 
       child.push(
         h('div', {
-          staticClass: 'q-chip__content row no-wrap items-center q-anchor--skip'
+          staticClass: 'q-chip__content col row no-wrap items-center q-anchor--skip'
         }, mergeSlotSafely(label, this, 'default'))
       )
 
@@ -169,7 +161,7 @@ export default Vue.extend({
     const data = {
       staticClass: 'q-chip row inline no-wrap items-center',
       class: this.classes,
-      style: this.style
+      style: this.sizeStyle
     }
 
     this.isClickable === true && Object.assign(data, {
@@ -178,7 +170,9 @@ export default Vue.extend({
         click: this.__onClick,
         keyup: this.__onKeyup
       }),
-      directives: [{ name: 'ripple', value: this.ripple }]
+      directives: cache(this, 'dir#' + this.ripple, [
+        { name: 'ripple', value: this.ripple }
+      ])
     })
 
     return h('div', data, this.__getContent(h))
