@@ -114,6 +114,13 @@
       "type": "Boolean",
       "desc": "Don’t display the header",
       "category": "content"
+    },
+
+    "no-navigation": {
+      "type": "Boolean",
+      "desc": "Don't display navigation controls or allow navigation by other means. This works only when default-view property is 'Calendar'",
+      "category": "content",
+      "addedIn": "v1.9.3"
     }
   },
 

@@ -10,6 +10,7 @@
         <q-toggle :dark="dark" v-model="minimal" label="Minimal" />
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
         <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
+        <q-toggle :dark="dark" v-model="noNavigation" label="No navigation" />
       </div>
 
       <div>{{ date }}</div>
@@ -355,6 +356,7 @@ export default {
       defaultYearMonth: '1986/02',
 
       persian: false,
+      noNavigation: false,
 
       input: null,
       inputFull: null,
@@ -385,7 +387,8 @@ export default {
         readonly: this.readonly,
         minimal: this.minimal,
         todayBtn: this.todayBtn,
-        calendar: this.persian ? 'persian' : 'gregorian'
+        calendar: this.persian ? 'persian' : 'gregorian',
+        noNavigation: this.noNavigation
       }
     },
 

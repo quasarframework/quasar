@@ -848,6 +848,7 @@ const components = [
       },
       {
         name: 'Date Picker',
+        badge: 'update',
         path: 'date'
       }
     ]

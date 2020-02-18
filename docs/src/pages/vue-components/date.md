@@ -115,6 +115,12 @@ The first example is using an array and the second example is using a function.
 
 <doc-example title="Options" file="QDate/Options" overflow />
 
+### No Navigation
+
+You can use the `no-navigation` property to turn off navigation, but maintain date selection. This removes all the navigation controls as well as prevents navigation, as long as the `default-view` property is set to `Calendar` (default).
+
+<doc-example title="No Navigation" file="QDate/NoNavigation" overflow />
+
 ### With QSplitter and QTabPanels
 <doc-example title="With QSplitter and QTabPanels" file="QDate/Splitter" />
 
