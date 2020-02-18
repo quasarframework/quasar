@@ -355,6 +355,12 @@ export default Vue.extend({
         : opt
 
       if (this.multiple !== true) {
+        this.fillInput === true && this.updateInputValue(
+          this.__getOptionLabel(opt),
+          true,
+          true
+        )
+
         this.$emit('input', val)
         return
       }
@@ -407,6 +413,8 @@ export default Vue.extend({
       }
 
       (this.hasDialog !== true || this.dialogFieldFocused === true) && this.__focus()
+
+      this.__selectInputText()
 
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
@@ -496,6 +504,12 @@ export default Vue.extend({
       return this.innerOptionsValue.find(v => isDeepEqual(v, val)) !== void 0
     },
 
+    __selectInputText () {
+      if (this.useInput === true && this.$refs.target !== void 0) {
+        this.$refs.target.select()
+      }
+    },
+
     __onTargetKeyup (e) {
       // if ESC and we have an opened menu
       // then stop propagation (might be caught by a QDialog
@@ -549,10 +563,15 @@ export default Vue.extend({
         return
       }
 
-      const tabShouldSelect = e.shiftKey !== true && this.multiple !== true && this.optionIndex > -1
+      const newValueModeValid = this.inputValue.length > 0 &&
+        (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
+      const tabShouldSelect = e.shiftKey !== true &&
+        this.multiple !== true &&
+        (this.optionIndex > -1 || newValueModeValid === true)
 
       // escape
       if (e.keyCode === 27) {
+        prevent(e) // prevent clearing the inputValue
         return
       }
 
@@ -589,7 +608,7 @@ export default Vue.extend({
       // up, down
       if (e.keyCode === 38 || e.keyCode === 40) {
         stopAndPrevent(e)
-        this.moveOptionSelection(e.keyCode === 38 ? -1 : 1)
+        this.moveOptionSelection(e.keyCode === 38 ? -1 : 1, this.multiple)
       }
 
       const optionsLength = this.virtualScrollLength
@@ -658,10 +677,7 @@ export default Vue.extend({
         return
       }
 
-      if (
-        this.inputValue.length > 0 &&
-        (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
-      ) {
+      if (newValueModeValid === true) {
         const done = (val, mode) => {
           if (mode) {
             if (validateNewValueMode(mode) !== true) {
@@ -673,14 +689,16 @@ export default Vue.extend({
             mode = this.newValueMode
           }
 
-          if (val !== void 0 && val !== null) {
-            this[mode === 'toggle' ? 'toggleOption' : 'add'](
-              val,
-              mode === 'add-unique'
-            )
+          if (val === void 0 || val === null) {
+            return
           }
 
           this.updateInputValue('', this.multiple !== true, true)
+
+          this[mode === 'toggle' ? 'toggleOption' : 'add'](
+            val,
+            mode === 'add-unique'
+          )
 
           if (this.multiple !== true) {
             this.$refs.target !== void 0 && this.$refs.target.focus()
@@ -690,13 +708,13 @@ export default Vue.extend({
 
         if (this.$listeners['new-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
-
-          if (this.multiple !== true) {
-            return
-          }
         }
         else {
           done(this.inputValue)
+        }
+
+        if (this.multiple !== true) {
+          return
         }
       }
 
@@ -883,7 +901,8 @@ export default Vue.extend({
         change: this.__onChange,
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetKeyup,
-        keypress: this.__onTargetKeypress
+        keypress: this.__onTargetKeypress,
+        focus: this.__selectInputText
       }
 
       on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
