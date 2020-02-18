@@ -358,9 +358,9 @@ export default Vue.extend({
               staticClass: 'q-date__header-subtitle q-date__header-link',
               class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
               attrs: { tabindex: this.computedTabindex },
-              on: cache(this, 'vY', {
-                click: () => { this.isNoNav !== true && (this.view = 'Years') },
-                keyup: e => { e.keyCode === 13 && this.isNoNav !== true && (this.view = 'Years') }
+              on: this.isNoNav !== true && cache(this, 'vY', {
+                click: () => { this.view = 'Years' },
+                keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
               })
             }, [ this.headerSubtitle ])
           ])
@@ -382,9 +382,9 @@ export default Vue.extend({
                 staticClass: 'q-date__header-title-label q-date__header-link',
                 class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
                 attrs: { tabindex: this.computedTabindex },
-                on: cache(this, 'vC', {
-                  click: () => { this.isNoNav !== true && (this.view = 'Calendar') },
-                  keyup: e => { e.keyCode === 13 && this.isNoNav !== true && (this.view = 'Calendar') }
+                on: this.isNoNav !== true && cache(this, 'vC', {
+                  click: () => { this.view = 'Calendar' },
+                  keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
                 })
               }, [ this.headerTitle ])
             ])
@@ -410,13 +410,13 @@ export default Vue.extend({
         h('div', {
           staticClass: 'row items-center q-date__arrow'
         }, [
-          h(QBtn, {
+          this.isNoNav !== true && h(QBtn, {
             props: {
               round: true,
               dense: true,
               size: 'sm',
               flat: true,
-              icon: this.isNoNav ? void 0 : this.dateArrow[0],
+              icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
             on: cache(this, 'go-#' + view, { click () { goTo(-1) } })
@@ -440,7 +440,7 @@ export default Vue.extend({
                   label,
                   tabindex: this.computedTabindex
                 },
-                on: cache(this, 'view#' + view, { click: () => { this.isNoNav !== true && (this.view = view) } })
+                on: this.isNoNav !== true && cache(this, 'view#' + view, { click: () => { this.view = view } })
               })
             ])
           ])
@@ -449,13 +449,13 @@ export default Vue.extend({
         h('div', {
           staticClass: 'row items-center q-date__arrow'
         }, [
-          h(QBtn, {
+          this.isNoNav !== true && h(QBtn, {
             props: {
               round: true,
               dense: true,
               size: 'sm',
               flat: true,
-              icon: this.isNoNav ? void 0 : this.dateArrow[1],
+              icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
             on: cache(this, 'go+#' + view, { click () { goTo(1) } })
@@ -549,7 +549,7 @@ export default Vue.extend({
               textColor: active ? this.computedTextColor : null,
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'month#' + i, { click: () => { this.isNoNav !== true && (this.__setMonth(i + 1)) } })
+            on: this.isNoNav !== true && cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
           })
         ])
       })
@@ -585,7 +585,7 @@ export default Vue.extend({
                 textColor: active ? this.computedTextColor : null,
                 tabindex: this.computedTabindex
               },
-              on: cache(this, 'yr#' + i, { click: () => { this.isNoNav !== true && (this.__setYear(i)) } })
+              on: this.isNoNav !== true && cache(this, 'yr#' + i, { click: () => { this.__setYear(i) } })
             })
           ])
         )
@@ -597,15 +597,15 @@ export default Vue.extend({
         h('div', {
           staticClass: 'col-auto'
         }, [
-          h(QBtn, {
+          this.isNoNav !== true && h(QBtn, {
             props: {
               round: true,
               dense: true,
               flat: true,
-              icon: this.isNoNav ? void 0 : this.dateArrow[0],
+              icon: this.dateArrow[0],
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'y-', { click: () => { this.isNoNav !== true && (this.startYear -= yearsInterval) } })
+            on: cache(this, 'y-', { click: () => { this.startYear -= yearsInterval } })
           })
         ]),
 
@@ -616,15 +616,15 @@ export default Vue.extend({
         h('div', {
           staticClass: 'col-auto'
         }, [
-          h(QBtn, {
+          this.isNoNav !== true && h(QBtn, {
             props: {
               round: true,
               dense: true,
               flat: true,
-              icon: this.isNoNav ? void 0 : this.dateArrow[1],
+              icon: this.dateArrow[1],
               tabindex: this.computedTabindex
             },
-            on: cache(this, 'y+', { click: () => { this.isNoNav !== true && (this.startYear += yearsInterval) } })
+            on: cache(this, 'y+', { click: () => { this.startYear += yearsInterval } })
           })
         ])
       ])
