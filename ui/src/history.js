@@ -1,4 +1,4 @@
-import { isSSR } from './plugins/Platform.js'
+import { isSSR, client } from './plugins/Platform.js'
 import { noop } from './utils/event.js'
 
 const getTrue = () => true
@@ -8,10 +8,14 @@ export default {
   add: noop,
   remove: noop,
 
-  install ($q, cfg) {
-    const { cordova, capacitor } = $q.platform.is
+  install (cfg) {
+    if (isSSR === true) {
+      return
+    }
 
-    if (isSSR === true || (cordova !== true && capacitor !== true)) {
+    const { cordova, capacitor } = client.is
+
+    if (cordova !== true && capacitor !== true) {
       return
     }
 
