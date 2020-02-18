@@ -9,7 +9,9 @@ export default {
   remove: noop,
 
   install ($q, cfg) {
-    if (isSSR === true || $q.platform.is.cordova !== true) {
+    const { cordova, capacitor } = $q.platform.is
+
+    if (isSSR === true || (cordova !== true && capacitor !== true)) {
       return
     }
 
@@ -26,25 +28,33 @@ export default {
       }
     }
 
-    const exit = cfg.cordova === void 0 || cfg.cordova.backButtonExit !== false
+    const fn = () => {
+      if (this.__history.length) {
+        const entry = this.__history[this.__history.length - 1]
 
-    document.addEventListener('deviceready', () => {
-      document.addEventListener('backbutton', () => {
-        if (this.__history.length) {
-          const entry = this.__history[this.__history.length - 1]
+        if (entry.condition() === true) {
+          this.__history.pop()
+          entry.handler()
+        }
+      }
+      else if (exit && window.location.hash === '#/') {
+        navigator.app.exitApp()
+      }
+      else {
+        window.history.back()
+      }
+    }
 
-          if (entry.condition() === true) {
-            this.__history.pop()
-            entry.handler()
-          }
-        }
-        else if (exit && window.location.hash === '#/') {
-          navigator.app.exitApp()
-        }
-        else {
-          window.history.back()
-        }
-      }, false)
-    })
+    const prop = cordova === true ? 'cordova' : 'capacitor'
+    const exit = cfg[prop] === void 0 || cfg[prop].backButtonExit !== false
+
+    if (cordova === true) {
+      document.addEventListener('deviceready', () => {
+        document.addEventListener('backbutton', fn, false)
+      })
+    }
+    else {
+      window.Capacitor.Plugins.App.addListener('backButton', fn)
+    }
   }
 }
