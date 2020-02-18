@@ -76,11 +76,11 @@ export default Vue.extend({
   },
 
   watch: {
-    min (value) {
+    min () {
       this.model = this.value
     },
 
-    max (value) {
+    max () {
       this.model = this.value
     }
   },
