@@ -120,7 +120,7 @@
       "type": "Boolean",
       "desc": "Don't display navigation controls or allow navigation by other means. This works only when default-view property is 'Calendar'",
       "category": "content",
-      "addedIn": "v1.9.3"
+      "addedIn": "v1.9.4"
     }
   },
 
