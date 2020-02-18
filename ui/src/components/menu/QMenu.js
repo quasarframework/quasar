@@ -238,8 +238,6 @@ export default Vue.extend({
 
       const el = this.__portal.$el
 
-      console.log(el)
-
       if (el.nodeType === 8) { // IE replaces the comment with delay
         setTimeout(this.updatePosition, 25)
         return
