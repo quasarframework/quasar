@@ -232,11 +232,13 @@ export default Vue.extend({
     },
 
     updatePosition () {
-      if (this.__portal === void 0) {
+      if (this.anchorEl === void 0 || this.__portal === void 0) {
         return
       }
 
       const el = this.__portal.$el
+
+      console.log(el)
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
         setTimeout(this.updatePosition, 25)
