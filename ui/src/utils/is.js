@@ -8,7 +8,7 @@ export function isDeepEqual (a, b) {
   if (a !== null && b !== null && typeof a === 'object' && typeof b === 'object') {
     if (a.constructor !== b.constructor) return false
     let length, i, keys
-    if (Array.isArray(a)) {
+    if (a.constructor === Array) {
       length = a.length
       if (length !== b.length) return false
       for (i = length; i-- !== 0;) {
@@ -36,7 +36,7 @@ export function isDeepEqual (a, b) {
       return true
     }
 
-    if (hasArrayBuffer && ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
+    if (hasArrayBuffer && a.buffer != null && a.buffer.constructor === ArrayBuffer) {
       length = a.length
       if (length !== b.length) return false
       for (i = length; i-- !== 0;) {
