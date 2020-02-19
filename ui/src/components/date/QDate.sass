@@ -76,6 +76,7 @@
     width: 14.285% !important
     height: 12.5% !important
     position: relative
+    padding: 2px
 
     > div, button
       width: 32px
@@ -108,6 +109,29 @@
     background-color: $secondary
     background-color: var(--q-color-secondary)
     transform: translate3d(-50%, 0, 0)
+
+  &__range
+    &:before
+      content: ''
+      position: absolute
+      top: 2px
+      bottom: 2px
+      left: 0
+      right: 0
+      opacity: .18
+      background-color: currentColor
+      border: 2px solid transparent
+
+    &--start
+      &:before
+        left: 2px
+        border-top-left-radius: 50%
+        border-bottom-left-radius: 50%
+    &--end
+      &:before
+        right: 2px
+        border-top-right-radius: 50%
+        border-bottom-right-radius: 50%
 
   &__today
     box-shadow: 0 0 1px 0 currentColor

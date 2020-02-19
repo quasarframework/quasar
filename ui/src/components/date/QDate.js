@@ -39,6 +39,8 @@ export default Vue.extend({
 
     options: [Array, Function],
 
+    range: [Array, Function],
+
     firstDayOfWeek: [String, Number],
     todayBtn: Boolean,
     minimal: Boolean,
@@ -190,56 +192,115 @@ export default Vue.extend({
         : date => this.options.includes(date)
     },
 
+    hasRange () {
+      return typeof this.range === 'function' || Array.isArray(this.range) === true
+    },
+
+    isInRange () {
+      return typeof this.range === 'function'
+        ? this.range
+        : (Array.isArray(this.range) === true ? date => this.range.includes(date) : () => false)
+    },
+
     days () {
-      let date, endDay
+      let
+        date,
+        endDay,
+        prevPrefix,
+        nextPrefix,
+        range,
+        rangePrev,
+        rangeCur,
+        rangeNext
 
       const res = []
+      const prefix = this.innerModel.year + '/' + pad(this.innerModel.month) + '/'
 
       if (this.calendar !== 'persian') {
+        const prevMonth = new Date(this.innerModel.year, this.innerModel.month - 1, 0)
+        const nextMonth = new Date(this.innerModel.year, this.innerModel.month, 1)
         date = new Date(this.innerModel.year, this.innerModel.month - 1, 1)
-        endDay = (new Date(this.innerModel.year, this.innerModel.month - 1, 0)).getDate()
+        endDay = prevMonth.getDate()
+        prevPrefix = prevMonth.getFullYear() + '/' + pad(prevMonth.getMonth() + 1) + '/'
+        nextPrefix = nextMonth.getFullYear() + '/' + pad(nextMonth.getMonth() + 1) + '/'
       }
       else {
         const gDate = toGregorian(this.innerModel.year, this.innerModel.month, 1)
         date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
         let prevJM = this.innerModel.month - 1
         let prevJY = this.innerModel.year
+        let nextJM = this.innerModel.month + 1
+        let nextJY = this.innerModel.year
         if (prevJM === 0) {
           prevJM = 12
           prevJY--
         }
+        if (nextJM === 13) {
+          nextJM = 1
+          nextJY++
+        }
         endDay = jalaaliMonthLength(prevJY, prevJM)
+        prevPrefix = prevJY + '/' + pad(prevJM) + '/'
+        nextPrefix = nextJY + '/' + pad(nextJM) + '/'
       }
 
       const days = (date.getDay() - this.computedFirstDayOfWeek - 1)
 
       const len = days < 0 ? days + 7 : days
       if (len < 6) {
+        rangePrev = this.isInRange(prevPrefix + pad(endDay - len - 1))
+        rangeNext = this.isInRange(prevPrefix + pad(endDay - len))
         for (let i = endDay - len; i <= endDay; i++) {
-          res.push({ i, fill: true })
+          rangeCur = rangeNext
+          rangeNext = i < endDay ? this.isInRange(prevPrefix + pad(i + 1)) : this.isInRange(prefix + '01')
+          range = rangeCur !== true
+            ? ''
+            : ' q-date__range' + (rangePrev !== true ? ' q-date__range--start' : '') + (rangeNext !== true ? ' q-date__range--end' : '')
+          rangePrev = rangeCur
+
+          res.push({ i, fill: true, range })
         }
       }
+      else {
+        rangePrev = this.isInRange(prevPrefix + pad(endDay))
+        rangeNext = this.isInRange(prefix + '01')
+      }
 
-      const
-        index = res.length,
-        prefix = this.innerModel.year + '/' + pad(this.innerModel.month) + '/'
+      const index = res.length
 
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + pad(i)
 
+        rangeCur = rangeNext
+        rangeNext = i < this.daysInMonth ? this.isInRange(prefix + pad(i + 1)) : this.isInRange(nextPrefix + '01')
+        range = rangeCur !== true
+          ? ''
+          : ' q-date__range text-' + this.computedColor + (rangePrev !== true ? ' q-date__range--start' : '') + (rangeNext !== true ? ' q-date__range--end' : '')
+
+        const flat = rangeCur !== true || (rangePrev === true && rangeNext === true)
+
+        rangePrev = rangeCur
+
         if (this.options !== void 0 && this.isInSelection(day) !== true) {
-          res.push({ i })
+          res.push({ i, range })
         }
         else {
           const event = this.events !== void 0 && this.evtFn(day) === true
             ? this.evtColor(day)
             : false
+          const config = { i, in: true, flat, event, range }
 
-          res.push({ i, in: true, flat: true, event })
+          if (flat === false) {
+            config.unelevated = true
+            config.color = this.computedColor
+            config.textColor = this.computedTextColor
+          }
+
+          res.push(config)
         }
       }
 
-      if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
+      if (this.hasRange !== true && this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
         const i = index + this.innerModel.day - 1
         res[i] !== void 0 && Object.assign(res[i], {
           unelevated: true,
@@ -257,7 +318,14 @@ export default Vue.extend({
       if (left > 0) {
         const afterDays = 7 - left
         for (let i = 1; i <= afterDays; i++) {
-          res.push({ i, fill: true })
+          rangeCur = rangeNext
+          rangeNext = this.isInRange(nextPrefix + pad(i + 1))
+          range = rangeCur !== true
+            ? ''
+            : ' q-date__range' + (rangePrev !== true ? ' q-date__range--start' : '') + (rangeNext !== true ? ' q-date__range--end' : '')
+          rangePrev = rangeCur
+
+          res.push({ i, fill: true, range })
         }
       }
 
@@ -498,7 +566,7 @@ export default Vue.extend({
                 key: this.innerModel.year + '/' + this.innerModel.month,
                 staticClass: 'q-date__calendar-days fit'
               }, this.days.map(day => h('div', {
-                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}`
+                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}${day.range}`
               }, [
                 day.in === true
                   ? h(QBtn, {
@@ -712,6 +780,17 @@ export default Vue.extend({
 
       date.changed = val !== this.value
       this.$emit('input', val, reason, date)
+
+      if (this.hasRange === true) {
+        if (date.changed === true) {
+          this.$emit('update:range', val, this.prevValue)
+          this.prevValue = this.prevValue === void 0 ? val : void 0
+        }
+        else {
+          this.$emit('update:range', val)
+          this.prevValue = void 0
+        }
+      }
 
       if (val === this.value && reason === 'today') {
         const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
