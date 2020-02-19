@@ -251,15 +251,21 @@ module.exports = class Extension {
 
   // extracts extension params defined in its package.json file
   params () {
-    // reads package.json key: 'quasar.extension' if defined.
-    // execSync returns a buffer
-    const paramsBuffer = require('child_process').execSync(
-      `npm view --json ${this.packageFullName} quasar.extension`
-    )
+    try {
+      // reads package.json key: 'quasar.extension' if defined.
+      // execSync returns a buffer
+      const paramsBuffer = require('child_process').execSync(
+        `npm view --json ${this.packageFullName} quasar.extension`
+      )
 
-    // parse the buffer and return an object
-    // if key 'quasar.extension' does not exist we return an empty object
-    return paramsBuffer.toString() ? JSON.parse(paramsBuffer) : {}
+      // parse the buffer and return an object
+      // if key 'quasar.extension' does not exist we return an empty object
+      return paramsBuffer.toString() ? JSON.parse(paramsBuffer) : {}
+    } catch (err) {
+      // when the extension is not published yet to npm, the above will result
+      // in an error.
+      return {}
+    }
   }
 
   __installPackage () {
