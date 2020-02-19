@@ -1,0 +1,82 @@
+{
+  "name": "ionicons",
+  "version": "5.0.0",
+  "description": "Premium icons for Ionic.",
+  "files": [
+    "dist/",
+    "icons/"
+  ],
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
+  "types": "dist/types/index.d.ts",
+  "unpkg": "dist/ionicons.js",
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js",
+  "scripts": {
+    "build": "tsc -p scripts/tsconfig.json && npm run build.files && npm run build.component && npm run collection.copy",
+    "build.files": "node scripts/build.js",
+    "build.component": "stencil build",
+    "collection.copy": "node scripts/collection-copy.js",
+    "start": "stencil build --dev --watch --serve",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "release.prepare": "node scripts/release.js --any-branch",
+    "release": "node scripts/release.js --publish --any-branch",
+    "test": "stencil test --spec"
+  },
+  "devDependencies": {
+    "@stencil/core": "^1.8.3",
+    "@types/execa": "^2.0.0",
+    "@types/fs-extra": "^8.0.0",
+    "@types/inquirer": "^6.5.0",
+    "@types/jest": "^24.0.20",
+    "@types/listr": "^0.14.2",
+    "@types/puppeteer": "1.12.4",
+    "@types/svgo": "^1.2.1",
+    "archiver": "^3.0.0",
+    "conventional-changelog-cli": "^2.0.23",
+    "execa": "^2.0.4",
+    "fs-extra": "8.1.0",
+    "inquirer": "^7.0.0",
+    "jest": "24.9.0",
+    "jest-cli": "24.9.0",
+    "listr": "^0.14.3",
+    "pixelmatch": "4.0.2",
+    "puppeteer": "1.7.0",
+    "svgo": "1.3.0",
+    "workbox-build": "4.3.1"
+  },
+  "keywords": [
+    "icon pack",
+    "ionic",
+    "icon",
+    "svg",
+    "mobile",
+    "web component",
+    "component",
+    "custom element",
+    "material design",
+    "ios"
+  ],
+  "homepage": "http://ionicons.com/",
+  "author": {
+    "name": "Ben Sperry",
+    "web": "https://twitter.com/benjsperry"
+  },
+  "contributors": [
+    {
+      "name": "Adam Bradley",
+      "web": "http://twitter.com/adamdbradley"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ionic-team/ionicons.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ionic-team/ionicons/issues"
+  },
+  "license": "MIT",
+  "sideEffects": [
+    "icons/imports/"
+  ]
+}
