@@ -1,23 +1,70 @@
+const
+  hasMap = typeof Map === 'function',
+  hasSet = typeof Set === 'function',
+  hasArrayBuffer = typeof ArrayBuffer === 'function'
+
 export function isDeepEqual (a, b) {
-  if (a === b) {
+  if (a === b) return true
+  if (a && b && typeof a === 'object' && typeof b === 'object') {
+    if (a.constructor !== b.constructor) return false
+    let length, i, keys
+    if (Array.isArray(a)) {
+      length = a.length
+      if (length !== b.length) return false
+      for (i = length; i-- !== 0;) {
+        if (isDeepEqual(a[i], b[i]) !== true) return false
+      }
+      return true
+    }
+
+    if (hasMap && a.constructor === Map) {
+      if (a.size !== b.size) return false
+      for (i of a.entries()) {
+        if (b.has(i[0]) !== true) return false
+      }
+      for (i of a.entries()) {
+        if (isDeepEqual(i[1], b.get(i[0])) !== true) return false
+      }
+      return true
+    }
+
+    if (hasSet && a.constructor === Set) {
+      if (a.size !== b.size) return false
+      for (i of a.entries()) {
+        if (b.has(i[0]) !== true) return false
+      }
+      return true
+    }
+
+    if (hasArrayBuffer && ArrayBuffer.isView(a) && ArrayBuffer.isView(b)) {
+      length = a.length
+      if (length !== b.length) return false
+      for (i = length; i-- !== 0;) {
+        if (a[i] !== b[i]) return false
+      }
+      return true
+    }
+
+    if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags
+    if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf()
+    if (a.toString !== Object.prototype.toString) return a.toString() === b.toString()
+
+    keys = Object.keys(a)
+    length = keys.length
+    if (length !== Object.keys(b).length) return false
+
+    for (i = length; i-- !== 0;) {
+      if (Object.prototype.hasOwnProperty.call(b, keys[i]) !== true) return false
+    }
+    for (i = length; i-- !== 0;) {
+      let key = keys[i]
+      if (isDeepEqual(a[key], b[key]) !== true) return false
+    }
     return true
   }
 
-  if (a instanceof Date && b instanceof Date) {
-    return a.getTime() === b.getTime()
-  }
-
-  if (a !== Object(a) || b !== Object(b)) {
-    return false
-  }
-
-  const props = Object.keys(a)
-
-  if (props.length !== Object.keys(b).length) {
-    return false
-  }
-
-  return props.every(prop => isDeepEqual(a[prop], b[prop]))
+  // true if both NaN, false otherwise
+  return a !== a && b !== b // eslint-disable-line no-self-compare
 }
 
 export function isPrintableChar (v) {
