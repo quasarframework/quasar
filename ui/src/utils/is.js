@@ -5,7 +5,7 @@ const
 
 export function isDeepEqual (a, b) {
   if (a === b) return true
-  if (a && b && typeof a === 'object' && typeof b === 'object') {
+  if (a !== null && b !== null && typeof a === 'object' && typeof b === 'object') {
     if (a.constructor !== b.constructor) return false
     let length, i, keys
     if (Array.isArray(a)) {
@@ -54,10 +54,7 @@ export function isDeepEqual (a, b) {
     if (length !== Object.keys(b).length) return false
 
     for (i = length; i-- !== 0;) {
-      if (Object.prototype.hasOwnProperty.call(b, keys[i]) !== true) return false
-    }
-    for (i = length; i-- !== 0;) {
-      let key = keys[i]
+      const key = keys[i]
       if (isDeepEqual(a[key], b[key]) !== true) return false
     }
     return true
