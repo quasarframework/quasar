@@ -331,7 +331,7 @@ export default Vue.extend({
   },
 
   methods: {
-    getEmitValue() {
+    getEmitValue(opt) {
        return this.emitValue === true
          ? this.__getOptionValue(opt)
          : opt
@@ -356,7 +356,7 @@ export default Vue.extend({
     },
 
     add (opt, unique) {
-      const val = this.getEmitValue()
+      const val = this.getEmitValue(opt)
 
       if (this.multiple !== true) {
         this.fillInput === true && this.updateInputValue(
@@ -411,7 +411,7 @@ export default Vue.extend({
         }
 
         if (isDeepEqual(this.__getOptionValue(this.innerValue), optValue) !== true) {
-          this.$emit('input', this.getEmitValue())
+          this.$emit('input', this.getEmitValue(opt))
         }
         return
       }
@@ -421,7 +421,7 @@ export default Vue.extend({
       this.__selectInputText()
 
       if (this.innerValue.length === 0) {
-        const val = this.getEmitValue()
+        const val = this.getEmitValue(opt)
         this.$emit('add', { index: 0, value: val })
         this.$emit('input', this.multiple === true ? [ val ] : val)
         return
@@ -439,7 +439,7 @@ export default Vue.extend({
           return
         }
 
-        const val = this.getEmitValue()
+        const val = this.getEmitValue(opt)
 
         this.$emit('add', { index: model.length, value: val })
         model.push(val)
