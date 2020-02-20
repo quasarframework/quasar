@@ -34,6 +34,13 @@ export default Vue.extend({
         (this.color !== void 0 ? ` bg-${this.color}` : '') +
         (this.isDark === true ? ' q-separator--dark' : '') +
         (this.spaced === true ? ' q-separator--spaced' : '')
+    },
+
+    attrs () {
+      return {
+        role: 'separator',
+        'aria-orientation': this.vertical === true ? 'vertical' : 'horizontal'
+      }
     }
   },
 
@@ -41,6 +48,7 @@ export default Vue.extend({
     return h('hr', {
       staticClass: 'q-separator',
       class: this.classes,
+      attrs: this.attrs,
       on: this.$listeners
     })
   }

@@ -75,6 +75,21 @@ export default Vue.extend({
       if (this.name !== void 0 && this.isTrue === true) {
         return { checked: true }
       }
+    },
+
+    attrs () {
+      const attrs = {
+        tabindex: this.computedTabindex,
+        role: 'radio',
+        'aria-label': this.label,
+        'aria-checked': this.isTrue === true ? 'true' : 'false'
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -138,7 +153,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
+      attrs: this.attrs,
       on: cache(this, 'inpExt', {
         click: this.set,
         keydown: e => {

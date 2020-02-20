@@ -133,6 +133,14 @@ export default Vue.extend({
         this.iconLast || this.$q.iconSet.pagination.last
       ]
       return this.$q.lang.rtl === true ? ico.reverse() : ico
+    },
+
+    attrs () {
+      if (this.disable === true) {
+        return {
+          'aria-disabled': ''
+        }
+      }
     }
   },
 
@@ -340,6 +348,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-pagination row no-wrap items-center',
       class: { disabled: this.disable },
+      attrs: this.attrs,
       on: this.$listeners
     }, [
       contentStart,

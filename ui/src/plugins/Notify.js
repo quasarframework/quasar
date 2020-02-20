@@ -10,6 +10,8 @@ import { isSSR } from './Platform.js'
 let uid = 0
 let defaults = {}
 
+const attrs = { role: 'alert' }
+
 const positionList = [
   'top-left', 'top-right',
   'bottom-left', 'bottom-right',
@@ -313,6 +315,10 @@ const Notifications = {
             mainChild.push(
               h(QIcon, {
                 staticClass: 'q-notification__icon col-auto',
+                attrs: {
+                  role: 'img',
+                  'aria-label': notif.icon
+                },
                 props: { name: notif.icon }
               })
             )
@@ -320,7 +326,7 @@ const Notifications = {
           else if (notif.avatar) {
             mainChild.push(
               h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
-                h('img', { attrs: { src: notif.avatar } })
+                h('img', { attrs: { src: notif.avatar, 'aria-hidden': 'true' } })
               ])
             )
           }
@@ -361,7 +367,8 @@ const Notifications = {
         return h('div', {
           ref: `notif_${meta.uid}`,
           key: meta.uid,
-          staticClass: meta.staticClass
+          staticClass: meta.staticClass,
+          attrs
         }, [
           h('div', { staticClass: meta.wrapperClass }, child)
         ])

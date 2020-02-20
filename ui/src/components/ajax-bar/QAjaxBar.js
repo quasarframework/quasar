@@ -137,6 +137,19 @@ export default Vue.extend({
 
     sizeProp () {
       return this.horizontal ? 'height' : 'width'
+    },
+
+    attrs () {
+      return this.onScreen === true
+        ? {
+          role: 'progressbar',
+          'aria-valuemin': 0,
+          'aria-valuemax': 100,
+          'aria-valuenow': this.progress
+        }
+        : {
+          'aria-hidden': 'true'
+        }
     }
   },
 
@@ -224,7 +237,8 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       class: this.classes,
-      style: this.style
+      style: this.style,
+      attrs: this.attrs
     })
   }
 })
