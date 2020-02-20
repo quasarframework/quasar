@@ -20,6 +20,14 @@
       "category": "model"
     },
 
+    "shadow-text": {
+      "type": "String",
+      "desc": "Text to be displayed as shadow at the end of the text in the control",
+      "examples": [ "shadow-text=\"rest of the fill value\"" ],
+      "category": "content",
+      "addedIn": "v1.9.4"
+    },
+
     "type": {
       "type": "String",
       "desc": "Input type",

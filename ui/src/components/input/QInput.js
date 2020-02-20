@@ -16,6 +16,8 @@ export default Vue.extend({
   props: {
     value: { required: false },
 
+    shadowText: String,
+
     type: {
       type: String,
       default: 'text'
@@ -88,6 +90,12 @@ export default Vue.extend({
     fieldClass () {
       return `q-${this.isTextarea === true ? 'textarea' : 'input'}` +
         (this.autogrow === true ? ' q-textarea--autogrow' : '')
+    },
+
+    hasShadowText () {
+      return this.type !== 'file' &&
+        typeof this.shadowText === 'string' &&
+        this.shadowText.length > 0
     }
   },
 
@@ -252,7 +260,11 @@ export default Vue.extend({
         on.animationend = this.__adjustHeight
       }
 
-      return h(this.isTextarea === true ? 'textarea' : 'input', {
+      const value = this.hasOwnProperty('tempValue') === true
+        ? this.tempValue
+        : (this.innerValue !== void 0 ? this.innerValue : '')
+
+      const control = h(this.isTextarea === true ? 'textarea' : 'input', {
         ref: 'input',
         staticClass: 'q-field__native q-placeholder',
         style: this.inputStyle,
@@ -260,13 +272,20 @@ export default Vue.extend({
         attrs,
         on,
         domProps: this.type !== 'file'
-          ? {
-            value: this.hasOwnProperty('tempValue') === true
-              ? this.tempValue
-              : (this.innerValue !== void 0 ? this.innerValue : '')
-          }
+          ? { value }
           : this.formDomProps
       })
+
+      if (this.hasShadowText !== true) {
+        return control
+      }
+
+      return [
+        h('div', {
+          staticClass: 'q-field__native q-field__shadow-text absolute-full'
+        }, [ h('span', value), this.shadowText ]),
+        control
+      ]
     }
   },
 
