@@ -267,7 +267,7 @@ module.exports = class Extension {
     }
   }
 
-  __installPackage () {
+  getInstallFlags () {
     const params = this.params()
 
     // if install flags are not defined, we target devDependencies as default
@@ -278,12 +278,19 @@ module.exports = class Extension {
       ? params.yarnAddFlags
       : '--dev'
 
-    const nodePackager = require('../helpers/node-packager')
+    return {
+      npm: npmInstallFlags,
+      yarn: yarnAddFlags
+    }
+  }
 
-    // if install flags are defined as empty strings, we don't concatenate
+  __installPackage () {
+    const flags = this.getInstallFlags()
+    const nodePackager = require('../helpers/node-packager')
+    // if flags are specified as empty strings, we don't concatenate
     const cmdParam = nodePackager === 'npm'
-      ? npmInstallFlags === '' ? ['install'] : ['install'].concat(npmInstallFlags)
-      : yarnAddFlags === '' ? ['add'] : ['add'].concat(yarnAddFlags)
+      ? flags.npm === '' ? ['install'] : ['install'].concat(flags.npm)
+      : flags.yarn === '' ? ['add'] : ['add'].concat(flags.yarn)
 
     log(`Retrieving "${this.packageFullName}"...`)
     spawnSync(
@@ -295,12 +302,17 @@ module.exports = class Extension {
   }
 
   __uninstallPackage () {
+    const flags = this.getInstallFlags()
     const nodePackager = require('../helpers/node-packager')
+    // if flags are specified as empty strings, we don't concatenate
+    const cmdParam = nodePackager === 'npm'
+      ? flags.npm === '' ? ['uninstall'] : ['uninstall'].concat(flags.npm)
+      : flags.yarn === '' ? ['remove'] : ['remove'].concat(flags.yarn)
 
     log(`Uninstalling "${this.packageName}"...`)
     spawnSync(
       nodePackager,
-      ['remove', this.packageName],
+      cmdParam.concat(this.packageName),      
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
       () => warn(`⚠️  Failed to uninstall "${this.packageName}"`)
     )
