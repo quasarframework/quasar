@@ -259,8 +259,7 @@ module.exports = class Extension {
       )
 
       // parse the buffer and return an object
-      // if key 'quasar.extension' does not exist we return an empty object
-      return paramsBuffer.toString() ? JSON.parse(paramsBuffer) : {}
+      return JSON.parse(paramsBuffer)
     } catch (err) {
       // when the extension is not published yet to npm, the above will result
       // in an error.
