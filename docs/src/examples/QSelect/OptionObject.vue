@@ -5,7 +5,7 @@
         Model: "{{ model }}"
       </q-badge>
 
-      <q-select filled v-model="model" :options="options" label="Standard" />
+      <q-select filled v-model="model" :options="options" label="Standard" option-label="label" />
     </div>
   </div>
 </template>
