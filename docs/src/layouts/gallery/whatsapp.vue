@@ -1,5 +1,7 @@
 <template>
-  <div class="WAL position-relative bg-grey-4" :style="style">
+  <div :class="'WAL position-relative bg-grey-4 '+ ($q.platform.is.ios ? ' ios-class' : '')"
+  :style="`${'height: '+ ($q.platform.is.ios ? ((Onfoc ? (NewHeight-KeyHight) : NewHeight)+'px') : style.height)}`"
+  >
     <q-layout view="lHh Lpr lFf" class="WAL__layout shadow-3" container>
       <q-header elevated>
         <q-toolbar class="bg-grey-3 text-black">
@@ -154,7 +156,17 @@
       <q-footer>
         <q-toolbar class="bg-grey-3 text-black row">
           <q-btn round flat icon="insert_emoticon" class="q-mr-sm" />
-          <q-input rounded outlined dense class="WAL__field col-grow q-mr-sm" bg-color="white" v-model="message" placeholder="Type a message" />
+          <q-input 
+          rounded 
+          outlined 
+          dense 
+          class="WAL__field col-grow q-mr-sm" 
+          bg-color="white" 
+          v-model="message" 
+          @focus="ChangeStyle"
+          @blur="Endkey()"
+          placeholder="Type a message" 
+          />
           <q-btn round flat icon="mic" />
         </q-toolbar>
       </q-footer>
@@ -163,6 +175,14 @@
 </template>
 
 <script>
+
+import { Plugins } from '@capacitor/core'
+import { ScreenOrientation } from '@ionic-native/screen-orientation'
+
+const ScreenOrienta = ScreenOrientation
+
+const { Keyboard } = Plugins
+
 export default {
   name: 'WhatsappLayout',
 
@@ -171,6 +191,9 @@ export default {
       leftDrawerOpen: false,
       search: '',
       message: '',
+      NewHeight: this.$q.screen.height,
+      Onfoc: false,
+      KeyHight: 0,
       currentConversationIndex: 0,
       conversations: [
         {
@@ -208,7 +231,30 @@ export default {
       ]
     }
   },
-
+   beforeDestroy () {
+    this.leftDrawerOpen = ''
+    this.search = ''
+    this.message = ''
+    this.KeyHight = ''
+    this.NewHeight = ''
+    this.Onfoc = ''
+    this.currentConversationIndex = ''
+    this.conversations = ''
+    if (this.timer !== void 0) {
+      clearTimeout(this.timer)
+    }
+  },
+  created () {
+    if (this.$q.platform.is.ios) {
+      this.KeyBoa()
+    }
+   
+    ScreenOrienta.onChange().subscribe(
+      () => {
+        this.Starter()
+      }
+    )
+  },
   computed: {
     currentConversation () {
       return this.conversations[this.currentConversationIndex]
@@ -219,11 +265,40 @@ export default {
         height: this.$q.screen.height + 'px'
       }
     }
+  },
+  mounted () {
+    this.Starter()
+  },
+  methods: {
+    Starter () {
+      this.timer = setTimeout(() => {
+        if (ScreenOrienta.type === ScreenOrienta.ORIENTATIONS.LANDSCAPE) {
+          this.NewHeight = this.$q.screen.width
+        } else {
+          this.NewHeight = this.$q.screen.height
+        }
+      }, 500)
+    },
+    ChangeStyle () {
+      this.Onfoc = true
+    },
+    Endkey () {
+      this.Onfoc = false
+    },
+    async  KeyBoa () {
+      await Keyboard.addListener('keyboardWillShow', (e) => {
+        this.KeyHight = e.keyboardHeight
+      })
+    }
   }
+  
 }
 </script>
 
 <style lang="sass">
+.ios-class
+  padding-top: 20px !important
+
 .WAL
   width: 100%
   height: 100%
