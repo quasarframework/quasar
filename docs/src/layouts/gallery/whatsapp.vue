@@ -156,16 +156,15 @@
       <q-footer>
         <q-toolbar class="bg-grey-3 text-black row">
           <q-btn round flat icon="insert_emoticon" class="q-mr-sm" />
-          <q-input 
-          rounded 
-          outlined 
-          dense 
-          class="WAL__field col-grow q-mr-sm" 
-          bg-color="white" 
-          v-model="message" 
-          @focus="ChangeStyle"
+          <q-input
+          rounded
+          outlined
+          dense
+          class="WAL__field col-grow q-mr-sm"
+          bg-color="white"
+          v-model="message"
           @blur="Endkey()"
-          placeholder="Type a message" 
+          placeholder="Type a message"
           />
           <q-btn round flat icon="mic" />
         </q-toolbar>
@@ -231,7 +230,7 @@ export default {
       ]
     }
   },
-   beforeDestroy () {
+  beforeDestroy () {
     this.leftDrawerOpen = ''
     this.search = ''
     this.message = ''
@@ -247,8 +246,9 @@ export default {
   created () {
     if (this.$q.platform.is.ios) {
       this.KeyBoa()
+      this.HideKeyBoa()
     }
-   
+
     ScreenOrienta.onChange().subscribe(
       () => {
         this.Starter()
@@ -272,26 +272,38 @@ export default {
   methods: {
     Starter () {
       this.timer = setTimeout(() => {
-        if (ScreenOrienta.type === ScreenOrienta.ORIENTATIONS.LANDSCAPE) {
-          this.NewHeight = this.$q.screen.width
-        } else {
-          this.NewHeight = this.$q.screen.height
+        if ((ScreenOrienta.type === 'landscape-primary' || ScreenOrienta.type === 'landscape-secondary' || ScreenOrienta.type === 'landscape') && !this.Onfoc) {
+          this.NewHeight = (this.$q.screen.width < this.$q.screen.height) ? this.$q.screen.width : this.$q.screen.height
+
+          this.$q.notify({
+            color: 'negative', position: 'top', message: ScreenOrienta.type + ' ' + this.NewHeight, icon: 'alert'
+          })
+        }
+        if ((ScreenOrienta.type === 'portrait-primary' || ScreenOrienta.type === 'portrait-secondary' || ScreenOrienta.type === 'portrait') && !this.Onfoc) {
+          this.NewHeight = (this.$q.screen.width > this.$q.screen.height) ? this.$q.screen.width : this.$q.screen.height
         }
       }, 500)
-    },
-    ChangeStyle () {
-      this.Onfoc = true
     },
     Endkey () {
       this.Onfoc = false
     },
     async  KeyBoa () {
+      // var bb = this
       await Keyboard.addListener('keyboardWillShow', (e) => {
+        this.Onfoc = true
         this.KeyHight = e.keyboardHeight
       })
+    },
+    async  HideKeyBoa () {
+      await Keyboard.addListener('keyboardDidHide', () => {
+        this.Onfoc = false
+        this.KeyHight = 0
+        // this.NewHeight = this.NewHeight
+      })
     }
+
   }
-  
+
 }
 </script>
 
