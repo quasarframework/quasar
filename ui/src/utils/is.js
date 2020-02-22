@@ -4,59 +4,109 @@ const
   hasArrayBuffer = typeof ArrayBuffer === 'function'
 
 export function isDeepEqual (a, b) {
-  if (a === b) return true
+  if (a === b) {
+    return true
+  }
+
   if (a !== null && b !== null && typeof a === 'object' && typeof b === 'object') {
-    if (a.constructor !== b.constructor) return false
+    if (a.constructor !== b.constructor) {
+      return false
+    }
+
     let length, i, keys
+
     if (a.constructor === Array) {
       length = a.length
-      if (length !== b.length) return false
+
+      if (length !== b.length) {
+        return false
+      }
+
       for (i = length; i-- !== 0;) {
-        if (isDeepEqual(a[i], b[i]) !== true) return false
+        if (isDeepEqual(a[i], b[i]) !== true) {
+          return false
+        }
       }
+
       return true
     }
 
-    if (hasMap && a.constructor === Map) {
-      if (a.size !== b.size) return false
-      for (i of a.entries()) {
-        if (b.has(i[0]) !== true) return false
+    if (hasMap === true && a.constructor === Map) {
+      if (a.size !== b.size) {
+        return false
       }
+
       for (i of a.entries()) {
-        if (isDeepEqual(i[1], b.get(i[0])) !== true) return false
+        if (b.has(i[0]) !== true) {
+          return false
+        }
       }
+
+      for (i of a.entries()) {
+        if (isDeepEqual(i[1], b.get(i[0])) !== true) {
+          return false
+        }
+      }
+
       return true
     }
 
-    if (hasSet && a.constructor === Set) {
-      if (a.size !== b.size) return false
-      for (i of a.entries()) {
-        if (b.has(i[0]) !== true) return false
+    if (hasSet === true && a.constructor === Set) {
+      if (a.size !== b.size) {
+        return false
       }
+
+      for (i of a.entries()) {
+        if (b.has(i[0]) !== true) {
+          return false
+        }
+      }
+
       return true
     }
 
-    if (hasArrayBuffer && a.buffer != null && a.buffer.constructor === ArrayBuffer) {
+    if (hasArrayBuffer === true && a.buffer != null && a.buffer.constructor === ArrayBuffer) {
       length = a.length
-      if (length !== b.length) return false
-      for (i = length; i-- !== 0;) {
-        if (a[i] !== b[i]) return false
+
+      if (length !== b.length) {
+        return false
       }
+
+      for (i = length; i-- !== 0;) {
+        if (a[i] !== b[i]) {
+          return false
+        }
+      }
+
       return true
     }
 
-    if (a.constructor === RegExp) return a.source === b.source && a.flags === b.flags
-    if (a.valueOf !== Object.prototype.valueOf) return a.valueOf() === b.valueOf()
-    if (a.toString !== Object.prototype.toString) return a.toString() === b.toString()
+    if (a.constructor === RegExp) {
+      return a.source === b.source && a.flags === b.flags
+    }
+
+    if (a.valueOf !== Object.prototype.valueOf) {
+      return a.valueOf() === b.valueOf()
+    }
+
+    if (a.toString !== Object.prototype.toString) {
+      return a.toString() === b.toString()
+    }
 
     keys = Object.keys(a)
     length = keys.length
-    if (length !== Object.keys(b).length) return false
+
+    if (length !== Object.keys(b).length) {
+      return false
+    }
 
     for (i = length; i-- !== 0;) {
       const key = keys[i]
-      if (isDeepEqual(a[key], b[key]) !== true) return false
+      if (isDeepEqual(a[key], b[key]) !== true) {
+        return false
+      }
     }
+
     return true
   }
 
