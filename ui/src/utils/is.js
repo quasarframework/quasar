@@ -36,16 +36,20 @@ export function isDeepEqual (a, b) {
         return false
       }
 
-      for (i of a.entries()) {
-        if (b.has(i[0]) !== true) {
+      i = a.entries().next()
+      while (i.done !== true) {
+        if (b.has(i.value[0]) !== true) {
           return false
         }
+        i = i.next()
       }
 
-      for (i of a.entries()) {
-        if (isDeepEqual(i[1], b.get(i[0])) !== true) {
+      i = a.entries().next()
+      while (i.done !== true) {
+        if (isDeepEqual(i.value[1], b.get(i.value[0])) !== true) {
           return false
         }
+        i = i.next()
       }
 
       return true
@@ -56,10 +60,12 @@ export function isDeepEqual (a, b) {
         return false
       }
 
-      for (i of a.entries()) {
-        if (b.has(i[0]) !== true) {
+      i = a.entries().next()
+      while (i.done !== true) {
+        if (b.has(i.value[0]) !== true) {
           return false
         }
+        i = i.next()
       }
 
       return true
