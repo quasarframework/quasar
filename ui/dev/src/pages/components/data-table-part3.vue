@@ -55,6 +55,7 @@
       :separator="separator"
       :dense="dense"
       selection="multiple"
+      :rows-per-page-options="[1, 3, 5, 50, 0]"
       :selected.sync="selected"
       :dark="dark"
       @row-click="onRowClick"
