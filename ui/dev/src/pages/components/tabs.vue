@@ -1,18 +1,27 @@
 <template>
   <div class="tabs-demo q-py-xl">
     <div class="">
-      <div>
-        <q-checkbox v-model="dense" label="Dense" />
+      <div class="q-pb-lg row">
+        <q-checkbox v-model="dense" label="Dense" class="q-mr-lg" />
+        <div class="row items-center">
+          <div class="subtitle1">Align Label Options:</div>
+          <q-option-group
+            v-model="alignLabel"
+            :options="alignLabelOptions"
+            color="primary"
+            inline
+          />
+        </div>
       </div>
 
       <div style="display: flex; margin-bottom: 50px; height: 200px; position: relative;">
-        <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+        <q-tabs :dense="dense" :align-label="alignLabel" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
           <q-tab name="one" icon="wifi" />
           <q-tab name="two" icon="bluetooth" />
           <q-tab name="three" icon="map" />
         </q-tabs>
 
-        <q-tabs :dense="dense" vertical inline-label class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+        <q-tabs :dense="dense" :align-label="alignLabel" vertical inline-label class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
           <q-tab name="one" label="wifi" icon="wifi" />
           <q-tab name="two" label="bluetooth" icon="bluetooth" />
           <q-tab name="three" label="map" icon="map" />
@@ -23,7 +32,7 @@
           <q-tab name="eight" label="info" icon="info" />
         </q-tabs>
 
-        <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
+        <q-tabs :dense="dense" :align-label="alignLabel" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
           <q-tab name="one" label="wifi" icon="wifi" />
           <q-tab name="two" label="bluetooth" icon="bluetooth" />
           <q-tab name="three" label="map" icon="map" />
@@ -505,7 +514,22 @@ export default {
       panelTest: false,
       some: false,
       exact: true,
-      loose: true
+      loose: true,
+      alignLabel: 'center',
+      alignLabelOptions: [
+        {
+          label: 'Left',
+          value: 'left'
+        },
+        {
+          label: 'Center',
+          value: 'center'
+        },
+        {
+          label: 'Right',
+          value: 'right'
+        }
+      ]
     }
   },
 
