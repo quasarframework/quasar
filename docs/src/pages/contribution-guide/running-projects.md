@@ -26,7 +26,6 @@ We can promise you that your Javascript and Vue.js skills will reach the stars!
 
 | Project | Required Skills | Links |
 | --- | --- | --- | --- |
-| Marketing | Monetization strategy and its implementation, PR, Newsletter, Articles | |
 | Quasar Testing AE | Maintenance and enhancements | [repo](https://github.com/quasarframework/quasar-testing)|
 | Cordova mode | [Apache Cordova](https://cordova.apache.org/)| [repo](https://github.com/quasarframework/quasar/tree/dev/cli) |
 | Electron mode | Maintenance and enhancements | [repo](https://github.com/quasarframework/quasar/tree/dev/cli) |
