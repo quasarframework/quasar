@@ -220,6 +220,10 @@ const cli = [
       {
         name: 'Supporting IE',
         path: 'supporting-ie'
+      },
+      {
+        name: 'Supporting TypeScript',
+        path: 'supporting-ts'
       }
     ]
   },
