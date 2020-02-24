@@ -339,6 +339,9 @@ class QuasarConfig {
     // make sure it exists
     cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
 
+    // make sure it exists
+    cfg.supportTS = cfg.supportTS || false
+
     if (cfg.vendor.disable !== true) {
       cfg.vendor.add = cfg.vendor.add.length > 0
         ? new RegExp(cfg.vendor.add.filter(v => v).join('|'))
