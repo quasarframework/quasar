@@ -12,7 +12,7 @@
           unelevated
         )
           .text-caption.text-weight-light
-            div.text-capitalize {{ color }}
+            .text-capitalize {{ color }}
             div {{ colors[color] }}
 
           q-menu(anchor="top left", self="top left")
