@@ -85,7 +85,7 @@ export default Vue.extend({
     alignLabel: {
       type: String,
       default: 'center',
-      validator: v => ['left', 'center', 'right'].includes(v)
+      validator: v => ['start', 'end', 'center', 'between', 'around', 'evenly'].includes(v)
     },
     noCaps: Boolean,
 

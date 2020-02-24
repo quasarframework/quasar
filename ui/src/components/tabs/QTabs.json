@@ -102,10 +102,10 @@
 
     "align-label": {
       "type": "String",
-      "desc": "Horizontal alignment the tab label within the tab container. Applies only when the inline-label property is set",
+      "desc": "Specify how to align the tab label horizontally. Applies only when the inline-label property is set",
       "default": "center",
-      "values": [ "left", "center", "right" ],
-      "examples": [ "right" ],
+      "values": [ "start", "end", "center", "between", "around", "evenly" ],
+      "examples": [ "between" ],
       "category": "content",
       "addedIn": "v1.9.4"
     },

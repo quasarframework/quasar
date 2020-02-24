@@ -74,16 +74,28 @@ export default {
       alignLabel: 'center',
       alignLabelOptions: [
         {
-          label: 'Left',
-          value: 'left'
+          label: 'Start',
+          value: 'start'
+        },
+        {
+          label: 'End',
+          value: 'end'
         },
         {
           label: 'Center',
           value: 'center'
         },
         {
-          label: 'Right',
-          value: 'right'
+          label: 'Between',
+          value: 'between'
+        },
+        {
+          label: 'Around',
+          value: 'around'
+        },
+        {
+          label: 'Evenly',
+          value: 'evenly'
         }
       ]
     }

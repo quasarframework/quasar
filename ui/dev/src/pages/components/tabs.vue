@@ -44,7 +44,7 @@
         </q-tabs>
       </div>
 
-      <q-tabs :dense="dense">
+      <q-tabs :dense="dense" :align-label="alignLabel" >
         <q-tab label="Item one - tooltip">
           <q-tooltip>
             <q-icon name="wifi" /> Wifi
@@ -107,13 +107,13 @@
         </q-btn-dropdown>
       </q-tabs>
 
-      <q-tabs :dense="dense" :breakpoint="1000" align="right">
+      <q-tabs :dense="dense" :align-label="alignLabel" :breakpoint="1000" align="right">
         <q-tab icon="phone" />
         <q-tab icon="favorite" />
         <q-tab icon="location_on" />
       </q-tabs>
 
-      <q-tabs :dense="dense" inline-label>
+      <q-tabs :dense="dense" :align-label="alignLabel" inline-label>
         <q-tab icon="map">
           <q-badge color="red" floating>
             2
@@ -129,7 +129,7 @@
         <q-tab icon="location_on" />
       </q-tabs>
 
-      <q-tabs :dense="dense" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :align-label="alignLabel" class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -138,26 +138,26 @@
       <q-toolbar class="bg-purple text-white shadow-2 rounded-borders q-mb-xl">
         <q-btn flat label="Homepage" />
         <q-space />
-        <q-tabs inline-label class="col-shrink">
+        <q-tabs inline-label :align-label="alignLabel" class="col-shrink">
           <q-tab icon="phone" label="Tab 1" />
           <q-tab label="Tab 2" />
           <q-tab icon="location_on" label="Tab 3" />
         </q-tabs>
       </q-toolbar>
 
-      <q-tabs :dense="dense" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :align-label="alignLabel" class="bg-grey-1 text-teal">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab label="Item two" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
-      <q-tabs :dense="dense" narrow-indicator>
+      <q-tabs :dense="dense" :align-label="alignLabel" narrow-indicator>
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
-      <q-tabs :dense="dense" inline-label class="bg-purple text-white">
+      <q-tabs :dense="dense" :align-label="alignLabel" inline-label class="bg-purple text-white">
         <q-tab icon="phone" label="Item one Item one Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -202,19 +202,19 @@
         </q-btn-dropdown>
       </q-tabs>
 
-      <q-tabs :dense="dense" class="bg-teal text-yellow" switch-indicator inline-label>
+      <q-tabs :dense="dense" :align-label="alignLabel" class="bg-teal text-yellow" switch-indicator inline-label>
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="-- Switch indicator --" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
-      <q-tabs :dense="dense" class="bg-white" inline-label active-bg-color="purple" active-color="white" indicator-color="transparent">
+      <q-tabs :dense="dense" :align-label="alignLabel" class="bg-white" inline-label active-bg-color="purple" active-color="white" indicator-color="transparent">
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
       </q-tabs>
 
-      <q-tabs :dense="dense" inline-label align="justify" indicator-color="orange">
+      <q-tabs :dense="dense" :align-label="alignLabel" inline-label align="justify" indicator-color="orange">
         <q-tab icon="phone" label="Item one" />
         <q-tab icon="favorite" label="Item two" />
         <q-tab icon="location_on" label="Item three" />
@@ -245,7 +245,7 @@
           </router-link>
         </div>
       </div>
-      <q-tabs :dense="dense" class="test q-mt-sm">
+      <q-tabs :dense="dense" :align-label="alignLabel" class="test q-mt-sm">
         <q-route-tab name="tabs" to="/components/tabs" exact label="/tabs" />
         <q-route-tab name="tabs/a" to="/components/tabs/a" exact label="/tabs/a" />
         <q-route-tab name="tabs/a *" to="/components/tabs/a" label="/tabs/a *" />
@@ -281,7 +281,7 @@
           </router-link>
         </div>
       </div>
-      <q-tabs :dense="dense" class="test q-mt-sm">
+      <q-tabs :dense="dense" :align-label="alignLabel" class="test q-mt-sm">
         <q-route-tab to="/components/tabs/t" exact label="t" />
         <q-route-tab v-if="$route.params.id" :to="{ name: 'ta', params: $route.params }" exact :label="`t/${ $route.params.id }/a`" />
         <q-route-tab v-if="$route.params.id" :to="{ name: 'tb', params: $route.params }" exact :label="`t/${ $route.params.id }/b`" />
@@ -341,7 +341,7 @@
       </div>
       <q-toggle v-model="exact" label="Show exact match tabs" />
       <q-toggle v-model="loose" label="Show loose match tabs" />
-      <q-tabs :dense="dense" class="test q-mt-sm">
+      <q-tabs :dense="dense" :align-label="alignLabel" class="test q-mt-sm">
         <q-route-tab v-if="exact" key="01" :to="{ name: 'r' }" exact label="r" />
         <q-route-tab v-if="loose" key="02" :to="{ name: 'r' }" label="r *" />
         <q-route-tab v-if="exact" key="03" :to="{ name: 'r.1', query: { q: '1' } }" exact label="r.1 q=1" />
@@ -360,21 +360,21 @@
       </q-tabs>
 
       <h4>Tabs model (respect model): {{ tabModel }}</h4>
-      <q-tabs :dense="dense" :value="tabModel" @input="onChangeTab1" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :align-label="alignLabel" :value="tabModel" @input="onChangeTab1" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One" />
         <q-tab name="two" label="Two -> One" />
         <q-tab name="three" label="Three (no way)" />
         <q-tab name="four" label="Four" />
         <q-tab name="five" label="Five" />
       </q-tabs>
-      <q-tabs :dense="dense" :value="tabModel" @input="onChangeTab2" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :align-label="alignLabel" :value="tabModel" @input="onChangeTab2" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One -> Two" />
         <q-tab name="two" label="Two" />
         <q-tab name="three" label="Three" />
         <q-tab name="four" label="Four (no way)" />
         <q-tab name="five" label="Five" />
       </q-tabs>
-      <q-tabs :dense="dense" v-model="tabModel" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :align-label="alignLabel" v-model="tabModel" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One" />
         <q-tab name="two" label="Two" />
         <q-tab name="three" label="Three" />
@@ -400,6 +400,7 @@
       <div class="shadow-1 q-ma-md">
         <q-tabs
           :dense="dense"
+          :align-label="alignLabel"
           v-model="tab"
           active-color="white"
           indicator-color="yellow"
@@ -518,16 +519,28 @@ export default {
       alignLabel: 'center',
       alignLabelOptions: [
         {
-          label: 'Left',
-          value: 'left'
+          label: 'Start',
+          value: 'start'
+        },
+        {
+          label: 'End',
+          value: 'end'
         },
         {
           label: 'Center',
           value: 'center'
         },
         {
-          label: 'Right',
-          value: 'right'
+          label: 'Between',
+          value: 'between'
+        },
+        {
+          label: 'Around',
+          value: 'around'
+        },
+        {
+          label: 'Evenly',
+          value: 'evenly'
         }
       ]
     }
