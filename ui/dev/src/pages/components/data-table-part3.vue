@@ -59,6 +59,9 @@
       :dark="dark"
       @row-click="onRowClick"
     >
+      <template v-slot:top-right="props">
+        <q-btn size="sm" round flat :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen()" />
+      </template>
       <template v-slot:item="props">
         <div
           class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3"
