@@ -75,14 +75,14 @@ body.q-ios-padding .q-notifications__list
   &__progress
     z-index: -1
     position: absolute
-    top: 0
+    height: 3px
     bottom: 0
-    left: -16px
-    right: -16px
+    left: -10px
+    right: -10px
     animation: q-notif-progress linear
     background: currentColor
-    opacity: .1
-    border-radius: inherit
+    opacity: .3
+    border-radius: $generic-border-radius $generic-border-radius 0 0
     transform-origin: 0 50%
 
   &--standard
@@ -100,7 +100,6 @@ body.q-ios-padding .q-notifications__list
     .q-notification__badge
       top: -15px
     .q-notification__progress
-      top: -8px
       bottom: -8px
 
     .q-notification__actions
@@ -175,6 +174,6 @@ body.q-ios-padding .q-notifications__list
 
 @keyframes q-notif-progress
   0%
-    transform: scaleX(0)
-  100%
     transform: scaleX(1)
+  100%
+    transform: scaleX(0)
