@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md non-selectable">
     <q-toggle
       v-model="padding"
       label="Padding"
