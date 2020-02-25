@@ -22,7 +22,9 @@
         </q-tabs>
 
         <q-tabs :dense="dense" :align-label="alignLabel" vertical inline-label class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
-          <q-tab name="one" label="wifi" icon="wifi" />
+          <q-tab name="one" label="wifi" icon="wifi">
+            <q-badge color="red" floating>2</q-badge>
+          </q-tab>
           <q-tab name="two" label="bluetooth" icon="bluetooth" />
           <q-tab name="three" label="map" icon="map" />
           <q-tab name="four" label="phone" icon="phone" />
