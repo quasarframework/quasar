@@ -7,6 +7,7 @@ const WebpackProgress = require('./plugin.progress')
 const BootDefaultExport = require('./plugin.boot-default-export')
 
 const appPaths = require('../app-paths')
+const esmCompat = require('../helpers/esm-compat');
 const injectStyleRules = require('./inject.style-rules')
 
 module.exports = function (cfg, configName) {
@@ -133,7 +134,7 @@ module.exports = function (cfg, configName) {
       .loader('babel-loader')
         .options({
           compact: false,
-          extends: appPaths.resolve.app('babel.config.js'),
+          extends: appPaths.resolve.app(esmCompat('babel.config')),
           plugins: cfg.framework.all !== true && configName !== 'Server' ? [
             [
               'transform-imports', {
