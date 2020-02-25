@@ -57,7 +57,7 @@ export default Vue.extend({
 
   render (h) {
     const content = this.showing === true
-      ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
+      ? slot(this, 'default')
       : void 0
 
     return h(this.tag, {
