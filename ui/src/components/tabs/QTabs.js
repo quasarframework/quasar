@@ -106,7 +106,8 @@ export default Vue.extend({
         narrowIndicator: this.narrowIndicator,
         inlineLabel: this.inlineLabel,
         alignLabel: this.alignLabel,
-        noCaps: this.noCaps
+        noCaps: this.noCaps,
+        vertical: this.vertical
       },
       scrollable: false,
       leftArrow: true,
@@ -130,6 +131,7 @@ export default Vue.extend({
 
     vertical (v) {
       this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicator, v)
+      this.tabs.vertical = v
     },
 
     indicatorColor (v) {
