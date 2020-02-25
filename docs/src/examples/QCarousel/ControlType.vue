@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md non-selectable">
     <q-option-group
       v-model="controlType"
       :options="controlTypeOptions"
