@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-pa-md non-selectable">
     <q-carousel
       v-model="slide"
       swipeable
