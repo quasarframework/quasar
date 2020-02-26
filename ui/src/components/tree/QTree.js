@@ -13,7 +13,7 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QTree',
 
-  mixins: [DarkMixin],
+  mixins: [ DarkMixin ],
 
   props: {
     nodes: {
@@ -360,7 +360,7 @@ export default Vue.extend({
           }
         }
 
-        target = target.concat([key])
+        target = target.concat([ key ])
           .filter((key, index, self) => self.indexOf(key) === index)
       }
       else {
@@ -406,22 +406,14 @@ export default Vue.extend({
       const scope = { tree: this, node, key, color: this.color, dark: this.isDark }
 
       Object.defineProperty(scope, 'expanded', {
-        get: () => {
-          return meta.expanded
-        },
-        set: val => {
-          val !== meta.expanded && this.setExpanded(key, val)
-        },
+        get: () => { return meta.expanded },
+        set: val => { val !== meta.expanded && this.setExpanded(key, val) },
         configurable: true,
         enumerable: true
       })
       Object.defineProperty(scope, 'ticked', {
-        get: () => {
-          return meta.ticked
-        },
-        set: val => {
-          val !== meta.ticked && this.setTicked([key], val)
-        },
+        get: () => { return meta.ticked },
+        set: val => { val !== meta.ticked && this.setTicked([ key ], val) },
         configurable: true,
         enumerable: true
       })
@@ -514,12 +506,8 @@ export default Vue.extend({
             },
             keypress: e => {
               if (shouldIgnoreKey(e) !== true) {
-                if (e.keyCode === 13) {
-                  this.__onClick(node, meta, e, true)
-                }
-                else if (e.keyCode === 32) {
-                  this.__onExpandClick(node, meta, e, true)
-                }
+                if (e.keyCode === 13) { this.__onClick(node, meta, e, true) }
+                else if (e.keyCode === 32) { this.__onExpandClick(node, meta, e, true) }
               }
             }
           }
@@ -583,12 +571,8 @@ export default Vue.extend({
           ? h(QSlideTransition, {
             props: { duration: this.duration },
             on: cache(this, 'slide', {
-              show: () => {
-                this.$emit('after-show')
-              },
-              hide: () => {
-                this.$emit('after-hide')
-              }
+              show: () => { this.$emit('after-show') },
+              hide: () => { this.$emit('after-hide') }
             })
           }, [
             h('div', {
@@ -643,7 +627,7 @@ export default Vue.extend({
         state = meta.indeterminateNextState
       }
       if (meta.strictTicking) {
-        this.setTicked([meta.key], state)
+        this.setTicked([ meta.key ], state)
       }
       else if (meta.leafTicking) {
         const keys = []
