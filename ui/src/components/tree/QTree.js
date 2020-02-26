@@ -451,12 +451,9 @@ export default Vue.extend({
         'q-tree__node--selected': meta.selected,
         'q-tree__node--disabled': meta.disabled
       }
-      if (meta.selected) {
-        const color = this.selectedBackground || 'transparent'
-        if (color) {
-          const bgClass = `bg-${color}`
-          classList[bgClass] = true
-        }
+      if (meta.selected && this.selectedBackground) {
+        const bgClass = `bg-${this.selectedBackground}`
+        classList[bgClass] = true
       }
       return classList
     },
@@ -539,7 +536,7 @@ export default Vue.extend({
               staticClass: 'q-mr-xs',
               props: {
                 value: meta.indeterminate === true ? null : meta.ticked,
-                color: meta.selected ? this.selectedColor || this.computedControlColor : this.computedControlColor,
+                color: meta.selected && this.selectedColor ? this.selectedColor : this.computedControlColor,
                 dark: this.isDark,
                 dense: true,
                 keepColor: true,
