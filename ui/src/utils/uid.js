@@ -15,13 +15,13 @@ const BUFFER_SIZE = 4096
 
 // Node & Browser support
 let crypt0
-if (crypto !== void 0) {
+if (typeof crypto !== 'undefined') {
   crypt0 = crypto
 }
-else if (module !== void 0 && typeof require === 'function') {
+else if (typeof module !== 'undefined' && typeof require === 'function') {
   crypt0 = require('crypto') // Node
-} 
-else if (window !== void 0 && window.msCrypto !== void 0) {
+}
+else if (typeof window !== 'undefined' && window.msCrypto !== void 0) {
   crypt0 = window.msCrypto // IE11
 }
 
@@ -41,8 +41,8 @@ const randomBytes = (function () {
     }
   }
   return function (n) {
-    let i = 0, r = []
-    for (; i < n; i++) {
+    const r = []
+    for (let i = 0; i < n; i++) {
       r.push(Math.floor(Math.random() * 256))
     }
     return r
