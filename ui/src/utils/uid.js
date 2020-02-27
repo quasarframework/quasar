@@ -18,6 +18,9 @@ let crypt0
 if (crypto !== void 0) {
   crypt0 = crypto
 }
+else if (module !== void 0 && typeof require === 'function') {
+  crypt0 = require('crypto') // Node
+} 
 else if (window !== void 0 && window.msCrypto !== void 0) {
   crypt0 = window.msCrypto // IE11
 }
