@@ -232,7 +232,7 @@ export default Vue.extend({
     },
 
     updatePosition () {
-      if (this.__portal === void 0) {
+      if (this.anchorEl === void 0 || this.__portal === void 0) {
         return
       }
 

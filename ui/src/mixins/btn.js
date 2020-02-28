@@ -90,15 +90,17 @@ export default {
     },
 
     attrs () {
-      const att = { tabindex: this.computedTabIndex }
+      const att = { tabindex: this.computedTabIndex, role: 'link' }
       if (this.type !== 'a') {
         att.type = this.type || 'button'
+        att.role = 'button'
       }
       if (this.hasRouterLink === true) {
         att.href = this.$router.resolve(this.to).href
       }
       if (this.disable === true) {
         att.disabled = true
+        att['aria-disabled'] = true
       }
       return att
     },

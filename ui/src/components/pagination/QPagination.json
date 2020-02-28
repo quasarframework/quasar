@@ -85,6 +85,26 @@
       "category": "content"
     },
 
+    "icon-prev": {
+      "extends": "icon",
+      "addedIn": "v.1.9.4"
+    },
+
+    "icon-next": {
+      "extends": "icon",
+      "addedIn": "v.1.9.4"
+    },
+
+    "icon-first": {
+      "extends": "icon",
+      "addedIn": "v.1.9.4"
+    },
+
+    "icon-last": {
+      "extends": "icon",
+      "addedIn": "v.1.9.4"
+    },
+
     "to-fn": {
       "type": "Function",
       "desc": "Generate link for page buttons; For best performance, reference it from your scope and do not define it inline",

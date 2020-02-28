@@ -65,6 +65,25 @@
       }
     },
 
+    "getKey": {
+      "tsType": "WebStorageGetKeyMethodType",
+      "desc": "Get the storage key at specific index",
+      "params": {
+        "index": {
+          "type": "Number",
+          "desc": "Entry index",
+          "required": true,
+          "examples": [ 5 ]
+        }
+      },
+      "returns": {
+        "type": [ "String", "null" ],
+        "desc": "Storage key",
+        "examples": [ "userId" ]
+      },
+      "addedIn": "v1.9.4"
+    },
+
     "getAll": {
       "desc": "Retrieve all items in storage",
       "returns": {
@@ -74,6 +93,17 @@
           "{ userId: 'jon12', timesLoggedIn: 14 }"
         ]
       }
+    },
+
+    "getAllKeys": {
+      "tsType": "WebStorageGetAllKeysMethodType",
+      "desc": "Retrieve all keys in storage",
+      "returns": {
+        "type": "Array",
+        "desc": "Storage keys (Array of Strings)",
+        "examples": [ "['userId', 'password']" ]
+      },
+      "addedIn": "v1.9.4"
     },
 
     "set": {

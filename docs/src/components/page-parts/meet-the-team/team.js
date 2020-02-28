@@ -45,14 +45,6 @@ export default [
   },
 
   {
-    name: 'Lucas Nogueira',
-    role: 'Senior Developer',
-    avatar: 'lucas_nogueira.jpg',
-    github: 'lucasfernog',
-    desc: 'Quasar App CLI development, docs enhancements'
-  },
-
-  {
     name: 'Tobias Mesquita',
     role: 'Senior Developer',
     avatar: 'tobias_mesquita.jpg',
