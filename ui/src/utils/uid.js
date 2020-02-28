@@ -1,3 +1,7 @@
+/**
+ * Based on the work of https://github.com/jchook/uuid-random
+ */
+
 let
   buf,
   bufIdx = 0,
