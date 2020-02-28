@@ -17,7 +17,11 @@ const randomBytes = (() => {
   // Node & Browser support
   const lib = typeof crypto !== 'undefined'
     ? crypto
-    : typeof window !== 'undefined' && window.msCrypto // IE11
+    : (
+      typeof window !== 'undefined'
+        ? window.msCrypto // IE11
+        : void 0
+    )
 
   if (lib !== void 0) {
     if (lib.randomBytes !== void 0) {
