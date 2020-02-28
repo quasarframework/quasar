@@ -107,14 +107,12 @@ export default Vue.extend({
         'aria-valuemax': this.max,
         'aria-valuenow': this.value
       }
+
       if (this.editable === true) {
         attrs.tabindex = this.tabindex
       }
-      else if (this.disable === true) {
-        attrs['aria-disabled'] = ''
-      }
       else {
-        attrs['aria-readonly'] = ''
+        attrs[`aria-${this.disable === true ? 'disabled' : 'readonly'] = ''
       }
 
       return attrs
