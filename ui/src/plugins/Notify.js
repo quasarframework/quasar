@@ -315,10 +315,7 @@ const Notifications = {
             mainChild.push(
               h(QIcon, {
                 staticClass: 'q-notification__icon col-auto',
-                attrs: {
-                  role: 'img',
-                  'aria-label': notif.icon
-                },
+                attrs: { role: 'img' },
                 props: { name: notif.icon }
               })
             )
