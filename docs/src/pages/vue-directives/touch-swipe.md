@@ -17,6 +17,10 @@ We will be describing `v-touch-swipe` on the lines below.
 ## Usage
 Swipe with your mouse on the area below to see it in action. If using a mouse, you need to do it quick.
 
+::: tip
+If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 <doc-example title="All directions" file="TouchSwipe/Basic" />
 
 <doc-example title="One direction only" file="TouchSwipe/Right" />
