@@ -111,7 +111,14 @@ export default Vue.extend({
       evt !== void 0 && stopAndPrevent(evt)
 
       this.validate().then(val => {
-        val === true && this.$emit('submit', evt)
+        if (val === true) {
+          if (this.$listeners.submit !== void 0) {
+            this.$emit('submit', evt)
+          }
+          else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {
+            evt.target.submit()
+          }
+        }
       })
     },
 
