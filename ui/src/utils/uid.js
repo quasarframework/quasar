@@ -7,7 +7,7 @@ import { isSSR } from '../plugins/Platform.js'
 let
   buf,
   bufIdx = 0,
-  hexBytes = []
+  hexBytes = new Array(256)
 
 // Pre-calculate toString(16) for speed
 for (let i = 0; i < 256; i++) {
@@ -18,7 +18,7 @@ for (let i = 0; i < 256; i++) {
 const randomBytes = (() => {
   // Node & Browser support
   const lib = isSSR === true
-    ? (typeof module !== 'undefined' && typeof require === 'function' ? require('crypto') : void 0)
+    ? require('crypto')
     : (
       typeof crypto !== 'undefined'
         ? crypto
@@ -40,7 +40,7 @@ const randomBytes = (() => {
 
   return n => {
     const r = []
-    for (let i = n; i > 0; i -= 1) {
+    for (let i = n; i > 0; i--) {
       r.push(Math.floor(Math.random() * 256))
     }
     return r
