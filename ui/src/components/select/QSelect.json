@@ -610,6 +610,11 @@
           "desc": "Option to add to model",
           "required": true,
           "__exemption": [ "examples" ]
+        },
+        "unique": {
+          "type": "Boolean",
+          "desc": "Option must be unique",
+          "__exemption": [ "examples" ]
         }
       }
     },
