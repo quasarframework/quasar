@@ -132,7 +132,7 @@
           <q-img src="https://cdn.quasar.dev/img/material.png" style="height: 100px">
             <q-tooltip
               :delay="delay"
-              :hideDelay="hdelay"
+              :hide-delay="hdelay"
               anchor="center middle"
               self="center middle"
               :content-class="color ? 'bg-red' : null"
