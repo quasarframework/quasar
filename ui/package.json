@@ -74,8 +74,6 @@
     "@types/webpack-dev-server": "^3.9.0",
     "babel-eslint": "^10.0.2",
     "babel-preset-es2015-rollup": "^3.0.0",
-    "electron": "^8.0.0",
-    "electron-builder": "^21.2.0",
     "eslint": "^5.15.3",
     "eslint-config-standard": "^12.0.0",
     "eslint-friendly-formatter": "^4.0.1",
