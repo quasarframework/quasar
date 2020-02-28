@@ -94,7 +94,6 @@ export default {
 
       if (this.type !== 'a') {
         attrs.type = this.type || 'button'
-        attrs.role = 'link'
       }
 
       if (this.hasRouterLink === true) {
@@ -102,7 +101,7 @@ export default {
         attrs.role = 'link'
       }
       else {
-        attrs.role = 'button'
+        attrs.role = this.type === 'a' ? 'link' : 'button'
       }
 
       if (this.loading === true && this.percentage !== void 0) {
