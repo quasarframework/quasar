@@ -17,6 +17,8 @@ let
   keyboardTarget = void 0,
   mouseTarget = void 0
 
+const iconAttrs = { role: 'img', 'aria-hidden': 'true' }
+
 export default Vue.extend({
   name: 'QBtn',
 
@@ -258,7 +260,7 @@ export default Vue.extend({
 
     this.icon !== void 0 && inner.push(
       h(QIcon, {
-        attrs: { role: 'img' },
+        attrs: iconAttrs,
         props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
       })
     )
@@ -272,7 +274,7 @@ export default Vue.extend({
     if (this.iconRight !== void 0 && this.round === false) {
       inner.push(
         h(QIcon, {
-          attrs: { role: 'img' },
+          attrs: iconAttrs,
           props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
         })
       )
