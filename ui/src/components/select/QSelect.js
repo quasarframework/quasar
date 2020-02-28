@@ -331,6 +331,12 @@ export default Vue.extend({
   },
 
   methods: {
+    getEmitValue (opt) {
+       return this.emitValue === true
+         ? this.__getOptionValue(opt)
+         : opt
+    },
+    
     removeAtIndex (index) {
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
@@ -350,9 +356,7 @@ export default Vue.extend({
     },
 
     add (opt, unique) {
-      const val = this.emitValue === true
-        ? this.__getOptionValue(opt)
-        : opt
+      const val = this.getEmitValue(opt)
 
       if (this.multiple !== true) {
         this.fillInput === true && this.updateInputValue(
