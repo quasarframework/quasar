@@ -162,6 +162,15 @@ const cli = [
     path: 'cli-documentation',
     children: [
       {
+        name: 'Supporting IE',
+        path: 'supporting-ie'
+      },
+      {
+        name: 'Supporting TypeScript',
+        badge: 'new',
+        path: 'supporting-ts'
+      },
+      {
         name: 'Directory Structure',
         path: 'directory-structure'
       },
@@ -216,14 +225,6 @@ const cli = [
       {
         name: 'Linter',
         path: 'linter'
-      },
-      {
-        name: 'Supporting IE',
-        path: 'supporting-ie'
-      },
-      {
-        name: 'Supporting TypeScript',
-        path: 'supporting-ts'
       }
     ]
   },

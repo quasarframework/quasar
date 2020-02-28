@@ -7,6 +7,7 @@ import {
   QuasarIconSets,
   WebpackConfiguration
 } from "quasar";
+
 import "../ts-helpers";
 import "./build";
 import "./framework-conf";
@@ -93,7 +94,7 @@ interface BaseQuasarConfiguration {
    */
   supportTS?:
     | boolean
-    | { enabled: boolean; tsLoaderConfig: object; tsCheckerConfig: object };
+    | { tsLoaderConfig: object; tsCheckerConfig: object };
   /** Add variables that you can use in index.template.html. */
   htmlVariables?: { [index: string]: string };
   /**
