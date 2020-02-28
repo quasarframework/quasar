@@ -63,5 +63,6 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <doc-example title="Native form" file="QOptionGroup/NativeForm" />
 
+
 ## QOptionGroup API
 <doc-api file="QOptionGroup" />
