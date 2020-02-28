@@ -21,10 +21,11 @@
       "category": "behavior"
     },
 
-    "on-ssr": {
+    "ssr-prerender": {
       "type": "Boolean",
       "desc": "Pre-render content on server side if using SSR (use it to pre-render above the fold content)",
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.9.5"
     },
 
     "margin": {

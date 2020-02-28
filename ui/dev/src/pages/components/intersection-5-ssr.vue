@@ -10,7 +10,7 @@
         v-for="index in 600"
         :key="index"
         :once="once"
-        :on-ssr="index < 12"
+        :ssr-prerender="index < 12"
         :transition="transition"
         class="int-example-item flex flex-center"
       >

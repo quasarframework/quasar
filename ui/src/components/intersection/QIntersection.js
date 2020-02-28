@@ -18,7 +18,7 @@ export default Vue.extend({
     once: Boolean,
     transition: String,
 
-    onSsr: Boolean,
+    ssrPrerender: Boolean,
 
     margin: String,
     threshold: [ Number, Array ],
@@ -28,7 +28,7 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: onSSR === true ? this.onSsr : false
+      showing: onSSR === true ? this.ssrPrerender : false
     }
   },
 
@@ -46,7 +46,7 @@ export default Vue.extend({
     },
 
     directives () {
-      if (this.disable !== true && (onSSR !== true || this.once !== true || this.onSsr !== true)) {
+      if (this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)) {
         return [{
           name: 'intersection',
           value: this.value,
