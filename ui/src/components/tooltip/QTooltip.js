@@ -85,7 +85,7 @@ export default Vue.extend({
       this.__showPortal()
 
       this.__nextTick(() => {
-        this.observer = new MutationObserver(mutations => this.updatePosition())
+        this.observer = new MutationObserver(() => this.updatePosition())
         this.observer.observe(this.__portal.$el, { attributes: false, childList: true, characterData: true, subtree: true })
         this.updatePosition()
         this.__configureScrollTarget()
@@ -97,7 +97,6 @@ export default Vue.extend({
     },
 
     __hide (evt) {
-      this.observer.disconnect()
       this.__anchorCleanup()
 
       this.__setTimeout(() => {
@@ -107,6 +106,11 @@ export default Vue.extend({
     },
 
     __anchorCleanup () {
+      if (this.observer !== void 0) {
+        this.observer.disconnect()
+        this.observer = void 0
+      }
+
       this.__unconfigureScrollTarget()
       cleanEvt(this, 'tooltipTemp')
     },
