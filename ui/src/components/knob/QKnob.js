@@ -112,7 +112,7 @@ export default Vue.extend({
         attrs.tabindex = this.tabindex
       }
       else {
-        attrs[`aria-${this.disable === true ? 'disabled' : 'readonly'] = ''
+        attrs[`aria-${this.disable === true ? 'disabled' : 'readonly'}`] = ''
       }
 
       return attrs
