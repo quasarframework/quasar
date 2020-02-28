@@ -258,6 +258,7 @@ export default Vue.extend({
 
     this.icon !== void 0 && inner.push(
       h(QIcon, {
+        attrs: { role: 'img' },
         props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
       })
     )
@@ -271,6 +272,7 @@ export default Vue.extend({
     if (this.iconRight !== void 0 && this.round === false) {
       inner.push(
         h(QIcon, {
+          attrs: { role: 'img' },
           props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
         })
       )

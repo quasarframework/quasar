@@ -3,6 +3,8 @@ import Vue from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import { slot } from '../../utils/slot.js'
 
+const attrs = { role: 'alert' }
+
 export default Vue.extend({
   name: 'QBanner',
 
@@ -41,6 +43,7 @@ export default Vue.extend({
         'q-banner--dark q-dark': this.isDark,
         'rounded-borders': this.rounded
       },
+      attrs,
       on: this.$listeners
     }, child)
   }

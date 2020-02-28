@@ -134,7 +134,7 @@ export default Vue.extend({
       style: this.sizeStyle,
       on: this.$listeners,
       attrs: {
-        'aria-hidden': true,
+        'aria-hidden': 'true',
         role: 'presentation'
       }
     }

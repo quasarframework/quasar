@@ -242,9 +242,16 @@ export default Vue.extend({
         ...this.$attrs,
         id: this.targetUid,
         type: this.type,
-        maxlength: this.maxlength,
-        disabled: this.disable === true,
-        readonly: this.readonly === true
+        maxlength: this.maxlength
+      }
+
+      if (this.disable === true) {
+        attrs.disabled = ''
+        attrs['aria-disabled'] = ''
+      }
+      else if (this.readonly === true) {
+        attrs.readonly = ''
+        attrs['aria-readonly'] = ''
       }
 
       if (this.autogrow === true) {

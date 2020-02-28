@@ -262,6 +262,15 @@ export default Vue.extend({
       }
 
       return res
+    },
+
+    attrs () {
+      if (this.disable === true) {
+        return { 'aria-disabled': '' }
+      }
+      if (this.readonly === true) {
+        return { 'aria-readonly': '' }
+      }
     }
   },
 
@@ -761,6 +770,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
+      attrs: this.attrs,
       on: this.$listeners
     }, [
       this.__getHeader(h),

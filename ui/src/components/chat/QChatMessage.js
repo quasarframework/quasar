@@ -99,7 +99,7 @@ export default Vue.extend({
       container.push(
         h('img', {
           class: `q-message-avatar q-message-avatar--${this.op}`,
-          attrs: { src: this.avatar }
+          attrs: { src: this.avatar, 'aria-hidden': 'true' }
         })
       )
     }

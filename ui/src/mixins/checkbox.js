@@ -105,6 +105,23 @@ export default {
       })
 
       return prop
+    },
+
+    attrs () {
+      const attrs = {
+        tabindex: this.computedTabindex,
+        role: 'checkbox',
+        'aria-label': this.label,
+        'aria-checked': this.isIndeterminate === true
+          ? 'mixed'
+          : this.isTrue === true ? 'true' : 'false'
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -187,7 +204,7 @@ export default {
 
     return h('div', {
       class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
+      attrs: this.attrs,
       on: cache(this, 'inpExt', {
         click: this.toggle,
         keydown: this.__onKeydown,
