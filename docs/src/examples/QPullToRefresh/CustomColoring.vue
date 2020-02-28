@@ -1,15 +1,15 @@
 <template>
-  <div class="q-layout-padding">
+  <div class="q-pa-md scroll" style="height: 300px">
     <q-pull-to-refresh
-      color="white"
+      @refresh="refresh"
+      color="orange-2"
       bg-color="black"
-      @refresh="refresher"
-      :disable="disable"
+      icon="autorenew"
     >
-      <div v-for="(item, index) in items" :key="index" class="caption bg-yellow">
-        <q-chip square color="secondary">
+      <div v-for="(item, index) in items" :key="index" class="q-mb-sm">
+        <q-badge color="accent">
           {{ items.length - index }}
-        </q-chip>
+        </q-badge>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
       </div>
     </q-pull-to-refresh>
@@ -20,18 +20,16 @@
 export default {
   data () {
     return {
-      items: [{}, {}, {}, {}, {}, {}, {}, {}, {}],
-      disable: false
+      items: [ {}, {}, {}, {}, {}, {}, {}, {}, {} ]
     }
   },
 
   methods: {
-    refresher (done) {
+    refresh (done) {
       setTimeout(() => {
-        this.items.push({})
-        this.$q.notify('Item #' + this.items.length + ' is new.')
+        this.items.push({}, {}, {}, {}, {}, {}, {})
         done()
-      }, 2000)
+      }, 1000)
     }
   }
 }

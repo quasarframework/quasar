@@ -101,7 +101,6 @@ const options = [
   },
   {
     name: 'Quasar Icon Sets',
-    badge: 'update',
     path: 'quasar-icon-sets'
   },
   {
@@ -432,12 +431,10 @@ const cli = [
       },
       {
         name: 'Node Integration',
-        badge: 'update',
         path: 'node-integration'
       },
       {
         name: 'Preload Script',
-        badge: 'new',
         path: 'electron-preload-script'
       },
       {
@@ -507,7 +504,6 @@ const style = [
   },
   {
     name: 'Body classes',
-    badge: 'update',
     path: 'body-classes'
   },
   {
@@ -788,6 +784,7 @@ const components = [
   },
   {
     name: 'Form Components',
+    opened: true,
     listPath: 'form-components',
     children: [
       {
@@ -952,7 +949,6 @@ const components = [
   },
   {
     name: 'Skeleton',
-    badge: 'new',
     path: 'skeleton'
   },
   {
@@ -990,7 +986,6 @@ const components = [
   },
   {
     name: 'Tab Panels',
-    badge: 'update',
     path: 'tab-panels'
   },
   {
@@ -1015,7 +1010,6 @@ const components = [
   },
   {
     name: 'Video',
-    badge: 'update',
     path: 'video'
   },
   {
@@ -1100,7 +1094,6 @@ const utils = [
   },
   {
     name: 'Color Utils',
-    badge: 'update',
     path: 'color-utils'
   },
   {
@@ -1117,7 +1110,6 @@ const utils = [
   },
   {
     name: 'Other Utils',
-    badge: 'update',
     path: 'other-utils'
   }
 ]

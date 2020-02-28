@@ -39,7 +39,7 @@
       "type": "Number",
       "desc": "Width of drawer (in pixels) when in mini mode",
       "default": 60,
-      "examples": [ ":width=\"100\"" ],
+      "examples": [ ":mini-width=\"100\"" ],
       "category": "style"
     },
 

@@ -58,7 +58,7 @@ export default Vue.extend({
         key: index,
         class: this.messageClass
       }, [
-        h('span', { class: this.textClass }, [
+        h('div', { class: this.textClass }, [
           h('div', { domProps: { [domPropText]: msg } }),
           this.stamp
             ? h('div', {
@@ -81,7 +81,7 @@ export default Vue.extend({
       )
 
       return h('div', { class: this.messageClass }, [
-        h('span', {
+        h('div', {
           staticClass: 'q-message-text-content',
           class: this.textClass
         }, content)

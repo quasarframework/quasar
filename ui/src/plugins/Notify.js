@@ -18,6 +18,11 @@ const positionList = [
   'top', 'bottom', 'left', 'right', 'center'
 ]
 
+const badgePositions = [
+  'top-left', 'top-right',
+  'bottom-left', 'bottom-right'
+]
+
 const notifTypes = {
   positive: {
     icon () { return this.$q.iconSet.type.positive },
@@ -221,9 +226,19 @@ const Notifications = {
 
         const original = groups[notif.group]
 
+        if (notif.badgePosition !== void 0) {
+          if (badgePositions.includes(notif.badgePosition) === false) {
+            console.error(`Notify - wrong badgePosition specified: ${notif.badgePosition}`)
+            return false
+          }
+        }
+        else {
+          notif.badgePosition = `top-${notif.position.indexOf('left') > -1 ? 'right' : 'left'}`
+        }
+
         notif.meta.uid = original.meta.uid
         notif.meta.badge = original.meta.badge + 1
-        notif.meta.badgeStaticClass = 'q-notification__badge' +
+        notif.meta.badgeStaticClass = `q-notification__badge q-notification__badge--${notif.badgePosition}` +
           (notif.badgeColor !== void 0 ? ` bg-${notif.badgeColor}` : '') +
           (notif.badgeTextColor !== void 0 ? ` text-${notif.badgeTextColor}` : '')
 

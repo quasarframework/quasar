@@ -41,6 +41,9 @@
     border-radius: $table-border-radius
     box-shadow: $table-box-shadow
 
+    .q-table__middle
+      flex: 1 1 auto
+
   &__container
     position: relative
 
@@ -79,7 +82,6 @@
 
   &__middle
     max-width: 100%
-    flex: 1 1 auto
 
   &__bottom
     min-height: 48px
@@ -142,6 +144,11 @@
       bottom: 0
     .q-table__bottom
       border-top: 0
+    .q-table__grid-content
+      flex: 1 1 auto
+
+    &.fullscreen
+      background: inherit
 
   &__grid-item-card
     vertical-align: top

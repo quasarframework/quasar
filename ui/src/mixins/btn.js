@@ -94,6 +94,7 @@ export default {
 
       if (this.type !== 'a') {
         attrs.type = this.type || 'button'
+        attrs.role = 'link'
       }
 
       if (this.hasRouterLink === true) {
