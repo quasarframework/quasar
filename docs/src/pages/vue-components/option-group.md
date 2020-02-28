@@ -46,7 +46,7 @@ The model for checkboxes/toggles must be an array.
 <doc-example title="Disabled" file="QOptionGroup/Disable" />
 
 ::: tip
-The objects within the `options` array can hold any of the props found in QToggle, QCheckbox or QRadio for instance `disable` or `leftLabel`. See below for an example.  
+The objects within the `options` array can hold any of the props found in QToggle, QCheckbox or QRadio for instance `disable` or `leftLabel`. See below for an example.
 :::
 
 ### Disable Certain Options
