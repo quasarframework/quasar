@@ -2,8 +2,6 @@
  * Based on the work of https://github.com/jchook/uuid-random
  */
 
-import { isSSR } from '../plugins/Platform.js'
-
 let
   buf,
   bufIdx = 0,
@@ -17,12 +15,12 @@ for (let i = 0; i < 256; i++) {
 // Use best available PRNG
 const randomBytes = (() => {
   // Node & Browser support
-  const lib = isSSR === true
-    ? require('crypto')
+  const lib = typeof crypto !== 'undefined'
+    ? crypto
     : (
-      typeof crypto !== 'undefined'
-        ? crypto
-        : window.msCrypto // IE11
+      typeof window !== 'undefined'
+        ? window.msCrypto // IE11
+        : void 0
     )
 
   if (lib !== void 0) {
