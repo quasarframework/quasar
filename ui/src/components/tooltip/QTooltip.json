@@ -92,12 +92,13 @@
       "category": "behavior"
     },
 
-    "hideDelay": {
+    "hide-delay": {
       "type": "Number",
       "desc": "Configure Tooltip to disappear with delay",
       "default": 0,
-      "examples": [ ":hideDelay=\"650\"" ],
-      "category": "behavior"
+      "examples": [ ":hide-delay=\"650\"" ],
+      "category": "behavior",
+      "addedIn": "v1.9.5"
     }
   },
 
