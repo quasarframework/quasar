@@ -58,6 +58,11 @@ export default Vue.extend({
     delay: {
       type: Number,
       default: 0
+    },
+
+    hideDelay: {
+      type: Number,
+      default: 0
     }
   },
 
@@ -155,7 +160,9 @@ export default Vue.extend({
         }, 10)
       }
 
-      this.hide(evt)
+      this.__setTimeout(() => {
+        this.hide(evt)
+      }, this.hideDelay)
     },
 
     __configureAnchorEl () {
