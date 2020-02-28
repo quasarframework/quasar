@@ -6,9 +6,6 @@ labels: bug
 assignees: ''
 
 ---
-**Before you Start**
-If you are reporting a potential security threat, vulnerability or exploit in Quasar or one of its upstream dependencies, please read [Report a vulnerability](https://quasar.dev/security/report-a-vulnerability) and **DO NOT** disclose publicly as an Issue.
-
 **Describe the bug**
 A clear and concise description of what the bug is.
 
