@@ -29,11 +29,9 @@ export default Vue.extend({
 
   computed: {
     langDir () {
-      if (this.$q.lang.rtl === true) {
-        return { left: 'right', right: 'left' }
-      }
-
-      return { left: 'left', right: 'right' }
+      return this.$q.lang.rtl === true
+        ? { left: 'right', right: 'left' }
+        : { left: 'left', right: 'right' }
     }
   },
 
