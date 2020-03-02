@@ -32,7 +32,7 @@ function update (el, ctx, { modifiers, value }) {
 
     ctx.observer = new IntersectionObserver(([ entry ]) => {
       if (typeof ctx.handler === 'function') {
-        if (entry.rootBounds === null) {
+        if (entry.rootBounds === null && document.body.contains(el) === true) {
           ctx.observer.unobserve(el)
           ctx.observer.observe(el)
 
