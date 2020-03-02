@@ -27,6 +27,16 @@ export default Vue.extend({
     TouchPan
   },
 
+  computed: {
+    langDir () {
+      if (this.$q.lang.rtl === true) {
+        return { left: 'right', right: 'left' }
+      }
+
+      return { left: 'left', right: 'right' }
+    }
+  },
+
   methods: {
     reset () {
       this.$refs.content.style.transform = `translate(0,0)`
@@ -78,8 +88,8 @@ export default Vue.extend({
       }
 
       if (
-        (this.$scopedSlots.left === void 0 && evt.direction === 'right') ||
-        (this.$scopedSlots.right === void 0 && evt.direction === 'left') ||
+        (this.$scopedSlots.left === void 0 && evt.direction === this.langDir.right) ||
+        (this.$scopedSlots.right === void 0 && evt.direction === this.langDir.left) ||
         (this.$scopedSlots.top === void 0 && evt.direction === 'down') ||
         (this.$scopedSlots.bottom === void 0 && evt.direction === 'up')
       ) {
@@ -91,7 +101,7 @@ export default Vue.extend({
 
       if (this.__axis === 'X') {
         dir = evt.direction === 'left' ? -1 : 1
-        showing = dir * (this.$q.lang.rtl === true ? -1 : 1) === 1 ? 'left' : 'right'
+        showing = dir === 1 ? this.langDir.left : this.langDir.right
         dist = evt.distance.x
       }
       else {
@@ -126,8 +136,8 @@ export default Vue.extend({
   render (h) {
     const
       content = [],
-      left = this.$scopedSlots.right !== void 0,
-      right = this.$scopedSlots.left !== void 0,
+      left = this.$scopedSlots[this.langDir.right] !== void 0,
+      right = this.$scopedSlots[this.langDir.left] !== void 0,
       up = this.$scopedSlots.bottom !== void 0,
       down = this.$scopedSlots.top !== void 0
 
