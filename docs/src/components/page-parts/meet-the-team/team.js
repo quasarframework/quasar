@@ -136,7 +136,6 @@ export default [
     name: 'Jesús Villanueva',
     role: 'Senior Developer',
     avatar: 'jesus_villanueva.jpg',
-    email: 'jrvr1993@gmail.com',
     github: 'jesusvilla',
     desc: 'UI components, App Extensions and Help desk'
   }
