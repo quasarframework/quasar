@@ -82,6 +82,11 @@ export default Vue.extend({
 
     narrowIndicator: Boolean,
     inlineLabel: Boolean,
+    alignLabel: {
+      type: String,
+      default: 'center',
+      validator: v => ['start', 'end', 'center', 'between', 'around', 'evenly'].includes(v)
+    },
     noCaps: Boolean,
 
     dense: Boolean
@@ -100,7 +105,9 @@ export default Vue.extend({
         ),
         narrowIndicator: this.narrowIndicator,
         inlineLabel: this.inlineLabel,
-        noCaps: this.noCaps
+        alignLabel: this.alignLabel,
+        noCaps: this.noCaps,
+        vertical: this.vertical
       },
       scrollable: false,
       leftArrow: true,
@@ -124,6 +131,7 @@ export default Vue.extend({
 
     vertical (v) {
       this.tabs.indicatorClass = getIndicatorClass(this.indicatorColor, this.switchIndicator, v)
+      this.tabs.vertical = v
     },
 
     indicatorColor (v) {
@@ -140,6 +148,10 @@ export default Vue.extend({
 
     inlineLabel (v) {
       this.tabs.inlineLabel = v
+    },
+
+    alignLabel (v) {
+      this.tabs.alignLabel = v
     },
 
     noCaps (v) {

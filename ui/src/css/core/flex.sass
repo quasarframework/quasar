@@ -124,9 +124,29 @@
   &stretch
     align-self: stretch
 
+.flex-start
+  @extend .items-center
+  @extend .justify-start
+
+.flex-end
+  @extend .items-center
+  @extend .justify-end
+
 .flex-center
   @extend .items-center
   @extend .justify-center
+
+.flex-between
+  @extend .items-center
+  @extend .justify-between
+
+.flex-around
+  @extend .items-center
+  @extend .justify-around
+
+.flex-evenly
+  @extend .items-center
+  @extend .justify-evenly
 
 @each $name, $size in $flex-gutter
   .q-gutter

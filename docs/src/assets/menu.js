@@ -987,6 +987,7 @@ const components = [
   },
   {
     name: 'Tabs',
+    badge: 'update',
     path: 'tabs'
   },
   {

@@ -38,6 +38,14 @@ QTabs can be scrolled horizontally when the width is longer than the container w
 
 <doc-example title="Vertical (example with QSplitter)" file="QTabs/Vertical" />
 
+### Label Alignment
+
+::: tip
+The property `align-label` can only be used when the `vertical` and `inline-label` properties are set.
+:::
+
+<doc-example title="Label Alignment" file="QTabs/LabelAlignment" />
+
 ### Dense
 
 <doc-example title="Dense" file="QTabs/Dense" />
