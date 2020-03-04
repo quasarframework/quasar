@@ -4,6 +4,7 @@ import { addEvt, cleanEvt } from '../utils/touch.js'
 import { isKeyCode } from '../utils/key-composition.js'
 import { client } from '../plugins/Platform.js'
 import throttle from '../utils/throttle.js'
+import { $q } from '../install.js'
 
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
@@ -64,21 +65,14 @@ function updateCtx (ctx, { value, modifiers, arg }) {
   ctx.enabled = value !== false
 
   if (ctx.enabled === true) {
-    ctx.modifiers = Object(value) === value
-      ? {
-        early: value.early === true || modifiers.early === true,
-        stop: value.stop === true || modifiers.stop === true,
-        center: value.center === true || modifiers.center === true,
-        color: value.color || arg,
-        keyCodes: [].concat(value.keyCodes || 13)
-      }
-      : {
-        early: modifiers.early,
-        stop: modifiers.stop,
-        center: modifiers.center,
-        color: arg,
-        keyCodes: [ 13 ]
-      }
+    const cfg = Object.assign({}, $q.config.ripple, modifiers, value)
+    ctx.modifiers = {
+      early: cfg.early === true,
+      stop: cfg.stop === true,
+      center: cfg.center === true,
+      color: cfg.color || arg,
+      keyCodes: [].concat(cfg.keyCodes || 13)
+    }
   }
 }
 
