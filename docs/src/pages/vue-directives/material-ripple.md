@@ -9,7 +9,7 @@ Do not use this directive on components that already have material ripples baked
 :::
 
 ## Installing
-<doc-installation directives="Ripple" />
+<doc-installation directives="Ripple" config="ripple" />
 
 ## Usage
 

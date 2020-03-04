@@ -35,7 +35,7 @@ export default {
     components: [ Array, String ],
     directives: [ Array, String ],
     plugins: [ Array, String ],
-    config: Object // TODO
+    config: String
   },
 
   data () {
@@ -57,9 +57,10 @@ export default {
   },
 
   computed: {
-    computedConfig () {
-      return Object.keys(this.config)
-        .map(name => `${name}: { /* ${this.config[name]} defaults */ }`)
+    quasarConf () {
+      return this.config !== void 0
+        ? `${this.config}: { /* look at QUASARCONFOPTIONS from the API card (bottom of page) */ }`
+        : void 0
     },
 
     QuasarCli () {
@@ -80,9 +81,9 @@ export default {
     ]`)
       }
 
-      if (this.config !== void 0) {
+      if (this.quasarConf !== void 0) {
         parts.push(`config: {
-      ${this.computedConfig.join('\n' + ''.padStart(6, ' '))}
+      ${this.quasarConf}
     }`)
       }
 
@@ -96,13 +97,13 @@ return {
     },
 
     UMD () {
-      const config = this.config !== void 0
+      const config = this.quasarConf !== void 0
         ? `
 
 // Optional;
 // Place the global quasarConfig Object in a script tag BEFORE your Quasar script tag
 window.quasarConfig = {
-  ${this.computedConfig.join('\n' + ''.padStart(6, ' '))}
+  ${this.quasarConf}
 }`
         : ''
 
@@ -126,9 +127,9 @@ window.quasarConfig = {
         }
       })
 
-      if (this.config !== void 0) {
+      if (this.quasarConf !== void 0) {
         types.push(`config: {
-    ${this.computedConfig.join('\n' + ''.padStart(4, ' '))}
+    ${this.quasarConf}
   }`)
       }
 
