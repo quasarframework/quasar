@@ -616,6 +616,7 @@ const directives = [
   },
   {
     name: 'Material Ripples',
+    badge: 'update',
     path: 'material-ripple'
   },
   {
