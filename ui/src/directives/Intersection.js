@@ -31,7 +31,7 @@ function update (el, ctx, { modifiers, value }) {
     ctx.observer !== void 0 && ctx.observer.unobserve(el)
 
     ctx.observer = new IntersectionObserver(([ entry ]) => {
-      if (typeof ctx.handler === 'function') {
+      if (typeof ctx.handler === 'function' && el.__vue__._inactive !== true) {
         if (entry.rootBounds === null) {
           ctx.observer.unobserve(el)
           ctx.observer.observe(el)
