@@ -131,7 +131,7 @@ export default Vue.extend({
           this.innerLoading !== true &&
           ((this.dialog !== true && this.menu !== true) || this.hasValue !== true)
         ) {
-          this.__resetInputValue()
+          this.userInputValue !== true && this.__resetInputValue()
           if (this.dialog === true || this.menu === true) {
             this.filter('')
           }
@@ -483,10 +483,7 @@ export default Vue.extend({
           this.scrollTo(index)
 
           if (skipInputValue !== true && index >= 0 && this.useInput === true && this.fillInput === true) {
-            const inputValue = this.getOptionLabel(this.options[index])
-            if (this.inputValue !== inputValue) {
-              this.inputValue = inputValue
-            }
+            this.__setInputValue(this.getOptionLabel(this.options[index]))
           }
         }
       }
@@ -528,6 +525,7 @@ export default Vue.extend({
         stop(e)
         // on ESC we need to close the dialog also
         this.hidePopup()
+        this.__resetInputValue()
       }
 
       this.$emit('keyup', e)
@@ -661,10 +659,7 @@ export default Vue.extend({
             this.scrollTo(index)
 
             if (index >= 0 && this.useInput === true && this.fillInput === true) {
-              const inputValue = this.getOptionLabel(this.options[index])
-              if (this.inputValue !== inputValue) {
-                this.inputValue = inputValue
-              }
+              this.__setInputValue(this.getOptionLabel(this.options[index]))
             }
           })
         }
@@ -691,7 +686,6 @@ export default Vue.extend({
         const done = (val, mode) => {
           if (mode) {
             if (validateNewValueMode(mode) !== true) {
-              console.error('QSelect: invalid new value mode - ' + mode)
               return
             }
           }
@@ -952,7 +946,7 @@ export default Vue.extend({
         return
       }
 
-      this.inputValue = e.target.value || ''
+      this.__setInputValue(e.target.value || '')
       // mark it here as user input so that if updateInputValue is called
       // before filter is called the indicator is reset
       this.userInputValue = true
@@ -971,13 +965,18 @@ export default Vue.extend({
       }
     },
 
+    __setInputValue (inputValue) {
+      if (this.inputValue !== inputValue) {
+        this.inputValue = inputValue
+        this.$emit('input-value', inputValue)
+      }
+    },
+
     updateInputValue (val, noFiltering, internal) {
       this.userInputValue = internal !== true
 
       if (this.useInput === true) {
-        if (this.inputValue !== val) {
-          this.inputValue = val
-        }
+        this.__setInputValue(val)
 
         noFiltering !== true && this.filter(val)
       }
