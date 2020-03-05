@@ -14,6 +14,10 @@ const
   reverseToken = /(\[[^\]]*\])|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
   regexStore = {}
 
+function toDate (date) {
+  return isDate(date) === true ? date : new Date(date)
+}
+
 function getRegexData (mask, dateLocale) {
   const
     days = '(' + dateLocale.days.join('|') + ')',
@@ -365,16 +369,23 @@ export function getWeekOfYear (date) {
   return 1 + Math.floor(weekDiff)
 }
 
+function getDayIdentifier (date) {
+  return date.getFullYear() * 10000 + date.getMonth() * 100 + date.getDate()
+}
+
+function getDateIdentifier (date, onlyDate /* = false */) {
+  const d = toDate(date)
+  return onlyDate === true ? getDayIdentifier(d) : d.getTime()
+}
+
 export function isBetweenDates (date, from, to, opts = {}) {
-  let
-    d1 = new Date(from).getTime(),
-    d2 = new Date(to).getTime(),
-    cur = new Date(date).getTime()
+  const
+    d1 = getDateIdentifier(from, opts.onlyDate),
+    d2 = getDateIdentifier(to, opts.onlyDate),
+    cur = getDateIdentifier(date, opts.onlyDate)
 
-  opts.inclusiveFrom && d1--
-  opts.inclusiveTo && d2++
-
-  return cur > d1 && cur < d2
+  return (cur > d1 || (opts.inclusiveFrom === true && cur === d1)) &&
+    (cur < d2 || (opts.inclusiveTo === true && cur === d2))
 }
 
 export function addToDate (date, mod) {

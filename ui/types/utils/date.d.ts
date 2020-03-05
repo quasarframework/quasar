@@ -29,7 +29,7 @@ export namespace date {
   function buildDate(options: BuildDateOptions, utc?: boolean): string;
   function getDayOfWeek(date: Date | number | string): number;
   function getWeekOfYear(date: Date | number | string): number;
-  function isBetweenDates(date: Date | number | string, from: Date | number | string, to: Date | number | string, opts?: { inclusiveFrom: boolean; inclusiveTo: boolean }): boolean;
+  function isBetweenDates(date: Date | number | string, from: Date | number | string, to: Date | number | string, opts?: { inclusiveFrom: boolean; inclusiveTo: boolean; onlyDate: boolean }): boolean;
   function addToDate(date: Date | number | string, options: ModifyDateOptions): Date;
   function subtractFromDate(date: Date | number | string, options: ModifyDateOptions): Date;
   function adjustDate(date: Date | number | string, options: ModifyDateOptions, utc?: boolean): Date;
