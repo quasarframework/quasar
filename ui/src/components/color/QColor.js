@@ -824,7 +824,7 @@ export default Vue.extend({
             : this.formatModel.indexOf('a') > -1
         )
 
-      if (v === null || v === void 0 || v === '' || testPattern.anyColor(v) !== true) {
+      if (typeof v !== 'string' || v.length === 0 || testPattern.anyColor(v.replace(/ /g, '')) !== true) {
         return {
           h: 0,
           s: 0,
