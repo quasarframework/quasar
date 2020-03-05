@@ -14,10 +14,6 @@ const
   reverseToken = /(\[[^\]]*\])|d{1,4}|M{1,4}|m{1,2}|w{1,2}|Qo|Do|D{1,4}|YY(?:YY)?|H{1,2}|h{1,2}|s{1,2}|S{1,3}|Z{1,2}|a{1,2}|[AQExX]|([.*+:?^,\s${}()|\\]+)/g,
   regexStore = {}
 
-function toDate (date) {
-  return isDate(date) === true ? date : new Date(date)
-}
-
 function getRegexData (mask, dateLocale) {
   const
     days = '(' + dateLocale.days.join('|') + ')',
@@ -374,7 +370,7 @@ function getDayIdentifier (date) {
 }
 
 function getDateIdentifier (date, onlyDate /* = false */) {
-  const d = toDate(date)
+  const d = new Date(date)
   return onlyDate === true ? getDayIdentifier(d) : d.getTime()
 }
 
