@@ -1,10 +1,33 @@
 import { isSSR } from '../plugins/Platform.js'
 
-export function getAllChildren (vm, children = []) {
-  vm.$children.forEach(function (child) {
-    children.push(child)
-    child.$children.length > 0 && getAllChildren(child, children)
-  })
+function fillOrderedChildren (vm, children, ordMap) {
+  vm.$children
+    .slice()
+    .sort((vm1, vm2) => ordMap.get(vm1.$el) <= ordMap.get(vm2.$el) ? -1 : 1)
+    .forEach(function (child) {
+      children.push(child)
+      child.$children.length > 0 && fillOrderedChildren(child, children, ordMap)
+    })
+}
+
+function fillUnorderedChildren (vm, children) {
+  vm.$children
+    .forEach(function (child) {
+      children.push(child)
+      child.$children.length > 0 && fillUnorderedChildren(child, children)
+    })
+}
+
+export function getAllChildren (vm, ordered) {
+  const children = []
+  if (ordered === true && vm.$el !== void 0) {
+    const ordMap = new WeakMap()
+    Array.prototype.forEach.call(vm.$el.querySelectorAll('*'), WeakMap.prototype.set.bind(ordMap))
+    fillOrderedChildren(vm, children, ordMap)
+  }
+  else {
+    fillUnorderedChildren(vm, children)
+  }
   return children
 }
 

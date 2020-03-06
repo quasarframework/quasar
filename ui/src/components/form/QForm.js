@@ -28,7 +28,7 @@ export default Vue.extend({
 
       this.validateIndex++
 
-      const components = getAllChildren(this)
+      const components = getAllChildren(this, true)
       const emit = (res, ref) => {
         this.$emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
