@@ -441,7 +441,8 @@
           "required": true,
           "__exemption": [ "examples" ]
         }
-      }
+      },
+      "addedIn": "v1.9.9"
     },
 
     "remove": {
