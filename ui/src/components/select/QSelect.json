@@ -432,6 +432,19 @@
       "extends": "input"
     },
 
+    "input-value": {
+      "desc": "Emitted when the value in the text input changes",
+      "params": {
+        "value": {
+          "type": "String",
+          "desc": "New text value",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.9.9"
+    },
+
     "remove": {
       "desc": "Emitted when an option is removed from selection",
       "params": {
