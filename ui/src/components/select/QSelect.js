@@ -1263,6 +1263,9 @@ export default Vue.extend({
       if (this.hasDialog === true) {
         this.__onControlFocusin(e)
         this.dialog = true
+        this.$nextTick(() => {
+          this.__focus()
+        })
       }
       else {
         this.__focus()
