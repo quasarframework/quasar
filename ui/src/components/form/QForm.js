@@ -29,8 +29,8 @@ export default Vue.extend({
       this.validateIndex++
 
       const components = getAllChildren(this)
-      const emit = res => {
-        this.$emit('validation-' + (res === true ? 'success' : 'error'))
+      const emit = (res, ref) => {
+        this.$emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
 
       for (let i = 0; i < components.length; i++) {
@@ -49,7 +49,7 @@ export default Vue.extend({
           }
           else if (valid !== true) {
             if (this.greedy === false) {
-              emit(false)
+              emit(false, comp)
 
               if (focus === true && typeof comp.focus === 'function') {
                 comp.focus()
@@ -80,8 +80,9 @@ export default Vue.extend({
               return true
             }
 
-            emit(false)
             const { valid, comp } = errors[0]
+
+            emit(false, comp)
 
             if (
               focus === true &&
