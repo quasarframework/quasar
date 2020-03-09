@@ -292,14 +292,14 @@ export default Vue.extend({
         let offset = this.vertical === true ? newPos.top - top : newPos.left - left
 
         if (offset < 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += offset
+          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.floor(offset)
           this.__updateArrows()
           return
         }
 
         offset += this.vertical === true ? newPos.height - height : newPos.width - width
         if (offset > 0) {
-          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += offset
+          this.$refs.content[this.vertical === true ? 'scrollTop' : 'scrollLeft'] += Math.ceil(offset)
           this.__updateArrows()
         }
       }
