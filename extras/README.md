@@ -27,7 +27,8 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v17 | `material-icons-outlined` | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v17 | `material-icons-round` | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v18 | `material-icons-sharp` | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
-| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
+| [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.0.45 | `mdi-v5` | Extended Material Design icons font | The Quasar Icon Set is available in Quasar 1.9.9+ | [License](mdi-v5/license.md) |
+| MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
 | [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.1 | `fontawesome-v5` | Fontawesome icons font | | [License](fontawesome-v5/LICENSE.txt) |
 | [Ionicons](http://ionicons.com/) | 4.6.3 | `ionicons-v4` | Ionicons font | | [License](ionicons-v4/LICENSE) |
@@ -48,7 +49,8 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | | | | *Not yet available* | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | | | | *Not yet available* | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | | | | *Not yet available* | [License](material-icons-sharp/LICENSE) |
-| [MDI v4](https://materialdesignicons.com/) (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | | [License](mdi-v4/license.md) |
+| [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.0.45 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | The Quasar Icon Set is available in Quasar 1.9.9+ | [License](mdi-v5/license.md) |
+| MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
 | [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.1 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
 | [Ionicons](http://ionicons.com/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | | [Icon License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.2 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
@@ -93,7 +95,7 @@ export default {
 | material-icons-sharp | s_ | s_thumb_up | Notice the underline character instead of dash or space | |
 | ionicons-v4 | ion-, ion-md-, ion-ios-, ion-logo- | ion-heart, ion-logo-npm, ion-md-airplane | Use QIcon instead of `<ion-icon>` component; Logo icons require 'ion-logo-' prefix | |
 | fontawesome-v5 | fa[s,r,l,b,d] fa- | "fas fa-ambulance" | QIcon "name" property is same as "class" attribute value in Fontawesome docs examples (where they show `<i>` tags) | |
-| mdi-v3 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters | |
+| mdi-v5 | mdi- | mdi-alert-circle-outline | Notice the use of dash characters | |
 | eva-icons | eva- | eva-shield-outline, eva-activity-outline | Notice the use of dash characters | |
 | themify | ti- | ti-hand-point-up | Notice the use of dash characters | |
 | line-awesome | la[s,r,l,b,d] la- | "las la-atom" | QIcon "name" property is same as "class" attribute value in Line Awesome docs examples (where they show `<i>` tags) | |
