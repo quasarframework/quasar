@@ -482,8 +482,11 @@ export default Vue.extend({
           this.setOptionIndex(index)
           this.scrollTo(index)
 
-          if (skipInputValue !== true && index >= 0 && this.useInput === true && this.fillInput === true) {
-            this.__setInputValue(this.getOptionLabel(this.options[index]))
+          if (skipInputValue !== true && this.useInput === true && this.fillInput === true) {
+            this.__setInputValue(index >= 0
+              ? this.getOptionLabel(this.options[index])
+              : this.defaultInputValue
+            )
           }
         }
       }
@@ -950,6 +953,7 @@ export default Vue.extend({
       // mark it here as user input so that if updateInputValue is called
       // before filter is called the indicator is reset
       this.userInputValue = true
+      this.defaultInputValue = this.inputValue
 
       if (
         this.focused !== true &&
@@ -977,6 +981,10 @@ export default Vue.extend({
 
       if (this.useInput === true) {
         this.__setInputValue(val)
+
+        if (noFiltering === true || internal !== true) {
+          this.defaultInputValue = val
+        }
 
         noFiltering !== true && this.filter(val)
       }
