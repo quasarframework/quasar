@@ -61,7 +61,8 @@
           "desc": "Vue reference to the first component that triggered the validation error",
           "__exemption": [ "examples" ]
         }
-      }
+      },
+      "addedIn": "v1.9.9"
     }
   },
 
