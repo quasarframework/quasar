@@ -234,7 +234,7 @@ export default {
           handleEvent(evt, isMouseEvt)
 
           document.documentElement.style.cursor = 'grabbing'
-          isMouseEvt === true && document.body.classList.add('no-pointer-events')
+          isMouseEvt === true && document.body.classList.add('no-pointer-events--children')
           document.body.classList.add('non-selectable')
           clearSelection()
 
@@ -246,7 +246,7 @@ export default {
 
             if (isMouseEvt === true) {
               const remove = () => {
-                document.body.classList.remove('no-pointer-events')
+                document.body.classList.remove('no-pointer-events--children')
               }
 
               if (withDelay === true) { setTimeout(remove, 50) }
