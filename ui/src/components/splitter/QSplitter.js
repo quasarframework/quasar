@@ -152,7 +152,8 @@ export default Vue.extend({
   },
 
   render (h) {
-    let child = [
+    const attrs = this.disable === true ? { 'aria-disabled': '' } : void 0
+    const child = [
       h('div', {
         ref: 'before',
         staticClass: 'q-splitter__panel q-splitter__before' + (this.reverse === true ? ' col' : ''),
@@ -164,7 +165,8 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-splitter__separator',
         style: this.separatorStyle,
-        class: this.separatorClass
+        class: this.separatorClass,
+        attrs
       }, [
         h('div', {
           staticClass: 'absolute-full q-splitter__separator-area',

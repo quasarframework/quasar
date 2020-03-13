@@ -141,6 +141,9 @@ export let SliderMixin = {
       if (this.disable === true) {
         attrs['aria-disabled'] = ''
       }
+      else if (this.readonly === true) {
+        attrs['aria-readonly'] = ''
+      }
 
       return attrs
     }

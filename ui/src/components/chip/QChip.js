@@ -84,8 +84,15 @@ export default Vue.extend({
       return this.disable === false && (this.clickable === true || this.selected !== null)
     },
 
-    computedTabindex () {
-      return this.disable === true ? -1 : this.tabindex || 0
+    attrs () {
+      return this.disable === true
+        ? {
+          tabindex: -1,
+          'aria-disabled': ''
+        }
+        : {
+          tabindex: this.tabindex || 0
+        }
     }
   },
 
@@ -143,7 +150,7 @@ export default Vue.extend({
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
           props: { name: this.$q.iconSet.chip.remove },
-          attrs: { tabindex: this.computedTabindex },
+          attrs: this.attrs,
           nativeOn: {
             click: this.__onRemove,
             keyup: this.__onRemove
@@ -165,7 +172,7 @@ export default Vue.extend({
     }
 
     this.isClickable === true && Object.assign(data, {
-      attrs: { tabindex: this.computedTabindex },
+      attrs: this.attrs,
       on: cache(this, 'click', {
         click: this.__onClick,
         keyup: this.__onKeyup
