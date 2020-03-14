@@ -702,12 +702,16 @@ export default Vue.extend({
         date.day = Math.min(date.day, maxDay)
       }
 
+      date.month = date.day
+        ? date.month - 1
+        : date.month
+
       const val = this.calendar === 'persian'
         ? date.year + '/' + pad(date.month) + '/' + pad(date.day)
         : formatDate(
           new Date(
             date.year,
-            date.month - 1,
+            date.month,
             date.day,
             this.extModel.hour,
             this.extModel.minute,
