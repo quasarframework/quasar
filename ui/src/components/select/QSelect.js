@@ -54,6 +54,10 @@ export default Vue.extend({
     fillInput: Boolean,
 
     maxValues: [Number, String],
+    maxLength: {
+      type: [ Number, String ],
+      default: 255
+    },
 
     optionsDense: Boolean,
     optionsDark: {
@@ -971,8 +975,10 @@ export default Vue.extend({
 
     __setInputValue (inputValue) {
       if (this.inputValue !== inputValue) {
-        this.inputValue = inputValue
-        this.$emit('input-value', inputValue)
+        if (inputValue.length <= this.maxLength) {
+          this.inputValue = inputValue
+        }
+        this.$emit('input-value', this.inputValue)
       }
     },
 

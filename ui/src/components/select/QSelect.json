@@ -197,6 +197,13 @@
       "category": "content"
     },
 
+    "max-length": {
+      "type": [ "Number", "String" ],
+      "desc": "Allow a maximum length when using useInput",
+      "examples": [ "5" ],
+      "category": "content"
+    },
+
     "use-chips": {
       "type": "Boolean",
       "desc": "Use QChip to show what is currently selected",

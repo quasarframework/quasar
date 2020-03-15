@@ -33,6 +33,33 @@
           </q-item>
         </template>
       </q-select>
+
+      <div class="text-overline">
+        With max-length (3)
+      </div>
+      <div class="q-pa-md bg-grey-2 rounded-borders">
+        Model: [{{ modelMaxLength }}]
+      </div>
+      <q-select
+        :value="modelMaxLength"
+        label="Text autocomplete"
+        :options="filteredOptions"
+        :behavior="behavior"
+        use-input
+        fill-input
+        hide-selected
+        @filter="filterOptions"
+        @input-value="val => { modelMaxLength = val }"
+        max-length=3
+      >
+        <template v-slot:no-option>
+          <q-item>
+            <q-item-section class="text-grey">
+              No results
+            </q-item-section>
+          </q-item>
+        </template>
+      </q-select>
     </div>
   </div>
 </template>
@@ -45,6 +72,7 @@ export default {
   data: function () {
     return {
       model: '',
+      modelMaxLength: '',
       filteredOptions: options.slice(),
       behavior: void 0
     }
