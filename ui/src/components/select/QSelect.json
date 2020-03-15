@@ -200,7 +200,8 @@
     "max-length": {
       "type": [ "Number", "String" ],
       "desc": "Allow a maximum length when using useInput",
-      "examples": [ "5" ],
+      "default": 255,
+      "examples": [ 10 ],
       "category": "content"
     },
 
