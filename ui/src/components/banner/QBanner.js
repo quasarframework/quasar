@@ -13,14 +13,20 @@ export default Vue.extend({
   props: {
     inlineActions: Boolean,
     dense: Boolean,
-    rounded: Boolean
+    rounded: Boolean,
+    avatarAlign: {
+      type: String,
+      validator: v => ['top', 'middle'].includes(v),
+      default: 'middle'
+    }
   },
 
   render (h) {
     const actions = slot(this, 'action')
     const child = [
       h('div', {
-        staticClass: 'q-banner__avatar col-auto row items-center'
+        staticClass: 'q-banner__avatar col-auto row items-center',
+        class: `self-${Object.create({top: 'start', middle: 'center'})[this.avatarAlign]}`
       }, slot(this, 'avatar')),
 
       h('div', {
