@@ -716,7 +716,8 @@ export default Vue.extend({
           ),
           this.mask,
           this.computedLocale,
-          date.year
+          date.year,
+          this.extModel.timezoneOffset
         )
 
       date.changed = val !== this.value
