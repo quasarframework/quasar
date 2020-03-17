@@ -699,7 +699,7 @@ export default Vue.extend({
           ? this.__getDaysInMonth(date)
           : this.daysInMonth
 
-        date.day = Math.min(date.day, maxDay)
+        date.day = Math.min(Math.max(1, date.day), maxDay)
       }
 
       const val = this.calendar === 'persian'
