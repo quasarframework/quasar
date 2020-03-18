@@ -928,6 +928,7 @@ export default Vue.extend({
           // required for Android in order to show ENTER key when in form
           type: 'search',
           ...this.$attrs,
+          maxlength: this.maxlength, // this is converted to prop by QField
           tabindex: this.tabindex,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
           id: this.targetUid,
