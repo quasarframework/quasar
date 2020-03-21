@@ -23,6 +23,7 @@ module.exports = class InstallAPI {
     this.__needsNodeModulesUpdate = false
     this.__hooks = {
       renderFolders: [],
+      renderFiles: [],
       exitLog: []
     }
   }
@@ -244,6 +245,36 @@ module.exports = class InstallAPI {
     this.__hooks.renderFolders.push({
       source,
       rawCopy,
+      scope
+    })
+  }
+
+  /**
+   * Render a file from extension template into devland
+   * Reads a relative path to a file of the file calling render()
+   * @param {*} msg 
+   */
+  renderFile (relativeSourcePath, relativeTargetPath, scope) {
+    const dir = getCallerPath()
+    const sourcePath = path.resolve(dir, relativeSourcePath)
+    const targetPath = appPaths.resolve.src(relativeTargetPath)
+
+    if (!fs.existsSync(sourcePath)) {
+      warn()
+      warn(`⚠️  Extension(${this.extId}): render() - cannot locate ${relativeSourcePath}. Skipping...`)
+      warn()
+      return
+    }
+    if (fs.lstatSync(sourcePath).isDirectory()) {
+      warn()
+      warn(`⚠️  Extension(${this.extId}): render() - "${relativeSourcePath}" is a file instead of folder. Skipping...`)
+      warn()
+      return
+    }
+
+    this.__hooks.renderFiles.push({
+      sourcePath,
+      targetPath,
       scope
     })
   }
