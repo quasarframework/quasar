@@ -7,9 +7,17 @@ const extensionJson = require('./extension-json')
 const fs = require('fs-extra')
 const path = require('path')
 
-async function renderFile ({ sourcePath, targetPath, rawCopy, scope }) {
+async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
   const isBinary = require('isbinaryfile').isBinaryFileSync
   const compileTemplate = require('lodash.template')
+
+  if (overwritePrompt && fs.existsSync(targetPath)) {
+    const answer = await promptOverwrite({ targetPath, options: ['overwrite', 'skip'] })
+
+    if (answer.action === 'skip') {
+      return
+    }
+  }
 
   fs.ensureFileSync(targetPath)
 
@@ -23,9 +31,28 @@ async function renderFile ({ sourcePath, targetPath, rawCopy, scope }) {
   }
 }
 
+async function promptOverwrite ({ targetPath, options = ['overwrite', 'overwriteAll', 'skip', 'skipAl'] }) {
+  const inquirer = require('inquirer')
+
+  const choices = [
+    { name: 'Overwrite', value: 'overwrite' },
+    { name: 'Overwrite all', value: 'overwriteAll' },
+    { name: 'Skip (might break extension)', value: 'skip' },
+    { name: 'Skip all (might break extension)', value: 'skipAll' }
+  ]
+
+  const answer = await inquirer.prompt([{
+    name: 'action',
+    type: 'list',
+    message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
+    choices: choices.filter(choice => options.includes(choice.value)),
+    default: 'overwrite'
+  }])
+  return answer
+}
+
 async function renderFolders ({ source, rawCopy, scope }) {
   const fglob = require('fast-glob')
-  const inquirer = require('inquirer')
 
   let overwrite
   const files = fglob.sync(['**/*'], { cwd: source })
@@ -51,18 +78,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
         continue
       }
       else {
-        const answer = await inquirer.prompt([{
-          name: 'action',
-          type: 'list',
-          message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
-          choices: [
-            { name: 'Overwrite', value: 'overwrite' },
-            { name: 'Overwrite all', value: 'overwriteAll' },
-            { name: 'Skip (might break extension)', value: 'skip' },
-            { name: 'Skip all (might break extension)', value: 'skipAll' }
-          ],
-          default: 'overwrite'
-        }])
+        const answer = await promptOverwrite({ targetPath })
 
         if (answer.action === 'overwriteAll') {
           overwrite = 'overwriteAll'

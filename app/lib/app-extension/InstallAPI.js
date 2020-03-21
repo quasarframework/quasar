@@ -252,12 +252,16 @@ module.exports = class InstallAPI {
   /**
    * Render a file from extension template into devland
    * Reads a relative path to a file of the file calling render()
-   * @param {*} msg 
+   *
+   * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)
+   * @param {string} relativeTargetPath (file path relative to the root of the app)
+   * @param {object} scope (optional; rendering scope variables)
    */
   renderFile (relativeSourcePath, relativeTargetPath, scope) {
     const dir = getCallerPath()
     const sourcePath = path.resolve(dir, relativeSourcePath)
-    const targetPath = appPaths.resolve.src(relativeTargetPath)
+    const targetPath = appPaths.resolve.app(relativeTargetPath)
+    const rawCopy = !scope || Object.keys(scope).length === 0
 
     if (!fs.existsSync(sourcePath)) {
       warn()
@@ -275,7 +279,9 @@ module.exports = class InstallAPI {
     this.__hooks.renderFiles.push({
       sourcePath,
       targetPath,
-      scope
+      rawCopy,
+      scope,
+      overwritePrompt: true
     })
   }
 
