@@ -43,6 +43,6 @@ export namespace date {
   function getDateBetween(date: Date | number | string, min?: Date | number | string, max?: Date | number | string): Date;
   function isSameDate(date: Date | number | string, date2: Date | number | string, unit?: DateUnitOptions): boolean;
   function daysInMonth(date: Date | number | string): number;
-  function formatDate(date: Date | number | string | undefined, format?: string, locale?: DateLocale, __forcedYear?: number): string;
+  function formatDate(date: Date | number | string | undefined, format?: string, locale?: DateLocale, __forcedYear?: number, __forcedTimezoneOffset?: number): string;
   function clone<D extends Date | number | string>(date: D): D;
 }

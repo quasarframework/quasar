@@ -688,7 +688,8 @@ export default Vue.extend({
           ),
           this.computedMask,
           this.computedLocale,
-          date.year
+          date.year,
+          date.timezoneOffset
         )
 
       date.changed = val !== this.value
