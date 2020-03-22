@@ -71,6 +71,11 @@ export default Vue.extend({
       type: Number,
       default: 0,
       validator: v => v >= 0
+    },
+
+    ripple: {
+      type: [Boolean, Object],
+      default: null
     }
   },
 
@@ -141,6 +146,17 @@ export default Vue.extend({
           'aria-disabled': ''
         }
       }
+    },
+
+    btnProps () {
+      return {
+        color: this.color,
+        flat: true,
+        size: this.size,
+        ripple: this.ripple !== null
+          ? this.ripple
+          : true
+      }
     }
   },
 
@@ -166,9 +182,7 @@ export default Vue.extend({
 
     __getBtn (h, data, props, page) {
       data.props = {
-        color: this.color,
-        flat: true,
-        size: this.size,
+        ...this.btnProps,
         ...props
       }
 
@@ -295,8 +309,7 @@ export default Vue.extend({
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
-          label: this.min,
-          ripple: false
+          label: this.min
         }, this.min))
       }
       if (boundaryEnd) {
@@ -308,8 +321,7 @@ export default Vue.extend({
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
-          label: this.max,
-          ripple: false
+          label: this.max
         }, this.max))
       }
       if (ellipsesStart) {
@@ -318,7 +330,8 @@ export default Vue.extend({
           style
         }, {
           disable: this.disable,
-          label: '…'
+          label: '…',
+          ripple: false
         }, pgFrom - 1))
       }
       if (ellipsesEnd) {
@@ -327,7 +340,8 @@ export default Vue.extend({
           style
         }, {
           disable: this.disable,
-          label: '…'
+          label: '…',
+          ripple: false
         }, pgTo + 1))
       }
       for (let i = pgFrom; i <= pgTo; i++) {
@@ -339,8 +353,7 @@ export default Vue.extend({
           disable: this.disable,
           flat: !active,
           textColor: active ? this.textColor : null,
-          label: i,
-          ripple: false
+          label: i
         }, i))
       }
     }
