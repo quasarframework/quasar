@@ -36,7 +36,6 @@ const stringOptions = [
   return acc
 }, [])
 
-
 export default {
   data () {
     return {
