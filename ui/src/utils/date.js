@@ -166,11 +166,9 @@ export function extractDate (str, mask, dateLocale) {
 
   const tzOffset = date.getTimezoneOffset()
 
-  if (d.timezoneOffset === null || d.timezoneOffset === tzOffset) {
-    return date
-  }
-
-  return getChange(date, { minutes: d.timezoneOffset - tzOffset }, true)
+  return d.timezoneOffset === null || d.timezoneOffset === tzOffset
+    ? date
+    : getChange(date, { minutes: d.timezoneOffset - tzOffset }, true)
 }
 
 export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
