@@ -20,7 +20,7 @@ export default Vue.extend({
     const actions = slot(this, 'action')
     const child = [
       h('div', {
-        staticClass: 'q-banner__avatar col-auto row items-center'
+        staticClass: 'q-banner__avatar col-auto row items-center self-start'
       }, slot(this, 'avatar')),
 
       h('div', {
