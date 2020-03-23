@@ -21,6 +21,7 @@
 
         <q-page-sticky :position="stickyConfig.position" :offset="stickyConfig.offset">
           <q-fab
+            class="shadow-4"
             :direction="fabDirection"
             color="primary"
             :label="`Actions aligned ${fabVerticalActionsAlign}`"
@@ -32,7 +33,7 @@
             :label-class="labelClass"
           >
             <q-fab-action
-              class="white"
+              class="white shadow-12"
               color="green"
               icon="center_focus_weak"
               :square="fabSquare"
@@ -41,7 +42,7 @@
               :label-class="labelClass"
             />
             <q-fab-action
-              class="white"
+              class="white shadow-8"
               color="red"
               icon="center_focus_weak"
               label="Anchor start"
@@ -63,7 +64,7 @@
               :label-class="labelClass"
             />
             <q-fab-action
-              class="white"
+              class="white shadow-2"
               color="blue"
               icon="center_focus_weak"
               label="Anchor center"

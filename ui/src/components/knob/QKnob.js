@@ -98,6 +98,24 @@ export default Vue.extend({
           keydown: this.__keydown,
           keyup: this.__keyup
         }
+    },
+
+    attrs () {
+      const attrs = {
+        role: 'slider',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-valuenow': this.value
+      }
+
+      if (this.editable === true) {
+        attrs.tabindex = this.tabindex
+      }
+      else {
+        attrs[`aria-${this.disable === true ? 'disabled' : 'readonly'}`] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -228,6 +246,8 @@ export default Vue.extend({
       staticClass: 'q-knob non-selectable',
       class: this.classes,
 
+      attrs: this.attrs,
+
       props: {
         ...this.$props,
         value: this.model,
@@ -236,7 +256,6 @@ export default Vue.extend({
     }
 
     if (this.editable === true) {
-      data.attrs = { tabindex: this.tabindex }
       data.on = this.events
       data.directives = cache(this, 'dir', [{
         name: 'touch-pan',

@@ -215,12 +215,8 @@ export default Vue.extend({
     return h('div', {
       staticClass: this.value === null ? ' q-slider--no-value' : '',
       attrs: {
-        role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
+        ...this.attrs,
         'aria-valuenow': this.value,
-        'data-step': this.step,
-        'aria-disabled': this.disable,
         tabindex: this.computedTabindex
       },
       class: this.classes,

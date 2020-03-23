@@ -503,11 +503,8 @@ export default Vue.extend({
         ? 'q-slider--no-value'
         : void 0,
       attrs: {
-        role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
-        'data-step': this.step,
-        'aria-disabled': this.disable,
+        ...this.attrs,
+        'aria-valuenow': this.value.min + '|' + this.value.max,
         tabindex: this.dragOnlyRange && !this.$q.platform.is.mobile
           ? this.computedTabindex
           : null

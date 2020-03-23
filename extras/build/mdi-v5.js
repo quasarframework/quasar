@@ -8,7 +8,7 @@ const { readFileSync, writeFileSync } = require('fs')
 const { resolve, basename } = require('path')
 
 let skipped = []
-const dist = resolve(__dirname, `../mdi-v4/index.js`)
+const dist = resolve(__dirname, `../mdi-v5/index.js`)
 const { parseSvgContent } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svg/`)
@@ -69,15 +69,15 @@ const webfont = [
 webfont.forEach(file => {
   copySync(
     resolve(__dirname, `../node_modules/@mdi/font/fonts/${file}`),
-    resolve(__dirname, `../mdi-v4/${file}`)
+    resolve(__dirname, `../mdi-v5/${file}`)
   )
 })
 
 copySync(
   resolve(__dirname, `../node_modules/@mdi/font/license.md`),
-  resolve(__dirname, `../mdi-v4/license.md`)
+  resolve(__dirname, `../mdi-v5/license.md`)
 )
 copySync(
   resolve(__dirname, `../node_modules/@mdi/svg/LICENSE`),
-  resolve(__dirname, `../mdi-v4/LICENSE`)
+  resolve(__dirname, `../mdi-v5/LICENSE`)
 )

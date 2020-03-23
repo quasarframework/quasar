@@ -17,6 +17,8 @@ let
   keyboardTarget = void 0,
   mouseTarget = void 0
 
+const iconAttrs = { role: 'img', 'aria-hidden': 'true' }
+
 export default Vue.extend({
   name: 'QBtn',
 
@@ -36,7 +38,7 @@ export default Vue.extend({
       return this.ripple === false
         ? false
         : Object.assign(
-          { keyCodes: [] },
+          { keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ] },
           this.ripple === true ? {} : this.ripple
         )
     },
@@ -45,6 +47,16 @@ export default Vue.extend({
       const val = Math.max(0, Math.min(100, this.percentage))
       if (val > 0) {
         return { transition: 'transform 0.6s', transform: `translateX(${val - 100}%)` }
+      }
+    },
+
+    onLoadingEvents () {
+      return {
+        mousedown: this.__onLoadingEvt,
+        touchstart: this.__onLoadingEvt,
+        click: this.__onLoadingEvt,
+        keydown: this.__onLoadingEvt,
+        keyup: this.__onLoadingEvt
       }
     }
   },
@@ -144,6 +156,14 @@ export default Vue.extend({
         target.addEventListener('touchend', this.__onPressEnd, passiveCapture)
       }
 
+      // avoid duplicated mousedown event
+      // triggering another early ripple
+      this.avoidMouseRipple = true
+      clearTimeout(this.mouseTimer)
+      this.mouseTimer = setTimeout(() => {
+        this.avoidMouseRipple = false
+      }, 200)
+
       this.$emit('touchstart', e)
     },
 
@@ -155,6 +175,7 @@ export default Vue.extend({
         document.addEventListener('mouseup', this.__onPressEnd, passiveCapture)
       }
 
+      e.qSkipRipple = this.avoidMouseRipple === true
       this.$emit('mousedown', e)
     },
 
@@ -258,6 +279,7 @@ export default Vue.extend({
 
     this.icon !== void 0 && inner.push(
       h(QIcon, {
+        attrs: iconAttrs,
         props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
       })
     )
@@ -271,6 +293,7 @@ export default Vue.extend({
     if (this.iconRight !== void 0 && this.round === false) {
       inner.push(
         h(QIcon, {
+          attrs: iconAttrs,
           props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
         })
       )
@@ -286,10 +309,7 @@ export default Vue.extend({
 
     if (this.loading === true) {
       // stop propagation and ripple
-      data.on = {
-        click: this.__onLoadingEvt,
-        keyup: this.__onLoadingEvt
-      }
+      data.on = this.onLoadingEvents
 
       this.percentage !== void 0 && child.push(
         h('div', {

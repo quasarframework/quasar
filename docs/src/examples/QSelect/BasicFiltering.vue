@@ -10,7 +10,7 @@
         input-debounce="0"
         :options="options"
         @filter="filterFn"
-        hint="Basic autocomplete"
+        hint="Basic filtering"
         style="width: 250px; padding-bottom: 32px"
       >
         <template v-slot:no-option>

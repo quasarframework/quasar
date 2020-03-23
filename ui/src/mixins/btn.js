@@ -90,17 +90,33 @@ export default {
     },
 
     attrs () {
-      const att = { tabindex: this.computedTabIndex }
+      const attrs = { tabindex: this.computedTabIndex }
+
       if (this.type !== 'a') {
-        att.type = this.type || 'button'
+        attrs.type = this.type || 'button'
       }
+
       if (this.hasRouterLink === true) {
-        att.href = this.$router.resolve(this.to).href
+        attrs.href = this.$router.resolve(this.to).href
+        attrs.role = 'link'
       }
+      else {
+        attrs.role = this.type === 'a' ? 'link' : 'button'
+      }
+
+      if (this.loading === true && this.percentage !== void 0) {
+        attrs.role = 'progressbar'
+        attrs['aria-valuemin'] = 0
+        attrs['aria-valuemax'] = 100
+        attrs['aria-valuenow'] = this.computedPercentage
+      }
+
       if (this.disable === true) {
-        att.disabled = true
+        attrs.disabled = ''
+        attrs['aria-disabled'] = ''
       }
-      return att
+
+      return attrs
     },
 
     classes () {

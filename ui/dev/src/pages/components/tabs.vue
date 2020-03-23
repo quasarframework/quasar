@@ -13,14 +13,14 @@
         </q-tabs>
 
         <q-tabs :dense="dense" vertical inline-label class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">
-          <q-tab name="one" label="wifi" icon="wifi" />
-          <q-tab name="two" label="bluetooth" icon="bluetooth" />
-          <q-tab name="three" label="map" icon="map" />
-          <q-tab name="four" label="phone" icon="phone" />
-          <q-tab name="five" label="location" icon="location_on" />
-          <q-tab name="six" label="favorite" icon="favorite" />
-          <q-tab name="seven" label="home" icon="home" />
-          <q-tab name="eight" label="info" icon="info" />
+          <q-tab :ripple="{ early: true }" name="one" label="wifi" icon="wifi" />
+          <q-tab :ripple="{ early: true }" name="two" label="bluetooth" icon="bluetooth" />
+          <q-tab :ripple="{ early: true }" name="three" label="map" icon="map" />
+          <q-tab :ripple="{ early: true }" name="four" label="phone" icon="phone" />
+          <q-tab :ripple="{ early: true }" name="five" label="location" icon="location_on" />
+          <q-tab :ripple="{ early: true }" name="six" label="favorite" icon="favorite" />
+          <q-tab :ripple="{ early: true }" name="seven" label="home" icon="home" />
+          <q-tab :ripple="{ early: true }" name="eight" label="info" icon="info" />
         </q-tabs>
 
         <q-tabs :dense="dense" vertical class="vertical-tabs" v-model="vtab" style="margin-right: 25px;">

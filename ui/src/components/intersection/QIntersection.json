@@ -21,6 +21,13 @@
       "category": "behavior"
     },
 
+    "ssr-prerender": {
+      "type": "Boolean",
+      "desc": "Pre-render content on server side if using SSR (use it to pre-render above the fold content)",
+      "category": "behavior",
+      "addedIn": "v1.9.5"
+    },
+
     "margin": {
       "type": "String",
       "desc": "[Intersection API rootMargin prop] Allows you to specify the margins for the root, effectively allowing you to either grow or shrink the area used for intersections",

@@ -35,7 +35,7 @@ After installing Android Studio, you need to install two more pieces of software
 * Gradle. It used to usable from Android Studio but now you have to install it separately. There is a very specific version that cordova requires. You can download it [here](https://downloads.gradle-dn.com/distributions/gradle-4.10.3-all.zip)
 
 Then you will have to set environment variables. You will need to set the following variables. Cordova has a good guide for it already. It can be found [here](https://cordova.apache.org/docs/en/latest/guide/platforms/android/#setting-environment-variables). You need to:
-* add ANDRIOD_HOME. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
+* add ANDROID_HOME. It can safely be set to: "%USERPROFILE%\AppData\Local\Android\Sdk"
 * add two ANDROID_HOME directories to your path: %ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools
 * add Gradle to your path. Note that gradle does not have an installer. You just put the binary files where you want them, then add the bin directory to your path.
 

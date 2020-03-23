@@ -146,6 +146,32 @@ module.exports = function (cfg, configName) {
           ] : []
         })
 
+  if (cfg.supportTS !== false) {
+    chain.resolve.extensions.add('.ts').add('.tsx')
+
+    chain.module
+      .rule('typescript')
+      .test(/\.tsx?$/)
+      .use('ts-loader')
+      .loader('ts-loader')
+      .options({
+        // custom config is merged if present, but vue setup and type checking disable are always applied
+        ...(cfg.supportTS.tsLoaderConfig || {}),
+        appendTsSuffixTo: [/\.vue$/],
+        // Type checking is handled by fork-ts-checker-webpack-plugin
+        transpileOnly: true
+      })
+
+    const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+    chain
+      .plugin('ts-checker')
+      // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
+      .use(ForkTsCheckerWebpackPlugin, [
+        // custom config is merged if present, but vue option is always enabled
+        { ...(cfg.supportTS.tsCheckerConfig || {}), vue: true }
+      ])
+  }
+
   chain.module.rule('images')
     .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
     .use('url-loader')

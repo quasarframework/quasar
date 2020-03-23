@@ -17,14 +17,15 @@ export const queues = {
 }
 
 export const $q = {
-  version
+  version,
+  config: {}
 }
 
 export default function (Vue, opts = {}) {
   if (this.__qInstalled === true) { return }
   this.__qInstalled = true
 
-  const cfg = opts.config || {}
+  const cfg = $q.config = Object.freeze(opts.config || {})
 
   // required plugins
   Platform.install($q, queues)

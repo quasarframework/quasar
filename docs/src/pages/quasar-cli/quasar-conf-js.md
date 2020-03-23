@@ -112,7 +112,8 @@ Let's take each option one by one:
 | preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature). |
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
-| supportIE | Boolean | Add support for IE11+. |
+| supportIE | Boolean | Add support for IE11+. [More info](/quasar-cli/cli-documentation/supporting-ie) |
+| supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli/cli-documentation/supporting-ts) |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |

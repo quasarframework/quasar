@@ -3,6 +3,7 @@ import Vue from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import OptionSizeMixin from '../../mixins/option-size.js'
 import FormMixin from '../../mixins/form.js'
+import RefocusTargetMixin from '../../mixins/refocus-target.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
@@ -11,7 +12,7 @@ import { cache } from '../../utils/vm.js'
 export default Vue.extend({
   name: 'QRadio',
 
-  mixins: [ DarkMixin, OptionSizeMixin, FormMixin ],
+  mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
 
   props: {
     value: {
@@ -75,6 +76,21 @@ export default Vue.extend({
       if (this.name !== void 0 && this.isTrue === true) {
         return { checked: true }
       }
+    },
+
+    attrs () {
+      const attrs = {
+        tabindex: this.computedTabindex,
+        role: 'radio',
+        'aria-label': this.label,
+        'aria-checked': this.isTrue === true ? 'true' : 'false'
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -82,7 +98,7 @@ export default Vue.extend({
     set (e) {
       if (e !== void 0) {
         stopAndPrevent(e)
-        document.activeElement !== null && document.activeElement.blur()
+        this.__refocusTarget(e)
       }
 
       if (this.disable !== true && this.isTrue !== true) {
@@ -126,6 +142,10 @@ export default Vue.extend({
       }, content)
     ]
 
+    if (this.__refocusTargetEl !== void 0) {
+      child.push(this.__refocusTargetEl)
+    }
+
     const label = this.label !== void 0
       ? mergeSlot([ this.label ], this, 'default')
       : slot(this, 'default')
@@ -138,7 +158,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
+      attrs: this.attrs,
       on: cache(this, 'inpExt', {
         click: this.set,
         keydown: e => {

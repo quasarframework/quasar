@@ -207,6 +207,21 @@ export default Vue.extend({
         value: this.value,
         emitValue: this.__emitValue
       }
+    },
+
+    attrs () {
+      const attrs = {
+        for: this.targetUid
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+      else if (this.readonly === true) {
+        attrs['aria-readonly'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -483,9 +498,7 @@ export default Vue.extend({
     return h('label', {
       staticClass: 'q-field row no-wrap items-start',
       class: this.classes,
-      attrs: {
-        for: this.targetUid
-      }
+      attrs: this.attrs
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center',

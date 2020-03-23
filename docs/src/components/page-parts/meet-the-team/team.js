@@ -130,5 +130,13 @@ export default [
     avatar: 'paolo_caleffi.jpg',
     github: 'IlCallo',
     desc: 'Typescript support'
+  },
+
+  {
+    name: 'Jesús Villanueva',
+    role: 'Senior Developer',
+    avatar: 'jesus_villanueva.jpg',
+    github: 'jesusvilla',
+    desc: 'UI components, App Extensions and Help desk'
   }
 ]

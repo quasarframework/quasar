@@ -273,80 +273,85 @@ export default Vue.extend({
 
     __click (evt) {
       // __activate() has already updated the offset
-      // we only need to change the view now, so:
-
+      // (on desktop only, through mousedown event)
       if (this.$q.platform.is.desktop !== true) {
-        this.__drag({ isFirst: true, evt })
+        this.__updateClock(evt, this.__getClockRect())
       }
 
-      this.__drag({ isFinal: true, evt })
+      this.__goToNextView()
     },
 
     __activate (evt) {
-      this.__drag({ isFirst: true, evt }, true)
-      this.__drag({ isFinal: true, evt }, true)
+      this.__updateClock(evt, this.__getClockRect())
     },
 
-    __drag (event, noViewChange) {
+    __getClockRect () {
+      const
+        clock = this.$refs.clock,
+        { top, left, width } = clock.getBoundingClientRect(),
+        dist = width / 2
+
+      return {
+        top: top + dist,
+        left: left + dist,
+        dist: dist * 0.7
+      }
+    },
+
+    __goToNextView () {
+      if (this.view === 'Hour') {
+        this.view = 'Minute'
+      }
+      else if (this.withSeconds && this.view === 'Minute') {
+        this.view = 'Second'
+      }
+    },
+
+    __drag (event) {
       // cases when on a popup getting closed
       // on previously emitted value
       if (this._isBeingDestroyed === true || this._isDestroyed === true) {
         return
       }
 
-      if (event.isFirst) {
-        const
-          clock = this.$refs.clock,
-          { top, left, width } = clock.getBoundingClientRect(),
-          dist = width / 2
-
-        this.dragging = {
-          top: top + dist,
-          left: left + dist,
-          dist: dist * 0.7
-        }
-        this.dragCache = null
-        this.__updateClock(event.evt)
+      if (event.isFirst === true) {
+        this.draggingClockRect = this.__getClockRect()
+        this.dragCache = this.__updateClock(event.evt, this.draggingClockRect)
         return
       }
 
-      this.__updateClock(event.evt)
+      this.dragCache = this.__updateClock(event.evt, this.draggingClockRect, this.dragCache)
 
-      if (event.isFinal && noViewChange !== true) {
-        this.dragging = false
-
-        if (this.view === 'Hour') {
-          this.view = 'Minute'
-        }
-        else if (this.withSeconds && this.view === 'Minute') {
-          this.view = 'Second'
-        }
+      if (event.isFinal === true) {
+        this.draggingClockRect = false
+        this.dragCache = null
+        this.__goToNextView()
       }
     },
 
-    __updateClock (evt) {
+    __updateClock (evt, clockRect, cacheVal) {
       let
         val,
         pos = position(evt),
-        height = Math.abs(pos.top - this.dragging.top),
+        height = Math.abs(pos.top - clockRect.top),
         distance = Math.sqrt(
-          Math.pow(Math.abs(pos.top - this.dragging.top), 2) +
-          Math.pow(Math.abs(pos.left - this.dragging.left), 2)
+          Math.pow(Math.abs(pos.top - clockRect.top), 2) +
+          Math.pow(Math.abs(pos.left - clockRect.left), 2)
         ),
         angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (pos.top < this.dragging.top) {
-        angle = this.dragging.left < pos.left ? 90 - angle : 270 + angle
+      if (pos.top < clockRect.top) {
+        angle = clockRect.left < pos.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = this.dragging.left < pos.left ? angle + 90 : 270 - angle
+        angle = clockRect.left < pos.left ? angle + 90 : 270 - angle
       }
 
       if (this.view === 'Hour') {
         val = Math.round(angle / 30)
 
         if (this.computedFormat24h === true) {
-          if (distance < this.dragging.dist) {
+          if (distance < clockRect.dist) {
             if (val < 12) {
               val += 12
             }
@@ -371,8 +376,8 @@ export default Vue.extend({
         }
       }
 
-      if (this.dragCache === val) {
-        return
+      if (cacheVal === val) {
+        return val
       }
 
       const opt = this[`${this.view.toLowerCase()}InSelection`]
@@ -381,8 +386,8 @@ export default Vue.extend({
         return
       }
 
-      this.dragCache = val
       this[`__set${this.view}`](val)
+      return val
     },
 
     __onKeyupHour (e) {
@@ -683,7 +688,8 @@ export default Vue.extend({
           ),
           this.computedMask,
           this.computedLocale,
-          date.year
+          date.year,
+          date.timezoneOffset
         )
 
       date.changed = val !== this.value

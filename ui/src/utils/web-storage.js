@@ -100,12 +100,27 @@ export function getStorage (type) {
         ? get(webStorage.key(index))
         : null
     },
+    getKey: index => {
+      return index < webStorage.length
+        ? webStorage.key(index)
+        : null
+    },
     getAll: () => {
-      let result = {}, key, len = webStorage.length
+      let key
+      const result = {}, len = webStorage.length
 
       for (let i = 0; i < len; i++) {
         key = webStorage.key(i)
         result[key] = get(key)
+      }
+
+      return result
+    },
+    getAllKeys: () => {
+      const result = [], len = webStorage.length
+
+      for (let i = 0; i < len; i++) {
+        result.push(webStorage.key(i))
       }
 
       return result

@@ -131,7 +131,7 @@ export default Vue.extend({
           this.innerLoading !== true &&
           ((this.dialog !== true && this.menu !== true) || this.hasValue !== true)
         ) {
-          this.__resetInputValue()
+          this.userInputValue !== true && this.__resetInputValue()
           if (this.dialog === true || this.menu === true) {
             this.filter('')
           }
@@ -208,7 +208,7 @@ export default Vue.extend({
 
     selectedString () {
       return this.innerValue
-        .map(opt => this.__getOptionLabel(opt))
+        .map(opt => this.getOptionLabel(opt))
         .join(', ')
     },
 
@@ -251,7 +251,7 @@ export default Vue.extend({
       const { from, to } = this.virtualScrollSliceRange
 
       return this.options.slice(from, to).map((opt, i) => {
-        const disable = this.__getOptionDisabled(opt) === true
+        const disable = this.isOptionDisabled(opt) === true
         const index = from + i
 
         const itemProps = {
@@ -267,7 +267,7 @@ export default Vue.extend({
         }
 
         if (disable !== true) {
-          this.__isSelected(opt) === true && (itemProps.active = true)
+          this.isOptionSelected(opt) === true && (itemProps.active = true)
           this.optionIndex === index && (itemProps.focused = true)
         }
 
@@ -314,23 +314,35 @@ export default Vue.extend({
     },
 
     innerOptionsValue () {
-      return this.innerValue.map(opt => this.__getOptionValue(opt))
+      return this.innerValue.map(opt => this.getOptionValue(opt))
     },
 
-    __getOptionValue () {
+    // returns method to get value of an option;
+    // takes into account 'option-value' prop
+    getOptionValue () {
       return this.__getPropValueFn('optionValue', 'value')
     },
 
-    __getOptionLabel () {
+    // returns method to get label of an option;
+    // takes into account 'option-label' prop
+    getOptionLabel () {
       return this.__getPropValueFn('optionLabel', 'label')
     },
 
-    __getOptionDisabled () {
+    // returns method to tell if an option is disabled;
+    // takes into account 'option-disable' prop
+    isOptionDisabled () {
       return this.__getPropValueFn('optionDisable', 'disable')
     }
   },
 
   methods: {
+    getEmittingOptionValue (opt) {
+      return this.emitValue === true
+        ? this.getOptionValue(opt)
+        : opt
+    },
+
     removeAtIndex (index) {
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
@@ -350,13 +362,11 @@ export default Vue.extend({
     },
 
     add (opt, unique) {
-      const val = this.emitValue === true
-        ? this.__getOptionValue(opt)
-        : opt
+      const val = this.getEmittingOptionValue(opt)
 
       if (this.multiple !== true) {
         this.fillInput === true && this.updateInputValue(
-          this.__getOptionLabel(opt),
+          this.getOptionLabel(opt),
           true,
           true
         )
@@ -371,7 +381,7 @@ export default Vue.extend({
         return
       }
 
-      if (unique === true && this.__isSelected(opt) === true) {
+      if (unique === true && this.isOptionSelected(opt) === true) {
         return
       }
 
@@ -387,18 +397,18 @@ export default Vue.extend({
     },
 
     toggleOption (opt, keepOpen) {
-      if (this.editable !== true || opt === void 0 || this.__getOptionDisabled(opt) === true) {
+      if (this.editable !== true || opt === void 0 || this.isOptionDisabled(opt) === true) {
         return
       }
 
-      const optValue = this.__getOptionValue(opt)
+      const optValue = this.getOptionValue(opt)
 
       if (this.multiple !== true) {
         this.$refs.target !== void 0 && this.$refs.target.focus()
 
         if (keepOpen !== true) {
           this.updateInputValue(
-            this.fillInput === true ? this.__getOptionLabel(opt) : '',
+            this.fillInput === true ? this.getOptionLabel(opt) : '',
             true,
             true
           )
@@ -406,7 +416,7 @@ export default Vue.extend({
           this.hidePopup()
         }
 
-        if (isDeepEqual(this.__getOptionValue(this.innerValue), optValue) !== true) {
+        if (isDeepEqual(this.getOptionValue(this.innerValue), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         return
@@ -466,24 +476,24 @@ export default Vue.extend({
             this.virtualScrollLength - 1
           )
         }
-        while (index !== -1 && index !== this.optionIndex && this.__getOptionDisabled(this.options[index]) === true)
+        while (index !== -1 && index !== this.optionIndex && this.isOptionDisabled(this.options[index]) === true)
 
         if (this.optionIndex !== index) {
           this.setOptionIndex(index)
           this.scrollTo(index)
 
-          if (skipInputValue !== true && index >= 0 && this.useInput === true && this.fillInput === true) {
-            const inputValue = this.__getOptionLabel(this.options[index])
-            if (this.inputValue !== inputValue) {
-              this.inputValue = inputValue
-            }
+          if (skipInputValue !== true && this.useInput === true && this.fillInput === true) {
+            this.__setInputValue(index >= 0
+              ? this.getOptionLabel(this.options[index])
+              : this.defaultInputValue
+            )
           }
         }
       }
     },
 
     __getOption (value, innerValueCache) {
-      const fn = opt => isDeepEqual(this.__getOptionValue(opt), value)
+      const fn = opt => isDeepEqual(this.getOptionValue(opt), value)
       return this.options.find(fn) || innerValueCache.find(fn) || value
     },
 
@@ -499,8 +509,8 @@ export default Vue.extend({
           : opt
     },
 
-    __isSelected (opt) {
-      const val = this.__getOptionValue(opt)
+    isOptionSelected (opt) {
+      const val = this.getOptionValue(opt)
       return this.innerOptionsValue.find(v => isDeepEqual(v, val)) !== void 0
     },
 
@@ -518,6 +528,7 @@ export default Vue.extend({
         stop(e)
         // on ESC we need to close the dialog also
         this.hidePopup()
+        this.__resetInputValue()
       }
 
       this.$emit('keyup', e)
@@ -535,14 +546,14 @@ export default Vue.extend({
       ) {
         const needle = value.toLocaleLowerCase()
 
-        let fn = opt => this.__getOptionValue(opt).toLocaleLowerCase() === needle
+        let fn = opt => this.getOptionValue(opt).toLocaleLowerCase() === needle
         let option = this.options.find(fn)
 
         if (option !== null) {
           this.innerValue.indexOf(option) === -1 && this.toggleOption(option)
         }
         else {
-          fn = opt => this.__getOptionLabel(opt).toLocaleLowerCase() === needle
+          fn = opt => this.getOptionLabel(opt).toLocaleLowerCase() === needle
           option = this.options.find(fn)
 
           if (option !== null) {
@@ -635,13 +646,13 @@ export default Vue.extend({
 
         let index = this.optionIndex
 
-        if (keyRepeat === true || searchRe.test(this.__getOptionLabel(this.options[index])) !== true) {
+        if (keyRepeat === true || searchRe.test(this.getOptionLabel(this.options[index])) !== true) {
           do {
             index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
           while (index !== this.optionIndex && (
-            this.__getOptionDisabled(this.options[index]) === true ||
-            searchRe.test(this.__getOptionLabel(this.options[index])) !== true
+            this.isOptionDisabled(this.options[index]) === true ||
+            searchRe.test(this.getOptionLabel(this.options[index])) !== true
           ))
         }
 
@@ -651,10 +662,7 @@ export default Vue.extend({
             this.scrollTo(index)
 
             if (index >= 0 && this.useInput === true && this.fillInput === true) {
-              const inputValue = this.__getOptionLabel(this.options[index])
-              if (this.inputValue !== inputValue) {
-                this.inputValue = inputValue
-              }
+              this.__setInputValue(this.getOptionLabel(this.options[index]))
             }
           })
         }
@@ -681,7 +689,6 @@ export default Vue.extend({
         const done = (val, mode) => {
           if (mode) {
             if (validateNewValueMode(mode) !== true) {
-              console.error('QSelect: invalid new value mode - ' + mode)
               return
             }
           }
@@ -765,7 +772,7 @@ export default Vue.extend({
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
           props: {
-            removable: this.__getOptionDisabled(scope.opt) !== true,
+            removable: this.editable === true && this.isOptionDisabled(scope.opt) !== true,
             dense: true,
             textColor: this.color,
             tabindex: this.computedTabindex
@@ -776,7 +783,7 @@ export default Vue.extend({
         }, [
           h('span', {
             domProps: {
-              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
+              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
             }
           })
         ]))
@@ -865,7 +872,7 @@ export default Vue.extend({
           h(QItemSection, [
             h(QItemLabel, {
               domProps: {
-                [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.__getOptionLabel(scope.opt)
+                [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
               }
             })
           ])
@@ -921,6 +928,7 @@ export default Vue.extend({
           // required for Android in order to show ENTER key when in form
           type: 'search',
           ...this.$attrs,
+          maxlength: this.maxlength, // this is converted to prop by QField
           tabindex: this.tabindex,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
           id: this.targetUid,
@@ -942,10 +950,11 @@ export default Vue.extend({
         return
       }
 
-      this.inputValue = e.target.value || ''
+      this.__setInputValue(e.target.value || '')
       // mark it here as user input so that if updateInputValue is called
       // before filter is called the indicator is reset
       this.userInputValue = true
+      this.defaultInputValue = this.inputValue
 
       if (
         this.focused !== true &&
@@ -961,12 +970,21 @@ export default Vue.extend({
       }
     },
 
+    __setInputValue (inputValue) {
+      if (this.inputValue !== inputValue) {
+        this.inputValue = inputValue
+        this.$emit('input-value', inputValue)
+      }
+    },
+
     updateInputValue (val, noFiltering, internal) {
       this.userInputValue = internal !== true
 
       if (this.useInput === true) {
-        if (this.inputValue !== val) {
-          this.inputValue = val
+        this.__setInputValue(val)
+
+        if (noFiltering === true || internal !== true) {
+          this.defaultInputValue = val
         }
 
         noFiltering !== true && this.filter(val)
@@ -990,7 +1008,7 @@ export default Vue.extend({
         this.multiple !== true &&
         this.innerValue.length > 0 &&
         this.userInputValue !== true &&
-        val === this.__getOptionLabel(this.innerValue[0])
+        val === this.getOptionLabel(this.innerValue[0])
       ) {
         val = ''
       }
@@ -1253,6 +1271,9 @@ export default Vue.extend({
       if (this.hasDialog === true) {
         this.__onControlFocusin(e)
         this.dialog = true
+        this.$nextTick(() => {
+          this.__focus()
+        })
       }
       else {
         this.__focus()
@@ -1274,7 +1295,7 @@ export default Vue.extend({
     __resetInputValue () {
       this.useInput === true && this.updateInputValue(
         this.multiple !== true && this.fillInput === true && this.innerValue.length > 0
-          ? this.__getOptionLabel(this.innerValue[0]) || ''
+          ? this.getOptionLabel(this.innerValue[0]) || ''
           : '',
         true,
         true
@@ -1286,8 +1307,8 @@ export default Vue.extend({
 
       if (show === true) {
         if (this.innerValue.length > 0) {
-          const val = this.__getOptionValue(this.innerValue[0])
-          optionIndex = this.options.findIndex(v => isDeepEqual(this.__getOptionValue(v), val))
+          const val = this.getOptionValue(this.innerValue[0])
+          optionIndex = this.options.findIndex(v => isDeepEqual(this.getOptionValue(v), val))
         }
 
         this.__resetVirtualScroll(optionIndex)

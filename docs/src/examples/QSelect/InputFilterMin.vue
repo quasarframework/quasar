@@ -10,7 +10,7 @@
         input-debounce="0"
         :options="options"
         @filter="filterFn"
-        hint="Mininum 2 characters to trigger autocomplete"
+        hint="Mininum 2 characters to trigger filtering"
         style="width: 250px; padding-bottom: 32px"
       >
         <template v-slot:no-option>
