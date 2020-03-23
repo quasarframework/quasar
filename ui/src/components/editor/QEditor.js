@@ -31,6 +31,7 @@ export default Vue.extend({
     height: String,
     definitions: Object,
     fonts: Object,
+    placeholder: String,
 
     toolbar: {
       type: Array,
@@ -468,7 +469,10 @@ export default Vue.extend({
             staticClass: `q-editor__content`,
             style: this.innerStyle,
             class: this.innerClass,
-            attrs: { contenteditable: this.editable },
+            attrs: {
+              contenteditable: this.editable,
+              placeholder: this.placeholder
+            },
             domProps: isSSR
               ? { innerHTML: this.value }
               : undefined,
