@@ -31,6 +31,13 @@
       "desc": "Validate all fields in form (by default it stops after finding the first invalid field with synchronous validation)",
       "category": "behavior",
       "addedIn": "v1.1.1"
+    },
+
+    "ordered": {
+      "type": "Boolean",
+      "desc": "Validate the fields in form in the order they appear in DOM (by default it validates in the order they are in Vue internal children list) - Warning: high performance penalty",
+      "category": "behavior",
+      "addedIn": "v1.9.11"
     }
   },
 

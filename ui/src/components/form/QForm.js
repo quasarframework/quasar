@@ -11,7 +11,8 @@ export default Vue.extend({
     autofocus: Boolean,
     noErrorFocus: Boolean,
     noResetFocus: Boolean,
-    greedy: Boolean
+    greedy: Boolean,
+    ordered: Boolean
   },
 
   mounted () {
@@ -28,7 +29,7 @@ export default Vue.extend({
 
       this.validateIndex++
 
-      const components = getAllChildren(this)
+      const components = getAllChildren(this, this.ordered)
       const emit = (res, ref) => {
         this.$emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
