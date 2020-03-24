@@ -333,6 +333,20 @@ export default Vue.extend({
     // takes into account 'option-disable' prop
     isOptionDisabled () {
       return this.__getPropValueFn('optionDisable', 'disable')
+    },
+
+    autocompleteControlEvents () {
+      const events = {
+        keydown: this.__onTargetKeydown,
+        keyup: this.__onTargetAutocomplete,
+        keypress: this.__onTargetKeypress
+      }
+
+      if (this.$q.platform.is.mobile === true) {
+        events.focus = ev => { ev.target.blur() }
+      }
+
+      return events
     }
   },
 
@@ -539,11 +553,13 @@ export default Vue.extend({
 
       e.target.value = ''
 
-      if (
-        e.keyCode === void 0 &&
-        typeof value === 'string' &&
-        value.length > 0
-      ) {
+      if (e.keyCode !== void 0) {
+        this.__onTargetKeyup(e)
+
+        return
+      }
+
+      if (typeof value === 'string' && value.length > 0) {
         const needle = value.toLocaleLowerCase()
 
         let fn = opt => this.getOptionValue(opt).toLocaleLowerCase() === needle
@@ -810,35 +826,22 @@ export default Vue.extend({
         child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
-        const isShadowField = this.hasDialog === true && fromDialog !== true && this.menu === true
-
-        if (fromDialog !== true) {
-          child.push(h('input', {
-            staticClass: 'q-select__autocomplete-input no-outline',
-            attrs: {
-              autocomplete: this.$attrs.autocomplete,
-              tabindex: -1
-            },
-            on: cache(this, 'acpl', {
-              keyup: this.__onTargetAutocomplete
-            })
-          }))
+        const options = {
+          staticClass: 'q-select__autocomplete-input no-outline',
+          attrs: {
+            autocomplete: this.$attrs.autocomplete,
+            tabindex: this.tabindex
+          },
+          on: this.autocompleteControlEvents
         }
 
-        child.push(h('div', {
+        if (this.hasDialog !== true || fromDialog === true || this.menu !== true) {
           // there can be only one (when dialog is opened the control in dialog should be target)
-          ref: isShadowField === true ? void 0 : 'target',
-          staticClass: 'no-outline',
-          attrs: {
-            tabindex: this.tabindex,
-            id: isShadowField === true ? void 0 : this.targetUid
-          },
-          on: cache(this, 'ctrl', {
-            keydown: this.__onTargetKeydown,
-            keyup: this.__onTargetKeyup,
-            keypress: this.__onTargetKeypress
-          })
-        }))
+          options.ref = 'target'
+          options.attrs.id = this.targetUid
+        }
+
+        child.push(h('input', options))
       }
 
       if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
@@ -1256,6 +1259,8 @@ export default Vue.extend({
       if (this.dialog === true) {
         return
       }
+
+      this.optionIndex = -1
 
       if (this.menu === true) {
         this.menu = false
