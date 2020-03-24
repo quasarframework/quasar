@@ -803,7 +803,10 @@ export default Vue.extend({
     __getControl (h, fromDialog) {
       const child = this.__getSelection(h, fromDialog)
 
-      if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
+      if (
+        this.useInput === true &&
+        (fromDialog === true || this.menu !== true || this.hasDialog === false)
+      ) {
         child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
@@ -918,9 +921,11 @@ export default Vue.extend({
         on.click = stop
       }
 
+      const forDialog = fromDialog !== true && this.hasDialog === true
+
       return h('input', {
         ref: 'target',
-        staticClass: 'q-field__input q-placeholder col',
+        staticClass: 'q-field__input q-placeholder col' + (forDialog === true ? ' no-pointer-events' : ''),
         style: this.inputStyle,
         class: this.computedInputClass,
         domProps: { value: this.inputValue !== void 0 ? this.inputValue : '' },
@@ -933,7 +938,7 @@ export default Vue.extend({
           'data-autofocus': fromDialog === true ? false : this.autofocus,
           id: this.targetUid,
           disabled: this.disable === true,
-          readonly: this.readonly === true
+          readonly: this.readonly === true || forDialog === true
         },
         on: cache(this, 'inp#' + this.hasDialog, on)
       })
