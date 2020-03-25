@@ -11,6 +11,9 @@
 import "./shims";
 import "./feature-flag";
 import "./globals";
+import "./ssr";
+import "./store";
 import "./boot";
 import "./configuration";
+import "./route";
 import "./wrappers";
