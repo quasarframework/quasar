@@ -336,17 +336,40 @@ export default Vue.extend({
     },
 
     autocompleteControlEvents () {
-      const events = {
+      const on = {
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetAutocomplete,
         keypress: this.__onTargetKeypress
       }
 
       if (this.$q.platform.is.mobile === true) {
-        events.focus = ev => { ev.target.blur() }
+        on.focus = ev => { ev.target.blur() }
       }
 
-      return events
+      return on
+    },
+
+    inputControlEvents () {
+      const on = {
+        input: this.__onInput,
+        // Safari < 10.2 & UIWebView doesn't fire compositionend when
+        // switching focus before confirming composition choice
+        // this also fixes the issue where some browsers e.g. iOS Chrome
+        // fires "change" instead of "input" on autocomplete.
+        change: this.__onChange,
+        keydown: this.__onTargetKeydown,
+        keyup: this.__onTargetKeyup,
+        keypress: this.__onTargetKeypress,
+        focus: this.__selectInputText
+      }
+
+      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
+
+      if (this.hasDialog === true) {
+        on.click = stop
+      }
+
+      return on
     }
   },
 
@@ -765,15 +788,15 @@ export default Vue.extend({
 
     __getSelection (h, fromDialog) {
       if (this.hideSelected === true) {
-        return fromDialog !== true && this.hasDialog === true
-          ? [
+        return fromDialog === true || this.dialog !== true || this.hasDialog !== true
+          ? []
+          : [
             h('span', {
               domProps: {
                 textContent: this.inputValue
               }
             })
           ]
-          : []
       }
 
       if (this.$scopedSlots['selected-item'] !== void 0) {
@@ -818,11 +841,9 @@ export default Vue.extend({
 
     __getControl (h, fromDialog) {
       const child = this.__getSelection(h, fromDialog)
+      const isTarget = fromDialog === true || this.dialog !== true || this.hasDialog !== true
 
-      if (
-        this.useInput === true &&
-        (fromDialog === true || this.menu !== true || this.hasDialog === false)
-      ) {
+      if (isTarget === true && this.useInput === true) {
         child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
@@ -835,7 +856,7 @@ export default Vue.extend({
           on: this.autocompleteControlEvents
         }
 
-        if (this.hasDialog !== true || fromDialog === true || this.menu !== true) {
+        if (isTarget === true) {
           // there can be only one (when dialog is opened the control in dialog should be target)
           options.ref = 'target'
           options.attrs.id = this.targetUid
@@ -905,30 +926,9 @@ export default Vue.extend({
     },
 
     __getInput (h, fromDialog) {
-      const on = {
-        input: this.__onInput,
-        // Safari < 10.2 & UIWebView doesn't fire compositionend when
-        // switching focus before confirming composition choice
-        // this also fixes the issue where some browsers e.g. iOS Chrome
-        // fires "change" instead of "input" on autocomplete.
-        change: this.__onChange,
-        keydown: this.__onTargetKeydown,
-        keyup: this.__onTargetKeyup,
-        keypress: this.__onTargetKeypress,
-        focus: this.__selectInputText
-      }
-
-      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
-
-      if (this.hasDialog === true) {
-        on.click = stop
-      }
-
-      const forDialog = fromDialog !== true && this.hasDialog === true
-
-      return h('input', {
+      const options = {
         ref: 'target',
-        staticClass: 'q-field__input q-placeholder col' + (forDialog === true ? ' no-pointer-events' : ''),
+        staticClass: 'q-field__input q-placeholder col',
         style: this.inputStyle,
         class: this.computedInputClass,
         domProps: { value: this.inputValue !== void 0 ? this.inputValue : '' },
@@ -936,15 +936,22 @@ export default Vue.extend({
           // required for Android in order to show ENTER key when in form
           type: 'search',
           ...this.$attrs,
+          id: this.targetUid,
           maxlength: this.maxlength, // this is converted to prop by QField
           tabindex: this.tabindex,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
-          id: this.targetUid,
           disabled: this.disable === true,
-          readonly: this.readonly === true || forDialog === true
+          readonly: this.readonly === true
         },
-        on: cache(this, 'inp#' + this.hasDialog, on)
-      })
+        on: this.inputControlEvents
+      }
+
+      if (fromDialog !== true && this.hasDialog === true) {
+        options.staticClass += ' no-pointer-events'
+        options.attrs.readonly = true
+      }
+
+      return h('input', options)
     },
 
     __onChange (e) {
