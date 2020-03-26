@@ -206,13 +206,27 @@ module.exports = class InstallAPI {
   extendJsonFile (file, newData) {
     if (newData !== void 0 && Object(newData) === newData && Object.keys(newData).length > 0) {
       const filePath = appPaths.resolve.app(file)
-      const data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
-
-      fs.writeFileSync(
-        appPaths.resolve.app(file),
-        JSON.stringify(data, null, 2),
-        'utf-8'
-      )
+      
+      // Try to parse the JSON with Node native tools.
+      // It will soft-fail and log a warning if the JSON isn't parseable
+      //  which usually means we are dealing with an extended JSON flavour,
+      //  for example JSON with comments or JSON5.
+      // Notable examples are TS 'tsconfig.json' or VSCode 'settings.json'
+      try {
+        const data = merge(fs.existsSync(filePath) ? require(filePath) : {}, newData)
+  
+        fs.writeFileSync(
+          appPaths.resolve.app(file),
+          JSON.stringify(data, null, 2),
+          'utf-8'
+        )
+      }
+      catch(e) {
+        warn()
+        warn(`⚠️  Extension(${this.extId}): extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`)
+        warn(`⚠️  Extension(${this.extId}): extendJsonFile() - The extension tried to apply these updates to "${filePath}" file: ${JSON.stringify(newData)}`)
+        warn()
+      }
     }
   }
 
