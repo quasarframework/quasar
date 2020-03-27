@@ -123,6 +123,10 @@ export default Vue.extend({
     side (_, oldSide) {
       this.layout[oldSide].space = false
       this.layout[oldSide].offset = 0
+
+      if (this.layout.instances[oldSide] === this) {
+        this.layout.instances[oldSide] = void 0
+      }
     },
 
     behavior (val) {
