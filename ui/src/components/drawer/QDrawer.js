@@ -120,13 +120,17 @@ export default Vue.extend({
       ))
     },
 
-    side (_, oldSide) {
-      this.layout[oldSide].space = false
-      this.layout[oldSide].offset = 0
-
+    side (newSide, oldSide) {
       if (this.layout.instances[oldSide] === this) {
         this.layout.instances[oldSide] = void 0
+        this.layout[oldSide].space = false
+        this.layout[oldSide].offset = 0
       }
+
+      this.layout.instances[newSide] = this
+      this.layout[newSide].size = this.size
+      this.layout[newSide].space = this.onLayout
+      this.layout[newSide].offset = this.offset
     },
 
     behavior (val) {
