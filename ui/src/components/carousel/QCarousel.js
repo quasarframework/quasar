@@ -216,7 +216,7 @@ export default Vue.extend({
   },
 
   mounted () {
-    this.autoplay === true && this.__startTimer()
+    this.autoplay && this.__startTimer()
   },
 
   beforeDestroy () {

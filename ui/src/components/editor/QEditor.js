@@ -31,6 +31,7 @@ export default Vue.extend({
     height: String,
     definitions: Object,
     fonts: Object,
+    placeholder: String,
 
     toolbar: {
       type: Array,
@@ -236,11 +237,21 @@ export default Vue.extend({
           this.contentStyle
         ]
     },
+
     innerClass () {
       return [
         this.contentClass,
         { col: this.inFullscreen, 'overflow-auto': this.inFullscreen || this.maxHeight }
       ]
+    },
+
+    attrs () {
+      if (this.disable === true) {
+        return { 'aria-disabled': '' }
+      }
+      if (this.readonly === true) {
+        return { 'aria-readonly': '' }
+      }
     }
   },
 
@@ -445,7 +456,8 @@ export default Vue.extend({
           'q-editor--flat': this.flat,
           'q-editor--dense': this.dense,
           'q-editor--dark q-dark': this.isDark
-        }
+        },
+        attrs: this.attrs
       },
       [
         toolbars,
@@ -457,7 +469,10 @@ export default Vue.extend({
             staticClass: `q-editor__content`,
             style: this.innerStyle,
             class: this.innerClass,
-            attrs: { contenteditable: this.editable },
+            attrs: {
+              contenteditable: this.editable,
+              placeholder: this.placeholder
+            },
             domProps: isSSR
               ? { innerHTML: this.value }
               : undefined,

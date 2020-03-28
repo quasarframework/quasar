@@ -6,7 +6,7 @@
     <q-toggle v-model="dense" label="Dense" class="q-mb-lg" />
 
     <q-editor
-      v-model="model"
+      v-model="modelWithPlaceHolder"
       :flat="flat"
       :square="square"
       :dense="dense"
@@ -28,6 +28,7 @@
         upload: {tip: 'Upload to cloud', textColor: 'primary', icon: 'cloud_upload', label: 'Upload', handler: upload},
         disabledButton: {tip: 'I am disabled...', disable: true, icon: 'cloud_off', handler: saveWork}
       }"
+      placeholder="Some place holder"
     >
       <q-btn
         slot="custom_btn"
@@ -51,6 +52,7 @@
       toolbar-text-color="white"
       toolbar-toggle-color="yellow-8"
       toolbar-bg="primary"
+      placeholder="My place holder"
       :toolbar="[
         ['bold', 'italic', 'underline'],
         [{
@@ -199,6 +201,7 @@ export default {
       push: false,
       outline: false,
       rounded: false,
+      modelWithPlaceHolder: '',
       model: 'Editor in <a href="http://quasar.dev">Quasar</a></div><div>Second line',
       modelScroll: 'Editor in <a href="http://quasar.dev">Quasar</a></div><div style="height: 500px; background: yellow">Spacer 1</div><div style="height: 500px; background: yellow">Spacer 2</div><div>Second line'
     }

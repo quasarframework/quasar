@@ -16,6 +16,10 @@ process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
 ## Usage
 
+::: tip
+If the QStep content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 ::: danger
 Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
 :::

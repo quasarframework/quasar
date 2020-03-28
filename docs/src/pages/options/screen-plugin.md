@@ -66,9 +66,9 @@ Or a sexy variant in Sass or Stylus:
 
 ```css
 .my-div
-  body.screen-xs &
+  body.screen--xs &
     color: #000
-  body.screen-sm &
+  body.screen--sm &
     color: #fff
 ```
 

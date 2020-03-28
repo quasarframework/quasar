@@ -4,6 +4,7 @@ import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { mergeSlot } from '../../utils/slot.js'
 import { cache } from '../../utils/vm.js'
+import debounce from '../../utils/debounce.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
@@ -106,13 +107,13 @@ export default Vue.extend({
     },
 
     containerSize () {
-      return this[`container${this.horizontal === true ? 'Width' : 'Height'}`]
+      return this[`container${this.dirProps.suffix}`]
     },
 
     dirProps () {
       return this.horizontal === true
-        ? { scroll: 'scrollLeft', classSuffix: 'h absolute-bottom', dir: 'right', dist: 'x' }
-        : { scroll: 'scrollTop', classSuffix: 'v absolute-right', dir: 'down', dist: 'y' }
+        ? { prefix: 'horizontal', suffix: 'Width', scroll: 'scrollLeft', classSuffix: 'h absolute-bottom', dir: 'right', dist: 'x' }
+        : { prefix: 'vertical', suffix: 'Height', scroll: 'scrollTop', classSuffix: 'v absolute-right', dir: 'down', dist: 'y' }
     },
 
     thumbClass () {
@@ -159,9 +160,9 @@ export default Vue.extend({
       change === true && this.__startTimer()
     },
 
-    __updateScroll ({ position }) {
-      if (this.scrollPosition !== position) {
-        this.scrollPosition = position
+    __updateScroll (info) {
+      if (this.scrollPosition !== info.position) {
+        this.scrollPosition = info.position
         this.__startTimer()
       }
     },
@@ -226,6 +227,8 @@ export default Vue.extend({
       this.timer = setTimeout(() => {
         this.tempShowing = false
       }, this.delay)
+
+      this.__emitScroll()
     },
 
     __setScroll (offset) {
@@ -292,5 +295,24 @@ export default Vue.extend({
         }])
       })
     ])
+  },
+
+  created () {
+    // we have lots of listeners, so
+    // ensure we're not emitting same info
+    // multiple times
+    this.__emitScroll = debounce(() => {
+      if (this.$listeners.scroll !== void 0) {
+        const info = { ref: this }
+        const prefix = this.dirProps.prefix
+
+        info[prefix + 'Position'] = this.scrollPosition
+        info[prefix + 'Percentage'] = this.scrollPercentage
+        info[prefix + 'Size'] = this.scrollSize
+        info[prefix + 'ContainerSize'] = this.containerSize
+
+        this.$emit('scroll', info)
+      }
+    }, 0)
   }
 })

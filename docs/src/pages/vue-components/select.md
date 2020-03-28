@@ -146,13 +146,15 @@ All the attributes set on QSelect that are not in the list of props in the API w
 
 More information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
-<doc-example title="Filtering options" file="QSelect/InputFilter" />
+<doc-example title="Filtering options" file="QSelect/InputFilterOptions" />
 
-<doc-example title="Basic autocomplete" file="QSelect/InputAutocomplete" />
+<doc-example title="Basic filtering" file="QSelect/BasicFiltering" />
 
-<doc-example title="Autocomplete on more than 2 chars" file="QSelect/InputFilterMin" />
+<doc-example title="Filtering on more than 2 chars" file="QSelect/InputFilterMin" />
 
-<doc-example title="Lazy autocomplete" file="QSelect/InputFilterLazy" />
+<doc-example title="Text autocomplete" file="QSelect/TextAutocomplete" />
+
+<doc-example title="Lazy filtering" file="QSelect/InputFilterLazy" />
 
 <doc-example title="Selecting option after filtering" file="QSelect/InputFilterAfter" />
 

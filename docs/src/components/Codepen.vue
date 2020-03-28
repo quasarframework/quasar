@@ -1,7 +1,7 @@
 <template lang="pug">
 form(
   v-if="active"
-  method="POST"
+  method="post"
   action="https://codepen.io/pen/define/"
   target="_blank"
   rel="noopener"

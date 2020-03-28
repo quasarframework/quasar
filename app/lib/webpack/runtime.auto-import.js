@@ -2,7 +2,7 @@
  * Quasar runtime for auto-importing
  * components or directives.
  *
- * Warning! This file does NOT gets transpiled by Babel
+ * Warning! This file does NOT get transpiled by Babel
  * but is included into the UI code.
  *
  * @param {component} Vue Component object

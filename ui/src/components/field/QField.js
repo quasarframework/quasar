@@ -7,7 +7,7 @@ import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
 import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
-import { stop, prevent } from '../../utils/event.js'
+import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { fromSSR } from '../../plugins/Platform.js'
 
 function getTargetUid (val) {
@@ -207,6 +207,21 @@ export default Vue.extend({
         value: this.value,
         emitValue: this.__emitValue
       }
+    },
+
+    attrs () {
+      const attrs = {
+        for: this.targetUid
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+      else if (this.readonly === true) {
+        attrs['aria-readonly'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -459,7 +474,10 @@ export default Vue.extend({
     },
 
     __clearValue (e) {
-      stop(e)
+      // prevent activating the field but keep focus on desktop
+      stopAndPrevent(e)
+      this.$el.focus()
+
       if (this.type === 'file') {
         // do not let focus be triggered
         // as it will make the native file dialog
@@ -483,9 +501,7 @@ export default Vue.extend({
     return h('label', {
       staticClass: 'q-field row no-wrap items-start',
       class: this.classes,
-      attrs: {
-        for: this.targetUid
-      }
+      attrs: this.attrs
     }, [
       this.$scopedSlots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center',

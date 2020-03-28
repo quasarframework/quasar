@@ -55,6 +55,7 @@ export default Vue.extend({
 
   render (h) {
     const label = slot(this, 'label', [])
+    const attrs = { 'aria-expanded': this.showing === true ? 'true' : 'false', 'aria-haspopup': true }
 
     const Arrow = [
       h(QIcon, {
@@ -114,6 +115,7 @@ export default Vue.extend({
           noWrap: true,
           round: false
         },
+        attrs,
         on: cache(this, 'nonSpl', {
           click: e => {
             this.$emit('click', e)
@@ -155,6 +157,7 @@ export default Vue.extend({
 
       h(QBtn, {
         staticClass: 'q-btn-dropdown__arrow-container',
+        attrs,
         props: {
           disable: this.disable === true || this.disableDropdown === true,
           outline: this.outline,

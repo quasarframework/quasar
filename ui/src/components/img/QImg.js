@@ -78,7 +78,7 @@ export default Vue.extend({
     imgContainerStyle () {
       return Object.assign(
         {
-          backgroundSize: this.contain ? 'contain' : 'cover',
+          backgroundSize: this.contain === true ? 'contain' : 'cover',
           backgroundPosition: this.position
         },
         this.imgStyle,
@@ -90,6 +90,11 @@ export default Vue.extend({
         width: this.width,
         height: this.height
       }
+    },
+
+    classes () {
+      return 'q-img overflow-hidden' +
+        (this.nativeContextMenu === true ? ' q-img--menu' : '')
     }
   },
 
@@ -221,9 +226,7 @@ export default Vue.extend({
         ? [
           h('img', {
             staticClass: 'absolute-full fit',
-            attrs: {
-              src: this.url
-            }
+            attrs: { src: this.url }
           })
         ]
         : void 0
@@ -286,7 +289,7 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-img overflow-hidden' + (this.nativeContextMenu === true ? ' q-img--menu' : ''),
+      class: this.classes,
       style: this.style,
       attrs: this.attrs,
       on: this.$listeners
