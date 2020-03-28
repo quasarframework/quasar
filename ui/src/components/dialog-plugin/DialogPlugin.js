@@ -143,6 +143,7 @@ export default Vue.extend({
             autofocus: true,
             dark: this.isDark
           },
+          attrs: this.prompt.attrs,
           on: cache(this, 'prompt', {
             input: v => { this.prompt.model = v },
             keyup: evt => {
