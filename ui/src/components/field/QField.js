@@ -299,8 +299,9 @@ export default Vue.extend({
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
             h(QIcon, {
-              staticClass: 'cursor-pointer',
-              props: { name: this.clearIcon || this.$q.iconSet.field.clear },
+              staticClass: 'q-field__focusable-action',
+              props: { tag: 'button', name: this.clearIcon || this.$q.iconSet.field.clear },
+              attrs: { tabindex: 0 },
               on: this.clearableEvents
             })
           ])
