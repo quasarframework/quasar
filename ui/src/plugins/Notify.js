@@ -121,6 +121,7 @@ const Notifications = {
 
       const actions = (Array.isArray(config.actions) === true ? config.actions : [])
         .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
+        .concat(notifTypes[config.type] && Array.isArray(notifTypes[config.type].actions) === true ? notifTypes[config.type].actions : [])
 
       notif.closeBtn && actions.push({
         label: typeof notif.closeBtn === 'string'
