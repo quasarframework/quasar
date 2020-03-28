@@ -112,7 +112,7 @@
                 "attrs": {
                   "type": "Object",
                   "desc": "Attributes to pass to prompt control",
-                  "examples": [ ":attrs=\"{ autocomplete: 'off' \"" ],
+                  "examples": [ "{ autocomplete: 'off' }" ],
                   "addedIn": "v1.9.12"
                 }
               }
