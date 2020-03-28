@@ -96,7 +96,7 @@ const Notifications = {
       }
 
       if (notif.position) {
-        if (!positionList.includes(notif.position)) {
+        if (positionList.includes(notif.position) === false) {
           console.error(`Notify: wrong position: ${notif.position}`)
           return false
         }
@@ -126,8 +126,19 @@ const Notifications = {
         }
       }
 
-      const actions = (Array.isArray(config.actions) === true ? config.actions : [])
-        .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
+      const actions = (
+        Array.isArray(config.actions) === true
+          ? config.actions
+          : []
+      ).concat(
+        config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true
+          ? defaults.actions
+          : []
+      ).concat(
+        notifTypes[config.type] !== void 0 && Array.isArray(notifTypes[config.type].actions) === true
+          ? notifTypes[config.type].actions
+          : []
+      )
 
       notif.closeBtn && actions.push({
         label: typeof notif.closeBtn === 'string'
