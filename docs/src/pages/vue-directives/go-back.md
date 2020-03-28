@@ -8,16 +8,29 @@ When writing reusable code for building a mobile App and a website, it's importa
 If you have no knowledge of [Vue Router](http://router.vuejs.org/), we highly recommend you read and understand how it works first.
 :::
 
-## Cordova Use Case
-Quasar handles the back button for you by default, so it can hide any opened Modals/Dialogs **instead of the default behavior** which is to return to the previous page (which is not a nice user experience).
+## Cordova/Capacitor
+Quasar handles the back button for you by default, so it can hide any opened Dialogs **instead of the default behavior** which is to return to the previous page (which is not a nice user experience).
 
 Also, when on the home route (`/`) and user presses the back button on the phone/tablet, Quasar will make your app exit. Should you wish to disable this behavior, then you can do so by configuring quasar.conf.js:
 
 ```js
+// for Cordova (only!):
 return {
   framework: {
     config: {
       cordova: {
+        backButtonExit: true/false
+      }
+    }
+  }
+}
+
+// for Capacitor (only!)
+// and Quasar v1.9.3+:
+return {
+  framework: {
+    config: {
+      capacitor: {
         backButtonExit: true/false
       }
     }

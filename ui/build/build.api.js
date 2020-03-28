@@ -37,8 +37,8 @@ function getMixedInAPI (api, mainFile) {
 
 const topSections = {
   plugin: [ 'meta', 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'meta', 'behavior', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
-  directive: [ 'meta', 'value', 'arg', 'modifiers' ]
+  component: [ 'meta', 'behavior', 'quasarConfOptions', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  directive: [ 'meta', 'quasarConfOptions', 'value', 'arg', 'modifiers' ]
 }
 
 const objectTypes = {
@@ -167,7 +167,6 @@ const objectTypes = {
     isObject: [ 'params', 'returns' ]
   },
 
-  // plugin only
   quasarConfOptions: {
     props: [ 'propName', 'definition', 'link', 'addedIn' ],
     required: [ 'propName', 'definition' ]

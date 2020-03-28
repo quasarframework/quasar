@@ -23,6 +23,7 @@ export default Vue.extend({
 
   props: {
     color: String,
+    bgColor: String,
     icon: String,
     noMouse: Boolean,
     disable: Boolean,
@@ -49,6 +50,12 @@ export default Vue.extend({
         opacity: this.pullRatio,
         transform: `translateY(${this.pullPosition}px) rotate(${this.pullRatio * 360}deg)`
       }
+    },
+
+    classes () {
+      return 'q-pull-to-refresh__puller row flex-center' +
+        (this.animating === true ? ' q-pull-to-refresh__puller--animating' : '') +
+        (this.bgColor !== void 0 ? ` bg-${this.bgColor}` : '')
     }
   },
 
@@ -72,8 +79,8 @@ export default Vue.extend({
     },
 
     __pull (event) {
-      if (event.isFinal) {
-        if (this.pulling) {
+      if (event.isFinal === true) {
+        if (this.pulling === true) {
           this.pulling = false
 
           if (this.state === 'pulled') {
@@ -89,11 +96,11 @@ export default Vue.extend({
         return
       }
 
-      if (this.animating || this.state === 'refreshing') {
+      if (this.animating === true || this.state === 'refreshing') {
         return false
       }
 
-      if (event.isFirst) {
+      if (event.isFirst === true) {
         if (getScrollPosition(this.scrollContainer) !== 0) {
           if (this.pulling) {
             this.pulling = false
@@ -176,9 +183,8 @@ export default Vue.extend({
         style: this.positionCSS
       }, [
         h('div', {
-          staticClass: 'q-pull-to-refresh__puller row flex-center',
           style: this.style,
-          class: this.animating === true ? 'q-pull-to-refresh__puller--animating' : ''
+          class: this.classes
         }, [
           this.state !== 'refreshing'
             ? h(QIcon, {

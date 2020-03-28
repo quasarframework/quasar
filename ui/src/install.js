@@ -17,21 +17,22 @@ export const queues = {
 }
 
 export const $q = {
-  version
+  version,
+  config: {}
 }
 
 export default function (Vue, opts = {}) {
   if (this.__qInstalled === true) { return }
   this.__qInstalled = true
 
-  const cfg = opts.config || {}
+  const cfg = $q.config = Object.freeze(opts.config || {})
 
   // required plugins
   Platform.install($q, queues)
   Body.install(queues, cfg)
   Dark.install($q, queues, cfg)
   Screen.install($q, queues, cfg)
-  History.install($q, cfg)
+  History.install(cfg)
   Lang.install($q, queues, opts.lang)
   IconSet.install($q, opts.iconSet)
 

@@ -1,7 +1,8 @@
 <template>
   <div class="q-layout-padding">
     <q-pull-to-refresh
-      color="primary"
+      color="white"
+      bg-color="black"
       @refresh="refresher"
       :disable="disable"
     >

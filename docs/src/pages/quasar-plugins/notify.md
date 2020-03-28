@@ -5,7 +5,7 @@ desc: A Quasar plugin to display animated messages to users like notifications, 
 Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast or snackbar.
 
 ## Installation
-<doc-installation plugins="Notify" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="Notify" config="notify" />
 
 ## Usage
 

@@ -133,6 +133,11 @@ export default Vue.extend({
           props: {
             value: this.prompt.model,
             type: this.prompt.type,
+            label: this.prompt.label,
+            stackLabel: this.prompt.stackLabel,
+            outlined: this.prompt.outlined,
+            filled: this.prompt.filled,
+            standout: this.prompt.standout,
             color: this.vmColor,
             dense: true,
             autofocus: true,

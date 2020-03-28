@@ -3,10 +3,49 @@
     "docsUrl": "https://v1.quasar.dev/vue-directives/material-ripple"
   },
 
+  "quasarConfOptions": {
+    "propName": "ripple",
+    "definition": {
+      "early": {
+        "type": "Boolean",
+        "desc": "Trigger early/immediately on user interaction"
+      },
+
+      "stop": {
+        "type": "Boolean",
+        "desc": "Stop click/touch event propagation"
+      },
+
+      "center": {
+        "type": "Boolean",
+        "desc": "Ripple starts from the absolute center"
+      },
+
+      "color": {
+        "type": "String",
+        "desc": "Color name from Quasar Color Palette; Overrides default dynamic color",
+        "examples": [ "orange-5" ]
+      },
+
+      "keyCodes": {
+        "type": [ "Array", "Number" ],
+        "desc": "List of keyCode that should trigger the ripple",
+        "examples": [ "[]", "[13, 32]" ]
+      }
+    },
+    "addedIn": "v1.9.8"
+  },
+
   "value": {
     "type": [ "Boolean", "Object" ],
     "desc": "Boolean (if just wanting to enable/disable) or Object for configuring more options",
     "definition": {
+      "early": {
+        "type": "Boolean",
+        "desc": "Trigger early/immediately on user interaction",
+        "addedIn": "v1.9.8"
+      },
+
       "stop": {
         "type": "Boolean",
         "desc": "Stop click/touch event propagation"
@@ -44,6 +83,13 @@
   },
 
   "modifiers": {
+    "early": {
+      "type": "Boolean",
+      "desc": "Trigger early/immediately on user interaction",
+      "reactive": true,
+      "addedIn": "v1.9.8"
+    },
+
     "stop": {
       "type": "Boolean",
       "desc": "Stop click/touch event propagation",

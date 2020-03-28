@@ -17,23 +17,19 @@
 
 <script>
 export default {
-  computed: {
-    contentStyle () {
-      return {
+  data () {
+    return {
+      contentStyle: {
         backgroundColor: 'rgba(0,0,0,0.02)',
         color: '#555'
-      }
-    },
+      },
 
-    contentActiveStyle () {
-      return {
+      contentActiveStyle: {
         backgroundColor: '#eee',
         color: 'black'
-      }
-    },
+      },
 
-    thumbStyle () {
-      return {
+      thumbStyle: {
         right: '2px',
         borderRadius: '5px',
         backgroundColor: '#027be3',

@@ -10,7 +10,7 @@
     "definition": {
       "type": {
         "type": "String",
-        "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'error', 'warning', 'info')",
+        "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info')",
         "examples": [ "negative", "custom-type" ],
         "addedIn": "v1.9.0"
       },
@@ -85,6 +85,17 @@
         "desc": "Color name for the badge text from the Quasar Color Palette",
         "addedIn": "v1.9.0"
       },
+      "badgePosition": {
+        "type": "String",
+        "desc": "Notification corner to stick badge to; If notification is on the left side then default is top-right otherwise it is top-left",
+        "default": "(top-left/top-right)",
+        "values": [
+          "top-left", "top-right",
+          "bottom-left", "bottom-right"
+        ],
+        "examples": [ "bottom-right" ],
+        "addedIn": "v1.9.5"
+      },
       "badgeStyle": {
         "type": "String",
         "desc": "Style definitions to be attributed to the badge",
@@ -155,7 +166,7 @@
           "definition": {
             "type": {
               "type": "String",
-              "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'error', 'warning', 'info')",
+              "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info')",
               "examples": [ "negative", "custom-type" ],
               "addedIn": "v1.9.0"
             },
@@ -230,6 +241,17 @@
               "extends": "color",
               "desc": "Color name for the badge text from the Quasar Color Palette",
               "addedIn": "v1.9.0"
+            },
+            "badgePosition": {
+              "type": "String",
+              "desc": "Notification corner to stick badge to; If notification is on the left side then default is top-right otherwise it is top-left",
+              "default": "(top-left/top-right)",
+              "values": [
+                "top-left", "top-right",
+                "bottom-left", "bottom-right"
+              ],
+              "examples": [ "bottom-right" ],
+              "addedIn": "v1.9.5"
             },
             "badgeStyle": {
               "type": [ "Array", "String", "Object" ],
@@ -336,7 +358,7 @@
           "definition": {
             "type": {
               "type": "String",
-              "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'error', 'warning', 'info')",
+              "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info')",
               "examples": [ "negative", "custom-type" ],
               "addedIn": "v1.9.0"
             },
@@ -403,6 +425,17 @@
               "extends": "color",
               "desc": "Color name for the badge text from the Quasar Color Palette",
               "addedIn": "v1.9.0"
+            },
+            "badgePosition": {
+              "type": "String",
+              "desc": "Notification corner to stick badge to; If notification is on the left side then default is top-right otherwise it is top-left",
+              "default": "(top-left/top-right)",
+              "values": [
+                "top-left", "top-right",
+                "bottom-left", "bottom-right"
+              ],
+              "examples": [ "bottom-right" ],
+              "addedIn": "v1.9.5"
             },
             "badgeStyle": {
               "type": [ "Array", "String", "Object" ],
@@ -505,7 +538,7 @@
           "definition": {
             "type": {
               "type": "String",
-              "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'error', 'warning', 'info')",
+              "desc": "Optional type (that has been previously registered) or one of the out of the box ones ('positive', 'negative', 'warning', 'info')",
               "examples": [ "negative", "custom-type" ],
               "addedIn": "v1.9.0"
             },
@@ -572,6 +605,17 @@
               "extends": "color",
               "desc": "Color name for the badge text from the Quasar Color Palette",
               "addedIn": "v1.9.0"
+            },
+            "badgePosition": {
+              "type": "String",
+              "desc": "Notification corner to stick badge to; If notification is on the left side then default is top-right otherwise it is top-left",
+              "default": "(top-left/top-right)",
+              "values": [
+                "top-left", "top-right",
+                "bottom-left", "bottom-right"
+              ],
+              "examples": [ "bottom-right" ],
+              "addedIn": "v1.9.5"
             },
             "badgeStyle": {
               "type": [ "Array", "String", "Object" ],

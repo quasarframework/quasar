@@ -12,12 +12,7 @@ export function shouldIgnoreKey (evt) {
 }
 
 export function isKeyCode (evt, keyCodes) {
-  return (
-    lastKeyCompositionStatus === true ||
-    evt !== Object(evt) ||
-    evt.isComposing === true ||
-    evt.qKeyEvent === true
-  )
+  return shouldIgnoreKey(evt) === true
     ? false
     : [].concat(keyCodes).includes(evt.keyCode)
 }

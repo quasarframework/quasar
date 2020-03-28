@@ -432,6 +432,19 @@
       "extends": "input"
     },
 
+    "input-value": {
+      "desc": "Emitted when the value in the text input changes",
+      "params": {
+        "value": {
+          "type": "String",
+          "desc": "New text value",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.9.9"
+    },
+
     "remove": {
       "desc": "Emitted when an option is removed from selection",
       "params": {
@@ -610,6 +623,11 @@
           "desc": "Option to add to model",
           "required": true,
           "__exemption": [ "examples" ]
+        },
+        "unique": {
+          "type": "Boolean",
+          "desc": "Option must be unique",
+          "__exemption": [ "examples" ]
         }
       }
     },
@@ -690,6 +708,94 @@
           "desc": "Set to true if you don't want the filter (if any) to be also triggered"
         }
       }
+    },
+
+    "isOptionSelected": {
+      "desc": "Tells if an option is selected",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Option is selected or not"
+      },
+      "addedIn": "v1.9.5"
+    },
+
+    "getEmittingOptionValue": {
+      "desc": "Get the model value that would be emitted by QSelect when selecting a said option; Also takes into consideration if 'emit-value' is set",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Emitting model value of said option",
+        "__exemption": [ "examples" ]
+      },
+      "addedIn": "v1.9.5"
+    },
+
+    "getOptionValue": {
+      "desc": "Get the model value of an option; Takes into consideration 'option-value' (if used), but does not looks for 'emit-value', like getEmittingOptionValue() does",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Model value of said option",
+        "__exemption": [ "examples" ]
+      },
+      "addedIn": "v1.9.5"
+    },
+
+    "getOptionLabel": {
+      "desc": "Get the label of an option; Takes into consideration the 'option-label' prop (if used)",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Label of said option",
+        "__exemption": [ "examples" ]
+      },
+      "addedIn": "v1.9.5"
+    },
+
+    "isOptionDisabled": {
+      "desc": "Tells if an option is disabled; Takes into consideration 'option-disable' prop (if used)",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Option is disabled or not"
+      },
+      "addedIn": "v1.9.5"
     }
   }
 }

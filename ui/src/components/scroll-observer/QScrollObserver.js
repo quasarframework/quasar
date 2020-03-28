@@ -58,8 +58,8 @@ export default Vue.extend({
 
     __emit () {
       const fn = this.horizontal === true
-          ? getHorizontalScrollPosition
-          : getScrollPosition
+        ? getHorizontalScrollPosition
+        : getScrollPosition
 
       const
         pos = Math.max(0, fn(this.__scrollTarget)),

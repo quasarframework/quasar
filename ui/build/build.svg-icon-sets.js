@@ -26,7 +26,7 @@ module.exports.generate = function () {
       convert: str => ('mat_' + str).replace(/(_\w)/g, m => m[1].toUpperCase())
     },
     {
-      name: 'mdi-v4',
+      name: 'mdi-v5',
       regex: /^mdi-/,
       convert
     },

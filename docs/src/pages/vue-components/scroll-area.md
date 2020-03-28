@@ -53,6 +53,12 @@ When content changes, the scrollbar appears then disappears again. You can set a
 
 <doc-example title="Horizontal mode" file="QScrollArea/Horizontal" />
 
+### Scroll event <q-badge align="top" label="v1.9.3+" />
+
+Below is an example of using the `@scroll` event to synchronize the scrolling between two containers.
+
+<doc-example title="Synchronized" file="QScrollArea/Synchronized" />
+
 ## QScrollArea API
 
 <doc-api file="QScrollArea" />

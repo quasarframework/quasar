@@ -127,6 +127,22 @@ export let SliderMixin = {
 
     horizProp () {
       return this.isReversed === true ? 'right' : 'left'
+    },
+
+    attrs () {
+      const attrs = {
+        role: 'slider',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-orientation': 'horizontal',
+        'data-step': this.step
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 

@@ -138,7 +138,7 @@
 
   "events": {
     "escape-key": {
-      "desc": "Emitted when ESC key is pressed; Does not gets emitted if Menu is 'persistent'"
+      "desc": "Emitted when ESC key is pressed; Does not get emitted if Menu is 'persistent'"
     }
   },
 

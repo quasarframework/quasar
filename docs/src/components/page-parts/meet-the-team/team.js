@@ -45,14 +45,6 @@ export default [
   },
 
   {
-    name: 'Lucas Nogueira',
-    role: 'Senior Developer',
-    avatar: 'lucas_nogueira.jpg',
-    github: 'lucasfernog',
-    desc: 'Quasar App CLI development, docs enhancements'
-  },
-
-  {
     name: 'Tobias Mesquita',
     role: 'Senior Developer',
     avatar: 'tobias_mesquita.jpg',
@@ -138,5 +130,13 @@ export default [
     avatar: 'paolo_caleffi.jpg',
     github: 'IlCallo',
     desc: 'Typescript support'
+  },
+
+  {
+    name: 'Jesús Villanueva',
+    role: 'Senior Developer',
+    avatar: 'jesus_villanueva.jpg',
+    github: 'jesusvilla',
+    desc: 'UI components, App Extensions and Help desk'
   }
 ]

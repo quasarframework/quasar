@@ -11,7 +11,7 @@ export function getSizeMixin (sizes) {
     props: {
       size: String
     },
-  
+
     computed: {
       sizeStyle () {
         if (this.size !== void 0) {

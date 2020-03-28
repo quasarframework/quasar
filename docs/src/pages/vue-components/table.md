@@ -43,7 +43,7 @@ columns: [ // array of Objects
 
     // row Object property to determine value for this column
     field: 'name',
-    // OR field: row => row.some.nested.prop
+    // OR field: row => row.some.nested.prop,
 
     // (optional) if we use visible-columns, this col will always be visible
     required: true,
@@ -63,7 +63,7 @@ columns: [ // array of Objects
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
     // (optional) you can format the data with a function
-    format: (val, row) => `${val}%`
+    format: (val, row) => `${val}%`,
     // one more format example:
     // format: val => val
     //   ? /* Unicode checkmark checked */ "\u2611"
@@ -71,7 +71,7 @@ columns: [ // array of Objects
 
     // body td:
     style: 'width: 500px',
-    classes: 'my-special-class'
+    classes: 'my-special-class',
 
     // (v1.3+) header th:
     headerStyle: 'width: 500px',

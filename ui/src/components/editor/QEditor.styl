@@ -25,6 +25,9 @@
       margin: 1px
       height: 1px
       background: $editor-hr-color
+    &:empty:not(:focus):before
+      content: attr(placeholder)
+      opacity: .7
 
   &__toolbar
     border-bottom: 1px solid $editor-border-color

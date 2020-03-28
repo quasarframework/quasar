@@ -64,6 +64,20 @@ export default Vue.extend({
     classes () {
       return 'q-option-group q-gutter-x-sm' +
         (this.inline === true ? ' q-option-group--inline' : '')
+    },
+
+    attrs () {
+      if (this.type === 'radio') {
+        const attrs = {
+          role: 'radiogroup'
+        }
+
+        if (this.disable === true) {
+          attrs['aria-disabled'] = ''
+        }
+
+        return attrs
+      }
     }
   },
 
@@ -89,6 +103,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       class: this.classes,
+      attrs: this.attrs,
       on: this.$listeners
     }, this.options.map(opt => h('div', [
       h(this.component, {

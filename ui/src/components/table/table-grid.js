@@ -66,7 +66,7 @@ export default {
         }
 
       return h('div', {
-        staticClass: 'row',
+        staticClass: 'q-table__grid-content row',
         class: this.cardContainerClass,
         style: this.cardContainerStyle
       }, this.computedRows.map(row => {

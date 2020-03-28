@@ -13,7 +13,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs(
+      q-btn.q-ml-xs.lt-md(
         v-show="hasRightDrawer",
         flat,
         dense,

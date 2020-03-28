@@ -85,6 +85,26 @@
       "category": "content"
     },
 
+    "icon-prev": {
+      "extends": "icon",
+      "addedIn": "v.1.9.4"
+    },
+
+    "icon-next": {
+      "extends": "icon",
+      "addedIn": "v.1.9.4"
+    },
+
+    "icon-first": {
+      "extends": "icon",
+      "addedIn": "v.1.9.4"
+    },
+
+    "icon-last": {
+      "extends": "icon",
+      "addedIn": "v.1.9.4"
+    },
+
     "to-fn": {
       "type": "Function",
       "desc": "Generate link for page buttons; For best performance, reference it from your scope and do not define it inline",
@@ -135,6 +155,15 @@
       "desc": "Maximum number of page links to display at a time; 0 means Infinite",
       "examples": [ 5 ],
       "category": "model"
+    },
+
+    "ripple": {
+      "type": [ "Boolean", "Object" ],
+      "desc": "Configure buttons material ripple (disable it by setting it to 'false' or supply a config object); Does not applies to boundary and ellipsis buttons",
+      "default": true,
+      "examples": [ false, "{ early: true, center: true, color: 'teal', keyCodes: [] }" ],
+      "category": "style",
+      "addedIn": "v1.9.11"
     }
   },
 

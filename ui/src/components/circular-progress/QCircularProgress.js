@@ -84,6 +84,15 @@ export default Vue.extend({
 
     strokeWidth () {
       return this.thickness / 2 * this.viewBox
+    },
+
+    attrs () {
+      return {
+        role: 'progressbar',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-valuenow': this.indeterminate === true ? void 0 : this.value
+      }
     }
   },
 
@@ -164,12 +173,7 @@ export default Vue.extend({
       class: `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.sizeStyle,
       on: this.$listeners,
-      attrs: {
-        'role': 'progressbar',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
-        'aria-valuenow': this.indeterminate !== true ? this.value : null
-      }
+      attrs: this.attrs
     }, mergeSlotSafely(child, this, 'internal'))
   }
 })

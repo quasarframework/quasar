@@ -61,8 +61,6 @@ body.q-ios-padding .q-notifications__list
     animation: q-notif-badge .42s
     padding: 4px 8px
     position: absolute
-    top: -6px
-    left: -22px
     background: $negative
     box-shadow: $shadow-1
     background-color: $negative
@@ -72,18 +70,35 @@ body.q-ios-padding .q-notifications__list
     font-size: 12px
     line-height: 12px
 
+    &--top-left,
+    &--top-right
+      top: -6px
+
+    &--bottom-left,
+    &--bottom-right
+      bottom: -6px
+
+    &--top-left,
+    &--bottom-left
+      left: -22px
+
+    &--top-right,
+    &--bottom-right
+      right: -22px
+
   &__progress
     z-index: -1
     position: absolute
-    top: 0
+    height: 3px
     bottom: 0
-    left: -16px
-    right: -16px
+    left: -10px
+    right: -10px
     animation: q-notif-progress linear
     background: currentColor
-    opacity: .1
-    border-radius: inherit
+    opacity: .3
+    border-radius: $generic-border-radius $generic-border-radius 0 0
     transform-origin: 0 50%
+    transform: scaleX(0)
 
   &--standard
     padding: 0 16px
@@ -98,9 +113,15 @@ body.q-ios-padding .q-notifications__list
     padding: 8px 16px
 
     .q-notification__badge
-      top: -15px
+      &--top-left,
+      &--top-right
+        top: -15px
+
+      &--bottom-left,
+      &--bottom-right
+        bottom: -15px
+
     .q-notification__progress
-      top: -8px
       bottom: -8px
 
     .q-notification__actions
@@ -175,6 +196,6 @@ body.q-ios-padding .q-notifications__list
 
 @keyframes q-notif-progress
   0%
-    transform: scaleX(0)
-  100%
     transform: scaleX(1)
+  100%
+    transform: scaleX(0)

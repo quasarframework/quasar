@@ -262,6 +262,15 @@ export default Vue.extend({
       }
 
       return res
+    },
+
+    attrs () {
+      if (this.disable === true) {
+        return { 'aria-disabled': '' }
+      }
+      if (this.readonly === true) {
+        return { 'aria-readonly': '' }
+      }
     }
   },
 
@@ -690,7 +699,7 @@ export default Vue.extend({
           ? this.__getDaysInMonth(date)
           : this.daysInMonth
 
-        date.day = Math.min(date.day, maxDay)
+        date.day = Math.min(Math.max(1, date.day), maxDay)
       }
 
       const val = this.calendar === 'persian'
@@ -707,7 +716,8 @@ export default Vue.extend({
           ),
           this.mask,
           this.computedLocale,
-          date.year
+          date.year,
+          this.extModel.timezoneOffset
         )
 
       date.changed = val !== this.value
@@ -761,6 +771,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
+      attrs: this.attrs,
       on: this.$listeners
     }, [
       this.__getHeader(h),

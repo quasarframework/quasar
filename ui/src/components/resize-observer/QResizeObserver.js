@@ -88,7 +88,7 @@ export default Vue.extend({
         tabindex: -1, // fix for Firefox
         type: 'text/html',
         data: this.url,
-        'aria-hidden': true
+        'aria-hidden': 'true'
       },
       on: cache(this, 'load', {
         load: this.__onObjLoad
