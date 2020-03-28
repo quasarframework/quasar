@@ -276,7 +276,7 @@ export default Vue.extend({
 
   methods: {
     __onInput () {
-      if (this.editWatcher === true) {
+      if (this.editWatcher === true && this.$refs.content !== void 0) {
         const val = this.isViewingSource
           ? this.$refs.content.innerText
           : this.$refs.content.innerHTML
@@ -312,8 +312,10 @@ export default Vue.extend({
     },
 
     __onBlur () {
-      const { scrollTop, scrollHeight } = this.$refs.content
-      this.__offsetBottom = scrollHeight - scrollTop
+      if (this.$refs.content !== void 0) {
+        const { scrollTop, scrollHeight } = this.$refs.content
+        this.__offsetBottom = scrollHeight - scrollTop
+      }
       this.$q.platform.is.ie !== true && this.caret.save()
       this.$emit('blur')
     },
@@ -370,7 +372,7 @@ export default Vue.extend({
     },
 
     focus () {
-      this.$refs.content.focus()
+      this.$refs.content !== void 0 && this.$refs.content.focus()
     },
 
     getContentEl () {
@@ -378,11 +380,13 @@ export default Vue.extend({
     },
 
     __setContent (v) {
-      if (this.isViewingSource) {
-        this.$refs.content.innerText = v
-      }
-      else {
-        this.$refs.content.innerHTML = v
+      if (this.$refs.content !== void 0) {
+        if (this.isViewingSource) {
+          this.$refs.content.innerText = v
+        }
+        else {
+          this.$refs.content.innerHTML = v
+        }
       }
     }
   },
