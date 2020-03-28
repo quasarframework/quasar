@@ -326,6 +326,7 @@ export default {
       if (this.$q.platform.is.desktop === true) {
         window.addEventListener('keypress', this.focusOnSearch)
       }
+
       if (searchQuery) {
         // Here we put search string from query into the input and open the search popup.
         // Unfortunately, this input is managed completely by Algolia and their code doesn't seem to
