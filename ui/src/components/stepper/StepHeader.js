@@ -67,11 +67,18 @@ export default Vue.extend({
     },
 
     color () {
+      const errorColor = this.isError === true
+        ? this.step.errorColor || this.stepper.errorColor
+        : void 0
+
       if (this.isActive === true) {
-        return this.step.activeColor || this.stepper.activeColor || this.step.color
+        const color = this.step.activeColor || this.stepper.activeColor || this.step.color
+        return color !== void 0
+          ? color
+          : errorColor
       }
-      if (this.isError === true) {
-        return this.step.errorColor || this.stepper.errorColor
+      if (errorColor !== void 0) {
+        return errorColor
       }
       if (this.disable === false && this.isDone === true) {
         return this.step.doneColor || this.stepper.doneColor || this.step.color || this.stepper.inactiveColor
