@@ -48,7 +48,7 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.js', '.vue', '.json' ])
+    .merge([ '.mjs', '.js', '.vue', '.json' ])
 
   chain.resolve.modules
     .merge(resolveModules)
@@ -213,6 +213,14 @@ module.exports = function (cfg, configName) {
     scssLoaderOptions: cfg.build.scssLoaderOptions,
     lessLoaderOptions: cfg.build.lessLoaderOptions
   })
+
+  chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
+    .rule('mjs')
+    .test(/\.mjs$/)
+    .include
+      .add(/node_modules/)
+      .end()
+    .type('javascript/auto')
 
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
