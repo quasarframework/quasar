@@ -255,8 +255,8 @@ module.exports = function (cfg, configName) {
             test: add !== void 0 || remove !== void 0
               ? module => {
                 if (module.resource) {
-                  if (add !== void 0 && add.test(module.resource)) { return true }
                   if (remove !== void 0 && remove.test(module.resource)) { return false }
+                  if (add !== void 0 && add.test(module.resource)) { return true }
                 }
                 return regex.test(module.resource)
               }
