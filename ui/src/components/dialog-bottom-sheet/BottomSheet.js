@@ -57,13 +57,16 @@ export default Vue.extend({
             props: { dark: this.isDark }
           })
           : h('div', {
-            staticClass: 'q-bottom-sheet__item q-hoverable q-focusable cursor-pointer relative-position',
+            staticClass: 'q-bottom-sheet__item relative-position ' +
+              (action.disable ? 'disabled' : 'q-hoverable q-focusable cursor-pointer'),
             class: action.classes,
-            attrs: { tabindex: 0 },
+            attrs: { tabindex: action.disable ? undefined : 0 },
             on: {
-              click: () => this.onOk(action),
+              click: action.disable
+                ? () => void 0
+                : () => this.onOk(action),
               keyup: e => {
-                e.keyCode === 13 && this.onOk(action)
+                !action.disable && e.keyCode === 13 && this.onOk(action)
               }
             }
           }, [
@@ -96,6 +99,7 @@ export default Vue.extend({
             class: action.classes,
             props: {
               tabindex: 0,
+              disable: action.disable,
               clickable: true,
               dark: this.isDark
             },
