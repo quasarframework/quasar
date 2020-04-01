@@ -36,6 +36,8 @@ Also, when on a desktop browser, hitting the `ESCAPE` key also closes the Action
 
 <doc-example title="Dark mode" file="BottomSheet/Dark" />
 
+<doc-example title="Disabled options" file="BottomSheet/Disabled" />
+
 ::: tip
 For an exhaustive list of options, please check API section.
 :::
