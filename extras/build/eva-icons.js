@@ -39,7 +39,7 @@ function extract (file) {
 
 function getBanner () {
   const { version } = require(resolve(__dirname, `../node_modules/${packageName}/package.json`))
-  return `/* Fontawesome Free v${version} */\n\n`
+  return `/* Eva-Icons v${version} */\n\n`
 }
 
 const svgExports = []
