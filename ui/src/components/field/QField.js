@@ -301,7 +301,7 @@ export default Vue.extend({
             h(QIcon, {
               staticClass: 'q-field__focusable-action',
               props: { tag: 'button', name: this.clearIcon || this.$q.iconSet.field.clear },
-              attrs: { tabindex: 0 },
+              attrs: { tabindex: 0, type: 'button' },
               on: this.clearableEvents
             })
           ])
