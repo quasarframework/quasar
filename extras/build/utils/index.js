@@ -1,7 +1,7 @@
 const xmldom = require('xmldom')
 const Parser = new xmldom.DOMParser()
 
-const typeExceptions = [ 'g', 'svg' ]
+const typeExceptions = [ 'g', 'svg', 'defs', 'style' ]
 
 function getAttributes (el, list) {
   const att = {}
@@ -44,7 +44,7 @@ const decoders = {
     return 'M' + x0 + ',' + y0 + 'L' + points.join(' ')
   },
 
-  pollyline (el) {
+  polyline (el) {
     return this.polygon(el)
   },
 
