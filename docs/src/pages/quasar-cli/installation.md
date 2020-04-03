@@ -54,5 +54,5 @@ The above will allow you to run `$ yarn dev` or `$ yarn build` without the need 
 Alternatively, you can even use [npx](https://github.com/npm/npx) to run quasar commands without the need of a globally installed `@quasar/cli`.
 
 ```bash
-$ npx quasar dev
+$ npx quasar-cli dev
 ```
