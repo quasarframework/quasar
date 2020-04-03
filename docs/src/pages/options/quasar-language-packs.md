@@ -113,7 +113,6 @@ Example with a QSelect to dynamically change the Quasar components language:
     label="Quasar Language"
     dense
     borderless
-    emit-value
     map-options
     options-dense
     style="min-width: 150px"
@@ -135,13 +134,15 @@ export default {
 
   watch: {
     lang (lang) {
-      // dynamic import, so loading on demand only
-      import(
-        /* webpackInclude: /(de|en-us)\.js$/ */
-        'quasar/lang/' + lang
-        ).then(lang => {
-        this.$q.lang.set(lang.default)
-      })
+      this.$i18n.locale = lang.value;
+      // set quasar's language too!!
+      // eslint gives currently an warning
+      // see https://github.com/babel/babel-eslint/issues/799
+      // see workaround: https://github.com/babel/babel-eslint/issues/799#issuecomment-568195009
+      import(`quasar/lang/${lang.value}`).then(language => {
+        console.log(language.default);
+        this.$q.lang.set(language.default);
+      });
     }
   },
 
