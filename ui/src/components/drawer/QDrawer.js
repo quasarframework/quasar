@@ -280,6 +280,7 @@ export default Vue.extend({
       return `q-drawer--${this.side}` +
         (this.bordered === true ? ' q-drawer--bordered' : '') +
         (this.isDark === true ? ' q-drawer--dark q-dark' : '') +
+        (this.showing !== true ? ' invisible' : '') +
         (
           this.belowBreakpoint === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
@@ -450,6 +451,7 @@ export default Vue.extend({
           this.__applyBackdrop(0)
           this.__applyPosition(this.stateDirection * width)
           el.classList.remove('q-drawer--delimiter')
+          this.$refs.content.classList.add('invisible')
         }
 
         return
@@ -468,6 +470,7 @@ export default Vue.extend({
         const el = this.$refs.content
         el.classList.add('no-transition')
         el.classList.add('q-drawer--delimiter')
+        this.$refs.content.classList.remove('invisible')
       }
     },
 
