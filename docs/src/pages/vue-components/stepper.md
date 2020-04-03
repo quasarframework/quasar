@@ -63,6 +63,12 @@ You can also use `prefix` prop (max 2 characters) instead of an icon for each st
 
 <doc-example title="Dark" file="QStepper/Dark" />
 
+### Custom Header Classes
+
+You can use the `header-class` prop to apply any class specifically to the header.
+
+<doc-example title="Header Class" file="QStepper/HeaderClass" />
+
 ### Message slot
 
 <doc-example title="Message slot with fixed height steps" file="QStepper/MessageSlot" />
