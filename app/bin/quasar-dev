@@ -93,15 +93,13 @@ async function parseAddress ({ host, port }) {
   if (this.chosenHost) {
     host = this.chosenHost
   }
-  else {
-    if (host && ['localhost', '127.0.0.1', '::1'].includes(host.toLowerCase())) {
-      host = '0.0.0.0'
-    }
-    if (['cordova', 'capacitor'].includes(argv.mode) && (!host || host === '0.0.0.0')) {
-      const getExternalIP = require('../lib/helpers/get-external-ip')
-      host = await getExternalIP()
-      this.chosenHost = host
-    }
+  else if (
+    ['cordova', 'capacitor'].includes(argv.mode) &&
+    (!host || ['0.0.0.0', 'localhost', '127.0.0.1', '::1'].includes(host.toLowerCase()))
+  ) {
+    const getExternalIP = require('../lib/helpers/get-external-ip')
+    host = await getExternalIP()
+    this.chosenHost = host
   }
 
   log(`Checking listening address availability (${host}:${port})...`)
