@@ -152,8 +152,8 @@ export default Vue.extend({
       class: this.classes,
       style: this.style,
       on: {
-        focusin: this.__onFocusin,
         ...this.$listeners,
+        focusin: this.__onFocusin,
         input: stop
       }
     }, child)
@@ -205,10 +205,12 @@ export default Vue.extend({
       ))
     },
 
-    __onFocusin () {
+    __onFocusin (evt) {
       if (this.revealOnFocus === true) {
         this.__updateLocal('revealed', true)
       }
+
+      this.$emit('focusin', evt)
     }
   }
 })
