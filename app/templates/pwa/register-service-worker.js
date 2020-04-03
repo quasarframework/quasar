@@ -11,9 +11,9 @@ register(process.env.SERVICE_WORKER_FILE, {
 
   // registrationOptions: { scope: './' },
 
-  ready () {
+  ready (/* registration */) {
     if (process.env.DEV) {
-      console.log('App is being served from cache by a service worker.')
+      console.log('Service worker is active.')
     }
   },
 
