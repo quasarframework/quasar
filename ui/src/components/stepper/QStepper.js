@@ -32,7 +32,9 @@ export default Vue.extend({
     activeIcon: String,
     activeColor: String,
     errorIcon: String,
-    errorColor: String
+    errorColor: String,
+
+    headerClass: [Array, String, Object]
   },
 
   computed: {
@@ -44,10 +46,10 @@ export default Vue.extend({
         (this.isDark === true ? ' q-stepper--dark q-dark' : '')
     },
 
-    headerClass () {
-      return 'q-stepper__header row items-stretch justify-between' +
+    headerClasses () {
+      return ['q-stepper__header row items-stretch justify-between ' +
         ` q-stepper__header--${this.alternativeLabels === true ? 'alternative' : 'standard'}-labels` +
-        (this.flat === false || this.bordered === true ? ' q-stepper__header--border' : '')
+        (this.flat === false || this.bordered === true ? ' q-stepper__header--border' : ''), this.headerClass]
     }
   },
 
@@ -69,7 +71,7 @@ export default Vue.extend({
       }
 
       return [
-        h('div', { class: this.headerClass }, this.__getAllPanels().map(panel => {
+        h('div', { class: this.headerClasses }, this.__getAllPanels().map(panel => {
           const step = panel.componentOptions.propsData
 
           return h(StepHeader, {

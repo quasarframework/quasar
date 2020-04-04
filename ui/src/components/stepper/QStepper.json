@@ -84,6 +84,16 @@
     "error-color": {
       "extends": "color",
       "category": "header"
+    },
+
+    "header-class": {
+      "type": [ "Array", "String", "Object" ],
+      "desc": "Class definitions to be attributed to the header",
+      "examples": [
+        "my-special-class",
+        ":header-class=\"{ 'my-special-class': <condition> }\""
+      ],
+      "category": "style"
     }
   },
 
