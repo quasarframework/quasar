@@ -111,7 +111,7 @@ declare module "quasar" {
       msapplicationTileImage: string;
       msapplicationTileColor: string;
     };
-    metaVariablesFn?: (manifest?: PwaManifestOptions) => Array<PwaMetaVariablesEntry>
+    metaVariablesFn?: (manifest?: PwaManifestOptions) => PwaMetaVariablesEntry[]
   }
 }
 
