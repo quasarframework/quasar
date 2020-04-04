@@ -87,11 +87,10 @@
     },
 
     "header-class": {
-      "type": [ "Array", "String", "Object" ],
+      "type": "String",
       "desc": "Class definitions to be attributed to the header",
       "examples": [
-        "my-special-class",
-        ":header-class=\"{ 'my-special-class': <condition> }\""
+        "my-special-class"
       ],
       "category": "style"
     }

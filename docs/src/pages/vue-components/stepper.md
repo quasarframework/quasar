@@ -63,9 +63,7 @@ You can also use `prefix` prop (max 2 characters) instead of an icon for each st
 
 <doc-example title="Dark" file="QStepper/Dark" />
 
-### Custom Header Classes
-
-You can use the `header-class` prop to apply any class specifically to the header.
+Starting with Quasar v1.9.13+, you can use the `header-class` prop to apply any CSS class(es) to the header. In the example below, we are applying bolded text:
 
 <doc-example title="Header Class" file="QStepper/HeaderClass" />
 

@@ -4,7 +4,7 @@
       v-model="step"
       ref="stepper"
       color="primary"
-      header-class='text-bold'
+      header-class="text-bold"
       animated
     >
       <q-step

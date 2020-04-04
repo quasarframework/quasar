@@ -24,6 +24,7 @@ export default Vue.extend({
     alternativeLabels: Boolean,
     headerNav: Boolean,
     contracted: Boolean,
+    headerClass: String,
 
     inactiveColor: String,
     inactiveIcon: String,
@@ -32,9 +33,7 @@ export default Vue.extend({
     activeIcon: String,
     activeColor: String,
     errorIcon: String,
-    errorColor: String,
-
-    headerClass: [Array, String, Object]
+    errorColor: String
   },
 
   computed: {
@@ -47,9 +46,10 @@ export default Vue.extend({
     },
 
     headerClasses () {
-      return ['q-stepper__header row items-stretch justify-between ' +
+      return 'q-stepper__header row items-stretch justify-between' +
         ` q-stepper__header--${this.alternativeLabels === true ? 'alternative' : 'standard'}-labels` +
-        (this.flat === false || this.bordered === true ? ' q-stepper__header--border' : ''), this.headerClass]
+        (this.flat === false || this.bordered === true ? ' q-stepper__header--border' : '') +
+        (this.headerClass !== void 0 ? ` ${this.headerClass}` : '')
     }
   },
 

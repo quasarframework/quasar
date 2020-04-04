@@ -20,7 +20,7 @@
 
       <q-toggle label="Keep alive" v-model="keepAlive" />
 
-      <q-toggle label="Custom Header Class" v-model='customHeaderClass' />
+      <q-toggle label="Custom Header Class" v-model="customHeaderClass" />
 
       <q-btn label="One" @click="step = 1" />
       <q-btn label="Two" @click="step = 2" />
@@ -39,7 +39,7 @@
         :keep-alive="keepAlive"
         :alternative-labels="alt"
         :contracted="contracted && !vertical"
-        :header-class="customHeaderClass && 'text-bold'"
+        :header-class="customHeaderClass ? 'text-bold' : void 0"
       >
         <q-step :name="1" :prefix="prefix ? 1 : ''" :done="useDone && step > 1" :header-nav="headerNavStep ? step > 1 : true" title="Ad style" icon="map" :caption="caption ? 'Some caption' : null">
           <q-input v-model="myInput" />
