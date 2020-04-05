@@ -128,7 +128,9 @@ export default Vue.extend({
     clearTimeout(this.timer)
 
     if (this.hasObserver === true) {
-      this.$el.parentNode && this.observer.unobserve(this.$el.parentNode)
+      if (this.observer !== void 0 && this.$el.parentNode) {
+        this.observer.unobserve(this.$el.parentNode)
+      }
       return
     }
 
