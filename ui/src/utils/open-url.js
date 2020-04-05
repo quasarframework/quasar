@@ -21,7 +21,7 @@ export default (url, reject) => {
   let win = open(url, '_blank')
 
   if (win) {
-    win.focus()
+    Platform.is.desktop && win.focus()
     return win
   }
   else {
