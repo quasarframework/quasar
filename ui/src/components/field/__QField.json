@@ -115,7 +115,7 @@
 
     "hide-bottom-space": {
       "type": "Boolean",
-      "desc": "Does not reserves space for hint/error/counter anymore when these are not used; as a result, it also disables the animation for those",
+      "desc": "Does not reserves space for hint/error/counter anymore when these are not used; As a result, it also disables the animation for those; It also allows the hint/error area to stretch vertically based on its content",
       "category": "style"
     },
 
@@ -161,10 +161,18 @@
 
     "for": {
       "type": "String",
-      "desc": "DOM element id to be used as 'for' attribute of the label and as 'id' for the focus target",
-      "examples": [ "for=\"myFieldsId\"" ],
+      "desc": "Used to specify the 'id' of the control and also the 'for' attribute of the label that wraps it; If no 'name' prop is specified, then it is used for this attribute as well",
+      "examples": [ "myFieldsId" ],
       "category": "behavior",
       "addedIn": "v1.4.2"
+    },
+
+    "name": {
+      "type": "String",
+      "desc": "Used to specify the name of the control; Useful if dealing with forms; If not specified, it takes the value of 'for' prop, if it exists",
+      "examples": [ "car_id" ],
+      "category": "behavior",
+      "addedIn": "v1.9.0"
     }
   },
 

@@ -336,8 +336,9 @@ class QuasarConfig {
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false
 
-    // make sure it exists
+    // make sure these exist
     cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
+    cfg.supportTS = cfg.supportTS || false
 
     if (cfg.vendor.disable !== true) {
       cfg.vendor.add = cfg.vendor.add.length > 0

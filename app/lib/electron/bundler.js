@@ -25,7 +25,7 @@ function installBundler (bundlerName) {
   spawnSync(
     nodePackager,
     cmdParam.concat([`electron-${bundlerName}@${'^' + versions[bundlerName]}`]),
-    { cwd: appPath.appDir },
+    { cwd: appPath.appDir, env: { ...process.env, NODE_ENV: 'development' } },
     () => warn(`⚠️  Failed to install electron-${bundlerName}`)
   )
 }

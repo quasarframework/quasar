@@ -154,26 +154,33 @@ export function rgbToHsv ({ r, g, b, a }) {
   }
 }
 
-const reRGBA = /^\s*rgb(a)?\s*\((\s*(\d+)\s*,\s*?){2}(\d+)\s*,?\s*([01]?\.?\d*?)?\s*\)\s*$/
+const reRGBA = /^rgb(a)?\((\d{1,3}),(\d{1,3}),(\d{1,3}),?([01]?\.?\d*?)?\)$/
 
-export function textToRgb (color) {
-  if (typeof color !== 'string') {
+export function textToRgb (str) {
+  if (typeof str !== 'string') {
     throw new TypeError('Expected a string')
   }
 
+  const color = str.replace(/ /g, '')
+
   const m = reRGBA.exec(color)
-  if (m) {
-    const rgb = {
-      r: Math.min(255, parseInt(m[2], 10)),
-      g: Math.min(255, parseInt(m[3], 10)),
-      b: Math.min(255, parseInt(m[4], 10))
-    }
-    if (m[1]) {
-      rgb.a = Math.min(1, parseFloat(m[5]))
-    }
-    return rgb
+
+  if (m === null) {
+    return hexToRgb(color)
   }
-  return hexToRgb(color)
+
+  const rgb = {
+    r: Math.min(255, parseInt(m[2], 10)),
+    g: Math.min(255, parseInt(m[3], 10)),
+    b: Math.min(255, parseInt(m[4], 10))
+  }
+
+  if (m[1]) {
+    const alpha = parseFloat(m[5])
+    rgb.a = Math.min(1, isNaN(alpha) === true ? 1 : alpha) * 100
+  }
+
+  return rgb
 }
 
 /* works as darken if percent < 0 */

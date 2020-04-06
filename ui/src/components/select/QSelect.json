@@ -1,5 +1,5 @@
 {
-  "mixins": [ "components/field/__QField", "mixins/virtual-scroll" ],
+  "mixins": [ "components/field/__QField", "mixins/virtual-scroll", "mixins/form" ],
 
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/select"
@@ -119,16 +119,57 @@
       "category": "options"
     },
 
+    "options-sanitize": {
+      "extends": "sanitize",
+      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
+      "category": "options"
+    },
+
     "options-cover": {
       "type": "Boolean",
       "desc": "Expanded menu will cover the component (will not work along with 'use-input' prop for obvious reasons)",
       "category": "options"
     },
 
-    "options-sanitize": {
-      "extends": "sanitize",
-      "desc": "Force use of textContent instead of innerHTML to render options; Use it when the options might be unsafe (from user input); Does NOT apply when using 'option' slot!",
-      "category": "options"
+    "menu-shrink": {
+      "type": "Boolean",
+      "desc": "Allow the options list to be narrower than the field (only in menu mode)",
+      "category": "options",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-anchor": {
+      "type": "String",
+      "desc": "Two values setting the starting position or anchor point of the options list relative to the field (only in menu mode)",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-self": {
+      "type": "String",
+      "desc": "Two values setting the options list's own position relative to its target (only in menu mode)",
+      "values": [
+        "top left", "top middle", "top right",
+        "center left", "center middle", "center right",
+        "bottom left", "bottom center", "bottom right"
+      ],
+      "examples": [ "top left", "bottom right" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
+    },
+
+    "menu-offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the options list horizontally and vertically in pixels (only in menu mode)",
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
     },
 
     "popup-content-class": {
@@ -391,6 +432,19 @@
       "extends": "input"
     },
 
+    "input-value": {
+      "desc": "Emitted when the value in the text input changes",
+      "params": {
+        "value": {
+          "type": "String",
+          "desc": "New text value",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.9.9"
+    },
+
     "remove": {
       "desc": "Emitted when an option is removed from selection",
       "params": {
@@ -569,6 +623,11 @@
           "desc": "Option to add to model",
           "required": true,
           "__exemption": [ "examples" ]
+        },
+        "unique": {
+          "type": "Boolean",
+          "desc": "Option must be unique",
+          "__exemption": [ "examples" ]
         }
       }
     },
@@ -649,6 +708,94 @@
           "desc": "Set to true if you don't want the filter (if any) to be also triggered"
         }
       }
+    },
+
+    "isOptionSelected": {
+      "desc": "Tells if an option is selected",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Option is selected or not"
+      },
+      "addedIn": "v1.9.5"
+    },
+
+    "getEmittingOptionValue": {
+      "desc": "Get the model value that would be emitted by QSelect when selecting a said option; Also takes into consideration if 'emit-value' is set",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Emitting model value of said option",
+        "__exemption": [ "examples" ]
+      },
+      "addedIn": "v1.9.5"
+    },
+
+    "getOptionValue": {
+      "desc": "Get the model value of an option; Takes into consideration 'option-value' (if used), but does not looks for 'emit-value', like getEmittingOptionValue() does",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Model value of said option",
+        "__exemption": [ "examples" ]
+      },
+      "addedIn": "v1.9.5"
+    },
+
+    "getOptionLabel": {
+      "desc": "Get the label of an option; Takes into consideration the 'option-label' prop (if used)",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Any",
+        "desc": "Label of said option",
+        "__exemption": [ "examples" ]
+      },
+      "addedIn": "v1.9.5"
+    },
+
+    "isOptionDisabled": {
+      "desc": "Tells if an option is disabled; Takes into consideration 'option-disable' prop (if used)",
+      "params": {
+        "opt": {
+          "type": "Any",
+          "desc": "Option entry",
+          "required": true,
+          "__exemption": [ "examples" ]
+        }
+      },
+      "returns": {
+        "type": "Boolean",
+        "desc": "Option is disabled or not"
+      },
+      "addedIn": "v1.9.5"
     }
   }
 }

@@ -50,14 +50,14 @@ import {
   evaOptions2Outline,
   evaPantoneOutline,
   evaRefreshOutline,
-  evaRadioButtonOn,
-  evaImageOutline,
+  evaArrowIosUpwardOutline,
+  evaArrowIosDownwardOutline,
+  evaShield,
   evaClose,
   evaCheckmark,
   evaClockOutline,
   evaCalendarOutline,
   evaCode,
-  evaArrowIosDownwardOutline,
   evaPlusOutline,
   evaCloseCircle,
   evaAlertCircle,
@@ -65,7 +65,6 @@ import {
   evaArrowheadRightOutline,
   evaStar,
   evaEdit,
-  evaArrowIosUpwardOutline,
   evaArrowUpward,
   evaArrowRight,
   evaPlusSquare,
@@ -104,8 +103,9 @@ export default {
   carousel: {
     left: evaArrowIosBackOutline,
     right: evaArrowIosForwardOutline,
-    navigationIcon: evaRadioButtonOn,
-    thumbnails: evaImageOutline
+    up: evaArrowIosUpwardOutline,
+    down: evaArrowIosDownwardOutline,
+    navigationIcon: evaShield
   },
   chip: {
     remove: evaClose,

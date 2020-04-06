@@ -34,6 +34,8 @@ export default Vue.extend({
       }
     },
 
+    name: String,
+
     dragRange: Boolean,
     dragOnlyRange: Boolean,
 
@@ -225,6 +227,14 @@ export default Vue.extend({
     maxPinStyle () {
       const percent = (this.reverse === true ? -this.ratioMax : this.ratioMax - 1)
       return this.__getPinStyle(percent, this.ratioMax)
+    },
+
+    formAttrs () {
+      return {
+        type: 'hidden',
+        name: this.name,
+        value: `${this.value.min}|${this.value.max}`
+      }
     }
   },
 
@@ -461,16 +471,40 @@ export default Vue.extend({
   },
 
   render (h) {
+    const track = [
+      h('div', {
+        staticClass: 'q-slider__track absolute',
+        style: this.trackStyle
+      })
+    ]
+
+    this.markers === true && track.push(
+      h('div', {
+        staticClass: 'q-slider__track-markers absolute-full fit',
+        style: this.markerStyle
+      })
+    )
+
+    const child = [
+      h('div', {
+        staticClass: 'q-slider__track-container absolute'
+      }, track),
+
+      this.__getThumb(h, 'min'),
+      this.__getThumb(h, 'max')
+    ]
+
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(child, 'push')
+    }
+
     return h('div', {
       staticClass: this.value.min === null || this.value.max === null
         ? 'q-slider--no-value'
         : void 0,
       attrs: {
-        role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
-        'data-step': this.step,
-        'aria-disabled': this.disable,
+        ...this.attrs,
+        'aria-valuenow': this.value.min + '|' + this.value.max,
         tabindex: this.dragOnlyRange && !this.$q.platform.is.mobile
           ? this.computedTabindex
           : null
@@ -488,23 +522,6 @@ export default Vue.extend({
           mouseAllDir: true
         }
       }]) : null
-    }, [
-      h('div', { staticClass: 'q-slider__track-container absolute overflow-hidden' }, [
-        h('div', {
-          staticClass: 'q-slider__track absolute',
-          style: this.trackStyle
-        }),
-
-        this.markers === true
-          ? h('div', {
-            staticClass: 'q-slider__track-markers absolute-full fit',
-            style: this.markerStyle
-          })
-          : null
-      ]),
-
-      this.__getThumb(h, 'min'),
-      this.__getThumb(h, 'max')
-    ])
+    }, child)
   }
 })

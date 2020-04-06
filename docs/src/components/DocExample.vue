@@ -118,7 +118,7 @@ export default {
     import(
       /* webpackChunkName: "demo" */
       /* webpackMode: "lazy-once" */
-      `examples/${this.file}.vue`
+      'examples/' + this.file + '.vue'
     ).then(comp => {
       this.component = comp.default
       this.loading = false
@@ -127,7 +127,7 @@ export default {
     import(
       /* webpackChunkName: "demo-source" */
       /* webpackMode: "lazy-once" */
-      `!raw-loader!examples/${this.file}.vue`
+      '!raw-loader!examples/' + this.file + '.vue'
     ).then(comp => {
       this.parseComponent(comp.default)
     })

@@ -26,6 +26,7 @@ export default Vue.extend({
     cover: Boolean,
     persistent: Boolean,
     autoClose: Boolean,
+
     menuAnchor: {
       type: String,
       default: 'bottom right'
@@ -34,6 +35,7 @@ export default Vue.extend({
       type: String,
       default: 'top right'
     },
+    menuOffset: Array,
 
     disableMainBtn: Boolean,
     disableDropdown: Boolean
@@ -53,6 +55,7 @@ export default Vue.extend({
 
   render (h) {
     const label = slot(this, 'label', [])
+    const attrs = { 'aria-expanded': this.showing === true ? 'true' : 'false', 'aria-haspopup': true }
 
     const Arrow = [
       h(QIcon, {
@@ -77,6 +80,7 @@ export default Vue.extend({
           autoClose: this.autoClose,
           anchor: this.menuAnchor,
           self: this.menuSelf,
+          offset: this.menuOffset,
           contentClass: this.contentClass,
           contentStyle: this.contentStyle,
           separateClosePopup: true
@@ -111,6 +115,7 @@ export default Vue.extend({
           noWrap: true,
           round: false
         },
+        attrs,
         on: cache(this, 'nonSpl', {
           click: e => {
             this.$emit('click', e)
@@ -152,6 +157,7 @@ export default Vue.extend({
 
       h(QBtn, {
         staticClass: 'q-btn-dropdown__arrow-container',
+        attrs,
         props: {
           disable: this.disable === true || this.disableDropdown === true,
           outline: this.outline,

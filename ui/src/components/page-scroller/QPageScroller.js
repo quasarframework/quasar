@@ -14,6 +14,8 @@ export default Vue.extend({
       default: 1000
     },
 
+    reverse: Boolean,
+
     duration: {
       type: Number,
       default: 300
@@ -34,22 +36,43 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: this.__isVisible(this.layout.scroll.position)
+      showing: this.__isVisible()
+    }
+  },
+
+  computed: {
+    height () {
+      return this.layout.container === true
+        ? this.layout.containerHeight
+        : this.layout.height
     }
   },
 
   watch: {
-    'layout.scroll.position' (val) {
-      const newVal = this.__isVisible(val)
-      if (this.showing !== newVal) {
-        this.showing = newVal
-      }
+    'layout.scroll.position' () {
+      this.__updateVisibility()
+    },
+
+    reverse: {
+      handler (val) {
+        if (val === true) {
+          if (this.heightWatcher === void 0) {
+            this.heightWatcher = this.$watch('height', this.__updateVisibility)
+          }
+        }
+        else if (this.heightWatcher !== void 0) {
+          this.__cleanup()
+        }
+      },
+      immediate: true
     }
   },
 
   methods: {
-    __isVisible (val) {
-      return val > this.scrollOffset
+    __isVisible () {
+      return this.reverse === true
+        ? this.height - this.layout.scroll.position > this.scrollOffset
+        : this.layout.scroll.position > this.scrollOffset
     },
 
     __onClick (e) {
@@ -57,8 +80,20 @@ export default Vue.extend({
         ? getScrollTarget(this.$el)
         : getScrollTarget(this.layout.$el)
 
-      setScrollPosition(target, 0, this.duration)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      setScrollPosition(target, this.reverse === true ? this.layout.height : 0, this.duration)
+      this.$emit('click', e)
+    },
+
+    __updateVisibility () {
+      const newVal = this.__isVisible()
+      if (this.showing !== newVal) {
+        this.showing = newVal
+      }
+    },
+
+    __cleanup () {
+      this.heightWatcher()
+      this.heightWatcher = void 0
     }
   },
 
@@ -80,5 +115,9 @@ export default Vue.extend({
       ]
       : null
     )
+  },
+
+  beforeDestroy () {
+    this.heightWatcher !== void 0 && this.__cleanup()
   }
 })

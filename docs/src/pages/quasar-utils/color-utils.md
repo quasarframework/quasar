@@ -27,11 +27,11 @@ These functions take a color as string or Object and convert it to another forma
 
 | Function | Source format | Destination format | Description |
 | --- | --- | --- | --- |
-| `rgbToHex` | Object | String | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's HEX/A representation as a String (`#RRGGBB<AA>`). If Alpha channel is present in the original object it will be present also in the output. |
-| `rgbToHsv` | Object | Object | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's HSV/A representation as an Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`). If Alpha channel is present in the original object it will be present also in the output. |
-| `hexToRgb` | String | Object | Converts a HEX/A color String (`#RRGGBB<AA>`) to it's RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's . If Alpha channel is present in the original object it will be present also in the output. |
-| `textToRgb` | String | Object | Converts a HEX/A color String (`#RRGGBB<AA>`) or a RGB/A color String(`rgb(R, G, B<, A>)`) to it's RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's . If Alpha channel is present in the original object it will be present also in the output. |
-| `hsvToRgb` | String | Object | Converts a HSV/A color Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`) to it's RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to it's . If Alpha channel is present in the original object it will be present also in the output. |
+| `rgbToHex` | Object | String | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to its HEX/A representation as a String (`#RRGGBB<AA>`). If Alpha channel is present in the original object it will be present also in the output. |
+| `rgbToHsv` | Object | Object | Converts a RGB/A color Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) to its HSV/A representation as an Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`). If Alpha channel is present in the original object it will be present also in the output. |
+| `hexToRgb` | String | Object | Converts a HEX/A color String (`#RRGGBB<AA>`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`) . If Alpha channel is present in the original object it will be present also in the output. |
+| `textToRgb` | String | Object | Converts a HEX/A color String (`#RRGGBB<AA>`) or a RGB/A color String(`rgb(R, G, B<, A>)`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`). If Alpha channel is present in the original object it will be present also in the output. |
+| `hsvToRgb` | String | Object | Converts a HSV/A color Object (`{ h: [0-360], s: [0-100], v: [0-100},  a: [0-100]}`) to its RGB/A representation as an Object (`{ r: [0-255], g: [0-255], b: [0-255}<,  a: [0-100]>}`). If Alpha channel is present in the original object it will be present also in the output. |
 
 ## Color Processing
 These functions perform changes on the color or extract specific information.
@@ -54,9 +54,7 @@ Calculates the [color contrast](https://www.w3.org/TR/AERT/#color-contrast) of t
 Accepts a HEX/A String, a RGB/A String or a RGB/A Object as `color`.
 Returns a value between 0 and 255. A value of < 128 would be considered a dark color.
 
-### blend (fgColor, bgColor)
-
-<q-badge label="v1.7.1+" />
+### blend (fgColor, bgColor) <q-badge align="top" label="v1.7.1+" />
 
 Calculates the [blend](https://www.w3.org/TR/compositing-1/#simplealphacompositing) of two colors.
 
@@ -65,9 +63,7 @@ If the alpha channel of the `fgColor` is completely opaque, then the result will
 If the alpha channel of the `bgColor` is completely opaque, then the resulting blended color will also be opaque.
 Returns the same type as input for fgColor.
 
-### changeAlpha (color, offset)
-
-<q-badge label="v1.7.2+" />
+### changeAlpha (color, offset) <q-badge align="top" label="v1.7.2+" />
 
 Increments or decrements the alpha of a string color.
 

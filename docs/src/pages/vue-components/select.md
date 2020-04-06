@@ -146,13 +146,15 @@ All the attributes set on QSelect that are not in the list of props in the API w
 
 More information: [native input attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
 
-<doc-example title="Filtering options" file="QSelect/InputFilter" />
+<doc-example title="Filtering options" file="QSelect/InputFilterOptions" />
 
-<doc-example title="Basic autocomplete" file="QSelect/InputAutocomplete" />
+<doc-example title="Basic filtering" file="QSelect/BasicFiltering" />
 
-<doc-example title="Autocomplete on more than 2 chars" file="QSelect/InputFilterMin" />
+<doc-example title="Filtering on more than 2 chars" file="QSelect/InputFilterMin" />
 
-<doc-example title="Lazy autocomplete" file="QSelect/InputFilterLazy" />
+<doc-example title="Text autocomplete" file="QSelect/TextAutocomplete" />
+
+<doc-example title="Lazy filtering" file="QSelect/InputFilterLazy" />
 
 <doc-example title="Selecting option after filtering" file="QSelect/InputFilterAfter" />
 
@@ -256,6 +258,12 @@ When the list of options is opened:
   - pressing <kbd>ENTER</kbd> (or <kbd>SPACE</kbd> when `use-input` is not set, or <kbd>TAB</kbd> when `multiple` is not set) when an option is selected in the list will:
     - select the option and close the list of options if `multiple` is not set
     - toggle the option if `multiple` is set
+
+## Native form submit <q-badge align="top" label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QSelect, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+
+<doc-example title="Native form" file="QSelect/NativeForm" />
 
 ## QSelect API
 <doc-api file="QSelect" />

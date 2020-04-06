@@ -29,6 +29,11 @@ export default Vue.extend({
       default: null
     },
 
+    defaultDate: {
+      type: String,
+      validator: v => /^-?[\d]+\/[0-1]\d\/[0-3]\d$/.test(v)
+    },
+
     options: Function,
     hourOptions: Array,
     minuteOptions: Array,
@@ -43,7 +48,8 @@ export default Vue.extend({
       this.value,
       this.__getComputedMask(),
       this.__getComputedLocale(),
-      this.calendar
+      this.calendar,
+      this.__getDefaultDateModel()
     )
 
     let view = 'Hour'
@@ -66,7 +72,13 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      const model = __splitDate(v, this.computedMask, this.computedLocale, this.calendar)
+      const model = __splitDate(
+        v,
+        this.computedMask,
+        this.computedLocale,
+        this.calendar,
+        this.defaultDateModel
+      )
 
       if (
         model.dateHash !== this.innerModel.dateHash ||
@@ -86,10 +98,9 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
+      return `q-time q-time--${this.landscape === true ? 'landscape' : 'portrait'}` +
         (this.isDark === true ? ' q-time--dark q-dark' : '') +
-        (this.readonly === true && this.disable !== true ? ' q-time--readonly' : '') +
-        (this.disable === true ? ' disable' : '') +
+        (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-time--readonly' : '')) +
         (this.bordered === true ? ` q-time--bordered` : '') +
         (this.square === true ? ` q-time--square no-border-radius` : '') +
         (this.flat === true ? ` q-time--flat no-shadow` : '')
@@ -121,6 +132,10 @@ export default Vue.extend({
           ? '--'
           : pad(time.second)
       }
+    },
+
+    defaultDateModel () {
+      return this.__getDefaultDateModel()
     },
 
     computedFormat24h () {
@@ -245,82 +260,98 @@ export default Vue.extend({
       this.view = 'Hour'
     },
 
-    __click (evt) {
-      // __activate() has already updated the offset
-      // we only need to change the view now, so:
+    __getDefaultDateModel () {
+      if (typeof this.defaultDate !== 'string') {
+        const date = this.__getCurrentDate()
+        date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
 
-      if (this.$q.platform.is.desktop !== true) {
-        this.__drag({ isFirst: true, evt })
+        return date
       }
 
-      this.__drag({ isFinal: true, evt })
+      return __splitDate(this.defaultDate, 'YYYY/MM/DD', void 0, this.calendar)
+    },
+
+    __click (evt) {
+      // __activate() has already updated the offset
+      // (on desktop only, through mousedown event)
+      if (this.$q.platform.is.desktop !== true) {
+        this.__updateClock(evt, this.__getClockRect())
+      }
+
+      this.__goToNextView()
     },
 
     __activate (evt) {
-      this.__drag({ isFirst: true, evt }, true)
-      this.__drag({ isFinal: true, evt }, true)
+      this.__updateClock(evt, this.__getClockRect())
     },
 
-    __drag (event, noViewChange) {
+    __getClockRect () {
+      const
+        clock = this.$refs.clock,
+        { top, left, width } = clock.getBoundingClientRect(),
+        dist = width / 2
+
+      return {
+        top: top + dist,
+        left: left + dist,
+        dist: dist * 0.7
+      }
+    },
+
+    __goToNextView () {
+      if (this.view === 'Hour') {
+        this.view = 'Minute'
+      }
+      else if (this.withSeconds && this.view === 'Minute') {
+        this.view = 'Second'
+      }
+    },
+
+    __drag (event) {
       // cases when on a popup getting closed
       // on previously emitted value
       if (this._isBeingDestroyed === true || this._isDestroyed === true) {
         return
       }
 
-      if (event.isFirst) {
-        const
-          clock = this.$refs.clock,
-          { top, left, width } = clock.getBoundingClientRect(),
-          dist = width / 2
-
-        this.dragging = {
-          top: top + dist,
-          left: left + dist,
-          dist: dist * 0.7
-        }
-        this.dragCache = null
-        this.__updateClock(event.evt)
+      if (event.isFirst === true) {
+        this.draggingClockRect = this.__getClockRect()
+        this.dragCache = this.__updateClock(event.evt, this.draggingClockRect)
         return
       }
 
-      this.__updateClock(event.evt)
+      this.dragCache = this.__updateClock(event.evt, this.draggingClockRect, this.dragCache)
 
-      if (event.isFinal && noViewChange !== true) {
-        this.dragging = false
-
-        if (this.view === 'Hour') {
-          this.view = 'Minute'
-        }
-        else if (this.withSeconds && this.view === 'Minute') {
-          this.view = 'Second'
-        }
+      if (event.isFinal === true) {
+        this.draggingClockRect = false
+        this.dragCache = null
+        this.__goToNextView()
       }
     },
 
-    __updateClock (evt) {
+    __updateClock (evt, clockRect, cacheVal) {
       let
         val,
         pos = position(evt),
-        height = Math.abs(pos.top - this.dragging.top),
+        height = Math.abs(pos.top - clockRect.top),
         distance = Math.sqrt(
-          Math.pow(Math.abs(pos.top - this.dragging.top), 2) +
-          Math.pow(Math.abs(pos.left - this.dragging.left), 2)
+          Math.pow(Math.abs(pos.top - clockRect.top), 2) +
+          Math.pow(Math.abs(pos.left - clockRect.left), 2)
         ),
         angle = Math.asin(height / distance) * (180 / Math.PI)
 
-      if (pos.top < this.dragging.top) {
-        angle = this.dragging.left < pos.left ? 90 - angle : 270 + angle
+      if (pos.top < clockRect.top) {
+        angle = clockRect.left < pos.left ? 90 - angle : 270 + angle
       }
       else {
-        angle = this.dragging.left < pos.left ? angle + 90 : 270 - angle
+        angle = clockRect.left < pos.left ? angle + 90 : 270 - angle
       }
 
       if (this.view === 'Hour') {
         val = Math.round(angle / 30)
 
         if (this.computedFormat24h === true) {
-          if (distance < this.dragging.dist) {
+          if (distance < clockRect.dist) {
             if (val < 12) {
               val += 12
             }
@@ -345,8 +376,8 @@ export default Vue.extend({
         }
       }
 
-      if (this.dragCache === val) {
-        return
+      if (cacheVal === val) {
+        return val
       }
 
       const opt = this[`${this.view.toLowerCase()}InSelection`]
@@ -355,8 +386,8 @@ export default Vue.extend({
         return
       }
 
-      this.dragCache = val
       this[`__set${this.view}`](val)
+      return val
     },
 
     __onKeyupHour (e) {
@@ -525,13 +556,11 @@ export default Vue.extend({
                 }])
               }, [
                 h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                  this.innerModel[view] !== null
-                    ? h('div', {
-                      staticClass: 'q-time__clock-pointer',
-                      style: this.pointerStyle,
-                      class: this.color !== void 0 ? `text-${this.color}` : null
-                    })
-                    : null,
+                  h('div', {
+                    staticClass: 'q-time__clock-pointer',
+                    style: this.pointerStyle,
+                    class: this.innerModel[view] === null ? 'hidden' : (this.color !== void 0 ? `text-${this.color}` : '')
+                  }),
 
                   this.positions.map(pos => h('div', {
                     staticClass: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}`,
@@ -659,7 +688,8 @@ export default Vue.extend({
           ),
           this.computedMask,
           this.computedLocale,
-          date.year
+          date.year,
+          date.timezoneOffset
         )
 
       date.changed = val !== this.value
@@ -677,8 +707,11 @@ export default Vue.extend({
       h('div', { staticClass: 'q-time__actions' }, def)
     )
 
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(child, 'push')
+    }
+
     return h('div', {
-      staticClass: 'q-time',
       class: this.classes,
       on: this.$listeners,
       attrs: { tabindex: -1 }

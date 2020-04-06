@@ -41,7 +41,8 @@ ie_style = @block
   .q-btn__wrapper,
   .q-time__content,
   .q-toolbar__title,
-  .q-menu .q-item__section--main
+  .q-menu .q-item__section--main,
+  .q-table__middle
     flex-basis: auto
 
   .q-banner__content
@@ -95,12 +96,6 @@ ie_style = @block
     &--wrap
       flex-direction: row
 
-    &--fab .q-icon
-      margin: 0
-
-  .q-fab > .q-btn--fab .q-icon
-    margin: auto
-
   /* QCarousel */
   .q-carousel__slide > *
     max-width: 100%
@@ -119,10 +114,21 @@ ie_style = @block
     &.q-spinner-mat .path
       stroke-dasharray: 89, 200
 
-  /* QToggle Icon */
-  .q-toggle__thumb
-    .q-icon
-      margin-left: -6px
+  /* QCheckbox indeterminate */
+  .q-checkbox
+    &__indet
+      opacity: 0
+    &__inner--indet
+      .q-checkbox__indet
+        opacity: 1
+
+  /* QRadio */
+  .q-radio
+    &__check
+      opacity: 0
+    &__inner--truthy
+      .q-radio__check
+        opacity: 1
 
   /* QDate, QTime */
   .q-date__main

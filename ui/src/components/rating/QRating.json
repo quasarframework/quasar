@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "mixins/size", "mixins/form" ],
 
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/rating"

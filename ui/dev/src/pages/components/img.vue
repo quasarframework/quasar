@@ -5,6 +5,7 @@
         src="https://cdn.quasar.dev/img/image-src.png"
         srcset="https://cdn.quasar.dev/img/image-1x.png 300w, https://cdn.quasar.dev/img/image-2x.png 2x,
           https://cdn.quasar.dev/img/image-3x.png 3x, https://cdn.quasar.dev/img/image-4x.png 4x"
+        height="280px"
         style="height: 280px; max-width: 300px"
         :native-context-menu="nativeContextMenu"
       >
@@ -21,13 +22,26 @@
           (min-width: 400px) and (max-width: 800px) 800w,
           (min-width: 800px) and (max-width: 1200px) 1200w,
           (min-width: 1200px) 1600w"
-        style="height: 280px; max-width: 300px"
+        height="280px"
+        style="max-width: 300px"
         :native-context-menu="nativeContextMenu"
       >
         <div class="absolute-bottom text-body1 text-center">
           With srcset & sizes
         </div>
       </q-img>
+
+      <q-img
+        src="https://cdn.quasar.dev/img/image-src.png"
+        height="220px"
+        width="220px"
+        :native-context-menu="nativeContextMenu"
+      >
+        <div class="absolute-bottom text-body1 text-center">
+          With forced width & height
+        </div>
+      </q-img>
+
     </div>
 
     <q-btn push color="teal" label="Refresh" @click="refresh" class="q-my-lg" />

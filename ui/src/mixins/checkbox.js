@@ -1,13 +1,15 @@
 import DarkMixin from './dark.js'
 import { stopAndPrevent } from '../utils/event.js'
 
+import FormMixin from './form.js'
 import OptionSizeMixin from './option-size.js'
+import RefocusTargetMixin from './refocus-target.js'
 
 import { slot, mergeSlot } from '../utils/slot.js'
 import { cache } from '../utils/vm.js'
 
 export default {
-  mixins: [ DarkMixin, OptionSizeMixin ],
+  mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
 
   props: {
     value: {
@@ -90,6 +92,37 @@ export default {
         : ''
 
       return `q-${this.type}__inner--${state}${color}`
+    },
+
+    formAttrs () {
+      const prop = { type: 'checkbox' }
+
+      this.name !== void 0 && Object.assign(prop, {
+        checked: this.isTrue,
+        name: this.name,
+        value: this.modelIsArray === true
+          ? this.val
+          : this.trueValue
+      })
+
+      return prop
+    },
+
+    attrs () {
+      const attrs = {
+        tabindex: this.computedTabindex,
+        role: 'checkbox',
+        'aria-label': this.label,
+        'aria-checked': this.isIndeterminate === true
+          ? 'mixed'
+          : this.isTrue === true ? 'true' : 'false'
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -97,7 +130,7 @@ export default {
     toggle (e) {
       if (e !== void 0) {
         stopAndPrevent(e)
-        document.activeElement !== null && document.activeElement.blur()
+        this.__refocusTarget(e)
       }
 
       if (this.disable === true) {
@@ -146,11 +179,10 @@ export default {
   render (h) {
     const inner = this.__getInner(h)
 
-    this.disable !== true && inner.unshift(
-      h('input', {
-        staticClass: `q-${this.type}__native absolute q-ma-none q-pa-none invisible`,
-        attrs: { type: 'checkbox' }
-      })
+    this.disable !== true && this.__injectFormInput(
+      inner,
+      'unshift',
+      `q-${this.type}__native absolute q-ma-none q-pa-none invisible`
     )
 
     const child = [
@@ -160,6 +192,10 @@ export default {
         style: this.sizeStyle
       }, inner)
     ]
+
+    if (this.__refocusTargetEl !== void 0) {
+      child.push(this.__refocusTargetEl)
+    }
 
     const label = this.label !== void 0
       ? mergeSlot([ this.label ], this, 'default')
@@ -173,7 +209,7 @@ export default {
 
     return h('div', {
       class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
+      attrs: this.attrs,
       on: cache(this, 'inpExt', {
         click: this.toggle,
         keydown: this.__onKeydown,

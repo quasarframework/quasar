@@ -43,6 +43,28 @@
       "category": "model"
     },
 
+    "width": {
+      "type": "String",
+      "desc": "Forces image width; Must also include the unit (px or %)",
+      "examples": [
+        "280px",
+        "70%"
+      ],
+      "category": "model",
+      "addedIn": "v1.9.0"
+    },
+
+    "height": {
+      "type": "String",
+      "desc": "Forces image height; Must also include the unit (px or %)",
+      "examples": [
+        "280px",
+        "70%"
+      ],
+      "category": "model",
+      "addedIn": "v1.9.0"
+    },
+
     "alt": {
       "type": "String",
       "desc": "Specifies an alternate text for the image, if the image cannot be displayed",

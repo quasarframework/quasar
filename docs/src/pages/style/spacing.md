@@ -1,6 +1,11 @@
 ---
 title: CSS Spacing Classes
 desc: The list of CSS classes supplied by Quasar to simplify the specification of responsive paddings and margins.
+related:
+  - /style/typography
+  - /style/positioning
+  - /style/visibility
+  - /style/breakpoints
 ---
 There are CSS classes supplied by Quasar to help you with spacing for DOM elements or components. All options are
 prefixed with `q-` and then broken down into type (T), direction (D), and size (S). See the table below
@@ -103,26 +108,28 @@ Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 | `q-` | `m` (margin) | `t` (top) | `md` (medium) | `q-mt-md` |
 | `q-` | `m` (margin) | `t` (top) | `lg` (large) | `q-mt-lg` |
 | `q-` | `m` (margin) | `t` (top) | `xl` (extra large) | `q-mt-xl` |
+| `q-` | `m` (margin) | `t` (top) | `auto` | `q-mt-auto` (v1.9.12+) |
 | `q-` | `m` (margin) | `r` (right) | `none` | `q-mr-none` |
-| `q-` | `m` (margin) | `r` (right) | `auto` | `q-mr-auto` |
 | `q-` | `m` (margin) | `r` (right) | `xs` (extra small) | `q-mr-xs` |
 | `q-` | `m` (margin) | `r` (right) | `sm` (small) | `q-mr-sm` |
 | `q-` | `m` (margin) | `r` (right) | `md` (medium) | `q-mr-md` |
 | `q-` | `m` (margin) | `r` (right) | `lg` (large) | `q-mr-lg` |
 | `q-` | `m` (margin) | `r` (right) | `xl` (extra large) | `q-mr-xl` |
+| `q-` | `m` (margin) | `r` (right) | `auto` | `q-mr-auto` |
 | `q-` | `m` (margin) | `b` (bottom) | `none` | `q-mb-none` |
 | `q-` | `m` (margin) | `b` (bottom) | `xs` (extra small) | `q-mb-xs` |
 | `q-` | `m` (margin) | `b` (bottom) | `sm` (small) | `q-mb-sm` |
 | `q-` | `m` (margin) | `b` (bottom) | `md` (medium) | `q-mb-md` |
 | `q-` | `m` (margin) | `b` (bottom) | `lg` (large) | `q-mb-lg` |
 | `q-` | `m` (margin) | `b` (bottom) | `xl` (extra large) | `q-mb-xl` |
+| `q-` | `m` (margin) | `b` (bottom) | `auto` | `q-mb-auto` (v1.9.12+) |
 | `q-` | `m` (margin) | `l` (left) | `none` | `q-ml-none` |
-| `q-` | `m` (margin) | `l` (left) | `auto` | `q-ml-auto` |
 | `q-` | `m` (margin) | `l` (left) | `xs` (extra small) | `q-ml-xs` |
 | `q-` | `m` (margin) | `l` (left) | `sm` (small) | `q-ml-sm` |
 | `q-` | `m` (margin) | `l` (left) | `md` (medium) | `q-ml-md` |
 | `q-` | `m` (margin) | `l` (left) | `lg` (large) | `q-ml-lg` |
 | `q-` | `m` (margin) | `l` (left) | `xl` (extra large) | `q-ml-xl` |
+| `q-` | `m` (margin) | `l` (left) | `auto` | `q-ml-auto` |
 | `q-` | `m` (margin) | `a` (all) | `none` | `q-ma-none` |
 | `q-` | `m` (margin) | `a` (all) | `xs` (extra small) | `q-ma-xs` |
 | `q-` | `m` (margin) | `a` (all) | `sm` (small) | `q-ma-sm` |
@@ -130,19 +137,26 @@ Examples: `q-pa-xs-md q-pa-sm-sm q-px-md-lg q-py-md-md`
 | `q-` | `m` (margin) | `a` (all) | `lg` (large) | `q-ma-lg` |
 | `q-` | `m` (margin) | `a` (all) | `xl` (extra large) | `q-ma-xl` |
 | `q-` | `m` (margin) | `x` (left & right) | `none` | `q-mx-none` |
-| `q-` | `m` (margin) | `x` (left & right) | `auto` | `q-mx-auto` |
 | `q-` | `m` (margin) | `x` (left & right) | `xs` (extra small) | `q-mx-xs` |
 | `q-` | `m` (margin) | `x` (left & right) | `sm` (small) | `q-mx-sm` |
 | `q-` | `m` (margin) | `x` (left & right) | `md` (medium) | `q-mx-md` |
 | `q-` | `m` (margin) | `x` (left & right) | `lg` (large) | `q-mx-lg` |
 | `q-` | `m` (margin) | `x` (left & right) | `xl` (extra large) | `q-mx-xl` |
+| `q-` | `m` (margin) | `x` (left & right) | `auto` | `q-mx-auto` |
 | `q-` | `m` (margin) | `y` (top & bottom) | `none` | `q-my-none` |
 | `q-` | `m` (margin) | `y` (top & bottom) | `xs` (extra small) | `q-my-xs` |
 | `q-` | `m` (margin) | `y` (top & bottom) | `sm` (small) | `q-my-sm` |
 | `q-` | `m` (margin) | `y` (top & bottom) | `md` (medium) | `q-my-md` |
 | `q-` | `m` (margin) | `y` (top & bottom) | `lg` (large) | `q-my-lg` |
 | `q-` | `m` (margin) | `y` (top & bottom) | `xl` (extra large) | `q-my-xl` |
+| `q-` | `m` (margin) | `y` (top & bottom) | `auto` | `q-my-auto` (v1.9.12+) |
 
 ::: tip
 See more details about the [Flex Addons](/layout/grid/introduction-to-flexbox#Flex-Addons).
 :::
+
+## Other Related
+| Class Name | Description |
+| --- | --- |
+| `no-margin` | Removes any applied margins |
+| `no-padding` | Removes any applied padding |

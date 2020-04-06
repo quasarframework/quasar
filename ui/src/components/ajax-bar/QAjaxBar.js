@@ -82,18 +82,13 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'top',
-      validator (val) {
-        return ['top', 'right', 'bottom', 'left'].includes(val)
-      }
+      validator: val => ['top', 'right', 'bottom', 'left'].includes(val)
     },
     size: {
       type: String,
       default: '2px'
     },
-    color: {
-      type: String,
-      default: 'red'
-    },
+    color: String,
     skipHijack: Boolean,
     reverse: Boolean
   },
@@ -109,7 +104,8 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-loading-bar q-loading-bar--${this.position} bg-${this.color}` +
+      return `q-loading-bar q-loading-bar--${this.position}` +
+        (this.color !== void 0 ? ` bg-${this.color}` : '') +
         (this.animate === true ? '' : ' no-transition')
     },
 
@@ -139,6 +135,19 @@ export default Vue.extend({
 
     sizeProp () {
       return this.horizontal ? 'height' : 'width'
+    },
+
+    attrs () {
+      return this.onScreen === true
+        ? {
+          role: 'progressbar',
+          'aria-valuemin': 0,
+          'aria-valuemax': 100,
+          'aria-valuenow': this.progress
+        }
+        : {
+          'aria-hidden': 'true'
+        }
     }
   },
 
@@ -175,7 +184,9 @@ export default Vue.extend({
     },
 
     increment (amount) {
-      this.calls > 0 && (this.progress = inc(this.progress, amount))
+      if (this.calls > 0) {
+        this.progress = inc(this.progress, amount)
+      }
     },
 
     stop () {
@@ -220,13 +231,14 @@ export default Vue.extend({
 
   beforeDestroy () {
     clearTimeout(this.timer)
-    this.hijacked && restoreAjax(this.start, this.stop)
+    this.hijacked === true && restoreAjax(this.start, this.stop)
   },
 
   render (h) {
     return h('div', {
       class: this.classes,
-      style: this.style
+      style: this.style,
+      attrs: this.attrs
     })
   }
 })

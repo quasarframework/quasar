@@ -41,6 +41,8 @@
 <script>
 import pages from 'src/router/pages-list'
 
+const STORAGE_KEY = 'index-filter'
+
 const list = {}
 pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
   const [folder, file] = page.split('/')
@@ -53,16 +55,16 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
   })
 })
 
-const store = {
-  filter: ''
-}
-
 export default {
   created () {
     this.list = list
   },
 
   mounted () {
+    if (process.env.MODE === 'ssr') {
+      this.clientInitStore(this.store)
+    }
+
     window.addEventListener('keydown', this.onKeyup, { passive: false, capture: true })
     this.$q.platform.is.desktop === true && this.$refs.filter.focus()
   },
@@ -72,9 +74,13 @@ export default {
   },
 
   data () {
-    return {
-      store: store
+    const store = { filter: '' }
+
+    if (process.env.MODE !== 'ssr') {
+      this.clientInitStore(store)
     }
+
+    return { store }
   },
 
   computed: {
@@ -104,7 +110,9 @@ export default {
       },
 
       set (val) {
-        this.store.filter = val
+        const filter = val || ''
+        this.store.filter = filter
+        this.$q.localStorage.set(STORAGE_KEY, filter)
       }
     }
   },
@@ -145,6 +153,13 @@ export default {
     focus (el) {
       el.focus()
       el.scrollIntoView(false)
+    },
+
+    clientInitStore (store) {
+      const filter = this.$q.localStorage.getItem(STORAGE_KEY)
+      if (filter) {
+        store.filter = filter
+      }
     }
   }
 }

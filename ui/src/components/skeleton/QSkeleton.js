@@ -52,7 +52,7 @@ export default Vue.extend({
 
     classes () {
       return `q-skeleton--${this.isDark === true ? 'dark' : 'light'} q-skeleton--type-${this.type}` +
-        (this.animation !== 'none' ? ` q-skeleton--anim-${this.animation}` : '') +
+        (this.animation !== 'none' ? ` q-skeleton--anim q-skeleton--anim-${this.animation}` : '') +
         (this.square === true ? ' q-skeleton--square' : '') +
         (this.bordered === true ? ' q-skeleton--bordered' : '')
     }
@@ -62,7 +62,8 @@ export default Vue.extend({
     return h(this.tag, {
       staticClass: 'q-skeleton',
       class: this.classes,
-      style: this.style
+      style: this.style,
+      on: this.$listeners
     }, slot(this, 'default'))
   }
 })

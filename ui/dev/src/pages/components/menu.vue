@@ -164,6 +164,36 @@
             </div>
           </q-card>
         </q-dialog>
+
+        <q-btn color="purple" label="Account Settings">
+          <q-menu>
+            <div class="row no-wrap q-pa-md">
+              <div class="column">
+                <div class="text-h6 q-mb-md">Settings</div>
+                <q-toggle v-model="mobileData" label="Use Mobile Data" />
+                <q-toggle v-model="bluetooth" label="Bluetooth" />
+              </div>
+
+              <q-separator vertical inset class="q-mx-lg" />
+
+              <div class="column items-center">
+                <q-avatar size="72px">
+                  <img src="https://cdn.quasar.dev/img/avatar4.jpg">
+                </q-avatar>
+
+                <div class="text-subtitle1 q-mt-md q-mb-xs">John Doe</div>
+
+                <q-btn
+                  color="primary"
+                  label="Logout"
+                  push
+                  size="sm"
+                  v-close-popup
+                />
+              </div>
+            </div>
+          </q-menu>
+        </q-btn>
       </div>
 
       <div class="q-gutter-md q-my-md">
@@ -487,7 +517,20 @@
         </q-card>
       </div>
 
-      <div style="margin-bottom: 700px;" />
+      <div style="width: 250vw; height: 400vh">
+        <div class="row q-pa-sm">
+          <div class="col-4">Left col</div>
+          <div class="col-4">
+            <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu - fit" />
+          </div>
+        </div>
+        <div class="row q-pa-sm">
+          <div class="col-4">Left col</div>
+          <div class="col-4">
+            <q-select v-model="selectModelS" :options="selectOptions" behavior="menu" filled label="Select single - menu - cover" options-cover />
+          </div>
+        </div>
+      </div>
 
       <q-btn color="secondary" class="fixed-top-right" icon="directions" style="top: 65px; right: 16px;">
         <q-menu ref="popover3">
@@ -562,7 +605,10 @@ export default {
       targetEl: '#target-img-1',
 
       dialog: false,
-      dialog2: false
+      dialog2: false,
+
+      mobileData: true,
+      bluetooth: false
     }
   },
   computed: {

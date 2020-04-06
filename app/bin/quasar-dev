@@ -93,15 +93,13 @@ async function parseAddress ({ host, port }) {
   if (this.chosenHost) {
     host = this.chosenHost
   }
-  else {
-    if (host && ['localhost', '127.0.0.1', '::1'].includes(host.toLowerCase())) {
-      host = '0.0.0.0'
-    }
-    if (['cordova', 'capacitor'].includes(argv.mode) && (!host || host === '0.0.0.0')) {
-      const getExternalIP = require('../lib/helpers/get-external-ip')
-      host = await getExternalIP()
-      this.chosenHost = host
-    }
+  else if (
+    ['cordova', 'capacitor'].includes(argv.mode) &&
+    (!host || ['0.0.0.0', 'localhost', '127.0.0.1', '::1'].includes(host.toLowerCase()))
+  ) {
+    const getExternalIP = require('../lib/helpers/get-external-ip')
+    host = await getExternalIP()
+    this.chosenHost = host
   }
 
   log(`Checking listening address availability (${host}:${port})...`)
@@ -169,7 +167,7 @@ function startVueDevtools () {
   spawnSync(
     nodePackager,
     cmdParam.concat('@vue/devtools'),
-    { cwd: appPaths.appDir },
+    { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
     () => warn('⚠️  Failed to install vue-devtools')
   )
 
@@ -188,6 +186,7 @@ async function goLive () {
   const Generator = require('../lib/generator')
   const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
   const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
@@ -226,6 +225,8 @@ async function goLive () {
   await quasarConfig.compile()
 
   buildConfig = quasarConfig.getBuildConfig()
+
+  regenerateTypesFeatureFlags(buildConfig)
 
   if (buildConfig.__vueDevtools !== false) {
     await startVueDevtools()

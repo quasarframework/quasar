@@ -28,8 +28,9 @@ export default {
   carousel: {
     left: 'eva-arrow-ios-back-outline',
     right: 'eva-arrow-ios-forward-outline',
-    navigationIcon: 'eva-radio-button-on',
-    thumbnails: 'eva-image-outline'
+    up: 'eva-arrow-ios-upward-outline',
+    down: 'eva-arrow-ios-downward-outline',
+    navigationIcon: 'eva-shield'
   },
   chip: {
     remove: 'eva-close',

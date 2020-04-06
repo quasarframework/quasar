@@ -79,7 +79,7 @@ export default async () => {
   try {
     await import(
       /* webpackInclude: /(de|en-us)\.js$/ */
-      `quasar/lang/${langIso}`
+      'quasar/lang/' + langIso
       )
       .then(lang => {
         Quasar.lang.set(lang.default)
@@ -138,7 +138,7 @@ export default {
       // dynamic import, so loading on demand only
       import(
         /* webpackInclude: /(de|en-us)\.js$/ */
-        `quasar/lang/${lang}`
+        'quasar/lang/' + lang
         ).then(lang => {
         this.$q.lang.set(lang.default)
       })

@@ -7,7 +7,7 @@ related:
   - /layout/page
   - /layout/page-sticky
   - /layout/page-scroller
-  - /layout/floating-action-button
+  - /vue-components/floating-action-button
 components:
   - layout/ViewProp
   - layout/ViewPlay

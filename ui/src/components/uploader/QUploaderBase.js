@@ -134,6 +134,7 @@ export default Vue.extend({
         this.abort()
         this.uploadedSize = 0
         this.uploadSize = 0
+        this.__revokeImgURLs()
         this.files = []
         this.queuedFiles = []
         this.uploadedFiles = []
@@ -142,7 +143,15 @@ export default Vue.extend({
 
     removeUploadedFiles () {
       if (!this.disable) {
-        this.files = this.files.filter(f => f.__status !== 'uploaded')
+        this.files = this.files.filter(f => {
+          if (f.__status !== 'uploaded') {
+            return true
+          }
+
+          f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+
+          return false
+        })
         this.uploadedFiles = []
       }
     },
@@ -151,15 +160,21 @@ export default Vue.extend({
       if (!this.disable) {
         const removedFiles = []
 
-        this.files.forEach(file => {
-          if (file.__status === 'idle' || file.__status === 'failed') {
-            this.uploadSize -= file.size
-            removedFiles.push(file)
+        const files = this.files.filter(f => {
+          if (f.__status !== 'idle' && f.__status !== 'failed') {
+            return true
           }
+
+          this.uploadSize -= f.size
+          removedFiles.push(f)
+
+          f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+
+          return false
         })
 
         if (removedFiles.length > 0) {
-          this.files = this.files.filter(f => f.__status !== 'idle' && f.__status !== 'failed')
+          this.files = files
           this.queuedFiles = []
           this.$emit('removed', removedFiles)
         }
@@ -179,9 +194,23 @@ export default Vue.extend({
         this.uploadSize -= file.size
       }
 
-      this.files = this.files.filter(f => f.name !== file.name)
+      this.files = this.files.filter(f => {
+        if (f.name !== file.name) {
+          return true
+        }
+
+        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+
+        return false
+      })
       this.queuedFiles = this.queuedFiles.filter(f => f.name !== file.name)
       this.$emit('removed', [ file ])
+    },
+
+    __revokeImgURLs () {
+      this.files.forEach(f => {
+        f._img !== void 0 && window.URL.revokeObjectURL(f._img.src)
+      })
     },
 
     __getFileInput () {
@@ -221,40 +250,32 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const files = this.__processFiles(e, fileList)
+      const processedFiles = this.__processFiles(e, fileList)
+
+      if (processedFiles === void 0) { return }
+
+      const files = processedFiles
+        .filter(file => this.files.findIndex(f => file.name === f.name) === -1)
+
       this.__getFileInput().value = ''
 
       if (files === void 0) { return }
-
-      let filesReady = [] // List of image load promises
 
       files.forEach(file => {
         this.__updateFile(file, 'idle')
         this.uploadSize += file.size
 
         if (this.noThumbnails !== true && file.type.toUpperCase().startsWith('IMAGE')) {
-          const reader = new FileReader()
-          let p = new Promise((resolve, reject) => {
-            reader.onload = e => {
-              let img = new Image()
-              img.src = e.target.result
-              file.__img = img
-              resolve(true)
-            }
-            reader.onerror = e => { reject(e) }
-          })
-
-          reader.readAsDataURL(file)
-          filesReady.push(p)
+          const img = new Image()
+          img.src = window.URL.createObjectURL(file)
+          file.__img = img
         }
       })
 
-      Promise.all(filesReady).then(() => {
-        this.files = this.files.concat(files)
-        this.queuedFiles = this.queuedFiles.concat(files)
-        this.$emit('added', files)
-        this.autoUpload === true && this.upload()
-      })
+      this.files = this.files.concat(files)
+      this.queuedFiles = this.queuedFiles.concat(files)
+      this.$emit('added', files)
+      this.autoUpload === true && this.upload()
     },
 
     __getBtn (h, show, icon, fn) {
@@ -333,11 +354,11 @@ export default Vue.extend({
         key: file.name,
         staticClass: 'q-uploader__file relative-position',
         class: {
-          'q-uploader__file--img': file.__img !== void 0,
+          'q-uploader__file--img': this.noThumbnails !== true && file.__img !== void 0,
           'q-uploader__file--failed': file.__status === 'failed',
           'q-uploader__file--uploaded': file.__status === 'uploaded'
         },
-        style: file.__img !== void 0 ? {
+        style: this.noThumbnails !== true && file.__img !== void 0 ? {
           backgroundImage: 'url(' + file.__img.src + ')'
         } : null
       }, [
@@ -390,9 +411,29 @@ export default Vue.extend({
 
   beforeDestroy () {
     this.isUploading === true && this.abort()
+    this.files.length > 0 && this.__revokeImgURLs()
   },
 
   render (h) {
+    const children = [
+      h('div', {
+        staticClass: 'q-uploader__header',
+        class: this.colorClass
+      }, this.__getHeader(h)),
+
+      h('div', {
+        staticClass: 'q-uploader__list scroll'
+      }, this.__getList(h)),
+
+      this.__getDnd(h, 'uploader')
+    ]
+
+    this.isBusy === true && children.push(
+      h('div', {
+        staticClass: 'q-uploader__overlay absolute-full flex flex-center'
+      }, [ h(QSpinner) ])
+    )
+
     return h('div', {
       staticClass: 'q-uploader column no-wrap',
       class: {
@@ -405,23 +446,6 @@ export default Vue.extend({
       on: this.canAddFiles === true
         ? cache(this, 'drag', { dragover: this.__onDragOver })
         : null
-    }, [
-      h('div', {
-        staticClass: 'q-uploader__header',
-        class: this.colorClass
-      }, this.__getHeader(h)),
-
-      h('div', {
-        staticClass: 'q-uploader__list scroll'
-      }, this.__getList(h)),
-
-      this.__getDnd(h, 'uploader'),
-
-      this.isBusy === true ? h('div', {
-        staticClass: 'q-uploader__overlay absolute-full flex flex-center'
-      }, [
-        h(QSpinner)
-      ]) : null
-    ])
+    }, children)
   }
 })

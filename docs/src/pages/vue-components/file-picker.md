@@ -87,5 +87,12 @@ You can also apply custom filters (which are executed after user picks files):
 
 <doc-example title="Filter" file="QFile/RestrictionFilter" />
 
+
+### Native form submit <q-badge align="top" label="v1.9+" />
+
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QFile, otherwise formData will not contain it (if it should):
+
+<doc-example title="Native form" file="QFile/NativeForm" />
+
 ## QFile API
 <doc-api file="QFile" />

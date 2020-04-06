@@ -28,8 +28,9 @@ export default {
   carousel: {
     left: 'las la-chevron-left',
     right: 'las la-chevron-right',
-    navigationIcon: 'las la-circle',
-    thumbnails: 'las la-th'
+    up: 'las la-chevron-up',
+    down: 'las la-chevron-down',
+    navigationIcon: 'las la-square'
   },
   chip: {
     remove: 'las la-times-circle',

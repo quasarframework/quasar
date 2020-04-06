@@ -21,7 +21,7 @@ Since QPageSticky needs a layout and QLayout by default manages the entire windo
 
 ::: warning
 * In order for QPageSticky to work, it must be placed within a QLayout component.
-* QPageSticky must be the last child element within it's parent, so it can display on top of other content
+* QPageSticky must be the last child element within its parent, so it can display on top of other content
 :::
 
 ### Basic

@@ -103,7 +103,7 @@
 
     "visible-columns": {
       "type": "Array",
-      "desc": "Array of Strings defining column names ('name' property of each column from 'columns' prop definitions)",
+      "desc": "Array of Strings defining column names ('name' property of each column from 'columns' prop definitions); Columns marked as 'required' are not affected by this property",
       "examples": [
         ":visible-columns=\"myCols\"",
         "[ 'desc', 'carbs', 'protein' ]"

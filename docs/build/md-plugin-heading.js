@@ -2,19 +2,27 @@
  * Manages headings
  */
 
-function slugify (str) {
-  return encodeURIComponent(String(str).trim().replace(/\s+/g, '-'))
+function parseContent (str) {
+  const title = String(str)
+    .replace(/<\/?[^>]+(>|$)/g, "")
+    .trim()
+
+  return {
+    id: encodeURIComponent(title.replace(/\s+/g, '-')),
+    title
+  }
 }
 
 module.exports = function (md) {
   md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
     const token = tokens[idx]
 
-    const title = tokens[idx + 1]
+    const content = tokens[idx + 1]
       .children
       .reduce((acc, t) => acc + t.content, '')
 
-    const id = slugify(title)
+    const { id, title } = parseContent(content)
+
     token.attrSet('id', id)
     token.attrSet('class', `doc-heading doc-${token.tag}`)
     token.attrSet('@click', `copyHeading(\`${id}\`)`)

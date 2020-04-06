@@ -2,7 +2,7 @@ module.exports = {
   root: true,
 
   parserOptions: {
-    parser: 'babel-eslint',
+    parser: 'babel-eslint'
   },
 
   env: {
@@ -13,13 +13,13 @@ module.exports = {
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
     'plugin:vue/essential',
-    '@vue/standard'
+    'standard'
   ],
 
   // required to lint *.vue files
   plugins: [
     'vue',
-    'quasar'
+    'quasar',
   ],
 
   globals: {
@@ -30,7 +30,7 @@ module.exports = {
   },
 
   // add your custom rules here
-  'rules': {
+  rules: {
     // allow async-await
     'generator-star-spacing': 'off',
     // allow paren-less arrow functions
@@ -43,15 +43,14 @@ module.exports = {
     'array-bracket-spacing': ['error', 'always'],
     'brace-style': ['error', 'stroustrup'],
 
+    'import/export': 'off',
     'import/first': 'off',
-    'import/named': 'error',
-    'import/namespace': 'error',
-    'import/default': 'error',
-    'import/export': 'error',
-    'import/extensions': 'off',
-    'import/no-unresolved': 'off',
-    'import/no-extraneous-dependencies': 'off',
+    'import/no-absolute-path': 'off',
+    'import/no-duplicates': 'off',
+    'import/no-named-default': 'off',
     'import/no-webpack-loader-syntax': 'off',
+    'import/extensions': 'off',
+    'import/no-extraneous-dependencies': 'off',
 
     'quasar/check-valid-props': 'warn',
 

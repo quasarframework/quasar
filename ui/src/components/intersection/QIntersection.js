@@ -1,10 +1,14 @@
 import Vue from 'vue'
 
 import Intersection from '../../directives/Intersection.js'
+import TagMixin from '../../mixins/tag.js'
 import { slot } from '../../utils/slot.js'
+import { onSSR } from '../../plugins/Platform.js'
 
 export default Vue.extend({
   name: 'QIntersection',
+
+  mixins: [ TagMixin ],
 
   directives: {
     Intersection
@@ -14,6 +18,8 @@ export default Vue.extend({
     once: Boolean,
     transition: String,
 
+    ssrPrerender: Boolean,
+
     margin: String,
     threshold: [ Number, Array ],
 
@@ -22,7 +28,7 @@ export default Vue.extend({
 
   data () {
     return {
-      showing: false
+      showing: onSSR === true ? this.ssrPrerender : false
     }
   },
 
@@ -37,6 +43,18 @@ export default Vue.extend({
           }
         }
         : this.__trigger
+    },
+
+    directives () {
+      if (this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)) {
+        return [{
+          name: 'intersection',
+          value: this.value,
+          modifiers: {
+            once: this.once
+          }
+        }]
+      }
     }
   },
 
@@ -57,15 +75,10 @@ export default Vue.extend({
       ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
       : void 0
 
-    return h('div', {
+    return h(this.tag, {
       staticClass: 'q-intersection',
-      directives: this.disable === true ? null : [{
-        name: 'intersection',
-        value: this.value,
-        modifiers: {
-          once: this.once
-        }
-      }]
+      on: this.$listeners,
+      directives: this.directives
     }, this.transition
       ? [
         h('transition', {

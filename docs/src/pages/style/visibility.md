@@ -1,6 +1,10 @@
 ---
 title: CSS Visibility
 desc: The list of CSS classes supplied by Quasar to manage responsiveness and visibility of components and DOM elements.
+related:
+  - /style/typography
+  - /style/positioning
+  - /style/spacing
 ---
 There are some CSS classes that you can use out of the box for common functionality.
 
@@ -71,7 +75,7 @@ Hide on:
 | `mobile-hide` | Hide on mobile |
 | `native-mobile-hide` | Hide on Cordova/Capacitor |
 | `cordova-hide` | Hide on Cordova wrapped Apps |
-| `capacitor-hide` | Hide on Cordova wrapped Apps |
+| `capacitor-hide` | Hide on Capacitor wrapped Apps |
 | `electron-hide` | Hide on Electron wrapped Apps |
 | `touch-hide` | Hide on touch capable platforms |
 | `platform-ios-hide` | Hide on iOS platform |

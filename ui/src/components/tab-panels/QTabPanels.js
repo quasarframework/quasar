@@ -8,11 +8,17 @@ export default Vue.extend({
 
   mixins: [ DarkMixin, PanelParentMixin ],
 
+  computed: {
+    classes () {
+      return 'q-tab-panels q-panel-parent' +
+        (this.isDark === true ? ' q-tab-panels--dark q-dark' : '')
+    }
+  },
+
   methods: {
     __renderPanels (h) {
       return h('div', {
-        staticClass: 'q-tab-panels q-panel-parent',
-        class: this.isDark === true ? 'q-tab-panels--dark q-dark' : '',
+        class: this.classes,
         directives: this.panelDirectives,
         on: this.$listeners
       }, this.__getPanelContent(h))

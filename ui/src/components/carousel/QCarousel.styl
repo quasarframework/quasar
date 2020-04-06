@@ -3,10 +3,12 @@
   height: 400px
 
   &__slide
-    height: 100%
-    padding: 16px
+    min-height: 100%
     background-size: cover
     background-position: 50%
+
+  &__slide, .q-carousel--padding
+    padding: 16px
 
   &__slides-container
     height: 100%
@@ -14,23 +16,62 @@
   &__control
     color: #fff
 
-  &__prev-arrow,
-  &__next-arrow
-    top: 50%
-    transform: translateY(-50%)
-    .q-icon
-      font-size: 46px
+  &__arrow
+    pointer-events: none
 
-  &__prev-arrow
-    left: 4px
-  &__next-arrow
-    right: 4px
+    .q-icon
+      font-size: 28px
+    .q-btn
+      pointer-events: all
+
+  &__prev-arrow--horizontal,
+  &__next-arrow--horizontal
+    top: 16px
+    bottom: 16px
+  &__prev-arrow--horizontal
+    left: 16px
+  &__next-arrow--horizontal
+    right: 16px
+
+  &__prev-arrow--vertical,
+  &__next-arrow--vertical
+    left: 16px
+    right: 16px
+  &__prev-arrow--vertical
+    top: 16px
+  &__next-arrow--vertical
+    bottom: 16px
 
   &__navigation
-    padding: 0 8px 8px
-    left: 0
-    right: 0
-    bottom: 0
+
+    &--top,
+    &--bottom
+      left: 16px
+      right: 16px
+      overflow-x: auto
+      overflow-y: hidden
+
+    &--top
+      top: 16px
+
+    &--bottom
+      bottom: 16px
+
+    &--left,
+    &--right
+      top: 16px
+      bottom: 16px
+      overflow-x: hidden
+      overflow-y: auto
+
+      > .q-carousel__navigation-inner
+        flex-direction: column
+
+    &--left
+      left: 16px
+
+    &--right
+      right: 16px
 
     &-inner
       flex: 1 1 auto
@@ -40,32 +81,48 @@
 
       .q-btn__wrapper
         padding: 5px
-      &:not(.q-carousel__navigation-icon--active)
-        opacity: .5
 
-    img
-      margin: 2px
-      height: 50px
-      width: auto
-      display: inline-block
-      cursor: pointer
-      border: 1px solid transparent
-      vertical-align: middle
-      opacity: .8
-      transition: opacity .3s
+  &__navigation-icon--inactive
+    opacity: .7
 
-      &:hover, &.q-carousel__thumbnail--active
-        opacity: 1
-      &.q-carousel__thumbnail--active
-        border-color: #fff
-        cursor: default
+  .q-carousel__thumbnail
+    margin: 2px
+    height: 50px
+    width: auto
+    display: inline-block
+    cursor: pointer
+    border: 1px solid transparent
+    border-radius: $generic-border-radius
+    vertical-align: middle
+    opacity: .7
+    transition: opacity .3s
 
-  &.q-carousel--navigation .q-carousel__slide
-    padding-bottom: 50px
+  .q-carousel__thumbnail:hover,
+  .q-carousel__thumbnail--active
+    opacity: 1
+  .q-carousel__thumbnail--active
+    border-color: currentColor
+    cursor: default
 
-  &.q-carousel--arrows .q-carousel__slide
-    padding-left: 56px
-    padding-right: 56px
+  &--navigation-top,
+  &--arrows-vertical
+    &.q-carousel--with-padding .q-carousel__slide, .q-carousel--padding
+      padding-top: 60px
+
+  &--navigation-bottom,
+  &--arrows-vertical
+    &.q-carousel--with-padding .q-carousel__slide, .q-carousel--padding
+      padding-bottom: 60px
+
+  &--navigation-left,
+  &--arrows-horizontal
+    &.q-carousel--with-padding .q-carousel__slide, .q-carousel--padding
+      padding-left: 60px
+
+  &--navigation-right,
+  &--arrows-horizontal
+    &.q-carousel--with-padding .q-carousel__slide, .q-carousel--padding
+      padding-right: 60px
 
   &.fullscreen
     height: 100%

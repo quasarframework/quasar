@@ -2,7 +2,7 @@
 title: Configuring quasar.conf.js
 desc: Where, how and what you can configure in a Quasar app.
 ---
-Quasar makes use of some awesome development tools under it's hood, like [Webpack](https://webpack.js.org/). One of the great things about Quasar is its handling of most of the complex configuration needed by the underlying tools for you. As a result, you don't even need to know Webpack or any of the other development tools in order to use Quasar.
+Quasar makes use of some awesome development tools under its hood, like [Webpack](https://webpack.js.org/). One of the great things about Quasar is its handling of most of the complex configuration needed by the underlying tools for you. As a result, you don't even need to know Webpack or any of the other development tools in order to use Quasar.
 
 So what can you configure through `/quasar.conf.js`?
 * Quasar components, directives and plugins that you'll be using in your website/app
@@ -23,10 +23,13 @@ You'll notice that changing any of these settings does not require you to manual
 :::
 
 ::: warning
-`/quasar.conf.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', 'webpack' and so on. Make sure the ES6 features that you want to write this file with are supported by the installed version of your Node (which should be >= 8.9.0).
+`/quasar.conf.js` is run by the Quasar CLI build system, so this code runs under Node directly, not in the context of your app. This means you can require modules like 'fs', 'path', 'webpack' and so on. Make sure the ES6 features that you want to write this file with are supported by the installed version of your Node (which should be >= 10).
 :::
 
 ## Structure
+
+### The basics
+
 You'll notice that `/quasar.conf.js` exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
 
 ```js
@@ -52,6 +55,7 @@ module.exports = function (ctx) {
 ```
 
 What this means is that, as an example, you can load a font when building for a certain mode (like PWA), and pick another one for the others:
+
 ```js
 module.exports = function (ctx) {
   extras: [
@@ -63,6 +67,7 @@ module.exports = function (ctx) {
 ```
 
 Or you can use a global CSS file for SPA mode and another one for Cordova mode while avoiding loading any such file for the other modes.
+
 ```js
 module.exports = function (ctx) {
   css: [
@@ -73,6 +78,7 @@ module.exports = function (ctx) {
 ```
 
 Or you can configure the dev server to run on port 8000 for SPA mode, on port 9000 for PWA mode or on port 9090 for the other modes:
+
 ```js
 module.exports = function (ctx) {
   devServer: {
@@ -85,6 +91,18 @@ module.exports = function (ctx) {
 
 The possibilities are endless.
 
+### IDE autocompletion
+
+Starting with v1.9, you can wrap the returned function with `configure()` helper to get a better IDE autocomplete experience (through Typescript):
+
+```js
+const { configure } = require('quasar/wrappers')
+
+module.exports = configure(function (ctx) {
+  /* configuration options */
+})
+```
+
 ## Options to Configure
 Let's take each option one by one:
 
@@ -94,7 +112,8 @@ Let's take each option one by one:
 | preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli/cli-documentation/prefetch-feature). |
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
-| supportIE | Boolean | Add support for IE11+. |
+| supportIE | Boolean | Add support for IE11+. [More info](/quasar-cli/cli-documentation/supporting-ie) |
+| supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli/cli-documentation/supporting-ts) |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
 | animations | Object/String | What [CSS animations](/options/animations) to import. Example: _['bounceInLeft', 'bounceOutRight']_ |
@@ -162,10 +181,7 @@ return {
 
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
 
-### Auto import feature
-
-<q-badge label="@quasar/app v1.1.1+" />
-<q-badge class="q-ml-sm" label="quasar v1.1.2+" />
+### Auto import feature <q-badge align="top" label="@quasar/app v1.1.1+" /> <q-badge align="top" class="q-ml-xs" label="quasar v1.1.2+" />
 
 You can also configure the Quasar CLI to auto import the in-use Quasar components and directives that you are using, through `framework: { all }` property:
 
@@ -271,7 +287,7 @@ devServer: {
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
 | uglifyOptions | Object | Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify). |
 | preloadChunks | Boolean | Default is "true". Preload chunks when browser is idle to improve user's later navigation to the other pages. |
-| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. |
+| scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { prependData: '@import "src/css/abstracts/_mixins.scss";'} |
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
 | stylusLoaderOptions | Object | Options to supply to `stylus-loader`. |
 | lessLoaderOptions | Object | Options to supply to `less-loader`. |

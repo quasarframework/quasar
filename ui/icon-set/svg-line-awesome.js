@@ -21,8 +21,9 @@ import {
   laSlidersHSolid,
   laSwatchbookSolid,
   laSyncAltSolid,
-  laCircleSolid,
-  laThSolid,
+  laChevronUpSolid,
+  laChevronDownSolid,
+  laSquareSolid,
   laTimesCircleSolid,
   laClock,
   laCalendarCheck,
@@ -52,7 +53,6 @@ import {
   laRedoSolid,
   laCodeSolid,
   laFontSolid,
-  laChevronDownSolid,
   laPlusSolid,
   laTimesSolid,
   laExclamationCircleSolid,
@@ -60,7 +60,6 @@ import {
   laStepForwardSolid,
   laStarSolid,
   laPencilAltSolid,
-  laChevronUpSolid,
   laPlaySolid,
   laPlusSquareSolid,
   laUploadSolid,
@@ -98,8 +97,9 @@ export default {
   carousel: {
     left: laChevronLeftSolid,
     right: laChevronRightSolid,
-    navigationIcon: laCircleSolid,
-    thumbnails: laThSolid
+    up: laChevronUpSolid,
+    down: laChevronDownSolid,
+    navigationIcon: laSquareSolid
   },
   chip: {
     remove: laTimesCircleSolid,

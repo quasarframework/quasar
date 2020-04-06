@@ -3,12 +3,10 @@
     <q-table
       class="my-sticky-virtscroll-table"
       virtual-scroll
-      table-style="max-height: 400px"
       :pagination.sync="pagination"
       :rows-per-page-options="[0]"
       :virtual-scroll-sticky-size-start="48"
       row-key="index"
-
       title="Treats"
       :data="data"
       :columns="columns"
@@ -173,9 +171,8 @@ export default {
 
 <style lang="sass">
 .my-sticky-virtscroll-table
-  /* max height is important */
-  .q-table__middle
-    max-height: 200px
+  /* height or max-height is important */
+  height: 410px
 
   .q-table__top,
   .q-table__bottom,

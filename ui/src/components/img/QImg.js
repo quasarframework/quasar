@@ -15,6 +15,8 @@ export default Vue.extend({
     srcset: String,
     sizes: String,
     alt: String,
+    width: String,
+    height: String,
 
     placeholderSrc: String,
 
@@ -73,14 +75,26 @@ export default Vue.extend({
       return att
     },
 
-    style () {
+    imgContainerStyle () {
       return Object.assign(
         {
-          backgroundSize: this.contain ? 'contain' : 'cover',
+          backgroundSize: this.contain === true ? 'contain' : 'cover',
           backgroundPosition: this.position
         },
         this.imgStyle,
         { backgroundImage: `url("${this.url}")` })
+    },
+
+    style () {
+      return {
+        width: this.width,
+        height: this.height
+      }
+    },
+
+    classes () {
+      return 'q-img overflow-hidden' +
+        (this.nativeContextMenu === true ? ' q-img--menu' : '')
     }
   },
 
@@ -179,8 +193,14 @@ export default Vue.extend({
         img.srcset = this.srcset
       }
 
-      if (this.sizes) {
+      if (this.sizes !== void 0) {
         img.sizes = this.sizes
+      }
+      else {
+        Object.assign(img, {
+          height: this.height,
+          width: this.width
+        })
       }
     },
 
@@ -206,9 +226,7 @@ export default Vue.extend({
         ? [
           h('img', {
             staticClass: 'absolute-full fit',
-            attrs: {
-              src: this.url
-            }
+            attrs: { src: this.url }
           })
         ]
         : void 0
@@ -218,7 +236,7 @@ export default Vue.extend({
           key: this.url,
           staticClass: 'q-img__image absolute-full',
           class: this.imgClass,
-          style: this.style
+          style: this.imgContainerStyle
         }, nativeImg)
         : null
 
@@ -271,13 +289,12 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-img overflow-hidden' + (this.nativeContextMenu === true ? ' q-img--menu' : ''),
+      class: this.classes,
+      style: this.style,
       attrs: this.attrs,
       on: this.$listeners
     }, [
-      h('div', {
-        style: this.ratioStyle
-      }),
+      h('div', { style: this.ratioStyle }),
       this.__getImage(h),
       this.__getContent(h)
     ])

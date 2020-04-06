@@ -460,6 +460,7 @@ function printQuasarConfOptions ({ quasarConfOptions }) {
 function describe (api) {
   switch (api.type) {
     case 'component':
+      apiParts.quasar === true && printQuasarConfOptions(api)
       apiParts.props === true && printProperties(api)
       apiParts.slots === true && printSlots(api)
       apiParts.slots === true && printScopedSlots(api)
@@ -468,6 +469,7 @@ function describe (api) {
       break
 
     case 'directive':
+      apiParts.quasar === true && printQuasarConfOptions(api)
       apiParts.value === true && printValue(api)
       apiParts.arg === true && printArg(api)
       apiParts.modifiers === true && printModifiers(api)

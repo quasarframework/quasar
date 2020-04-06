@@ -5,7 +5,8 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-space'
+      staticClass: 'q-space',
+      on: this.$listeners
     })
   }
 })

@@ -68,7 +68,7 @@ const cssMap = {
   'ionicons-v4': 'cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
   'eva-icons': 'cdn.jsdelivr.net/npm/eva-icons@^1.0.0/style/eva-icons.css',
   themify: 'themify.me/wp-content/themes/themify-v32/themify-icons/themify-icons.css',
-  'line-awesome': 'https://maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css',
+  'line-awesome': 'maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css',
   animate: 'cdn.jsdelivr.net/npm/animate.css@^3.5.2/animate.min.css'
 }
 

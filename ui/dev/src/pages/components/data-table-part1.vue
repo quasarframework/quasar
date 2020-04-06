@@ -199,7 +199,7 @@
                     autofocus
                     dense
                     :value="value"
-                    hint="Sodium level"
+                    hint="Sodium level (>10)"
                     :rules="[
                       val => validate(value) || 'Please enter more than 10'
                     ]"

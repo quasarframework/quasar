@@ -5,8 +5,10 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import QSpinner from '../spinner/QSpinner.js'
 import DarkMixin from '../../mixins/dark.js'
+
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
+import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QTree',
@@ -554,7 +556,11 @@ export default Vue.extend({
 
         isParent === true
           ? h(QSlideTransition, {
-            props: { duration: this.duration }
+            props: { duration: this.duration },
+            on: cache(this, 'slide', {
+              show: () => { this.$emit('after-show') },
+              hide: () => { this.$emit('after-hide') }
+            })
           }, [
             h('div', {
               staticClass: 'q-tree__node-collapsible',

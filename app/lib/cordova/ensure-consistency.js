@@ -30,7 +30,7 @@ function ensureDeps () {
   spawnSync(
     'npm',
     [ 'install' ],
-    { cwd: appPaths.cordovaDir },
+    { cwd: appPaths.cordovaDir, env: { ...process.env, NODE_ENV: 'development' } },
     () => {
       warn(`⚠️  [FAIL] npm failed installing dependencies in /src-cordova`)
       process.exit(1)

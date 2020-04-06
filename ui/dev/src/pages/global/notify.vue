@@ -1,60 +1,61 @@
 <template>
-  <div class="q-layout-padding row justify-center">
-    <div style="width: 500px; max-width: 90vw;">
-      <div class="fixed-center z-max">
-        <div class="row group">
-          <div>
-            <q-btn round size="sm" color="secondary" @click="alertAsMethod('top-left')">
-              <q-icon name="arrow_back" class="rotate-45" />
-            </q-btn>
-          </div>
-          <div>
-            <q-btn round size="sm" color="accent" @click="alertAsMethod('top')">
-              <q-icon name="arrow_upward" />
-            </q-btn>
-          </div>
-          <div>
-            <q-btn round size="sm" color="secondary" @click="alertAsMethod('top-right')">
-              <q-icon name="arrow_upward" class="rotate-45" />
-            </q-btn>
-          </div>
+  <div class="q-layout-padding row justify-center" style="width: 500px; max-width: 90vw;">
+    <div class="fixed-center z-max">
+      <div class="row group">
+        <div>
+          <q-btn round size="sm" color="secondary" @click="alertAsMethod('top-left')">
+            <q-icon name="arrow_back" class="rotate-45" />
+          </q-btn>
         </div>
-        <div class="row group">
-          <div>
-            <q-btn round size="sm" color="accent" @click="alertAsMethod('left')">
-              <q-icon name="arrow_back" />
-            </q-btn>
-          </div>
-          <div>
-            <q-btn round size="sm" color="accent" @click="alertAsMethod('center')">
-              <q-icon name="fullscreen_exit" />
-            </q-btn>
-          </div>
-          <div>
-            <q-btn round size="sm" color="accent" @click="alertAsMethod('right')">
-              <q-icon name="arrow_forward" />
-            </q-btn>
-          </div>
+        <div>
+          <q-btn round size="sm" color="accent" @click="alertAsMethod('top')">
+            <q-icon name="arrow_upward" />
+          </q-btn>
         </div>
-        <div class="row group">
-          <div>
-            <q-btn round size="sm" color="secondary" @click="alertAsMethod('bottom-left')">
-              <q-icon name="arrow_forward" class="rotate-135" />
-            </q-btn>
-          </div>
-          <div>
-            <q-btn round size="sm" color="accent" @click="alertAsMethod('bottom')">
-              <q-icon name="arrow_downward" />
-            </q-btn>
-          </div>
-          <div>
-            <q-btn round size="sm" color="secondary" @click="alertAsMethod('bottom-right')">
-              <q-icon name="arrow_forward" class="rotate-45" />
-            </q-btn>
-          </div>
+        <div>
+          <q-btn round size="sm" color="secondary" @click="alertAsMethod('top-right')">
+            <q-icon name="arrow_upward" class="rotate-45" />
+          </q-btn>
+        </div>
+      </div>
+      <div class="row group">
+        <div>
+          <q-btn round size="sm" color="accent" @click="alertAsMethod('left')">
+            <q-icon name="arrow_back" />
+          </q-btn>
+        </div>
+        <div>
+          <q-btn round size="sm" color="accent" @click="alertAsMethod('center')">
+            <q-icon name="fullscreen_exit" />
+          </q-btn>
+        </div>
+        <div>
+          <q-btn round size="sm" color="accent" @click="alertAsMethod('right')">
+            <q-icon name="arrow_forward" />
+          </q-btn>
+        </div>
+      </div>
+      <div class="row group">
+        <div>
+          <q-btn round size="sm" color="secondary" @click="alertAsMethod('bottom-left')">
+            <q-icon name="arrow_forward" class="rotate-135" />
+          </q-btn>
+        </div>
+        <div>
+          <q-btn round size="sm" color="accent" @click="alertAsMethod('bottom')">
+            <q-icon name="arrow_downward" />
+          </q-btn>
+        </div>
+        <div>
+          <q-btn round size="sm" color="secondary" @click="alertAsMethod('bottom-right')">
+            <q-icon name="arrow_forward" class="rotate-45" />
+          </q-btn>
         </div>
       </div>
     </div>
+
+    <q-btn round icon="touch_app" @click="showGroup1" color="primary" class="absolute-top-left" />
+    <q-btn round icon="touch_app" @click="showGroup2" color="secondary" class="absolute-bottom-left" />
   </div>
 </template>
 
@@ -76,6 +77,22 @@ export default {
     }
   },
   methods: {
+    showGroup1 () {
+      this.$q.notify({
+        message: 'Grouped message ' + Math.random(),
+        group: 'some-group',
+        progress: true,
+        badgeColor: 'teal'
+      })
+    },
+
+    showGroup2 () {
+      this.$q.notify({
+        message: 'Some message',
+        progress: true
+      })
+    },
+
     alertAsMethod (position) {
       const { color, textColor, multiLine, icon, message, avatar } = alerts[ Math.floor(Math.random(alerts.length) * 10) % alerts.length ]
       const random = Math.random() * 100
@@ -92,18 +109,19 @@ export default {
         position,
         avatar,
         multiLine,
+        progress: true,
         actions: twoActions
           ? [
-            { label: 'Reply', color: buttonColor, handler: () => console.log('wooow') },
-            { label: 'Dismiss', color: 'yellow', handler: () => console.log('wooow') }
+            { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) },
+            { label: 'Dismiss', color: 'yellow', handler: () => console.log('dismiss wooow ' + random) }
           ]
           : (random > 40
-            ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('wooow') } ]
+            ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
             : null
           ),
         timeout: Math.random() * 5000 + 3000
       })
-      /* closeBtn test
+      /*
       this.$q.notify({
         color,
         textColor,
@@ -122,6 +140,55 @@ export default {
   },
 
   mounted () {
+    this.$q.notify.registerType('my-error', {
+      icon: 'warning',
+      color: 'purple',
+      position: 'top'
+    })
+
+    this.$q.notify({
+      type: 'my-error',
+      message: 'Type: my-error',
+      position: 'top',
+      onDismiss: () => {
+        console.log('dismissed first my-error')
+      }
+    })
+    this.$q.notify({
+      type: 'my-error',
+      message: 'Type: my-error, with overrided props',
+      icon: 'map',
+      position: 'top'
+    })
+
+    this.$q.notify({
+      type: 'positive',
+      message: 'Positive',
+      position: 'left'
+    })
+    this.$q.notify({
+      type: 'info',
+      message: 'Info',
+      position: 'left'
+    })
+    this.$q.notify({
+      type: 'warning',
+      message: 'Original warning',
+      position: 'left'
+    })
+
+    this.$q.notify({
+      type: 'negative',
+      message: 'Negative',
+      position: 'left'
+    })
+    this.$q.notify({
+      type: 'negative',
+      message: 'Negative with overrided props',
+      icon: 'map',
+      position: 'left'
+    })
+
     this.$q.notify.setDefaults({
       color: 'red'
     })
@@ -138,11 +205,9 @@ export default {
       message: '<em>I can</em> <span style="color: red">inject</span> <strong>HTML</strong>',
       html: true
     })
-    /*
-    this.$q.notify.setDefaults({
-      actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
-    })
-    */
+    // this.$q.notify.setDefaults({
+    //   actions: [{ icon: 'close', handler () { console.log('cloooose') } }]
+    // })
     this.$q.notify({
       message: 'You need to know about this!',
       caption: 'This is a caption',

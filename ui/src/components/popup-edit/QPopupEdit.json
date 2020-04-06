@@ -11,6 +11,13 @@
       "category": "model"
     },
 
+    "auto-save": {
+      "type": "Boolean",
+      "desc": "Automatically save the model (if changed) when user clicks/taps outside of the popup; It does not apply to ESC key",
+      "category": "behavior",
+      "addedIn": "v1.9.0"
+    },
+
     "title": {
       "type": "String",
       "desc": "Optional title (unless 'title' slot is used)",

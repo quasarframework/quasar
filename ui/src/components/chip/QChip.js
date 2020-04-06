@@ -170,7 +170,9 @@ export default Vue.extend({
         click: this.__onClick,
         keyup: this.__onKeyup
       }),
-      directives: [{ name: 'ripple', value: this.ripple }]
+      directives: cache(this, 'dir#' + this.ripple, [
+        { name: 'ripple', value: this.ripple }
+      ])
     })
 
     return h('div', data, this.__getContent(h))

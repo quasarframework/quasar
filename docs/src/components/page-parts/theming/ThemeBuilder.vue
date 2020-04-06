@@ -11,8 +11,8 @@
           glossy
           unelevated
         )
-          .text-caption.text-capitalize.text-weight-light
-            div {{ color }}
+          .text-caption.text-weight-light
+            .text-capitalize {{ color }}
             div {{ colors[color] }}
 
           q-menu(anchor="top left", self="top left")

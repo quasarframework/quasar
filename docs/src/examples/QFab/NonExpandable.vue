@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <q-layout view="lhh LpR lff" container style="height: 300px" class="shadow-2 rounded-borders">
-      <q-header reveal class="bg-black">
+      <q-header class="bg-black">
         <q-toolbar>
           <q-btn flat round dense icon="menu" />
           <q-toolbar-title>Header</q-toolbar-title>

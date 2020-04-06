@@ -27,6 +27,17 @@
       "category": "behavior"
     },
 
+    "default-date": {
+      "type": "String",
+      "desc": "The default date to use (in YYYY/MM/DD format) when model is unfilled (undefined or null)",
+      "default": "current day",
+      "examples": [
+        "1995/02/23"
+      ],
+      "category": "model",
+      "addedIn": "v1.9.0"
+    },
+
     "mask": {
       "default": "HH:mm",
       "examples": [ "HH:mm:ss", "YYYY-MM-DD HH:mm:ss", "HH:mm MMMM Do, YYYY" ]

@@ -61,8 +61,8 @@ export default {
       }
     },
 
-    isRound () {
-      return this.round === true || this.fab === true || this.fabMini === true
+    isRounded () {
+      return this.rounded === true || this.fab === true || this.fabMini === true
     },
 
     isActionable () {
@@ -90,17 +90,33 @@ export default {
     },
 
     attrs () {
-      const att = { tabindex: this.computedTabIndex }
+      const attrs = { tabindex: this.computedTabIndex }
+
       if (this.type !== 'a') {
-        att.type = this.type || 'button'
+        attrs.type = this.type || 'button'
       }
+
       if (this.hasRouterLink === true) {
-        att.href = this.$router.resolve(this.to).href
+        attrs.href = this.$router.resolve(this.to).href
+        attrs.role = 'link'
       }
+      else {
+        attrs.role = this.type === 'a' ? 'link' : 'button'
+      }
+
+      if (this.loading === true && this.percentage !== void 0) {
+        attrs.role = 'progressbar'
+        attrs['aria-valuemin'] = 0
+        attrs['aria-valuemax'] = 100
+        attrs['aria-valuenow'] = this.computedPercentage
+      }
+
       if (this.disable === true) {
-        att.disabled = true
+        attrs.disabled = ''
+        attrs['aria-disabled'] = ''
       }
-      return att
+
+      return attrs
     },
 
     classes () {
@@ -119,7 +135,7 @@ export default {
       }
 
       return `q-btn--${this.design} ` +
-        `q-btn--${this.isRound === true ? 'round' : `rectangle${this.rounded === true ? ' q-btn--rounded' : ''}`}` +
+        `q-btn--${this.round === true ? 'round' : `rectangle${this.isRounded === true ? ' q-btn--rounded' : ''}`}` +
         (colors !== void 0 ? ' ' + colors : '') +
         (this.isActionable === true ? ' q-btn--actionable q-focusable q-hoverable' : (this.disable === true ? ' disabled' : '')) +
         (this.fab === true ? ' q-btn--fab' : (this.fabMini === true ? ' q-btn--fab-mini' : '')) +

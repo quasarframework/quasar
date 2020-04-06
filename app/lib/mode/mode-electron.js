@@ -10,8 +10,8 @@ const nodePackager = require('../helpers/node-packager')
 const { bundlerIsInstalled } = require('../electron/bundler')
 
 const electronDeps = {
-  'electron': '^7.0.0',
-  'electron-debug': '^3.0.0',
+  'electron': '^8.0.1',
+  'electron-debug': '^3.0.1',
   'electron-devtools-installer': '^2.2.4',
   'devtron': '^1.4.0'
 }
@@ -37,8 +37,8 @@ class Mode {
       cmdParam.concat(Object.keys(electronDeps).map(dep => {
         return `${dep}@${electronDeps[dep]}`
       })),
-      { cwd: appPaths.appDir },
-      () => warn('Failed to install Electron dependencies')
+      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
+      () => warn('⚠️  Failed to install Electron dependencies')
     )
 
     log(`Creating Electron source folder...`)
@@ -75,8 +75,8 @@ class Mode {
     spawnSync(
       nodePackager,
       cmdParam.concat(deps),
-      { cwd: appPaths.appDir },
-      () => warn('Failed to uninstall Electron dependencies')
+      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
+      () => warn('⚠️  Failed to uninstall Electron dependencies')
     )
 
     log(`Electron support was removed`)

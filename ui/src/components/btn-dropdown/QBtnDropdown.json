@@ -81,6 +81,7 @@
         "center left", "center middle", "center right",
         "bottom left", "bottom center", "bottom right"
       ],
+      "default": "bottom right",
       "examples": [ "top left", "bottom right" ],
       "category": "position"
     },
@@ -93,8 +94,17 @@
         "center left", "center middle", "center right",
         "bottom left", "bottom center", "bottom right"
       ],
+      "default": "top right",
       "examples": [ "top left", "bottom right" ],
       "category": "position"
+    },
+
+    "menu-offset": {
+      "type": "Array",
+      "desc": "An array of two numbers to offset the menu horizontally and vertically in pixels",
+      "examples": [ "[8, 8]", "[5, 10]" ],
+      "category": "position",
+      "addedIn": "v1.9.2"
     }
   },
 

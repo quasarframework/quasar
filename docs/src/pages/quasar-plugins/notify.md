@@ -5,7 +5,7 @@ desc: A Quasar plugin to display animated messages to users like notifications, 
 Notify is a Quasar plugin that can display animated messages (floating above everything in your pages) to users in the form of a notification. They are useful for alerting the user of an event and can even engage the user through actions. Also known as a toast or snackbar.
 
 ## Installation
-<doc-installation plugins="Notify" :config="{ notify: 'Notify' }" />
+<doc-installation plugins="Notify" config="notify" />
 
 ## Usage
 
@@ -33,9 +33,7 @@ this.$q.notify({...})
 If you define any actions, the notification will automatically be dismissed when the user picks it.
 :::
 
-### With caption
-
-<q-badge label="v1.5.5+" />
+### With caption <q-badge align="top" label="v1.5.5+" />
 
 <doc-example title="Caption" file="Notify/Caption" />
 
@@ -60,6 +58,46 @@ If you define any actions, the notification will automatically be dismissed when
 ::: tip
 For a full list of options, check the API section.
 :::
+
+### Grouping <q-badge align="top" label="v1.9+" />
+
+Each notification has an underlying unique group which is computed out of the message + caption + multiLine + actions labels + position. When multiple notifications get triggered with the same group, instead of showing all of them and flooding the view, only the first one remains on screen along with a badge. The badge content represents the number of times that the same notification has been triggered (and with same position) since the first one appeared on screen.
+
+However, if you wish to disable this behavior, specify `group: false`. In the example below, the first button triggers the same notification twice each time is clicked. The second button has grouping disabled. The third button, however, has a custom group name so each subsequent notification replaces the old one and increments the badge number.
+
+<doc-example title="Grouping" file="Notify/Grouping" />
+
+<doc-example title="Custom badge" file="Notify/GroupingCustomBadge" />
+
+### Timeout progress <q-badge align="top" label="v1.9+" />
+
+Should you wish, there is a way to tell the user when the notification will disappear from the screen. That's for the cases when timeout is not set to 0.
+
+<doc-example title="Timeout progress" file="Notify/TimeoutProgress" />
+
+### Predefined types <q-badge align="top" label="v1.9+" />
+
+There are four predefined types out of the box that you can use: "positive", "negative", "warning" and "info":
+
+<doc-example title="Out of the box types" file="Notify/PredefinedTypesDefault" />
+
+Furthermore, you can register your own types or even override the predefined ones. The best place to do this would be in a [boot file](/quasar-cli/cli-documentation/boot-files).
+
+<doc-example title="Custom type" file="Notify/PredefinedTypesCustom" />
+
+```js
+// How to register in a boot file:
+
+import { Notify } from 'quasar'
+
+Notify.registerType('my-notif', {
+  icon: 'announcement',
+  progress: true,
+  color: 'brown',
+  textColor: 'white',
+  classes: 'glossy'
+})
+```
 
 ### Using HTML
 You can use HTML on message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.

@@ -1,5 +1,7 @@
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
+
+import FormMixin from '../../mixins/form.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
@@ -31,7 +33,7 @@ export function getModel (ratio, min, max, step, decimals) {
 import DarkMixin from '../../mixins/dark.js'
 
 export let SliderMixin = {
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, FormMixin ],
 
   directives: {
     TouchPan
@@ -125,6 +127,22 @@ export let SliderMixin = {
 
     horizProp () {
       return this.isReversed === true ? 'right' : 'left'
+    },
+
+    attrs () {
+      const attrs = {
+        role: 'slider',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-orientation': 'horizontal',
+        'data-step': this.step
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 

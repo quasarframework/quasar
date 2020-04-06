@@ -1,5 +1,5 @@
 {
-  "mixins": [ "mixins/size" ],
+  "mixins": [ "mixins/size", "mixins/form" ],
 
   "props": {
     "value": {

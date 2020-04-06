@@ -40,7 +40,7 @@ export default {
     },
 
     __processFiles (e, files) {
-      files = Array.prototype.slice.call(files || e.target.files)
+      files = Array.from(files || e.target.files)
 
       // filter file types
       if (this.accept !== void 0) {
@@ -125,6 +125,43 @@ export default {
             drop: this.__onDrop
           })
         })
+      }
+    }
+  }
+}
+
+export const FileValueMixin = {
+  computed: {
+    formDomProps () {
+      if (this.type !== 'file') {
+        return
+      }
+
+      try {
+        const dt = 'DataTransfer' in window
+          ? new DataTransfer()
+          : ('ClipboardEvent' in window
+            ? new ClipboardEvent('').clipboardData
+            : void 0
+          )
+
+        if (Object(this.value) === this.value) {
+          ('length' in this.value
+            ? Array.from(this.value)
+            : [ this.value ]
+          ).forEach(file => {
+            dt.items.add(file)
+          })
+        }
+
+        return {
+          files: dt.files
+        }
+      }
+      catch (e) {
+        return {
+          files: void 0
+        }
       }
     }
   }

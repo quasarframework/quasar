@@ -3,6 +3,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/form"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "autofocus": {
       "type": "Boolean",
@@ -50,7 +54,15 @@
     },
 
     "validation-error": {
-      "desc": "Emitted after a validation was triggered and at least one of the inner Quasar components models are NOT valid"
+      "desc": "Emitted after a validation was triggered and at least one of the inner Quasar components models are NOT valid",
+      "params": {
+        "ref": {
+          "type": "Object",
+          "desc": "Vue reference to the first component that triggered the validation error",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.9.9"
     }
   },
 

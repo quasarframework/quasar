@@ -13,9 +13,7 @@ Quasar Tree represents a highly configurable component that displays hierarchica
 
 <doc-example title="Basic" file="QTree/Basic" />
 
-### No connector lines
-
-<q-badge label="v1.5.10+" />
+### No connector lines <q-badge align="top" label="v1.5.10+" />
 
 <doc-example title="No connectors" file="QTree/NoConnectors" />
 

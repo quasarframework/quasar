@@ -101,7 +101,6 @@ const options = [
   },
   {
     name: 'Quasar Icon Sets',
-    badge: 'update',
     path: 'quasar-icon-sets'
   },
   {
@@ -163,6 +162,15 @@ const cli = [
     path: 'cli-documentation',
     children: [
       {
+        name: 'Supporting IE',
+        path: 'supporting-ie'
+      },
+      {
+        name: 'Supporting TypeScript',
+        badge: 'new',
+        path: 'supporting-ts'
+      },
+      {
         name: 'Directory Structure',
         path: 'directory-structure'
       },
@@ -217,10 +225,6 @@ const cli = [
       {
         name: 'Linter',
         path: 'linter'
-      },
-      {
-        name: 'Supporting IE',
-        path: 'supporting-ie'
       }
     ]
   },
@@ -432,12 +436,10 @@ const cli = [
       },
       {
         name: 'Node Integration',
-        badge: 'update',
         path: 'node-integration'
       },
       {
         name: 'Preload Script',
-        badge: 'new',
         path: 'electron-preload-script'
       },
       {
@@ -507,7 +509,6 @@ const style = [
   },
   {
     name: 'Body classes',
-    badge: 'update',
     path: 'body-classes'
   },
   {
@@ -595,11 +596,8 @@ const layout = [
   },
   {
     name: 'Page Scroller',
+    badge: 'update',
     path: 'page-scroller'
-  },
-  {
-    name: 'Floating Action Button',
-    path: 'floating-action-button'
   }
 ]
 
@@ -618,6 +616,7 @@ const directives = [
   },
   {
     name: 'Material Ripples',
+    badge: 'update',
     path: 'material-ripple'
   },
   {
@@ -698,6 +697,7 @@ const plugins = [
   },
   {
     name: 'Notify',
+    badge: 'update',
     path: 'notify'
   }
 ]
@@ -752,6 +752,7 @@ const components = [
   },
   {
     name: 'Carousel',
+    badge: 'update',
     path: 'carousel'
   },
   {
@@ -783,7 +784,13 @@ const components = [
     path: 'expansion-item'
   },
   {
+    name: 'Floating Action Button',
+    badge: 'update',
+    path: 'floating-action-button'
+  },
+  {
     name: 'Form Components',
+    opened: true,
     listPath: 'form-components',
     children: [
       {
@@ -933,7 +940,13 @@ const components = [
     path: 'rating'
   },
   {
+    name: 'Responsive',
+    badge: 'new',
+    path: 'responsive'
+  },
+  {
     name: 'Scroll Area',
+    badge: 'update',
     path: 'scroll-area'
   },
   {
@@ -942,7 +955,6 @@ const components = [
   },
   {
     name: 'Skeleton',
-    badge: 'new',
     path: 'skeleton'
   },
   {
@@ -1004,7 +1016,6 @@ const components = [
   },
   {
     name: 'Video',
-    badge: 'update',
     path: 'video'
   },
   {
@@ -1089,7 +1100,6 @@ const utils = [
   },
   {
     name: 'Color Utils',
-    badge: 'update',
     path: 'color-utils'
   },
   {
@@ -1106,7 +1116,6 @@ const utils = [
   },
   {
     name: 'Other Utils',
-    badge: 'update',
     path: 'other-utils'
   }
 ]

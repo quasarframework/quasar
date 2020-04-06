@@ -44,9 +44,7 @@ import { Screen } from 'quasar'
 // Screen.name ('xs', 'sm', ...; Quasar v1.5.2+)
 ```
 
-## Body classes
-
-<q-badge label="v1.5.3+" />
+## Body classes <q-badge align="top" label="v1.5.3+" />
 
 **If you enable it (see how to do it after the examples below)**, you can also style your content based on a particular set of CSS classes applied to document.body: `screen--xs`, `screen--sm`, ..., `screen-xl`.
 
@@ -68,9 +66,9 @@ Or a sexy variant in Sass or Stylus:
 
 ```css
 .my-div
-  body.screen-xs &
+  body.screen--xs &
     color: #000
-  body.screen-sm &
+  body.screen--sm &
     color: #fff
 ```
 

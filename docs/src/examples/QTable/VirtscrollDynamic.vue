@@ -1,12 +1,11 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      class="my-sticky-virtscroll-table"
+      class="my-sticky-dynamic"
       title="Treats"
       :data="data"
       :columns="columns"
       :loading="loading"
-      table-style="max-height: 400px"
       row-key="index"
       virtual-scroll
       :virtual-scroll-item-size="48"
@@ -205,10 +204,9 @@ export default {
 </script>
 
 <style lang="sass">
-.my-sticky-virtscroll-table
-  /* max height is important */
-  .q-table__middle
-    max-height: 200px
+.my-sticky-dynamic
+  /* height or max-height is important */
+  height: 410px
 
   .q-table__top,
   .q-table__bottom,

@@ -31,7 +31,7 @@
 
       <div class="col-6">
         <q-img src="https://cdn.quasar.dev/img/parallax2.jpg" native-context-menu>
-          <q-icon class="absolute-top-left all-pointer-events" size="32px" name="info" color="white">
+          <q-icon class="absolute all-pointer-events" size="32px" name="info" color="white" style="top: 8px; left: 8px">
             <q-tooltip>
               Tooltip
             </q-tooltip>

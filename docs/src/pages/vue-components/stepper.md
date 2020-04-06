@@ -16,6 +16,10 @@ process, like in a [wizard](https://en.wikipedia.org/wiki/Wizard_(software)).
 
 ## Usage
 
+::: tip
+If the QStep content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 ::: danger
 Please take notice of the Boolean `keep-alive` prop for QStepper, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QStep.
 :::
@@ -58,6 +62,10 @@ You can also use `prefix` prop (max 2 characters) instead of an icon for each st
 <doc-example title="Step prefix" file="QStepper/Prefix" />
 
 <doc-example title="Dark" file="QStepper/Dark" />
+
+Starting with Quasar v1.9.13+, you can use the `header-class` prop to apply any CSS class(es) to the header. In the example below, we are applying bolded text:
+
+<doc-example title="Header Class" file="QStepper/HeaderClass" />
 
 ### Message slot
 

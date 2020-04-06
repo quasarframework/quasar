@@ -101,16 +101,20 @@ export default Vue.extend({
       return offset > 0 ? offset : 0
     },
 
+    hidden () {
+      return this.value !== true || (this.fixed === true && this.revealed !== true)
+    },
+
+    revealOnFocus () {
+      return this.value === true && this.hidden === true && this.reveal === true
+    },
+
     classes () {
-      return (
-        (this.fixed === true ? 'fixed' : 'absolute') + '-bottom') +
-        (this.value === true || this.fixed === true ? '' : ' hidden') +
+      return (this.fixed === true ? 'fixed' : 'absolute') + '-bottom' +
         (this.bordered === true ? ' q-footer--bordered' : '') +
-        (
-          this.value !== true || (this.fixed === true && this.revealed !== true)
-            ? ' q-footer--hidden'
-            : ''
-        )
+        (this.hidden === true ? ' q-footer--hidden' : '') +
+        (this.value !== true ? ' q-layout--prevent-focus' : '') +
+        (this.value !== true && this.fixed !== true ? ' hidden' : '')
     },
 
     style () {
@@ -130,12 +134,12 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = [
+    const child = mergeSlot([
       h(QResizeObserver, {
         props: { debounce: 0 },
         on: cache(this, 'resize', { resize: this.__onResize })
       })
-    ]
+    ], this, 'default')
 
     this.elevated === true && child.push(
       h('div', {
@@ -149,9 +153,10 @@ export default Vue.extend({
       style: this.style,
       on: {
         ...this.$listeners,
+        focusin: this.__onFocusin,
         input: stop
       }
-    }, mergeSlot(child, this, 'default'))
+    }, child)
   },
 
   created () {
@@ -198,6 +203,14 @@ export default Vue.extend({
         position - inflexionPosition < 100 ||
         this.layout.height - this.containerHeight - position - this.size < 300
       ))
+    },
+
+    __onFocusin (evt) {
+      if (this.revealOnFocus === true) {
+        this.__updateLocal('revealed', true)
+      }
+
+      this.$emit('focusin', evt)
     }
   }
 })

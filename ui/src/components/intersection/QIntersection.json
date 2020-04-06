@@ -1,13 +1,31 @@
 {
+  "mixins": [ "mixins/tag" ],
+
   "meta": {
     "docsUrl": "https://v1.quasar.dev/vue-components/intersection"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
+    "tag": {
+      "examples": [ "div", "span", "blockquote" ],
+      "addedIn": "v1.9.3"
+    },
+
     "once": {
       "type": "Boolean",
       "desc": "Get triggered only once",
       "category": "behavior"
+    },
+
+    "ssr-prerender": {
+      "type": "Boolean",
+      "desc": "Pre-render content on server side if using SSR (use it to pre-render above the fold content)",
+      "category": "behavior",
+      "addedIn": "v1.9.5"
     },
 
     "margin": {

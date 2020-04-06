@@ -111,8 +111,8 @@
       "params": {
         "index": {
           "type": [ "String", "Number" ],
-          "desc": "The index of the list item to scroll to after refresh (0 based); If it's not specified the scroll position is not changed",
-          "examples": [ "1", 23 ]
+          "desc": "The index of the list item to scroll to after refresh (0 based); If it's not specified the scroll position is not changed; Use a negative value to keep scroll position",
+          "examples": [ "1", 23, -1 ]
         }
       },
       "addedIn": "v1.8.4"

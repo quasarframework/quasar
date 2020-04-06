@@ -62,3 +62,10 @@
   &--expanded + &--expanded
     > div > .q-expansion-item__border--top
       opacity: 0
+
+  &--expanded .q-textarea--autogrow textarea
+    animation: q-expansion-done 0s
+
+@keyframes q-expansion-done
+  0%
+    --q-exp-done: 1 // needed for compilation

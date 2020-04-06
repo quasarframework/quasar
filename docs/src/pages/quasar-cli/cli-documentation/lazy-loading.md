@@ -106,7 +106,7 @@ So how can we limit the number of chunks created in this case? The idea is to li
   ```js
   await import(
     /* webpackInclude: /(ar|en-us|ro)\.js$/ */
-    `quasar/lang/${langIso}`
+    'quasar/lang/' + langIso
   )
     .then(lang => {
       Quasar.lang.set(lang.default)

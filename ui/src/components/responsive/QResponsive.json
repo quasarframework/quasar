@@ -1,0 +1,17 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-components/responsive"
+  },
+
+  "mixins": [ "mixins/ratio" ],
+
+  "behavior": {
+    "$listeners": true
+  },
+
+  "slots": {
+    "default": {
+      "extends": "default"
+    }
+  }
+}

@@ -301,7 +301,7 @@ export default {
     import(
       /* webpackChunkName: "quasar-api" */
       /* webpackMode: "lazy-once" */
-      `quasar/dist/api/${this.file}.json`
+      'quasar/dist/api/' + this.file + '.json'
     ).then(json => {
       this.parseJson(this.file, json.default)
       this.ready = true

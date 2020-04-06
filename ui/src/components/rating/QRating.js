@@ -3,7 +3,9 @@ import Vue from 'vue'
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import QIcon from '../icon/QIcon.js'
+
 import SizeMixin from '../../mixins/size.js'
+import FormMixin from '../../mixins/form.js'
 
 import { cache } from '../../utils/vm.js'
 import { slot } from '../../utils/slot.js'
@@ -11,7 +13,7 @@ import { slot } from '../../utils/slot.js'
 export default Vue.extend({
   name: 'QRating',
 
-  mixins: [ SizeMixin ],
+  mixins: [ SizeMixin, FormMixin ],
 
   props: {
     value: {
@@ -79,6 +81,15 @@ export default Vue.extend({
         selColor: selColorLen > 0 ? this.colorSelected[selColorLen - 1] : this.colorSelected,
         halfColorLen,
         halfColor: halfColorLen > 0 ? this.colorHalf[halfColorLen - 1] : this.colorHalf
+      }
+    },
+
+    attrs () {
+      if (this.disable === true) {
+        return { 'aria-disabled': '' }
+      }
+      if (this.readonly === true) {
+        return { 'aria-readonly': '' }
       }
     }
   },
@@ -179,10 +190,15 @@ export default Vue.extend({
       )
     }
 
+    if (this.name !== void 0 && this.disable !== true) {
+      this.__injectFormInput(child, 'push')
+    }
+
     return h('div', {
       staticClass: 'q-rating row inline items-center',
       class: this.classes,
       style: this.sizeStyle,
+      attrs: this.attrs,
       on: this.$listeners
     }, child)
   }

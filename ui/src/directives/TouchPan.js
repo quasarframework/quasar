@@ -67,7 +67,7 @@ function getChanges (evt, ctx, isFinal) {
 
   let synthetic = false
 
-  if (dir === void 0 && isFinal !== true) {
+  if (dir === void 0 && isFinal === false) {
     if (ctx.event.isFirst === true || ctx.event.lastDir === void 0) {
       return {}
     }
@@ -234,7 +234,7 @@ export default {
           handleEvent(evt, isMouseEvt)
 
           document.documentElement.style.cursor = 'grabbing'
-          isMouseEvt === true && document.body.classList.add('no-pointer-events')
+          isMouseEvt === true && document.body.classList.add('no-pointer-events--children')
           document.body.classList.add('non-selectable')
           clearSelection()
 
@@ -246,7 +246,7 @@ export default {
 
             if (isMouseEvt === true) {
               const remove = () => {
-                document.body.classList.remove('no-pointer-events')
+                document.body.classList.remove('no-pointer-events--children')
               }
 
               if (withDelay === true) { setTimeout(remove, 50) }
@@ -328,10 +328,8 @@ export default {
             ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
           }
         }
-        else if (
-          ctx.event.detected === true &&
-          ctx.event.isFirst !== true
-        ) {
+        else if (ctx.event.detected === true) {
+          ctx.event.isFirst === true && ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx).payload)
           ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true).payload)
         }
 

@@ -21,8 +21,9 @@ import {
   fasSlidersH,
   fasSwatchbook,
   fasSyncAlt,
+  fasChevronUp,
+  fasChevronDown,
   fasCircle,
-  fasTh,
   fasTimesCircle,
   farClock,
   farCalendarCheck,
@@ -52,7 +53,6 @@ import {
   fasRedo,
   fasCode,
   fasFont,
-  fasChevronDown,
   fasPlus,
   fasTimes,
   fasExclamationCircle,
@@ -60,7 +60,6 @@ import {
   fasStepForward,
   fasStar,
   fasPencilAlt,
-  fasChevronUp,
   fasPlay,
   fasPlusSquare,
   fasUpload,
@@ -98,8 +97,9 @@ export default {
   carousel: {
     left: fasChevronLeft,
     right: fasChevronRight, // TODO
-    navigationIcon: fasCircle,
-    thumbnails: fasTh
+    up: fasChevronUp,
+    down: fasChevronDown,
+    navigationIcon: fasCircle
   },
   chip: {
     remove: fasTimesCircle,

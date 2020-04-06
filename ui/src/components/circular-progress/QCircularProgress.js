@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
+import { mergeSlotSafely } from '../../utils/slot.js'
 
 const
   radius = 50,
@@ -83,6 +84,15 @@ export default Vue.extend({
 
     strokeWidth () {
       return this.thickness / 2 * this.viewBox
+    },
+
+    attrs () {
+      return {
+        role: 'progressbar',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-valuenow': this.indeterminate === true ? void 0 : this.value
+      }
     }
   },
 
@@ -107,18 +117,40 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h('div', {
-      staticClass: 'q-circular-progress',
-      class: `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
-      style: this.sizeStyle,
-      on: this.$listeners,
-      attrs: {
-        'role': 'progressbar',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
-        'aria-valuenow': this.indeterminate !== true ? this.value : null
-      }
-    }, [
+    const svgChild = []
+
+    this.centerColor !== void 0 && this.centerColor !== 'transparent' && svgChild.push(
+      h('circle', {
+        staticClass: 'q-circular-progress__center',
+        class: `text-${this.centerColor}`,
+        attrs: {
+          fill: 'currentColor',
+          r: radius - this.strokeWidth / 2,
+          cx: this.viewBox,
+          cy: this.viewBox
+        }
+      })
+    )
+
+    this.trackColor !== void 0 && this.trackColor !== 'transparent' && svgChild.push(
+      this.__getCircle(h, {
+        cls: 'track',
+        thickness: this.strokeWidth,
+        offset: 0,
+        color: this.trackColor
+      })
+    )
+
+    svgChild.push(
+      this.__getCircle(h, {
+        cls: 'circle',
+        thickness: this.strokeWidth,
+        offset: this.strokeDashOffset,
+        color: this.color
+      })
+    )
+
+    const child = [
       h('svg', {
         staticClass: 'q-circular-progress__svg',
         style: this.svgStyle,
@@ -126,39 +158,22 @@ export default Vue.extend({
           focusable: 'false' /* needed for IE11 */,
           viewBox: this.viewBoxAttr
         }
-      }, [
-        this.centerColor !== void 0 && this.centerColor !== 'transparent' ? h('circle', {
-          staticClass: 'q-circular-progress__center',
-          class: `text-${this.centerColor}`,
-          attrs: {
-            fill: 'currentColor',
-            r: radius - this.strokeWidth / 2,
-            cx: this.viewBox,
-            cy: this.viewBox
-          }
-        }) : null,
+      }, svgChild)
+    ]
 
-        this.trackColor !== void 0 && this.trackColor !== 'transparent' ? this.__getCircle(h, {
-          cls: 'track',
-          thickness: this.strokeWidth,
-          offset: 0,
-          color: this.trackColor
-        }) : null,
+    this.showValue === true && child.push(
+      h('div', {
+        staticClass: 'q-circular-progress__text absolute-full row flex-center content-center',
+        style: { fontSize: this.fontSize }
+      }, this.$scopedSlots.default !== void 0 ? this.$scopedSlots.default() : [ h('div', [ this.value ]) ])
+    )
 
-        this.__getCircle(h, {
-          cls: 'circle',
-          thickness: this.strokeWidth,
-          offset: this.strokeDashOffset,
-          color: this.color
-        })
-      ]),
-
-      this.showValue === true
-        ? h('div', {
-          staticClass: 'q-circular-progress__text absolute-full row flex-center content-center',
-          style: { fontSize: this.fontSize }
-        }, this.$scopedSlots.default !== void 0 ? this.$scopedSlots.default() : [ h('div', [ this.value ]) ])
-        : null
-    ])
+    return h('div', {
+      staticClass: 'q-circular-progress',
+      class: `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
+      style: this.sizeStyle,
+      on: this.$listeners,
+      attrs: this.attrs
+    }, mergeSlotSafely(child, this, 'internal'))
   }
 })

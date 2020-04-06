@@ -4,6 +4,10 @@ desc: The typography of a Quasar app and its helper CSS classes.
 components:
   - typography/TypographyHeadings
   - typography/TypographyWeights
+related:
+  - /style/visibility
+  - /style/positioning
+  - /style/spacing
 ---
 We'll handle the typography supplied by Quasar in the sections below.
 

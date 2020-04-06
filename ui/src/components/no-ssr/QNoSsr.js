@@ -15,22 +15,28 @@ export default Vue.extend({
   },
 
   render (h) {
+    const data = {
+      on: this.$listeners
+    }
+
     if (this.canRender === true) {
       const node = slot(this, 'default')
       return node === void 0
         ? node
-        : (node.length > 1 ? h(this.tag, node) : node[0])
+        : (node.length > 1 ? h(this.tag, data, node) : node[0])
     }
+
+    data.staticClass = 'q-no-ssr-placeholder'
 
     const node = slot(this, 'placeholder')
     if (node !== void 0) {
       return node.length > 1
-        ? h(this.tag, { staticClass: 'q-no-ssr-placeholder' }, node)
+        ? h(this.tag, data, node)
         : node[0]
     }
 
     if (this.placeholder !== void 0) {
-      return h(this.tag, { staticClass: 'q-no-ssr-placeholder' }, [
+      return h(this.tag, data, [
         this.placeholder
       ])
     }

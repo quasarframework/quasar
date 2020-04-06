@@ -113,6 +113,7 @@ export default Vue.extend({
     }
     else {
       component = QMenu
+      data.props.target = this.target
       data.props.contextMenu = this.contextMenu
       data.props.noParentEvent = true
       data.props.separateClosePopup = true

@@ -1,50 +1,172 @@
 <template>
-  <div class="q-layout-padding docs-carousel" style="max-width: 700px">
-    <div class="caption">
-      Basic Carousel. No controls. Just swipe between slides (you can use
-      mouse to swipe too) to navigate left or right.
+  <div class="q-layout-padding docs-carousel" style="max-width: 600px; padding-top: 135px">
+    <div class="fixed-top full-width z-top row items-center bg-grey-6 q-gutter-md">
+      <q-btn label="fullscreen" color="purple" @click="$refs.carousel.toggleFullscreen()" />
+      <q-select dense filled v-model="navigationPosition" :options="navigationPositions" label="Navigation position" style="min-width: 10em" />
+      <q-select dense filled :options="[ 'regular', 'flat', 'outline', 'push', 'unelevated' ]" v-model="controlType" label="Control Type" style="min-width: 10em" />
+      <q-toggle dense v-model="vertical" label="Vertical" />
+      <q-toggle dense v-model="fullscreen" label="Fullscreen" />
+      <q-toggle dense v-model="arrows" label="Arrows" />
+      <q-toggle dense v-model="padding" label="Padding" />
     </div>
-    <div>
-      <q-toggle v-model="arrows" label="Show arrows" class="q-ml-sm" />
-    </div>
-    <q-btn label="fullscreen" class="fixed-top-left z-top" color="purple" @click="$refs.carousel.toggleFullscreen()" />
-    <q-toggle v-model="fullscreen" label="Fullscreen" class="fixed-top-right z-top" />
+
+    <q-responsive :ratio="16/9">
+      <q-carousel
+        v-bind="props"
+        ref="carousel"
+        swipeable
+        animated
+        :fullscreen.sync="fullscreen"
+        v-model="slide"
+        control-color="orange"
+        navigation
+        navigation-icon="radio_button_unchecked"
+        class="shadow-1 rounded-borders"
+      >
+        <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/parallax2.jpg" class="text-white">
+          <q-scroll-area class="fit">
+            <div class="column no-wrap flex-center test-scroll-container">
+              <q-icon name="style" size="56px" />
+              <div class="q-mt-md text-center">
+                {{ lorem }}
+              </div>
+              <div class="q-mt-md text-center">
+                {{ lorem }}
+              </div>
+              <div class="q-mt-md text-center">
+                {{ lorem }}
+              </div>
+              <div class="q-mt-md text-center">
+                {{ lorem }}
+              </div>
+              <div class="q-mt-md text-center">
+                {{ lorem }}
+              </div>
+              <div class="q-mt-md text-center">
+                {{ lorem }}
+              </div>
+            </div>
+          </q-scroll-area>
+        </q-carousel-slide>
+        <q-carousel-slide name="x" img-src="https://cdn.quasar.dev/img/parallax2.jpg" class="text-white scroll text-center">
+          <div class="test-scroll-container">
+            <q-icon name="style" size="56px" />
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="1" class="column no-wrap flex-center">
+          <q-icon name="live_tv" color="orange" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" class="column no-wrap flex-center">
+          <q-icon name="layers" color="orange" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="3" class="column no-wrap flex-center">
+          <q-icon name="terrain" color="orange" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </q-carousel-slide>
+      </q-carousel>
+    </q-responsive>
+
+    <div class="q-my-md">Using .q-carousel--padding:</div>
     <q-carousel
+      v-bind="props"
       ref="carousel"
-      transition-prev="slide-right"
-      transition-next="slide-left"
       swipeable
       animated
-      :fullscreen.sync="fullscreen"
+      :padding="false"
       v-model="slide"
-      control-color="primary"
-      navigation-icon="radio_button_unchecked"
+      control-color="orange"
       navigation
-      padding
-      :arrows="arrows"
-      height="200px"
-      class="shadow-1 rounded-borders"
+      navigation-icon="radio_button_unchecked"
+      class="shadow-1 rounded-borders q-mt-lg"
     >
-      <q-carousel-slide :name="0" class="column no-wrap flex-center">
-        <q-icon name="style" color="primary" size="56px" />
+      <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/parallax2.jpg" class="text-white q-pa-none">
+        <q-scroll-area class="fit">
+          <div class="column no-wrap flex-center test-scroll-container q-carousel--padding">
+            <q-icon name="style" size="56px" />
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+            <div class="q-mt-md text-center">
+              {{ lorem }}
+            </div>
+          </div>
+        </q-scroll-area>
+      </q-carousel-slide>
+      <q-carousel-slide name="x" img-src="https://cdn.quasar.dev/img/parallax2.jpg" class="text-white scroll text-center">
+        <div class="test-scroll-container">
+          <q-icon name="style" size="56px" />
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+          <div class="q-mt-md text-center">
+            {{ lorem }}
+          </div>
+        </div>
+      </q-carousel-slide>
+      <q-carousel-slide :name="1" class="column no-wrap flex-center q-pa-xl">
+        <q-icon name="live_tv" color="orange" size="56px" />
         <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
-      <q-carousel-slide :name="1" class="column no-wrap flex-center">
-        <q-icon name="live_tv" color="primary" size="56px" />
+      <q-carousel-slide :name="2" class="column no-wrap flex-center q-pa-xl">
+        <q-icon name="layers" color="orange" size="56px" />
         <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
       </q-carousel-slide>
-      <q-carousel-slide :name="2" class="column no-wrap flex-center">
-        <q-icon name="layers" color="primary" size="56px" />
-        <div class="q-mt-md text-center">
-          {{ lorem }}
-        </div>
-      </q-carousel-slide>
-      <q-carousel-slide :name="3" class="column no-wrap flex-center">
-        <q-icon name="terrain" color="primary" size="56px" />
+      <q-carousel-slide :name="3" class="column no-wrap flex-center q-pa-xl">
+        <q-icon name="terrain" color="orange" size="56px" />
         <div class="q-mt-md text-center">
           {{ lorem }}
         </div>
@@ -55,13 +177,13 @@
       Scroll. Padding. Video on second slide.
     </div>
     <q-carousel
+      v-bind="props"
       transition-prev="rotate"
       transition-next="rotate"
       swipeable
+      :vertical="vertical"
       animated
       v-model="slide"
-      arrows
-      padding
       height="200px"
       class="bg-grey-9 text-white shadow-1 rounded-borders"
     >
@@ -86,7 +208,8 @@
       Example creating custom captions for each slide.
     </div>
     <q-carousel
-      arrows
+      v-bind="props"
+      :vertical="vertical"
       animated
       v-model="slide4"
       height="400px"
@@ -127,15 +250,13 @@
       Carousel with Arrows, Navigation, and Slides with images.
     </div>
     <q-carousel
+      v-bind="props"
       swipeable
       animated
       v-model="slide3"
-      arrows
       :autoplay="autoplay"
       navigation
       infinite
-      transition-prev="slide-right"
-      transition-next="slide-left"
     >
       <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
       <q-carousel-slide :name="1" img-src="https://cdn.quasar.dev/img/parallax1.jpg" />
@@ -157,11 +278,12 @@
       Carousel with Arrows, Navigation, and Slides with images.
     </div>
     <q-carousel
+      v-bind="props"
       swipeable
       animated
       v-model="slide"
-      arrows
       thumbnails
+      control-color="yellow"
       infinite
       :fullscreen.sync="full"
     >
@@ -188,11 +310,12 @@
       Carousel with control slots.
     </div>
     <q-carousel
+      v-bind="props"
       swipeable
       animated
       navigation
-      control-color="amber"
       navigation-icon="favorite"
+      control-color="amber"
       v-model="slide2"
     >
       <q-carousel-slide :name="0" img-src="https://cdn.quasar.dev/img/mountains.jpg" />
@@ -218,6 +341,7 @@
 <script>
 export default {
   data: () => ({
+    controlType: 'flat',
     fullscreen: false,
     full: false,
     slide: 0,
@@ -225,7 +349,11 @@ export default {
     slide3: 1,
     slide4: 'first',
     autoplay: true,
-    arrows: false,
+    arrows: true,
+    padding: true,
+    vertical: false,
+    navigationPosition: void 0,
+    navigationPositions: [void 0, 'top', 'bottom', 'left', 'right'],
     lorem: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Natus, ratione eum minus fuga, quasi dicta facilis corporis magnam, suscipit at quo nostrum!',
     colors: [
       'primary',
@@ -237,6 +365,19 @@ export default {
     ],
     modal: false
   }),
+
+  computed: {
+    props () {
+      return {
+        controlType: this.controlType,
+        vertical: this.vertical,
+        arrows: this.arrows,
+        padding: this.padding,
+        navigationPosition: this.navigationPosition
+      }
+    }
+  },
+
   methods: {
     onFullscreen (v) {
       console.log('fullscreen-toggle', v)
@@ -253,4 +394,7 @@ export default {
     text-align center
     padding 12px
     color white
+.test-scroll-container
+  background: rgba(255,255,255,.3)
+  border-radius: $generic-border-radius
 </style>

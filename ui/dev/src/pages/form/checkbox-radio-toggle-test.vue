@@ -23,7 +23,7 @@
     </div>
 
     <div class="row items-center q-mb-md">
-      <span class="text-h6 q-mr-md">Sizes</span> 
+      <span class="text-h6 q-mr-md">Sizes</span>
       <div>
         ( <q-toggle v-model="dense" label="Dense" :dark="dark" /> )
       </div>

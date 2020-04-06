@@ -98,9 +98,14 @@ The CSS Custom properties use the same inheritance rules as normal CSS, so you c
 
 The recommended workflow is to set your customized color properties on the `html` (`document.documentElement`) or `body` (`document.body`) elements. This will allow you to revert to the default color by just deleting your custom one.
 
-More info on CSS custom properties (variables): https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables
+More info on CSS custom properties (variables) on [MDN](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_variables).
 
 ### Helper - setBrand
+
+::: danger
+Not supported by IE11
+:::
+
 Quasar offers a helper function for setting custom colors in the `colors` utils: `setBrand(colorName, colorValue[, element])`
 
 | Parameter | Type | Required | Description |
@@ -119,11 +124,19 @@ colors.setBrand('primary', '#33F')
 colors.setBrand('primary', '#F33', document.getElementById('rebranded-section-id'))
 ```
 
-::: warning
-The helper function will also take care of setting dependent custom properties for the brand colors, so this is the recommended way of usage instead of the raw Javascript `setProperty()`.
-:::
+Example of setting brand colors using the helper:
+
+```js
+// equivalent of colors.setBrand('primary') in raw Javascript:
+document.body.style.setProperty('--q-color-primary', '#0273d4')
+```
 
 ### Helper - getBrand
+
+::: danger
+Not supported by IE11
+:::
+
 Quasar offers a helper function for setting custom colors in the `colors` utils: `getBrand(colorName[, element])`
 
 | Parameter | Type | Required | Description |
@@ -144,12 +157,12 @@ What this helper does is wrap the raw Javascript `getPropertyValue()` and it's a
 
 ```js
 // equivalent of colors.getBrand('primary') in raw Javascript:
-
 getComputedStyle(document.documentElement)
   .getPropertyValue('--q-color-primary') // #0273d4
 ```
 
 ### Setting Up Defaults
+
 ::: danger
 Not supported by IE11
 :::

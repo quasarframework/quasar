@@ -113,6 +113,7 @@ const Generator = require('../lib/generator')
 const artifacts = require('../lib/artifacts')
 const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
 const extensionRunner = require('../lib/app-extension/extensions-runner')
+const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
 
 function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
@@ -172,6 +173,8 @@ async function build () {
   const generator = new Generator(quasarConfig)
   const webpackConfig = quasarConfig.getWebpackConfig()
   const buildConfig = quasarConfig.getBuildConfig()
+
+  regenerateTypesFeatureFlags(buildConfig)
 
   let outputFolder = buildConfig.build.packagedDistDir ||
     buildConfig.build.distDir

@@ -43,7 +43,7 @@ columns: [ // array of Objects
 
     // row Object property to determine value for this column
     field: 'name',
-    // OR field: row => row.some.nested.prop
+    // OR field: row => row.some.nested.prop,
 
     // (optional) if we use visible-columns, this col will always be visible
     required: true,
@@ -63,7 +63,7 @@ columns: [ // array of Objects
     //   * is greater than 0 then sort b to an index lower than a, i.e. b comes first
 
     // (optional) you can format the data with a function
-    format: (val, row) => `${val}%`
+    format: (val, row) => `${val}%`,
     // one more format example:
     // format: val => val
     //   ? /* Unicode checkmark checked */ "\u2611"
@@ -71,7 +71,7 @@ columns: [ // array of Objects
 
     // body td:
     style: 'width: 500px',
-    classes: 'my-special-class'
+    classes: 'my-special-class',
 
     // (v1.3+) header th:
     headerStyle: 'width: 500px',
@@ -126,9 +126,7 @@ Sticky headers and columns are achieved through CSS with `position: sticky`. Thi
 
 <doc-example title="No header/footer" file="QTable/NoHeaderFooter" />
 
-### Virtual scrolling
-
-<q-badge label="v1.2+" />
+### Virtual scrolling <q-badge align="top" label="v1.2+" />
 
 Notice that when enabling virtual scroll you will need to specify the `table-style` (with a max-height) prop. In the example below, we are also forcing QTable to display all rows at once (note the use of `pagination` and `rows-per-page-options` props).
 
@@ -163,6 +161,8 @@ The property `row-key` must be set in order for selection to work properly.
 <doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
 ### Visible columns, custom top, fullscreen
+
+Please note that columns marked as `required` (in the column definition) cannot be toggled and are always visible.
 
 <doc-example title="Visible columns, custom top and fullscreen" file="QTable/VisibleColumns" />
 

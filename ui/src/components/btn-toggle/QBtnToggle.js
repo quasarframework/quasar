@@ -5,12 +5,13 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 
 import { slot } from '../../utils/slot.js'
 
+import FormMixin from '../../mixins/form.js'
 import RippleMixin from '../../mixins/ripple.js'
 
 export default Vue.extend({
   name: 'QBtnToggle',
 
-  mixins: [ RippleMixin ],
+  mixins: [ RippleMixin, FormMixin ],
 
   props: {
     value: {
@@ -58,8 +59,16 @@ export default Vue.extend({
   },
 
   computed: {
-    val () {
-      return this.options.map(opt => opt.value === this.value)
+    hasActiveValue () {
+      return this.options.find(opt => opt.value === this.value) !== void 0
+    },
+
+    formAttrs () {
+      return {
+        type: 'hidden',
+        name: this.name,
+        value: this.value
+      }
     }
   },
 
@@ -80,30 +89,16 @@ export default Vue.extend({
   },
 
   render (h) {
-    return h(QBtnGroup, {
-      staticClass: 'q-btn-toggle',
-      props: {
-        outline: this.outline,
-        flat: this.flat,
-        rounded: this.rounded,
-        push: this.push,
-        stretch: this.stretch,
-        unelevated: this.unelevated,
-        glossy: this.glossy,
-        spread: this.spread
-      },
-      on: this.$listeners
-    },
-    this.options.map(
-      (opt, i) => h(QBtn, {
+    const child = this.options.map((opt, i) => {
+      return h(QBtn, {
         key: i,
         on: { click: () => this.__set(opt.value, opt) },
         props: {
           disable: this.disable || opt.disable,
           label: opt.label,
           // Colors come from the button specific options first, then from general props
-          color: this.val[i] === true ? opt.toggleColor || this.toggleColor : opt.color || this.color,
-          textColor: this.val[i] === true ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
+          color: opt.value === this.value ? opt.toggleColor || this.toggleColor : opt.color || this.color,
+          textColor: opt.value === this.value ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
           icon: opt.icon,
           iconRight: opt.iconRight,
           noCaps: this.noCaps === true || opt.noCaps === true,
@@ -121,6 +116,25 @@ export default Vue.extend({
           stretch: this.stretch
         }
       }, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
-    ))
+    })
+
+    if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {
+      this.__injectFormInput(child, 'push')
+    }
+
+    return h(QBtnGroup, {
+      staticClass: 'q-btn-toggle',
+      props: {
+        outline: this.outline,
+        flat: this.flat,
+        rounded: this.rounded,
+        push: this.push,
+        stretch: this.stretch,
+        unelevated: this.unelevated,
+        glossy: this.glossy,
+        spread: this.spread
+      },
+      on: this.$listeners
+    }, child)
   }
 })

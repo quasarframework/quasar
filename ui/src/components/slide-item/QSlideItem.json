@@ -3,6 +3,10 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/slide-item"
   },
 
+  "behavior": {
+    "$listeners": true
+  },
+
   "props": {
     "left-color": {
       "extends": "color",

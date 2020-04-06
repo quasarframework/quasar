@@ -59,9 +59,7 @@ This is not an exhaustive list of what you can do with Dialogs as Quasar Plugins
 
 <doc-example title="Other options" file="Dialog/OtherOptions" />
 
-### Basic validation
-
-<q-badge label="v1.8+" />
+### Basic validation <q-badge align="top" label="v1.8+" />
 
 There is a basic validation system that you can use so that the user won't be able to submit the dialog (click/tap on "OK" or press <kbd>ENTER</kbd>) until the expected values are filled in.
 
@@ -173,6 +171,38 @@ export default {
   }
 }
 </script>
+```
+
+## Cordova/Capacitor back button
+Quasar handles the back button for you by default so it can hide any opened Dialogs instead of the default behavior which is to return to the previous page (which is not a nice user experience).
+
+However, should you wish to disable this behavior, edit your /quasar.conf.js file:
+
+```js
+// quasar.conf.js;
+// for Cordova (only!):
+return {
+  framework: {
+    config: {
+      cordova: {
+        backButtonExit: true/false
+      }
+    }
+  }
+}
+
+// quasar.conf.js;
+// for Capacitor (only!)
+// and Quasar v1.9.3+:
+return {
+  framework: {
+    config: {
+      capacitor: {
+        backButtonExit: true/false
+      }
+    }
+  }
+}
 ```
 
 ## Dialog API

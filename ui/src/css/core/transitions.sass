@@ -14,17 +14,15 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--scale,
   &--rotate,
   &--flip
-
     &-leave-active
       position: absolute
-
 
   &--slide-right,
   &--slide-left,
   &--slide-up,
   &--slide-down
-
-    &-enter-active, &-leave-active
+    &-enter-active,
+    &-leave-active
       transition: transform .3s $transition-easing
 
   &--slide-right
@@ -51,15 +49,15 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
     &-leave-to
       transform: translate3d(0, 100%, 0)
 
-
   &--jump-right,
   &--jump-left,
   &--jump-up,
   &--jump-down
-
-    &-enter-active, &-leave-active
+    &-enter-active,
+    &-leave-active
       transition: opacity .3s, transform .3s
-    &-enter, &-leave-to
+    &-enter,
+    &-leave-to
       opacity: 0
 
   &--jump-right
@@ -88,24 +86,33 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
 
 
   &--fade
-    &-enter-active, &-leave-active
+    &-enter-active,
+    &-leave-active
       transition: opacity .3s ease-out
-    &-enter, &-leave, &-leave-to
+    &-enter,
+    &-leave,
+    &-leave-to
       opacity: 0
 
 
   &--scale
-    &-enter-active, &-leave-active
+    &-enter-active,
+    &-leave-active
       transition: opacity .3s, transform .3s $transition-easing
-    &-enter, &-leave, &-leave-to
+    &-enter,
+    &-leave,
+    &-leave-to
       opacity: 0
       transform: scale3d(0, 0, 1)
 
   &--rotate
-    &-enter-active, &-leave-active
+    &-enter-active,
+    &-leave-active
       transition: opacity .3s, transform .3s $transition-easing
       transform-style: preserve-3d
-    &-enter, &-leave, &-leave-to
+    &-enter,
+    &-leave,
+    &-leave-to
       opacity: 0
       transform: scale3d(0, 0, 1) rotate3d(0, 0, 1, 90deg)
 
@@ -113,11 +120,12 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
   &--flip-left,
   &--flip-up,
   &--flip-down
-
-    &-enter-active, &-leave-active
+    &-enter-active,
+    &-leave-active
       transition: transform .3s
       backface-visibility: hidden
-    &-enter-to, &-leave
+    &-enter-to,
+    &-leave
       transform: perspective(400px) rotate3d(1, 1, 0, 0deg)
 
   &--flip-right

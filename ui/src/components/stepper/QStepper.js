@@ -21,10 +21,10 @@ export default Vue.extend({
   props: {
     flat: Boolean,
     bordered: Boolean,
-    vertical: Boolean,
     alternativeLabels: Boolean,
     headerNav: Boolean,
     contracted: Boolean,
+    headerClass: String,
 
     inactiveColor: String,
     inactiveIcon: String,
@@ -38,11 +38,18 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return `q-stepper--${this.vertical === true ? 'vertical' : 'horizontal'}` +
+      return `q-stepper q-stepper--${this.vertical === true ? 'vertical' : 'horizontal'}` +
         (this.flat === true || this.isDark === true ? ' q-stepper--flat no-shadow' : '') +
         (this.bordered === true || (this.isDark === true && this.flat === false) ? ' q-stepper--bordered' : '') +
         (this.contracted === true ? ' q-stepper--contracted' : '') +
         (this.isDark === true ? ' q-stepper--dark q-dark' : '')
+    },
+
+    headerClasses () {
+      return 'q-stepper__header row items-stretch justify-between' +
+        ` q-stepper__header--${this.alternativeLabels === true ? 'alternative' : 'standard'}-labels` +
+        (this.flat === false || this.bordered === true ? ' q-stepper__header--border' : '') +
+        (this.headerClass !== void 0 ? ` ${this.headerClass}` : '')
     }
   },
 
@@ -64,13 +71,7 @@ export default Vue.extend({
       }
 
       return [
-        h('div', {
-          staticClass: 'q-stepper__header row items-stretch justify-between',
-          class: {
-            [`q-stepper__header--${this.alternativeLabels ? 'alternative' : 'standard'}-labels`]: true,
-            'q-stepper__header--border': !this.flat || this.bordered
-          }
-        }, this.__getAllPanels().map(panel => {
+        h('div', { class: this.headerClasses }, this.__getAllPanels().map(panel => {
           const step = panel.componentOptions.propsData
 
           return h(StepHeader, {
@@ -93,7 +94,6 @@ export default Vue.extend({
 
     __renderPanels (h) {
       return h('div', {
-        staticClass: 'q-stepper',
         class: this.classes,
         on: this.$listeners
       }, mergeSlot(this.__getContent(h), this, 'navigation'))

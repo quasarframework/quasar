@@ -6,6 +6,7 @@
       navigation
       infinite
       autoplay
+      arrows
       transition-prev="slide-right"
       transition-next="slide-left"
     >

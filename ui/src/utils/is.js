@@ -1,23 +1,123 @@
+const
+  hasMap = typeof Map === 'function',
+  hasSet = typeof Set === 'function',
+  hasArrayBuffer = typeof ArrayBuffer === 'function'
+
 export function isDeepEqual (a, b) {
   if (a === b) {
     return true
   }
 
-  if (a instanceof Date && b instanceof Date) {
-    return a.getTime() === b.getTime()
+  if (a !== null && b !== null && typeof a === 'object' && typeof b === 'object') {
+    if (a.constructor !== b.constructor) {
+      return false
+    }
+
+    let length, i, keys
+
+    if (a.constructor === Array) {
+      length = a.length
+
+      if (length !== b.length) {
+        return false
+      }
+
+      for (i = length; i-- !== 0;) {
+        if (isDeepEqual(a[i], b[i]) !== true) {
+          return false
+        }
+      }
+
+      return true
+    }
+
+    if (hasMap === true && a.constructor === Map) {
+      if (a.size !== b.size) {
+        return false
+      }
+
+      i = a.entries().next()
+      while (i.done !== true) {
+        if (b.has(i.value[0]) !== true) {
+          return false
+        }
+        i = i.next()
+      }
+
+      i = a.entries().next()
+      while (i.done !== true) {
+        if (isDeepEqual(i.value[1], b.get(i.value[0])) !== true) {
+          return false
+        }
+        i = i.next()
+      }
+
+      return true
+    }
+
+    if (hasSet === true && a.constructor === Set) {
+      if (a.size !== b.size) {
+        return false
+      }
+
+      i = a.entries().next()
+      while (i.done !== true) {
+        if (b.has(i.value[0]) !== true) {
+          return false
+        }
+        i = i.next()
+      }
+
+      return true
+    }
+
+    if (hasArrayBuffer === true && a.buffer != null && a.buffer.constructor === ArrayBuffer) {
+      length = a.length
+
+      if (length !== b.length) {
+        return false
+      }
+
+      for (i = length; i-- !== 0;) {
+        if (a[i] !== b[i]) {
+          return false
+        }
+      }
+
+      return true
+    }
+
+    if (a.constructor === RegExp) {
+      return a.source === b.source && a.flags === b.flags
+    }
+
+    if (a.valueOf !== Object.prototype.valueOf) {
+      return a.valueOf() === b.valueOf()
+    }
+
+    if (a.toString !== Object.prototype.toString) {
+      return a.toString() === b.toString()
+    }
+
+    keys = Object.keys(a)
+    length = keys.length
+
+    if (length !== Object.keys(b).length) {
+      return false
+    }
+
+    for (i = length; i-- !== 0;) {
+      const key = keys[i]
+      if (isDeepEqual(a[key], b[key]) !== true) {
+        return false
+      }
+    }
+
+    return true
   }
 
-  if (a !== Object(a) || b !== Object(b)) {
-    return false
-  }
-
-  const props = Object.keys(a)
-
-  if (props.length !== Object.keys(b).length) {
-    return false
-  }
-
-  return props.every(prop => isDeepEqual(a[prop], b[prop]))
+  // true if both NaN, false otherwise
+  return a !== a && b !== b // eslint-disable-line no-self-compare
 }
 
 export function isPrintableChar (v) {

@@ -16,7 +16,8 @@ Works great along with [QTabs](/vue-components/tabs) but it is not required to b
 ## Usage
 
 ::: tip
-Works great along with [QTabs](/vue-components/tabs), a component which offers a nice way to select the active tab panel to display.
+* Works great along with [QTabs](/vue-components/tabs), a component which offers a nice way to select the active tab panel to display.
+* If the QTabpanel content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
 :::
 
 ::: warning IMPORTANT
@@ -60,6 +61,10 @@ In the example below, use your mouse to swipe through the panels or, if on a tou
 ### Swipeable and infinite
 
 <doc-example title="Swipeable and infinite" file="QTabPanels/Swipeable" />
+
+### Vertical swipeable and infinite <q-badge align="top" label="v1.9+" />
+
+<doc-example title="Vertical swipeable and infinite" file="QTabPanels/VerticalSwipeable" />
 
 ## QTabPanels API
 

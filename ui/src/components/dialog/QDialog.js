@@ -55,9 +55,8 @@ export default Vue.extend({
     position: {
       type: String,
       default: 'standard',
-      validator (val) {
-        return val === 'standard' || ['top', 'bottom', 'left', 'right'].includes(val)
-      }
+      validator: val => val === 'standard' ||
+        ['top', 'bottom', 'left', 'right'].includes(val)
     },
 
     transitionShow: String,
@@ -79,11 +78,8 @@ export default Vue.extend({
       }
     },
 
-    maximized (newV, oldV) {
-      if (this.showing === true) {
-        this.__updateState(false, oldV)
-        this.__updateState(true, newV)
-      }
+    maximized (state) {
+      this.showing === true && this.__updateMaximized(state)
     },
 
     useBackdrop (v) {
@@ -168,8 +164,7 @@ export default Vue.extend({
         : void 0
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
-
-      this.__updateState(true, this.maximized)
+      this.__updateMaximized(this.maximized)
 
       EscapeKey.register(this, () => {
         if (this.seamless !== true) {
@@ -251,7 +246,8 @@ export default Vue.extend({
 
       if (hiding === true || this.showing === true) {
         EscapeKey.pop(this)
-        this.__updateState(false, this.maximized)
+        this.__updateMaximized(false)
+
         if (this.seamless !== true) {
           this.__preventScroll(false)
           this.__preventFocusout(false)
@@ -259,15 +255,22 @@ export default Vue.extend({
       }
     },
 
-    __updateState (opening, maximized) {
-      if (maximized === true) {
-        if (opening === true) {
+    __updateMaximized (active) {
+      if (active === true) {
+        if (this.isMaximized !== true) {
           maximizedModals < 1 && document.body.classList.add('q-body--dialog')
+          maximizedModals++
+
+          this.isMaximized = true
         }
-        else if (maximizedModals < 2) {
+      }
+      else if (this.isMaximized === true) {
+        if (maximizedModals < 2) {
           document.body.classList.remove('q-body--dialog')
         }
-        maximizedModals += opening === true ? 1 : -1
+
+        maximizedModals--
+        this.isMaximized = false
       }
     },
 
@@ -306,7 +309,7 @@ export default Vue.extend({
     __renderPortal (h) {
       const on = {
         ...this.$listeners,
-        // stop propagating this events from children
+        // stop propagating these events from children
         input: stop,
         'popup-show': stop,
         'popup-hide': stop
