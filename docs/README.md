@@ -29,9 +29,6 @@ Ask questions at the official community Discord server: [https://chat.quasar.dev
 
 Head on to the official community forum: [https://forum.quasar.dev](https://forum.quasar.dev)
 
-## Semver
-Using [semver 2.0](http://semver.org/) notation for 'quasar-extras' package.
-
 ## License
 
 All assets included in this repository are exclusive property of their respective owners. Quasar does not take any credit in packages included here.
