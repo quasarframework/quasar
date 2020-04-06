@@ -11,6 +11,10 @@
 import "./shims";
 import "./feature-flag";
 import "./globals";
+import "./ssr";
+import "./store";
+import "./prefetch";
 import "./boot";
 import "./configuration";
+import "./route";
 import "./wrappers";
