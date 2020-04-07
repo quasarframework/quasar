@@ -10,4 +10,3 @@ declare module "quasar" {
     devServer?: WebpackDevServerConfiguration;
   }
 }
-
