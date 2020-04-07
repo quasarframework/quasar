@@ -50,8 +50,6 @@ const randomBytes = (() => {
 // or improve speed by increasing this number (try 16384)
 const BUFFER_SIZE = 4096
 
-const { slice } = Array.prototype
-
 export default function () {
   // Buffer some random bytes for speed
   if (buf === void 0 || (bufIdx + 16 > BUFFER_SIZE)) {
@@ -59,7 +57,7 @@ export default function () {
     buf = randomBytes(BUFFER_SIZE)
   }
 
-  const b = slice.call(buf, bufIdx, (bufIdx += 16))
+  const b = Array.prototype.slice.call(buf, bufIdx, (bufIdx += 16))
   b[6] = (b[6] & 0x0f) | 0x40
   b[8] = (b[8] & 0x3f) | 0x80
 
