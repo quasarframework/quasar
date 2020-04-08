@@ -376,8 +376,9 @@ function writeIndexDTS (apis) {
   writeLine(contents, `import './vue'`)
   // If `@quasar/app` package is present, this works as "reference" and its types are added to compilation
   // If it's not (Vue CLI projects) the shim serves as a fallback avoiding TS errors
-  writeLine(contents, `import './shim-quasar-app.d.ts'`)
+  writeLine(contents, `import './shim-quasar-app'`)
   writeLine(contents, `import '@quasar/app'`)
+  writeLine(contents, `import './shim-icon-set'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
 }

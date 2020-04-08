@@ -1,62 +1,45 @@
 const packageName = 'themify-icons'
+const iconSetName = 'Themify'
+const version = '1.0.1'
 
 // ------------
 
 const glob = require('glob')
 const { copySync } = require('fs-extra')
-const { readFileSync, writeFileSync } = require('fs')
-const { resolve, basename } = require('path')
+const { resolve } = require('path')
 
-let skipped = []
-const dist = resolve(__dirname, `../themify/index.js`)
-const { parseSvgContent } = require('./utils')
+const skipped = []
+const distFolder = resolve(__dirname, `../themify`)
+const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/SVG/`)
 const svgFiles = glob.sync(svgFolder + '/*.svg')
 const iconNames = new Set()
 
-function extract (file) {
-  const name = ('ti-' + basename(file, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase())
-
-  if (iconNames.has(name)) {
-    return null
-  }
-
-  const content = readFileSync(file, 'utf-8')
-
-  try {
-    const { dPath, viewBox } = parseSvgContent(name, content)
-
-    iconNames.add(name)
-    return `export const ${name} = '${dPath}${viewBox}'`
-  }
-  catch (err) {
-    console.error(err)
-    skipped.push(name)
-    return null
-  }
-}
-
-function getBanner () {
-  return `/* Themify v1.0.1 */\n\n`
-}
-
 const svgExports = []
+const typeExports = []
 
 svgFiles.forEach(file => {
-  svgExports.push(extract(file))
+  const name = defaultNameMapper(file, 'ti')
+
+  if (iconNames.has(name)) {
+    return
+  }
+
+  try {
+    const { svgDef, typeDef } = extract(file, name)
+    svgExports.push(svgDef)
+    typeExports.push(typeDef)
+
+    iconNames.add(name)
+  }
+  catch(err) {
+    console.error(err)
+    skipped.push(name)
+  }
 })
 
-if (svgExports.length === 0) {
-  console.log('WARNING. Themify skipped completely')
-}
-else {
-  writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
-
-  if (skipped.length > 0) {
-    console.log(`themify - skipped (${skipped.length}): ${skipped}`)
-  }
-}
+writeExports(iconSetName, version, distFolder, svgExports, typeExports, skipped)
 
 // then update webfont files
 
