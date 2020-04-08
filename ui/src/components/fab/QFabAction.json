@@ -2,11 +2,6 @@
   "mixins": [ "mixins/fab" ],
 
   "props": {
-    "icon": {
-      "extends": "icon",
-      "required": true
-    },
-
     "anchor": {
       "type": "String",
       "desc": "How to align the Fab Action relative to Fab expand side; By default it uses the align specified in QFab",

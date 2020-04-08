@@ -30,7 +30,6 @@ export default Vue.extend({
   },
 
   props: {
-    icon: String,
     activeIcon: String,
 
     hideLabel: {
@@ -70,7 +69,9 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = [
+    const child = []
+
+    this.hideIcon !== true && child.push(
       h('div', { staticClass: 'q-fab__icon-holder' }, [
         h(QIcon, {
           staticClass: 'q-fab__icon absolute-full',
@@ -81,7 +82,7 @@ export default Vue.extend({
           props: { name: this.activeIcon || this.$q.iconSet.fab.activeIcon }
         })
       ])
-    ]
+    )
 
     this.label !== '' && child[this.labelProps.action](
       h('div', this.labelProps.data, [ this.label ])

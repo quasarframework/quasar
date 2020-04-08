@@ -16,6 +16,9 @@ export default {
 
     square: Boolean,
 
+    icon: String,
+    hideIcon: Boolean,
+
     label: {
       type: [ String, Number ],
       default: ''
@@ -26,7 +29,9 @@ export default {
       validator: v => labelPositions.includes(v)
     },
     externalLabel: Boolean,
-    hideLabel: Boolean,
+    hideLabel: {
+      type: Boolean
+    },
     labelClass: [ Array, String, Object ],
     labelStyle: [ Array, String, Object ],
 

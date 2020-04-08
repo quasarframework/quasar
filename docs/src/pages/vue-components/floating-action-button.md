@@ -49,6 +49,12 @@ By default, when the label is external on the main QFab (not the sub-actions), i
 
 <doc-example title="Toggling external label" file="QFab/ExternalLabelToggling" />
 
+### Hide icons <q-badge align="top" label="v1.9.14+" />
+
+If we hide the icon (through specific prop), we should at least use an internal label:
+
+<doc-example title="Hide icon" file="QFab/HideIcon" />
+
 ### Square style <q-badge align="top" label="v1.9+" />
 
 <doc-example title="Square style" file="QFab/SquareStyle" />

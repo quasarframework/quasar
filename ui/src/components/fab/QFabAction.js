@@ -21,11 +21,6 @@ export default Vue.extend({
   mixins: [ FabMixin ],
 
   props: {
-    icon: {
-      type: String,
-      required: true
-    },
-
     anchor: {
       type: String,
       validator: v => anchorValues.includes(v)
@@ -58,11 +53,13 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = [
+    const child = []
+
+    this.hideIcon !== true && child.push(
       h(QIcon, {
         props: { name: this.icon }
       })
-    ]
+    )
 
     this.label !== '' && child[this.labelProps.action](
       h('div', this.labelProps.data, [ this.label ])
