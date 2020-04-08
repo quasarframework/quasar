@@ -16,9 +16,6 @@ export default {
 
     square: Boolean,
 
-    icon: String,
-    hideIcon: Boolean,
-
     label: {
       type: [ String, Number ],
       default: ''

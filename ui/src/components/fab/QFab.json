@@ -7,6 +7,21 @@
       "category": "model"
     },
 
+    "icon": {
+      "extends": "icon"
+    },
+
+    "active-icon": {
+      "extends": "icon"
+    },
+
+    "hide-icon": {
+      "type": "Boolean",
+      "desc": "Hide the icon (don't use any)",
+      "category": "style|content",
+      "addedIn": "v1.9.14"
+    },
+
     "direction": {
       "type": "String",
       "desc": "Direction to expand Fab Actions to",
@@ -29,10 +44,6 @@
       "type": "Boolean",
       "desc": "By default, Fab Actions are hidden when user navigates to another route and this prop disables this behavior",
       "category": "behavior"
-    },
-
-    "active-icon": {
-      "extends": "icon"
     }
   },
 

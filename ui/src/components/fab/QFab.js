@@ -30,8 +30,10 @@ export default Vue.extend({
   },
 
   props: {
+    icon: String,
     activeIcon: String,
 
+    hideIcon: Boolean,
     hideLabel: {
       default: null
     },

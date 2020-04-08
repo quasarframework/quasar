@@ -41,7 +41,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
             <q-fab-action
@@ -54,7 +53,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
             <q-fab-action
@@ -65,7 +63,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
             <q-fab-action
@@ -78,7 +75,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
             <q-fab-action
@@ -89,7 +85,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
             <q-fab-action
@@ -102,7 +97,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
             <q-fab-action
@@ -113,7 +107,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
             <q-fab-action
@@ -124,7 +117,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
             <q-fab-action
@@ -136,7 +128,6 @@
               :square="fabSquare"
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
-              :hide-icon="hideIcon"
               :label-class="labelClass"
             />
           </q-fab>
