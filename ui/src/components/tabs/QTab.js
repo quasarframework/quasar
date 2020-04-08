@@ -29,6 +29,7 @@ export default Vue.extend({
     label: [Number, String],
 
     alert: [Boolean, String],
+    alertIcon: String,
 
     name: {
       type: [Number, String],
@@ -86,21 +87,39 @@ export default Vue.extend({
           class: this.tabs.indicatorClass
         })
 
-      this.icon !== void 0 && content.push(h(QIcon, {
-        staticClass: 'q-tab__icon',
-        props: { name: this.icon }
-      }))
+      this.icon !== void 0 && content.push(
+        h(QIcon, {
+          staticClass: 'q-tab__icon',
+          props: { name: this.icon }
+        })
+      )
 
-      this.label !== void 0 && content.push(h('div', {
-        staticClass: 'q-tab__label'
-      }, [ this.label ]))
+      this.label !== void 0 && content.push(
+        h('div', {
+          staticClass: 'q-tab__label'
+        }, [ this.label ])
+      )
 
-      this.alert !== false && content.push(h('div', {
-        staticClass: 'q-tab__alert',
-        class: this.alert !== true ? `text-${this.alert}` : null
-      }))
+      this.alert !== false && content.push(
+        this.alertIcon !== void 0
+          ? h(QIcon, {
+            staticClass: 'q-tab__alert-icon',
+            props: {
+              color: this.alert !== true
+                ? this.alert
+                : void 0,
+              name: this.alertIcon
+            }
+          })
+          : h('div', {
+            staticClass: 'q-tab__alert',
+            class: this.alert !== true
+              ? `text-${this.alert}`
+              : null
+          })
+      )
 
-      narrow && content.push(indicator)
+      narrow === true && content.push(indicator)
 
       const node = [
         h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
@@ -111,7 +130,7 @@ export default Vue.extend({
         }, mergeSlot(content, this, 'default'))
       ]
 
-      !narrow && node.push(indicator)
+      narrow === false && node.push(indicator)
 
       return node
     },

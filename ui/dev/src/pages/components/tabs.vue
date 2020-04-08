@@ -110,6 +110,7 @@
             2
           </q-badge>
         </q-tab>
+        <q-tab label="Map" alert="red" alert-icon="map" />
         <q-tab icon="map" label="Map">
           <q-badge color="red" floating>
             2
