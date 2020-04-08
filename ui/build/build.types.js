@@ -316,6 +316,12 @@ function writeIndexDTS (apis) {
 
   Object.keys(extraInterfaces).forEach(name => {
     if (extraInterfaces[name] === void 0) {
+      // If we find the symbol as part of the generated Quasar API,
+      //  we don't need to import it from custom TS API patches
+      if (apis.some(definition => definition.name === name)) {
+        return
+      }
+
       writeLine(contents, `import { ${name} } from './api'`)
     }
     else {
