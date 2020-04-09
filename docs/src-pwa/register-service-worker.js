@@ -33,7 +33,7 @@ register(process.env.SERVICE_WORKER_FILE, {
       color: 'negative',
       icon: 'cached',
       message: 'Updated content is available. Please refresh the page.',
-      timeout: 10000,
+      timeout: 0,
       multiLine: true,
       position: 'top',
       actions: [

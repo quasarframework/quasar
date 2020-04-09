@@ -15,6 +15,7 @@ const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
+const urlRegex = /^http(s)?:\/\//
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -33,7 +34,7 @@ function formatPublicPath (path) {
     path = `${path}/`
   }
 
-  if (path.startsWith('http://') || path.startsWith('https://')) {
+  if (urlRegex.test(path) === true) {
     return path
   }
 
@@ -740,7 +741,9 @@ class QuasarConfig {
       }
 
       cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
-        icon.src = `${cfg.build.publicPath}${icon.src}`
+        if (urlRegex.test(icon.src) === false) {
+          icon.src = `${cfg.build.publicPath}${icon.src}`
+        }
         return icon
       })
     }
