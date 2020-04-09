@@ -153,6 +153,7 @@
       },
       "returns": {
         "type": "Object",
+        "tsType": "Cookies",
         "desc": "Cookie object (like $q.cookies) for SSR usage purposes",
         "__exemption": [ "examples" ]
       }

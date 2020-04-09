@@ -7,7 +7,7 @@ const log = require('../helpers/logger')('app:electron-bundle')
 
 const versions = {
   packager: '14.1.1',
-  builder: '21.0.0'
+  builder: '22.4.0'
 }
 
 function isValidName (bundlerName) {

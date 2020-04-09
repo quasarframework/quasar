@@ -253,7 +253,8 @@ const Notifications = {
           (notif.badgeColor !== void 0 ? ` bg-${notif.badgeColor}` : '') +
           (notif.badgeTextColor !== void 0 ? ` text-${notif.badgeTextColor}` : '')
 
-        notif = Object.assign(original, notif)
+        const index = this.notifs[notif.position].indexOf(original)
+        this.notifs[notif.position][index] = groups[notif.group] = notif
       }
 
       notif.meta.close = () => {
@@ -272,7 +273,7 @@ const Notifications = {
     },
 
     remove (notif) {
-      if (notif.meta.timer) { clearTimeout(notif.meta.timer) }
+      clearTimeout(notif.meta.timer)
 
       const index = this.notifs[notif.position].indexOf(notif)
       if (index !== -1) {
