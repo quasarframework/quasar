@@ -740,7 +740,9 @@ class QuasarConfig {
       }
 
       cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
-        icon.src = `${cfg.build.publicPath}${icon.src}`
+        if (icon.src.startsWith('http') !== true) {
+          icon.src = `${cfg.build.publicPath}${icon.src}`
+        }
         return icon
       })
     }
