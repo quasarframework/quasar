@@ -33,6 +33,10 @@ Then we create a project folder with Quasar CLI:
 $ quasar create <folder_name>
 ```
 
+:::tip
+Some **advanced** scenarios require to use a custom starter kit (eg. testing or personal presets). In those **rare** cases, you can use `--kit` option. Read more about this into [`create` command](/quasar-cli/cli-documentation/commands-list#create) description. Remember that the recommended way to go is through writing a Quasar App Extension though.
+:::
+
 Note that you don't need separate projects if you want to build any of the available platforms. This one project can seamlessly handle all of them.
 
 To continue your learning about Quasar, you should familiarize yourself with the Quasar CLI in depth, because you will be using it a lot.
