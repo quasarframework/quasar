@@ -119,7 +119,7 @@ function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
     return [ webpackConfig.server, webpackConfig.client, webpackConfig.webserver ]
   }
-  if (mode === 'electron') {
+  if (['electron', 'bex'].includes(mode)) {
     return [ webpackConfig.renderer, webpackConfig.main ]
   }
   return webpackConfig
