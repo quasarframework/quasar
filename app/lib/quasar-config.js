@@ -217,10 +217,7 @@ class QuasarConfig {
       bin: {},
       bex: {
         builder: {
-          directories: {
-            input: '',
-            output: ''
-          }
+          directories: {}
         }
       },
       htmlVariables: {}
@@ -881,7 +878,8 @@ class QuasarConfig {
 
         bundler.ensureInstall(cfg.electron.bundler)
       }
-    } else if (this.ctx.mode.bex) {
+    }
+    else if (this.ctx.mode.bex) {
       cfg.bex = merge(cfg.bex, {
         builder: {
           directories: {

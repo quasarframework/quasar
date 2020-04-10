@@ -1,17 +1,17 @@
-const
-  fs = require('fs'),
-  fse = require('fs-extra'),
-  appPaths = require('../app-paths'),
-  logger = require('../helpers/logger'),
-  log = logger('app:mode-bex'),
-  warn = logger('app:mode-bex', 'red')
+const fs = require('fs')
+const fse = require('fs-extra')
+
+const appPaths = require('../app-paths')
+const logger = require('../helpers/logger')
+const log = logger('app:mode-bex')
+const warn = logger('app:mode-bex', 'red')
 
 class Mode {
   get isInstalled () {
     return fs.existsSync(appPaths.bexDir)
   }
 
-  add (params) {
+  add () {
     if (this.isInstalled) {
       warn(`Browser Extension support detected already. Aborting.`)
       return
