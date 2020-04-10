@@ -1,9 +1,7 @@
-const
-  path = require('path')
+const path = require('path')
 
-const
-  appPaths = require('../../app-paths'),
-  createChain = require('../create-chain')
+const appPaths = require('../../app-paths')
+const createChain = require('../create-chain')
 
 module.exports = function (cfg, configName) {
   const

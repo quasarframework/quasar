@@ -1,7 +1,6 @@
-const
-  path = require('path')
-  fse = require('fs'),
-  archiver = require('archiver')
+const path = require('path')
+const fse = require('fs')
+const archiver = require('archiver')
 
 
 class BexPackager {

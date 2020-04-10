@@ -140,11 +140,10 @@ async function getSSR (cfg) {
 }
 
 async function getBEX (cfg) {
-  const
-    rendererChain = createChain(cfg, 'Renderer process'),
-    mainChain = require('./bex/main')(cfg, 'Main process')
+  const rendererChain = createChain(cfg, 'Renderer process')
+  const mainChain = require('./bex/main')(cfg, 'Main process')
 
-  require('./bex/renderer')(rendererChain, cfg) //Before SPA so we can set some vars
+  require('./bex/renderer')(rendererChain, cfg) // before SPA so we can set some vars
   require('./spa')(rendererChain, cfg) // extending a SPA
 
   return {

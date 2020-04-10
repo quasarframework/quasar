@@ -1,15 +1,12 @@
-const
-  path = require('path'),
-  fse = require('fs-extra')
+const path = require('path')
+const fse = require('fs-extra')
 
-const
-  appPaths = require('../../app-paths'),
-  artifacts = require('../../artifacts')
+const appPaths = require('../../app-paths')
+const artifacts = require('../../artifacts')
 
 module.exports = function (chain, cfg) {
-  const
-    rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir,
-    outputPath = path.join(rootPath, 'www')
+  const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
+  const outputPath = path.join(rootPath, 'www')
 
   // Add a copy config to copy the static folder for both dev and build.
   let copyArray = [{
