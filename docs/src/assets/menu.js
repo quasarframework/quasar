@@ -481,34 +481,32 @@ const cli = [
         path: 'preparation'
       },
       {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
         name: 'Configuring BEX',
         path: 'configuring-bex'
       },
       {
-        name: 'Types',
-        path: 'types'
+        name: 'Types of BEX',
+        path: 'types-of-bex'
       },
       {
-        name: 'Communication / Events',
-        path: 'communication',
-        children: [
-          {
-            name: 'Introduction',
-            path: 'introduction'
-          },
-          {
-            name: 'Background Hooks',
-            path: 'background-hooks'
-          },
-          {
-            name: 'Content Hooks',
-            path: 'content-hooks'
-          },
-          {
-            name: 'DOM Hooks',
-            path: 'dom-hooks'
-          }
-        ]
+        name: 'BEX Communication / Events',
+        path: 'bex-communication'
+      },
+      {
+        name: 'Background Hooks',
+        path: 'background-hooks'
+      },
+      {
+        name: 'Content Hooks',
+        path: 'content-hooks'
+      },
+      {
+        name: 'DOM Hooks',
+        path: 'dom-hooks'
       }
     ]
   },

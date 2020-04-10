@@ -1,23 +1,21 @@
 ---
 title: Types of BEX
-desc: How to configure each type of BEX.
+desc: How to configure each type of Browser Extensions in Quasar.
 ---
 
-As already discussed, Quasar can handle the various places where a browser extension can live, namely New Tab, Web Page, Dev Tools
-Options or Popup. You don't need a separate Quasar App for each of these. You can do some handy work with the router.
+As already discussed, Quasar can handle the various places where a browser extension can live, namely New Tab, Web Page, Dev Tools Options or Popup. You don't need a separate Quasar App for each of these. You can do some handy work with the router.
 
 ## New Tab
 
-This is the default way in which a BEX will run. It is accessed by clicking on the BEX icon in your browser. The Quasar
-App will run in that new (blank) tab.
+This is the default way in which a BEX will run. It is accessed by clicking on the BEX icon in your browser. The Quasar App will run in that new (blank) tab.
 
 ## Dev Tools, Options and Popup
 
-These all follow the same pattern, set up a route and configure the `manifest.json` file to look at that route when
-it's trying to show either one of the types. For instance:
+These all follow the same pattern, set up a route and configure the `manifest.json` file to look at that route when it's trying to show either one of the types. For instance:
 
-`routes.js`
 ```js
+// routes.js:
+
 const routes = [
   { path: '/options', component: () => import('pages/OptionsPage.vue') },
   { path: '/popup', component: () => import('pages/PopupPage.vue') },
@@ -43,21 +41,17 @@ You could configure your `manifest.json` file with the following so the options 
 
 ## Web Page
 
-This is where the real power comes in. With a little ingenuity we can inject our Quasar application into a web page and
-and use it as an overlay making it seem like our Quasar App is part of the page experience.
+This is where the real power comes in. With a little ingenuity we can inject our Quasar application into a web page and and use it as an overlay making it seem like our Quasar App is part of the page experience.
 
 Here's a brief rundown of how you could achieve this:
 
-`src-bex/js/content-script.js`
+* `src-bex/js/content-script.js`
 
 The idea here is to create an IFrame and add our Quasar app into it, then inject that into the page.
 
-Given our Quasar App might need to take the full height of the window (and thus stop any interaction with the underlying page)
-we have an event to handle setting the height of the IFrame. By default the IFrame height is just high enough to allow
-for the Quasar toolbar to show (and in turn allowing interaction with the rest of the page).
+Given our Quasar App might need to take the full height of the window (and thus stop any interaction with the underlying page) we have an event to handle setting the height of the IFrame. By default the IFrame height is just high enough to allow for the Quasar toolbar to show (and in turn allowing interaction with the rest of the page).
 
-We can call this event from our Quasar App any time we know we're opening the drawer and thus changing the height of the
-IFrame to allow the whole draw to be visible.
+We can call this event from our Quasar App any time we know we're opening the drawer and thus changing the height of the IFrame to allow the whole draw to be visible.
 
 ```js
 const
@@ -126,7 +120,7 @@ Object.assign(iFrame.style, {
 })()
 ```
 
-`src-bex/css/content-css.js`
+* `src-bex/css/content-css.js`
 
 Add a margin to the top of our document so our Quasar toolbar doesn't overlap the actual page content.
 
@@ -136,25 +130,28 @@ Add a margin to the top of our document so our Quasar toolbar doesn't overlap th
 }
 ```
 
-`Quasar App`
+* `Quasar App`
 
-Then in our Quasar app, we have a function that toggles the drawer and sends an event to the content script telling it to
+Then in our Quasar app (/src), we have a function that toggles the drawer and sends an event to the content script telling it to
 resize the IFrame thus allowing our whole app to be visible:
 
 ```html
-<q-drawer :value="drawerIsOpen" @input="drawerToggled">Some Content</q-drawer>
+<q-drawer :value="drawerIsOpen" @input="drawerToggled">
+  Some Content
+</q-drawer>
 ```
 
 ```js
 methods: {
-  drawerToggled ()
-  {
-    this.$q.bex.send('wb.drawer.toggle', {
-      open: this.drawerIsOpen // So it knows to make it bigger / smaller
-    }).then(r => {
-      // Only set this once the promise has resolved so we can see the entire slide animation.
-      this.drawerIsOpen = !this.drawerIsOpen
-    })
+  drawerToggled () {
+    this.$q.bex
+      .send('wb.drawer.toggle', {
+        open: this.drawerIsOpen // So it knows to make it bigger / smaller
+      })
+      .then(r => {
+        // Only set this once the promise has resolved so we can see the entire slide animation.
+        this.drawerIsOpen = !this.drawerIsOpen
+      })
   }
 }
 ```
