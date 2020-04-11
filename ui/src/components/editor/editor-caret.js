@@ -25,9 +25,9 @@ function getBlockElement (el, parent) {
 }
 
 function isChildOf (el, parent) {
-  return el === parent
+  return !el || el === document.body
     ? false
-    : (parent === document ? document.body : parent).contains(el)
+    : (parent === document ? document.body : parent).contains(el.parentNode)
 }
 
 const urlRegex = /^https?:\/\//
