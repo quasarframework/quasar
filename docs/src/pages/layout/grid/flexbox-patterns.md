@@ -111,3 +111,34 @@ Example, supossing you want a 4 column layout:
 ```
 
 <doc-example title="Masonry" file="grid/Masonry" />
+
+## Masonry with pseudo selectors to break rows / columns
+When it's not easy or not possible to insert the elements for row / column break and you need 2 or 3 rows / column you can use pseudo selectors.
+
+``` css
+.container-class
+  &--2-rows
+    :before
+      flex: 1 0 100% !important
+      height: 0 !important
+      order: 1
+  &--2-columns
+    :before
+      flex: 1 0 100% !important
+      width: 0 !important
+      order: 1
+  &--3-rows
+    :before,
+    :after
+      flex: 1 0 100% !important
+      height: 0 !important
+      order: 2
+  &--3-columns
+    :before,
+    :after
+      flex: 1 0 100% !important
+      width: 0 !important
+      order: 2
+```
+
+<doc-example title="Masonry like table grid" file="grid/MasonryTableGrid" />
