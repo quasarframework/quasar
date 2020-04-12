@@ -190,6 +190,30 @@ export default Vue.extend({
         : date => this.options.includes(date)
     },
 
+
+    isDisableMonths () {
+
+      let res = [];
+      for (let month = 1; month <= 12; month++){
+        const prefix = this.innerModel.year + '/' + pad(month) + '/'
+
+        let disable = true;
+        for (let i = 1; i <= this.daysInMonth; i++) {
+          const day = prefix + pad(i)
+
+          if (this.options !== void 0 && this.isInSelection(day) !== true) {
+
+          }
+          else {
+            disable = false;
+          }
+        }
+        res.push(disable)
+      }
+      return res;
+
+    },
+
     days () {
       let date, endDay
 
@@ -271,7 +295,7 @@ export default Vue.extend({
       if (this.readonly === true) {
         return { 'aria-readonly': '' }
       }
-    }
+    },
   },
 
   methods: {
@@ -535,6 +559,7 @@ export default Vue.extend({
 
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
+      const disabledMonths = this.isDisableMonths;
 
       const content = this.computedLocale.monthsShort.map((month, i) => {
         const active = this.innerModel.month === i + 1
@@ -542,7 +567,9 @@ export default Vue.extend({
         return h('div', {
           staticClass: 'q-date__months-item flex flex-center'
         }, [
-          h(QBtn, {
+          disabledMonths[i] === true
+          ? h('div', {staticClass: 'text-grey'}, [ month ]) 
+          : h(QBtn, {
             staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
             props: {
               flat: !active,
