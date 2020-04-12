@@ -598,6 +598,11 @@ const layout = [
         path: 'gutter'
       },
       {
+        name: 'Flexbox patterns',
+        path: 'flexbox-patterns',
+        badge: 'new'
+      },
+      {
         name: 'Flex Playground',
         path: 'flex-playground'
       }
