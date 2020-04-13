@@ -225,12 +225,12 @@ package ${appId};
 import android.net.http.SslError;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import com.getcapacitor.Bridge;
+import com.getcapacitor.BridgeWebViewClient;
 
 public class EnableHttpsSelfSigned {
   public static void enable(Bridge bridge) {
-    bridge.getWebView().setWebViewClient(new WebViewClient() {
+    bridge.getWebView().setWebViewClient(new BridgeWebViewClient(bridge) {
       @Override
       public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
         handler.proceed();
