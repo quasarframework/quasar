@@ -98,7 +98,119 @@
       "type": "Array",
       "desc": "The column definitions (Array of Objects)",
       "examples": [ ":columns=\"tableColumns\"" ],
-      "category": "column"
+      "category": "column",
+      "definition": {
+        "name": {
+          "type": "String",
+          "desc": "Unique id, identifies column, (used by pagination.sortBy, 'body-cell-[name]' slot, ...)",
+          "required": true,
+          "examples": [ "desc" ]
+        },
+        "label": {
+          "type": "String",
+          "desc": "Label for header",
+          "required": true,
+          "examples": [ "Dessert (100g serving)" ]
+        },
+        "field": {
+          "type": [ "String", "Function" ],
+          "desc": "Row Object property to determine value for this column or function which maps to the required property",
+          "required": true,
+          "examples": [ "name", "row => row.some.nested.prop" ]
+        },
+        "required": {
+          "type": "Boolean",
+          "desc": "If we use visible-columns, this col will always be visible",
+          "default": false
+        },
+        "align": {
+          "type": "String",
+          "desc": "Horizontal alignment of cells in this column",
+          "default": "right",
+          "examples": [ "left", "right", "center" ]
+        },
+        "sortable": {
+          "type": "Boolean",
+          "desc": "Tell QTable you want this column sortable",
+          "default": false
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Compare function if you have some custom data or want a specific way to compare two rows",
+          "examples": ["(a, b, rowA, rowB) => parseInt(a, 10) - parseInt(b, 10)"],
+          "params": {
+            "a": {
+              "type": "Any",
+              "desc": "Value of the first comparison term",
+              "examples": [ 123, "abc" ]
+            },
+            "b": {
+              "type": "Any",
+              "desc": "Value of the second comparison term",
+              "examples": [ 123, "abc" ]
+            },
+            "rowA": {
+              "type": "Object",
+              "desc": "Full Row object in which is contained the first term",
+              "examples": [ "{ name: 'Potassium', value: 'K' }" ]
+            },
+            "rowB": {
+              "type": "Object",
+              "desc": "Full Row object in which is contained the second term",
+              "examples": [ "{ name: 'Fluorine', value: 'F' }" ]
+            }
+          },
+          "returns": {
+            "type": "Number",
+            "desc": "Comparison result of term 'a' with term 'b'. Less than 0 when 'a' should come first; greater than 0 if 'b' should come first; equal to 0 if their position must not be changed with respect to each other",
+            "examples": [ "-1", "0", "1" ]
+          }
+        },
+        "format": {
+          "type": "Function",
+          "desc": "Function you can apply to format your data",
+          "examples": [ "(val, row) => `${val}%`", "val => val ? /* Unicode checkmark checked */ '\u2611' : /* Unicode checkmark unchecked */ '\u2610'" ],
+          "params": {
+            "val": {
+              "type": "Any",
+              "desc": "Value of the cell",
+              "examples": [ 123, "abc" ]
+            },
+            "row": {
+              "type": "Object",
+              "desc": "Full Row object in which the cell is contained",
+              "examples": [ "{ name: 'Potassium', value: 'K' }" ]
+            }
+          },
+          "returns": {
+            "type": "Any",
+            "desc": "The resulting formatted value",
+            "examples": [ "20%" ]
+          }
+        },
+        "style": {
+          "type": "String",
+          "desc": "Style to apply on normal cells of the column",
+          "examples": [ "width: 500px" ]
+        },
+        "classes": {
+          "type": "String",
+          "desc": "Classes to add on normal cells of the column",
+          "examples": [ "my-special-class" ]
+        },
+        "headerStyle": {
+          "type": "String",
+          "desc": "Style to apply on header cells of the column",
+          "examples": [ "width: 500px" ],
+          "addedIn": "v1.3.0"
+        },
+        "headerClasses": {
+          "type": "String",
+          "desc": "Classes to add on header cells of the column",
+          "examples": [ "my-special-class" ],
+          "addedIn": "v1.3.0"
+        }
+      }
     },
 
     "visible-columns": {

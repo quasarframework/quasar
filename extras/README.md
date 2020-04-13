@@ -21,18 +21,18 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 | Vendor | Version | quasar.conf.js extras name | Description | Notes | License |
 | --- | --- | --- | --- | --- | --- |
-| Roboto Font | CDN v19 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
-| Roboto Font Latin Extended | CDN v19 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
-| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v48 | `material-icons` | Material icons font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons/LICENSE) |
-| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v17 | `material-icons-outlined` | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
-| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v17 | `material-icons-round` | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
-| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v18 | `material-icons-sharp` | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
+| Roboto Font | CDN v20 | `roboto-font` | Recommended font along Material theme | | [License](roboto-font/LICENSE) |
+| Roboto Font Latin Extended | CDN v20 | `roboto-font-latin-ext` | Recommended font along Material theme | | [License](roboto-font-latin-ext/LICENSE) |
+| [Material Icons](https://material.io/tools/icons/?style=baseline) (Google) | CDN v50 | `material-icons` | Material icons font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons/LICENSE) |
+| [Material Icons Outlined](https://material.io/tools/icons/?style=outline) | CDN v18 | `material-icons-outlined` | Material icons outlined font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-outlined/LICENSE) |
+| [Material Icons Round](https://material.io/tools/icons/?style=round) | CDN v18 | `material-icons-round` | Material icons round font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-round/LICENSE) |
+| [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) | CDN v19 | `material-icons-sharp` | Material icons sharp font | Requires: Quasar 1.0.5+, @quasar/extras 1.2.0+ | [License](material-icons-sharp/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.0.45 | `mdi-v5` | Extended Material Design icons font | The Quasar Icon Set is available in Quasar 1.9.9+ | [License](mdi-v5/license.md) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.1 | `fontawesome-v5` | Fontawesome icons font | | [License](fontawesome-v5/LICENSE.txt) |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.13.0 | `fontawesome-v5` | Fontawesome icons font | | [License](fontawesome-v5/LICENSE.txt) |
 | [Ionicons](http://ionicons.com/) | 4.6.3 | `ionicons-v4` | Ionicons font | | [License](ionicons-v4/LICENSE) |
-| [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.2 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
+| [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `themify` | Themify Icons font | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `line-awesome` | Line Awesome font | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
 | [Animate.css](https://daneden.github.io/animate.css/) | 3.7.2 | Use `animations` prop | Bundle of animations you can use in your website/app | | [License](animate/LICENSE) |
@@ -51,9 +51,9 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | | | | *Not yet available* | [License](material-icons-sharp/LICENSE) |
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.0.45 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | The Quasar Icon Set is available in Quasar 1.9.9+ | [License](mdi-v5/license.md) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
-| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.12.1 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
+| [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.13.0 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
 | [Ionicons](http://ionicons.com/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | | [Icon License](ionicons-v4/LICENSE) |
-| [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.2 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
+| [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `svg-themify` | `@quasar/extras/themify` | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `svg-line-awesome` | `@quasar/extras/line-awesome` | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
 

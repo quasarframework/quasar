@@ -49,8 +49,9 @@ pwa: {
     // ...
   },
 
+  // Use this OR metaVariablesFn, but not both;
   // variables used to inject specific PWA
-  // meta tags (below are default values)
+  // meta tags (below are default values);
   metaVariables: {
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'default',
@@ -61,6 +62,40 @@ pwa: {
     appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
     msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
     msapplicationTileColor: '#000000'
+  },
+
+  // (@quasar/app v1.6.2+)
+  // Optional, overrides metaVariables above;
+  // Use this OR metaVariables, but not both;
+  metaVariablesFn (manifest) {
+    // ...
+    return [
+      {
+        // this entry will generate:
+        // <meta name="theme-color" content="ff0">
+
+        tagName: 'meta',
+        attributes: {
+          name: 'theme-color',
+          content: '#ff0'
+        }
+      },
+
+      {
+        // this entry will generate:
+        // <link rel="apple-touch-icon" sizes="180x180" href="statics/icon-180.png">
+
+        tagName: 'link',
+        attributes: {
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          href: 'statics/icon-180.png'
+        },
+        closeTag: false // this is optional;
+                        // specifies if tag also needs an explicit closing tag;
+                        // it's Boolean false by default
+      }
+    ]
   }
 }
 ```
@@ -68,6 +103,8 @@ pwa: {
 More information: [Workbox Webpack Plugin](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin), [Workbox](https://developers.google.com/web/tools/workbox/).
 
 The `metaVariables` Object is used by Quasar itself only (has no meaning for Workbox) to inject specific value attributes to some PWA meta tags into the rendered HTML page. Example: `<meta name="apple-mobile-web-app-status-bar-style">` will have value attribute assigned to the content of `metaVariables.appleMobileWebAppStatusBarStyle`.
+
+Starting with `@quasar/app` v1.6.2+, you can use an alternative to metaVariables: `metaVariablesFn(manifest)` which can return an Array of Objects (see their form in the code above). Should you configure this function to not return an Array or to return an empty Array, then Quasar App CLI will understand not to add any tags -- so you can manually add your custom tags directly in `/src/index.template.html`.
 
 ## Picking Workbox mode
 

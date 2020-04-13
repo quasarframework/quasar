@@ -107,6 +107,13 @@
                     "type": "Boolean",
                     "desc": "The text passed validation or not"
                   }
+                },
+
+                "attrs": {
+                  "type": "Object",
+                  "desc": "Attributes to pass to prompt control",
+                  "examples": [ "{ autocomplete: 'off' }" ],
+                  "addedIn": "v1.9.12"
                 }
               }
             },

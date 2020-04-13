@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "1.9.10",
+  "version": "1.9.14",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "module": "src/index.esm.js",
   "typings": "dist/types/index.d.ts",
@@ -23,7 +23,7 @@
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
     "build": "node build/script.build.js",
-    "test": "eslint --ext .js,.vue src dev",
+    "test": "yarn lint && yarn build",
     "lint": "eslint --ext .js,.vue src dev",
     "lint-fix": "eslint --ext .js,.vue src dev --fix"
   },
@@ -59,8 +59,8 @@
   },
   "homepage": "https://quasar.dev",
   "devDependencies": {
-    "@quasar/app": "^1.5.3",
-    "@quasar/extras": "^1.5.1",
+    "@quasar/app": "^1.6.1",
+    "@quasar/extras": "^1.6.1",
     "@rollup/plugin-buble": "^0.21.1",
     "@rollup/plugin-json": "^4.0.2",
     "@rollup/plugin-node-resolve": "^7.1.0",
@@ -91,7 +91,7 @@
   },
   "web-types": "dist/web-types/web-types.json",
   "engines": {
-    "node": ">= 8.9.0",
+    "node": ">= 10.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
   },

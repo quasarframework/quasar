@@ -7,7 +7,7 @@ import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
 import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
-import { stop, prevent } from '../../utils/event.js'
+import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { fromSSR } from '../../plugins/Platform.js'
 
 function getTargetUid (val) {
@@ -299,8 +299,9 @@ export default Vue.extend({
         node.push(
           this.__getInnerAppendNode(h, 'inner-clearable-append', [
             h(QIcon, {
-              staticClass: 'cursor-pointer',
-              props: { name: this.clearIcon || this.$q.iconSet.field.clear },
+              staticClass: 'q-field__focusable-action',
+              props: { tag: 'button', name: this.clearIcon || this.$q.iconSet.field.clear },
+              attrs: { tabindex: 0, type: 'button' },
               on: this.clearableEvents
             })
           ])
@@ -474,7 +475,10 @@ export default Vue.extend({
     },
 
     __clearValue (e) {
-      stop(e)
+      // prevent activating the field but keep focus on desktop
+      stopAndPrevent(e)
+      this.$el.focus()
+
       if (this.type === 'file') {
         // do not let focus be triggered
         // as it will make the native file dialog

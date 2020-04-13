@@ -1,5 +1,5 @@
 import { QuasarIconSet } from "./extras/icon-set";
-import { HasCapacitor, HasCordova, HasElectron } from "./feature-flag";
+import { HasCapacitor, HasCordova, HasElectron, HasSsr } from "./feature-flag";
 import { QuasarLanguage } from "./lang";
 
 // We cannot reference directly Capacitor/Cordova/Electron types
@@ -24,10 +24,18 @@ interface GlobalQuasarIconSet extends QuasarIconSet {
   set(iconSet: QuasarIconSet): void;
 }
 
+type GlobalQuasarIconMapFn = (
+  iconName: string
+) => { icon: string } | { cls: string; content?: string } | void;
+
 export interface QVueGlobals
   extends HasCapacitor<{ capacitor: any }>,
     HasCordova<{ cordova: GlobalsTypesHolder["cordova"] }>,
-    HasElectron<{ electron: GlobalsTypesHolder["electron"] }> {
+    HasElectron<{ electron: GlobalsTypesHolder["electron"] }>,
+    HasSsr<
+      { iconMapFn?: GlobalQuasarIconMapFn },
+      { iconMapFn: GlobalQuasarIconMapFn }
+    > {
   version: string;
   lang: GlobalQuasarLanguage;
   iconSet: GlobalQuasarIconSet;

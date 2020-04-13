@@ -89,15 +89,19 @@ export default Vue.extend({
       return offset > 0 ? offset : 0
     },
 
+    hidden () {
+      return this.value !== true || (this.fixed === true && this.revealed !== true)
+    },
+
+    revealOnFocus () {
+      return this.value === true && this.hidden === true && this.reveal === true
+    },
+
     classes () {
-      return (
-        this.fixed === true ? 'fixed' : 'absolute') + '-top' +
+      return (this.fixed === true ? 'fixed' : 'absolute') + '-top' +
         (this.bordered === true ? ' q-header--bordered' : '') +
-        (
-          this.value !== true || (this.fixed === true && this.revealed !== true)
-            ? ' q-header--hidden'
-            : ''
-        )
+        (this.hidden === true ? ' q-header--hidden' : '') +
+        (this.value !== true ? ' q-layout--prevent-focus' : '')
     },
 
     style () {
@@ -136,6 +140,7 @@ export default Vue.extend({
       style: this.style,
       on: {
         ...this.$listeners,
+        focusin: this.__onFocusin,
         input: stop
       }
     }, child)
@@ -173,6 +178,14 @@ export default Vue.extend({
       if (this[prop] !== val) {
         this[prop] = val
       }
+    },
+
+    __onFocusin (evt) {
+      if (this.revealOnFocus === true) {
+        this.__updateLocal('revealed', true)
+      }
+
+      this.$emit('focusin', evt)
     }
   }
 })

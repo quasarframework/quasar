@@ -12,7 +12,7 @@ const injectStyleRules = require('./inject.style-rules')
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
 
-  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor', 'bex'].includes(cfg.ctx.modeName)
   const fileHash = needsHash ? '.[contenthash:8]' : ''
   const chunkHash = needsHash ? '.[chunkhash:8]' : ''
   const resolveModules = [
@@ -48,7 +48,7 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.js', '.vue', '.json' ])
+    .merge([ '.mjs', '.js', '.vue', '.json' ])
 
   chain.resolve.modules
     .merge(resolveModules)
@@ -214,6 +214,14 @@ module.exports = function (cfg, configName) {
     lessLoaderOptions: cfg.build.lessLoaderOptions
   })
 
+  chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
+    .rule('mjs')
+    .test(/\.mjs$/)
+    .include
+      .add(/node_modules/)
+      .end()
+    .type('javascript/auto')
+
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
 
@@ -247,8 +255,8 @@ module.exports = function (cfg, configName) {
             test: add !== void 0 || remove !== void 0
               ? module => {
                 if (module.resource) {
-                  if (add !== void 0 && add.test(module.resource)) { return true }
                   if (remove !== void 0 && remove.test(module.resource)) { return false }
+                  if (add !== void 0 && add.test(module.resource)) { return true }
                 }
                 return regex.test(module.resource)
               }

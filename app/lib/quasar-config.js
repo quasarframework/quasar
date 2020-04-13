@@ -15,6 +15,7 @@ const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
+const urlRegex = /^http(s)?:\/\//
 
 function encode (obj) {
   return JSON.stringify(obj, (_, value) => {
@@ -33,7 +34,7 @@ function formatPublicPath (path) {
     path = `${path}/`
   }
 
-  if (path.startsWith('http://') || path.startsWith('https://')) {
+  if (urlRegex.test(path) === true) {
     return path
   }
 
@@ -214,6 +215,11 @@ class QuasarConfig {
       cordova: {},
       capacitor: {},
       bin: {},
+      bex: {
+        builder: {
+          directories: {}
+        }
+      },
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
@@ -322,7 +328,8 @@ class QuasarConfig {
         cfg.framework ? cfg.framework.all + cfg.framework.autoImportComponentCase : '',
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
-        cfg.electron ? encode(cfg.electron) : ''
+        cfg.electron ? encode(cfg.electron) : '',
+        cfg.bex ? encode(cfg.bex) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -395,7 +402,7 @@ class QuasarConfig {
       productDescription: this.pkg.description,
       extractCSS: this.ctx.prod,
       sourceMap: this.ctx.dev,
-      minify: this.ctx.prod,
+      minify: this.ctx.prod && this.ctx.mode.bex !== true,
       distDir: path.join('dist', this.ctx.modeName),
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
@@ -478,7 +485,7 @@ class QuasarConfig {
         gzip: false
       })
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.electron || this.ctx.mode.bex) {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
@@ -499,7 +506,7 @@ class QuasarConfig {
     if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
       cfg.build.distDir = appPaths.resolve[this.ctx.modeName]('www')
     }
-    else if (this.ctx.mode.electron) {
+    else if (this.ctx.mode.electron || this.ctx.mode.bex) {
       cfg.build.packagedDistDir = cfg.build.distDir
       cfg.build.distDir = path.join(cfg.build.distDir, 'UnPackaged')
     }
@@ -740,7 +747,9 @@ class QuasarConfig {
       }
 
       cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
-        icon.src = `${cfg.build.publicPath}${icon.src}`
+        if (urlRegex.test(icon.src) === false) {
+          icon.src = `${cfg.build.publicPath}${icon.src}`
+        }
         return icon
       })
     }
@@ -756,7 +765,7 @@ class QuasarConfig {
 
       cfg.build.APP_URL = `http${cfg.devServer.https ? 's' : ''}://${host}:${cfg.devServer.port}${cfg.build.publicPath}${urlPath}`
     }
-    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor) {
+    else if (this.ctx.mode.cordova || this.ctx.mode.capacitor || this.ctx.mode.bex) {
       cfg.build.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {
@@ -869,6 +878,16 @@ class QuasarConfig {
 
         bundler.ensureInstall(cfg.electron.bundler)
       }
+    }
+    else if (this.ctx.mode.bex) {
+      cfg.bex = merge(cfg.bex, {
+        builder: {
+          directories: {
+            input: cfg.build.distDir,
+            output: path.join(cfg.build.packagedDistDir, 'Packaged')
+          }
+        }
+      })
     }
 
     if (this.ctx.mode.capacitor && cfg.capacitor.hideSplashscreen !== false) {

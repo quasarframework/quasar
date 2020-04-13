@@ -58,10 +58,11 @@ for $space, $value in $spaces
   .q-my-{$space}
     @extends .q-mt-{$space}, .q-mb-{$space}
 
-.q-ml-auto
+.q-mt-auto, .q-my-auto
+  margin-top: auto
+.q-ml-auto, .q-mx-auto
   margin-left: auto
-.q-mr-auto
-  margin-right: auto
-.q-mx-auto
-  margin-left: auto
+.q-mb-auto, .q-my-auto
+  margin-bottom: auto
+.q-mr-auto, .q-mx-auto
   margin-right: auto

@@ -299,6 +299,13 @@ export default {
   },
 
   mounted () {
+    // If we have a search string in the query (mostly from tab-to-search functionality),
+    // we need to open the drawer to fill in the search string in the input later
+    const searchQuery = this.$route.query.search
+    if (searchQuery) {
+      this.leftDrawerState = true
+    }
+
     import('docsearch.js').then(docsearch => {
       docsearch.default({
         apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
@@ -318,6 +325,19 @@ export default {
 
       if (this.$q.platform.is.desktop === true) {
         window.addEventListener('keypress', this.focusOnSearch)
+      }
+
+      if (searchQuery) {
+        // Here we put search string from query into the input and open the search popup.
+        // Unfortunately, this input is managed completely by Algolia and their code doesn't seem to
+        // have a method of opening the popup programmatically, so we need to simulate typing on that input element.
+        // We also need to dispatch the event only after the input text is populated and Vue will
+        // do that in next render, so we schedule it on the next event loop iteration with setTimeout.
+        this.search = searchQuery
+        this.$refs.docAlgolia.focus()
+        setTimeout(() => {
+          this.$refs.docAlgolia.$refs.input.dispatchEvent(new Event('input', {}))
+        })
       }
     })
   },

@@ -1,7 +1,10 @@
 const xmldom = require('xmldom')
 const Parser = new xmldom.DOMParser()
 
-const typeExceptions = [ 'g', 'svg' ]
+const { resolve, basename } = require('path')
+const { readFileSync, writeFileSync } = require('fs')
+
+const typeExceptions = [ 'g', 'svg', 'defs', 'style' ]
 
 function getAttributes (el, list) {
   const att = {}
@@ -44,7 +47,7 @@ const decoders = {
     return 'M' + x0 + ',' + y0 + 'L' + points.join(' ')
   },
 
-  pollyline (el) {
+  polyline (el) {
     return this.polygon(el)
   },
 
@@ -85,7 +88,7 @@ function parseDom (el, allPaths) {
   })
 }
 
-module.exports.parseSvgContent = (name, content) => {
+function parseSvgContent(name, content) {
   const dom = Parser.parseFromString(content, 'text/xml')
 
   const viewBox = dom.documentElement.getAttribute('viewBox')
@@ -108,5 +111,46 @@ module.exports.parseSvgContent = (name, content) => {
   return {
     dPath,
     viewBox: viewBox !== '0 0 24 24' ? `|${viewBox}` : ''
+  }
+}
+
+function getBanner(iconSetName, versionOrPackageName) {
+  const version = 
+    versionOrPackageName.match(/^\d/)
+    ? versionOrPackageName
+    : require(resolve(__dirname, `../../node_modules/${versionOrPackageName}/package.json`)).version
+  
+  return `/* ${iconSetName} v${version} */\n\n`
+}
+
+module.exports.defaultNameMapper = (filePath, prefix) => {
+  return (prefix + '-' + basename(filePath, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase());
+}
+
+module.exports.extract = (filePath, name) => {
+  const content = readFileSync(filePath, 'utf-8')
+
+  const {dPath, viewBox} = parseSvgContent(name, content)
+
+  return {
+    svgDef: `export const ${name} = '${dPath}${viewBox}'`,
+    typeDef: `export declare const ${name}: string;`
+  }
+}
+
+module.exports.writeExports = (iconSetName, versionOrPackageName, distFolder, svgExports, typeExports, skipped) => {
+  if (svgExports.length === 0) {
+    console.log(`WARNING. ${iconSetName} skipped completely`)
+  }
+  else {
+    const banner = getBanner(iconSetName, versionOrPackageName);
+    const distIndex = `${distFolder}/index`
+  
+    writeFileSync(`${distIndex}.js`, banner + svgExports.join('\n'), 'utf-8')
+    writeFileSync(`${distIndex}.d.ts`, banner + typeExports.join('\n'), 'utf-8')
+  
+    if (skipped.length > 0) {
+      console.log(`${iconSetName} - skipped (${skipped.length}): ${skipped}`)
+    }
   }
 }

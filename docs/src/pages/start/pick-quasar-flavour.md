@@ -23,6 +23,7 @@ Here's a quick comparison:
 | Build SPA, PWA                                                                             | **Yes** | **Yes**    | **Yes**                       |
 | Build SSR (+ optional PWA client takeover)                                                 | -       | **Yes**    | Yes*                          |
 | Build Mobile Apps, Electron Apps                                                           | **Yes** | **Yes**    | Yes*                          |
+| Build Mobile Browser Extensions                                                            | -       | **Yes**    | Yes*                          |
 | Quasar **App Extensions**                                                                  | -       | **Yes**    | -
 | Dynamic RTL support for Quasar components                                                  | **Yes** | **Yes**    | **Yes**                       |
 | Generating your own website/app RTL equivalent CSS rules automatically by Quasar           | -       | **Yes**    | **Yes**                       |

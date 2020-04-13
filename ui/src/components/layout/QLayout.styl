@@ -155,6 +155,10 @@ body.q-ios-padding
   .q-page-sticky
     transition: transform .12s, left .12s, right .12s, top .12s, bottom .12s !important
 
+body:not(.q-body--layout-animate)
+  .q-layout--prevent-focus
+    visibility: hidden
+
 .q-body--drawer-toggle
   overflow-x: hidden !important
 
