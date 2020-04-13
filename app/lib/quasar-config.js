@@ -402,7 +402,7 @@ class QuasarConfig {
       productDescription: this.pkg.description,
       extractCSS: this.ctx.prod,
       sourceMap: this.ctx.dev,
-      minify: this.ctx.prod,
+      minify: this.ctx.prod && this.ctx.mode.bex !== true,
       distDir: path.join('dist', this.ctx.modeName),
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
