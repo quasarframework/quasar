@@ -481,6 +481,10 @@ const cli = [
         path: 'preparation'
       },
       {
+        name: 'App Icons for BEX',
+        path: 'app-icons-browser-extension'
+      },
+      {
         name: 'Build Commands',
         path: 'build-commands'
       },
