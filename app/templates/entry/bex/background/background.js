@@ -87,7 +87,7 @@ chrome.runtime.onConnect.addListener(port => {
     }
   })
 
-  // Only mount the background hooks once; on app initialisation.
+  // Only mount the background hooks once; on app initialization.
   if (port.name === 'app') {
     attachBackgroundHooks(bridge, connections)
   }
