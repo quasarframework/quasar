@@ -9,7 +9,7 @@ export default function attachBackgroundHooks (bridge, allActiveConnections) {
         const result = []
 
         // Group the items up into an array to take advantage of the bridge's chunk splitting.
-        for (let itemKey in r) {
+        for (const itemKey in r) {
           result.push(r[itemKey])
         }
         bridge.send(event.eventResponseKey, result)

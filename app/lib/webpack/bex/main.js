@@ -16,13 +16,13 @@ module.exports = function (cfg, configName) {
   // The renderer chain is responsible for statics / file copying so remove from this chain
   chain.plugins.delete('copy-webpack')
 
-  if (cfg.ctx.prod) {
-    // splitChunks causes issues with the connection between the client and the background script.
-    // This is  because it's expecting a chunk to be available via traditional loading methods but
-    // we only specify one file for background in the manifest so it needs to container EVERYTHING it needs.
-    chain.optimization.splitChunks(undefined)
+  // splitChunks causes issues with the connection between the client and the background script.
+  // This is  because it's expecting a chunk to be available via traditional loading methods but
+  // we only specify one file for background in the manifest so it needs to contain EVERYTHING it needs.
+  chain.optimization.splitChunks(void 0)
 
-    // Strictly speaking, best practice would be to *not* minify but leave it up to the user.
+  if (cfg.ctx.prod) {
+    // We shouldn't minify BEX code. This option is disabled by default for BEX mode in quasar-conf.js.
     // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
     chain.optimization.minimize(cfg.build.minify)
   }
