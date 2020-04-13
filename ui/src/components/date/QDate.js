@@ -60,7 +60,7 @@ export default Vue.extend({
       yearDirection: direction,
       startYear: inner.year - inner.year % yearsInterval,
       innerModel: inner,
-      extModel: external,
+      extModel: external
     }
   },
 
@@ -343,10 +343,6 @@ export default Vue.extend({
       }
     },
 
-    isDisableYear (year) {
-      console.log(this.computedLocale.months)
-    },
-
     __getModels (val, mask, locale) {
       const external = __splitDate(
         val,
@@ -589,7 +585,6 @@ export default Vue.extend({
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
 
-      console.log(this.months)
       const content = this.months.map((disable, i) => {
         const active = this.innerModel.month === i + 1
         const month = this.computedLocale.monthsShort[i];
