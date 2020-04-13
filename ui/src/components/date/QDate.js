@@ -190,6 +190,34 @@ export default Vue.extend({
         : date => this.options.includes(date)
     },
 
+    years () {
+      let res = [];
+      const 
+        start = this.startYear,
+        stop = start + yearsInterval
+
+      for (let year = start; year <= stop; year++) {
+        if (this.options !== void 0) {
+
+          let disable = true;
+
+          for (let month = 1; month <= 12; month++) {
+            
+            const prefix = year + '/' + pad(month) + '/'
+
+            for (let i = 1; i <= 31; i++) {
+              const day = prefix + pad(i);
+              if(this.isInSelection(day) === true) disable = false;
+            }
+          }
+          res.push(disable)
+        }
+        else res.push(false);
+      }
+
+      return(res)
+    },
+
     months () {
       let res = [];
 
@@ -593,36 +621,34 @@ export default Vue.extend({
     },
 
     __getYearsView (h) {
-      const
-        start = this.startYear,
-        stop = start + yearsInterval,
-        years = []
 
-      console.log(this.disabledYears)
-      for (let i = start; i <= stop; i++) {
-        const active = this.innerModel.year === i
+      const years = this.years.map((disable, i) => {
+        const year = this.startYear + i;
+        const active = this.innerModel.year === i;
 
-        years.push(
+        return(
           h('div', {
             staticClass: 'q-date__years-item flex flex-center'
           }, [
-            h(QBtn, {
+            disable === true
+            ? h('div', {staticClass: 'text-grey'}, [ year ]) 
+            : h(QBtn, {
               key: 'yr' + i,
               staticClass: this.today.year === i ? 'q-date__today' : null,
               props: {
                 flat: !active,
-                label: i,
+                label: year,
                 dense: true,
                 unelevated: active,
                 color: active ? this.computedColor : null,
                 textColor: active ? this.computedTextColor : null,
                 tabindex: this.computedTabindex
               },
-              on: cache(this, 'yr#' + i, { click: () => { this.__setYear(i) } })
+              on: cache(this, 'yr#' + i, { click: () => { this.__setYear(year) } })
             })
           ])
         )
-      }
+      });
 
       return h('div', {
         staticClass: 'q-date__view q-date__years flex flex-center'
