@@ -87,7 +87,10 @@ chrome.runtime.onConnect.addListener(port => {
     }
   })
 
-  attachBackgroundHooks(bridge, connections)
+  // Only mount the background hooks once; on app initialisation.
+  if (port.name === 'app') {
+    attachBackgroundHooks(bridge, connections)
+  }
 
   // Map a messaging layer between the App and ContentScript
   for (let connectionId in connections) {
