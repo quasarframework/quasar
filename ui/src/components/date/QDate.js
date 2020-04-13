@@ -60,7 +60,7 @@ export default Vue.extend({
       yearDirection: direction,
       startYear: inner.year - inner.year % yearsInterval,
       innerModel: inner,
-      extModel: external
+      extModel: external,
     }
   },
 
@@ -190,28 +190,25 @@ export default Vue.extend({
         : date => this.options.includes(date)
     },
 
-
-    isDisableMonths () {
-
+    months () {
       let res = [];
-      for (let month = 1; month <= 12; month++){
-        const prefix = this.innerModel.year + '/' + pad(month) + '/'
 
-        let disable = true;
-        for (let i = 1; i <= this.daysInMonth; i++) {
-          const day = prefix + pad(i)
+      for (let month = 1; month <= 12; month++) {
+        if (this.options !== void 0) {
 
-          if (this.options !== void 0 && this.isInSelection(day) !== true) {
+          const prefix = this.innerModel.year + '/' + pad(month) + '/'
+          let disable = true;
 
+          for (let i = 1; i <= 31; i++) {
+            const day = prefix + pad(i);
+            if (this.isInSelection(day) === true) disable = false;
           }
-          else {
-            disable = false;
-          }
+          res.push(disable);
         }
-        res.push(disable)
+        else res.push(false)
       }
-      return res;
 
+      return(res)
     },
 
     days () {
@@ -316,6 +313,10 @@ export default Vue.extend({
           descending === true ? -1 : 1
         )
       }
+    },
+
+    isDisableYear (year) {
+      console.log(this.computedLocale.months)
     },
 
     __getModels (val, mask, locale) {
@@ -559,15 +560,16 @@ export default Vue.extend({
 
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
-      const disabledMonths = this.isDisableMonths;
 
-      const content = this.computedLocale.monthsShort.map((month, i) => {
+      console.log(this.months)
+      const content = this.months.map((disable, i) => {
         const active = this.innerModel.month === i + 1
+        const month = this.computedLocale.monthsShort[i];
 
         return h('div', {
           staticClass: 'q-date__months-item flex flex-center'
         }, [
-          disabledMonths[i] === true
+          disable === true
           ? h('div', {staticClass: 'text-grey'}, [ month ]) 
           : h(QBtn, {
             staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
@@ -596,6 +598,7 @@ export default Vue.extend({
         stop = start + yearsInterval,
         years = []
 
+      console.log(this.disabledYears)
       for (let i = start; i <= stop; i++) {
         const active = this.innerModel.year === i
 
