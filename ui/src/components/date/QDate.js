@@ -191,52 +191,49 @@ export default Vue.extend({
     },
 
     years () {
-      let res = [];
-      const 
+      let res = []
+      const
         start = this.startYear,
         stop = start + yearsInterval
 
       for (let year = start; year <= stop; year++) {
         if (this.options !== void 0) {
-
-          let disable = true;
+          let disable = true
 
           for (let month = 1; month <= 12; month++) {
-            
             const prefix = year + '/' + pad(month) + '/'
 
             for (let i = 1; i <= 31; i++) {
-              const day = prefix + pad(i);
-              if(this.isInSelection(day) === true) disable = false;
+              const day = prefix + pad(i)
+              if (this.isInSelection(day) === true) disable = false
             }
           }
           res.push(disable)
         }
-        else res.push(false);
+        else res.push(false)
       }
 
-      return(res)
+      return (res)
     },
 
     months () {
-      let res = [];
+      let res = []
 
       for (let month = 1; month <= 12; month++) {
         if (this.options !== void 0) {
-
           const prefix = this.innerModel.year + '/' + pad(month) + '/'
-          let disable = true;
+          let disable = true
 
           for (let i = 1; i <= 31; i++) {
-            const day = prefix + pad(i);
-            if (this.isInSelection(day) === true) disable = false;
+            const day = prefix + pad(i)
+            if (this.isInSelection(day) === true) disable = false
           }
-          res.push(disable);
+          res.push(disable)
         }
         else res.push(false)
       }
 
-      return(res)
+      return (res)
     },
 
     days () {
@@ -320,7 +317,7 @@ export default Vue.extend({
       if (this.readonly === true) {
         return { 'aria-readonly': '' }
       }
-    },
+    }
   },
 
   methods: {
@@ -587,25 +584,25 @@ export default Vue.extend({
 
       const content = this.months.map((disable, i) => {
         const active = this.innerModel.month === i + 1
-        const month = this.computedLocale.monthsShort[i];
+        const month = this.computedLocale.monthsShort[i]
 
         return h('div', {
           staticClass: 'q-date__months-item flex flex-center'
         }, [
           disable === true
-          ? h('div', {staticClass: 'text-grey'}, [ month ]) 
-          : h(QBtn, {
-            staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
-            props: {
-              flat: !active,
-              label: month,
-              unelevated: active,
-              color: active ? this.computedColor : null,
-              textColor: active ? this.computedTextColor : null,
-              tabindex: this.computedTabindex
-            },
-            on: cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
-          })
+            ? h('div', { staticClass: 'text-grey' }, [ month ])
+            : h(QBtn, {
+              staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
+              props: {
+                flat: !active,
+                label: month,
+                unelevated: active,
+                color: active ? this.computedColor : null,
+                textColor: active ? this.computedTextColor : null,
+                tabindex: this.computedTabindex
+              },
+              on: cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
+            })
         ])
       })
 
@@ -616,34 +613,33 @@ export default Vue.extend({
     },
 
     __getYearsView (h) {
-
       const years = this.years.map((disable, i) => {
-        const year = this.startYear + i;
-        const active = this.innerModel.year === i;
+        const year = this.startYear + i
+        const active = this.innerModel.year === i
 
-        return(
+        return (
           h('div', {
             staticClass: 'q-date__years-item flex flex-center'
           }, [
             disable === true
-            ? h('div', {staticClass: 'text-grey'}, [ year ]) 
-            : h(QBtn, {
-              key: 'yr' + i,
-              staticClass: this.today.year === i ? 'q-date__today' : null,
-              props: {
-                flat: !active,
-                label: year,
-                dense: true,
-                unelevated: active,
-                color: active ? this.computedColor : null,
-                textColor: active ? this.computedTextColor : null,
-                tabindex: this.computedTabindex
-              },
-              on: cache(this, 'yr#' + i, { click: () => { this.__setYear(year) } })
-            })
+              ? h('div', { staticClass: 'text-grey' }, [ year ])
+              : h(QBtn, {
+                key: 'yr' + i,
+                staticClass: this.today.year === i ? 'q-date__today' : null,
+                props: {
+                  flat: !active,
+                  label: year,
+                  dense: true,
+                  unelevated: active,
+                  color: active ? this.computedColor : null,
+                  textColor: active ? this.computedTextColor : null,
+                  tabindex: this.computedTabindex
+                },
+                on: cache(this, 'yr#' + i, { click: () => { this.__setYear(year) } })
+              })
           ])
         )
-      });
+      })
 
       return h('div', {
         staticClass: 'q-date__view q-date__years flex flex-center'
