@@ -200,7 +200,7 @@ class CapacitorConfig {
 
       const sslString = `
     if (BuildConfig.DEBUG) {
-      EnableHttpsSelfSigned.enable(findViewById(R.id.webview));
+      EnableHttpsSelfSigned.enable(this.bridge);
     }
       `
 
@@ -226,9 +226,11 @@ import android.net.http.SslError;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import com.getcapacitor.Bridge;
+
 public class EnableHttpsSelfSigned {
-  public static void enable(WebView webview) {
-    webview.setWebViewClient(new WebViewClient() {
+  public static void enable(Bridge bridge) {
+    bridge.getWebView().setWebViewClient(new WebViewClient() {
       @Override
       public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
         handler.proceed();
