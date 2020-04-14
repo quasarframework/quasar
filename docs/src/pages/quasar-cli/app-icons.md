@@ -202,3 +202,13 @@ src-electron/
     Square310x310Logo.png
     StoreLogo.png
 ```
+
+### BEX
+
+```
+src-bex/
+  icons/
+     icon-16x16.png   // Favicon on extension pages
+     icon-48x48.png   // Extension management page
+     icon-128x128.png // Installation and web store
+```
