@@ -131,7 +131,7 @@ $ quasar dev -h
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -170,6 +170,9 @@ $ quasar dev -m ssr
 
 # Developing a PWA
 $ quasar dev -m pwa
+
+# Developing a BEX for production
+$ quasar dev -m bex
 
 # Developing a Mobile App (through Cordova)
 $ quasar dev -m cordova -T [android|ios]
@@ -236,7 +239,7 @@ $ quasar build -h
     $ quasar build -m ios -- some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m      App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
@@ -287,6 +290,9 @@ $ quasar build -m ssr
 
 # Build a PWA for production
 $ quasar build -m pwa
+
+# Build a BEX for production
+$ quasar build -m bex
 
 # Build a Mobile App (through Cordova)
 $ quasar build -m cordova -T [android|ios]
@@ -488,7 +494,7 @@ $ quasar inspect -h
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|electron] (default: spa)
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
