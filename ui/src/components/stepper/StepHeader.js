@@ -93,7 +93,7 @@ export default Vue.extend({
         (this.isError === true ? ' q-stepper__tab--error' : '') +
         (this.isActive === true ? ' q-stepper__tab--active' : '') +
         (this.isDone === true ? ' q-stepper__tab--done' : '') +
-        (this.headerNav === true ? ' q-stepper__tab--navigation q-focusable q-hoverable': '') +
+        (this.headerNav === true ? ' q-stepper__tab--navigation q-focusable q-hoverable' : '') +
         (this.isDisable === true ? ' q-stepper__tab--disabled' : '')
     }
   },

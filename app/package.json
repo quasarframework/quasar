@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "1.6.2",
+  "version": "1.7.0",
   "description": "Quasar Framework local CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -42,6 +42,7 @@
     "url": "https://donate.quasar.dev"
   },
   "dependencies": {
+    "archiver": "3.1.1",
     "@quasar/babel-preset-app": "1.1.9",
     "@quasar/fastclick": "1.1.4",
     "@types/cordova": "0.0.34",
@@ -116,10 +117,11 @@
     "webpack-merge": "4.2.2",
     "webpack-node-externals": "1.7.2",
     "workbox-webpack-plugin": "4.3.1",
-    "yargs": "15.3.1"
+    "yargs": "15.3.1",
+    "write-file-webpack-plugin": "4.5.1"
   },
   "engines": {
-    "node": ">= 8.9.0",
+    "node": ">= 10.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
   },

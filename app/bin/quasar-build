@@ -47,7 +47,7 @@ if (argv.help) {
     $ quasar build -m ios -- some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
@@ -119,7 +119,7 @@ function parseWebpackConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
     return [ webpackConfig.server, webpackConfig.client, webpackConfig.webserver ]
   }
-  if (mode === 'electron') {
+  if (['electron', 'bex'].includes(mode)) {
     return [ webpackConfig.renderer, webpackConfig.main ]
   }
   return webpackConfig

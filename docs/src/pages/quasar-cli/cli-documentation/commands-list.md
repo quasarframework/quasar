@@ -64,6 +64,23 @@ Creates an App folder with initial project boilerplate.
 $ quasar create <folder_name>
 ```
 
+This command will use Quasar App Starter Kit by default, but you can specify a different one via `--kit` option.
+
+`quasar create --kit ui` and `quasar create --kit app-extension` will generate for you App Extension boilerplate: the former when the extension is meant to provide UI Components, the latter in all other cases.
+
+You can use a starter kit stored on your machine by providing a **local path** to a folder (eg. `quasar create --kit ./my-custom-starter-kit`).
+
+You can use a starter kit stored into any publicly accessible Git repository by providing a reference which follows this schema:
+- GitHub - `github:owner/name` or simply `owner/name`
+- GitLab - `gitlab:owner/name`
+- Bitbucket - `bitbucket:owner/name`
+
+`master` branch will be checked out by default, but you can specify the one you prefer via `--branch <branch name>` (eg. `quasar create --kit owner/name --branch my-branch`).
+
+:::warning
+The preferred way to build reusable code and UI Components into Quasar ecosystem are App Extensions. Use a custom starter kit only if you really know what you're doing and be aware that it will make more difficult for the Quasar team to provide you assistance. 
+:::
+
 ## upgrade
 
 Check (and optionally) upgrade Quasar packages from a Quasar project folder:

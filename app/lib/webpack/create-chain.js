@@ -12,7 +12,7 @@ const injectStyleRules = require('./inject.style-rules')
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
 
-  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor', 'bex'].includes(cfg.ctx.modeName)
   const fileHash = needsHash ? '.[contenthash:8]' : ''
   const chunkHash = needsHash ? '.[chunkhash:8]' : ''
   const resolveModules = [

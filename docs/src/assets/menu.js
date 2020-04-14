@@ -469,6 +469,52 @@ const cli = [
     ]
   },
   {
+    name: 'Developing Browser Extensions',
+    path: 'developing-browser-extensions',
+    children: [
+      {
+        name: 'Introduction',
+        path: 'introduction'
+      },
+      {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Configuring BEX',
+        path: 'configuring-bex'
+      },
+      {
+        name: 'App Icons for BEX',
+        path: 'app-icons-browser-extension'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
+        name: 'Types of BEX',
+        path: 'types-of-bex'
+      },
+      {
+        name: 'BEX Communication / Events',
+        path: 'bex-communication'
+      },
+      {
+        name: 'Background Hooks',
+        path: 'background-hooks'
+      },
+      {
+        name: 'Content Hooks',
+        path: 'content-hooks'
+      },
+      {
+        name: 'DOM Hooks',
+        path: 'dom-hooks'
+      }
+    ]
+  },
+  {
     name: 'Ajax Requests',
     path: 'ajax-requests'
   },
@@ -556,6 +602,11 @@ const layout = [
         path: 'gutter'
       },
       {
+        name: 'Flexbox patterns',
+        badge: 'new',
+        path: 'flexbox-patterns'
+      },
+      {
         name: 'Flex Playground',
         path: 'flex-playground'
       }
@@ -596,7 +647,6 @@ const layout = [
   },
   {
     name: 'Page Scroller',
-    badge: 'update',
     path: 'page-scroller'
   }
 ]
@@ -616,7 +666,6 @@ const directives = [
   },
   {
     name: 'Material Ripples',
-    badge: 'update',
     path: 'material-ripple'
   },
   {
@@ -747,12 +796,10 @@ const components = [
   },
   {
     name: 'Card',
-    badge: 'update',
     path: 'card'
   },
   {
     name: 'Carousel',
-    badge: 'update',
     path: 'carousel'
   },
   {
@@ -816,17 +863,14 @@ const components = [
       },
       {
         name: 'Radio',
-        badge: 'update',
         path: 'radio'
       },
       {
         name: 'Checkbox',
-        badge: 'update',
         path: 'checkbox'
       },
       {
         name: 'Toggle',
-        badge: 'update',
         path: 'toggle'
       },
       {
@@ -857,7 +901,6 @@ const components = [
   },
   {
     name: 'Icon',
-    badge: 'update',
     path: 'icon'
   },
   {
@@ -936,12 +979,10 @@ const components = [
   },
   {
     name: 'Rating',
-    badge: 'update',
     path: 'rating'
   },
   {
     name: 'Responsive',
-    badge: 'new',
     path: 'responsive'
   },
   {
@@ -983,7 +1024,6 @@ const components = [
   },
   {
     name: 'Table',
-    badge: 'update',
     path: 'table'
   },
   {

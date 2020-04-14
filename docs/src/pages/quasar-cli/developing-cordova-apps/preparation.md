@@ -11,6 +11,12 @@ First step is to make sure you got the Cordova CLI installed and the necessary S
 $ npm install -g cordova
 ```
 
+::: warning
+Depending on your version of Android Studio, you might need to re-enable the "Android SDK Tools". You can do this by going
+to "Tools > SDK Manager > SDK Tools" then un-ticking "Hide Obsolete Packages" and tick "Android SDK Tools (Obsolete)".
+**The instructions below assume this has been done.**
+:::
+
 ### Android setup
 
 * After this step you will need to install the Android platform SDK on your machine. You can [download the Android Studio here](https://developer.android.com/studio/index.html) and follow these [installation steps](https://developer.android.com/studio/install.html) afterwards.
@@ -45,7 +51,7 @@ setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
 setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools;<gradle_path>\bin;"
 ```
 
-After the tools are installed, setup Android Studio with the correct SDK and create a virtual machine. 
+After the tools are installed, setup Android Studio with the correct SDK and create a virtual machine.
 
 * Start Android studio by changing into the folder you installed it in and run `./studio.sh`. Next step is to install the individual SDKs:
 

@@ -24,12 +24,16 @@ function write (fileContent, text = '') {
 }
 
 const typeMap = new Map([
-  ['Array', 'any[]'],
   ['Any', 'any'],
   ['Component', 'Vue'],
   ['String', 'string'],
   ['Boolean', 'boolean'],
   ['Number', 'number']
+])
+
+const fallbackComplexTypeMap = new Map([
+  ['Array', 'any[]'],
+  ['Object', 'LooseDictionary']
 ])
 
 function convertTypeVal (type, def, required) {
@@ -43,15 +47,15 @@ function convertTypeVal (type, def, required) {
     return typeMap.get(t)
   }
 
-  if (t === 'Object') {
+  if (fallbackComplexTypeMap.has(t)) {
     if (def.definition) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
       let lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
-      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'LooseDictionary'
+      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }${t === 'Array' ? '[]' : ''}` : fallbackComplexTypeMap.get(t)
     }
 
-    return 'LooseDictionary'
+    return fallbackComplexTypeMap.get(t)
   }
 
   return t

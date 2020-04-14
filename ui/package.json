@@ -23,7 +23,7 @@
     "dev:umd": "node build/script.test-umd.js",
     "dev:quploader": "cd dev/upload-server && yarn && cd ../.. && node dev/upload-server/server.js",
     "build": "node build/script.build.js",
-    "test": "eslint --ext .js,.vue src dev",
+    "test": "yarn lint && yarn build",
     "lint": "eslint --ext .js,.vue src dev",
     "lint-fix": "eslint --ext .js,.vue src dev --fix"
   },
@@ -91,7 +91,7 @@
   },
   "web-types": "dist/web-types/web-types.json",
   "engines": {
-    "node": ">= 8.9.0",
+    "node": ">= 10.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
   },

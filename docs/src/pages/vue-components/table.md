@@ -190,6 +190,8 @@ In the example below, we let QTable deal with displaying the grid mode (not usin
 
 <doc-example title="Colored grid style" file="QTable/GridStyleColored" />
 
+<doc-example title="Masonry like grid" file="QTable/GridMasonry" />
+
 However, if you want to fully customize the content, check the example below, where:
   * We are using a Vue scoped slot called `item` to define how each record (the equivalent of a row in non-grid mode) should look. This allows you total freedom.
   * We are using multiple selection.
