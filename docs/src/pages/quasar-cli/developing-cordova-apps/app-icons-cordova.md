@@ -53,7 +53,7 @@ src-cordova/
       icon-1024.png
     screen/
       android/
-        screen-hdpi-landscape.png
+        screen-ldpi-landscape.png
         screen-ldpi-portrait.png
         screen-mdpi-landscape.png
         screen-mdpi-portrait.png
