@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
 
-    <q-btn class="q-mb-md" flat color="primary" label="Regenerate layout" @click="generateCells" />
+    <q-btn class="q-mb-md" color="primary" label="Regenerate layout" @click="generateCells" />
 
     <div class="column example-container">
       <div class="flex-break hidden"></div>

@@ -9,10 +9,9 @@ related:
   - /layout/grid/flex-playground
 ---
 
-Here are some common patterns for using [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Some more info can be found at:
-- [Tobias Ahlin Blog](https://tobiasahlin.com/blog/)
+Here are some common patterns for using [Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/). Some more info can be found at [Tobias Ahlin Blog](https://tobiasahlin.com/blog/).
 
-# Flex row / column break
+## Flex row / column break
 You can define a CSS class that would force the element it is applied on to create a row / column break in a flex layout.
 
 ``` css
@@ -52,7 +51,7 @@ When using `column` type flex you must define a height for the container. The he
 
 <doc-example title="Column break" file="grid/BreakColumn" />
 
-# Masonry like layout
+## Masonry-like layout
 When using a `column` type flex with multiple columns the visual order of the elements will be in vertical columns. Sometimes you want the order to follow the rows in the layout, and in order to achieve this you can use a combination or custom order CSS styles and column break elements.
 
 ::: warning

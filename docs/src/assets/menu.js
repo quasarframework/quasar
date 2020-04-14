@@ -481,16 +481,16 @@ const cli = [
         path: 'preparation'
       },
       {
+        name: 'Configuring BEX',
+        path: 'configuring-bex'
+      },
+      {
         name: 'App Icons for BEX',
         path: 'app-icons-browser-extension'
       },
       {
         name: 'Build Commands',
         path: 'build-commands'
-      },
-      {
-        name: 'Configuring BEX',
-        path: 'configuring-bex'
       },
       {
         name: 'Types of BEX',
@@ -603,8 +603,8 @@ const layout = [
       },
       {
         name: 'Flexbox patterns',
-        path: 'flexbox-patterns',
-        badge: 'new'
+        badge: 'new',
+        path: 'flexbox-patterns'
       },
       {
         name: 'Flex Playground',
@@ -647,7 +647,6 @@ const layout = [
   },
   {
     name: 'Page Scroller',
-    badge: 'update',
     path: 'page-scroller'
   }
 ]
@@ -667,7 +666,6 @@ const directives = [
   },
   {
     name: 'Material Ripples',
-    badge: 'update',
     path: 'material-ripple'
   },
   {
@@ -798,12 +796,10 @@ const components = [
   },
   {
     name: 'Card',
-    badge: 'update',
     path: 'card'
   },
   {
     name: 'Carousel',
-    badge: 'update',
     path: 'carousel'
   },
   {
@@ -867,17 +863,14 @@ const components = [
       },
       {
         name: 'Radio',
-        badge: 'update',
         path: 'radio'
       },
       {
         name: 'Checkbox',
-        badge: 'update',
         path: 'checkbox'
       },
       {
         name: 'Toggle',
-        badge: 'update',
         path: 'toggle'
       },
       {
@@ -908,7 +901,6 @@ const components = [
   },
   {
     name: 'Icon',
-    badge: 'update',
     path: 'icon'
   },
   {
@@ -987,12 +979,10 @@ const components = [
   },
   {
     name: 'Rating',
-    badge: 'update',
     path: 'rating'
   },
   {
     name: 'Responsive',
-    badge: 'new',
     path: 'responsive'
   },
   {
@@ -1034,7 +1024,6 @@ const components = [
   },
   {
     name: 'Table',
-    badge: 'update',
     path: 'table'
   },
   {
