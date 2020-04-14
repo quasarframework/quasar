@@ -36,12 +36,6 @@ In summary:
 Given content scripts run in the web page context, this means that only BEX's that interact with a web page can use content scripts. Popups, Options and Devtools **will not** have a *content script* running behind them. They will all however have a *background script*.
 :::
 
-## Icons
-
-::: tip
-We highly recommend using our official [Icon Genie](https://github.com/quasarframework/app-extension-icon-genie/) app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
-:::
-
 ## CSS
 
 Any styles you want to be made available to your web page (not your Quasar App) should be included in `src-bex/css/content-css.css` as this file ia automatically injected into the `manifest.json` file.
