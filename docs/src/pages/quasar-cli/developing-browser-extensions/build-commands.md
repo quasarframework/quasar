@@ -36,6 +36,10 @@ In line with the screenshot above, the following steps must be taken:
 
 More information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/extensions/tut_debugging).
 
+### Other Chromium Browsers
+
+Although we haven't tested all the various Chromium based browsers, BEX mode should be compatible with them. Please refer to the appropriate browser documentation on how to add a browser extension to that particular browser.
+
 ### Firefox
 
 ![Installing a Quasar Browser Extension in Firefox](https://cdn.quasar.dev/img/adding-bex-to-firefox.png)
@@ -44,7 +48,7 @@ In line with the screenshot above, the following steps must be taken:
 
 1. In Firefox, navigate to `about:debugging`
 2. Click on "This Firefox"
-3. Click "Load Temporary Add-on...". This will present you with the *file* selection dialog. Navigate to and select your `src-bex/manifest.json` file. **Note:** Firefox requires the manifest file, not the `src-bex` folder like Chrome.
+3. Click "Load Temporary Add-on...". This will present you with the *file* selection dialog. Navigate to and select your `src-bex/manifest.json` file. **Note:** Firefox requires the manifest file, not the `src-bex` folder like Chromium browsers.
 4. You should now see your BEX mounted in Firefox.
 
 More information about debugging Firefox temporary addons can be found in the [Firefox Extension Workshop](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/).
@@ -73,7 +77,7 @@ The new folder has the following structure:
     ├── UnPackaged/                       # Built code ready for testing in your development environment
     ├── Packaged/
     |   ├── Chrome
-    |   |   └── your-project-name.zip     # A zip file ready for submission to the Chrome Browser Extension Store
+    |   |   └── your-project-name.zip     # A zip file ready for submission to the Chrome Browser Extension Store / Other Chromium based stores.
     |   ├── Firefox
     └── └── └── your-project-name.zip     # A zip file ready for submission to the Firefox Extension Store
 ```
@@ -95,3 +99,7 @@ Since Quasar removes the burden of building and packaging your Browser Extension
 **Chrome** - [Publishing a Chrome Browser Extension](https://developer.chrome.com/webstore/publish)
 
 **Firefox** - [Publishing a Firefox Add On (Browser Extension)](https://extensionworkshop.com/documentation/publish/)
+
+::: tip
+BEX mode should be compatible with all chromium based browsers. Please refer to their relative documentation on publishing extensions.
+:::

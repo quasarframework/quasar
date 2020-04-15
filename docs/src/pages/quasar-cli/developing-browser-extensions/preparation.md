@@ -33,6 +33,7 @@ The `src-bex` folder is just a standard browser extension folder so you are free
 
 * [Mozilla FireFox Browser Extension Documentation](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions)
 * [Google Chrome Browser Extension Documentation](https://developer.chrome.com/extensions)
+* **Other Chromium Based Browsers** - Refer to their specific documentation.
 :::
 
 ## 2. Understand The Anatomy Of `src-bex`
