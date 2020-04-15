@@ -1,5 +1,5 @@
 /**
- * THIS FILE WILL BE OVERWRITTEN.
+ * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  **/
 
@@ -48,14 +48,15 @@ export default function connect () {
         chrome.tabs.getCurrent(tab => {
           if (tab && tab.id) {
             buildConnection(tab.id, cb)
-          } else {
+          }
+          else {
             fallbackConnection(cb)
           }
         })
-      } else {
+      }
+      else {
         fallbackConnection(cb)
       }
-
     },
     onReload (reloadFn) {
       window.addEventListener('beforeunload', reloadFn)
