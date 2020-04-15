@@ -11,7 +11,7 @@ Before we can configure anything, we need to understand how the BEX is structure
 4. Runs as [Options](https://developer.chrome.com/extensions/options) window.
 5. Runs in the context of a web page (injected into a website)
 
-You do not need a new Quasar App per BEX type above as a single Quasar Application can run in **all** of the instances above. You can find out more about these in the [types section](/developing-browser-extensions/types).
+You do not need a new Quasar App per BEX type above as a single Quasar Application can run in **all** of the instances above. You can find out more about these in the [types section](/quasar-cli/developing-browser-extensions/types-of-bex).
 
 ## Manifest.json
 

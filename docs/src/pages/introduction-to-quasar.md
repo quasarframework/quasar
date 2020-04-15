@@ -30,6 +30,7 @@ Quasar (pronounced `/ˈkweɪ.zɑɹ/`) is an MIT licensed open-source Vue.js base
 * SPAs (Single Page App)
 * SSR (Server-side Rendered App) (+ optional PWA client takeover)
 * PWAs (Progressive Web App)
+* BEX (Browser Extension)
 * Mobile Apps (Android, iOS, …) through Cordova or Capacitor
 * Multi-platform Desktop Apps (using Electron)
 

@@ -1,5 +1,5 @@
 /**
- * THIS FILE WILL BE OVERWRITTEN.
+ * THIS FILE IS GENERATED AUTOMATICALLY.
  * DO NOT EDIT.
  *
  * You are probably looking into adding hooks in your code. This should be done by means of
@@ -9,7 +9,7 @@
 /* global chrome */
 
 import Bridge from '../bridge'
-import attachContentHooks from '../../../src-bex/js/content-hooks'
+import attachContentHooks from 'src-bex/js/content-hooks'
 import { listenForWindowEvents } from './window-event-listener'
 
 const port = chrome.runtime.connect({
