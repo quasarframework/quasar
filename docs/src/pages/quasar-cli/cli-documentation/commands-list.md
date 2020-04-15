@@ -649,10 +649,10 @@ app.listen(port)
 If you need URL rewrites of API, or simply put you want to proxy your API requests, then you can use "http-proxy-middleware" package:
 ```js
 // add this to one of the two previous examples:
-const proxy = require('http-proxy-middleware')
+const { createProxyMiddleware } = require('http-proxy-middleware')
 
 // ...
-app.use('/api', proxy({
+app.use('/api', createProxyMiddleware({
     target: `http://my-api.com:5050`,
     pathRewrite: {"^/api" : ""}
   }))
