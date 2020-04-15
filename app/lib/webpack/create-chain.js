@@ -61,7 +61,9 @@ module.exports = function (cfg, configName) {
       layouts: appPaths.resolve.src(`layouts`),
       pages: appPaths.resolve.src(`pages`),
       assets: appPaths.resolve.src(`assets`),
-      boot: appPaths.resolve.src(`boot`)
+      boot: appPaths.resolve.src(`boot`),
+
+      'src-bex': appPaths.bexDir // needed for app/templates
     })
 
   if (cfg.framework.all === true) {
