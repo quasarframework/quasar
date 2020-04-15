@@ -80,7 +80,7 @@ export default Vue.extend({
       if (errorColor !== void 0) {
         return errorColor
       }
-      if (this.disable === false && this.isDone === true) {
+      if (this.isDisable === false && this.isDone === true) {
         return this.step.doneColor || this.stepper.doneColor || this.step.color || this.stepper.inactiveColor
       }
 
