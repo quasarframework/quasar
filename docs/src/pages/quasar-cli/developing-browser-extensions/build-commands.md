@@ -26,13 +26,14 @@ Now that we've created a development environment, we need to load generated brow
 
 ### Chrome
 
-![Installing a Quasar Browser Extension in Chrome](https://cdn.quasar.dev/img/adding-bex-to-chrome.png)
+![Installing a Quasar Browser Extension in Chrome](https://cdn.quasar.dev/img/adding-bex-to-chrome-with-debug.png)
 
 In line with the screenshot above, the following steps must be taken:
 
 1. In Chrome, navigate to `chrome://extensions`
-2. Click "Load unpacked". This will present you with the *folder* selection dialog. Navigate to and select your `src-bex` folder.
-3. You should now see your BEX mounted in Chrome.
+2. Toggle "Developer Mode".
+3. Click "Load unpacked". This will present you with the *folder* selection dialog. Navigate to and select your `src-bex` folder.
+4. You should now see your BEX mounted in Chrome.
 
 More information about debugging Chrome Browser Extensions can be found in the [official documentation](https://developer.chrome.com/extensions/tut_debugging).
 
