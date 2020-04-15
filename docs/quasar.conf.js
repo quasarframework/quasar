@@ -104,7 +104,7 @@ module.exports = function (ctx) {
       },
       manifest: {
         name: 'Quasar Documentation',
-        short_name: 'Quasar-Docs',
+        short_name: 'Quasar Docs',
         description: 'Quasar Framework Documentation',
         display: 'standalone',
         orientation: 'portrait',
