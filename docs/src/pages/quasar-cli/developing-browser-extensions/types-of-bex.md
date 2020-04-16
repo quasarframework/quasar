@@ -45,7 +45,7 @@ This is where the real power comes in. With a little ingenuity we can inject our
 
 Here's a brief rundown of how you could achieve this:
 
-* `src-bex/js/content-script.js`
+* `src-bex/js/content-hooks.js`
 
 The idea here is to create an IFrame and add our Quasar app into it, then inject that into the page.
 
