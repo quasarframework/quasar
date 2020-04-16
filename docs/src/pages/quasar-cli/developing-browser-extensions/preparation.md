@@ -53,7 +53,7 @@ The new folder has the following structure:
     |   ├── background-hooks.js   # Background script with a hook into the BEX communication layer
     |   ├── content-hooks.js      # Content script script with a hook into the BEX communication layer
     |   ├── content-script.js     # Standard content script BEX file - auto injected via manifest.json
-    |   └── dom-hooks.png         # JS file which is injected into the DOM with a hook into the BEX communication layer
+    |   └── dom-hooks.js          # JS file which is injected into the DOM with a hook into the BEX communication layer
     └── www/                   # Compiled BEX source - compiled from /src (Quasar app)
     └── manifest.json          # Main thread code for production
 ```
