@@ -11,6 +11,8 @@
     "sourceMap": true,
     "strict": true,
     "target": "es6",
+    // To avoid build process being interrupted by library type errors
+    "skipLibCheck": true,
     // Quasar-defined webpack aliases
     "paths": {
       "src/*": ["src/*"],
@@ -26,6 +28,7 @@
     //  isn't referenced anywhere, because those typings are declared
     //  into `@quasar/app` which is imported by `quasar` typings
     "types": ["quasar"]
+
   },
   // Needed to avoid files copied into 'dist' folder (eg. a `.d.ts` file inside `src-ssr` folder)
   // to be evaluated by TS when their original files has been updated
