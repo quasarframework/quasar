@@ -384,7 +384,7 @@ export default Vue.extend({
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
           const model = this.value.slice()
-          this.$emit('remove', { index, value: model.splice(index, 1) })
+          this.$emit('remove', { index, value: model.splice(index, 1)[0] })
           this.$emit('input', model)
         }
         else {
@@ -475,7 +475,7 @@ export default Vue.extend({
         index = this.innerOptionsValue.findIndex(v => isDeepEqual(v, optValue))
 
       if (index > -1) {
-        this.$emit('remove', { index, value: model.splice(index, 1) })
+        this.$emit('remove', { index, value: model.splice(index, 1)[0] })
       }
       else {
         if (this.maxValues !== void 0 && model.length >= this.maxValues) {
