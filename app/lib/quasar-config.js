@@ -703,9 +703,9 @@ class QuasarConfig {
           appleMobileWebAppCapable: 'yes',
           appleMobileWebAppStatusBarStyle: 'default',
           appleTouchIcon120: 'statics/icons/apple-icon-120x120.png',
-          appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
           appleTouchIcon152: 'statics/icons/apple-icon-152x152.png',
           appleTouchIcon167: 'statics/icons/apple-icon-167x167.png',
+          appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
           appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
           msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
           msapplicationTileColor: '#000000'
