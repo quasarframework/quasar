@@ -92,6 +92,11 @@ Quasar Framework is an MIT-licensed open source project. Its ongoing development
           <img width="222px" height="150px" src="https://cdn.quasar.dev/sponsors/ib-langenthal.svg">
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://debricked.com/" target="_blank">
+          <img width="222px" height="35px" src="https://cdn.quasar.dev/sponsors/debricked.png">
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>
