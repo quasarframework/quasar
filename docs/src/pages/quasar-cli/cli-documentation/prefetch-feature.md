@@ -232,6 +232,27 @@ Also note that because the module is now a dependency of the route component, it
 Don't forget to use the `preserveState: true` option for `registerModule` so we keep the state injected by the server.
 :::
 
+### Usage with TypeScript
+Starting with v1.9, you can use `preFetch` helper to type-hint the store parameter (which will otherwise have an `any` type):
+
+```js
+import { preFetch } from 'quasar/wrappers'
+
+interface StoreInterface {
+  // ...
+}
+
+export default {
+  preFetch: preFetch<StoreInterface>(({ store }) => {
+    // Do something with your newly-typed store parameter
+  }),
+}
+```
+
+::: tip
+This is useful only to type `store` parameter, other parameters are automatically typed even when using the normal syntax.
+:::
+
 ## Loading State
 A good UX includes notifying the user that something is being worked on in the background while he/she waits for the page to be ready. Quasar CLI offers two options for this out of the box.
 
