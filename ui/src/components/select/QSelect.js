@@ -821,6 +821,7 @@ export default Vue.extend({
           })
         }, [
           h('span', {
+            staticClass: 'ellipsis',
             domProps: {
               [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
             }
