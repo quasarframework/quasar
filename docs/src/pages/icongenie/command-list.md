@@ -3,7 +3,7 @@ title: Icon Genie CLI Command List
 desc: Command list for Icon Genie CLI.
 ---
 
-Familiarize yourself with the list of Icon Genie CLI available commands inside a Quasar project folder:
+Familiarize yourself with the list of available Icon Genie CLI commands inside a Quasar project folder:
 
 ```bash
 $ icongenie
@@ -16,11 +16,11 @@ $ icongenie
     $ icongenie <command> -h
 
   Options
-    --version, -v Print Quasar Icon Genie CLI version
+    --version, -v Prints Quasar Icon Genie CLI version
 
   Commands
-    generate, g   Generate App icons & splashscreens
-    verify, v     Verifies your Quasar App's icons &
+    generate, g   Generates app icons & splashscreens
+    verify, v     Verifies your Quasar app's icons &
                     splashscreens
     profile, p    Creates Icon Genie profile files
     help, h       Displays this message
@@ -34,19 +34,19 @@ $ icongenie [command name] --help
 
 ## Generate
 
-The `generate` command is used for generating App icons and splashscreens. It's at the heart of Icon Genie as it does the heavy lifting.
+The `generate` command is used for generating app icons and splashscreens. It's at the heart of Icon Genie as it does the heavy lifting.
 
-Please take a look below at the usage and some examples. The most important parameter that you will want to notice is the `--icon` (or short `-i`) one, which takes a transparent png (with min size 64x64, but highly recommending to go over 1024x1024px) as input for your App's icons and splashscreens.
+Take a look below at usage and some examples. The most important parameter to note is `--icon` (or `-i`), which takes a transparent PNG as input for your app's icons and splashscreens. Minimum size of the PNG is 64x64px, but it is highly recommended to go above 1024x1024px.
 
-When it comes to splashscreens, you might also want to combine it with the `--background` (or short `-b`) if you want your icon to be placed on top of a background.
+For splashscreens, you may want to combine it with the `--background` (or `-b`) if you want your icon to be placed on top of a background.
 
-You might also want to take note of the `--profile` (or short `-p`) parameter which can run one or more Icon Genie [profile files](/icongenie/profile-files).
+You may also want to use the `--profile` (or `-p`) parameter, which can run one or more Icon Genie [profile files](/icongenie/profile-files).
 
 ```bash
 $ icongenie generate -h
 
   Description
-    Generate App icons & splashscreens
+    Generates app icons & splashscreens
 
   Usage
     $ icongenie generate [options]
@@ -152,7 +152,7 @@ $ icongenie generate -h
 
 ## Verify
 
-The `verify` command is useful to verify that you have all your necessary app icons and splashscreens in the right place and that each file has the right resolution in pixels.
+The `verify` command confirms that you have all required app icons and splashscreens in the right place and that each file has the correct resolution in pixels.
 
 ```bash
 $ icongenie -h
@@ -209,7 +209,7 @@ $ icongenie -h
 
 ## Profile
 
-Icon Genie also supports profile files. These files are in JSON format and tell Icon Genie how to generate the images and which ones. So the `profile` command is a helper to scaffold such types of files. They are very useful for automation, if needed.
+Icon Genie also supports profile files. These files are in JSON format and tell Icon Genie which images to generate and how to generate them. The `profile` command is a helper to scaffold these profiles. They are very useful for automation, if needed.
 
 The generic form of a JSON profile file is:
 
