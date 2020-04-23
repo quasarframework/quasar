@@ -18,6 +18,8 @@ The generic form of a JSON profile file is:
 }
 ```
 
+We will be discussing each on the next sections.
+
 ### Params
 
 The `params` Object from a JSON profile file takes same prop names as the [generate](/icongenie/command-list#Generate) command parameters (but camel-cased instead of CLI's kebab-case), with one key difference: instead of using `mode` (examples: "spa,pwa", "all") you will be writing `include` (examples: [ "spa", "pwa" ], [ "all" ]).
