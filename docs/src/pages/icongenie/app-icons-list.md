@@ -4,7 +4,7 @@ desc: The Icon Genie CLI generated app icon and splashscreen file list per Quasa
 ---
 
 Each Quasar CLI mode requires its own list of icons and splashscreens.
-These are taken care of by Icon Genie through its [generate](/icongenie/command-list) command.
+These are taken care of by Icon Genie through its [generate](/icongenie/command-list#Generate) command.
 
 Here are the links to each mode's list:
 
