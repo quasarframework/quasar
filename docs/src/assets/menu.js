@@ -76,6 +76,10 @@ const options = [
     path: 'vue-prototype-injections'
   },
   {
+    name: 'App Icons',
+    path: 'app-icons'
+  },
+  {
     name: 'SEO',
     path: 'seo'
   },
@@ -144,10 +148,6 @@ const cli = [
   {
     name: 'quasar.conf.js',
     path: 'quasar-conf-js'
-  },
-  {
-    name: 'App Icons',
-    path: 'app-icons'
   },
   {
     name: 'Testing & Auditing',
@@ -544,6 +544,11 @@ const icongenie = [
   {
     name: 'Profile files',
     path: 'profile-files'
+  },
+
+  {
+    name: 'Repository and ticketing',
+    path: 'repository-and-ticketing'
   }
 ]
 

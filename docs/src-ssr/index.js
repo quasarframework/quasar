@@ -41,7 +41,7 @@ extension.extendApp({ app })
 
 const redirects = [
   { from: '/layout/floating-action-button', to: '/vue-components/floating-action-button' },
-  { from: '/options/app-icons', to: '/icongenie/introduction' }
+  { from: '/quasar-cli/app-icons', to: '/icongenie/introduction' }
 ]
 
 redirects.forEach(entry => {

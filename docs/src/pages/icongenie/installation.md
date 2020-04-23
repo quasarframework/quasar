@@ -15,16 +15,7 @@ $ yarn global add @quasar/icongenie
 $ npm install -g @quasar/icongenie
 ```
 
-## Upgrading to Icon Genie v2
-
-For those that have been using Icon Genie v1, you were used to it being a Quasar App Extension and so you were installing it into your project folder. The new version (v2) does NOT need that as it is installed globally. Your CI/CD will not need it as it is a one time process and the output files (images) will be added directly to your project folder.
-
-As a consequence, please uninstall the v1 of Icon Genie from your project folder:
-
-```bash
-# from your Quasar CLI project folder:
-$ quasar ext remove @quasar/icon-genie
-```
+This will install the `icongenie` command line tool.
 
 ## Installing tips
 
@@ -36,3 +27,16 @@ export PATH="$(yarn global bin):$PATH"
 ```
 
 Under Windows, modify user's PATH environment variable. If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`.
+
+## Upgrading to v2
+
+This section applies to those that have been using Icon Genie v1 and are now upgrading to Icon Genie v2.
+
+You were used to it being a Quasar App Extension and so you were installing it into your project folder. The new version (v2) does NOT need that as it is installed globally. Your CI/CD will not need it as it is a one time process and the output files (images) will be added directly to your project folder.
+
+As a consequence, please uninstall the v1 of Icon Genie from your project folder:
+
+```bash
+# from your Quasar CLI project folder:
+$ quasar ext remove @quasar/icon-genie
+```
