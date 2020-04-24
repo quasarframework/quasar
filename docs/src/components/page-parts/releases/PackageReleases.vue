@@ -6,13 +6,14 @@ q-splitter.release__splitter(:value="20" :limits="[14, 90]")
         template(#append)
           q-icon(:name="mdiMagnify")
       q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="primary" active-bg-color="blue-1" indicator-color="primary")
-        q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.key" :name="releaseInfo.key")
+        q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
           .q-tab__label {{ releaseInfo.version }}
-          small.text-grey-7 {{ releaseInfo.formattedCreatedAt }}
+          small.text-grey-7 {{ releaseInfo.date }}
   template(#after)
     q-tab-panels.releases-container(v-model="selectedVersion" animated transition-prev="slide-down" transition-next="slide-up")
-      q-tab-panel.q-pa-none(v-for="releaseInfo in filteredReleases" :key="releaseInfo.key" :name="releaseInfo.key")
+      q-tab-panel.q-pa-none(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
         q-scroll-area
+          div {{ releaseInfo.label }}
           .release__body.q-pa-md(v-html="currentReleaseBody")
 </template>
 
@@ -27,6 +28,8 @@ export default {
     this.mdiMagnify = mdiMagnify
   },
 
+  props: [ 'latestVersion', 'releases' ],
+
   data () {
     return {
       search: '',
@@ -34,11 +37,12 @@ export default {
     }
   },
 
-  props: {
-    version: String,
-    releases: {
-      type: Array,
-      required: true
+  watch: {
+    latestVersion: {
+      immediate: true,
+      handler (value) {
+        this.selectedVersion = value
+      }
     }
   },
 
@@ -55,7 +59,9 @@ export default {
     },
 
     currentReleaseBody () {
-      return this.parse(this.releases.find(r => r.key === this.selectedVersion).body)
+      return this.parse(
+        this.releases.find(r => r.key === this.selectedVersion).body
+      )
     }
   },
 
@@ -84,15 +90,6 @@ export default {
       return content.indexOf('| -') > -1
         ? parseMdTable(content)
         : content
-    }
-  },
-
-  watch: {
-    version: {
-      immediate: true,
-      handler (value) {
-        this.selectedVersion = value
-      }
     }
   }
 }
