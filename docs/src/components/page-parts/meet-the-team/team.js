@@ -93,14 +93,6 @@ export default [
   },
 
   {
-    name: 'Ross Ball',
-    role: 'Designer',
-    avatar: 'ross_ball.jpeg',
-    github: 'rossity',
-    desc: 'Quasar Themes'
-  },
-
-  {
     name: 'Ben Coughenour',
     role: 'Community Staff',
     avatar: 'ben_coughenour.jpg',
@@ -117,6 +109,14 @@ export default [
   },
 
   {
+    name: 'Jesús Villanueva',
+    role: 'Senior Developer',
+    avatar: 'jesus_villanueva.jpg',
+    github: 'jesusvilla',
+    desc: 'UI components, App Extensions and Help desk'
+  },
+
+  {
     name: 'Adam Purdy',
     role: 'Community Staff',
     avatar: 'adam_purdy.jpg',
@@ -125,10 +125,10 @@ export default [
   },
 
   {
-    name: 'Jesús Villanueva',
-    role: 'Senior Developer',
-    avatar: 'jesus_villanueva.jpg',
-    github: 'jesusvilla',
-    desc: 'UI components, App Extensions and Help desk'
+    name: 'Ross Ball',
+    role: 'Designer',
+    avatar: 'ross_ball.jpeg',
+    github: 'rossity',
+    desc: 'Quasar Themes'
   }
 ]
