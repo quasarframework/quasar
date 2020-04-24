@@ -8,7 +8,7 @@
   "scripts": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/quasarframework/icongenie.git"
+    "url": "git+https://github.com/quasarframework/quasar.git"
   },
   "keywords": [
     "vuejs",
@@ -32,9 +32,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/quasarframework/icongenie/issues"
+    "url": "https://github.com/quasarframework/quasar/issues"
   },
-  "homepage": "https://quasar.dev/options/app-icons",
+  "homepage": "https://quasar.dev/icongenie/introduction",
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "chalk": "^4.0.0",
