@@ -1,8 +1,11 @@
 <template lang="pug">
 q-card(flat bordered)
-  q-card-section.row.no-wrap.items-center(v-if="errorMessage")
+  q-card-section.row.no-wrap.items-center(v-if="error")
     q-icon.q-mr-sm(name="warning" size="24px" color="negative")
-    div {{ errorMessage }}
+    div Cannot connect to GitHub. Please try again later.
+  q-card-section.row.no-wrap.items-center(v-else-if="loading")
+    q-spinner.q-mr-sm(size="24px" color="primary")
+    div Loading release notes from Github...
   template(v-else)
     q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="primary" active-bg-color="blue-1" indicator-color="primary")
       q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")
@@ -27,8 +30,8 @@ export default {
 
   data () {
     return {
-      loading: false,
-      errorMessage: '',
+      loading: true,
+      error: false,
 
       packages: {
         quasar: [],
@@ -48,18 +51,19 @@ export default {
 
   methods: {
     queryReleases (page = 1) {
-      const latestVersions = {}
       this.loading = true
+      this.error = false
+
+      const latestVersions = {}
 
       const self = this,
         xhrQuasar = new XMLHttpRequest()
 
       xhrQuasar.addEventListener('load', function () {
+        self.loading = false
         const releases = JSON.parse(this.responseText)
-        self.errorMessage = null
 
         if (releases.length === 0) {
-          this.loading = false
           return
         }
 
@@ -103,8 +107,7 @@ export default {
       })
 
       xhrQuasar.addEventListener('error', () => {
-        this.loading = false
-        this.errorMessage = 'Cannot connect to GitHub. Please try again later.'
+        this.error = true
       })
 
       xhrQuasar.open('GET', `https://api.github.com/repos/quasarframework/quasar/releases?page=${page}&per_page=100`)
