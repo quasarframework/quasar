@@ -1,7 +1,7 @@
 <template lang="pug">
 q-card(flat bordered)
   div(v-if="errorMessage") {{ errorMessage }}
-  q-tabs.text-primary(v-model="currentPackage" align="left")
+  q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="primary" active-bg-color="blue-1" indicator-color="primary")
     q-tab(v-for="(packageReleases, packageName) in releases" :label="packageName" :name="packageName" :key="packageName")
   q-separator
   q-tab-panels.packages-container(v-model="currentPackage" animated)

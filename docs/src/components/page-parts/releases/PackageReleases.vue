@@ -2,8 +2,10 @@
 q-splitter.release__splitter(:value="20" :limits="[14, 90]")
   template(#before)
     q-scroll-area
-      q-input(v-model="search" dense square standout="bg-primary text-white" placeholder="Highlight..." input-class="text-center" clearable)
-      q-tabs.text-primary(vertical v-model="selectedVersion")
+      q-input(v-model="search" dense square standout color="white" placeholder="Search..." input-class="text-center" clearable)
+        template(#append)
+          q-icon(:name="mdiMagnify")
+      q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="primary" active-bg-color="blue-1" indicator-color="primary")
         q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.key" :name="releaseInfo.key")
           .q-tab__label {{ releaseInfo.version }}
           small.text-grey-7 {{ releaseInfo.formattedCreatedAt }}
@@ -18,7 +20,13 @@ q-splitter.release__splitter(:value="20" :limits="[14, 90]")
 import sanitize from './sanitize'
 import parseMdTable from './md-table-parser'
 
+import { mdiMagnify } from '@quasar/extras/mdi-v4'
+
 export default {
+  created () {
+    this.mdiMagnify = mdiMagnify
+  },
+
   data () {
     return {
       search: '',
@@ -36,9 +44,14 @@ export default {
 
   computed: {
     filteredReleases () {
-      return this.search
-        ? this.releases.filter(release => release.body.toLowerCase().includes(this.search))
-        : this.releases
+      if (this.search) {
+        const search = this.search.toLowerCase()
+        return this.releases.filter(
+          release => release.body.toLowerCase().indexOf(search) > -1
+        )
+      }
+
+      return this.releases
     },
 
     currentReleaseBody () {
