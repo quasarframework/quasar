@@ -19,6 +19,7 @@ module.exports = [
     generator: 'png',
     name: 'apple-icon-{size}x{size}.png',
     folder: 'src/statics/icons',
+    background: true,
     sizes: [ 120, 152, 167, 180 ]
     // tag is auto-injected by @quasar/app
     // <link rel="apple-touch-icon" sizes="{size}x{size}" href="statics/icons/{name}">
