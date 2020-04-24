@@ -45,7 +45,7 @@ $ quasar ext remove @quasar/icon-genie
 
 ### Input files
 
-With version 1 you were used to having an app-icon.png (at a fixed width and height) and an app-splashscreen.png (again, at a fixed width and height). This is no longer the case with version 2. You will now just need a png file (its name can be anything) with transparency and with minimum of 64x64 px (but the higher, the better! -- recommended size: 1024x1024) for the icon, and then another optional png (any name) for the background of the splashscreens (min 128x128 px, but recommended is 2048x2048 px).
+With version 1 you were used to having an app-icon.png (at a fixed width and height) and an app-splashscreen.png (again, at a fixed width and height). This is no longer the case with version 2. You will now just need a png file (its name can be anything) with transparency and with minimum of 64x64 px (but the higher, the better! -- recommended size: 1024x1024) for the icon, and then another optional png (any name) for the background of the splashscreens (min 128x128 px, but recommended is 1024x1024 px).
 
 The splashscreens work in a completely different manner too. They will get generated with the icon on top of the optional background. The size ratio of the icon to width or height (whichever is lower) can be adjusted with the CLI params (`--splashscreen-icon-ratio`). You can even tell Icon Genie that the ratio is 0 so it won't add the icon on top of the background.
 
@@ -67,6 +67,6 @@ It might be a good idea to delete all your current icon/splashscreen files and l
 * A lot of new parameters: quality, svg-color, png-color, splashscreen-color, splashscreen-icon-ratio, etc etc. Check the [command list](/icongenie/command-list) page.
 * You can now control each type of asset (ico, png, splashscreen, ...) for each Quasar mode individually, each with its own settings/parameters. Check the `--filter`, `--quality` and all the color parameters. One good use case is with the `.ico` files.
 * Automation is now possible through Icon Genie [profile files](/icongenie/profile-files).
-* You can now generate your own custom image files using the Icon Genie API through the [profile files](/icongenie/profile-files).
+* You can now **generate your own custom image files** using the Icon Genie API through the [profile files](/icongenie/profile-files).
 
 Finally, we need to emphasize again on the `quality` parameter, which will dictate how good-looking and how big (KB) your images will be.
