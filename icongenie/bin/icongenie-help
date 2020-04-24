@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+console.log('  Running @quasar/icongenie v' + require('../package.json').version)
+
+console.log(`
+  Example usage
+    $ icongenie <command> <options>
+
+  Help for a command
+    $ icongenie <command> --help
+    $ icongenie <command> -h
+
+  Options
+    --version, -v Print Quasar Icon Genie CLI version
+
+  Commands
+    generate, g   Generate App icons & splashscreens
+    verify, v     Verifies your Quasar App's icons &
+                    splashscreens
+    profile, p    Creates Icon Genie profile files
+    help, h       Displays this message
+`)
