@@ -57,6 +57,8 @@ It might be a good idea to delete all your current icon/splashscreen files and l
 
 ## What's new in Icon Genie v2
 
+Icon Genie v2 is a complete rewrite from top to bottom.
+
 * Icon Genie is now a CLI on its own, not a Quasar App Extension any more.
 * The input files (for the icon and the background) can have any name, be placed anywhere, and they don't need to have a fixed width + height.
 * We have refined the list of icons and splashscreens that get generated to match the latest standards and to also avoid duplication.
