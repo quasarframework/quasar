@@ -117,7 +117,7 @@ if (argv.help) {
     --splashscreen-icon-ratio  Ratio of icon size in respect to the width or height
                                (whichever is smaller) of the resulting splashscreen;
                                Represents percentages; Valid values: 0 - 100
-                               If 0 then it doesn't adds any icon of top of background
+                               If 0 then it doesn't add the icon of top of background
                                Default: ${defaultParams.splashscreenIconRatio}
 
     --profile, -p         Use JSON profile file(s):

@@ -15,8 +15,8 @@ console.log(`
 
   Commands
     generate, g   Generate App icons & splashscreens
-    verify, v     Verifies your Quasar App's icons &
+    verify, v     Verify your Quasar app's icons &
                     splashscreens
-    profile, p    Creates Icon Genie profile files
-    help, h       Displays this message
+    profile, p    Create Icon Genie profile files
+    help, h       Display this message
 `)

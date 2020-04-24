@@ -100,7 +100,7 @@ if (argv.help) {
     --png-color           Prefill the params.pngColor property;
                           Background color to use for the png generator, when
                           "background: true" in the asset definition (like for
-                          the cordova/capacitor iOS icons);
+                          the Cordova/Capacitor iOS icons);
                           Default (if no theme-color is specified): ${defaultParams.pngColor.slice(1)}
                           The color must be in hex format (NOT hexa) without the leading
                           '#' character. Transparency not allowed.
@@ -117,7 +117,7 @@ if (argv.help) {
                                Ratio of icon size in respect to the width or height
                                (whichever is smaller) of the resulting splashscreen;
                                Represents percentages; Valid values: 0 - 100
-                               If 0 then it doesn't adds any icon of top of background
+                               If 0 then it doesn't add the icon of top of background
                                Default: ${defaultParams.splashscreenIconRatio}
   `)
   process.exit(0)
