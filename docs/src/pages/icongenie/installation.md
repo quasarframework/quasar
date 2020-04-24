@@ -28,7 +28,7 @@ export PATH="$(yarn global bin):$PATH"
 
 Under Windows, modify user's PATH environment variable. If you are using yarn then add `%LOCALAPPDATA%\yarn\bin`, otherwise if you're using npm then add `%APPDATA%\npm`.
 
-## Upgrading to v2
+## Upgrading to Icon Genie v2
 
 This section applies to those that have been using Icon Genie v1 and are now upgrading to Icon Genie v2.
 
@@ -51,4 +51,22 @@ The splashscreens work in a completely different manner too. They will get gener
 
 ### Output files
 
-We have refined the list of icons and splashscreens that get generated to match the latest standards and to also avoid duplication. So you will notice that some of the older files don't get generated anymore and some are completely new. Icon Genie will now tell you what tags you need to add (if any) to your /src/index.template.html (you can copy paste them and replace your old ones) -- so be mindful about the list of tags.
+We have refined the list of icons and splashscreens that get generated to match the latest standards and to also avoid duplication. So you will notice that some of the older files don't get generated anymore and some are completely new. Icon Genie will now tell you what tags you need to add (if any) to your /src/index.template.html (**you can copy paste the tags and replace your old ones**) -- so be mindful about the list of tags.
+
+It might be a good idea to delete all your current icon/splashscreen files and let Icon Genie do its job again. This way you will be sure that what you're left with is actually used in your Quasar App.
+
+## What's new in Icon Genie v2
+
+* Icon Genie is now a CLI on its own, not a Quasar App Extension any more.
+* The input files (for the icon and the background) can have any name, be placed anywhere, and they don't need to have a fixed width + height.
+* We have refined the list of icons and splashscreens that get generated to match the latest standards and to also avoid duplication.
+* Splashscreens are created in a better manner, with the icon on top of the background (with the icon having any size ratio that you want, including 0 which means: "I only want the background image with no icon on top")
+* New commands: [generate](/icongenie/command-list#Generate), [verify](/icongenie/command-list#Verify), and [profile](/icongenie/command-list#Profile), each with its own purpose.
+* The `generate` command now also shows you what tags you need in your `/src/index.template.html` file.
+* The `verify` command can even check if every file is in the right place and it has the right width by height.
+* A lot of new parameters: quality, svg-color, png-color, splashscreen-color, splashscreen-icon-ratio, etc etc. Check the [command list](/icongenie/command-list) page.
+* You can now control each type of asset (ico, png, splashscreen, ...) for each Quasar mode individually, each with its own settings/parameters. Check the `--filter`, `--quality` and all the color parameters. One good use case is with the `.ico` files.
+* Automation is now possible through Icon Genie [profile files](/icongenie/profile-files).
+* You can now generate your own custom image files using the Icon Genie API through the [profile files](/icongenie/profile-files).
+
+Finally, we need to emphasize again on the `quality` parameter, which will dictate how good-looking and how big (KB) your images will be.

@@ -527,7 +527,7 @@ const icongenie = [
   },
 
   {
-    name: 'Installation',
+    name: 'Installation / Upgrade notes',
     path: 'installation'
   },
 
