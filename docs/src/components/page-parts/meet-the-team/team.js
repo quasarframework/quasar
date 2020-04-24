@@ -45,6 +45,14 @@ export default [
   },
 
   {
+    name: 'Paolo Caleffi',
+    role: 'Senior developer',
+    avatar: 'paolo_caleffi.jpg',
+    github: 'IlCallo',
+    desc: 'Typescript support'
+  },
+
+  {
     name: 'Tobias Mesquita',
     role: 'Senior Developer',
     avatar: 'tobias_mesquita.jpg',
@@ -66,14 +74,6 @@ export default [
     avatar: 'kerry_huguet.jpeg',
     github: 'outofmemoryagain',
     desc: 'Typescript support'
-  },
-
-  {
-    name: 'Stanislav Valasek',
-    role: 'Community Staff',
-    avatar: 'stanislav_valasek.jpg',
-    github: 'valasek',
-    desc: 'Marketing, Open Source Compliance, Community experience.'
   },
 
   {
@@ -122,14 +122,6 @@ export default [
     avatar: 'adam_purdy.jpg',
     github: 'adamkpurdy',
     desc: 'Firebase Support Owner & Maintainer, Quasar support member.'
-  },
-
-  {
-    name: 'Paolo Caleffi',
-    role: 'Senior developer',
-    avatar: 'paolo_caleffi.jpg',
-    github: 'IlCallo',
-    desc: 'Typescript support'
   },
 
   {
