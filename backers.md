@@ -56,6 +56,11 @@ You can join them in [supporting Quasar](https://donate.quasar.dev) development!
           <img width="222px" src="https://cdn.quasar.dev/sponsors/juggle-street.png">
         </a>
       </td>
+      <td align="center" valign="middle">
+        <a href="https://debricked.com/" target="_blank">
+          <img width="222px" height="35px" src="https://cdn.quasar.dev/sponsors/debricked.png">
+        </a>
+      </td>
     </tr>
   </tbody>
 </table>

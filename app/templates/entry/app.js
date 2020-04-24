@@ -23,7 +23,7 @@ import createStore from 'app/<%= sourceFiles.store %>'
 <% } %>
 import createRouter from 'app/<%= sourceFiles.router %>'
 
-<% if (ctx.mode.capacitor && capacitor.hideSplashcreen !== false) { %>
+<% if (ctx.mode.capacitor && capacitor.hideSplashscreen !== false) { %>
 import { Plugins } from '@capacitor/core'
 const { SplashScreen } = Plugins
 <% } %>

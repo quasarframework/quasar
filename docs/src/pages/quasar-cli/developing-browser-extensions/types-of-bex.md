@@ -120,7 +120,7 @@ Object.assign(iFrame.style, {
 })()
 ```
 
-* `src-bex/css/content-css.js`
+* `src-bex/css/content-css.css`
 
 Add a margin to the top of our document so our Quasar toolbar doesn't overlap the actual page content.
 

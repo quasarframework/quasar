@@ -52,11 +52,6 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn }}
       }),
       makeTag('link', {
         rel: 'apple-touch-icon',
-        sizes: '180x180',
-        href: metaVariables.appleTouchIcon180
-      }),
-      makeTag('link', {
-        rel: 'apple-touch-icon',
         sizes: '152x152',
         href: metaVariables.appleTouchIcon152
       }),
@@ -64,6 +59,11 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn }}
         rel: 'apple-touch-icon',
         sizes: '167x167',
         href: metaVariables.appleTouchIcon167
+      }),
+      makeTag('link', {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: metaVariables.appleTouchIcon180
       }),
       makeTag('link', {
         rel: 'mask-icon',

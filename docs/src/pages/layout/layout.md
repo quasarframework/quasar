@@ -65,7 +65,7 @@ The letters shown above are also case sensitive. For example, using at least one
 
 <view-play />
 
-For example, if you want your layout's right side / drawer to be placed on the right of the header, page and footer, you'd use `hhr lpr ffr`. If you'd like to also make it fixed, just transform one `r` character to uppercase, like this: `hhr lpR ffr`, or `hhr lpR ffr` or `hhr lpR ffr`.
+For example, if you want your layout's right side / drawer to be placed on the right of the header, page and footer, you'd use `hhr lpr ffr`. If you'd like to also make it fixed, just transform one `r` character to uppercase, like this: `hhr lpR ffr`, or `hhR lpr ffr` or `hhr lpr ffR`.
 
 These settings are completely up to you to use as you'd like. You could even go wild with a setup like this: `lhh LpR ffr`. Try it out!
 
