@@ -64,7 +64,8 @@ if (argv.help) {
                           must be:
                             - a .png file
                             - min resolution: 128x128 px (the higher the better!!)
-                            - transparency is optional
+                            - transparency is optional (but recommended if you
+                              combine with the splashscreen-color param)
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
@@ -79,8 +80,8 @@ if (argv.help) {
 
     --quality             Prefill in the params.quality property;
                           Quality of the files [1 - 12] (default: ${defaultParams.quality})
-                            - higher quality --> bigger filesize, slower
-                            - lower quality  --> smaller filesize, faster
+                            - higher quality --> bigger filesize & slower to create
+                            - lower quality  --> smaller filesize & faster to create
 
     --theme-color         Prefill the params.themeColor property;
                           Theme color to use for all generators requiring a color;
