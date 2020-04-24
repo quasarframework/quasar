@@ -544,11 +544,6 @@ const icongenie = [
   {
     name: 'Profile files',
     path: 'profile-files'
-  },
-
-  {
-    name: 'Repository and ticketing',
-    path: 'repository-and-ticketing'
   }
 ]
 

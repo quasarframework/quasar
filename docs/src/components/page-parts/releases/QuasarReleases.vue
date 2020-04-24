@@ -37,7 +37,8 @@ export default {
         quasar: [],
         '@quasar/app': [],
         '@quasar/cli': [],
-        '@quasar/extras': []
+        '@quasar/extras': [],
+        '@quasar/icongenie': []
       },
 
       currentPackage: 'quasar',
