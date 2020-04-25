@@ -55,7 +55,7 @@ module.exports = function (chain, cfg) {
       if (!opts.runtimeCaching.find(entry => entry.urlPattern === '/')) {
         opts.runtimeCaching.unshift({
           urlPattern: '/',
-          handler: 'NetworkFirst'
+          handler: 'StaleWhileRevalidate'
         })
       }
     }
