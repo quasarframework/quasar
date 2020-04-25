@@ -55,7 +55,20 @@ export default Vue.extend({
 
   render (h) {
     const label = slot(this, 'label', [])
-    const attrs = { 'aria-expanded': this.showing === true ? 'true' : 'false', 'aria-haspopup': true }
+    const attrs = {
+      'aria-expanded': this.showing === true ? 'true' : 'false',
+      'aria-haspopup': true
+    }
+
+    if (
+      this.disable === true ||
+      (
+        (this.split === false && this.disableMainBtn === true) ||
+        this.disableDropdown === true
+      )
+    ) {
+      attrs['aria-disabled'] = ''
+    }
 
     const Arrow = [
       h(QIcon, {
