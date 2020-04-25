@@ -187,38 +187,40 @@ export default Vue.extend({
       }
 
       this.__setTimeout(() => {
-        if (this.$q.platform.is.ios === true && document.activeElement) {
-          const
-            { top, bottom } = document.activeElement.getBoundingClientRect(),
-            { innerHeight } = window,
-            height = window.visualViewport !== void 0
-              ? window.visualViewport.height
-              : innerHeight
+        if (this.$q.platform.is.ios === true) {
+          if (this.seamless !== true && document.activeElement) {
+            const
+              { top, bottom } = document.activeElement.getBoundingClientRect(),
+              { innerHeight } = window,
+              height = window.visualViewport !== void 0
+                ? window.visualViewport.height
+                : innerHeight
 
-          if (top > 0 && bottom > height / 2) {
-            const scrollTop = Math.min(
-              document.scrollingElement.scrollHeight - height,
-              bottom >= innerHeight
-                ? Infinity
-                : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
-            )
+            if (top > 0 && bottom > height / 2) {
+              const scrollTop = Math.min(
+                document.scrollingElement.scrollHeight - height,
+                bottom >= innerHeight
+                  ? Infinity
+                  : Math.ceil(document.scrollingElement.scrollTop + bottom - height / 2)
+              )
 
-            const fn = () => {
-              requestAnimationFrame(() => {
-                document.scrollingElement.scrollTop += Math.ceil((scrollTop - document.scrollingElement.scrollTop) / 8)
-                if (document.scrollingElement.scrollTop !== scrollTop) {
-                  fn()
-                }
-              })
+              const fn = () => {
+                requestAnimationFrame(() => {
+                  document.scrollingElement.scrollTop += Math.ceil((scrollTop - document.scrollingElement.scrollTop) / 8)
+                  if (document.scrollingElement.scrollTop !== scrollTop) {
+                    fn()
+                  }
+                })
+              }
+
+              fn()
             }
-
-            fn()
+            document.activeElement.scrollIntoView()
           }
-          document.activeElement.scrollIntoView()
-        }
 
-        // required in order to avoid the "double-tap needed" issue
-        this.$q.platform.is.ios === true && this.__portal.$el.click()
+          // required in order to avoid the "double-tap needed" issue
+          this.__portal.$el.click()
+        }
 
         this.$emit('show', evt)
       }, 300)
