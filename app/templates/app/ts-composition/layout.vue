@@ -85,18 +85,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from '@vue/composition-api'
+import { defineComponent, ref } from '@vue/composition-api'
 export default defineComponent({
   // name: 'LayoutName',
 
   setup() {
-    const state = reactive({
-      leftDrawer: false
-    })
-
-    return {
-      state
-    }
+    const leftDrawer = ref(false)
+    return { leftDrawer }
   }
 })
 </script>

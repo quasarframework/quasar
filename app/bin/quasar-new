@@ -133,15 +133,8 @@ function createFile (asset, file) {
   }
 
   fse.mkdirp(path.dirname(file))
-
-  // Try and get the file from our format path, failing that, fall back to default.
-  let templatePath = appPaths.resolve.cli(path.join('templates/app', format, type + (asset.ext || '')))
-  if (fs.existsSync(templatePath) === false) {
-    templatePath = appPaths.resolve.cli(path.join('templates/app/default', type + (asset.ext || '')))
-  }
-
   fse.copy(
-    templatePath,
+    appPaths.resolve.cli(path.join('templates/app', format, type + (asset.ext || ''))),
     file,
     err => {
 
