@@ -150,10 +150,6 @@ const cli = [
     path: 'quasar-conf-js'
   },
   {
-    name: 'App Icons',
-    path: 'app-icons'
-  },
-  {
     name: 'Testing & Auditing',
     path: 'testing-and-auditing'
   },
@@ -521,6 +517,33 @@ const cli = [
   {
     name: 'Opening Dev Server To Public',
     path: 'opening-dev-server-to-public'
+  }
+]
+
+const icongenie = [
+  {
+    name: 'Introduction',
+    path: 'introduction'
+  },
+
+  {
+    name: 'Installation / Upgrade notes',
+    path: 'installation'
+  },
+
+  {
+    name: 'Command list',
+    path: 'command-list'
+  },
+
+  {
+    name: 'App Icons List',
+    path: 'app-icons-list'
+  },
+
+  {
+    name: 'Profile files',
+    path: 'profile-files'
   }
 ]
 
@@ -1215,6 +1238,12 @@ module.exports = [
     icon: 'build',
     path: 'quasar-cli',
     children: cli
+  },
+  {
+    name: 'Icon Genie CLI',
+    icon: 'stars',
+    path: 'icongenie',
+    children: icongenie
   },
   {
     name: 'Style & Identity',

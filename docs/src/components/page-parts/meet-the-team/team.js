@@ -45,6 +45,14 @@ export default [
   },
 
   {
+    name: 'Paolo Caleffi',
+    role: 'Senior developer',
+    avatar: 'paolo_caleffi.jpg',
+    github: 'IlCallo',
+    desc: 'Typescript support'
+  },
+
+  {
     name: 'Tobias Mesquita',
     role: 'Senior Developer',
     avatar: 'tobias_mesquita.jpg',
@@ -69,14 +77,6 @@ export default [
   },
 
   {
-    name: 'Stanislav Valasek',
-    role: 'Community Staff',
-    avatar: 'stanislav_valasek.jpg',
-    github: 'valasek',
-    desc: 'Marketing, Open Source Compliance, Community experience.'
-  },
-
-  {
     name: 'Noah Klayman',
     role: 'Developer / Community Staff',
     avatar: 'noah_klayman.jpeg',
@@ -90,14 +90,6 @@ export default [
     avatar: 'matyas_panstromek.jpeg',
     github: 'panstromek',
     desc: 'Help desk'
-  },
-
-  {
-    name: 'Ross Ball',
-    role: 'Designer',
-    avatar: 'ross_ball.jpeg',
-    github: 'rossity',
-    desc: 'Quasar Themes'
   },
 
   {
@@ -117,6 +109,14 @@ export default [
   },
 
   {
+    name: 'Jesús Villanueva',
+    role: 'Senior Developer',
+    avatar: 'jesus_villanueva.jpg',
+    github: 'jesusvilla',
+    desc: 'UI components, App Extensions and Help desk'
+  },
+
+  {
     name: 'Adam Purdy',
     role: 'Community Staff',
     avatar: 'adam_purdy.jpg',
@@ -125,18 +125,10 @@ export default [
   },
 
   {
-    name: 'Paolo Caleffi',
-    role: 'Senior developer',
-    avatar: 'paolo_caleffi.jpg',
-    github: 'IlCallo',
-    desc: 'Typescript support'
-  },
-
-  {
-    name: 'Jesús Villanueva',
-    role: 'Senior Developer',
-    avatar: 'jesus_villanueva.jpg',
-    github: 'jesusvilla',
-    desc: 'UI components, App Extensions and Help desk'
+    name: 'Ross Ball',
+    role: 'Designer',
+    avatar: 'ross_ball.jpeg',
+    github: 'rossity',
+    desc: 'Quasar Themes'
   }
 ]

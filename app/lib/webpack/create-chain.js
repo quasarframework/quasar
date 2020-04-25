@@ -50,6 +50,11 @@ module.exports = function (cfg, configName) {
   chain.resolve.extensions
     .merge([ '.mjs', '.js', '.vue', '.json' ])
 
+  if (cfg.supportTS === true) {
+    chain.resolve.extensions
+      .merge([ '.ts' ])
+  }
+
   chain.resolve.modules
     .merge(resolveModules)
 

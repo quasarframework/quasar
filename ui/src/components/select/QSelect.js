@@ -384,7 +384,7 @@ export default Vue.extend({
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
           const model = this.value.slice()
-          this.$emit('remove', { index, value: model.splice(index, 1) })
+          this.$emit('remove', { index, value: model.splice(index, 1)[0] })
           this.$emit('input', model)
         }
         else {
@@ -453,7 +453,7 @@ export default Vue.extend({
           this.hidePopup()
         }
 
-        if (isDeepEqual(this.getOptionValue(this.innerValue), optValue) !== true) {
+        if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         return
@@ -475,7 +475,7 @@ export default Vue.extend({
         index = this.innerOptionsValue.findIndex(v => isDeepEqual(v, optValue))
 
       if (index > -1) {
-        this.$emit('remove', { index, value: model.splice(index, 1) })
+        this.$emit('remove', { index, value: model.splice(index, 1)[0] })
       }
       else {
         if (this.maxValues !== void 0 && model.length >= this.maxValues) {
@@ -821,6 +821,7 @@ export default Vue.extend({
           })
         }, [
           h('span', {
+            staticClass: 'ellipsis',
             domProps: {
               [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
             }

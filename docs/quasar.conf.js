@@ -99,8 +99,19 @@ module.exports = function (ctx) {
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       workboxOptions: {
+        cleanupOutdatedCaches: true,
         skipWaiting: true,
-        clientsClaim: true
+        clientsClaim: true,
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/cdn/,
+            handler: 'StaleWhileRevalidate'
+          },
+          {
+            urlPattern: '/',
+            handler: 'StaleWhileRevalidate'
+          }
+        ]
       },
       manifest: {
         name: 'Quasar Documentation',

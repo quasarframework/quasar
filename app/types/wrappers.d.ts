@@ -10,8 +10,9 @@ declare module "quasar/wrappers" {
   import {
     BootCallback,
     ConfigureCallback,
+    PrefetchCallback,
     RouteCallback,
-    StoreCallback
+    StoreCallback,
   } from "quasar";
 
   function boot<TStore = any>(
@@ -19,6 +20,10 @@ declare module "quasar/wrappers" {
   ): BootCallback<TStore>;
 
   function configure(callback: ConfigureCallback): ConfigureCallback;
+
+  function preFetch<TStore = any>(
+    callback: PrefetchCallback<TStore>
+  ): PrefetchCallback<TStore>;
 
   function route<TStore = any>(
     callback: RouteCallback<TStore>

@@ -368,7 +368,8 @@ const
   options = [
     'Google 1', 'Facebook 1', 'Twitter 1', 'Apple 1', 'Oracle 1',
     'Google 2', 'Facebook 2', 'Twitter 2', 'Apple 2', 'Oracle 2',
-    'Google 3', 'Facebook 3', 'Twitter 3', 'Apple 3', 'Oracle 3'
+    'Google 3', 'Facebook 3', 'Twitter 3', 'Apple 3', 'Oracle 3',
+    'A very long text of an options that goes over the length limit when you open the debugger'
   ],
   objOptions = options.map((label, value) => ({ label, value }))
 

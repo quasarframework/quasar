@@ -1,17 +1,24 @@
 <template lang="pug">
 q-card(flat bordered)
-  div(v-if="errorMessage") {{ errorMessage }}
-  q-tabs.text-primary(v-model="currentPackage" align="left")
-    q-tab(v-for="(packageReleases, packageName) in releases" :label="packageName" :name="packageName" :key="packageName")
-  q-separator
-  q-tab-panels.packages-container(v-model="currentPackage" animated)
-    q-tab-panel.q-pa-none(v-for="(packageReleases, packageName) in releases" :key="packageName" :name="packageName")
-      package-releases(:version="initialVersion[packageName]" :releases="packageReleases")
+  q-card-section.row.no-wrap.items-center(v-if="error")
+    q-icon.q-mr-sm(name="warning" size="24px" color="negative")
+    div Cannot connect to GitHub. Please try again later.
+  q-card-section.row.no-wrap.items-center(v-else-if="loading")
+    q-spinner.q-mr-sm(size="24px" color="primary")
+    div Loading release notes from Github...
+  template(v-else)
+    q-tabs.text-grey-7(v-model="currentPackage" align="left" active-color="primary" active-bg-color="blue-1" indicator-color="primary")
+      q-tab(v-for="(packageReleases, packageName) in packages" :label="packageName" :name="packageName" :key="packageName")
+    q-separator
+    q-tab-panels.packages-container(v-model="currentPackage" animated)
+      q-tab-panel.q-pa-none(v-for="(packageReleases, packageName) in packages" :key="packageName" :name="packageName")
+        package-releases(:latest-version="versions[packageName]" :releases="packageReleases")
 </template>
 
 <script>
-import PackageReleases from './PackageReleases'
 import { date } from 'quasar'
+import PackageReleases from './PackageReleases'
+
 const { extractDate } = date
 
 export default {
@@ -23,17 +30,19 @@ export default {
 
   data () {
     return {
-      loading: false,
-      errorMessage: '',
-      releases: {
+      loading: true,
+      error: false,
+
+      packages: {
         quasar: [],
         '@quasar/app': [],
         '@quasar/cli': [],
-        '@quasar/extras': []
+        '@quasar/extras': [],
+        '@quasar/icongenie': []
       },
+
       currentPackage: 'quasar',
-      initialVersion: {},
-      search: {}
+      versions: {}
     }
   },
 
@@ -42,74 +51,68 @@ export default {
   },
 
   methods: {
-    queryReleases (page = null) {
-      const latestVersions = {}
+    queryReleases (page = 1) {
       this.loading = true
-      page = page || 1
-      const self = this,
-        xhr = new XMLHttpRequest()
+      this.error = false
 
-      xhr.addEventListener('load', function () {
+      const latestVersions = {}
+
+      const self = this,
+        xhrQuasar = new XMLHttpRequest()
+
+      xhrQuasar.addEventListener('load', function () {
+        self.loading = false
         const releases = JSON.parse(this.responseText)
-        self.errorMessage = null
 
         if (releases.length === 0) {
-          this.loading = false
+          return
         }
 
         let stopQuery = false
 
-        self.errorMessage = null
         for (const release of releases) {
           if (release.name.indexOf('babel-preset-app') > -1) {
             continue
           }
 
-          const vIndex = release.name.indexOf('-v'),
-            packageName = [ 'v1.0.0', 'v1.0.0-beta.5' ].includes(release.name)
-              ? 'quasar'
-              : release.name.substring(0, vIndex),
-            version = release.name.substring(vIndex + 2)
+          const [ packageName, version ] = release.name.split('-v')
 
-          if (version.startsWith('0')) {
+          if (!version) {
             stopQuery = true
             continue
           }
 
-          if (self.releases[packageName] === void 0) {
-            self.releases[packageName] = []
+          if (self.packages[packageName] === void 0) {
+            self.packages[packageName] = []
           }
 
           const releaseInfo = {
+            version,
+            date: extractDate(release.created_at, 'YYYY-MM-DD').toLocaleDateString(),
             body: release.body,
-            prerelease: release.prerelease,
-            url: release.html_url,
-            createdAt: release.created_at,
-            formattedCreatedAt: extractDate(release.created_at, 'YYYY-MM-DD').toLocaleDateString(),
-            key: `${packageName}v${version}`,
-            version
+            label: `${packageName} v${version}`
           }
-          self.releases[packageName].push(releaseInfo)
+          self.packages[packageName].push(releaseInfo)
 
           if (latestVersions[packageName] === void 0) {
-            latestVersions[packageName] = releaseInfo.key
+            latestVersions[packageName] = releaseInfo.label
           }
         }
 
         if (!stopQuery) {
           self.queryReleases(page + 1)
         }
-        self.initialVersion = Object.assign(latestVersions, self.initialVersion)
+
+        self.versions = Object.assign(latestVersions, self.versions)
         self.$forceUpdate()
       })
 
-      xhr.addEventListener('error', () => {
-        this.loading = false
-        this.errorMessage = 'Cannot connect to GitHub. Please try again later.'
+      xhrQuasar.addEventListener('error', () => {
+        this.error = true
       })
 
-      xhr.open('GET', `https://api.github.com/repos/quasarframework/quasar/releases?page=${page}`)
-      xhr.send()
+      xhrQuasar.open('GET', `https://api.github.com/repos/quasarframework/quasar/releases?page=${page}&per_page=100`)
+      xhrQuasar.send()
     }
   }
 }

@@ -1,0 +1,61 @@
+#!/usr/bin/env node
+
+require('../lib/utils/node-version-check')
+
+const updateNotifier = require('update-notifier')
+const pkg = require('../package.json')
+
+updateNotifier({ pkg }).notify()
+
+const commands = [
+  'generate',
+  'verify',
+  'profile',
+  'help'
+]
+
+let cmd = process.argv[2]
+
+if (cmd && cmd.length === 1) {
+  const mapToCmd = {
+    g: 'generate',
+    v: 'verify',
+    p: 'profile',
+    h: 'help'
+  }
+  cmd = mapToCmd[cmd]
+}
+
+if (cmd) {
+  if (commands.includes(cmd)) {
+    process.argv.splice(2, 1)
+  }
+  else {
+    if (cmd === '-v' || cmd === '--version') {
+      console.log(require('../package.json').version)
+      process.exit(0)
+    }
+
+    const { warn } = require('../lib/utils/logger')
+
+    if (cmd === '-h' || cmd === '--help') {
+      cmd = 'help'
+    }
+    else if (cmd.indexOf('-') === 0) {
+      warn()
+      warn(`Command must come before the options`)
+      cmd = 'help'
+    }
+    else {
+      warn()
+      warn(`Unknown command specified: "${cmd}"`)
+      cmd = 'help'
+    }
+  }
+}
+else {
+  cmd = 'help'
+}
+
+console.log()
+require(`./icongenie-${cmd}`)

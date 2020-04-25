@@ -45,7 +45,7 @@ This is where the real power comes in. With a little ingenuity we can inject our
 
 Here's a brief rundown of how you could achieve this:
 
-* `src-bex/js/content-script.js`
+* `src-bex/js/content-hooks.js`
 
 The idea here is to create an IFrame and add our Quasar app into it, then inject that into the page.
 
@@ -120,7 +120,7 @@ Object.assign(iFrame.style, {
 })()
 ```
 
-* `src-bex/css/content-css.js`
+* `src-bex/css/content-css.css`
 
 Add a margin to the top of our document so our Quasar toolbar doesn't overlap the actual page content.
 

@@ -141,6 +141,9 @@ export let SliderMixin = {
       if (this.disable === true) {
         attrs['aria-disabled'] = ''
       }
+      else if (this.readonly === true) {
+        attrs['aria-readonly'] = ''
+      }
 
       return attrs
     }
@@ -176,11 +179,11 @@ export let SliderMixin = {
 
     __pan (event) {
       if (event.isFinal) {
-        if (this.dragging) {
+        if (this.dragging !== void 0) {
           this.__updatePosition(event.evt)
           // only if touch, because we also have mousedown/up:
           event.touch === true && this.__updateValue(true)
-          this.dragging = false
+          this.dragging = void 0
         }
         this.active = false
       }
@@ -212,7 +215,10 @@ export let SliderMixin = {
 
     __deactivate () {
       this.preventFocus = false
-      this.active = false
+
+      if (this.dragging === void 0) {
+        this.active = false
+      }
 
       this.__updateValue(true)
       this.__blur()

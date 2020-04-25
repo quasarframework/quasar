@@ -100,7 +100,7 @@ function getWindowsPath (bin) {
     const index = bufferString.indexOf('REG_SZ')
 
     if (index > 0) {
-      const asPath = bufferString.substring(ix + 6).trim() + '\\bin\\studio64.exe'
+      const asPath = bufferString.substring(index + 6).trim() + '\\bin\\studio64.exe'
       if (fs.existsSync(asPath)) {
         return asPath
       }

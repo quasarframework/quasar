@@ -1,0 +1,101 @@
+{
+  "params": {
+    "icon": "icongenie-icon.png",
+    "include": [ "spa" ],
+    "quality": 7
+  },
+
+  "assets": [
+    {
+      "generator": "png",
+      "name": "icon-{size}x{size}.png",
+      "folder": "src-bex/icons",
+      "sizes": [ 16, 48, 128 ]
+    },
+
+    {
+      "generator": "svg",
+      "name": "safari-pinned-tab.svg",
+      "folder": "src/statics/icons"
+    },
+
+    {
+      "generator": "splashscreen",
+      "name": "apple-launch-{size}.png",
+      "folder": "src/statics/icons",
+      "sizes": [
+        [ 1668, 2388 ]
+      ],
+      "tag": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"statics/icons/{name}\">"
+    },
+
+    {
+      "generator": "icns",
+      "name": "icon.icns",
+      "folder": "src-electron/icons"
+    },
+
+    {
+      "generator": "ico",
+      "name": "icon.ico",
+      "folder": "src-electron/icons"
+    },
+
+    {
+      "generator": "splashscreen",
+      "name": "Default-Landscape-2436h.png",
+      "folder": "src-cordova/res/screen/ios",
+      "sizes": [
+        [ 2436, 1125 ]
+      ]
+    },
+
+    {
+      "generator": "png",
+      "name": "icon-29@2x.png",
+      "folder": "src-cordova/res/ios",
+      "sizes": [ 58 ],
+      "platform": "cordova-ios",
+      "background": true
+    },
+
+    {
+      "generator": "png",
+      "name": "icon-29@2x.png",
+      "folder": "src-cordova/res/ios",
+      "sizes": [ 58 ],
+      "platform": "cordova-ios",
+      "background": true
+    },
+
+    {
+      "generator": "png",
+      "name": "xxxhdpi.png",
+      "folder": "src-cordova/res/android",
+      "sizes": [ 192 ],
+      "platform": "cordova-android",
+      "density": "xxxhdpi"
+    },
+
+    {
+      "generator": "splashscreen",
+      "name": "Default@2x~ipad~comany.png",
+      "folder": "src-cordova/res/screen/ios",
+      "sizes": [
+        [ 1278, 2732 ]
+      ],
+      "platform": "cordova-ios"
+    },
+
+    {
+      "generator": "splashscreen",
+      "name": "splash-land-xxxhdpi.png",
+      "folder": "src-cordova/res/screen/android",
+      "sizes": [
+        [ 1920, 1280 ]
+      ],
+      "platform": "cordova-android",
+      "density": "land-xxxhdpi"
+    }
+  ]
+}

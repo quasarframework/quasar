@@ -11,6 +11,7 @@
     sponsor(img="project-finance.png" name="Project Finance" url="https://www.projectfinance.io/")
     sponsor(img="dreamonkey.png" name="Dreamonkey" url="https://dreamonkey.com/")
     sponsor(img="ib-langenthal.svg" name="IB Langenthal AG" url="https://ib-langenthal.ch/")
+    sponsor(img="debricked.png" name="Debricked AB" url="https://debricked.com/")
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 {
   "name": "quasar",
-  "version": "1.9.15",
+  "version": "1.9.16",
   "description": "Build high-performance VueJS user interfaces (SPA, PWA, SSR, Mobile and Desktop) in record time",
   "module": "src/index.esm.js",
   "typings": "dist/types/index.d.ts",
