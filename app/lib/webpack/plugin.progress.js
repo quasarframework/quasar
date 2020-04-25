@@ -1,6 +1,6 @@
 const { ProgressPlugin } = require('webpack')
 const throttle = require('lodash.throttle')
-const { green, grey } = require('chalk')
+const chalk = require('chalk')
 const log = require('../helpers/logger')('app:progress')
 const logUpdate = require('log-update')
 const ms = require('ms')
@@ -11,8 +11,23 @@ const logLine = isMinimalTerminal
   : logUpdate.create(process.stdout, { showCursor: true })
 
 const compilations = {}
-const barLength = 25
-const barItems = Array.apply(null, { length: barLength })
+const barLength = 20
+const barColors = Array.apply(null, { length: barLength })
+  .map((_, index) => {
+    const p = index / barLength
+
+    return p <= 0.5
+      ? chalk.rgb(
+          255,
+          Math.round(p * 510),
+          0
+        )
+      : chalk.rgb(
+        255 - Math.round(p * 122),
+        255,
+        0
+      )
+  })
 
 let maxLengthName = 0
 
@@ -20,22 +35,22 @@ function isRunningGlobally () {
   return Object.values(compilations).find(c => c.running) !== void 0
 }
 
-function renderBar (progress, color) {
+function renderBar (progress) {
   const width = progress * (barLength / 100)
 
-  return barItems
-    .map((_, index) => index < width ? '█' : ' ')
+  return barColors
+    .map((color, index) => index < width ? color('█') : ' ')
     .join('')
 }
 
 function printState () {
   const lines = Object.values(compilations).map(state => {
     return [
-      ' ' + green( state.name.padEnd(maxLengthName) + ' ' + renderBar(state.progress)),
+      ' ' + chalk.green(state.name.padEnd(maxLengthName)) + ' ' + renderBar(state.progress),
       state.msg,
       `[${state.progress}%]`.padStart(4),
       state.running
-        ? grey(state.details
+        ? chalk.grey(state.details
             ? [ state.details[0], state.details[1] ].filter(s => s).join(' ')
             : ''
         )
