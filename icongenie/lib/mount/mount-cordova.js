@@ -41,9 +41,15 @@ function getCordovaFiles (files) {
   return cordovaFiles
 }
 
-function updateConfigXml (cordovaFiles) {
+function updateConfigXml (cordovaFiles, hasSplashscreen) {
   const doc = elementTree.parse(readFileSync(cordovaConfigXml, 'utf-8'))
   const rootNode = doc.getroot()
+
+  if (hasSplashscreen && !rootNode.find('preference[@name="SplashMaintainAspectRatio"]')) {
+    const prefNode = elementTree.SubElement(rootNode, 'preference')
+    prefNode.set('name', 'SplashMaintainAspectRatio')
+    prefNode.set('value', 'true')
+  }
 
   const androidNode = getNode(rootNode, 'platform', '[@name="android"]')
   const iosNode = getNode(rootNode, 'platform', '[@name="ios"]')
@@ -148,11 +154,13 @@ module.exports.mountCordova = function mountCordova (files) {
     const cordovaFiles = getCordovaFiles(files)
 
     if (cordovaFiles.length > 0) {
-      if (cordovaFiles.some(file => file.generator === 'splashscreen')) {
+      const hasSplashscreen = cordovaFiles.some(file => file.generator === 'splashscreen')
+
+      if (hasSplashscreen) {
         installSplashscreenPlugin()
       }
 
-      updateConfigXml(cordovaFiles)
+      updateConfigXml(cordovaFiles, hasSplashscreen)
     }
   }
 }
