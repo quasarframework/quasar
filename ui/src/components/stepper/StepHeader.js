@@ -126,11 +126,9 @@ export default Vue.extend({
           click: this.activate,
           keyup: this.keyup
         },
-        attrs: {
-          tabindex: this.isDisable === true
-            ? -1
-            : this.$attrs.tabindex || 0
-        }
+        attrs: this.isDisable === true
+          ? { tabindex: -1, 'aria-disabled': '' }
+          : { tabindex: this.$attrs.tabindex || 0 }
       })
     }
 

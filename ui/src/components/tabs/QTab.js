@@ -155,6 +155,10 @@ export default Vue.extend({
         }
       }
 
+      if (this.disable === true) {
+        data.attrs['aria-disabled'] = ''
+      }
+
       if (props !== void 0) {
         data.props = props
       }
