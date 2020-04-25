@@ -1,5 +1,5 @@
 import { QuasarIconSet } from "./extras/icon-set";
-import { HasCapacitor, HasCordova, HasElectron, HasSsr } from "./feature-flag";
+import { HasCapacitor, HasCordova, HasElectron, HasSsr, HasBex } from './feature-flag'
 import { QuasarLanguage } from "./lang";
 
 // We cannot reference directly Capacitor/Cordova/Electron types
@@ -28,6 +28,12 @@ type GlobalQuasarIconMapFn = (
   iconName: string
 ) => { icon: string } | { cls: string; content?: string } | void;
 
+interface GlobalQuasarBex {
+  send(eventName: string, payload?: object): Promise<any>;
+  on(eventName: string, eventListener: (payload?: object) => any): void;
+  off(eventName: string, eventListener: (payload?: object) => any): void;
+}
+
 export interface QVueGlobals
   extends HasCapacitor<{ capacitor: any }>,
     HasCordova<{ cordova: GlobalsTypesHolder["cordova"] }>,
@@ -35,7 +41,8 @@ export interface QVueGlobals
     HasSsr<
       { iconMapFn?: GlobalQuasarIconMapFn },
       { iconMapFn: GlobalQuasarIconMapFn }
-    > {
+    >,
+    HasBex<{ bex: GlobalQuasarBex }> {
   version: string;
   lang: GlobalQuasarLanguage;
   iconSet: GlobalQuasarIconSet;
