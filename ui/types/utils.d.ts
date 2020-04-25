@@ -11,7 +11,7 @@ export function debounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
   immediate?: boolean
-): F;
+): F & { cancel(): void };
 export function exportFile(
   fileName: string,
   rawData: BlobPart,
@@ -23,5 +23,5 @@ export function openURL(url: string): void;
 export function throttle<F extends (...args: any[]) => any>(
   fn: F,
   limit: number
-): F & { cancel(): void };
+): F;
 export function uid(): string;
