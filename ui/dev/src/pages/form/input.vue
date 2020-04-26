@@ -28,6 +28,16 @@
 
       <q-input v-bind="props" v-model="text" label="Label" label-color="green" />
 
+      <q-input
+        v-bind="props"
+        v-model="textFill"
+        label="Fill value and shadow text"
+        hint="Press TAB to autocomplete suggested value or ESC to cancel suggestion"
+        :shadow-text="textFillValue"
+        @keydown="onTextFillEvent"
+        @focus="onTextFillEvent"
+      />
+
       <q-input v-bind="props" v-model="text" required label="Required" placeholder="Write something" color="green" />
 
       <q-field v-bind="props" v-model="text" required label="Required - Custom input">
@@ -450,6 +460,10 @@
 </template>
 
 <script>
+import { event } from 'quasar'
+
+const { stopAndPrevent } = event
+
 export default {
   data () {
     return {
@@ -474,6 +488,9 @@ export default {
       undef: void 0,
       events: '',
       debounced: '',
+
+      textFill: '',
+      textFillCancelled: false,
 
       pass: '',
       password: true,
@@ -533,6 +550,31 @@ export default {
 
     length () {
       return this.text.length
+    },
+
+    textFillValue () {
+      if (this.textFillCancelled === true) {
+        return ''
+      }
+
+      const
+        t = this.textarea === true || this.autogrow === true
+          ? '$ | Filled\nfilled\n@ #'
+          : '$ | Filled filled @ #',
+        empty = typeof this.textFill !== 'string' || this.textFill.length === 0
+
+      if (empty === true) {
+        return t.split('\n')[0]
+      }
+      else if (t.indexOf(this.textFill) !== 0) {
+        return ''
+      }
+
+      return t
+        .split(this.textFill)
+        .slice(1)
+        .join(this.textFill)
+        .split('\n')[0]
     }
   },
   methods: {
@@ -550,6 +592,27 @@ export default {
     },
     log (what) {
       console.log('LOG:', what)
+    },
+
+    onTextFillEvent (e) {
+      if (e === void 0) {
+        return
+      }
+
+      if (e.keyCode === 27) {
+        if (this.textFillCancelled !== true) {
+          this.textFillCancelled = true
+        }
+      }
+      else if (e.keyCode === 9) {
+        if (this.textFillCancelled !== true && this.textFillValue.length > 0) {
+          stopAndPrevent(e)
+          this.textFill += this.textFillValue
+        }
+      }
+      else if (this.textFillCancelled === true) {
+        this.textFillCancelled = false
+      }
     }
   }
 }
