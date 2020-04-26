@@ -65,7 +65,7 @@ One of the most asked questions is how to copy independent files to the destinat
 
 Below, uses the `CopyWebpackPluging` webpack plugin using `extendWebpack` to copy `robots.txt` to the build destination.
 
-First, add `copywebpackplugin` to your `package.json`.
+First, add `CopyWebpackPlugin` to your `package.json`.
 
 ```js
 yarn add -D copy-webpack-plugin
