@@ -42,14 +42,13 @@ function showHelp () {
 
   Options
     --help, -h            Displays this message
-    --format -f <option>  Use a supported format for the template
 
-  --format, -f Options
-    ts-options            Use the TypeScript options API
-    ts-composition        Use the TypeScript component API
-    ts-class              Use the TypeScript class style syntax
-    ts                    Use for Typescript Boot file and Store modules only
-
+    --format -f <option>  (optional) Use a supported format for the template
+                          Option can be:
+                             * ts-options - TS options API
+                             * ts-composition - TS component API
+                             * ts-class - TS class style syntax
+                             * ts - use for TS boot file and store modules only
   `)
   process.exit(0)
 }
