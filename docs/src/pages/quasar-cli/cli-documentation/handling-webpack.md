@@ -71,7 +71,7 @@ First, add `copywebpackplugin` to your `package.json`.
 yarn add -D copy-webpack-plugin
 ```
 
-At the top of `quasar.conf.js` add the following:
+At the top of `quasar.conf.js` import it by adding the following:
 
 ```js
 const CopyWebpackPlugin = require('copy-webpack-plugin')
