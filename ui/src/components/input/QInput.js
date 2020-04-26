@@ -260,11 +260,7 @@ export default Vue.extend({
         on.animationend = this.__adjustHeight
       }
 
-      const value = this.hasOwnProperty('tempValue') === true
-        ? this.tempValue
-        : (this.innerValue !== void 0 ? this.innerValue : '')
-
-      const control = h(this.isTextarea === true ? 'textarea' : 'input', {
+      const data = {
         ref: 'input',
         staticClass: 'q-field__native q-placeholder',
         style: this.inputStyle,
@@ -272,20 +268,24 @@ export default Vue.extend({
         attrs,
         on,
         domProps: this.type !== 'file'
-          ? { value }
+          ? {
+            value: this.hasOwnProperty('tempValue') === true
+              ? this.tempValue
+              : (this.innerValue !== void 0 ? this.innerValue : '')
+          }
           : this.formDomProps
-      })
-
-      if (this.hasShadowText !== true) {
-        return control
       }
 
-      return [
-        h('div', {
-          staticClass: 'q-field__native q-field__shadow-text absolute-full'
-        }, [ h('span', value), this.shadowText ]),
-        control
-      ]
+      const control = h(this.isTextarea === true ? 'textarea' : 'input', data)
+
+      return this.hasShadowText !== true
+        ? control
+        : [
+          h('div', {
+            staticClass: 'q-field__native q-field__shadow-text absolute-full no-pointer-events'
+          }, [ h('span', data.domProps.value), this.shadowText ]),
+          control
+        ]
     }
   },
 
