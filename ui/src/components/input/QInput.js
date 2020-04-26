@@ -260,10 +260,6 @@ export default Vue.extend({
         on.animationend = this.__adjustHeight
       }
 
-      const value = this.hasOwnProperty('tempValue') === true
-        ? this.tempValue
-        : (this.innerValue !== void 0 ? this.innerValue : '')
-
       const control = h(this.isTextarea === true ? 'textarea' : 'input', {
         ref: 'input',
         staticClass: 'q-field__native q-placeholder',
@@ -272,7 +268,11 @@ export default Vue.extend({
         attrs,
         on,
         domProps: this.type !== 'file'
-          ? { value }
+          ? {
+            value: this.hasOwnProperty('tempValue') === true
+              ? this.tempValue
+              : (this.innerValue !== void 0 ? this.innerValue : '')
+          }
           : this.formDomProps
       })
 
