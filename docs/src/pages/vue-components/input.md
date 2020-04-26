@@ -118,7 +118,7 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 
 <doc-example title="Prefix and suffix" file="QInput/PrefixSuffix" />
 
-### Shadow text <q-badge align="top" label="v1.9.4+" />
+### Shadow text <q-badge align="top" label="v1.10+" />
 
 <doc-example title="Shadow text" file="QInput/ShadowText" />
 
