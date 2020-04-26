@@ -2,4 +2,9 @@
 // More info: https://quasar.dev/quasar-cli/developing-browser-extensions/dom-hooks
 
 export default function attachDomHooks (/* bridge */) {
+  /*
+  bridge.send('message.to.quasar', {
+    worked: true
+  })
+  */
 }

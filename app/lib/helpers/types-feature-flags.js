@@ -13,7 +13,7 @@ function getStoreFlagPath(storeIndexPath) {
 module.exports = function regenerateTypesFeatureFlags(buildConfig) {
   const storeFeatureData = [
     buildConfig.store,
-    appPaths.resolve.cli('templates/app/store/store-flag.d.ts'),
+    appPaths.resolve.cli('templates/app/ts/store/store-flag.d.ts'),
     appPaths.resolve.app(getStoreFlagPath(buildConfig.sourceFiles.store))
   ]
 
@@ -29,7 +29,8 @@ module.exports = function regenerateTypesFeatureFlags(buildConfig) {
     'capacitor',
     'electron',
     'ssr',
-    'store'
+    'store',
+    'bex'
   ]) {
     const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
       ? storeFeatureData
