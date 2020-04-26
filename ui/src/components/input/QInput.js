@@ -221,6 +221,12 @@ export default Vue.extend({
       })
     },
 
+    __getCurValue () {
+      return this.hasOwnProperty('tempValue') === true
+        ? this.tempValue
+        : (this.innerValue !== void 0 ? this.innerValue : '')
+    },
+
     __getControl (h) {
       const on = {
         ...this.$listeners,
@@ -250,9 +256,16 @@ export default Vue.extend({
         ...this.$attrs,
         id: this.targetUid,
         type: this.type,
-        maxlength: this.maxlength,
-        disabled: this.disable === true,
-        readonly: this.readonly === true
+        maxlength: this.maxlength
+      }
+
+      if (this.disable === true) {
+        attrs.disabled = ''
+        attrs['aria-disabled'] = ''
+      }
+      else if (this.readonly === true) {
+        attrs.readonly = ''
+        attrs['aria-readonly'] = ''
       }
 
       if (this.autogrow === true) {
@@ -268,11 +281,7 @@ export default Vue.extend({
         attrs,
         on,
         domProps: this.type !== 'file'
-          ? {
-            value: this.hasOwnProperty('tempValue') === true
-              ? this.tempValue
-              : (this.innerValue !== void 0 ? this.innerValue : '')
-          }
+          ? { value: this.__getCurValue() }
           : this.formDomProps
       })
 
@@ -283,7 +292,7 @@ export default Vue.extend({
       return [
         h('div', {
           staticClass: 'q-field__native q-field__shadow-text absolute-full'
-        }, [ h('span', value), this.shadowText ]),
+        }, [ h('span', this.__getCurValue()), this.shadowText ]),
         control
       ]
     }
