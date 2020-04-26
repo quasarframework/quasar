@@ -22,7 +22,7 @@
 
     "shadow-text": {
       "type": "String",
-      "desc": "Text to be displayed as shadow at the end of the text in the control",
+      "desc": "Text to be displayed as shadow at the end of the text in the control; Does NOT applies to type=file",
       "examples": [ "rest of the fill value" ],
       "category": "content",
       "addedIn": "v1.10.0"
