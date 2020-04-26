@@ -318,6 +318,12 @@ Below is an example of a naive csv encoding and then exporting table data by usi
 
 <doc-example title="Export to csv" file="QTable/ExportCsv" no-edit />
 
+### Keyboard navigation
+
+Below is an example of keyboard navigation in the table using selected row. Use `ArrowUp`, `ArrowDown`, `PageUp`, `PageDown`, `Home` and `End` keys to navigate.
+
+<doc-example title="Keyboard navigation" file="QTable/KeyboardNavigation" />
+
 ## QTable API
 <doc-api file="QTable" />
 
