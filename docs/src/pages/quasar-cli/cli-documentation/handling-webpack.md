@@ -87,7 +87,7 @@ In `quasar.conf.js` look for the `build` section. Add this:
 
 If you already have `extendWebpack (cfg)`, then just integrate the `cfg.plugins.push` part appropriately.
 
-Also note, the `to` parameter is empty. It already knows your destinatin path via webpack. This is the `root`. If you add a path, it will be based on the destination. You may have also noticed that the parameter to `CopyWebpackPlugin` is an array of objects. You can add multiple files here, one object for each file.
+Also note, the `to` parameter is empty. It already knows your destination path via Webpack. This is the `root`. If you add a path, it will be based on the destination. You may have also noticed that the parameter to `CopyWebpackPlugin` is an array of objects. You can add multiple files here, one object for each file.
 
 ## Inspecting Webpack Config
 Quasar CLI offers a useful command for this:
