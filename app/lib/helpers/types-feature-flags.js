@@ -29,7 +29,8 @@ module.exports = function regenerateTypesFeatureFlags(buildConfig) {
     'capacitor',
     'electron',
     'ssr',
-    'store'
+    'store',
+    'bex'
   ]) {
     const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
       ? storeFeatureData
