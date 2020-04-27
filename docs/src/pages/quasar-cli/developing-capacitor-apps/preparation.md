@@ -1,5 +1,5 @@
 ---
-title: Capacitor App Preparation
+title: Preparation for Capacitor App
 desc: What you need to do before developing a Quasar hybrid mobile app with Capacitor.
 ---
 

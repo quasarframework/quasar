@@ -26,7 +26,7 @@ module.exports = function (ctx) {
       scopeHoisting: true,
       vueRouterMode: 'history',
       showProgress: ctx.dev,
-      // preloadChunks: false,
+      // preloadChunks: true,
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
@@ -74,7 +74,7 @@ module.exports = function (ctx) {
     },
 
     devServer: {
-      https: ctx.mode.pwa === true,
+      // https: true,
       port: 9090,
       open: true // opens browser window automatically
     },
@@ -105,10 +105,6 @@ module.exports = function (ctx) {
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/cdn/,
-            handler: 'StaleWhileRevalidate'
-          },
-          {
-            urlPattern: '/',
             handler: 'StaleWhileRevalidate'
           }
         ]
