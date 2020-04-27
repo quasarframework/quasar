@@ -407,7 +407,7 @@ class QuasarConfig {
       htmlFilename: 'index.html',
       webpackManifest: this.ctx.prod,
       vueRouterMode: 'hash',
-      preloadChunks: this.ctx.prod,
+      preloadChunks: false,
       forceDevPublicPath: false,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
@@ -687,7 +687,6 @@ class QuasarConfig {
 
     if (this.ctx.mode.pwa) {
       cfg.build.webpackManifest = false
-      cfg.build.preloadChunks = true
 
       cfg.pwa = merge({
         workboxPluginMode: 'GenerateSW',
