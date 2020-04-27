@@ -63,15 +63,15 @@ The two examples above are equivalent. Do NOT use both methods to tamper for the
 
 One of the most asked questions is how to copy independent files to the destination folder (ie: `dist/spa`).
 
-Below, uses the `CopyWebpackPluging` webpack plugin using `extendWebpack` to copy `robots.txt` to the build destination.
+Below, uses the `CopyWebpackPlugin` using `extendWebpack` to copy `robots.txt` to the build destination.
 
-First, add `copywebpackplugin` to your `package.json`.
+First, add `CopyWebpackPlugin` to your `package.json`.
 
 ```js
 yarn add -D copy-webpack-plugin
 ```
 
-At the top of `quasar.conf.js` add the following:
+At the top of `quasar.conf.js` import it by adding the following:
 
 ```js
 const CopyWebpackPlugin = require('copy-webpack-plugin')
