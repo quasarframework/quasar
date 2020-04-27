@@ -63,7 +63,7 @@ The two examples above are equivalent. Do NOT use both methods to tamper for the
 
 One of the most asked questions is how to copy independent files to the destination folder (ie: `dist/spa`).
 
-Below, uses the `CopyWebpackPlugin` using `extendWebpack` to copy `robots.txt` to the build destination.
+Below, uses the `CopyWebpackPlugin` to copy `robots.txt` to the build destination.
 
 First, add `CopyWebpackPlugin` to your `package.json`.
 
