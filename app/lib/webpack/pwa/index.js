@@ -35,11 +35,7 @@ module.exports = function (chain, cfg) {
 
   if (cfg.ctx.mode.ssr) {
     if (pluginMode === 'GenerateSW' && !opts.directoryIndex) {
-      opts.directoryIndex = '/'
-    }
-
-    if (!opts.exclude) {
-      opts.exclude = []
+      opts.directoryIndex = cfg.build.publicPath
     }
 
     opts.exclude.push('../vue-ssr-client-manifest.json')
@@ -50,31 +46,18 @@ module.exports = function (chain, cfg) {
       opts = merge(opts, cfg.ssr.pwa)
     }
 
+
     if (pluginMode === 'GenerateSW') {
-      opts.runtimeCaching = opts.runtimeCaching || []
-      if (!opts.runtimeCaching.find(entry => entry.urlPattern === '/')) {
+      if (!opts.directoryIndex) {
+        opts.directoryIndex = cfg.build.publicPath
+      }
+
+      if (opts.runtimeCaching.every(entry => entry.urlPattern !== cfg.build.publicPath)) {
         opts.runtimeCaching.unshift({
-          urlPattern: '/',
+          urlPattern: cfg.build.publicPath,
           handler: 'StaleWhileRevalidate'
         })
       }
-    }
-  }
-
-  if (cfg.ctx.dev) {
-    log('⚠️  Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')
-    // forcing network-first strategy
-    opts.chunks = [ 'quasar-bogus-chunk' ]
-    if (opts.excludeChunks) {
-      delete opts.excludeChunks
-    }
-
-    if (pluginMode === 'GenerateSW') {
-      opts.runtimeCaching = opts.runtimeCaching || []
-      opts.runtimeCaching.push({
-        urlPattern: /^http/,
-        handler: 'NetworkFirst'
-      })
     }
   }
 
