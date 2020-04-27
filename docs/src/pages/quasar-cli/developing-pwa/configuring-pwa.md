@@ -12,7 +12,7 @@ Adding PWA mode to a Quasar project means a new folder will be created: `/src-pw
 └── src-pwa/
     ├── register-service-worker.js  # App-code *managing* service worker
     └── custom-service-worker.js    # Optional custom service worker
-                                    # file (InjectManifest mode oNLY)
+                                    # file (InjectManifest mode ONLY)
 ```
 
 You can freely edit these files. Notice a few things:
