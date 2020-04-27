@@ -77,6 +77,8 @@ At the top of `quasar.conf.js` add the following:
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 ```
 
+**extendWebPack:**
+
 In `quasar.conf.js` look for the `build` section. Add this:
 
 ```js
@@ -85,9 +87,26 @@ In `quasar.conf.js` look for the `build` section. Add this:
   }
 ```
 
-If you already have `extendWebpack (cfg)`, then just integrate the `cfg.plugins.push` part appropriately.
+**chainWebpack:**
 
-Also note, the `to` parameter is empty. It already knows your destinatin path via webpack. This is the `root`. If you add a path, it will be based on the destination. You may have also noticed that the parameter to `CopyWebpackPlugin` is an array of objects. You can add multiple files here, one object for each file.
+In `quasar.conf.js` look for the `build` section. Add this:
+
+```js
+  chainWebpack (chain) {
+    chain
+      .plugin('copy-static-files')
+      .use(CopyWebpackPlugin, [
+        [{
+          from: 'robots.txt',
+          to: '',
+        }]
+      ])
+  }
+```
+
+:::tip
+Note that the `to` parameter is empty. It already knows your destinatin path via webpack. This is the `root` folder. If you add a path, it will be based on the destination. You may have also noticed that the parameter to `CopyWebpackPlugin` is an array of objects. You can add multiple files here, one object for each file.
+:::
 
 ## Inspecting Webpack Config
 Quasar CLI offers a useful command for this:
