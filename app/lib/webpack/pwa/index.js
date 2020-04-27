@@ -34,10 +34,6 @@ module.exports = function (chain, cfg) {
   }
 
   if (cfg.ctx.mode.ssr) {
-    if (pluginMode === 'GenerateSW' && !opts.directoryIndex) {
-      opts.directoryIndex = cfg.build.publicPath
-    }
-
     opts.exclude.push('../vue-ssr-client-manifest.json')
 
     // if Object form:
@@ -59,6 +55,9 @@ module.exports = function (chain, cfg) {
         })
       }
     }
+  }
+  else if (!opts.navigateFallback) {
+    opts.navigateFallback = `${cfg.build.publicPath}${cfg.build.htmlFilename}`
   }
 
   opts.swDest = 'service-worker.js'
