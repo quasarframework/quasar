@@ -75,8 +75,8 @@ export default Vue.extend({
     attrs () {
       return {
         role: 'progressbar',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
+        'aria-valuemin': 0,
+        'aria-valuemax': 1,
         'aria-valuenow': this.indeterminate === true ? void 0 : this.value
       }
     }
