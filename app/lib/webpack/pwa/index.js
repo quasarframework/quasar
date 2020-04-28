@@ -41,23 +41,14 @@ module.exports = function (chain, cfg) {
       const merge = require('webpack-merge')
       opts = merge(opts, cfg.ssr.pwa)
     }
-
-
-    if (pluginMode === 'GenerateSW') {
-      if (!opts.directoryIndex) {
-        opts.directoryIndex = cfg.build.publicPath
-      }
-
-      if (opts.runtimeCaching.every(entry => entry.urlPattern !== cfg.build.publicPath)) {
-        opts.runtimeCaching.unshift({
-          urlPattern: cfg.build.publicPath,
-          handler: 'StaleWhileRevalidate'
-        })
-      }
-    }
   }
-  else if (!opts.navigateFallback) {
-    opts.navigateFallback = `${cfg.build.publicPath}${cfg.build.htmlFilename}`
+
+  if (pluginMode === 'GenerateSW' && !opts.navigateFallback) {
+    const htmlFile = cfg.ctx.mode.pwa
+      ? cfg.build.ssrPwaHtmlFilename
+      : cfg.build.htmlFilename
+
+    opts.navigateFallback = `${cfg.build.publicPath}${htmlFile}`
   }
 
   opts.swDest = 'service-worker.js'

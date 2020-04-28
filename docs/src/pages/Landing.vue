@@ -38,7 +38,7 @@
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
-        img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
+        img.doc-img(loading="lazy" src="https://cdn.quasar.dev/img/responsive.png")
       .col-12.text-center
         .q-gutter-lg
           q-icon(:name="fabApple")

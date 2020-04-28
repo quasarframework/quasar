@@ -408,6 +408,8 @@ class QuasarConfig {
       minify: this.ctx.prod && this.ctx.mode.bex !== true,
       distDir: path.join('dist', this.ctx.modeName),
       htmlFilename: 'index.html',
+      ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
+                                          // will mess up SSR
       webpackManifest: this.ctx.prod,
       vueRouterMode: 'hash',
       preloadChunks: false,
