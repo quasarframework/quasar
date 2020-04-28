@@ -3,12 +3,6 @@ const path = require('path')
 
 module.exports = function (ctx) {
   return {
-    vendor: {
-      remove: [
-        'quasar/dist/api'
-      ]
-    },
-
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
@@ -25,7 +19,7 @@ module.exports = function (ctx) {
       'material-icons'
     ],
 
-    supportIE: true,
+    // supportIE: true,
     preFetch: true,
 
     build: {
@@ -187,6 +181,22 @@ module.exports = function (ctx) {
 
         // appId: 'quasar-app'
       }
+    },
+
+    vendor: {
+      remove: [
+        'quasar/dist/api',
+
+        // following are used by algolia
+        'algoliasearch',
+        'autocomplete.js',
+        'hogan.js',
+        'request',
+        'stack-utils',
+        'to-factory',
+        'zepto',
+        'es6-promise'
+      ]
     }
   }
 }
