@@ -108,7 +108,7 @@ export default {
         attrs.role = 'progressbar'
         attrs['aria-valuemin'] = 0
         attrs['aria-valuemax'] = 100
-        attrs['aria-valuenow'] = this.computedPercentage
+        attrs['aria-valuenow'] = this.percentage
       }
 
       if (this.disable === true) {
