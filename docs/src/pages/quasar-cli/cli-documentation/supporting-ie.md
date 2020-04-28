@@ -6,6 +6,10 @@ related:
 ---
 If you are building a website, you might want to support IE 11+. This support is not added by default to your website. Quasar CLI provides it on demand only.
 
+::: warning
+Starting with May 2020, we have decided to stop shipping this docs website with IE11 support. However this does not mean that Quasar does not supports IE11 for your websites.
+:::
+
 ::: danger Attention Windows Developer
 It is strongly recommended to use Yarn instead of NPM when developing on a Windows machine, to avoid many problems.
 :::
