@@ -23,7 +23,7 @@
 
   section.landing__front.text-center
     div
-      q-intersection.row.justify-center(once)
+      .row.justify-center
         introduction-video.landing__video
 
   section.padding.bg-white.text-grey-10.text-center
