@@ -305,7 +305,11 @@ export default {
   },
 
   mounted () {
-    import('quasar/dist/api/' + this.file + '.json').then(json => {
+    import(
+      /* webpackChunkName: "quasar-api" */
+      /* webpackMode: "lazy-once" */
+      'quasar/dist/api/' + this.file + '.json'
+    ).then(json => {
       this.parseJson(this.file, json.default)
       this.loading = false
     })

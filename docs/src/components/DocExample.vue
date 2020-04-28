@@ -116,11 +116,19 @@ export default {
 
   mounted () {
     Promise.all([
-      import('examples/' + this.file + '.vue').then(comp => {
+      import(
+        /* webpackChunkName: "demo" */
+        /* webpackMode: "lazy-once" */
+        'examples/' + this.file + '.vue'
+      ).then(comp => {
         this.component = comp.default
       }),
 
-      import('!raw-loader!examples/' + this.file + '.vue').then(comp => {
+      import(
+        /* webpackChunkName: "demo-source" */
+        /* webpackMode: "lazy-once" */
+        '!raw-loader!examples/' + this.file + '.vue'
+      ).then(comp => {
         this.parseComponent(comp.default)
       })
     ]).then(() => {

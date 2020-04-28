@@ -3,6 +3,12 @@ const path = require('path')
 
 module.exports = function (ctx) {
   return {
+    vendor: {
+      remove: [
+        'quasar/dist/api'
+      ]
+    },
+
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
