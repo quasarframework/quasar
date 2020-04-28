@@ -5,6 +5,7 @@
       sponsor(img="platform-purple.png" name="Platform Purple" url="https://platformpurple.com/")
       sponsor(img="truelogic.png" name="Truelogic" url="https://truelogic.com/")
       sponsor(img="juggle-street.png" name="Juggle Street" url="https://www.jugglestreet.com.au/")
+      sponsor(img="digitalocean.svg" name="Digitalocean" url="https://digitalocean.com/")
       sponsor(img="com-com-services.png" name="Com Com Services" url="http://comcomservices.com/")
       sponsor(img="kalisio.png" name="Kalisio" url="https://kalisio.com/")
       sponsor(img="bgasoft.png" name="BGASoft" url="https://www.bgasoft.com/")
