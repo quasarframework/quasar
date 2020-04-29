@@ -637,6 +637,16 @@
           "desc": "Row object",
           "__exemption": [ "examples" ]
         },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
@@ -678,6 +688,16 @@
           "desc": "Row object",
           "__exemption": [ "examples" ]
         },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
@@ -714,6 +734,16 @@
           "desc": "Row object",
           "__exemption": [ "examples" ]
         },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
         "col": {
           "type": "Object",
           "desc": "Column definition for column associated with table cell",
@@ -733,6 +763,16 @@
         "row": {
           "type": "Object",
           "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
           "__exemption": [ "examples" ]
         },
         "col": {

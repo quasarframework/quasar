@@ -15,6 +15,7 @@
             <q-toggle dense v-model="props.selected" />
           </q-td>
           <q-td key="desc" :props="props" no-hover>
+            {{ props.rowIndex }} / {{ props.pageIndex }} -
             {{ props.row.name }}
             <q-btn dense round flat :icon="props.expand ? 'arrow_drop_up' : 'arrow_drop_down'" @click="props.expand = !props.expand" />
           </q-td>
