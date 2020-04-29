@@ -595,6 +595,8 @@ export default Vue.extend({
     this.$emit('on-layout', this.onLayout)
     this.$emit('mini-state', this.isMini)
 
+    this.lastDesktopState = this.showIfAbove === true
+
     const fn = () => {
       const action = this.showing === true ? 'show' : 'hide'
       this[`__${action}`](false, true)
