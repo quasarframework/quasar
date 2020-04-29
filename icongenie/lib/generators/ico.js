@@ -11,7 +11,7 @@ module.exports = async function (file, opts, done) {
   })
 
   const buffer = await img.toBuffer()
-  const output = await png2icons.createICO(buffer, opts.compression.ico, 0)
+  const output = await png2icons.createICO(buffer, opts.compression.ico, 0, true)
 
   writeFile(file.absoluteName, output, done)
 }
