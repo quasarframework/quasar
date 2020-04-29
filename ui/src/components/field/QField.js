@@ -479,6 +479,8 @@ export default Vue.extend({
     },
 
     __clearValue (e) {
+      this.focused = false
+
       // prevent activating the field but keep focus on desktop
       stopAndPrevent(e)
       this.$el.focus()
