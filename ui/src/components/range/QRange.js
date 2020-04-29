@@ -110,20 +110,20 @@ export default Vue.extend({
 
     trackStyle () {
       return {
-        [this.horizProp]: 100 * this.ratioMin + '%',
-        width: 100 * (this.ratioMax - this.ratioMin) + '%'
+        [this.positionProp]: 100 * this.ratioMin + '%',
+        [this.sizeProp]: 100 * (this.ratioMax - this.ratioMin) + '%'
       }
     },
 
     minThumbStyle () {
       return {
-        [this.horizProp]: (100 * this.ratioMin) + '%',
+        [this.positionProp]: (100 * this.ratioMin) + '%',
         'z-index': this.__nextFocus === 'min' ? 2 : void 0
       }
     },
 
     maxThumbStyle () {
-      return { [this.horizProp]: (100 * this.ratioMax) + '%' }
+      return { [this.positionProp]: (100 * this.ratioMax) + '%' }
     },
 
     minThumbClass () {
@@ -248,13 +248,20 @@ export default Vue.extend({
 
     __getDragging (event) {
       const
-        { left, width } = this.$el.getBoundingClientRect(),
-        sensitivity = this.dragOnlyRange ? 0 : this.$refs.minThumb.offsetWidth / (2 * width),
+        { left, top, width, height } = this.$el.getBoundingClientRect(),
+        sensitivity = this.dragOnlyRange
+          ? 0
+          : (this.vertical === true
+            ? this.$refs.minThumb.offsetHeight / (2 * height)
+            : this.$refs.minThumb.offsetWidth / (2 * width)
+          ),
         diff = this.max - this.min
 
       let dragging = {
         left,
+        top,
         width,
+        height,
         valueMin: this.model.min,
         valueMax: this.model.max,
         ratioMin: (this.model.min - this.min) / diff,
@@ -262,7 +269,7 @@ export default Vue.extend({
       }
 
       let
-        ratio = getRatio(event, dragging, this.isReversed),
+        ratio = getRatio(event, dragging, this.isReversed, this.vertical),
         type
 
       if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
@@ -296,7 +303,7 @@ export default Vue.extend({
 
     __updatePosition (event, dragging = this.dragging) {
       let
-        ratio = getRatio(event, dragging, this.isReversed),
+        ratio = getRatio(event, dragging, this.isReversed, this.vertical),
         model = getModel(ratio, this.min, this.max, this.step, this.decimals),
         pos
 
@@ -438,11 +445,12 @@ export default Vue.extend({
       if (this.label === true || this.labelAlways === true) {
         child.push(
           h('div', {
-            staticClass: 'q-slider__pin absolute',
+            staticClass: 'q-slider__pin q-slider__pin' + this.verticalSuffix + ' absolute',
             style: this[which + 'PinStyle'].pin,
             class: this[which + 'PinClass']
           }, [
-            h('div', { staticClass: 'q-slider__pin-text-container', style: this[which + 'PinStyle'].pinTextContainer }, [
+            h('div', {
+              staticClass: 'q-slider__pin-text-container q-slider__pin-text-container' + this.verticalSuffix, style: this[which + 'PinStyle'].pinTextContainer }, [
               h('span', {
                 staticClass: 'q-slider__pin-text',
                 class: this[which + 'PinTextClass']
@@ -453,7 +461,7 @@ export default Vue.extend({
           ]),
 
           h('div', {
-            staticClass: 'q-slider__arrow',
+            staticClass: 'q-slider__arrow q-slider__arrow' + this.verticalSuffix,
             class: this[which + 'PinClass']
           })
         )
@@ -461,7 +469,7 @@ export default Vue.extend({
 
       return h('div', {
         ref: which + 'Thumb',
-        staticClass: 'q-slider__thumb-container absolute non-selectable',
+        staticClass: 'q-slider__thumb-container q-slider__thumb-container' + this.verticalSuffix + ' absolute non-selectable',
         style: this[which + 'ThumbStyle'],
         class: this[which + 'ThumbClass'],
         on: this[which + 'Events'],
@@ -473,21 +481,21 @@ export default Vue.extend({
   render (h) {
     const track = [
       h('div', {
-        staticClass: 'q-slider__track absolute',
+        staticClass: 'q-slider__track q-slider__track' + this.verticalSuffix + ' absolute',
         style: this.trackStyle
       })
     ]
 
     this.markers === true && track.push(
       h('div', {
-        staticClass: 'q-slider__track-markers absolute-full fit',
+        staticClass: 'q-slider__track-markers q-slider__track-markers' + this.verticalSuffix + ' absolute-full fit',
         style: this.markerStyle
       })
     )
 
     const child = [
       h('div', {
-        staticClass: 'q-slider__track-container absolute'
+        staticClass: 'q-slider__track-container q-slider__track-container' + this.verticalSuffix + ' absolute'
       }, track),
 
       this.__getThumb(h, 'min'),
@@ -515,7 +523,7 @@ export default Vue.extend({
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
-          horizontal: true,
+          [this.vertical === true ? 'vertical' : 'horizontal']: true,
           prevent: true,
           stop: true,
           mouse: true,

@@ -18,6 +18,10 @@ Also check its “sibling”, the [QRange](/vue-components/range) component.
 
 <doc-example title="Standard" file="QSlider/Standard" />
 
+### Vertical
+
+<doc-example title="Vertical orientation" file="QSlider/Vertical" />
+
 ### With step
 
 <doc-example title="With step" file="QSlider/Step" />

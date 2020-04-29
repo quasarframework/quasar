@@ -2,15 +2,18 @@ import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
 
 import FormMixin from '../../mixins/form.js'
+import DarkMixin from '../../mixins/dark.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [34, 37, 40, 33, 39, 38]
 
-export function getRatio (evt, dragging, reverse) {
+export function getRatio (evt, dragging, reverse, vertical) {
   const
     pos = position(evt),
-    val = between((pos.left - dragging.left) / dragging.width, 0, 1)
+    val = vertical === true
+      ? between((pos.top - dragging.top) / dragging.height, 0, 1)
+      : between((pos.left - dragging.left) / dragging.width, 0, 1)
 
   return reverse === true ? 1.0 - val : val
 }
@@ -29,8 +32,6 @@ export function getModel (ratio, min, max, step, decimals) {
 
   return between(model, min, max)
 }
-
-import DarkMixin from '../../mixins/dark.js'
 
 export let SliderMixin = {
   mixins: [ DarkMixin, FormMixin ],
@@ -65,6 +66,7 @@ export let SliderMixin = {
     markers: Boolean,
     snap: Boolean,
 
+    vertical: Boolean,
     reverse: Boolean,
 
     disable: Boolean,
@@ -86,8 +88,12 @@ export let SliderMixin = {
   },
 
   computed: {
+    verticalSuffix () {
+      return this.vertical === true ? '--v' : '--h'
+    },
+
     classes () {
-      return `q-slider q-slider--${this.active === true ? '' : 'in'}active` +
+      return `q-slider q-slider${this.verticalSuffix} q-slider--${this.active === true ? '' : 'in'}active` +
         (this.isReversed === true ? ' q-slider--reversed' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
         (this.disable === true ? ' disabled' : '') +
@@ -96,7 +102,7 @@ export let SliderMixin = {
         (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
         (this.labelAlways === true ? ' q-slider--label-always' : '') +
         (this.isDark === true ? ' q-slider--dark' : '') +
-        (this.dense === true ? ' q-slider--dense' : '')
+        (this.dense === true ? ' q-slider--dense' + this.verticalSuffix : '')
     },
 
     editable () {
@@ -113,7 +119,9 @@ export let SliderMixin = {
 
     markerStyle () {
       return {
-        backgroundSize: 100 * this.computedStep / (this.max - this.min) + '% 2px'
+        backgroundSize: this.vertical === true
+          ? '2px ' + (100 * this.computedStep / (this.max - this.min)) + '%'
+          : (100 * this.computedStep / (this.max - this.min)) + '% 2px'
       }
     },
 
@@ -122,11 +130,20 @@ export let SliderMixin = {
     },
 
     isReversed () {
-      return this.reverse !== (this.$q.lang.rtl === true)
+      return this.vertical === true
+        ? this.reverse === true
+        : this.reverse !== (this.$q.lang.rtl === true)
     },
 
-    horizProp () {
+    positionProp () {
+      if (this.vertical === true) {
+        return this.isReversed === true ? 'bottom' : 'top'
+      }
       return this.isReversed === true ? 'right' : 'left'
+    },
+
+    sizeProp () {
+      return this.vertical === true ? 'height' : 'width'
     },
 
     attrs () {
@@ -134,7 +151,7 @@ export let SliderMixin = {
         role: 'slider',
         'aria-valuemin': this.min,
         'aria-valuemax': this.max,
-        'aria-orientation': 'horizontal',
+        'aria-orientation': this.vertical === true ? 'vertical' : 'horizontal',
         'data-step': this.step
       }
 
@@ -164,6 +181,10 @@ export let SliderMixin = {
     },
 
     __getPinStyle (percent, ratio) {
+      if (this.vertical === true) {
+        return {}
+      }
+
       const offset = `${Math.ceil(20 * Math.abs(0.5 - ratio))}px`
       return {
         pin: {
