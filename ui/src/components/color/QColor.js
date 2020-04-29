@@ -4,7 +4,7 @@ import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { cache } from '../../utils/vm.js'
 import { stop } from '../../utils/event.js'
-import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
+import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 
 import DarkMixin from '../../mixins/dark.js'
 import FormMixin from '../../mixins/form.js'
@@ -838,7 +838,7 @@ export default Vue.extend({
         }
       }
 
-      const model = stringToRgb(v)
+      const model = textToRgb(v)
 
       if (forceAlpha === true && model.a === void 0) {
         model.a = 100
