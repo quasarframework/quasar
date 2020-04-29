@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "5.13.0",
-    "@mdi/font": "5.0.45",
-    "@mdi/svg": "5.0.45",
+    "@mdi/font": "5.1.45",
+    "@mdi/svg": "5.1.45",
     "animate.css": "3.7.2",
     "cross-spawn": "7.0.1",
     "eva-icons": "1.1.3",

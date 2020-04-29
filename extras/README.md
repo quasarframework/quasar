@@ -49,7 +49,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Material Icons Outlined](https://material.io/tools/icons/?style=outlined) (Google) | | | | *Not yet available* | [License](material-icons-outlined/LICENSE) |
 | [Material Icons Round](https://material.io/tools/icons/?style=round) (Google) | | | | *Not yet available* | [License](material-icons-round/LICENSE) |
 | [Material Icons Sharp](https://material.io/tools/icons/?style=sharp) (Google) | | | | *Not yet available* | [License](material-icons-sharp/LICENSE) |
-| [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.0.45 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | The Quasar Icon Set is available in Quasar 1.9.9+ | [License](mdi-v5/license.md) |
+| [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.1.45 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | The Quasar Icon Set is requires Quasar 1.9.9+ | [License](mdi-v5/license.md) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
 | [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.13.0 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
 | [Ionicons v5](http://ionicons.com/) | 5.0.1 | `svg-ionicons-v5` | `@quasar/extras/ionicons-v5` | Requires: @quasar/extras 1.7+; The Quasar Icon Set requires Quasar v1.10+ | [Icon License](ionicons-v5/LICENSE) |
