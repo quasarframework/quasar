@@ -1,12 +1,12 @@
 <template>
   <div class="column no-wrap" style="height: 100vh" :class="dark ? 'bg-black text-white' : ''">
-    <div class="row q-col-gutter-md q-pl-md q-pr-xl bg-grey-1 shadow-2" style="z-index: 1">
+    <div class="row q-col-gutter-md q-pl-md q-pr-xl shadow-2" :class="dark ? 'bg-grey-8' : 'bg-grey-2'" style="z-index: 1">
       <q-toggle v-model="dark" :dark="dark" label="Dark" :false-value="null" />
       <q-toggle v-model="dense" :dark="dark" label="Dense" />
       <q-toggle v-model="vertical" :dark="dark" label="Vertical" />
       <q-toggle v-model="defaultLabels" :dark="dark" label="Default labels" />
-      <q-input outlined square class="col" v-model="labelLeftTemplate" label="Left label template - use {model}" />
-      <q-input outlined square class="col" v-model="labelRightTemplate" label="Right label template - use {model}" />
+      <q-input borderless square class="col" v-model="labelLeftTemplate" :dark="dark" label="Left label template - use {model}" />
+      <q-input borderless square class="col" v-model="labelRightTemplate" :dark="dark" label="Right label template - use {model}" />
     </div>
 
     <div class="col scroll q-pl-md q-pr-xl q-gutter-y-lg">
