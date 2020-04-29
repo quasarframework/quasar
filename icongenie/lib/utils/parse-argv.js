@@ -102,7 +102,8 @@ function padding (value, argv) {
     return
   }
 
-  const sizes = value.split(',').map(val => parseInt(val, 10))
+  const sizes = (Array.isArray(value) ? value : value.split(','))
+    .map(val => parseInt(val, 10))
 
   if (sizes.length > 2) {
     die(`Invalid padding specified`)
