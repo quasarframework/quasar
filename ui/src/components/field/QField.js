@@ -129,7 +129,7 @@ export default Vue.extend({
     shouldRenderBottom () {
       return this.bottomSlots === true ||
         this.hint !== void 0 ||
-        this.rules !== void 0 ||
+        this.hasRules === true ||
         this.counter === true ||
         this.error !== null
     },
