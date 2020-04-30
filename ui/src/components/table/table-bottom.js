@@ -109,7 +109,7 @@ export default {
           h('span', rowsPerPage !== 0 ? { staticClass: 'q-table__bottom-item' } : {}, [
             rowsPerPage
               ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
-              : paginationLabel(1, this.computedData.rowsNumber, this.computedRowsNumber)
+              : paginationLabel(1, this.filteredSortedRowsNumber, this.computedRowsNumber)
           ])
         ]
 
