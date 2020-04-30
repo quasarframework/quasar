@@ -6,7 +6,7 @@ import DarkMixin from '../../mixins/dark.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
-export const keyCodes = [34, 37, 40, 33, 39, 38]
+export const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
 
 export function getRatio (evt, dragging, reverse, vertical) {
   const
@@ -71,7 +71,7 @@ export let SliderMixin = {
 
     disable: Boolean,
     readonly: Boolean,
-    tabindex: [String, Number],
+    tabindex: [ String, Number ],
 
     thumbPath: {
       type: String,
@@ -88,12 +88,12 @@ export let SliderMixin = {
   },
 
   computed: {
-    verticalSuffix () {
+    axis () {
       return this.vertical === true ? '--v' : '--h'
     },
 
     classes () {
-      return `q-slider q-slider${this.verticalSuffix} q-slider--${this.active === true ? '' : 'in'}active` +
+      return `q-slider q-slider${this.axis} q-slider--${this.active === true ? '' : 'in'}active` +
         (this.isReversed === true ? ' q-slider--reversed' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
         (this.disable === true ? ' disabled' : '') +
@@ -102,7 +102,7 @@ export let SliderMixin = {
         (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
         (this.labelAlways === true ? ' q-slider--label-always' : '') +
         (this.isDark === true ? ' q-slider--dark' : '') +
-        (this.dense === true ? ' q-slider--dense' + this.verticalSuffix : '')
+        (this.dense === true ? ' q-slider--dense q-slider--dense' + this.axis : '')
     },
 
     editable () {
@@ -146,12 +146,16 @@ export let SliderMixin = {
       return this.vertical === true ? 'height' : 'width'
     },
 
+    orientation () {
+      return this.vertical === true ? 'vertical' : 'horizontal'
+    },
+
     attrs () {
       const attrs = {
         role: 'slider',
         'aria-valuemin': this.min,
         'aria-valuemax': this.max,
-        'aria-orientation': this.vertical === true ? 'vertical' : 'horizontal',
+        'aria-orientation': this.orientation,
         'data-step': this.step
       }
 
@@ -163,6 +167,22 @@ export let SliderMixin = {
       }
 
       return attrs
+    },
+
+    panDirectives () {
+      return this.editable === true
+        ? [{
+          name: 'touch-pan',
+          value: this.__pan,
+          modifiers: {
+            [ this.orientation ]: true,
+            prevent: true,
+            stop: true,
+            mouse: true,
+            mouseAllDir: true
+          }
+        }]
+        : null
     }
   },
 
@@ -170,7 +190,12 @@ export let SliderMixin = {
     __getThumbSvg (h) {
       return h('svg', {
         staticClass: 'q-slider__thumb absolute',
-        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 20 20', width: '20', height: '20' }
+        attrs: {
+          focusable: 'false', /* needed for IE11 */
+          viewBox: '0 0 20 20',
+          width: '20',
+          height: '20'
+        }
       }, [
         h('path', {
           attrs: {

@@ -9,7 +9,6 @@ import {
 
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QSlider',
@@ -23,7 +22,7 @@ export default Vue.extend({
       validator: v => typeof v === 'number' || v === null
     },
 
-    labelValue: [String, Number]
+    labelValue: [ String, Number ]
   },
 
   data () {
@@ -60,14 +59,14 @@ export default Vue.extend({
 
     trackStyle () {
       return {
-        [this.positionProp]: 0,
-        [this.sizeProp]: 100 * this.ratio + '%'
+        [ this.positionProp ]: 0,
+        [ this.sizeProp ]: `${100 * this.ratio}%`
       }
     },
 
     thumbStyle () {
       return {
-        [this.positionProp]: (100 * this.ratio) + '%'
+        [ this.positionProp ]: `${100 * this.ratio}%`
       }
     },
 
@@ -174,11 +173,14 @@ export default Vue.extend({
     if (this.label === true || this.labelAlways === true) {
       child.push(
         h('div', {
-          staticClass: 'q-slider__pin q-slider__pin' + this.verticalSuffix + ' absolute',
+          staticClass: `q-slider__pin q-slider__pin${this.axis} absolute`,
           style: this.pinStyle.pin,
           class: this.pinClass
         }, [
-          h('div', { staticClass: 'q-slider__pin-text-container q-slider__pin-text-container' + this.verticalSuffix, style: this.pinStyle.pinTextContainer }, [
+          h('div', {
+            staticClass: `q-slider__pin-text-container q-slider__pin-text-container${this.axis}`,
+            style: this.pinStyle.pinTextContainer
+          }, [
             h('span', {
               staticClass: 'q-slider__pin-text',
               class: this.pinTextClass
@@ -189,7 +191,7 @@ export default Vue.extend({
         ]),
 
         h('div', {
-          staticClass: 'q-slider__arrow q-slider__arrow' + this.verticalSuffix,
+          staticClass: `q-slider__arrow q-slider__arrow${this.axis}`,
           class: this.pinClass
         })
       )
@@ -201,14 +203,14 @@ export default Vue.extend({
 
     const track = [
       h('div', {
-        staticClass: 'q-slider__track q-slider__track' + this.verticalSuffix + ' absolute',
+        staticClass: `q-slider__track q-slider__track${this.axis} absolute`,
         style: this.trackStyle
       })
     ]
 
     this.markers === true && track.push(
       h('div', {
-        staticClass: 'q-slider__track-markers q-slider__track-markers' + this.verticalSuffix + ' absolute-full fit',
+        staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
         style: this.markerStyle
       })
     )
@@ -222,24 +224,14 @@ export default Vue.extend({
       },
       class: this.classes,
       on: this.events,
-      directives: this.editable === true ? cache(this, 'dir', [{
-        name: 'touch-pan',
-        value: this.__pan,
-        modifiers: {
-          [this.vertical === true ? 'vertical' : 'horizontal']: true,
-          prevent: true,
-          stop: true,
-          mouse: true,
-          mouseAllDir: true
-        }
-      }]) : null
+      directives: this.panDirectives
     }, [
       h('div', {
-        staticClass: 'q-slider__track-container q-slider__track-container' + this.verticalSuffix + ' absolute'
+        staticClass: `q-slider__track-container q-slider__track-container${this.axis} absolute`
       }, track),
 
       h('div', {
-        staticClass: 'q-slider__thumb-container q-slider__thumb-container' + this.verticalSuffix + ' absolute non-selectable',
+        staticClass: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable`,
         class: this.thumbClass,
         style: this.thumbStyle
       }, child)
