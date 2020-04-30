@@ -60,7 +60,7 @@
       "type": "Boolean",
       "desc": "Display in vertical direction",
       "category": "behavior",
-      "addedIn": "v1.9.11"
+      "addedIn": "v1.10.0"
     },
 
     "drag-range": {
