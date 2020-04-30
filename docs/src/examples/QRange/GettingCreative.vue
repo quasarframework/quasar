@@ -56,23 +56,23 @@
 
 <style lang="stylus">
 .custom-colored-range
-  .q-slider__track-container
+  .q-slider__track-container--h
     background-image: var(--track-bg)
     margin-top: -3px
     height: 6px
 
 .custom-colored-range--inside
-  .q-slider__track
+  .q-slider__track--h
     top: 2px
     bottom: 2px
 
 .custom-colored-range--outside
-  .q-slider__track
+  .q-slider__track--h
     border: 2px solid currentColor
     background: transparent
 
 .custom-colored-range--zoom
-  .q-slider__track-container
+  .q-slider__track-container--h
     background: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0%, rgba(0, 0, 0, 0.26) 100%),
       var(--track-bg),
       var(--tick-bg)
@@ -83,7 +83,7 @@
     margin-top: -10px
     height: 20px
     overflow: visible !important
-  .q-slider__track
+  .q-slider__track--h
     top: 9px
     bottom: 9px
     border: 1px solid currentColor
@@ -91,7 +91,7 @@
     background: transparent
     transition: width 0.28s, left 0.28s, right 0.28s, top .28s, bottom .28s, border-width .28s
   &.q-slider--active
-    .q-slider__track
+    .q-slider__track--h
       top: 5px
       bottom: 5px
       border-width: 3px
