@@ -160,7 +160,6 @@ function updateClient () {
     ssrTakeover = false
     this.$root.__currentMeta = window.__Q_META__
     document.body.querySelector('script[data-qmeta-init]').remove()
-    return
   }
 
   const meta = {

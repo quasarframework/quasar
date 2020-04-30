@@ -26,6 +26,10 @@ let routes = [
     children: metaChildren
   },
   {
+    path: '/meta/title',
+    component: load('meta/title')
+  },
+  {
     path: '/meta/layout_2',
     component: load('meta/layout_2'),
     children: metaChildren
