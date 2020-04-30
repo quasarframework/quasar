@@ -27,7 +27,7 @@ export default {
     value () {
       if (
         this.hasRules === true &&
-        (this.lazyRules !== true || this.isDirty !== true)
+        (this.lazyRules !== true || this.isDirty === true)
       ) {
         this.validate()
       }
