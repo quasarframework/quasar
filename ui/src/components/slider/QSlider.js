@@ -60,14 +60,14 @@ export default Vue.extend({
 
     trackStyle () {
       return {
-        [this.horizProp]: 0,
-        width: 100 * this.ratio + '%'
+        [this.positionProp]: 0,
+        [this.sizeProp]: 100 * this.ratio + '%'
       }
     },
 
     thumbStyle () {
       return {
-        [this.horizProp]: (100 * this.ratio) + '%'
+        [this.positionProp]: (100 * this.ratio) + '%'
       }
     },
 
@@ -130,7 +130,8 @@ export default Vue.extend({
       const ratio = getRatio(
         event,
         dragging,
-        this.isReversed
+        this.isReversed,
+        this.vertical
       )
 
       this.model = getModel(ratio, this.min, this.max, this.step, this.decimals)
@@ -173,11 +174,11 @@ export default Vue.extend({
     if (this.label === true || this.labelAlways === true) {
       child.push(
         h('div', {
-          staticClass: 'q-slider__pin absolute',
+          staticClass: 'q-slider__pin q-slider__pin' + this.verticalSuffix + ' absolute',
           style: this.pinStyle.pin,
           class: this.pinClass
         }, [
-          h('div', { staticClass: 'q-slider__pin-text-container', style: this.pinStyle.pinTextContainer }, [
+          h('div', { staticClass: 'q-slider__pin-text-container q-slider__pin-text-container' + this.verticalSuffix, style: this.pinStyle.pinTextContainer }, [
             h('span', {
               staticClass: 'q-slider__pin-text',
               class: this.pinTextClass
@@ -188,7 +189,7 @@ export default Vue.extend({
         ]),
 
         h('div', {
-          staticClass: 'q-slider__arrow',
+          staticClass: 'q-slider__arrow q-slider__arrow' + this.verticalSuffix,
           class: this.pinClass
         })
       )
@@ -200,14 +201,14 @@ export default Vue.extend({
 
     const track = [
       h('div', {
-        staticClass: 'q-slider__track absolute',
+        staticClass: 'q-slider__track q-slider__track' + this.verticalSuffix + ' absolute',
         style: this.trackStyle
       })
     ]
 
     this.markers === true && track.push(
       h('div', {
-        staticClass: 'q-slider__track-markers absolute-full fit',
+        staticClass: 'q-slider__track-markers q-slider__track-markers' + this.verticalSuffix + ' absolute-full fit',
         style: this.markerStyle
       })
     )
@@ -225,7 +226,7 @@ export default Vue.extend({
         name: 'touch-pan',
         value: this.__pan,
         modifiers: {
-          horizontal: true,
+          [this.vertical === true ? 'vertical' : 'horizontal']: true,
           prevent: true,
           stop: true,
           mouse: true,
@@ -234,11 +235,11 @@ export default Vue.extend({
       }]) : null
     }, [
       h('div', {
-        staticClass: 'q-slider__track-container absolute'
+        staticClass: 'q-slider__track-container q-slider__track-container' + this.verticalSuffix + ' absolute'
       }, track),
 
       h('div', {
-        staticClass: 'q-slider__thumb-container absolute non-selectable',
+        staticClass: 'q-slider__thumb-container q-slider__thumb-container' + this.verticalSuffix + ' absolute non-selectable',
         class: this.thumbClass,
         style: this.thumbStyle
       }, child)

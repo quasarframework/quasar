@@ -51,9 +51,16 @@
 
     "reverse": {
       "type": "Boolean",
-      "desc": "Work in reverse (changes horizontal direction)",
+      "desc": "Work in reverse (changes direction)",
       "category": "behavior",
       "addedIn": "v1.5.0"
+    },
+
+    "vertical": {
+      "type": "Boolean",
+      "desc": "Display in vertical direction",
+      "category": "behavior",
+      "addedIn": "v1.10.0"
     },
 
     "drag-range": {
