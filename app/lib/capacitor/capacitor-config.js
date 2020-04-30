@@ -6,6 +6,7 @@ const appPaths = require('../app-paths')
 const logger = require('../helpers/logger')
 const log = logger('app:capacitor-conf')
 const warn = logger('app:capacitor-conf', 'red')
+const fg = require('fast-glob')
 
 const ensureConsistency = require('../capacitor/ensure-consistency')
 
@@ -189,12 +190,20 @@ class CapacitorConfig {
   }
 
   __handleSSLonAndroid (add) {
-    const mainActivityPath = appPaths.resolve.capacitor(
-      'android/app/src/main/java/org/cordova/quasar/app/MainActivity.java'
+    const capacitorSrcPath = appPaths.resolve.capacitor(
+      'android/app/src/main/java'
     )
-    const enableHttpsSelfSignedPath = appPaths.resolve.capacitor(
-      'android/app/src/main/java/org/cordova/quasar/app/EnableHttpsSelfSigned.java'
-    )
+    let mainActivityPath = fg.sync(`**/MainActivity.java`, { cwd: capacitorSrcPath, absolute: true })
+    if (mainActivityPath.length > 0) {
+      if (mainActivityPath.length > 1) {
+      warn(`Found multiple matches for MainActivity.java file, https might not work. Using file ${mainActivityPath[0]}.`)
+      }
+      mainActivityPath = mainActivityPath[0]
+    } else if (mainActivityPath.length === 0) {
+      warn('Could not find MainActivity.java file and therefore cannot enable https support.')
+      process.exit(1)
+    }
+    const enableHttpsSelfSignedPath = path.join(path.dirname(mainActivityPath), 'EnableHttpsSelfSigned.java')
     if (fs.existsSync(mainActivityPath)) {
       let mainActivity = fs.readFileSync(mainActivityPath, 'utf8')
 
