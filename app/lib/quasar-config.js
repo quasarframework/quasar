@@ -201,10 +201,7 @@ class QuasarConfig {
         componentCache: {}
       },
       pwa: {
-        workboxOptions: {
-          runtimeCaching: [],
-          exclude: []
-        },
+        workboxOptions: {},
         manifest: {
           icons: []
         },
