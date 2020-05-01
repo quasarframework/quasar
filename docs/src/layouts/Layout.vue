@@ -302,11 +302,15 @@ export default {
     // If we have a search string in the query (mostly from tab-to-search functionality),
     // we need to open the drawer to fill in the search string in the input later
     const searchQuery = this.$route.query.search
+
     if (searchQuery) {
       this.leftDrawerState = true
     }
 
-    import('docsearch.js').then(docsearch => {
+    import(
+      /* webpackChunkName: "algolia" */
+      'docsearch.js'
+    ).then(docsearch => {
       docsearch.default({
         apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
         indexName: 'quasar-framework',

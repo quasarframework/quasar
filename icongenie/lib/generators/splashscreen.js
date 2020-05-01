@@ -1,33 +1,30 @@
-async function getSplashscreen (file, opts) {
-  const size = file.width <= file.height
-    ? file.width
-    : file.height
+const getSquareIcon = require('../utils/get-square-icon')
+
+module.exports = async function (file, opts, done) {
+  const size = Math.min(file.width, file.height)
 
   const img = opts.background
     .clone()
+    .resize(file.width, file.height)
     .flatten({
       background: opts.splashscreenColor
     })
 
   if (opts.splashscreenIconRatio > 0) {
-    const icon = await opts.icon
-      .clone()
-      .resize(Math.round(size * opts.splashscreenIconRatio / 100))
-      .toBuffer()
+    const icon = getSquareIcon({
+      icon: opts.icon,
+      size: Math.round(size * opts.splashscreenIconRatio / 100),
+      padding: opts.padding
+    })
+
+    const buffer = await icon.toBuffer()
 
     img.composite([
-      { input: icon }
+      { input: buffer }
     ])
   }
 
-  return img
-}
-
-module.exports = async function (file, opts, done) {
-  const img = await getSplashscreen(file, opts)
-
   img
-    .resize(file.width, file.height)
     .png()
     .toFile(file.absoluteName)
     .then(() => opts.compression.png(file.absoluteName))

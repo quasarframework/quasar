@@ -23,6 +23,7 @@ function printBanner (assetsOf, params) {
  Quasar project folder..... ${green(appDir)}
  ${green(`Quality level............. ${params.quality}/12`)}
  Icon source file.......... ${green(params.icon)}
+ Icon padding.............. ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
  Background source file.... ${params.background ? green(params.background) : 'none'}
  Assets of................. ${green(assetsOf)}
  Generator filter.......... ${params.filter ? green(params.filter) : 'none'}
@@ -152,7 +153,7 @@ module.exports = function generate (argv) {
   profile.params = mergeObjects({}, profile.params)
 
   parseArgv(profile.params, [
-    'quality', 'filter',
+    'quality', 'filter', 'padding',
     'icon', 'background',
     'splashscreenIconRatio',
     // order matters:

@@ -48,11 +48,11 @@ module.exports = function (chain, cfg) {
         name: require(path.join(appPaths.appDir, 'package.json')).name
       }])
 
-    // Copy our user edited BEX files to the dist dir (excluding the already build www folder)
+    // Copy our user edited BEX files to the dist dir (excluding the already built www folder)
     copyArray.push({
       from: appPaths.bexDir,
       to: cfg.build.distDir,
-      ignore: ['www/**/*']
+      ignore: ['www/**/*', 'bex-flag.d.ts']
     })
   }
 

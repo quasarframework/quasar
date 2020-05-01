@@ -213,7 +213,7 @@ export default {
       this.$q.notify('submit')
       console.log('@submit')
 
-      evt.target.submit()
+      // evt.target.submit()
     },
 
     onReset () {

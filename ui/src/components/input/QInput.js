@@ -16,6 +16,8 @@ export default Vue.extend({
   props: {
     value: { required: false },
 
+    shadowText: String,
+
     type: {
       type: String,
       default: 'text'
@@ -88,6 +90,12 @@ export default Vue.extend({
     fieldClass () {
       return `q-${this.isTextarea === true ? 'textarea' : 'input'}` +
         (this.autogrow === true ? ' q-textarea--autogrow' : '')
+    },
+
+    hasShadow () {
+      return this.type !== 'file' &&
+        typeof this.shadowText === 'string' &&
+        this.shadowText.length > 0
     }
   },
 
@@ -213,6 +221,21 @@ export default Vue.extend({
       })
     },
 
+    __getCurValue () {
+      return this.hasOwnProperty('tempValue') === true
+        ? this.tempValue
+        : (this.innerValue !== void 0 ? this.innerValue : '')
+    },
+
+    __getShadowControl (h) {
+      return h('div', {
+        staticClass: 'q-field__native q-field__shadow absolute-full no-pointer-events'
+      }, [
+        h('span', { staticClass: 'invisible' }, this.__getCurValue()),
+        h('span', this.shadowText)
+      ])
+    },
+
     __getControl (h) {
       const on = {
         ...this.$listeners,
@@ -242,16 +265,9 @@ export default Vue.extend({
         ...this.$attrs,
         id: this.targetUid,
         type: this.type,
-        maxlength: this.maxlength
-      }
-
-      if (this.disable === true) {
-        attrs.disabled = ''
-        attrs['aria-disabled'] = ''
-      }
-      else if (this.readonly === true) {
-        attrs.readonly = ''
-        attrs['aria-readonly'] = ''
+        maxlength: this.maxlength,
+        disabled: this.disable === true,
+        readonly: this.readonly === true
       }
 
       if (this.autogrow === true) {
@@ -267,11 +283,7 @@ export default Vue.extend({
         attrs,
         on,
         domProps: this.type !== 'file'
-          ? {
-            value: this.hasOwnProperty('tempValue') === true
-              ? this.tempValue
-              : (this.innerValue !== void 0 ? this.innerValue : '')
-          }
+          ? { value: this.__getCurValue() }
           : this.formDomProps
       })
     }

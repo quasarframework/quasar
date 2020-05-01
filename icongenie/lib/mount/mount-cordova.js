@@ -58,6 +58,7 @@ function updateConfigXml (cordovaFiles, hasSplashscreen) {
     const isAndroid = file.platform === 'cordova-android'
     const node = isAndroid ? androidNode : iosNode
     const src = relative(srcCordovaDir, file.absoluteName)
+      .replace(/\\/g, '/') // Windows support
 
     if (file.generator === 'splashscreen') {
       // <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>

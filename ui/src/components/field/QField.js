@@ -129,7 +129,7 @@ export default Vue.extend({
     shouldRenderBottom () {
       return this.bottomSlots === true ||
         this.hint !== void 0 ||
-        this.rules !== void 0 ||
+        this.hasRules === true ||
         this.counter === true ||
         this.error !== null
     },
@@ -328,10 +328,14 @@ export default Vue.extend({
         }, [ this.prefix ])
       )
 
-      if (this.__getControl !== void 0) {
+      if (this.hasShadow === true && this.__getShadowControl !== void 0) {
         node.push(
-          this.__getControl(h)
+          this.__getShadowControl(h)
         )
+      }
+
+      if (this.__getControl !== void 0) {
+        node.push(this.__getControl(h))
       }
       // internal usage only:
       else if (this.$scopedSlots.rawControl !== void 0) {
@@ -475,6 +479,8 @@ export default Vue.extend({
     },
 
     __clearValue (e) {
+      this.focused = false
+
       // prevent activating the field but keep focus on desktop
       stopAndPrevent(e)
       this.$el.focus()

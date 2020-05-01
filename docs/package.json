@@ -46,7 +46,7 @@
     "yarn": ">= 1.6.0"
   },
   "browserslist": [
-    "last 1 version, not dead, ie >= 11"
+    "last 3 version, not dead"
   ],
   "resolutions": {
     "@babel/parser": "7.7.5"

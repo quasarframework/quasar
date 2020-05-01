@@ -33,6 +33,7 @@ Full list of props that you can write for the `params` object:
 | background | String | Path to optional background source file (for splashscreens); can be absolute or relative to the root of the Quasar project folder | `my-bg.png` |
 | filter | String | Optionally filter the assets by generators; when used, it can generate only one type of asset instead of all | `ico` |
 | quality | Number [1-12] | Quality of the generated files; higher quality means bigger filesize, slower; lower quality means smaller filesize, faster | `12` |
+| padding | Array [Number] | (v2.1+) Apply fixed padding to the icon image after trimming it; Syntax: [ <horiz_px>, <vert_px> ]; Default is: [0, 0] | `[10, 0]` / `[5,5]` |
 | themeColor | String [hex] | Rather than using the other color related props, you can use this one; it will be used by each generator (that uses a color) | `#ccc` / `#e2b399` |
 | themeColor | String [hex] | Theme color to use for all generators requiring a color; it gets overriden if any generator color is also specified | `#ccc` / `#e2b399` |
 | pngColor | String [hex] | Background color to use for the png generator, when "background: true" in the asset definition (like for the cordova/capacitor iOS icons) | `#ccc` / `#e2b399` |

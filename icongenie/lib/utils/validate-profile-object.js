@@ -15,6 +15,9 @@ const paramsSchema = Joi.object({
 
   filter: Joi.string().valid(...generatorsList),
   quality: Joi.number().integer().min(1).max(12),
+  padding: Joi.array().items(
+    Joi.number().integer().min(0)
+  ).min(1).max(2),
 
   themeColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
   pngColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),

@@ -24,15 +24,13 @@ export default {
   },
 
   watch: {
-    value (v) {
-      if (this.rules === void 0) {
-        return
+    value () {
+      if (
+        this.hasRules === true &&
+        (this.lazyRules !== true || this.isDirty === true)
+      ) {
+        this.validate()
       }
-      if (this.lazyRules === true && this.isDirty !== true) {
-        return
-      }
-
-      this.validate(v)
     },
 
     focused (focused) {
@@ -46,6 +44,12 @@ export default {
   },
 
   computed: {
+    hasRules () {
+      return this.rules !== void 0 &&
+        this.rules !== null &&
+        this.rules.length > 0
+    },
+
     hasError () {
       return this.error === true || this.innerError === true
     },
@@ -88,7 +92,7 @@ export default {
      *   - Promise (pending async validation)
      */
     validate (val = this.value) {
-      if (!this.rules || this.rules.length === 0) {
+      if (this.hasRules !== true) {
         return true
       }
 
@@ -104,6 +108,7 @@ export default {
         }
 
         const m = msg || void 0
+
         if (this.innerErrorMessage !== m) {
           this.innerErrorMessage = m
         }
@@ -180,9 +185,9 @@ export default {
     },
 
     __triggerValidation () {
-      if (this.isDirty === false && this.rules !== void 0) {
+      if (this.isDirty === false && this.hasRules === true) {
         this.isDirty = true
-        this.validate(this.value)
+        this.validate()
       }
     }
   }

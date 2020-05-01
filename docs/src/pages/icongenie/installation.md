@@ -60,7 +60,8 @@ It might be a good idea to delete all your current icon/splashscreen files and l
 Icon Genie v2 is a complete rewrite from top to bottom.
 
 * Icon Genie is now a CLI on its own, not a Quasar App Extension any more.
-* The input files (for the icon and the background) can have any name, be placed anywhere, and they don't need to have a fixed width + height.
+* The input files (for the icon and the background) can have any name, be placed anywhere, and they don't need to have a fixed width + height. Starting with v2.1, the icon input file does not needs to have same width and height. Also, the icon input file is now automatically trimmed.
+* You can now configure a padding for the icon input file. (v2.1+)
 * We have refined the list of icons and splashscreens that get generated to match the latest standards and to also avoid duplication.
 * Splashscreens are created in a better manner, with the icon on top of the background (with the icon having any size ratio that you want, including 0 which means: "I only want the background image with no icon on top")
 * New commands: [generate](/icongenie/command-list#Generate), [verify](/icongenie/command-list#Verify), and [profile](/icongenie/command-list#Profile), each with its own purpose.

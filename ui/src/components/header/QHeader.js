@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
-import { mergeSlot } from '../../utils/slot.js'
+import { uniqueSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 import { cache } from '../../utils/vm.js'
 
@@ -121,16 +121,18 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = mergeSlot([
-      h(QResizeObserver, {
-        props: { debounce: 0 },
-        on: cache(this, 'resize', { resize: this.__onResize })
-      })
-    ], this, 'default')
+    const child = uniqueSlot(this, 'default', [])
 
     this.elevated === true && child.push(
       h('div', {
         staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+      })
+    )
+
+    child.push(
+      h(QResizeObserver, {
+        props: { debounce: 0 },
+        on: cache(this, 'resize', { resize: this.__onResize })
       })
     )
 

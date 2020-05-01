@@ -1,7 +1,14 @@
+const getSquareIcon = require('../utils/get-square-icon')
+
 module.exports = function (file, opts, done) {
-  const img = opts.icon
-    .clone()
-    .resize(file.width, file.height)
+  const img = getSquareIcon({
+    icon: opts.icon,
+    size: file.height,
+    padding: opts.padding,
+    background: file.background === true
+      ? opts.pngColor
+      : { r: 255, g: 255, b: 255, alpha: 0 }
+  })
 
   if (file.background === true) {
     img.flatten({

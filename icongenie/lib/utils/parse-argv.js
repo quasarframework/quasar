@@ -96,6 +96,33 @@ function filter (value) {
   }
 }
 
+function padding (value, argv) {
+  if (!value) {
+    argv.padding = [ 0, 0 ]
+    return
+  }
+
+  const sizes = (Array.isArray(value) ? value : value.split(','))
+    .map(val => parseInt(val, 10))
+
+  if (sizes.length > 2) {
+    die(`Invalid padding specified`)
+  }
+
+  sizes.forEach(size => {
+    if (isNaN(size)) {
+      die(`Invalid padding specified (not numbers)`)
+    }
+    if (size < 0) {
+      die(`Invalid padding specified (not all positive numbers)`)
+    }
+  })
+
+  argv.padding = sizes.length === 1
+    ? [ sizes[0], sizes[0] ]
+    : sizes
+}
+
 function icon (value, argv) {
   if (!value) {
     warn(`No source icon file specified, so using the sample one`)
@@ -120,10 +147,6 @@ function icon (value, argv) {
 
   if (width < 64 || height < 64) {
     die(`Icon source file does not have the minimum 64x64px resolution`)
-  }
-
-  if (width !== height) {
-    die(`Icon source file resolution has width !== height`)
   }
 }
 
@@ -220,6 +243,7 @@ const parsers = {
   mode,
   quality,
   filter,
+  padding,
   icon,
   background,
   splashscreenIconRatio,
