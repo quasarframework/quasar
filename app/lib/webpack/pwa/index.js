@@ -1,5 +1,6 @@
 const appPaths = require('../../app-paths')
 const PwaManifestPlugin = require('./plugin.pwa-manifest')
+const HtmlPwaPlugin = require('./plugin.html-pwa').plugin
 
 module.exports = function (chain, cfg) {
   // write manifest.json file
@@ -56,9 +57,6 @@ module.exports = function (chain, cfg) {
   chain.plugin('workbox')
     .use(WorkboxPlugin[pluginMode], [ opts ])
 
-  if (!cfg.ctx.mode.ssr) {
-    const HtmlPwaPlugin = require('./plugin.html-pwa').plugin
-    chain.plugin('html-pwa')
-      .use(HtmlPwaPlugin, [ cfg ])
-  }
+  chain.plugin('html-pwa')
+    .use(HtmlPwaPlugin, [ cfg ])
 }
