@@ -35,6 +35,7 @@ module.exports = function (chain, cfg) {
   }
 
   if (cfg.ctx.mode.ssr) {
+    opts.exclude = opts.exclude || []
     opts.exclude.push('../vue-ssr-client-manifest.json')
 
     // if Object form:
