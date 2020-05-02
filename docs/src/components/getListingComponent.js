@@ -20,10 +20,6 @@ export default function (title, links) {
       )
     },
 
-    preFetch ({ store }) {
-      store.commit('updateToc', [])
-    },
-
     render (h) {
       return h(DocPage, {
         props: {

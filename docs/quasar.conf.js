@@ -20,7 +20,7 @@ module.exports = function (ctx) {
     ],
 
     // supportIE: true,
-    preFetch: true,
+    // preFetch: true,
 
     build: {
       scopeHoisting: true,
@@ -93,7 +93,7 @@ module.exports = function (ctx) {
     animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
-      pwa: true
+      pwa: false // true
     },
 
     pwa: {

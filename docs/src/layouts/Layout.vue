@@ -14,7 +14,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
       q-btn.q-ml-xs.lt-md(
-        v-show="hasRightDrawer",
+        v-show="hasRightDrawer"
         flat,
         dense,
         round,
@@ -24,6 +24,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       )
 
   q-drawer(
+    side="left"
     v-model="leftDrawerState"
     show-if-above
     bordered
@@ -71,9 +72,9 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
   q-drawer(
     v-if="hasRightDrawer"
+    side="right"
     v-model="rightDrawerState"
     show-if-above
-    side="right"
     content-class="bg-grey-1"
     :width="180"
     @on-layout="updateRightDrawerOnLayout"
@@ -83,7 +84,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       q-list.doc-toc.q-my-lg.text-grey-8
         q-item(
-          v-for="toc in $store.state.toc",
+          v-for="toc in tocList",
           :key="toc.id",
           clickable,
           v-ripple,
@@ -135,10 +136,21 @@ export default {
   watch: {
     $route () {
       this.leftDrawerState = this.$q.screen.width > 1023
-      this.rightDrawerState = this.$q.screen.width > 1023
       this.$nextTick(() => {
         this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
       })
+    },
+
+    tocList (list) {
+      if (this.$q.screen.gt.xs === true) {
+        this.rightDrawerState = list.length > 0
+      }
+    },
+
+    hasRightDrawer (shown) {
+      if (shown === false) {
+        this.rightDrawerState = false
+      }
     }
   },
 
@@ -146,38 +158,34 @@ export default {
     return {
       search: '',
       searchFocused: false,
+
+      leftDrawerState: false,
+      rightDrawerState: false,
       rightDrawerOnLayout: false,
+
       activeToc: void 0
     }
   },
 
   computed: {
-    leftDrawerState: {
-      get () {
-        return this.$store.state.leftDrawerState
-      },
-      set (val) {
-        this.$store.commit('updateLeftDrawerState', val)
-      }
-    },
-
-    rightDrawerState: {
-      get () {
-        return this.$store.state.rightDrawerState
-      },
-      set (val) {
-        this.$store.commit('updateRightDrawerState', val)
-      }
-    },
-
-    hasRightDrawer () {
-      return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
-    },
-
     searchPlaceholder () {
       return this.searchFocused === true
         ? 'Type to start searching...'
         : (this.$q.platform.is.desktop === true ? `Type ' / ' to focus here...` : 'Search...')
+    },
+
+    hasRightDrawer () {
+      return this.tocList.length > 0 || this.$q.screen.lt.sm
+    },
+
+    tocList () {
+      const toc = this.$root.store.toc
+      return toc.length > 0
+        ? [
+          { id: 'Introduction', title: 'Introduction' },
+          ...this.$root.store.toc
+        ]
+        : toc
     }
   },
 
@@ -246,7 +254,7 @@ export default {
     },
 
     updateActiveToc (position) {
-      const toc = this.$store.state.toc
+      const toc = this.$root.store.toc
       let last
 
       for (const i in toc) {
