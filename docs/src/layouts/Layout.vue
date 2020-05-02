@@ -134,11 +134,7 @@ export default {
 
   watch: {
     $route () {
-      this.leftDrawerState = this.$q.screen.width > 1023
-      this.rightDrawerState = this.$q.screen.width > 1023
-      this.$nextTick(() => {
-        this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
-      })
+      this.onRouteChanged()
     }
   },
 
@@ -295,55 +291,62 @@ export default {
 
     onSearchBlur () {
       this.searchFocused = false
+    },
+
+    onRouteChanged () {
+      // If we have a search string in the query (mostly from tab-to-search functionality),
+      // we need to open the drawer to fill in the search string in the input later
+      const searchQuery = this.$route.query.search
+
+      this.leftDrawerState = this.$q.screen.width > 1023 || (typeof searchQuery === 'string' && searchQuery.length > 0)
+      this.rightDrawerState = this.$q.screen.width > 1023
+
+      this.performSearch(searchQuery)
+    },
+
+    performSearch (searchQuery) {
+      import(
+        /* webpackChunkName: "algolia" */
+        'docsearch.js'
+      ).then(docsearch => {
+        docsearch.default({
+          apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
+          indexName: 'quasar-framework',
+          inputSelector: '.doc-algolia input',
+          algoliaOptions: {
+            hitsPerPage: 7
+          },
+          handleSelected: (a, b, suggestion, c, context) => {
+            const url = suggestion.url.replace('https://quasar.dev', '')
+
+            this.search = ''
+            this.$router.push(url).catch(() => {})
+            this.$refs.docAlgolia.blur()
+          }
+        })
+
+        if (this.$q.platform.is.desktop === true) {
+          window.addEventListener('keypress', this.focusOnSearch)
+        }
+
+        if (searchQuery) {
+          // Here we put search string from query into the input and open the search popup.
+          // Unfortunately, this input is managed completely by Algolia and their code doesn't seem to
+          // have a method of opening the popup programmatically, so we need to simulate typing on that input element.
+          // We also need to dispatch the event only after the input text is populated and Vue will
+          // do that in next render, so we schedule it on the next event loop iteration with setTimeout.
+          this.search = searchQuery
+          this.$refs.docAlgolia.focus()
+          setTimeout(() => {
+            this.$refs.docAlgolia.$refs.input.dispatchEvent(new Event('input', {}))
+          })
+        }
+      })
     }
   },
 
   mounted () {
-    // If we have a search string in the query (mostly from tab-to-search functionality),
-    // we need to open the drawer to fill in the search string in the input later
-    const searchQuery = this.$route.query.search
-
-    if (searchQuery) {
-      this.leftDrawerState = true
-    }
-
-    import(
-      /* webpackChunkName: "algolia" */
-      'docsearch.js'
-    ).then(docsearch => {
-      docsearch.default({
-        apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
-        indexName: 'quasar-framework',
-        inputSelector: '.doc-algolia input',
-        algoliaOptions: {
-          hitsPerPage: 7
-        },
-        handleSelected: (a, b, suggestion, c, context) => {
-          const url = suggestion.url.replace('https://quasar.dev', '')
-
-          this.search = ''
-          this.$router.push(url)
-          this.$refs.docAlgolia.blur()
-        }
-      })
-
-      if (this.$q.platform.is.desktop === true) {
-        window.addEventListener('keypress', this.focusOnSearch)
-      }
-
-      if (searchQuery) {
-        // Here we put search string from query into the input and open the search popup.
-        // Unfortunately, this input is managed completely by Algolia and their code doesn't seem to
-        // have a method of opening the popup programmatically, so we need to simulate typing on that input element.
-        // We also need to dispatch the event only after the input text is populated and Vue will
-        // do that in next render, so we schedule it on the next event loop iteration with setTimeout.
-        this.search = searchQuery
-        this.$refs.docAlgolia.focus()
-        setTimeout(() => {
-          this.$refs.docAlgolia.$refs.input.dispatchEvent(new Event('input', {}))
-        })
-      }
-    })
+    this.onRouteChanged()
   },
 
   beforeDestroy () {
