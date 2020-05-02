@@ -22,9 +22,13 @@ export default {
   },
 
   created () {
-    this.$root.store = Vue.observable({
+    const store = {
       toc: []
-    })
+    }
+
+    this.$root.store = process.env.SERVER === true
+      ? store
+      : Vue.observable(store)
   }
 }
 </script>

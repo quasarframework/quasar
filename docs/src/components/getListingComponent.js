@@ -20,6 +20,10 @@ export default function (title, links) {
       )
     },
 
+    created () {
+      this.$root.store.toc = []
+    },
+
     render (h) {
       return h(DocPage, {
         props: {
