@@ -20,7 +20,7 @@ module.exports = function (ctx) {
     ],
 
     // supportIE: true,
-    preFetch: true,
+    // preFetch: true,
 
     build: {
       scopeHoisting: true,

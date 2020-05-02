@@ -52,7 +52,7 @@ export default Vue.extend({
     showValue: Boolean,
     reverse: Boolean,
 
-    instantFeedback: Boolean // used by QKnob, private
+    instantFeedback: Boolean
   },
 
   computed: {

@@ -24,7 +24,8 @@ Here's a quick comparison:
 | Build SSR (+ optional PWA client takeover)                                                 | -       | **Yes**    | Yes*                          |
 | Build Mobile Apps, Electron Apps                                                           | **Yes** | **Yes**    | Yes*                          |
 | Build Browser Extensions                                                            | -       | **Yes**    | Yes*                          |
-| Quasar **App Extensions**                                                                  | -       | **Yes**    | -
+| Quasar **App Extensions**                                                                  | -       | **Yes**    | - |
+| App icons & splashscreens easy management through [Icon Genie](/icongenie/introduction) | - | **Yes** | - |
 | Dynamic RTL support for Quasar components                                                  | **Yes** | **Yes**    | **Yes**                       |
 | Generating your own website/app RTL equivalent CSS rules automatically by Quasar           | -       | **Yes**    | **Yes**                       |
 | **Ensure everything "simply works" out of the box**, using latest and greatest Quasar specs.   | -       | **Yes**    | -                             |
