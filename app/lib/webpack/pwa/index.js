@@ -46,7 +46,7 @@ module.exports = function (chain, cfg) {
   }
 
   if (pluginMode === 'GenerateSW' && !opts.navigateFallback) {
-    const htmlFile = cfg.ctx.mode.pwa
+    const htmlFile = cfg.ctx.mode.ssr
       ? cfg.build.ssrPwaHtmlFilename
       : cfg.build.htmlFilename
 
