@@ -8,7 +8,7 @@ import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
 import { mergeSlot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QCarousel',
@@ -205,7 +205,7 @@ export default Vue.extend({
       return h('div', {
         style: this.style,
         class: this.classes,
-        on: this.$listeners
+        on: this.qListeners
       }, [
         h('div', {
           staticClass: 'q-carousel__slides-container',

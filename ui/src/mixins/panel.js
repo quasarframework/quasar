@@ -2,9 +2,11 @@ import Vue from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
+import ListenersMixin from './listeners.js'
+
 import { stop } from '../utils/event.js'
 import { slot } from '../utils/slot.js'
-import { cache } from '../utils/vm.js'
+import cache from '../utils/cache.js'
 
 const PanelWrapper = Vue.extend({
   name: 'QTabPanelWrapper',
@@ -21,6 +23,8 @@ const PanelWrapper = Vue.extend({
 })
 
 export const PanelParentMixin = {
+  mixins: [ ListenersMixin ],
+
   directives: {
     TouchSwipe
   },
@@ -245,6 +249,8 @@ export const PanelParentMixin = {
 }
 
 export const PanelChildMixin = {
+  mixins: [ ListenersMixin ],
+
   props: {
     name: {
       required: true

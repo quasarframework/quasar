@@ -2,6 +2,8 @@ import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { getSizeMixin } from '../../mixins/size.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { mergeSlot } from '../../utils/slot.js'
 
 function width (val) {
@@ -12,6 +14,7 @@ export default Vue.extend({
   name: 'QLinearProgress',
 
   mixins: [
+    ListenersMixin,
     DarkMixin,
     getSizeMixin({
       xs: 2,
@@ -108,7 +111,7 @@ export default Vue.extend({
       style: this.sizeStyle,
       class: this.classes,
       attrs: this.attrs,
-      on: this.$listeners
+      on: this.qListeners
     }, mergeSlot(child, this, 'default'))
   }
 })

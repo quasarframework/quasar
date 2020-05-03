@@ -1,9 +1,11 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
+import ListenersMixin from './listeners.js'
 import { getSizeMixin } from './size.js'
 
 export default {
   mixins: [
+    ListenersMixin,
     RippleMixin,
     AlignMixin,
     getSizeMixin({

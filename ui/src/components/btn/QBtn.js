@@ -58,6 +58,21 @@ export default Vue.extend({
         keydown: this.__onLoadingEvt,
         keyup: this.__onLoadingEvt
       }
+    },
+
+    onActionableEvents () {
+      const on = {
+        ...this.qListeners,
+        click: this.click,
+        keydown: this.__onKeydown,
+        mousedown: this.__onMousedown
+      }
+
+      if (this.$q.platform.has.touch === true) {
+        on.touchstart = this.__onTouchstart
+      }
+
+      return on
     }
   },
 
@@ -257,16 +272,7 @@ export default Vue.extend({
     }
 
     if (this.isActionable === true) {
-      data.on = {
-        ...this.$listeners,
-        click: this.click,
-        keydown: this.__onKeydown,
-        mousedown: this.__onMousedown
-      }
-
-      if (this.$q.platform.has.touch === true) {
-        data.on.touchstart = this.__onTouchstart
-      }
+      data.on = this.onActionableEvents
     }
 
     if (this.disable !== true && this.ripple !== false) {

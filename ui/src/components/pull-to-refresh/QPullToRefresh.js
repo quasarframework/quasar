@@ -4,11 +4,13 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/TouchPan.js'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 const
   PULLER_HEIGHT = 40,
@@ -16,6 +18,8 @@ const
 
 export default Vue.extend({
   name: 'QPullToRefresh',
+
+  mixins: [ ListenersMixin ],
 
   directives: {
     TouchPan
@@ -160,7 +164,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-pull-to-refresh overflow-hidden',
-      on: this.$listeners,
+      on: this.qListeners,
       directives: this.disable === true
         ? null
         : cache(this, 'dir#' + this.noMouse, [{

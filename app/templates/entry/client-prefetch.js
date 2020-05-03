@@ -16,7 +16,11 @@ const appOptions = App.options /* Vue.extend() */ || App
 import { LoadingBar } from 'quasar'
 <% } %>
 
-<% if (!ctx.mode.ssr) { %>
+<% if (ctx.mode.ssr && ctx.mode.pwa) { %>
+import { isRunningOnPWA } from './ssr-pwa'
+<% } %>
+
+<% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
 let appPrefetch = typeof appOptions.preFetch === 'function'
 <% } %>
 
@@ -60,7 +64,12 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
       .map(m => m.c)
 
     <% if (!ctx.mode.ssr) { %>
-    if (appPrefetch) {
+    if (appPrefetch === true) {
+      appPrefetch = false
+      components.unshift(appOptions)
+    }
+    <% } else if (ctx.mode.pwa) { %>
+    if (isRunningOnPWA === true && appPrefetch === true) {
       appPrefetch = false
       components.unshift(appOptions)
     }
@@ -77,7 +86,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
       <% if (__loadingBar) { %>
       LoadingBar.stop()
       <% } %>
-      if (routeUnchanged) { next() }
+      if (routeUnchanged === true) { next() }
     }
 
     <% if (__loadingBar) { %>
@@ -87,7 +96,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
     components
     .filter(c => c && c.preFetch)
     .reduce(
-      (promise, c) => promise.then(() => routeUnchanged && c.preFetch({
+      (promise, c) => promise.then(() => routeUnchanged === true && c.preFetch({
         <% if (store) { %>store,<% } %>
         currentRoute: to,
         previousRoute: from,

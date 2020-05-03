@@ -7,7 +7,7 @@ import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
@@ -772,7 +772,7 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       attrs: this.attrs,
-      on: this.$listeners
+      on: this.qListeners
     }, [
       this.__getHeader(h),
 

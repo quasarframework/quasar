@@ -38,6 +38,9 @@ import createApp from './app.js'
 
 <% if (ctx.mode.pwa) { %>
 import 'app/<%= sourceFiles.registerServiceWorker %>'
+<% if (ctx.mode.ssr) { %>
+import { isRunningOnPWA } from './ssr-pwa'
+<% } %>
 <% } %>
 
 <%
@@ -88,7 +91,7 @@ async function start () {
   <% if (ctx.mode.ssr && store && ssr.manualHydration !== true) { %>
   // prime the store with server-initialized state.
   // the state is determined during SSR and inlined in the page markup.
-  if (window.__INITIAL_STATE__) {
+  if (<% if (ctx.mode.pwa) { %>isRunningOnPWA !== true && <% } %>window.__INITIAL_STATE__) {
     store.replaceState(window.__INITIAL_STATE__)
   }
   <% } %>
@@ -136,6 +139,15 @@ async function start () {
   <% } %>
 
   <% if (ctx.mode.ssr) { %>
+    <% if (ctx.mode.pwa) { %>
+      if (isRunningOnPWA === true) {
+        <% if (preFetch) { %>
+        addPreFetchHooks(router<%= store ? ', store' : '' %>)
+        <% } %>
+        new Vue(app)
+      }
+      else {
+    <% } %>
     const appInstance = new Vue(app)
 
     // wait until router has resolved all async before hooks
@@ -146,6 +158,9 @@ async function start () {
       <% } %>
       appInstance.$mount('#q-app')
     })
+    <% if (ctx.mode.pwa) { %>
+    }
+    <% } %>
 
   <% } else { // not SSR %>
 

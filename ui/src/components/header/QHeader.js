@@ -1,12 +1,17 @@
 import Vue from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
+
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { uniqueSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QHeader',
+
+  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -117,6 +122,14 @@ export default Vue.extend({
       }
 
       return css
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        focusin: this.__onFocusin,
+        input: stop
+      }
     }
   },
 
@@ -140,11 +153,7 @@ export default Vue.extend({
       staticClass: 'q-header q-layout__section--marginal',
       class: this.classes,
       style: this.style,
-      on: {
-        ...this.$listeners,
-        focusin: this.__onFocusin,
-        input: stop
-      }
+      on: this.onEvents
     }, child)
   },
 

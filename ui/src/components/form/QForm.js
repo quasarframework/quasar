@@ -1,16 +1,30 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QForm',
 
+  mixins: [ ListenersMixin ],
+
   props: {
     autofocus: Boolean,
     noErrorFocus: Boolean,
     noResetFocus: Boolean,
     greedy: Boolean
+  },
+
+  computed: {
+    onEvents () {
+      return {
+        ...this.qListeners,
+        submit: this.submit,
+        reset: this.reset
+      }
+    }
   },
 
   mounted () {
@@ -108,7 +122,7 @@ export default Vue.extend({
 
       this.validate().then(val => {
         if (val === true) {
-          if (this.$listeners.submit !== void 0) {
+          if (this.qListeners.submit !== void 0) {
             this.$emit('submit', evt)
           }
           else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {
@@ -149,11 +163,7 @@ export default Vue.extend({
   render (h) {
     return h('form', {
       staticClass: 'q-form',
-      on: {
-        ...this.$listeners,
-        submit: this.submit,
-        reset: this.reset
-      }
+      on: this.onEvents
     }, slot(this, 'default'))
   }
 })

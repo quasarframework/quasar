@@ -1,5 +1,5 @@
 import { stopAndPrevent } from '../utils/event.js'
-import { cache } from '../utils/vm.js'
+import cache from '../utils/cache.js'
 
 export default {
   props: {

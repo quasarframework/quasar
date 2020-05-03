@@ -9,13 +9,9 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 const duration = 150
-
-const mouseEvents = [
-  'mouseover', 'mouseout', 'mouseenter', 'mouseleave'
-]
 
 export default Vue.extend({
   name: 'QDrawer',
@@ -301,17 +297,10 @@ export default Vue.extend({
 
     onNativeEvents () {
       if (this.belowBreakpoint !== true) {
-        const evt = {
+        return {
+          ...this.qListeners,
           '!click': e => { this.$emit('click', e) }
         }
-
-        mouseEvents.forEach(name => {
-          evt[name] = e => {
-            this.$listeners[name] !== void 0 && this.$emit(name, e)
-          }
-        })
-
-        return evt
       }
     },
 
@@ -585,7 +574,7 @@ export default Vue.extend({
       this.showIfAbove === true &&
       this.value !== true &&
       this.showing === true &&
-      this.$listeners.input !== void 0
+      this.qListeners.input !== void 0
     ) {
       this.$emit('input', true)
     }

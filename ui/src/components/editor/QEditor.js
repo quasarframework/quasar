@@ -5,6 +5,7 @@ import { Caret } from './editor-caret.js'
 
 import FullscreenMixin from '../../mixins/fullscreen.js'
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { isSSR } from '../../plugins/Platform.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -14,7 +15,7 @@ import { shouldIgnoreKey } from '../../utils/key-composition.js'
 export default Vue.extend({
   name: 'QEditor',
 
-  mixins: [ FullscreenMixin, DarkMixin ],
+  mixins: [ ListenersMixin, FullscreenMixin, DarkMixin ],
 
   props: {
     value: {
@@ -330,21 +331,21 @@ export default Vue.extend({
 
     __onMouseup (e) {
       this.caret.save()
-      if (this.$listeners.mouseup !== void 0) {
+      if (this.qListeners.mouseup !== void 0) {
         this.$emit('mouseup', e)
       }
     },
 
     __onKeyup (e) {
       this.caret.save()
-      if (this.$listeners.keyup !== void 0) {
+      if (this.qListeners.keyup !== void 0) {
         this.$emit('keyup', e)
       }
     },
 
     __onTouchend (e) {
       this.caret.save()
-      if (this.$listeners.touchend !== void 0) {
+      if (this.qListeners.touchend !== void 0) {
         this.$emit('touchend', e)
       }
     },
@@ -433,7 +434,7 @@ export default Vue.extend({
     }
 
     const on = {
-      ...this.$listeners,
+      ...this.qListeners,
       input: this.__onInput,
       keydown: this.__onKeydown,
       click: this.__onClick,

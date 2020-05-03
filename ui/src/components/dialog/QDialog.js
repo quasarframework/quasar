@@ -4,12 +4,13 @@ import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
+import AttrsMixin from '../../mixins/attrs.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 let maximizedModals = 0
 
@@ -32,7 +33,13 @@ const transitions = {
 export default Vue.extend({
   name: 'QDialog',
 
-  mixins: [ HistoryMixin, ModelToggleMixin, PortalMixin, PreventScrollMixin ],
+  mixins: [
+    AttrsMixin,
+    HistoryMixin,
+    ModelToggleMixin,
+    PortalMixin,
+    PreventScrollMixin
+  ],
 
   props: {
     persistent: Boolean,
@@ -119,6 +126,22 @@ export default Vue.extend({
       return this.persistent !== true &&
         this.noRouteDismiss !== true &&
         this.seamless !== true
+    },
+
+    onEvents () {
+      const on = {
+        ...this.qListeners,
+        // stop propagating these events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
+      return on
     }
   },
 
@@ -285,7 +308,7 @@ export default Vue.extend({
 
     __onAutoClose (e) {
       this.hide(e)
-      this.$listeners.click !== void 0 && this.$emit('click', e)
+      this.qListeners.click !== void 0 && this.$emit('click', e)
     },
 
     __onBackdropClick (e) {
@@ -309,23 +332,11 @@ export default Vue.extend({
     },
 
     __renderPortal (h) {
-      const on = {
-        ...this.$listeners,
-        // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
-
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events',
         class: this.contentClass,
         style: this.contentStyle,
-        attrs: this.$attrs
+        attrs: this.qAttrs
       }, [
         h('transition', {
           props: { name: 'q-transition--fade' }
@@ -346,7 +357,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__inner flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
-            on
+            on: this.onEvents
           }, slot(this, 'default')) : null
         ])
       ])

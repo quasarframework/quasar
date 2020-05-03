@@ -2,12 +2,14 @@ import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
 import TagMixin from '../../mixins/tag.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot, mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QIcon',
 
-  mixins: [ SizeMixin, TagMixin ],
+  mixins: [ ListenersMixin, SizeMixin, TagMixin ],
 
   props: {
     tag: {
@@ -132,7 +134,7 @@ export default Vue.extend({
     const data = {
       class: this.type.cls,
       style: this.sizeStyle,
-      on: this.$listeners,
+      on: this.qListeners,
       attrs: {
         'aria-hidden': 'true',
         role: 'presentation'

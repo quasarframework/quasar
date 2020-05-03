@@ -1,14 +1,20 @@
 import Vue from 'vue'
 
+import { onSSR } from '../../plugins/Platform.js'
+
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
-import { onSSR } from '../../plugins/Platform.js'
+
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { getScrollbarWidth } from '../../utils/scroll.js'
 import { mergeSlot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QLayout',
+
+  mixins: [ ListenersMixin ],
 
   provide () {
     return {
@@ -114,7 +120,7 @@ export default Vue.extend({
     const layout = h('div', {
       class: this.classes,
       style: this.style,
-      on: this.$listeners
+      on: this.qListeners
     }, mergeSlot([
       h(QScrollObserver, {
         on: cache(this, 'scroll', { scroll: this.__onPageScroll })
@@ -161,7 +167,7 @@ export default Vue.extend({
 
     __onPageScroll (data) {
       this.scroll = data
-      this.$listeners.scroll !== void 0 && this.$emit('scroll', data)
+      this.qListeners.scroll !== void 0 && this.$emit('scroll', data)
     },
 
     __onPageResize ({ height, width }) {
@@ -170,7 +176,7 @@ export default Vue.extend({
       if (this.height !== height) {
         resized = true
         this.height = height
-        if (this.$listeners['scroll-height'] !== void 0) {
+        if (this.qListeners['scroll-height'] !== void 0) {
           this.$emit('scroll-height', height)
         }
         this.__updateScrollbarWidth()
@@ -180,7 +186,7 @@ export default Vue.extend({
         this.width = width
       }
 
-      if (resized === true && this.$listeners.resize !== void 0) {
+      if (resized === true && this.qListeners.resize !== void 0) {
         this.$emit('resize', { height, width })
       }
     },
