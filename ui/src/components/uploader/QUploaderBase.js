@@ -250,7 +250,13 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const files = this.__processFiles(e, fileList)
+      const processedFiles = this.__processFiles(e, fileList)
+
+      if (processedFiles === void 0) { return }
+
+      const files = processedFiles
+        .filter(file => this.files.findIndex(f => file.name === f.name) === -1)
+
       this.__getFileInput().value = ''
 
       if (files === void 0) { return }
@@ -353,7 +359,7 @@ export default Vue.extend({
           'q-uploader__file--uploaded': file.__status === 'uploaded'
         },
         style: this.noThumbnails !== true && file.__img !== void 0 ? {
-          backgroundImage: 'url(' + file.__img.src + ')'
+          backgroundImage: 'url("' + file.__img.src + '")'
         } : null
       }, [
         h('div', {

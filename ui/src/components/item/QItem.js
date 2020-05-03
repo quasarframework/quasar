@@ -27,13 +27,15 @@ export default Vue.extend({
   },
 
   computed: {
-    isClickable () {
-      return this.disable !== true && (
-        this.clickable === true ||
+    isActionable () {
+      return this.clickable === true ||
         this.hasRouterLink === true ||
         this.tag === 'a' ||
         this.tag === 'label'
-      )
+    },
+
+    isClickable () {
+      return this.disable !== true && this.isActionable === true
     },
 
     classes () {
@@ -121,6 +123,11 @@ export default Vue.extend({
     if (this.isClickable === true) {
       data.attrs = {
         tabindex: this.tabindex || '0'
+      }
+    }
+    else if (this.isActionable === true) {
+      data.attrs = {
+        'aria-disabled': ''
       }
     }
 

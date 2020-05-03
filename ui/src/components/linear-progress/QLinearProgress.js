@@ -70,6 +70,15 @@ export default Vue.extend({
 
     stripeStyle () {
       return { width: (this.value * 100) + '%' }
+    },
+
+    attrs () {
+      return {
+        role: 'progressbar',
+        'aria-valuemin': 0,
+        'aria-valuemax': 1,
+        'aria-valuenow': this.indeterminate === true ? void 0 : this.value
+      }
     }
   },
 
@@ -98,6 +107,7 @@ export default Vue.extend({
     return h('div', {
       style: this.sizeStyle,
       class: this.classes,
+      attrs: this.attrs,
       on: this.$listeners
     }, mergeSlot(child, this, 'default'))
   }

@@ -2,7 +2,6 @@ import Vue from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
-import { getAllChildren } from '../../utils/vm.js'
 
 export default Vue.extend({
   name: 'QForm',
@@ -28,38 +27,36 @@ export default Vue.extend({
 
       this.validateIndex++
 
-      const components = getAllChildren(this)
-      const emit = res => {
-        this.$emit('validation-' + (res === true ? 'success' : 'error'))
+      const components = this.getValidationComponents()
+
+      const emit = (res, ref) => {
+        this.$emit('validation-' + (res === true ? 'success' : 'error'), ref)
       }
 
       for (let i = 0; i < components.length; i++) {
         const comp = components[i]
+        const valid = comp.validate()
 
-        if (typeof comp.validate === 'function') {
-          const valid = comp.validate()
-
-          if (typeof valid.then === 'function') {
-            promises.push(
-              valid.then(
-                valid => ({ valid, comp }),
-                error => ({ valid: false, comp, error })
-              )
+        if (typeof valid.then === 'function') {
+          promises.push(
+            valid.then(
+              valid => ({ valid, comp }),
+              error => ({ valid: false, comp, error })
             )
-          }
-          else if (valid !== true) {
-            if (this.greedy === false) {
-              emit(false)
+          )
+        }
+        else if (valid !== true) {
+          if (this.greedy === false) {
+            emit(false, comp)
 
-              if (focus === true && typeof comp.focus === 'function') {
-                comp.focus()
-              }
-
-              return Promise.resolve(false)
+            if (focus === true && typeof comp.focus === 'function') {
+              comp.focus()
             }
 
-            promises.push({ valid: false, comp })
+            return Promise.resolve(false)
           }
+
+          promises.push({ valid: false, comp })
         }
       }
 
@@ -80,8 +77,9 @@ export default Vue.extend({
               return true
             }
 
-            emit(false)
             const { valid, comp } = errors[0]
+
+            emit(false, comp)
 
             if (
               focus === true &&
@@ -100,10 +98,8 @@ export default Vue.extend({
     resetValidation () {
       this.validateIndex++
 
-      getAllChildren(this).forEach(comp => {
-        if (typeof comp.resetValidation === 'function') {
-          comp.resetValidation()
-        }
+      this.getValidationComponents().forEach(comp => {
+        comp.resetValidation()
       })
     },
 
@@ -111,7 +107,14 @@ export default Vue.extend({
       evt !== void 0 && stopAndPrevent(evt)
 
       this.validate().then(val => {
-        val === true && this.$emit('submit', evt)
+        if (val === true) {
+          if (this.$listeners.submit !== void 0) {
+            this.$emit('submit', evt)
+          }
+          else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {
+            evt.target.submit()
+          }
+        }
       })
     },
 
@@ -130,9 +133,16 @@ export default Vue.extend({
 
     focus () {
       const target = this.$el.querySelector('[autofocus], [data-autofocus]') ||
-        [].find.call(this.$el.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
+        Array.prototype.find.call(this.$el.querySelectorAll('[tabindex]'), el => el.tabIndex > -1)
 
       target !== null && target !== void 0 && target.focus()
+    },
+
+    getValidationComponents () {
+      return Array.prototype.map.call(
+        this.$el.getElementsByClassName('q-field'),
+        field => field.__vue__
+      ).filter(c => c !== void 0 && typeof c.validate === 'function')
     }
   },
 

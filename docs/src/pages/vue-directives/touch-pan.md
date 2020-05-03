@@ -18,6 +18,10 @@ We will be describing `v-touch-pan` on the lines below.
 Click then pan in a direction with your mouse on the area below to see it in action.
 Page scrolling is prevented, but you can opt out if you wish.
 
+::: tip
+If your content also has images, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 <doc-example title="All directions" file="TouchPan/Basic" />
 
 Panning works both with a mouse or a native touch action.

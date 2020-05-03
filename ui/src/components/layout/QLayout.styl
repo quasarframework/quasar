@@ -130,8 +130,8 @@
     pointer-events: auto
 
 body.q-ios-padding
-  .q-layout--standard .q-header > .q-toolbar:nth-child(2),
-  .q-layout--standard .q-header > .q-tabs:nth-child(2) .q-tabs-head,
+  .q-layout--standard .q-header > .q-toolbar:nth-child(1),
+  .q-layout--standard .q-header > .q-tabs:nth-child(1) .q-tabs-head,
   .q-layout--standard .q-drawer--top-padding .q-drawer__content
     padding-top: $ios-statusbar-height
     min-height: ($toolbar-min-height + $ios-statusbar-height)
@@ -154,6 +154,10 @@ body.q-ios-padding
     transition: padding-top .12s, padding-right .12s, padding-bottom .12s, padding-left .12s !important
   .q-page-sticky
     transition: transform .12s, left .12s, right .12s, top .12s, bottom .12s !important
+
+body:not(.q-body--layout-animate)
+  .q-layout--prevent-focus
+    visibility: hidden
 
 .q-body--drawer-toggle
   overflow-x: hidden !important

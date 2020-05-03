@@ -1,67 +1,48 @@
 const packageName = '@fortawesome/fontawesome-free'
+const iconSetName = 'Fontawesome Free'
 
 // ------------
 
 const glob = require('glob')
 const { copySync } = require('fs-extra')
-const { readFileSync, writeFileSync } = require('fs')
-const { resolve, basename } = require('path')
+const { resolve } = require('path')
 
 let skipped = []
-const dist = resolve(__dirname, `../fontawesome-v5/index.js`)
-const { parseSvgContent } = require('./utils')
+const distFolder = resolve(__dirname, `../fontawesome-v5`)
+const { defaultNameMapper, extract, writeExports } = require('./utils')
 
 const svgFolder = resolve(__dirname, `../node_modules/${packageName}/svgs/`)
 const iconTypes = ['brands', 'regular', 'solid']
 const iconNames = new Set()
 
-function extract (prefix, file) {
-  const name = (prefix + basename(file, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase())
-
-  if (iconNames.has(name)) {
-    return null
-  }
-
-  const content = readFileSync(file, 'utf-8')
-
-  try {
-    const { dPath, viewBox } = parseSvgContent(name, content)
-
-    iconNames.add(name)
-    return `export const ${name} = '${dPath}${viewBox}'`
-  }
-  catch (err) {
-    console.error(err)
-    skipped.push(name)
-    return null
-  }
-}
-
-function getBanner () {
-  const { version } = require(resolve(__dirname, `../node_modules/${packageName}/package.json`))
-  return `/* Fontawesome Free v${version} */\n\n`
-}
-
 const svgExports = []
+const typeExports = []
 
 iconTypes.forEach(type => {
   const svgFiles = glob.sync(svgFolder + `/${type}/*.svg`)
 
   svgFiles.forEach(file => {
-    svgExports.push(extract('fa' + type.charAt(0) + '-', file))
+    const name = defaultNameMapper(file, 'fa' + type.charAt(0))
+  
+    if (iconNames.has(name)) {
+      return
+    }
+  
+    try {
+      const { svgDef, typeDef } = extract(file, name)
+      svgExports.push(svgDef)
+      typeExports.push(typeDef)
+  
+      iconNames.add(name)
+    }
+    catch(err) {
+      console.error(err)
+      skipped.push(name)
+    }
   })
 })
 
-if (svgExports.length === 0) {
-  console.log('WARNING. Fontawesome skipped completely')
-}
-else {
-  writeFileSync(dist, getBanner() + svgExports.filter(x => x !== null).join('\n'), 'utf-8')
-
-  if (skipped.length > 0) {
-    console.log(`fontawesome - skipped (${skipped.length}): ${skipped}`)
-  }
-}
+writeExports(iconSetName, packageName, distFolder, svgExports, typeExports, skipped)
 
 // then update webfont files
 

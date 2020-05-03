@@ -21,7 +21,8 @@ function execHandlers (list, evt) {
 function globalHandler (evt) {
   clearTimeout(timer)
 
-  if (evt.type === 'focusin') {
+  // prevent autofocus on body resulting from blur
+  if (evt.type === 'focusin' && evt.target.hasAttribute('tabindex') === true) {
     timer = setTimeout(() => {
       execHandlers(handlers.focus, evt)
     }, 200)

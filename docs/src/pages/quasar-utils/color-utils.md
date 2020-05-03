@@ -163,3 +163,22 @@ const newPrimaryColor = '#933'
 setBrand('primary', newPrimaryColor)
 setBrand('primary-darkened', lighten(newPrimaryColor, -10))
 ```
+
+## Helper - getPaletteColor <q-badge align="top" label="v1.10+" />
+
+You can query any brand color, palette color or custom color in JS context to get its hex string value. Note that the method below is not cheap to run, so use it with care:
+
+```js
+import { colors } from 'quasar'
+
+const { getPaletteColor } = colors
+
+console.log(getPaletteColor('primary')) // '#1976d2'
+console.log(getPaletteColor('red-2')) // '#ffcdd2'
+```
+
+Assuming you've created [a custom color](/style/color-palette#Adding-Your-Own-Colors) and named it "my-color", then you can extract its value in JS:
+
+```js
+console.log(getPaletteColor('my-color')) // '#...'
+```

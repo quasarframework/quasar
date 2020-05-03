@@ -58,6 +58,8 @@ In the examples below, please notice the last two QTabs: indicator at top and no
 
 ### Tab notifications
 
+There are multiple ways to display tab notifications: with a QBadge, through an alert dot or (v1.9.14+) an alert icon (can be any).
+
 <doc-example title="Tab notifications" file="QTabs/Notifying" />
 
 ### Alignment

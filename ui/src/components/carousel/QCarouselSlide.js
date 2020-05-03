@@ -17,7 +17,7 @@ export default Vue.extend({
     style () {
       if (this.imgSrc) {
         return {
-          backgroundImage: `url(${this.imgSrc})`
+          backgroundImage: `url("${this.imgSrc}")`
         }
       }
     }

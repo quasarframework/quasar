@@ -43,6 +43,13 @@ export default Vue.extend({
         (text !== void 0 ? ` text-${text}` : '') +
         (this.floating === true ? ' q-badge--floating' : '') +
         (this.transparent === true ? ' q-badge--transparent' : '')
+    },
+
+    attrs () {
+      return {
+        role: 'alert',
+        'aria-label': this.label
+      }
     }
   },
 
@@ -50,6 +57,7 @@ export default Vue.extend({
     return h('div', {
       style: this.style,
       class: this.classes,
+      attrs: this.attrs,
       on: this.$listeners
     }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
   }

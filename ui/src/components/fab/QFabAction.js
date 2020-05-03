@@ -23,7 +23,7 @@ export default Vue.extend({
   props: {
     icon: {
       type: String,
-      required: true
+      default: ''
     },
 
     anchor: {
@@ -58,11 +58,13 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = [
+    const child = []
+
+    this.icon !== '' && child.push(
       h(QIcon, {
         props: { name: this.icon }
       })
-    ]
+    )
 
     this.label !== '' && child[this.labelProps.action](
       h('div', this.labelProps.data, [ this.label ])

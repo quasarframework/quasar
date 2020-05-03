@@ -8,7 +8,7 @@ export function humanStorageSize (bytes) {
     ++u
   }
 
-  return `${bytes.toFixed(1)} ${units[u]}`
+  return `${bytes.toFixed(1)}${units[u]}`
 }
 
 export function capitalize (str) {

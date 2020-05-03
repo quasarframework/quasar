@@ -10,7 +10,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar2.jpg" draggable="false">
             </q-avatar>
           </q-item-section>
           <q-item-section>Only left action</q-item-section>
@@ -25,7 +25,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar3.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar3.jpg" draggable="false">
             </q-avatar>
           </q-item-section>
           <q-item-section>Only right action</q-item-section>
@@ -36,7 +36,7 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar>
-              <img src="https://cdn.quasar.dev/img/avatar5.jpg">
+              <img src="https://cdn.quasar.dev/img/avatar5.jpg" draggable="false">
             </q-avatar>
           </q-item-section>
           <q-item-section>No actions</q-item-section>

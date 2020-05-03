@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
-import { isSSR, client } from './Platform.js'
+import { isSSR } from './Platform.js'
 import { cache } from '../utils/vm.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 
@@ -55,7 +55,7 @@ const Loading = {
         el: node,
 
         mounted () {
-          preventScroll(true, client)
+          preventScroll(true)
         },
 
         render: (h) => {
@@ -69,7 +69,7 @@ const Loading = {
                 // might be called to finalize
                 // previous leave, even if it was cancelled
                 if (this.isActive !== true && vm !== void 0) {
-                  preventScroll(false, client)
+                  preventScroll(false)
                   vm.$destroy()
                   vm.$el.remove()
                   vm = void 0

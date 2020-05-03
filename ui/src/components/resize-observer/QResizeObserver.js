@@ -88,7 +88,7 @@ export default Vue.extend({
         tabindex: -1, // fix for Firefox
         type: 'text/html',
         data: this.url,
-        'aria-hidden': true
+        'aria-hidden': 'true'
       },
       on: cache(this, 'load', {
         load: this.__onObjLoad
@@ -128,7 +128,9 @@ export default Vue.extend({
     clearTimeout(this.timer)
 
     if (this.hasObserver === true) {
-      this.$el.parentNode && this.observer.unobserve(this.$el.parentNode)
+      if (this.observer !== void 0 && this.$el.parentNode) {
+        this.observer.unobserve(this.$el.parentNode)
+      }
       return
     }
 

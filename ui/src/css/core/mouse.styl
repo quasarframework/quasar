@@ -13,7 +13,9 @@
 .no-scroll
   overflow: hidden !important
 
-.no-pointer-events
+.no-pointer-events,
+.no-pointer-events--children,
+.no-pointer-events--children *
   pointer-events: none !important
 .all-pointer-events
   pointer-events: all !important
@@ -27,3 +29,13 @@
     cursor: inherit !important
   &-none
     cursor: none !important
+
+[aria-busy='true']
+  cursor: progress
+
+[aria-controls],
+[role='button']
+  cursor: pointer
+
+[aria-disabled]
+  cursor: default

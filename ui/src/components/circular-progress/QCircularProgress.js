@@ -2,6 +2,7 @@ import Vue from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
 import { mergeSlotSafely } from '../../utils/slot.js'
+import { between } from '../../utils/format.js'
 
 const
   radius = 50,
@@ -51,10 +52,14 @@ export default Vue.extend({
     showValue: Boolean,
     reverse: Boolean,
 
-    instantFeedback: Boolean // used by QKnob, private
+    instantFeedback: Boolean
   },
 
   computed: {
+    normalizedValue () {
+      return between(this.value, this.min, this.max)
+    },
+
     svgStyle () {
       return { transform: `rotate3d(0, 0, 1, ${this.angle - 90}deg)` }
     },
@@ -78,12 +83,21 @@ export default Vue.extend({
     },
 
     strokeDashOffset () {
-      const progress = 1 - (this.value - this.min) / (this.max - this.min)
+      const progress = 1 - (this.normalizedValue - this.min) / (this.max - this.min)
       return (this.dir * progress) * circumference
     },
 
     strokeWidth () {
       return this.thickness / 2 * this.viewBox
+    },
+
+    attrs () {
+      return {
+        role: 'progressbar',
+        'aria-valuemin': this.min,
+        'aria-valuemax': this.max,
+        'aria-valuenow': this.indeterminate === true ? void 0 : this.normalizedValue
+      }
     }
   },
 
@@ -156,7 +170,7 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-circular-progress__text absolute-full row flex-center content-center',
         style: { fontSize: this.fontSize }
-      }, this.$scopedSlots.default !== void 0 ? this.$scopedSlots.default() : [ h('div', [ this.value ]) ])
+      }, this.$scopedSlots.default !== void 0 ? this.$scopedSlots.default() : [ h('div', [ this.normalizedValue ]) ])
     )
 
     return h('div', {
@@ -164,12 +178,7 @@ export default Vue.extend({
       class: `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.sizeStyle,
       on: this.$listeners,
-      attrs: {
-        'role': 'progressbar',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
-        'aria-valuenow': this.indeterminate !== true ? this.value : null
-      }
+      attrs: this.attrs
     }, mergeSlotSafely(child, this, 'internal'))
   }
 })

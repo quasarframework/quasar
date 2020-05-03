@@ -167,7 +167,7 @@
       </q-field>
 
       <q-input
-        ref="input3"
+        ref="input4"
         v-bind="{[type]: true}"
         v-model="model4"
         label="Required, Len > 1, Len > 2"
@@ -181,7 +181,7 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input5"
         v-bind="{[type]: true}"
         v-model="model5"
         label="Multiple - call stack test *"
@@ -193,7 +193,7 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input6"
         v-bind="{[type]: true}"
         v-model="model6"
         label="Multiple - async call stack test *"
@@ -207,7 +207,7 @@
         Async rules
       </div>
       <q-input
-        ref="input1"
+        ref="input7"
         v-bind="{[type]: true}"
         v-model="model7"
         label="Only async *"
@@ -217,9 +217,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input8"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model8"
         label="Multiple async *"
         :rules="[
           asyncRule,
@@ -228,9 +228,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input9"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model9"
         label="Loading slot *"
         :rules="[
           asyncRule
@@ -242,9 +242,9 @@
       </q-input>
 
       <q-input
-        ref="input1"
+        ref="input10"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model10"
         debounce="1000"
         label="X Mixed *"
         :rules="[
@@ -254,9 +254,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input11"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model11"
         debounce="1000"
         label="Debounced input *"
         :rules="[
@@ -265,9 +265,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input12"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model12"
         label="Mixed, Lazy *"
         lazy-rules
         :rules="[
@@ -277,9 +277,9 @@
       />
 
       <q-input
-        ref="input1"
+        ref="input13"
         v-bind="{[type]: true}"
-        v-model="model7"
+        v-model="model13"
         label="Lazy async *"
         lazy-rules
         :rules="[
@@ -296,7 +296,6 @@
         <q-radio v-model="errorMessage" val="Second error" label="Second error" />
       </div>
       <q-input
-        ref="inputExternal"
         v-bind="{[type]: true}"
         v-model="modelExternal"
         label="Label"
@@ -306,7 +305,6 @@
       />
 
       <q-input
-        ref="inputExternal"
         v-bind="{[type]: true}"
         v-model="modelExternal"
         label="Label"
@@ -328,7 +326,7 @@
 <script>
 export default {
   data () {
-    const n = 7
+    const n = 13
 
     const data = {
       model: null,

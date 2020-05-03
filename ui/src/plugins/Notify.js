@@ -10,6 +10,8 @@ import { isSSR } from './Platform.js'
 let uid = 0
 let defaults = {}
 
+const attrs = { role: 'alert' }
+
 const positionList = [
   'top-left', 'top-right',
   'bottom-left', 'bottom-right',
@@ -94,7 +96,7 @@ const Notifications = {
       }
 
       if (notif.position) {
-        if (!positionList.includes(notif.position)) {
+        if (positionList.includes(notif.position) === false) {
           console.error(`Notify: wrong position: ${notif.position}`)
           return false
         }
@@ -124,8 +126,19 @@ const Notifications = {
         }
       }
 
-      const actions = (Array.isArray(config.actions) === true ? config.actions : [])
-        .concat(config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true ? defaults.actions : [])
+      const actions = (
+        Array.isArray(config.actions) === true
+          ? config.actions
+          : []
+      ).concat(
+        config.ignoreDefaults !== true && Array.isArray(defaults.actions) === true
+          ? defaults.actions
+          : []
+      ).concat(
+        notifTypes[config.type] !== void 0 && Array.isArray(notifTypes[config.type].actions) === true
+          ? notifTypes[config.type].actions
+          : []
+      )
 
       notif.closeBtn && actions.push({
         label: typeof notif.closeBtn === 'string'
@@ -240,7 +253,8 @@ const Notifications = {
           (notif.badgeColor !== void 0 ? ` bg-${notif.badgeColor}` : '') +
           (notif.badgeTextColor !== void 0 ? ` text-${notif.badgeTextColor}` : '')
 
-        notif = Object.assign(original, notif)
+        const index = this.notifs[notif.position].indexOf(original)
+        this.notifs[notif.position][index] = groups[notif.group] = notif
       }
 
       notif.meta.close = () => {
@@ -259,7 +273,7 @@ const Notifications = {
     },
 
     remove (notif) {
-      if (notif.meta.timer) { clearTimeout(notif.meta.timer) }
+      clearTimeout(notif.meta.timer)
 
       const index = this.notifs[notif.position].indexOf(notif)
       if (index !== -1) {
@@ -328,6 +342,7 @@ const Notifications = {
             mainChild.push(
               h(QIcon, {
                 staticClass: 'q-notification__icon col-auto',
+                attrs: { role: 'img' },
                 props: { name: notif.icon }
               })
             )
@@ -335,7 +350,7 @@ const Notifications = {
           else if (notif.avatar) {
             mainChild.push(
               h(QAvatar, { staticClass: 'q-notification__avatar col-auto' }, [
-                h('img', { attrs: { src: notif.avatar } })
+                h('img', { attrs: { src: notif.avatar, 'aria-hidden': 'true' } })
               ])
             )
           }
@@ -376,7 +391,8 @@ const Notifications = {
         return h('div', {
           ref: `notif_${meta.uid}`,
           key: meta.uid,
-          staticClass: meta.staticClass
+          staticClass: meta.staticClass,
+          attrs
         }, [
           h('div', { staticClass: meta.wrapperClass }, child)
         ])

@@ -1,15 +1,15 @@
 import { QuasarIconSet } from "./extras/icon-set";
-import { HasCapacitor, HasCordova, HasElectron } from "./feature-flag";
+import { HasCapacitor, HasCordova, HasElectron, HasSsr, HasBex } from './feature-flag'
 import { QuasarLanguage } from "./lang";
 
 // We cannot reference directly Capacitor/Cordova/Electron types
 //  or they would generate TS errors for Vue CLI users
 // We also cannot move feature-flags system into `@quasar/app`
-//  because `QVueGlobals` augmentations won't be transfered to
+//  because `QVueGlobals` augmentations won't be transferred to
 //  the `vue/types/vue` augmentation for unknown reason (probably TS limitations)
 //  and the system will just stop working
 // To workaround these problems we define an empty holder interface
-//  and augment it into `@quasar/app` with currect typings
+//  and augment it into `@quasar/app` with current typings
 export interface GlobalsTypesHolder {
   [index: string]: any;
 }
@@ -24,10 +24,19 @@ interface GlobalQuasarIconSet extends QuasarIconSet {
   set(iconSet: QuasarIconSet): void;
 }
 
+type GlobalQuasarIconMapFn = (
+  iconName: string
+) => { icon: string } | { cls: string; content?: string } | void;
+
 export interface QVueGlobals
   extends HasCapacitor<{ capacitor: any }>,
+    HasBex<{ bex: GlobalsTypesHolder["bex"] }>,
     HasCordova<{ cordova: GlobalsTypesHolder["cordova"] }>,
-    HasElectron<{ electron: GlobalsTypesHolder["electron"] }> {
+    HasElectron<{ electron: GlobalsTypesHolder["electron"] }>,
+    HasSsr<
+      { iconMapFn?: GlobalQuasarIconMapFn },
+      { iconMapFn: GlobalQuasarIconMapFn }
+    > {
   version: string;
   lang: GlobalQuasarLanguage;
   iconSet: GlobalQuasarIconSet;

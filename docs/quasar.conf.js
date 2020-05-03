@@ -19,14 +19,14 @@ module.exports = function (ctx) {
       'material-icons'
     ],
 
-    supportIE: true,
-    preFetch: true,
+    // supportIE: true,
+    // preFetch: true,
 
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
       showProgress: ctx.dev,
-      // preloadChunks: false,
+      // preloadChunks: true,
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
@@ -74,7 +74,7 @@ module.exports = function (ctx) {
     },
 
     devServer: {
-      https: ctx.mode.pwa === true,
+      // https: true,
       port: 9090,
       open: true // opens browser window automatically
     },
@@ -93,18 +93,25 @@ module.exports = function (ctx) {
     animations: [ 'fadeIn', 'fadeOut' ],
 
     ssr: {
-      pwa: false
+      pwa: true
     },
 
     pwa: {
       // workboxPluginMode: 'InjectManifest',
       workboxOptions: {
+        cleanupOutdatedCaches: true,
         skipWaiting: true,
-        clientsClaim: true
+        clientsClaim: true,
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/cdn/,
+            handler: 'StaleWhileRevalidate'
+          }
+        ]
       },
       manifest: {
         name: 'Quasar Documentation',
-        short_name: 'Quasar-Docs',
+        short_name: 'Quasar Docs',
         description: 'Quasar Framework Documentation',
         display: 'standalone',
         orientation: 'portrait',
@@ -112,29 +119,29 @@ module.exports = function (ctx) {
         theme_color: '#027be3',
         icons: [
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-128x128.png',
-            'sizes': '128x128',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-128x128.png',
+            sizes: '128x128',
+            type: 'image/png'
           },
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-192x192.png',
-            'sizes': '192x192',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-192x192.png',
+            sizes: '192x192',
+            type: 'image/png'
           },
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-256x256.png',
-            'sizes': '256x256',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-256x256.png',
+            sizes: '256x256',
+            type: 'image/png'
           },
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-384x384.png',
-            'sizes': '384x384',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-384x384.png',
+            sizes: '384x384',
+            type: 'image/png'
           },
           {
-            'src': 'https://cdn.quasar.dev/app-icons/icon-512x512.png',
-            'sizes': '512x512',
-            'type': 'image/png'
+            src: 'https://cdn.quasar.dev/app-icons/icon-512x512.png',
+            sizes: '512x512',
+            type: 'image/png'
           }
         ]
       },
@@ -174,6 +181,22 @@ module.exports = function (ctx) {
 
         // appId: 'quasar-app'
       }
+    },
+
+    vendor: {
+      remove: [
+        'quasar/dist/api',
+
+        // following are used by algolia
+        'algoliasearch',
+        'autocomplete.js',
+        'hogan.js',
+        'request',
+        'stack-utils',
+        'to-factory',
+        'zepto',
+        'es6-promise'
+      ]
     }
   }
 }

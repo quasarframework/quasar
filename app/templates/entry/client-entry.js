@@ -70,7 +70,7 @@ Vue.config.productionTip = false
 
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
-<% if (ctx.mode.pwa) { %>console.info('[Quasar] Forcing PWA into the network-first approach to not break Hot Module Replacement while developing.')<% } %>
+<% if (ctx.mode.pwa) { %>console.info('[Quasar] PWA: Use devtools > Application > "Bypass for network" to not break Hot Module Replacement while developing.')<% } %>
 <% } %>
 
 <% if (ctx.mode.cordova && ctx.target.ios) { %>
@@ -160,10 +160,23 @@ async function start () {
     Vue.prototype.$q.capacitor = window.Capacitor
     <% } %>
 
-    new Vue(app)
+    <% if (!ctx.mode.bex) { %>
+      new Vue(app)
+    <% } %>
 
     <% if (ctx.mode.cordova) { %>
     }, false) // on deviceready
+    <% } %>
+
+    <% if (ctx.mode.bex) { %>
+      let vApp = null
+      window.QBexInit = function (shell) {
+        shell.connect(bridge => {
+          window.QBexBridge = bridge
+          Vue.prototype.$q.bex = window.QBexBridge
+          vApp = new Vue(app)
+        })
+      }
     <% } %>
 
   <% } // end of Non SSR %>

@@ -4,7 +4,7 @@ import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
 import { cache } from '../../utils/vm.js'
 import { stop } from '../../utils/event.js'
-import { hexToRgb, rgbToHex, rgbToString, stringToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
+import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 
 import DarkMixin from '../../mixins/dark.js'
 import FormMixin from '../../mixins/form.js'
@@ -195,6 +195,15 @@ export default Vue.extend({
         (this.flat === true ? ' q-color-picker--flat no-shadow' : '') +
         (this.disable === true ? ' disabled' : '') +
         (this.isDark === true ? ' q-color-picker--dark q-dark' : '')
+    },
+
+    attrs () {
+      if (this.disable === true) {
+        return { 'aria-disabled': '' }
+      }
+      if (this.readonly === true) {
+        return { 'aria-readonly': '' }
+      }
     }
   },
 
@@ -219,6 +228,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
+      attrs: this.attrs,
       on: this.$listeners
     }, child)
   },
@@ -814,7 +824,7 @@ export default Vue.extend({
             : this.formatModel.indexOf('a') > -1
         )
 
-      if (v === null || v === void 0 || v === '' || testPattern.anyColor(v) !== true) {
+      if (typeof v !== 'string' || v.length === 0 || testPattern.anyColor(v.replace(/ /g, '')) !== true) {
         return {
           h: 0,
           s: 0,
@@ -828,7 +838,7 @@ export default Vue.extend({
         }
       }
 
-      const model = stringToRgb(v)
+      const model = textToRgb(v)
 
       if (forceAlpha === true && model.a === void 0) {
         model.a = 100

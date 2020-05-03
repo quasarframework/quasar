@@ -32,10 +32,14 @@ function update (el, ctx, { modifiers, value }) {
 
     ctx.observer = new IntersectionObserver(([ entry ]) => {
       if (typeof ctx.handler === 'function') {
-        if (entry.rootBounds === null) {
+        // if observed element is part of a vue transition
+        // then we need to be careful...
+        if (
+          entry.rootBounds === null &&
+          (el.__vue__ !== void 0 ? el.__vue__._inactive !== true : document.body.contains(el) === true)
+        ) {
           ctx.observer.unobserve(el)
           ctx.observer.observe(el)
-
           return
         }
 

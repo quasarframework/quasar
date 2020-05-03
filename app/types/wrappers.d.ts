@@ -7,10 +7,27 @@
 //  `const { configure } = require('quasar')`).
 // This is a precautional measure to avoid future hard-to-backtrack bugs.
 declare module "quasar/wrappers" {
-  import { BootCallback, ConfigureCallback } from "quasar";
+  import {
+    BootCallback,
+    ConfigureCallback,
+    PrefetchCallback,
+    RouteCallback,
+    StoreCallback,
+  } from "quasar";
 
   function boot<TStore = any>(
     callback: BootCallback<TStore>
   ): BootCallback<TStore>;
+
   function configure(callback: ConfigureCallback): ConfigureCallback;
+
+  function preFetch<TStore = any>(
+    callback: PrefetchCallback<TStore>
+  ): PrefetchCallback<TStore>;
+
+  function route<TStore = any>(
+    callback: RouteCallback<TStore>
+  ): RouteCallback<TStore>;
+
+  function store(callback: StoreCallback): StoreCallback;
 }

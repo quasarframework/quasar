@@ -1,5 +1,6 @@
 import { getEventPath, listenOpts, stopAndPrevent } from '../utils/event.js'
 import { hasScrollbar, getScrollPosition, getHorizontalScrollPosition } from '../utils/scroll.js'
+import { client } from '../plugins/Platform.js'
 
 let
   registered = 0,
@@ -82,7 +83,7 @@ function onAppleResize (evt) {
   })
 }
 
-function apply (action, is) {
+function apply (action) {
   const
     body = document.body,
     hasViewport = window.visualViewport !== void 0
@@ -102,7 +103,7 @@ function apply (action, is) {
     }
 
     body.classList.add('q-body--prevent-scroll')
-    if (is.ios === true) {
+    if (client.is.ios === true) {
       if (hasViewport === true) {
         window.scrollTo(0, 0)
         window.visualViewport.addEventListener('resize', onAppleResize, listenOpts.passiveCapture)
@@ -115,13 +116,13 @@ function apply (action, is) {
     }
   }
 
-  if (is.desktop === true && is.mac === true) {
+  if (client.is.desktop === true && client.is.mac === true) {
     // ref. https://developers.google.com/web/updates/2017/01/scrolling-intervention
     window[`${action}EventListener`]('wheel', onWheel, listenOpts.notPassive)
   }
 
   if (action === 'remove') {
-    if (is.ios === true) {
+    if (client.is.ios === true) {
       if (hasViewport === true) {
         window.visualViewport.removeEventListener('resize', onAppleResize, listenOpts.passiveCapture)
         window.visualViewport.removeEventListener('scroll', onAppleResize, listenOpts.passiveCapture)
@@ -142,7 +143,7 @@ function apply (action, is) {
   }
 }
 
-export function preventScroll (state, is) {
+export function preventScroll (state) {
   let action = 'add'
 
   if (state === true) {
@@ -171,18 +172,18 @@ export function preventScroll (state, is) {
 
     action = 'remove'
 
-    if (is.ios === true && is.nativeMobile === true) {
+    if (client.is.ios === true && client.is.nativeMobile === true) {
       clearTimeout(closeTimer)
 
       closeTimer = setTimeout(() => {
-        apply(action, is)
+        apply(action)
         closeTimer = void 0
       }, 100)
       return
     }
   }
 
-  apply(action, is)
+  apply(action)
 }
 
 export default {
@@ -193,7 +194,7 @@ export default {
         (this.preventedScroll !== void 0 || state === true)
       ) {
         this.preventedScroll = state
-        preventScroll(state, this.$q.platform.is)
+        preventScroll(state)
       }
     }
   }

@@ -69,7 +69,7 @@ export default {
         staticClass: 'q-table__grid-content row',
         class: this.cardContainerClass,
         style: this.cardContainerStyle
-      }, this.computedRows.map(row => {
+      }, this.computedRows.map((row, pageIndex) => {
         const
           key = this.getRowKey(row),
           selected = this.isRowSelected(key)
@@ -77,6 +77,7 @@ export default {
         return item(this.addBodyRowMeta({
           key,
           row,
+          pageIndex,
           cols: this.computedCols,
           colsMap: this.computedColsMap,
           __trClass: selected ? 'selected' : ''

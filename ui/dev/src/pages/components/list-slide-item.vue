@@ -92,7 +92,7 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="left" name="done" />
+        <q-icon slot="left" name="arrow_right" />
 
         <q-item>
           <q-item-section avatar>
@@ -103,7 +103,7 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="right" name="alarm" />
+        <q-icon slot="right" name="arrow_left" />
 
         <q-item>
           <q-item-section avatar>
@@ -123,8 +123,8 @@
       </q-slide-item>
 
       <q-slide-item @left="onLeft" @right="onRight">
-        <q-icon slot="left" name="alarm" />
-        <q-icon slot="right" name="alarm" />
+        <q-icon slot="left" name="arrow_right" />
+        <q-icon slot="right" name="arrow_left" />
 
         <q-item>
           <q-item-section avatar>

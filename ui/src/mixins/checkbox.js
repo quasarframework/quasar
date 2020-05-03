@@ -3,12 +3,13 @@ import { stopAndPrevent } from '../utils/event.js'
 
 import FormMixin from './form.js'
 import OptionSizeMixin from './option-size.js'
+import RefocusTargetMixin from './refocus-target.js'
 
 import { slot, mergeSlot } from '../utils/slot.js'
 import { cache } from '../utils/vm.js'
 
 export default {
-  mixins: [ DarkMixin, OptionSizeMixin, FormMixin ],
+  mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
 
   props: {
     value: {
@@ -105,6 +106,23 @@ export default {
       })
 
       return prop
+    },
+
+    attrs () {
+      const attrs = {
+        tabindex: this.computedTabindex,
+        role: 'checkbox',
+        'aria-label': this.label,
+        'aria-checked': this.isIndeterminate === true
+          ? 'mixed'
+          : this.isTrue === true ? 'true' : 'false'
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -112,7 +130,7 @@ export default {
     toggle (e) {
       if (e !== void 0) {
         stopAndPrevent(e)
-        document.activeElement !== null && document.activeElement.blur()
+        this.__refocusTarget(e)
       }
 
       if (this.disable === true) {
@@ -175,6 +193,10 @@ export default {
       }, inner)
     ]
 
+    if (this.__refocusTargetEl !== void 0) {
+      child.push(this.__refocusTargetEl)
+    }
+
     const label = this.label !== void 0
       ? mergeSlot([ this.label ], this, 'default')
       : slot(this, 'default')
@@ -187,7 +209,7 @@ export default {
 
     return h('div', {
       class: this.classes,
-      attrs: { tabindex: this.computedTabindex },
+      attrs: this.attrs,
       on: cache(this, 'inpExt', {
         click: this.toggle,
         keydown: this.__onKeydown,

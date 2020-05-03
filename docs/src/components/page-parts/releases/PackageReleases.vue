@@ -2,14 +2,16 @@
 q-splitter.release__splitter(:value="20" :limits="[14, 90]")
   template(#before)
     q-scroll-area
-      q-input(v-model="search" dense square standout="bg-primary text-white" placeholder="Highlight..." input-class="text-center" clearable)
-      q-tabs.text-primary(vertical v-model="selectedVersion")
-        q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.key" :name="releaseInfo.key")
+      q-input(v-model="search" dense square standout color="white" placeholder="Search..." input-class="text-center" clearable)
+        template(#append)
+          q-icon(:name="mdiMagnify")
+      q-tabs.text-grey-7(vertical v-model="selectedVersion"  active-color="primary" active-bg-color="blue-1" indicator-color="primary")
+        q-tab(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
           .q-tab__label {{ releaseInfo.version }}
-          small.text-grey-7 {{ releaseInfo.formattedCreatedAt }}
+          small.text-grey-7 {{ releaseInfo.date }}
   template(#after)
     q-tab-panels.releases-container(v-model="selectedVersion" animated transition-prev="slide-down" transition-next="slide-up")
-      q-tab-panel.q-pa-none(v-for="releaseInfo in filteredReleases" :key="releaseInfo.key" :name="releaseInfo.key")
+      q-tab-panel.q-pa-none(v-for="releaseInfo in filteredReleases" :key="releaseInfo.label" :name="releaseInfo.label")
         q-scroll-area
           .release__body.q-pa-md(v-html="currentReleaseBody")
 </template>
@@ -18,7 +20,15 @@ q-splitter.release__splitter(:value="20" :limits="[14, 90]")
 import sanitize from './sanitize'
 import parseMdTable from './md-table-parser'
 
+import { mdiMagnify } from '@quasar/extras/mdi-v4'
+
 export default {
+  created () {
+    this.mdiMagnify = mdiMagnify
+  },
+
+  props: [ 'latestVersion', 'releases' ],
+
   data () {
     return {
       search: '',
@@ -26,23 +36,32 @@ export default {
     }
   },
 
-  props: {
-    version: String,
-    releases: {
-      type: Array,
-      required: true
+  watch: {
+    latestVersion: {
+      immediate: true,
+      handler (value) {
+        this.selectedVersion = value
+      }
     }
   },
 
   computed: {
     filteredReleases () {
-      return this.search
-        ? this.releases.filter(release => release.body.toLowerCase().includes(this.search))
-        : this.releases
+      if (this.search) {
+        const search = this.search.toLowerCase()
+        return this.releases.filter(
+          release => release.body.toLowerCase().indexOf(search) > -1
+        )
+      }
+
+      return this.releases
     },
 
     currentReleaseBody () {
-      return this.parse(this.releases.find(r => r.key === this.selectedVersion).body)
+      const release = this.releases.find(r => r.label === this.selectedVersion)
+      return release
+        ? this.parse(release.body)
+        : ''
     }
   },
 
@@ -58,28 +77,19 @@ export default {
         .replace(/### ([\S ]+)/g, '<div class="text-h6">$1</div>')
         .replace(/## ([\S ]+)/g, '<div class="text-h5">$1</div>')
         .replace(/# ([\S ]+)g/, '<div class="text-h4">$1</div>')
-        .replace(/\*\*([\S ]+)\*\*/g, '<strong>$1</strong>')
-        .replace(/\* ([\S ]+)\n/g, '<li>$1</li>')
-        .replace(/\*([\S ]+)\*/g, '<em>$1</em>')
+        .replace(/\*\*([\S ]*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\*([\S ]*?)\*/g, '<em>$1</em>')
         .replace(/```([\S]+)/g, '<code class="doc-code__inner doc-code__inner--prerendered release__code">')
         .replace(/```\n/g, '</code>')
-        .replace(/`([\S ]+)`/g, '<code class="doc-token">$1</code>')
+        .replace(/`([\w ]+)`/g, '<code class="doc-token">$1</code>')
         .replace(/#([\d]+)/g, '<a class="doc-link" href="https://github.com/quasarframework/quasar/issues/$1" target="_blank">#$1</a>')
         .replace(/^&gt; ([\S ]+)\n/g, '<div class="release__blockquote">$1</div>')
-        .replace(/\[([\S ]+)\]\((\S+)\)/g, '<a class="doc-link" href="$2" target="_blank">$1</a>')
+        .replace(/\[([\S ]*?)\]\((\S*?)\)/g, '<a class="doc-link" href="$2" target="_blank">$1</a>')
+        .replace(/\* ([\S .]+)\n/g, '<li>$1</li>')
 
       return content.indexOf('| -') > -1
         ? parseMdTable(content)
         : content
-    }
-  },
-
-  watch: {
-    version: {
-      immediate: true,
-      handler (value) {
-        this.selectedVersion = value
-      }
     }
   }
 }

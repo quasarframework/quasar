@@ -19,9 +19,9 @@
 
     "options": {
       "type": "Array",
-      "desc": "Array of objects with value and label props. The binary components will be created according to this array",
+      "desc": "Array of objects with value and label props. The binary components will be created according to this array; Props from QToggle, QCheckbox or QRadio can also be added as key/value pairs to control the components singularly",
       "examples": [
-        ":options=\"[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3' } ]\""
+        ":options=\"[ { label: 'Option 1', value: 'op1' }, { label: 'Option 2', value: 'op2' }, { label: 'Option 3', value: 'op3', disable: true } ]\""
       ],
       "category": "model"
     },

@@ -10,6 +10,10 @@ The QCarousel component allows you to display more information with less real es
 
 ## Usage
 
+::: tip
+If the QCarouselSlide content also has images and you want to use swipe actions to navigate, you might want to add `draggable="false"` to them, otherwise the native browser behavior might interfere in a negative way.
+:::
+
 ::: danger
 Please take notice of the Boolean `keep-alive` prop for QCarousel, if you need this behavior. Do NOT use Vue's native `<keep-alive>` component over QCarouselSlide.
 :::

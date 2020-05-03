@@ -12,7 +12,7 @@ const injectStyleRules = require('./inject.style-rules')
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
 
-  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+  const needsHash = !cfg.ctx.dev && !['electron', 'cordova', 'capacitor', 'bex'].includes(cfg.ctx.modeName)
   const fileHash = needsHash ? '.[contenthash:8]' : ''
   const chunkHash = needsHash ? '.[chunkhash:8]' : ''
   const resolveModules = [
@@ -48,7 +48,12 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.js', '.vue', '.json' ])
+    .merge([ '.mjs', '.js', '.vue', '.json' ])
+
+  if (cfg.supportTS === true) {
+    chain.resolve.extensions
+      .merge([ '.ts' ])
+  }
 
   chain.resolve.modules
     .merge(resolveModules)
@@ -61,7 +66,9 @@ module.exports = function (cfg, configName) {
       layouts: appPaths.resolve.src(`layouts`),
       pages: appPaths.resolve.src(`pages`),
       assets: appPaths.resolve.src(`assets`),
-      boot: appPaths.resolve.src(`boot`)
+      boot: appPaths.resolve.src(`boot`),
+
+      'src-bex': appPaths.bexDir // needed for app/templates
     })
 
   if (cfg.framework.all === true) {
@@ -146,6 +153,32 @@ module.exports = function (cfg, configName) {
           ] : []
         })
 
+  if (cfg.supportTS !== false) {
+    chain.resolve.extensions.add('.ts').add('.tsx')
+
+    chain.module
+      .rule('typescript')
+      .test(/\.tsx?$/)
+      .use('ts-loader')
+      .loader('ts-loader')
+      .options({
+        // custom config is merged if present, but vue setup and type checking disable are always applied
+        ...(cfg.supportTS.tsLoaderConfig || {}),
+        appendTsSuffixTo: [/\.vue$/],
+        // Type checking is handled by fork-ts-checker-webpack-plugin
+        transpileOnly: true
+      })
+
+    const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
+    chain
+      .plugin('ts-checker')
+      // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
+      .use(ForkTsCheckerWebpackPlugin, [
+        // custom config is merged if present, but vue option is always enabled
+        { ...(cfg.supportTS.tsCheckerConfig || {}), vue: true }
+      ])
+  }
+
   chain.module.rule('images')
     .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
     .use('url-loader')
@@ -188,6 +221,14 @@ module.exports = function (cfg, configName) {
     lessLoaderOptions: cfg.build.lessLoaderOptions
   })
 
+  chain.module // fixes https://github.com/graphql/graphql-js/issues/1272
+    .rule('mjs')
+    .test(/\.mjs$/)
+    .include
+      .add(/node_modules/)
+      .end()
+    .type('javascript/auto')
+
   chain.plugin('vue-loader')
     .use(VueLoaderPlugin)
 
@@ -221,8 +262,8 @@ module.exports = function (cfg, configName) {
             test: add !== void 0 || remove !== void 0
               ? module => {
                 if (module.resource) {
-                  if (add !== void 0 && add.test(module.resource)) { return true }
                   if (remove !== void 0 && remove.test(module.resource)) { return false }
+                  if (add !== void 0 && add.test(module.resource)) { return true }
                 }
                 return regex.test(module.resource)
               }
