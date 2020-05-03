@@ -250,7 +250,7 @@ function getPlatform (UA) {
 
     fromSSR = browser.nativeMobile === void 0 &&
       browser.electron === void 0 &&
-      !!document.querySelector('[data-server-rendered]')
+      document.querySelector('[data-server-rendered]') !== null
 
     if (fromSSR === true) {
       onSSR = true
