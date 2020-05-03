@@ -52,6 +52,13 @@ export default Vue.extend({
       if (this.$refs.popup.showing !== true) {
         this.__updateType(this.$q.screen.width, this.$q.screen.height, parseInt(breakpoint, 10))
       }
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        hide: this.__onHide
+      }
     }
   },
 
@@ -102,10 +109,7 @@ export default Vue.extend({
     const data = {
       ref: 'popup',
       props: Object.assign(props, this.qAttrs),
-      on: {
-        ...this.qListeners,
-        hide: this.__onHide
-      }
+      on: this.onEvents
     }
 
     let component

@@ -63,6 +63,29 @@ export default Vue.extend({
 
     computedTabIndex () {
       return this.disable === true || this.isActive === true ? -1 : this.tabindex || 0
+    },
+
+    onEvents () {
+      return {
+        input: stop,
+        ...this.qListeners,
+        click: this.__activate,
+        keyup: this.__onKeyup
+      }
+    },
+
+    attrs () {
+      const attrs = {
+        tabindex: this.computedTabIndex,
+        role: 'tab',
+        'aria-selected': this.isActive
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -141,24 +164,11 @@ export default Vue.extend({
       const data = {
         staticClass: 'q-tab relative-position self-stretch flex flex-center text-center',
         class: this.classes,
-        attrs: {
-          tabindex: this.computedTabIndex,
-          role: 'tab',
-          'aria-selected': this.isActive
-        },
+        attrs: this.attrs,
         directives: this.ripple !== false && this.disable === true ? null : [
           { name: 'ripple', value: this.ripple }
         ],
-        [tag === 'div' ? 'on' : 'nativeOn']: {
-          input: stop,
-          ...this.qListeners,
-          click: this.__activate,
-          keyup: this.__onKeyup
-        }
-      }
-
-      if (this.disable === true) {
-        data.attrs['aria-disabled'] = ''
+        [ tag === 'div' ? 'on' : 'nativeOn' ]: this.onEvents
       }
 
       if (props !== void 0) {

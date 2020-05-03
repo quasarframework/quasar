@@ -34,6 +34,15 @@ export default Vue.extend({
     cardStyle: [String, Array, Object]
   },
 
+  computed: {
+    dialogProps () {
+      return {
+        ...this.qAttrs,
+        position: 'bottom'
+      }
+    }
+  },
+
   methods: {
     show () {
       this.$refs.dialog.show()
@@ -155,10 +164,7 @@ export default Vue.extend({
     return h(QDialog, {
       ref: 'dialog',
 
-      props: {
-        ...this.qAttrs,
-        position: 'bottom'
-      },
+      props: this.dialogProps,
 
       on: cache(this, 'hide', {
         hide: () => {

@@ -17,6 +17,16 @@ export default Vue.extend({
     greedy: Boolean
   },
 
+  computed: {
+    onEvents () {
+      return {
+        ...this.qListeners,
+        submit: this.submit,
+        reset: this.reset
+      }
+    }
+  },
+
   mounted () {
     this.validateIndex = 0
     this.autofocus === true && this.focus()
@@ -153,11 +163,7 @@ export default Vue.extend({
   render (h) {
     return h('form', {
       staticClass: 'q-form',
-      on: {
-        ...this.qListeners,
-        submit: this.submit,
-        reset: this.reset
-      }
+      on: this.onEvents
     }, slot(this, 'default'))
   }
 })

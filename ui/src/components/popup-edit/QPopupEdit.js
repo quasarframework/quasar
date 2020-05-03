@@ -68,6 +68,14 @@ export default Vue.extend({
         set: this.set,
         cancel: this.cancel
       }
+    },
+
+    menuProps () {
+      return {
+        ...this.qAttrs,
+        cover: this.cover,
+        contentClass: this.classes
+      }
     }
   },
 
@@ -152,11 +160,7 @@ export default Vue.extend({
 
     return h(QMenu, {
       ref: 'menu',
-      props: {
-        ...this.qAttrs,
-        cover: this.cover,
-        contentClass: this.classes
-      },
+      props: this.menuProps,
       on: cache(this, 'menu', {
         'before-show': () => {
           this.validated = false

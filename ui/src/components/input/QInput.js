@@ -105,6 +105,55 @@ export default Vue.extend({
       return this.type !== 'file' &&
         typeof this.shadowText === 'string' &&
         this.shadowText.length > 0
+    },
+
+    onEvents () {
+      const on = {
+        ...this.qListeners,
+        input: this.__onInput,
+        paste: this.__onPaste,
+        // Safari < 10.2 & UIWebView doesn't fire compositionend when
+        // switching focus before confirming composition choice
+        // this also fixes the issue where some browsers e.g. iOS Chrome
+        // fires "change" instead of "input" on autocomplete.
+        change: this.__onChange,
+        blur: this.__onFinishEditing,
+        focus: stop
+      }
+
+      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
+
+      if (this.hasMask === true) {
+        on.keydown = this.__onMaskedKeydown
+      }
+
+      if (this.autogrow === true) {
+        on.animationend = this.__adjustHeight
+      }
+
+      return on
+    },
+
+    inputAttrs () {
+      const attrs = {
+        tabindex: 0,
+        'data-autofocus': this.autofocus,
+        rows: this.type === 'textarea' ? 6 : void 0,
+        'aria-label': this.label,
+        name: this.nameProp,
+        ...this.qAttrs,
+        id: this.targetUid,
+        type: this.type,
+        maxlength: this.maxlength,
+        disabled: this.disable === true,
+        readonly: this.readonly === true
+      }
+
+      if (this.autogrow === true) {
+        attrs.rows = 1
+      }
+
+      return attrs
     }
   },
 
@@ -246,51 +295,13 @@ export default Vue.extend({
     },
 
     __getControl (h) {
-      const on = {
-        ...this.qListeners,
-        input: this.__onInput,
-        paste: this.__onPaste,
-        // Safari < 10.2 & UIWebView doesn't fire compositionend when
-        // switching focus before confirming composition choice
-        // this also fixes the issue where some browsers e.g. iOS Chrome
-        // fires "change" instead of "input" on autocomplete.
-        change: this.__onChange,
-        blur: this.__onFinishEditing,
-        focus: stop
-      }
-
-      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
-
-      if (this.hasMask === true) {
-        on.keydown = this.__onMaskedKeydown
-      }
-
-      const attrs = {
-        tabindex: 0,
-        'data-autofocus': this.autofocus,
-        rows: this.type === 'textarea' ? 6 : void 0,
-        'aria-label': this.label,
-        name: this.nameProp,
-        ...this.qAttrs,
-        id: this.targetUid,
-        type: this.type,
-        maxlength: this.maxlength,
-        disabled: this.disable === true,
-        readonly: this.readonly === true
-      }
-
-      if (this.autogrow === true) {
-        attrs.rows = 1
-        on.animationend = this.__adjustHeight
-      }
-
       return h(this.isTextarea === true ? 'textarea' : 'input', {
         ref: 'input',
         staticClass: 'q-field__native q-placeholder',
         style: this.inputStyle,
         class: this.inputClass,
-        attrs,
-        on,
+        attrs: this.inputAttrs,
+        on: this.onEvents,
         domProps: this.type !== 'file'
           ? { value: this.__getCurValue() }
           : this.formDomProps

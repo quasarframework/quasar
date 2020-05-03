@@ -63,6 +63,14 @@ export default Vue.extend({
           ['padding' + dir]: (16 + this.insetLevel * 56) + 'px'
         }
       }
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        click: this.__onClick,
+        keyup: this.__onKeyup
+      }
     }
   },
 
@@ -111,14 +119,8 @@ export default Vue.extend({
     const data = {
       staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,
-      style: this.style
-    }
-
-    const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
-    data[evtProp] = {
-      ...this.qListeners,
-      click: this.__onClick,
-      keyup: this.__onKeyup
+      style: this.style,
+      [ this.hasRouterLink === true ? 'nativeOn' : 'on' ]: this.onEvents
     }
 
     if (this.isClickable === true) {

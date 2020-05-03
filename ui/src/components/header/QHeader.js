@@ -122,6 +122,14 @@ export default Vue.extend({
       }
 
       return css
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        focusin: this.__onFocusin,
+        input: stop
+      }
     }
   },
 
@@ -145,11 +153,7 @@ export default Vue.extend({
       staticClass: 'q-header q-layout__section--marginal',
       class: this.classes,
       style: this.style,
-      on: {
-        ...this.qListeners,
-        focusin: this.__onFocusin,
-        input: stop
-      }
+      on: this.onEvents
     }, child)
   },
 

@@ -102,6 +102,29 @@ export default Vue.extend({
 
     hideOnRouteChange () {
       return this.persistent !== true
+    },
+
+    onEvents () {
+      const on = {
+        ...this.qListeners,
+        // stop propagating these events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
+      return on
+    },
+
+    attrs () {
+      return {
+        tabindex: -1,
+        ...this.qAttrs
+      }
     }
   },
 
@@ -283,18 +306,6 @@ export default Vue.extend({
     },
 
     __renderPortal (h) {
-      const on = {
-        ...this.qListeners,
-        // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
-
       return h('transition', {
         props: { name: this.transition }
       }, [
@@ -303,11 +314,8 @@ export default Vue.extend({
           staticClass: 'q-menu q-position-engine scroll' + this.menuClass,
           class: this.contentClass,
           style: this.contentStyle,
-          attrs: {
-            tabindex: -1,
-            ...this.qAttrs
-          },
-          on,
+          attrs: this.attrs,
+          on: this.onEvents,
           directives: [{
             name: 'click-outside',
             value: this.__onClickOutside,

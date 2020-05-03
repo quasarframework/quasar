@@ -126,6 +126,22 @@ export default Vue.extend({
       return this.persistent !== true &&
         this.noRouteDismiss !== true &&
         this.seamless !== true
+    },
+
+    onEvents () {
+      const on = {
+        ...this.qListeners,
+        // stop propagating these events from children
+        input: stop,
+        'popup-show': stop,
+        'popup-hide': stop
+      }
+
+      if (this.autoClose === true) {
+        on.click = this.__onAutoClose
+      }
+
+      return on
     }
   },
 
@@ -316,18 +332,6 @@ export default Vue.extend({
     },
 
     __renderPortal (h) {
-      const on = {
-        ...this.qListeners,
-        // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
-      }
-
-      if (this.autoClose === true) {
-        on.click = this.__onAutoClose
-      }
-
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events',
         class: this.contentClass,
@@ -353,7 +357,7 @@ export default Vue.extend({
             staticClass: 'q-dialog__inner flex no-pointer-events',
             class: this.classes,
             attrs: { tabindex: -1 },
-            on
+            on: this.onEvents
           }, slot(this, 'default')) : null
         ])
       ])

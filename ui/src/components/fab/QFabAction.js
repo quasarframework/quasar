@@ -48,6 +48,13 @@ export default Vue.extend({
     classes () {
       const align = anchorMap[this.anchor]
       return this.formClass + (align !== void 0 ? ` ${align}` : '')
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        click: this.click
+      }
     }
   },
 
@@ -82,10 +89,7 @@ export default Vue.extend({
         noCaps: true,
         fabMini: true
       },
-      on: {
-        ...this.qListeners,
-        click: this.click
-      }
+      on: this.onEvents
     }, mergeSlot(child, this, 'default'))
   }
 })

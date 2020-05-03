@@ -13,10 +13,6 @@ import cache from '../../utils/cache.js'
 
 const duration = 150
 
-const mouseEvents = [
-  'mouseover', 'mouseout', 'mouseenter', 'mouseleave'
-]
-
 export default Vue.extend({
   name: 'QDrawer',
 
@@ -301,17 +297,10 @@ export default Vue.extend({
 
     onNativeEvents () {
       if (this.belowBreakpoint !== true) {
-        const evt = {
+        return {
+          ...this.qListeners,
           '!click': e => { this.$emit('click', e) }
         }
-
-        mouseEvents.forEach(name => {
-          evt[name] = e => {
-            this.qListeners[name] !== void 0 && this.$emit(name, e)
-          }
-        })
-
-        return evt
       }
     },
 
