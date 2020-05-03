@@ -22,8 +22,12 @@ class Generator {
     if (preFetch) {
       paths.push('client-prefetch.js')
     }
+
     if (ctx.mode.ssr) {
       paths.push('server-entry.js')
+      if (ctx.mode.pwa) {
+        paths.push('ssr-pwa.js')
+      }
     }
 
     this.files = paths.map(file => {
