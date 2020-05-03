@@ -312,7 +312,7 @@ module.exports = class Extension {
     log(`Uninstalling "${this.packageName}"...`)
     spawnSync(
       nodePackager,
-      cmdParam.concat(this.packageName),      
+      cmdParam.concat(this.packageName),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
       () => warn(`⚠️  Failed to uninstall "${this.packageName}"`)
     )
