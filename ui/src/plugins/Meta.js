@@ -237,7 +237,7 @@ function getServerMeta (app, html, ctx) {
     '%%Q_BODY_TAGS%%': Object.keys(meta.noscript)
       .map(name => `<noscript data-qmeta="${name}">${meta.noscript[name]}</noscript>`)
       .join('') +
-      `<script${nonce}>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script$>`
+      `<script${nonce}>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script>`
   }
 
   Object.keys(tokens).forEach(key => {
