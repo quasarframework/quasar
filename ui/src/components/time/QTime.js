@@ -7,7 +7,7 @@ import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 
 export default Vue.extend({
@@ -713,7 +713,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
-      on: this.$listeners,
+      on: this.qListeners,
       attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),

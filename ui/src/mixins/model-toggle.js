@@ -1,8 +1,10 @@
 import { isSSR } from '../plugins/Platform.js'
+
 import TimeoutMixin from './timeout.js'
+import ListenersMixin from './listeners.js'
 
 export default {
-  mixins: [ TimeoutMixin ],
+  mixins: [ TimeoutMixin, ListenersMixin ],
 
   props: {
     value: {
@@ -37,7 +39,7 @@ export default {
         return
       }
 
-      if (this.$listeners.input !== void 0 && isSSR === false) {
+      if (this.qListeners.input !== void 0 && isSSR === false) {
         this.$emit('input', true)
         this.payload = evt
         this.$nextTick(() => {
@@ -46,7 +48,8 @@ export default {
           }
         })
       }
-      if (this.value === void 0 || this.$listeners.input === void 0 || isSSR === true) {
+
+      if (this.value === void 0 || this.qListeners.input === void 0 || isSSR === true) {
         this.__processShow(evt)
       }
     },
@@ -79,7 +82,7 @@ export default {
         return
       }
 
-      if (this.$listeners.input !== void 0 && isSSR === false) {
+      if (this.qListeners.input !== void 0 && isSSR === false) {
         this.$emit('input', false)
         this.payload = evt
         this.$nextTick(() => {
@@ -88,7 +91,7 @@ export default {
           }
         })
       }
-      if (this.value === void 0 || this.$listeners.input === void 0 || isSSR === true) {
+      if (this.value === void 0 || this.qListeners.input === void 0 || isSSR === true) {
         this.__processHide(evt)
       }
     },
@@ -114,7 +117,7 @@ export default {
 
     __processModelChange (val) {
       if (this.disable === true && val === true) {
-        this.$listeners.input !== void 0 && this.$emit('input', false)
+        this.qListeners.input !== void 0 && this.$emit('input', false)
       }
       else if ((val === true) !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)

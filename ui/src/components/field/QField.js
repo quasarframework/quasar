@@ -1,14 +1,17 @@
 import Vue from 'vue'
 
+import { fromSSR } from '../../plugins/Platform.js'
+
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
+import AttrsMixin from '../../mixins/attrs.js'
+
 import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
-import { fromSSR } from '../../plugins/Platform.js'
 
 function getTargetUid (val) {
   return val === void 0 ? `f_${uid()}` : val
@@ -17,7 +20,7 @@ function getTargetUid (val) {
 export default Vue.extend({
   name: 'QField',
 
-  mixins: [ DarkMixin, ValidateMixin ],
+  mixins: [ DarkMixin, ValidateMixin, AttrsMixin ],
 
   inheritAttrs: false,
 
@@ -347,7 +350,7 @@ export default Vue.extend({
             ref: 'target',
             staticClass: 'q-field__native row',
             attrs: {
-              ...this.$attrs,
+              ...this.qAttrs,
               'data-autofocus': this.autofocus
             }
           }, this.$scopedSlots.control(this.controlSlotScope))

@@ -1,5 +1,3 @@
-import { isSSR } from '../plugins/Platform.js'
-
 export function getVmOfNode (el) {
   for (let node = el; node !== null; node = node.parentNode) {
     // node.__vue__ can be null if the instance was destroyed
@@ -19,13 +17,4 @@ export function isVmChildOf (childVm, parentVm) {
     }
   }
   return false
-}
-
-export function cache (vm, key, obj) {
-  if (isSSR === true) return obj
-
-  const k = `__qcache_${key}`
-  return vm[k] === void 0
-    ? (vm[k] = obj)
-    : vm[k]
 }

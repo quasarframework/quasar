@@ -8,7 +8,7 @@ import FileMixin, { FileValueMixin } from '../../mixins/file.js'
 
 import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QFile',
@@ -193,7 +193,7 @@ export default Vue.extend({
           title: '', // try to remove default tooltip,
           accept: this.accept,
           name: this.nameProp,
-          ...this.$attrs,
+          ...this.qAttrs,
           id: this.targetUid,
           disabled: this.editable !== true
         },

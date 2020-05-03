@@ -258,7 +258,7 @@ export default Vue.extend({
 
     if (this.isActionable === true) {
       data.on = {
-        ...this.$listeners,
+        ...this.qListeners,
         click: this.click,
         keydown: this.__onKeydown,
         mousedown: this.__onMousedown

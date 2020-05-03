@@ -2,11 +2,13 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
+
 import TimeoutMixin from '../../mixins/timeout.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop, noop } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 function getIndicatorClass (color, top, vertical) {
   const pos = vertical === true
@@ -44,7 +46,7 @@ const
 export default Vue.extend({
   name: 'QTabs',
 
-  mixins: [ TimeoutMixin ],
+  mixins: [ TimeoutMixin, ListenersMixin ],
 
   provide () {
     return {
@@ -175,7 +177,7 @@ export default Vue.extend({
     __activateTab (name, setCurrent, skipEmit) {
       if (this.tabs.current !== name) {
         skipEmit !== true && this.$emit('input', name)
-        if (setCurrent === true || this.$listeners.input === void 0) {
+        if (setCurrent === true || this.qListeners.input === void 0) {
           this.__animate(this.tabs.current, name)
           this.tabs.current = name
         }
@@ -425,7 +427,7 @@ export default Vue.extend({
       class: this.classes,
       on: {
         input: stop,
-        ...this.$listeners
+        ...this.qListeners
       },
       attrs: { role: 'tablist' }
     }, child)

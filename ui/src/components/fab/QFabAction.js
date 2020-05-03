@@ -4,6 +4,7 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import FabMixin from '../../mixins/fab.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { mergeSlot } from '../../utils/slot.js'
 
@@ -18,7 +19,7 @@ const anchorValues = Object.keys(anchorMap)
 export default Vue.extend({
   name: 'QFabAction',
 
-  mixins: [ FabMixin ],
+  mixins: [ ListenersMixin, FabMixin ],
 
   props: {
     icon: {
@@ -82,7 +83,7 @@ export default Vue.extend({
         fabMini: true
       },
       on: {
-        ...this.$listeners,
+        ...this.qListeners,
         click: this.click
       }
     }, mergeSlot(child, this, 'default'))

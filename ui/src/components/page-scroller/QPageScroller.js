@@ -106,7 +106,7 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-page-scroller',
           on: {
-            ...this.$listeners,
+            ...this.qListeners,
             click: this.__onClick
           }
         }, [

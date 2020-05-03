@@ -3,6 +3,7 @@ import Vue from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -11,7 +12,7 @@ import { isKeyCode } from '../../utils/key-composition.js'
 export default Vue.extend({
   name: 'QItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin, TagMixin ],
+  mixins: [ DarkMixin, RouterLinkMixin, TagMixin, ListenersMixin ],
 
   props: {
     active: Boolean,
@@ -115,7 +116,7 @@ export default Vue.extend({
 
     const evtProp = this.hasRouterLink === true ? 'nativeOn' : 'on'
     data[evtProp] = {
-      ...this.$listeners,
+      ...this.qListeners,
       click: this.__onClick,
       keyup: this.__onKeyup
     }

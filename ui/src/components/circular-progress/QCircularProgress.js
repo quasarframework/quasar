@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
 import SizeMixin from '../../mixins/size.js'
 import { mergeSlotSafely } from '../../utils/slot.js'
 import { between } from '../../utils/format.js'
@@ -13,7 +14,7 @@ const
 export default Vue.extend({
   name: 'QCircularProgress',
 
-  mixins: [ SizeMixin ],
+  mixins: [ ListenersMixin, SizeMixin ],
 
   props: {
     value: {
@@ -177,7 +178,7 @@ export default Vue.extend({
       staticClass: 'q-circular-progress',
       class: `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.sizeStyle,
-      on: this.$listeners,
+      on: this.qListeners,
       attrs: this.attrs
     }, mergeSlotSafely(child, this, 'internal'))
   }

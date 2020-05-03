@@ -6,12 +6,21 @@ import { FormFieldMixin } from '../../mixins/form.js'
 import { FileValueMixin } from '../../mixins/file.js'
 import MaskMixin from '../../mixins/mask.js'
 import CompositionMixin from '../../mixins/composition.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { stop } from '../../utils/event.js'
 
 export default Vue.extend({
   name: 'QInput',
 
-  mixins: [ QField, MaskMixin, CompositionMixin, FormFieldMixin, FileValueMixin ],
+  mixins: [
+    QField,
+    MaskMixin,
+    CompositionMixin,
+    FormFieldMixin,
+    FileValueMixin,
+    ListenersMixin
+  ],
 
   props: {
     value: { required: false },
@@ -67,7 +76,7 @@ export default Vue.extend({
         this.$nextTick(this.__adjustHeight)
       }
       // if it has a number of rows set respect it
-      else if (this.$attrs.rows > 0 && this.$refs.input !== void 0) {
+      else if (this.qAttrs.rows > 0 && this.$refs.input !== void 0) {
         const inp = this.$refs.input
         inp.style.height = 'auto'
       }
@@ -238,7 +247,7 @@ export default Vue.extend({
 
     __getControl (h) {
       const on = {
-        ...this.$listeners,
+        ...this.qListeners,
         input: this.__onInput,
         paste: this.__onPaste,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
@@ -262,7 +271,7 @@ export default Vue.extend({
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         name: this.nameProp,
-        ...this.$attrs,
+        ...this.qAttrs,
         id: this.targetUid,
         type: this.type,
         maxlength: this.maxlength,

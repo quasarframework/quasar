@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -8,6 +10,8 @@ import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QParallax',
+
+  mixins: [ ListenersMixin ],
 
   props: {
     src: String,
@@ -47,7 +51,7 @@ export default Vue.extend({
   methods: {
     __update (percentage) {
       this.percentScrolled = percentage
-      this.$listeners.scroll !== void 0 && this.$emit('scroll', percentage)
+      this.qListeners.scroll !== void 0 && this.$emit('scroll', percentage)
     },
 
     __onResize () {
@@ -104,7 +108,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-parallax',
       style: { height: `${this.height}px` },
-      on: this.$listeners
+      on: this.qListeners
     }, [
       h('div', {
         ref: 'mediaParent',

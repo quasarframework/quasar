@@ -1,7 +1,9 @@
 import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
+
 import RippleMixin from '../../mixins/ripple.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
@@ -12,7 +14,7 @@ let uid = 0
 export default Vue.extend({
   name: 'QTab',
 
-  mixins: [ RippleMixin ],
+  mixins: [ RippleMixin, ListenersMixin ],
 
   inject: {
     tabs: {
@@ -69,7 +71,7 @@ export default Vue.extend({
       keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
 
       if (this.disable !== true) {
-        this.$listeners.click !== void 0 && this.$emit('click', e)
+        this.qListeners.click !== void 0 && this.$emit('click', e)
         this.__activateTab(this.name)
       }
     },
@@ -149,7 +151,7 @@ export default Vue.extend({
         ],
         [tag === 'div' ? 'on' : 'nativeOn']: {
           input: stop,
-          ...this.$listeners,
+          ...this.qListeners,
           click: this.__activate,
           keyup: this.__onKeyup
         }

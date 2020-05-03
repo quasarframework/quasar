@@ -12,13 +12,14 @@ import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
 import DarkMixin from '../../mixins/dark.js'
+import AttrsMixin from '../../mixins/attrs.js'
 
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'BottomSheetPlugin',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, AttrsMixin ],
 
   inheritAttrs: false,
 
@@ -155,7 +156,7 @@ export default Vue.extend({
       ref: 'dialog',
 
       props: {
-        ...this.$attrs,
+        ...this.qAttrs,
         position: 'bottom'
       },
 

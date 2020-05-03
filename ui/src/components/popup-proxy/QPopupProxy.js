@@ -5,11 +5,13 @@ import QMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import { slot } from '../../utils/slot.js'
+import AttrsMixin from '../../mixins/attrs.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 export default Vue.extend({
   name: 'QPopupProxy',
 
-  mixins: [ AnchorMixin ],
+  mixins: [ AttrsMixin, ListenersMixin, AnchorMixin ],
 
   props: {
     breakpoint: {
@@ -99,9 +101,9 @@ export default Vue.extend({
 
     const data = {
       ref: 'popup',
-      props: Object.assign(props, this.$attrs),
+      props: Object.assign(props, this.qAttrs),
       on: {
-        ...this.$listeners,
+        ...this.qListeners,
         hide: this.__onHide
       }
     }
