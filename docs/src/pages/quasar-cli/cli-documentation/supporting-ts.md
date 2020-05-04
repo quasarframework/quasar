@@ -8,6 +8,10 @@ related:
 
 The Typescript support is not added by default to your project (unless you selected TS when you created your project folder), but it can be easily integrated by following the guide on this page.
 
+::: tip
+The following steps are only required when you **have not** selected TypeScript support when creating a fresh Quasar project. If you selected the TS option on project creation, TypeScript support is already enabled.
+:::
+
 ## Installation of TypeScript Support
 
 In order to support TypeScript, you'll need to edit `/quasar.conf.js`:
