@@ -75,7 +75,8 @@ $ icongenie generate -h
                             - min resolution: 64x64 px (the higher the better!!)
                             - with transparency
                           Best results are with a square image (height = width)
-                          Image will be trimmed automatically (also see "padding" param)
+                          Image will be trimmed automatically
+                            (also see "skip-trim" and "padding" param)
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
@@ -103,6 +104,8 @@ $ icongenie generate -h
     --quality             Quality of the files [1 - 12] (default: 5)
                             - higher quality --> bigger filesize & slower to create
                             - lower quality  --> smaller filesize & faster to create
+
+    --skip-trim           Do not trim the icon source file
 
     --padding             Apply fixed padding to the icon after trimming it;
                           Syntax: <horiz: number>,<vert: number>
@@ -260,7 +263,8 @@ $ icongenie profile -h
                             - min resolution: 64x64 px (the higher the better!!)
                             - with transparency
                           Best results are with a square image (height = width)
-                          Image will be trimmed automatically (also see "padding" param)
+                          Image will be trimmed automatically
+                            (also see "skip-trim" and "padding" param)
                           Path can be absolute, or relative to the root of the
                             Quasar project folder
                           Recommended min size: 1024x1024 px
@@ -287,6 +291,8 @@ $ icongenie profile -h
                           Quality of the files [1 - 12] (default: 5)
                             - higher quality --> bigger filesize & slower to create
                             - lower quality  --> smaller filesize & faster to create
+
+    --skip-trim           Do not trim the icon source file
 
     --padding             Apply fixed padding to the icon after trimming it;
                           Syntax: <horiz: number>,<vert: number>

@@ -23,6 +23,7 @@ function printBanner (assetsOf, params) {
  Quasar project folder..... ${green(appDir)}
  ${green(`Quality level............. ${params.quality}/12`)}
  Icon source file.......... ${green(params.icon)}
+ Icon trimming............. ${params.skipTrim ? 'no' : green('yes')}
  Icon padding.............. ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
  Background source file.... ${params.background ? green(params.background) : 'none'}
  Assets of................. ${green(assetsOf)}
