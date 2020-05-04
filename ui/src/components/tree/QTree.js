@@ -512,7 +512,7 @@ export default Vue.extend({
                   staticClass: 'q-tree__arrow q-mr-xs',
                   class: { 'q-tree__arrow--rotate': meta.expanded },
                   props: { name: this.computedIcon },
-                  nativeOn: {
+                  on: {
                     click: e => {
                       this.__onExpandClick(node, meta, e)
                     }
