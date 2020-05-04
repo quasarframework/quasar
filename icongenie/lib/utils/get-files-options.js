@@ -32,7 +32,7 @@ module.exports = async function getFilesOptions ({
   ...opts
 }) {
   const qualityLevel = parseInt(quality, 10)
-  const sharpIcon = sharp(icon).withMetadata().trim()
+  const sharpIcon = sharp(icon).withMetadata()
   const sharpBackground = background
     ? sharp(background).withMetadata()
     : sharp({
@@ -43,6 +43,10 @@ module.exports = async function getFilesOptions ({
         background: { r: 0, g: 0, b: 0, alpha: 0 }
       }
     })
+
+  if (opts.skipTrim !== true) {
+    sharpIcon.trim()
+  }
 
   const computedPadding = padding
     ? (

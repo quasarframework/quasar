@@ -15,6 +15,8 @@ const paramsSchema = Joi.object({
 
   filter: Joi.string().valid(...generatorsList),
   quality: Joi.number().integer().min(1).max(12),
+
+  skipTrim: Joi.boolean(),
   padding: Joi.array().items(
     Joi.number().integer().min(0)
   ).min(1).max(2),
