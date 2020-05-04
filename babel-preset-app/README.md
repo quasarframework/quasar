@@ -2,7 +2,7 @@
 
 # Quasar Framework CLI Babel Preset
 
-> Build responsive Single Page Apps, **SSR Apps**, PWAs, Hybrid Mobile Apps and Electron Apps, all using the same codebase!, powered with Vue.
+> Build high-performance VueJS user interfaces in record time: responsive Single Page Apps, SSR Apps, PWAs, Browser extensions, Hybrid Mobile Apps and Electron Apps. If you want, all using the same codebase!
 >
 > **DO NOT manually install this package. This package is supplied by `@quasar/app` and should not be used outside of it.**
 
