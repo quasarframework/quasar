@@ -32,6 +32,13 @@ export default Vue.extend({
   computed: {
     parsedBreakpoint () {
       return parseInt(this.breakpoint, 10)
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        hide: this.__onHide
+      }
     }
   },
 
@@ -51,13 +58,6 @@ export default Vue.extend({
     breakpoint (breakpoint) {
       if (this.$refs.popup.showing !== true) {
         this.__updateType(this.$q.screen.width, this.$q.screen.height, parseInt(breakpoint, 10))
-      }
-    },
-
-    onEvents () {
-      return {
-        ...this.qListeners,
-        hide: this.__onHide
       }
     }
   },
