@@ -8,7 +8,7 @@ import { getSizeMixin } from '../../mixins/size.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { mergeSlotSafely } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QChip',
@@ -86,13 +86,8 @@ export default Vue.extend({
 
     attrs () {
       return this.disable === true
-        ? {
-          tabindex: -1,
-          'aria-disabled': ''
-        }
-        : {
-          tabindex: this.tabindex || 0
-        }
+        ? { tabindex: -1, 'aria-disabled': '' }
+        : { tabindex: this.tabindex || 0 }
     }
   },
 
@@ -146,15 +141,15 @@ export default Vue.extend({
         })
       )
 
-      this.removable && child.push(
+      this.removable === true && child.push(
         h(QIcon, {
           staticClass: 'q-chip__icon q-chip__icon--remove cursor-pointer',
           props: { name: this.$q.iconSet.chip.remove },
           attrs: this.attrs,
-          nativeOn: {
+          on: cache(this, 'non', {
             click: this.__onRemove,
             keyup: this.__onRemove
-          }
+          })
         })
       )
 

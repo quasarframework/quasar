@@ -14,6 +14,9 @@ import './import-quasar.js'
 
 <% if (ctx.mode.ssr) { %>
 import <%= framework.all === true ? 'Quasar' : '{ Quasar }' %> from 'quasar'
+<% if (ctx.mode.pwa) { %>
+import { isRunningOnPWA } from './ssr-pwa'
+<% } %>
 <% } %>
 
 import App from 'app/<%= sourceFiles.rootComponent %>'
@@ -51,7 +54,6 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
   // Here we inject the router, store to all child components,
   // making them available everywhere as `this.$router` and `this.$store`.
   const app = {
-    <% if (!ctx.mode.ssr) { %>el: '#q-app',<% } %>
     router,
     <%= store ? 'store,' : '' %>
     render: h => h(App)<% if (__needsAppMountHook === true) { %>,
@@ -66,8 +68,20 @@ export default async function (<%= ctx.mode.ssr ? 'ssrContext' : '' %>) {
     }<% } %>
   }
 
+
   <% if (ctx.mode.ssr) { %>
+    <% if (ctx.mode.pwa) { %>
+  if (isRunningOnPWA === true) {
+    app.el = '#q-app'
+  }
+  else {
+    Quasar.ssrUpdate({ app, ssr: ssrContext })
+  }
+    <% } else { %>
   Quasar.ssrUpdate({ app, ssr: ssrContext })
+    <% } %>
+  <% } else { %>
+  app.el = '#q-app'
   <% } %>
 
   // expose the app, the router and the store.

@@ -4,6 +4,7 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import FabMixin from '../../mixins/fab.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { mergeSlot } from '../../utils/slot.js'
 
@@ -18,7 +19,7 @@ const anchorValues = Object.keys(anchorMap)
 export default Vue.extend({
   name: 'QFabAction',
 
-  mixins: [ FabMixin ],
+  mixins: [ ListenersMixin, FabMixin ],
 
   props: {
     icon: {
@@ -47,6 +48,13 @@ export default Vue.extend({
     classes () {
       const align = anchorMap[this.anchor]
       return this.formClass + (align !== void 0 ? ` ${align}` : '')
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        click: this.click
+      }
     }
   },
 
@@ -81,10 +89,7 @@ export default Vue.extend({
         noCaps: true,
         fabMini: true
       },
-      on: {
-        ...this.$listeners,
-        click: this.click
-      }
+      on: this.onEvents
     }, mergeSlot(child, this, 'default'))
   }
 })

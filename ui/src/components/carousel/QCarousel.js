@@ -8,7 +8,7 @@ import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
 import { mergeSlot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QCarousel',
@@ -183,7 +183,7 @@ export default Vue.extend({
             staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
           }, [
             h(QBtn, {
-              props: Object.assign({ icon: this.arrowIcons[0] }, this.controlProps),
+              props: { icon: this.arrowIcons[0], ...this.controlProps },
               on: cache(this, 'prev', { click: this.previous })
             })
           ]),
@@ -191,7 +191,7 @@ export default Vue.extend({
             staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
           }, [
             h(QBtn, {
-              props: Object.assign({ icon: this.arrowIcons[1] }, this.controlProps),
+              props: { icon: this.arrowIcons[1], ...this.controlProps },
               on: cache(this, 'next', { click: this.next })
             })
           ])
@@ -205,7 +205,7 @@ export default Vue.extend({
       return h('div', {
         style: this.style,
         class: this.classes,
-        on: this.$listeners
+        on: this.qListeners
       }, [
         h('div', {
           staticClass: 'q-carousel__slides-container',

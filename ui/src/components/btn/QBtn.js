@@ -50,13 +50,41 @@ export default Vue.extend({
       }
     },
 
-    onLoadingEvents () {
-      return {
-        mousedown: this.__onLoadingEvt,
-        touchstart: this.__onLoadingEvt,
-        click: this.__onLoadingEvt,
-        keydown: this.__onLoadingEvt,
-        keyup: this.__onLoadingEvt
+    onEvents () {
+      if (this.loading === true) {
+        return {
+          mousedown: this.__onLoadingEvt,
+          touchstart: this.__onLoadingEvt,
+          click: this.__onLoadingEvt,
+          keydown: this.__onLoadingEvt,
+          keyup: this.__onLoadingEvt
+        }
+      }
+      else if (this.isActionable === true) {
+        const on = {
+          ...this.qListeners,
+          click: this.click,
+          keydown: this.__onKeydown,
+          mousedown: this.__onMousedown
+        }
+
+        if (this.$q.platform.has.touch === true) {
+          on.touchstart = this.__onTouchstart
+        }
+
+        return on
+      }
+
+      return {}
+    },
+
+    directives () {
+      if (this.disable !== true && this.ripple !== false) {
+        return [{
+          name: 'ripple',
+          value: this.computedRipple,
+          modifiers: { center: this.round }
+        }]
       }
     }
   },
@@ -249,33 +277,6 @@ export default Vue.extend({
 
   render (h) {
     let inner = []
-    const data = {
-      staticClass: 'q-btn q-btn-item non-selectable no-outline',
-      class: this.classes,
-      style: this.style,
-      attrs: this.attrs
-    }
-
-    if (this.isActionable === true) {
-      data.on = {
-        ...this.$listeners,
-        click: this.click,
-        keydown: this.__onKeydown,
-        mousedown: this.__onMousedown
-      }
-
-      if (this.$q.platform.has.touch === true) {
-        data.on.touchstart = this.__onTouchstart
-      }
-    }
-
-    if (this.disable !== true && this.ripple !== false) {
-      data.directives = [{
-        name: 'ripple',
-        value: this.computedRipple,
-        modifiers: { center: this.round }
-      }]
-    }
 
     this.icon !== void 0 && inner.push(
       h(QIcon, {
@@ -307,11 +308,8 @@ export default Vue.extend({
       })
     ]
 
-    if (this.loading === true) {
-      // stop propagation and ripple
-      data.on = this.onLoadingEvents
-
-      this.percentage !== void 0 && child.push(
+    if (this.loading === true && this.percentage !== void 0) {
+      child.push(
         h('div', {
           staticClass: 'q-btn__progress absolute-full overflow-hidden'
         }, [
@@ -346,6 +344,13 @@ export default Vue.extend({
       ] : void 0)
     )
 
-    return h(this.isLink === true ? 'a' : 'button', data, child)
+    return h(this.isLink === true ? 'a' : 'button', {
+      staticClass: 'q-btn q-btn-item non-selectable no-outline',
+      class: this.classes,
+      style: this.style,
+      attrs: this.attrs,
+      on: this.onEvents,
+      directives: this.directives
+    }, child)
   }
 })

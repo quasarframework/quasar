@@ -50,7 +50,7 @@ module.exports.renderToString = function ({ req, res }, cb) {
 <% if (flags.meta) { %>
   renderer.renderToString(ctx, (err, html) => {
     if (err) { cb(err, html) }
-    else { cb(err, ctx.$getMetaHTML(html)) }
+    else { cb(err, ctx.$getMetaHTML(html, ctx)) }
   })
 <% } else { %>
   renderer.renderToString(ctx, cb)

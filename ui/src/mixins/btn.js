@@ -1,9 +1,11 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
+import ListenersMixin from './listeners.js'
 import { getSizeMixin } from './size.js'
 
 export default {
   mixins: [
+    ListenersMixin,
     RippleMixin,
     AlignMixin,
     getSizeMixin({
@@ -108,7 +110,7 @@ export default {
         attrs.role = 'progressbar'
         attrs['aria-valuemin'] = 0
         attrs['aria-valuemax'] = 100
-        attrs['aria-valuenow'] = this.computedPercentage
+        attrs['aria-valuenow'] = this.percentage
       }
 
       if (this.disable === true) {

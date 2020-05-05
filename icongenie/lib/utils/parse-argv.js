@@ -1,5 +1,6 @@
 const { existsSync, lstatSync } = require('fs')
 const { resolve, normalize, join } = require('path')
+const untildify = require('untildify')
 
 const getPngSize = require('./get-png-size')
 const { warn } = require('./logger')
@@ -17,7 +18,7 @@ function profile (value, argv) {
     return
   }
 
-  const profilePath = resolve(process.cwd(), value)
+  const profilePath = resolve(process.cwd(), untildify(value))
 
   if (!existsSync(profilePath)) {
     die(`Profile param does not point to a file or folder that exists!`)
@@ -96,6 +97,33 @@ function filter (value) {
   }
 }
 
+function padding (value, argv) {
+  if (!value) {
+    argv.padding = [ 0, 0 ]
+    return
+  }
+
+  const sizes = (Array.isArray(value) ? value : value.split(','))
+    .map(val => parseInt(val, 10))
+
+  if (sizes.length > 2) {
+    die(`Invalid padding specified`)
+  }
+
+  sizes.forEach(size => {
+    if (isNaN(size)) {
+      die(`Invalid padding specified (not numbers)`)
+    }
+    if (size < 0) {
+      die(`Invalid padding specified (not all positive numbers)`)
+    }
+  })
+
+  argv.padding = sizes.length === 1
+    ? [ sizes[0], sizes[0] ]
+    : sizes
+}
+
 function icon (value, argv) {
   if (!value) {
     warn(`No source icon file specified, so using the sample one`)
@@ -106,7 +134,7 @@ function icon (value, argv) {
 
   const { appDir } = require('./app-paths')
 
-  argv.icon = resolve(appDir, value)
+  argv.icon = resolve(appDir, untildify(value))
 
   if (!existsSync(argv.icon)) {
     die(`Path to source icon file does not exists: "${value}"`)
@@ -121,10 +149,6 @@ function icon (value, argv) {
   if (width < 64 || height < 64) {
     die(`Icon source file does not have the minimum 64x64px resolution`)
   }
-
-  if (width !== height) {
-    die(`Icon source file resolution has width !== height`)
-  }
 }
 
 function background (value, argv) {
@@ -134,7 +158,7 @@ function background (value, argv) {
 
   const { appDir } = require('./app-paths')
 
-  argv.background = resolve(appDir, value)
+  argv.background = resolve(appDir, untildify(value))
 
   if (!existsSync(argv.background)) {
     die(`Path to background source file does not exists: "${value}"`)
@@ -220,6 +244,7 @@ const parsers = {
   mode,
   quality,
   filter,
+  padding,
   icon,
   background,
   splashscreenIconRatio,

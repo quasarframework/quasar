@@ -1,14 +1,17 @@
 import Vue from 'vue'
 
+import { fromSSR } from '../../plugins/Platform.js'
+
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 
 import ValidateMixin from '../../mixins/validate.js'
 import DarkMixin from '../../mixins/dark.js'
+import AttrsMixin from '../../mixins/attrs.js'
+
 import { slot } from '../../utils/slot.js'
 import uid from '../../utils/uid.js'
 import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
-import { fromSSR } from '../../plugins/Platform.js'
 
 function getTargetUid (val) {
   return val === void 0 ? `f_${uid()}` : val
@@ -17,7 +20,7 @@ function getTargetUid (val) {
 export default Vue.extend({
   name: 'QField',
 
-  mixins: [ DarkMixin, ValidateMixin ],
+  mixins: [ DarkMixin, ValidateMixin, AttrsMixin ],
 
   inheritAttrs: false,
 
@@ -129,7 +132,7 @@ export default Vue.extend({
     shouldRenderBottom () {
       return this.bottomSlots === true ||
         this.hint !== void 0 ||
-        this.rules !== void 0 ||
+        this.hasRules === true ||
         this.counter === true ||
         this.error !== null
     },
@@ -328,10 +331,14 @@ export default Vue.extend({
         }, [ this.prefix ])
       )
 
-      if (this.__getControl !== void 0) {
+      if (this.hasShadow === true && this.__getShadowControl !== void 0) {
         node.push(
-          this.__getControl(h)
+          this.__getShadowControl(h)
         )
+      }
+
+      if (this.__getControl !== void 0) {
+        node.push(this.__getControl(h))
       }
       // internal usage only:
       else if (this.$scopedSlots.rawControl !== void 0) {
@@ -343,7 +350,7 @@ export default Vue.extend({
             ref: 'target',
             staticClass: 'q-field__native row',
             attrs: {
-              ...this.$attrs,
+              ...this.qAttrs,
               'data-autofocus': this.autofocus
             }
           }, this.$scopedSlots.control(this.controlSlotScope))
@@ -475,6 +482,8 @@ export default Vue.extend({
     },
 
     __clearValue (e) {
+      this.focused = false
+
       // prevent activating the field but keep focus on desktop
       stopAndPrevent(e)
       this.$el.focus()

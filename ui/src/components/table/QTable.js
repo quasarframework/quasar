@@ -7,10 +7,11 @@ import Bottom from './table-bottom.js'
 import TableGrid from './table-grid.js'
 import QVirtualScroll from '../virtual-scroll/QVirtualScroll.js'
 import QLinearProgress from '../linear-progress/QLinearProgress.js'
+import getTableMiddle from './get-table-middle.js'
 
 import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
 import DarkMixin from '../../mixins/dark.js'
-import getTableMiddle from './get-table-middle.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import Sort from './table-sort.js'
 import Filter from './table-filter.js'
@@ -20,7 +21,7 @@ import RowExpand from './table-row-expand.js'
 import ColumnSelection from './table-column-selection.js'
 import FullscreenMixin from '../../mixins/fullscreen.js'
 
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 const commonVirtPropsObj = {}
 commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })
@@ -30,6 +31,7 @@ export default Vue.extend({
 
   mixins: [
     DarkMixin,
+    ListenersMixin,
 
     FullscreenMixin,
     Top,

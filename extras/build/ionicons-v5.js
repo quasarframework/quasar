@@ -8,10 +8,10 @@ const { copySync } = require('fs-extra')
 const { resolve } = require('path')
 
 let skipped = []
-const distFolder = resolve(__dirname, `../ionicons-v4`)
+const distFolder = resolve(__dirname, `../ionicons-v5`)
 const { defaultNameMapper, extract, writeExports } = require('./utils')
 
-const svgFolder = resolve(__dirname, `../node_modules/${packageName}/dist/ionicons/svg/`)
+const svgFolder = resolve(__dirname, `../node_modules/${packageName}/dist/svg/`)
 const svgFiles = glob.sync(svgFolder + '/*.svg')
 const iconNames = new Set()
 
@@ -40,21 +40,7 @@ svgFiles.forEach(file => {
 
 writeExports(iconSetName, packageName, distFolder, svgExports, typeExports, skipped)
 
-// then update webfont files
-
-const webfont = [
-  'ionicons.woff',
-  'ionicons.woff2'
-]
-
-webfont.forEach(file => {
-  copySync(
-    resolve(__dirname, `../node_modules/${packageName}/dist/fonts/${file}`),
-    resolve(__dirname, `../ionicons-v4/${file}`)
-  )
-})
-
 copySync(
   resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
-  resolve(__dirname, `../ionicons-v4/LICENSE`)
+  resolve(__dirname, `../ionicons-v5/LICENSE`)
 )

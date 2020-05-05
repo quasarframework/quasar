@@ -3,7 +3,7 @@ import Vue from 'vue'
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 import QCircularProgress from '../circular-progress/QCircularProgress.js'
 import FormMixin from '../../mixins/form.js'

@@ -4,7 +4,7 @@ const Parser = new xmldom.DOMParser()
 const { resolve, basename } = require('path')
 const { readFileSync, writeFileSync } = require('fs')
 
-const typeExceptions = [ 'g', 'svg', 'defs', 'style' ]
+const typeExceptions = [ 'g', 'svg', 'defs', 'style', 'title' ]
 
 function getAttributes (el, list) {
   const att = {}
@@ -115,11 +115,11 @@ function parseSvgContent(name, content) {
 }
 
 function getBanner(iconSetName, versionOrPackageName) {
-  const version = 
+  const version =
     versionOrPackageName.match(/^\d/)
     ? versionOrPackageName
     : require(resolve(__dirname, `../../node_modules/${versionOrPackageName}/package.json`)).version
-  
+
   return `/* ${iconSetName} v${version} */\n\n`
 }
 
@@ -145,10 +145,10 @@ module.exports.writeExports = (iconSetName, versionOrPackageName, distFolder, sv
   else {
     const banner = getBanner(iconSetName, versionOrPackageName);
     const distIndex = `${distFolder}/index`
-  
+
     writeFileSync(`${distIndex}.js`, banner + svgExports.join('\n'), 'utf-8')
     writeFileSync(`${distIndex}.d.ts`, banner + typeExports.join('\n'), 'utf-8')
-  
+
     if (skipped.length > 0) {
       console.log(`${iconSetName} - skipped (${skipped.length}): ${skipped}`)
     }

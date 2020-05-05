@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
 import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
@@ -8,6 +10,8 @@ import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QInfiniteScroll',
+
+  mixins: [ ListenersMixin ],
 
   props: {
     offset: {
@@ -188,7 +192,7 @@ export default Vue.extend({
 
     return h('div', {
       staticClass: 'q-infinite-scroll',
-      on: this.$listeners
+      on: this.qListeners
     }, child)
   }
 })

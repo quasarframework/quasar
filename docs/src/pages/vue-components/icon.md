@@ -144,6 +144,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Material Icons (Google) | svg-material-icons | @quasar/extras/material-icons | |
 | MDI (Material Design Icons) | svg-mdi-v4 | @quasar/extras/mdi-v4 | |
 | Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
+| Ionicons | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | `@quasar/extras` v1.7+ |
 | Ionicons | svg-ionicons-v4 | @quasar/extras/ionicons-v4 | |
 | Eva Icons | svg-eva-icons | @quasar/extras/eva-icons | |
 | Themify Icons | svg-themify | @quasar/extras/themify | |
@@ -180,7 +181,7 @@ The SVG format of Material Icons from Google is parsed from **their official rep
 
 * Icon names are in camel-case and always begin with "ionMd" or "ionIos" prefixes.
 * Go to [Ionicons](https://ionicons.com/), look for your desired icon, click on it. At the bottom of the page there will appear a popup. Notice something like `<ion-icon name="square-outline"></ion-icon>`. Remember the name (eg. "square-outline"). Camel-case this name and prefix it with either "ionMd" (for material variant) or "ionIos" (for iOS variant).
-* Import statement example: `import { ionMdSquareOutline } from '@quasar/extras/ionicons-v4'`.
+* Import statement example: `import { ionMdSquareOutline } from '@quasar/extras/ionicons-v4'` (or `-v5`).
 
 #### SVG Eva Icons
 

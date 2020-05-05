@@ -13,8 +13,8 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       header-menu.self-stretch.row.no-wrap(v-if="$q.screen.gt.xs")
 
-      q-btn.q-ml-xs.lt-md(
-        v-show="hasRightDrawer",
+      q-btn.q-ml-xs(
+        v-show="showRightDrawerToggler"
         flat,
         dense,
         round,
@@ -24,6 +24,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
       )
 
   q-drawer(
+    side="left"
     v-model="leftDrawerState"
     show-if-above
     bordered
@@ -71,9 +72,9 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
   q-drawer(
     v-if="hasRightDrawer"
+    side="right"
     v-model="rightDrawerState"
     show-if-above
-    side="right"
     content-class="bg-grey-1"
     :width="180"
     @on-layout="updateRightDrawerOnLayout"
@@ -83,16 +84,16 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
       q-list.doc-toc.q-my-lg.text-grey-8
         q-item(
-          v-for="toc in $store.state.toc",
-          :key="toc.id",
+          v-for="tocItem in tocList",
+          :key="tocItem.id",
           clickable,
           v-ripple,
           dense,
-          @click="scrollTo(toc.id)",
-          :active="activeToc === toc.id"
+          @click="scrollTo(tocItem.id)",
+          :active="activeToc === tocItem.id"
         )
-          q-item-section(v-if="toc.sub === true", side) •
-          q-item-section {{ toc.title }}
+          q-item-section(v-if="tocItem.sub === true", side) •
+          q-item-section {{ tocItem.title }}
 
   q-page-container
     transition(
@@ -109,12 +110,14 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 
 <script>
 import { scroll } from 'quasar'
-import AppMenu from 'components/AppMenu'
-import HeaderMenu from 'components/HeaderMenu'
-
 import {
   mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp
 } from '@quasar/extras/mdi-v4'
+
+import AppMenu from 'components/AppMenu'
+import HeaderMenu from 'components/HeaderMenu'
+
+const { getScrollTarget, setScrollPosition } = scroll
 
 export default {
   name: 'Layout',
@@ -132,52 +135,58 @@ export default {
     HeaderMenu
   },
 
-  watch: {
-    $route () {
-      this.leftDrawerState = this.$q.screen.width > 1023
-      this.rightDrawerState = this.$q.screen.width > 1023
-      this.$nextTick(() => {
-        this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
-      })
-    }
-  },
-
   data () {
     return {
       search: '',
       searchFocused: false,
+
+      leftDrawerState: false,
+      rightDrawerState: false,
       rightDrawerOnLayout: false,
+
       activeToc: void 0
     }
   },
 
   computed: {
-    leftDrawerState: {
-      get () {
-        return this.$store.state.leftDrawerState
-      },
-      set (val) {
-        this.$store.commit('updateLeftDrawerState', val)
-      }
-    },
-
-    rightDrawerState: {
-      get () {
-        return this.$store.state.rightDrawerState
-      },
-      set (val) {
-        this.$store.commit('updateRightDrawerState', val)
-      }
-    },
-
-    hasRightDrawer () {
-      return this.$store.state.toc.length > 0 || this.$q.screen.lt.sm === true
-    },
-
     searchPlaceholder () {
       return this.searchFocused === true
         ? 'Type to start searching...'
         : (this.$q.platform.is.desktop === true ? `Type ' / ' to focus here...` : 'Search...')
+    },
+
+    hasRightDrawer () {
+      return this.tocList.length > 0 || this.$q.screen.lt.sm
+    },
+
+    showRightDrawerToggler () {
+      return this.hasRightDrawer === true &&
+        this.rightDrawerOnLayout === false
+    },
+
+    tocList () {
+      const toc = this.$root.store.toc
+      return toc.length > 0
+        ? [
+          { id: 'Introduction', title: 'Introduction' },
+          ...this.$root.store.toc
+        ]
+        : toc
+    }
+  },
+
+  watch: {
+    $route () {
+      this.leftDrawerState = this.$q.screen.width > 1023
+      this.$nextTick(() => {
+        this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
+      })
+    },
+
+    hasRightDrawer (shown) {
+      if (shown === false) {
+        this.rightDrawerState = false
+      }
     }
   },
 
@@ -204,11 +213,11 @@ export default {
         if (this.rightDrawerOnLayout !== true) {
           this.rightDrawerState = false
           this.scrollTimer = setTimeout(() => {
-            this.scrollPage(el)
+            this.scrollPage(el, 500)
           }, 300)
         }
         else {
-          this.scrollPage(el)
+          this.scrollPage(el, 500)
         }
 
         el.id = ''
@@ -223,16 +232,17 @@ export default {
       }
     },
 
-    scrollPage (el) {
+    scrollPage (el, delay) {
       const
-        target = scroll.getScrollTarget(el),
+        target = getScrollTarget(el),
         offset = el.offsetTop - el.scrollHeight
 
       this.scrollingPage = true
+      setScrollPosition(target, offset, delay)
+
       this.scrollTimer = setTimeout(() => {
         this.scrollingPage = false
-      }, 510)
-      scroll.setScrollPosition(target, offset, 500)
+      }, delay + 10)
     },
 
     updateRightDrawerOnLayout (state) {
@@ -246,7 +256,7 @@ export default {
     },
 
     updateActiveToc (position) {
-      const toc = this.$store.state.toc
+      const toc = this.tocList
       let last
 
       for (const i in toc) {
@@ -295,51 +305,69 @@ export default {
 
     onSearchBlur () {
       this.searchFocused = false
+    },
+
+    scrollToCurrentAnchor () {
+      const hash = window.location.hash
+
+      if (hash.length > 0) {
+        const el = document.getElementById(hash.substring(1))
+        this.scrollPage(el, 0)
+      }
+    },
+
+    initializeAlgolia () {
+      // If we have a search string in the query (mostly from tab-to-search functionality),
+      // we need to open the drawer to fill in the search string in the input later
+      const searchQuery = this.$route.query.search
+
+      if (searchQuery) {
+        this.leftDrawerState = true
+      }
+
+      import(
+        /* webpackChunkName: "algolia" */
+        'docsearch.js'
+      ).then(docsearch => {
+        docsearch.default({
+          apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
+          indexName: 'quasar-framework',
+          inputSelector: '.doc-algolia input',
+          algoliaOptions: {
+            hitsPerPage: 7
+          },
+          handleSelected: (a, b, suggestion, c, context) => {
+            const url = suggestion.url.replace('https://quasar.dev', '')
+
+            this.search = ''
+            this.$router.push(url)
+            this.$refs.docAlgolia.blur()
+          }
+        })
+
+        if (this.$q.platform.is.desktop === true) {
+          window.addEventListener('keypress', this.focusOnSearch)
+        }
+
+        if (searchQuery) {
+          // Here we put search string from query into the input and open the search popup.
+          // Unfortunately, this input is managed completely by Algolia and their code doesn't seem to
+          // have a method of opening the popup programmatically, so we need to simulate typing on that input element.
+          // We also need to dispatch the event only after the input text is populated and Vue will
+          // do that in next render, so we schedule it on the next event loop iteration with setTimeout.
+          this.search = searchQuery
+          this.$refs.docAlgolia.focus()
+          setTimeout(() => {
+            this.$refs.docAlgolia.$refs.input.dispatchEvent(new Event('input', {}))
+          })
+        }
+      })
     }
   },
 
   mounted () {
-    // If we have a search string in the query (mostly from tab-to-search functionality),
-    // we need to open the drawer to fill in the search string in the input later
-    const searchQuery = this.$route.query.search
-    if (searchQuery) {
-      this.leftDrawerState = true
-    }
-
-    import('docsearch.js').then(docsearch => {
-      docsearch.default({
-        apiKey: '5c15f3938ef24ae49e3a0e69dc4a140f',
-        indexName: 'quasar-framework',
-        inputSelector: '.doc-algolia input',
-        algoliaOptions: {
-          hitsPerPage: 7
-        },
-        handleSelected: (a, b, suggestion, c, context) => {
-          const url = suggestion.url.replace('https://quasar.dev', '')
-
-          this.search = ''
-          this.$router.push(url)
-          this.$refs.docAlgolia.blur()
-        }
-      })
-
-      if (this.$q.platform.is.desktop === true) {
-        window.addEventListener('keypress', this.focusOnSearch)
-      }
-
-      if (searchQuery) {
-        // Here we put search string from query into the input and open the search popup.
-        // Unfortunately, this input is managed completely by Algolia and their code doesn't seem to
-        // have a method of opening the popup programmatically, so we need to simulate typing on that input element.
-        // We also need to dispatch the event only after the input text is populated and Vue will
-        // do that in next render, so we schedule it on the next event loop iteration with setTimeout.
-        this.search = searchQuery
-        this.$refs.docAlgolia.focus()
-        setTimeout(() => {
-          this.$refs.docAlgolia.$refs.input.dispatchEvent(new Event('input', {}))
-        })
-      }
-    })
+    this.scrollToCurrentAnchor()
+    this.initializeAlgolia()
   },
 
   beforeDestroy () {

@@ -6,10 +6,10 @@ related:
   - /quasar-cli/quasar-conf-js
 ---
 
-The Typescript support is not added by default to your project, but it can be easily integrated by following the guide on this page.
+The Typescript support is not added by default to your project (unless you selected TS when you created your project folder), but it can be easily integrated by following the guide on this page.
 
-::: warning Attention developers on Windows
-It is strongly recommended to use Yarn instead of NPM when developing on a Windows machine, to avoid many problems.
+::: tip
+The following steps are only required when you **have not** selected TypeScript support when creating a fresh Quasar project. If you selected the TS option on project creation, TypeScript support is already enabled.
 :::
 
 ## Installation of TypeScript Support
@@ -71,11 +71,13 @@ module.exports = function (ctx) {
 
 ### Linting setup
 
-First add needed dependencies
+First add needed dependencies:
 
-`yarn add -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin`
+```bash
+$ yarn add --dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
+```
 
-then update your ESLint configuration accordingly, like in the following example:
+Then update your ESLint configuration accordingly, like in the following example:
 
 ```js
 // .eslintrc.js
@@ -86,7 +88,7 @@ module.exports = {
   // This option interrupts the configuration hierarchy at this file
   // Remove this if you have an higher level ESLint config file (it usually happens into a monorepos)
   root: true,
-  
+
   // https://eslint.vuejs.org/user-guide/#how-to-use-custom-parser
   // Must use parserOptions instead of "parser" to allow vue-eslint-parser to keep working
   // `parser: 'vue-eslint-parser'` is already included with any 'plugin:vue/**' config and should be omitted
@@ -112,12 +114,12 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:@typescript-eslint/recommended',
     // consider disabling this class of rules if linting takes too long
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',    
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
 
     // https://eslint.vuejs.org/rules/#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules
     'plugin:vue/essential',
-    
+
     // --- ONLY WHEN USING PRETTIER ---
     // https://github.com/prettier/eslint-config-prettier#installation
     // usage with Prettier, provided by 'eslint-config-prettier'.
@@ -125,7 +127,7 @@ module.exports = {
     'prettier/@typescript-eslint',
     'prettier/vue',
   ],
-  
+
   plugins: [
     // required to apply rules which need type information
     '@typescript-eslint',
@@ -134,11 +136,11 @@ module.exports = {
     // required to lint *.vue files
     'vue',
   ],
-  
+
   // add your custom rules here
   rules: {
     // others rules...
-  
+
     // TypeScript
     'quotes': ['warn', 'single'],
     '@typescript-eslint/explicit-function-return-type': 'off',
@@ -146,7 +148,7 @@ module.exports = {
 }
 ```
 
-If anything goes wrong, read `typescript-eslint` [guide](https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md), on which this example is based.
+If anything goes wrong, read the [typescript-eslint guide](https://github.com/typescript-eslint/typescript-eslint/blob/master/docs/getting-started/linting/README.md), on which this example is based.
 
 As a last step, update your `yarn lint` command to also lint `.ts` files.
 

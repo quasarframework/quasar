@@ -33,6 +33,7 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 ├── src-pwa/                 # PWA specific code (like Service Worker)
 ├── src-cordova/             # Cordova generated folder used to create Mobile Apps
 ├── src-electron/            # Electron specific code (like "main" thread)
+├── src-bex/                 # BEX (browser extension) specific code (like "main" thread)
 ├── dist/                    # where production builds go
 │   ├── spa/                 # example when building SPA
 │   ├── ssr/                 # example when building SSR

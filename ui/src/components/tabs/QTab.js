@@ -1,7 +1,9 @@
 import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
+
 import RippleMixin from '../../mixins/ripple.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
@@ -12,7 +14,7 @@ let uid = 0
 export default Vue.extend({
   name: 'QTab',
 
-  mixins: [ RippleMixin ],
+  mixins: [ RippleMixin, ListenersMixin ],
 
   inject: {
     tabs: {
@@ -61,6 +63,29 @@ export default Vue.extend({
 
     computedTabIndex () {
       return this.disable === true || this.isActive === true ? -1 : this.tabindex || 0
+    },
+
+    onEvents () {
+      return {
+        input: stop,
+        ...this.qListeners,
+        click: this.__activate,
+        keyup: this.__onKeyup
+      }
+    },
+
+    attrs () {
+      const attrs = {
+        tabindex: this.computedTabIndex,
+        role: 'tab',
+        'aria-selected': this.isActive
+      }
+
+      if (this.disable === true) {
+        attrs['aria-disabled'] = ''
+      }
+
+      return attrs
     }
   },
 
@@ -69,7 +94,7 @@ export default Vue.extend({
       keyboard !== true && this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
 
       if (this.disable !== true) {
-        this.$listeners.click !== void 0 && this.$emit('click', e)
+        this.qListeners.click !== void 0 && this.$emit('click', e)
         this.__activateTab(this.name)
       }
     },
@@ -139,24 +164,11 @@ export default Vue.extend({
       const data = {
         staticClass: 'q-tab relative-position self-stretch flex flex-center text-center',
         class: this.classes,
-        attrs: {
-          tabindex: this.computedTabIndex,
-          role: 'tab',
-          'aria-selected': this.isActive
-        },
+        attrs: this.attrs,
         directives: this.ripple !== false && this.disable === true ? null : [
           { name: 'ripple', value: this.ripple }
         ],
-        [tag === 'div' ? 'on' : 'nativeOn']: {
-          input: stop,
-          ...this.$listeners,
-          click: this.__activate,
-          keyup: this.__onKeyup
-        }
-      }
-
-      if (this.disable === true) {
-        data.attrs['aria-disabled'] = ''
+        [ tag === 'div' ? 'on' : 'nativeOn' ]: this.onEvents
       }
 
       if (props !== void 0) {

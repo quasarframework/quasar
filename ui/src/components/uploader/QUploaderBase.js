@@ -10,7 +10,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QUploaderBase',
@@ -359,7 +359,7 @@ export default Vue.extend({
           'q-uploader__file--uploaded': file.__status === 'uploaded'
         },
         style: this.noThumbnails !== true && file.__img !== void 0 ? {
-          backgroundImage: 'url(' + file.__img.src + ')'
+          backgroundImage: 'url("' + file.__img.src + '")'
         } : null
       }, [
         h('div', {

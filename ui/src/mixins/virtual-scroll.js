@@ -471,7 +471,7 @@ export default {
 
     __emitScroll (index) {
       if (this.prevToIndex !== index) {
-        this.$listeners['virtual-scroll'] !== void 0 && this.$emit('virtual-scroll', {
+        this.qListeners['virtual-scroll'] !== void 0 && this.$emit('virtual-scroll', {
           index,
           from: this.virtualScrollSliceRange.from,
           to: this.virtualScrollSliceRange.to - 1,

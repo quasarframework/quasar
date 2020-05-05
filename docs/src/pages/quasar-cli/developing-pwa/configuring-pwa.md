@@ -4,19 +4,6 @@ desc: How to manage your Progressive Web Apps with Quasar CLI.
 related:
   - /quasar-cli/quasar-conf-js
 ---
-We'll be using Quasar CLI to develop and build a PWA. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
-
-## Installation
-In order to build a PWA, we first need to add the PWA mode to our Quasar project:
-```bash
-$ quasar mode add pwa
-```
-
-If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
-```bash
-$ quasar dev -m pwa
-```
-This will add PWA mode automatically, if it is missing.
 
 ## Service Worker
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
@@ -25,7 +12,7 @@ Adding PWA mode to a Quasar project means a new folder will be created: `/src-pw
 └── src-pwa/
     ├── register-service-worker.js  # App-code *managing* service worker
     └── custom-service-worker.js    # Optional custom service worker
-                                    # file (InjectManifest mode oNLY)
+                                    # file (InjectManifest mode ONLY)
 ```
 
 You can freely edit these files. Notice a few things:
@@ -214,7 +201,7 @@ More info: [PWA Checklist](https://developers.google.com/web/progressive-web-app
 Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli/testing-and-auditing) section of these docs for more information.
 :::
 
-## Reload & Update Workbox
+## Reload & Update Automatically
 For those who don't want to manually reload the page when the service worker is updated **and are using the default GenerateSW workbox mode**, you can make it active at once. Update the workboxOptions config in quasar.conf.js as follows:
 
 ```js

@@ -3,8 +3,12 @@ import Vue from 'vue'
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
+import AttrsMixin from '../../mixins/attrs.js'
+
 export default Vue.extend({
   name: 'StepHeader',
+
+  mixins: [ AttrsMixin ],
 
   directives: {
     Ripple
@@ -128,7 +132,7 @@ export default Vue.extend({
         },
         attrs: this.isDisable === true
           ? { tabindex: -1, 'aria-disabled': '' }
-          : { tabindex: this.$attrs.tabindex || 0 }
+          : { tabindex: this.qAttrs.tabindex || 0 }
       })
     }
 

@@ -20,6 +20,10 @@ Notice we are using an object for the selection, which holds values for both the
 
 <doc-example title="Standard" file="QRange/Standard" />
 
+### Vertical
+
+<doc-example title="Vertical orientation" file="QRange/Vertical" />
+
 ### With step
 
 <doc-example title="With Step" file="QRange/Step" />

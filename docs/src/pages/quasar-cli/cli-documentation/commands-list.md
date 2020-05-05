@@ -332,11 +332,11 @@ $ quasar new -h
     Quickly scaffold a page/layout/component/store module.
 
   Usage
-    $ quasar new [p|page] <page_file_name>
-    $ quasar new [l|layout] <layout_file_name>
-    $ quasar new [c|component] <component_file_name>
-    $ quasar new [b|boot] <boot_name>
-    $ quasar new [s|store] <store_module_name>
+    $ quasar new <p|page> [-f <option>] <page_file_name>
+    $ quasar new <l|layout> [-f <option>] <layout_file_name>
+    $ quasar new <c|component> [-f <option>] <component_file_name>
+    $ quasar new <b|boot> [-f ts] <boot_name>
+    $ quasar new <s|store> [-f ts] <store_module_name>
 
     # Examples:
 
@@ -349,8 +349,21 @@ $ quasar new -h
     # Create src/layouts/shop/Checkout.vue
     $ quasar new layout shop/Checkout.vue
 
+    # Create src/layouts/shop/Checkout.vue with TypeScript options API
+    $ quasar new layout -f ts-options shop/Checkout.vue
+
+    # Create a store with TypeScript support
+    $ quasar new store -f ts myStore
+
   Options
-    --help, -h     Displays this message
+    --help, -h            Displays this message
+
+    --format -f <option>  (optional) Use a supported format for the template
+                          Option can be:
+                             * ts-options - TS options API
+                             * ts-composition - TS component API
+                             * ts-class - TS class style syntax
+                             * ts - use for TS boot file and store modules only
 ```
 
 ## Mode

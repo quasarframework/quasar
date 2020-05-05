@@ -1,5 +1,5 @@
 ---
-title: Cordova App Preparation
+title: Preparation for Cordova App
 desc: What you need to do before developing a Quasar hybrid mobile app with Cordova.
 ---
 Before we dive in to the actual development, we need to do some preparation work.

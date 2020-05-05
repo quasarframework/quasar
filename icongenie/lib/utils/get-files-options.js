@@ -21,6 +21,7 @@ function getRgbColor (color) {
 
 module.exports = async function getFilesOptions ({
   quality,
+  padding,
 
   icon,
   background,
@@ -43,6 +44,18 @@ module.exports = async function getFilesOptions ({
       }
     })
 
+  if (opts.skipTrim !== true) {
+    sharpIcon.trim()
+  }
+
+  const computedPadding = padding
+    ? (
+      padding.length === 1
+        ? { horiz: padding[0], vert: padding[0] }
+        : { horiz: padding[0], vert: padding[1] }
+    )
+    : { horiz: 0, vert: 0 }
+
   return {
     ...opts,
 
@@ -54,6 +67,8 @@ module.exports = async function getFilesOptions ({
       ico: getIcoCompression(qualityLevel),
       png: getPngCompression(qualityLevel),
     },
+
+    padding: computedPadding,
 
     pngColor: getRgbColor(pngColor),
     splashscreenColor: getRgbColor(splashscreenColor)

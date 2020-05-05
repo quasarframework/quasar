@@ -8,7 +8,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QTree',
@@ -512,7 +512,7 @@ export default Vue.extend({
                   staticClass: 'q-tree__arrow q-mr-xs',
                   class: { 'q-tree__arrow--rotate': meta.expanded },
                   props: { name: this.computedIcon },
-                  nativeOn: {
+                  on: {
                     click: e => {
                       this.__onExpandClick(node, meta, e)
                     }

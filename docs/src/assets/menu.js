@@ -259,6 +259,10 @@ const cli = [
         path: 'writing-universal-code'
       },
       {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
         name: 'Configuring SSR',
         path: 'configuring-ssr'
       },
@@ -305,8 +309,20 @@ const cli = [
         path: 'introduction'
       },
       {
+        name: 'Preparation',
+        path: 'preparation'
+      },
+      {
+        name: 'Build Commands',
+        path: 'build-commands'
+      },
+      {
         name: 'Configuring PWA',
         path: 'configuring-pwa'
+      },
+      {
+        name: 'HMR for PWA',
+        path: 'hmr-for-dev'
       },
       {
         name: 'App Icons for PWA',
@@ -315,10 +331,6 @@ const cli = [
       {
         name: 'Handling Service Worker',
         path: 'handling-service-worker'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
       }
     ]
   },

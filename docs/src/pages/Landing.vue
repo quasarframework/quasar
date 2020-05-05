@@ -26,21 +26,12 @@
       .row.justify-center
         introduction-video.landing__video
 
-      .q-gutter-md.row.justify-center
-        q-btn(color="red", no-caps, no-wrap, :icon-right="mdiLaunch", label="User Interface Components", to="/vue-components")
-        q-btn(color="primary", no-caps, no-wrap, :icon-right="mdiLaunch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
-        q-btn(color="teal", no-caps, no-wrap, :icon-right="mdiLaunch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
-        q-btn(color="pink", no-caps, no-wrap, :icon-right="mdiLaunch", label="BEX (Browser Extension)", to="/quasar-cli/developing-browser-extensions/introduction")
-        q-btn(color="accent", no-caps, no-wrap, :icon-right="mdiLaunch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
-        q-btn(color="orange", no-caps, no-wrap, :icon-right="mdiLaunch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps")
-        q-btn(color="indigo", no-caps, no-wrap, :icon-right="mdiLaunch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
-
   section.padding.bg-white.text-grey-10.text-center
     .landing__features.row.items-start.q-col-gutter-xl
       .col-12.text-center
-        img.doc-img(src="https://cdn.quasar.dev/img/responsive.png")
+        h4 All Platforms in One Go
       .col-12.text-center
-        .q-gutter-lg
+        .landing__feature-item.q-gutter-lg
           q-icon(:name="fabApple")
           q-icon(:name="fabWindows")
           q-icon(:name="fabLinux")
@@ -50,91 +41,88 @@
           q-icon(:name="fabEdge")
           q-icon(:name="fabSafari")
       .col-12.text-center
-        h4 All Platforms in One Go
         p One source code for all platforms simultaneously through Quasar CLI with all the latest and greatest best practices out of the box. Focus only on your app's features and forget about the boilerplate around it.
+      .col-12.q-gutter-md
+        q-btn(color="red", no-caps, no-wrap, :icon-right="mdiLaunch", label="User Interface Components", to="/vue-components")
+        q-btn(color="primary", no-caps, no-wrap, :icon-right="mdiLaunch", label="SPA (Single Page App)", to="/quasar-cli/developing-spa/introduction")
+        q-btn(color="teal", no-caps, no-wrap, :icon-right="mdiLaunch", label="PWA (Progressive Web App)", to="/quasar-cli/developing-pwa/introduction")
+        q-btn(color="pink", no-caps, no-wrap, :icon-right="mdiLaunch", label="BEX (Browser Extension)", to="/quasar-cli/developing-browser-extensions/introduction")
+        q-btn(color="accent", no-caps, no-wrap, :icon-right="mdiLaunch", label="SSR (Server-side Rendered App)", to="/quasar-cli/developing-ssr/introduction")
+        q-btn(color="orange", no-caps, no-wrap, :icon-right="mdiLaunch", label="Hybrid Mobile App", to="/quasar-cli/developing-mobile-apps")
+        q-btn(color="indigo", no-caps, no-wrap, :icon-right="mdiLaunch", label="Multi-platform Desktop App", to="/quasar-cli/developing-electron-apps/introduction")
 
-  section.padding.bg-primary.landing__swirl-bg
+  section.padding.bg-primary
     .landing__features.row.justify-between.items-start.q-col-gutter-xl
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="gps_fixed")
           h6 Quasar's goal
           p What we want to achieve with Quasar is to raise the bar for web development as a whole. Make it go forward, evolve. Change minds. Point out when there’s a better alternative to current establishment. You deserve a stellar development experience.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(:name="fabGoogle")
           h6 Material Design 2.0
           p Quasar is focused on following the Material 2.0 Guidelines and to stay up-to-date to them.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="group_add")
           h6 Big community
           p We have grown into a big community. You can get help or advise others through Quasar's Discord chat server or the Quasar Forum. You're not alone.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="flash_on")
           h6 Top Class, Fast Web Components
           p There's a component for almost every web development need out there. Each of these components are carefully crafted to offer the best possible experience to your users. Quasar is designed with performance and responsiveness in mind – so the overhead of using Quasar is barely noticeable. This is an area we take special pride in.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="settings_applications")
           h6 Best practices integrated by default
           p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, sourcemapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="format_align_right")
           h6 Full RTL support
           p RTL (right to left) support for both Quasar components and developer's own code. Developer-written website/app CSS code gets automatically converted to RTL, if an RTL language pack is used.
 
       .col-xs-12.col-sm-5
-        .feature-item
-          .q-gutter-sm
-            q-icon(:name="fabChrome")
-            q-icon(:name="fabFirefox")
-            q-icon(:name="fabSafari")
-            q-icon(:name="fabEdge")
-          h6 Wide platform support
-          p Google Chrome, Firefox, IE11/Edge, Safari, Opera, iOS, Android, Windows Phone, Blackberry. We care a great deal about your website or app's behavior both on desktop browsers and on mobile browsers.
-
-      .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="language")
           q-icon(name="translate")
           h6 Internationalization and Localization
           p There's more than 40 Quasar language packs available. If your desired language pack is missing it takes just 5 minutes to add it.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="collections_bookmark")
           h6 Great documentation
           p It's worth mentioning the significant amount of time that is spent on writing great, bloat-free, focused, complete documentation pages so you as a developer can quickly pick up Quasar.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="security")
           h6 We care deeply about Security
           p We are always paranoid about the security of Quasar and the security of apps built with Quasar. We are on a constant lookout to inform you about any security threats that you might need to know about. We have Security guidelines and we are even offering our security expertise through the Quasar Audit program.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="exit_to_app")
           h6 Progressively migrate your existing project
           p Quasar offers a UMD (Unified Module Definition) version, which you add as a CSS and a JS HTML tags into an existing project and you're ready to use it. No build step is required.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="star")
           h6 Unparalleled developer experience through Quasar CLI
           p Quasar CLI takes care of all the quirks involved in developing an SPA, PWA, SSR, Mobile and Electron App.
 
       .col-xs-12.col-sm-5
-        .feature-item
+        .landing__feature-item
           q-icon(name="important_devices")
           h6 Focus on your App
           p Your full focus is on your App's content rather than all other boilerplating stuff around it (build system, layout, and much more). You'll be spending time only on what matters, which is your product. Quasar greatly increases your productivity.
@@ -142,8 +130,7 @@
   section.padding.bg-white.text-grey-10.text-center
     div
       .text-h6.text-primary.q-mb-xl Silver, Gold and Platinum Sponsors:
-
-      sponsor-list.justify-center
+      sponsor-list
 
   section.landing__footer.flex.flex-center
     div.text-center
@@ -269,7 +256,6 @@ export default {
   &__video
     width: 530px
     max-width: 100%
-    margin-bottom: 72px
 
   &__logo
     width: 72px
@@ -296,9 +282,11 @@ export default {
   &__arrow-down-icon
     animation: landing-bounce 2s infinite
 
-  &__features
+  &__feature-item
     .q-icon
       font-size: 64px
+
+  &__features
 
     h4, h6
       margin: 26px 0
@@ -320,12 +308,6 @@ export default {
 
       &:hover
         opacity: .8
-
-  &__swirl-bg
-    background-repeat: no-repeat !important
-    background-position: top center
-    background-size: contain !important
-    background-image: url(https://cdn.quasar.dev/img/landing_first_section.png) !important
 
   &__footer-icons
     font-size: 28px
@@ -368,7 +350,7 @@ export default {
       padding-top: 90px
       padding-bottom: 90px
 
-    .feature-item
+    .landing__feature-item
       text-align: center
 
     &__hero-btns
@@ -377,7 +359,4 @@ export default {
     &__logo
       width: 46px
       height: 46px
-
-    &__swirl-bg
-      background-image: none !important
 </style>

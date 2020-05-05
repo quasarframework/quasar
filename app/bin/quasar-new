@@ -97,7 +97,9 @@ if (format === 'ts' && !['b', 'boot', 's', 'store'].includes(type)) {
 
 const isTypeScript = format === 'ts' || format.indexOf('ts-') > -1
 
-// If they've supplied a TS format i.e ts-options and are creating a boot file / store then set format to TS as they're the same for all formats.
+// If they've supplied a TS format i.e ts-options and
+// are creating a boot file / store then set format
+// to TS as they're the same for all formats.
 if (isTypeScript && ['b', 'boot', 's', 'store'].includes(type)) {
   format = 'ts'
 }

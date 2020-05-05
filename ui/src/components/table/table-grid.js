@@ -41,17 +41,17 @@ export default {
             on: {}
           }
 
-          if (this.$listeners['row-click'] !== void 0 || this.$listeners['row-dblclick'] !== void 0) {
+          if (this.qListeners['row-click'] !== void 0 || this.qListeners['row-dblclick'] !== void 0) {
             data.staticClass += ' cursor-pointer'
           }
 
-          if (this.$listeners['row-click'] !== void 0) {
+          if (this.qListeners['row-click'] !== void 0) {
             data.on.click = evt => {
               this.$emit('row-click', evt, scope.row)
             }
           }
 
-          if (this.$listeners['row-dblclick'] !== void 0) {
+          if (this.qListeners['row-dblclick'] !== void 0) {
             data.on.dblclick = evt => {
               this.$emit('row-dblclick', evt, scope.row)
             }
@@ -69,7 +69,7 @@ export default {
         staticClass: 'q-table__grid-content row',
         class: this.cardContainerClass,
         style: this.cardContainerStyle
-      }, this.computedRows.map(row => {
+      }, this.computedRows.map((row, pageIndex) => {
         const
           key = this.getRowKey(row),
           selected = this.isRowSelected(key)
@@ -77,6 +77,7 @@ export default {
         return item(this.addBodyRowMeta({
           key,
           row,
+          pageIndex,
           cols: this.computedCols,
           colsMap: this.computedColsMap,
           __trClass: selected ? 'selected' : ''
