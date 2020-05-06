@@ -14,33 +14,40 @@ class Generator {
     this.quasarConfig = quasarConfig
 
     const paths = [
-      'app.js',
-      'client-entry.js',
-      'import-quasar.js'
+      { path: 'app.js' },
+      { path: 'client-entry.js' },
+      { path: 'import-quasar.js' }
     ]
 
     if (preFetch) {
-      paths.push('client-prefetch.js')
+      paths.push({ path: 'client-prefetch.js' })
     }
 
     if (ctx.mode.ssr) {
-      paths.push('server-entry.js')
+      paths.push({ path: 'server-entry.js' })
       if (ctx.mode.pwa) {
-        paths.push('ssr-pwa.js')
+        paths.push({ path: 'ssr-pwa.js' })
       }
+    }
+
+    if (ctx.mode.bex) {
+      paths.push({
+        path: 'bex/content/content-script.js',
+        dest: path.join(quasarFolder, 'bex/content')
+      })
     }
 
     this.files = paths.map(file => {
       const content = fs.readFileSync(
-        appPaths.resolve.cli(`templates/entry/${file}`),
+        appPaths.resolve.cli(`templates/entry/${file.path}`),
         'utf-8'
       )
 
-      const filename = path.basename(file)
+      const filename = path.basename(file.path)
 
       return {
         filename,
-        dest: path.join(quasarFolder, filename),
+        dest: path.join(file.dest !== void 0 ? file.dest : quasarFolder, filename),
         template: compileTemplate(content)
       }
     })

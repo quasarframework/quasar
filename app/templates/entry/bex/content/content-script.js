@@ -47,7 +47,12 @@ function injectScript (url) {
 }
 
 if (document instanceof HTMLDocument) {
-  injectScript(chrome.extension.getURL('www/bex-dom.js'))
+  <% if (ctx.dev) { %>
+  const domScriptPath = 'www/bex-dom.js'
+  <% } else { %>
+    const domScriptPath = 'www/js/bex-dom.js'
+  <% } %>
+  injectScript(chrome.extension.getURL(domScriptPath))
 }
 
 // Listen for event from the web page
