@@ -29,7 +29,7 @@ module.exports = function regenerateTypesFeatureFlags(buildConfig) {
     const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
       ? [
         buildConfig.store,
-        appPaths.resolve.cli('templates/other-ts-flags/store-flag.d.ts'),
+        appPaths.resolve.cli('templates/store/ts/store-flag.d.ts'),
         appPaths.resolve.app(getStoreFlagPath(buildConfig.sourceFiles.store))
       ]
       : [

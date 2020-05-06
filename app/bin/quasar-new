@@ -140,7 +140,7 @@ function createFile (asset, file) {
     err => {
       if (err) {
         console.warn(err)
-        warn('[FAIL] Could not generate ${relativePath}.')
+        warn(`[FAIL] Could not generate ${relativePath}.`)
         return
       }
 
@@ -171,6 +171,7 @@ const mapping = {
   },
   store: {
     folder: 'store',
+    install: true,
     reference: `src/store/index${ext}`
   },
   boot: {
@@ -183,6 +184,28 @@ const mapping = {
 const asset = mapping[type]
 
 const filesToCreate = getPaths(asset, names)
+
+if (asset.install) {
+  const folder = appPaths.resolve.src(asset.folder)
+
+  if (!fs.existsSync(folder)) {
+    fse.mkdirp(folder)
+    fse.copy(
+      appPaths.resolve.cli(`templates/store/${format}`),
+      folder,
+      err => {
+        if (err) {
+          console.warn(err)
+          warn(`[FAIL] Could not generate src/${asset.folder}.`)
+          return
+        }
+
+        log(`Generated src/${asset.folder}`)
+        log()
+      }
+    )
+  }
+}
 
 filesToCreate.forEach(file => {
   createFile(asset, file)
