@@ -138,7 +138,6 @@ function createFile (asset, file) {
     appPaths.resolve.cli(path.join('templates/app', format, type + (asset.ext || ''))),
     file,
     err => {
-
       if (err) {
         console.warn(err)
         warn('[FAIL] Could not generate ${relativePath}.')

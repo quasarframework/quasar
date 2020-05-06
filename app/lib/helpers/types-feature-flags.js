@@ -11,12 +11,6 @@ function getStoreFlagPath(storeIndexPath) {
 }
 
 module.exports = function regenerateTypesFeatureFlags(buildConfig) {
-  const storeFeatureData = [
-    buildConfig.store,
-    appPaths.resolve.cli('templates/app/ts/store/store-flag.d.ts'),
-    appPaths.resolve.app(getStoreFlagPath(buildConfig.sourceFiles.store))
-  ]
-
   // Flags must be available even in pure JS codebases,
   //    because boot and configure wrappers functions files will
   //    provide autocomplete based on them also to JS users
@@ -33,7 +27,11 @@ module.exports = function regenerateTypesFeatureFlags(buildConfig) {
     'bex'
   ]) {
     const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
-      ? storeFeatureData
+      ? [
+        buildConfig.store,
+        appPaths.resolve.cli('templates/other-ts-flags/store-flag.d.ts'),
+        appPaths.resolve.app(getStoreFlagPath(buildConfig.sourceFiles.store))
+      ]
       : [
         getMode(feature).isInstalled,
         appPaths.resolve.cli(`templates/${feature}/${feature}-flag.d.ts`),
