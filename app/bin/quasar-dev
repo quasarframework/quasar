@@ -59,7 +59,7 @@ if (argv.help) {
 
     Only for Cordova mode:
     --target, -T     (required) App target
-                        [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                        [android|ios]
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2

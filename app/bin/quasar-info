@@ -16,8 +16,10 @@ if (argv.help) {
   console.log(`
   Description
     Displays information about your machine and your Quasar App.
+
   Usage
     $ quasar info
+
   Options
     --help, -h     Displays this message
   `)
