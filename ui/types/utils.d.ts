@@ -11,7 +11,7 @@ export function debounce<F extends (...args: any[]) => any>(
   fn: F,
   wait?: number,
   immediate?: boolean
-): F;
+): F & { cancel(): void };
 export function exportFile(
   fileName: string,
   rawData: BlobPart,

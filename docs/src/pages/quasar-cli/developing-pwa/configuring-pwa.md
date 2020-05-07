@@ -4,19 +4,6 @@ desc: How to manage your Progressive Web Apps with Quasar CLI.
 related:
   - /quasar-cli/quasar-conf-js
 ---
-We'll be using Quasar CLI to develop and build a PWA. The difference between building a SPA, Mobile App, Electron App, PWA or SSR is simply determined by the "mode" parameter in "quasar dev" and "quasar build" commands.
-
-## Installation
-In order to build a PWA, we first need to add the PWA mode to our Quasar project:
-```bash
-$ quasar mode add pwa
-```
-
-If you want to jump right in and start developing, you can skip the "quasar mode" command and issue:
-```bash
-$ quasar dev -m pwa
-```
-This will add PWA mode automatically, if it is missing.
 
 ## Service Worker
 Adding PWA mode to a Quasar project means a new folder will be created: `/src-pwa`, which contains PWA specific files:
@@ -25,7 +12,7 @@ Adding PWA mode to a Quasar project means a new folder will be created: `/src-pw
 └── src-pwa/
     ├── register-service-worker.js  # App-code *managing* service worker
     └── custom-service-worker.js    # Optional custom service worker
-                                    # file (InjectManifest mode oNLY)
+                                    # file (InjectManifest mode ONLY)
 ```
 
 You can freely edit these files. Notice a few things:
@@ -49,8 +36,9 @@ pwa: {
     // ...
   },
 
+  // Use this OR metaVariablesFn, but not both;
   // variables used to inject specific PWA
-  // meta tags (below are default values)
+  // meta tags (below are default values);
   metaVariables: {
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'default',
@@ -61,6 +49,40 @@ pwa: {
     appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
     msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
     msapplicationTileColor: '#000000'
+  },
+
+  // (@quasar/app v1.6.2+)
+  // Optional, overrides metaVariables above;
+  // Use this OR metaVariables, but not both;
+  metaVariablesFn (manifest) {
+    // ...
+    return [
+      {
+        // this entry will generate:
+        // <meta name="theme-color" content="ff0">
+
+        tagName: 'meta',
+        attributes: {
+          name: 'theme-color',
+          content: '#ff0'
+        }
+      },
+
+      {
+        // this entry will generate:
+        // <link rel="apple-touch-icon" sizes="180x180" href="statics/icon-180.png">
+
+        tagName: 'link',
+        attributes: {
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          href: 'statics/icon-180.png'
+        },
+        closeTag: false // this is optional;
+                        // specifies if tag also needs an explicit closing tag;
+                        // it's Boolean false by default
+      }
+    ]
   }
 }
 ```
@@ -68,6 +90,8 @@ pwa: {
 More information: [Workbox Webpack Plugin](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin), [Workbox](https://developers.google.com/web/tools/workbox/).
 
 The `metaVariables` Object is used by Quasar itself only (has no meaning for Workbox) to inject specific value attributes to some PWA meta tags into the rendered HTML page. Example: `<meta name="apple-mobile-web-app-status-bar-style">` will have value attribute assigned to the content of `metaVariables.appleMobileWebAppStatusBarStyle`.
+
+Starting with `@quasar/app` v1.6.2+, you can use an alternative to metaVariables: `metaVariablesFn(manifest)` which can return an Array of Objects (see their form in the code above). Should you configure this function to not return an Array or to return an empty Array, then Quasar App CLI will understand not to add any tags -- so you can manually add your custom tags directly in `/src/index.template.html`.
 
 ## Picking Workbox mode
 
@@ -177,7 +201,7 @@ More info: [PWA Checklist](https://developers.google.com/web/progressive-web-app
 Do not run [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on your development build because at this stage the code is intentionally not optimized and contains embedded source maps (among many other things). See the [Testing and Auditing](/quasar-cli/testing-and-auditing) section of these docs for more information.
 :::
 
-## Reload & Update Workbox
+## Reload & Update Automatically
 For those who don't want to manually reload the page when the service worker is updated **and are using the default GenerateSW workbox mode**, you can make it active at once. Update the workboxOptions config in quasar.conf.js as follows:
 
 ```js

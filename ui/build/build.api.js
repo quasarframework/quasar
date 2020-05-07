@@ -422,12 +422,6 @@ function orderAPI (api, apiType) {
 }
 
 const astExceptions = {
-  'QCircularProgress.json': {
-    props: {
-      instantFeedback: true
-    }
-  },
-
   'QTable.json': {
     methods: {
       getBody: true

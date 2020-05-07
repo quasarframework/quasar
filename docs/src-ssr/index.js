@@ -39,8 +39,15 @@ app.use('/', serve('.', true))
 // we extend the custom common dev & prod parts here
 extension.extendApp({ app })
 
-app.get('/layout/floating-action-button', (_, res) => {
-  res.redirect('/vue-components/floating-action-button')
+const redirects = [
+  { from: '/layout/floating-action-button', to: '/vue-components/floating-action-button' },
+  { from: '/quasar-cli/app-icons', to: '/icongenie/introduction' }
+]
+
+redirects.forEach(entry => {
+  app.get(entry.from, (_, res) => {
+    res.redirect(entry.to)
+  })
 })
 
 // this should be last get(), rendering with SSR

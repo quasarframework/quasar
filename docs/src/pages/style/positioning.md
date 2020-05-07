@@ -23,6 +23,7 @@ There are CSS classes supplied by Quasar to help you position a DOM element easi
 | `fixed-top-right`, `absolute-top-right` | Fixed or absolute position to top right of screen |
 | `fixed-bottom-left`, `absolute-bottom-left` | Fixed or absolute position to bottom left of screen |
 | `fixed-bottom-right`, `absolute-bottom-right` | Fixed or absolute position to bottom right of screen |
+| `fixed-full`, `absolute-full` | Fixed or absolute position to all screen edges |
 | `relative-position` | Set position to `relative` |
 
 ## Alignment

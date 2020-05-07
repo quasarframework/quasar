@@ -123,8 +123,10 @@ function getRegexData (mask, dateLocale) {
         return '(\\d{2})'
 
       case 'Z': // to split: (?:(Z)()()|([+-])?(\\d{2}):?(\\d{2}))
+        map.Z = index
         return '(Z|[+-]\\d{2}:\\d{2})'
       case 'ZZ':
+        map.ZZ = index
         return '(Z|[+-]\\d{2}\\d{2})'
 
       case 'X':
@@ -152,7 +154,7 @@ function getRegexData (mask, dateLocale) {
 export function extractDate (str, mask, dateLocale) {
   const d = __splitDate(str, mask, dateLocale)
 
-  return new Date(
+  const date = new Date(
     d.year,
     d.month === null ? null : d.month - 1,
     d.day,
@@ -161,6 +163,12 @@ export function extractDate (str, mask, dateLocale) {
     d.second,
     d.millisecond
   )
+
+  const tzOffset = date.getTimezoneOffset()
+
+  return d.timezoneOffset === null || d.timezoneOffset === tzOffset
+    ? date
+    : getChange(date, { minutes: d.timezoneOffset - tzOffset }, true)
 }
 
 export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
@@ -172,6 +180,7 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
     minute: null,
     second: null,
     millisecond: null,
+    timezoneOffset: null,
     dateHash: null,
     timeHash: null
   }, defaultModel)
@@ -201,6 +210,8 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
   if (match === null) {
     return date
   }
+
+  let tzString = ''
 
   if (map.X !== void 0 || map.x !== void 0) {
     const stamp = parseInt(match[map.X !== void 0 ? map.X : map.x], 10)
@@ -283,10 +294,15 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
     if (map.S !== void 0) {
       date.millisecond = parseInt(match[map.S], 10) * 10 ** (3 - match[map.S].length)
     }
+
+    if (map.Z !== void 0 || map.ZZ !== void 0) {
+      tzString = (map.Z !== void 0 ? match[map.Z].replace(':', '') : match[map.ZZ])
+      date.timezoneOffset = (tzString[0] === '+' ? -1 : 1) * (60 * tzString.slice(1, 3) + 1 * tzString.slice(3, 5))
+    }
   }
 
   date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
-  date.timeHash = pad(date.hour) + ':' + pad(date.minute) + ':' + pad(date.second)
+  date.timeHash = pad(date.hour) + ':' + pad(date.minute) + ':' + pad(date.second) + tzString
 
   return date
 }
@@ -772,13 +788,21 @@ const formatter = {
   },
 
   // Timezone: -01:00, +00:00, ... +12:00
-  Z (date) {
-    return formatTimezone(date.getTimezoneOffset(), ':')
+  Z (date, dateLocale, forcedYear, forcedTimezoneOffset) {
+    const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null
+      ? date.getTimezoneOffset()
+      : forcedTimezoneOffset
+
+    return formatTimezone(tzOffset, ':')
   },
 
   // Timezone: -0100, +0000, ... +1200
-  ZZ (date) {
-    return formatTimezone(date.getTimezoneOffset())
+  ZZ (date, dateLocale, forcedYear, forcedTimezoneOffset) {
+    const tzOffset = forcedTimezoneOffset === void 0 || forcedTimezoneOffset === null
+      ? date.getTimezoneOffset()
+      : forcedTimezoneOffset
+
+    return formatTimezone(tzOffset)
   },
 
   // Seconds timestamp: 512969520
@@ -792,7 +816,7 @@ const formatter = {
   }
 }
 
-export function formatDate (val, mask, dateLocale, __forcedYear) {
+export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezoneOffset) {
   if (
     (val !== 0 && !val) ||
     val === Infinity ||
@@ -818,7 +842,7 @@ export function formatDate (val, mask, dateLocale, __forcedYear) {
   return mask.replace(
     token,
     (match, text) => match in formatter
-      ? formatter[match](date, locale, __forcedYear)
+      ? formatter[match](date, locale, __forcedYear, __forcedTimezoneOffset)
       : (text === void 0 ? match : text.split('\\]').join(']'))
   )
 }

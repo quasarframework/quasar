@@ -8,7 +8,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QBtnDropdown',
@@ -55,7 +55,20 @@ export default Vue.extend({
 
   render (h) {
     const label = slot(this, 'label', [])
-    const attrs = { 'aria-expanded': this.showing === true ? 'true' : 'false', 'aria-haspopup': true }
+    const attrs = {
+      'aria-expanded': this.showing === true ? 'true' : 'false',
+      'aria-haspopup': true
+    }
+
+    if (
+      this.disable === true ||
+      (
+        (this.split === false && this.disableMainBtn === true) ||
+        this.disableDropdown === true
+      )
+    ) {
+      attrs['aria-disabled'] = ''
+    }
 
     const Arrow = [
       h(QIcon, {

@@ -7,7 +7,7 @@ import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
@@ -699,7 +699,7 @@ export default Vue.extend({
           ? this.__getDaysInMonth(date)
           : this.daysInMonth
 
-        date.day = Math.min(date.day, maxDay)
+        date.day = Math.min(Math.max(1, date.day), maxDay)
       }
 
       const val = this.calendar === 'persian'
@@ -716,7 +716,8 @@ export default Vue.extend({
           ),
           this.mask,
           this.computedLocale,
-          date.year
+          date.year,
+          this.extModel.timezoneOffset
         )
 
       date.changed = val !== this.value
@@ -771,7 +772,7 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       attrs: this.attrs,
-      on: this.$listeners
+      on: this.qListeners
     }, [
       this.__getHeader(h),
 

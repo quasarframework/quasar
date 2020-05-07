@@ -6,7 +6,9 @@ related:
   - /vue-components/icon
 ---
 
+::: tip
 **This page refers to using [webfont icons](/vue-components/icon#Webfont-icons) only.** Svg icons do not need any installation step.
+:::
 
 You'll most likely want icons in your website/app and Quasar offers an easy way out of the box for the following icon libraries: [Material Icons](https://material.io/icons/) , [Font Awesome](http://fontawesome.io/icons/), [Ionicons](http://ionicons.com/), [MDI](https://materialdesignicons.com/), [Eva Icons](https://akveo.github.io/eva-icons), [Themify Icons](https://themify.me/themify-icons) and [Line Awesome](https://icons8.com/line-awesome). But you can [add support for others](/vue-components/icon#Custom-mapping) by yourself.
 
@@ -14,7 +16,7 @@ You'll most likely want icons in your website/app and Quasar offers an easy way 
 In regards to webfont icons, you can choose to install one or more of these icon libraries.
 :::
 
-## Installing
+## Installing Webfonts
 If you are building a website only, then using a CDN (Content Delivery Network) approach can be an option you can follow. However, when building a mobile or Electron app, you most likely do not want to depend on an Internet connection and Quasar comes with a solution to this problem:
 
 Edit `/quasar.conf.js`:

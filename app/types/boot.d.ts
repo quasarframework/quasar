@@ -1,23 +1,11 @@
-import { Request, Response } from "express";
-import { HasSsr, HasStore } from "quasar";
+import { HasSsrParam, HasStoreParam } from "quasar";
 import Vue, { ComponentOptions, VueConstructor } from "vue";
 import VueRouter from "vue-router";
 
 declare module "quasar" {
-  interface QSsrContext {
-    req: Request;
-    res: Response;
-    url: Request["url"];
-  }
-
-  type HasSsrBootParams = HasSsr<{ ssrContext?: QSsrContext | null }>;
-  type HasStoreBootParams<S = any> = HasStore<{ store: S }>;
-
-  interface BootFileParams<TStore>
-    extends HasSsrBootParams,
-      HasStoreBootParams<TStore> {
+  interface BootFileParams<TStore> extends HasSsrParam, HasStoreParam<TStore> {
     app: ComponentOptions<Vue>;
-    Vue: VueConstructor<Vue>;
+    Vue: VueConstructor;
     router: VueRouter;
     urlPath: string;
     redirect: (url: string) => void;

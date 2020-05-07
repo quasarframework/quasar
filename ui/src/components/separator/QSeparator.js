@@ -1,11 +1,12 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 export default Vue.extend({
   name: 'QSeparator',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, ListenersMixin ],
 
   props: {
     spaced: Boolean,
@@ -49,7 +50,7 @@ export default Vue.extend({
       staticClass: 'q-separator',
       class: this.classes,
       attrs: this.attrs,
-      on: this.$listeners
+      on: this.qListeners
     })
   }
 })

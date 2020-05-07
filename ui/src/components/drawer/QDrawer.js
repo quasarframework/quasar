@@ -9,7 +9,7 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 const duration = 150
 
@@ -120,9 +120,17 @@ export default Vue.extend({
       ))
     },
 
-    side (_, oldSide) {
-      this.layout[oldSide].space = false
-      this.layout[oldSide].offset = 0
+    side (newSide, oldSide) {
+      if (this.layout.instances[oldSide] === this) {
+        this.layout.instances[oldSide] = void 0
+        this.layout[oldSide].space = false
+        this.layout[oldSide].offset = 0
+      }
+
+      this.layout.instances[newSide] = this
+      this.layout[newSide].size = this.size
+      this.layout[newSide].space = this.onLayout
+      this.layout[newSide].offset = this.offset
     },
 
     behavior (val) {
@@ -272,6 +280,7 @@ export default Vue.extend({
       return `q-drawer--${this.side}` +
         (this.bordered === true ? ' q-drawer--bordered' : '') +
         (this.isDark === true ? ' q-drawer--dark q-dark' : '') +
+        (this.showing !== true ? ' q-layout--prevent-focus' : '') +
         (
           this.belowBreakpoint === true
             ? ' fixed q-drawer--on-top q-drawer--mobile q-drawer--top-padding'
@@ -298,7 +307,7 @@ export default Vue.extend({
 
         mouseEvents.forEach(name => {
           evt[name] = e => {
-            this.$listeners[name] !== void 0 && this.$emit(name, e)
+            this.qListeners[name] !== void 0 && this.$emit(name, e)
           }
         })
 
@@ -442,6 +451,7 @@ export default Vue.extend({
           this.__applyBackdrop(0)
           this.__applyPosition(this.stateDirection * width)
           el.classList.remove('q-drawer--delimiter')
+          el.classList.add('q-layout--prevent-focus')
         }
 
         return
@@ -460,6 +470,7 @@ export default Vue.extend({
         const el = this.$refs.content
         el.classList.add('no-transition')
         el.classList.add('q-drawer--delimiter')
+        el.classList.remove('q-layout--prevent-focus')
       }
     },
 
@@ -574,7 +585,7 @@ export default Vue.extend({
       this.showIfAbove === true &&
       this.value !== true &&
       this.showing === true &&
-      this.$listeners.input !== void 0
+      this.qListeners.input !== void 0
     ) {
       this.$emit('input', true)
     }
@@ -583,6 +594,8 @@ export default Vue.extend({
   mounted () {
     this.$emit('on-layout', this.onLayout)
     this.$emit('mini-state', this.isMini)
+
+    this.lastDesktopState = this.showIfAbove === true
 
     const fn = () => {
       const action = this.showing === true ? 'show' : 'hide'

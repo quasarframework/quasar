@@ -127,7 +127,7 @@ module.exports = class DevServer {
           return
         }
         if (cfg.__meta) {
-          html = context.$getMetaHTML(html)
+          html = context.$getMetaHTML(html, context)
         }
         console.log(`${req.url} -> request took: ${Date.now() - startTime}ms`)
         res.send(html)
@@ -250,7 +250,7 @@ module.exports = class DevServer {
                   return
                 }
                 if (cfg.__meta) {
-                  html = context.$getMetaHTML(html)
+                  html = context.$getMetaHTML(html, context)
                 }
 
                 fn(err, html)

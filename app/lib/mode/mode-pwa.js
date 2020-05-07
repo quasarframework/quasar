@@ -19,6 +19,14 @@ class Mode {
 
     log(`Creating PWA source folder...`)
     fse.copySync(appPaths.resolve.cli('templates/pwa'), appPaths.pwaDir)
+
+    log(`Copying PWA icons to /src/statics/icons/ (if they are not already there)...`)
+    fse.copySync(
+      appPaths.resolve.cli('templates/pwa-icons'),
+      appPaths.resolve.src('statics/icons'),
+      { overwrite: false }
+    )
+
     log(`PWA support was added`)
   }
 
@@ -30,6 +38,7 @@ class Mode {
 
     log(`Removing PWA source folder`)
     fse.removeSync(appPaths.pwaDir)
+
     log(`PWA support was removed`)
   }
 }

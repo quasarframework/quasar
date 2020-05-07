@@ -24,12 +24,16 @@ function write (fileContent, text = '') {
 }
 
 const typeMap = new Map([
-  ['Array', 'any[]'],
   ['Any', 'any'],
   ['Component', 'Vue'],
   ['String', 'string'],
   ['Boolean', 'boolean'],
   ['Number', 'number']
+])
+
+const fallbackComplexTypeMap = new Map([
+  ['Array', 'any[]'],
+  ['Object', 'LooseDictionary']
 ])
 
 function convertTypeVal (type, def, required) {
@@ -43,15 +47,15 @@ function convertTypeVal (type, def, required) {
     return typeMap.get(t)
   }
 
-  if (t === 'Object') {
+  if (fallbackComplexTypeMap.has(t)) {
     if (def.definition) {
       const propDefinitions = getPropDefinitions(def.definition, required, true)
       let lines = []
       propDefinitions.forEach(p => lines.push(...p.split('\n')))
-      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }` : 'LooseDictionary'
+      return propDefinitions && propDefinitions.length > 0 ? `{\n        ${lines.join('\n        ')} }${t === 'Array' ? '[]' : ''}` : fallbackComplexTypeMap.get(t)
     }
 
-    return 'LooseDictionary'
+    return fallbackComplexTypeMap.get(t)
   }
 
   return t
@@ -316,6 +320,12 @@ function writeIndexDTS (apis) {
 
   Object.keys(extraInterfaces).forEach(name => {
     if (extraInterfaces[name] === void 0) {
+      // If we find the symbol as part of the generated Quasar API,
+      //  we don't need to import it from custom TS API patches
+      if (apis.some(definition => definition.name === name)) {
+        return
+      }
+
       writeLine(contents, `import { ${name} } from './api'`)
     }
     else {
@@ -370,8 +380,9 @@ function writeIndexDTS (apis) {
   writeLine(contents, `import './vue'`)
   // If `@quasar/app` package is present, this works as "reference" and its types are added to compilation
   // If it's not (Vue CLI projects) the shim serves as a fallback avoiding TS errors
-  writeLine(contents, `import './shim-quasar-app.d.ts'`)
+  writeLine(contents, `import './shim-quasar-app'`)
   writeLine(contents, `import '@quasar/app'`)
+  writeLine(contents, `import './shim-icon-set'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))
 }

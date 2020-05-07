@@ -64,6 +64,12 @@ interface PwaManifestOptions {
   theme_color?: string;
 }
 
+interface PwaMetaVariablesEntry {
+  tagName: string;
+  attributes: object;
+  closeTag?: boolean;
+}
+
 declare module "quasar" {
   /**
    * This is the place where you can configure
@@ -105,6 +111,7 @@ declare module "quasar" {
       msapplicationTileImage: string;
       msapplicationTileColor: string;
     };
+    metaVariablesFn?: (manifest?: PwaManifestOptions) => PwaMetaVariablesEntry[]
   }
 }
 

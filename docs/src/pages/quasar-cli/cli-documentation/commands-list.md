@@ -56,7 +56,7 @@ See help for any command:
 $ quasar [command name] --help
 ```
 
-## create
+## Create
 
 Creates an App folder with initial project boilerplate.
 
@@ -64,7 +64,24 @@ Creates an App folder with initial project boilerplate.
 $ quasar create <folder_name>
 ```
 
-## upgrade
+This command will use Quasar App Starter Kit by default, but you can specify a different one via `--kit` option.
+
+`quasar create --kit ui` and `quasar create --kit app-extension` will generate for you App Extension boilerplate: the former when the extension is meant to provide UI Components, the latter in all other cases.
+
+You can use a starter kit stored on your machine by providing a **local path** to a folder (eg. `quasar create --kit ./my-custom-starter-kit`).
+
+You can use a starter kit stored into any publicly accessible Git repository by providing a reference which follows this schema:
+- GitHub - `github:owner/name` or simply `owner/name`
+- GitLab - `gitlab:owner/name`
+- Bitbucket - `bitbucket:owner/name`
+
+`master` branch will be checked out by default, but you can specify the one you prefer via `--branch <branch name>` (eg. `quasar create --kit owner/name --branch my-branch`).
+
+:::warning
+The preferred way to build reusable code and UI Components into Quasar ecosystem are App Extensions. Use a custom starter kit only if you really know what you're doing and be aware that it will make more difficult for the Quasar team to provide you assistance.
+:::
+
+## Upgrade
 
 Check (and optionally) upgrade Quasar packages from a Quasar project folder:
 
@@ -80,7 +97,7 @@ $ quasar upgrade --install
 If you're using a code editor terminal instead of the real one, you run `quasar upgrade` and get an error *Command not found* or *@quasar/cli* version appears to be *undefined*, you will need to go to the settings of your code editor terminal and untick the option (or its equivalent) *Add 'node_modules/.bin' from the project root to %PATH%* then restart your code editor.
 :::
 
-## info
+## Info
 The Quasar CLI is equipped with a stable combination of multiple NPM build packages (Webpack, Vue, etc) which gets updated frequently after heavy testing.
 
 In order for you to see what versions of Node, NPM, Quasar CLI, Quasar, Vue, Webpack, Cordova, Babel and many more, issue this command in a Quasar project folder:
@@ -88,7 +105,7 @@ In order for you to see what versions of Node, NPM, Quasar CLI, Quasar, Vue, Web
 $ quasar info
 ```
 
-## dev
+## Dev
 ```bash
 $ quasar dev -h
 
@@ -114,7 +131,7 @@ $ quasar dev -h
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -153,6 +170,9 @@ $ quasar dev -m ssr
 
 # Developing a PWA
 $ quasar dev -m pwa
+
+# Developing a BEX for production
+$ quasar dev -m bex
 
 # Developing a Mobile App (through Cordova)
 $ quasar dev -m cordova -T [android|ios]
@@ -195,7 +215,7 @@ If there appears to be an issue with hot reload, you can try two fixes:
   sudo quasar dev
   ```
 
-## build
+## Build
 ```bash
 $ quasar build -h
 
@@ -219,7 +239,7 @@ $ quasar build -h
     $ quasar build -m ios -- some params --and options --here
 
   Options
-    --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m      App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
                         [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
@@ -271,6 +291,9 @@ $ quasar build -m ssr
 # Build a PWA for production
 $ quasar build -m pwa
 
+# Build a BEX for production
+$ quasar build -m bex
+
 # Build a Mobile App (through Cordova)
 $ quasar build -m cordova -T [android|ios]
 # or the short form:
@@ -288,13 +311,13 @@ $ quasar build -m ios -- some params --and options --here
 $ quasar build -d [-m <mode>]
 ```
 
-## clean
+## Clean
 Cleans up all the build assets:
 ``` bash
 $ quasar clean
 ```
 
-## new
+## New
 
 Generates Components, Pages, Layouts, Vuex Store.
 
@@ -309,11 +332,11 @@ $ quasar new -h
     Quickly scaffold a page/layout/component/store module.
 
   Usage
-    $ quasar new [p|page] <page_file_name>
-    $ quasar new [l|layout] <layout_file_name>
-    $ quasar new [c|component] <component_file_name>
-    $ quasar new [b|boot] <boot_name>
-    $ quasar new [s|store] <store_module_name>
+    $ quasar new <p|page> [-f <option>] <page_file_name>
+    $ quasar new <l|layout> [-f <option>] <layout_file_name>
+    $ quasar new <c|component> [-f <option>] <component_file_name>
+    $ quasar new <b|boot> [-f ts] <boot_name>
+    $ quasar new <s|store> [-f ts] <store_module_name>
 
     # Examples:
 
@@ -326,11 +349,25 @@ $ quasar new -h
     # Create src/layouts/shop/Checkout.vue
     $ quasar new layout shop/Checkout.vue
 
+    # Create src/layouts/shop/Checkout.vue with TypeScript options API
+    $ quasar new layout -f ts-options shop/Checkout.vue
+
+    # Create a store with TypeScript support
+    $ quasar new store -f ts myStore
+
   Options
-    --help, -h     Displays this message
+    --help, -h            Displays this message
+
+    --format -f <option>  (optional) Use a supported format for the template
+                          Option can be:
+                             * ts-options - TS options API
+                             * ts-composition - TS component API
+                             * ts-class - TS class style syntax
+                             * ts - use for TS boot file and store modules only
 ```
 
-## mode
+## Mode
+
 ```bash
 $ quasar mode -h
 
@@ -362,7 +399,7 @@ If for some reason you decide you don't need a mode, you can remove it. **This w
 $ quasar mode remove pwa
 ```
 
-## describe
+## Describe
 This command is useful to describe the API of any Quasar components/directives/plugins that your project is using. **It is specific to your Quasar version installed in your project folder.**
 
 Examples: `$ quasar describe QIcon`, `$ quasar describe TouchPan`, `$ quasar describe Cookies`.
@@ -455,7 +492,7 @@ $ quasar describe QIcon
    *No methods*
 ```
 
-## inspect
+## Inspect
 This command can be used to inspect the Webpack config generated by Quasar CLI.
 
 ```bash
@@ -471,7 +508,7 @@ $ quasar inspect -h
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|electron] (default: spa)
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
@@ -480,7 +517,7 @@ $ quasar inspect -h
     --help, -h       Displays this message
 ```
 
-## ext
+## Ext
 This command is used to manage [App Extensions](/app-extensions/introduction).
 
 ```bash
@@ -512,7 +549,7 @@ $ quasar ext -h
     --help, -h       Displays this message
 ```
 
-## run
+## Run
 This command is used to run commands supplied by the [App Extensions](/app-extensions/introduction) that you've installed into your project folder.
 
 ```bash
@@ -537,7 +574,7 @@ $ quasar run -h
     --help, -h       Displays this message
 ```
 
-## serve
+## Serve
 This command can be used in production too and it is being supplied by the global installation of `@quasar/cli` package.
 
 ```bash
@@ -626,10 +663,10 @@ app.listen(port)
 If you need URL rewrites of API, or simply put you want to proxy your API requests, then you can use "http-proxy-middleware" package:
 ```js
 // add this to one of the two previous examples:
-const proxy = require('http-proxy-middleware')
+const { createProxyMiddleware } = require('http-proxy-middleware')
 
 // ...
-app.use('/api', proxy({
+app.use('/api', createProxyMiddleware({
     target: `http://my-api.com:5050`,
     pathRewrite: {"^/api" : ""}
   }))

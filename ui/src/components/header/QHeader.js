@@ -1,12 +1,17 @@
 import Vue from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
-import { mergeSlot } from '../../utils/slot.js'
+
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { uniqueSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QHeader',
+
+  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -89,15 +94,19 @@ export default Vue.extend({
       return offset > 0 ? offset : 0
     },
 
+    hidden () {
+      return this.value !== true || (this.fixed === true && this.revealed !== true)
+    },
+
+    revealOnFocus () {
+      return this.value === true && this.hidden === true && this.reveal === true
+    },
+
     classes () {
-      return (
-        this.fixed === true ? 'fixed' : 'absolute') + '-top' +
+      return (this.fixed === true ? 'fixed' : 'absolute') + '-top' +
         (this.bordered === true ? ' q-header--bordered' : '') +
-        (
-          this.value !== true || (this.fixed === true && this.revealed !== true)
-            ? ' q-header--hidden'
-            : ''
-        )
+        (this.hidden === true ? ' q-header--hidden' : '') +
+        (this.value !== true ? ' q-layout--prevent-focus' : '')
     },
 
     style () {
@@ -113,16 +122,19 @@ export default Vue.extend({
       }
 
       return css
+    },
+
+    onEvents () {
+      return {
+        ...this.qListeners,
+        focusin: this.__onFocusin,
+        input: stop
+      }
     }
   },
 
   render (h) {
-    const child = mergeSlot([
-      h(QResizeObserver, {
-        props: { debounce: 0 },
-        on: cache(this, 'resize', { resize: this.__onResize })
-      })
-    ], this, 'default')
+    const child = uniqueSlot(this, 'default', [])
 
     this.elevated === true && child.push(
       h('div', {
@@ -130,14 +142,18 @@ export default Vue.extend({
       })
     )
 
+    child.push(
+      h(QResizeObserver, {
+        props: { debounce: 0 },
+        on: cache(this, 'resize', { resize: this.__onResize })
+      })
+    )
+
     return h('header', {
       staticClass: 'q-header q-layout__section--marginal',
       class: this.classes,
       style: this.style,
-      on: {
-        ...this.$listeners,
-        input: stop
-      }
+      on: this.onEvents
     }, child)
   },
 
@@ -173,6 +189,14 @@ export default Vue.extend({
       if (this[prop] !== val) {
         this[prop] = val
       }
+    },
+
+    __onFocusin (evt) {
+      if (this.revealOnFocus === true) {
+        this.__updateLocal('revealed', true)
+      }
+
+      this.$emit('focusin', evt)
     }
   }
 })

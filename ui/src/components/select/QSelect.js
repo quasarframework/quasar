@@ -16,18 +16,25 @@ import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
 import { mergeSlot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 import { FormFieldMixin } from '../../mixins/form.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 
 export default Vue.extend({
   name: 'QSelect',
 
-  mixins: [ QField, VirtualScroll, CompositionMixin, FormFieldMixin ],
+  mixins: [
+    QField,
+    VirtualScroll,
+    CompositionMixin,
+    FormFieldMixin,
+    ListenersMixin
+  ],
 
   props: {
     value: {
@@ -333,6 +340,43 @@ export default Vue.extend({
     // takes into account 'option-disable' prop
     isOptionDisabled () {
       return this.__getPropValueFn('optionDisable', 'disable')
+    },
+
+    autocompleteControlEvents () {
+      const on = {
+        keydown: this.__onTargetKeydown,
+        keyup: this.__onTargetAutocomplete,
+        keypress: this.__onTargetKeypress
+      }
+
+      if (this.$q.platform.is.mobile === true) {
+        on.focus = ev => { ev.target.blur() }
+      }
+
+      return on
+    },
+
+    inputControlEvents () {
+      const on = {
+        input: this.__onInput,
+        // Safari < 10.2 & UIWebView doesn't fire compositionend when
+        // switching focus before confirming composition choice
+        // this also fixes the issue where some browsers e.g. iOS Chrome
+        // fires "change" instead of "input" on autocomplete.
+        change: this.__onChange,
+        keydown: this.__onTargetKeydown,
+        keyup: this.__onTargetKeyup,
+        keypress: this.__onTargetKeypress,
+        focus: this.__selectInputText
+      }
+
+      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
+
+      if (this.hasDialog === true) {
+        on.click = stop
+      }
+
+      return on
     }
   },
 
@@ -347,7 +391,7 @@ export default Vue.extend({
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
           const model = this.value.slice()
-          this.$emit('remove', { index, value: model.splice(index, 1) })
+          this.$emit('remove', { index, value: model.splice(index, 1)[0] })
           this.$emit('input', model)
         }
         else {
@@ -416,7 +460,7 @@ export default Vue.extend({
           this.hidePopup()
         }
 
-        if (isDeepEqual(this.getOptionValue(this.innerValue), optValue) !== true) {
+        if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
         }
         return
@@ -438,7 +482,7 @@ export default Vue.extend({
         index = this.innerOptionsValue.findIndex(v => isDeepEqual(v, optValue))
 
       if (index > -1) {
-        this.$emit('remove', { index, value: model.splice(index, 1) })
+        this.$emit('remove', { index, value: model.splice(index, 1)[0] })
       }
       else {
         if (this.maxValues !== void 0 && model.length >= this.maxValues) {
@@ -539,11 +583,13 @@ export default Vue.extend({
 
       e.target.value = ''
 
-      if (
-        e.keyCode === void 0 &&
-        typeof value === 'string' &&
-        value.length > 0
-      ) {
+      if (e.keyCode !== void 0) {
+        this.__onTargetKeyup(e)
+
+        return
+      }
+
+      if (typeof value === 'string' && value.length > 0) {
         const needle = value.toLocaleLowerCase()
 
         let fn = opt => this.getOptionValue(opt).toLocaleLowerCase() === needle
@@ -575,7 +621,7 @@ export default Vue.extend({
       }
 
       const newValueModeValid = this.inputValue.length > 0 &&
-        (this.newValueMode !== void 0 || this.$listeners['new-value'] !== void 0)
+        (this.newValueMode !== void 0 || this.qListeners['new-value'] !== void 0)
       const tabShouldSelect = e.shiftKey !== true &&
         this.multiple !== true &&
         (this.optionIndex > -1 || newValueModeValid === true)
@@ -713,7 +759,7 @@ export default Vue.extend({
           }
         }
 
-        if (this.$listeners['new-value'] !== void 0) {
+        if (this.qListeners['new-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
         }
         else {
@@ -749,15 +795,15 @@ export default Vue.extend({
 
     __getSelection (h, fromDialog) {
       if (this.hideSelected === true) {
-        return fromDialog !== true && this.hasDialog === true
-          ? [
+        return fromDialog === true || this.dialog !== true || this.hasDialog !== true
+          ? []
+          : [
             h('span', {
               domProps: {
                 textContent: this.inputValue
               }
             })
           ]
-          : []
       }
 
       if (this.$scopedSlots['selected-item'] !== void 0) {
@@ -782,6 +828,7 @@ export default Vue.extend({
           })
         }, [
           h('span', {
+            staticClass: 'ellipsis',
             domProps: {
               [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
             }
@@ -802,40 +849,28 @@ export default Vue.extend({
 
     __getControl (h, fromDialog) {
       const child = this.__getSelection(h, fromDialog)
+      const isTarget = fromDialog === true || this.dialog !== true || this.hasDialog !== true
 
-      if (this.useInput === true && (fromDialog === true || this.hasDialog === false)) {
+      if (isTarget === true && this.useInput === true) {
         child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
-        const isShadowField = this.hasDialog === true && fromDialog !== true && this.menu === true
-
-        if (fromDialog !== true) {
-          child.push(h('input', {
-            staticClass: 'q-select__autocomplete-input no-outline',
-            attrs: {
-              autocomplete: this.$attrs.autocomplete,
-              tabindex: -1
-            },
-            on: cache(this, 'acpl', {
-              keyup: this.__onTargetAutocomplete
-            })
-          }))
+        const options = {
+          staticClass: 'q-select__autocomplete-input no-outline',
+          attrs: {
+            autocomplete: this.qAttrs.autocomplete,
+            tabindex: this.tabindex
+          },
+          on: this.autocompleteControlEvents
         }
 
-        child.push(h('div', {
+        if (isTarget === true) {
           // there can be only one (when dialog is opened the control in dialog should be target)
-          ref: isShadowField === true ? void 0 : 'target',
-          staticClass: 'no-outline',
-          attrs: {
-            tabindex: this.tabindex,
-            id: isShadowField === true ? void 0 : this.targetUid
-          },
-          on: cache(this, 'ctrl', {
-            keydown: this.__onTargetKeydown,
-            keyup: this.__onTargetKeyup,
-            keypress: this.__onTargetKeypress
-          })
-        }))
+          options.ref = 'target'
+          options.attrs.id = this.targetUid
+        }
+
+        child.push(h('input', options))
       }
 
       if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
@@ -854,7 +889,7 @@ export default Vue.extend({
         )
       }
 
-      return h('div', { staticClass: 'q-field__native row items-center', attrs: this.$attrs }, child)
+      return h('div', { staticClass: 'q-field__native row items-center', attrs: this.qAttrs }, child)
     },
 
     __getOptions (h) {
@@ -899,26 +934,7 @@ export default Vue.extend({
     },
 
     __getInput (h, fromDialog) {
-      const on = {
-        input: this.__onInput,
-        // Safari < 10.2 & UIWebView doesn't fire compositionend when
-        // switching focus before confirming composition choice
-        // this also fixes the issue where some browsers e.g. iOS Chrome
-        // fires "change" instead of "input" on autocomplete.
-        change: this.__onChange,
-        keydown: this.__onTargetKeydown,
-        keyup: this.__onTargetKeyup,
-        keypress: this.__onTargetKeypress,
-        focus: this.__selectInputText
-      }
-
-      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
-
-      if (this.hasDialog === true) {
-        on.click = stop
-      }
-
-      return h('input', {
+      const options = {
         ref: 'target',
         staticClass: 'q-field__input q-placeholder col',
         style: this.inputStyle,
@@ -927,16 +943,23 @@ export default Vue.extend({
         attrs: {
           // required for Android in order to show ENTER key when in form
           type: 'search',
-          ...this.$attrs,
+          ...this.qAttrs,
+          id: this.targetUid,
           maxlength: this.maxlength, // this is converted to prop by QField
           tabindex: this.tabindex,
           'data-autofocus': fromDialog === true ? false : this.autofocus,
-          id: this.targetUid,
           disabled: this.disable === true,
           readonly: this.readonly === true
         },
-        on: cache(this, 'inp#' + this.hasDialog, on)
-      })
+        on: this.inputControlEvents
+      }
+
+      if (fromDialog !== true && this.hasDialog === true) {
+        options.staticClass += ' no-pointer-events'
+        options.attrs.readonly = true
+      }
+
+      return h('input', options)
     },
 
     __onChange (e) {
@@ -963,7 +986,7 @@ export default Vue.extend({
         this.__focus()
       }
 
-      if (this.$listeners.filter !== void 0) {
+      if (this.qListeners.filter !== void 0) {
         this.inputTimer = setTimeout(() => {
           this.filter(this.inputValue)
         }, this.inputDebounce)
@@ -992,7 +1015,7 @@ export default Vue.extend({
     },
 
     filter (val) {
-      if (this.$listeners.filter === void 0 || this.focused !== true) {
+      if (this.qListeners.filter === void 0 || this.focused !== true) {
         return
       }
 
@@ -1167,7 +1190,7 @@ export default Vue.extend({
             stackLabel: this.inputValue.length > 0
           },
           on: {
-            ...this.$listeners,
+            ...this.qListeners,
             focus: this.__onDialogFieldFocus,
             blur: this.__onDialogFieldBlur
           },
@@ -1252,6 +1275,8 @@ export default Vue.extend({
         return
       }
 
+      this.optionIndex = -1
+
       if (this.menu === true) {
         this.menu = false
       }
@@ -1279,7 +1304,7 @@ export default Vue.extend({
         this.__focus()
       }
 
-      if (this.$listeners.filter !== void 0) {
+      if (this.qListeners.filter !== void 0) {
         this.filter(this.inputValue)
       }
       else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
@@ -1322,7 +1347,7 @@ export default Vue.extend({
         ? false
         : this.behavior !== 'menu' && (
           this.useInput === true
-            ? this.$scopedSlots['no-option'] !== void 0 || this.$listeners.filter !== void 0 || this.noOptions === false
+            ? this.$scopedSlots['no-option'] !== void 0 || this.qListeners.filter !== void 0 || this.noOptions === false
             : true
         )
 

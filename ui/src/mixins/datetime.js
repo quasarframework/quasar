@@ -2,9 +2,10 @@ import { toJalaali } from '../utils/date-persian.js'
 
 import DarkMixin from './dark.js'
 import FormMixin from './form.js'
+import ListenersMixin from './listeners.js'
 
 export default {
-  mixins: [ DarkMixin, FormMixin ],
+  mixins: [ DarkMixin, FormMixin, ListenersMixin ],
 
   props: {
     value: {

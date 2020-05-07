@@ -14,13 +14,14 @@ import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
 
 import DarkMixin from '../../mixins/dark.js'
+import AttrsMixin from '../../mixins/attrs.js'
 
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'DialogPlugin',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, AttrsMixin ],
 
   inheritAttrs: false,
 
@@ -143,6 +144,7 @@ export default Vue.extend({
             autofocus: true,
             dark: this.isDark
           },
+          attrs: this.prompt.attrs,
           on: cache(this, 'prompt', {
             input: v => { this.prompt.model = v },
             keyup: evt => {
@@ -258,7 +260,7 @@ export default Vue.extend({
       ref: 'dialog',
 
       props: {
-        ...this.$attrs,
+        ...this.qAttrs,
         value: this.value
       },
 

@@ -238,7 +238,7 @@ export default {
           document.body.classList.add('non-selectable')
           clearSelection()
 
-          ctx.styleCleanup = withDelay => {
+          ctx.styleCleanup = withDelayedFn => {
             ctx.styleCleanup = void 0
 
             document.documentElement.style.cursor = ''
@@ -249,8 +249,16 @@ export default {
                 document.body.classList.remove('no-pointer-events--children')
               }
 
-              if (withDelay === true) { setTimeout(remove, 50) }
+              if (withDelayedFn !== void 0) {
+                setTimeout(() => {
+                  remove()
+                  withDelayedFn()
+                }, 50)
+              }
               else { remove() }
+            }
+            else if (withDelayedFn !== void 0) {
+              withDelayedFn()
             }
           }
         }
@@ -321,16 +329,26 @@ export default {
 
         cleanEvt(ctx, 'temp')
         client.is.firefox === true && preventDraggable(el, false)
-        ctx.styleCleanup !== void 0 && ctx.styleCleanup(true)
 
         if (abort === true) {
+          ctx.styleCleanup !== void 0 && ctx.styleCleanup()
+
           if (ctx.event.detected !== true && ctx.initialEvent !== void 0) {
             ctx.initialEvent.target.dispatchEvent(ctx.initialEvent.event)
           }
         }
         else if (ctx.event.detected === true) {
           ctx.event.isFirst === true && ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx).payload)
-          ctx.handler(getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true).payload)
+
+          const { payload } = getChanges(evt === void 0 ? ctx.lastEvt : evt, ctx, true)
+          const fn = () => { ctx.handler(payload) }
+
+          if (ctx.styleCleanup !== void 0) {
+            ctx.styleCleanup(fn)
+          }
+          else {
+            fn()
+          }
         }
 
         ctx.event = void 0

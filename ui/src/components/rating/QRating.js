@@ -6,14 +6,15 @@ import QIcon from '../icon/QIcon.js'
 
 import SizeMixin from '../../mixins/size.js'
 import FormMixin from '../../mixins/form.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QRating',
 
-  mixins: [ SizeMixin, FormMixin ],
+  mixins: [ SizeMixin, FormMixin, ListenersMixin ],
 
   props: {
     value: {
@@ -199,7 +200,7 @@ export default Vue.extend({
       class: this.classes,
       style: this.sizeStyle,
       attrs: this.attrs,
-      on: this.$listeners
+      on: this.qListeners
     }, child)
   }
 })

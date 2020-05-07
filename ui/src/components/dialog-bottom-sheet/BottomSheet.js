@@ -12,13 +12,14 @@ import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
 
 import DarkMixin from '../../mixins/dark.js'
+import AttrsMixin from '../../mixins/attrs.js'
 
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'BottomSheetPlugin',
 
-  mixins: [ DarkMixin ],
+  mixins: [ DarkMixin, AttrsMixin ],
 
   inheritAttrs: false,
 
@@ -31,6 +32,15 @@ export default Vue.extend({
 
     cardClass: [String, Array, Object],
     cardStyle: [String, Array, Object]
+  },
+
+  computed: {
+    dialogProps () {
+      return {
+        ...this.qAttrs,
+        position: 'bottom'
+      }
+    }
   },
 
   methods: {
@@ -154,10 +164,7 @@ export default Vue.extend({
     return h(QDialog, {
       ref: 'dialog',
 
-      props: {
-        ...this.$attrs,
-        position: 'bottom'
-      },
+      props: this.dialogProps,
 
       on: cache(this, 'hide', {
         hide: () => {

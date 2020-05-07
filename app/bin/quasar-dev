@@ -52,7 +52,7 @@ if (argv.help) {
     $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 
   Options
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
     --help, -h       Displays this message
@@ -93,15 +93,13 @@ async function parseAddress ({ host, port }) {
   if (this.chosenHost) {
     host = this.chosenHost
   }
-  else {
-    if (host && ['localhost', '127.0.0.1', '::1'].includes(host.toLowerCase())) {
-      host = '0.0.0.0'
-    }
-    if (['cordova', 'capacitor'].includes(argv.mode) && (!host || host === '0.0.0.0')) {
-      const getExternalIP = require('../lib/helpers/get-external-ip')
-      host = await getExternalIP()
-      this.chosenHost = host
-    }
+  else if (
+    ['cordova', 'capacitor', 'bex'].includes(argv.mode) &&
+    (!host || ['0.0.0.0', 'localhost', '127.0.0.1', '::1'].includes(host.toLowerCase()))
+  ) {
+    const getExternalIP = require('../lib/helpers/get-external-ip')
+    host = await getExternalIP()
+    this.chosenHost = host
   }
 
   log(`Checking listening address availability (${host}:${port})...`)
@@ -245,7 +243,7 @@ async function goLive () {
   })
 
   const generator = new Generator(quasarConfig)
-  const ModeRunner = ['cordova', 'capacitor', 'electron'].includes(argv.mode)
+  const ModeRunner = ['cordova', 'capacitor', 'electron', 'bex'].includes(argv.mode)
     ? require('../lib/' + argv.mode)
     : void 0
 
