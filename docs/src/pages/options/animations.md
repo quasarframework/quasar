@@ -5,7 +5,7 @@ desc: Helper CSS animations supplied by Animate.css for a Quasar app.
 
 CSS Transitions can be handled by the [Vue Transition Component](https://vuejs.org/v2/guide/transitions.html). The transitions are used for entering (appearing) or leaving (disappearing) animations.
 
-However, Quasar can supply a big list of ready to use CSS animations. The animation effects are borrowed from [Animate.css](https://daneden.github.io/animate.css/). So there are 12 general, 32 entering (In) and 32 leaving (Out) animation types currently available for you to use out of the box. Check the list either on Animate.css website or on the demo available for this page.
+However, Quasar can supply a big list of ready to use CSS animations. The animation effects are borrowed from [Animate.css](https://animate.style/). So there are 12 general, 32 entering (In) and 32 leaving (Out) animation types currently available for you to use out of the box. Check the list either on Animate.css website or on the demo available for this page.
 
 > Please refer to [Vue](https://vuejs.org/v2/guide/transitions.html)  documentation for learning on how to use the Vue supplied `<transition>` component.
 
