@@ -36,39 +36,30 @@ const fallbackComplexTypeMap = new Map([
   ['Object', 'LooseDictionary']
 ])
 
+const dontNarrowValues = [
+  '(Boolean) true',
+  '(Boolean) false',
+  '(CSS selector)',
+  '(DOM Element)'
+]
+
 function convertTypeVal (type, def, required) {
   if (def.tsType !== void 0) {
     return def.tsType
   }
 
-  if (def.values) {
-    const enums = def.values.map(v => {
-      if (v === '(Boolean) true' || v === true) {
-        return 'true'
-      }
-      else if (v === '(Boolean) false' || v === false) {
-        return 'false'
-      }
-      else if (v === '(CSS selector)') {
-        return 'string'
-      }
-      else if (v === '(DOM Element)') {
-        return 'Element'
-      }
-      else if (v === null) {
-        return 'null'
-      }
-      else if (typeof v === 'string') {
-        return `"${v}"`
-      }
-      else {
-        throw new Error(`Missing enumeration for ${v}`)
-      }
-    })
-    return enums.join(' | ')
-  }
-
   const t = type.trim()
+
+  if (def.values && t === 'String') {
+    const narrowedValues = def.values.filter(v =>
+      !dontNarrowValues.includes(v) &&
+      typeof v === 'string'
+    ).map(v => `'${v}'`)
+
+    if (narrowedValues.length) {
+      return narrowedValues.join(' | ')
+    }
+  }
 
   if (typeMap.has(t)) {
     return typeMap.get(t)
@@ -90,7 +81,7 @@ function convertTypeVal (type, def, required) {
 
 function getTypeVal (def, required) {
   return Array.isArray(def.type)
-    ? [...new Set(def.type.map(type => convertTypeVal(type, def, required)))].join(' | ')
+    ? def.type.map(type => convertTypeVal(type, def, required)).join(' | ')
     : convertTypeVal(def.type, def, required)
 }
 
