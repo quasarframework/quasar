@@ -41,6 +41,33 @@ function convertTypeVal (type, def, required) {
     return def.tsType
   }
 
+  if (def.values) {
+    const enums = def.values.map(v => {
+      if (v === '(Boolean) true' || v === true) {
+        return 'true'
+      }
+      else if (v === '(Boolean) false' || v === false) {
+        return 'false'
+      }
+      else if (v === '(CSS selector)') {
+        return 'string'
+      }
+      else if (v === '(DOM Element)') {
+        return 'Element'
+      }
+      else if (v === null) {
+        return 'null'
+      }
+      else if (typeof v === 'string') {
+        return `"${v}"`
+      }
+      else {
+        throw new Error(`Missing enumeration for ${v}`)
+      }
+    })
+    return enums.join(' | ')
+  }
+
   const t = type.trim()
 
   if (typeMap.has(t)) {
@@ -63,7 +90,7 @@ function convertTypeVal (type, def, required) {
 
 function getTypeVal (def, required) {
   return Array.isArray(def.type)
-    ? def.type.map(type => convertTypeVal(type, def, required)).join(' | ')
+    ? [...new Set(def.type.map(type => convertTypeVal(type, def, required)))].join(' | ')
     : convertTypeVal(def.type, def, required)
 }
 
