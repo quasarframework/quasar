@@ -33,7 +33,7 @@ export default {
 
       if (isSSR === true) {
         if (ssrContext === void 0) {
-          console.error('SSR: second param required: Quasar.lang.set(lang, ssrContext)')
+          console.error('SSR ERROR: second param required: Quasar.lang.set(lang, ssrContext)')
           return
         }
 
