@@ -10,7 +10,10 @@ const mixin = {
 
 export default function (ctx) {
   if (ctx.ssr) {
-    const q = { ...$q }
+    const q = {
+      ...$q,
+      ssrContext: ctx.ssr
+    }
 
     Object.assign(ctx.ssr, {
       Q_HEAD_TAGS: '',
@@ -18,11 +21,11 @@ export default function (ctx) {
       Q_BODY_TAGS: ''
     })
 
+    ctx.app.$q = ctx.ssr.$q = q
+
     queues.server.forEach(run => {
       run(q, ctx)
     })
-
-    ctx.app.$q = q
   }
   else {
     const mixins = ctx.app.mixins || []
