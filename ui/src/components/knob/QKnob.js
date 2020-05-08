@@ -177,7 +177,6 @@ export default Vue.extend({
     __activate (evt) {
       this.__updateCenterPosition()
       this.__updatePosition(evt)
-      this.__updateValue()
     },
 
     __updatePosition (evt, change) {
