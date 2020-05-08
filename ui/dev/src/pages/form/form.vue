@@ -59,13 +59,27 @@
           filled
           type="number"
           v-model="age"
-          label="Your age *"
+          label="Your age * (lazy)"
           lazy-rules
           :rules="[
             val => val !== null && val !== '' || 'Please type your age',
             val => val > 0 && val < 100 || 'Please type a real age'
           ]"
           :autofocus="autofocusEl === 2"
+        />
+
+        <q-input
+          ref="age"
+          :dark="dark"
+          filled
+          type="number"
+          v-model="age"
+          label="Your age * (lazy ondemand)"
+          lazy-rules="ondemand"
+          :rules="[
+            val => val !== null && val !== '' || 'Please type your age',
+            val => val > 0 && val < 100 || 'Please type a real age'
+          ]"
         />
 
         <q-input

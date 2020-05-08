@@ -1,5 +1,7 @@
 import { testPattern } from '../utils/patterns.js'
 
+const lazyRulesValues = [ true, false, 'ondemand' ]
+
 export default {
   props: {
     value: {},
@@ -12,7 +14,10 @@ export default {
     noErrorIcon: Boolean,
 
     rules: Array,
-    lazyRules: Boolean
+    lazyRules: {
+      type: [ Boolean, String ],
+      validator: v => lazyRulesValues.includes(v)
+    }
   },
 
   data () {
@@ -27,6 +32,7 @@ export default {
     value () {
       if (
         this.hasRules === true &&
+        this.lazyRules !== 'ondemand' &&
         (this.lazyRules !== true || this.isDirty === true)
       ) {
         this.validate()
@@ -34,11 +40,16 @@ export default {
     },
 
     focused (focused) {
-      if (focused === true) {
-        this.__initDirty()
-      }
-      else {
-        this.__triggerValidation()
+      if (this.lazyRules !== 'ondemand') {
+        if (focused === true) {
+          if (this.isDirty === null) {
+            this.isDirty = false
+          }
+        }
+        else if (this.isDirty === false && this.hasRules === true) {
+          this.isDirty = true
+          this.validate()
+        }
       }
     }
   },
@@ -63,17 +74,6 @@ export default {
 
   mounted () {
     this.validateIndex = 0
-    if (this.focused === void 0) {
-      this.$el.addEventListener('focusin', this.__initDirty)
-      this.$el.addEventListener('focusout', this.__triggerValidation)
-    }
-  },
-
-  beforeDestroy () {
-    if (this.focused === void 0) {
-      this.$el.removeEventListener('focusin', this.__initDirty)
-      this.$el.removeEventListener('focusout', this.__triggerValidation)
-    }
   },
 
   methods: {
@@ -176,19 +176,6 @@ export default {
           return true
         }
       )
-    },
-
-    __initDirty () {
-      if (this.isDirty === null) {
-        this.isDirty = false
-      }
-    },
-
-    __triggerValidation () {
-      if (this.isDirty === false && this.hasRules === true) {
-        this.isDirty = true
-        this.validate()
-      }
     }
   }
 }
