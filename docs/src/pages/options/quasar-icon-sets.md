@@ -166,7 +166,7 @@ Quasar Icon Set is reactive, so all components will update properly if you chang
 import mdiIconSet from 'quasar/icon-set/mdi-v5.js'
 
 methods: {
-  changeIconSetToFontAwesome () {
+  changeIconSetToMdiIconSet () {
     this.$q.iconSet.set(mdiIconSet)
   }
 }
