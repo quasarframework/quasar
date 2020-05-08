@@ -12,7 +12,7 @@
       q-toggle(v-model="css['material-icons-round']" label="Material Icons (Round)")
       q-toggle(v-model="css['material-icons-sharp']" label="Material Icons (Sharp)")
 
-      q-toggle(v-model="css['mdi-v4']" label="MDI v4")
+      q-toggle(v-model="css['mdi-v5']" label="MDI v5")
       q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
       q-toggle(v-model="css['ionicons-v4']" label="Ionicons v4")
       q-toggle(v-model="css['eva-icons']" label="Eva Icons")
@@ -63,7 +63,7 @@
 import languages from 'quasar/lang/index.json'
 
 const cssMap = {
-  'mdi-v4': 'cdn.jsdelivr.net/npm/@mdi/font@^4.0.0/css/materialdesignicons.min.css',
+  'mdi-v5': 'cdn.jsdelivr.net/npm/@mdi/font@^5.0.0/css/materialdesignicons.min.css',
   'fontawesome-v5': 'use.fontawesome.com/releases/v5.0.13/css/all.css',
   'ionicons-v4': 'cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
   'eva-icons': 'cdn.jsdelivr.net/npm/eva-icons@^1.0.0/style/eva-icons.css',
@@ -95,7 +95,7 @@ export default {
         'material-icons-round': false,
         'material-icons-sharp': false,
 
-        'mdi-v4': false,
+        'mdi-v5': false,
         'fontawesome-v5': false,
         'ionicons-v4': false,
         'eva-icons': false,
@@ -270,8 +270,8 @@ export default {
       { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
       { label: 'Material Round (webfont)', value: 'material-icons-round' },
       { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
-      { label: 'MDI v4 (webfont)', value: 'mdi-v4' },
-      { label: 'MDI v4 (svg)', value: 'svg-mdi-v4' },
+      { label: 'MDI v5 (webfont)', value: 'mdi-v5' },
+      { label: 'MDI v5 (svg)', value: 'svg-mdi-v5' },
       { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },
       { label: 'Ionicons v4 (svg)', value: 'svg-ionicons-v4' },
       { label: 'Fontawesome v5 (webfont)', value: 'fontawesome-v5' },
