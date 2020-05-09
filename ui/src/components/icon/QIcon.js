@@ -134,7 +134,7 @@ export default Vue.extend({
     const data = {
       class: this.type.cls,
       style: this.sizeStyle,
-      on: this.qListeners,
+      on: { ...this.qListeners },
       attrs: {
         'aria-hidden': 'true',
         role: 'presentation'

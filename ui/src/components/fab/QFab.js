@@ -93,7 +93,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-fab z-fab row inline justify-center',
       class: this.classes,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       h('div', {
         staticClass: 'q-fab__actions flex no-wrap inline',

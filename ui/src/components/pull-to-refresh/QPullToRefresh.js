@@ -164,7 +164,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       staticClass: 'q-pull-to-refresh overflow-hidden',
-      on: this.qListeners,
+      on: { ...this.qListeners },
       directives: this.disable === true
         ? null
         : cache(this, 'dir#' + this.noMouse, [{

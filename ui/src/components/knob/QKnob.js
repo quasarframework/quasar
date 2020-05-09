@@ -71,14 +71,15 @@ export default Vue.extend({
 
   computed: {
     classes () {
-      return {
-        disabled: this.disable,
-        'q-knob--editable': this.editable
-      }
+      return 'q-knob non-selectable' + (
+        this.editable === true
+          ? ' q-knob--editable'
+          : (this.disable === true ? ' disabled' : '')
+      )
     },
 
     editable () {
-      return !this.disable && !this.readonly
+      return this.disable === false && this.readonly === false
     },
 
     decimals () {
@@ -89,7 +90,7 @@ export default Vue.extend({
       return this.step === 0 ? 1 : this.step
     },
 
-    events () {
+    onEvents () {
       return this.$q.platform.is.mobile === true
         ? { click: this.__click }
         : {
@@ -242,11 +243,8 @@ export default Vue.extend({
 
   render (h) {
     const data = {
-      staticClass: 'q-knob non-selectable',
       class: this.classes,
-
       attrs: this.attrs,
-
       props: {
         ...this.$props,
         value: this.model,
@@ -255,7 +253,7 @@ export default Vue.extend({
     }
 
     if (this.editable === true) {
-      data.on = this.events
+      data.on = this.onEvents
       data.directives = cache(this, 'dir', [{
         name: 'touch-pan',
         value: this.__pan,

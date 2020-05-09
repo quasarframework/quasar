@@ -178,7 +178,7 @@ export default Vue.extend({
       staticClass: 'q-circular-progress',
       class: `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.sizeStyle,
-      on: this.qListeners,
+      on: { ...this.qListeners },
       attrs: this.attrs
     }, mergeSlotSafely(child, this, 'internal'))
   }

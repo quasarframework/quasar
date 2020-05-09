@@ -27,7 +27,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-carousel__slide',
       style: this.style,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

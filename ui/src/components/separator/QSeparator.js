@@ -50,7 +50,7 @@ export default Vue.extend({
       staticClass: 'q-separator',
       class: this.classes,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     })
   }
 })
