@@ -117,7 +117,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    console.log('render')
     const layout = h('div', {
       class: this.classes,
       style: this.style,
