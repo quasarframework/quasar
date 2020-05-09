@@ -90,6 +90,11 @@ export default Vue.extend({
       return this.step === 0 ? 1 : this.step
     },
 
+    computedInstantFeedback () {
+      return this.instantFeedback === true ||
+        this.dragging === true
+    },
+
     onEvents () {
       return this.$q.platform.is.mobile === true
         ? { click: this.__click }
@@ -242,13 +247,14 @@ export default Vue.extend({
   },
 
   render (h) {
+    console.log(this.instantFeedback)
     const data = {
       class: this.classes,
       attrs: this.attrs,
       props: {
         ...this.$props,
         value: this.model,
-        instantFeedback: this.dragging
+        instantFeedback: this.computedInstantFeedback
       }
     }
 
