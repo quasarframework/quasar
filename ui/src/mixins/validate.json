@@ -29,6 +29,12 @@
       "category": "behavior"
     },
 
+    "reactive-rules": {
+      "type": "Boolean",
+      "desc": "By default a change in the rules does not trigger a new validation until the model changes. If set to true a change in rules triggers a validation",
+      "category": "behavior"
+    },
+
     "lazy-rules": {
       "type": [ "Boolean", "String" ],
       "desc": "If set to boolean true then it checks validation status against the 'rules' only after field loses focus for first time; If set to 'ondemand' then it will trigger only when component's validate() method is manually called or when the wrapper QForm submits itself",
