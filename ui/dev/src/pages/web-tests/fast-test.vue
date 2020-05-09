@@ -8,8 +8,6 @@
       For some test that you think it should be persistent,
       make a new *.vue file here or in another folder under /dev/components.
     -->
-    <q-knob v-model="gigi" />
-    <q-knob v-model="gigi" instant-feedback />
   </div>
 </template>
 
@@ -19,7 +17,6 @@
 export default {
   data () {
     return {
-      gigi: 7
     }
   },
   methods: {
