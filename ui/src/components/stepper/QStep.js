@@ -99,7 +99,7 @@ export default Vue.extend({
       'div',
       {
         staticClass: 'q-stepper__step',
-        on: this.qListeners
+        on: { ...this.qListeners }
       },
       vertical === true
         ? [

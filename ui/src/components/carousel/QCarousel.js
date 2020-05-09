@@ -205,7 +205,7 @@ export default Vue.extend({
       return h('div', {
         style: this.style,
         class: this.classes,
-        on: this.qListeners
+        on: { ...this.qListeners }
       }, [
         h('div', {
           staticClass: 'q-carousel__slides-container',

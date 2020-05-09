@@ -145,7 +145,7 @@ export default Vue.extend({
         class: this.classes,
         attrs: this.attrs,
         props: this.qAttrs,
-        on: this.qListeners
+        on: { ...this.qListeners }
       }, child)
   }
 })

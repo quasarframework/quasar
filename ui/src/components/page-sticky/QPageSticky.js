@@ -125,7 +125,7 @@ export default Vue.extend({
       staticClass: 'q-page-sticky row flex-center',
       class: this.classes,
       style: this.style,
-      on: this.qListeners
+      on: { ...this.qListeners }
     },
     this.expand === true
       ? content

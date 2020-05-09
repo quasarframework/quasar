@@ -294,7 +294,7 @@ export default Vue.extend({
       class: this.classes,
       style: this.style,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       h('div', { style: this.ratioStyle }),
       this.__getImage(h),

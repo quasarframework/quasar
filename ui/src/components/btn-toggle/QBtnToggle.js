@@ -135,7 +135,7 @@ export default Vue.extend({
         glossy: this.glossy,
         spread: this.spread
       },
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, child)
   }
 })

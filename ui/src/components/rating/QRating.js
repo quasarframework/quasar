@@ -200,7 +200,7 @@ export default Vue.extend({
       class: this.classes,
       style: this.sizeStyle,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, child)
   }
 })

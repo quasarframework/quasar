@@ -17,7 +17,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    const on = this.qListeners
+    const on = { ...this.qListeners }
 
     if (this.props === void 0) {
       return h('th', {

@@ -143,7 +143,7 @@ export default Vue.extend({
 
     return h('div', {
       class: `q-message q-message-${this.op}`,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, child)
   }
 })
