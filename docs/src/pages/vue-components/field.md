@@ -112,6 +112,10 @@ When placing a QBtn with type "submit" in one of the "before", "after", "prepend
 
 You can validate QField components with `:rules` prop. Specify array of embedded rules or your own validators. Your custom validator will be a function which returns `true` if validator succeeds or `String` with error message if it doesn't succeed.
 
+:: tip
+By default a change in the rules does not trigger a new validation until the model changes. Use `reactive-rules` property to make a change in rules triggers a validation.
+:::
+
 This is so you can write convenient rules of shape like:
 
 ```js
