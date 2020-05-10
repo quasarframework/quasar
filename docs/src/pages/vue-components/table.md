@@ -160,6 +160,8 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
+<doc-example title="Custom multiple selection" file="QTable/CustomSelection" />
+
 ### Visible columns, custom top, fullscreen
 
 Please note that columns marked as `required` (in the column definition) cannot be toggled and are always visible.
