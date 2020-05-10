@@ -235,15 +235,17 @@ export default Vue.extend({
     },
 
     __cleanup (destroying) {
+      const blurTarget = this.$refs.blurTarget
+
       if (
         destroying !== true &&
         (touchTarget === this.$el || mouseTarget === this.$el) &&
-        this.$refs.blurTarget !== void 0 &&
-        this.$refs.blurTarget !== document.activeElement
+        blurTarget !== void 0 &&
+        blurTarget !== document.activeElement
       ) {
-        this.$refs.blurTarget.setAttribute('tabindex', -1)
-        this.$refs.blurTarget.focus()
-        this.$refs.blurTarget.removeAttribute('tabindex')
+        blurTarget.setAttribute('tabindex', -1)
+        blurTarget.focus()
+        blurTarget.removeAttribute('tabindex')
       }
 
       if (touchTarget === this.$el) {
