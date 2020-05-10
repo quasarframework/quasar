@@ -52,12 +52,14 @@ export default {
       else {
         if (fromSSR === false) {
           const el = document.documentElement
-          el.setAttribute('dir', lang.rtl ? 'rtl' : 'ltr')
+          el.setAttribute('dir', lang.rtl === true ? 'rtl' : 'ltr')
           el.setAttribute('lang', lang.isoName)
         }
 
         lang.set = this.set
-        $q.lang = lang
+        $q.lang = this.props = lang
+        this.isoName = lang.isoName
+        this.nativeName = lang.nativeName
       }
     }
 
@@ -70,6 +72,10 @@ export default {
 
         q.lang.set(initialLang)
       })
+
+      this.isoName = initialLang.isoName
+      this.nativeName = initialLang.nativeName
+      this.props = initialLang
     }
     else {
       Vue.util.defineReactive($q, 'lang', {})
