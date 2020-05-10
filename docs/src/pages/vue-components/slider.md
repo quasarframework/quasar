@@ -30,11 +30,11 @@ The `step` property can also be floating point number (or numeric `0` if you nee
 
 <doc-example title="Floating point" file="QSlider/FloatingPoint" />
 
-In the example below, move the slider to see the label.
-
 <doc-example title="Snap to steps" file="QSlider/Snap" />
 
 ### With label
+
+In the example below, move the slider to see the label.
 
 <doc-example title="With label" file="QSlider/Label" />
 
