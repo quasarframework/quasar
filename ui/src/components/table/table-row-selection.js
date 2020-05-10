@@ -57,8 +57,8 @@ export default {
       this.$emit('update:selected', [])
     },
 
-    __updateSelection (keys, rows, added) {
-      this.$emit('selection', { rows, added, keys })
+    __updateSelection (keys, rows, added, evt) {
+      this.$emit('selection', { rows, added, keys, evt })
 
       const payload = this.singleSelection === true
         ? (added === true ? rows : [])

@@ -24,8 +24,8 @@ export default {
                   dense: true
                 },
                 on: {
-                  input: val => {
-                    scope.selected = val
+                  input: (adding, evt) => {
+                    this.__updateSelection([ scope.key ], [ scope.row ], adding, evt)
                   }
                 }
               })
