@@ -32,11 +32,11 @@ The `step` property can also be a floating point number (or numeric `0` if you n
 
 <doc-example title="Floating point" file="QRange/FloatingPoint" />
 
-In the example below, move the slider to see the label.
-
 <doc-example title="Snaps to steps" file="QRange/Snap" />
 
 ### With label
+
+In the example below, move the slider to see the label.
 
 <doc-example title="With label" file="QRange/Label" />
 
