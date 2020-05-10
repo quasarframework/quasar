@@ -3,6 +3,15 @@ import RippleMixin from './ripple.js'
 import ListenersMixin from './listeners.js'
 import { getSizeMixin } from './size.js'
 
+const padding = {
+  none: 0,
+  xs: 4,
+  sm: 8,
+  md: 16,
+  lg: 24,
+  xl: 32
+}
+
 export default {
   mixins: [
     ListenersMixin,
@@ -19,10 +28,10 @@ export default {
 
   props: {
     type: String,
-    to: [Object, String],
+    to: [ Object, String ],
     replace: Boolean,
 
-    label: [Number, String],
+    label: [ Number, String ],
     icon: String,
     iconRight: String,
 
@@ -37,6 +46,7 @@ export default {
     size: String,
     fab: Boolean,
     fabMini: Boolean,
+    padding: String,
 
     color: String,
     textColor: String,
@@ -44,7 +54,7 @@ export default {
     noWrap: Boolean,
     dense: Boolean,
 
-    tabindex: [Number, String],
+    tabindex: [ Number, String ],
 
     align: { default: 'center' },
     stack: Boolean,
@@ -152,6 +162,24 @@ export default {
       return this.alignClass + (this.stack === true ? ' column' : ' row') +
         (this.noWrap === true ? ' no-wrap text-no-wrap' : '') +
         (this.loading === true ? ' q-btn__content--hidden' : '')
+    },
+
+    wrapperStyle () {
+      if (this.padding === void 0) {
+        return
+      }
+
+      const [ y, x ] = this.padding.split(' ')
+      const vert = y in padding ? padding[y] + 'px' : y
+      const horiz = x === void 0
+        ? ''
+        : ' ' + (x in padding ? padding[x] + 'px' : y)
+
+      return {
+        padding: `${vert}${horiz}`,
+        minWidth: '0',
+        minHeight: '0'
+      }
     }
   }
 }

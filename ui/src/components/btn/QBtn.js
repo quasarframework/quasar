@@ -327,7 +327,8 @@ export default Vue.extend({
 
     child.push(
       h('span', {
-        staticClass: 'q-btn__wrapper col row q-anchor--skip'
+        staticClass: 'q-btn__wrapper col row q-anchor--skip',
+        style: this.wrapperStyle
       }, [
         h('span', {
           staticClass: 'q-btn__content text-center col items-center q-anchor--skip',

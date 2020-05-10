@@ -43,9 +43,17 @@ When not disabled or spinning, QBtn emits a `@click` event, as soon as it is cli
 
 <doc-example title="Button design" file="QBtn/ButtonDesign" />
 
+### Alignment
+
 <doc-example title="Button alignment" file="QBtn/ButtonAlignment" />
 
+### Size
+
 <doc-example title="Button size" file="QBtn/ButtonSize" />
+
+### Padding <q-badge align="top" label="v1.11+" />
+
+<doc-example title="Button padding" file="QBtn/ButtonPadding" />
 
 ### Progress related
 
