@@ -5,6 +5,8 @@ import Ripple from '../../directives/Ripple.js'
 
 import AttrsMixin from '../../mixins/attrs.js'
 
+import cache from '../../utils/cache.js'
+
 export default Vue.extend({
   name: 'StepHeader',
 
@@ -126,10 +128,10 @@ export default Vue.extend({
 
     if (this.headerNav === true) {
       Object.assign(data, {
-        on: {
+        on: cache(this, 'headnavon', {
           click: this.activate,
           keyup: this.keyup
-        },
+        }),
         attrs: this.isDisable === true
           ? { tabindex: -1, 'aria-disabled': '' }
           : { tabindex: this.qAttrs.tabindex || 0 }
