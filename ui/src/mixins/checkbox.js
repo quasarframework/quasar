@@ -160,7 +160,7 @@ export default {
         val = this.falseValue
       }
 
-      this.$emit('input', val)
+      this.$emit('input', val, e)
     },
 
     __onKeydown (e) {
