@@ -11,7 +11,6 @@
       :step="4"
       snap
       label
-      label-always
       color="purple"
     />
   </div>

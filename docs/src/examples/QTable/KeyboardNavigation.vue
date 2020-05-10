@@ -124,17 +124,17 @@ export default {
 
       evt.preventDefault()
 
-      const { rowsNumber, rows } = this.$refs.myTable.computedData
+      const { computedRowsNumber, computedRows } = this.$refs.myTable
 
-      if (rows.length === 0) {
+      if (computedRows.length === 0) {
         return
       }
 
-      const currentIndex = this.selected.length > 0 ? rows.indexOf(this.selected[0]) : -1
+      const currentIndex = this.selected.length > 0 ? computedRows.indexOf(this.selected[0]) : -1
       const currentPage = this.pagination.page
-      const rowsPerPage = this.pagination.rowsPerPage === 0 ? rowsNumber : this.pagination.rowsPerPage
-      const lastIndex = rows.length - 1
-      const lastPage = Math.ceil(rowsNumber / rowsPerPage)
+      const rowsPerPage = this.pagination.rowsPerPage === 0 ? computedRowsNumber : this.pagination.rowsPerPage
+      const lastIndex = computedRows.length - 1
+      const lastPage = Math.ceil(computedRowsNumber / rowsPerPage)
 
       let index = currentIndex
       let page = currentPage
@@ -187,12 +187,12 @@ export default {
         }
 
         this.$nextTick(() => {
-          const { rows } = this.$refs.myTable.computedData
-          this.selected = [ rows[Math.min(index, rows.length - 1)] ]
+          const { computedRows } = this.$refs.myTable
+          this.selected = [ computedRows[Math.min(index, computedRows.length - 1)] ]
         })
       }
       else {
-        this.selected = [ rows[index] ]
+        this.selected = [ computedRows[index] ]
       }
     }
   }
