@@ -19,17 +19,22 @@ export function getPropCacheMixin (propName, proxyPropName) {
       [propName]: {
         immediate: true,
         handler (newObj, oldObj) {
+          const target = this[proxyPropName]
+
           if (oldObj !== void 0) {
-            // we first delete obsolete keys
+            // we first delete obsolete events
             for (const prop in oldObj) {
-              if (newObj.hasOwnProperty(prop) !== true) {
-                this.$delete(this[proxyPropName], prop)
+              if (newObj[prop] === void 0) {
+                this.$delete(target, prop)
               }
             }
           }
 
           for (const prop in newObj) {
-            this.$set(this[proxyPropName], prop, newObj[prop])
+            // we then update changed events
+            if (target[prop] !== newObj[prop]) {
+              this.$set(target, prop, newObj[prop])
+            }
           }
         }
       }

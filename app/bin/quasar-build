@@ -50,7 +50,7 @@ if (argv.help) {
     --mode, -m      App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
-                        [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                        [android|ios]
                       - Capacitor
                         [android|ios]
                       - Electron with default "electron-packager" bundler (default: yours)

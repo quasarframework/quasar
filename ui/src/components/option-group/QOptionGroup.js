@@ -105,7 +105,7 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, this.options.map(opt => h('div', [
       h(this.component, {
         props: {

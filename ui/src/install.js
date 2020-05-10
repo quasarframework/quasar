@@ -34,7 +34,7 @@ export default function (Vue, opts = {}) {
   Screen.install($q, queues, cfg)
   History.install(cfg)
   Lang.install($q, queues, opts.lang)
-  IconSet.install($q, opts.iconSet)
+  IconSet.install($q, queues, opts.iconSet)
 
   if (isSSR === true) {
     Vue.mixin({

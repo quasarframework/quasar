@@ -97,7 +97,9 @@ if (format === 'ts' && !['b', 'boot', 's', 'store'].includes(type)) {
 
 const isTypeScript = format === 'ts' || format.indexOf('ts-') > -1
 
-// If they've supplied a TS format i.e ts-options and are creating a boot file / store then set format to TS as they're the same for all formats.
+// If they've supplied a TS format i.e ts-options and
+// are creating a boot file / store then set format
+// to TS as they're the same for all formats.
 if (isTypeScript && ['b', 'boot', 's', 'store'].includes(type)) {
   format = 'ts'
 }
@@ -136,10 +138,9 @@ function createFile (asset, file) {
     appPaths.resolve.cli(path.join('templates/app', format, type + (asset.ext || ''))),
     file,
     err => {
-
       if (err) {
         console.warn(err)
-        warn('[FAIL] Could not generate ${relativePath}.')
+        warn(`[FAIL] Could not generate ${relativePath}.`)
         return
       }
 
@@ -170,6 +171,7 @@ const mapping = {
   },
   store: {
     folder: 'store',
+    install: true,
     reference: `src/store/index${ext}`
   },
   boot: {
@@ -182,6 +184,28 @@ const mapping = {
 const asset = mapping[type]
 
 const filesToCreate = getPaths(asset, names)
+
+if (asset.install) {
+  const folder = appPaths.resolve.src(asset.folder)
+
+  if (!fs.existsSync(folder)) {
+    fse.mkdirp(folder)
+    fse.copy(
+      appPaths.resolve.cli(`templates/store/${format}`),
+      folder,
+      err => {
+        if (err) {
+          console.warn(err)
+          warn(`[FAIL] Could not generate src/${asset.folder}.`)
+          return
+        }
+
+        log(`Generated src/${asset.folder}`)
+        log()
+      }
+    )
+  }
+}
 
 filesToCreate.forEach(file => {
   createFile(asset, file)

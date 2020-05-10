@@ -46,7 +46,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-page-container',
       style: this.style,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

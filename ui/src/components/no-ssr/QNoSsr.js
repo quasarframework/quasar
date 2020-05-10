@@ -17,7 +17,7 @@ export default Vue.extend({
 
   render (h) {
     const data = {
-      on: this.qListeners
+      on: { ...this.qListeners }
     }
 
     if (this.canRender === true) {

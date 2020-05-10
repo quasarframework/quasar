@@ -230,7 +230,7 @@ export default Vue.extend({
     return h('div', {
       class: this.classes,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, child)
   },
 
