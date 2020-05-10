@@ -32,7 +32,8 @@
     "reactive-rules": {
       "type": "Boolean",
       "desc": "By default a change in the rules does not trigger a new validation until the model changes. If set to true a change in rules triggers a validation",
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.11.0"
     },
 
     "lazy-rules": {
