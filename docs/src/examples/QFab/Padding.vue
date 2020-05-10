@@ -39,8 +39,8 @@
 export default {
   data () {
     return {
-      fab1: true,
-      fab2: true
+      fab1: false,
+      fab2: false
     }
   },
 
