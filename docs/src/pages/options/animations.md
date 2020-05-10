@@ -32,7 +32,7 @@ If you are building a website, you can also skip configuring quasar.conf.js and 
   <!-- CDN example for Animate.css -->
   <link
     rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css"
   >
 </head>
 ```
