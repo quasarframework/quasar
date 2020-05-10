@@ -1491,6 +1491,13 @@
             "added": {
               "type": "Boolean",
               "desc": "Were the rows added to selection (true) or removed from selection (false)"
+            },
+            "evt": {
+              "type": "Object",
+              "desc": "JS event object",
+              "required": true,
+              "__exemption": [ "examples" ],
+              "addedIn":"v1.11.2"
             }
           }
         }
