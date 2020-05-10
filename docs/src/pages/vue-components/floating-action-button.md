@@ -55,6 +55,12 @@ If we hide the icon (through specific prop), we should at least use an internal 
 
 <doc-example title="Hide icon" file="QFab/HideIcon" />
 
+### Padding <q-badge align="top" label="v1.11+" />
+
+The default padding for QFab is "md" and for QFabAction is "sm". However, you can use `padding` prop to customize it (accepts CSS units too):
+
+<doc-example title="Playing with padding" file="QFab/Padding" />
+
 ### Square style <q-badge align="top" label="v1.9+" />
 
 <doc-example title="Square style" file="QFab/SquareStyle" />

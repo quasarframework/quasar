@@ -1,4 +1,4 @@
-const labelPositions = ['top', 'right', 'bottom', 'left']
+const labelPositions = [ 'top', 'right', 'bottom', 'left' ]
 
 export default {
   props: {
@@ -6,15 +6,18 @@ export default {
       type: String,
       default: 'a'
     },
+
     outline: Boolean,
     push: Boolean,
     flat: Boolean,
     unelevated: Boolean,
+
     color: String,
     textColor: String,
     glossy: Boolean,
 
     square: Boolean,
+    padding: String,
 
     label: {
       type: [ String, Number ],

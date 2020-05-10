@@ -165,20 +165,15 @@ export default {
     },
 
     wrapperStyle () {
-      if (this.padding === void 0) {
-        return
-      }
-
-      const [ y, x ] = this.padding.split(' ')
-      const vert = y in padding ? padding[y] + 'px' : y
-      const horiz = x === void 0
-        ? ''
-        : ' ' + (x in padding ? padding[x] + 'px' : y)
-
-      return {
-        padding: `${vert}${horiz}`,
-        minWidth: '0',
-        minHeight: '0'
+      if (this.padding !== void 0) {
+        return {
+          padding: this.padding
+            .split(/\s+/)
+            .map(v => v in padding ? padding[v] + 'px' : v)
+            .join(' '),
+          minWidth: '0',
+          minHeight: '0'
+        }
       }
     }
   }
