@@ -65,6 +65,10 @@ module.exports.cleanAll = function () {
   fse.removeSync(folder)
   log(`Cleaned build artifact: "${folder}"`)
 
-  fse.emptyDirSync(appPaths.resolve.app('dist'))
-  log(`Emptied dist folder`)
+  const distFolder = appPaths.resolve.app('dist')
+
+  if (fs.existsSync(distFolder)) {
+    fse.emptyDirSync(distFolder)
+    log(`Emptied dist folder`)
+  }
 }
