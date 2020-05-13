@@ -142,11 +142,9 @@ You can dynamically load new options when scroll reaches the end:
 
 ### Understanding the difference
 
-The intended difference between a filtering QSelect and an autocomplete QSelect is offering the user a set of options from an external source to select from based on the input value they enter (Autocomplete), instead of a set of options already gotten/ available to the user and simply filtered upon (Filter). 
+The intended difference between a filtering QSelect and an autocomplete QSelect is offering the user a set of options that could be the full intended text to be entered (autocomplete), or removing options in the selection according to the input by the user (filter).
 
-From a technical standpoint for autocomplete, the v-model of QSelect is broken up into `:value` and `@input-value` so that a method can be triggered by the user's input. That method is then used to "gather" the options for the selection. In essence, the two types are the same, just that the autocomplete is working on a set of unknown options at first (and usually pulled from the server). You'd need to call your server for the options to select from, because the available options would be way too many to load as a set of selection options. In most cases, this is in the many 100s.
-
-A use case for the autocomplete would be, for instance, when you need to connect a form input to a larger list of data, like from your  collection/ table of users. There is no way you could load 1000s of users as an options data set, so you'd offer an autocomplete.
+From a technical standpoint for autocomplete, the v-model of QSelect is broken up into `:value` and `@input-value` so that a method can be triggered by the user's input. That method is then used to "gather" options that would match and complete what the user might be wanting to enter. 
 
 ### Native attributes with `use-input`
 
