@@ -166,7 +166,9 @@ export default Vue.extend({
     },
 
     __onPageScroll (data) {
-      this.scroll = data
+      if (this.container === true || document.body.classList.contains('q-body--prevent-scroll') === false) {
+        this.scroll = data
+      }
       this.qListeners.scroll !== void 0 && this.$emit('scroll', data)
     },
 
