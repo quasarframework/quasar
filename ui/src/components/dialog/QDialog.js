@@ -160,6 +160,8 @@ export default Vue.extend({
     shake () {
       this.focus()
 
+      this.$emit('shake')
+
       const node = this.__getInnerNode()
 
       if (node !== void 0) {
