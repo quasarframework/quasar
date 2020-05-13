@@ -245,7 +245,6 @@ export default Vue.extend({
       ) {
         blurTarget.setAttribute('tabindex', -1)
         blurTarget.focus()
-        blurTarget.removeAttribute('tabindex')
       }
 
       if (touchTarget === this.$el) {
