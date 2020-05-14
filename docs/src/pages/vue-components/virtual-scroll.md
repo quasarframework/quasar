@@ -84,6 +84,8 @@ If you want to use a Vue reference for `scroll-target`, please take care to set 
 
 <doc-example title="Custom scroll target by ref" file="QVirtualScroll/ScrollTargetRef" />
 
+<doc-example title="Using QScrollArea" file="QVirtualScroll/ScrollArea" />
+
 ### Scroll to position
 
 <doc-example title="Scroll to position" file="QVirtualScroll/ScrollTo" />
