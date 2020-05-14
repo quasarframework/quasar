@@ -34,11 +34,11 @@ Full list of props that you can write for the `params` object:
 | filter | String | Optionally filter the assets by generators; when used, it can generate only one type of asset instead of all | `ico` |
 | quality | Number [1-12] | Quality of the generated files; higher quality means bigger filesize, slower; lower quality means smaller filesize, faster | `12` |
 | padding | Array [Number] | (v2.1+) Apply fixed padding to the icon image after trimming it; Syntax: [ <horiz_px>, <vert_px> ]; Default is: [0, 0] | `[10, 0]` / `[5,5]` |
-| themeColor | String [hex] | Rather than using the other color related props, you can use this one; it will be used by each generator (that uses a color) | `#ccc` / `#e2b399` |
-| themeColor | String [hex] | Theme color to use for all generators requiring a color; it gets overriden if any generator color is also specified | `#ccc` / `#e2b399` |
-| pngColor | String [hex] | Background color to use for the png generator, when "background: true" in the asset definition (like for the cordova/capacitor iOS icons) | `#ccc` / `#e2b399` |
-| splashscreenColor | String [hex] | Background color to use for the splashscreen generator | `#ccc` / `#e2b399` |
-| svgColor | String [hex] | Color to use for the generated monochrome SVGs | `#ccc` / `#e2b399` |
+| themeColor | String [hex] | Rather than using the other color related props, you can use this one; it will be used by each generator (that uses a color) | `ccc` / `e2b399` |
+| themeColor | String [hex] | Theme color to use for all generators requiring a color; it gets overriden if any generator color is also specified | `ccc` / `e2b399` |
+| pngColor | String [hex] | Background color to use for the png generator, when "background: true" in the asset definition (like for the cordova/capacitor iOS icons) | `ccc` / `e2b399` |
+| splashscreenColor | String [hex] | Background color to use for the splashscreen generator | `ccc` / `e2b399` |
+| svgColor | String [hex] | Color to use for the generated monochrome SVGs | `ccc` / `e2b399` |
 | splashscreenIconRatio | Number [0-100] | Ratio of icon size in respect to the width or height (whichever is smaller) of the resulting splashscreen; represents percentages; 0 means it won't add the icon of top of the background | `40` |
 
 ### Assets
