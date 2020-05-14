@@ -23,7 +23,7 @@ export default Vue.extend({
 
   render (h) {
     return h('tr', {
-      on: this.qListeners,
+      on: { ...this.qListeners },
       class: this.classes
     }, slot(this, 'default'))
   }

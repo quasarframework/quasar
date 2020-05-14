@@ -962,8 +962,8 @@ export default {
         this.loading = false
       }, 2000)
     },
-    onSelection (rows, added) {
-      console.log(added ? 'selected' : 'un-selected', rows)
+    onSelection ({ added, ...rest }) {
+      console.log(added ? 'selected' : 'un-selected', rest)
     }
   },
 

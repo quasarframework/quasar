@@ -62,7 +62,7 @@ export default Vue.extend({
       style: this.style,
       class: this.classes,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
   }
 })

@@ -144,8 +144,8 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Material Icons (Google) | svg-material-icons | @quasar/extras/material-icons | |
 | MDI (Material Design Icons) | svg-mdi-v4 | @quasar/extras/mdi-v4 | |
 | Font Awesome | svg-fontawesome-v5 | @quasar/extras/fontawesome-v5 | |
-| Ionicons | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | `@quasar/extras` v1.7+ |
-| Ionicons | svg-ionicons-v4 | @quasar/extras/ionicons-v4 | |
+| Ionicons v5 | svg-ionicons-v5 | @quasar/extras/ionicons-v5 | `@quasar/extras` v1.7+ |
+| Ionicons v4 | svg-ionicons-v4 | @quasar/extras/ionicons-v4 | |
 | Eva Icons | svg-eva-icons | @quasar/extras/eva-icons | |
 | Themify Icons | svg-themify | @quasar/extras/themify | |
 | Line Awesome | svg-line-awesome | @quasar/extras/line-awesome | `@quasar/extras` v1.5+ |
@@ -201,19 +201,116 @@ The SVG format of Material Icons from Google is parsed from **their official rep
 * Go to [Line Awesome](https://icons8.com/line-awesome), look for your desired icon, click on it. A dialog box will appear. You'll see something like `<i class="lab la-behance-square"></i>`. This would translate to: `laBehanceSquare`. There is a special case though (only for solid icons!): if the prefix before "la-" is "las" (eg. `<i class="las la-atom"></i>`), then you need to suffix "la-atom" with "-solid" and camel-case the result (eg. `laAtomSolid`).
 * Import statement example: `import { laBehanceSquare } from '@quasar/extras/line-awesome'`.
 
-### Svg icon format
+### Svg icon format <q-badge align="top" label="enhanced on v1.11+" />
 
 You can also supply your own svg icons. An svg icon is essentially a String with the following syntax:
 
 ```
-Syntax: "<path>|<viewBox>" or "<path>" (with implicit 0 0 24 24 viewBox)
+Syntax: "<path>&&<path>&&...|<viewBox>"
+           P       P             V
+                (optional)   (optional)
+                             (default: 0 0 24 24)
+
+P is a path tag with following syntax (each are attributes):
+        "<d>@@<style>@@<transform>"
+        (required)
+            (optional)
+                     (optional)
+```
+
 Examples:
-  M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3z|0 0 104 104
+
+```
+// Simplest ("<path>"):
   M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3z
 
-// equivalent to the original svg:
+// equivalent to:
+<svg viewBox="0 0 24 24">
+  <path d="M9 3L5 6.99h3V....."/>
+</svg>
+```
+
+```
+// Simplest with custom viewBox ("<path>|<viewBox>"):
+  M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3z|0 0 104 104
+
+// equivalent to:
 <svg viewBox="0 0 104 104">
   <path d="M9 3L5 6.99h3V....."/>
+</svg>
+```
+
+```
+// Path with custom style ("<path>@@<style>|<viewBox>"):
+  M48,96L464,96 464,416 48,416z@@fill:none;stroke:currentColor.....|0 0 512 512
+
+// equivalent to:
+<svg viewBox="0 0 512 512">
+  <path d="M416,480,256,357....." style="fill:none;stroke:curren..." />
+</svg>
+```
+
+```
+// Path with custom style and transform ("<path>@@<style>@@transform"):
+  M9 3L5 6.99h3V...@@fill:none;stroke:cu.....@@translate(10 1) rotate(180)
+
+// equivalent to:
+<svg viewBox="0 0 24 24">
+  <path
+    d="M9 3L5 6.99h3V....."
+    style="fill:none;stroke:curren..."
+    transform="translate(10 1) rotate(180)"
+  />
+</svg>
+```
+
+```
+// Path with custom transform ("<path>@@@@transform"):
+// (Notice style separator is still specified)
+
+  M9 3L5 6.99h3V...@@@@translate(2 4) rotate(180)
+
+// equivalent to:
+<svg viewBox="0 0 24 24">
+  <path
+    d="M9 3L5 6.99h3V....."
+    transform="translate(2 4) rotate(180)"
+  />
+</svg>
+```
+
+```
+// Multi-paths -- any number of paths are possible ("<path>&&<path>|<viewBox>"):
+  M416,480,256,357.41,96,480V32H416Z&&M368,64L144 256 368 448 368 64z|0 0 512 512
+
+// equivalent to:
+<svg viewBox="0 0 512 512">
+  <path d="M416,480,256,357....." />
+  <path d="M368,64L144 256 368...." />
+</svg>
+```
+
+```
+// Multi-paths, each with style and transform ("<path>&&<path>|<viewBox>"):
+  M9 3L5 6.99h3V...@@stroke-width:5px@@rotate(45)&&M416,480,256,...@@stroke-width:2px@@rotate(15)&&M368,64L144 2...@@stroke-width:12px@@rotate(5)|0 0 512 512
+
+// equivalent to:
+<svg viewBox="0 0 512 512">
+  <path
+    d="M9 3L5 6.99h3V....."
+    style="stroke-width:5px"
+    transform="rotate(45)"
+  />
+  <path
+    d="M416,480,256,..."
+    style="stroke-width:2px"
+    transform="rotate(15)"
+  />
+  <path
+    d="M368,64L144 2..."
+    style="stroke-width:12px"
+    transform="rotate(5)"
+  />
 </svg>
 ```
 

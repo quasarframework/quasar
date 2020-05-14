@@ -53,7 +53,7 @@ setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools;<gradle_pat
 
 After the tools are installed, setup Android Studio with the correct SDK and create a virtual machine.
 
-* Start Android studio by changing into the folder you installed it in and run `./studio.sh`. Next step is to install the individual SDKs:
+* Start Android studio (check the executable in the folder that you installed it in). Next step is to install the individual SDKs:
 
 * Open the "Configure" menu at the bottom of the window:
 

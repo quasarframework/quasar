@@ -32,7 +32,7 @@ export default Vue.extend({
     return h(this.hasRouterLink === true ? 'router-link' : 'span', {
       staticClass: 'q-breadcrumbs__el q-link flex inline items-center relative-position',
       props: this.hasRouterLink === true ? this.routerLinkProps : null,
-      [this.hasRouterLink === true ? 'nativeOn' : 'on']: this.qListeners
+      [this.hasRouterLink === true ? 'nativeOn' : 'on']: { ...this.qListeners }
     }, mergeSlot(child, this, 'default'))
   }
 })

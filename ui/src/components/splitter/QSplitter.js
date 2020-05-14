@@ -199,7 +199,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-splitter no-wrap',
       class: this.classes,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, mergeSlot(child, this, 'default'))
   }
 })

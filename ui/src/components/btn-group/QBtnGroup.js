@@ -33,7 +33,7 @@ export default Vue.extend({
       staticClass: 'q-btn-group row no-wrap ' +
         (this.spread === true ? 'q-btn-group--spread' : 'inline'),
       class: this.classes,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

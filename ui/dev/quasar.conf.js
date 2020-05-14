@@ -31,7 +31,7 @@ module.exports = function (ctx) {
     supportIE: true,
 
     build: {
-      rtl: true,
+      rtl: false,
       vueRouterMode: 'history',
       showProgress: true,
 

@@ -97,7 +97,7 @@ export default Vue.extend({
     __renderPanels (h) {
       return h('div', {
         class: this.classes,
-        on: this.qListeners
+        on: { ...this.qListeners }
       }, mergeSlot(this.__getContent(h), this, 'navigation'))
     }
   }

@@ -36,12 +36,30 @@ const fallbackComplexTypeMap = new Map([
   ['Object', 'LooseDictionary']
 ])
 
+const dontNarrowValues = [
+  '(Boolean) true',
+  '(Boolean) false',
+  '(CSS selector)',
+  '(DOM Element)'
+]
+
 function convertTypeVal (type, def, required) {
   if (def.tsType !== void 0) {
     return def.tsType
   }
 
   const t = type.trim()
+
+  if (def.values && t === 'String') {
+    const narrowedValues = def.values.filter(v =>
+      !dontNarrowValues.includes(v) &&
+      typeof v === 'string'
+    ).map(v => `'${v}'`)
+
+    if (narrowedValues.length) {
+      return narrowedValues.join(' | ')
+    }
+  }
 
   if (typeMap.has(t)) {
     return typeMap.get(t)

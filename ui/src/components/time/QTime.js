@@ -713,7 +713,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
-      on: this.qListeners,
+      on: { ...this.qListeners },
       attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),
