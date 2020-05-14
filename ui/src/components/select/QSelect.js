@@ -655,6 +655,7 @@ export default Vue.extend({
       if (
         e.keyCode === 8 &&
         this.multiple === true &&
+        this.hideSelected !== true &&
         this.inputValue.length === 0 &&
         Array.isArray(this.value)
       ) {
