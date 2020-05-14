@@ -62,6 +62,13 @@
       "category": "model"
     },
 
+    "years-in-month-view": {
+      "type": "Boolean",
+      "desc": "Show the years selector in months view",
+      "category": "behavior",
+      "addedIn": "v1.11.2"
+    },
+
     "events": {
       "type": [ "Array", "Function" ],
       "desc": "A list of events to highlight on the calendar; If using a function, it receives the date as a String and must return a Boolean (matches or not); If using a function then for best performance, reference it from your scope and do not define it inline",
