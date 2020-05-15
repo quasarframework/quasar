@@ -538,7 +538,7 @@ export default Vue.extend({
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
 
-      const months = this.computedLocale.monthsShort.map((month, i) => {
+      const content = this.computedLocale.monthsShort.map((month, i) => {
         const active = this.innerModel.month === i + 1
 
         return h('div', {
@@ -547,11 +547,11 @@ export default Vue.extend({
           h(QBtn, {
             staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
             props: {
-              flat: !active,
+              flat: active !== true,
               label: month,
               unelevated: active,
-              color: active ? this.computedColor : null,
-              textColor: active ? this.computedTextColor : null,
+              color: active === true ? this.computedColor : null,
+              textColor: active === true ? this.computedTextColor : null,
               tabindex: this.computedTabindex
             },
             on: cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
@@ -559,21 +559,18 @@ export default Vue.extend({
         ])
       })
 
-      const content = this.yearsInMonthView === true
-        ? [
-          h('div', { staticClass: 'row no-wrap full-width' }, [
-            this.__getNavigation(h, {
-              label: this.innerModel.year,
-              view: 'Years',
-              key: this.innerModel.year,
-              dir: this.yearDirection,
-              goTo: this.__goToYear,
-              cls: ' col'
-            })
-          ]),
-          months
-        ]
-        : months
+      this.yearsInMonthView === true && content.unshift(
+        h('div', { staticClass: 'row no-wrap full-width' }, [
+          this.__getNavigation(h, {
+            label: this.innerModel.year,
+            view: 'Years',
+            key: this.innerModel.year,
+            dir: this.yearDirection,
+            goTo: this.__goToYear,
+            cls: ' col'
+          })
+        ])
+      )
 
       return h('div', {
         key: 'months-view',
