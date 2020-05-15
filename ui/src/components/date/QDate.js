@@ -34,6 +34,8 @@ export default Vue.extend({
       validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
     },
 
+    yearsInMonthView: Boolean,
+
     events: [Array, Function],
     eventColor: [String, Function],
 
@@ -536,7 +538,7 @@ export default Vue.extend({
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
 
-      const content = this.computedLocale.monthsShort.map((month, i) => {
+      const months = this.computedLocale.monthsShort.map((month, i) => {
         const active = this.innerModel.month === i + 1
 
         return h('div', {
@@ -556,6 +558,22 @@ export default Vue.extend({
           })
         ])
       })
+
+      const content = this.yearsInMonthView === true
+        ? [
+          h('div', { staticClass: 'row no-wrap full-width' }, [
+            this.__getNavigation(h, {
+              label: this.innerModel.year,
+              view: 'Years',
+              key: this.innerModel.year,
+              dir: this.yearDirection,
+              goTo: this.__goToYear,
+              cls: ' col'
+            })
+          ]),
+          months
+        ]
+        : months
 
       return h('div', {
         key: 'months-view',
