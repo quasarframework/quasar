@@ -1,7 +1,7 @@
 {
-  "name": "quasar",
-  "version": "1.0.0-alpha.8",
-  "description": "Build responsive SPA, SSR, PWA, Hybrid Mobile Apps and Electron apps, all simultaneously using the same codebase",
+  "name": "quasar-clover",
+  "version": "0.17.19",
+  "description": "For clover project",
   "module": "src/index.esm.js",
   "files": [
     "dist",
@@ -22,7 +22,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/quasarframework/quasar.git"
+    "url": "git+https://https://github.com/Luke099/quasar.git"
   },
   "keywords": [
     "vuejs",

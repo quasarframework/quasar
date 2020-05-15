@@ -72,7 +72,8 @@ export default Vue.extend({
     },
 
     computedIcon () {
-      return this.icon || this.$q.icon.tree.icon
+      return 'ti-angle-right';
+      // return this.icon || this.$q.icon.tree.icon
     },
 
     computedControlColor () {
