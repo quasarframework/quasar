@@ -1,12 +1,28 @@
 import { stopAndPrevent } from '../utils/event.js'
 import cache from '../utils/cache.js'
 
+function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
+  const acceptedFiles = []
+
+  files.forEach(file => {
+    if (filterFn(file) === true) {
+      acceptedFiles.push(file)
+    }
+    else {
+      rejectedFiles.push({ failedPropValidation, file })
+    }
+  })
+
+  return acceptedFiles
+}
+
 export default {
   props: {
     multiple: Boolean,
     accept: String,
-    maxFileSize: Number,
-    maxTotalSize: Number,
+    maxFileSize: [ Number, String ],
+    maxTotalSize: [ Number, String ],
+    maxFiles: [ Number, String ],
     filter: Function
   },
 
@@ -19,7 +35,7 @@ export default {
           if (ext.endsWith('/*')) {
             ext = ext.slice(0, ext.length - 1)
           }
-          return ext
+          return ext.toUpperCase()
         })
       }
     }
@@ -39,24 +55,36 @@ export default {
       }
     },
 
-    __processFiles (e, files) {
-      files = Array.from(files || e.target.files)
+    __processFiles (e, filesToProcess) {
+      let files = Array.from(filesToProcess || e.target.files)
+      const rejectedFiles = []
+
+      const done = () => {
+        if (rejectedFiles.length > 0) {
+          this.$emit('rejected', rejectedFiles)
+        }
+      }
 
       // filter file types
       if (this.accept !== void 0) {
-        files = files.filter(file => {
+        files = filterFiles(files, rejectedFiles, 'accept', file => {
           return this.extensions.some(ext => (
-            file.type.toUpperCase().startsWith(ext.toUpperCase()) ||
-            file.name.toUpperCase().endsWith(ext.toUpperCase())
+            file.type.toUpperCase().startsWith(ext) ||
+            file.name.toUpperCase().endsWith(ext)
           ))
         })
-        if (files.length === 0) { return }
+
+        if (files.length === 0) { return done() }
       }
 
       // filter max file size
       if (this.maxFileSize !== void 0) {
-        files = files.filter(file => file.size <= this.maxFileSize)
-        if (files.length === 0) { return }
+        const maxFileSize = parseInt(this.maxFileSize, 10)
+        files = filterFiles(files, rejectedFiles, 'max-file-size', file => {
+          return file.size <= maxFileSize
+        })
+
+        if (files.length === 0) { return done() }
       }
 
       // Cordova/iOS allows selecting multiple files even when the
@@ -67,26 +95,38 @@ export default {
       }
 
       if (this.maxTotalSize !== void 0) {
+        const maxTotalSize = parseInt(this.maxTotalSize, 10)
         let size = 0
-        for (let i = 0; i < files.length; i++) {
-          size += files[i].size
-          if (size > this.maxTotalSize) {
-            if (i > 0) {
-              files = files.slice(0, i)
-              break
-            }
-            else {
-              return
-            }
-          }
-        }
-        if (files.length === 0) { return }
+
+        files = filterFiles(files, rejectedFiles, 'max-total-size', file => {
+          size += file.size
+          return size <= maxTotalSize
+        })
+
+        if (files.length === 0) { return done() }
       }
 
       // do we have custom filter function?
       if (typeof this.filter === 'function') {
-        files = this.filter(files)
+        const filteredFiles = this.filter(files)
+        files = filterFiles(files, rejectedFiles, 'filter', file => {
+          return filteredFiles.includes(file)
+        })
       }
+
+      if (this.maxFiles !== void 0) {
+        const maxFiles = parseInt(this.maxFiles, 10)
+        let filesNumber = 0
+
+        files = filterFiles(files, rejectedFiles, 'max-files', file => {
+          filesNumber++
+          return filesNumber <= maxFiles
+        })
+
+        if (files.length === 0) { return done() }
+      }
+
+      done()
 
       if (files.length > 0) {
         return files

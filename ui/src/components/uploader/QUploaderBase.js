@@ -80,22 +80,9 @@ export default Vue.extend({
     },
 
     canAddFiles () {
-      return this.editable &&
+      return this.editable === true &&
         this.isUploading !== true &&
         (this.multiple === true || this.queuedFiles.length === 0)
-    },
-
-    extensions () {
-      if (this.accept !== void 0) {
-        return this.accept.split(',').map(ext => {
-          ext = ext.trim()
-          // support "image/*"
-          if (ext.endsWith('/*')) {
-            ext = ext.slice(0, ext.length - 1)
-          }
-          return ext
-        })
-      }
     },
 
     uploadProgress () {

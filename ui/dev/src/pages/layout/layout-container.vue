@@ -50,7 +50,7 @@
 
           <q-page-sticky position="top" expand class="bg-purple text-white">
             <q-toolbar>
-              <q-btn flat round dense icon="map" />
+              <q-btn flat round dense icon="map" @click="dialog = true" />
               <q-toolbar-title>Title</q-toolbar-title>
               <q-checkbox dark color="white" v-model="moreContent" label="Scroll" />
             </q-toolbar>
@@ -115,7 +115,7 @@
 
           <q-page-sticky position="top" expand class="bg-purple text-white">
             <q-toolbar>
-              <q-btn flat round dense icon="map" />
+              <q-btn flat round dense icon="map" @click="dialog = true" />
               <q-toolbar-title>Title</q-toolbar-title>
               <q-checkbox dark color="white" v-model="moreContent" label="Scroll" />
             </q-toolbar>
@@ -183,7 +183,7 @@
 
             <q-page-sticky position="top" expand class="bg-purple text-white">
               <q-toolbar>
-                <q-btn flat round dense icon="map" />
+                <q-btn flat round dense icon="map" @click="dialog = true" />
                 <q-toolbar-title>Title</q-toolbar-title>
                 <q-checkbox dark color="orange" v-model="moreContent" label="Scroll" />
               </q-toolbar>
@@ -197,6 +197,14 @@
     <div v-for="n in 50" :key="n">
       Some text {{ n }} / 50
     </div>
+
+    <q-dialog v-model="dialog">
+      <q-card>
+        <q-card-section>
+          hogehgoe
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -204,6 +212,7 @@
 export default {
   data () {
     return {
+      dialog: false,
       modal: false,
       drawer: false,
       drawerR: true,

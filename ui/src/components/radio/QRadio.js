@@ -102,7 +102,7 @@ export default Vue.extend({
       }
 
       if (this.disable !== true && this.isTrue !== true) {
-        this.$emit('input', this.val)
+        this.$emit('input', this.val, e)
       }
     }
   },

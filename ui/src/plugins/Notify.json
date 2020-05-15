@@ -374,8 +374,7 @@
             "message": {
               "type": "String",
               "desc": "The content of your message",
-              "examples": [ "John Doe pinged you" ],
-              "required": true
+              "examples": [ "John Doe pinged you" ]
             },
 
             "caption": {

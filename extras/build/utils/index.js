@@ -16,6 +16,10 @@ function getAttributes (el, list) {
   return att
 }
 
+function getCurvePath (x, y, rx, ry) {
+  return `A${rx},${ry},0,0,1,${x},${y}`
+}
+
 const decoders = {
   path (el) {
     return el.getAttribute('d')
@@ -52,9 +56,19 @@ const decoders = {
   },
 
   rect (el) {
-    const att = getAttributes(el, [ 'x', 'y', 'width', 'height' ])
-    return 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
-      (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height) + 'z'
+    const att = getAttributes(el, [ 'x', 'y', 'width', 'height', 'rx', 'ry' ])
+    return isNaN(att.rx)
+      ? 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
+        (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height) + 'Z'
+      : 'M' + (att.x + att.rx) + ',' + att.y +
+        'L' + (att.x + att.width - att.rx) + ',' + att.y +
+        getCurvePath(att.x + att.width, att.y + att.ry, att.rx, att.ry) +
+        'L' + (att.x + att.width) + ',' + (att.y + att.height - att.ry) +
+        getCurvePath(att.x + att.width - att.rx, att.y + att.height, att.rx, att.ry) +
+        'L' + (att.x + att.rx) + ',' + (att.y + att.height) +
+        getCurvePath(att.x, att.y + att.height - att.ry, att.rx, att.ry) +
+        'L' + att.x + ',' + (att.y + att.ry) +
+        getCurvePath(att.x + att.rx, att.y, att.rx, att.ry) + 'Z'
   },
 
   line (el) {

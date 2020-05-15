@@ -247,7 +247,6 @@ export default Vue.extend({
   },
 
   render (h) {
-    console.log(this.instantFeedback)
     const data = {
       class: this.classes,
       attrs: this.attrs,

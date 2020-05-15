@@ -228,7 +228,7 @@ export default Vue.extend({
         ? [
           h('img', {
             staticClass: 'absolute-full fit',
-            attrs: { src: this.url }
+            attrs: { src: this.url, 'aria-hidden': 'true' }
           })
         ]
         : void 0
