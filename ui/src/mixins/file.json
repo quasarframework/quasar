@@ -16,16 +16,26 @@
     },
 
     "max-file-size": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Maximum size of individual file in bytes",
       "examples": [ 1024, 1048576 ],
       "category": "behavior"
     },
 
     "max-total-size": {
-      "type": "Number",
+      "type": [ "Number", "String" ],
       "desc": "Maximum size of all files combined in bytes",
       "examples": [ 1024, 1048576 ],
+      "category": "behavior"
+    },
+
+    "max-files": {
+      "type": [ "Number", "String" ],
+      "desc": "Maximum number of files to contain",
+      "examples": [
+        ":max-files=\"5\"",
+        "10"
+      ],
       "category": "behavior"
     },
 
@@ -46,6 +56,20 @@
       },
       "examples": [ ":filter=\"files => files.filter(file => file.size === 1024)\"" ],
       "category": "behavior"
+    }
+  },
+
+  "events": {
+    "rejected": {
+      "desc": "Emitted after files are picked and some do not pass the validation props (accept, max-file-size, max-total-size, filter, etc)",
+      "params": {
+        "rejectedEntries": {
+          "type": "Array",
+          "desc": "Array of { failedPropValidation: string, file: File } Objects for files that do not pass the validation",
+          "__exemption": ["examples"]
+        }
+      },
+      "addedIn": "v1.11.2"
     }
   },
 

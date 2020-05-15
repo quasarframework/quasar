@@ -23,7 +23,6 @@ export default Vue.extend({
 
     useChips: Boolean,
     displayValue: [ String, Number ],
-    maxFiles: [ Number, String ],
 
     tabindex: {
       type: [ String, Number ],
@@ -121,12 +120,7 @@ export default Vue.extend({
 
     __addFiles (e, fileList) {
       const files = this.__processFiles(e, fileList)
-
-      files !== void 0 && this.__emitValue(
-        this.maxFiles !== void 0
-          ? files.slice(0, parseInt(this.maxFiles, 10))
-          : files
-      )
+      files !== void 0 && this.__emitValue(files)
     },
 
     __getControl (h) {
