@@ -350,7 +350,10 @@ export default Vue.extend({
       }
 
       if (this.$q.platform.is.mobile === true) {
-        on.focus = ev => { ev.target.blur() }
+        on.focus = ev => {
+          // should not blur when the dialog is closing
+          this.dialog === true && ev.target.blur()
+        }
       }
 
       return on
