@@ -228,7 +228,7 @@ export default Vue.extend({
         ? [
           h('img', {
             staticClass: 'absolute-full fit',
-            attrs: { src: this.url }
+            attrs: { src: this.url, 'aria-hidden': 'true' }
           })
         ]
         : void 0
@@ -294,7 +294,7 @@ export default Vue.extend({
       class: this.classes,
       style: this.style,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       h('div', { style: this.ratioStyle }),
       this.__getImage(h),

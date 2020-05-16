@@ -81,7 +81,7 @@ export default Vue.extend({
 
     return h(this.tag, {
       staticClass: 'q-intersection',
-      on: this.qListeners,
+      on: { ...this.qListeners },
       directives: this.directives
     }, this.transition
       ? [

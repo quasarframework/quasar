@@ -120,7 +120,7 @@ export default Vue.extend({
     const layout = h('div', {
       class: this.classes,
       style: this.style,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, mergeSlot([
       h(QScrollObserver, {
         on: cache(this, 'scroll', { scroll: this.__onPageScroll })
@@ -166,7 +166,9 @@ export default Vue.extend({
     },
 
     __onPageScroll (data) {
-      this.scroll = data
+      if (this.container === true || document.qScrollPrevented !== true) {
+        this.scroll = data
+      }
       this.qListeners.scroll !== void 0 && this.$emit('scroll', data)
     },
 

@@ -61,12 +61,22 @@ export default Vue.extend({
       }
 
       if (icon.startsWith('M') === true) {
-        const cfg = icon.split('|')
+        const [ def, viewBox ] = icon.split('|')
+
         return {
           svg: true,
           cls: this.classes,
-          path: cfg[0],
-          viewBox: cfg[1] !== void 0 ? cfg[1] : '0 0 24 24'
+          nodes: def.split('&&').map(path => {
+            const [ d, style, transform ] = path.split('@@')
+            return this.$createElement('path', {
+              attrs: {
+                d,
+                transform
+              },
+              style
+            })
+          }),
+          viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
         }
       }
 
@@ -134,7 +144,7 @@ export default Vue.extend({
     const data = {
       class: this.type.cls,
       style: this.sizeStyle,
-      on: this.qListeners,
+      on: { ...this.qListeners },
       attrs: {
         'aria-hidden': 'true',
         role: 'presentation'
@@ -154,11 +164,7 @@ export default Vue.extend({
       data.attrs.focusable = 'false' /* needed for IE11 */
       data.attrs.viewBox = this.type.viewBox
 
-      return h('svg', data, mergeSlot([
-        h('path', {
-          attrs: { d: this.type.path }
-        })
-      ], this, 'default'))
+      return h('svg', data, mergeSlot(this.type.nodes, this, 'default'))
     }
 
     return h(this.tag, data, mergeSlot([

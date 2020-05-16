@@ -170,7 +170,7 @@ export default Vue.extend({
     },
 
     fieldClass () {
-      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input`
+      return `q-select q-field--auto-height q-select--with${this.useInput !== true ? 'out' : ''}-input q-select--with${this.useChips !== true ? 'out' : ''}-chips`
     },
 
     computedInputClass () {
@@ -350,7 +350,10 @@ export default Vue.extend({
       }
 
       if (this.$q.platform.is.mobile === true) {
-        on.focus = ev => { ev.target.blur() }
+        on.focus = ev => {
+          // should not blur when the dialog is closing
+          this.dialog === true && ev.target.blur()
+        }
       }
 
       return on
@@ -655,6 +658,7 @@ export default Vue.extend({
       if (
         e.keyCode === 8 &&
         this.multiple === true &&
+        this.hideSelected !== true &&
         this.inputValue.length === 0 &&
         Array.isArray(this.value)
       ) {

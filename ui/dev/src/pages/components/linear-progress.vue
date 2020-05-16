@@ -18,7 +18,7 @@
         <q-btn size="sm" color="primary" @click="randomize">
           Change Model
         </q-btn>
-        <q-linear-progress :dark="dark" class="q-my-sm" rounded :value="progress" />
+        <q-linear-progress instant-feedback :dark="dark" class="q-my-sm" rounded :value="progress" />
         <q-linear-progress :dark="dark" size="10px" class="q-my-sm" :value="progress" color="positive" fill-color="yellow" />
         <q-linear-progress :dark="dark" size="20px" rounded class="q-my-sm" :value="progress" color="info" />
         <q-linear-progress :dark="dark" class="q-my-sm" :value="progress" color="warning" />

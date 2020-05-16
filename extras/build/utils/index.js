@@ -16,6 +16,10 @@ function getAttributes (el, list) {
   return att
 }
 
+function getCurvePath (x, y, rx, ry) {
+  return `A${rx},${ry},0,0,1,${x},${y}`
+}
+
 const decoders = {
   path (el) {
     return el.getAttribute('d')
@@ -25,17 +29,21 @@ const decoders = {
     const att = getAttributes(el, [ 'cx', 'cy', 'r' ])
     return 'M' + (att.cx - att.r) + ',' + att.cy +
       'a' + att.r + ',' + att.r + ' 0 1,0 ' + (2 * att.r) + ',0' +
-      'a' + att.r + ',' + att.r + ' 0 1,0'  + (-2 * att.r) + ',0'
+      'a' + att.r + ',' + att.r + ' 0 1,0'  + (-2 * att.r) + ',0' + 'Z'
   },
 
   ellipse (el) {
     const att = getAttributes(el, [ 'cx', 'cy', 'rx', 'ry' ])
     return 'M' + (att.cx - att.rx) + ',' + att.cy +
       'a' + att.rx + ',' + att.ry + ' 0 1,0 ' + (2 * att.rx) + ',0' +
-      'a' + att.rx + ',' + att.ry + ' 0 1,0'  + (-2 * att.rx) + ',0'
+      'a' + att.rx + ',' + att.ry + ' 0 1,0'  + (-2 * att.rx) + ',0' + 'Z'
   },
 
   polygon (el) {
+    return this.polyline(el) + 'z'
+  },
+
+  polyline (el) {
     const points = el.getAttribute('points')
       .replace(/  /g, ' ')
       .trim()
@@ -47,14 +55,20 @@ const decoders = {
     return 'M' + x0 + ',' + y0 + 'L' + points.join(' ')
   },
 
-  polyline (el) {
-    return this.polygon(el)
-  },
-
   rect (el) {
-    const att = getAttributes(el, [ 'x', 'y', 'width', 'height' ])
-    return 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
-      (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height)
+    const att = getAttributes(el, [ 'x', 'y', 'width', 'height', 'rx', 'ry' ])
+    return isNaN(att.rx)
+      ? 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
+        (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height) + 'Z'
+      : 'M' + (att.x + att.rx) + ',' + att.y +
+        'L' + (att.x + att.width - att.rx) + ',' + att.y +
+        getCurvePath(att.x + att.width, att.y + att.ry, att.rx, att.ry) +
+        'L' + (att.x + att.width) + ',' + (att.y + att.height - att.ry) +
+        getCurvePath(att.x + att.width - att.rx, att.y + att.height, att.rx, att.ry) +
+        'L' + (att.x + att.rx) + ',' + (att.y + att.height) +
+        getCurvePath(att.x, att.y + att.height - att.ry, att.rx, att.ry) +
+        'L' + att.x + ',' + (att.y + att.ry) +
+        getCurvePath(att.x + att.rx, att.y, att.rx, att.ry) + 'Z'
   },
 
   line (el) {
@@ -63,7 +77,7 @@ const decoders = {
   }
 }
 
-function parseDom (el, allPaths) {
+function parseDom (el, pathsDefinitions) {
   const type = el.nodeName
 
   if (
@@ -78,13 +92,15 @@ function parseDom (el, allPaths) {
       throw new Error(`Encountered unknown tag type: "${type}"`)
     }
 
-    allPaths.push(
-      decoders[type](el)
-    )
+    pathsDefinitions.push({
+      path: decoders[type](el),
+      style: el.getAttribute('style'),
+      transform: el.getAttribute('transform')
+    })
   }
 
   Array.from(el.childNodes).forEach(child => {
-    parseDom(child, allPaths)
+    parseDom(child, pathsDefinitions)
   })
 }
 
@@ -92,26 +108,41 @@ function parseSvgContent(name, content) {
   const dom = Parser.parseFromString(content, 'text/xml')
 
   const viewBox = dom.documentElement.getAttribute('viewBox')
+  const pathsDefinitions = []
 
-  const allPaths = []
   try {
-    parseDom(dom.documentElement, allPaths)
+    parseDom(dom.documentElement, pathsDefinitions)
   }
   catch (err) {
     console.error(`[Error] "${name}" could not be parsed:`)
     throw err
   }
 
-  if (allPaths.length === 0) {
+  if (pathsDefinitions.length === 0) {
     throw new Error(`Could not infer any paths for "${name}"`)
   }
 
-  const dPath = allPaths.join('z').replace(/zz/gi, 'z')
-
-  return {
-    dPath,
+  const result = {
     viewBox: viewBox !== '0 0 24 24' ? `|${viewBox}` : ''
   }
+
+  if (pathsDefinitions.every(def => !def.style && !def.transform)) {
+    result.paths = pathsDefinitions
+      .map(def => def.path)
+      .join('z')
+      .replace(/zz/gi, 'z')
+  }
+  else {
+    result.paths = pathsDefinitions
+      .map(def => {
+        return def.path +
+          (def.style ? `@@${def.style.replace(/#[0-9a-fA-F]{3,6}/g, 'currentColor')}` : (def.transform ? '@@' : '')) +
+          (def.transform ? `@@${def.transform}` : '')
+      })
+      .join('&&')
+  }
+
+  return result
 }
 
 function getBanner(iconSetName, versionOrPackageName) {
@@ -130,10 +161,10 @@ module.exports.defaultNameMapper = (filePath, prefix) => {
 module.exports.extract = (filePath, name) => {
   const content = readFileSync(filePath, 'utf-8')
 
-  const {dPath, viewBox} = parseSvgContent(name, content)
+  const { paths, viewBox } = parseSvgContent(name, content)
 
   return {
-    svgDef: `export const ${name} = '${dPath}${viewBox}'`,
+    svgDef: `export const ${name} = '${paths}${viewBox}'`,
     typeDef: `export declare const ${name}: string;`
   }
 }

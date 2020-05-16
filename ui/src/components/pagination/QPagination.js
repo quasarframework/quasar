@@ -363,7 +363,7 @@ export default Vue.extend({
       staticClass: 'q-pagination row no-wrap items-center',
       class: { disabled: this.disable },
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       contentStart,
 

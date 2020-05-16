@@ -1,6 +1,4 @@
 const fs = require('fs')
-const path = require('path')
-const compileTemplate = require('lodash.template')
 
 const appPaths = require('../../app-paths')
 const getFixedDeps = require('../../helpers/get-fixed-deps')

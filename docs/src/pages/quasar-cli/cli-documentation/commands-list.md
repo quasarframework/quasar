@@ -138,7 +138,7 @@ $ quasar dev -h
 
     Only for Cordova mode:
     --target, -T     (required) App target
-                        [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                        [android|ios]
     --emulator, -e   (optional) Emulator name
                         Examples: iPhone-7, iPhone-X
                         iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
@@ -216,6 +216,7 @@ If there appears to be an issue with hot reload, you can try two fixes:
   ```
 
 ## Build
+
 ```bash
 $ quasar build -h
 
@@ -242,7 +243,7 @@ $ quasar build -h
     --mode, -m      App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --target, -T    App target
                       - Cordova (default: all installed)
-                        [android|ios|blackberry10|browser|osx|ubuntu|webos|windows]
+                        [android|ios]
                       - Capacitor
                         [android|ios]
                       - Electron with default "electron-packager" bundler (default: yours)
@@ -313,6 +314,7 @@ $ quasar build -d [-m <mode>]
 
 ## Clean
 Cleans up all the build assets:
+
 ``` bash
 $ quasar clean
 ```
@@ -372,14 +374,17 @@ $ quasar new -h
 $ quasar mode -h
 
   Description
-    Add/Remove support for PWA / Cordova / Electron modes.
+    Add/Remove support for PWA / BEX / Cordova / Capacitor / Electron modes.
+
   Usage
-    $ quasar mode [add|remove pwa|ssr|cordova|electron]
+    $ quasar mode [add|remove] [pwa|ssr|bex|cordova|capacitor|electron] [--yes]
 
     # determine what modes are currently installed:
     $ quasar mode
 
   Options
+    --yes, -y     Skips the "Are you sure?" question
+                  when removing a Quasar mode
     --help, -h    Displays this message
 ```
 
@@ -395,6 +400,7 @@ These modes will add a "src-*" folder into your project with very specific code 
 | src-electron | electron | Has code for the main Electron thread. The renderer thread will be your app in 'src'. |
 
 If for some reason you decide you don't need a mode, you can remove it. **This will permanently delete** the respective "src-*" folder.
+
 ```bash
 $ quasar mode remove pwa
 ```
@@ -632,6 +638,7 @@ $ quasar serve -h
 When building a SPA or PWA, the distributable folder can be served by any static webserver. To test it out (assuming you don't have a specific publicPath or not using Vue Router "history" mode), you can use the "http-server" npm package.
 
 Or you can build your own server. Here are some examples:
+
 ```js
 // when using default Vue Router "hash" mode
 const
@@ -661,6 +668,7 @@ app.listen(port)
 ```
 
 If you need URL rewrites of API, or simply put you want to proxy your API requests, then you can use "http-proxy-middleware" package:
+
 ```js
 // add this to one of the two previous examples:
 const { createProxyMiddleware } = require('http-proxy-middleware')
@@ -675,6 +683,7 @@ app.use('/api', createProxyMiddleware({
 ```
 
 Finally, run one of these files:
+
 ```bash
 $ node my-server.js
 ```

@@ -17,7 +17,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-toolbar row no-wrap items-center',
       class: this.inset ? 'q-toolbar--inset' : null,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

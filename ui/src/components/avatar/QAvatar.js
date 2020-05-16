@@ -48,7 +48,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-avatar',
       style: this.sizeStyle,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, [
       h('div', {
         staticClass: 'q-avatar__content row flex-center overflow-hidden',

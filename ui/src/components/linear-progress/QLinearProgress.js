@@ -39,7 +39,9 @@ export default Vue.extend({
     stripe: Boolean,
     indeterminate: Boolean,
     query: Boolean,
-    rounded: Boolean
+    rounded: Boolean,
+
+    instantFeedback: Boolean
   },
 
   computed: {
@@ -59,16 +61,18 @@ export default Vue.extend({
     },
 
     trackClass () {
-      return 'q-linear-progress__track--' + (this.isDark === true ? 'dark' : 'light') +
+      return `q-linear-progress__track--with${this.instantFeedback === true ? 'out' : ''}-transition` +
+        ` q-linear-progress__track--${this.isDark === true ? 'dark' : 'light'}` +
         (this.trackColor !== void 0 ? ` bg-${this.trackColor}` : '')
     },
 
     modelStyle () {
-      return width(this.motion ? 1 : this.value)
+      return width(this.motion === true ? 1 : this.value)
     },
 
     modelClasses () {
-      return `q-linear-progress__model--${this.motion ? 'in' : ''}determinate`
+      return `q-linear-progress__model--with${this.instantFeedback === true ? 'out' : ''}-transition` +
+        ` q-linear-progress__model--${this.motion === true ? 'in' : ''}determinate`
     },
 
     stripeStyle () {
@@ -111,7 +115,7 @@ export default Vue.extend({
       style: this.sizeStyle,
       class: this.classes,
       attrs: this.attrs,
-      on: this.qListeners
+      on: { ...this.qListeners }
     }, mergeSlot(child, this, 'default'))
   }
 })

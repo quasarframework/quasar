@@ -1,5 +1,7 @@
 import { testPattern } from '../utils/patterns.js'
 
+const lazyRulesValues = [ true, false, 'ondemand' ]
+
 export default {
   props: {
     value: {},
@@ -12,7 +14,11 @@ export default {
     noErrorIcon: Boolean,
 
     rules: Array,
-    lazyRules: Boolean
+    reactiveRules: Boolean,
+    lazyRules: {
+      type: [ Boolean, String ],
+      validator: v => lazyRulesValues.includes(v)
+    }
   },
 
   data () {
@@ -25,20 +31,37 @@ export default {
 
   watch: {
     value () {
-      if (
-        this.hasRules === true &&
-        (this.lazyRules !== true || this.isDirty === true)
-      ) {
-        this.validate()
-      }
+      this.__validateIfNeeded()
+    },
+
+    reactiveRules: {
+      handler (val) {
+        if (val === true) {
+          if (this.unwatchRules === void 0) {
+            this.unwatchRules = this.$watch('rules', () => {
+              this.__validateIfNeeded(true)
+            })
+          }
+        }
+        else if (this.unwatchRules !== void 0) {
+          this.unwatchRules()
+          this.unwatchRules = void 0
+        }
+      },
+      immediate: true
     },
 
     focused (focused) {
-      if (focused === true) {
-        this.__initDirty()
-      }
-      else {
-        this.__triggerValidation()
+      if (this.lazyRules !== 'ondemand') {
+        if (focused === true) {
+          if (this.isDirty === null) {
+            this.isDirty = false
+          }
+        }
+        else if (this.isDirty === false && this.hasRules === true) {
+          this.isDirty = true
+          this.validate()
+        }
       }
     }
   },
@@ -63,17 +86,10 @@ export default {
 
   mounted () {
     this.validateIndex = 0
-    if (this.focused === void 0) {
-      this.$el.addEventListener('focusin', this.__initDirty)
-      this.$el.addEventListener('focusout', this.__triggerValidation)
-    }
   },
 
   beforeDestroy () {
-    if (this.focused === void 0) {
-      this.$el.removeEventListener('focusin', this.__initDirty)
-      this.$el.removeEventListener('focusout', this.__triggerValidation)
-    }
+    this.unwatchRules !== void 0 && this.unwatchRules()
   },
 
   methods: {
@@ -178,15 +194,12 @@ export default {
       )
     },
 
-    __initDirty () {
-      if (this.isDirty === null) {
-        this.isDirty = false
-      }
-    },
-
-    __triggerValidation () {
-      if (this.isDirty === false && this.hasRules === true) {
-        this.isDirty = true
+    __validateIfNeeded (changedRules) {
+      if (
+        this.hasRules === true &&
+        this.lazyRules !== 'ondemand' &&
+        (this.isDirty === true || (this.lazyRules !== true && changedRules !== true))
+      ) {
         this.validate()
       }
     }

@@ -176,11 +176,13 @@ export default {
   },
 
   watch: {
-    $route () {
+    $route ({ hash }) {
       this.leftDrawerState = this.$q.screen.width > 1023
-      this.$nextTick(() => {
-        this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
-      })
+      if (hash === '') {
+        this.$nextTick(() => {
+          this.updateActiveToc(document.documentElement.scrollTop || document.body.scrollTop)
+        })
+      }
     },
 
     hasRightDrawer (shown) {

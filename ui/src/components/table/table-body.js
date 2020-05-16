@@ -44,8 +44,8 @@ export default {
               dense: this.dense
             },
             on: {
-              input: adding => {
-                this.__updateSelection([ key ], [ row ], adding)
+              input: (adding, evt) => {
+                this.__updateSelection([ key ], [ row ], adding, evt)
               }
             }
           })

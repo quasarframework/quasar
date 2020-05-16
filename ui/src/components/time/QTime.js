@@ -272,6 +272,10 @@ export default Vue.extend({
     },
 
     __click (evt) {
+      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
+        return
+      }
+
       // __activate() has already updated the offset
       // (on desktop only, through mousedown event)
       if (this.$q.platform.is.desktop !== true) {
@@ -282,7 +286,9 @@ export default Vue.extend({
     },
 
     __activate (evt) {
-      this.__updateClock(evt, this.__getClockRect())
+      if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
+        this.__updateClock(evt, this.__getClockRect())
+      }
     },
 
     __getClockRect () {
@@ -713,7 +719,7 @@ export default Vue.extend({
 
     return h('div', {
       class: this.classes,
-      on: this.qListeners,
+      on: { ...this.qListeners },
       attrs: { tabindex: -1 }
     }, [
       this.__getHeader(h),
