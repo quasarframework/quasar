@@ -53,13 +53,46 @@ export default {
 
   methods: {
     __showPortal () {
-      if (this.__portal !== void 0) {
+      if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
+        const append = (isFullscreen) => {
+          if (this.__portal === void 0) {
+            return
+          }
+
+          let newParent = document.body
+
+          if (isFullscreen === true) {
+            newParent = document.fullscreenElement ||
+              document.mozFullScreenElement ||
+              document.webkitFullscreenElement ||
+              document.msFullscreenElement ||
+              document.body
+          }
+
+          if (
+            this.__portal.$el.parentElement !== newParent &&
+            newParent.contains(this.$el) === true
+          ) {
+            newParent.appendChild(this.__portal.$el)
+          }
+        }
+
+        this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
+
+        append(this.$q.fullscreen.isActive)
+      }
+      else if (this.__portal !== void 0) {
         document.body.appendChild(this.__portal.$el)
       }
     },
 
     __hidePortal () {
       if (this.__portal !== void 0) {
+        if (this.unwatchFullscreen !== void 0) {
+          this.unwatchFullscreen()
+          this.unwatchFullscreen = void 0
+        }
+
         this.__portal.$destroy()
         this.__portal.$el.remove()
         this.__portal = void 0
