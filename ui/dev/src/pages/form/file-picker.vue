@@ -18,6 +18,10 @@
 
       <q-btn type="submit" label="Submit" />
     </form>
+
+    <div class="q-mt-md">
+      <q-file name="file1" filled v-model="multiAppend" label="Mutiple & Append" clearable multiple append />
+    </div>
   </div>
 </template>
 
@@ -25,6 +29,7 @@
 export default {
   data () {
     return {
+      multiAppend: null,
       fileS: null,
       fileM: null,
 

@@ -14,6 +14,13 @@
       "category": "model"
     },
 
+    "append": {
+      "type": "Boolean",
+      "desc": "Append file(s) to current model rather than replacing them; Has effect only when using 'multiple' mode",
+      "category": "behavior",
+      "addedIn": "v1.11.3"
+    },
+
     "display-value": {
       "type": [ "Number", "String" ],
       "desc": "Override default selection string, if not using 'file' or 'selected' scoped slots and if not using 'use-chips' prop",

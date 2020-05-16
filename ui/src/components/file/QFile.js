@@ -21,6 +21,7 @@ export default Vue.extend({
       ? {}
       : [ File, FileList, Array ],
 
+    append: Boolean,
     useChips: Boolean,
     displayValue: [ String, Number ],
 
@@ -88,6 +89,10 @@ export default Vue.extend({
         id: this.targetUid,
         disabled: this.editable !== true
       }
+    },
+
+    isAppending () {
+      return this.multiple === true && this.append === true
     }
   },
 
@@ -119,8 +124,13 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const files = this.__processFiles(e, fileList)
-      files !== void 0 && this.__emitValue(files)
+      const files = this.__processFiles(e, fileList, this.innerValue, this.isAppending)
+
+      files !== void 0 && this.__emitValue(
+        this.isAppending === true
+          ? this.innerValue.concat(files)
+          : files
+      )
     },
 
     __getControl (h) {
@@ -211,6 +221,9 @@ export default Vue.extend({
 
   created () {
     this.fieldClass = 'q-file q-field--auto-height'
-    this.type = 'file' // necessary for QField's clearable
+
+    // necessary for QField's clearable
+    // and FileValueMixin
+    this.type = 'file'
   }
 })
