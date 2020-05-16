@@ -38,12 +38,20 @@ export default {
           return ext.toUpperCase()
         })
       }
+    },
+
+    maxFilesNumber () {
+      return parseInt(this.maxFiles, 10)
+    },
+
+    maxTotalSizeNumber () {
+      return parseInt(this.maxTotalSize, 10)
     }
   },
 
   methods: {
     pickFiles (e) {
-      if (this.editable === true) {
+      if (this.editable) {
         const input = this.__getFileInput()
         input && input.click(e)
       }
@@ -55,7 +63,7 @@ export default {
       }
     },
 
-    __processFiles (e, filesToProcess) {
+    __processFiles (e, filesToProcess, currentFileList, append) {
       let files = Array.from(filesToProcess || e.target.files)
       const rejectedFiles = []
 
@@ -95,12 +103,13 @@ export default {
       }
 
       if (this.maxTotalSize !== void 0) {
-        const maxTotalSize = parseInt(this.maxTotalSize, 10)
-        let size = 0
+        let size = append === true
+          ? currentFileList.reduce((total, file) => total + file.size, 0)
+          : 0
 
         files = filterFiles(files, rejectedFiles, 'max-total-size', file => {
           size += file.size
-          return size <= maxTotalSize
+          return size <= this.maxTotalSizeNumber
         })
 
         if (files.length === 0) { return done() }
@@ -115,12 +124,13 @@ export default {
       }
 
       if (this.maxFiles !== void 0) {
-        const maxFiles = parseInt(this.maxFiles, 10)
-        let filesNumber = 0
+        let filesNumber = append === true
+          ? currentFileList.length
+          : 0
 
-        files = filterFiles(files, rejectedFiles, 'max-files', file => {
+        files = filterFiles(files, rejectedFiles, 'max-files', () => {
           filesNumber++
-          return filesNumber <= maxFiles
+          return filesNumber <= this.maxFilesNumber
         })
 
         if (files.length === 0) { return done() }
