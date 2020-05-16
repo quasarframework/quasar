@@ -81,7 +81,7 @@
     <q-toggle v-model="imgSrc" true-value="https://cdn.quasar.dev/img/parallax1.jpg" false-value="https://cdn.quasar.dev/img/mountains.jpg" label="Toggle Image" />
     <q-parallax :src="imgSrc" :height="200">
       <h1 class="text-white">
-        Parallax  Title
+        Parallax Title
       </h1>
     </q-parallax>
 

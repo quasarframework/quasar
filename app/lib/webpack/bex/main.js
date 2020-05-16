@@ -17,7 +17,7 @@ module.exports = function (cfg, configName) {
   chain.plugins.delete('copy-webpack')
 
   // splitChunks causes issues with the connection between the client and the background script.
-  // This is  because it's expecting a chunk to be available via traditional loading methods but
+  // This is because it's expecting a chunk to be available via traditional loading methods but
   // we only specify one file for background in the manifest so it needs to contain EVERYTHING it needs.
   chain.optimization.splitChunks(void 0)
 
