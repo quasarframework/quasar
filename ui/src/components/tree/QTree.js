@@ -28,6 +28,10 @@ export default Vue.extend({
       type: String,
       default: 'label'
     },
+    childrenKey: {
+      type: String,
+      default: 'children'
+    },
 
     color: String,
     controlColor: String,
@@ -105,7 +109,7 @@ export default Vue.extend({
         const tickStrategy = node.tickStrategy || (parent ? parent.tickStrategy : this.tickStrategy)
         const
           key = node[this.nodeKey],
-          isParent = node.children && node.children.length > 0,
+          isParent = node[this.childrenKey] && node[this.childrenKey].length > 0,
           isLeaf = isParent !== true,
           selectable = node.disabled !== true && this.hasSelection === true && node.selectable !== false,
           expandable = node.disabled !== true && node.expandable !== false,
@@ -154,7 +158,7 @@ export default Vue.extend({
         meta[key] = m
 
         if (isParent === true) {
-          m.children = node.children.map(n => travel(n, m))
+          m.children = node[this.childrenKey].map(n => travel(n, m))
 
           if (this.filter) {
             if (m.matchesFilter !== true) {
@@ -241,8 +245,8 @@ export default Vue.extend({
         if (node[this.nodeKey] === key) {
           return node
         }
-        if (node.children) {
-          return find(null, node.children)
+        if (node[this.childrenKey]) {
+          return find(null, node[this.childrenKey])
         }
       }
 
@@ -276,10 +280,10 @@ export default Vue.extend({
       const
         expanded = this.innerExpanded,
         travel = node => {
-          if (node.children && node.children.length > 0) {
+          if (node[this.childrenKey] && node[this.childrenKey].length > 0) {
             if (node.expandable !== false && node.disabled !== true) {
               expanded.push(node[this.nodeKey])
-              node.children.forEach(travel)
+              node[this.childrenKey].forEach(travel)
             }
           }
         }
@@ -307,7 +311,7 @@ export default Vue.extend({
           done: children => {
             this.lazy[key] = 'loaded'
             if (children) {
-              this.$set(node, 'children', children)
+              this.$set(node, this.childrenKey, children)
             }
             this.$nextTick(() => {
               const m = this.meta[key]
@@ -453,7 +457,7 @@ export default Vue.extend({
           : this.$scopedSlots['default-header']
 
       const children = meta.isParent === true
-        ? this.__getChildren(h, node.children)
+        ? this.__getChildren(h, node[this.childrenKey])
         : []
 
       const isParent = children.length > 0 || (meta.lazy && meta.lazy !== 'loaded')

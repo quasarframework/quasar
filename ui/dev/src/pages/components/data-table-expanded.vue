@@ -9,7 +9,7 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="desc" :props="props">
-            <div  class="row items-center">
+            <div class="row items-center">
               <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
               <div>%%% {{ props.row.name }} %%%</div>
             </div>
@@ -60,7 +60,7 @@
       <template v-slot:body="props">
         <q-tr :props="props">
           <q-td key="desc" :props="props">
-            <div  class="row items-center">
+            <div class="row items-center">
               <q-toggle v-model="props.expand" checked-icon="add" unchecked-icon="remove" />
               <div>%%% {{ props.row.name }} %%%</div>
             </div>

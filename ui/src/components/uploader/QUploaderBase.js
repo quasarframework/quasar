@@ -80,9 +80,16 @@ export default Vue.extend({
     },
 
     canAddFiles () {
-      return this.editable === true &&
-        this.isUploading !== true &&
-        (this.multiple === true || this.queuedFiles.length === 0)
+      return (
+        this.editable === true &&
+        this.isUploading === false &&
+        // if single selection and no files are queued:
+        (this.multiple === true || this.queuedFiles.length === 0) &&
+        // if max-files is set and current number of files does not exceeds it:
+        (this.maxFiles === void 0 || this.files.length < this.maxFilesNumber) &&
+        // if max-total-size is set and current upload size does not exceeds it:
+        (this.maxTotalSize === void 0 || this.uploadSize < this.maxTotalSizeNumber)
+      )
     },
 
     uploadProgress () {
@@ -237,7 +244,7 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const processedFiles = this.__processFiles(e, fileList)
+      const processedFiles = this.__processFiles(e, fileList, this.files, true)
 
       if (processedFiles === void 0) { return }
 

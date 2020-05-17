@@ -45,12 +45,17 @@ module.exports = function (chain, cfg) {
     }
   }
 
-  if (pluginMode === 'GenerateSW' && !opts.navigateFallback) {
-    const htmlFile = cfg.ctx.mode.ssr
-      ? cfg.build.ssrPwaHtmlFilename
-      : cfg.build.htmlFilename
+  if (pluginMode === 'GenerateSW') {
+    if (opts.navigateFallback === false) {
+      delete opts.navigateFallback
+    }
+    else if (opts.navigateFallback === void 0) {
+      const htmlFile = cfg.ctx.mode.ssr
+        ? cfg.build.ssrPwaHtmlFilename
+        : cfg.build.htmlFilename
 
-    opts.navigateFallback = `${cfg.build.publicPath}${htmlFile}`
+      opts.navigateFallback = `${cfg.build.publicPath}${htmlFile}`
+    }
   }
 
   opts.swDest = 'service-worker.js'

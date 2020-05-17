@@ -67,7 +67,7 @@ If you've found a problem in Quasar which is not a security risk, do a search on
 
 ## Helping to Resolve Existing Issues
 
-As a next step beyond reporting issues, you can help the Quasar Team resolve existing ones by providing feedback about them. If you are new to Quasar  development, that might be a great way to walk your first steps, you'll get familiar with the code base and the processes.
+As a next step beyond reporting issues, you can help the Quasar Team resolve existing ones by providing feedback about them. If you are new to Quasar development, that might be a great way to walk your first steps, you'll get familiar with the code base and the processes.
 
 If you check the issues list in [GitHub Issues](https://github.com/quasarframework/quasar/issues), you'll find lots of issues already requiring attention. What can you do for these? Quite a bit, actually:
 
@@ -163,7 +163,7 @@ The documentation runs against your local cloned repository.
 
 #### Commit your changes
 
-When you're happy with the change  on your computer, you need to commit the changes to Git:
+When you're happy with the change on your computer, you need to commit the changes to Git:
 
 ```bash
 $ git commit -a
@@ -194,7 +194,7 @@ $ git checkout dev
 $ git merge upstream/dev
 ```
 
-No conflicts? Tests still pass? Change still seems reasonable to you? Then move on and  open a pull request to apply your changes to the dev branch in main Quasar repository.
+No conflicts? Tests still pass? Change still seems reasonable to you? Then move on and open a pull request to apply your changes to the dev branch in main Quasar repository.
 
 #### Issue a pull request
 

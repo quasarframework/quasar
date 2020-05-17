@@ -67,7 +67,7 @@ const setIFrameHeight = height => {
 }
 
 /**
- * Reset the iFrame to it's default height e.g The height of the top bar.
+ * Reset the iFrame to its default height e.g The height of the top bar.
  */
 const resetIFrameHeight = () => {
   setIFrameHeight(defaultFrameHeight)
