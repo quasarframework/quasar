@@ -163,7 +163,6 @@ const cli = [
       },
       {
         name: 'Supporting TypeScript',
-        badge: 'new',
         path: 'supporting-ts'
       },
       {
@@ -638,7 +637,6 @@ const layout = [
       },
       {
         name: 'Flexbox patterns',
-        badge: 'new',
         path: 'flexbox-patterns'
       },
       {
@@ -760,7 +758,6 @@ const plugins = [
   },
   {
     name: 'Dialog',
-    badge: 'update',
     path: 'dialog'
   },
   {
@@ -781,7 +778,6 @@ const plugins = [
   },
   {
     name: 'Notify',
-    badge: 'update',
     path: 'notify'
   }
 ]
@@ -867,7 +863,6 @@ const components = [
   },
   {
     name: 'Floating Action Button',
-    badge: 'update',
     path: 'floating-action-button'
   },
   {
@@ -885,7 +880,6 @@ const components = [
       },
       {
         name: 'File picker',
-        badge: 'new',
         path: 'file-picker'
       },
       {
@@ -1022,7 +1016,6 @@ const components = [
   },
   {
     name: 'Scroll Area',
-    badge: 'update',
     path: 'scroll-area'
   },
   {
