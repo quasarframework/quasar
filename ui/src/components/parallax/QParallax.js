@@ -41,11 +41,11 @@ export default Vue.extend({
 
   watch: {
     height () {
-      this.isWorking === true && this.__updatePos()
+      this.working === true && this.__updatePos()
     },
 
     scrollTarget () {
-      if (this.isWorking === true || this.__scrollTarget === 'invalid') {
+      if (this.working === true) {
         this.__stop()
         this.__start()
       }
@@ -89,31 +89,24 @@ export default Vue.extend({
 
     __onResize () {
       this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
-      this.isWorking === true && this.__updatePos()
+      this.working === true && this.__updatePos()
     },
 
     __start () {
+      this.working = true
       this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
-
-      if (this.__scrollTarget) {
-        this.isWorking = true
-        this.__scrollTarget.addEventListener('scroll', this.__updatePos, passive)
-        window.addEventListener('resize', this.__resizeHandler, passive)
-        this.__updatePos()
-      }
-      else {
-        this.__scrollTarget = 'invalid'
-      }
+      this.__scrollTarget.addEventListener('scroll', this.__updatePos, passive)
+      window.addEventListener('resize', this.__resizeHandler, passive)
+      this.__updatePos()
     },
 
     __stop () {
-      if (this.isWorking === true) {
-        this.isWorking = false
+      if (this.working === true) {
+        this.working = false
         this.__scrollTarget.removeEventListener('scroll', this.__updatePos, passive)
         window.removeEventListener('resize', this.__resizeHandler, passive)
+        this.__scrollTarget = void 0
       }
-
-      this.__scrollTarget = void 0
     }
   },
 

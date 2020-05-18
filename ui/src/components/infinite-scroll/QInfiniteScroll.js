@@ -18,13 +18,16 @@ export default Vue.extend({
       type: Number,
       default: 500
     },
+
     debounce: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 100
     },
+
     scrollTarget: {
       default: void 0
     },
+
     disable: Boolean,
     reverse: Boolean
   },
