@@ -66,9 +66,9 @@ export default Vue.extend({
       }
 
       const
-        scrollHeight = getScrollHeight(this.scrollContainer),
-        scrollPosition = getScrollPosition(this.scrollContainer),
-        containerHeight = height(this.scrollContainer)
+        scrollHeight = getScrollHeight(this.__scrollTarget),
+        scrollPosition = getScrollPosition(this.__scrollTarget),
+        containerHeight = height(this.__scrollTarget)
 
       if (this.reverse === false) {
         if (scrollPosition + containerHeight + this.offset >= scrollHeight) {
@@ -90,7 +90,7 @@ export default Vue.extend({
       this.index++
       this.fetching = true
 
-      const heightBefore = getScrollHeight(this.scrollContainer)
+      const heightBefore = getScrollHeight(this.__scrollTarget)
 
       this.$emit('load', this.index, stop => {
         if (this.working === true) {
@@ -98,11 +98,11 @@ export default Vue.extend({
           this.$nextTick(() => {
             if (this.reverse === true) {
               const
-                heightAfter = getScrollHeight(this.scrollContainer),
-                scrollPosition = getScrollPosition(this.scrollContainer),
+                heightAfter = getScrollHeight(this.__scrollTarget),
+                scrollPosition = getScrollPosition(this.__scrollTarget),
                 heightDifference = heightAfter - heightBefore
 
-              setScrollPosition(this.scrollContainer, scrollPosition + heightDifference)
+              setScrollPosition(this.__scrollTarget, scrollPosition + heightDifference)
             }
 
             if (stop === true) {
@@ -123,7 +123,7 @@ export default Vue.extend({
     resume () {
       if (this.working === false) {
         this.working = true
-        this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
+        this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
       }
       this.immediatePoll()
     },
@@ -132,19 +132,19 @@ export default Vue.extend({
       if (this.working === true) {
         this.working = false
         this.fetching = false
-        this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
+        this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
       }
     },
 
     updateScrollTarget () {
-      if (this.scrollContainer && this.working === true) {
-        this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
+      if (this.__scrollTarget && this.working === true) {
+        this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
       }
 
-      this.scrollContainer = getScrollTarget(this.$el, this.scrollTarget)
+      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
 
       if (this.working === true) {
-        this.scrollContainer.addEventListener('scroll', this.poll, listenOpts.passive)
+        this.__scrollTarget.addEventListener('scroll', this.poll, listenOpts.passive)
       }
     },
 
@@ -168,16 +168,16 @@ export default Vue.extend({
 
     if (this.reverse === true) {
       const
-        scrollHeight = getScrollHeight(this.scrollContainer),
-        containerHeight = height(this.scrollContainer)
+        scrollHeight = getScrollHeight(this.__scrollTarget),
+        containerHeight = height(this.__scrollTarget)
 
-      setScrollPosition(this.scrollContainer, scrollHeight - containerHeight)
+      setScrollPosition(this.__scrollTarget, scrollHeight - containerHeight)
     }
   },
 
   beforeDestroy () {
     if (this.working === true) {
-      this.scrollContainer.removeEventListener('scroll', this.poll, listenOpts.passive)
+      this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
     }
   },
 
