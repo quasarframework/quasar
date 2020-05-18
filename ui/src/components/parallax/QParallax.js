@@ -5,8 +5,10 @@ import ListenersMixin from '../../mixins/listeners.js'
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
-import { listenOpts } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
+import { listenOpts } from '../../utils/event.js'
+
+const { passive } = listenOpts
 
 export default Vue.extend({
   name: 'QParallax',
@@ -39,12 +41,14 @@ export default Vue.extend({
 
   watch: {
     height () {
-      this.__updatePos()
+      this.isWorking === true && this.__updatePos()
     },
 
     scrollTarget () {
-      this.__unconfigureScrollTarget()
-      this.__configureScrollTarget()
+      if (this.isWorking === true || this.__scrollTarget === 'invalid') {
+        this.__stop()
+        this.__start()
+      }
     }
   },
 
@@ -52,13 +56,6 @@ export default Vue.extend({
     __update (percentage) {
       this.percentScrolled = percentage
       this.qListeners.scroll !== void 0 && this.$emit('scroll', percentage)
-    },
-
-    __onResize () {
-      if (this.__scrollTarget) {
-        this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
-        this.__updatePos()
-      }
     },
 
     __updatePos () {
@@ -78,7 +75,7 @@ export default Vue.extend({
       top = offset(this.$el).top
       bottom = top + this.height
 
-      if (bottom > containerTop && top < containerBottom) {
+      if (this.observer !== void 0 || bottom > containerTop && top < containerBottom) {
         const percent = (containerBottom - top) / (this.height + containerHeight)
         this.__setPos((this.mediaHeight - this.height) * percent * this.speed)
         this.__update(percent)
@@ -90,17 +87,33 @@ export default Vue.extend({
       this.media.style.transform = `translate3D(-50%,${Math.round(offset)}px, 0)`
     },
 
-    __configureScrollTarget () {
-      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
-      this.__scrollTarget.addEventListener('scroll', this.__updatePos, listenOpts.passive)
-      this.__onResize()
+    __onResize () {
+      this.mediaHeight = this.media.naturalHeight || this.media.videoHeight || height(this.media)
+      this.isWorking === true && this.__updatePos()
     },
 
-    __unconfigureScrollTarget () {
-      if (this.__scrollTarget !== void 0) {
-        this.__scrollTarget.removeEventListener('scroll', this.__updatePos, listenOpts.passive)
-        this.__scrollTarget = void 0
+    __start () {
+      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
+
+      if (this.__scrollTarget) {
+        this.isWorking = true
+        this.__scrollTarget.addEventListener('scroll', this.__updatePos, passive)
+        window.addEventListener('resize', this.__resizeHandler, passive)
+        this.__updatePos()
       }
+      else {
+        this.__scrollTarget = 'invalid'
+      }
+    },
+
+    __stop () {
+      if (this.isWorking === true) {
+        this.isWorking = false
+        this.__scrollTarget.removeEventListener('scroll', this.__updatePos, passive)
+        window.removeEventListener('resize', this.__resizeHandler, passive)
+      }
+
+      this.__scrollTarget = void 0
     }
   },
 
@@ -132,13 +145,10 @@ export default Vue.extend({
     ])
   },
 
-  beforeMount () {
-    this.__setPos = frameDebounce(this.__setPos)
-  },
-
   mounted () {
+    this.__setPos = frameDebounce(this.__setPos)
     this.__update = frameDebounce(this.__update)
-    this.resizeHandler = frameDebounce(this.__onResize)
+    this.__resizeHandler = frameDebounce(this.__onResize)
 
     this.media = this.$scopedSlots.media !== void 0
       ? this.$refs.mediaParent.children[0]
@@ -146,14 +156,21 @@ export default Vue.extend({
 
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize
 
-    window.addEventListener('resize', this.resizeHandler, listenOpts.passive)
+    if (window.IntersectionObserver !== void 0) {
+      this.observer = new IntersectionObserver(entries => {
+        this[entries[0].isIntersecting === true ? '__start' : '__stop']()
+      })
 
-    this.__configureScrollTarget()
+      this.observer.observe(this.$el)
+    }
+    else {
+      this.__start()
+    }
   },
 
   beforeDestroy () {
-    window.removeEventListener('resize', this.resizeHandler, listenOpts.passive)
-    this.__unconfigureScrollTarget()
+    this.__stop()
+    this.observer !== void 0 && this.observer.disconnect()
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = null
   }
 })
