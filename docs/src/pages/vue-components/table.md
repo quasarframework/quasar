@@ -99,7 +99,7 @@ columns: [ // array of Objects
 <doc-example title="Dense" file="QTable/Dense" />
 
 ::: tip
-You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
+You can use the `dense` prop along with `$q.screen` to create a responsive behavior. Example: `:dense="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
 ### Sticky header/column
