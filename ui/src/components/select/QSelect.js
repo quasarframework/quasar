@@ -350,9 +350,8 @@ export default Vue.extend({
       }
 
       if (this.$q.platform.is.mobile === true) {
-        on.focus = ev => {
-          // should not blur when the dialog is closing
-          this.dialog === true && ev.target.blur()
+        on.focus = () => {
+          this.$refs.focus !== void 0 && this.$refs.focus.focus()
         }
       }
 
@@ -875,6 +874,10 @@ export default Vue.extend({
         }
 
         child.push(h('input', options))
+
+        if (this.$q.platform.is.mobile === true) {
+          child.push(h('span', { ref: 'focus', attrs: { tabindex: -1 } }))
+        }
       }
 
       if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
