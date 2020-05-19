@@ -28,6 +28,8 @@ export default {
 
   computed: {
     computedPagination () {
+      this.innerPagination.rowsPerPage = this.rowsPerPageOptions[0]
+      
       return fixPagination({
         ...this.innerPagination,
         ...this.pagination
