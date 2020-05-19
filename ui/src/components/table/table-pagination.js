@@ -20,18 +20,20 @@ function fixPagination (p) {
 export default {
   props: {
     pagination: Object,
+    initialPagination: Object,
     rowsPerPageOptions: {
       type: Array,
-      default: () => [3, 5, 7, 10, 15, 20, 25, 50, 0]
+      default: () => [5, 7, 10, 15, 20, 25, 50, 0]
     }
   },
 
   computed: {
     computedPagination () {
-      return fixPagination({
-        ...this.innerPagination,
-        ...this.pagination
-      })
+      const pag = this.qListeners['update:pagination'] !== void 0
+        ? { ...this.innerPagination, ...this.pagination }
+        : this.innerPagination
+
+      return fixPagination(pag)
     },
 
     firstRowIndex () {
@@ -113,7 +115,7 @@ export default {
         return
       }
 
-      if (this.pagination) {
+      if (this.pagination && this.qListeners['update:pagination'] !== void 0) {
         this.$emit('update:pagination', newPagination)
       }
       else {
@@ -137,6 +139,8 @@ export default {
   },
 
   created () {
-    this.$emit('update:pagination', { ...this.computedPagination })
+    if (this.qListeners['update:pagination'] !== void 0) {
+      this.$emit('update:pagination', { ...this.computedPagination })
+    }
   }
 }
