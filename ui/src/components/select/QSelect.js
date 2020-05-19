@@ -120,7 +120,8 @@ export default Vue.extend({
       dialog: false,
       optionIndex: -1,
       inputValue: '',
-      dialogFieldFocused: false
+      dialogFieldFocused: false,
+      hasDialog: false
     }
   },
 
@@ -351,7 +352,7 @@ export default Vue.extend({
 
       if (this.$q.platform.is.mobile === true) {
         on.focus = () => {
-          this.$refs.focus !== void 0 && this.$refs.focus.focus()
+          this.$refs.control !== void 0 && this.$refs.control.focus()
         }
       }
 
@@ -874,10 +875,6 @@ export default Vue.extend({
         }
 
         child.push(h('input', options))
-
-        if (this.$q.platform.is.mobile === true) {
-          child.push(h('span', { ref: 'focus', attrs: { tabindex: -1 } }))
-        }
       }
 
       if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
