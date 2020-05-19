@@ -120,8 +120,7 @@ export default Vue.extend({
       dialog: false,
       optionIndex: -1,
       inputValue: '',
-      dialogFieldFocused: false,
-      hasDialog: false
+      dialogFieldFocused: false
     }
   },
 
@@ -370,14 +369,13 @@ export default Vue.extend({
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetKeyup,
         keypress: this.__onTargetKeypress,
-        focus: this.__selectInputText
+        focus: this.__selectInputText,
+        click: e => {
+          this.hasDialog === true && stop(e)
+        }
       }
 
       on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
-
-      if (this.hasDialog === true) {
-        on.click = stop
-      }
 
       return on
     }
