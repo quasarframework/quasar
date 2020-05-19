@@ -351,7 +351,8 @@ export default Vue.extend({
 
       if (this.$q.platform.is.mobile === true) {
         on.focus = () => {
-          this.$refs.control !== void 0 && this.$refs.control.focus()
+          // prevent keyboard from popping out
+          document.activeElement && document.activeElement.blur()
         }
       }
 
@@ -449,8 +450,6 @@ export default Vue.extend({
       const optValue = this.getOptionValue(opt)
 
       if (this.multiple !== true) {
-        this.$refs.target !== void 0 && this.$refs.target.focus()
-
         if (keepOpen !== true) {
           this.updateInputValue(
             this.fillInput === true ? this.getOptionLabel(opt) : '',
@@ -460,6 +459,9 @@ export default Vue.extend({
 
           this.hidePopup()
         }
+
+        const el = this.$refs.control || this.$refs.target
+        el !== void 0 && el.focus()
 
         if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)

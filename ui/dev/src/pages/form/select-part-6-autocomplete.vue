@@ -71,7 +71,7 @@ export default {
         { value: 'RO', label: 'RO' }
       ],
       filteredCountryOptions: [],
-      behavior: void 0
+      behavior: 'menu'
     }
   },
 
