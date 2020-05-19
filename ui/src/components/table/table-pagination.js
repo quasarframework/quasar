@@ -137,6 +137,8 @@ export default {
   },
 
   created () {
+    this.innerPagination.rowsPerPage = this.rowsPerPageOptions[0]
+    
     this.$emit('update:pagination', { ...this.computedPagination })
   }
 }
