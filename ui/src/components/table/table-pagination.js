@@ -20,7 +20,6 @@ function fixPagination (p) {
 export default {
   props: {
     pagination: Object,
-    initialPagination: Object,
     rowsPerPageOptions: {
       type: Array,
       default: () => [5, 7, 10, 15, 20, 25, 50, 0]
