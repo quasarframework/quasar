@@ -65,7 +65,11 @@ export default {
     },
 
     computedRowsPerPageOptions () {
-      return this.rowsPerPageOptions.map(count => ({
+      const opts = this.rowsPerPageOptions.includes(this.innerPagination.rowsPerPage)
+        ? this.rowsPerPageOptions
+        : [ this.innerPagination.rowsPerPage ].concat(this.rowsPerPageOptions)
+
+      return opts.map(count => ({
         label: count === 0 ? this.$q.lang.table.allRows : '' + count,
         value: count
       }))

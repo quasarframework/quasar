@@ -508,8 +508,7 @@
 
     "pagination": {
       "type": "Object",
-      "desc": "Pagination object",
-      "sync": true,
+      "desc": "Pagination object; You can use the '.sync' modifier on it if you want to have access on the current pagination in your components; When not using the .sync modifier it simply initializes the pagination on first render",
       "definition": {
         "sortBy": {
           "type": "String",
