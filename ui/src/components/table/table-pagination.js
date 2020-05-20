@@ -107,18 +107,18 @@ export default {
       })
 
       if (samePagination(this.computedPagination, newPagination)) {
-        if (this.isServerSide && forceServerRequest) {
+        if (this.isServerSide === true && forceServerRequest === true) {
           this.__sendServerRequest(newPagination)
         }
         return
       }
 
-      if (this.isServerSide) {
+      if (this.isServerSide === true) {
         this.__sendServerRequest(newPagination)
         return
       }
 
-      if (this.pagination && this.qListeners['update:pagination'] !== void 0) {
+      if (this.pagination !== void 0 && this.qListeners['update:pagination'] !== void 0) {
         this.$emit('update:pagination', newPagination)
       }
       else {
