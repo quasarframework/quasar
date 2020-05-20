@@ -89,7 +89,6 @@ columns: [ // array of Objects
 
 ## Usage
 
-
 ### Basic
 
 <doc-example title="Basic" file="QTable/Basic" />
@@ -222,17 +221,25 @@ If you are using virtual scroll with QTable, you should know that starting with 
 
 <doc-example title="Before/After slots (header/footer)" file="QTable/BeforeAfterHeaderFooter" />
 
-### Pagination
+### Pagination <q-badge align="top" label="enhanced on v1.12+" />
 
-::: tip
-If you want to control Table’s pagination, use `pagination` prop, but don’t forget to add the `.sync` modifier
+::: warning
+On Quasar <= v1.11, the `pagination` prop usage required the ".sync" modifier. With v1.12+ this is not longer mandatory, but if you want to control the Table’s pagination from your own components, then it is still a must-do. Example: `pagination.sync="pagination"`.
 :::
 
 ::: tip
 When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *Synchronizing with Server* example below.
 :::
 
-<doc-example title="Pagination with initial sort and rows per page" file="QTable/Pagination" />
+Below are two examples of handling the pagination (and sorting and rows per page).
+
+The first example highlights how to configure the initial pagination:
+
+<doc-example title="Initial pagination" file="QTable/PaginationInitial" />
+
+The second example uses the ".sync" modifier because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.
+
+<doc-example title="Synchronized pagination" file="QTable/PaginationSync" />
 
 ### Loading state
 
