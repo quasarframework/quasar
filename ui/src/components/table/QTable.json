@@ -77,6 +77,30 @@
       "default": "grey-8"
     },
 
+    "icon-first-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.12.0"
+    },
+
+    "icon-prev-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.12.0"
+    },
+
+    "icon-next-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.12.0"
+    },
+
+    "icon-last-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.12.0"
+    },
+
     "grid": {
       "type": "Boolean",
       "desc": "Display data as a grid instead of the default table",
@@ -1718,12 +1742,22 @@
       }
     },
 
+    "firstPage": {
+      "desc": "Navigates to first page",
+      "addedIn": "v1.12.0"
+    },
+
     "prevPage": {
       "desc": "Navigates to previous page, if available"
     },
 
     "nextPage": {
       "desc": "Navigates to next page, if available"
+    },
+
+    "lastPage": {
+      "desc": "Navigates to last page",
+      "addedIn": "v1.12.0"
     },
 
     "isRowSelected": {

@@ -184,8 +184,10 @@ export default {
   table: {
     arrowUp: evaArrowUpward,
     warning: evaAlertTriangle,
+    firstPage: evaArrowheadLeftOutline,
     prevPage: evaArrowIosBackOutline,
-    nextPage: evaArrowIosForwardOutline
+    nextPage: evaArrowIosForwardOutline,
+    lastPage: evaArrowheadRightOutline
   },
   tree: {
     icon: evaArrowRight

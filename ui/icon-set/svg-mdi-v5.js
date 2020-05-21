@@ -70,8 +70,8 @@ import {
   mdiPlus,
   mdiClose,
   mdiAlertCircle,
-  mdiPageFirst,
-  mdiPageLast,
+  mdiChevronDoubleLeft,
+  mdiChevronDoubleRight,
   mdiStar,
   mdiPencil,
   mdiPlay,
@@ -183,10 +183,10 @@ export default {
     error: mdiAlertCircle
   },
   pagination: {
-    first: mdiPageFirst,
+    first: mdiChevronDoubleLeft,
     prev: mdiChevronLeft,
     next: mdiChevronRight,
-    last: mdiPageLast
+    last: mdiChevronDoubleRight
   },
   rating: {
     icon: mdiStar
@@ -205,8 +205,10 @@ export default {
   table: {
     arrowUp: mdiArrowUp,
     warning: mdiAlert,
+    firstPage: mdiChevronDoubleLeft,
     prevPage: mdiChevronLeft,
-    nextPage: mdiChevronRight
+    nextPage: mdiChevronRight,
+    lastPage: mdiChevronDoubleRight
   },
   tree: {
     icon: mdiPlay

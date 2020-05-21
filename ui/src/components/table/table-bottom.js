@@ -7,7 +7,12 @@ import cache from '../../utils/cache.js'
 export default {
   computed: {
     navIcon () {
-      const ico = [ this.$q.iconSet.table.prevPage, this.$q.iconSet.table.nextPage ]
+      const ico = [
+        this.iconFirstPage || this.$q.iconSet.table.firstPage,
+        this.iconPrevPage || this.$q.iconSet.table.prevPage,
+        this.iconNextPage || this.$q.iconSet.table.nextPage,
+        this.iconLastPage || this.$q.iconSet.table.lastPage
+      ]
       return this.$q.lang.rtl === true ? ico.reverse() : ico
     }
   },
@@ -113,34 +118,61 @@ export default {
           ])
         ]
 
-        if (rowsPerPage !== 0) {
-          const size = this.dense === true ? 'sm' : void 0
+        if (rowsPerPage !== 0 && this.pagesNumber > 1) {
+          const btnProps = {
+            color: this.color,
+            round: true,
+            dense: true,
+            flat: true
+          }
+
+          if (this.dense === true) {
+            btnProps.size = 'sm'
+          }
+
+          this.pagesNumber > 2 && control.push(
+            h(QBtn, {
+              key: 'pgFirst',
+              props: {
+                ...btnProps,
+                icon: this.navIcon[0],
+                disable: this.isFirstPage
+              },
+              on: cache(this, 'pgFirst', { click: this.firstPage })
+            })
+          )
 
           control.push(
             h(QBtn, {
+              key: 'pgPrev',
               props: {
-                color: this.color,
-                round: true,
-                icon: this.navIcon[0],
-                dense: true,
-                flat: true,
-                size,
+                ...btnProps,
+                icon: this.navIcon[1],
                 disable: this.isFirstPage
               },
               on: cache(this, 'pgPrev', { click: this.prevPage })
             }),
 
             h(QBtn, {
+              key: 'pgNext',
               props: {
-                color: this.color,
-                round: true,
-                icon: this.navIcon[1],
-                dense: true,
-                size,
-                flat: true,
+                ...btnProps,
+                icon: this.navIcon[2],
                 disable: this.isLastPage
               },
               on: cache(this, 'pgNext', { click: this.nextPage })
+            })
+          )
+
+          this.pagesNumber > 2 && control.push(
+            h(QBtn, {
+              key: 'pgLast',
+              props: {
+                ...btnProps,
+                icon: this.navIcon[3],
+                disable: this.isLastPage
+              },
+              on: cache(this, 'pgLast', { click: this.lastPage })
             })
           )
         }

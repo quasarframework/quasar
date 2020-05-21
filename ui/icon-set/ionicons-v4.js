@@ -87,10 +87,10 @@ export default {
     error: 'ion-alert'
   },
   pagination: {
-    first: 'ion-skip-backward',
-    prev: 'ion-arrow-back',
-    next: 'ion-arrow-forward',
-    last: 'ion-skip-forward'
+    first: 'ion-ios-skip-backward',
+    prev: 'ion-ios-arrow-back',
+    next: 'ion-ios-arrow-forward',
+    last: 'ion-ios-skip-forward'
   },
   rating: {
     icon: 'ion-star'
@@ -109,8 +109,10 @@ export default {
   table: {
     arrowUp: 'ion-arrow-up',
     warning: 'ion-warning',
+    firstPage: 'ion-ios-return-left',
     prevPage: 'ion-ios-arrow-back',
-    nextPage: 'ion-ios-arrow-forward'
+    nextPage: 'ion-ios-arrow-forward',
+    lastPage: 'ion-ios-return-right'
   },
   tree: {
     icon: 'ion-play'

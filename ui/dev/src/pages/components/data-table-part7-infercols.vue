@@ -6,6 +6,7 @@
       selection="multiple"
       :selected.sync="selected"
       row-key="name"
+      :pagination="{rowsPerPage: 3}"
     />
   </div>
 </template>

@@ -58,11 +58,13 @@ import {
   ionIosCode,
   ionMdAdd,
   ionMdClose,
-  ionMdSkipBackward,
-  ionMdSkipForward,
+  ionIosSkipBackward,
+  ionIosSkipForward,
   ionMdStar,
   ionMdCreate,
   ionMdWarning,
+  ionIosReturnLeft,
+  ionIosReturnRight,
   ionMdPlay,
   ionMdAddCircle,
   ionMdCloudUpload,
@@ -159,10 +161,10 @@ export default {
     error: ionMdAlert
   },
   pagination: {
-    first: ionMdSkipBackward,
-    prev: ionMdArrowBack,
-    next: ionMdArrowForward,
-    last: ionMdSkipForward
+    first: ionIosSkipBackward,
+    prev: ionIosArrowBack,
+    next: ionIosArrowForward,
+    last: ionIosSkipForward
   },
   rating: {
     icon: ionMdStar
@@ -181,8 +183,10 @@ export default {
   table: {
     arrowUp: ionMdArrowUp,
     warning: ionMdWarning,
+    firstPage: ionIosReturnLeft,
     prevPage: ionIosArrowBack,
-    nextPage: ionIosArrowForward
+    nextPage: ionIosArrowForward,
+    lastPage: ionIosReturnRight
   },
   tree: {
     icon: ionMdPlay

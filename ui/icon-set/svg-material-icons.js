@@ -183,8 +183,10 @@ export default {
   table: {
     arrowUp: matArrowUpward,
     warning: matWarning,
+    firstPage: matFirstPage,
     prevPage: matChevronLeft,
-    nextPage: matChevronRight
+    nextPage: matChevronRight,
+    lastPage: matLastPage
   },
   tree: {
     icon: matPlayArrow

@@ -56,8 +56,8 @@ import {
   laPlusSolid,
   laTimesSolid,
   laExclamationCircleSolid,
-  laStepBackwardSolid,
-  laStepForwardSolid,
+  laFastBackwardSolid,
+  laFastForwardSolid,
   laStarSolid,
   laPencilAltSolid,
   laPlaySolid,
@@ -156,10 +156,10 @@ export default {
     error: laExclamationCircleSolid
   },
   pagination: {
-    first: laStepBackwardSolid,
+    first: laFastBackwardSolid,
     prev: laChevronLeftSolid,
     next: laChevronRightSolid,
-    last: laStepForwardSolid
+    last: laFastForwardSolid
   },
   rating: {
     icon: laStarSolid
@@ -178,8 +178,10 @@ export default {
   table: {
     arrowUp: laArrowUpSolid,
     warning: laExclamationTriangleSolid,
+    firstPage: laFastBackwardSolid,
     prevPage: laChevronLeftSolid,
-    nextPage: laChevronRightSolid
+    nextPage: laChevronRightSolid,
+    lastPage: laFastForwardSolid
   },
   tree: {
     icon: laPlaySolid

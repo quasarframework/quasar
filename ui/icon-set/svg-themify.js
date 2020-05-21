@@ -180,8 +180,10 @@ export default {
   table: {
     arrowUp: tiArrowUp,
     warning: tiAlert,
+    firstPage: tiAngleDoubleLeft,
     prevPage: tiAngleLeft,
-    nextPage: tiAngleRight
+    nextPage: tiAngleRight,
+    lastPage: tiAngleDoubleRight
   },
   tree: {
     icon: tiControlPlay

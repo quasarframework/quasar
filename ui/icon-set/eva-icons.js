@@ -109,8 +109,10 @@ export default {
   table: {
     arrowUp: 'eva-arrow-upward',
     warning: 'eva-alert-triangle',
+    firstPage: 'eva-arrowhead-left-outline',
     prevPage: 'eva-arrow-ios-back-outline',
-    nextPage: 'eva-arrow-ios-forward-outline'
+    nextPage: 'eva-arrow-ios-forward-outline',
+    lastPage: 'eva-arrowhead-right-outline'
   },
   tree: {
     icon: 'eva-arrow-right'

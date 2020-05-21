@@ -110,8 +110,10 @@ export default {
   table: {
     arrowUp: 'ti-arrow-up',
     warning: 'ti-alert',
+    firstPage: 'ti-angle-double-left',
     prevPage: 'ti-angle-left',
-    nextPage: 'ti-angle-right'
+    nextPage: 'ti-angle-right',
+    lastPage: 'ti-angle-double-right'
   },
   tree: {
     icon: 'ti-control-play'

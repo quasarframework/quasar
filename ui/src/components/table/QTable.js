@@ -61,6 +61,11 @@ export default Vue.extend({
     loading: Boolean,
     binaryStateSort: Boolean,
 
+    iconFirstPage: String,
+    iconPrevPage: String,
+    iconNextPage: String,
+    iconLastPage: String,
+
     title: String,
 
     hideHeader: Boolean,

@@ -22,7 +22,7 @@ export default {
     pagination: Object,
     rowsPerPageOptions: {
       type: Array,
-      default: () => [5, 7, 10, 15, 20, 25, 50, 0]
+      default: () => [ 5, 7, 10, 15, 20, 25, 50, 0 ]
     }
   },
 
@@ -126,6 +126,10 @@ export default {
       }
     },
 
+    firstPage () {
+      this.setPagination({ page: 1 })
+    },
+
     prevPage () {
       const { page } = this.computedPagination
       if (page > 1) {
@@ -138,6 +142,10 @@ export default {
       if (this.lastRowIndex > 0 && page * rowsPerPage < this.computedRowsNumber) {
         this.setPagination({ page: page + 1 })
       }
+    },
+
+    lastPage () {
+      this.setPagination({ page: this.pagesNumber })
     }
   },
 

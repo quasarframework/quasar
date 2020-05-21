@@ -56,7 +56,13 @@ import {
   ionAddCircle,
   ionCloudUpload,
   ionTrash,
-  ionCheckmarkDone
+  ionCheckmarkDone,
+  ionChevronDown,
+  ionChevronUp,
+  ionChevronBack,
+  ionChevronForward,
+  ionChevronBackCircle,
+  ionChevronForwardCircle
 } from '@quasar/extras/ionicons-v5'
 
 export default {
@@ -87,10 +93,10 @@ export default {
     icon: ionRefresh
   },
   carousel: {
-    left: ionArrowBack,
-    right: ionArrowForward,
-    up: ionArrowUp,
-    down: ionArrowDown,
+    left: ionChevronBack,
+    right: ionChevronForward,
+    up: ionChevronUp,
+    down: ionChevronDown,
     navigationIcon: ionSquare
   },
   chip: {
@@ -98,8 +104,8 @@ export default {
     selected: ionCheckmark
   },
   datetime: {
-    arrowLeft: ionArrowBack,
-    arrowRight: ionArrowForward,
+    arrowLeft: ionChevronBack,
+    arrowRight: ionChevronForward,
     now: ionTime,
     today: ionCalendar
   },
@@ -149,8 +155,8 @@ export default {
   },
   pagination: {
     first: ionPlaySkipBackCircle,
-    prev: ionArrowBack,
-    next: ionArrowForward,
+    prev: ionChevronBackCircle,
+    next: ionChevronForwardCircle,
     last: ionPlaySkipForwardCircle
   },
   rating: {
@@ -162,16 +168,18 @@ export default {
     error: ionWarning
   },
   tabs: {
-    left: ionArrowBack,
-    right: ionArrowForward,
-    up: ionArrowUp,
-    down: ionArrowDown
+    left: ionChevronBack,
+    right: ionChevronForward,
+    up: ionChevronUp,
+    down: ionChevronDown
   },
   table: {
     arrowUp: ionArrowUp,
     warning: ionWarning,
-    prevPage: ionArrowBack,
-    nextPage: ionArrowForward
+    firstPage: ionPlaySkipBackCircle,
+    prevPage: ionChevronBackCircle,
+    nextPage: ionChevronForwardCircle,
+    lastPage: ionPlaySkipForwardCircle
   },
   tree: {
     icon: ionPlay

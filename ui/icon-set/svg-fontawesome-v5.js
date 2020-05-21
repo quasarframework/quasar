@@ -178,8 +178,10 @@ export default {
   table: {
     arrowUp: fasArrowUp,
     warning: fasExclamationTriangle,
+    firstPage: fasStepBackward,
     prevPage: fasChevronLeft,
-    nextPage: fasChevronRight
+    nextPage: fasChevronRight,
+    lastPage: fasStepForward
   },
   tree: {
     icon: fasPlay
