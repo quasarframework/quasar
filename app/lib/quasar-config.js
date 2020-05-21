@@ -597,6 +597,7 @@ class QuasarConfig {
         overlay: true,
         quiet: true,
         historyApiFallback: !this.ctx.mode.ssr,
+        index: cfg.build.htmlFilename,
         noInfo: true,
         disableHostCheck: true,
         compress: true,
