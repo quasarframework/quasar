@@ -112,7 +112,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 import { scroll } from 'quasar'
 import {
   mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp
-} from '@quasar/extras/mdi-v4'
+} from '@quasar/extras/mdi-v5'
 
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mdiCodeTags, mdiOpenInNew } from '@quasar/extras/mdi-v4'
+import { mdiCodeTags, mdiOpenInNew } from '@quasar/extras/mdi-v5'
 
 import list from 'assets/layout-gallery.js'
 
