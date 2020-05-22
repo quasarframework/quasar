@@ -70,6 +70,9 @@ export default Vue.extend({
 
     hideHeader: Boolean,
     hideBottom: Boolean,
+    hideSelectedBanner: Boolean,
+    hideNoData: Boolean,
+    hidePagination: Boolean,
 
     grid: Boolean,
     gridHeader: Boolean,

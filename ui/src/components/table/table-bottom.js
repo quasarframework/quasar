@@ -4,6 +4,8 @@ import QIcon from '../icon/QIcon.js'
 
 import cache from '../../utils/cache.js'
 
+const staticClass = 'q-table__bottom row items-center'
+
 export default {
   computed: {
     navIcon () {
@@ -24,6 +26,10 @@ export default {
       }
 
       if (this.nothingToDisplay === true) {
+        if (this.hideNoData === true) {
+          return
+        }
+
         const message = this.loading === true
           ? this.loadingLabel || this.$q.lang.table.loading
           : (this.filter ? this.noResultsLabel || this.$q.lang.table.noResults : this.noDataLabel || this.$q.lang.table.noData)
@@ -40,19 +46,34 @@ export default {
           ]
 
         return h('div', {
-          staticClass: 'q-table__bottom row items-center q-table__bottom--nodata'
+          staticClass: staticClass + ' q-table__bottom--nodata'
         }, children)
       }
 
-      const bottom = this.$scopedSlots.bottom
+      const child = this.hideSelectedBanner !== true && this.hasSelectionMode === true && this.rowsSelectedNumber > 0
+        ? [
+          h('div', { staticClass: 'q-table__control' }, [
+            h('div', [
+              (this.selectedRowsLabel || this.$q.lang.table.selectedRecords)(this.rowsSelectedNumber)
+            ])
+          ])
+        ]
+        : []
 
-      return h('div', {
-        staticClass: 'q-table__bottom row items-center',
-        class: bottom !== void 0 ? null : 'justify-end'
-      }, bottom !== void 0 ? [ bottom(this.marginalsProps) ] : this.getPaginationRow(h))
+      if (this.hidePagination !== true) {
+        const bottom = this.$scopedSlots.bottom
+
+        return h('div', {
+          staticClass: staticClass + (bottom !== void 0 ? '' : ' justify-end')
+        }, bottom !== void 0 ? child.concat(bottom(this.marginalsProps)) : this.getPaginationRow(h, child))
+      }
+
+      if (child.length > 0) {
+        return h('div', { staticClass }, child)
+      }
     },
 
-    getPaginationRow (h) {
+    getPaginationRow (h, child) {
       let control
       const
         { rowsPerPage } = this.computedPagination,
@@ -60,17 +81,9 @@ export default {
         paginationSlot = this.$scopedSlots.pagination,
         hasOpts = this.rowsPerPageOptions.length > 1
 
-      const child = [
-        h('div', { staticClass: 'q-table__control' }, [
-          h('div', [
-            this.hasSelectionMode === true && this.rowsSelectedNumber > 0
-              ? (this.selectedRowsLabel || this.$q.lang.table.selectedRecords)(this.rowsSelectedNumber)
-              : ''
-          ])
-        ]),
-
+      child.push(
         h('div', { staticClass: 'q-table__separator col' })
-      ]
+      )
 
       if (hasOpts === true) {
         child.push(

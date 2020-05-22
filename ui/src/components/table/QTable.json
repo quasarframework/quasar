@@ -268,8 +268,29 @@
 
     "hide-bottom": {
       "type": "Boolean",
-      "desc": "Hide table bottom layer",
+      "desc": "Hide table bottom layer regardless of what it has to display",
       "category": "content"
+    },
+
+    "hide-selected-banner": {
+      "type": "Boolean",
+      "desc": "Hide the selected rows banner (if any)",
+      "category": "content",
+      "addedIn": "v1.12.0"
+    },
+
+    "hide-no-data": {
+      "type": "Boolean",
+      "desc": "Hide the default no data bottom layer",
+      "category": "content",
+      "addedIn": "v1.12.0"
+    },
+
+    "hide-pagination": {
+      "type": "Boolean",
+      "desc": "Hide the pagination controls at the bottom",
+      "category": "content",
+      "addedIn": "v1.12.0"
     },
 
     "dark": {
