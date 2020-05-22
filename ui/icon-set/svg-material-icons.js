@@ -5,6 +5,7 @@
  * Edit that file instead (material-icons.js).
  */
 
+
 import {
   matCheckCircle,
   matWarning,

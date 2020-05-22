@@ -66,8 +66,6 @@ import {
   mdiAlertCircle,
   mdiChevronDoubleLeft,
   mdiChevronDoubleRight,
-  mdiPageFirst,
-  mdiPageLast,
   mdiStar,
   mdiPencil,
   mdiPlay,

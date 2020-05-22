@@ -27,7 +27,7 @@ export default {
   },
   carousel: {
     left: 'fas fa-chevron-left',
-    right: 'fas fa-chevron-right', // TODO
+    right: 'fas fa-chevron-right',
     up: 'fas fa-chevron-up',
     down: 'fas fa-chevron-down',
     navigationIcon: 'fas fa-circle'
