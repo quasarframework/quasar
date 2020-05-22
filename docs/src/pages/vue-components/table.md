@@ -232,7 +232,7 @@ On Quasar <= v1.11, the `pagination` prop usage required the ".sync" modifier. W
 :::
 
 ::: tip
-When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *Synchronizing with Server* example below.
+When `pagination` has a property named `rowsNumber`, then this means that you’ll be configuring Table for **server**-side pagination (& sorting & filtering). See *"Server side pagination, filter and sorting"* section.
 :::
 
 Below are two examples of handling the pagination (and sorting and rows per page).
@@ -244,6 +244,12 @@ The first example highlights how to configure the initial pagination:
 The second example uses the ".sync" modifier because we want to access its current value at any time. A use-case for the technique below can be to control the pagination from outside of QTable.
 
 <doc-example title="Synchronized pagination" file="QTable/PaginationSync" />
+
+## Pagination slot
+
+For learning purposes, we will customize the pagination controls with the default controls in order to help you get started with your own.
+
+<doc-example title="Pagination slot" file="QTable/PaginationSlot" />
 
 ## Loading state
 
@@ -292,6 +298,12 @@ Starting with **v1.1.1+**, we can also customize only one particular header cell
 Starting with **v1.1.1+**, there is also a "no-data" scoped slot (see below) that you can also to customize the messages for both when a filter doesn't returns any results or the table has no data to display. Also type something into the "Search" input.
 
 <doc-example title="No Data Slot" file="QTable/NoDataSlot" />
+
+## Handling bottom layer <q-badge align="top" label="v1.12+" />
+
+There are a few properties that you can use to hide the bottom layer or specific parts of it. You can play with it below:
+
+<doc-example title="Hiding bottom layer" file="QTable/HideBottom" />
 
 ## Custom sorting
 

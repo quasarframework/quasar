@@ -7,6 +7,13 @@ import cache from '../../utils/cache.js'
 const staticClass = 'q-table__bottom row items-center'
 
 export default {
+  props: {
+    hideBottom: Boolean,
+    hideSelectedBanner: Boolean,
+    hideNoData: Boolean,
+    hidePagination: Boolean
+  },
+
   computed: {
     navIcon () {
       const ico = [
@@ -50,6 +57,12 @@ export default {
         }, children)
       }
 
+      const bottom = this.$scopedSlots.bottom
+
+      if (bottom !== void 0) {
+        return h('div', { staticClass }, [ bottom(this.marginalsProps) ])
+      }
+
       const child = this.hideSelectedBanner !== true && this.hasSelectionMode === true && this.rowsSelectedNumber > 0
         ? [
           h('div', { staticClass: 'q-table__control' }, [
@@ -61,11 +74,9 @@ export default {
         : []
 
       if (this.hidePagination !== true) {
-        const bottom = this.$scopedSlots.bottom
-
         return h('div', {
-          staticClass: staticClass + (bottom !== void 0 ? '' : ' justify-end')
-        }, bottom !== void 0 ? child.concat(bottom(this.marginalsProps)) : this.getPaginationRow(h, child))
+          staticClass: staticClass + ' justify-end'
+        }, this.getPaginationRow(h, child))
       }
 
       if (child.length > 0) {

@@ -997,6 +997,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1008,6 +1015,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1063,6 +1077,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1074,6 +1095,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1129,6 +1157,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1140,6 +1175,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1195,6 +1237,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1206,6 +1255,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1261,6 +1317,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1272,6 +1335,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1327,6 +1397,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1338,6 +1415,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
