@@ -77,7 +77,6 @@ Archive decompression attacks for directory traversal are a real security issue 
  - **DON'T** store personal information in plaintext
  - **DON'T** create your own cryptographic solution
  - **DON'T** ignore any aspect of implementation details
- - **DON'T** create your own cryptographic solution
  - **DON'T** use MD5 or SHA1
  - **DON’T** create your [own cryptographic solution](https://about.unimelb.edu.au/newsroom/news/2019/march/researchers-find-trapdoor-in-swissvote-election-system)
 
