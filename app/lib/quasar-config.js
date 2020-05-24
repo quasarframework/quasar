@@ -389,7 +389,7 @@ class QuasarConfig {
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
 
     cfg.build = merge({
-      modern: this.opts.modern,
+      modern: false,
       transformAssetUrls: Object.assign({
         video: ['src', 'poster'],
         source: 'src',
@@ -461,6 +461,10 @@ class QuasarConfig {
         }
       }
     }, cfg.build)
+
+    if (this.opts.modern === true) {
+      cfg.build.modern = true
+    }
 
     if (cfg.build.modern === true) {
       log('Building modern code (ES6+)')

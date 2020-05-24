@@ -113,7 +113,22 @@ module.exports = function (cfg, configName) {
         .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
   }
 
-  if (cfg.build.modern !== true) {
+  if (cfg.build.modern === true) {
+    if (cfg.build.transpileDependencies.length > 0) {
+      chain.module.rule('babel')
+        .test(/\.jsx?$/)
+        .include
+          .add(filepath => cfg.build.transpileDependencies.some(dep => filepath.match(dep)))
+          .end()
+        .use('babel-loader')
+          .loader('babel-loader')
+            .options({
+              compact: false,
+              extends: appPaths.resolve.app('babel.config.js')
+            })
+    }
+  }
+  else { // not modern
     chain.module.rule('babel')
       .test(/\.jsx?$/)
       .exclude
