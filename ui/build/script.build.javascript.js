@@ -19,9 +19,13 @@ const bubleConfig = {
   objectAssign: 'Object.assign'
 }
 
-const rollupPlugins = [
+const rollupPluginsModern = [
   nodeResolve(),
-  json(),
+  json()
+]
+
+const rollupPluginsLegacy = [
+  ...rollupPluginsModern,
   buble(bubleConfig)
 ]
 
@@ -36,7 +40,11 @@ const builds = [
         format: 'es'
       }
     },
-    build: { minified: true, minExt: false }
+    build: {
+      minified: true,
+      minExt: false,
+      modern: true
+    }
   },
   {
     rollup: {
@@ -50,7 +58,8 @@ const builds = [
     },
     build: {
       minified: true,
-      minExt: false
+      minExt: false,
+      modern: true
     }
   },
   {
@@ -63,7 +72,10 @@ const builds = [
         format: 'es'
       }
     },
-    build: { minified: true, minExt: false }
+    build: {
+      minified: true,
+      minExt: false
+    }
   },
   {
     rollup: {
@@ -75,7 +87,9 @@ const builds = [
         format: 'umd'
       }
     },
-    build: { minified: true }
+    build: {
+      minified: true
+    }
   },
   {
     rollup: {
@@ -90,6 +104,22 @@ const builds = [
     build: {
       unminified: true,
       minified: true
+    }
+  },
+  {
+    rollup: {
+      input: {
+        input: resolve(`src/index.umd.js`)
+      },
+      output: {
+        file: resolve(`dist/quasar.umd.modern.js`),
+        format: 'umd'
+      }
+    },
+    build: {
+      unminified: true,
+      minified: true,
+      modern: true
     }
   }
 ]
@@ -126,7 +156,9 @@ function build (builds) {
 }
 
 function genConfig (opts) {
-  opts.rollup.input.plugins = rollupPlugins
+  opts.rollup.input.plugins = opts.build.modern === true
+    ? rollupPluginsModern
+    : rollupPluginsLegacy
 
   opts.rollup.input.external = opts.rollup.input.external || []
   opts.rollup.input.external.push('vue')
