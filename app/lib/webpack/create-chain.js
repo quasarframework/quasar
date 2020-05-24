@@ -48,7 +48,7 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.mjs', '.js', '.vue', '.json' ])
+    .merge([ '.wasm', '.mjs', '.js', '.vue', '.json' ])
 
   if (cfg.supportTS === true) {
     chain.resolve.extensions
