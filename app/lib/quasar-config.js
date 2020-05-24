@@ -389,6 +389,7 @@ class QuasarConfig {
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
 
     cfg.build = merge({
+      modern: this.opts.modern,
       transformAssetUrls: Object.assign({
         video: ['src', 'poster'],
         source: 'src',
@@ -460,6 +461,21 @@ class QuasarConfig {
         }
       }
     }, cfg.build)
+
+    if (cfg.build.modern === true) {
+      log('Building modern code (ES6+)')
+      if (cfg.build.uglifyOptions.ecma === void 0) {
+        cfg.build.uglifyOptions.ecma = 6
+      }
+
+      // force disable IE11 support
+      if (cfg.supportIE === true) {
+        console.log()
+        warn(`⚠️  IE11 support is requested but it was disabled because build mode is set to modern.`)
+        console.log()
+        cfg.supportIE = false
+      }
+    }
 
     cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
 

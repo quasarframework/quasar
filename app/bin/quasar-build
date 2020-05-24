@@ -18,7 +18,7 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     P: 'publish'
   },
-  boolean: ['h', 'd', 'u', 'i'],
+  boolean: ['h', 'd', 'u', 'i', 'modern'],
   string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
@@ -61,6 +61,7 @@ if (argv.help) {
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
     --debug, -d     Build for debugging purposes
+    --modern        Build modern code (ES6+)
     --skip-pkg, -s  Build only UI (skips creating Cordova/Capacitor/Electron executables)
                       - Cordova (it only fills in /src/cordova/www folder with the UI code)
                       - Capacitor (it only fills in /src/capacitor/www folder with the UI code)
@@ -157,7 +158,7 @@ async function build () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx, { argv })
+  const quasarConfig = new QuasarConfig(ctx, argv)
 
   try {
     await quasarConfig.prepare()

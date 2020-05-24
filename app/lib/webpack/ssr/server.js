@@ -8,6 +8,8 @@ module.exports = function (chain, cfg) {
     .clear()
     .add(appPaths.resolve.app('.quasar/server-entry.js'))
 
+  chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.common.js')
+
   chain.target('node')
   chain.devtool('#source-map')
 
@@ -31,7 +33,7 @@ module.exports = function (chain, cfg) {
   chain.externals(nodeExternals({
     // do not externalize CSS files in case we need to import it from a dep
     whitelist: [
-      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]src[\\/]|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/
+      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/
     ].concat(cfg.build.transpileDependencies)
   }))
 

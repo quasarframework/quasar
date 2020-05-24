@@ -12,7 +12,7 @@ const argv = parseArgs(process.argv.slice(2), {
 
     h: 'help'
   },
-  boolean: ['h'],
+  boolean: ['h', 'modern'],
   string: ['c', 'm', 'p'],
   default: {
     c: 'dev',
@@ -34,6 +34,7 @@ if (argv.help) {
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --modern         Modern mode (ES6+ code)
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
@@ -65,12 +66,14 @@ function getCfgEntries (webpackConfig, mode) {
       { name: 'Client', webpackCfg: webpackConfig.client }
     ]
   }
-  if (mode === 'electron') {
+
+  if (mode === 'electron' || mode === 'bex') {
     return [
       { name: 'Renderer', webpackCfg: webpackConfig.renderer },
       { name: 'Main', webpackCfg: webpackConfig.main }
     ]
   }
+
   return [ { name: 'Main', webpackCfg: webpackConfig } ]
 }
 
@@ -89,7 +92,7 @@ async function inspect () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx)
+  const quasarConfig = new QuasarConfig(ctx, { modern: argv.modern })
 
   try {
     await quasarConfig.prepare()

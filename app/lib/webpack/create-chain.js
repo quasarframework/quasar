@@ -92,7 +92,7 @@ module.exports = function (cfg, configName) {
 
   if (cfg.framework.all === 'auto') {
     vueRule.use('quasar-auto-import')
-      .loader(path.join(__dirname, 'loader.auto-import.js'))
+      .loader(path.join(__dirname, `loader.auto-import-${configName === 'Server' ? 'server' : 'client'}.js`))
       .options(cfg.framework.autoImportComponentCase)
   }
 
@@ -106,52 +106,42 @@ module.exports = function (cfg, configName) {
       transformAssetUrls: cfg.build.transformAssetUrls
     })
 
-  chain.module.rule('babel')
-    .test(/\.jsx?$/)
-    .exclude
-      .add(filepath => {
-        // always transpile js(x) in Vue files
-        if (/\.vue\.jsx?$/.test(filepath)) {
-          return false
-        }
+  if (cfg.framework.all !== true && configName !== 'Server') {
+    chain.module.rule('transform-quasar-imports')
+      .test(/\.jsx?$/)
+      .use('transform-quasar-imports')
+        .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
+  }
 
-        if (filepath.match(/[\\/]node_modules[\\/]quasar[\\/]/)) {
-          if (configName === 'Server') {
-            // transpile only if not from 'quasar/dist' folder
-            if (!filepath.match(/[\\/]node_modules[\\/]quasar[\\/]dist/)) {
-              return false
-            }
-          }
-          else {
-            // always transpile Quasar
+  if (cfg.build.modern !== true) {
+    chain.module.rule('babel')
+      .test(/\.jsx?$/)
+      .exclude
+        .add(filepath => {
+          if (
+            // transpile js(x) in Vue files:
+            /\.vue\.jsx?$/.test(filepath) ||
+
+            // transpile Quasar:
+            (configName !== 'Server' && filepath.match(/[\\/]node_modules[\\/]quasar[\\/]/)) ||
+
+            // explicit config to transpile some deps:
+            cfg.build.transpileDependencies.some(dep => filepath.match(dep))
+          ) {
             return false
           }
-        }
 
-        if (cfg.build.transpileDependencies.some(dep => filepath.match(dep))) {
-          return false
-        }
-
-        // Don't transpile anything else in node_modules
-        return /[\\/]node_modules[\\/]/.test(filepath)
-      })
-      .end()
-    .use('babel-loader')
-      .loader('babel-loader')
-        .options({
-          compact: false,
-          extends: appPaths.resolve.app('babel.config.js'),
-          plugins: cfg.framework.all !== true && configName !== 'Server' ? [
-            [
-              'transform-imports', {
-                quasar: {
-                  transform: `quasar/dist/babel-transforms/imports.js`,
-                  preventFullImport: true
-                }
-              }
-            ]
-          ] : []
+          // Don't transpile anything else in node_modules
+          return /[\\/]node_modules[\\/]/.test(filepath)
         })
+        .end()
+      .use('babel-loader')
+        .loader('babel-loader')
+          .options({
+            compact: false,
+            extends: appPaths.resolve.app('babel.config.js')
+          })
+  }
 
   if (cfg.supportTS !== false) {
     chain.resolve.extensions.add('.ts').add('.tsx')
