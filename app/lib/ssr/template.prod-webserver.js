@@ -10,8 +10,8 @@ const { createBundleRenderer } = require('vue-server-renderer')
 
 const resolve = file => path.join(__dirname, file)
 const template = fs.readFileSync(resolve('template.html'), 'utf-8')
-const bundle = require('./vue-ssr-server-bundle.json')
-const clientManifest = require('./vue-ssr-client-manifest.json')
+const bundle = require('./quasar.server.json')
+const clientManifest = require('./quasar.client.json')
 
 const settings = <%= opts %>
 

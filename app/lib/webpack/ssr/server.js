@@ -39,7 +39,7 @@ module.exports = function (chain, cfg) {
 
   chain.plugin('vue-ssr-client')
     .use(VueSSRServerPlugin, [{
-      filename: '../vue-ssr-server-bundle.json'
+      filename: '../quasar.server.json'
     }])
 
   if (cfg.ctx.prod) {

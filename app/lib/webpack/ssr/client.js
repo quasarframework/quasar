@@ -13,6 +13,6 @@ module.exports = function (chain, cfg) {
 
   chain.plugin('vue-ssr-client')
     .use(VueSSRClientPlugin, [{
-      filename: '../vue-ssr-client-manifest.json'
+      filename: '../quasar.client.json'
     }])
 }

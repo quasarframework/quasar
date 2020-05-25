@@ -29,8 +29,8 @@ module.exports = function (cfg, configName) {
     .path(cfg.build.distDir)
 
   chain.externals([
-    './vue-ssr-server-bundle.json',
-    './vue-ssr-client-manifest.json',
+    './quasar.server.json',
+    './quasar.client.json',
     'compression',
     'express',
     ...Object.keys(cliDeps),
