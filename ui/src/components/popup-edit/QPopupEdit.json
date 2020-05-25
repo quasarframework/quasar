@@ -301,6 +301,16 @@
 
     "cancel": {
       "desc": "Triggers a model reset to its initial value ('cancel' event is emitted) then closes Popup"
+    },
+
+    "show": {
+      "extends": "show",
+      "addedIn": "v1.12.0"
+    },
+
+    "hide": {
+      "extends": "hide",
+      "addedIn": "v1.12.0"
     }
   }
 }

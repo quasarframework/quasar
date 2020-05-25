@@ -37,10 +37,10 @@ export default Vue.extend({
     computedRipple () {
       return this.ripple === false
         ? false
-        : Object.assign(
-          { keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ] },
-          this.ripple === true ? {} : this.ripple
-        )
+        : {
+          keyCodes: this.isLink === true ? [ 13, 32 ] : [ 13 ],
+          ...(this.ripple === true ? {} : this.ripple)
+        }
     },
 
     percentageStyle () {

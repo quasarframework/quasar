@@ -88,7 +88,7 @@ export default Vue.extend({
         color: this.controlColor,
         textColor: this.controlTextColor,
         round: true,
-        [this.controlType]: true,
+        [ this.controlType ]: true,
         dense: true
       }
     },
@@ -150,10 +150,11 @@ export default Vue.extend({
           return h(QBtn, {
             key: name,
             class: `q-carousel__navigation-icon q-carousel__navigation-icon--${name === this.value ? '' : 'in'}active`,
-            props: Object.assign({
+            props: {
               icon: this.navIcon,
-              size: 'sm'
-            }, this.controlProps),
+              size: 'sm',
+              ...this.controlProps
+            },
             on: cache(this, 'nav#' + name, { click: () => { this.goTo(name) } })
           })
         }))

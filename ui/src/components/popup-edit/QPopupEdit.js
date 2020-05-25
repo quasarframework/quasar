@@ -98,6 +98,14 @@ export default Vue.extend({
       this.__close()
     },
 
+    show (e) {
+      this.$refs.menu !== void 0 && this.$refs.menu.show(e)
+    },
+
+    hide (e) {
+      this.$refs.menu !== void 0 && this.$refs.menu.hide(e)
+    },
+
     __hasChanged () {
       return isDeepEqual(this.value, this.initialValue) === false
     },

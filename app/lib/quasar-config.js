@@ -389,6 +389,7 @@ class QuasarConfig {
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
 
     cfg.build = merge({
+      modern: false,
       transformAssetUrls: Object.assign({
         video: ['src', 'poster'],
         source: 'src',
@@ -461,6 +462,25 @@ class QuasarConfig {
       }
     }, cfg.build)
 
+    if (this.opts.modern === true) {
+      cfg.build.modern = true
+    }
+
+    if (cfg.build.modern === true) {
+      log('Generating modern code (ES6+) - babel.config.js will be ignored')
+      if (cfg.build.uglifyOptions.ecma === void 0) {
+        cfg.build.uglifyOptions.ecma = 6
+      }
+
+      // force disable IE11 support
+      if (cfg.supportIE === true) {
+        console.log()
+        warn(`⚠️  IE11 support is requested but it was disabled because build mode is set to modern.`)
+        console.log()
+        cfg.supportIE = false
+      }
+    }
+
     cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
 
     cfg.__loadingBar = cfg.framework.all === true || cfg.framework.plugins.includes('LoadingBar')
@@ -473,8 +493,10 @@ class QuasarConfig {
       })
     }
     if (this.ctx.dev) {
-      cfg.build.extractCSS = false
-      cfg.build.preloadChunks = false
+      Object.assign(cfg.build, {
+        extractCSS: false,
+        preloadChunks: false
+      })
     }
     if (this.ctx.debug) {
       cfg.build.sourceMap = true
@@ -596,7 +618,10 @@ class QuasarConfig {
         inline: true,
         overlay: true,
         quiet: true,
-        historyApiFallback: !this.ctx.mode.ssr,
+        historyApiFallback: this.ctx.mode.ssr !== true
+          ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
+          : false,
+        index: cfg.build.htmlFilename,
         noInfo: true,
         disableHostCheck: true,
         compress: true,

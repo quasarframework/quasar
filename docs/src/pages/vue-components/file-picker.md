@@ -53,6 +53,14 @@ Under the covers, QFile uses a native input. Due to browser security policy, it 
 
 <doc-example title="Multiple files" file="QFile/BasicMultiple" />
 
+### Appending files <q-badge align="top" label="v1.11.3+" />
+
+By default, QFile replaces the model each time the user selects any files through the popup. However, when you are accepting multiple files (`multiple` prop) you can change this behavior and append the new selection to the model rather than replacing its old value.
+
+Below you can pick files multiple times and QFile will keep on appending them to the model:
+
+<doc-example title="Appending files" file="QFile/AppendingFiles" />
+
 ### Counters
 
 <doc-example title="Basic counter" file="QFile/CounterBasic" />

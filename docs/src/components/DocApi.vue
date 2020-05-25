@@ -78,7 +78,7 @@ q-card.doc-api.q-my-lg(flat bordered)
 </template>
 
 <script>
-import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v4'
+import { mdiClose, mdiMagnify } from '@quasar/extras/mdi-v5'
 import { format } from 'quasar'
 
 import ApiRows from './ApiRows.js'
