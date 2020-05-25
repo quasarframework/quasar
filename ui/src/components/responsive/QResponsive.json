@@ -9,6 +9,8 @@
     "$listeners": true
   },
 
+  "addedIn": "v1.9.0",
+
   "slots": {
     "default": {
       "extends": "default"

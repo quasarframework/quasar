@@ -9,6 +9,8 @@
     "$listeners": true
   },
 
+  "addedIn": "v1.4.0",
+
   "props": {
     "tag": {
       "examples": [ "div", "span", "blockquote" ],
