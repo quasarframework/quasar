@@ -467,7 +467,7 @@ class QuasarConfig {
     }
 
     if (cfg.build.modern === true) {
-      log('Building modern code (ES6+)')
+      log('Generating modern code (ES6+) - babel.config.js will be ignored')
       if (cfg.build.uglifyOptions.ecma === void 0) {
         cfg.build.uglifyOptions.ecma = 6
       }
@@ -493,8 +493,10 @@ class QuasarConfig {
       })
     }
     if (this.ctx.dev) {
-      cfg.build.extractCSS = false
-      cfg.build.preloadChunks = false
+      Object.assign(cfg.build, {
+        extractCSS: false,
+        preloadChunks: false
+      })
     }
     if (this.ctx.debug) {
       cfg.build.sourceMap = true

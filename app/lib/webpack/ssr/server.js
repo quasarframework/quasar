@@ -31,10 +31,16 @@ module.exports = function (chain, cfg) {
     })
 
   chain.externals(nodeExternals({
-    // do not externalize CSS files in case we need to import it from a dep
+    // do not externalize:
+    //  1. vue files
+    //  2. CSS files
+    //  3. Quasar language files
+    //  4. Quasar icon sets files
+    //  5. Quasar extras
     whitelist: [
-      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/
-    ].concat(cfg.build.transpileDependencies)
+      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/,
+      ...cfg.build.transpileDependencies
+    ]
   }))
 
   chain.plugin('vue-ssr-client')
