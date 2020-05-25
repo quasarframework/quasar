@@ -29,8 +29,8 @@ module.exports = function (cfg, configName) {
     .path(cfg.build.distDir)
 
   chain.externals([
-    './quasar.server.json',
-    './quasar.client.json',
+    './quasar.server-manifest.json',
+    './quasar.client-manifest.json',
     'compression',
     'express',
     ...Object.keys(cliDeps),

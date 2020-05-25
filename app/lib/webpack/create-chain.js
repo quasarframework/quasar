@@ -48,12 +48,7 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.wasm', '.mjs', '.js', '.vue', '.json' ])
-
-  if (cfg.supportTS === true) {
-    chain.resolve.extensions
-      .merge([ '.ts' ])
-  }
+    .merge([ '.mjs', '.js', '.vue', '.json', '.wasm' ])
 
   chain.resolve.modules
     .merge(resolveModules)
@@ -108,7 +103,7 @@ module.exports = function (cfg, configName) {
 
   if (cfg.framework.all !== true && configName !== 'Server') {
     chain.module.rule('transform-quasar-imports')
-      .test(/\.jsx?$/)
+      .test(/\.(t|j)sx?$/)
       .use('transform-quasar-imports')
         .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
   }
@@ -161,18 +156,18 @@ module.exports = function (cfg, configName) {
   if (cfg.supportTS !== false) {
     chain.resolve.extensions.add('.ts').add('.tsx')
 
-    chain.module
+    const rule = chain.module
       .rule('typescript')
       .test(/\.tsx?$/)
       .use('ts-loader')
-      .loader('ts-loader')
-      .options({
-        // custom config is merged if present, but vue setup and type checking disable are always applied
-        ...(cfg.supportTS.tsLoaderConfig || {}),
-        appendTsSuffixTo: [/\.vue$/],
-        // Type checking is handled by fork-ts-checker-webpack-plugin
-        transpileOnly: true
-      })
+        .loader('ts-loader')
+        .options({
+          // custom config is merged if present, but vue setup and type checking disable are always applied
+          ...(cfg.supportTS.tsLoaderConfig || {}),
+          appendTsSuffixTo: [/\.vue$/],
+          // Type checking is handled by fork-ts-checker-webpack-plugin
+          transpileOnly: true
+        })
 
     const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
     chain

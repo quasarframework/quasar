@@ -179,7 +179,7 @@ module.exports = class DevServer {
         return
       }
 
-      bundle = JSON.parse(assets['../quasar.server.json'].source())
+      bundle = JSON.parse(assets['../quasar.server-manifest.json'].source())
       update()
 
       cb()
@@ -201,7 +201,7 @@ module.exports = class DevServer {
         }
       }
 
-      clientManifest = JSON.parse(assets['../quasar.client.json'].source())
+      clientManifest = JSON.parse(assets['../quasar.client-manifest.json'].source())
       update()
 
       cb()
