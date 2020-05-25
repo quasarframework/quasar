@@ -92,30 +92,22 @@ export default Vue.extend({
     },
 
     okProps () {
-      return Object.assign(
-        {
-          color: this.vmColor,
-          label: this.okLabel,
-          ripple: false
-        },
-        Object(this.ok) === this.ok
-          ? this.ok
-          : { flat: true },
-        { disable: this.okDisabled }
-      )
+      return {
+        color: this.vmColor,
+        label: this.okLabel,
+        ripple: false,
+        ...(Object(this.ok) === this.ok ? this.ok : { flat: true }),
+        disable: this.okDisabled
+      }
     },
 
     cancelProps () {
-      return Object.assign(
-        {
-          color: this.vmColor,
-          label: this.cancelLabel,
-          ripple: false
-        },
-        Object(this.cancel) === this.cancel
-          ? this.cancel
-          : { flat: true }
-      )
+      return {
+        color: this.vmColor,
+        label: this.cancelLabel,
+        ripple: false,
+        ...(Object(this.cancel) === this.cancel ? this.cancel : { flat: true })
+      }
     }
   },
 

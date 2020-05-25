@@ -127,17 +127,15 @@ export default Vue.extend({
       }]
     }
 
-    if (this.headerNav === true) {
-      Object.assign(data, {
-        on: cache(this, 'headnavon', {
-          click: this.activate,
-          keyup: this.keyup
-        }),
-        attrs: this.isDisable === true
-          ? { tabindex: -1, 'aria-disabled': '' }
-          : { tabindex: this.qAttrs.tabindex || 0 }
-      })
-    }
+    this.headerNav === true && Object.assign(data, {
+      on: cache(this, 'headnavon', {
+        click: this.activate,
+        keyup: this.keyup
+      }),
+      attrs: this.isDisable === true
+        ? { tabindex: -1, 'aria-disabled': '' }
+        : { tabindex: this.qAttrs.tabindex || 0 }
+    })
 
     const child = [
       h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),

@@ -15,10 +15,6 @@ function resolve (_path) {
   return path.resolve(__dirname, '..', _path)
 }
 
-const bubleConfig = {
-  objectAssign: 'Object.assign'
-}
-
 const rollupPluginsModern = [
   nodeResolve(),
   json()
@@ -26,7 +22,9 @@ const rollupPluginsModern = [
 
 const rollupPluginsLegacy = [
   ...rollupPluginsModern,
-  buble(bubleConfig)
+  buble({
+    objectAssign: 'Object.assign'
+  })
 ]
 
 const builds = [
@@ -215,7 +213,7 @@ function buildEntry (config) {
 
       const minified = uglify.minify(code, {
         compress: {
-          pure_funcs: ['makeMap']
+          ecma: config.build.modern ? 6 : 5
         }
       })
 
