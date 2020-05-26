@@ -3,6 +3,7 @@ const fs = require('fs')
 const merge = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
+const { underline } = require('chalk')
 
 const appPaths = require('./app-paths')
 const logger = require('./helpers/logger')
@@ -467,7 +468,7 @@ class QuasarConfig {
     }
 
     if (cfg.build.modern === true) {
-      log('Generating modern code (ES6+) - babel.config.js will be ignored')
+      log(underline('Generating MODERN js code (ES6+)'))
       if (cfg.build.uglifyOptions.ecma === void 0) {
         cfg.build.uglifyOptions.ecma = 6
       }
@@ -479,6 +480,9 @@ class QuasarConfig {
         console.log()
         cfg.supportIE = false
       }
+    }
+    else {
+      log(underline('Generating legacy js code (ES5) - use "--modern" param for ES6+'))
     }
 
     cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)

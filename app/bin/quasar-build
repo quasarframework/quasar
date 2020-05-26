@@ -250,7 +250,7 @@ async function build () {
         ? path.join(outputFolder, '..')
         : outputFolder
 
-      banner(argv, 'build', { outputFolder })
+      banner(argv, 'build', { outputFolder, modern: buildConfig.build.modern })
 
       if (typeof buildConfig.build.afterBuild === 'function') {
         await buildConfig.build.afterBuild({ quasarConf: buildConfig })
