@@ -22,5 +22,8 @@ Take the following just as examples. Doesn't mean you can use QSeparator only on
 ## Color CSS classes
 Should you need, there are four special Quasar CSS classes which apply the color of QSeparator: `text-separator`, `bg-separator`, `text-dark-separator`, `bg-dark-separator`.
 
+## Work-arounds
+When horizontal `q-separator` is used with `column` layout, which has a `height: auto`, this squashes down the `q-separator` to a height of 0. In this case, add `style="height: 1px"` to your `q-separator` to fix the issue.
+
 ## QSeparator API
 <doc-api file="QSeparator" />
