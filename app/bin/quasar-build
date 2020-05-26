@@ -116,14 +116,35 @@ const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
 const extensionRunner = require('../lib/app-extension/extensions-runner')
 const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
 
-function parseWebpackConfig (webpackConfig, mode) {
+function splitConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
-    return [ webpackConfig.server, webpackConfig.client, webpackConfig.webserver ]
+    return [
+      { webpack: webpackConfig.server, name: 'Server' },
+      { webpack: webpackConfig.client, name: 'Client' },
+      { webpack: webpackConfig.webserver, name: 'Webserver' }
+    ]
   }
+
   if (['electron', 'bex'].includes(mode)) {
-    return [ webpackConfig.renderer, webpackConfig.main ]
+    return [
+      { webpack: webpackConfig.renderer, name: 'Renderer process' },
+      { webpack: webpackConfig.main, name: 'Main process' }
+    ]
   }
-  return webpackConfig
+
+  return [
+    { webpack: webpackConfig, name: 'Build' }
+  ]
+}
+
+function parseWebpackConfig (cfg, mode) {
+  const data = splitConfig(cfg, mode)
+
+  return {
+    configs: data.map(d => d.webpack),
+    name: data.map(d => d.name),
+    folder: data.map(d => d.webpack.output.path)
+  }
 }
 
 function finalizeBuild (mode, ctx, quasarConfig) {
@@ -193,29 +214,16 @@ async function build () {
     await hook.fn(hook.api, { quasarConf: buildConfig })
   })
 
-  log(chalk.bold(`Building...`))
+  log(chalk.bold(`Compiling with Webpack...`))
 
-  webpack(parseWebpackConfig(webpackConfig, argv.mode), async (err, stats) => {
+  let webpackData = parseWebpackConfig(webpackConfig, argv.mode)
+
+  webpack(webpackData.configs, async (err, stats) => {
     if (err) { throw err }
 
     artifacts.add(outputFolder)
 
     statsArray = stats.stats || [ stats ]
-    statsArray.forEach(stat => {
-      process.stdout.write('\n\n' + stat.toString({
-        colors: true,
-        performance: false,
-        hash: false,
-        assets: true,
-        chunks: false,
-        chunkModules: false,
-        chunkOrigins: false,
-        modules: false,
-        nestedModules: false,
-        moduleAssets: false,
-        children: false
-      }) + '\n\n')
-    })
 
     statsArray.forEach(stat => {
       if (stat.hasErrors()) {
@@ -226,6 +234,16 @@ async function build () {
         process.exit(1)
       }
     })
+
+    const printWebpackStats = require('../lib/helpers/print-webpack-stats')
+
+    console.log()
+    statsArray.forEach((stats, index) => {
+      printWebpackStats(stats, webpackData.folder[index], webpackData.name[index])
+    })
+
+    // free up memory
+    webpackData = void 0
 
     finalizeBuild(argv.mode, ctx, quasarConfig).then(async () => {
       outputFolder = argv.mode === 'cordova'
