@@ -62,7 +62,7 @@ Quasar was also built to encourage developers to follow web development best pra
  - HTML/CSS/JS minification
  - Cache busting
  - **Tree shaking**
- - Sourcemapping
+ - Source-mapping
  - Code-splitting with lazy loading
  - ES6 transpiling
  - Linting code
