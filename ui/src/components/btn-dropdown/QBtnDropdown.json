@@ -35,6 +35,12 @@
       "category": "behavior"
     },
 
+    "disable-rotate-dropdown-icon": {
+      "type": "Boolean",
+      "desc": "Disables rotate dropdown icon",
+      "category": "style"
+    },
+
     "content-style": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Style definitions to be attributed to the menu",

@@ -38,7 +38,8 @@ export default Vue.extend({
     menuOffset: Array,
 
     disableMainBtn: Boolean,
-    disableDropdown: Boolean
+    disableDropdown: Boolean,
+    disableRotateDropdownIcon: Boolean
   },
 
   data () {
@@ -77,7 +78,7 @@ export default Vue.extend({
         },
         staticClass: 'q-btn-dropdown__arrow',
         class: {
-          'rotate-180': this.showing,
+          'rotate-180': this.showing && !this.disableRotateDropdownIcon,
           'q-btn-dropdown__arrow-container': this.split === false
         }
       })
