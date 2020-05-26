@@ -6,9 +6,7 @@ const debounce = require('lodash.debounce')
 const { underline } = require('chalk')
 
 const appPaths = require('./app-paths')
-const logger = require('./helpers/logger')
-const log = logger('app:quasar-conf')
-const warn = logger('app:quasar-conf', 'red')
+const { log, warn, fatal } = require('./helpers/logger')
 const appFilesValidations = require('./app-files-validations')
 const extensionRunner = require('./app-extension/extensions-runner')
 const supportIE = require('./helpers/support-ie')
@@ -124,9 +122,8 @@ class QuasarConfig {
         }
         catch (e) {
           if (e.message !== 'NETWORK_ERROR') {
-            console.log(e)
-            warn(`⚠️  quasar.conf.js has JS errors. Please fix them then save file again.`)
-            warn()
+            console.error(e)
+            warn(`quasar.conf.js has JS errors. Please fix them then save file again.\n`)
           }
 
           return
@@ -162,7 +159,7 @@ class QuasarConfig {
             opts.onBuildChange()
           }
           else {
-            warn(`⚠️  [FAIL] Please fix the error then save the file so we can continue.`)
+            warn(`[FAIL] Please fix the error then save the file so we can continue.`)
           }
         }, 1000))
       }
@@ -307,8 +304,7 @@ class QuasarConfig {
       this.quasarConfigFunction = require(this.filename)
     }
     else {
-      warn(`⚠️  [FAIL] Could not load quasar.conf.js config file`)
-      process.exit(1)
+      fatal(`[FAIL] Could not load quasar.conf.js config file`)
     }
   }
 
@@ -476,7 +472,7 @@ class QuasarConfig {
       // force disable IE11 support
       if (cfg.supportIE === true) {
         console.log()
-        warn(`⚠️  IE11 support is requested but it was disabled because build mode is set to modern.`)
+        warn(`IE11 support is requested but it was disabled because build mode is set to modern.`)
         console.log()
         cfg.supportIE = false
       }

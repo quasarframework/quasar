@@ -2,9 +2,8 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
 const appPaths = require('./app-paths')
-const logger = require('./helpers/logger')
 const openBrowser = require('./helpers/open-browser')
-const log = logger('app:dev-server')
+const { log } = require('./helpers/logger')
 
 let alreadyNotified = false
 module.exports = class DevServer {

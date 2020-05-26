@@ -1,6 +1,6 @@
 const fse = require('fs-extra')
 
-const log = require('../helpers/logger')('app:cordova')
+const { log, fatal } = require('../helpers/logger')
 const CordovaConfig = require('./cordova-config')
 const { spawn } = require('../helpers/spawn')
 const onShutdown = require('../helpers/on-shutdown')
@@ -117,8 +117,7 @@ class CordovaRunner {
         code => {
           this.__cleanup()
           if (code) {
-            warn(`⚠️  [FAIL] Cordova CLI has failed`)
-            process.exit(1)
+            fatal(`[FAIL] Cordova CLI has failed`)
           }
           resolve()
         }

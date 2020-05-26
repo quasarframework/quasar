@@ -100,12 +100,9 @@ if (argv.mode !== 'spa') {
   installMissing(argv.mode, argv.target)
 }
 
+const { log, warn, fatal } = require('../lib/helpers/logger')
+
 const chalk = require('chalk')
-
-const logger = require('../lib/helpers/logger')
-const log = logger('app:build')
-const warn = logger('app:build', 'red')
-
 const path = require('path')
 const webpack = require('webpack')
 
@@ -186,8 +183,7 @@ async function build () {
   }
   catch (e) {
     console.log(e)
-    warn(`⚠️  [FAIL] quasar.conf.js has JS errors`)
-    process.exit(1)
+    fatal(`[FAIL] quasar.conf.js has JS errors`)
   }
 
   await quasarConfig.compile()

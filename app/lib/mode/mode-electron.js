@@ -2,9 +2,7 @@ const fs = require('fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const log = logger('app:mode-electron')
-const warn = logger('app:mode-electron', 'red')
+const { log, warn } = require('../helpers/logger')
 const { spawnSync } = require('../helpers/spawn')
 const nodePackager = require('../helpers/node-packager')
 const { bundlerIsInstalled } = require('../electron/bundler')
@@ -38,7 +36,7 @@ class Mode {
         return `${dep}@${electronDeps[dep]}`
       })),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn('⚠️  Failed to install Electron dependencies')
+      () => warn('Failed to install Electron dependencies')
     )
 
     log(`Creating Electron source folder...`)
@@ -76,7 +74,7 @@ class Mode {
       nodePackager,
       cmdParam.concat(deps),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn('⚠️  Failed to uninstall Electron dependencies')
+      () => warn('Failed to uninstall Electron dependencies')
     )
 
     log(`Electron support was removed`)

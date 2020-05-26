@@ -1,7 +1,7 @@
 const { ProgressPlugin } = require('webpack')
 const throttle = require('lodash.throttle')
 const chalk = require('chalk')
-const log = require('../helpers/logger')('app:progress')
+const { log } = require('../helpers/logger')
 const logUpdate = require('log-update')
 const ms = require('ms')
 

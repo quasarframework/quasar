@@ -1,8 +1,8 @@
-const logger = require('./logger')
 const path = require('path')
-const warn = logger('app:mode', 'yellow')
 const fs = require('fs')
 const fse = require('fs-extra')
+
+const { warn } = require('./logger')
 const getMode = require('../mode/index')
 const appPaths = require('../app-paths')
 

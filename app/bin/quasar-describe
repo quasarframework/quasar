@@ -4,8 +4,7 @@ const parseArgs = require('minimist')
 const chalk = require('chalk')
 
 const getApi = require('../lib/helpers/get-api')
-const logger = require('../lib/helpers/logger')
-const warn = logger('app:describe', 'red')
+const { fatal } = require('../lib/helpers/logger')
 
 const partArgs = {
   p: 'props',
@@ -520,8 +519,7 @@ async function run () {
     }
   }
   catch (e) {
-    warn(e)
-    process.exit(1)
+    fatal(e)
   }
 }
 
