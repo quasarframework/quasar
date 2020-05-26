@@ -16,7 +16,6 @@ module.exports = class DevServer {
     const cfg = this.quasarConfig.getBuildConfig()
 
     log(`Booting up...`)
-    log()
 
     return new Promise(resolve => (
       cfg.ctx.mode.ssr

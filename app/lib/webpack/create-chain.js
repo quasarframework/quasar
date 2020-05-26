@@ -208,7 +208,7 @@ module.exports = function (cfg, configName) {
     .rule('mjs')
     .test(/\.mjs$/)
     .include
-      .add(/node_modules/)
+      .add(/[\\/]node_modules[\\/]/)
       .end()
     .type('javascript/auto')
 
@@ -282,7 +282,7 @@ module.exports = function (cfg, configName) {
       .use(FriendlyErrorsPlugin, [{
         clearConsole: true,
         compilationSuccessInfo: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
-          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir) ] }
+          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.build.modern) ] }
           : undefined
       }])
   }

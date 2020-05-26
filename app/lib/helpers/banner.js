@@ -104,11 +104,12 @@ module.exports = function (argv, cmd, details) {
   console.log(banner + '\n')
 }
 
-module.exports.devCompilationSuccess = function (ctx, url, appDir) {
+module.exports.devCompilationSuccess = function (ctx, url, appDir, modern) {
   return `App dir........... ${green(appDir)}
     App URL........... ${green(url)}
     Dev mode.......... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}
     Pkg quasar........ ${green('v' + quasarVersion)}
     Pkg @quasar/app... ${green('v' + cliAppVersion)}
+    Modern mode....... ${modern === true ? green('yes (ES6+)') : 'no (legacy ES5); use "--modern" param for ES6+'}
   `
 }
