@@ -3,7 +3,7 @@ title: App Icons for Cordova
 desc: How to manage the app icons for a Quasar hybrid mobile app with Cordova.
 ---
 
-Cordova is one of the most complicated of all of the build targets as far as icons go, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splashscreens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml.
+Cordova is one of the most complicated of all of the build targets as far as icons go, because not only do you need to place the icons in specific folders, you also need to register them in the `src-cordova/config.xml` file. Further, if you are using splash screens (which you should), you will also need to install `cordova-plugin-splashscreen` and register it in your config.xml.
 
 If you discover one file that is new or missing, please [open an issue](https://github.com/quasarframework/quasar/issues).
 
