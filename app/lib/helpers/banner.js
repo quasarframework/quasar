@@ -46,7 +46,7 @@ module.exports = function (argv, cmd, details) {
   }
 
   if (details) {
-    banner += `\n JS type........... ${details.modern === true ? green('modern (ES6+)') : 'legacy (ES5) -- use "--modern" param for ES6+'}`
+    banner += `\n Modern mode....... ${details.modern === true ? green('yes (ES6+)') : 'no (legacy ES5); use "--modern" param for ES6+'}`
     if (argv['skip-pkg'] !== true) {
       banner += `
  ==================

@@ -214,7 +214,7 @@ async function build () {
     await hook.fn(hook.api, { quasarConf: buildConfig })
   })
 
-  log(chalk.bold(`Compiling with Webpack...`))
+  log(`Compiling with Webpack...`)
 
   let webpackData = parseWebpackConfig(webpackConfig, argv.mode)
 
