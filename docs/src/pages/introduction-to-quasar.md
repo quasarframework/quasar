@@ -16,7 +16,7 @@ Also because:
 * Best in class support for each build mode (SPA, SSR, PWA, Mobile app, Desktop app) and the best developer experience through a tight integration with our own CLI
 * It's easily customizable (CSS) and extendable (JS)
 * It's the most performance-focused framework
-* It's treeshakable automatically
+* It's tree-shakable automatically
 * Incredible community on our Forum and Discord chat
 * Has a regular release cycle inclusive of new features
 * Gets quick fixes and listens to the community's requests
@@ -62,7 +62,7 @@ Quasar was also built to encourage developers to follow web development best pra
  - HTML/CSS/JS minification
  - Cache busting
  - **Tree shaking**
- - Sourcemapping
+ - Source-mapping
  - Code-splitting with lazy loading
  - ES6 transpiling
  - Linting code
