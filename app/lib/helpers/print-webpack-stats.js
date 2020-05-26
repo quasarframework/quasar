@@ -2,7 +2,7 @@ const { readFileSync } = require('fs')
 const { join, basename } = require('path')
 const { gzipSync } = require('zlib')
 const { table } = require('table')
-const { underline, green, blue, magenta } = require('chalk')
+const { bold, underline, green, blue, magenta } = require('chalk')
 
 const colorFn = {
   js: green,
@@ -118,6 +118,6 @@ module.exports = (stats, outputFolder, name) => {
     drawHorizontalLine: index => tableIndexDelimiters.includes(index)
   })
 
-  console.log(` <${name}> summary: (images, fonts and all non-important types are omitted)`)
-  console.log(output)
+  console.log(` ${bold(green(name))} summary (only css/js/json - the rest are omitted):`)
+  console.log(' ' + output.split('\n').join('\n '))
 }

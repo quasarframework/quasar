@@ -478,7 +478,7 @@ class QuasarConfig {
       }
     }
     else {
-      log(underline('Generating legacy js code (ES5) - use "--modern" param for ES6+'))
+      log(underline('Generating legacy js code (ES5); use "--modern" param for ES6+'))
     }
 
     cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)

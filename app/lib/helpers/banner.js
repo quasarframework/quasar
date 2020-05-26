@@ -22,9 +22,7 @@ module.exports = function (argv, cmd, details) {
   let banner = ''
 
   if (details) {
-    banner += `
- ${underline('Build succeeded')}
-`
+    banner += ` ${underline('Build succeeded')}\n`
   }
 
   banner += `

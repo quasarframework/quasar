@@ -77,9 +77,7 @@ module.exports = function (cfg, configName) {
     .merge(resolveModules)
 
   chain.module.noParse(
-    cfg.framework.all === true
-      ? /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar)$/
-      : /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras)$/
+    /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar)$/
   )
 
   const vueRule = chain.module.rule('vue')
@@ -108,22 +106,7 @@ module.exports = function (cfg, configName) {
         .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
   }
 
-  if (cfg.build.modern === true) {
-    if (cfg.build.transpileDependencies.length > 0) {
-      chain.module.rule('babel')
-        .test(/\.jsx?$/)
-        .include
-          .add(filepath => cfg.build.transpileDependencies.some(dep => filepath.match(dep)))
-          .end()
-        .use('babel-loader')
-          .loader('babel-loader')
-            .options({
-              compact: false,
-              extends: appPaths.resolve.app('babel.config.js')
-            })
-    }
-  }
-  else { // not modern
+  if (cfg.build.modern !== true) {
     chain.module.rule('babel')
       .test(/\.jsx?$/)
       .exclude
@@ -156,7 +139,7 @@ module.exports = function (cfg, configName) {
   if (cfg.supportTS !== false) {
     chain.resolve.extensions.add('.ts').add('.tsx')
 
-    const rule = chain.module
+    chain.module
       .rule('typescript')
       .test(/\.tsx?$/)
       .use('ts-loader')
@@ -164,7 +147,7 @@ module.exports = function (cfg, configName) {
         .options({
           // custom config is merged if present, but vue setup and type checking disable are always applied
           ...(cfg.supportTS.tsLoaderConfig || {}),
-          appendTsSuffixTo: [/\.vue$/],
+          appendTsSuffixTo: [ /\.vue$/ ],
           // Type checking is handled by fork-ts-checker-webpack-plugin
           transpileOnly: true
         })
