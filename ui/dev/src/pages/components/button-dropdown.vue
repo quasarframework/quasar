@@ -323,7 +323,7 @@
       </q-list>
     </q-btn-dropdown>
 
-    <q-btn-dropdown flat disable-rotate-dropdown-icon dropdown-icon="more_vert" style="margin: 15px">
+    <q-btn-dropdown color="primary" no-icon-animation dropdown-icon="more_vert" label="No icon animation" style="margin: 15px">
       <q-list>
         <q-item clickable v-for="n in 2" :key="`1.${n}`">
           <q-item-section avatar>

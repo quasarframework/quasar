@@ -35,10 +35,11 @@
       "category": "behavior"
     },
 
-    "disable-rotate-dropdown-icon": {
+    "no-icon-animation": {
       "type": "Boolean",
-      "desc": "Disables rotate dropdown icon",
-      "category": "style"
+      "desc": "Disables the rotation of the dropdown icon when state is toggled",
+      "category": "style",
+      "addedIn": "v1.12.0"
     },
 
     "content-style": {
