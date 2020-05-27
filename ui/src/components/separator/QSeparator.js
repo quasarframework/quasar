@@ -3,6 +3,12 @@ import Vue from 'vue'
 import DarkMixin from '../../mixins/dark.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
+const insetMap = {
+  true: 'inset',
+  item: 'item-inset',
+  'item-thumbnail': 'item-thumbnail-inset'
+}
+
 export default Vue.extend({
   name: 'QSeparator',
 
@@ -10,37 +16,48 @@ export default Vue.extend({
 
   props: {
     spaced: Boolean,
-    inset: [Boolean, String],
+    inset: [ Boolean, String ],
     vertical: Boolean,
-    color: String
+    color: String,
+    size: String
   },
 
   computed: {
+    meta () {
+      return this.vertical === true
+        ? 'vertical'
+        : 'horizontal'
+    },
+
+    classPrefix () {
+      return ` q-separator--${this.orientation}`
+    },
+
     insetClass () {
-      switch (this.inset) {
-        case true:
-          return ' q-separator--inset'
-        case 'item':
-          return ' q-separator--item-inset'
-        case 'item-thumbnail':
-          return ' q-separator--item-thumbnail-inset'
-        default:
-          return ''
-      }
+      return this.inset !== false
+        ? `${this.classPrefix}-${insetMap[this.inset]}`
+        : ''
     },
 
     classes () {
-      return 'q-separator' + this.insetClass +
-        ` q-separator--${this.vertical === true ? 'vertical self-stretch' : 'horizontal col-grow'}` +
+      return `q-separator${this.classPrefix}${this.insetClass}` +
+        (this.spaced === true ? `${this.classPrefix}-spaced` : '') +
         (this.color !== void 0 ? ` bg-${this.color}` : '') +
-        (this.isDark === true ? ' q-separator--dark' : '') +
-        (this.spaced === true ? ' q-separator--spaced' : '')
+        (this.isDark === true ? ' q-separator--dark' : '')
+    },
+
+    style () {
+      if (this.size !== void 0) {
+        return {
+          [ this.vertical === true ? 'width' : 'height' ]: this.size
+        }
+      }
     },
 
     attrs () {
       return {
         role: 'separator',
-        'aria-orientation': this.vertical === true ? 'vertical' : 'horizontal'
+        'aria-orientation': this.orientation
       }
     }
   },
@@ -49,6 +66,7 @@ export default Vue.extend({
     return h('hr', {
       staticClass: 'q-separator',
       class: this.classes,
+      style: this.style,
       attrs: this.attrs,
       on: { ...this.qListeners }
     })
