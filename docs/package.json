@@ -21,7 +21,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "/Users/Razvan/work/@quasar/app/",
+    "@quasar/app": "^1.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",

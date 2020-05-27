@@ -215,7 +215,15 @@ async function build () {
   let webpackData = parseWebpackConfig(webpackConfig, argv.mode)
 
   webpack(webpackData.configs, async (err, stats) => {
-    if (err) { throw err }
+    if (err) {
+      console.error(err.stack || err)
+
+      if (err.details) {
+        console.error(err.details)
+      }
+
+      process.exit(1)
+    }
 
     artifacts.add(outputFolder)
 
@@ -223,8 +231,18 @@ async function build () {
 
     statsArray.forEach(stat => {
       if (stat.hasErrors()) {
+        const info = stat.toJson()
+
         warn()
-        warn(chalk.red('[FAIL] Build failed with errors. Check log above.'))
+        warn(chalk.red('Error(s) encountered:'))
+        warn()
+
+        info.errors.forEach(err => {
+          console.error(err)
+        })
+
+        warn()
+        warn(chalk.red('[FAIL] Build failed with error(s). Check log above.'))
         warn()
 
         process.exit(1)

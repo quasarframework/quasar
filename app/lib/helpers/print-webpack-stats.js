@@ -4,6 +4,8 @@ const { gzipSync } = require('zlib')
 const { table } = require('table')
 const { bold, underline, green, blue, magenta } = require('chalk')
 
+const { warn } = require('./logger')
+
 const colorFn = {
   js: green,
   css: blue,
@@ -120,4 +122,21 @@ module.exports = (stats, outputFolder, name) => {
 
   console.log(` ${bold(green(name))} summary (only css/js/json - the rest are omitted):`)
   console.log(' ' + output.split('\n').join('\n '))
+
+  if (stats.hasWarnings()) {
+    const info = stats.toJson()
+
+    warn()
+    warn('Warning(s) encountered:')
+    warn()
+
+    info.warnings.forEach(err => {
+      console.warn(err)
+      warn()
+    })
+
+    warn()
+    warn('Build succeeded, but with warning(s). Check log above.')
+    warn()
+  }
 }
