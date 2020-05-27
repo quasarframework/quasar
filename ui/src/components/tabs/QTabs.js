@@ -86,7 +86,9 @@ export default Vue.extend({
     inlineLabel: Boolean,
     noCaps: Boolean,
 
-    dense: Boolean
+    dense: Boolean,
+    
+    contentClass: String
   },
 
   data () {
@@ -397,7 +399,7 @@ export default Vue.extend({
       h('div', {
         ref: 'content',
         staticClass: 'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar',
-        class: this.alignClass
+        class: [this.alignClass, this.contentClass].join(' ')
       }, slot(this, 'default'))
     ]
 
