@@ -120,15 +120,16 @@ module.exports = (stats, outputFolder, name) => {
     drawHorizontalLine: index => tableIndexDelimiters.includes(index)
   })
 
-  console.log(` ${bold(green(name))} summary (only css/js/json - the rest are omitted):`)
-  console.log(' ' + output.split('\n').join('\n '))
+  console.log(` ${bold(green(name))} summary for css/js/json (the rest are omitted):`)
+  console.log(' ' + output.replace(/\n/g, '\n '))
 
   if (stats.hasWarnings()) {
     const info = stats.toJson()
+    const warnNumber = info.warnings.length
+    const warnDetails = `${warnNumber} warning${warnNumber > 1 ? 's' : ''}`
 
     warn()
-    warn('Warning(s) encountered:')
-    warn()
+    warn(`${warnDetails} encountered:\n`)
 
     info.warnings.forEach(err => {
       console.warn(err)
@@ -136,7 +137,6 @@ module.exports = (stats, outputFolder, name) => {
     })
 
     warn()
-    warn('Build succeeded, but with warning(s). Check log above.')
-    warn()
+    warn(`Build succeeded, but with ${warnDetails}. Check log above.\n`)
   }
 }

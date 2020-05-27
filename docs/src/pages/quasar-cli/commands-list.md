@@ -106,6 +106,7 @@ $ quasar info
 ```
 
 ## Dev
+
 ```bash
 $ quasar dev -h
 
@@ -134,6 +135,7 @@ $ quasar dev -h
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
+    --modern         Build modern code (ES6+)
     --help, -h       Displays this message
 
     Only for Cordova mode:
@@ -187,6 +189,8 @@ $ quasar dev -m electron
 $ quasar dev -m ios -- some params --and options --here
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
+
+For using [modern build](/quasar-cli/modern-build) add `--modern` param.
 
 If you wish to change the hostname or port serving your App you have 3 options:
 * Edit '/quasar.conf.js':
@@ -250,6 +254,7 @@ $ quasar build -h
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
+    --modern        Build modern code (ES6+)
     --publish, -P   Also trigger publishing hooks (if any are specified)
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
@@ -312,6 +317,8 @@ $ quasar build -m ios -- some params --and options --here
 $ quasar build -d [-m <mode>]
 ```
 
+For using [modern build](/quasar-cli/modern-build) add `--modern` param.
+
 ## Clean
 Cleans up all the build assets:
 
@@ -320,7 +327,6 @@ $ quasar clean
 ```
 
 ## New
-
 Generates Components, Pages, Layouts, Vuex Store.
 
 ::: tip
@@ -398,6 +404,7 @@ These modes will add a "src-*" folder into your project with very specific code 
 | src-pwa | pwa | Contains the Service Worker file that you can tweak. |
 | src-cordova | cordova | Is a Cordova project folder that will be using your 'src' as content. Tweak Cordova config, add/remove platforms, splash screens, Cordova plugins and so on from this folder. Do NOT touch "src-cordova/www" folder though as it will get overwritten at every build. |
 | src-electron | electron | Has code for the main Electron thread. The renderer thread will be your app in 'src'. |
+| src-bex | bex | Contains the specific files for Browser Extensions mode. |
 
 If for some reason you decide you don't need a mode, you can remove it. **This will permanently delete** the respective "src-*" folder.
 
@@ -515,6 +522,7 @@ $ quasar inspect -h
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|electron] (default: spa)
+    --modern         Modern build
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:

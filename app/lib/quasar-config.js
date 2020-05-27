@@ -464,7 +464,7 @@ class QuasarConfig {
     }
 
     if (cfg.build.modern === true) {
-      log(underline('Generating MODERN js code (ES6+)'))
+      log(underline('Using MODERN build (ES6+)'))
       if (cfg.build.uglifyOptions.ecma === void 0) {
         cfg.build.uglifyOptions.ecma = 6
       }
