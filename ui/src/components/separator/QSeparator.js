@@ -23,7 +23,7 @@ export default Vue.extend({
   },
 
   computed: {
-    meta () {
+    orientation () {
       return this.vertical === true
         ? 'vertical'
         : 'horizontal'
