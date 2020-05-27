@@ -87,7 +87,7 @@ export default Vue.extend({
     noCaps: Boolean,
 
     dense: Boolean,
-    
+
     contentClass: String
   },
 
@@ -166,6 +166,10 @@ export default Vue.extend({
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
         (this.stretch === true ? ' self-stretch' : '')
+    },
+
+    innerClass () {
+      return this.alignClass + (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
     },
 
     domProps () {
@@ -399,7 +403,7 @@ export default Vue.extend({
       h('div', {
         ref: 'content',
         staticClass: 'q-tabs__content row no-wrap items-center self-stretch hide-scrollbar',
-        class: [this.alignClass, this.contentClass].join(' ')
+        class: this.innerClass
       }, slot(this, 'default'))
     ]
 

@@ -42,7 +42,7 @@ export default Vue.extend({
 
     tabindex: [String, Number],
     disable: Boolean,
-    
+
     contentClass: String
   },
 
@@ -61,6 +61,11 @@ export default Vue.extend({
         'q-focusable q-hoverable cursor-pointer': !this.disable,
         disabled: this.disable
       }
+    },
+
+    innerClass () {
+      return (this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column') +
+        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
     },
 
     computedTabIndex () {
@@ -153,7 +158,7 @@ export default Vue.extend({
 
         h('div', {
           staticClass: 'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable',
-          class: [this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column', this.contentClass].join(' ')
+          class: this.innerClass
         }, mergeSlot(content, this, 'default'))
       ]
 
