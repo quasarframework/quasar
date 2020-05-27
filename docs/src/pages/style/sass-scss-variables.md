@@ -4,7 +4,7 @@ desc: How to use the Sass/SCSS variables defined by Quasar.
 components:
   - style/SassVariables
 related:
-  - /quasar-cli/cli-documentation/css-preprocessors
+  - /quasar-cli/css-preprocessors
   - /style/stylus-variables
 ---
 
