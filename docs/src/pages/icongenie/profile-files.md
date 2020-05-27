@@ -3,7 +3,7 @@ title: Icon Genie Profile Files
 desc: How to use profile files with the Icon Genie CLI.
 ---
 
-If you need to automate the creation of all your app's icons and splashscreens, Icon Genie offers configuration files which can be run in batch.
+If you need to automate the creation of all your app's icons and splash screens, Icon Genie offers configuration files which can be run in batch.
 
 These configuration files are called "profile files". The files are in JSON format and tell Icon Genie which images to generate and how to generate them. They also spare you from having to remember the whole set of Icon Genie commands and parameters to generate your assets.
 
@@ -30,7 +30,7 @@ Full list of props that you can write for the `params` object:
 | --- | --- | --- | --- |
 | include | Array | Include Icon Genie hardcoded sets of assets for specific Quasar modes | `[ "spa", "pwa" ]` / `[ "all" ]` |
 | icon | String | Path to source file for icon; can be absolute or relative to the root of the Quasar project folder | `my-icon.png` |
-| background | String | Path to optional background source file (for splashscreens); can be absolute or relative to the root of the Quasar project folder | `my-bg.png` |
+| background | String | Path to optional background source file (for splash screens); can be absolute or relative to the root of the Quasar project folder | `my-bg.png` |
 | filter | String | Optionally filter the assets by generators; when used, it can generate only one type of asset instead of all | `ico` |
 | quality | Number [1-12] | Quality of the generated files; higher quality means bigger filesize, slower; lower quality means smaller filesize, faster | `12` |
 | padding | Array [Number] | (v2.1+) Apply fixed padding to the icon image after trimming it; Syntax: [ <horiz_px>, <vert_px> ]; Default is: [0, 0] | `[10, 0]` / `[5,5]` |

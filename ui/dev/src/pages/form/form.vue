@@ -40,6 +40,8 @@
           <input v-model="native" :autofocus="autofocusEl === 0">
         </div>
 
+        <my-comp />
+
         <q-select
           ref="title"
           name="title"
@@ -188,6 +190,31 @@ export default {
             control: () => this.value
           }
         })
+      }
+    },
+
+    myComp: {
+      render (h) {
+        return h('div', {
+          staticClass: 'q-validation-component'
+        }, [
+          h('q-card', {
+            staticClass: 'text-subtitle2',
+            props: {
+              bordered: true,
+              flat: true
+            }
+          }, [
+            h('q-card-section', [ 'a custom component' ])
+          ])
+        ])
+      },
+
+      methods: {
+        validate () {
+          console.log('called my-comp.validate()')
+          return true
+        }
       }
     }
   },

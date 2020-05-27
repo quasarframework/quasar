@@ -4,7 +4,7 @@ const fse = require('fs-extra')
 
 const appPaths = require('./app-paths')
 const filePath = appPaths.resolve.app('.quasar/artifacts.json')
-const log = require('./helpers/logger')('app:artifacts')
+const { log } = require('./helpers/logger')
 
 function exists () {
   return fs.existsSync(filePath)

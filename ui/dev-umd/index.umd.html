@@ -29,6 +29,7 @@
         <q-drawer
           v-model="drawerState"
           bordered
+          show-if-above
           content-class="bg-grey-2"
         >
           <q-list>
@@ -139,7 +140,7 @@
           return {
             version: Quasar.version,
             stars: 5,
-            drawerState: true
+            drawerState: false
           }
         },
         methods: {

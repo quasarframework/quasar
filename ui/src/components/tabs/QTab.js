@@ -41,7 +41,9 @@ export default Vue.extend({
     noCaps: Boolean,
 
     tabindex: [String, Number],
-    disable: Boolean
+    disable: Boolean,
+
+    contentClass: String
   },
 
   computed: {
@@ -59,6 +61,11 @@ export default Vue.extend({
         'q-focusable q-hoverable cursor-pointer': !this.disable,
         disabled: this.disable
       }
+    },
+
+    innerClass () {
+      return (this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column') +
+        (this.contentClass !== void 0 ? ` ${this.contentClass}` : '')
     },
 
     computedTabIndex () {
@@ -151,7 +158,7 @@ export default Vue.extend({
 
         h('div', {
           staticClass: 'q-tab__content self-stretch flex-center relative-position q-anchor--skip non-selectable',
-          class: this.tabs.inlineLabel === true ? 'row no-wrap q-tab__content--inline' : 'column'
+          class: this.innerClass
         }, mergeSlot(content, this, 'default'))
       ]
 

@@ -1,12 +1,8 @@
 const fs = require('fs')
-const fse = require('fs-extra')
 const path = require('path')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const log = logger('app:capacitor-conf')
-const warn = logger('app:capacitor-conf', 'red')
-
+const { log, warn } = require('../helpers/logger')
 const ensureConsistency = require('../capacitor/ensure-consistency')
 
 class CapacitorConfig {

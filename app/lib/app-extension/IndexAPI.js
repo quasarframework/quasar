@@ -2,8 +2,7 @@ const semver = require('semver')
 const merge = require('webpack-merge')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const warn = logger('app:extension(index)', 'red')
+const { fatal } = require('../helpers/logger')
 const getPackageJson = require('../helpers/get-package-json')
 const getCallerPath = require('../helpers/get-caller-path')
 const extensionJson = require('./extension-json')
@@ -87,13 +86,11 @@ module.exports = class IndexAPI {
     const json = getPackageJson(packageName)
 
     if (json === void 0) {
-      warn(`⚠️  Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`)
-      process.exit(1)
+      fatal(`Extension(${this.extId}): Dependency not found - ${packageName}. Please install it.`)
     }
 
     if (!semver.satisfies(json.version, semverCondition)) {
-      warn(`⚠️  Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
-      process.exit(1)
+      fatal(`Extension(${this.extId}): is not compatible with ${packageName} v${json.version}. Required version: ${semverCondition}`)
     }
   }
 

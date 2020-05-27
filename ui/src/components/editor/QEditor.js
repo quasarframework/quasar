@@ -239,6 +239,16 @@ export default Vue.extend({
         ]
     },
 
+    classes () {
+      return `q-editor q-editor--${this.isViewingSource === true ? 'source' : 'default'}` +
+        (this.disable === true ? ' disabled' : '') +
+        (this.inFullscreen === true ? ' fullscreen column' : '') +
+        (this.square === true ? ' q-editor--square no-border-radius' : '') +
+        (this.flat === true ? ' q-editor--flat' : '') +
+        (this.dense === true ? ' q-editor--dense' : '') +
+        (this.isDark === true ? ' q-editor--dark q-dark' : '')
+    },
+
     innerClass () {
       return [
         this.contentClass,
@@ -447,44 +457,32 @@ export default Vue.extend({
       touchend: this.__onTouchend
     }
 
-    return h(
-      'div',
-      {
-        staticClass: 'q-editor',
-        style: {
-          height: this.inFullscreen === true ? '100vh' : null
-        },
-        'class': {
-          disabled: this.disable,
-          'fullscreen column': this.inFullscreen,
-          'q-editor--square no-border-radius': this.square,
-          'q-editor--flat': this.flat,
-          'q-editor--dense': this.dense,
-          'q-editor--dark q-dark': this.isDark
-        },
-        attrs: this.attrs
+    return h('div', {
+      style: {
+        height: this.inFullscreen === true ? '100vh' : null
       },
-      [
-        toolbars,
+      class: this.classes,
+      attrs: this.attrs
+    }, [
+      toolbars,
 
-        h(
-          'div',
-          {
-            ref: 'content',
-            staticClass: `q-editor__content`,
-            style: this.innerStyle,
-            class: this.innerClass,
-            attrs: {
-              contenteditable: this.editable,
-              placeholder: this.placeholder
-            },
-            domProps: isSSR
-              ? { innerHTML: this.value }
-              : undefined,
-            on
-          }
-        )
-      ]
-    )
+      h(
+        'div',
+        {
+          ref: 'content',
+          staticClass: `q-editor__content`,
+          style: this.innerStyle,
+          class: this.innerClass,
+          attrs: {
+            contenteditable: this.editable,
+            placeholder: this.placeholder
+          },
+          domProps: isSSR
+            ? { innerHTML: this.value }
+            : undefined,
+          on
+        }
+      )
+    ])
   }
 })
