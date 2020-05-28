@@ -23,6 +23,7 @@ module.exports = function (ctx) {
     // preFetch: true,
 
     build: {
+      modern: true,
       scopeHoisting: true,
       vueRouterMode: 'history',
       showProgress: ctx.dev,
