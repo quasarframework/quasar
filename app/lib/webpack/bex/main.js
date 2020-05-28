@@ -1,13 +1,9 @@
 const path = require('path')
 
 const appPaths = require('../../app-paths')
-const createChain = require('../create-chain')
 
-module.exports = function (cfg, configName) {
-  const
-    // use the main chain as there's no point duplicating code
-    chain = createChain(cfg, configName),
-    outputPath = path.join(cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir, 'www')
+module.exports = function (chain, cfg) {
+  const outputPath = path.join(cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir, 'www')
 
   // Reset some bits we don't need following the default createChain() call.
   // We only want the entry points we're adding in this file so remove all others.

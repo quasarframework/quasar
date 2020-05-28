@@ -23,6 +23,7 @@ module.exports = function (ctx) {
     // preFetch: true,
 
     build: {
+      modern: true,
       scopeHoisting: true,
       vueRouterMode: 'history',
       showProgress: ctx.dev,
@@ -81,7 +82,7 @@ module.exports = function (ctx) {
 
     framework: {
       all: true,
-      iconSet: 'svg-mdi-v4',
+      iconSet: 'svg-mdi-v5',
 
       config: {
         loadingBar: {

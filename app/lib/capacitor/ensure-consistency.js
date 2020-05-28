@@ -4,10 +4,7 @@ const fse = require('fs-extra')
 const nodePackager = require('../helpers/node-packager')
 const { spawnSync } = require('../helpers/spawn')
 const appPaths = require('../app-paths')
-
-const logger = require('../helpers/logger')
-const log = logger('app:ensure-consistency')
-const warn = logger('app:ensure-consistency', 'red')
+const { log, warn } = require('../helpers/logger')
 
 function ensureWWW (forced) {
   const www = appPaths.resolve.capacitor('www')
@@ -36,7 +33,7 @@ function ensureDeps () {
     nodePackager,
     cmdParam,
     { cwd: appPaths.capacitorDir, env: { ...process.env, NODE_ENV: 'development' } },
-    () => warn(`⚠️  [FAIL] failed installing dependencies in /src-capacitor`)
+    () => warn(`[FAIL] failed installing dependencies in /src-capacitor`)
   )
 }
 

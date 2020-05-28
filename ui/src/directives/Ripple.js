@@ -1,6 +1,5 @@
 import { css } from '../utils/dom.js'
-import { position, stop } from '../utils/event.js'
-import { addEvt, cleanEvt } from '../utils/touch.js'
+import { position, stop, addEvt, cleanEvt } from '../utils/event.js'
 import { isKeyCode } from '../utils/key-composition.js'
 import { client } from '../plugins/Platform.js'
 import throttle from '../utils/throttle.js'

@@ -24,7 +24,7 @@ export default {
   install ($q, queues, lang) {
     const initialLang = lang || langEn
 
-    this.set = (langObject, ssrContext) => {
+    this.set = (langObject = langEn, ssrContext) => {
       const lang = {
         ...langObject,
         rtl: langObject.rtl === true,

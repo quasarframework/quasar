@@ -159,7 +159,7 @@ import {
   mdiViewDashboard, mdiShoppingMusic, mdiClipboardText,
   mdiBugCheck, mdiFlare, mdiFilePlus, mdiPaletteSwatch,
   mdiInvertColors, mdiCharity, mdiStarCircle
-} from '@quasar/extras/mdi-v4'
+} from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'HeaderMenu',

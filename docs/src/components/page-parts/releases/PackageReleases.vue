@@ -20,7 +20,7 @@ q-splitter.release__splitter(:value="20" :limits="[14, 90]")
 import sanitize from './sanitize'
 import parseMdTable from './md-table-parser'
 
-import { mdiMagnify } from '@quasar/extras/mdi-v4'
+import { mdiMagnify } from '@quasar/extras/mdi-v5'
 
 export default {
   created () {

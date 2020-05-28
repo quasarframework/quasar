@@ -1,9 +1,8 @@
 const { ProgressPlugin } = require('webpack')
 const throttle = require('lodash.throttle')
 const chalk = require('chalk')
-const log = require('../helpers/logger')('app:progress')
+const { log } = require('../helpers/logger')
 const logUpdate = require('log-update')
-const ms = require('ms')
 
 const isMinimalTerminal = require('../helpers/is-minimal-terminal')
 const logLine = isMinimalTerminal
@@ -111,7 +110,7 @@ module.exports = class WebpackProgress extends ProgressPlugin {
     }
     else if (wasRunning && !running) {
       const diff = +new Date() - this.state.startTime
-      this.state.doneStamp = `done in ~${ms(diff)}`
+      this.state.doneStamp = `done in ${diff} ms`
 
       if (isMinimalTerminal) {
         log(`Compiled ${this.state.name} ${this.state.doneStamp}`)

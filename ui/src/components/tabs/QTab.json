@@ -57,6 +57,14 @@
       "category": "content"
     },
 
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content wrapper",
+      "examples": [ "my-special-class" ],
+      "category": "style",
+      "addedIn": "v1.12.0"
+    },
+
     "tabindex": {
       "extends": "tabindex"
     },

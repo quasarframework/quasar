@@ -1,19 +1,19 @@
-const ms = require('ms')
-const chalk = require('chalk')
+const { green, red } = require('chalk')
 
-let prevTime
+const banner = 'App ·'
 
-module.exports = function (banner, color = 'green') {
-  return function (msg) {
-    const curr = Date.now()
-    const diff = curr - (prevTime || curr)
+const logBanner = green(banner)
+const warnBanner = red(banner)
 
-    prevTime = curr
+module.exports.log = function (msg) {
+  console.log(msg ? ` ${logBanner} ${msg}` : '')
+}
 
-    console.log(
-      msg
-        ? ` ${chalk[color](banner)} ${msg} ${chalk.gray(`+${ms(diff)}`)}`
-        : ''
-    )
-  }
+module.exports.warn = function (msg) {
+  console.warn(msg ? ` ${warnBanner} ⚠️  ${msg}` : '')
+}
+
+module.exports.fatal = function (msg) {
+  console.error(msg ? ` ${warnBanner} ⚠️  ${msg}` : '')
+  process.exit(1)
 }

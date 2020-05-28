@@ -4,7 +4,7 @@ desc: How to use the Stylus variables defined by Quasar.
 components:
   - style/StylusVariables
 related:
-  - /quasar-cli/cli-documentation/css-preprocessors
+  - /quasar-cli/css-preprocessors
   - /style/sass-scss-variables
 ---
 

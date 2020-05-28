@@ -350,9 +350,9 @@ export default Vue.extend({
       }
 
       if (this.$q.platform.is.mobile === true) {
-        on.focus = ev => {
-          // should not blur when the dialog is closing
-          this.dialog === true && ev.target.blur()
+        on.focus = () => {
+          // prevent keyboard from popping out
+          document.activeElement && document.activeElement.blur()
         }
       }
 
@@ -370,14 +370,13 @@ export default Vue.extend({
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetKeyup,
         keypress: this.__onTargetKeypress,
-        focus: this.__selectInputText
+        focus: this.__selectInputText,
+        click: e => {
+          this.hasDialog === true && stop(e)
+        }
       }
 
       on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
-
-      if (this.hasDialog === true) {
-        on.click = stop
-      }
 
       return on
     }
@@ -451,8 +450,6 @@ export default Vue.extend({
       const optValue = this.getOptionValue(opt)
 
       if (this.multiple !== true) {
-        this.$refs.target !== void 0 && this.$refs.target.focus()
-
         if (keepOpen !== true) {
           this.updateInputValue(
             this.fillInput === true ? this.getOptionLabel(opt) : '',
@@ -462,6 +459,9 @@ export default Vue.extend({
 
           this.hidePopup()
         }
+
+        const el = this.$refs.control || this.$refs.target
+        el !== void 0 && el.focus()
 
         if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)

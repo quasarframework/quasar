@@ -3,6 +3,8 @@
     "docsUrl": "https://v1.quasar.dev/vue-directives/intersection"
   },
 
+  "addedIn": "v1.3.0",
+
   "value": {
     "type": [ "Object", "Function" ],
     "desc": "Function to call when scrolling occurs (identical to description of 'handler' prop of the Object form); If using the Object form, it is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",

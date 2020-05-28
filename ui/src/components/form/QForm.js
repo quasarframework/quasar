@@ -154,7 +154,7 @@ export default Vue.extend({
 
     getValidationComponents () {
       return Array.prototype.map.call(
-        this.$el.getElementsByClassName('q-field'),
+        this.$el.getElementsByClassName('q-validation-component'),
         field => field.__vue__
       ).filter(c => c !== void 0 && typeof c.validate === 'function')
     }

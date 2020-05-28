@@ -10,7 +10,7 @@ module.exports = function (chain, cfg) {
   let defaultOptions
   const WorkboxPlugin = require('workbox-webpack-plugin')
   const pluginMode = cfg.pwa.workboxPluginMode
-  const log = require('../../helpers/logger')('app:workbox')
+  const { log } = require('../../helpers/logger')
 
   if (pluginMode === 'GenerateSW') {
     const pkg = require(appPaths.resolve.app('package.json'))

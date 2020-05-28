@@ -31,7 +31,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | MDI v4 (Material Design Icons) | 4.9.95 | `mdi-v4` | Extended Material Design icons font | | [License](mdi-v4/license.md) |
 | MDI v3 (Material Design Icons) | 3.6.95 | `mdi-v3` | Extended Material Design icons font | | [License](mdi-v3/LICENSE) |
 | [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.13.0 | `fontawesome-v5` | Fontawesome icons font | | [License](fontawesome-v5/LICENSE.txt) |
-| [Ionicons](http://ionicons.com/) | 4.6.3 | `ionicons-v4` | Ionicons font | | [License](ionicons-v4/LICENSE) |
+| [Ionicons](https://ionicons.com/v4) | 4.6.3 | `ionicons-v4` | Ionicons font | | [License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `eva-icons` | Eva Icons font | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `themify` | Themify Icons font | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `line-awesome` | Line Awesome font | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
@@ -52,8 +52,8 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [MDI v5](https://materialdesignicons.com/) (Material Design Icons) | 5.1.45 | `svg-mdi-v5` | `@quasar/extras/mdi-v5` | The Quasar Icon Set is requires Quasar 1.9.9+ | [License](mdi-v5/license.md) |
 | MDI v4 (Material Design Icons) | 4.9.95 | `svg-mdi-v4` | `@quasar/extras/mdi-v4` | | [License](mdi-v4/license.md) |
 | [Font Awesome](https://fontawesome.com/icons?d=gallery) | 5.13.0 | `svg-fontawesome-v5` | `@quasar/extras/fontawesome-v5` | | [License](fontawesome-v5/LICENSE.txt) |
-| [Ionicons v5](http://ionicons.com/) | 5.0.1 | `svg-ionicons-v5` | `@quasar/extras/ionicons-v5` | Requires: @quasar/extras 1.7+; The Quasar Icon Set requires Quasar v1.11+ | [Icon License](ionicons-v5/LICENSE) |
-| Ionicons v4 | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | | [Icon License](ionicons-v4/LICENSE) |
+| [Ionicons v5](https://ionicons.com/) | 5.0.1 | `svg-ionicons-v5` | `@quasar/extras/ionicons-v5` | Requires: @quasar/extras 1.7+; The Quasar Icon Set requires Quasar v1.11+ | [Icon License](ionicons-v5/LICENSE) |
+| [Ionicons v4](https://ionicons.com/v4/) | 4.6.3 | `svg-ionicons-v4` | `@quasar/extras/ionicons-v4` | | [Icon License](ionicons-v4/LICENSE) |
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `svg-themify` | `@quasar/extras/themify` | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `svg-line-awesome` | `@quasar/extras/line-awesome` | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |

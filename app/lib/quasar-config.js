@@ -3,11 +3,10 @@ const fs = require('fs')
 const merge = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
+const { underline } = require('chalk')
 
 const appPaths = require('./app-paths')
-const logger = require('./helpers/logger')
-const log = logger('app:quasar-conf')
-const warn = logger('app:quasar-conf', 'red')
+const { log, warn, fatal } = require('./helpers/logger')
 const appFilesValidations = require('./app-files-validations')
 const extensionRunner = require('./app-extension/extensions-runner')
 const supportIE = require('./helpers/support-ie')
@@ -123,9 +122,8 @@ class QuasarConfig {
         }
         catch (e) {
           if (e.message !== 'NETWORK_ERROR') {
-            console.log(e)
-            warn(`⚠️  quasar.conf.js has JS errors. Please fix them then save file again.`)
-            warn()
+            console.error(e)
+            warn(`quasar.conf.js has JS errors. Please fix them then save file again.\n`)
           }
 
           return
@@ -161,7 +159,7 @@ class QuasarConfig {
             opts.onBuildChange()
           }
           else {
-            warn(`⚠️  [FAIL] Please fix the error then save the file so we can continue.`)
+            warn(`[FAIL] Please fix the error then save the file so we can continue.`)
           }
         }, 1000))
       }
@@ -306,8 +304,7 @@ class QuasarConfig {
       this.quasarConfigFunction = require(this.filename)
     }
     else {
-      warn(`⚠️  [FAIL] Could not load quasar.conf.js config file`)
-      process.exit(1)
+      fatal(`[FAIL] Could not load quasar.conf.js config file`)
     }
   }
 
@@ -389,6 +386,7 @@ class QuasarConfig {
     cfg.framework.plugins = cfg.framework.plugins.filter(uniqueFilter)
 
     cfg.build = merge({
+      modern: false,
       transformAssetUrls: Object.assign({
         video: ['src', 'poster'],
         source: 'src',
@@ -461,6 +459,28 @@ class QuasarConfig {
       }
     }, cfg.build)
 
+    if (this.opts.modern === true) {
+      cfg.build.modern = true
+    }
+
+    if (cfg.build.modern === true) {
+      log(underline('Using MODERN build (ES6+)'))
+      if (cfg.build.uglifyOptions.ecma === void 0) {
+        cfg.build.uglifyOptions.ecma = 6
+      }
+
+      // force disable IE11 support
+      if (cfg.supportIE === true) {
+        console.log()
+        warn(`IE11 support is requested but it was disabled because build mode is set to modern.`)
+        console.log()
+        cfg.supportIE = false
+      }
+    }
+    else {
+      log(underline('Generating legacy js code (ES5); use "--modern" param for ES6+'))
+    }
+
     cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
 
     cfg.__loadingBar = cfg.framework.all === true || cfg.framework.plugins.includes('LoadingBar')
@@ -473,8 +493,10 @@ class QuasarConfig {
       })
     }
     if (this.ctx.dev) {
-      cfg.build.extractCSS = false
-      cfg.build.preloadChunks = false
+      Object.assign(cfg.build, {
+        extractCSS: false,
+        preloadChunks: false
+      })
     }
     if (this.ctx.debug) {
       cfg.build.sourceMap = true
@@ -596,7 +618,10 @@ class QuasarConfig {
         inline: true,
         overlay: true,
         quiet: true,
-        historyApiFallback: !this.ctx.mode.ssr,
+        historyApiFallback: this.ctx.mode.ssr !== true
+          ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
+          : false,
+        index: cfg.build.htmlFilename,
         noInfo: true,
         disableHostCheck: true,
         compress: true,

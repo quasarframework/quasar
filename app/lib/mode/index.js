@@ -1,9 +1,8 @@
-const warn = require('../helpers/logger')('app:quasar-mode', 'red')
+const { fatal } = require('../helpers/logger')
 
 module.exports = function (mode) {
   if (!['pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex'].includes(mode)) {
-    warn(`⚠️  Unknown mode specified: ${mode}`)
-    process.exit(1)
+    fatal(`Unknown mode specified: ${mode}`)
   }
 
   const QuasarMode = require(`./mode-${mode}`)

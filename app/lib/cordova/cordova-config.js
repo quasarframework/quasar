@@ -2,9 +2,7 @@ const fs = require('fs')
 const et = require('elementtree')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const log = logger('app:cordova-conf')
-const warn = logger('app:cordova-conf', 'red')
+const { log, warn } = require('../helpers/logger')
 const ensureConsistency = require('../cordova/ensure-consistency')
 
 const filePath = appPaths.resolve.cordova('config.xml')

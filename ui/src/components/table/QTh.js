@@ -65,7 +65,7 @@ export default Vue.extend({
 
     return h('th', {
       on: { ...on, ...evt },
-      style: col.__thStyle,
+      style: col.headerStyle,
       class: col.__thClass +
         (this.autoWidth === true ? ' q-table--col-auto-width' : '')
     }, child)

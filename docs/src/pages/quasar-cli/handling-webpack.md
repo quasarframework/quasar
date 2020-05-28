@@ -19,10 +19,7 @@ build: {
       enforce: 'pre',
       test: /\.(js|vue)$/,
       loader: 'eslint-loader',
-      exclude: /(node_modules|quasar)/,
-      options: {
-        formatter: require('eslint').CLIEngine.getFormatter('stylish')
-      }
+      exclude: /(node_modules|quasar)/
     })
   }
 }
@@ -128,6 +125,7 @@ $ quasar inspect -h
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
+    --modern         Modern build
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
@@ -234,28 +232,6 @@ build: {
 ```
 
 And you're done.
-
-### SASS/SCSS
-So you want to be able to write SASS/SCSS CSS code. You need a loader for it. We first install it. Note that for this particular case you also need to install node-sass because sass-loader depends on it as a peer dependency.
-
-``` bash
-$ yarn add --dev sass-loader node-sass
-```
-
-And you're done. For SCSS/SASS it's all it takes. You don't need to further configure `/quasar.conf.js`.
-
-Once installed, you can use this pre-processor inside your `*.vue` components using the lang attribute on `<style>` tags:
-
-``` html
-<style lang="scss">
-/* We can write SASS now! */
-</style>
-```
-
-A note on SASS syntax:
-
-* lang="scss" corresponds to the CSS-superset syntax (with curly braces and semicolons).
-* lang="sass" corresponds to the indentation-based syntax.
 
 ### PostCSS
 

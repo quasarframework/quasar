@@ -116,7 +116,7 @@ import {
 
 import {
   mdiArrowLeft, mdiMagnify, mdiMenu, mdiMapMarkerRadius
-} from '@quasar/extras/mdi-v4'
+} from '@quasar/extras/mdi-v5'
 
 const { setBrand, luminosity } = colors
 

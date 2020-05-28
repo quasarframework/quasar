@@ -12,13 +12,9 @@ function getAppDir () {
     dir = normalize(join(dir, '..'))
   }
 
-  const
-    logger = require('./helpers/logger')
-    warn = logger('app:paths', 'red')
+  const { fatal } = require('./helpers/logger')
 
-  warn(`⚠️  Error. This command must be executed inside a Quasar v1+ project folder.`)
-  warn()
-  process.exit(1)
+  fatal(`Error. This command must be executed inside a Quasar v1+ project folder.\n`)
 }
 
 const appDir = getAppDir()

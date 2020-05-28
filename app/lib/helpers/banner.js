@@ -22,9 +22,7 @@ module.exports = function (argv, cmd, details) {
   let banner = ''
 
   if (details) {
-    banner += `
- ${underline('Build succeeded')}
-`
+    banner += ` ${underline('Build succeeded')}\n`
   }
 
   banner += `
@@ -46,6 +44,7 @@ module.exports = function (argv, cmd, details) {
   }
 
   if (details) {
+    banner += `\n Modern build...... ${details.modern === true ? green('yes (ES6+)') : 'no (legacy ES5); use "--modern" param for ES6+'}`
     if (argv['skip-pkg'] !== true) {
       banner += `
  ==================
@@ -105,11 +104,12 @@ module.exports = function (argv, cmd, details) {
   console.log(banner + '\n')
 }
 
-module.exports.devCompilationSuccess = function (ctx, url, appDir) {
+module.exports.devCompilationSuccess = function (ctx, url, appDir, modern) {
   return `App dir........... ${green(appDir)}
     App URL........... ${green(url)}
     Dev mode.......... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}
     Pkg quasar........ ${green('v' + quasarVersion)}
     Pkg @quasar/app... ${green('v' + cliAppVersion)}
+    Modern build...... ${modern === true ? green('yes (ES6+)') : 'no (legacy ES5); use "--modern" param for ES6+'}
   `
 }

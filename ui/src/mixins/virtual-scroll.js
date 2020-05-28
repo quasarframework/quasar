@@ -54,12 +54,16 @@ function getScrollDetails (
 
   if (beforeRef !== void 0) {
     for (let el = beforeRef.previousElementSibling; el !== null; el = el.previousElementSibling) {
-      details.offsetStart += el[propElSize]
+      if (el.classList.contains('q-virtual-scroll--skip') === false) {
+        details.offsetStart += el[propElSize]
+      }
     }
   }
   if (afterRef !== void 0) {
     for (let el = afterRef.nextElementSibling; el !== null; el = el.nextElementSibling) {
-      details.offsetEnd += el[propElSize]
+      if (el.classList.contains('q-virtual-scroll--skip') === false) {
+        details.offsetEnd += el[propElSize]
+      }
     }
   }
 

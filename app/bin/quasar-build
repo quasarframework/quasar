@@ -18,7 +18,7 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     P: 'publish'
   },
-  boolean: ['h', 'd', 'u', 'i'],
+  boolean: ['h', 'd', 'u', 'i', 'modern'],
   string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
@@ -57,6 +57,7 @@ if (argv.help) {
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
+    --modern        Build modern code (ES6+)
     --publish, -P   Also trigger publishing hooks (if any are specified)
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
@@ -99,12 +100,9 @@ if (argv.mode !== 'spa') {
   installMissing(argv.mode, argv.target)
 }
 
+const { log, warn, fatal } = require('../lib/helpers/logger')
+
 const chalk = require('chalk')
-
-const logger = require('../lib/helpers/logger')
-const log = logger('app:build')
-const warn = logger('app:build', 'red')
-
 const path = require('path')
 const webpack = require('webpack')
 
@@ -115,14 +113,35 @@ const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
 const extensionRunner = require('../lib/app-extension/extensions-runner')
 const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
 
-function parseWebpackConfig (webpackConfig, mode) {
+function splitConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
-    return [ webpackConfig.server, webpackConfig.client, webpackConfig.webserver ]
+    return [
+      { webpack: webpackConfig.server, name: 'Server' },
+      { webpack: webpackConfig.client, name: 'Client' },
+      { webpack: webpackConfig.webserver, name: 'Webserver' }
+    ]
   }
+
   if (['electron', 'bex'].includes(mode)) {
-    return [ webpackConfig.renderer, webpackConfig.main ]
+    return [
+      { webpack: webpackConfig.renderer, name: 'Renderer process' },
+      { webpack: webpackConfig.main, name: 'Main process' }
+    ]
   }
-  return webpackConfig
+
+  return [
+    { webpack: webpackConfig, name: 'Build' }
+  ]
+}
+
+function parseWebpackConfig (cfg, mode) {
+  const data = splitConfig(cfg, mode)
+
+  return {
+    configs: data.map(d => d.webpack),
+    name: data.map(d => d.name),
+    folder: data.map(d => d.webpack.output.path)
+  }
 }
 
 function finalizeBuild (mode, ctx, quasarConfig) {
@@ -157,15 +176,14 @@ async function build () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx, { argv })
+  const quasarConfig = new QuasarConfig(ctx, argv)
 
   try {
     await quasarConfig.prepare()
   }
   catch (e) {
     console.log(e)
-    warn(`⚠️  [FAIL] quasar.conf.js has JS errors`)
-    process.exit(1)
+    fatal(`[FAIL] quasar.conf.js has JS errors`)
   }
 
   await quasarConfig.compile()
@@ -192,46 +210,61 @@ async function build () {
     await hook.fn(hook.api, { quasarConf: buildConfig })
   })
 
-  log(chalk.bold(`Building...`))
+  log(`Compiling with Webpack...`)
 
-  webpack(parseWebpackConfig(webpackConfig, argv.mode), async (err, stats) => {
-    if (err) { throw err }
+  let webpackData = parseWebpackConfig(webpackConfig, argv.mode)
+
+  webpack(webpackData.configs, async (err, stats) => {
+    if (err) {
+      console.error(err.stack || err)
+
+      if (err.details) {
+        console.error(err.details)
+      }
+
+      process.exit(1)
+    }
 
     artifacts.add(outputFolder)
 
     statsArray = stats.stats || [ stats ]
-    statsArray.forEach(stat => {
-      process.stdout.write('\n\n' + stat.toString({
-        colors: true,
-        performance: false,
-        hash: false,
-        assets: true,
-        chunks: false,
-        chunkModules: false,
-        chunkOrigins: false,
-        modules: false,
-        nestedModules: false,
-        moduleAssets: false,
-        children: false
-      }) + '\n\n')
-    })
 
     statsArray.forEach(stat => {
       if (stat.hasErrors()) {
+        const info = stat.toJson()
+        const errNumber = info.errors.length
+        const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
+
         warn()
-        warn(chalk.red('[FAIL] Build failed with errors. Check log above.'))
+        warn(chalk.red(`${errDetails} encountered:\n`))
+
+        info.errors.forEach(err => {
+          console.error(err)
+        })
+
         warn()
+        warn(chalk.red(`[FAIL] Build failed with ${errDetails}. Check log above.\n`))
 
         process.exit(1)
       }
     })
+
+    const printWebpackStats = require('../lib/helpers/print-webpack-stats')
+
+    console.log()
+    statsArray.forEach((stats, index) => {
+      printWebpackStats(stats, webpackData.folder[index], webpackData.name[index])
+    })
+
+    // free up memory
+    webpackData = void 0
 
     finalizeBuild(argv.mode, ctx, quasarConfig).then(async () => {
       outputFolder = argv.mode === 'cordova'
         ? path.join(outputFolder, '..')
         : outputFolder
 
-      banner(argv, 'build', { outputFolder })
+      banner(argv, 'build', { outputFolder, modern: buildConfig.build.modern })
 
       if (typeof buildConfig.build.afterBuild === 'function') {
         await buildConfig.build.afterBuild({ quasarConf: buildConfig })
