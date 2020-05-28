@@ -22,6 +22,7 @@
     q-separator
 
     q-card-section.q-gutter-xs
+      q-toggle(v-model="modern" label="Modern (ES6+)")
       q-toggle(v-model="cfgObject" label="Quasar Configure Object")
       q-toggle(v-model="minified" label="Minified files")
       q-toggle(v-model="rtl" label="RTL CSS support")
@@ -105,6 +106,7 @@ export default {
         animate: false
       },
 
+      modern: false,
       minified: true,
       rtl: false,
       ie: false,
@@ -219,7 +221,7 @@ export default {
     body () {
       const js = [
         'cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js',
-        `cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.umd.min.js`
+        `cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.umd.${this.modern === true ? 'modern.' : ''}min.js`
       ]
 
       if (this.ie === true) {
