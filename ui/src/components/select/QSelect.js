@@ -343,20 +343,11 @@ export default Vue.extend({
     },
 
     autocompleteControlEvents () {
-      const on = {
+      return {
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetAutocomplete,
         keypress: this.__onTargetKeypress
       }
-
-      if (this.$q.platform.is.mobile === true) {
-        on.focus = () => {
-          // prevent keyboard from popping out
-          document.activeElement && document.activeElement.blur()
-        }
-      }
-
-      return on
     },
 
     inputControlEvents () {
@@ -859,22 +850,24 @@ export default Vue.extend({
         child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
-        const options = {
-          staticClass: 'q-select__autocomplete-input no-outline',
-          attrs: {
-            autocomplete: this.qAttrs.autocomplete,
-            tabindex: this.tabindex
-          },
-          on: this.autocompleteControlEvents
-        }
+        isTarget === true && child.push(
+          h('div', {
+            // there can be only one (when dialog is opened the control in dialog should be target)
+            ref: 'target',
+            attrs: {
+              id: this.targetUid,
+              tabindex: this.tabindex
+            }
+          })
+        )
 
-        if (isTarget === true) {
-          // there can be only one (when dialog is opened the control in dialog should be target)
-          options.ref = 'target'
-          options.attrs.id = this.targetUid
-        }
-
-        child.push(h('input', options))
+        child.push(
+          h('input', {
+            staticClass: 'q-select__autocomplete-input no-outline',
+            attrs: { autocomplete: this.qAttrs.autocomplete },
+            on: this.autocompleteControlEvents
+          })
+        )
       }
 
       if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
