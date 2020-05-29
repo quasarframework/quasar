@@ -342,14 +342,6 @@ export default Vue.extend({
       return this.__getPropValueFn('optionDisable', 'disable')
     },
 
-    autocompleteControlEvents () {
-      return {
-        keydown: this.__onTargetKeydown,
-        keyup: this.__onTargetAutocomplete,
-        keypress: this.__onTargetKeypress
-      }
-    },
-
     inputControlEvents () {
       const on = {
         input: this.__onInput,
@@ -451,8 +443,7 @@ export default Vue.extend({
           this.hidePopup()
         }
 
-        const el = this.$refs.control || this.$refs.target
-        el !== void 0 && el.focus()
+        this.$refs.target !== void 0 && this.$refs.target.focus()
 
         if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
@@ -579,7 +570,6 @@ export default Vue.extend({
 
       if (e.keyCode !== void 0) {
         this.__onTargetKeyup(e)
-
         return
       }
 
@@ -857,15 +847,22 @@ export default Vue.extend({
             attrs: {
               id: this.targetUid,
               tabindex: this.tabindex
-            }
+            },
+            on: cache(this, 'f-tget', {
+              keydown: this.__onTargetKeydown,
+              keyup: this.__onTargetKeyup,
+              keypress: this.__onTargetKeypress
+            })
           })
         )
 
-        child.push(
+        this.qAttrs.autocomplete !== void 0 && child.push(
           h('input', {
             staticClass: 'q-select__autocomplete-input no-outline',
             attrs: { autocomplete: this.qAttrs.autocomplete },
-            on: this.autocompleteControlEvents
+            on: cache(this, 'autoinp', {
+              keyup: this.__onTargetAutocomplete
+            })
           })
         )
       }

@@ -534,6 +534,11 @@ for (let i = 0; i <= 100000; i++) {
 Object.freeze(heavyList)
 
 export default {
+  created () {
+    // setInterval(() => {
+    //   console.log(document.activeElement)
+    // }, 3000)
+  },
   data () {
     return {
       dispValSelection: [],
