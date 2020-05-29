@@ -60,6 +60,12 @@
             </q-item-section>
           </q-item>
 
+          <q-select label="delayed filter" rounded outlined :options="quizList" v-model="quiz" @filter="getQuiz" behavior="menu">
+            <template v-slot:selected>
+              <div class="text-body1 text-black">{{ quiz.label }}</div>
+            </template>
+          </q-select>
+
           <q-separator spaced></q-separator>
           <q-item-label header>General</q-item-label>
 
@@ -199,21 +205,23 @@
         </q-select>
 
         <q-select
-          label="simple + use-input"
+          label="simple + use-input; menu"
           use-input
           v-model="selectedUserControl"
           :options="userControl"
           dense options-dense outlined
+          behavior="menu"
         />
 
         <q-select
-          label="multiple + use-input"
+          label="multiple + use-input; menu"
           use-input
           v-model="selectedUserColors"
           :options="userColors"
           multiple
           dense options-dense outlined
           emit-value map-options
+          behavior="menu"
         >
           <template v-slot:option="scope">
             <q-item v-bind="scope.itemProps" v-on="scope.itemEvents">
@@ -226,6 +234,12 @@
             </q-item>
           </template>
         </q-select>
+
+        <q-select label="delayed filter" rounded outlined :options="quizList" v-model="quiz" @filter="getQuiz" behavior="menu">
+          <template v-slot:selected>
+            <div class="text-body1 text-black">{{ quiz.label }}</div>
+          </template>
+        </q-select>
       </q-card-section>
     </q-card>
   </q-dialog>
@@ -234,6 +248,10 @@
 
 <script>
 /* eslint-disable */
+const quizOptions = [
+  { label: 'Google', value: 1 },
+  { label: 'Facebook', value: 2 }
+]
 
 export default {
   data () {
@@ -258,10 +276,25 @@ export default {
 
       volume: 6,
       brightness: 3,
-      mic: 8
+      mic: 8,
+
+      quiz: {},
+      quizList: null
     }
   },
   methods: {
+    getQuiz (value, update, abort) {
+      if (this.quizList !== null) {
+        update()
+        return
+      }
+
+      setTimeout(() => {
+        update(() => {
+          this.quizList = quizOptions
+        })
+      }, 2000)
+    }
   }
 }
 </script>
