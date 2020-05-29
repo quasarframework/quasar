@@ -352,7 +352,7 @@ export default Vue.extend({
       if (this.$q.platform.is.mobile === true) {
         on.focus = () => {
           // prevent keyboard from popping out
-          document.activeElement && document.activeElement.blur()
+          this.$refs.control !== void 0 && this.$refs.control.focus()
         }
       }
 
