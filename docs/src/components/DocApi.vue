@@ -224,6 +224,10 @@ export default {
       this.filteredApi = api
       this.apiType = type
 
+      if (api.addedIn) {
+        delete api.addedIn
+      }
+
       this.name = name
       this.type = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
       this.tabs = Object.keys(api)
