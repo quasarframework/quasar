@@ -465,9 +465,6 @@ class QuasarConfig {
 
     if (cfg.build.modern === true) {
       log(underline('Using MODERN build (ES6+)'))
-      if (cfg.build.uglifyOptions.ecma === void 0) {
-        cfg.build.uglifyOptions.ecma = 6
-      }
 
       // force disable IE11 support
       if (cfg.supportIE === true) {
