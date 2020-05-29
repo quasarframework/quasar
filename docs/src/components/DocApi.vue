@@ -209,7 +209,7 @@ export default {
   },
 
   methods: {
-    parseJson (name, { type, behavior, meta, ...api }) {
+    parseJson (name, { type, behavior, meta, addedIn, ...api }) {
       this.aggregationModel = {}
 
       if (type === 'component' && api.props !== void 0) {
@@ -223,10 +223,6 @@ export default {
       this.api = api
       this.filteredApi = api
       this.apiType = type
-
-      if (api.addedIn) {
-        delete api.addedIn
-      }
 
       this.name = name
       this.type = `${type === 'plugin' ? 'Quasar' : 'Vue'} ${type.charAt(0).toUpperCase()}${type.substring(1)}`
