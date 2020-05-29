@@ -43,16 +43,18 @@ module.exports = function (cfg, configName) {
     ...Object.keys(appDeps)
   ])
 
-  chain.module.rule('babel')
-    .test(/\.js$/)
-    .exclude
-      .add(/node_modules/)
-      .end()
-    .use('babel-loader')
-      .loader('babel-loader')
-        .options({
-          extends: appPaths.resolve.app('babel.config.js')
-        })
+  if (cfg.build.modern !== true) {
+    chain.module.rule('babel')
+      .test(/\.js$/)
+      .exclude
+        .add(/node_modules/)
+        .end()
+      .use('babel-loader')
+        .loader('babel-loader')
+          .options({
+            extends: appPaths.resolve.app('babel.config.js')
+          })
+  }
 
   chain.module.rule('node')
     .test(/\.node$/)
