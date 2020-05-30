@@ -16,7 +16,7 @@ module.exports = [
   {
     // linux
     generator: 'png',
-    name: 'icon.png',
+    name: 'linux-512x512.png',
     folder: 'src-electron/icons',
     sizes: [ 512 ]
   }
