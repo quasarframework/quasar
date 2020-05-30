@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
 const WebpackProgress = require('../plugin.progress')
+const ExpressionDependency = require('./plugin.expression-dependency')
 
 const appPaths = require('../../app-paths')
 
@@ -42,6 +43,9 @@ module.exports = function (cfg, configName) {
     ...Object.keys(cliDeps),
     ...Object.keys(appDeps)
   ])
+
+  chain.plugin('expression-dependency')
+    .use(ExpressionDependency)
 
   if (cfg.build.modern !== true) {
     chain.module.rule('babel')
