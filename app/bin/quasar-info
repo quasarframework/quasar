@@ -76,6 +76,7 @@ print({ key: 'Important local packages', section: true })
   'quasar',
   '@quasar/app',
   '@quasar/extras',
+  'eslint-plugin-quasar',
   'vue',
   'vue-router',
   'vuex',
