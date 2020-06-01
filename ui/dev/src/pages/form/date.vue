@@ -11,8 +11,6 @@
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
         <q-toggle :dark="dark" v-model="yearsInMonthView" label="yearsInMonthView" />
         <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
-        <q-toggle :dark="dark" v-model="multiple" label="Multiple" />
-        <q-toggle :dark="dark" v-model="range" label="Range" />
       </div>
 
       <div>{{ date }}</div>
@@ -348,8 +346,6 @@ export default {
       minimal: false,
       todayBtn: false,
       yearsInMonthView: false,
-      multiple: false,
-      range: false,
 
       mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
 
@@ -392,9 +388,7 @@ export default {
         minimal: this.minimal,
         todayBtn: this.todayBtn,
         yearsInMonthView: this.yearsInMonthView,
-        calendar: this.persian ? 'persian' : 'gregorian',
-        multiple: this.multiple,
-        range: this.range
+        calendar: this.persian ? 'persian' : 'gregorian'
       }
     },
 
