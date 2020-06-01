@@ -8,7 +8,7 @@ const quasarFolder = appPaths.resolve.app('.quasar')
 
 class Generator {
   constructor (quasarConfig) {
-    const { ctx, preFetch } = quasarConfig.getBuildConfig()
+    const { ctx } = quasarConfig.getBuildConfig()
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig
@@ -16,18 +16,15 @@ class Generator {
     const paths = [
       'app.js',
       'client-entry.js',
+      'client-prefetch.js',
       'import-quasar.js'
     ]
 
-    if (preFetch) {
-      paths.push('client-prefetch.js')
-    }
-
     if (ctx.mode.ssr) {
-      paths.push('server-entry.js')
-      if (ctx.mode.pwa) {
-        paths.push('ssr-pwa.js')
-      }
+      paths.push(
+        'server-entry.js',
+        'ssr-pwa.js'
+      )
     }
 
     this.files = paths.map(file => {
