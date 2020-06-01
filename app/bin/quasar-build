@@ -227,26 +227,28 @@ async function build () {
 
     artifacts.add(outputFolder)
 
-    statsArray = stats.stats || [ stats ]
+    const statsArray = stats.stats || [ stats ]
 
     statsArray.forEach(stat => {
-      if (stat.hasErrors()) {
-        const info = stat.toJson()
-        const errNumber = info.errors.length
-        const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
-
-        warn()
-        warn(chalk.red(`${errDetails} encountered:\n`))
-
-        info.errors.forEach(err => {
-          console.error(err)
-        })
-
-        warn()
-        warn(chalk.red(`[FAIL] Build failed with ${errDetails}. Check log above.\n`))
-
-        process.exit(1)
+      if (stat.hasErrors() !== true) {
+        return
       }
+
+      const info = stat.toJson()
+      const errNumber = info.errors.length
+      const errDetails = `${errNumber} error${errNumber > 1 ? 's' : ''}`
+
+      warn()
+      warn(chalk.red(`${errDetails} encountered:\n`))
+
+      info.errors.forEach(err => {
+        console.error(err)
+      })
+
+      warn()
+      warn(chalk.red(`[FAIL] Build failed with ${errDetails}. Check log above.\n`))
+
+      process.exit(1)
     })
 
     const printWebpackStats = require('../lib/helpers/print-webpack-stats')
