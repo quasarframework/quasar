@@ -33,7 +33,7 @@ import createApp from './app.js'
 import Vue from 'vue'
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
-const appOptions = App.options || App
+const appOptions = App.options /* Vue.extend() */ || App
 <% } %>
 
 <%
@@ -123,7 +123,7 @@ export default context => {
         reject({ url })
       }
 
-      appOptions.preFetch && matchedComponents.unshift(appOptions)
+      appOptions.preFetch !== void 0 && matchedComponents.unshift(appOptions)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,

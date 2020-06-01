@@ -10,7 +10,6 @@
  * Boot files are your "main.js"
  **/
 import App from 'app/<%= sourceFiles.rootComponent %>'
-const appOptions = App.options /* Vue.extend() */ || App
 
 <% if (__loadingBar) { %>
 import { LoadingBar } from 'quasar'
@@ -21,6 +20,7 @@ import { isRunningOnPWA } from './ssr-pwa'
 <% } %>
 
 <% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
+let appOptions = App.options /* Vue.extend() */ || App
 let appPrefetch = typeof appOptions.preFetch === 'function'
 <% } %>
 
@@ -30,7 +30,8 @@ function getMatchedComponents (to, router) {
     : router.currentRoute
 
   if (!route) { return [] }
-  return [].concat.apply([], route.matched.map(m => {
+
+  return Array.prototype.concat.apply([], route.matched.map(m => {
     return Object.keys(m.components).map(key => {
       const comp = m.components[key]
       return {
@@ -52,7 +53,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
       prevMatched = getMatchedComponents(from, router)
 
     let diffed = false
-    const components = matched
+    const preFetchList = matched
       .filter((m, i) => {
         return diffed || (diffed = (
           !prevMatched[i] ||
@@ -61,21 +62,23 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
         ))
       })
       .filter(m => m.c && typeof m.c.preFetch === 'function')
-      .map(m => m.c)
+      .map(m => m.c.preFetch)
 
     <% if (!ctx.mode.ssr) { %>
     if (appPrefetch === true) {
       appPrefetch = false
-      components.unshift(appOptions)
+      preFetchList.unshift(appOptions.preFetch)
     }
     <% } else if (ctx.mode.pwa) { %>
     if (isRunningOnPWA === true && appPrefetch === true) {
       appPrefetch = false
-      components.unshift(appOptions)
+      preFetchList.unshift(appOptions.preFetch)
     }
     <% } %>
 
-    if (!components.length) { return next() }
+    if (preFetchList.length === 0) {
+      return next()
+    }
 
     let routeUnchanged = true
     const redirect = url => {
@@ -93,10 +96,8 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
     LoadingBar.start()
     <% } %>
 
-    components
-    .filter(c => c && c.preFetch)
-    .reduce(
-      (promise, c) => promise.then(() => routeUnchanged === true && c.preFetch({
+    preFetchList.reduce(
+      (promise, preFetch) => promise.then(() => routeUnchanged === true && preFetch({
         <% if (store) { %>store,<% } %>
         currentRoute: to,
         previousRoute: from,
