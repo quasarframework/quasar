@@ -227,7 +227,7 @@ async function build () {
 
     artifacts.add(outputFolder)
 
-    statsArray = stats.stats || [ stats ]
+    const statsArray = stats.stats || [ stats ]
 
     statsArray.forEach(stat => {
       if (stat.hasErrors()) {
