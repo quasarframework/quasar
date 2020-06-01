@@ -117,9 +117,9 @@ export default context => {
 
       <% if (preFetch) { %>
 
-      let routeUnchanged = true
+      let hasRedirected = false
       const redirect = url => {
-        routeUnchanged = false
+        hasRedirected = true
         reject({ url })
       }
 
@@ -132,7 +132,7 @@ export default context => {
       matchedComponents
       .filter(c => c && c.preFetch)
       .reduce(
-        (promise, c) => promise.then(() => routeUnchanged && c.preFetch({
+        (promise, c) => promise.then(() => hasRedirected === false && c.preFetch({
           <% if (store) { %>store,<% } %>
           ssrContext: context,
           currentRoute: router.currentRoute,
@@ -141,7 +141,7 @@ export default context => {
         Promise.resolve()
       )
       .then(() => {
-        if (!routeUnchanged) { return }
+        if (hasRedirected === true) { return }
 
         <% if (store) { %>context.state = store.state<% } %>
 

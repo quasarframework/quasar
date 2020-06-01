@@ -80,16 +80,16 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
       return next()
     }
 
-    let routeUnchanged = true
+    let hasRedirected = false
     const redirect = url => {
-      routeUnchanged = false
+      hasRedirected = true
       next(url)
     }
     const proceed = () => {
       <% if (__loadingBar) { %>
       LoadingBar.stop()
       <% } %>
-      if (routeUnchanged === true) { next() }
+      if (hasRedirected === false) { next() }
     }
 
     <% if (__loadingBar) { %>
@@ -97,7 +97,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
     <% } %>
 
     preFetchList.reduce(
-      (promise, preFetch) => promise.then(() => routeUnchanged === true && preFetch({
+      (promise, preFetch) => promise.then(() => hasRedirected === false && preFetch({
         <% if (store) { %>store,<% } %>
         currentRoute: to,
         previousRoute: from,
