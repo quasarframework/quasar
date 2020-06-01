@@ -2,7 +2,7 @@
 title: Electron Static Assets
 desc: Handling the static assets in a Quasar desktop app.
 ---
-Please read about [Handling Assets](/quasar-cli/cli-documentation/handling-assets) first, which applies to the renderer process. However, when we deal with Electron then Quasar CLI offers a handy `__static` variable in addition. Statics can be consumed by both the main process and renderer process, but since the paths change when building for production (due to packaging), then usage with `fs` and other modules that need a full path can be a little tricky. So `__statics` can come into play.
+Please read about [Handling Assets](/quasar-cli/handling-assets) first, which applies to the renderer process. However, when we deal with Electron then Quasar CLI offers a handy `__static` variable in addition. Statics can be consumed by both the main process and renderer process, but since the paths change when building for production (due to packaging), then usage with `fs` and other modules that need a full path can be a little tricky. So `__statics` can come into play.
 
 ::: warning
 These features require that you don't disable the [Node Integration](/quasar-cli/developing-electron-apps/node-integration).

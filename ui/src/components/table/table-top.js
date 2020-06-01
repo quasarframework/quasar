@@ -6,8 +6,10 @@ export default {
         pagesNumber: this.pagesNumber,
         isFirstPage: this.isFirstPage,
         isLastPage: this.isLastPage,
+        firstPage: this.firstPage,
         prevPage: this.prevPage,
         nextPage: this.nextPage,
+        lastPage: this.lastPage,
 
         inFullscreen: this.inFullscreen,
         toggleFullscreen: this.toggleFullscreen

@@ -56,6 +56,14 @@
       "category": "style"
     },
 
+    "content-class": {
+      "type": "String",
+      "desc": "Class definitions to be attributed to the content wrapper",
+      "examples": [ "my-special-class" ],
+      "category": "style",
+      "addedIn": "v1.12.0"
+    },
+
     "left-icon": {
       "type": "String",
       "desc": "The name of an icon to replace the default arrow used to scroll through the tabs to the left, when the tabs extend past the width of the tabs container",

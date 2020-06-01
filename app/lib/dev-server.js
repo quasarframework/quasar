@@ -2,9 +2,8 @@ const webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 
 const appPaths = require('./app-paths')
-const logger = require('./helpers/logger')
 const openBrowser = require('./helpers/open-browser')
-const log = logger('app:dev-server')
+const { log } = require('./helpers/logger')
 
 let alreadyNotified = false
 module.exports = class DevServer {
@@ -17,7 +16,6 @@ module.exports = class DevServer {
     const cfg = this.quasarConfig.getBuildConfig()
 
     log(`Booting up...`)
-    log()
 
     return new Promise(resolve => (
       cfg.ctx.mode.ssr
@@ -179,7 +177,7 @@ module.exports = class DevServer {
         return
       }
 
-      bundle = JSON.parse(assets['../vue-ssr-server-bundle.json'].source())
+      bundle = JSON.parse(assets['../quasar.server-manifest.json'].source())
       update()
 
       cb()
@@ -201,7 +199,7 @@ module.exports = class DevServer {
         }
       }
 
-      clientManifest = JSON.parse(assets['../vue-ssr-client-manifest.json'].source())
+      clientManifest = JSON.parse(assets['../quasar.client-manifest.json'].source())
       update()
 
       cb()

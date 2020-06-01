@@ -3,6 +3,8 @@
     "docsUrl": "https://v1.quasar.dev/vue-directives/mutation"
   },
 
+  "addedIn": "v1.3.0",
+
   "value": {
     "type": [ "Function" ],
     "desc": "Function to call when mutation occurs; It is HIGHLY recommended to reference it from your vue component scope, otherwise the directive update cycle will continuously recreate the observer which hits performance hard",

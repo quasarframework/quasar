@@ -61,10 +61,14 @@ export default Vue.extend({
     loading: Boolean,
     binaryStateSort: Boolean,
 
+    iconFirstPage: String,
+    iconPrevPage: String,
+    iconNextPage: String,
+    iconLastPage: String,
+
     title: String,
 
     hideHeader: Boolean,
-    hideBottom: Boolean,
 
     grid: Boolean,
     gridHeader: Boolean,
@@ -107,12 +111,14 @@ export default Vue.extend({
 
   data () {
     return {
-      innerPagination: {
+      innerPagination: Object.assign({
         sortBy: null,
         descending: false,
         page: 1,
-        rowsPerPage: 5
-      }
+        rowsPerPage: this.rowsPerPageOptions.length > 0
+          ? this.rowsPerPageOptions[0]
+          : 5
+      }, this.pagination)
     }
   },
 

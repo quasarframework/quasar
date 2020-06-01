@@ -35,6 +35,13 @@
       "category": "behavior"
     },
 
+    "no-icon-animation": {
+      "type": "Boolean",
+      "desc": "Disables the rotation of the dropdown icon when state is toggled",
+      "category": "style",
+      "addedIn": "v1.12.0"
+    },
+
     "content-style": {
       "type": [ "Array", "String", "Object" ],
       "desc": "Style definitions to be attributed to the menu",

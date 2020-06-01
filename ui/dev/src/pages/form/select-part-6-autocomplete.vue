@@ -61,15 +61,17 @@ export default {
       city: null,
       country: null,
       cityOptions: [
+        { value: 'Bucuresti', label: 'Bucuresti' },
         { value: 'Bucharest', label: 'Bucharest' },
         { value: 'London', label: 'London' }
       ],
       countryOptions: [
         { value: 'GB', label: 'United Kingdom' },
-        { value: 'RO', label: 'Romania' }
+        { value: 'RO', label: 'Romania' },
+        { value: 'RO', label: 'RO' }
       ],
       filteredCountryOptions: [],
-      behavior: void 0
+      behavior: 'menu'
     }
   },
 

@@ -42,7 +42,7 @@ export default Vue.extend({
 
     return h('td', {
       on,
-      style: col.__tdStyle,
+      style: col.style,
       class: this.classes + ' ' + col.__tdClass
     }, slot(this, 'default'))
   }

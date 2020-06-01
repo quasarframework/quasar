@@ -2,9 +2,7 @@ const fs = require('fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const log = logger('app:mode-pwa')
-const warn = logger('app:mode-pwa', 'red')
+const { log, warn } = require('../helpers/logger')
 
 class Mode {
   get isInstalled () {

@@ -14,6 +14,6 @@ return {
 }
 ```
 
-The first request will be served from the webserver. The PWA gets installed then it takes over on client side.
+The first request of a **new** client will be served from the webserver (so SSR supplies the initial page content). The PWA gets installed then it takes over on client side. All further requests will be served from cache (unless you have some custom configuration to change that).
 
 > For more information on PWA, head on to [PWA Introduction](/quasar-cli/developing-pwa/introduction) and read the whole PWA Guide section.

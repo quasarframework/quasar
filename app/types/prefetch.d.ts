@@ -1,12 +1,12 @@
 import { HasSsrParam, HasStoreParam, PrefetchCallback } from "quasar";
 import Vue from "vue";
-import { Route } from "vue-router";
+import { RawLocation, Route } from "vue-router";
 
 declare module "quasar" {
   interface PreFetchOptions<TStore> extends HasSsrParam, HasStoreParam<TStore> {
     currentRoute: Route;
     previousRoute: Route;
-    redirect: (url: string) => void;
+    redirect: (url: RawLocation) => void;
   }
 
   // https://github.com/quasarframework/quasar/issues/6576#issuecomment-603787603

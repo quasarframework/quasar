@@ -66,7 +66,7 @@ function extendConf (conf) {
 }
 ```
 
-Finally, let's see how the boot file would look like. Make sure that you read the [Boot files](/quasar-cli/cli-documentation/boot-files) documentation and understand what a Boot file is first.
+Finally, let's see how the boot file would look like. Make sure that you read the [Boot files](/quasar-cli/boot-files) documentation and understand what a Boot file is first.
 
 ```js
 // file: /src/boot/my-directive.js

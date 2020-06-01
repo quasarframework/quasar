@@ -30,7 +30,7 @@ export default {
               ? slot(this.addBodyCellMetaData({ row, pageIndex, col }))
               : h('td', {
                 class: col.__tdClass,
-                style: col.__tdStyle
+                style: col.style
               }, this.getCellValue(col, row))
           })
 

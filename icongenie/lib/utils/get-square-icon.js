@@ -6,7 +6,9 @@ module.exports = function getSquareIcon ({
 }) {
   const img = icon.clone()
 
-  img.resize(size - padding.horiz, size - padding.vert, {
+  img.resize({
+    width: size - 2 * padding.horiz,
+    height: size - 2 * padding.vert,
     fit: 'contain',
     background
   })

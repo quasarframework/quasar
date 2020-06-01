@@ -342,23 +342,6 @@ export default Vue.extend({
       return this.__getPropValueFn('optionDisable', 'disable')
     },
 
-    autocompleteControlEvents () {
-      const on = {
-        keydown: this.__onTargetKeydown,
-        keyup: this.__onTargetAutocomplete,
-        keypress: this.__onTargetKeypress
-      }
-
-      if (this.$q.platform.is.mobile === true) {
-        on.focus = ev => {
-          // should not blur when the dialog is closing
-          this.dialog === true && ev.target.blur()
-        }
-      }
-
-      return on
-    },
-
     inputControlEvents () {
       const on = {
         input: this.__onInput,
@@ -370,14 +353,13 @@ export default Vue.extend({
         keydown: this.__onTargetKeydown,
         keyup: this.__onTargetKeyup,
         keypress: this.__onTargetKeypress,
-        focus: this.__selectInputText
+        focus: this.__selectInputText,
+        click: e => {
+          this.hasDialog === true && stop(e)
+        }
       }
 
       on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
-
-      if (this.hasDialog === true) {
-        on.click = stop
-      }
 
       return on
     }
@@ -451,8 +433,6 @@ export default Vue.extend({
       const optValue = this.getOptionValue(opt)
 
       if (this.multiple !== true) {
-        this.$refs.target !== void 0 && this.$refs.target.focus()
-
         if (keepOpen !== true) {
           this.updateInputValue(
             this.fillInput === true ? this.getOptionLabel(opt) : '',
@@ -462,6 +442,8 @@ export default Vue.extend({
 
           this.hidePopup()
         }
+
+        this.$refs.target !== void 0 && this.$refs.target.focus()
 
         if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
           this.$emit('input', this.emitValue === true ? optValue : opt)
@@ -588,7 +570,6 @@ export default Vue.extend({
 
       if (e.keyCode !== void 0) {
         this.__onTargetKeyup(e)
-
         return
       }
 
@@ -859,22 +840,31 @@ export default Vue.extend({
         child.push(this.__getInput(h, fromDialog))
       }
       else if (this.editable === true) {
-        const options = {
-          staticClass: 'q-select__autocomplete-input no-outline',
-          attrs: {
-            autocomplete: this.qAttrs.autocomplete,
-            tabindex: this.tabindex
-          },
-          on: this.autocompleteControlEvents
-        }
+        isTarget === true && child.push(
+          h('div', {
+            // there can be only one (when dialog is opened the control in dialog should be target)
+            ref: 'target',
+            attrs: {
+              id: this.targetUid,
+              tabindex: this.tabindex
+            },
+            on: cache(this, 'f-tget', {
+              keydown: this.__onTargetKeydown,
+              keyup: this.__onTargetKeyup,
+              keypress: this.__onTargetKeypress
+            })
+          })
+        )
 
-        if (isTarget === true) {
-          // there can be only one (when dialog is opened the control in dialog should be target)
-          options.ref = 'target'
-          options.attrs.id = this.targetUid
-        }
-
-        child.push(h('input', options))
+        this.qAttrs.autocomplete !== void 0 && child.push(
+          h('input', {
+            staticClass: 'q-select__autocomplete-input no-outline',
+            attrs: { autocomplete: this.qAttrs.autocomplete },
+            on: cache(this, 'autoinp', {
+              keyup: this.__onTargetAutocomplete
+            })
+          })
+        )
       }
 
       if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {

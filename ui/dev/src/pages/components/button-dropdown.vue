@@ -286,7 +286,44 @@
       <q-btn-dropdown @click="labelA+='+'" :label="labelA" />
     </div>
 
-    <q-btn-dropdown auto-close color="primary" glossy label="Auto close" style="margin: 15px">
+    <q-btn-dropdown auto-close color="primary" glossy label="Auto close" style="margin: 15px;">
+      <q-list>
+        <q-item clickable v-for="n in 2" :key="`1.${n}`">
+          <q-item-section avatar>
+            <q-avatar icon="folder" color="primary" text-color="white" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Photos</q-item-label>
+            <q-item-label caption>
+              February 22, 2016
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-icon name="info" color="amber" />
+          </q-item-section>
+        </q-item>
+        <q-separator inset="item" spaced />
+        <q-item-label header inset>
+          Files
+        </q-item-label>
+        <q-item clickable>
+          <q-item-section avatar>
+            <q-avatar icon="assignment" color="secondary" text-color="white" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Vacation</q-item-label>
+            <q-item-label caption>
+              February 22, 2016
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <q-icon name="info" color="amber" />
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-btn-dropdown>
+
+    <q-btn-dropdown color="primary" no-icon-animation dropdown-icon="more_vert" label="No icon animation" style="margin: 15px">
       <q-list>
         <q-item clickable v-for="n in 2" :key="`1.${n}`">
           <q-item-section avatar>

@@ -20,79 +20,66 @@ const dirRegex = new RegExp(data.regex.directives, 'g')
 
 function transform (itemArray) {
   return itemArray
-    .map(name => `import ${name} from '${importTransform(name)}'`)
+    .map(name => `import ${name} from '${importTransform(name)}';`)
     .join(`\n`)
 }
 
-function extract (content, query) {
-  let comp = content.match(compRegex[query])
+function extract (content, ctx) {
+  let comp = content.match(compRegex[ctx.query])
   let dir = content.match(dirRegex)
-  let compImport
-  let dirImport
+
+  if (comp === null && dir === null) {
+    return
+  }
+
+  let importStatements = ''
+  let installStatements = ''
 
   if (comp !== null) {
     // avoid duplicates
     comp = Array.from(new Set(comp))
 
     // map comp names only if not pascal-case already
-    if (query !== '?pascal') {
+    if (ctx.query !== '?pascal') {
       comp = comp.map(name => data.importName[name])
     }
 
-    if (query === '?combined') {
+    if (ctx.query === '?combined') {
       // could have been transformed QIcon and q-icon too,
       // so avoid duplicates
       comp = Array.from(new Set(comp))
     }
 
-    compImport = transform(comp)
-    comp = comp.join(',')
-  }
-  else {
-    comp = ''
+    importStatements += transform(comp)
+    installStatements += `qInstall(component, 'components', {${comp.join(',')}});`
   }
 
   if (dir !== null) {
     dir = Array.from(new Set(dir))
       .map(name => data.importName[name])
 
-    dirImport = transform(dir)
-    dir = dir.join(',')
-  }
-  else {
-    dir = ''
+    importStatements += transform(dir)
+    installStatements += `qInstall(component, 'directives', {${dir.join(',')}});`
   }
 
-  return {
-    comp,
-    compImport,
-    dir,
-    dirImport
-  }
+    // stringifyRequest needed so it doesn't
+  // messes up consistency of hashes between builds
+  return `
+${importStatements}
+import qInstall from ${stringifyRequest(ctx, runtimePath)};
+${installStatements}
+`
 }
 
 module.exports = function (content) {
   if (!this.resourceQuery && funcCompRegex.test(content) === false) {
     const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
-    const { comp, dir, compImport, dirImport } = extract(file, this.query)
+    const code = extract(file, this)
 
-    const hasComp = comp !== ''
-    const hasDir = dir !== ''
-
-    if (hasComp === true || hasDir === true) {
+    if (code !== void 0) {
       const index = this.mode === 'development'
         ? content.indexOf('/* hot reload */')
         : -1
-
-      // stringifyRequest needed so it doesn't
-      // messes up consistency of hashes between builds
-      const code = `\nimport qInstall from ${stringifyRequest(this, runtimePath)}` +
-        (hasComp === true
-          ? `\n${compImport}\nqInstall(component, 'components', {${comp}})\n`
-          : '') +
-        (hasDir === true
-          ? `\n${dirImport}\nqInstall(component, 'directives', {${dir}})\n`
-          : '')
 
       return index === -1
         ? content + code

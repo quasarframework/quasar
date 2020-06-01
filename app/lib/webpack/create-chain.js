@@ -48,12 +48,7 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.mjs', '.js', '.vue', '.json' ])
-
-  if (cfg.supportTS === true) {
-    chain.resolve.extensions
-      .merge([ '.ts' ])
-  }
+    .merge([ '.mjs', '.js', '.vue', '.json', '.wasm' ])
 
   chain.resolve.modules
     .merge(resolveModules)
@@ -82,9 +77,7 @@ module.exports = function (cfg, configName) {
     .merge(resolveModules)
 
   chain.module.noParse(
-    cfg.framework.all === true
-      ? /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar)$/
-      : /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras)$/
+    /^(vue|vue-router|vuex|vuex-router-sync|@quasar[\\/]extras|quasar)$/
   )
 
   const vueRule = chain.module.rule('vue')
@@ -92,7 +85,7 @@ module.exports = function (cfg, configName) {
 
   if (cfg.framework.all === 'auto') {
     vueRule.use('quasar-auto-import')
-      .loader(path.join(__dirname, 'loader.auto-import.js'))
+      .loader(path.join(__dirname, `loader.auto-import-${configName === 'Server' ? 'server' : 'client'}.js`))
       .options(cfg.framework.autoImportComponentCase)
   }
 
@@ -106,52 +99,41 @@ module.exports = function (cfg, configName) {
       transformAssetUrls: cfg.build.transformAssetUrls
     })
 
-  chain.module.rule('babel')
-    .test(/\.jsx?$/)
-    .exclude
-      .add(filepath => {
-        // always transpile js(x) in Vue files
-        if (/\.vue\.jsx?$/.test(filepath)) {
-          return false
-        }
+  if (cfg.framework.all !== true && configName !== 'Server') {
+    chain.module.rule('transform-quasar-imports')
+      .test(/\.(t|j)sx?$/)
+      .use('transform-quasar-imports')
+        .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
+  }
 
-        if (filepath.match(/[\\/]node_modules[\\/]quasar[\\/]/)) {
-          if (configName === 'Server') {
-            // transpile only if not from 'quasar/dist' folder
-            if (!filepath.match(/[\\/]node_modules[\\/]quasar[\\/]dist/)) {
-              return false
-            }
-          }
-          else {
-            // always transpile Quasar
-            return false
-          }
-        }
+  if (cfg.build.modern !== true) {
+    const vueRegex = /\.vue\.jsx?$/
+    const nodeModulesRegex = /[\\/]node_modules[\\/]/
+    const quasarRegex = configName !== 'Server'
+      ? /[\\/]node_modules[\\/]quasar[\\/]/
+      : /[\\/]node_modules[\\/]quasar[\\/]src[\\/]/
 
-        if (cfg.build.transpileDependencies.some(dep => filepath.match(dep))) {
-          return false
-        }
-
-        // Don't transpile anything else in node_modules
-        return /[\\/]node_modules[\\/]/.test(filepath)
-      })
-      .end()
-    .use('babel-loader')
-      .loader('babel-loader')
-        .options({
-          compact: false,
-          extends: appPaths.resolve.app('babel.config.js'),
-          plugins: cfg.framework.all !== true && configName !== 'Server' ? [
-            [
-              'transform-imports', {
-                quasar: {
-                  transform: `quasar/dist/babel-transforms/imports.js`,
-                  preventFullImport: true
-                }
-              }
-            ]
-          ] : []
-        })
+    chain.module.rule('babel')
+      .test(/\.jsx?$/)
+      .exclude
+        .add(filepath => (
+          // transpile js(x) in Vue files:
+          vueRegex.test(filepath) === false &&
+          // transpile Quasar:
+          quasarRegex.test(filepath) === false &&
+          // explicit config to transpile deps:
+          cfg.build.transpileDependencies.some(dep => filepath.match(dep)) === false &&
+          // Don't transpile anything else in node_modules:
+          nodeModulesRegex.test(filepath)
+        ))
+        .end()
+      .use('babel-loader')
+        .loader('babel-loader')
+          .options({
+            compact: false,
+            extends: appPaths.resolve.app('babel.config.js')
+          })
+  }
 
   if (cfg.supportTS !== false) {
     chain.resolve.extensions.add('.ts').add('.tsx')
@@ -160,14 +142,14 @@ module.exports = function (cfg, configName) {
       .rule('typescript')
       .test(/\.tsx?$/)
       .use('ts-loader')
-      .loader('ts-loader')
-      .options({
-        // custom config is merged if present, but vue setup and type checking disable are always applied
-        ...(cfg.supportTS.tsLoaderConfig || {}),
-        appendTsSuffixTo: [/\.vue$/],
-        // Type checking is handled by fork-ts-checker-webpack-plugin
-        transpileOnly: true
-      })
+        .loader('ts-loader')
+        .options({
+          // custom config is merged if present, but vue setup and type checking disable are always applied
+          ...(cfg.supportTS.tsLoaderConfig || {}),
+          appendTsSuffixTo: [ /\.vue$/ ],
+          // Type checking is handled by fork-ts-checker-webpack-plugin
+          transpileOnly: true
+        })
 
     const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin')
     chain
@@ -225,7 +207,7 @@ module.exports = function (cfg, configName) {
     .rule('mjs')
     .test(/\.mjs$/)
     .include
-      .add(/node_modules/)
+      .add(/[\\/]node_modules[\\/]/)
       .end()
     .type('javascript/auto')
 
@@ -299,7 +281,7 @@ module.exports = function (cfg, configName) {
       .use(FriendlyErrorsPlugin, [{
         clearConsole: true,
         compilationSuccessInfo: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
-          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir) ] }
+          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.build.modern) ] }
           : undefined
       }])
   }

@@ -58,7 +58,7 @@ const hasTouch = isSSR === false
   : false
 
 function applyIosCorrection (is) {
-  iosCorrection = { is: Object.assign({}, is) }
+  iosCorrection = { is: { ...is } }
 
   delete is.mac
   delete is.desktop

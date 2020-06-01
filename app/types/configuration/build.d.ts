@@ -8,10 +8,25 @@ import "../ts-helpers";
 interface QuasarStaticBuildConfiguration {
   /**
    * Add dependencies for transpiling with Babel (from node_modules, which are by default not transpiled).
-   * @example
-   * `[ /my-dependency/, ...]`
+   * @example [ /my-dependency/, ...]
    */
   transpileDependencies: RegExp[];
+  /**
+   * @version `@quasar/app` 1.9+
+   *
+   * Run modern build (ES6+).
+   *
+   * @default false
+   */
+  modern: boolean;
+  /**
+   * @version `@quasar/app` 1.3.4+
+   *
+   * Add support for also referencing assets for custom tags props.
+   *
+   * @example { 'my-img-comp': 'src', 'my-avatar': [ 'src', 'placeholder-src' ]}
+   */
+  transformAssetsUrls: Record<string, string | string[]>;
   /** Show a progress bar while compiling. */
   showProgress: boolean;
   /**
@@ -105,8 +120,7 @@ interface QuasarStaticBuildConfiguration {
    * Add properties to `process.env` that you can use in your website/app JS code.
    * Each property needs to be JSON encoded.
    *
-   * @example
-   * { SOMETHING: JSON.stringify('someValue') }.
+   * @example { SOMETHING: JSON.stringify('someValue') }
    */
   env: { [index: string]: string };
   /**

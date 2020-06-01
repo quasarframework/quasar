@@ -142,7 +142,8 @@
         bordered
         flat
         binary-state-sort
-        :rows-per-page-options="[]"
+        :pagination="{rowsPerPage: 3}"
+        :rows-per-page-options="[1, 2, 3, 4, 6]"
         row-key="name"
       >
         <template v-slot:body="props">

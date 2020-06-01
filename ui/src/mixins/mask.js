@@ -236,7 +236,7 @@ export default {
 
       changed === true && (this.innerValue = masked)
 
-      this.$nextTick(() => {
+      document.activeElement === inp && this.$nextTick(() => {
         if (masked === this.maskReplaced) {
           const cursor = this.reverseFillMask === true ? this.maskReplaced.length : 0
           inp.setSelectionRange(cursor, cursor, 'forward')

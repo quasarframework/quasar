@@ -82,7 +82,7 @@
         .landing__feature-item
           q-icon(name="settings_applications")
           h6 Best practices integrated by default
-          p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, sourcemapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
+          p Quasar developers are encouraged to follow web development best practices, and Quasar comes with many embedded features to that regard out of the box. HTML/CSS/JS minification, cache busting, tree shaking, source-mapping, code-splitting and lazy loading, ES6 transpiling, linting code, accessibility features. Quasar takes care of all these and more - no configuration needed.
 
       .col-xs-12.col-sm-5
         .landing__feature-item
@@ -179,7 +179,7 @@ import {
 import {
   mdiChevronDown, mdiLaunch, mdiBlogger,
   mdiChat, mdiForum
-} from '@quasar/extras/mdi-v4'
+} from '@quasar/extras/mdi-v5'
 
 export default {
   name: 'Landing',

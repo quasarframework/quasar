@@ -1,6 +1,6 @@
 import { client } from '../plugins/Platform.js'
-import { addEvt, cleanEvt, getTouchTarget } from '../utils/touch.js'
-import { position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
+import { getTouchTarget } from '../utils/touch.js'
+import { addEvt, cleanEvt, position, leftClick, stopAndPrevent, noop } from '../utils/event.js'
 import { clearSelection } from '../utils/selection.js'
 
 function update (el, binding) {

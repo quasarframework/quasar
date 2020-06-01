@@ -43,12 +43,11 @@ if (argv.help) {
   process.exit(0)
 }
 
-const logger = require('../lib/helpers/logger')
-const warn = logger('app:extension', 'red')
+const { warn } = require('../lib/helpers/logger')
 
 if (argv._.length !== 0 && argv._.length !== 2) {
   console.log()
-  warn(`⚠️  Wrong number of parameters (${argv._.length}).`)
+  warn(`Wrong number of parameters (${argv._.length}).`)
   showHelp()
   process.exit(1)
 }
@@ -73,7 +72,7 @@ else {
 
   if (!['add', 'remove', 'invoke', 'uninvoke'].includes(action)) {
     console.log()
-    warn(`⚠️  Unknown action specified (${action}).`)
+    warn(`Unknown action specified (${action}).`)
     showHelp()
     process.exit(1)
   }

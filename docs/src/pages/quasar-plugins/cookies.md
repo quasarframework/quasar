@@ -27,7 +27,7 @@ function (ssrContext) {
 }
 ```
 
-The `ssrContext` is available in [boot files](/quasar-cli/cli-documentation/boot-files) or [preFetch feature](/quasar-cli/cli-documentation/prefetch-feature) where it is supplied as parameter.
+The `ssrContext` is available in [boot files](/quasar-cli/boot-files) or [preFetch feature](/quasar-cli/prefetch-feature) where it is supplied as parameter.
 
 The reason for this is that in a client-only app, every user will be using a fresh instance of the app in their browser. For server-side rendering we want the same: each request should have a fresh, isolated app instance so that there is no cross-request state pollution. So Cookies needs to be bound to each request separately.
 
@@ -101,7 +101,7 @@ Cookies.set('quasar', 'framework', {
 ```js
 // inside of a Vue file
 
-this.$q.cookies.set('cookie_name', cookie_value, options)
+this.$q.cookies.set('cookie_name', cookie_value)
 
 // or pass in options also:
 this.$q.cookies.set('cookie_name', cookie_value, options)

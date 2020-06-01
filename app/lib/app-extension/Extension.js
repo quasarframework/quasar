@@ -1,6 +1,4 @@
-const logger = require('../helpers/logger')
-const log = logger('app:extension')
-const warn = logger('app:extension', 'red')
+const { log, warn, fatal } = require('../helpers/logger')
 const appPaths = require('../app-paths')
 const { spawnSync } = require('../helpers/spawn')
 const extensionJson = require('./extension-json')
@@ -81,8 +79,7 @@ module.exports = class Extension {
     if (name.charAt(0) === '@') {
       const slashIndex = name.indexOf('/')
       if (slashIndex === -1) {
-        warn(`⚠️  Invalid Quasar App Extension name: "${name}"`)
-        process.exit(1)
+        fatal(`Invalid Quasar App Extension name: "${name}"`)
       }
 
       this.packageFullName = name.substring(0, slashIndex + 1) +
@@ -130,8 +127,7 @@ module.exports = class Extension {
     // verify if already installed
     if (skipPkgInstall === true) {
       if (!isInstalled) {
-        warn(`⚠️  Tried to invoke App Extension "${this.extId}" but its npm package is not installed`)
-        process.exit(1)
+        fatal(`Tried to invoke App Extension "${this.extId}" but its npm package is not installed`)
       }
     }
     else if (isInstalled) {
@@ -178,12 +174,11 @@ module.exports = class Extension {
     // verify if already installed
     if (skipPkgUninstall === true) {
       if (!isInstalled) {
-        warn(`⚠️  Tried to uninvoke App Extension "${this.extId}" but there's no npm package installed for it.`)
-        process.exit(1)
+        fatal(`Tried to uninvoke App Extension "${this.extId}" but there's no npm package installed for it.`)
       }
     }
     else if (!isInstalled) {
-      warn(`⚠️  Quasar App Extension "${this.packageName}" is not installed...`)
+      warn(`Quasar App Extension "${this.packageName}" is not installed...`)
       return
     }
 
@@ -208,7 +203,7 @@ module.exports = class Extension {
 
   async run (ctx) {
     if (!this.isInstalled()) {
-      warn(`⚠️  Quasar App Extension "${this.extId}" is missing...`)
+      warn(`Quasar App Extension "${this.extId}" is missing...`)
       process.exit(1, 'ext-missing')
     }
 
@@ -260,7 +255,7 @@ module.exports = class Extension {
       nodePackager,
       cmdParam.concat(this.packageFullName),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn(`⚠️  Failed to install ${this.packageFullName}`)
+      () => warn(`Failed to install ${this.packageFullName}`)
     )
   }
 
@@ -275,11 +270,11 @@ module.exports = class Extension {
       nodePackager,
       cmdParam.concat(this.packageName),
       { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-      () => warn(`⚠️  Failed to uninstall "${this.packageName}"`)
+      () => warn(`Failed to uninstall "${this.packageName}"`)
     )
   }
 
-  __getScript (scriptName, fatal) {
+  __getScript (scriptName, fatalError) {
     let script
 
     try {
@@ -288,9 +283,8 @@ module.exports = class Extension {
       })
     }
     catch (e) {
-      if (fatal) {
-        warn(`⚠️  App Extension "${this.extId}" has missing ${scriptName} script...`)
-        process.exit(1)
+      if (fatalError) {
+        fatal(`App Extension "${this.extId}" has missing ${scriptName} script...`)
       }
 
       return
@@ -336,7 +330,7 @@ module.exports = class Extension {
         nodePackager,
         cmdParam,
         { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
-        () => warn(`⚠️  Failed to update dependencies`)
+        () => warn(`Failed to update dependencies`)
       )
     }
 

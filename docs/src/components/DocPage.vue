@@ -87,7 +87,7 @@ import {
   mdiBlogger, mdiForum, mdiChat, mdiCharity,
   mdiPencil, mdiLaunch,
   mdiChevronLeft, mdiChevronRight
-} from '@quasar/extras/mdi-v4'
+} from '@quasar/extras/mdi-v5'
 
 import { copyHeading } from 'assets/page-utils'
 

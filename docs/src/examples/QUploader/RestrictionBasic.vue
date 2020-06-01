@@ -31,7 +31,6 @@
       <q-uploader
         style="max-width: 300px"
         url="http://localhost:4444/upload"
-        standout
         label="Max number of files (3)"
         multiple
         max-files="3"

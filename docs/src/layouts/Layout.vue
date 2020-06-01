@@ -112,12 +112,12 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
 import { scroll } from 'quasar'
 import {
   mdiMenu, mdiClipboardText, mdiHeartOutline, mdiMagnify, mdiChevronUp
-} from '@quasar/extras/mdi-v4'
+} from '@quasar/extras/mdi-v5'
 
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
 
-const { getScrollTarget, setScrollPosition } = scroll
+const { setScrollPosition, getScrollPosition } = scroll
 
 export default {
   name: 'Layout',
@@ -209,6 +209,10 @@ export default {
 
     scrollTo (id) {
       const el = document.getElementById(id)
+      if (el === null) {
+        return
+      }
+
       clearTimeout(this.scrollTimer)
 
       if (el) {
@@ -235,12 +239,11 @@ export default {
     },
 
     scrollPage (el, delay) {
-      const
-        target = getScrollTarget(el),
-        offset = el.offsetTop - el.scrollHeight
+      const { top } = el.getBoundingClientRect()
+      const offset = top + getScrollPosition(window) - el.scrollHeight - 50
 
       this.scrollingPage = true
-      setScrollPosition(target, offset, delay)
+      setScrollPosition(window, offset, delay)
 
       this.scrollTimer = setTimeout(() => {
         this.scrollingPage = false
@@ -314,7 +317,7 @@ export default {
 
       if (hash.length > 0) {
         const el = document.getElementById(hash.substring(1))
-        this.scrollPage(el, 0)
+        el !== null && this.scrollPage(el, 0)
       }
     },
 

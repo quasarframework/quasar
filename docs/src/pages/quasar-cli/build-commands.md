@@ -5,7 +5,7 @@ desc: Quasar CLI list of commands for developing and building a Quasar app.
 We will be covering Development and Production build commands.
 
 ::: tip
-Full list of Quasar CLI commands: [Commands List](/quasar-cli/cli-documentation/commands-list).
+Full list of Quasar CLI commands: [Commands List](/quasar-cli/commands-list).
 :::
 
 ### Development
@@ -38,15 +38,7 @@ $ quasar dev -m ios -- some params --and options --here
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
 
-While developing with the Dev Server you will have:
-* Babel, so you can write ES6 code
-* Webpack + vue-loader for Vue SFC (single file components)
-* State preserving hot-reload
-* State preserving compilation error overlay
-* Lint-on-save with ESLint
-* Source maps
-* Develop right on a device emulator (or a real phone connected to your machine) if you target a Mobile App
-* Develop right on an Electron window with Developer Tools included if you target an Electron App
+For using [modern build](/quasar-cli/modern-build) add `--modern` param.
 
 ### Production
 > Build assets for production.
@@ -74,8 +66,4 @@ $ quasar build -m ios -- some params --and options --here
 $ quasar build -m electron
 ```
 
-In addition to what you get while developing your website/app, for production builds you also take advantage of:
-* Javascript minified with [UglifyJS](https://github.com/mishoo/UglifyJS2)
-* HTML minified with [html-minifier](https://github.com/kangax/html-minifier)
-* CSS across all components extracted (and auto-prefixed) into a single file and minified with [cssnano](https://github.com/ben-eb/cssnano)
-* All static assets are compiled with version hashes for efficient long-term caching, and a production index.html is auto-generated with proper URLs to these generated assets.
+For using [modern build](/quasar-cli/modern-build) add `--modern` param.

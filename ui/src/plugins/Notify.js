@@ -88,7 +88,7 @@ const Notifications = {
         }
       }
       else {
-        Object.assign(notif, { message: config })
+        notif.message = config
       }
 
       notif.meta = {
