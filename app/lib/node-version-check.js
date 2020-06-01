@@ -1,4 +1,4 @@
-const { log, warn, fatal } = require('./helpers/logger')
+const { warn } = require('./helpers/logger')
 
 const version = process.version.split('.')
 const major = parseInt(version[0].replace(/\D/g, ''), 10)
