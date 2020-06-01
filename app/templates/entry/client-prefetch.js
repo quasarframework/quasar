@@ -9,8 +9,6 @@
  *
  * Boot files are your "main.js"
  **/
-import App from 'app/<%= sourceFiles.rootComponent %>'
-
 <% if (__loadingBar) { %>
 import { LoadingBar } from 'quasar'
 <% } %>
@@ -20,6 +18,7 @@ import { isRunningOnPWA } from './ssr-pwa'
 <% } %>
 
 <% if (!ctx.mode.ssr || ctx.mode.pwa) { %>
+import App from 'app/<%= sourceFiles.rootComponent %>'
 let appOptions = App.options /* Vue.extend() */ || App
 let appPrefetch = typeof appOptions.preFetch === 'function'
 <% } %>
