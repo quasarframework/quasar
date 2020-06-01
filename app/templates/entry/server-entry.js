@@ -60,14 +60,14 @@ export default context => {
     const { app, <%= store ? 'store, ' : '' %>router } = await createApp(context)
 
     <% if (bootNames.length > 0) { %>
-    let routeUnchanged = true
+    let hasRedirected = false
     const redirect = url => {
-      routeUnchanged = false
+      hasRedirected = true
       reject({ url })
     }
 
     const bootFiles = [<%= bootNames.join(',') %>]
-    for (let i = 0; routeUnchanged === true && i < bootFiles.length; i++) {
+    for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
       if (typeof bootFiles[i] !== 'function') {
         continue
       }
@@ -89,7 +89,7 @@ export default context => {
       }
     }
 
-    if (routeUnchanged === false) {
+    if (hasRedirected === true) {
       return
     }
     <% } %>
@@ -111,7 +111,7 @@ export default context => {
         .map(m => m.options /* Vue.extend() */ || m)
 
       // no matched routes
-      if (!matchedComponents.length) {
+      if (matchedComponents.length === 0) {
         return reject({ code: 404 })
       }
 
