@@ -12,10 +12,14 @@
   "props": {
     "value": {
       "extends": "value",
+      "type": [ "String", "Array" ],
       "required": true,
-      "desc": "Date of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Date of the component; Must be Array if using 'multiple' prop; Must be 2 dimensional Array if using 'range' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [
-        "v-model=\"myDate\""
+        "v-model=\"myDate\"",
+        "v-model=\"[myDate1, myDate2]\"",
+        "v-model=\"[[myDateFrom, myDateTo]]\"",
+        "v-model=\"[myDate1, [myDateFrom, myDateTo], myDate2]\""
       ],
       "category": "model"
     },
@@ -121,6 +125,18 @@
       "type": "Boolean",
       "desc": "Don’t display the header",
       "category": "content"
+    },
+
+    "multiple": {
+      "type": "Boolean",
+      "desc": "Allow multiple selection; Model must be Array",
+      "category": "model|selection"
+    },
+
+    "range": {
+      "type": "Boolean",
+      "desc": "Allow range selection; Model must be 2 dimensional Array",
+      "category": "model|selection"
     }
   },
 
@@ -141,7 +157,7 @@
         "reason": {
           "type": "String",
           "desc": "Reason of the user interaction (what was picked)",
-          "values": [ "year", "month", "day", "today", "locale", "mask" ]
+          "values": [ "year", "month", "day", "today", "locale", "mask", "add-day", "remove-day", "add-range-start-day", "set-range-start-day", "set-range-end-day" ]
         },
         "details": {
           "type": "Object",
