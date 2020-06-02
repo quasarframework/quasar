@@ -174,7 +174,7 @@ The SVG format of Material Icons from Google is parsed from **their official rep
 * Icon names are in camel-case and always begin with "fas", "fab", "fal" or "far" prefixes.
 * Go to [FontAwesome](https://fontawesome.com/icons), look for your desired icon, click on it. You'll get to its page. Below the icon name (as title), you will see something like `<i class="fas fa-air-freshener"></i>`. This would translate to `fasAirFreshner`. The prefix from the tag is important.
 * Note that we cannot supply the "Pro" version of the icons in svg format because of the license.
-* Import statement example: `import { fasAirFreshner } from '@quasar/extras/fontawesome-v5'`.
+* Import statement example: `import { fasAirFreshener } from '@quasar/extras/fontawesome-v5'`.
 
 #### SVG Ionicons
 
