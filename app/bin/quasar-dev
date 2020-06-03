@@ -19,7 +19,7 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     d: 'devtools'
   },
-  boolean: ['h', 'i', 'd', 'modern'],
+  boolean: ['h', 'i', 'd', 'legacy'],
   string: ['m', 'T', 'H'],
   default: {
     m: 'spa'
@@ -53,7 +53,7 @@ if (argv.help) {
     --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
-    --modern         Build modern code (ES6+)
+    --legacy         Support for older browsers, like IE11; JS is transpiled to ES5
     --help, -h       Displays this message
 
     Only for Cordova mode:
@@ -199,7 +199,7 @@ async function goLive () {
   await extensionRunner.registerExtensions(ctx)
 
   const quasarConfig = new QuasarConfig(ctx, {
-    modern: argv.modern,
+    legacy: argv.legacy,
     port: argv.port,
     host: argv.hostname,
     onAddress: parseAddress,

@@ -42,7 +42,7 @@ module.exports = class SsrProdArtifacts {
           start: 'node index.js'
         },
         dependencies: Object.assign(appDeps,
-          this.cfg.build.modern === true ? {} : { '@quasar/babel-preset-app': cliDeps['@quasar/babel-preset-app'] },
+          this.cfg.build.legacy === true ? { '@quasar/babel-preset-app': cliDeps['@quasar/babel-preset-app'] } : {},
           {
             'compression': '^1.0.0',
             'express': '^4.0.0',

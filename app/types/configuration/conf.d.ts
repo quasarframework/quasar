@@ -80,14 +80,6 @@ interface BaseQuasarConfiguration {
     remove: string[];
   };
   /**
-   * Add support for IE11+.
-   *
-   * Ignored when in Capacitor, Cordova and Electron mode.
-   *
-   * @default false
-   */
-  supportIE?: boolean;
-  /**
    * Add support for TypeScript.
    *
    * @default false

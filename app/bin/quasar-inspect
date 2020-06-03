@@ -12,7 +12,7 @@ const argv = parseArgs(process.argv.slice(2), {
 
     h: 'help'
   },
-  boolean: ['h', 'modern'],
+  boolean: ['h', 'legacy'],
   string: ['c', 'm', 'p'],
   default: {
     c: 'dev',
@@ -34,7 +34,7 @@ if (argv.help) {
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
-    --modern         Modern build (ES6+ code)
+    --legacy         Support for older browsers, like IE11; JS is transpiled to ES5
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
@@ -90,7 +90,7 @@ async function inspect () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx, { modern: argv.modern })
+  const quasarConfig = new QuasarConfig(ctx, { legacy: argv.legacy })
 
   try {
     await quasarConfig.prepare()

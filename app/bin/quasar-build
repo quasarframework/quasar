@@ -18,7 +18,7 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     P: 'publish'
   },
-  boolean: ['h', 'd', 'u', 'i', 'modern'],
+  boolean: ['h', 'd', 'u', 'i', 'legacy'],
   string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
@@ -57,7 +57,7 @@ if (argv.help) {
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
-    --modern        Build modern code (ES6+)
+    --legacy        Support for older browsers, like IE11; JS is transpiled to ES5
     --publish, -P   Also trigger publishing hooks (if any are specified)
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
@@ -266,7 +266,7 @@ async function build () {
         ? path.join(outputFolder, '..')
         : outputFolder
 
-      banner(argv, 'build', { outputFolder, modern: buildConfig.build.modern })
+      banner(argv, 'build', { outputFolder, legacy: buildConfig.build.legacy })
 
       if (typeof buildConfig.build.afterBuild === 'function') {
         await buildConfig.build.afterBuild({ quasarConf: buildConfig })

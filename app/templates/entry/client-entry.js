@@ -9,7 +9,7 @@
  *
  * Boot files are your "main.js"
  **/
-<% if (supportIE) { %>
+<% if (__needsAdditionalPolyfills) { %>
 import 'quasar/dist/quasar.ie.polyfills.js'
 <% } %>
 

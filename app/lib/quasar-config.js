@@ -9,7 +9,7 @@ const appPaths = require('./app-paths')
 const { log, warn, fatal } = require('./helpers/logger')
 const appFilesValidations = require('./app-files-validations')
 const extensionRunner = require('./app-extension/extensions-runner')
-const supportIE = require('./helpers/support-ie')
+const useAdditionalPolyfills = require('./helpers/use-additional-polyfills')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 
@@ -339,9 +339,7 @@ class QuasarConfig {
     // make sure these exist
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false
-
-    // make sure these exist
-    cfg.supportIE = supportIE(cfg.supportIE, this.ctx)
+    cfg.__needsAdditionalPolyfills = useAdditionalPolyfills(cfg.build.legacy, this.ctx)
     cfg.supportTS = cfg.supportTS || false
 
     if (cfg.vendor.disable !== true) {
@@ -386,7 +384,7 @@ class QuasarConfig {
     cfg.framework.plugins = getUniqueArray(cfg.framework.plugins)
 
     cfg.build = merge({
-      modern: false,
+      legacy: false,
       transformAssetUrls: Object.assign({
         video: ['src', 'poster'],
         source: 'src',
@@ -459,24 +457,15 @@ class QuasarConfig {
       }
     }, cfg.build)
 
-    if (this.opts.modern === true) {
-      cfg.build.modern = true
+    if (this.opts.legacy === true) {
+      cfg.build.legacy = true
     }
 
-    if (cfg.build.modern === true) {
-      log(underline('Using MODERN build (ES6+)'))
-
-      // force disable IE11 support
-      if (cfg.supportIE === true) {
-        console.log()
-        warn(`IE11 support is requested but it was disabled because build mode is set to modern.`)
-        console.log()
-        cfg.supportIE = false
-      }
-    }
-    else {
-      log(underline('Generating legacy js code (ES5); use "--modern" param for ES6+'))
-    }
+    log(underline(
+      cfg.build.legacy === true
+        ? 'Generating legacy js code (ES5)'
+        : 'Using MODERN build (ES6+)'
+    ))
 
     cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
 

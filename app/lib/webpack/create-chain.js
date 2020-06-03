@@ -106,7 +106,7 @@ module.exports = function (cfg, configName) {
         .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
   }
 
-  if (cfg.build.modern !== true) {
+  if (cfg.build.legacy === true) {
     const vueRegex = /\.vue\.jsx?$/
     const nodeModulesRegex = /[\\/]node_modules[\\/]/
     const quasarRegex = configName !== 'Server'
@@ -281,7 +281,7 @@ module.exports = function (cfg, configName) {
       .use(FriendlyErrorsPlugin, [{
         clearConsole: true,
         compilationSuccessInfo: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
-          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.build.modern) ] }
+          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.build.legacy) ] }
           : undefined
       }])
   }

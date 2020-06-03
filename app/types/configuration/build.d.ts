@@ -14,11 +14,11 @@ interface QuasarStaticBuildConfiguration {
   /**
    * @version `@quasar/app` 1.9+
    *
-   * Run modern build (ES6+).
+   * Run legacy build (ES5).
    *
    * @default false
    */
-  modern: boolean;
+  legacy: boolean;
   /**
    * @version `@quasar/app` 1.3.4+
    *
