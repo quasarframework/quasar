@@ -1,7 +1,7 @@
 const path = require('path')
 const fse = require('fs')
 const archiver = require('archiver')
-
+const mkdirp = require('mkdirp')
 
 class BexPackager {
   constructor (options) {
@@ -11,8 +11,8 @@ class BexPackager {
   }
 
   apply (compiler) {
-    compiler.hooks.done.tap('done-compiling', async () => {
-      await this.setupDirectories()
+    compiler.hooks.done.tap('done-compiling', () => {
+      this.setupDirectories()
       this.fixManifest()
       this.bundleChrome()
       this.bundleFirefox()
@@ -41,7 +41,6 @@ class BexPackager {
   }
 
   setupDirectories () {
-    const mkdirp = require('mkdirp')
     mkdirp.sync(this.chromeDir)
     mkdirp.sync(this.firefoxDir)
   }

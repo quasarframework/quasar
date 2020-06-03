@@ -58,6 +58,10 @@ module.exports = class SsrProdArtifacts {
         pkg.dependencies.vuex = cliDeps.vuex
       }
 
+      if (this.cfg.ssr.extendPackageJson) {
+        this.cfg.ssr.extendPackageJson(pkg)
+      }
+
       pkg = JSON.stringify(pkg, null, 2)
       compiler.assets['../package.json'] = {
         source: () => Buffer.from(pkg, 'utf8'),

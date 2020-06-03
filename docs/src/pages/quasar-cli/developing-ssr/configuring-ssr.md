@@ -16,6 +16,14 @@ return {
     manualHydration: true/false, // (@quasar/app v1.4.2+) Manually hydrate the store
     componentCache: {...} // lru-cache package options,
 
+    // -- @quasar/app v1.9.5+ --
+    // optional; add/remove/change properties
+    // of production generated package.json
+    extendPackageJson (pkg) {
+      // directly change props of pkg;
+      // no need to return anything
+    },
+
     // -- @quasar/app v1.5+ --
     // optional; webpack config Object for
     // the Webserver part ONLY (/src-ssr/)
