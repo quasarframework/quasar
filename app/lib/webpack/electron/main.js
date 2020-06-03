@@ -1,8 +1,9 @@
 const webpack = require('webpack')
-const merge = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
+
 const WebpackProgress = require('../plugin.progress')
 const ExpressionDependency = require('./plugin.expression-dependency')
+const parseBuildEnv = require('../../helpers/parse-build-env')
 
 const appPaths = require('../../app-paths')
 
@@ -82,14 +83,14 @@ module.exports = function (cfg, configName) {
       .use(WebpackProgress, [{ name: configName }])
   }
 
-  const env = merge({}, cfg.build.env, {
-    QUASAR_NODE_INTEGRATION: JSON.stringify(
-      cfg.electron.nodeIntegration === true
-    )
+  const env = Object.assign({}, cfg.build.env, {
+    QUASAR_NODE_INTEGRATION: cfg.electron.nodeIntegration === true
   })
 
   chain.plugin('define')
-    .use(webpack.DefinePlugin, [ env ])
+    .use(webpack.DefinePlugin, [
+      parseBuildEnv(env, cfg.__rootDefines)
+    ])
 
   if (cfg.ctx.prod) {
     if (cfg.build.minify) {

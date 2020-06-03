@@ -52,19 +52,6 @@ function formatRouterBase (publicPath) {
   return formatPublicPath(match[5] || '')
 }
 
-function parseBuildEnv (env) {
-  const obj = {}
-  Object.keys(env).forEach(key => {
-    try {
-      obj[key] = JSON.parse(env[key])
-    }
-    catch (e) {
-      obj[key] = ''
-    }
-  })
-  return obj
-}
-
 function parseAssetProperty (prefix) {
   return asset => {
     if (typeof asset === 'string') {
@@ -336,6 +323,7 @@ class QuasarConfig {
     }
 
     // make sure these exist
+    cfg.__rootDefines = {}
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false
     cfg.__needsAdditionalPolyfills = useAdditionalPolyfills(cfg.build.legacy, this.ctx)
@@ -410,14 +398,7 @@ class QuasarConfig {
       devtool: this.ctx.dev
         ? '#cheap-module-eval-source-map'
         : '#source-map',
-      env: {
-        NODE_ENV: `"${this.ctx.prod ? 'production' : 'development'}"`,
-        CLIENT: true,
-        SERVER: false,
-        DEV: this.ctx.dev,
-        PROD: this.ctx.prod,
-        MODE: `"${this.ctx.modeName}"`
-      },
+      // env: {}, // leaving here for completeness
       uglifyOptions: {
         compress: {
           // turn off flags with small gains to speed up minification
@@ -466,7 +447,9 @@ class QuasarConfig {
         : 'Using MODERN build (ES6+)'
     ))
 
-    cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
+    if (cfg.build.legacy === true) {
+      cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
+    }
 
     cfg.__loadingBar = cfg.framework.all === true || cfg.framework.plugins.includes('LoadingBar')
     cfg.__meta = cfg.framework.all === true || cfg.framework.plugins.includes('Meta')
@@ -737,25 +720,6 @@ class QuasarConfig {
         console.log()
         process.exit(1)
       }
-      if (cfg.pwa.cacheExt) {
-        console.log()
-        console.log(`⚠️  Quasar CLI now uses Workbox, so quasar.conf.js > pwa > cacheExt is no longer relevant.`)
-        console.log(`   Please remove this property and try again.`)
-        console.log()
-        process.exit(1)
-      }
-      if (
-        fs.existsSync(appPaths.resolve.pwa('service-worker-dev.js')) ||
-        fs.existsSync(appPaths.resolve.pwa('service-worker-prod.js'))
-      ) {
-        console.log()
-        console.log(`⚠️  Quasar CLI now uses Workbox, so src-pwa/service-worker-dev.js and src-pwa/service-worker-prod.js are obsolete.`)
-        console.log(`   Please remove and add PWA mode again:`)
-        console.log(`    $ quasar mode -r pwa # Warning: this will delete /src-pwa !`)
-        console.log(`    $ quasar mode -a pwa`)
-        console.log()
-        process.exit(1)
-      }
 
       cfg.pwa.manifest.icons = cfg.pwa.manifest.icons.map(icon => {
         if (urlRegex.test(icon.src) === false) {
@@ -780,21 +744,23 @@ class QuasarConfig {
       cfg.build.APP_URL = 'index.html'
     }
     else if (this.ctx.mode.electron) {
-      cfg.build.APP_URL = `file://" + __dirname + "/index.html`
+      cfg.__rootDefines[`process.env.APP_URL`] = `"file://" + __dirname + "/index.html"`
     }
 
-    cfg.build.env = merge(cfg.build.env, {
-      VUE_ROUTER_MODE: `"${cfg.build.vueRouterMode}"`,
-      VUE_ROUTER_BASE: `"${cfg.build.vueRouterBase}"`,
-      APP_URL: `"${cfg.build.APP_URL}"`
+    Object.assign(cfg.build.env, {
+      NODE_ENV: this.ctx.prod ? 'production' : 'development',
+      CLIENT: true,
+      SERVER: false,
+      DEV: this.ctx.dev,
+      PROD: this.ctx.prod,
+      MODE: this.ctx.modeName,
+      VUE_ROUTER_MODE: cfg.build.vueRouterMode,
+      VUE_ROUTER_BASE: cfg.build.vueRouterBase,
+      APP_URL: cfg.build.APP_URL
     })
 
     if (this.ctx.mode.pwa) {
-      cfg.build.env.SERVICE_WORKER_FILE = `"${cfg.build.publicPath}service-worker.js"`
-    }
-
-    cfg.build.env = {
-      'process.env': cfg.build.env
+      cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}service-worker.js`
     }
 
     if (this.ctx.mode.electron) {
@@ -803,9 +769,7 @@ class QuasarConfig {
           nodeIntegration: true
         }, cfg.electron)
 
-        if (cfg.electron.nodeIntegration) {
-          cfg.build.env.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
-        }
+        cfg.__rootDefines.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
       }
       else {
         const bundler = require('./electron/bundler')
@@ -907,7 +871,7 @@ class QuasarConfig {
       variables: {
         ctx: cfg.ctx,
         process: {
-          env: parseBuildEnv(cfg.build.env['process.env'])
+          env: cfg.build.env
         },
         productName: cfg.build.productName,
         productDescription: cfg.build.productDescription,

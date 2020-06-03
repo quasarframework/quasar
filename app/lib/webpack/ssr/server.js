@@ -19,14 +19,10 @@ module.exports = function (chain, cfg) {
 
   chain.plugin('define')
     .tap(args => {
-      const { 'process.env': env, ...rest } = args[0]
       return [{
-        'process.env': {
-          ...env,
-          CLIENT: false,
-          SERVER: true
-        },
-        ...rest
+        ...args[0],
+        'process.env.CLIENT': false,
+        'process.env.SERVER': true
       }]
     })
 
