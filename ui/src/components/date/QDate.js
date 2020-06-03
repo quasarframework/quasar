@@ -78,6 +78,7 @@ export default Vue.extend({
       yearDirection: direction,
       startYear: inner.year - inner.year % yearsInterval,
       dates: dates,
+      mockRangeEnd: null,
       innerModel: inner,
       extModel: external
     }
@@ -214,22 +215,38 @@ export default Vue.extend({
     },
 
     isInDates () {
-      return date => {
-        if (Array.isArray(this.dates)) {
-          return this.dates.filter(value => {
-            return Array.isArray(value)
-              ? isBetweenDates(date, getMinDate(...value), getMaxDate(...value), { inclusiveTo: true, inclusiveFrom: true })
-              : isSameDate(date, value)
-          }).length > 0
-        }
-        else {
-          return isSameDate(this.dates, date)
-        }
-      }
+      return date =>
+        Array.isArray(this.dates)
+          ? this.dates.filter(value => !Array.isArray(value) && isSameDate(value, date)).length > 0 || this.isInRange(date) || this.isRangeStart(date) || this.isRangeEnd(date)
+          : isSameDate(this.dates, date)
+    },
+
+    isInRange () {
+      return date => Array.isArray(this.dates) && this.dates.filter(value => Array.isArray(value) && value.length === 2 && isBetweenDates(date, getMinDate(...value), getMaxDate(...value), { inclusiveFrom: true, inclusiveTo: true })).length > 0
     },
 
     isRangeStart () {
-      return () => this.__isRangeStart(this.dates)
+      return date => Array.isArray(this.dates) && this.dates.filter(value => Array.isArray(value) && value.length === 2 && isSameDate(date, getMinDate(...value))).length > 0
+    },
+
+    isRangeEnd () {
+      return date => Array.isArray(this.dates) && this.dates.filter(value => Array.isArray(value) && value.length === 2 && isSameDate(date, getMaxDate(...value))).length > 0
+    },
+
+    needsRangeEnd () {
+      return () => this.__needsRangeEnd(this.dates)
+    },
+
+    isInMockRange () {
+      return date => this.__needsRangeEnd(this.dates) && this.mockRangeEnd !== null && isBetweenDates(date, getMinDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), getMaxDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), { inclusiveFrom: true, inclusiveTo: true })
+    },
+
+    isMockRangeStart () {
+      return date => this.__needsRangeEnd(this.dates) && this.mockRangeEnd !== null && isSameDate(getMinDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), date)
+    },
+
+    isMockRangeEnd () {
+      return date => this.__needsRangeEnd(this.dates) && this.mockRangeEnd !== null && isSameDate(getMaxDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), date)
     },
 
     days () {
@@ -268,26 +285,30 @@ export default Vue.extend({
 
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + pad(i)
-
-        if (this.options !== void 0 && this.isInSelection(day) !== true) {
-          if (this.isInDates(addToDate(date, { days: i - 1 }))) {
-            res.push({ i, flat: false, color: this.computedColor })
-          }
-          else {
-            res.push({ i })
+        let item = { i }
+        if (this.isInDates(addToDate(date, { days: i - 1 }))) {
+          item.range = this.isInRange(addToDate(date, { days: i - 1 }))
+          item.rangeStart = this.isRangeStart(addToDate(date, { days: i - 1 }))
+          item.rangeEnd = this.isRangeEnd(addToDate(date, { days: i - 1 }))
+          if (item.rangeStart || item.rangeEnd || item.range === false) {
+            item.flat = false
+            item.color = this.computedColor
           }
         }
-        else {
+        if (this.options === void 0 || this.isInSelection(day) === true) {
           const event = this.events !== void 0 && this.evtFn(day) === true
             ? this.evtColor(day)
             : false
-          if (this.isInDates(addToDate(date, { days: i - 1 }))) {
-            res.push({ i, in: true, flat: false, event, color: this.computedColor })
-          }
-          else {
-            res.push({ i, in: true, flat: true, event })
-          }
+          item.in = true
+          item.event = event
+          item.flat = item.flat !== false
         }
+        if (this.isInMockRange(addToDate(date, { days: i - 1 }))) {
+          item.mockRange = true
+          item.mockRangeStart = this.isMockRangeStart(addToDate(date, { days: i - 1 }))
+          item.mockRangeEnd = this.isMockRangeEnd(addToDate(date, { days: i - 1 }))
+        }
+        res.push(item)
       }
 
       if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
@@ -365,7 +386,7 @@ export default Vue.extend({
       }
     },
 
-    __isRangeStart (val) {
+    __needsRangeEnd (val) {
       return Array.isArray(val) && Array.isArray(val[val.length - 1]) && val[val.length - 1].length === 1
     },
 
@@ -607,8 +628,21 @@ export default Vue.extend({
                 key: this.innerModel.year + '/' + this.innerModel.month,
                 staticClass: 'q-date__calendar-days fit'
               }, this.days.map(day => h('div', {
-                //ToDo: add background for range selection and border on mouse over when selecting range end
-                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}`
+                // ToDo: add background for range selection and border on mouse over when selecting range end
+                staticClass:
+                  `q-date__calendar-item q-date__calendar-item--selected q-date__calendar-item--${
+                    day.fill === true
+                      ? 'fill'
+                      : (day.in === true ? 'in' : 'out')
+                  } ${
+                    day.range === true
+                      ? 'q-date__calendar-item--range' + (day.rangeEnd ? '-end' : (day.rangeStart ? '-start' : ''))
+                      : ''
+                  } ${
+                    day.mockRange === true
+                      ? 'q-date__calendar-item--mock-range' + (day.mockRangeEnd ? '-end' : (day.mockRangeStart ? '-start' : ''))
+                      : ''
+                  }`
               }, [
                 day.in === true
                   ? h(QBtn, {
@@ -625,7 +659,7 @@ export default Vue.extend({
                     on: cache(this, 'day#' + day.i, {
                       click: event => {
                         if (this.range) {
-                          if (this.isRangeStart()) {
+                          if (this.needsRangeEnd()) {
                             this.__setRangeEndDay(day.i)
                           }
                           else if (this.multiple) {
@@ -648,9 +682,19 @@ export default Vue.extend({
                         }
                       },
                       contextmenu: event => {
-                        if (this.range && this.multiple && !this.isRangeStart()) {
+                        if (this.range && this.multiple && !this.needsRangeEnd()) {
                           event.preventDefault()
                           this.__addRemoveDay(day.i)
+                        }
+                      },
+                      mouseover: () => {
+                        if (this.needsRangeEnd()) {
+                          this.__setMockRangeEndDay(day.i)
+                        }
+                      },
+                      mouseleave: () => {
+                        if (this.needsRangeEnd()) {
+                          this.__deleteMockRangeEnd(day.i)
                         }
                       }
                     })
@@ -836,7 +880,33 @@ export default Vue.extend({
       this.__updateValue({ day }, 'add-range-start-day')
     },
 
+    __setMockRangeEndDay (day) {
+      const val = this.calendar === 'persian'
+        ? this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(day)
+        : formatDate(
+          new Date(
+            this.innerModel.year,
+            this.innerModel.month - 1,
+            day,
+            this.extModel.hour,
+            this.extModel.minute,
+            this.extModel.second,
+            this.extModel.millisecond
+          ),
+          this.mask,
+          this.computedLocale,
+          this.innerModel.year,
+          this.extModel.timezoneOffset
+        )
+      this.mockRangeEnd = val
+    },
+
+    __deleteMockRangeEnd (day) {
+      this.mockRangeEnd = null
+    },
+
     __setRangeEndDay (day) {
+      this.__deleteMockRangeEnd(day)
       this.__updateValue({ day }, 'set-range-end-day')
     },
 
@@ -896,14 +966,18 @@ export default Vue.extend({
           if (reason === 'set-range-start-day') {
             dates = [[day]]
             valArray = [[val]]
-          } else {
+          }
+          else if (this.isInRange(day) === false) {
             let range = [day]
             let valRange = [val]
             dates.push(range)
-            valArray.push(valRange)            
+            valArray.push(valRange)
+          }
+          else {
+            return
           }
         }
-        else if (reason === 'set-range-end-day' && this.__isRangeStart(dates)) {
+        else if (reason === 'set-range-end-day' && this.__needsRangeEnd(dates)) {
           let range = [this.__getRangeStart(dates), day]
           let valRange = [this.__getRangeStart(valArray), val]
           dates.splice(-1, 1, range)
@@ -933,7 +1007,8 @@ export default Vue.extend({
             }
           )
           valArray = valArray.filter(a => a !== undefined)
-        } else {
+        }
+        else {
           if (this.isInDates(day)) {
             reason = 'remove-day'
             const

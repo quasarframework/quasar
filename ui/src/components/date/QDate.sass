@@ -91,6 +91,29 @@
     &--fill
       visibility: hidden
 
+    &--range, &--range-start, &--range-end
+      background-color: $indigo-1
+      
+      &:nth-child(7n-6), &:first-of-type, &-start
+        border-top-left-radius: 16px
+        border-bottom-left-radius: 16px
+
+      &:nth-child(7n), &:last-of-type, &-end
+        border-top-right-radius: 16px
+        border-bottom-right-radius: 16px
+
+    &--mock-range, &--mock-range-start, &--mock-range-end
+      border-style: dashed
+      border-width: 1pt 0 
+
+      &:nth-child(7n-6), &:first-of-type, &-start
+        border-top-left-radius: 16px
+        border-bottom-left-radius: 16px
+
+      &:nth-child(7n), &:last-of-type, &-end
+        border-top-right-radius: 16px
+        border-bottom-right-radius: 16px
+
   &__calendar-days-container
     height: 75%
     min-height: 192px
