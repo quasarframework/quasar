@@ -52,6 +52,19 @@ function formatRouterBase (publicPath) {
   return formatPublicPath(match[5] || '')
 }
 
+function parseBuildEnv (env) {
+  const obj = {}
+  Object.keys(env).forEach(key => {
+    try {
+      obj[key] = JSON.parse(env[key])
+    }
+    catch (e) {
+      obj[key] = ''
+    }
+  })
+  return obj
+}
+
 function parseAssetProperty (prefix) {
   return asset => {
     if (typeof asset === 'string') {
@@ -771,13 +784,13 @@ class QuasarConfig {
     }
 
     cfg.build.env = merge(cfg.build.env, {
-      VUE_ROUTER_MODE: cfg.build.vueRouterMode,
-      VUE_ROUTER_BASE: cfg.build.vueRouterBase,
-      APP_URL: cfg.build.APP_URL
+      VUE_ROUTER_MODE: `"${cfg.build.vueRouterMode}"`,
+      VUE_ROUTER_BASE: `"${cfg.build.vueRouterBase}"`,
+      APP_URL: `"${cfg.build.APP_URL}"`
     })
 
     if (this.ctx.mode.pwa) {
-      cfg.build.env.SERVICE_WORKER_FILE = `${cfg.build.publicPath}service-worker.js`
+      cfg.build.env.SERVICE_WORKER_FILE = `"${cfg.build.publicPath}service-worker.js"`
     }
 
     cfg.build.env = {
@@ -791,7 +804,7 @@ class QuasarConfig {
         }, cfg.electron)
 
         if (cfg.electron.nodeIntegration) {
-          cfg.build.env.__statics = appPaths.resolve.app('public').replace(/\\/g, '\\\\')
+          cfg.build.env.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
         }
       }
       else {
@@ -894,7 +907,7 @@ class QuasarConfig {
       variables: {
         ctx: cfg.ctx,
         process: {
-          env: cfg.build.env['process.env']
+          env: parseBuildEnv(cfg.build.env['process.env'])
         },
         productName: cfg.build.productName,
         productDescription: cfg.build.productDescription,
