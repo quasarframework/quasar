@@ -69,6 +69,14 @@ const Portal = {
   },
 
   methods: {
+    focus () {
+      const node = this.__getInnerNode()
+
+      if (node !== void 0 && node.contains(document.activeElement) !== true) {
+        (node.querySelector('[autofocus], [data-autofocus]') || this.__portal.$refs.firstFocusTarget).focus()
+      }
+    },
+
     __showPortal () {
       if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
         const append = isFullscreen => {
@@ -137,6 +145,12 @@ const Portal = {
             directives: this.$options.directives
           }).$mount()
       }
+    },
+
+    __getInnerNode () {
+      return this.__portal !== void 0 && this.__portal.$refs !== void 0
+        ? this.__portal.$refs.inner
+        : void 0
     }
   },
 
