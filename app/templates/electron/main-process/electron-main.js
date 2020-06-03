@@ -11,7 +11,7 @@ try {
  * The reason we are setting it here is that the path needs to be evaluated at runtime
  */
 if (process.env.PROD) {
-  global.__statics = require('path').join(__dirname, 'statics').replace(/\\/g, '\\\\')
+  global.__statics = __dirname
 }
 
 let mainWindow

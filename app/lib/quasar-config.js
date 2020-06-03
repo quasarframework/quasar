@@ -619,7 +619,7 @@ class QuasarConfig {
           if (!this.ctx.mode.ssr) {
             const express = require('express')
 
-            app.use((cfg.build.publicPath || '/') + 'statics', express.static(appPaths.resolve.src('statics'), {
+            app.use((cfg.build.publicPath || '/'), express.static(appPaths.resolve.app('public'), {
               maxAge: 0
             }))
 
@@ -713,12 +713,12 @@ class QuasarConfig {
         metaVariables: {
           appleMobileWebAppCapable: 'yes',
           appleMobileWebAppStatusBarStyle: 'default',
-          appleTouchIcon120: 'statics/icons/apple-icon-120x120.png',
-          appleTouchIcon152: 'statics/icons/apple-icon-152x152.png',
-          appleTouchIcon167: 'statics/icons/apple-icon-167x167.png',
-          appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
-          appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
-          msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
+          appleTouchIcon120: 'icons/apple-icon-120x120.png',
+          appleTouchIcon152: 'icons/apple-icon-152x152.png',
+          appleTouchIcon167: 'icons/apple-icon-167x167.png',
+          appleTouchIcon180: 'icons/apple-icon-180x180.png',
+          appleSafariPinnedTab: 'icons/safari-pinned-tab.svg',
+          msapplicationTileImage: 'icons/ms-icon-144x144.png',
           msapplicationTileColor: '#000000'
         }
       }, cfg.pwa)
@@ -804,7 +804,7 @@ class QuasarConfig {
         }, cfg.electron)
 
         if (cfg.electron.nodeIntegration) {
-          cfg.build.env.__statics = `"${appPaths.resolve.src('statics').replace(/\\/g, '\\\\')}"`
+          cfg.build.env.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
         }
       }
       else {

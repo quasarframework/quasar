@@ -294,22 +294,22 @@ module.exports = function (cfg, configName) {
       }])
 
     if (configName !== 'Server') {
-      // copy statics to dist folder
+      // copy /public to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
-      const staticsFolder = appPaths.resolve.src('statics')
+      const publicFolder = appPaths.resolve.app('public')
 
       const patterns = []
 
-      if (fs.existsSync(staticsFolder)) {
+      if (fs.existsSync(publicFolder)) {
         patterns.push({
-          from: staticsFolder,
-          to: 'statics',
+          from: publicFolder,
+          to: '.',
           noErrorOnMissing: true,
           globOptions: {
             ignore: ['.*'].concat(
               // avoid useless files to be copied
               ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-                ? [ appPaths.resolve.src('statics/icons') ]
+                ? [ appPaths.resolve.app('public/icons'), appPaths.resolve.app('public/favicon.ico') ]
                 : []
             )
           }

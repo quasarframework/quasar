@@ -10,8 +10,8 @@ module.exports = function (chain, cfg) {
 
   // Add a copy config to copy the static folder for both dev and build.
   const copyPatterns = [{
-    from: appPaths.resolve.src('statics'),
-    to: path.join(outputPath, 'statics'),
+    from: appPaths.resolve.app('public'),
+    to: path.join(outputPath),
     noErrorOnMissing: true
   }]
 

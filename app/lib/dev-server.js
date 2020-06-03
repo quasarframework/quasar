@@ -225,7 +225,7 @@ module.exports = class DevServer {
           })
         }
 
-        app.use('/statics', express.static(appPaths.resolve.src('statics'), {
+        app.use('/', express.static(appPaths.resolve.app('public'), {
           maxAge: 0
         }))
 

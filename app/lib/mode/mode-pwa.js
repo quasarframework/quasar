@@ -38,10 +38,10 @@ class Mode {
     log(`Creating PWA source folder...`)
     fse.copySync(appPaths.resolve.cli('templates/pwa'), appPaths.pwaDir)
 
-    log(`Copying PWA icons to /src/statics/icons/ (if they are not already there)...`)
+    log(`Copying PWA icons to /public/icons/ (if they are not already there)...`)
     fse.copySync(
       appPaths.resolve.cli('templates/pwa-icons'),
-      appPaths.resolve.src('statics/icons'),
+      appPaths.resolve.app('public/icons'),
       { overwrite: false }
     )
 
