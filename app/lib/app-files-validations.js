@@ -1,28 +1,12 @@
 const fs = require('fs')
 const { green } = require('chalk')
 
-const { warn } = require('./helpers/logger')
 const appPaths = require('./app-paths')
 
 module.exports = function (cfg) {
   let file
   let content
   let error = false
-
-  file = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
-  if (!fs.existsSync(file)) {
-    warn('Missing /src/index.template.html file...\n')
-    error = true
-  }
-  content = fs.readFileSync(file, 'utf-8')
-
-  if (content.indexOf('<base href') > -1) {
-    warn(`Please remove the tag below from /src/index.template.html
-   This is taken care of by Quasar automatically.
-  <base href="<%= htmlWebpackPlugin.options.appBase %>">
-  `)
-    error = true
-  }
 
   file = appPaths.resolve.app(cfg.sourceFiles.rootComponent)
   content = fs.readFileSync(file, 'utf-8')
