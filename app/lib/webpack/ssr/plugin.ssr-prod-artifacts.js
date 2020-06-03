@@ -27,6 +27,8 @@ module.exports = class SsrProdArtifacts {
        */
       const appPkg = require(appPaths.resolve.app('package.json'))
       const cliPkg = require(appPaths.resolve.cli('package.json'))
+
+      delete appPkg.dependencies['@quasar/extras']
       const appDeps = getFixedDeps(appPkg.dependencies)
       const cliDeps = cliPkg.dependencies
 
