@@ -3,6 +3,12 @@ const fse = require('fs-extra')
 
 const appPaths = require('../app-paths')
 const { log, warn } = require('../helpers/logger')
+const { spawnSync } = require('../helpers/spawn')
+const nodePackager = require('../helpers/node-packager')
+
+const pwaDeps = {
+  'workbox-webpack-plugin': '^5.0.0'
+}
 
 class Mode {
   get isInstalled () {
@@ -14,6 +20,20 @@ class Mode {
       warn(`PWA support detected already. Aborting.`)
       return
     }
+
+    const cmdParam = nodePackager === 'npm'
+      ? ['install', '--save-dev']
+      : ['add', '--dev']
+
+    log(`Installing PWA dependencies...`)
+    spawnSync(
+      nodePackager,
+      cmdParam.concat(Object.keys(pwaDeps).map(dep => {
+        return `${dep}@${pwaDeps[dep]}`
+      })),
+      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
+      () => warn('Failed to install PWA dependencies')
+    )
 
     log(`Creating PWA source folder...`)
     fse.copySync(appPaths.resolve.cli('templates/pwa'), appPaths.pwaDir)
@@ -36,6 +56,20 @@ class Mode {
 
     log(`Removing PWA source folder`)
     fse.removeSync(appPaths.pwaDir)
+
+    const cmdParam = nodePackager === 'npm'
+      ? ['uninstall', '--save-dev']
+      : ['remove']
+
+    const deps = Object.keys(pwaDeps)
+
+    log(`Uninstalling PWA dependencies...`)
+    spawnSync(
+      nodePackager,
+      cmdParam.concat(deps),
+      { cwd: appPaths.appDir, env: { ...process.env, NODE_ENV: 'development' } },
+      () => warn('Failed to uninstall PWA dependencies')
+    )
 
     log(`PWA support was removed`)
   }
