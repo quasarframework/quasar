@@ -7,7 +7,6 @@ const { underline } = require('chalk')
 
 const appPaths = require('./app-paths')
 const { log, warn, fatal } = require('./helpers/logger')
-const appFilesValidations = require('./app-files-validations')
 const extensionRunner = require('./app-extension/extensions-runner')
 const useAdditionalPolyfills = require('./helpers/use-additional-polyfills')
 const cssVariables = require('./helpers/css-variables')
@@ -797,8 +796,6 @@ class QuasarConfig {
     cfg.build.env = {
       'process.env': cfg.build.env
     }
-
-    appFilesValidations(cfg)
 
     if (this.ctx.mode.electron) {
       if (this.ctx.dev) {
