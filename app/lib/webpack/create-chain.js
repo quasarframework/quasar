@@ -3,8 +3,10 @@ const path = require('path')
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 const WebpackProgress = require('./plugin.progress')
 const BootDefaultExport = require('./plugin.boot-default-export')
+const parseDefinePluginEnv = require('./util.parse-define-plugin-env')
 
 const appPaths = require('../app-paths')
 const injectStyleRules = require('./inject.style-rules')
@@ -215,7 +217,7 @@ module.exports = function (cfg, configName) {
     .use(VueLoaderPlugin)
 
   chain.plugin('define')
-    .use(webpack.DefinePlugin, [ cfg.build.env ])
+    .use(webpack.DefinePlugin, [ parseDefinePluginEnv(cfg.build.env) ])
 
   if (cfg.build.showProgress) {
     chain.plugin('progress')

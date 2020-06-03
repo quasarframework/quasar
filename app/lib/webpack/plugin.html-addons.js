@@ -17,7 +17,7 @@ function makeScriptTag (innerHTML) {
 function fillBaseTag (html, base) {
   return html.replace(
     /(<head[^>]*)(>)/i,
-    (found, start, end) => `${start}${end}<base href="${base}">`
+    (_, start, end) => `${start}${end}<base href="${base}">`
   )
 }
 
