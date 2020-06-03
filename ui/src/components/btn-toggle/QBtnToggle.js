@@ -95,7 +95,10 @@ export default Vue.extend({
     const child = this.options.map((opt, i) => {
       return h(QBtn, {
         key: i,
-        on: { click: e => this.__set(opt.value, opt, e) },
+        on: {
+          ...this.qListeners,
+          click: e => this.__set(opt.value, opt, e)
+        },
         props: {
           disable: this.disable || opt.disable,
           label: opt.label,
@@ -136,8 +139,7 @@ export default Vue.extend({
         unelevated: this.unelevated,
         glossy: this.glossy,
         spread: this.spread
-      },
-      on: { ...this.qListeners }
+      }
     }, child)
   }
 })
