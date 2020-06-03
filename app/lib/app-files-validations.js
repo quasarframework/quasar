@@ -1,7 +1,7 @@
 const fs = require('fs')
 const { green } = require('chalk')
 
-const { warn, fatal } = require('./helpers/logger')
+const { warn } = require('./helpers/logger')
 const appPaths = require('./app-paths')
 
 module.exports = function (cfg) {
@@ -22,18 +22,6 @@ module.exports = function (cfg) {
   <base href="<%= htmlWebpackPlugin.options.appBase %>">
   `)
     error = true
-  }
-
-  // backward compatibility
-  const viewPort = '<% if (htmlWebpackPlugin.options.ctx.mode.cordova) { %>, viewport-fit=cover<% } %>'
-  if (content.indexOf(viewPort) > -1) {
-    content = content.replace(
-      viewPort,
-      '<% if (htmlWebpackPlugin.options.ctx.mode.cordova || htmlWebpackPlugin.options.ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>'
-    )
-    fs.writeFileSync(file, content, 'utf-8')
-    console.log(`\n Updated viewport-fit in /src/index.template.html to latest Quasar specs`)
-    console.log()
   }
 
   file = appPaths.resolve.app(cfg.sourceFiles.rootComponent)
@@ -57,10 +45,5 @@ ${green('Example:')}
 
   if (error) {
     process.exit(1)
-  }
-
-  file = appPaths.resolve.app('babel.config.js')
-  if (!fs.existsSync(file)) {
-    fatal('Missing babel.config.js file...\n')
   }
 }
