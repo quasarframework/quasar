@@ -51,27 +51,21 @@ module.exports = function (chain, cfg) {
 
   if (cfg.ctx.prod) {
     const SsrProdArtifacts = require('./plugin.ssr-prod-artifacts')
+
     chain.plugin('ssr-artifacts')
       .use(SsrProdArtifacts, [ cfg ])
 
-    const fs = require('fs')
-    const copyArray = []
-
-    const npmrc = appPaths.resolve.app('.npmrc')
-    const yarnrc = appPaths.resolve.app('.yarnrc')
-
-    fs.existsSync(npmrc) && copyArray.push({
-      from: npmrc,
-      to: '..'
-    })
-
-    fs.existsSync(yarnrc) && copyArray.push({
-      from: yarnrc,
-      to: '..'
-    })
+    const patterns = [
+      appPaths.resolve.app('.npmrc'),
+      appPaths.resolve.app('.yarnrc')
+    ].map(filename => ({
+      from: filename,
+      to: '..',
+      noErrorOnMissing: true
+    }))
 
     const CopyWebpackPlugin = require('copy-webpack-plugin')
     chain.plugin('copy-webpack')
-      .use(CopyWebpackPlugin, [ copyArray ])
+      .use(CopyWebpackPlugin, [{ patterns }])
   }
 }

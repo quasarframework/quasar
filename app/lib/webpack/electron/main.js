@@ -111,28 +111,20 @@ module.exports = function (cfg, configName) {
     chain.plugin('package-json')
       .use(ElectronPackageJson, [ cfg ])
 
-    const fs = require('fs')
-    const copyArray = []
-
-    const filesToCopy = [
+    const patterns = [
       appPaths.resolve.app('.npmrc'),
       appPaths.resolve.app('.yarnrc'),
       appPaths.resolve.electron('main-process/electron-preload.js')
-    ]
+    ].map(filename => ({
+      from: filename,
+      to: '.',
+      noErrorOnMissing: true
+    }))
 
-    filesToCopy.forEach(filename => {
-      if (fs.existsSync(filename)) {
-        copyArray.push({
-          from: filename,
-          to: '.'
-        })
-      }
-    })
-
-    if (copyArray.length > 0) {
+    if (patterns.length > 0) {
       const CopyWebpackPlugin = require('copy-webpack-plugin')
       chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, [ copyArray ])
+        .use(CopyWebpackPlugin, [{ patterns }])
     }
   }
 

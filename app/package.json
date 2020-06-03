@@ -59,7 +59,7 @@
     "chokidar": "3.4.0",
     "ci-info": "2.0.0",
     "compression-webpack-plugin": "4.0.0",
-    "copy-webpack-plugin": "5.1.1",
+    "copy-webpack-plugin": "6.0.1",
     "cross-spawn": "7.0.3",
     "css-loader": "3.5.3",
     "cssnano": "4.1.10",
