@@ -130,5 +130,14 @@ export default [
     avatar: 'ross_ball.jpeg',
     github: 'rossity',
     desc: 'Quasar Themes'
+  },
+
+  {
+    name: 'Dmitrij Polianin',
+    role: 'Trainer / Community Staff',
+    avatar: 'dmitrij_polianin.jpg',
+    email: 'dmitrij.polyanin@gmail.com',
+    github: 'DmitrijOkeanij',
+    desc: 'Russian Community maintainer and Quasar Trainer.'
   }
 ]
