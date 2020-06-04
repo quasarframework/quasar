@@ -56,6 +56,7 @@ module.exports = function (chain, cfg) {
       noErrorOnMissing: true,
       globOptions: {
         ignore: [
+          appPaths.resolve.bex('/**/.*'),
           appPaths.resolve.bex('www'),
           appPaths.resolve.bex('bex-flag.d.ts')
         ]
