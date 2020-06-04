@@ -1,9 +1,13 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBadge',
+
+  mixins: [ ListenersMixin ],
 
   props: {
     color: String,
@@ -58,7 +62,7 @@ export default Vue.extend({
       style: this.style,
       class: this.classes,
       attrs: this.attrs,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
   }
 })

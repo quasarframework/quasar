@@ -3,9 +3,7 @@ const chokidar = require('chokidar')
 const fs = require('fs')
 const debounce = require('lodash.debounce')
 
-const logger = require('../helpers/logger')
-const log = logger('app:electron')
-const warn = logger('app:electron', 'red')
+const { log, warn, fatal } = require('../helpers/logger')
 const { spawn } = require('../helpers/spawn')
 const appPaths = require('../app-paths')
 const nodePackager = require('../helpers/node-packager')
@@ -57,7 +55,7 @@ class ElectronRunner {
         log()
 
         if (stats.hasErrors()) {
-          warn(`⚠️  Electron main build failed with errors`)
+          warn(`Electron main build failed with errors`)
           return
         }
 
@@ -97,8 +95,7 @@ class ElectronRunner {
         { cwd: cfg.build.distDir },
         code => {
           if (code) {
-            warn(`⚠️  [FAIL] ${nodePackager} failed installing dependencies`)
-            process.exit(1)
+            fatal(`[FAIL] ${nodePackager} failed installing dependencies`)
           }
           resolve()
         }
@@ -149,7 +146,7 @@ class ElectronRunner {
           })
           .catch(err => {
             log()
-            warn(`⚠️  [FAIL] ${pkgName} could not build`)
+            warn(`[FAIL] ${pkgName} could not build`)
             log()
             console.error(err + '\n')
             reject()
@@ -202,15 +199,11 @@ class ElectronRunner {
         }
         else if (code) {
           warn()
-          warn(`⚠️  Electron process ended with error code: ${code}`)
-          warn()
-          process.exit(1)
+          fatal(`Electron process ended with error code: ${code}\n`)
         }
         else { // else it wasn't killed by us
           warn()
-          warn('Electron process was killed. Exiting...')
-          warn()
-          process.exit(0)
+          fatal('Electron process was killed. Exiting...\n')
         }
       }
     )

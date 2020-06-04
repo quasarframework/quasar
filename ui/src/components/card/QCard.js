@@ -2,13 +2,14 @@ import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QCard',
 
-  mixins: [ DarkMixin, TagMixin ],
+  mixins: [ ListenersMixin, DarkMixin, TagMixin ],
 
   props: {
     square: Boolean,
@@ -29,7 +30,7 @@ export default Vue.extend({
   render (h) {
     return h(this.tag, {
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

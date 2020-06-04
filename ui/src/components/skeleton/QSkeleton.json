@@ -9,6 +9,8 @@
     "$listeners": true
   },
 
+  "addedIn": "v1.6.0",
+
   "props": {
     "dark": {
       "extends": "dark"

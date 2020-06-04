@@ -2,9 +2,7 @@ const fs = require('fs')
 const fse = require('fs-extra')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const log = logger('app:mode-cordova')
-const warn = logger('app:mode-cordova', 'red')
+const { log, warn, fatal } = require('../helpers/logger')
 const { spawnSync } = require('../helpers/spawn')
 
 class Mode {
@@ -23,7 +21,7 @@ class Mode {
 
     if (/^[0-9]/.test(appName)) {
       warn(
-        `⚠️  App product name cannot start with a number. ` +
+        `App product name cannot start with a number. ` +
         `Please change the "productName" prop in your /package.json then try again.`
       )
       return
@@ -36,8 +34,7 @@ class Mode {
       ['create', 'src-cordova', pkg.cordovaId || 'org.quasar.cordova.app', appName],
       { cwd: appPaths.appDir },
       () => {
-        warn(`⚠️  There was an error trying to install Cordova support`)
-        process.exit(1)
+        fatal(`There was an error trying to install Cordova support`)
       }
     )
 
@@ -84,7 +81,7 @@ class Mode {
       ['platform', 'add', target],
       { cwd: appPaths.cordovaDir },
       () => {
-        warn(`⚠️  There was an error trying to install Cordova platform "${target}"`)
+        warn(`There was an error trying to install Cordova platform "${target}"`)
         process.exit(1)
       }
     )

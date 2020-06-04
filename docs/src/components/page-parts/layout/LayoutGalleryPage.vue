@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { mdiCodeTags } from '@quasar/extras/mdi-v4'
+import { mdiCodeTags } from '@quasar/extras/mdi-v5'
 
 import getMeta from 'assets/get-meta.js'
 

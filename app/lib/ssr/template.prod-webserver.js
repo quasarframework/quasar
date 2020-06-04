@@ -10,8 +10,8 @@ const { createBundleRenderer } = require('vue-server-renderer')
 
 const resolve = file => path.join(__dirname, file)
 const template = fs.readFileSync(resolve('template.html'), 'utf-8')
-const bundle = require('./vue-ssr-server-bundle.json')
-const clientManifest = require('./vue-ssr-client-manifest.json')
+const bundle = require('./quasar.server-manifest.json')
+const clientManifest = require('./quasar.client-manifest.json')
 
 const settings = <%= opts %>
 
@@ -50,7 +50,7 @@ module.exports.renderToString = function ({ req, res }, cb) {
 <% if (flags.meta) { %>
   renderer.renderToString(ctx, (err, html) => {
     if (err) { cb(err, html) }
-    else { cb(err, ctx.$getMetaHTML(html)) }
+    else { cb(err, ctx.$getMetaHTML(html, ctx)) }
   })
 <% } else { %>
   renderer.renderToString(ctx, cb)

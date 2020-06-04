@@ -9,9 +9,10 @@ module.exports = function (chain, cfg) {
   const outputPath = path.join(rootPath, 'www')
 
   // Add a copy config to copy the static folder for both dev and build.
-  let copyArray = [{
-    from: appPaths.resolve.src( 'statics'),
-    to: path.join(outputPath, 'statics')
+  const copyPatterns = [{
+    from: appPaths.resolve.app('public'),
+    to: path.join(outputPath),
+    noErrorOnMissing: true
   }]
 
   // Copy our entry BEX files to the .quasar/bex folder.
@@ -48,16 +49,23 @@ module.exports = function (chain, cfg) {
         name: require(path.join(appPaths.appDir, 'package.json')).name
       }])
 
-    // Copy our user edited BEX files to the dist dir (excluding the already build www folder)
-    copyArray.push({
+    // Copy our user edited BEX files to the dist dir (excluding the already built www folder)
+    copyPatterns.push({
       from: appPaths.bexDir,
       to: cfg.build.distDir,
-      ignore: ['www/**/*']
+      noErrorOnMissing: true,
+      globOptions: {
+        ignore: [
+          appPaths.resolve.bex('/**/.*'),
+          appPaths.resolve.bex('www'),
+          appPaths.resolve.bex('bex-flag.d.ts')
+        ]
+      }
     })
   }
 
   // Copy any files we've registered during the chain.
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   chain.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [copyArray])
+    .use(CopyWebpackPlugin, [{ patterns: copyPatterns }])
 }

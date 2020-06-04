@@ -159,8 +159,6 @@ function updateClient () {
   if (ssrTakeover === true) {
     ssrTakeover = false
     this.$root.__currentMeta = window.__Q_META__
-    document.body.querySelector('script[data-qmeta-init]').remove()
-    return
   }
 
   const meta = {
@@ -208,7 +206,7 @@ function getHead (meta) {
   return output
 }
 
-function getServerMeta (app, html) {
+function getServerMeta (app, html, ctx) {
   const meta = {
     title: '',
     titleTemplate: null,
@@ -221,6 +219,10 @@ function getServerMeta (app, html) {
 
   parseMeta(app, meta)
   normalize(meta)
+
+  const nonce = ctx !== void 0 && ctx.nonce !== void 0
+    ? ` nonce="${ctx.nonce}"`
+    : ''
 
   const tokens = {
     '%%Q_HTML_ATTRS%%': Object.keys(meta.htmlAttr)
@@ -235,7 +237,7 @@ function getServerMeta (app, html) {
     '%%Q_BODY_TAGS%%': Object.keys(meta.noscript)
       .map(name => `<noscript data-qmeta="${name}">${meta.noscript[name]}</noscript>`)
       .join('') +
-      `<script data-qmeta-init>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script>`
+      `<script${nonce}>window.__Q_META__=${delete meta.noscript && JSON.stringify(meta)}</script>`
   }
 
   Object.keys(tokens).forEach(key => {
@@ -270,7 +272,10 @@ function triggerMeta () {
 export default {
   install ({ queues }) {
     if (isSSR === true) {
-      Vue.prototype.$getMetaHTML = app => html => getServerMeta(app, html)
+      Vue.prototype.$getMetaHTML = app => {
+        return (html, ctx) => getServerMeta(app, html, ctx)
+      }
+
       Vue.mixin({ beforeCreate })
 
       queues.server.push((_, ctx) => {

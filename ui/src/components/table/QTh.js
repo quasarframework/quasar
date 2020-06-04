@@ -2,10 +2,14 @@ import Vue from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QTh',
+
+  mixins: [ ListenersMixin ],
 
   props: {
     props: Object,
@@ -13,7 +17,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    const on = this.$listeners
+    const on = { ...this.qListeners }
 
     if (this.props === void 0) {
       return h('th', {
@@ -61,7 +65,7 @@ export default Vue.extend({
 
     return h('th', {
       on: { ...on, ...evt },
-      style: col.__thStyle,
+      style: col.headerStyle,
       class: col.__thClass +
         (this.autoWidth === true ? ' q-table--col-auto-width' : '')
     }, child)

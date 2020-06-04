@@ -2,13 +2,14 @@ import Vue from 'vue'
 
 import CanRenderMixin from '../../mixins/can-render.js'
 import TagMixin from '../../mixins/tag.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QNoSsr',
 
-  mixins: [ CanRenderMixin, TagMixin ],
+  mixins: [ CanRenderMixin, TagMixin, ListenersMixin ],
 
   props: {
     placeholder: String
@@ -16,7 +17,7 @@ export default Vue.extend({
 
   render (h) {
     const data = {
-      on: this.$listeners
+      on: { ...this.qListeners }
     }
 
     if (this.canRender === true) {

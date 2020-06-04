@@ -3,9 +3,7 @@ const fse = require('fs-extra')
 const compileTemplate = require('lodash.template')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const log = logger('app:mode-capacitor')
-const warn = logger('app:mode-capacitor', 'red')
+const { log, warn } = require('../helpers/logger')
 const { spawnSync } = require('../helpers/spawn')
 const nodePackager = require('../helpers/node-packager')
 
@@ -26,8 +24,8 @@ class Mode {
 
     if (/^[0-9]/.test(appName)) {
       warn(
-        `⚠️  App product name cannot start with a number. ` +
-          `Please change the "productName" prop in your /package.json then try again.`
+        `App product name cannot start with a number. ` +
+        `Please change the "productName" prop in your /package.json then try again.`
       )
       return
     }

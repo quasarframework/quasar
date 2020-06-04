@@ -5,13 +5,13 @@ desc: How to manage your Browser Extensions with Quasar CLI.
 
 Before we can configure anything, we need to understand how the BEX is structured. A BEX can be one (or more) of the following:
 
-1. Runs in it's own tab in the browser
+1. Runs in its own tab in the browser
 2. Runs in the [Developer Tools](https://developer.chrome.com/extensions/devtools) window.
 3. Runs in a [Popup](https://developer.chrome.com/extensions/user_interface#popup) window.
 4. Runs as [Options](https://developer.chrome.com/extensions/options) window.
 5. Runs in the context of a web page (injected into a website)
 
-You do not need a new Quasar App per BEX type above as a single Quasar Application can run in **all** of the instances above. You can find out more about these in the [types section](/developing-browser-extensions/types).
+You do not need a new Quasar App per BEX type above as a single Quasar Application can run in **all** of the instances above. You can find out more about these in the [types section](/quasar-cli/developing-browser-extensions/types-of-bex).
 
 ## Manifest.json
 
@@ -34,12 +34,6 @@ In summary:
 
 :::tip
 Given content scripts run in the web page context, this means that only BEX's that interact with a web page can use content scripts. Popups, Options and Devtools **will not** have a *content script* running behind them. They will all however have a *background script*.
-:::
-
-## Icons
-
-::: tip
-We highly recommend using our official [Icon Genie](https://github.com/quasarframework/app-extension-icon-genie/) app extension, because it consumes a source icon and automatically clones, scales, minifies and places the icons in the appropriate directories for you. When you change this source file (or some of the extension's settings) the icons will be automatically rebuilt on the next dev or build command.
 :::
 
 ## CSS

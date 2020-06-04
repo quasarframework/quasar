@@ -1,12 +1,14 @@
 import Vue from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QList',
 
-  mixins: [ DarkMixin ],
+  mixins: [ ListenersMixin, DarkMixin ],
 
   props: {
     bordered: Boolean,
@@ -29,7 +31,7 @@ export default Vue.extend({
   render (h) {
     return h('div', {
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

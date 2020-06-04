@@ -1,8 +1,6 @@
 const webpack = require('webpack')
 
-const logger = require('../helpers/logger')
-const log = logger('app:bex')
-const warn = logger('app:bex', 'red')
+const { log, warn } = require('../helpers/logger')
 
 class BexRunner {
   constructor () {

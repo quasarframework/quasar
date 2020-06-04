@@ -10,7 +10,7 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QUploaderBase',
@@ -80,22 +80,16 @@ export default Vue.extend({
     },
 
     canAddFiles () {
-      return this.editable &&
-        this.isUploading !== true &&
-        (this.multiple === true || this.queuedFiles.length === 0)
-    },
-
-    extensions () {
-      if (this.accept !== void 0) {
-        return this.accept.split(',').map(ext => {
-          ext = ext.trim()
-          // support "image/*"
-          if (ext.endsWith('/*')) {
-            ext = ext.slice(0, ext.length - 1)
-          }
-          return ext
-        })
-      }
+      return (
+        this.editable === true &&
+        this.isUploading === false &&
+        // if single selection and no files are queued:
+        (this.multiple === true || this.queuedFiles.length === 0) &&
+        // if max-files is set and current number of files does not exceeds it:
+        (this.maxFiles === void 0 || this.files.length < this.maxFilesNumber) &&
+        // if max-total-size is set and current upload size does not exceeds it:
+        (this.maxTotalSize === void 0 || this.uploadSize < this.maxTotalSizeNumber)
+      )
     },
 
     uploadProgress () {
@@ -250,7 +244,7 @@ export default Vue.extend({
     },
 
     __addFiles (e, fileList) {
-      const processedFiles = this.__processFiles(e, fileList)
+      const processedFiles = this.__processFiles(e, fileList, this.files, true)
 
       if (processedFiles === void 0) { return }
 
@@ -359,7 +353,7 @@ export default Vue.extend({
           'q-uploader__file--uploaded': file.__status === 'uploaded'
         },
         style: this.noThumbnails !== true && file.__img !== void 0 ? {
-          backgroundImage: 'url(' + file.__img.src + ')'
+          backgroundImage: 'url("' + file.__img.src + '")'
         } : null
       }, [
         h('div', {

@@ -124,7 +124,7 @@ export default {
 </script>
 ```
 
-Some Capacitor plugins, such as Camera, have web-based UI available when not running natively but in an standard web browser. To enable these controls, add @ionic/pwa-elements to your proyect:
+Some Capacitor plugins, such as Camera, have a web-based UI available when not running natively but in a standard web browser. To enable these controls, add @ionic/pwa-elements to your project:
 
 ```bash
 $ npm install @ionic/pwa-elements

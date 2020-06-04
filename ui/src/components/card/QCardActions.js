@@ -1,12 +1,14 @@
 import Vue from 'vue'
 
 import AlignMixin from '../../mixins/align.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QCardActions',
 
-  mixins: [ AlignMixin ],
+  mixins: [ ListenersMixin, AlignMixin ],
 
   props: {
     vertical: Boolean
@@ -22,7 +24,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-card__actions',
       class: this.classes,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

@@ -4,11 +4,12 @@ import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/TouchPan.js'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
 import { prevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
 
 const
   PULLER_HEIGHT = 40,
@@ -16,6 +17,8 @@ const
 
 export default Vue.extend({
   name: 'QPullToRefresh',
+
+  mixins: [ ListenersMixin ],
 
   directives: {
     TouchPan
@@ -56,6 +59,24 @@ export default Vue.extend({
       return 'q-pull-to-refresh__puller row flex-center' +
         (this.animating === true ? ' q-pull-to-refresh__puller--animating' : '') +
         (this.bgColor !== void 0 ? ` bg-${this.bgColor}` : '')
+    },
+
+    directives () {
+      if (this.disable !== true) {
+        return [{
+          name: 'touch-pan',
+          modifiers: {
+            down: true,
+            mightPrevent: true,
+            mouse: this.noMouse !== true
+          },
+          value: this.__pull
+        }]
+      }
+    },
+
+    contentClass () {
+      return `q-pull-to-refresh__content${this.pulling === true ? ' no-pointer-events' : ''}`
     }
   },
 
@@ -75,7 +96,7 @@ export default Vue.extend({
     },
 
     updateScrollTarget () {
-      this.scrollContainer = getScrollTarget(this.$el, this.scrollTarget)
+      this.__scrollTarget = getScrollTarget(this.$el, this.scrollTarget)
     },
 
     __pull (event) {
@@ -101,8 +122,8 @@ export default Vue.extend({
       }
 
       if (event.isFirst === true) {
-        if (getScrollPosition(this.scrollContainer) !== 0) {
-          if (this.pulling) {
+        if (getScrollPosition(this.__scrollTarget) !== 0) {
+          if (this.pulling === true) {
             this.pulling = false
             this.state = 'pull'
             this.__animateTo({ pos: -PULLER_HEIGHT, ratio: 0 })
@@ -128,6 +149,7 @@ export default Vue.extend({
       this.pullRatio = between(distance / (OFFSET_TOP + PULLER_HEIGHT), 0, 1)
 
       const state = this.pullPosition > OFFSET_TOP ? 'pulled' : 'pull'
+
       if (this.state !== state) {
         this.state = state
       }
@@ -159,23 +181,12 @@ export default Vue.extend({
 
   render (h) {
     return h('div', {
-      staticClass: 'q-pull-to-refresh overflow-hidden',
-      on: this.$listeners,
-      directives: this.disable === true
-        ? null
-        : cache(this, 'dir#' + this.noMouse, [{
-          name: 'touch-pan',
-          modifiers: {
-            down: true,
-            mightPrevent: true,
-            mouse: this.noMouse !== true
-          },
-          value: this.__pull
-        }])
+      staticClass: 'q-pull-to-refresh',
+      on: { ...this.qListeners },
+      directives: this.directives
     }, [
       h('div', {
-        staticClass: 'q-pull-to-refresh__content',
-        class: this.pulling === true ? 'no-pointer-events' : ''
+        class: this.contentClass
       }, slot(this, 'default')),
 
       h('div', {

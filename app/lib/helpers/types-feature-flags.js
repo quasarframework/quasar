@@ -1,8 +1,8 @@
-const logger = require('./logger')
 const path = require('path')
-const warn = logger('app:mode', 'yellow')
 const fs = require('fs')
 const fse = require('fs-extra')
+
+const { warn } = require('./logger')
 const getMode = require('../mode/index')
 const appPaths = require('../app-paths')
 
@@ -11,12 +11,6 @@ function getStoreFlagPath(storeIndexPath) {
 }
 
 module.exports = function regenerateTypesFeatureFlags(buildConfig) {
-  const storeFeatureData = [
-    buildConfig.store,
-    appPaths.resolve.cli('templates/app/store/store-flag.d.ts'),
-    appPaths.resolve.app(getStoreFlagPath(buildConfig.sourceFiles.store))
-  ]
-
   // Flags must be available even in pure JS codebases,
   //    because boot and configure wrappers functions files will
   //    provide autocomplete based on them also to JS users
@@ -29,10 +23,15 @@ module.exports = function regenerateTypesFeatureFlags(buildConfig) {
     'capacitor',
     'electron',
     'ssr',
-    'store'
+    'store',
+    'bex'
   ]) {
     const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
-      ? storeFeatureData
+      ? [
+        buildConfig.store,
+        appPaths.resolve.cli('templates/store/ts/store-flag.d.ts'),
+        appPaths.resolve.app(getStoreFlagPath(buildConfig.sourceFiles.store))
+      ]
       : [
         getMode(feature).isInstalled,
         appPaths.resolve.cli(`templates/${feature}/${feature}-flag.d.ts`),

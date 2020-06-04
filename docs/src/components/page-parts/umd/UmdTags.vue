@@ -12,7 +12,7 @@
       q-toggle(v-model="css['material-icons-round']" label="Material Icons (Round)")
       q-toggle(v-model="css['material-icons-sharp']" label="Material Icons (Sharp)")
 
-      q-toggle(v-model="css['mdi-v4']" label="MDI v4")
+      q-toggle(v-model="css['mdi-v5']" label="MDI v5")
       q-toggle(v-model="css['fontawesome-v5']" label="Fontawesome v5")
       q-toggle(v-model="css['ionicons-v4']" label="Ionicons v4")
       q-toggle(v-model="css['eva-icons']" label="Eva Icons")
@@ -22,6 +22,7 @@
     q-separator
 
     q-card-section.q-gutter-xs
+      q-toggle(v-model="modern" label="Modern (ES6+)")
       q-toggle(v-model="cfgObject" label="Quasar Configure Object")
       q-toggle(v-model="minified" label="Minified files")
       q-toggle(v-model="rtl" label="RTL CSS support")
@@ -63,13 +64,13 @@
 import languages from 'quasar/lang/index.json'
 
 const cssMap = {
-  'mdi-v4': 'cdn.jsdelivr.net/npm/@mdi/font@^4.0.0/css/materialdesignicons.min.css',
+  'mdi-v5': 'cdn.jsdelivr.net/npm/@mdi/font@^5.0.0/css/materialdesignicons.min.css',
   'fontawesome-v5': 'use.fontawesome.com/releases/v5.0.13/css/all.css',
   'ionicons-v4': 'cdn.jsdelivr.net/npm/ionicons@^4.0.0/dist/css/ionicons.min.css',
   'eva-icons': 'cdn.jsdelivr.net/npm/eva-icons@^1.0.0/style/eva-icons.css',
   themify: 'themify.me/wp-content/themes/themify-v32/themify-icons/themify-icons.css',
   'line-awesome': 'maxst.icons8.com/vue-static/landings/line-awesome/font-awesome-line-awesome/css/all.min.css',
-  animate: 'cdn.jsdelivr.net/npm/animate.css@^3.5.2/animate.min.css'
+  animate: 'cdn.jsdelivr.net/npm/animate.css@^4.0.0/animate.min.css'
 }
 
 const googleMap = {
@@ -95,7 +96,7 @@ export default {
         'material-icons-round': false,
         'material-icons-sharp': false,
 
-        'mdi-v4': false,
+        'mdi-v5': false,
         'fontawesome-v5': false,
         'ionicons-v4': false,
         'eva-icons': false,
@@ -105,6 +106,7 @@ export default {
         animate: false
       },
 
+      modern: false,
       minified: true,
       rtl: false,
       ie: false,
@@ -219,7 +221,7 @@ export default {
     body () {
       const js = [
         'cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js',
-        `cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.umd.min.js`
+        `cdn.jsdelivr.net/npm/quasar@${this.version}/dist/quasar.umd.${this.modern === true ? 'modern.' : ''}min.js`
       ]
 
       if (this.ie === true) {
@@ -270,8 +272,8 @@ export default {
       { label: 'Material Outlined (webfont)', value: 'material-icons-outlined' },
       { label: 'Material Round (webfont)', value: 'material-icons-round' },
       { label: 'Material Sharp (webfont)', value: 'material-icons-sharp' },
-      { label: 'MDI v4 (webfont)', value: 'mdi-v4' },
-      { label: 'MDI v4 (svg)', value: 'svg-mdi-v4' },
+      { label: 'MDI v5 (webfont)', value: 'mdi-v5' },
+      { label: 'MDI v5 (svg)', value: 'svg-mdi-v5' },
       { label: 'Ionicons v4 (webfont)', value: 'ionicons-v4' },
       { label: 'Ionicons v4 (svg)', value: 'svg-ionicons-v4' },
       { label: 'Fontawesome v5 (webfont)', value: 'fontawesome-v5' },

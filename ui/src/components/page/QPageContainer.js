@@ -1,9 +1,13 @@
 import Vue from 'vue'
 
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { slot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QPageContainer',
+
+  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -42,7 +46,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-page-container',
       style: this.style,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, slot(this, 'default'))
   }
 })

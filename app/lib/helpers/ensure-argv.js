@@ -1,4 +1,4 @@
-const warn = require('./logger')('app:ensure-argv', 'red')
+const { fatal } = require('./logger')
 
 module.exports = function (argv, cmd) {
   if (argv.mode) {
@@ -19,9 +19,7 @@ module.exports = function (argv, cmd) {
   }
 
   if (!['spa', 'pwa', 'cordova', 'capacitor', 'electron', 'ssr', 'bex'].includes(argv.mode)) {
-    warn(`⚠️  Unknown mode "${ argv.mode }"`)
-    warn()
-    process.exit(1)
+    fatal(`Unknown mode "${ argv.mode }"\n`)
   }
 
   if (cmd === 'inspect') {
@@ -31,69 +29,49 @@ module.exports = function (argv, cmd) {
   if (argv.mode === 'capacitor') {
     const targets = ['android', 'ios']
     if (!argv.target) {
-      warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
-      warn()
-      process.exit(1)
+      fatal(`Please also specify a target (-T <${targets.join('|')}>)\n`)
     }
     if (!targets.includes(argv.target)) {
-      warn(`⚠️  Unknown target "${ argv.target }" for Capacitor`)
-      warn()
-      process.exit(1)
+      fatal(`Unknown target "${ argv.target }" for Capacitor\n`)
     }
   }
 
   if (argv.mode === 'cordova') {
     const targets = ['android', 'ios', 'electron', 'blackberry10', 'browser', 'osx', 'ubuntu', 'webos', 'windows']
     if (!argv.target) {
-      warn(`⚠️  Please also specify a target (-T <${targets.join('|')}>)`)
-      warn()
-      process.exit(1)
+      fatal(`Please also specify a target (-T <${targets.join('|')}>)\n`)
     }
     if (!targets.includes(argv.target)) {
-      warn(`⚠️  Unknown target "${ argv.target }" for Cordova`)
-      warn()
-      process.exit(1)
+      fatal(`Unknown target "${ argv.target }" for Cordova\n`)
     }
   }
 
   if (cmd === 'build' && argv.mode === 'electron') {
     if (![undefined, 'packager', 'builder'].includes(argv.bundler)) {
-      warn(`⚠️  Unknown bundler "${ argv.bundler }" for Electron`)
-      warn()
-      process.exit(1)
+      fatal(`Unknown bundler "${ argv.bundler }" for Electron\n`)
     }
   }
 }
 
 module.exports.ensureElectronArgv = function (bundlerName, argv) {
   if (!['packager', 'builder'].includes(bundlerName)) {
-    warn(`⚠️  Unknown bundler "${ bundlerName }" for Electron`)
-    warn()
-    process.exit(1)
+    fatal(`Unknown bundler "${ bundlerName }" for Electron\n`)
   }
 
   if (bundlerName === 'packager') {
     if (![undefined, 'all', 'darwin', 'win32', 'linux', 'mas'].includes(argv.target)) {
-      warn(`⚠️  Unknown target "${ argv.target }" for electron-packager`)
-      warn()
-      process.exit(1)
+      fatal(`Unknown target "${ argv.target }" for electron-packager\n`)
     }
     if (![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'mips64el', 'all'].includes(argv.arch)) {
-      warn(`⚠️  Unknown architecture "${ argv.arch }" for electron-packager`)
-      warn()
-      process.exit(1)
+      fatal(`Unknown architecture "${ argv.arch }" for electron-packager\n`)
     }
   }
   else { // electron-builder bundler
     if (![undefined, 'all', 'darwin', 'mac', 'win32', 'win', 'linux'].includes(argv.target)) {
-      warn(`⚠️  Unknown target "${ argv.target }" for electron-builder`)
-      warn()
-      process.exit(1)
+      fatal(`Unknown target "${ argv.target }" for electron-builder\n`)
     }
     if (![undefined, 'ia32', 'x64', 'armv7l', 'arm64', 'all'].includes(argv.arch)) {
-      warn(`⚠️  Unknown architecture "${ argv.arch }" for electron-builder`)
-      warn()
-      process.exit(1)
+      fatal(`Unknown architecture "${ argv.arch }" for electron-builder\n`)
     }
   }
 }

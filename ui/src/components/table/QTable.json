@@ -77,6 +77,30 @@
       "default": "grey-8"
     },
 
+    "icon-first-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to first page; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.12.0"
+    },
+
+    "icon-prev-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to previous page; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.12.0"
+    },
+
+    "icon-next-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to next page; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.12.0"
+    },
+
+    "icon-last-page": {
+      "extends": "icon",
+      "desc": "Icon name following Quasar convention for stepping to last page; Make sure you have the icon library installed unless you are using 'img:' prefix",
+      "addedIn": "v1.12.0"
+    },
+
     "grid": {
       "type": "Boolean",
       "desc": "Display data as a grid instead of the default table",
@@ -244,8 +268,29 @@
 
     "hide-bottom": {
       "type": "Boolean",
-      "desc": "Hide table bottom layer",
+      "desc": "Hide table bottom layer regardless of what it has to display",
       "category": "content"
+    },
+
+    "hide-selected-banner": {
+      "type": "Boolean",
+      "desc": "Hide the selected rows banner (if any)",
+      "category": "content",
+      "addedIn": "v1.12.0"
+    },
+
+    "hide-no-data": {
+      "type": "Boolean",
+      "desc": "Hide the default no data bottom layer",
+      "category": "content",
+      "addedIn": "v1.12.0"
+    },
+
+    "hide-pagination": {
+      "type": "Boolean",
+      "desc": "Hide the pagination controls at the bottom",
+      "category": "content",
+      "addedIn": "v1.12.0"
     },
 
     "dark": {
@@ -508,8 +553,7 @@
 
     "pagination": {
       "type": "Object",
-      "desc": "Pagination object",
-      "sync": true,
+      "desc": "Pagination object; You can use the '.sync' modifier on it if you want to have access on the current pagination in your components; When not using the .sync modifier it simply initializes the pagination on first render",
       "definition": {
         "sortBy": {
           "type": "String",
@@ -637,6 +681,16 @@
           "desc": "Row object",
           "__exemption": [ "examples" ]
         },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
@@ -678,6 +732,16 @@
           "desc": "Row object",
           "__exemption": [ "examples" ]
         },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
         "cols": {
           "type": "Object",
           "desc": "Column definitions",
@@ -714,6 +778,16 @@
           "desc": "Row object",
           "__exemption": [ "examples" ]
         },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
         "col": {
           "type": "Object",
           "desc": "Column definition for column associated with table cell",
@@ -733,6 +807,16 @@
         "row": {
           "type": "Object",
           "desc": "Row object",
+          "__exemption": [ "examples" ]
+        },
+        "rowIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the filtered and sorted table",
+          "__exemption": [ "examples" ]
+        },
+        "pageIndex": {
+          "type": "Number",
+          "desc": "Row's index (0 based) in the current page of the filtered and sorted table",
           "__exemption": [ "examples" ]
         },
         "col": {
@@ -913,6 +997,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -924,6 +1015,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -979,6 +1077,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -990,6 +1095,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1045,6 +1157,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1056,6 +1175,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1111,6 +1237,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1122,6 +1255,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1177,6 +1317,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1188,6 +1335,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1243,6 +1397,13 @@
           "type": "Boolean",
           "desc": "Are we on last page?"
         },
+        "firstPage": {
+          "type": "Function",
+          "desc": "Navigates to first page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
+        },
         "prevPage": {
           "type": "Function",
           "desc": "Navigates to previous page, if available",
@@ -1254,6 +1415,13 @@
           "desc": "Navigates to next page, if available",
           "params": null,
           "returns": null
+        },
+        "lastPage": {
+          "type": "Function",
+          "desc": "Navigates to last page",
+          "params": null,
+          "returns": null,
+          "addedIn": "v1.12.0"
         },
         "inFullscreen": {
           "type": "Boolean",
@@ -1451,6 +1619,13 @@
             "added": {
               "type": "Boolean",
               "desc": "Were the rows added to selection (true) or removed from selection (false)"
+            },
+            "evt": {
+              "type": "Object",
+              "desc": "JS event object",
+              "required": true,
+              "__exemption": [ "examples" ],
+              "addedIn":"v1.11.2"
             }
           }
         }
@@ -1672,12 +1847,22 @@
       }
     },
 
+    "firstPage": {
+      "desc": "Navigates to first page",
+      "addedIn": "v1.12.0"
+    },
+
     "prevPage": {
       "desc": "Navigates to previous page, if available"
     },
 
     "nextPage": {
       "desc": "Navigates to next page, if available"
+    },
+
+    "lastPage": {
+      "desc": "Navigates to last page",
+      "addedIn": "v1.12.0"
     },
 
     "isRowSelected": {

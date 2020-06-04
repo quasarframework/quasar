@@ -1,13 +1,16 @@
 import Vue from 'vue'
 
-import SizeMixin from '../../mixins/size.js'
 import QIcon from '../icon/QIcon.js'
+
+import SizeMixin from '../../mixins/size.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
 import { mergeSlotSafely } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QAvatar',
 
-  mixins: [ SizeMixin ],
+  mixins: [ ListenersMixin, SizeMixin ],
 
   props: {
     fontSize: String,
@@ -45,7 +48,7 @@ export default Vue.extend({
     return h('div', {
       staticClass: 'q-avatar',
       style: this.sizeStyle,
-      on: this.$listeners
+      on: { ...this.qListeners }
     }, [
       h('div', {
         staticClass: 'q-avatar__content row flex-center overflow-hidden',

@@ -2,13 +2,13 @@ const fs = require('fs')
 const path = require('path')
 const compileTemplate = require('lodash.template')
 
-const log = require('./helpers/logger')('app:generator')
+const { log } = require('./helpers/logger')
 const appPaths = require('./app-paths')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
 class Generator {
   constructor (quasarConfig) {
-    const { ctx, preFetch } = quasarConfig.getBuildConfig()
+    const { ctx } = quasarConfig.getBuildConfig()
 
     this.alreadyGenerated = false
     this.quasarConfig = quasarConfig
@@ -16,14 +16,15 @@ class Generator {
     const paths = [
       'app.js',
       'client-entry.js',
+      'client-prefetch.js',
       'import-quasar.js'
     ]
 
-    if (preFetch) {
-      paths.push('client-prefetch.js')
-    }
     if (ctx.mode.ssr) {
-      paths.push('server-entry.js')
+      paths.push(
+        'server-entry.js',
+        'ssr-pwa.js'
+      )
     }
 
     this.files = paths.map(file => {

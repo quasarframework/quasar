@@ -36,9 +36,9 @@ function getMixedInAPI (api, mainFile) {
 }
 
 const topSections = {
-  plugin: [ 'meta', 'injection', 'quasarConfOptions', 'props', 'methods' ],
-  component: [ 'meta', 'behavior', 'quasarConfOptions', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
-  directive: [ 'meta', 'quasarConfOptions', 'value', 'arg', 'modifiers' ]
+  plugin: [ 'meta', 'injection', 'quasarConfOptions', 'addedIn', 'props', 'methods' ],
+  component: [ 'meta', 'behavior', 'quasarConfOptions', 'addedIn', 'props', 'slots', 'scopedSlots', 'events', 'methods' ],
+  directive: [ 'meta', 'quasarConfOptions', 'addedIn', 'value', 'arg', 'modifiers' ]
 }
 
 const objectTypes = {
@@ -309,6 +309,36 @@ function parseObject ({ banner, api, itemName, masterType, verifyCategory }) {
   })
 }
 
+// https://semver.org/#is-there-a-suggested-regular-expression-regex-to-check-a-semver-string
+// https://regex101.com/r/vkijKf/1/
+const SEMANTIC_REGEX = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/
+
+function isValidVersion (version) {
+  return !!SEMANTIC_REGEX.exec(version)
+}
+
+function handleAddedIn (api, banner) {
+  if (api['addedIn'] === void 0 || api['addedIn'].length === 0) {
+    logError(`${banner} "addedIn" is empty`)
+    console.log()
+    process.exit(1)
+  }
+
+  const addedIn = api['addedIn']
+
+  if (addedIn.charAt(0) !== 'v') {
+    logError(`${banner} "addedIn" value (${addedIn}) must start with "v"`)
+    console.log()
+    process.exit(1)
+  }
+
+  if (isValidVersion(addedIn.slice(1)) !== true) {
+    logError(`${banner} "addedIn" value (${addedIn}) must follow sematic versioning`)
+    console.log()
+    process.exit(1)
+  }
+}
+
 function convertBehavior (api, banner) {
   const behavior = {}
 
@@ -361,6 +391,11 @@ function parseAPI (file, apiType) {
 
     if (type === 'behavior') {
       convertBehavior(api, banner)
+      continue
+    }
+
+    if (type === 'addedIn') {
+      handleAddedIn(api, banner)
       continue
     }
 
@@ -422,12 +457,6 @@ function orderAPI (api, apiType) {
 }
 
 const astExceptions = {
-  'QCircularProgress.json': {
-    props: {
-      instantFeedback: true
-    }
-  },
-
   'QTable.json': {
     methods: {
       getBody: true

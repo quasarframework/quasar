@@ -29,6 +29,7 @@
         <q-drawer
           v-model="drawerState"
           bordered
+          show-if-above
           content-class="bg-grey-2"
         >
           <q-list>
@@ -92,7 +93,7 @@
                   <q-rating class="q-ml-md" v-model="stars" size="24px"></q-rating>
                 </div>
                 <div class="text-caption">You need to build & refresh page on each change on Quasar</div>
-                <div class="text-caption">Do not include index.mat.umd.html in your commits</div>
+                <div class="text-caption">Do not include index.umd.html in your commits</div>
               </q-card-section>
 
               <q-separator></q-separator>
@@ -139,7 +140,7 @@
           return {
             version: Quasar.version,
             stars: 5,
-            drawerState: true
+            drawerState: false
           }
         },
         methods: {

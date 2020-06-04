@@ -54,12 +54,16 @@ function getScrollDetails (
 
   if (beforeRef !== void 0) {
     for (let el = beforeRef.previousElementSibling; el !== null; el = el.previousElementSibling) {
-      details.offsetStart += el[propElSize]
+      if (el.classList.contains('q-virtual-scroll--skip') === false) {
+        details.offsetStart += el[propElSize]
+      }
     }
   }
   if (afterRef !== void 0) {
     for (let el = afterRef.nextElementSibling; el !== null; el = el.nextElementSibling) {
-      details.offsetEnd += el[propElSize]
+      if (el.classList.contains('q-virtual-scroll--skip') === false) {
+        details.offsetEnd += el[propElSize]
+      }
     }
   }
 
@@ -471,7 +475,7 @@ export default {
 
     __emitScroll (index) {
       if (this.prevToIndex !== index) {
-        this.$listeners['virtual-scroll'] !== void 0 && this.$emit('virtual-scroll', {
+        this.qListeners['virtual-scroll'] !== void 0 && this.$emit('virtual-scroll', {
           index,
           from: this.virtualScrollSliceRange.from,
           to: this.virtualScrollSliceRange.to - 1,

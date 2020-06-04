@@ -1,6 +1,9 @@
 import { sizes } from '../../mixins/size.js'
+import ListenersMixin from '../../mixins/listeners.js'
 
 export default {
+  mixins: [ ListenersMixin ],
+
   props: {
     color: String,
     size: {

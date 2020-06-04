@@ -1,5 +1,5 @@
 ---
-title: Capacitor App Preparation
+title: Preparation for Capacitor App
 desc: What you need to do before developing a Quasar hybrid mobile app with Capacitor.
 ---
 
@@ -31,7 +31,7 @@ setx ANDROID_HOME "%USERPROFILE%\AppData\Local\Android\Sdk"
 setx path "%path%;%ANDROID_HOME%\tools;%ANDROID_HOME%\platform-tools"
 ```
 
-- Start Android studio by changing into the folder you installed it in and run `./studio.sh`. Next step is to install the individual SDKs:
+- Start Android studio (check the executable in the folder that you installed it in). Next step is to install the individual SDKs:
 
 - Open the "Configure" menu at the bottom of the window:
 

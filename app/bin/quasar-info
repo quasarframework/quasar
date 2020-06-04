@@ -16,8 +16,10 @@ if (argv.help) {
   console.log(`
   Description
     Displays information about your machine and your Quasar App.
+
   Usage
     $ quasar info
+
   Options
     --help, -h     Displays this message
   `)
@@ -74,6 +76,7 @@ print({ key: 'Important local packages', section: true })
   'quasar',
   '@quasar/app',
   '@quasar/extras',
+  'eslint-plugin-quasar',
   'vue',
   'vue-router',
   'vuex',
@@ -88,7 +91,8 @@ print({ key: 'Important local packages', section: true })
   'webpack',
   'webpack-dev-server',
   'workbox-webpack-plugin',
-  'register-service-worker'
+  'register-service-worker',
+  'typescript'
 ].forEach(pkg => print(safePkgInfo(pkg)))
 
 print({ key: 'Quasar App Extensions', section: true })

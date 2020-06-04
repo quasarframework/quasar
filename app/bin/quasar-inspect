@@ -12,7 +12,7 @@ const argv = parseArgs(process.argv.slice(2), {
 
     h: 'help'
   },
-  boolean: ['h'],
+  boolean: ['h', 'legacy'],
   string: ['c', 'm', 'p'],
   default: {
     c: 'dev',
@@ -33,7 +33,8 @@ if (argv.help) {
 
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
-    --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron] (default: spa)
+    --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
+    --legacy         Support for older browsers, like IE11; JS is transpiled to ES5
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
@@ -51,9 +52,7 @@ if (argv.mode !== 'spa') {
   require('../lib/mode/install-missing')(argv.mode, argv.target)
 }
 
-const logger = require('../lib/helpers/logger')
-const log = logger('app:inspect')
-const warn = logger('app:inspect', 'red')
+const { log, fatal } = require('../lib/helpers/logger')
 const QuasarConfig = require('../lib/quasar-config')
 
 const depth = parseInt(argv.depth, 10) || Infinity
@@ -65,12 +64,14 @@ function getCfgEntries (webpackConfig, mode) {
       { name: 'Client', webpackCfg: webpackConfig.client }
     ]
   }
-  if (mode === 'electron') {
+
+  if (mode === 'electron' || mode === 'bex') {
     return [
       { name: 'Renderer', webpackCfg: webpackConfig.renderer },
       { name: 'Main', webpackCfg: webpackConfig.main }
     ]
   }
+
   return [ { name: 'Main', webpackCfg: webpackConfig } ]
 }
 
@@ -89,15 +90,14 @@ async function inspect () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx)
+  const quasarConfig = new QuasarConfig(ctx, { legacy: argv.legacy })
 
   try {
     await quasarConfig.prepare()
   }
   catch (e) {
     console.log(e)
-    warn(`⚠️ [FAIL] quasar.conf.js has JS errors`)
-    process.exit(1)
+    fatal(`[FAIL] quasar.conf.js has JS errors`)
   }
 
   await quasarConfig.compile()

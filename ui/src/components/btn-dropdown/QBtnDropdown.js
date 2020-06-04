@@ -8,7 +8,7 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 export default Vue.extend({
   name: 'QBtnDropdown',
@@ -38,7 +38,9 @@ export default Vue.extend({
     menuOffset: Array,
 
     disableMainBtn: Boolean,
-    disableDropdown: Boolean
+    disableDropdown: Boolean,
+
+    noIconAnimation: Boolean
   },
 
   data () {
@@ -55,18 +57,27 @@ export default Vue.extend({
 
   render (h) {
     const label = slot(this, 'label', [])
-    const attrs = { 'aria-expanded': this.showing === true ? 'true' : 'false', 'aria-haspopup': true }
+    const attrs = {
+      'aria-expanded': this.showing === true ? 'true' : 'false',
+      'aria-haspopup': true
+    }
+
+    if (
+      this.disable === true ||
+      (
+        (this.split === false && this.disableMainBtn === true) ||
+        this.disableDropdown === true
+      )
+    ) {
+      attrs['aria-disabled'] = ''
+    }
 
     const Arrow = [
       h(QIcon, {
-        props: {
-          name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown
-        },
-        staticClass: 'q-btn-dropdown__arrow',
-        class: {
-          'rotate-180': this.showing,
-          'q-btn-dropdown__arrow-container': this.split === false
-        }
+        props: { name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown },
+        class: 'q-btn-dropdown__arrow' +
+          (this.showing === true && this.noIconAnimation === false ? ' rotate-180' : '') +
+          (this.split === false ? ' q-btn-dropdown__arrow-container' : '')
       })
     ]
 

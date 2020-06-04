@@ -9,7 +9,7 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import { cache } from '../../utils/vm.js'
+import cache from '../../utils/cache.js'
 
 const duration = 150
 
@@ -307,7 +307,7 @@ export default Vue.extend({
 
         mouseEvents.forEach(name => {
           evt[name] = e => {
-            this.$listeners[name] !== void 0 && this.$emit(name, e)
+            this.qListeners[name] !== void 0 && this.$emit(name, e)
           }
         })
 
@@ -585,7 +585,7 @@ export default Vue.extend({
       this.showIfAbove === true &&
       this.value !== true &&
       this.showing === true &&
-      this.$listeners.input !== void 0
+      this.qListeners.input !== void 0
     ) {
       this.$emit('input', true)
     }
@@ -594,6 +594,8 @@ export default Vue.extend({
   mounted () {
     this.$emit('on-layout', this.onLayout)
     this.$emit('mini-state', this.isMini)
+
+    this.lastDesktopState = this.showIfAbove === true
 
     const fn = () => {
       const action = this.showing === true ? 'show' : 'hide'

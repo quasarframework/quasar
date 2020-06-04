@@ -1,6 +1,6 @@
 ---
 title: How-to Start a New Project
-desc: Play with Quasar on a jsFiddle, Codepen or Codesandbox templates.
+desc: How to start a new project for Quasar.
 ---
 
 You have a great new idea which is in line with the [Quasar vision](/introduction-to-quasar). Great, here is how to make it happen!
@@ -24,5 +24,3 @@ You have a great new idea which is in line with the [Quasar vision](/introductio
    h. Sustainability plan - any project creates more work and pressure on the existing Quasar team - what is **your long-term maintenance plan**
 
 2. Set up a meeting with Razvan to discuss it and invite all engaged in the project
-
-3. When agreed, add the project to the list of [running projects](/contribution-guide/running-projects)

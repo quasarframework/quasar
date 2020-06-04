@@ -109,8 +109,10 @@ export default {
   table: {
     arrowUp: 'arrow_upward',
     warning: 'warning',
+    firstPage: 'first_page',
     prevPage: 'chevron_left',
-    nextPage: 'chevron_right'
+    nextPage: 'chevron_right',
+    lastPage: 'last_page'
   },
   tree: {
     icon: 'play_arrow'

@@ -3,9 +3,12 @@ import Vue from 'vue'
 import QList from '../item/QList.js'
 import QMarkupTable from '../markup-table/QMarkupTable.js'
 import getTableMiddle from '../table/get-table-middle.js'
-import VirtualScroll from '../../mixins/virtual-scroll.js'
-import { getScrollTarget } from '../../utils/scroll.js'
 
+import VirtualScroll from '../../mixins/virtual-scroll.js'
+import AttrsMixin from '../../mixins/attrs.js'
+import ListenersMixin from '../../mixins/listeners.js'
+
+import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
 import { mergeSlot } from '../../utils/slot.js'
 
@@ -17,7 +20,7 @@ const comps = {
 export default Vue.extend({
   name: 'QVirtualScroll',
 
-  mixins: [ VirtualScroll ],
+  mixins: [ AttrsMixin, ListenersMixin, VirtualScroll ],
 
   props: {
     type: {
@@ -141,8 +144,8 @@ export default Vue.extend({
       : h(comps[this.type], {
         class: this.classes,
         attrs: this.attrs,
-        props: this.$attrs,
-        on: this.$listeners
+        props: this.qAttrs,
+        on: { ...this.qListeners }
       }, child)
   }
 })

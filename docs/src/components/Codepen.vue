@@ -73,14 +73,14 @@ export default {
       return (this.parts.template || '')
         .replace(/(<template>|<\/template>$)/g, '')
         .replace(/\n/g, '\n  ')
-        .replace(/([\w]+=")([^"]*?)(")/gs, function (match, p1, p2, p3) {
+        .replace(/([\w]+=")([^"]*?)(")/g, function (match, p1, p2, p3) {
           return p1 + p2.replace(/>/g, '___TEMP_REPLACEMENT___') + p3
         })
-        .replace(/<(q-[\w-]+|div)([^>]+?)\s*?([\r\n]+\s*)?\/>/gs, '<$1$2$3></$1>')
-        .replace(/<(thead|tbody)(.*?)[\n\r]?(\s*)<\/\1>/gs, function (match, p1, p2, p3) {
+        .replace(/<(q-[\w-]+|div)([^>]+?)\s*?([\r\n]+\s*)?\/>/g, '<$1$2$3></$1>')
+        .replace(/<(thead|tbody)(.*?)[\n\r]?(\s*)<\/\1>/g, function (match, p1, p2, p3) {
           return '<template>\n' + p3 + '  <' + p1 + p2.split(/[\n\r]+/g).join('\n  ') + '\n' + p3 + '  </' + p1 + '>\n' + p3 + '</template>'
         })
-        .replace(/___TEMP_REPLACEMENT___/gs, '>')
+        .replace(/___TEMP_REPLACEMENT___/g, '>')
         .replace(/^\s{2}/gm, '')
         .trim()
     },

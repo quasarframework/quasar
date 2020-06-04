@@ -20,6 +20,10 @@ Notice we are using an object for the selection, which holds values for both the
 
 <doc-example title="Standard" file="QRange/Standard" />
 
+### Vertical
+
+<doc-example title="Vertical orientation" file="QRange/Vertical" />
+
 ### With step
 
 <doc-example title="With Step" file="QRange/Step" />
@@ -28,11 +32,11 @@ The `step` property can also be a floating point number (or numeric `0` if you n
 
 <doc-example title="Floating point" file="QRange/FloatingPoint" />
 
-In the example below, move the slider to see the label.
-
 <doc-example title="Snaps to steps" file="QRange/Snap" />
 
 ### With label
+
+In the example below, move the slider to see the label.
 
 <doc-example title="With label" file="QRange/Label" />
 

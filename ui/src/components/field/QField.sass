@@ -96,6 +96,12 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &:before
       border-radius: inherit
 
+  &__shadow
+    opacity: 0
+    overflow: hidden
+    white-space: pre-wrap
+    transition: opacity $field-transition
+
   &__native, &__prefix, &__suffix, &__input
     font-weight: 400
     line-height: 28px
@@ -188,6 +194,8 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
   &--focused
     .q-field__label
       color: currentColor
+    .q-field__shadow
+      opacity: .5
 
   &--filled
 
@@ -458,6 +466,8 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     &.q-field--labeled
       .q-field__control-container
         padding-top: 24px
+      .q-field__shadow
+        top: 24px
       .q-field__native, .q-field__prefix, .q-field__suffix
         padding-top: 0
       .q-field__native
@@ -470,6 +480,8 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       &.q-field--labeled
         .q-field__control-container
           padding-top: 14px
+        .q-field__shadow
+          top: 14px
         .q-field__native
           min-height: 24px
 

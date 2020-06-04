@@ -1,3 +1,5 @@
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 function makeTag (tagName, attributes) {
   return {
     tagName,
@@ -7,7 +9,7 @@ function makeTag (tagName, attributes) {
 }
 
 function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn }}) {
-  data.head.push(
+  data.headTags.push(
     // Add to home screen for Android and modern mobile browsers
     makeTag('link', {
       rel: 'manifest',
@@ -19,7 +21,7 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn }}
     const tags = metaVariablesFn(manifest)
 
     Array.isArray(tags) && tags.forEach(tag => {
-      data.head.push({
+      data.headTags.push({
         tagName: tag.tagName,
         attributes: tag.attributes,
         closeTag: tag.closeTag || false
@@ -27,7 +29,7 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn }}
     })
   }
   else {
-    data.head.push(
+    data.headTags.push(
       makeTag('meta', {
         name: 'theme-color',
         content: manifest.theme_color
@@ -52,11 +54,6 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn }}
       }),
       makeTag('link', {
         rel: 'apple-touch-icon',
-        sizes: '180x180',
-        href: metaVariables.appleTouchIcon180
-      }),
-      makeTag('link', {
-        rel: 'apple-touch-icon',
         sizes: '152x152',
         href: metaVariables.appleTouchIcon152
       }),
@@ -64,6 +61,11 @@ function fillPwaTags (data, { pwa: { manifest, metaVariables, metaVariablesFn }}
         rel: 'apple-touch-icon',
         sizes: '167x167',
         href: metaVariables.appleTouchIcon167
+      }),
+      makeTag('link', {
+        rel: 'apple-touch-icon',
+        sizes: '180x180',
+        href: metaVariables.appleTouchIcon180
       }),
       makeTag('link', {
         rel: 'mask-icon',
@@ -93,7 +95,9 @@ module.exports.plugin = class HtmlPwaPlugin {
 
   apply (compiler) {
     compiler.hooks.compilation.tap('webpack-plugin-html-pwa', compilation => {
-      compilation.hooks.htmlWebpackPluginAlterAssetTags.tapAsync('webpack-plugin-html-pwa', (data, callback) => {
+      const hooks = HtmlWebpackPlugin.getHooks(compilation)
+
+      hooks.afterTemplateExecution.tapAsync('webpack-plugin-html-pwa', (data, callback) => {
         fillPwaTags(data, this.cfg)
 
         // finally, inform Webpack that we're ready

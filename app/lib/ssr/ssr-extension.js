@@ -1,9 +1,7 @@
 const fs = require('fs')
 
 const appPaths = require('../app-paths')
-const logger = require('../helpers/logger')
-const log = logger('app:ssr-extension-js')
-const warn = logger('app:ssr-extension-js', 'red')
+const { log, warn } = require('../helpers/logger')
 const ssrExtensionFile = appPaths.resolve.ssr('extension.js')
 
 class SsrExtension {
@@ -11,7 +9,7 @@ class SsrExtension {
     log(`Validating src-ssr/extension.js`)
 
     if (!fs.existsSync(ssrExtensionFile)) {
-      warn(`⚠️  [FAIL] Could not load src-ssr/extension.js file`)
+      warn(`[FAIL] Could not load src-ssr/extension.js file`)
       return false
     }
 
@@ -21,8 +19,7 @@ class SsrExtension {
     catch (e) {
       if (e.message !== 'NETWORK_ERROR') {
         console.log(e)
-        warn(`⚠️  src-ssr/extension.js has JS errors`)
-        warn()
+        warn(`src-ssr/extension.js has JS errors\n`)
       }
 
       return false

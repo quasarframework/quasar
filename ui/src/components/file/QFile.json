@@ -5,6 +5,8 @@
     "docsUrl": "https://v1.quasar.dev/vue-components/file"
   },
 
+  "addedIn": "v1.8.0",
+
   "props": {
     "value": {
       "type": [ "File", "FileList", "Array" ],
@@ -14,14 +16,11 @@
       "category": "model"
     },
 
-    "max-files": {
-      "type": [ "Number", "String" ],
-      "desc": "Maximum number of files to contain",
-      "examples": [
-        ":max-files=\"5\"",
-        "10"
-      ],
-      "category": "behavior"
+    "append": {
+      "type": "Boolean",
+      "desc": "Append file(s) to current model rather than replacing them; Has effect only when using 'multiple' mode",
+      "category": "behavior",
+      "addedIn": "v1.11.3"
     },
 
     "display-value": {
@@ -48,7 +47,7 @@
             "totalSize": {
               "type": "String",
               "desc": "The total size of files in human readable format",
-              "examples": [ "1.42 MB" ]
+              "examples": [ "1.42MB" ]
             },
             "filesNumber": {
               "type": "Number",
