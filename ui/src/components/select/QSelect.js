@@ -1249,7 +1249,7 @@ export default Vue.extend({
 
     __onDialogHide (e) {
       this.hidePopup()
-      this.$emit('blur', e)
+      this.focused === false && this.$emit('blur', e)
       this.__resetInputValue()
     },
 
