@@ -105,7 +105,7 @@
     "url-loader": "4.1.0",
     "vue": "2.6.11",
     "vue-loader": "15.9.2",
-    "vue-router": "3.3.2",
+    "vue-router": "3.2.0",
     "vue-server-renderer": "2.6.11",
     "vue-style-loader": "4.1.2",
     "vue-template-compiler": "2.6.11",
