@@ -138,6 +138,6 @@ export default [
     avatar: 'dmitrij_polianin.jpg',
     email: 'dmitrij.polyanin@gmail.com',
     github: 'DmitrijOkeanij',
-    desc: 'Quasar Trainer and Russian Community maintainer.'
+    desc: 'Russian Community maintainer and Quasar Trainer.'
   }
 ]
