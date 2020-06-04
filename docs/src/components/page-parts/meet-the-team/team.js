@@ -135,7 +135,7 @@ export default [
   {
     name: 'Dmitrij Polianin',
     role: 'Trainer / Community Staff',
-    avatar: 'dmitrijpolianin.jpg',
+    avatar: 'dmitrij_polianin.jpg',
     email: 'dmitrij.polyanin@gmail.com',
     github: 'DmitrijOkeanij',
     desc: 'Quasar Trainer and Russian Community maintainer.'
