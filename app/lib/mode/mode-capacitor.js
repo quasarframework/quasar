@@ -55,11 +55,11 @@ class Mode {
     const { ensureDeps } = require('../capacitor/ensure-consistency')
     ensureDeps()
 
-    const capacitorCliPath = require('../capacitor/capacitor-cli-path')
+    const { capBin } = require('../capacitor/cap-cli')
 
     log(`Initializing capacitor...`)
     spawnSync(
-      capacitorCliPath,
+      capBin,
       [
         'init',
         '--web-dir',
@@ -94,11 +94,11 @@ class Mode {
       return
     }
 
-    const capacitorCliPath = require('../capacitor/capacitor-cli-path')
+    const { capBin } = require('../capacitor/cap-cli')
 
     log(`Adding Capacitor platform "${target}"`)
     spawnSync(
-      capacitorCliPath,
+      capBin,
       ['add', target],
       { cwd: appPaths.capacitorDir }
     )

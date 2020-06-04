@@ -4,8 +4,50 @@ const fg = require('fast-glob')
 
 const appPaths = require('../app-paths')
 const { log, warn } = require('../helpers/logger')
-const ensureConsistency = require('../capacitor/ensure-consistency')
+const ensureConsistency = require('./ensure-consistency')
+const { capVersion } = require('./cap-cli')
 
+function getAndroidMainActivity (capVersion, appId) {
+  if (capVersion === 1) {
+    return `
+package ${appId};
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+
+public class EnableHttpsSelfSigned {
+  public static void enable(WebView webview) {
+    webview.setWebViewClient(new WebViewClient() {
+      @Override
+      public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+        handler.proceed();
+      }
+    });
+  }
+}`
+  }
+
+  // capVersion > 1
+  return `
+package ${appId};
+import android.net.http.SslError;
+import android.webkit.SslErrorHandler;
+import android.webkit.WebView;
+import com.getcapacitor.Bridge;
+import com.getcapacitor.BridgeWebViewClient;
+
+public class EnableHttpsSelfSigned {
+  public static void enable(Bridge bridge) {
+    bridge.getWebView().setWebViewClient(new BridgeWebViewClient(bridge) {
+      @Override
+      public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
+        handler.proceed();
+      }
+    });
+  }
+}`
+}
 class CapacitorConfig {
   prepare (cfg) {
     ensureConsistency()
@@ -205,7 +247,7 @@ class CapacitorConfig {
 
       const sslString = `
     if (BuildConfig.DEBUG) {
-      EnableHttpsSelfSigned.enable(this.bridge);
+      EnableHttpsSelfSigned.enable(${capVersion === 1 ? 'findViewById(R.id.webview)' : 'this.bridge'});
     }
       `
 
@@ -223,26 +265,10 @@ ${sslString}
         // Add helper file
         if (!fs.existsSync(enableHttpsSelfSignedPath)) {
           const appId = mainActivity.match(/package ([a-zA-Z\.]*);/)[1]
+
           fs.writeFileSync(
             enableHttpsSelfSignedPath,
-            `
-package ${appId};
-import android.net.http.SslError;
-import android.webkit.SslErrorHandler;
-import android.webkit.WebView;
-import com.getcapacitor.Bridge;
-import com.getcapacitor.BridgeWebViewClient;
-
-public class EnableHttpsSelfSigned {
-  public static void enable(Bridge bridge) {
-    bridge.getWebView().setWebViewClient(new BridgeWebViewClient(bridge) {
-      @Override
-      public void onReceivedSslError(WebView view, final SslErrorHandler handler, SslError error) {
-        handler.proceed();
-      }
-    });
-  }
-}`
+            getAndroidMainActivity(capVersion, appId)
           )
         }
       }
