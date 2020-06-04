@@ -58,6 +58,29 @@
                   "examples": [ "text", "number", "textarea" ]
                 },
 
+                "isValid": {
+                  "type": "Function",
+                  "desc": "Is typed content valid?",
+                  "params": {
+                    "val": {
+                      "type": "String",
+                      "desc": "The value of the input",
+                      "__exemption": [ "examples" ]
+                    }
+                  },
+                  "returns": {
+                    "type": "Boolean",
+                    "desc": "The text passed validation or not"
+                  }
+                },
+
+                "attrs": {
+                  "type": "Object",
+                  "desc": "Attributes to pass to prompt control",
+                  "examples": [ "{ autocomplete: 'off' }" ],
+                  "addedIn": "v1.9.12"
+                },
+
                 "label": {
                   "type": "String",
                   "desc": "A text label that will “float” up above the input field, once the field gets focus",
@@ -93,27 +116,42 @@
                   "addedIn": "v1.9.3"
                 },
 
-                "isValid": {
-                  "type": "Function",
-                  "desc": "Is typed content valid?",
-                  "params": {
-                    "val": {
-                      "type": "String",
-                      "desc": "The value of the input",
-                      "__exemption": [ "examples" ]
-                    }
-                  },
-                  "returns": {
-                    "type": "Boolean",
-                    "desc": "The text passed validation or not"
-                  }
+                "rounded": {
+                  "extends": "rounded",
+                  "addedIn": "v1.12.3"
                 },
 
-                "attrs": {
-                  "type": "Object",
-                  "desc": "Attributes to pass to prompt control",
-                  "examples": [ "{ autocomplete: 'off' }" ],
-                  "addedIn": "v1.9.12"
+                "square": {
+                  "type": "Boolean",
+                  "desc": "Remove border-radius so borders are squared; Overrides 'rounded' prop",
+                  "addedIn": "v1.12.3"
+                },
+
+                "counter": {
+                  "type": "Boolean",
+                  "desc": "Show an automatic counter on bottom right",
+                  "addedIn": "v1.12.3"
+                },
+
+                "maxlength": {
+                  "type": [ "String", "Number" ],
+                  "desc": "Specify a max length of model",
+                  "examples": [ "12" ],
+                  "addedIn": "v1.12.3"
+                },
+
+                "prefix": {
+                  "type": "String",
+                  "desc": "Prefix",
+                  "examples": [ "$" ],
+                  "addedIn": "v1.12.3"
+                },
+
+                "suffix": {
+                  "type": "String",
+                  "desc": "Suffix",
+                  "examples": [ "@gmail.com" ],
+                  "addedIn": "v1.12.3"
                 }
               }
             },

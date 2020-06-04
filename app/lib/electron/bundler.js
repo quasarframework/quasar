@@ -36,21 +36,12 @@ function bundlerIsInstalled (bundlerName) {
 
 module.exports.bundlerIsInstalled = bundlerIsInstalled
 
-function bundlerVersionIsOk (bundlerName) {
-  const semver = require('semver')
-  const pkg = getPackageJson(`electron-${bundlerName}`)
-
-  if (semver.satisfies(pkg.version, `>= ${versions[bundlerName]}`)) {
-    return true
-  }
-}
-
 module.exports.ensureInstall = function (bundlerName) {
   if (!isValidName(bundlerName)) {
     fatal(`Unknown bundler "${ bundlerName }" for Electron\n`)
   }
 
-  if (!bundlerIsInstalled(bundlerName) || !bundlerVersionIsOk(bundlerName)) {
+  if (!bundlerIsInstalled(bundlerName)) {
     installBundler(bundlerName)
   }
 }

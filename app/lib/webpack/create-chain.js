@@ -107,26 +107,25 @@ module.exports = function (cfg, configName) {
   }
 
   if (cfg.build.modern !== true) {
+    const vueRegex = /\.vue\.jsx?$/
+    const nodeModulesRegex = /[\\/]node_modules[\\/]/
+    const quasarRegex = configName !== 'Server'
+      ? /[\\/]node_modules[\\/]quasar[\\/]/
+      : /[\\/]node_modules[\\/]quasar[\\/]src[\\/]/
+
     chain.module.rule('babel')
       .test(/\.jsx?$/)
       .exclude
-        .add(filepath => {
-          if (
-            // transpile js(x) in Vue files:
-            /\.vue\.jsx?$/.test(filepath) ||
-
-            // transpile Quasar:
-            (configName !== 'Server' && filepath.match(/[\\/]node_modules[\\/]quasar[\\/]/)) ||
-
-            // explicit config to transpile some deps:
-            cfg.build.transpileDependencies.some(dep => filepath.match(dep))
-          ) {
-            return false
-          }
-
-          // Don't transpile anything else in node_modules
-          return /[\\/]node_modules[\\/]/.test(filepath)
-        })
+        .add(filepath => (
+          // transpile js(x) in Vue files:
+          vueRegex.test(filepath) === false &&
+          // transpile Quasar:
+          quasarRegex.test(filepath) === false &&
+          // explicit config to transpile deps:
+          cfg.build.transpileDependencies.some(dep => filepath.match(dep)) === false &&
+          // Don't transpile anything else in node_modules:
+          nodeModulesRegex.test(filepath)
+        ))
         .end()
       .use('babel-loader')
         .loader('babel-loader')

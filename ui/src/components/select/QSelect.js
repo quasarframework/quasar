@@ -844,6 +844,7 @@ export default Vue.extend({
           h('div', {
             // there can be only one (when dialog is opened the control in dialog should be target)
             ref: 'target',
+            staticClass: 'no-outline',
             attrs: {
               id: this.targetUid,
               tabindex: this.tabindex
@@ -1248,7 +1249,7 @@ export default Vue.extend({
 
     __onDialogHide (e) {
       this.hidePopup()
-      this.$emit('blur', e)
+      this.focused === false && this.$emit('blur', e)
       this.__resetInputValue()
     },
 

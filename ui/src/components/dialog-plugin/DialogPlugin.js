@@ -9,6 +9,7 @@ import { isKeyCode } from '../../utils/key-composition.js'
 import QCard from '../card/QCard.js'
 import QCardSection from '../card/QCardSection.js'
 import QCardActions from '../card/QCardActions.js'
+import QSeparator from '../separator/QSeparator.js'
 
 import QInput from '../input/QInput.js'
 import QOptionGroup from '../option-group/QOptionGroup.js'
@@ -126,11 +127,21 @@ export default Vue.extend({
           props: {
             value: this.prompt.model,
             type: this.prompt.type,
+
             label: this.prompt.label,
             stackLabel: this.prompt.stackLabel,
+
             outlined: this.prompt.outlined,
             filled: this.prompt.filled,
             standout: this.prompt.standout,
+            rounded: this.prompt.rounded,
+            square: this.prompt.square,
+
+            counter: this.prompt.counter,
+            maxlength: this.prompt.maxlength,
+            prefix: this.prompt.prefix,
+            suffix: this.prompt.suffix,
+
             color: this.vmColor,
             dense: true,
             autofocus: true,
@@ -231,18 +242,29 @@ export default Vue.extend({
     )
 
     this.message && child.push(
-      this.getSection(h, 'q-dialog__message scroll', this.message)
+      this.getSection(h, 'q-dialog__message', this.message)
     )
 
-    this.hasForm === true && child.push(
-      h(
-        QCardSection,
-        { staticClass: 'scroll' },
-        this.prompt !== void 0
-          ? this.getPrompt(h)
-          : this.getOptions(h)
+    if (this.prompt !== void 0) {
+      child.push(
+        h(
+          QCardSection,
+          { staticClass: 'scroll q-dialog-plugin__form' },
+          this.getPrompt(h)
+        )
       )
-    )
+    }
+    else if (this.options !== void 0) {
+      child.push(
+        h(QSeparator, { props: { dark: this.isDark } }),
+        h(
+          QCardSection,
+          { staticClass: 'scroll q-dialog-plugin__form' },
+          this.getOptions(h)
+        ),
+        h(QSeparator, { props: { dark: this.isDark } })
+      )
+    }
 
     if (this.ok || this.cancel) {
       child.push(this.getButtons(h))
