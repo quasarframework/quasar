@@ -19,13 +19,10 @@ function getHtmlFilename (cfg) {
 module.exports = function (chain, cfg) {
   chain.plugin('html-webpack')
     .use(HtmlWebpackPlugin, [{
-      ...cfg.__html.variables,
-
       filename: getHtmlFilename(cfg),
-
       template: appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate),
       minify: cfg.__html.minifyOptions,
-
+      templateParameters: cfg.htmlVariables,
       chunksSortMode: 'none',
       // inject script tags for bundle
       inject: true,

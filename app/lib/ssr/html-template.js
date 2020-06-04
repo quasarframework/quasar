@@ -26,7 +26,7 @@ function injectSsrInterpolation (html) {
   )
   .replace(
     /(<head[^>]*)(>)/i,
-    (found, start, end) => `${start}${end}{{ Q_HEAD_TAGS }}`
+    (_, start, end) => `${start}${end}{{ Q_HEAD_TAGS }}`
   )
   .replace(
     /(<body[^>]*)(>)/i,
@@ -51,11 +51,7 @@ module.exports.getIndexHtml = function (template, cfg) {
   const compiled = compileTemplate(
     template.replace('<div id="q-app"></div>', '<!--vue-ssr-outlet-->')
   )
-  let html = compiled({
-    htmlWebpackPlugin: {
-      options: cfg.__html.variables
-    }
-  })
+  let html = compiled(cfg.htmlVariables)
 
   const data = { body: [], head: [] }
 

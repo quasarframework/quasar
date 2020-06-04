@@ -451,6 +451,15 @@ class QuasarConfig {
       cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
     }
 
+    cfg.htmlVariables = merge({
+      ctx: cfg.ctx,
+      process: {
+        env: cfg.build.env
+      },
+      productName: cfg.build.productName,
+      productDescription: cfg.build.productDescription
+    }, cfg.htmlVariables)
+
     cfg.__loadingBar = cfg.framework.all === true || cfg.framework.plugins.includes('LoadingBar')
     cfg.__meta = cfg.framework.all === true || cfg.framework.plugins.includes('Meta')
 
@@ -868,16 +877,6 @@ class QuasarConfig {
     }
 
     cfg.__html = {
-      variables: {
-        ctx: cfg.ctx,
-        process: {
-          env: cfg.build.env
-        },
-        productName: cfg.build.productName,
-        productDescription: cfg.build.productDescription,
-
-        ...cfg.htmlVariables
-      },
       minifyOptions: cfg.build.minify
         ? {
           removeComments: true,
@@ -888,7 +887,7 @@ class QuasarConfig {
           // more options:
           // https://github.com/kangax/html-minifier#options-quick-reference
         }
-        : void 0
+        : false
     }
 
     // used by .quasar entry templates
