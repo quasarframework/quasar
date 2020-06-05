@@ -7,18 +7,19 @@ import "../ts-helpers";
 
 interface QuasarStaticBuildConfiguration {
   /**
+   * @version `@quasar/app` 2.0+
+   *
+   * Transpile JS code with Babel
+   *
+   * @default true
+   */
+  transpile: boolean;
+  /**
    * Add dependencies for transpiling with Babel (from node_modules, which are by default not transpiled).
+   * It is ignored if "transpile" is not set to true.
    * @example [ /my-dependency/, ...]
    */
   transpileDependencies: RegExp[];
-  /**
-   * @version `@quasar/app` 1.9+
-   *
-   * Run legacy build (ES5).
-   *
-   * @default false
-   */
-  legacy: boolean;
   /**
    * @version `@quasar/app` 1.3.4+
    *

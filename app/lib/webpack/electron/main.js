@@ -48,7 +48,7 @@ module.exports = function (cfg, configName) {
   chain.plugin('expression-dependency')
     .use(ExpressionDependency)
 
-  if (cfg.build.legacy === true) {
+  if (cfg.build.transpile === true) {
     chain.module.rule('babel')
       .test(/\.js$/)
       .exclude

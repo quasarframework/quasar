@@ -3,12 +3,12 @@ const fs = require('fs')
 const merge = require('webpack-merge')
 const chokidar = require('chokidar')
 const debounce = require('lodash.debounce')
-const { underline } = require('chalk')
+const { underline, green } = require('chalk')
 
 const appPaths = require('./app-paths')
 const { log, warn, fatal } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
-const useAdditionalPolyfills = require('./helpers/use-additional-polyfills')
+const { needsAdditionalPolyfills } = require('./helpers/browsers-support')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 
@@ -326,7 +326,6 @@ class QuasarConfig {
     cfg.__rootDefines = {}
     cfg.__needsAppMountHook = false
     cfg.__vueDevtools = false
-    cfg.__needsAdditionalPolyfills = useAdditionalPolyfills(cfg.build.legacy, this.ctx)
     cfg.supportTS = cfg.supportTS || false
 
     if (cfg.vendor.disable !== true) {
@@ -371,7 +370,6 @@ class QuasarConfig {
     cfg.framework.plugins = getUniqueArray(cfg.framework.plugins)
 
     cfg.build = merge({
-      legacy: false,
       transformAssetUrls: Object.assign({
         video: ['src', 'poster'],
         source: 'src',
@@ -394,6 +392,7 @@ class QuasarConfig {
       vueRouterMode: 'hash',
       preloadChunks: false,
       forceDevPublicPath: false,
+      transpile: true,
       // transpileDependencies: [], // leaving here for completeness
       devtool: this.ctx.dev
         ? '#cheap-module-eval-source-map'
@@ -437,18 +436,21 @@ class QuasarConfig {
       }
     }, cfg.build)
 
-    if (this.opts.legacy === true) {
-      cfg.build.legacy = true
-    }
-
-    log(underline(
-      cfg.build.legacy === true
-        ? 'Generating legacy js code (ES5)'
-        : 'Using MODERN build (ES6+)'
-    ))
-
-    if (cfg.build.legacy === true) {
+    if (cfg.build.transpile === true) {
       cfg.build.transpileDependencies = cfg.build.transpileDependencies.filter(uniqueRegexFilter)
+      cfg.__supportsIE = cfg.build.transpile === true && needsAdditionalPolyfills(this.ctx)
+
+      const type = cfg.__supportsIE === true
+        ? 'includes IE11 support'
+        : 'modern'
+
+      cfg.__transpileBanner = green(`yes (Babel) - ${type}`)
+      log(`Transpiling JS (Babel active) - ${underline(type)}`)
+    }
+    else {
+      cfg.__supportsIE = false
+      cfg.__transpileBanner = 'no'
+      log(underline('Not transpiling JS'))
     }
 
     cfg.htmlVariables = merge({

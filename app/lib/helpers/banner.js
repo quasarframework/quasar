@@ -44,7 +44,7 @@ module.exports = function (argv, cmd, details) {
   }
 
   if (details) {
-    banner += `\n Modern build...... ${details.legacy === true ? 'no (legacy ES5)' : green('yes (ES6+)') }`
+    banner += `\n Transpiled JS..... ${details.transpileBanner}`
     if (argv['skip-pkg'] !== true) {
       banner += `
  ==================
@@ -104,12 +104,12 @@ module.exports = function (argv, cmd, details) {
   console.log(banner + '\n')
 }
 
-module.exports.devCompilationSuccess = function (ctx, url, appDir, legacy) {
+module.exports.devCompilationSuccess = function (ctx, url, appDir, transpileBanner) {
   return `App dir........... ${green(appDir)}
     App URL........... ${green(url)}
     Dev mode.......... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}
     Pkg quasar........ ${green('v' + quasarVersion)}
     Pkg @quasar/app... ${green('v' + cliAppVersion)}
-    Modern build...... ${legacy === true ? 'no (legacy ES5)' : green('yes (ES6+)') }
+    Transpiled JS..... ${transpileBanner}
   `
 }
