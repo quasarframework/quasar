@@ -628,7 +628,6 @@ export default Vue.extend({
                 key: this.innerModel.year + '/' + this.innerModel.month,
                 staticClass: 'q-date__calendar-days fit'
               }, this.days.map(day => h('div', {
-                // ToDo: add background for range selection and border on mouse over when selecting range end
                 staticClass:
                   `q-date__calendar-item q-date__calendar-item--selected q-date__calendar-item--${
                     day.fill === true
@@ -640,7 +639,7 @@ export default Vue.extend({
                       : ''
                   } ${
                     day.mockRange === true
-                      ? 'q-date__calendar-item--mock-range' + (day.mockRangeEnd ? '-end' : (day.mockRangeStart ? '-start' : ''))
+                      ? 'q-date__calendar-item--mock-range' + (day.mockRangeEnd ? '-end' : '') + (day.mockRangeStart ? '-start' : '')
                       : ''
                   }`
               }, [
@@ -663,12 +662,7 @@ export default Vue.extend({
                             this.__setRangeEndDay(day.i)
                           }
                           else if (this.multiple) {
-                            if (event.ctrlKey || event.shiftKey) {
-                              this.__addRemoveDay(day.i)
-                            }
-                            else {
-                              this.__addRangeStartDay(day.i)
-                            }
+                            this.__addRangeStartDay(day.i)
                           }
                           else {
                             this.__setRangeStartDay(day.i)
@@ -679,12 +673,6 @@ export default Vue.extend({
                         }
                         else {
                           this.__setDay(day.i)
-                        }
-                      },
-                      contextmenu: event => {
-                        if (this.range && this.multiple && !this.needsRangeEnd()) {
-                          event.preventDefault()
-                          this.__addRemoveDay(day.i)
                         }
                       },
                       mouseover: () => {
@@ -968,45 +956,71 @@ export default Vue.extend({
             valArray = [[val]]
           }
           else if (this.isInRange(day) === false) {
-            let range = [day]
-            let valRange = [val]
-            dates.push(range)
-            valArray.push(valRange)
+            if (this.isInDates(day)) {
+              this.__updateValue(date, 'add-remove-day')
+              return
+            }
+            else {
+              let range = [day]
+              let valRange = [val]
+              dates.push(range)
+              valArray.push(valRange)
+            }
           }
           else {
-            return
+            if (this.isRangeStart(day) || this.isRangeEnd(day)) {
+              reason = 'edit-range'
+              this.dates.some((value, index) => {
+                if (Array.isArray(value) && (isSameDate(value[0], day) || isSameDate(value[1], day))) {
+                  let val = valArray.splice(index, 1)[0][isSameDate(value[0], day) ? 1 : 0]
+                  valArray.push([val])
+                  this.mockRangeEnd = day
+                  return true
+                }
+              })
+            }
+            else {
+              this.__updateValue(date, 'add-remove-day')
+              return
+            }
           }
         }
         else if (reason === 'set-range-end-day' && this.__needsRangeEnd(dates)) {
           let range = [this.__getRangeStart(dates), day]
           let valRange = [this.__getRangeStart(valArray), val]
-          dates.splice(-1, 1, range)
-          valArray.splice(-1, 1, valRange)
-          dates.forEach(
-            (value, index) => {
-              if (Array.isArray(value)) {
-                if (value === range) {
-                  return
+          if (isSameDate(range[0], range[1])) {
+            reason = 'remove-day'
+            valArray.splice(-1, 1, val)
+          }
+          else {
+            valArray.splice(-1, 1, valRange)
+            dates.splice(-1, 1, range)
+            dates.forEach(
+              (value, index) => {
+                if (Array.isArray(value)) {
+                  if (value === range) {
+                    return
+                  }
+                  if (isBetweenDates(day, getMinDate(...value), getMaxDate(...value), { inclusiveTo: true, inclusiveFrom: true })) {
+                    valRange[1] = isSameDate(range[0], getMinDate(...value, range[0]))
+                      ? valArray[index][isSameDate(value[0], getMaxDate(...value)) ? 0 : 1]
+                      : valArray[index][isSameDate(value[0], getMinDate(...value)) ? 0 : 1]
+                    valArray[index] = undefined
+                  }
+                  else if (
+                    getMinDate(...range) <= getMinDate(...value) &&
+                    getMaxDate(...range) >= getMaxDate(...value)
+                  ) {
+                    valArray[index] = undefined
+                  }
                 }
-                if (isBetweenDates(day, getMinDate(...value), getMaxDate(...value), { inclusiveTo: true, inclusiveFrom: true })) {
-                  valRange[1] = isBetweenDates(value[0], getMinDate(...range), getMaxDate(...range), { inclusiveTo: true, inclusiveFrom: true })
-                    ? valArray[index][1]
-                    : valArray[index][0]
-                  valArray[index] = undefined
-                }
-                else if (
-                  getMinDate(...range) <= getMinDate(...value) &&
-                  getMaxDate(...range) >= getMaxDate(...value)
-                ) {
+                else if (isBetweenDates(value, getMinDate(...range), getMaxDate(...range), { inclusiveTo: true, inclusiveFrom: true })) {
                   valArray[index] = undefined
                 }
               }
-              else if (isBetweenDates(value, getMinDate(...range), getMaxDate(...range), { inclusiveTo: true, inclusiveFrom: true })) {
-                valArray[index] = undefined
-              }
-            }
-          )
-          valArray = valArray.filter(a => a !== undefined)
+            )
+            valArray = valArray.filter(a => a !== undefined)
+          }
         }
         else {
           if (this.isInDates(day)) {
