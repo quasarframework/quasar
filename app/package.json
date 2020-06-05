@@ -42,7 +42,7 @@
     "url": "https://donate.quasar.dev"
   },
   "dependencies": {
-    "@quasar/babel-preset-app": "/Users/Razvan/work/@quasar/babel-preset-app/",
+    "@quasar/babel-preset-app": "2.0.0",
     "@quasar/fastclick": "1.1.4",
     "@types/cordova": "0.0.34",
     "@types/electron-packager": "14.0.0",
