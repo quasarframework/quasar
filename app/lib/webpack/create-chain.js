@@ -300,25 +300,20 @@ module.exports = function (cfg, configName) {
     if (configName !== 'Server') {
       // copy /public to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
-      const publicFolder = appPaths.resolve.app('public')
 
-      const patterns = []
-
-      if (fs.existsSync(publicFolder)) {
-        patterns.push({
-          from: publicFolder,
-          to: '.',
-          noErrorOnMissing: true,
-          globOptions: {
-            ignore: [ appPaths.resolve.app('/**/.*') ].concat(
-              // avoid useless files to be copied
-              ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-                ? [ appPaths.resolve.app('public/icons'), appPaths.resolve.app('public/favicon.ico') ]
-                : []
-            )
-          }
-        })
-      }
+      const patterns = [{
+        from: appPaths.resolve.app('public'),
+        to: '.',
+        noErrorOnMissing: true,
+        globOptions: {
+          ignore: [ appPaths.resolve.app('/**/.*') ].concat(
+            // avoid useless files to be copied
+            ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+              ? [ appPaths.resolve.app('public/icons'), appPaths.resolve.app('public/favicon.ico') ]
+              : []
+          )
+        }
+      }]
 
       chain.plugin('copy-webpack')
         .use(CopyWebpackPlugin, [{ patterns }])

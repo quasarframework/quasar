@@ -122,11 +122,9 @@ module.exports = function (cfg, configName) {
       noErrorOnMissing: true
     }))
 
-    if (patterns.length > 0) {
-      const CopyWebpackPlugin = require('copy-webpack-plugin')
-      chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, [{ patterns }])
-    }
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
+    chain.plugin('copy-webpack')
+      .use(CopyWebpackPlugin, [{ patterns }])
   }
 
   return chain
