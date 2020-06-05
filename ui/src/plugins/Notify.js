@@ -341,7 +341,7 @@ const Notifications = {
           if (notif.icon) {
             mainChild.push(
               h(QIcon, {
-                staticClass: 'q-notification__icon col-auto',
+                staticClass: 'q-notification__icon',
                 attrs: { role: 'img' },
                 props: { name: notif.icon }
               })
