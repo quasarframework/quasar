@@ -14,20 +14,16 @@ function getModulePath (mod, useAbsolutePath) {
 }
 
 // add polyfill imports to the first file encountered.
-module.exports = ({}, { polyfills, entryFiles = [], useAbsolutePath }) => {
+module.exports = ({}, { polyfills, useAbsolutePath }) => {
   return {
     name: 'quasar-cli-inject-polyfills',
     visitor: {
-      Program (path, state) {
-        if (!entryFiles.includes(state.filename)) {
-          return
-        }
-
+      Program (path) {
         // imports are injected in reverse order
         polyfills
           .slice()
           .reverse()
-          .forEach(p => {
+          .forEach(mod => {
             // create import
             addSideEffect(path, getModulePath(mod, useAbsolutePath))
           })

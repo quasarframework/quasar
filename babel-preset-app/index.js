@@ -7,27 +7,14 @@ const {
   isRequired
 } = require('@babel/helper-compilation-targets')
 
-const defaultPolyfills = [
-  // promise polyfill alone doesn't work in IE;
-  // needs this as well
-  'es.array.iterator',
-  // this is required for webpack code splitting, vuex etc
-  'es.promise',
-  // this is needed for object rest spread support in templates
-  // as vue-template-es2015-compiler 1.8+ compiles it to Object.assign() calls
-  'es.object.assign',
-  // #2012 es.promise replaces native Promise in FF and causes missing finally
-  'es.promise.finally'
-]
-
-function getPolyfills (targets, includes) {
+function getPolyfills (targets, userPolyfills = []) {
   // if no targets specified, include all default polyfills
-  if (!targets || !Object.keys(targets).length) {
-    return includes
+  if (!userPolyfills.length || !targets || !Object.keys(targets).length) {
+    return userPolyfills
   }
 
   const compatData = require('core-js-compat').data
-  return includes.filter(item => isRequired(item, targets, { compatData }))
+  return userPolyfills.filter(item => isRequired(item, targets, { compatData }))
 }
 
 module.exports = (_, opts = {}) => {
@@ -69,19 +56,17 @@ module.exports = (_, opts = {}) => {
   } = opts
 
   let targets = getTargets(rawTargets)
-
-  // included-by-default polyfills. These are common polyfills that 3rd party
-  // dependencies may rely on (e.g. Vuex relies on Promise), but since with
-  // useBuiltIns: 'usage' we won't be running Babel on these deps, they need to
-  // be force-included.
   let polyfills = []
 
   if (useBuiltIns === 'usage') {
-    polyfills = getPolyfills(targets, userPolyfills || defaultPolyfills)
-    plugins.push([
-      require('./polyfills'),
-      { polyfills, useAbsolutePath: !!absoluteRuntime }
-    ])
+    polyfills = getPolyfills(targets, userPolyfills)
+
+    if (polyfills.length > 0) {
+      plugins.push([
+        require('./polyfills'),
+        { polyfills, useAbsolutePath: !!absoluteRuntime }
+      ])
+    }
   }
 
   const envOptions = {
