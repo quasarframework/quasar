@@ -10,7 +10,7 @@ class Mode {
     return fs.existsSync(appPaths.cordovaDir)
   }
 
-  add (target) {
+  async add (target) {
     if (this.isInstalled) {
       warn(`Cordova support detected already. Aborting.`)
       return
@@ -27,11 +27,22 @@ class Mode {
       return
     }
 
+    const inquirer = require('inquirer')
+
+    console.log()
+    const answer = await inquirer.prompt([{
+      name: 'appId',
+      type: 'input',
+      message: 'What is the Cordova app id?',
+      default: 'org.cordova.quasar.app',
+      validate: appId => appId ? true : 'Please fill in a value'
+    }])
+
     log('Creating Cordova source folder...')
 
     spawnSync(
       'cordova',
-      ['create', 'src-cordova', pkg.cordovaId || 'org.quasar.cordova.app', appName],
+      ['create', 'src-cordova', answer.appId, appName],
       { cwd: appPaths.appDir },
       () => {
         fatal(`There was an error trying to install Cordova support`)

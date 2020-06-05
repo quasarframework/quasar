@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const fg = require('fast-glob')
 
 const appPaths = require('../app-paths')
 const { log, warn } = require('../helpers/logger')
@@ -107,7 +106,6 @@ class CapacitorConfig {
   __updateCapJson (cfg, originalCapCfg) {
     const capJson = { ...originalCapCfg }
 
-    capJson.appId = cfg.capacitor.id || this.pkg.capacitorId || this.pkg.cordovaId || 'org.quasar.cordova.app'
     capJson.appName = cfg.capacitor.appName || this.pkg.productName || 'Quasar App'
     capJson.bundledWebRuntime = false
 
@@ -228,8 +226,9 @@ class CapacitorConfig {
   }
 
   __handleSSLonAndroid (add) {
+    const fglob = require('fast-glob')
     const capacitorSrcPath = appPaths.resolve.capacitor('android/app/src/main/java')
-    let mainActivityPath = fg.sync(`**/MainActivity.java`, { cwd: capacitorSrcPath, absolute: true })
+    let mainActivityPath = fglob.sync(`**/MainActivity.java`, { cwd: capacitorSrcPath, absolute: true })
 
     if (mainActivityPath.length > 0) {
       if (mainActivityPath.length > 1) {
@@ -266,7 +265,7 @@ ${sslString}
 
         // Add helper file
         if (!fs.existsSync(enableHttpsSelfSignedPath)) {
-          const appId = mainActivity.match(/package ([a-zA-Z\.]*);/)[1]
+          const appId = mainActivity.match(/package ([\w\.]*);/)[1]
 
           fs.writeFileSync(
             enableHttpsSelfSignedPath,

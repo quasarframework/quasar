@@ -95,23 +95,11 @@ ensureArgv(argv, 'build')
 const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 
-if (argv.mode !== 'spa') {
-  const installMissing = require('../lib/mode/install-missing')
-  installMissing(argv.mode, argv.target)
-}
-
 const { log, warn, fatal } = require('../lib/helpers/logger')
 
 const chalk = require('chalk')
 const path = require('path')
 const webpack = require('webpack')
-
-const QuasarConfig = require('../lib/quasar-config')
-const Generator = require('../lib/generator')
-const artifacts = require('../lib/artifacts')
-const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
-const extensionRunner = require('../lib/app-extension/extensions-runner')
-const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
 
 function splitConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
@@ -163,6 +151,18 @@ function finalizeBuild (mode, ctx, quasarConfig) {
 }
 
 async function build () {
+  if (argv.mode !== 'spa') {
+    const installMissing = require('../lib/mode/install-missing')
+    await installMissing(argv.mode, argv.target)
+  }
+
+  const QuasarConfig = require('../lib/quasar-config')
+  const Generator = require('../lib/generator')
+  const artifacts = require('../lib/artifacts')
+  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
+
   const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.target,

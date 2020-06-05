@@ -46,7 +46,6 @@ class CordovaConfig {
 
     const root = doc.getroot()
 
-    root.set('id', cfg.cordova.id || this.pkg.cordovaId || 'org.quasar.cordova.app')
     root.set('version', cfg.cordova.version || this.pkg.version)
 
     if (cfg.cordova.androidVersionCode) {

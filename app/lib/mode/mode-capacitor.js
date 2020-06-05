@@ -12,7 +12,7 @@ class Mode {
     return fs.existsSync(appPaths.capacitorDir)
   }
 
-  add (target) {
+  async add (target) {
     if (this.isInstalled) {
       warn(`Capacitor support detected already. Aborting.`)
       return
@@ -30,6 +30,17 @@ class Mode {
       return
     }
 
+    const inquirer = require('inquirer')
+
+    console.log()
+    const answer = await inquirer.prompt([{
+      name: 'appId',
+      type: 'input',
+      message: 'What is the Capacitor app id?',
+      default: 'org.capacitor.quasar.app',
+      validate: appId => appId ? true : 'Please fill in a value'
+    }])
+
     log(`Creating Capacitor source folder...`)
 
     // Create /src-capacitor from template
@@ -38,7 +49,7 @@ class Mode {
     const fglob = require('fast-glob')
     const scope = {
       appName,
-      appId: pkg.capacitorId || pkg.cordovaId || 'org.quasar.capacitor.app',
+      appId: answer.appId,
       pkg,
       nodePackager
     }

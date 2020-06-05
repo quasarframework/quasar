@@ -81,11 +81,6 @@ ensureArgv(argv, 'dev')
 const banner = require('../lib/helpers/banner')
 banner(argv, 'dev')
 
-if (argv.mode !== 'spa') {
-  const installMissing = require('../lib/mode/install-missing')
-  installMissing(argv.mode, argv.target)
-}
-
 const findPort = require('../lib/helpers/net').findClosestOpenPort
 
 async function parseAddress ({ host, port }) {
@@ -180,6 +175,11 @@ function startVueDevtools () {
 }
 
 async function goLive () {
+  if (argv.mode !== 'spa') {
+    const installMissing = require('../lib/mode/install-missing')
+    await installMissing(argv.mode, argv.target)
+  }
+
   const DevServer = require('../lib/dev-server')
   const QuasarConfig = require('../lib/quasar-config')
   const Generator = require('../lib/generator')

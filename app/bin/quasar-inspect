@@ -48,11 +48,15 @@ if (argv.help) {
 require('../lib/helpers/ensure-argv')(argv, 'inspect')
 require('../lib/helpers/banner')(argv, argv.cmd)
 
+const { log, fatal } = require('../lib/helpers/logger')
+
 if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
+  const getMode = require('../lib/mode/index')
+  if (getMode(argv.mode).isInstalled !== true) {
+    fatal('Requested mode for inspection is NOT installed.\n')
+  }
 }
 
-const { log, fatal } = require('../lib/helpers/logger')
 const QuasarConfig = require('../lib/quasar-config')
 
 const depth = parseInt(argv.depth, 10) || Infinity
@@ -81,7 +85,9 @@ async function inspect () {
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
-    target: argv.target,
+    target: argv.mode === 'cordova' || argv.mode === 'capacitor'
+      ? 'android'
+      : void 0,
     debug: argv.debug,
     dev: argv.cmd === 'dev',
     prod: argv.cmd === 'build'

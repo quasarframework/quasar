@@ -580,7 +580,7 @@ class QuasarConfig {
       cfg.ssr.__index = path.basename(file)
 
       if (cfg.ssr.pwa) {
-        require('./mode/install-missing')('pwa')
+        await require('./mode/install-missing')('pwa')
       }
       this.ctx.mode.pwa = cfg.ctx.mode.pwa = cfg.ssr.pwa !== false
     }
