@@ -22,17 +22,18 @@ export default {
         bodyCell = this.$scopedSlots['body-cell'],
         key = this.getRowKey(row),
         selected = this.isRowSelected(key),
-        child = bodyCell
-          ? this.computedCols.map(col => bodyCell(this.addBodyCellMetaData({ row, pageIndex, col })))
-          : this.computedCols.map(col => {
-            const slot = this.$scopedSlots[`body-cell-${col.name}`]
-            return slot !== void 0
-              ? slot(this.addBodyCellMetaData({ row, pageIndex, col }))
-              : h('td', {
-                class: col.__tdClass,
-                style: col.style
-              }, this.getCellValue(col, row))
-          })
+        child = this.computedCols.map(col => {
+          const
+            bodyCellCol = this.$scopedSlots[`body-cell-${col.name}`],
+            slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
+
+          return slot !== void 0
+            ? slot(this.addBodyCellMetaData({ row, pageIndex, col }))
+            : h('td', {
+              class: col.__tdClass,
+              style: col.style
+            }, this.getCellValue(col, row))
+        })
 
       this.hasSelectionMode === true && child.unshift(
         h('td', { staticClass: 'q-table--col-auto-width' }, [
