@@ -10,19 +10,13 @@ import { QSpinnerGears } from 'quasar'
 export default {
   methods: {
     showLoading () {
-      /* This is for Codepen (using UMD) to work */
-      const spinner = typeof QSpinnerGears !== 'undefined'
-        ? QSpinnerGears
-        : Quasar.components.QSpinnerGears // eslint-disable-line
-      /* End of Codepen workaround */
-
       this.$q.loading.show({
         message: 'First message. Gonna change it in 3 seconds...'
       })
 
       this.timer = setTimeout(() => {
         this.$q.loading.show({
-          spinner,
+          spinner: QSpinnerGears,
           spinnerColor: 'red',
           messageColor: 'black',
           backgroundColor: 'yellow',

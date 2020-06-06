@@ -52,7 +52,8 @@ export default {
     },
 
     js () {
-      const imports = /(import*) ([^'\n]*) from ([^\n]*)/g
+      const importsQ = /import\s+{([^}'\n]+)}\s+from\s+'quasar'/g
+      const imports = /import ([^'\n]*) from ([^\n]*)/g
       let component = /export default {([\s\S]*)}/g.exec(this.parts.script || '')
       component = ((component && component[1]) || '').trim()
       if (component.length > 0) {
@@ -60,6 +61,30 @@ export default {
       }
       let script = /<script>([\s\S]*)export default {/g.exec(this.parts.script || '')
       script = ((script && script[1]) || '')
+        .replace(importsQ, function (match, p1) {
+          const parts = p1
+            .split(',')
+            .map(p => p.trim())
+            .filter(p => p.length > 0)
+            .reduce((acc, p) => {
+              if (p[0] === 'Q') {
+                acc.c.push(p)
+              }
+              else {
+                acc.u.push(p)
+              }
+              return acc
+            }, { c: [], u: [] })
+
+          const text = []
+          if (parts.c.length > 0) {
+            text.push('const { ' + parts.c.join(', ') + ' } = Quasar.components')
+          }
+          if (parts.u.length > 0) {
+            text.push('const { ' + parts.u.join(', ') + ' } = Quasar')
+          }
+          return text.join('\n')
+        })
         .replace(imports, '')
         .trim()
       script += script ? '\n\n' : ''
@@ -76,7 +101,7 @@ export default {
         .replace(/([\w]+=")([^"]*?)(")/g, function (match, p1, p2, p3) {
           return p1 + p2.replace(/>/g, '___TEMP_REPLACEMENT___') + p3
         })
-        .replace(/<(q-[\w-]+|div)([^>]+?)\s*?([\r\n]+\s*)?\/>/g, '<$1$2$3></$1>')
+        .replace(/<(q-[\w-]+|div)([^>]*?)\s*?([\r\n][\t ]+)?\/>/g, '<$1$2$3></$1>')
         .replace(/<(thead|tbody)(.*?)[\n\r]?(\s*)<\/\1>/g, function (match, p1, p2, p3) {
           return '<template>\n' + p3 + '  <' + p1 + p2.split(/[\n\r]+/g).join('\n  ') + '\n' + p3 + '  </' + p1 + '>\n' + p3 + '</template>'
         })
