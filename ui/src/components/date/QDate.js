@@ -12,7 +12,8 @@ import {
   getMinDate,
   getMaxDate,
   isSameDate,
-  isBetweenDates
+  isBetweenDates,
+  getDateDiff
 } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
@@ -137,7 +138,15 @@ export default Vue.extend({
       if (model.dateHash === null) { return ' --- ' }
 
       let date
-
+      if (this.$props.multiple === true) { return this.getTotalSelectedDates + ' selected' }
+      else if (this.$props.range === true && Array.isArray(this.dates) && Array.isArray(this.dates[0])) {
+        date = this.dates[0]
+        return this.computedLocale.daysShort[ date[0].getDay() ] + ', ' +
+          this.computedLocale.monthsShort[ date[0].getMonth() ] + ' ' +
+          date[0].getDate() + ' - ' + (date.length === 2 ? this.computedLocale.daysShort[ date[1].getDay() ] + ', ' +
+          this.computedLocale.monthsShort[ date[1].getMonth() ] + ' ' +
+          date[1].getDate() : ' --- ')
+      }
       if (this.calendar !== 'persian') {
         date = new Date(model.year, model.month - 1, model.day)
       }
@@ -247,6 +256,24 @@ export default Vue.extend({
 
     isMockRangeEnd () {
       return date => this.__needsRangeEnd(this.dates) && this.mockRangeEnd !== null && isSameDate(getMaxDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), date)
+    },
+
+    getTotalSelectedDates () {
+      let total = 0
+      if (Array.isArray(this.dates)) {
+        this.dates.forEach(value => {
+          if (Array.isArray(value)) {
+            total += getDateDiff(getMaxDate(...value), getMinDate(...value)) + 1
+          }
+          else {
+            total += 1
+          }
+        })
+      }
+      else if (this.value !== '') {
+        total += 1
+      }
+      return total
     },
 
     days () {
@@ -942,7 +969,10 @@ export default Vue.extend({
       if (['add-range-start-day', 'set-range-start-day', 'set-range-end-day', 'add-remove-day'].includes(reason)) {
         const day = extractDate(val, this.mask, this.__getComputedLocale())
         let dates, valArray
-        if (!Array.isArray(this.dates)) {
+        if (this.value === '') {
+          dates = valArray = [] 
+        }
+        else if (!Array.isArray(this.dates)) {
           dates = [this.dates]
           valArray = [this.value]
         }
@@ -963,6 +993,7 @@ export default Vue.extend({
             else {
               let range = [day]
               let valRange = [val]
+              if (dates.length > 0)
               dates.push(range)
               valArray.push(valRange)
             }
@@ -1085,7 +1116,9 @@ export default Vue.extend({
             valArray.push(val)
           }
         }
-        valArray.changed = true
+        if (valArray.length === 1 && Array.isArray(valArray[0]) === false) valArray = valArray[0]
+        else if (valArray.length === 0) valArray = '' 
+        date.changed = true
         this.$emit('input', valArray, reason, date)
       }
       else {
