@@ -69,6 +69,9 @@
       font-size: 12px
 
   &__calendar-item
+    border-style: dashed
+    border-color: transparent
+    border-width: 1pt 0 
     display: inline-flex
     align-items: center
     justify-content: center
@@ -92,31 +95,41 @@
       visibility: hidden
 
     &--range, &--range-start, &--range-end
-      background-color: $indigo-1
-      
+
+      &:before
+        background-color: currentColor
+        content: ''
+        position: absolute
+        top: 1px
+        bottom: 1px
+        left: 0
+        right: 0
+        opacity: .18
+
       &:nth-child(7n-6), &:first-of-type, &-start
-        border-top-left-radius: 16px
-        border-bottom-left-radius: 16px
+
+        &:before
+          border-top-left-radius: $button-rounded-border-radius
+          border-bottom-left-radius: $button-rounded-border-radius
 
       &:nth-child(7n), &:last-of-type, &-end
-        border-top-right-radius: 16px
-        border-bottom-right-radius: 16px
+
+        &:before
+          border-top-right-radius: $button-rounded-border-radius
+          border-bottom-right-radius: $button-rounded-border-radius
 
     &--mock-range
-      border-style: dashed
-      border-width: 1pt 0 
+      border-color: currentColor
 
       &:nth-child(7n-6), &:first-of-type, &-start, &-end-start
-        border-style: dashed
-        border-width: 1pt 0 
-        border-top-left-radius: 16px
-        border-bottom-left-radius: 16px
+        border-color: currentColor
+        border-top-left-radius: $button-rounded-border-radius
+        border-bottom-left-radius: $button-rounded-border-radius
 
       &:nth-child(7n), &:last-of-type, &-end, &-end-start
-        border-style: dashed
-        border-width: 1pt 0 
-        border-top-right-radius: 16px
-        border-bottom-right-radius: 16px
+        border-color: currentColor
+        border-top-right-radius: $button-rounded-border-radius
+        border-bottom-right-radius: $button-rounded-border-radius
 
       &-end button
         box-shadow: 0 0 1px 0 currentColor

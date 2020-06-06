@@ -319,8 +319,10 @@ export default Vue.extend({
           item.rangeEnd = this.isRangeEnd(addToDate(date, { days: i - 1 }))
           if (item.rangeStart || item.rangeEnd || item.range === false) {
             item.flat = false
-            item.color = this.computedColor
           }
+          item.unelevated = true
+          item.color = this.computedColor
+          item.textColor = this.computedTextColor
         }
         if (this.options === void 0 || this.isInSelection(day) === true) {
           const event = this.events !== void 0 && this.evtFn(day) === true
@@ -334,6 +336,7 @@ export default Vue.extend({
           item.mockRange = true
           item.mockRangeStart = this.isMockRangeStart(addToDate(date, { days: i - 1 }))
           item.mockRangeEnd = this.isMockRangeEnd(addToDate(date, { days: i - 1 }))
+          item.color = this.computedColor
         }
         res.push(item)
       }
@@ -662,11 +665,11 @@ export default Vue.extend({
                       : (day.in === true ? 'in' : 'out')
                   } ${
                     day.range === true
-                      ? 'q-date__calendar-item--range' + (day.rangeEnd ? '-end' : (day.rangeStart ? '-start' : ''))
+                      ? 'q-date__calendar-item--range' + (day.rangeEnd ? '-end' : (day.rangeStart ? '-start' : '')) + ' text-' + day.color
                       : ''
                   } ${
                     day.mockRange === true
-                      ? 'q-date__calendar-item--mock-range' + (day.mockRangeEnd ? '-end' : '') + (day.mockRangeStart ? '-start' : '')
+                      ? 'q-date__calendar-item--mock-range' + (day.mockRangeEnd ? '-end' : '') + (day.mockRangeStart ? '-start' : '') + ' text-' + day.color
                       : ''
                   }`
               }, [
@@ -970,7 +973,7 @@ export default Vue.extend({
         const day = extractDate(val, this.mask, this.__getComputedLocale())
         let dates, valArray
         if (this.value === '') {
-          dates = valArray = [] 
+          dates = valArray = []
         }
         else if (!Array.isArray(this.dates)) {
           dates = [this.dates]
@@ -993,8 +996,7 @@ export default Vue.extend({
             else {
               let range = [day]
               let valRange = [val]
-              if (dates.length > 0)
-              dates.push(range)
+              if (dates.length > 0) dates.push(range)
               valArray.push(valRange)
             }
           }
@@ -1117,7 +1119,7 @@ export default Vue.extend({
           }
         }
         if (valArray.length === 1 && Array.isArray(valArray[0]) === false) valArray = valArray[0]
-        else if (valArray.length === 0) valArray = '' 
+        else if (valArray.length === 0) valArray = ''
         date.changed = true
         this.$emit('input', valArray, reason, date)
       }
