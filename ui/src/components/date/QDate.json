@@ -100,6 +100,34 @@
       "category": "model"
     },
 
+    "ranges": {
+      "type": [ "Array", "Function" ],
+      "desc": "Multiple selected days or range of days; The Array can have dates as String or Arrays of with start and end date of the range as String ; If using a function, it receives the date as a String and must return a Boolean (the date is selected or not) or an Object if the date is selected (the keys are: start (Boolean) - date is start of range, end (Boolean) - date is end of range, outline (Boolean) - show the range outlined (else it's filled), color (String) - color to be applied on the range); If using a function then for best performance, reference it from your scope and do not define it inline",
+      "examples": [
+        ":ranges=\"['2018/11/05', [ '2018/11/12', '2018/11/19' ], '2018/11/26' ]\"",
+        ":ranges=\"date => date >= '2018/11/03' && date <= '2018/11/15' ? { range: true, start: date === '2018/11/03', end: date === '2018/11/15', color: 'red' } : false\"",
+        ":ranges=\"date => date >= '2018/11/03' && date <= '2018/11/15' ? { range: true, start: date === '2018/11/03', end: date === '2018/11/15', outline: true } : false\""
+      ],
+      "category": "model",
+      "addedIn": "v1.9.9"
+    },
+
+    "selection-start": {
+      "type": "String",
+      "desc": "Date as String from where the selection starts; If the value is set then selection mode is activated and the next day selection marks the end of the selection range",
+      "examples": [ "selection-start=\"2018/11/05\"" ],
+      "category": "model|behavior",
+      "addedIn": "v1.9.9"
+    },
+
+    "selection-end": {
+      "type": "String",
+      "desc": "Date as String where the selection ends; If both this value and selection-start are present the selection range is marked as outlined",
+      "examples": [ "selection-end=\"2018/11/13\"" ],
+      "category": "model|behavior",
+      "addedIn": "v1.9.9"
+    },
+
     "first-day-of-week": {
       "type": [ "String", "Number" ],
       "desc": "Sets the day of the week that is considered the first day (0 - Sunday, 1 - Monday, ...); This day will show in the left-most column of the calendar",
@@ -170,6 +198,49 @@
           }
         }
       }
+    },
+
+    "start:selection": {
+      "desc": "Emitted when selection mode is active (ranges prop is an Array or a Function), selection-start prop is not set, and a day is selected; When receiving this event set the selection-start prop to the emitted value to switch to range end selection mode",
+      "params": {
+        "day": {
+          "type": "String",
+          "desc": "The day selected",
+          "examples": [ "2020/02/15" ]
+        }
+      },
+      "addedIn": "v1.9.9"
+    },
+
+    "extend:selection": {
+      "desc": "Emitted when selection mode is active (ranges prop is an Array or a Function), selection-start prop is set, and a day is hovered; When receiving this event set the selection-end prop to display the selection as outlined",
+      "params": {
+        "selection": {
+          "type": "Array",
+          "desc": "An array with the selection-start and hovered day as String, not sorted; If only one day is selected both days are the same",
+          "examples": [
+            "[ '2020/02/12', '2020/03/02' ]",
+            "[ '2020/02/12', '2020/02/12' ]",
+            "[ '2020/02/18', '2020/02/12' ]"
+          ]
+        }
+      },
+      "addedIn": "v1.9.9"
+    },
+
+    "update:selection": {
+      "desc": "Emitted when selection mode is active (ranges prop is an Array or a Function), selection-start prop is set, and a day is selected; When receiving this event change the ranges prop to add the new range",
+      "params": {
+        "selection": {
+          "type": "Array",
+          "desc": "An array with the start and end day of the selection as String, sorted; If only one day is selected both days are the same",
+          "examples": [
+            "[ '2020/02/12', '2020/03/02' ]",
+            "[ '2020/02/12', '2020/02/12' ]"
+          ]
+        }
+      },
+      "addedIn": "v1.9.9"
     }
   },
 
@@ -190,6 +261,23 @@
           "values": [ "Calendar", "Months", "Years" ]
         }
       }
+    },
+
+    "setMonthYear": {
+      "desc": "Change current view's month and year; If either of the parameters is missing or invalid it'll be left as it is",
+      "params": {
+        "month": {
+          "type": [ "Number", "String" ],
+          "desc": "Month",
+          "values": [ "12", 9 ]
+        },
+        "year": {
+          "type": [ "Number", "String" ],
+          "desc": "Year",
+          "values": [ 2020, -2514, "1999" ]
+        }
+      },
+      "addedIn": "v1.9.9"
     },
 
     "offsetCalendar": {

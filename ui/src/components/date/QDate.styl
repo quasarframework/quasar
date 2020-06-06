@@ -76,13 +76,14 @@
     width: 14.285% !important
     height: 12.5% !important
     position: relative
+    padding: 1px 0
 
     > div, button
-      width: 32px
-      height: 32px
+      width: 30px
+      height: 30px
       border-radius: 50%
     > div
-      line-height: 32px
+      line-height: 30px
       text-align: center
 
     &--out
@@ -108,6 +109,42 @@
     background-color: $secondary
     background-color: var(--q-color-secondary)
     transform: translate3d(-50%, 0, 0)
+
+  &__range
+    &.q-date__calendar-item--fill
+      opacity: 0.3
+      visibility: visible
+
+    &:before
+      content: ''
+      position: absolute
+      top: 1px
+      bottom: 1px
+      left: 0
+      right: 0
+      border-style: solid
+      border-width: 2px 0
+      border-color: currentColor transparent
+      opacity: .18
+
+    &--filled
+      &:before
+        background-color: currentColor
+
+    &--start
+      &:before
+        left: 3px
+        border-top-left-radius: $button-rounded-border-radius
+        border-bottom-left-radius: $button-rounded-border-radius
+        border-left-width: 2px
+        border-left-color: currentColor
+    &--end
+      &:before
+        right: 3px
+        border-top-right-radius: $button-rounded-border-radius
+        border-bottom-right-radius: $button-rounded-border-radius
+        border-right-width: 2px
+        border-right-color: currentColor
 
   &__today
     box-shadow: 0 0 1px 0 currentColor

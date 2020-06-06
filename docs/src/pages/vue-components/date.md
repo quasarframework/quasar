@@ -115,6 +115,33 @@ The first example is using an array and the second example is using a function.
 
 <doc-example title="Options" file="QDate/Options" overflow />
 
+### Multiple selected days / ranges of days <q-badge align="top" label="v1.9.4+" />
+
+* You can use the `ranges` prop to show multiple dates as selected.
+
+<doc-example title="Multiple selected dates" file="QDate/MultipleSelectedDates" overflow />
+
+* Use the normal `@input` event to select multiple dates.
+
+<doc-example title="Selecting multiple dates" file="QDate/MultipleDateSelection" overflow />
+
+* Combine the `selection-start` and `selection-end` props and the `@start:selection`, `@expand:selection` and `@update:selection` events to select multiple dates or date ranges.
+
+<doc-example title="Selecting multiple dates / ranges" file="QDate/MultipleRangeSelection" overflow />
+
+* Use 2 components to allow easy interval selection
+
+<doc-example title="Interval selection" file="QDate/IntervalSelection" overflow />
+
+* Adjust the selection to match a fixed interval
+
+<doc-example title="Week selection" file="QDate/WeekSelection" overflow />
+
+* Limit the minimum and maximum selection length
+
+<doc-example title="Constrained interval selection" file="QDate/IntervalSelectionConstrained" overflow />
+
+
 ### With QSplitter and QTabPanels
 <doc-example title="With QSplitter and QTabPanels" file="QDate/Splitter" />
 

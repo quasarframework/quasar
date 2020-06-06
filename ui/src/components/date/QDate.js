@@ -12,6 +12,16 @@ import cache from '../../utils/cache.js'
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
 
+const date2int = date => Number(date.replace(/\//g, ''))
+
+const getRangeClass = flags => flags === void 0
+  ? ''
+  : ' q-date__range' +
+    (flags.outline !== true ? ' q-date__range--filled' : '') +
+    (flags.start === true ? ' q-date__range--start' : '') +
+    (flags.end === true ? ' q-date__range--end' : '') +
+    (flags.color !== void 0 ? ' text-' + flags.color : '')
+
 export default Vue.extend({
   name: 'QDate',
 
@@ -40,6 +50,10 @@ export default Vue.extend({
     eventColor: [String, Function],
 
     options: [Array, Function],
+
+    ranges: [Array, Function],
+    selectionStart: String,
+    selectionEnd: String,
 
     firstDayOfWeek: [String, Number],
     todayBtn: Boolean,
@@ -186,10 +200,115 @@ export default Vue.extend({
         : date => this.eventColor
     },
 
-    isInSelection () {
+    isSelectable () {
       return typeof this.options === 'function'
         ? this.options
         : date => this.options.includes(date)
+    },
+
+    hasSelectionStart () {
+      return typeof this.selectionStart === 'string' && this.selectionStart.length > 6
+    },
+
+    selectionInterval () {
+      if (
+        this.hasSelectionStart === true &&
+        typeof this.selectionEnd === 'string' && this.selectionEnd.length > 6
+      ) {
+        const interval = [ this.selectionStart, this.selectionEnd ]
+        const intervalInt = interval.map(date2int)
+
+        return intervalInt[0] <= intervalInt[1]
+          ? interval.concat(intervalInt)
+          : interval.reverse().concat(intervalInt.reverse())
+      }
+    },
+
+    rangeCheckFn () {
+      if (typeof this.ranges === 'function') {
+        return date => {
+          const val = this.ranges(date)
+
+          if (val === true) {
+            return { start: true, end: true, color: this.computedColor }
+          }
+
+          return val === Object(val) ? val : void 0
+        }
+      }
+
+      if (Array.isArray(this.ranges) === true) {
+        const { year, month } = this.innerModel
+        const min = (month === 1 ? year - 1 : year) * 10000 + (month === 1 ? 12 : month - 1) * 100 + 1
+        const max = (month === 12 ? year + 1 : year) * 10000 + (month === 12 ? 1 : month + 1) * 100 + 99
+        const intervalRanges = []
+        const simpleRanges = this.ranges.filter(range => {
+          if (Array.isArray(range) === true) {
+            if (range.length > 1) {
+              range = range.slice(0, 2)
+
+              const rangeInt = range.map(date2int)
+
+              if (rangeInt[0] > rangeInt[1]) {
+                range.reverse()
+                rangeInt.reverse()
+              }
+
+              if (min <= rangeInt[1] && max >= rangeInt[0]) {
+                intervalRanges.push(range.concat(rangeInt))
+              }
+            }
+
+            return false
+          }
+
+          if (typeof range !== 'string') {
+            return false
+          }
+
+          const rangeInt = date2int(range)
+
+          return min <= rangeInt && rangeInt <= max
+        })
+        const intervalsLength = intervalRanges.length
+
+        return date => {
+          const dateInt = date2int(date)
+
+          if (
+            this.selectionInterval !== void 0 &&
+            this.selectionInterval[2] <= dateInt &&
+            dateInt <= this.selectionInterval[3]
+          ) {
+            return {
+              outline: true,
+              start: this.selectionInterval[0] === date,
+              end: this.selectionInterval[1] === date,
+              color: this.computedColor
+            }
+          }
+
+          if (simpleRanges.indexOf(date) > -1) {
+            return {
+              start: true,
+              end: true,
+              color: this.computedColor
+            }
+          }
+
+          for (let i = 0; i < intervalsLength; i++) {
+            const interval = intervalRanges[i]
+
+            if (interval[2] <= dateInt && dateInt <= interval[3]) {
+              return {
+                start: interval[0] === date,
+                end: interval[1] === date,
+                color: this.computedColor
+              }
+            }
+          }
+        }
+      }
     },
 
     days () {
@@ -217,8 +336,14 @@ export default Vue.extend({
 
       const len = days < 0 ? days + 7 : days
       if (len < 6) {
+        const { year, month } = this.innerModel
+        const prefix = (month === 1 ? year - 1 : year) + '/' + pad(month === 1 ? 12 : month - 1) + '/'
+
         for (let i = endDay - len; i <= endDay; i++) {
-          res.push({ i, fill: true })
+          const rangeFlags = this.rangeCheckFn === void 0 ? void 0 : this.rangeCheckFn(prefix + pad(i))
+          const range = getRangeClass(rangeFlags)
+
+          res.push({ i, fill: true, range })
         }
       }
 
@@ -228,20 +353,34 @@ export default Vue.extend({
 
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + pad(i)
+        const rangeFlags = this.rangeCheckFn === void 0 ? void 0 : this.rangeCheckFn(day)
+        const range = getRangeClass(rangeFlags)
 
-        if (this.options !== void 0 && this.isInSelection(day) !== true) {
-          res.push({ i })
+        if (this.options !== void 0 && this.isSelectable(day) !== true) {
+          res.push({ i, range })
         }
         else {
           const event = this.events !== void 0 && this.evtFn(day) === true
             ? this.evtColor(day)
             : false
 
-          res.push({ i, in: true, flat: true, event })
+          const flat = rangeFlags === void 0 ||
+            rangeFlags.outline === true ||
+            (rangeFlags.start !== true && rangeFlags.end !== true)
+
+          const config = { i, in: true, flat, event, range }
+
+          if (flat === false) {
+            config.unelevated = true
+            config.color = rangeFlags.color || this.computedColor
+            config.textColor = this.computedTextColor
+          }
+
+          res.push(config)
         }
       }
 
-      if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
+      if (this.rangeCheckFn === void 0 && this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
         const i = index + this.innerModel.day - 1
         res[i] !== void 0 && Object.assign(res[i], {
           unelevated: true,
@@ -258,8 +397,14 @@ export default Vue.extend({
       const left = res.length % 7
       if (left > 0) {
         const afterDays = 7 - left
+        const { year, month } = this.innerModel
+        const prefix = (month === 12 ? year + 1 : year) + '/' + pad(month === 12 ? 1 : month + 1) + '/'
+
         for (let i = 1; i <= afterDays; i++) {
-          res.push({ i, fill: true })
+          const rangeFlags = this.rangeCheckFn === void 0 ? void 0 : this.rangeCheckFn(prefix + pad(i))
+          const range = getRangeClass(rangeFlags)
+
+          res.push({ i, fill: true, range })
         }
       }
 
@@ -285,6 +430,15 @@ export default Vue.extend({
     setView (view) {
       if (viewIsValid(view) === true) {
         this.view = view
+      }
+    },
+
+    setMonthYear (month, year) {
+      if (month > 0 && month <= 12) {
+        this.innerModel.month = parseInt(month, 10)
+      }
+      if (isNaN(year) === false) {
+        this.innerModel.year = parseInt(year, 10)
       }
     },
 
@@ -509,7 +663,7 @@ export default Vue.extend({
                 key: this.innerModel.year + '/' + this.innerModel.month,
                 staticClass: 'q-date__calendar-days fit'
               }, this.days.map(day => h('div', {
-                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}`
+                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}${day.range}`
               }, [
                 day.in === true
                   ? h(QBtn, {
@@ -523,7 +677,10 @@ export default Vue.extend({
                       label: day.i,
                       tabindex: this.computedTabindex
                     },
-                    on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
+                    on: cache(this, 'day#' + day.i, {
+                      click: () => { this.__setDay(day.i) },
+                      mouseenter: () => { this.__selectionEndHover(day.i) }
+                    })
                   }, day.event !== false ? [
                     h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
@@ -698,6 +855,14 @@ export default Vue.extend({
       this.__updateValue({ day }, 'day')
     },
 
+    __selectionEndHover (day) {
+      if (this.hasSelectionStart === true) {
+        const selectedDay = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(day)
+
+        this.$emit('extend:selection', [ this.selectionStart, selectedDay ])
+      }
+    },
+
     __updateValue (date, reason) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
@@ -737,6 +902,20 @@ export default Vue.extend({
 
       date.changed = val !== this.value
       this.$emit('input', val, reason, date)
+
+      if (reason === 'day' && this.rangeCheckFn !== void 0) {
+        const selectedDay = date.year + '/' + pad(date.month) + '/' + pad(date.day)
+
+        if (this.hasSelectionStart === true) {
+          const interval = [ this.selectionStart, selectedDay ]
+          const intervalInt = interval.map(date2int)
+
+          this.$emit('update:selection', intervalInt[0] <= intervalInt[1] ? interval : interval.reverse())
+        }
+        else {
+          this.$emit('start:selection', selectedDay)
+        }
+      }
 
       if (val === this.value && reason === 'today') {
         const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
