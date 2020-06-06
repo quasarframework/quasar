@@ -312,7 +312,8 @@ class QuasarConfig {
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
         cfg.electron ? encode(cfg.electron) : '',
-        cfg.bex ? encode(cfg.bex) : ''
+        cfg.bex ? encode(cfg.bex) : '',
+        cfg.htmlVariables ? encode(cfg.htmlVariables) : ''
       ].join('')
 
       if (this.oldConfigSnapshot) {
@@ -549,7 +550,7 @@ class QuasarConfig {
       fs.existsSync(storePath + '.ts')
     )
 
-    //make sure we have preFetch in config
+    // make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
 
     if (cfg.animations === 'all') {
@@ -718,17 +719,15 @@ class QuasarConfig {
       }, cfg.pwa)
 
       if (cfg.pwa.manifest.icons.length === 0) {
-        console.log()
-        console.log(`⚠️  PWA manifest in quasar.conf.js > pwa > manifest is missing "icons" prop.`)
-        console.log()
+        warn()
+        warn(`PWA manifest in quasar.conf.js > pwa > manifest is missing "icons" prop.\n`)
         process.exit(1)
       }
 
       if (!['GenerateSW', 'InjectManifest'].includes(cfg.pwa.workboxPluginMode)) {
-        console.log()
-        console.log(`⚠️  Workbox webpack plugin mode "${cfg.pwa.workboxPluginMode}" is invalid.`)
-        console.log(`   Valid Workbox modes are: GenerateSW, InjectManifest`)
-        console.log()
+        warn()
+        warn(`Workbox webpack plugin mode "${cfg.pwa.workboxPluginMode}" is invalid.`)
+        warn(`Valid Workbox modes are: GenerateSW, InjectManifest\n`)
         process.exit(1)
       }
 
