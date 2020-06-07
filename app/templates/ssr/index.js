@@ -77,6 +77,8 @@ app.get('*', (req, res) => {
         res.redirect(err.url)
       }
       else if (err.code === 404) {
+        // Should reach here only if no "catch-all" route
+        // is defined in /src/routes
         res.status(404).send('404 | Page Not Found')
       }
       else {
