@@ -138,7 +138,7 @@ export default Vue.extend({
       if (model.dateHash === null) { return ' --- ' }
 
       let date
-      if (this.$props.multiple === true) { return this.getTotalSelectedDates + ' selected' }
+      if (this.$props.multiple === true) { return this.totalSelectedDates + ' selected' }
       else if (this.$props.range === true && Array.isArray(this.dates) && Array.isArray(this.dates[0])) {
         date = this.dates[0]
         return this.computedLocale.daysShort[ date[0].getDay() ] + ', ' +
@@ -170,9 +170,22 @@ export default Vue.extend({
       return this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0
         ? this.subtitle
         : (
-          this.extModel.year !== null
-            ? this.extModel.year
-            : ' --- '
+          this.$props.multiple === true && this.minSelectedDate !== null && this.maxSelectedDate !== null
+            ? this.computedLocale.monthsShort[this.minSelectedDate.getMonth()] + ' ' +
+              (
+                this.minSelectedDate.getFullYear() !== this.maxSelectedDate.getFullYear()
+                  ? this.minSelectedDate.getFullYear() + ' - ' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()] + ' '
+                  : (
+                    this.minSelectedDate.getMonth() !== this.maxSelectedDate.getMonth()
+                      ? '- ' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()] + ' '
+                      : ''
+                  )
+              ) + this.maxSelectedDate.getFullYear()
+            : (this.$props.range === true && Array.isArray(this.dates) && Array.isArray(this.dates[0])
+              ? this.dates[0][0].getFullYear() + (this.dates[0].length > 1 && this.dates[0][0].getFullYear() !== this.dates[0][1].getFullYear() ? ' - ' + this.dates[0][1].getFullYear() : '')
+              : (this.extModel.year !== null
+                ? this.extModel.year
+                : ' --- '))
         )
     },
 
@@ -258,7 +271,33 @@ export default Vue.extend({
       return date => this.__needsRangeEnd(this.dates) && this.mockRangeEnd !== null && isSameDate(getMaxDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), date)
     },
 
-    getTotalSelectedDates () {
+    minSelectedDate () {
+      let min
+      if (Array.isArray(this.dates)) {
+        min = Array.isArray(this.dates[0]) ? getMinDate(...this.dates[0]) : this.dates[0]
+        this.dates.forEach(value => {
+          min = Array.isArray(value) ? getMinDate(...value, min) : getMinDate(value, min)
+        })
+        min = new Date(min)
+      }
+      else min = this.dates
+      return min
+    },
+
+    maxSelectedDate () {
+      let max
+      if (Array.isArray(this.dates)) {
+        max = Array.isArray(this.dates[0]) ? getMaxDate(...this.dates[0]) : this.dates[0]
+        this.dates.forEach(value => {
+          max = Array.isArray(value) ? getMaxDate(...value, max) : getMaxDate(value, max)
+        })
+        max = new Date(max)
+      }
+      else max = this.dates
+      return max
+    },
+
+    totalSelectedDates () {
       let total = 0
       if (Array.isArray(this.dates)) {
         this.dates.forEach(value => {
@@ -323,6 +362,9 @@ export default Vue.extend({
           item.unelevated = true
           item.color = this.computedColor
           item.textColor = this.computedTextColor
+        }
+        else if (this.isMockRangeStart(addToDate(date, { days: i - 1 })) || this.isMockRangeEnd(addToDate(date, { days: i - 1 }))) {
+          item.outline = true
         }
         if (this.options === void 0 || this.isInSelection(day) === true) {
           const event = this.events !== void 0 && this.evtFn(day) === true
@@ -434,15 +476,17 @@ export default Vue.extend({
               array[index][index2] = extractDate(value2, mask, locale)
             })
           }
-          else {
+          else if (val !== null) {
             array[index] = extractDate(value, mask, locale)
           }
+          else array = val
         })
         return array
       }
-      else {
+      else if (val !== null) {
         return extractDate(val, mask, locale)
       }
+      else return val
     },
 
     __getModels (val, mask, locale) {
@@ -972,7 +1016,7 @@ export default Vue.extend({
       if (['add-range-start-day', 'set-range-start-day', 'set-range-end-day', 'add-remove-day'].includes(reason)) {
         const day = extractDate(val, this.mask, this.__getComputedLocale())
         let dates, valArray
-        if (this.value === '') {
+        if (this.value === null) {
           dates = valArray = []
         }
         else if (!Array.isArray(this.dates)) {
@@ -1119,7 +1163,7 @@ export default Vue.extend({
           }
         }
         if (valArray.length === 1 && Array.isArray(valArray[0]) === false) valArray = valArray[0]
-        else if (valArray.length === 0) valArray = ''
+        else if (valArray.length === 0) valArray = null
         date.changed = true
         this.$emit('input', valArray, reason, date)
       }
