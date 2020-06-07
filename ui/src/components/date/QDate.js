@@ -141,10 +141,8 @@ export default Vue.extend({
       if (this.$props.multiple === true) { return this.totalSelectedDates + ' selected' }
       else if (this.$props.range === true && Array.isArray(this.dates) && Array.isArray(this.dates[0])) {
         date = this.dates[0]
-        return this.computedLocale.daysShort[ date[0].getDay() ] + ', ' +
-          this.computedLocale.monthsShort[ date[0].getMonth() ] + ' ' +
-          date[0].getDate() + ' - ' + (date.length === 2 ? this.computedLocale.daysShort[ date[1].getDay() ] + ', ' +
-          this.computedLocale.monthsShort[ date[1].getMonth() ] + ' ' +
+        return this.computedLocale.monthsShort[ date[0].getMonth() ] + ' ' +
+          date[0].getDate() + ' - ' + (date.length === 2 ? this.computedLocale.monthsShort[ date[1].getMonth() ] + ' ' +
           date[1].getDate() : ' --- ')
       }
       if (this.calendar !== 'persian') {
@@ -362,9 +360,6 @@ export default Vue.extend({
           item.unelevated = true
           item.color = this.computedColor
           item.textColor = this.computedTextColor
-        }
-        else if (this.isMockRangeStart(addToDate(date, { days: i - 1 })) || this.isMockRangeEnd(addToDate(date, { days: i - 1 }))) {
-          item.outline = true
         }
         if (this.options === void 0 || this.isInSelection(day) === true) {
           const event = this.events !== void 0 && this.evtFn(day) === true
