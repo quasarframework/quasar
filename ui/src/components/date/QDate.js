@@ -938,24 +938,11 @@ export default Vue.extend({
     },
 
     __setMockRangeEndDay (day) {
-      const val = this.calendar === 'persian'
-        ? this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(day)
-        : formatDate(
-          new Date(
-            this.innerModel.year,
-            this.innerModel.month - 1,
-            day,
-            this.extModel.hour,
-            this.extModel.minute,
-            this.extModel.second,
-            this.extModel.millisecond
-          ),
-          this.mask,
-          this.computedLocale,
-          this.innerModel.year,
-          this.extModel.timezoneOffset
-        )
-      this.mockRangeEnd = val
+      this.mockRangeEnd = new Date(
+        this.innerModel.year,
+        this.innerModel.month - 1,
+        day
+      )
     },
 
     __deleteMockRangeEnd (day) {
