@@ -16,13 +16,13 @@ function getHtmlFilename (cfg) {
     : join(cfg.build.distDir, cfg.build.htmlFilename)
 }
 
-module.exports = function (chain, cfg) {
+module.exports = function (chain, cfg, templateParam) {
   chain.plugin('html-webpack')
     .use(HtmlWebpackPlugin, [{
       filename: getHtmlFilename(cfg),
       template: appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate),
       minify: cfg.__html.minifyOptions,
-      templateParameters: cfg.htmlVariables,
+      templateParameters: templateParam || cfg.htmlVariables,
       chunksSortMode: 'none',
       // inject script tags for bundle
       inject: true,

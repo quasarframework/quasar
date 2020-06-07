@@ -454,15 +454,6 @@ class QuasarConfig {
       log(underline('Not transpiling JS'))
     }
 
-    cfg.htmlVariables = merge({
-      ctx: cfg.ctx,
-      process: {
-        env: cfg.build.env
-      },
-      productName: cfg.build.productName,
-      productDescription: cfg.build.productDescription
-    }, cfg.htmlVariables)
-
     cfg.__loadingBar = cfg.framework.all === true || cfg.framework.plugins.includes('LoadingBar')
     cfg.__meta = cfg.framework.all === true || cfg.framework.plugins.includes('Meta')
 
@@ -872,6 +863,15 @@ class QuasarConfig {
         }
       })
     }
+
+    cfg.htmlVariables = merge({
+      ctx: cfg.ctx,
+      process: {
+        env: cfg.build.env
+      },
+      productName: cfg.build.productName,
+      productDescription: cfg.build.productDescription
+    }, cfg.htmlVariables)
 
     if (this.ctx.mode.capacitor && cfg.capacitor.hideSplashscreen !== false) {
       cfg.__needsAppMountHook = true
