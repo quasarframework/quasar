@@ -476,7 +476,6 @@ class QuasarConfig {
     if (this.ctx.mode.ssr) {
       Object.assign(cfg.build, {
         vueRouterMode: 'history',
-        publicPath: '/',
         gzip: false
       })
     }
@@ -507,7 +506,7 @@ class QuasarConfig {
     }
 
     cfg.build.publicPath =
-      (this.ctx.prod || cfg.build.forceDevPublicPath) && cfg.build.publicPath && ['spa', 'pwa'].includes(this.ctx.modeName)
+      cfg.build.publicPath && ['spa', 'pwa', 'ssr'].includes(this.ctx.modeName)
         ? formatPublicPath(cfg.build.publicPath)
         : (cfg.build.vueRouterMode === 'hash' ? '' : '/')
 
@@ -561,7 +560,10 @@ class QuasarConfig {
       cfg.ssr.debug = this.ctx.debug
 
       cfg.ssr.__templateOpts = JSON.stringify(
-        Object.assign({}, cfg.ssr, { preloadChunks: cfg.build.preloadChunks === true }),
+        Object.assign({}, cfg.ssr, {
+          preloadChunks: cfg.build.preloadChunks === true,
+          publicPath: cfg.build.publicPath
+        }),
         null,
         2
       )
@@ -589,15 +591,21 @@ class QuasarConfig {
         inline: true,
         overlay: true,
         quiet: true,
-        historyApiFallback: this.ctx.mode.ssr !== true
-          ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
-          : false,
-        index: cfg.build.htmlFilename,
         noInfo: true,
         disableHostCheck: true,
         compress: true,
         open: true
-      }, cfg.devServer, {
+      },
+      this.ctx.mode.ssr === true
+        ? {}
+        : {
+          historyApiFallback: cfg.build.vueRouterMode === 'history'
+            ? { index: `${cfg.build.publicPath || '/'}${cfg.build.htmlFilename}` }
+            : false,
+          index: cfg.build.htmlFilename
+        },
+      cfg.devServer,
+      {
         contentBase: false,
         watchContentBase: false,
 
