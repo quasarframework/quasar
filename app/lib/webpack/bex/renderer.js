@@ -24,6 +24,10 @@ module.exports = function (chain, cfg) {
   chain.entry('bex-init')
     .add(appPaths.resolve.app('.quasar/bex/init/index.js'))
 
+  // We shouldn't minify BEX code. This option is disabled by default for BEX mode in quasar-conf.js.
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
+  chain.optimization.minimize(cfg.build.minify)
+
   if (cfg.ctx.dev) {
     // Clean old dir
     artifacts.clean(outputPath)
