@@ -137,6 +137,14 @@
       "type": "Boolean",
       "desc": "Allow range selection; Model must be 2 dimensional Array",
       "category": "model|selection"
+    },
+
+    "editRange": {
+      "type": "String",
+      "desc": "When range is true, resizes the range, this value indicates what range-end edit when click inside the range",
+      "default": "end",
+      "values": [ "start", "end" ],
+      "category": "selection"
     }
   },
 
@@ -185,6 +193,13 @@
             }
           }
         }
+      },
+      "mock-range-end": {
+        "params": {
+          "value": {
+            "type": "Date"
+          }
+        }
       }
     }
   },
@@ -221,6 +236,16 @@
         "descending": {
           "type": "Boolean",
           "desc": "Decrement?"
+        }
+      }
+    },
+
+    "setMockRangeEnd": {
+      "desc": "Sets the mock range-end",
+      "params": {
+        "date": {
+          "type": "Date",
+          "required": true
         }
       }
     }
