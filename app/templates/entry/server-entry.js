@@ -33,7 +33,7 @@ import createApp from './app.js'
 import Vue from 'vue'
 <% if (preFetch) { %>
 import App from 'app/<%= sourceFiles.rootComponent %>'
-const appOptions = App.options || App
+const appOptions = App.options /* Vue.extend() */ || App
 <% } %>
 
 <%
@@ -60,14 +60,14 @@ export default context => {
     const { app, <%= store ? 'store, ' : '' %>router } = await createApp(context)
 
     <% if (bootNames.length > 0) { %>
-    let routeUnchanged = true
+    let hasRedirected = false
     const redirect = url => {
-      routeUnchanged = false
+      hasRedirected = true
       reject({ url })
     }
 
     const bootFiles = [<%= bootNames.join(',') %>]
-    for (let i = 0; routeUnchanged === true && i < bootFiles.length; i++) {
+    for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
       if (typeof bootFiles[i] !== 'function') {
         continue
       }
@@ -89,7 +89,7 @@ export default context => {
       }
     }
 
-    if (routeUnchanged === false) {
+    if (hasRedirected === true) {
       return
     }
     <% } %>
@@ -103,7 +103,7 @@ export default context => {
     }
 
     // set router's location
-    router.push(url)
+    router.push(url).catch(() => {})
 
     // wait until router has resolved possible async hooks
     router.onReady(() => {
@@ -111,19 +111,19 @@ export default context => {
         .map(m => m.options /* Vue.extend() */ || m)
 
       // no matched routes
-      if (!matchedComponents.length) {
+      if (matchedComponents.length === 0) {
         return reject({ code: 404 })
       }
 
       <% if (preFetch) { %>
 
-      let routeUnchanged = true
+      let hasRedirected = false
       const redirect = url => {
-        routeUnchanged = false
+        hasRedirected = true
         reject({ url })
       }
 
-      appOptions.preFetch && matchedComponents.unshift(appOptions)
+      appOptions.preFetch !== void 0 && matchedComponents.unshift(appOptions)
 
       // Call preFetch hooks on components matched by the route.
       // A preFetch hook dispatches a store action and returns a Promise,
@@ -132,7 +132,7 @@ export default context => {
       matchedComponents
       .filter(c => c && c.preFetch)
       .reduce(
-        (promise, c) => promise.then(() => routeUnchanged && c.preFetch({
+        (promise, c) => promise.then(() => hasRedirected === false && c.preFetch({
           <% if (store) { %>store,<% } %>
           ssrContext: context,
           currentRoute: router.currentRoute,
@@ -141,7 +141,7 @@ export default context => {
         Promise.resolve()
       )
       .then(() => {
-        if (!routeUnchanged) { return }
+        if (hasRedirected === true) { return }
 
         <% if (store) { %>context.state = store.state<% } %>
 

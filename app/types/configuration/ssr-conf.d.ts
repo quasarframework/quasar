@@ -12,5 +12,12 @@ declare module "quasar" {
      */
     pwa?: boolean | object;
     componentCache?: LruCacheOptions<any, any>;
+
+    /**
+     * @version `@quasar/app` 1.9.6+
+     *
+     * Add/remove/change properties of production generated package.json
+     */
+    extendPackageJson?: (pkg: { [index in string]: any }) => void;
   }
 }

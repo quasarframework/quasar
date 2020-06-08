@@ -33,32 +33,23 @@ export default {
         })).slice()
       }
 
-      let mapFn
-
-      if (headerCell !== void 0) {
-        mapFn = col => headerCell({
-          col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
-        })
-      }
-      else {
-        mapFn = col => {
-          const props = {
+      const child = this.computedCols.map(col => {
+        const
+          headerCellCol = this.$scopedSlots[`header-cell-${col.name}`],
+          slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
+          props = {
             col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
           }
-          const slot = this.$scopedSlots[`header-cell-${col.name}`]
 
-          return slot !== void 0
-            ? slot(props)
-            : h(QTh, {
-              key: col.name,
-              props: { props },
-              style: col.headerStyle,
-              class: col.headerClasses
-            }, col.label)
-        }
-      }
-
-      const child = this.computedCols.map(mapFn)
+        return slot !== void 0
+          ? slot(props)
+          : h(QTh, {
+            key: col.name,
+            props: { props },
+            style: col.headerStyle,
+            class: col.headerClasses
+          }, col.label)
+      })
 
       if (this.singleSelection === true && this.grid !== true) {
         child.unshift(h('th', { staticClass: 'q-table--col-auto-width' }, [' ']))

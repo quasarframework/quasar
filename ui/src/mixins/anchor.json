@@ -4,7 +4,7 @@
       "type": [ "Boolean", "String", "Element" ],
       "desc": "Configure a target element to trigger component toggle; 'true' means it enables the parent DOM element, 'false' means it disables attaching events to any DOM elements; By using a String (CSS selector) or a DOM element it attaches the events to the specified DOM element (if it exists)",
       "default": true,
-      "values": [ true, false, "(CSS selector)", "(DOM Element)" ],
+      "values": [ "(Boolean) true", "(Boolean) false", "(CSS selector)", "(DOM Element)" ],
       "examples": [
         ":target=\"false\"",
         ":target=\"$refs.target\"",

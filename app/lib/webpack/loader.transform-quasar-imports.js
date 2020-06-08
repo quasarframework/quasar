@@ -8,12 +8,13 @@ module.exports = content => content.replace(
   (_, match) => match.split(',')
     .map(identifier => {
       const data = identifier.split(' as ')
-      const name = data[0].trim()
-      const as = data[1] === void 0
-        ? ''
-        : ` as ${data[1]}`
 
-      return `import ${name}${as} from '${importTransform(name)}';`
+      if (data[1] !== void 0) {
+        return `import ${data[1].trim()} from '${importTransform(data[0].trim())}';`
+      }
+
+      const name = data[0].trim()
+      return `import ${name} from '${importTransform(name)}';`
     })
     .join('')
 )

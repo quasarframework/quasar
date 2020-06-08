@@ -23,7 +23,7 @@ Vue.prototype.$axios = axios
 Also make sure to yarn/npm install the `axios` package.
 
 ::: tip
-Be sure to check out [Prefetch Feature](/quasar-cli/cli-documentation/prefetch-feature) if you are using Quasar CLI.
+Be sure to check out [Prefetch Feature](/quasar-cli/prefetch-feature) if you are using Quasar CLI.
 :::
 
 Usage in your single file components methods will be like:

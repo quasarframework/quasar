@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "1.8.10",
+  "version": "1.9.6",
   "description": "Quasar Framework local CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -60,7 +60,7 @@
     "ci-info": "2.0.0",
     "compression-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "5.1.1",
-    "cross-spawn": "7.0.2",
+    "cross-spawn": "7.0.3",
     "css-loader": "3.5.3",
     "cssnano": "4.1.10",
     "dot-prop": "5.2.0",
@@ -68,7 +68,7 @@
     "express": "4.17.1",
     "fast-glob": "3.2.2",
     "file-loader": "^6.0.0",
-    "fork-ts-checker-webpack-plugin": "4.1.4",
+    "fork-ts-checker-webpack-plugin": "4.1.6",
     "friendly-errors-webpack-plugin": "1.7.0",
     "fs-extra": "9.0.0",
     "html-minifier": "4.0.0",
@@ -99,8 +99,8 @@
     "stylus": "0.54.7",
     "stylus-loader": "3.0.2",
     "table": "5.4.6",
-    "terser-webpack-plugin": "3.0.1",
-    "ts-loader": "7.0.4",
+    "terser-webpack-plugin": "3.0.2",
+    "ts-loader": "7.0.5",
     "typescript": "3.8.3",
     "url-loader": "4.1.0",
     "vue": "2.6.11",

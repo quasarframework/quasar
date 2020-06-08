@@ -34,11 +34,12 @@ module.exports = function (chain, cfg) {
     // do not externalize:
     //  1. vue files
     //  2. CSS files
-    //  3. Quasar language files
-    //  4. Quasar icon sets files
-    //  5. Quasar extras
+    //  3. when importing directly from Quasar's src folder
+    //  4. Quasar language files
+    //  5. Quasar icon sets files
+    //  6. Quasar extras
     whitelist: [
-      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/,
+      /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]src[\\/]|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/,
       ...cfg.build.transpileDependencies
     ]
   }))

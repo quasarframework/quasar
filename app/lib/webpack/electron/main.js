@@ -2,6 +2,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
 const WebpackProgress = require('../plugin.progress')
+const ExpressionDependency = require('./plugin.expression-dependency')
 
 const appPaths = require('../../app-paths')
 
@@ -43,16 +44,21 @@ module.exports = function (cfg, configName) {
     ...Object.keys(appDeps)
   ])
 
-  chain.module.rule('babel')
-    .test(/\.js$/)
-    .exclude
-      .add(/node_modules/)
-      .end()
-    .use('babel-loader')
-      .loader('babel-loader')
-        .options({
-          extends: appPaths.resolve.app('babel.config.js')
-        })
+  chain.plugin('expression-dependency')
+    .use(ExpressionDependency)
+
+  if (cfg.build.modern !== true) {
+    chain.module.rule('babel')
+      .test(/\.js$/)
+      .exclude
+        .add(/node_modules/)
+        .end()
+      .use('babel-loader')
+        .loader('babel-loader')
+          .options({
+            extends: appPaths.resolve.app('babel.config.js')
+          })
+  }
 
   chain.module.rule('node')
     .test(/\.node$/)
@@ -103,7 +109,7 @@ module.exports = function (cfg, configName) {
 
     // write package.json file
     chain.plugin('package-json')
-      .use(ElectronPackageJson)
+      .use(ElectronPackageJson, [ cfg ])
 
     const fs = require('fs')
     const copyArray = []

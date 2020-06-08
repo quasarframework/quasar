@@ -150,78 +150,77 @@ const cli = [
     path: 'quasar-conf-js'
   },
   {
-    name: 'Testing & Auditing',
-    path: 'testing-and-auditing'
+    name: 'Modern build',
+    badge: 'new',
+    path: 'modern-build'
   },
   {
-    name: 'CLI Documentation',
-    path: 'cli-documentation',
-    children: [
-      {
-        name: 'Supporting IE',
-        path: 'supporting-ie'
-      },
-      {
-        name: 'Supporting TypeScript',
-        path: 'supporting-ts'
-      },
-      {
-        name: 'Directory Structure',
-        path: 'directory-structure'
-      },
-      {
-        name: 'Build Commands',
-        path: 'build-commands'
-      },
-      {
-        name: 'Commands List',
-        path: 'commands-list'
-      },
-      {
-        name: 'CSS Preprocessors',
-        path: 'css-preprocessors'
-      },
-      {
-        name: 'Routing',
-        path: 'routing'
-      },
-      {
-        name: 'Lazy Loading - Code Splitting',
-        path: 'lazy-loading'
-      },
-      {
-        name: 'Handling Assets',
-        path: 'handling-assets'
-      },
-      {
-        name: 'Boot Files',
-        path: 'boot-files'
-      },
-      {
-        name: 'Prefetch Feature',
-        path: 'prefetch-feature'
-      },
-      {
-        name: 'API Proxying',
-        path: 'api-proxying'
-      },
-      {
-        name: 'Handling Webpack',
-        path: 'handling-webpack'
-      },
-      {
-        name: 'Handling process.env',
-        path: 'handling-process-env'
-      },
-      {
-        name: 'Vuex Store',
-        path: 'vuex-store'
-      },
-      {
-        name: 'Linter',
-        path: 'linter'
-      }
-    ]
+    name: 'Supporting IE',
+    path: 'supporting-ie'
+  },
+  {
+    name: 'Supporting TypeScript',
+    path: 'supporting-ts'
+  },
+  {
+    name: 'Directory Structure',
+    path: 'directory-structure'
+  },
+  {
+    name: 'Build Commands',
+    path: 'build-commands'
+  },
+  {
+    name: 'Commands List',
+    path: 'commands-list'
+  },
+  {
+    name: 'CSS Preprocessors',
+    path: 'css-preprocessors'
+  },
+  {
+    name: 'Routing',
+    path: 'routing'
+  },
+  {
+    name: 'Lazy Loading - Code Splitting',
+    path: 'lazy-loading'
+  },
+  {
+    name: 'Handling Assets',
+    path: 'handling-assets'
+  },
+  {
+    name: 'Boot Files',
+    path: 'boot-files'
+  },
+  {
+    name: 'Prefetch Feature',
+    path: 'prefetch-feature'
+  },
+  {
+    name: 'API Proxying',
+    path: 'api-proxying'
+  },
+  {
+    name: 'Handling Webpack',
+    path: 'handling-webpack'
+  },
+  {
+    name: 'Handling process.env',
+    path: 'handling-process-env'
+  },
+  {
+    name: 'Vuex Store',
+    path: 'vuex-store'
+  },
+  {
+    name: 'Linter',
+    path: 'linter'
+  },
+  {
+    name: 'Testing & Auditing',
+    path: 'testing-and-auditing'
   },
   {
     name: 'Developing SPA',
@@ -1052,6 +1051,7 @@ const components = [
   },
   {
     name: 'Table',
+    badge: 'update',
     path: 'table'
   },
   {
