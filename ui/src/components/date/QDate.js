@@ -440,6 +440,10 @@ export default Vue.extend({
       }
     },
 
+    setMockRangeEnd (rangeEnd) {
+      this.mockRangeEnd = rangeEnd
+    },
+
     __getFirstSelectedDate (val) {
       if (Array.isArray(val)) {
         let first = val.slice().shift()

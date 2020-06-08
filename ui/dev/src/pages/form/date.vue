@@ -330,32 +330,28 @@
         Desk Range: {{ dateRange }}
       </div>
       <div class="q-gutter-md">
-        <q-input dense label="From" v-model="dateFrom" @focus="focusStart = !(focusEnd = false)" style="max-width: 200px" />
-        <q-input dense label="To" v-model="dateTo" @focus="focusStart = !(focusEnd = true)" style="max-width: 200px" />
+        <q-input dense label="From" v-model="dateFrom" @focus="() => dateRangeFocus = 'start'" @blur="() => dateRangeFocus = null" style="max-width: 200px" />
+        <q-input dense label="To" v-model="dateTo" @focus="() => dateRangeFocus = 'end'" @blur="() => dateRangeFocus = null"  style="max-width: 200px" />
         <q-date
+          ref="qDateRangeStart"
           v-model="dateRange"
           range
-          :edit-range-end="focusEnd"
-          :edit-range-start="!focusEnd"
-          :mock-range-end="mockRangeEnd"
+          :edit-range="dateRangeFocus !== null ? dateRangeFocus : 'start'"
           default-year-month="2020/06"
           flat
           minimal
-          :style="style"
-          @mock-range-end="val => mockRangeEnd = val"
+          @mock-range-end="date => {$refs.qDateRangeEnd.setMockRangeEnd(date); dateRangeFocus = 'start'}"
           @input="inputLog"
         />
         <q-date
+          ref="qDateRangeEnd"
           v-model="dateRange"
           range
-          :edit-range-start="focusStart"
-          :edit-range-end="!focusStart"
-          :mock-range-end="mockRangeEnd"
+          :edit-range="dateRangeFocus !== null ? dateRangeFocus : 'end'"
           default-year-month="2020/07"
           flat
           minimal
-          :style="style"
-          @mock-range-end="val => mockRangeEnd = val"
+          @mock-range-end="date => {$refs.qDateRangeStart.setMockRangeEnd(date); dateRangeFocus = 'end'}"
           @input="inputLog"
         />
       </div>
@@ -385,9 +381,7 @@ export default {
       multiple: false,
       range: false,
       editRange: null,
-      mockRangeEnd: null,
-      focusStart: false,
-      focusEnd: false,
+      dateRangeFocus: null,
 
       mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
 
