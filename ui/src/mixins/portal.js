@@ -68,7 +68,17 @@ export default {
 
           if (
             this.__portal.$el.parentElement !== newParent &&
-            newParent.contains(this.$el) === true
+            (
+              // dialog plugin if the fullscreen element is not a child of it
+              (
+                this.$root !== void 0 &&
+                this.$root.$options.name === 'QGlobalDialog' &&
+                typeof this.__portal.$el.contains === 'function' &&
+                this.__portal.$el.contains(newParent) === false
+              ) ||
+              // other components if they are children of fullscreen element
+              newParent.contains(this.$el) === true
+            )
           ) {
             newParent.appendChild(this.__portal.$el)
           }
