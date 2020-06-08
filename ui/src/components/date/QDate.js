@@ -33,6 +33,13 @@ export default Vue.extend({
     },
     multiple: Boolean,
     range: Boolean,
+    editRange: {
+      type: String,
+      default: null,
+      validator: function (value) {
+        return ['start', 'end'].indexOf(value) !== -1
+      }
+    },
 
     title: String,
     subtitle: String,
@@ -254,19 +261,19 @@ export default Vue.extend({
     },
 
     needsRangeEnd () {
-      return () => this.__needsRangeEnd(this.dates)
+      return this.__needsRangeEnd(this.dates)
     },
 
     isInMockRange () {
-      return date => this.__needsRangeEnd(this.dates) && this.mockRangeEnd !== null && isBetweenDates(date, getMinDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), getMaxDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), { inclusiveFrom: true, inclusiveTo: true })
+      return date => this.mockRangeEnd !== null && isBetweenDates(date, getMinDate(this.__getRangeStart(this.dates), this.mockRangeEnd), getMaxDate(this.__getRangeStart(this.dates), this.mockRangeEnd), { inclusiveFrom: true, inclusiveTo: true })
     },
 
     isMockRangeStart () {
-      return date => this.__needsRangeEnd(this.dates) && this.mockRangeEnd !== null && isSameDate(getMinDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), date)
+      return date => this.mockRangeEnd !== null && isSameDate(getMinDate(this.__getRangeStart(this.dates), this.mockRangeEnd), date)
     },
 
     isMockRangeEnd () {
-      return date => this.__needsRangeEnd(this.dates) && this.mockRangeEnd !== null && isSameDate(getMaxDate(this.dates[this.dates.length - 1][0], this.mockRangeEnd), date)
+      return date => this.mockRangeEnd !== null && isSameDate(getMaxDate(this.__getRangeStart(this.dates), this.mockRangeEnd), date)
     },
 
     minSelectedDate () {
@@ -458,7 +465,28 @@ export default Vue.extend({
     },
 
     __getRangeStart (val) {
-      return val[val.length - 1][0]
+      let index
+      if (!Array.isArray(val) || val.length === 0 || !Array.isArray(val[val.length - 1])) return null
+      if (!this.needsRangeEnd && this.mockRangeEnd !== null) {
+        if (isBetweenDates(this.mockRangeEnd, getMinDate(...this.dates[this.dates.length - 1]), getMaxDate(...this.dates[this.dates.length - 1]), { inclusiveFrom: true, inclusiveTo: true })) {
+          if (this.editRange === 'start') {
+            index = isSameDate(this.dates[this.dates.length - 1][0], getMaxDate(...this.dates[this.dates.length - 1])) ? 0 : 1
+          }
+          else {
+            index = isSameDate(this.dates[this.dates.length - 1][0], getMinDate(...this.dates[this.dates.length - 1])) ? 0 : 1
+          }
+        }
+        else if (isSameDate(this.mockRangeEnd, getMinDate(...this.dates[this.dates.length - 1], this.mockRangeEnd))) {
+          index = isSameDate(this.dates[this.dates.length - 1][0], getMaxDate(...this.dates[this.dates.length - 1])) ? 0 : 1
+        }
+        else {
+          index = isSameDate(this.dates[this.dates.length - 1][0], getMinDate(...this.dates[this.dates.length - 1])) ? 0 : 1
+        }
+      }
+      else {
+        index = 0
+      }
+      return val[val.length - 1][index]
     },
 
     __getDates (val, mask, locale) {
@@ -727,11 +755,14 @@ export default Vue.extend({
                     on: cache(this, 'day#' + day.i, {
                       click: event => {
                         if (this.range) {
-                          if (this.needsRangeEnd()) {
+                          if (this.needsRangeEnd) {
                             this.__setRangeEndDay(day.i)
                           }
                           else if (this.multiple) {
                             this.__addRangeStartDay(day.i)
+                          }
+                          else if (this.editRange !== null && this.__getRangeStart(this.dates) !== null) {
+                            this.__editRange(day.i)
                           }
                           else {
                             this.__setRangeStartDay(day.i)
@@ -745,12 +776,12 @@ export default Vue.extend({
                         }
                       },
                       mouseover: () => {
-                        if (this.needsRangeEnd()) {
+                        if (this.needsRangeEnd || (!this.multiple && this.editRange !== null)) {
                           this.__setMockRangeEndDay(day.i)
                         }
                       },
                       mouseleave: () => {
-                        if (this.needsRangeEnd()) {
+                        if (this.needsRangeEnd || (!this.multiple && this.editRange !== null)) {
                           this.__deleteMockRangeEnd(day.i)
                         }
                       }
@@ -938,20 +969,29 @@ export default Vue.extend({
     },
 
     __setMockRangeEndDay (day) {
-      this.mockRangeEnd = new Date(
-        this.innerModel.year,
-        this.innerModel.month - 1,
-        day
-      )
+      if (this.__getRangeStart(this.dates) !== null) {
+        this.mockRangeEnd = new Date(
+          this.innerModel.year,
+          this.innerModel.month - 1,
+          day
+        )
+        this.$emit('mock-range-end', this.mockRangeEnd)
+      }
     },
 
     __deleteMockRangeEnd (day) {
       this.mockRangeEnd = null
+      this.$emit('mock-range-end', null)
     },
 
     __setRangeEndDay (day) {
-      this.__deleteMockRangeEnd(day)
       this.__updateValue({ day }, 'set-range-end-day')
+      this.__deleteMockRangeEnd(day)
+    },
+
+    __editRange (day) {
+      this.__updateValue({ day }, 'set-range-end-day')
+      this.__deleteMockRangeEnd(day)
     },
 
     __addRemoveDay (day) {
@@ -1044,11 +1084,11 @@ export default Vue.extend({
             }
           }
         }
-        else if (reason === 'set-range-end-day' && this.__needsRangeEnd(dates)) {
+        else if (reason === 'set-range-end-day') {
           let range = [this.__getRangeStart(dates), day]
           let valRange = [this.__getRangeStart(valArray), val]
           if (isSameDate(range[0], range[1])) {
-            reason = 'remove-day'
+            reason = 'add-day'
             valArray.splice(-1, 1, val)
           }
           else {
@@ -1066,10 +1106,7 @@ export default Vue.extend({
                       : valArray[index][isSameDate(value[0], getMinDate(...value)) ? 0 : 1]
                     valArray[index] = undefined
                   }
-                  else if (
-                    getMinDate(...range) <= getMinDate(...value) &&
-                    getMaxDate(...range) >= getMaxDate(...value)
-                  ) {
+                  else if (getMinDate(...range) <= getMinDate(...value) && getMaxDate(...range) >= getMaxDate(...value)) {
                     valArray[index] = undefined
                   }
                 }

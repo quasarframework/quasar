@@ -13,6 +13,7 @@
         <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
         <q-toggle :dark="dark" v-model="multiple" label="Multiple" />
         <q-toggle :dark="dark" v-model="range" label="Range" />
+        <q-toggle v-if="range && !multiple" :dark="dark" v-model="editRange" false-value="start" true-value="end" :label="`Edit ${editRange !== null ? editRange : 'range'}`" toggle-indeterminate />
       </div>
 
       <div>{{ date }}</div>
@@ -325,6 +326,39 @@
           </template>
         </q-input>
       </div>
+      <div class="text-h6">
+        Desk Range: {{ dateRange }}
+      </div>
+      <div class="q-gutter-md">
+        <q-input dense label="From" v-model="dateFrom" @focus="focusStart = !(focusEnd = false)" style="max-width: 200px" />
+        <q-input dense label="To" v-model="dateTo" @focus="focusStart = !(focusEnd = true)" style="max-width: 200px" />
+        <q-date
+          v-model="dateRange"
+          range
+          :edit-range-end="focusEnd"
+          :edit-range-start="!focusEnd"
+          :mock-range-end="mockRangeEnd"
+          default-year-month="2020/06"
+          flat
+          minimal
+          :style="style"
+          @mock-range-end="val => mockRangeEnd = val"
+          @input="inputLog"
+        />
+        <q-date
+          v-model="dateRange"
+          range
+          :edit-range-start="focusStart"
+          :edit-range-end="!focusStart"
+          :mock-range-end="mockRangeEnd"
+          default-year-month="2020/07"
+          flat
+          minimal
+          :style="style"
+          @mock-range-end="val => mockRangeEnd = val"
+          @input="inputLog"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -350,12 +384,19 @@ export default {
       yearsInMonthView: false,
       multiple: false,
       range: false,
+      editRange: null,
+      mockRangeEnd: null,
+      focusStart: false,
+      focusEnd: false,
 
       mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
 
       date: '2018/11/03',
       dateParse: 'Month: Aug, Day: 28th, Year: 2018',
       dateNeg: '-13/11/03',
+      dateRange: null,
+      dateFrom: null,
+      dateTo: null,
       nullDate: null,
       nullDate2: null,
       defaultYearMonth: '1986/02',
@@ -394,6 +435,7 @@ export default {
         yearsInMonthView: this.yearsInMonthView,
         multiple: this.multiple,
         range: this.range,
+        editRange: this.editRange,
         calendar: this.persian ? 'persian' : 'gregorian'
       }
     },
@@ -424,6 +466,12 @@ export default {
         this.date = '2018/11/03'
         this.nullDate = null
         this.defaultYearMonth = '1986/02'
+      }
+    },
+    dateRange (val) {
+      if (Array.isArray(val) && val.length === 1 && Array.isArray(val[0])) {
+        this.dateFrom = val[0][0]
+        this.dateTo = val[0][1]
       }
     }
   },
