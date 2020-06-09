@@ -42,5 +42,14 @@ export default [
     lang: 'English',
     link: 'https://www.youtube.com/watch?v=1F0SfYmrSbA',
     imgUrl: 'https://i.ytimg.com/vi/1F0SfYmrSbA/hqdefault.jpg?sqp=-oaymwEZCNACELwBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLA2kGICdkby-h6xUpCKhj763uYSwg'
+  },
+
+  {
+    name: 'Weather App with Vue.js & Quasar (for Mobile, Desktop & Web)',
+    desc: 'Use Vue.js & Quasar to create a Gorgeous Weather App from scratch & get it running & working on 5 different platforms: Android, iOS, Mac, Windows & Web',
+    author: 'Danny Connell',
+    lang: 'English',
+    link: 'https://dannys.link/quasarweather',
+    imgUrl: 'https://img-a.udemycdn.com/course/480x270/3180950_e65e_3.jpg'
   }
 ]

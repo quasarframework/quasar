@@ -844,6 +844,7 @@ export default Vue.extend({
           h('div', {
             // there can be only one (when dialog is opened the control in dialog should be target)
             ref: 'target',
+            key: 'd_t',
             staticClass: 'no-outline',
             attrs: {
               id: this.targetUid,
@@ -931,6 +932,7 @@ export default Vue.extend({
     __getInput (h, fromDialog) {
       const options = {
         ref: 'target',
+        key: 'i_t',
         staticClass: 'q-field__input q-placeholder col',
         style: this.inputStyle,
         class: this.computedInputClass,
