@@ -994,7 +994,7 @@ export default Vue.extend({
     },
 
     __editRange (day) {
-      this.__updateValue({ day }, 'set-range-end-day')
+      this.__updateValue({ day }, 'edit-range')
       this.__deleteMockRangeEnd(day)
     },
 
@@ -1039,7 +1039,7 @@ export default Vue.extend({
           this.extModel.timezoneOffset
         )
 
-      if (['add-range-start-day', 'set-range-start-day', 'set-range-end-day', 'add-remove-day'].includes(reason)) {
+      if (['add-range-start-day', 'set-range-start-day', 'set-range-end-day', 'add-remove-day', 'edit-range'].includes(reason)) {
         const day = extractDate(val, this.mask, this.__getComputedLocale())
         let dates, valArray
         if (this.value === null) {
@@ -1088,7 +1088,7 @@ export default Vue.extend({
             }
           }
         }
-        else if (reason === 'set-range-end-day') {
+        else if (reason === 'set-range-end-day' || reason === 'edit-range') {
           let range = [this.__getRangeStart(dates), day]
           let valRange = [this.__getRangeStart(valArray), val]
           if (isSameDate(range[0], range[1])) {
@@ -1096,6 +1096,10 @@ export default Vue.extend({
             valArray.splice(-1, 1, val)
           }
           else {
+            if (isSameDate(range[1], getMinDate(...range))) {
+              range.reverse()
+              valRange.reverse()
+            }
             valArray.splice(-1, 1, valRange)
             dates.splice(-1, 1, range)
             dates.forEach(
