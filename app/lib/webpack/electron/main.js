@@ -109,7 +109,7 @@ module.exports = function (cfg, configName) {
 
     // write package.json file
     chain.plugin('package-json')
-      .use(ElectronPackageJson)
+      .use(ElectronPackageJson, [ cfg ])
 
     const fs = require('fs')
     const copyArray = []

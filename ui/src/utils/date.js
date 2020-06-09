@@ -467,7 +467,7 @@ export function endOfDate (date, unit) {
 
 export function getMaxDate (date /* , ...args */) {
   let t = new Date(date)
-  Array.prototype.slice.call(arguments).forEach(d => {
+  Array.prototype.slice.call(arguments, 1).forEach(d => {
     t = Math.max(t, new Date(d))
   })
   return t

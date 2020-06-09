@@ -27,6 +27,8 @@ module.exports = class SsrProdArtifacts {
        */
       const appPkg = require(appPaths.resolve.app('package.json'))
       const cliPkg = require(appPaths.resolve.cli('package.json'))
+
+      delete appPkg.dependencies['@quasar/extras']
       const appDeps = getFixedDeps(appPkg.dependencies)
       const cliDeps = cliPkg.dependencies
 
@@ -56,6 +58,10 @@ module.exports = class SsrProdArtifacts {
 
       if (this.cfg.store) {
         pkg.dependencies.vuex = cliDeps.vuex
+      }
+
+      if (this.cfg.ssr.extendPackageJson) {
+        this.cfg.ssr.extendPackageJson(pkg)
       }
 
       pkg = JSON.stringify(pkg, null, 2)

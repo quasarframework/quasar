@@ -103,7 +103,7 @@ export default context => {
     }
 
     // set router's location
-    router.push(url)
+    router.push(url).catch(() => {})
 
     // wait until router has resolved possible async hooks
     router.onReady(() => {

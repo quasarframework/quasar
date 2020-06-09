@@ -326,7 +326,7 @@
         row-key="name"
       />
 
-      <h2>body-cell-desc template</h2>
+      <h2>body-cell-[name] template</h2>
       <q-table
         :data="data"
         :columns="columns"
@@ -343,10 +343,12 @@
         <template v-slot:top-selection>
           Selection
         </template>
+
         <template v-slot:top-left="props">
           <q-btn size="sm" round flat :icon="props.inFullscreen ? 'fullscreen_exit' : 'fullscreen'" @click="props.toggleFullscreen()" />
           {{ visibleColumns }}
         </template>
+
         <template v-slot:top-right>
           <q-select
             v-model="visibleColumns"
@@ -359,6 +361,12 @@
             dense
             borderless
           />
+        </template>
+
+        <template v-slot:body-cell="props">
+          <q-td :props="props">
+            {{ props.value }} *
+          </q-td>
         </template>
 
         <template v-slot:body-cell-desc="props">
@@ -448,7 +456,7 @@
         </template>
       </q-table>
 
-      <h2>header-cell-[name]</h2>
+      <h2>header-cell-[name] template</h2>
       <q-table
         :data="data"
         :columns="columns"
@@ -456,6 +464,12 @@
         :filter="filter"
         row-key="name"
       >
+        <template v-slot:header-cell="props">
+          <q-th :props="props">
+            {{ props.col.label }} *
+          </q-th>
+        </template>
+
         <template v-slot:header-cell-calories="props">
           <q-th :props="props">
             <q-icon size="1.5em" name="thumb_up" />
