@@ -1,4 +1,3 @@
-const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const WebpackChain = require('webpack-chain')
@@ -10,6 +9,20 @@ const parseBuildEnv = require('../helpers/parse-build-env')
 
 const appPaths = require('../app-paths')
 const injectStyleRules = require('./inject.style-rules')
+
+function getTranspileDependenciesRegex (list) {
+  const deps = list.map(dep => {
+    if (typeof dep === 'string') {
+      return path.join('node_modules', dep, '/')
+        .replace(/\//g, '[\\\\/]') // windows support
+    }
+    else if (dep instanceof RegExp) {
+      return dep.source
+    }
+  })
+
+  return new RegExp(deps.join('|'))
+}
 
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
@@ -109,22 +122,18 @@ module.exports = function (cfg, configName) {
   }
 
   if (cfg.build.transpile === true) {
-    const vueRegex = /\.vue\.jsx?$/
     const nodeModulesRegex = /[\\/]node_modules[\\/]/
-    const quasarRegex = configName !== 'Server'
-      ? /[\\/]node_modules[\\/]quasar[\\/]/
-      : /[\\/]node_modules[\\/]quasar[\\/]src[\\/]/
+    const exceptionsRegex = getTranspileDependenciesRegex(
+      [ /\.vue\.jsx?$/, configName === 'Server' ? 'quasar/src' : 'quasar' ]
+        .concat(cfg.build.transpileDependencies)
+    )
 
     chain.module.rule('babel')
       .test(/\.jsx?$/)
       .exclude
         .add(filepath => (
-          // transpile js(x) in Vue files:
-          vueRegex.test(filepath) === false &&
-          // transpile Quasar:
-          quasarRegex.test(filepath) === false &&
-          // explicit config to transpile deps:
-          cfg.build.transpileDependencies.some(dep => filepath.match(dep)) === false &&
+          // Transpile the exceptions:
+          exceptionsRegex.test(filepath) === false &&
           // Don't transpile anything else in node_modules:
           nodeModulesRegex.test(filepath)
         ))
