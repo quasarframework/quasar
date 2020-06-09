@@ -124,7 +124,7 @@ module.exports = function (cfg, configName) {
   if (cfg.build.transpile === true) {
     const nodeModulesRegex = /[\\/]node_modules[\\/]/
     const exceptionsRegex = getTranspileDependenciesRegex(
-      [ /\.vue\.jsx?$/, configName === 'Server' ? 'quasar/src' : 'quasar' ]
+      [ /\.vue\.jsx?$/, configName === 'Server' ? 'quasar/src' : 'quasar', '@babel/runtime' ]
         .concat(cfg.build.transpileDependencies)
     )
 
