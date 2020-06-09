@@ -40,6 +40,13 @@ export default Vue.extend({
         return ['start', 'end'].indexOf(value) !== -1
       }
     },
+    defaultRangeView: {
+      type: String,
+      default: 'start',
+      validator: function (value) {
+        return ['start', 'end'].indexOf(value) !== -1
+      }
+    },
 
     title: String,
     subtitle: String,
@@ -76,7 +83,7 @@ export default Vue.extend({
 
   data () {
     const
-      { inner, external } = this.__getModels(this.__getFirstSelectedDate(this.value), this.mask, this.__getComputedLocale()),
+      { inner, external } = this.__getModels(this.defaultRangeView === 'start' ? this.__getFirstSelectedDate(this.value) : this.__getLastSelectedDate(this.value), this.mask, this.__getComputedLocale()),
       dates = this.__getDates(this.value, this.mask, this.__getComputedLocale()),
       direction = this.$q.lang.rtl === true ? 'right' : 'left'
 
@@ -95,7 +102,7 @@ export default Vue.extend({
   watch: {
     value (v) {
       const
-        { inner, external } = this.__getModels(this.__getLastSelectedDate(v), this.mask, this.__getComputedLocale()),
+        { inner, external } = this.__getModels(this.defaultRangeView === 'start' ? this.__getFirstSelectedDate(v) : this.__getLastSelectedDate(v), this.mask, this.__getComputedLocale()),
         dates = this.__getDates(v, this.mask, this.__getComputedLocale())
 
       this.dates = dates

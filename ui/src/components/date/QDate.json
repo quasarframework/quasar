@@ -145,6 +145,14 @@
       "default": "end",
       "values": [ "start", "end" ],
       "category": "selection"
+    },
+
+    "defaultRangeView": {
+      "type": "String",
+      "desc": "When range or multiple are true, this value indicates the year/month of what range-end will be in the view",
+      "default": "end",
+      "values": [ "start", "end" ],
+      "category": "model|selection"
     }
   },
 

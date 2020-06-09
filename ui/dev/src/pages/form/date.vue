@@ -338,6 +338,7 @@
           range
           :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'start'"
           default-year-month="2020/06"
+          default-range-view="start"
           :dark="dark"
           flat
           minimal
@@ -350,6 +351,7 @@
           range
           :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'end'"
           default-year-month="2020/07"
+          default-range-view="end"
           :dark="dark"
           flat
           minimal
@@ -391,7 +393,7 @@ export default {
       date: '2018/11/03',
       dateParse: 'Month: Aug, Day: 28th, Year: 2018',
       dateNeg: '-13/11/03',
-      dateRange: null,
+      dateRange: [['2020/06/06', '2020/07/07']],
       dateFrom: null,
       dateTo: null,
       nullDate: null,
