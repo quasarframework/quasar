@@ -46,6 +46,7 @@ export function ready (fn) {
   document.addEventListener('DOMContentLoaded', fn, false)
 }
 
+// internal
 export function childHasFocus (el, focusedEl) {
   if (el === void 0 || el.contains(focusedEl) === true) {
     return true
@@ -58,6 +59,13 @@ export function childHasFocus (el, focusedEl) {
   }
 
   return false
+}
+
+// internal
+export function getBodyFullscreenElement (isFullscreen, activeEl) {
+  return isFullscreen === true
+    ? (activeEl === document.documentElement ? document.body : activeEl)
+    : document.body
 }
 
 export default {

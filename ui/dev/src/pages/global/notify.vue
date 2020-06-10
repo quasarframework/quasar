@@ -157,7 +157,7 @@ export default {
             ? [ { label: 'Reply', color: buttonColor, handler: () => console.log('reply wooow ' + random) } ]
             : null
           ),
-        timeout: Math.random() * 5000 + 300000
+        timeout: Math.random() * 5000 + 8000
       })
       /*
       this.$q.notify({

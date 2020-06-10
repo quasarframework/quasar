@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+import { getBodyFullscreenElement } from '../utils/dom.js'
+
 export function closePortalMenus (vm, evt) {
   do {
     if (vm.$options.name === 'QMenu') {
@@ -54,20 +56,15 @@ export default {
   methods: {
     __showPortal () {
       if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
-        const append = (isFullscreen) => {
+        const append = isFullscreen => {
           if (this.__portal === void 0) {
             return
           }
 
-          let newParent = document.body
-
-          if (isFullscreen === true) {
-            newParent = document.fullscreenElement ||
-              document.mozFullScreenElement ||
-              document.webkitFullscreenElement ||
-              document.msFullscreenElement ||
-              document.body
-          }
+          const newParent = getBodyFullscreenElement(
+            isFullscreen,
+            this.$q.fullscreen.activeEl
+          )
 
           if (
             this.__portal.$el.parentElement !== newParent &&
