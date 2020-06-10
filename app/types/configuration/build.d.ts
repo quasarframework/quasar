@@ -19,7 +19,7 @@ interface QuasarStaticBuildConfiguration {
    * It is ignored if "transpile" is not set to true.
    * @example [ /my-dependency/, ...]
    */
-  transpileDependencies: RegExp[];
+  transpileDependencies: (RegExp | string)[];
   /**
    * @version `@quasar/app` 1.3.4+
    *
