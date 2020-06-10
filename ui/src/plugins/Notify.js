@@ -67,6 +67,32 @@ const Notifications = {
     })
   },
 
+  mounted () {
+    if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
+      const append = (isFullscreen) => {
+        let newParent = document.body
+
+        if (isFullscreen === true) {
+          newParent = document.fullscreenElement ||
+            document.mozFullScreenElement ||
+            document.webkitFullscreenElement ||
+            document.msFullscreenElement ||
+            document.body
+        }
+
+        newParent.appendChild(this.$el)
+      }
+
+      this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
+
+      append(this.$q.fullscreen.isActive)
+    }
+  },
+
+  beforeDestroy () {
+    this.unwatchFullscreen !== void 0 && this.unwatchFullscreen()
+  },
+
   methods: {
     add (config) {
       if (!config) {
