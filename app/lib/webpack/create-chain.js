@@ -63,7 +63,11 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.mjs', '.js', '.vue', '.json', '.wasm' ])
+    .merge(
+      cfg.supportTS !== false
+        ? [ '.mjs', '.js', '.vue', '.json', '.wasm' ]
+        : [ '.mjs', '.ts', '.js', '.vue', '.json', '.wasm' ]
+    )
 
   chain.resolve.modules
     .merge(resolveModules)
@@ -124,12 +128,12 @@ module.exports = function (cfg, configName) {
   if (cfg.build.transpile === true) {
     const nodeModulesRegex = /[\\/]node_modules[\\/]/
     const exceptionsRegex = getTranspileDependenciesRegex(
-      [ /\.vue\.jsx?$/, configName === 'Server' ? 'quasar/src' : 'quasar', '@babel/runtime' ]
+      [ /\.vue\.js$/, configName === 'Server' ? 'quasar/src' : 'quasar', '@babel/runtime' ]
         .concat(cfg.build.transpileDependencies)
     )
 
     chain.module.rule('babel')
-      .test(/\.jsx?$/)
+      .test(/\.js$/)
       .exclude
         .add(filepath => (
           // Transpile the exceptions:
@@ -147,11 +151,9 @@ module.exports = function (cfg, configName) {
   }
 
   if (cfg.supportTS !== false) {
-    chain.resolve.extensions.add('.ts').add('.tsx')
-
     chain.module
       .rule('typescript')
-      .test(/\.tsx?$/)
+      .test(/\.ts$/)
       .use('ts-loader')
         .loader('ts-loader')
         .options({

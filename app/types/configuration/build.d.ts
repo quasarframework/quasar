@@ -17,7 +17,7 @@ interface QuasarStaticBuildConfiguration {
   /**
    * Add dependencies for transpiling with Babel (from node_modules, which are by default not transpiled).
    * It is ignored if "transpile" is not set to true.
-   * @example [ /my-dependency/, ...]
+   * @example [ /my-dependency/, 'my-dep', ...]
    */
   transpileDependencies: (RegExp | string)[];
   /**
