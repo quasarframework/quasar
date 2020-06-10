@@ -148,6 +148,8 @@ export default Vue.extend({
       : this.$refs.media
 
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = this.__onResize
+    this.__onResize()
+    this.media.style.display = 'initial'
 
     if (window.IntersectionObserver !== void 0) {
       this.observer = new IntersectionObserver(entries => {
