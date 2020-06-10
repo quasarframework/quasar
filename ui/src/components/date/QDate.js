@@ -60,7 +60,7 @@ export default Vue.extend({
       view: this.defaultView,
       monthDirection: direction,
       yearDirection: direction,
-      startYear: inner.year - inner.year % yearsInterval,
+      startYear: inner.year - inner.year % yearsInterval - (inner.year < 0 ? yearsInterval : 0),
       innerModel: inner,
       extModel: external
     }
@@ -84,7 +84,7 @@ export default Vue.extend({
         }
 
         this.$nextTick(() => {
-          this.startYear = inner.year - inner.year % yearsInterval
+          this.startYear = inner.year - inner.year % yearsInterval - (inner.year < 0 ? yearsInterval : 0)
           this.innerModel = inner
         })
       }
@@ -749,7 +749,7 @@ export default Vue.extend({
           }
 
           this.$nextTick(() => {
-            this.startYear = date.year - date.year % yearsInterval
+            this.startYear = date.year - date.year % yearsInterval - (date.year < 0 ? yearsInterval : 0)
             Object.assign(this.innerModel, {
               year: date.year,
               month: date.month,
