@@ -11,6 +11,10 @@
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
         <q-toggle :dark="dark" v-model="yearsInMonthView" label="yearsInMonthView" />
         <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
+        <div class="q-gutter-md row items-start">
+          <q-input dense :dark="dark" v-model="minYearMonth" hint="minYearMonth" />
+          <q-input dense :dark="dark" v-model="maxYearMonth" hint="maxYearMonth" />
+        </div>
       </div>
 
       <div>{{ date }}</div>
@@ -355,6 +359,8 @@ export default {
       nullDate: null,
       nullDate2: null,
       defaultYearMonth: '1986/02',
+      minYearMonth: null,
+      maxYearMonth: null,
 
       persian: false,
 
@@ -388,6 +394,8 @@ export default {
         minimal: this.minimal,
         todayBtn: this.todayBtn,
         yearsInMonthView: this.yearsInMonthView,
+        minYearMonth: /^-?[\d]+\/[0-1]\d$/.test(this.minYearMonth) ? this.minYearMonth : null,
+        maxYearMonth: /^-?[\d]+\/[0-1]\d$/.test(this.maxYearMonth) ? this.maxYearMonth : null,
         calendar: this.persian ? 'persian' : 'gregorian'
       }
     },

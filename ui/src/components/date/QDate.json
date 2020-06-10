@@ -49,6 +49,24 @@
       "category": "model"
     },
 
+    "min-year-month": {
+      "type": "String",
+      "desc": "The min year and month to navigate (in YYYY/MM format)",
+      "examples": [
+        "1986/02"
+      ],
+      "category": "model"
+    },
+
+    "max-year-month": {
+      "type": "String",
+      "desc": "The max year and month to navigate (in YYYY/MM format)",
+      "examples": [
+        "2012/12"
+      ],
+      "category": "model"
+    },
+
     "mask": {
       "default": "YYYY/MM/DD",
       "examples": [ "YYYY-MM-DD", "MMMM Do, YYYY", "YYYY-MM-DD HH:mm:ss" ]

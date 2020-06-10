@@ -34,6 +34,17 @@ export default Vue.extend({
       validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
     },
 
+    minYearMonth: {
+      type: String,
+      default: null,
+      validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
+    },
+    maxYearMonth: {
+      type: String,
+      default: null,
+      validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
+    },
+
     yearsInMonthView: Boolean,
 
     events: [Array, Function],
@@ -92,6 +103,30 @@ export default Vue.extend({
 
     view () {
       this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+    },
+
+    minYearMonth (v) {
+      if (v !== null) {
+        const d = v.split('/'),
+          minYear = parseInt(d[0], 10),
+          minMonth = parseInt(d[1], 10)
+        if (this.innerModel.year < minYear || (this.innerModel.year === minYear && this.innerModel.month < minMonth)) {
+          this.innerModel.year = minYear
+          this.innerModel.month = minMonth
+        }
+      }
+    },
+
+    maxYearMonth (v) {
+      if (v !== null) {
+        const d = v.split('/'),
+          maxYear = parseInt(d[0], 10),
+          maxMonth = parseInt(d[1], 10)
+        if (this.innerModel.year > maxYear || (this.innerModel.year === maxYear && this.innerModel.month > maxMonth)) {
+          this.innerModel.year = maxYear
+          this.innerModel.month = maxMonth
+        }
+      }
     }
   },
 
@@ -190,6 +225,15 @@ export default Vue.extend({
       return typeof this.options === 'function'
         ? this.options
         : date => this.options.includes(date)
+    },
+
+    isInBoundary () {
+      return date => {
+        let boundary = this.__getMinMaxModel()
+        let year = date.getFullYear(), month = date.getMonth() + 1
+        return ((boundary.maxYear !== undefined && (year > boundary.maxYear || (year === boundary.maxYear && month > boundary.maxMonth))) ||
+          (boundary.minYear !== undefined && (year < boundary.minYear || (year === boundary.minYear && month < boundary.minMonth)))) === false
+      }
     },
 
     days () {
@@ -304,11 +348,23 @@ export default Vue.extend({
         this.calendar
       )
 
+      let inner = external.dateHash === null
+        ? this.__getDefaultModel()
+        : { ...external }
+
+      let boundary = this.__getMinMaxModel()
+      if (boundary.maxYear !== undefined && (inner.year > boundary.maxYear || (inner.year === boundary.maxYear && inner.month > boundary.maxMonth))) {
+        inner.year = boundary.maxYear
+        inner.month = boundary.maxMonth
+      }
+      else if (boundary.minYear !== undefined && (inner.year < boundary.minYear || (inner.year === boundary.minYear && inner.month < boundary.minMonth))) {
+        inner.year = boundary.minYear
+        inner.month = boundary.minMonth
+      }
+
       return {
         external,
-        inner: external.dateHash === null
-          ? this.__getDefaultModel()
-          : { ...external }
+        inner
       }
     },
 
@@ -340,6 +396,35 @@ export default Vue.extend({
         second: 0,
         millisecond: 0,
         dateHash: year + '/' + pad(month) + '/01'
+      }
+    },
+
+    __getMinMaxModel () {
+      let minYear, minMonth, maxYear, maxMonth, min = {}, max = {}
+
+      if (this.minYearMonth !== null) {
+        const d = this.minYearMonth.split('/')
+        minYear = parseInt(d[0], 10)
+        minMonth = parseInt(d[1], 10)
+        min = {
+          minYear,
+          minMonth
+        }
+      }
+
+      if (this.maxYearMonth !== null) {
+        const d = this.maxYearMonth.split('/')
+        maxYear = parseInt(d[0], 10)
+        maxMonth = parseInt(d[1], 10)
+        max = {
+          maxYear,
+          maxMonth
+        }
+      }
+
+      return {
+        ...min,
+        ...max
       }
     },
 
@@ -410,10 +495,10 @@ export default Vue.extend({
       ])
     },
 
-    __getNavigation (h, { label, view, key, dir, goTo, cls }) {
+    __getNavigation (h, { label, view, key, dir, prev, next, goTo, cls }) {
       return [
         h('div', {
-          staticClass: 'row items-center q-date__arrow'
+          staticClass: 'row items-center q-date__arrow' + (prev ? '' : ' invisible')
         }, [
           h(QBtn, {
             props: {
@@ -452,7 +537,7 @@ export default Vue.extend({
         ]),
 
         h('div', {
-          staticClass: 'row items-center q-date__arrow'
+          staticClass: 'row items-center q-date__arrow' + (next ? '' : ' invisible')
         }, [
           h(QBtn, {
             props: {
@@ -482,6 +567,8 @@ export default Vue.extend({
             view: 'Months',
             key: this.innerModel.month,
             dir: this.monthDirection,
+            prev: this.isInBoundary(new Date(this.innerModel.year, this.innerModel.month - 1, 0)),
+            next: this.isInBoundary(new Date(this.innerModel.year, this.innerModel.month, 1)),
             goTo: this.__goToMonth,
             cls: ' col'
           }).concat(this.__getNavigation(h, {
@@ -489,6 +576,8 @@ export default Vue.extend({
             view: 'Years',
             key: this.innerModel.year,
             dir: this.yearDirection,
+            prev: this.isInBoundary(new Date(this.innerModel.year - 1, this.innerModel.month - 1, 1)),
+            next: this.isInBoundary(new Date(this.innerModel.year + 1, this.innerModel.month - 1, 1)),
             goTo: this.__goToYear,
             cls: ''
           }))),
@@ -547,6 +636,7 @@ export default Vue.extend({
           h(QBtn, {
             staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
             props: {
+              disable: !this.isInBoundary(new Date(this.innerModel.year, i, 1)),
               flat: active !== true,
               label: month,
               unelevated: active,
@@ -566,6 +656,8 @@ export default Vue.extend({
             view: 'Years',
             key: this.innerModel.year,
             dir: this.yearDirection,
+            prev: this.isInBoundary(new Date(this.innerModel.year - 1, this.innerModel.month - 1, 1)),
+            next: this.isInBoundary(new Date(this.innerModel.year + 1, this.innerModel.month - 1, 1)),
             goTo: this.__goToYear,
             cls: ' col'
           })
@@ -595,6 +687,7 @@ export default Vue.extend({
               key: 'yr' + i,
               staticClass: this.today.year === i ? 'q-date__today' : null,
               props: {
+                disable: !this.isInBoundary(new Date(i, this.innerModel.month - 1, 1)),
                 flat: !active,
                 label: i,
                 dense: true,
