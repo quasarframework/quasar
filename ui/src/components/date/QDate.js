@@ -96,12 +96,12 @@ export default Vue.extend({
 
     'innerModel.year' (v) {
       const { year, month } = this.innerModel
-      this.$emit('year-changed', { year, month })
+      this.$emit('calendar-change', { year, month })
     },
 
     'innerModel.month' (v) {
       const { year, month } = this.innerModel
-      this.$emit('month-changed', { year, month })
+      this.$emit('calendar-change', { year, month })
     }
   },
 
