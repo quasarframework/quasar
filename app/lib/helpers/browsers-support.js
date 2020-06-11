@@ -14,28 +14,25 @@ const NAMES = {
   and_uc: 'UC for Android'
 }
 
+let browserListCache, browserBannerCache
+
 function capitalize (str) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 function getBrowsersList () {
-  if (this.cache !== void 0) {
-    return this.cache
+  if (browserListCache !== void 0) {
+    return browserListCache
   }
 
   try {
-    this.cache = browserslist(void 0, { path: appPaths.appDir })
-    return this.cache
+    browserListCache = browserslist(void 0, { path: appPaths.appDir })
+    return browserListCache
   }
   catch (err) {
     warn(`${err.name}: ${err.message}`)
     fatal('Please revise /package.json > browserslist -- invalid entry!\n')
   }
-}
-
-function supportsIE () {
-  const browsers = getBrowsersList()
-  return browsers.includes('ie 11')
 }
 
 function needsAdditionalPolyfills (ctx) {
@@ -48,7 +45,7 @@ function needsAdditionalPolyfills (ctx) {
     return false
   }
 
-  return supportsIE()
+  return getBrowsersList().includes('ie 11')
 }
 
 function getSupportData () {
@@ -77,7 +74,7 @@ function getSupportData () {
   for (let name in versions) {
     let list = versions[name]
     list.sort((a, b) => parseFloat(a) - parseFloat(b))
-    lines.push(` * ${name} >= ${list[0]}`)
+    lines.push(` · ${name} >= ${list[0]}`)
   }
 
   return {
@@ -87,19 +84,18 @@ function getSupportData () {
 }
 
 function getBrowsersBanner () {
-  if (this.cache !== void 0) {
-    return this.cache
+  if (browserBannerCache !== void 0) {
+    return browserBannerCache
   }
 
   const { coverage, lines } = getSupportData()
 
-  this.cache = ` Configured browser support (${coverage}% of global marketshare):\n` +
+  browserBannerCache = ` Configured browser support (${coverage}% of global marketshare):\n` +
     lines.join('\n') + '\n'
 
-  return this.cache
+  return browserBannerCache
 }
 
 module.exports.getBrowsersList = getBrowsersList
-module.exports.supportsIE = supportsIE
 module.exports.needsAdditionalPolyfills = needsAdditionalPolyfills
 module.exports.getBrowsersBanner = getBrowsersBanner
