@@ -170,6 +170,18 @@
           }
         }
       }
+    },
+    "calendar-change": {
+      "params": {
+        "year": {
+          "type": "Number",
+          "desc": "The year"
+        },
+        "month": {
+          "type": "Number",
+          "desc": "The month"
+        }
+      }
     }
   },
 
