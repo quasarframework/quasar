@@ -10,7 +10,7 @@ const parseBuildEnv = require('../helpers/parse-build-env')
 const appPaths = require('../app-paths')
 const injectStyleRules = require('./inject.style-rules')
 
-function getTranspileDependenciesRegex (list) {
+function getDependenciesRegex (list) {
   const deps = list.map(dep => {
     if (typeof dep === 'string') {
       return path.join('node_modules', dep, '/')
@@ -127,7 +127,7 @@ module.exports = function (cfg, configName) {
 
   if (cfg.build.transpile === true) {
     const nodeModulesRegex = /[\\/]node_modules[\\/]/
-    const exceptionsRegex = getTranspileDependenciesRegex(
+    const exceptionsRegex = getDependenciesRegex(
       [ /\.vue\.js$/, configName === 'Server' ? 'quasar/src' : 'quasar', '@babel/runtime' ]
         .concat(cfg.build.transpileDependencies)
     )
