@@ -248,39 +248,32 @@ module.exports = function (cfg, configName) {
     const { add, remove } = cfg.vendor
     const regex = /[\\/]node_modules[\\/]/
 
-    chain.optimization
-      .splitChunks({
-        cacheGroups: {
-          vendors: {
-            name: 'vendor',
-            chunks: 'all',
-            priority: -10,
-            // a module is extracted into the vendor chunk if...
-            test: add !== void 0 || remove !== void 0
-              ? module => {
-                if (module.resource) {
-                  if (remove !== void 0 && remove.test(module.resource)) { return false }
-                  if (add !== void 0 && add.test(module.resource)) { return true }
-                }
-                return regex.test(module.resource)
+    chain.optimization.splitChunks({
+      cacheGroups: {
+        vendors: {
+          name: 'vendor',
+          chunks: 'all',
+          priority: -10,
+          // a module is extracted into the vendor chunk if...
+          test: add !== void 0 || remove !== void 0
+            ? module => {
+              if (module.resource) {
+                if (remove !== void 0 && remove.test(module.resource)) { return false }
+                if (add !== void 0 && add.test(module.resource)) { return true }
               }
-              : module => regex.test(module.resource)
-          },
-          common: {
-            name: `chunk-common`,
-            minChunks: 2,
-            priority: -20,
-            chunks: 'all',
-            reuseExistingChunk: true
-          }
+              return regex.test(module.resource)
+            }
+            : regex
+        },
+        common: {
+          name: `chunk-common`,
+          minChunks: 2,
+          priority: -20,
+          chunks: 'all',
+          reuseExistingChunk: true
         }
-      })
-
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    if (cfg.build.webpackManifest) {
-      chain.optimization.runtimeChunk('single')
-    }
+      }
+    })
   }
 
 

@@ -389,7 +389,6 @@ class QuasarConfig {
       htmlFilename: 'index.html',
       ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
                                           // will mess up SSR
-      webpackManifest: this.ctx.prod,
       vueRouterMode: 'hash',
       preloadChunks: false,
       forceDevPublicPath: false,
@@ -484,7 +483,6 @@ class QuasarConfig {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
         gzip: false,
-        webpackManifest: false,
         preloadChunks: false
       })
     }
@@ -692,8 +690,6 @@ class QuasarConfig {
     }
 
     if (this.ctx.mode.pwa) {
-      cfg.build.webpackManifest = false
-
       cfg.pwa = merge({
         workboxPluginMode: 'GenerateSW',
         workboxOptions: {},

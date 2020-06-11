@@ -164,12 +164,6 @@ interface QuasarDynamicBuildConfiguration {
   sourceMap: boolean;
   /** Minify code (html, js, css). */
   minify: boolean;
-  /**
-   * Improves caching strategy.
-   * Use a webpack manifest (runtime) file to avoid
-   *  cache bust on vendor chunk changing hash on each build.
-   */
-  webpackManifest: boolean;
 }
 
 declare module "quasar" {
