@@ -135,6 +135,7 @@
 
             <q-card-section ref="fullscreenInside1" class="bg-orange-2 q-pa-md">
               Fullscreen inside modal dialog
+              <span class="text-italic">Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span>
             </q-card-section>
           </q-card>
         </q-dialog>
@@ -212,6 +213,7 @@
 
                   <q-card-section ref="fullscreenInside4" class="bg-red-2 q-pa-md">
                     Fullscreen inside modal dialog
+                    <span class="text-italic">Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span>
                   </q-card-section>
                 </q-card>
               </q-dialog>
@@ -255,6 +257,7 @@
 
         <q-card-section ref="fullscreenInside3" class="bg-green-2 q-pa-md">
           Fullscreen inside seamless dialog (outside fullscreen el)
+          <span class="text-italic">Hover here for tooltip <q-tooltip>Some tooltip</q-tooltip></span>
         </q-card-section>
       </q-card>
     </q-dialog>
