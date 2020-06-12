@@ -107,9 +107,8 @@ interface QuasarStaticBuildConfiguration {
   devtool: WebpackConfiguration["devtool"];
   /**
    * Add properties to `process.env` that you can use in your website/app JS code.
-   * Each property needs to be JSON encoded.
    *
-   * @example { SOMETHING: JSON.stringify('someValue') }
+   * @example { SOMETHING: 'someValue' }
    */
   env: { [index: string]: string };
   /**
