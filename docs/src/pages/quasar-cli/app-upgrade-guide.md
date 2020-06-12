@@ -37,6 +37,7 @@ related:
 * Edit your `/package.json` file:
   - remove "resolutions" > "@babel/parser" if it's there
   - make sure "devDependencies" > "@quasar/app" is set to "^2.0.0"
+  - yarn/npm install workbox-webpack-plugin@^5.0.0 (or ^4.0.0) if you are using PWA mode (this package is no longer supplied by "@quasar/app")
   - remove "cordovaId" and "capacitorId" if they are there
   - update "browserslist"; [what it does](/quasar-cli/browser-compatibility); the default content is:
 
@@ -63,8 +64,6 @@ related:
 * Edit your `/src/index.template.html` file:
   - search for "htmlWebpackPlugin.options." and replace with "" (empty string)
   - update the favicon.ico `<link>` to point to `href="favicon.ico"` instead of "statics/icons/favicon.ico"
-
-* The `workbox-webpack-plugin` package has been upgraded to v5; if you have any quasar.conf.js > pwa > workboxOptions you might want to review them
 
 * You can upgrade your /src-capacitor dependencies to Capacitor v2 (which supports Android X); full support is included (thanks to help from Capacitor team) for both versions now; please review the Capacitor (v1 to v2) upgrade guide too! helpful links: [upgrade guide](https://capacitor.ionicframework.com/docs/android/updating/#from-1-5-1-to-2-0-0), [release notes](https://github.com/ionic-team/capacitor/releases/tag/2.0.0)
 
