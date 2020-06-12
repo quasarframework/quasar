@@ -38,19 +38,19 @@
     "raw-loader": "^4.0.0",
     "toml": "^3.0.0"
   },
+  "browserslist": [
+    "last 5 Chrome versions",
+    "last 5 Firefox versions",
+    "last 2 Edge versions",
+    "last 5 Safari versions",
+    "last 5 Android versions",
+    "last 5 ChromeAndroid versions",
+    "last 5 FirefoxAndroid versions",
+    "last 5 iOS versions"
+  ],
   "engines": {
     "node": ">= 10.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
-  },
-  "browserslist": [
-    "last 10 Chrome versions",
-    "last 10 Firefox versions",
-    "last 4 Edge versions",
-    "last 7 Safari versions",
-    "last 8 Android versions",
-    "last 8 ChromeAndroid versions",
-    "last 8 FirefoxAndroid versions",
-    "last 10 iOS versions"
-  ]
+  }
 }
