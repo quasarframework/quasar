@@ -146,17 +146,18 @@ const cli = [
     path: 'installation'
   },
   {
+    name: 'Upgrade guide (v2)',
+    badge: 'new',
+    path: 'app-upgrade-guide'
+  },
+  {
     name: 'quasar.conf.js',
     path: 'quasar-conf-js'
   },
   {
-    name: 'Modern build',
+    name: 'Browser Compatibility',
     badge: 'new',
-    path: 'modern-build'
-  },
-  {
-    name: 'Supporting IE',
-    path: 'supporting-ie'
+    path: 'browser-compatibility'
   },
   {
     name: 'Supporting TypeScript',
