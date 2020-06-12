@@ -53,7 +53,7 @@ interface QuasarBaseFrameworkObjectConfiguration {
 
 interface QuasarAutoFrameworkObjectConfiguration
   extends QuasarBaseFrameworkObjectConfiguration {
-  importStrategy: "auto" | "all";
+  importStrategy: "auto";
   /** @default 'kebab' */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
 }
