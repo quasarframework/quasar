@@ -9,6 +9,7 @@ const appPaths = require('./app-paths')
 const { log, warn, fatal } = require('./helpers/logger')
 const extensionRunner = require('./app-extension/extensions-runner')
 const { needsAdditionalPolyfills } = require('./helpers/browsers-support')
+const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
 
@@ -532,6 +533,8 @@ class QuasarConfig {
       electronMainProd: 'src-electron/main-process/electron-main.js',
       ssrServerIndex: 'src-ssr/index.js'
     }, cfg.sourceFiles)
+
+    appFilesValidations(cfg)
 
     // do we got vuex?
     const storePath = appPaths.resolve.app(cfg.sourceFiles.store)

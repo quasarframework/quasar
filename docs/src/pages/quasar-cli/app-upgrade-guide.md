@@ -36,8 +36,8 @@ related:
 
 * Edit your `/package.json` file:
   - remove "resolutions" > "@babel/parser" if it's there
-  - make sure "devDependencies" > "@quasar/app" is set to "^2.0.0"
   - yarn/npm install workbox-webpack-plugin@^5.0.0 (or ^4.0.0) if you are using PWA mode (this package is no longer supplied by "@quasar/app")
+  - make sure "devDependencies" > "@quasar/app" is set to "^2.0.0" (then yarn/npm install)
   - remove "cordovaId" and "capacitorId" if they are there
   - update "browserslist"; [what it does](/quasar-cli/browser-compatibility); the default content is:
 
@@ -65,7 +65,7 @@ related:
   - search for "htmlWebpackPlugin.options." and replace with "" (empty string)
   - update the favicon.ico `<link>` to point to `href="favicon.ico"` instead of "statics/icons/favicon.ico"
 
-* You can upgrade your /src-capacitor dependencies to Capacitor v2 (which supports Android X); full support is included (thanks to help from Capacitor team) for both versions now; please review the Capacitor (v1 to v2) upgrade guide too! helpful links: [upgrade guide](https://capacitor.ionicframework.com/docs/android/updating/#from-1-5-1-to-2-0-0), [release notes](https://github.com/ionic-team/capacitor/releases/tag/2.0.0)
+* You can upgrade your /src-capacitor dependencies to Capacitor v2 (which supports Android X); full support is included (thanks to help from Capacitor team) for both versions now; please review the Capacitor (v1 to v2) upgrade guide too! helpful links: [announcement on capacitor v2](https://ionicframework.com/blog/announcing-capacitor-2-0/), [upgrade guide](https://capacitor.ionicframework.com/docs/android/updating/#from-1-5-1-to-2-0-0), [release notes](https://github.com/ionic-team/capacitor/releases/tag/2.0.0)
 
 * The `webpack-html-plugin` package has been upgraded to v4; if you have tampered with the default config for it, please [review it](https://github.com/jantimon/html-webpack-plugin/blob/master/CHANGELOG.md#400-2020-03-23)
 
