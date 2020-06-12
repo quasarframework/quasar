@@ -10,10 +10,6 @@ module.exports = function (cfg) {
   let error = false
 
   file = appPaths.resolve.app(cfg.sourceFiles.indexHtmlTemplate)
-  if (!fs.existsSync(file)) {
-    warn('Missing /src/index.template.html file...\n')
-    error = true
-  }
   content = fs.readFileSync(file, 'utf-8')
 
   if (content.indexOf('<base href') > -1) {
@@ -26,7 +22,8 @@ module.exports = function (cfg) {
   file = appPaths.resolve.app(cfg.sourceFiles.rootComponent)
   content = fs.readFileSync(file, 'utf-8')
   if (content.indexOf('q-app') === -1) {
-    warn(`\n Quasar requires a minor change to the root component:
+    console.log()
+    warn(`Quasar requires a minor change to the root component:
    ${file}
 
   Please add: id="q-app" (or write #q-app if using Pug)
@@ -42,7 +39,7 @@ ${green('Example:')}
     error = true
   }
 
-  if (error) {
+  if (error === true) {
     process.exit(1)
   }
 }
