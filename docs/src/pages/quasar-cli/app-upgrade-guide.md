@@ -24,6 +24,8 @@ related:
 
 ## Upgrade Guide
 
+_It's recommended that you delete `yarn.lock` / `package-lock.json` (and `node_modules` folder) before upgrading, otherwise we've seen issues with Yarn and NPM messing up the depedencies and generating core-js errors._
+
 ### Required steps
 
 * Edit your `/quasar.conf.js` file:
