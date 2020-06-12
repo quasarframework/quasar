@@ -91,8 +91,6 @@ interface BaseQuasarConfiguration {
    * What Quasar components/directives/plugins to import,
    * what Quasar language pack to use, what Quasar icon
    * set to use for Quasar components.
-   *
-   * When not specified or when equal to `all`, it's treated as `{ all: true }`
    */
   framework?: QuasarFrameworkConfiguration;
   /**

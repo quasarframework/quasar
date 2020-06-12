@@ -207,14 +207,8 @@ class QuasarConfig {
       htmlVariables: {}
     }, this.quasarConfigFunction(this.ctx))
 
-    if (cfg.framework === void 0 || cfg.framework === 'all') {
-      cfg.framework = { all: true }
-    }
-    if (!cfg.framework.components) {
-      cfg.framework.components = []
-    }
-    if (!cfg.framework.directives) {
-      cfg.framework.directives = []
+    if (cfg.framework === void 0) {
+      cfg.framework = { importStrategy: 'auto' }
     }
     if (!cfg.framework.plugins) {
       cfg.framework.plugins = []
@@ -308,7 +302,7 @@ class QuasarConfig {
       const newConfigSnapshot = [
         cfg.build ? encode(cfg.build) : '',
         cfg.ssr ? cfg.ssr.pwa : '',
-        cfg.framework ? cfg.framework.all + cfg.framework.autoImportComponentCase : '',
+        cfg.framework ? cfg.framework.importStrategy + cfg.framework.autoImportComponentCase : '',
         cfg.devServer ? encode(cfg.devServer) : '',
         cfg.pwa ? encode(cfg.pwa) : '',
         cfg.electron ? encode(cfg.electron) : '',
@@ -357,10 +351,10 @@ class QuasarConfig {
       cfg.extras = getUniqueArray(cfg.extras)
     }
 
-    if (cfg.framework.all !== true && cfg.framework.all !== 'auto') {
-      cfg.framework.all = false
+    if (['all', 'auto'].includes(cfg.framework.importStrategy) === false) {
+      cfg.framework.importStrategy = 'auto'
     }
-    else if (cfg.framework.all === 'auto') {
+    if (cfg.framework.importStrategy === 'auto') {
       if (!['kebab', 'pascal', 'combined'].includes(cfg.framework.autoImportComponentCase)) {
         cfg.framework.autoImportComponentCase = 'kebab'
       }
@@ -453,8 +447,8 @@ class QuasarConfig {
       log(underline('Not transpiling JS'))
     }
 
-    cfg.__loadingBar = cfg.framework.all === true || cfg.framework.plugins.includes('LoadingBar')
-    cfg.__meta = cfg.framework.all === true || cfg.framework.plugins.includes('Meta')
+    cfg.__loadingBar = cfg.framework.importStrategy === 'all' || cfg.framework.plugins.includes('LoadingBar')
+    cfg.__meta = cfg.framework.importStrategy === 'all' || cfg.framework.plugins.includes('Meta')
 
     if (this.ctx.dev || this.ctx.debug) {
       Object.assign(cfg.build, {
