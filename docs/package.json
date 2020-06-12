@@ -16,8 +16,7 @@
     "@quasar/extras": "^1.0.0",
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
-    "quasar": "^1.0.0",
-    "vuex": "^3.0.1"
+    "quasar": "^1.0.0"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
