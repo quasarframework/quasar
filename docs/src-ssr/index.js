@@ -40,6 +40,8 @@ app.use('/', serve('.', true))
 extension.extendApp({ app })
 
 const redirects = [
+  { from: '/quasar-cli/supporting-ie', to: '/quasar-cli/browser-compatibility' },
+  { from: '/quasar-cli/modern-build', to: '/quasar-cli/browser-compatibility' },
   { from: '/layout/floating-action-button', to: '/vue-components/floating-action-button' },
   { from: '/quasar-cli/app-icons', to: '/icongenie/introduction' },
   { from: '/quasar-cli/cli-documentation/supporting-ie', to: '/quasar-cli/supporting-ie' },
