@@ -59,7 +59,7 @@ _It's recommended that you delete `yarn.lock` / `package-lock.json` (and `node_m
 
   IE11 support is now enabled only if "browserslist" contains it (`ie 11` or `ie >= 11`).
 
-* Update to the newly `/public` folder (which replaces the old `/stc/statics`):
+* Update to the newly `/public` folder (which replaces the old `/src/statics`):
   - do a global search and replace for "statics/" and replace with "" (empty string), including in `/quasar.conf.js`.
   - move `/src/statics/*` to `/public/*`; then move "/public/icons/favicon.ico" directly under "/public"
 
