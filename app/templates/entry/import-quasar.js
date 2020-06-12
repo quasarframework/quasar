@@ -32,7 +32,7 @@ import Quasar from 'quasar'
   let importStatement = []
   let items = framework.plugins
   if (items.length > 0) {
-    useStatement.push(type + ': {' + items.join(',') + '}')
+    useStatement.push('plugins: {' + items.join(',') + '}')
     importStatement = importStatement.concat(items)
   }
 
