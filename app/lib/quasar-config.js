@@ -441,11 +441,11 @@ class QuasarConfig {
       cfg.__supportsIE = cfg.build.transpile === true && needsAdditionalPolyfills(this.ctx)
 
       const type = cfg.__supportsIE === true
-        ? 'includes IE11 support'
-        : 'modern'
+        ? ' - includes IE11 support'
+        : ''
 
-      cfg.__transpileBanner = green(`yes (Babel) - ${type}`)
-      log(`Transpiling JS (Babel active) - ${underline(type)}`)
+      cfg.__transpileBanner = green(`yes (Babel)${type}`)
+      log(`Transpiling JS (Babel active)${type}`)
     }
     else {
       cfg.__supportsIE = false

@@ -90,7 +90,7 @@ function getBrowsersBanner () {
 
   const { coverage, lines } = getSupportData()
 
-  browserBannerCache = ` Configured browser support (${coverage}% of global marketshare):\n` +
+  browserBannerCache = ` Configured browser support (at least ${coverage}% of global marketshare):\n` +
     lines.join('\n') + '\n'
 
   return browserBannerCache
