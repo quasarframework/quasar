@@ -152,6 +152,7 @@ export default context => {
           ssrContext: context,
           currentRoute: router.currentRoute,
           redirect,
+          urlPath: context.url,
           publicPath
         })),
         Promise.resolve()

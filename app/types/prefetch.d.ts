@@ -7,6 +7,8 @@ declare module "quasar" {
     currentRoute: Route;
     previousRoute: Route;
     redirect: (url: RawLocation) => void;
+    urlPath: string;
+    publicPath: string;
   }
 
   // https://github.com/quasarframework/quasar/issues/6576#issuecomment-603787603

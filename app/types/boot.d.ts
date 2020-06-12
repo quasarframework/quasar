@@ -1,6 +1,6 @@
 import { HasSsrParam, HasStoreParam } from "quasar";
 import Vue, { ComponentOptions, VueConstructor } from "vue";
-import VueRouter from "vue-router";
+import VueRouter, { RawLocation } from "vue-router";
 
 declare module "quasar" {
   interface BootFileParams<TStore> extends HasSsrParam, HasStoreParam<TStore> {
@@ -8,7 +8,8 @@ declare module "quasar" {
     Vue: VueConstructor;
     router: VueRouter;
     urlPath: string;
-    redirect: (url: string) => void;
+    publicPath: string;
+    redirect: (url: string | RawLocation) => void;
   }
 
   type BootCallback<TStore> = (

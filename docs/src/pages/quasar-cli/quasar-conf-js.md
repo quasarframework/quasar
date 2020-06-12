@@ -148,13 +148,13 @@ return {
     /* optional; @quasar/app v1.4.2+;
        disables vendor chunk: */ disable: true,
 
-    add: ['src/plugins/my-special-plugin'],
+    add: [ 'src/plugins/my-special-plugin' ],
     remove: ['axios', 'vue$']
   }
 }
 ```
 
-### Property: framework
+### Property: framework <q-badge align="top" label="@quasar/app v2 specs" />
 Tells the CLI what Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components and more.
 
 Filling "components" and "directives" is required only if "all" is set to `false`.
@@ -239,7 +239,7 @@ devServer: {
 }
 ```
 
-### Property: build
+### Property: build <q-badge align="top" label="@quasar/app v2 specs" />
 | Property | Type | Description |
 | --- | --- | --- |
 | transpile | Boolean | Enables or disables Babel transpiling. |
@@ -281,11 +281,10 @@ The following properties of `build` are automatically configured by Quasar CLI d
 | extractCSS | Boolean | Extract CSS from Vue files |
 | sourceMap | Boolean | Use source maps |
 | minify | Boolean | Minify code (html, js, css) |
-| webpackManifest | Boolean | Improves caching strategy. Use a webpack manifest (runtime) file to avoid cache bust on vendor chunk changing hash on each build. |
 
 If, for example, you run "quasar build --debug", sourceMap and extractCSS will be set to "true" regardless of what you configure.
 
-### Property: htmlVariables
+### Property: htmlVariables <q-badge align="top" label="@quasar/app v2 specs" />
 
 You can define and then reference variables in `src/index.template.html`, like this:
 ```js
@@ -323,7 +322,7 @@ sourceFiles: {
 }
 ```
 
-### Example setting env for dev/build
+### Example setting env for dev/build <q-badge align="top" label="@quasar/app v2 specs" />
 ```js
 build: {
   env: {

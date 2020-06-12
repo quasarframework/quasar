@@ -217,6 +217,15 @@ class QuasarConfig {
       cfg.framework.config = {}
     }
 
+    // legacy; left here so it won't break older App Extensions
+    if (!cfg.framework.components) {
+      cfg.framework.components = []
+    }
+    // legacy; left here so it won't break older App Extensions
+    if (!cfg.framework.directives) {
+      cfg.framework.directives = []
+    }
+
     if (this.ctx.dev) {
       if (this.opts.host) {
         cfg.devServer.host = this.opts.host

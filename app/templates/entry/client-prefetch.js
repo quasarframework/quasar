@@ -48,6 +48,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
   // async components are resolved.
   router.beforeResolve((to, from, next) => {
     const
+      urlPath = window.location.href.replace(window.location.origin, ''),
       matched = getMatchedComponents(to, router),
       prevMatched = getMatchedComponents(from, router)
 
@@ -101,6 +102,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
         currentRoute: to,
         previousRoute: from,
         redirect,
+        urlPath,
         publicPath
       })),
       Promise.resolve()
