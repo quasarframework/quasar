@@ -26,7 +26,9 @@ export default {
       '_'
     ),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    singleDay: 'ദിവസം',
+    pluralDay: 'ദിവസങ്ങൾ'
   },
   table: {
     noData: 'ഡാറ്റ ലഭ്യമല്ല',

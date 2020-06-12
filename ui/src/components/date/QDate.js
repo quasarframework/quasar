@@ -152,11 +152,11 @@ export default Vue.extend({
       if (model.dateHash === null) { return ' --- ' }
 
       let date
-      if (this.$props.multiple === true) { return this.totalSelectedDates + ' selected' }
+      if (this.$props.multiple === true) { return this.totalSelectedDates + ' ' + (this.totalSelectedDates === 1 ? this.computedLocale.singleDay : this.computedLocale.pluralDay) }
       else if (this.$props.range === true && Array.isArray(this.dates) && Array.isArray(this.dates[0])) {
         date = this.dates[0]
         return this.computedLocale.monthsShort[ date[0].getMonth() ] + ' ' +
-          date[0].getDate() + ' - ' + (date.length === 2 ? this.computedLocale.monthsShort[ date[1].getMonth() ] + ' ' +
+          date[0].getDate() + '\u2014' + (date.length === 2 ? this.computedLocale.monthsShort[ date[1].getMonth() ] + ' ' +
           date[1].getDate() : ' --- ')
       }
       if (this.calendar !== 'persian') {
@@ -183,18 +183,18 @@ export default Vue.extend({
         ? this.subtitle
         : (
           this.$props.multiple === true && this.minSelectedDate !== null && this.maxSelectedDate !== null
-            ? this.computedLocale.monthsShort[this.minSelectedDate.getMonth()] + ' ' +
+            ? this.computedLocale.monthsShort[this.minSelectedDate.getMonth()] +
               (
                 this.minSelectedDate.getFullYear() !== this.maxSelectedDate.getFullYear()
-                  ? this.minSelectedDate.getFullYear() + ' - ' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()] + ' '
+                  ? ' ' + this.minSelectedDate.getFullYear() + '\u2014' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()] + ' '
                   : (
                     this.minSelectedDate.getMonth() !== this.maxSelectedDate.getMonth()
-                      ? '- ' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()] + ' '
+                      ? '\u2014' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()]
                       : ''
                   )
-              ) + this.maxSelectedDate.getFullYear()
+              ) + ' ' + this.maxSelectedDate.getFullYear()
             : (this.$props.range === true && Array.isArray(this.dates) && Array.isArray(this.dates[0])
-              ? this.dates[0][0].getFullYear() + (this.dates[0].length > 1 && this.dates[0][0].getFullYear() !== this.dates[0][1].getFullYear() ? ' - ' + this.dates[0][1].getFullYear() : '')
+              ? this.dates[0][0].getFullYear() + (this.dates[0].length > 1 && this.dates[0][0].getFullYear() !== this.dates[0][1].getFullYear() ? '\u2014' + this.dates[0][1].getFullYear() : '')
               : (this.extModel.year !== null
                 ? this.extModel.year
                 : ' --- '))
