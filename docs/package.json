@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Official Quasar Docs Website",
   "productName": "quasar-docs",
-  "cordovaId": "org.cordova.quasar.app",
   "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
   "private": true,
   "scripts": {
@@ -21,7 +20,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0",
+    "@quasar/app": "^2.0.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.0",
@@ -46,9 +45,13 @@
     "yarn": ">= 1.6.0"
   },
   "browserslist": [
-    "last 3 version, not dead"
-  ],
-  "resolutions": {
-    "@babel/parser": "7.7.5"
-  }
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions"
+  ]
 }

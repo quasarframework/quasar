@@ -5,7 +5,8 @@ related:
   - /quasar-cli/quasar-conf-js
 ---
 
-> This guide refers to upgrading a Quasar app using `@quasar/app` v1 to v2.
+> * This guide refers to upgrading a Quasar app using `@quasar/app` v1 to using v2.
+> * Please note that `@quasar/app` and `quasar` are different packages (one is the Quasar App CLI and one is the Quasar UI), each one with its own version.
 
 ## What's new in v2
 

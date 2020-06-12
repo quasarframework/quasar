@@ -34,6 +34,12 @@ module.exports = function (chain, cfg) {
     ...cfg.pwa.workboxOptions
   }
 
+  if (cfg.ctx.dev) {
+    // dev resources are not optimized (contain maps, unminified code)
+    // so they might be larger than the default maximum size for caching
+    opts.maximumFileSizeToCacheInBytes = Number.MAX_SAFE_INTEGER
+  }
+
   if (cfg.ctx.mode.ssr) {
     opts.exclude = opts.exclude || []
     opts.exclude.push('../quasar.client-manifest.json')
