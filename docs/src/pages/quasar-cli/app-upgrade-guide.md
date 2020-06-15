@@ -24,9 +24,13 @@ related:
 
 ## Upgrade Guide
 
-_It's recommended that you delete `yarn.lock` / `package-lock.json` (and `node_modules` folder) before upgrading, otherwise we've seen issues with Yarn and NPM messing up the depedencies and generating core-js errors._
-
 ### Required steps
+
+* Dependencies
+  - remove "resolutions" > "@babel/parser" if it's in your `/package.json`
+  - yarn/npm install @quasar/app v2: `yarn add --dev @quasar/app@^2.0.0` (or `npm install --save-dev @quasar/app@^2.0.0`)
+  - if you are using PWA (or SSR+PWA) mode: yarn/npm install workbox-webpack-plugin@^5.0.0 (or ^4.0.0 -- v4 came with @quasar/app v1) -- this package is no longer supplied by "@quasar/app"
+  - yarn/npm install core-js v3: `yarn add core-js@^3.0.0` (or `npm install --save core-js@^3.0.0`)
 
 * Edit your `/quasar.conf.js` file:
   - delete framework > "components" and "directives" fields
@@ -37,9 +41,6 @@ _It's recommended that you delete `yarn.lock` / `package-lock.json` (and `node_m
   - edit your "build" > "env": remove the use of JSON.stringify(); instead of `someProp: JSON.stringify('some-value')` -> `someProp: 'some-value`
 
 * Edit your `/package.json` file:
-  - remove "resolutions" > "@babel/parser" if it's there
-  - yarn/npm install workbox-webpack-plugin@^5.0.0 (or ^4.0.0) if you are using PWA mode (this package is no longer supplied by "@quasar/app")
-  - make sure "devDependencies" > "@quasar/app" is set to "^2.0.0" (then yarn/npm install)
   - remove "cordovaId" and "capacitorId" if they are there
   - update "browserslist"; [what it does](/quasar-cli/browser-compatibility); the default content is:
 
