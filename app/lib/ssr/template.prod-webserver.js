@@ -57,7 +57,7 @@ module.exports.renderToString = function (opts, cb) {
 
 <% if (flags.meta) { %>
   renderer.renderToString(ctx, (err, html) => {
-    cb(err, err ? html : ctx.$getMetaHTML(html, ctx)) }
+    cb(err, err ? html : ctx.$getMetaHTML(html, ctx))
   })
 <% } else { %>
   renderer.renderToString(ctx, cb)
