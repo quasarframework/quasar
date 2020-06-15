@@ -65,8 +65,8 @@ module.exports = function (cfg, configName) {
   chain.resolve.extensions
     .merge(
       cfg.supportTS !== false
-        ? [ '.mjs', '.js', '.vue', '.json', '.wasm' ]
-        : [ '.mjs', '.ts', '.js', '.vue', '.json', '.wasm' ]
+        ? [ '.mjs', '.ts', '.js', '.vue', '.json', '.wasm' ]
+        : [ '.mjs', '.js', '.vue', '.json', '.wasm' ]
     )
 
   chain.resolve.modules
