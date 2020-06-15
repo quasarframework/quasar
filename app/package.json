@@ -61,6 +61,8 @@
     "ci-info": "2.0.0",
     "compression-webpack-plugin": "4.0.0",
     "copy-webpack-plugin": "6.0.2",
+    "core-js": "^3.6.5",
+    "core-js-compat": "^3.6.5",
     "cross-spawn": "7.0.3",
     "css-loader": "3.5.3",
     "cssnano": "4.1.10",
