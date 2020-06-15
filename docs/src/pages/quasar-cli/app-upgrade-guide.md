@@ -30,7 +30,7 @@ related:
   - remove "resolutions" > "@babel/parser" if it's in your `/package.json`
   - yarn/npm install @quasar/app v2: `yarn add --dev @quasar/app@^2.0.0` (or `npm install --save-dev @quasar/app@^2.0.0`)
   - if you are using PWA (or SSR+PWA) mode: yarn/npm install workbox-webpack-plugin@^5.0.0 (or ^4.0.0 -- v4 came with @quasar/app v1) -- this package is no longer supplied by "@quasar/app"
-  - yarn/npm install core-js v3: `yarn add core-js@^3.0.0` (or `npm install --save core-js@^3.0.0`)
+  - yarn/npm install core-js v3: `yarn add core-js@^3.0.0` (or `npm install core-js@^3.0.0`)
 
 * Edit your `/quasar.conf.js` file:
   - delete framework > "components" and "directives" fields
