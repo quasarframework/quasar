@@ -2,8 +2,13 @@ import {
   QuasarIconSets,
   QuasarLanguageCodes,
   DeepPartial,
-  QuasarPluginOptions
+  QuasarPluginOptions,
 } from "quasar";
+
+interface QuasarMobileFrameworkInnerConfiguration {
+  iosStatusBarPadding: boolean;
+  backButtonExit: boolean | "*" | string[];
+}
 
 interface QuasarFrameworkInnerConfiguration {
   brand: {
@@ -16,13 +21,8 @@ interface QuasarFrameworkInnerConfiguration {
     info: string;
     warning: string;
   };
-  capacitor: {
-    iosStatusBarPadding: boolean;
-  };
-  cordova: {
-    iosStatusBarPadding: boolean;
-    backButtonExit: boolean;
-  };
+  capacitor: QuasarMobileFrameworkInnerConfiguration;
+  cordova: QuasarMobileFrameworkInnerConfiguration;
   dark: boolean | "auto";
   loading: {
     delay: number;
