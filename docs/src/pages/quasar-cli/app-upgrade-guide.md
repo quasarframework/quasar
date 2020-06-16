@@ -25,12 +25,14 @@ related:
 
 ## Upgrade Guide
 
+Following this guide should take you at most 5 minutes to complete.
+
 ### Required steps
 
 * Dependencies
   - remove "resolutions" > "@babel/parser" if it's in your `/package.json`
   - yarn/npm install @quasar/app v2: `yarn add --dev @quasar/app@^2.0.0` (or `npm install --save-dev @quasar/app@^2.0.0`)
-  - if you are using PWA (or SSR+PWA) mode: yarn/npm install workbox-webpack-plugin@^5.0.0 (or ^4.0.0 -- v4 came with @quasar/app v1) -- this package is no longer supplied by "@quasar/app"
+  - if you are using PWA (or SSR+PWA) mode, you'll also need to install workbox-webpack-plugin@^5.0.0 (or ^4.0.0 -- v4 came with @quasar/app v1) -- this package is no longer supplied by "@quasar/app": `yarn add --dev workbox-webpack-plugin@^5.0.0` (or `npm install --save-dev workbox-webpack-plugin@^5.0.0`)
   - yarn/npm install core-js v3: `yarn add core-js@^3.0.0` (or `npm install core-js@^3.0.0`)
 
 * Edit your `/quasar.conf.js` file:
@@ -39,7 +41,7 @@ related:
   - remove "supportIE" (it's now handled through package.json > browserslist)
   - remove "build" > "modern" if it's there (no longer needed due to the superior [browser compatibility](/quasar-cli/browser-compatibility) strategy)
   - remove "build" > "webpackManifest" and "forceDevPublicPath" (no longer used/necessary)
-  - edit your "build" > "env": remove the use of JSON.stringify(); instead of `someProp: JSON.stringify('some-value')` -> `someProp: 'some-value`
+  - edit your "build" > "env": remove the use of JSON.stringify(); instead of `someProp: JSON.stringify('some-value')` -> `someProp: 'some-value'`
 
 * Edit your `/package.json` file:
   - remove "cordovaId" and "capacitorId" if they are there
@@ -59,7 +61,7 @@ related:
   ]
   ```
 
-  IE11 support is now enabled only if "browserslist" contains it (`ie 11` or `ie >= 11`).
+  IE11 support is now enabled only if "browserslist" contains it (`ie 11` or `ie >= 11`) or if any of your queries silently includes it (example: `> 0.5%`).
 
 * Update to the newly `/public` folder (which replaces the old `/src/statics`):
   - do a global search and replace for "statics/" and replace with "" (empty string), including in `/quasar.conf.js`.
