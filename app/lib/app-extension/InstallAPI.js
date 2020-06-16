@@ -230,7 +230,7 @@ module.exports = class InstallAPI {
 
   /**
    * Render a folder from extension templates into devland.
-   * Needs a relative path to the folder of the file calling render().
+   * Needs a path (to a folder) relative to the path of the file where render() is called
    *
    * @param {string} templatePath (relative path to folder to render in app)
    * @param {object} scope (optional; rendering scope variables)
@@ -242,14 +242,12 @@ module.exports = class InstallAPI {
 
     if (!fs.existsSync(source)) {
       warn()
-      warn(`Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...`)
-      warn()
+      warn(`Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...\n`)
       return
     }
     if (!fs.lstatSync(source).isDirectory()) {
       warn()
-      warn(`Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...`)
-      warn()
+      warn(`Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...\n`)
       return
     }
 
@@ -262,7 +260,7 @@ module.exports = class InstallAPI {
 
   /**
    * Render a file from extension template into devland
-   * Reads a relative path to a file of the file calling render()
+   * Needs a path (to a file) relative to the path of the file where renderFile() is called
    *
    * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)
    * @param {string} relativeTargetPath (file path relative to the root of the app)
@@ -276,14 +274,12 @@ module.exports = class InstallAPI {
 
     if (!fs.existsSync(sourcePath)) {
       warn()
-      warn(`⚠️  Extension(${this.extId}): render() - cannot locate ${relativeSourcePath}. Skipping...`)
-      warn()
+      warn(`Extension(${this.extId}): renderFile() - cannot locate ${relativeSourcePath}. Skipping...\n`)
       return
     }
     if (fs.lstatSync(sourcePath).isDirectory()) {
       warn()
-      warn(`⚠️  Extension(${this.extId}): render() - "${relativeSourcePath}" is a file instead of folder. Skipping...`)
-      warn()
+      warn(`Extension(${this.extId}): renderFile() - "${relativeSourcePath}" is a folder instead of a file. Skipping...\n`)
       return
     }
 

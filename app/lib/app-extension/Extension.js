@@ -1,16 +1,20 @@
+const fs = require('fs-extra')
+const path = require('path')
+
 const { log, warn, fatal } = require('../helpers/logger')
 const appPaths = require('../app-paths')
 const { spawnSync } = require('../helpers/spawn')
 const extensionJson = require('./extension-json')
-const fs = require('fs-extra')
-const path = require('path')
 
 async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
   const isBinary = require('isbinaryfile').isBinaryFileSync
   const compileTemplate = require('lodash.template')
 
-  if (overwritePrompt && fs.existsSync(targetPath)) {
-    const answer = await promptOverwrite({ targetPath, options: ['overwrite', 'skip'] })
+  if (overwritePrompt === true && fs.existsSync(targetPath)) {
+    const answer = await promptOverwrite({
+      targetPath,
+      options: [ 'overwrite', 'skip' ]
+    })
 
     if (answer.action === 'skip') {
       return
@@ -29,7 +33,7 @@ async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePr
   }
 }
 
-async function promptOverwrite ({ targetPath, options = ['overwrite', 'overwriteAll', 'skip', 'skipAl'] }) {
+async function promptOverwrite ({ targetPath, options = [ 'overwrite', 'overwriteAll', 'skip', 'skipAll' ] }) {
   const inquirer = require('inquirer')
 
   const choices = [

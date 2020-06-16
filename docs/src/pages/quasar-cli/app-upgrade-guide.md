@@ -21,6 +21,7 @@ related:
 * Simpler quasar.conf.js > build > env; you no longer need to JSON.stringify each value (you now must not!)
 * Simpler quasar.conf.js > framework config Object; "all" prop has been renamed to "importStrategy" and it allows "all" or (the default) "auto" values; "components" and "directives" are no longer taken into account because you don't need them
 * New param for boot files and preFetch (publicPath); the "redirect()" method now fully supports a Vue Router location Object (on all build modes, on server-side or client-side); preFetch hook now also receive "urlPath" param
+* Lots of other improvements and fixes
 
 ## Upgrade Guide
 

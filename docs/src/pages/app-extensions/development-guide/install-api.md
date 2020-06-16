@@ -150,8 +150,8 @@ Needs a relative path to the folder of the file calling render().
 
 ```js
 /**
- * Render a folder from extension templates into devland.
- * Needs a relative path to the folder of the file calling render().
+ * Render a folder from extension templates into devland
+ * Needs a path (to a folder) relative to the path of the file where render() is called
  *
  * @param {string} templatePath (relative path to folder to render in app)
  * @param {object} scope (optional; rendering scope variables)
@@ -217,12 +217,12 @@ Possibilities are limited only by your imagination.
 
 ## api.renderFile
 
-Renders a single file to the root of the app. Similar to the render function, but for a single file.
+Similar with api.render() with the difference that this method renders a single file.
 
 ```js
 /**
  * Render a file from extension template into devland
- * Reads a relative path to a file of the file calling render()
+ * Needs a path (to a file) relative to the path of the file where renderFile() is called
  *
  * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)
  * @param {string} relativeTargetPath (file path relative to the root of the app)
