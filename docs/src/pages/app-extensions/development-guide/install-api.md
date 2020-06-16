@@ -225,12 +225,14 @@ Similar with api.render() with the difference that this method renders a single 
  * Needs a path (to a file) relative to the path of the file where renderFile() is called
  *
  * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)
- * @param {string} relativeTargetPath (file path relative to the root of the app)
+ * @param {string} relativeTargetPath (file path relative to the root of the app -- including filename!)
  * @param {object} scope (optional; rendering scope variables)
  */
-api.renderFile('./path/to/a/template/file', 'path/relative/to/app/root', {
+api.renderFile('./path/to/a/template/filename', 'path/relative/to/app/root/filename', {
   prompts: api.prompts
 })
+
+api.renderFile('./my-file.json', 'src/my-file.json')
 ```
 
 ## api.getPersistentConf

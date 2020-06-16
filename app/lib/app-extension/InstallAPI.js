@@ -263,7 +263,7 @@ module.exports = class InstallAPI {
    * Needs a path (to a file) relative to the path of the file where renderFile() is called
    *
    * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)
-   * @param {string} relativeTargetPath (file path relative to the root of the app)
+   * @param {string} relativeTargetPath (file path relative to the root of the app -- including filename!)
    * @param {object} scope (optional; rendering scope variables)
    */
   renderFile (relativeSourcePath, relativeTargetPath, scope) {
