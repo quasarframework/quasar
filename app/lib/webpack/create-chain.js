@@ -14,7 +14,7 @@ function getDependenciesRegex (list) {
   const deps = list.map(dep => {
     if (typeof dep === 'string') {
       return path.join('node_modules', dep, '/')
-        .replace(/\//g, '[\\\\/]') // windows support
+        .replace(/\\/g, '[\\\\/]') // windows support
     }
     else if (dep instanceof RegExp) {
       return dep.source
