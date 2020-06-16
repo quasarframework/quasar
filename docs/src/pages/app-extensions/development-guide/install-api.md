@@ -215,6 +215,24 @@ const message = 'This is content when we don\'t have "Feature X"'
 
 Possibilities are limited only by your imagination.
 
+## api.renderFile
+
+Renders a single file to the root of the app. Similar to the render function, but for a single file.
+
+```js
+/**
+ * Render a file from extension template into devland
+ * Reads a relative path to a file of the file calling render()
+ *
+ * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)
+ * @param {string} relativeTargetPath (file path relative to the root of the app)
+ * @param {object} scope (optional; rendering scope variables)
+ */
+api.renderFile('./path/to/a/template/file', 'path/relative/to/app/root', {
+  prompts: api.prompts
+})
+```
+
 ## api.getPersistentConf
 
 Get the internal persistent config of this extension. Returns empty object if it has none.
