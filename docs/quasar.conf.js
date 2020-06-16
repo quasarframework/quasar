@@ -22,7 +22,6 @@ module.exports = function (ctx) {
     // preFetch: true,
 
     build: {
-      scopeHoisting: true,
       vueRouterMode: 'history',
       showProgress: ctx.dev,
       distDir: 'dist/quasar.dev',

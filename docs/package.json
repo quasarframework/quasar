@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "core-js": "^3.6.5",
     "docsearch.js": "^2.6.2",
     "prismjs": "^1.15.0",
     "quasar": "^1.0.0"
@@ -36,17 +37,18 @@
     "pug": "^2.0.3",
     "pug-plain-loader": "^1.0.0",
     "raw-loader": "^4.0.0",
-    "toml": "^3.0.0"
+    "toml": "^3.0.0",
+    "workbox-webpack-plugin": "^5.1.3"
   },
   "browserslist": [
-    "last 5 Chrome versions",
-    "last 5 Firefox versions",
+    "last 4 Chrome versions",
+    "last 4 Firefox versions",
     "last 2 Edge versions",
-    "last 5 Safari versions",
-    "last 5 Android versions",
-    "last 5 ChromeAndroid versions",
-    "last 5 FirefoxAndroid versions",
-    "last 5 iOS versions"
+    "last 4 Safari versions",
+    "last 4 Android versions",
+    "last 4 ChromeAndroid versions",
+    "last 4 FirefoxAndroid versions",
+    "last 4 iOS versions"
   ],
   "engines": {
     "node": ">= 10.0.0",

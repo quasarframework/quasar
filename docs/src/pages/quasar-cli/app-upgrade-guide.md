@@ -5,7 +5,7 @@ related:
   - /quasar-cli/quasar-conf-js
 ---
 
-> * This guide refers to upgrading a Quasar app using `@quasar/app` v1 to using v2.
+> * This guide refers to upgrading a Quasar app from `@quasar/app` v1 to using v2.
 > * Please note that `@quasar/app` and `quasar` are different packages (one is the Quasar App CLI and one is the Quasar UI), each one with its own version.
 
 ## What's new in v2
@@ -19,7 +19,7 @@ related:
 * Capacitor v2 and Workbox v5 support
 * Simpler quasar.conf.js > build > transpileDependencies; it now supports String (auto transforms it to `/node_modules/...') and Regexes too
 * Simpler quasar.conf.js > build > env; you no longer need to JSON.stringify each value (you now must not!)
-* Simpler quasar.conf.js > framework config Object; "all" prop has been renamed to "importStrategy" and it allows "all" or (the default) "auto" values; "components" and "directives" are no longer taken into account because you don't need them
+* Simpler quasar.conf.js > framework config Object; "all" prop has been renamed to "importStrategy" and it allows "all" or "auto" (the default) values; "components" and "directives" are no longer taken into account because you don't need them
 * New param for boot files and preFetch (publicPath); the "redirect()" method now fully supports a Vue Router location Object (on all build modes, on server-side or client-side); preFetch hook now also receive "urlPath" param
 * Lots of other improvements and fixes
 
