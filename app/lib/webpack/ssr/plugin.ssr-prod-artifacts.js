@@ -30,7 +30,6 @@ module.exports = class SsrProdArtifacts {
 
       if (appPkg.dependencies !== void 0) {
         delete appPkg.dependencies['@quasar/extras']
-        delete appPkg.dependencies['core-js']
       }
 
       const appDeps = getFixedDeps(appPkg.dependencies || {})
@@ -45,14 +44,20 @@ module.exports = class SsrProdArtifacts {
         scripts: {
           start: 'node index.js'
         },
-        dependencies: Object.assign(appDeps, {
-          'compression': '^1.0.0',
-          'express': '^4.0.0',
-          'lru-cache': cliDeps['lru-cache'],
-          'vue': cliDeps.vue,
-          'vue-server-renderer': cliDeps['vue-server-renderer'],
-          'vue-router': cliDeps['vue-router']
-        }),
+        dependencies: Object.assign(
+          appDeps,
+          {
+            'compression': '^1.0.0',
+            'express': '^4.0.0',
+            'lru-cache': cliDeps['lru-cache'],
+            'vue': cliDeps.vue,
+            'vue-server-renderer': cliDeps['vue-server-renderer'],
+            'vue-router': cliDeps['vue-router']
+          },
+          this.cfg.build.transpile === true
+            ? { '@quasar/babel-preset-app': cliDeps['@quasar/babel-preset-app'] }
+            : {}
+        ),
         engines: appPkg.engines,
         quasar: { ssr: true }
       }
