@@ -17,9 +17,7 @@ export default function () {
     routes,
 
     scrollBehavior (_, __, savedPosition) {
-      return new Promise(resolve => {
-        resolve(savedPosition || { x: 0, y: 0 })
-      })
+      return savedPosition || { x: 0, y: 0 }
     },
 
     // Leave these as is and change from quasar.conf.js instead!
