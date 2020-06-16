@@ -57,6 +57,23 @@ server {
 }
 ```
 
+## Important Hosting Configuration
+
+It's important that you do not allow browsers to cache the `index.html` file. Because otherwise updates to this file or to your app might slip through the cracks for browsers that load the index.html from cache.
+
+This is why you must always make sure to add `"Cache-Control": "no-cache"` to the headers of the `index.html` file via your hosting service.
+
+As an example how this is done for Google Firebase, you would add the following to the `firebase.json` configuration:
+
+```json
+{
+  "hosting": {
+    "headers": [
+      { "source":"/index.html", "headers": [{"key": "Cache-Control", "value": "no-cache"}] }
+    ]
+  }
+}
+```
 
 ## Deploying with Now.sh
 Deploying your Quasar application with [now](https://zeit.co/now) is really easy.
