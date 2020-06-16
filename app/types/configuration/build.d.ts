@@ -136,9 +136,9 @@ interface QuasarStaticBuildConfiguration {
    */
   uglifyOptions: TerserPluginOptions["terserOptions"];
   /**
-   * Preload chunks when browser is idle to improve user’s later navigation to the other pages.
+   * Preload chunks when browser is idle to improve user’s later navigation to the other pages. This options is ignored for dev builds.
    *
-   * @default true
+   * @default false
    */
   preloadChunks: boolean;
   /** Options to supply to `sass-loader` for `.scss` files. */
