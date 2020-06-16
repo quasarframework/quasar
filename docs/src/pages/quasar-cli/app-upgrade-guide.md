@@ -12,7 +12,7 @@ related:
 
 * [Browser compatibility](/quasar-cli/browser-compatibility) is now clearer expressed.
 * The JS transpilation (with the help of Babel) has been rethought from the ground up (now using core-js v3). It will now transpile based on the [Browser compatibility](/quasar-cli/browser-compatibility) that you configure. It will no longer go transpiling directly to ES5.
-* The "modern build" is no longer necessary due to the above. However, if you want to disable transpiling, now you can: quasar.conf.js > build > transpile: false.
+* The "modern build" is no longer necessary due to the above. However, if you want to disable transpiling (it's perfectly equivalent), now you can: quasar.conf.js > build > transpile: false.
 * Support for a `/public` folder which replaces `/src/statics`. The new folder will allow you to supply static content at the root/app base level, rather than as statics/*. One useful example: robots.txt
 * SSR mode now supports a custom publicPath too
 * The configured publicPath is now applied to dev mode by default
@@ -45,7 +45,7 @@ Following this guide should take you at most 5 minutes to complete.
 
 * Edit your `/package.json` file:
   - remove "cordovaId" and "capacitorId" if they are there
-  - update "browserslist"; [what it does](/quasar-cli/browser-compatibility); the default content is:
+  - update "browserslist"; [what it does](/quasar-cli/browser-compatibility); get inspired from the default value which is:
 
   ```js
   "browserslist": [
