@@ -59,6 +59,7 @@ module.exports = class SsrProdArtifacts {
             : {}
         ),
         engines: appPkg.engines,
+        browserslist: appPkg.browserslist,
         quasar: { ssr: true }
       }
 
