@@ -1,5 +1,6 @@
 const { green, grey, underline } = require('chalk')
 
+const { getBrowsersBanner } = require('./browsers-support')
 const getPackageJson = require('./get-package-json')
 const quasarVersion = getPackageJson('quasar').version
 const cliAppVersion = getPackageJson('@quasar/app').version
@@ -44,7 +45,7 @@ module.exports = function (argv, cmd, details) {
   }
 
   if (details) {
-    banner += `\n Modern build...... ${details.modern === true ? green('yes (ES6+)') : 'no (legacy ES5); use "--modern" param for ES6+'}`
+    banner += `\n Transpiled JS..... ${details.transpileBanner}`
     if (argv['skip-pkg'] !== true) {
       banner += `
  ==================
@@ -102,14 +103,18 @@ module.exports = function (argv, cmd, details) {
   }
 
   console.log(banner + '\n')
+
+  if (!details) {
+    console.log(getBrowsersBanner())
+  }
 }
 
-module.exports.devCompilationSuccess = function (ctx, url, appDir, modern) {
+module.exports.devCompilationSuccess = function (ctx, url, appDir, transpileBanner) {
   return `App dir........... ${green(appDir)}
     App URL........... ${green(url)}
     Dev mode.......... ${green(ctx.modeName + (ctx.mode.ssr && ctx.mode.pwa ? ' + pwa' : ''))}
     Pkg quasar........ ${green('v' + quasarVersion)}
     Pkg @quasar/app... ${green('v' + cliAppVersion)}
-    Modern build...... ${modern === true ? green('yes (ES6+)') : 'no (legacy ES5); use "--modern" param for ES6+'}
+    Transpiled JS..... ${transpileBanner}
   `
 }

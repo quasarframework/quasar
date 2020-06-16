@@ -1,15 +1,62 @@
+const fs = require('fs-extra')
+const path = require('path')
+
 const { log, warn, fatal } = require('../helpers/logger')
 const appPaths = require('../app-paths')
 const { spawnSync } = require('../helpers/spawn')
 const extensionJson = require('./extension-json')
 
-async function renderFolders ({ source, rawCopy, scope }) {
-  const fs = require('fs-extra')
-  const path = require('path')
-  const fglob = require('fast-glob')
-  const isBinary = require('isbinaryfile').isBinaryFileSync
+async function promptOverwrite ({ targetPath, options }) {
   const inquirer = require('inquirer')
+
+  const choices = [
+    { name: 'Overwrite', value: 'overwrite' },
+    { name: 'Overwrite all', value: 'overwriteAll' },
+    { name: 'Skip (might break extension)', value: 'skip' },
+    { name: 'Skip all (might break extension)', value: 'skipAll' }
+  ]
+
+  const answer = await inquirer.prompt([{
+    name: 'action',
+    type: 'list',
+    message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
+    choices: options !== void 0
+      ? choices.filter(choice => options.includes(choice.value))
+      : choices,
+    default: 'overwrite'
+  }])
+  return answer
+}
+
+async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePrompt }) {
+  const isBinary = require('isbinaryfile').isBinaryFileSync
   const compileTemplate = require('lodash.template')
+
+  if (overwritePrompt === true && fs.existsSync(targetPath)) {
+    const answer = await promptOverwrite({
+      targetPath,
+      options: [ 'overwrite', 'skip' ]
+    })
+
+    if (answer.action === 'skip') {
+      return
+    }
+  }
+
+  fs.ensureFileSync(targetPath)
+
+  if (rawCopy || isBinary(sourcePath)) {
+    fs.copyFileSync(sourcePath, targetPath)
+  }
+  else {
+    const rawContent = fs.readFileSync(sourcePath, 'utf-8')
+    const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
+    fs.writeFileSync(targetPath, template(scope), 'utf-8')
+  }
+}
+
+async function renderFolders ({ source, rawCopy, scope }) {
+  const fglob = require('fast-glob')
 
   let overwrite
   const files = fglob.sync(['**/*'], { cwd: source })
@@ -35,18 +82,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
         continue
       }
       else {
-        const answer = await inquirer.prompt([{
-          name: 'action',
-          type: 'list',
-          message: `Overwrite "${path.relative(appPaths.appDir, targetPath)}"?`,
-          choices: [
-            { name: 'Overwrite', value: 'overwrite' },
-            { name: 'Overwrite all', value: 'overwriteAll' },
-            { name: 'Skip (might break extension)', value: 'skip' },
-            { name: 'Skip all (might break extension)', value: 'skipAll' }
-          ],
-          default: 'overwrite'
-        }])
+        const answer = await promptOverwrite({ targetPath })
 
         if (answer.action === 'overwriteAll') {
           overwrite = 'overwriteAll'
@@ -61,16 +97,7 @@ async function renderFolders ({ source, rawCopy, scope }) {
       }
     }
 
-    fs.ensureFileSync(targetPath)
-
-    if (rawCopy || isBinary(sourcePath)) {
-      fs.copyFileSync(sourcePath, targetPath)
-    }
-    else {
-      const rawContent = fs.readFileSync(sourcePath, 'utf-8')
-      const template = compileTemplate(rawContent, { 'interpolate': /<%=([\s\S]+?)%>/g })
-      fs.writeFileSync(targetPath, template(scope), 'utf-8')
-    }
+    renderFile({ sourcePath, targetPath, rawCopy, scope })
   }
 }
 
@@ -316,6 +343,12 @@ module.exports = class Extension {
     if (hooks.renderFolders.length > 0) {
       for (let entry of hooks.renderFolders) {
         await renderFolders(entry)
+      }
+    }
+
+    if (hooks.renderFiles.length > 0) {
+      for (let entry of hooks.renderFiles) {
+        await renderFile(entry)
       }
     }
 

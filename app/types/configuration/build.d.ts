@@ -7,18 +7,19 @@ import "../ts-helpers";
 
 interface QuasarStaticBuildConfiguration {
   /**
-   * Add dependencies for transpiling with Babel (from node_modules, which are by default not transpiled).
-   * @example [ /my-dependency/, ...]
+   * @version `@quasar/app` 2.0+
+   *
+   * Transpile JS code with Babel
+   *
+   * @default true
    */
-  transpileDependencies: RegExp[];
+  transpile: boolean;
   /**
-   * @version `@quasar/app` 1.9+
-   *
-   * Run modern build (ES6+).
-   *
-   * @default false
+   * Add dependencies for transpiling with Babel (from node_modules, which are by default not transpiled).
+   * It is ignored if "transpile" is not set to true.
+   * @example [ /my-dependency/, 'my-dep', ...]
    */
-  modern: boolean;
+  transpileDependencies: (RegExp | string)[];
   /**
    * @version `@quasar/app` 1.3.4+
    *
@@ -82,16 +83,6 @@ interface QuasarStaticBuildConfiguration {
    */
   publicPath: string;
   /**
-   * @version `@quasar/app` 1.0.6+
-   *
-   * Force use of the custom `publicPath` in dev builds also (only for SPA and PWA modes).
-   * Please make sure that this is indeed what you are looking for and that you know
-   * what you are doing, otherwise it is not recommended.
-   *
-   * @default false
-   */
-  forceDevPublicPath: boolean;
-  /**
    * Sets [Vue Router mode](https://router.vuejs.org/guide/essentials/history-mode.html).
    * History mode requires configuration on your deployment web server too.
    *
@@ -102,8 +93,6 @@ interface QuasarStaticBuildConfiguration {
    * @default 'index.html'
    */
   htmlFilename: string;
-  /** Default value is taken from `package.json > productName` field. */
-  productName: string;
   /**
    * Folder where Quasar CLI should generate the distributables.
    * Relative path to project root directory.
@@ -118,9 +107,8 @@ interface QuasarStaticBuildConfiguration {
   devtool: WebpackConfiguration["devtool"];
   /**
    * Add properties to `process.env` that you can use in your website/app JS code.
-   * Each property needs to be JSON encoded.
    *
-   * @example { SOMETHING: JSON.stringify('someValue') }
+   * @example { SOMETHING: 'someValue' }
    */
   env: { [index: string]: string };
   /**
@@ -175,12 +163,6 @@ interface QuasarDynamicBuildConfiguration {
   sourceMap: boolean;
   /** Minify code (html, js, css). */
   minify: boolean;
-  /**
-   * Improves caching strategy.
-   * Use a webpack manifest (runtime) file to avoid
-   *  cache bust on vendor chunk changing hash on each build.
-   */
-  webpackManifest: boolean;
 }
 
 declare module "quasar" {

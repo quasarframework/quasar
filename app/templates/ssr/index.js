@@ -28,17 +28,17 @@ app.use(compression({ threshold: 0 }))
 
 // serve this with no cache, if built with PWA:
 if (ssr.settings.pwa) {
-  app.use('/service-worker.js', serve('service-worker.js'))
+  app.use(ssr.resolveUrl('/service-worker.js'), serve('service-worker.js'))
 }
 
 // serve "www" folder
-app.use('/', serve('.', true))
+app.use(ssr.resolveUrl('/'), serve('.', true))
 
 // we extend the custom common dev & prod parts here
 extension.extendApp({ app, ssr })
 
 // this should be last get(), rendering with SSR
-app.get('*', (req, res) => {
+app.get(ssr.resolveUrl('*'), (req, res) => {
   res.setHeader('Content-Type', 'text/html')
 
   // SECURITY HEADERS
@@ -77,10 +77,13 @@ app.get('*', (req, res) => {
         res.redirect(err.url)
       }
       else if (err.code === 404) {
+        // Should reach here only if no "catch-all" route
+        // is defined in /src/routes
         res.status(404).send('404 | Page Not Found')
       }
       else {
-        // Render Error Page or Redirect
+        // Render Error Page or
+        // create a route (/src/routes) for an error page and redirect to it
         res.status(500).send('500 | Internal Server Error')
         if (ssr.settings.debug) {
           console.error(`500 on ${req.url}`)

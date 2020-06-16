@@ -19,7 +19,7 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     d: 'devtools'
   },
-  boolean: ['h', 'i', 'd', 'modern'],
+  boolean: ['h', 'i', 'd'],
   string: ['m', 'T', 'H'],
   default: {
     m: 'spa'
@@ -53,7 +53,6 @@ if (argv.help) {
     --mode, -m       App mode [spa|ssr|pwa|cordova|capacitor|electron|bex] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
-    --modern         Build modern code (ES6+)
     --help, -h       Displays this message
 
     Only for Cordova mode:
@@ -80,11 +79,6 @@ ensureArgv(argv, 'dev')
 
 const banner = require('../lib/helpers/banner')
 banner(argv, 'dev')
-
-if (argv.mode !== 'spa') {
-  const installMissing = require('../lib/mode/install-missing')
-  installMissing(argv.mode, argv.target)
-}
 
 const findPort = require('../lib/helpers/net').findClosestOpenPort
 
@@ -180,6 +174,11 @@ function startVueDevtools () {
 }
 
 async function goLive () {
+  if (argv.mode !== 'spa') {
+    const installMissing = require('../lib/mode/install-missing')
+    await installMissing(argv.mode, argv.target)
+  }
+
   const DevServer = require('../lib/dev-server')
   const QuasarConfig = require('../lib/quasar-config')
   const Generator = require('../lib/generator')
@@ -199,7 +198,6 @@ async function goLive () {
   await extensionRunner.registerExtensions(ctx)
 
   const quasarConfig = new QuasarConfig(ctx, {
-    modern: argv.modern,
     port: argv.port,
     host: argv.hostname,
     onAddress: parseAddress,

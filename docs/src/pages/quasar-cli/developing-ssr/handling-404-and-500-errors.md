@@ -14,6 +14,8 @@ app.get('*', (req, res) => {
         res.redirect(err.url)
       }
       else if (err.code === 404) {
+        // should never reach here if you have a
+        // "catch-all" vue router route configured
         res.status(404).send('404 | Page Not Found')
       }
       else {
@@ -33,7 +35,7 @@ app.get('*', (req, res) => {
 })
 ```
 
-The section above is written after catching the other possible requests (like for /statics folder, the manifest.json and service worker, etc). This is where we initialize your app, along with your Router and Vue gets to render the requested page.
+The section above is written after catching the other possible requests (like for /public folder, the manifest.json and service worker, etc). This is where we initialize your app, along with your Router and Vue gets to render the requested page.
 
 ## Things to be aware of
 We'll discuss some architectural decisions that you need to be aware of. Choose whatever fits your app best.
@@ -43,19 +45,7 @@ If you define an equivalent 404 route on your Vue Router `/src/router/routes.js`
 
 ```js
 // Example of route for catching 404 with Vue Router
-{ path: '*', component: () => import('pages/error404.vue') }
-```
-
-For best performance and server load, it is recommended to avoid configuring a 404 page with Vue Router and leave the SSR production webserver handle it. In your `/src/router/routes.js` you could preferentially catch 404 only for non-SSR mode like this:
-
-```js
-// assuming you have a "routes" array
-if (process.env.MODE !== 'ssr') {
-  routes.push({
-    path: '*',
-    component: () => import('pages/error404.vue')
-  })
-}
+{ path: '*', component: () => import('pages/Error404.vue') }
 ```
 
 ### Error 500
@@ -73,7 +63,7 @@ On the `/src-ssr/index.js` example at the top of the page, notice that if the we
   else {
     // We got a 500 error here;
     // We redirect to our "error500" route newly defined at step #1.
-    res.redirect('/error500')
+    res.redirect('/error500') // keep account of publicPath though!
   }
   ```
 

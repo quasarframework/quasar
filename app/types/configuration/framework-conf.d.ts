@@ -53,27 +53,18 @@ interface QuasarBaseFrameworkObjectConfiguration {
 
 interface QuasarAutoFrameworkObjectConfiguration
   extends QuasarBaseFrameworkObjectConfiguration {
-  all: "auto";
+  importStrategy: "auto";
   /** @default 'kebab' */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
 }
 
 interface QuasarAllFrameworkObjectConfiguration
   extends QuasarBaseFrameworkObjectConfiguration {
-  all: true;
-}
-
-interface QuasarManualFrameworkObjectConfiguration
-  extends QuasarBaseFrameworkObjectConfiguration {
-  all: false;
-  components?: (keyof QuasarPluginOptions["components"])[];
-  directives?: (keyof QuasarPluginOptions["directives"])[];
+  importStrategy: "all";
 }
 
 declare module "quasar" {
   type QuasarFrameworkConfiguration =
-    | "all" // Equal to `{ all: true }`
     | QuasarAutoFrameworkObjectConfiguration
-    | QuasarAllFrameworkObjectConfiguration
-    | QuasarManualFrameworkObjectConfiguration;
+    | QuasarAllFrameworkObjectConfiguration;
 }

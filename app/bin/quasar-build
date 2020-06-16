@@ -18,7 +18,7 @@ const argv = parseArgs(process.argv.slice(2), {
     h: 'help',
     P: 'publish'
   },
-  boolean: ['h', 'd', 'u', 'i', 'modern'],
+  boolean: ['h', 'd', 'u', 'i'],
   string: ['m', 'T', 'P'],
   default: {
     m: 'spa'
@@ -57,7 +57,6 @@ if (argv.help) {
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
-    --modern        Build modern code (ES6+)
     --publish, -P   Also trigger publishing hooks (if any are specified)
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
@@ -95,23 +94,11 @@ ensureArgv(argv, 'build')
 const banner = require('../lib/helpers/banner')
 banner(argv, 'build')
 
-if (argv.mode !== 'spa') {
-  const installMissing = require('../lib/mode/install-missing')
-  installMissing(argv.mode, argv.target)
-}
-
 const { log, warn, fatal } = require('../lib/helpers/logger')
 
 const chalk = require('chalk')
 const path = require('path')
 const webpack = require('webpack')
-
-const QuasarConfig = require('../lib/quasar-config')
-const Generator = require('../lib/generator')
-const artifacts = require('../lib/artifacts')
-const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
-const extensionRunner = require('../lib/app-extension/extensions-runner')
-const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
 
 function splitConfig (webpackConfig, mode) {
   if (mode === 'ssr') {
@@ -163,6 +150,18 @@ function finalizeBuild (mode, ctx, quasarConfig) {
 }
 
 async function build () {
+  if (argv.mode !== 'spa') {
+    const installMissing = require('../lib/mode/install-missing')
+    await installMissing(argv.mode, argv.target)
+  }
+
+  const QuasarConfig = require('../lib/quasar-config')
+  const Generator = require('../lib/generator')
+  const artifacts = require('../lib/artifacts')
+  const getQuasarCtx = require('../lib/helpers/get-quasar-ctx')
+  const extensionRunner = require('../lib/app-extension/extensions-runner')
+  const regenerateTypesFeatureFlags = require('../lib/helpers/types-feature-flags')
+
   const ctx = getQuasarCtx({
     mode: argv.mode,
     target: argv.target,
@@ -266,7 +265,7 @@ async function build () {
         ? path.join(outputFolder, '..')
         : outputFolder
 
-      banner(argv, 'build', { outputFolder, modern: buildConfig.build.modern })
+      banner(argv, 'build', { outputFolder, transpileBanner: buildConfig.__transpileBanner })
 
       if (typeof buildConfig.build.afterBuild === 'function') {
         await buildConfig.build.afterBuild({ quasarConf: buildConfig })

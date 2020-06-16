@@ -13,13 +13,12 @@ module.exports = class ElectronPackageJson {
       if (pkg.dependencies) {
         pkg.dependencies = getFixedDeps(pkg.dependencies)
         delete pkg.dependencies['@quasar/extras']
+        delete pkg.dependencies['core-js']
       }
 
       // we don't need this (also, faster install time & smaller bundles)
       delete pkg.devDependencies
       delete pkg.browserslist
-      delete pkg.cordovaId
-      delete pkg.capacitorId
       delete pkg.scripts
 
       pkg.main = './electron-main.js'
