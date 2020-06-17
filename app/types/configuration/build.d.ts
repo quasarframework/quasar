@@ -135,12 +135,6 @@ interface QuasarStaticBuildConfiguration {
    * Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify).
    */
   uglifyOptions: TerserPluginOptions["terserOptions"];
-  /**
-   * Preload chunks when browser is idle to improve user’s later navigation to the other pages. This options is ignored for dev builds.
-   *
-   * @default false
-   */
-  preloadChunks: boolean;
   /** Options to supply to `sass-loader` for `.scss` files. */
   scssLoaderOptions: object;
   /** Options to supply to `sass-loader` for [`.sass`](https://github.com/webpack-contrib/sass-loader#sassoptions) files. */

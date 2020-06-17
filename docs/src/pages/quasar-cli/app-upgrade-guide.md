@@ -21,6 +21,7 @@ related:
 * Simpler quasar.conf.js > build > env; you no longer need to JSON.stringify each value (you now must not!)
 * Simpler quasar.conf.js > framework config Object; "all" prop has been renamed to "importStrategy" and it allows "all" or "auto" (the default) values; "components" and "directives" are no longer taken into account because you don't need them
 * New param for boot files and preFetch (publicPath); the "redirect()" method now fully supports a Vue Router location Object (on all build modes, on server-side or client-side); preFetch hook now also receive "urlPath" param
+* Temporarily removed quasar.conf.js > build > preloadChunks (until compatibility is ensured with html-webpack-plugin v4)
 * Lots of other improvements and fixes
 
 ## Upgrade Guide
@@ -42,6 +43,7 @@ Following this guide should take you at most 5 minutes to complete.
   - remove "build" > "modern" if it's there (no longer needed due to the superior [browser compatibility](/quasar-cli/browser-compatibility) strategy)
   - remove "build" > "webpackManifest" and "forceDevPublicPath" (no longer used/necessary)
   - edit your "build" > "env": remove the use of JSON.stringify(); instead of `someProp: JSON.stringify('some-value')` -> `someProp: 'some-value'`
+  - remove "build" > "preloadChunk" (temporarily removed until it's compatible with html-webpack-plugin v4)
 
 * Edit your `/package.json` file:
   - remove "cordovaId" and "capacitorId" if they are there

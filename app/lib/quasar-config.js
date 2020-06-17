@@ -394,7 +394,6 @@ class QuasarConfig {
       ssrPwaHtmlFilename: 'offline.html', // do NOT use index.html as name!
                                           // will mess up SSR
       vueRouterMode: 'hash',
-      preloadChunks: false,
       forceDevPublicPath: false,
       transpile: true,
       // transpileDependencies: [], // leaving here for completeness
@@ -467,10 +466,7 @@ class QuasarConfig {
       })
     }
     if (this.ctx.dev) {
-      Object.assign(cfg.build, {
-        extractCSS: false,
-        preloadChunks: false
-      })
+      cfg.build.extractCSS = false
     }
     if (this.ctx.debug) {
       cfg.build.sourceMap = true
@@ -486,8 +482,7 @@ class QuasarConfig {
       Object.assign(cfg.build, {
         htmlFilename: 'index.html',
         vueRouterMode: 'hash',
-        gzip: false,
-        preloadChunks: false
+        gzip: false
       })
     }
 
@@ -563,14 +558,11 @@ class QuasarConfig {
 
       cfg.ssr.debug = this.ctx.debug
 
-      cfg.ssr.__templateOpts = JSON.stringify(
-        Object.assign({}, cfg.ssr, {
-          preloadChunks: cfg.build.preloadChunks === true,
-          publicPath: cfg.build.publicPath
-        }),
-        null,
-        2
-      )
+      cfg.ssr.__templateOpts = JSON.stringify({
+        ...cfg.ssr,
+        publicPath: cfg.build.publicPath
+      }, null, 2)
+
       cfg.ssr.__templateFlags = {
         meta: cfg.__meta
       }

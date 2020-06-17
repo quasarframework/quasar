@@ -52,7 +52,6 @@
     "@types/webpack": "4.41.13",
     "@types/webpack-bundle-analyzer": "2.13.3",
     "@types/webpack-dev-server": "3.10.1",
-    "@vue/preload-webpack-plugin": "1.1.1",
     "archiver": "4.0.1",
     "autoprefixer": "9.8.0",
     "browserslist": "^4.12.0",

@@ -75,13 +75,8 @@ module.exports = class DevServer {
       // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
       return createBundleRenderer(bundle, {
         ...options,
-        ...(cfg.build.preloadChunks !== true
-          ? {
-            shouldPreload: () => false,
-            shouldPrefetch: () => false
-          }
-          : {}
-        ),
+        shouldPreload: () => false,
+        shouldPrefetch: () => false,
 
         // for component caching
         cache: new LRU({

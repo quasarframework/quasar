@@ -33,14 +33,6 @@ const rendererOptions = {
   runInNewContext: false
 }
 
-if (settings.preloadChunks !== true) {
-  const fn = () => false
-  Object.assign(rendererOptions, {
-    shouldPreload: fn,
-    shouldPrefetch: fn
-  })
-}
-
 const resolveUrl = url => <% if (opts.publicPath === '/') { %>url || '/'<% } else { %>url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath<% } %>
 
 // https://ssr.vuejs.org/api/#renderer-options
