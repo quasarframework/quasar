@@ -1,24 +1,19 @@
-const chalk = require('chalk')
+const { green, red } = require('chalk')
 
-module.exports = function logger (banner, color = 'green') {
-  return function (msg) {
-    console.log(
-      msg ? ` ${chalk[color](banner)} ${msg}` : ''
-    )
-  }
+const banner = '*'
+
+const logBanner = green(banner)
+const warnBanner = red(banner)
+
+module.exports.log = function (msg) {
+  console.log(msg ? ` ${logBanner} ${msg}` : '')
 }
 
-module.exports.warn = function warn (msg) {
-  if (msg) {
-    console.error(chalk.red(` ⚠️  ${msg}\n`))
-  }
-  else {
-    console.log()
-  }
+module.exports.warn = function (msg) {
+  console.warn(msg ? ` ${warnBanner} ⚠️  ${msg}\n` : '')
 }
 
-module.exports.log = function log (msg) {
-  console.log(
-    msg ? ` ${chalk.green('*')} ${msg}` : ''
-  )
+module.exports.fatal = function (msg) {
+  console.error(msg ? ` ${warnBanner} ⚠️  ${msg}` : '')
+  process.exit(1)
 }

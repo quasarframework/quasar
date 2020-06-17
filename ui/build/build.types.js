@@ -268,6 +268,13 @@ function writeIndexDTS (apis) {
 
   addQuasarLangCodes(quasarTypeContents)
 
+  // This line must be BEFORE ANY TS INSTRUCTION,
+  //  or it won't be interpreted as a TS compiler directive
+  //  but as a normal comment
+  // On Vue CLI projects `@quasar/app` isn't available,
+  //  we ignore the "missing package" error because it's the intended behaviour 
+  writeLine(contents, `// @ts-ignore`)
+  writeLine(contents, `/// <reference types="@quasar/app" />`)
   writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)
   writeLine(contents, `import { LooseDictionary } from './ts-helpers'`)
   writeLine(contents)
@@ -396,10 +403,6 @@ function writeIndexDTS (apis) {
   //  which by defaults would be ignored because inside node_modules
   //  and not directly referenced by any file
   writeLine(contents, `import './vue'`)
-  // If `@quasar/app` package is present, this works as "reference" and its types are added to compilation
-  // If it's not (Vue CLI projects) the shim serves as a fallback avoiding TS errors
-  writeLine(contents, `import './shim-quasar-app'`)
-  writeLine(contents, `import '@quasar/app'`)
   writeLine(contents, `import './shim-icon-set'`)
 
   writeFile(resolvePath('index.d.ts'), contents.join(''))

@@ -22,6 +22,7 @@ module.exports = class InstallAPI {
     this.__needsNodeModulesUpdate = false
     this.__hooks = {
       renderFolders: [],
+      renderFiles: [],
       exitLog: []
     }
   }
@@ -229,7 +230,7 @@ module.exports = class InstallAPI {
 
   /**
    * Render a folder from extension templates into devland.
-   * Needs a relative path to the folder of the file calling render().
+   * Needs a path (to a folder) relative to the path of the file where render() is called
    *
    * @param {string} templatePath (relative path to folder to render in app)
    * @param {object} scope (optional; rendering scope variables)
@@ -241,14 +242,12 @@ module.exports = class InstallAPI {
 
     if (!fs.existsSync(source)) {
       warn()
-      warn(`Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...`)
-      warn()
+      warn(`Extension(${this.extId}): render() - cannot locate ${templatePath}. Skipping...\n`)
       return
     }
     if (!fs.lstatSync(source).isDirectory()) {
       warn()
-      warn(`Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...`)
-      warn()
+      warn(`Extension(${this.extId}): render() - "${templatePath}" is a file instead of folder. Skipping...\n`)
       return
     }
 
@@ -256,6 +255,40 @@ module.exports = class InstallAPI {
       source,
       rawCopy,
       scope
+    })
+  }
+
+  /**
+   * Render a file from extension template into devland
+   * Needs a path (to a file) relative to the path of the file where renderFile() is called
+   *
+   * @param {string} relativeSourcePath (file path relative to the folder from which the install script is called)
+   * @param {string} relativeTargetPath (file path relative to the root of the app -- including filename!)
+   * @param {object} scope (optional; rendering scope variables)
+   */
+  renderFile (relativeSourcePath, relativeTargetPath, scope) {
+    const dir = getCallerPath()
+    const sourcePath = path.resolve(dir, relativeSourcePath)
+    const targetPath = appPaths.resolve.app(relativeTargetPath)
+    const rawCopy = !scope || Object.keys(scope).length === 0
+
+    if (!fs.existsSync(sourcePath)) {
+      warn()
+      warn(`Extension(${this.extId}): renderFile() - cannot locate ${relativeSourcePath}. Skipping...\n`)
+      return
+    }
+    if (fs.lstatSync(sourcePath).isDirectory()) {
+      warn()
+      warn(`Extension(${this.extId}): renderFile() - "${relativeSourcePath}" is a folder instead of a file. Skipping...\n`)
+      return
+    }
+
+    this.__hooks.renderFiles.push({
+      sourcePath,
+      targetPath,
+      rawCopy,
+      scope,
+      overwritePrompt: true
     })
   }
 

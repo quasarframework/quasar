@@ -1,7 +1,4 @@
-import { QuasarContext, QuasarConf } from "quasar";
-import "./configuration/conf";
-import "./configuration/context";
+import { QuasarContext } from "./configuration/context";
+import { QuasarConf } from "./configuration/conf";
 
-declare module "quasar" {
-  type ConfigureCallback = (context: QuasarContext) => QuasarConf;
-}
+type ConfigureCallback = (context: QuasarContext) => QuasarConf;

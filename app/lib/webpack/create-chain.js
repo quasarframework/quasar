@@ -1,13 +1,29 @@
-const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
+const merge = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+
 const WebpackProgress = require('./plugin.progress')
 const BootDefaultExport = require('./plugin.boot-default-export')
+const parseBuildEnv = require('../helpers/parse-build-env')
 
 const appPaths = require('../app-paths')
 const injectStyleRules = require('./inject.style-rules')
+
+function getDependenciesRegex (list) {
+  const deps = list.map(dep => {
+    if (typeof dep === 'string') {
+      return path.join('node_modules', dep, '/')
+        .replace(/\\/g, '[\\\\/]') // windows support
+    }
+    else if (dep instanceof RegExp) {
+      return dep.source
+    }
+  })
+
+  return new RegExp(deps.join('|'))
+}
 
 module.exports = function (cfg, configName) {
   const chain = new WebpackChain()
@@ -48,7 +64,11 @@ module.exports = function (cfg, configName) {
   chain.resolve.symlinks(false)
 
   chain.resolve.extensions
-    .merge([ '.mjs', '.js', '.vue', '.json', '.wasm' ])
+    .merge(
+      cfg.supportTS !== false
+        ? [ '.mjs', '.ts', '.js', '.vue', '.json', '.wasm' ]
+        : [ '.mjs', '.js', '.vue', '.json', '.wasm' ]
+    )
 
   chain.resolve.modules
     .merge(resolveModules)
@@ -66,7 +86,7 @@ module.exports = function (cfg, configName) {
       'src-bex': appPaths.bexDir // needed for app/templates
     })
 
-  if (cfg.framework.all === true) {
+  if (cfg.framework.importStrategy === 'all') {
     chain.resolve.alias.set('quasar$', 'quasar/dist/quasar.esm.js')
   }
   if (cfg.build.vueCompiler) {
@@ -83,7 +103,7 @@ module.exports = function (cfg, configName) {
   const vueRule = chain.module.rule('vue')
     .test(/\.vue$/)
 
-  if (cfg.framework.all === 'auto') {
+  if (cfg.framework.importStrategy === 'auto') {
     vueRule.use('quasar-auto-import')
       .loader(path.join(__dirname, `loader.auto-import-${configName === 'Server' ? 'server' : 'client'}.js`))
       .options(cfg.framework.autoImportComponentCase)
@@ -99,30 +119,26 @@ module.exports = function (cfg, configName) {
       transformAssetUrls: cfg.build.transformAssetUrls
     })
 
-  if (cfg.framework.all !== true && configName !== 'Server') {
+  if (cfg.framework.importStrategy !== 'all' && configName !== 'Server') {
     chain.module.rule('transform-quasar-imports')
       .test(/\.(t|j)sx?$/)
       .use('transform-quasar-imports')
         .loader(path.join(__dirname, 'loader.transform-quasar-imports.js'))
   }
 
-  if (cfg.build.modern !== true) {
-    const vueRegex = /\.vue\.jsx?$/
+  if (cfg.build.transpile === true) {
     const nodeModulesRegex = /[\\/]node_modules[\\/]/
-    const quasarRegex = configName !== 'Server'
-      ? /[\\/]node_modules[\\/]quasar[\\/]/
-      : /[\\/]node_modules[\\/]quasar[\\/]src[\\/]/
+    const exceptionsRegex = getDependenciesRegex(
+      [ /\.vue\.js$/, configName === 'Server' ? 'quasar/src' : 'quasar', '@babel/runtime' ]
+        .concat(cfg.build.transpileDependencies)
+    )
 
     chain.module.rule('babel')
-      .test(/\.jsx?$/)
+      .test(/\.js$/)
       .exclude
         .add(filepath => (
-          // transpile js(x) in Vue files:
-          vueRegex.test(filepath) === false &&
-          // transpile Quasar:
-          quasarRegex.test(filepath) === false &&
-          // explicit config to transpile deps:
-          cfg.build.transpileDependencies.some(dep => filepath.match(dep)) === false &&
+          // Transpile the exceptions:
+          exceptionsRegex.test(filepath) === false &&
           // Don't transpile anything else in node_modules:
           nodeModulesRegex.test(filepath)
         ))
@@ -136,11 +152,9 @@ module.exports = function (cfg, configName) {
   }
 
   if (cfg.supportTS !== false) {
-    chain.resolve.extensions.add('.ts').add('.tsx')
-
     chain.module
       .rule('typescript')
-      .test(/\.tsx?$/)
+      .test(/\.ts$/)
       .use('ts-loader')
         .loader('ts-loader')
         .options({
@@ -157,7 +171,13 @@ module.exports = function (cfg, configName) {
       // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
       .use(ForkTsCheckerWebpackPlugin, [
         // custom config is merged if present, but vue option is always enabled
-        { ...(cfg.supportTS.tsCheckerConfig || {}), vue: true }
+        merge({}, cfg.supportTS.tsCheckerConfig || {}, {
+          typescript: {
+            extensions: {
+              vue: true
+            }
+          }
+        })
       ])
   }
 
@@ -215,7 +235,9 @@ module.exports = function (cfg, configName) {
     .use(VueLoaderPlugin)
 
   chain.plugin('define')
-    .use(webpack.DefinePlugin, [ cfg.build.env ])
+    .use(webpack.DefinePlugin, [
+      parseBuildEnv(cfg.build.env, cfg.__rootDefines)
+    ])
 
   if (cfg.build.showProgress) {
     chain.plugin('progress')
@@ -233,39 +255,32 @@ module.exports = function (cfg, configName) {
     const { add, remove } = cfg.vendor
     const regex = /[\\/]node_modules[\\/]/
 
-    chain.optimization
-      .splitChunks({
-        cacheGroups: {
-          vendors: {
-            name: 'vendor',
-            chunks: 'all',
-            priority: -10,
-            // a module is extracted into the vendor chunk if...
-            test: add !== void 0 || remove !== void 0
-              ? module => {
-                if (module.resource) {
-                  if (remove !== void 0 && remove.test(module.resource)) { return false }
-                  if (add !== void 0 && add.test(module.resource)) { return true }
-                }
-                return regex.test(module.resource)
+    chain.optimization.splitChunks({
+      cacheGroups: {
+        vendors: {
+          name: 'vendor',
+          chunks: 'all',
+          priority: -10,
+          // a module is extracted into the vendor chunk if...
+          test: add !== void 0 || remove !== void 0
+            ? module => {
+              if (module.resource) {
+                if (remove !== void 0 && remove.test(module.resource)) { return false }
+                if (add !== void 0 && add.test(module.resource)) { return true }
               }
-              : module => regex.test(module.resource)
-          },
-          common: {
-            name: `chunk-common`,
-            minChunks: 2,
-            priority: -20,
-            chunks: 'all',
-            reuseExistingChunk: true
-          }
+              return regex.test(module.resource)
+            }
+            : regex
+        },
+        common: {
+          name: `chunk-common`,
+          minChunks: 2,
+          priority: -20,
+          chunks: 'all',
+          reuseExistingChunk: true
         }
-      })
-
-    // extract webpack runtime and module manifest to its own file in order to
-    // prevent vendor hash from being updated whenever app bundle is updated
-    if (cfg.build.webpackManifest) {
-      chain.optimization.runtimeChunk('single')
-    }
+      }
+    })
   }
 
 
@@ -281,7 +296,7 @@ module.exports = function (cfg, configName) {
       .use(FriendlyErrorsPlugin, [{
         clearConsole: true,
         compilationSuccessInfo: ['spa', 'pwa', 'ssr'].includes(cfg.ctx.modeName)
-          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.build.modern) ] }
+          ? { notes: [ devCompilationSuccess(cfg.ctx, cfg.build.APP_URL, appPaths.appDir, cfg.__transpileBanner) ] }
           : undefined
       }])
   }
@@ -294,27 +309,25 @@ module.exports = function (cfg, configName) {
       }])
 
     if (configName !== 'Server') {
-      // copy statics to dist folder
+      // copy /public to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-      const copyArray = []
-      const staticsFolder = appPaths.resolve.src('statics')
-
-      if (fs.existsSync(staticsFolder)) {
-        copyArray.push({
-          from: staticsFolder,
-          to: 'statics',
-          ignore: ['.*'].concat(
+      const patterns = [{
+        from: appPaths.resolve.app('public'),
+        to: '.',
+        noErrorOnMissing: true,
+        globOptions: {
+          ignore: [ appPaths.resolve.app('/**/.*') ].concat(
             // avoid useless files to be copied
             ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-              ? [ 'icons/*', 'app-logo-128x128.png' ]
+              ? [ appPaths.resolve.app('public/icons'), appPaths.resolve.app('public/favicon.ico') ]
               : []
           )
-        })
-      }
+        }
+      }]
 
       chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, [ copyArray ])
+        .use(CopyWebpackPlugin, [{ patterns }])
     }
 
     // Scope hoisting ala Rollupjs

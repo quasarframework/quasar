@@ -5,6 +5,7 @@ import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 
 import { noop } from '../utils/event.js'
+import { getBodyFullscreenElement } from '../utils/dom.js'
 import { isSSR } from './Platform.js'
 
 let uid = 0
@@ -65,32 +66,6 @@ const Notifications = {
 
       positionClass[pos] = `q-notifications__list q-notifications__list--${vert} fixed column no-wrap ${classes}`
     })
-  },
-
-  mounted () {
-    if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
-      const append = (isFullscreen) => {
-        let newParent = document.body
-
-        if (isFullscreen === true) {
-          newParent = document.fullscreenElement ||
-            document.mozFullScreenElement ||
-            document.webkitFullscreenElement ||
-            document.msFullscreenElement ||
-            document.body
-        }
-
-        newParent.appendChild(this.$el)
-      }
-
-      this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
-
-      append(this.$q.fullscreen.isActive)
-    }
-  },
-
-  beforeDestroy () {
-    this.unwatchFullscreen !== void 0 && this.unwatchFullscreen()
   },
 
   methods: {
@@ -424,6 +399,31 @@ const Notifications = {
         ])
       }))
     }))
+  },
+
+  mounted () {
+    if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
+      const append = isFullscreen => {
+        const newParent = getBodyFullscreenElement(
+          isFullscreen,
+          this.$q.fullscreen.activeEl
+        )
+
+        if (this.$el.parentElement !== newParent) {
+          newParent.appendChild(this.$el)
+        }
+      }
+
+      this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
+
+      if (this.$q.fullscreen.isActive === true) {
+        append(true)
+      }
+    }
+  },
+
+  beforeDestroy () {
+    this.unwatchFullscreen !== void 0 && this.unwatchFullscreen()
   }
 }
 

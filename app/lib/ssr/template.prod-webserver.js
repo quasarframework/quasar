@@ -14,6 +14,10 @@ const bundle = require('./quasar.server-manifest.json')
 const clientManifest = require('./quasar.client-manifest.json')
 
 const settings = <%= opts %>
+<% if (opts.publicPath !== '/') { %>
+const doubleSlashRE = /\/\//
+const { publicPath } = settings
+<% } %>
 
 if (process.env.DEBUG) {
   settings.debug = true
@@ -29,28 +33,23 @@ const rendererOptions = {
   runInNewContext: false
 }
 
-if (settings.preloadChunks !== true) {
-  const fn = () => false
-  Object.assign(rendererOptions, {
-    shouldPreload: fn,
-    shouldPrefetch: fn
-  })
-}
+const resolveUrl = url => <% if (opts.publicPath === '/') { %>url || '/'<% } else { %>url ? (publicPath + url).replace(doubleSlashRE, '/') : publicPath<% } %>
 
 // https://ssr.vuejs.org/api/#renderer-options
 // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
 let renderer = createBundleRenderer(bundle, rendererOptions)
 
-module.exports.renderToString = function ({ req, res }, cb) {
+module.exports.resolveUrl = resolveUrl
+
+module.exports.renderToString = function (opts, cb) {
   const ctx = {
-    url: req.url,
-    req,
-    res
+    ...opts,
+    url: opts.req.url
   }
+
 <% if (flags.meta) { %>
   renderer.renderToString(ctx, (err, html) => {
-    if (err) { cb(err, html) }
-    else { cb(err, ctx.$getMetaHTML(html, ctx)) }
+    cb(err, err ? html : ctx.$getMetaHTML(html, ctx))
   })
 <% } else { %>
   renderer.renderToString(ctx, cb)

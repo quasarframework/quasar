@@ -22,23 +22,22 @@ $ icongenie generate -m spa -i /path/to/source/icon.png
 ## Manual instructions
 
 ```
-src/
-  statics/
-     icons/
-        favicon.ico
-        favicon-128x128.png
-        favicon-96x96.png
-        favicon-32x32.png
-        favicon-16x16.png
+public/
+   favicon.ico
+   icons/
+      favicon-128x128.png
+      favicon-96x96.png
+      favicon-32x32.png
+      favicon-16x16.png
 ```
 
 The required HTML code that goes into `/src/index.template.html` to reference the above files:
 
 ```html
-<link rel="icon" type="image/ico" href="statics/icons/favicon.ico">
-<link rel="icon" type="image/png" sizes="128x128" href="statics/icons/favicon-128x128.png">
-<link rel="icon" type="image/png" sizes="96x96" href="statics/icons/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="32x32" href="statics/icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="statics/icons/favicon-16x16.png">
+<link rel="icon" type="image/ico" href="favicon.ico">
+<link rel="icon" type="image/png" sizes="128x128" href="icons/favicon-128x128.png">
+<link rel="icon" type="image/png" sizes="96x96" href="icons/favicon-96x96.png">
+<link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
 ```
 

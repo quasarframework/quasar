@@ -106,7 +106,7 @@ export let SliderMixin = {
     },
 
     editable () {
-      return !this.disable && !this.readonly
+      return this.disable !== true && this.readonly !== true
     },
 
     decimals () {

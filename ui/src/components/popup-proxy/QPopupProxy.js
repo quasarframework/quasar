@@ -108,7 +108,7 @@ export default Vue.extend({
 
     const data = {
       ref: 'popup',
-      props: { ...props, ...this.qAttrs},
+      props: { ...props, ...this.qAttrs },
       on: this.onEvents
     }
 
