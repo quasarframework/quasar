@@ -1,5 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
+const merge = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
@@ -170,7 +171,13 @@ module.exports = function (cfg, configName) {
       // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
       .use(ForkTsCheckerWebpackPlugin, [
         // custom config is merged if present, but vue option is always enabled
-        { ...(cfg.supportTS.tsCheckerConfig || {}), vue: true }
+        merge({}, cfg.supportTS.tsCheckerConfig || {}, {
+          typescript: {
+            extensions: {
+              vue: true
+            }
+          }
+        })
       ])
   }
 

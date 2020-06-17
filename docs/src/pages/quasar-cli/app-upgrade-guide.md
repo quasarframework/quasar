@@ -21,7 +21,9 @@ related:
 * Simpler quasar.conf.js > build > env; you no longer need to JSON.stringify each value (you now must not!)
 * Simpler quasar.conf.js > framework config Object; "all" prop has been renamed to "importStrategy" and it allows "all" or "auto" (the default) values; "components" and "directives" are no longer taken into account because you don't need them
 * New param for boot files and preFetch (publicPath); the "redirect()" method now fully supports a Vue Router location Object (on all build modes, on server-side or client-side); preFetch hook now also receive "urlPath" param
+* New API method for App Extension's install script: api.renderFile()
 * Temporarily removed quasar.conf.js > build > preloadChunks (until compatibility is ensured with html-webpack-plugin v4)
+* Upgraded to latest version of Typescript (v3.9.5 as of writing these lines; will also require "quasar" v1.12.6)
 * Lots of other improvements and fixes
 
 ## Upgrade Guide
