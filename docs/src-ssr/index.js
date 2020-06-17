@@ -40,6 +40,8 @@ app.use('/', serve('.', true))
 extension.extendApp({ app })
 
 const redirects = [
+  { from: '/quasar-cli/supporting-ie', to: '/quasar-cli/browser-compatibility' },
+  { from: '/quasar-cli/modern-build', to: '/quasar-cli/browser-compatibility' },
   { from: '/layout/floating-action-button', to: '/vue-components/floating-action-button' },
   { from: '/quasar-cli/app-icons', to: '/icongenie/introduction' },
   { from: '/quasar-cli/cli-documentation/supporting-ie', to: '/quasar-cli/supporting-ie' },
@@ -84,7 +86,9 @@ app.get('*', (req, res) => {
         res.redirect(err.url)
       }
       else if (err.code === 404) {
-        res.redirect('/not-found')
+        // Should reach here only if no "catch-all" route
+        // is defined in /src/routes
+        res.status(404).send('404 | Page Not Found')
       }
       else {
         // Render Error Page or Redirect

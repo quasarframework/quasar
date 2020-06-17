@@ -28,8 +28,12 @@ return {
   framework: {
     config: {
       cordova: {
-        iosStatusBarPadding: true/false, // add the dynamic top padding on iOS mobile devices
-        backButtonExit: true/false // Quasar handles app exit on mobile phone back button
+        // add the dynamic top padding on iOS mobile devices
+        iosStatusBarPadding: true/false,
+
+        // Quasar handles app exit on mobile phone back button
+        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page']
       }
     }
   }

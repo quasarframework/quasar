@@ -9,7 +9,7 @@
  *
  * Boot files are your "main.js"
  **/
-<% if (supportIE) { %>
+<% if (__supportsIE) { %>
 import 'quasar/dist/quasar.ie.polyfills.js'
 <% } %>
 
@@ -85,6 +85,12 @@ if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream && window.n
 }
 <% } %>
 
+const publicPath = `<%= build.publicPath %>`
+<% if (build.publicPath.length > 1) { %>
+const doubleSlashRE = /\/\//
+const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
+<% } %>
+
 async function start () {
   const { app, <%= store ? 'store, ' : '' %>router } = await createApp()
 
@@ -97,16 +103,20 @@ async function start () {
   <% } %>
 
   <% if (bootNames.length > 0) { %>
-  let routeUnchanged = true
+  let hasRedirected = false
   const redirect = url => {
-    routeUnchanged = false
-    window.location.href = url
+    hasRedirected = true
+    const normalized = Object(url) === url
+      ? <%= build.publicPath.length <= 1 ? 'router.resolve(url).route.fullPath' : 'addPublicPath(router.resolve(url).route.fullPath)' %>
+      : url
+
+    window.location.href = normalized
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
   const bootFiles = [<%= bootNames.join(',') %>]
 
-  for (let i = 0; routeUnchanged === true && i < bootFiles.length; i++) {
+  for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {
       continue
     }
@@ -119,7 +129,8 @@ async function start () {
         Vue,
         ssrContext: null,
         redirect,
-        urlPath
+        urlPath,
+        publicPath
       })
     }
     catch (err) {
@@ -133,7 +144,7 @@ async function start () {
     }
   }
 
-  if (routeUnchanged === false) {
+  if (hasRedirected === true) {
     return
   }
   <% } %>
@@ -154,7 +165,7 @@ async function start () {
     // and async components...
     router.onReady(() => {
       <% if (preFetch) { %>
-      addPreFetchHooks(router<%= store ? ', store' : '' %>)
+      addPreFetchHooks(router<%= store ? ', store' : '' %>, publicPath)
       <% } %>
       appInstance.$mount('#q-app')
     })

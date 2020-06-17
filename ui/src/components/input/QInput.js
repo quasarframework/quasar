@@ -179,6 +179,8 @@ export default Vue.extend({
         const inp = e.target
         this.__moveCursorForPaste(inp, inp.selectionStart, inp.selectionEnd)
       }
+
+      this.$emit('paste', e)
     },
 
     __onInput (e) {

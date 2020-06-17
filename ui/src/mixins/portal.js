@@ -49,8 +49,8 @@ export default {
   inheritAttrs: false,
 
   props: {
-    contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object]
+    contentClass: [ Array, String, Object ],
+    contentStyle: [ Array, String, Object ]
   },
 
   methods: {
@@ -68,7 +68,7 @@ export default {
 
           if (
             this.__portal.$el.parentElement !== newParent &&
-            newParent.contains(this.$el) === true
+            newParent.contains(this.$el) === (this.__onGlobalDialog === false)
           ) {
             newParent.appendChild(this.__portal.$el)
           }
@@ -76,9 +76,13 @@ export default {
 
         this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
 
-        append(this.$q.fullscreen.isActive)
+        const isActive = this.$q.fullscreen.isActive
+
+        if (this.__onGlobalDialog === false || isActive === true) {
+          append(isActive)
+        }
       }
-      else if (this.__portal !== void 0) {
+      else if (this.__portal !== void 0 && this.__onGlobalDialog === false) {
         document.body.appendChild(this.__portal.$el)
       }
     },
@@ -90,31 +94,53 @@ export default {
           this.unwatchFullscreen = void 0
         }
 
-        this.__portal.$destroy()
-        this.__portal.$el.remove()
+        if (this.__onGlobalDialog === false) {
+          this.__portal.$destroy()
+          this.__portal.$el.remove()
+        }
+
         this.__portal = void 0
       }
     },
 
     __preparePortal () {
       if (this.__portal === void 0) {
-        this.__portal = new Vue({
-          name: 'QPortal',
-          parent: this,
+        this.__portal = this.__onGlobalDialog === true
+          ? {
+            $el: this.$el,
+            $refs: this.$refs
+          }
+          : new Vue({
+            name: 'QPortal',
+            parent: this,
 
-          inheritAttrs: false,
+            inheritAttrs: false,
 
-          render: h => this.__renderPortal(h),
+            render: h => this.__renderPortal(h),
 
-          components: this.$options.components,
-          directives: this.$options.directives
-        }).$mount()
+            components: this.$options.components,
+            directives: this.$options.directives
+          }).$mount()
       }
     }
   },
 
-  render () {
-    this.__portal !== void 0 && this.__portal.$forceUpdate()
+  render (h) {
+    if (this.__onGlobalDialog === true) {
+      return this.__renderPortal(h)
+    }
+
+    if (this.__portal !== void 0) {
+      this.__portal.$forceUpdate()
+    }
+  },
+
+  created () {
+    // we cannot check the root component because
+    // we might have portals in portals (vue tree)
+    this.__onGlobalDialog = this.$parent !== void 0 &&
+      this.$parent.$parent !== void 0 &&
+      this.$parent.$parent.$options.name === 'QGlobalDialog'
   },
 
   beforeDestroy () {

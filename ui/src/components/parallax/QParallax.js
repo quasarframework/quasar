@@ -75,7 +75,7 @@ export default Vue.extend({
       top = offset(this.$el).top
       bottom = top + this.height
 
-      if (this.observer !== void 0 || bottom > containerTop && top < containerBottom) {
+      if (this.observer !== void 0 || (bottom > containerTop && top < containerBottom)) {
         const percent = (containerBottom - top) / (this.height + containerHeight)
         this.__setPos((this.mediaHeight - this.height) * percent * this.speed)
         this.__update(percent)

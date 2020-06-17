@@ -76,7 +76,7 @@ if (process.env.MODE === 'electron') {
 }
 ```
 
-## Adding to process.env
+## Adding to process.env <q-badge align="top" label="@quasar/app v2 specs" />
 
 You can add your own definitions to `process.env` through `/quasar.conf.js` file:
 
@@ -84,31 +84,29 @@ You can add your own definitions to `process.env` through `/quasar.conf.js` file
 // quasar.conf.js
 
 build: {
-  env: ctx.dev
-    ? { // so on dev we'll have
-      API: JSON.stringify('https://dev.api.com')
-    }
-    : { // and on build (production):
-      API: JSON.stringify('https://prod.api.com')
-    }
+  env: {
+    API: ctx.dev
+      ? 'https://dev.api.com'
+      : 'https://prod.api.com'
+  }
 }
 ```
+
 Then in your website/app you can access `process.env.API` and it's gonna point to one of those two links above, based on dev or production build type.
 
 You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
+
 ```
 # we set an env variable in terminal
 $ MY_API=api.com quasar build
 
 # then we pick it up in /quasar.conf.js
 build: {
-  env: ctx.dev
-    ? { // so on dev we'll have
-      API: JSON.stringify('https://dev.'+ process.env.MY_API)
-    }
-    : { // and on build (production):
-      API: JSON.stringify('https://prod.'+ process.env.MY_API)
-    }
+  env: {
+    API: ctx.dev
+      ? 'https://dev.' + process.env.MY_API
+      : 'https://prod.' + process.env.MY_API
+  }
 }
 ```
 

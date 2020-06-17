@@ -10,9 +10,9 @@ If you are a beginner, all you'll need to care about is `/quasar.conf.js` (Quasa
 
 ``` bash
 .
+├── public/                  # pure static assets (directly copied)
 ├── src/
 │   ├── assets/              # dynamic assets (processed by webpack)
-│   ├── statics/             # pure static assets (directly copied)
 │   ├── components/          # .vue components used in pages & layouts
 │   ├── css/                 # CSS/Stylus/Sass/... files for your app
 |   |   ├── app.styl

@@ -340,19 +340,21 @@ You can also make an icon point to an image URL instead of relying on any webfon
 ```html
 <q-icon name="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
 <q-btn icon="img:https://cdn.quasar.dev/logo/svg/quasar-logo.svg" ... />
-<q-icon name="img:statics/my/path/to/some.svg" />
+
+<!-- reference from /public: -->
+<q-icon name="img:my/path/to/some.svg" />
 ```
 
 ::: tip
-Remember that you can place images in your `/src/statics` folder too and point to them. You don't always need a full URL.
+Remember that you can place images in your `/public` folder too and point to them. You don't always need a full URL.
 :::
 
 This is not restricted to SVG only. You can use whatever image type you want (png, jpg, ...):
 
 ```html
-<q-icon name="img:statics/bla/bla/my.png" />
-<q-btn icon="img:statics/bla/bla/my.jpg" ... />
-<q-input clearable clear-icon="img:statics/bla/bla/my.gif" ... />
+<q-icon name="img:bla/bla/my.png" />
+<q-btn icon="img:bla/bla/my.jpg" ... />
+<q-input clearable clear-icon="img:bla/bla/my.gif" ... />
 ```
 
 It is also possible to inline the image (svg, png, jpeg, gif...) and dynamically change its style (svg):

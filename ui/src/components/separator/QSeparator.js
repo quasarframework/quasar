@@ -9,13 +9,21 @@ const insetMap = {
   'item-thumbnail': 'item-thumbnail-inset'
 }
 
+export const margins = {
+  xs: 2,
+  sm: 4,
+  md: 8,
+  lg: 16,
+  xl: 24
+}
+
 export default Vue.extend({
   name: 'QSeparator',
 
   mixins: [ DarkMixin, ListenersMixin ],
 
   props: {
-    spaced: Boolean,
+    spaced: [ Boolean, String ],
     inset: [ Boolean, String ],
     vertical: Boolean,
     color: String,
@@ -41,17 +49,30 @@ export default Vue.extend({
 
     classes () {
       return `q-separator${this.classPrefix}${this.insetClass}` +
-        (this.spaced === true ? `${this.classPrefix}-spaced` : '') +
         (this.color !== void 0 ? ` bg-${this.color}` : '') +
         (this.isDark === true ? ' q-separator--dark' : '')
     },
 
     style () {
+      const style = {}
+
       if (this.size !== void 0) {
-        return {
-          [ this.vertical === true ? 'width' : 'height' ]: this.size
-        }
+        style[ this.vertical === true ? 'width' : 'height' ] = this.size
       }
+
+      if (this.spaced !== false) {
+        const size = this.spaced === true
+          ? `${margins.md}px`
+          : this.spaced in margins ? `${margins[this.spaced]}px` : this.spaced
+
+        const props = this.vertical === true
+          ? [ 'Left', 'Right' ]
+          : [ 'Top', 'Bottom' ]
+
+        style[`margin${props[0]}`] = style[`margin${props[1]}`] = size
+      }
+
+      return style
     },
 
     attrs () {
