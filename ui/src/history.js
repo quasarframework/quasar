@@ -3,6 +3,21 @@ import { noop } from './utils/event.js'
 
 const getTrue = () => true
 
+function filterInvalidPath (path) {
+  return typeof path === 'string' && !(path === '' || path === '/' || path === '#/')
+}
+
+function normalizeExitPath (path) {
+  path.startsWith('#') && (path = path.substr(1))
+  !path.startsWith('/') && (path = '/' + path)
+  path.endsWith('/') && (path = path.substr(0, path.length - 1))
+  return '#' + path
+}
+
+function shouldExitOnAnyPath (cfg) {
+  return cfg && cfg.backButtonExit === '*'
+}
+
 export default {
   __history: [],
   add: noop,
@@ -41,7 +56,7 @@ export default {
           entry.handler()
         }
       }
-      else if (exit && window.location.hash === '#/') {
+      else if (exit && (shouldExitOnAnyPath(cfg[prop]) || exitPaths.includes(window.location.hash))) {
         navigator.app.exitApp()
       }
       else {
@@ -51,6 +66,13 @@ export default {
 
     const prop = cordova === true ? 'cordova' : 'capacitor'
     const exit = cfg[prop] === void 0 || cfg[prop].backButtonExit !== false
+
+    // Add default root path
+    const exitPaths = ['#/']
+    // Add custom exit paths
+    if (cfg[prop] !== void 0 && Array.isArray(cfg[prop].backButtonExit)) {
+      exitPaths.push(...cfg[prop].backButtonExit.filter(filterInvalidPath).map(normalizeExitPath))
+    }
 
     if (cordova === true) {
       document.addEventListener('deviceready', () => {
