@@ -136,7 +136,11 @@ export default {
   },
 
   created () {
-    this.__onGlobalDialog = this.$root.$options.name === 'QGlobalDialog'
+    // we cannot check the root component because
+    // we might have portals in portals (vue tree)
+    this.__onGlobalDialog = this.$parent !== void 0 &&
+      this.$parent.$parent !== void 0 &&
+      this.$parent.$parent.$options.name === 'QGlobalDialog'
   },
 
   beforeDestroy () {
