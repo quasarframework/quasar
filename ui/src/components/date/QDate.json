@@ -171,7 +171,9 @@
         }
       }
     },
+
     "calendar-change": {
+      "desc": "Emitted when year and/or month changes",
       "params": {
         "year": {
           "type": "Number",
@@ -182,7 +184,8 @@
           "desc": "The month"
         }
       }
-    }
+    },
+    "addedIn": "v1.12.5"
   },
 
   "methods": {
