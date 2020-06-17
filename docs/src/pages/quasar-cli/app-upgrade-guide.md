@@ -88,6 +88,7 @@ Following this guide should take you at most 5 minutes to complete.
   ```js
   tsCheckerConfig: {
     eslint: {
+      enabled: true,
       files: './src/**/*' // required - same as command `eslint ./src/**/* --ext .ts,.tsx,.js,.jsx`
     }
   }
