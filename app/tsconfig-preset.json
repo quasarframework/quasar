@@ -21,6 +21,9 @@
       "assets/*": ["src/assets/*"],
       "boot/*": ["src/boot/*"]
     },
+    // Retrigger type-checking even for pure types files
+    // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/blob/v5.0.0/README.md#type-only-modules-watching
+    "importsNotUsedAsValues": "preserve",
     // Forces quasar typings to be included, even if they aren't referenced directly
     // Removing this would break `quasar/wrappers` imports if `quasar`
     //  isn't referenced anywhere, because those typings are declared
