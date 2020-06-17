@@ -15,18 +15,18 @@ Since the main process is bundled using webpack, the use of `__dirname` and `__f
 app.asar
 └─ dist
    └─ electron-*
-      ├─ statics/
       ├─ js/...
       ├─ node_modules/
       ├─ index.html
       ├─ package.json
-      └─ electron-main.js
+      ├─ electron-main.js
+      └─ ...contents of /public
 ```
 
 ## Static assets with fs, path and __statics
 Let's say we have a static asset that we need to read into our application using `fs`, but how do we get a reliable path, in both development and production, to the statics/ folder? Quasar provides a global variable named `__statics` that will yield a proper path to it. Here's how we can use it to read a simple text file in both development and production.
 
-Let's assume we have a file called `someFile.txt` in `/src/statics`. Now, in main or renderer process, we can access it like this:
+Let's assume we have a file called `someFile.txt` in `/public`. Now, in main or renderer process, we can access it like this:
 ```bash
 // main or renderer process
 

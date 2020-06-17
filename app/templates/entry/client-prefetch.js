@@ -41,13 +41,14 @@ function getMatchedComponents (to, router) {
   }))
 }
 
-export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
+export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPath) {
   // Add router hook for handling preFetch.
   // Doing it after initial route is resolved so that we don't double-fetch
   // the data that we already have. Using router.beforeResolve() so that all
   // async components are resolved.
   router.beforeResolve((to, from, next) => {
     const
+      urlPath = window.location.href.replace(window.location.origin, ''),
       matched = getMatchedComponents(to, router),
       prevMatched = getMatchedComponents(from, router)
 
@@ -100,7 +101,9 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>) {
         <% if (store) { %>store,<% } %>
         currentRoute: to,
         previousRoute: from,
-        redirect
+        redirect,
+        urlPath,
+        publicPath
       })),
       Promise.resolve()
     )

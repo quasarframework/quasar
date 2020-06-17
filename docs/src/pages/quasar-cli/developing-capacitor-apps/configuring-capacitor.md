@@ -40,15 +40,16 @@ return {
 }
 ```
 
-Finally, you can also disable the back button hook (used for Dialogs):
+Finally, you can also disable or configure the back button hook (used for Dialogs):
 
 ```js
 return {
   framework: {
     config: {
       capacitor: {
-        // requires Quasar v1.9.3+
-        backButtonExit: true/false // Quasar handles app exit on mobile phone back button
+        // Quasar handles app exit on mobile phone back button
+        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page']
       }
     }
   }

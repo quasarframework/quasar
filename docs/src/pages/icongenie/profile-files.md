@@ -62,17 +62,17 @@ Some examples for `assets` from which you can extract the syntax for every type 
   {
     "generator": "svg",
     "name": "safari-pinned-tab.svg",
-    "folder": "src/statics/icons"
+    "folder": "public/icons"
   },
 
   {
     "generator": "splashscreen",
     "name": "apple-launch-{size}.png",
-    "folder": "src/statics/icons",
+    "folder": "public/icons",
     "sizes": [
       [ 1668, 2388 ]
     ],
-    "tag": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"statics/icons/{name}\">"
+    "tag": "<link rel=\"apple-touch-startup-image\" media=\"(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)\" href=\"icons/{name}\">"
   },
 
   {

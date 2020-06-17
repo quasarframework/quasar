@@ -2,7 +2,7 @@
 title: App Handling Assets
 desc: How to use regular app assets and static assets in a Quasar app.
 ---
-You will notice in the project structure we have two directories for assets: `/src/statics/` and `/src/assets/`. What is the difference between them? Some are static assets while the others are processed and embedded by the build system.
+You will notice in the project structure we have two directories for assets: `/public/` and `/src/assets/`. What is the difference between them? Some are static assets while the others are processed and embedded by the build system.
 
 So let's try to answer the question above. We'll first talk about using regular assets then we'll see what the difference is for static assets.
 
@@ -19,26 +19,30 @@ Relative URLs, e.g. `./assets/logo.png` will be interpreted as a module dependen
 
 URLs prefixed with `~` are treated as a module request, similar to `require('some-module/image.png')`. You need to use this prefix if you want to leverage Webpack's module resolving configurations. Quasar provides `assets` Webpack alias out of the box, so it is recommended that you use it like this: `<img src="~assets/logo.png">`. Notice `~` in front of 'assets'.
 
-## Static Assets - /src/statics
-Root-relative URLs, e.g. `/statics/logo.png` or `statics/logo.png` are not processed at all. This should be placed in `src/statics/`. These won't be processed by Webpack at all. The statics folder is simply copied over to the distributable folder as-is.
+## Static Assets - /public
+Root-relative URLs (e.g. `/logo.png` -- where '/' is your publicPath) or `logo.png` are not processed at all. This should be placed in `public/`. These won't be processed by Webpack at all. The statics folder is simply copied over to the distributable folder as-is.
 
-Quasar has some smart algorithms behind the curtains which ensure that no matter what you build (SPA, PWA, Cordova, Electron), your statics are correctly referenced *if and only if* all your statics start with `statics/` string. For this reason, do not use `/statics` as URL.
+Quasar has some smart algorithms behind the curtains which ensure that no matter what you build (SPA, PWA, Cordova, Electron), your statics are correctly referenced *if and only if* they do not use a relative path.
 
 ```html
 <!-- Good! -->
-<img src="statics/logo.png">
+<img src="logo.png">
 
-<!-- BAD! Don't! -->
-<img src="/statics/logo.png">
+<!--
+  BAD! Works until you change vue router
+  mode (hash/history) or your public path.
+  Don't!
+-->
+<img src="/logo.png">
 ```
 
 ::: tip Assets vs Statics
 Files in the "assets" folder are only included in your build if they have a literal reference in one of your Vue files.
-Every file and folder from the "statics" folder are copied into your production build as-is, no matter what.
+Every file and folder from the "public" folder are copied into your production build as-is, no matter what.
 :::
 
 ::: danger
-When not building a SPA/PWA/SSR, then `/src/statics/icons/*` and `/src/statics/app-logo-128x128.png` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
+When not building a SPA/PWA/SSR, then `/public/icons/*` and `/public/favicon.ico` will NOT be embedded into your app because they would not serve any purpose. For example, Electron or Cordova apps do not require those files.
 :::
 
 ## Vue Binding Requires Statics Only
@@ -46,7 +50,7 @@ Please note that whenever you bind "src" to a variable in your Vue scope, it mus
 
 ```html
 <template>
-  <!-- imageSrc MUST reference a file from /src/statics -->
+  <!-- imageSrc MUST reference a file from /public -->
   <img :src="imageSrc">
 </template>
 
@@ -55,17 +59,17 @@ export default {
   data () {
     return {
       <!--
-        Referencing /src/statics.
+        Referencing /public.
         Notice string doesn't start with a slash. (/)
       -->
-      imageSrc: 'statics/logo.png'
+      imageSrc: 'logo.png'
     }
   }
 }
 </script>
 ```
 
-You can force serving static assets by binding `src` to a value with Vue. Instead of `src="statics/path/to/image"` use `:src=" 'statics/path/to/image' "` or `:src="imageSrc"`. Please note the usage of single quotes within double quotes on the second code example (spaces have been added to see this visually on the documentation website - normally you would not have the spaces).
+You can force serving static assets by binding `src` to a value with Vue. Instead of `src="path/to/image"` use `:src=" 'path/to/image' "` or `:src="imageSrc"`. Please note the usage of single quotes within double quotes on the second code example (spaces have been added to see this visually on the documentation website - normally you would not have the spaces).
 
 ## Getting Asset Paths in JavaScript
 

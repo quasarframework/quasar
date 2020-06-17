@@ -147,5 +147,5 @@ When you add such references (`someProp` surrounded by brackets in the example a
 
 ```html
 <!-- index.template.html -->
-<% if (htmlWebpackPlugin.options.ctx.mode.ssr) { %>{{ someProp }} <% } %>
+<% if (ctx.mode.ssr) { %>{{ someProp }} <% } %>
 ```

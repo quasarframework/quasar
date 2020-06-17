@@ -1,8 +1,9 @@
 const webpack = require('webpack')
-const merge = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
+
 const WebpackProgress = require('../plugin.progress')
 const ExpressionDependency = require('./plugin.expression-dependency')
+const parseBuildEnv = require('../../helpers/parse-build-env')
 
 const appPaths = require('../../app-paths')
 
@@ -47,7 +48,7 @@ module.exports = function (cfg, configName) {
   chain.plugin('expression-dependency')
     .use(ExpressionDependency)
 
-  if (cfg.build.modern !== true) {
+  if (cfg.build.transpile === true) {
     chain.module.rule('babel')
       .test(/\.js$/)
       .exclude
@@ -82,14 +83,14 @@ module.exports = function (cfg, configName) {
       .use(WebpackProgress, [{ name: configName }])
   }
 
-  const env = merge({}, cfg.build.env, {
-    QUASAR_NODE_INTEGRATION: JSON.stringify(
-      cfg.electron.nodeIntegration === true
-    )
+  const env = Object.assign({}, cfg.build.env, {
+    QUASAR_NODE_INTEGRATION: cfg.electron.nodeIntegration === true
   })
 
   chain.plugin('define')
-    .use(webpack.DefinePlugin, [ env ])
+    .use(webpack.DefinePlugin, [
+      parseBuildEnv(env, cfg.__rootDefines)
+    ])
 
   if (cfg.ctx.prod) {
     if (cfg.build.minify) {
@@ -111,29 +112,19 @@ module.exports = function (cfg, configName) {
     chain.plugin('package-json')
       .use(ElectronPackageJson, [ cfg ])
 
-    const fs = require('fs')
-    const copyArray = []
-
-    const filesToCopy = [
+    const patterns = [
       appPaths.resolve.app('.npmrc'),
       appPaths.resolve.app('.yarnrc'),
       appPaths.resolve.electron('main-process/electron-preload.js')
-    ]
+    ].map(filename => ({
+      from: filename,
+      to: '.',
+      noErrorOnMissing: true
+    }))
 
-    filesToCopy.forEach(filename => {
-      if (fs.existsSync(filename)) {
-        copyArray.push({
-          from: filename,
-          to: '.'
-        })
-      }
-    })
-
-    if (copyArray.length > 0) {
-      const CopyWebpackPlugin = require('copy-webpack-plugin')
-      chain.plugin('copy-webpack')
-        .use(CopyWebpackPlugin, [ copyArray ])
-    }
+    const CopyWebpackPlugin = require('copy-webpack-plugin')
+    chain.plugin('copy-webpack')
+      .use(CopyWebpackPlugin, [{ patterns }])
   }
 
   return chain

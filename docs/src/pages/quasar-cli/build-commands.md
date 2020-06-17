@@ -38,8 +38,6 @@ $ quasar dev -m ios -- some params --and options --here
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
 
-For using [modern build](/quasar-cli/modern-build) add `--modern` param.
-
 ### Production
 > Build assets for production.
 
@@ -65,5 +63,3 @@ $ quasar build -m ios -- some params --and options --here
 # Electron App
 $ quasar build -m electron
 ```
-
-For using [modern build](/quasar-cli/modern-build) add `--modern` param.

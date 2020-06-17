@@ -7,7 +7,9 @@ export default {
 
   data () {
     return {
-      inc: 0
+      inc: 0,
+      sel: null,
+      options: [ 'Option 1', 'Option 2', 'Option 3', 'Option 4', 'Option 5' ]
     }
   },
 
@@ -41,6 +43,30 @@ export default {
       }, [
         h('q-card-section', [
           'Custooom: ' + this.text
+        ]),
+
+        h('q-card-section', [
+          h('q-select', {
+            props: {
+              label: 'Menu select',
+              color: 'accent',
+              options: this.options,
+              value: this.sel,
+              behavior: 'menu'
+            },
+            on: { input: val => { this.sel = val } }
+          }),
+
+          h('q-select', {
+            props: {
+              label: 'Dialog select',
+              color: 'accent',
+              options: this.options,
+              value: this.sel,
+              behavior: 'dialog'
+            },
+            on: { input: val => { this.sel = val } }
+          })
         ]),
 
         h('q-card-section', [
