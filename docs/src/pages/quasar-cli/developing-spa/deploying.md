@@ -68,9 +68,25 @@ As an example how this is done for Google Firebase, you would add the following 
 ```json
 {
   "hosting": {
-    "headers": [
-      { "source":"/index.html", "headers": [{"key": "Cache-Control", "value": "no-cache"}] }
-    ]
+    {
+      "source": "/**",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source":
+        "**/*.@(jpg|jpeg|gif|png|svg|webp|js|css|eot|otf|ttf|ttc|woff|woff2|font.css)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=604800"
+        }
+      ]
+    }
   }
 }
 ```
