@@ -4,6 +4,7 @@ import {
   DeepPartial,
   QuasarPluginOptions,
 } from "quasar";
+import Vue from "vue";
 
 interface QuasarMobileFrameworkInnerConfiguration {
   iosStatusBarPadding: boolean;
@@ -63,8 +64,6 @@ interface QuasarAllFrameworkObjectConfiguration
   importStrategy: "all";
 }
 
-declare module "quasar" {
-  type QuasarFrameworkConfiguration =
-    | QuasarAutoFrameworkObjectConfiguration
-    | QuasarAllFrameworkObjectConfiguration;
-}
+export type QuasarFrameworkConfiguration =
+  | QuasarAutoFrameworkObjectConfiguration
+  | QuasarAllFrameworkObjectConfiguration;

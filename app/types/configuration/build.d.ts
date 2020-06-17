@@ -1,9 +1,8 @@
-import { QuasarHookParams, WebpackConfiguration } from "quasar";
 import { TerserPluginOptions } from "terser-webpack-plugin";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 import * as WebpackChain from "webpack-chain";
-import "./conf";
-import "../ts-helpers";
+import { WebpackConfiguration } from "../ts-helpers";
+import { QuasarHookParams } from "./conf";
 
 interface QuasarStaticBuildConfiguration {
   /**
@@ -165,8 +164,6 @@ interface QuasarDynamicBuildConfiguration {
   minify: boolean;
 }
 
-declare module "quasar" {
-  type QuasarBuildConfiguration = Partial<
-    QuasarStaticBuildConfiguration & QuasarDynamicBuildConfiguration
-  >;
-}
+export type QuasarBuildConfiguration = Partial<
+  QuasarStaticBuildConfiguration & QuasarDynamicBuildConfiguration
+>;
