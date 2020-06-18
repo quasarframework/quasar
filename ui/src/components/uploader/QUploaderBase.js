@@ -32,8 +32,7 @@ export default Vue.extend({
     hideUploadBtn: Boolean,
 
     disable: Boolean,
-    readonly: Boolean,
-    capture: String,
+    readonly: Boolean
   },
 
   provide () {
@@ -297,7 +296,7 @@ export default Vue.extend({
             type: 'file',
             title: '', // try to remove default tooltip
             accept: this.accept,
-            capture: this.capture,            
+            capture: this.capture,
             ...(this.multiple === true ? { multiple: true } : {})
           },
           on: cache(this, 'input', {
