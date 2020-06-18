@@ -23,7 +23,7 @@ related:
 * New param for boot files and preFetch (publicPath); the "redirect()" method now fully supports a Vue Router location Object (on all build modes, on server-side or client-side); preFetch hook now also receive "urlPath" param
 * New API method for App Extension's install script: api.renderFile()
 * Temporarily removed quasar.conf.js > build > preloadChunks (until compatibility is ensured with html-webpack-plugin v4)
-* Upgraded to latest version of Typescript (v3.9.5 as of writing these lines; will also require "quasar" v1.12.6); also fork-ts-checker-webpack-plugin is now v5
+* Upgraded to latest version of Typescript (v3.9.5 as of writing these lines; will also require "quasar" v1.12.6)
 * Lots of other improvements and fixes
 
 ## Upgrade Guide
@@ -82,17 +82,6 @@ Following this guide should take you at most 5 minutes to complete.
 * The `webpack-html-plugin` package has been upgraded to v4; if you have tampered with the default config for it, please [review it](https://github.com/jantimon/html-webpack-plugin/blob/master/CHANGELOG.md#400-2020-03-23)
 
 * The `copy-webpack-plugin` package has been upgraded to v6; if you have tampered with the default config for it, please [review it](https://github.com/jantimon/html-webpack-plugin/blob/master/CHANGELOG.md#400-2020-03-23)
-
-* The `fork-ts-checker-webpack-plugin` package has been upgraded to v5; if you have tampered with the default config for it, please [review it](https://github.com/TypeStrong/fork-ts-checker-webpack-plugin/releases/tag/v5.0.0)
-  As a result of the upgrade, if you are using TS + ESLint, your quasar.conf.js config should look like this:
-  ```js
-  tsCheckerConfig: {
-    eslint: {
-      enabled: true,
-      files: './src/**/*' // required - same as command `eslint ./src/**/* --ext .ts,.tsx,.js,.jsx`
-    }
-  }
-  ```
 
 * If you're building with SSR mode, then custom publicPath can now be used, but it requires a small change to all your app.use() statements:
   ``` js
