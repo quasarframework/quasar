@@ -1,13 +1,12 @@
-import { HasSsrParam, HasStore } from "quasar";
+import { HasStore } from "quasar";
 import { VueConstructor } from "vue";
 import { Store } from "vuex";
+import { HasSsrParam } from "./ssr";
 
-declare module "quasar" {
-  type HasStoreParam<S = any> = HasStore<{ store: S }>;
+export type HasStoreParam<S = any> = HasStore<{ store: S }>;
 
-  type StoreParams = {
-    Vue: VueConstructor;
-  } & HasSsrParam;
+export type StoreParams = {
+  Vue: VueConstructor;
+} & HasSsrParam;
 
-  type StoreCallback = (params: StoreParams) => Store<any>;
-}
+export type StoreCallback = (params: StoreParams) => Store<any>;

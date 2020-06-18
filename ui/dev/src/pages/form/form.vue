@@ -235,7 +235,7 @@ export default {
         { value: 1, label: 'Name' },
         { value: 2, label: 'Age' },
         { value: 3, label: 'Toggle' },
-        { value: 4, label: 'Title' },
+        { value: 4, label: 'Title' }
       ],
       autofocusEl: 1,
 

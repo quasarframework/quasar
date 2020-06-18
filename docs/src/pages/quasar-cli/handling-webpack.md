@@ -54,60 +54,6 @@ The method `chainWebpack()` supplies a [webpack-chain](https://github.com/neutri
 The two examples above are equivalent. Do NOT use both methods to tamper for the same thing!
 :::
 
-## Examples
-
-### CopyWebpackPlugin
-
-One of the most asked questions is how to copy independent files to the destination folder (ie: `dist/spa`). In this example we will be using the CopyWebpackPlugin to copy "robots.txt" to the build destination.
-
-With every webpack plugin you need to install it into your project folder. However, CopyWebpackPlugin is supplied by "@quasar/app" so we don't need this step. However, for completeness, this is how you'd do it:
-
-```js
-# what you'd have to do should @quasar/app would have not supplied
-# the copy-webpack-plugin package:
-
-yarn add --dev copy-webpack-plugin
-# OR
-npm install --save-dev copy-webpack-plugin
-```
-
-At the top of `quasar.conf.js` import it by adding the following:
-
-```js
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-```
-
-**extendWebPack:**
-
-In `quasar.conf.js` look for the `build` section. Add this:
-
-```js
-  extendWebpack (cfg) {
-    cfg.plugins.push(new CopyWebpackPlugin([{ from: './robots.txt', to: '' }]))
-  }
-```
-
-**chainWebpack:**
-
-In `quasar.conf.js` look for the `build` section. Add this:
-
-```js
-  chainWebpack (chain) {
-    chain
-      .plugin('copy-static-files')
-      .use(CopyWebpackPlugin, [
-        [{
-          from: 'robots.txt',
-          to: '',
-        }]
-      ])
-  }
-```
-
-:::tip
-Note that the `to` parameter is empty. It already knows your destinatin path via Webpack. This is the `root` folder. If you add a path, it will be based on the destination. You may have also noticed that the parameter to `CopyWebpackPlugin` is an array of objects. You can add multiple files here, one object for each file.
-:::
-
 ## Inspecting Webpack Config
 Quasar CLI offers a useful command for this:
 

@@ -5,6 +5,7 @@ import QIcon from '../components/icon/QIcon.js'
 import QBtn from '../components/btn/QBtn.js'
 
 import { noop } from '../utils/event.js'
+import { getBodyFullscreenElement } from '../utils/dom.js'
 import { isSSR } from './Platform.js'
 
 let uid = 0
@@ -398,6 +399,31 @@ const Notifications = {
         ])
       }))
     }))
+  },
+
+  mounted () {
+    if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
+      const append = isFullscreen => {
+        const newParent = getBodyFullscreenElement(
+          isFullscreen,
+          this.$q.fullscreen.activeEl
+        )
+
+        if (this.$el.parentElement !== newParent) {
+          newParent.appendChild(this.$el)
+        }
+      }
+
+      this.unwatchFullscreen = this.$watch('$q.fullscreen.isActive', append)
+
+      if (this.$q.fullscreen.isActive === true) {
+        append(true)
+      }
+    }
+  },
+
+  beforeDestroy () {
+    this.unwatchFullscreen !== void 0 && this.unwatchFullscreen()
   }
 }
 

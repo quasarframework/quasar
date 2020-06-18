@@ -21,21 +21,29 @@ function promisify (target, fn) {
 export default {
   isCapable: false,
   isActive: false,
+  activeEl: null,
 
   request (target) {
-    return this.isCapable && !this.isActive
-      ? promisify(target || document.documentElement, prefixes.request)
-      : this.__getErr()
+    if (this.isCapable === true && this.isActive === false) {
+      const el = target || document.documentElement
+      return promisify(el, prefixes.request).then(() => {
+        this.activeEl = el
+      })
+    }
+
+    return this.__getErr()
   },
 
   exit () {
-    return this.isCapable && this.isActive
-      ? promisify(document, prefixes.exit)
+    return this.isCapable === true && this.isActive === true
+      ? promisify(document, prefixes.exit).then(() => {
+        this.activeEl = null
+      })
       : this.__getErr()
   },
 
   toggle (target) {
-    return this.isActive
+    return this.isActive === true
       ? this.exit()
       : this.request(target)
   },
@@ -48,7 +56,7 @@ export default {
     prefixes.request = [
       'requestFullscreen',
       'msRequestFullscreen', 'mozRequestFullScreen', 'webkitRequestFullscreen'
-    ].find(request => document.documentElement[request])
+    ].find(request => document.documentElement[request] !== void 0)
 
     this.isCapable = prefixes.request !== void 0
 
@@ -75,10 +83,11 @@ export default {
       'onmsfullscreenchange', 'onwebkitfullscreenchange'
     ].forEach(evt => {
       document[evt] = () => {
-        this.isActive = !this.isActive
+        this.isActive = this.isActive === false
       }
     })
 
     Vue.util.defineReactive(this, 'isActive', this.isActive)
+    Vue.util.defineReactive(this, 'activeEl', this.activeEl)
   }
 }

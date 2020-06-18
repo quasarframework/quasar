@@ -603,7 +603,9 @@ export default Vue.extend({
     }
 
     if (this.layout.totalWidth !== 0) {
-      fn()
+      // make sure that all computed properties
+      // have been updated before calling __show/__hide()
+      this.$nextTick(fn)
       return
     }
 

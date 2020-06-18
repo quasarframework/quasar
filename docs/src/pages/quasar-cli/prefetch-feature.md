@@ -95,7 +95,9 @@ The hook is defined as a custom static function called `preFetch` on our route c
 <script>
 export default {
   // our hook here
-  preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext }) {
+  preFetch ({ store, currentRoute, previousRoute, redirect, ssrContext, urlPath, publicPath }) {
+    // urlPath and publicPath requires @quasar/app v2+
+
     // fetch data, validate route and optionally redirect to some other route...
 
     // ssrContext is available only server-side in SSR mode
@@ -141,15 +143,14 @@ Below is an example of redirecting the user under some circumstances, like when 
 // in the Vuex Store, so take as a high-level example only.
 preFetch ({ store, redirect }) {
   if (!store.state.authenticated) {
-    // IMPORTANT! Always use the String form of a
-    // route if also building for SSR. The Object form
-    // won't work on SSR builds.
-    redirect('/login')
+    redirect({ path: '/login' })
   }
 }
 ```
 
 If `redirect(false)` is called (supported only on client-side!), it aborts the current route navigation. Note that if you use it like this in `src/App.vue` it will halt the app bootup, which is undesirable.
+
+The `redirect()` method requires a Vue Router location Object.
 
 ### Using preFetch to Initialize the Store
 The `preFetch` hook runs only once, when the app boots up, so you can use this opportunity to initialize the Vuex Store here.

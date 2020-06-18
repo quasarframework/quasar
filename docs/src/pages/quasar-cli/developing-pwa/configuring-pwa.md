@@ -42,12 +42,12 @@ pwa: {
   metaVariables: {
     appleMobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: 'default',
-    appleTouchIcon120: 'statics/icons/apple-icon-120x120.png',
-    appleTouchIcon180: 'statics/icons/apple-icon-180x180.png',
-    appleTouchIcon152: 'statics/icons/apple-icon-152x152.png',
-    appleTouchIcon167: 'statics/icons/apple-icon-167x167.png',
-    appleSafariPinnedTab: 'statics/icons/safari-pinned-tab.svg',
-    msapplicationTileImage: 'statics/icons/ms-icon-144x144.png',
+    appleTouchIcon120: 'icons/apple-icon-120x120.png',
+    appleTouchIcon180: 'icons/apple-icon-180x180.png',
+    appleTouchIcon152: 'icons/apple-icon-152x152.png',
+    appleTouchIcon167: 'icons/apple-icon-167x167.png',
+    appleSafariPinnedTab: 'icons/safari-pinned-tab.svg',
+    msapplicationTileImage: 'icons/ms-icon-144x144.png',
     msapplicationTileColor: '#000000'
   },
 
@@ -70,13 +70,14 @@ pwa: {
 
       {
         // this entry will generate:
-        // <link rel="apple-touch-icon" sizes="180x180" href="statics/icon-180.png">
+        // <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+        // references /public/icons/icon-180.png
 
         tagName: 'link',
         attributes: {
           rel: 'apple-touch-icon',
           sizes: '180x180',
-          href: 'statics/icon-180.png'
+          href: 'icons/icon-180.png'
         },
         closeTag: false // this is optional;
                         // specifies if tag also needs an explicit closing tag;
@@ -155,27 +156,27 @@ pwa: {
     description: 'Quasar Framework Showcase',
     icons: [
       {
-        'src': 'statics/icons/icon-128x128.png',
+        'src': 'icons/icon-128x128.png',
         'sizes': '128x128',
         'type': 'image/png'
       },
       {
-        'src': 'statics/icons/icon-192x192.png',
+        'src': 'icons/icon-192x192.png',
         'sizes': '192x192',
         'type': 'image/png'
       },
       {
-        'src': 'statics/icons/icon-256x256.png',
+        'src': 'icons/icon-256x256.png',
         'sizes': '256x256',
         'type': 'image/png'
       },
       {
-        'src': 'statics/icons/icon-384x384.png',
+        'src': 'icons/icon-384x384.png',
         'sizes': '384x384',
         'type': 'image/png'
       },
       {
-        'src': 'statics/icons/icon-512x512.png',
+        'src': 'icons/icon-512x512.png',
         'sizes': '512x512',
         'type': 'image/png'
       }

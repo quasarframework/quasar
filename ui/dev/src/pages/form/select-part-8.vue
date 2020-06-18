@@ -41,7 +41,7 @@
                    multiple
                    dense options-dense outlined
                    emit-value map-options
-                />
+                >
                   <template v-slot:option="scope">
                     <q-item
                             v-bind="scope.itemProps"

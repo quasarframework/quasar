@@ -75,13 +75,8 @@ module.exports = class DevServer {
       // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
       return createBundleRenderer(bundle, {
         ...options,
-        ...(cfg.build.preloadChunks !== true
-          ? {
-            shouldPreload: () => false,
-            shouldPrefetch: () => false
-          }
-          : {}
-        ),
+        shouldPreload: () => false,
+        shouldPrefetch: () => false,
 
         // for component caching
         cache: new LRU({
@@ -106,7 +101,7 @@ module.exports = class DevServer {
           res.status(404).send('404 | Page Not Found')
         }
         else {
-          ouchInstance.handleException(err, req, res, output => {
+          ouchInstance.handleException(err, req, res, () => {
             console.error(`${req.url} -> error during render`)
             console.error(err.stack)
           })
@@ -215,17 +210,17 @@ module.exports = class DevServer {
 
       after: app => {
         if (cfg.ctx.mode.pwa) {
-          app.use('/manifest.json', (req, res) => {
+          app.use(cfg.build.publicPath + 'manifest.json', (_, res) => {
             res.setHeader('Content-Type', 'application/json')
             res.send(pwa.manifest)
           })
-          app.use('/service-worker.js', (req, res) => {
+          app.use(cfg.build.publicPath + 'service-worker.js', (_, res) => {
             res.setHeader('Content-Type', 'text/javascript')
             res.send(pwa.serviceWorker)
           })
         }
 
-        app.use('/statics', express.static(appPaths.resolve.src('statics'), {
+        app.use(cfg.build.publicPath, express.static(appPaths.resolve.app('public'), {
           maxAge: 0
         }))
 
@@ -263,7 +258,7 @@ module.exports = class DevServer {
           }
         })
 
-        app.get('*', render)
+        app.get(cfg.build.publicPath + '*', render)
       }
     })
 
