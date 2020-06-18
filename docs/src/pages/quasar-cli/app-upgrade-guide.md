@@ -10,8 +10,8 @@ related:
 
 ## What's new in v2
 
-* [Browser compatibility](/quasar-cli/browser-compatibility) is now clearer expressed.
-* The JS transpilation (with the help of Babel) has been rethought from the ground up (now using core-js v3). It will now transpile based on the [Browser compatibility](/quasar-cli/browser-compatibility) that you configure. It will no longer go transpiling directly to ES5.
+* [Browser compatibility](/quasar-cli/browser-compatibility) is now more clearly expressed.
+* The JS transpilation (with the help of Babel) has been rethought from the ground up (now using core-js v3). It will now transpile based on the [Browser compatibility](/quasar-cli/browser-compatibility) that you configure. It will no longer go transpiling directly to ES5. Be mindful about it though, as it is sufficient to add one "bad apple" in the options list and that will dumb down your code back to ES5.
 * The "modern build" is no longer necessary due to the above. However, if you want to disable transpiling (it's perfectly equivalent), now you can: quasar.conf.js > build > transpile: false.
 * Support for a `/public` folder which replaces `/src/statics`. The new folder will allow you to supply static content at the root/app base level, rather than as statics/*. One useful example: robots.txt
 * SSR mode now supports a custom publicPath too
