@@ -42,6 +42,7 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
           :icon="mdiHeartOutline"
           label="Donate to Quasar"
         )
+        conf-countdown.text-black.q-mt-xl(color="primary", text-color="white")
 
       app-menu.q-my-lg
 
@@ -116,6 +117,7 @@ import {
 
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
+import ConfCountdown from 'components/ConfCountdown'
 
 const { setScrollPosition, getScrollPosition } = scroll
 
@@ -132,7 +134,8 @@ export default {
 
   components: {
     AppMenu,
-    HeaderMenu
+    HeaderMenu,
+    ConfCountdown
   },
 
   data () {
@@ -450,4 +453,11 @@ export default {
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
+
+.doc-layout
+  .countdown
+    .heading
+      font-size: 18px
+    .time
+      font-size: 38px
 </style>
