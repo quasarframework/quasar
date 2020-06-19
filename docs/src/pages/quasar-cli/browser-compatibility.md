@@ -9,6 +9,8 @@ related:
 ## Configuring compatibility
 Your `/package.json` file should contain a `browserslist` field. This will tell Quasar App the range of browsers that the project is targeting. Babel and Autoprefixer will use this field to determine how to transpile JS code (if transpiling is left enabled) and what CSS vendor prefixes it needs to add your CSS code.
 
+Babel will look for exactly the JS features that need transpiling (based on the configured browsers) and apply them. Be mindful about it though, as it is sufficient to add one "bad apple" in the options list and that will dumb down your code back to ES5.
+
 The following is the default "browserslist" when you create a Quasar project:
 
 ```js
@@ -42,7 +44,7 @@ In order to support Internet Explorer 11, you'll need to edit browserslist from 
 That's it. This will inject the Promise polyfill, along with some other smaller polyfills, adding an extra ~6k worth of code (minified) to your bundle. Check [Github](https://github.com/quasarframework/quasar/tree/dev/ui/src/ie-compat) to see it.
 
 ::: tip IE Polyfills
-Quasar CLI is smart enough to include the IE polyfills only if it is really needed. An Electron app for example doesn't need it and as a result, even if you leave `ie 11` in your package.json browserslist.
+Quasar CLI is smart enough to include the IE polyfills only if it is really needed. An Electron app for example doesn't need it and as a result, even if you leave `ie 11` in your package.json browserslist it won't add it.
 :::
 
 ::: warning
