@@ -171,13 +171,15 @@ module.exports = function (cfg, configName) {
       // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#options
       .use(ForkTsCheckerWebpackPlugin, [
         // custom config is merged if present, but vue option is always enabled
-        merge({}, cfg.supportTS.tsCheckerConfig || {}, {
-          typescript: {
-            extensions: {
-              vue: true
+        cfg.__versioning.tsChecker === 'v5'
+          ? merge({}, cfg.supportTS.tsCheckerConfig || {}, {
+            typescript: {
+              extensions: {
+                vue: true
+              }
             }
-          }
-        })
+          })
+          : { ...(cfg.supportTS.tsCheckerConfig || {}), vue: true }
       ])
   }
 

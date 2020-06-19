@@ -20,6 +20,7 @@ export default {
   props: {
     multiple: Boolean,
     accept: String,
+    capture: String,
     maxFileSize: [ Number, String ],
     maxTotalSize: [ Number, String ],
     maxFiles: [ Number, String ],

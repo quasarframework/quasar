@@ -125,14 +125,6 @@ export default [
   },
 
   {
-    name: 'Ross Ball',
-    role: 'Designer',
-    avatar: 'ross_ball.jpeg',
-    github: 'rossity',
-    desc: 'Quasar Themes'
-  },
-
-  {
     name: 'Dmitrij Polianin',
     role: 'Trainer / Community Staff',
     avatar: 'dmitrij_polianin.jpg',

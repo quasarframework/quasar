@@ -12,6 +12,7 @@ const { needsAdditionalPolyfills } = require('./helpers/browsers-support')
 const appFilesValidations = require('./helpers/app-files-validations')
 const cssVariables = require('./helpers/css-variables')
 const getDevlandFile = require('./helpers/get-devland-file')
+const getPackageJson = require('./helpers/get-package-json')
 
 const transformAssetUrls = getDevlandFile('quasar/dist/transform-asset-urls.json')
 const urlRegex = /^http(s)?:\/\//
@@ -896,6 +897,13 @@ class QuasarConfig {
     // used by .quasar entry templates
     cfg.__css = {
       quasarSrcExt: cssVariables.quasarSrcExt
+    }
+
+    cfg.__versioning = {}
+    if (cfg.supportTS !== false) {
+      const { version } = getPackageJson('fork-ts-checker-webpack-plugin')
+      const [, major] = version.match(/^(\d+)\.(\d+)\.(\*|\d+)$/)
+      cfg.__versioning.tsChecker = `v${major}`
     }
 
     this.webpackConfig = await require('./webpack')(cfg)
