@@ -5,7 +5,19 @@ const injectHtml = require('../inject.html')
 
 module.exports = function (chain, cfg) {
   if (cfg.ctx.mode.ssr && cfg.ctx.mode.pwa) {
-    injectHtml(chain, cfg)
+    // this will generate the offline.html
+    // which runs as standalone PWA only
+    // so we need to tweak the ctx
+
+    const templateParam = JSON.parse(JSON.stringify(cfg.htmlVariables))
+
+    templateParam.ctx.mode = { pwa: true }
+    templateParam.ctx.modeName = 'pwa'
+    if (templateParam.process && templateParam.process.env) {
+      templateParam.process.env.MODE = 'pwa'
+    }
+
+    injectHtml(chain, cfg, templateParam)
   }
 
   injectClientSpecifics(chain, cfg)

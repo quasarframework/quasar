@@ -7,7 +7,7 @@ const onShutdown = require('../helpers/on-shutdown')
 const appPaths = require('../app-paths')
 const openIde = require('../helpers/open-ide')
 
-const capacitorCliPath = require('./capacitor-cli-path')
+const { capBin } = require('./cap-cli')
 
 class CapacitorRunner {
   constructor () {
@@ -136,7 +136,7 @@ class CapacitorRunner {
   __runCapacitorCommand (args) {
     return new Promise(resolve => {
       this.pid = spawn(
-        capacitorCliPath,
+        capBin,
         args,
         { cwd: appPaths.capacitorDir },
         code => {

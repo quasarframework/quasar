@@ -9,7 +9,7 @@ module.exports = function (chain, cfg) {
   // We only want the entry points we're adding in this file so remove all others.
   chain.entryPoints.clear()
 
-  // The renderer chain is responsible for statics / file copying so remove from this chain
+  // The renderer chain is responsible for public statics / file copying so remove from this chain
   chain.plugins.delete('copy-webpack')
 
   // splitChunks causes issues with the connection between the client and the background script.

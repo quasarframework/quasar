@@ -50,6 +50,20 @@ if (boot.length > 0) {
 import <%= importName %> from '<%= asset.path %>'
 <% }) } %>
 
+const publicPath = `<%= build.publicPath %>`
+<% if (build.publicPath !== '/') { %>
+const doubleSlashRE = /\/\//
+const addPublicPath = url => (publicPath + url).replace(doubleSlashRE, '/')
+<% } %>
+
+function redirectBrowser (url, router, reject) {
+  const normalized = Object(url) === url
+    ? <%= build.publicPath === '/' ? 'router.resolve(url).route.fullPath' : 'addPublicPath(router.resolve(url).route.fullPath)' %>
+    : url
+
+  reject({ url: normalized })
+}
+
 // This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.
@@ -63,7 +77,7 @@ export default context => {
     let hasRedirected = false
     const redirect = url => {
       hasRedirected = true
-      reject({ url })
+      redirectBrowser(url, router, reject)
     }
 
     const bootFiles = [<%= bootNames.join(',') %>]
@@ -80,7 +94,8 @@ export default context => {
           Vue,
           ssrContext: context,
           redirect,
-          urlPath: context.url
+          urlPath: context.url,
+          publicPath
         })
       }
       catch (err) {
@@ -95,7 +110,7 @@ export default context => {
     <% } %>
 
     const
-      { url } = context,
+      url = context.url<% if (build.publicPath !== '/') { %>.replace(`<%= build.publicPath %>`, '/')<% } %>,
       { fullPath } = router.resolve(url).route
 
     if (fullPath !== url) {
@@ -120,7 +135,7 @@ export default context => {
       let hasRedirected = false
       const redirect = url => {
         hasRedirected = true
-        reject({ url })
+        redirectBrowser(url, router, reject)
       }
 
       appOptions.preFetch !== void 0 && matchedComponents.unshift(appOptions)
@@ -136,7 +151,9 @@ export default context => {
           <% if (store) { %>store,<% } %>
           ssrContext: context,
           currentRoute: router.currentRoute,
-          redirect
+          redirect,
+          urlPath: context.url,
+          publicPath
         })),
         Promise.resolve()
       )

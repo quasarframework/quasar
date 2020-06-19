@@ -112,7 +112,6 @@ Let's take each option one by one:
 | preFetch | Boolean | Enable [PreFetch Feature](/quasar-cli/prefetch-feature). |
 | extras | Array | What to import from [@quasar/extras](https://github.com/quasarframework/quasar/tree/dev/extras) package. Example: _['material-icons', 'roboto-font', 'ionicons-v4']_ |
 | vendor | Object | Add/remove files/3rd party libraries to/from vendor chunk: { add: [...], remove: [...] }. |
-| supportIE | Boolean | Add support for IE11+. [More info](/quasar-cli/supporting-ie) |
 | supportTS | Boolean/Object | Add support for TypeScript. [More info](/quasar-cli/supporting-ts) |
 | htmlVariables | Object | Add variables that you can use in index.template.html. |
 | framework | Object/String | What Quasar components/directives/plugins to import, what Quasar language pack to use, what Quasar icon set to use for Quasar components. |
@@ -149,22 +148,32 @@ return {
     /* optional; @quasar/app v1.4.2+;
        disables vendor chunk: */ disable: true,
 
-    add: ['src/plugins/my-special-plugin'],
+    add: [ 'src/plugins/my-special-plugin' ],
     remove: ['axios', 'vue$']
   }
 }
 ```
 
-### Property: framework
+### Property: framework <q-badge align="top" label="@quasar/app v2 specs" />
 Tells the CLI what Quasar components/directives/plugins to import, what Quasar I18n language pack to use, what icon set to use for Quasar components and more.
+
+Filling "components" and "directives" is required only if "all" is set to `false`.
 
 ```js
 // quasar.conf.js
 return {
   // a list with all options (all are optional)
   framework: {
-    components: ['QBtn', 'QIcon' /* ... */],
-    directives: ['TouchSwipe' /* ... */],
+    // Possible values for "importStrategy":
+    // * 'auto' - Auto-import needed Quasar components & directives
+    // * 'all'  - Import everything from Quasar
+    //            (not treeshaking Quasar; biggest bundle size)
+    importStrategy: 'auto',
+
+    // is using "auto" import strategy, you can also configure:
+    autoImportComponentCase: 'pascal', // or 'kebab' (default) or 'combined'
+
+    // Quasar plugins
     plugins: ['Notify' /* ... */],
 
     // Quasar config
@@ -180,34 +189,6 @@ return {
 ```
 
 More on cssAddon [here](/layout/grid/introduction-to-flexbox#Flex-Addons).
-
-### Auto import feature <q-badge align="top" label="@quasar/app v1.1.1+" /> <q-badge align="top" class="q-ml-xs" label="quasar v1.1.2+" />
-
-You can also configure the Quasar CLI to auto import the in-use Quasar components and directives that you are using, through `framework: { all }` property:
-
-```js
-// quasar.conf.js
-framework: {
-  // Possible values for "all":
-  // * 'auto' - Auto-import needed Quasar components & directives
-  //            (slightly higher compile time; next to minimum bundle size; most convenient)
-  // * false  - Manually specify what to import
-  //            (fastest compile time; minimum bundle size; most tedious)
-  // * true   - Import everything from Quasar
-  //            (not treeshaking Quasar; biggest bundle size; convenient)
-  all: 'auto',
-```
-
-If you set `all: 'auto'` then **Quasar will import components and directives automatically** for you. The compile time will slightly increase, but there will be no need for you to specify the components and directives in quasar.conf.js. **Note that the Quasar plugins will still need to be specified.**
-
-Starting with `@quasar/app` v1.1.2 (along with `quasar` v1.1.3+), when using the auto import feature you can also configure how you are writing your components:
-
-```js
-// quasar.conf.js
-framework: {
-  all: 'auto',
-  autoImportComponentCase: 'pascal' // or 'kebab' (default) or 'combined'
-```
 
 ### Property: devServer
 **Webpack devServer options**. Take a look at the [full list](https://webpack.js.org/configuration/dev-server/) of options. Some are overwritten by Quasar CLI based on "quasar dev" parameters and Quasar mode in order to ensure that everything is setup correctly. Note: if you're proxying the development server (i.e. using a cloud IDE), set the `public` setting to your public application URL.
@@ -258,13 +239,13 @@ devServer: {
 }
 ```
 
-### Property: build
+### Property: build <q-badge align="top" label="@quasar/app v2 specs" />
 | Property | Type | Description |
 | --- | --- | --- |
-| transpileDependencies | Array of Regex | Does not applies to modern builds. Add dependencies for transpiling with Babel (from node_modules, which are by default not transpiled). Example: `[ /my-dependency/, ...]` |
-| modern | Boolean | (**@quasar/app 1.9+**) Run [modern build](/quasar-cli/modern-build) (ES6+). |
-| transformAssetUrls | Object | (**@quasar/app 1.3.4+**) Add support for also referencing assets for custom tags props. Example: `{ 'my-img-comp': 'src', 'my-avatar': [ 'src', 'placeholder-src' ]}` |
+| transpile | Boolean | Enables or disables Babel transpiling. |
+| transpileDependencies | Array of Regex | Does not applies if "transpile" is set to "false". Add dependencies for transpiling with Babel (from node_modules, which are by default not transpiled). Example: `[ /my-dependency/, ...]` |
 | showProgress | Boolean | Show a progress bar while compiling. |
+| transformAssetUrls | Object | (**@quasar/app 1.3.4+**) Add support for also referencing assets for custom tags props. Example: `{ 'my-img-comp': 'src', 'my-avatar': [ 'src', 'placeholder-src' ]}` |
 | extendWebpack(cfg) | Function | Extend Webpack config generated by Quasar CLI. Equivalent to chainWebpack(), but you have direct access to the Webpack config object. |
 | chainWebpack(chain) | Function | Extend Webpack config generated by Quasar CLI. Equivalent to extendWebpack(), but using [webpack-chain](https://github.com/neutrinojs/webpack-chain) instead. |
 | beforeDev({ quasarConf }) | Function | Prepare external services before `$ quasar dev` command runs, like starting some backend or any other service that the app relies on. Can use async/await or directly return a Promise. |
@@ -273,7 +254,6 @@ devServer: {
 | afterBuild({ quasarConf }) | Function | Run hook after Quasar built app for production (`$ quasar build`). At this point, the distributables folder has been created and is available should you wish to do something with it. Can use async/await or directly return a Promise. |
 | onPublish(opts) | Function | Run hook if publishing was requested (`$ quasar build -P`), after Quasar built app for production and the afterBuild hook (if specified) was executed. Can use async/await or directly return a Promise. `opts` is Object of form `{arg, distDir}`, where "arg" is the argument supplied (if any) to -P parameter. |
 | publicPath | String | Public path of your app. By default, it uses the root. Use it when your public path is something else, like "&lt;protocol&gt;://&lt;domain&gt;/some/nested/folder" -- in this case, it means the distributables are in "some/nested/folder" on your webserver. |
-| forceDevPublicPath | Boolean | (**@quasar/app 1.0.6+**) Force use of the custom publicPath in dev builds also (only for SPA and PWA modes). Please make sure that this is indeed what you are looking for and that you know what you are doing, otherwise it is not recommended. |
 | appBase | String | (**@quasar/app 1.4.2+**) Force app base tag with your custom value; configure only if you **really** know what you are doing, otherwise you can easily break your app. Highly recommended is to leave this computed by quasar/app. |
 | vueRouterBase | String | (**@quasar/app 1.4.2+**) Force vue router base with your custom value; configure only if you **really** know what you are doing, otherwise you can easily break your app. Highly recommended is to leave this computed by quasar/app. |
 | vueRouterMode | String | Sets [Vue Router mode](https://router.vuejs.org/en/essentials/history-mode.html): 'hash' or 'history'. Pick wisely. History mode requires configuration on your deployment web server too. |
@@ -282,13 +262,12 @@ devServer: {
 | productName | String | Default value is taken from package.json > productName field. |
 | distDir | String | Folder where Quasar CLI should generate the distributables. Relative path to project root directory. Default is 'dist/{ctx.modeName}'. Applies to all Modes except for Cordova (which is forced to `src-cordova/www`). |
 | devtool | String | Source map [strategy](https://webpack.js.org/configuration/devtool/) to use. |
-| env | Object | Add properties to `process.env` that you can use in your website/app JS code. Each property needs to be JSON encoded. Example: { SOMETHING: JSON.stringify('someValue') }. |
+| env | Object | Add properties to `process.env` that you can use in your website/app JS code. |
 | gzip | Boolean/Object | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. If using as Object, it represents the compression-webpack-plugin config Object. |
 | scopeHoisting | Boolean | Default: `true`. Use Webpack scope hoisting for slightly better runtime performance. |
 | analyze | Boolean/Object | Show analysis of build bundle with webpack-bundle-analyzer. If using as Object, it represents the webpack-bundle-analyzer config Object. |
 | vueCompiler | Boolean | Include vue runtime + compiler version, instead of default Vue runtime-only |
 | uglifyOptions | Object | Minification options. [Full list](https://github.com/webpack-contrib/terser-webpack-plugin/#minify). |
-| preloadChunks | Boolean | Default is "false" for "@quasar/app 1.8+". Preload chunks when browser is idle to improve user's later navigation to the other pages. This options is ignored for dev builds. |
 | scssLoaderOptions | Object | Options to supply to `sass-loader` for `.scss` files. Example: scssLoaderOptions: { prependData: '@import "src/css/abstracts/_mixins.scss";'} |
 | sassLoaderOptions | Object | Options to supply to `sass-loader` for `.sass` files. |
 | stylusLoaderOptions | Object | Options to supply to `stylus-loader`. |
@@ -301,23 +280,28 @@ The following properties of `build` are automatically configured by Quasar CLI d
 | extractCSS | Boolean | Extract CSS from Vue files |
 | sourceMap | Boolean | Use source maps |
 | minify | Boolean | Minify code (html, js, css) |
-| webpackManifest | Boolean | Improves caching strategy. Use a webpack manifest (runtime) file to avoid cache bust on vendor chunk changing hash on each build. |
 
 If, for example, you run "quasar build --debug", sourceMap and extractCSS will be set to "true" regardless of what you configure.
 
-### Property: htmlVariables
+### Property: htmlVariables <q-badge align="top" label="@quasar/app v2 specs" />
 
 You can define and then reference variables in `src/index.template.html`, like this:
 ```js
 // quasar.conf.js
 module.exports = function (ctx) {
   return {
-    htmlVariables: { title: 'test name' }
+    htmlVariables: {
+      title: 'test name',
+      some: {
+        prop: 'my-prop'
+      }
+    }
 ```
 Then (just an example showing you how to reference a variable defined above, in this case `title`):
 ```html
 <!-- src/index.template.html -->
-<%= htmlWebpackPlugin.options.title %>
+<%= title %>
+<%= some.prop %>
 ```
 
 ### Property: sourceFiles
@@ -337,34 +321,32 @@ sourceFiles: {
 }
 ```
 
-### Example setting env for dev/build
+### Example setting env for dev/build <q-badge align="top" label="@quasar/app v2 specs" />
 ```js
 build: {
-  env: ctx.dev
-    ? { // so on dev we'll have
-      API: JSON.stringify('https://dev.api.com')
-    }
-    : { // and on build (production):
-      API: JSON.stringify('https://prod.api.com')
-    }
+  env: {
+    API: ctx.dev
+      ? 'https://dev.api.com'
+      : 'https://prod.api.com'
+  }
 }
 ```
+
 Then in your website/app you can access `process.env.API` and it's gonna point to one of those two links above, based on dev or production build type.
 
 You can even go one step further. Supply it with values taken from the `quasar dev/build` env variables:
+
 ```
 # we set an env variable in terminal
 $ MY_API=api.com quasar build
 
 # then we pick it up in /quasar.conf.js
 build: {
-  env: ctx.dev
-    ? { // so on dev we'll have
-      API: JSON.stringify('https://dev.'+ process.env.MY_API)
-    }
-    : { // and on build (production):
-      API: JSON.stringify('https://prod.'+ process.env.MY_API)
-    }
+  env: {
+    API: ctx.dev
+      ? 'https://dev.' + process.env.MY_API
+      : 'https://prod.' + process.env.MY_API
+  }
 }
 ```
 

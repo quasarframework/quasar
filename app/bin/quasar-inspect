@@ -12,7 +12,7 @@ const argv = parseArgs(process.argv.slice(2), {
 
     h: 'help'
   },
-  boolean: ['h', 'modern'],
+  boolean: ['h'],
   string: ['c', 'm', 'p'],
   default: {
     c: 'dev',
@@ -34,7 +34,6 @@ if (argv.help) {
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
-    --modern         Modern build (ES6+ code)
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
@@ -48,11 +47,15 @@ if (argv.help) {
 require('../lib/helpers/ensure-argv')(argv, 'inspect')
 require('../lib/helpers/banner')(argv, argv.cmd)
 
+const { log, fatal } = require('../lib/helpers/logger')
+
 if (argv.mode !== 'spa') {
-  require('../lib/mode/install-missing')(argv.mode, argv.target)
+  const getMode = require('../lib/mode/index')
+  if (getMode(argv.mode).isInstalled !== true) {
+    fatal('Requested mode for inspection is NOT installed.\n')
+  }
 }
 
-const { log, fatal } = require('../lib/helpers/logger')
 const QuasarConfig = require('../lib/quasar-config')
 
 const depth = parseInt(argv.depth, 10) || Infinity
@@ -81,7 +84,9 @@ async function inspect () {
 
   const ctx = getQuasarCtx({
     mode: argv.mode,
-    target: argv.target,
+    target: argv.mode === 'cordova' || argv.mode === 'capacitor'
+      ? 'android'
+      : void 0,
     debug: argv.debug,
     dev: argv.cmd === 'dev',
     prod: argv.cmd === 'build'
@@ -90,7 +95,7 @@ async function inspect () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx, { modern: argv.modern })
+  const quasarConfig = new QuasarConfig(ctx)
 
   try {
     await quasarConfig.prepare()

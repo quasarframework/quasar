@@ -296,6 +296,7 @@ export default Vue.extend({
             type: 'file',
             title: '', // try to remove default tooltip
             accept: this.accept,
+            capture: this.capture,
             ...(this.multiple === true ? { multiple: true } : {})
           },
           on: cache(this, 'input', {

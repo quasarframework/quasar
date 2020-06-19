@@ -81,7 +81,7 @@ async function run () {
     }
   }
 
-  cliMode[action]()
+  await cliMode[action]()
 }
 
 function displayModes () {

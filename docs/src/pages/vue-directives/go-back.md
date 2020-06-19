@@ -11,7 +11,10 @@ If you have no knowledge of [Vue Router](http://router.vuejs.org/), we highly re
 ## Cordova/Capacitor
 Quasar handles the back button for you by default, so it can hide any opened Dialogs **instead of the default behavior** which is to return to the previous page (which is not a nice user experience).
 
-Also, when on the home route (`/`) and user presses the back button on the phone/tablet, Quasar will make your app exit. Should you wish to disable this behavior, then you can do so by configuring quasar.conf.js:
+Also, when on the home route (`/`) and user presses the back button on the phone/tablet, Quasar will make your app exit. Should you wish to disable or configure this behavior, then you can do so via quasar.conf.js options:
+- `false` will disable the feature;
+- `'*'` will make your app exit on any page, if the history length is 0;
+- an array of strings (eg. `['login', 'home', 'my-page']`) will make your app exit when current path is included in that array (or on default `/`). The array automatically filters out non-strings or empty values and normalizes paths to match `#/<your-path>` format.
 
 ```js
 // for Cordova (only!):
@@ -19,19 +22,22 @@ return {
   framework: {
     config: {
       cordova: {
-        backButtonExit: true/false
+        // Quasar handles app exit on mobile phone back button
+        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page']
       }
     }
   }
 }
 
 // for Capacitor (only!)
-// and Quasar v1.9.3+:
 return {
   framework: {
     config: {
       capacitor: {
-        backButtonExit: true/false
+        // Quasar handles app exit on mobile phone back button
+        // Requires Quasar v1.9.3+ for true/false, v1.12.6+ for '*' wildcard and array values
+        backButtonExit: true/false/'*'/['/login', '/home', '/my-page']
       }
     }
   }
@@ -80,7 +86,7 @@ Then we use it:
 />
 ```
 
-This directive determines if the Platform is Cordova, and if so, it performs a `window.history.back()` call instead of a `$router.push('/')`.
+This directive determines if the Platform is Cordova or Capacitor, and if so, it performs a `window.history.back()` call instead of a `$router.push('/')`.
 
 ## Quirks
 Now you may think everything will work smoothly, but you must be careful about how your app is stacking up the window history. Remember, we started out by saying that the List page has a layout with multiple tabs, each one with its own route ("/list/shoes", "/list/hats"). If we'd use `to="/list/shoes"` and `to="/list/hats"` on your Tabs (read more about [QTabs](/vue-components/tabs)), then window history will build up when switching between the tabs.

@@ -64,13 +64,14 @@ export function getAnchorProps (el, offset) {
 }
 
 export function getTargetProps (el) {
+  const { width, height } = el.getBoundingClientRect()
   return {
     top: 0,
-    center: el.offsetHeight / 2,
-    bottom: el.offsetHeight,
+    center: height / 2,
+    bottom: height,
     left: 0,
-    middle: el.offsetWidth / 2,
-    right: el.offsetWidth
+    middle: width / 2,
+    right: width
   }
 }
 
@@ -137,19 +138,19 @@ export function setPosition (cfg) {
   applyBoundaries(props, anchorProps, targetProps, cfg.anchorOrigin, cfg.selfOrigin)
 
   elStyle = {
-    top: Math.floor(props.top) + 'px',
-    left: Math.floor(props.left) + 'px'
+    top: props.top + 'px',
+    left: props.left + 'px'
   }
 
   if (props.maxHeight !== void 0) {
-    elStyle.maxHeight = Math.floor(props.maxHeight) + 'px'
+    elStyle.maxHeight = props.maxHeight + 'px'
 
     if (anchorProps.height > props.maxHeight) {
       elStyle.minHeight = elStyle.maxHeight
     }
   }
   if (props.maxWidth !== void 0) {
-    elStyle.maxWidth = Math.floor(props.maxWidth) + 'px'
+    elStyle.maxWidth = props.maxWidth + 'px'
 
     if (anchorProps.width > props.maxWidth) {
       elStyle.minWidth = elStyle.maxWidth

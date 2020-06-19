@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+import { isSSR } from '../plugins/Platform.js'
 import { getBodyFullscreenElement } from '../utils/dom.js'
 
 export function closePortalMenus (vm, evt) {
@@ -45,7 +46,21 @@ export function closePortals (vm, evt, depth) {
   }
 }
 
-export default {
+function isOnGlobalDialog (vm) {
+  while (vm !== void 0) {
+    if (vm.$options.name === 'QGlobalDialog') {
+      return true
+    }
+    if (vm.$options.name === 'QDialog') {
+      return false
+    }
+
+    vm = vm.$parent
+  }
+  return false
+}
+
+const Portal = {
   inheritAttrs: false,
 
   props: {
@@ -135,11 +150,15 @@ export default {
     }
   },
 
-  created () {
-    this.__onGlobalDialog = this.$root.$options.name === 'QGlobalDialog'
-  },
-
   beforeDestroy () {
     this.__hidePortal()
   }
 }
+
+if (isSSR === false) {
+  Portal.created = function () {
+    this.__onGlobalDialog = isOnGlobalDialog(this.$parent)
+  }
+}
+
+export default Portal

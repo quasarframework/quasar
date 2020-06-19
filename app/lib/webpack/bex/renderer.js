@@ -9,9 +9,10 @@ module.exports = function (chain, cfg) {
   const outputPath = path.join(rootPath, 'www')
 
   // Add a copy config to copy the static folder for both dev and build.
-  let copyArray = [{
-    from: appPaths.resolve.src( 'statics'),
-    to: path.join(outputPath, 'statics')
+  const copyPatterns = [{
+    from: appPaths.resolve.app('public'),
+    to: path.join(outputPath),
+    noErrorOnMissing: true
   }]
 
   // Copy our entry BEX files to the .quasar/bex folder.
@@ -23,6 +24,10 @@ module.exports = function (chain, cfg) {
   // Bundle our bex files for inclusion via the manifest.json
   chain.entry('bex-init')
     .add(appPaths.resolve.app('.quasar/bex/init/index.js'))
+
+  // We shouldn't minify BEX code. This option is disabled by default for BEX mode in quasar-conf.js.
+  // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/Source_Code_Submission#Provide_your_extension_source_code
+  chain.optimization.minimize(cfg.build.minify)
 
   if (cfg.ctx.dev) {
     // Clean old dir
@@ -49,15 +54,22 @@ module.exports = function (chain, cfg) {
       }])
 
     // Copy our user edited BEX files to the dist dir (excluding the already built www folder)
-    copyArray.push({
+    copyPatterns.push({
       from: appPaths.bexDir,
       to: cfg.build.distDir,
-      ignore: ['www/**/*', 'bex-flag.d.ts']
+      noErrorOnMissing: true,
+      globOptions: {
+        ignore: [
+          appPaths.resolve.bex('/**/.*'),
+          appPaths.resolve.bex('www'),
+          appPaths.resolve.bex('bex-flag.d.ts')
+        ]
+      }
     })
   }
 
   // Copy any files we've registered during the chain.
   const CopyWebpackPlugin = require('copy-webpack-plugin')
   chain.plugin('copy-webpack')
-    .use(CopyWebpackPlugin, [copyArray])
+    .use(CopyWebpackPlugin, [{ patterns: copyPatterns }])
 }

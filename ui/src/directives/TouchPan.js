@@ -381,6 +381,11 @@ export default {
     const ctx = el.__qtouchpan_old || el.__qtouchpan
 
     if (ctx !== void 0) {
+      // emit the end event when the directive is destroyed while active
+      // this is only needed in TouchPan because the rest of the touch directives do not emit an end event
+      // the condition is also checked in the start of function but we avoid the call
+      ctx.event !== void 0 && ctx.end()
+
       cleanEvt(ctx, 'main')
       cleanEvt(ctx, 'temp')
 
