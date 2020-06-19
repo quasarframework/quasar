@@ -59,7 +59,7 @@
   },
   "homepage": "https://quasar.dev",
   "devDependencies": {
-    "@quasar/app": "^1.9.1",
+    "@quasar/app": "^2.0.0",
     "@quasar/extras": "^1.6.1",
     "@rollup/plugin-buble": "^0.21.1",
     "@rollup/plugin-json": "^4.0.2",
@@ -90,15 +90,12 @@
     "attributes": "dist/vetur/quasar-attributes.json"
   },
   "web-types": "dist/web-types/web-types.json",
+  "browserslist": [
+    "last 1 version, not dead, ie >= 11"
+  ],
   "engines": {
     "node": ">= 10.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
-  },
-  "browserslist": [
-    "last 1 version, not dead, ie >= 11"
-  ],
-  "resolutions": {
-    "@babel/parser": "7.7.5"
   }
 }
