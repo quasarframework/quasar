@@ -135,7 +135,6 @@ $ quasar dev -h
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
-    --modern         Build modern code (ES6+)
     --help, -h       Displays this message
 
     Only for Cordova mode:
@@ -189,8 +188,6 @@ $ quasar dev -m electron
 $ quasar dev -m ios -- some params --and options --here
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
-
-For using [modern build](/quasar-cli/modern-build) add `--modern` param.
 
 If you wish to change the hostname or port serving your App you have 3 options:
 * Edit '/quasar.conf.js':
@@ -254,7 +251,6 @@ $ quasar build -h
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
-    --modern        Build modern code (ES6+)
     --publish, -P   Also trigger publishing hooks (if any are specified)
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
@@ -316,8 +312,6 @@ $ quasar build -m ios -- some params --and options --here
 # (has source-maps and code is NOT minified)
 $ quasar build -d [-m <mode>]
 ```
-
-For using [modern build](/quasar-cli/modern-build) add `--modern` param.
 
 ## Clean
 Cleans up all the build assets:
@@ -522,7 +516,6 @@ $ quasar inspect -h
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|electron] (default: spa)
-    --modern         Modern build
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:

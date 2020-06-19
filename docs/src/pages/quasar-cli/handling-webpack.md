@@ -71,7 +71,6 @@ $ quasar inspect -h
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
     --mode, -m       App mode [spa|ssr|pwa|cordova|electron] (default: spa)
-    --modern         Modern build
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:
