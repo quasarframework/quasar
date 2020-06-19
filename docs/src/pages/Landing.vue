@@ -326,9 +326,7 @@ export default {
         color: $grey-4
 
   hr.countdown
-    line-height: 1px
     background: white
-    height: 1px
     width: 70%
     margin: 0 auto 40px
 
