@@ -5,6 +5,8 @@
   section
     .landing__hero.flex.flex-center
       .relative-position
+        conf-countdown.text-white.q-mb-xl
+        hr.countdown
         .text-h1
           .text-weight-bold Quasar
           .landing__hero-row.row.no-wrap.items-baseline
@@ -169,6 +171,7 @@ import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
+import ConfCountdown from '../components/ConfCountdown'
 
 import {
   fabGithub, fabTwitter, fabFacebook, fasMedkit,
@@ -188,7 +191,8 @@ export default {
     Sponsor,
     SponsorList,
     LandingTopBar,
-    IntroductionVideo
+    IntroductionVideo,
+    ConfCountdown
   },
 
   meta: {
@@ -320,6 +324,11 @@ export default {
 
       &:hover
         color: $grey-4
+
+  hr.countdown
+    background: white
+    width: 70%
+    margin: 0 auto 40px
 
 @keyframes logo-rotate
   100%
