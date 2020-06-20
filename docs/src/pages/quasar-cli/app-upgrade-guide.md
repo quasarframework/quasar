@@ -34,7 +34,7 @@ Following this guide should take you at most 5 minutes to complete.
 
 * Dependencies
   - remove "resolutions" > "@babel/parser" if it's in your `/package.json`
-  - Use "quasar upgrade" command (recommended) or manually yarn/npm install @quasar/app v2: `yarn add --dev @quasar/app@^2.0.0` (or `npm install --save-dev @quasar/app@^2.0.0`)
+  - Manually yarn/npm install @quasar/app v2: `yarn add --dev @quasar/app@^2.0.0` (or `npm install --save-dev @quasar/app@^2.0.0`).
   - if you are using PWA (or SSR+PWA) mode, you'll also need to install workbox-webpack-plugin@^5.0.0 (or ^4.0.0 -- v4 came with @quasar/app v1) -- this package is no longer supplied by "@quasar/app": `yarn add --dev workbox-webpack-plugin@^5.0.0` (or `npm install --save-dev workbox-webpack-plugin@^5.0.0`)
   - yarn/npm install core-js v3: `yarn add core-js@^3.0.0` (or `npm install core-js@^3.0.0`)
 
