@@ -101,6 +101,9 @@ export default {
         this.hours = Math.floor((remaining % oneDay) / oneHour)
         this.minutes = Math.floor((remaining % oneHour) / oneMin)
       }
+      else {
+        clearInterval(this.interval)
+      }
     }
   }
 }
