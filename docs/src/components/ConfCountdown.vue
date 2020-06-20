@@ -1,37 +1,44 @@
 <template lang="pug">
-  div.countdown.flex.justify-center
-    span(v-if="hasEnded").heading.full-width.text-center
-      span Quasar.Conf was a success!
-
-    span(v-else).heading.full-width.text-center
-      span Quasar.Conf launches in ...
-      div.flex.justify-center
-        div.countdown__timer.flex
-          span.time {{days}}
-          span.label Days
-        div.countdown__timer
-          span.time {{hours}}
-          span.label Hours
-        div.countdown__timer
-          span.time {{minutes}}
-          span.label Minutes
-
-    q-btn.q-my-md(
-      :color="color",
-      :text-color="textColor",
-      type="a",
-      no-caps,
-      :href="hasEnded ? 'https://www.youtube.com/watch?v=XfEx5teuY84&feature=youtu.be' : 'https://dev.to/quasar/introducing-quasar-conf-52gg'",
-      :label="hasEnded ? 'View it on YouTube!' : 'Learn More!'",
+  q-banner(inline-actions).conf-countdown
+    template(v-if="!hasEnded" v-slot:action)
+      q-btn(
+        type="a"
+        :href="btn.href"
+        target="_blank"
+        :color="color"
+        :text-color="textColor"
+        :icon="btn.icon"
+        :label="btn.label"
+        no-caps
+      )
+    q-btn(
+      v-else
+      type="a"
+      :href="btn.href"
       target="_blank"
-      :icon="hasEnded ? mdiYoutube : void 0"
+      :color="color"
+      :text-color="textColor"
+      :icon="btn.icon"
+      :label="btn.label"
+      no-caps
+      no-wrap
     )
+
+    .q-gutter-xs(v-if="!hasEnded" :class="paddingClass")
+      .row.items-center(:class="alignClass")
+        .text-bold Quasar.Conf
+        .q-ml-xs launches in...
+      q-badge.text-bold(v-if="days > 0" :color="color" :text-color="textColor") {{ days }} Days
+      q-badge.text-bold(v-if="hours > 0" :color="color" :text-color="textColor") {{ hours }} Hours
+      q-badge.text-bold(:color="color" :text-color="textColor") {{ minutes }} Minutes
 </template>
 
 <script>
 import { mdiYoutube } from '@quasar/extras/mdi-v5'
 
-const confDate = new Date('July 5, 2020 15:00:00').getTime()
+// July 5, 2020 15:00:00 GMT
+const confDate = 1593961200000
+
 const oneDay = 1000 * 60 * 60 * 24
 const oneHour = 1000 * 60 * 60
 const oneMin = 1000 * 60
@@ -40,14 +47,10 @@ export default {
   name: 'ConfCountdown',
 
   props: {
-    color: {
-      type: String,
-      default: 'white'
-    },
-    textColor: {
-      type: String,
-      default: 'primary'
-    }
+    color: String,
+    textColor: String,
+    alignClass: String,
+    paddingClass: String
   },
 
   data () {
@@ -56,6 +59,21 @@ export default {
       hours: '*',
       minutes: '*',
       hasEnded: false
+    }
+  },
+
+  computed: {
+    btn () {
+      return this.hasEnded === true
+        ? {
+          href: 'https://www.youtube.com/watch?v=XfEx5teuY84&feature=youtu.be',
+          label: 'View Quasar.Conf on YouTube!',
+          icon: mdiYoutube
+        }
+        : {
+          href: 'https://dev.to/quasar/introducing-quasar-conf-52gg',
+          label: 'About'
+        }
     }
   },
 
@@ -87,21 +105,3 @@ export default {
   }
 }
 </script>
-
-<style lang="sass">
-  .countdown
-    flex-wrap: wrap
-    .heading,
-    .action
-      font-size: 23px
-
-    &__timer
-      display: flex
-      flex-wrap: wrap
-
-      span
-        width: 100%
-
-      .time
-        font-size: 42px
-</style>

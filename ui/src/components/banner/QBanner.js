@@ -19,16 +19,21 @@ export default Vue.extend({
   },
 
   render (h) {
+    const child = []
     const actions = slot(this, 'action')
-    const child = [
+    const avatar = slot(this, 'avatar')
+
+    avatar !== void 0 && child.push(
       h('div', {
         staticClass: 'q-banner__avatar col-auto row items-center self-start'
-      }, slot(this, 'avatar')),
+      }, avatar)
+    )
 
+    child.push(
       h('div', {
         staticClass: 'q-banner__content col text-body2'
       }, slot(this, 'default'))
-    ]
+    )
 
     actions !== void 0 && child.push(
       h('div', {
