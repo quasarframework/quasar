@@ -26,7 +26,7 @@ if (argv.help) {
 
   Usage
     # checks for non-breaking change upgrades and displays them,
-    # but it does not also installs
+    # but will not carry out the install
     $ quasar upgrade
 
     # checks for pre-releases (alpha/beta) also:
