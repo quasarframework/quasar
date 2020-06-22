@@ -35,11 +35,10 @@ if (argv.help) {
   process.exit(0)
 }
 
-const
-  fs = require('fs'),
-  path = require('path'),
-  execSync = require('child_process').execSync,
-  { green, red } = require('chalk')
+const fs = require('fs')
+const path = require('path')
+const execSync = require('child_process').execSync
+const { green, red } = require('chalk')
 
 const root = require('../lib/get-project-root')()
 const { log, fatal } = require('../lib/logger')
