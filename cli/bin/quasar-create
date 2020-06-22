@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
-const
-  parseArgs = require('minimist'),
-  chalk = require('chalk')
+const parseArgs = require('minimist')
+const chalk = require('chalk')
 
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
@@ -29,8 +28,6 @@ if (argv.help) {
       # installs an App project with the latest App starter kit
     $ quasar create my-project --branch v0.17
       # installs an App project from a specific version (only major+minor version)
-    $ quasar create my-project --kit umd
-      # installs an App project and installs the umd demo
     $ quasar create my-project --kit user/github-starter-kit
       # installs an App project with a custom starter kit from GitHub
     $ quasar create my-project --kit ./starter-kit-folder
@@ -66,20 +63,18 @@ console.log(
 
 // Following is adapted from Vue CLI v2 "init" command
 
-const
-  download = require('download-git-repo'),
-  exists = require('fs').existsSync,
-  path = require('path'),
-  ora = require('ora'),
-  home = require('user-home'),
-  tildify = require('tildify'),
-  inquirer = require('inquirer'),
-  rm = require('rimraf').sync
+const download = require('download-git-repo')
+const exists = require('fs').existsSync
+const path = require('path')
+const ora = require('ora')
+const home = require('user-home')
+const tildify = require('tildify')
+const inquirer = require('inquirer')
+const rm = require('rimraf').sync
 
-const
-  generate = require('../lib/generate'),
-  logger = require('../lib/logger'),
-  { isLocalPath, getTemplatePath } = require('../lib/local-path')
+const generate = require('../lib/generate')
+const logger = require('../lib/logger')
+const { isLocalPath, getTemplatePath } = require('../lib/local-path')
 
 let template = argv.kit
   ? (
@@ -89,11 +84,10 @@ let template = argv.kit
   )
   : 'quasarframework/quasar-starter-kit'
 
-const
-  rawName = argv._[0],
-  inPlace = !rawName || rawName === '.',
-  name = inPlace ? path.relative('../', process.cwd()) : rawName,
-  to = path.resolve(rawName || '.')
+const rawName = argv._[0]
+const inPlace = !rawName || rawName === '.'
+const name = inPlace ? path.relative('../', process.cwd()) : rawName
+const to = path.resolve(rawName || '.')
 
 if (isLocalPath(template) !== true) {
   template += '#' + (argv.branch || 'master')

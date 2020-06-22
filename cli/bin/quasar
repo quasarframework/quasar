@@ -2,6 +2,11 @@
 
 require('../lib/node-version-check')
 
+const updateNotifier = require('update-notifier')
+const pkg = require('../package.json')
+
+updateNotifier({ pkg }).notify()
+
 function getQuasarAppExecutable (which, root) {
   try {
     return require.resolve(which, {
