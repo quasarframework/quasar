@@ -16,21 +16,23 @@ if (argv.help) {
   console.log(`
   Description
     Upgrades all quasar packages to their latest version
-    which are compatible with the API that you are currently using.
+    which are compatible with the API that you are currently using
+    (unless -m/--major param is used which may include breaking changes).
 
     Works only in a project folder by upgrading to latest minor versions
-    of all quasar related packages.
+    (or latest major versions if chosen to) of all quasar related packages.
 
     This will also upgrade official Quasar App Extensions.
 
   Usage
-    # checks for upgrades only:
+    # checks for non-breaking change upgrades and displays them,
+    # but it does not also installs
     $ quasar upgrade
 
     # checks for pre-releases (alpha/beta) also:
     $ quasar upgrade -p
 
-    # checks for major new releases:
+    # checks for major new releases (includes breaking changes):
     $ quasar upgrade -m
 
     # to perform the actual upgrade,
