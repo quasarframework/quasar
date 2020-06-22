@@ -68,6 +68,7 @@
     "route-cache": "0.4.4",
     "selfsigned": "1.10.7",
     "tildify": "2.0.0",
+    "update-notifier": "^4.1.0",
     "user-home": "2.0.0",
     "validate-npm-package-name": "3.0.0"
   },
