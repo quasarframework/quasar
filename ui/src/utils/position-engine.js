@@ -3,16 +3,34 @@ import { client } from '../plugins/Platform.js'
 
 let vpLeft, vpTop
 
+const portalAnimationEndEvents = [ 'animationend', 'animationcancel', 'transitionend', 'transitioncancel' ]
+
+export function onPortalAnimationEnd (portal, fn) {
+  const tmp = ev => {
+    if (portal !== void 0 && ev.target === portal.$el) {
+      portalAnimationEndEvents.forEach(evtName => {
+        portal.$el.removeEventListener(evtName, tmp)
+      })
+      fn()
+    }
+  }
+  if (portal !== void 0) {
+    portalAnimationEndEvents.forEach(evtName => {
+      portal.$el.addEventListener(evtName, tmp)
+    })
+  }
+}
+
 export function validatePosition (pos) {
-  let parts = pos.split(' ')
+  const parts = pos.split(' ')
   if (parts.length !== 2) {
     return false
   }
-  if (!['top', 'center', 'bottom'].includes(parts[0])) {
+  if ([ 'top', 'center', 'bottom' ].includes(parts[0]) !== true) {
     console.error('Anchor/Self position must start with one of top/center/bottom')
     return false
   }
-  if (!['left', 'middle', 'right'].includes(parts[1])) {
+  if ([ 'left', 'middle', 'right' ].includes(parts[1]) !== true) {
     console.error('Anchor/Self position must end with one of left/middle/right')
     return false
   }
@@ -20,8 +38,12 @@ export function validatePosition (pos) {
 }
 
 export function validateOffset (val) {
-  if (!val) { return true }
-  if (val.length !== 2) { return false }
+  if (val !== true) {
+    return true
+  }
+  if (val.length !== 2) {
+    return false
+  }
   if (typeof val[0] !== 'number' || typeof val[1] !== 'number') {
     return false
   }
@@ -29,12 +51,14 @@ export function validateOffset (val) {
 }
 
 export function parsePosition (pos) {
-  let parts = pos.split(' ')
+  const parts = pos.split(' ')
   return { vertical: parts[0], horizontal: parts[1] }
 }
 
 export function validateCover (val) {
-  if (val === true || val === false) { return true }
+  if (val === true || val === false) {
+    return true
+  }
   return validatePosition(val)
 }
 
@@ -64,13 +88,22 @@ export function getAnchorProps (el, offset) {
 }
 
 export function getTargetProps (el) {
+  let { width, height } = el.getBoundingClientRect()
+
+  if (width === 0) {
+    width = el.offsetWidth
+  }
+  if (height === 0) {
+    height = el.offsetHeight
+  }
+
   return {
     top: 0,
-    center: el.offsetHeight / 2,
-    bottom: el.offsetHeight,
+    center: height / 2,
+    bottom: height,
     left: 0,
-    middle: el.offsetWidth / 2,
-    right: el.offsetWidth
+    middle: width / 2,
+    right: width
   }
 }
 
@@ -101,7 +134,7 @@ export function setPosition (cfg) {
   const { scrollLeft, scrollTop } = cfg.el
 
   if (cfg.absoluteOffset === void 0) {
-    anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [0, 0] : cfg.offset)
+    anchorProps = getAnchorProps(cfg.anchorEl, cfg.cover === true ? [ 0, 0 ] : cfg.offset)
   }
   else {
     const

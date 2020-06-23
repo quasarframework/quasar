@@ -15,7 +15,7 @@ import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
 
 import {
-  validatePosition, validateOffset, setPosition, parsePosition
+  validatePosition, validateOffset, setPosition, parsePosition, onPortalAnimationEnd
 } from '../../utils/position-engine.js'
 
 export default Vue.extend({
@@ -195,7 +195,8 @@ export default Vue.extend({
           this.__portal.$el.click()
         }
 
-        this.updatePosition()
+        onPortalAnimationEnd(this.__portal, this.updatePosition)
+
         this.$emit('show', evt)
       }, 300)
     },
