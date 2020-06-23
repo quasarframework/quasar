@@ -67,5 +67,6 @@ interface QuasarAllFrameworkObjectConfiguration
 }
 
 export type QuasarFrameworkConfiguration =
+  | "all" // Equal to `{ importStrategy: 'all' }`
   | QuasarAutoFrameworkObjectConfiguration
   | QuasarAllFrameworkObjectConfiguration;
