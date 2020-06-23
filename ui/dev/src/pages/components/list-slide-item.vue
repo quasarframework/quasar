@@ -27,6 +27,26 @@
         </q-item>
       </q-slide-item>
 
+      <q-slide-item
+        @left="onLeft"
+        @right="onRight"
+        @click.native="onClickItem"
+        :leftColor="'grey'"
+        :leftColorActive="'green'"
+        :rightColor="'grey'"
+        :rightColorActive="'red'"
+        >
+        <q-icon slot="left" name="done" />
+        <q-icon slot="right" name="alarm" />
+
+        <q-item>
+          <q-item-section avatar>
+            <q-avatar color="primary" text-color="white" icon="bluetooth" />
+          </q-item-section>
+          <q-item-section>Icons only with slide active color</q-item-section>
+        </q-item>
+      </q-slide-item>
+
       <q-slide-item @left="onLeft" @right="onRight">
         <div slot="left">
           Left
