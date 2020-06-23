@@ -30,11 +30,14 @@ import Vue from 'vue'
 import Quasar from 'quasar'
 <% } else {
   let importStatement = []
-  let items = framework.plugins
-  if (items.length > 0) {
-    useStatement.push('plugins: {' + items.join(',') + '}')
-    importStatement = importStatement.concat(items)
-  }
+
+  ;['components', 'directives', 'plugins'].forEach(type => {
+    let items = framework[type]
+    if (items.length > 0) {
+      useStatement.push(type + ': {' + items.join(',') + '}')
+      importStatement = importStatement.concat(items)
+    }
+  })
 
   importStatement = '{Quasar' + (importStatement.length ? ',' + importStatement.join(',') : '') + '}'
 %>

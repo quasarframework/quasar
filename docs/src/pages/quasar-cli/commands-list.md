@@ -90,10 +90,10 @@ Check (and optionally) upgrade Quasar packages from a Quasar project folder:
 $ quasar upgrade -h
 
 # checks for non-breaking change upgrades and displays them,
-# but it does not also installs
+# but will not carry out the install
 $ quasar upgrade
 
-# checks for pre-releases (alpha/beta) also:
+# checks for pre-releases (alpha/beta):
 $ quasar upgrade -p
 
 # checks for major new releases (includes breaking changes):
