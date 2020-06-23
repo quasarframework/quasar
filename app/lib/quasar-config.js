@@ -383,6 +383,14 @@ class QuasarConfig {
       }
     }
 
+    // special case where a component can be designated for a framework > config prop
+    if (cfg.framework.importStrategy === 'auto' && cfg.framework.config && cfg.framework.config.loading) {
+      const component = cfg.framework.config.loading.spinner
+      if (component !== void 0) {
+        cfg.framework.components.push(component)
+      }
+    }
+
     cfg.framework.components = getUniqueArray(cfg.framework.components)
     cfg.framework.directives = getUniqueArray(cfg.framework.directives)
     cfg.framework.plugins = getUniqueArray(cfg.framework.plugins)
