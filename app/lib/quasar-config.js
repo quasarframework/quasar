@@ -212,6 +212,14 @@ class QuasarConfig {
     if (cfg.framework === void 0) {
       cfg.framework = { importStrategy: 'auto' }
     }
+    else if (cfg.framework === 'all') {
+      cfg.framework = { importStrategy: 'all' }
+    }
+
+    if (cfg.animations === 'all') {
+      cfg.animations = require('./helpers/animations')
+    }
+
     if (!cfg.framework.plugins) {
       cfg.framework.plugins = []
     }
@@ -542,10 +550,6 @@ class QuasarConfig {
 
     // make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
-
-    if (cfg.animations === 'all') {
-      cfg.animations = require('./helpers/animations')
-    }
 
     if (this.ctx.mode.ssr) {
       cfg.ssr = merge({
