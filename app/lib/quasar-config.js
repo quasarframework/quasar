@@ -370,6 +370,10 @@ class QuasarConfig {
       cfg.extras = getUniqueArray(cfg.extras)
     }
 
+    if (cfg.animations.length > 0) {
+      cfg.animations = getUniqueArray(cfg.animations)
+    }
+
     if (['all', 'auto'].includes(cfg.framework.importStrategy) === false) {
       cfg.framework.importStrategy = 'auto'
     }
