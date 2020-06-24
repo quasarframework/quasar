@@ -34,7 +34,6 @@
       opacity: 1
 
   &__header-subtitle
-    height: 24px
     font-size: 14px
     line-height: 1.75
     letter-spacing: .00938em
@@ -69,6 +68,9 @@
       font-size: 12px
 
   &__calendar-item
+    border-style: dashed
+    border-color: transparent
+    border-width: 1px
     display: inline-flex
     align-items: center
     justify-content: center
@@ -90,6 +92,52 @@
 
     &--fill
       visibility: hidden
+
+    &--range, &--range-start, &--range-end
+
+      &:before
+        background-color: currentColor
+        content: ''
+        position: absolute
+        top: 0
+        bottom: 0
+        left: -1px
+        right: -1px
+        opacity: .18
+
+      &:nth-child(7n-6), &:first-of-type, &-start
+
+        &:before
+          border-top-left-radius: $button-rounded-border-radius
+          border-bottom-left-radius: $button-rounded-border-radius
+          left: 0
+
+      &:nth-child(7n), &:last-of-type, &-end
+
+        &:before
+          border-top-right-radius: $button-rounded-border-radius
+          border-bottom-right-radius: $button-rounded-border-radius
+          right: 0
+
+    &--mock-range
+      border-color: currentColor transparent
+
+      &:nth-child(7n-6), &:first-of-type, &-start, &-end-start
+        border-left-color: currentColor
+        border-top-color: currentColor
+        border-bottom-color: currentColor
+        border-top-left-radius: $button-rounded-border-radius
+        border-bottom-left-radius: $button-rounded-border-radius
+
+      &:nth-child(7n), &:last-of-type, &-end, &-end-start
+        border-right-color: currentColor
+        border-top-color: currentColor
+        border-bottom-color: currentColor
+        border-top-right-radius: $button-rounded-border-radius
+        border-bottom-right-radius: $button-rounded-border-radius
+
+      &-end button
+        box-shadow: 0 0 1px 0 currentColor
 
   &__calendar-days-container
     height: 75%
