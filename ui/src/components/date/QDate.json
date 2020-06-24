@@ -139,15 +139,15 @@
       "category": "model|selection"
     },
 
-    "editRange": {
+    "edit-range": {
       "type": "String",
-      "desc": "When range is true, resizes the range, this value indicates what range-end edit when click inside the range",
+      "desc": "Use with 'range' prop only; Range gets editable",
       "default": "end",
       "values": [ "start", "end" ],
       "category": "selection"
     },
 
-    "defaultRangeView": {
+    "default-range-view": {
       "type": "String",
       "desc": "When range or multiple are true, this value indicates the year/month of what range-end will be in the view",
       "default": "end",
@@ -201,11 +201,31 @@
             }
           }
         }
-      },
-      "mock-range-end": {
-        "params": {
-          "value": {
-            "type": "Date"
+      }
+    },
+
+    "mock-range-end": {
+      "desc": "In-progress range selection ended",
+      "params": {
+        "value": {
+          "type": "Object",
+          "desc": "Object with year, month and day as props",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            },
+            "day": {
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            }
           }
         }
       }
@@ -252,8 +272,25 @@
       "desc": "Sets the mock range-end",
       "params": {
         "date": {
-          "type": "Date",
-          "required": true
+          "type": "Object",
+          "desc": "Object with year, month and day as props",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            },
+            "day": {
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            }
+          }
         }
       }
     }
