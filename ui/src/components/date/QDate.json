@@ -89,6 +89,15 @@
       "category": "style"
     },
 
+    "event-render-fn": {
+      "type": "Function",
+      "desc": "Render function for the events, it receives the createElement (h) as first parameter and the date as a String and must return a VNode",
+      "examples": [
+        ":event-render-fn=\"(h, date) => h('div', { staticClass: 'absolute-top-left text-red' }, [ '⋆' ])\""
+      ],
+      "category": "content"
+    },
+
     "options": {
       "type": [ "Array", "Function" ],
       "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline",

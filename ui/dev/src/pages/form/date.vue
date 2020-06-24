@@ -131,6 +131,14 @@
           :event-color="eventColor"
           :style="style"
         />
+
+        <q-date
+          v-model="date"
+          v-bind="props"
+          :events="eventFn"
+          :event-render-fn="eventRenderFn"
+          :style="style"
+        />
       </div>
 
       <div class="text-h6">
@@ -327,8 +335,25 @@
   </div>
 </template>
 
+<style lang="sass">
+.test-date__event-container
+  position: absolute
+  bottom: -4px
+  left: 50%
+  height: 12px
+  transform: translate3d(-50%, 0, 0)
+
+  .test-date__event
+    width: 12px
+    border-radius: 6px
+    margin: 0 1px
+</style>
+
 <script>
 import languages from 'quasar/lang/index.json'
+import { event, QMenu, QTooltip } from 'quasar'
+
+const { stopAndPrevent } = event
 
 const localeOptions = languages.map(lang => ({
   label: lang.nativeName,
@@ -428,6 +453,44 @@ export default {
 
     eventColor (date) {
       return date[9] % 2 === 0 ? 'teal' : 'orange'
+    },
+
+    eventRenderFn (h, date) {
+      if (date[9] % 2 === 0) {
+        return h('div', { staticClass: 'test-date__event-container row no-wrap' }, [
+          h('div', {
+            staticClass: 'test-date__event bg-red',
+            on: {
+              click: stopAndPrevent
+            }
+          }, [
+            h(QMenu, {
+              props: {
+                contentClass: 'q-pa-md',
+                anchor: 'bottom middle',
+                self: 'top middle',
+                offset: [ 32, 0 ]
+              }
+            }, [
+              h('strong', [ `Event on ${date}` ])
+            ])
+          ]),
+          h('div', { staticClass: 'test-date__event bg-green' })
+        ])
+      }
+      return h('div', { staticClass: 'test-date__event-container row no-wrap' }, [
+        h('div', { staticClass: 'test-date__event bg-orange' }, [
+          h(QTooltip, {
+            props: {
+              anchor: 'bottom middle',
+              self: 'top middle',
+              offset: [ 32, 0 ]
+            }
+          }, [
+            h('strong', [ `Event on ${date}` ])
+          ])
+        ])
+      ])
     },
 
     optionsFn (date) {

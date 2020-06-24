@@ -38,6 +38,7 @@ export default Vue.extend({
 
     events: [Array, Function],
     eventColor: [String, Function],
+    eventRenderFn: Function,
 
     options: [Array, Function],
 
@@ -183,7 +184,7 @@ export default Vue.extend({
     evtColor () {
       return typeof this.eventColor === 'function'
         ? this.eventColor
-        : date => this.eventColor
+        : () => this.eventColor
     },
 
     isInSelection () {
@@ -234,10 +235,10 @@ export default Vue.extend({
         }
         else {
           const event = this.events !== void 0 && this.evtFn(day) === true
-            ? this.evtColor(day)
+            ? (this.eventRenderFn === void 0 ? this.evtColor(day) : this.eventRenderFn)
             : false
 
-          res.push({ i, in: true, flat: true, event })
+          res.push({ i, day, in: true, flat: true, event })
         }
       }
 
@@ -525,7 +526,9 @@ export default Vue.extend({
                     },
                     on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
                   }, day.event !== false ? [
-                    h('div', { staticClass: 'q-date__event bg-' + day.event })
+                    typeof day.event === 'function'
+                      ? day.event(h, day.day)
+                      : h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
                   : h('div', [ day.i ])
               ])))
