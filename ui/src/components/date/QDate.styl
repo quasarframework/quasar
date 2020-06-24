@@ -68,9 +68,6 @@
       font-size: 12px
 
   &__calendar-item
-    border-style: dashed
-    border-color: transparent
-    border-width: 1px
     display: inline-flex
     align-items: center
     justify-content: center
@@ -78,13 +75,26 @@
     width: 14.285% !important
     height: 12.5% !important
     position: relative
+    padding: 1px
+
+    &:after
+      content: ''
+      position: absolute
+      pointer-events: none
+      top: 1px
+      right: 0
+      bottom: 1px
+      left: 0
+      border-style: dashed
+      border-color: transparent
+      border-width: 1px
 
     > div, button
-      width: 32px
-      height: 32px
+      width: 30px
+      height: 30px
       border-radius: 50%
     > div
-      line-height: 32px
+      line-height: 30px
       text-align: center
 
     &--out
@@ -96,48 +106,62 @@
     &--range, &--range-start, &--range-end
 
       &:before
-        background-color: currentColor
         content: ''
+        background-color: currentColor
         position: absolute
-        top: 0
-        bottom: 0
-        left: -1px
-        right: -1px
-        opacity: .18
+        top: 1px
+        bottom: 1px
+        left: 0
+        right: 0
+        opacity: .3
 
-      &:nth-child(7n-6), &:first-of-type, &-start
-
+      &:nth-child(7n-6)
         &:before
-          border-top-left-radius: $button-rounded-border-radius
-          border-bottom-left-radius: $button-rounded-border-radius
-          left: 0
+          border-top-left-radius: 0
+          border-bottom-left-radius: 0
 
-      &:nth-child(7n), &:last-of-type, &-end
-
+      &:nth-child(7n)
         &:before
-          border-top-right-radius: $button-rounded-border-radius
-          border-bottom-right-radius: $button-rounded-border-radius
-          right: 0
+          border-top-right-radius: 0
+          border-bottom-right-radius: 0
+
+    &--range-start
+      &:before
+        left: 50%
+    &--range-end
+      &:before
+        right: 50%
 
     &--mock-range
-      border-color: currentColor transparent
+      &:after
+        border-color: currentColor transparent
 
-      &:nth-child(7n-6), &:first-of-type, &-start, &-end-start
-        border-left-color: currentColor
-        border-top-color: currentColor
-        border-bottom-color: currentColor
-        border-top-left-radius: $button-rounded-border-radius
-        border-bottom-left-radius: $button-rounded-border-radius
+      &:nth-child(7n-6)
+        &:after
+          border-top-left-radius: 0
+          border-bottom-left-radius: 0
+      &:nth-child(7n)
+        &:after
+          border-top-right-radius: 0
+          border-bottom-right-radius: 0
 
-      &:nth-child(7n), &:last-of-type, &-end, &-end-start
-        border-right-color: currentColor
-        border-top-color: currentColor
-        border-bottom-color: currentColor
-        border-top-right-radius: $button-rounded-border-radius
-        border-bottom-right-radius: $button-rounded-border-radius
+      &-start, &-end-start
+        &:after
+          left: 4px
+          border-left-color: currentColor
+          border-top-color: currentColor
+          border-bottom-color: currentColor
+          border-top-left-radius: $button-rounded-border-radius
+          border-bottom-left-radius: $button-rounded-border-radius
 
-      &-end button
-        box-shadow: 0 0 1px 0 currentColor
+      &-end, &-end-start
+        &:after
+          right: 4px
+          border-right-color: currentColor
+          border-top-color: currentColor
+          border-bottom-color: currentColor
+          border-top-right-radius: $button-rounded-border-radius
+          border-bottom-right-radius: $button-rounded-border-radius
 
   &__calendar-days-container
     height: 75%

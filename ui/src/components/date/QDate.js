@@ -397,12 +397,13 @@ export default Vue.extend({
 
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + pad(i)
+        const dateAdded = addToDate(date, { days: i - 1 })
         let item = { i }
 
-        if (this.isInDates(addToDate(date, { days: i - 1 })) === true) {
-          item.range = this.isInRange(addToDate(date, { days: i - 1 }))
-          item.rangeStart = this.isRangeStart(addToDate(date, { days: i - 1 }))
-          item.rangeEnd = this.isRangeEnd(addToDate(date, { days: i - 1 }))
+        if (this.isInDates(dateAdded) === true) {
+          item.range = this.isInRange(dateAdded)
+          item.rangeStart = this.isRangeStart(dateAdded)
+          item.rangeEnd = this.isRangeEnd(dateAdded)
           if (item.rangeStart || item.rangeEnd || item.range === false) {
             item.flat = false
           }
@@ -420,10 +421,10 @@ export default Vue.extend({
           item.flat = item.flat !== false
         }
 
-        if (this.isInMockRange(addToDate(date, { days: i - 1 })) === true) {
+        if (this.isInMockRange(dateAdded) === true) {
           item.mockRange = true
-          item.mockRangeStart = this.isMockRangeStart(addToDate(date, { days: i - 1 }))
-          item.mockRangeEnd = this.isMockRangeEnd(addToDate(date, { days: i - 1 }))
+          item.mockRangeStart = this.isMockRangeStart(dateAdded)
+          item.mockRangeEnd = this.isMockRangeEnd(dateAdded)
           item.color = this.computedColor
         }
 
