@@ -234,8 +234,9 @@ module.exports = class InstallAPI {
    *
    * @param {string} templatePath (relative path to folder to render in app)
    * @param {object} scope (optional; rendering scope variables)
+   * @param {boolean} renderTypescript (optional; render only ts files if true, only js files if false)
    */
-  render (templatePath, scope) {
+  render (templatePath, scope, renderTypescript) {
     const dir = getCallerPath()
     const source = path.resolve(dir, templatePath)
     const rawCopy = !scope || Object.keys(scope).length === 0
@@ -254,7 +255,8 @@ module.exports = class InstallAPI {
     this.__hooks.renderFolders.push({
       source,
       rawCopy,
-      scope
+      scope,
+      renderTypescript
     })
   }
 

@@ -55,11 +55,16 @@ async function renderFile ({ sourcePath, targetPath, rawCopy, scope, overwritePr
   }
 }
 
-async function renderFolders ({ source, rawCopy, scope }) {
+async function renderFolders ({ source, rawCopy, scope, renderTypescript }) {
   const fglob = require('fast-glob')
 
   let overwrite
-  const files = fglob.sync(['**/*'], { cwd: source })
+  let files
+  if (typeof renderTypescript !== 'undefined') {
+    files = fglob.sync(['**/*', `!**/*.${renderTypescript ? 'js' : 'ts'}`], { cwd: source })
+  } else {
+    files = fglob.sync(['**/*'], { cwd: source })
+  }
 
   for (const rawPath of files) {
     const targetRelativePath = rawPath.split('/').map(name => {
