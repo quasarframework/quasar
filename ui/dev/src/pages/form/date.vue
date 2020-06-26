@@ -393,9 +393,8 @@ export default {
       date: '2018/11/03',
       dateParse: 'Month: Aug, Day: 28th, Year: 2018',
       dateNeg: '-13/11/03',
-      dateRange: [['2020/06/06', '2020/07/07']],
-      dateFrom: null,
-      dateTo: null,
+      dateFrom: '2012/06/18',
+      dateTo: '2015/04/10',
       nullDate: null,
       nullDate2: null,
       defaultYearMonth: '1986/02',
@@ -452,6 +451,16 @@ export default {
 
     localeComputed () {
       return this.locale ? this.locale.date : this.$q.lang.date
+    },
+
+    dateRange: {
+      get: function () {
+        return [[this.dateFrom, this.dateTo]]
+      },
+      set: function (newValue) {
+        this.dateFrom = newValue[0][0]
+        this.dateTo = newValue[0][1]
+      }
     }
   },
   watch: {
@@ -465,12 +474,6 @@ export default {
         this.date = '2018/11/03'
         this.nullDate = null
         this.defaultYearMonth = '1986/02'
-      }
-    },
-    dateRange (val) {
-      if (Array.isArray(val) && val.length === 1 && Array.isArray(val[0])) {
-        this.dateFrom = val[0][0]
-        this.dateTo = val[0][1]
       }
     }
   },
