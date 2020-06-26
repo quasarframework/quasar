@@ -57,6 +57,10 @@ const hasTouch = isSSR === false
   ? 'ontouchstart' in window || window.navigator.maxTouchPoints > 0
   : false
 
+const asPwa = isSSR === false
+  ? window.matchMedia('(display-mode: standalone)').matches
+  : false
+
 function applyIosCorrection (is) {
   iosCorrection = { is: { ...is } }
 
@@ -295,6 +299,9 @@ export const client = isSSR === false
     },
     within: {
       iframe: window.self !== window.top
+    },
+    as: {
+      pwa: asPwa
     }
   }
   : ssrClient
