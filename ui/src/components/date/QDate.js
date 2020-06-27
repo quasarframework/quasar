@@ -489,7 +489,7 @@ export default Vue.extend({
     setMockRangeEnd (rangeEnd) {
       this.mockRangeEnd = rangeEnd
         ? new Date(rangeEnd.year, rangeEnd.month - 1, rangeEnd.day)
-        : new Date()
+        : null
     },
 
     __getFirstSelectedDate (val) {
