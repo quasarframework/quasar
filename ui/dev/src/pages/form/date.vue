@@ -134,6 +134,35 @@
       </div>
 
       <div class="text-h6">
+        Day slot
+      </div>
+      <div class="q-gutter-md">
+        <q-date
+          class="day-slot--test"
+          v-model="date"
+          v-bind="props"
+          :events="eventMultiFn"
+          :event-color="eventMultiDetails"
+          :style="style"
+        >
+          <template v-slot:day="day">
+            <small v-if="day.fill === true" class="text-grey-5">
+              {{ day.i }}
+            </small>
+            <div v-else-if="day.event" class="day-slot__events--test absolute-full">
+              <div
+                v-for="({ color, label, details }, index) in day.event"
+                :key="index"
+                :class="'bg-' + color"
+              >
+                <q-tooltip>{{ label }}</q-tooltip>
+              </div>
+            </div>
+          </template>
+        </q-date>
+      </div>
+
+      <div class="text-h6">
         Limited options
       </div>
       <div class="q-gutter-md">
@@ -327,6 +356,39 @@
   </div>
 </template>
 
+<style lang="sass">
+.day-slot__events--test
+  border-radius: 50%
+  mix-blend-mode: overlay
+
+  > div
+    position: absolute
+    left: 0
+    right: 0
+    height: 50%
+
+  > div:first-child
+    top: 0
+    border-top-left-radius: 15px
+    border-top-right-radius: 15px
+
+  > div:last-child
+    bottom: 0
+    border-bottom-left-radius: 15px
+    border-bottom-right-radius: 15px
+
+  > div:first-child:last-child
+    height: 100%
+
+.day-slot--test
+  .q-btn--unelevated
+    .day-slot__events--test
+      border: 2px solid transparent
+
+  .q-date__calendar-item--fill
+    visibility: visible
+</style>
+
 <script>
 import languages from 'quasar/lang/index.json'
 
@@ -428,6 +490,30 @@ export default {
 
     eventColor (date) {
       return date[9] % 2 === 0 ? 'teal' : 'orange'
+    },
+
+    eventMultiFn (date) {
+      return [ 1, 3 ].indexOf(date[9] % 6) > -1
+    },
+
+    eventMultiDetails (date) {
+      return date[9] % 6 === 1
+        ? [
+          {
+            color: 'red',
+            label: `Event on ${date}`
+          }
+        ]
+        : [
+          {
+            color: 'orange',
+            label: `Task on ${date}`
+          },
+          {
+            color: 'green',
+            label: `Recurring event on ${date}`
+          }
+        ]
     },
 
     optionsFn (date) {

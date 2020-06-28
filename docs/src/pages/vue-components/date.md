@@ -108,6 +108,12 @@ The first example is using an array and the second example is using a function.
 
 <doc-example title="Event color" file="QDate/EventColor" overflow />
 
+### Day scoped slot
+
+You can use the `day` scoped slot to render custom event markers or tooltips specific to each day.
+
+<doc-example title="Day slot" file="QDate/DaySlot" overflow />
+
 ### Limiting options
 
 * You can use the `options` prop to limit user selection to certain times.
