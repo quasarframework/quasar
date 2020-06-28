@@ -6,7 +6,10 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { mergeSlot } from '../../utils/slot.js'
 
-function width (val) {
+function width (val, reverse) {
+  if (reverse === true) {
+    return { transform: `translateX(100%) scale3d(${-val},1,1)` }
+  }
   return { transform: `scale3d(${val},1,1)` }
 }
 
@@ -57,7 +60,7 @@ export default Vue.extend({
     },
 
     trackStyle () {
-      return width(this.buffer !== void 0 ? this.buffer : 1)
+      return width(this.buffer !== void 0 ? this.buffer : 1, this.reverse)
     },
 
     trackClass () {
@@ -67,7 +70,7 @@ export default Vue.extend({
     },
 
     modelStyle () {
-      return width(this.motion === true ? 1 : this.value)
+      return width(this.motion === true ? 1 : this.value, this.reverse)
     },
 
     modelClasses () {
