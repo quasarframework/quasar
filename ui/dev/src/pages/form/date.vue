@@ -469,7 +469,7 @@ export default {
         return [[...[this.dateFrom, this.dateTo].filter(v => v.length === 10 && !isNaN(new Date(v).getTime()))]]
       },
       set: function (newValue) {
-        if (Array.isArray(newValue) && Array.isArray(newValue)) {
+        if (Array.isArray(newValue) && Array.isArray(newValue[0])) {
           this.dateFrom = newValue[0][0] !== null ? newValue[0][0] : ''
           this.dateTo = newValue[0][1] !== null ? newValue[0][1] : ''
         }
