@@ -484,7 +484,6 @@ export default {
       },
       set: function (newValue) {
         this.dateRangeInput = newValue[0][0] + (newValue[0].length > 1 ? '\u2014' + newValue[0][1] : '')
-        return [[this.dateFrom, this.dateTo]]
       }
     }
   },
