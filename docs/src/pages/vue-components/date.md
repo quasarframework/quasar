@@ -160,5 +160,13 @@ When dealing with a native form which has an `action` and a `method` (eg. when u
 
 <doc-example title="Native form" file="QDate/NativeForm" />
 
+### Date range <q-badge align="top" label="v1.13" />
+
+<doc-example title="Date Range" file="QDate/Range" />
+
+### Multiple dates <q-badge align="top" label="v1.13" />
+
+<doc-example title="Multiple dates" file="QDate/Multiple" />
+
 ## QDate API
 <doc-api file="QDate" />
