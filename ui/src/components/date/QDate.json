@@ -16,10 +16,10 @@
       "required": true,
       "desc": "Date of the component; Must be Array if using 'multiple' prop; Must be 2 dimensional Array if using 'range' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [
-        "v-model=\"myDate\"",
-        "v-model=\"[myDate1, myDate2]\"",
-        "v-model=\"[[myDateFrom, myDateTo]]\"",
-        "v-model=\"[myDate1, [myDateFrom, myDateTo], myDate2]\""
+        ":value=\"myDate\"",
+        ":value=\"[myDate1, myDate2]\"",
+        ":value=\"[[myDateFrom, myDateTo]]\"",
+        ":value=\"[myDate1, [myDateFrom, myDateTo], myDate2]\""
       ],
       "category": "model"
     },

@@ -327,17 +327,27 @@
         </q-input>
       </div>
       <div class="text-h6">
-        Desk Range: {{ dateRange }}
+        Single Input Date Range: {{ dateRange2 }}
       </div>
       <div class="q-gutter-md">
-        <q-input :dark="dark" dense label="From" v-model="dateFrom" @focus="() => dateRangeInputFocus = 'start'" style="max-width: 200px" />
-        <q-input :dark="dark" dense label="To" v-model="dateTo" @focus="() => dateRangeInputFocus = 'end'" style="max-width: 200px" />
+        <q-input mask="####/##/##—####/##/##" v-model="dateRangeInput" />
+        <q-date
+          v-model="dateRange2"
+          range
+        />
+      </div>
+      <div class="text-h6">
+        Two Inputs Date Range: {{ dateRange }}
+      </div>
+      <div class="q-gutter-md">
+        <q-input mask="date" :dark="dark" dense label="From" v-model="dateFrom" @focus="() => dateRangeInputFocus = 'start'" style="max-width: 200px" />
+        <q-input mask="date" :dark="dark" dense label="To" v-model="dateTo" @focus="() => dateRangeInputFocus = 'end'" style="max-width: 200px" />
         <q-date
           ref="qDateRangeStart"
           v-model="dateRange"
           range
           :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'start'"
-          default-year-month="2020/06"
+          default-year-month="2012/06"
           default-range-view="start"
           :dark="dark"
           flat
@@ -350,7 +360,7 @@
           v-model="dateRange"
           range
           :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'end'"
-          default-year-month="2020/07"
+          default-year-month="2015/04"
           default-range-view="end"
           :dark="dark"
           flat
@@ -387,6 +397,7 @@ export default {
       editRange: null,
       dateRangeFocus: null,
       dateRangeInputFocus: null,
+      dateRangeInput: null,
 
       mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
 
@@ -455,11 +466,24 @@ export default {
 
     dateRange: {
       get: function () {
-        return [[this.dateFrom, this.dateTo]]
+        return [[...[this.dateFrom, this.dateTo].filter(v => v.length === 10 && !isNaN(new Date(v).getTime()))]]
       },
       set: function (newValue) {
-        this.dateFrom = newValue[0][0]
-        this.dateTo = newValue[0][1]
+        if (Array.isArray(this.dateRange) && Array.isArray(this.dateRange[0]) && this.dateRange[0][0] !== null && this.dateRange[0][1] !== null) {
+          this.dateFrom = newValue[0][0]
+          this.dateTo = newValue[0][1]
+        }
+      }
+    },
+    dateRange2: {
+      get: function () {
+        if (this.dateRangeInput !== null) {
+          let value = this.dateRangeInput.split('\u2014')
+          return [[...value.filter(v => v.length === 10 && !isNaN(new Date(v).getTime()))]]
+        }
+      },
+      set: function (newValue) {
+        this.dateRangeInput = newValue[0][0] + (newValue[0].length > 1 ? '\u2014' + newValue[0][1] : '')
       }
     }
   },
