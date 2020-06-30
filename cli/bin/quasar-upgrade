@@ -5,41 +5,53 @@ const parseArgs = require('minimist')
 const argv = parseArgs(process.argv.slice(2), {
   alias: {
     i: 'install',
+    p: 'prerelease',
+    m: 'major',
     h: 'help'
   },
-  boolean: ['h', 'i']
+  boolean: ['h', 'i', 'p', 'm']
 })
 
 if (argv.help) {
   console.log(`
   Description
     Upgrades all quasar packages to their latest version
-    which are compatible with the API that you are currently using.
+    which are compatible with the API that you are currently using
+    (unless -m/--major param is used which may include breaking changes).
 
     Works only in a project folder by upgrading to latest minor versions
-    of all quasar related packages.
+    (or latest major versions if chosen to) of all quasar related packages.
 
     This will also upgrade official Quasar App Extensions.
 
   Usage
-    # checks for upgrades only
+    # checks for non-breaking change upgrades and displays them,
+    # but will not carry out the install
     $ quasar upgrade
 
-    # also performs the upgrades
+    # checks for pre-releases (alpha/beta) also:
+    $ quasar upgrade -p
+
+    # checks for major new releases (includes breaking changes):
+    $ quasar upgrade -m
+
+    # to perform the actual upgrade,
+    # combine any of the params above and add "-i" (or "--install"):
     $ quasar upgrade -i
 
   Options
-    --install, -i  Also perform package upgrades
-    --help, -h     Displays this message
+    --install, -i     Also perform package upgrades
+    --prerelease, -p  Allow pre-release versions (alpha/beta)
+    --major, -m       Allow newer major versions (breaking changes)
+    --help, -h        Displays this message
   `)
   process.exit(0)
 }
 
-const
-  fs = require('fs'),
-  path = require('path'),
-  execSync = require('child_process').execSync,
-  { green, red } = require('chalk')
+const fs = require('fs')
+const path = require('path')
+const execSync = require('child_process').execSync
+const { green, red } = require('chalk')
 
 const root = require('../lib/get-project-root')()
 const { log, fatal } = require('../lib/logger')
@@ -53,6 +65,8 @@ if (!fs.existsSync(path.join(root, 'node_modules'))) {
 }
 
 const pkg = require(path.join(root, 'package.json'))
+
+const versionRegex = /^(\d+)\.[\d]+\.[\d]+-?(alpha|beta)?/
 
 function getLatestVersion (packager, packageName, curVersion) {
   let versions
@@ -81,8 +95,15 @@ function getLatestVersion (packager, packageName, curVersion) {
     return versions[versions.length - 1]
   }
 
-  const prefix = curVersion.substring(0, curVersion.indexOf('.') + 1)
-  versions = versions.filter(version => version.startsWith(prefix))
+  const [, major, prerelease] = curVersion.match(versionRegex)
+  const majorSyntax = argv.major ? `(\\d+)` : major
+  const regex = new RegExp(
+    prerelease || argv.prerelease
+      ? `^${majorSyntax}\\.(\\d+)\\.(\\d+)-?(alpha|beta)?`
+      : `^${majorSyntax}\\.(\\d+)\\.(\\d+)$`
+  )
+
+  versions = versions.filter(version => regex.test(version))
 
   return versions[versions.length - 1]
 }
@@ -145,10 +166,13 @@ function upgradeQuasar () {
   }
 
   if (!argv.install) {
+    const params = [ '-i' ]
+    argv.prerelease && params.push('-p')
+    argv.major && params.push('-m')
+
     console.log()
     console.log(` See ${green('https://quasar.dev/start/release-notes')} for release notes.`)
-    console.log()
-    console.log(' Run "quasar upgrade -i" to do the actual upgrade.')
+    console.log(` Run "quasar upgrade ${params.join(' ')}" to do the actual upgrade.`)
     console.log()
     return
   }

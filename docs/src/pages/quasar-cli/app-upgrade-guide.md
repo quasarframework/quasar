@@ -11,7 +11,7 @@ related:
 ## What's new in v2
 
 * [Browser compatibility](/quasar-cli/browser-compatibility) is now more clearly expressed.
-* The JS transpilation (with the help of Babel) has been rethought from the ground up (now using core-js v3). It will now transpile based on the [Browser compatibility](/quasar-cli/browser-compatibility) that you configure. It will no longer go transpiling directly to ES5. Be mindful about it though, as it is sufficient to add one "bad apple" in the options list and that will dumb down your code back to ES5.
+* The JS transpilation (with the help of Babel) has been rethought from the ground up (now using core-js v3). It will now transpile based on the [Browser compatibility](/quasar-cli/browser-compatibility) that you configure. It will no longer go transpiling directly to ES5, but it will look for exactly what JS features need transpiling based on the configured browsers. Be mindful about it though, as it is sufficient to add one "bad apple" in the options list and that will dumb down your code back to ES5.
 * The "modern build" is no longer necessary due to the above. However, if you want to disable transpiling (it's perfectly equivalent), now you can: quasar.conf.js > build > transpile: false.
 * Support for a `/public` folder which replaces `/src/statics`. The new folder will allow you to supply static content at the root/app base level, rather than as statics/*. One useful example: robots.txt
 * SSR mode now supports a custom publicPath too
@@ -19,7 +19,7 @@ related:
 * Capacitor v2 and Workbox v5 support
 * Simpler quasar.conf.js > build > transpileDependencies; it now supports String (auto transforms it to `/node_modules/...') and Regexes too
 * Simpler quasar.conf.js > build > env; you no longer need to JSON.stringify each value (you now must not!)
-* Simpler quasar.conf.js > framework config Object; "all" prop has been renamed to "importStrategy" and it allows "all" or "auto" (the default) values; "components" and "directives" are no longer taken into account because you don't need them
+* Simpler quasar.conf.js > framework config Object; "all" prop has been renamed to "importStrategy" and it allows "all" or "auto" (the default) values
 * New param for boot files and preFetch (publicPath); the "redirect()" method now fully supports a Vue Router location Object (on all build modes, on server-side or client-side); preFetch hook now also receive "urlPath" param
 * New API method for App Extension's install script: api.renderFile()
 * Temporarily removed quasar.conf.js > build > preloadChunks (until compatibility is ensured with html-webpack-plugin v4)
@@ -34,12 +34,11 @@ Following this guide should take you at most 5 minutes to complete.
 
 * Dependencies
   - remove "resolutions" > "@babel/parser" if it's in your `/package.json`
-  - Use "quasar upgrade" command (recommended) or manually yarn/npm install @quasar/app v2: `yarn add --dev @quasar/app@^2.0.0` (or `npm install --save-dev @quasar/app@^2.0.0`)
+  - Manually yarn/npm install @quasar/app v2: `yarn add --dev @quasar/app@^2.0.0` (or `npm install --save-dev @quasar/app@^2.0.0`).
   - if you are using PWA (or SSR+PWA) mode, you'll also need to install workbox-webpack-plugin@^5.0.0 (or ^4.0.0 -- v4 came with @quasar/app v1) -- this package is no longer supplied by "@quasar/app": `yarn add --dev workbox-webpack-plugin@^5.0.0` (or `npm install --save-dev workbox-webpack-plugin@^5.0.0`)
   - yarn/npm install core-js v3: `yarn add core-js@^3.0.0` (or `npm install core-js@^3.0.0`)
 
 * Edit your `/quasar.conf.js` file:
-  - delete framework > "components" and "directives" fields
   - rename "all" to "importStrategy" (valid values: 'auto' or 'all'; 'auto' is the default)
   - remove "supportIE" (it's now handled through package.json > browserslist)
   - remove "build" > "modern" if it's there (no longer needed due to the superior [browser compatibility](/quasar-cli/browser-compatibility) strategy)
@@ -81,7 +80,7 @@ Following this guide should take you at most 5 minutes to complete.
 
 * The `webpack-html-plugin` package has been upgraded to v4; if you have tampered with the default config for it, please [review it](https://github.com/jantimon/html-webpack-plugin/blob/master/CHANGELOG.md#400-2020-03-23)
 
-* The `copy-webpack-plugin` package has been upgraded to v6; if you have tampered with the default config for it, please [review it](https://github.com/jantimon/html-webpack-plugin/blob/master/CHANGELOG.md#400-2020-03-23)
+* The `copy-webpack-plugin` package has been upgraded to v6; if you have tampered with the default config for it, please [review it](https://github.com/webpack-contrib/copy-webpack-plugin/blob/master/CHANGELOG.md#600-2020-05-15)
 
 * If you're building with SSR mode, then custom publicPath can now be used, but it requires a small change to all your app.use() statements:
   ``` js

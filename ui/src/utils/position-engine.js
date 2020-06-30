@@ -64,14 +64,13 @@ export function getAnchorProps (el, offset) {
 }
 
 export function getTargetProps (el) {
-  const { width, height } = el.getBoundingClientRect()
   return {
     top: 0,
-    center: height / 2,
-    bottom: height,
+    center: el.offsetHeight / 2,
+    bottom: el.offsetHeight,
     left: 0,
-    middle: width / 2,
-    right: width
+    middle: el.offsetWidth / 2,
+    right: el.offsetWidth
   }
 }
 

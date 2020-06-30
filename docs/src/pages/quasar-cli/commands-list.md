@@ -81,16 +81,27 @@ You can use a starter kit stored into any publicly accessible Git repository by 
 The preferred way to build reusable code and UI Components into Quasar ecosystem are App Extensions. Use a custom starter kit only if you really know what you're doing and be aware that it will make more difficult for the Quasar team to provide you assistance.
 :::
 
-## Upgrade
+## Upgrade <q-badge align="top" label="@quasar/cli v1.1+ specs" />
 
 Check (and optionally) upgrade Quasar packages from a Quasar project folder:
 
 ```bash
-# check for upgradable packages
+# view all options:
+$ quasar upgrade -h
+
+# checks for non-breaking change upgrades and displays them,
+# but will not carry out the install
 $ quasar upgrade
 
-# do the actual upgrade
-$ quasar upgrade --install
+# checks for pre-releases (alpha/beta):
+$ quasar upgrade -p
+
+# checks for major new releases (includes breaking changes):
+$ quasar upgrade -m
+
+# to perform the actual upgrade,
+# combine any of the params above and add "-i" (or "--install"):
+$ quasar upgrade -i
 ```
 
 ::: warning Note for code editor terminals
@@ -135,7 +146,6 @@ $ quasar dev -h
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|capacitor|electron] (default: spa)
     --port, -p       A port number on which to start the application
     --hostname, -H   A hostname to use for serving the application
-    --modern         Build modern code (ES6+)
     --help, -h       Displays this message
 
     Only for Cordova mode:
@@ -189,8 +199,6 @@ $ quasar dev -m electron
 $ quasar dev -m ios -- some params --and options --here
 $ quasar dev -m electron -- --no-sandbox --disable-setuid-sandbox
 ```
-
-For using [modern build](/quasar-cli/modern-build) add `--modern` param.
 
 If you wish to change the hostname or port serving your App you have 3 options:
 * Edit '/quasar.conf.js':
@@ -254,7 +262,6 @@ $ quasar build -h
                         [darwin|win32|linux|mas|all]
                       - Electron with "electron-builder" bundler (default: yours)
                         [darwin|mac|win32|win|linux|all]
-    --modern        Build modern code (ES6+)
     --publish, -P   Also trigger publishing hooks (if any are specified)
                       - Has special meaning when building with Electron mode and using
                         electron-builder as bundler
@@ -316,8 +323,6 @@ $ quasar build -m ios -- some params --and options --here
 # (has source-maps and code is NOT minified)
 $ quasar build -d [-m <mode>]
 ```
-
-For using [modern build](/quasar-cli/modern-build) add `--modern` param.
 
 ## Clean
 Cleans up all the build assets:
@@ -522,7 +527,6 @@ $ quasar inspect -h
   Options
     --cmd, -c        Quasar command [dev|build] (default: dev)
     --mode, -m       App mode [spa|ssr|pwa|bex|cordova|electron] (default: spa)
-    --modern         Modern build
     --depth, -d      Number of levels deep (default: 5)
     --path, -p       Path of config in dot notation
                         Examples:

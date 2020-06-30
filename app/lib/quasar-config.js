@@ -212,6 +212,14 @@ class QuasarConfig {
     if (cfg.framework === void 0) {
       cfg.framework = { importStrategy: 'auto' }
     }
+    else if (cfg.framework === 'all') {
+      cfg.framework = { importStrategy: 'all' }
+    }
+
+    if (cfg.animations === 'all') {
+      cfg.animations = require('./helpers/animations')
+    }
+
     if (!cfg.framework.plugins) {
       cfg.framework.plugins = []
     }
@@ -362,12 +370,24 @@ class QuasarConfig {
       cfg.extras = getUniqueArray(cfg.extras)
     }
 
+    if (cfg.animations.length > 0) {
+      cfg.animations = getUniqueArray(cfg.animations)
+    }
+
     if (['all', 'auto'].includes(cfg.framework.importStrategy) === false) {
       cfg.framework.importStrategy = 'auto'
     }
     if (cfg.framework.importStrategy === 'auto') {
       if (!['kebab', 'pascal', 'combined'].includes(cfg.framework.autoImportComponentCase)) {
         cfg.framework.autoImportComponentCase = 'kebab'
+      }
+    }
+
+    // special case where a component can be designated for a framework > config prop
+    if (cfg.framework.importStrategy === 'auto' && cfg.framework.config && cfg.framework.config.loading) {
+      const component = cfg.framework.config.loading.spinner
+      if (component !== void 0) {
+        cfg.framework.components.push(component)
       }
     }
 
@@ -542,10 +562,6 @@ class QuasarConfig {
 
     // make sure we have preFetch in config
     cfg.preFetch = cfg.preFetch || false
-
-    if (cfg.animations === 'all') {
-      cfg.animations = require('./helpers/animations')
-    }
 
     if (this.ctx.mode.ssr) {
       cfg.ssr = merge({
