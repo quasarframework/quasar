@@ -12,29 +12,32 @@ export default function cache (vm, key, obj) {
 export function getPropCacheMixin (propName, proxyPropName) {
   return {
     data () {
-      return { [proxyPropName]: {} }
+      const target = {}
+
+      for (const prop in this[propName]) {
+        target[prop] = this[propName][prop]
+      }
+
+      return { [proxyPropName]: target }
     },
 
     watch: {
-      [propName]: {
-        immediate: true,
-        handler (newObj, oldObj) {
-          const target = this[proxyPropName]
+      [propName] (newObj, oldObj) {
+        const target = this[proxyPropName]
 
-          if (oldObj !== void 0) {
-            // we first delete obsolete events
-            for (const prop in oldObj) {
-              if (newObj[prop] === void 0) {
-                this.$delete(target, prop)
-              }
+        if (oldObj !== void 0) {
+          // we first delete obsolete events
+          for (const prop in oldObj) {
+            if (newObj[prop] === void 0) {
+              this.$delete(target, prop)
             }
           }
+        }
 
-          for (const prop in newObj) {
-            // we then update changed events
-            if (target[prop] !== newObj[prop]) {
-              this.$set(target, prop, newObj[prop])
-            }
+        for (const prop in newObj) {
+          // we then update changed events
+          if (target[prop] !== newObj[prop]) {
+            this.$set(target, prop, newObj[prop])
           }
         }
       }
