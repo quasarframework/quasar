@@ -88,6 +88,27 @@ build: {
 }
 ```
 
+The following is an example recipe for using **vue-i18n** embedded `<i18n>` template components in your vue files with **vue-i18n-loader**, which you have to add in your `quasar.conf.js`. In this case the translations are stored in the json format in the block.
+
+
+```js
+// quasar.conf.js
+build: {
+  // OR use the equivalent chainWebpack()
+  // with its own chain statements (CLI v0.16.2+)
+  extendWebpack (cfg) {
+    cfg.module.rules.push({
+      resourceQuery: /blockType=i18n/,
+      type: 'javascript/auto',
+      use: [
+        {loader: '@kazupon/vue-i18n-loader'}
+      ]
+    })
+    ...
+  }
+}
+```
+
 ## How to use
 
 There are 3 main cases:
