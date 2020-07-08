@@ -71,7 +71,9 @@ ${installStatements}
 `
 }
 
-module.exports = function (content) {
+module.exports = function (content, map) {
+  let newContent = content
+
   if (!this.resourceQuery && funcCompRegex.test(content) === false) {
     const file = this.fs.readFileSync(this.resource, 'utf-8').toString()
     const code = extract(file, this)
@@ -81,11 +83,11 @@ module.exports = function (content) {
         ? content.indexOf('/* hot reload */')
         : -1
 
-      return index === -1
+      newContent = index === -1
         ? content + code
         : content.slice(0, index) + code + content.slice(index)
     }
   }
 
-  return content
+  return this.callback(null, newContent, map)
 }
