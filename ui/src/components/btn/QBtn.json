@@ -51,5 +51,27 @@
         }
       }
     }
+  },
+
+  "events": {
+    "click": {
+      "desc": "Emitted when component is clicked (activated)",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object; If you want to cancel navigation set synchronously 'evt.navigate' to false",
+          "__exemption": [
+            "examples"
+          ]
+        },
+        "navigateFn": {
+          "type": "Function",
+          "desc": "Call this function to navigate to the route of the tab",
+          "params": {},
+          "returns": null
+        }
+      },
+      "addedIn": "v1.12.8"
+    }
   }
 }

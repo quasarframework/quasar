@@ -141,14 +141,12 @@ export default Vue.extend({
       }
 
       const go = () => {
-        const res = this.$router[this.replace === true ? 'replace' : 'push'](this.to)
+        const { route } = this.$router.resolve(this.to, this.$route, this.append)
 
         // vue-router now throwing error if navigating
         // to the same route that the user is currently at
         // https://github.com/vuejs/vue-router/issues/2872
-        if (res !== void 0 && typeof res.catch === 'function') {
-          res.catch(noop)
-        }
+        this.$router[this.replace === true ? 'replace' : 'push'](route, void 0, noop)
       }
 
       this.$emit('click', e, go)

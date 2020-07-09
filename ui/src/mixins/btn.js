@@ -28,8 +28,10 @@ export default {
 
   props: {
     type: String,
+
     to: [ Object, String ],
     replace: Boolean,
+    append: Boolean,
 
     label: [ Number, String ],
     icon: String,
