@@ -66,7 +66,7 @@ export default {
     btn () {
       return this.hasEnded === true
         ? {
-          href: 'https://www.youtube.com/watch?v=XfEx5teuY84&feature=youtu.be',
+          href: 'https://www.youtube.com/watch?v=6ZKBZ3k4Ebk&feature=youtu.be',
           label: 'View Quasar.Conf on YouTube!',
           icon: mdiYoutube
         }
