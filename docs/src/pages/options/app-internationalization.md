@@ -68,7 +68,7 @@ return {
 Now you are ready to use it in your pages.
 
 ## Setting up Translation Blocks in your SFCs
-The following is an example recipe for using **vue-i18n** embedded `<i18n>` template components in your vue files with **vue-i18n-loader**, which you have to add in your `quasar.conf.js`. In this case the translations are stored in yaml format in the block.
+To use embedded `<i18n>` template components in your vue files with **vue-i18n-loader** you must ensure that the `@intlify/vue-i18n-loader` and `yaml-loader` dependencies are added to your project using your package manager of choice. Then in your `quasar.conf.js` file change the webpack build options. In this case the translations are stored in yaml format in the block.
 
 ```js
 // quasar.conf.js
@@ -78,9 +78,10 @@ build: {
   extendWebpack (cfg) {
     cfg.module.rules.push({
       resourceQuery: /blockType=i18n/,
+      type: 'javascript/auto',
       use: [
-        {loader: '@kazupon/vue-i18n-loader'},
-        {loader: 'yaml-loader'}
+        { loader: '@kazupon/vue-i18n-loader' },
+        { loader: 'yaml-loader' }
       ]
     })
     ...
