@@ -44,7 +44,7 @@
         },
         "...props": {
           "type": "Any",
-          "desc": "Any other QBtn props",
+          "desc": "Any other QBtn props (including class and style)",
           "__exemption": [ "examples" ]
         }
       },

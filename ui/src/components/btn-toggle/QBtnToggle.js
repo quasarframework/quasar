@@ -95,6 +95,8 @@ export default Vue.extend({
     const child = this.options.map((opt, i) => {
       return h(QBtn, {
         key: i,
+        class: opt.class,
+        style: opt.style,
         on: {
           ...this.qListeners,
           click: e => this.__set(opt.value, opt, e)
@@ -107,8 +109,8 @@ export default Vue.extend({
           textColor: opt.value === this.value ? opt.toggleTextColor || this.toggleTextColor : opt.textColor || this.textColor,
           icon: opt.icon,
           iconRight: opt.iconRight,
-          noCaps: this.noCaps === true || opt.noCaps === true,
-          noWrap: this.noWrap === true || opt.noWrap === true,
+          noCaps: opt.noCaps === void 0 ? this.noCaps : opt.noCaps === true,
+          noWrap: opt.noWrap === void 0 ? this.noWrap : opt.noWrap === true,
           outline: this.outline,
           flat: this.flat,
           rounded: this.rounded,
@@ -116,10 +118,10 @@ export default Vue.extend({
           unelevated: this.unelevated,
           size: this.size,
           dense: this.dense,
-          ripple: this.ripple !== void 0 ? this.ripple : opt.ripple,
-          stack: this.stack === true || opt.stack === true,
+          ripple: opt.ripple === void 0 ? this.ripple : opt.ripple,
+          stack: opt.stack === void 0 ? this.stack : opt.stack === true,
           tabindex: opt.tabindex,
-          stretch: this.stretch
+          stretch: opt.stretch === void 0 ? this.stretch : opt.stretch === true
         }
       }, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
     })
