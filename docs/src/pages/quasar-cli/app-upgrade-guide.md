@@ -80,7 +80,7 @@ Following this guide should take you at most 5 minutes to complete.
 
 * The `webpack-html-plugin` package has been upgraded to v4; if you have tampered with the default config for it, please [review it](https://github.com/jantimon/html-webpack-plugin/blob/master/CHANGELOG.md#400-2020-03-23)
 
-* The `copy-webpack-plugin` package has been upgraded to v6; if you have tampered with the default config for it, please [review it](https://github.com/jantimon/html-webpack-plugin/blob/master/CHANGELOG.md#400-2020-03-23)
+* The `copy-webpack-plugin` package has been upgraded to v6; if you have tampered with the default config for it, please [review it](https://github.com/webpack-contrib/copy-webpack-plugin/blob/master/CHANGELOG.md#600-2020-05-15)
 
 * If you're building with SSR mode, then custom publicPath can now be used, but it requires a small change to all your app.use() statements:
   ``` js
@@ -92,6 +92,8 @@ Following this guide should take you at most 5 minutes to complete.
   // to:
   app.use(ssr.resolveUrl('<path>'), ...)
   ```
+
+* If you are building with Electron replace `QUASAR_NODE_INTEGRATION` in your main thread file (/src-electron/main-process/main.js) with `process.env.QUASAR_NODE_INTEGRATION` (if it is present)
 
 ### Optional steps
 
