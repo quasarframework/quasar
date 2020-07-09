@@ -72,6 +72,8 @@ Don't use the property `navigation` along with `thumbnails` as the first superce
 
 ### Infinite and autoplay
 
+You can pause autoplay when the pointer is over the carousel or over a region of interest.
+
 <doc-example title="Autoplay" file="QCarousel/InfiniteAutoplay" />
 
 ### Controls
