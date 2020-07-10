@@ -232,12 +232,10 @@ function writeQuasarPluginProps (contents, nameName, props, isLast) {
 }
 
 function addQuasarPluginOptions (contents, components, directives, plugins) {
-  writeLine(contents, `import { QuasarIconSet } from './extras'`)
-  writeLine(contents, `import { QuasarLanguage } from './lang'`)
   writeLine(contents, `export interface QuasarPluginOptions {`)
-  writeLine(contents, `lang: QuasarLanguage,`, 1)
+  writeLine(contents, `lang: GlobalQuasarLanguage,`, 1)
   writeLine(contents, `config: any,`, 1)
-  writeLine(contents, `iconSet: QuasarIconSet,`, 1)
+  writeLine(contents, `iconSet: GlobalQuasarIconSet,`, 1)
   writeQuasarPluginProps(contents, 'components', components)
   writeQuasarPluginProps(contents, 'directives', directives)
   writeQuasarPluginProps(contents, 'plugins', plugins, true)
@@ -272,7 +270,7 @@ function writeIndexDTS (apis) {
   //  or it won't be interpreted as a TS compiler directive
   //  but as a normal comment
   // On Vue CLI projects `@quasar/app` isn't available,
-  //  we ignore the "missing package" error because it's the intended behaviour 
+  //  we ignore the "missing package" error because it's the intended behaviour
   writeLine(contents, `// @ts-ignore`)
   writeLine(contents, `/// <reference types="@quasar/app" />`)
   writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)

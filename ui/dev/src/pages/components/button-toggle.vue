@@ -23,6 +23,29 @@
       :options="optionsO1"
     />
 
+    <div class="row">
+      <q-btn-toggle
+        class="col"
+        v-model="model"
+        toggle-color="primary"
+        push
+        rounded
+        stretch
+        :options="optionsO1"
+      />
+    </div>
+
+    <div class="row">
+      <q-btn-toggle
+        class="col"
+        v-model="model"
+        toggle-color="primary"
+        push
+        rounded
+        :options="optionsO3"
+      />
+    </div>
+
     <q-btn-toggle
       v-model="model"
       toggle-color="primary"
@@ -104,12 +127,17 @@ export default {
       options: [true, false],
       optionsO1: [
         { label: 'One', value: 'one' },
-        { label: 'Two', value: 'two' },
+        { label: 'Two - this one has a longer label', value: 'two' },
         { label: 'Three', value: 'three' }
       ],
       optionsO2: [
         { label: 'One Clearable', value: 'one' },
         { label: 'Two', value: 'two' }
+      ],
+      optionsO3: [
+        { label: 'One', value: 'one', color: 'green-2', textColor: 'black', stretch: true },
+        { label: 'Two - this one has a longer label', value: 'two', color: 'red-2', textColor: 'black' },
+        { label: 'Three', value: 'three', color: 'blue-2', textColor: 'black', stretch: true }
       ],
       optionsS1: [
         { label: 'One tooltip', value: 'one', slot: 'one' },

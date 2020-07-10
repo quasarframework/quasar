@@ -27,12 +27,22 @@ QRouteTab won't and cannot work with the UMD version because in that environment
 ## Usage
 
 ::: tip
-QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action. On a desktop you will see chevrons on either side that can be clicked. On a mobile, you can pan the tabs with your finger.
+QTabs can be scrolled horizontally when the width is longer than the container width. Adjust your browser accordingly to see this in action.
+
+On a desktop you will see chevrons on either side that can be clicked.
+
+On a mobile, you can pan the tabs with your finger.
+
+If you want to force arrows to be visible on mobile use `mobile-arrows` prop.
 :::
 
 ### Basic
 
 <doc-example title="Basic" file="QTabs/Basic" />
+
+### Outside, inside and visible on mobile arrows
+
+<doc-example title="Outside, inside and visible on mobile arrows" file="QTabs/ArrowsModifiers" />
 
 ### Vertical
 

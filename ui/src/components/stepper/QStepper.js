@@ -62,7 +62,7 @@ export default Vue.extend({
       if (this.vertical === true) {
         this.__isValidPanelName(this.value) && this.__updatePanelIndex()
 
-        return top.concat(
+        return (top === void 0 ? [] : top).concat(
           h('div', {
             staticClass: 'q-stepper__content',
             // stop propagation of content emitted @input

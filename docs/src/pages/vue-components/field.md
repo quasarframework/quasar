@@ -96,6 +96,18 @@ Most of the form controls always render something visible, so you if you're usin
 
 <doc-example title="Prefix and suffix" file="QField/PrefixSuffix" />
 
+### Custom Label
+
+Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
+
+::: tip
+Do not forget to set the `label-slot` property.
+
+If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
+:::
+
+<doc-example title="Custom label" file="QField/CustomLabel" />
+
 ### Slots with QBtn type "submit"
 
 ::: warning
