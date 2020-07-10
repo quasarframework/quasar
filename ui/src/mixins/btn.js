@@ -154,7 +154,7 @@ export default {
         (this.noCaps === true ? ' q-btn--no-uppercase' : '') +
         (this.noWrap === true ? '' : ' q-btn--wrap') + // this is for IE11
         (this.dense === true ? ' q-btn--dense' : '') +
-        (this.stretch === true ? ' no-border-radius self-stretch' : '') +
+        (this.stretch === true ? ' q-btn--stretch' : '') +
         (this.glossy === true ? ' glossy' : '')
     },
 
