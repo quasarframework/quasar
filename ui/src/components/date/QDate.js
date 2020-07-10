@@ -230,14 +230,14 @@ export default Vue.extend({
         const day = prefix + pad(i)
 
         if (this.options !== void 0 && this.isInSelection(day) !== true) {
-          res.push({ i, day })
+          res.push({ i })
         }
         else {
           const event = this.events !== void 0 && this.evtFn(day) === true
             ? this.evtColor(day)
             : false
 
-          res.push({ i, day, in: true, flat: true, event })
+          res.push({ i, in: true, flat: true, event })
         }
       }
 
@@ -470,15 +470,6 @@ export default Vue.extend({
     },
 
     __getCalendarView (h) {
-      const dayContentFn = this.$scopedSlots.day !== void 0
-        ? this.$scopedSlots.day
-        : day => (day.event !== false ? [
-          h('div', { staticClass: 'q-date__event bg-' + day.event })
-        ] : null)
-      const dayFillContentFn = this.$scopedSlots.day !== void 0
-        ? this.$scopedSlots.day
-        : day => h('div', [ day.i ])
-
       return [
         h('div', {
           key: 'calendar-view',
@@ -533,8 +524,10 @@ export default Vue.extend({
                       tabindex: this.computedTabindex
                     },
                     on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
-                  }, dayContentFn(day))
-                  : dayFillContentFn(day)
+                  }, day.event !== false ? [
+                    h('div', { staticClass: 'q-date__event bg-' + day.event })
+                  ] : null)
+                  : h('div', [ day.i ])
               ])))
             ])
           ])
