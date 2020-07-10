@@ -118,6 +118,18 @@ When you need QInput to grow along with its content, then use the `autogrow` pro
 
 <doc-example title="Prefix and suffix" file="QInput/PrefixSuffix" />
 
+### Custom Label
+
+Using the `label` slot you can customize the aspect of the label or add special features as `QTooltip`.
+
+::: tip
+Do not forget to set the `label-slot` property.
+
+If you want to interact with the content of the label (QTooltip) add the `all-pointer-events` class on the element in the slot.
+:::
+
+<doc-example title="Custom label" file="QInput/CustomLabel" />
+
 ### Shadow text <q-badge align="top" label="v1.10+" />
 
 <doc-example title="Shadow text" file="QInput/ShadowText" />
