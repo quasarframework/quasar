@@ -671,7 +671,7 @@ export default Vue.extend({
         this.menu !== true && this.showPopup(e)
 
         const
-          char = String.fromCharCode(e.keyCode).toLocaleLowerCase(),
+          char = e.key.toLocaleLowerCase(),
           keyRepeat = this.searchBuffer.length === 1 && this.searchBuffer[0] === char
 
         this.searchBufferExp = Date.now() + 1500
@@ -680,7 +680,7 @@ export default Vue.extend({
           this.searchBuffer += char
         }
 
-        const searchRe = new RegExp('^' + this.searchBuffer.split('').join('.*'), 'i')
+        const searchRe = new RegExp('^\\' + this.searchBuffer.split('').join('.*\\'), 'i')
 
         let index = this.optionIndex
 
