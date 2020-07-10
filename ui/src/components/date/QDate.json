@@ -180,7 +180,8 @@
           "desc": "Boolean false if there is no event for the day; The event-color or the value returned by the event-color function",
           "examples": [ "red" ]
         }
-      }
+      },
+      "addedIn": "v1.12.9"
     }
   },
 
