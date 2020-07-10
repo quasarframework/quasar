@@ -14,13 +14,13 @@ export interface GlobalsTypesHolder {
   [index: string]: any;
 }
 
-interface GlobalQuasarLanguage extends QuasarLanguage {
+export interface GlobalQuasarLanguage extends QuasarLanguage {
   set(lang: QuasarLanguage): void;
   /** Returns undefined when in SSR mode or when it cannot determine current language. */
   getLocale(): string | undefined;
 }
 
-interface GlobalQuasarIconSet extends QuasarIconSet {
+export interface GlobalQuasarIconSet extends QuasarIconSet {
   set(iconSet: QuasarIconSet): void;
 }
 

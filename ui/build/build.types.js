@@ -232,6 +232,7 @@ function writeQuasarPluginProps (contents, nameName, props, isLast) {
 }
 
 function addQuasarPluginOptions (contents, components, directives, plugins) {
+  writeLine(contents, `import { GlobalQuasarLanguage, GlobalQuasarIconSet } from './globals'`)
   writeLine(contents, `export interface QuasarPluginOptions {`)
   writeLine(contents, `lang: GlobalQuasarLanguage,`, 1)
   writeLine(contents, `config: any,`, 1)
