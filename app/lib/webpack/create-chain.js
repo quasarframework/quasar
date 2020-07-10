@@ -184,7 +184,7 @@ module.exports = function (cfg, configName) {
   }
 
   chain.module.rule('images')
-    .test(/\.(png|jpe?g|gif|svg|webp)(\?.*)?$/)
+    .test(/\.(png|jpe?g|gif|svg|webp|avif)(\?.*)?$/)
     .use('url-loader')
       .loader('url-loader')
       .options({
