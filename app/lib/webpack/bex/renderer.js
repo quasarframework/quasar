@@ -59,10 +59,11 @@ module.exports = function (chain, cfg) {
       to: cfg.build.distDir,
       noErrorOnMissing: true,
       globOptions: {
+        // These ignores are relative to the "from" path so no need for full paths here.
         ignore: [
-          appPaths.resolve.bex('/**/.*'),
-          appPaths.resolve.bex('www'),
-          appPaths.resolve.bex('bex-flag.d.ts')
+          '/**/.*',
+          '**/www/**/*',
+          '**/bex-flag.d.ts'
         ]
       }
     })
