@@ -230,7 +230,7 @@ export default Vue.extend({
     },
 
     backdropClass () {
-      return this.showing === false ? 'no-pointer-events' : null
+      return this.showing === false ? 'hidden' : null
     },
 
     headerSlot () {
@@ -404,6 +404,12 @@ export default Vue.extend({
       }
     },
 
+    __setBackdropVisible (v) {
+      if (this.$refs.backdrop !== void 0) {
+        this.$refs.backdrop.classList[v === true ? 'remove' : 'add']('hidden')
+      }
+    },
+
     __setScrollable (v) {
       const action = v === true
         ? 'remove'
@@ -452,6 +458,7 @@ export default Vue.extend({
           this.__applyPosition(this.stateDirection * width)
           el.classList.remove('q-drawer--delimiter')
           el.classList.add('q-layout--prevent-focus')
+          this.__setBackdropVisible(false)
         }
 
         return
@@ -471,6 +478,7 @@ export default Vue.extend({
         el.classList.add('no-transition')
         el.classList.add('q-drawer--delimiter')
         el.classList.remove('q-layout--prevent-focus')
+        this.__setBackdropVisible(true)
       }
     },
 
@@ -515,6 +523,7 @@ export default Vue.extend({
     __show (evt, noEvent) {
       this.__addHistory()
 
+      this.__setBackdropVisible(true)
       evt !== false && this.layout.__animate()
       this.__applyPosition(0)
 
@@ -545,6 +554,7 @@ export default Vue.extend({
 
       this.__applyBackdrop(0)
       this.__applyPosition(this.stateDirection * this.size)
+      this.__setBackdropVisible(false)
 
       this.__cleanup()
 
