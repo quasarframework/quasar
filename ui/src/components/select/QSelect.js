@@ -655,14 +655,20 @@ export default Vue.extend({
 
       const optionsLength = this.virtualScrollLength
 
-      // keyboard search when not having use-input
-      if (optionsLength > 0 && this.useInput !== true && e.keyCode >= 48 && e.keyCode <= 90) {
-        this.menu !== true && this.showPopup(e)
+      // clear search buffer if expired
+      if (this.searchBuffer === void 0 || this.searchBufferExp < Date.now()) {
+        this.searchBuffer = ''
+      }
 
-        // clear search buffer if expired
-        if (this.searchBuffer === void 0 || this.searchBufferExp < Date.now()) {
-          this.searchBuffer = ''
-        }
+      // keyboard search when not having use-input
+      if (
+        optionsLength > 0 &&
+        this.useInput !== true &&
+        e.key.length === 1 && // printable char
+        e.altKey === e.ctrlKey && // not kbd shortcut
+        (e.keyCode !== 32 || this.searchBuffer.length > 0) // space in middle of search
+      ) {
+        this.menu !== true && this.showPopup(e)
 
         const
           char = String.fromCharCode(e.keyCode).toLocaleLowerCase(),
@@ -670,6 +676,7 @@ export default Vue.extend({
 
         this.searchBufferExp = Date.now() + 1500
         if (keyRepeat === false) {
+          stopAndPrevent(e)
           this.searchBuffer += char
         }
 
@@ -677,7 +684,7 @@ export default Vue.extend({
 
         let index = this.optionIndex
 
-        if (keyRepeat === true || searchRe.test(this.getOptionLabel(this.options[index])) !== true) {
+        if (keyRepeat === true || index < 0 || searchRe.test(this.getOptionLabel(this.options[index])) !== true) {
           do {
             index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
@@ -701,12 +708,12 @@ export default Vue.extend({
         return
       }
 
-      // enter, space (when not using use-input), or tab (when not using multiple and option selected)
+      // enter, space (when not using use-input and not in search), or tab (when not using multiple and option selected)
       // same target is checked above
       if (
         e.keyCode !== 13 &&
-        (this.useInput === true || e.keyCode !== 32) &&
-        (tabShouldSelect === false || e.keyCode !== 9)
+        (e.keyCode !== 32 || this.useInput === true || this.searchBuffer !== '') &&
+        (e.keyCode !== 9 || tabShouldSelect === false)
       ) { return }
 
       e.keyCode !== 9 && stopAndPrevent(e)
