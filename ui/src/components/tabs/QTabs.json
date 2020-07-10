@@ -21,6 +21,20 @@
       "category": "content"
     },
 
+    "outside-arrows": {
+      "type": "Boolean",
+      "desc": "Reserve space for arrows to place them on each side of the tabs (the arrows fade when inactive)",
+      "category": "content",
+      "addedIn": "v1.12.9"
+    },
+
+    "mobile-arrows": {
+      "type": "Boolean",
+      "desc": "Force display of arrows (if needed) on mobile",
+      "category": "content",
+      "addedIn": "v1.12.9"
+    },
+
     "align": {
       "type": "String",
       "desc": "Horizontal alignment the tabs within the tabs container",
