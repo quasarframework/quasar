@@ -1050,11 +1050,14 @@ export default Vue.extend({
 
             this.$nextTick(() => {
               this.innerLoading = false
-              if (this.menu === true) {
-                this.__updateMenu(true)
-              }
-              else {
-                this.menu = true
+
+              if (this.editable === true) {
+                if (this.menu === true) {
+                  this.__updateMenu(true)
+                }
+                else {
+                  this.menu = true
+                }
               }
 
               typeof afterFn === 'function' && this.$nextTick(() => { afterFn(this) })
@@ -1290,6 +1293,10 @@ export default Vue.extend({
     },
 
     showPopup (e) {
+      if (this.editable !== true) {
+        return
+      }
+
       if (this.hasDialog === true) {
         this.__onControlFocusin(e)
         this.dialog = true
