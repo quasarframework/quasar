@@ -329,7 +329,7 @@ Reasoning on why to use an `<svg>` in a QIcon is that the svg will respect the s
 ```
 
 Some limitations:
-* do not use "height"/"width" attributes on the `<svg>` tag (it will brake QIcon's way of handling the size)
+* do not use "height"/"width" attributes on the `<svg>` tag (it will break QIcon's way of handling the size)
 * all `<path>`s will have "fill: currentColor" CSS applied by default; if you don't want that, then add `fill="none"` to the `<path>` tag
 
 ## Image icons
