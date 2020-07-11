@@ -233,7 +233,9 @@ export default {
         const start = () => {
           handleEvent(evt, isMouseEvt)
 
-          document.documentElement.style.cursor = 'grabbing'
+          if (!modifiers.preserveCursor) {
+            document.documentElement.style.cursor = 'grabbing'
+          }
           isMouseEvt === true && document.body.classList.add('no-pointer-events--children')
           document.body.classList.add('non-selectable')
           clearSelection()
@@ -241,7 +243,9 @@ export default {
           ctx.styleCleanup = withDelayedFn => {
             ctx.styleCleanup = void 0
 
-            document.documentElement.style.cursor = ''
+            if (!modifiers.preserveCursor) {
+              document.documentElement.style.cursor = ''
+            }
             document.body.classList.remove('non-selectable')
 
             if (isMouseEvt === true) {
