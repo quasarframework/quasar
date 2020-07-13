@@ -48,7 +48,7 @@ export default Vue.extend({
 
       return this.isDisable === false &&
         this.stepper.headerNav &&
-        (this.isActive === true || nav)
+        nav
     },
 
     hasPrefix () {

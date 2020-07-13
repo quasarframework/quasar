@@ -30,7 +30,6 @@
         toggle-color="primary"
         push
         rounded
-        stretch
         :options="optionsO1"
       />
     </div>
@@ -135,9 +134,9 @@ export default {
         { label: 'Two', value: 'two' }
       ],
       optionsO3: [
-        { label: 'One', value: 'one', color: 'green-2', textColor: 'black', stretch: true },
+        { label: 'One', value: 'one', color: 'green-2', textColor: 'black', class: 'col-grow' },
         { label: 'Two - this one has a longer label', value: 'two', color: 'red-2', textColor: 'black' },
-        { label: 'Three', value: 'three', color: 'blue-2', textColor: 'black', stretch: true }
+        { label: 'Three', value: 'three', color: 'blue-2', textColor: 'black', class: 'col-grow' }
       ],
       optionsS1: [
         { label: 'One tooltip', value: 'one', slot: 'one' },
