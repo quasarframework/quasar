@@ -653,6 +653,7 @@ export default Vue.extend({
       this.noSwipeOpen !== true && child.push(
         h('div', {
           staticClass: `q-drawer__opener fixed-${this.side}`,
+          attrs: { 'aria-hidden': 'true' },
           directives: this.openDirective
         })
       )
@@ -662,6 +663,7 @@ export default Vue.extend({
           ref: 'backdrop',
           staticClass: 'fullscreen q-drawer__backdrop',
           class: this.backdropClass,
+          attrs: { 'aria-hidden': 'true' },
           style: this.lastBackdropBg !== void 0
             ? { backgroundColor: this.lastBackdropBg }
             : null,
