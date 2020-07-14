@@ -272,6 +272,7 @@ export default Vue.extend({
         staticClass: 'q-scrollarea__bar',
         style: this.barStyle,
         class: this.barClass,
+        attrs: { 'aria-hidden': 'true' },
         on: cache(this, 'bar', {
           mousedown: this.__mouseDown
         })
@@ -282,6 +283,7 @@ export default Vue.extend({
         staticClass: 'q-scrollarea__thumb',
         style: this.style,
         class: this.thumbClass,
+        attrs: { 'aria-hidden': 'true' },
         directives: cache(this, 'thumb#' + this.horizontal, [{
           name: 'touch-pan',
           modifiers: {
