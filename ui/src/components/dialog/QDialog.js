@@ -344,6 +344,7 @@ export default Vue.extend({
         }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
+            attrs: { 'aria-hidden': 'true' },
             on: cache(this, 'bkdrop', {
               click: this.__onBackdropClick
             })

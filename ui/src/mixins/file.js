@@ -32,8 +32,9 @@ export default {
       if (this.accept !== void 0) {
         return this.accept.split(',').map(ext => {
           ext = ext.trim()
-          // support "image/*"
-          if (ext.endsWith('/*')) {
+          if (ext === '*') { // support "*"
+            return '*/'
+          } else if (ext.endsWith('/*')) { // support "image/*" or "*/*"
             ext = ext.slice(0, ext.length - 1)
           }
           return ext.toUpperCase()
@@ -75,7 +76,7 @@ export default {
       }
 
       // filter file types
-      if (this.accept !== void 0) {
+      if (this.accept !== void 0 && this.extensions.indexOf('*/') === -1) {
         files = filterFiles(files, rejectedFiles, 'accept', file => {
           return this.extensions.some(ext => (
             file.type.toUpperCase().startsWith(ext) ||

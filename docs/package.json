@@ -28,7 +28,7 @@
     "eslint-plugin-import": "^2.19.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-quasar": "^1.0.0-alpha.18",
+    "eslint-plugin-quasar": "^1.0.0",
     "eslint-plugin-standard": "^4.0.0",
     "eslint-plugin-vue": "^6.1.1",
     "gray-matter": "^4.0.2",
