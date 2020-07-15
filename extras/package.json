@@ -31,6 +31,7 @@
     "@mdi/font": "5.3.45",
     "@mdi/svg": "5.3.45",
     "animate.css": "4.1.0",
+    "cross-fetch": "^3.0.5",
     "cross-spawn": "7.0.3",
     "eva-icons": "1.1.3",
     "fs-extra": "8.1.0",
