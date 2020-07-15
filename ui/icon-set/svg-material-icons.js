@@ -7,9 +7,32 @@
 
 
 import {
+  outlinedRning,
+  outlinedFo,
+  outlinedAdient,
+  outlinedNe,
+  outlinedYle,
+  outlinedFresh,
+  outlinedNs,
+  outlinedNcel,
+  outlinedEck,
+  outlinedDay,
+  outlinedNk,
+  outlinedLlscreen,
+  outlinedInt,
+  outlinedMove,
+  outlinedDo,
+  outlinedDe,
+  outlinedD,
+  outlinedOse,
+  outlinedRor,
+  outlinedAde,
+  outlinedIt,
+  outlinedEar
+} from '@quasar/extras/material-icons-outlined'
+
+import {
   matCheckCircle,
-  matWarning,
-  matInfo,
   matPriorityHigh,
   matArrowUpward,
   matArrowForward,
@@ -18,17 +41,9 @@ import {
   matArrowDropDown,
   matChevronLeft,
   matChevronRight,
-  matGradient,
-  matTune,
-  matStyle,
-  matRefresh,
   matKeyboardArrowUp,
   matKeyboardArrowDown,
-  matLens,
-  matCancel,
-  matCheck,
   matAccessTime,
-  matToday,
   matFormatBold,
   matFormatItalic,
   matStrikethroughS,
@@ -37,36 +52,22 @@ import {
   matFormatListNumbered,
   matVerticalAlignBottom,
   matVerticalAlignTop,
-  matLink,
-  matFullscreen,
   matFormatQuote,
   matFormatAlignLeft,
   matFormatAlignCenter,
   matFormatAlignRight,
   matFormatAlignJustify,
-  matPrint,
   matFormatIndentDecrease,
   matFormatIndentIncrease,
   matFormatClear,
   matTextFormat,
   matFormatSize,
-  matRemove,
-  matUndo,
-  matRedo,
-  matCode,
   matFontDownload,
-  matAdd,
-  matClose,
-  matError,
   matFirstPage,
   matKeyboardArrowLeft,
   matKeyboardArrowRight,
   matLastPage,
-  matGrade,
-  matEdit,
   matPlayArrow,
-  matDone,
-  matClear,
   matAddBox,
   matCloudUpload,
   matClearAll,
@@ -77,8 +78,8 @@ export default {
   name: 'svg-material-icons',
   type: {
     positive: matCheckCircle,
-    negative: matWarning,
-    info: matInfo,
+    negative: outlinedRning,
+    info: outlinedFo,
     warning: matPriorityHigh
   },
   arrow: {
@@ -93,29 +94,29 @@ export default {
     right: matChevronRight
   },
   colorPicker: {
-    spectrum: matGradient,
-    tune: matTune,
-    palette: matStyle
+    spectrum: outlinedAdient,
+    tune: outlinedNe,
+    palette: outlinedYle
   },
   pullToRefresh: {
-    icon: matRefresh
+    icon: outlinedFresh
   },
   carousel: {
     left: matChevronLeft,
     right: matChevronRight,
     up: matKeyboardArrowUp,
     down: matKeyboardArrowDown,
-    navigationIcon: matLens
+    navigationIcon: outlinedNs
   },
   chip: {
-    remove: matCancel,
-    selected: matCheck
+    remove: outlinedNcel,
+    selected: outlinedEck
   },
   datetime: {
     arrowLeft: matChevronLeft,
     arrowRight: matChevronRight,
     now: matAccessTime,
-    today: matToday
+    today: outlinedDay
   },
   editor: {
     bold: matFormatBold,
@@ -126,40 +127,40 @@ export default {
     orderedList: matFormatListNumbered,
     subscript: matVerticalAlignBottom,
     superscript: matVerticalAlignTop,
-    hyperlink: matLink,
-    toggleFullscreen: matFullscreen,
+    hyperlink: outlinedNk,
+    toggleFullscreen: outlinedLlscreen,
     quote: matFormatQuote,
     left: matFormatAlignLeft,
     center: matFormatAlignCenter,
     right: matFormatAlignRight,
     justify: matFormatAlignJustify,
-    print: matPrint,
+    print: outlinedInt,
     outdent: matFormatIndentDecrease,
     indent: matFormatIndentIncrease,
     removeFormat: matFormatClear,
     formatting: matTextFormat,
     fontSize: matFormatSize,
     align: matFormatAlignLeft,
-    hr: matRemove,
-    undo: matUndo,
-    redo: matRedo,
+    hr: outlinedMove,
+    undo: outlinedDo,
+    redo: outlinedDo,
     heading: matFormatSize,
-    code: matCode,
+    code: outlinedDe,
     size: matFormatSize,
     font: matFontDownload,
-    viewSource: matCode
+    viewSource: outlinedDe
   },
   expansionItem: {
     icon: matKeyboardArrowDown,
     denseIcon: matArrowDropDown
   },
   fab: {
-    icon: matAdd,
-    activeIcon: matClose
+    icon: outlinedD,
+    activeIcon: outlinedOse
   },
   field: {
-    clear: matCancel,
-    error: matError
+    clear: outlinedNcel,
+    error: outlinedRor
   },
   pagination: {
     first: matFirstPage,
@@ -168,12 +169,12 @@ export default {
     last: matLastPage
   },
   rating: {
-    icon: matGrade
+    icon: outlinedAde
   },
   stepper: {
-    done: matCheck,
-    active: matEdit,
-    error: matWarning
+    done: outlinedEck,
+    active: outlinedIt,
+    error: outlinedRning
   },
   tabs: {
     left: matChevronLeft,
@@ -183,7 +184,7 @@ export default {
   },
   table: {
     arrowUp: matArrowUpward,
-    warning: matWarning,
+    warning: outlinedRning,
     firstPage: matFirstPage,
     prevPage: matChevronLeft,
     nextPage: matChevronRight,
@@ -193,8 +194,8 @@ export default {
     icon: matPlayArrow
   },
   uploader: {
-    done: matDone,
-    clear: matClear,
+    done: outlinedNe,
+    clear: outlinedEar,
     add: matAddBox,
     upload: matCloudUpload,
     removeQueue: matClearAll,

@@ -12,3 +12,4 @@ cordova
 .idea/
 debug.log
 package-lock.json
+.vscode
