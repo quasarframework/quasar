@@ -386,7 +386,8 @@ class QuasarConfig {
     // special case where a component can be designated for a framework > config prop
     if (cfg.framework.importStrategy === 'auto' && cfg.framework.config && cfg.framework.config.loading) {
       const component = cfg.framework.config.loading.spinner
-      if (component !== void 0) {
+      // Is a component and is a QComponent
+      if (component !== void 0 && /^(Q[A-Z]|q-)/.test(component) === true) {
         cfg.framework.components.push(component)
       }
     }
