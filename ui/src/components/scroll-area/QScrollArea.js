@@ -10,6 +10,7 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
+import { ariaHidden } from '../../mixins/attrs'
 
 export default Vue.extend({
   name: 'QScrollArea',
@@ -272,6 +273,7 @@ export default Vue.extend({
         staticClass: 'q-scrollarea__bar',
         style: this.barStyle,
         class: this.barClass,
+        attrs: ariaHidden,
         on: cache(this, 'bar', {
           mousedown: this.__mouseDown
         })
@@ -282,6 +284,7 @@ export default Vue.extend({
         staticClass: 'q-scrollarea__thumb',
         style: this.style,
         class: this.thumbClass,
+        attrs: ariaHidden,
         directives: cache(this, 'thumb#' + this.horizontal, [{
           name: 'touch-pan',
           modifiers: {

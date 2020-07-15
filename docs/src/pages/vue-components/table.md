@@ -341,7 +341,7 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 
 Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#Export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
 
-<doc-example title="Export to csv" file="QTable/ExportCsv" no-edit />
+<doc-example title="Export to csv" file="QTable/ExportCsv" />
 
 ## Keyboard navigation
 
