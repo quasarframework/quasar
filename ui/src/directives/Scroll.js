@@ -17,7 +17,7 @@ export default {
   name: 'scroll',
 
   bind (el) {
-    let ctx = {
+    const ctx = {
       scroll () {
         ctx.handler(
           getScrollPosition(ctx.scrollTarget),
@@ -34,7 +34,7 @@ export default {
   },
 
   inserted (el, binding) {
-    let ctx = el.__qscroll
+    const ctx = el.__qscroll
     ctx.scrollTarget = getScrollTarget(el)
     updateBinding(ctx, binding)
   },
@@ -46,7 +46,7 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qscroll_old || el.__qscroll
+    const ctx = el.__qscroll_old || el.__qscroll
     if (ctx !== void 0) {
       ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
       delete el[el.__qscroll_old ? '__qscroll_old' : '__qscroll']

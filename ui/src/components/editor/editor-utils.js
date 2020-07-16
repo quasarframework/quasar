@@ -66,10 +66,10 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
 }
 
 function getDropdown (h, vm, btn) {
+  const onlyIcons = btn.list === 'only-icons'
   let
     label = btn.label,
     icon = btn.icon,
-    onlyIcons = btn.list === 'only-icons',
     contentClass,
     Items
 

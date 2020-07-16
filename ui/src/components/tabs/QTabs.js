@@ -373,11 +373,11 @@ export default Vue.extend({
     },
 
     __scrollTowards (value) {
+      const content = this.$refs.content
       let
-        content = this.$refs.content,
         pos = this.vertical === true ? content.scrollTop : content.scrollLeft,
-        direction = value < pos ? -1 : 1,
         done = false
+      const direction = value < pos ? -1 : 1
 
       pos += direction * 5
       if (pos < 0) {

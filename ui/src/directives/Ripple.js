@@ -8,7 +8,8 @@ import { $q } from '../install.js'
 function showRipple (evt, el, ctx, forceCenter) {
   ctx.modifiers.stop === true && stop(evt)
 
-  let { center, color } = ctx.modifiers
+  const color = ctx.modifiers.color
+  let center = ctx.modifiers.center
   center = center === true || forceCenter === true
 
   const

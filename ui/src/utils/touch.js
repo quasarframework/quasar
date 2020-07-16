@@ -13,7 +13,7 @@ const modifiersAll = {
 }
 
 export function getModifierDirections (mod) {
-  let dir = {}
+  const dir = {}
 
   directions.forEach(direction => {
     if (mod[direction]) {

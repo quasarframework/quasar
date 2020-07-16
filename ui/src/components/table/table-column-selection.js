@@ -26,7 +26,7 @@ export default {
     },
 
     computedCols () {
-      let { sortBy, descending } = this.computedPagination
+      const { sortBy, descending } = this.computedPagination
 
       const cols = this.visibleColumns !== void 0
         ? this.colList.filter(col => col.required === true || this.visibleColumns.includes(col.name) === true)

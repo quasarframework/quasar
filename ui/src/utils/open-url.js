@@ -21,7 +21,7 @@ function openWindow (url, reject) {
     return Vue.prototype.$q.electron.shell.openExternal(url)
   }
 
-  let win = open(url, '_blank')
+  const win = open(url, '_blank')
 
   if (win) {
     Platform.is.desktop && win.focus()

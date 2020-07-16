@@ -18,7 +18,7 @@ const metaChildren = [
   { path: 'third', component: load('meta/pages/third') }
 ]
 
-let routes = [
+const routes = [
   { path: '/', component: load('Index') },
   {
     path: '/meta/layout_1',

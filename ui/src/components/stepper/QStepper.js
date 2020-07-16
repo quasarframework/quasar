@@ -57,7 +57,7 @@ export default Vue.extend({
 
   methods: {
     __getContent (h) {
-      let top = slot(this, 'message', [])
+      const top = slot(this, 'message', [])
 
       if (this.vertical === true) {
         this.__isValidPanelName(this.value) && this.__updatePanelIndex()
