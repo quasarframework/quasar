@@ -4,6 +4,7 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import FabMixin from '../../mixins/fab.js'
+import AttrsMixin from '../../mixins/attrs.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
@@ -15,7 +16,9 @@ const alignValues = [ 'left', 'center', 'right' ]
 export default Vue.extend({
   name: 'QFab',
 
-  mixins: [ FabMixin, ModelToggleMixin ],
+  inheritAttrs: false,
+
+  mixins: [ FabMixin, AttrsMixin, ModelToggleMixin ],
 
   provide () {
     return {
@@ -24,6 +27,20 @@ export default Vue.extend({
 
         if (this.$refs.trigger && this.$refs.trigger.$el) {
           this.$refs.trigger.$el.focus()
+        }
+      },
+
+      __qFabRegister: fabAction => {
+        if (this.fabActions.indexOf(fabAction) === -1) {
+          this.fabActions.push(fabAction)
+          fabAction.showing = this.showing
+        }
+      },
+
+      __qFabUnregister: fabAction => {
+        const index = this.fabActions.indexOf(fabAction)
+        if (index > -1) {
+          this.fabActions.splice(index, 1)
         }
       }
     }
@@ -67,7 +84,27 @@ export default Vue.extend({
     classes () {
       return `q-fab--align-${this.verticalActionsAlign} ${this.formClass}` +
         (this.showing === true ? ' q-fab--opened' : '')
+    },
+
+    attrs () {
+      return {
+        'aria-expanded': this.showing === true ? 'true' : 'false',
+        'aria-haspopup': true,
+        ...this.qAttrs
+      }
     }
+  },
+
+  watch: {
+    showing (val) {
+      this.fabActions.forEach(fabAction => {
+        fabAction.showing !== val && (fabAction.showing = val)
+      })
+    }
+  },
+
+  created () {
+    this.fabActions = []
   },
 
   render (h) {
@@ -95,11 +132,6 @@ export default Vue.extend({
       class: this.classes,
       on: { ...this.qListeners }
     }, [
-      h('div', {
-        staticClass: 'q-fab__actions flex no-wrap inline',
-        class: `q-fab__actions--${this.direction}`
-      }, slot(this, 'default')),
-
       h(QBtn, {
         ref: 'trigger',
         class: this.formClass,
@@ -113,10 +145,16 @@ export default Vue.extend({
           noCaps: true,
           fab: true
         },
+        attrs: this.attrs,
         on: cache(this, 'tog', {
           click: this.toggle
         })
-      }, mergeSlot(child, this, 'tooltip'))
+      }, mergeSlot(child, this, 'tooltip')),
+
+      h('div', {
+        staticClass: 'q-fab__actions flex no-wrap inline',
+        class: `q-fab__actions--${this.direction}`
+      }, slot(this, 'default'))
     ])
   }
 })
