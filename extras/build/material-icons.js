@@ -25,21 +25,26 @@ const themeMap = {
 function downloadIcon(icon) {
   return Promise.all(
     Object.keys(themeMap).map(async (theme) => {
+      // get future icon name
       const themeName = themeMap[theme]
-      const formattedTheme = themeName.split('_').join('')
-      const response = await fetch(
-        `https://fonts.gstatic.com/s/i/materialicons${formattedTheme}/${icon.name}/v${icon.version}/24px.svg`,
-      )
-      if (response.status !== 200) {
-        throw new Error(`status ${response.status}`)
-      }
-      const SVG = await response.text()
       const name = ((themeName === '' ? 'mat_' : theme + '_') + icon.name)
         .replace(/(_\w)/g, m => m[1].toUpperCase())
 
       if (iconNames[theme].has(name)) {
         return
       }
+
+      const formattedTheme = themeName.split('_').join('')
+      const response = await fetch(
+        `https://fonts.gstatic.com/s/i/materialicons${formattedTheme}/${icon.name}/v${icon.version}/24px.svg`,
+      )
+
+      if (response.status !== 200) {
+        skipped[theme].push(name)
+        throw new Error(`status ${response.status}`)
+      }
+
+      const SVG = await response.text()
 
       try {
         const { svgDef, typeDef } = extractSvg(SVG, name)
