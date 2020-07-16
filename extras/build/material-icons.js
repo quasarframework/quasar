@@ -1,4 +1,3 @@
-// const packageName = 'material-design-icons'
 const packageName = ''
 const iconSetName = 'Google Material Design Icons'
 
@@ -92,11 +91,6 @@ async function run() {
     Object.keys(themeMap).map(async (theme) => {
       console.log((`Updating SVG for ../material-icons${themeMap[theme]}`).replace(/_/g, '-'))
       writeExports(iconSetName, packageName, distFolder[theme], svgExports[theme], typeExports[theme], skipped[theme])
-
-      // copySync(
-      //   resolve(__dirname, `../node_modules/${packageName}/LICENSE`),
-      //   resolve(__dirname, `../material-icons${themeMap[theme]}/LICENSE`).replace(/_/g, '-')
-      // )
     })
   } catch (err) {
     console.log('err', err)
