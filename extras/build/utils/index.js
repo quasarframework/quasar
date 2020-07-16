@@ -166,11 +166,11 @@ function parseSvgContent(name, content) {
 
 function getBanner(iconSetName, versionOrPackageName) {
   const version =
-    versionOrPackageName.match(/^\d/)
-    ? versionOrPackageName
-    : require(resolve(__dirname, `../../node_modules/${versionOrPackageName}/package.json`)).version
+  versionOrPackageName === '' || versionOrPackageName.match(/^\d/)
+    ? versionOrPackageName === '' ? versionOrPackageName : 'v' + versionOrPackageName
+    : 'v' + require(resolve(__dirname, `../../node_modules/${versionOrPackageName}/package.json`)).version
 
-  return `/* ${iconSetName} v${version} */\n\n`
+  return `/* ${iconSetName} ${version} */\n\n`
 }
 
 module.exports.defaultNameMapper = (filePath, prefix) => {
