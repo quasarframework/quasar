@@ -902,7 +902,7 @@ class QuasarConfig {
         ? {
           removeComments: true,
           collapseWhitespace: true,
-          removeAttributeQuotes: true,
+          removeAttributeQuotes: false,
           collapseBooleanAttributes: true,
           removeScriptTypeAttributes: true
           // more options:
