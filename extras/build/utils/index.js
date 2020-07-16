@@ -61,6 +61,12 @@ const decoders = {
     const fill = el.getAttribute('fill')
     if (fill === 'none') return ''
     const att = getAttributes(el, [ 'x', 'y', 'width', 'height', 'rx', 'ry' ])
+    // if the rect does not have valid position, ignore it.
+    // a lot of the material design fonts have an initial rect, that is not needed.
+    // in fact, if you try to compensate for missing params, then the icon
+    // colors will be inverted.
+    // the rect usually looks something like this:
+    /// <path d="M0 0h24v24H0z" fill="none"/>
     if (isNaN(att.rx) && isNaN(att.x)) return ''
     return isNaN(att.rx)
       ? 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
