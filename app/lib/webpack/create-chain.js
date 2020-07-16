@@ -319,12 +319,11 @@ module.exports = function (cfg, configName) {
         to: '.',
         noErrorOnMissing: true,
         globOptions: {
-          ignore: [ appPaths.resolve.app('/**/.*') ].concat(
-            // avoid useless files to be copied
-            ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-              ? [ appPaths.resolve.app('public/icons'), appPaths.resolve.app('public/favicon.ico') ]
-              : []
-          )
+          dot: false,
+          // avoid useless files to be copied
+          ignore: ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+            ? [ '**/icons/**', '**/favicon.ico' ]
+            : []
         }
       }]
 
