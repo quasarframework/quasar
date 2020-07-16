@@ -94,6 +94,13 @@ async function run() {
 
     console.log('')
     Object.keys(themeMap).map(async (theme) => {
+      svgExports[theme].sort(function (a, b) {
+        return ('' + a.substr(13)).localeCompare(b.substr(13));
+      })
+      typeExports[theme].sort(function (a, b) {
+        return ('' + a.substr(21)).localeCompare(b.substr(21));
+      })
+
       console.log((`Updating SVG for ../material-icons${themeMap[theme]}`).replace(/_/g, '-'))
       writeExports(iconSetName, packageName, distFolder[theme], svgExports[theme], typeExports[theme], skipped[theme])
     })
