@@ -322,7 +322,7 @@ module.exports = function (cfg, configName) {
           dot: false,
           // avoid useless files to be copied
           ignore: ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-            ? [ '**/icons/**/*', '**/favicon.ico' ]
+            ? [ '**/icons/**', '**/favicon.ico' ]
             : []
         }
       }]
