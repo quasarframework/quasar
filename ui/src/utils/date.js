@@ -489,7 +489,7 @@ function getDiff (t, sub, interval) {
 }
 
 export function getDateDiff (date, subtract, unit = 'days') {
-  let
+  const
     t = new Date(date),
     sub = new Date(subtract)
 
@@ -825,7 +825,7 @@ export function formatDate (val, mask, dateLocale, __forcedYear, __forcedTimezon
     return
   }
 
-  let date = new Date(val)
+  const date = new Date(val)
 
   if (isNaN(date)) {
     return

@@ -336,14 +336,15 @@ export default Vue.extend({
     },
 
     __updateClock (evt, clockRect, cacheVal) {
-      let
-        val,
+      const
         pos = position(evt),
         height = Math.abs(pos.top - clockRect.top),
         distance = Math.sqrt(
           Math.pow(Math.abs(pos.top - clockRect.top), 2) +
           Math.pow(Math.abs(pos.left - clockRect.left), 2)
-        ),
+        )
+      let
+        val,
         angle = Math.asin(height / distance) * (180 / Math.PI)
 
       if (pos.top < clockRect.top) {

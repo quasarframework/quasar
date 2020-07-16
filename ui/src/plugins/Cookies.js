@@ -132,12 +132,13 @@ function set (key, val, opts = {}, ssr) {
 }
 
 function get (key, ssr) {
-  let
-    result = key ? null : {},
+  const
     cookieSource = ssr ? ssr.req.headers : document,
     cookies = cookieSource.cookie ? cookieSource.cookie.split('; ') : [],
+    l = cookies.length
+  let
+    result = key ? null : {},
     i = 0,
-    l = cookies.length,
     parts,
     name,
     cookie

@@ -60,7 +60,8 @@ export function jalaaliMonthLength (jy, jm) {
     @returns number of years since the last leap year (0 to 4)
  */
 function jalCalLeap (jy) {
-  let bl = breaks.length,
+  const bl = breaks.length
+  let
     jp = breaks[0],
     jm,
     jump,
@@ -103,15 +104,15 @@ function jalCalLeap (jy) {
   @see: http://www.fourmilab.ch/documents/calendar/
 */
 function jalCal (jy, withoutLeap) {
-  let bl = breaks.length,
-    gy = jy + 621,
+  const
+    bl = breaks.length,
+    gy = jy + 621
+  let
     leapJ = -14,
     jp = breaks[0],
     jm,
     jump,
     leap,
-    leapG,
-    march,
     n,
     i
 
@@ -133,10 +134,10 @@ function jalCal (jy, withoutLeap) {
   if (mod(jump, 33) === 4 && jump - n === 4) { leapJ += 1 }
 
   // And the same in the Gregorian calendar (until the year gy).
-  leapG = div(gy, 4) - div((div(gy, 100) + 1) * 3, 4) - 150
+  const leapG = div(gy, 4) - div((div(gy, 100) + 1) * 3, 4) - 150
 
   // Determine the Gregorian date of Farvardin the 1st.
-  march = 20 + leapJ - leapG
+  const march = 20 + leapJ - leapG
 
   // Find how many years have passed since the last leap year.
   if (!withoutLeap) {
@@ -177,13 +178,15 @@ function j2d (jy, jm, jd) {
     jd: Jalaali day (1 to 29/31)
 */
 function d2j (jdn) {
-  let gy = d2g(jdn).gy, // Calculate Gregorian year (gy).
+  const gy = d2g(jdn).gy // Calculate Gregorian year (gy).
+  let
     jy = gy - 621,
-    r = jalCal(jy, false),
-    jdn1f = g2d(gy, 3, r.march),
     jd,
     jm,
     k
+  const
+    r = jalCal(jy, false),
+    jdn1f = g2d(gy, 3, r.march)
 
   // Find number of days that passed since 1 Farvardin.
   k = jdn - jdn1f
@@ -248,17 +251,13 @@ function g2d (gy, gm, gd) {
     gd: Calendar day of the month M (1 to 28/29/30/31)
 */
 function d2g (jdn) {
-  let j,
-    i,
-    gd,
-    gm,
-    gy
-  j = 4 * jdn + 139361631
+  let j = 4 * jdn + 139361631
   j = j + div(div(4 * jdn + 183187720, 146097) * 3, 4) * 4 - 3908
-  i = div(mod(j, 1461), 4) * 5 + 308
-  gd = div(mod(i, 153), 5) + 1
-  gm = mod(div(i, 153), 12) + 1
-  gy = div(j, 1461) - 100100 + div(8 - gm, 6)
+  const
+    i = div(mod(j, 1461), 4) * 5 + 308,
+    gd = div(mod(i, 153), 5) + 1,
+    gm = mod(div(i, 153), 12) + 1,
+    gy = div(j, 1461) - 100100 + div(8 - gm, 6)
   return {
     gy: gy,
     gm: gm,

@@ -13,7 +13,7 @@ export function isDeepEqual (a, b) {
       return false
     }
 
-    let length, i, keys
+    let length, i
 
     if (a.constructor === Array) {
       length = a.length
@@ -99,7 +99,7 @@ export function isDeepEqual (a, b) {
       return a.toString() === b.toString()
     }
 
-    keys = Object.keys(a)
+    const keys = Object.keys(a)
     length = keys.length
 
     if (length !== Object.keys(b).length) {

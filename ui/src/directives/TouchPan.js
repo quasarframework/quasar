@@ -4,8 +4,8 @@ import { addEvt, cleanEvt, position, leftClick, prevent, stop, stopAndPrevent, p
 import { clearSelection } from '../utils/selection.js'
 
 function getChanges (evt, ctx, isFinal) {
+  const pos = position(evt)
   let
-    pos = position(evt),
     dir,
     distX = pos.left - ctx.event.x,
     distY = pos.top - ctx.event.y,

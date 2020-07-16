@@ -1,6 +1,6 @@
 import { isKeyCode } from './key-composition.js'
 
-let handlers = []
+const handlers = []
 let escDown = false
 
 export default {

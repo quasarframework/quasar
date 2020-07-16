@@ -41,7 +41,7 @@ export function hexToRgb (hex) {
     hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]
   }
 
-  let num = parseInt(hex, 16)
+  const num = parseInt(hex, 16)
 
   return hex.length > 6
     ? { r: num >> 24 & 255, g: num >> 16 & 255, b: num >> 8 & 255, a: Math.round((num & 255) / 2.55) }
@@ -49,16 +49,17 @@ export function hexToRgb (hex) {
 }
 
 export function hsvToRgb ({ h, s, v, a }) {
-  let r, g, b, i, f, p, q, t
+  let r, g, b
   s = s / 100
   v = v / 100
 
   h = h / 360
-  i = Math.floor(h * 6)
-  f = h * 6 - i
-  p = v * (1 - s)
-  q = v * (1 - f * s)
-  t = v * (1 - (1 - f) * s)
+  const
+    i = Math.floor(h * 6),
+    f = h * 6 - i,
+    p = v * (1 - s),
+    q = v * (1 - f * s),
+    t = v * (1 - (1 - f) * s)
 
   switch (i % 6) {
     case 0:
@@ -102,12 +103,13 @@ export function hsvToRgb ({ h, s, v, a }) {
 }
 
 export function rgbToHsv ({ r, g, b, a }) {
-  let
-    max = Math.max(r, g, b), min = Math.min(r, g, b),
+  const
+    max = Math.max(r, g, b),
+    min = Math.min(r, g, b),
     d = max - min,
-    h,
     s = (max === 0 ? 0 : d / max),
     v = max / 255
+  let h
 
   switch (max) {
     case min:

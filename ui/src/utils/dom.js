@@ -23,7 +23,7 @@ export function width (el) {
 }
 
 export function css (element, css) {
-  let style = element.style
+  const style = element.style
 
   Object.keys(css).forEach(prop => {
     style[prop] = css[prop]
