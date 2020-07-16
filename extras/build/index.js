@@ -5,8 +5,8 @@ const { join } = require('path')
 runJob(join(__dirname, './webfonts.js'))
 runJob(join(__dirname, './animate.js'))
 
-// replaced by material-icons2
-// runJob(join(__dirname, './material-icons.js'))
+// runJob(join(__dirname, './mdi-v5.js'))
+// runJob(join(__dirname, './fontawesome-v5.js'))
 
 runJob(join(__dirname, './mdi-v5.js'))
 runJob(join(__dirname, './fontawesome-v5.js'))
@@ -16,4 +16,4 @@ runJob(join(__dirname, './themify.js'))
 runJob(join(__dirname, './line-awesome.js'))
 
 // this one takes the longest
-runJob(join(__dirname, './material-icons2.js'))
+runJob(join(__dirname, './material-icons.js'))

@@ -120,7 +120,6 @@ function parseDom (el, pathsDefinitions) {
 }
 
 function parseSvgContent(name, content) {
-  // console.log('Parsing:', name)
   const dom = Parser.parseFromString(content, 'text/xml')
 
   const viewBox = dom.documentElement.getAttribute('viewBox')
