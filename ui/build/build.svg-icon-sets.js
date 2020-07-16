@@ -41,11 +41,6 @@ const iconTypes = [
     convert: str => materialConvert(str, 's_', 'sharp_')
   },
   {
-    name: 'material-icons',
-    regex: /_/,
-    convert: str => materialConvert(str, '', 'mat_')
-  },
-  {
     name: 'mdi-v5',
     regex: /^mdi-/,
     convert
@@ -81,6 +76,12 @@ const iconTypes = [
       (str.startsWith('las la-') === true ? str + '-solid' : str)
         .replace(/^la[brs] la-/, 'la-')
     )
+  },
+  // must be last as it's a catch-all
+  {
+    name: 'material-icons',
+    regex: /./,
+    convert: str => materialConvert(str, '', 'mat_')
   }
 ]
 
