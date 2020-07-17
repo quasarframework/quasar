@@ -166,7 +166,7 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 
 * Icon names are in camel-case and always begin with "outlined" prefix.
 * Go to [Material Icons](https://material.io/icons/), look for your desired icon and remember its name (eg. "all_inbox"), prefix it with "outlined" and camel-case the result (eg. "outlinedAllInbox").
-* Import statement example: `import { matAllInbox } from '@quasar/extras/material-icons-outlined'`.
+* Import statement example: `import { outlinedAllInbox } from '@quasar/extras/material-icons-outlined'`.
 
 #### SVG Material Icons Sharp (Google) <q-badge align="top" label="Quasar v1.12.13+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.9+" />
 
