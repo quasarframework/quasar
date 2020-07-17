@@ -88,6 +88,14 @@ export default Vue.extend({
         }
       }
 
+      if (icon.startsWith('svguse:') === true) {
+        return {
+          svguse: true,
+          cls: this.classes,
+          src: icon.substring(7)
+        }
+      }      
+      
       let content = ' '
 
       if (/^[l|f]a[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
@@ -167,6 +175,16 @@ export default Vue.extend({
       return h('svg', data, mergeSlot(this.type.nodes, this, 'default'))
     }
 
+    if (this.type.svguse === true) {
+      data.attrs.focusable = 'false' /* needed for IE11 */
+      data.attrs.viewBox = this.type.viewBox
+
+      const child = [
+        h('use', { attrs: { 'xlink:href' : this.type.src } }, mergeSlot(this.type.nodes,this, 'default'))
+      ]
+      return h('svg', data, child)
+    }    
+    
     return h(this.tag, data, mergeSlot([
       this.type.content
     ], this, 'default'))
