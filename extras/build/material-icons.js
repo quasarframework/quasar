@@ -3,7 +3,6 @@ const iconSetName = 'Google Material Design Icons'
 
 // ------------
 
-const { copySync } = require('fs-extra')
 const { resolve } = require('path')
 const fetch = require('cross-fetch')
 
