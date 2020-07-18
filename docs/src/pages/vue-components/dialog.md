@@ -13,7 +13,7 @@ The QDialog component is a great way to offer the user the ability to choose a s
 From a UI perspective, you can think of Dialogs as a type of floating modal, which covers only a portion of the screen. This means Dialogs should only be used for quick user actions, like verifying a password, getting a short App notification or selecting an option or options quickly.
 
 ::: tip
-Dialogs can also be used as a globally available method for more basic use cases, like the native JS alert(), prompt(), etc. For the latter behaviour, go to [Dialog Plugin](/quasar-plugins/dialog) page.
+Dialogs can also be used as a globally available method for more basic use cases, like the native JS alert(), prompt(), etc. For the latter behavior, go to [Dialog Plugin](/quasar-plugins/dialog) page.
 :::
 
 ::: warning Masterclass TIP

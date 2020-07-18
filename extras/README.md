@@ -88,7 +88,7 @@ export default {
 <q-icon name="..." />
 ```
 
-| Name | Prefix | Examples | Notes | Licence |
+| Name | Prefix | Examples | Notes | License |
 | --- | --- | --- | --- | --- |
 | material-icons | *None* | thumb_up | Notice the underline character instead of dash or space | |
 | material-icons-outlined | o_ | o_thumb_up | Notice the underline character instead of dash or space | |

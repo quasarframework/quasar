@@ -17,7 +17,7 @@ The QEditor component is a WYSIWYG (“what you see is what you get”) editor c
 <doc-example title="Default editor" file="QEditor/Basic" />
 
 ::: warning
-In this first example, there are two cards below the editor. The first shows the unparsed html using the double-moustache, whereas the second shows the rendered version using `v-html="editor"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).
+In this first example, there are two cards below the editor. The first shows the unparsed html using the double-mustache, whereas the second shows the rendered version using `v-html="editor"`. Using v-html this way renders your users vulnerable to Cross Site Scripting attacks. If the content is user generated, be sure to sanitize it either on render or server side (or both).
 :::
 
 By default, QEditor offers most if not all the commands you’d need in a WYSIWYG editor: bold, italic, strike, underline, unordered (list), ordered (list), subscript, superscript, link, fullscreen, quote, left (align), center (align), right (align), justify (align), print, outdent, indent, removeFormat, hr, undo, redo, h1 to h6, p (paragraph), code (code paragraph), size-1 to size-7.
@@ -152,7 +152,7 @@ If the paste event content type is text and depending on the source of text, the
 <doc-example title="Paste Event Override" file="QEditor/Pasting" />
 
 ### Printing
-If you don't set a font (or the user doesn't choose one), the print dialogue will default to the system font, which can vary depending on browser and underlying operating system. Make sure to take this into consideration.
+If you don't set a font (or the user doesn't choose one), the print dialog will default to the system font, which can vary depending on browser and underlying operating system. Make sure to take this into consideration.
 
 ### Internationalization
 The tooltips content of QEditor are translated by the [Quasar Language Pack](/options/quasar-language-packs), so merely changing the language will also change the interface. If your desired language pack is missing - or you find an error, please consider providing the update as PR.

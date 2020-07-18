@@ -26,7 +26,7 @@ export default {
   },
   table: {
     noData: 'Sem dados disponíveis',
-    noResults: 'Nenhum dado correspondente encontrado',
+    noResults: 'Nenhum dado correspondence encontrado',
     loading: 'Carregando...',
     selectedRecords: function (rows) {
       return rows > 0
@@ -87,6 +87,6 @@ export default {
   },
   tree: {
     noNodes: 'Sem nós disponíveis',
-    noResults: 'Nenhum nó correspondente encontrado'
+    noResults: 'Nenhum nó correspondence encontrado'
   }
 }

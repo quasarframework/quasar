@@ -100,7 +100,7 @@ HtmlWhitelistedSanitizer.prototype.sanitizeString = function (input) {
 }
 
 HtmlWhitelistedSanitizer.prototype.sanitizeNode = function (node) {
-  // Note: <form> can have its nodeName overriden by a child node. It's
+  // Note: <form> can have its nodeName overridden by a child node. It's
   // not a big deal here, so we can punt on this.
   const nodeName = node.nodeName.toLowerCase()
   if (nodeName === '#text') {

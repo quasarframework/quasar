@@ -572,7 +572,7 @@ The structure looks the same, but some functions have been renamed.
 
 #### QAutocomplete
 
-- **removed**, built into [QSelect](/vue-components/select#Filtering-and-autocomplete), which is far more powerfull and offers a lot more options for your autocomplete needs; make sure you get accustomed to all the features of QSelect
+- **removed**, built into [QSelect](/vue-components/select#Filtering-and-autocomplete), which is far more powerful and offers a lot more options for your autocomplete needs; make sure you get accustomed to all the features of QSelect
 
 #### QBreadcrumbs
 

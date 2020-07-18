@@ -68,7 +68,7 @@ const Loading = {
             on: cache(this, 'tr', {
               'after-leave': () => {
                 // might be called to finalize
-                // previous leave, even if it was cancelled
+                // previous leave, even if it was canceled
                 if (this.isActive !== true && vm !== void 0) {
                   preventScroll(false)
                   vm.$destroy()

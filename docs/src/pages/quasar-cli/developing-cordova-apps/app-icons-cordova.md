@@ -157,12 +157,12 @@ And here is part of what your config.xml should look like:
     <splash src="res/screen/ios/Default@2x~iphone~comany.png" />
     <splash src="res/screen/ios/Default-Landscape-2436h.png" />
     <splash src="res/screen/ios/Default@2x~iphone~anyany" />
-    <splash src="res/screen/ios/Default@2x~iphone~comany" />
+    <splash src="res/screen/ios/Default@2x~iphone~company" />
     <splash src="res/screen/ios/Default@2x~iphone~comcom" />
     <splash src="res/screen/ios/Default@3x~iphone~anyany" />
     <splash src="res/screen/ios/Default@3x~iphone~anycom" />
-    <splash src="res/screen/ios/Default@3x~iphone~comany" />
+    <splash src="res/screen/ios/Default@3x~iphone~company" />
     <splash src="res/screen/ios/Default@2x~ipad~anyany" />
-    <splash src="res/screen/ios/Default@2x~ipad~comany" />
+    <splash src="res/screen/ios/Default@2x~ipad~company" />
 </platform>
 ```

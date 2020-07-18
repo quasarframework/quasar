@@ -240,7 +240,7 @@
   "events": {
     "input": {
       "extends": "input",
-      "desc": "Emitted when Popup gets cancelled in order to reset model to its initial value; Is also used by v-model"
+      "desc": "Emitted when Popup gets canceled in order to reset model to its initial value; Is also used by v-model"
     },
 
     "before-show": {
@@ -278,7 +278,7 @@
     },
 
     "cancel": {
-      "desc": "Emitted when user cancelled the change (hit ESC key or clicking outside of Popup or hit 'Cancel' button)",
+      "desc": "Emitted when user canceled the change (hit ESC key or clicking outside of Popup or hit 'Cancel' button)",
       "params": {
         "value": {
           "type": "Any",

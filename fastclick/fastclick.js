@@ -77,7 +77,7 @@
 
 
     /**
-     * Touchmove boundary, beyond which a click will be cancelled.
+     * Touchmove boundary, beyond which a click will be canceled.
      *
      * @type number
      */
@@ -117,7 +117,7 @@
 
     // Hack is required for browsers that don't support Event#stopImmediatePropagation (e.g. Android 2)
     // which is how FastClick normally stops click events bubbling to callbacks registered on the FastClick
-    // layer when they are cancelled.
+    // layer when they are canceled.
     if (!Event.prototype.stopImmediatePropagation) {
       layer.removeEventListener = function(type, callback, capture) {
         var rmv = Node.prototype.removeEventListener
@@ -257,7 +257,7 @@
 
     touch = event.changedTouches[0]
 
-    // Synthesise a click event, with an extra attribute so it can be tracked
+    // Synthesize a click event, with an extra attribute so it can be tracked
     clickEvent = document.createEvent('MouseEvents')
     clickEvent.initMouseEvent('click', true, true, window, 1, touch.screenX, touch.screenY, touch.clientX, touch.clientY, false, false, false, false, 0, null)
     clickEvent.forwardedTouchEvent = true
@@ -360,7 +360,7 @@
     // when the user next taps anywhere else on the page, new touchstart and touchend events are dispatched
     // with the same identifier as the touch event that previously triggered the click that triggered the alert.
     // Sadly, there is an issue on iOS 4 that causes some normal touch events to have the same identifier as an
-    // immediately preceeding touch event (issue #52), so this fix is unavailable on that platform.
+    // immediately preceding touch event (issue #52), so this fix is unavailable on that platform.
     // Issue 120: touch.identifier is 0 when Chrome dev tools 'Emulate touch events' is set with an iOS device UA string,
     // which causes all touch events to be ignored. As this block only applies to iOS, and iOS identifiers are always long,
     // random integers, it's safe to to continue if the identifier is 0 here.
@@ -434,7 +434,7 @@
 
 
   /**
-   * Attempt to find the labelled control for the given label element.
+   * Attempt to find the labeled control for the given label element.
    *
    * @param {EventTarget|HTMLLabelElement} labelElement
    * @returns {Element|null}
@@ -597,7 +597,7 @@
 
   /**
    * On actual clicks, determine whether this is a touch-generated click, a click action occurring
-   * naturally after a delay after a touch (which needs to be cancelled to avoid duplication), or
+   * naturally after a delay after a touch (which needs to be canceled to avoid duplication), or
    * an actual click which should be permitted.
    *
    * @param {Event} event
@@ -613,7 +613,7 @@
       return true
     }
 
-    // Very odd behaviour on iOS (issue #18): if a submit element is present inside a form and the user hits enter in the iOS simulator or clicks the Go button on the pop-up OS keyboard the a kind of 'fake' click event will be triggered with the submit-type input element as the target.
+    // Very odd behavior on iOS (issue #18): if a submit element is present inside a form and the user hits enter in the iOS simulator or clicks the Go button on the pop-up OS keyboard the a kind of 'fake' click event will be triggered with the submit-type input element as the target.
     if (event.target.type === 'submit' && event.detail === 0) {
       return true
     }

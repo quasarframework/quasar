@@ -20,7 +20,7 @@ This way you have Chrome Dev Tools directly for your App running on the emulator
 If you are having problems getting Android builds to finish and you see a message like:
 
 ```
-> Failed to install the following Android SDK packages as some licences have not been accepted.
+> Failed to install the following Android SDK packages as some licenses have not been accepted.
 ```
 
 If this is the case you need to accept ALL the licenses. Thankfully there is a tool for this:
@@ -164,7 +164,7 @@ Then it means you need to specify an emulator. Depending on your Cordova CLI ver
 
 ```bash
 $ quasar dev -m cordova -T ios -e iPhone-X,12.2
-# or whith older versions of Cordova CLI installed on your machine:
+# or with older versions of Cordova CLI installed on your machine:
 $ quasar dev -m cordova -T ios -e iPhone-X,com.apple.CoreSimulator.SimRuntime.iOS-12-2
 ```
 

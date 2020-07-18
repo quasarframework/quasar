@@ -71,10 +71,10 @@ export default {
       strawberry: true,
       cookies: true,
 
-      vanillaLabel: 'I want vanilla flavoured ice cream',
-      chocolateLabel: 'I want chocolate flavoured ice cream',
-      strawberryLabel: 'I want strawberry flavoured ice cream',
-      cookiesLabel: 'I want cookies flavoured ice cream'
+      vanillaLabel: 'I want vanilla flavored ice cream',
+      chocolateLabel: 'I want chocolate flavored ice cream',
+      strawberryLabel: 'I want strawberry flavored ice cream',
+      cookiesLabel: 'I want cookies flavored ice cream'
     }
   },
 

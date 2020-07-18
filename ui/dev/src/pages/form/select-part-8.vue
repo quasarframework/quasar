@@ -17,8 +17,8 @@
           <q-item clickable v-ripple>
             <q-item-section>
               <q-item-label>Device selection (select only one)</q-item-label>
-              <q-item-label caption class="text-bold">Only on mobile device (tested on Android), when an item is selected, the nativ keyboard appears when it is not the expected behaviour because the q-select does not need keyboard interaction.</q-item-label>
-              <q-item-label class="text-red">Unexpected behaviour !</q-item-label>
+              <q-item-label caption class="text-bold">Only on mobile device (tested on Android), when an item is selected, the nativ keyboard appears when it is not the expected behavior because the q-select does not need keyboard interaction.</q-item-label>
+              <q-item-label class="text-red">Unexpected behavior !</q-item-label>
               <q-item-label>
                 <q-select
                    v-model="selectedUserControl"
@@ -33,7 +33,7 @@
             <q-item-section>
               <q-item-label>Color selection (select multiple values)</q-item-label>
               <q-item-label caption class="text-bold">But with multiple select, when items are selected, the nativ keyboard does not appear.</q-item-label>
-              <q-item-label class="text-green">Expected behaviour !</q-item-label>
+              <q-item-label class="text-green">Expected behavior !</q-item-label>
               <q-item-label>
                 <q-select
                    v-model="selectedUserColors"

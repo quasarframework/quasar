@@ -271,7 +271,7 @@ function writeIndexDTS (apis) {
   //  or it won't be interpreted as a TS compiler directive
   //  but as a normal comment
   // On Vue CLI projects `@quasar/app` isn't available,
-  //  we ignore the "missing package" error because it's the intended behaviour
+  //  we ignore the "missing package" error because it's the intended behavior
   writeLine(contents, `// @ts-ignore`)
   writeLine(contents, `/// <reference types="@quasar/app" />`)
   writeLine(contents, `import Vue, { VueConstructor, PluginObject } from 'vue'`)

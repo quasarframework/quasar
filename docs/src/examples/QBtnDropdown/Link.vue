@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <q-btn-dropdown
       split
-      to="/start/pick-quasar-flavour"
+      to="/start/pick-quasar-flavor"
       color="teal"
       rounded
       label="Go to Docs Index"

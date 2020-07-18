@@ -65,7 +65,7 @@ export default {
     formatting: 'Formatering',
     fontSize: 'Fontstørrelse',
     align: 'Stilling',
-    hr: 'Sett inn horisontal linje',
+    hr: 'Sett inn horizontal linje',
     undo: 'Angre',
     redo: 'Gjenta',
     heading1: 'Overskrift 1',

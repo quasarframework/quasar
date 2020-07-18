@@ -6,7 +6,7 @@ related:
 ---
 
 ## Quasar.conf.js
-This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behaviour), or as a PWA (Progressive Web App).
+This is the place where you can configure some SSR options. Like if you want the client side to takeover as a SPA (Single Page Application -- the default behavior), or as a PWA (Progressive Web App).
 
 ```
 return {

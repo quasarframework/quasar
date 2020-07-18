@@ -23,7 +23,7 @@
     </div>
     <q-timeline :layout="layout" :side="side" color="secondary" style="padding: 0 24px;">
       <q-timeline-entry heading>
-        Novermber, 2017
+        November, 2017
       </q-timeline-entry>
 
       <q-timeline-entry
@@ -37,7 +37,7 @@
         </div>
       </q-timeline-entry>
 
-      <q-timeline-entry heading body="Novermber, 2017" />
+      <q-timeline-entry heading body="November, 2017" />
 
       <q-timeline-entry
         title="Event Title"

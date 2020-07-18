@@ -209,7 +209,7 @@ readers do not read off random characters that represent icons */
 .la-adjust:before {
   content: "\f042"; }
 
-.la-adn:before {
+.la-and:before {
   content: "\f170"; }
 
 .la-adobe:before {
@@ -5213,7 +5213,7 @@ readers do not read off random characters that represent icons */
   font-family: 'Line Awesome Brands';
   font-weight: 400; }
 
-.la.la-adn {
+.la.la-and {
   font-family: 'Line Awesome Brands';
   font-weight: 400; }
 

@@ -90,7 +90,7 @@ In the example below, we are rendering a `<label>` tag (notice `tag="label"`) so
 
 ### Native form submit <q-badge align="top" label="v1.9+" />
 
-When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QCheckbox, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QCheckbox, otherwise formData will not contain it (if it should) - all value are converted to string (native behavior, so do not use Object values):
 
 <doc-example title="Native form" file="QCheckbox/NativeForm" />
 

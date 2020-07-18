@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md q-gutter-y-sm column">
     <q-toggle
-      :label="`Model is ${blueModel} (default behaviour)`"
+      :label="`Model is ${blueModel} (default behavior)`"
       v-model="blueModel"
     />
 

@@ -207,7 +207,7 @@ module.exports = class InstallAPI {
 
       // Try to parse the JSON with Node native tools.
       // It will soft-fail and log a warning if the JSON isn't parseable
-      //  which usually means we are dealing with an extended JSON flavour,
+      //  which usually means we are dealing with an extended JSON flavor,
       //  for example JSON with comments or JSON5.
       // Notable examples are TS 'tsconfig.json' or VSCode 'settings.json'
       try {
@@ -221,7 +221,7 @@ module.exports = class InstallAPI {
       }
       catch(e) {
         warn()
-        warn(`Extension(${this.extId}): extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavoured JSON files (eg. JSON with Comments or JSON5). Skipping...`)
+        warn(`Extension(${this.extId}): extendJsonFile() - "${filePath}" doesn't conform to JSON format: this could happen if you are trying to update flavored JSON files (eg. JSON with Comments or JSON5). Skipping...`)
         warn(`Extension(${this.extId}): extendJsonFile() - The extension tried to apply these updates to "${filePath}" file: ${JSON.stringify(newData)}`)
         warn()
       }

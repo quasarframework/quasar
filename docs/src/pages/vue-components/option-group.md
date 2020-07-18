@@ -59,7 +59,7 @@ The objects within the `options` array can hold any of the props found in QToggl
 
 ### Native form submit <q-badge align="top" label="v1.9+" />
 
-When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behaviour, so do not use Object values):
+When dealing with a native form which has an `action` and a `method` (eg. when using Quasar with ASP.NET controllers), you need to specify the `name` property on QOptionGroup, otherwise formData will not contain it (if it should) - all value are converted to string (native behavior, so do not use Object values):
 
 <doc-example title="Native form" file="QOptionGroup/NativeForm" />
 

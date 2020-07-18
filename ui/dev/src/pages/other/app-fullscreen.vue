@@ -36,7 +36,7 @@
         </li>
         <li>
           On Nexus phones, on the other hand, like Nexus 5, Android navigation
-          buttons and top bar dissapear completely.
+          buttons and top bar disappear completely.
         </li>
       </ul>
     </div>
