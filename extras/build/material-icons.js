@@ -67,8 +67,11 @@ async function run() {
     const data = JSON.parse(text.replace(")]}'", ''))
     let icons = data.icons
     icons = icons.map((icon, index) => ({ index, ...icon }))
+    const version = icons.reduce((a, b) => {
+      return a.version > b.version ? a : b
+    }).version
 
-    console.log('\nDownloading Google Material Design SVGs...')
+    console.log('\nDownloading Google Material Design SVG icons...')
     console.log(`${icons.length} icons to download...`)
 
     Object.keys(themeMap).map(async (theme) => {
@@ -92,6 +95,8 @@ async function run() {
     await queue.wait({ empty: true })
 
     console.log('')
+    console.log(`SVG version is: ${version}`)
+
     Object.keys(themeMap).map(async (theme) => {
       svgExports[theme].sort((a, b) => {
         return ('' + a).localeCompare(b);
