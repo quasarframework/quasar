@@ -180,7 +180,7 @@ export default Vue.extend({
       data.attrs.viewBox = this.type.viewBox
 
       const child = [
-        h('use', { attrs: { 'xlink:href' : this.type.src } }, mergeSlot(this.type.nodes,this, 'default'))
+        h('use', { attrs: { 'xlink:href' : this.type.src } }, mergeSlot(this.type.nodes, this, 'default'))
       ]
       return h('svg', data, child)
     }    
