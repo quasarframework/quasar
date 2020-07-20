@@ -53,7 +53,7 @@ function shouldPreventScroll (e) {
 function onAppleScroll (e) {
   if (e.target === document) {
     // required, otherwise iOS blocks further scrolling
-    // until the mobile scrollbar dissapears
+    // until the mobile scrollbar dissappears
     document.scrollingElement.scrollTop = document.scrollingElement.scrollTop // eslint-disable-line
   }
 }
