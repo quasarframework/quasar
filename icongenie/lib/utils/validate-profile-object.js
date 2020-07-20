@@ -24,20 +24,6 @@ const baseParamsSchema = {
   splashscreenIconRatio: Joi.number().integer().min(0).max(100)
 }
 
-const colorParamsSchemaProfileSave = {
-  themeColor: Joi.string().pattern(/^[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  pngColor: Joi.string().pattern(/^[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  splashscreenColor: Joi.string().pattern(/^[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  svgColor: Joi.string().pattern(/^[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-}
-
-const colorParamsSchema = {
-  themeColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  pngColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  splashscreenColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-  svgColor: Joi.string().pattern(/^#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$/),
-}
-
 const assetsSchema = Joi.array().items({
   generator: Joi.string().required().valid(...generatorsList),
   name: Joi.string().required().min(1),
@@ -67,18 +53,30 @@ const assetsSchema = Joi.array().items({
   tag: Joi.string()
 })
 
-module.exports = function validateProfileObject (profileObject, generatingProfileFile = false) {
-  // ? - When generating the profile file, we don't want to validate with # on the hex color.
-  // : - When generating the icon, we're expecting a hash on the color (automatically added to user input via the CLI)
-  const colorParams = generatingProfileFile
-    ? colorParamsSchemaProfileSave
-    : colorParamsSchema
+/**
+ * When generating the profile file, we don't want to validate with # on the hex color.
+ * When generating the icon, we're expecting a hash on the color (automatically added to user input via the CLI)
+ */
+const getColorParamsSchema = (requireHash) => {
+  const colorPattern = Joi.string().pattern(new RegExp(`^${requireHash ? '#' : ''}[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?$`))
+  return {
+    themeColor: colorPattern,
+    pngColor: colorPattern,
+    splashscreenColor: colorPattern,
+    svgColor: colorPattern,
+  }
+}
 
+const getParamsSchema = (isGeneratingProfileFile) => {
+  return {
+    ...baseParamsSchema,
+    ...getColorParamsSchema(isGeneratingProfileFile === false)
+  }
+}
+
+module.exports = function validateProfileObject (profileObject, generatingProfileFile = false) {
   const profileSchema = Joi.object({
-    params: {
-      ...baseParamsSchema,
-      ...colorParams
-    },
+    params: getParamsSchema(generatingProfileFile),
     assets: assetsSchema
   })
 
