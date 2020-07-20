@@ -185,7 +185,7 @@ export default Vue.extend({
             'xlink:href': this.type.src
           }
         }),
-        mergeSlot(this.type.nodes,this, 'default')
+        mergeSlot(this.type.nodes, this, 'default')
       ])
     }
 
