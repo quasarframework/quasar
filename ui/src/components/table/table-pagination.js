@@ -1,5 +1,5 @@
 function samePagination (oldPag, newPag) {
-  for (let prop in newPag) {
+  for (const prop in newPag) {
     if (newPag[prop] !== oldPag[prop]) {
       return false
     }

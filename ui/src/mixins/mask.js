@@ -93,8 +93,9 @@ export default {
 
       let
         maskMarked = this.maskMarked,
-        padPos = maskMarked.indexOf(MARKER),
         pad = ''
+      const
+        padPos = maskMarked.indexOf(MARKER)
 
       if (padPos > -1) {
         for (let i = size - maskMarked.length; i > 0; i--) {

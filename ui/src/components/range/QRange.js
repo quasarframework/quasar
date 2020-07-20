@@ -258,7 +258,7 @@ export default Vue.extend({
           ),
         diff = this.max - this.min
 
-      let dragging = {
+      const dragging = {
         left,
         top,
         width,
@@ -269,9 +269,8 @@ export default Vue.extend({
         ratioMax: (this.model.max - this.min) / diff
       }
 
-      let
-        ratio = getRatio(event, dragging, this.isReversed, this.vertical),
-        type
+      const ratio = getRatio(event, dragging, this.isReversed, this.vertical)
+      let type
 
       if (this.dragOnlyRange !== true && ratio < dragging.ratioMin + sensitivity) {
         type = dragType.MIN
@@ -303,10 +302,10 @@ export default Vue.extend({
     },
 
     __updatePosition (event, dragging = this.dragging) {
-      let
+      const
         ratio = getRatio(event, dragging, this.isReversed, this.vertical),
-        model = getModel(ratio, this.min, this.max, this.step, this.decimals),
-        pos
+        model = getModel(ratio, this.min, this.max, this.step, this.decimals)
+      let pos
 
       switch (dragging.type) {
         case dragType.MIN:
@@ -352,7 +351,7 @@ export default Vue.extend({
           break
 
         case dragType.RANGE:
-          let
+          const
             ratioDelta = ratio - dragging.offsetRatio,
             minR = between(dragging.ratioMin + ratioDelta, 0, 1 - dragging.rangeRatio),
             modelDelta = model - dragging.offsetModel,

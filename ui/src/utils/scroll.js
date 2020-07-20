@@ -147,7 +147,7 @@ export function getScrollbarWidth () {
 
   document.body.appendChild(outer)
 
-  let w1 = inner.offsetWidth
+  const w1 = inner.offsetWidth
   outer.style.overflow = 'scroll'
   let w2 = inner.offsetWidth
 

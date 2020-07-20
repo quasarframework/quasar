@@ -7,14 +7,16 @@
   color: $primary
   color: var(--q-color-primary)
 
-  &--reverse
-    transform: scale3d(-1, 1, 1)
-
   &__model, &__track
     transform-origin: 0 0
 
     &--with-transition
       transition: transform .3s
+
+  &--reverse
+    .q-linear-progress
+      &__model, &__track
+        transform-origin: 0 100%
 
   &__model
 

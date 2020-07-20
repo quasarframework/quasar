@@ -9,7 +9,7 @@ import { getBodyFullscreenElement } from '../utils/dom.js'
 import { isSSR } from './Platform.js'
 
 let uid = 0
-let defaults = {}
+const defaults = {}
 
 const attrs = { role: 'alert' }
 
@@ -75,7 +75,7 @@ const Notifications = {
         return false
       }
 
-      let notif = { textColor: 'white' }
+      const notif = { textColor: 'white' }
 
       if (typeof config === 'string' || config.ignoreDefaults !== true) {
         Object.assign(notif, defaults)

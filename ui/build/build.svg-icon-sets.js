@@ -17,12 +17,28 @@ const svgIconSetBanner = setName => `
 
 // generic conversion
 const convert = str => str.replace(/(-\w)/g, m => m[1].toUpperCase())
+const materialConvert = (str, old, prefix) => {
+  if (old !== '') {
+    str = str.substr(old.length)
+  }
+  return (prefix + str).replace(/(_\w)/g, m => m[1].toUpperCase())
+}
 
 const iconTypes = [
   {
-    name: 'material-icons',
-    regex: /_/,
-    convert: str => ('mat_' + str).replace(/(_\w)/g, m => m[1].toUpperCase())
+    name: 'material-icons-outlined',
+    regex: /^o_/,
+    convert: str => materialConvert(str, 'o_', 'outlined_')
+  },
+  {
+    name: 'material-icons-round',
+    regex: /^r_/,
+    convert: str => materialConvert(str, 'r_', 'round_')
+  },
+  {
+    name: 'material-icons-sharp',
+    regex: /^s_/,
+    convert: str => materialConvert(str, 's_', 'sharp_')
   },
   {
     name: 'mdi-v5',
@@ -60,6 +76,12 @@ const iconTypes = [
       (str.startsWith('las la-') === true ? str + '-solid' : str)
         .replace(/^la[brs] la-/, 'la-')
     )
+  },
+  // must be last as it's a catch-all
+  {
+    name: 'material-icons',
+    regex: /./,
+    convert: str => materialConvert(str, '', 'mat_')
   }
 ]
 

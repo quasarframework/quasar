@@ -22,6 +22,8 @@ function getCurvePath (x, y, rx, ry) {
 
 const decoders = {
   path (el) {
+    const fill = el.getAttribute('fill')
+    if (fill === 'none') return ''
     return el.getAttribute('d')
   },
 
@@ -56,7 +58,16 @@ const decoders = {
   },
 
   rect (el) {
+    const fill = el.getAttribute('fill')
+    if (fill === 'none') return ''
     const att = getAttributes(el, [ 'x', 'y', 'width', 'height', 'rx', 'ry' ])
+    // if the rect does not have valid position, ignore it.
+    // a lot of the material design fonts have an initial rect, that is not needed.
+    // in fact, if you try to compensate for missing params, then the icon
+    // colors will be inverted.
+    // the rect usually looks something like this:
+    /// <path d="M0 0h24v24H0z" fill="none"/>
+    if (isNaN(att.rx) && isNaN(att.x)) return ''
     return isNaN(att.rx)
       ? 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
         (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height) + 'Z'
@@ -92,11 +103,15 @@ function parseDom (el, pathsDefinitions) {
       throw new Error(`Encountered unknown tag type: "${type}"`)
     }
 
-    pathsDefinitions.push({
+    const paths = {
       path: decoders[type](el),
       style: el.getAttribute('style'),
       transform: el.getAttribute('transform')
-    })
+    }
+
+    if (paths.path.length > 0) {
+      pathsDefinitions.push(paths)
+    }
   }
 
   Array.from(el.childNodes).forEach(child => {
@@ -142,16 +157,20 @@ function parseSvgContent(name, content) {
       .join('&&')
   }
 
+  if (result.paths[0] === 'z') {
+    result.paths = result.paths.substr(1)
+  }
+
   return result
 }
 
 function getBanner(iconSetName, versionOrPackageName) {
   const version =
-    versionOrPackageName.match(/^\d/)
-    ? versionOrPackageName
-    : require(resolve(__dirname, `../../node_modules/${versionOrPackageName}/package.json`)).version
+  versionOrPackageName === '' || versionOrPackageName.match(/^\d/)
+    ? versionOrPackageName === '' ? versionOrPackageName : 'v' + versionOrPackageName
+    : 'v' + require(resolve(__dirname, `../../node_modules/${versionOrPackageName}/package.json`)).version
 
-  return `/* ${iconSetName} v${version} */\n\n`
+  return `/* ${iconSetName} ${version} */\n\n`
 }
 
 module.exports.defaultNameMapper = (filePath, prefix) => {
@@ -161,6 +180,19 @@ module.exports.defaultNameMapper = (filePath, prefix) => {
 module.exports.extract = (filePath, name) => {
   const content = readFileSync(filePath, 'utf-8')
 
+  const { paths, viewBox } = parseSvgContent(name, content)
+
+  const path = paths
+    .replace(/[\r\n\t]+/gi, ',')
+    .replace(/,,/gi, ',')
+
+  return {
+    svgDef: `export const ${name} = '${path}${viewBox}'`,
+    typeDef: `export declare const ${name}: string;`
+  }
+}
+
+module.exports.extractSvg = (content, name) => {
   const { paths, viewBox } = parseSvgContent(name, content)
 
   return {
@@ -185,3 +217,119 @@ module.exports.writeExports = (iconSetName, versionOrPackageName, distFolder, sv
     }
   }
 }
+
+const sleep = (delay = 0) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, delay)
+  })
+}
+
+module.exports.sleep = sleep
+
+const waitUntil = async (test, options = {}) => {
+  const { delay = 5e3, tries = -1 } = options
+  const { predicate, result } = await test()
+
+  if (predicate) {
+    return result
+  }
+
+  if (tries - 1 === 0) {
+    throw new Error('tries limit reached')
+  }
+
+  await sleep(delay)
+  return waitUntil(test, { ...options, tries: tries > 0 ? tries - 1 : tries })
+}
+
+module.exports.waitUntil = waitUntil
+
+const retry = async (tryFunction, options = {}) => {
+  const { retries = 3 } = options
+
+  let tries = 0
+  let output = null
+  let exitErr = null
+
+  const bail = (err) => {
+    exitErr = err
+  }
+
+  while (tries < retries) {
+    tries += 1
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      output = await tryFunction({ tries, bail })
+      break
+    } catch (err) {
+      if (tries >= retries) {
+        throw err
+      }
+    }
+  }
+
+  if (exitErr) {
+    throw exitErr
+  }
+
+  return output
+}
+
+module.exports.retry = retry
+
+class Queue {
+  pendingEntries = []
+
+  inFlight = 0
+
+  err = null
+
+  constructor(worker, options = {}) {
+    this.worker = worker
+    this.concurrency = options.concurrency || 1
+  }
+
+  push = (entries) => {
+    this.pendingEntries = this.pendingEntries.concat(entries)
+    this.process()
+  }
+
+  process = () => {
+    const scheduled = this.pendingEntries.splice(0, this.concurrency - this.inFlight)
+    this.inFlight += scheduled.length
+    scheduled.forEach(async (task) => {
+      try {
+        await this.worker(task)
+      } catch (err) {
+        this.err = err
+      } finally {
+        this.inFlight -= 1
+      }
+
+      if (this.pendingEntries.length > 0) {
+        this.process()
+      }
+    })
+  }
+
+  wait = (options = {}) =>
+    waitUntil(
+      () => {
+        if (this.err) {
+          this.pendingEntries = []
+          throw this.err
+        }
+
+        return {
+          predicate: options.empty
+            ? this.inFlight === 0 && this.pendingEntries.length === 0
+            : this.concurrency > this.pendingEntries.length,
+        }
+      },
+      {
+        delay: 50,
+      },
+    )
+}
+
+module.exports.Queue = Queue

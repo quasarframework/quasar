@@ -227,7 +227,7 @@ export default {
           this.virtualScrollStickySizeStart,
           this.virtualScrollStickySizeEnd
         ),
-        scrollMaxStart = scrollDetails.scrollMaxSize - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd),
+        scrollMaxStart = scrollDetails.scrollMaxSize - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd) - this.virtualScrollSizes[this.virtualScrollLength - 1],
         listLastIndex = this.virtualScrollLength - 1
 
       if (this.prevScrollStart === scrollDetails.scrollStart) {

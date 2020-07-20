@@ -33,7 +33,7 @@ export function getModel (ratio, min, max, step, decimals) {
   return between(model, min, max)
 }
 
-export let SliderMixin = {
+export const SliderMixin = {
   mixins: [ DarkMixin, FormMixin ],
 
   directives: {

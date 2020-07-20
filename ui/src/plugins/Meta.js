@@ -18,7 +18,7 @@ function normalize (meta) {
       metaType = meta[type[0]],
       metaProp = type[1]
 
-    for (let name in metaType) {
+    for (const name in metaType) {
       const metaLink = metaType[name]
 
       if (metaLink.template) {
@@ -38,7 +38,7 @@ function changed (old, def) {
   if (Object.keys(old).length !== Object.keys(def).length) {
     return true
   }
-  for (let key in old) {
+  for (const key in old) {
     if (old[key] !== def[key]) {
       return true
     }
@@ -54,7 +54,7 @@ function htmlFilter (name) {
 }
 
 function diff (meta, other) {
-  let add = {}, remove = {}
+  const add = {}, remove = {}
 
   if (meta === void 0) {
     return { add: other, remove }
@@ -75,12 +75,12 @@ function diff (meta, other) {
 
     add[type] = {}
 
-    for (let key in old) {
+    for (const key in old) {
       if (cur.hasOwnProperty(key) === false) {
         remove[type].push(key)
       }
     }
-    for (let key in cur) {
+    for (const key in cur) {
       if (old.hasOwnProperty(key) === false) {
         add[type][key] = cur[key]
       }
@@ -116,9 +116,9 @@ function apply ({ add, remove }) {
   ;['meta', 'link', 'script'].forEach(type => {
     const metaType = add[type]
 
-    for (let name in metaType) {
+    for (const name in metaType) {
       const tag = document.createElement(type)
-      for (let att in metaType[name]) {
+      for (const att in metaType[name]) {
         if (att !== 'innerHTML') {
           tag.setAttribute(att, metaType[name][att])
         }
@@ -192,7 +192,7 @@ function getHead (meta) {
   ;['meta', 'link', 'script'].forEach(type => {
     const metaType = meta[type]
 
-    for (let att in metaType) {
+    for (const att in metaType) {
       const attrs = Object.keys(metaType[att])
         .filter(att => att !== 'innerHTML')
         .map(getAttr(metaType[att]))

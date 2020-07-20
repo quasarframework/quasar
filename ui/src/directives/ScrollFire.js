@@ -20,7 +20,7 @@ export default {
   name: 'scroll-fire',
 
   bind (el) {
-    let ctx = {
+    const ctx = {
       scroll: debounce(() => {
         let containerBottom, elBottom
 
@@ -48,7 +48,7 @@ export default {
   },
 
   inserted (el, binding) {
-    let ctx = el.__qscrollfire
+    const ctx = el.__qscrollfire
     ctx.scrollTarget = getScrollTarget(el)
     updateBinding(ctx, binding)
   },
@@ -60,7 +60,7 @@ export default {
   },
 
   unbind (el) {
-    let ctx = el.__qscrollfire_old || el.__qscrollfire
+    const ctx = el.__qscrollfire_old || el.__qscrollfire
     if (ctx !== void 0) {
       ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
       delete el[el.__qscrollfire_old ? '__qscrollfire_old' : '__qscrollfire']

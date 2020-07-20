@@ -26,6 +26,7 @@ module.exports = {
   // add your custom rules here
   'rules': {
     'brace-style': [2, 'stroustrup', { 'allowSingleLine': true }],
+    'prefer-const': 2,
 
     'vue/max-attributes-per-line': 'off',
     'vue/valid-v-for': 'off',
@@ -36,7 +37,6 @@ module.exports = {
     'vue/require-render-return': 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/no-side-effects-in-computed-properties': 'off',
-    'vue/return-in-computed-property': 'off',
     'vue/array-bracket-spacing': 'off',
     'vue/object-curly-spacing': 'off',
     'vue/script-indent': 'off',

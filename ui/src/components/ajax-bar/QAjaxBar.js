@@ -113,7 +113,7 @@ export default Vue.extend({
     style () {
       const active = this.onScreen
 
-      let o = translate({
+      const o = translate({
         p: this.progress,
         pos: this.position,
         active,

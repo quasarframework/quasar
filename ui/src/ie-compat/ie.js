@@ -1176,7 +1176,7 @@ var Promise$2 = function () {
     // The user's comments are now available
   });
   ```
-   If the assimliated promise rejects, then the downstream promise will also reject.
+   If the assimilated promise rejects, then the downstream promise will also reject.
    ```js
   findUser().then(function (user) {
     return findCommentsByAuthor(user);
