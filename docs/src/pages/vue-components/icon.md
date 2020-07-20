@@ -330,6 +330,43 @@ Examples:
 </svg>
 ```
 
+## SVG use
+
+All utilized SVG can also be stored in a single external file.
+
+```html
+// icons.svg
+
+<svg xmlns="http://www.w3.org/2000/svg">
+  <symbol id="icon-1" viewBox="0 0 24 24">
+    <path d="..."></path>
+  </symbol>
+  <symbol id="icon-2" viewBox="0 0 24 24">
+     <path d="..."></path>
+  </symbol>
+</svg>
+```
+
+The HTML way is to include the file and specify the icon with the `svg use` tag.
+
+```HTML
+<svg>
+  <use xlink:href="icons.svg#icon-1"></use>
+</svg>
+```
+
+To easily embed this into quasar, there is the prefix `svguse:` available to specify file and icon.
+
+```HTML
+<q-icon name="svguse:icons.svg#icon-1">
+```
+or
+```HTML
+<q-btn-dropdown label="Custom Content" dropdown-icon="svguse:icons.svg#icon-2" />
+```
+
+
+
 ## Inlined svg <q-badge align="top" label="v1.7+" />
 
 If you don't want to use the webfont or svg variants from above, note that QIcon also supports one inlined `<svg>` tag (the content of the svg can be anything, not only a path).
