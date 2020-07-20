@@ -163,8 +163,12 @@ module.exports.extract = (filePath, name) => {
 
   const { paths, viewBox } = parseSvgContent(name, content)
 
+  const path = paths
+    .replace(/[\r\n\t]+/gi, ',')
+    .replace(/,,/gi, ',')
+
   return {
-    svgDef: `export const ${name} = '${paths}${viewBox}'`,
+    svgDef: `export const ${name} = '${path}${viewBox}'`,
     typeDef: `export declare const ${name}: string;`
   }
 }
