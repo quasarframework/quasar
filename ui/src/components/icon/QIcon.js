@@ -179,13 +179,13 @@ export default Vue.extend({
       data.attrs.focusable = 'false' /* needed for IE11 */
       data.attrs.viewBox = this.type.viewBox
     
-    return h('svg', data, [
-      h('use', {
-        attrs: {
-          'xlink:href': this.type.src
-        }
-      }),
-      mergeSlot(this.type.nodes,this, 'default')
-    ])
-  }
+      return h('svg', data, [
+        h('use', {
+          attrs: {
+            'xlink:href': this.type.src
+          }
+        }),
+        mergeSlot(this.type.nodes,this, 'default')
+      ])
+    }
 })
