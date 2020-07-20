@@ -706,6 +706,10 @@ const directives = [
     path: 'mutation'
   },
   {
+    name: 'Morph',
+    path: 'morph'
+  },
+  {
     name: 'Scroll',
     path: 'scroll'
   },
