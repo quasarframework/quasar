@@ -34,7 +34,7 @@ Here's a quick comparison:
 | Tree Shaking                                                                               | -       | **Yes**    | **Yes**                       |
 | SFC (Single File Component - for Vue) support                                              | -       | **Yes**    | **Yes**                       |
 | Advanced configuration through dynamic quasar.conf.js                                      | -       | **Yes**    | -                             |
-| Unit & end to end testing                                                                  | -       | **Yes**    | **Yes**                       |
+| Unit & end to end testing support                  | -       | **Yes**    | **Yes**                       |
 | TypeScript support                                                              | -       | **Yes**    | **Yes**                       |
 |**Best and Most Popular Choice!**  |  |**YES!(*)** |  |
 
