@@ -46,7 +46,7 @@ module.exports = function profile ({ output, assets, ...params }) {
     assets: getAssets(assets)
   }
 
-  validateProfileObject(profile)
+  validateProfileObject(profile, true)
 
   const targetFile = getTargetFilepath(output)
   const folderName = dirname(targetFile)
