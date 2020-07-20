@@ -25,7 +25,7 @@ Here's a quick comparison:
 | Build Desktop Apps via Electron                                                            | -       | **Yes**    | Yes(*)                             |
 | Build Browser Extensions                                                                   | -       | **Yes**    | Yes(*)                          |
 | Quasar **App Extensions**                                                                  | -       | **Yes**    | - |
-| Easy management of App icons & splash screens via [Icon Genie](/icongenie/introduction)    | - | **Yes** | - |
+| Easy management of App icons & splash screens via [Icon Genie CLI](/icongenie/introduction)    | - | **Yes** | - |
 | Dynamic RTL support for Quasar components                                                  | **Yes** | **Yes**    | **Yes**                       |
 | Generating your own website/app RTL equivalent CSS rules automatically by Quasar           | -       | **Yes**    | **Yes**                       |
 | **Ensure everything "simply works" out of the box**, using latest and greatest Quasar specs.   | -       | **Yes**    | -                             |
@@ -36,7 +36,7 @@ Here's a quick comparison:
 | Advanced configuration through dynamic quasar.conf.js                                      | -       | **Yes**    | -                             |
 | Unit & end to end testing                                                                  | -       | **Yes**    | **Yes**                       |
 | TypeScript support                                                              | -       | **Yes**    | **Yes**                       |
-|**Best and Most Popular Choice!**  |  |**Quasar CLI** |  |
+|**Best and Most Popular Choice!**  |  |**YES!(*)** |  |
 
 
 ::: tip (*)Important!
