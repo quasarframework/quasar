@@ -85,9 +85,11 @@ You can add your own definitions to `process.env` through `/quasar.conf.js` file
 
 build: {
   env: {
-    API: ctx.dev
+    API: JSON.stringify(
+      ctx.dev
       ? 'https://dev.api.com'
       : 'https://prod.api.com'
+    )
   }
 }
 ```
@@ -103,9 +105,11 @@ $ MY_API=api.com quasar build
 # then we pick it up in /quasar.conf.js
 build: {
   env: {
-    API: ctx.dev
+    API: JSON.stringify(
+      ctx.dev
       ? 'https://dev.' + process.env.MY_API
       : 'https://prod.' + process.env.MY_API
+    )
   }
 }
 ```
