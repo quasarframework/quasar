@@ -188,4 +188,9 @@ export default Vue.extend({
         mergeSlot(this.type.nodes,this, 'default')
       ])
     }
+
+    return h(this.tag, data, mergeSlot([
+      this.type.content
+    ], this, 'default'))
+  }
 })
