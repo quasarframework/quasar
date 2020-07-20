@@ -52,4 +52,4 @@ FastClick is designed to cope with many different browser oddities. Here are som
 
 ## Credits and collaboration ##
 
-The forked Fastclick is maintained by [Razvan Stoenescu](https://github.com/rstoenescu). Original contributors: [Rowan Beentje](http://twitter.com/rowanbeentje), [Matthew Caruana Galizia](http://twitter.com/mcaruanagalizia) and [Matthew Andrews](http://twitter.com/andrewsmatt) at [FT Labs](http://labs.ft.com). All open source code released by FT Labs is licensed under the MIT licence. We welcome comments, feedback and suggestions.  Please feel free to raise an issue or pull request.
+The forked Fastclick is maintained by [Razvan Stoenescu](https://github.com/rstoenescu). Original contributors: [Rowan Beentje](http://twitter.com/rowanbeentje), [Matthew Caruana Galizia](http://twitter.com/mcaruanagalizia) and [Matthew Andrews](http://twitter.com/andrewsmatt) at [FT Labs](http://labs.ft.com). All open source code released by FT Labs is licensed under the MIT license. We welcome comments, feedback and suggestions.  Please feel free to raise an issue or pull request.

@@ -56,11 +56,11 @@ module.exports = function (ctx) {
   return {
     supportTS: {
       tsLoaderConfig: {
-        // `appendTsSuffixTo: [/\.vue$/]` and `transpileOnly: true` are added by default and cannot be overriden
+        // `appendTsSuffixTo: [/\.vue$/]` and `transpileOnly: true` are added by default and cannot be overridden
         ...
       },
       tsCheckerConfig: {
-        // `vue: true` is added by default and cannot be overriden
+        // `vue: true` is added by default and cannot be overridden
         ...
       }
     },
