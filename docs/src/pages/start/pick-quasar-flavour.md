@@ -30,7 +30,7 @@ Here's a quick comparison:
 | Generating your own website/app RTL equivalent CSS rules automatically by Quasar           | -       | **Yes**    | **Yes**                       |
 | **Ensure everything "simply works" out of the box**, using latest and greatest Quasar specs.   | -       | **Yes**    | -                             |
 | **Tight integration between build modes**, taking full advantage of all Quasar's capabilities. | -       | **Yes**    | -                             |
-| One codebase to create SPA, PWA, SSR, Mobile Apps, Electron Apps                             | -       | **Yes**    | Yes(*)                      |
+| One codebase to create SPA, PWA, SSR, Mobile Apps, Electron Apps and Browser Extensions                             | -       | **Yes**    | Yes(*)                      |
 | Tree Shaking                                                                               | -       | **Yes**    | **Yes**                       |
 | SFC (Single File Component - for Vue) support                                              | -       | **Yes**    | **Yes**                       |
 | Advanced configuration through dynamic quasar.conf.js                                      | -       | **Yes**    | -                             |
