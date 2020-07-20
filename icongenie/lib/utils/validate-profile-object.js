@@ -63,7 +63,7 @@ const getColorParamsSchema = (requireHash) => {
     themeColor: colorPattern,
     pngColor: colorPattern,
     splashscreenColor: colorPattern,
-    svgColor: colorPattern,
+    svgColor: colorPattern
   }
 }
 
