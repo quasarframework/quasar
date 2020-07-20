@@ -83,7 +83,6 @@ module.exports = function validateProfileObject (profileObject, generatingProfil
   })
 
   const { error } = profileSchema.validate(profileObject)
-
   if (error) {
     console.error(` ${red('ERROR')}: Input parameters are not valid. Please correct them.`)
     console.error(` ${error}`)
