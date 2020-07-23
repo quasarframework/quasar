@@ -77,15 +77,28 @@ function injectRule (chain, pref, lang, test, loader, loaderOptions) {
         })
     }
 
-    const postCssOpts = { sourceMap: pref.sourceMap, ...postCssConfig }
-
-    pref.rtl && postCssOpts.plugins.push(
-      require('postcss-rtl')(pref.rtl === true ? {} : pref.rtl)
-    )
-
+    const quasarStylePath = ["node_modules/quasar", "node_modules/@quasar"]
     rule.use('postcss-loader')
       .loader('postcss-loader')
-      .options(postCssOpts)
+      .options({
+        ident: "postcss",
+        plugins: (ctx) => {
+          const plugins = []
+          if (pref.rtl) {
+            const postcssRTL = require('postcss-rtl')
+            if (pref.fromRTL) {
+              const isFromQuasar = quasarStylePath.some(item => ctx.resourcePath.indexOf(item) !== -1);
+              if (isFromQuasar)
+                plugins.push(postcssRTL({ fromRTL: false }))
+              else
+                plugins.push(postcssRTL({ fromRTL: true }))
+            }
+            else
+              plugins.push(postcssRTL({ fromRTL: false }))
+          }
+          return plugins
+        }
+      })
 
     if (loader) {
       rule.use(loader)

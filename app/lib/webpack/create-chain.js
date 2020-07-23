@@ -215,6 +215,7 @@ module.exports = function (cfg, configName) {
 
   injectStyleRules(chain, {
     rtl: cfg.build.rtl,
+    fromRTL: cfg.build.fromRTL,
     sourceMap: cfg.build.sourceMap,
     extract: cfg.build.extractCSS,
     serverExtract: configName === 'Server' && cfg.build.extractCSS,
