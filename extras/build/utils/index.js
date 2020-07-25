@@ -22,27 +22,23 @@ function getCurvePath (x, y, rx, ry) {
 
 const decoders = {
   path (el) {
-    const fill = el.getAttribute('fill')
-    if (fill === 'none') return ''
     return el.getAttribute('d')
   },
 
   circle (el) {
     const att = getAttributes(el, [ 'cx', 'cy', 'r' ])
-    return 'M' + (att.cx - att.r) + ',' + att.cy +
-      'a' + att.r + ',' + att.r + ' 0 1,0 ' + (2 * att.r) + ',0' +
-      'a' + att.r + ',' + att.r + ' 0 1,0'  + (-2 * att.r) + ',0' + 'Z'
-  },
+    return `M ${att.cx} ${att.cy} m -${att.r}, 0 a ${att.r},${att.r} 0 1,0 ${att.r * 2},0 a ${att.r},${att.r} 0 1,0 ${att.r * -2},0`
+   },
 
   ellipse (el) {
     const att = getAttributes(el, [ 'cx', 'cy', 'rx', 'ry' ])
     return 'M' + (att.cx - att.rx) + ',' + att.cy +
       'a' + att.rx + ',' + att.ry + ' 0 1,0 ' + (2 * att.rx) + ',0' +
-      'a' + att.rx + ',' + att.ry + ' 0 1,0'  + (-2 * att.rx) + ',0' + 'Z'
+      'a' + att.rx + ',' + att.ry + ' 0 1,0'  + (-2 * att.rx) + ',0'
   },
 
   polygon (el) {
-    return this.polyline(el) + 'z'
+    return this.polyline(el)
   },
 
   polyline (el) {
@@ -58,19 +54,19 @@ const decoders = {
   },
 
   rect (el) {
-    const fill = el.getAttribute('fill')
-    if (fill === 'none') return ''
     const att = getAttributes(el, [ 'x', 'y', 'width', 'height', 'rx', 'ry' ])
-    // if the rect does not have valid position, ignore it.
-    // a lot of the material design fonts have an initial rect, that is not needed.
-    // in fact, if you try to compensate for missing params, then the icon
-    // colors will be inverted.
-    // the rect usually looks something like this:
-    /// <path d="M0 0h24v24H0z" fill="none"/>
-    if (isNaN(att.rx) && isNaN(att.x)) return ''
+    if (isNaN(att.y)) {
+      // if y is NaN, assume y = x
+      att.y = att.x
+    }
+    if (isNaN(att.x) && isNaN(att.y)) {
+      // if x and y are NaN, assume coordinates (0,0)
+      att.y = att.x = 0
+    }
+
     return isNaN(att.rx)
       ? 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
-        (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height) + 'Z'
+        (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height)
       : 'M' + (att.x + att.rx) + ',' + att.y +
         'L' + (att.x + att.width - att.rx) + ',' + att.y +
         getCurvePath(att.x + att.width, att.y + att.ry, att.rx, att.ry) +
@@ -79,13 +75,25 @@ const decoders = {
         'L' + (att.x + att.rx) + ',' + (att.y + att.height) +
         getCurvePath(att.x, att.y + att.height - att.ry, att.rx, att.ry) +
         'L' + att.x + ',' + (att.y + att.ry) +
-        getCurvePath(att.x + att.rx, att.y, att.rx, att.ry) + 'Z'
+        getCurvePath(att.x + att.rx, att.y, att.rx, att.ry)
   },
 
   line (el) {
     const att = getAttributes(el, [ 'x1', 'x2', 'y1', 'y2' ])
     return 'M' + att.x1 + ',' + att.y1 + 'L' + att.x2 + ',' + att.y2
   }
+}
+
+function getAttributesAsStyle (el) {
+  const exceptions = ['d', 'style', 'width', 'height', 'rx', 'ry', 'r', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'points', 'class', 'xmlns', 'viewBox']
+  let styleString = ''
+  for(let i = 0; i < el.attributes.length; ++i) {
+    const attr = el.attributes[i]
+    if (exceptions.includes(attr.nodeName) !== true) {
+      styleString += `${attr.nodeName}:${attr.nodeValue};`
+    }
+  }
+  return styleString
 }
 
 function parseDom (el, pathsDefinitions) {
@@ -105,7 +113,7 @@ function parseDom (el, pathsDefinitions) {
 
     const paths = {
       path: decoders[type](el),
-      style: el.getAttribute('style'),
+      style: el.getAttribute('style') || getAttributesAsStyle(el),
       transform: el.getAttribute('transform')
     }
 
@@ -123,6 +131,8 @@ function parseSvgContent(name, content) {
   const dom = Parser.parseFromString(content, 'text/xml')
 
   const viewBox = dom.documentElement.getAttribute('viewBox')
+  const svgStyle = getAttributesAsStyle(dom.documentElement)
+
   const pathsDefinitions = []
 
   try {
@@ -138,14 +148,14 @@ function parseSvgContent(name, content) {
   }
 
   const result = {
-    viewBox: viewBox !== '0 0 24 24' ? `|${viewBox}` : ''
+    viewBox: viewBox !== '0 0 24 24' ? `|${viewBox}` : '|',
+    svgStyle: svgStyle !== '' ? `|${svgStyle}` : '|'
   }
 
   if (pathsDefinitions.every(def => !def.style && !def.transform)) {
     result.paths = pathsDefinitions
       .map(def => def.path)
-      .join('z')
-      .replace(/zz/gi, 'z')
+      .join('')
   }
   else {
     result.paths = pathsDefinitions
@@ -155,10 +165,6 @@ function parseSvgContent(name, content) {
           (def.transform ? `@@${def.transform}` : '')
       })
       .join('&&')
-  }
-
-  if (result.paths[0] === 'z') {
-    result.paths = result.paths.substr(1)
   }
 
   return result
@@ -177,28 +183,25 @@ module.exports.defaultNameMapper = (filePath, prefix) => {
   return (prefix + '-' + basename(filePath, '.svg')).replace(/(-\w)/g, m => m[1].toUpperCase());
 }
 
-module.exports.extract = (filePath, name) => {
-  const content = readFileSync(filePath, 'utf-8')
-
-  const { paths, viewBox } = parseSvgContent(name, content)
+function extractSvg (content, name) {
+  const { paths, viewBox, svgStyle } = parseSvgContent(name, content)
 
   const path = paths
     .replace(/[\r\n\t]+/gi, ',')
     .replace(/,,/gi, ',')
 
   return {
-    svgDef: `export const ${name} = '${path}${viewBox}'`,
+    svgDef: `export const ${name} = '${path}${viewBox}${svgStyle}'`,
     typeDef: `export declare const ${name}: string;`
   }
 }
 
-module.exports.extractSvg = (content, name) => {
-  const { paths, viewBox } = parseSvgContent(name, content)
+module.exports.extractSvg = extractSvg
 
-  return {
-    svgDef: `export const ${name} = '${paths}${viewBox}'`,
-    typeDef: `export declare const ${name}: string;`
-  }
+module.exports.extract = (filePath, name) => {
+  const content = readFileSync(filePath, 'utf-8')
+
+  return extractSvg(content, name)
 }
 
 module.exports.writeExports = (iconSetName, versionOrPackageName, distFolder, svgExports, typeExports, skipped) => {
