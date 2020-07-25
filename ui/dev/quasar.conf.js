@@ -4,7 +4,9 @@ module.exports = function (ctx) {
       ctx.mode.ssr ? { path: 'ssr-client', server: false } : ''
     ],
 
-    css: [],
+    css: [
+      'app.sass'
+    ],
 
     extras: [
       'ionicons-v4',
