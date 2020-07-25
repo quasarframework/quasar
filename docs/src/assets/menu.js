@@ -122,6 +122,56 @@ const options = [
   {
     name: 'Global Event Bus',
     path: 'global-event-bus'
+  },
+  {
+    name: 'SVG Icons',
+    path: 'svg-icons',
+    children: [
+      {
+        name: 'Material Icons (Google)',
+        path: 'svg-material-icons'
+      },
+      {
+        name: 'Material Icons Outlined (Google)',
+        path: 'svg-material-icons-outlined'
+      },
+      {
+        name: 'Material Icons Sharp (Google)',
+        path: 'svg-material-icons-sharp'
+      },
+      {
+        name: 'Material Icons Round (Google)',
+        path: 'svg-material-icons-round'
+      },
+      {
+        name: 'MDI v5 (Material Design Icons)',
+        path: 'svg-mdi'
+      },
+      {
+        name: 'Fontawesome v5',
+        path: 'svg-fontawesome'
+      },
+      {
+        name: 'Ionicons v5',
+        path: 'svg-ionicons'
+      },
+      {
+        name: 'Eva Icons',
+        path: 'svg-eva-icons'
+      },
+      {
+        name: 'Themify',
+        path: 'svg-themify'
+      },
+      {
+        name: 'Line Awesome',
+        path: 'svg-line-awesome'
+      },
+      {
+        name: 'Feather Icons',
+        path: 'svg-feather-icons'
+      }
+    ]
   }
 ]
 
