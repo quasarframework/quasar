@@ -6,6 +6,8 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
+const REGEX_ATTRS = /([\w-]+):([\w-]+)/g // global constant
+
 export default Vue.extend({
   name: 'QIcon',
 
@@ -61,7 +63,7 @@ export default Vue.extend({
       }
 
       if (icon.startsWith('M') === true) {
-        const [ def, viewBox ] = icon.split('|')
+        const [ def, viewBox, attrs ] = icon.split('|')
 
         return {
           svg: true,
@@ -76,7 +78,8 @@ export default Vue.extend({
               style
             })
           }),
-          viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'
+          viewBox: viewBox !== void 0 && viewBox !== '' ? viewBox : '0 0 24 24',
+          attrs
         }
       }
 
@@ -94,8 +97,8 @@ export default Vue.extend({
           cls: this.classes,
           src: icon.substring(7)
         }
-      }      
-      
+      }
+
       let content = ' '
 
       if (/^[l|f]a[s|r|l|b|d]{0,1} /.test(icon) || icon.startsWith('icon-') === true) {
@@ -172,13 +175,22 @@ export default Vue.extend({
       data.attrs.focusable = 'false' /* needed for IE11 */
       data.attrs.viewBox = this.type.viewBox
 
+      // append attrs as style
+      if (this.type.attrs !== undefined) {
+        console.log(this.type.attrs)
+        let attrs = []
+        while ((attrs = REGEX_ATTRS.exec(this.type.attrs)) !== null) {
+          data.style[attrs[1]] = attrs[2]
+        }
+      }
+
       return h('svg', data, mergeSlot(this.type.nodes, this, 'default'))
     }
 
     if (this.type.svguse === true) {
       data.attrs.focusable = 'false' /* needed for IE11 */
       data.attrs.viewBox = this.type.viewBox
-    
+
       return h('svg', data, [
         h('use', {
           attrs: {
