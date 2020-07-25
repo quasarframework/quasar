@@ -38,7 +38,7 @@ const decoders = {
   },
 
   polygon (el) {
-    return this.polyline(el)
+    return this.polyline(el) + 'z'
   },
 
   polyline (el) {
