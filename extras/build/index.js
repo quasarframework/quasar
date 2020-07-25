@@ -11,6 +11,7 @@ runJob(join(__dirname, './ionicons-v5.js'))
 runJob(join(__dirname, './eva-icons.js'))
 runJob(join(__dirname, './themify.js'))
 runJob(join(__dirname, './line-awesome.js'))
+runJob(join(__dirname, './feather-icons.js'))
 
 // this one takes the longest
 runJob(join(__dirname, './material-icons.js'))

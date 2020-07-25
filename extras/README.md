@@ -57,6 +57,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 | [Eva Icons](https://akveo.github.io/eva-icons) | 1.1.3 | `svg-eva-icons` | `@quasar/extras/eva-icons` | | [License](eva-icons/LICENSE) |
 | [Themify Icons](https://themify.me/themify-icons) | 1.0.1 | `svg-themify` | `@quasar/extras/themify` | | [License](themify/LICENSE) |
 | [Line Awesome](https://icons8.com/line-awesome) | 1.3.0 | `svg-line-awesome` | `@quasar/extras/line-awesome` | Requires: Quasar 1.8+, @quasar/extras 1.5+ | [License](line-awesome/LICENSE.md) |
+| [Feather Icons](https://feathericons.com/) | 4.28.0 | `svg-feather-icons` | `@quasar/extras/feather-icons` | Requires: Quasar 1.12.14+, @quasar/extras 1.10+ | [License](feather-icons/LICENSE.md) |
 
 Example:
 
