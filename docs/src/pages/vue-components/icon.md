@@ -151,6 +151,7 @@ If you are only using svg icons (and have configured a [Quasar Icon Set](/option
 | Eva Icons | svg-eva-icons | @quasar/extras/eva-icons | |
 | Themify Icons | svg-themify | @quasar/extras/themify | |
 | Line Awesome | svg-line-awesome | @quasar/extras/line-awesome | `@quasar/extras` v1.5+ |
+| Feather Icons | svg-feather-icons | @quasar/extras/feather-icons | `@quasar/extras` v1.10+ |
 
 ### Import guide
 
@@ -217,15 +218,21 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 * Go to [Line Awesome](https://icons8.com/line-awesome), look for your desired icon, click on it. A dialog box will appear. You'll see something like `<i class="lab la-behance-square"></i>`. This would translate to: `laBehanceSquare`. There is a special case though (only for solid icons!): if the prefix before "la-" is "las" (eg. `<i class="las la-atom"></i>`), then you need to suffix "la-atom" with "-solid" and camel-case the result (eg. `laAtomSolid`).
 * Import statement example: `import { laBehanceSquare } from '@quasar/extras/line-awesome'`.
 
-### Svg icon format <q-badge align="top" label="enhanced on v1.11+" />
+#### SVG Feather Icons <q-badge align="top" label="Quasar v1.12.14+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.10+" />
+
+* Icon names are in camel-case and always begin with "fi" prefix.
+* Go to [Feather Icons](https://feathericons.com/), look for your desired icon. Remember its name (eg. "arrow-top-right"), prefix it with "fi" and camel-case the result (eg. "fiArrowTopRight").
+* Import statement example: `import { fiArrowTopRight } from '@quasar/extras/feather-icons'`.
+
+### Svg icon format <q-badge align="top" label="enhanced on v1.11+/v1.12.14" />
 
 You can also supply your own svg icons. An svg icon is essentially a String with the following syntax:
 
 ```
-Syntax: "<path>&&<path>&&...|<viewBox>"
-           P       P             V
-                (optional)   (optional)
-                             (default: 0 0 24 24)
+Syntax: "<path>&&<path>&&...|<viewBox>|<svgStyle>"
+           P       P             V         S
+                (optional)  |(optional - default: 0 0 24 24)
+                                      |(optional)
 
 P is a path tag with following syntax (each are attributes):
         "<d>@@<style>@@<transform>"
@@ -238,7 +245,7 @@ Examples:
 
 ```
 // Simplest ("<path>"):
-  M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3z
+  M9 3L5 6.99h3V14h2V6.99h3L9 3m7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3
 
 // equivalent to:
 <svg viewBox="0 0 24 24">
@@ -248,7 +255,7 @@ Examples:
 
 ```
 // Simplest with custom viewBox ("<path>|<viewBox>"):
-  M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3z|0 0 104 104
+  M9 3L5 6.99h3V14h2V6.99h3L9 3zm7 14.01V10h-2v7.01h-3L15 21l4-3.99h-3|0 0 104 104
 
 // equivalent to:
 <svg viewBox="0 0 104 104">
@@ -257,8 +264,29 @@ Examples:
 ```
 
 ```
+// SVG with viewBox and custom style ("<path>|<viewBox>|<svgStyle>"):
+  M416,480,256,357.41,96.....|0 0 512 512|fill:none;stroke:currentColor.....
+
+// equivalent to:
+<svg viewBox="0 0 512 512" style="fill:none;stroke:curren...">
+  <path d="M416,480,256,357....." />
+</svg>
+```
+
+```
+// SVG with custom style ("<path>||<svgStyle>"):
+// (Notice viewBox separator is still specified)
+  M416,480,256,357.41,96.....||fill:none;stroke:currentColor.....
+
+// equivalent to:
+<svg viewBox="0 0 24 24" style="fill:none;stroke:curren...">
+  <path d="M416,480,256,357....." />
+</svg>
+```
+
+```
 // Path with custom style ("<path>@@<style>|<viewBox>"):
-  M48,96L464,96 464,416 48,416z@@fill:none;stroke:currentColor.....|0 0 512 512
+  M416,480,256,357.41,96.....@@fill:none;stroke:currentColor.....|0 0 512 512
 
 // equivalent to:
 <svg viewBox="0 0 512 512">
@@ -268,7 +296,7 @@ Examples:
 
 ```
 // Path with custom style and transform ("<path>@@<style>@@transform"):
-  M9 3L5 6.99h3V...@@fill:none;stroke:cu.....@@translate(10 1) rotate(180)
+  M9 3L5 6.99h3V.....@@fill:none;stroke:cu.....@@translate(10 1) rotate(180)
 
 // equivalent to:
 <svg viewBox="0 0 24 24">
@@ -284,7 +312,7 @@ Examples:
 // Path with custom transform ("<path>@@@@transform"):
 // (Notice style separator is still specified)
 
-  M9 3L5 6.99h3V...@@@@translate(2 4) rotate(180)
+  M9 3L5 6.99h3V.....@@@@translate(2 4) rotate(180)
 
 // equivalent to:
 <svg viewBox="0 0 24 24">
@@ -297,7 +325,7 @@ Examples:
 
 ```
 // Multi-paths -- any number of paths are possible ("<path>&&<path>|<viewBox>"):
-  M416,480,256,357.41,96,480V32H416Z&&M368,64L144 256 368 448 368 64z|0 0 512 512
+  M416,480,256,357.41,96,480V32H416&&M368,64L144 256 368 448 368 64|0 0 512 512
 
 // equivalent to:
 <svg viewBox="0 0 512 512">
@@ -308,10 +336,10 @@ Examples:
 
 ```
 // Multi-paths, each with style and transform ("<path>&&<path>|<viewBox>"):
-  M9 3L5 6.99h3V...@@stroke-width:5px@@rotate(45)&&M416,480,256,...@@stroke-width:2px@@rotate(15)&&M368,64L144 2...@@stroke-width:12px@@rotate(5)|0 0 512 512
+  M9 3L5 6.99h3V...@@stroke-width:5px@@rotate(45)&&M416,480,256,...@@stroke-width:2px@@rotate(15)&&M368,64L144 2...@@stroke-width:12px@@rotate(5)|0 0 512 512|fill:none;
 
 // equivalent to:
-<svg viewBox="0 0 512 512">
+<svg viewBox="0 0 512 512" style="fill:none;>
   <path
     d="M9 3L5 6.99h3V....."
     style="stroke-width:5px"
