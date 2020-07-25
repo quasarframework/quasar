@@ -1468,6 +1468,13 @@
           "type": "Object",
           "desc": "The row upon which user has clicked/tapped",
           "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ],
+          "addedIn": "v1.13.0"
         }
       },
       "addedIn": "v1.2.6"
@@ -1487,6 +1494,13 @@
           "type": "Object",
           "desc": "The row upon which user has double clicked/tapped",
           "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ],
+          "addedIn": "v1.13.0"
         }
       },
       "addedIn": "v1.5.10"
