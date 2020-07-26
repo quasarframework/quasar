@@ -98,6 +98,7 @@ export const SliderMixin = {
         (this.color !== void 0 ? ` text-${this.color}` : '') +
         (this.disable === true ? ' disabled' : '') +
         (this.editable === true ? ' q-slider--editable' : '') +
+        (this.disable !== true ? ' q-slider--labeled' : '') +
         (this.focus === 'both' ? ' q-slider--focus' : '') +
         (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
         (this.labelAlways === true ? ' q-slider--label-always' : '') +
