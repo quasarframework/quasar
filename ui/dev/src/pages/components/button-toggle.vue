@@ -130,8 +130,8 @@ export default {
         { label: 'Three', value: 'three' }
       ],
       optionsO2: [
-        { label: 'One Clearable', value: 'one' },
-        { label: 'Two', value: 'two' }
+        { label: 'One Clearable', value: 'one', size: '32px', attrs: { 'aria-label': 'Button' } },
+        { label: 'Two', value: 'two', padding: '32px 64px' }
       ],
       optionsO3: [
         { label: 'One', value: 'one', color: 'green-2', textColor: 'black', class: 'col-grow' },
