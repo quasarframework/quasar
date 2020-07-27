@@ -27,6 +27,16 @@
       "category": "content"
     },
 
+    "column-count": {
+      "type": "Number",
+      "desc": "Sets the column span to the correct number of columns for the padded areas rendered when using type table; Required if 'table-layout' is set to 'fixed'",
+      "default": 0,
+      "examples": [
+        ":column-count=\"10\"",
+        ":column-count=\"columns.length\""
+      ]
+    },
+
     "items-size": {
       "type": "Number",
       "desc": "Number of available items in the list; Required and used only if 'itemsFn' is provided",
