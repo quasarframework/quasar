@@ -13,9 +13,10 @@ export function getPropCacheMixin (propName, proxyPropName) {
   return {
     data () {
       const target = {}
+      const source = this[propName]
 
-      for (const prop in this[propName]) {
-        target[prop] = this[propName][prop]
+      for (const prop in source) {
+        target[prop] = source[prop]
       }
 
       return { [proxyPropName]: target }
