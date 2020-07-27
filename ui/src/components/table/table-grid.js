@@ -47,13 +47,13 @@ export default {
 
           if (this.qListeners['row-click'] !== void 0) {
             data.on.click = evt => {
-              this.$emit('row-click', evt, scope.row)
+              this.$emit('row-click', evt, scope.row, scope.pageIndex)
             }
           }
 
           if (this.qListeners['row-dblclick'] !== void 0) {
             data.on.dblclick = evt => {
-              this.$emit('row-dblclick', evt, scope.row)
+              this.$emit('row-dblclick', evt, scope.row, scope.pageIndex)
             }
           }
 

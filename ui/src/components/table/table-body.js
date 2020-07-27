@@ -58,14 +58,14 @@ export default {
       if (this.qListeners['row-click'] !== void 0) {
         data.class['cursor-pointer'] = true
         data.on.click = evt => {
-          this.$emit('row-click', evt, row)
+          this.$emit('row-click', evt, row, pageIndex)
         }
       }
 
       if (this.qListeners['row-dblclick'] !== void 0) {
         data.class['cursor-pointer'] = true
         data.on.dblclick = evt => {
-          this.$emit('row-dblclick', evt, row)
+          this.$emit('row-dblclick', evt, row, pageIndex)
         }
       }
 
