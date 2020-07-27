@@ -669,7 +669,9 @@ export default Vue.extend({
             ? { backgroundColor: this.lastBackdropBg }
             : null,
           on: cache(this, 'bkdrop', { click: this.hide }),
-          directives: this.showing === false ? void 0 : this.backdropCloseDirective
+          directives: this.showing === false
+            ? void 0
+            : this.backdropCloseDirective
         })
       )
     }

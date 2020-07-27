@@ -22,9 +22,9 @@ function getCurvePath (x, y, rx, ry) {
 
 const decoders = {
   path (el) {
-    const fill = el.getAttribute('fill')
-    if (fill === 'none') return ''
-    return el.getAttribute('d')
+    return el.getAttribute('fill') === 'none'
+      ? ''
+      : el.getAttribute('d')
   },
 
   circle (el) {
@@ -58,8 +58,10 @@ const decoders = {
   },
 
   rect (el) {
-    const fill = el.getAttribute('fill')
-    if (fill === 'none') return ''
+    if (el.getAttribute('fill') === 'none') {
+      return ''
+    }
+
     const att = getAttributes(el, [ 'x', 'y', 'width', 'height', 'rx', 'ry' ])
     // if the rect does not have valid position, ignore it.
     // a lot of the material design fonts have an initial rect, that is not needed.
@@ -67,7 +69,10 @@ const decoders = {
     // colors will be inverted.
     // the rect usually looks something like this:
     /// <path d="M0 0h24v24H0z" fill="none"/>
-    if (isNaN(att.rx) && isNaN(att.x)) return ''
+    if (isNaN(att.rx) && isNaN(att.x)) {
+      return ''
+    }
+
     return isNaN(att.rx)
       ? 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
         (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height) + 'Z'
@@ -261,7 +266,8 @@ const retry = async (tryFunction, options = {}) => {
       // eslint-disable-next-line no-await-in-loop
       output = await tryFunction({ tries, bail })
       break
-    } catch (err) {
+    }
+    catch (err) {
       if (tries >= retries) {
         throw err
       }
@@ -300,9 +306,11 @@ class Queue {
     scheduled.forEach(async (task) => {
       try {
         await this.worker(task)
-      } catch (err) {
+      }
+      catch (err) {
         this.err = err
-      } finally {
+      }
+      finally {
         this.inFlight -= 1
       }
 
@@ -328,7 +336,7 @@ class Queue {
       },
       {
         delay: 50,
-      },
+      }
     )
 }
 
