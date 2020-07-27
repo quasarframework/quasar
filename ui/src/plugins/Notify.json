@@ -138,8 +138,9 @@
       "attrs": {
         "type": "Object",
         "desc": "Key-value for attributes to be set on the notification",
-        "examples": [ "{ 'aria-label': 'Button label' }" ],
-        "__exemption": [ "definition" ]
+        "examples": [ "{ role: 'alertdialog' }" ],
+        "__exemption": [ "definition" ],
+        "addedIn": "v1.13.0"
       },
 
       "timeout": {
@@ -304,8 +305,9 @@
             "attrs": {
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ 'aria-label': 'Button label' }" ],
-              "__exemption": [ "definition" ]
+              "examples": [ "{ role: 'alertdialog' }" ],
+              "__exemption": [ "definition" ],
+              "addedIn": "v1.13.0"
             },
 
             "timeout": {
@@ -494,8 +496,9 @@
             "attrs": {
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ 'aria-label': 'Button label' }" ],
-              "__exemption": [ "definition" ]
+              "examples": [ "{ role: 'alertdialog' }" ],
+              "__exemption": [ "definition" ],
+              "addedIn": "v1.13.0"
             },
 
             "timeout": {
@@ -680,8 +683,9 @@
             "attrs": {
               "type": "Object",
               "desc": "Key-value for attributes to be set on the notification",
-              "examples": [ "{ 'aria-label': 'Button label' }" ],
-              "__exemption": [ "definition" ]
+              "examples": [ "{ role: 'alertdialog' }" ],
+              "__exemption": [ "definition" ],
+              "addedIn": "v1.13.0"
             },
 
             "timeout": {

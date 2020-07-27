@@ -11,8 +11,6 @@ import { isSSR } from './Platform.js'
 let uid = 0
 const defaults = {}
 
-const attrs = { role: 'alert' }
-
 const positionList = [
   'top-left', 'top-right',
   'bottom-left', 'bottom-right',
@@ -60,7 +58,7 @@ const Notifications = {
       this.notifs[pos] = []
 
       const
-        vert = ['left', 'center', 'right'].includes(pos) ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
+        vert = ['left', 'center', 'right'].includes(pos) === true ? 'center' : (pos.indexOf('top') > -1 ? 'top' : 'bottom'),
         align = pos.indexOf('left') > -1 ? 'start' : (pos.indexOf('right') > -1 ? 'end' : 'center'),
         classes = ['left', 'right'].includes(pos) ? `items-${pos === 'left' ? 'start' : 'end'} justify-center` : (pos === 'center' ? 'flex-center' : `items-${align}`)
 
@@ -180,7 +178,7 @@ const Notifications = {
           (notif.multiLine === true ? '' : ' col'),
 
         attrs: {
-          ...attrs,
+          role: 'alert',
           ...notif.attrs
         }
       })

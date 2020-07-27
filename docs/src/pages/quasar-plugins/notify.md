@@ -105,20 +105,21 @@ You can use HTML on message if you specify the `html: true` prop. **Please note 
 <doc-example title="Unsafe HTML message" file="Notify/UnsafeHtml" />
 
 ### Setting attributes
-You can set custom attributes on the notification by setting the `attrs` key of the configuration object.
-You can set custom attributes on the notification actions by setting the `attrs` key of the configuration object of the action.
+You can set custom HTML attributes on the notification itself or on individual notification actions by setting the `attrs` Object property.
 
 ```js
 this.$q.notify({
   ...
 
   attrs: {
+    // for the notification itself:
     role: 'alertdialog'
   },
 
   actions: [
     {
       icon: 'close',
+      // for individual action (button):
       attrs: {
         'aria-label': 'Dismiss'
       }
