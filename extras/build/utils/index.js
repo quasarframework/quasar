@@ -6,6 +6,18 @@ const { readFileSync, writeFileSync } = require('fs')
 
 const typeExceptions = [ 'g', 'svg', 'defs', 'style', 'title' ]
 
+function chunkArray (arr, size = 2) {
+  let results = []
+  while (arr.length) {
+    results.push(arr.splice(0, size))
+  }
+  return results
+}
+
+function calcValue (val, base) {
+  return /%$/.test(val) ? (val.replace('%', '') * 100) / base : +val
+}
+
 function getAttributes (el, list) {
   const att = {}
 
@@ -22,7 +34,9 @@ function getCurvePath (x, y, rx, ry) {
 
 const decoders = {
   path (el) {
-    return el.getAttribute('d')
+    let points = el.getAttribute('d')
+    points = points.charAt(0).toUpperCase() + points.slice(1)
+    return points
   },
 
   circle (el) {
@@ -34,7 +48,7 @@ const decoders = {
     const att = getAttributes(el, [ 'cx', 'cy', 'rx', 'ry' ])
     return 'M' + (att.cx - att.rx) + ',' + att.cy +
       'a' + att.rx + ',' + att.ry + ' 0 1,0 ' + (2 * att.rx) + ',0' +
-      'a' + att.rx + ',' + att.ry + ' 0 1,0'  + (-2 * att.rx) + ',0'
+      'a' + att.rx + ',' + att.ry + ' 0 1,0'  + (-2 * att.rx) + ',0' + 'z'
   },
 
   polygon (el) {
@@ -43,39 +57,60 @@ const decoders = {
 
   polyline (el) {
     const points = el.getAttribute('points')
+    const pointsArray = points
       .replace(/  /g, ' ')
       .trim()
       .split(/\s+|,/)
+      .reduce((arr, point) => {
+        return [...arr, ...(point.includes(',') ? point.split(',') : [point])]
+      }, [])
 
-    const x0 = points.shift()
-    const y0 = points.shift()
-
-    return 'M' + x0 + ',' + y0 + 'L' + points.join(' ')
+    const pairs = chunkArray(pointsArray, 2)
+    return pairs.map(([x, y], i) => {
+      return `${i === 0 ? 'M' : 'L'}${x} ${y}`
+    }).join(' ')
   },
 
   rect (el) {
     const att = getAttributes(el, [ 'x', 'y', 'width', 'height', 'rx', 'ry' ])
-    if (isNaN(att.y)) {
-      // if y is NaN, assume y = x
-      att.y = att.x
+    const w = +att.width
+    const h = +att.height
+    const x = att.x ? +att.x : 0
+    const y = att.y ? +att.y : 0
+    let rx = att.rx || 'auto'
+    let ry = att.ry || 'auto'
+    if (rx === 'auto' && ry === 'auto') {
+      rx = ry = 0
     }
-    if (isNaN(att.x) && isNaN(att.y)) {
-      // if x and y are NaN, assume coordinates (0,0)
-      att.y = att.x = 0
+    else if (rx !== 'auto' && ry === 'auto') {
+      rx = ry = calcValue(rx, w)
     }
-
-    return isNaN(att.rx)
-      ? 'M' + att.x + ',' + att.y + 'L' + (att.x + att.width) + ',' + att.y + ' ' +
-        (att.x + att.width) + ',' + (att.y + att.height) + ' ' + att.x + ',' + (att.y + att.height)
-      : 'M' + (att.x + att.rx) + ',' + att.y +
-        'L' + (att.x + att.width - att.rx) + ',' + att.y +
-        getCurvePath(att.x + att.width, att.y + att.ry, att.rx, att.ry) +
-        'L' + (att.x + att.width) + ',' + (att.y + att.height - att.ry) +
-        getCurvePath(att.x + att.width - att.rx, att.y + att.height, att.rx, att.ry) +
-        'L' + (att.x + att.rx) + ',' + (att.y + att.height) +
-        getCurvePath(att.x, att.y + att.height - att.ry, att.rx, att.ry) +
-        'L' + att.x + ',' + (att.y + att.ry) +
-        getCurvePath(att.x + att.rx, att.y, att.rx, att.ry)
+    else if (ry !== 'auto' && rx === 'auto') {
+      ry = rx = calcValue(ry, h)
+    }
+    else {
+      rx = calcValue(rx, w)
+      ry = calcValue(ry, h)
+    }
+    if (rx > w / 2) {
+      rx = w / 2
+    }
+    if (ry > h / 2) {
+      ry = h / 2
+    }
+    const hasCurves = rx > 0 && ry > 0
+    return [
+      `M${x + rx} ${y}`,
+      `H${x + w - rx}`,
+      ...(hasCurves ? [`A${rx} ${ry} 0 0 1 ${x + w} ${y + ry}`] : []),
+      `V${y + h - ry}`,
+      ...(hasCurves ? [`A${rx} ${ry} 0 0 1 ${x + w - rx} ${y + h}`] : []),
+      `H${x + rx}`,
+      ...(hasCurves ? [`A${rx} ${ry} 0 0 1 ${x} ${y + h - ry}`] : []),
+      `V${y + ry}`,
+      ...(hasCurves ? [`A${rx} ${ry} 0 0 1 ${x + rx} ${y}`] : []),
+      'z',
+    ].join(' ')
   },
 
   line (el) {
@@ -85,7 +120,7 @@ const decoders = {
 }
 
 function getAttributesAsStyle (el) {
-  const exceptions = ['d', 'style', 'width', 'height', 'rx', 'ry', 'r', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'points', 'class', 'xmlns', 'viewBox']
+  const exceptions = ['d', 'style', 'width', 'height', 'rx', 'ry', 'r', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'points', 'class', 'xmlns', 'viewBox', 'id', 'name']
   let styleString = ''
   for(let i = 0; i < el.attributes.length; ++i) {
     const attr = el.attributes[i]
