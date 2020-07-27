@@ -62,7 +62,7 @@ export default Vue.extend({
         }
       }
 
-      if (icon.startsWith('M') === true) {
+      if (icon.startsWith('M') === true || icon.startsWith('m') === true) {
         const [ def, viewBox, attrs ] = icon.split('|')
 
         return {
