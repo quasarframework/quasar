@@ -363,7 +363,7 @@ export default Vue.extend({
         )
       }
 
-      this.hasLabel && node.push(
+      this.hasLabel === true && node.push(
         h('div', {
           staticClass: 'q-field__label no-pointer-events absolute ellipsis',
           class: this.labelClass

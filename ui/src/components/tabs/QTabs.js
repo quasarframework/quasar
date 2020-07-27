@@ -158,14 +158,17 @@ export default Vue.extend({
     },
 
     arrowsEnabled (v) {
-      this.__updateArrows = v === true ? this.__updateArrowsFn : noop
+      this.__updateArrows = v === true
+        ? this.__updateArrowsFn
+        : noop
+
       this.$nextTick(this.__recalculateScroll())
     }
   },
 
   computed: {
     arrowsEnabled () {
-      return this.mobileArrows === true || this.$q.platform.is.desktop === true
+      return this.$q.platform.is.desktop === true || this.mobileArrows === true
     },
 
     alignClass () {
@@ -400,8 +403,9 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
-
-    this.__updateArrows = this.arrowsEnabled === true ? this.__updateArrowsFn : noop
+    this.__updateArrows = this.arrowsEnabled === true
+      ? this.__updateArrowsFn
+      : noop
   },
 
   beforeDestroy () {

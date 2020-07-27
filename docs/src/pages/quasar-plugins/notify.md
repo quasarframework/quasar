@@ -104,6 +104,30 @@ You can use HTML on message if you specify the `html: true` prop. **Please note 
 
 <doc-example title="Unsafe HTML message" file="Notify/UnsafeHtml" />
 
+### Setting attributes
+You can set custom HTML attributes on the notification itself or on individual notification actions by setting the `attrs` Object property.
+
+```js
+this.$q.notify({
+  ...
+
+  attrs: {
+    // for the notification itself:
+    role: 'alertdialog'
+  },
+
+  actions: [
+    {
+      icon: 'close',
+      // for individual action (button):
+      attrs: {
+        'aria-label': 'Dismiss'
+      }
+    }
+  ]
+})
+```
+
 ### Programmatically closing
 Notifications are meant to be dismissed only by the user, however for exceptional cases you can do it programmatically. Especially useful when you set indefinite timeout (0).
 

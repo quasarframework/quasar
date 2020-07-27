@@ -299,7 +299,8 @@ const retry = async (tryFunction, options = {}) => {
       // eslint-disable-next-line no-await-in-loop
       output = await tryFunction({ tries, bail })
       break
-    } catch (err) {
+    }
+    catch (err) {
       if (tries >= retries) {
         throw err
       }
@@ -338,9 +339,11 @@ class Queue {
     scheduled.forEach(async (task) => {
       try {
         await this.worker(task)
-      } catch (err) {
+      }
+      catch (err) {
         this.err = err
-      } finally {
+      }
+      finally {
         this.inFlight -= 1
       }
 
@@ -366,7 +369,7 @@ class Queue {
       },
       {
         delay: 50,
-      },
+      }
     )
 }
 
