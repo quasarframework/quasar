@@ -20,20 +20,6 @@
           Row {{ i }}
         </div>
 
-        <q-page-sticky position="bottom-left" :offset="[16, 16]">
-          <q-fab-action
-            class="white shadow-8"
-            color="red"
-            icon="center_focus_weak"
-            label="Anchor start"
-            :label-position="fabLabelPosition"
-            :square="fabSquare"
-            :hide-label="hideLabel"
-            :label-class="labelClass"
-            aria-label="Does nothing"
-          />
-        </q-page-sticky>
-
         <q-page-sticky :position="stickyConfig.position" :offset="stickyConfig.offset">
           <q-fab
             class="shadow-4"

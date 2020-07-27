@@ -15,9 +15,6 @@ const anchorMap = {
 
 const anchorValues = Object.keys(anchorMap)
 
-const defaultInjectRet = () => { }
-const defaultInject = () => defaultInjectRet
-
 export default Vue.extend({
   name: 'QFabAction',
 
@@ -34,21 +31,15 @@ export default Vue.extend({
       validator: v => anchorValues.includes(v)
     },
 
-    to: [String, Object],
+    to: [ String, Object ],
     replace: Boolean
   },
 
   inject: {
-    __qFabClose: { default: defaultInject },
-
-    __qFabRegister: { default: defaultInject },
-
-    __qFabUnregister: { default: defaultInject }
-  },
-
-  data () {
-    return {
-      showing: true
+    __qFab: {
+      default () {
+        console.error('QFabAction needs to be child of QFab')
+      }
     }
   },
 
@@ -63,22 +54,18 @@ export default Vue.extend({
         ...this.qListeners,
         click: this.click
       }
+    },
+
+    isDisabled () {
+      return this.__qFab.showing !== true || this.disable === true
     }
   },
 
   methods: {
     click (e) {
-      this.__qFabClose()
+      this.__qFab.__onChildClick(e)
       this.$emit('click', e)
     }
-  },
-
-  beforeMount () {
-    this.__qFabRegister(this)
-  },
-
-  beforeDestroy () {
-    this.__qFabUnregister(this)
   },
 
   render (h) {
@@ -104,7 +91,7 @@ export default Vue.extend({
         label: void 0,
         noCaps: true,
         fabMini: true,
-        disable: this.showing !== true || this.disable === true
+        disable: this.isDisabled
       },
       on: this.onEvents
     }, mergeSlot(child, this, 'default'))

@@ -22,27 +22,7 @@ export default Vue.extend({
 
   provide () {
     return {
-      __qFabClose: evt => {
-        this.hide(evt)
-
-        if (this.$refs.trigger && this.$refs.trigger.$el) {
-          this.$refs.trigger.$el.focus()
-        }
-      },
-
-      __qFabRegister: fabAction => {
-        if (this.fabActions.indexOf(fabAction) === -1) {
-          this.fabActions.push(fabAction)
-          fabAction.showing = this.showing
-        }
-      },
-
-      __qFabUnregister: fabAction => {
-        const index = this.fabActions.indexOf(fabAction)
-        if (index > -1) {
-          this.fabActions.splice(index, 1)
-        }
-      }
+      __qFab: this
     }
   },
 
@@ -95,16 +75,14 @@ export default Vue.extend({
     }
   },
 
-  watch: {
-    showing (val) {
-      this.fabActions.forEach(fabAction => {
-        fabAction.showing !== val && (fabAction.showing = val)
-      })
-    }
-  },
+  methods: {
+    __onChildClick (evt) {
+      this.hide(evt)
 
-  created () {
-    this.fabActions = []
+      if (this.$refs.trigger && this.$refs.trigger.$el) {
+        this.$refs.trigger.$el.focus()
+      }
+    }
   },
 
   render (h) {
