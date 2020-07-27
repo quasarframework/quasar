@@ -45,7 +45,6 @@ export default {
             data.staticClass += ' cursor-pointer'
           }
 
-          console.log(scope)
           if (this.qListeners['row-click'] !== void 0) {
             data.on.click = evt => {
               this.$emit('row-click', evt, scope.row, scope.pageIndex)
