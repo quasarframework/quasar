@@ -34,6 +34,11 @@ export default Vue.extend({
       default: () => []
     },
 
+    columnCount: {
+      type: Number,
+      default: 0
+    },
+
     itemsFn: Function,
     itemsSize: Number,
 

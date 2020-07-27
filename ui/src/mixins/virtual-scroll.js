@@ -434,7 +434,7 @@ export default {
             h('tr', [
               h('td', {
                 style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` },
-                attrs: { colspan: '100%' }
+                attrs: { colspan: this.columnCount || '100%' }
               })
             ])
           ])
@@ -460,7 +460,7 @@ export default {
             h('tr', [
               h('td', {
                 style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` },
-                attrs: { colspan: '100%' }
+                attrs: { colspan: this.columnCount || '100%' }
               })
             ])
           ])
