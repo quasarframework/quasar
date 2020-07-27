@@ -218,13 +218,13 @@ Svg icons are supplied by `@quasar/extras` (although you can supply [your own sv
 * Go to [Line Awesome](https://icons8.com/line-awesome), look for your desired icon, click on it. A dialog box will appear. You'll see something like `<i class="lab la-behance-square"></i>`. This would translate to: `laBehanceSquare`. There is a special case though (only for solid icons!): if the prefix before "la-" is "las" (eg. `<i class="las la-atom"></i>`), then you need to suffix "la-atom" with "-solid" and camel-case the result (eg. `laAtomSolid`).
 * Import statement example: `import { laBehanceSquare } from '@quasar/extras/line-awesome'`.
 
-#### SVG Feather Icons <q-badge align="top" label="Quasar v1.12.14+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.10+" />
+#### SVG Feather Icons <q-badge align="top" label="Quasar v1.13.0+" /> <q-badge align="top" class="q-ml-xs" label="@quasar/extras v1.10+" />
 
 * Icon names are in camel-case and always begin with "fi" prefix.
 * Go to [Feather Icons](https://feathericons.com/), look for your desired icon. Remember its name (eg. "arrow-top-right"), prefix it with "fi" and camel-case the result (eg. "fiArrowTopRight").
 * Import statement example: `import { fiArrowTopRight } from '@quasar/extras/feather-icons'`.
 
-### Svg icon format <q-badge align="top" label="enhanced on v1.11+/v1.12.14" />
+### Svg icon format <q-badge align="top" label="enhanced on v1.11+/v1.13.0" />
 
 You can also supply your own svg icons. An svg icon is essentially a String with the following syntax:
 
