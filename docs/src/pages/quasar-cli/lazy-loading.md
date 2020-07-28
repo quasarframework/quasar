@@ -34,7 +34,7 @@ Easy, right? What this does is that it creates a separate chunk for `/src/pages/
 ## Lazy-load components
 Normally you would import a component and then register it to the Page, Layout or Component.
 
-```vue
+```html
 <script>
 import SomeComponent from 'components/SomeComponent'
 
@@ -47,7 +47,7 @@ export default {
 ```
 
 Now let's change this and make the component be loaded on demand only, using dynamic imports:
-```vue
+```html
 <script>
 export default {
   components: {

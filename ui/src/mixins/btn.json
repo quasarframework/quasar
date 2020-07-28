@@ -35,7 +35,7 @@
       "type": "Boolean",
       "desc": "Equivalent to Vue Router <router-link> 'append' property",
       "category": "router",
-      "addedIn": "v1.12.8"
+      "addedIn": "v1.13.0"
     },
 
     "label":{

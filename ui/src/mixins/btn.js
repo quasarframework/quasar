@@ -103,6 +103,17 @@ export default {
       return 'standard'
     },
 
+    currentRoute () {
+      if (this.hasRouterLink === true) {
+        // we protect from accessing this.$route without
+        // actually needing it so that we won't trigger
+        // unnecessary updates
+        return this.append === true
+          ? this.$router.resolve(this.to, this.$route, true)
+          : this.$router.resolve(this.to)
+      }
+    },
+
     attrs () {
       const attrs = { tabindex: this.computedTabIndex }
 
@@ -111,7 +122,7 @@ export default {
       }
 
       if (this.hasRouterLink === true) {
-        attrs.href = this.$router.resolve(this.to).href
+        attrs.href = this.currentRoute.href
         attrs.role = 'link'
       }
       else {

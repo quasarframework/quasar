@@ -60,7 +60,7 @@ Please make sure you have latest `@quasar/extras` npm package version installed 
 
 Example:
 
-```vue
+```html
 // some .vue file in devland
 <template>
   <div>
