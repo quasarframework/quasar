@@ -7,7 +7,7 @@ const { readFileSync, writeFileSync } = require('fs')
 const typeExceptions = [ 'g', 'svg', 'defs', 'style', 'title' ]
 
 function chunkArray (arr, size = 2) {
-  let results = []
+  const results = []
   while (arr.length) {
     results.push(arr.splice(0, size))
   }
@@ -34,14 +34,13 @@ function getCurvePath (x, y, rx, ry) {
 
 const decoders = {
   path (el) {
-    let points = el.getAttribute('d')
-    points = points.charAt(0).toUpperCase() + points.slice(1)
-    return points
+    const points = el.getAttribute('d')
+    return points.charAt(0).toUpperCase() + points.slice(1)
   },
 
   circle (el) {
     const att = getAttributes(el, [ 'cx', 'cy', 'r' ])
-    return `M ${att.cx} ${att.cy} m -${att.r}, 0 a ${att.r},${att.r} 0 1,0 ${att.r * 2},0 a ${att.r},${att.r} 0 1,0 ${att.r * -2},0`
+    return `M${att.cx} ${att.cy} m-${att.r}, 0 a${att.r},${att.r} 0 1,0 ${att.r * 2},0 a${att.r},${att.r} 0 1,0 ${att.r * -2},0`
   },
 
   ellipse (el) {
