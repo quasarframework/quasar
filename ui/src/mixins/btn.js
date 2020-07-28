@@ -103,7 +103,7 @@ export default {
       return 'standard'
     },
 
-    currentRoute () {
+    currentLocation () {
       if (this.hasRouterLink === true) {
         // we protect from accessing this.$route without
         // actually needing it so that we won't trigger
@@ -122,7 +122,7 @@ export default {
       }
 
       if (this.hasRouterLink === true) {
-        attrs.href = this.currentRoute.href
+        attrs.href = this.currentLocation.href
         attrs.role = 'link'
       }
       else {
