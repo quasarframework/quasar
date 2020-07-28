@@ -50,8 +50,6 @@ The function expects one mandatory parameter and two optional one and returns a 
     - **tweenToOpacity** (default *0.5*) - if using **tween** it is the initial opacity of the final element (will be animated to 1)
     - **onReady** - a function that will be called once the morphing is finished - receives a single string parameter ('to' if the morphing was finished in the final state or 'from' if it was finished in the initial state)
 
-The lifecycle of the morphing is:
-
 ## Morphing lifecycle
 
 1. get the aspect and position of the initial element (if a function is provided for getting the initial element it will be called)
