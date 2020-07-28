@@ -1,14 +1,14 @@
 <template>
   <div class="q-pa-md">
     <div
-      class="fixed-full image-gallery__blinder bg-orange"
+      class="fixed-full image-gallery__blinder bg-grey-8"
       :class="indexZoomed !== void 0 ? 'image-gallery__blinder--active' : void 0"
       @click="zoomImage()"
     />
 
     <div
       class="row justify-center q-gutter-sm q-mx-auto scroll relative-position"
-      style="max-width: 80vw; max-height: 80vh; z-index: 1"
+      style="max-width: 80vw; max-height: 80vh"
     >
       <q-img
         v-for="(src, index) in images"
@@ -40,25 +40,27 @@
     width: 150px
     max-width: 20vw
     cursor: pointer
-    z-index: 2
 
     &-full
       width: 800px
       max-width: 70vw
-      z-index: 1000
+      z-index: 2002
       pointer-events: none
 
       &--active
         pointer-events: all
   &__blinder
     opacity: 0
-    z-index: 0
+    z-index: 2000
     pointer-events: none
     transition: opacity 0.3s ease-in-out
 
     &--active
-      opacity: 0.2
+      opacity: 0.6
       pointer-events: all
+
+      + div > .image-gallery__image
+        z-index: 2001
 </style>
 
 <script>
@@ -122,7 +124,7 @@ export default {
               waitFor: this.imgLoaded.promise,
               duration: 400,
               hideFromClone: true,
-              style: 'z-index: 1',
+              style: 'z-index: 2002',
               onReady: end => {
                 if (end === 'from' && this.indexZoomed === index) {
                   this.indexZoomed = void 0
@@ -148,7 +150,7 @@ export default {
           {
             duration: 200,
             keepToClone: true,
-            style: 'z-index: 1',
+            style: 'z-index: 2002',
             onReady: zoom
           }
         )
