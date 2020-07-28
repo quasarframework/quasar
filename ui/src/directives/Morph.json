@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "docsUrl": "https://v1.quasar.dev/vue-directives/morph"
+  },
+
+  "value": {
+    "type": [ "Object", "Any" ],
+    "desc": "Configuration object or trigger value",
+    "definition": {
+      "group": {
+        "type": "String",
+        "desc": "Name of the morph group the element belongs to",
+        "examples": [ "dialogGroup" ]
+      },
+
+      "selector": {
+        "type": [ "String", "Element", "Function" ],
+        "desc": "A selection method for the element to be morphed: a DOM element, a CSS selector that will be applied on the element and it's children or a function that gets the element as parameter and must return a DOM element",
+        "examples": [ ".q-btn__wrapper" ]
+      },
+
+      "trigger": {
+        "type": "Any",
+        "desc": "A value that triggers the showing or hiding of the element; A falsy value will hide the element; A truthy value different from the previous one will show the element and trigger the morph from the previous visible element in group; If trigger is a function it will be called (morph function 'logic' parameter)",
+        "examples": [ "1", "false", "200" ]
+      },
+
+      "duration": {
+        "type": "Number",
+        "desc": "Duration of the animation (in milliseconds)",
+        "default": "300",
+        "examples": [ "500" ]
+      },
+
+      "easing": {
+        "type": "String",
+        "desc": "Timing function for the animation",
+        "default": "ease-in-out",
+        "examples": [ "ease-out" ]
+      },
+
+      "delay": {
+        "type": "Number",
+        "desc": "Delay for the animation (in milliseconds)",
+        "default": "0",
+        "examples": [ "500" ]
+      },
+
+      "fill": {
+        "type": "String",
+        "desc": "Fill mode for the animation",
+        "default": "none",
+        "examples": [ "forward" ]
+      },
+
+      "class": {
+        "type": "String",
+        "desc": "Class names to be added to the final element during the animation",
+        "examples": [ "bg-grey-2" ]
+      },
+
+      "style": {
+        "type": [ "String", "Object" ],
+        "desc": "Styles to be added to the final element during the animation",
+        "examples": [ "border-radius: 20px" ]
+      },
+
+      "forceResize": {
+        "type": "Boolean",
+        "desc": "Use resize instead of scalling during animation"
+      },
+
+      "forceCssAnimation": {
+        "type": "Boolean",
+        "desc": "Use CSS animations instead of the Animation API"
+      },
+
+      "hideFromClone": {
+        "type": "Boolean",
+        "desc": "Hide the spacer for the initial element during animation; Use it if the initial element is not removed or resizing of the space occupied by the initial element is not desired"
+      },
+
+      "keepToClone": {
+        "type": "Boolean",
+        "desc": "Keep a clone of the final element visible during animation"
+      },
+
+      "tween": {
+        "type": "Boolean",
+        "desc": "Use an opacity tween between the initial and final elements"
+      },
+
+      "tweenFromOpacity": {
+        "type": "Number",
+        "desc": "If using tween it is the initial opacity of the initial element (will be animated to 0) - the initial element is placed on top of the final element",
+        "default": "0.6",
+        "examples": [ "1" ]
+      },
+
+      "tweenToOpacity": {
+        "type": "Number",
+        "desc": "If using tween it is the initial opacity of the final element (will be animated to 1)",
+        "default": "0.5",
+        "examples": [ "0.3" ]
+      },
+
+      "waitFor": {
+        "type": [ "Number", "String", "Promise" ],
+        "desc": "Delay animation start for that number of milliseconds, or until a 'transitionend' event is emitted by the destination element, or until the promise is resolved (if the promise is rejected the morphing will abort, but the `toggle function` was already called)",
+        "default": "0",
+        "examples": [ "300", "transitionend" ]
+      },
+
+      "onReady": {
+        "type": "Function",
+        "desc": "A function that will be called once the morphing is finished",
+        "returns": null,
+        "params": {
+          "end": {
+            "type": "String",
+            "desc": "'to' if the morphing was finished in the final state or 'from' if it was finished in the initial state",
+            "values": [ "to", "from" ]
+          }
+        },
+        "examples": [ "end => { if (end !== 'true') { revertLogic() } }" ]
+      }
+    },
+    "examples": [
+      "v-morph:group1=\"triggerState\"",
+      "v-morph=\"{ trigger: 1, group: 'group1' }\""
+    ]
+  },
+
+  "arg": {
+    "type": "String",
+    "desc": "x:y:z, where x is the morph group, y is the animation duration (in milliseconds) and z is the amount of time to wait (in milliseconds) or the 'transitionend' string",
+    "examples": [
+      "v-morph:groupName=\"options\"",
+      "v-morph:groupName:400=\"options\"",
+      "v-morph:groupName:400:100=\"options\"",
+      "v-morph:groupName:400:transitionend=\"options\""
+    ]
+  },
+
+  "modifiers": {
+    "resize": {
+      "type": "Boolean",
+      "desc": "Use resize instead of scale transform for morph (forceResize option of the morph function)"
+    },
+
+    "css": {
+      "type": "Boolean",
+      "desc": "Use CSS animations for morph (forceCssAnimation option of the morph function)"
+    },
+
+    "hideFrom": {
+      "type": "Boolean",
+      "desc": "Hide the spacer for the initial element (hideFromClone option of the morph function)"
+    },
+
+    "keepTo": {
+      "type": "Boolean",
+      "desc": "Keep the final element visible while morphing (keepToClone option of the morph function)"
+    },
+
+    "tween": {
+      "type": "Boolean",
+      "desc": "Use opacity tween morphing between initial and final elements (tween option of the morph function)"
+    }
+  }
+}
