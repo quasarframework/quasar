@@ -143,6 +143,10 @@ const commonVirtScrollProps = {
   virtualScrollStickySizeEnd: {
     type: Number,
     default: 0
+  },
+
+  tableColspan: {
+    type: [ Number, String ]
   }
 }
 
@@ -174,6 +178,12 @@ export default {
     needsReset () {
       return ['virtualScrollItemSize', 'virtualScrollHorizontal']
         .map(p => this[p]).join(';')
+    },
+
+    colspanAttr () {
+      return this.tableColspan !== void 0
+        ? { colspan: this.tableColspan }
+        : { colspan: 100 }
     }
   },
 
@@ -434,7 +444,7 @@ export default {
             h('tr', [
               h('td', {
                 style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` },
-                attrs: { colspan: '100%' }
+                attrs: this.colspanAttr
               })
             ])
           ])
@@ -460,7 +470,7 @@ export default {
             h('tr', [
               h('td', {
                 style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` },
-                attrs: { colspan: '100%' }
+                attrs: this.colspanAttr
               })
             ])
           ])

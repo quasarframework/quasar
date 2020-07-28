@@ -13,7 +13,7 @@ export default {
           h('tr', { staticClass: 'q-table__progress' }, [
             h('th', {
               staticClass: 'relative-position',
-              attrs: { colspan: '100%' }
+              attrs: { colspan: this.computedColspan }
             }, this.__getProgress(h))
           ])
         )
