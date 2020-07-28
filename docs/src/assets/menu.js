@@ -1180,6 +1180,11 @@ const utils = [
     path: 'dom-utils'
   },
   {
+    name: 'Morph Utils',
+    badge: 'new',
+    path: 'morph-utils'
+  },
+  {
     name: 'Formatter Utils',
     path: 'formatter-utils'
   },

@@ -1,5 +1,3 @@
-import { morph } from './dom-morph.js'
-
 export function offset (el) {
   if (el === window) {
     return { top: 0, left: 0 }
@@ -82,6 +80,5 @@ export default {
   width,
   css,
   cssBatch,
-  ready,
-  morph
+  ready
 }

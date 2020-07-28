@@ -145,7 +145,7 @@ function isValidElement (element) {
     element.parentNode !== null
 }
 
-export function morph (_elements, logic, _options) {
+export default function morph (_elements, logic, _options) {
   let cancel = () => false
   let cancelStatus = false
   let endElementTo = true

@@ -1,4 +1,4 @@
-import { morph } from '../utils/dom-morph.js'
+import morph from '../utils/morph.js'
 
 const morphGroups = {}
 
