@@ -127,6 +127,12 @@ This component inherits everything from QTab, however it also has `router-link` 
 QRouteTab becomes "active" depending on your app's route and not due to the v-model. So the initial value of v-model or changing the v-model directly will not also change the route of your app.
 :::
 
+### Handling custom navigation
+
+The example below won't work with UMD version (so in Codepen/jsFiddle too) because it relies on the existence of Vue Router.
+
+<doc-example title="Custom navigation" file="QTabs/RouterCustomNavigation" no-edit />
+
 ## QTabs API
 
 <doc-api file="QTabs" />

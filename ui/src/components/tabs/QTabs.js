@@ -310,12 +310,12 @@ export default Vue.extend({
           ? `translate3d(0,${oldPos.top - newPos.top}px,0) scale3d(1,${newPos.height ? oldPos.height / newPos.height : 1},1)`
           : `translate3d(${oldPos.left - newPos.left}px,0,0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1},1,1)`
 
-        // allow scope updates to kick in
+        // allow scope updates to kick in (QRouteTab needs more time)
         this.$nextTick(() => {
           this.animateTimer = setTimeout(() => {
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
             newEl.style.transform = 'none'
-          }, 30)
+          }, 70)
         })
       }
 
