@@ -64,9 +64,7 @@
 </style>
 
 <script>
-import { dom } from 'quasar'
-
-const { morph } = dom
+import { morph } from 'quasar'
 
 export default {
   data () {
