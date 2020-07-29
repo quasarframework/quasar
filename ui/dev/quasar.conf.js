@@ -29,8 +29,8 @@ module.exports = function (ctx) {
     },
 
     build: {
-      rtl: true,
-      fromRTL: true,
+      rtl: false,
+      fromRTL: false,
       vueRouterMode: 'history',
       // showProgress: false,
 
