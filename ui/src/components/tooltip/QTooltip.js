@@ -116,7 +116,7 @@ export default Vue.extend({
       cleanEvt(this, 'tooltipTemp')
     },
 
-    updatePosition () {
+    updatePosition() {
       if (this.anchorEl === void 0 || this.__portal === void 0) {
         return
       }
@@ -211,7 +211,7 @@ export default Vue.extend({
         props: { name: this.transition }
       }, [
         this.showing === true ? h('div', {
-          staticClass: 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
+          staticClass: 'q-tooltip q-tooltip--style no-pointer-events' + (this.anchorEl === void 0 ? '' : ' q-position-engine'),
           class: this.contentClass,
           style: this.contentStyle,
           attrs: {

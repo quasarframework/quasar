@@ -314,7 +314,7 @@ export default Vue.extend({
       }, [
         this.showing === true ? h('div', {
           ref: 'inner',
-          staticClass: 'q-menu q-position-engine scroll' + this.menuClass,
+          staticClass: 'q-menu scroll' + (this.anchorEl === void 0 ? '' : ' q-position-engine') + this.menuClass,
           class: this.contentClass,
           style: this.contentStyle,
           attrs: this.attrs,
