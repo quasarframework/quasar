@@ -19,15 +19,19 @@
         <q-scroll-area class="fit">
           <q-list>
 
-            <q-item v-for="(menuItem, index) in menuList" :key="index" clickable :active="menuItem.label === 'Outbox'" v-ripple>
-              <q-item-section avatar>
-                <q-icon :name="menuItem.icon" />
-              </q-item-section>
-              <q-item-section>
-                {{ menuItem.label }}
-              </q-item-section>
-              <q-separator v-if="menuItem.separator" />
-            </q-item>
+            <template v-for="(menuItem, index) in menuList">
+              <div :key="index">
+                <q-item clickable :active="menuItem.label === 'Outbox'" v-ripple>
+                  <q-item-section avatar>
+                    <q-icon :name="menuItem.icon" />
+                  </q-item-section>
+                  <q-item-section>
+                    {{ menuItem.label }}
+                  </q-item-section>
+                </q-item>
+                <q-separator v-if="menuItem.separator" />
+              </div>
+            </template>
 
           </q-list>
         </q-scroll-area>
