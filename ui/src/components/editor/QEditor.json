@@ -288,7 +288,7 @@
     "getContentEl": {
       "desc": "Retrieve the content of the Editor",
       "returns": {
-        "type": "String",
+        "type": "Element",
         "desc": "Provides the pure HTML within the editable area",
         "__exemption": [ "examples" ]
       }
