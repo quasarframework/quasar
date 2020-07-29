@@ -145,9 +145,7 @@ const commonVirtScrollProps = {
     default: 0
   },
 
-  tableColspan: {
-    type: [ Number, String ]
-  }
+  tableColspan: [ Number, String ]
 }
 
 export const commonVirtPropsList = Object.keys(commonVirtScrollProps)
