@@ -1,6 +1,7 @@
 ---
 title: Morph Utils
 desc: Morph one DOM element into another (with animation) or between two states of the same element using Quasar's morph util.
+badge: "v1.13+"
 related:
   - /vue-directives/morph
 ---
@@ -36,7 +37,7 @@ The function expects one mandatory parameter and two optional one and returns a 
   - an object, with the following available options:
     - **waitFor** (default *0*) - a number, 'transitionend' or a Promise - it will delay animation start for that number of milliseconds, or until a 'transitionend' event is emitted by the destination element, or until the promise is resolved (if the promise is rejected the morphing will abort, but the `toggle function` was already called)
     - **duration** (default *300*) - the duration in milliseconds for the animation
-    - **easing** (default *'ease-in-out'*) - the timing function for the animation
+    - **easing** (default *'ease-in-out'*) - the timing function for the animation (CSS easing)
     - **delay** (default *0*) - the delay in milliseconds for the animation
     - **fill** (default *'none'*) - the fill mode for the animation
     - **style** - the extra style to be applied to the morphing element while it is animated (either as string or a CSSStyleDeclaration object)

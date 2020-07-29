@@ -707,6 +707,7 @@ const directives = [
   },
   {
     name: 'Morph',
+    badge: 'new',
     path: 'morph'
   },
   {
