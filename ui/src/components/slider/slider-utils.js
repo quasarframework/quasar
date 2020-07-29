@@ -159,10 +159,10 @@ export const SliderMixin = {
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
       else if (this.readonly === true) {
-        attrs['aria-readonly'] = ''
+        attrs['aria-readonly'] = 'true'
       }
 
       return attrs
@@ -193,7 +193,8 @@ export const SliderMixin = {
           focusable: 'false', /* needed for IE11 */
           viewBox: '0 0 20 20',
           width: '20',
-          height: '20'
+          height: '20',
+          'aria-hidden': 'true'
         }
       }, [
         h('path', {

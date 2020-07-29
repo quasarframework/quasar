@@ -72,12 +72,12 @@ If the `cancel` function is called after the end of the animation nothing will h
 
 ## Examples
 
-<doc-example title="Morphing the same element" file="DomMorph/SameElement" />
+<doc-example title="Morphing the same element" file="MorphUtils/SameElement" />
 
-<doc-example title="Morphing a QCard from a QFabAction" file="DomMorph/FabCard" />
+<doc-example title="Morphing a QCard from a QFabAction" file="MorphUtils/FabCard" />
 
-<doc-example title="Image gallery " file="DomMorph/ImageGallery" />
+<doc-example title="Image gallery " file="MorphUtils/ImageGallery" />
 
-<doc-example title="Horizontal image strip " file="DomMorph/ImageStripHorizontal" />
+<doc-example title="Horizontal image strip " file="MorphUtils/ImageStripHorizontal" />
 
-<doc-example title="Vertical image strip " file="DomMorph/ImageStripVertical" />
+<doc-example title="Vertical image strip " file="MorphUtils/ImageStripVertical" />

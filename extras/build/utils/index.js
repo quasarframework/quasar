@@ -118,6 +118,19 @@ const decoders = {
   }
 }
 
+function getAttributesAsStyle (el) {
+  const exceptions = ['d', 'style', 'width', 'height', 'rx', 'ry', 'r', 'x', 'y', 'x1', 'y1', 'x2', 'y2', 'cx', 'cy', 'points', 'class', 'xmlns', 'viewBox', 'id', 'name', 'transform', 'data-name']
+  let styleString = ''
+  for(let i = 0; i < el.attributes.length; ++i) {
+    const attr = el.attributes[i]
+    if (exceptions.includes(attr.nodeName) !== true) {
+      if (attr.nodeName === 'fill' && attr.nodeValue === 'currentColor') continue
+      styleString += `${attr.nodeName}:${attr.nodeValue};`
+    }
+  }
+  return styleString
+}
+
 function parseDom (el, pathsDefinitions) {
   const type = el.nodeName
 
@@ -135,7 +148,7 @@ function parseDom (el, pathsDefinitions) {
 
     const paths = {
       path: decoders[type](el),
-      style: el.getAttribute('style'),
+      style: el.getAttribute('style') || getAttributesAsStyle(el),
       transform: el.getAttribute('transform')
     }
 
