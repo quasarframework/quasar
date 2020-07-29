@@ -138,7 +138,7 @@ export default {
 
       if (this.disable === true) {
         attrs.disabled = ''
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
 
       return attrs

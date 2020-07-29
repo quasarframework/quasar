@@ -69,7 +69,7 @@ export default Vue.extend({
     attrs () {
       return {
         'aria-expanded': this.showing === true ? 'true' : 'false',
-        'aria-haspopup': true,
+        'aria-haspopup': 'true',
         ...this.qAttrs
       }
     }
