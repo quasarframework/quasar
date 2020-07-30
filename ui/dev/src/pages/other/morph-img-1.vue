@@ -73,24 +73,20 @@ export default {
             }
           })
 
-          this.cancel = morph(
-            {
-              from: this.$refs.refThumb[index].$el,
-              to: this.$refs.refFull.$el
-            },
-            () => { this.indexZoomed = index },
-            {
-              waitFor: this.imgLoaded.promise,
-              duration: 400,
-              hideFromClone: true,
-              style: 'z-index: 1',
-              onReady: end => {
-                if (end === 'from' && this.indexZoomed === index) {
-                  this.indexZoomed = void 0
-                }
+          this.cancel = morph({
+            from: this.$refs.refThumb[index].$el,
+            to: this.$refs.refFull.$el,
+            onToggle: () => { this.indexZoomed = index },
+            waitFor: this.imgLoaded.promise,
+            duration: 400,
+            hideFromClone: true,
+            style: 'z-index: 1',
+            onReady: end => {
+              if (end === 'from' && this.indexZoomed === index) {
+                this.indexZoomed = void 0
               }
             }
-          )
+          })
         }
       }
 
@@ -98,19 +94,15 @@ export default {
         indexZoomed !== void 0 &&
         (this.cancel === void 0 || this.cancel() === false)
       ) {
-        morph(
-          {
-            from: this.$refs.refFull.$el,
-            to: this.$refs.refThumb[indexZoomed].$el
-          },
-          () => { this.indexZoomed = void 0 },
-          {
-            duration: 200,
-            keepToClone: true,
-            style: 'z-index: 1',
-            onReady: zoom
-          }
-        )
+        morph({
+          from: this.$refs.refFull.$el,
+          to: this.$refs.refThumb[indexZoomed].$el,
+          onToggle: () => { this.indexZoomed = void 0 },
+          duration: 200,
+          keepToClone: true,
+          style: 'z-index: 1',
+          onReady: zoom
+        })
       }
       else {
         zoom()

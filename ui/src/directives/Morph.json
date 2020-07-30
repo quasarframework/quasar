@@ -3,6 +3,8 @@
     "docsUrl": "https://v1.quasar.dev/vue-directives/morph"
   },
 
+  "addedIn": "v1.13.0",
+
   "value": {
     "type": [ "Object", "Any" ],
     "desc": "Configuration object or trigger value",
@@ -13,16 +15,16 @@
         "examples": [ "dialogGroup" ]
       },
 
-      "selector": {
-        "type": [ "String", "Element", "Function" ],
-        "desc": "A selection method for the element to be morphed: a DOM element, a CSS selector that will be applied on the element and it's children or a function that gets the element as parameter and must return a DOM element",
-        "examples": [ ".q-btn__wrapper" ]
+      "name": {
+        "type": "String",
+        "desc": "Name of the morph inside the group that the element belongs to",
+        "examples": [ "btn" ]
       },
 
-      "trigger": {
-        "type": "Any",
-        "desc": "A value that triggers the showing or hiding of the element; A falsy value will hide the element; A truthy value different from the previous one will show the element and trigger the morph from the previous visible element in group; If trigger is a function it will be called (morph function 'logic' parameter)",
-        "examples": [ "1", "false", "200" ]
+      "model": {
+        "type": "String",
+        "desc": "Current value of the group model; when it becomes the same as the 'name' it triggers the morphing",
+        "examples": [ "btn" ]
       },
 
       "duration": {
@@ -32,18 +34,18 @@
         "examples": [ "500" ]
       },
 
-      "easing": {
-        "type": "String",
-        "desc": "Timing function for the animation",
-        "default": "ease-in-out",
-        "examples": [ "ease-out" ]
-      },
-
       "delay": {
         "type": "Number",
         "desc": "Delay for the animation (in milliseconds)",
         "default": "0",
         "examples": [ "500" ]
+      },
+
+      "easing": {
+        "type": "String",
+        "desc": "Timing function for the animation (CSS easing format)",
+        "default": "ease-in-out",
+        "examples": [ "ease-out" ]
       },
 
       "fill": {
@@ -53,24 +55,24 @@
         "examples": [ "forward" ]
       },
 
-      "class": {
+      "classes": {
         "type": "String",
-        "desc": "Class names to be added to the final element during the animation",
+        "desc": "Class names to be added to the destination element during the animation",
         "examples": [ "bg-grey-2" ]
       },
 
       "style": {
         "type": [ "String", "Object" ],
-        "desc": "Styles to be added to the final element during the animation",
+        "desc": "Styles to be added to the destination element during the animation",
         "examples": [ "border-radius: 20px" ]
       },
 
-      "forceResize": {
+      "resize": {
         "type": "Boolean",
-        "desc": "Use resize instead of scalling during animation"
+        "desc": "Use resize instead of scaling during animation"
       },
 
-      "forceCssAnimation": {
+      "useCSS": {
         "type": "Boolean",
         "desc": "Use CSS animations instead of the Animation API"
       },
@@ -116,29 +118,31 @@
         "desc": "A function that will be called once the morphing is finished",
         "returns": null,
         "params": {
-          "end": {
+          "direction": {
             "type": "String",
             "desc": "'to' if the morphing was finished in the final state or 'from' if it was finished in the initial state",
             "values": [ "to", "from" ]
           }
         },
-        "examples": [ "end => { if (end !== 'true') { revertLogic() } }" ]
+        "examples": [ "direction => { if (direction !== 'to') { revertLogic() } }" ]
       }
     },
+
     "examples": [
-      "v-morph:group1=\"triggerState\"",
-      "v-morph=\"{ trigger: 1, group: 'group1' }\""
+      "v-morph:element2:group1=\"groupModel\"",
+      "v-morph=\"{ name: 'element2', group: 'group1', model: 'element1' }\""
     ]
   },
 
   "arg": {
     "type": "String",
-    "desc": "x:y:z, where x is the morph group, y is the animation duration (in milliseconds) and z is the amount of time to wait (in milliseconds) or the 'transitionend' string",
+    "desc": "x:x2:y:z, where x is the morph element name, x2 is the morph group, y is the animation duration (in milliseconds) and z is the amount of time to wait (in milliseconds) or the 'transitionend' string",
     "examples": [
-      "v-morph:groupName=\"options\"",
-      "v-morph:groupName:400=\"options\"",
-      "v-morph:groupName:400:100=\"options\"",
-      "v-morph:groupName:400:transitionend=\"options\""
+      "v-morph:name=\"options\"",
+      "v-morph:name:groupName=\"options\"",
+      "v-morph:name:groupName:400=\"options\"",
+      "v-morph:name:groupName:400:100=\"options\"",
+      "v-morph:name:groupName:400:transitionend=\"options\""
     ]
   },
 
@@ -148,17 +152,17 @@
       "desc": "Use resize instead of scale transform for morph (forceResize option of the morph function)"
     },
 
-    "css": {
+    "useCSS": {
       "type": "Boolean",
       "desc": "Use CSS animations for morph (forceCssAnimation option of the morph function)"
     },
 
-    "hideFrom": {
+    "hideFromClone": {
       "type": "Boolean",
       "desc": "Hide the spacer for the initial element (hideFromClone option of the morph function)"
     },
 
-    "keepTo": {
+    "keepToClone": {
       "type": "Boolean",
       "desc": "Keep the final element visible while morphing (keepToClone option of the morph function)"
     },

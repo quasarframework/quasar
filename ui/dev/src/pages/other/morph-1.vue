@@ -190,53 +190,48 @@ export default {
 
   methods: {
     test1 () {
-      const logic = () => { this.toggle1 = this.toggle1 !== true }
+      const onToggle = () => { this.toggle1 = this.toggle1 !== true }
 
       if (this.cancel1 === void 0 || this.cancel1() === false) {
-        this.cancel1 = morph(
-          () => {
+        this.cancel1 = morph({
+          from: () => {
             const ref = this.$refs[this.toggle1 === true ? 'flipTo1' : 'flipFrom1']
-
             return ref ? ref.$el || ref : null
           },
-          logic,
-          {
-            waitFor: this.toggle1 !== true ? 'transitionend' : 0,
-            duration: 800,
-            easing: 'ease-in-out',
-            forceResize: this.forceResize,
-            forceCssAnimation: this.forceCssAnimation,
-            tween: this.tween,
-            tweenFromOpacity: 1,
-            tweenToOpacity: 0.5,
-            onReady: end => {
-              end === 'from' && logic()
-              console.log('Morph 1 ready: ' + end)
-            }
+          onToggle,
+          waitFor: this.toggle1 !== true ? 'transitionend' : 0,
+          duration: 800,
+          easing: 'ease-in-out',
+          resize: this.forceResize,
+          useCSS: this.forceCssAnimation,
+          tween: this.tween,
+          tweenFromOpacity: 1,
+          tweenToOpacity: 0.5,
+          onReady: end => {
+            end === 'from' && onToggle()
+            console.log('Morph 1 ready: ' + end)
           }
-        )
+        })
       }
     },
 
     test2 () {
-      const logic = () => { this.toggle2 = this.toggle2 !== true }
+      const onToggle = () => { this.toggle2 = this.toggle2 !== true }
 
       if (this.cancel2 === void 0 || this.cancel2() === false) {
-        this.cancel2 = morph(
-          '.test-2',
-          logic,
-          {
-            duration: 500,
-            easing: 'ease-in-out',
-            forceResize: this.forceResize,
-            forceCssAnimation: this.forceCssAnimation,
-            class: 'bg-orange',
-            onReady: end => {
-              end === 'from' && logic()
-              console.log('Morph 2 ready: ' + end)
-            }
+        this.cancel2 = morph({
+          from: '.test-2',
+          onToggle,
+          duration: 500,
+          easing: 'ease-in-out',
+          resize: this.forceResize,
+          useCSS: this.forceCssAnimation,
+          classes: 'bg-orange',
+          onReady: end => {
+            end === 'from' && onToggle()
+            console.log('Morph 2 ready: ' + end)
           }
-        )
+        })
       }
     }
   }

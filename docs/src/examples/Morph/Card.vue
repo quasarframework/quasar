@@ -1,74 +1,70 @@
 <template>
-  <div class="q-pa-md relative-position" style="height: 400px; max-height: 80vh">
+  <div class="q-pa-md relative-position" style="height: 280px; max-height: 80vh">
     <q-btn
-      v-morph:dialog:300.resize="btnTrigger"
+      v-morph:btn:mygroup:300.resize="morphGroupModel"
       class="absolute-bottom-left q-ma-md"
       fab
       color="primary"
       size="lg"
       icon="add"
-      @click="cardTrigger = showCardStep1"
+      @click="nextMorph"
     />
 
     <q-card
-      v-morph:dialog:500.resize="cardTrigger"
+      v-morph:card1:mygroup:500.resize="morphGroupModel"
       class="absolute-bottom-left q-ma-md bg-primary text-white"
       style="width: 300px; border-bottom-left-radius: 2em"
     >
-      <template v-if="cardStep === 1">
-        <q-card-section>
-          <div class="text-h6">
-            New user
-          </div>
-        </q-card-section>
+      <q-card-section class="text-h6">
+        New user
+      </q-card-section>
 
-        <q-card-section>
-          Please fill the details for a new user.
-        </q-card-section>
+      <q-card-section class="text-subtitle1">
+        Please fill the details for a new user.
+      </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Next" @click="cardTrigger = showCardStep2" />
-        </q-card-actions>
-      </template>
+      <q-card-actions align="right">
+        <q-btn flat label="Next" @click="nextMorph" />
+      </q-card-actions>
+    </q-card>
 
-      <template v-else>
-        <q-card-section>
-          <div class="text-h6">
-            Finalize registration
-          </div>
-        </q-card-section>
+    <q-card
+      v-morph:card2:mygroup:500.tween="morphGroupModel"
+      class="absolute-bottom-left q-ma-md bg-primary text-white"
+      style="width: 300px; border-bottom-left-radius: 2em"
+    >
+      <q-card-section class="text-h6">
+        Finalize registration
+      </q-card-section>
 
-        <q-card-section class="q-py-xl text-center">
-          <div class="text-h6">
-            Thank you for registering.
-          </div>
-        </q-card-section>
+      <q-card-section class="q-py-xl text-center text-subtitle2">
+        Thank you for registering.
+      </q-card-section>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Close" @click="btnTrigger += 1" />
-        </q-card-actions>
-      </template>
+      <q-card-actions align="right">
+        <q-btn flat label="Close" @click="nextMorph" />
+      </q-card-actions>
     </q-card>
   </div>
 </template>
 
 <script>
+const nextMorphStep = {
+  btn: 'card1',
+  card1: 'card2',
+  card2: 'btn'
+}
+
 export default {
   data () {
     return {
-      btnTrigger: 1,
-      cardTrigger: 0,
-      cardStep: 0
+      morphGroupModel: 'btn'
     }
   },
 
   methods: {
-    showCardStep1 () {
-      this.cardStep = 1
-    },
-
-    showCardStep2 () {
-      this.cardStep = 2
+    nextMorph () {
+      this.morphGroupModel = nextMorphStep[this.morphGroupModel]
     }
   }
 }

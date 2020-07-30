@@ -1,7 +1,7 @@
 let id = 0
 let offsetBase = void 0
 
-function getAbsolutePosition (el, forceResize) {
+function getAbsolutePosition (el, resize) {
   if (offsetBase === void 0) {
     offsetBase = document.createElement('div')
     offsetBase.style.cssText = 'position: absolute; left: 0; top: 0'
@@ -19,10 +19,10 @@ function getAbsolutePosition (el, forceResize) {
     top: boundingRect.top - baseRect.top,
     width: boundingRect.right - boundingRect.left,
     height: boundingRect.bottom - boundingRect.top,
-    widthM: boundingRect.right - boundingRect.left + (forceResize === true ? 0 : marginH),
-    heightM: boundingRect.bottom - boundingRect.top + (forceResize === true ? 0 : marginV),
-    marginH: forceResize === true ? marginH : 0,
-    marginV: forceResize === true ? marginV : 0
+    widthM: boundingRect.right - boundingRect.left + (resize === true ? 0 : marginH),
+    heightM: boundingRect.bottom - boundingRect.top + (resize === true ? 0 : marginV),
+    marginH: resize === true ? marginH : 0,
+    marginV: resize === true ? marginV : 0
   }
 }
 
@@ -85,13 +85,13 @@ function getComputedStyle (el, props) {
   return fixed
 }
 
-function normalizeElements (elements) {
-  return elements !== Object(elements) || (elements.from === void 0 && elements.to === void 0)
-    ? {
-      from: elements,
-      to: elements
-    }
-    : elements
+function normalizeElements (opts) {
+  return {
+    from: opts.from,
+    to: opts.to !== void 0
+      ? opts.to
+      : opts.from
+  }
 }
 
 function normalizeOptions (options) {
@@ -116,8 +116,8 @@ function normalizeOptions (options) {
     delay: isNaN(options.delay) === true ? 0 : parseInt(options.delay, 10),
     fill: typeof options.fill === 'string' && options.fill.length > 0 ? options.fill : 'none',
 
-    forceResize: options.forceResize === true,
-    forceCssAnimation: options.forceCssAnimation === true,
+    resize: options.resize === true,
+    useCSS: options.useCSS === true,
     hideFromClone: options.hideFromClone === true,
     keepToClone: options.keepToClone === true,
 
@@ -145,12 +145,12 @@ function isValidElement (element) {
     element.parentNode !== null
 }
 
-export default function morph (_elements, logic, _options) {
+export default function morph (_options) {
   let cancel = () => false
   let cancelStatus = false
   let endElementTo = true
 
-  const elements = normalizeElements(_elements)
+  const elements = normalizeElements(_options)
   const options = normalizeOptions(_options)
 
   const elFrom = getElement(elements.from)
@@ -171,7 +171,7 @@ export default function morph (_elements, logic, _options) {
 
   // we get the dimensions and characteristics
   // of the parent of the initial element before changes
-  const elFromPosition = getAbsolutePosition(elFrom, options.forceResize)
+  const elFromPosition = getAbsolutePosition(elFrom, options.resize)
   const {
     width: elFromParentWidthBefore,
     height: elFromParentHeightBefore
@@ -223,7 +223,7 @@ export default function morph (_elements, logic, _options) {
     elFrom.qMorphCancel = void 0
   }
 
-  // will be called after Vue catches up with the changes done by logic function
+  // will be called after Vue catches up with the changes done by _options.onToggle() function
   const calculateFinalState = () => {
     const elTo = getElement(elements.to)
     if (cancelStatus === true || isValidElement(elTo) !== true) {
@@ -345,7 +345,7 @@ export default function morph (_elements, logic, _options) {
       // we strip the background classes (background color can no longer be animated if !important is used)
       elTo.className = elToClassSaved.split(' ').filter(c => /^bg-/.test(c) === false).join(' ')
 
-      const elToPosition = getAbsolutePosition(elTo, options.forceResize)
+      const elToPosition = getAbsolutePosition(elTo, options.resize)
 
       const deltaX = elFromPosition.left - elToPosition.left
       const deltaY = elFromPosition.top - elToPosition.top
@@ -400,8 +400,8 @@ export default function morph (_elements, logic, _options) {
       elToClone.classList.remove('q-morph--internal')
 
       // we apply classes specified by user
-      if (typeof options.class === 'string') {
-        elTo.className += ' ' + options.class
+      if (typeof options.classes === 'string') {
+        elTo.className += ' ' + options.classes
       }
 
       // we apply styles specified by user
@@ -425,7 +425,7 @@ export default function morph (_elements, logic, _options) {
       elTo.style.top = `${elToPosition.top - documentScroll.scrollTop}px`
       elTo.style.margin = 0
 
-      if (options.forceResize === true) {
+      if (options.resize === true) {
         elTo.style.minWidth = 'unset'
         elTo.style.maxWidth = 'unset'
         elTo.style.minHeight = 'unset'
@@ -450,7 +450,7 @@ export default function morph (_elements, logic, _options) {
         elFromTween.style.margin = 0
         elFromTween.style.pointerEvents = 'none'
 
-        if (options.forceResize === true) {
+        if (options.resize === true) {
           elFromTween.style.minWidth = 'unset'
           elFromTween.style.maxWidth = 'unset'
           elFromTween.style.minHeight = 'unset'
@@ -491,8 +491,8 @@ export default function morph (_elements, logic, _options) {
         typeof options.onReady === 'function' && options.onReady(endElementTo === true ? 'to' : 'from')
       }
 
-      if (options.forceCssAnimation !== true && typeof elTo.animate === 'function') {
-        const resizeFrom = options.forceResize === true
+      if (options.useCSS !== true && typeof elTo.animate === 'function') {
+        const resizeFrom = options.resize === true
           ? {
             transform: `translate(${deltaX}px, ${deltaY}px)`,
             width: `${elFromCloneWidth}px`,
@@ -501,19 +501,19 @@ export default function morph (_elements, logic, _options) {
           : {
             transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`
           }
-        const resizeTo = options.forceResize === true
+        const resizeTo = options.resize === true
           ? {
             width: `${elToCloneWidth}px`,
             height: `${elToCloneHeight}px`
           }
           : {}
-        const resizeFromTween = options.forceResize === true
+        const resizeFromTween = options.resize === true
           ? {
             width: `${elFromCloneWidth}px`,
             height: `${elFromCloneHeight}px`
           }
           : {}
-        const resizeToTween = options.forceResize === true
+        const resizeToTween = options.resize === true
           ? {
             transform: `translate(${-1 * deltaX}px, ${-1 * deltaY}px)`,
             width: `${elToCloneWidth}px`,
@@ -679,26 +679,26 @@ export default function morph (_elements, logic, _options) {
       else {
         const qAnimId = `q-morph-anim-${++id}`
         const style = document.createElement('style')
-        const resizeFrom = options.forceResize === true
+        const resizeFrom = options.resize === true
           ? `
             transform: translate(${deltaX}px, ${deltaY}px);
             width: ${elFromCloneWidth}px;
             height: ${elFromCloneHeight}px;
           `
           : `transform: translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY});`
-        const resizeTo = options.forceResize === true
+        const resizeTo = options.resize === true
           ? `
             width: ${elToCloneWidth}px;
             height: ${elToCloneHeight}px;
           `
           : ''
-        const resizeFromTween = options.forceResize === true
+        const resizeFromTween = options.resize === true
           ? `
             width: ${elFromCloneWidth}px;
             height: ${elFromCloneHeight}px;
           `
           : ''
-        const resizeToTween = options.forceResize === true
+        const resizeToTween = options.resize === true
           ? `
             transform: translate(${-1 * deltaX}px, ${-1 * deltaY}px);
             width: ${elToCloneWidth}px;
@@ -917,7 +917,7 @@ export default function morph (_elements, logic, _options) {
     }
   }
 
-  typeof logic === 'function' && logic()
+  typeof _options.onToggle === 'function' && _options.onToggle()
   requestAnimationFrame(calculateFinalState)
 
   // we return the cancel function

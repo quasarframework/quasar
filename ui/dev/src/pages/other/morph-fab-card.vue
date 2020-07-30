@@ -49,14 +49,12 @@ export default {
         const getFab = () => this.$refs.refFab
         const getCard = () => this.$refs.refCard ? this.$refs.refCard.$el : void 0
 
-        morph(
-          {
-            from: this.toggle === true ? getCard : getFab,
-            to: this.toggle === true ? getFab : getCard
-          },
-          () => { this.toggle = state },
-          500
-        )
+        morph({
+          from: this.toggle === true ? getCard : getFab,
+          to: this.toggle === true ? getFab : getCard,
+          onToggle: () => { this.toggle = state },
+          duration: 500
+        })
       }
     }
   }

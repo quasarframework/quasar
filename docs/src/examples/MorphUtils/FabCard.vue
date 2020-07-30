@@ -38,7 +38,6 @@ export default {
   data () {
     return {
       toggle: false,
-
       lorem: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
     }
   },
@@ -49,16 +48,14 @@ export default {
         const getFab = () => this.$refs.refFab
         const getCard = () => this.$refs.refCard ? this.$refs.refCard.$el : void 0
 
-        morph(
-          {
-            from: this.toggle === true ? getCard : getFab,
-            to: this.toggle === true ? getFab : getCard
-          },
-          () => {
+        morph({
+          from: this.toggle === true ? getCard : getFab,
+          to: this.toggle === true ? getFab : getCard,
+          onToggle: () => {
             this.toggle = state
           },
-          500
-        )
+          duration: 500
+        })
       }
     }
   }

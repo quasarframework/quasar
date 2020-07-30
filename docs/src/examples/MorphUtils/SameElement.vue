@@ -61,44 +61,40 @@ export default {
 
   methods: {
     morphContent1 () {
-      const toggleLogic = () => {
+      const onToggle = () => {
         this.toggle1 = this.toggle1 !== true
       }
 
       if (this.cancel1 === void 0 || this.cancel1() === false) {
-        this.cancel1 = morph(
-          this.$refs.morphedElement1,
-          toggleLogic,
-          {
-            duration: 500,
-            tween: true,
-            onReady: end => {
-              end === 'from' && toggleLogic()
-            }
+        this.cancel1 = morph({
+          from: this.$refs.morphedElement1,
+          onToggle,
+          duration: 500,
+          tween: true,
+          onReady: end => {
+            end === 'from' && onToggle()
           }
-        )
+        })
       }
     },
 
     morphContent2 () {
-      const toggleLogic = () => {
+      const onToggle = () => {
         this.toggle2 = this.toggle2 !== true
       }
 
       if (this.cancel2 === void 0 || this.cancel2() === false) {
-        this.cancel2 = morph(
-          this.$refs.morphedElement2.$el.querySelector('.q-avatar__content'),
-          toggleLogic,
-          {
-            duration: 500,
-            tween: true,
-            tweenFromOpacity: 0.8,
-            tweenToOpacity: 0.4,
-            onReady: end => {
-              end === 'from' && toggleLogic()
-            }
+        this.cancel2 = morph({
+          from: this.$refs.morphedElement2.$el.querySelector('.q-avatar__content'),
+          onToggle,
+          duration: 500,
+          tween: true,
+          tweenFromOpacity: 0.8,
+          tweenToOpacity: 0.4,
+          onReady: end => {
+            end === 'from' && onToggle()
           }
-        )
+        })
       }
     }
   }

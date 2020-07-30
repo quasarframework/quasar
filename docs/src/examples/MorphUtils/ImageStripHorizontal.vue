@@ -34,36 +34,31 @@ export default {
       this.indexZoomed = void 0
 
       if (index !== void 0 && index !== indexZoomed) {
-        this.cancel = morph(
-          this.$refs.refThumb[index].$el,
-          () => {
+        this.cancel = morph({
+          from: this.$refs.refThumb[index].$el,
+          onToggle: () => {
             this.indexZoomed = index
           },
-          {
-            duration: 500,
-            style: 'z-index: 1',
-            onReady: end => {
-              if (end === 'from' && this.indexZoomed === index) {
-                this.indexZoomed = void 0
-              }
+          duration: 500,
+          style: 'z-index: 1',
+          onReady: end => {
+            if (end === 'from' && this.indexZoomed === index) {
+              this.indexZoomed = void 0
             }
           }
-        )
+        })
       }
 
       if (
         indexZoomed !== void 0 &&
         (this.cancel === void 0 || this.cancel() === false)
       ) {
-        morph(
-          this.$refs.refThumb[indexZoomed].$el,
-          void 0,
-          {
-            waitFor: 100,
-            duration: 300,
-            style: 'z-index: 1'
-          }
-        )
+        morph({
+          from: this.$refs.refThumb[indexZoomed].$el,
+          waitFor: 100,
+          duration: 300,
+          style: 'z-index: 1'
+        })
       }
     }
   }

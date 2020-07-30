@@ -1,199 +1,214 @@
 import morph from '../utils/morph.js'
 
 const morphGroups = {}
+const props = [
+  'duration', 'delay', 'easing', 'fill',
+  'classes', 'style', 'duration', 'resize',
+  'useCSS', 'hideFromClone', 'keepToClone', 'tween',
+  'tweenFromOpacity', 'tweenToOpacity',
+  'waitFor', 'onReady'
+]
+const mods = [
+  'resize', 'useCSS', 'hideFromClone', 'keepToClone', 'tween'
+]
 
-function normalizeParams ({ value, arg, modifiers }) {
-  const argSplit = typeof arg === 'string' && arg.length > 0 ? arg.split(':') : []
-  const valueObj = value === Object(value) && typeof value !== 'function' ? value : { trigger: value }
-  return {
-    group: valueObj.group === void 0 ? argSplit[0] : valueObj.group,
-    trigger: valueObj.trigger,
-    selector: valueObj.selector,
-    options: {
-      forceResize: modifiers.resize === true,
-      forceCssAnimation: modifiers.css === true,
-      hideFromClone: modifiers.hideFrom === true,
-      keepToClone: modifiers.keepTo === true,
-      tween: modifiers.tween === true,
-      waitFor: argSplit[2],
-
-      duration: isNaN(valueObj.duration) === true
-        ? (isNaN(argSplit[1]) === true ? 300 : parseInt(argSplit[1], 10))
-        : parseInt(valueObj.duration, 10),
-
-      ...valueObj
-    }
+function changeClass (ctx, action) {
+  if (ctx.clsAction !== action) {
+    ctx.clsAction = action
+    ctx.el.classList[action]('q-morph--invisible')
   }
 }
 
-function checkMorph (ctx, binding) {
-  const params = normalizeParams(binding)
-
-  if (ctx.group !== params.group) {
-    if (typeof ctx.group === 'string' && ctx.group.length > 0 && morphGroups[ctx.group] === ctx) {
-      morphGroups[ctx.group] = void 0
-    }
-
-    ctx.group = params.group
-
-    if (typeof ctx.group !== 'string' || ctx.group.length === 0) {
-      ctx.initialized = false
-
-      return
-    }
-  }
-
-  if (ctx.initialized === true && ctx.trigger === params.trigger) {
+function trigger (group) {
+  if (group.animating === true || group.queue.length < 2) {
     return
   }
 
-  if (ctx.selector !== params.selector) {
-    ctx.selector = params.selector
-  }
+  const [ from, to ] = group.queue
 
-  ctx.trigger = params.trigger
+  group.animating = true
+  from.animating = true
+  to.animating = true
 
-  const currentCtx = morphGroups[ctx.group]
-  const elTo = ctx.getTarget()
-  const defaultCancel = () => {
-    elTo && elTo.classList.add('q-morph--invisible')
-  }
+  changeClass(from, 'remove')
+  changeClass(to, 'remove')
 
-  if (ctx.initialized !== true) {
-    ctx.initialized = true
+  morph({
+    from: from.el,
+    to: to.el,
+    onToggle () {
+      changeClass(from, 'add')
+      changeClass(to, 'remove')
+    },
+    ...to.opts,
+    onReady () {
+      from.animating = false
+      to.animating = false
 
-    defaultCancel()
+      group.animating = false
+      group.queue.shift()
 
-    ctx.cancel = defaultCancel
-  }
+      // TODO: call ctx.onReady() if available
 
-  if ([ void 0, null, false, 0, '' ].includes(ctx.trigger) === true) {
-    if (currentCtx === ctx) {
-      morphGroups[ctx.group] = void 0
-    }
-
-    ctx.cancel()
-
-    return
-  }
-
-  if (currentCtx === void 0) {
-    elTo && elTo.classList.remove('q-morph--invisible')
-
-    ctx.cancel = defaultCancel
-
-    morphGroups[ctx.group] = ctx
-
-    return
-  }
-
-  const elFrom = currentCtx.getTarget()
-
-  morphGroups[ctx.group] = ctx
-
-  const done = currentCtx.done || Promise.resolve()
-
-  done.then(() => {
-    if (morphGroups[ctx.group] === ctx) {
-      elFrom && elFrom.classList.remove('q-morph--invisible')
-
-      ctx.done = new Promise(resolve => {
-        const cancel = morph(
-          {
-            from: elFrom,
-            to: elTo
-          },
-          () => {
-            elFrom && elFrom.classList.add('q-morph--invisible')
-            elTo && elTo.classList.remove('q-morph--invisible')
-            typeof ctx.trigger === 'function' && ctx.trigger()
-          },
-          {
-            ...params.options,
-
-            onReady (end) {
-              if (end !== 'to' || morphGroups[ctx.group] !== ctx) {
-                if (morphGroups[ctx.group] === ctx) {
-                  morphGroups[ctx.group] = currentCtx
-
-                  elFrom && elFrom.classList.remove('q-morph--invisible')
-                }
-
-                defaultCancel()
-              }
-
-              ctx.cancel = defaultCancel
-
-              if (typeof params.options.onReady === 'function') {
-                params.options.onReady(end)
-              }
-
-              resolve(end)
-            }
-          }
-        )
-
-        ctx.cancel = () => {
-          if (cancel() === false) {
-            defaultCancel()
-          }
-
-          ctx.cancel = defaultCancel
-        }
-      })
+      trigger(group)
     }
   })
+}
+
+function updateModifiers (mod, ctx) {
+  const opts = ctx.opts
+
+  mods.forEach(name => {
+    opts[name] = mod[name] === true
+  })
+}
+
+function insertArgs (arg, ctx) {
+  const opts = typeof arg === 'string' && arg.length > 0
+    ? arg.split(':') : []
+
+  ctx.name = opts[0]
+  ctx.group = opts[1]
+
+  Object.assign(ctx.opts, {
+    duration: isNaN(opts[2]) === true
+      ? 300
+      : parseFloat(opts[2]),
+    waitFor: opts[3]
+  })
+}
+
+function updateArgs (arg, ctx) {
+  if (arg.group !== void 0) {
+    ctx.group = arg.group
+  }
+  if (arg.name !== void 0) {
+    ctx.name = arg.name
+  }
+
+  const opts = ctx.opts
+
+  props.forEach(name => {
+    if (arg[name] !== void 0) {
+      opts[name] = arg[name]
+    }
+  })
+}
+
+function updateModel (name, ctx) {
+  if (ctx.name === name) {
+    const group = morphGroups[ctx.group]
+
+    // if group is not registered
+    if (group === void 0) {
+      morphGroups[ctx.group] = {
+        name: ctx.group,
+        model: name,
+        queue: [ ctx ],
+        animating: false
+      }
+
+      changeClass(ctx, 'remove')
+    }
+    // if model changed
+    else if (group.model !== name) {
+      group.model = name
+      group.queue.push(ctx)
+
+      if (group.animating === false && group.queue.length === 2) {
+        trigger(group)
+      }
+    }
+
+    return
+  }
+
+  if (ctx.animating === false) {
+    changeClass(ctx, 'add')
+  }
+}
+
+function updateValue (ctx, value) {
+  let model
+
+  if (Object(value) === value) {
+    model = '' + value.model
+    updateArgs(value, ctx)
+    updateModifiers(value, ctx)
+  }
+  else {
+    model = '' + value
+  }
+
+  if (model !== ctx.model) {
+    ctx.model = model
+    updateModel(model, ctx)
+  }
+  else if (ctx.animating === false && ctx.clsAction !== void 0) {
+    // ensure HMR
+    ctx.el.classList[ctx.clsAction]('q-morph--invisible')
+  }
+}
+
+function destroy (el) {
+  const ctx = el.__qmorph
+
+  if (ctx !== void 0) {
+    const group = morphGroups[ctx.group]
+
+    if (group !== void 0) {
+      const index = group.queue.indexOf(ctx)
+
+      if (index !== -1) {
+        group.queue = group.queue.filter(item => item !== ctx)
+
+        if (group.queue.length === 0) {
+          delete morphGroups[ctx.group]
+        }
+      }
+    }
+
+    if (ctx.clsAction === 'add') {
+      el.classList.remove('q-morph--invisible')
+    }
+
+    delete el.__qmorph
+  }
 }
 
 export default {
   name: 'morph',
 
   inserted (el, binding) {
+    if (el.__qmorph !== void 0) {
+      destroy(el)
+      el.__qmorph_destroyed = true
+    }
+
     const ctx = {
-      selector: void 0,
-
-      getTarget () {
-        const type = typeof ctx.selector
-
-        return type === 'function'
-          ? ctx.selector(el)
-          : (
-            type === 'string'
-              ? el.querySelector(ctx.selector)
-              : el
-          )
-      },
-
-      cancel () {},
-
-      initialized: false
+      el,
+      animating: false,
+      opts: {}
     }
 
-    checkMorph(ctx, binding)
-
-    if (el.__qmorph) {
-      el.__qmorph_old = el.__qmorph
-    }
+    updateModifiers(binding.modifiers, ctx)
+    insertArgs(binding.arg, ctx)
+    updateValue(ctx, binding.value)
 
     el.__qmorph = ctx
   },
 
   update (el, binding) {
-    if (el.__qmorph !== void 0) {
-      checkMorph(el.__qmorph, binding)
-    }
+    const ctx = el.__qmorph
+    ctx !== void 0 && updateValue(ctx, binding.value)
   },
 
   unbind (el) {
-    const ctx = el.__qmorph_old || el.__qmorph
-    if (ctx !== void 0) {
-      if (typeof ctx.group === 'string' && ctx.group.length > 0 && morphGroups[ctx.group] === ctx) {
-        morphGroups[ctx.group].cancel()
-
-        morphGroups[ctx.group] = void 0
-      }
-
-      delete el[el.__qmorph_old ? '__qmorph_old' : '__qmorph']
+    if (el.__qmorph_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qmorph__old
     }
   }
 }

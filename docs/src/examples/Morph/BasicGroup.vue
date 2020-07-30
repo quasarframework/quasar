@@ -3,7 +3,7 @@
     <div
       class="absolute-top-left bg-red text-white q-ma-md q-pa-lg"
       style="border-radius: 10px; font-size: 32px"
-      v-morph:test:800="triggers[0]"
+      v-morph:topleft:boxes:800="morphGroupModel"
     >
       Top left
     </div>
@@ -11,7 +11,7 @@
     <div
       class="absolute-top-right bg-blue text-white q-ma-lg q-pa-xl"
       style="border-radius: 20px; font-size: 18px"
-      v-morph:test:600.tween="triggers[1]"
+      v-morph:topright:boxes:600.tween="morphGroupModel"
     >
       Top right
     </div>
@@ -19,7 +19,7 @@
     <div
       class="absolute-bottom-right bg-orange text-white q-ma-lg q-pa-lg"
       style="border-radius: 0"
-      v-morph:test:400="triggers[2]"
+      v-morph:bottomright:boxes:400="morphGroupModel"
     >
       Bottom right
     </div>
@@ -27,41 +27,47 @@
     <div
       class="absolute-bottom-left bg-green text-white q-ma-xl q-pa-md"
       style="border-radius: 40px; font-size: 24px"
-      v-morph:test:600.resize="triggers[3]"
+      v-morph:bottomleft:boxes:600.resize="morphGroupModel"
     >
       Bottom left
     </div>
 
     <q-btn
       class="absolute-center"
-      size="lg"
-      color="orange"
-      :label="`Trigger [ ${current} ]`"
-      @click="activateTrigger()"
+      color="purple"
+      label="Next morph"
+      no-caps
+      @click="nextMorph"
     />
   </div>
 </template>
 
 <script>
+const boxValues = [
+  'topleft',
+  'topright',
+  'bottomleft',
+  'bottomright'
+]
+
 export default {
   data () {
     return {
-      current: 1,
-      triggers: Array(4).fill(null).map((_, i) => i === 1 ? i : void 0)
+      morphGroupModel: 'topleft'
     }
   },
 
   methods: {
-    activateTrigger () {
-      const i = Math.floor(Math.random() * this.triggers.length)
+    nextMorph () {
+      let value = this.morphGroupModel
 
-      if (i === this.current) {
-        this.activateTrigger()
+      // pick random box, other than current one
+      while (value === this.morphGroupModel) {
+        const i = Math.floor(Math.random() * boxValues.length)
+        value = boxValues[i]
       }
-      else {
-        this.current = i
-        this.$set(this.triggers, i, (this.triggers[i] || 0) + 1)
-      }
+
+      this.morphGroupModel = value
     }
   }
 }
