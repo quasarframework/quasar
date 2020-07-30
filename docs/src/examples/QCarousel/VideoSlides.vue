@@ -19,10 +19,10 @@
         />
       </q-carousel-slide>
 
-      <q-carousel-slide name="chill-mix">
+      <q-carousel-slide name="relax-mix">
         <q-video
           class="absolute-full"
-          src="https://www.youtube.com/embed/rQLhZlI6aTM"
+          src="https://www.youtube.com/embed/v9vrv6CWC3s"
         />
       </q-carousel-slide>
     </q-carousel>
@@ -34,7 +34,7 @@
         :options="[
           { label: 'Soft Jazz', value: 'soft-jazz' },
           { label: 'Rihanna', value: 'Rihanna' },
-          { label: 'Chill Mix', value: 'chill-mix' }
+          { label: 'Relax Mix', value: 'relax-mix' }
         ]"
       />
     </div>

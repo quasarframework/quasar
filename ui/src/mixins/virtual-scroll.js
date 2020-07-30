@@ -194,7 +194,7 @@ export default {
       this.__resetVirtualScroll(toIndex === void 0 ? this.prevToIndex : toIndex)
     },
 
-    scrollTo (toIndex) {
+    scrollTo (toIndex, edge) {
       const scrollEl = this.__getVirtualScrollTarget()
 
       if (scrollEl === void 0 || scrollEl === null || scrollEl.nodeType === 8) {
@@ -214,7 +214,7 @@ export default {
         ),
         Math.min(this.virtualScrollLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)),
         0,
-        this.prevToIndex > -1 && toIndex > this.prevToIndex ? 'end' : 'start'
+        [ 'end', 'start' ].indexOf(edge) > -1 ? edge : (this.prevToIndex > -1 && toIndex > this.prevToIndex ? 'end' : 'start')
       )
     },
 
