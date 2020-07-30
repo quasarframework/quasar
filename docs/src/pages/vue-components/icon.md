@@ -108,7 +108,7 @@ The current disadvantage is that it is more tedious to use these icons than thei
 
 ### Svg usage
 
-Notice in the example below that we want to avoid Vue observable wrapping, so we inject icons on the instance through created() hook. It will work if declared in data() too, but... overhead.
+Notice in the example below that we want to avoid the Vue observable wrapping, so we inject icons on the instance through created() hook. It will work if declared in data() too, but... overhead.
 
 ```html
 <template>
@@ -330,12 +330,13 @@ Examples:
 </svg>
 ```
 
-## SVG use
+## SVG-use way <q-badge align="top" label="v1.13+" />
 
-All utilized SVG can also be stored in a single external file.
+This svg method allows you to store the SVG files as static assets and reference them.
 
 ```html
-// icons.svg
+// File: /public/icons.svg
+// (or the old /src/statics/icons.svg for @quasar/app v1)
 
 <svg xmlns="http://www.w3.org/2000/svg">
   <symbol id="icon-1" viewBox="0 0 24 24">
@@ -347,7 +348,7 @@ All utilized SVG can also be stored in a single external file.
 </svg>
 ```
 
-The HTML way is to include the file and specify the icon with the `svg use` tag.
+The standard HTML way is to include the file and specify the icon with the `svg use` tag.
 
 ```HTML
 <svg>
@@ -355,17 +356,13 @@ The HTML way is to include the file and specify the icon with the `svg use` tag.
 </svg>
 ```
 
-To easily embed this into quasar, there is the prefix `svguse:` available to specify file and icon.
+To use this with Quasar through QIcon (make sure that you are referencing the correct file from your public or statics folder):
 
 ```HTML
 <q-icon name="svguse:icons.svg#icon-1">
-```
-or
-```HTML
+<!-- or -->
 <q-btn-dropdown label="Custom Content" dropdown-icon="svguse:icons.svg#icon-2" />
 ```
-
-
 
 ## Inlined svg <q-badge align="top" label="v1.7+" />
 
