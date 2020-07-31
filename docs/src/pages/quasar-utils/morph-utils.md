@@ -31,12 +31,12 @@ The function expects one mandatory Object parameter with the following keys:
 | from | DOM | - | (**required**) A DOM element or CSS selector or a function returning a DOM element |
 | to | DOM | - | Same as "from"; if "to" is missing, then it is assumes that it is the same as "from" |
 | onToggle() | Function | - | A synchronous toggle function that will be executed immediately after the state of the initial element is saved. Use a function that toggles the state of the components so that the destination element becomes available. |
-| waitFor | Number | 0 | A number, 'transitionend' or a Promise - it will delay animation start for that number of milliseconds, or until a 'transitionend' event is emitted by the destination element, or until the promise is resolved (if the promise is rejected the morphing will abort, but the `toggle function` was already called) |
+| waitFor | Number/'transitioned'/Promise | 0 | A number, 'transitionend' or a Promise - it will delay animation start for that number of milliseconds, or until a 'transitionend' event is emitted by the destination element, or until the promise is resolved (if the promise is rejected the morphing will abort, but the `toggle function` was already called) |
 | duration | Number | 300 | The duration in milliseconds for the animation |
-| easing | String | 'ease-in-out' | the timing function for the animation (CSS easing format) |
+| easing | String | 'ease-in-out' | The timing function for the animation (CSS easing format) |
 | delay | Number | 0 | The delay in milliseconds for the animation |
 | fill | String | 'none' | The fill mode for the animation |
-| style | String | - | the extra style to be applied to the morphing element while it is animated (either as string or a CSSStyleDeclaration object) |
+| style | String/Object | - | The extra style to be applied to the morphing element while it is animated (either as string or a CSSStyleDeclaration object) |
 | classes | String | - | The extra classes to be applied to the morphing element while it is animated (as string) |
 | resize | Boolean | *false* | Force resizing instead of the default scaling transformation |
 | useCSS | Boolean | *false* | Force use of CSS instead of the Animation API |
