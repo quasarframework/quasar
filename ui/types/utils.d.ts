@@ -26,30 +26,30 @@ export function throttle<F extends (...args: any[]) => any>(
 ): F;
 export function uid(): string;
 
-// interface MorphUtil {
-//   from: Element | string | (() => Element);
-//   to?: Element | string | (() => Element);
-//   onToggle?: () => any;
-//   waitFor?: number | 'transitionend' | Promise<any>;
+interface MorphOptions {
+  from: Element | string | (() => Element | undefined);
+  to?: Element | string | (() => Element | undefined);
+  onToggle?: () => void;
+  waitFor?: number | 'transitionend' | Promise<any>;
 
-//   duration?: number;
-//   easing?: string;
-//   delay?: number;
-//   fill?: string;
+  duration?: number;
+  easing?: string;
+  delay?: number;
+  fill?: string;
 
-//   style?: string | Partial<CSSStyleDeclaration>;
-//   classes?: string;
+  style?: string | Partial<CSSStyleDeclaration>;
+  classes?: string;
 
-//   resize?: boolean;
-//   useCSS?: boolean;
-//   hideFromClone?: boolean;
-//   keepToClone?: boolean;
+  resize?: boolean;
+  useCSS?: boolean;
+  hideFromClone?: boolean;
+  keepToClone?: boolean;
 
-//   tween?: boolean;
-//   tweenFromOpacity?: number;
-//   tweenToOpacity?: number;
+  tween?: boolean;
+  tweenFromOpacity?: number;
+  tweenToOpacity?: number;
 
-//   onReady?: (end: 'to' | 'from') => any;
-// }
+  onReady?: (end: 'to' | 'from') => void;
+}
 
-// export function morph(): () => boolean
+export function morph(options: MorphOptions): () => boolean;
