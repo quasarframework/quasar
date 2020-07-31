@@ -27,8 +27,8 @@ export function throttle<F extends (...args: any[]) => any>(
 export function uid(): string;
 
 interface MorphOptions {
-  from: Element | string | (() => Element | undefined);
-  to?: Element | string | (() => Element | undefined);
+  from: Element | string | (() => Element | null | undefined);
+  to?: Element | string | (() => Element | null | undefined);
   onToggle?: () => void;
   waitFor?: number | 'transitionend' | Promise<any>;
 
@@ -52,4 +52,4 @@ interface MorphOptions {
   onReady?: (end: 'to' | 'from') => void;
 }
 
-export function morph(options: MorphOptions): () => boolean;
+export function morph(options: MorphOptions): (abort?: boolean) => boolean;

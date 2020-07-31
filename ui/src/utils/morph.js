@@ -660,10 +660,16 @@ export default function morph (_options) {
         animationTo.addEventListener('finish', cleanup)
         animationTo.addEventListener('cancel', cleanup)
 
-        cancel = () => {
+        cancel = abort => {
           // we are not in a morph that we can cancel
           if (cancelStatus === true || animationTo === void 0) {
             return false
+          }
+
+          if (abort === true) {
+            cleanup()
+
+            return true
           }
 
           endElementTo = endElementTo !== true
@@ -855,10 +861,16 @@ export default function morph (_options) {
         elTo.addEventListener('animationend', cleanup)
         elTo.addEventListener('animationcancel', cleanup)
 
-        cancel = () => {
+        cancel = abort => {
           // we are not in a morph that we can cancel
           if (cancelStatus === true || !elTo || !elFromClone || !elToClone) {
             return false
+          }
+
+          if (abort === true) {
+            cleanup()
+
+            return true
           }
 
           endElementTo = endElementTo !== true
@@ -924,5 +936,5 @@ export default function morph (_options) {
   // returns:
   //   false if the cancel cannot be performed (the morph ended already or has not started)
   //   true else
-  return () => cancel()
+  return abort => cancel(abort)
 }
