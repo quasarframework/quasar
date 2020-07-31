@@ -208,7 +208,7 @@ export default {
       destroy(el)
     }
     else {
-      delete el.__qmorph__old
+      delete el.__qmorph_destroyed
     }
   }
 }
