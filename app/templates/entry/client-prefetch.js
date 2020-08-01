@@ -99,6 +99,7 @@ export function addPreFetchHooks (router<%= store ? ', store' : '' %>, publicPat
     preFetchList.reduce(
       (promise, preFetch) => promise.then(() => hasRedirected === false && preFetch({
         <% if (store) { %>store,<% } %>
+        router,
         currentRoute: to,
         previousRoute: from,
         redirect,

@@ -150,6 +150,7 @@ export default context => {
         (promise, c) => promise.then(() => hasRedirected === false && c.preFetch({
           <% if (store) { %>store,<% } %>
           ssrContext: context,
+          router,
           currentRoute: router.currentRoute,
           redirect,
           urlPath: context.url,

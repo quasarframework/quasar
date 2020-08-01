@@ -1,9 +1,10 @@
 import Vue from "vue";
-import { RawLocation, Route } from "vue-router";
+import { RawLocation, Route, Router } from "vue-router";
 import { HasSsrParam } from "./ssr";
 import { HasStoreParam } from "./store";
 
 interface PreFetchOptions<TStore> extends HasSsrParam, HasStoreParam<TStore> {
+  router: Router,
   currentRoute: Route;
   previousRoute: Route;
   redirect: (url: RawLocation) => void;
