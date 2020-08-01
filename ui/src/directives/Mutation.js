@@ -1,5 +1,3 @@
-import { isDeepEqual } from '../utils/is.js'
-
 const defaultCfg = {
   childList: true,
   subtree: true,
@@ -9,38 +7,20 @@ const defaultCfg = {
   characterDataOldValue: true
 }
 
-function update (el, ctx, { modifiers: { once, ...mod }, value }) {
-  let changed
+function update (el, ctx, value) {
+  ctx.handler = value
+  ctx.observer !== void 0 && ctx.observer.disconnect()
 
-  ctx.once = once
-
-  if (ctx.handler !== value) {
-    changed = true
-    ctx.handler = value
-  }
-
-  if (ctx.opts === void 0 || isDeepEqual(mod, ctx.mod) === false) {
-    changed = true
-    ctx.mod = mod
-    ctx.opts = Object.keys(mod).length === 0
-      ? defaultCfg
-      : mod
-  }
-
-  if (changed === true) {
-    ctx.observer !== void 0 && ctx.observer.disconnect()
-
-    ctx.observer = new MutationObserver(list => {
-      if (typeof ctx.handler === 'function') {
-        const res = ctx.handler(list)
-        if (res === false || ctx.once === true) {
-          destroy(el)
-        }
+  ctx.observer = new MutationObserver(list => {
+    if (typeof ctx.handler === 'function') {
+      const res = ctx.handler(list)
+      if (res === false || ctx.once === true) {
+        destroy(el)
       }
-    })
+    }
+  })
 
-    ctx.observer.observe(el, ctx.opts)
-  }
+  ctx.observer.observe(el, ctx.opts)
 }
 
 function destroy (el) {
@@ -55,16 +35,37 @@ function destroy (el) {
 export default {
   name: 'mutation',
 
-  inserted (el, binding) {
-    const ctx = {}
-    update(el, ctx, binding)
+  inserted (el, { modifiers: { once, ...mod }, value }) {
+    if (el.__qmutation !== void 0) {
+      destroy(el)
+      el.__qmutation_destroyed = true
+    }
+
+    const ctx = {
+      once,
+      opts: Object.keys(mod).length === 0
+        ? defaultCfg
+        : mod
+    }
+
+    update(el, ctx, value)
+
     el.__qmutation = ctx
   },
 
-  update (el, binding) {
+  update (el, { oldValue, value }) {
     const ctx = el.__qmutation
-    ctx !== void 0 && update(el, ctx, binding)
+    if (ctx !== void 0 && oldValue !== value) {
+      update(el, ctx, value)
+    }
   },
 
-  unbind: destroy
+  unbind (el) {
+    if (el.__qmutation_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qmutation_destroyed
+    }
+  }
 }

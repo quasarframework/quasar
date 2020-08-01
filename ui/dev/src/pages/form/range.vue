@@ -139,12 +139,12 @@
       <p class="caption">
         Readonly State
       </p>
-      <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" readonly />
+      <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" readonly label />
 
       <p class="caption">
         Disabled State
       </p>
-      <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" disable />
+      <q-range :vertical="vertical" :dark="dark" :dense="dense" v-model="standalone" :min="0" :max="50" disable label />
 
       <p class="caption">
         Null Min Value

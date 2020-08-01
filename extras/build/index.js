@@ -1,16 +1,20 @@
 const parallel = require('os').cpus().length > 1
-const runJob = parallel ? require('child_process').fork : require
+const run = parallel ? require('child_process').fork : require
 const { join } = require('path')
 
-runJob(join(__dirname, './webfonts.js'))
-runJob(join(__dirname, './animate.js'))
+function runJob (scriptFile) {
+  run(join(__dirname, scriptFile))
+}
 
-runJob(join(__dirname, './mdi-v5.js'))
-runJob(join(__dirname, './fontawesome-v5.js'))
-runJob(join(__dirname, './ionicons-v5.js'))
-runJob(join(__dirname, './eva-icons.js'))
-runJob(join(__dirname, './themify.js'))
-runJob(join(__dirname, './line-awesome.js'))
+runJob('./webfonts.js')
+runJob('./animate.js')
+
+runJob('./mdi-v5.js')
+runJob('./fontawesome-v5.js')
+runJob('./ionicons-v5.js')
+runJob('./eva-icons.js')
+runJob('./themify.js')
+runJob('./line-awesome.js')
 
 // this one takes the longest
-runJob(join(__dirname, './material-icons.js'))
+runJob('./material-icons.js')

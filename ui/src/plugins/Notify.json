@@ -135,6 +135,14 @@
         ]
       },
 
+      "attrs": {
+        "type": "Object",
+        "desc": "Key-value for attributes to be set on the notification",
+        "examples": [ "{ role: 'alertdialog' }" ],
+        "__exemption": [ "definition" ],
+        "addedIn": "v1.13.0"
+      },
+
       "timeout": {
         "type": "Number",
         "desc": "Amount of time to display (in milliseconds)",
@@ -294,6 +302,14 @@
               ]
             },
 
+            "attrs": {
+              "type": "Object",
+              "desc": "Key-value for attributes to be set on the notification",
+              "examples": [ "{ role: 'alertdialog' }" ],
+              "__exemption": [ "definition" ],
+              "addedIn": "v1.13.0"
+            },
+
             "timeout": {
               "type": "Number",
               "desc": "Amount of time to display (in milliseconds)",
@@ -305,7 +321,7 @@
               "type": "Array",
               "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
               "examples": [
-                "[ { label: 'Show', handler: (Function) }, { icon: 'map', handler: (Function), color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: (Function) } ]"
+                "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' }, { label: 'Learn more', noDismiss: true, handler: (Function) } ]"
               ]
             },
 
@@ -477,6 +493,14 @@
               ]
             },
 
+            "attrs": {
+              "type": "Object",
+              "desc": "Key-value for attributes to be set on the notification",
+              "examples": [ "{ role: 'alertdialog' }" ],
+              "__exemption": [ "definition" ],
+              "addedIn": "v1.13.0"
+            },
+
             "timeout": {
               "type": "Number",
               "desc": "Amount of time to display (in milliseconds)",
@@ -488,7 +512,7 @@
               "type": "Array",
               "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
               "examples": [
-                "[ { label: 'Show', handler: (Function) }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
+                "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
               ]
             },
 
@@ -656,6 +680,14 @@
               ]
             },
 
+            "attrs": {
+              "type": "Object",
+              "desc": "Key-value for attributes to be set on the notification",
+              "examples": [ "{ role: 'alertdialog' }" ],
+              "__exemption": [ "definition" ],
+              "addedIn": "v1.13.0"
+            },
+
             "timeout": {
               "type": "Number",
               "desc": "Amount of time to display (in milliseconds)",
@@ -667,7 +699,7 @@
               "type": "Array",
               "desc": "Notification actions (buttons); If a 'handler' is specified or not, clicking/tapping on the button will also close the notification; Also check 'closeBtn' convenience prop",
               "examples": [
-                "[ { label: 'Show', handler: (Function) }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
+                "[ { label: 'Show', handler: (Function), attrs: { 'aria-label': 'Button label' } }, { icon: 'map', handler: (Function), color: 'yellow' } ]"
               ]
             },
 
