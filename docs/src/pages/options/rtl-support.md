@@ -16,9 +16,9 @@ build: {
 ```
 
 ## How it works
-RTL is tightly coupled to [Quasar Language Packs](/options/quasar-language-packs). **When Quasar is set to use an RTL language** (language pack has "rtl" prop set to "true") and **RTL support is enabled** (check step above for quasar.conf.js), then the UI will dynamically transform Quasar & your website/app code for RTL.
+RTL is tightly coupled to [Quasar Language Packs](/options/quasar-language-packs). **When Quasar is set to use an RTL language** (language pack has "rtl" prop set to "true") and **RTL support is enabled** (check step above for quasar.conf.js), then the UI will dynamically transform Quasar & your website/app code for RTL, but if your app is written in RTL and want to have LTR support, make sure to **enable fromRTL support**
 
-Let's discuss about each of these two requirements:
+Let's discuss about each of these three requirements:
 
 1. *Quasar needs to be set to use an RTL language*.
   See [Quasar Language Packs](/options/quasar-language-packs) on how you can set a language. You can set a language as default or dynamically set one.
@@ -26,10 +26,13 @@ Let's discuss about each of these two requirements:
 2. *RTL support needs to be enabled*.
   You need to set "rtl" to "true" under quasar.conf.js > "build". What this does is it compiles CSS for both your website/app code and for Quasar components and add corresponding RTL CSS rules automatically. Your CSS bundle will slightly increase in size due to the addition of these CSS rules.
 
+3. *Enable fromRTL flag*.
+  You need to set "fromRTL" to true under quasar.conf.js > "build". By setting this flag to true, Quasar assumes that all styles are written in RTL direction and generates corresponding LTR styles for them.
+
 ## Things to keep in mind
 * Both RTL and non-RTL Quasar language packs will work together and dynamically switch to/from RTL. So only choosing an RTL Quasar language pack will trigger the RTL UI for you. You don't need separate builds of your app (one for non-RTL and one for RTL-only). The RTL is dynamically changed for you automatically.
 * You can dynamically detect if you are on RTL mode by taking a look at Boolean `this.$q.lang.rtl`. More info on [Vue Prototype Injections](/options/vue-prototype-injections).
-* You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL rules based on your CSS code. So writing:
+* You need to be careful when writing your own CSS. Like mentioned above, Quasar will automatically add RTL (LTR if "fromRTL" is set to true) rules based on your CSS code. So writing:
 
 ```css
 .my-class {
