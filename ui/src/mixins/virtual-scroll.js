@@ -31,11 +31,11 @@ function getScrollDetails (
 
   if (horizontal === true) {
     if (parent === window) {
-      details.scrollStart = window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
+      details.scrollStart = Math.abs(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0)
       details.scrollViewSize += window.innerWidth
     }
     else {
-      details.scrollStart = parentCalc.scrollLeft
+      details.scrollStart = Math.abs(parentCalc.scrollLeft)
       details.scrollViewSize += parentCalc.clientWidth
     }
     details.scrollMaxSize = parentCalc.scrollWidth
@@ -336,7 +336,7 @@ export default {
 
         this.__setScroll(
           scrollEl,
-          scrollPosition,
+          (this.$q.lang.rtl === true ? -1 : 1) * scrollPosition,
           this.virtualScrollHorizontal
         )
 
