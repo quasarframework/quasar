@@ -1,9 +1,32 @@
 import debounce from '../utils/debounce.js'
-import frameDebounce from '../utils/frame-debounce.js'
 
 const aggBucketSize = 1000
 
 const slice = Array.prototype.slice
+
+let buggyRTL = void 0
+
+// mobile Chrome takes the crown for this
+function detectBuggyRTL() {
+  const scroller = document.createElement('div')
+  const spacer = document.createElement('div')
+
+  scroller.setAttribute('dir', 'rtl')
+  scroller.style.width = '1px'
+  scroller.style.height = '1px'
+  scroller.style.overflow = 'auto'
+
+  spacer.style.width = '1000px'
+  spacer.style.height = '1px'
+
+  document.body.appendChild(scroller)
+  scroller.appendChild(spacer)
+  scroller.scrollLeft = -1000
+
+  buggyRTL = scroller.scrollLeft >= 0
+
+  scroller.remove()
+}
 
 function sumFn (acc, h) {
   return acc + h
@@ -15,6 +38,7 @@ function getScrollDetails (
   beforeRef,
   afterRef,
   horizontal,
+  rtl,
   stickyStart,
   stickyEnd
 ) {
@@ -31,14 +55,18 @@ function getScrollDetails (
 
   if (horizontal === true) {
     if (parent === window) {
-      details.scrollStart = Math.abs(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0)
+      details.scrollStart = window.pageXOffset || window.scrollX || document.body.scrollLeft || 0
       details.scrollViewSize += window.innerWidth
     }
     else {
-      details.scrollStart = Math.abs(parentCalc.scrollLeft)
+      details.scrollStart = parentCalc.scrollLeft
       details.scrollViewSize += parentCalc.clientWidth
     }
     details.scrollMaxSize = parentCalc.scrollWidth
+
+    if (rtl === true) {
+      details.scrollStart = (buggyRTL === true ? details.scrollMaxSize - details.scrollViewSize : 0) - details.scrollStart
+    }
   }
   else {
     if (parent === window) {
@@ -90,17 +118,26 @@ function getScrollDetails (
   return details
 }
 
-function setScroll (parent, scroll, horizontal) {
+function setScroll (parent, scroll, horizontal, rtl) {
   if (parent === window) {
     if (horizontal === true) {
+      if (rtl === true) {
+        scroll = (buggyRTL === true ? document.body.scrollWidth - window.innerWidth : 0) - scroll
+      }
       window.scrollTo(scroll, window.pageYOffset || window.scrollY || document.body.scrollTop || 0)
     }
     else {
       window.scrollTo(window.pageXOffset || window.scrollX || document.body.scrollLeft || 0, scroll)
     }
   }
+  else if (horizontal === true) {
+    if (rtl === true) {
+      scroll = (buggyRTL === true ? parent.scrollWidth - parent.offsetWidth : 0) - scroll
+    }
+    parent.scrollLeft = scroll
+  }
   else {
-    parent[horizontal === true ? 'scrollLeft' : 'scrollTop'] = scroll
+    parent.scrollTop = scroll
   }
 }
 
@@ -209,6 +246,7 @@ export default {
           this.$refs.before,
           this.$refs.after,
           this.virtualScrollHorizontal,
+          this.$q.lang.rtl,
           this.virtualScrollStickySizeStart,
           this.virtualScrollStickySizeEnd
         ),
@@ -232,6 +270,7 @@ export default {
           this.$refs.before,
           this.$refs.after,
           this.virtualScrollHorizontal,
+          this.$q.lang.rtl,
           this.virtualScrollStickySizeStart,
           this.virtualScrollStickySizeEnd
         ),
@@ -304,6 +343,7 @@ export default {
       }
 
       const hadFocus = rangeChanged === true && typeof scrollEl.contains === 'function' && scrollEl.contains(document.activeElement)
+      const sizeBefore = align !== void 0 ? this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
       if (rangeChanged === true) {
         this.virtualScrollSliceRange = { from, to }
@@ -321,23 +361,28 @@ export default {
         }
 
         const
-          posStart = this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, scrollDetails.offsetStart + this.virtualScrollPaddingBefore),
-          posEnd = posStart + this.virtualScrollSizes[toIndex]
+          sizeAfter = this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0),
+          posStart = sizeAfter + scrollDetails.offsetStart + this.virtualScrollPaddingBefore,
+          posEnd = posStart + this.virtualScrollSizes[toIndex],
+          rtl = this.$q.lang.rtl === true
 
         let scrollPosition = posStart + offset
 
         if (align !== void 0) {
-          scrollPosition = scrollDetails.scrollStart < posStart && posEnd < scrollDetails.scrollStart + scrollDetails.scrollViewSize
-            ? scrollDetails.scrollStart
+          const sizeDiff = sizeAfter - sizeBefore
+
+          scrollPosition = scrollDetails.scrollStart + sizeDiff < posStart && posEnd < scrollDetails.scrollStart + scrollDetails.scrollViewSize
+            ? scrollDetails.scrollStart + sizeDiff
             : (align === 'end' ? posEnd - scrollDetails.scrollViewSize : posStart)
         }
 
         this.prevScrollStart = scrollPosition
 
-        this.__setScroll(
+        setScroll(
           scrollEl,
-          (this.$q.lang.rtl === true ? -1 : 1) * scrollPosition,
-          this.virtualScrollHorizontal
+          scrollPosition,
+          this.virtualScrollHorizontal,
+          rtl
         )
 
         this.__emitScroll(toIndex)
@@ -351,18 +396,18 @@ export default {
         const
           children = slice.call(contentEl.children).filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
           childrenLength = children.length,
-          sizeProp = this.virtualScrollHorizontal === true ? 'offsetWidth' : 'offsetHeight'
+          sizeProp = this.virtualScrollHorizontal === true ? 'width' : 'height'
 
         let
           index = from,
           size, diff
 
         for (let i = 0; i < childrenLength;) {
-          size = children[i][sizeProp]
+          size = (children[i].getBoundingClientRect())[sizeProp]
           i++
 
           while (i < childrenLength && children[i].classList.contains('q-virtual-scroll--with-prev') === true) {
-            size += children[i][sizeProp]
+            size += (children[i].getBoundingClientRect())[sizeProp]
             i++
           }
 
@@ -507,8 +552,8 @@ export default {
   },
 
   beforeMount () {
+    buggyRTL === void 0 && detectBuggyRTL()
     this.__onVirtualScrollEvt = debounce(this.__onVirtualScrollEvt, 70)
-    this.__setScroll = frameDebounce(setScroll)
     this.__setVirtualScrollSize()
   }
 }
