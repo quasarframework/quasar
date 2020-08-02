@@ -303,6 +303,8 @@ export default {
         return
       }
 
+      const hadFocus = rangeChanged === true && typeof scrollEl.contains === 'function' && scrollEl.contains(document.activeElement)
+
       if (rangeChanged === true) {
         this.virtualScrollSliceRange = { from, to }
         this.virtualScrollPaddingBefore = sumSize(this.virtualScrollSizesAgg, this.virtualScrollSizes, 0, from)
@@ -312,6 +314,10 @@ export default {
       this.$nextTick(() => {
         if (rangeChanged === true) {
           this.__updateVirtualScrollSizes(from)
+
+          if (hadFocus === true && scrollEl.contains(document.activeElement) !== true) {
+            scrollEl.focus()
+          }
         }
 
         const
