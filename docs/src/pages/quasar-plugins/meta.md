@@ -36,7 +36,7 @@ export default {
         // optional; similar to titleTemplate, but allows templating with other meta properties
         template (ogTitle) {  
           return `${ogTitle} - My Website`
-         }
+        }
       }
     },
 
