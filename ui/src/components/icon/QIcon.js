@@ -180,7 +180,7 @@ export default Vue.extend({
     if (this.type.svguse === true) {
       data.attrs.focusable = 'false' /* needed for IE11 */
       data.attrs.viewBox = this.type.viewBox
-      
+
       return h('svg', data, [
         h('use', {
           attrs: {
