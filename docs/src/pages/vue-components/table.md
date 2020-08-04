@@ -184,7 +184,7 @@ Below is an example with the user being able to edit “in place” with the hel
 ## Grid style
 
 ::: tip
-You can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid="$q.screen.lt.md`. More info: [Screen Plugin](/options/screen-plugin).
+You can use the `grid` prop along with `$q.screen` to create a responsive behavior. Example: `:grid="$q.screen.lt.md"`. More info: [Screen Plugin](/options/screen-plugin).
 :::
 
 In the example below, we let QTable deal with displaying the grid mode (not using the specific slot):
