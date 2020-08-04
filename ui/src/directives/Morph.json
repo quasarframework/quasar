@@ -115,7 +115,7 @@
 
       "onReady": {
         "type": "Function",
-        "desc": "A function that will be called once the morphing is finished",
+        "desc": "A function that will be called once the morphing is finished; Not called if morphing is aborted",
         "returns": null,
         "params": {
           "direction": {

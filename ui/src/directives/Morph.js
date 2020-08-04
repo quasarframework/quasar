@@ -33,7 +33,7 @@ function trigger (group) {
   changeClass(from, 'remove')
   changeClass(to, 'remove')
 
-  morph({
+  const cancelFn = morph({
     from: from.el,
     to: to.el,
     onToggle () {
@@ -41,18 +41,24 @@ function trigger (group) {
       changeClass(to, 'remove')
     },
     ...to.opts,
-    onReady () {
+    onReady (dir) {
       from.animating = false
       to.animating = false
 
       group.animating = false
+      group.cancel = void 0
       group.queue.shift()
 
-      // TODO: call ctx.onReady() if available
+      to.opts.onReady !== void 0 && to.opts.onReady(dir)
 
       trigger(group)
     }
   })
+
+  group.cancel = () => {
+    cancelFn(true) // abort
+    group.cancel = void 0
+  }
 }
 
 function updateModifiers (mod, ctx) {
@@ -163,6 +169,7 @@ function destroy (el) {
         group.queue = group.queue.filter(item => item !== ctx)
 
         if (group.queue.length === 0) {
+          group.cancel !== void 0 && group.cancel()
           delete morphGroups[ctx.group]
         }
       }
