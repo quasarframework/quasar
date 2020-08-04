@@ -364,6 +364,12 @@ To use this with Quasar through QIcon (make sure that you are referencing the co
 <q-btn-dropdown label="Custom Content" dropdown-icon="svguse:icons.svg#icon-2" />
 ```
 
+By default, the parent svg's viewBox is "0 0 24 24". However, you can also specify a custom one:
+
+```HTML
+<q-icon name="svguse:icons.svg#icon-1|10 15 40 40" />
+```
+
 ## Inlined svg <q-badge align="top" label="v1.7+" />
 
 If you don't want to use the webfont or svg variants from above, note that QIcon also supports one inlined `<svg>` tag (the content of the svg can be anything, not only a path).
