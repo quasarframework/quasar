@@ -7,7 +7,7 @@ const slice = Array.prototype.slice
 let buggyRTL = void 0
 
 // mobile Chrome takes the crown for this
-function detectBuggyRTL() {
+function detectBuggyRTL () {
   const scroller = document.createElement('div')
   const spacer = document.createElement('div')
 
@@ -164,7 +164,7 @@ function sumSize (sizeAgg, size, from, to) {
 const commonVirtScrollProps = {
   virtualScrollSliceSize: {
     type: Number,
-    default: 30
+    default: null
   },
 
   virtualScrollItemSize: {
@@ -274,21 +274,25 @@ export default {
           this.virtualScrollStickySizeStart,
           this.virtualScrollStickySizeEnd
         ),
-        scrollMaxStart = scrollDetails.scrollMaxSize - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd) - this.virtualScrollSizes[this.virtualScrollLength - 1],
-        listLastIndex = this.virtualScrollLength - 1
+        listLastIndex = this.virtualScrollLength - 1,
+        listEndOffset = scrollDetails.scrollMaxSize - scrollDetails.offsetStart - scrollDetails.offsetEnd - this.virtualScrollPaddingAfter
 
       if (this.prevScrollStart === scrollDetails.scrollStart) {
         return
       }
       this.prevScrollStart = void 0
 
+      this.__scrollViewSize !== scrollDetails.scrollViewSize && this.__setVirtualScrollSize(scrollDetails.scrollViewSize)
+
       this.__updateVirtualScrollSizes(this.virtualScrollSliceRange.from)
+
+      const scrollMaxStart = scrollDetails.scrollMaxSize - Math.max(scrollDetails.scrollViewSize, scrollDetails.offsetEnd) - this.virtualScrollSizes[listLastIndex]
 
       if (scrollMaxStart > 0 && scrollDetails.scrollStart >= scrollMaxStart) {
         this.__setVirtualScrollSliceRange(
           scrollEl,
           scrollDetails,
-          this.virtualScrollLength - 1,
+          listLastIndex,
           scrollDetails.scrollMaxSize - scrollDetails.offsetEnd - this.virtualScrollSizesAgg.reduce(sumFn, 0)
         )
 
@@ -300,9 +304,16 @@ export default {
         listOffset = scrollDetails.scrollStart - scrollDetails.offsetStart,
         offset = listOffset
 
-      for (let j = 0; listOffset >= this.virtualScrollSizesAgg[j] && toIndex < listLastIndex; j++) {
-        listOffset -= this.virtualScrollSizesAgg[j]
-        toIndex += aggBucketSize
+      if (listOffset <= listEndOffset && listOffset + scrollDetails.scrollViewSize >= this.virtualScrollPaddingBefore) {
+        listOffset -= this.virtualScrollPaddingBefore
+        toIndex = this.virtualScrollSliceRange.from
+        offset = listOffset
+      }
+      else {
+        for (let j = 0; listOffset >= this.virtualScrollSizesAgg[j] && toIndex < listLastIndex; j++) {
+          listOffset -= this.virtualScrollSizesAgg[j]
+          toIndex += aggBucketSize
+        }
       }
 
       while (listOffset > 0 && toIndex < listLastIndex) {
@@ -326,7 +337,7 @@ export default {
 
     __setVirtualScrollSliceRange (scrollEl, scrollDetails, toIndex, offset, align) {
       let
-        from = Math.max(0, Math.ceil(toIndex - (align === void 0 ? 3 : 2) * this.virtualScrollSliceSizeComputed / 6)),
+        from = Math.max(0, Math.ceil(toIndex - this.virtualScrollSliceSizeComputed / (align === void 0 ? 2 : (align === 'start' ? 6 : 1.2)))),
         to = from + this.virtualScrollSliceSizeComputed
 
       if (to > this.virtualScrollLength) {
@@ -351,13 +362,19 @@ export default {
         this.virtualScrollPaddingAfter = sumSize(this.virtualScrollSizesAgg, this.virtualScrollSizes, to, this.virtualScrollLength)
       }
 
-      this.$nextTick(() => {
+      this.__activeScrollStart = scrollDetails.scrollStart
+
+      requestAnimationFrame(() => {
+        if (hadFocus === true && scrollEl.contains(document.activeElement) !== true) {
+          scrollEl.focus()
+        }
+
+        if (this.__activeScrollStart !== scrollDetails.scrollStart) {
+          return
+        }
+
         if (rangeChanged === true) {
           this.__updateVirtualScrollSizes(from)
-
-          if (hadFocus === true && scrollEl.contains(document.activeElement) !== true) {
-            scrollEl.focus()
-          }
         }
 
         const
@@ -396,18 +413,20 @@ export default {
         const
           children = slice.call(contentEl.children).filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
           childrenLength = children.length,
-          sizeProp = this.virtualScrollHorizontal === true ? 'width' : 'height'
+          sizeFn = this.virtualScrollHorizontal === true
+            ? el => el.getBoundingClientRect().width
+            : el => el.offsetHeight
 
         let
           index = from,
           size, diff
 
         for (let i = 0; i < childrenLength;) {
-          size = (children[i].getBoundingClientRect())[sizeProp]
+          size = sizeFn(children[i])
           i++
 
           while (i < childrenLength && children[i].classList.contains('q-virtual-scroll--with-prev') === true) {
-            size += (children[i].getBoundingClientRect())[sizeProp]
+            size = sizeFn(children[i])
             i++
           }
 
@@ -467,17 +486,35 @@ export default {
       }
     },
 
-    __setVirtualScrollSize () {
-      if (this.virtualScrollHorizontal === true) {
-        this.virtualScrollSliceSizeComputed = typeof window === 'undefined'
-          ? this.virtualScrollSliceSize
-          : Math.max(this.virtualScrollSliceSize, Math.ceil(window.innerWidth / this.virtualScrollItemSize * 2))
+    __setVirtualScrollSize (scrollViewSize) {
+      if (this.virtualScrollSliceSize > 0) {
+        this.virtualScrollSliceSizeComputed = this.virtualScrollSliceSize
+
+        return
       }
-      else {
-        this.virtualScrollSliceSizeComputed = typeof window === 'undefined'
-          ? this.virtualScrollSliceSize
-          : Math.max(this.virtualScrollSliceSize, Math.ceil(window.innerHeight / this.virtualScrollItemSize * 2))
+
+      if (scrollViewSize === void 0 && typeof window !== 'undefined') {
+        const scrollEl = this.__getVirtualScrollTarget()
+
+        if (scrollEl !== void 0 && scrollEl !== null && scrollEl.nodeType !== 8) {
+          scrollViewSize = getScrollDetails(
+            scrollEl,
+            this.__getVirtualScrollEl(),
+            this.$refs.before,
+            this.$refs.after,
+            this.virtualScrollHorizontal,
+            this.$q.lang.rtl,
+            this.virtualScrollStickySizeStart,
+            this.virtualScrollStickySizeEnd
+          ).scrollViewSize
+        }
       }
+
+      this.__scrollViewSize = scrollViewSize
+
+      this.virtualScrollSliceSizeComputed = scrollViewSize === void 0
+        ? 30
+        : Math.ceil(scrollViewSize / this.virtualScrollItemSize * 3)
     },
 
     __padVirtualScroll (h, tag, content) {
@@ -553,7 +590,7 @@ export default {
 
   beforeMount () {
     buggyRTL === void 0 && detectBuggyRTL()
-    this.__onVirtualScrollEvt = debounce(this.__onVirtualScrollEvt, 70)
+    this.__onVirtualScrollEvt = debounce(this.__onVirtualScrollEvt, this.$q.platform.is.ios === true ? 120 : 70)
     this.__setVirtualScrollSize()
   }
 }
