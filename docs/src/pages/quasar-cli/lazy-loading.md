@@ -7,7 +7,7 @@ When your website/app is small, you can load all layouts/pages/components into t
 We'll cover how you can lazy load / code split parts of your app so that they are automatically requested only on demand. This is done through dynamic imports. Let's start with an example and then convert it so that we use lazy loading -- we'll focus this example on loading a page, but the same principle can be applied to load anything (assets, JSONs, ...):
 
 ## Lazy-load router pages
-It's normal to use the Vue-Router calling static components as bellow.
+It's normal to use the Vue-Router calling static components as below.
 ```js
 import SomePage from 'pages/SomePage'
 
