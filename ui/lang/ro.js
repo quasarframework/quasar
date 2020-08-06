@@ -24,7 +24,7 @@ export default {
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
     singleDay: 'zi',
-    pluralDay: 'zi'
+    pluralDay: 'zile'
   },
   table: {
     noData: 'Nu sunt date disponibile',
