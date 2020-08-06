@@ -207,7 +207,7 @@ export default {
           tween: this.tween,
           tweenFromOpacity: 1,
           tweenToOpacity: 0.5,
-          onReady: end => {
+          onEnd: end => {
             end === 'from' && onToggle()
             console.log('Morph 1 ready: ' + end)
           }
@@ -227,7 +227,7 @@ export default {
           resize: this.forceResize,
           useCSS: this.forceCssAnimation,
           classes: 'bg-orange',
-          onReady: end => {
+          onEnd: end => {
             end === 'from' && onToggle()
             console.log('Morph 2 ready: ' + end)
           }

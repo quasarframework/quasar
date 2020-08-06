@@ -6,7 +6,7 @@ const props = [
   'classes', 'style', 'duration', 'resize',
   'useCSS', 'hideFromClone', 'keepToClone', 'tween',
   'tweenFromOpacity', 'tweenToOpacity',
-  'waitFor', 'onReady'
+  'waitFor', 'onEnd'
 ]
 const mods = [
   'resize', 'useCSS', 'hideFromClone', 'keepToClone', 'tween'
@@ -41,15 +41,19 @@ function trigger (group) {
       changeClass(to, 'remove')
     },
     ...to.opts,
-    onReady (dir) {
+    onEnd (dir, aborted) {
+      to.opts.onEnd !== void 0 && to.opts.onEnd(dir, aborted)
+
+      if (aborted === true) {
+        return
+      }
+
       from.animating = false
       to.animating = false
 
       group.animating = false
       group.cancel = void 0
       group.queue.shift()
-
-      to.opts.onReady !== void 0 && to.opts.onReady(dir)
 
       trigger(group)
     }

@@ -102,7 +102,7 @@ function normalizeOptions (options) {
   }
   else if (typeof options === 'function') {
     options = {
-      onReady: options
+      onEnd: options
     }
   }
 
@@ -488,8 +488,8 @@ export default function morph (_options) {
         elTo.qMorphCancel = void 0
 
         // we are ready
-        if (aborted !== true) {
-          typeof options.onReady === 'function' && options.onReady(endElementTo === true ? 'to' : 'from')
+        if (typeof options.onEnd === 'function') {
+          options.onEnd(endElementTo === true ? 'to' : 'from', aborted === true)
         }
       }
 

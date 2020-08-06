@@ -71,7 +71,7 @@ export default {
           onToggle: toggleLogic,
           duration: 500,
           tween: true,
-          onReady: end => {
+          onEnd: end => {
             end === 'from' && toggleLogic()
           }
         })
@@ -91,7 +91,7 @@ export default {
           tween: true,
           tweenFromOpacity: 0.8,
           tweenToOpacity: 0.4,
-          onReady: end => {
+          onEnd: end => {
             end === 'from' && toggleLogic()
           }
         })
