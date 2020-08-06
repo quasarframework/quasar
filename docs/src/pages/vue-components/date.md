@@ -32,6 +32,24 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 
 <doc-example title="Landscape" file="QDate/Landscape" overflow />
 
+### Multiple selection <q-badge align="top" label="v1.13+" />
+
+Notice below that the model is an Array and we specify the "multiple" prop.
+
+<doc-example title="Multiple days" file="QDate/SelectionMultiple" overflow />
+
+### Range selection <q-badge align="top" label="v1.13+" />
+
+Notice in the examples below that the model is an Array of Arrays.
+
+<doc-example title="Single Range" file="QDate/SelectionRange" overflow />
+
+<doc-example title="Multiple ranges" file="QDate/SelectionRangeMultiple" overflow />
+
+The example below uses two QDates for a range selection.
+
+<doc-example title="Range with two QDates" file="QDate/SelectionTwoDates" overflow />
+
 ### Custom title and subtitle
 
 When not in 'minimal' mode, QDate has a computed header title and subtitle. You can override it, like in the example below.
