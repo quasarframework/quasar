@@ -4,6 +4,7 @@
       <q-time
         v-model="time"
         dark
+        bordered
       />
 
       <q-time
@@ -11,6 +12,7 @@
         color="orange"
         text-color="black"
         dark
+        bordered
       />
     </div>
   </div>
