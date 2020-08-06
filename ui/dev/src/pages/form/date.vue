@@ -11,6 +11,9 @@
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
         <q-toggle :dark="dark" v-model="yearsInMonthView" label="yearsInMonthView" />
         <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
+        <q-toggle :dark="dark" v-model="multiple" label="Multiple" />
+        <q-toggle :dark="dark" v-model="range" label="Range" />
+        <q-toggle v-if="range && !multiple" :dark="dark" v-model="editRange" false-value="start" true-value="end" :label="`Edit ${editRange !== null ? editRange : 'range'}`" toggle-indeterminate />
       </div>
 
       <div>{{ date }}</div>
@@ -323,6 +326,39 @@
           </template>
         </q-input>
       </div>
+      <div class="text-h6">
+        Desk Range: {{ dateRange }}
+      </div>
+      <div class="q-gutter-md">
+        <q-input :dark="dark" dense label="From" v-model="dateFrom" @focus="() => dateRangeInputFocus = 'start'" style="max-width: 200px" />
+        <q-input :dark="dark" dense label="To" v-model="dateTo" @focus="() => dateRangeInputFocus = 'end'" style="max-width: 200px" />
+        <q-date
+          ref="qDateRangeStart"
+          v-model="dateRange"
+          range
+          :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'start'"
+          default-year-month="2020/06"
+          default-range-view="start"
+          :dark="dark"
+          flat
+          minimal
+          @mock-range-end="date => {$refs.qDateRangeEnd.setMockRangeEnd(date); dateRangeFocus = dateRangeInputFocus !== null ? dateRangeInputFocus : 'start'}"
+          @input="dateRangeInputFocus = null"
+        />
+        <q-date
+          ref="qDateRangeEnd"
+          v-model="dateRange"
+          range
+          :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'end'"
+          default-year-month="2020/07"
+          default-range-view="end"
+          :dark="dark"
+          flat
+          minimal
+          @mock-range-end="date => {$refs.qDateRangeStart.setMockRangeEnd(date); dateRangeFocus = dateRangeInputFocus !== null ? dateRangeInputFocus : 'end'}"
+          @input="dateRangeInputFocus = null"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -346,12 +382,19 @@ export default {
       minimal: false,
       todayBtn: false,
       yearsInMonthView: false,
+      multiple: false,
+      range: false,
+      editRange: null,
+      dateRangeFocus: null,
+      dateRangeInputFocus: null,
 
       mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
 
       date: '2018/11/03',
       dateParse: 'Month: Aug, Day: 28th, Year: 2018',
       dateNeg: '-13/11/03',
+      dateFrom: '2012/06/18',
+      dateTo: '2015/04/10',
       nullDate: null,
       nullDate2: null,
       defaultYearMonth: '1986/02',
@@ -388,6 +431,9 @@ export default {
         minimal: this.minimal,
         todayBtn: this.todayBtn,
         yearsInMonthView: this.yearsInMonthView,
+        multiple: this.multiple,
+        range: this.range,
+        editRange: this.editRange,
         calendar: this.persian ? 'persian' : 'gregorian'
       }
     },
@@ -405,6 +451,16 @@ export default {
 
     localeComputed () {
       return this.locale ? this.locale.date : this.$q.lang.date
+    },
+
+    dateRange: {
+      get: function () {
+        return [[this.dateFrom, this.dateTo]]
+      },
+      set: function (newValue) {
+        this.dateFrom = newValue[0][0]
+        this.dateTo = newValue[0][1]
+      }
     }
   },
   watch: {
