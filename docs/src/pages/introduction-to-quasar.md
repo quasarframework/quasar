@@ -22,7 +22,7 @@ Also because:
 * Gets quick fixes and listens to the community's requests
 * Handles the whole development experience (including even creating your app's icons and splash screens)
 
-Quasar is the number one solution based on Vue whether you're only building a desktop website, a desktop app, a mobile app, or all of them.
+Quasar is the number one solution based on Vue whether you're building a desktop website, a desktop app, a mobile app, or even all of them.
 
 Worried about bloat? You shouldn't be. If you only want to build a website, Quasar will only build the code required for a website, with nothing else. Same goes for the other build modes.
 
