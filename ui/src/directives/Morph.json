@@ -124,7 +124,7 @@
             "values": [ "to", "from" ]
           },
           "aborted": {
-            "type": "String",
+            "type": "Boolean",
             "desc": "Was the morphing aborted?"
           }
         },
