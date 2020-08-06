@@ -282,6 +282,11 @@ export default {
       }
       this.prevScrollStart = void 0
 
+      if (scrollDetails.scrollMaxSize <= 0) {
+        this.__setVirtualScrollSliceRange(scrollEl, scrollDetails, 0, 0)
+        return
+      }
+
       this.__scrollViewSize !== scrollDetails.scrollViewSize && this.__setVirtualScrollSize(scrollDetails.scrollViewSize)
 
       this.__updateVirtualScrollSizes(this.virtualScrollSliceRange.from)
