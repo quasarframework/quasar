@@ -59,7 +59,7 @@ export default Vue.extend({
     const label = slot(this, 'label', [])
     const attrs = {
       'aria-expanded': this.showing === true ? 'true' : 'false',
-      'aria-haspopup': true
+      'aria-haspopup': 'true'
     }
 
     if (
@@ -69,7 +69,7 @@ export default Vue.extend({
         this.disableDropdown === true
       )
     ) {
-      attrs['aria-disabled'] = ''
+      attrs['aria-disabled'] = 'true'
     }
 
     const Arrow = [

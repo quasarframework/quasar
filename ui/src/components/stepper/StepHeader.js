@@ -48,7 +48,7 @@ export default Vue.extend({
 
       return this.isDisable === false &&
         this.stepper.headerNav &&
-        (this.isActive === true || nav)
+        nav
     },
 
     hasPrefix () {
@@ -133,7 +133,7 @@ export default Vue.extend({
         keyup: this.keyup
       }),
       attrs: this.isDisable === true
-        ? { tabindex: -1, 'aria-disabled': '' }
+        ? { tabindex: -1, 'aria-disabled': 'true' }
         : { tabindex: this.qAttrs.tabindex || 0 }
     })
 

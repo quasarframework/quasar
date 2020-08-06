@@ -80,12 +80,15 @@ export default Vue.extend({
 
   data () {
     const
+      locale = this.__getComputedLocale(),
       { inner, external } = this.__getModels(
         this.defaultRangeView === 'start'
           ? this.__getFirstSelectedDate(this.value)
-          : this.__getLastSelectedDate(this.value), this.mask, this.__getComputedLocale()
+          : this.__getLastSelectedDate(this.value),
+        this.mask,
+        locale
       ),
-      dates = this.__getDates(this.value, this.mask, this.__getComputedLocale()),
+      dates = this.__getDates(this.value, this.mask, locale),
       direction = this.$q.lang.rtl === true ? 'right' : 'left'
 
     return {
@@ -103,12 +106,15 @@ export default Vue.extend({
   watch: {
     value (v) {
       const
+        locale = this.__getComputedLocale(),
         { inner, external } = this.__getModels(
           this.defaultRangeView === 'start'
             ? this.__getFirstSelectedDate(v)
-            : this.__getLastSelectedDate(v), this.mask, this.__getComputedLocale()
+            : this.__getLastSelectedDate(v),
+          this.mask,
+          locale
         ),
-        dates = this.__getDates(v, this.mask, this.__getComputedLocale())
+        dates = this.__getDates(v, this.mask, locale)
 
       this.dates = dates
 
@@ -398,7 +404,7 @@ export default Vue.extend({
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + pad(i)
         const dateAdded = addToDate(date, { days: i - 1 })
-        let item = { i }
+        const item = { i }
 
         if (this.isInDates(dateAdded) === true) {
           item.range = this.isInRange(dateAdded)
@@ -458,10 +464,10 @@ export default Vue.extend({
 
     attrs () {
       if (this.disable === true) {
-        return { 'aria-disabled': '' }
+        return { 'aria-disabled': 'true' }
       }
       if (this.readonly === true) {
-        return { 'aria-readonly': '' }
+        return { 'aria-readonly': 'true' }
       }
     }
   },
@@ -1129,9 +1135,10 @@ export default Vue.extend({
               return
             }
             else {
-              let range = [day]
-              let valRange = [val]
-              if (dates.length > 0) dates.push(range)
+              const range = [day], valRange = [val]
+              if (dates.length > 0) {
+                dates.push(range)
+              }
               valArray.push(valRange)
             }
           }
@@ -1140,7 +1147,7 @@ export default Vue.extend({
               reason = 'edit-range'
               this.dates.some((value, index) => {
                 if (Array.isArray(value) === true && (isSameDate(value[0], day) || isSameDate(value[1], day)) === true) {
-                  let val = valArray.splice(index, 1)[0][isSameDate(value[0], day) ? 1 : 0]
+                  const val = valArray.splice(index, 1)[0][isSameDate(value[0], day) ? 1 : 0]
                   valArray.push([val])
                   this.mockRangeEnd = day
                   return true
@@ -1154,8 +1161,8 @@ export default Vue.extend({
           }
         }
         else if (reason === 'set-range-end-day' || reason === 'edit-range') {
-          let range = [this.__getRangeStart(dates), day]
-          let valRange = [this.__getRangeStart(valArray), val]
+          const range = [this.__getRangeStart(dates), day]
+          const valRange = [this.__getRangeStart(valArray), val]
 
           if (isSameDate(range[0], range[1]) === true) {
             reason = 'add-day'

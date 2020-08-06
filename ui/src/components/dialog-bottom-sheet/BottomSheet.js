@@ -135,7 +135,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    let child = []
+    const child = []
 
     this.title && child.push(
       h(QCardSection, {

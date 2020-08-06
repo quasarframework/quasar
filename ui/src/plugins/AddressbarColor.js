@@ -17,7 +17,7 @@ function getProp () {
 
 function getMetaTag (v) {
   const els = document.getElementsByTagName('META')
-  for (let i in els) {
+  for (const i in els) {
     if (els[i].name === v) {
       return els[i]
     }

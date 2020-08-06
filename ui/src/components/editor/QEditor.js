@@ -258,10 +258,10 @@ export default Vue.extend({
 
     attrs () {
       if (this.disable === true) {
-        return { 'aria-disabled': '' }
+        return { 'aria-disabled': 'true' }
       }
       if (this.readonly === true) {
-        return { 'aria-readonly': '' }
+        return { 'aria-readonly': 'true' }
       }
     }
   },
@@ -322,21 +322,22 @@ export default Vue.extend({
       this.$emit('click', e)
     },
 
-    __onBlur () {
+    __onBlur (e) {
       if (this.$refs.content !== void 0) {
         const { scrollTop, scrollHeight } = this.$refs.content
         this.__offsetBottom = scrollHeight - scrollTop
       }
       this.$q.platform.is.ie !== true && this.caret.save()
-      this.$emit('blur')
+      this.$emit('blur', e)
     },
 
-    __onFocus () {
+    __onFocus (e) {
       this.$nextTick(() => {
         if (this.$refs.content !== void 0 && this.__offsetBottom !== void 0) {
           this.$refs.content.scrollTop = this.$refs.content.scrollHeight - this.__offsetBottom
         }
       })
+      this.$emit('focus', e)
     },
 
     __onMouseup (e) {

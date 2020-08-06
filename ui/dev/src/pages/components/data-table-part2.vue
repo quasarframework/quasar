@@ -20,7 +20,7 @@
       bordered
       :dense="dense"
     >
-      <template v-slot:top-right="props">
+      <template v-slot:top-right>
         <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
           <q-icon slot="append" name="search" />
         </q-input>
@@ -91,7 +91,7 @@
       row-key="name"
       color="primary"
     >
-      <template v-slot:top="props">
+      <template v-slot:top>
         <q-btn flat dense color="primary" :disable="loadingDyn" icon="add" label="Add row" @click="addRow" />
         <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="remove" label="Remove row" @click="removeRow" />
         <q-btn class="on-right" flat dense color="primary" :disable="loadingDyn" icon="refresh" label="Refresh" />
@@ -494,10 +494,10 @@ export default {
       setTimeout(() => {
         this.serverPagination = props.pagination
 
-        let
+        const
           table = this.$refs.server,
-          rows = this.data.slice(),
           { page, rowsPerPage, sortBy, descending } = props.pagination
+        let rows = this.data.slice()
 
         if (props.filter) {
           console.log('filter hit')

@@ -51,5 +51,24 @@
         }
       }
     }
+  },
+
+  "events": {
+    "click": {
+      "desc": "Emitted when component is clicked (activated)",
+      "params": {
+        "evt": {
+          "type": "Object",
+          "desc": "JS event object; If you want to cancel navigation set synchronously 'evt.navigate' to false",
+          "__exemption": [ "examples" ]
+        },
+        "navigateFn": {
+          "type": "Function",
+          "desc": "When you need to control the time at which the button should trigger the route navigation then set 'evt.navigate' to false and call this function; Useful if you have async work to be done before the actual route navigation",
+          "params": null,
+          "returns": null
+        }
+      }
+    }
   }
 }

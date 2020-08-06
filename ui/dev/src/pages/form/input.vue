@@ -22,6 +22,20 @@
         Standard
       </div>
 
+      <q-input v-bind="props" outlined v-model="text" label="Label" label-color="green">
+        <div slot="label" class="ellipsis">
+          Label <strong>in slot</strong> that is <em>very long</em> and might overflow the space available if the field is not long enought to hold it all
+        </div>
+      </q-input>
+
+      <q-input v-bind="props" outlined v-model="text" label="Label" label-color="green">
+        <div slot="label" class="row items-center">
+          <q-icon class="on-left" color="red" name="delete" />
+          Label with icon
+          <q-icon class="on-right" color="primary" name="event" />
+        </div>
+      </q-input>
+
       <q-input :dark="false" v-model="text" @focus="onFocus" @blur="onBlur" tabindex="1" />
 
       <q-input v-bind="props" v-model="text" label="Label (stacked) g" stack-label />

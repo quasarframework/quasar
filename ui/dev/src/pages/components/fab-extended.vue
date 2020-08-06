@@ -33,6 +33,8 @@
             :hide-label="hideLabel"
             :hide-icon="hideIcon"
             :label-class="labelClass"
+            aria-label="Opens FAB menu"
+            role="menu"
           >
             <q-fab-action
               class="white shadow-12"
@@ -42,6 +44,7 @@
               :external-label="fabExternalLabel"
               :hide-label="hideLabel"
               :label-class="labelClass"
+              aria-label="A FAB Action"
             />
             <q-fab-action
               class="white shadow-8"

@@ -93,6 +93,8 @@ Following this guide should take you at most 5 minutes to complete.
   app.use(ssr.resolveUrl('<path>'), ...)
   ```
 
+* If you are building with Electron replace `QUASAR_NODE_INTEGRATION` in your main thread file (/src-electron/main-process/main.js) with `process.env.QUASAR_NODE_INTEGRATION` (if it is present)
+
 ### Optional steps
 
 The following steps are optional, but recommended.

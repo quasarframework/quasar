@@ -24,6 +24,7 @@ import CompositionMixin from '../../mixins/composition.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
+const reEscapeList = '.*+?^${}()|[]\\'
 
 export default Vue.extend({
   name: 'QSelect',
@@ -655,29 +656,36 @@ export default Vue.extend({
 
       const optionsLength = this.virtualScrollLength
 
+      // clear search buffer if expired
+      if (this.searchBuffer === void 0 || this.searchBufferExp < Date.now()) {
+        this.searchBuffer = ''
+      }
+
       // keyboard search when not having use-input
-      if (optionsLength > 0 && this.useInput !== true && e.keyCode >= 48 && e.keyCode <= 90) {
+      if (
+        optionsLength > 0 &&
+        this.useInput !== true &&
+        e.key.length === 1 && // printable char
+        e.altKey === e.ctrlKey && // not kbd shortcut
+        (e.keyCode !== 32 || this.searchBuffer.length > 0) // space in middle of search
+      ) {
         this.menu !== true && this.showPopup(e)
 
-        // clear search buffer if expired
-        if (this.searchBuffer === void 0 || this.searchBufferExp < Date.now()) {
-          this.searchBuffer = ''
-        }
-
         const
-          char = String.fromCharCode(e.keyCode).toLocaleLowerCase(),
+          char = e.key.toLocaleLowerCase(),
           keyRepeat = this.searchBuffer.length === 1 && this.searchBuffer[0] === char
 
         this.searchBufferExp = Date.now() + 1500
         if (keyRepeat === false) {
+          stopAndPrevent(e)
           this.searchBuffer += char
         }
 
-        const searchRe = new RegExp('^' + this.searchBuffer.split('').join('.*'), 'i')
+        const searchRe = new RegExp('^' + this.searchBuffer.split('').map(l => reEscapeList.indexOf(l) > -1 ? '\\' + l : l).join('.*'), 'i')
 
         let index = this.optionIndex
 
-        if (keyRepeat === true || searchRe.test(this.getOptionLabel(this.options[index])) !== true) {
+        if (keyRepeat === true || index < 0 || searchRe.test(this.getOptionLabel(this.options[index])) !== true) {
           do {
             index = normalizeToInterval(index + 1, -1, optionsLength - 1)
           }
@@ -701,12 +709,12 @@ export default Vue.extend({
         return
       }
 
-      // enter, space (when not using use-input), or tab (when not using multiple and option selected)
+      // enter, space (when not using use-input and not in search), or tab (when not using multiple and option selected)
       // same target is checked above
       if (
         e.keyCode !== 13 &&
-        (this.useInput === true || e.keyCode !== 32) &&
-        (tabShouldSelect === false || e.keyCode !== 9)
+        (e.keyCode !== 32 || this.useInput === true || this.searchBuffer !== '') &&
+        (e.keyCode !== 9 || tabShouldSelect === false)
       ) { return }
 
       e.keyCode !== 9 && stopAndPrevent(e)
@@ -1050,11 +1058,14 @@ export default Vue.extend({
 
             this.$nextTick(() => {
               this.innerLoading = false
-              if (this.menu === true) {
-                this.__updateMenu(true)
-              }
-              else {
-                this.menu = true
+
+              if (this.editable === true) {
+                if (this.menu === true) {
+                  this.__updateMenu(true)
+                }
+                else {
+                  this.menu = true
+                }
               }
 
               typeof afterFn === 'function' && this.$nextTick(() => { afterFn(this) })
@@ -1290,6 +1301,10 @@ export default Vue.extend({
     },
 
     showPopup (e) {
+      if (this.editable !== true) {
+        return
+      }
+
       if (this.hasDialog === true) {
         this.__onControlFocusin(e)
         this.dialog = true

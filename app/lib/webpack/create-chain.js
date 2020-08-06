@@ -184,7 +184,7 @@ module.exports = function (cfg, configName) {
   }
 
   chain.module.rule('images')
-    .test(/\.(png|jpe?g|gif|svg)(\?.*)?$/)
+    .test(/\.(png|jpe?g|gif|svg|webp|avif)(\?.*)?$/)
     .use('url-loader')
       .loader('url-loader')
       .options({
@@ -319,12 +319,11 @@ module.exports = function (cfg, configName) {
         to: '.',
         noErrorOnMissing: true,
         globOptions: {
-          ignore: [ appPaths.resolve.app('/**/.*') ].concat(
-            // avoid useless files to be copied
-            ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-              ? [ appPaths.resolve.app('public/icons'), appPaths.resolve.app('public/favicon.ico') ]
-              : []
-          )
+          dot: false,
+          // avoid useless files to be copied
+          ignore: ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
+            ? [ '**/icons/**', '**/favicon.ico' ]
+            : []
         }
       }]
 

@@ -9,6 +9,19 @@
           <q-input dark dense borderless input-class="text-right" v-model.number="width" type="number" :min="300" />
         </q-item-section>
       </q-item>
+      <q-separator />
+      <q-item dark class="bg-purple" dense v-ripple clickable @click="outsideArrows = outsideArrows === false">
+        <q-item-section>
+          <q-item-label>{{ outsideArrows === true ? 'Arrows outside (change to inside)' : 'Arrows inside (change to outside)'}}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-separator />
+      <q-item dark class="bg-purple" dense v-ripple clickable @click="mobileArrows = mobileArrows === false">
+        <q-item-section>
+          <q-item-label>{{ mobileArrows === true ? 'Arrows visible on mobile (change to invisible)' : 'Arrows invisible on mobile (change to visible)'}}</q-item-label>
+        </q-item-section>
+      </q-item>
+      <q-separator />
       <q-item dark class="bg-primary" dense v-ripple clickable @click="toggleAll">
         <q-item-section>
           <q-item-label>Toggle all</q-item-label>
@@ -43,6 +56,8 @@
           inline-label
           shrink
           stretch
+          :outside-arrows="outsideArrows"
+          :mobile-arrows="mobileArrows"
         >
           <q-tab v-for="t in tabs" :key="t.name" v-bind="t" />
         </q-tabs>
@@ -56,6 +71,8 @@
         inline-label
         shrink
         stretch
+        :outside-arrows="outsideArrows"
+        :mobile-arrows="mobileArrows"
       >
         <q-tab v-for="t in tabs" :key="t.name" v-bind="t" />
       </q-tabs>
@@ -78,6 +95,8 @@ export default {
     return {
       tab: 'mails',
       width: 300,
+      mobileArrows: false,
+      outsideArrows: false,
       tabs: allTabs.slice(0, 1)
     }
   },
