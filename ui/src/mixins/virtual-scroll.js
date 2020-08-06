@@ -284,7 +284,6 @@ export default {
 
       if (scrollDetails.scrollMaxSize <= 0) {
         this.__setVirtualScrollSliceRange(scrollEl, scrollDetails, 0, 0)
-
         return
       }
 
