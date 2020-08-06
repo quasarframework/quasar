@@ -431,7 +431,7 @@ export default {
           i++
 
           while (i < childrenLength && children[i].classList.contains('q-virtual-scroll--with-prev') === true) {
-            size = sizeFn(children[i])
+            size += sizeFn(children[i])
             i++
           }
 
