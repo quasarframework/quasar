@@ -13,7 +13,18 @@ export default Vue.extend({
 
   props: {
     props: Object,
-    autoWidth: Boolean
+    autoWidth: Boolean,
+    scope: {
+      type: String,
+      default: 'header',
+      validator: val => ['header', 'footer', 'row'].includes(val)
+    }
+  },
+
+  computed: {
+    attrs () {
+      return { scope: this.scope === 'row' ? 'row' : 'col' }
+    }
   },
 
   render (h) {
@@ -22,6 +33,7 @@ export default Vue.extend({
     if (this.props === void 0) {
       return h('th', {
         on,
+        attrs: this.attrs,
         class: this.autoWidth === true ? 'q-table--col-auto-width' : null
       }, slot(this, 'default'))
     }
@@ -65,8 +77,9 @@ export default Vue.extend({
 
     return h('th', {
       on: { ...on, ...evt },
-      style: col.headerStyle,
-      class: col.__thClass +
+      attrs: this.attrs,
+      style: this.scope === 'row' ? void 0 : col[this.scope + 'Style'],
+      class: (this.scope === 'row' ? '' : col[`__${this.scope}Class`]) +
         (this.autoWidth === true ? ' q-table--col-auto-width' : '')
     }, child)
   }

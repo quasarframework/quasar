@@ -19,6 +19,15 @@
       "type": "Boolean",
       "desc": "Tries to shrink header column width size; Useful for columns with a checkbox/radio/toggle",
       "category": "content"
+    },
+
+    "scope": {
+      "type": "String",
+      "desc": "Describes the scope of the cell; 'header' and 'footer' will be mapped to a col scope;",
+      "default": "header",
+      "values": [ "header", "footer", "row" ],
+      "category": "behavior|style",
+      "addedIn": "v1.13.0"
     }
   },
 

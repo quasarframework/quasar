@@ -69,9 +69,11 @@ export default Vue.extend({
     title: String,
 
     hideHeader: Boolean,
+    showFooter: Boolean,
 
     grid: Boolean,
     gridHeader: Boolean,
+    gridFooter: Boolean,
 
     dense: Boolean,
     flat: Boolean,
@@ -103,6 +105,8 @@ export default Vue.extend({
     tableClass: [String, Array, Object],
     tableHeaderStyle: [String, Array, Object],
     tableHeaderClass: [String, Array, Object],
+    tableFooterStyle: [String, Array, Object],
+    tableFooterClass: [String, Array, Object],
     cardContainerClass: [String, Array, Object],
     cardContainerStyle: [String, Array, Object],
     cardStyle: [String, Array, Object],
@@ -140,7 +144,7 @@ export default Vue.extend({
     },
 
     needsReset () {
-      return ['tableStyle', 'tableClass', 'tableHeaderStyle', 'tableHeaderClass', 'containerClass']
+      return ['tableStyle', 'tableClass', 'tableHeaderStyle', 'tableHeaderClass', 'tableFooterStyle', 'tableFooterClass', 'containerClass']
         .map(p => this[p]).join(';')
     },
 
@@ -255,10 +259,13 @@ export default Vue.extend({
       })
     }
 
-    child.push(
-      this.getBody(h),
-      this.getBottom(h)
-    )
+    child.push(this.getBody(h))
+
+    if (this.grid === true) {
+      child.push(this.getGridFooter(h))
+    }
+
+    child.push(this.getBottom(h))
 
     if (this.loading === true && this.$scopedSlots.loading !== void 0) {
       child.push(
@@ -290,6 +297,7 @@ export default Vue.extend({
       }
 
       const header = this.hideHeader !== true ? this.getTableHeader(h) : null
+      const footer = this.showFooter === true ? this.getTableFooter(h) : null
 
       return this.hasVirtScroll === true
         ? h(QVirtualScroll, {
@@ -309,6 +317,9 @@ export default Vue.extend({
             before: header === null
               ? void 0
               : () => header,
+            after: footer === null
+              ? void 0
+              : () => footer,
             default: this.getTableRowVirtual(h)
           }
         })
@@ -318,7 +329,8 @@ export default Vue.extend({
           style: this.tableStyle
         }, [
           header,
-          this.getTableBody(h)
+          this.getTableBody(h),
+          footer
         ])
     },
 

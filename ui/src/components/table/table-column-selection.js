@@ -34,15 +34,16 @@ export default {
 
       return cols.map(col => {
         const align = col.align || 'right'
+        const thClass = `text-${align}` +
+          (col.sortable === true ? ' sortable' : '') +
+          (col.name === sortBy ? ` sorted ${descending === true ? 'sort-desc' : ''}` : '')
 
         return {
           ...col,
           align,
           __iconClass: `q-table__sort-icon q-table__sort-icon--${align}`,
-          __thClass: `text-${align}` +
-            (col.headerClasses !== void 0 ? ' ' + col.headerClasses : '') +
-            (col.sortable === true ? ' sortable' : '') +
-            (col.name === sortBy ? ` sorted ${descending === true ? 'sort-desc' : ''}` : ''),
+          __headerClass: thClass + (col.headerClasses !== void 0 ? ' ' + col.headerClasses : ''),
+          __footerClass: thClass + (col.footerClasses !== void 0 ? ' ' + col.footerClasses : ''),
           __tdClass: `text-${align}${col.classes !== void 0 ? ' ' + col.classes : ''}`
         }
       })

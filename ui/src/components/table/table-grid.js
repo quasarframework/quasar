@@ -99,6 +99,18 @@ export default {
         )
 
       return h('div', { staticClass: 'q-table__middle' }, child)
+    },
+
+    getGridFooter (h) {
+      const child = this.gridFooter === true
+        ? [
+          h('table', { staticClass: 'q-table' }, [
+            this.getTableFooter(h)
+          ])
+        ]
+        : void 0
+
+      return h('div', { staticClass: 'q-table__middle' }, child)
     }
   }
 }

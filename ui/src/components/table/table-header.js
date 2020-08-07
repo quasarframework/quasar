@@ -6,7 +6,7 @@ import cache from '../../utils/cache.js'
 export default {
   methods: {
     getTableHeader (h) {
-      const child = this.getTableHeaderRow(h)
+      const child = this.getTableHeaderFooterRow(h, 'header')
 
       if (this.loading === true && this.$scopedSlots.loading === void 0) {
         child.push(
@@ -22,23 +22,27 @@ export default {
       return h('thead', child)
     },
 
-    getTableHeaderRow (h) {
-      const
-        header = this.$scopedSlots.header,
-        headerCell = this.$scopedSlots['header-cell']
+    getTableFooter (h) {
+      return h('tfoot', this.getTableHeaderFooterRow(h, 'footer'))
+    },
 
-      if (header !== void 0) {
-        return header(this.addTableHeaderRowMeta({
-          header: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+    getTableHeaderFooterRow (h, scope) {
+      const
+        slotFull = this.$scopedSlots[scope],
+        slotCell = this.$scopedSlots[scope + '-cell']
+
+      if (slotFull !== void 0) {
+        return slotFull(this.addTableSelectionRowMeta({
+          [scope]: true, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
         })).slice()
       }
 
       const child = this.computedCols.map(col => {
         const
-          headerCellCol = this.$scopedSlots[`header-cell-${col.name}`],
-          slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
+          slotCellCol = this.$scopedSlots[`${scope}-cell-${col.name}`],
+          slot = slotCellCol !== void 0 ? slotCellCol : slotCell,
           props = {
-            col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap
+            col, cols: this.computedCols, sort: this.sort, colsMap: this.computedColsMap, scope
           }
 
         return slot !== void 0
@@ -46,8 +50,8 @@ export default {
           : h(QTh, {
             key: col.name,
             props: { props },
-            style: col.headerStyle,
-            class: col.headerClasses
+            style: col[scope + 'Style'],
+            class: col[scope + 'Classes']
           }, col.label)
       })
 
@@ -82,14 +86,14 @@ export default {
       }
 
       return [
-        h('tr', {
-          style: this.tableHeaderStyle,
-          class: this.tableHeaderClass
-        }, child)
+        h('tr', scope === 'header'
+          ? { style: this.tableHeaderStyle, class: this.tableHeaderClass }
+          : { style: this.tableFooterStyle, class: this.tableFooterClass }
+        , child)
       ]
     },
 
-    addTableHeaderRowMeta (data) {
+    addTableSelectionRowMeta (data) {
       if (this.multipleSelection === true) {
         Object.defineProperty(data, 'selected', {
           get: () => this.someRowsSelected === true

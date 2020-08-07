@@ -113,6 +113,13 @@
       "category": "behavior|content"
     },
 
+    "grid-footer": {
+      "type": "Boolean",
+      "desc": "Display footer for grid-mode also",
+      "category": "behavior|content",
+      "addedIn": "v1.13.0"
+    },
+
     "dense": {
       "extends": "dense",
       "desc": "Dense mode; Connect with $q.screen for responsive behavior"
@@ -233,6 +240,18 @@
           "desc": "Classes to add on header cells of the column",
           "examples": [ "my-special-class" ],
           "addedIn": "v1.3.0"
+        },
+        "footerStyle": {
+          "type": "String",
+          "desc": "Style to apply on footer cells of the column",
+          "examples": [ "width: 500px" ],
+          "addedIn": "v1.3.0"
+        },
+        "footerClasses": {
+          "type": "String",
+          "desc": "Classes to add on footer cells of the column",
+          "examples": [ "my-special-class" ],
+          "addedIn": "v1.3.0"
         }
       }
     },
@@ -264,6 +283,13 @@
       "type": "Boolean",
       "desc": "Hide table header layer",
       "category": "content"
+    },
+
+    "show-footer": {
+      "type": "Boolean",
+      "desc": "Show table footer layer",
+      "category": "content",
+      "addedIn": "v1.13.0"
     },
 
     "hide-bottom": {
@@ -444,6 +470,28 @@
         ":table-header-class=\"{ 'my-special-class': [Boolean condition] }\""
       ],
       "category": "style"
+    },
+
+    "table-footer-style": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS style to apply to footer of native HTML <table> (which is a TR)",
+      "examples": [
+        "background-color: #ff0000",
+        ":table-footer-style=\"{ backgroundColor: '#ff0000' }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.13.0"
+    },
+
+    "table-footer-class": {
+      "type": [ "String", "Array", "Object" ],
+      "desc": "CSS classes to apply to footer of native HTML <table> (which is a TR)",
+      "examples": [
+        "my-special-class",
+        ":table-footer-class=\"{ 'my-special-class': [Boolean condition] }\""
+      ],
+      "category": "style",
+      "addedIn": "v1.13.0"
     },
 
     "card-container-style": {
@@ -932,6 +980,110 @@
         }
       },
       "addedIn": "v1.1.1"
+    },
+
+    "footer": {
+      "desc": "Slot to define how footer looks like; Suggestion: QTr + QTh",
+      "scope": {
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "desc": "Column name or column definition object",
+              "required": true,
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        },
+        "footer": {
+          "type": "Boolean",
+          "desc": "Internal prop passed down to QTh (if used); Always 'true'"
+        }
+      },
+      "addedIn": "v1.13.0"
+    },
+
+    "footer-cell": {
+      "desc": "Slot to define how each footer cell looks like; Suggestion: QTh",
+      "scope": {
+        "col": {
+          "type": "Object",
+          "desc": "Column definition associated to footer cell",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "desc": "Column name or column definition object",
+              "required": true,
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        }
+      },
+      "addedIn": "v1.13.0"
+    },
+
+    "footer-cell-[name]": {
+      "desc": "Slot to define how a specific footer cell looks like; replace '[name]' with column name (from columns definition object)",
+      "scope": {
+        "col": {
+          "type": "Object",
+          "desc": "Column definition associated to footer cell",
+          "__exemption": [ "examples" ]
+        },
+        "cols": {
+          "type": "Object",
+          "desc": "Column definitions",
+          "__exemption": [ "examples" ]
+        },
+        "colsMap": {
+          "type": "Object",
+          "desc": "Column mapping (key is column name, value is column object)",
+          "__exemption": [ "examples" ]
+        },
+        "sort": {
+          "type": "Function",
+          "desc": "Trigger a table sort",
+          "params": {
+            "col": {
+              "type": [ "String", "Object" ],
+              "desc": "Column name or column definition object",
+              "required": true,
+              "examples": [ "calories" ]
+            }
+          },
+          "returns": null
+        }
+      },
+      "addedIn": "v1.13.0"
     },
 
     "top-row": {
