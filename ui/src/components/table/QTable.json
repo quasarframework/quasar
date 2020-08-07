@@ -64,6 +64,14 @@
       "addedIn": "v1.2.0"
     },
 
+    "table-colspan": {
+      "type": [ "Number", "String" ],
+      "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
+      "examples": [ "table-colspan=\"12\"" ],
+      "category": "virtual-scroll|content",
+      "addedIn": "v1.13.0"
+    },
+
     "color": {
       "extends": "color",
       "default": "grey-8"

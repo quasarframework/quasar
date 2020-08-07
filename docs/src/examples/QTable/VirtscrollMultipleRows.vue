@@ -6,6 +6,7 @@
       title="Treats"
       :data="data"
       :columns="columns"
+      :table-colspan="9"
       row-key="index"
       virtual-scroll
       :virtual-scroll-item-size="48"

@@ -140,6 +140,14 @@ export default Vue.extend({
 
     view () {
       this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+    },
+
+    'innerModel.year' (year) {
+      this.$emit('navigation', { year, month: this.innerModel.month })
+    },
+
+    'innerModel.month' (month) {
+      this.$emit('navigation', { year: this.innerModel.year, month })
     }
   },
 

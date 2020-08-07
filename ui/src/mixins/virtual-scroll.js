@@ -2,6 +2,15 @@ import debounce from '../utils/debounce.js'
 
 const aggBucketSize = 1000
 
+const scrollToEdges = [
+  'start',
+  'center',
+  'end',
+  'start-force',
+  'center-force',
+  'end-force'
+]
+
 const slice = Array.prototype.slice
 
 let buggyRTL = void 0
@@ -238,21 +247,25 @@ export default {
         return
       }
 
+      const scrollDetails = getScrollDetails(
+        scrollEl,
+        this.__getVirtualScrollEl(),
+        this.$refs.before,
+        this.$refs.after,
+        this.virtualScrollHorizontal,
+        this.$q.lang.rtl,
+        this.virtualScrollStickySizeStart,
+        this.virtualScrollStickySizeEnd
+      )
+
+      this.__scrollViewSize !== scrollDetails.scrollViewSize && this.__setVirtualScrollSize(scrollDetails.scrollViewSize)
+
       this.__setVirtualScrollSliceRange(
         scrollEl,
-        getScrollDetails(
-          scrollEl,
-          this.__getVirtualScrollEl(),
-          this.$refs.before,
-          this.$refs.after,
-          this.virtualScrollHorizontal,
-          this.$q.lang.rtl,
-          this.virtualScrollStickySizeStart,
-          this.virtualScrollStickySizeEnd
-        ),
+        scrollDetails,
         Math.min(this.virtualScrollLength - 1, Math.max(0, parseInt(toIndex, 10) || 0)),
         0,
-        [ 'end', 'start' ].indexOf(edge) > -1 ? edge : (this.prevToIndex > -1 && toIndex > this.prevToIndex ? 'end' : 'start')
+        scrollToEdges.indexOf(edge) > -1 ? edge : (this.prevToIndex > -1 && toIndex > this.prevToIndex ? 'end' : 'start')
       )
     },
 
@@ -341,8 +354,11 @@ export default {
     },
 
     __setVirtualScrollSliceRange (scrollEl, scrollDetails, toIndex, offset, align) {
+      const alignForce = typeof align === 'string' && align.indexOf('-force') > -1
+      const alignEnd = alignForce === true ? align.replace('-force', '') : align
+
       let
-        from = Math.max(0, Math.ceil(toIndex - this.virtualScrollSliceSizeComputed / (align === void 0 ? 2 : (align === 'start' ? 6 : 1.2)))),
+        from = Math.max(0, Math.ceil(toIndex - this.virtualScrollSliceSizeComputed / (alignEnd === void 0 || alignEnd === 'center' ? 2 : (alignEnd === 'start' ? 3 : 1.5)))),
         to = from + this.virtualScrollSliceSizeComputed
 
       if (to > this.virtualScrollLength) {
@@ -352,14 +368,14 @@ export default {
 
       const rangeChanged = from !== this.virtualScrollSliceRange.from || to !== this.virtualScrollSliceRange.to
 
-      if (rangeChanged === false && align === void 0) {
+      if (rangeChanged === false && alignEnd === void 0) {
         this.__emitScroll(toIndex)
 
         return
       }
 
       const hadFocus = rangeChanged === true && typeof scrollEl.contains === 'function' && scrollEl.contains(document.activeElement)
-      const sizeBefore = align !== void 0 ? this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
+      const sizeBefore = alignEnd !== void 0 ? this.virtualScrollSizes.slice(from, toIndex).reduce(sumFn, 0) : 0
 
       if (rangeChanged === true) {
         this.virtualScrollSliceRange = { from, to }
@@ -390,12 +406,17 @@ export default {
 
         let scrollPosition = posStart + offset
 
-        if (align !== void 0) {
+        if (alignEnd !== void 0) {
           const sizeDiff = sizeAfter - sizeBefore
+          const scrollStart = scrollDetails.scrollStart + sizeDiff
 
-          scrollPosition = scrollDetails.scrollStart + sizeDiff < posStart && posEnd < scrollDetails.scrollStart + scrollDetails.scrollViewSize
-            ? scrollDetails.scrollStart + sizeDiff
-            : (align === 'end' ? posEnd - scrollDetails.scrollViewSize : posStart)
+          scrollPosition = alignForce !== true && scrollStart < posStart && posEnd < scrollStart + scrollDetails.scrollViewSize
+            ? scrollStart
+            : (
+              alignEnd === 'end'
+                ? posEnd - scrollDetails.scrollViewSize
+                : posStart - (alignEnd === 'start' ? 0 : Math.round((scrollDetails.scrollViewSize - this.virtualScrollSizes[toIndex]) / 2))
+            )
         }
 
         this.prevScrollStart = scrollPosition
@@ -431,7 +452,7 @@ export default {
           i++
 
           while (i < childrenLength && children[i].classList.contains('q-virtual-scroll--with-prev') === true) {
-            size = sizeFn(children[i])
+            size += sizeFn(children[i])
             i++
           }
 

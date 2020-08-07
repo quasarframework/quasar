@@ -101,8 +101,8 @@
         },
         "edge": {
           "type": "String",
-          "desc": "The edge to align to if the item is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise)",
-          "values": [ "start", "end" ],
+          "desc": "The edge to align to if the item is not visible already (by default it aligns to end if scrolling towards the end and to start otherwise); If the '-force' version is used then it always aligns",
+          "values": [ "start", "center", "end", "start-force", "center-force", "end-force" ],
           "addedIn": "v1.13.0"
         }
       }

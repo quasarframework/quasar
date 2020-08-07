@@ -204,6 +204,24 @@
       }
     },
 
+    "navigation": {
+      "desc": "Emitted when user navigates to a different month or year (and even when the model changes from an outside source)",
+      "params": {
+        "year": {
+          "type": "Number",
+          "desc": "The year",
+          "__exemption": [ "examples" ]
+        },
+        "month": {
+          "type": "Number",
+          "desc": "The month",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.13.0"
+    },
+
+
     "mock-range-end": {
       "desc": "In-progress range selection ended",
       "params": {
