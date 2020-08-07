@@ -12,7 +12,8 @@ export default Vue.extend({
   props: {
     icon: String,
     checkedIcon: String,
-    uncheckedIcon: String
+    uncheckedIcon: String,
+    falseColor: String
   },
 
   computed: {
@@ -29,6 +30,9 @@ export default Vue.extend({
       if (this.isTrue === true) {
         return 'q-toggle__inner--active' +
           (this.color !== void 0 ? ' text-' + this.color : '')
+      }
+      if (this.falseColor !== void 0 && this.isFalse === true) {
+        return 'q-toggle__inner--falsy' + ' text-' + this.falseColor
       }
       else if (this.keepColor === true && this.color !== void 0) {
         return 'text-' + this.color
