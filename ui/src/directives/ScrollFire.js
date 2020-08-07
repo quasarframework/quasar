@@ -3,7 +3,7 @@ import { height, offset } from '../utils/dom.js'
 import { getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function updateBinding (ctx, { value, oldValue }) {
+function update (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
     return
@@ -16,11 +16,25 @@ function updateBinding (ctx, { value, oldValue }) {
   }
 }
 
+function destroy (el) {
+  const ctx = el.__qscrollfire
+  if (ctx !== void 0) {
+    ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
+    delete el.__qscrollfire
+  }
+}
+
 export default {
   name: 'scroll-fire',
 
-  bind (el) {
-    let ctx = {
+  inserted (el, binding) {
+    if (el.__qscrollfire !== void 0) {
+      destroy(el)
+      el.__qscrollfire_destroyed = true
+    }
+
+    const ctx = {
+      scrollTarget: getScrollTarget(el),
       scroll: debounce(() => {
         let containerBottom, elBottom
 
@@ -40,30 +54,23 @@ export default {
       }, 25)
     }
 
-    if (el.__qscrollfire) {
-      el.__qscrollfire_old = el.__qscrollfire
-    }
+    update(ctx, binding)
 
     el.__qscrollfire = ctx
   },
 
-  inserted (el, binding) {
-    let ctx = el.__qscrollfire
-    ctx.scrollTarget = getScrollTarget(el)
-    updateBinding(ctx, binding)
-  },
-
   update (el, binding) {
     if (el.__qscrollfire !== void 0 && binding.value !== binding.oldValue) {
-      updateBinding(el.__qscrollfire, binding)
+      update(el.__qscrollfire, binding)
     }
   },
 
   unbind (el) {
-    let ctx = el.__qscrollfire_old || el.__qscrollfire
-    if (ctx !== void 0) {
-      ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
-      delete el[el.__qscrollfire_old ? '__qscrollfire_old' : '__qscrollfire']
+    if (el.__qscrollfire_destroyed === void 0) {
+      destroy(el)
+    }
+    else {
+      delete el.__qscrollfire_destroyed
     }
   }
 }

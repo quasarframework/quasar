@@ -57,6 +57,8 @@ interface QuasarAutoFrameworkObjectConfiguration
   importStrategy: "auto";
   /** @default 'kebab' */
   autoImportComponentCase?: "kebab" | "pascal" | "combined";
+  components?: (keyof QuasarPluginOptions["components"])[];
+  directives?: (keyof QuasarPluginOptions["directives"])[];
 }
 
 interface QuasarAllFrameworkObjectConfiguration
@@ -65,5 +67,6 @@ interface QuasarAllFrameworkObjectConfiguration
 }
 
 export type QuasarFrameworkConfiguration =
+  | "all" // Equal to `{ importStrategy: 'all' }`
   | QuasarAutoFrameworkObjectConfiguration
   | QuasarAllFrameworkObjectConfiguration;

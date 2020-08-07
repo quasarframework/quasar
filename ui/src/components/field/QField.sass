@@ -3,11 +3,6 @@ $field-transition: .36s cubic-bezier(.4,0,.2,1)
 $field-transition-label-right-down: .396s cubic-bezier(.4,0,.2,1)
 $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
-@keyframes q-autofill
-  to
-    background: transparent
-    color: $input-autofill-color
-
 .q-field
   font-size: $input-font-size
 
@@ -97,6 +92,7 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
       bottom: 0
       left: 0
       pointer-events: none
+      z-index: 1
     &:before
       border-radius: inherit
 
@@ -123,6 +119,19 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     width: 100%
     min-width: 0 // needed for FF
     outline: 0 !important // needed for FF
+
+    &:-webkit-autofill
+      -webkit-animation-name: q-autofill
+      -webkit-animation-fill-mode: both
+
+    &:-webkit-autofill + .q-field__label
+      transform: translateY(-40%) scale(.75)
+    &[type="number"]:invalid + .q-field__label
+      transform: translateY(-40%) scale(.75)
+
+    &:invalid
+      box-shadow: none
+
   &__native[type="file"]
     line-height: 1em // needed for Chrome type="file"
   &__input
@@ -181,19 +190,6 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
     transform: translateY(-40%) scale(.75)
     right: calc(-100% / 3)
     transition: transform $field-transition, right $field-transition-label-right-down
-
-  .q-field__native, .q-field__input
-    &:-webkit-autofill
-      -webkit-animation-name: q-autofill
-      -webkit-animation-fill-mode: both
-
-    &:-webkit-autofill + .q-field__label
-      transform: translateY(-40%) scale(.75)
-    &[type="number"]:invalid + .q-field__label
-      transform: translateY(-40%) scale(.75)
-
-    &:invalid
-      box-shadow: none
 
   &--focused
     .q-field__label
@@ -516,3 +512,8 @@ $field-transition-label-right-up: .324s cubic-bezier(.4,0,.2,1)
 
   70%, 90%
     margin-left: 2px
+
+@keyframes q-autofill
+  to
+    background: transparent
+    color: $input-autofill-color

@@ -32,9 +32,7 @@
       "type": "Number",
       "desc": "Number of rows to render in the virtual list",
       "default": "30",
-      "examples": [
-        ":virtual-scroll-slice-size=\"60\""
-      ],
+      "examples": [ ":virtual-scroll-slice-size=\"60\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
     },
@@ -43,9 +41,7 @@
       "type": "Number",
       "desc": "Default size in pixels of a row; This value is used for rendering the initial table; Try to use a value close to the minimum size of a row",
       "default": "48 (24 if dense)",
-      "examples": [
-        ":virtual-scroll-item-size=\"48\""
-      ],
+      "examples": [ ":virtual-scroll-item-size=\"48\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
     },
@@ -54,9 +50,7 @@
       "type": "Number",
       "desc": "Size in pixels of the sticky header (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [
-        ":virtual-scroll-sticky-size-start=\"48\""
-      ],
+      "examples": [ ":virtual-scroll-sticky-size-start=\"48\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
     },
@@ -65,11 +59,17 @@
       "type": "Number",
       "desc": "Size in pixels of the sticky footer part (if using one); A correct value will improve scroll precision",
       "default": "0",
-      "examples": [
-        ":virtual-scroll-sticky-size-end=\"48\""
-      ],
+      "examples": [ ":virtual-scroll-sticky-size-end=\"48\"" ],
       "category": "virtual-scroll",
       "addedIn": "v1.2.0"
+    },
+
+    "table-colspan": {
+      "type": [ "Number", "String" ],
+      "desc": "The number of columns in the table (you need this if you use table-layout: fixed)",
+      "examples": [ "table-colspan=\"12\"" ],
+      "category": "virtual-scroll|content",
+      "addedIn": "v1.13.0"
     },
 
     "color": {
@@ -1468,6 +1468,13 @@
           "type": "Object",
           "desc": "The row upon which user has clicked/tapped",
           "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ],
+          "addedIn": "v1.13.0"
         }
       },
       "addedIn": "v1.2.6"
@@ -1487,6 +1494,13 @@
           "type": "Object",
           "desc": "The row upon which user has double clicked/tapped",
           "__exemption": [ "examples" ]
+        },
+
+        "index": {
+          "type": "Number",
+          "desc": "Index of the row in the current page",
+          "__exemption": [ "examples" ],
+          "addedIn": "v1.13.0"
         }
       },
       "addedIn": "v1.5.10"

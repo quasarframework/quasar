@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "2.0.0",
+  "version": "2.0.6",
   "description": "Quasar Framework local CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -42,7 +42,7 @@
     "url": "https://donate.quasar.dev"
   },
   "dependencies": {
-    "@quasar/babel-preset-app": "2.0.0",
+    "@quasar/babel-preset-app": "2.0.1",
     "@quasar/fastclick": "1.1.4",
     "@types/cordova": "0.0.34",
     "@types/electron-packager": "14.0.0",
@@ -68,7 +68,7 @@
     "express": "4.17.1",
     "fast-glob": "3.2.4",
     "file-loader": "6.0.0",
-    "fork-ts-checker-webpack-plugin": "5.0.1",
+    "fork-ts-checker-webpack-plugin": "4.1.6",
     "friendly-errors-webpack-plugin": "1.7.0",
     "fs-extra": "9.0.1",
     "html-minifier": "4.0.0",

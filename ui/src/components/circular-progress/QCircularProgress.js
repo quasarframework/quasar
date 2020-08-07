@@ -162,7 +162,8 @@ export default Vue.extend({
         style: this.svgStyle,
         attrs: {
           focusable: 'false' /* needed for IE11 */,
-          viewBox: this.viewBoxAttr
+          viewBox: this.viewBoxAttr,
+          'aria-hidden': 'true'
         }
       }, svgChild)
     ]

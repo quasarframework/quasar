@@ -25,3 +25,31 @@ export function throttle<F extends (...args: any[]) => any>(
   limit: number
 ): F;
 export function uid(): string;
+
+interface MorphOptions {
+  from: Element | string | (() => Element | null | undefined);
+  to?: Element | string | (() => Element | null | undefined);
+  onToggle?: () => void;
+  waitFor?: number | 'transitionend' | Promise<any>;
+
+  duration?: number;
+  easing?: string;
+  delay?: number;
+  fill?: string;
+
+  style?: string | Partial<CSSStyleDeclaration>;
+  classes?: string;
+
+  resize?: boolean;
+  useCSS?: boolean;
+  hideFromClone?: boolean;
+  keepToClone?: boolean;
+
+  tween?: boolean;
+  tweenFromOpacity?: number;
+  tweenToOpacity?: number;
+
+  onEnd?: (direction: 'to' | 'from', aborted: boolean) => void;
+}
+
+export function morph(options: MorphOptions): (abort?: boolean) => boolean;

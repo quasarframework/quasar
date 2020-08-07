@@ -173,6 +173,13 @@ return {
     // is using "auto" import strategy, you can also configure:
     autoImportComponentCase: 'pascal', // or 'kebab' (default) or 'combined'
 
+    // For special cases outside of where auto-import "auto" can have an impact
+    // (like functional components as one of the examples),
+    // you can manually specify Quasar components/directives to be available everywhere:
+    //
+    // components: [],
+    // directives: [],
+
     // Quasar plugins
     plugins: ['Notify' /* ... */],
 

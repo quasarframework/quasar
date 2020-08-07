@@ -12,10 +12,14 @@
   "props": {
     "value": {
       "extends": "value",
+      "type": [ "String", "Array" ],
       "required": true,
-      "desc": "Date of the component; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Date of the component; Must be Array if using 'multiple' prop; Must be 2 dimensional Array if using 'range' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [
-        "v-model=\"myDate\""
+        "v-model=\"myDate\"",
+        "v-model=\"[myDate1, myDate2]\"",
+        "v-model=\"[[myDateFrom, myDateTo]]\"",
+        "v-model=\"[myDate1, [myDateFrom, myDateTo], myDate2]\""
       ],
       "category": "model"
     },
@@ -121,6 +125,34 @@
       "type": "Boolean",
       "desc": "Don’t display the header",
       "category": "content"
+    },
+
+    "multiple": {
+      "type": "Boolean",
+      "desc": "Allow multiple selection; Model must be Array",
+      "category": "model|selection"
+    },
+
+    "range": {
+      "type": "Boolean",
+      "desc": "Allow range selection; Model must be 2 dimensional Array",
+      "category": "model|selection"
+    },
+
+    "edit-range": {
+      "type": "String",
+      "desc": "Use with 'range' prop only; Range gets editable",
+      "default": "end",
+      "values": [ "start", "end" ],
+      "category": "selection"
+    },
+
+    "default-range-view": {
+      "type": "String",
+      "desc": "When range or multiple are true, this value indicates the year/month of what range-end will be in the view",
+      "default": "end",
+      "values": [ "start", "end" ],
+      "category": "model|selection"
     }
   },
 
@@ -141,7 +173,7 @@
         "reason": {
           "type": "String",
           "desc": "Reason of the user interaction (what was picked)",
-          "values": [ "year", "month", "day", "today", "locale", "mask" ]
+          "values": [ "year", "month", "day", "today", "locale", "mask", "add-day", "remove-day", "add-range-start-day", "set-range-start-day", "set-range-end-day" ]
         },
         "details": {
           "type": "Object",
@@ -183,9 +215,37 @@
           "type": "Number",
           "desc": "The month"
         }
-      }
+      },
+      "addedIn": "v1.13.0"
     },
-    "addedIn": "v1.12.5"
+
+
+    "mock-range-end": {
+      "desc": "In-progress range selection ended",
+      "params": {
+        "value": {
+          "type": "Object",
+          "desc": "Object with year, month and day as props",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            },
+            "day": {
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      }
+    }
   },
 
   "methods": {
@@ -220,6 +280,33 @@
         "descending": {
           "type": "Boolean",
           "desc": "Decrement?"
+        }
+      }
+    },
+
+    "setMockRangeEnd": {
+      "desc": "Sets the mock range-end",
+      "params": {
+        "date": {
+          "type": "Object",
+          "desc": "Object with year, month and day as props",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            },
+            "day": {
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            }
+          }
         }
       }
     }

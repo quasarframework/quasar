@@ -3,8 +3,18 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 
+import {
+  formatDate,
+  __splitDate,
+  extractDate,
+  addToDate,
+  getMinDate,
+  getMaxDate,
+  isSameDate,
+  isBetweenDates,
+  getDateDiff
+} from '../../utils/date.js'
 import { slot } from '../../utils/slot.js'
-import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 import cache from '../../utils/cache.js'
@@ -18,6 +28,23 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
+    value: {
+      type: [ String, Array ]
+    },
+
+    multiple: Boolean,
+    range: Boolean,
+    editRange: {
+      type: String,
+      default: null,
+      validator: val => ['start', 'end'].includes(val)
+    },
+    defaultRangeView: {
+      type: String,
+      default: 'start',
+      validator: val => ['start', 'end'].includes(val)
+    },
+
     title: String,
     subtitle: String,
 
@@ -53,13 +80,23 @@ export default Vue.extend({
 
   data () {
     const
-      { inner, external } = this.__getModels(this.value, this.mask, this.__getComputedLocale()),
+      locale = this.__getComputedLocale(),
+      { inner, external } = this.__getModels(
+        this.defaultRangeView === 'start'
+          ? this.__getFirstSelectedDate(this.value)
+          : this.__getLastSelectedDate(this.value),
+        this.mask,
+        locale
+      ),
+      dates = this.__getDates(this.value, this.mask, locale),
       direction = this.$q.lang.rtl === true ? 'right' : 'left'
 
     return {
       view: this.defaultView,
       monthDirection: direction,
       yearDirection: direction,
+      dates: dates,
+      mockRangeEnd: null,
       startYear: inner.year - inner.year % yearsInterval - (inner.year < 0 ? yearsInterval : 0),
       innerModel: inner,
       extModel: external
@@ -68,7 +105,18 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      const { inner, external } = this.__getModels(v, this.mask, this.__getComputedLocale())
+      const
+        locale = this.__getComputedLocale(),
+        { inner, external } = this.__getModels(
+          this.defaultRangeView === 'start'
+            ? this.__getFirstSelectedDate(v)
+            : this.__getLastSelectedDate(v),
+          this.mask,
+          locale
+        ),
+        dates = this.__getDates(v, this.mask, locale)
+
+      this.dates = dates
 
       if (
         this.extModel.dateHash !== external.dateHash ||
@@ -124,7 +172,19 @@ export default Vue.extend({
       const model = this.extModel
       if (model.dateHash === null) { return ' --- ' }
 
+      if (this.multiple === true) {
+        return this.totalSelectedDates + ' ' +
+          (this.totalSelectedDates === 1 ? this.computedLocale.singleDay : this.computedLocale.pluralDay)
+      }
+
       let date
+
+      if (this.range === true && Array.isArray(this.dates) === true && Array.isArray(this.dates[0]) === true) {
+        date = this.dates[0]
+        return this.computedLocale.monthsShort[ date[0].getMonth() ] + ' ' +
+          date[0].getDate() + '\u2014' + (date.length === 2 ? this.computedLocale.monthsShort[ date[1].getMonth() ] + ' ' +
+          date[1].getDate() : ' --- ')
+      }
 
       if (this.calendar !== 'persian') {
         date = new Date(model.year, model.month - 1, model.day)
@@ -146,13 +206,31 @@ export default Vue.extend({
     },
 
     headerSubtitle () {
-      return this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0
-        ? this.subtitle
-        : (
-          this.extModel.year !== null
-            ? this.extModel.year
-            : ' --- '
+      if (this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0) {
+        return this.subtitle
+      }
+
+      if (this.multiple === true && this.minSelectedDate !== null && this.maxSelectedDate !== null) {
+        return this.computedLocale.monthsShort[this.minSelectedDate.getMonth()] + (
+          this.minSelectedDate.getFullYear() !== this.maxSelectedDate.getFullYear()
+            ? ' ' + this.minSelectedDate.getFullYear() + '\u2014' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()] + ' '
+            : (
+              this.minSelectedDate.getMonth() !== this.maxSelectedDate.getMonth()
+                ? '\u2014' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()]
+                : ''
+            )
+        ) + ' ' + this.maxSelectedDate.getFullYear()
+      }
+
+      if (this.range === true && Array.isArray(this.dates) === true && Array.isArray(this.dates[0]) === true) {
+        return this.dates[0][0].getFullYear() + (
+          this.dates[0].length > 1 && this.dates[0][0].getFullYear() !== this.dates[0][1].getFullYear()
+            ? '\u2014' + this.dates[0][1].getFullYear()
+            : ''
         )
+      }
+
+      return this.extModel.year !== null ? this.extModel.year : ' --- '
     },
 
     dateArrow () {
@@ -193,13 +271,110 @@ export default Vue.extend({
     evtColor () {
       return typeof this.eventColor === 'function'
         ? this.eventColor
-        : date => this.eventColor
+        : () => this.eventColor
     },
 
     isInSelection () {
       return typeof this.options === 'function'
         ? this.options
         : date => this.options.includes(date)
+    },
+
+    isInDates () {
+      return date => Array.isArray(this.dates)
+        ? this.dates.filter(value => Array.isArray(value) === false && isSameDate(value, date) === true).length > 0 ||
+          this.isInRange(date) ||
+          this.isRangeStart(date) ||
+          this.isRangeEnd(date)
+        : isSameDate(this.dates, date)
+    },
+
+    isInRange () {
+      return date => Array.isArray(this.dates) === true &&
+        this.dates.filter(value => {
+          return Array.isArray(value) &&
+            value.length === 2 &&
+            isBetweenDates(date, getMinDate(...value), getMaxDate(...value), { inclusiveFrom: true, inclusiveTo: true })
+        }).length > 0
+    },
+
+    isRangeStart () {
+      return date => Array.isArray(this.dates) === true &&
+        this.dates.filter(value => Array.isArray(value) && value.length === 2 && isSameDate(date, getMinDate(...value))).length > 0
+    },
+
+    isRangeEnd () {
+      return date => Array.isArray(this.dates) === true &&
+        this.dates.filter(value => Array.isArray(value) && value.length === 2 && isSameDate(date, getMaxDate(...value))).length > 0
+    },
+
+    needsRangeEnd () {
+      return this.__needsRangeEnd(this.dates)
+    },
+
+    isInMockRange () {
+      return date => this.mockRangeEnd !== null &&
+        isBetweenDates(
+          date,
+          getMinDate(this.__getRangeStart(this.dates), this.mockRangeEnd),
+          getMaxDate(this.__getRangeStart(this.dates), this.mockRangeEnd),
+          { inclusiveFrom: true, inclusiveTo: true }
+        )
+    },
+
+    isMockRangeStart () {
+      return date => this.mockRangeEnd !== null &&
+        isSameDate(getMinDate(this.__getRangeStart(this.dates), this.mockRangeEnd), date)
+    },
+
+    isMockRangeEnd () {
+      return date => this.mockRangeEnd !== null &&
+        isSameDate(getMaxDate(this.__getRangeStart(this.dates), this.mockRangeEnd), date)
+    },
+
+    minSelectedDate () {
+      if (Array.isArray(this.dates) === true) {
+        let min = Array.isArray(this.dates[0]) ? getMinDate(...this.dates[0]) : this.dates[0]
+        this.dates.forEach(value => {
+          min = Array.isArray(value) ? getMinDate(...value, min) : getMinDate(value, min)
+        })
+
+        return new Date(min)
+      }
+
+      return this.dates
+    },
+
+    maxSelectedDate () {
+      if (Array.isArray(this.dates) === true) {
+        let max = Array.isArray(this.dates[0]) ? getMaxDate(...this.dates[0]) : this.dates[0]
+        this.dates.forEach(value => {
+          max = Array.isArray(value) ? getMaxDate(...value, max) : getMaxDate(value, max)
+        })
+
+        return new Date(max)
+      }
+
+      return this.dates
+    },
+
+    totalSelectedDates () {
+      if (Array.isArray(this.dates) === true) {
+        let total = 0
+
+        this.dates.forEach(value => {
+          if (Array.isArray(value) === true) {
+            total += getDateDiff(getMaxDate(...value), getMinDate(...value)) + 1
+          }
+          else {
+            total += 1
+          }
+        })
+
+        return total
+      }
+
+      return this.value !== '' ? 1 : 0
     },
 
     days () {
@@ -238,17 +413,38 @@ export default Vue.extend({
 
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + pad(i)
+        const dateAdded = addToDate(date, { days: i - 1 })
+        const item = { i }
 
-        if (this.options !== void 0 && this.isInSelection(day) !== true) {
-          res.push({ i })
+        if (this.isInDates(dateAdded) === true) {
+          item.range = this.isInRange(dateAdded)
+          item.rangeStart = this.isRangeStart(dateAdded)
+          item.rangeEnd = this.isRangeEnd(dateAdded)
+          if (item.rangeStart || item.rangeEnd || item.range === false) {
+            item.flat = false
+          }
+          item.unelevated = true
+          item.color = this.computedColor
+          item.textColor = this.computedTextColor
         }
-        else {
+
+        if (this.options === void 0 || this.isInSelection(day) === true) {
           const event = this.events !== void 0 && this.evtFn(day) === true
             ? this.evtColor(day)
             : false
-
-          res.push({ i, in: true, flat: true, event })
+          item.in = true
+          item.event = event
+          item.flat = item.flat !== false
         }
+
+        if (this.isInMockRange(dateAdded) === true) {
+          item.mockRange = true
+          item.mockRangeStart = this.isMockRangeStart(dateAdded)
+          item.mockRangeEnd = this.isMockRangeEnd(dateAdded)
+          item.color = this.computedColor
+        }
+
+        res.push(item)
       }
 
       if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
@@ -278,10 +474,10 @@ export default Vue.extend({
 
     attrs () {
       if (this.disable === true) {
-        return { 'aria-disabled': '' }
+        return { 'aria-disabled': 'true' }
       }
       if (this.readonly === true) {
-        return { 'aria-readonly': '' }
+        return { 'aria-readonly': 'true' }
       }
     }
   },
@@ -304,6 +500,95 @@ export default Vue.extend({
           descending === true ? -1 : 1
         )
       }
+    },
+
+    setMockRangeEnd (rangeEnd) {
+      this.mockRangeEnd = rangeEnd
+        ? new Date(rangeEnd.year, rangeEnd.month - 1, rangeEnd.day)
+        : null
+    },
+
+    __getFirstSelectedDate (val) {
+      if (Array.isArray(val) === true) {
+        let first = val.slice().shift()
+        return Array.isArray(first) === true ? first[0] : first
+      }
+
+      return val
+    },
+
+    __getLastSelectedDate (val) {
+      if (Array.isArray(val) === true) {
+        let last = val.slice().pop()
+        return Array.isArray(last) === true ? last[last.length - 1] : last
+      }
+
+      return val
+    },
+
+    __needsRangeEnd (val) {
+      return Array.isArray(val) === true &&
+        Array.isArray(val[val.length - 1]) === true &&
+        val[val.length - 1].length === 1
+    },
+
+    __getRangeStart (val) {
+      if (Array.isArray(val) === false || val.length === 0 || Array.isArray(val[val.length - 1]) === false) {
+        return null
+      }
+
+      let index
+
+      if (this.needsRangeEnd !== true && this.mockRangeEnd !== null) {
+        let fn
+
+        if (isBetweenDates(this.mockRangeEnd, getMinDate(...this.dates[this.dates.length - 1]), getMaxDate(...this.dates[this.dates.length - 1]), { inclusiveFrom: true, inclusiveTo: true })) {
+          fn = this.editRange === 'start' ? getMaxDate : getMinDate
+        }
+        else if (isSameDate(this.mockRangeEnd, getMinDate(...this.dates[this.dates.length - 1], this.mockRangeEnd))) {
+          fn = getMaxDate
+        }
+        else {
+          fn = getMinDate
+        }
+
+        index = isSameDate(
+          this.dates[this.dates.length - 1][0],
+          fn(...this.dates[this.dates.length - 1])
+        ) ? 0 : 1
+      }
+      else {
+        index = 0
+      }
+
+      return val[val.length - 1][index]
+    },
+
+    __getDates (val, mask, locale) {
+      if (Array.isArray(val)) {
+        let array = []
+
+        val.forEach((value, index) => {
+          if (Array.isArray(value) === true) {
+            array[index] = []
+            value.forEach((value2, index2) => {
+              array[index][index2] = extractDate(value2, mask, locale)
+            })
+          }
+          else if (val !== null) {
+            array[index] = extractDate(value, mask, locale)
+          }
+          else {
+            array = val
+          }
+        })
+
+        return array
+      }
+      else if (val !== null) {
+        return extractDate(val, mask, locale)
+      }
+      else return val
     },
 
     __getModels (val, mask, locale) {
@@ -519,7 +804,20 @@ export default Vue.extend({
                 key: this.innerModel.year + '/' + this.innerModel.month,
                 staticClass: 'q-date__calendar-days fit'
               }, this.days.map(day => h('div', {
-                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}`
+                staticClass:
+                  `q-date__calendar-item q-date__calendar-item--selected q-date__calendar-item--${
+                    day.fill === true
+                      ? 'fill'
+                      : (day.in === true ? 'in' : 'out')
+                  } ${
+                    day.range === true
+                      ? 'q-date__calendar-item--range' + (day.rangeEnd ? '-end' : (day.rangeStart ? '-start' : '')) + ' text-' + day.color
+                      : ''
+                  } ${
+                    day.mockRange === true
+                      ? 'q-date__calendar-item--mock-range' + (day.mockRangeEnd ? '-end' : '') + (day.mockRangeStart ? '-start' : '') + ' text-' + day.color
+                      : ''
+                  }`
               }, [
                 day.in === true
                   ? h(QBtn, {
@@ -533,7 +831,40 @@ export default Vue.extend({
                       label: day.i,
                       tabindex: this.computedTabindex
                     },
-                    on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
+                    on: cache(this, 'day#' + day.i, {
+                      click: () => {
+                        if (this.range) {
+                          if (this.needsRangeEnd) {
+                            this.__setRangeEndDay(day.i)
+                          }
+                          else if (this.multiple) {
+                            this.__addRangeStartDay(day.i)
+                          }
+                          else if (this.editRange !== null && this.__getRangeStart(this.dates) !== null) {
+                            this.__editRange(day.i)
+                          }
+                          else {
+                            this.__setRangeStartDay(day.i)
+                          }
+                        }
+                        else if (this.multiple) {
+                          this.__addRemoveDay(day.i)
+                        }
+                        else {
+                          this.__setDay(day.i)
+                        }
+                      },
+                      mouseover: () => {
+                        if (this.needsRangeEnd || (!this.multiple && this.editRange !== null)) {
+                          this.__setMockRangeEndDay(day.i)
+                        }
+                      },
+                      mouseleave: () => {
+                        if (this.needsRangeEnd || (!this.multiple && this.editRange !== null)) {
+                          this.__deleteMockRangeEnd(day.i)
+                        }
+                      }
+                    })
                   }, day.event !== false ? [
                     h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
@@ -708,6 +1039,48 @@ export default Vue.extend({
       this.__updateValue({ day }, 'day')
     },
 
+    __setRangeStartDay (day) {
+      this.__updateValue({ day }, 'set-range-start-day')
+    },
+
+    __addRangeStartDay (day) {
+      this.__updateValue({ day }, 'add-range-start-day')
+    },
+
+    __setMockRangeEndDay (day) {
+      if (this.__getRangeStart(this.dates) !== null) {
+        this.mockRangeEnd = new Date(
+          this.innerModel.year,
+          this.innerModel.month - 1,
+          day
+        )
+        this.$emit('mock-range-end', {
+          year: this.innerModel.year,
+          month: this.innerModel.month,
+          day
+        })
+      }
+    },
+
+    __deleteMockRangeEnd () {
+      this.mockRangeEnd = null
+      this.$emit('mock-range-end', null)
+    },
+
+    __setRangeEndDay (day) {
+      this.__updateValue({ day }, 'set-range-end-day')
+      this.__deleteMockRangeEnd(day)
+    },
+
+    __editRange (day) {
+      this.__updateValue({ day }, 'edit-range')
+      this.__deleteMockRangeEnd(day)
+    },
+
+    __addRemoveDay (day) {
+      this.__updateValue({ day }, 'add-remove-day')
+    },
+
     __updateValue (date, reason) {
       if (date.year === void 0) {
         date.year = this.innerModel.year
@@ -745,8 +1118,174 @@ export default Vue.extend({
           this.extModel.timezoneOffset
         )
 
-      date.changed = val !== this.value
-      this.$emit('input', val, reason, date)
+      if (['add-range-start-day', 'set-range-start-day', 'set-range-end-day', 'add-remove-day', 'edit-range'].includes(reason) === true) {
+        const day = extractDate(val, this.mask, this.__getComputedLocale())
+        let dates, valArray
+
+        if (this.value === null) {
+          dates = valArray = []
+        }
+        else if (Array.isArray(this.dates) === false) {
+          dates = [ this.dates ]
+          valArray = [ this.value ]
+        }
+        else {
+          dates = this.dates.slice()
+          valArray = this.value.slice()
+        }
+
+        if (reason === 'set-range-start-day' || reason === 'add-range-start-day') {
+          if (reason === 'set-range-start-day') {
+            dates = [[day]]
+            valArray = [[val]]
+          }
+          else if (this.isInRange(day) === false) {
+            if (this.isInDates(day) === true) {
+              this.__updateValue(date, 'add-remove-day')
+              return
+            }
+            else {
+              const range = [day], valRange = [val]
+              if (dates.length > 0) {
+                dates.push(range)
+              }
+              valArray.push(valRange)
+            }
+          }
+          else {
+            if (this.isRangeStart(day) || this.isRangeEnd(day)) {
+              reason = 'edit-range'
+              this.dates.some((value, index) => {
+                if (Array.isArray(value) === true && (isSameDate(value[0], day) || isSameDate(value[1], day)) === true) {
+                  const val = valArray.splice(index, 1)[0][isSameDate(value[0], day) ? 1 : 0]
+                  valArray.push([val])
+                  this.mockRangeEnd = day
+                  return true
+                }
+              })
+            }
+            else {
+              this.__updateValue(date, 'add-remove-day')
+              return
+            }
+          }
+        }
+        else if (reason === 'set-range-end-day' || reason === 'edit-range') {
+          const range = [this.__getRangeStart(dates), day]
+          const valRange = [this.__getRangeStart(valArray), val]
+
+          if (isSameDate(range[0], range[1]) === true) {
+            reason = 'add-day'
+            valArray.splice(-1, 1, val)
+          }
+          else {
+            if (isSameDate(range[1], getMinDate(...range)) === true) {
+              range.reverse()
+              valRange.reverse()
+            }
+
+            valArray.splice(-1, 1, valRange)
+            dates.splice(-1, 1, range)
+            dates.forEach((value, index) => {
+              if (Array.isArray(value)) {
+                if (value === range) {
+                  return
+                }
+                if (isBetweenDates(day, getMinDate(...value), getMaxDate(...value), { inclusiveTo: true, inclusiveFrom: true })) {
+                  valRange[1] = isSameDate(range[0], getMinDate(...value, range[0]))
+                    ? valArray[index][isSameDate(value[0], getMaxDate(...value)) ? 0 : 1]
+                    : valArray[index][isSameDate(value[0], getMinDate(...value)) ? 0 : 1]
+                  valArray[index] = undefined
+                }
+                else if (getMinDate(...range) <= getMinDate(...value) && getMaxDate(...range) >= getMaxDate(...value)) {
+                  valArray[index] = undefined
+                }
+              }
+              else if (isBetweenDates(value, getMinDate(...range), getMaxDate(...range), { inclusiveTo: true, inclusiveFrom: true })) {
+                valArray[index] = undefined
+              }
+            })
+
+            valArray = valArray.filter(a => a !== undefined)
+          }
+        }
+        else {
+          if (this.isInDates(day)) {
+            reason = 'remove-day'
+            const
+              dayPrev = addToDate(day, { days: -1 }),
+              dayNext = addToDate(day, { days: 1 }),
+              valPrev = this.calendar === 'persian'
+                ? dayPrev.getFullYear() + '/' + pad(dayPrev.getMonth() + 1) + '/' + pad(dayPrev.getDate())
+                : formatDate(
+                  dayPrev,
+                  this.mask,
+                  this.computedLocale,
+                  dayPrev.getFullYear(),
+                  this.extModel.timezoneOffset
+                ),
+              valNext = this.calendar === 'persian'
+                ? dayNext.getFullYear() + '/' + pad(dayNext.getMonth() + 1) + '/' + pad(dayNext.getDate())
+                : formatDate(
+                  dayNext,
+                  this.mask,
+                  this.computedLocale,
+                  dayNext.getFullYear(),
+                  this.extModel.timezoneOffset
+                )
+
+            dates.some((value, index) => {
+              if (Array.isArray(value) === true) {
+                if (isBetweenDates(day, getMinDate(...value), getMaxDate(...value), { inclusiveTo: true, inclusiveFrom: true })) {
+                  if (isSameDate(value[0], day)) {
+                    valArray[index][0] = isSameDate(getMinDate(...value), value[0]) ? valNext : valPrev
+                  }
+                  else if (isSameDate(value[1], day)) {
+                    valArray[index][1] = isSameDate(getMinDate(...value), value[0]) ? valPrev : valNext
+                  }
+                  else {
+                    valArray.splice(
+                      index,
+                      1,
+                      [valArray[index][0], isSameDate(getMinDate(...value), value[0]) ? valPrev : valNext],
+                      [isSameDate(getMinDate(...value), value[0]) ? valNext : valPrev, valArray[index][1]]
+                    )
+                    if (isSameDate(valArray[index + 1][0], valArray[index + 1][1])) {
+                      valArray.splice(index + 1, 1, valArray[index + 1][0])
+                    }
+                  }
+                  if (isSameDate(valArray[index][0], valArray[index][1])) {
+                    valArray.splice(index, 1, valArray[index][0])
+                  }
+                  return true
+                }
+              }
+              else if (isSameDate(value, day)) {
+                valArray.splice(index, 1)
+                return true
+              }
+            })
+          }
+          else {
+            reason = 'add-day'
+            valArray.push(val)
+          }
+        }
+
+        if (valArray.length === 1 && Array.isArray(valArray[0]) === false) {
+          valArray = valArray[0]
+        }
+        else if (valArray.length === 0) {
+          valArray = null
+        }
+
+        date.changed = true
+        this.$emit('input', valArray, reason, date)
+      }
+      else {
+        date.changed = val !== this.value
+        this.$emit('input', val, reason, date)
+      }
 
       if (val === this.value && reason === 'today') {
         const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
@@ -800,7 +1339,6 @@ export default Vue.extend({
       on: { ...this.qListeners }
     }, [
       this.__getHeader(h),
-
       h('div', {
         staticClass: 'q-date__main col column',
         attrs: { tabindex: -1 },

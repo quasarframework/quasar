@@ -87,13 +87,13 @@
 
     "persistent": {
       "type": "Boolean",
-      "desc": "Does not auto-closes when app's route changes",
+      "desc": "Prevents drawer from auto-closing when app's route changes",
       "category": "behavior"
     },
 
     "show-if-above": {
       "type": "Boolean",
-      "desc": "Force drawer to be shown on screen on initial render if the layout width is above breakpoint, regardless of v-model; This is the default behavior when SSR is taken over by client on initial render",
+      "desc": "Forces drawer to be shown on screen on initial render if the layout width is above breakpoint, regardless of v-model; This is the default behavior when SSR is taken over by client on initial render",
       "category": "behavior"
     },
 
@@ -131,7 +131,7 @@
 
     "no-swipe-backdrop": {
       "type": "Boolean",
-      "desc": "Disable the default behavior where drawer backdrop can be swiped",
+      "desc": "Disables the default behavior where drawer backdrop can be swiped",
       "category": "behavior",
       "addedIn": "v1.1.7"
     }

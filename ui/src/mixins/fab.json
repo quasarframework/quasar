@@ -127,6 +127,11 @@
 
     "disable": {
       "extends": "disable"
+    },
+
+    "tabindex": {
+      "extends": "tabindex",
+      "addedIn": "v1.13.0"
     }
   }
 }

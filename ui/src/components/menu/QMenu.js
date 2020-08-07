@@ -168,7 +168,10 @@ export default Vue.extend({
       }
 
       if (this.unwatch === void 0) {
-        this.unwatch = this.$watch(() => this.$q.screen.width + '|' + this.$q.screen.height, this.updatePosition)
+        this.unwatch = this.$watch(
+          () => this.$q.screen.width + '|' + this.$q.screen.height + '|' + this.self + '|' + this.anchor,
+          this.updatePosition
+        )
       }
 
       this.$el.dispatchEvent(create('popup-show', { bubbles: true }))

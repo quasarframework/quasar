@@ -9,7 +9,8 @@ let
   vm,
   uid = 0,
   timeout,
-  props = {},
+  props = {}
+const
   originalDefaults = {
     delay: 0,
     message: false,

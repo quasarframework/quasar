@@ -3,7 +3,7 @@ title: What is a Browser Extension
 desc: Introduction on what a Browser Extension (BEX) is.
 ---
 
-A Browser Extension (BEX) is an application that runs in the browsers context and is used to customise the web browser in some way.
+A Browser Extension (BEX) is an application that runs in the browsers context and is used to customize the web browser in some way.
 
 They are built on web technologies such as HTML, JavaScript, and CSS and will aim to fulfill a single purpose. A single BEX
 can be built in any way the user deems fit but must contribute towards fulfilling that single purpose.

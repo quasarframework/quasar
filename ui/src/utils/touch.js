@@ -13,7 +13,7 @@ const modifiersAll = {
 }
 
 export function getModifierDirections (mod) {
-  let dir = {}
+  const dir = {}
 
   directions.forEach(direction => {
     if (mod[direction]) {
@@ -42,21 +42,6 @@ export function getModifierDirections (mod) {
   }
 
   return dir
-}
-
-export function updateModifiers (ctx, { oldValue, value, modifiers }) {
-  if (oldValue !== value) {
-    typeof value !== 'function' && ctx.end()
-    ctx.handler = value
-  }
-
-  if (
-    ctx.modifiers.mouseAllDir !== modifiers.mouseAllDir ||
-    directions.some(direction => modifiers[direction] !== ctx.modifiers[direction])
-  ) {
-    ctx.modifiers = modifiers
-    ctx.direction = getModifierDirections(modifiers)
-  }
 }
 
 export const getTouchTarget = isSSR === false && iosEmulated !== true && (

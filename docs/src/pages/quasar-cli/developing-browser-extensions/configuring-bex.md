@@ -46,4 +46,4 @@ This must be native CSS as it's not preprocessed via SASS / Stylus.
 
 ## Hook Files
 
-In a Quasar BEX, you are provided with `background-hook.js`, `content-hook.js` and `dom-hook.js`. These files are designed to give you access to a bridge which closes the gap in communication with each layer of a BEX. We will explore them in more detail in the [next section](/developing-browser-extensions/communication).
+In a Quasar BEX, you are provided with `background-hook.js`, `content-hook.js` and `dom-hook.js`. These files are designed to give you access to a bridge which closes the gap in communication with each layer of a BEX. We will explore them in more detail in the [next section](/quasar-cli/developing-browser-extensions/bex-communication).

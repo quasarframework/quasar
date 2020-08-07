@@ -4,20 +4,27 @@
 
   section
     .landing__hero.flex.flex-center
-      .relative-position
+      .relative-position.text-center
         .text-h1
-          .text-weight-bold Quasar
-          .landing__hero-row.row.no-wrap.items-baseline
+          div
+            span.text-bold Quasar
+            span.text-subtitle1 v{{ $q.version }}
+          .landing__hero-row.row.no-wrap.items-baseline.justify-center
             span Framew
             img.landing__logo(src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg")
             span rk
         .text-subtitle1.q-pl-sm Build high-performance <strong>VueJS</strong> user interfaces in record time
+        .q-pt-sm.q-px-sm
+          conf-countdown.landing-countdown.bg-primary.text-white.rounded-borders(
+            color="white"
+            text-color="primary"
+            align-class="justify-center"
+          )
         .q-pt-md.q-pl-sm
-          .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center
-            q-btn(color="white", text-color="primary", no-caps, to="/start", label="Get Started")
-            q-btn(color="white", text-color="primary", no-caps, to="/introduction-to-quasar", label="Why Quasar?")
-            q-btn(color="white", text-color="primary", no-caps, to="/video-tutorials", label="Video Tutorials")
-            .text-body2 v{{ $q.version }}
+          .landing__hero-row.landing__hero-btns.q-gutter-sm.row.items-center.justify-center
+            q-btn(color="white" text-color="primary" no-caps to="/start" label="Get Started")
+            q-btn(color="white" text-color="primary" no-caps to="/introduction-to-quasar" label="Why Quasar?")
+            q-btn(color="white" text-color="primary" no-caps to="/video-tutorials" label="Video Tutorials")
         .landing__arrow-down.row.justify-center.absolute
           q-icon.landing__arrow-down-icon.q-mt-xl(:name="mdiChevronDown" size="50px")
 
@@ -169,6 +176,7 @@ import Sponsor from 'components/page-parts/sponsors-and-backers/Sponsor'
 import SponsorList from 'components/page-parts/sponsors-and-backers/SponsorList'
 import LandingTopBar from 'components/page-parts/landing/LandingTopBar'
 import IntroductionVideo from 'components/page-parts/introduction-to-quasar/IntroductionVideo'
+import ConfCountdown from '../components/ConfCountdown'
 
 import {
   fabGithub, fabTwitter, fabFacebook, fasMedkit,
@@ -188,7 +196,8 @@ export default {
     Sponsor,
     SponsorList,
     LandingTopBar,
-    IntroductionVideo
+    IntroductionVideo,
+    ConfCountdown
   },
 
   meta: {
@@ -320,6 +329,10 @@ export default {
 
       &:hover
         color: $grey-4
+
+.landing-countdown
+  border-top: 4px solid darken($primary, 10%)
+  border-bottom: 4px solid darken($primary, 10%)
 
 @keyframes logo-rotate
   100%

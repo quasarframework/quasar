@@ -25,7 +25,7 @@ You'll notice that some Cordova plugins are usable only after the `deviceready` 
 
 ### Caveat
 Let's take a vue file for example:
-```vue
+```html
 <template>
   ... we are sure 'deviceready' has been triggered here ...
 </template>

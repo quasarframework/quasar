@@ -80,6 +80,9 @@ export default Vue.extend({
     leftIcon: String,
     rightIcon: String,
 
+    outsideArrows: Boolean,
+    mobileArrows: Boolean,
+
     switchIndicator: Boolean,
 
     narrowIndicator: Boolean,
@@ -148,10 +151,26 @@ export default Vue.extend({
 
     noCaps (v) {
       this.tabs.noCaps = v
+    },
+
+    outsideArrows () {
+      this.$nextTick(this.__recalculateScroll())
+    },
+
+    arrowsEnabled (v) {
+      this.__updateArrows = v === true
+        ? this.__updateArrowsFn
+        : noop
+
+      this.$nextTick(this.__recalculateScroll())
     }
   },
 
   computed: {
+    arrowsEnabled () {
+      return this.$q.platform.is.desktop === true || this.mobileArrows === true
+    },
+
     alignClass () {
       const align = this.scrollable === true
         ? 'left'
@@ -163,6 +182,7 @@ export default Vue.extend({
     classes () {
       return `q-tabs--${this.scrollable === true ? '' : 'not-'}scrollable` +
         ` q-tabs--${this.vertical === true ? 'vertical' : 'horizontal'}` +
+        ` q-tabs__arrows--${this.arrowsEnabled === true && this.outsideArrows === true ? 'outside' : 'inside'}` +
         (this.dense === true ? ' q-tabs--dense' : '') +
         (this.shrink === true ? ' col-shrink' : '') +
         (this.stretch === true ? ' self-stretch' : '')
@@ -290,12 +310,12 @@ export default Vue.extend({
           ? `translate3d(0,${oldPos.top - newPos.top}px,0) scale3d(1,${newPos.height ? oldPos.height / newPos.height : 1},1)`
           : `translate3d(${oldPos.left - newPos.left}px,0,0) scale3d(${newPos.width ? oldPos.width / newPos.width : 1},1,1)`
 
-        // allow scope updates to kick in
+        // allow scope updates to kick in (QRouteTab needs more time)
         this.$nextTick(() => {
           this.animateTimer = setTimeout(() => {
             newEl.style.transition = 'transform .25s cubic-bezier(.4, 0, .2, 1)'
             newEl.style.transform = 'none'
-          }, 30)
+          }, 70)
         })
       }
 
@@ -320,7 +340,7 @@ export default Vue.extend({
       }
     },
 
-    __updateArrows () {
+    __updateArrowsFn () {
       const
         content = this.$refs.content,
         rect = content.getBoundingClientRect(),
@@ -356,11 +376,11 @@ export default Vue.extend({
     },
 
     __scrollTowards (value) {
+      const content = this.$refs.content
       let
-        content = this.$refs.content,
         pos = this.vertical === true ? content.scrollTop : content.scrollLeft,
-        direction = value < pos ? -1 : 1,
         done = false
+      const direction = value < pos ? -1 : 1
 
       pos += direction * 5
       if (pos < 0) {
@@ -383,10 +403,9 @@ export default Vue.extend({
 
   created () {
     this.buffer = []
-
-    if (this.$q.platform.is.desktop !== true) {
-      this.__updateArrows = noop
-    }
+    this.__updateArrows = this.arrowsEnabled === true
+      ? this.__updateArrowsFn
+      : noop
   },
 
   beforeDestroy () {
@@ -407,7 +426,7 @@ export default Vue.extend({
       }, slot(this, 'default'))
     ]
 
-    this.$q.platform.is.desktop === true && child.push(
+    this.arrowsEnabled === true && child.push(
       h(QIcon, {
         staticClass: 'q-tabs__arrow q-tabs__arrow--left absolute q-tab__icon',
         class: this.leftArrow === true ? '' : 'q-tabs__arrow--faded',

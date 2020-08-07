@@ -31,6 +31,13 @@ q-layout.doc-layout(view="lHh LpR lff", @scroll="onScroll")
     content-class="doc-left-drawer"
   )
     q-scroll-area(style="height: calc(100% - 50px); margin-top: 50px")
+      conf-countdown.layout-countdown(
+        color="primary"
+        align-class="justify-start"
+        padding-class="q-py-md"
+      )
+      q-separator.q-mb-lg
+
       .row.justify-center.q-my-lg
         q-btn(
           type="a"
@@ -116,6 +123,7 @@ import {
 
 import AppMenu from 'components/AppMenu'
 import HeaderMenu from 'components/HeaderMenu'
+import ConfCountdown from 'components/ConfCountdown'
 
 const { setScrollPosition, getScrollPosition } = scroll
 
@@ -132,7 +140,8 @@ export default {
 
   components: {
     AppMenu,
-    HeaderMenu
+    HeaderMenu,
+    ConfCountdown
   },
 
   data () {
@@ -450,4 +459,15 @@ export default {
 
 .q-page-container :target
   scroll-margin-top: ($toolbar-min-height + 16px)
+
+.doc-layout
+  .countdown
+    .heading
+      font-size: 18px
+    .time
+      font-size: 38px
+
+.layout-countdown
+  background: linear-gradient(45deg, #e6f1fc 25%, #c3e0ff 25%, #c3e0ff 50%, #e6f1fc 50%, #e6f1fc 75%, #c3e0ff 75%, #c3e0ff)
+  background-size: 40px 40px
 </style>

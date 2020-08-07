@@ -126,15 +126,7 @@ Here's an example of `extendQuasarConf` definition:
 
 ```js
 function extendQuasarConf (conf) {
-  conf.supportIE = true
-
   conf.extras.push('ionicons-v4')
-
-  conf.framework.components.push(
-    'QDate',
-    'QTime'
-  )
-
   conf.framework.iconSet = 'ionicons-v4'
 
   //
@@ -188,7 +180,6 @@ module.exports = function (api) {
   // Careful when you remove folders!
   // You don't want to delete files that are still needed by the Project,
   // or files that are not owned by this app extension.
-
 
   // Here, we could also remove the /src/services folder altogether,
   // but what if the user has added other files into this folder?

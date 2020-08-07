@@ -87,7 +87,7 @@ export default Vue.extend({
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
 
       return attrs
@@ -111,7 +111,7 @@ export default Vue.extend({
     const content = [
       h('svg', {
         staticClass: 'q-radio__bg absolute',
-        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24' }
+        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24', 'aria-hidden': 'true' }
       }, [
         h('path', {
           attrs: {

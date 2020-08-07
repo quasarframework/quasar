@@ -86,9 +86,8 @@ if (argv.help) {
   process.exit(0)
 }
 
-const
-  fs = require('fs'),
-  path = require('path')
+const fs = require('fs')
+const path = require('path')
 
 const root = getAbsolutePath(argv._[0] || '.')
 const resolve = p => path.resolve(root, p)
@@ -99,9 +98,8 @@ function getAbsolutePath (pathParam) {
     : path.join(process.cwd(), pathParam)
 }
 
-const
-  pkgFile = resolve('package.json'),
-  indexFile = resolve('index.js')
+const pkgFile = resolve('package.json')
+const indexFile = resolve('index.js')
 
 let ssrDetected = false
 
@@ -225,9 +223,8 @@ if (ssrDetected === false) {
   }
 
   getServer(app).listen(argv.port, argv.hostname, () => {
-    const
-      url = `http${argv.https ? 's' : ''}://${getHostname(argv.hostname)}:${argv.port}`,
-      { version } = require('../package.json')
+    const url = `http${argv.https ? 's' : ''}://${getHostname(argv.hostname)}:${argv.port}`
+    const { version } = require('../package.json')
 
     const info = [
       ['Quasar CLI', `v${version}`],

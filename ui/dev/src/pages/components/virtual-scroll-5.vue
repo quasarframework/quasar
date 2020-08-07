@@ -5,10 +5,11 @@
         <q-virtual-scroll
           ref="virtualListRef"
           type="table"
-          style="max-height: 70vh"
+          class="test-virtual-table--fixed"
           :virtual-scroll-item-size="48"
           :virtual-scroll-sticky-size-start="48"
           :virtual-scroll-sticky-size-end="32"
+          table-colspan="30"
           :items="heavyList"
           @virtual-scroll="onVirtualScroll"
         >
@@ -74,19 +75,28 @@
 </template>
 
 <style lang="stylus">
-.thead-sticky tr > *,
-.tfoot-sticky tr > *
-  position sticky
-  opacity 1
-  z-index 1
-  background-color black
-  color white
+.test-virtual-table--fixed
+  max-height: 70vh
 
-.thead-sticky tr:last-child > *
-  top 0
+  table
+    table-layout: fixed
 
-.tfoot-sticky tr:first-child > *
-  bottom 0
+  th, td
+    width: 250px
+
+  .thead-sticky tr > *,
+  .tfoot-sticky tr > *
+    position sticky
+    opacity 1
+    z-index 1
+    background-color black
+    color white
+
+  .thead-sticky tr:last-child > *
+    top 0
+
+  .tfoot-sticky tr:first-child > *
+    bottom 0
 </style>
 
 <script>

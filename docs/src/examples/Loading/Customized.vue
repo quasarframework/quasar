@@ -10,14 +10,8 @@ import { QSpinnerFacebook } from 'quasar'
 export default {
   methods: {
     showLoading () {
-      /* This is for Codepen (using UMD) to work */
-      const spinner = typeof QSpinnerFacebook !== 'undefined'
-        ? QSpinnerFacebook // Non-UMD, imported above
-        : Quasar.components.QSpinnerFacebook // eslint-disable-line
-      /* End of Codepen workaround */
-
       this.$q.loading.show({
-        spinner,
+        spinner: QSpinnerFacebook,
         spinnerColor: 'yellow',
         spinnerSize: 140,
         backgroundColor: 'purple',

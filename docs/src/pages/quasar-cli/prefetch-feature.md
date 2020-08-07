@@ -238,13 +238,14 @@ Starting with v1.9, you can use `preFetch` helper to type-hint the store paramet
 
 ```js
 import { preFetch } from 'quasar/wrappers'
+import { Store } from 'vuex'
 
-interface StoreInterface {
+interface StateInterface {
   // ...
 }
 
 export default {
-  preFetch: preFetch<StoreInterface>(({ store }) => {
+  preFetch: preFetch<Store<StateInterface>>(({ store }) => {
     // Do something with your newly-typed store parameter
   }),
 }
