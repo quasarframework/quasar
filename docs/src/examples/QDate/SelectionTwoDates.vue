@@ -12,6 +12,7 @@
         :edit-range="editRangeStart"
         default-year-month="2020/06"
         default-range-view="start"
+        :navigation-max-year-month="navMax"
         minimal
         flat
         @mock-range-end="onStartingMockRange"
@@ -24,6 +25,7 @@
         :edit-range="editRangeEnd"
         default-year-month="2020/07"
         default-range-view="end"
+        :navigation-min-year-month="navMin"
         minimal
         flat
         @mock-range-end="onEndingMockRange"
@@ -51,6 +53,16 @@ export default {
 
     editRangeEnd () {
       return this.rangeFocus || 'end'
+    },
+
+    navMin () {
+      const data = this.days[0][0].split('/')
+      return `${data[0]}/${('' + (Number(data[1]) + 1)).padStart(2, '0')}`
+    },
+
+    navMax () {
+      const data = this.days[0][1].split('/')
+      return `${data[0]}/${('' + (Number(data[1]) - 1)).padStart(2, '0')}`
     }
   },
 

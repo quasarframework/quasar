@@ -25,6 +25,8 @@
           :style="style"
           @input="inputLog"
           flat bordered
+          navigation-min-year-month="2018/05"
+          navigation-max-year-month="2019/03"
         >
           <div class="row items-center justify-end q-gutter-sm">
             <q-btn label="Cancel" color="primary" flat />
@@ -339,6 +341,7 @@
           :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'start'"
           default-year-month="2020/06"
           default-range-view="start"
+          :navigation-max-year-month="rangeNavMaxYearMonth"
           :dark="dark"
           flat
           minimal
@@ -352,6 +355,7 @@
           :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'end'"
           default-year-month="2020/07"
           default-range-view="end"
+          :navigation-min-year-month="rangeNavMinYearMonth"
           :dark="dark"
           flat
           minimal
@@ -461,6 +465,16 @@ export default {
         this.dateFrom = newValue[0][0]
         this.dateTo = newValue[0][1]
       }
+    },
+
+    rangeNavMinYearMonth () {
+      const data = this.dateFrom.split('/')
+      return `${data[0]}/${('' + (Number(data[1]) + 1)).padStart(2, '0')}`
+    },
+
+    rangeNavMaxYearMonth () {
+      const data = this.dateTo.split('/')
+      return `${data[0]}/${('' + (Number(data[1]) - 1)).padStart(2, '0')}`
     }
   },
   watch: {

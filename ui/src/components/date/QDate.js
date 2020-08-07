@@ -21,6 +21,7 @@ import cache from '../../utils/cache.js'
 
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
+const yearMonthValidator = v => /^-?[\d]+\/[0-1]\d$/.test(v)
 
 export default Vue.extend({
   name: 'QDate',
@@ -58,7 +59,7 @@ export default Vue.extend({
 
     defaultYearMonth: {
       type: String,
-      validator: v => /^-?[\d]+\/[0-1]\d$/.test(v)
+      validator: yearMonthValidator
     },
 
     yearsInMonthView: Boolean,
@@ -67,6 +68,16 @@ export default Vue.extend({
     eventColor: [String, Function],
 
     options: [Array, Function],
+
+    navigationMinYearMonth: {
+      type: String,
+      validator: yearMonthValidator
+    },
+
+    navigationMaxYearMonth: {
+      type: String,
+      validator: yearMonthValidator
+    },
 
     firstDayOfWeek: [String, Number],
     todayBtn: Boolean,
@@ -270,6 +281,43 @@ export default Vue.extend({
       return typeof this.eventColor === 'function'
         ? this.eventColor
         : () => this.eventColor
+    },
+
+    minNav () {
+      if (this.navigationMinYearMonth !== void 0) {
+        const data = this.navigationMinYearMonth.split('/')
+        return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) }
+      }
+    },
+
+    maxNav () {
+      if (this.navigationMaxYearMonth !== void 0) {
+        const data = this.navigationMaxYearMonth.split('/')
+        return { year: parseInt(data[0], 10), month: parseInt(data[1], 10) }
+      }
+    },
+
+    navBoundaries () {
+      const data = {
+        month: { prev: true, next: true },
+        year: { prev: true, next: true }
+      }
+
+      if (this.minNav !== void 0 && this.minNav.year >= this.innerModel.year) {
+        data.year.prev = false
+        if (this.minNav.year === this.innerModel.year && this.minNav.month >= this.innerModel.month) {
+          data.month.prev = false
+        }
+      }
+
+      if (this.maxNav !== void 0 && this.maxNav.year <= this.innerModel.year) {
+        data.year.next = false
+        if (this.maxNav.year === this.innerModel.year && this.maxNav.month <= this.innerModel.month) {
+          data.month.next = false
+        }
+      }
+
+      return data
     },
 
     isInSelection () {
@@ -508,7 +556,7 @@ export default Vue.extend({
 
     __getFirstSelectedDate (val) {
       if (Array.isArray(val) === true) {
-        let first = val.slice().shift()
+        const first = val.slice().shift()
         return Array.isArray(first) === true ? first[0] : first
       }
 
@@ -517,7 +565,7 @@ export default Vue.extend({
 
     __getLastSelectedDate (val) {
       if (Array.isArray(val) === true) {
-        let last = val.slice().pop()
+        const last = val.slice().pop()
         return Array.isArray(last) === true ? last[last.length - 1] : last
       }
 
@@ -703,7 +751,7 @@ export default Vue.extend({
       ])
     },
 
-    __getNavigation (h, { label, view, key, dir, goTo, cls }) {
+    __getNavigation (h, { label, view, key, dir, goTo, boundaries, cls }) {
       return [
         h('div', {
           staticClass: 'row items-center q-date__arrow'
@@ -715,7 +763,8 @@ export default Vue.extend({
               size: 'sm',
               flat: true,
               icon: this.dateArrow[0],
-              tabindex: this.computedTabindex
+              tabindex: this.computedTabindex,
+              disable: boundaries.prev === false
             },
             on: cache(this, 'go-#' + view, { click () { goTo(-1) } })
           })
@@ -754,7 +803,8 @@ export default Vue.extend({
               size: 'sm',
               flat: true,
               icon: this.dateArrow[1],
-              tabindex: this.computedTabindex
+              tabindex: this.computedTabindex,
+              disable: boundaries.next === false
             },
             on: cache(this, 'go+#' + view, { click () { goTo(1) } })
           })
@@ -776,6 +826,7 @@ export default Vue.extend({
             key: this.innerModel.month,
             dir: this.monthDirection,
             goTo: this.__goToMonth,
+            boundaries: this.navBoundaries.month,
             cls: ' col'
           }).concat(this.__getNavigation(h, {
             label: this.innerModel.year,
@@ -783,6 +834,7 @@ export default Vue.extend({
             key: this.innerModel.year,
             dir: this.yearDirection,
             goTo: this.__goToYear,
+            boundaries: this.navBoundaries.year,
             cls: ''
           }))),
 
@@ -876,6 +928,12 @@ export default Vue.extend({
 
     __getMonthsView (h) {
       const currentYear = this.innerModel.year === this.today.year
+      const isDisabled = month => {
+        return (
+          (this.minNav !== void 0 && this.innerModel.year === this.minNav.year && this.minNav.month > month) ||
+          (this.maxNav !== void 0 && this.innerModel.year === this.maxNav.year && this.maxNav.month < month)
+        )
+      }
 
       const content = this.computedLocale.monthsShort.map((month, i) => {
         const active = this.innerModel.month === i + 1
@@ -891,7 +949,8 @@ export default Vue.extend({
               unelevated: active,
               color: active === true ? this.computedColor : null,
               textColor: active === true ? this.computedTextColor : null,
-              tabindex: this.computedTabindex
+              tabindex: this.computedTabindex,
+              disable: isDisabled(i + 1)
             },
             on: cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
           })
@@ -906,6 +965,7 @@ export default Vue.extend({
             key: this.innerModel.year,
             dir: this.yearDirection,
             goTo: this.__goToYear,
+            boundaries: this.navBoundaries.year,
             cls: ' col'
           })
         ])
@@ -922,6 +982,13 @@ export default Vue.extend({
         start = this.startYear,
         stop = start + yearsInterval,
         years = []
+
+      const isDisabled = year => {
+        return (
+          (this.minNav !== void 0 && this.minNav.year > year) ||
+          (this.maxNav !== void 0 && this.maxNav.year < year)
+        )
+      }
 
       for (let i = start; i <= stop; i++) {
         const active = this.innerModel.year === i
@@ -940,7 +1007,8 @@ export default Vue.extend({
                 unelevated: active,
                 color: active ? this.computedColor : null,
                 textColor: active ? this.computedTextColor : null,
-                tabindex: this.computedTabindex
+                tabindex: this.computedTabindex,
+                disable: isDisabled(i)
               },
               on: cache(this, 'yr#' + i, { click: () => { this.__setYear(i) } })
             })
@@ -960,7 +1028,8 @@ export default Vue.extend({
               dense: true,
               flat: true,
               icon: this.dateArrow[0],
-              tabindex: this.computedTabindex
+              tabindex: this.computedTabindex,
+              disable: isDisabled(start)
             },
             on: cache(this, 'y-', { click: () => { this.startYear -= yearsInterval } })
           })
@@ -979,7 +1048,8 @@ export default Vue.extend({
               dense: true,
               flat: true,
               icon: this.dateArrow[1],
-              tabindex: this.computedTabindex
+              tabindex: this.computedTabindex,
+              disable: isDisabled(stop)
             },
             on: cache(this, 'y+', { click: () => { this.startYear += yearsInterval } })
           })
@@ -1016,15 +1086,30 @@ export default Vue.extend({
     },
 
     __goToYear (offset) {
+      const year = this.innerModel.year = Number(this.innerModel.year) + offset
+
+      this.__normalizeInnerMonth(year)
+
       this.monthDirection = this.yearDirection = (offset > 0) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
-      this.innerModel.year = Number(this.innerModel.year) + offset
       this.emitImmediately === true && this.__updateValue({}, 'year')
     },
 
     __setYear (year) {
       this.innerModel.year = year
+
+      this.__normalizeInnerMonth(year)
+
       this.emitImmediately === true && this.__updateValue({ year }, 'year')
       this.view = this.extModel.month === null || this.defaultView === 'Years' ? 'Months' : 'Calendar'
+    },
+
+    __normalizeInnerMonth (year) {
+      if (this.minNav !== void 0 && year === this.minNav.year && this.innerModel.month < this.minNav.month) {
+        this.innerModel.month = this.minNav.month
+      }
+      else if (this.maxNav !== void 0 && year === this.maxNav.year && this.innerModel.month > this.maxNav.month) {
+        this.innerModel.month = this.maxNav.month
+      }
     },
 
     __setMonth (month) {
