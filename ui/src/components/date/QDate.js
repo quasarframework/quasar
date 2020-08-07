@@ -140,6 +140,16 @@ export default Vue.extend({
 
     view () {
       this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
+    },
+
+    'innerModel.year' () {
+      const { year, month } = this.innerModel
+      this.$emit('calendar-change', { year, month })
+    },
+
+    'innerModel.month' () {
+      const { year, month } = this.innerModel
+      this.$emit('calendar-change', { year, month })
     }
   },
 

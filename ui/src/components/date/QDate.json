@@ -204,6 +204,22 @@
       }
     },
 
+    "calendar-change": {
+      "desc": "Emitted when year and/or month changes",
+      "params": {
+        "year": {
+          "type": "Number",
+          "desc": "The year"
+        },
+        "month": {
+          "type": "Number",
+          "desc": "The month"
+        }
+      },
+      "addedIn": "v1.13.0"
+    },
+
+
     "mock-range-end": {
       "desc": "In-progress range selection ended",
       "params": {
