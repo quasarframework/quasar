@@ -204,16 +204,18 @@
       }
     },
 
-    "calendar-change": {
-      "desc": "Emitted when year and/or month changes",
+    "navigation": {
+      "desc": "Emitted when user navigates to a different month or year (and even when the model changes from an outside source)",
       "params": {
         "year": {
           "type": "Number",
-          "desc": "The year"
+          "desc": "The year",
+          "__exemption": [ "examples" ]
         },
         "month": {
           "type": "Number",
-          "desc": "The month"
+          "desc": "The month",
+          "__exemption": [ "examples" ]
         }
       },
       "addedIn": "v1.13.0"
