@@ -1,19 +1,19 @@
 {
-  "mixins": [ "mixins/size", "mixins/form" ],
+  "mixins": ["mixins/size", "mixins/form"],
 
   "props": {
     "value": {
       "extends": "value",
       "required": true,
-      "type": [ "Any", "Array" ],
-      "examples": [ "false", "['car', 'building']" ],
+      "type": ["Any", "Array"],
+      "examples": ["false", "['car', 'building']"],
       "category": "model"
     },
 
     "val": {
       "type": "Any",
       "desc": "Works when model ('value') is Array. It tells the component which value should add/remove when ticked/unticked",
-      "examples": [ "car" ],
+      "examples": ["car"],
       "category": "model"
     },
 
@@ -21,7 +21,7 @@
       "type": "Any",
       "desc": "What model value should be considered as checked/ticked/on?",
       "default": true,
-      "examples": [ "Agreed" ],
+      "examples": ["Agreed"],
       "category": "model"
     },
 
@@ -29,7 +29,7 @@
       "type": "Any",
       "desc": "What model value should be considered as unchecked/unticked/off?",
       "default": false,
-      "examples": [ "Disagree" ],
+      "examples": ["Disagree"],
       "category": "model"
     },
 
@@ -37,7 +37,7 @@
       "type": "Any",
       "desc": "What model value should be considered as 'indeterminate'?",
       "default": null,
-      "examples": [ 0, "not_answered" ],
+      "examples": [0, "not_answered"],
       "category": "behavior"
     },
 
@@ -45,7 +45,7 @@
       "type": "String",
       "desc": "Determines toggle order of the two states ('t' stands for state of true, 'f' for state of false); If 'toggle-indeterminate' is true, then the order is: indet -> first state -> second state -> indet (and repeat), otherwise: indet -> first state -> second state -> first state -> second state -> ...",
       "default": "tf",
-      "values": [ "tf", "ft" ],
+      "values": ["tf", "ft"],
       "category": "behavior",
       "addedIn": "v1.12.0"
     },
@@ -63,7 +63,7 @@
     "label": {
       "type": "String",
       "desc": "Label to display along the component (or use the default slot instead of this prop)",
-      "examples": [ "I agree with the Terms and Conditions" ],
+      "examples": ["I agree with the Terms and Conditions"],
       "category": "label"
     },
 
@@ -74,6 +74,10 @@
     },
 
     "color": {
+      "extends": "color"
+    },
+
+    "false-color": {
       "extends": "color"
     },
 
@@ -108,14 +112,14 @@
           "type": "Any",
           "desc": "New model value",
           "required": true,
-          "__exemption": [ "examples" ]
+          "__exemption": ["examples"]
         },
         "evt": {
           "type": "Object",
           "desc": "JS event object",
           "required": true,
-          "__exemption": [ "examples" ],
-          "addedIn":"v1.11.2"
+          "__exemption": ["examples"],
+          "addedIn": "v1.11.2"
         }
       }
     }
