@@ -133,8 +133,7 @@ export default {
 
         if (win.isMaximized()) {
           win.unmaximize()
-        }
-        else {
+        } else {
           win.maximize()
         }
       }
