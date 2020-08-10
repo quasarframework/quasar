@@ -37,6 +37,10 @@ If you are building a website, you can also skip configuring quasar.conf.js and 
 </head>
 ```
 
+::: warning
+It should be noted that when you import Animate.css through the `<link>` tag, all animation CSS classes must be prefixed with `animate__`. This is a breaking change in the migration of Animate.css from v3 to v4. If you want to avoid using prefixes, you can import [compact version](https://animate.style/#migration).
+:::
+
 ## Usage
 Notice the string "animated" in front of the actual animation name.
 ``` html
