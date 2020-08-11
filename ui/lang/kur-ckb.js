@@ -29,7 +29,7 @@ export default {
     monthsShort: "مانگی یەک_مانگی دوو_مانگی سێ_مانگی چوار_مانگی پێنج_مانگی شەش_مانگی حەوت_مانگی هەشت_مانگی نۆ_مانگی دە_مانگی یانزە_مانگی دووانزە".split(
       "_"
     ),
-    firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
+    firstDayOfWeek: 6, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     singleDay: "ڕۆژ",
     pluralDay: "ڕۆژەکان"
