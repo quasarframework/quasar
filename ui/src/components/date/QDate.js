@@ -3,18 +3,8 @@ import Vue from 'vue'
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
 
-import {
-  formatDate,
-  __splitDate,
-  extractDate,
-  addToDate,
-  getMinDate,
-  getMaxDate,
-  isSameDate,
-  isBetweenDates,
-  getDateDiff
-} from '../../utils/date.js'
 import { slot } from '../../utils/slot.js'
+import { formatDate, __splitDate } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
 import cache from '../../utils/cache.js'
@@ -29,23 +19,6 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
-    value: {
-      type: [ String, Array ]
-    },
-
-    multiple: Boolean,
-    range: Boolean,
-    editRange: {
-      type: String,
-      default: null,
-      validator: val => ['start', 'end'].includes(val)
-    },
-    defaultRangeView: {
-      type: String,
-      default: 'start',
-      validator: val => ['start', 'end'].includes(val)
-    },
-
     title: String,
     subtitle: String,
 
@@ -91,43 +64,22 @@ export default Vue.extend({
 
   data () {
     const
-      locale = this.__getComputedLocale(),
-      { inner, external } = this.__getModels(
-        this.defaultRangeView === 'start'
-          ? this.__getFirstSelectedDate(this.value)
-          : this.__getLastSelectedDate(this.value),
-        this.mask,
-        locale
-      ),
-      dates = this.__getDates(this.value, this.mask, locale),
+      { inner, external } = this.__parseModel(this.value, this.mask, this.__getComputedLocale()),
       direction = this.$q.lang.rtl === true ? 'right' : 'left'
 
     return {
       view: this.defaultView,
       monthDirection: direction,
       yearDirection: direction,
-      dates: dates,
-      mockRangeEnd: null,
       startYear: inner.year - inner.year % yearsInterval - (inner.year < 0 ? yearsInterval : 0),
-      innerModel: inner,
+      viewModel: inner, // inner model of current calendar
       extModel: external
     }
   },
 
   watch: {
     value (v) {
-      const
-        locale = this.__getComputedLocale(),
-        { inner, external } = this.__getModels(
-          this.defaultRangeView === 'start'
-            ? this.__getFirstSelectedDate(v)
-            : this.__getLastSelectedDate(v),
-          this.mask,
-          locale
-        ),
-        dates = this.__getDates(v, this.mask, locale)
-
-      this.dates = dates
+      const { inner, external } = this.__parseModel(v, this.mask, this.__getComputedLocale())
 
       if (
         this.extModel.dateHash !== external.dateHash ||
@@ -136,15 +88,15 @@ export default Vue.extend({
         this.extModel = external
       }
 
-      if (inner.dateHash !== this.innerModel.dateHash) {
-        this.monthDirection = (this.innerModel.dateHash < inner.dateHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
-        if (inner.year !== this.innerModel.year) {
+      if (inner.dateHash !== this.viewModel.dateHash) {
+        this.monthDirection = (this.viewModel.dateHash < inner.dateHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
+        if (inner.year !== this.viewModel.year) {
           this.yearDirection = this.monthDirection
         }
 
         this.$nextTick(() => {
           this.startYear = inner.year - inner.year % yearsInterval - (inner.year < 0 ? yearsInterval : 0)
-          this.innerModel = inner
+          this.viewModel = inner
         })
       }
     },
@@ -153,12 +105,12 @@ export default Vue.extend({
       this.$refs.blurTarget !== void 0 && this.$refs.blurTarget.focus()
     },
 
-    'innerModel.year' (year) {
-      this.$emit('navigation', { year, month: this.innerModel.month })
+    'viewModel.year' (year) {
+      this.$emit('navigation', { year, month: this.viewModel.month })
     },
 
-    'innerModel.month' (month) {
-      this.$emit('navigation', { year: this.innerModel.year, month })
+    'viewModel.month' (month) {
+      this.$emit('navigation', { year: this.viewModel.year, month })
     }
   },
 
@@ -181,19 +133,7 @@ export default Vue.extend({
       const model = this.extModel
       if (model.dateHash === null) { return ' --- ' }
 
-      if (this.multiple === true) {
-        return this.totalSelectedDates + ' ' +
-          (this.totalSelectedDates === 1 ? this.computedLocale.singleDay : this.computedLocale.pluralDay)
-      }
-
       let date
-
-      if (this.range === true && Array.isArray(this.dates) === true && Array.isArray(this.dates[0]) === true) {
-        date = this.dates[0]
-        return this.computedLocale.monthsShort[ date[0].getMonth() ] + ' ' +
-          date[0].getDate() + '\u2014' + (date.length === 2 ? this.computedLocale.monthsShort[ date[1].getMonth() ] + ' ' +
-          date[1].getDate() : ' --- ')
-      }
 
       if (this.calendar !== 'persian') {
         date = new Date(model.year, model.month - 1, model.day)
@@ -215,31 +155,13 @@ export default Vue.extend({
     },
 
     headerSubtitle () {
-      if (this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0) {
-        return this.subtitle
-      }
-
-      if (this.multiple === true && this.minSelectedDate !== null && this.maxSelectedDate !== null) {
-        return this.computedLocale.monthsShort[this.minSelectedDate.getMonth()] + (
-          this.minSelectedDate.getFullYear() !== this.maxSelectedDate.getFullYear()
-            ? ' ' + this.minSelectedDate.getFullYear() + '\u2014' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()] + ' '
-            : (
-              this.minSelectedDate.getMonth() !== this.maxSelectedDate.getMonth()
-                ? '\u2014' + this.computedLocale.monthsShort[this.maxSelectedDate.getMonth()]
-                : ''
-            )
-        ) + ' ' + this.maxSelectedDate.getFullYear()
-      }
-
-      if (this.range === true && Array.isArray(this.dates) === true && Array.isArray(this.dates[0]) === true) {
-        return this.dates[0][0].getFullYear() + (
-          this.dates[0].length > 1 && this.dates[0][0].getFullYear() !== this.dates[0][1].getFullYear()
-            ? '\u2014' + this.dates[0][1].getFullYear()
-            : ''
+      return this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0
+        ? this.subtitle
+        : (
+          this.extModel.year !== null
+            ? this.extModel.year
+            : ' --- '
         )
-      }
-
-      return this.extModel.year !== null ? this.extModel.year : ' --- '
     },
 
     dateArrow () {
@@ -264,7 +186,7 @@ export default Vue.extend({
     },
 
     daysInMonth () {
-      return this.__getDaysInMonth(this.innerModel)
+      return this.__getDaysInMonth(this.viewModel)
     },
 
     today () {
@@ -303,16 +225,16 @@ export default Vue.extend({
         year: { prev: true, next: true }
       }
 
-      if (this.minNav !== void 0 && this.minNav.year >= this.innerModel.year) {
+      if (this.minNav !== void 0 && this.minNav.year >= this.viewModel.year) {
         data.year.prev = false
-        if (this.minNav.year === this.innerModel.year && this.minNav.month >= this.innerModel.month) {
+        if (this.minNav.year === this.viewModel.year && this.minNav.month >= this.viewModel.month) {
           data.month.prev = false
         }
       }
 
-      if (this.maxNav !== void 0 && this.maxNav.year <= this.innerModel.year) {
+      if (this.maxNav !== void 0 && this.maxNav.year <= this.viewModel.year) {
         data.year.next = false
-        if (this.maxNav.year === this.innerModel.year && this.maxNav.month <= this.innerModel.month) {
+        if (this.maxNav.year === this.viewModel.year && this.maxNav.month <= this.viewModel.month) {
           data.month.next = false
         }
       }
@@ -326,117 +248,20 @@ export default Vue.extend({
         : date => this.options.includes(date)
     },
 
-    isInDates () {
-      return date => Array.isArray(this.dates)
-        ? this.dates.filter(value => Array.isArray(value) === false && isSameDate(value, date) === true).length > 0 ||
-          this.isInRange(date) ||
-          this.isRangeStart(date) ||
-          this.isRangeEnd(date)
-        : isSameDate(this.dates, date)
-    },
-
-    isInRange () {
-      return date => Array.isArray(this.dates) === true &&
-        this.dates.filter(value => {
-          return Array.isArray(value) &&
-            value.length === 2 &&
-            isBetweenDates(date, getMinDate(...value), getMaxDate(...value), { inclusiveFrom: true, inclusiveTo: true })
-        }).length > 0
-    },
-
-    isRangeStart () {
-      return date => Array.isArray(this.dates) === true &&
-        this.dates.filter(value => Array.isArray(value) && value.length === 2 && isSameDate(date, getMinDate(...value))).length > 0
-    },
-
-    isRangeEnd () {
-      return date => Array.isArray(this.dates) === true &&
-        this.dates.filter(value => Array.isArray(value) && value.length === 2 && isSameDate(date, getMaxDate(...value))).length > 0
-    },
-
-    needsRangeEnd () {
-      return this.__needsRangeEnd(this.dates)
-    },
-
-    isInMockRange () {
-      return date => this.mockRangeEnd !== null &&
-        isBetweenDates(
-          date,
-          getMinDate(this.__getRangeStart(this.dates), this.mockRangeEnd),
-          getMaxDate(this.__getRangeStart(this.dates), this.mockRangeEnd),
-          { inclusiveFrom: true, inclusiveTo: true }
-        )
-    },
-
-    isMockRangeStart () {
-      return date => this.mockRangeEnd !== null &&
-        isSameDate(getMinDate(this.__getRangeStart(this.dates), this.mockRangeEnd), date)
-    },
-
-    isMockRangeEnd () {
-      return date => this.mockRangeEnd !== null &&
-        isSameDate(getMaxDate(this.__getRangeStart(this.dates), this.mockRangeEnd), date)
-    },
-
-    minSelectedDate () {
-      if (Array.isArray(this.dates) === true) {
-        let min = Array.isArray(this.dates[0]) ? getMinDate(...this.dates[0]) : this.dates[0]
-        this.dates.forEach(value => {
-          min = Array.isArray(value) ? getMinDate(...value, min) : getMinDate(value, min)
-        })
-
-        return new Date(min)
-      }
-
-      return this.dates
-    },
-
-    maxSelectedDate () {
-      if (Array.isArray(this.dates) === true) {
-        let max = Array.isArray(this.dates[0]) ? getMaxDate(...this.dates[0]) : this.dates[0]
-        this.dates.forEach(value => {
-          max = Array.isArray(value) ? getMaxDate(...value, max) : getMaxDate(value, max)
-        })
-
-        return new Date(max)
-      }
-
-      return this.dates
-    },
-
-    totalSelectedDates () {
-      if (Array.isArray(this.dates) === true) {
-        let total = 0
-
-        this.dates.forEach(value => {
-          if (Array.isArray(value) === true) {
-            total += getDateDiff(getMaxDate(...value), getMinDate(...value)) + 1
-          }
-          else {
-            total += 1
-          }
-        })
-
-        return total
-      }
-
-      return this.value !== '' ? 1 : 0
-    },
-
     days () {
       let date, endDay
 
       const res = []
 
       if (this.calendar !== 'persian') {
-        date = new Date(this.innerModel.year, this.innerModel.month - 1, 1)
-        endDay = (new Date(this.innerModel.year, this.innerModel.month - 1, 0)).getDate()
+        date = new Date(this.viewModel.year, this.viewModel.month - 1, 1)
+        endDay = (new Date(this.viewModel.year, this.viewModel.month - 1, 0)).getDate()
       }
       else {
-        const gDate = toGregorian(this.innerModel.year, this.innerModel.month, 1)
+        const gDate = toGregorian(this.viewModel.year, this.viewModel.month, 1)
         date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
-        let prevJM = this.innerModel.month - 1
-        let prevJY = this.innerModel.year
+        let prevJM = this.viewModel.month - 1
+        let prevJY = this.viewModel.year
         if (prevJM === 0) {
           prevJM = 12
           prevJY--
@@ -455,46 +280,25 @@ export default Vue.extend({
 
       const
         index = res.length,
-        prefix = this.innerModel.year + '/' + pad(this.innerModel.month) + '/'
+        prefix = this.viewModel.year + '/' + pad(this.viewModel.month) + '/'
 
       for (let i = 1; i <= this.daysInMonth; i++) {
         const day = prefix + pad(i)
-        const dateAdded = addToDate(date, { days: i - 1 })
-        const item = { i }
 
-        if (this.isInDates(dateAdded) === true) {
-          item.range = this.isInRange(dateAdded)
-          item.rangeStart = this.isRangeStart(dateAdded)
-          item.rangeEnd = this.isRangeEnd(dateAdded)
-          if (item.rangeStart || item.rangeEnd || item.range === false) {
-            item.flat = false
-          }
-          item.unelevated = true
-          item.color = this.computedColor
-          item.textColor = this.computedTextColor
+        if (this.options !== void 0 && this.isInSelection(day) !== true) {
+          res.push({ i })
         }
-
-        if (this.options === void 0 || this.isInSelection(day) === true) {
+        else {
           const event = this.events !== void 0 && this.evtFn(day) === true
             ? this.evtColor(day)
             : false
-          item.in = true
-          item.event = event
-          item.flat = item.flat !== false
-        }
 
-        if (this.isInMockRange(dateAdded) === true) {
-          item.mockRange = true
-          item.mockRangeStart = this.isMockRangeStart(dateAdded)
-          item.mockRangeEnd = this.isMockRangeEnd(dateAdded)
-          item.color = this.computedColor
+          res.push({ i, in: true, flat: true, event })
         }
-
-        res.push(item)
       }
 
-      if (this.innerModel.year === this.extModel.year && this.innerModel.month === this.extModel.month) {
-        const i = index + this.innerModel.day - 1
+      if (this.viewModel.year === this.extModel.year && this.viewModel.month === this.extModel.month) {
+        const i = index + this.viewModel.day - 1
         res[i] !== void 0 && Object.assign(res[i], {
           unelevated: true,
           flat: false,
@@ -503,7 +307,7 @@ export default Vue.extend({
         })
       }
 
-      if (this.innerModel.year === this.today.year && this.innerModel.month === this.today.month) {
+      if (this.viewModel.year === this.today.year && this.viewModel.month === this.today.month) {
         res[index + this.today.day - 1].today = true
       }
 
@@ -548,98 +352,13 @@ export default Vue.extend({
       }
     },
 
-    setMockRangeEnd (rangeEnd) {
-      this.mockRangeEnd = rangeEnd
-        ? new Date(rangeEnd.year, rangeEnd.month - 1, rangeEnd.day)
-        : null
-    },
+    __parseModel (value, mask, locale) {
+      const model = Array.isArray(value) === true && value.length > 0
+        ? value
+        : (value ? [ value ] : [])
 
-    __getFirstSelectedDate (val) {
-      if (Array.isArray(val) === true) {
-        const first = val.slice().shift()
-        return Array.isArray(first) === true ? first[0] : first
-      }
-
-      return val
-    },
-
-    __getLastSelectedDate (val) {
-      if (Array.isArray(val) === true) {
-        const last = val.slice().pop()
-        return Array.isArray(last) === true ? last[last.length - 1] : last
-      }
-
-      return val
-    },
-
-    __needsRangeEnd (val) {
-      return Array.isArray(val) === true &&
-        Array.isArray(val[val.length - 1]) === true &&
-        val[val.length - 1].length === 1
-    },
-
-    __getRangeStart (val) {
-      if (Array.isArray(val) === false || val.length === 0 || Array.isArray(val[val.length - 1]) === false) {
-        return null
-      }
-
-      let index
-
-      if (this.needsRangeEnd !== true && this.mockRangeEnd !== null) {
-        let fn
-
-        if (isBetweenDates(this.mockRangeEnd, getMinDate(...this.dates[this.dates.length - 1]), getMaxDate(...this.dates[this.dates.length - 1]), { inclusiveFrom: true, inclusiveTo: true })) {
-          fn = this.editRange === 'start' ? getMaxDate : getMinDate
-        }
-        else if (isSameDate(this.mockRangeEnd, getMinDate(...this.dates[this.dates.length - 1], this.mockRangeEnd))) {
-          fn = getMaxDate
-        }
-        else {
-          fn = getMinDate
-        }
-
-        index = isSameDate(
-          this.dates[this.dates.length - 1][0],
-          fn(...this.dates[this.dates.length - 1])
-        ) ? 0 : 1
-      }
-      else {
-        index = 0
-      }
-
-      return val[val.length - 1][index]
-    },
-
-    __getDates (val, mask, locale) {
-      if (Array.isArray(val)) {
-        let array = []
-
-        val.forEach((value, index) => {
-          if (Array.isArray(value) === true) {
-            array[index] = []
-            value.forEach((value2, index2) => {
-              array[index][index2] = extractDate(value2, mask, locale)
-            })
-          }
-          else if (val !== null) {
-            array[index] = extractDate(value, mask, locale)
-          }
-          else {
-            array = val
-          }
-        })
-
-        return array
-      }
-      else if (val !== null) {
-        return extractDate(val, mask, locale)
-      }
-      else return val
-    },
-
-    __getModels (val, mask, locale) {
       const external = __splitDate(
-        val,
+        model[0],
         this.calendar === 'persian' ? 'YYYY/MM/DD' : mask,
         locale,
         this.calendar
@@ -821,17 +540,17 @@ export default Vue.extend({
           h('div', {
             staticClass: 'q-date__navigation row items-center no-wrap'
           }, this.__getNavigation(h, {
-            label: this.computedLocale.months[ this.innerModel.month - 1 ],
+            label: this.computedLocale.months[ this.viewModel.month - 1 ],
             view: 'Months',
-            key: this.innerModel.month,
+            key: this.viewModel.month,
             dir: this.monthDirection,
             goTo: this.__goToMonth,
             boundaries: this.navBoundaries.month,
             cls: ' col'
           }).concat(this.__getNavigation(h, {
-            label: this.innerModel.year,
+            label: this.viewModel.year,
             view: 'Years',
-            key: this.innerModel.year,
+            key: this.viewModel.year,
             dir: this.yearDirection,
             goTo: this.__goToYear,
             boundaries: this.navBoundaries.year,
@@ -851,23 +570,10 @@ export default Vue.extend({
               }
             }, [
               h('div', {
-                key: this.innerModel.year + '/' + this.innerModel.month,
+                key: this.viewModel.year + '/' + this.viewModel.month,
                 staticClass: 'q-date__calendar-days fit'
               }, this.days.map(day => h('div', {
-                staticClass:
-                  `q-date__calendar-item q-date__calendar-item--selected q-date__calendar-item--${
-                    day.fill === true
-                      ? 'fill'
-                      : (day.in === true ? 'in' : 'out')
-                  } ${
-                    day.range === true
-                      ? 'q-date__calendar-item--range' + (day.rangeEnd ? '-end' : (day.rangeStart ? '-start' : '')) + ' text-' + day.color
-                      : ''
-                  } ${
-                    day.mockRange === true
-                      ? 'q-date__calendar-item--mock-range' + (day.mockRangeEnd ? '-end' : '') + (day.mockRangeStart ? '-start' : '') + ' text-' + day.color
-                      : ''
-                  }`
+                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}`
               }, [
                 day.in === true
                   ? h(QBtn, {
@@ -881,40 +587,7 @@ export default Vue.extend({
                       label: day.i,
                       tabindex: this.computedTabindex
                     },
-                    on: cache(this, 'day#' + day.i, {
-                      click: () => {
-                        if (this.range) {
-                          if (this.needsRangeEnd) {
-                            this.__setRangeEndDay(day.i)
-                          }
-                          else if (this.multiple) {
-                            this.__addRangeStartDay(day.i)
-                          }
-                          else if (this.editRange !== null && this.__getRangeStart(this.dates) !== null) {
-                            this.__editRange(day.i)
-                          }
-                          else {
-                            this.__setRangeStartDay(day.i)
-                          }
-                        }
-                        else if (this.multiple) {
-                          this.__addRemoveDay(day.i)
-                        }
-                        else {
-                          this.__setDay(day.i)
-                        }
-                      },
-                      mouseover: () => {
-                        if (this.needsRangeEnd || (!this.multiple && this.editRange !== null)) {
-                          this.__setMockRangeEndDay(day.i)
-                        }
-                      },
-                      mouseleave: () => {
-                        if (this.needsRangeEnd || (!this.multiple && this.editRange !== null)) {
-                          this.__deleteMockRangeEnd(day.i)
-                        }
-                      }
-                    })
+                    on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
                   }, day.event !== false ? [
                     h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
@@ -927,16 +600,16 @@ export default Vue.extend({
     },
 
     __getMonthsView (h) {
-      const currentYear = this.innerModel.year === this.today.year
+      const currentYear = this.viewModel.year === this.today.year
       const isDisabled = month => {
         return (
-          (this.minNav !== void 0 && this.innerModel.year === this.minNav.year && this.minNav.month > month) ||
-          (this.maxNav !== void 0 && this.innerModel.year === this.maxNav.year && this.maxNav.month < month)
+          (this.minNav !== void 0 && this.viewModel.year === this.minNav.year && this.minNav.month > month) ||
+          (this.maxNav !== void 0 && this.viewModel.year === this.maxNav.year && this.maxNav.month < month)
         )
       }
 
       const content = this.computedLocale.monthsShort.map((month, i) => {
-        const active = this.innerModel.month === i + 1
+        const active = this.viewModel.month === i + 1
 
         return h('div', {
           staticClass: 'q-date__months-item flex flex-center'
@@ -960,9 +633,9 @@ export default Vue.extend({
       this.yearsInMonthView === true && content.unshift(
         h('div', { staticClass: 'row no-wrap full-width' }, [
           this.__getNavigation(h, {
-            label: this.innerModel.year,
+            label: this.viewModel.year,
             view: 'Years',
-            key: this.innerModel.year,
+            key: this.viewModel.year,
             dir: this.yearDirection,
             goTo: this.__goToYear,
             boundaries: this.navBoundaries.year,
@@ -991,7 +664,7 @@ export default Vue.extend({
       }
 
       for (let i = start; i <= stop; i++) {
-        const active = this.innerModel.year === i
+        const active = this.viewModel.year === i
 
         years.push(
           h('div', {
@@ -1065,28 +738,28 @@ export default Vue.extend({
 
     __goToMonth (offset) {
       let
-        month = Number(this.innerModel.month) + offset,
+        month = Number(this.viewModel.month) + offset,
         yearDir = this.yearDirection
 
       if (month === 13) {
         month = 1
-        this.innerModel.year++
+        this.viewModel.year++
         yearDir = (this.$q.lang.rtl !== true) ? 'left' : 'right'
       }
       else if (month === 0) {
         month = 12
-        this.innerModel.year--
+        this.viewModel.year--
         yearDir = (this.$q.lang.rtl !== true) ? 'right' : 'left'
       }
 
       this.monthDirection = (offset > 0) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
       this.yearDirection = yearDir
-      this.innerModel.month = month
+      this.viewModel.month = month
       this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
     __goToYear (offset) {
-      const year = this.innerModel.year = Number(this.innerModel.year) + offset
+      const year = this.viewModel.year = Number(this.viewModel.year) + offset
 
       this.__normalizeInnerMonth(year)
 
@@ -1095,7 +768,7 @@ export default Vue.extend({
     },
 
     __setYear (year) {
-      this.innerModel.year = year
+      this.viewModel.year = year
 
       this.__normalizeInnerMonth(year)
 
@@ -1104,16 +777,16 @@ export default Vue.extend({
     },
 
     __normalizeInnerMonth (year) {
-      if (this.minNav !== void 0 && year === this.minNav.year && this.innerModel.month < this.minNav.month) {
-        this.innerModel.month = this.minNav.month
+      if (this.minNav !== void 0 && year === this.minNav.year && this.viewModel.month < this.minNav.month) {
+        this.viewModel.month = this.minNav.month
       }
-      else if (this.maxNav !== void 0 && year === this.maxNav.year && this.innerModel.month > this.maxNav.month) {
-        this.innerModel.month = this.maxNav.month
+      else if (this.maxNav !== void 0 && year === this.maxNav.year && this.viewModel.month > this.maxNav.month) {
+        this.viewModel.month = this.maxNav.month
       }
     },
 
     __setMonth (month) {
-      this.innerModel.month = month
+      this.viewModel.month = month
       this.emitImmediately === true && this.__updateValue({ month }, 'month')
       this.view = 'Calendar'
     },
@@ -1122,60 +795,18 @@ export default Vue.extend({
       this.__updateValue({ day }, 'day')
     },
 
-    __setRangeStartDay (day) {
-      this.__updateValue({ day }, 'set-range-start-day')
-    },
-
-    __addRangeStartDay (day) {
-      this.__updateValue({ day }, 'add-range-start-day')
-    },
-
-    __setMockRangeEndDay (day) {
-      if (this.__getRangeStart(this.dates) !== null) {
-        this.mockRangeEnd = new Date(
-          this.innerModel.year,
-          this.innerModel.month - 1,
-          day
-        )
-        this.$emit('mock-range-end', {
-          year: this.innerModel.year,
-          month: this.innerModel.month,
-          day
-        })
-      }
-    },
-
-    __deleteMockRangeEnd () {
-      this.mockRangeEnd = null
-      this.$emit('mock-range-end', null)
-    },
-
-    __setRangeEndDay (day) {
-      this.__updateValue({ day }, 'set-range-end-day')
-      this.__deleteMockRangeEnd(day)
-    },
-
-    __editRange (day) {
-      this.__updateValue({ day }, 'edit-range')
-      this.__deleteMockRangeEnd(day)
-    },
-
-    __addRemoveDay (day) {
-      this.__updateValue({ day }, 'add-remove-day')
-    },
-
     __updateValue (date, reason) {
       if (date.year === void 0) {
-        date.year = this.innerModel.year
+        date.year = this.viewModel.year
       }
       if (date.month === void 0) {
-        date.month = this.innerModel.month
+        date.month = this.viewModel.month
       }
       if (
         date.day === void 0 ||
         (this.emitImmediately === true && (reason === 'year' || reason === 'month'))
       ) {
-        date.day = this.innerModel.day
+        date.day = this.viewModel.day
         const maxDay = this.emitImmediately === true
           ? this.__getDaysInMonth(date)
           : this.daysInMonth
@@ -1201,188 +832,22 @@ export default Vue.extend({
           this.extModel.timezoneOffset
         )
 
-      if (['add-range-start-day', 'set-range-start-day', 'set-range-end-day', 'add-remove-day', 'edit-range'].includes(reason) === true) {
-        const day = extractDate(val, this.mask, this.__getComputedLocale())
-        let dates, valArray
-
-        if (this.value === null) {
-          dates = valArray = []
-        }
-        else if (Array.isArray(this.dates) === false) {
-          dates = [ this.dates ]
-          valArray = [ this.value ]
-        }
-        else {
-          dates = this.dates.slice()
-          valArray = this.value.slice()
-        }
-
-        if (reason === 'set-range-start-day' || reason === 'add-range-start-day') {
-          if (reason === 'set-range-start-day') {
-            dates = [[day]]
-            valArray = [[val]]
-          }
-          else if (this.isInRange(day) === false) {
-            if (this.isInDates(day) === true) {
-              this.__updateValue(date, 'add-remove-day')
-              return
-            }
-            else {
-              const range = [day], valRange = [val]
-              if (dates.length > 0) {
-                dates.push(range)
-              }
-              valArray.push(valRange)
-            }
-          }
-          else {
-            if (this.isRangeStart(day) || this.isRangeEnd(day)) {
-              reason = 'edit-range'
-              this.dates.some((value, index) => {
-                if (Array.isArray(value) === true && (isSameDate(value[0], day) || isSameDate(value[1], day)) === true) {
-                  const val = valArray.splice(index, 1)[0][isSameDate(value[0], day) ? 1 : 0]
-                  valArray.push([val])
-                  this.mockRangeEnd = day
-                  return true
-                }
-              })
-            }
-            else {
-              this.__updateValue(date, 'add-remove-day')
-              return
-            }
-          }
-        }
-        else if (reason === 'set-range-end-day' || reason === 'edit-range') {
-          const range = [this.__getRangeStart(dates), day]
-          const valRange = [this.__getRangeStart(valArray), val]
-
-          if (isSameDate(range[0], range[1]) === true) {
-            reason = 'add-day'
-            valArray.splice(-1, 1, val)
-          }
-          else {
-            if (isSameDate(range[1], getMinDate(...range)) === true) {
-              range.reverse()
-              valRange.reverse()
-            }
-
-            valArray.splice(-1, 1, valRange)
-            dates.splice(-1, 1, range)
-            dates.forEach((value, index) => {
-              if (Array.isArray(value)) {
-                if (value === range) {
-                  return
-                }
-                if (isBetweenDates(day, getMinDate(...value), getMaxDate(...value), { inclusiveTo: true, inclusiveFrom: true })) {
-                  valRange[1] = isSameDate(range[0], getMinDate(...value, range[0]))
-                    ? valArray[index][isSameDate(value[0], getMaxDate(...value)) ? 0 : 1]
-                    : valArray[index][isSameDate(value[0], getMinDate(...value)) ? 0 : 1]
-                  valArray[index] = undefined
-                }
-                else if (getMinDate(...range) <= getMinDate(...value) && getMaxDate(...range) >= getMaxDate(...value)) {
-                  valArray[index] = undefined
-                }
-              }
-              else if (isBetweenDates(value, getMinDate(...range), getMaxDate(...range), { inclusiveTo: true, inclusiveFrom: true })) {
-                valArray[index] = undefined
-              }
-            })
-
-            valArray = valArray.filter(a => a !== undefined)
-          }
-        }
-        else {
-          if (this.isInDates(day)) {
-            reason = 'remove-day'
-            const
-              dayPrev = addToDate(day, { days: -1 }),
-              dayNext = addToDate(day, { days: 1 }),
-              valPrev = this.calendar === 'persian'
-                ? dayPrev.getFullYear() + '/' + pad(dayPrev.getMonth() + 1) + '/' + pad(dayPrev.getDate())
-                : formatDate(
-                  dayPrev,
-                  this.mask,
-                  this.computedLocale,
-                  dayPrev.getFullYear(),
-                  this.extModel.timezoneOffset
-                ),
-              valNext = this.calendar === 'persian'
-                ? dayNext.getFullYear() + '/' + pad(dayNext.getMonth() + 1) + '/' + pad(dayNext.getDate())
-                : formatDate(
-                  dayNext,
-                  this.mask,
-                  this.computedLocale,
-                  dayNext.getFullYear(),
-                  this.extModel.timezoneOffset
-                )
-
-            dates.some((value, index) => {
-              if (Array.isArray(value) === true) {
-                if (isBetweenDates(day, getMinDate(...value), getMaxDate(...value), { inclusiveTo: true, inclusiveFrom: true })) {
-                  if (isSameDate(value[0], day)) {
-                    valArray[index][0] = isSameDate(getMinDate(...value), value[0]) ? valNext : valPrev
-                  }
-                  else if (isSameDate(value[1], day)) {
-                    valArray[index][1] = isSameDate(getMinDate(...value), value[0]) ? valPrev : valNext
-                  }
-                  else {
-                    valArray.splice(
-                      index,
-                      1,
-                      [valArray[index][0], isSameDate(getMinDate(...value), value[0]) ? valPrev : valNext],
-                      [isSameDate(getMinDate(...value), value[0]) ? valNext : valPrev, valArray[index][1]]
-                    )
-                    if (isSameDate(valArray[index + 1][0], valArray[index + 1][1])) {
-                      valArray.splice(index + 1, 1, valArray[index + 1][0])
-                    }
-                  }
-                  if (isSameDate(valArray[index][0], valArray[index][1])) {
-                    valArray.splice(index, 1, valArray[index][0])
-                  }
-                  return true
-                }
-              }
-              else if (isSameDate(value, day)) {
-                valArray.splice(index, 1)
-                return true
-              }
-            })
-          }
-          else {
-            reason = 'add-day'
-            valArray.push(val)
-          }
-        }
-
-        if (valArray.length === 1 && Array.isArray(valArray[0]) === false) {
-          valArray = valArray[0]
-        }
-        else if (valArray.length === 0) {
-          valArray = null
-        }
-
-        date.changed = true
-        this.$emit('input', valArray, reason, date)
-      }
-      else {
-        date.changed = val !== this.value
-        this.$emit('input', val, reason, date)
-      }
+      date.changed = val !== this.value
+      this.$emit('input', val, reason, date)
 
       if (val === this.value && reason === 'today') {
         const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
-        const curHash = this.innerModel.year + '/' + pad(this.innerModel.month) + '/' + pad(this.innerModel.day)
+        const curHash = this.viewModel.year + '/' + pad(this.viewModel.month) + '/' + pad(this.viewModel.day)
 
         if (newHash !== curHash) {
           this.monthDirection = (curHash < newHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
-          if (date.year !== this.innerModel.year) {
+          if (date.year !== this.viewModel.year) {
             this.yearDirection = this.monthDirection
           }
 
           this.$nextTick(() => {
             this.startYear = date.year - date.year % yearsInterval - (date.year < 0 ? yearsInterval : 0)
-            Object.assign(this.innerModel, {
+            Object.assign(this.viewModel, {
               year: date.year,
               month: date.month,
               day: date.day,
@@ -1422,6 +887,7 @@ export default Vue.extend({
       on: { ...this.qListeners }
     }, [
       this.__getHeader(h),
+
       h('div', {
         staticClass: 'q-date__main col column',
         attrs: { tabindex: -1 },
