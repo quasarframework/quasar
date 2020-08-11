@@ -45,6 +45,7 @@ const output = [
   { key: '  NPM', value: getSpawnOutput('npm') },
   { key: '  yarn', value: getSpawnOutput('yarn') },
   { key: '  @quasar/cli', value: chalk.green(require('../package.json').version) },
+  { key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') },
   { key: '  cordova', value: getSpawnOutput('cordova') }
 ]
 
