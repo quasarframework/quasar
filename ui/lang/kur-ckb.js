@@ -1,6 +1,7 @@
 export default {
   isoName: "kur-ckb",
   nativeName: "کوردی سۆرانی",
+  rtl: true,
   label: {
     clear: "پاککردنەوە",
     ok: "باشە",
