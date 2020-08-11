@@ -14,7 +14,7 @@ export default {
     create: "دروستکردن",
     search: "گەڕان",
     filter: "پاڵاوتن",
-    refresh: "تازەکردنەوە",
+    refresh: "تازەکردنەوە"
   },
   date: {
     days: "شەممە_یەک شەممە_دووشەممە_سێ شەممە_چوار شەممە_پێنج شەممە_هەینی".split(
@@ -32,7 +32,7 @@ export default {
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
     singleDay: "ڕۆژ",
-    pluralDay: "ڕۆژەکان",
+    pluralDay: "ڕۆژەکان"
   },
   table: {
     noData: "هیچ داتەیەک نییە",
@@ -48,7 +48,7 @@ export default {
     pagination: function (start, end, total) {
       return start + "-" + end + " لە " + total;
     },
-    columns: "ڕیز",
+    columns: "ڕیز"
   },
   editor: {
     url: "لینک",
@@ -93,10 +93,10 @@ export default {
     size6: "زۆر گەورە",
     size7: "گەورەترین",
     defaultFont: "فۆنتی بنەڕەت",
-    viewSource: "سەیرکردنی سەرچاوە",
+    viewSource: "سەیرکردنی سەرچاوە"
   },
   tree: {
     noNodes: "هیچ نۆدێک نیە",
-    noResults: "هیچ نۆدێک نەدۆزرایەوە",
-  },
-};
+    noResults: "هیچ نۆدێک نەدۆزرایەوە"
+  }
+}
