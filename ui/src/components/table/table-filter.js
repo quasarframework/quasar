@@ -6,7 +6,11 @@ export default {
       default (rows, terms, cols = this.computedCols, cellValue = this.getCellValue) {
         const lowerTerms = terms ? terms.toLowerCase() : ''
         return rows.filter(
-          row => cols.some(col => (cellValue(col, row) + '').toLowerCase().indexOf(lowerTerms) !== -1)
+          row => cols.some(col => {
+            const computedCellValue = cellValue(col, row)
+            const lowerCellValue = computedCellValue ? (computedCellValue + '').toLowerCase() : ''
+            return lowerCellValue.indexOf(lowerTerms) !== -1
+          })
         )
       }
     }
