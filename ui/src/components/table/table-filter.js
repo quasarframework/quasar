@@ -7,7 +7,7 @@ export default {
         const lowerTerms = terms ? terms.toLowerCase() : ''
         return rows.filter(
           row => cols.some(col => {
-            const strCellValue = (cellValue(col, row)+ '')
+            const strCellValue = (cellValue(col, row) + '')
             const lowerCellValue = (strCellValue === 'undefined' || strCellValue === 'null') ? '' : strCellValue.toLowerCase()
             return lowerCellValue.indexOf(lowerTerms) !== -1
           })
