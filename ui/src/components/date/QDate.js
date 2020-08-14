@@ -12,6 +12,7 @@ import cache from '../../utils/cache.js'
 const yearsInterval = 20
 const viewIsValid = v => ['Calendar', 'Years', 'Months'].includes(v)
 const yearMonthValidator = v => /^-?[\d]+\/[0-1]\d$/.test(v)
+const lineStr = ' \u2014 '
 
 export default Vue.extend({
   name: 'QDate',
@@ -19,9 +20,12 @@ export default Vue.extend({
   mixins: [ DateTimeMixin ],
 
   props: {
+    multiple: Boolean,
+
     title: String,
     subtitle: String,
 
+    // TODO reinstate
     emitImmediately: Boolean,
 
     mask: {
@@ -64,40 +68,25 @@ export default Vue.extend({
 
   data () {
     const
-      { inner, external } = this.__parseModel(this.value, this.mask, this.__getComputedLocale()),
+      viewModel = this.__getViewModel(this.value),
       direction = this.$q.lang.rtl === true ? 'right' : 'left'
 
     return {
       view: this.defaultView,
       monthDirection: direction,
       yearDirection: direction,
-      startYear: inner.year - inner.year % yearsInterval - (inner.year < 0 ? yearsInterval : 0),
-      viewModel: inner, // inner model of current calendar
-      extModel: external
+      startYear: viewModel.year - viewModel.year % yearsInterval - (viewModel.year < 0 ? yearsInterval : 0),
+      viewModel // model of current calendar
     }
   },
 
   watch: {
     value (v) {
-      const { inner, external } = this.__parseModel(v, this.mask, this.__getComputedLocale())
-
-      if (
-        this.extModel.dateHash !== external.dateHash ||
-        this.extModel.timeHash !== external.timeHash
-      ) {
-        this.extModel = external
+      if (this.lastEmitValue === v) {
+        this.lastEmitValue = 0
       }
-
-      if (inner.dateHash !== this.viewModel.dateHash) {
-        this.monthDirection = (this.viewModel.dateHash < inner.dateHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
-        if (inner.year !== this.viewModel.year) {
-          this.yearDirection = this.monthDirection
-        }
-
-        this.$nextTick(() => {
-          this.startYear = inner.year - inner.year % yearsInterval - (inner.year < 0 ? yearsInterval : 0)
-          this.viewModel = inner
-        })
+      else {
+        this.__updateViewModel(this.__getViewModel(v))
       }
     },
 
@@ -115,6 +104,17 @@ export default Vue.extend({
   },
 
   computed: {
+    model () {
+      const model = Array.isArray(this.value) === true
+        ? this.value
+        : (this.value ? [ this.value ] : [])
+
+      const mask = this.calendar === 'persian' ? 'YYYY/MM/DD' : this.mask
+      const locale = this.computedLocale
+
+      return model.map(date => this.__decodeString(date, mask, locale))
+    },
+
     classes () {
       const type = this.landscape === true ? 'landscape' : 'portrait'
       return `q-date q-date--${type} q-date--${type}-${this.minimal === true ? 'minimal' : 'standard'}` +
@@ -130,8 +130,16 @@ export default Vue.extend({
         return this.title
       }
 
-      const model = this.extModel
-      if (model.dateHash === null) { return ' --- ' }
+      if (this.model.length === 0 || this.model[0].dateHash === null) {
+        return lineStr
+      }
+
+      if (this.model.length > 1) {
+        const days = this.model.length
+        return `${days} ${this.computedLocale.pluralDay}`
+      }
+
+      const model = this.model[0]
 
       let date
 
@@ -143,7 +151,9 @@ export default Vue.extend({
         date = new Date(gDate.gy, gDate.gm - 1, gDate.gd)
       }
 
-      if (isNaN(date.valueOf()) === true) { return ' --- ' }
+      if (isNaN(date.valueOf()) === true) {
+        return lineStr
+      }
 
       if (this.computedLocale.headerTitle !== void 0) {
         return this.computedLocale.headerTitle(date, model)
@@ -155,13 +165,32 @@ export default Vue.extend({
     },
 
     headerSubtitle () {
-      return this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0
-        ? this.subtitle
-        : (
-          this.extModel.year !== null
-            ? this.extModel.year
-            : ' --- '
-        )
+      if (this.subtitle !== void 0 && this.subtitle !== null && this.subtitle.length > 0) {
+        return this.subtitle
+      }
+
+      if (this.model.length === 0 || this.model[0].year === null) {
+        return lineStr
+      }
+
+      if (this.model.length > 1) {
+        const models = this.model.slice().sort((a, b) => a.year - b.year || a.month - b.month)
+        const start = models[0]
+        const end = models[models.length - 1]
+        const month = this.computedLocale.monthsShort
+
+        return month[start.month - 1] + (
+          start.year !== end.year
+            ? ' ' + start.year + lineStr + month[end.month - 1] + ' '
+            : (
+              start.month !== end.month
+                ? lineStr + month[end.month - 1]
+                : ''
+            )
+        ) + ' ' + end.year
+      }
+
+      return this.model[0].year
     },
 
     dateArrow () {
@@ -248,10 +277,8 @@ export default Vue.extend({
         : date => this.options.includes(date)
     },
 
-    days () {
+    viewDays () {
       let date, endDay
-
-      const res = []
 
       if (this.calendar !== 'persian') {
         date = new Date(this.viewModel.year, this.viewModel.month - 1, 1)
@@ -269,7 +296,33 @@ export default Vue.extend({
         endDay = jalaaliMonthLength(prevJY, prevJM)
       }
 
-      const days = (date.getDay() - this.computedFirstDayOfWeek - 1)
+      return {
+        days: date.getDay() - this.computedFirstDayOfWeek - 1,
+        endDay
+      }
+    },
+
+    calendarMap () {
+      const map = {}
+
+      this.model.forEach(entry => {
+        const hash = entry.year + '/' + pad(entry.month)
+        if (map[hash] === void 0) {
+          map[hash] = []
+        }
+        map[hash].push(entry.day)
+      })
+
+      return map
+    },
+
+    viewHash () {
+      return this.__getCalendarHash(this.viewModel)
+    },
+
+    days () {
+      const res = []
+      const { days, endDay } = this.viewDays
 
       const len = days < 0 ? days + 7 : days
       if (len < 6) {
@@ -278,12 +331,10 @@ export default Vue.extend({
         }
       }
 
-      const
-        index = res.length,
-        prefix = this.viewModel.year + '/' + pad(this.viewModel.month) + '/'
+      const index = res.length
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        const day = prefix + pad(i)
+        const day = this.viewHash + '/' + pad(i)
 
         if (this.options !== void 0 && this.isInSelection(day) !== true) {
           res.push({ i })
@@ -297,13 +348,16 @@ export default Vue.extend({
         }
       }
 
-      if (this.viewModel.year === this.extModel.year && this.viewModel.month === this.extModel.month) {
-        const i = index + this.viewModel.day - 1
-        res[i] !== void 0 && Object.assign(res[i], {
-          unelevated: true,
-          flat: false,
-          color: this.computedColor,
-          textColor: this.computedTextColor
+      // if current view has selection
+      if (this.calendarMap[this.viewHash] !== void 0) {
+        this.calendarMap[this.viewHash].forEach(day => {
+          const i = index + day - 1
+          res[i] !== void 0 && Object.assign(res[i], {
+            unelevated: true,
+            flat: false,
+            color: this.computedColor,
+            textColor: this.computedTextColor
+          })
         })
       }
 
@@ -334,8 +388,9 @@ export default Vue.extend({
 
   methods: {
     setToday () {
-      this.__updateValue({ ...this.today }, 'today')
+      this.__toggleDate(this.today)
       this.view = 'Calendar'
+      // TODO this.emitImmediately === true && this.__updateValue({}, 'today')
     },
 
     setView (view) {
@@ -352,27 +407,53 @@ export default Vue.extend({
       }
     },
 
-    __parseModel (value, mask, locale) {
-      const model = Array.isArray(value) === true && value.length > 0
+    __encodeObject (date) {
+      if (date.year === void 0) {
+        date.year = this.viewModel.year
+      }
+      if (date.month === void 0) {
+        date.month = this.viewModel.month
+      }
+
+      return this.calendar === 'persian'
+        ? date.year + '/' + pad(date.month) + '/' + pad(date.day)
+        : formatDate(
+          new Date(
+            date.year,
+            date.month - 1,
+            date.day,
+            date.hour,
+            date.minute,
+            date.second,
+            date.millisecond
+          ),
+          this.mask,
+          this.computedLocale,
+          date.year,
+          date.timezoneOffset
+        )
+    },
+
+    __decodeString (date, mask, locale) {
+      return __splitDate(
+        date,
+        this.calendar === 'persian' ? 'YYYY/MM/DD' : mask || this.mask,
+        locale || this.__getComputedLocale(),
+        this.calendar
+      )
+    },
+
+    __getViewModel (value) {
+      const model = Array.isArray(value) === true
         ? value
         : (value ? [ value ] : [])
 
-      const external = __splitDate(
-        model[0],
-        this.calendar === 'persian' ? 'YYYY/MM/DD' : mask,
-        locale,
-        this.calendar
-      )
-
-      return {
-        external,
-        inner: external.dateHash === null
-          ? this.__getDefaultModel()
-          : { ...external }
-      }
+      return model.length === 0
+        ? this.__getDefaultViewModel()
+        : this.__decodeString(model[0])
     },
 
-    __getDefaultModel () {
+    __getDefaultViewModel () {
       let year, month
 
       if (this.defaultYearMonth !== void 0) {
@@ -587,7 +668,7 @@ export default Vue.extend({
                       label: day.i,
                       tabindex: this.computedTabindex
                     },
-                    on: cache(this, 'day#' + day.i, { click: () => { this.__setDay(day.i) } })
+                    on: cache(this, 'day#' + day.i, { click: () => { this.__toggleDay(day.i) } })
                   }, day.event !== false ? [
                     h('div', { staticClass: 'q-date__event bg-' + day.event })
                   ] : null)
@@ -737,62 +818,130 @@ export default Vue.extend({
     },
 
     __goToMonth (offset) {
-      let
-        month = Number(this.viewModel.month) + offset,
-        yearDir = this.yearDirection
+      let year = this.viewModel.year
+      let month = Number(this.viewModel.month) + offset
 
       if (month === 13) {
         month = 1
-        this.viewModel.year++
-        yearDir = (this.$q.lang.rtl !== true) ? 'left' : 'right'
+        year++
       }
       else if (month === 0) {
         month = 12
-        this.viewModel.year--
-        yearDir = (this.$q.lang.rtl !== true) ? 'right' : 'left'
+        year--
       }
 
-      this.monthDirection = (offset > 0) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
-      this.yearDirection = yearDir
-      this.viewModel.month = month
-      this.emitImmediately === true && this.__updateValue({}, 'month')
+      this.__updateViewModel({ ...this.viewModel, year, month })
+      // TODO this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
     __goToYear (offset) {
-      const year = this.viewModel.year = Number(this.viewModel.year) + offset
-
-      this.__normalizeInnerMonth(year)
-
-      this.monthDirection = this.yearDirection = (offset > 0) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
-      this.emitImmediately === true && this.__updateValue({}, 'year')
+      const year = Number(this.viewModel.year) + offset
+      const month = this.__getNormalizedMonth(year, this.viewModel.month)
+      this.__updateViewModel({ ...this.viewModel, year, month })
+      // TODO this.emitImmediately === true && this.__updateValue({}, 'year')
     },
 
     __setYear (year) {
-      this.viewModel.year = year
-
-      this.__normalizeInnerMonth(year)
-
-      this.emitImmediately === true && this.__updateValue({ year }, 'year')
-      this.view = this.extModel.month === null || this.defaultView === 'Years' ? 'Months' : 'Calendar'
+      const month = this.__getNormalizedMonth(year, this.viewModel.month)
+      this.__updateViewModel({ ...this.viewModel, year, month })
+      // TODO this.emitImmediately === true && this.__updateValue({ year }, 'year')
+      this.view = this.defaultView === 'Years' ? 'Months' : 'Calendar'
     },
 
-    __normalizeInnerMonth (year) {
-      if (this.minNav !== void 0 && year === this.minNav.year && this.viewModel.month < this.minNav.month) {
-        this.viewModel.month = this.minNav.month
+    __getNormalizedMonth (year, month) {
+      if (this.minNav !== void 0 && year === this.minNav.year && month < this.minNav.month) {
+        return this.minNav.month
       }
-      else if (this.maxNav !== void 0 && year === this.maxNav.year && this.viewModel.month > this.maxNav.month) {
-        this.viewModel.month = this.maxNav.month
+      if (this.maxNav !== void 0 && year === this.maxNav.year && month > this.maxNav.month) {
+        return this.maxNav.month
       }
+      return month
     },
 
     __setMonth (month) {
-      this.viewModel.month = month
-      this.emitImmediately === true && this.__updateValue({ month }, 'month')
+      this.__updateViewModel({ ...this.viewModel, month })
+      // TODO this.emitImmediately === true && this.__updateValue({ month }, 'month')
       this.view = 'Calendar'
     },
 
-    __setDay (day) {
-      this.__updateValue({ day }, 'day')
+    __getCalendarHash (date) {
+      return date.year + '/' + pad(date.month)
+    },
+
+    __toggleDate (date, hash) {
+      const month = this.calendarMap[hash || this.__getCalendarHash(date)]
+      const fn = month !== void 0 && month.includes(date.day) === true
+        ? this.__removeFromModel
+        : this.__addToModel
+
+      fn(date)
+    },
+
+    __toggleDay (day) {
+      this.__toggleDate({ ...this.viewModel, day }, this.viewHash)
+    },
+
+    __updateViewModel (date) {
+      const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
+
+      if (newHash !== this.viewModel.dateHash) {
+        this.monthDirection = (this.viewModel.dateHash < newHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
+        if (date.year !== this.viewModel.year) {
+          this.yearDirection = this.monthDirection
+        }
+
+        this.$nextTick(() => {
+          this.startYear = date.year - date.year % yearsInterval - (date.year < 0 ? yearsInterval : 0)
+          Object.assign(this.viewModel, {
+            year: date.year,
+            month: date.month,
+            day: date.day,
+            dateHash: newHash
+          })
+        })
+      }
+    },
+
+    __emitValue (val, date) {
+      const value = val !== null && val.length === 1 && this.multiple === false
+        ? val[0]
+        : val
+
+      this.$emit('input', value)
+
+      if (val === null || date === void 0) {
+        return
+      }
+
+      this.lastEmitValue = value
+      this.__updateViewModel(date)
+    },
+
+    __addToModel (date) {
+      const str = this.__encodeObject(date)
+
+      if (this.multiple !== true) {
+        this.__emitValue(str, date)
+        return
+      }
+
+      const model = Array.isArray(this.value) === true
+        ? this.value.slice()
+        : (this.value ? [ this.value ] : [])
+
+      model.push(str)
+      this.__emitValue(model, date)
+    },
+
+    __removeFromModel (date) {
+      if (Array.isArray(this.value) === true) {
+        const str = this.__encodeObject(date)
+        const model = this.value.filter(date => date !== str)
+        this.__emitValue(model, date)
+      }
+      else {
+        this.__emitValue(null, date)
+      }
     },
 
     __updateValue (date, reason) {
@@ -834,28 +983,6 @@ export default Vue.extend({
 
       date.changed = val !== this.value
       this.$emit('input', val, reason, date)
-
-      if (val === this.value && reason === 'today') {
-        const newHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
-        const curHash = this.viewModel.year + '/' + pad(this.viewModel.month) + '/' + pad(this.viewModel.day)
-
-        if (newHash !== curHash) {
-          this.monthDirection = (curHash < newHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
-          if (date.year !== this.viewModel.year) {
-            this.yearDirection = this.monthDirection
-          }
-
-          this.$nextTick(() => {
-            this.startYear = date.year - date.year % yearsInterval - (date.year < 0 ? yearsInterval : 0)
-            Object.assign(this.viewModel, {
-              year: date.year,
-              month: date.month,
-              day: date.day,
-              dateHash: newHash
-            })
-          })
-        }
-      }
     }
   },
 

@@ -28,7 +28,6 @@ export default {
     },
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true, // true
-    singleDay: '日',
     pluralDay: '日々'
   },
   table: {

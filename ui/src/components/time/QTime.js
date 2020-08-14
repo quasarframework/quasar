@@ -264,7 +264,6 @@ export default Vue.extend({
       if (typeof this.defaultDate !== 'string') {
         const date = this.__getCurrentDate()
         date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
-
         return date
       }
 
