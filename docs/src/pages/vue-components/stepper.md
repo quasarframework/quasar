@@ -43,7 +43,7 @@ Please take notice of the Boolean `keep-alive` prop for QStepper, if you need th
 <doc-example title="Alternative labels" file="QStepper/AlternativeLabels" />
 
 ::: tip
-You can also connect `contracted` prop to `$q.screen` to make a responsive behavior, like `:contracted="$q.screen.lt.md"`.
+You can also connect `contracted` prop to `$q.screen` to create a responsive behavior, like `:contracted="$q.screen.lt.md"`.
 More info: [Quasar Screen Plugin](/options/screen-plugin).
 :::
 
