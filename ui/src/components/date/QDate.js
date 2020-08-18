@@ -415,7 +415,7 @@ export default Vue.extend({
       const index = res.length
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        const day = { i, event: this.eventDaysMap[i] }
+        const day = { i, event: this.eventDaysMap[i], classes: [] }
 
         if (this.selectionDaysMap[i] === true) {
           day.in = true
@@ -429,7 +429,7 @@ export default Vue.extend({
       if (this.calendarMap[this.viewMonthHash] !== void 0) {
         this.calendarMap[this.viewMonthHash].forEach(day => {
           const i = index + day - 1
-          res[i] !== void 0 && Object.assign(res[i], {
+          Object.assign(res[i], {
             selected: true,
             unelevated: true,
             flat: false,
@@ -447,7 +447,7 @@ export default Vue.extend({
             const to = index + (entry.to || this.daysInMonth) - 1
 
             for (let day = from; day <= to; day++) {
-              res[day] !== void 0 && Object.assign(res[day], {
+              Object.assign(res[day], {
                 range: entry.range,
                 unelevated: true,
                 color: this.computedColor,
@@ -456,21 +456,20 @@ export default Vue.extend({
             }
 
             Object.assign(res[from], {
-              rangeStart: true,
+              rangeFrom: true,
               flat: false
             })
-            if (entry.to !== void 0) {
-              Object.assign(res[to], {
-                rangeEnd: true,
-                flat: false
-              })
-            }
+
+            Object.assign(res[to], {
+              rangeTo: true,
+              flat: false
+            })
           }
           else if (entry.to !== void 0) {
             const to = index + entry.to - 1
 
             for (let day = index; day <= to; day++) {
-              res[day] !== void 0 && Object.assign(res[day], {
+              Object.assign(res[day], {
                 range: entry.range,
                 unelevated: true,
                 color: this.computedColor,
@@ -479,8 +478,8 @@ export default Vue.extend({
             }
 
             Object.assign(res[to], {
-              rangeEnd: true,
-              flat: false
+              flat: false,
+              rangeTo: true
             })
           }
         })
@@ -491,17 +490,15 @@ export default Vue.extend({
         const to = index + this.rangeView.to - 1
 
         for (let day = from; day <= to; day++) {
-          res[day] !== void 0 && Object.assign(res[day], {
-            editRange: true,
-            color: this.computedColor
-          })
+          res[day].color = this.computedColor
+          res[day].editRange = true
         }
 
         if (this.rangeView.includeFrom === true) {
-          res[from].editRangeStart = true
+          res[from].editRangeFrom = true
         }
         if (this.rangeView.includeTo === true) {
-          res[to].editRangeEnd = true
+          res[to].editRangeTo = true
         }
       }
 
@@ -516,6 +513,31 @@ export default Vue.extend({
           res.push({ i, fill: true })
         }
       }
+
+      res.forEach(day => {
+        let cls = `q-date__calendar-item `
+
+        if (day.fill === true) {
+          cls += 'q-date__calendar-item--fill'
+        }
+        else {
+          cls += `q-date__calendar-item--${day.in === true ? 'in' : 'out'}`
+
+          if (day.range !== void 0) {
+            cls += ` q-date__calendar-item--range${day.rangeTo === true ? '-to' : (day.rangeFrom === true ? '-from' : '')}`
+          }
+
+          if (day.editRange === true) {
+            cls += ` q-date__calendar-item--edit-range${day.editRangeFrom === true ? '-from' : ''}${day.editRangeTo === true ? '-to' : ''}`
+          }
+
+          if (day.range !== void 0 || day.editRange === true) {
+            cls += ` text-${day.color}`
+          }
+        }
+
+        day.classes = cls
+      })
 
       return res
     },
@@ -845,17 +867,7 @@ export default Vue.extend({
               h('div', {
                 key: this.viewMonthHash,
                 staticClass: 'q-date__calendar-days fit'
-              }, this.days.map(day => h('div', {
-                staticClass: `q-date__calendar-item q-date__calendar-item--${day.fill === true ? 'fill' : (day.in === true ? 'in' : 'out')}${
-                  day.range !== void 0
-                    ? ' q-date__calendar-item--range' + (day.rangeEnd === true ? '-end' : (day.rangeStart === true ? '-start' : '')) + ' text-' + day.color
-                    : ''
-                }${
-                  day.editRange === true
-                    ? ' q-date__calendar-item--edit-range' + (day.editRangeStart === true ? '-start' : '') + (day.editRangeEnd === true ? '-end' : '') + ' text-' + day.color
-                    : ''
-                }`
-              }, [
+              }, this.days.map(day => h('div', { staticClass: day.classes }, [
                 day.in === true
                   ? h(QBtn, {
                     staticClass: day.today === true ? 'q-date__today' : null,
