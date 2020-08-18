@@ -42,8 +42,8 @@ export default Vue.extend({
 
     yearsInMonthView: Boolean,
 
-    events: [Array, Function],
-    eventColor: [String, Function],
+    events: [ Array, Function ],
+    eventColor: [ String, Function ],
 
     options: [Array, Function],
 
@@ -236,12 +236,6 @@ export default Vue.extend({
       return this.__getCurrentDate()
     },
 
-    evtFn () {
-      return typeof this.events === 'function'
-        ? this.events
-        : date => this.events.includes(date)
-    },
-
     evtColor () {
       return typeof this.eventColor === 'function'
         ? this.eventColor
@@ -283,12 +277,6 @@ export default Vue.extend({
       }
 
       return data
-    },
-
-    isInSelection () {
-      return typeof this.options === 'function'
-        ? this.options
-        : date => this.options.includes(date)
     },
 
     viewDays () {
@@ -368,6 +356,51 @@ export default Vue.extend({
       return this.__getMonthHash(this.viewModel)
     },
 
+    selectionDaysMap () {
+      const map = {}
+
+      if (this.options === void 0) {
+        for (let i = 1; i <= this.daysInMonth; i++) {
+          map[i] = true
+        }
+
+        return map
+      }
+
+      const fn = typeof this.options === 'function'
+        ? this.options
+        : date => this.options.includes(date)
+
+      for (let i = 1; i <= this.daysInMonth; i++) {
+        const dayHash = this.viewMonthHash + '/' + pad(i)
+        map[i] = fn(dayHash)
+      }
+
+      return map
+    },
+
+    eventDaysMap () {
+      const map = {}
+
+      if (this.events === void 0) {
+        for (let i = 1; i <= this.daysInMonth; i++) {
+          map[i] = false
+        }
+      }
+      else {
+        const fn = typeof this.events === 'function'
+          ? this.events
+          : date => this.events.includes(date)
+
+        for (let i = 1; i <= this.daysInMonth; i++) {
+          const dayHash = this.viewMonthHash + '/' + pad(i)
+          map[i] = fn(dayHash) === true && this.evtColor(dayHash)
+        }
+      }
+
+      return map
+    },
+
     days () {
       const res = []
       const { days, endDay } = this.viewDays
@@ -382,21 +415,17 @@ export default Vue.extend({
       const index = res.length
 
       for (let i = 1; i <= this.daysInMonth; i++) {
-        const day = this.viewMonthHash + '/' + pad(i)
+        const day = { i, event: this.eventDaysMap[i] }
 
-        if (this.options !== void 0 && this.isInSelection(day) !== true) {
-          res.push({ i })
+        if (this.selectionDaysMap[i] === true) {
+          day.in = true
+          day.flat = true
         }
-        else {
-          const event = this.events !== void 0 && this.evtFn(day) === true
-            ? this.evtColor(day)
-            : false
 
-          res.push({ i, in: true, flat: true, event })
-        }
+        res.push(day)
       }
 
-      // if current view has selection
+      // if current view has days in model
       if (this.calendarMap[this.viewMonthHash] !== void 0) {
         this.calendarMap[this.viewMonthHash].forEach(day => {
           const i = index + day - 1
@@ -410,6 +439,7 @@ export default Vue.extend({
         })
       }
 
+      // if current view has ranges in model
       if (this.rangeMap[this.viewMonthHash] !== void 0) {
         this.rangeMap[this.viewMonthHash].forEach(entry => {
           if (entry.from !== void 0) {
