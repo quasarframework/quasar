@@ -24,7 +24,6 @@ export default {
     monthsShort: 'ينا_فبر_مار_أبر_ماي_يون_يول_أغس_سبت_أكت_نوف_ديس'.split('_'),
     firstDayOfWeek: 6, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    singleDay: 'يوم',
     pluralDay: 'أيام'
   },
   table: {

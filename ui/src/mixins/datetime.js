@@ -99,7 +99,11 @@ export default {
       return {
         year: d.getFullYear(),
         month: d.getMonth() + 1,
-        day: d.getDate()
+        day: d.getDate(),
+        hour: 0,
+        minute: 0,
+        second: 0,
+        millisecond: 0
       }
     },
 

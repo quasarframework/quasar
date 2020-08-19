@@ -28,7 +28,6 @@ export default {
     },
     firstDayOfWeek: 0, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    singleDay: '天',
     pluralDay: '天'
   },
   table: {

@@ -1,4 +1,4 @@
-/* MaterialDesignIcons.com v5.4.55 */
+/* MaterialDesignIcons.com v5.5.55 */
 @font-face {
   font-family: "Material Design Icons";
   src: url("./materialdesignicons-webfont.woff2") format("woff2"), url("./materialdesignicons-webfont.woff") format("woff");
@@ -1394,12 +1394,20 @@
   content: "\F0614";
 }
 
+.mdi-application-cog::before {
+  content: "\F1577";
+}
+
 .mdi-application-export::before {
   content: "\F0DAD";
 }
 
 .mdi-application-import::before {
   content: "\F0DAE";
+}
+
+.mdi-application-settings::before {
+  content: "\F1555";
 }
 
 .mdi-approximately-equal::before {
@@ -1494,6 +1502,10 @@
   content: "\F09B8";
 }
 
+.mdi-arrow-bottom-left-thin-circle-outline::before {
+  content: "\F1596";
+}
+
 .mdi-arrow-bottom-right::before {
   content: "\F0043";
 }
@@ -1504,6 +1516,10 @@
 
 .mdi-arrow-bottom-right-thick::before {
   content: "\F09BA";
+}
+
+.mdi-arrow-bottom-right-thin-circle-outline::before {
+  content: "\F1595";
 }
 
 .mdi-arrow-collapse::before {
@@ -1610,6 +1626,10 @@
   content: "\F0046";
 }
 
+.mdi-arrow-down-thin-circle-outline::before {
+  content: "\F1599";
+}
+
 .mdi-arrow-expand::before {
   content: "\F0616";
 }
@@ -1714,6 +1734,10 @@
   content: "\F004E";
 }
 
+.mdi-arrow-left-thin-circle-outline::before {
+  content: "\F159A";
+}
+
 .mdi-arrow-right::before {
   content: "\F0054";
 }
@@ -1770,6 +1794,10 @@
   content: "\F0055";
 }
 
+.mdi-arrow-right-thin-circle-outline::before {
+  content: "\F1598";
+}
+
 .mdi-arrow-split-horizontal::before {
   content: "\F093B";
 }
@@ -1798,6 +1826,10 @@
   content: "\F09C4";
 }
 
+.mdi-arrow-top-left-thin-circle-outline::before {
+  content: "\F1593";
+}
+
 .mdi-arrow-top-right::before {
   content: "\F005C";
 }
@@ -1816,6 +1848,10 @@
 
 .mdi-arrow-top-right-thick::before {
   content: "\F09C6";
+}
+
+.mdi-arrow-top-right-thin-circle-outline::before {
+  content: "\F1594";
 }
 
 .mdi-arrow-up::before {
@@ -1884,6 +1920,10 @@
 
 .mdi-arrow-up-thick::before {
   content: "\F005E";
+}
+
+.mdi-arrow-up-thin-circle-outline::before {
+  content: "\F1597";
 }
 
 .mdi-arrow-vertical-lock::before {
@@ -2168,6 +2208,22 @@
 
 .mdi-bag-personal-outline::before {
   content: "\F0E13";
+}
+
+.mdi-bag-suitcase::before {
+  content: "\F158B";
+}
+
+.mdi-bag-suitcase-off::before {
+  content: "\F158D";
+}
+
+.mdi-bag-suitcase-off-outline::before {
+  content: "\F158E";
+}
+
+.mdi-bag-suitcase-outline::before {
+  content: "\F158C";
 }
 
 .mdi-baguette::before {
@@ -3686,6 +3742,14 @@
   content: "\F1014";
 }
 
+.mdi-butterfly::before {
+  content: "\F1589";
+}
+
+.mdi-butterfly-outline::before {
+  content: "\F158A";
+}
+
 .mdi-cable-data::before {
   content: "\F1394";
 }
@@ -3716,6 +3780,10 @@
 
 .mdi-calculator-variant::before {
   content: "\F0A9A";
+}
+
+.mdi-calculator-variant-outline::before {
+  content: "\F15A6";
 }
 
 .mdi-calendar::before {
@@ -3764,6 +3832,10 @@
 
 .mdi-calendar-clock::before {
   content: "\F00F0";
+}
+
+.mdi-calendar-cursor::before {
+  content: "\F157B";
 }
 
 .mdi-calendar-edit::before {
@@ -5994,6 +6066,14 @@
   content: "\F09E4";
 }
 
+.mdi-comment-bookmark::before {
+  content: "\F15AE";
+}
+
+.mdi-comment-bookmark-outline::before {
+  content: "\F15AF";
+}
+
 .mdi-comment-check::before {
   content: "\F017F";
 }
@@ -6016,6 +6096,14 @@
 
 .mdi-comment-eye-outline::before {
   content: "\F0A3B";
+}
+
+.mdi-comment-flash::before {
+  content: "\F15B0";
+}
+
+.mdi-comment-flash-outline::before {
+  content: "\F15B1";
 }
 
 .mdi-comment-multiple::before {
@@ -6710,6 +6798,10 @@
   content: "\F05E7";
 }
 
+.mdi-dance-pole::before {
+  content: "\F1578";
+}
+
 .mdi-data-matrix::before {
   content: "\F153C";
 }
@@ -6868,6 +6960,14 @@
 
 .mdi-delete-circle-outline::before {
   content: "\F0B88";
+}
+
+.mdi-delete-clock::before {
+  content: "\F1556";
+}
+
+.mdi-delete-clock-outline::before {
+  content: "\F1557";
 }
 
 .mdi-delete-empty::before {
@@ -7566,6 +7666,10 @@
   content: "\F13F2";
 }
 
+.mdi-eiffel-tower::before {
+  content: "\F156B";
+}
+
 .mdi-eight-track::before {
   content: "\F09EA";
 }
@@ -7886,6 +7990,14 @@
   content: "\F01F8";
 }
 
+.mdi-emoticon-sick::before {
+  content: "\F157C";
+}
+
+.mdi-emoticon-sick-outline::before {
+  content: "\F157D";
+}
+
 .mdi-emoticon-tongue::before {
   content: "\F01F9";
 }
@@ -8156,6 +8268,14 @@
 
 .mdi-face-agent::before {
   content: "\F0D70";
+}
+
+.mdi-face-mask::before {
+  content: "\F1586";
+}
+
+.mdi-face-mask-outline::before {
+  content: "\F1587";
 }
 
 .mdi-face-outline::before {
@@ -9538,6 +9658,14 @@
   content: "\F05F2";
 }
 
+.mdi-food-halal::before {
+  content: "\F1572";
+}
+
+.mdi-food-kosher::before {
+  content: "\F1573";
+}
+
 .mdi-food-off::before {
   content: "\F05F3";
 }
@@ -10810,6 +10938,10 @@
   content: "\F10F1";
 }
 
+.mdi-hand-heart-outline::before {
+  content: "\F157E";
+}
+
 .mdi-hand-left::before {
   content: "\F0E46";
 }
@@ -10850,6 +10982,14 @@
   content: "\F0E48";
 }
 
+.mdi-hand-wash::before {
+  content: "\F157F";
+}
+
+.mdi-hand-wash-outline::before {
+  content: "\F1580";
+}
+
 .mdi-hand-water::before {
   content: "\F139F";
 }
@@ -10864,6 +11004,10 @@
 
 .mdi-handshake::before {
   content: "\F1218";
+}
+
+.mdi-handshake-outline::before {
+  content: "\F15A1";
 }
 
 .mdi-hanger::before {
@@ -11518,6 +11662,18 @@
   content: "\F138B";
 }
 
+.mdi-human-cane::before {
+  content: "\F1581";
+}
+
+.mdi-human-capacity-decrease::before {
+  content: "\F159B";
+}
+
+.mdi-human-capacity-increase::before {
+  content: "\F159C";
+}
+
 .mdi-human-child::before {
   content: "\F02E7";
 }
@@ -11544,6 +11700,10 @@
 
 .mdi-human-greeting::before {
   content: "\F064A";
+}
+
+.mdi-human-greeting-proximity::before {
+  content: "\F159D";
 }
 
 .mdi-human-handsdown::before {
@@ -11590,6 +11750,14 @@
   content: "\F05CF";
 }
 
+.mdi-human-queue::before {
+  content: "\F1571";
+}
+
+.mdi-human-scooter::before {
+  content: "\F11E9";
+}
+
 .mdi-human-wheelchair::before {
   content: "\F138D";
 }
@@ -11600,6 +11768,10 @@
 
 .mdi-hvac::before {
   content: "\F1352";
+}
+
+.mdi-hvac-off::before {
+  content: "\F159E";
 }
 
 .mdi-hydraulic-oil-level::before {
@@ -11866,6 +12038,14 @@
   content: "\F1274";
 }
 
+.mdi-inbox-remove::before {
+  content: "\F159F";
+}
+
+.mdi-inbox-remove-outline::before {
+  content: "\F15A0";
+}
+
 .mdi-incognito::before {
   content: "\F05F9";
 }
@@ -11986,6 +12166,10 @@
   content: "\F0D87";
 }
 
+.mdi-kangaroo::before {
+  content: "\F1558";
+}
+
 .mdi-karate::before {
   content: "\F082C";
 }
@@ -12036,6 +12220,14 @@
 
 .mdi-key-arrow-right::before {
   content: "\F1312";
+}
+
+.mdi-key-chain::before {
+  content: "\F1574";
+}
+
+.mdi-key-chain-variant::before {
+  content: "\F1575";
 }
 
 .mdi-key-change::before {
@@ -12246,6 +12438,10 @@
   content: "\F0ACE";
 }
 
+.mdi-ladder::before {
+  content: "\F15A2";
+}
+
 .mdi-ladybug::before {
   content: "\F082D";
 }
@@ -12256,6 +12452,10 @@
 
 .mdi-lamp::before {
   content: "\F06B5";
+}
+
+.mdi-lamps::before {
+  content: "\F1576";
 }
 
 .mdi-lan::before {
@@ -12710,6 +12910,10 @@
   content: "\F13B5";
 }
 
+.mdi-list-status::before {
+  content: "\F15AB";
+}
+
 .mdi-litecoin::before {
   content: "\F0A61";
 }
@@ -12820,6 +13024,22 @@
 
 .mdi-looks::before {
   content: "\F0344";
+}
+
+.mdi-lotion::before {
+  content: "\F1582";
+}
+
+.mdi-lotion-outline::before {
+  content: "\F1583";
+}
+
+.mdi-lotion-plus::before {
+  content: "\F1584";
+}
+
+.mdi-lotion-plus-outline::before {
+  content: "\F1585";
 }
 
 .mdi-loupe::before {
@@ -13258,6 +13478,14 @@
   content: "\F12F5";
 }
 
+.mdi-message-bookmark::before {
+  content: "\F15AC";
+}
+
+.mdi-message-bookmark-outline::before {
+  content: "\F15AD";
+}
+
 .mdi-message-bulleted::before {
   content: "\F06A2";
 }
@@ -13276,6 +13504,14 @@
 
 .mdi-message-draw::before {
   content: "\F0363";
+}
+
+.mdi-message-flash::before {
+  content: "\F15A9";
+}
+
+.mdi-message-flash-outline::before {
+  content: "\F15AA";
 }
 
 .mdi-message-image::before {
@@ -13782,6 +14018,30 @@
   content: "\F0D21";
 }
 
+.mdi-motion::before {
+  content: "\F15B2";
+}
+
+.mdi-motion-outline::before {
+  content: "\F15B3";
+}
+
+.mdi-motion-pause::before {
+  content: "\F1590";
+}
+
+.mdi-motion-pause-outline::before {
+  content: "\F1592";
+}
+
+.mdi-motion-play::before {
+  content: "\F158F";
+}
+
+.mdi-motion-play-outline::before {
+  content: "\F1591";
+}
+
 .mdi-motion-sensor::before {
   content: "\F0D91";
 }
@@ -13800,6 +14060,18 @@
 
 .mdi-mouse-bluetooth::before {
   content: "\F098B";
+}
+
+.mdi-mouse-move-down::before {
+  content: "\F1550";
+}
+
+.mdi-mouse-move-up::before {
+  content: "\F1551";
+}
+
+.mdi-mouse-move-vertical::before {
+  content: "\F1552";
 }
 
 .mdi-mouse-off::before {
@@ -15330,6 +15602,14 @@
   content: "\F1279";
 }
 
+.mdi-phone-dial::before {
+  content: "\F1559";
+}
+
+.mdi-phone-dial-outline::before {
+  content: "\F155A";
+}
+
 .mdi-phone-forward::before {
   content: "\F03F4";
 }
@@ -15612,6 +15892,10 @@
 
 .mdi-piston::before {
   content: "\F088A";
+}
+
+.mdi-pitchfork::before {
+  content: "\F1553";
 }
 
 .mdi-pizza::before {
@@ -15996,6 +16280,10 @@
 
 .mdi-presentation-play::before {
   content: "\F0429";
+}
+
+.mdi-pretzel::before {
+  content: "\F1562";
 }
 
 .mdi-printer::before {
@@ -16464,6 +16752,10 @@
 
 .mdi-registered-trademark::before {
   content: "\F0A67";
+}
+
+.mdi-reiterate::before {
+  content: "\F1588";
 }
 
 .mdi-relation-many-to-many::before {
@@ -16966,6 +17258,10 @@
   content: "\F0469";
 }
 
+.mdi-router-wireless-off::before {
+  content: "\F15A3";
+}
+
 .mdi-router-wireless-settings::before {
   content: "\F0A69";
 }
@@ -17142,10 +17438,6 @@
   content: "\F0A6B";
 }
 
-.mdi-scooter::before {
-  content: "\F11E9";
-}
-
 .mdi-scoreboard::before {
   content: "\F127E";
 }
@@ -17288,6 +17580,10 @@
 
 .mdi-seed-outline::before {
   content: "\F0E63";
+}
+
+.mdi-seesaw::before {
+  content: "\F15A4";
 }
 
 .mdi-segment::before {
@@ -17608,6 +17904,14 @@
 
 .mdi-shield-account-outline::before {
   content: "\F0A12";
+}
+
+.mdi-shield-account-variant::before {
+  content: "\F15A7";
+}
+
+.mdi-shield-account-variant-outline::before {
+  content: "\F15A8";
 }
 
 .mdi-shield-airplane::before {
@@ -18166,6 +18470,10 @@
   content: "\F04B3";
 }
 
+.mdi-slide::before {
+  content: "\F15A5";
+}
+
 .mdi-slope-downhill::before {
   content: "\F0DFF";
 }
@@ -18266,8 +18574,28 @@
   content: "\F0834";
 }
 
+.mdi-social-distance-2-meters::before {
+  content: "\F1579";
+}
+
+.mdi-social-distance-6-feet::before {
+  content: "\F157A";
+}
+
 .mdi-sofa::before {
   content: "\F04B9";
+}
+
+.mdi-sofa-outline::before {
+  content: "\F156D";
+}
+
+.mdi-sofa-single::before {
+  content: "\F156E";
+}
+
+.mdi-sofa-single-outline::before {
+  content: "\F156F";
 }
 
 .mdi-solar-panel::before {
@@ -18738,6 +19066,14 @@
   content: "\F0A74";
 }
 
+.mdi-star-check::before {
+  content: "\F1566";
+}
+
+.mdi-star-check-outline::before {
+  content: "\F156A";
+}
+
 .mdi-star-circle::before {
   content: "\F04CF";
 }
@@ -18766,12 +19102,40 @@
   content: "\F04D0";
 }
 
+.mdi-star-minus::before {
+  content: "\F1564";
+}
+
+.mdi-star-minus-outline::before {
+  content: "\F1568";
+}
+
 .mdi-star-off::before {
   content: "\F04D1";
 }
 
+.mdi-star-off-outline::before {
+  content: "\F155B";
+}
+
 .mdi-star-outline::before {
   content: "\F04D2";
+}
+
+.mdi-star-plus::before {
+  content: "\F1563";
+}
+
+.mdi-star-plus-outline::before {
+  content: "\F1567";
+}
+
+.mdi-star-remove::before {
+  content: "\F1565";
+}
+
+.mdi-star-remove-outline::before {
+  content: "\F1569";
 }
 
 .mdi-star-three-points::before {
@@ -18944,6 +19308,10 @@
 
 .mdi-subdirectory-arrow-right::before {
   content: "\F060D";
+}
+
+.mdi-submarine::before {
+  content: "\F156C";
 }
 
 .mdi-subtitles::before {
@@ -19554,6 +19922,10 @@
   content: "\F09A8";
 }
 
+.mdi-text-account::before {
+  content: "\F1570";
+}
+
 .mdi-text-box::before {
   content: "\F021A";
 }
@@ -19934,6 +20306,14 @@
   content: "\F000C";
 }
 
+.mdi-tooltip-check::before {
+  content: "\F155C";
+}
+
+.mdi-tooltip-check-outline::before {
+  content: "\F155D";
+}
+
 .mdi-tooltip-edit::before {
   content: "\F0524";
 }
@@ -19950,6 +20330,14 @@
   content: "\F0BD5";
 }
 
+.mdi-tooltip-minus::before {
+  content: "\F155E";
+}
+
+.mdi-tooltip-minus-outline::before {
+  content: "\F155F";
+}
+
 .mdi-tooltip-outline::before {
   content: "\F0526";
 }
@@ -19960,6 +20348,14 @@
 
 .mdi-tooltip-plus-outline::before {
   content: "\F0527";
+}
+
+.mdi-tooltip-remove::before {
+  content: "\F1560";
+}
+
+.mdi-tooltip-remove-outline::before {
+  content: "\F1561";
 }
 
 .mdi-tooltip-text::before {
@@ -20568,6 +20964,10 @@
 
 .mdi-vanish::before {
   content: "\F07FC";
+}
+
+.mdi-vanish-quarter::before {
+  content: "\F1554";
 }
 
 .mdi-vanity-light::before {

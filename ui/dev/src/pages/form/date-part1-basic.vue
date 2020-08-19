@@ -11,9 +11,6 @@
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
         <q-toggle :dark="dark" v-model="yearsInMonthView" label="yearsInMonthView" />
         <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
-        <q-toggle :dark="dark" v-model="multiple" label="Multiple" />
-        <q-toggle :dark="dark" v-model="range" label="Range" />
-        <q-toggle v-if="range && !multiple" :dark="dark" v-model="editRange" false-value="start" true-value="end" :label="`Edit ${editRange !== null ? editRange : 'range'}`" toggle-indeterminate />
       </div>
 
       <div>{{ date }}</div>
@@ -25,6 +22,8 @@
           :style="style"
           @input="inputLog"
           flat bordered
+          navigation-min-year-month="2018/05"
+          navigation-max-year-month="2019/03"
         >
           <div class="row items-center justify-end q-gutter-sm">
             <q-btn label="Cancel" color="primary" flat />
@@ -326,6 +325,7 @@
           </template>
         </q-input>
       </div>
+<<<<<<< HEAD:ui/dev/src/pages/form/date.vue
       <div class="text-h6">
         Single Input Date Range: {{ dateRange2 }}
       </div>
@@ -369,6 +369,8 @@
           @input="dateRangeInputFocus = null"
         />
       </div>
+=======
+>>>>>>> dev:ui/dev/src/pages/form/date-part1-basic.vue
     </div>
   </div>
 </template>
@@ -392,12 +394,15 @@ export default {
       minimal: false,
       todayBtn: false,
       yearsInMonthView: false,
+<<<<<<< HEAD:ui/dev/src/pages/form/date.vue
       multiple: false,
       range: false,
       editRange: null,
       dateRangeFocus: null,
       dateRangeInputFocus: null,
       dateRangeInput: null,
+=======
+>>>>>>> dev:ui/dev/src/pages/form/date-part1-basic.vue
 
       mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
 
@@ -442,9 +447,6 @@ export default {
         minimal: this.minimal,
         todayBtn: this.todayBtn,
         yearsInMonthView: this.yearsInMonthView,
-        multiple: this.multiple,
-        range: this.range,
-        editRange: this.editRange,
         calendar: this.persian ? 'persian' : 'gregorian'
       }
     },
@@ -462,6 +464,7 @@ export default {
 
     localeComputed () {
       return this.locale ? this.locale.date : this.$q.lang.date
+<<<<<<< HEAD:ui/dev/src/pages/form/date.vue
     },
 
     dateRange: {
@@ -485,6 +488,8 @@ export default {
       set: function (newValue) {
         this.dateRangeInput = newValue[0][0] + (newValue[0].length > 1 ? '\u2014' + newValue[0][1] : '')
       }
+=======
+>>>>>>> dev:ui/dev/src/pages/form/date-part1-basic.vue
     }
   },
   watch: {

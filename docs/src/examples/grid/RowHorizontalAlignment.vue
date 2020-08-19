@@ -49,6 +49,16 @@
         One of two cols
       </div>
     </div>
+
+    <q-badge>justify-evenly</q-badge>
+    <div class="row justify-evenly">
+      <div class="col-4">
+        One of two cols
+      </div>
+      <div class="col-4">
+        One of two cols
+      </div>
+    </div>
   </div>
 </template>
 
