@@ -658,6 +658,7 @@ export default Vue.extend({
     setToday () {
       this.__toggleDate(this.today)
       this.view = 'Calendar'
+      this.__updateViewModel(this.today)
       // TODO this.emitImmediately === true && this.__updateValue({}, 'today')
     },
 
@@ -725,7 +726,7 @@ export default Vue.extend({
 
       return model.length === 0
         ? this.__getDefaultViewModel()
-        : this.__decodeString(model[0])
+        : this.__decodeString(model[0].from !== void 0 ? model[0].from : model[0])
     },
 
     __getDefaultViewModel () {

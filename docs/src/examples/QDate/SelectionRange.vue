@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-md">
     <div class="q-pb-sm">
-      Model: {{ days }}
+      Model: {{ model }}
     </div>
 
-    <q-date v-model="days" range />
+    <q-date v-model="model" range />
   </div>
 </template>
 
@@ -12,9 +12,7 @@
 export default {
   data () {
     return {
-      days: [
-        [ "2020/07/08", "2020/07/17" ]
-      ]
+      model: { from: '2020/07/08', to: '2020/07/17' }
     }
   }
 }

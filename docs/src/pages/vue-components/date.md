@@ -44,17 +44,15 @@ Clicking on an already selected day will deselect it.
 
 Notice in the examples below that the model is an Array of Arrays.
 
+Clicking on an already selected day will deselect it.
+
 ::: warning
-The `range` property is not compatible with the `options` prop.
+The `range` property is partially compatible with the `options` prop: selected ranges might also include "unselectable" days.
 :::
 
 <doc-example title="Single Range" file="QDate/SelectionRange" overflow />
 
 <doc-example title="Multiple ranges" file="QDate/SelectionRangeMultiple" overflow />
-
-The example below uses two QDates for a range selection.
-
-<doc-example title="Range with two QDates" file="QDate/SelectionTwoDates" overflow />
 
 ### Custom title and subtitle
 
@@ -150,6 +148,7 @@ In the example below the navigation is restricted between 2020/07 and 2020/09.
 <doc-example title="Navigation boundaries" file="QDate/NavigationBoundaries" overflow />
 
 ### With QSplitter and QTabPanels
+
 <doc-example title="With QSplitter and QTabPanels" file="QDate/Splitter" />
 
 More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).

@@ -156,25 +156,7 @@
 
     "range": {
       "type": "Boolean",
-      "desc": "Allow range selection; Model must be 2 dimensional Array; Incompatible with 'options' prop",
-      "category": "model|selection",
-      "addedIn": "v1.13.0"
-    },
-
-    "edit-range": {
-      "type": "String",
-      "desc": "Use with 'range' prop only; Range gets editable",
-      "default": "end",
-      "values": [ "start", "end" ],
-      "category": "selection",
-      "addedIn": "v1.13.0"
-    },
-
-    "default-range-view": {
-      "type": "String",
-      "desc": "When range or multiple are true, this value indicates the year/month of what range-end will be in the view",
-      "default": "end",
-      "values": [ "start", "end" ],
+      "desc": "Allow range selection; Partial compatibility with 'options' prop: selected ranges might also include 'unselectable' days",
       "category": "model|selection",
       "addedIn": "v1.13.0"
     }
@@ -243,35 +225,6 @@
         }
       },
       "addedIn": "v1.13.0"
-    },
-
-
-    "mock-range-end": {
-      "desc": "In-progress range selection ended",
-      "params": {
-        "value": {
-          "type": "Object",
-          "desc": "Object with year, month and day as props",
-          "definition": {
-            "year": {
-              "type": "Number",
-              "desc": "The year",
-              "__exemption": [ "examples" ]
-            },
-            "month": {
-              "type": "Number",
-              "desc": "The month",
-              "__exemption": [ "examples" ]
-            },
-            "day": {
-              "type": "Number",
-              "desc": "The day of month",
-              "__exemption": [ "examples" ]
-            }
-          }
-        }
-      },
-      "addedIn": "v1.13.0"
     }
   },
 
@@ -309,34 +262,6 @@
           "desc": "Decrement?"
         }
       }
-    },
-
-    "setMockRangeEnd": {
-      "desc": "Sets the mock range-end",
-      "params": {
-        "date": {
-          "type": "Object",
-          "desc": "Object with year, month and day as props",
-          "definition": {
-            "year": {
-              "type": "Number",
-              "desc": "The year",
-              "__exemption": [ "examples" ]
-            },
-            "month": {
-              "type": "Number",
-              "desc": "The month",
-              "__exemption": [ "examples" ]
-            },
-            "day": {
-              "type": "Number",
-              "desc": "The day of month",
-              "__exemption": [ "examples" ]
-            }
-          }
-        }
-      },
-      "addedIn": "v1.13.0"
     }
   }
 }
