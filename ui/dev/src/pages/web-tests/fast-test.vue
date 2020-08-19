@@ -17,7 +17,7 @@
     <div class="row q-gutter-md">
       <div>
         <div>{{ day || 'none ' }}</div>
-        <q-date v-model="day" today-btn />
+        <q-date v-model="daysRange" today-btn />
       </div>
       <div>
         <div>{{ days || 'none ' }}</div>
