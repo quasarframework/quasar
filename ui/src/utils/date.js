@@ -172,7 +172,7 @@ export function extractDate (str, mask, dateLocale) {
 }
 
 export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
-  const date = Object.assign({
+  const date = {
     year: null,
     month: null,
     day: null,
@@ -183,7 +183,9 @@ export function __splitDate (str, mask, dateLocale, calendar, defaultModel) {
     timezoneOffset: null,
     dateHash: null,
     timeHash: null
-  }, defaultModel)
+  }
+
+  defaultModel !== void 0 && Object.assign(date, defaultModel)
 
   if (
     str === void 0 ||

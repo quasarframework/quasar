@@ -130,13 +130,15 @@ export default Vue.extend({
       return this.normalizedModel
         .filter(date => typeof date === 'string')
         .map(date => this.__decodeString(date, this.computedMask, this.computedLocale))
+        .filter(date => date.dateHash !== null)
     },
 
     rangeModel () {
       const fn = date => this.__decodeString(date, this.computedMask, this.computedLocale)
       return this.normalizedModel
         .filter(date => Object(date) === date && date.from !== void 0 && date.to !== void 0)
-        .map(date => ({ from: fn(date.from), to: fn(date.to) }))
+        .map(range => ({ from: fn(range.from), to: fn(range.to) }))
+        .filter(range => range.from.dateHash !== null && range.to.dateHash !== null)
     },
 
     getNativeDateFn () {
@@ -172,8 +174,7 @@ export default Vue.extend({
           model.day + lineStr + '?'
       }
 
-      if (this.normalizedModel.length === 0 || this.daysInModel === 0) {
-        // TODO: || this.daysModel[0].dateHash === null
+      if (this.daysInModel === 0) {
         return lineStr
       }
 
@@ -202,8 +203,7 @@ export default Vue.extend({
         return this.subtitle
       }
 
-      if (this.daysInModel === 0 || this.daysInModel === 0) {
-        // TODO:  || this.daysModel[0].year === null
+      if (this.daysInModel === 0) {
         return lineStr
       }
 
@@ -704,19 +704,18 @@ export default Vue.extend({
     },
 
     __decodeString (date, mask, locale) {
-      const decoded = __splitDate(
+      return __splitDate(
         date,
         this.calendar === 'persian' ? 'YYYY/MM/DD' : mask || this.mask,
         locale || this.__getComputedLocale(),
-        this.calendar
+        this.calendar,
+        {
+          hour: 0,
+          minute: 0,
+          second: 0,
+          millisecond: 0
+        }
       )
-
-      decoded.hour = decoded.hour || 0
-      decoded.minute = decoded.minute || 0
-      decoded.second = decoded.second || 0
-      decoded.millisecond = decoded.millisecond || 0
-
-      return decoded
     },
 
     __getViewModel (value) {
@@ -724,9 +723,17 @@ export default Vue.extend({
         ? value
         : (value ? [ value ] : [])
 
-      return model.length === 0
+      if (model.length === 0) {
+        return this.__getDefaultViewModel()
+      }
+
+      const decoded = this.__decodeString(
+        model[0].from !== void 0 ? model[0].from : model[0]
+      )
+
+      return decoded.dateHash === null
         ? this.__getDefaultViewModel()
-        : this.__decodeString(model[0].from !== void 0 ? model[0].from : model[0])
+        : decoded
     },
 
     __getDefaultViewModel () {
