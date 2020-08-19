@@ -1237,25 +1237,47 @@ export default Vue.extend({
       this.$emit('input', value)
     },
 
-    __addToModel (date) {
-      const value = date.from !== void 0
+    __encodeEntry (date) {
+      return date.from !== void 0
         ? { from: this.__encodeObject(date.from), to: this.__encodeObject(date.to) }
         : this.__encodeObject(date)
+    },
 
-      if (this.multiple === false) {
-        this.__emitValue(value)
+    __addToModel (date) {
+      let value
+
+      if (this.multiple === true) {
+        if (date.from !== void 0) {
+          // we also need to filter out intersections
+
+          const fromHash = this.__getDayHash(date.from)
+          const toHash = this.__getDayHash(date.to)
+
+          const days = this.daysModel
+            .filter(day => day.dateHash < fromHash || day.dateHash > toHash)
+
+          const ranges = this.rangeModel
+            .filter(({ from, to }) => to.dateHash < fromHash || from.dateHash > toHash)
+
+          value = days.concat(ranges).concat(date).map(this.__encodeEntry)
+        }
+        else {
+          const model = this.normalizedModel.slice()
+          model.push(this.__encodeEntry(date))
+          value = model
+        }
       }
       else {
-        const model = this.normalizedModel.slice()
-        model.push(value)
-        this.__emitValue(model)
+        value = this.__encodeEntry(date)
       }
+
+      this.__emitValue(value)
     },
 
     __removeFromModel (date) {
       let model = null
 
-      if (Array.isArray(this.value) === true) {
+      if (this.multiple === true && Array.isArray(this.value) === true) {
         if (date.from !== void 0) {
           const val = { from: this.__encodeObject(date.from), to: this.__encodeObject(date.to) }
           model = this.value.filter(
@@ -1267,6 +1289,10 @@ export default Vue.extend({
         else {
           const str = this.__encodeObject(date)
           model = this.value.filter(date => date !== str)
+        }
+
+        if (model.length === 0) {
+          model = null
         }
       }
 
