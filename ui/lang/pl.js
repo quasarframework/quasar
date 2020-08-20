@@ -23,7 +23,6 @@ export default {
     monthsShort: 'Sty_Lut_Mar_Kwi_Maj_Cze_Lip_Sie_Wrz_Paź_Lis_Gru'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    singleDay: 'dzień',
     pluralDay: 'dni'
   },
   table: {

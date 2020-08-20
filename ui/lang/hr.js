@@ -23,7 +23,6 @@ export default {
     monthsShort: 'Sij_Velj_Ožu_Tra_Svi_Lip_Srp_Kol_Ruj_Lis_Stu_Pro'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    singleDay: 'dan',
     pluralDay: 'dana'
   },
   table: {

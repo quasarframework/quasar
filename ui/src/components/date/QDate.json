@@ -46,7 +46,7 @@
 
     "default-year-month": {
       "type": "String",
-      "desc": "The default year and month to display (in YYYY/MM format) when model is unfilled (undefined or null)",
+      "desc": "The default year and month to display (in YYYY/MM format) when model is unfilled (undefined or null); Please ensure it is within the navigation min/max year-month (if using them)",
       "examples": [
         "1986/02"
       ],
@@ -95,13 +95,33 @@
 
     "options": {
       "type": [ "Array", "Function" ],
-      "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline",
+      "desc": "Optionally configure the days that are selectable; If using a function, it receives the date as a String and must return a Boolean (is date acceptable or not); If using a function then for best performance, reference it from your scope and do not define it inline; Incompatible with 'range' prop",
       "examples": [
         ":options=\"['2018/11/05', '2018/11/12', '2018/11/19', '2018/11/26' ]\"",
         ":options=\"date => date[9] % 3 === 0\"",
         ":options=\"date => date >= '2018/11/03' && date <= '2018/11/15'\""
       ],
       "category": "model"
+    },
+
+    "navigation-min-year-month": {
+      "type": "String",
+      "desc": "Lock user from navigating below a specific year+month (in YYYY/MM format); This prop is not used to correct the model",
+      "examples": [
+        "2020/07"
+      ],
+      "category": "selection",
+      "addedIn": "v1.13.0"
+    },
+
+    "navigation-max-year-month": {
+      "type": "String",
+      "desc": "Lock user from navigating above a specific year+month (in YYYY/MM format); This prop is not used to correct the model",
+      "examples": [
+        "2020/10"
+      ],
+      "category": "selection",
+      "addedIn": "v1.13.0"
     },
 
     "first-day-of-week": {
@@ -130,29 +150,15 @@
     "multiple": {
       "type": "Boolean",
       "desc": "Allow multiple selection; Model must be Array",
-      "category": "model|selection"
+      "category": "model|selection",
+      "addedIn": "v1.13.0"
     },
 
     "range": {
       "type": "Boolean",
-      "desc": "Allow range selection; Model must be 2 dimensional Array",
-      "category": "model|selection"
-    },
-
-    "edit-range": {
-      "type": "String",
-      "desc": "Use with 'range' prop only; Range gets editable",
-      "default": "end",
-      "values": [ "start", "end" ],
-      "category": "selection"
-    },
-
-    "default-range-view": {
-      "type": "String",
-      "desc": "When range or multiple are true, this value indicates the year/month of what range-end will be in the view",
-      "default": "end",
-      "values": [ "start", "end" ],
-      "category": "model|selection"
+      "desc": "Allow range selection; Partial compatibility with 'options' prop: selected ranges might also include 'unselectable' days",
+      "category": "model|selection",
+      "addedIn": "v1.13.0"
     }
   },
 
@@ -219,34 +225,6 @@
         }
       },
       "addedIn": "v1.13.0"
-    },
-
-
-    "mock-range-end": {
-      "desc": "In-progress range selection ended",
-      "params": {
-        "value": {
-          "type": "Object",
-          "desc": "Object with year, month and day as props",
-          "definition": {
-            "year": {
-              "type": "Number",
-              "desc": "The year",
-              "__exemption": [ "examples" ]
-            },
-            "month": {
-              "type": "Number",
-              "desc": "The month",
-              "__exemption": [ "examples" ]
-            },
-            "day": {
-              "type": "Number",
-              "desc": "The day of month",
-              "__exemption": [ "examples" ]
-            }
-          }
-        }
-      }
     }
   },
 
@@ -282,33 +260,6 @@
         "descending": {
           "type": "Boolean",
           "desc": "Decrement?"
-        }
-      }
-    },
-
-    "setMockRangeEnd": {
-      "desc": "Sets the mock range-end",
-      "params": {
-        "date": {
-          "type": "Object",
-          "desc": "Object with year, month and day as props",
-          "definition": {
-            "year": {
-              "type": "Number",
-              "desc": "The year",
-              "__exemption": [ "examples" ]
-            },
-            "month": {
-              "type": "Number",
-              "desc": "The month",
-              "__exemption": [ "examples" ]
-            },
-            "day": {
-              "type": "Number",
-              "desc": "The day of month",
-              "__exemption": [ "examples" ]
-            }
-          }
         }
       }
     }

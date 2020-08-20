@@ -1,6 +1,6 @@
 {
   "name": "@quasar/extras",
-  "version": "1.9.3",
+  "version": "1.9.4",
   "description": "Quasar Framework fonts, icons and animations",
   "scripts": {
     "build": "node build/index.js"
@@ -28,8 +28,8 @@
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "5.14.0",
-    "@mdi/font": "5.4.55",
-    "@mdi/svg": "5.4.55",
+    "@mdi/font": "5.5.55",
+    "@mdi/svg": "5.5.55",
     "animate.css": "4.1.0",
     "cross-fetch": "^3.0.5",
     "cross-spawn": "7.0.3",

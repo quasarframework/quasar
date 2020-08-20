@@ -103,7 +103,7 @@
     &--fill
       visibility: hidden
 
-    &--range, &--range-start, &--range-end
+    &--range, &--range-from, &--range-to
 
       &:before
         content: ''
@@ -125,14 +125,14 @@
           border-top-right-radius: 0
           border-bottom-right-radius: 0
 
-    &--range-start
+    &--range-from
       &:before
         left: 50%
-    &--range-end
+    &--range-to
       &:before
         right: 50%
 
-    &--mock-range
+    &--edit-range
       &:after
         border-color: currentColor transparent
 
@@ -145,7 +145,7 @@
           border-top-right-radius: 0
           border-bottom-right-radius: 0
 
-      &-start, &-end-start
+      &-from, &-from-to
         &:after
           left: 4px
           border-left-color: currentColor
@@ -154,7 +154,7 @@
           border-top-left-radius: $button-rounded-border-radius
           border-bottom-left-radius: $button-rounded-border-radius
 
-      &-end, &-end-start
+      &-to, &-from-to
         &:after
           right: 4px
           border-right-color: currentColor
