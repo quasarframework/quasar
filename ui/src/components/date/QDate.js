@@ -87,8 +87,9 @@ export default Vue.extend({
       if (this.lastEmitValue === v) {
         this.lastEmitValue = 0
       }
-      else if (this.normalizedModel.length <= 1) {
-        this.__updateViewModel(this.__getViewModel(v))
+      else if (this.daysInModel <= 1) {
+        const { year, month } = this.__getViewModel(v)
+        this.__updateViewModel(year, month)
       }
     },
 
@@ -378,6 +379,45 @@ export default Vue.extend({
       return map
     },
 
+    rangeView () {
+      if (this.editRange === void 0) {
+        return
+      }
+
+      const { init, initHash, final, finalHash } = this.editRange
+
+      const [ from, to ] = initHash <= finalHash
+        ? [ init, final ]
+        : [ final, init ]
+
+      const fromHash = this.__getMonthHash(from)
+      const toHash = this.__getMonthHash(to)
+
+      if (fromHash !== this.viewMonthHash && toHash !== this.viewMonthHash) {
+        return
+      }
+
+      const view = {}
+
+      if (fromHash === this.viewMonthHash) {
+        view.from = from.day
+        view.includeFrom = true
+      }
+      else {
+        view.from = 1
+      }
+
+      if (toHash === this.viewMonthHash) {
+        view.to = to.day
+        view.includeTo = true
+      }
+      else {
+        view.to = this.daysInMonth
+      }
+
+      return view
+    },
+
     viewMonthHash () {
       return this.__getMonthHash(this.viewModel)
     },
@@ -605,45 +645,6 @@ export default Vue.extend({
       return res
     },
 
-    rangeView () {
-      if (this.editRange === void 0) {
-        return
-      }
-
-      const { init, initHash, final, finalHash } = this.editRange
-
-      const [ from, to ] = initHash <= finalHash
-        ? [ init, final ]
-        : [ final, init ]
-
-      const fromHash = this.__getMonthHash(from)
-      const toHash = this.__getMonthHash(to)
-
-      if (fromHash !== this.viewMonthHash && toHash !== this.viewMonthHash) {
-        return
-      }
-
-      const view = {}
-
-      if (fromHash === this.viewMonthHash) {
-        view.from = from.day
-        view.includeFrom = true
-      }
-      else {
-        view.from = 1
-      }
-
-      if (toHash === this.viewMonthHash) {
-        view.to = to.day
-        view.includeTo = true
-      }
-      else {
-        view.to = this.daysInMonth
-      }
-
-      return view
-    },
-
     attrs () {
       if (this.disable === true) {
         return { 'aria-disabled': 'true' }
@@ -656,9 +657,9 @@ export default Vue.extend({
 
   methods: {
     setToday () {
-      this.__toggleDate(this.today)
+      this.__toggleDate(this.today, this.__getMonthHash(this.today))
       this.view = 'Calendar'
-      this.__updateViewModel(this.today)
+      this.__updateViewModel(this.today.year, this.today.month)
       // TODO this.emitImmediately === true && this.__updateValue({}, 'today')
     },
 
@@ -1108,36 +1109,24 @@ export default Vue.extend({
         year--
       }
 
-      this.__updateViewModel({ ...this.viewModel, year, month })
+      this.__updateViewModel(year, month)
       // TODO this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
     __goToYear (offset) {
       const year = Number(this.viewModel.year) + offset
-      const month = this.__getNormalizedMonth(year, this.viewModel.month)
-      this.__updateViewModel({ ...this.viewModel, year, month })
+      this.__updateViewModel(year, this.viewModel.month)
       // TODO this.emitImmediately === true && this.__updateValue({}, 'year')
     },
 
     __setYear (year) {
-      const month = this.__getNormalizedMonth(year, this.viewModel.month)
-      this.__updateViewModel({ ...this.viewModel, year, month })
+      this.__updateViewModel(year, this.viewModel.month)
       // TODO this.emitImmediately === true && this.__updateValue({ year }, 'year')
       this.view = this.defaultView === 'Years' ? 'Months' : 'Calendar'
     },
 
-    __getNormalizedMonth (year, month) {
-      if (this.minNav !== void 0 && year === this.minNav.year && month < this.minNav.month) {
-        return this.minNav.month
-      }
-      if (this.maxNav !== void 0 && year === this.maxNav.year && month > this.maxNav.month) {
-        return this.maxNav.month
-      }
-      return month
-    },
-
     __setMonth (month) {
-      this.__updateViewModel({ ...this.viewModel, month })
+      this.__updateViewModel(this.viewModel.year, month)
       // TODO this.emitImmediately === true && this.__updateValue({ month }, 'month')
       this.view = 'Calendar'
     },
@@ -1151,7 +1140,7 @@ export default Vue.extend({
     },
 
     __toggleDate (date, monthHash) {
-      const month = this.daysMap[monthHash || this.__getMonthHash(date)]
+      const month = this.daysMap[monthHash]
       const fn = month !== void 0 && month.includes(date.day) === true
         ? this.__removeFromModel
         : this.__addToModel
@@ -1215,21 +1204,35 @@ export default Vue.extend({
       }
     },
 
-    __updateViewModel (date) {
-      const newHash = date.year + '/' + pad(date.month) + '/01'
+    __updateViewModel (year, month) {
+      if (this.minNav !== void 0 && year <= this.minNav.year) {
+        year = this.minNav.year
+        if (month < this.minNav.month) {
+          month = this.minNav.month
+        }
+      }
+
+      if (this.maxNav !== void 0 && year >= this.maxNav.year) {
+        year = this.maxNav.year
+        if (month > this.maxNav.month) {
+          month = this.maxNav.month
+        }
+      }
+
+      const newHash = year + '/' + pad(month) + '/01'
 
       if (newHash !== this.viewModel.dateHash) {
         this.monthDirection = (this.viewModel.dateHash < newHash) === (this.$q.lang.rtl !== true) ? 'left' : 'right'
-        if (date.year !== this.viewModel.year) {
+        if (year !== this.viewModel.year) {
           this.yearDirection = this.monthDirection
         }
 
         this.$nextTick(() => {
-          this.startYear = date.year - date.year % yearsInterval - (date.year < 0 ? yearsInterval : 0)
+          this.startYear = year - year % yearsInterval - (year < 0 ? yearsInterval : 0)
           Object.assign(this.viewModel, {
-            year: date.year,
-            month: date.month,
-            day: date.day,
+            year,
+            month,
+            day: 1,
             dateHash: newHash
           })
         })
