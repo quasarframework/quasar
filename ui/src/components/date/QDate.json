@@ -363,23 +363,6 @@
       "addedIn": "v1.1.7"
     },
 
-    "setViewTo": {
-      "desc": "Change current year and month of the Calendar view; It gets corrected if using navigation-min/max-year-month and sets the current view to Calendar",
-      "params": {
-        "year": {
-          "type": "Number",
-          "desc": "The year",
-          "__exemption": [ "examples" ]
-        },
-        "month": {
-          "type": "Number",
-          "desc": "The month",
-          "__exemption": [ "examples" ]
-        }
-      },
-      "addedIn": "v1.13.0"
-    },
-
     "offsetCalendar": {
       "desc": "Increment or decrement calendar view's month or year",
       "params": {
@@ -395,6 +378,23 @@
         }
       },
       "addedIn": "v1.1.7"
+    },
+
+    "setCalendarTo": {
+      "desc": "Change current year and month of the Calendar view; It gets corrected if using navigation-min/max-year-month and sets the current view to Calendar",
+      "params": {
+        "year": {
+          "type": "Number",
+          "desc": "The year",
+          "__exemption": [ "examples" ]
+        },
+        "month": {
+          "type": "Number",
+          "desc": "The month",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.13.0"
     },
 
     "setEditingRange": {

@@ -686,7 +686,7 @@ export default Vue.extend({
   methods: {
     setToday () {
       this.__toggleDate(this.today, this.__getMonthHash(this.today))
-      this.setViewTo(this.today.year, this.today.month)
+      this.setCalendarTo(this.today.year, this.today.month)
     },
 
     setView (view) {
@@ -703,7 +703,7 @@ export default Vue.extend({
       }
     },
 
-    setViewTo (year, month) {
+    setCalendarTo (year, month) {
       this.view = 'Calendar'
       this.__updateViewModel(year, month)
     },
@@ -726,7 +726,7 @@ export default Vue.extend({
         finalHash: this.__getDayHash(final)
       }
 
-      this.setViewTo(init.year, init.month)
+      this.setCalendarTo(init.year, init.month)
     },
 
     __getMask () {
