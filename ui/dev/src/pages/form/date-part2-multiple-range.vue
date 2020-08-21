@@ -16,16 +16,16 @@
 
     <div class="q-gutter-md">
       <div>Single {{ day || 'none ' }}:</div>
-      <q-date v-model="day" today-btn />
+      <q-date v-model="day" today-btn @input="onInput" />
 
       <div>Multiple {{ days || 'none ' }}:</div>
-      <q-date v-model="days" multiple today-btn />
+      <q-date v-model="days" multiple today-btn @input="onInput" />
 
       <div>Range {{ dayRange || 'none ' }}:</div>
-      <q-date v-model="dayRange" today-btn range />
+      <q-date v-model="dayRange" today-btn range @input="onInput" />
 
       <div>Multiple + Range {{ daysRange || 'none ' }}:</div>
-      <q-date v-model="daysRange" multiple today-btn range />
+      <q-date v-model="daysRange" multiple today-btn range @input="onInput" />
     </div>
   </div>
 </template>
@@ -89,6 +89,10 @@ export default {
       else {
         this.days = [ '2020/09/05' ]
       }
+    },
+
+    onInput (value, reason, details) {
+      console.log('@input:', value, reason, details)
     }
   }
 }

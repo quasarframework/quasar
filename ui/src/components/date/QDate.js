@@ -26,9 +26,6 @@ export default Vue.extend({
     title: String,
     subtitle: String,
 
-    // TODO reinstate
-    emitImmediately: Boolean,
-
     mask: {
       // this mask is forced
       // when using persian calendar
@@ -45,7 +42,7 @@ export default Vue.extend({
     events: [ Array, Function ],
     eventColor: [ String, Function ],
 
-    options: [Array, Function],
+    options: [ Array, Function ],
 
     navigationMinYearMonth: {
       type: String,
@@ -57,7 +54,7 @@ export default Vue.extend({
       validator: yearMonthValidator
     },
 
-    firstDayOfWeek: [String, Number],
+    firstDayOfWeek: [ String, Number ],
     todayBtn: Boolean,
     minimal: Boolean,
     defaultView: {
@@ -78,7 +75,7 @@ export default Vue.extend({
       yearDirection: direction,
       startYear: viewModel.year - viewModel.year % yearsInterval - (viewModel.year < 0 ? yearsInterval : 0),
       editRange: void 0,
-      viewModel // model of current calendar
+      viewModel // model of current calendar view
     }
   },
 
@@ -660,7 +657,6 @@ export default Vue.extend({
       this.__toggleDate(this.today, this.__getMonthHash(this.today))
       this.view = 'Calendar'
       this.__updateViewModel(this.today.year, this.today.month)
-      // TODO this.emitImmediately === true && this.__updateValue({}, 'today')
     },
 
     setView (view) {
@@ -1110,24 +1106,20 @@ export default Vue.extend({
       }
 
       this.__updateViewModel(year, month)
-      // TODO this.emitImmediately === true && this.__updateValue({}, 'month')
     },
 
     __goToYear (offset) {
       const year = Number(this.viewModel.year) + offset
       this.__updateViewModel(year, this.viewModel.month)
-      // TODO this.emitImmediately === true && this.__updateValue({}, 'year')
     },
 
     __setYear (year) {
       this.__updateViewModel(year, this.viewModel.month)
-      // TODO this.emitImmediately === true && this.__updateValue({ year }, 'year')
       this.view = this.defaultView === 'Years' ? 'Months' : 'Calendar'
     },
 
     __setMonth (month) {
       this.__updateViewModel(this.viewModel.year, month)
-      // TODO this.emitImmediately === true && this.__updateValue({ month }, 'month')
       this.view = 'Calendar'
     },
 
@@ -1239,13 +1231,30 @@ export default Vue.extend({
       }
     },
 
-    __emitValue (val) {
+    __emitValue (val, action, date) {
       const value = val !== null && val.length === 1 && this.multiple === false
         ? val[0]
         : val
 
       this.lastEmitValue = value
-      this.$emit('input', value)
+
+      const { reason, details } = this.__getEmitParams(action, date)
+      this.$emit('input', value, reason, details)
+    },
+
+    __getEmitParams (action, date) {
+      return date.from !== void 0
+        ? {
+          reason: `${action}-range`,
+          details: {
+            from: { year: date.from.year, month: date.from.month, day: date.from.day },
+            to: { year: date.to.year, month: date.to.month, day: date.to.day }
+          }
+        }
+        : {
+          reason: `${action}-day`,
+          details: { year: date.year, month: date.month, day: date.day }
+        }
     },
 
     __encodeEntry (date) {
@@ -1282,7 +1291,7 @@ export default Vue.extend({
         value = this.__encodeEntry(date)
       }
 
-      this.__emitValue(value)
+      this.__emitValue(value, 'add', date)
     },
 
     __removeFromModel (date) {
@@ -1307,7 +1316,7 @@ export default Vue.extend({
         }
       }
 
-      this.__emitValue(model)
+      this.__emitValue(model, 'remove', date)
     }
   },
 

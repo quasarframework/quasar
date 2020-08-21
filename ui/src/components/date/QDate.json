@@ -38,12 +38,6 @@
       "category": "content"
     },
 
-    "emit-immediately": {
-      "type": "Boolean",
-      "desc": "Emit model when user browses month and year too",
-      "category": "model"
-    },
-
     "default-year-month": {
       "type": "String",
       "desc": "The default year and month to display (in YYYY/MM format) when model is unfilled (undefined or null); Please ensure it is within the navigation min/max year-month (if using them)",
@@ -173,7 +167,7 @@
         "reason": {
           "type": "String",
           "desc": "Reason of the user interaction (what was picked)",
-          "values": [ "year", "month", "day", "today", "locale", "mask", "add-day", "remove-day", "add-range", "remove-range" ]
+          "values": [ "add-day", "remove-day", "add-range", "remove-range" ]
         },
         "details": {
           "type": "Object",
@@ -181,17 +175,17 @@
           "definition": {
             "year": {
               "type": "Number",
-              "desc": "The year",
+              "desc": "The year of the date (if non-range)",
               "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
-              "desc": "The month",
+              "desc": "The month of the date (if non-range)",
               "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
-              "desc": "The day of month",
+              "desc": "The day of month (if non-range)",
               "__exemption": [ "examples" ]
             },
             "from": {
@@ -237,11 +231,6 @@
                 }
               },
               "addedIn": "v1.13.0"
-            },
-            "changed": {
-              "type": "Boolean",
-              "desc": "Did the model change?",
-              "addedIn": "v1.1.1"
             }
           }
         }
