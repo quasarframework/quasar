@@ -365,7 +365,6 @@
 
     "offsetCalendar": {
       "desc": "Increment or decrement calendar view's month or year",
-      "addedIn": "v1.1.7",
       "params": {
         "type": {
           "type": "String",
@@ -376,6 +375,55 @@
         "descending": {
           "type": "Boolean",
           "desc": "Decrement?"
+        }
+      },
+      "addedIn": "v1.1.7"
+    },
+
+    "setEditingRange": {
+      "desc": "Configure the current editing range",
+      "params": {
+        "from": {
+          "type": "Object",
+          "desc": "Definition of the current view (year, month)",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            },
+            "day": {
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            }
+          }
+        },
+        "to": {
+          "type": "Object",
+          "desc": "Definition of the current view (year, month)",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            },
+            "day": {
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            }
+          }
         }
       }
     }

@@ -25,7 +25,14 @@
       <q-date v-model="dayRange" today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" />
 
       <div>Multiple + Range {{ daysRange || 'none ' }}:</div>
-      <q-date v-model="daysRange" multiple today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" />
+      <div class="row no-wrap">
+        <q-date ref="daysRange" v-model="daysRange" multiple today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" />
+        <div class="q-gutter-sm q-ml-sm">
+          <q-btn label="setEditingRange(from)" @click="setRangeFrom" no-caps />
+          <q-btn label="setEditingRange(from, to)" @click="setRangeFromTo" no-caps />
+          <q-btn label="setEditingRange()" @click="setRangeNull" no-caps />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -101,6 +108,23 @@ export default {
 
     onRangeEnd (payload) {
       console.log('@range-end', payload)
+    },
+
+    setRangeFrom () {
+      this.$refs.daysRange.setEditingRange(
+        { year: 2020, month: 8, day: 4 }
+      )
+    },
+
+    setRangeFromTo () {
+      this.$refs.daysRange.setEditingRange(
+        { year: 2020, month: 8, day: 4 },
+        { year: 2020, month: 8, day: 6 }
+      )
+    },
+
+    setRangeNull () {
+      this.$refs.daysRange.setEditingRange()
     }
   }
 }

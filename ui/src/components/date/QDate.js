@@ -655,11 +655,11 @@ export default Vue.extend({
           cls += `q-date__calendar-item--${day.in === true ? 'in' : 'out'}`
 
           if (day.range !== void 0) {
-            cls += ` q-date__calendar-item--range${day.rangeTo === true ? '-to' : (day.rangeFrom === true ? '-from' : '')}`
+            cls += ` q-date__range${day.rangeTo === true ? '-to' : (day.rangeFrom === true ? '-from' : '')}`
           }
 
           if (day.editRange === true) {
-            cls += ` q-date__calendar-item--edit-range${day.editRangeFrom === true ? '-from' : ''}${day.editRangeTo === true ? '-to' : ''}`
+            cls += ` q-date__edit-range${day.editRangeFrom === true ? '-from' : ''}${day.editRangeTo === true ? '-to' : ''}`
           }
 
           if (day.range !== void 0 || day.editRange === true) {
@@ -702,6 +702,28 @@ export default Vue.extend({
           descending === true ? -1 : 1
         )
       }
+    },
+
+    setEditingRange (from, to) {
+      if (this.range === false || !from) {
+        this.editRange = void 0
+        return
+      }
+
+      const init = Object.assign({ ...this.viewModel }, from)
+      const final = to !== void 0
+        ? Object.assign({ ...this.viewModel }, to)
+        : init
+
+      this.editRange = {
+        init,
+        initHash: this.__getDayHash(init),
+        final,
+        finalHash: this.__getDayHash(final)
+      }
+
+      this.view = 'Calendar'
+      this.__updateViewModel(init.year, init.month)
     },
 
     __getMask () {
@@ -1187,11 +1209,12 @@ export default Vue.extend({
         this.$emit('range-start', this.__getPublicData(day))
       }
       else {
-        const initHash = this.editRange.initHash
-        const finalHash = this.__getDayHash(day)
-        const payload = initHash <= finalHash
-          ? { from: this.editRange.init, to: day }
-          : { from: day, to: this.editRange.init }
+        const
+          initHash = this.editRange.initHash,
+          finalHash = this.__getDayHash(day),
+          payload = initHash <= finalHash
+            ? { from: this.editRange.init, to: day }
+            : { from: day, to: this.editRange.init }
 
         this.$emit('range-end', {
           from: this.__getPublicData(payload.from),
