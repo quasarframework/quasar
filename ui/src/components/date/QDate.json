@@ -175,22 +175,22 @@
           "definition": {
             "year": {
               "type": "Number",
-              "desc": "The year of the date (if non-range)",
+              "desc": "The year of the date that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
-              "desc": "The month of the date (if non-range)",
+              "desc": "The month of the date that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
-              "desc": "The day of month (if non-range)",
+              "desc": "The day of the month that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
             },
             "from": {
               "type": "Object",
-              "desc": "Object of properties of the range starting point",
+              "desc": "Object of properties of the range starting point (only if range)",
               "definition": {
                 "year": {
                   "type": "Number",
@@ -212,7 +212,7 @@
             },
             "to": {
               "type": "Object",
-              "desc": "Object of properties of the range ending point",
+              "desc": "Object of properties of the range ending point (only if range)",
               "definition": {
                 "year": {
                   "type": "Number",

@@ -1191,7 +1191,7 @@ export default Vue.extend({
         const dayProps = this.days.find(day => day.fill !== true && day.i === dayIndex)
 
         if (dayProps.range !== void 0) {
-          this.__removeFromModel({ from: dayProps.range.from, to: dayProps.range.to })
+          this.__removeFromModel({ target: day, from: dayProps.range.from, to: dayProps.range.to })
           return
         }
 
@@ -1220,7 +1220,7 @@ export default Vue.extend({
             : { from: day, to: this.editRange.init }
 
         this.editRange = void 0
-        this.__addToModel(initHash === finalHash ? day : payload)
+        this.__addToModel(initHash === finalHash ? day : { target: day, ...payload })
 
         this.$emit('range-end', {
           from: this.__getPublicData(payload.from),
@@ -1291,13 +1291,14 @@ export default Vue.extend({
         ? {
           reason: `${action}-range`,
           details: {
-            from: { year: date.from.year, month: date.from.month, day: date.from.day },
-            to: { year: date.to.year, month: date.to.month, day: date.to.day }
+            ...this.__getPublicData(date.target),
+            from: this.__getPublicData(date.from),
+            to: this.__getPublicData(date.to)
           }
         }
         : {
           reason: `${action}-day`,
-          details: { year: date.year, month: date.month, day: date.day }
+          details: this.__getPublicData(date)
         }
     },
 
