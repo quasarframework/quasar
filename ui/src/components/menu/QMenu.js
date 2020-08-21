@@ -39,6 +39,7 @@ export default Vue.extend({
     autoClose: Boolean,
     separateClosePopup: Boolean,
 
+    noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
 
@@ -101,7 +102,8 @@ export default Vue.extend({
     },
 
     hideOnRouteChange () {
-      return this.persistent !== true
+      return this.persistent !== true &&
+        this.noRouteDismiss !== true
     },
 
     onEvents () {
