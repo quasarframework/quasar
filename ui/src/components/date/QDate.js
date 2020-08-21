@@ -89,7 +89,7 @@ export default Vue.extend({
       if (this.lastEmitValue === v) {
         this.lastEmitValue = 0
       }
-      else if (this.daysInModel <= 1) {
+      else {
         const { year, month } = this.__getViewModel(this.innerMask, this.innerLocale)
         this.__updateViewModel(year, month)
       }
@@ -1150,6 +1150,10 @@ export default Vue.extend({
       fn(date)
     },
 
+    __getPublicData (date) {
+      return { year: date.year, month: date.month, day: date.day }
+    },
+
     __onDayClick (dayIndex) {
       const day = { ...this.viewModel, day: dayIndex }
 
@@ -1179,19 +1183,23 @@ export default Vue.extend({
           final: day,
           finalHash: initHash
         }
+
+        this.$emit('range-start', this.__getPublicData(day))
       }
       else {
+        const initHash = this.editRange.initHash
         const finalHash = this.__getDayHash(day)
-        const payload = this.editRange.initHash === finalHash
-          ? day
-          : (
-            this.editRange.initHash <= finalHash
-              ? { from: this.editRange.init, to: day }
-              : { from: day, to: this.editRange.init }
-          )
+        const payload = initHash <= finalHash
+          ? { from: this.editRange.init, to: day }
+          : { from: day, to: this.editRange.init }
+
+        this.$emit('range-end', {
+          from: this.__getPublicData(payload.from),
+          to: this.__getPublicData(payload.to)
+        })
 
         this.editRange = void 0
-        this.__addToModel(payload)
+        this.__addToModel(initHash === finalHash ? day : payload)
       }
     },
 

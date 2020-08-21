@@ -240,15 +240,104 @@
     "navigation": {
       "desc": "Emitted when user navigates to a different month or year (and even when the model changes from an outside source)",
       "params": {
-        "year": {
-          "type": "Number",
-          "desc": "The year",
-          "__exemption": [ "examples" ]
-        },
-        "month": {
-          "type": "Number",
-          "desc": "The month",
-          "__exemption": [ "examples" ]
+        "view": {
+          "type": "Object",
+          "desc": "Definition of the current view (year, month)",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      },
+      "addedIn": "v1.13.0"
+    },
+
+    "range-start": {
+      "desc": "User has started a range selection",
+      "params": {
+        "from": {
+          "type": "Object",
+          "desc": "Definition of the current view (year, month)",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            },
+            "day": {
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            }
+          }
+        }
+      },
+      "addedIn": "v1.13.0"
+    },
+
+    "range-end": {
+      "desc": "User has ended a range selection",
+      "params": {
+        "range": {
+          "type": "Object",
+          "desc": "Definition of the range",
+          "definition": {
+            "from": {
+              "type": "Object",
+              "desc": "Definition of the current view (year, month)",
+              "definition": {
+                "year": {
+                  "type": "Number",
+                  "desc": "The year",
+                  "__exemption": [ "examples" ]
+                },
+                "month": {
+                  "type": "Number",
+                  "desc": "The month",
+                  "__exemption": [ "examples" ]
+                },
+                "day": {
+                  "type": "Number",
+                  "desc": "The day of month",
+                  "__exemption": [ "examples" ]
+                }
+              }
+            },
+            "to": {
+              "type": "Object",
+              "desc": "Definition of the current view (year, month)",
+              "definition": {
+                "year": {
+                  "type": "Number",
+                  "desc": "The year",
+                  "__exemption": [ "examples" ]
+                },
+                "month": {
+                  "type": "Number",
+                  "desc": "The month",
+                  "__exemption": [ "examples" ]
+                },
+                "day": {
+                  "type": "Number",
+                  "desc": "The day of month",
+                  "__exemption": [ "examples" ]
+                }
+              }
+            }
+          }
         }
       },
       "addedIn": "v1.13.0"

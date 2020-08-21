@@ -22,10 +22,10 @@
       <q-date v-model="days" multiple today-btn @input="onInput" />
 
       <div>Range {{ dayRange || 'none ' }}:</div>
-      <q-date v-model="dayRange" today-btn range @input="onInput" />
+      <q-date v-model="dayRange" today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" />
 
       <div>Multiple + Range {{ daysRange || 'none ' }}:</div>
-      <q-date v-model="daysRange" multiple today-btn range @input="onInput" />
+      <q-date v-model="daysRange" multiple today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" />
     </div>
   </div>
 </template>
@@ -93,6 +93,14 @@ export default {
 
     onInput (value, reason, details) {
       console.log('@input:', value, reason, details)
+    },
+
+    onRangeStart (payload) {
+      console.log('@range-start', payload)
+    },
+
+    onRangeEnd (payload) {
+      console.log('@range-end', payload)
     }
   }
 }
