@@ -77,7 +77,8 @@
     "no-route-dismiss": {
       "type": "Boolean",
       "desc": "Changing route app won't dismiss Manu; No need to set it if 'persistent' prop is also set",
-      "category": "behavior"
+      "category": "behavior",
+      "addedIn": "v1.13.0"
     },
 
     "auto-close": {
