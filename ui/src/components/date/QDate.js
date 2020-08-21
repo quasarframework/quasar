@@ -147,7 +147,7 @@ export default Vue.extend({
       return this.normalizedModel
         .filter(date => Object(date) === date && date.from !== void 0 && date.to !== void 0)
         .map(range => ({ from: fn(range.from), to: fn(range.to) }))
-        .filter(range => range.from.dateHash !== null && range.to.dateHash !== null)
+        .filter(range => range.from.dateHash !== null && range.to.dateHash !== null && range.from.dateHash < range.to.dateHash)
     },
 
     getNativeDateFn () {
@@ -686,8 +686,7 @@ export default Vue.extend({
   methods: {
     setToday () {
       this.__toggleDate(this.today, this.__getMonthHash(this.today))
-      this.view = 'Calendar'
-      this.__updateViewModel(this.today.year, this.today.month)
+      this.setViewTo(this.today.year, this.today.month)
     },
 
     setView (view) {
@@ -702,6 +701,11 @@ export default Vue.extend({
           descending === true ? -1 : 1
         )
       }
+    },
+
+    setViewTo (year, month) {
+      this.view = 'Calendar'
+      this.__updateViewModel(year, month)
     },
 
     setEditingRange (from, to) {
@@ -722,8 +726,7 @@ export default Vue.extend({
         finalHash: this.__getDayHash(final)
       }
 
-      this.view = 'Calendar'
-      this.__updateViewModel(init.year, init.month)
+      this.setViewTo(init.year, init.month)
     },
 
     __getMask () {
@@ -1216,13 +1219,13 @@ export default Vue.extend({
             ? { from: this.editRange.init, to: day }
             : { from: day, to: this.editRange.init }
 
+        this.editRange = void 0
+        this.__addToModel(initHash === finalHash ? day : payload)
+
         this.$emit('range-end', {
           from: this.__getPublicData(payload.from),
           to: this.__getPublicData(payload.to)
         })
-
-        this.editRange = void 0
-        this.__addToModel(initHash === finalHash ? day : payload)
       }
     },
 

@@ -19,7 +19,7 @@ For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/
 ## Usage
 
 ::: warning
-Notice that the model is a String only.
+Notice that the actual date(s) of the model are all in String format.
 :::
 
 ### Basic
@@ -42,12 +42,16 @@ Clicking on an already selected day will deselect it.
 
 ### Range selection <q-badge align="top" label="v1.13+" />
 
-Notice in the examples below that the model is an Array of Arrays.
+Notice in the examples below that the model is an Object (single selection) or an Array of Objects (multiple selection).
 
-Clicking on an already selected day will deselect it.
+::: tip TIPS
+* Clicking on an already selected day will deselect it.
+* The user's current editing range can also be set programmatic through the `setEditingRange` method (check the API card).
+* There are two useful events in regards to the current editing range: `range-start` and `range-end` (check the API card).
+:::
 
 ::: warning
-The `range` property is partially compatible with the `options` prop: selected ranges might also include "unselectable" days.
+The `range` property is only partially compatible with the `options` prop: selected ranges might also include "unselectable" days.
 :::
 
 <doc-example title="Single Range" file="QDate/SelectionRange" overflow />

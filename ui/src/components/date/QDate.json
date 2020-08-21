@@ -265,7 +265,7 @@
       "params": {
         "from": {
           "type": "Object",
-          "desc": "Definition of the current view (year, month)",
+          "desc": "Definition of date from where the range begins",
           "definition": {
             "year": {
               "type": "Number",
@@ -297,7 +297,7 @@
           "definition": {
             "from": {
               "type": "Object",
-              "desc": "Definition of the current view (year, month)",
+              "desc": "Definition of date from where the range begins",
               "definition": {
                 "year": {
                   "type": "Number",
@@ -318,7 +318,7 @@
             },
             "to": {
               "type": "Object",
-              "desc": "Definition of the current view (year, month)",
+              "desc": "Definition of date to where the range ends",
               "definition": {
                 "year": {
                   "type": "Number",
@@ -352,7 +352,6 @@
 
     "setView": {
       "desc": "Change current view",
-      "addedIn": "v1.1.7",
       "params": {
         "view": {
           "type": "String",
@@ -360,7 +359,25 @@
           "required": true,
           "values": [ "Calendar", "Months", "Years" ]
         }
-      }
+      },
+      "addedIn": "v1.1.7"
+    },
+
+    "setViewTo": {
+      "desc": "Change current year and month of the Calendar view; It gets corrected if using navigation-min/max-year-month and sets the current view to Calendar",
+      "params": {
+        "year": {
+          "type": "Number",
+          "desc": "The year",
+          "__exemption": [ "examples" ]
+        },
+        "month": {
+          "type": "Number",
+          "desc": "The month",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.13.0"
     },
 
     "offsetCalendar": {
@@ -385,7 +402,7 @@
       "params": {
         "from": {
           "type": "Object",
-          "desc": "Definition of the current view (year, month)",
+          "desc": "Definition of date from where the range begins",
           "definition": {
             "year": {
               "type": "Number",
@@ -406,7 +423,7 @@
         },
         "to": {
           "type": "Object",
-          "desc": "Definition of the current view (year, month)",
+          "desc": "Definition of date to where the range ends",
           "definition": {
             "year": {
               "type": "Number",
