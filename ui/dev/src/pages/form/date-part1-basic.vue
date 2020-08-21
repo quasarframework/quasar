@@ -35,7 +35,6 @@
           v-model="date"
           v-bind="props"
           :style="style"
-          emit-immediately
           @input="inputLog"
           flat bordered
         />
@@ -69,7 +68,6 @@
           v-model="date"
           v-bind="props"
           :style="style"
-          emit-immediately
           @input="inputLog"
         />
       </div>
@@ -215,6 +213,7 @@
           :mask="mask"
           :locale="localeComputed"
           v-bind="props"
+          calendar="gregorian"
           :style="style"
         />
 
