@@ -852,7 +852,7 @@ export default Vue.extend({
           ]),
 
           this.todayBtn === true ? h(QBtn, {
-            staticClass: 'q-date__header-today',
+            staticClass: 'q-date__header-today self-start',
             props: {
               icon: this.$q.iconSet.datetime.today,
               flat: true,

@@ -9,7 +9,6 @@
       make a new *.vue file here or in another folder under /dev/components.
     -->
     <div class="row q-gutter-md q-pb-md">
-      <q-btn label="Add 2020/09/05" @click="add" />
       <q-btn label="Null model" @click="nullify" />
       <q-btn label="Reset" @click="reset" />
     </div>
@@ -87,15 +86,6 @@ export default {
         { from: '2020/08/27', to: '2020/09/15' }
         // '2021/09/11',
       ]
-    },
-
-    add () {
-      if (Array.isArray(this.days)) {
-        this.days.push('2020/09/05')
-      }
-      else {
-        this.days = [ '2020/09/05' ]
-      }
     },
 
     onInput (value, reason, details) {
