@@ -38,7 +38,7 @@ export default Vue.extend({
     persistent: Boolean,
     autoClose: Boolean,
     separateClosePopup: Boolean,
-    
+
     noRouteDismiss: Boolean,
     noRefocus: Boolean,
     noFocus: Boolean,
