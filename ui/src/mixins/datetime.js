@@ -4,6 +4,8 @@ import DarkMixin from './dark.js'
 import FormMixin from './form.js'
 import ListenersMixin from './listeners.js'
 
+const calendars = [ 'gregorian', 'persian' ]
+
 export default {
   mixins: [ DarkMixin, FormMixin, ListenersMixin ],
 
@@ -19,7 +21,7 @@ export default {
 
     calendar: {
       type: String,
-      validator: v => ['gregorian', 'persian'].includes(v),
+      validator: v => calendars.includes(v),
       default: 'gregorian'
     },
 

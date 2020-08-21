@@ -5,7 +5,11 @@
         <template v-slot:append>
           <q-icon name="access_time" class="cursor-pointer">
             <q-popup-proxy transition-show="scale" transition-hide="scale">
-              <q-time v-model="time" />
+              <q-time v-model="time">
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
+              </q-time>
             </q-popup-proxy>
           </q-icon>
         </template>
@@ -19,7 +23,11 @@
                 v-model="timeWithSeconds"
                 with-seconds
                 format24h
-              />
+              >
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
+              </q-time>
             </q-popup-proxy>
           </q-icon>
         </template>

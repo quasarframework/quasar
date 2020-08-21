@@ -167,7 +167,7 @@
         "reason": {
           "type": "String",
           "desc": "Reason of the user interaction (what was picked)",
-          "values": [ "add-day", "remove-day", "add-range", "remove-range" ]
+          "values": [ "add-day", "remove-day", "add-range", "remove-range", "mask", "locale" ]
         },
         "details": {
           "type": "Object",
