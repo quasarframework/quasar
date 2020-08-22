@@ -73,13 +73,14 @@ export default Vue.extend({
       innerMask = this.__getMask(),
       innerLocale = this.__getLocale(),
       viewModel = this.__getViewModel(innerMask, innerLocale),
+      year = viewModel.year,
       direction = this.$q.lang.rtl === true ? 'right' : 'left'
 
     return {
       view: this.defaultView,
       monthDirection: direction,
       yearDirection: direction,
-      startYear: viewModel.year - viewModel.year % yearsInterval - (viewModel.year < 0 ? yearsInterval : 0),
+      startYear: year - (year % yearsInterval) - (year < 0 ? yearsInterval : 0),
       editRange: void 0,
       innerMask,
       innerLocale,
@@ -1349,7 +1350,7 @@ export default Vue.extend({
         : this.encodeObjectFn(date, mask, locale)
     },
 
-    __addToModel (date, reason) {
+    __addToModel (date) {
       let value
 
       if (this.multiple === true) {
