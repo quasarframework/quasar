@@ -68,6 +68,7 @@ print({ key: 'Global packages', section: true })
 print({ key: '  NPM', value: getSpawnOutput('npm') })
 print({ key: '  yarn', value: getSpawnOutput('yarn') })
 print({ key: '  @quasar/cli', value: chalk.green(process.env.QUASAR_CLI_VERSION) })
+print({ key: '  @quasar/icongenie', value: getSpawnOutput('icongenie') })
 print({ key: '  cordova', value: getSpawnOutput('cordova') })
 
 print({ key: 'Important local packages', section: true })

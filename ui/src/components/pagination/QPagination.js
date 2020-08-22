@@ -144,7 +144,7 @@ export default Vue.extend({
     attrs () {
       if (this.disable === true) {
         return {
-          'aria-disabled': ''
+          'aria-disabled': 'true'
         }
       }
     },

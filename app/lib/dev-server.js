@@ -220,9 +220,11 @@ module.exports = class DevServer {
           })
         }
 
-        app.use(cfg.build.publicPath, express.static(appPaths.resolve.app('public'), {
-          maxAge: 0
-        }))
+        if (cfg.build.ignorePublicFolder !== true) {
+          app.use(cfg.build.publicPath, express.static(appPaths.resolve.app('public'), {
+            maxAge: 0
+          }))
+        }
 
         originalAfter && originalAfter(app)
 

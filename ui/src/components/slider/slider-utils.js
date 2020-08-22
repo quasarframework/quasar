@@ -96,8 +96,7 @@ export const SliderMixin = {
       return `q-slider q-slider${this.axis} q-slider--${this.active === true ? '' : 'in'}active` +
         (this.isReversed === true ? ' q-slider--reversed' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '') +
-        (this.disable === true ? ' disabled' : '') +
-        (this.editable === true ? ' q-slider--editable' : '') +
+        (this.disable === true ? ' disabled' : ' q-slider--enabled' + (this.editable === true ? ' q-slider--editable' : '')) +
         (this.focus === 'both' ? ' q-slider--focus' : '') +
         (this.label || this.labelAlways === true ? ' q-slider--label' : '') +
         (this.labelAlways === true ? ' q-slider--label-always' : '') +
@@ -160,10 +159,10 @@ export const SliderMixin = {
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
       else if (this.readonly === true) {
-        attrs['aria-readonly'] = ''
+        attrs['aria-readonly'] = 'true'
       }
 
       return attrs
@@ -194,7 +193,8 @@ export const SliderMixin = {
           focusable: 'false', /* needed for IE11 */
           viewBox: '0 0 20 20',
           width: '20',
-          height: '20'
+          height: '20',
+          'aria-hidden': 'true'
         }
       }, [
         h('path', {

@@ -297,7 +297,8 @@ export default Vue.extend({
           props: {
             ...this.virtProps,
             items: this.computedRows,
-            type: '__qtable'
+            type: '__qtable',
+            tableColspan: this.computedColspan
           },
           on: cache(this, 'vs', {
             'virtual-scroll': this.__onVScroll

@@ -94,7 +94,7 @@ export default function attachContentHooks (bridge) {
 }
 
 /**
- * The code below will get everything going. Initialise the iFrame with defaults and add it to the page.
+ * The code below will get everything going. Initialize the iFrame with defaults and add it to the page.
  * @type {string}
  */
 iFrame.id = 'bex-app-iframe'

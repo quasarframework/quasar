@@ -19,7 +19,7 @@ For handling date and/or time, also check out [Quasar Date Utils](/quasar-utils/
 ## Usage
 
 ::: warning
-Notice that the model is a String only.
+Notice that the actual date(s) of the model are all in String format.
 :::
 
 ### Basic
@@ -31,6 +31,32 @@ For landscape mode, you can use it along with `$q.screen` to make QDate responsi
 :::
 
 <doc-example title="Landscape" file="QDate/Landscape" overflow />
+
+### Multiple selection <q-badge align="top" label="v1.13+" />
+
+Notice below that the model is an Array and we specify the "multiple" prop.
+
+Clicking on an already selected day will deselect it.
+
+<doc-example title="Multiple days" file="QDate/SelectionMultiple" overflow />
+
+### Range selection <q-badge align="top" label="v1.13+" />
+
+Notice in the examples below that the model is an Object (single selection) or an Array of Objects (multiple selection).
+
+::: tip TIPS
+* Clicking on an already selected day will deselect it.
+* The user's current editing range can also be set programmatic through the `setEditingRange` method (check the API card).
+* There are two useful events in regards to the current editing range: `range-start` and `range-end` (check the API card).
+:::
+
+::: warning
+The `range` property is only partially compatible with the `options` prop: selected ranges might also include "unselectable" days.
+:::
+
+<doc-example title="Single Range" file="QDate/SelectionRange" overflow />
+
+<doc-example title="Multiple ranges" file="QDate/SelectionRangeMultiple" overflow />
 
 ### Custom title and subtitle
 
@@ -113,9 +139,26 @@ The first example is using an array and the second example is using a function.
 * You can use the `options` prop to limit user selection to certain times.
 * Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
 
+::: warning
+The `options` property is only partially compatible with the `range` prop. Ranges might contain "unselectable" days.
+:::
+
 <doc-example title="Options" file="QDate/Options" overflow />
 
+### Applying navigation boundaries <q-badge align="top" label="v1.13+" />
+
+In the example below the navigation is restricted between 2020/07 and 2020/09.
+
+<doc-example title="Navigation boundaries" file="QDate/NavigationBoundaries" overflow />
+
+### With additional buttons <q-badge align="top" label="v1.2.8+" />
+
+You can use the default slot for adding buttons:
+
+<doc-example title="With additional buttons" file="QDate/AdditionalButtons" overflow />
+
 ### With QSplitter and QTabPanels
+
 <doc-example title="With QSplitter and QTabPanels" file="QDate/Splitter" />
 
 More info: [QSplitter](/vue-components/splitter), [QTabPanels](/vue-components/tab-panels).
@@ -136,12 +179,6 @@ The following are **helpers** for QInput `mask` and `rules` props. You can use t
 Examples: "date", "time", "fulltime".
 
 More info: [QInput](/vue-components/input).
-
-### With additional buttons <q-badge align="top" label="v1.2.8+" />
-
-You can use the default slot for adding buttons:
-
-<doc-example title="With additional buttons" file="QDate/AdditionalButtons" overflow />
 
 ### Persian calendar
 ::: tip

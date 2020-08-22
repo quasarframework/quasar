@@ -224,10 +224,10 @@ export default Vue.extend({
       }
 
       if (this.disable === true) {
-        attrs['aria-disabled'] = ''
+        attrs['aria-disabled'] = 'true'
       }
       else if (this.readonly === true) {
-        attrs['aria-readonly'] = ''
+        attrs['aria-readonly'] = 'true'
       }
 
       return attrs
@@ -363,7 +363,7 @@ export default Vue.extend({
         )
       }
 
-      this.hasLabel && node.push(
+      this.hasLabel === true && node.push(
         h('div', {
           staticClass: 'q-field__label no-pointer-events absolute ellipsis',
           class: this.labelClass

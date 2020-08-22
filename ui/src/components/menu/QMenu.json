@@ -74,6 +74,13 @@
       "category": "behavior"
     },
 
+    "no-route-dismiss": {
+      "type": "Boolean",
+      "desc": "Changing route app won't dismiss Manu; No need to set it if 'persistent' prop is also set",
+      "category": "behavior",
+      "addedIn": "v1.13.0"
+    },
+
     "auto-close": {
       "type": "Boolean",
       "desc": "Allows any click/tap in the menu to close it; Useful instead of attaching events to each menu item that should close the menu on click/tap",

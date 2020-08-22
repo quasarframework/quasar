@@ -20,7 +20,7 @@ This way you have Chrome Dev Tools directly for your App running on the emulator
 If you are having problems getting Android builds to finish and you see a message like:
 
 ```
-> Failed to install the following Android SDK packages as some licences have not been accepted.
+> Failed to install the following Android SDK packages as some licenses have not been accepted.
 ```
 
 If this is the case you need to accept ALL the licenses. Thankfully there is a tool for this:

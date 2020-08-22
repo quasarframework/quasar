@@ -13,6 +13,13 @@ For usage with the UMD build see [here](/start/umd#Quasar-Global-Object).
 import { openURL } from 'quasar'
 
 openURL('http://...')
+
+// full syntax:
+openURL(
+  String url,
+  Function rejectFn, // optional; gets called if window cannot be opened
+  Object windowFeatures // (v1.13+) optional requested features for the new window
+)
 ```
 
 It will take care of the quirks involved when running under Cordova, Electron or on a browser, including notifying the user he/she has to acknowledge opening popups.
@@ -20,6 +27,27 @@ It will take care of the quirks involved when running under Cordova, Electron or
 When wrapping with Cordova (or Capacitor), it's best (but not "a must do") if [InAppBrowser](https://cordova.apache.org/docs/en/latest/reference/cordova-plugin-inappbrowser/) Cordova plugin is also installed, so that openURL can hook into that.
 
 Starting with Quasar v1.11+, if running on iOS and [cordova-plugin-safariviewcontroller](https://github.com/EddyVerbruggen/cordova-plugin-safariviewcontroller) is installed, then openURL will first try to hook into it.
+
+The optional `windowFeatures` parameter should be an Object with keys from [window.open() windowFeatures](https://developer.mozilla.org/en-US/docs/Web/API/Window/open) and Boolean values (as described in the example below). Please note that these features will not be taken into account when openURL does not deferrs to using `window.open()` (like for example when it hooks into InAppBrowser or the electron's own window opener).
+
+```js
+// example of openURL() with windowFeatures:
+// (requires Quasar v1.13+)
+
+openURL(
+  'http://...',
+  null, // in this example we don't care about the rejectFn()
+
+  // this is the windowFeatures Object param:
+  {
+    noopener: true, // this is set by default for security purposes
+                    // but it can be disabled if specified with a Boolean false value
+    menubar: true,
+    toolbar: true,
+    noreferrer: true,
+    // .....any other window features
+  }
+)
 
 ::: tip
 If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn type="a" href="tel:123456789">`

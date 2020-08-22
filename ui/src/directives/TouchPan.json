@@ -149,6 +149,13 @@
       "desc": "Ignore initial mouse move direction (do not abort if the first mouse move is in an unaccepted direction)",
       "reactive": true
     },
+    
+    "preserveCursor": {
+      "type": "Boolean",
+      "desc": "Prevent the mouse cursor from automatically displaying as grabbing when panning",
+      "reactive": true,
+      "addedIn": "v1.13.0"
+    },
 
     "horizontal": {
       "type": "Boolean",

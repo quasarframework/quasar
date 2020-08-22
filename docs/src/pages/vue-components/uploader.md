@@ -165,7 +165,7 @@ app.listen(port, () => {
 QUploader seamlessly integrates with a Microsoft ASP.NET MVC/Core 2.x Web API backend.
 In your Vue file, configure the QUploader component with the desired Web API endpoint:
 
-```vue
+```html
 <q-uploader
   url="http://localhost:4444/fileuploader/upload"
   label="Upload"

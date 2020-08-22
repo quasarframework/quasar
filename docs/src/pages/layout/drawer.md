@@ -86,7 +86,7 @@ By default, when in "mini" mode, Quasar CSS hides a few DOM elements to provide 
 <doc-example title="Mini-mode with slot" file="QDrawer/MiniSlot" />
 
 ### Overlay mode
-The overlay mode makes the drawer not to occupy space on the layout and rather hover over the page instead. This will always set your drawer with fixed position, regardless of your configuration from the `view` prop.
+The overlay mode prevents the drawer from occupying space on the layout and rather hover over the page instead. This will always set your drawer with fixed position, regardless of your configuration from the `view` prop.
 
 On the example below, click the menu icon to see the drawer in action. It's best viewed on a desktop with a window of at least 500px width (this is the breakpoint that is set on this demo).
 

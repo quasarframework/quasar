@@ -60,6 +60,9 @@ import themifySet from 'quasar/icon-set/themify.js'
 import lineawesomeSet from 'quasar/icon-set/line-awesome.js'
 
 import svgMatSet from 'quasar/icon-set/svg-material-icons.js'
+import svgMatOutlinedSet from 'quasar/icon-set/svg-material-icons-outlined.js'
+import svgMatRoundSet from 'quasar/icon-set/svg-material-icons-round.js'
+import svgMatSharpSet from 'quasar/icon-set/svg-material-icons-sharp.js'
 import svgMdiSet from 'quasar/icon-set/svg-mdi-v5.js'
 import svgIoniconsV4Set from 'quasar/icon-set/svg-ionicons-v4.js'
 import svgIoniconsSet from 'quasar/icon-set/svg-ionicons-v5.js'
@@ -143,7 +146,8 @@ export default {
         matSet, matOutlinedSet, matRoundSet, matSharpSet,
         mdiSet, fontawesomeSet, ioniconsV4Set, evaSet, themifySet,
         lineawesomeSet,
-        svgMatSet, svgMdiSet, svgIoniconsV4Set, svgIoniconsSet, svgFontawesomeSet,
+        svgMatSet, svgMatOutlinedSet, svgMatRoundSet, svgMatSharpSet,
+        svgMdiSet, svgIoniconsV4Set, svgIoniconsSet, svgFontawesomeSet,
         svgEvaSet, svgThemifySet, svgLineawesomeSet
       ].map(({ name, ...set }) => parseSet(name, set))
     }

@@ -237,8 +237,10 @@ class CapacitorConfig {
       mainActivityPath = mainActivityPath[0]
     }
     else if (mainActivityPath.length === 0) {
-      warn('Could not find MainActivity.java file and therefore cannot enable devServer: https support.')
-      process.exit(1)
+      warn()
+      warn('IMPORTANT! Could not find MainActivity.java file and therefore cannot enable devServer: https support.')
+      warn()
+      return
     }
 
     const enableHttpsSelfSignedPath = path.join(path.dirname(mainActivityPath), 'EnableHttpsSelfSigned.java')

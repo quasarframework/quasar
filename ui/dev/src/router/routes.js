@@ -38,18 +38,19 @@ const routes = [
     path: '/components/tabs',
     component: load('components/tabs'),
     children: [
-      { path: 'a' },
-      { path: 'a/a' },
-      { path: 'a/b' },
-      { path: 'b' },
-      { path: 'b/a' },
-      { path: 'c' },
+      { path: 'a', meta: { skipScroll: true } },
+      { path: 'a/a', meta: { skipScroll: true } },
+      { path: 'a/b', meta: { skipScroll: true } },
+      { path: 'b', meta: { skipScroll: true } },
+      { path: 'b/a', meta: { skipScroll: true } },
+      { path: 'c', meta: { skipScroll: true } },
       {
         path: 't',
         children: [
-          { path: ':id/a', name: 'ta' },
-          { path: ':id/b', name: 'tb' }
-        ]
+          { path: ':id/a', name: 'ta', meta: { skipScroll: true } },
+          { path: ':id/b', name: 'tb', meta: { skipScroll: true } }
+        ],
+        meta: { skipScroll: true }
       },
       {
         name: 'r',
@@ -60,14 +61,16 @@ const routes = [
             name: 'r.1',
             path: '1',
             children: [
-              { name: 'r.1.1', path: '1' },
-              { name: 'r.1.2', path: '2', redirect: { name: 'r' } },
-              { name: 'r.1.3', path: '3', redirect: { name: 'r.1.1' } }
-            ]
+              { name: 'r.1.1', path: '1', meta: { skipScroll: true } },
+              { name: 'r.1.2', path: '2', redirect: { name: 'r' }, meta: { skipScroll: true } },
+              { name: 'r.1.3', path: '3', redirect: { name: 'r.1.1' }, meta: { skipScroll: true } }
+            ],
+            meta: { skipScroll: true }
           },
-          { name: 'r.2', path: '2' },
-          { name: 'r.3', path: '3', redirect: { name: 'ta', params: { id: 2 } } }
-        ]
+          { name: 'r.2', path: '2', meta: { skipScroll: true } },
+          { name: 'r.3', path: '3', redirect: { name: 'ta', params: { id: 2 } }, meta: { skipScroll: true } }
+        ],
+        meta: { skipScroll: true }
       }
     ]
   },

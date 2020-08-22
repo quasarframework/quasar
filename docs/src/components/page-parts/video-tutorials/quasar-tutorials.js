@@ -5,7 +5,7 @@ export default [
     author: 'Danny Connell',
     lang: 'English',
     link: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=507388.2305152&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Fquasarframework%2F',
-    imgUrl: 'https://i.udemycdn.com/course/480x270/2305152_ecfb_5.jpg'
+    imgUrl: 'https://img-a.udemycdn.com/course/480x270/2305152_ecfb_6.jpg'
   },
 
   {
@@ -15,6 +15,24 @@ export default [
     lang: 'Spanish',
     link: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=507388.2075016&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Faplicaciones-pwa-con-vuejs-y-quasar-framework%2F',
     imgUrl: 'https://i.udemycdn.com/course/480x270/2075016_4ea3_2.jpg'
+  },
+
+  {
+    name: 'Weather App with Vue.js & Quasar (for Mobile, Desktop & Web)',
+    desc: 'Use Vue.js & Quasar to create a Gorgeous Weather App from scratch & get it running & working on 5 different platforms: Android, iOS, Mac, Windows & Web.',
+    author: 'Danny Connell',
+    lang: 'English',
+    link: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=507388.3180950&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Fweather-app-vue-js-quasar%2F',
+    imgUrl: 'https://img-a.udemycdn.com/course/480x270/3180950_e65e_3.jpg'
+  },
+
+  {
+    name: 'PWA with Vue JS, Quasar & Firebase (with NodeJS & Express)',
+    desc: 'Create a Beautiful Instagram-Style Progressive Web App with Vue, Quasar, Firebase, NodeJS & Express.',
+    author: 'Danny Connell',
+    lang: 'English',
+    link: 'https://click.linksynergy.com/link?id=V56OaeB17aU&offerid=507388.3240810&type=2&murl=https%3A%2F%2Fwww.udemy.com%2Fcourse%2Fpwa-with-vuejs-quasar-firebase%2F',
+    imgUrl: 'https://img-a.udemycdn.com/course/750x422/3240810_dedb_2.jpg'
   },
 
   {
@@ -42,14 +60,5 @@ export default [
     lang: 'English',
     link: 'https://www.youtube.com/watch?v=1F0SfYmrSbA',
     imgUrl: 'https://i.ytimg.com/vi/1F0SfYmrSbA/hqdefault.jpg?sqp=-oaymwEZCNACELwBSFXyq4qpAwsIARUAAIhCGAFwAQ==&rs=AOn4CLA2kGICdkby-h6xUpCKhj763uYSwg'
-  },
-
-  {
-    name: 'Weather App with Vue.js & Quasar (for Mobile, Desktop & Web)',
-    desc: 'Use Vue.js & Quasar to create a Gorgeous Weather App from scratch & get it running & working on 5 different platforms: Android, iOS, Mac, Windows & Web',
-    author: 'Danny Connell',
-    lang: 'English',
-    link: 'https://dannys.link/quasarweather',
-    imgUrl: 'https://img-a.udemycdn.com/course/480x270/3180950_e65e_3.jpg'
   }
 ]

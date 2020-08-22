@@ -706,6 +706,11 @@ const directives = [
     path: 'mutation'
   },
   {
+    name: 'Morph',
+    badge: 'new',
+    path: 'morph'
+  },
+  {
     name: 'Scroll',
     path: 'scroll'
   },
@@ -924,12 +929,14 @@ const components = [
       },
       {
         name: 'Date Picker',
+        badge: 'update',
         path: 'date'
       }
     ]
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {
@@ -1174,6 +1181,11 @@ const utils = [
   {
     name: 'DOM Utils',
     path: 'dom-utils'
+  },
+  {
+    name: 'Morph Utils',
+    badge: 'new',
+    path: 'morph-utils'
   },
   {
     name: 'Formatter Utils',

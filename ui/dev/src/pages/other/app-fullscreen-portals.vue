@@ -223,6 +223,14 @@
       </q-card-section>
     </q-card>
 
+    <video
+      style="width: 300px"
+      src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      controls
+      playsinline
+      loop
+    />
+
     <q-dialog v-model="dialog3" seamless position="bottom">
       <q-card class="bg-white">
         <q-card-section>

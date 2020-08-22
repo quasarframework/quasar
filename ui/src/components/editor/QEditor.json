@@ -133,18 +133,15 @@
         },
         "fixedLabel": {
           "type": "Boolean",
-          "desc": "Lock the button label, so it doesn't change based on the child option selected.",
-          "default": "false"
+          "desc": "Lock the button label, so it doesn't change based on the child option selected."
         },
         "fixedIcon": {
           "type": "Boolean",
-          "desc": "Lock the button icon, so it doesn't change based on the child option selected.",
-          "default": "false"
+          "desc": "Lock the button icon, so it doesn't change based on the child option selected."
         },
         "highlight": {
           "type": "Boolean",
-          "desc": "Highlight the toolbar button, when a child option has been selected.",
-          "default": "false"
+          "desc": "Highlight the toolbar button, when a child option has been selected."
         }
       },
       "category": "toolbar"
@@ -291,7 +288,7 @@
     "getContentEl": {
       "desc": "Retrieve the content of the Editor",
       "returns": {
-        "type": "String",
+        "type": "Element",
         "desc": "Provides the pure HTML within the editable area",
         "__exemption": [ "examples" ]
       }
