@@ -929,12 +929,14 @@ const components = [
       },
       {
         name: 'Date Picker',
+        badge: 'update',
         path: 'date'
       }
     ]
   },
   {
     name: 'Icon',
+    badge: 'update',
     path: 'icon'
   },
   {

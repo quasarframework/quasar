@@ -140,7 +140,7 @@ The first example is using an array and the second example is using a function.
 * Alternatively, for a more in-depth way of limiting options, you can also supply a function (second and third example below) to `options-fn` prop.
 
 ::: warning
-The `options` property is not compatible with the `range` prop.
+The `options` property is only partially compatible with the `range` prop. Ranges might contain "unselectable" days.
 :::
 
 <doc-example title="Options" file="QDate/Options" overflow />
@@ -150,6 +150,12 @@ The `options` property is not compatible with the `range` prop.
 In the example below the navigation is restricted between 2020/07 and 2020/09.
 
 <doc-example title="Navigation boundaries" file="QDate/NavigationBoundaries" overflow />
+
+### With additional buttons <q-badge align="top" label="v1.2.8+" />
+
+You can use the default slot for adding buttons:
+
+<doc-example title="With additional buttons" file="QDate/AdditionalButtons" overflow />
 
 ### With QSplitter and QTabPanels
 
@@ -173,12 +179,6 @@ The following are **helpers** for QInput `mask` and `rules` props. You can use t
 Examples: "date", "time", "fulltime".
 
 More info: [QInput](/vue-components/input).
-
-### With additional buttons <q-badge align="top" label="v1.2.8+" />
-
-You can use the default slot for adding buttons:
-
-<doc-example title="With additional buttons" file="QDate/AdditionalButtons" overflow />
 
 ### Persian calendar
 ::: tip

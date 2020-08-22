@@ -350,7 +350,7 @@ This svg method allows you to store the SVG files as static assets and reference
 
 The standard HTML way is to include the file and specify the icon with the `svg use` tag.
 
-```HTML
+```html
 <svg>
   <use xlink:href="icons.svg#icon-1"></use>
 </svg>
@@ -358,7 +358,7 @@ The standard HTML way is to include the file and specify the icon with the `svg 
 
 To use this with Quasar through QIcon (make sure that you are referencing the correct file from your public or statics folder):
 
-```HTML
+```html
 <q-icon name="svguse:icons.svg#icon-1">
 <!-- or -->
 <q-btn-dropdown label="Custom Content" dropdown-icon="svguse:icons.svg#icon-2" />
@@ -366,7 +366,7 @@ To use this with Quasar through QIcon (make sure that you are referencing the co
 
 By default, the parent svg's viewBox is "0 0 24 24". However, you can also specify a custom one:
 
-```HTML
+```html
 <q-icon name="svguse:icons.svg#icon-1|10 15 40 40" />
 ```
 

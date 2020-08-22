@@ -12,12 +12,14 @@
         vertical
         label
       />
+
       <q-slider
         v-model="standard"
         :min="0"
         :max="50"
         color="green"
         vertical
+        reverse
         label-always
       />
     </div>
@@ -28,7 +30,7 @@
 export default {
   data () {
     return {
-      standard: 2
+      standard: 10
     }
   }
 }
