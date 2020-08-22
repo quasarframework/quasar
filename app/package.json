@@ -114,7 +114,7 @@
     "webpack-bundle-analyzer": "3.8.0",
     "webpack-chain": "6.5.1",
     "webpack-dev-server": "3.11.0",
-    "webpack-merge": "5.1.2",
+    "webpack-merge": "4.2.2",
     "webpack-node-externals": "2.5.1",
     "write-file-webpack-plugin": "4.5.1",
     "yargs": "15.4.1",
