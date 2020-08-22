@@ -34,7 +34,7 @@ module.exports = function (chain, cfg) {
     //  4. Quasar language files
     //  5. Quasar icon sets files
     //  6. Quasar extras
-    whitelist: [
+    allowlist: [
       /(\.(vue|css|styl|scss|sass|less)$|\?vue&type=style|^quasar[\\/]src[\\/]|^quasar[\\/]lang[\\/]|^quasar[\\/]icon-set[\\/]|^@quasar[\\/]extras[\\/])/,
       ...cfg.build.transpileDependencies
     ]
