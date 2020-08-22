@@ -627,9 +627,11 @@ class QuasarConfig {
           if (!this.ctx.mode.ssr) {
             const express = require('express')
 
-            app.use((cfg.build.publicPath || '/'), express.static(appPaths.resolve.app('public'), {
-              maxAge: 0
-            }))
+            if (cfg.build.ignorePublicFolder !== true) {
+              app.use((cfg.build.publicPath || '/'), express.static(appPaths.resolve.app('public'), {
+                maxAge: 0
+              }))
+            }
 
             if (this.ctx.mode.cordova) {
               const folder = appPaths.resolve.cordova(`platforms/${this.ctx.targetName}/platform_www`)
@@ -790,7 +792,9 @@ class QuasarConfig {
           nodeIntegration: true
         }, cfg.electron)
 
-        cfg.__rootDefines.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
+        if (cfg.build.ignorePublicFolder !== true) {
+          cfg.__rootDefines.__statics = `"${appPaths.resolve.app('public').replace(/\\/g, '\\\\')}"`
+        }
       }
       else {
         const bundler = require('./electron/bundler')

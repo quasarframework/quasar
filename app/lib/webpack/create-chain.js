@@ -310,7 +310,10 @@ module.exports = function (cfg, configName) {
         hashDigest: 'hex'
       }])
 
-    if (configName !== 'Server') {
+    if (
+      cfg.build.ignorePublicFolder !== true &&
+      configName !== 'Server'
+    ) {
       // copy /public to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
 
