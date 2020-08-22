@@ -37,6 +37,7 @@
           :style="style"
           @input="inputLog"
           flat bordered
+          emit-immediately
         />
 
         <q-date

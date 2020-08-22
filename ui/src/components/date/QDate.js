@@ -43,6 +43,9 @@ export default Vue.extend({
     events: [ Array, Function ],
     eventColor: [ String, Function ],
 
+    // DEPRECATED; TODO: remove in v2
+    emitImmediately: Boolean,
+
     options: [ Array, Function ],
 
     navigationMinYearMonth: {
@@ -129,10 +132,17 @@ export default Vue.extend({
         (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-date--readonly' : ''))
     },
 
+    // DEPRECATED; TODO: remove in v2
+    isImmediate () {
+      return this.emitImmediately === true &&
+        this.daysModel[0] !== void 0 &&
+        this.daysModel[0].dateHash !== null
+    },
+
     normalizedModel () {
       return Array.isArray(this.value) === true
         ? this.value
-        : (this.value ? [ this.value ] : [])
+        : (this.value !== null && this.value !== void 0 ? [ this.value ] : [])
     },
 
     daysModel () {
@@ -1141,21 +1151,25 @@ export default Vue.extend({
       }
 
       this.__updateViewModel(year, month)
+      this.isImmediate === true && this.__emitImmediately('month')
     },
 
     __goToYear (offset) {
       const year = Number(this.viewModel.year) + offset
       this.__updateViewModel(year, this.viewModel.month)
+      this.isImmediate === true && this.__emitImmediately('year')
     },
 
     __setYear (year) {
       this.__updateViewModel(year, this.viewModel.month)
       this.view = this.defaultView === 'Years' ? 'Months' : 'Calendar'
+      this.isImmediate === true && this.__emitImmediately('year')
     },
 
     __setMonth (month) {
       this.__updateViewModel(this.viewModel.year, month)
       this.view = 'Calendar'
+      this.isImmediate === true && this.__emitImmediately('month')
     },
 
     __getMonthHash (date) {
@@ -1175,7 +1189,7 @@ export default Vue.extend({
       fn(date)
     },
 
-    __getPublicData (date) {
+    __getShortDate (date) {
       return { year: date.year, month: date.month, day: date.day }
     },
 
@@ -1209,7 +1223,7 @@ export default Vue.extend({
           finalHash: initHash
         }
 
-        this.$emit('range-start', this.__getPublicData(day))
+        this.$emit('range-start', this.__getShortDate(day))
       }
       else {
         const
@@ -1223,8 +1237,8 @@ export default Vue.extend({
         this.__addToModel(initHash === finalHash ? day : { target: day, ...payload })
 
         this.$emit('range-end', {
-          from: this.__getPublicData(payload.from),
-          to: this.__getPublicData(payload.to)
+          from: this.__getShortDate(payload.from),
+          to: this.__getShortDate(payload.to)
         })
       }
     },
@@ -1286,19 +1300,46 @@ export default Vue.extend({
       this.$emit('input', value, reason, details)
     },
 
+    // DEPRECATED - TODO: remove in v2
+    __emitImmediately (reason) {
+      const date = this.daysModel[0]
+
+      // nextTick required because of animation delay in viewModel
+      this.$nextTick(() => {
+        date.year = this.viewModel.year
+        date.month = this.viewModel.month
+
+        const maxDay = this.calendar !== 'persian'
+          ? (new Date(date.year, date.month, 0)).getDate()
+          : jalaaliMonthLength(date.year, date.month)
+
+        date.day = Math.min(Math.max(1, date.day), maxDay)
+
+        const value = this.__encodeEntry(date)
+        this.lastEmitValue = value
+
+        const { details } = this.__getEmitParams('', date)
+        this.$emit('input', value, reason, details)
+      })
+    },
+
     __getEmitParams (action, date) {
       return date.from !== void 0
         ? {
           reason: `${action}-range`,
           details: {
-            ...this.__getPublicData(date.target),
-            from: this.__getPublicData(date.from),
-            to: this.__getPublicData(date.to)
+            ...this.__getShortDate(date.target),
+            from: this.__getShortDate(date.from),
+            to: this.__getShortDate(date.to),
+            changed: true // TODO remove in v2; legacy purposes
           }
         }
         : {
           reason: `${action}-day`,
-          details: this.__getPublicData(date)
+          details: {
+            ...this.__getShortDate(date),
+            changed: true // TODO remove in v2; legacy purposes
+          }
         }
     },
 
@@ -1308,7 +1349,7 @@ export default Vue.extend({
         : this.encodeObjectFn(date, mask, locale)
     },
 
-    __addToModel (date) {
+    __addToModel (date, reason) {
       let value
 
       if (this.multiple === true) {

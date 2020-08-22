@@ -147,6 +147,12 @@
       "desc": "Allow range selection; Partial compatibility with 'options' prop: selected ranges might also include 'unselectable' days",
       "category": "model|selection",
       "addedIn": "v1.13.0"
+    },
+
+    "emit-immediately": {
+      "type": "Boolean",
+      "desc": "(DEPRECATED from v1.13) Emit model when user browses month and year too; Only for single selection (non-multiple, non-range)",
+      "category": "model"
     }
   },
 
@@ -167,7 +173,7 @@
         "reason": {
           "type": "String",
           "desc": "Reason of the user interaction (what was picked)",
-          "values": [ "add-day", "remove-day", "add-range", "remove-range", "mask", "locale" ]
+          "values": [ "add-day", "remove-day", "add-range", "remove-range", "mask", "locale", "year", "month" ]
         },
         "details": {
           "type": "Object",
@@ -231,6 +237,11 @@
                 }
               },
               "addedIn": "v1.13.0"
+            },
+            "changed": {
+              "type": "Boolean",
+              "desc": "(DEPRECATED from v1.13) Did the model change?",
+              "addedIn": "v1.1.1"
             }
           }
         }
