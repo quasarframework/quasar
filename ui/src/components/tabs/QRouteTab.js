@@ -30,10 +30,8 @@ export default Vue.extend({
       return {
         input: stop,
         ...this.qListeners,
-        focusin: this.__onFocusin,
-        focusout: this.__onFocusout,
         '!click': this.__activate, // we need capture to intercept before vue-router
-        keydown: this.__onKeydown
+        keyup: this.__onKeyup
       }
     }
   },
