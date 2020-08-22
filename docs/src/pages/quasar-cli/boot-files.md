@@ -238,11 +238,13 @@ In order to better understand how a boot file works and what it does, you need t
 3. Quasar CSS & your app's global CSS are imported
 4. App.vue is loaded (not yet being used)
 5. Store is imported (if using Vuex Store in src/store)
-6. Boot files are imported
-7. Boot files get their default export function executed
-7. (if on Electron mode) Electron is imported and injected into Vue prototype
-8. (if on Cordova mode) Listening for "deviceready" event and only then continuing with following steps
-9. Instantiating Vue with root component and attaching to DOM
+6. Router is imported (in src/router)
+7. Boot files are imported
+8. Router default export function executed
+9. Boot files get their default export function executed
+10. (if on Electron mode) Electron is imported and injected into Vue prototype
+11. (if on Cordova mode) Listening for "deviceready" event and only then continuing with following steps
+12. Instantiating Vue with root component and attaching to DOM
 
 ## Examples of boot files
 
