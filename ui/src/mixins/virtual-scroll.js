@@ -538,7 +538,7 @@ export default {
 
       this.__scrollViewSize = scrollViewSize
 
-      this.virtualScrollSliceSizeComputed = scrollViewSize === void 0
+      this.virtualScrollSliceSizeComputed = scrollViewSize === void 0 || scrollViewSize <= 0
         ? 30
         : Math.ceil(scrollViewSize / this.virtualScrollItemSize * 3)
     },
