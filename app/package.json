@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Quasar Framework local CLI",
   "bin": {
     "quasar": "./bin/quasar"
