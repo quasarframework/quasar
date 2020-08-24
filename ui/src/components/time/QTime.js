@@ -282,14 +282,14 @@ export default Vue.extend({
 
     calculateSnappingGrid (inSel, count) {
       if (inSel === void 0) {
-        return void 0
+        return
       }
 
-      const snappingGrid = [...Array(count).keys()].map(inSel)
+      const snappingGrid = [ ...Array(count).keys() ].map(inSel)
 
       let consecutiveGaps = (count - 1) - snappingGrid.lastIndexOf(true)
       if (consecutiveGaps === -1) {
-        return void 0
+        return
       }
 
       for (let i = 0; i < count; i++) {
@@ -318,7 +318,8 @@ export default Vue.extend({
           }
 
           snappingGrid[i] = i
-        } else if (snappingGrid[i] === false) {
+        }
+        else if (snappingGrid[i] === false) {
           consecutiveGaps++
         }
       }
