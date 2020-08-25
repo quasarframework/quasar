@@ -211,15 +211,15 @@ export default Vue.extend({
     },
 
     hourSnappingGrid () {
-      return this.calculateSnappingGrid(this.hourInSelection, 24)
+      return this.__getSnapGrid(this.hourInSelection, 24)
     },
 
     minuteSnappingGrid () {
-      return this.calculateSnappingGrid(this.minuteInSelection, 60)
+      return this.__getSnapGrid(this.minuteInSelection, 60)
     },
 
     secondSnappingGrid () {
-      return this.calculateSnappingGrid(this.secondInSelection, 60)
+      return this.__getSnapGrid(this.secondInSelection, 60)
     },
 
     positions () {
@@ -280,7 +280,7 @@ export default Vue.extend({
       this.view = 'Hour'
     },
 
-    calculateSnappingGrid (inSel, count) {
+    __getSnapGrid (inSel, count) {
       if (inSel === void 0) {
         return
       }
