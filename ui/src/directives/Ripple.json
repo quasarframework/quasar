@@ -86,14 +86,12 @@
     "early": {
       "type": "Boolean",
       "desc": "Trigger early/immediately on user interaction",
-      "reactive": true,
       "addedIn": "v1.9.8"
     },
 
     "stop": {
       "type": "Boolean",
       "desc": "Stop click/touch event propagation",
-      "reactive": true,
       "examples": [
         "v-ripple.stop"
       ]
@@ -102,7 +100,6 @@
     "center": {
       "type": "Boolean",
       "desc": "Ripple starts from the absolute center",
-      "reactive": true,
       "examples": [
         "v-ripple.center"
       ]
