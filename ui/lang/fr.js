@@ -23,7 +23,6 @@ export default {
     monthsShort: 'Jan_Fev_Mar_Avr_Mai_Juin_Jui_Aou_Sep_Oct_Nov_Dec'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: true,
-    singleDay: 'jour',
     pluralDay: 'jours'
   },
   table: {

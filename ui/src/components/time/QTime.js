@@ -46,8 +46,8 @@ export default Vue.extend({
   data () {
     const model = __splitDate(
       this.value,
-      this.__getComputedMask(),
-      this.__getComputedLocale(),
+      this.__getMask(),
+      this.__getLocale(),
       this.calendar,
       this.__getDefaultDateModel()
     )
@@ -93,6 +93,18 @@ export default Vue.extend({
           this.isAM = model.hour < 12
         }
       }
+    },
+
+    computedMask () {
+      this.$nextTick(() => {
+        this.__updateValue()
+      })
+    },
+
+    computedLocale () {
+      this.$nextTick(() => {
+        this.__updateValue()
+      })
     }
   },
 
@@ -104,10 +116,6 @@ export default Vue.extend({
         (this.bordered === true ? ` q-time--bordered` : '') +
         (this.square === true ? ` q-time--square no-border-radius` : '') +
         (this.flat === true ? ` q-time--flat no-shadow` : '')
-    },
-
-    computedMask () {
-      return this.__getComputedMask()
     },
 
     stringModel () {
@@ -202,6 +210,18 @@ export default Vue.extend({
         )
     },
 
+    hourSnappingGrid () {
+      return this.__getSnapGrid(this.hourInSelection, 24)
+    },
+
+    minuteSnappingGrid () {
+      return this.__getSnapGrid(this.minuteInSelection, 60)
+    },
+
+    secondSnappingGrid () {
+      return this.__getSnapGrid(this.secondInSelection, 60)
+    },
+
     positions () {
       let start, end, offset = 0, step = 1, inSel
 
@@ -260,11 +280,63 @@ export default Vue.extend({
       this.view = 'Hour'
     },
 
+    __getSnapGrid (inSel, count) {
+      if (inSel === void 0) {
+        return
+      }
+
+      const snappingGrid = [ ...Array(count).keys() ].map(inSel)
+
+      let consecutiveGaps = (count - 1) - snappingGrid.lastIndexOf(true)
+      if (consecutiveGaps === -1) {
+        return
+      }
+
+      for (let i = 0; i < count; i++) {
+        if (snappingGrid[i] === true) {
+          if (consecutiveGaps) {
+            if (consecutiveGaps > 1) {
+              const sideCount = Math.floor(consecutiveGaps / 2)
+
+              const previousVal = ((i - consecutiveGaps - 1) + count) % count
+              const previousValStart = ((i - consecutiveGaps) + count) % count
+              for (let j = 0, h = previousValStart; j < sideCount; j++, (h = (previousValStart + j + count) % count)) {
+                snappingGrid[h] = previousVal
+              }
+
+              const currentVal = i
+              const currentValStart = ((i - sideCount) + count) % count
+              for (let j = 0, h = currentValStart; j < sideCount; j++, (h = (currentValStart + j + count) % count)) {
+                snappingGrid[h] = currentVal
+              }
+            } else {
+              const previousPosition = ((i - 1) + count) % count
+              snappingGrid[previousPosition] = previousPosition
+            }
+
+            consecutiveGaps = 0
+          }
+
+          snappingGrid[i] = i
+        }
+        else if (snappingGrid[i] === false) {
+          consecutiveGaps++
+        }
+      }
+
+      return snappingGrid
+    },
+
+    __getMask () {
+      return this.calendar !== 'persian' && this.mask !== null
+        ? this.mask
+        : `HH:mm${this.withSeconds === true ? ':ss' : ''}`
+    },
+
     __getDefaultDateModel () {
       if (typeof this.defaultDate !== 'string') {
         const date = this.__getCurrentDate()
         date.dateHash = date.year + '/' + pad(date.month) + '/' + pad(date.day)
-
         return date
       }
 
@@ -374,12 +446,19 @@ export default Vue.extend({
         else if (this.isAM === false && val !== 12) {
           val += 12
         }
+
+        if (this.hourSnappingGrid !== void 0) {
+          val = this.hourSnappingGrid[val]
+        }
       }
       else {
-        val = Math.round(angle / 6)
+        val = Math.round(angle / 6) % 60
 
-        if (val === 60) {
-          val = 0
+        if (this.view === 'Minute' && this.minuteSnappingGrid !== void 0) {
+          val = this.minuteSnappingGrid[val]
+        }
+        else if (this.view === 'Second' && this.secondSnappingGrid !== void 0) {
+          val = this.secondSnappingGrid[val]
         }
       }
 
@@ -664,20 +743,11 @@ export default Vue.extend({
         return
       }
 
-      this.__updateValue({})
-    },
-
-    __getComputedMask () {
-      return this.calendar !== 'persian' && this.mask !== null
-        ? this.mask
-        : `HH:mm${this.withSeconds === true ? ':ss' : ''}`
+      this.__updateValue()
     },
 
     __updateValue (obj) {
-      const date = {
-        ...this.innerModel,
-        ...obj
-      }
+      const date = Object.assign({ ...this.innerModel }, obj)
 
       const val = this.calendar === 'persian'
         ? pad(date.hour) + ':' +

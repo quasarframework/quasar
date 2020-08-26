@@ -268,7 +268,7 @@ export default Vue.extend({
 
   data () {
     return {
-      editWatcher: true,
+      lastEmit: this.value,
       editLinkUrl: null,
       isViewingSource: false
     }
@@ -276,24 +276,21 @@ export default Vue.extend({
 
   watch: {
     value (v) {
-      if (this.editWatcher === true) {
-        this.__setContent(v)
-      }
-      else {
-        this.editWatcher = true
+      if (this.lastEmit !== v) {
+        this.__setContent(v, true)
       }
     }
   },
 
   methods: {
     __onInput () {
-      if (this.editWatcher === true && this.$refs.content !== void 0) {
-        const val = this.isViewingSource
+      if (this.$refs.content !== void 0) {
+        const val = this.isViewingSource === true
           ? this.$refs.content.innerText
           : this.$refs.content.innerHTML
 
         if (val !== this.value) {
-          this.editWatcher = false
+          this.lastEmit = val
           this.$emit('input', val)
         }
       }
@@ -391,13 +388,18 @@ export default Vue.extend({
       return this.$refs.content
     },
 
-    __setContent (v) {
+    __setContent (v, restorePosition) {
       if (this.$refs.content !== void 0) {
-        if (this.isViewingSource) {
-          this.$refs.content.innerText = v
+        if (restorePosition === true) {
+          this.caret.savePosition()
         }
-        else {
-          this.$refs.content.innerHTML = v
+
+        const prop = `inner${this.isViewingSource === true ? 'Text' : 'HTML'}`
+        this.$refs.content[prop] = v
+
+        if (restorePosition === true) {
+          this.caret.restorePosition()
+          this.refreshToolbar()
         }
       }
     }
@@ -420,15 +422,13 @@ export default Vue.extend({
     let toolbars
 
     if (this.hasToolbar) {
-      const bars = []
-
-      bars.push(
+      const bars = [
         h('div', {
           key: 'qedt_top',
           staticClass: 'q-editor__toolbar row no-wrap scroll-x',
           class: this.toolbarBackgroundClass
         }, getToolbar(h, this))
-      )
+      ]
 
       this.editLinkUrl !== null && bars.push(
         h('div', {

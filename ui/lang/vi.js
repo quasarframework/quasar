@@ -23,7 +23,6 @@ export default {
     monthsShort: 'Th1_Th2_Th3_Th4_Th5_Th6_Th7_Th8_Th9_Th10_Th11_Th12'.split('_'),
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
     format24h: false,
-    singleDay: 'ngày',
     pluralDay: 'ngày'
   },
   table: {

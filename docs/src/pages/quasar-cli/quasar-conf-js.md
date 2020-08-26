@@ -268,6 +268,7 @@ devServer: {
 | ssrPwaHtmlFilename | String | (**@quasar/app 1.8+**) Used for SSR+PWA mode. Default is 'offline.html'. |
 | productName | String | Default value is taken from package.json > productName field. |
 | distDir | String | Folder where Quasar CLI should generate the distributables. Relative path to project root directory. Default is 'dist/{ctx.modeName}'. Applies to all Modes except for Cordova (which is forced to `src-cordova/www`). |
+| ignorePublicFolder | Boolean | (**@quasar/app 2.0.7+**) Ignores the /public folder. If you depend on a statics folder then you will need to configure it yourself (outside of Quasar or through the extendWebpack/chainWebpack), so make sure that you know what you are doing. |
 | devtool | String | Source map [strategy](https://webpack.js.org/configuration/devtool/) to use. |
 | env | Object | Add properties to `process.env` that you can use in your website/app JS code. |
 | gzip | Boolean/Object | Gzip the distributables. Useful when the web server with which you are serving the content does not have gzip. If using as Object, it represents the compression-webpack-plugin config Object. |

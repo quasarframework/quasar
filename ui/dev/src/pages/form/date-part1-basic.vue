@@ -11,9 +11,6 @@
         <q-toggle :dark="dark" v-model="todayBtn" label="Today Button" />
         <q-toggle :dark="dark" v-model="yearsInMonthView" label="yearsInMonthView" />
         <q-toggle :dark="dark" v-model="persian" label="Persian calendar model" />
-        <q-toggle :dark="dark" v-model="multiple" label="Multiple" />
-        <q-toggle :dark="dark" v-model="range" label="Range" />
-        <q-toggle v-if="range && !multiple" :dark="dark" v-model="editRange" false-value="start" true-value="end" :label="`Edit ${editRange !== null ? editRange : 'range'}`" toggle-indeterminate />
       </div>
 
       <div>{{ date }}</div>
@@ -38,9 +35,9 @@
           v-model="date"
           v-bind="props"
           :style="style"
-          emit-immediately
           @input="inputLog"
           flat bordered
+          emit-immediately
         />
 
         <q-date
@@ -72,7 +69,6 @@
           v-model="date"
           v-bind="props"
           :style="style"
-          emit-immediately
           @input="inputLog"
         />
       </div>
@@ -218,6 +214,7 @@
           :mask="mask"
           :locale="localeComputed"
           v-bind="props"
+          calendar="gregorian"
           :style="style"
         />
 
@@ -235,7 +232,11 @@
                 v-model="input"
                 v-bind="props"
                 :style="style"
-              />
+              >
+                <div class="row items-center justify-end">
+                  <q-btn v-close-popup label="Close" color="primary" flat />
+                </div>
+              </q-date>
             </q-popup-proxy>
           </q-icon>
         </q-input>
@@ -255,7 +256,7 @@
                   mask="YYYY-MM-DD HH:mm"
                   today-btn
                   :style="style"
-                  @input="() => $refs.qDateProxy1.hide()"
+                  @input="() => { $refs.qDateProxy1.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -264,7 +265,7 @@
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @input="() => $refs.qDateProxy2.hide()"
+                  @input="() => { $refs.qDateProxy2.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -274,25 +275,25 @@
         <q-input :dark="dark" filled v-model="inputFull">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy1">
+              <q-popup-proxy ref="qDateProxy3">
                 <q-date
                   v-model="inputFull"
                   v-bind="props"
                   mask="YYYY-MM-DD HH:mm"
                   today-btn
                   :style="style"
-                  @input="() => $refs.qDateProxy1.hide()"
+                  @input="() => { $refs.qDateProxy3.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
           </template>
           <template v-slot:after>
             <q-icon name="access_time" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy2">
+              <q-popup-proxy ref="qDateProxy4">
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @input="() => $refs.qDateProxy2.hide()"
+                  @input="() => { $refs.qDateProxy4.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
@@ -302,7 +303,7 @@
         <q-input :dark="dark" filled v-model="inputFull" label="Default view - Years">
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy1">
+              <q-popup-proxy ref="qDateProxy5">
                 <q-date
                   v-model="inputFull"
                   v-bind="props"
@@ -310,58 +311,23 @@
                   today-btn
                   default-view="Years"
                   :style="style"
-                  @input="() => $refs.qDateProxy1.hide()"
+                  @input="() => { $refs.qDateProxy5.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
           </template>
           <template v-slot:after>
             <q-icon name="access_time" class="cursor-pointer" @click.prevent>
-              <q-popup-proxy ref="qDateProxy2">
+              <q-popup-proxy ref="qDateProxy6">
                 <q-time
                   v-model="inputFull"
                   mask="YYYY-MM-DD HH:mm"
-                  @input="() => $refs.qDateProxy2.hide()"
+                  @input="() => { $refs.qDateProxy6.hide() }"
                 />
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
-      </div>
-      <div class="text-h6">
-        Desk Range: {{ dateRange }}
-      </div>
-      <div class="q-gutter-md">
-        <q-input :dark="dark" dense label="From" v-model="dateFrom" @focus="() => dateRangeInputFocus = 'start'" style="max-width: 200px" />
-        <q-input :dark="dark" dense label="To" v-model="dateTo" @focus="() => dateRangeInputFocus = 'end'" style="max-width: 200px" />
-        <q-date
-          ref="qDateRangeStart"
-          v-model="dateRange"
-          range
-          :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'start'"
-          default-year-month="2020/06"
-          default-range-view="start"
-          :navigation-max-year-month="rangeNavMaxYearMonth"
-          :dark="dark"
-          flat
-          minimal
-          @mock-range-end="date => {$refs.qDateRangeEnd.setMockRangeEnd(date); dateRangeFocus = dateRangeInputFocus !== null ? dateRangeInputFocus : 'start'}"
-          @input="dateRangeInputFocus = null"
-        />
-        <q-date
-          ref="qDateRangeEnd"
-          v-model="dateRange"
-          range
-          :edit-range="dateRangeInputFocus !== null ? dateRangeInputFocus : dateRangeFocus !== null ? dateRangeFocus : 'end'"
-          default-year-month="2020/07"
-          default-range-view="end"
-          :navigation-min-year-month="rangeNavMinYearMonth"
-          :dark="dark"
-          flat
-          minimal
-          @mock-range-end="date => {$refs.qDateRangeStart.setMockRangeEnd(date); dateRangeFocus = dateRangeInputFocus !== null ? dateRangeInputFocus : 'end'}"
-          @input="dateRangeInputFocus = null"
-        />
       </div>
     </div>
   </div>
@@ -386,11 +352,6 @@ export default {
       minimal: false,
       todayBtn: false,
       yearsInMonthView: false,
-      multiple: false,
-      range: false,
-      editRange: null,
-      dateRangeFocus: null,
-      dateRangeInputFocus: null,
 
       mask: '[Month: ]MMM[, Day: ]Do[, Year: ]YYYY',
 
@@ -435,9 +396,6 @@ export default {
         minimal: this.minimal,
         todayBtn: this.todayBtn,
         yearsInMonthView: this.yearsInMonthView,
-        multiple: this.multiple,
-        range: this.range,
-        editRange: this.editRange,
         calendar: this.persian ? 'persian' : 'gregorian'
       }
     },
@@ -455,26 +413,6 @@ export default {
 
     localeComputed () {
       return this.locale ? this.locale.date : this.$q.lang.date
-    },
-
-    dateRange: {
-      get: function () {
-        return [[this.dateFrom, this.dateTo]]
-      },
-      set: function (newValue) {
-        this.dateFrom = newValue[0][0]
-        this.dateTo = newValue[0][1]
-      }
-    },
-
-    rangeNavMinYearMonth () {
-      const data = this.dateFrom.split('/')
-      return `${data[0]}/${('' + (Number(data[1]) + 1)).padStart(2, '0')}`
-    },
-
-    rangeNavMaxYearMonth () {
-      const data = this.dateTo.split('/')
-      return `${data[0]}/${('' + (Number(data[1]) - 1)).padStart(2, '0')}`
     }
   },
   watch: {

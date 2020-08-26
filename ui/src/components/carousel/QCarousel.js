@@ -27,7 +27,7 @@ export default Vue.extend({
     controlColor: String,
     controlTextColor: String,
 
-    autoplay: [Number, Boolean],
+    autoplay: [ Number, Boolean ],
 
     arrows: Boolean,
     prevIcon: String,
@@ -36,9 +36,10 @@ export default Vue.extend({
     navigation: Boolean,
     navigationPosition: {
       type: String,
-      validator: v => ['top', 'right', 'bottom', 'left'].includes(v)
+      validator: v => [ 'top', 'right', 'bottom', 'left' ].includes(v)
     },
     navigationIcon: String,
+    navigationActiveIcon: String,
 
     thumbnails: Boolean
   },
@@ -77,6 +78,10 @@ export default Vue.extend({
 
     navIcon () {
       return this.navigationIcon || this.$q.iconSet.carousel.navigationIcon
+    },
+
+    navActiveIcon () {
+      return this.navigationActiveIcon || this.navIcon
     },
 
     navigationPositionComputed () {
@@ -135,7 +140,7 @@ export default Vue.extend({
           (this.controlColor !== void 0 ? ` text-${this.controlColor}` : '')
       }, [
         h('div', {
-          staticClass: 'q-carousel__navigation-inner flex no-wrap justify-center'
+          staticClass: 'q-carousel__navigation-inner flex flex-center no-wrap'
         }, this.__getAvailablePanels().map(mapping))
       ])
     },
@@ -144,20 +149,35 @@ export default Vue.extend({
       const node = []
 
       if (this.navigation === true) {
-        node.push(this.__getNavigationContainer(h, 'buttons', panel => {
-          const name = panel.componentOptions.propsData.name
+        const fn = this.$scopedSlots['navigation-icon'] !== void 0
+          ? this.$scopedSlots['navigation-icon']
+          : opts => h(QBtn, {
+              key: 'nav' + opts.name,
+              class: `q-carousel__navigation-icon q-carousel__navigation-icon--${opts.active === true ? '' : 'in'}active`,
+              props: opts.btnProps,
+              on: cache(this, 'nav#' + opts.name, { click: opts.onClick })
+            })
 
-          return h(QBtn, {
-            key: name,
-            class: `q-carousel__navigation-icon q-carousel__navigation-icon--${name === this.value ? '' : 'in'}active`,
-            props: {
-              icon: this.navIcon,
-              size: 'sm',
-              ...this.controlProps
-            },
-            on: cache(this, 'nav#' + name, { click: () => { this.goTo(name) } })
+        const maxIndex = this.panels.length - 1
+        node.push(
+          this.__getNavigationContainer(h, 'buttons', (panel, index) => {
+            const name = panel.componentOptions.propsData.name
+            const active = this.panelIndex === index
+
+            return fn({
+              index,
+              maxIndex,
+              name,
+              active,
+              btnProps: {
+                icon: active === true ? this.navActiveIcon : this.navIcon,
+                size: 'sm',
+                ...this.controlProps
+              },
+              onClick: () => { this.goTo(name) }
+            })
           })
-        }))
+        )
       }
       else if (this.thumbnails === true) {
         const color = this.controlColor !== void 0
@@ -178,25 +198,34 @@ export default Vue.extend({
         }))
       }
 
-      if (this.arrows === true) {
-        node.push(
-          h('div', {
-            staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
-          }, [
-            h(QBtn, {
-              props: { icon: this.arrowIcons[0], ...this.controlProps },
-              on: cache(this, 'prev', { click: this.previous })
-            })
-          ]),
-          h('div', {
-            staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
-          }, [
-            h(QBtn, {
-              props: { icon: this.arrowIcons[1], ...this.controlProps },
-              on: cache(this, 'next', { click: this.next })
-            })
-          ])
-        )
+      if (this.arrows === true && this.panelIndex >= 0) {
+        if (this.infinite === true || this.panelIndex > 0) {
+          node.push(
+            h('div', {
+              key: 'prev',
+              staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
+            }, [
+              h(QBtn, {
+                props: { icon: this.arrowIcons[0], ...this.controlProps },
+                on: cache(this, 'prev', { click: this.previous })
+              })
+            ])
+          )
+        }
+
+        if (this.infinite === true || this.panelIndex < this.panels.length - 1) {
+          node.push(
+            h('div', {
+              key: 'next',
+              staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
+            }, [
+              h(QBtn, {
+                props: { icon: this.arrowIcons[1], ...this.controlProps },
+                on: cache(this, 'next', { click: this.next })
+              })
+            ])
+          )
+        }
       }
 
       return mergeSlot(node, this, 'control')

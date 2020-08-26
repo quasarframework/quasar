@@ -32,7 +32,6 @@ export default {
     },
     firstDayOfWeek: 6,
     format24h: true,
-    singleDay: 'روز',
     pluralDay: 'روزها'
   },
   table: {

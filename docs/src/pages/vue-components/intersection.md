@@ -7,7 +7,7 @@ related:
   - /options/transitions
 ---
 
-The QIntersection component is essentially a wrapper over the [Intersection directive](/vue-directives/intersection) with the added benefit that it handles the state by itself (does not requires you to add it and handle it manually) and can optionally have a show/hide transition as well.
+The QIntersection component is essentially a wrapper over the [Intersection directive](/vue-directives/intersection) with the added benefit that it handles the state by itself (does not require you to add it and handle it manually) and can optionally have a show/hide transition as well.
 
 The main benefit of using QIntersection is, however, that the DOM tree is freed up of hidden nodes thus using the minimum possible RAM memory and making the page feel very snappy. As well, you can specify the `tag` property for the wrapper element to match your own needs, thus eliminating yet another DOM node.
 

@@ -12,14 +12,14 @@
   "props": {
     "value": {
       "extends": "value",
-      "type": [ "String", "Array" ],
+      "type": [ "String", "Array", "Object" ],
       "required": true,
-      "desc": "Date of the component; Must be Array if using 'multiple' prop; Must be 2 dimensional Array if using 'range' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
+      "desc": "Date(s) of the component; Must be Array if using 'multiple' prop; Either use this property (along with a listener for 'input' event) OR use v-model directive",
       "examples": [
         "v-model=\"myDate\"",
         "v-model=\"[myDate1, myDate2]\"",
-        "v-model=\"[[myDateFrom, myDateTo]]\"",
-        "v-model=\"[myDate1, [myDateFrom, myDateTo], myDate2]\""
+        "v-model=\"[{ from: myDateFrom, to: myDateTo }]\"",
+        "v-model=\"[myDate1, { from: myDateFrom, to: myDateTo }, myDate2]\""
       ],
       "category": "model"
     },
@@ -38,18 +38,10 @@
       "category": "content"
     },
 
-    "emit-immediately": {
-      "type": "Boolean",
-      "desc": "Emit model when user browses month and year too",
-      "category": "model"
-    },
-
     "default-year-month": {
       "type": "String",
       "desc": "The default year and month to display (in YYYY/MM format) when model is unfilled (undefined or null); Please ensure it is within the navigation min/max year-month (if using them)",
-      "examples": [
-        "1986/02"
-      ],
+      "examples": [ "1986/02" ],
       "category": "model"
     },
 
@@ -107,9 +99,7 @@
     "navigation-min-year-month": {
       "type": "String",
       "desc": "Lock user from navigating below a specific year+month (in YYYY/MM format); This prop is not used to correct the model",
-      "examples": [
-        "2020/07"
-      ],
+      "examples": [ "2020/07" ],
       "category": "selection",
       "addedIn": "v1.13.0"
     },
@@ -117,9 +107,7 @@
     "navigation-max-year-month": {
       "type": "String",
       "desc": "Lock user from navigating above a specific year+month (in YYYY/MM format); This prop is not used to correct the model",
-      "examples": [
-        "2020/10"
-      ],
+      "examples": [ "2020/10" ],
       "category": "selection",
       "addedIn": "v1.13.0"
     },
@@ -156,27 +144,15 @@
 
     "range": {
       "type": "Boolean",
-      "desc": "Allow range selection; Model must be 2 dimensional Array; Incompatible with 'options' prop",
+      "desc": "Allow range selection; Partial compatibility with 'options' prop: selected ranges might also include 'unselectable' days",
       "category": "model|selection",
       "addedIn": "v1.13.0"
     },
 
-    "edit-range": {
-      "type": "String",
-      "desc": "Use with 'range' prop only; Range gets editable",
-      "default": "end",
-      "values": [ "start", "end" ],
-      "category": "selection",
-      "addedIn": "v1.13.0"
-    },
-
-    "default-range-view": {
-      "type": "String",
-      "desc": "When range or multiple are true, this value indicates the year/month of what range-end will be in the view",
-      "default": "end",
-      "values": [ "start", "end" ],
-      "category": "model|selection",
-      "addedIn": "v1.13.0"
+    "emit-immediately": {
+      "type": "Boolean",
+      "desc": "(DEPRECATED from v1.13) Emit model when user browses month and year too; Only for single selection (non-multiple, non-range)",
+      "category": "model"
     }
   },
 
@@ -192,12 +168,12 @@
       "extends": "input",
       "params": {
         "value": {
-          "type": "String"
+          "type": [ "String", "Array", "Object" ]
         },
         "reason": {
           "type": "String",
           "desc": "Reason of the user interaction (what was picked)",
-          "values": [ "year", "month", "day", "today", "locale", "mask", "add-day", "remove-day", "add-range-start-day", "set-range-start-day", "set-range-end-day" ]
+          "values": [ "add-day", "remove-day", "add-range", "remove-range", "mask", "locale", "year", "month" ]
         },
         "details": {
           "type": "Object",
@@ -205,22 +181,66 @@
           "definition": {
             "year": {
               "type": "Number",
-              "desc": "The year",
+              "desc": "The year of the date that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
             },
             "month": {
               "type": "Number",
-              "desc": "The month",
+              "desc": "The month of the date that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
             },
             "day": {
               "type": "Number",
-              "desc": "The day of month",
+              "desc": "The day of the month that the user has clicked/tapped on",
               "__exemption": [ "examples" ]
+            },
+            "from": {
+              "type": "Object",
+              "desc": "Object of properties of the range starting point (only if range)",
+              "definition": {
+                "year": {
+                  "type": "Number",
+                  "desc": "The year",
+                  "__exemption": [ "examples" ]
+                },
+                "month": {
+                  "type": "Number",
+                  "desc": "The month",
+                  "__exemption": [ "examples" ]
+                },
+                "day": {
+                  "type": "Number",
+                  "desc": "The day of month",
+                  "__exemption": [ "examples" ]
+                }
+              },
+              "addedIn": "v1.13.0"
+            },
+            "to": {
+              "type": "Object",
+              "desc": "Object of properties of the range ending point (only if range)",
+              "definition": {
+                "year": {
+                  "type": "Number",
+                  "desc": "The year",
+                  "__exemption": [ "examples" ]
+                },
+                "month": {
+                  "type": "Number",
+                  "desc": "The month",
+                  "__exemption": [ "examples" ]
+                },
+                "day": {
+                  "type": "Number",
+                  "desc": "The day of month",
+                  "__exemption": [ "examples" ]
+                }
+              },
+              "addedIn": "v1.13.0"
             },
             "changed": {
               "type": "Boolean",
-              "desc": "Did the model change?",
+              "desc": "(DEPRECATED from v1.13) Did the model change?",
               "addedIn": "v1.1.1"
             }
           }
@@ -231,27 +251,32 @@
     "navigation": {
       "desc": "Emitted when user navigates to a different month or year (and even when the model changes from an outside source)",
       "params": {
-        "year": {
-          "type": "Number",
-          "desc": "The year",
-          "__exemption": [ "examples" ]
-        },
-        "month": {
-          "type": "Number",
-          "desc": "The month",
-          "__exemption": [ "examples" ]
+        "view": {
+          "type": "Object",
+          "desc": "Definition of the current view (year, month)",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            }
+          }
         }
       },
       "addedIn": "v1.13.0"
     },
 
-
-    "mock-range-end": {
-      "desc": "In-progress range selection ended",
+    "range-start": {
+      "desc": "User has started a range selection",
       "params": {
-        "value": {
+        "from": {
           "type": "Object",
-          "desc": "Object with year, month and day as props",
+          "desc": "Definition of date from where the range begins",
           "definition": {
             "year": {
               "type": "Number",
@@ -267,6 +292,61 @@
               "type": "Number",
               "desc": "The day of month",
               "__exemption": [ "examples" ]
+            }
+          }
+        }
+      },
+      "addedIn": "v1.13.0"
+    },
+
+    "range-end": {
+      "desc": "User has ended a range selection",
+      "params": {
+        "range": {
+          "type": "Object",
+          "desc": "Definition of the range",
+          "definition": {
+            "from": {
+              "type": "Object",
+              "desc": "Definition of date from where the range begins",
+              "definition": {
+                "year": {
+                  "type": "Number",
+                  "desc": "The year",
+                  "__exemption": [ "examples" ]
+                },
+                "month": {
+                  "type": "Number",
+                  "desc": "The month",
+                  "__exemption": [ "examples" ]
+                },
+                "day": {
+                  "type": "Number",
+                  "desc": "The day of month",
+                  "__exemption": [ "examples" ]
+                }
+              }
+            },
+            "to": {
+              "type": "Object",
+              "desc": "Definition of date to where the range ends",
+              "definition": {
+                "year": {
+                  "type": "Number",
+                  "desc": "The year",
+                  "__exemption": [ "examples" ]
+                },
+                "month": {
+                  "type": "Number",
+                  "desc": "The month",
+                  "__exemption": [ "examples" ]
+                },
+                "day": {
+                  "type": "Number",
+                  "desc": "The day of month",
+                  "__exemption": [ "examples" ]
+                }
+              }
             }
           }
         }
@@ -283,7 +363,6 @@
 
     "setView": {
       "desc": "Change current view",
-      "addedIn": "v1.1.7",
       "params": {
         "view": {
           "type": "String",
@@ -291,12 +370,12 @@
           "required": true,
           "values": [ "Calendar", "Months", "Years" ]
         }
-      }
+      },
+      "addedIn": "v1.1.7"
     },
 
     "offsetCalendar": {
       "desc": "Increment or decrement calendar view's month or year",
-      "addedIn": "v1.1.7",
       "params": {
         "type": {
           "type": "String",
@@ -308,15 +387,54 @@
           "type": "Boolean",
           "desc": "Decrement?"
         }
-      }
+      },
+      "addedIn": "v1.1.7"
     },
 
-    "setMockRangeEnd": {
-      "desc": "Sets the mock range-end",
+    "setCalendarTo": {
+      "desc": "Change current year and month of the Calendar view; It gets corrected if using navigation-min/max-year-month and sets the current view to Calendar",
       "params": {
-        "date": {
+        "year": {
+          "type": "Number",
+          "desc": "The year",
+          "__exemption": [ "examples" ]
+        },
+        "month": {
+          "type": "Number",
+          "desc": "The month",
+          "__exemption": [ "examples" ]
+        }
+      },
+      "addedIn": "v1.13.0"
+    },
+
+    "setEditingRange": {
+      "desc": "Configure the current editing range",
+      "params": {
+        "from": {
           "type": "Object",
-          "desc": "Object with year, month and day as props",
+          "desc": "Definition of date from where the range begins",
+          "definition": {
+            "year": {
+              "type": "Number",
+              "desc": "The year",
+              "__exemption": [ "examples" ]
+            },
+            "month": {
+              "type": "Number",
+              "desc": "The month",
+              "__exemption": [ "examples" ]
+            },
+            "day": {
+              "type": "Number",
+              "desc": "The day of month",
+              "__exemption": [ "examples" ]
+            }
+          }
+        },
+        "to": {
+          "type": "Object",
+          "desc": "Definition of date to where the range ends",
           "definition": {
             "year": {
               "type": "Number",
@@ -335,8 +453,7 @@
             }
           }
         }
-      },
-      "addedIn": "v1.13.0"
+      }
     }
   }
 }

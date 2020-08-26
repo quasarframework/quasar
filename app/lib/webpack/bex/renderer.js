@@ -8,12 +8,16 @@ module.exports = function (chain, cfg) {
   const rootPath = cfg.ctx.dev ? appPaths.bexDir : cfg.build.distDir
   const outputPath = path.join(rootPath, 'www')
 
+  const copyPatterns = []
+
   // Add a copy config to copy the static folder for both dev and build.
-  const copyPatterns = [{
-    from: appPaths.resolve.app('public'),
-    to: path.join(outputPath),
-    noErrorOnMissing: true
-  }]
+  if (cfg.build.ignorePublicFolder !== true) {
+    copyPatterns.push({
+      from: appPaths.resolve.app('public'),
+      to: outputPath,
+      noErrorOnMissing: true
+    })
+  }
 
   // Copy our entry BEX files to the .quasar/bex folder.
   fse.copySync(appPaths.resolve.cli('templates/entry/bex'), appPaths.resolve.app('.quasar/bex'))
@@ -50,7 +54,7 @@ module.exports = function (chain, cfg) {
       .use(BexPackager, [{
         src: cfg.bex.builder.directories.input,
         dest: cfg.bex.builder.directories.output,
-        name: require(path.join(appPaths.appDir, 'package.json')).name
+        name: require(appPaths.resolve.app('package.json')).name
       }])
 
     // Copy our user edited BEX files to the dist dir (excluding the already built www folder)
