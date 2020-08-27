@@ -93,7 +93,7 @@
       "values": [
         "top left", "top middle", "top right",
         "center left", "center middle", "center right",
-        "bottom left", "bottom center", "bottom right"
+        "bottom left", "bottom middle", "bottom right"
       ],
       "default": "bottom right",
       "examples": [ "top left", "bottom right" ],
@@ -106,7 +106,7 @@
       "values": [
         "top left", "top middle", "top right",
         "center left", "center middle", "center right",
-        "bottom left", "bottom center", "bottom right"
+        "bottom left", "bottom middle", "bottom right"
       ],
       "default": "top right",
       "examples": [ "top left", "bottom right" ],
