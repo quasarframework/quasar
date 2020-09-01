@@ -125,6 +125,19 @@ export default Vue.extend({
     barClass () {
       return `q-scrollarea__bar--${this.dirProps.classSuffix}` +
         (this.thumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
+    },
+
+    thumbDirectives () {
+      return [{
+        name: 'touch-pan',
+        modifiers: {
+          [ this.horizontal === true ? 'horizontal' : 'vertical' ]: true,
+          prevent: true,
+          mouse: true,
+          mouseAllDir: true
+        },
+        value: this.__panThumb
+      }]
     }
   },
 
@@ -285,17 +298,7 @@ export default Vue.extend({
         style: this.style,
         class: this.thumbClass,
         attrs: ariaHidden,
-        directives: cache(this, 'thumb#' + this.horizontal, [{
-          name: 'touch-pan',
-          modifiers: {
-            vertical: this.horizontal !== true,
-            horizontal: this.horizontal,
-            prevent: true,
-            mouse: true,
-            mouseAllDir: true
-          },
-          value: this.__panThumb
-        }])
+        directives: this.thumbDirectives
       })
     ])
   },
