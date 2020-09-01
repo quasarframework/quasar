@@ -139,6 +139,7 @@
         :columns="columns"
         :filter="filter"
         :title="title"
+        title-class="text-h1 text-blue"
         bordered
         flat
         binary-state-sort
