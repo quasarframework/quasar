@@ -97,7 +97,7 @@
 
     "right": {
       "type": "Boolean",
-      "desc": "Catch swipe to right",
+      "desc": "Catch swipe to right"
     },
 
     "down": {
