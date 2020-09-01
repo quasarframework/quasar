@@ -158,6 +158,13 @@ export default Vue.extend({
       fn(this.$refs.target, offset, duration)
     },
 
+    setScrollPercentage (percentage, duration) {
+      this.setScrollPosition(
+        percentage * (this.scrollSize - this.containerSize),
+        duration
+      )
+    },
+
     __updateContainer ({ height, width }) {
       let change = false
 
