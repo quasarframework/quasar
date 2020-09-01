@@ -471,7 +471,7 @@
 
     "card-style": {
       "type": [ "String", "Array", "Object" ],
-      "desc": "CSS style to apply to the card (when in grid mode)",
+      "desc": "CSS style to apply to the card (when in grid mode) or container card (when not in grid mode)",
       "examples": [
         "background-color: #ff0000",
         ":card-style=\"{ backgroundColor: '#ff0000' }\""
@@ -481,7 +481,7 @@
 
     "card-class": {
       "type": [ "String", "Array", "Object" ],
-      "desc": "CSS classes to apply to the card (when in grid mode)",
+      "desc": "CSS classes to apply to the card (when in grid mode) or container card (when not in grid mode)",
       "examples": [
         "my-special-class",
         ":card-class=\"{ 'my-special-class': [Boolean condition] }\""
