@@ -7,7 +7,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 import FormMixin from '../../mixins/form.js'
 import RippleMixin from '../../mixins/ripple.js'
 
-import { slot } from '../../utils/slot.js'
+import { slot, mergeSlot } from '../../utils/slot.js'
 
 export default Vue.extend({
   name: 'QBtnToggle',
@@ -141,7 +141,7 @@ export default Vue.extend({
   },
 
   render (h) {
-    const child = this.btnOptions.map((opt, i) => {
+    const child = this.btnOptions.map(opt => {
       return h(QBtn, opt.options, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
     })
 
@@ -161,6 +161,6 @@ export default Vue.extend({
         glossy: this.glossy,
         spread: this.spread
       }
-    }, child)
+    }, mergeSlot(child, this, 'default'))
   }
 })
