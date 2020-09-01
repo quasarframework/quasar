@@ -192,7 +192,8 @@
 
   "slots": {
     "default": {
-      "desc": "Suggestions: QTooltip, QBadge"
+      "desc": "Suggestions: QTooltip, QBadge",
+      "addedIn": "v1.13.2"
     }
   }
 }
