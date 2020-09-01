@@ -86,7 +86,7 @@
     "minimist": "1.2.5",
     "node-loader": "1.0.1",
     "node-sass": "4.14.1",
-    "open": "7.2.0",
+    "open": "7.1.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "ouch": "2.0.0",
     "postcss-loader": "3.0.0",
