@@ -318,22 +318,22 @@ module.exports = function (cfg, configName) {
       const CopyWebpackPlugin = require('copy-webpack-plugin')
 
       const ignore = [
-        '.DS_Store',
-        '.Thumbs.db',
-        '*.sublime*',
-        '.idea'
+        '**/.DS_Store',
+        '**/.Thumbs.db',
+        '**/*.sublime*',
+        '**/.idea',
+        '**/.editorconfig'
       ]
 
       // avoid useless files to be copied
       if (['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)) {
         ignore.push(
-          '**/icons/**', '**/favicon.ico'
+          '**/public/icons', '**/public/favicon.ico'
         )
       }
 
       const patterns = [{
         from: appPaths.resolve.app('public'),
-        to: '.',
         noErrorOnMissing: true,
         globOptions: { ignore }
       }]
