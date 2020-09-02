@@ -317,17 +317,25 @@ module.exports = function (cfg, configName) {
       // copy /public to dist folder
       const CopyWebpackPlugin = require('copy-webpack-plugin')
 
+      const ignore = [
+        '.DS_Store',
+        '.Thumbs.db',
+        '*.sublime*',
+        '.idea'
+      ]
+
+      // avoid useless files to be copied
+      if (['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)) {
+        ignore.push(
+          '**/icons/**', '**/favicon.ico'
+        )
+      }
+
       const patterns = [{
         from: appPaths.resolve.app('public'),
         to: '.',
         noErrorOnMissing: true,
-        globOptions: {
-          dot: false,
-          // avoid useless files to be copied
-          ignore: ['electron', 'cordova', 'capacitor'].includes(cfg.ctx.modeName)
-            ? [ '**/icons/**', '**/favicon.ico' ]
-            : []
-        }
+        globOptions: { ignore }
       }]
 
       chain.plugin('copy-webpack')
