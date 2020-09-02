@@ -48,6 +48,7 @@ openURL(
     // .....any other window features
   }
 )
+```
 
 ::: tip
 If you want to open the telephone dialer in a Cordova app, don't use `openURL()`. Instead you should directly use `<a href="tel:123456789">` tags or `<QBtn type="a" href="tel:123456789">`

@@ -76,7 +76,7 @@
 
     "no-route-dismiss": {
       "type": "Boolean",
-      "desc": "Changing route app won't dismiss Manu; No need to set it if 'persistent' prop is also set",
+      "desc": "Changing route app won't dismiss the popup; No need to set it if 'persistent' prop is also set",
       "category": "behavior",
       "addedIn": "v1.13.0"
     },

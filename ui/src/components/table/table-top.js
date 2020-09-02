@@ -51,7 +51,7 @@ export default {
         else if (this.title) {
           child.push(
             h('div', { staticClass: 'q-table__control' }, [
-              h('div', { staticClass: 'q-table__title' }, this.title)
+              h('div', { staticClass: 'q-table__title', class: this.titleClass }, this.title)
             ])
           )
         }

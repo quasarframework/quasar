@@ -58,6 +58,8 @@ export default Vue.extend({
       validator: yearMonthValidator
     },
 
+    noUnset: Boolean,
+
     firstDayOfWeek: [ String, Number ],
     todayBtn: Boolean,
     minimal: Boolean,
@@ -1382,6 +1384,10 @@ export default Vue.extend({
     },
 
     __removeFromModel (date) {
+      if (this.noUnset === true) {
+        return
+      }
+
       let model = null
 
       if (this.multiple === true && Array.isArray(this.value) === true) {

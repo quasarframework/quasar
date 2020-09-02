@@ -20,11 +20,12 @@ export default Vue.extend({
     split: Boolean,
     dropdownIcon: String,
 
-    contentClass: [Array, String, Object],
-    contentStyle: [Array, String, Object],
+    contentClass: [ Array, String, Object ],
+    contentStyle: [ Array, String, Object ],
 
     cover: Boolean,
     persistent: Boolean,
+    noRouteDismiss: Boolean,
     autoClose: Boolean,
 
     menuAnchor: {
@@ -88,6 +89,7 @@ export default Vue.extend({
           cover: this.cover,
           fit: true,
           persistent: this.persistent,
+          noRouteDismiss: this.noRouteDismiss,
           autoClose: this.autoClose,
           anchor: this.menuAnchor,
           self: this.menuSelf,

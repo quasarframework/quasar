@@ -210,6 +210,18 @@ export default Vue.extend({
         )
     },
 
+    hourSnappingGrid () {
+      return this.__getSnapGrid(this.hourInSelection, 24)
+    },
+
+    minuteSnappingGrid () {
+      return this.__getSnapGrid(this.minuteInSelection, 60)
+    },
+
+    secondSnappingGrid () {
+      return this.__getSnapGrid(this.secondInSelection, 60)
+    },
+
     positions () {
       let start, end, offset = 0, step = 1, inSel
 
@@ -266,6 +278,53 @@ export default Vue.extend({
         ...this.__getCurrentTime()
       })
       this.view = 'Hour'
+    },
+
+    __getSnapGrid (inSel, count) {
+      if (inSel === void 0) {
+        return
+      }
+
+      const snappingGrid = [ ...Array(count).keys() ].map(inSel)
+
+      let consecutiveGaps = (count - 1) - snappingGrid.lastIndexOf(true)
+      if (consecutiveGaps === -1) {
+        return
+      }
+
+      for (let i = 0; i < count; i++) {
+        if (snappingGrid[i] === true) {
+          if (consecutiveGaps) {
+            if (consecutiveGaps > 1) {
+              const sideCount = Math.floor(consecutiveGaps / 2)
+
+              const previousVal = ((i - consecutiveGaps - 1) + count) % count
+              const previousValStart = ((i - consecutiveGaps) + count) % count
+              for (let j = 0, h = previousValStart; j < sideCount; j++, (h = (previousValStart + j + count) % count)) {
+                snappingGrid[h] = previousVal
+              }
+
+              const currentVal = i
+              const currentValStart = ((i - sideCount) + count) % count
+              for (let j = 0, h = currentValStart; j < sideCount; j++, (h = (currentValStart + j + count) % count)) {
+                snappingGrid[h] = currentVal
+              }
+            } else {
+              const previousPosition = ((i - 1) + count) % count
+              snappingGrid[previousPosition] = previousPosition
+            }
+
+            consecutiveGaps = 0
+          }
+
+          snappingGrid[i] = i
+        }
+        else if (snappingGrid[i] === false) {
+          consecutiveGaps++
+        }
+      }
+
+      return snappingGrid
     },
 
     __getMask () {
@@ -387,12 +446,19 @@ export default Vue.extend({
         else if (this.isAM === false && val !== 12) {
           val += 12
         }
+
+        if (this.hourSnappingGrid !== void 0) {
+          val = this.hourSnappingGrid[val]
+        }
       }
       else {
-        val = Math.round(angle / 6)
+        val = Math.round(angle / 6) % 60
 
-        if (val === 60) {
-          val = 0
+        if (this.view === 'Minute' && this.minuteSnappingGrid !== void 0) {
+          val = this.minuteSnappingGrid[val]
+        }
+        else if (this.view === 'Second' && this.secondSnappingGrid !== void 0) {
+          val = this.secondSnappingGrid[val]
         }
       }
 

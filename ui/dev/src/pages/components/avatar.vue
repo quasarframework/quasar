@@ -50,4 +50,5 @@
 <style lang="stylus">
 .avatar-page .q-avatar
   margin 4px
+  // box-shadow: $shadow-4
 </style>

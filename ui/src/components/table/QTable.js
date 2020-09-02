@@ -99,6 +99,7 @@ export default Vue.extend({
       default: 'grey-8'
     },
 
+    titleClass: [String, Array, Object],
     tableStyle: [String, Array, Object],
     tableClass: [String, Array, Object],
     tableHeaderStyle: [String, Array, Object],

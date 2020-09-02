@@ -9,6 +9,15 @@ export default function cache (vm, key, obj) {
     : vm[k]
 }
 
+export function cacheWithFn (vm, key, fn) {
+  if (isSSR === true) return fn()
+
+  const k = `__qcache_${key}`
+  return vm[k] === void 0
+    ? (vm[k] = fn())
+    : vm[k]
+}
+
 export function getPropCacheMixin (propName, proxyPropName) {
   return {
     data () {
