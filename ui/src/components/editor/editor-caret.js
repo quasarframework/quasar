@@ -24,10 +24,10 @@ function getBlockElement (el, parent) {
   return getBlockElement(el.parentNode)
 }
 
-function isChildOf (el, parent, orSame = false) {
+function isChildOf (el, parent, orSame) {
   return !el || el === document.body
     ? false
-    : (orSame && el === parent) || (parent === document ? document.body : parent).contains(el.parentNode)
+    : (orSame === true && el === parent) || (parent === document ? document.body : parent).contains(el.parentNode)
 }
 
 function createRange (node, chars, range) {
