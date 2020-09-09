@@ -33,7 +33,7 @@ You'll notice that changing any of these settings does not require you to manual
 You'll notice that `/quasar.conf.js` exports a function that takes a `ctx` (context) parameter and returns an Object. This allows you to dynamically change your website/app config based on this context:
 
 ```js
-module.exports = function (ctx) {
+module.exports = function (ctx) { // can be async too (@quasar/app v2.1+)
   console.log(ctx)
 
   // Example output on console:
@@ -86,6 +86,28 @@ module.exports = function (ctx) {
       ? 8000
       : (ctx.mode.pwa ? 9000 : 9090)
   }
+}
+```
+
+Also, starting with "@quasar/app" v2.1+, you can now do async work before returning the quasar configuration:
+
+```js
+module.exports = async function (ctx) {
+  const data = await someAsyncFunction()
+  return {
+    // ... use "data"
+  }
+}
+
+// or:
+module.exports = function (ctx) {
+  return new Promise(resolve => {
+    // some async work then:
+    // resolve() with the quasar config
+    resolve({
+      //
+    })
+  })
 }
 ```
 
