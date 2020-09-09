@@ -18,8 +18,8 @@ class ElectronRunner {
 
   init () {}
 
-  async run (quasarConfig, argv) {
-    const url = quasarConfig.getBuildConfig().build.APP_URL
+  async run (quasarConfFile, argv) {
+    const url = quasarConfFile.quasarConf.build.APP_URL
 
     if (this.pid) {
       if (this.url !== url) {
@@ -32,7 +32,7 @@ class ElectronRunner {
 
     this.url = url
 
-    const compiler = webpack(quasarConfig.getWebpackConfig().main)
+    const compiler = webpack(quasarConfFile.webpackConf.main)
 
     return new Promise(resolve => {
       log(`Building main Electron process...`)
@@ -85,8 +85,8 @@ class ElectronRunner {
     })
   }
 
-  build (quasarConfig) {
-    const cfg = quasarConfig.getBuildConfig()
+  build (quasarConfFile) {
+    const cfg = quasarConfFile.quasarConf
 
     return new Promise(resolve => {
       spawn(
