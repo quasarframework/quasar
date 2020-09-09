@@ -12,6 +12,7 @@ module.exports = async function (file, opts, done) {
 
   if (opts.splashscreenIconRatio > 0) {
     const icon = getSquareIcon({
+      file,
       icon: opts.icon,
       size: Math.round(size * opts.splashscreenIconRatio / 100),
       padding: opts.padding
