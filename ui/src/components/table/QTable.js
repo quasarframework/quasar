@@ -185,7 +185,7 @@ export default Vue.extend({
       if (rowsPerPage !== 0) {
         if (this.firstRowIndex === 0 && this.data !== rows) {
           if (rows.length > this.lastRowIndex) {
-            rows.length = this.lastRowIndex
+            rows = rows.slice(0, this.lastRowIndex)
           }
         }
         else {
