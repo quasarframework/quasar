@@ -5,7 +5,8 @@ import { isSSR } from '../plugins/Platform.js'
 const ssrAPI = {
   onOk: () => ssrAPI,
   okCancel: () => ssrAPI,
-  hide: () => ssrAPI
+  hide: () => ssrAPI,
+  update: () => ssrAPI
 }
 
 export default function (DefaultComponent) {
@@ -35,6 +36,16 @@ export default function (DefaultComponent) {
         hide () {
           vm.$refs.dialog.hide()
           return API
+        },
+        update ({ className, class: klass, style, component, root, parent, ...cfg }) {
+          if (vm !== null) {
+            klass !== void 0 && (cfg.cardClass = klass)
+            style !== void 0 && (cfg.cardStyle = style)
+
+            Object.assign(props, cfg)
+            vm.$forceUpdate()
+          }
+          return API
         }
       }
 
@@ -59,8 +70,6 @@ export default function (DefaultComponent) {
         }
       }
     }
-
-    Vue.observable(props)
 
     const DialogComponent = component !== void 0
       ? component
