@@ -407,8 +407,7 @@ export default {
         dialog.update({
           message: 'Some other message',
           progress: {
-            color: 'amber',
-            size: '48px'
+            color: 'amber'
           }
         })
       }, 3000)
@@ -417,7 +416,6 @@ export default {
         dialog.update({
           message: 'Click/tap outside to close this dialog',
           progress: {
-            size: void 0,
             spinner: QSpinnerCube
           }
         })

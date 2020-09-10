@@ -67,10 +67,7 @@ export default Vue.extend({
         return Object(this.progress) === this.progress
           ? {
             component: this.progress.spinner || QSpinner,
-            props: {
-              color: this.progress.color || this.vmColor,
-              size: this.progress.size
-            }
+            props: { color: this.progress.color || this.vmColor }
           }
           : {
             component: QSpinner,
