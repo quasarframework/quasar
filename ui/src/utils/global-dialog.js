@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
+import extend from '../utils/extend.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
@@ -42,7 +43,7 @@ export default function (DefaultComponent) {
             klass !== void 0 && (cfg.cardClass = klass)
             style !== void 0 && (cfg.cardStyle = style)
 
-            Object.assign(props, cfg)
+            extend(true, props, cfg)
             vm.$forceUpdate()
           }
           return API
