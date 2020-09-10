@@ -1,13 +1,27 @@
 import Vue from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
-import extend from '../utils/extend.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
   okCancel: () => ssrAPI,
   hide: () => ssrAPI,
   update: () => ssrAPI
+}
+
+export function merge (target, source) {
+  for (const key in source) {
+    if (key !== 'spinner' && Object(source[key]) === source[key]) {
+      target[key] = Object(target[key]) !== target[key]
+        ? {}
+        : { ...target[key] }
+
+      merge(target[key], source[key])
+    }
+    else {
+      target[key] = source[key]
+    }
+  }
 }
 
 export default function (DefaultComponent) {
@@ -43,9 +57,18 @@ export default function (DefaultComponent) {
             klass !== void 0 && (cfg.cardClass = klass)
             style !== void 0 && (cfg.cardStyle = style)
 
-            extend(true, props, cfg)
+            merge(props, cfg)
+
+            // need to change "attrs" reference to
+            // actually reflect it in underlying component
+            // when we force update it
+            if (attrs !== void 0) {
+              attrs = { ...props }
+            }
+
             vm.$forceUpdate()
           }
+
           return API
         }
       }
@@ -76,7 +99,7 @@ export default function (DefaultComponent) {
       ? component
       : DefaultComponent
 
-    const attrs = component === void 0
+    let attrs = component === void 0
       ? props
       : void 0
 
