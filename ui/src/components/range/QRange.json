@@ -209,7 +209,7 @@
           "values": [ "start", "end" ]
         }
       },
-      "addedIn": "v1.13.3"
+      "addedIn": "v1.14.0"
     }
   }
 }
