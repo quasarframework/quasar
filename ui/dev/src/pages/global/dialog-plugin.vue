@@ -477,9 +477,11 @@ export default {
     },
 
     autoClose () {
+      let seconds = 3
+
       this.dialogHandler = this.$q.dialog({
         title: 'Alert',
-        message: 'Autoclosing in 3 seconds.',
+        message: `Autoclosing in ${seconds} seconds.`,
         dark: this.dark
       }).onOk(() => {
         console.log('OK')
@@ -491,9 +493,23 @@ export default {
         this.dialogHandler = void 0
       })
 
-      const timer = setTimeout(() => {
-        this.dialogHandler !== void 0 && this.dialogHandler.hide()
-      }, 3000)
+      const timer = setInterval(() => {
+        if (this.dialogHandler !== void 0) {
+          seconds--
+          if (seconds > 0) {
+            this.dialogHandler.update({
+              message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
+            })
+          }
+          else {
+            clearInterval(timer)
+            this.dialogHandler.hide()
+          }
+        }
+        else {
+          clearInterval(timer)
+        }
+      }, 1000)
     },
 
     customComponentWithParent () {
