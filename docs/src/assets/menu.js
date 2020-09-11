@@ -763,6 +763,7 @@ const plugins = [
   },
   {
     name: 'Dialog',
+    badge: 'update',
     path: 'dialog'
   },
   {
