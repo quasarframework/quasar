@@ -5,7 +5,23 @@ import { isSSR } from '../plugins/Platform.js'
 const ssrAPI = {
   onOk: () => ssrAPI,
   okCancel: () => ssrAPI,
-  hide: () => ssrAPI
+  hide: () => ssrAPI,
+  update: () => ssrAPI
+}
+
+export function merge (target, source) {
+  for (const key in source) {
+    if (key !== 'spinner' && Object(source[key]) === source[key]) {
+      target[key] = Object(target[key]) !== target[key]
+        ? {}
+        : { ...target[key] }
+
+      merge(target[key], source[key])
+    }
+    else {
+      target[key] = source[key]
+    }
+  }
 }
 
 export default function (DefaultComponent) {
@@ -35,6 +51,25 @@ export default function (DefaultComponent) {
         hide () {
           vm.$refs.dialog.hide()
           return API
+        },
+        update ({ className, class: klass, style, component, root, parent, ...cfg }) {
+          if (vm !== null) {
+            klass !== void 0 && (cfg.cardClass = klass)
+            style !== void 0 && (cfg.cardStyle = style)
+
+            merge(props, cfg)
+
+            // need to change "attrs" reference to
+            // actually reflect it in underlying component
+            // when we force update it
+            if (attrs !== void 0) {
+              attrs = { ...props }
+            }
+
+            vm.$forceUpdate()
+          }
+
+          return API
         }
       }
 
@@ -60,13 +95,11 @@ export default function (DefaultComponent) {
       }
     }
 
-    Vue.observable(props)
-
     const DialogComponent = component !== void 0
       ? component
       : DefaultComponent
 
-    const attrs = component === void 0
+    let attrs = component === void 0
       ? props
       : void 0
 

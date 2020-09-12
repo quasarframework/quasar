@@ -37,11 +37,13 @@ If you define any actions, the notification will automatically be dismissed when
 
 <doc-example title="Caption" file="Notify/Caption" />
 
-### With icon or avatar
+### With icon, avatar or spinner
 
 <doc-example title="With icon" file="Notify/Icon" />
 
 <doc-example title="With avatar" file="Notify/Avatar" />
+
+<doc-example title="With spinner" file="Notify/Spinner" />
 
 ### With actions
 
@@ -74,6 +76,14 @@ However, if you wish to disable this behavior, specify `group: false`. In the ex
 Should you wish, there is a way to tell the user when the notification will disappear from the screen. That's for the cases when timeout is not set to 0.
 
 <doc-example title="Timeout progress" file="Notify/TimeoutProgress" />
+
+### Updatable notifications <q-badge align="top" label="v1.14+" />
+
+Should you have an ongoing process and you want to inform the user of its progress without blocking what he is currently doing, then you can generate an updatable notification. It's useful to also show a spinner while at it.
+
+Please note in the example below that we are explicitly setting "group: false" (because only non-grouped notifications can be updated) and "timeout: 0" (because we want to be in full control when the notification will be dismissed).
+
+<doc-example title="Updatable" file="Notify/Updatable" />
 
 ### Predefined types <q-badge align="top" label="v1.9+" />
 

@@ -230,6 +230,7 @@ export const SliderMixin = {
           // only if touch, because we also have mousedown/up:
           event.touch === true && this.__updateValue(true)
           this.dragging = void 0
+          this.$emit('pan', 'end')
         }
         this.active = false
       }
@@ -238,6 +239,7 @@ export const SliderMixin = {
         this.__updatePosition(event.evt)
         this.__updateValue()
         this.active = true
+        this.$emit('pan', 'start')
       }
       else {
         this.__updatePosition(event.evt)

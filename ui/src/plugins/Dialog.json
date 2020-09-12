@@ -206,6 +206,21 @@
               }
             },
 
+            "progress": {
+              "type": [ "Boolean", "Object" ],
+              "desc": "Display a Quasar spinner (if value is true, then the defaults are used); Useful for conveying the idea that something is happening behind the covers; Tip: use along with persistent, ok: false and update() method",
+              "definition": {
+                "spinner": {
+                  "type": "Component",
+                  "desc": "One of the QSpinners"
+                },
+                "color": {
+                  "extends": "color"
+                }
+              },
+              "addedIn": "v1.14.0"
+            },
+
             "ok": {
               "type": [ "String", "Object", "Boolean" ],
               "desc": "Props for an 'OK' button",

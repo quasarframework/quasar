@@ -13,6 +13,8 @@
         <q-btn label="Radio Options" flat color="primary" @click="radio" />
         <q-btn label="Checkbox Options" flat color="primary" @click="checkbox" />
         <q-btn label="Toggle Options" flat color="primary" @click="toggle" />
+        <q-btn label="Update test" flat color="primary" @click="updateTest" />
+        <q-btn label="Progress" flat color="primary" @click="progress" />
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
@@ -108,6 +110,8 @@
 </template>
 
 <script>
+import { QSpinnerGears, QSpinnerCube } from 'quasar'
+
 import DialogComponentWithParent from './dialog-component-with-parent.js'
 import DialogComponentNoParent from './dialog-component-no-parent.js'
 
@@ -362,6 +366,86 @@ export default {
       })
     },
 
+    updateTest () {
+      const dialog = this.$q.dialog({
+        dark: true,
+        title: 'Prompt',
+        message: 'What is your name?',
+        prompt: {
+          model: '',
+          label: 'Text',
+          type: 'text' // optional
+        },
+        progress: true,
+        cancel: true,
+        persistent: true
+      })
+
+      setTimeout(() => {
+        dialog.update({
+          title: void 0,
+          message: 'New message',
+          dark: false,
+          prompt: { model: 'new value' },
+          ok: false,
+          persistent: false,
+          cancel: false
+        })
+      }, 1000)
+
+      setTimeout(() => {
+        dialog.update({
+          message: 'Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. Lorem ipsum dolor amit. ',
+          prompt: void 0,
+          progress: {
+            spinner: QSpinnerGears
+          }
+        })
+      }, 2000)
+
+      setTimeout(() => {
+        dialog.update({
+          message: 'Some other message',
+          progress: {
+            color: 'amber'
+          }
+        })
+      }, 3000)
+
+      setTimeout(() => {
+        dialog.update({
+          message: 'Click/tap outside to close this dialog',
+          progress: {
+            spinner: QSpinnerCube
+          }
+        })
+      }, 4000)
+    },
+
+    progress () {
+      const dialog = this.$q.dialog({
+        message: 'Uploading... 0%',
+        progress: true,
+        persistent: true,
+        ok: false
+      })
+
+      let percentage = 0
+      const interval = setInterval(() => {
+        percentage = Math.min(100, percentage + Math.floor(Math.random() * 22))
+        dialog.update({
+          message: `Uploading... ${percentage}%`
+        })
+
+        if (percentage === 100) {
+          clearInterval(interval)
+          setTimeout(() => {
+            dialog.hide()
+          }, 300)
+        }
+      }, 500)
+    },
+
     positioned () {
       this.dialogHandler = this.$q.dialog({
         title: 'Positioned',
@@ -393,9 +477,11 @@ export default {
     },
 
     autoClose () {
+      let seconds = 3
+
       this.dialogHandler = this.$q.dialog({
         title: 'Alert',
-        message: 'Autoclosing in 3 seconds.',
+        message: `Autoclosing in ${seconds} seconds.`,
         dark: this.dark
       }).onOk(() => {
         console.log('OK')
@@ -407,9 +493,23 @@ export default {
         this.dialogHandler = void 0
       })
 
-      const timer = setTimeout(() => {
-        this.dialogHandler !== void 0 && this.dialogHandler.hide()
-      }, 3000)
+      const timer = setInterval(() => {
+        if (this.dialogHandler !== void 0) {
+          seconds--
+          if (seconds > 0) {
+            this.dialogHandler.update({
+              message: `Autoclosing in ${seconds} second${seconds > 1 ? 's' : ''}.`
+            })
+          }
+          else {
+            clearInterval(timer)
+            this.dialogHandler.hide()
+          }
+        }
+        else {
+          clearInterval(timer)
+        }
+      }, 1000)
     },
 
     customComponentWithParent () {

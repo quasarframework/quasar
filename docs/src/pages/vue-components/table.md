@@ -163,6 +163,8 @@ The property `row-key` must be set in order for selection to work properly.
 
 <doc-example title="Multiple selection" file="QTable/MultipleSelection" />
 
+<doc-example title="Selection cell slots (v1.14+)" file="QTable/SelectionSlots" />
+
 <doc-example title="Custom multiple selection" file="QTable/CustomSelection" />
 
 ## Visible columns, custom top, fullscreen
@@ -340,6 +342,10 @@ In the example below, steps have been taken to emulate an ajax call to a server.
 ## Exporting data
 
 Below is an example of a naive csv encoding and then exporting table data by using the [exportFile](/quasar-utils/other-utils#Export-file) Quasar util. The browser should trigger a file download. For a more professional approach in regards to encoding we do recommend using [csv-parse](https://csv.js.org/parse/) and [csv-stringify](https://csv.js.org/stringify/) packages.
+
+::: tip
+You could also make use of the `filteredSortedRows` internal computed property of QTable should you want to export the user filtered + sorted data.
+:::
 
 <doc-example title="Export to csv" file="QTable/ExportCsv" />
 

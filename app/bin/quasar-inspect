@@ -56,26 +56,26 @@ if (argv.mode !== 'spa') {
   }
 }
 
-const QuasarConfig = require('../lib/quasar-config')
+const QuasarConfFile = require('../lib/quasar-conf-file')
 
 const depth = parseInt(argv.depth, 10) || Infinity
 
-function getCfgEntries (webpackConfig, mode) {
+function getCfgEntries (webpackConf, mode) {
   if (mode === 'ssr') {
     return [
-      { name: 'Server', webpackCfg: webpackConfig.server },
-      { name: 'Client', webpackCfg: webpackConfig.client }
+      { name: 'Server', webpackCfg: webpackConf.server },
+      { name: 'Client', webpackCfg: webpackConf.client }
     ]
   }
 
   if (mode === 'electron' || mode === 'bex') {
     return [
-      { name: 'Renderer', webpackCfg: webpackConfig.renderer },
-      { name: 'Main', webpackCfg: webpackConfig.main }
+      { name: 'Renderer', webpackCfg: webpackConf.renderer },
+      { name: 'Main', webpackCfg: webpackConf.main }
     ]
   }
 
-  return [ { name: 'Main', webpackCfg: webpackConfig } ]
+  return [ { name: 'Main', webpackCfg: webpackConf } ]
 }
 
 async function inspect () {
@@ -95,20 +95,20 @@ async function inspect () {
   // register app extensions
   await extensionRunner.registerExtensions(ctx)
 
-  const quasarConfig = new QuasarConfig(ctx)
+  const quasarConfFile = new QuasarConfFile(ctx)
 
   try {
-    await quasarConfig.prepare()
+    await quasarConfFile.prepare()
   }
   catch (e) {
     console.log(e)
     fatal(`[FAIL] quasar.conf.js has JS errors`)
   }
 
-  await quasarConfig.compile()
+  await quasarConfFile.compile()
 
   const util = require('util')
-  let cfgEntries = getCfgEntries(quasarConfig.getWebpackConfig(), argv.mode)
+  let cfgEntries = getCfgEntries(quasarConfFile.webpackConf, argv.mode)
 
   if (argv.path) {
     const dot = require('dot-prop')

@@ -135,6 +135,18 @@
     "change": {
       "extends": "input",
       "desc": "Emitted on lazy model value change (after user slides then releases the thumb)"
+    },
+
+    "pan": {
+      "desc": "Triggered when user starts panning on the component",
+      "params": {
+        "phase": {
+          "type": "String",
+          "desc": "Phase of panning",
+          "values": [ "start", "end" ]
+        }
+      },
+      "addedIn": "v1.14.0"
     }
   }
 }
