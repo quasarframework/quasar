@@ -829,6 +829,10 @@ const components = [
       {
         name: 'Button Dropdown',
         path: 'button-dropdown'
+      },
+      {
+        name: 'Floating Action Button',
+        path: 'floating-action-button'
       }
     ]
   },
@@ -867,10 +871,6 @@ const components = [
   {
     name: 'Expansion Item',
     path: 'expansion-item'
-  },
-  {
-    name: 'Floating Action Button',
-    path: 'floating-action-button'
   },
   {
     name: 'Form Components',
