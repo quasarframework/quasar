@@ -23,7 +23,7 @@ const cssResources = [
 ].join(';')
 
 const jsResources = [
-  'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js',
+  'https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js',
   `https://cdn.jsdelivr.net/npm/quasar@${Quasar.version}/dist/quasar.umd.min.js`
 ].join(';')
 
