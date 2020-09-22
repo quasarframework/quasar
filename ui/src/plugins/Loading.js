@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, reactive } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './Platform.js'
@@ -59,7 +59,7 @@ const Loading = {
           preventScroll(true)
         },
 
-        render: (h) => {
+        render: () => {
           return h('transition', {
             props: {
               name: 'q-transition--fade',
@@ -124,7 +124,8 @@ const Loading = {
 }
 
 if (isSSR === false) {
-  Vue.util.defineReactive(Loading, 'isActive', Loading.isActive)
+  // TODO vue3
+  // Vue.util.defineReactive(Loading, 'isActive', Loading.isActive)
 }
 
 export default Loading

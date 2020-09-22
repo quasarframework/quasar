@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { reactive } from 'vue'
 
 import { isSSR } from './Platform.js'
 
@@ -33,7 +33,8 @@ export default {
     update()
 
     if (evt && typeof document[prop] !== 'undefined') {
-      Vue.util.defineReactive($q, 'appVisible', this.appVisible)
+      // TODO vue3
+      // Vue.util.defineReactive($q, 'appVisible', this.appVisible)
       document.addEventListener(evt, update, false)
     }
   }

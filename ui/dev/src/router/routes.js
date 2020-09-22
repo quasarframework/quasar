@@ -104,7 +104,7 @@ pages.forEach(page => {
 
 // Always leave this as last one
 routes.push({
-  path: '*',
+  path: '/:catchAll(.*)*',
   component: () => import('pages/Error404.vue')
 })
 

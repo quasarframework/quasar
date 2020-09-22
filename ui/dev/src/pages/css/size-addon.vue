@@ -3,11 +3,11 @@
     <h6 class="text-red">
       You need to enable flex-addons from /ui/dev/app.js
     </h6>
-    <template v-for="b in bp">
-      <h5 :key="`hx${ b }`">
+    <template v-for="b in bp" :key="`hx${ b }`">
+      <h5>
         Breakpoint {{ b || 'NONE' }}
       </h5>
-      <div class="row items-center" :key="`h${ b }`">
+      <div class="row items-center">
         <div class="box" v-for="s in sz" :key="`b${ b }-${ s }`">
           <div :class="`q-pa${ b }-${ s } q-ma${ b }-${ s }`" />
         </div>

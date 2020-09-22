@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { createApp, h } from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
@@ -379,7 +379,7 @@ const Notifications = {
     }
   },
 
-  render (h) {
+  render () {
     return h('div', { staticClass: 'q-notifications' }, positionList.map(pos => {
       return h('transition-group', {
         key: pos,
@@ -540,7 +540,8 @@ export default {
     const node = document.createElement('div')
     document.body.appendChild(node)
 
-    this.__vm = new Vue(Notifications)
-    this.__vm.$mount(node)
+    // TODO vue3
+    // this.__vm = createApp(Notifications)
+    // this.__vm.mount(node)
   }
 }

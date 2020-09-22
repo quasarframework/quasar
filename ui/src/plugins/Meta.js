@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 import { isSSR, fromSSR } from './Platform.js'
 import extend from '../utils/extend.js'
 
@@ -270,49 +268,52 @@ function triggerMeta () {
 }
 
 export default {
-  install ({ queues }) {
-    if (isSSR === true) {
-      Vue.prototype.$getMetaHTML = app => {
-        return (html, ctx) => getServerMeta(app, html, ctx)
-      }
+  install ({ app, queues }) {
+    // if (isSSR === true) {
+    //   // TODO vue3
+    //   app.config.globalProperties.$getMetaHTML = app => {
+    //     return (html, ctx) => getServerMeta(app, html, ctx)
+    //   }
 
-      Vue.mixin({ beforeCreate })
+    //   // TODO vue3
+    //   app.mixin({ beforeCreate })
 
-      queues.server.push((_, ctx) => {
-        ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
-        Object.assign(ctx.ssr, {
-          Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
-          Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
-          Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
-        })
-      })
-    }
-    else {
-      ssrTakeover = fromSSR
+    //   queues.server.push((_, ctx) => {
+    //     ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
+    //     Object.assign(ctx.ssr, {
+    //       Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
+    //       Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
+    //       Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
+    //     })
+    //   })
+    // }
+    // else {
+    //   ssrTakeover = fromSSR
 
-      Vue.mixin({
-        beforeCreate,
-        created () {
-          if (hasMeta(this) === true) {
-            this.__qMetaUnwatch = this.$watch('__qMeta', this.__qMetaUpdate)
-          }
-        },
-        activated: triggerMeta,
-        deactivated: triggerMeta,
-        beforeMount: triggerMeta,
-        unmounted () {
-          if (hasMeta(this) === true) {
-            this.__qMetaUnwatch()
-            this.__qMetaUpdate()
-          }
-        },
-        methods: {
-          __qMetaUpdate () {
-            clearTimeout(updateId)
-            updateId = setTimeout(updateClient.bind(this), 50)
-          }
-        }
-      })
-    }
+    //   // TODO vue3
+    //   app.mixin({
+    //     beforeCreate,
+    //     created () {
+    //       if (hasMeta(this) === true) {
+    //         this.__qMetaUnwatch = this.$watch('__qMeta', this.__qMetaUpdate)
+    //       }
+    //     },
+    //     activated: triggerMeta,
+    //     deactivated: triggerMeta,
+    //     beforeMount: triggerMeta,
+    //     unmounted () {
+    //       if (hasMeta(this) === true) {
+    //         this.__qMetaUnwatch()
+    //         this.__qMetaUpdate()
+    //       }
+    //     },
+    //     methods: {
+    //       __qMetaUpdate () {
+    //         clearTimeout(updateId)
+    //         updateId = setTimeout(updateClient.bind(this), 50)
+    //       }
+    //     }
+    //   })
+    // }
   }
 }

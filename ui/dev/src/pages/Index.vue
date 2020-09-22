@@ -9,22 +9,21 @@
       </div>
 
       <div class="q-pt-md">
-        <q-input ref="filter" clearable outlined v-model="filter">
+        <!-- TODO vue3 <q-input ref="filter" clearable outlined v-model="filter">
           <template v-slot:prepend>
             <q-icon name="search" />
           </template>
-        </q-input>
+        </q-input> -->
       </div>
 
       <q-list dense class="q-mb-xl">
-        <template v-for="(category, title) in filteredList">
-          <q-item-label :key="`category-${title}`" header class="q-mt-lg text-uppercase text-weight-bold">
+        <template v-for="(category, title) in filteredList" :key="`category-${title}`">
+          <q-item-label header class="q-mt-lg text-uppercase text-weight-bold">
             {{ title }}
           </q-item-label>
 
           <q-item
             v-for="feature in category"
-            :key="`${feature.route}${feature.title}`"
             :to="feature.route"
           >
             <q-item-section>{{ feature.title }}</q-item-section>
@@ -60,25 +59,26 @@ export default {
     this.list = list
   },
 
-  mounted () {
-    if (process.env.MODE === 'ssr') {
-      this.clientInitStore(this.store)
-    }
+  // TODO vue3
+  // mounted () {
+  //   if (process.env.MODE === 'ssr') {
+  //     this.clientInitStore(this.store)
+  //   }
 
-    window.addEventListener('keydown', this.onKeyup, { passive: false, capture: true })
-    this.$q.platform.is.desktop === true && this.$refs.filter.focus()
-  },
+  //   window.addEventListener('keydown', this.onKeyup, { passive: false, capture: true })
+  //   this.$q.platform.is.desktop === true && this.$refs.filter.focus()
+  // },
 
-  beforeDestroy () {
-    window.removeEventListener('keydown', this.onKeyup, { passive: false, capture: true })
-  },
+  // beforeUnmount () {
+  //   window.removeEventListener('keydown', this.onKeyup, { passive: false, capture: true })
+  // },
 
   data () {
     const store = { filter: '' }
 
-    if (process.env.MODE !== 'ssr') {
-      this.clientInitStore(store)
-    }
+    // if (process.env.MODE !== 'ssr') {
+    //   this.clientInitStore(store)
+    // }
 
     return { store }
   },

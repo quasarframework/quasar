@@ -10,24 +10,24 @@
       </a>
       <q-toggle v-model="tag" :label="tag === 'button' ? 'Button' : 'Link'" true-value="button" false-value="a" />
       <div class="q-gutter-sm">
-        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
-          <q-btn :key="`n_1_1_${ n }`" :type="tag" :size="n" dense icon="android" color="primary" />
-          <q-btn :key="`n_1_2_${ n }`" :type="tag" :size="n" icon="android" color="primary" />
-          <q-btn :key="`n_1_3_${ n }`" :type="tag" :size="n" label="Test" color="primary" />
-          <q-btn :key="`n_1_4_${ n }`" :type="tag" :size="n" icon="android" color="primary" label="Test" />
-          <q-btn :key="`n_1_5_${ n }`" :type="tag" :size="n" round icon="android" color="primary" />
-          <q-btn :key="`n_1_6_${ n }`" :type="tag" :size="n" round icon="android" color="primary" dense />
-          <q-btn gigi="true" :key="`n_1_7_${ n }`" :type="tag" :size="n" label="Test" color="primary" />
-          <span :key="`n_1_8_${ n }`">{{ n }}</span>
-          <br :key="`n_1_9_${ n }`"><br :key="`n_1_10_${ n }`">
+        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']" :key="`n_1_1_${ n }`">
+          <q-btn :type="tag" :size="n" dense icon="android" color="primary" />
+          <q-btn :type="tag" :size="n" icon="android" color="primary" />
+          <q-btn :type="tag" :size="n" label="Test" color="primary" />
+          <q-btn :type="tag" :size="n" icon="android" color="primary" label="Test" />
+          <q-btn :type="tag" :size="n" round icon="android" color="primary" />
+          <q-btn :type="tag" :size="n" round icon="android" color="primary" dense />
+          <q-btn gigi="true" :type="tag" :size="n" label="Test" color="primary" />
+          <span>{{ n }}</span>
+          <br><br>
         </template>
-        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']">
-          <q-btn :key="`n_2_1_${ n }`" :type="tag" :size="n" dense label="Test" color="primary" />
-          <q-btn :key="`n_2_2_${ n }`" :type="tag" :size="n" dense icon="android" color="primary" />
-          <q-btn :key="`n_2_3_${ n }`" :type="tag" :size="n" dense icon="android" color="primary" label="Test" />
-          <q-btn :key="`n_2_4_${ n }`" :type="tag" :size="n" dense round icon="android" color="primary" />
-          <span :key="`n_2_5_${ n }`">{{ n }}</span>
-          <br :key="`n_2_6_${ n }`"><br :key="`n_2_7_${ n }`">
+        <template v-for="n in ['xs', 'sm', 'md', 'lg', 'xl']" :key="`n_2_1_${ n }`">
+          <q-btn :type="tag" :size="n" dense label="Test" color="primary" />
+          <q-btn :type="tag" :size="n" dense icon="android" color="primary" />
+          <q-btn :type="tag" :size="n" dense icon="android" color="primary" label="Test" />
+          <q-btn :type="tag" :size="n" dense round icon="android" color="primary" />
+          <span>{{ n }}</span>
+          <br><br>
         </template>
       </div>
       <div class="q-gutter-sm">
@@ -752,7 +752,7 @@ export default {
       abort === true && e.preventDefault()
     }
   },
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.interval)
   }
 }

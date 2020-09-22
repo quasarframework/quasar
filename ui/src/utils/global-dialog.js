@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
 
@@ -103,10 +103,9 @@ export default function (DefaultComponent) {
       ? props
       : void 0
 
-    let vm = new Vue({
+    let vm = createApp({
       name: 'QGlobalDialog',
 
-      el: node,
       parent: parent === void 0 ? root : parent,
 
       render (h) {
@@ -122,6 +121,8 @@ export default function (DefaultComponent) {
         this.$refs.dialog.show()
       }
     })
+
+    vm.mount(node)
 
     return API
   }

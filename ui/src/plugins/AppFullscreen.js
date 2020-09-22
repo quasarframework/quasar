@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { reactive } from 'vue'
 
 import { isSSR } from './Platform.js'
 
@@ -87,7 +87,8 @@ export default {
       }
     })
 
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
-    Vue.util.defineReactive(this, 'activeEl', this.activeEl)
+    // TODO vue3
+    // Vue.util.defineReactive(this, 'isActive', this.isActive)
+    // Vue.util.defineReactive(this, 'activeEl', this.activeEl)
   }
 }

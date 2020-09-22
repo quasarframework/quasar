@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { createApp, h } from 'vue'
 
 import { isSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
@@ -21,34 +21,39 @@ export default {
       ? { ...cfg.loadingBar }
       : {}
 
-    const bar = $q.loadingBar = new Vue({
-      name: 'LoadingBar',
-      render: h => h(QAjaxBar, {
-        ref: 'bar',
-        props
-      })
-    }).$mount().$refs.bar
+    // TODO vue3 - injection of $q
 
-    Object.assign(this, {
-      start: speed => {
-        bar.start(speed)
-        this.isActive = bar.isActive = bar.calls > 0
-      },
-      stop: () => {
-        bar.stop()
-        this.isActive = bar.isActive = bar.calls > 0
-      },
-      increment: bar.increment,
-      setDefaults: opts => {
-        opts === Object(opts) && Object.assign(props, opts)
-        bar.$parent.$forceUpdate()
-      }
-    })
+    // const el = document.createElement('div')
+    // document.body.appendChild(el)
 
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
-    Vue.util.defineReactive(bar, 'isActive', this.isActive)
-    bar.setDefaults = this.setDefaults
+    // const bar = $q.loadingBar = createApp({
+    //   name: 'LoadingBar',
+    //   render: () => h(QAjaxBar, {
+    //     ref: 'bar',
+    //     props
+    //   })
+    // }).mount(el).$refs.bar
 
-    document.body.appendChild(bar.$parent.$el)
+    // Object.assign(this, {
+    //   start: speed => {
+    //     bar.start(speed)
+    //     this.isActive = bar.isActive = bar.calls > 0
+    //   },
+    //   stop: () => {
+    //     bar.stop()
+    //     this.isActive = bar.isActive = bar.calls > 0
+    //   },
+    //   increment: bar.increment,
+    //   setDefaults: opts => {
+    //     opts === Object(opts) && Object.assign(props, opts)
+    //     bar.$parent.$forceUpdate()
+    //   }
+    // })
+
+    // TODO vue3
+    // Vue.util.defineReactive(this, 'isActive', this.isActive)
+    // Vue.util.defineReactive(bar, 'isActive', this.isActive)
+
+    // bar.setDefaults = this.setDefaults
   }
 }

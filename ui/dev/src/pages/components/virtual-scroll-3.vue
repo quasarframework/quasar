@@ -82,7 +82,7 @@ export default {
     }, 3000)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.intervalTimer)
   }
 }

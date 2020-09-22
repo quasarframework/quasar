@@ -1,4 +1,5 @@
-import Vue from 'vue'
+// TODO vue3
+// import Vue from 'vue'
 
 import Platform from '../plugins/Platform.js'
 
@@ -28,9 +29,9 @@ function openWindow (url, reject, windowFeatures) {
       })
     }
   }
-  else if (Vue.prototype.$q.electron !== void 0) {
-    return Vue.prototype.$q.electron.shell.openExternal(url)
-  }
+  // else if (Vue.prototype.$q.electron !== void 0) {
+  //   return Vue.prototype.$q.electron.shell.openExternal(url)
+  // }
 
   const win = open(url, '_blank', parseFeatures(windowFeatures))
 

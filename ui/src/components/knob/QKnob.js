@@ -16,7 +16,7 @@ export default defineComponent({
   name: 'QKnob',
 
   mixins: [
-    { props: QCircularProgress.options.props },
+    { props: QCircularProgress.props },
     FormMixin
   ],
 
