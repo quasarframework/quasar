@@ -1,9 +1,6 @@
 import { sizes } from '../../mixins/size.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 export default {
-  mixins: [ ListenersMixin ],
-
   props: {
     color: String,
     size: {
@@ -20,9 +17,8 @@ export default {
     },
 
     classes () {
-      if (this.color) {
-        return `text-${this.color}`
-      }
+      return 'q-spinner' +
+        (this.color ? ` text-${this.color}` : '')
     }
   }
 }

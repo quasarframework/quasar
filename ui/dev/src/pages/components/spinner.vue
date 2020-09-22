@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="q-layout-padding">
-      <q-field
+      <!-- TODO vue3 <q-field
         icon="format size"
         :label="`Size: ${size}px`"
       >
@@ -25,7 +25,7 @@
             :options="colorOptions"
           />
         </div>
-      </q-field>
+      </q-field> -->
 
       <p class="caption">
         Hover over them to see their names
@@ -38,14 +38,15 @@
             :size="size"
             :color="color"
           />
-          <q-tooltip :offset="[0, 8]">
+          <!-- TODO vue3 <q-tooltip :offset="[0, 8]">
             {{ spinner }}
-          </q-tooltip>
+          </q-tooltip> -->
         </div>
       </div>
 
       <p class="caption">
         Default Spinner:
+        <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
         <q-spinner :color="color" :size="size" style="margin-left: 1rem;" />
       </p>
     </div>
