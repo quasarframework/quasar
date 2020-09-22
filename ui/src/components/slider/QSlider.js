@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import {
   getRatio,
@@ -16,7 +16,7 @@ export default defineComponent({
   mixins: [ SliderMixin ],
 
   props: {
-    value: {
+    modelValue: {
       required: true,
       default: null,
       validator: v => typeof v === 'number' || v === null
@@ -25,15 +25,17 @@ export default defineComponent({
     labelValue: [ String, Number ]
   },
 
+  emits: [ 'update:modelValue' ],
+
   data () {
     return {
-      model: this.value === null ? this.min : this.value,
+      model: this.modelValue === null ? this.min : this.modelValue,
       curRatio: 0
     }
   },
 
   watch: {
-    value (v) {
+    modelValue (v) {
       this.model = v === null
         ? 0
         : between(v, this.min, this.max)
@@ -71,15 +73,15 @@ export default defineComponent({
     },
 
     thumbClass () {
-      if (this.preventFocus === false && this.focus === true) {
-        return 'q-slider--focus'
-      }
+      return this.preventFocus === false && this.focus === true
+        ? ' q-slider--focus'
+        : ''
     },
 
     pinClass () {
-      if (this.labelColor !== void 0) {
-        return `text-${this.labelColor}`
-      }
+      return this.labelColor !== void 0
+        ? `text-${this.labelColor}`
+        : ''
     },
 
     pinTextClass () {
@@ -90,13 +92,13 @@ export default defineComponent({
     events () {
       if (this.editable === true) {
         return this.$q.platform.is.mobile === true
-          ? { click: this.__mobileClick }
+          ? { onClick: this.__mobileClick }
           : {
-            mousedown: this.__activate,
-            focus: this.__focus,
-            blur: this.__blur,
-            keydown: this.__keydown,
-            keyup: this.__keyup
+            onMousedown: this.__activate,
+            onFocus: this.__focus,
+            onBlur: this.__blur,
+            onKeydown: this.__keydown,
+            onKeyup: this.__keyup
           }
       }
     },
@@ -115,10 +117,11 @@ export default defineComponent({
 
   methods: {
     __updateValue (change) {
-      if (this.model !== this.value) {
-        this.$emit('input', this.model)
+      if (this.model !== this.modelValue) {
+        this.$emit('update:modelValue', this.model)
       }
-      change === true && this.$emit('change', this.model)
+      // TODO vue3 - handle lazy update
+      // change === true && this.$emit('change', this.model)
     },
 
     __getDragging () {
@@ -167,23 +170,21 @@ export default defineComponent({
   render () {
     const child = [
       this.__getThumbSvg(),
-      h('div', { staticClass: 'q-slider__focus-ring' })
+      h('div', { class: 'q-slider__focus-ring' })
     ]
 
     if (this.label === true || this.labelAlways === true) {
       child.push(
         h('div', {
-          staticClass: `q-slider__pin q-slider__pin${this.axis} absolute`,
-          style: this.pinStyle.pin,
-          class: this.pinClass
+          class: `q-slider__pin q-slider__pin${this.axis} absolute ` + this.pinClass,
+          style: this.pinStyle.pin
         }, [
           h('div', {
-            staticClass: `q-slider__pin-text-container q-slider__pin-text-container${this.axis}`,
+            class: `q-slider__pin-text-container q-slider__pin-text-container${this.axis}`,
             style: this.pinStyle.pinTextContainer
           }, [
             h('span', {
-              staticClass: 'q-slider__pin-text',
-              class: this.pinTextClass
+              class: 'q-slider__pin-text ' + this.pinTextClass
             }, [
               this.computedLabel
             ])
@@ -191,8 +192,7 @@ export default defineComponent({
         ]),
 
         h('div', {
-          staticClass: `q-slider__arrow q-slider__arrow${this.axis}`,
-          class: this.pinClass
+          class: `q-slider__arrow q-slider__arrow${this.axis} ${this.pinClass}`
         })
       )
     }
@@ -203,38 +203,37 @@ export default defineComponent({
 
     const track = [
       h('div', {
-        staticClass: `q-slider__track q-slider__track${this.axis} absolute`,
+        class: `q-slider__track q-slider__track${this.axis} absolute`,
         style: this.trackStyle
       })
     ]
 
     this.markers === true && track.push(
       h('div', {
-        staticClass: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
+        class: `q-slider__track-markers q-slider__track-markers${this.axis} absolute-full fit`,
         style: this.markerStyle
       })
     )
 
-    return h('div', {
-      staticClass: this.value === null ? ' q-slider--no-value' : '',
-      attrs: {
-        ...this.attrs,
-        'aria-valuenow': this.value,
-        tabindex: this.computedTabindex
-      },
-      class: this.classes,
-      on: this.events,
-      directives: this.panDirectives
+    const node = h('div', {
+      class: this.classes + (this.modelValue === null ? ' q-slider--no-value' : ''),
+      ...this.attrs,
+      'aria-valuenow': this.modelValue,
+      tabindex: this.computedTabindex,
+      ...this.events
     }, [
       h('div', {
-        staticClass: `q-slider__track-container q-slider__track-container${this.axis} absolute`
+        class: `q-slider__track-container q-slider__track-container${this.axis} absolute`
       }, track),
 
       h('div', {
-        staticClass: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable`,
-        class: this.thumbClass,
+        class: `q-slider__thumb-container q-slider__thumb-container${this.axis} absolute non-selectable` + this.thumbClass,
         style: this.thumbStyle
       }, child)
     ])
+
+    return this.panDirective !== void 0
+      ? withDirectives(node, this.panDirective)
+      : node
   }
 })

@@ -36,7 +36,7 @@ function destroy (el) {
 export default {
   name: 'touch-swipe',
 
-  bind (el, { value, arg, modifiers }) {
+  beforeMount (el, { value, arg, modifiers }) {
     if (el.__qtouchswipe !== void 0) {
       destroy(el)
       el.__qtouchswipe_destroyed = true
@@ -254,7 +254,7 @@ export default {
     ])
   },
 
-  update (el, { oldValue, value }) {
+  updated (el, { oldValue, value }) {
     const ctx = el.__qtouchswipe
     if (ctx !== void 0 && oldValue !== value) {
       typeof value !== 'function' && ctx.end()
@@ -262,7 +262,7 @@ export default {
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qtouchswipe_destroyed === void 0) {
       destroy(el)
     }

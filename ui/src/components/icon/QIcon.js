@@ -69,12 +69,10 @@ export default defineComponent({
           cls: this.classes,
           nodes: def.split('&&').map(path => {
             const [ d, style, transform ] = path.split('@@')
-            return this.$createElement('path', {
-              attrs: {
-                d,
-                transform
-              },
-              style
+            return h('path', {
+              style,
+              d,
+              transform
             })
           }),
           viewBox: viewBox !== void 0 ? viewBox : '0 0 24 24'

@@ -2,12 +2,11 @@ import { h, defineComponent } from 'vue'
 
 import AlignMixin from '../../mixins/align.js'
 import { slot } from '../../utils/slot.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 export default defineComponent({
   name: 'QBreadcrumbs',
 
-  mixins: [ ListenersMixin, AlignMixin ],
+  mixins: [ AlignMixin ],
 
   props: {
     separator: {
@@ -30,13 +29,13 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return `${this.alignClass}${this.gutter === 'none' ? '' : ` q-gutter-${this.gutter}`}`
+      return `flex items-center ${this.alignClass}${this.gutter === 'none' ? '' : ` q-gutter-${this.gutter}`}`
     },
 
     sepClass () {
-      if (this.separatorColor) {
-        return `text-${this.separatorColor}`
-      }
+      return this.separatorColor
+        ? ` text-${this.separatorColor}`
+        : ''
     },
 
     activeClass () {
@@ -52,25 +51,29 @@ export default defineComponent({
 
     const
       child = [],
-      len = nodes.filter(c => c.tag !== void 0 && c.tag.endsWith('-QBreadcrumbsEl')).length,
+      // TODO vue3 - verify UMD; is detection correct?
+      len = nodes.filter(c => c.type !== void 0 && c.type.name === 'QBreadcrumbsEl').length,
       separator = this.$slots.separator !== void 0
         ? this.$slots.separator
         : () => this.separator
 
     nodes.forEach(comp => {
-      if (comp.tag !== void 0 && comp.tag.endsWith('-QBreadcrumbsEl')) {
+      if (comp.type !== void 0 && comp.type.name === 'QBreadcrumbsEl') {
         const middle = els < len
         els++
 
-        child.push(h('div', {
-          staticClass: 'flex items-center',
-          class: middle ? this.activeClass : 'q-breadcrumbs--last'
-        }, [ comp ]))
+        child.push(
+          h('div', {
+            class: 'flex items-center ' + (middle ? this.activeClass : 'q-breadcrumbs--last')
+          }, [ comp ])
+        )
 
         if (middle) {
-          child.push(h('div', {
-            staticClass: 'q-breadcrumbs__separator', class: this.sepClass
-          }, separator()))
+          child.push(
+            h('div', {
+              class: 'q-breadcrumbs__separator' + this.sepClass
+            }, separator())
+          )
         }
       }
       else {
@@ -79,13 +82,9 @@ export default defineComponent({
     })
 
     return h('div', {
-      staticClass: 'q-breadcrumbs',
-      on: { ...this.qListeners }
+      class: 'q-breadcrumbs'
     }, [
-      h('div', {
-        staticClass: 'flex items-center',
-        class: this.classes
-      }, child)
+      h('div', { class: this.classes }, child)
     ])
   }
 })

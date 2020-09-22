@@ -3,7 +3,7 @@ import { height, offset } from '../utils/dom.js'
 import { getScrollTarget } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function update (ctx, { value, oldValue }) {
+function updated (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll)
     return
@@ -27,7 +27,7 @@ function destroy (el) {
 export default {
   name: 'scroll-fire',
 
-  inserted (el, binding) {
+  mounted (el, binding) {
     if (el.__qscrollfire !== void 0) {
       destroy(el)
       el.__qscrollfire_destroyed = true
@@ -59,13 +59,13 @@ export default {
     el.__qscrollfire = ctx
   },
 
-  update (el, binding) {
+  updated (el, binding) {
     if (el.__qscrollfire !== void 0 && binding.value !== binding.oldValue) {
       update(el.__qscrollfire, binding)
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qscrollfire_destroyed === void 0) {
       destroy(el)
     }

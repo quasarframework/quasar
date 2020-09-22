@@ -1,6 +1,8 @@
 export const routerLinkProps = {
   to: [ String, Object ],
   exact: Boolean,
+  // TODO vue3 - append not available anymore
+  // append: Boolean,
   replace: Boolean,
   activeClass: String,
   exactActiveClass: String,

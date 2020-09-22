@@ -15,7 +15,7 @@ export default defineComponent({
   mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
 
   props: {
-    value: {
+    modelValue: {
       required: true
     },
     val: {
@@ -33,9 +33,11 @@ export default defineComponent({
     tabindex: [String, Number]
   },
 
+  emits: [ 'update:modelValue' ],
+
   computed: {
     isTrue () {
-      return this.value === this.val
+      return this.modelValue === this.val
     },
 
     classes () {
@@ -54,7 +56,7 @@ export default defineComponent({
         ? ` text-${this.color}`
         : ''
 
-      return `q-radio__inner--${this.isTrue === true ? 'truthy' : 'falsy'}${color}`
+      return `q-radio__inner relative-position q-radio__inner--${this.isTrue === true ? 'truthy' : 'falsy'}${color}`
     },
 
     computedTabindex () {
@@ -102,7 +104,7 @@ export default defineComponent({
       }
 
       if (this.disable !== true && this.isTrue !== true) {
-        this.$emit('input', this.val, e)
+        this.$emit('update:modelValue', this.val, e)
       }
     }
   },
@@ -110,20 +112,18 @@ export default defineComponent({
   render () {
     const content = [
       h('svg', {
-        staticClass: 'q-radio__bg absolute non-selectable',
-        attrs: { focusable: 'false' /* needed for IE11 */, viewBox: '0 0 24 24', 'aria-hidden': 'true' }
+        class: 'q-radio__bg absolute non-selectable',
+        focusable: 'false' /* needed for IE11 */,
+        viewBox: '0 0 24 24',
+        'aria-hidden': 'true'
       }, [
         h('path', {
-          attrs: {
-            d: 'M12,22a10,10 0 0 1 -10,-10a10,10 0 0 1 10,-10a10,10 0 0 1 10,10a10,10 0 0 1 -10,10m0,-22a12,12 0 0 0 -12,12a12,12 0 0 0 12,12a12,12 0 0 0 12,-12a12,12 0 0 0 -12,-12'
-          }
+          d: 'M12,22a10,10 0 0 1 -10,-10a10,10 0 0 1 10,-10a10,10 0 0 1 10,10a10,10 0 0 1 -10,10m0,-22a12,12 0 0 0 -12,12a12,12 0 0 0 12,12a12,12 0 0 0 12,-12a12,12 0 0 0 -12,-12'
         }),
 
         h('path', {
-          staticClass: 'q-radio__check',
-          attrs: {
-            d: 'M12,6a6,6 0 0 0 -6,6a6,6 0 0 0 6,6a6,6 0 0 0 6,-6a6,6 0 0 0 -6,-6'
-          }
+          class: 'q-radio__check',
+          d: 'M12,6a6,6 0 0 0 -6,6a6,6 0 0 0 6,6a6,6 0 0 0 6,-6a6,6 0 0 0 -6,-6'
         })
       ])
     ]
@@ -131,12 +131,11 @@ export default defineComponent({
     this.disable !== true && this.__injectFormInput(
       content,
       'unshift',
-      'q-radio__native q-ma-none q-pa-none'
+      ' q-radio__native q-ma-none q-pa-none'
     )
 
     const child = [
       h('div', {
-        staticClass: 'q-radio__inner relative-position',
         class: this.innerClass,
         style: this.sizeStyle
       }, content)
@@ -152,21 +151,21 @@ export default defineComponent({
 
     label !== void 0 && child.push(
       h('div', {
-        staticClass: 'q-radio__label q-anchor--skip'
+        class: 'q-radio__label q-anchor--skip'
       }, label)
     )
 
     return h('div', {
       class: this.classes,
-      attrs: this.attrs,
-      on: cache(this, 'inpExt', {
-        click: this.set,
-        keydown: e => {
+      ...this.attrs,
+      ...cache(this, 'inpExt', {
+        onClick: this.set,
+        onKeydown: e => {
           if (e.keyCode === 13 || e.keyCode === 32) {
             stopAndPrevent(e)
           }
         },
-        keyup: e => {
+        onKeyup: e => {
           if (e.keyCode === 13 || e.keyCode === 32) {
             this.set(e)
           }

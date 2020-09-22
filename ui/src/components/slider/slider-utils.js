@@ -1,11 +1,12 @@
 import { h } from 'vue'
 
+import TouchPan from '../../directives/TouchPan.js'
+
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
 
 import FormMixin from '../../mixins/form.js'
 import DarkMixin from '../../mixins/dark.js'
-import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 export const keyCodes = [ 34, 37, 40, 33, 39, 38 ]
@@ -37,10 +38,6 @@ export function getModel (ratio, min, max, step, decimals) {
 
 export const SliderMixin = {
   mixins: [ DarkMixin, FormMixin ],
-
-  directives: {
-    TouchPan
-  },
 
   props: {
     min: {
@@ -80,6 +77,8 @@ export const SliderMixin = {
       default: 'M 4, 10 a 6,6 0 1,0 12,0 a 6,6 0 1,0 -12,0'
     }
   },
+
+  emits: [ 'pan' ],
 
   data () {
     return {
@@ -137,10 +136,9 @@ export const SliderMixin = {
     },
 
     positionProp () {
-      if (this.vertical === true) {
-        return this.isReversed === true ? 'bottom' : 'top'
-      }
-      return this.isReversed === true ? 'right' : 'left'
+      return this.vertical === true
+        ? (this.isReversed === true ? 'bottom' : 'top')
+        : this.isReversed === true ? 'right' : 'left'
     },
 
     sizeProp () {
@@ -170,40 +168,35 @@ export const SliderMixin = {
       return attrs
     },
 
-    panDirectives () {
+    panDirective () {
       return this.editable === true
-        ? [{
-          name: 'touch-pan',
-          value: this.__pan,
-          modifiers: {
+        ? [[
+          TouchPan,
+          this.__pan,
+          void 0,
+          {
             [ this.orientation ]: true,
             prevent: true,
             stop: true,
             mouse: true,
             mouseAllDir: true
           }
-        }]
-        : null
+        ]]
+        : void 0
     }
   },
 
   methods: {
     __getThumbSvg () {
       return h('svg', {
-        staticClass: 'q-slider__thumb absolute',
-        attrs: {
-          focusable: 'false', /* needed for IE11 */
-          viewBox: '0 0 20 20',
-          width: '20',
-          height: '20',
-          'aria-hidden': 'true'
-        }
+        class: 'q-slider__thumb absolute',
+        focusable: 'false', /* needed for IE11 */
+        viewBox: '0 0 20 20',
+        width: '20',
+        height: '20',
+        'aria-hidden': 'true'
       }, [
-        h('path', {
-          attrs: {
-            d: this.thumbPath
-          }
-        })
+        h('path', { d: this.thumbPath })
       ])
     },
 

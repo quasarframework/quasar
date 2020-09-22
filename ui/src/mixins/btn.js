@@ -1,6 +1,5 @@
 import AlignMixin from './align.js'
 import RippleMixin from './ripple.js'
-import ListenersMixin from './listeners.js'
 import { getSizeMixin } from './size.js'
 
 const padding = {
@@ -14,7 +13,6 @@ const padding = {
 
 export default {
   mixins: [
-    ListenersMixin,
     RippleMixin,
     AlignMixin,
     getSizeMixin({
@@ -108,9 +106,7 @@ export default {
         // we protect from accessing this.$route without
         // actually needing it so that we won't trigger
         // unnecessary updates
-        return this.append === true
-          ? this.$router.resolve(this.to, this.$route, true)
-          : this.$router.resolve(this.to)
+        return this.$router.resolve(this.to)
       }
     },
 

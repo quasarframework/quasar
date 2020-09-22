@@ -6,7 +6,7 @@ const defaultCfg = {
   rootMargin: '0px'
 }
 
-function update (el, ctx, value) {
+function updated (el, ctx, value) {
   let handler, cfg, changed
 
   if (typeof value === 'function') {
@@ -68,7 +68,7 @@ function destroy (el) {
 export default {
   name: 'intersection',
 
-  inserted (el, { modifiers, value }) {
+  mounted (el, { modifiers, value }) {
     if (el.__qvisible !== void 0) {
       destroy(el)
       el.__qvisible_destroyed = true
@@ -83,12 +83,12 @@ export default {
     el.__qvisible = ctx
   },
 
-  update (el, binding) {
+  updated (el, binding) {
     const ctx = el.__qvisible
     ctx !== void 0 && update(el, ctx, binding.value)
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qvisible_destroyed === void 0) {
       destroy(el)
     }

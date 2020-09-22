@@ -5,7 +5,6 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 import QToggle from '../toggle/QToggle.js'
 
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import cache from '../../utils/cache.js'
 
@@ -20,10 +19,10 @@ const typeValues = Object.keys(components)
 export default defineComponent({
   name: 'QOptionGroup',
 
-  mixins: [ DarkMixin, ListenersMixin ],
+  mixins: [ DarkMixin ],
 
   props: {
-    value: {
+    modelValue: {
       required: true
     },
     options: {
@@ -51,15 +50,17 @@ export default defineComponent({
     disable: Boolean
   },
 
+  emits: [ 'update:modelValue' ],
+
   computed: {
     component () {
       return components[this.type]
     },
 
     model () {
-      return Array.isArray(this.value)
-        ? this.value.slice()
-        : this.value
+      return Array.isArray(this.modelValue)
+        ? this.modelValue.slice()
+        : this.modelValue
     },
 
     classes () {
@@ -84,12 +85,12 @@ export default defineComponent({
 
   methods: {
     __update (value) {
-      this.$emit('input', value)
+      this.$emit('update:modelValue', value)
     }
   },
 
   created () {
-    const isArray = Array.isArray(this.value)
+    const isArray = Array.isArray(this.modelValue)
 
     if (this.type === 'radio') {
       if (isArray) {
@@ -104,27 +105,24 @@ export default defineComponent({
   render () {
     return h('div', {
       class: this.classes,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
+      ...this.attrs
     }, this.options.map(opt => h('div', [
       h(this.component, {
-        props: {
-          value: this.value,
-          val: opt.value,
-          name: this.name || opt.name,
-          disable: this.disable || opt.disable,
-          label: opt.label,
-          leftLabel: this.leftLabel || opt.leftLabel,
-          color: opt.color || this.color,
-          checkedIcon: opt.checkedIcon,
-          uncheckedIcon: opt.uncheckedIcon,
-          dark: opt.dark || this.isDark,
-          size: opt.size || this.size,
-          dense: this.dense,
-          keepColor: opt.keepColor || this.keepColor
-        },
-        on: cache(this, 'inp', {
-          input: this.__update
+        modelValue: this.modelValue,
+        val: opt.value,
+        name: this.name || opt.name,
+        disable: this.disable || opt.disable,
+        label: opt.label,
+        leftLabel: this.leftLabel || opt.leftLabel,
+        color: opt.color || this.color,
+        checkedIcon: opt.checkedIcon,
+        uncheckedIcon: opt.uncheckedIcon,
+        dark: opt.dark || this.isDark,
+        size: opt.size || this.size,
+        dense: this.dense,
+        keepColor: opt.keepColor || this.keepColor,
+        ...cache(this, 'inp', {
+          'onUpdate:modelValue': this.__update
         })
       })
     ])))

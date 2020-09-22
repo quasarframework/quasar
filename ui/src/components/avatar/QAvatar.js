@@ -3,14 +3,13 @@ import { h, defineComponent } from 'vue'
 import QIcon from '../icon/QIcon.js'
 
 import SizeMixin from '../../mixins/size.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { mergeSlotSafely } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QAvatar',
 
-  mixins: [ ListenersMixin, SizeMixin ],
+  mixins: [ SizeMixin ],
 
   props: {
     fontSize: String,
@@ -25,12 +24,14 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return {
-        [`bg-${this.color}`]: this.color,
-        [`text-${this.textColor} q-chip--colored`]: this.textColor,
-        'q-avatar--square': this.square,
-        'rounded-borders': this.rounded
-      }
+      return 'q-avatar' +
+        (this.color ? ` bg-${this.color}` : '') +
+        (this.textColor ? ` text-${this.textColor} q-chip--colored` : '') +
+        (
+          this.square === true
+            ? ' q-avatar--square'
+            : (this.rounded === true ? ' rounded-borders' : '')
+        )
     },
 
     contentStyle () {
@@ -42,17 +43,15 @@ export default defineComponent({
 
   render () {
     const icon = this.icon !== void 0
-      ? [ h(QIcon, { props: { name: this.icon } }) ]
+      ? [ h(QIcon, { name: this.icon }) ]
       : void 0
 
     return h('div', {
-      staticClass: 'q-avatar',
-      style: this.sizeStyle,
       class: this.classes,
-      on: { ...this.qListeners }
+      style: this.sizeStyle
     }, [
       h('div', {
-        staticClass: 'q-avatar__content row flex-center overflow-hidden',
+        class: 'q-avatar__content row flex-center overflow-hidden',
         style: this.contentStyle
       }, mergeSlotSafely(icon, this, 'default'))
     ])

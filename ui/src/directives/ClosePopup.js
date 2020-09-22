@@ -32,7 +32,7 @@ function destroy (el) {
 export default {
   name: 'close-popup',
 
-  bind (el, { value }, vnode) {
+  beforeMount (el, { value }, vnode) {
     if (el.__qclosepopup !== void 0) {
       destroy(el)
       el.__qclosepopup_destroyed = true
@@ -59,13 +59,13 @@ export default {
     el.addEventListener('keyup', ctx.handlerKey)
   },
 
-  update (el, { value, oldValue }) {
+  updated (el, { value, oldValue }) {
     if (el.__qclosepopup !== void 0 && value !== oldValue) {
       el.__qclosepopup.depth = getDepth(value)
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qclosepopup_destroyed === void 0) {
       destroy(el)
     }

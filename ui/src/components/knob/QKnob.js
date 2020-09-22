@@ -242,7 +242,7 @@ export default defineComponent({
     },
 
     __getNameInput () {
-      return this.$createElement('input', { attrs: this.formAttrs })
+      return h('input', this.formAttrs)
     }
   },
 

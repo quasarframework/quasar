@@ -7,7 +7,7 @@ const defaultCfg = {
   characterDataOldValue: true
 }
 
-function update (el, ctx, value) {
+function updated (el, ctx, value) {
   ctx.handler = value
   ctx.observer !== void 0 && ctx.observer.disconnect()
 
@@ -35,7 +35,7 @@ function destroy (el) {
 export default {
   name: 'mutation',
 
-  inserted (el, { modifiers: { once, ...mod }, value }) {
+  mounted (el, { modifiers: { once, ...mod }, value }) {
     if (el.__qmutation !== void 0) {
       destroy(el)
       el.__qmutation_destroyed = true
@@ -53,14 +53,14 @@ export default {
     el.__qmutation = ctx
   },
 
-  update (el, { oldValue, value }) {
+  updated (el, { oldValue, value }) {
     const ctx = el.__qmutation
     if (ctx !== void 0 && oldValue !== value) {
       update(el, ctx, value)
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qmutation_destroyed === void 0) {
       destroy(el)
     }

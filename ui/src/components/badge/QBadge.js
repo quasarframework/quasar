@@ -1,13 +1,11 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
+
+const alignValues = [ 'top', 'middle', 'bottom' ]
 
 export default defineComponent({
   name: 'QBadge',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     color: String,
@@ -18,11 +16,11 @@ export default defineComponent({
     multiLine: Boolean,
     outline: Boolean,
 
-    label: [Number, String],
+    label: [ Number, String ],
 
     align: {
       type: String,
-      validator: v => ['top', 'middle', 'bottom'].includes(v)
+      validator: v => alignValues.includes(v)
     }
   },
 
@@ -47,22 +45,15 @@ export default defineComponent({
         (text !== void 0 ? ` text-${text}` : '') +
         (this.floating === true ? ' q-badge--floating' : '') +
         (this.transparent === true ? ' q-badge--transparent' : '')
-    },
-
-    attrs () {
-      return {
-        role: 'alert',
-        'aria-label': this.label
-      }
     }
   },
 
   render () {
     return h('div', {
-      style: this.style,
       class: this.classes,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
+      style: this.style,
+      role: 'alert',
+      'aria-label': this.label
     }, this.label !== void 0 ? [ this.label ] : slot(this, 'default'))
   }
 })

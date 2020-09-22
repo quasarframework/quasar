@@ -2,22 +2,21 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { getSizeMixin } from '../../mixins/size.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { mergeSlot } from '../../utils/slot.js'
 
 function width (val, reverse) {
-  if (reverse === true) {
-    return { transform: `translateX(100%) scale3d(${-val},1,1)` }
+  return {
+    transform: reverse === true
+      ? `translateX(100%) scale3d(${-val},1,1)`
+      : `scale3d(${val},1,1)`
   }
-  return { transform: `scale3d(${val},1,1)` }
 }
 
 export default defineComponent({
   name: 'QLinearProgress',
 
   mixins: [
-    ListenersMixin,
     DarkMixin,
     getSizeMixin({
       xs: 2,
@@ -64,7 +63,8 @@ export default defineComponent({
     },
 
     trackClass () {
-      return `q-linear-progress__track--with${this.instantFeedback === true ? 'out' : ''}-transition` +
+      return 'q-linear-progress__track absolute-full' +
+        ` q-linear-progress__track--with${this.instantFeedback === true ? 'out' : ''}-transition` +
         ` q-linear-progress__track--${this.isDark === true ? 'dark' : 'light'}` +
         (this.trackColor !== void 0 ? ` bg-${this.trackColor}` : '')
     },
@@ -74,12 +74,13 @@ export default defineComponent({
     },
 
     modelClasses () {
-      return `q-linear-progress__model--with${this.instantFeedback === true ? 'out' : ''}-transition` +
+      return 'q-linear-progress__model absolute-full' +
+        ` q-linear-progress__model--with${this.instantFeedback === true ? 'out' : ''}-transition` +
         ` q-linear-progress__model--${this.motion === true ? 'in' : ''}determinate`
     },
 
     stripeStyle () {
-      return { width: (this.value * 100) + '%' }
+      return { width: `${this.value * 100}%` }
     },
 
     attrs () {
@@ -95,30 +96,27 @@ export default defineComponent({
   render () {
     const child = [
       h('div', {
-        staticClass: 'q-linear-progress__track absolute-full',
-        style: this.trackStyle,
-        class: this.trackClass
+        class: this.trackClass,
+        style: this.trackStyle
       }),
 
       h('div', {
-        staticClass: 'q-linear-progress__model absolute-full',
-        style: this.modelStyle,
-        class: this.modelClasses
+        class: this.modelClasses,
+        style: this.modelStyle
       })
     ]
 
     this.stripe === true && this.motion === false && child.push(
       h('div', {
-        staticClass: 'q-linear-progress__stripe absolute-full',
+        class: 'q-linear-progress__stripe absolute-full',
         style: this.stripeStyle
       })
     )
 
     return h('div', {
-      style: this.sizeStyle,
       class: this.classes,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
+      style: this.sizeStyle,
+      ...this.attrs
     }, mergeSlot(child, this, 'default'))
   }
 })

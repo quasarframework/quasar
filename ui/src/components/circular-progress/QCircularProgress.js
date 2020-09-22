@@ -1,6 +1,5 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
 import SizeMixin from '../../mixins/size.js'
 import { mergeSlotSafely } from '../../utils/slot.js'
 import { between } from '../../utils/format.js'
@@ -14,7 +13,7 @@ const
 export default defineComponent({
   name: 'QCircularProgress',
 
-  mixins: [ ListenersMixin, SizeMixin ],
+  mixins: [ SizeMixin ],
 
   props: {
     value: {
@@ -105,19 +104,16 @@ export default defineComponent({
   methods: {
     __getCircle ({ thickness, offset, color, cls }) {
       return h('circle', {
-        staticClass: 'q-circular-progress__' + cls,
-        class: color !== void 0 ? `text-${color}` : null,
+        class: 'q-circular-progress__' + cls + (color !== void 0 ? ` text-${color}` : ''),
         style: this.circleStyle,
-        attrs: {
-          fill: 'transparent',
-          stroke: 'currentColor',
-          'stroke-width': thickness,
-          'stroke-dasharray': strokeDashArray,
-          'stroke-dashoffset': offset,
-          cx: this.viewBox,
-          cy: this.viewBox,
-          r: radius
-        }
+        fill: 'transparent',
+        stroke: 'currentColor',
+        'stroke-width': thickness,
+        'stroke-dasharray': strokeDashArray,
+        'stroke-dashoffset': offset,
+        cx: this.viewBox,
+        cy: this.viewBox,
+        r: radius
       })
     }
   },
@@ -127,14 +123,11 @@ export default defineComponent({
 
     this.centerColor !== void 0 && this.centerColor !== 'transparent' && svgChild.push(
       h('circle', {
-        staticClass: 'q-circular-progress__center',
-        class: `text-${this.centerColor}`,
-        attrs: {
-          fill: 'currentColor',
-          r: radius - this.strokeWidth / 2,
-          cx: this.viewBox,
-          cy: this.viewBox
-        }
+        class: `q-circular-progress__center text-${this.centerColor}`,
+        fill: 'currentColor',
+        r: radius - this.strokeWidth / 2,
+        cx: this.viewBox,
+        cy: this.viewBox
       })
     )
 
@@ -158,29 +151,25 @@ export default defineComponent({
 
     const child = [
       h('svg', {
-        staticClass: 'q-circular-progress__svg',
+        class: 'q-circular-progress__svg',
         style: this.svgStyle,
-        attrs: {
-          focusable: 'false' /* needed for IE11 */,
-          viewBox: this.viewBoxAttr,
-          'aria-hidden': 'true'
-        }
+        focusable: 'false' /* needed for IE11 */,
+        viewBox: this.viewBoxAttr,
+        'aria-hidden': 'true'
       }, svgChild)
     ]
 
     this.showValue === true && child.push(
       h('div', {
-        staticClass: 'q-circular-progress__text absolute-full row flex-center content-center',
+        class: 'q-circular-progress__text absolute-full row flex-center content-center',
         style: { fontSize: this.fontSize }
-      }, this.$slots.default !== void 0 ? this.$slots.default() : [ h('div', [ this.normalizedValue ]) ])
+      }, this.$slots.default !== void 0 ? this.$slots.default() : [ h('div', {}, this.normalizedValue) ])
     )
 
     return h('div', {
-      staticClass: 'q-circular-progress',
-      class: `q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
+      class: `q-circular-progress q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.sizeStyle,
-      on: { ...this.qListeners },
-      attrs: this.attrs
+      ...this.attrs
     }, mergeSlotSafely(child, this, 'internal'))
   }
 })

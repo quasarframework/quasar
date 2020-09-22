@@ -19,7 +19,7 @@ function destroy (el) {
 export default {
   name: 'touch-hold',
 
-  bind (el, binding) {
+  beforeMount (el, binding) {
     if (el.__qtouchhold !== void 0) {
       destroy(el)
       el.__qtouchhold_destroyed = true
@@ -150,7 +150,7 @@ export default {
     ])
   },
 
-  update (el, binding) {
+  updated (el, binding) {
     const ctx = el.__qtouchhold
     if (ctx !== void 0 && binding.oldValue !== binding.value) {
       typeof binding.value !== 'function' && ctx.end()
@@ -158,7 +158,7 @@ export default {
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qtouchhold_destroyed === void 0) {
       destroy(el)
     }

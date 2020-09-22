@@ -36,17 +36,15 @@ export default defineComponent({
   methods: {
     __getInner () {
       return [
-        h('div', { staticClass: 'q-toggle__track' }),
+        h('div', { class: 'q-toggle__track' }),
 
         h('div', {
-          staticClass: 'q-toggle__thumb absolute flex flex-center no-wrap'
+          class: 'q-toggle__thumb absolute flex flex-center no-wrap'
         }, this.computedIcon !== void 0
           ? [
             h(QIcon, {
-              props: {
-                name: this.computedIcon,
-                color: this.computedIconColor
-              }
+              name: this.computedIcon,
+              color: this.computedIconColor
             })
           ]
           : void 0

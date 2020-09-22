@@ -50,17 +50,17 @@ export default function (app, opts = {}) {
 
   opts.components && Object.keys(opts.components).forEach(key => {
     const c = opts.components[key]
-    if (typeof c === 'object' && c.name !== void 0) {
+    if (Object(c) === c && c.name !== void 0) {
       app.component(c.name, c)
     }
   })
 
-  // opts.directives && Object.keys(opts.directives).forEach(key => {
-  //   const d = opts.directives[key]
-  //   if (d.name !== undefined && d.unbind !== void 0) {
-  //     app.directive(d.name, d)
-  //   }
-  // })
+  opts.directives && Object.keys(opts.directives).forEach(key => {
+    const d = opts.directives[key]
+    if (Object(d) === d && d.name !== void 0) {
+      app.directive(d.name, d)
+    }
+  })
 
   if (opts.plugins) {
     const param = { app, $q, queues, cfg }

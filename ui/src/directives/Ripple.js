@@ -84,7 +84,7 @@ function destroy (el) {
 export default {
   name: 'ripple',
 
-  inserted (el, binding) {
+  mounted (el, binding) {
     if (el.__qripple !== void 0) {
       destroy(el)
       el.__qripple_destroyed = true
@@ -136,7 +136,7 @@ export default {
     ])
   },
 
-  update (el, binding) {
+  updated (el, binding) {
     const ctx = el.__qripple
     if (ctx !== void 0 && binding.oldValue !== binding.value) {
       ctx.enabled = binding.value !== false
@@ -147,7 +147,7 @@ export default {
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qripple_destroyed === void 0) {
       destroy(el)
     }

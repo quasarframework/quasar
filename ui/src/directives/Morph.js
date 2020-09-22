@@ -190,7 +190,7 @@ function destroy (el) {
 export default {
   name: 'morph',
 
-  inserted (el, binding) {
+  mounted (el, binding) {
     if (el.__qmorph !== void 0) {
       destroy(el)
       el.__qmorph_destroyed = true
@@ -209,12 +209,12 @@ export default {
     el.__qmorph = ctx
   },
 
-  update (el, binding) {
+  updated (el, binding) {
     const ctx = el.__qmorph
     ctx !== void 0 && updateValue(ctx, binding.value)
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qmorph_destroyed === void 0) {
       destroy(el)
     }

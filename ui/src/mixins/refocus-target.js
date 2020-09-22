@@ -1,8 +1,10 @@
+import { h } from 'vue'
+
 export default {
   computed: {
     __refocusTargetEl () {
       if (this.disable !== true) {
-        return this.$createElement('span', {
+        return h('span', {
           ref: 'refocusTarget',
           staticClass: 'no-outline',
           attrs: { tabindex: -1 }

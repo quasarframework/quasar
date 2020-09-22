@@ -1,7 +1,9 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
+
+import Ripple from '../../directives/Ripple.js'
 
 import BtnMixin from '../../mixins/btn.js'
 
@@ -29,6 +31,8 @@ export default defineComponent({
     darkPercentage: Boolean
   },
 
+  emits: [ 'click', 'keydown', 'touchstart', 'mousedown', 'keyup' ],
+
   computed: {
     hasLabel () {
       return this.label !== void 0 && this.label !== null && this.label !== ''
@@ -53,26 +57,27 @@ export default defineComponent({
     onEvents () {
       if (this.loading === true) {
         return {
-          mousedown: this.__onLoadingEvt,
-          touchstart: this.__onLoadingEvt,
-          click: this.__onLoadingEvt,
-          keydown: this.__onLoadingEvt,
-          keyup: this.__onLoadingEvt
+          onMousedown: this.__onLoadingEvt,
+          onTouchstart: this.__onLoadingEvt,
+          onClick: this.__onLoadingEvt,
+          onKeydown: this.__onLoadingEvt,
+          onKeyup: this.__onLoadingEvt
         }
       }
       else if (this.isActionable === true) {
-        const on = {
-          ...this.qListeners,
-          click: this.click,
-          keydown: this.__onKeydown,
-          mousedown: this.__onMousedown
+        const evts = {
+          // TODO vue3 - disable any events if loading (above)
+          // ...this.qListeners,
+          onClick: this.click,
+          onKeydown: this.__onKeydown,
+          onMousedown: this.__onMousedown
         }
 
         if (this.$q.platform.has.touch === true) {
-          on.touchstart = this.__onTouchstart
+          evts.onTouchstart = this.__onTouchstart
         }
 
-        return on
+        return evts
       }
 
       return {}
@@ -80,11 +85,12 @@ export default defineComponent({
 
     directives () {
       if (this.disable !== true && this.ripple !== false) {
-        return [{
-          name: 'ripple',
-          value: this.computedRipple,
-          modifiers: { center: this.round }
-        }]
+        return [[
+          Ripple,
+          this.computedRipple,
+          void 0,
+          { center: this.round }
+        ]]
       }
     }
   },
@@ -144,7 +150,8 @@ export default defineComponent({
         // vue-router now throwing error if navigating
         // to the same route that the user is currently at
         // https://github.com/vuejs/vue-router/issues/2872
-        this.$router[this.replace === true ? 'replace' : 'push'](this.currentLocation.route, void 0, noop)
+        // TODO vue3 - review replace() / push(); 2nd & 3rd param??
+        this.$router[this.replace === true ? 'replace' : 'push'](this.to, void 0, noop)
       }
 
       this.$emit('click', e, go)
@@ -279,13 +286,14 @@ export default defineComponent({
 
     this.icon !== void 0 && inner.push(
       h(QIcon, {
-        attrs: iconAttrs,
-        props: { name: this.icon, left: this.stack === false && this.hasLabel === true }
+        ...iconAttrs,
+        name: this.icon,
+        left: this.stack === false && this.hasLabel === true
       })
     )
 
     this.hasLabel === true && inner.push(
-      h('span', { staticClass: 'block' }, [ this.label ])
+      h('span', { class: 'block' }, [ this.label ])
     )
 
     inner = mergeSlot(inner, this, 'default')
@@ -293,15 +301,16 @@ export default defineComponent({
     if (this.iconRight !== void 0 && this.round === false) {
       inner.push(
         h(QIcon, {
-          attrs: iconAttrs,
-          props: { name: this.iconRight, right: this.stack === false && this.hasLabel === true }
+          ...iconAttrs,
+          name: this.iconRight,
+          right: this.stack === false && this.hasLabel === true
         })
       )
     }
 
     const child = [
       h('span', {
-        staticClass: 'q-focus-helper',
+        class: 'q-focus-helper',
         ref: 'blurTarget'
       })
     ]
@@ -309,11 +318,10 @@ export default defineComponent({
     if (this.loading === true && this.percentage !== void 0) {
       child.push(
         h('span', {
-          staticClass: 'q-btn__progress absolute-full overflow-hidden'
+          class: 'q-btn__progress absolute-full overflow-hidden'
         }, [
           h('span', {
-            staticClass: 'q-btn__progress-indicator fit block',
-            class: this.darkPercentage === true ? 'q-btn__progress--dark' : '',
+            class: 'q-btn__progress-indicator fit block' + (this.darkPercentage === true ? ' q-btn__progress--dark' : ''),
             style: this.percentageStyle
           })
         ])
@@ -322,34 +330,35 @@ export default defineComponent({
 
     child.push(
       h('span', {
-        staticClass: 'q-btn__wrapper col row q-anchor--skip',
+        class: 'q-btn__wrapper col row q-anchor--skip',
         style: this.wrapperStyle
       }, [
         h('span', {
-          staticClass: 'q-btn__content text-center col items-center q-anchor--skip',
-          class: this.innerClasses
+          class: 'q-btn__content text-center col items-center q-anchor--skip ' + this.innerClasses
         }, inner)
       ])
     )
 
     this.loading !== null && child.push(
       h('transition', {
-        props: { name: 'q-transition--fade' }
+        name: 'q-transition--fade'
       }, this.loading === true ? [
         h('span', {
           key: 'loading',
-          staticClass: 'absolute-full flex flex-center'
+          class: 'absolute-full flex flex-center'
         }, this.$slots.loading !== void 0 ? this.$slots.loading() : [ h(QSpinner) ])
       ] : void 0)
     )
 
-    return h(this.isLink === true ? 'a' : 'button', {
-      staticClass: 'q-btn q-btn-item non-selectable no-outline',
-      class: this.classes,
+    const node = h(this.isLink === true ? 'a' : 'button', {
+      class: 'q-btn q-btn-item non-selectable no-outline ' + this.classes,
       style: this.style,
-      attrs: this.attrs,
-      on: this.onEvents,
-      directives: this.directives
+      ...this.attrs,
+      ...this.onEvents
     }, child)
+
+    return this.directives !== void 0
+      ? withDirectives(node, this.directives)
+      : node
   }
 })

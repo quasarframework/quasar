@@ -137,7 +137,7 @@ let uid = 0
 export default {
   name: 'touch-pan',
 
-  bind (el, { value, modifiers }) {
+  beforeMount (el, { value, modifiers }) {
     if (el.__qtouchpan !== void 0) {
       destroy(el)
       el.__qtouchpan_destroyed = true
@@ -396,7 +396,7 @@ export default {
     ])
   },
 
-  update (el, { oldValue, value }) {
+  updated (el, { oldValue, value }) {
     const ctx = el.__qtouchpan
     if (ctx !== void 0 && oldValue !== value) {
       typeof value !== 'function' && ctx.end()
@@ -404,7 +404,7 @@ export default {
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qtouchpan_destroyed === void 0) {
       destroy(el)
     }

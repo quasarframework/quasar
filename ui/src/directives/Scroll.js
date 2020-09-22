@@ -1,7 +1,7 @@
 import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function update (ctx, { value, oldValue }) {
+function updated (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
     return
@@ -24,7 +24,7 @@ function destroy (el) {
 export default {
   name: 'scroll',
 
-  inserted (el, binding) {
+  mounted (el, binding) {
     if (el.__qscroll !== void 0) {
       destroy(el)
       el.__qscroll_destroyed = true
@@ -45,13 +45,13 @@ export default {
     el.__qscroll = ctx
   },
 
-  update (el, binding) {
+  updated (el, binding) {
     if (el.__qscroll !== void 0 && binding.oldValue !== binding.value) {
       update(el.__qscroll, binding)
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qscroll_destroyed === void 0) {
       destroy(el)
     }

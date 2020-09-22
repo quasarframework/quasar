@@ -1,3 +1,5 @@
+import { h } from 'vue'
+
 export default {
   props: {
     name: String
@@ -8,7 +10,7 @@ export default {
       return {
         type: 'hidden',
         name: this.name,
-        value: this.value
+        value: this.modelValue
       }
     }
   },
@@ -16,11 +18,10 @@ export default {
   methods: {
     __injectFormInput (child, action, className) {
       child[action](
-        this.$createElement('input', {
-          staticClass: 'hidden',
-          class: className,
-          attrs: this.formAttrs,
-          domProps: this.formDomProps
+        h('input', {
+          class: 'hidden' + (className || ''),
+          ...this.formAttrs,
+          ...this.formDomProps
         })
       )
     }

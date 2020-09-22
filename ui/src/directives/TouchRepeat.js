@@ -42,7 +42,7 @@ function destroy (el) {
 export default {
   name: 'touch-repeat',
 
-  bind (el, { modifiers, value, arg }) {
+  beforeMount (el, { modifiers, value, arg }) {
     if (el.__qtouchrepeat !== void 0) {
       destroy(el)
       el.__qtouchrepeat_destroyed = true
@@ -232,7 +232,7 @@ export default {
     ])
   },
 
-  update (el, { oldValue, value }) {
+  updated (el, { oldValue, value }) {
     const ctx = el.__qtouchrepeat
     if (ctx !== void 0 && oldValue !== value) {
       typeof value !== 'function' && ctx.end()
@@ -240,7 +240,7 @@ export default {
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     if (el.__qtouchrepeat_destroyed === void 0) {
       destroy(el)
     }
