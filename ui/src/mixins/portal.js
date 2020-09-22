@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, createApp } from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
 import { getBodyFullscreenElement } from '../utils/dom.js'
@@ -125,13 +125,13 @@ const Portal = {
             $el: this.$el,
             $refs: this.$refs
           }
-          : new Vue({
+          : createApp({
             name: 'QPortal',
             parent: this,
 
             inheritAttrs: false,
 
-            render: h => this.__renderPortal(h),
+            render: h => this.__renderPortal(),
 
             components: this.$options.components,
             directives: this.$options.directives
@@ -140,9 +140,9 @@ const Portal = {
     }
   },
 
-  render (h) {
+  render () {
     if (this.__onGlobalDialog === true) {
-      return this.__renderPortal(h)
+      return this.__renderPortal()
     }
 
     if (this.__portal !== void 0) {
@@ -150,7 +150,7 @@ const Portal = {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__hidePortal()
   }
 }

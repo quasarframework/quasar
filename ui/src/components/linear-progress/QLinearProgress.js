@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { getSizeMixin } from '../../mixins/size.js'
@@ -13,7 +13,7 @@ function width (val, reverse) {
   return { transform: `scale3d(${val},1,1)` }
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QLinearProgress',
 
   mixins: [
@@ -92,7 +92,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = [
       h('div', {
         staticClass: 'q-linear-progress__track absolute-full',

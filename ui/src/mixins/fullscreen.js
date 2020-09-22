@@ -83,7 +83,7 @@ export default {
     this.fullscreen === true && this.setFullscreen()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.exitFullscreen()
   }
 }

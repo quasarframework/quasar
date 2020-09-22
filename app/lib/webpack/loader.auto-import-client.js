@@ -51,7 +51,7 @@ function extract (content, ctx) {
     }
 
     importStatements += transform(comp)
-    installStatements += `qInstall(component, 'components', {${comp.join(',')}});`
+    installStatements += `qInstall(script, 'components', {${comp.join(',')}});`
   }
 
   if (dir !== null) {
@@ -59,10 +59,10 @@ function extract (content, ctx) {
       .map(name => data.importName[name])
 
     importStatements += transform(dir)
-    installStatements += `qInstall(component, 'directives', {${dir.join(',')}});`
+    installStatements += `qInstall(script, 'directives', {${dir.join(',')}});`
   }
 
-    // stringifyRequest needed so it doesn't
+  // stringifyRequest needed so it doesn't
   // messes up consistency of hashes between builds
   return `
 ${importStatements}

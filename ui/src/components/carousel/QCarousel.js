@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
@@ -10,7 +10,7 @@ import { isNumber } from '../../utils/is.js'
 import { mergeSlot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QCarousel',
 
   mixins: [ DarkMixin, PanelParentMixin, FullscreenMixin ],
@@ -133,7 +133,7 @@ export default Vue.extend({
       )
     },
 
-    __getNavigationContainer (h, type, mapping) {
+    __getNavigationContainer (type, mapping) {
       return h('div', {
         class: 'q-carousel__control q-carousel__navigation no-wrap absolute flex' +
           ` q-carousel__navigation--${type} q-carousel__navigation--${this.navigationPositionComputed}` +
@@ -145,12 +145,12 @@ export default Vue.extend({
       ])
     },
 
-    __getContent (h) {
+    __getContent () {
       const node = []
 
       if (this.navigation === true) {
-        const fn = this.$scopedSlots['navigation-icon'] !== void 0
-          ? this.$scopedSlots['navigation-icon']
+        const fn = this.$slots['navigation-icon'] !== void 0
+          ? this.$slots['navigation-icon']
           : opts => h(QBtn, {
               key: 'nav' + opts.name,
               class: `q-carousel__navigation-icon q-carousel__navigation-icon--${opts.active === true ? '' : 'in'}active`,
@@ -160,7 +160,7 @@ export default Vue.extend({
 
         const maxIndex = this.panels.length - 1
         node.push(
-          this.__getNavigationContainer(h, 'buttons', (panel, index) => {
+          this.__getNavigationContainer('buttons', (panel, index) => {
             const name = panel.componentOptions.propsData.name
             const active = this.panelIndex === index
 
@@ -184,7 +184,7 @@ export default Vue.extend({
           ? ` text-${this.controlColor}`
           : ''
 
-        node.push(this.__getNavigationContainer(h, 'thumbnails', panel => {
+        node.push(this.__getNavigationContainer('thumbnails', panel => {
           const slide = panel.componentOptions.propsData
 
           return h('img', {
@@ -231,7 +231,7 @@ export default Vue.extend({
       return mergeSlot(node, this, 'control')
     },
 
-    __renderPanels (h) {
+    __renderPanels () {
       return h('div', {
         style: this.style,
         class: this.classes,
@@ -240,8 +240,8 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-carousel__slides-container',
           directives: this.panelDirectives
-        }, this.__getPanelContent(h))
-      ].concat(this.__getContent(h)))
+        }, this.__getPanelContent())
+      ].concat(this.__getContent()))
     }
   },
 
@@ -249,7 +249,7 @@ export default Vue.extend({
     this.autoplay && this.__startTimer()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearInterval(this.timer)
   }
 })

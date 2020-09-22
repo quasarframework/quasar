@@ -1,11 +1,11 @@
-import Vue from 'vue'
+import { defineComponent } from 'vue'
 
 import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../../utils/scroll.js'
 import { listenOpts, noop } from '../../utils/event.js'
 
 const { passive } = listenOpts
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QScrollObserver',
 
   props: {
@@ -98,7 +98,7 @@ export default Vue.extend({
     this.__configureScrollTarget()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.timer)
     cancelAnimationFrame(this.timer)
     this.__unconfigureScrollTarget()

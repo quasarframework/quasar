@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { between } from '../../utils/format.js'
 import { isSSR } from '../../plugins/Platform.js'
@@ -76,7 +76,7 @@ function restoreAjax (start, stop) {
   }
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QAjaxBar',
 
   props: {
@@ -228,12 +228,12 @@ export default Vue.extend({
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.timer)
     this.hijacked === true && restoreAjax(this.start, this.stop)
   },
 
-  render (h) {
+  render () {
     return h('div', {
       class: this.classes,
       style: this.style,

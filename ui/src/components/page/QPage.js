@@ -1,10 +1,10 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QPage',
 
   mixins: [ ListenersMixin ],
@@ -55,7 +55,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('main', {
       staticClass: 'q-page',
       style: this.style,

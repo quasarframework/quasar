@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import CanRenderMixin from '../../mixins/can-render.js'
 import TagMixin from '../../mixins/tag.js'
@@ -6,7 +6,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QNoSsr',
 
   mixins: [ CanRenderMixin, TagMixin, ListenersMixin ],
@@ -15,7 +15,7 @@ export default Vue.extend({
     placeholder: String
   },
 
-  render (h) {
+  render () {
     const data = {
       on: { ...this.qListeners }
     }

@@ -18,7 +18,7 @@ export default {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.showing === true && this.__removeHistory()
   }
 }

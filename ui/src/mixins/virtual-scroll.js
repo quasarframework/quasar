@@ -543,7 +543,7 @@ export default {
         : Math.ceil(scrollViewSize / this.virtualScrollItemSize * 3)
     },
 
-    __padVirtualScroll (h, tag, content) {
+    __padVirtualScroll (tag, content) {
       const paddingSize = this.virtualScrollHorizontal === true ? 'width' : 'height'
 
       return [

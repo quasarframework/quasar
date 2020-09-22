@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -6,7 +6,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTh',
 
   mixins: [ ListenersMixin ],
@@ -16,7 +16,7 @@ export default Vue.extend({
     autoWidth: Boolean
   },
 
-  render (h) {
+  render () {
     const on = { ...this.qListeners }
 
     if (this.props === void 0) {

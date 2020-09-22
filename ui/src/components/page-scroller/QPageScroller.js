@@ -1,9 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QPageSticky from '../page-sticky/QPageSticky.js'
 import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QPageScroller',
 
   mixins: [ QPageSticky ],
@@ -104,7 +104,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('transition', {
       props: { name: 'q-transition--fade' }
     },
@@ -114,14 +114,14 @@ export default Vue.extend({
           staticClass: 'q-page-scroller',
           on: this.onEvents
         }, [
-          QPageSticky.options.render.call(this, h)
+          QPageSticky.options.render.call(this)
         ])
       ]
       : null
     )
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.heightWatcher !== void 0 && this.__cleanup()
   }
 })

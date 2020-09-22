@@ -44,7 +44,7 @@ function extract (content, ctx) {
     }
 
     importNames = importNames.concat(comp)
-    installStatements += `qInstall(component, 'components', {${comp.join(',')}});`
+    installStatements += `qInstall(script, 'components', {${comp.join(',')}});`
   }
 
   if (dir !== null) {
@@ -52,7 +52,7 @@ function extract (content, ctx) {
       .map(name => data.importName[name])
 
     importNames = importNames.concat(dir)
-    installStatements += `qInstall(component, 'directives', {${dir.join(',')}});`
+    installStatements += `qInstall(script, 'directives', {${dir.join(',')}});`
   }
 
   // stringifyRequest needed so it doesn't

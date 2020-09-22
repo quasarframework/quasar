@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 import QBtn from '../btn/QBtn.js'
@@ -21,7 +21,7 @@ import AttrsMixin from '../../mixins/attrs.js'
 
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'DialogPlugin',
 
   mixins: [ DarkMixin, AttrsMixin ],
@@ -144,7 +144,7 @@ export default Vue.extend({
       this.$refs.dialog.hide()
     },
 
-    getPrompt (h) {
+    getPrompt () {
       return [
         h(QInput, {
           props: {
@@ -188,7 +188,7 @@ export default Vue.extend({
       ]
     },
 
-    getOptions (h) {
+    getOptions () {
       return [
         h(QOptionGroup, {
           props: {
@@ -206,7 +206,7 @@ export default Vue.extend({
       ]
     },
 
-    getButtons (h) {
+    getButtons () {
       const child = []
 
       this.cancel && child.push(h(QBtn, {
@@ -247,7 +247,7 @@ export default Vue.extend({
         : (this.options !== void 0 ? this.options.model : void 0)
     },
 
-    getSection (h, staticClass, text) {
+    getSection (staticClass, text) {
       return this.html === true
         ? h(QCardSection, {
           staticClass,
@@ -257,11 +257,11 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = []
 
     this.title && child.push(
-      this.getSection(h, 'q-dialog__title', this.title)
+      this.getSection('q-dialog__title', this.title)
     )
 
     this.progress !== false && child.push(
@@ -273,7 +273,7 @@ export default Vue.extend({
     )
 
     this.message && child.push(
-      this.getSection(h, 'q-dialog__message', this.message)
+      this.getSection('q-dialog__message', this.message)
     )
 
     if (this.prompt !== void 0) {
@@ -281,7 +281,7 @@ export default Vue.extend({
         h(
           QCardSection,
           { staticClass: 'scroll q-dialog-plugin__form' },
-          this.getPrompt(h)
+          this.getPrompt()
         )
       )
     }
@@ -291,14 +291,14 @@ export default Vue.extend({
         h(
           QCardSection,
           { staticClass: 'scroll q-dialog-plugin__form' },
-          this.getOptions(h)
+          this.getOptions()
         ),
         h(QSeparator, { props: { dark: this.isDark } })
       )
     }
 
     if (this.ok || this.cancel) {
-      child.push(this.getButtons(h))
+      child.push(this.getButtons())
     }
 
     return h(QDialog, {

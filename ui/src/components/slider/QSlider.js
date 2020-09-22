@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import {
   getRatio,
@@ -10,7 +10,7 @@ import {
 import { between } from '../../utils/format.js'
 import { stopAndPrevent } from '../../utils/event.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QSlider',
 
   mixins: [ SliderMixin ],
@@ -164,9 +164,9 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = [
-      this.__getThumbSvg(h),
+      this.__getThumbSvg(),
       h('div', { staticClass: 'q-slider__focus-ring' })
     ]
 

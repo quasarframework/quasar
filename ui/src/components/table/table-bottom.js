@@ -41,7 +41,7 @@ export default {
           ? this.loadingLabel || this.$q.lang.table.loading
           : (this.filter ? this.noResultsLabel || this.$q.lang.table.noResults : this.noDataLabel || this.$q.lang.table.noData)
 
-        const noData = this.$scopedSlots['no-data']
+        const noData = this.$slots['no-data']
         const children = noData !== void 0
           ? [ noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter }) ]
           : [
@@ -57,7 +57,7 @@ export default {
         }, children)
       }
 
-      const bottom = this.$scopedSlots.bottom
+      const bottom = this.$slots.bottom
 
       if (bottom !== void 0) {
         return h('div', { staticClass }, [ bottom(this.marginalsScope) ])
@@ -89,7 +89,7 @@ export default {
       const
         { rowsPerPage } = this.computedPagination,
         paginationLabel = this.paginationLabel || this.$q.lang.table.pagination,
-        paginationSlot = this.$scopedSlots.pagination,
+        paginationSlot = this.$slots.pagination,
         hasOpts = this.rowsPerPageOptions.length > 1
 
       child.push(

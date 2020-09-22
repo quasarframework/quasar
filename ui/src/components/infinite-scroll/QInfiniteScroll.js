@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
@@ -8,7 +8,7 @@ import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition 
 import { listenOpts } from '../../utils/event.js'
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QInfiniteScroll',
 
   mixins: [ ListenersMixin ],
@@ -181,13 +181,13 @@ export default Vue.extend({
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     if (this.working === true) {
       this.__scrollTarget.removeEventListener('scroll', this.poll, listenOpts.passive)
     }
   },
 
-  render (h) {
+  render () {
     const child = uniqueSlot(this, 'default', [])
 
     if (this.disable !== true && this.working === true) {

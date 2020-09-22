@@ -11,7 +11,7 @@ export default {
           ])
         ]
         : (
-          this.loading === true && this.$scopedSlots.loading === void 0
+          this.loading === true && this.$slots.loading === void 0
             ? this.__getProgress(h)
             : void 0
         )
@@ -20,8 +20,8 @@ export default {
     },
 
     __getGridBody (h) {
-      const item = this.$scopedSlots.item !== void 0
-        ? this.$scopedSlots.item
+      const item = this.$slots.item !== void 0
+        ? this.$slots.item
         : scope => {
           const child = scope.cols.map(
             col => h('div', { staticClass: 'q-table__grid-item-row' }, [
@@ -31,7 +31,7 @@ export default {
           )
 
           if (this.hasSelectionMode === true) {
-            const slot = this.$scopedSlots['body-selection']
+            const slot = this.$slots['body-selection']
             const content = slot !== void 0
               ? slot(scope)
               : [

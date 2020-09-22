@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
@@ -10,7 +10,7 @@ import { listenOpts } from '../../utils/event.js'
 
 const { passive } = listenOpts
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QParallax',
 
   mixins: [ ListenersMixin ],
@@ -110,7 +110,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-parallax',
       style: { height: `${this.height}px` },
@@ -119,7 +119,7 @@ export default Vue.extend({
       h('div', {
         ref: 'mediaParent',
         staticClass: 'q-parallax__media absolute-full'
-      }, this.$scopedSlots.media !== void 0 ? this.$scopedSlots.media() : [
+      }, this.$slots.media !== void 0 ? this.$slots.media() : [
         h('img', {
           ref: 'media',
           attrs: {
@@ -131,8 +131,8 @@ export default Vue.extend({
       h(
         'div',
         { staticClass: 'q-parallax__content absolute-full column flex-center' },
-        this.$scopedSlots.content !== void 0
-          ? this.$scopedSlots.content({ percentScrolled: this.percentScrolled })
+        this.$slots.content !== void 0
+          ? this.$slots.content({ percentScrolled: this.percentScrolled })
           : slot(this, 'default')
       )
     ])
@@ -143,7 +143,7 @@ export default Vue.extend({
     this.__update = frameDebounce(this.__update)
     this.__resizeHandler = frameDebounce(this.__onResize)
 
-    this.media = this.$scopedSlots.media !== void 0
+    this.media = this.$slots.media !== void 0
       ? this.$refs.mediaParent.children[0]
       : this.$refs.media
 
@@ -163,7 +163,7 @@ export default Vue.extend({
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__stop()
     this.observer !== void 0 && this.observer.disconnect()
     this.media.onload = this.media.onloadstart = this.media.loadedmetadata = null

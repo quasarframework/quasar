@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
@@ -8,7 +8,7 @@ import { uniqueSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QHeader',
 
   mixins: [ ListenersMixin ],
@@ -133,7 +133,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = uniqueSlot(this, 'default', [])
 
     this.elevated === true && child.push(
@@ -164,7 +164,7 @@ export default Vue.extend({
     this.__update('offset', this.offset)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     if (this.layout.instances.header === this) {
       this.layout.instances.header = void 0
       this.__update('size', 0)

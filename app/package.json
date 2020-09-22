@@ -1,6 +1,6 @@
 {
   "name": "@quasar/app",
-  "version": "2.1.0",
+  "version": "3.0.0-alpha.0",
   "description": "Quasar Framework local CLI",
   "bin": {
     "quasar": "./bin/quasar"
@@ -52,6 +52,7 @@
     "@types/webpack": "4.41.17",
     "@types/webpack-bundle-analyzer": "3.8.0",
     "@types/webpack-dev-server": "3.11.0",
+    "@vue/compiler-sfc": "^3.0.0-rc.5",
     "archiver": "5.0.0",
     "autoprefixer": "9.8.6",
     "browserslist": "^4.12.0",
@@ -103,13 +104,12 @@
     "ts-loader": "7.0.5",
     "typescript": "3.9.5",
     "url-loader": "4.1.0",
-    "vue": "2.6.12",
-    "vue-loader": "15.9.3",
-    "vue-router": "3.2.0",
+    "vue": "^3.0.0",
+    "vue-loader": "^16.0.0-beta.0",
+    "vue-router": "^4.0.0-beta.0",
     "vue-server-renderer": "2.6.12",
     "vue-style-loader": "4.1.2",
-    "vue-template-compiler": "2.6.12",
-    "vuex": "3.5.1",
+    "vuex": "^4.0.0-beta.4",
     "webpack": "4.44.1",
     "webpack-bundle-analyzer": "3.8.0",
     "webpack-chain": "6.5.1",

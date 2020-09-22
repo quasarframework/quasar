@@ -1,10 +1,10 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QToolbar',
 
   mixins: [ ListenersMixin ],
@@ -13,7 +13,7 @@ export default Vue.extend({
     inset: Boolean
   },
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-toolbar row no-wrap items-center',
       class: this.inset ? 'q-toolbar--inset' : null,

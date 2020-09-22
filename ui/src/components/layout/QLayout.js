@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { onSSR } from '../../plugins/Platform.js'
 
@@ -11,7 +11,7 @@ import { getScrollbarWidth } from '../../utils/scroll.js'
 import { mergeSlot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QLayout',
 
   mixins: [ ListenersMixin ],
@@ -116,7 +116,7 @@ export default Vue.extend({
     this.instances = {}
   },
 
-  render (h) {
+  render () {
     const layout = h('div', {
       class: this.classes,
       style: this.style,

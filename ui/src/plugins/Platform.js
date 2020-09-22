@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
-import Vue from 'vue'
+import { reactive } from 'vue'
 
 export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
@@ -326,7 +326,8 @@ const Platform = {
 
       // we need to make platform reactive
       // for the takeover phase
-      Vue.util.defineReactive($q, 'platform', this)
+      // TODO vue3
+      $q.platform = reactive(this)
     }
     else {
       // we don't have any business with SSR, so

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QField from '../field/QField.js'
 import QIcon from '../icon/QIcon.js'
@@ -26,7 +26,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QSelect',
 
   mixins: [
@@ -788,7 +788,7 @@ export default Vue.extend({
       return this.__getVirtualScrollEl()
     },
 
-    __getSelection (h, fromDialog) {
+    __getSelection (fromDialog) {
       if (this.hideSelected === true) {
         return fromDialog === true || this.dialog !== true || this.hasDialog !== true
           ? []
@@ -801,12 +801,12 @@ export default Vue.extend({
           ]
       }
 
-      if (this.$scopedSlots['selected-item'] !== void 0) {
-        return this.selectedScope.map(scope => this.$scopedSlots['selected-item'](scope)).slice()
+      if (this.$slots['selected-item'] !== void 0) {
+        return this.selectedScope.map(scope => this.$slots['selected-item'](scope)).slice()
       }
 
-      if (this.$scopedSlots.selected !== void 0) {
-        return this.$scopedSlots.selected().slice()
+      if (this.$slots.selected !== void 0) {
+        return this.$slots.selected().slice()
       }
 
       if (this.useChips === true) {
@@ -842,12 +842,12 @@ export default Vue.extend({
       ]
     },
 
-    __getControl (h, fromDialog) {
-      const child = this.__getSelection(h, fromDialog)
+    __getControl (fromDialog) {
+      const child = this.__getSelection(fromDialog)
       const isTarget = fromDialog === true || this.dialog !== true || this.hasDialog !== true
 
       if (isTarget === true && this.useInput === true) {
-        child.push(this.__getInput(h, fromDialog))
+        child.push(this.__getInput(fromDialog))
       }
       else if (this.editable === true) {
         isTarget === true && child.push(
@@ -898,13 +898,13 @@ export default Vue.extend({
       return h('div', { staticClass: 'q-field__native row items-center', attrs: this.qAttrs }, child)
     },
 
-    __getOptions (h) {
+    __getOptions () {
       if (this.menu !== true) {
         return void 0
       }
 
-      const fn = this.$scopedSlots.option !== void 0
-        ? this.$scopedSlots.option
+      const fn = this.$slots.option !== void 0
+        ? this.$slots.option
         : scope => h(QItem, {
           key: scope.index,
           props: scope.itemProps,
@@ -919,16 +919,16 @@ export default Vue.extend({
           ])
         ])
 
-      let options = this.__padVirtualScroll(h, 'div', this.optionScope.map(fn))
+      let options = this.__padVirtualScroll('div', this.optionScope.map(fn))
 
-      if (this.$scopedSlots['before-options'] !== void 0) {
-        options = this.$scopedSlots['before-options']().concat(options)
+      if (this.$slots['before-options'] !== void 0) {
+        options = this.$slots['before-options']().concat(options)
       }
 
       return mergeSlot(options, this, 'after-options')
     },
 
-    __getInnerAppend (h) {
+    __getInnerAppend () {
       return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
         ? [
           h(QIcon, {
@@ -939,7 +939,7 @@ export default Vue.extend({
         : null
     },
 
-    __getInput (h, fromDialog) {
+    __getInput (fromDialog) {
       const options = {
         ref: 'target',
         key: 'i_t',
@@ -1124,26 +1124,26 @@ export default Vue.extend({
       }
     },
 
-    __getControlChild (h) {
+    __getControlChild () {
       if (
         this.editable !== false && (
           this.dialog === true || // dialog always has menu displayed, so need to render it
           this.noOptions !== true ||
-          this.$scopedSlots['no-option'] !== void 0
+          this.$slots['no-option'] !== void 0
         )
       ) {
-        return this[`__get${this.hasDialog === true ? 'Dialog' : 'Menu'}`](h)
+        return this[`__get${this.hasDialog === true ? 'Dialog' : 'Menu'}`]()
       }
     },
 
-    __getMenu (h) {
+    __getMenu () {
       const child = this.noOptions === true
         ? (
-          this.$scopedSlots['no-option'] !== void 0
-            ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
+          this.$slots['no-option'] !== void 0
+            ? this.$slots['no-option']({ inputValue: this.inputValue })
             : null
         )
-        : this.__getOptions(h)
+        : this.__getOptions()
 
       return h(QMenu, {
         ref: 'menu',
@@ -1186,7 +1186,7 @@ export default Vue.extend({
       })
     },
 
-    __getDialog (h) {
+    __getDialog () {
       const content = [
         h(QField, {
           staticClass: `col-auto ${this.fieldClass}`,
@@ -1205,8 +1205,8 @@ export default Vue.extend({
             blur: this.__onDialogFieldBlur
           },
           scopedSlots: {
-            ...this.$scopedSlots,
-            rawControl: () => this.__getControl(h, true),
+            ...this.$slots,
+            rawControl: () => this.__getControl(true),
             before: void 0,
             after: void 0
           }
@@ -1226,11 +1226,11 @@ export default Vue.extend({
         }, (
           this.noOptions === true
             ? (
-              this.$scopedSlots['no-option'] !== void 0
-                ? this.$scopedSlots['no-option']({ inputValue: this.inputValue })
+              this.$slots['no-option'] !== void 0
+                ? this.$slots['no-option']({ inputValue: this.inputValue })
                 : null
             )
-            : this.__getOptions(h)
+            : this.__getOptions()
         ))
       )
 
@@ -1321,7 +1321,7 @@ export default Vue.extend({
       if (this.qListeners.filter !== void 0) {
         this.filter(this.inputValue)
       }
-      else if (this.noOptions !== true || this.$scopedSlots['no-option'] !== void 0) {
+      else if (this.noOptions !== true || this.$slots['no-option'] !== void 0) {
         this.menu = true
       }
     },
@@ -1361,7 +1361,7 @@ export default Vue.extend({
         ? false
         : this.behavior !== 'menu' && (
           this.useInput === true
-            ? this.$scopedSlots['no-option'] !== void 0 || this.qListeners.filter !== void 0 || this.noOptions === false
+            ? this.$slots['no-option'] !== void 0 || this.qListeners.filter !== void 0 || this.noOptions === false
             : true
         )
 
@@ -1381,7 +1381,7 @@ export default Vue.extend({
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.inputTimer)
   }
 })

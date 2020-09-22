@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
@@ -12,7 +12,7 @@ import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
 import { ariaHidden } from '../../mixins/attrs'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QScrollArea',
 
   mixins: [ DarkMixin ],
@@ -257,7 +257,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('div', {
       class: this.classes,
       on: cache(this, 'desk', {

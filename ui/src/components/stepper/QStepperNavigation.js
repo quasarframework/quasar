@@ -1,15 +1,15 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QStepperNavigation',
 
   mixins: [ ListenersMixin ],
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-stepper__nav',
       on: { ...this.qListeners }

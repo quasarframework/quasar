@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
@@ -18,7 +18,7 @@ const mouseEvents = [
   'mouseover', 'mouseout', 'mouseenter', 'mouseleave'
 ]
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QDrawer',
 
   inject: {
@@ -633,7 +633,7 @@ export default Vue.extend({
     })
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.watcher !== void 0 && this.watcher()
     clearTimeout(this.timerMini)
 
@@ -647,7 +647,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = []
 
     if (this.belowBreakpoint === true) {
@@ -681,8 +681,8 @@ export default Vue.extend({
         staticClass: 'q-drawer__content fit ' + (this.layout.container === true ? 'overflow-auto' : 'scroll'),
         class: this.contentClass,
         style: this.contentStyle
-      }, this.isMini === true && this.$scopedSlots.mini !== void 0
-        ? this.$scopedSlots.mini()
+      }, this.isMini === true && this.$slots.mini !== void 0
+        ? this.$slots.mini()
         : slot(this, 'default')
       )
     ]

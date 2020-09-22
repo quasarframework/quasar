@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
@@ -15,7 +15,7 @@ const viewIsValid = v => views.includes(v)
 const yearMonthValidator = v => /^-?[\d]+\/[0-1]\d$/.test(v)
 const lineStr = ' \u2014 '
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QDate',
 
   mixins: [ DateTimeMixin ],
@@ -812,7 +812,7 @@ export default Vue.extend({
       }
     },
 
-    __getHeader (h) {
+    __getHeader () {
       if (this.minimal === true) { return }
 
       return h('div', {
@@ -879,7 +879,7 @@ export default Vue.extend({
       ])
     },
 
-    __getNavigation (h, { label, view, key, dir, goTo, boundaries, cls }) {
+    __getNavigation ({ label, view, key, dir, goTo, boundaries, cls }) {
       return [
         h('div', {
           staticClass: 'row items-center q-date__arrow'
@@ -940,7 +940,7 @@ export default Vue.extend({
       ]
     },
 
-    __getCalendarView (h) {
+    __getCalendarView () {
       return [
         h('div', {
           key: 'calendar-view',
@@ -948,7 +948,7 @@ export default Vue.extend({
         }, [
           h('div', {
             staticClass: 'q-date__navigation row items-center no-wrap'
-          }, this.__getNavigation(h, {
+          }, this.__getNavigation({
             label: this.innerLocale.months[ this.viewModel.month - 1 ],
             view: 'Months',
             key: this.viewModel.month,
@@ -956,7 +956,7 @@ export default Vue.extend({
             goTo: this.__goToMonth,
             boundaries: this.navBoundaries.month,
             cls: ' col'
-          }).concat(this.__getNavigation(h, {
+          }).concat(this.__getNavigation({
             label: this.viewModel.year,
             view: 'Years',
             key: this.viewModel.year,
@@ -1009,7 +1009,7 @@ export default Vue.extend({
       ]
     },
 
-    __getMonthsView (h) {
+    __getMonthsView () {
       const currentYear = this.viewModel.year === this.today.year
       const isDisabled = month => {
         return (
@@ -1042,7 +1042,7 @@ export default Vue.extend({
 
       this.yearsInMonthView === true && content.unshift(
         h('div', { staticClass: 'row no-wrap full-width' }, [
-          this.__getNavigation(h, {
+          this.__getNavigation({
             label: this.viewModel.year,
             view: 'Years',
             key: this.viewModel.year,
@@ -1060,7 +1060,7 @@ export default Vue.extend({
       }, content)
     },
 
-    __getYearsView (h) {
+    __getYearsView () {
       const
         start = this.startYear,
         stop = start + yearsInterval,
@@ -1426,7 +1426,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const content = [
       h('div', {
         staticClass: 'q-date__content col relative-position'
@@ -1434,7 +1434,7 @@ export default Vue.extend({
         h('transition', {
           props: { name: 'q-transition--fade' }
         }, [
-          this[`__get${this.view}View`](h)
+          this[`__get${this.view}View`]()
         ])
       ])
     ]
@@ -1453,7 +1453,7 @@ export default Vue.extend({
       attrs: this.attrs,
       on: { ...this.qListeners }
     }, [
-      this.__getHeader(h),
+      this.__getHeader(),
 
       h('div', {
         staticClass: 'q-date__main col column',

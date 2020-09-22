@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
@@ -9,7 +9,7 @@ import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QStepper',
 
   provide () {
@@ -56,7 +56,7 @@ export default Vue.extend({
   },
 
   methods: {
-    __getContent (h) {
+    __getContent () {
       const top = slot(this, 'message', [])
 
       if (this.vertical === true) {
@@ -92,15 +92,15 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-stepper__content q-panel-parent',
           directives: this.panelDirectives
-        }, this.__getPanelContent(h))
+        }, this.__getPanelContent())
       )
     },
 
-    __renderPanels (h) {
+    __renderPanels () {
       return h('div', {
         class: this.classes,
         on: { ...this.qListeners }
-      }, mergeSlot(this.__getContent(h), this, 'navigation'))
+      }, mergeSlot(this.__getContent(), this, 'navigation'))
     }
   }
 })

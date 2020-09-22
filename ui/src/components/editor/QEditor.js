@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { getToolbar, getFonts, getLinkEditor } from './editor-utils.js'
 import { Caret } from './editor-caret.js'
@@ -12,7 +12,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import extend from '../../utils/extend.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QEditor',
 
   mixins: [ ListenersMixin, FullscreenMixin, DarkMixin ],
@@ -418,7 +418,7 @@ export default Vue.extend({
     this.refreshToolbar()
   },
 
-  render (h) {
+  render () {
     let toolbars
 
     if (this.hasToolbar) {
@@ -427,7 +427,7 @@ export default Vue.extend({
           key: 'qedt_top',
           staticClass: 'q-editor__toolbar row no-wrap scroll-x',
           class: this.toolbarBackgroundClass
-        }, getToolbar(h, this))
+        }, getToolbar(this))
       ]
 
       this.editLinkUrl !== null && bars.push(
@@ -435,7 +435,7 @@ export default Vue.extend({
           key: 'qedt_btm',
           staticClass: 'q-editor__toolbar row no-wrap items-center scroll-x',
           class: this.toolbarBackgroundClass
-        }, getLinkEditor(h, this, this.$q.platform.is.ie))
+        }, getLinkEditor(this, this.$q.platform.is.ie))
       )
 
       toolbars = h('div', {

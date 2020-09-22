@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
@@ -18,7 +18,7 @@ export const skeletonAnimations = [
   'wave', 'pulse', 'pulse-x', 'pulse-y', 'fade', 'blink', 'none'
 ]
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QSkeleton',
 
   mixins: [ DarkMixin, TagMixin, ListenersMixin ],
@@ -59,7 +59,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h(this.tag, {
       staticClass: 'q-skeleton',
       class: this.classes,

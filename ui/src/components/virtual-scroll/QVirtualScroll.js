@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QList from '../item/QList.js'
 import QMarkupTable from '../markup-table/QMarkupTable.js'
@@ -17,7 +17,7 @@ const comps = {
   table: QMarkupTable
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QVirtualScroll',
 
   mixins: [ AttrsMixin, ListenersMixin, VirtualScroll ],
@@ -117,12 +117,12 @@ export default Vue.extend({
     this.__configureScrollTarget()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__unconfigureScrollTarget()
   },
 
-  render (h) {
-    if (this.$scopedSlots.default === void 0) {
+  render () {
+    if (this.$slots.default === void 0) {
       console.error(`QVirtualScroll: default scoped slot is required for rendering`, this)
       return
     }
@@ -130,11 +130,11 @@ export default Vue.extend({
     let child = this.__padVirtualScroll(
       h,
       this.type === 'list' ? 'div' : 'tbody',
-      this.virtualScrollScope.map(this.$scopedSlots.default)
+      this.virtualScrollScope.map(this.$slots.default)
     )
 
-    if (this.$scopedSlots.before !== void 0) {
-      child = this.$scopedSlots.before().concat(child)
+    if (this.$slots.before !== void 0) {
+      child = this.$slots.before().concat(child)
     }
 
     child = mergeSlot(child, this, 'after')

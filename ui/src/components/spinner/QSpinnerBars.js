@@ -1,13 +1,13 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import mixin from './spinner-mixin.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QSpinnerBars',
 
   mixins: [mixin],
 
-  render (h) {
+  render () {
     return h('svg', {
       staticClass: 'q-spinner',
       class: this.classes,

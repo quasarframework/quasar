@@ -1,10 +1,10 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { PanelChildMixin } from '../../mixins/panel.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QCarouselSlide',
 
   mixins: [ PanelChildMixin ],
@@ -23,7 +23,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-carousel__slide',
       style: this.style,

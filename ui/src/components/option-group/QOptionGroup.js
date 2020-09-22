@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QRadio from '../radio/QRadio.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
@@ -17,7 +17,7 @@ const components = {
 
 const typeValues = Object.keys(components)
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QOptionGroup',
 
   mixins: [ DarkMixin, ListenersMixin ],
@@ -101,7 +101,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('div', {
       class: this.classes,
       attrs: this.attrs,

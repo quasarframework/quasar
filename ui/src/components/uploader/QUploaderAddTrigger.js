@@ -1,6 +1,6 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QUploaderAddTrigger',
 
   inject: {
@@ -11,7 +11,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
-    return this.__qUploaderGetInput(h)
+  render () {
+    return this.__qUploaderGetInput()
   }
 })

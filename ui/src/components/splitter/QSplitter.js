@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -9,7 +9,7 @@ import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QSplitter',
 
   mixins: [ DarkMixin, ListenersMixin ],
@@ -169,7 +169,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const attrs = this.disable === true ? { 'aria-disabled': 'true' } : void 0
     const child = [
       h('div', {

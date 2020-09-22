@@ -1,9 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 import { uniqueSlot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QChatMessage',
 
   mixins: [ ListenersMixin ],
@@ -52,7 +52,7 @@ export default Vue.extend({
   },
 
   methods: {
-    __getText (h) {
+    __getText () {
       const
         domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML',
         domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
@@ -73,7 +73,7 @@ export default Vue.extend({
       ]))
     },
 
-    __getMessage (h) {
+    __getMessage () {
       const content = uniqueSlot(this, 'default', [])
 
       this.stamp !== void 0 && content.push(
@@ -92,11 +92,11 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const container = []
 
-    if (this.$scopedSlots.avatar !== void 0) {
-      container.push(this.$scopedSlots.avatar())
+    if (this.$slots.avatar !== void 0) {
+      container.push(this.$slots.avatar())
     }
     else if (this.avatar !== void 0) {
       container.push(
@@ -117,11 +117,11 @@ export default Vue.extend({
     )
 
     this.text !== void 0 && msg.push(
-      this.__getText(h)
+      this.__getText()
     )
 
-    this.$scopedSlots.default !== void 0 && msg.push(
-      this.__getMessage(h)
+    this.$slots.default !== void 0 && msg.push(
+      this.__getMessage()
     )
 
     container.push(

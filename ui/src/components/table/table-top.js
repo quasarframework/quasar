@@ -20,10 +20,10 @@ export default {
   methods: {
     __getTopDiv (h) {
       const
-        top = this.$scopedSlots.top,
-        topLeft = this.$scopedSlots['top-left'],
-        topRight = this.$scopedSlots['top-right'],
-        topSelection = this.$scopedSlots['top-selection'],
+        top = this.$slots.top,
+        topLeft = this.$slots['top-left'],
+        topRight = this.$slots['top-right'],
+        topSelection = this.$slots['top-selection'],
         hasSelection = this.hasSelectionMode === true &&
           topSelection !== void 0 &&
           this.rowsSelectedNumber > 0,

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
@@ -7,7 +7,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QImg',
 
   mixins: [ ListenersMixin, RatioMixin ],
@@ -223,7 +223,7 @@ export default Vue.extend({
       }
     },
 
-    __getImage (h) {
+    __getImage () {
       const nativeImg = this.nativeContextMenu === true
         ? [
           h('img', {
@@ -249,7 +249,7 @@ export default Vue.extend({
         }, [ content ])
     },
 
-    __getContent (h) {
+    __getContent () {
       const slotVm = slot(this, this.hasError === true ? 'error' : 'default')
 
       if (this.basic === true) {
@@ -263,8 +263,8 @@ export default Vue.extend({
         ? h('div', {
           key: 'placeholder',
           staticClass: 'q-img__loading absolute-full flex flex-center'
-        }, this.$scopedSlots.loading !== void 0
-          ? this.$scopedSlots.loading()
+        }, this.$slots.loading !== void 0
+          ? this.$slots.loading()
           : (
             this.noDefaultSpinner === false
               ? [
@@ -289,7 +289,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('div', {
       class: this.classes,
       style: this.style,
@@ -297,8 +297,8 @@ export default Vue.extend({
       on: { ...this.qListeners }
     }, [
       h('div', { style: this.ratioStyle }),
-      this.__getImage(h),
-      this.__getContent(h)
+      this.__getImage(),
+      this.__getContent()
     ])
   },
 
@@ -311,7 +311,7 @@ export default Vue.extend({
     this.isLoading === true && this.__load()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.destroyed = true
     clearTimeout(this.ratioTimer)
     this.unwatch !== void 0 && this.unwatch()

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { fromSSR } from '../../plugins/Platform.js'
 
@@ -17,7 +17,7 @@ function getTargetUid (val) {
   return val === void 0 ? `f_${uid()}` : val
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QField',
 
   mixins: [ DarkMixin, ValidateMixin, AttrsMixin ],
@@ -262,33 +262,33 @@ export default Vue.extend({
       }
     },
 
-    __getContent (h) {
+    __getContent () {
       const node = []
 
-      this.$scopedSlots.prepend !== void 0 && node.push(
+      this.$slots.prepend !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__prepend q-field__marginal row no-wrap items-center',
           key: 'prepend',
           on: this.slotsEvents
-        }, this.$scopedSlots.prepend())
+        }, this.$slots.prepend())
       )
 
       node.push(
         h('div', {
           staticClass: 'q-field__control-container col relative-position row no-wrap q-anchor--skip'
-        }, this.__getControlContainer(h))
+        }, this.__getControlContainer())
       )
 
-      this.$scopedSlots.append !== void 0 && node.push(
+      this.$slots.append !== void 0 && node.push(
         h('div', {
           staticClass: 'q-field__append q-field__marginal row no-wrap items-center',
           key: 'append',
           on: this.slotsEvents
-        }, this.$scopedSlots.append())
+        }, this.$slots.append())
       )
 
       this.hasError === true && this.noErrorIcon === false && node.push(
-        this.__getInnerAppendNode(h, 'error', [
+        this.__getInnerAppendNode('error', [
           h(QIcon, { props: { name: this.$q.iconSet.field.error, color: 'negative' } })
         ])
       )
@@ -298,15 +298,15 @@ export default Vue.extend({
           this.__getInnerAppendNode(
             h,
             'inner-loading-append',
-            this.$scopedSlots.loading !== void 0
-              ? this.$scopedSlots.loading()
+            this.$slots.loading !== void 0
+              ? this.$slots.loading()
               : [ h(QSpinner, { props: { color: this.color } }) ]
           )
         )
       }
       else if (this.clearable === true && this.hasValue === true && this.editable === true) {
         node.push(
-          this.__getInnerAppendNode(h, 'inner-clearable-append', [
+          this.__getInnerAppendNode('inner-clearable-append', [
             h(QIcon, {
               staticClass: 'q-field__focusable-action',
               props: { tag: 'button', name: this.clearIcon || this.$q.iconSet.field.clear },
@@ -318,17 +318,17 @@ export default Vue.extend({
       }
 
       this.__getInnerAppend !== void 0 && node.push(
-        this.__getInnerAppendNode(h, 'inner-append', this.__getInnerAppend(h))
+        this.__getInnerAppendNode('inner-append', this.__getInnerAppend())
       )
 
       this.__getControlChild !== void 0 && node.push(
-        this.__getControlChild(h)
+        this.__getControlChild()
       )
 
       return node
     },
 
-    __getControlContainer (h) {
+    __getControlContainer () {
       const node = []
 
       this.prefix !== void 0 && this.prefix !== null && node.push(
@@ -339,18 +339,18 @@ export default Vue.extend({
 
       if (this.hasShadow === true && this.__getShadowControl !== void 0) {
         node.push(
-          this.__getShadowControl(h)
+          this.__getShadowControl()
         )
       }
 
       if (this.__getControl !== void 0) {
-        node.push(this.__getControl(h))
+        node.push(this.__getControl())
       }
       // internal usage only:
-      else if (this.$scopedSlots.rawControl !== void 0) {
-        node.push(this.$scopedSlots.rawControl())
+      else if (this.$slots.rawControl !== void 0) {
+        node.push(this.$slots.rawControl())
       }
-      else if (this.$scopedSlots.control !== void 0) {
+      else if (this.$slots.control !== void 0) {
         node.push(
           h('div', {
             ref: 'target',
@@ -359,7 +359,7 @@ export default Vue.extend({
               ...this.qAttrs,
               'data-autofocus': this.autofocus
             }
-          }, this.$scopedSlots.control(this.controlSlotScope))
+          }, this.$slots.control(this.controlSlotScope))
         )
       }
 
@@ -378,12 +378,12 @@ export default Vue.extend({
 
       return node.concat(
         this.__getDefaultSlot !== void 0
-          ? this.__getDefaultSlot(h)
+          ? this.__getDefaultSlot()
           : slot(this, 'default')
       )
     },
 
-    __getBottom (h) {
+    __getBottom () {
       let msg, key
 
       if (this.hasError === true) {
@@ -407,7 +407,7 @@ export default Vue.extend({
         }
       }
 
-      const hasCounter = this.counter === true || this.$scopedSlots.counter !== void 0
+      const hasCounter = this.counter === true || this.$slots.counter !== void 0
 
       if (this.hideBottomSpace === true && hasCounter === false && msg === void 0) {
         return
@@ -431,12 +431,12 @@ export default Vue.extend({
         hasCounter === true
           ? h('div', {
             staticClass: 'q-field__counter'
-          }, this.$scopedSlots.counter !== void 0 ? this.$scopedSlots.counter() : [ this.computedCounter ])
+          }, this.$slots.counter !== void 0 ? this.$slots.counter() : [ this.computedCounter ])
           : null
       ])
     },
 
-    __getInnerAppendNode (h, key, content) {
+    __getInnerAppendNode (key, content) {
       return content === null ? null : h('div', {
         staticClass: 'q-field__append q-field__marginal row no-wrap items-center q-anchor--skip',
         key
@@ -509,7 +509,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     this.__onPreRender !== void 0 && this.__onPreRender()
     this.__onPostRender !== void 0 && this.$nextTick(this.__onPostRender)
 
@@ -518,10 +518,10 @@ export default Vue.extend({
       class: this.classes,
       attrs: this.attrs
     }, [
-      this.$scopedSlots.before !== void 0 ? h('div', {
+      this.$slots.before !== void 0 ? h('div', {
         staticClass: 'q-field__before q-field__marginal row no-wrap items-center',
         on: this.slotsEvents
-      }, this.$scopedSlots.before()) : null,
+      }, this.$slots.before()) : null,
 
       h('div', {
         staticClass: 'q-field__inner relative-position col self-stretch column justify-center'
@@ -532,17 +532,17 @@ export default Vue.extend({
           class: this.contentClass,
           attrs: { tabindex: -1 },
           on: this.controlEvents
-        }, this.__getContent(h)),
+        }, this.__getContent()),
 
         this.shouldRenderBottom === true
-          ? this.__getBottom(h)
+          ? this.__getBottom()
           : null
       ]),
 
-      this.$scopedSlots.after !== void 0 ? h('div', {
+      this.$slots.after !== void 0 ? h('div', {
         staticClass: 'q-field__after q-field__marginal row no-wrap items-center',
         on: this.slotsEvents
-      }, this.$scopedSlots.after()) : null
+      }, this.$slots.after()) : null
     ])
   },
 
@@ -571,7 +571,7 @@ export default Vue.extend({
     this.autofocus === true && this.focus()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.focusoutTimer)
   }
 })

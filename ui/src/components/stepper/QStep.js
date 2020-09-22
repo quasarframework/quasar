@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QSlideTransition from '../slide-transition/QSlideTransition.js'
 import StepHeader from './StepHeader.js'
@@ -7,10 +7,10 @@ import { PanelChildMixin } from '../../mixins/panel.js'
 
 import { slot } from '../../utils/slot.js'
 
-const StepWrapper = Vue.extend({
+const StepWrapper = defineComponent({
   name: 'QStepWrapper',
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-stepper__step-content'
     }, [
@@ -21,7 +21,7 @@ const StepWrapper = Vue.extend({
   }
 })
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QStep',
 
   inject: {
@@ -80,7 +80,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const vertical = this.stepper.vertical
     const content = vertical === true && this.stepper.keepAlive === true
       ? h(

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { reactive } from 'vue'
 
 import { isSSR, fromSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
@@ -58,8 +58,9 @@ const Dark = {
       this.set(initialVal)
     }
 
-    Vue.util.defineReactive(this, 'isActive', this.isActive)
-    Vue.util.defineReactive($q, 'dark', this)
+    // TODO vue3
+    // this.isActive = reactive(this.isActive)
+    $q.dark = reactive(this)
   },
 
   set (val) {

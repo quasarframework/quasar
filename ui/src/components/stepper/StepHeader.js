@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
@@ -7,7 +7,7 @@ import AttrsMixin from '../../mixins/attrs.js'
 
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'StepHeader',
 
   mixins: [ AttrsMixin ],
@@ -117,7 +117,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const data = { class: this.classes }
 
     if (this.stepper.headerNav === true) {

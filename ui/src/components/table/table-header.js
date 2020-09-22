@@ -16,7 +16,7 @@ export default {
     __getTHead (h) {
       const child = this.__getTHeadTR(h)
 
-      if (this.loading === true && this.$scopedSlots.loading === void 0) {
+      if (this.loading === true && this.$slots.loading === void 0) {
         child.push(
           h('tr', { staticClass: 'q-table__progress' }, [
             h('th', {
@@ -32,8 +32,8 @@ export default {
 
     __getTHeadTR (h) {
       const
-        header = this.$scopedSlots.header,
-        headerCell = this.$scopedSlots['header-cell']
+        header = this.$slots.header,
+        headerCell = this.$slots['header-cell']
 
       if (header !== void 0) {
         return header(
@@ -43,7 +43,7 @@ export default {
 
       const child = this.computedCols.map(col => {
         const
-          headerCellCol = this.$scopedSlots[`header-cell-${col.name}`],
+          headerCellCol = this.$slots[`header-cell-${col.name}`],
           slot = headerCellCol !== void 0 ? headerCellCol : headerCell,
           props = this.__getHeaderScope({ col })
 
@@ -61,7 +61,7 @@ export default {
         child.unshift(h('th', { staticClass: 'q-table--col-auto-width' }, [' ']))
       }
       else if (this.multipleSelection === true) {
-        const slot = this.$scopedSlots['header-selection']
+        const slot = this.$slots['header-selection']
         const content = slot !== void 0
           ? slot(this.__getHeaderScope({}))
           : [

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -15,7 +15,7 @@ const
   PULLER_HEIGHT = 40,
   OFFSET_TOP = 20
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QPullToRefresh',
 
   mixins: [ ListenersMixin ],
@@ -180,11 +180,11 @@ export default Vue.extend({
     this.updateScrollTarget()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.timer)
   },
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-pull-to-refresh',
       on: { ...this.qListeners },

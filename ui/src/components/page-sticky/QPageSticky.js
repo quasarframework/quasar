@@ -1,10 +1,10 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QPageSticky',
 
   mixins: [ ListenersMixin ],
@@ -118,7 +118,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const content = slot(this, 'default')
 
     return h('div', {

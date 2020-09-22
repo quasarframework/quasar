@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import ListenersMixin from '../../mixins/listeners.js'
@@ -7,7 +7,7 @@ import { slot } from '../../utils/slot.js'
 
 const attrs = { role: 'alert' }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QBanner',
 
   mixins: [ ListenersMixin, DarkMixin ],
@@ -18,7 +18,7 @@ export default Vue.extend({
     rounded: Boolean
   },
 
-  render (h) {
+  render () {
     const actions = slot(this, 'action')
     const child = [
       h('div', {

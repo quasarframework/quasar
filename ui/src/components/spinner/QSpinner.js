@@ -1,8 +1,8 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import mixin from './spinner-mixin.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QSpinner',
 
   mixins: [ mixin ],
@@ -14,7 +14,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('svg', {
       staticClass: 'q-spinner q-spinner-mat',
       class: this.classes,

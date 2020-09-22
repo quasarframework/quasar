@@ -30,7 +30,7 @@ export default {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__tickFn = void 0
     clearTimeout(this.__timer)
   }

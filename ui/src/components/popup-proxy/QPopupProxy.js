@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 import QMenu from '../menu/QMenu.js'
@@ -8,7 +8,7 @@ import { slot } from '../../utils/slot.js'
 import AttrsMixin from '../../mixins/attrs.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QPopupProxy',
 
   mixins: [ AttrsMixin, ListenersMixin, AnchorMixin ],
@@ -91,7 +91,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const def = slot(this, 'default')
 
     const props = (

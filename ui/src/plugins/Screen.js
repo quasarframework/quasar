@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { reactive } from 'vue'
 
 import { isSSR, fromSSR } from './Platform.js'
 import { listenOpts, noop } from '../utils/event.js'
@@ -162,6 +162,7 @@ export default {
       start()
     }
 
-    Vue.util.defineReactive($q, 'screen', this)
+    // TODO vue3
+    $q.screen = reactive(this)
   }
 }

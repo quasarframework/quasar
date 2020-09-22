@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QInput from '../input/QInput.js'
@@ -11,7 +11,7 @@ import { between } from '../../utils/format.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QPagination',
 
   mixins: [ DarkMixin, ListenersMixin ],
@@ -181,7 +181,7 @@ export default Vue.extend({
         : otherwise
     },
 
-    __getBtn (h, data, props, page) {
+    __getBtn (data, props, page) {
       data.props = {
         ...this.btnProps,
         ...props
@@ -200,20 +200,20 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const
       contentStart = [],
       contentEnd = [],
       contentMiddle = []
 
     if (this.__boundaryLinks) {
-      contentStart.push(this.__getBtn(h, {
+      contentStart.push(this.__getBtn({
         key: 'bls'
       }, {
         disable: this.disable || this.value <= this.min,
         icon: this.icons[0]
       }, this.min))
-      contentEnd.unshift(this.__getBtn(h, {
+      contentEnd.unshift(this.__getBtn({
         key: 'ble'
       }, {
         disable: this.disable || this.value >= this.max,
@@ -222,13 +222,13 @@ export default Vue.extend({
     }
 
     if (this.__directionLinks) {
-      contentStart.push(this.__getBtn(h, {
+      contentStart.push(this.__getBtn({
         key: 'bdp'
       }, {
         disable: this.disable || this.value <= this.min,
         icon: this.icons[1]
       }, this.value - 1))
-      contentEnd.unshift(this.__getBtn(h, {
+      contentEnd.unshift(this.__getBtn({
         key: 'bdn'
       }, {
         disable: this.disable || this.value >= this.max,
@@ -303,7 +303,7 @@ export default Vue.extend({
       }
       if (boundaryStart) {
         const active = this.min === this.value
-        contentStart.push(this.__getBtn(h, {
+        contentStart.push(this.__getBtn({
           key: 'bns',
           style
         }, {
@@ -315,7 +315,7 @@ export default Vue.extend({
       }
       if (boundaryEnd) {
         const active = this.max === this.value
-        contentEnd.unshift(this.__getBtn(h, {
+        contentEnd.unshift(this.__getBtn({
           key: 'bne',
           style
         }, {
@@ -326,7 +326,7 @@ export default Vue.extend({
         }, this.max))
       }
       if (ellipsesStart) {
-        contentStart.push(this.__getBtn(h, {
+        contentStart.push(this.__getBtn({
           key: 'bes',
           style
         }, {
@@ -336,7 +336,7 @@ export default Vue.extend({
         }, pgFrom - 1))
       }
       if (ellipsesEnd) {
-        contentEnd.unshift(this.__getBtn(h, {
+        contentEnd.unshift(this.__getBtn({
           key: 'bee',
           style
         }, {
@@ -347,7 +347,7 @@ export default Vue.extend({
       }
       for (let i = pgFrom; i <= pgTo; i++) {
         const active = i === this.value
-        contentMiddle.push(this.__getBtn(h, {
+        contentMiddle.push(this.__getBtn({
           key: `bpg${i}`,
           style
         }, {

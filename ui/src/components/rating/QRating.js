@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
@@ -11,7 +11,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 import cache from '../../utils/cache.js'
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QRating',
 
   mixins: [ SizeMixin, FormMixin, ListenersMixin ],
@@ -135,7 +135,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const
       child = [],
       tabindex = this.editable === true ? 0 : null,

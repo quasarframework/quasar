@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
@@ -8,10 +8,10 @@ import { stop } from '../utils/event.js'
 import { slot } from '../utils/slot.js'
 import cache from '../utils/cache.js'
 
-const PanelWrapper = Vue.extend({
+const PanelWrapper = defineComponent({
   name: 'QTabPanelWrapper',
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-panel scroll',
       attrs: { role: 'tabpanel' },
@@ -202,7 +202,7 @@ export const PanelParentMixin = {
       return true
     },
 
-    __getPanelContent (h) {
+    __getPanelContent () {
       if (this.panels.length === 0) {
         return
       }
@@ -242,9 +242,9 @@ export const PanelParentMixin = {
     }
   },
 
-  render (h) {
+  render () {
     this.panels = slot(this, 'default', [])
-    return this.__renderPanels(h)
+    return this.__renderPanels()
   }
 }
 

@@ -1,9 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import RatioMixin from '../../mixins/ratio.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QVideo',
 
   mixins: [ RatioMixin, ListenersMixin ],
@@ -32,7 +32,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('div', {
       class: this.classes,
       style: this.ratioStyle,

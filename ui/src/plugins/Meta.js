@@ -300,7 +300,7 @@ export default {
         activated: triggerMeta,
         deactivated: triggerMeta,
         beforeMount: triggerMeta,
-        destroyed () {
+        unmounted () {
           if (hasMeta(this) === true) {
             this.__qMetaUnwatch()
             this.__qMetaUpdate()

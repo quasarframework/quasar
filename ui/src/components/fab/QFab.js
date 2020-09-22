@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
@@ -13,7 +13,7 @@ import cache from '../../utils/cache.js'
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = [ 'left', 'center', 'right' ]
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QFab',
 
   inheritAttrs: false,
@@ -85,7 +85,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = []
 
     this.hideIcon !== true && child.push(

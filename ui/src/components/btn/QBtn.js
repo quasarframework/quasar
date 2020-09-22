@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -19,7 +19,7 @@ let
 
 const iconAttrs = { role: 'img', 'aria-hidden': 'true' }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QBtn',
 
   mixins: [ BtnMixin ],
@@ -270,11 +270,11 @@ export default Vue.extend({
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__cleanup(true)
   },
 
-  render (h) {
+  render () {
     let inner = []
 
     this.icon !== void 0 && inner.push(
@@ -339,7 +339,7 @@ export default Vue.extend({
         h('span', {
           key: 'loading',
           staticClass: 'absolute-full flex flex-center'
-        }, this.$scopedSlots.loading !== void 0 ? this.$scopedSlots.loading() : [ h(QSpinner) ])
+        }, this.$slots.loading !== void 0 ? this.$slots.loading() : [ h(QSpinner) ])
       ] : void 0)
     )
 

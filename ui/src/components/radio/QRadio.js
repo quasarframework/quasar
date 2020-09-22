@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import OptionSizeMixin from '../../mixins/option-size.js'
@@ -9,7 +9,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QRadio',
 
   mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
@@ -107,7 +107,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const content = [
       h('svg', {
         staticClass: 'q-radio__bg absolute non-selectable',

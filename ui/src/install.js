@@ -21,7 +21,7 @@ export const $q = {
   config: {}
 }
 
-export default function (Vue, opts = {}) {
+export default function (app, opts = {}) {
   if (this.__qInstalled === true) { return }
   this.__qInstalled = true
 
@@ -37,27 +37,28 @@ export default function (Vue, opts = {}) {
   IconSet.install($q, queues, opts.iconSet)
 
   if (isSSR === true) {
-    Vue.mixin({
+    // TODO vue3 - ensure ALL components inherit this
+    app.mixin({
       beforeCreate () {
         this.$q = this.$root.$options.$q
       }
     })
   }
   else {
-    Vue.prototype.$q = $q
+    app.config.globalProperties.$q = $q
   }
 
   opts.components && Object.keys(opts.components).forEach(key => {
     const c = opts.components[key]
     if (typeof c === 'function') {
-      Vue.component(c.options.name, c)
+      app.component(c.options.name, c)
     }
   })
 
   opts.directives && Object.keys(opts.directives).forEach(key => {
     const d = opts.directives[key]
     if (d.name !== undefined && d.unbind !== void 0) {
-      Vue.directive(d.name, d)
+      app.directive(d.name, d)
     }
   })
 

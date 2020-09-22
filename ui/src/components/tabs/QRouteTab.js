@@ -1,11 +1,11 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QTab from './QTab.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
 import { stop, stopAndPrevent, noop } from '../../utils/event.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QRouteTab',
 
   mixins: [ QTab, RouterLinkMixin ],
@@ -133,12 +133,12 @@ export default Vue.extend({
     this.$router !== void 0 && this.__checkActivation()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__recalculateScroll()
     this.__activateRoute({ remove: true, name: this.name })
   },
 
-  render (h) {
-    return this.__renderTab(h, 'router-link', this.routerLinkProps)
+  render () {
+    return this.__renderTab('router-link', this.routerLinkProps)
   }
 })

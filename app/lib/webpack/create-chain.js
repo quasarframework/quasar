@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const WebpackChain = require('webpack-chain')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const { VueLoaderPlugin } = require('vue-loader')
 
 const WebpackProgress = require('./plugin.progress')
 const BootDefaultExport = require('./plugin.boot-default-export')

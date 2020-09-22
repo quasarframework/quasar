@@ -1,9 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTabPanels',
 
   mixins: [ DarkMixin, PanelParentMixin ],
@@ -16,12 +16,12 @@ export default Vue.extend({
   },
 
   methods: {
-    __renderPanels (h) {
+    __renderPanels () {
       return h('div', {
         class: this.classes,
         directives: this.panelDirectives,
         on: { ...this.qListeners }
-      }, this.__getPanelContent(h))
+      }, this.__getPanelContent())
     }
   }
 })

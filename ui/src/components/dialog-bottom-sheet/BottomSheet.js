@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QDialog from '../dialog/QDialog.js'
 
@@ -16,7 +16,7 @@ import AttrsMixin from '../../mixins/attrs.js'
 
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'BottomSheetPlugin',
 
   mixins: [ DarkMixin, AttrsMixin ],
@@ -57,7 +57,7 @@ export default Vue.extend({
       this.hide()
     },
 
-    __getGrid (h) {
+    __getGrid () {
       return this.actions.map(action => {
         const img = action.avatar || action.img
 
@@ -95,7 +95,7 @@ export default Vue.extend({
       })
     },
 
-    __getList (h) {
+    __getList () {
       return this.actions.map(action => {
         const img = action.avatar || action.img
 
@@ -134,7 +134,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = []
 
     this.title && child.push(
@@ -153,8 +153,8 @@ export default Vue.extend({
       this.grid === true
         ? h('div', {
           staticClass: 'row items-stretch justify-start'
-        }, this.__getGrid(h))
-        : h('div', this.__getList(h))
+        }, this.__getGrid())
+        : h('div', this.__getList())
     )
 
     return h(QDialog, {

@@ -1,14 +1,14 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { PanelChildMixin } from '../../mixins/panel.js'
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTabPanel',
 
   mixins: [ PanelChildMixin ],
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-tab-panel',
       on: { ...this.qListeners }

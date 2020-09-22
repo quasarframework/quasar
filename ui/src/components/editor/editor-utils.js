@@ -1,3 +1,5 @@
+import { h } from 'vue'
+
 import QBtn from '../btn/QBtn.js'
 import QBtnDropdown from '../btn-dropdown/QBtnDropdown.js'
 import QInput from '../input/QInput.js'
@@ -20,13 +22,13 @@ function run (e, btn, vm) {
   }
 }
 
-function __getGroup (h, children) {
+function __getGroup (children) {
   return h('div', {
     staticClass: 'q-editor__toolbar-group'
   }, children)
 }
 
-function getBtn (h, vm, btn, clickHandler, active = false) {
+function getBtn (vm, btn, clickHandler, active = false) {
   const
     toggled = active || (btn.type === 'toggle'
       ? (btn.toggled ? btn.toggled(vm) : btn.cmd && vm.caret.is(btn.cmd, btn.param))
@@ -65,7 +67,7 @@ function getBtn (h, vm, btn, clickHandler, active = false) {
   }, child)
 }
 
-function getDropdown (h, vm, btn) {
+function getDropdown (vm, btn) {
   const onlyIcons = btn.list === 'only-icons'
   let
     label = btn.label,
@@ -87,11 +89,11 @@ function getDropdown (h, vm, btn) {
         label = btn.tip
         icon = btn.icon
       }
-      return getBtn(h, vm, btn, closeDropdown, active)
+      return getBtn(vm, btn, closeDropdown, active)
     })
     contentClass = vm.toolbarBackgroundClass
     Items = [
-      __getGroup(h, Items)
+      __getGroup(Items)
     ]
   }
   else {
@@ -174,7 +176,7 @@ function getDropdown (h, vm, btn) {
   return Dropdown
 }
 
-export function getToolbar (h, vm) {
+export function getToolbar (vm) {
   if (vm.caret) {
     return vm.buttons
       .filter(f => {
@@ -192,10 +194,10 @@ export function getToolbar (h, vm) {
           }
 
           if (btn.type === 'dropdown') {
-            return getDropdown(h, vm, btn)
+            return getDropdown(vm, btn)
           }
 
-          return getBtn(h, vm, btn)
+          return getBtn(vm, btn)
         })
       ))
   }
@@ -230,7 +232,7 @@ export function getFonts (defaultFont, defaultFontLabel, defaultFontIcon, fonts 
   return def
 }
 
-export function getLinkEditor (h, vm, ie11) {
+export function getLinkEditor (vm, ie11) {
   if (vm.caret) {
     const color = vm.toolbarColor || vm.toolbarTextColor
     let link = vm.editLinkUrl
@@ -281,7 +283,7 @@ export function getLinkEditor (h, vm, ie11) {
           }
         }
       }),
-      __getGroup(h, [
+      __getGroup([
         h(QBtn, {
           key: 'qedt_btm_rem',
           attrs: { tabindex: -1 },

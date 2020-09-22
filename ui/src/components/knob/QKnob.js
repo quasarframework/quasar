@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
@@ -12,7 +12,7 @@ import TouchPan from '../../directives/TouchPan.js'
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 const keyCodes = [34, 37, 40, 33, 39, 38]
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QKnob',
 
   mixins: [
@@ -246,7 +246,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const data = {
       class: this.classes,
       attrs: this.attrs,

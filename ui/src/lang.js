@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { reactive } from 'vue'
 
 import langEn from '../lang/en-us.js'
 import { isSSR, fromSSR } from './plugins/Platform.js'
@@ -78,7 +78,8 @@ export default {
       this.props = initialLang
     }
     else {
-      Vue.util.defineReactive($q, 'lang', {})
+      // TODO vue3
+      $q.lang = reactive({})
       this.set(initialLang)
     }
   }

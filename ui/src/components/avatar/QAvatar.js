@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -7,7 +7,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { mergeSlotSafely } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QAvatar',
 
   mixins: [ ListenersMixin, SizeMixin ],
@@ -40,7 +40,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const icon = this.icon !== void 0
       ? [ h(QIcon, { props: { name: this.icon } }) ]
       : void 0

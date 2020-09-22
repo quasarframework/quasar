@@ -1,9 +1,9 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import CheckboxMixin from '../../mixins/checkbox.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QToggle',
 
   mixins: [ CheckboxMixin ],
@@ -34,7 +34,7 @@ export default Vue.extend({
   },
 
   methods: {
-    __getInner (h) {
+    __getInner () {
       return [
         h('div', { staticClass: 'q-toggle__track' }),
 

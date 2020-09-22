@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import Top from './table-top.js'
 import TableHeader from './table-header.js'
@@ -26,7 +26,7 @@ import cache from '../../utils/cache.js'
 const commonVirtPropsObj = {}
 commonVirtPropsList.forEach(p => { commonVirtPropsObj[p] = {} })
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTable',
 
   mixins: [
@@ -242,12 +242,12 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
-    const child = [ this.__getTopDiv(h) ]
+  render () {
+    const child = [ this.__getTopDiv() ]
     const data = { staticClass: this.containerClass }
 
     if (this.grid === true) {
-      child.push(this.__getGridHeader(h))
+      child.push(this.__getGridHeader())
     }
     else {
       Object.assign(data, {
@@ -257,13 +257,13 @@ export default Vue.extend({
     }
 
     child.push(
-      this.__getBody(h),
-      this.__getBottomDiv(h)
+      this.__getBody(),
+      this.__getBottomDiv()
     )
 
-    if (this.loading === true && this.$scopedSlots.loading !== void 0) {
+    if (this.loading === true && this.$slots.loading !== void 0) {
       child.push(
-        this.$scopedSlots.loading()
+        this.$slots.loading()
       )
     }
 
@@ -285,12 +285,12 @@ export default Vue.extend({
       this.hasVirtScroll === true && this.$refs.virtScroll.reset()
     },
 
-    __getBody (h) {
+    __getBody () {
       if (this.grid === true) {
-        return this.__getGridBody(h)
+        return this.__getGridBody()
       }
 
-      const header = this.hideHeader !== true ? this.__getTHead(h) : null
+      const header = this.hideHeader !== true ? this.__getTHead() : null
 
       return this.hasVirtScroll === true
         ? h(QVirtualScroll, {
@@ -310,16 +310,16 @@ export default Vue.extend({
             before: header === null
               ? void 0
               : () => header,
-            default: this.__getVirtualTBodyTR(h)
+            default: this.__getVirtualTBodyTR()
           }
         })
-        : getTableMiddle(h, {
+        : getTableMiddle({
           staticClass: 'scroll',
           class: this.tableClass,
           style: this.tableStyle
         }, [
           header,
-          this.__getTBody(h)
+          this.__getTBody()
         ])
     },
 
@@ -352,7 +352,7 @@ export default Vue.extend({
       this.$emit('virtual-scroll', info)
     },
 
-    __getProgress (h) {
+    __getProgress () {
       return [
         h(QLinearProgress, {
           staticClass: 'q-table__linear-progress',

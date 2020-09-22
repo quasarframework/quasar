@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { onSSR } from '../../plugins/Platform.js'
 
@@ -10,7 +10,7 @@ import { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QFooter',
 
   mixins: [ ListenersMixin ],
@@ -147,7 +147,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = mergeSlot([
       h(QResizeObserver, {
         props: { debounce: 0 },
@@ -176,7 +176,7 @@ export default Vue.extend({
     this.__update('offset', this.offset)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     if (this.layout.instances.footer === this) {
       this.layout.instances.footer = void 0
       this.__update('size', 0)

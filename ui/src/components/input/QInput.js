@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QField from '../field/QField.js'
 
@@ -10,7 +10,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QInput',
 
   mixins: [
@@ -287,7 +287,7 @@ export default Vue.extend({
         : (this.innerValue !== void 0 ? this.innerValue : '')
     },
 
-    __getShadowControl (h) {
+    __getShadowControl () {
       return h('div', {
         staticClass: 'q-field__native q-field__shadow absolute-full no-pointer-events'
       }, [
@@ -296,7 +296,7 @@ export default Vue.extend({
       ])
     },
 
-    __getControl (h) {
+    __getControl () {
       return h(this.isTextarea === true ? 'textarea' : 'input', {
         ref: 'input',
         staticClass: 'q-field__native q-placeholder',
@@ -316,7 +316,7 @@ export default Vue.extend({
     this.autogrow === true && this.__adjustHeight()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__onFinishEditing()
   }
 })

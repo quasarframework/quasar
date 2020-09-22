@@ -1,12 +1,12 @@
 export function slot (vm, slotName, otherwise) {
-  return vm.$scopedSlots[slotName] !== void 0
-    ? vm.$scopedSlots[slotName]()
+  return vm.$slots[slotName] !== void 0
+    ? vm.$slots[slotName]()
     : otherwise
 }
 
 export function uniqueSlot (vm, slotName, otherwise) {
-  return vm.$scopedSlots[slotName] !== void 0
-    ? vm.$scopedSlots[slotName]().slice()
+  return vm.$slots[slotName] !== void 0
+    ? vm.$slots[slotName]().slice()
     : otherwise
 }
 
@@ -15,8 +15,8 @@ export function uniqueSlot (vm, slotName, otherwise) {
  * so it's merged with the possible slot
  */
 export function mergeSlot (source, vm, slotName) {
-  return vm.$scopedSlots[slotName] !== void 0
-    ? source.concat(vm.$scopedSlots[slotName]())
+  return vm.$slots[slotName] !== void 0
+    ? source.concat(vm.$slots[slotName]())
     : source
 }
 
@@ -25,11 +25,11 @@ export function mergeSlot (source, vm, slotName) {
  * even if source might not exist
  */
 export function mergeSlotSafely (source, vm, slotName) {
-  if (vm.$scopedSlots[slotName] === void 0) {
+  if (vm.$slots[slotName] === void 0) {
     return source
   }
 
-  const slot = vm.$scopedSlots[slotName]()
+  const slot = vm.$slots[slotName]()
   return source !== void 0
     ? source.concat(slot)
     : slot

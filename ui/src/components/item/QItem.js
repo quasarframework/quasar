@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
@@ -9,7 +9,7 @@ import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QItem',
 
   mixins: [ DarkMixin, RouterLinkMixin, TagMixin, ListenersMixin ],
@@ -115,7 +115,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const data = {
       staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,

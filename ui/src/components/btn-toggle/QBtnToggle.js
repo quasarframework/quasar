@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
@@ -9,7 +9,7 @@ import RippleMixin from '../../mixins/ripple.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QBtnToggle',
 
   mixins: [ ListenersMixin, RippleMixin, FormMixin ],
@@ -140,7 +140,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = this.btnOptions.map(opt => {
       return h(QBtn, opt.options, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
     })

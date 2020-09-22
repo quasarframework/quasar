@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -43,7 +43,7 @@ const
   ],
   bufferFiltersLen = bufferFilters.length
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTabs',
 
   mixins: [ TimeoutMixin, ListenersMixin ],
@@ -408,12 +408,12 @@ export default Vue.extend({
       : noop
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.bufferTimer)
     clearTimeout(this.animateTimer)
   },
 
-  render (h) {
+  render () {
     const child = [
       h(QResizeObserver, {
         on: cache(this, 'resize', { resize: this.__updateContainer })

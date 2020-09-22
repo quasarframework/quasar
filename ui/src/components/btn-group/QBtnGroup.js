@@ -1,10 +1,10 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QBtnGroup',
 
   mixin: [ ListenersMixin ],
@@ -28,7 +28,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-btn-group row no-wrap ' +
         (this.spread === true ? 'q-btn-group--spread' : 'inline'),

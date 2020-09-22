@@ -205,7 +205,7 @@ export default {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     clearTimeout(this.touchTimer)
     this.noParentEventWatcher !== void 0 && this.noParentEventWatcher()
     this.__anchorCleanup !== void 0 && this.__anchorCleanup()

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -6,7 +6,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTimelineEntry',
 
   inject: {
@@ -56,7 +56,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const child = uniqueSlot(this, 'default', [])
 
     if (this.body !== void 0) {

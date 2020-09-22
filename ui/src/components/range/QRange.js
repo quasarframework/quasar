@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import {
   getRatio,
@@ -16,7 +16,7 @@ const dragType = {
   MAX: 2
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QRange',
 
   mixins: [ SliderMixin ],
@@ -438,9 +438,9 @@ export default Vue.extend({
       this.__updateValue()
     },
 
-    __getThumb (h, which) {
+    __getThumb (which) {
       const child = [
-        this.__getThumbSvg(h),
+        this.__getThumbSvg(),
         h('div', { staticClass: 'q-slider__focus-ring' })
       ]
 
@@ -482,7 +482,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const track = [
       h('div', {
         staticClass: `q-slider__track q-slider__track${this.axis} absolute`,
@@ -502,8 +502,8 @@ export default Vue.extend({
         staticClass: `q-slider__track-container q-slider__track-container${this.axis} absolute`
       }, track),
 
-      this.__getThumb(h, 'min'),
-      this.__getThumb(h, 'max')
+      this.__getThumb('min'),
+      this.__getThumb('max')
     ]
 
     if (this.name !== void 0 && this.disable !== true) {

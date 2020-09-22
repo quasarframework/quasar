@@ -1,7 +1,8 @@
-import Vue from 'vue'
+import { reactive } from 'vue'
 
 import { isSSR } from './plugins/Platform.js'
 import materialIcons from '../icon-set/material-icons.js'
+import { noop } from './utils/event.js'
 
 export default {
   install ($q, queues, iconSet) {
@@ -36,8 +37,9 @@ export default {
       })
     }
     else {
-      Vue.util.defineReactive($q, 'iconMapFn', void 0)
-      Vue.util.defineReactive($q, 'iconSet', {})
+      // TODO vue3
+      $q.iconMapFn = reactive(noop)
+      $q.iconSet = reactive({})
 
       this.set(initialSet)
     }

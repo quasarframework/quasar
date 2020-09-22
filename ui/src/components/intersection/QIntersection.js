@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { onSSR } from '../../plugins/Platform.js'
 
@@ -9,7 +9,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QIntersection',
 
   mixins: [ TagMixin, ListenersMixin ],
@@ -74,7 +74,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const content = this.showing === true
       ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
       : void 0

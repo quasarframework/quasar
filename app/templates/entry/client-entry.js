@@ -33,7 +33,6 @@ import 'quasar/src/css/flex-addon.<%= __css.quasarSrcExt %>'
 import '<%= asset.path %>'
 <% }) %>
 
-import Vue from 'vue'
 import createApp from './app.js'
 
 <% if (ctx.mode.pwa) { %>
@@ -61,15 +60,6 @@ import <%= importName %> from '<%= asset.path %>'
 import { addPreFetchHooks } from './client-prefetch.js'
 <% } %>
 
-<% if (ctx.mode.electron && electron.nodeIntegration === true) { %>
-import electron from 'electron'
-Vue.prototype.$q.electron = electron
-<% } %>
-
-<% if (ctx.dev) { %>
-Vue.config.devtools = true
-Vue.config.productionTip = false
-<% } %>
 
 <% if (ctx.dev) { %>
 console.info('[Quasar] Running <%= ctx.modeName.toUpperCase() + (ctx.mode.ssr && ctx.mode.pwa ? ' + PWA' : '') %>.')
@@ -126,7 +116,6 @@ async function start () {
         app,
         router,
         <%= store ? 'store,' : '' %>
-        Vue,
         ssrContext: null,
         redirect,
         urlPath,
@@ -155,19 +144,17 @@ async function start () {
         <% if (preFetch) { %>
         addPreFetchHooks(router<%= store ? ', store' : '' %>)
         <% } %>
-        new Vue(app)
+        app.mount('#q-app')
       }
       else {
     <% } %>
-    const appInstance = new Vue(app)
-
     // wait until router has resolved all async before hooks
     // and async components...
-    router.onReady(() => {
+    router.isReady().then(() => {
       <% if (preFetch) { %>
       addPreFetchHooks(router<%= store ? ', store' : '' %>, publicPath)
       <% } %>
-      appInstance.$mount('#q-app')
+      app.mount('#q-app')
     })
     <% if (ctx.mode.pwa) { %>
     }
@@ -179,30 +166,22 @@ async function start () {
     addPreFetchHooks(router<%= store ? ', store' : '' %>)
     <% } %>
 
-    <% if (ctx.mode.cordova) { %>
-    document.addEventListener('deviceready', () => {
-    Vue.prototype.$q.cordova = window.cordova
-    <% } else if (ctx.mode.capacitor) { %>
-    Vue.prototype.$q.capacitor = window.Capacitor
-    <% } %>
-
-    <% if (!ctx.mode.bex) { %>
-      new Vue(app)
-    <% } %>
-
-    <% if (ctx.mode.cordova) { %>
-    }, false) // on deviceready
-    <% } %>
-
     <% if (ctx.mode.bex) { %>
-      let vApp = null
       window.QBexInit = function (shell) {
         shell.connect(bridge => {
           window.QBexBridge = bridge
-          Vue.prototype.$q.bex = window.QBexBridge
-          vApp = new Vue(app)
+          app.config.globalProperties.$q.bex = window.QBexBridge
+          app.mount('#q-app')
         })
       }
+    <% } else if (ctx.mode.cordova) { %>
+
+      document.addEventListener('deviceready', () => {
+        app.config.globalProperties.$q.cordova = window.cordova
+        app.mount('#q-app')
+      }, false) // on deviceready
+    <% } else { %>
+      app.mount('#q-app')
     <% } %>
 
   <% } // end of Non SSR %>

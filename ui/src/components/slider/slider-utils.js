@@ -1,3 +1,5 @@
+import { h } from 'vue'
+
 import { between } from '../../utils/format.js'
 import { position } from '../../utils/event.js'
 
@@ -186,7 +188,7 @@ export const SliderMixin = {
   },
 
   methods: {
-    __getThumbSvg (h) {
+    __getThumbSvg () {
       return h('svg', {
         staticClass: 'q-slider__thumb absolute',
         attrs: {
@@ -286,7 +288,7 @@ export const SliderMixin = {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     document.removeEventListener('mouseup', this.__deactivate, true)
   }
 }

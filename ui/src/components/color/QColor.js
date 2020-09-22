@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
@@ -33,7 +33,7 @@ const palette = [
   'rgb(255,255,255)', 'rgb(205,205,205)', 'rgb(178,178,178)', 'rgb(153,153,153)', 'rgb(127,127,127)', 'rgb(102,102,102)', 'rgb(76,76,76)', 'rgb(51,51,51)', 'rgb(25,25,25)', 'rgb(0,0,0)'
 ]
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QColor',
 
   mixins: [ ListenersMixin, DarkMixin, FormMixin ],
@@ -212,19 +212,19 @@ export default Vue.extend({
     this.__spectrumChange = throttle(this.__spectrumChange, 20)
   },
 
-  render (h) {
-    const child = [ this.__getContent(h) ]
+  render () {
+    const child = [ this.__getContent() ]
 
     if (this.name !== void 0 && this.disable !== true) {
       this.__injectFormInput(child, 'push')
     }
 
     this.noHeader !== true && child.unshift(
-      this.__getHeader(h)
+      this.__getHeader()
     )
 
     this.noFooter !== true && child.push(
-      this.__getFooter(h)
+      this.__getFooter()
     )
 
     return h('div', {
@@ -235,7 +235,7 @@ export default Vue.extend({
   },
 
   methods: {
-    __getHeader (h) {
+    __getHeader () {
       return h('div', {
         staticClass: 'q-color-picker__header relative-position overflow-hidden'
       }, [
@@ -304,7 +304,7 @@ export default Vue.extend({
       ])
     },
 
-    __getContent (h) {
+    __getContent () {
       return h(QTabPanels, {
         props: {
           value: this.view,
@@ -314,21 +314,21 @@ export default Vue.extend({
         h(QTabPanel, {
           staticClass: 'q-color-picker__spectrum-tab overflow-hidden',
           props: { name: 'spectrum' }
-        }, this.__getSpectrumTab(h)),
+        }, this.__getSpectrumTab()),
 
         h(QTabPanel, {
           staticClass: 'q-pa-md q-color-picker__tune-tab',
           props: { name: 'tune' }
-        }, this.__getTuneTab(h)),
+        }, this.__getTuneTab()),
 
         h(QTabPanel, {
           staticClass: 'q-color-picker__palette-tab',
           props: { name: 'palette' }
-        }, this.__getPaletteTab(h))
+        }, this.__getPaletteTab())
       ])
     },
 
-    __getFooter (h) {
+    __getFooter () {
       return h('div', {
         staticClass: 'q-color-picker__footer relative-position overflow-hidden'
       }, [
@@ -370,7 +370,7 @@ export default Vue.extend({
       ])
     },
 
-    __getSpectrumTab (h) {
+    __getSpectrumTab () {
       const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
 
       return [
@@ -449,7 +449,7 @@ export default Vue.extend({
       ]
     },
 
-    __getTuneTab (h) {
+    __getTuneTab () {
       return [
         h('div', { staticClass: 'row items-center no-wrap' }, [
           h('div', ['R']),
@@ -579,7 +579,7 @@ export default Vue.extend({
       ]
     },
 
-    __getPaletteTab (h) {
+    __getPaletteTab () {
       return [
         h('div', {
           staticClass: 'row items-center q-color-picker__palette-rows',
@@ -629,8 +629,8 @@ export default Vue.extend({
       this.__update(rgb, change)
     },
 
-    __onHueChange (h, change) {
-      h = Math.round(h)
+    __onHueChange (val, change) {
+      const h = Math.round(val)
       const rgb = hsvToRgb({
         h,
         s: this.model.s,

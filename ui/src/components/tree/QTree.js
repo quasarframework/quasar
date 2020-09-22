@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QCheckbox from '../checkbox/QCheckbox.js'
@@ -10,7 +10,7 @@ import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTree',
 
   mixins: [ DarkMixin ],
@@ -424,15 +424,15 @@ export default Vue.extend({
       return scope
     },
 
-    __getChildren (h, nodes) {
+    __getChildren (nodes) {
       return (
         this.filter
           ? nodes.filter(n => this.meta[n[this.nodeKey]].matchesFilter)
           : nodes
-      ).map(child => this.__getNode(h, child))
+      ).map(child => this.__getNode(child))
     },
 
-    __getNodeMedia (h, node) {
+    __getNodeMedia (node) {
       if (node.icon !== void 0) {
         return h(QIcon, {
           staticClass: `q-tree__icon q-mr-sm`,
@@ -448,23 +448,23 @@ export default Vue.extend({
       }
     },
 
-    __getNode (h, node) {
+    __getNode (node) {
       const
         key = node[this.nodeKey],
         meta = this.meta[key],
         header = node.header
-          ? this.$scopedSlots[`header-${node.header}`] || this.$scopedSlots['default-header']
-          : this.$scopedSlots['default-header']
+          ? this.$slots[`header-${node.header}`] || this.$slots['default-header']
+          : this.$slots['default-header']
 
       const children = meta.isParent === true
-        ? this.__getChildren(h, node[this.childrenKey])
+        ? this.__getChildren(node[this.childrenKey])
         : []
 
       const isParent = children.length > 0 || (meta.lazy && meta.lazy !== 'loaded')
 
       let body = node.body
-        ? this.$scopedSlots[`body-${node.body}`] || this.$scopedSlots['default-body']
-        : this.$scopedSlots['default-body']
+        ? this.$slots[`body-${node.body}`] || this.$slots['default-body']
+        : this.$slots['default-body']
       const slotScope = header !== void 0 || body !== void 0
         ? this.__getSlotScope(node, meta, key)
         : null
@@ -551,7 +551,7 @@ export default Vue.extend({
             header
               ? header(slotScope)
               : [
-                this.__getNodeMedia(h, node),
+                this.__getNodeMedia(node),
                 h('div', node[this.labelKey])
               ]
           ])
@@ -644,8 +644,8 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
-    const children = this.__getChildren(h, this.nodes)
+  render () {
+    const children = this.__getChildren(this.nodes)
 
     return h(
       'div', {

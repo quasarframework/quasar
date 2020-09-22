@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import BtnMixin from '../../mixins/btn.js'
 import AttrsMixin from '../../mixins/attrs.js'
@@ -11,7 +11,7 @@ import QMenu from '../menu/QMenu.js'
 import { slot } from '../../utils/slot.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QBtnDropdown',
 
   mixins: [ BtnMixin, AttrsMixin ],
@@ -59,7 +59,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const label = slot(this, 'label', [])
     const attrs = {
       'aria-expanded': this.showing === true ? 'true' : 'false',

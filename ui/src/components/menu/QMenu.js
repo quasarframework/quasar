@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
@@ -18,7 +18,7 @@ import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QMenu',
 
   mixins: [
@@ -310,7 +310,7 @@ export default Vue.extend({
       }
     },
 
-    __renderPortal (h) {
+    __renderPortal () {
       return h('transition', {
         props: { name: this.transition }
       }, [
@@ -335,7 +335,7 @@ export default Vue.extend({
     this.__processModelChange(this.value)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     // When the menu is destroyed while open we can only emit the event on anchorEl
     if (this.showing === true && this.anchorEl !== void 0) {
       this.anchorEl.dispatchEvent(

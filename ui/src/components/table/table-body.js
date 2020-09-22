@@ -19,10 +19,10 @@ export default {
       }
 
       const
-        bodyCell = this.$scopedSlots['body-cell'],
+        bodyCell = this.$slots['body-cell'],
         child = this.computedCols.map(col => {
           const
-            bodyCellCol = this.$scopedSlots[`body-cell-${col.name}`],
+            bodyCellCol = this.$slots[`body-cell-${col.name}`],
             slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
 
           return slot !== void 0
@@ -34,7 +34,7 @@ export default {
         })
 
       if (this.hasSelectionMode === true) {
-        const slot = this.$scopedSlots['body-selection']
+        const slot = this.$slots['body-selection']
         const content = slot !== void 0
           ? slot(this.__getBodySelectionScope({ key, row, pageIndex }))
           : [
@@ -79,9 +79,9 @@ export default {
 
     __getTBody (h) {
       const
-        body = this.$scopedSlots.body,
-        topRow = this.$scopedSlots['top-row'],
-        bottomRow = this.$scopedSlots['bottom-row']
+        body = this.$slots.body,
+        topRow = this.$slots['top-row'],
+        bottomRow = this.$slots['bottom-row']
 
       let child = this.computedRows.map(
         (row, pageIndex) => this.__getTBodyTR(h, row, body, pageIndex)
@@ -98,7 +98,7 @@ export default {
     },
 
     __getVirtualTBodyTR (h) {
-      const body = this.$scopedSlots.body
+      const body = this.$slots.body
       return props => this.__getTBodyTR(h, props.item, body, props.index)
     },
 

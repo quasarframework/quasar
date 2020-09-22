@@ -1,12 +1,13 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
 import TagMixin from '../../mixins/tag.js'
 import ListenersMixin from '../../mixins/listeners.js'
+import { noop } from '../../utils/event.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QIcon',
 
   mixins: [ ListenersMixin, SizeMixin, TagMixin ],
@@ -43,7 +44,8 @@ export default Vue.extend({
         }
       }
 
-      if (this.$q.iconMapFn !== void 0) {
+      // TODO vue3 - check reactivity
+      if (this.$q.iconMapFn !== noop) {
         const res = this.$q.iconMapFn(icon)
         if (res !== void 0) {
           if (res.icon !== void 0) {
@@ -151,7 +153,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const data = {
       class: this.type.cls,
       style: this.sizeStyle,

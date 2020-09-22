@@ -88,7 +88,7 @@ export default {
     this.validateIndex = 0
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.unwatchRules !== void 0 && this.unwatchRules()
   },
 

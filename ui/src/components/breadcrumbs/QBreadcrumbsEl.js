@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import { mergeSlot } from '../../utils/slot.js'
 import ListenersMixin from '../../mixins/listeners.js'
@@ -6,7 +6,7 @@ import ListenersMixin from '../../mixins/listeners.js'
 import QIcon from '../icon/QIcon.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QBreadcrumbsEl',
 
   mixins: [ ListenersMixin, RouterLinkMixin ],
@@ -16,7 +16,7 @@ export default Vue.extend({
     icon: String
   },
 
-  render (h) {
+  render () {
     const child = []
 
     this.icon !== void 0 && child.push(

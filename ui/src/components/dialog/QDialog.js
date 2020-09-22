@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
@@ -30,7 +30,7 @@ const transitions = {
   left: ['slide-right', 'slide-left']
 }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QDialog',
 
   mixins: [
@@ -332,7 +332,7 @@ export default Vue.extend({
       }
     },
 
-    __renderPortal (h) {
+    __renderPortal () {
       return h('div', {
         staticClass: 'q-dialog fullscreen no-pointer-events',
         class: this.contentClass,
@@ -370,7 +370,7 @@ export default Vue.extend({
     this.__processModelChange(this.value)
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__cleanup()
   }
 })

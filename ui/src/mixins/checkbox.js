@@ -1,3 +1,5 @@
+import { h } from 'vue'
+
 import DarkMixin from './dark.js'
 import { stopAndPrevent } from '../utils/event.js'
 
@@ -184,8 +186,8 @@ export default {
     }
   },
 
-  render (h) {
-    const inner = this.__getInner(h)
+  render () {
+    const inner = this.__getInner()
 
     this.disable !== true && this.__injectFormInput(
       inner,

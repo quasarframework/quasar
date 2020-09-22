@@ -1,16 +1,16 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import RatioMixin from '../../mixins/ratio.js'
 import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QResponsive',
 
   mixins: [ RatioMixin, ListenersMixin ],
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-responsive',
       on: { ...this.qListeners }

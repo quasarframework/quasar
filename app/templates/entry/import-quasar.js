@@ -25,7 +25,6 @@ import iconSet from 'quasar/icon-set/<%= framework.iconSet %>'
 }
 %>
 
-import Vue from 'vue'
 <% if (framework.importStrategy === 'all') { %>
 import Quasar from 'quasar'
 <% } else {
@@ -44,4 +43,9 @@ import Quasar from 'quasar'
 import <%= importStatement %> from 'quasar'
 <% } %>
 
-Vue.use(Quasar, { <%= useStatement.join(',') %> })
+const quasarPluginOptions = { <%= useStatement.join(',') %> }
+
+export {
+  Quasar,
+  quasarPluginOptions
+}

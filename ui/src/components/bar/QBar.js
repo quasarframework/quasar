@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import ListenersMixin from '../../mixins/listeners.js'
@@ -7,7 +7,7 @@ import { slot } from '../../utils/slot.js'
 
 const attrs = { role: 'toolbar' }
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QBar',
 
   mixins: [ ListenersMixin, DarkMixin ],
@@ -23,7 +23,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     return h('div', {
       staticClass: 'q-bar row no-wrap items-center',
       class: this.classes,

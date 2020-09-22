@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import ListenersMixin from '../../mixins/listeners.js'
 import SizeMixin from '../../mixins/size.js'
@@ -11,7 +11,7 @@ const
   circumference = diameter * Math.PI,
   strokeDashArray = Math.round(circumference * 1000) / 1000
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QCircularProgress',
 
   mixins: [ ListenersMixin, SizeMixin ],
@@ -103,7 +103,7 @@ export default Vue.extend({
   },
 
   methods: {
-    __getCircle (h, { thickness, offset, color, cls }) {
+    __getCircle ({ thickness, offset, color, cls }) {
       return h('circle', {
         staticClass: 'q-circular-progress__' + cls,
         class: color !== void 0 ? `text-${color}` : null,
@@ -122,7 +122,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     const svgChild = []
 
     this.centerColor !== void 0 && this.centerColor !== 'transparent' && svgChild.push(
@@ -139,7 +139,7 @@ export default Vue.extend({
     )
 
     this.trackColor !== void 0 && this.trackColor !== 'transparent' && svgChild.push(
-      this.__getCircle(h, {
+      this.__getCircle({
         cls: 'track',
         thickness: this.strokeWidth,
         offset: 0,
@@ -148,7 +148,7 @@ export default Vue.extend({
     )
 
     svgChild.push(
-      this.__getCircle(h, {
+      this.__getCircle({
         cls: 'circle',
         thickness: this.strokeWidth,
         offset: this.strokeDashOffset,
@@ -172,7 +172,7 @@ export default Vue.extend({
       h('div', {
         staticClass: 'q-circular-progress__text absolute-full row flex-center content-center',
         style: { fontSize: this.fontSize }
-      }, this.$scopedSlots.default !== void 0 ? this.$scopedSlots.default() : [ h('div', [ this.normalizedValue ]) ])
+      }, this.$slots.default !== void 0 ? this.$slots.default() : [ h('div', [ this.normalizedValue ]) ])
     )
 
     return h('div', {

@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
@@ -14,7 +14,7 @@ import {
   validatePosition, validateOffset, setPosition, parsePosition
 } from '../../utils/position-engine.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTooltip',
 
   mixins: [ AnchorMixin, ModelToggleMixin, PortalMixin, TransitionMixin ],
@@ -206,7 +206,7 @@ export default Vue.extend({
       }
     },
 
-    __renderPortal (h) {
+    __renderPortal () {
       return h('transition', {
         props: { name: this.transition }
       }, [

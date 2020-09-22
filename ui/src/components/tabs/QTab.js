@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
@@ -11,7 +11,7 @@ import { isKeyCode } from '../../utils/key-composition.js'
 
 let uid = 0
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QTab',
 
   mixins: [ RippleMixin, ListenersMixin ],
@@ -110,7 +110,7 @@ export default Vue.extend({
       isKeyCode(e, 13) === true && this.__activate(e, true)
     },
 
-    __getContent (h) {
+    __getContent () {
       const
         narrow = this.tabs.narrowIndicator,
         content = [],
@@ -167,7 +167,7 @@ export default Vue.extend({
       return node
     },
 
-    __renderTab (h, tag, props) {
+    __renderTab (tag, props) {
       const data = {
         staticClass: 'q-tab relative-position self-stretch flex flex-center text-center',
         class: this.classes,
@@ -182,7 +182,7 @@ export default Vue.extend({
         data.props = props
       }
 
-      return h(tag, data, this.__getContent(h))
+      return h(tag, data, this.__getContent())
     }
   },
 
@@ -190,11 +190,11 @@ export default Vue.extend({
     this.__recalculateScroll()
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     this.__recalculateScroll()
   },
 
-  render (h) {
-    return this.__renderTab(h, 'div')
+  render () {
+    return this.__renderTab('div')
   }
 })

@@ -1,9 +1,11 @@
-import Vue from 'vue'
+// TODO vue3
+// import Vue from 'vue'
 import Vuex from 'vuex'
 
 // import example from './module-example'
 
-Vue.use(Vuex)
+// TODO vue3
+// Vue.use(Vuex)
 
 /*
  * If not building with SSR mode, you can

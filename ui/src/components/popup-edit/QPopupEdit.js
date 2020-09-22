@@ -1,4 +1,4 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
@@ -11,7 +11,7 @@ import { slot } from '../../utils/slot.js'
 import { isKeyCode } from '../../utils/key-composition.js'
 import cache from '../../utils/cache.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QPopupEdit',
 
   mixins: [ AttrsMixin ],
@@ -127,12 +127,12 @@ export default Vue.extend({
       })
     },
 
-    __getContent (h) {
+    __getContent () {
       const
         title = slot(this, 'title', this.title),
-        child = this.$scopedSlots.default === void 0
+        child = this.$slots.default === void 0
           ? []
-          : this.$scopedSlots.default(this.defaultSlotScope).slice()
+          : this.$slots.default(this.defaultSlotScope).slice()
 
       title && child.unshift(
         h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
@@ -163,7 +163,7 @@ export default Vue.extend({
     }
   },
 
-  render (h) {
+  render () {
     if (this.disable === true) { return }
 
     return h(QMenu, {
@@ -202,6 +202,6 @@ export default Vue.extend({
           isKeyCode(e, 13) === true && this.set()
         }
       })
-    }, this.__getContent(h))
+    }, this.__getContent())
   }
 })

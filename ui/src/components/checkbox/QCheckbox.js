@@ -1,14 +1,14 @@
-import Vue from 'vue'
+import { h, defineComponent } from 'vue'
 
 import CheckboxMixin from '../../mixins/checkbox.js'
 
-export default Vue.extend({
+export default defineComponent({
   name: 'QCheckbox',
 
   mixins: [ CheckboxMixin ],
 
   methods: {
-    __getInner (h) {
+    __getInner () {
       return [
         h('div', {
           staticClass: 'q-checkbox__bg absolute'
