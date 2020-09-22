@@ -1,9 +1,8 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, resolveComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { uniqueSlot } from '../../utils/slot.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -12,7 +11,7 @@ import { isKeyCode } from '../../utils/key-composition.js'
 export default defineComponent({
   name: 'QItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin, TagMixin, ListenersMixin ],
+  mixins: [ DarkMixin, RouterLinkMixin, TagMixin ],
 
   props: {
     active: Boolean,
@@ -27,6 +26,8 @@ export default defineComponent({
     manualFocus: Boolean
   },
 
+  emits: [ 'click', 'keyup' ],
+
   computed: {
     isActionable () {
       return this.clickable === true ||
@@ -40,20 +41,26 @@ export default defineComponent({
     },
 
     classes () {
-      return {
-        'q-item--clickable q-link cursor-pointer': this.isClickable,
-        'q-focusable q-hoverable': this.isClickable === true && this.manualFocus === false,
-
-        'q-manual-focusable': this.isClickable === true && this.manualFocus === true,
-        'q-manual-focusable--focused': this.isClickable === true && this.focused === true,
-
-        'q-item--dense': this.dense,
-        'q-item--dark': this.isDark,
-        'q-item--active': this.active,
-        [this.activeClass]: this.active === true && this.hasRouterLink !== true && this.activeClass !== void 0,
-
-        'disabled': this.disable
-      }
+      return 'q-item q-item-type row no-wrap' +
+        (this.dense === true ? ' q-item--dense' : '') +
+        (this.isDark === true ? ' q-item--dark' : '') +
+        (
+          this.active === true
+            ? ' q-item--active' + (
+              this.hasRouterLink !== true && this.activeClass !== void 0
+                ? ` ${this.activeClass}`
+                : ''
+            )
+            : ''
+        ) +
+        (this.disable === true ? ' disabled' : '') +
+        (
+          this.isClickable === true
+            ? ' q-item--clickable q-link cursor-pointer ' +
+              (this.manualFocus === true ? 'q-manual-focusable' : 'q-focusable q-hoverable') +
+              (this.focused === true ? ' q-manual-focusable--focused' : '')
+            : ''
+        )
     },
 
     style () {
@@ -63,22 +70,15 @@ export default defineComponent({
           ['padding' + dir]: (16 + this.insetLevel * 56) + 'px'
         }
       }
-    },
-
-    onEvents () {
-      return {
-        ...this.qListeners,
-        click: this.__onClick,
-        keyup: this.__onKeyup
-      }
     }
   },
 
   methods: {
-    __getContent (h) {
+    __getContent () {
       const child = uniqueSlot(this, 'default', [])
+
       this.isClickable === true && child.unshift(
-        h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' })
+        h('div', { class: 'q-focus-helper', tabindex: -1, ref: 'blurTarget' })
       )
       return child
     },
@@ -117,34 +117,30 @@ export default defineComponent({
 
   render () {
     const data = {
-      staticClass: 'q-item q-item-type row no-wrap',
       class: this.classes,
       style: this.style,
-      [ this.hasRouterLink === true ? 'nativeOn' : 'on' ]: this.onEvents
+      // TODO vue3 - interferes with router-link
+      // onClick: this.__onClick,
+      onKeyup: this.__onKeyup
     }
 
     if (this.isClickable === true) {
-      data.attrs = {
-        tabindex: this.tabindex || '0'
-      }
+      data.tabindex = this.tabindex || '0'
     }
     else if (this.isActionable === true) {
-      data.attrs = {
-        'aria-disabled': 'true'
-      }
+      data['aria-disabled'] = 'true'
     }
 
-    if (this.hasRouterLink === true) {
-      data.tag = 'a'
-      data.props = this.routerLinkProps
-
-      return h('router-link', data, this.__getContent(h))
-    }
-
-    return h(
-      this.tag,
-      data,
-      this.__getContent(h)
-    )
+    return this.hasRouterLink === true
+      ? h(
+        resolveComponent('router-link'),
+        { ...data, ...this.routerLinkProps },
+        this.__getContent
+      )
+      : h(
+        this.tag,
+        data,
+        this.__getContent()
+      )
   }
 })

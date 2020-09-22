@@ -2,7 +2,6 @@ import { h, defineComponent } from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
 import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
 import { noop } from '../../utils/event.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
@@ -10,7 +9,7 @@ import { slot, mergeSlot } from '../../utils/slot.js'
 export default defineComponent({
   name: 'QIcon',
 
-  mixins: [ ListenersMixin, SizeMixin, TagMixin ],
+  mixins: [ SizeMixin, TagMixin ],
 
   props: {
     tag: {
@@ -157,11 +156,8 @@ export default defineComponent({
     const data = {
       class: this.type.cls,
       style: this.sizeStyle,
-      on: { ...this.qListeners },
-      attrs: {
-        'aria-hidden': 'true',
-        role: 'presentation'
-      }
+      'aria-hidden': 'true',
+      role: 'presentation'
     }
 
     if (this.type.none === true) {
@@ -169,26 +165,23 @@ export default defineComponent({
     }
 
     if (this.type.img === true) {
-      data.attrs.src = this.type.src
+      data.src = this.type.src
       return h('img', data)
     }
 
     if (this.type.svg === true) {
-      data.attrs.focusable = 'false' /* needed for IE11 */
-      data.attrs.viewBox = this.type.viewBox
+      data.focusable = 'false' /* needed for IE11 */
+      data.viewBox = this.type.viewBox
 
       return h('svg', data, mergeSlot(this.type.nodes, this, 'default'))
     }
+
     if (this.type.svguse === true) {
-      data.attrs.focusable = 'false' /* needed for IE11 */
-      data.attrs.viewBox = this.type.viewBox
+      data.focusable = 'false' /* needed for IE11 */
+      data.viewBox = this.type.viewBox
 
       return h('svg', data, [
-        h('use', {
-          attrs: {
-            'xlink:href': this.type.src
-          }
-        }),
+        h('use', { 'xlink:href': this.type.src }),
         mergeSlot(this.type.nodes, this, 'default')
       ])
     }

@@ -24,6 +24,7 @@
 
           <q-item
             v-for="feature in category"
+            :key="`elem-${feature.title}`"
             :to="feature.route"
           >
             <q-item-section>{{ feature.title }}</q-item-section>
@@ -49,7 +50,7 @@ pages.map(page => page.slice(0, page.length - 4)).forEach(page => {
     list[folder] = []
   }
   list[folder].push({
-    route: page,
+    route: '/' + page,
     title: file.split(/-/).map(f => f.charAt(0).toUpperCase() + f.slice(1)).join(' ')
   })
 })

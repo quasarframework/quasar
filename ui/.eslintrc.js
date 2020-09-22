@@ -40,6 +40,7 @@ module.exports = {
     'vue/array-bracket-spacing': 'off',
     'vue/object-curly-spacing': 'off',
     'vue/script-indent': 'off',
+    'vue/require-explicit-emits': 'error',
 
     // allow async-await
     'generator-star-spacing': 'off',

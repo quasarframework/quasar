@@ -1,7 +1,6 @@
 export const routerLinkProps = {
-  to: [String, Object],
+  to: [ String, Object ],
   exact: Boolean,
-  append: Boolean,
   replace: Boolean,
   activeClass: String,
   exactActiveClass: String,
@@ -19,12 +18,12 @@ export const RouterLinkMixin = {
     routerLinkProps () {
       return {
         to: this.to,
-        exact: this.exact,
-        append: this.append,
-        replace: this.replace,
         activeClass: this.activeClass || 'q-router-link--active',
-        exactActiveClass: this.exactActiveClass || 'q-router-link--exact-active',
-        event: this.disable === true ? '' : void 0
+        exactActiveClass: this.exactActiveClass || 'q-router-link--exact-active'
+        // TODO vue3
+        // exact: this.exact,
+        // replace: this.replace,
+        // event: this.disable === true ? '' : void 0
       }
     }
   }

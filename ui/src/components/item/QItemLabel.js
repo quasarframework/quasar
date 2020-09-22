@@ -1,13 +1,9 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QItemLabel',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     overline: Boolean,
@@ -18,12 +14,11 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return {
-        'q-item__label--overline text-overline': this.overline,
-        'q-item__label--caption text-caption': this.caption,
-        'q-item__label--header': this.header,
-        'ellipsis': parseInt(this.lines, 10) === 1
-      }
+      return 'q-item__label' +
+        (this.overline === true ? ' q-item__label--overline text-overline' : '') +
+        (this.caption === true ? ' q-item__label--caption text-caption' : '') +
+        (this.header === true ? ' q-item__label--header' : '') +
+        (parseInt(this.lines, 10) === 1 ? ' ellipsis' : '')
     },
 
     style () {
@@ -40,10 +35,8 @@ export default defineComponent({
 
   render () {
     return h('div', {
-      staticClass: 'q-item__label',
       style: this.style,
-      class: this.classes,
-      on: { ...this.qListeners }
+      class: this.classes
     }, slot(this, 'default'))
   }
 })

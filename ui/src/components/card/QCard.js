@@ -2,14 +2,13 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QCard',
 
-  mixins: [ ListenersMixin, DarkMixin, TagMixin ],
+  mixins: [ DarkMixin, TagMixin ],
 
   props: {
     square: Boolean,
@@ -29,8 +28,7 @@ export default defineComponent({
 
   render () {
     return h(this.tag, {
-      class: this.classes,
-      on: { ...this.qListeners }
+      class: this.classes
     }, slot(this, 'default'))
   }
 })
