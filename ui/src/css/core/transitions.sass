@@ -26,25 +26,25 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
       transition: transform .3s $transition-easing
 
   &--slide-right
-    &-enter
+    &-enter-from
       transform: translate3d(-100%, 0, 0)
     &-leave-to
       transform: translate3d(100%, 0, 0)
 
   &--slide-left
-    &-enter
+    &-enter-from
       transform: translate3d(100%, 0, 0)
     &-leave-to
       transform: translate3d(-100%, 0, 0)
 
   &--slide-up
-    &-enter
+    &-enter-from
       transform: translate3d(0, 100%, 0)
     &-leave-to
       transform: translate3d(0, -100%, 0)
 
   &--slide-down
-    &-enter
+    &-enter-from
       transform: translate3d(0, -100%, 0)
     &-leave-to
       transform: translate3d(0, 100%, 0)
@@ -56,30 +56,30 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
     &-enter-active,
     &-leave-active
       transition: opacity .3s, transform .3s
-    &-enter,
+    &-enter-from,
     &-leave-to
       opacity: 0
 
   &--jump-right
-    &-enter
+    &-enter-from
       transform: translate3d(-15px, 0, 0)
     &-leave-to
       transform: translate3d(15px, 0, 0)
 
   &--jump-left
-    &-enter
+    &-enter-from
       transform: translate3d(15px, 0, 0)
     &-leave-to
       transform: translateX(-15px)
 
   &--jump-up
-    &-enter
+    &-enter-from
       transform: translate3d(0, 15px, 0)
     &-leave-to
       transform: translate3d(0, -15px, 0)
 
   &--jump-down
-    &-enter
+    &-enter-from
       transform: translate3d(0, -15px, 0)
     &-leave-to
       transform: translate3d(0, 15px, 0)
@@ -89,8 +89,8 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
     &-enter-active,
     &-leave-active
       transition: opacity .3s ease-out
-    &-enter,
-    &-leave,
+    &-enter-from,
+    &-leave-from,
     &-leave-to
       opacity: 0
 
@@ -99,8 +99,8 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
     &-enter-active,
     &-leave-active
       transition: opacity .3s, transform .3s $transition-easing
-    &-enter,
-    &-leave,
+    &-enter-from,
+    &-leave-from,
     &-leave-to
       opacity: 0
       transform: scale3d(0, 0, 1)
@@ -110,8 +110,8 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
     &-leave-active
       transition: opacity .3s, transform .3s $transition-easing
       transform-style: preserve-3d
-    &-enter,
-    &-leave,
+    &-enter-from,
+    &-leave-from,
     &-leave-to
       opacity: 0
       transform: scale3d(0, 0, 1) rotate3d(0, 0, 1, 90deg)
@@ -125,29 +125,29 @@ $transition-easing: cubic-bezier(0.215, 0.61, 0.355, 1) // easeOutCubic
       transition: transform .3s
       backface-visibility: hidden
     &-enter-to,
-    &-leave
+    &-leave-from
       transform: perspective(400px) rotate3d(1, 1, 0, 0deg)
 
   &--flip-right
-    &-enter
+    &-enter-from
       transform: perspective(400px) rotate3d(0, 1, 0, -180deg)
     &-leave-to
       transform: perspective(400px) rotate3d(0, 1, 0, 180deg)
 
   &--flip-left
-    &-enter
+    &-enter-from
       transform: perspective(400px) rotate3d(0, 1, 0, 180deg)
     &-leave-to
       transform: perspective(400px) rotate3d(0, 1, 0, -180deg)
 
   &--flip-up
-    &-enter
+    &-enter-from
       transform: perspective(400px) rotate3d(1, 0, 0, -180deg)
     &-leave-to
       transform: perspective(400px) rotate3d(1, 0, 0, 180deg)
 
   &--flip-down
-    &-enter
+    &-enter-from
       transform: perspective(400px) rotate3d(1, 0, 0, 180deg)
     &-leave-to
       transform: perspective(400px) rotate3d(1, 0, 0, -180deg)

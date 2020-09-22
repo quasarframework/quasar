@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import QPageSticky from '../page-sticky/QPageSticky.js'
 import { getScrollTarget, setScrollPosition } from '../../utils/scroll.js'
@@ -105,8 +105,8 @@ export default defineComponent({
   },
 
   render () {
-    return h('transition', {
-      props: { name: 'q-transition--fade' }
+    return h(Transition, {
+      name: 'q-transition--fade'
     },
     this.showing === true
       ? [

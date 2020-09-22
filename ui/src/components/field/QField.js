@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import { fromSSR } from '../../plugins/Platform.js'
 
@@ -424,7 +424,7 @@ export default defineComponent({
       }, [
         this.hideBottomSpace === true
           ? main
-          : h('transition', { props: { name: 'q-transition--field-message' } }, [
+          : h(Transition, { name: 'q-transition--field-message' }, [
             main
           ]),
 

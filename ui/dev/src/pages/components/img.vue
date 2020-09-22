@@ -54,9 +54,11 @@
         style="max-width: 400px"
         :native-context-menu="nativeContextMenu"
       >
-        <div slot="loading" class="text-h2 text-white">
-          Loading...
-        </div>
+        <template v-slot:loading>
+          <div class="text-h2 text-white">
+            Loading...
+          </div>
+        </template>
       </q-img>
 
       <q-img
@@ -88,9 +90,11 @@
         img-class="blurry"
         :native-context-menu="nativeContextMenu"
       >
-        <div slot="loading" class="text-h2 text-white">
-          Loading...
-        </div>
+        <template v-slot:loading>
+          <div class="text-h2 text-white">
+            Loading...
+          </div>
+        </template>
 
         <div class="absolute-bottom text-subtitle1 text-center q-pa-xs">
           Caption
@@ -139,7 +143,9 @@
         style="max-width: 225px"
         :native-context-menu="nativeContextMenu"
       >
-        <q-spinner-facebook slot="loading" color="white" />
+        <template v-slot:loading>
+          <q-spinner-facebook color="white" />
+        </template>
       </q-img>
 
       <q-img
@@ -167,9 +173,11 @@
         style="min-height: 100px; max-width: 225px"
         :native-context-menu="nativeContextMenu"
       >
-        <div slot="error">
-          Error...
-        </div>
+        <template v-slot:error>
+          <div>
+            Error...
+          </div>
+        </template>
       </q-img>
     </div>
   </div>

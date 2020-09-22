@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives } from 'vue'
+import { h, defineComponent, withDirectives, Transition } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
@@ -340,7 +340,7 @@ export default defineComponent({
     )
 
     this.loading !== null && child.push(
-      h('transition', {
+      h(Transition, {
         name: 'q-transition--fade'
       }, this.loading === true ? [
         h('span', {

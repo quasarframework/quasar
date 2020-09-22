@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
@@ -311,8 +311,8 @@ export default defineComponent({
     },
 
     __renderPortal () {
-      return h('transition', {
-        props: { name: this.transition }
+      return h(Transition, {
+        name: this.transition
       }, [
         this.showing === true ? h('div', {
           ref: 'inner',

@@ -1,4 +1,4 @@
-import { h, reactive } from 'vue'
+import { h, createApp, Transition } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
 import { isSSR } from './Platform.js'
@@ -50,23 +50,19 @@ const Loading = {
       const node = document.createElement('div')
       document.body.appendChild(node)
 
-      vm = new Vue({
+      vm = createApp({
         name: 'QLoading',
-
-        el: node,
 
         mounted () {
           preventScroll(true)
         },
 
         render: () => {
-          return h('transition', {
-            props: {
-              name: 'q-transition--fade',
-              appear: true
-            },
-            on: cache(this, 'tr', {
-              'after-leave': () => {
+          return h(Transition, {
+            name: 'q-transition--fade',
+            appear: true,
+            ...cache(this, 'tr', {
+              onAfterLeave: () => {
                 // might be called to finalize
                 // previous leave, even if it was cancelled
                 if (this.isActive !== true && vm !== void 0) {
@@ -99,6 +95,8 @@ const Loading = {
           ])
         }
       })
+
+      vm.mount(node)
     }, props.delay)
   },
 

@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
@@ -822,10 +822,8 @@ export default defineComponent({
         h('div', {
           staticClass: 'relative-position'
         }, [
-          h('transition', {
-            props: {
-              name: 'q-transition--fade'
-            }
+          h(Transition, {
+            name: 'q-transition--fade'
           }, [
             h('div', {
               key: 'h-yr-' + this.headerSubtitle,
@@ -846,10 +844,8 @@ export default defineComponent({
           h('div', {
             staticClass: 'relative-position col'
           }, [
-            h('transition', {
-              props: {
-                name: 'q-transition--fade'
-              }
+            h(Transition, {
+              name: 'q-transition--fade'
             }, [
               h('div', {
                 key: 'h-sub' + this.headerTitle,
@@ -901,10 +897,8 @@ export default defineComponent({
         h('div', {
           staticClass: 'relative-position overflow-hidden flex flex-center' + cls
         }, [
-          h('transition', {
-            props: {
-              name: 'q-transition--jump-' + dir
-            }
+          h(Transition, {
+            name: 'q-transition--jump-' + dir
           }, [
             h('div', { key }, [
               h(QBtn, {
@@ -973,10 +967,8 @@ export default defineComponent({
           h('div', {
             staticClass: 'q-date__calendar-days-container relative-position overflow-hidden'
           }, [
-            h('transition', {
-              props: {
-                name: 'q-transition--slide-' + this.monthDirection
-              }
+            h(Transition, {
+              name: 'q-transition--slide-' + this.monthDirection
             }, [
               h('div', {
                 key: this.viewMonthHash,
@@ -1431,8 +1423,8 @@ export default defineComponent({
       h('div', {
         staticClass: 'q-date__content col relative-position'
       }, [
-        h('transition', {
-          props: { name: 'q-transition--fade' }
+        h(Transition, {
+          name: 'q-transition--fade'
         }, [
           this[`__get${this.view}View`]()
         ])

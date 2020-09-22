@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -611,8 +611,8 @@ export default defineComponent({
       return h('div', {
         staticClass: 'q-time__content col relative-position'
       }, [
-        h('transition', {
-          props: { name: 'q-transition--scale' }
+        h(Transition, {
+          name: 'q-transition--scale'
         }, [
           h('div', {
             key: 'clock' + this.view,

@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import QSpinner from '../spinner/QSpinner.js'
 
@@ -44,11 +44,9 @@ export default defineComponent({
       ]
       : void 0
 
-    return h('transition', {
-      props: {
-        name: this.transition,
-        appear: true
-      }
+    return h(Transition, {
+      name: this.transition,
+      appear: true
     }, child)
   }
 })

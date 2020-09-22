@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
@@ -339,8 +339,8 @@ export default defineComponent({
         style: this.contentStyle,
         attrs: this.qAttrs
       }, [
-        h('transition', {
-          props: { name: 'q-transition--fade' }
+        h(Transition, {
+          name: 'q-transition--fade'
         }, this.useBackdrop === true ? [
           h('div', {
             staticClass: 'q-dialog__backdrop fixed-full',
@@ -351,8 +351,8 @@ export default defineComponent({
           })
         ] : null),
 
-        h('transition', {
-          props: { name: this.transition }
+        h(Transition, {
+          name: this.transition
         }, [
           this.showing === true ? h('div', {
             ref: 'inner',

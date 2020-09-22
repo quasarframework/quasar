@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import { onSSR } from '../../plugins/Platform.js'
 
@@ -85,8 +85,8 @@ export default defineComponent({
       directives: this.directives
     }, this.transition
       ? [
-        h('transition', {
-          props: { name: 'q-transition--' + this.transition }
+        h(Transition, {
+          name: 'q-transition--' + this.transition
         }, content)
       ]
       : content

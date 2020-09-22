@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, Transition } from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
@@ -232,10 +232,8 @@ export const PanelParentMixin = {
 
       return this.animated === true
         ? [
-          h('transition', {
-            props: {
-              name: this.panelTransition
-            }
+          h(Transition, {
+            name: this.panelTransition
           }, content)
         ]
         : content

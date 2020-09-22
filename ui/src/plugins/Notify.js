@@ -1,4 +1,4 @@
-import { createApp, h } from 'vue'
+import { createApp, h, TransitionGroup } from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
@@ -381,14 +381,12 @@ const Notifications = {
 
   render () {
     return h('div', { staticClass: 'q-notifications' }, positionList.map(pos => {
-      return h('transition-group', {
+      return h(TransitionGroup, {
         key: pos,
-        staticClass: positionClass[pos],
+        class: positionClass[pos],
         tag: 'div',
-        props: {
-          name: `q-notification--${pos}`,
-          mode: 'out-in'
-        }
+        name: `q-notification--${pos}`,
+        mode: 'out-in'
       }, this.notifs[pos].map(notif => {
         let msgChild
 
