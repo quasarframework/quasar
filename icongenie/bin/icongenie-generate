@@ -13,7 +13,7 @@ const argv = parseArgs(processArgv, {
     q: 'quality',
     h: 'help'
   },
-  boolean: [ 'h', 'skip-trim' ],
+  boolean: [ 'h', 'skip-trim', 'nine-patch' ],
   string: [
     'p', 'i', 'b', 'm', 'f', 'q',
     'padding',
@@ -98,6 +98,10 @@ if (argv.help) {
     --quality             Quality of the files [1 - 12] (default: ${defaultParams.quality})
                             - higher quality --> bigger filesize & slower to create
                             - lower quality  --> smaller filesize & faster to create
+
+    --nine-patch          Generate Nine Patch based splash screens for Android if 
+                          splashscreen-icon-ratio > 0.  Only the icon will be kept unscaled,
+                          optional background images will probably get scaled by Android.
 
     --skip-trim           Do not trim the icon source file
 

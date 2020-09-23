@@ -90,6 +90,7 @@
     {
       "generator": "splashscreen",
       "name": "splash-land-xxxhdpi.png",
+      "ninePatchCheck": true,
       "folder": "src-cordova/res/screen/android",
       "sizes": [
         [ 1920, 1280 ]

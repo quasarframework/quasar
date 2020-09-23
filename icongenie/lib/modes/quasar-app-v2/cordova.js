@@ -18,6 +18,7 @@ function getAndroidSplashscreens (entries) {
     list.push({
       generator: 'splashscreen',
       name: `splash-land-${entry[0]}.png`,
+      ninePatchCheck: true,
       folder: 'src-cordova/res/screen/android',
       sizes: [
         [ entry[1], entry[2] ]
@@ -29,6 +30,7 @@ function getAndroidSplashscreens (entries) {
     list.push({
       generator: 'splashscreen',
       name: `splash-port-${entry[0]}.png`,
+      ninePatchCheck: true,
       folder: 'src-cordova/res/screen/android',
       sizes: [
         [ entry[2], entry[1] ]

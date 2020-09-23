@@ -16,6 +16,7 @@ const baseParamsSchema = {
   filter: Joi.string().valid(...generatorsList),
   quality: Joi.number().integer().min(1).max(12),
 
+  ninePatch: Joi.boolean(),
   skipTrim: Joi.boolean(),
   padding: Joi.array().items(
     Joi.number().integer().min(0)

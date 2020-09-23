@@ -19,20 +19,21 @@ const validateProfileObject = require('../utils/validate-profile-object')
 
 function printBanner (assetsOf, params) {
   console.log(` Generating files with the following options:
- ==========================
- Quasar project folder..... ${green(appDir)}
- ${green(`Quality level............. ${params.quality}/12`)}
- Icon source file.......... ${green(params.icon)}
- Icon trimming............. ${params.skipTrim ? 'no' : green('yes')}
- Icon padding.............. ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
- Background source file.... ${params.background ? green(params.background) : 'none'}
- Assets of................. ${green(assetsOf)}
- Generator filter.......... ${params.filter ? green(params.filter) : 'none'}
- Svg color................. ${green(params.svgColor)}
- Png color................. ${green(params.pngColor)}
- Splashscreen color........ ${green(params.splashscreenColor)}
- Splashscreen icon ratio... ${green(params.splashscreenIconRatio)}%
- ==========================
+ ===========================
+ Quasar project folder...... ${green(appDir)}
+ ${green(`Quality level.............. ${params.quality}/12`)}
+ Icon source file........... ${green(params.icon)}
+ Icon trimming.............. ${params.skipTrim ? 'no' : green('yes')}
+ Icon padding............... ${green(`horizontal: ${params.padding[0]}; vertical: ${params.padding[1]}`)}
+ Background source file..... ${params.background ? green(params.background) : 'none'}
+ Assets of.................. ${green(assetsOf)}
+ Generator filter........... ${params.filter ? green(params.filter) : 'none'}
+ Svg color.................. ${green(params.svgColor)}
+ Png color.................. ${green(params.pngColor)}
+ Splashscreen color......... ${green(params.splashscreenColor)}
+ Splashscreen icon ratio.... ${green(params.splashscreenIconRatio)}%
+ Splash Nine Patch (Android) ${green(params.ninePatch)}
+ ===========================
 `)
 }
 

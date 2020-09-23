@@ -37,7 +37,8 @@ function getAndroidSplashscreen (entries) {
   entries.forEach(entry => {
     const icon = {
       generator: 'splashscreen',
-      name: 'splash.png'
+      name: 'splash.png',
+      ninePatchCheck: true
     }
 
     list.push({
@@ -92,6 +93,7 @@ module.exports = [
   {
     generator: 'splashscreen',
     name: 'splash.png',
+    ninePatchCheck: true,
     folder: 'src-capacitor/android/app/src/main/res/drawable',
     sizes: [
       [ 480, 320 ]
