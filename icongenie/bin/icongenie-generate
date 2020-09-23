@@ -13,10 +13,11 @@ const argv = parseArgs(processArgv, {
     q: 'quality',
     h: 'help'
   },
-  boolean: [ 'h', 'skip-trim', 'nine-patch' ],
+  boolean: [ 'h', 'skip-trim' ],
   string: [
     'p', 'i', 'b', 'm', 'f', 'q',
     'padding',
+    'nine-patch',
     'theme-color',
     'png-color',
     'splashscreen-color',
@@ -100,8 +101,12 @@ if (argv.help) {
                             - lower quality  --> smaller filesize & faster to create
 
     --nine-patch          Generate Nine Patch based splash screens for Android if 
-                          splashscreen-icon-ratio > 0.  Only the icon will be kept unscaled,
-                          optional background images will probably get scaled by Android.
+                          splashscreen-icon-ratio > 0. Specify which percentage of the
+                          splashscreen will be used for stretching as x%, y%
+                          Default: none
+                          Example: "--nine-patch 5,10" defines 5% of image width both left
+                          and right and 10% of image height both top and bottom as stretchable
+                          areas.
 
     --skip-trim           Do not trim the icon source file
 

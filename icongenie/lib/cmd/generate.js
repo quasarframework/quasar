@@ -32,7 +32,7 @@ function printBanner (assetsOf, params) {
  Png color.................. ${green(params.pngColor)}
  Splashscreen color......... ${green(params.splashscreenColor)}
  Splashscreen icon ratio.... ${green(params.splashscreenIconRatio)}%
- Splash Nine Patch (Android) ${green(params.ninePatch)}
+ Splash Nine Patch (Android) ${params.ninePatch ? green(`horizontal: ${params.ninePatch[0]}%, vertical: ${params.ninePatch[1]}%`) : 'no'}
  ===========================
 `)
 }
@@ -153,9 +153,9 @@ module.exports = function generate (argv) {
   }
 
   profile.params = mergeObjects({}, profile.params)
-
+  
   parseArgv(profile.params, [
-    'quality', 'filter', 'padding',
+    'quality', 'filter', 'padding', 'ninePatch',
     'icon', 'background',
     'splashscreenIconRatio',
     // order matters:

@@ -49,8 +49,8 @@ module.exports = async function (file, opts, done) {
             compositionArray.unshift({
               input: {
                 create: {
-                  width: Math.round((file.width - icon.options.width) / 2),
-                  height: Math.round((file.height - icon.options.height) / 2),
+                  width: Math.round(file.width*opts.ninePatch[0]/100),
+                  height: Math.round(file.height*opts.ninePatch[1]/100),
                   channels: 4,
                   background: { r: 0, g: 0, b: 0, alpha: 1 },
                 },
