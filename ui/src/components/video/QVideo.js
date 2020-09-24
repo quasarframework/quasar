@@ -1,12 +1,11 @@
 import { h, defineComponent } from 'vue'
 
 import RatioMixin from '../../mixins/ratio.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 export default defineComponent({
   name: 'QVideo',
 
-  mixins: [ RatioMixin, ListenersMixin ],
+  mixins: [ RatioMixin ],
 
   props: {
     src: {
@@ -16,16 +15,6 @@ export default defineComponent({
   },
 
   computed: {
-    iframeData () {
-      return {
-        attrs: {
-          src: this.src,
-          frameborder: '0',
-          allowfullscreen: true
-        }
-      }
-    },
-
     classes () {
       return 'q-video' +
         (this.ratio !== void 0 ? ' q-video--responsive' : '')
@@ -35,10 +24,13 @@ export default defineComponent({
   render () {
     return h('div', {
       class: this.classes,
-      style: this.ratioStyle,
-      on: { ...this.qListeners }
+      style: this.ratioStyle
     }, [
-      h('iframe', this.iframeData)
+      h('iframe', {
+        src: this.src,
+        frameborder: '0',
+        allowfullscreen: true
+      })
     ])
   }
 })

@@ -1,22 +1,17 @@
-import { h, defineComponent, Transition } from 'vue'
+import { h, defineComponent, withDirectives, Transition } from 'vue'
 
 import { onSSR } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
 import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QIntersection',
 
-  mixins: [ TagMixin, ListenersMixin ],
-
-  directives: {
-    Intersection
-  },
+  mixins: [ TagMixin ],
 
   props: {
     once: Boolean,
@@ -29,6 +24,8 @@ export default defineComponent({
 
     disable: Boolean
   },
+
+  emits: [ 'visibility' ],
 
   data () {
     return {
@@ -51,13 +48,12 @@ export default defineComponent({
 
     directives () {
       if (this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)) {
-        return [{
-          name: 'intersection',
-          value: this.value,
-          modifiers: {
-            once: this.once
-          }
-        }]
+        return [[
+          Intersection,
+          this.value,
+          void 0,
+          { once: this.once }
+        ]]
       }
     }
   },
@@ -79,10 +75,8 @@ export default defineComponent({
       ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
       : void 0
 
-    return h(this.tag, {
-      staticClass: 'q-intersection',
-      on: { ...this.qListeners },
-      directives: this.directives
+    const node = h(this.tag, {
+      class: 'q-intersection'
     }, this.transition
       ? [
         h(Transition, {
@@ -91,5 +85,9 @@ export default defineComponent({
       ]
       : content
     )
+
+    return this.directives !== void 0
+      ? withDirectives(node, this.directives)
+      : node
   }
 })

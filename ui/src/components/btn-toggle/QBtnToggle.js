@@ -3,19 +3,22 @@ import { h, defineComponent } from 'vue'
 import QBtn from '../btn/QBtn.js'
 import QBtnGroup from '../btn-group/QBtnGroup.js'
 
-import ListenersMixin from '../../mixins/listeners.js'
 import FormMixin from '../../mixins/form.js'
 import RippleMixin from '../../mixins/ripple.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
+function mergeOption (opt, key) {
+  return opt[key] === void 0 ? this[key] : opt[key]
+}
+
 export default defineComponent({
   name: 'QBtnToggle',
 
-  mixins: [ ListenersMixin, RippleMixin, FormMixin ],
+  mixins: [ RippleMixin, FormMixin ],
 
   props: {
-    value: {
+    modelValue: {
       required: true
     },
 
@@ -27,7 +30,8 @@ export default defineComponent({
       )
     },
 
-    // To avoid seeing the active raise shadow through the transparent button, give it a color (even white).
+    // To avoid seeing the active raise shadow through
+    // the transparent button, give it a color (even white)
     color: String,
     textColor: String,
     toggleColor: {
@@ -60,41 +64,33 @@ export default defineComponent({
     clearable: Boolean
   },
 
+  emits: [ 'update:modelValue', 'clear', 'click' ],
+
   computed: {
     hasActiveValue () {
-      return this.options.find(opt => opt.value === this.value) !== void 0
+      return this.options.find(opt => opt.value === this.modelValue) !== void 0
     },
 
     formAttrs () {
       return {
         type: 'hidden',
         name: this.name,
-        value: this.value
+        value: this.modelValue
       }
     },
 
     btnOptions () {
-      const mergeOption = (opt, key) => opt[key] === void 0 ? this[key] : opt[key]
+      return this.options.map((item, i) => {
+        const { attrs, value, slot, ...opt } = item
 
-      return this.options.map((opt, i) => ({
-        slot: opt.slot,
-
-        options: {
-          key: i,
-          class: opt.class,
-          style: opt.style,
-          on: {
-            ...this.qListeners,
-            click: e => this.__set(opt.value, opt, e)
-          },
-          attrs: opt.attrs,
+        return {
+          slot,
           props: {
+            key: i,
+            onClick: e => this.__set(value, item, e),
+
+            ...attrs,
             ...opt,
-            slot: void 0,
-            class: void 0,
-            style: void 0,
-            value: void 0,
-            attrs: void 0,
 
             outline: this.outline,
             flat: this.flat,
@@ -106,8 +102,12 @@ export default defineComponent({
             disable: this.disable === true || opt.disable === true,
 
             // Options that come from the button specific options first, then from general props
-            color: opt.value === this.value ? mergeOption(opt, 'toggleColor') : mergeOption(opt, 'color'),
-            textColor: opt.value === this.value ? mergeOption(opt, 'toggleTextColor') : mergeOption(opt, 'textColor'),
+            color: value === this.modelValue
+              ? mergeOption(opt, 'toggleColor')
+              : mergeOption(opt, 'color'),
+            textColor: value === this.modelValue
+              ? mergeOption(opt, 'toggleTextColor')
+              : mergeOption(opt, 'textColor'),
             noCaps: mergeOption(opt, 'noCaps') === true,
             noWrap: mergeOption(opt, 'noWrap') === true,
 
@@ -118,21 +118,21 @@ export default defineComponent({
             stretch: mergeOption(opt, 'stretch') === true
           }
         }
-      }))
+      })
     }
   },
 
   methods: {
     __set (value, opt, e) {
       if (this.readonly !== true) {
-        if (this.value === value) {
+        if (this.modelValue === value) {
           if (this.clearable === true) {
-            this.$emit('input', null, null)
+            this.$emit('update:modelValue', null, null)
             this.$emit('clear')
           }
         }
         else {
-          this.$emit('input', value, opt)
+          this.$emit('update:modelValue', value, opt)
         }
 
         this.$emit('click', e)
@@ -142,7 +142,7 @@ export default defineComponent({
 
   render () {
     const child = this.btnOptions.map(opt => {
-      return h(QBtn, opt.options, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
+      return h(QBtn, opt.props, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
     })
 
     if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {
@@ -150,17 +150,15 @@ export default defineComponent({
     }
 
     return h(QBtnGroup, {
-      staticClass: 'q-btn-toggle',
-      props: {
-        outline: this.outline,
-        flat: this.flat,
-        rounded: this.rounded,
-        push: this.push,
-        stretch: this.stretch,
-        unelevated: this.unelevated,
-        glossy: this.glossy,
-        spread: this.spread
-      }
+      class: 'q-btn-toggle',
+      outline: this.outline,
+      flat: this.flat,
+      rounded: this.rounded,
+      push: this.push,
+      stretch: this.stretch,
+      unelevated: this.unelevated,
+      glossy: this.glossy,
+      spread: this.spread
     }, mergeSlot(child, this, 'default'))
   }
 })

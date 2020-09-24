@@ -1,14 +1,13 @@
 import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QMarkupTable',
 
-  mixins: [ DarkMixin, ListenersMixin ],
+  mixins: [ DarkMixin ],
 
   props: {
     dense: Boolean,
@@ -25,7 +24,8 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return `q-table--${this.separator}-separator` +
+      return 'q-markup-table q-table__container q-table__card' +
+        ` q-table--${this.separator}-separator` +
         (this.isDark === true ? ` q-table--dark q-table__card--dark q-dark` : '') +
         (this.dense === true ? ` q-table--dense` : '') +
         (this.flat === true ? ` q-table--flat` : '') +
@@ -37,11 +37,9 @@ export default defineComponent({
 
   render () {
     return h('div', {
-      staticClass: 'q-markup-table q-table__container q-table__card',
-      class: this.classes,
-      on: { ...this.qListeners }
+      class: this.classes
     }, [
-      h('table', { staticClass: 'q-table' }, slot(this, 'default'))
+      h('table', { class: 'q-table' }, slot(this, 'default'))
     ])
   }
 })

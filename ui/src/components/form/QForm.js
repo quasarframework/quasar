@@ -1,14 +1,10 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QForm',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     autofocus: Boolean,
@@ -17,15 +13,7 @@ export default defineComponent({
     greedy: Boolean
   },
 
-  computed: {
-    onEvents () {
-      return {
-        ...this.qListeners,
-        submit: this.submit,
-        reset: this.reset
-      }
-    }
-  },
+  emits: [ 'submit', 'reset', 'validation-success', 'validation-error' ],
 
   mounted () {
     this.validateIndex = 0
@@ -162,8 +150,9 @@ export default defineComponent({
 
   render () {
     return h('form', {
-      staticClass: 'q-form',
-      on: this.onEvents
+      class: 'q-form',
+      onSubmit: this.submit,
+      onReset: this.reset
     }, slot(this, 'default'))
   }
 })

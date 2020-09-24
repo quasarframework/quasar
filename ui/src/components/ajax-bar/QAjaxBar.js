@@ -237,7 +237,7 @@ export default defineComponent({
     return h('div', {
       class: this.classes,
       style: this.style,
-      attrs: this.attrs
+      ...this.attrs
     })
   }
 })

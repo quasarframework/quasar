@@ -1,13 +1,9 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QBtnGroup',
-
-  mixin: [ ListenersMixin ],
 
   props: {
     unelevated: Boolean,
@@ -22,18 +18,18 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy']
+      const props = ['unelevated', 'outline', 'flat', 'rounded', 'push', 'stretch', 'glossy']
         .filter(t => this[t] === true)
         .map(t => `q-btn-group--${t}`).join(' ')
+
+      return `q-btn-group row no-wrap${props.length > 0 ? ' ' + props : ''}` +
+        (this.spread === true ? ' q-btn-group--spread' : ' inline')
     }
   },
 
   render () {
     return h('div', {
-      staticClass: 'q-btn-group row no-wrap ' +
-        (this.spread === true ? 'q-btn-group--spread' : 'inline'),
-      class: this.classes,
-      on: { ...this.qListeners }
+      class: this.classes
     }, slot(this, 'default'))
   }
 })

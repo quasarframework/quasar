@@ -1,23 +1,24 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QToolbar',
 
-  mixins: [ ListenersMixin ],
-
   props: {
     inset: Boolean
   },
 
+  computed: {
+    classes () {
+      return 'q-toolbar row no-wrap items-center' +
+        (this.inset === true ? ' q-toolbar--inset' : '')
+    }
+  },
+
   render () {
     return h('div', {
-      staticClass: 'q-toolbar row no-wrap items-center',
-      class: this.inset ? 'q-toolbar--inset' : null,
-      on: { ...this.qListeners }
+      class: this.classes
     }, slot(this, 'default'))
   }
 })

@@ -1,7 +1,6 @@
 import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 const insetMap = {
   true: 'inset',
@@ -20,7 +19,7 @@ export const margins = {
 export default defineComponent({
   name: 'QSeparator',
 
-  mixins: [ DarkMixin, ListenersMixin ],
+  mixins: [ DarkMixin ],
 
   props: {
     spaced: [ Boolean, String ],
@@ -48,7 +47,7 @@ export default defineComponent({
     },
 
     classes () {
-      return `q-separator${this.classPrefix}${this.insetClass}` +
+      return `q-separator q-separator${this.classPrefix}${this.insetClass}` +
         (this.color !== void 0 ? ` bg-${this.color}` : '') +
         (this.isDark === true ? ' q-separator--dark' : '')
     },
@@ -73,23 +72,15 @@ export default defineComponent({
       }
 
       return style
-    },
-
-    attrs () {
-      return {
-        role: 'separator',
-        'aria-orientation': this.orientation
-      }
     }
   },
 
   render () {
     return h('hr', {
-      staticClass: 'q-separator',
       class: this.classes,
       style: this.style,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
+      role: 'separator',
+      'aria-orientation': this.orientation
     })
   }
 })

@@ -3,7 +3,6 @@ import { h, defineComponent } from 'vue'
 import { listenOpts } from '../../utils/event.js'
 import CanRenderMixin from '../../mixins/can-render.js'
 import { isSSR } from '../../plugins/Platform.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QResizeObserver',
@@ -16,6 +15,8 @@ export default defineComponent({
       default: 100
     }
   },
+
+  emits: [ 'resize' ],
 
   data () {
     return this.hasObserver === true
@@ -84,15 +85,11 @@ export default defineComponent({
 
     return h('object', {
       style: this.style,
-      attrs: {
-        tabindex: -1, // fix for Firefox
-        type: 'text/html',
-        data: this.url,
-        'aria-hidden': 'true'
-      },
-      on: cache(this, 'load', {
-        load: this.__onObjLoad
-      })
+      tabindex: -1, // fix for Firefox
+      type: 'text/html',
+      data: this.url,
+      'aria-hidden': 'true',
+      onLoad: this.__onObjLoad
     })
   },
 

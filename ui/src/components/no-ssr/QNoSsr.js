@@ -2,23 +2,20 @@ import { h, defineComponent } from 'vue'
 
 import CanRenderMixin from '../../mixins/can-render.js'
 import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QNoSsr',
 
-  mixins: [ CanRenderMixin, TagMixin, ListenersMixin ],
+  mixins: [ CanRenderMixin, TagMixin ],
 
   props: {
     placeholder: String
   },
 
   render () {
-    const data = {
-      on: { ...this.qListeners }
-    }
+    const data = {}
 
     if (this.canRender === true) {
       const node = slot(this, 'default')
@@ -27,7 +24,7 @@ export default defineComponent({
         : (node.length > 1 ? h(this.tag, data, node) : node[0])
     }
 
-    data.staticClass = 'q-no-ssr-placeholder'
+    data.class = 'q-no-ssr-placeholder'
 
     const node = slot(this, 'placeholder')
     if (node !== void 0) {
