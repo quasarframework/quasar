@@ -4,7 +4,7 @@ export default {
   props: {
     color: String,
     size: {
-      type: [Number, String],
+      type: [ Number, String ],
       default: '1em'
     }
   },
