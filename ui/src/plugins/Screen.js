@@ -1,5 +1,6 @@
 import { reactive } from 'vue'
 
+import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR, fromSSR } from './Platform.js'
 import { listenOpts, noop } from '../utils/event.js'
 import debounce from '../utils/debounce.js'
@@ -7,10 +8,9 @@ import debounce from '../utils/debounce.js'
 const SIZE_LIST = ['sm', 'md', 'lg', 'xl']
 const { passive } = listenOpts
 
-export default {
+export default defineReactivePlugin({
   width: 0,
   height: 0,
-
   name: 'xs',
 
   sizes: {
@@ -32,12 +32,13 @@ export default {
     md: false,
     lg: false
   },
+
   xs: true,
   sm: false,
   md: false,
   lg: false,
-  xl: false,
-
+  xl: false
+}, {
   setSizes: noop,
   setDebounce: noop,
 
@@ -162,7 +163,6 @@ export default {
       start()
     }
 
-    // TODO vue3
-    $q.screen = reactive(this)
+    $q.screen = this
   }
-}
+})

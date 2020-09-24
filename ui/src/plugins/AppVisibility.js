@@ -1,10 +1,9 @@
-import { reactive } from 'vue'
-
+import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR } from './Platform.js'
 
-export default {
-  appVisible: false,
-
+export default defineReactivePlugin({
+  appVisible: false
+}, {
   install ({ $q }) {
     if (isSSR === true) {
       this.appVisible = $q.appVisible = true
@@ -27,15 +26,17 @@ export default {
     }
 
     const update = () => {
-      this.appVisible = $q.appVisible = !document[prop]
+      this.appVisible = !document[prop]
     }
 
     update()
 
     if (evt && typeof document[prop] !== 'undefined') {
-      // TODO vue3
-      // Vue.util.defineReactive($q, 'appVisible', this.appVisible)
+      Object.defineProperty($q, 'appVisible', {
+        get: () => this.appVisible
+      })
+
       document.addEventListener(evt, update, false)
     }
   }
-}
+})

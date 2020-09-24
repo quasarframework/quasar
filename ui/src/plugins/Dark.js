@@ -1,11 +1,12 @@
-import { reactive } from 'vue'
-
+import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR, fromSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
 
-const Dark = {
+const Plugin = defineReactivePlugin({
   isActive: false,
-  mode: false,
+  mode: false
+}, {
+  __media: void 0,
 
   install ($q, queues, { dark }) {
     this.isActive = dark === true
@@ -58,39 +59,35 @@ const Dark = {
       this.set(initialVal)
     }
 
-    // TODO vue3
-    // this.isActive = reactive(this.isActive)
-    $q.dark = reactive(this)
+    $q.dark = this
   },
 
   set (val) {
-    this.mode = val
+    Plugin.mode = val
 
     if (val === 'auto') {
-      if (this.__media === void 0) {
-        this.__media = window.matchMedia('(prefers-color-scheme: dark)')
-        this.__updateMedia = () => { this.set('auto') }
-        this.__media.addListener(this.__updateMedia)
+      if (Plugin.__media === void 0) {
+        Plugin.__media = window.matchMedia('(prefers-color-scheme: dark)')
+        Plugin.__updateMedia = () => { Plugin.set('auto') }
+        Plugin.__media.addListener(Plugin.__updateMedia)
       }
 
-      val = this.__media.matches
+      val = Plugin.__media.matches
     }
-    else if (this.__media !== void 0) {
-      this.__media.removeListener(this.__updateMedia)
-      this.__media = void 0
+    else if (Plugin.__media !== void 0) {
+      Plugin.__media.removeListener(Plugin.__updateMedia)
+      Plugin.__media = void 0
     }
 
-    this.isActive = val === true
+    Plugin.isActive = val === true
 
     document.body.classList.remove(`body--${val === true ? 'light' : 'dark'}`)
     document.body.classList.add(`body--${val === true ? 'dark' : 'light'}`)
   },
 
   toggle () {
-    Dark.set(Dark.isActive === false)
-  },
+    Plugin.set(Plugin.isActive === false)
+  }
+})
 
-  __media: void 0
-}
-
-export default Dark
+export default Plugin

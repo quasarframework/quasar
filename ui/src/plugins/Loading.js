@@ -1,8 +1,11 @@
 import { h, createApp, Transition } from 'vue'
 
 import QSpinner from '../components/spinner/QSpinner.js'
+
+import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR } from './Platform.js'
-import cache from '../utils/cache.js'
+import { noop } from '../utils/event.js'
+import { getAppVm } from '../utils/vm.js'
 import { preventScroll } from '../mixins/prevent-scroll.js'
 
 let
@@ -10,6 +13,7 @@ let
   uid = 0,
   timeout,
   props = {}
+
 const
   originalDefaults = {
     delay: 0,
@@ -23,9 +27,9 @@ const
   },
   defaults = { ...originalDefaults }
 
-const Loading = {
-  isActive: false,
-
+const Plugin = defineReactivePlugin({
+  isActive: false
+}, {
   show (opts) {
     if (isSSR === true) { return }
 
@@ -36,10 +40,10 @@ const Loading = {
     props.customClass += ` text-${props.backgroundColor}`
     props.uid = `l_${uid++}`
 
-    this.isActive = true
+    Plugin.isActive = true
 
     if (vm !== void 0) {
-      vm.$forceUpdate()
+      getAppVm(vm).$forceUpdate()
       return
     }
 
@@ -57,42 +61,48 @@ const Loading = {
           preventScroll(true)
         },
 
-        render: () => {
+        methods: {
+          __onAfterLeave () {
+            // might be called to finalize
+            // previous leave, even if it was cancelled
+            if (Plugin.isActive !== true && vm !== void 0) {
+              preventScroll(false)
+              vm.unmount(node)
+              node.remove()
+              vm = void 0
+            }
+          },
+
+          __getContent () {
+            const content = [
+              h(props.spinner, {
+                color: props.spinnerColor,
+                size: props.spinnerSize
+              })
+            ]
+
+            props.message && content.push(
+              h('div', {
+                class: `text-${props.messageColor}`,
+                [props.sanitize === true ? 'textContent' : 'innerHTML']: props.message
+              })
+            )
+
+            return h('div', {
+              class: 'q-loading fullscreen column flex-center z-max ' + props.customClass.trim(),
+              key: props.uid
+            }, content)
+          }
+        },
+
+        render () {
           return h(Transition, {
             name: 'q-transition--fade',
             appear: true,
-            ...cache(this, 'tr', {
-              onAfterLeave: () => {
-                // might be called to finalize
-                // previous leave, even if it was cancelled
-                if (this.isActive !== true && vm !== void 0) {
-                  preventScroll(false)
-                  vm.$destroy()
-                  vm.$el.remove()
-                  vm = void 0
-                }
-              }
-            })
-          }, [
-            this.isActive === true ? h('div', {
-              staticClass: 'q-loading fullscreen column flex-center z-max',
-              key: props.uid,
-              class: props.customClass.trim()
-            }, [
-              h(props.spinner, {
-                props: {
-                  color: props.spinnerColor,
-                  size: props.spinnerSize
-                }
-              }),
-              (props.message && h('div', {
-                class: `text-${props.messageColor}`,
-                domProps: {
-                  [props.sanitize === true ? 'textContent' : 'innerHTML']: props.message
-                }
-              })) || void 0
-            ]) : null
-          ])
+            onAfterLeave: this.__onAfterLeave
+          }, {
+            default: Plugin.isActive === true ? this.__getContent : noop
+          })
         }
       })
 
@@ -101,13 +111,13 @@ const Loading = {
   },
 
   hide () {
-    if (this.isActive === true) {
+    if (Plugin.isActive === true) {
       if (timeout !== void 0) {
         clearTimeout(timeout)
         timeout = void 0
       }
 
-      this.isActive = false
+      Plugin.isActive = false
     }
   },
 
@@ -119,11 +129,6 @@ const Loading = {
     this.setDefaults(loading)
     $q.loading = this
   }
-}
+})
 
-if (isSSR === false) {
-  // TODO vue3
-  // Vue.util.defineReactive(Loading, 'isActive', Loading.isActive)
-}
-
-export default Loading
+export default Plugin

@@ -18,3 +18,7 @@ export function isVmChildOf (childVm, parentVm) {
   }
   return false
 }
+
+export function getAppVm (VueApp) {
+  return VueApp._container._vnode.component.ctx
+}

@@ -1,5 +1,4 @@
-import { reactive } from 'vue'
-
+import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR } from './Platform.js'
 
 const prefixes = {}
@@ -18,34 +17,33 @@ function promisify (target, fn) {
   }
 }
 
-export default {
-  isCapable: false,
+const Plugin = defineReactivePlugin({
   isActive: false,
-  activeEl: null,
+  activeEl: null
+}, {
+  isCapable: false,
 
   request (target) {
-    if (this.isCapable === true && this.isActive === false) {
+    if (Plugin.isCapable === true && Plugin.isActive === false) {
       const el = target || document.documentElement
       return promisify(el, prefixes.request).then(() => {
-        this.activeEl = el
+        Plugin.activeEl = el
       })
     }
 
-    return this.__getErr()
+    return Plugin.__getErr()
   },
 
   exit () {
-    return this.isCapable === true && this.isActive === true
-      ? promisify(document, prefixes.exit).then(() => {
-        this.activeEl = null
-      })
-      : this.__getErr()
+    return Plugin.isCapable === true && Plugin.isActive === true
+      ? promisify(document, prefixes.exit)
+      : Plugin.__getErr()
   },
 
   toggle (target) {
-    return this.isActive === true
-      ? this.exit()
-      : this.request(target)
+    return Plugin.isActive === true
+      ? Plugin.exit()
+      : Plugin.request(target)
   },
 
   install ({ $q }) {
@@ -60,9 +58,9 @@ export default {
 
     this.isCapable = prefixes.request !== void 0
 
-    if (this.isCapable === false) {
+    if (Plugin.isCapable === false) {
       // it means the browser does NOT support it
-      this.__getErr = () => Promise.reject('Not capable')
+      Plugin.__getErr = () => Promise.reject('Not capable')
       return
     }
 
@@ -84,11 +82,13 @@ export default {
     ].forEach(evt => {
       document[evt] = () => {
         this.isActive = this.isActive === false
+
+        if (this.isActive === false) {
+          this.activeEl = null
+        }
       }
     })
-
-    // TODO vue3
-    // Vue.util.defineReactive(this, 'isActive', this.isActive)
-    // Vue.util.defineReactive(this, 'activeEl', this.activeEl)
   }
-}
+})
+
+export default Plugin

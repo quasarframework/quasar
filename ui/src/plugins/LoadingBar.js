@@ -1,11 +1,15 @@
 import { createApp, h } from 'vue'
 
+import defineReactivePlugin from '../utils/define-reactive-plugin.js'
 import { isSSR } from './Platform.js'
 import { noop } from '../utils/event.js'
+import { getAppVm } from '../utils/vm.js'
+
 import QAjaxBar from '../components/ajax-bar/QAjaxBar.js'
 
-export default {
-  isActive: false,
+export default defineReactivePlugin({
+  isActive: false
+}, {
   start: noop,
   stop: noop,
   increment: noop,
@@ -21,39 +25,37 @@ export default {
       ? { ...cfg.loadingBar }
       : {}
 
-    // TODO vue3 - injection of $q
+    props.ref = 'bar'
 
-    // const el = document.createElement('div')
-    // document.body.appendChild(el)
+    const el = document.createElement('div')
+    document.body.appendChild(el)
 
-    // const bar = $q.loadingBar = createApp({
-    //   name: 'LoadingBar',
-    //   render: () => h(QAjaxBar, {
-    //     ref: 'bar',
-    //     props
-    //   })
-    // }).mount(el).$refs.bar
+    const app = createApp({
+      name: 'LoadingBar',
+      render: () => h(QAjaxBar, props)
+    })
 
-    // Object.assign(this, {
-    //   start: speed => {
-    //     bar.start(speed)
-    //     this.isActive = bar.isActive = bar.calls > 0
-    //   },
-    //   stop: () => {
-    //     bar.stop()
-    //     this.isActive = bar.isActive = bar.calls > 0
-    //   },
-    //   increment: bar.increment,
-    //   setDefaults: opts => {
-    //     opts === Object(opts) && Object.assign(props, opts)
-    //     bar.$parent.$forceUpdate()
-    //   }
-    // })
+    app.config.globalProperties.$q = $q
+    app.mount(el)
 
-    // TODO vue3
-    // Vue.util.defineReactive(this, 'isActive', this.isActive)
-    // Vue.util.defineReactive(bar, 'isActive', this.isActive)
+    const bar = getAppVm(app).$refs.bar
 
-    // bar.setDefaults = this.setDefaults
+    Object.assign(this, {
+      start: speed => {
+        bar.start(speed)
+        this.isActive = bar.calls > 0
+      },
+      stop: () => {
+        bar.stop()
+        this.isActive = bar.calls > 0
+      },
+      increment: bar.increment,
+      setDefaults: opts => {
+        opts === Object(opts) && Object.assign(props, opts)
+        bar.$root.$forceUpdate()
+      }
+    })
+
+    $q.loadingBar = this
   }
-}
+})
