@@ -2,8 +2,6 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-mixed-operators */
 
-import { reactive } from 'vue'
-
 export const isSSR = typeof window === 'undefined'
 export let fromSSR = false
 export let onSSR = isSSR
@@ -327,7 +325,7 @@ const Platform = {
       // we need to make platform reactive
       // for the takeover phase
       // TODO vue3
-      $q.platform = reactive(this)
+      // $q.platform = this
     }
     else {
       // we don't have any business with SSR, so

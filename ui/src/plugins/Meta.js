@@ -148,9 +148,10 @@ function parseMeta (component, meta) {
     }
   }
 
-  component.$children.forEach(child => {
-    parseMeta(child, meta)
-  })
+  // TODO vue3
+  // component.$children.forEach(child => {
+  //   parseMeta(child, meta)
+  // })
 }
 
 function updateClient () {
@@ -269,51 +270,51 @@ function triggerMeta () {
 
 export default {
   install ({ app, queues }) {
-    // if (isSSR === true) {
-    //   // TODO vue3
-    //   app.config.globalProperties.$getMetaHTML = app => {
-    //     return (html, ctx) => getServerMeta(app, html, ctx)
-    //   }
+    if (isSSR === true) {
+      // TODO vue3 - SSR handling
 
-    //   // TODO vue3
-    //   app.mixin({ beforeCreate })
+      app.config.globalProperties.$getMetaHTML = app => {
+        return (html, ctx) => getServerMeta(app, html, ctx)
+      }
 
-    //   queues.server.push((_, ctx) => {
-    //     ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
-    //     Object.assign(ctx.ssr, {
-    //       Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
-    //       Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
-    //       Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
-    //     })
-    //   })
-    // }
-    // else {
-    //   ssrTakeover = fromSSR
+      app.mixin({ beforeCreate })
 
-    //   // TODO vue3
-    //   app.mixin({
-    //     beforeCreate,
-    //     created () {
-    //       if (hasMeta(this) === true) {
-    //         this.__qMetaUnwatch = this.$watch('__qMeta', this.__qMetaUpdate)
-    //       }
-    //     },
-    //     activated: triggerMeta,
-    //     deactivated: triggerMeta,
-    //     beforeMount: triggerMeta,
-    //     unmounted () {
-    //       if (hasMeta(this) === true) {
-    //         this.__qMetaUnwatch()
-    //         this.__qMetaUpdate()
-    //       }
-    //     },
-    //     methods: {
-    //       __qMetaUpdate () {
-    //         clearTimeout(updateId)
-    //         updateId = setTimeout(updateClient.bind(this), 50)
-    //       }
-    //     }
-    //   })
-    // }
+      queues.server.push((_, ctx) => {
+        ctx.ssr.Q_HTML_ATTRS += ' %%Q_HTML_ATTRS%%'
+        Object.assign(ctx.ssr, {
+          Q_HEAD_TAGS: '%%Q_HEAD_TAGS%%',
+          Q_BODY_ATTRS: '%%Q_BODY_ATTRS%%',
+          Q_BODY_TAGS: '%%Q_BODY_TAGS%%'
+        })
+      })
+    }
+    else {
+      ssrTakeover = fromSSR
+
+      // TODO vue3
+      // app.mixin({
+      //   beforeCreate,
+      //   created () {
+      //     if (hasMeta(this) === true) {
+      //       this.__qMetaUnwatch = this.$watch('__qMeta', this.__qMetaUpdate)
+      //     }
+      //   },
+      //   activated: triggerMeta,
+      //   deactivated: triggerMeta,
+      //   beforeMount: triggerMeta,
+      //   unmounted () {
+      //     if (hasMeta(this) === true) {
+      //       this.__qMetaUnwatch()
+      //       this.__qMetaUpdate()
+      //     }
+      //   },
+      //   methods: {
+      //     __qMetaUpdate () {
+      //       clearTimeout(updateId)
+      //       updateId = setTimeout(updateClient.bind(this), 50)
+      //     }
+      //   }
+      // })
+    }
   }
 }
