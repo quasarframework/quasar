@@ -5,8 +5,6 @@ import QMarkupTable from '../markup-table/QMarkupTable.js'
 import getTableMiddle from '../table/get-table-middle.js'
 
 import VirtualScroll from '../../mixins/virtual-scroll.js'
-import AttrsMixin from '../../mixins/attrs.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { getScrollTarget } from '../../utils/scroll.js'
 import { listenOpts } from '../../utils/event.js'
@@ -17,16 +15,18 @@ const comps = {
   table: QMarkupTable
 }
 
+const typeOptions = [ 'list', 'table', '__qtable' ]
+
 export default defineComponent({
   name: 'QVirtualScroll',
 
-  mixins: [ AttrsMixin, ListenersMixin, VirtualScroll ],
+  mixins: [ VirtualScroll ],
 
   props: {
     type: {
       type: String,
       default: 'list',
-      validator: v => ['list', 'table', '__qtable'].includes(v)
+      validator: v => typeOptions.includes(v)
     },
 
     items: {
@@ -59,11 +59,9 @@ export default defineComponent({
         item
       })
 
-      if (this.itemsFn === void 0) {
-        return this.items.slice(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to).map(mapFn)
-      }
-
-      return this.itemsFn(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to - this.virtualScrollSliceRange.from).map(mapFn)
+      return this.itemsFn === void 0
+        ? this.items.slice(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to).map(mapFn)
+        : this.itemsFn(this.virtualScrollSliceRange.from, this.virtualScrollSliceRange.to - this.virtualScrollSliceRange.from).map(mapFn)
     },
 
     classes () {
@@ -72,7 +70,7 @@ export default defineComponent({
     },
 
     attrs () {
-      return this.scrollTarget !== void 0 ? void 0 : { tabindex: 0 }
+      return this.scrollTarget !== void 0 ? {} : { tabindex: 0 }
     }
   },
 
@@ -140,12 +138,11 @@ export default defineComponent({
     child = mergeSlot(child, this, 'after')
 
     return this.type === '__qtable'
-      ? getTableMiddle(h, { staticClass: this.classes }, child)
+      ? getTableMiddle({ class: 'q-table__middle ' + this.classes }, child)
       : h(comps[this.type], {
         class: this.classes,
-        attrs: this.attrs,
-        props: this.qAttrs,
-        on: { ...this.qListeners }
-      }, child)
+        ...this.$attrs,
+        ...this.attrs
+      }, { default: () => child })
   }
 })

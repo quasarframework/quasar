@@ -314,8 +314,7 @@ export default defineComponent({
           }
         })
         : getTableMiddle({
-          staticClass: 'scroll',
-          class: this.tableClass,
+          class: [ 'q-table__middle scroll', this.tableClass ],
           style: this.tableStyle
         }, [
           header,

@@ -1,14 +1,13 @@
 import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QTimeline',
 
-  mixins: [ DarkMixin, ListenersMixin ],
+  mixins: [ DarkMixin ],
 
   provide () {
     return {
@@ -35,16 +34,14 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return `q-timeline--${this.layout} q-timeline--${this.layout}--${this.side}` +
+      return `q-timeline q-timeline--${this.layout} q-timeline--${this.layout}--${this.side}` +
         (this.isDark === true ? ' q-timeline--dark' : '')
     }
   },
 
   render () {
     return h('ul', {
-      staticClass: 'q-timeline',
-      class: this.classes,
-      on: { ...this.qListeners }
+      class: this.classes
     }, slot(this, 'default'))
   }
 })

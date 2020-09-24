@@ -202,6 +202,8 @@ export default {
     ...commonVirtScrollProps
   },
 
+  emits: [ 'virtual-scroll' ],
+
   data () {
     return {
       virtualScrollSliceRange: { from: 0, to: 0 }
@@ -225,9 +227,7 @@ export default {
     },
 
     colspanAttr () {
-      return this.tableColspan !== void 0
-        ? { colspan: this.tableColspan }
-        : { colspan: 100 }
+      return this.tableColspan !== void 0 ? this.tableColspan : 100
     }
   },
 
@@ -549,45 +549,45 @@ export default {
       return [
         tag === 'tbody'
           ? h(tag, {
-            staticClass: 'q-virtual-scroll__padding',
+            class: 'q-virtual-scroll__padding',
             key: 'before',
             ref: 'before'
           }, [
             h('tr', [
               h('td', {
                 style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` },
-                attrs: this.colspanAttr
+                colspan: this.colspanAttr
               })
             ])
           ])
           : h(tag, {
-            staticClass: 'q-virtual-scroll__padding',
+            class: 'q-virtual-scroll__padding',
             key: 'before',
             ref: 'before',
             style: { [paddingSize]: `${this.virtualScrollPaddingBefore}px` }
           }),
 
         h(tag, {
-          staticClass: 'q-virtual-scroll__content',
+          class: 'q-virtual-scroll__content',
           key: 'content',
           ref: 'content'
         }, content),
 
         tag === 'tbody'
           ? h(tag, {
-            staticClass: 'q-virtual-scroll__padding',
+            class: 'q-virtual-scroll__padding',
             key: 'after',
             ref: 'after'
           }, [
             h('tr', [
               h('td', {
                 style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` },
-                attrs: this.colspanAttr
+                colspan: this.colspanAttr
               })
             ])
           ])
           : h(tag, {
-            staticClass: 'q-virtual-scroll__padding',
+            class: 'q-virtual-scroll__padding',
             key: 'after',
             ref: 'after',
             style: { [paddingSize]: `${this.virtualScrollPaddingAfter}px` }
@@ -597,7 +597,8 @@ export default {
 
     __emitScroll (index) {
       if (this.prevToIndex !== index) {
-        this.qListeners['virtual-scroll'] !== void 0 && this.$emit('virtual-scroll', {
+        // TODO vue3 - emit only if listener exists
+        this.$emit('virtual-scroll', {
           index,
           from: this.virtualScrollSliceRange.from,
           to: this.virtualScrollSliceRange.to - 1,
