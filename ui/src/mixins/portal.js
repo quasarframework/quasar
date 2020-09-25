@@ -1,7 +1,8 @@
 import { h, Teleport } from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
-import { getBodyFullscreenElement } from '../utils/dom.js'
+// TODO vue3
+// import { getBodyFullscreenElement } from '../utils/dom.js'
 
 let portalEl
 

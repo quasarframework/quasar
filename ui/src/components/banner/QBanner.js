@@ -1,16 +1,13 @@
 import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
-
-const attrs = { role: 'alert' }
 
 export default defineComponent({
   name: 'QBanner',
 
-  mixins: [ ListenersMixin, DarkMixin ],
+  mixins: [ DarkMixin ],
 
   props: {
     inlineActions: Boolean,
@@ -18,35 +15,39 @@ export default defineComponent({
     rounded: Boolean
   },
 
+  computed: {
+    classes () {
+      return 'q-banner row items-center' +
+        (this.dense === true ? ' q-banner--dense' : '') +
+        (this.isDark === true ? ' q-banner--dark q-dark' : '') +
+        (this.rounded === true ? ' rounded-borders' : '')
+    },
+
+    actionClass () {
+      return 'q-banner__actions row items-center justify-end' +
+        ` col-${this.inlineActions === true ? 'auto' : 'all'}`
+    }
+  },
+
   render () {
     const actions = slot(this, 'action')
     const child = [
       h('div', {
-        staticClass: 'q-banner__avatar col-auto row items-center self-start'
+        class: 'q-banner__avatar col-auto row items-center self-start'
       }, slot(this, 'avatar')),
 
       h('div', {
-        staticClass: 'q-banner__content col text-body2'
+        class: 'q-banner__content col text-body2'
       }, slot(this, 'default'))
     ]
 
     actions !== void 0 && child.push(
-      h('div', {
-        staticClass: 'q-banner__actions row items-center justify-end',
-        class: `col-${this.inlineActions === true ? 'auto' : 'all'}`
-      }, actions)
+      h('div', { class: this.actionClass }, actions)
     )
 
     return h('div', {
-      staticClass: 'q-banner row items-center',
-      class: {
-        'q-banner--top-padding': actions !== void 0 && !this.inlineActions,
-        'q-banner--dense': this.dense,
-        'q-banner--dark q-dark': this.isDark,
-        'rounded-borders': this.rounded
-      },
-      attrs,
-      on: { ...this.qListeners }
+      class: this.classes + (actions !== void 0 && this.inlineActions === false ? ' q-banner--top-padding' : ''),
+      role: 'alert'
     }, child)
   }
 })
