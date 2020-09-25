@@ -1,30 +1,29 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import { position, stopAndPrevent } from '../../utils/event.js'
 import { between, normalizeToInterval } from '../../utils/format.js'
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 
-import QCircularProgress from '../circular-progress/QCircularProgress.js'
+import QCircularProgress, { commonProps } from '../circular-progress/QCircularProgress.js'
 import FormMixin from '../../mixins/form.js'
 import TouchPan from '../../directives/TouchPan.js'
 
 // PGDOWN, LEFT, DOWN, PGUP, RIGHT, UP
 const keyCodes = [34, 37, 40, 33, 39, 38]
+const commonPropsName = Object.keys(commonProps)
 
 export default defineComponent({
   name: 'QKnob',
 
   mixins: [
-    { props: QCircularProgress.props },
     FormMixin
   ],
 
-  directives: {
-    TouchPan
-  },
-
   props: {
+    modelValue: {
+      type: Number,
+      required: true
+    },
+
     step: {
       type: Number,
       default: 1,
@@ -32,17 +31,21 @@ export default defineComponent({
     },
 
     tabindex: {
-      type: [Number, String],
+      type: [ Number, String ],
       default: 0
     },
 
     disable: Boolean,
-    readonly: Boolean
+    readonly: Boolean,
+
+    ...commonProps
   },
+
+  emits: [ 'update:modelValue', 'drag-value' ],
 
   data () {
     return {
-      model: this.value,
+      model: this.modelValue,
       dragging: false
     }
   },
@@ -62,9 +65,10 @@ export default defineComponent({
         return
       }
 
-      if (this.model !== this.value) {
-        this.$emit('input', this.model)
-        this.$emit('change', this.model)
+      if (this.model !== this.modelValue) {
+        this.$emit('update:modelValue', this.model)
+        // TODO vue3
+        // this.$emit('change', this.model)
       }
     }
   },
@@ -96,23 +100,22 @@ export default defineComponent({
     },
 
     onEvents () {
-      return this.$q.platform.is.mobile === true
-        ? { click: this.__click }
-        : {
-          mousedown: this.__activate,
-          click: this.__click,
-          keydown: this.__keydown,
-          keyup: this.__keyup
-        }
+      return this.editable === true
+        ? (
+          this.$q.platform.is.mobile === true
+            ? { onClick: this.__click }
+            : {
+              onMousedown: this.__activate,
+              onClick: this.__click,
+              onKeydown: this.__keydown,
+              onKeyup: this.__keyup
+            }
+        )
+        : {}
     },
 
     attrs () {
-      const attrs = {
-        role: 'slider',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
-        'aria-valuenow': this.value
-      }
+      const attrs = {}
 
       if (this.editable === true) {
         attrs.tabindex = this.tabindex
@@ -122,6 +125,14 @@ export default defineComponent({
       }
 
       return attrs
+    },
+
+    circularProps () {
+      const props = {}
+      commonPropsName.forEach(name => {
+        props[name] = this.$props[name]
+      })
+      return props
     }
   },
 
@@ -237,8 +248,9 @@ export default defineComponent({
     },
 
     __updateValue (change) {
-      this.value !== this.model && this.$emit('input', this.model)
-      change === true && this.$emit('change', this.model)
+      this.modelValue !== this.model && this.$emit('update:modelValue', this.model)
+      // TODO vue3
+      // change === true && this.$emit('change', this.model)
     },
 
     __getNameInput () {
@@ -247,35 +259,44 @@ export default defineComponent({
   },
 
   render () {
+    console.log(this.circularProps)
     const data = {
       class: this.classes,
-      attrs: this.attrs,
-      props: {
-        ...this.$props,
-        value: this.model,
-        instantFeedback: this.computedInstantFeedback
-      }
+      role: 'slider',
+      'aria-valuemin': this.min,
+      'aria-valuemax': this.max,
+      'aria-valuenow': this.modelValue,
+      ...this.attrs,
+      ...this.circularProps,
+      value: this.model,
+      instantFeedback: this.computedInstantFeedback,
+      ...this.onEvents
+    }
+
+    const child = {
+      default: this.$slots.default
     }
 
     if (this.editable === true) {
-      data.on = this.onEvents
-      data.directives = cache(this, 'dir', [{
-        name: 'touch-pan',
-        value: this.__pan,
-        modifiers: {
-          prevent: true,
-          stop: true,
-          mouse: true
-        }
-      }])
-
       if (this.name !== void 0) {
-        data.scopedSlots = {
-          internal: this.__getNameInput
-        }
+        child.internal = this.__getNameInput
       }
+
+      return withDirectives(
+        h(QCircularProgress, data, child),
+        [[
+          TouchPan,
+          this.__pan,
+          void 0,
+          {
+            prevent: true,
+            stop: true,
+            mouse: true
+          }
+        ]]
+      )
     }
 
-    return h(QCircularProgress, data, slot(this, 'default'))
+    return h(QCircularProgress, data, child)
   }
 })

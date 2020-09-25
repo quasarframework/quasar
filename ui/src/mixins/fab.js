@@ -60,7 +60,6 @@ export default {
           data: {
             class: [
               this.labelClass,
-
               `q-fab__label q-tooltip--style q-fab__label--external` +
               ` q-fab__label--external-${this.labelPosition}` +
               (hideLabel === true ? ' q-fab__label--external-hidden' : '')
@@ -77,7 +76,6 @@ export default {
         data: {
           class: [
             this.labelClass,
-
             `q-fab__label q-fab__label--internal q-fab__label--internal-${this.labelPosition}` +
             (this.hideLabel === true ? ' q-fab__label--internal-hidden' : '')
           ],

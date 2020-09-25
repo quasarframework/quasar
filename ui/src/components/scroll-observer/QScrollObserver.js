@@ -17,6 +17,8 @@ export default defineComponent({
     }
   },
 
+  emits: [ 'scroll' ],
+
   render: noop, // eslint-disable-line
 
   data () {

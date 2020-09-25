@@ -1,10 +1,8 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import QSpinner from '../spinner/QSpinner.js'
 import TouchPan from '../../directives/TouchPan.js'
-
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { getScrollTarget, getScrollPosition } from '../../utils/scroll.js'
 import { between } from '../../utils/format.js'
@@ -18,12 +16,6 @@ const
 export default defineComponent({
   name: 'QPullToRefresh',
 
-  mixins: [ ListenersMixin ],
-
-  directives: {
-    TouchPan
-  },
-
   props: {
     color: String,
     bgColor: String,
@@ -35,6 +27,8 @@ export default defineComponent({
       default: void 0
     }
   },
+
+  emits: [ 'refresh' ],
 
   data () {
     return {
@@ -72,11 +66,12 @@ export default defineComponent({
           modifiers.mouse = true
         }
 
-        return [{
-          name: 'touch-pan',
-          modifiers,
-          value: this.__pull
-        }]
+        return [[
+          TouchPan,
+          this.__pull,
+          void 0,
+          modifiers
+        ]]
       }
     },
 
@@ -185,39 +180,33 @@ export default defineComponent({
   },
 
   render () {
-    return h('div', {
-      staticClass: 'q-pull-to-refresh',
-      on: { ...this.qListeners },
-      directives: this.directives
+    const node = h('div', {
+      class: 'q-pull-to-refresh'
     }, [
-      h('div', {
-        class: this.contentClass
-      }, slot(this, 'default')),
+      h('div', { class: this.contentClass }, slot(this, 'default')),
 
       h('div', {
-        staticClass: 'q-pull-to-refresh__puller-container fixed row flex-center no-pointer-events z-top',
+        class: 'q-pull-to-refresh__puller-container fixed row flex-center no-pointer-events z-top',
         style: this.positionCSS
       }, [
         h('div', {
-          style: this.style,
-          class: this.classes
+          class: this.classes,
+          style: this.style
         }, [
           this.state !== 'refreshing'
             ? h(QIcon, {
-              props: {
-                name: this.icon || this.$q.iconSet.pullToRefresh.icon,
-                color: this.color,
-                size: '32px'
-              }
+              name: this.icon || this.$q.iconSet.pullToRefresh.icon,
+              color: this.color,
+              size: '32px'
             })
             : h(QSpinner, {
-              props: {
-                size: '24px',
-                color: this.color
-              }
+              size: '24px',
+              color: this.color
             })
         ])
       ])
     ])
+
+    return withDirectives(node, this.directives)
   }
 })

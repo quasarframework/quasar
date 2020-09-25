@@ -1,8 +1,5 @@
 import { h, defineComponent, Transition } from 'vue'
 
-import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
-
 export default defineComponent({
   name: 'QSlideTransition',
 
@@ -43,6 +40,58 @@ export default defineComponent({
       clearTimeout(this.timerFallback)
       this.el !== void 0 && this.el.removeEventListener('transitionend', this.animListener)
       this.animListener = null
+    },
+
+    __onEnter (el, done) {
+      let pos = 0
+      this.el = el
+
+      if (this.animating === true) {
+        this.__cleanup()
+        pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
+      }
+      else {
+        this.lastEvent = 'hide'
+      }
+
+      this.__begin(el, pos, done)
+
+      this.timer = setTimeout(() => {
+        el.style.height = `${el.scrollHeight}px`
+        this.animListener = ev => {
+          if (Object(ev) !== ev || ev.target === el) {
+            this.__end(el, 'show')
+          }
+        }
+        el.addEventListener('transitionend', this.animListener)
+        this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
+      }, 100)
+    },
+
+    __onLeave (el, done) {
+      let pos
+      this.el = el
+
+      if (this.animating === true) {
+        this.__cleanup()
+      }
+      else {
+        this.lastEvent = 'show'
+        pos = el.scrollHeight
+      }
+
+      this.__begin(el, pos, done)
+
+      this.timer = setTimeout(() => {
+        el.style.height = 0
+        this.animListener = ev => {
+          if (Object(ev) !== ev || ev.target === el) {
+            this.__end(el, 'hide')
+          }
+        }
+        el.addEventListener('transitionend', this.animListener)
+        this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
+      }, 100)
     }
   },
 
@@ -54,59 +103,10 @@ export default defineComponent({
     return h(Transition, {
       css: false,
       appear: this.appear,
-      ...cache(this, 'tr', {
-        onEnter: (el, done) => {
-          let pos = 0
-          this.el = el
-
-          if (this.animating === true) {
-            this.__cleanup()
-            pos = el.offsetHeight === el.scrollHeight ? 0 : void 0
-          }
-          else {
-            this.lastEvent = 'hide'
-          }
-
-          this.__begin(el, pos, done)
-
-          this.timer = setTimeout(() => {
-            el.style.height = `${el.scrollHeight}px`
-            this.animListener = ev => {
-              if (Object(ev) !== ev || ev.target === el) {
-                this.__end(el, 'show')
-              }
-            }
-            el.addEventListener('transitionend', this.animListener)
-            this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
-          }, 100)
-        },
-
-        onLeave: (el, done) => {
-          let pos
-          this.el = el
-
-          if (this.animating === true) {
-            this.__cleanup()
-          }
-          else {
-            this.lastEvent = 'show'
-            pos = el.scrollHeight
-          }
-
-          this.__begin(el, pos, done)
-
-          this.timer = setTimeout(() => {
-            el.style.height = 0
-            this.animListener = ev => {
-              if (Object(ev) !== ev || ev.target === el) {
-                this.__end(el, 'hide')
-              }
-            }
-            el.addEventListener('transitionend', this.animListener)
-            this.timerFallback = setTimeout(this.animListener, this.duration * 1.1)
-          }, 100)
-        }
-      })
-    }, slot(this, 'default'))
+      onEnter: this.__onEnter,
+      onLeave: this.__onLeave
+    }, {
+      default: this.$slots.default
+    })
   }
 })

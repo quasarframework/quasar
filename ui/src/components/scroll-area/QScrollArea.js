@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
@@ -16,10 +16,6 @@ export default defineComponent({
   name: 'QScrollArea',
 
   mixins: [ DarkMixin ],
-
-  directives: {
-    TouchPan
-  },
 
   props: {
     barStyle: [ Array, String, Object ],
@@ -118,26 +114,27 @@ export default defineComponent({
     },
 
     thumbClass () {
-      return `q-scrollarea__thumb--${this.dirProps.classSuffix}` +
+      return `q-scrollarea__thumb q-scrollarea__thumb--${this.dirProps.classSuffix}` +
         (this.thumbHidden === true ? ' q-scrollarea__thumb--invisible' : '')
     },
 
     barClass () {
-      return `q-scrollarea__bar--${this.dirProps.classSuffix}` +
+      return `q-scrollarea__bar q-scrollarea__bar--${this.dirProps.classSuffix}` +
         (this.thumbHidden === true ? ' q-scrollarea__bar--invisible' : '')
     },
 
     thumbDirectives () {
-      return [{
-        name: 'touch-pan',
-        modifiers: {
+      return [[
+        TouchPan,
+        this.__panThumb,
+        void 0,
+        {
           [ this.horizontal === true ? 'horizontal' : 'vertical' ]: true,
           prevent: true,
           mouse: true,
           mouseAllDir: true
-        },
-        value: this.__panThumb
-      }]
+        }
+      ]]
     }
   },
 
@@ -249,7 +246,8 @@ export default defineComponent({
         this.tempShowing = false
       }, this.delay)
 
-      this.__emitScroll()
+      // TODO vue3
+      // this.__emitScroll()
     },
 
     __setScroll (offset) {
@@ -260,72 +258,70 @@ export default defineComponent({
   render () {
     return h('div', {
       class: this.classes,
-      on: cache(this, 'desk', {
-        mouseenter: () => { this.hover = true },
-        mouseleave: () => { this.hover = false }
+      ...cache(this, 'desk', {
+        onMouseenter: () => { this.hover = true },
+        onMouseleave: () => { this.hover = false }
       })
     }, [
       h('div', {
         ref: 'target',
-        staticClass: 'scroll relative-position fit hide-scrollbar'
+        class: 'scroll relative-position fit hide-scrollbar'
       }, [
         h('div', {
-          staticClass: 'absolute',
-          style: this.mainStyle,
-          class: `full-${this.horizontal === true ? 'height' : 'width'}`
+          class: `absolute full-${this.horizontal === true ? 'height' : 'width'}`,
+          style: this.mainStyle
         }, mergeSlot([
           h(QResizeObserver, {
-            on: cache(this, 'resizeIn', { resize: this.__updateScrollSize })
+            onResize: this.__updateScrollSize
           })
         ], this, 'default')),
 
         h(QScrollObserver, {
-          props: { horizontal: this.horizontal },
-          on: cache(this, 'scroll', { scroll: this.__updateScroll })
+          horizontal: this.horizontal,
+          onScroll: this.__updateScroll
         })
       ]),
 
       h(QResizeObserver, {
-        on: cache(this, 'resizeOut', { resize: this.__updateContainer })
+        onResize: this.__updateContainer
       }),
 
       h('div', {
-        staticClass: 'q-scrollarea__bar',
-        style: this.barStyle,
         class: this.barClass,
-        attrs: ariaHidden,
-        on: cache(this, 'bar', {
-          mousedown: this.__mouseDown
-        })
+        style: this.barStyle,
+        ...ariaHidden,
+        onMousedown: this.__mouseDown
       }),
 
-      h('div', {
-        ref: 'thumb',
-        staticClass: 'q-scrollarea__thumb',
-        style: this.style,
-        class: this.thumbClass,
-        attrs: ariaHidden,
-        directives: this.thumbDirectives
-      })
+      withDirectives(
+        h('div', {
+          ref: 'thumb',
+          class: this.thumbClass,
+          style: this.style,
+          ...ariaHidden
+        }),
+        this.thumbDirectives
+      )
     ])
-  },
-
-  created () {
-    // we have lots of listeners, so
-    // ensure we're not emitting same info
-    // multiple times
-    this.__emitScroll = debounce(() => {
-      if (this.$listeners.scroll !== void 0) {
-        const info = { ref: this }
-        const prefix = this.dirProps.prefix
-
-        info[prefix + 'Position'] = this.scrollPosition
-        info[prefix + 'Percentage'] = this.scrollPercentage
-        info[prefix + 'Size'] = this.scrollSize
-        info[prefix + 'ContainerSize'] = this.containerSize
-
-        this.$emit('scroll', info)
-      }
-    }, 0)
   }
+
+  // TODO vue3
+  // created () {
+  //   // we have lots of listeners, so
+  //   // ensure we're not emitting same info
+  //   // multiple times
+  //   this.__emitScroll = debounce(() => {
+  //     if (this.$listeners.scroll !== void 0) {
+  //       const info = { ref: this }
+  //       const prefix = this.dirProps.prefix
+
+  //       info[prefix + 'Position'] = this.scrollPosition
+  //       info[prefix + 'Percentage'] = this.scrollPercentage
+  //       info[prefix + 'Size'] = this.scrollSize
+  //       info[prefix + 'ContainerSize'] = this.containerSize
+
+  //       this.$emit('scroll', info)
+  //     }
+  //   }, 0)
+  // }
 })

@@ -35,6 +35,8 @@ export default defineComponent({
     replace: Boolean
   },
 
+  emits: [ 'click' ],
+
   inject: {
     __qFab: {
       default () {
@@ -47,13 +49,6 @@ export default defineComponent({
     classes () {
       const align = anchorMap[this.anchor]
       return this.formClass + (align !== void 0 ? ` ${align}` : '')
-    },
-
-    onEvents () {
-      return {
-        ...this.qListeners,
-        click: this.click
-      }
     },
 
     isDisabled () {
@@ -72,9 +67,7 @@ export default defineComponent({
     const child = []
 
     this.icon !== '' && child.push(
-      h(QIcon, {
-        props: { name: this.icon }
-      })
+      h(QIcon, { name: this.icon })
     )
 
     this.label !== '' && child[this.labelProps.action](
@@ -83,17 +76,17 @@ export default defineComponent({
 
     return h(QBtn, {
       class: this.classes,
-      props: {
-        ...this.$props,
-        noWrap: true,
-        stack: this.stacked,
-        icon: void 0,
-        label: void 0,
-        noCaps: true,
-        fabMini: true,
-        disable: this.isDisabled
-      },
-      on: this.onEvents
-    }, mergeSlot(child, this, 'default'))
+      ...this.$props,
+      noWrap: true,
+      stack: this.stacked,
+      icon: void 0,
+      label: void 0,
+      noCaps: true,
+      fabMini: true,
+      disable: this.isDisabled,
+      onClick: this.click
+    }, {
+      default: () => mergeSlot(child, this, 'default')
+    })
   }
 })

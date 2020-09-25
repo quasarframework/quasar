@@ -10,6 +10,43 @@ const
   circumference = diameter * Math.PI,
   strokeDashArray = Math.round(circumference * 1000) / 1000
 
+// used by QKnob
+export const commonProps = {
+  min: {
+    type: Number,
+    default: 0
+  },
+  max: {
+    type: Number,
+    default: 100
+  },
+
+  color: String,
+  centerColor: String,
+  trackColor: String,
+
+  fontSize: String,
+
+  // ratio
+  thickness: {
+    type: Number,
+    default: 0.2,
+    validator: v => v >= 0 && v <= 1
+  },
+
+  angle: {
+    type: Number,
+    default: 0
+  },
+
+  showValue: Boolean,
+  reverse: Boolean,
+
+  instantFeedback: Boolean,
+
+  ...SizeMixin.props
+}
+
 export default defineComponent({
   name: 'QCircularProgress',
 
@@ -21,38 +58,9 @@ export default defineComponent({
       default: 0
     },
 
-    min: {
-      type: Number,
-      default: 0
-    },
-    max: {
-      type: Number,
-      default: 100
-    },
-
-    color: String,
-    centerColor: String,
-    trackColor: String,
-
-    fontSize: String,
-
-    // ratio
-    thickness: {
-      type: Number,
-      default: 0.2,
-      validator: v => v >= 0 && v <= 1
-    },
-
-    angle: {
-      type: Number,
-      default: 0
-    },
-
     indeterminate: Boolean,
-    showValue: Boolean,
-    reverse: Boolean,
 
-    instantFeedback: Boolean
+    ...commonProps
   },
 
   computed: {
@@ -89,15 +97,6 @@ export default defineComponent({
 
     strokeWidth () {
       return this.thickness / 2 * this.viewBox
-    },
-
-    attrs () {
-      return {
-        role: 'progressbar',
-        'aria-valuemin': this.min,
-        'aria-valuemax': this.max,
-        'aria-valuenow': this.indeterminate === true ? void 0 : this.normalizedValue
-      }
     }
   },
 
@@ -169,7 +168,10 @@ export default defineComponent({
     return h('div', {
       class: `q-circular-progress q-circular-progress--${this.indeterminate === true ? 'in' : ''}determinate`,
       style: this.sizeStyle,
-      ...this.attrs
+      role: 'progressbar',
+      'aria-valuemin': this.min,
+      'aria-valuemax': this.max,
+      'aria-valuenow': this.indeterminate === true ? void 0 : this.normalizedValue
     }, mergeSlotSafely(child, this, 'internal'))
   }
 })

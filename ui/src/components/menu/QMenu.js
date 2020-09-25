@@ -101,7 +101,7 @@ export default defineComponent({
     },
 
     onEvents () {
-      const on = {
+      const evt = {
         // stop propagating these events from children
         'onUpdate:modelValue': stop,
         'onPopup-show': stop,
@@ -109,10 +109,10 @@ export default defineComponent({
       }
 
       if (this.autoClose === true) {
-        on.onClick = this.__onAutoClose
+        evt.onClick = this.__onAutoClose
       }
 
-      return on
+      return evt
     }
   },
 

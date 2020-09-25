@@ -2,7 +2,6 @@ import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import TagMixin from '../../mixins/tag.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
@@ -21,7 +20,7 @@ export const skeletonAnimations = [
 export default defineComponent({
   name: 'QSkeleton',
 
-  mixins: [ DarkMixin, TagMixin, ListenersMixin ],
+  mixins: [ DarkMixin, TagMixin ],
 
   props: {
     type: {
@@ -52,7 +51,7 @@ export default defineComponent({
     },
 
     classes () {
-      return `q-skeleton--${this.isDark === true ? 'dark' : 'light'} q-skeleton--type-${this.type}` +
+      return `q-skeleton q-skeleton--${this.isDark === true ? 'dark' : 'light'} q-skeleton--type-${this.type}` +
         (this.animation !== 'none' ? ` q-skeleton--anim q-skeleton--anim-${this.animation}` : '') +
         (this.square === true ? ' q-skeleton--square' : '') +
         (this.bordered === true ? ' q-skeleton--bordered' : '')
@@ -61,10 +60,8 @@ export default defineComponent({
 
   render () {
     return h(this.tag, {
-      staticClass: 'q-skeleton',
       class: this.classes,
-      style: this.style,
-      on: { ...this.qListeners }
+      style: this.style
     }, slot(this, 'default'))
   }
 })

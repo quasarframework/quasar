@@ -4,11 +4,9 @@ import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import FabMixin from '../../mixins/fab.js'
-import AttrsMixin from '../../mixins/attrs.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 
 const directions = ['up', 'right', 'down', 'left']
 const alignValues = [ 'left', 'center', 'right' ]
@@ -16,9 +14,7 @@ const alignValues = [ 'left', 'center', 'right' ]
 export default defineComponent({
   name: 'QFab',
 
-  inheritAttrs: false,
-
-  mixins: [ FabMixin, AttrsMixin, ModelToggleMixin ],
+  mixins: [ FabMixin, ModelToggleMixin ],
 
   provide () {
     return {
@@ -52,7 +48,7 @@ export default defineComponent({
 
   data () {
     return {
-      showing: this.value === true
+      showing: this.modelValue === true
     }
   },
 
@@ -62,16 +58,14 @@ export default defineComponent({
     },
 
     classes () {
-      return `q-fab--align-${this.verticalActionsAlign} ${this.formClass}` +
+      return 'q-fab z-fab row inline justify-center' +
+        ` q-fab--align-${this.verticalActionsAlign} ${this.formClass}` +
         (this.showing === true ? ' q-fab--opened' : '')
     },
 
-    attrs () {
-      return {
-        'aria-expanded': this.showing === true ? 'true' : 'false',
-        'aria-haspopup': 'true',
-        ...this.qAttrs
-      }
+    actionClass () {
+      return 'q-fab__actions flex no-wrap inline' +
+        ` q-fab__actions--${this.direction}`
     }
   },
 
@@ -89,14 +83,14 @@ export default defineComponent({
     const child = []
 
     this.hideIcon !== true && child.push(
-      h('div', { staticClass: 'q-fab__icon-holder' }, [
+      h('div', { class: 'q-fab__icon-holder' }, [
         h(QIcon, {
-          staticClass: 'q-fab__icon absolute-full',
-          props: { name: this.icon || this.$q.iconSet.fab.icon }
+          class: 'q-fab__icon absolute-full',
+          name: this.icon || this.$q.iconSet.fab.icon
         }),
         h(QIcon, {
-          staticClass: 'q-fab__active-icon absolute-full',
-          props: { name: this.activeIcon || this.$q.iconSet.fab.activeIcon }
+          class: 'q-fab__active-icon absolute-full',
+          name: this.activeIcon || this.$q.iconSet.fab.activeIcon
         })
       ])
     )
@@ -106,33 +100,27 @@ export default defineComponent({
     )
 
     return h('div', {
-      staticClass: 'q-fab z-fab row inline justify-center',
       class: this.classes,
-      on: { ...this.qListeners }
     }, [
       h(QBtn, {
         ref: 'trigger',
         class: this.formClass,
-        props: {
-          ...this.$props,
-          noWrap: true,
-          stack: this.stacked,
-          align: void 0,
-          icon: void 0,
-          label: void 0,
-          noCaps: true,
-          fab: true
-        },
-        attrs: this.attrs,
-        on: cache(this, 'tog', {
-          click: this.toggle
-        })
-      }, mergeSlot(child, this, 'tooltip')),
+        ...this.$props,
+        noWrap: true,
+        stack: this.stacked,
+        align: void 0,
+        icon: void 0,
+        label: void 0,
+        noCaps: true,
+        fab: true,
+        'aria-expanded': this.showing === true ? 'true' : 'false',
+        'aria-haspopup': 'true',
+        onClick: this.toggle
+      }, {
+        default: () => mergeSlot(child, this, 'tooltip')
+      }),
 
-      h('div', {
-        staticClass: 'q-fab__actions flex no-wrap inline',
-        class: `q-fab__actions--${this.direction}`
-      }, slot(this, 'default'))
+      h('div', { class: this.actionClass }, slot(this, 'default'))
     ])
   }
 })
