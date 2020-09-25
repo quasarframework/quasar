@@ -21,8 +21,6 @@ export default defineComponent({
   },
 
   render () {
-    return h(this.tag, {
-      class: this.classes
-    }, slot(this, 'default'))
+    return h(this.tag, { class: this.classes }, slot(this, 'default'))
   }
 })

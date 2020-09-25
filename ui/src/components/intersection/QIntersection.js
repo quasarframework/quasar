@@ -62,10 +62,8 @@ export default defineComponent({
     __trigger (entry) {
       if (this.showing !== entry.isIntersecting) {
         this.showing = entry.isIntersecting
-
-        if (this.qListeners.visibility !== void 0) {
-          this.$emit('visibility', this.showing)
-        }
+        // TODO vue3 - emit only if listener is attached
+        this.$emit('visibility', this.showing)
       }
     }
   },

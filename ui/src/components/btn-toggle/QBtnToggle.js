@@ -8,10 +8,6 @@ import RippleMixin from '../../mixins/ripple.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
-function mergeOption (opt, key) {
-  return opt[key] === void 0 ? this[key] : opt[key]
-}
-
 export default defineComponent({
   name: 'QBtnToggle',
 
@@ -103,19 +99,19 @@ export default defineComponent({
 
             // Options that come from the button specific options first, then from general props
             color: value === this.modelValue
-              ? mergeOption(opt, 'toggleColor')
-              : mergeOption(opt, 'color'),
+              ? this.__mergeOpt(opt, 'toggleColor')
+              : this.__mergeOpt(opt, 'color'),
             textColor: value === this.modelValue
-              ? mergeOption(opt, 'toggleTextColor')
-              : mergeOption(opt, 'textColor'),
-            noCaps: mergeOption(opt, 'noCaps') === true,
-            noWrap: mergeOption(opt, 'noWrap') === true,
+              ? this.__mergeOpt(opt, 'toggleTextColor')
+              : this.__mergeOpt(opt, 'textColor'),
+            noCaps: this.__mergeOpt(opt, 'noCaps') === true,
+            noWrap: this.__mergeOpt(opt, 'noWrap') === true,
 
-            size: mergeOption(opt, 'size'),
-            padding: mergeOption(opt, 'padding'),
-            ripple: mergeOption(opt, 'ripple'),
-            stack: mergeOption(opt, 'stack') === true,
-            stretch: mergeOption(opt, 'stretch') === true
+            size: this.__mergeOpt(opt, 'size'),
+            padding: this.__mergeOpt(opt, 'padding'),
+            ripple: this.__mergeOpt(opt, 'ripple'),
+            stack: this.__mergeOpt(opt, 'stack') === true,
+            stretch: this.__mergeOpt(opt, 'stretch') === true
           }
         }
       })
@@ -137,6 +133,10 @@ export default defineComponent({
 
         this.$emit('click', e)
       }
+    },
+
+    __mergeOpt (opt, key) {
+      return opt[key] === void 0 ? this[key] : opt[key]
     }
   },
 

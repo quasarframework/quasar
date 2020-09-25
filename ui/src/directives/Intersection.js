@@ -6,7 +6,7 @@ const defaultCfg = {
   rootMargin: '0px'
 }
 
-function updated (el, ctx, value) {
+function update (el, ctx, value) {
   let handler, cfg, changed
 
   if (typeof value === 'function') {
