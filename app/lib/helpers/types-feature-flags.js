@@ -10,7 +10,7 @@ function getStoreFlagPath(storeIndexPath) {
   return path.join(path.parse(storeIndexPath).dir, 'store-flag.d.ts')
 }
 
-module.exports = function regenerateTypesFeatureFlags(buildConfig) {
+module.exports = function regenerateTypesFeatureFlags(quasarConf) {
   // Flags must be available even in pure JS codebases,
   //    because boot and configure wrappers functions files will
   //    provide autocomplete based on them also to JS users
@@ -28,9 +28,9 @@ module.exports = function regenerateTypesFeatureFlags(buildConfig) {
   ]) {
     const [isFeatureInstalled, sourceFlagPath, destFlagPath] = feature === 'store'
       ? [
-        buildConfig.store,
+        quasarConf.store,
         appPaths.resolve.cli('templates/store/ts/store-flag.d.ts'),
-        appPaths.resolve.app(getStoreFlagPath(buildConfig.sourceFiles.store))
+        appPaths.resolve.app(getStoreFlagPath(quasarConf.sourceFiles.store))
       ]
       : [
         getMode(feature).isInstalled,

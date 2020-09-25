@@ -64,7 +64,7 @@ console.log( between(50, 10, 20) )
 import { format } from 'quasar'
 const { normalizeToInterval } = format
 
-// (Number) between(Number, Number lower_margin, Number upper_margin)
+// (Number) normalizeToInterval(Number, Number lower_margin, Number upper_margin)
 
 console.log( normalizeToInterval(21, 10, 20) ) // 10
 console.log( normalizeToInterval(33, 10, 20) ) // 11

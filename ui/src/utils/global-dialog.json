@@ -97,6 +97,25 @@
               "tsType": "DialogChainObject",
               "__exemption": [ "examples" ]
             }
+          },
+
+          "update": {
+            "type": "Function",
+            "desc": "Updates the initial properties (given as create() param) except for 'component' and 'parent' (and deprecated 'root')",
+            "params": {
+              "opts": {
+                "type": "Object",
+                "desc": "Props (except 'component' and 'parent') which will overwrite the initial create() params",
+                "__exemption": [ "examples" ]
+              }
+            },
+            "returns": {
+              "type": "Object",
+              "desc": "Chained Object",
+              "tsType": "DialogChainObject",
+              "__exemption": [ "examples" ]
+            },
+            "addedIn": "v1.14.0"
           }
         }
       }

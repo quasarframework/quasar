@@ -190,12 +190,12 @@ export default {
     this.disable !== true && this.__injectFormInput(
       inner,
       'unshift',
-      `q-${this.type}__native absolute q-ma-none q-pa-none invisible`
+      `q-${this.type}__native absolute q-ma-none q-pa-none`
     )
 
     const child = [
       h('div', {
-        staticClass: `q-${this.type}__inner relative-position no-pointer-events`,
+        staticClass: `q-${this.type}__inner relative-position non-selectable`,
         class: this.innerClass,
         style: this.sizeStyle
       }, inner)

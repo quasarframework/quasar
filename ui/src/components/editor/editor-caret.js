@@ -24,10 +24,10 @@ function getBlockElement (el, parent) {
   return getBlockElement(el.parentNode)
 }
 
-function isChildOf (el, parent) {
+function isChildOf (el, parent, orSame) {
   return !el || el === document.body
     ? false
-    : (parent === document ? document.body : parent).contains(el.parentNode)
+    : (orSame === true && el === parent) || (parent === document ? document.body : parent).contains(el.parentNode)
 }
 
 function createRange (node, chars, range) {
@@ -74,7 +74,7 @@ export class Caret {
       const sel = document.getSelection()
 
       // only when the selection in element
-      if (isChildOf(sel.anchorNode, this.el) && isChildOf(sel.focusNode, this.el)) {
+      if (isChildOf(sel.anchorNode, this.el, true) && isChildOf(sel.focusNode, this.el, true)) {
         return sel
       }
     }
@@ -295,7 +295,9 @@ export class Caret {
         const url = selection ? selection.toString() : ''
 
         if (!url.length) {
-          return
+          if (!this.range || !this.range.cloneContents().querySelector('img')) {
+            return
+          }
         }
 
         this.vm.editLinkUrl = urlRegex.test(url) ? url : 'https://'

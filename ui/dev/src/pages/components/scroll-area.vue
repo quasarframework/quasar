@@ -57,6 +57,9 @@
     <q-btn @click="scroll2">
       Scroll to 525 (animated)
     </q-btn>
+    <q-btn @click="scroll3">
+      Scroll to 90%
+    </q-btn>
 
     <div style="height: 1000px" />
   </div>
@@ -105,6 +108,9 @@ export default {
     },
     scroll2 () {
       this.$refs.scroll.setScrollPosition(525, 1000)
+    },
+    scroll3 () {
+      this.$refs.scroll.setScrollPercentage(0.9, 1000)
     }
   }
 }

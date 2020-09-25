@@ -41,6 +41,8 @@ import { Dialog } from 'quasar'
 (Object) this.$q.dialog({ ... })
 ```
 
+Please check the API card to see what the returned Object is.
+
 ### Predefined
 
 ::: tip
@@ -66,6 +68,10 @@ There is a basic validation system that you can use so that the user won't be ab
 <doc-example title="Prompt with validation" file="Dialog/ValidationPrompt" />
 
 <doc-example title="Options with validation" file="Dialog/ValidationOptions" />
+
+### Progress <q-badge align="top" label="v1.13.3+" />
+
+<doc-example title="Showing progress" file="Dialog/Progress" />
 
 ### Using HTML
 You can use HTML on title and message if you specify the `html: true` prop. **Please note that this can lead to XSS attacks**, so make sure that you sanitize the message by yourself.

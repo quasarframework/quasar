@@ -92,7 +92,6 @@ $field-transition-label-right-up = .324s cubic-bezier(.4,0,.2,1)
       bottom: 0
       left: 0
       pointer-events: none
-      z-index: 1
     &:before
       border-radius: inherit
 
@@ -261,6 +260,12 @@ $field-transition-label-right-up = .324s cubic-bezier(.4,0,.2,1)
         border-radius: inherit
         border: 2px solid transparent
         transition: border-color $field-transition
+
+    .q-field__native,
+    .q-field__input
+      &:-webkit-autofill
+        margin-top: 1px
+        margin-bottom: 1px
 
     &.q-field--rounded .q-field__control
       border-radius: 28px

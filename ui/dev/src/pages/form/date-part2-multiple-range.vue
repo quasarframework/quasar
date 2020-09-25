@@ -3,21 +3,22 @@
     <div class="row q-gutter-md q-pb-md">
       <q-btn label="Null model" @click="nullify" />
       <q-btn label="Reset" @click="reset" />
+      <q-toggle v-model="noUnset" label="No unset" />
     </div>
 
     <div class="q-gutter-md">
       <div>Single {{ day || 'none ' }}:</div>
-      <q-date v-model="day" today-btn @input="onInput" />
+      <q-date v-model="day" today-btn @input="onInput" :no-unset="noUnset" />
 
       <div>Multiple {{ days || 'none ' }}:</div>
-      <q-date v-model="days" multiple today-btn @input="onInput" />
+      <q-date v-model="days" multiple today-btn @input="onInput" :no-unset="noUnset" />
 
       <div>Range {{ dayRange || 'none ' }}:</div>
-      <q-date v-model="dayRange" today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" />
+      <q-date v-model="dayRange" today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" :no-unset="noUnset" />
 
       <div>Multiple + Range {{ daysRange || 'none ' }}:</div>
       <div class="row no-wrap">
-        <q-date ref="daysRange" v-model="daysRange" multiple today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" />
+        <q-date ref="daysRange" v-model="daysRange" multiple today-btn range @input="onInput" @range-start="onRangeStart" @range-end="onRangeEnd" :no-unset="noUnset" />
         <div class="q-gutter-sm q-ml-sm">
           <q-btn label="setEditingRange(from)" @click="setRangeFrom" no-caps />
           <q-btn label="setEditingRange(from, to)" @click="setRangeFromTo" no-caps />
@@ -34,6 +35,8 @@
 export default {
   data () {
     return {
+      noUnset: false,
+
       day: null,
       days: null,
       dayRange: null,

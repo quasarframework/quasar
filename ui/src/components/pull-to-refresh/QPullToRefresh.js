@@ -63,13 +63,18 @@ export default Vue.extend({
 
     directives () {
       if (this.disable !== true) {
+        const modifiers = {
+          down: true,
+          mightPrevent: true
+        }
+
+        if (this.noMouse !== true) {
+          modifiers.mouse = true
+        }
+
         return [{
           name: 'touch-pan',
-          modifiers: {
-            down: true,
-            mightPrevent: true,
-            mouse: this.noMouse !== true
-          },
+          modifiers,
           value: this.__pull
         }]
       }

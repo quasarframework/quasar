@@ -15,4 +15,4 @@ export type StoreParams = {
   Vue: VueConstructor;
 } & HasSsrParam;
 
-export type StoreCallback = (params: StoreParams) => Store<any>;
+export type StoreCallback = (params: StoreParams) => Store<any> | Promise<Store<any>>;

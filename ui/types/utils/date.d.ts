@@ -27,7 +27,7 @@ export namespace date {
   function isValid(date: number | string): boolean;
   function extractDate(str: string, mask: string, locale?: DateLocale): Date;
   function buildDate(options: BuildDateOptions, utc?: boolean): string;
-  function getDayOfWeek(date: Date | number | string): number;
+  function getDayOfWeek(date: Date): number;
   function getWeekOfYear(date: Date | number | string): number;
   function isBetweenDates(date: Date | number | string, from: Date | number | string, to: Date | number | string, opts?: { inclusiveFrom: boolean; inclusiveTo: boolean; onlyDate: boolean }): boolean;
   function addToDate(date: Date | number | string, options: ModifyDateOptions): Date;

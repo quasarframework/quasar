@@ -2,56 +2,61 @@ import QCheckbox from '../checkbox/QCheckbox.js'
 
 export default {
   methods: {
-    getTableRowBody (row, body, pageIndex) {
+    __getTBodyTR (h, row, bodySlot, pageIndex) {
       const
         key = this.getRowKey(row),
         selected = this.isRowSelected(key)
 
-      return body(this.addBodyRowMeta({
-        key,
-        row,
-        pageIndex,
-        cols: this.computedCols,
-        colsMap: this.computedColsMap,
-        __trClass: selected ? 'selected' : ''
-      }))
-    },
+      if (bodySlot !== void 0) {
+        return bodySlot(
+          this.__getBodyScope({
+            key,
+            row,
+            pageIndex,
+            __trClass: selected ? 'selected' : ''
+          })
+        )
+      }
 
-    getTableRow (h, row, pageIndex) {
       const
         bodyCell = this.$scopedSlots['body-cell'],
-        key = this.getRowKey(row),
-        selected = this.isRowSelected(key),
         child = this.computedCols.map(col => {
           const
             bodyCellCol = this.$scopedSlots[`body-cell-${col.name}`],
             slot = bodyCellCol !== void 0 ? bodyCellCol : bodyCell
 
           return slot !== void 0
-            ? slot(this.addBodyCellMetaData({ row, pageIndex, col }))
+            ? slot(this.__getBodyCellScope({ key, row, pageIndex, col }))
             : h('td', {
               class: col.__tdClass,
               style: col.style
             }, this.getCellValue(col, row))
         })
 
-      this.hasSelectionMode === true && child.unshift(
-        h('td', { staticClass: 'q-table--col-auto-width' }, [
-          h(QCheckbox, {
-            props: {
-              value: selected,
-              color: this.color,
-              dark: this.isDark,
-              dense: this.dense
-            },
-            on: {
-              input: (adding, evt) => {
-                this.__updateSelection([ key ], [ row ], adding, evt)
+      if (this.hasSelectionMode === true) {
+        const slot = this.$scopedSlots['body-selection']
+        const content = slot !== void 0
+          ? slot(this.__getBodySelectionScope({ key, row, pageIndex }))
+          : [
+            h(QCheckbox, {
+              props: {
+                value: selected,
+                color: this.color,
+                dark: this.isDark,
+                dense: this.dense
+              },
+              on: {
+                input: (adding, evt) => {
+                  this.__updateSelection([ key ], [ row ], adding, evt)
+                }
               }
-            }
-          })
-        ])
-      )
+            })
+          ]
+
+        child.unshift(
+          h('td', { staticClass: 'q-table--col-auto-width' }, content)
+        )
+      }
 
       const data = { key, class: { selected }, on: {} }
 
@@ -72,16 +77,15 @@ export default {
       return h('tr', data, child)
     },
 
-    getTableBody (h) {
+    __getTBody (h) {
       const
         body = this.$scopedSlots.body,
         topRow = this.$scopedSlots['top-row'],
-        bottomRow = this.$scopedSlots['bottom-row'],
-        mapFn = body !== void 0
-          ? (row, pageIndex) => this.getTableRowBody(row, body, pageIndex)
-          : (row, pageIndex) => this.getTableRow(h, row, pageIndex)
+        bottomRow = this.$scopedSlots['bottom-row']
 
-      let child = this.computedRows.map(mapFn)
+      let child = this.computedRows.map(
+        (row, pageIndex) => this.__getTBodyTR(h, row, body, pageIndex)
+      )
 
       if (topRow !== void 0) {
         child = topRow({ cols: this.computedCols }).concat(child)
@@ -93,34 +97,13 @@ export default {
       return h('tbody', child)
     },
 
-    getTableRowVirtual (h) {
+    __getVirtualTBodyTR (h) {
       const body = this.$scopedSlots.body
-
-      return body !== void 0
-        ? props => this.getTableRowBody(props.item, body, props.index)
-        : props => this.getTableRow(h, props.item, props.index)
+      return props => this.__getTBodyTR(h, props.item, body, props.index)
     },
 
-    addBodyRowMeta (data) {
-      data.rowIndex = this.firstRowIndex + data.pageIndex
-
-      this.hasSelectionMode === true && Object.defineProperty(data, 'selected', {
-        get: () => this.isRowSelected(data.key),
-        set: adding => {
-          this.__updateSelection([ data.key ], [ data.row ], adding)
-        },
-        configurable: true,
-        enumerable: true
-      })
-
-      Object.defineProperty(data, 'expand', {
-        get: () => this.isRowExpanded(data.key),
-        set: adding => {
-          this.__updateExpanded(data.key, adding)
-        },
-        configurable: true,
-        enumerable: true
-      })
+    __getBodyScope (data) {
+      this.__injectBodyCommonScope(data)
 
       data.cols = data.cols.map(col => {
         const c = { ...col }
@@ -135,15 +118,51 @@ export default {
       return data
     },
 
-    addBodyCellMetaData (data) {
-      data.rowIndex = this.firstRowIndex + data.pageIndex
+    __getBodyCellScope (data) {
+      this.__injectBodyCommonScope(data)
 
       Object.defineProperty(data, 'value', {
         get: () => this.getCellValue(data.col, data.row),
         configurable: true,
         enumerable: true
       })
+
       return data
+    },
+
+    __getBodySelectionScope (data) {
+      this.__injectBodyCommonScope(data)
+      return data
+    },
+
+    __injectBodyCommonScope (data) {
+      Object.assign(data, {
+        cols: this.computedCols,
+        colsMap: this.computedColsMap,
+        sort: this.sort,
+        rowIndex: this.firstRowIndex + data.pageIndex,
+        color: this.color,
+        dark: this.isDark,
+        dense: this.dense
+      })
+
+      this.hasSelectionMode === true && Object.defineProperty(data, 'selected', {
+        get: () => this.isRowSelected(data.key),
+        set: (adding, evt) => {
+          this.__updateSelection([ data.key ], [ data.row ], adding, evt)
+        },
+        configurable: true,
+        enumerable: true
+      })
+
+      Object.defineProperty(data, 'expand', {
+        get: () => this.isRowExpanded(data.key),
+        set: adding => {
+          this.__updateExpanded(data.key, adding)
+        },
+        configurable: true,
+        enumerable: true
+      })
     },
 
     getCellValue (col, row) {

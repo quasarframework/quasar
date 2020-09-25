@@ -7,11 +7,11 @@ const appPaths = require('./app-paths')
 const quasarFolder = appPaths.resolve.app('.quasar')
 
 class Generator {
-  constructor (quasarConfig) {
-    const { ctx } = quasarConfig.getBuildConfig()
+  constructor (quasarConfFile) {
+    const { ctx } = quasarConfFile.quasarConf
 
     this.alreadyGenerated = false
-    this.quasarConfig = quasarConfig
+    this.quasarConfFile = quasarConfFile
 
     const paths = [
       'app.js',
@@ -49,9 +49,9 @@ class Generator {
         filename: 'ssr.js',
         dest: path.join(quasarFolder, 'ssr-config.js'),
         template: compileTemplate(fs.readFileSync(ssrFile, 'utf-8')),
-        dataFn: quasarConfig => ({
-          opts: quasarConfig.ssr.__templateOpts,
-          flags: quasarConfig.ssr.__templateFlags
+        dataFn: quasarConf => ({
+          opts: quasarConf.ssr.__templateOpts,
+          flags: quasarConf.ssr.__templateFlags
         })
       })
     }
@@ -59,7 +59,7 @@ class Generator {
 
   build () {
     log(`Generating Webpack entry point`)
-    const data = this.quasarConfig.getBuildConfig()
+    const data = this.quasarConfFile.quasarConf
 
     // ensure .quasar folder
     if (!fs.existsSync(quasarFolder)) {
