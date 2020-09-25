@@ -536,13 +536,14 @@ export default {
     $q.notify.setDefaults = this.setDefaults
     $q.notify.registerType = this.registerType
 
-    const node = document.createElement('div')
-    document.body.appendChild(node)
+    const el = document.createElement('div')
+    el.id = 'q-notify'
+    document.body.appendChild(el)
 
     const app = createApp(Notifications)
 
     app.config.globalProperties.$q = $q
-    app.mount(node)
+    app.mount(el)
 
     this.__vm = getAppVm(app)
   }

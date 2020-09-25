@@ -1,17 +1,18 @@
 import { isSSR } from '../plugins/Platform.js'
 
 import TimeoutMixin from './timeout.js'
-import ListenersMixin from './listeners.js'
 
 export default {
-  mixins: [ TimeoutMixin, ListenersMixin ],
+  mixins: [ TimeoutMixin ],
 
   props: {
-    value: {
+    modelValue: {
       type: Boolean,
-      default: void 0
+      default: null
     }
   },
+
+  emits: [ 'update:modelValue', 'before-show', 'show', 'before-hide', 'hide' ],
 
   data () {
     return {
@@ -20,7 +21,7 @@ export default {
   },
 
   watch: {
-    value (val) {
+    modelValue (val) {
       this.__processModelChange(val)
     },
 
@@ -35,12 +36,12 @@ export default {
     },
 
     show (evt) {
-      if (this.disable === true || (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)) {
+      if (isSSR === true || this.disable === true || (this.__showCondition !== void 0 && this.__showCondition(evt) !== true)) {
         return
       }
 
-      if (this.qListeners.input !== void 0 && isSSR === false) {
-        this.$emit('input', true)
+      if (this.modelValue === false) {
+        this.$emit('update:modelValue', true)
         this.payload = evt
         this.$nextTick(() => {
           if (this.payload === evt) {
@@ -48,8 +49,7 @@ export default {
           }
         })
       }
-
-      if (this.value === void 0 || this.qListeners.input === void 0 || isSSR === true) {
+      else if (this.modelValue === null) {
         this.__processShow(evt)
       }
     },
@@ -78,12 +78,12 @@ export default {
     },
 
     hide (evt) {
-      if (this.disable === true) {
+      if (isSSR === true || this.disable === true) {
         return
       }
 
-      if (this.qListeners.input !== void 0 && isSSR === false) {
-        this.$emit('input', false)
+      if (this.modelValue === true) {
+        this.$emit('update:modelValue', false)
         this.payload = evt
         this.$nextTick(() => {
           if (this.payload === evt) {
@@ -91,7 +91,7 @@ export default {
           }
         })
       }
-      if (this.value === void 0 || this.qListeners.input === void 0 || isSSR === true) {
+      else if (this.modelValue === null) {
         this.__processHide(evt)
       }
     },
@@ -117,7 +117,7 @@ export default {
 
     __processModelChange (val) {
       if (this.disable === true && val === true) {
-        this.qListeners.input !== void 0 && this.$emit('input', false)
+        this.modelValue !== null && this.$emit('update:modelValue', false)
       }
       else if ((val === true) !== this.showing) {
         this[`__process${val === true ? 'Show' : 'Hide'}`](this.payload)

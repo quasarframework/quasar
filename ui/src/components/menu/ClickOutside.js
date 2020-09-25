@@ -35,8 +35,8 @@ function globalHandler (evt) {
 export default {
   name: 'click-outside',
 
-  bind (el, { value, arg }, vnode) {
-    const vmEl = vnode.componentInstance || vnode.context
+  mounted (el, { value, arg }) {
+    const vm = el.__vueParentComponent.proxy
 
     const ctx = {
       trigger: value,
@@ -57,7 +57,7 @@ export default {
           ) &&
           (
             target === document.body ||
-            isVmChildOf(getVmOfNode(target), vmEl) === false
+            isVmChildOf(getVmOfNode(target), vm) === false
           )
         ) {
           // mark the event as being processed by clickOutside
@@ -88,7 +88,7 @@ export default {
     }, 500)
   },
 
-  update (el, { value, oldValue, arg }) {
+  updated (el, { value, oldValue, arg }) {
     const ctx = el.__qclickoutside
 
     if (value !== oldValue) {
@@ -99,7 +99,7 @@ export default {
     }
   },
 
-  unbind (el) {
+  beforeUnmount (el) {
     const ctx = el.__qclickoutside_old || el.__qclickoutside
     if (ctx !== void 0) {
       clearTimeout(ctx.timerFocusin)

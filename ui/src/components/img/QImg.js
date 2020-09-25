@@ -247,7 +247,7 @@ export default defineComponent({
         ? content
         : h(Transition, {
           name: 'q-transition--' + this.transition
-        }, [ content ])
+        }, { default: () => [ content ] })
     },
 
     __getContent () {

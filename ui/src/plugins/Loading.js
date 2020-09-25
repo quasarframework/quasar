@@ -51,8 +51,9 @@ const Plugin = defineReactivePlugin({
     timeout = setTimeout(() => {
       timeout = void 0
 
-      const node = document.createElement('div')
-      document.body.appendChild(node)
+      const el = document.createElement('div')
+      el.id = 'q-loading'
+      document.body.appendChild(el)
 
       vm = createApp({
         name: 'QLoading',
@@ -67,8 +68,8 @@ const Plugin = defineReactivePlugin({
             // previous leave, even if it was cancelled
             if (Plugin.isActive !== true && vm !== void 0) {
               preventScroll(false)
-              vm.unmount(node)
-              node.remove()
+              vm.unmount(el)
+              el.remove()
               vm = void 0
             }
           },
@@ -106,7 +107,7 @@ const Plugin = defineReactivePlugin({
         }
       })
 
-      vm.mount(node)
+      vm.mount(el)
     }, props.delay)
   },
 

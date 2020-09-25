@@ -28,6 +28,7 @@ export default defineReactivePlugin({
     props.ref = 'bar'
 
     const el = document.createElement('div')
+    el.id = 'q-loading-bar'
     document.body.appendChild(el)
 
     const app = createApp({

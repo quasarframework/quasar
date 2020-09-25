@@ -32,11 +32,13 @@ function destroy (el) {
 export default {
   name: 'close-popup',
 
-  beforeMount (el, { value }, vnode) {
+  mounted (el, { value }) {
     if (el.__qclosepopup !== void 0) {
       destroy(el)
       el.__qclosepopup_destroyed = true
     }
+
+    const vm = el.__vueParentComponent.proxy
 
     const ctx = {
       depth: getDepth(value),
@@ -44,7 +46,7 @@ export default {
       handler (evt) {
         // allow @click to be emitted
         ctx.depth !== 0 && setTimeout(() => {
-          closePortals(vnode.componentInstance || vnode.context, evt, ctx.depth)
+          closePortals(vm, evt, ctx.depth)
         })
       },
 

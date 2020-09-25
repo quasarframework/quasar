@@ -4,20 +4,26 @@ import QSpinner from '../spinner/QSpinner.js'
 
 import TransitionMixin from '../../mixins/transition.js'
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 export default defineComponent({
   name: 'QInnerLoading',
 
-  mixins: [ ListenersMixin, DarkMixin, TransitionMixin ],
+  mixins: [ DarkMixin, TransitionMixin ],
 
   props: {
     showing: Boolean,
     color: String,
 
     size: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 42
+    }
+  },
+
+  computed: {
+    classes () {
+      return 'q-inner-loading absolute-full column flex-center' +
+        (this.isDark === true ? ' q-inner-loading--dark' : '')
     }
   },
 
@@ -26,9 +32,7 @@ export default defineComponent({
       ? [
         h('div',
           {
-            staticClass: 'q-inner-loading absolute-full column flex-center',
-            class: this.isDark === true ? 'q-inner-loading--dark' : null,
-            on: { ...this.qListeners }
+            class: this.classes
           },
           this.$slots.default !== void 0
             ? this.$slots.default()
@@ -47,6 +51,6 @@ export default defineComponent({
     return h(Transition, {
       name: this.transition,
       appear: true
-    }, child)
+    }, { default: () => child })
   }
 })

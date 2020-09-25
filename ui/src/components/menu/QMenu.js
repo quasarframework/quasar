@@ -1,11 +1,10 @@
-import { h, defineComponent, Transition } from 'vue'
+import { h, defineComponent, Transition, withDirectives } from 'vue'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import DarkMixin from '../../mixins/dark.js'
 import PortalMixin, { closePortalMenus } from '../../mixins/portal.js'
 import TransitionMixin from '../../mixins/transition.js'
-import AttrsMixin from '../../mixins/attrs.js'
 
 import ClickOutside from './ClickOutside.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -22,17 +21,12 @@ export default defineComponent({
   name: 'QMenu',
 
   mixins: [
-    AttrsMixin,
     DarkMixin,
     AnchorMixin,
     ModelToggleMixin,
     PortalMixin,
     TransitionMixin
   ],
-
-  directives: {
-    ClickOutside
-  },
 
   props: {
     persistent: Boolean,
@@ -108,33 +102,23 @@ export default defineComponent({
 
     onEvents () {
       const on = {
-        ...this.qListeners,
         // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
+        'onUpdate:modelValue': stop,
+        'onPopup-show': stop,
+        'onPopup-hide': stop
       }
 
       if (this.autoClose === true) {
-        on.click = this.__onAutoClose
+        on.onClick = this.__onAutoClose
       }
 
       return on
-    },
-
-    attrs () {
-      return {
-        tabindex: -1,
-        ...this.qAttrs
-      }
     }
   },
 
   methods: {
     focus () {
-      let node = this.__portal !== void 0 && this.__portal.$refs !== void 0
-        ? this.__portal.$refs.inner
-        : void 0
+      let node = this.$refs.inner
 
       if (node !== void 0 && node.contains(document.activeElement) !== true) {
         node = node.querySelector('[autofocus], [data-autofocus]') || node
@@ -176,7 +160,8 @@ export default defineComponent({
         )
       }
 
-      this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
+      // TODO vue3
+      // this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
 
       // IE can have null document.activeElement
       if (this.noFocus !== true && document.activeElement !== null) {
@@ -194,7 +179,7 @@ export default defineComponent({
           // if auto-close, then this click should
           // not close the menu
           this.__avoidAutoClose = this.autoClose
-          this.__portal.$el.click()
+          this.$refs.inner.click()
         }
 
         this.updatePosition()
@@ -219,7 +204,8 @@ export default defineComponent({
         this.__refocusTarget.focus()
       }
 
-      this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
+      // TODO vue3
+      // this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
       this.__setTimeout(() => {
         this.__hidePortal()
@@ -260,7 +246,7 @@ export default defineComponent({
       // issues a click should not close the menu
       if (this.__avoidAutoClose !== true) {
         closePortalMenus(this, e)
-        this.qListeners.click !== void 0 && this.$emit('click', e)
+        this.$emit('click', e)
       }
       else {
         this.__avoidAutoClose = false
@@ -268,11 +254,11 @@ export default defineComponent({
     },
 
     updatePosition () {
-      if (this.anchorEl === void 0 || this.__portal === void 0) {
+      if (this.anchorEl === void 0 || this.$refs.inner === void 0) {
         return
       }
 
-      const el = this.__portal.$el
+      const el = this.$refs.inner
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
         setTimeout(this.updatePosition, 25)
@@ -311,28 +297,36 @@ export default defineComponent({
     },
 
     __renderPortal () {
-      return h(Transition, {
-        name: this.transition
-      }, [
-        this.showing === true ? h('div', {
+      // TODO vue3 - wait on Transition.$parent bug to be solved
+      // return h(Transition, {
+      //   name: this.transition,
+      //   appear: true
+      // }, {
+      //   default: () => [
+      return this.showing === true ? withDirectives(
+        h('div', {
           ref: 'inner',
-          staticClass: 'q-menu q-position-engine scroll' + this.menuClass,
-          class: this.contentClass,
+          class: [
+            'q-menu q-position-engine scroll' + this.menuClass,
+            this.contentClass
+          ],
           style: this.contentStyle,
-          attrs: this.attrs,
-          on: this.onEvents,
-          directives: [{
-            name: 'click-outside',
-            value: this.__onClickOutside,
-            arg: this.anchorEl
-          }]
-        }, slot(this, 'default')) : null
-      ])
+          tabindex: -1,
+          ...this.onEvents
+        }, slot(this, 'default')),
+        [[
+          ClickOutside,
+          this.__onClickOutside,
+          this.anchorEl
+        ]]
+      ) : null
+      //   ]
+      // })
     }
   },
 
   mounted () {
-    this.__processModelChange(this.value)
+    this.__processModelChange(this.modelValue)
   },
 
   beforeUnmount () {

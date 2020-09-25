@@ -87,7 +87,7 @@ export default defineComponent({
 
       this.__nextTick(() => {
         this.observer = new MutationObserver(() => this.updatePosition())
-        this.observer.observe(this.__portal.$el, { attributes: false, childList: true, characterData: true, subtree: true })
+        this.observer.observe(this.$refs.inner, { attributes: false, childList: true, characterData: true, subtree: true })
         this.updatePosition()
         this.__configureScrollTarget()
       })
@@ -117,11 +117,11 @@ export default defineComponent({
     },
 
     updatePosition () {
-      if (this.anchorEl === void 0 || this.__portal === void 0) {
+      if (this.anchorEl === void 0 || this.$refs.inner === void 0) {
         return
       }
 
-      const el = this.__portal.$el
+      const el = this.$refs.inner
 
       if (el.nodeType === 8) { // IE replaces the comment with delay
         setTimeout(this.updatePosition, 25)
@@ -208,21 +208,25 @@ export default defineComponent({
 
     __renderPortal () {
       return h(Transition, {
-        name: this.transition
-      }, [
-        this.showing === true ? h('div', {
-          staticClass: 'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
-          class: this.contentClass,
-          style: this.contentStyle,
-          attrs: {
+        name: this.transition,
+        appear: true
+      }, {
+        default: () => [
+          this.showing === true ? h('div', {
+            ref: 'inner',
+            class: [
+              'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
+              this.contentClass
+            ],
+            style: this.contentStyle,
             role: 'complementary'
-          }
-        }, slot(this, 'default')) : null
-      ])
+          }, slot(this, 'default')) : null
+        ]
+      })
     }
   },
 
   mounted () {
-    this.__processModelChange(this.value)
+    this.__processModelChange(this.modelValue)
   }
 })

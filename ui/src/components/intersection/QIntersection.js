@@ -81,7 +81,7 @@ export default defineComponent({
       ? [
         h(Transition, {
           name: 'q-transition--' + this.transition
-        }, content)
+        }, { default: () => content })
       ]
       : content
     )

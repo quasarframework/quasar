@@ -70,6 +70,8 @@ export default defineComponent({
     transitionHide: String
   },
 
+  emits: [ 'shake', 'click', 'escape-key' ],
+
   data () {
     return {
       transitionState: this.showing
@@ -97,8 +99,9 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return `q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'} ` +
-        `q-dialog__inner--${this.position} ${positionClass[this.position]}` +
+      return 'q-dialog__inner flex no-pointer-events' +
+        ` q-dialog__inner--${this.maximized === true ? 'maximized' : 'minimized'}` +
+        ` q-dialog__inner--${this.position} ${positionClass[this.position]}` +
         (this.fullWidth === true ? ' q-dialog__inner--fullwidth' : '') +
         (this.fullHeight === true ? ' q-dialog__inner--fullheight' : '') +
         (this.square === true ? ' q-dialog__inner--square' : '')
@@ -129,19 +132,18 @@ export default defineComponent({
     },
 
     onEvents () {
-      const on = {
-        ...this.qListeners,
+      const evt = {
         // stop propagating these events from children
-        input: stop,
-        'popup-show': stop,
-        'popup-hide': stop
+        'onUpdate:modelValue': stop,
+        'onPopup-show': stop,
+        'onPopup-hide': stop
       }
 
       if (this.autoClose === true) {
-        on.click = this.__onAutoClose
+        evt.onClick = this.__onAutoClose
       }
 
-      return on
+      return evt
     }
   },
 
@@ -187,7 +189,8 @@ export default defineComponent({
         ? document.activeElement
         : void 0
 
-      this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
+      // TODO vue3
+      // this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
       this.__updateMaximized(this.maximized)
 
       EscapeKey.register(this, () => {
@@ -259,7 +262,8 @@ export default defineComponent({
         this.__refocusTarget.focus()
       }
 
-      this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
+      // TODO vue3
+      // this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
       this.__setTimeout(() => {
         this.__hidePortal()
@@ -309,7 +313,7 @@ export default defineComponent({
 
     __onAutoClose (e) {
       this.hide(e)
-      this.qListeners.click !== void 0 && this.$emit('click', e)
+      this.$emit('click', e)
     },
 
     __onBackdropClick (e) {
@@ -334,40 +338,46 @@ export default defineComponent({
 
     __renderPortal () {
       return h('div', {
-        staticClass: 'q-dialog fullscreen no-pointer-events',
-        class: this.contentClass,
+        class: [
+          'q-dialog fullscreen no-pointer-events',
+          this.contentClass
+        ],
         style: this.contentStyle,
-        attrs: this.qAttrs
+        ...this.$attrs
       }, [
         h(Transition, {
-          name: 'q-transition--fade'
-        }, this.useBackdrop === true ? [
-          h('div', {
-            staticClass: 'q-dialog__backdrop fixed-full',
-            attrs: ariaHidden,
-            on: cache(this, 'bkdrop', {
-              click: this.__onBackdropClick
+          name: 'q-transition--fade',
+          appear: true
+        }, {
+          default: () => this.useBackdrop === true ? [
+            h('div', {
+              class: 'q-dialog__backdrop fixed-full',
+              ...ariaHidden,
+              onClick: this.__onBackdropClick
             })
-          })
-        ] : null),
+          ] : null
+        }),
 
-        h(Transition, {
-          name: this.transition
-        }, [
-          this.showing === true ? h('div', {
-            ref: 'inner',
-            staticClass: 'q-dialog__inner flex no-pointer-events',
-            class: this.classes,
-            attrs: { tabindex: -1 },
-            on: this.onEvents
-          }, slot(this, 'default')) : null
-        ])
+        // TODO vue3 - wait on Transition.$parent bug to be solved
+        // h(Transition, {
+        //   name: this.transition,
+        //   appear: true
+        // }, {
+        //   default: () => [
+        this.showing === true ? h('div', {
+          ref: 'inner',
+          class: this.classes,
+          tabindex: -1,
+          ...this.onEvents
+        }, slot(this, 'default')) : null
+        //   ]
+        // })
       ])
     }
   },
 
   mounted () {
-    this.__processModelChange(this.value)
+    this.__processModelChange(this.modelValue)
   },
 
   beforeUnmount () {
