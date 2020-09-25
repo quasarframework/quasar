@@ -1,13 +1,9 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QTd',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     props: Object,
@@ -23,15 +19,13 @@ export default defineComponent({
   },
 
   render () {
-    const on = this.qListeners
-
     if (this.props === void 0) {
       return h('td', {
-        on,
         class: this.classes
       }, slot(this, 'default'))
     }
 
+    // TODO vue3
     const name = this.$vnode.key
 
     const col = this.props.colsMap !== void 0 && name
@@ -41,9 +35,8 @@ export default defineComponent({
     if (col === void 0) { return }
 
     return h('td', {
-      on,
-      style: col.style,
-      class: this.classes + ' ' + col.__tdClass
+      class: this.classes + ' ' + col.__tdClass,
+      style: col.style
     }, slot(this, 'default'))
   }
 })

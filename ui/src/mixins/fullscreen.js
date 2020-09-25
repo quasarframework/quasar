@@ -6,6 +6,8 @@ export default {
     noRouteFullscreenExit: Boolean
   },
 
+  emits: [ 'update:fullscreen', 'fullscreen' ],
+
   data () {
     return {
       inFullscreen: false

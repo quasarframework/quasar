@@ -9,6 +9,8 @@ export default {
   },
 
   mounted () {
-    this.canRender === false && (this.canRender = true)
+    if (this.canRender === false) {
+      this.canRender = true
+    }
   }
 }

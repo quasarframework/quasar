@@ -15,8 +15,8 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return 'q-card__section ' +
-        `q-card__section--${this.horizontal === true ? 'horiz row no-wrap' : 'vert'}`
+      return 'q-card__section' +
+        ` q-card__section--${this.horizontal === true ? 'horiz row no-wrap' : 'vert'}`
     }
   },
 

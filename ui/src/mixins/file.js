@@ -1,7 +1,6 @@
 import { h } from 'vue'
 
 import { stopAndPrevent } from '../utils/event.js'
-import cache from '../utils/cache.js'
 
 function filterFiles (files, rejectedFiles, failedPropValidation, filterFn) {
   const acceptedFiles = []
@@ -28,6 +27,8 @@ export default {
     maxFiles: [ Number, String ],
     filter: Function
   },
+
+  emits: [ 'rejected' ],
 
   computed: {
     extensions () {
@@ -172,13 +173,11 @@ export default {
     __getDnd (type) {
       if (this.dnd === true) {
         return h('div', {
-          staticClass: `q-${type}__dnd absolute-full`,
-          on: cache(this, 'dnd', {
-            dragenter: stopAndPrevent,
-            dragover: stopAndPrevent,
-            dragleave: this.__onDragLeave,
-            drop: this.__onDrop
-          })
+          class: `q-${type}__dnd absolute-full`,
+          onDragenter: stopAndPrevent,
+          onDragover: stopAndPrevent,
+          onDragleave: this.__onDragLeave,
+          onDrop: this.__onDrop
         })
       }
     }

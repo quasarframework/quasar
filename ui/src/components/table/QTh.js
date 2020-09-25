@@ -2,14 +2,10 @@ import { h, defineComponent } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QTh',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     props: Object,
@@ -17,12 +13,9 @@ export default defineComponent({
   },
 
   render () {
-    const on = { ...this.qListeners }
-
     if (this.props === void 0) {
       return h('th', {
-        on,
-        class: this.autoWidth === true ? 'q-table--col-auto-width' : null
+        class: this.autoWidth === true ? 'q-table--col-auto-width' : ''
       }, slot(this, 'default'))
     }
 
@@ -45,8 +38,8 @@ export default defineComponent({
       child = uniqueSlot(this, 'default', [])
       child[action](
         h(QIcon, {
-          props: { name: this.$q.iconSet.table.arrowUp },
-          staticClass: col.__iconClass
+          class: col.__iconClass,
+          name: this.$q.iconSet.table.arrowUp
         })
       )
     }
@@ -54,20 +47,19 @@ export default defineComponent({
       child = slot(this, 'default')
     }
 
-    const evt = col.sortable === true
-      ? {
-        click: evt => {
-          this.props.sort(col)
-          this.$emit('click', evt)
-        }
-      }
-      : {}
-
-    return h('th', {
-      on: { ...on, ...evt },
-      style: col.headerStyle,
+    const data = {
       class: col.__thClass +
-        (this.autoWidth === true ? ' q-table--col-auto-width' : '')
-    }, child)
+        (this.autoWidth === true ? ' q-table--col-auto-width' : ''),
+      style: col.headerStyle
+    }
+
+    if (col.sortable === true) {
+      data.onClick = evt => {
+        this.props.sort(col)
+        this.$emit('click', evt)
+      }
+    }
+
+    return h('th', data, child)
   }
 })

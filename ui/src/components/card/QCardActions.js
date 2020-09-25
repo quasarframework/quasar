@@ -15,13 +15,14 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return `q-card__actions--${this.vertical === true ? 'vert column' : 'horiz row'} ${this.alignClass}`
+      return 'q-card__actions' +
+        ` q-card__actions--${this.vertical === true ? 'vert column' : 'horiz row'}` +
+        ` ${this.alignClass}`
     }
   },
 
   render () {
     return h('div', {
-      staticClass: 'q-card__actions',
       class: this.classes
     }, slot(this, 'default'))
   }

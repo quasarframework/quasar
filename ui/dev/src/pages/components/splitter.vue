@@ -3,12 +3,12 @@
     <div class="row q-gutter-sm items-center">
       <q-toggle v-model="horizontal" label="Horizontal" />
       <q-toggle v-model="modelReverse" label="Reverse" />
-      <q-select dense filled v-model="modelUnit" :options="[ '%', 'px', 'em' ]" prefix="Unit:" />
+      <!-- <q-select dense filled v-model="modelUnit" :options="[ '%', 'px', 'em' ]" prefix="Unit:" /> -->
       <q-toggle v-model="disable" label="Disable" />
       <q-toggle v-model="funkyLimits" label="Funky limits" />
       <q-toggle v-model="showSeparator" label="Show separator" />
       <q-toggle v-model="emitImmediately" label="Emit immediately" />
-      <q-input
+      <!-- <q-input
         v-model="model"
         standout
         dense
@@ -24,7 +24,7 @@
         <template v-slot:append>
           <q-btn color="primary" flat round dense icon="clear" @click="model = 50" />
         </template>
-      </q-input>
+      </q-input> -->
     </div>
 
     <q-splitter
@@ -50,14 +50,14 @@
         </div>
       </template>
 
-      <q-icon
-        v-if="showSeparator"
-        color="primary"
-        slot="separator"
-        size="40px"
-        name="drag_indicator"
-        @click="separatorLog"
-      />
+      <template v-slot:separator v-if="showSeparator">
+        <q-icon
+          color="primary"
+          size="40px"
+          name="drag_indicator"
+          @click="separatorLog"
+        />
+      </template>
 
       <template v-slot:after>
         <div class="q-layout-padding">
@@ -93,40 +93,42 @@
         </div>
       </template>
 
-      <div v-if="showSeparator" slot="separator" class="flex justify-center">
-        <q-btn
-          color="primary"
-          unelevated
-          class="q-px-sm"
-          icon="drag_indicator"
-          @click="separatorLog"
-        />
-        <q-splitter
-          v-model="innerSeparatorSplitModel"
-          :reverse="modelReverse"
-          vertical
-          :disable="disable"
-          separator-class="bg-deep-orange"
-          class="bg-white rounded-borders"
-          style="width: 50vw; height: 30vh"
-        >
-          <template v-slot:before>
-            <div class="q-layout-padding">
-              <div v-for="n in 20" :key="n" class="q-my-md">
-                {{ n }}. Lorem ipsum dolor sit.
+      <template v-slot:separator v-if="showSeparator">
+        <div class="flex justify-center">
+          <q-btn
+            color="primary"
+            unelevated
+            class="q-px-sm"
+            icon="drag_indicator"
+            @click="separatorLog"
+          />
+          <q-splitter
+            v-model="innerSeparatorSplitModel"
+            :reverse="modelReverse"
+            vertical
+            :disable="disable"
+            separator-class="bg-deep-orange"
+            class="bg-white rounded-borders"
+            style="width: 50vw; height: 30vh"
+          >
+            <template v-slot:before>
+              <div class="q-layout-padding">
+                <div v-for="n in 20" :key="n" class="q-my-md">
+                  {{ n }}. Lorem ipsum dolor sit.
+                </div>
               </div>
-            </div>
-          </template>
+            </template>
 
-          <template v-slot:after>
-            <div class="q-layout-padding">
-              <div v-for="n in 20" :key="n" class="q-my-md">
-                {{ n }}. Lorem ipsum dolor sit.
+            <template v-slot:after>
+              <div class="q-layout-padding">
+                <div v-for="n in 20" :key="n" class="q-my-md">
+                  {{ n }}. Lorem ipsum dolor sit.
+                </div>
               </div>
-            </div>
-          </template>
-        </q-splitter>
-      </div>
+            </template>
+          </q-splitter>
+        </div>
+      </template>
 
       <template v-slot:after>
         <q-splitter
@@ -147,15 +149,16 @@
             </div>
           </template>
 
-          <q-btn
-            v-if="showSeparator"
-            color="primary"
-            unelevated
-            class="q-px-sm test-separator"
-            slot="separator"
-            icon="touch_app"
-            @click="separatorLog"
-          />
+          <template v-slot:separator v-if="showSeparator">
+            <q-btn
+              color="primary"
+              unelevated
+              class="q-px-sm test-separator"
+              slot="separator"
+              icon="touch_app"
+              @click="separatorLog"
+            />
+          </template>
 
           <template v-slot:after>
             <div class="q-layout-padding">
