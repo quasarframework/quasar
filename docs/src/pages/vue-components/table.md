@@ -105,6 +105,10 @@ You can omit specifying the `columns`. QTable will infer the columns from the pr
 
 <doc-example title="Infering columns from data" file="QTable/InferColumns" />
 
+You can specify a function for the translation of the labels.
+
+<doc-example title="Infering columns with custom label formatter" file="QTable/InferColumnsWithLabelFormatter" />
+
 ## Sticky header/column
 
 ::: warning
