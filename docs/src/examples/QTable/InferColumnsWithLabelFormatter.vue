@@ -3,7 +3,7 @@
     <q-table
       :data="rows"
       row-key="name"
-      :label-formatter="customLabelFormatter"
+      :label-format="customLabelFormatter"
     />
   </div>
 </template>
