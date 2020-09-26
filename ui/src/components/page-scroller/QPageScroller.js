@@ -105,7 +105,7 @@ export default defineComponent({
             class: 'q-page-scroller',
             onClick: this.__onClick
           }, [
-            QPageSticky.options.render.call(this)
+            QPageSticky.render.call(this)
           ])
         ]
       }

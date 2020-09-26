@@ -116,7 +116,7 @@ export default defineComponent({
       const child = []
 
       this.isClickable === true && child.push(
-        h('div', { staticClass: 'q-focus-helper' })
+        h('div', { class: 'q-focus-helper' })
       )
 
       this.hasLeftIcon === true && child.push(

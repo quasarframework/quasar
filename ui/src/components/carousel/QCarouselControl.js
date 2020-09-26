@@ -1,13 +1,9 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QCarouselControl',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     position: {
@@ -28,7 +24,7 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return `absolute-${this.position}`
+      return `q-carousel__control absolute absolute-${this.position}`
     },
 
     style () {
@@ -40,10 +36,8 @@ export default defineComponent({
 
   render () {
     return h('div', {
-      staticClass: 'q-carousel__control absolute',
-      style: this.style,
       class: this.classes,
-      on: { ...this.qListeners }
+      style: this.style,
     }, slot(this, 'default'))
   }
 })

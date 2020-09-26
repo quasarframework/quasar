@@ -25,9 +25,8 @@ export default defineComponent({
 
   render () {
     return h('div', {
-      staticClass: 'q-carousel__slide',
-      style: this.style,
-      on: { ...this.qListeners }
+      class: 'q-carousel__slide',
+      style: this.style
     }, slot(this, 'default'))
   }
 })
