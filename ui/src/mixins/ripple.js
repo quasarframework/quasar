@@ -1,7 +1,7 @@
 export default {
   props: {
     ripple: {
-      type: [Boolean, Object],
+      type: [ Boolean, Object ],
       default: true
     }
   }

@@ -4,16 +4,11 @@ import { onSSR } from '../../plugins/Platform.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QFooter',
-
-  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -33,10 +28,12 @@ export default defineComponent({
     elevated: Boolean,
 
     heightHint: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 50
     }
   },
+
+  emits: [ 'reveal', 'focusin' ],
 
   data () {
     return {
@@ -116,7 +113,8 @@ export default defineComponent({
     },
 
     classes () {
-      return (this.fixed === true ? 'fixed' : 'absolute') + '-bottom' +
+      return 'q-footer q-layout__section--marginal' +
+        (this.fixed === true ? 'fixed' : 'absolute') + '-bottom' +
         (this.bordered === true ? ' q-footer--bordered' : '') +
         (this.hidden === true ? ' q-footer--hidden' : '') +
         (this.value !== true ? ' q-layout--prevent-focus' : '') +
@@ -136,36 +134,28 @@ export default defineComponent({
       }
 
       return css
-    },
-
-    onEvents () {
-      return {
-        ...this.qListeners,
-        focusin: this.__onFocusin,
-        input: stop
-      }
     }
   },
 
   render () {
     const child = mergeSlot([
       h(QResizeObserver, {
-        props: { debounce: 0 },
-        on: cache(this, 'resize', { resize: this.__onResize })
+        debounce: 0,
+        onResize: this.__onResize
       })
     ], this, 'default')
 
     this.elevated === true && child.push(
       h('div', {
-        staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+        class: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
       })
     )
 
     return h('footer', {
-      staticClass: 'q-footer q-layout__section--marginal',
       class: this.classes,
       style: this.style,
-      on: this.onEvents
+      onFocusin: this.__onFocusin,
+      'onUpdate:modelValue': stop
     }, child)
   },
 

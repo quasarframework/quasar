@@ -1,13 +1,9 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QPageContainer',
-
-  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -44,9 +40,8 @@ export default defineComponent({
 
   render () {
     return h('div', {
-      staticClass: 'q-page-container',
-      style: this.style,
-      on: { ...this.qListeners }
+      class: 'q-page-container',
+      style: this.style
     }, slot(this, 'default'))
   }
 })

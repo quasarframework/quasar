@@ -2,16 +2,11 @@ import { h, defineComponent } from 'vue'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { uniqueSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QHeader',
-
-  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -35,10 +30,12 @@ export default defineComponent({
     elevated: Boolean,
 
     heightHint: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 50
     }
   },
+
+  emits: [ 'reveal', 'focusin' ],
 
   data () {
     return {
@@ -103,7 +100,8 @@ export default defineComponent({
     },
 
     classes () {
-      return (this.fixed === true ? 'fixed' : 'absolute') + '-top' +
+      return 'q-header q-layout__section--marginal' +
+        (this.fixed === true ? 'fixed' : 'absolute') + '-top' +
         (this.bordered === true ? ' q-header--bordered' : '') +
         (this.hidden === true ? ' q-header--hidden' : '') +
         (this.value !== true ? ' q-layout--prevent-focus' : '')
@@ -122,14 +120,6 @@ export default defineComponent({
       }
 
       return css
-    },
-
-    onEvents () {
-      return {
-        ...this.qListeners,
-        focusin: this.__onFocusin,
-        input: stop
-      }
     }
   },
 
@@ -138,22 +128,22 @@ export default defineComponent({
 
     this.elevated === true && child.push(
       h('div', {
-        staticClass: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
+        class: 'q-layout__shadow absolute-full overflow-hidden no-pointer-events'
       })
     )
 
     child.push(
       h(QResizeObserver, {
-        props: { debounce: 0 },
-        on: cache(this, 'resize', { resize: this.__onResize })
+        debounce: 0,
+        onResize: this.__onResize
       })
     )
 
     return h('header', {
-      staticClass: 'q-header q-layout__section--marginal',
       class: this.classes,
       style: this.style,
-      on: this.onEvents
+      onFocusin: this.__onFocusin,
+      'onUpdate:modelValue': stop
     }, child)
   },
 

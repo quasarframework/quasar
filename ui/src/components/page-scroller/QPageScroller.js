@@ -26,6 +26,8 @@ export default defineComponent({
     }
   },
 
+  emits: [ 'click' ],
+
   inject: {
     layout: {
       default () {
@@ -45,13 +47,6 @@ export default defineComponent({
       return this.layout.container === true
         ? this.layout.containerHeight
         : this.layout.height
-    },
-
-    onEvents () {
-      return {
-        ...this.qListeners,
-        click: this.__onClick
-      }
     }
   },
 
@@ -101,23 +96,27 @@ export default defineComponent({
     __cleanup () {
       this.heightWatcher()
       this.heightWatcher = void 0
+    },
+
+    __getContent () {
+      if (this.showing === true) {
+        return [
+          h('div', {
+            class: 'q-page-scroller',
+            onClick: this.__onClick
+          }, [
+            QPageSticky.options.render.call(this)
+          ])
+        ]
+      }
     }
   },
 
   render () {
-    return h(Transition, {
-      name: 'q-transition--fade'
-    },
-    this.showing === true
-      ? [
-        h('div', {
-          staticClass: 'q-page-scroller',
-          on: this.onEvents
-        }, [
-          QPageSticky.options.render.call(this)
-        ])
-      ]
-      : null
+    return h(
+      Transition,
+      { name: 'q-transition--fade' },
+      { default: this.__getContent }
     )
   },
 

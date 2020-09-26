@@ -1,7 +1,5 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import debounce from '../../utils/debounce.js'
 import { height } from '../../utils/dom.js'
 import { getScrollTarget, getScrollHeight, getScrollPosition, setScrollPosition } from '../../utils/scroll.js'
@@ -10,8 +8,6 @@ import { slot, uniqueSlot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QInfiniteScroll',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     offset: {
@@ -33,6 +29,8 @@ export default defineComponent({
     disable: Boolean,
     reverse: Boolean
   },
+
+  emits: [ 'load' ],
 
   data () {
     return {
@@ -58,6 +56,13 @@ export default defineComponent({
 
     debounce (val) {
       this.__setDebounce(val)
+    }
+  },
+
+  computed: {
+    classes () {
+      return 'q-infinite-scroll__loading' +
+        (this.fetching === true ? '' : ' invisible')
     }
   },
 
@@ -192,16 +197,10 @@ export default defineComponent({
 
     if (this.disable !== true && this.working === true) {
       child[this.reverse === false ? 'push' : 'unshift'](
-        h('div', {
-          staticClass: 'q-infinite-scroll__loading',
-          class: this.fetching === true ? '' : 'invisible'
-        }, slot(this, 'loading'))
+        h('div', { class: this.classes }, slot(this, 'loading'))
       )
     }
 
-    return h('div', {
-      staticClass: 'q-infinite-scroll',
-      on: { ...this.qListeners }
-    }, child)
+    return h('div', { class: 'q-infinite-scroll' }, child)
   }
 })

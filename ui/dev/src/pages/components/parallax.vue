@@ -47,7 +47,7 @@
             Quasar Framework
           </div>
           <div class="text-h6 text-grey-3 text-center">
-            Scoped slot
+            Using content slot
           </div>
         </div>
       </template>

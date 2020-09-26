@@ -5,16 +5,11 @@ import { onSSR } from '../../plugins/Platform.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { getScrollbarWidth } from '../../utils/scroll.js'
 import { mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QLayout',
-
-  mixins: [ ListenersMixin ],
 
   provide () {
     return {
@@ -69,6 +64,8 @@ export default defineComponent({
     }
   },
 
+  emits: [ 'scroll', 'scroll-height', 'resize' ],
+
   computed: {
     rows () {
       const rows = this.view.toLowerCase().split(' ')
@@ -119,31 +116,30 @@ export default defineComponent({
   render () {
     const layout = h('div', {
       class: this.classes,
-      style: this.style,
-      on: { ...this.qListeners }
+      style: this.style
     }, mergeSlot([
       h(QScrollObserver, {
-        on: cache(this, 'scroll', { scroll: this.__onPageScroll })
+        onScroll: this.__onPageScroll
       }),
 
       h(QResizeObserver, {
-        on: cache(this, 'resizeOut', { resize: this.__onPageResize })
+        onResize: this.__onPageResize
       })
     ], this, 'default'))
 
     return this.container === true
       ? h('div', {
-        staticClass: 'q-layout-container overflow-hidden'
+        class: 'q-layout-container overflow-hidden'
       }, [
         h(QResizeObserver, {
-          on: cache(this, 'resizeIn', { resize: this.__onContainerResize })
+          onResize: this.__onContainerResize
         }),
         h('div', {
-          staticClass: 'absolute-full',
+          class: 'absolute-full',
           style: this.targetStyle
         }, [
           h('div', {
-            staticClass: 'scroll',
+            class: 'scroll',
             style: this.targetChildStyle
           }, [ layout ])
         ])
@@ -169,7 +165,8 @@ export default defineComponent({
       if (this.container === true || document.qScrollPrevented !== true) {
         this.scroll = data
       }
-      this.qListeners.scroll !== void 0 && this.$emit('scroll', data)
+      // TODO vue3 - only emit if listener attached
+      this.$emit('scroll', data)
     },
 
     __onPageResize ({ height, width }) {
@@ -178,9 +175,8 @@ export default defineComponent({
       if (this.height !== height) {
         resized = true
         this.height = height
-        if (this.qListeners['scroll-height'] !== void 0) {
-          this.$emit('scroll-height', height)
-        }
+        // TODO vue3 - only emit if listener attached
+        this.$emit('scroll-height', height)
         this.__updateScrollbarWidth()
       }
       if (this.width !== width) {
@@ -188,7 +184,8 @@ export default defineComponent({
         this.width = width
       }
 
-      if (resized === true && this.qListeners.resize !== void 0) {
+      if (resized === true) {
+        // TODO vue3 - only emit if listener attached
         this.$emit('resize', { height, width })
       }
     },

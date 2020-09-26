@@ -1,13 +1,9 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QPage',
-
-  mixins: [ ListenersMixin ],
 
   inject: {
     pageContainer: {
@@ -49,18 +45,15 @@ export default defineComponent({
     },
 
     classes () {
-      if (this.padding === true) {
-        return 'q-layout-padding'
-      }
+      return 'q-page' +
+        (this.padding === true ? ' q-layout-padding' : '')
     }
   },
 
   render () {
     return h('main', {
-      staticClass: 'q-page',
-      style: this.style,
       class: this.classes,
-      on: { ...this.qListeners }
+      style: this.style
     }, slot(this, 'default'))
   }
 })

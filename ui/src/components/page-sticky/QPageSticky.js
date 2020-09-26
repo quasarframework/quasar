@@ -1,13 +1,9 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QPageSticky',
-
-  mixins: [ ListenersMixin ],
 
   inject: {
     layout: {
@@ -114,7 +110,8 @@ export default defineComponent({
     },
 
     classes () {
-      return `fixed-${this.position} q-page-sticky--${this.expand === true ? 'expand' : 'shrink'}`
+      return `q-page-sticky row flex-center fixed-${this.position}` +
+        ` q-page-sticky--${this.expand === true ? 'expand' : 'shrink'}`
     }
   },
 
@@ -122,10 +119,8 @@ export default defineComponent({
     const content = slot(this, 'default')
 
     return h('div', {
-      staticClass: 'q-page-sticky row flex-center',
       class: this.classes,
-      style: this.style,
-      on: { ...this.qListeners }
+      style: this.style
     },
     this.expand === true
       ? content

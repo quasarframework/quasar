@@ -1,7 +1,5 @@
 import { h, defineComponent } from 'vue'
 
-import ListenersMixin from '../../mixins/listeners.js'
-
 import { height, offset } from '../../utils/dom.js'
 import frameDebounce from '../../utils/frame-debounce.js'
 import { getScrollTarget } from '../../utils/scroll.js'
@@ -12,8 +10,6 @@ const { passive } = listenOpts
 
 export default defineComponent({
   name: 'QParallax',
-
-  mixins: [ ListenersMixin ],
 
   props: {
     src: String,
@@ -31,6 +27,8 @@ export default defineComponent({
       default: void 0
     }
   },
+
+  emits: [ 'scroll' ],
 
   data () {
     return {
@@ -55,7 +53,8 @@ export default defineComponent({
   methods: {
     __update (percentage) {
       this.percentScrolled = percentage
-      this.qListeners.scroll !== void 0 && this.$emit('scroll', percentage)
+      // TODO vue3 - emit only if listener is attached
+      this.$emit('scroll', percentage)
     },
 
     __updatePos () {
@@ -112,25 +111,22 @@ export default defineComponent({
 
   render () {
     return h('div', {
-      staticClass: 'q-parallax',
-      style: { height: `${this.height}px` },
-      on: { ...this.qListeners }
+      class: 'q-parallax',
+      style: { height: `${this.height}px` }
     }, [
       h('div', {
         ref: 'mediaParent',
-        staticClass: 'q-parallax__media absolute-full'
+        class: 'q-parallax__media absolute-full'
       }, this.$slots.media !== void 0 ? this.$slots.media() : [
         h('img', {
           ref: 'media',
-          attrs: {
-            src: this.src
-          }
+          src: this.src
         })
       ]),
 
       h(
         'div',
-        { staticClass: 'q-parallax__content absolute-full column flex-center' },
+        { class: 'q-parallax__content absolute-full column flex-center' },
         this.$slots.content !== void 0
           ? this.$slots.content({ percentScrolled: this.percentScrolled })
           : slot(this, 'default')

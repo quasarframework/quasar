@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -36,6 +36,11 @@ export default defineComponent({
       return this.$q.lang.rtl === true
         ? { left: 'right', right: 'left' }
         : { left: 'left', right: 'right' }
+    },
+
+    classes () {
+      return 'q-slide-item q-item-type overflow-hidden' +
+        (this.isDark === true ? ` q-slide-item--dark q-dark` : '')
     }
   },
 
@@ -162,38 +167,36 @@ export default defineComponent({
       }
     })
 
+    const node = h('div', {
+      ref: 'content',
+      key: 'content',
+      class: 'q-slide-item__content'
+    }, slot(this, 'default'))
+
     content.push(
-      h('div', {
-        ref: 'content',
-        key: 'content',
-        staticClass: 'q-slide-item__content',
-        directives: dirs.length > 0
-          ? cacheWithFn(this, 'dir#' + dirs.join(''), () => {
-            const modifiers = {
-              prevent: true,
-              stop: true,
-              mouse: true
-            }
+      dirs.length > 0
+        ? withDirectives(node, cacheWithFn(this, 'dir#' + dirs.join(''), () => {
+          const modifiers = {
+            prevent: true,
+            stop: true,
+            mouse: true
+          }
 
-            dirs.forEach(dir => {
-              modifiers[dir] = true
-            })
-
-            return [{
-              name: 'touch-pan',
-              value: this.__pan,
-              modifiers
-            }]
+          dirs.forEach(dir => {
+            modifiers[dir] = true
           })
-          : null
-      }, slot(this, 'default'))
+
+          return [[
+            TouchPan,
+            this.__pan,
+            void 0,
+            modifiers
+          ]]
+        }))
+        : node
     )
 
-    return h('div', {
-      staticClass: 'q-slide-item q-item-type overflow-hidden',
-      class: this.isDark === true ? `q-slide-item--dark q-dark` : '',
-      on: { ...this.qListeners }
-    }, content)
+    return h('div', { class: this.classes }, content)
   },
 
   beforeUnmount () {

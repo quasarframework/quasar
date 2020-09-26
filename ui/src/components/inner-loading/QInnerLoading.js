@@ -27,30 +27,31 @@ export default defineComponent({
     }
   },
 
-  render () {
-    const child = this.showing === true
-      ? [
-        h('div',
-          {
-            class: this.classes
-          },
-          this.$slots.default !== void 0
-            ? this.$slots.default()
-            : [
-              h(QSpinner, {
-                props: {
+  methods: {
+    __getContent () {
+      if (this.showing === true) {
+        return [
+          h(
+            'div',
+            { class: this.classes },
+            this.$slots.default !== void 0
+              ? this.$slots.default()
+              : [
+                h(QSpinner, {
                   size: this.size,
                   color: this.color
-                }
-              })
-            ]
-        )
-      ]
-      : void 0
+                })
+              ]
+          )
+        ]
+      }
+    }
+  },
 
+  render () {
     return h(Transition, {
       name: this.transition,
       appear: true
-    }, { default: () => child })
+    }, { default: this.__getContent })
   }
 })

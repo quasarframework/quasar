@@ -384,7 +384,7 @@
         <q-tab name="five" label="Five" />
       </q-tabs>
 
-      <h4>Tabs content (animated, swipeable)</h4>
+      <!-- <h4>Tabs content (animated, swipeable)</h4>
       <q-option-group
         type="radio"
         v-model="tab"
@@ -498,7 +498,7 @@
         <q-tab-panel disable name="four">
           Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
         </q-tab-panel>
-      </q-tab-panels>
+      </q-tab-panels> -->
     </div>
   </div>
 </template>
