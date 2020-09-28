@@ -340,7 +340,7 @@ export default defineComponent({
     },
 
     __click (evt) {
-      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
+      if (this.$.isDeactivated === true || this.$.isUnmounted === true) {
         return
       }
 
@@ -354,7 +354,7 @@ export default defineComponent({
     },
 
     __activate (evt) {
-      if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
+      if (this.$.isDeactivated !== true && this.$.isUnmounted !== true) {
         this.__updateClock(evt, this.__getClockRect())
       }
     },
@@ -384,7 +384,7 @@ export default defineComponent({
     __drag (event) {
       // cases when on a popup getting closed
       // on previously emitted value
-      if (this._isBeingDestroyed === true || this._isDestroyed === true) {
+      if (this.$.isDeactivated === true || this.$.isUnmounted === true) {
         return
       }
 

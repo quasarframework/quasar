@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
@@ -8,7 +8,6 @@ import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminos
 
 import DarkMixin from '../../mixins/dark.js'
 import FormMixin from '../../mixins/form.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import TouchPan from '../../directives/TouchPan.js'
 
@@ -33,17 +32,15 @@ const palette = [
   'rgb(255,255,255)', 'rgb(205,205,205)', 'rgb(178,178,178)', 'rgb(153,153,153)', 'rgb(127,127,127)', 'rgb(102,102,102)', 'rgb(76,76,76)', 'rgb(51,51,51)', 'rgb(25,25,25)', 'rgb(0,0,0)'
 ]
 
+const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
+
 export default defineComponent({
   name: 'QColor',
 
-  mixins: [ ListenersMixin, DarkMixin, FormMixin ],
-
-  directives: {
-    TouchPan
-  },
+  mixins: [ DarkMixin, FormMixin ],
 
   props: {
-    value: String,
+    modelValue: String,
 
     defaultValue: String,
     defaultView: {
@@ -71,22 +68,24 @@ export default defineComponent({
     readonly: Boolean
   },
 
+  emits: [ 'update:modelValue' ],
+
   data () {
     return {
       topView: this.formatModel === 'auto'
         ? (
-          (this.value === void 0 || this.value === null || this.value === '' || this.value.startsWith('#'))
+          (this.modelValue === void 0 || this.modelValue === null || this.modelValue === '' || this.modelValue.startsWith('#'))
             ? 'hex'
             : 'rgb'
         )
         : (this.formatModel.startsWith('hex') ? 'hex' : 'rgb'),
       view: this.defaultView,
-      model: this.__parseModel(this.value || this.defaultValue)
+      model: this.__parseModel(this.modelValue || this.defaultValue)
     }
   },
 
   watch: {
-    value (v) {
+    modelValue (v) {
       const model = this.__parseModel(v || this.defaultValue)
       if (model.hex !== this.model.hex) {
         this.model = model
@@ -94,7 +93,7 @@ export default defineComponent({
     },
 
     defaultValue (v) {
-      if (!this.value && v) {
+      if (!this.modelValue && v) {
         const model = this.__parseModel(v)
         if (model.hex !== this.model.hex) {
           this.model = model
@@ -121,10 +120,10 @@ export default defineComponent({
     },
 
     isHex () {
-      return this.value === void 0 ||
-        this.value === null ||
-        this.value === '' ||
-        this.value.startsWith('#')
+      return this.modelValue === void 0 ||
+        this.modelValue === null ||
+        this.modelValue === '' ||
+        this.modelValue.startsWith('#')
     },
 
     isOutputHex () {
@@ -159,7 +158,8 @@ export default defineComponent({
         ? true
         : luminosity(this.model) > 0.4
 
-      return `q-color-picker__header-content--${light ? 'light' : 'dark'}`
+      return 'q-color-picker__header-content absolute-full' +
+        ` q-color-picker__header-content--${light ? 'light' : 'dark'}`
     },
 
     spectrumStyle () {
@@ -229,65 +229,59 @@ export default defineComponent({
 
     return h('div', {
       class: this.classes,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
+      attrs: this.attrs
     }, child)
   },
 
   methods: {
     __getHeader () {
       return h('div', {
-        staticClass: 'q-color-picker__header relative-position overflow-hidden'
+        class: 'q-color-picker__header relative-position overflow-hidden'
       }, [
-        h('div', { staticClass: 'q-color-picker__header-bg absolute-full' }),
+        h('div', { class: 'q-color-picker__header-bg absolute-full' }),
 
         h('div', {
-          staticClass: 'q-color-picker__header-content absolute-full',
           class: this.headerClass,
           style: this.currentBgColor
         }, [
           h(QTabs, {
-            props: {
-              value: this.topView,
-              dense: true,
-              align: 'justify'
-            },
-            on: cache(this, 'topVTab', {
-              input: val => { this.topView = val }
+            modelValue: this.topView,
+            dense: true,
+            align: 'justify',
+            ...cache(this, 'topVTab', {
+              'onUpdate:modelValue': val => { this.topView = val }
             })
-          }, [
+          }, () => [
             h(QTab, {
-              props: {
-                label: 'HEX' + (this.hasAlpha === true ? 'A' : ''),
-                name: 'hex',
-                ripple: false
-              }
+              label: 'HEX' + (this.hasAlpha === true ? 'A' : ''),
+              name: 'hex',
+              ripple: false
             }),
 
             h(QTab, {
-              props: {
-                label: 'RGB' + (this.hasAlpha === true ? 'A' : ''),
-                name: 'rgb',
-                ripple: false
-              }
+              label: 'RGB' + (this.hasAlpha === true ? 'A' : ''),
+              name: 'rgb',
+              ripple: false
             })
           ]),
 
           h('div', {
-            staticClass: 'q-color-picker__header-banner row flex-center no-wrap'
+            class: 'q-color-picker__header-banner row flex-center no-wrap'
           }, [
             h('input', {
-              staticClass: 'fit',
-              domProps: { value: this.model[this.topView] },
-              attrs: this.editable !== true ? {
-                readonly: true
-              } : null,
-              on: cache(this, 'topIn', {
-                input: evt => {
+              class: 'fit',
+              value: this.model[this.topView],
+              ...(this.editable !== true
+                ? { readonly: true }
+                : {}
+              ),
+              ...cache(this, 'topIn', {
+                'onUpdate:modelValue': evt => {
                   this.__updateErrorIcon(this.__onEditorChange(evt) === true)
                 },
-                change: stop,
-                blur: evt => {
+                // TODO vue3 - handle lazy update
+                // change: stop,
+                onBlur: evt => {
                   this.__onEditorChange(evt, true) === true && this.$forceUpdate()
                   this.__updateErrorIcon(false)
                 }
@@ -296,8 +290,8 @@ export default defineComponent({
 
             h(QIcon, {
               ref: 'errorIcon',
-              staticClass: 'q-color-picker__error-icon absolute no-pointer-events',
-              props: { name: this.$q.iconSet.type.negative }
+              class: 'q-color-picker__error-icon absolute no-pointer-events',
+              name: this.$q.iconSet.type.negative
             })
           ])
         ])
@@ -306,141 +300,126 @@ export default defineComponent({
 
     __getContent () {
       return h(QTabPanels, {
-        props: {
-          value: this.view,
-          animated: true
-        }
-      }, [
+        modelValue: this.view,
+        animated: true
+      }, () => [
         h(QTabPanel, {
-          staticClass: 'q-color-picker__spectrum-tab overflow-hidden',
-          props: { name: 'spectrum' }
-        }, this.__getSpectrumTab()),
+          class: 'q-color-picker__spectrum-tab overflow-hidden',
+          name: 'spectrum'
+        }, this.__getSpectrumTab),
 
         h(QTabPanel, {
-          staticClass: 'q-pa-md q-color-picker__tune-tab',
-          props: { name: 'tune' }
-        }, this.__getTuneTab()),
+          class: 'q-pa-md q-color-picker__tune-tab',
+          name: 'tune'
+        }, this.__getTuneTab),
 
         h(QTabPanel, {
-          staticClass: 'q-color-picker__palette-tab',
-          props: { name: 'palette' }
-        }, this.__getPaletteTab())
+          class: 'q-color-picker__palette-tab',
+          name: 'palette'
+        }, this.__getPaletteTab)
       ])
     },
 
     __getFooter () {
       return h('div', {
-        staticClass: 'q-color-picker__footer relative-position overflow-hidden'
+        class: 'q-color-picker__footer relative-position overflow-hidden'
       }, [
         h(QTabs, {
-          staticClass: 'absolute-full',
-          props: {
-            value: this.view,
-            dense: true,
-            align: 'justify'
-          },
-          on: cache(this, 'ftIn', {
-            input: val => { this.view = val }
+          class: 'absolute-full',
+          modelValue: this.view,
+          dense: true,
+          align: 'justify',
+          ...cache(this, 'ftIn', {
+            'onUpdate:modelValue': val => { this.view = val }
           })
-        }, [
+        }, () => [
           h(QTab, {
-            props: {
-              icon: this.$q.iconSet.colorPicker.spectrum,
-              name: 'spectrum',
-              ripple: false
-            }
+            icon: this.$q.iconSet.colorPicker.spectrum,
+            name: 'spectrum',
+            ripple: false
           }),
 
           h(QTab, {
-            props: {
-              icon: this.$q.iconSet.colorPicker.tune,
-              name: 'tune',
-              ripple: false
-            }
+            icon: this.$q.iconSet.colorPicker.tune,
+            name: 'tune',
+            ripple: false
           }),
 
           h(QTab, {
-            props: {
-              icon: this.$q.iconSet.colorPicker.palette,
-              name: 'palette',
-              ripple: false
-            }
+            icon: this.$q.iconSet.colorPicker.palette,
+            name: 'palette',
+            ripple: false
           })
         ])
       ])
     },
 
     __getSpectrumTab () {
-      const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
+      const spectrumNode = h('div', {
+        ref: 'spectrum',
+        class: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer' +
+          (this.editable !== true ? ' readonly' : ''),
+        style: this.spectrumStyle,
+        ...(this.editable === true
+          ? {
+            onClick: this.__spectrumClick,
+            onMousedown: this.__activate
+          }
+          : {}
+        )
+      }, [
+        h('div', { style: { paddingBottom: '100%' } }),
+        h('div', { class: 'q-color-picker__spectrum-white absolute-full' }),
+        h('div', { class: 'q-color-picker__spectrum-black absolute-full' }),
+        h('div', {
+          class: 'absolute',
+          style: this.spectrumPointerStyle
+        }, [
+          this.model.hex !== void 0
+            ? h('div', { class: 'q-color-picker__spectrum-circle' })
+            : null
+        ])
+      ])
 
       return [
-        h('div', {
-          ref: 'spectrum',
-          staticClass: 'q-color-picker__spectrum non-selectable relative-position cursor-pointer',
-          style: this.spectrumStyle,
-          class: { readonly: this.editable !== true },
-          on: this.editable === true
-            ? cache(this, 'spectrT', {
-              click: this.__spectrumClick,
-              mousedown: this.__activate
-            })
-            : null,
-          directives: this.editable === true
-            ? cache(this, 'spectrDir', [{
-              name: 'touch-pan',
-              modifiers: {
-                prevent: true,
-                stop: true,
-                mouse: true
-              },
-              value: this.__spectrumPan
-            }])
-            : null
-        }, [
-          h('div', { style: { paddingBottom: '100%' } }),
-          h('div', { staticClass: 'q-color-picker__spectrum-white absolute-full' }),
-          h('div', { staticClass: 'q-color-picker__spectrum-black absolute-full' }),
-          h('div', {
-            staticClass: 'absolute',
-            style: this.spectrumPointerStyle
-          }, [
-            this.model.hex !== void 0 ? h('div', { staticClass: 'q-color-picker__spectrum-circle' }) : null
-          ])
-        ]),
+        this.editable === true
+          ? withDirectives(spectrumNode, [[
+            TouchPan,
+            this.__spectrumPan,
+            void 0,
+            { prevent: true, stop: true, mouse: true }
+          ]])
+          : spectrumNode,
 
         h('div', {
-          staticClass: 'q-color-picker__sliders'
+          class: 'q-color-picker__sliders'
         }, [
-          h('div', { staticClass: 'q-color-picker__hue non-selectable' }, [
+          h('div', { class: 'q-color-picker__hue non-selectable' }, [
             h(QSlider, {
-              props: {
-                value: this.model.h,
-                min: 0,
-                max: 360,
-                fillHandleAlways: true,
-                readonly: this.editable !== true,
-                thumbPath
-              },
-              on: cache(this, 'hueSlide', {
-                input: this.__onHueChange,
-                change: val => this.__onHueChange(val, true)
-              })
+              modelValue: this.model.h,
+              min: 0,
+              max: 360,
+              fillHandleAlways: true,
+              readonly: this.editable !== true,
+              thumbPath,
+              'onUpdate:modelValue': this.__onHueChange
+              // TODO vue3 - handle lazy update
+              // change: val => this.__onHueChange(val, true)
             })
           ]),
           this.hasAlpha === true
-            ? h('div', { staticClass: 'q-color-picker__alpha non-selectable' }, [
+            ? h('div', { class: 'q-color-picker__alpha non-selectable' }, [
               h(QSlider, {
-                props: {
-                  value: this.model.a,
-                  min: 0,
-                  max: 100,
-                  fillHandleAlways: true,
-                  readonly: this.editable !== true,
-                  thumbPath
-                },
-                on: cache(this, 'alphaSlide', {
-                  input: value => this.__onNumericChange(value, 'a', 100),
-                  change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
+                modelValue: this.model.a,
+                min: 0,
+                max: 100,
+                fillHandleAlways: true,
+                readonly: this.editable !== true,
+                thumbPath,
+                ...cache(this, 'alphaSlide', {
+                  'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100)
+                  // TODO vue3 - handle lazy update
+                  // change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
                 })
               })
             ])
@@ -451,128 +430,108 @@ export default defineComponent({
 
     __getTuneTab () {
       return [
-        h('div', { staticClass: 'row items-center no-wrap' }, [
-          h('div', ['R']),
+        h('div', { class: 'row items-center no-wrap' }, [
+          h('div', 'R'),
           h(QSlider, {
-            props: {
-              value: this.model.r,
-              min: 0,
-              max: 255,
-              color: 'red',
-              dark: this.isDark,
-              readonly: this.editable !== true
-            },
-            on: cache(this, 'rSlide', {
-              input: value => this.__onNumericChange(value, 'r', 255),
-              change: value => this.__onNumericChange(value, 'r', 255, void 0, true)
+            modelValue: this.model.r,
+            min: 0,
+            max: 255,
+            color: 'red',
+            dark: this.isDark,
+            readonly: this.editable !== true,
+            ...cache(this, 'rSlide', {
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'r', 255)
+              // TODO vue3 - handle lazy update
+              // change: value => this.__onNumericChange(value, 'r', 255, void 0, true)
             })
           }),
           h('input', {
-            domProps: {
-              value: this.model.r
-            },
-            attrs: {
-              maxlength: 3,
-              readonly: this.editable !== true
-            },
-            on: cache(this, 'rIn', {
-              input: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt),
-              change: stop,
-              blur: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt, true)
+            value: this.model.r,
+            maxlength: 3,
+            readonly: this.editable !== true,
+            onChange: stop,
+            ...cache(this, 'rIn', {
+              onInput: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt),
+              onBlur: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt, true)
             })
           })
         ]),
 
-        h('div', { staticClass: 'row items-center no-wrap' }, [
-          h('div', ['G']),
+        h('div', { class: 'row items-center no-wrap' }, [
+          h('div', 'G'),
           h(QSlider, {
-            props: {
-              value: this.model.g,
-              min: 0,
-              max: 255,
-              color: 'green',
-              dark: this.isDark,
-              readonly: this.editable !== true
-            },
-            on: cache(this, 'gSlide', {
-              input: value => this.__onNumericChange(value, 'g', 255),
-              change: value => this.__onNumericChange(value, 'g', 255, void 0, true)
+            modelValue: this.model.g,
+            min: 0,
+            max: 255,
+            color: 'green',
+            dark: this.isDark,
+            readonly: this.editable !== true,
+            ...cache(this, 'gSlide', {
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'g', 255)
+              // TODO vue3 - handle lazy update
+              // change: value => this.__onNumericChange(value, 'g', 255, void 0, true)
             })
           }),
           h('input', {
-            domProps: {
-              value: this.model.g
-            },
-            attrs: {
-              maxlength: 3,
-              readonly: this.editable !== true
-            },
-            on: cache(this, 'gIn', {
-              input: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt),
-              change: stop,
-              blur: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt, true)
+            value: this.model.g,
+            maxlength: 3,
+            readonly: this.editable !== true,
+            onChange: stop,
+            ...cache(this, 'gIn', {
+              onInput: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt),
+              onBlur: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt, true)
             })
           })
         ]),
 
-        h('div', { staticClass: 'row items-center no-wrap' }, [
-          h('div', ['B']),
+        h('div', { class: 'row items-center no-wrap' }, [
+          h('div', 'B'),
           h(QSlider, {
-            props: {
-              value: this.model.b,
-              min: 0,
-              max: 255,
-              color: 'blue',
-              readonly: this.editable !== true,
-              dark: this.isDark
-            },
-            on: cache(this, 'bSlide', {
-              input: value => this.__onNumericChange(value, 'b', 255),
-              change: value => this.__onNumericChange(value, 'b', 255, void 0, true)
+            modelValue: this.model.b,
+            min: 0,
+            max: 255,
+            color: 'blue',
+            readonly: this.editable !== true,
+            dark: this.isDark,
+            ...cache(this, 'bSlide', {
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'b', 255)
+              // TODO vue3 - handle lazy update
+              // change: value => this.__onNumericChange(value, 'b', 255, void 0, true)
             })
           }),
           h('input', {
-            domProps: {
-              value: this.model.b
-            },
-            attrs: {
-              maxlength: 3,
-              readonly: this.editable !== true
-            },
-            on: cache(this, 'bIn', {
-              input: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt),
-              change: stop,
-              blur: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt, true)
+            value: this.model.b,
+            maxlength: 3,
+            readonly: this.editable !== true,
+            onChange: stop,
+            ...cache(this, 'bIn', {
+              onInput: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt),
+              onBlur: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt, true)
             })
           })
         ]),
 
-        this.hasAlpha === true ? h('div', { staticClass: 'row items-center no-wrap' }, [
-          h('div', ['A']),
+        this.hasAlpha === true ? h('div', { class: 'row items-center no-wrap' }, [
+          h('div', 'A'),
           h(QSlider, {
-            props: {
-              value: this.model.a,
-              color: 'grey',
-              readonly: this.editable !== true,
-              dark: this.isDark
-            },
-            on: cache(this, 'aSlide', {
-              input: value => this.__onNumericChange(value, 'a', 100),
-              change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
+            modelValue: this.model.a,
+            color: 'grey',
+            readonly: this.editable !== true,
+            dark: this.isDark,
+            ...cache(this, 'aSlide', {
+              'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100)
+              // TODO vue3 - handle lazy update
+              // change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
             })
           }),
           h('input', {
-            domProps: {
-              value: this.model.a
-            },
-            attrs: {
-              maxlength: 3,
-              readonly: this.editable !== true
-            },
-            on: cache(this, 'aIn', {
-              input: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt),
-              change: stop,
-              blur: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt, true)
+            value: this.model.a,
+            maxlength: 3,
+            readonly: this.editable !== true,
+            onChange: stop,
+            ...cache(this, 'aIn', {
+              onInput: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt),
+              onBlur: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt, true)
             })
           })
         ]) : null
@@ -582,18 +541,16 @@ export default defineComponent({
     __getPaletteTab () {
       return [
         h('div', {
-          staticClass: 'row items-center q-color-picker__palette-rows',
-          class: this.editable === true
-            ? 'q-color-picker__palette-rows--editable'
-            : ''
+          class: 'row items-center q-color-picker__palette-rows' +
+            (this.editable === true ? ' q-color-picker__palette-rows--editable' : '')
         }, this.computedPalette.map(color => h('div', {
-          staticClass: 'q-color-picker__cube col-auto',
+          class: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },
-          on: this.editable === true ? cache(this, 'palette#' + color, {
-            click: () => {
+          ...(this.editable === true ? cache(this, 'palette#' + color, {
+            onClick: () => {
               this.__onPalettePick(color)
             }
-          }) : null
+          }) : {})
         })))
       ]
     },
@@ -804,8 +761,9 @@ export default defineComponent({
       const value = this.model[this.isOutputHex === true ? 'hex' : 'rgb']
 
       // emit new value
-      this.$emit('input', value)
-      change === true && this.$emit('change', value)
+      this.$emit('update:modelValue', value)
+      // TODO vue3 - handle lazy update
+      // change === true && this.$emit('change', value)
     },
 
     __updateErrorIcon (val) {

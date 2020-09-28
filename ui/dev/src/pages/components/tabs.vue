@@ -237,7 +237,7 @@
           </router-link>
         </div>
       </div>
-      <q-tabs :dense="dense" class="test q-mt-sm">
+      <!-- <q-tabs :dense="dense" class="test q-mt-sm">
         <q-route-tab name="tabs" to="/components/tabs" exact label="/tabs" />
         <q-route-tab name="tabs/a" to="/components/tabs/a" exact label="/tabs/a" />
         <q-route-tab name="tabs/a *" to="/components/tabs/a" label="/tabs/a *" />
@@ -359,17 +359,17 @@
         <q-route-tab key="4" :to="{ name: 'r.2' }" label="r.2 - delay 2sec" @click="routeNavDelay" />
         <q-route-tab key="5" :to="{ name: 'r.2' }" label="r.2 - cancel" @click="routeNavCancel" />
         <q-route-tab key="6" :to="{ name: 'r.3' }" label="r.3 - redirect to r.1.1" @click="routeNavChange" />
-      </q-tabs>
+      </q-tabs> -->
 
       <h4>Tabs model (respect model): {{ tabModel }}</h4>
-      <q-tabs :dense="dense" :value="tabModel" @input="onChangeTab1" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :value="tabModel" @update:modelValue="onChangeTab1" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One" />
         <q-tab name="two" label="Two -> One" />
         <q-tab name="three" label="Three (no way)" />
         <q-tab name="four" label="Four" />
         <q-tab name="five" label="Five" />
       </q-tabs>
-      <q-tabs :dense="dense" :value="tabModel" @input="onChangeTab2" class="bg-grey-1 text-teal">
+      <q-tabs :dense="dense" :value="tabModel" @update:modelValue="onChangeTab2" class="bg-grey-1 text-teal">
         <q-tab name="one" label="One -> Two" />
         <q-tab name="two" label="Two" />
         <q-tab name="three" label="Three" />
@@ -384,7 +384,7 @@
         <q-tab name="five" label="Five" />
       </q-tabs>
 
-      <!-- <h4>Tabs content (animated, swipeable)</h4>
+      <h4>Tabs content (animated, swipeable)</h4>
       <q-option-group
         type="radio"
         v-model="tab"
@@ -498,7 +498,7 @@
         <q-tab-panel disable name="four">
           Tab Four <br> Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis labore inventore accusantium, perferendis eos sapiente culpa consectetur deserunt praesentium cumque distinctio placeat, recusandae id qui odit similique officia? Mollitia, ea!
         </q-tab-panel>
-      </q-tab-panels> -->
+      </q-tab-panels>
     </div>
   </div>
 </template>

@@ -1,9 +1,9 @@
-import { h, defineComponent } from 'vue'
+import { defineComponent, resolveComponent } from 'vue'
 
 import QTab from './QTab.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 import { isSameRoute, isIncludedRoute } from '../../utils/router.js'
-import { stop, stopAndPrevent, noop } from '../../utils/event.js'
+import { stopAndPrevent, noop } from '../../utils/event.js'
 
 export default defineComponent({
   name: 'QRouteTab',
@@ -14,25 +14,9 @@ export default defineComponent({
     to: { required: true }
   },
 
-  inject: {
-    __activateRoute: {},
-    __recalculateScroll: {}
-  },
-
   watch: {
     $route () {
       this.__checkActivation()
-    }
-  },
-
-  computed: {
-    onEvents () {
-      return {
-        input: stop,
-        ...this.qListeners,
-        '!click': this.__activate, // we need capture to intercept before vue-router
-        keyup: this.__onKeyup
-      }
     }
   },
 
@@ -105,7 +89,7 @@ export default defineComponent({
         }
 
       if (isSameRouteCheck === true || (this.exact !== true && isIncludedRoute(current, route) === true)) {
-        this.__activateRoute({
+        this.__qTabs.__activateRoute({
           ...params,
           redirected,
           // if it's an exact match give higher priority
@@ -121,24 +105,31 @@ export default defineComponent({
           ...location
         }) === true
       ) {
-        this.__activateRoute(params)
+        this.__qTabs.__activateRoute(params)
       }
 
-      this.isActive === true && this.__activateRoute()
+      this.isActive === true && this.__qTabs.__activateRoute()
     }
   },
 
   mounted () {
-    this.__recalculateScroll()
+    this.__qTabs.__recalculateScroll()
     this.$router !== void 0 && this.__checkActivation()
   },
 
   beforeUnmount () {
-    this.__recalculateScroll()
-    this.__activateRoute({ remove: true, name: this.name })
+    this.__qTabs.__recalculateScroll()
+    this.__qTabs.__activateRoute({ remove: true, name: this.name })
   },
 
   render () {
-    return this.__renderTab('router-link', this.routerLinkProps)
+    return this.__renderTab(
+      resolveComponent('router-link'),
+      {
+        ...this.routerLinkProps,
+        onClickCapture: this.__activate // we need capture to intercept before vue-router
+      },
+      this.__getContent
+    )
   }
 })

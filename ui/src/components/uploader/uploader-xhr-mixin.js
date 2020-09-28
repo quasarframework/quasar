@@ -104,7 +104,7 @@ export default {
         this.promises.push(res)
 
         const failed = err => {
-          if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
+          if (this.$.isDeactivated !== true && this.$.isUnmounted !== true) {
             this.promises = this.promises.filter(p => p !== res)
 
             if (this.promises.length === 0) {
@@ -123,7 +123,7 @@ export default {
           if (this.abortPromises === true) {
             failed(new Error('Aborted'))
           }
-          else if (this._isBeingDestroyed !== true && this._isDestroyed !== true) {
+          else if (this.$.isDeactivated !== true && this.$.isUnmounted !== true) {
             this.promises = this.promises.filter(p => p !== res)
             this.__uploadFiles(files, factory)
           }
