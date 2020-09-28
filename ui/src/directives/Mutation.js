@@ -7,7 +7,7 @@ const defaultCfg = {
   characterDataOldValue: true
 }
 
-function updated (el, ctx, value) {
+function update (el, ctx, value) {
   ctx.handler = value
   ctx.observer !== void 0 && ctx.observer.disconnect()
 

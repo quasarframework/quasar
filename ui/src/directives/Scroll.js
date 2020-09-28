@@ -1,7 +1,7 @@
 import { getScrollPosition, getScrollTarget, getHorizontalScrollPosition } from '../utils/scroll.js'
 import { listenOpts } from '../utils/event.js'
 
-function updated (ctx, { value, oldValue }) {
+function update (ctx, { value, oldValue }) {
   if (typeof value !== 'function') {
     ctx.scrollTarget.removeEventListener('scroll', ctx.scroll, listenOpts.passive)
     return
