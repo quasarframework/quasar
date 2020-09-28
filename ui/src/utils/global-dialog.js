@@ -1,6 +1,8 @@
-import { createApp } from 'vue'
+import { h, createApp } from 'vue'
 
+import { appInstance } from '../install.js'
 import { isSSR } from '../plugins/Platform.js'
+import { getAppVm } from '../utils/vm.js'
 
 const ssrAPI = {
   onOk: () => ssrAPI,
@@ -25,7 +27,7 @@ export function merge (target, source) {
 }
 
 export default function (DefaultComponent) {
-  return ({ className, class: klass, style, component, root, parent, ...props }) => {
+  return ({ class: klass, style, component, ...props }) => {
     if (isSSR === true) { return ssrAPI }
 
     klass !== void 0 && (props.cardClass = klass)
@@ -52,20 +54,12 @@ export default function (DefaultComponent) {
           vm.$refs.dialog.hide()
           return API
         },
-        update ({ className, class: klass, style, component, root, parent, ...cfg }) {
+        update ({ class: klass, style, component, ...cfg }) {
           if (vm !== null) {
             klass !== void 0 && (cfg.cardClass = klass)
             style !== void 0 && (cfg.cardStyle = style)
 
             merge(props, cfg)
-
-            // need to change "attrs" reference to
-            // actually reflect it in underlying component
-            // when we force update it
-            if (attrs !== void 0) {
-              attrs = { ...props }
-            }
-
             vm.$forceUpdate()
           }
 
@@ -78,20 +72,19 @@ export default function (DefaultComponent) {
 
     let emittedOK = false
 
-    const on = {
-      ok: data => {
-        emittedOK = true
-        okFns.forEach(fn => { fn(data) })
-      },
+    const onOk = data => {
+      emittedOK = true
+      okFns.forEach(fn => { fn(data) })
+    }
 
-      hide: () => {
-        vm.$destroy()
-        vm.$el.remove()
-        vm = null
+    const onHide = () => {
+      app.unmount(node)
+      node.remove()
+      app = null
+      vm = null
 
-        if (emittedOK !== true) {
-          cancelFns.forEach(fn => { fn() })
-        }
+      if (emittedOK !== true) {
+        cancelFns.forEach(fn => { fn() })
       }
     }
 
@@ -99,30 +92,23 @@ export default function (DefaultComponent) {
       ? component
       : DefaultComponent
 
-    let attrs = component === void 0
-      ? props
-      : void 0
-
-    let vm = createApp({
+    let app = createApp({
       name: 'QGlobalDialog',
-
-      parent: parent === void 0 ? root : parent,
-
-      render (h) {
+      render () {
         return h(DialogComponent, {
           ref: 'dialog',
-          props,
-          attrs,
-          on
+          ...props,
+          onOk,
+          onHide
         })
-      },
-
-      mounted () {
-        this.$refs.dialog.show()
       }
     })
 
-    vm.mount(node)
+    app.config.globalProperties = appInstance.config.globalProperties
+    app.mount(node)
+
+    let vm = getAppVm(app)
+    vm.$refs.dialog.show()
 
     return API
   }

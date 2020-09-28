@@ -21,9 +21,13 @@ export const $q = {
   config: {}
 }
 
+export let appInstance
+
 export default function (app, opts = {}) {
   if (this.__qInstalled === true) { return }
   this.__qInstalled = true
+
+  appInstance = app
 
   const cfg = $q.config = Object.freeze(opts.config || {})
 

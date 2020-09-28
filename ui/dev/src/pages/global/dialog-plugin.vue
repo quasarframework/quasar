@@ -18,8 +18,7 @@
         <q-btn label="Positioned" flat color="primary" @click="positioned" />
         <q-btn label="Stacked Buttons" flat color="primary" @click="stacked" />
         <q-btn label="Auto Closing" flat color="primary" @click="autoClose" />
-        <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
-        <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
+        <q-btn label="Custom component" no-caps flat color="primary" @click="customComponent" />
         <q-btn label="With HTML" flat color="primary" @click="unsafe" />
         <q-btn label="Prompt (validation)" flat color="primary" @click="promptValidation" />
         <q-btn label="Radio (validation)" flat color="primary" @click="radioValidation" />
@@ -83,12 +82,7 @@
             </q-item>
             <q-item>
               <q-item-section>
-                <q-btn label="Custom component with Parent" no-caps flat color="primary" @click="customComponentWithParent" />
-              </q-item-section>
-            </q-item>
-            <q-item>
-              <q-item-section>
-                <q-btn label="Custom component w/o Parent" no-caps flat color="primary" @click="customComponentNoParent" />
+                <q-btn label="Custom component" no-caps flat color="primary" @click="customComponent" />
               </q-item-section>
             </q-item>
             <q-item>
@@ -112,14 +106,9 @@
 <script>
 import { QSpinnerGears, QSpinnerCube } from 'quasar'
 
-import DialogComponentWithParent from './dialog-component-with-parent.js'
-import DialogComponentNoParent from './dialog-component-no-parent.js'
+import DialogComponent from './dialog-component.js'
 
 export default {
-  provide: {
-    providedTest: 'Provide/Inject works!'
-  },
-
   data () {
     return {
       dark: null
@@ -512,26 +501,11 @@ export default {
       }, 1000)
     },
 
-    customComponentWithParent () {
+    customComponent () {
       this.dialogHandler = this.$q.dialog({
-        parent: this,
-        component: DialogComponentWithParent,
+        component: DialogComponent,
         // props forwarded to component:
-        text: 'gigi'
-      }).onOk(() => {
-        console.log('OK')
-      }).onCancel(() => {
-        console.log('Cancel')
-      }).onDismiss(() => {
-        this.dialogHandler = void 0
-      })
-    },
-
-    customComponentNoParent () {
-      this.dialogHandler = this.$q.dialog({
-        component: DialogComponentNoParent,
-        // props forwarded to component:
-        text: 'gigi'
+        text: 'text from props'
       }).onOk(() => {
         console.log('OK')
       }).onCancel(() => {
