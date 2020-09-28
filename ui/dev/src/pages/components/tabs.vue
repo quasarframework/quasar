@@ -237,7 +237,7 @@
           </router-link>
         </div>
       </div>
-      <!-- <q-tabs :dense="dense" class="test q-mt-sm">
+      <!-- TODO vue3 <q-tabs :dense="dense" class="test q-mt-sm">
         <q-route-tab name="tabs" to="/components/tabs" exact label="/tabs" />
         <q-route-tab name="tabs/a" to="/components/tabs/a" exact label="/tabs/a" />
         <q-route-tab name="tabs/a *" to="/components/tabs/a" label="/tabs/a *" />
