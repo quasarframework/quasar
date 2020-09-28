@@ -30,7 +30,7 @@ export default Vue.extend({
       return {
         input: stop,
         ...this.qListeners,
-        '!click': this.__activate, // we need capture to intercept before vue-router
+        click: this.__activate, // we need capture to intercept before vue-router
         keyup: this.__onKeyup
       }
     }
@@ -38,6 +38,7 @@ export default Vue.extend({
 
   methods: {
     __activate (e, keyboard) {
+      e.stopPropagation();
       if (this.disable !== true) {
         if (
           e !== void 0 && (
