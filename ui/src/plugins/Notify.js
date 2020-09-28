@@ -1,4 +1,4 @@
-import { createApp, h, TransitionGroup } from 'vue'
+import { h, createApp, TransitionGroup } from 'vue'
 
 import QAvatar from '../components/avatar/QAvatar.js'
 import QIcon from '../components/icon/QIcon.js'
@@ -89,25 +89,22 @@ const Notifications = {
       let Api
       const notif = { textColor: 'white' }
 
-      if (typeof config === 'string' || config.ignoreDefaults !== true) {
+      if (config.ignoreDefaults !== true) {
         Object.assign(notif, defaults)
       }
 
-      if (Object(config) === config) {
-        Object.assign(notif, notifTypes[config.type], config)
-
-        if (typeof notif.icon === 'function') {
-          notif.icon = notif.icon.call(this)
+      if (Object(config) !== config) {
+        if (notif.type) {
+          Object.assign(notif, notifTypes[notif.type])
         }
+
+        config = { message: config }
       }
-      else {
-        notif.message = config
 
-        if (notif.group === false) {
-          // maybe it'll get updated, and
-          // we need config as an Object
-          config = { message: config }
-        }
+      Object.assign(notif, notifTypes[config.type || notif.type], config)
+
+      if (typeof notif.icon === 'function') {
+        notif.icon = notif.icon.call(this)
       }
 
       if (notif.spinner === void 0) {
