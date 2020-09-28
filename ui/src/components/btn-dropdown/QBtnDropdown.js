@@ -1,7 +1,6 @@
 import { h, defineComponent } from 'vue'
 
 import BtnMixin from '../../mixins/btn.js'
-import AttrsMixin from '../../mixins/attrs.js'
 
 import QIcon from '../icon/QIcon.js'
 import QBtn from '../btn/QBtn.js'
@@ -14,12 +13,10 @@ import cache from '../../utils/cache.js'
 export default defineComponent({
   name: 'QBtnDropdown',
 
-  mixins: [ BtnMixin, AttrsMixin ],
-
-  inheritAttrs: false,
+  mixins: [ BtnMixin ],
 
   props: {
-    value: Boolean,
+    modelValue: Boolean,
     split: Boolean,
     dropdownIcon: String,
 
@@ -47,150 +44,141 @@ export default defineComponent({
     noIconAnimation: Boolean
   },
 
+  emits: [ 'update:modelValue', 'click', 'before-show', 'show', 'before-hide', 'hide' ],
+
   data () {
     return {
-      showing: this.value
+      showing: this.modelValue
     }
   },
 
   watch: {
-    value (val) {
+    modelValue (val) {
       this.$refs.menu !== void 0 && this.$refs.menu[val ? 'show' : 'hide']()
     }
   },
 
+  computed: {
+    attrs () {
+      const attrs = {
+        'aria-expanded': this.showing === true ? 'true' : 'false',
+        'aria-haspopup': 'true'
+      }
+
+      if (
+        this.disable === true ||
+        (
+          (this.split === false && this.disableMainBtn === true) ||
+          this.disableDropdown === true
+        )
+      ) {
+        attrs['aria-disabled'] = 'true'
+      }
+
+      return attrs
+    }
+  },
+
   render () {
-    const label = slot(this, 'label', [])
-    const attrs = {
-      'aria-expanded': this.showing === true ? 'true' : 'false',
-      'aria-haspopup': 'true'
-    }
-
-    if (
-      this.disable === true ||
-      (
-        (this.split === false && this.disableMainBtn === true) ||
-        this.disableDropdown === true
-      )
-    ) {
-      attrs['aria-disabled'] = 'true'
-    }
-
     const Arrow = [
       h(QIcon, {
-        props: { name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown },
         class: 'q-btn-dropdown__arrow' +
           (this.showing === true && this.noIconAnimation === false ? ' rotate-180' : '') +
-          (this.split === false ? ' q-btn-dropdown__arrow-container' : '')
+          (this.split === false ? ' q-btn-dropdown__arrow-container' : ''),
+        name: this.dropdownIcon || this.$q.iconSet.arrow.dropdown
       })
     ]
 
     this.disableDropdown !== true && Arrow.push(
       h(QMenu, {
         ref: 'menu',
-        props: {
-          cover: this.cover,
-          fit: true,
-          persistent: this.persistent,
-          noRouteDismiss: this.noRouteDismiss,
-          autoClose: this.autoClose,
-          anchor: this.menuAnchor,
-          self: this.menuSelf,
-          offset: this.menuOffset,
-          contentClass: this.contentClass,
-          contentStyle: this.contentStyle,
-          separateClosePopup: true
-        },
-        on: cache(this, 'menu', {
-          'before-show': e => {
+        cover: this.cover,
+        fit: true,
+        persistent: this.persistent,
+        noRouteDismiss: this.noRouteDismiss,
+        autoClose: this.autoClose,
+        anchor: this.menuAnchor,
+        self: this.menuSelf,
+        offset: this.menuOffset,
+        contentClass: this.contentClass,
+        contentStyle: this.contentStyle,
+        separateClosePopup: true,
+        ...cache(this, 'menu', {
+          'onBefore-show': e => {
             this.showing = true
             this.$emit('before-show', e)
           },
-          show: e => {
+          onShow: e => {
             this.$emit('show', e)
-            this.$emit('input', true)
+            this.$emit('update:modelValue', true)
           },
-          'before-hide': e => {
+          'onBefore-hide': e => {
             this.showing = false
             this.$emit('before-hide', e)
           },
-          hide: e => {
+          onHide: e => {
             this.$emit('hide', e)
-            this.$emit('input', false)
+            this.$emit('update:modelValue', false)
           }
         })
-      }, slot(this, 'default'))
+      }, this.$slots.default)
     )
 
     if (this.split === false) {
       return h(QBtn, {
         class: 'q-btn-dropdown q-btn-dropdown--simple',
-        props: {
-          ...this.$props,
-          disable: this.disable === true || this.disableMainBtn === true,
-          noWrap: true,
-          round: false
-        },
-        attrs: {
-          ...this.qAttrs,
-          ...attrs
-        },
-        on: cache(this, 'nonSpl', {
-          click: e => {
+        ...this.$props,
+        disable: this.disable === true || this.disableMainBtn === true,
+        noWrap: true,
+        round: false,
+        ...this.attrs,
+        ...cache(this, 'nonSpl', {
+          onClick: e => {
             this.$emit('click', e)
           }
         })
-      }, label.concat(Arrow))
+      }, () => slot(this, 'label', []).concat(Arrow))
     }
 
-    const Btn = h(QBtn, {
-      class: 'q-btn-dropdown--current',
-      props: {
+    return h(QBtnGroup, {
+      class: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item',
+      outline: this.outline,
+      flat: this.flat,
+      rounded: this.rounded,
+      push: this.push,
+      unelevated: this.unelevated,
+      glossy: this.glossy,
+      stretch: this.stretch
+    }, () => [
+      h(QBtn, {
+        class: 'q-btn-dropdown--current',
         ...this.$props,
         disable: this.disable === true || this.disableMainBtn === true,
         noWrap: true,
         iconRight: this.iconRight,
-        round: false
-      },
-      attrs: this.qAttrs,
-      on: cache(this, 'spl', {
-        click: e => {
-          this.hide()
-          this.$emit('click', e)
-        }
-      })
-    }, label)
+        round: false,
+        ...cache(this, 'spl', {
+          onClick: e => {
+            this.hide()
+            this.$emit('click', e)
+          }
+        })
+      }, this.$slots.label),
 
-    return h(QBtnGroup, {
-      props: {
+      h(QBtn, {
+        class: 'q-btn-dropdown__arrow-container',
+        ...this.attrs,
+        disable: this.disable === true || this.disableDropdown === true,
         outline: this.outline,
         flat: this.flat,
         rounded: this.rounded,
         push: this.push,
-        unelevated: this.unelevated,
-        glossy: this.glossy,
-        stretch: this.stretch
-      },
-      staticClass: 'q-btn-dropdown q-btn-dropdown--split no-wrap q-btn-item'
-    }, [
-      Btn,
-
-      h(QBtn, {
-        staticClass: 'q-btn-dropdown__arrow-container',
-        attrs,
-        props: {
-          disable: this.disable === true || this.disableDropdown === true,
-          outline: this.outline,
-          flat: this.flat,
-          rounded: this.rounded,
-          push: this.push,
-          size: this.size,
-          color: this.color,
-          textColor: this.textColor,
-          dense: this.dense,
-          ripple: this.ripple
-        }
-      }, Arrow)
+        size: this.size,
+        color: this.color,
+        textColor: this.textColor,
+        dense: this.dense,
+        ripple: this.ripple
+      }, () => Arrow)
     ])
   },
 
@@ -209,6 +197,6 @@ export default defineComponent({
   },
 
   mounted () {
-    this.value === true && this.show()
+    this.modelValue === true && this.show()
   }
 })
