@@ -26,9 +26,11 @@ export default {
     }
   },
 
+  emits: [ 'update:pagination' ],
+
   computed: {
     computedPagination () {
-      const pag = this.qListeners['update:pagination'] !== void 0
+      const pag = this.$attrs['onUpdate:pagination'] !== void 0
         ? { ...this.innerPagination, ...this.pagination }
         : this.innerPagination
 
@@ -118,7 +120,7 @@ export default {
         return
       }
 
-      if (this.pagination !== void 0 && this.qListeners['update:pagination'] !== void 0) {
+      if (this.pagination !== void 0 && this.$attrs['onUpdate:pagination'] !== void 0) {
         this.$emit('update:pagination', newPagination)
       }
       else {
@@ -150,7 +152,7 @@ export default {
   },
 
   created () {
-    if (this.qListeners['update:pagination'] !== void 0) {
+    if (this.$attrs['onUpdate:pagination'] !== void 0) {
       this.$emit('update:pagination', { ...this.computedPagination })
     }
   }

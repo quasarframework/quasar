@@ -53,8 +53,7 @@ export default defineComponent({
   methods: {
     __update (percentage) {
       this.percentScrolled = percentage
-      // TODO vue3 - emit only if listener is attached
-      this.$emit('scroll', percentage)
+      this.$attrs.onScroll !== void 0 && this.$emit('scroll', percentage)
     },
 
     __updatePos () {

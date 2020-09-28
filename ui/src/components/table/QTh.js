@@ -12,6 +12,8 @@ export default defineComponent({
     autoWidth: Boolean
   },
 
+  emits: [ 'click' ],
+
   render () {
     if (this.props === void 0) {
       return h('th', {
@@ -20,7 +22,7 @@ export default defineComponent({
     }
 
     let col, child
-    const name = this.$vnode.key
+    const name = this.$.vnode.key
 
     if (name) {
       col = this.props.colsMap[name]

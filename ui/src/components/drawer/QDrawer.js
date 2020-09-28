@@ -9,17 +9,14 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 import { ariaHidden } from '../../mixins/attrs'
 
 const duration = 150
 
-const mouseEvents = [
-  'mouseover', 'mouseout', 'mouseenter', 'mouseleave'
-]
-
 export default defineComponent({
   name: 'QDrawer',
+
+  inheritAttrs: false,
 
   inject: {
     layout: {
@@ -298,21 +295,9 @@ export default defineComponent({
     },
 
     onNativeEvents () {
-      if (this.belowBreakpoint !== true) {
-        const evt = {
-          onClickCapture: e => { this.$emit('click', e) }
-        }
-
-        mouseEvents.forEach(name => {
-          evt[name] = e => {
-            // TODO vue3
-            // this.qListeners[name] !== void 0 &&
-            this.$emit(name, e)
-          }
-        })
-
-        return evt
-      }
+      return this.belowBreakpoint !== true
+        ? { onClickCapture: e => { this.$emit('click', e) } }
+        : {}
     },
 
     hideOnRouteChange () {
@@ -705,6 +690,7 @@ export default defineComponent({
       ref: 'content',
       class: this.classes,
       style: this.style,
+      ...this.$attrs,
       ...this.onNativeEvents
     }, content)
 

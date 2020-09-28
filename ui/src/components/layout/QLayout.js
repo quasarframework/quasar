@@ -165,8 +165,7 @@ export default defineComponent({
       if (this.container === true || document.qScrollPrevented !== true) {
         this.scroll = data
       }
-      // TODO vue3 - only emit if listener attached
-      this.$emit('scroll', data)
+      this.$attrs.onScroll !== void 0 && this.$emit('scroll', data)
     },
 
     __onPageResize ({ height, width }) {
@@ -175,8 +174,8 @@ export default defineComponent({
       if (this.height !== height) {
         resized = true
         this.height = height
-        // TODO vue3 - only emit if listener attached
-        this.$emit('scroll-height', height)
+        // TODO vue3 - revise hyphened events
+        this.$attrs['onScroll-height'] !== void 0 && this.$emit('scroll-height', height)
         this.__updateScrollbarWidth()
       }
       if (this.width !== width) {
@@ -185,8 +184,7 @@ export default defineComponent({
       }
 
       if (resized === true) {
-        // TODO vue3 - only emit if listener attached
-        this.$emit('resize', { height, width })
+        this.$attrs.onResize !== void 0 && this.$emit('resize', { height, width })
       }
     },
 

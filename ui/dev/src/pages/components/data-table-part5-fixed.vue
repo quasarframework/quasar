@@ -17,7 +17,7 @@
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
-      :data="data"
+      :records="data"
       :columns="columns"
       :title="title"
       :filter="filter"
@@ -26,7 +26,7 @@
       row-key="index"
       virtual-scroll
       :virtual-scroll-sticky-start="dense ? 24 : 48"
-      :pagination.sync="pagination"
+      v-model:selected="selected"
       :rows-per-page-options="[0]"
     />
 
@@ -35,7 +35,7 @@
       :dense="dense"
       table-style="max-height: 500px"
       :separator="separator"
-      :data="data"
+      :records="data"
       :columns="columns"
       :title="title"
       :filter="filter"
@@ -52,7 +52,7 @@
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
-      :data="data"
+      :records="data"
       :columns="columns"
       :title="title"
       :filter="filter"
@@ -62,7 +62,7 @@
       :virtual-scroll="pagination.rowsPerPage === 0"
       :virtual-scroll-sticky-start="dense ? 24 : 48"
       @virtual-scroll="onVirtualScroll"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
     >
       <template v-slot:header="props">
         <q-tr :props="props">
@@ -98,7 +98,7 @@
       table-style="max-height: 500px"
       class="table-sticky"
       :separator="separator"
-      :data="data"
+      :records="data"
       :columns="columns"
       :title="title"
       :filter="filter"
@@ -107,7 +107,7 @@
       row-key="index"
       virtual-scroll
       :virtual-scroll-sticky-start="dense ? 24 : 48"
-      :pagination.sync="pagination"
+      v-model:pagination="pagination"
     >
       <template v-slot:header="props">
         <q-tr :props="props">

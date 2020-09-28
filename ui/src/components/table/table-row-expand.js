@@ -9,6 +9,8 @@ export default {
     expanded: Array // sync
   },
 
+  emits: [ 'update:expanded' ],
+
   data () {
     return {
       innerExpanded: getVal(this.expanded)

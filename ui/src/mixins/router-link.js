@@ -22,7 +22,7 @@ export const RouterLinkMixin = {
         to: this.to,
         activeClass: this.activeClass || 'q-router-link--active',
         exactActiveClass: this.exactActiveClass || 'q-router-link--exact-active'
-        // TODO vue3
+        // TODO vue3 - RouterLink props
         // exact: this.exact,
         // replace: this.replace,
         // event: this.disable === true ? '' : void 0

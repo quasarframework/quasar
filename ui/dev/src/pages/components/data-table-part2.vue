@@ -6,14 +6,14 @@
     <q-table
       ref="server"
       color="primary"
-      :data="serverData"
+      :records="serverData"
       :columns="columns"
       title="Server side data"
       :filter="filter"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :row-key="getRowKey"
-      :pagination.sync="serverPagination"
+      v-model:pagination="serverPagination"
       @request="request"
       :loading="loading"
       flat
@@ -29,7 +29,7 @@
 
     <h4>Client-side</h4>
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       title="Client side data"
       row-key="name"
@@ -40,7 +40,7 @@
     <q-table
       dark
       class="bg-black"
-      :data="data"
+      :records="data"
       :columns="columns"
       title="Client side"
       row-key="name"
@@ -49,7 +49,7 @@
     <h4>No separator</h4>
     <q-table
       separator="none"
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
     />
@@ -57,7 +57,7 @@
     <h4>Column separator</h4>
     <q-table
       separator="vertical"
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
     />
@@ -65,14 +65,14 @@
     <h4>Cell separator</h4>
     <q-table
       separator="cell"
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
     />
 
     <h4>No top/bottom</h4>
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       :filter="filter"
       :loading="loading"
@@ -84,7 +84,7 @@
 
     <h4>Custom top</h4>
     <q-table
-      :data="dataDyn"
+      :records="dataDyn"
       :columns="columns"
       :filter="filterDyn"
       :loading="loadingDyn"
@@ -104,7 +104,7 @@
 
     <h4>Filter, Column selection</h4>
     <q-table
-      :data="data"
+      :records="data"
       title="Filter, Column selection"
       :columns="columns"
       :filter="filter"
@@ -160,7 +160,7 @@
 
     <h4>Custom header/body</h4>
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
       table-style="height: 400px"
@@ -232,7 +232,7 @@
 
     <h4>Extra top/bottom rows</h4>
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
     >
@@ -262,29 +262,29 @@
 
     <h4>Single selection</h4>
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
       selection="single"
-      :selected.sync="selected"
+      v-model:selected="selected"
     />
 
     <h4>Multiple selection</h4>
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
     />
 
     <h4>Selection actions</h4>
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       color="secondary"
       title="Select some rows"
     >
@@ -298,23 +298,23 @@
 
     <h4>Dense selection</h4>
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
       selection="single"
       dense
-      :selected.sync="selected"
+      v-model:selected="selected"
     />
     <h4>No Data - Default</h4>
     <q-table
-      :data="[]"
+      :records="[]"
       :columns="columns"
       title="No Data"
       row-key="name"
     />
     <h4>No Data - Label</h4>
     <q-table
-      :data="[]"
+      :records="[]"
       :columns="columns"
       no-data-label="I didn't find anything for you"
       title="No Data"
@@ -322,7 +322,7 @@
     />
     <h4>No Data - Slot</h4>
     <q-table
-      :data="[]"
+      :records="[]"
       :columns="columns"
       no-data-label="I didn't find anything for you"
       title="No Data"

@@ -1,28 +1,26 @@
 import { h, defineComponent } from 'vue'
 
 import RatioMixin from '../../mixins/ratio.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QResponsive',
 
-  mixins: [ RatioMixin, ListenersMixin ],
+  mixins: [ RatioMixin ],
 
   render () {
     return h('div', {
-      staticClass: 'q-responsive',
-      on: { ...this.qListeners }
+      class: 'q-responsive'
     }, [
       h('div', {
-        staticClass: 'q-responsive__filler overflow-hidden'
+        class: 'q-responsive__filler overflow-hidden'
       }, [
         h('div', { style: this.ratioStyle })
       ]),
 
       h('div', {
-        staticClass: 'q-responsive__content absolute-full fit'
+        class: 'q-responsive__content absolute-full fit'
       }, slot(this, 'default'))
     ])
   }

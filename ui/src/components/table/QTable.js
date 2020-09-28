@@ -11,7 +11,6 @@ import getTableMiddle from './get-table-middle.js'
 
 import { commonVirtPropsList } from '../../mixins/virtual-scroll.js'
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import Sort from './table-sort.js'
 import Filter from './table-filter.js'
@@ -31,7 +30,6 @@ export default defineComponent({
 
   mixins: [
     DarkMixin,
-    ListenersMixin,
 
     FullscreenMixin,
     Top,
@@ -48,7 +46,7 @@ export default defineComponent({
   ],
 
   props: {
-    data: {
+    records: {
       type: Array,
       default: () => []
     },
@@ -99,16 +97,20 @@ export default defineComponent({
       default: 'grey-8'
     },
 
-    titleClass: [String, Array, Object],
-    tableStyle: [String, Array, Object],
-    tableClass: [String, Array, Object],
-    tableHeaderStyle: [String, Array, Object],
-    tableHeaderClass: [String, Array, Object],
-    cardContainerClass: [String, Array, Object],
-    cardContainerStyle: [String, Array, Object],
-    cardStyle: [String, Array, Object],
-    cardClass: [String, Array, Object]
+    titleClass: [ String, Array, Object ],
+    tableStyle: [ String, Array, Object ],
+    tableClass: [ String, Array, Object ],
+    tableHeaderStyle: [ String, Array, Object ],
+    tableHeaderClass: [ String, Array, Object ],
+    cardContainerClass: [ String, Array, Object ],
+    cardContainerStyle: [ String, Array, Object ],
+    cardStyle: [ String, Array, Object ],
+    cardClass: [ String, Array, Object ]
   },
+
+  emits: [
+    'request', 'virtual-scroll', 'row-click', 'row-dblclick'
+  ],
 
   data () {
     return {
@@ -146,7 +148,7 @@ export default defineComponent({
     },
 
     filteredSortedRows () {
-      let rows = this.data
+      let rows = this.records
 
       if (this.isServerSide === true || rows.length === 0) {
         return rows
@@ -160,7 +162,7 @@ export default defineComponent({
 
       if (this.columnToSort !== void 0) {
         rows = this.sortMethod(
-          this.data === rows ? rows.slice() : rows,
+          this.records === rows ? rows.slice() : rows,
           sortBy,
           descending
         )
@@ -183,7 +185,7 @@ export default defineComponent({
       const { rowsPerPage } = this.computedPagination
 
       if (rowsPerPage !== 0) {
-        if (this.firstRowIndex === 0 && this.data !== rows) {
+        if (this.firstRowIndex === 0 && this.records !== rows) {
           if (rows.length > this.lastRowIndex) {
             rows = rows.slice(0, this.lastRowIndex)
           }
@@ -244,14 +246,14 @@ export default defineComponent({
 
   render () {
     const child = [ this.__getTopDiv() ]
-    const data = { staticClass: this.containerClass }
+    const data = { class: this.containerClass }
 
     if (this.grid === true) {
       child.push(this.__getGridHeader())
     }
     else {
       Object.assign(data, {
-        class: this.cardClass,
+        class: [ data.class, this.cardClass ],
         style: this.cardStyle
       })
     }
@@ -290,36 +292,33 @@ export default defineComponent({
         return this.__getGridBody()
       }
 
-      const header = this.hideHeader !== true ? this.__getTHead() : null
+      const header = this.hideHeader !== true ? this.__getTHead : void 0
 
-      return this.hasVirtScroll === true
-        ? h(QVirtualScroll, {
+      if (this.hasVirtScroll === true) {
+        const body = this.$slots.body
+
+        return h(QVirtualScroll, {
           ref: 'virtScroll',
-          props: {
-            ...this.virtProps,
-            items: this.computedRows,
-            type: '__qtable',
-            tableColspan: this.computedColspan
-          },
-          on: cache(this, 'vs', {
-            'virtual-scroll': this.__onVScroll
-          }),
           class: this.tableClass,
           style: this.tableStyle,
-          scopedSlots: {
-            before: header === null
-              ? void 0
-              : () => header,
-            default: this.__getVirtualTBodyTR()
-          }
+          ...this.virtProps,
+          items: this.computedRows,
+          type: '__qtable',
+          tableColspan: this.computedColspan,
+          'onVirtual-scroll': this.__onVScroll
+        }, {
+          default: props => this.__getTBodyTR(props.item, body, props.index),
+          before: header
         })
-        : getTableMiddle({
-          class: [ 'q-table__middle scroll', this.tableClass ],
-          style: this.tableStyle
-        }, [
-          header,
-          this.__getTBody()
-        ])
+      }
+
+      return getTableMiddle({
+        class: [ 'q-table__middle scroll', this.tableClass ],
+        style: this.tableStyle
+      }, [
+        header(),
+        this.__getTBody()
+      ])
     },
 
     scrollTo (toIndex) {
@@ -354,13 +353,11 @@ export default defineComponent({
     __getProgress () {
       return [
         h(QLinearProgress, {
-          staticClass: 'q-table__linear-progress',
-          props: {
-            color: this.color,
-            dark: this.isDark,
-            indeterminate: true,
-            trackColor: 'transparent'
-          }
+          class: 'q-table__linear-progress',
+          color: this.color,
+          dark: this.isDark,
+          indeterminate: true,
+          trackColor: 'transparent'
         })
       ]
     }

@@ -1,7 +1,7 @@
+import { h } from 'vue'
+
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QTh from './QTh.js'
-
-import cache from '../../utils/cache.js'
 
 export default {
   computed: {
@@ -13,16 +13,16 @@ export default {
   },
 
   methods: {
-    __getTHead (h) {
-      const child = this.__getTHeadTR(h)
+    __getTHead () {
+      const child = this.__getTHeadTR()
 
       if (this.loading === true && this.$slots.loading === void 0) {
         child.push(
-          h('tr', { staticClass: 'q-table__progress' }, [
+          h('tr', { class: 'q-table__progress' }, [
             h('th', {
-              staticClass: 'relative-position',
-              attrs: { colspan: this.computedColspan }
-            }, this.__getProgress(h))
+              class: 'relative-position',
+              colspan: this.computedColspan
+            }, this.__getProgress())
           ])
         )
       }
@@ -30,7 +30,7 @@ export default {
       return h('thead', child)
     },
 
-    __getTHeadTR (h) {
+    __getTHeadTR () {
       const
         header = this.$slots.header,
         headerCell = this.$slots['header-cell']
@@ -51,14 +51,16 @@ export default {
           ? slot(props)
           : h(QTh, {
             key: col.name,
-            props: { props },
+            props,
             style: col.headerStyle,
             class: col.headerClasses
-          }, col.label)
+          }, () => col.label)
       })
 
       if (this.singleSelection === true && this.grid !== true) {
-        child.unshift(h('th', { staticClass: 'q-table--col-auto-width' }, [' ']))
+        child.unshift(
+          h('th', { class: 'q-table--col-auto-width' }, ' ')
+        )
       }
       else if (this.multipleSelection === true) {
         const slot = this.$slots['header-selection']
@@ -66,27 +68,23 @@ export default {
           ? slot(this.__getHeaderScope({}))
           : [
             h(QCheckbox, {
-              props: {
-                color: this.color,
-                value: this.headerSelectedValue,
-                dark: this.isDark,
-                dense: this.dense
-              },
-              on: cache(this, 'inp', {
-                input: this.__onMultipleSelectionSet
-              })
+              color: this.color,
+              modelValue: this.headerSelectedValue,
+              dark: this.isDark,
+              dense: this.dense,
+              'onUpdate:modelValue': this.__onMultipleSelectionSet
             })
           ]
 
         child.unshift(
-          h('th', { staticClass: 'q-table--col-auto-width' }, content)
+          h('th', { class: 'q-table--col-auto-width' }, content)
         )
       }
 
       return [
         h('tr', {
-          style: this.tableHeaderStyle,
-          class: this.tableHeaderClass
+          class: this.tableHeaderClass,
+          style: this.tableHeaderStyle
         }, child)
       ]
     },
@@ -108,10 +106,6 @@ export default {
           configurable: true,
           enumerable: true
         })
-
-        // TODO: remove in v2
-        data.partialSelected = this.someRowsSelected
-        data.multipleSelect = true
       }
 
       return data

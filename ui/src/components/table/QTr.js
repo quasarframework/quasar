@@ -12,14 +12,13 @@ export default defineComponent({
 
   computed: {
     classes () {
-      return 'q-tr' + (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
+      return 'q-tr' +
+        (this.props === void 0 || this.props.header === true ? '' : ' ' + this.props.__trClass) +
         (this.noHover === true ? ' q-tr--no-hover' : '')
     }
   },
 
   render () {
-    return h('tr', {
-      class: this.classes
-    }, slot(this, 'default'))
+    return h('tr', { class: this.classes }, slot(this, 'default'))
   }
 })

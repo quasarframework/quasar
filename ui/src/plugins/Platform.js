@@ -324,7 +324,7 @@ const Platform = {
 
       // we need to make platform reactive
       // for the takeover phase
-      // TODO vue3
+      // TODO vue3 - $q.platform reactive
       // $q.platform = this
     }
     else {

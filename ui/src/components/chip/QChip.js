@@ -26,7 +26,7 @@ export default defineComponent({
     })
   ],
 
-  // TODO vue3
+  // TODO vue3 - model event
   model: {
     event: 'remove'
   },

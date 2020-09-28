@@ -104,6 +104,19 @@ export default defineComponent({
         this.__scrollTarget.removeEventListener('scroll', this.__onVirtualScrollEvt, listenOpts.passive)
         this.__scrollTarget = void 0
       }
+    },
+
+    __getVirtualChildren () {
+      let child = this.__padVirtualScroll(
+        this.type === 'list' ? 'div' : 'tbody',
+        this.virtualScrollScope.map(this.$slots.default)
+      )
+
+      if (this.$slots.before !== void 0) {
+        child = this.$slots.before().concat(child)
+      }
+
+      return mergeSlot(child, this, 'after')
     }
   },
 
@@ -125,24 +138,15 @@ export default defineComponent({
       return
     }
 
-    let child = this.__padVirtualScroll(
-      h,
-      this.type === 'list' ? 'div' : 'tbody',
-      this.virtualScrollScope.map(this.$slots.default)
-    )
-
-    if (this.$slots.before !== void 0) {
-      child = this.$slots.before().concat(child)
-    }
-
-    child = mergeSlot(child, this, 'after')
-
     return this.type === '__qtable'
-      ? getTableMiddle({ class: 'q-table__middle ' + this.classes }, child)
+      ? getTableMiddle(
+        { class: 'q-table__middle ' + this.classes },
+        this.__getVirtualChildren()
+      )
       : h(comps[this.type], {
         class: this.classes,
         ...this.$attrs,
         ...this.attrs
-      }, { default: () => child })
+      }, this.__getVirtualChildren)
   }
 })

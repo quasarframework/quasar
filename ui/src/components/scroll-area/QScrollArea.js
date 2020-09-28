@@ -24,7 +24,7 @@ export default defineComponent({
     contentActiveStyle: [ Array, String, Object ],
 
     delay: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 1000
     },
 
@@ -35,6 +35,8 @@ export default defineComponent({
 
     horizontal: Boolean
   },
+
+  emits: [ 'scroll' ],
 
   data () {
     return {
@@ -246,8 +248,7 @@ export default defineComponent({
         this.tempShowing = false
       }, this.delay)
 
-      // TODO vue3
-      // this.__emitScroll()
+      this.__emitScroll()
     },
 
     __setScroll (offset) {
@@ -303,25 +304,24 @@ export default defineComponent({
         this.thumbDirectives
       )
     ])
+  },
+
+  created () {
+    // we have lots of listeners, so
+    // ensure we're not emitting same info
+    // multiple times
+    this.__emitScroll = debounce(() => {
+      if (this.$attrs.onScroll !== void 0) {
+        const info = { ref: this }
+        const prefix = this.dirProps.prefix
+
+        info[prefix + 'Position'] = this.scrollPosition
+        info[prefix + 'Percentage'] = this.scrollPercentage
+        info[prefix + 'Size'] = this.scrollSize
+        info[prefix + 'ContainerSize'] = this.containerSize
+
+        this.$emit('scroll', info)
+      }
+    }, 0)
   }
-
-  // TODO vue3
-  // created () {
-  //   // we have lots of listeners, so
-  //   // ensure we're not emitting same info
-  //   // multiple times
-  //   this.__emitScroll = debounce(() => {
-  //     if (this.$listeners.scroll !== void 0) {
-  //       const info = { ref: this }
-  //       const prefix = this.dirProps.prefix
-
-  //       info[prefix + 'Position'] = this.scrollPosition
-  //       info[prefix + 'Percentage'] = this.scrollPercentage
-  //       info[prefix + 'Size'] = this.scrollSize
-  //       info[prefix + 'ContainerSize'] = this.containerSize
-
-  //       this.$emit('scroll', info)
-  //     }
-  //   }, 0)
-  // }
 })

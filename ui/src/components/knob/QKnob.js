@@ -67,7 +67,7 @@ export default defineComponent({
 
       if (this.model !== this.modelValue) {
         this.$emit('update:modelValue', this.model)
-        // TODO vue3
+        // TODO vue3 - handle lazy update
         // this.$emit('change', this.model)
       }
     }
@@ -249,7 +249,7 @@ export default defineComponent({
 
     __updateValue (change) {
       this.modelValue !== this.model && this.$emit('update:modelValue', this.model)
-      // TODO vue3
+      // TODO vue3 - handle lazy update
       // change === true && this.$emit('change', this.model)
     },
 

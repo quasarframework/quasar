@@ -20,13 +20,10 @@ export default defineComponent({
 
   render () {
     if (this.props === void 0) {
-      return h('td', {
-        class: this.classes
-      }, slot(this, 'default'))
+      return h('td', { class: this.classes }, slot(this, 'default'))
     }
 
-    // TODO vue3
-    const name = this.$vnode.key
+    const name = this.$.vnode.key
 
     const col = this.props.colsMap !== void 0 && name
       ? this.props.colsMap[name]

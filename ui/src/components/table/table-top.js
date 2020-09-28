@@ -1,3 +1,5 @@
+import { h } from 'vue'
+
 export default {
   computed: {
     marginalsScope () {
@@ -18,7 +20,7 @@ export default {
   },
 
   methods: {
-    __getTopDiv (h) {
+    __getTopDiv () {
       const
         top = this.$slots.top,
         topLeft = this.$slots['top-left'],
@@ -27,10 +29,10 @@ export default {
         hasSelection = this.hasSelectionMode === true &&
           topSelection !== void 0 &&
           this.rowsSelectedNumber > 0,
-        staticClass = 'q-table__top relative-position row items-center'
+        topClass = 'q-table__top relative-position row items-center'
 
       if (top !== void 0) {
-        return h('div', { staticClass }, [ top(this.marginalsScope) ])
+        return h('div', { class: topClass }, [ top(this.marginalsScope) ])
       }
 
       let child
@@ -43,24 +45,28 @@ export default {
 
         if (topLeft !== void 0) {
           child.push(
-            h('div', { staticClass: 'q-table-control' }, [
+            h('div', { class: 'q-table-control' }, [
               topLeft(this.marginalsScope)
             ])
           )
         }
         else if (this.title) {
           child.push(
-            h('div', { staticClass: 'q-table__control' }, [
-              h('div', { staticClass: 'q-table__title', class: this.titleClass }, this.title)
+            h('div', { class: 'q-table__control' }, [
+              h('div', {
+                class: [ 'q-table__title', this.titleClass ]
+              }, this.title)
             ])
           )
         }
       }
 
       if (topRight !== void 0) {
-        child.push(h('div', { staticClass: 'q-table__separator col' }))
         child.push(
-          h('div', { staticClass: 'q-table__control' }, [
+          h('div', { class: 'q-table__separator col' })
+        )
+        child.push(
+          h('div', { class: 'q-table__control' }, [
             topRight(this.marginalsScope)
           ])
         )
@@ -70,7 +76,7 @@ export default {
         return
       }
 
-      return h('div', { staticClass }, child)
+      return h('div', { class: topClass }, child)
     }
   }
 }

@@ -1,10 +1,12 @@
+import { h } from 'vue'
+
 import QSelect from '../select/QSelect.js'
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
 import cache from '../../utils/cache.js'
 
-const staticClass = 'q-table__bottom row items-center'
+const bottomClass = 'q-table__bottom row items-center'
 
 export default {
   props: {
@@ -27,7 +29,7 @@ export default {
   },
 
   methods: {
-    __getBottomDiv (h) {
+    __getBottomDiv () {
       if (this.hideBottom === true) {
         return
       }
@@ -46,26 +48,26 @@ export default {
           ? [ noData({ message, icon: this.$q.iconSet.table.warning, filter: this.filter }) ]
           : [
             h(QIcon, {
-              staticClass: 'q-table__bottom-nodata-icon',
-              props: { name: this.$q.iconSet.table.warning }
+              class: 'q-table__bottom-nodata-icon',
+              name: this.$q.iconSet.table.warning
             }),
             message
           ]
 
         return h('div', {
-          staticClass: staticClass + ' q-table__bottom--nodata'
+          class: bottomClass + ' q-table__bottom--nodata'
         }, children)
       }
 
       const bottom = this.$slots.bottom
 
       if (bottom !== void 0) {
-        return h('div', { staticClass }, [ bottom(this.marginalsScope) ])
+        return h('div', { class: bottomClass }, [ bottom(this.marginalsScope) ])
       }
 
       const child = this.hideSelectedBanner !== true && this.hasSelectionMode === true && this.rowsSelectedNumber > 0
         ? [
-          h('div', { staticClass: 'q-table__control' }, [
+          h('div', { class: 'q-table__control' }, [
             h('div', [
               (this.selectedRowsLabel || this.$q.lang.table.selectedRecords)(this.rowsSelectedNumber)
             ])
@@ -75,16 +77,16 @@ export default {
 
       if (this.hidePagination !== true) {
         return h('div', {
-          staticClass: staticClass + ' justify-end'
-        }, this.__getPaginationDiv(h, child))
+          class: bottomClass + ' justify-end'
+        }, this.__getPaginationDiv(child))
       }
 
       if (child.length > 0) {
-        return h('div', { staticClass }, child)
+        return h('div', { class: bottomClass }, child)
       }
     },
 
-    __getPaginationDiv (h, child) {
+    __getPaginationDiv (child) {
       let control
       const
         { rowsPerPage } = this.computedPagination,
@@ -93,32 +95,30 @@ export default {
         hasOpts = this.rowsPerPageOptions.length > 1
 
       child.push(
-        h('div', { staticClass: 'q-table__separator col' })
+        h('div', { class: 'q-table__separator col' })
       )
 
       if (hasOpts === true) {
         child.push(
-          h('div', { staticClass: 'q-table__control' }, [
-            h('span', { staticClass: 'q-table__bottom-item' }, [
+          h('div', { class: 'q-table__control' }, [
+            h('span', { class: 'q-table__bottom-item' }, [
               this.rowsPerPageLabel || this.$q.lang.table.recordsPerPage
             ]),
             h(QSelect, {
-              staticClass: 'q-table__select inline q-table__bottom-item',
-              props: {
-                color: this.color,
-                value: rowsPerPage,
-                options: this.computedRowsPerPageOptions,
-                displayValue: rowsPerPage === 0
-                  ? this.$q.lang.table.allRows
-                  : rowsPerPage,
-                dark: this.isDark,
-                borderless: true,
-                dense: true,
-                optionsDense: true,
-                optionsCover: true
-              },
-              on: cache(this, 'pgSize', {
-                input: pag => {
+              class: 'q-table__select inline q-table__bottom-item',
+              color: this.color,
+              modelValue: rowsPerPage,
+              options: this.computedRowsPerPageOptions,
+              displayValue: rowsPerPage === 0
+                ? this.$q.lang.table.allRows
+                : rowsPerPage,
+              dark: this.isDark,
+              borderless: true,
+              dense: true,
+              optionsDense: true,
+              optionsCover: true,
+              ...cache(this, 'pgSize', {
+                'onUpdate:modelValue': pag => {
                   this.setPagination({
                     page: 1,
                     rowsPerPage: pag.value
@@ -135,7 +135,7 @@ export default {
       }
       else {
         control = [
-          h('span', rowsPerPage !== 0 ? { staticClass: 'q-table__bottom-item' } : {}, [
+          h('span', rowsPerPage !== 0 ? { class: 'q-table__bottom-item' } : {}, [
             rowsPerPage
               ? paginationLabel(this.firstRowIndex + 1, Math.min(this.lastRowIndex, this.computedRowsNumber), this.computedRowsNumber)
               : paginationLabel(1, this.filteredSortedRowsNumber, this.computedRowsNumber)
@@ -157,53 +157,45 @@ export default {
           this.pagesNumber > 2 && control.push(
             h(QBtn, {
               key: 'pgFirst',
-              props: {
-                ...btnProps,
-                icon: this.navIcon[0],
-                disable: this.isFirstPage
-              },
-              on: cache(this, 'pgFirst', { click: this.firstPage })
+              ...btnProps,
+              icon: this.navIcon[0],
+              disable: this.isFirstPage,
+              onClick: this.firstPage
             })
           )
 
           control.push(
             h(QBtn, {
               key: 'pgPrev',
-              props: {
-                ...btnProps,
-                icon: this.navIcon[1],
-                disable: this.isFirstPage
-              },
-              on: cache(this, 'pgPrev', { click: this.prevPage })
+              ...btnProps,
+              icon: this.navIcon[1],
+              disable: this.isFirstPage,
+              onClick: this.prevPage
             }),
 
             h(QBtn, {
               key: 'pgNext',
-              props: {
-                ...btnProps,
-                icon: this.navIcon[2],
-                disable: this.isLastPage
-              },
-              on: cache(this, 'pgNext', { click: this.nextPage })
+              ...btnProps,
+              icon: this.navIcon[2],
+              disable: this.isLastPage,
+              onClick: this.nextPage
             })
           )
 
           this.pagesNumber > 2 && control.push(
             h(QBtn, {
               key: 'pgLast',
-              props: {
-                ...btnProps,
-                icon: this.navIcon[3],
-                disable: this.isLastPage
-              },
-              on: cache(this, 'pgLast', { click: this.lastPage })
+              ...btnProps,
+              icon: this.navIcon[3],
+              disable: this.isLastPage,
+              onClick: this.lastPage
             })
           )
         }
       }
 
       child.push(
-        h('div', { staticClass: 'q-table__control' }, control)
+        h('div', { class: 'q-table__control' }, control)
       )
 
       return child

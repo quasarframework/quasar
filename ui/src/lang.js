@@ -78,7 +78,6 @@ export default {
       this.props = initialLang
     }
     else {
-      // TODO vue3
       $q.lang = reactive({})
       this.set(initialLang)
     }

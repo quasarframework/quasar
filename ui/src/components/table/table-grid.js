@@ -1,12 +1,14 @@
+import { h } from 'vue'
+
 import QCheckbox from '../checkbox/QCheckbox.js'
 import QSeparator from '../separator/QSeparator.js'
 
 export default {
   methods: {
-    __getGridHeader (h) {
+    __getGridHeader () {
       const child = this.gridHeader === true
         ? [
-          h('table', { staticClass: 'q-table' }, [
+          h('table', { class: 'q-table' }, [
             this.__getTHead(h)
           ])
         ]
@@ -16,17 +18,17 @@ export default {
             : void 0
         )
 
-      return h('div', { staticClass: 'q-table__middle' }, child)
+      return h('div', { class: 'q-table__middle' }, child)
     },
 
-    __getGridBody (h) {
+    __getGridBody () {
       const item = this.$slots.item !== void 0
         ? this.$slots.item
         : scope => {
           const child = scope.cols.map(
-            col => h('div', { staticClass: 'q-table__grid-item-row' }, [
-              h('div', { staticClass: 'q-table__grid-item-title' }, [ col.label ]),
-              h('div', { staticClass: 'q-table__grid-item-value' }, [ col.value ])
+            col => h('div', { class: 'q-table__grid-item-row' }, [
+              h('div', { class: 'q-table__grid-item-title' }, [ col.label ]),
+              h('div', { class: 'q-table__grid-item-value' }, [ col.value ])
             ])
           )
 
@@ -36,60 +38,59 @@ export default {
               ? slot(scope)
               : [
                 h(QCheckbox, {
-                  props: {
-                    value: scope.selected,
-                    color: this.color,
-                    dark: this.isDark,
-                    dense: this.dense
-                  },
-                  on: {
-                    input: (adding, evt) => {
-                      this.__updateSelection([ scope.key ], [ scope.row ], adding, evt)
-                    }
+                  modelValue: scope.selected,
+                  color: this.color,
+                  dark: this.isDark,
+                  dense: this.dense,
+                  'onUpdate:modelValue': (adding, evt) => {
+                    this.__updateSelection([ scope.key ], [ scope.row ], adding, evt)
                   }
                 })
               ]
 
             child.unshift(
-              h('div', { staticClass: 'q-table__grid-item-row' }, content),
-              h(QSeparator, { props: { dark: this.isDark } })
+              h('div', { class: 'q-table__grid-item-row' }, content),
+              h(QSeparator, { dark: this.isDark })
             )
           }
 
           const data = {
-            staticClass: 'q-table__grid-item-card' + this.cardDefaultClass,
-            class: this.cardClass,
-            style: this.cardStyle,
-            on: {}
+            class: [
+              'q-table__grid-item-card' + this.cardDefaultClass,
+              this.cardClass
+            ],
+            style: this.cardStyle
           }
 
-          if (this.qListeners['row-click'] !== void 0 || this.qListeners['row-dblclick'] !== void 0) {
-            data.staticClass += ' cursor-pointer'
+          if (this.$attrs['onRow-click'] !== void 0 || this.$attrs['onRow-dblclick'] !== void 0) {
+            data.class[0] += ' cursor-pointer'
           }
 
-          if (this.qListeners['row-click'] !== void 0) {
-            data.on.click = evt => {
+          if (this.$attrs['onRow-click'] !== void 0) {
+            data.onClick = evt => {
               this.$emit('row-click', evt, scope.row, scope.pageIndex)
             }
           }
 
-          if (this.qListeners['row-dblclick'] !== void 0) {
-            data.on.dblclick = evt => {
+          if (this.$attrs['onRow-dblclick'] !== void 0) {
+            data.onDblclick = evt => {
               this.$emit('row-dblclick', evt, scope.row, scope.pageIndex)
             }
           }
 
           return h('div', {
-            staticClass: 'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3',
-            class: scope.selected === true ? 'q-table__grid-item--selected' : ''
+            class: 'q-table__grid-item col-xs-12 col-sm-6 col-md-4 col-lg-3' +
+              (scope.selected === true ? 'q-table__grid-item--selected' : '')
           }, [
             h('div', data, child)
           ])
         }
 
       return h('div', {
-        staticClass: 'q-table__grid-content row',
-        class: this.cardContainerClass,
+        class: [
+          'q-table__grid-content row',
+          this.cardContainerClass
+        ],
         style: this.cardContainerStyle
       }, this.computedRows.map((row, pageIndex) => {
         return item(this.__getBodyScope({

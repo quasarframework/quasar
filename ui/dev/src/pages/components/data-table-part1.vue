@@ -135,7 +135,7 @@
         Click on Dessert or Calories cells.
       </p>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -233,11 +233,11 @@
         grid
         :grid-header="gridHeader"
         :loading="gridLoading"
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         @selection="onSelection"
         :visible-columns="visibleColumns"
         card-container-class="justify-center"
@@ -290,16 +290,16 @@
       <h2>Emulate server-side</h2>
       <q-table
         ref="server"
-        :data="serverData"
+        :records="serverData"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
         selection="multiple"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :visible-columns="visibleColumns"
         row-key="name"
-        :pagination.sync="serverPagination"
+        v-model:pagination="serverPagination"
         :separator="separator"
         @request="request"
       >
@@ -317,25 +317,25 @@
         color="orange"
         bordered
         :separator="separator"
-        :data="data"
+        :records="data"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
         selection="multiple"
-        :selected.sync="selected"
+        v-model:selected="selected"
         row-key="name"
       />
 
       <h2>body-cell-[name] template</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :visible-columns="visibleColumns"
         row-key="name"
         color="secondary"
@@ -386,7 +386,7 @@
 
       <h2>no-top, no-bottom</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -399,13 +399,13 @@
 
       <h2>top-left template</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :title="title"
         :filter="filter"
         :loading="loading"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :visible-columns="visibleColumns"
         row-key="name"
         color="amber"
@@ -427,7 +427,7 @@
 
       <h2>top template</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -444,7 +444,7 @@
 
       <h2>header-cell</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -459,7 +459,7 @@
 
       <h2>header-cell-[name] template</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :title="title"
         :filter="filter"
@@ -481,7 +481,7 @@
 
       <h2>header</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -498,7 +498,7 @@
 
       <h2>header 2</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -535,7 +535,7 @@
       </q-table>
       <h2>body template - cell button with loading</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -575,7 +575,7 @@
 
       <h2>body template 2</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -592,7 +592,7 @@
 
       <h2>body-cell template</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -607,7 +607,7 @@
 
       <h2>before/after header/footer template</h2>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :title="title"
@@ -640,13 +640,13 @@
       <h2>selection template</h2>
       <q-toggle v-model="selectionToggle" />
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
@@ -706,13 +706,13 @@
         </template>
       </q-table>
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
@@ -740,13 +740,13 @@
       </q-table>
 
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"
@@ -764,13 +764,13 @@
       </q-table>
 
       <q-table
-        :data="data"
+        :records="data"
         :columns="columns"
         :filter="filter"
         :color="color"
         row-key="name"
         :selection="selection"
-        :selected.sync="selected"
+        v-model:selected="selected"
         :loading="loading"
         :visible-columns="visibleColumns"
         :title="title"

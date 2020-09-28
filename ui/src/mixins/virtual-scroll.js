@@ -1,3 +1,5 @@
+import { h } from 'vue'
+
 import debounce from '../utils/debounce.js'
 
 const aggBucketSize = 1000
@@ -436,10 +438,10 @@ export default {
       const contentEl = this.$refs.content
 
       if (contentEl !== void 0) {
-        const
-          children = slice.call(contentEl.children).filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
-          childrenLength = children.length,
-          sizeFn = this.virtualScrollHorizontal === true
+        const children = slice.call(contentEl.children)
+            .filter(el => el.classList.contains('q-virtual-scroll--skip') === false)
+        const childrenLength = children.length
+        const sizeFn = this.virtualScrollHorizontal === true
             ? el => el.getBoundingClientRect().width
             : el => el.offsetHeight
 
@@ -597,8 +599,7 @@ export default {
 
     __emitScroll (index) {
       if (this.prevToIndex !== index) {
-        // TODO vue3 - emit only if listener exists
-        this.$emit('virtual-scroll', {
+        this.$attrs['onVirtual-scroll'] !== void 0 && this.$emit('virtual-scroll', {
           index,
           from: this.virtualScrollSliceRange.from,
           to: this.virtualScrollSliceRange.to - 1,

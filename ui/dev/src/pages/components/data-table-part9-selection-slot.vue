@@ -2,11 +2,11 @@
   <div class="q-pa-md">
     <q-table
       title="Treats"
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
     >
       <template v-slot:header-selection="scope">
         <q-toggle v-model="scope.selected" />
@@ -20,11 +20,11 @@
     <q-table
       class="q-mt-md"
       title="Treats"
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
     >
       <template v-slot:header="props">
         <q-tr :props="props">

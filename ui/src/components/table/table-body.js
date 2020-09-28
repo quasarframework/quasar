@@ -1,8 +1,10 @@
+import { h } from 'vue'
+
 import QCheckbox from '../checkbox/QCheckbox.js'
 
 export default {
   methods: {
-    __getTBodyTR (h, row, bodySlot, pageIndex) {
+    __getTBodyTR (row, bodySlot, pageIndex) {
       const
         key = this.getRowKey(row),
         selected = this.isRowSelected(key)
@@ -39,37 +41,33 @@ export default {
           ? slot(this.__getBodySelectionScope({ key, row, pageIndex }))
           : [
             h(QCheckbox, {
-              props: {
-                value: selected,
-                color: this.color,
-                dark: this.isDark,
-                dense: this.dense
-              },
-              on: {
-                input: (adding, evt) => {
-                  this.__updateSelection([ key ], [ row ], adding, evt)
-                }
+              modelValue: selected,
+              color: this.color,
+              dark: this.isDark,
+              dense: this.dense,
+              'onUpdate:modelValue': (adding, evt) => {
+                this.__updateSelection([ key ], [ row ], adding, evt)
               }
             })
           ]
 
         child.unshift(
-          h('td', { staticClass: 'q-table--col-auto-width' }, content)
+          h('td', { class: 'q-table--col-auto-width' }, content)
         )
       }
 
-      const data = { key, class: { selected }, on: {} }
+      const data = { key, class: { selected } }
 
-      if (this.qListeners['row-click'] !== void 0) {
+      if (this.$attrs['onRow-click'] !== void 0) {
         data.class['cursor-pointer'] = true
-        data.on.click = evt => {
+        data.onClick = evt => {
           this.$emit('row-click', evt, row, pageIndex)
         }
       }
 
-      if (this.qListeners['row-dblclick'] !== void 0) {
+      if (this.$attrs['onRow-dblclick'] !== void 0) {
         data.class['cursor-pointer'] = true
-        data.on.dblclick = evt => {
+        data.onDblclick = evt => {
           this.$emit('row-dblclick', evt, row, pageIndex)
         }
       }
@@ -77,14 +75,14 @@ export default {
       return h('tr', data, child)
     },
 
-    __getTBody (h) {
+    __getTBody () {
       const
         body = this.$slots.body,
         topRow = this.$slots['top-row'],
         bottomRow = this.$slots['bottom-row']
 
       let child = this.computedRows.map(
-        (row, pageIndex) => this.__getTBodyTR(h, row, body, pageIndex)
+        (row, pageIndex) => this.__getTBodyTR(row, body, pageIndex)
       )
 
       if (topRow !== void 0) {
@@ -95,11 +93,6 @@ export default {
       }
 
       return h('tbody', child)
-    },
-
-    __getVirtualTBodyTR (h) {
-      const body = this.$slots.body
-      return props => this.__getTBodyTR(h, props.item, body, props.index)
     },
 
     __getBodyScope (data) {

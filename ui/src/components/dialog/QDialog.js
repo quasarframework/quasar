@@ -189,7 +189,7 @@ export default defineComponent({
         ? document.activeElement
         : void 0
 
-      // TODO vue3
+      // TODO vue3 - dispatchEvent
       // this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
       this.__updateMaximized(this.maximized)
 
@@ -262,7 +262,7 @@ export default defineComponent({
         this.__refocusTarget.focus()
       }
 
-      // TODO vue3
+      // TODO vue3 - dispatchEvent
       // this.$el.dispatchEvent(create('popup-hide', { bubbles: true }))
 
       this.__setTimeout(() => {

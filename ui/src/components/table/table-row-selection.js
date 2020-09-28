@@ -11,6 +11,8 @@ export default {
     }
   },
 
+  emits: [ 'update:selected', 'selection' ],
+
   computed: {
     selectedKeys () {
       const keys = {}

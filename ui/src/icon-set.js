@@ -37,7 +37,7 @@ export default {
       })
     }
     else {
-      // TODO vue3
+      // TODO vue3 - properly reactive
       $q.iconMapFn = reactive(noop)
       $q.iconSet = reactive({})
 

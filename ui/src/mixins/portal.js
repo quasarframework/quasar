@@ -1,7 +1,7 @@
 import { h, Teleport } from 'vue'
 
 import { isSSR } from '../plugins/Platform.js'
-// TODO vue3
+// TODO vue3 - handle Fullscreen API
 // import { getBodyFullscreenElement } from '../utils/dom.js'
 
 let portalEl
@@ -80,7 +80,7 @@ const Portal = {
   methods: {
     __showPortal () {
       this.__portal = true
-      // TODO vue3
+      // TODO vue3 - handle Fullscreen API
       // if (this.$q.fullscreen !== void 0 && this.$q.fullscreen.isCapable === true) {
       //   const append = isFullscreen => {
       //     if (this.__portal === void 0) {

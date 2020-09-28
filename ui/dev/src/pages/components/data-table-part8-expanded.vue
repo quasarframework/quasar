@@ -1,7 +1,7 @@
 <template>
   <div class="q-layout-padding q-gutter-md" style="max-width: 1400px;">
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
       title="Inner expanded"
@@ -51,11 +51,11 @@
     </q-table>
 
     <q-table
-      :data="data"
+      :records="data"
       :columns="columns"
       row-key="name"
-      :expanded.sync="expanded"
-      title="With expanded.sync"
+      v-model:expanded="expanded"
+      title="With v-model:expanded"
     >
       <template v-slot:body="props">
         <q-tr :props="props">

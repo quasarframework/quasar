@@ -282,7 +282,7 @@ export default defineComponent({
     },
 
     __getCurValue () {
-      // TODO vue3
+      // TODO vue3 - hasOwnProperty('tempValue')
       return false && this.hasOwnProperty('tempValue') === true
         ? this.tempValue
         : (this.innerValue !== void 0 ? this.innerValue : '')

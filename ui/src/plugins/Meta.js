@@ -148,7 +148,7 @@ function parseMeta (component, meta) {
     }
   }
 
-  // TODO vue3
+  // TODO vue3 - children traversal
   // component.$children.forEach(child => {
   //   parseMeta(child, meta)
   // })
@@ -291,7 +291,7 @@ export default {
     else {
       ssrTakeover = fromSSR
 
-      // TODO vue3
+      // TODO vue3 - main mixin
       // app.mixin({
       //   beforeCreate,
       //   created () {

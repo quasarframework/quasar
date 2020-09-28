@@ -10,11 +10,11 @@
 
     <q-table
       title="Treats"
-      :data="rows"
+      :records="rows"
       :columns="columns"
       row-key="name"
       selection="multiple"
-      :selected.sync="selected"
+      v-model:selected="selected"
       :hide-bottom="hideBottom"
       :hide-selected-banner="hideSelectedBanner"
       :hide-no-data="hideNoData"
@@ -46,7 +46,7 @@
         <q-tr v-show="props.expand" :props="props" no-hover>
           <q-td colspan="100%">
             <q-table
-              :data="rows"
+              :records="rows"
               :columns="columns"
             >
               <q-tr :props="props" />
