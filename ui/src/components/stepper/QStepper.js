@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
@@ -60,13 +60,13 @@ export default defineComponent({
       const top = slot(this, 'message', [])
 
       if (this.vertical === true) {
-        this.__isValidPanelName(this.value) && this.__updatePanelIndex()
+        this.__isValidPanelName(this.modelValue) && this.__updatePanelIndex()
 
         const content = h('div', {
-          staticClass: 'q-stepper__content',
+          class: 'q-stepper__content',
           // stop propagation of content emitted @input
           // which would tamper with Panel's model
-          on: cache(this, 'stop', { input: stop })
+          'onUpdate:modelValue': stop
         }, slot(this, 'default'))
 
         return top === void 0
@@ -74,32 +74,31 @@ export default defineComponent({
           : top.concat(content)
       }
 
+      const node = h('div', {
+        class: 'q-stepper__content q-panel-parent'
+      }, this.__getPanelContent())
+
       return [
-        h('div', { class: this.headerClasses }, this.__getAllPanels().map(panel => {
-          const step = panel.componentOptions.propsData
+        h('div', { class: this.headerClasses }, this.panels.map(panel => {
+          const step = panel.props
 
           return h(StepHeader, {
             key: step.name,
-            props: {
-              stepper: this,
-              step
-            }
+            stepper: this,
+            step
           })
         }))
       ].concat(
         top,
-
-        h('div', {
-          staticClass: 'q-stepper__content q-panel-parent',
-          directives: this.panelDirectives
-        }, this.__getPanelContent())
+        this.panelDirectives !== void 0
+          ? withDirectives(node, this.panelDirectives)
+          : node
       )
     },
 
     __renderPanels () {
       return h('div', {
-        class: this.classes,
-        on: { ...this.qListeners }
+        class: this.classes
       }, mergeSlot(this.__getContent(), this, 'navigation'))
     }
   }

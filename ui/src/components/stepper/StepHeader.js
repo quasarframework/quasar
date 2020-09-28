@@ -1,20 +1,10 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import QIcon from '../icon/QIcon.js'
 import Ripple from '../../directives/Ripple.js'
 
-import AttrsMixin from '../../mixins/attrs.js'
-
-import cache from '../../utils/cache.js'
-
 export default defineComponent({
   name: 'StepHeader',
-
-  mixins: [ AttrsMixin ],
-
-  directives: {
-    Ripple
-  },
 
   props: {
     stepper: {},
@@ -23,7 +13,7 @@ export default defineComponent({
 
   computed: {
     isActive () {
-      return this.stepper.value === this.step.name
+      return this.stepper.modelValue === this.step.name
     },
 
     isDisable () {
@@ -120,53 +110,51 @@ export default defineComponent({
   render () {
     const data = { class: this.classes }
 
-    if (this.stepper.headerNav === true) {
-      data.directives = [{
-        name: 'ripple',
-        value: this.headerNav
-      }]
+    if (this.headerNav === true) {
+      data.onClick = this.activate
+      data.onKeyup = this.keyup
+
+      Object.assign(data,
+        this.isDisable === true
+          ? { tabindex: -1, 'aria-disabled': 'true' }
+          : { tabindex: this.$attrs.tabindex || 0 }
+      )
     }
 
-    this.headerNav === true && Object.assign(data, {
-      on: cache(this, 'headnavon', {
-        click: this.activate,
-        keyup: this.keyup
-      }),
-      attrs: this.isDisable === true
-        ? { tabindex: -1, 'aria-disabled': 'true' }
-        : { tabindex: this.qAttrs.tabindex || 0 }
-    })
-
     const child = [
-      h('div', { staticClass: 'q-focus-helper', attrs: { tabindex: -1 }, ref: 'blurTarget' }),
+      h('div', { class: 'q-focus-helper', tabindex: -1, ref: 'blurTarget' }),
 
-      h('div', { staticClass: 'q-stepper__dot row flex-center q-stepper__line relative-position' }, [
-        h('span', { staticClass: 'row flex-center' }, [
+      h('div', { class: 'q-stepper__dot row flex-center q-stepper__line relative-position' }, [
+        h('span', { class: 'row flex-center' }, [
           this.hasPrefix === true
             ? this.step.prefix
-            : h(QIcon, { props: { name: this.icon } })
+            : h(QIcon, { name: this.icon })
         ])
       ])
     ]
 
     if (this.step.title !== void 0 && this.step.title !== null) {
       const content = [
-        h('div', { staticClass: 'q-stepper__title' }, [ this.step.title ])
+        h('div', { class: 'q-stepper__title' }, this.step.title)
       ]
 
       if (this.step.caption !== void 0 && this.step.caption !== null) {
         content.push(
-          h('div', { staticClass: 'q-stepper__caption' }, [ this.step.caption ])
+          h('div', { class: 'q-stepper__caption' }, this.step.caption)
         )
       }
 
       child.push(
         h('div', {
-          staticClass: 'q-stepper__label q-stepper__line relative-position'
+          class: 'q-stepper__label q-stepper__line relative-position'
         }, content)
       )
     }
 
-    return h('div', data, child)
+    const node = h('div', data, child)
+
+    return this.stepper.headerNav === true
+      ? withDirectives(node, [[ Ripple, this.headerNav ]])
+      : node
   }
 })

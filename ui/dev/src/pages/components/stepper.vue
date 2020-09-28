@@ -154,6 +154,7 @@
 </template>
 
 <script>
+import { h } from 'vue'
 
 export default {
   components: {
@@ -180,8 +181,8 @@ export default {
         this.log('beforeUnmount')
       },
 
-      destroyed () {
-        this.log('destroyed')
+      unmounted () {
+        this.log('unmounted')
       },
 
       methods: {
@@ -190,7 +191,7 @@ export default {
         }
       },
 
-      render (h) {
+      render () {
         return h('div', [ 'keep alive test ' + this.name ])
       }
     }

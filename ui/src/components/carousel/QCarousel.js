@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 
@@ -8,7 +8,6 @@ import FullscreenMixin from '../../mixins/fullscreen.js'
 
 import { isNumber } from '../../utils/is.js'
 import { mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QCarousel',
@@ -108,7 +107,7 @@ export default defineComponent({
   },
 
   watch: {
-    value () {
+    modelValue () {
       if (this.autoplay) {
         clearInterval(this.timer)
         this.__startTimer()
@@ -140,8 +139,8 @@ export default defineComponent({
           (this.controlColor !== void 0 ? ` text-${this.controlColor}` : '')
       }, [
         h('div', {
-          staticClass: 'q-carousel__navigation-inner flex flex-center no-wrap'
-        }, this.__getAvailablePanels().map(mapping))
+          class: 'q-carousel__navigation-inner flex flex-center no-wrap'
+        }, this.__getEnabledPanels().map(mapping))
       ])
     },
 
@@ -154,14 +153,14 @@ export default defineComponent({
           : opts => h(QBtn, {
               key: 'nav' + opts.name,
               class: `q-carousel__navigation-icon q-carousel__navigation-icon--${opts.active === true ? '' : 'in'}active`,
-              props: opts.btnProps,
-              on: cache(this, 'nav#' + opts.name, { click: opts.onClick })
+              ...opts.btnProps,
+              onClick: opts.onClick
             })
 
         const maxIndex = this.panels.length - 1
         node.push(
           this.__getNavigationContainer('buttons', (panel, index) => {
-            const name = panel.componentOptions.propsData.name
+            const name = panel.props.name
             const active = this.panelIndex === index
 
             return fn({
@@ -185,15 +184,13 @@ export default defineComponent({
           : ''
 
         node.push(this.__getNavigationContainer('thumbnails', panel => {
-          const slide = panel.componentOptions.propsData
+          const slide = panel.props
 
           return h('img', {
-            class: `q-carousel__thumbnail q-carousel__thumbnail--${slide.name === this.value ? '' : 'in'}active` + color,
-            attrs: {
-              src: slide.imgSrc
-            },
             key: 'tmb#' + slide.name,
-            on: cache(this, 'tmb#' + slide.name, { click: () => { this.goTo(slide.name) } })
+            class: `q-carousel__thumbnail q-carousel__thumbnail--${slide.name === this.modelValue ? '' : 'in'}active` + color,
+            src: slide.imgSrc || slide['img-src'],
+            onClick: () => { this.goTo(slide.name) }
           })
         }))
       }
@@ -203,11 +200,12 @@ export default defineComponent({
           node.push(
             h('div', {
               key: 'prev',
-              staticClass: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
+              class: `q-carousel__control q-carousel__arrow q-carousel__prev-arrow q-carousel__prev-arrow--${this.direction} absolute flex flex-center`
             }, [
               h(QBtn, {
-                props: { icon: this.arrowIcons[0], ...this.controlProps },
-                on: cache(this, 'prev', { click: this.previous })
+                icon: this.arrowIcons[0],
+                ...this.controlProps,
+                onClick: this.previous
               })
             ])
           )
@@ -217,11 +215,12 @@ export default defineComponent({
           node.push(
             h('div', {
               key: 'next',
-              staticClass: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
+              class: `q-carousel__control q-carousel__arrow q-carousel__next-arrow q-carousel__next-arrow--${this.direction} absolute flex flex-center`
             }, [
               h(QBtn, {
-                props: { icon: this.arrowIcons[1], ...this.controlProps },
-                on: cache(this, 'next', { click: this.next })
+                icon: this.arrowIcons[1],
+                ...this.controlProps,
+                onClick: this.next
               })
             ])
           )
@@ -232,15 +231,17 @@ export default defineComponent({
     },
 
     __renderPanels () {
+      const node = h('div', {
+        class: 'q-carousel__slides-container'
+      }, this.__getPanelContent())
+
       return h('div', {
-        style: this.style,
         class: this.classes,
-        on: { ...this.qListeners }
+        style: this.style
       }, [
-        h('div', {
-          staticClass: 'q-carousel__slides-container',
-          directives: this.panelDirectives
-        }, this.__getPanelContent())
+        this.panelDirectives !== void 0
+          ? withDirectives(node, this.panelDirectives)
+          : node
       ].concat(this.__getContent()))
     }
   },

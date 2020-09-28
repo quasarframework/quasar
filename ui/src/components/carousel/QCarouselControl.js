@@ -37,7 +37,7 @@ export default defineComponent({
   render () {
     return h('div', {
       class: this.classes,
-      style: this.style,
+      style: this.style
     }, slot(this, 'default'))
   }
 })

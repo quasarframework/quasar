@@ -1,4 +1,4 @@
-import { h, defineComponent } from 'vue'
+import { h, defineComponent, withDirectives } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
 import { PanelParentMixin } from '../../mixins/panel.js'
@@ -17,11 +17,11 @@ export default defineComponent({
 
   methods: {
     __renderPanels () {
-      return h('div', {
-        class: this.classes,
-        directives: this.panelDirectives,
-        on: { ...this.qListeners }
-      }, this.__getPanelContent())
+      const node = h('div', { class: this.classes }, this.__getPanelContent())
+
+      return this.panelDirectives !== void 0
+        ? withDirectives(node, this.panelDirectives)
+        : node
     }
   }
 })

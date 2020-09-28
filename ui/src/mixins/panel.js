@@ -1,36 +1,27 @@
-import { h, defineComponent, Transition } from 'vue'
+import { h, defineComponent, Transition, KeepAlive } from 'vue'
 
 import TouchSwipe from '../directives/TouchSwipe.js'
 
-import ListenersMixin from './listeners.js'
-
 import { stop } from '../utils/event.js'
 import { slot } from '../utils/slot.js'
-import cache from '../utils/cache.js'
 
 const PanelWrapper = defineComponent({
   name: 'QTabPanelWrapper',
 
   render () {
     return h('div', {
-      staticClass: 'q-panel scroll',
-      attrs: { role: 'tabpanel' },
+      class: 'q-panel scroll',
+      role: 'tabpanel',
       // stop propagation of content emitted @input
       // which would tamper with Panel's model
-      on: cache(this, 'stop', { input: stop })
+      'onUpdate:modelValue': stop
     }, slot(this, 'default'))
   }
 })
 
 export const PanelParentMixin = {
-  mixins: [ ListenersMixin ],
-
-  directives: {
-    TouchSwipe
-  },
-
   props: {
-    value: {
+    modelValue: {
       required: true
     },
 
@@ -45,6 +36,8 @@ export const PanelParentMixin = {
     keepAlive: Boolean
   },
 
+  emits: [ 'update:modelValue', 'before-transition', 'transition' ],
+
   data () {
     return {
       panelIndex: null,
@@ -55,22 +48,23 @@ export const PanelParentMixin = {
   computed: {
     panelDirectives () {
       if (this.swipeable === true) {
-        return [{
-          name: 'touch-swipe',
-          value: this.__swipe,
-          modifiers: {
+        return [[
+          TouchSwipe,
+          this.__swipe,
+          void 0,
+          {
             horizontal: this.vertical !== true,
             vertical: this.vertical,
             mouse: true
           }
-        }]
+        ]]
       }
     },
 
     contentKey () {
-      return typeof this.value === 'string' || typeof this.value === 'number'
-        ? this.value
-        : String(this.value)
+      return typeof this.modelValue === 'string' || typeof this.modelValue === 'number'
+        ? this.modelValue
+        : String(this.modelValue)
     },
 
     transitionPrevComputed () {
@@ -83,7 +77,7 @@ export const PanelParentMixin = {
   },
 
   watch: {
-    value (newVal, oldVal) {
+    modelValue (newVal, oldVal) {
       const index = this.__isValidPanelName(newVal) === true
         ? this.__getPanelIndex(newVal)
         : -1
@@ -114,7 +108,7 @@ export const PanelParentMixin = {
     },
 
     goTo (name) {
-      this.$emit('input', name)
+      this.$emit('update:modelValue', name)
     },
 
     __isValidPanelName (name) {
@@ -123,28 +117,16 @@ export const PanelParentMixin = {
 
     __getPanelIndex (name) {
       return this.panels.findIndex(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name === name &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        return panel.props.name === name &&
+          panel.props.disable !== '' &&
+          panel.props.disable !== true
       })
     },
 
-    __getAllPanels () {
-      return this.panels.filter(
-        panel => panel.componentOptions !== void 0 &&
-          this.__isValidPanelName(panel.componentOptions.propsData.name)
-      )
-    },
-
-    __getAvailablePanels () {
+    __getEnabledPanels () {
       return this.panels.filter(panel => {
-        const opt = panel.componentOptions
-        return opt &&
-          opt.propsData.name !== void 0 &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+        return panel.props.disable !== '' &&
+          panel.props.disable !== true
       })
     },
 
@@ -163,16 +145,16 @@ export const PanelParentMixin = {
       const slots = this.panels
 
       while (index > -1 && index < slots.length) {
-        const opt = slots[index].componentOptions
+        const opt = slots[index]
 
         if (
           opt !== void 0 &&
-          opt.propsData.disable !== '' &&
-          opt.propsData.disable !== true
+          opt.props.disable !== '' &&
+          opt.props.disable !== true
         ) {
           this.__updatePanelTransition(direction)
           this.__forcedPanelTransition = true
-          this.$emit('input', slots[index].componentOptions.propsData.name)
+          this.$emit('update:modelValue', opt.props.name)
           setTimeout(() => {
             this.__forcedPanelTransition = false
           })
@@ -193,7 +175,7 @@ export const PanelParentMixin = {
     },
 
     __updatePanelIndex () {
-      const index = this.__getPanelIndex(this.value)
+      const index = this.__getPanelIndex(this.modelValue)
 
       if (this.panelIndex !== index) {
         this.panelIndex = index
@@ -202,53 +184,56 @@ export const PanelParentMixin = {
       return true
     },
 
+    __getPanelContentChild () {
+      const panel = this.__isValidPanelName(this.modelValue) &&
+        this.__updatePanelIndex() &&
+        this.panels[this.panelIndex]
+
+      return this.keepAlive === true
+        ? [
+          h(KeepAlive, [
+            h(PanelWrapper, { key: this.contentKey }, () => panel)
+          ])
+        ]
+        : [
+          h('div', {
+            class: 'q-panel scroll',
+            key: this.contentKey,
+            role: 'tabpanel',
+            // stop propagation of content emitted @input
+            // which would tamper with Panel's model
+            'onUpdate:modelValue': stop
+          }, [ panel ])
+        ]
+    },
+
     __getPanelContent () {
       if (this.panels.length === 0) {
         return
       }
 
-      const panel = this.__isValidPanelName(this.value) &&
-        this.__updatePanelIndex() &&
-        this.panels[this.panelIndex]
-
-      const content = this.keepAlive === true
-        ? [
-          h('keep-alive', [
-            h(PanelWrapper, {
-              key: this.contentKey
-            }, [ panel ])
-          ])
-        ]
-        : [
-          h('div', {
-            staticClass: 'q-panel scroll',
-            key: this.contentKey,
-            attrs: { role: 'tabpanel' },
-            // stop propagation of content emitted @input
-            // which would tamper with Panel's model
-            on: cache(this, 'stop', { input: stop })
-          }, [ panel ])
-        ]
-
       return this.animated === true
         ? [
           h(Transition, {
             name: this.panelTransition
-          }, content)
+          }, this.__getPanelContentChild)
         ]
-        : content
+        : this.__getPanelContentChild()
     }
   },
 
   render () {
-    this.panels = slot(this, 'default', [])
+    this.panels = slot(this, 'default', []).filter(
+      panel => panel.props !== null &&
+        panel.props.slot === void 0 &&
+        this.__isValidPanelName(panel.props.name)
+    )
+
     return this.__renderPanels()
   }
 }
 
 export const PanelChildMixin = {
-  mixins: [ ListenersMixin ],
-
   props: {
     name: {
       required: true

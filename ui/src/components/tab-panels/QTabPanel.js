@@ -9,9 +9,6 @@ export default defineComponent({
   mixins: [ PanelChildMixin ],
 
   render () {
-    return h('div', {
-      staticClass: 'q-tab-panel',
-      on: { ...this.qListeners }
-    }, slot(this, 'default'))
+    return h('div', { class: 'q-tab-panel' }, slot(this, 'default'))
   }
 })

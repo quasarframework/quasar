@@ -162,7 +162,7 @@ export default defineComponent({
       h('div', {
         class: 'q-circular-progress__text absolute-full row flex-center content-center',
         style: { fontSize: this.fontSize }
-      }, this.$slots.default !== void 0 ? this.$slots.default() : [ h('div', {}, this.normalizedValue) ])
+      }, this.$slots.default !== void 0 ? this.$slots.default() : [ h('div', this.normalizedValue) ])
     )
 
     return h('div', {
