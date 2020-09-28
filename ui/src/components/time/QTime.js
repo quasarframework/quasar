@@ -1,4 +1,4 @@
-import { h, defineComponent, Transition } from 'vue'
+import { h, defineComponent, withDirectives, Transition } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import TouchPan from '../../directives/TouchPan.js'
@@ -14,10 +14,6 @@ export default defineComponent({
   name: 'QTime',
 
   mixins: [ DateTimeMixin ],
-
-  directives: {
-    TouchPan
-  },
 
   props: {
     mask: {
@@ -45,7 +41,7 @@ export default defineComponent({
 
   data () {
     const model = __splitDate(
-      this.value,
+      this.modelValue,
       this.__getMask(),
       this.__getLocale(),
       this.calendar,
@@ -71,7 +67,7 @@ export default defineComponent({
   },
 
   watch: {
-    value (v) {
+    modelValue (v) {
       const model = __splitDate(
         v,
         this.computedMask,
@@ -518,87 +514,86 @@ export default defineComponent({
     __getHeader () {
       const label = [
         h('div', {
-          staticClass: 'q-time__link',
-          class: this.view === 'Hour' ? 'q-time__link--active' : 'cursor-pointer',
-          attrs: { tabindex: this.computedTabindex },
-          on: cache(this, 'vH', {
-            click: () => { this.view = 'Hour' },
-            keyup: this.__onKeyupHour
+          class: 'q-time__link ' +
+            (this.view === 'Hour' ? 'q-time__link--active' : 'cursor-pointer'),
+          tabindex: this.computedTabindex,
+          ...cache(this, 'vH', {
+            onClick: () => { this.view = 'Hour' },
+            onKeyup: this.__onKeyupHour
           })
-        }, [ this.stringModel.hour ]),
+        }, this.stringModel.hour),
 
-        h('div', [ ':' ]),
+        h('div', ':'),
 
         h(
           'div',
           this.minLink === true
             ? {
-              staticClass: 'q-time__link',
-              class: this.view === 'Minute' ? 'q-time__link--active' : 'cursor-pointer',
-              attrs: { tabindex: this.computedTabindex },
-              on: cache(this, 'vM', {
-                click: () => { this.view = 'Minute' },
-                keyup: this.__onKeyupMinute
+              class: 'q-time__link ' +
+                (this.view === 'Minute' ? 'q-time__link--active' : 'cursor-pointer'),
+              tabindex: this.computedTabindex,
+              onKeyup: this.__onKeyupMinute,
+              ...cache(this, 'vM', {
+                onClick: () => { this.view = 'Minute' },
               })
             }
-            : { staticClass: 'q-time__link' },
-          [ this.stringModel.minute ]
+            : { class: 'q-time__link' },
+          this.stringModel.minute
         )
       ]
 
       if (this.withSeconds === true) {
         label.push(
-          h('div', [ ':' ]),
+          h('div', ':'),
 
           h(
             'div',
             this.secLink === true
               ? {
-                staticClass: 'q-time__link',
-                class: this.view === 'Second' ? 'q-time__link--active' : 'cursor-pointer',
-                attrs: { tabindex: this.computedTabindex },
-                on: cache(this, 'vS', {
-                  click: () => { this.view = 'Second' },
-                  keyup: this.__onKeyupSecond
+                class: 'q-time__link ' +
+                  (this.view === 'Second' ? 'q-time__link--active' : 'cursor-pointer'),
+                tabindex: this.computedTabindex,
+                onKeyup: this.__onKeyupSecond,
+                ...cache(this, 'vS', {
+                  onClick: () => { this.view = 'Second' },
                 })
               }
-              : { staticClass: 'q-time__link' },
-            [ this.stringModel.second ]
+              : { class: 'q-time__link' },
+            this.stringModel.second
           )
         )
       }
 
       return h('div', {
-        staticClass: 'q-time__header flex flex-center no-wrap',
-        class: this.headerClass
+        class: 'q-time__header flex flex-center no-wrap ' + this.headerClass
       }, [
         h('div', {
-          staticClass: 'q-time__header-label row items-center no-wrap',
-          attrs: { dir: 'ltr' }
+          class: 'q-time__header-label row items-center no-wrap',
+          dir: 'ltr'
         }, label),
 
         this.computedFormat24h === false ? h('div', {
-          staticClass: 'q-time__header-ampm column items-between no-wrap'
+          class: 'q-time__header-ampm column items-between no-wrap'
         }, [
           h('div', {
-            staticClass: 'q-time__link',
-            class: this.isAM === true ? 'q-time__link--active' : 'cursor-pointer',
-            attrs: { tabindex: this.computedTabindex },
-            on: cache(this, 'AM', {
-              click: this.__setAm,
-              keyup: e => { e.keyCode === 13 && this.__setAm() }
+            class: 'q-time__link ' +
+              (this.isAM === true ? 'q-time__link--active' : 'cursor-pointer'),
+            tabindex: this.computedTabindex,
+            onClick: this.__setAm,
+            ...cache(this, 'AM', {
+              onKeyup: e => { e.keyCode === 13 && this.__setAm() }
             })
-          }, [ 'AM' ]),
+          }, 'AM'),
 
           h('div', {
-            staticClass: 'q-time__link',
-            class: this.isAM !== true ? 'q-time__link--active' : 'cursor-pointer',
-            attrs: { tabindex: this.computedTabindex },
-            on: cache(this, 'PM', {
-              click: this.__setPm,
-              keyup: e => { e.keyCode === 13 && this.__setPm() }
+            class: 'q-time__link ' +
+              (this.isAM !== true ? 'q-time__link--active' : 'cursor-pointer'),
+            tabindex: this.computedTabindex,
+            onClick: this.__setPm,
+            ...cache(this, 'PM', {
+              onKeyup: e => { e.keyCode === 13 && this.__setPm() }
             })
-          }, [ 'PM' ])
+          }, 'PM')
         ]) : null
       ])
     },
@@ -609,68 +604,65 @@ export default defineComponent({
         current = this.innerModel[view]
 
       return h('div', {
-        staticClass: 'q-time__content col relative-position'
+        class: 'q-time__content col relative-position'
       }, [
         h(Transition, {
           name: 'q-transition--scale'
-        }, [
+        }, () => [
           h('div', {
             key: 'clock' + this.view,
-            staticClass: 'q-time__container-parent absolute-full'
+            class: 'q-time__container-parent absolute-full'
           }, [
             h('div', {
               ref: 'clock',
-              staticClass: 'q-time__container-child fit overflow-hidden'
+              class: 'q-time__container-child fit overflow-hidden'
             }, [
-              h('div', {
-                staticClass: 'q-time__clock cursor-pointer non-selectable',
-                on: cache(this, 'click', {
-                  click: this.__click,
-                  mousedown: this.__activate
-                }),
-                directives: cache(this, 'touch', [{
-                  name: 'touch-pan',
-                  value: this.__drag,
-                  modifiers: {
+              withDirectives(
+                h('div', {
+                  class: 'q-time__clock cursor-pointer non-selectable',
+                  onClick: this.__click,
+                  onMousedown: this.__activate
+                }, [
+                  h('div', { class: 'q-time__clock-circle fit' }, [
+                    h('div', {
+                      class: 'q-time__clock-pointer' +
+                        (this.innerModel[view] === null ? ' hidden' : (this.color !== void 0 ? ` text-${this.color}` : '')),
+                      style: this.pointerStyle
+                    }),
+
+                    this.positions.map(pos => h('div', {
+                      class: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}` +
+                        (pos.val === current
+                          ? ' q-time__clock-position--active ' + this.headerClass
+                          : (pos.disable === true ? ' q-time__clock-position--disable' : ''))
+                    }, [ h('span', pos.label) ]))
+                  ])
+                ]),
+                [[
+                  TouchPan,
+                  this.__drag,
+                  void 0,
+                  {
                     stop: true,
                     prevent: true,
                     mouse: true
                   }
-                }])
-              }, [
-                h('div', { staticClass: 'q-time__clock-circle fit' }, [
-                  h('div', {
-                    staticClass: 'q-time__clock-pointer',
-                    style: this.pointerStyle,
-                    class: this.innerModel[view] === null ? 'hidden' : (this.color !== void 0 ? `text-${this.color}` : '')
-                  }),
-
-                  this.positions.map(pos => h('div', {
-                    staticClass: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}`,
-                    class: pos.val === current
-                      ? this.headerClass.concat(' q-time__clock-position--active')
-                      : (pos.disable === true ? 'q-time__clock-position--disable' : null)
-                  }, [ h('span', [ pos.label ]) ]))
-                ])
-              ])
+                ]]
+              )
             ])
           ])
         ]),
 
         this.nowBtn === true ? h(QBtn, {
-          staticClass: 'q-time__now-button absolute',
-          props: {
-            icon: this.$q.iconSet.datetime.now,
-            unelevated: true,
-            size: 'sm',
-            round: true,
-            color: this.color,
-            textColor: this.textColor,
-            tabindex: this.computedTabindex
-          },
-          on: cache(this, 'now', {
-            click: this.setNow
-          })
+          class: 'q-time__now-button absolute',
+          icon: this.$q.iconSet.datetime.now,
+          unelevated: true,
+          size: 'sm',
+          round: true,
+          color: this.color,
+          textColor: this.textColor,
+          tabindex: this.computedTabindex,
+          onClick: this.setNow
         }) : null
       ])
     },
@@ -766,8 +758,8 @@ export default defineComponent({
           date.timezoneOffset
         )
 
-      date.changed = val !== this.value
-      this.$emit('input', val, date)
+      date.changed = val !== this.modelValue
+      this.$emit('update:modelValue', val, date)
     }
   },
 
@@ -778,7 +770,7 @@ export default defineComponent({
 
     const def = slot(this, 'default')
     def !== void 0 && child.push(
-      h('div', { staticClass: 'q-time__actions' }, def)
+      h('div', { class: 'q-time__actions' }, def)
     )
 
     if (this.name !== void 0 && this.disable !== true) {
@@ -787,11 +779,10 @@ export default defineComponent({
 
     return h('div', {
       class: this.classes,
-      on: { ...this.qListeners },
-      attrs: { tabindex: -1 }
+      tabindex: -1
     }, [
       this.__getHeader(),
-      h('div', { staticClass: 'q-time__main col overflow-auto' }, child)
+      h('div', { class: 'q-time__main col overflow-auto' }, child)
     ])
   }
 })

@@ -24,7 +24,7 @@
 
     <q-btn class="q-ml-md" label="Dialog" @click="alert = true" />
 
-    <q-dialog v-model="alert">
+    <q-dialog some="attribute" v-model="alert">
       <q-card>
         <q-card-section>
           <div class="text-h6">
@@ -58,48 +58,15 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
-
-    <q-btn class="q-ml-md" label="Dialog" @click="inject = true" />
-
-    <q-dialog some="attribute" v-model="inject">
-      <q-card>
-        <q-card-section>
-          <test-component />
-        </q-card-section>
-      </q-card>
-    </q-dialog>
   </div>
 </template>
 
 <script>
 export default {
-  provide: {
-    providedTest: 'Provide/Inject works!'
-  },
-
-  components: {
-    TestComponent: {
-      inject: {
-        providedTest: {
-          default: 'Provide/Inject DOES NOT WORKS'
-        }
-      },
-      render (h) {
-        return h('div', {
-          staticClass: 'bg-white q-pa-xl'
-        }, this.providedTest)
-      }
-    }
-  },
-
   data () {
     return {
-      alert: false,
-      inject: false
+      alert: false
     }
-  },
-
-  methods: {
   }
 }
 </script>

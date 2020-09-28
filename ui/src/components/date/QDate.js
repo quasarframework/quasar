@@ -43,9 +43,6 @@ export default defineComponent({
     events: [ Array, Function ],
     eventColor: [ String, Function ],
 
-    // DEPRECATED; TODO: remove in v2
-    emitImmediately: Boolean,
-
     options: [ Array, Function ],
 
     navigationMinYearMonth: {
@@ -70,6 +67,8 @@ export default defineComponent({
     }
   },
 
+  emits: [ 'range-start', 'range-end', 'navigation' ],
+
   data () {
     const
       innerMask = this.__getMask(),
@@ -91,7 +90,7 @@ export default defineComponent({
   },
 
   watch: {
-    value (v) {
+    modelValue (v) {
       if (this.lastEmitValue === v) {
         this.lastEmitValue = 0
       }
@@ -135,17 +134,10 @@ export default defineComponent({
         (this.disable === true ? ' disabled' : (this.readonly === true ? ' q-date--readonly' : ''))
     },
 
-    // DEPRECATED; TODO: remove in v2
-    isImmediate () {
-      return this.emitImmediately === true &&
-        this.daysModel[0] !== void 0 &&
-        this.daysModel[0].dateHash !== null
-    },
-
     normalizedModel () {
-      return Array.isArray(this.value) === true
-        ? this.value
-        : (this.value !== null && this.value !== void 0 ? [ this.value ] : [])
+      return Array.isArray(this.modelValue) === true
+        ? this.modelValue
+        : (this.modelValue !== null && this.modelValue !== void 0 ? [ this.modelValue ] : [])
     },
 
     daysModel () {
@@ -762,9 +754,9 @@ export default defineComponent({
     },
 
     __getViewModel (mask, locale) {
-      const model = Array.isArray(this.value) === true
-        ? this.value
-        : (this.value ? [ this.value ] : [])
+      const model = Array.isArray(this.modelValue) === true
+        ? this.modelValue
+        : (this.modelValue ? [ this.modelValue ] : [])
 
       if (model.length === 0) {
         return this.__getDefaultViewModel()
@@ -816,60 +808,57 @@ export default defineComponent({
       if (this.minimal === true) { return }
 
       return h('div', {
-        staticClass: 'q-date__header',
-        class: this.headerClass
+        class: 'q-date__header ' + this.headerClass
       }, [
         h('div', {
-          staticClass: 'relative-position'
+          class: 'relative-position'
         }, [
           h(Transition, {
             name: 'q-transition--fade'
-          }, [
+          }, () => [
             h('div', {
               key: 'h-yr-' + this.headerSubtitle,
-              staticClass: 'q-date__header-subtitle q-date__header-link',
-              class: this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer',
-              attrs: { tabindex: this.computedTabindex },
-              on: cache(this, 'vY', {
-                click: () => { this.view = 'Years' },
-                keyup: e => { e.keyCode === 13 && (this.view = 'Years') }
+              class: 'q-date__header-subtitle q-date__header-link ' +
+                (this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
+              tabindex: this.computedTabindex,
+              ...cache(this, 'vY', {
+                onClick: () => { this.view = 'Years' },
+                onKeyup: e => { e.keyCode === 13 && (this.view = 'Years') }
               })
             }, [ this.headerSubtitle ])
           ])
         ]),
 
         h('div', {
-          staticClass: 'q-date__header-title relative-position flex no-wrap'
+          class: 'q-date__header-title relative-position flex no-wrap'
         }, [
           h('div', {
-            staticClass: 'relative-position col'
+            class: 'relative-position col'
           }, [
             h(Transition, {
               name: 'q-transition--fade'
-            }, [
+            }, () => [
               h('div', {
                 key: 'h-sub' + this.headerTitle,
-                staticClass: 'q-date__header-title-label q-date__header-link',
-                class: this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer',
-                attrs: { tabindex: this.computedTabindex },
-                on: cache(this, 'vC', {
-                  click: () => { this.view = 'Calendar' },
-                  keyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
+                class: 'q-date__header-title-label q-date__header-link ' +
+                  (this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
+                tabindex: this.computedTabindex,
+                ...cache(this, 'vC', {
+                  onClick: () => { this.view = 'Calendar' },
+                  onKeyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
                 })
               }, [ this.headerTitle ])
             ])
           ]),
 
           this.todayBtn === true ? h(QBtn, {
-            staticClass: 'q-date__header-today self-start',
-            props: {
-              icon: this.$q.iconSet.datetime.today,
-              flat: true,
-              size: 'sm',
-              round: true,
-              tabindex: this.computedTabindex
-            },
-            on: cache(this, 'today', { click: this.setToday })
+            class: 'q-date__header-today self-start',
+            icon: this.$q.iconSet.datetime.today,
+            flat: true,
+            size: 'sm',
+            round: true,
+            tabindex: this.computedTabindex,
+            onClick: this.setToday
           }) : null
         ])
       ])
@@ -878,57 +867,51 @@ export default defineComponent({
     __getNavigation ({ label, view, key, dir, goTo, boundaries, cls }) {
       return [
         h('div', {
-          staticClass: 'row items-center q-date__arrow'
+          class: 'row items-center q-date__arrow'
         }, [
           h(QBtn, {
-            props: {
-              round: true,
-              dense: true,
-              size: 'sm',
-              flat: true,
-              icon: this.dateArrow[0],
-              tabindex: this.computedTabindex,
-              disable: boundaries.prev === false
-            },
-            on: cache(this, 'go-#' + view, { click () { goTo(-1) } })
+            round: true,
+            dense: true,
+            size: 'sm',
+            flat: true,
+            icon: this.dateArrow[0],
+            tabindex: this.computedTabindex,
+            disable: boundaries.prev === false,
+            ...cache(this, 'go-#' + view, { onClick () { goTo(-1) } })
           })
         ]),
 
         h('div', {
-          staticClass: 'relative-position overflow-hidden flex flex-center' + cls
+          class: 'relative-position overflow-hidden flex flex-center' + cls
         }, [
           h(Transition, {
             name: 'q-transition--jump-' + dir
-          }, [
+          }, () => [
             h('div', { key }, [
               h(QBtn, {
-                props: {
-                  flat: true,
-                  dense: true,
-                  noCaps: true,
-                  label,
-                  tabindex: this.computedTabindex
-                },
-                on: cache(this, 'view#' + view, { click: () => { this.view = view } })
+                flat: true,
+                dense: true,
+                noCaps: true,
+                label,
+                tabindex: this.computedTabindex,
+                ...cache(this, 'view#' + view, { onClick: () => { this.view = view } })
               })
             ])
           ])
         ]),
 
         h('div', {
-          staticClass: 'row items-center q-date__arrow'
+          class: 'row items-center q-date__arrow'
         }, [
           h(QBtn, {
-            props: {
-              round: true,
-              dense: true,
-              size: 'sm',
-              flat: true,
-              icon: this.dateArrow[1],
-              tabindex: this.computedTabindex,
-              disable: boundaries.next === false
-            },
-            on: cache(this, 'go+#' + view, { click () { goTo(1) } })
+            round: true,
+            dense: true,
+            size: 'sm',
+            flat: true,
+            icon: this.dateArrow[1],
+            tabindex: this.computedTabindex,
+            disable: boundaries.next === false,
+            ...cache(this, 'go+#' + view, { onClick () { goTo(1) } })
           })
         ])
       ]
@@ -938,10 +921,10 @@ export default defineComponent({
       return [
         h('div', {
           key: 'calendar-view',
-          staticClass: 'q-date__view q-date__calendar'
+          class: 'q-date__view q-date__calendar'
         }, [
           h('div', {
-            staticClass: 'q-date__navigation row items-center no-wrap'
+            class: 'q-date__navigation row items-center no-wrap'
           }, this.__getNavigation({
             label: this.innerLocale.months[ this.viewModel.month - 1 ],
             view: 'Months',
@@ -961,39 +944,40 @@ export default defineComponent({
           }))),
 
           h('div', {
-            staticClass: 'q-date__calendar-weekdays row items-center no-wrap'
-          }, this.daysOfWeek.map(day => h('div', { staticClass: 'q-date__calendar-item' }, [ h('div', [ day ]) ]))),
+            class: 'q-date__calendar-weekdays row items-center no-wrap'
+          }, this.daysOfWeek.map(day => h('div', { class: 'q-date__calendar-item' }, [ h('div', day) ]))),
 
           h('div', {
-            staticClass: 'q-date__calendar-days-container relative-position overflow-hidden'
+            class: 'q-date__calendar-days-container relative-position overflow-hidden'
           }, [
             h(Transition, {
               name: 'q-transition--slide-' + this.monthDirection
-            }, [
+            }, () => [
               h('div', {
                 key: this.viewMonthHash,
-                staticClass: 'q-date__calendar-days fit'
-              }, this.days.map(day => h('div', { staticClass: day.classes }, [
+                class: 'q-date__calendar-days fit'
+              }, this.days.map(day => h('div', { class: day.classes }, [
                 day.in === true
-                  ? h(QBtn, {
-                    staticClass: day.today === true ? 'q-date__today' : null,
-                    props: {
+                  ? h(
+                    QBtn, {
+                      class: day.today === true ? 'q-date__today' : '',
                       dense: true,
                       flat: day.flat,
                       unelevated: day.unelevated,
                       color: day.color,
                       textColor: day.textColor,
                       label: day.i,
-                      tabindex: this.computedTabindex
+                      tabindex: this.computedTabindex,
+                      ...cache(this, 'day#' + day.i, {
+                        onClick: () => { this.__onDayClick(day.i) },
+                        onMouseover: () => { this.__onDayMouseover(day.i) }
+                      })
                     },
-                    on: cache(this, 'day#' + day.i, {
-                      click: () => { this.__onDayClick(day.i) },
-                      mouseover: () => { this.__onDayMouseover(day.i) }
-                    })
-                  }, day.event !== false ? [
-                    h('div', { staticClass: 'q-date__event bg-' + day.event })
-                  ] : null)
-                  : h('div', [ day.i ])
+                    day.event !== false
+                      ? () => [ h('div', { class: 'q-date__event bg-' + day.event }) ]
+                      : null
+                  )
+                  : h('div', '' + day.i)
               ])))
             ])
           ])
@@ -1014,26 +998,24 @@ export default defineComponent({
         const active = this.viewModel.month === i + 1
 
         return h('div', {
-          staticClass: 'q-date__months-item flex flex-center'
+          class: 'q-date__months-item flex flex-center'
         }, [
           h(QBtn, {
-            staticClass: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
-            props: {
-              flat: active !== true,
-              label: month,
-              unelevated: active,
-              color: active === true ? this.computedColor : null,
-              textColor: active === true ? this.computedTextColor : null,
-              tabindex: this.computedTabindex,
-              disable: isDisabled(i + 1)
-            },
-            on: cache(this, 'month#' + i, { click: () => { this.__setMonth(i + 1) } })
+            class: currentYear === true && this.today.month === i + 1 ? 'q-date__today' : null,
+            flat: active !== true,
+            label: month,
+            unelevated: active,
+            color: active === true ? this.computedColor : null,
+            textColor: active === true ? this.computedTextColor : null,
+            tabindex: this.computedTabindex,
+            disable: isDisabled(i + 1),
+            ...cache(this, 'month#' + i, { onClick: () => { this.__setMonth(i + 1) } })
           })
         ])
       })
 
       this.yearsInMonthView === true && content.unshift(
-        h('div', { staticClass: 'row no-wrap full-width' }, [
+        h('div', { class: 'row no-wrap full-width' }, [
           this.__getNavigation({
             label: this.viewModel.year,
             view: 'Years',
@@ -1048,7 +1030,7 @@ export default defineComponent({
 
       return h('div', {
         key: 'months-view',
-        staticClass: 'q-date__view q-date__months flex flex-center'
+        class: 'q-date__view q-date__months flex flex-center'
       }, content)
     },
 
@@ -1070,63 +1052,57 @@ export default defineComponent({
 
         years.push(
           h('div', {
-            staticClass: 'q-date__years-item flex flex-center'
+            class: 'q-date__years-item flex flex-center'
           }, [
             h(QBtn, {
               key: 'yr' + i,
-              staticClass: this.today.year === i ? 'q-date__today' : null,
-              props: {
-                flat: !active,
-                label: i,
-                dense: true,
-                unelevated: active,
-                color: active === true ? this.computedColor : null,
-                textColor: active === true ? this.computedTextColor : null,
-                tabindex: this.computedTabindex,
-                disable: isDisabled(i)
-              },
-              on: cache(this, 'yr#' + i, { click: () => { this.__setYear(i) } })
+              class: this.today.year === i ? 'q-date__today' : null,
+              flat: !active,
+              label: i,
+              dense: true,
+              unelevated: active,
+              color: active === true ? this.computedColor : null,
+              textColor: active === true ? this.computedTextColor : null,
+              tabindex: this.computedTabindex,
+              disable: isDisabled(i),
+              ...cache(this, 'yr#' + i, { click: () => { this.__setYear(i) } })
             })
           ])
         )
       }
 
       return h('div', {
-        staticClass: 'q-date__view q-date__years flex flex-center'
+        class: 'q-date__view q-date__years flex flex-center'
       }, [
         h('div', {
-          staticClass: 'col-auto'
+          class: 'col-auto'
         }, [
           h(QBtn, {
-            props: {
-              round: true,
-              dense: true,
-              flat: true,
-              icon: this.dateArrow[0],
-              tabindex: this.computedTabindex,
-              disable: isDisabled(start)
-            },
-            on: cache(this, 'y-', { click: () => { this.startYear -= yearsInterval } })
+            round: true,
+            dense: true,
+            flat: true,
+            icon: this.dateArrow[0],
+            tabindex: this.computedTabindex,
+            disable: isDisabled(start),
+            ...cache(this, 'y-', { onClick: () => { this.startYear -= yearsInterval } })
           })
         ]),
 
         h('div', {
-          staticClass: 'q-date__years-content col self-stretch row items-center'
+          class: 'q-date__years-content col self-stretch row items-center'
         }, years),
 
         h('div', {
-          staticClass: 'col-auto'
+          class: 'col-auto'
         }, [
           h(QBtn, {
-            props: {
-              round: true,
-              dense: true,
-              flat: true,
-              icon: this.dateArrow[1],
-              tabindex: this.computedTabindex,
-              disable: isDisabled(stop)
-            },
-            on: cache(this, 'y+', { click: () => { this.startYear += yearsInterval } })
+            round: true,
+            dense: true,
+            flat: true,
+            icon: this.dateArrow[1],
+            tabindex: this.computedTabindex,
+            disable: isDisabled(stop),
+            ...cache(this, 'y+', { onClick: () => { this.startYear += yearsInterval } })
           })
         ])
       ])
@@ -1146,25 +1122,21 @@ export default defineComponent({
       }
 
       this.__updateViewModel(year, month)
-      this.isImmediate === true && this.__emitImmediately('month')
     },
 
     __goToYear (offset) {
       const year = Number(this.viewModel.year) + offset
       this.__updateViewModel(year, this.viewModel.month)
-      this.isImmediate === true && this.__emitImmediately('year')
     },
 
     __setYear (year) {
       this.__updateViewModel(year, this.viewModel.month)
       this.view = this.defaultView === 'Years' ? 'Months' : 'Calendar'
-      this.isImmediate === true && this.__emitImmediately('year')
     },
 
     __setMonth (month) {
       this.__updateViewModel(this.viewModel.year, month)
       this.view = 'Calendar'
-      this.isImmediate === true && this.__emitImmediately('month')
     },
 
     __getMonthHash (date) {
@@ -1292,30 +1264,7 @@ export default defineComponent({
       this.lastEmitValue = value
 
       const { reason, details } = this.__getEmitParams(action, date)
-      this.$emit('input', value, reason, details)
-    },
-
-    // DEPRECATED - TODO: remove in v2
-    __emitImmediately (reason) {
-      const date = this.daysModel[0]
-
-      // nextTick required because of animation delay in viewModel
-      this.$nextTick(() => {
-        date.year = this.viewModel.year
-        date.month = this.viewModel.month
-
-        const maxDay = this.calendar !== 'persian'
-          ? (new Date(date.year, date.month, 0)).getDate()
-          : jalaaliMonthLength(date.year, date.month)
-
-        date.day = Math.min(Math.max(1, date.day), maxDay)
-
-        const value = this.__encodeEntry(date)
-        this.lastEmitValue = value
-
-        const { details } = this.__getEmitParams('', date)
-        this.$emit('input', value, reason, details)
-      })
+      this.$emit('update:modelValue', value, reason, details)
     },
 
     __getEmitParams (action, date) {
@@ -1382,18 +1331,18 @@ export default defineComponent({
 
       let model = null
 
-      if (this.multiple === true && Array.isArray(this.value) === true) {
+      if (this.multiple === true && Array.isArray(this.modelValue) === true) {
         const val = this.__encodeEntry(date)
 
         if (date.from !== void 0) {
-          model = this.value.filter(
+          model = this.modelValue.filter(
             date => date.from !== void 0
               ? (date.from !== val.from && date.to !== val.to)
               : true
           )
         }
         else {
-          model = this.value.filter(date => date !== val)
+          model = this.modelValue.filter(date => date !== val)
         }
 
         if (model.length === 0) {
@@ -1414,26 +1363,24 @@ export default defineComponent({
             : entry.dateHash !== null
         })
 
-      this.$emit('input', (this.multiple === true ? model : model[0]) || null, reason)
+      this.$emit('update:modelValue', (this.multiple === true ? model : model[0]) || null, reason)
     }
   },
 
   render () {
     const content = [
       h('div', {
-        staticClass: 'q-date__content col relative-position'
+        class: 'q-date__content col relative-position'
       }, [
         h(Transition, {
           name: 'q-transition--fade'
-        }, [
-          this[`__get${this.view}View`]()
-        ])
+        }, this[`__get${this.view}View`])
       ])
     ]
 
     const def = slot(this, 'default')
     def !== void 0 && content.push(
-      h('div', { staticClass: 'q-date__actions' }, def)
+      h('div', { class: 'q-date__actions' }, def)
     )
 
     if (this.name !== void 0 && this.disable !== true) {
@@ -1442,14 +1389,13 @@ export default defineComponent({
 
     return h('div', {
       class: this.classes,
-      attrs: this.attrs,
-      on: { ...this.qListeners }
+      ...this.attrs
     }, [
       this.__getHeader(),
 
       h('div', {
-        staticClass: 'q-date__main col column',
-        attrs: { tabindex: -1 },
+        class: 'q-date__main col column',
+        tabindex: -1,
         ref: 'blurTarget'
       }, content)
     ])

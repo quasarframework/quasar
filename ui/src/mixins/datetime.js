@@ -2,15 +2,14 @@ import { toJalaali } from '../utils/date-persian.js'
 
 import DarkMixin from './dark.js'
 import FormMixin from './form.js'
-import ListenersMixin from './listeners.js'
 
 const calendars = [ 'gregorian', 'persian' ]
 
 export default {
-  mixins: [ DarkMixin, FormMixin, ListenersMixin ],
+  mixins: [ DarkMixin, FormMixin ],
 
   props: {
-    value: {
+    modelValue: {
       required: true
     },
 
@@ -37,6 +36,8 @@ export default {
     readonly: Boolean,
     disable: Boolean
   },
+
+  emits: [ 'update:modelValue' ],
 
   computed: {
     computedMask () {
