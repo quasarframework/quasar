@@ -1,6 +1,6 @@
 {
   "name": "@quasar/icongenie",
-  "version": "2.3.3",
+  "version": "2.3.4-cc",
   "description": "A Quasar tool for generating all your Quasar App's icons and splashscreens",
   "bin": {
     "icongenie": "./bin/icongenie"
