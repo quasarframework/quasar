@@ -25,17 +25,20 @@ module.exports = async function (file, opts, done) {
     // - if nine patch: extend image and add nine patch 'borders' to compositionArray
     if (file.ninePatchCheck) {
       if (opts.ninePatch) {
-        if (statSync(file.absoluteName).size > 0) {
-          warn(
-            "Nine Patch file generation requested, removing non-nine patch file " +
-              file.absoluteName
-          );
+        if (existsSync(file.absoluteName)) {
+          // zero sized files are from generate.js::ensureFileSync and can removed without notice
+          if (statSync(file.absoluteName).size > 0) {
+            warn(
+              "Nine Patch file generation requested, removing non-nine patch file " +
+                file.absoluteName
+            );
+          }
           unlinkSync(file.relativeName);
         }
         file.absoluteName = file.absoluteName.replace(".png", ".9.png");
         file.relativeName = file.relativeName.replace(".png", ".9.png");
 
-        // extend image by 2x2 with transparent 'border'
+        // extend image with 1 pixel transparent 'border'
         img.extend({
           top: 1,
           bottom: 1,
@@ -43,21 +46,38 @@ module.exports = async function (file, opts, done) {
           right: 1,
           background: { r: 0, g: 0, b: 0, alpha: 0 },
         });
-        // add black borders to each corner
+        // add black stretch markers to each corner, leaving corner pixel transparent
         ["northwest", "northeast", "southwest", "southeast"].forEach(
           (gravity) => {
-            compositionArray.unshift({
-              input: {
-                create: {
-                  width: Math.round(file.width*opts.ninePatch[0]/100),
-                  height: Math.round(file.height*opts.ninePatch[1]/100),
-                  channels: 4,
-                  background: { r: 0, g: 0, b: 0, alpha: 1 },
+            compositionArray.unshift(
+           
+              {
+                input: {
+                  create: {
+                    width:
+                      Math.round((file.width * opts.ninePatch[0]) / 100) + 1,
+                    height:
+                      Math.round((file.height * opts.ninePatch[1]) / 100) + 1,
+                    channels: 4,
+                    background: { r: 0, g: 0, b: 0, alpha: 1 },
+                  },
                 },
+                gravity: gravity,
+                blend: "dest-over",
               },
-              gravity: gravity,
-              blend: "dest-over",
-            });
+              {
+                input: {
+                  create: {
+                    width: 1,
+                    height: 1,
+                    channels: 4,
+                    background: { r: 0, g: 0, b: 0, alpha: 1 },
+                  },
+                },
+                gravity: gravity,
+                blend: "dest-out",
+              },
+            );
           }
         );
       } else {
