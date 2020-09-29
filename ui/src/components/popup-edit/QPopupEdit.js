@@ -7,7 +7,6 @@ import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { slot } from '../../utils/slot.js'
 import { isKeyCode } from '../../utils/key-composition.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QPopupEdit',
@@ -149,6 +148,41 @@ export default defineComponent({
       )
 
       return child
+    },
+
+    __onBeforeShow () {
+      this.validated = false
+      this.initialValue = clone(this.modelValue)
+      this.watcher = this.$watch('modelValue', this.__reposition)
+      this.$emit('before-show')
+    },
+
+    __onShow () {
+      this.$emit('show')
+    },
+
+    __onBeforeHide () {
+      this.watcher()
+
+      if (this.validated === false && this.__hasChanged() === true) {
+        if (this.autoSave === true && this.validate(this.modelValue) === true) {
+          this.$emit('save', this.modelValue, this.initialValue)
+        }
+        else {
+          this.$emit('cancel', this.modelValue, this.initialValue)
+          this.$emit('update:modelValue', this.initialValue)
+        }
+      }
+
+      this.$emit('before-hide')
+    },
+
+    __onHide () {
+      this.$emit('hide')
+    },
+
+    __onKeyup (e) {
+      isKeyCode(e, 13) === true && this.set()
     }
   },
 
@@ -159,39 +193,11 @@ export default defineComponent({
       ref: 'menu',
       cover: this.cover,
       contentClass: this.classes,
-      ...cache(this, 'menu', {
-        'onBefore-show': () => {
-          this.validated = false
-          this.initialValue = clone(this.modelValue)
-          this.watcher = this.$watch('modelValue', this.__reposition)
-          this.$emit('before-show')
-        },
-        onShow: () => {
-          this.$emit('show')
-        },
-        'onEscape-key': this.cancel,
-        'onBefore-hide': () => {
-          this.watcher()
-
-          if (this.validated === false && this.__hasChanged() === true) {
-            if (this.autoSave === true && this.validate(this.modelValue) === true) {
-              this.$emit('save', this.modelValue, this.initialValue)
-            }
-            else {
-              this.$emit('cancel', this.modelValue, this.initialValue)
-              this.$emit('update:modelValue', this.initialValue)
-            }
-          }
-
-          this.$emit('before-hide')
-        },
-        onHide: () => {
-          this.$emit('hide')
-        },
-        onKeyup: e => {
-          isKeyCode(e, 13) === true && this.set()
-        }
-      })
+      onBeforeShow: this.__onBeforeShow,
+      onShow: this.__onShow,
+      onBeforeHide: this.__onBeforeHide,
+      onHide: this.__onHide,
+      onEscapeKey: this.cancel
     }, this.__getContent)
   }
 })

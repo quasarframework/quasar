@@ -4,8 +4,6 @@ import QSelect from '../select/QSelect.js'
 import QBtn from '../btn/QBtn.js'
 import QIcon from '../icon/QIcon.js'
 
-import cache from '../../utils/cache.js'
-
 const bottomClass = 'q-table__bottom row items-center'
 
 export default {
@@ -86,6 +84,13 @@ export default {
       }
     },
 
+    __onPagSelection (pag) {
+      this.setPagination({
+        page: 1,
+        rowsPerPage: pag.value
+      })
+    },
+
     __getPaginationDiv (child) {
       let control
       const
@@ -117,14 +122,7 @@ export default {
               dense: true,
               optionsDense: true,
               optionsCover: true,
-              ...cache(this, 'pgSize', {
-                'onUpdate:modelValue': pag => {
-                  this.setPagination({
-                    page: 1,
-                    rowsPerPage: pag.value
-                  })
-                }
-              })
+              'onUpdate:modelValue': this.__onPagSelection
             })
           ])
         )

@@ -6,8 +6,6 @@ import QToggle from '../toggle/QToggle.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import cache from '../../utils/cache.js'
-
 const components = {
   radio: QRadio,
   checkbox: QCheckbox,
@@ -121,9 +119,7 @@ export default defineComponent({
         size: opt.size || this.size,
         dense: this.dense,
         keepColor: opt.keepColor || this.keepColor,
-        ...cache(this, 'inp', {
-          'onUpdate:modelValue': this.__update
-        })
+        'onUpdate:modelValue': this.__update
       })
     ])))
   }

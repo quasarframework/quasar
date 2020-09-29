@@ -10,7 +10,6 @@ import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
 import { slot } from '../../utils/slot.js'
 import { create, stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
 
 let maximizedModals = 0
 

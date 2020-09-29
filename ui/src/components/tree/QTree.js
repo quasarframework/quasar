@@ -8,7 +8,6 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { shouldIgnoreKey } from '../../utils/key-composition.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QTree',
@@ -459,6 +458,14 @@ export default defineComponent({
       }
     },
 
+    __onShow () {
+      this.$emit('after-show')
+    },
+
+    __onHide () {
+      this.$emit('after-hide')
+    },
+
     __getNode (node) {
       const
         key = node[this.nodeKey],
@@ -565,10 +572,8 @@ export default defineComponent({
         isParent === true
           ? h(QSlideTransition, {
             duration: this.duration,
-            ...cache(this, 'slide', {
-              onShow: () => { this.$emit('after-show') },
-              onHide: () => { this.$emit('after-hide') }
-            })
+            onShow: this.__onShow,
+            onHide: this.__onHide
           }, () => [
             withDirectives(
               h('div', {

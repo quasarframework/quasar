@@ -8,7 +8,6 @@ import QBtnGroup from '../btn-group/QBtnGroup.js'
 import QMenu from '../menu/QMenu.js'
 
 import { slot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QBtnDropdown',
@@ -79,6 +78,49 @@ export default defineComponent({
     }
   },
 
+  methods: {
+    __onBeforeShow (e) {
+      this.showing = true
+      this.$emit('before-show', e)
+    },
+
+    __onShow (e) {
+      this.$emit('show', e)
+      this.$emit('update:modelValue', true)
+    },
+
+    __onBeforeHide (e) {
+      this.showing = false
+      this.$emit('before-hide', e)
+    },
+
+    __onHide (e) {
+      this.$emit('hide', e)
+      this.$emit('update:modelValue', false)
+    },
+
+    __onClick (e) {
+      this.$emit('click', e)
+    },
+
+    __onClickHide (e) {
+      this.hide()
+      this.$emit('click', e)
+    },
+
+    toggle (evt) {
+      this.$refs.menu && this.$refs.menu.toggle(evt)
+    },
+
+    show (evt) {
+      this.$refs.menu && this.$refs.menu.show(evt)
+    },
+
+    hide (evt) {
+      this.$refs.menu && this.$refs.menu.hide(evt)
+    }
+  },
+
   render () {
     const Arrow = [
       h(QIcon, {
@@ -103,24 +145,10 @@ export default defineComponent({
         contentClass: this.contentClass,
         contentStyle: this.contentStyle,
         separateClosePopup: true,
-        ...cache(this, 'menu', {
-          'onBefore-show': e => {
-            this.showing = true
-            this.$emit('before-show', e)
-          },
-          onShow: e => {
-            this.$emit('show', e)
-            this.$emit('update:modelValue', true)
-          },
-          'onBefore-hide': e => {
-            this.showing = false
-            this.$emit('before-hide', e)
-          },
-          onHide: e => {
-            this.$emit('hide', e)
-            this.$emit('update:modelValue', false)
-          }
-        })
+        onBeforeShow: this.__onBeforeShow,
+        onShow: this.__onShow,
+        onBeforeHide: this.__onBeforeHide,
+        onHide: this.__onHide
       }, this.$slots.default)
     )
 
@@ -132,11 +160,7 @@ export default defineComponent({
         noWrap: true,
         round: false,
         ...this.attrs,
-        ...cache(this, 'nonSpl', {
-          onClick: e => {
-            this.$emit('click', e)
-          }
-        })
+        onClick: this.__onClick
       }, () => slot(this, 'label', []).concat(Arrow))
     }
 
@@ -157,12 +181,7 @@ export default defineComponent({
         noWrap: true,
         iconRight: this.iconRight,
         round: false,
-        ...cache(this, 'spl', {
-          onClick: e => {
-            this.hide()
-            this.$emit('click', e)
-          }
-        })
+        onClick: this.__onClickHide
       }, this.$slots.label),
 
       h(QBtn, {
@@ -180,20 +199,6 @@ export default defineComponent({
         ripple: this.ripple
       }, () => Arrow)
     ])
-  },
-
-  methods: {
-    toggle (evt) {
-      this.$refs.menu && this.$refs.menu.toggle(evt)
-    },
-
-    show (evt) {
-      this.$refs.menu && this.$refs.menu.show(evt)
-    },
-
-    hide (evt) {
-      this.$refs.menu && this.$refs.menu.hide(evt)
-    }
   },
 
   mounted () {

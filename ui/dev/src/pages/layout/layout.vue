@@ -191,7 +191,6 @@
             Mini only
           </div>
           <q-list>
-            <!-- TODO vue3
             <q-expansion-item clickable icon="perm_identity" label="With a model and events">
               <q-card>
                 <q-card-section>
@@ -204,6 +203,7 @@
               Folders
             </q-item-label>
 
+            <!-- TODO vue3
             <q-item to="/layout-quick/a" replace>
               <q-item-section side>
                 <q-avatar icon="folder" color="primary" text-color="white" />

@@ -13,8 +13,6 @@ import QItemSection from '../item/QItemSection.js'
 
 import DarkMixin from '../../mixins/dark.js'
 
-import cache from '../../utils/cache.js'
-
 export default defineComponent({
   name: 'BottomSheetPlugin',
 

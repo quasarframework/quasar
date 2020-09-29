@@ -8,7 +8,6 @@ import DarkMixin from '../../mixins/dark.js'
 import { stop } from '../../utils/event.js'
 import { between } from '../../utils/format.js'
 import { isKeyCode } from '../../utils/key-composition.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QPagination',
@@ -245,11 +244,9 @@ export default defineComponent({
         placeholder: this.inputPlaceholder,
         min: this.min,
         max: this.max,
-        ...cache(this, 'inp', {
-          onInput: value => { this.newPage = value },
-          onKeyup: e => { isKeyCode(e, 13) === true && this.__update() },
-          onBlur: this.__update
-        })
+        onInput: value => { this.newPage = value },
+        onKeyup: e => { isKeyCode(e, 13) === true && this.__update() },
+        onBlur: this.__update
       }))
     }
     else { // is type select

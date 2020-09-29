@@ -7,9 +7,6 @@ import QIcon from '../icon/QIcon.js'
 import SizeMixin from '../../mixins/size.js'
 import FormMixin from '../../mixins/form.js'
 
-import cache from '../../utils/cache.js'
-import { slot } from '../../utils/slot.js'
-
 export default defineComponent({
   name: 'QRating',
 
@@ -22,17 +19,17 @@ export default defineComponent({
     },
 
     max: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 5
     },
 
-    icon: [String, Array],
-    iconHalf: [String, Array],
-    iconSelected: [String, Array],
+    icon: [ String, Array ],
+    iconHalf: [ String, Array ],
+    iconSelected: [ String, Array ],
 
-    color: [String, Array],
-    colorHalf: [String, Array],
-    colorSelected: [String, Array],
+    color: [ String, Array ],
+    colorHalf: [ String, Array ],
+    colorSelected: [ String, Array ],
 
     noReset: Boolean,
     noDimming: Boolean,
@@ -138,6 +135,14 @@ export default defineComponent({
           }
           return stopAndPrevent(e)
       }
+    },
+
+    __onMouseout () {
+      this.mouseModel = 0
+    },
+
+    __onBlur () {
+      this.mouseModel = 0
     }
   },
 
@@ -184,14 +189,12 @@ export default defineComponent({
           class: classes,
           name: name || this.$q.iconSet.rating.icon,
           tabindex,
-          ...cache(this, 'i#' + i, {
-            onClick: () => { this.__set(i) },
-            onMouseover: () => { this.__setHoverValue(i) },
-            onMouseout: () => { this.mouseModel = 0 },
-            onFocus: () => { this.__setHoverValue(i) },
-            onBlur: () => { this.mouseModel = 0 },
-            onKeyup: e => { this.__keyup(e, i) }
-          })
+          onClick: () => { this.__set(i) },
+          onMouseover: () => { this.__setHoverValue(i) },
+          onMouseout: this.__onMouseout,
+          onFocus: () => { this.__setHoverValue(i) },
+          onBlur: this.__onBlur,
+          onKeyup: e => { this.__keyup(e, i) }
         }, { default: this.$slots[`tip-${i}`] })
       )
     }

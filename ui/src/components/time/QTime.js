@@ -7,7 +7,7 @@ import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate } from '../../utils/date.js'
 import { position } from '../../utils/event.js'
 import { pad } from '../../utils/format.js'
-import cache from '../../utils/cache.js'
+
 import DateTimeMixin from '../../mixins/datetime.js'
 
 export default defineComponent({
@@ -469,6 +469,26 @@ export default defineComponent({
       return val
     },
 
+    __setHourView () {
+      this.view = 'Hour'
+    },
+
+    __setMinuteView () {
+      this.view = 'Minute'
+    },
+
+    __setSecondView () {
+      this.view = 'Second'
+    },
+
+    __setAmOnKey (e) {
+      e.keyCode === 13 && this.__setAm()
+    },
+
+    __setPmOnKey (e) {
+      e.keyCode === 13 && this.__setPm()
+    },
+
     __onKeyupHour (e) {
       if (e.keyCode === 13) { // ENTER
         this.view = 'Hour'
@@ -517,10 +537,8 @@ export default defineComponent({
           class: 'q-time__link ' +
             (this.view === 'Hour' ? 'q-time__link--active' : 'cursor-pointer'),
           tabindex: this.computedTabindex,
-          ...cache(this, 'vH', {
-            onClick: () => { this.view = 'Hour' },
-            onKeyup: this.__onKeyupHour
-          })
+          onClick: this.__setHourView,
+          onKeyup: this.__onKeyupHour
         }, this.stringModel.hour),
 
         h('div', ':'),
@@ -533,9 +551,7 @@ export default defineComponent({
                 (this.view === 'Minute' ? 'q-time__link--active' : 'cursor-pointer'),
               tabindex: this.computedTabindex,
               onKeyup: this.__onKeyupMinute,
-              ...cache(this, 'vM', {
-                onClick: () => { this.view = 'Minute' },
-              })
+              onClick: this.__setMinuteView
             }
             : { class: 'q-time__link' },
           this.stringModel.minute
@@ -554,9 +570,7 @@ export default defineComponent({
                   (this.view === 'Second' ? 'q-time__link--active' : 'cursor-pointer'),
                 tabindex: this.computedTabindex,
                 onKeyup: this.__onKeyupSecond,
-                ...cache(this, 'vS', {
-                  onClick: () => { this.view = 'Second' },
-                })
+                onClick: this.__setSecondView
               }
               : { class: 'q-time__link' },
             this.stringModel.second
@@ -580,9 +594,7 @@ export default defineComponent({
               (this.isAM === true ? 'q-time__link--active' : 'cursor-pointer'),
             tabindex: this.computedTabindex,
             onClick: this.__setAm,
-            ...cache(this, 'AM', {
-              onKeyup: e => { e.keyCode === 13 && this.__setAm() }
-            })
+            onKeyup: this.__setAmOnKey
           }, 'AM'),
 
           h('div', {
@@ -590,9 +602,7 @@ export default defineComponent({
               (this.isAM !== true ? 'q-time__link--active' : 'cursor-pointer'),
             tabindex: this.computedTabindex,
             onClick: this.__setPm,
-            ...cache(this, 'PM', {
-              onKeyup: e => { e.keyCode === 13 && this.__setPm() }
-            })
+            onKeyup: this.__setPmOnKey
           }, 'PM')
         ]) : null
       ])

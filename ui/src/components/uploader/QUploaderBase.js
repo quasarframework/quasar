@@ -10,7 +10,6 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stop } from '../../utils/event.js'
 import { humanStorageSize } from '../../utils/format.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QUploaderBase',
