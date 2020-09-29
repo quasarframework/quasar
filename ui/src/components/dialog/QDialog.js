@@ -4,7 +4,6 @@ import HistoryMixin from '../../mixins/history.js'
 import ModelToggleMixin from '../../mixins/model-toggle.js'
 import PortalMixin from '../../mixins/portal.js'
 import PreventScrollMixin from '../../mixins/prevent-scroll.js'
-import AttrsMixin, { ariaHidden } from '../../mixins/attrs.js'
 
 import { childHasFocus } from '../../utils/dom.js'
 import EscapeKey from '../../utils/escape-key.js'
@@ -33,7 +32,6 @@ export default defineComponent({
   name: 'QDialog',
 
   mixins: [
-    AttrsMixin,
     HistoryMixin,
     ModelToggleMixin,
     PortalMixin,
@@ -345,7 +343,7 @@ export default defineComponent({
           default: () => this.useBackdrop === true ? [
             h('div', {
               class: 'q-dialog__backdrop fixed-full',
-              ...ariaHidden,
+              'aria-hidden': 'true',
               onClick: this.__onBackdropClick
             })
           ] : null

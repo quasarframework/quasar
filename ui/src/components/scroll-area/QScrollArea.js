@@ -9,7 +9,6 @@ import QResizeObserver from '../resize-observer/QResizeObserver.js'
 import QScrollObserver from '../scroll-observer/QScrollObserver.js'
 import TouchPan from '../../directives/TouchPan.js'
 import DarkMixin from '../../mixins/dark.js'
-import { ariaHidden } from '../../mixins/attrs'
 
 export default defineComponent({
   name: 'QScrollArea',
@@ -295,7 +294,7 @@ export default defineComponent({
       h('div', {
         class: this.barClass,
         style: this.barStyle,
-        ...ariaHidden,
+        'aria-hidden': 'true',
         onMousedown: this.__mouseDown
       }),
 
@@ -304,7 +303,7 @@ export default defineComponent({
           ref: 'thumb',
           class: this.thumbClass,
           style: this.style,
-          ...ariaHidden
+          'aria-hidden': 'true'
         }),
         this.thumbDirectives
       )

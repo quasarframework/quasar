@@ -9,7 +9,6 @@ import TouchPan from '../../directives/TouchPan.js'
 
 import { between } from '../../utils/format.js'
 import { slot } from '../../utils/slot.js'
-import { ariaHidden } from '../../mixins/attrs'
 
 const duration = 150
 
@@ -646,7 +645,7 @@ export default defineComponent({
         withDirectives(
           h('div', {
             class: `q-drawer__opener fixed-${this.side}`,
-            ...ariaHidden
+            'aria-hidden': 'true'
           }),
           this.openDirective
         )
@@ -655,7 +654,7 @@ export default defineComponent({
       const node = h('div', {
         ref: 'backdrop',
         class: this.backdropClass,
-        ...ariaHidden,
+        'aria-hidden': 'true',
         style: this.lastBackdropBg !== void 0
           ? { backgroundColor: this.lastBackdropBg }
           : null,

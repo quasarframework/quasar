@@ -2,7 +2,6 @@ import { h, defineComponent } from 'vue'
 
 import { between } from '../../utils/format.js'
 import { isSSR } from '../../plugins/Platform.js'
-import { ariaHidden } from '../../mixins/attrs'
 
 const
   xhr = isSSR ? null : XMLHttpRequest,
@@ -146,7 +145,7 @@ export default defineComponent({
           'aria-valuemax': 100,
           'aria-valuenow': this.progress
         }
-        : ariaHidden
+        : { 'aria-hidden': 'true' }
     }
   },
 
