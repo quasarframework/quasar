@@ -23,10 +23,12 @@ module.exports = async function (file, opts, done) {
     // if this file is a possible nine patch:
     // - cleanup depending on --nine-patch command line option
     // - if nine patch: extend image and add nine patch 'borders' to compositionArray
+    //   more information about nine patch:
+    //   https://developer.android.com/guide/topics/graphics/drawables#nine-patch
     if (file.ninePatchCheck) {
       if (opts.ninePatch) {
         if (existsSync(file.absoluteName)) {
-          // zero sized files are from generate.js::ensureFileSync and can removed without notice
+          // zero sized files are from generate.js::generateFile (ensureFileSync) and can removed without notice
           if (statSync(file.absoluteName).size > 0) {
             warn(
               "Nine Patch file generation requested, removing non-nine patch file " +
@@ -38,46 +40,61 @@ module.exports = async function (file, opts, done) {
         file.absoluteName = file.absoluteName.replace(".png", ".9.png");
         file.relativeName = file.relativeName.replace(".png", ".9.png");
 
-        // extend image with 1 pixel transparent 'border'
+        // extend image with 1 pixel black 'border'
         img.extend({
           top: 1,
           bottom: 1,
           left: 1,
           right: 1,
-          background: { r: 0, g: 0, b: 0, alpha: 0 },
+          background: { r: 0, g: 0, b: 0, alpha: 1 },
         });
-        // add black stretch markers to each corner, leaving corner pixel transparent
+        // cut out non-stretchable areas
+        compositionArray.unshift(
+          {
+            input: {
+              create: {
+                width: Math.round(
+                  (file.width * (100 - opts.ninePatch[0])) / 100
+                ),
+                height: 1,
+                channels: 4,
+                background: { r: 0, g: 0, b: 0, alpha: 1 },
+              },
+            },
+            gravity: 'north',
+            blend: "dest-out",
+          },
+          {
+            input: {
+              create: {
+                width: 1,
+                height: Math.round(
+                  (file.height * (100 - opts.ninePatch[1])) / 100
+                ),
+                channels: 4,
+                background: { r: 0, g: 0, b: 0, alpha: 1 },
+              },
+            },
+            gravity: 'west',
+            blend: "dest-out",
+          }
+        );
+
+        // clear corner pixels
         ["northwest", "northeast", "southwest", "southeast"].forEach(
           (gravity) => {
-            compositionArray.unshift(
-           
-              {
-                input: {
-                  create: {
-                    width:
-                      Math.round((file.width * opts.ninePatch[0]) / 100) + 1,
-                    height:
-                      Math.round((file.height * opts.ninePatch[1]) / 100) + 1,
-                    channels: 4,
-                    background: { r: 0, g: 0, b: 0, alpha: 1 },
-                  },
+            compositionArray.unshift({
+              input: {
+                create: {
+                  width: 1,
+                  height: 1,
+                  channels: 4,
+                  background: { r: 0, g: 0, b: 0, alpha: 1 },
                 },
-                gravity: gravity,
-                blend: "dest-over",
               },
-              {
-                input: {
-                  create: {
-                    width: 1,
-                    height: 1,
-                    channels: 4,
-                    background: { r: 0, g: 0, b: 0, alpha: 1 },
-                  },
-                },
-                gravity: gravity,
-                blend: "dest-out",
-              },
-            );
+              gravity: gravity,
+              blend: "dest-out",
+            });
           }
         );
       } else {
