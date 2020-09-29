@@ -342,14 +342,12 @@ export default defineComponent({
     this.loading !== null && child.push(
       h(Transition, {
         name: 'q-transition--fade'
-      }, {
-        default: () => this.loading === true ? [
-          h('span', {
-            key: 'loading',
-            class: 'absolute-full flex flex-center'
-          }, this.$slots.loading !== void 0 ? this.$slots.loading() : [ h(QSpinner) ])
-        ] : void 0
-      })
+      }, () => this.loading === true ? [
+        h('span', {
+          key: 'loading',
+          class: 'absolute-full flex flex-center'
+        }, this.$slots.loading !== void 0 ? this.$slots.loading() : [ h(QSpinner) ])
+      ] : void 0)
     )
 
     const node = h(this.isLink === true ? 'a' : 'button', {

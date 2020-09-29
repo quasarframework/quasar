@@ -466,6 +466,7 @@ export default defineComponent({
             this.hasPopupOpen === true ||
             this.$refs === void 0 ||
             this.$refs.control === void 0 ||
+            this.$refs.control === null || // TODO vue3 - temp, remove after portal transition is ready
             this.$refs.control.contains(document.activeElement) !== false
           )
         ) {

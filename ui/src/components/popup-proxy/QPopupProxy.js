@@ -5,20 +5,20 @@ import QMenu from '../menu/QMenu.js'
 
 import AnchorMixin from '../../mixins/anchor.js'
 import { slot } from '../../utils/slot.js'
-import AttrsMixin from '../../mixins/attrs.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 export default defineComponent({
   name: 'QPopupProxy',
 
-  mixins: [ AttrsMixin, ListenersMixin, AnchorMixin ],
+  mixins: [ AnchorMixin ],
 
   props: {
     breakpoint: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 450
     }
   },
+
+  emits: [ 'hide' ],
 
   data () {
     const breakpoint = parseInt(this.breakpoint, 10)
@@ -32,32 +32,25 @@ export default defineComponent({
   computed: {
     parsedBreakpoint () {
       return parseInt(this.breakpoint, 10)
-    },
-
-    onEvents () {
-      return {
-        ...this.qListeners,
-        hide: this.__onHide
-      }
     }
   },
 
   watch: {
-    '$q.screen.width' (width) {
+    '$q.screen.width' () {
       if (this.$refs.popup.showing !== true) {
-        this.__updateType(width, this.$q.screen.height, this.parsedBreakpoint)
+        this.__updateType()
       }
     },
 
-    '$q.screen.height' (height) {
+    '$q.screen.height' () {
       if (this.$refs.popup.showing !== true) {
-        this.__updateType(this.$q.screen.width, height, this.parsedBreakpoint)
+        this.__updateType()
       }
     },
 
-    breakpoint (breakpoint) {
+    parsedBreakpoint () {
       if (this.$refs.popup.showing !== true) {
-        this.__updateType(this.$q.screen.width, this.$q.screen.height, parseInt(breakpoint, 10))
+        this.__updateType()
       }
     }
   },
@@ -76,12 +69,12 @@ export default defineComponent({
     },
 
     __onHide (evt) {
-      this.__updateType(this.$q.screen.width, this.$q.screen.height, this.parsedBreakpoint)
+      this.__updateType()
       this.$emit('hide', evt)
     },
 
-    __updateType (width, height, breakpoint) {
-      const type = width < breakpoint || height < breakpoint
+    __updateType () {
+      const type = this.$q.screen.width < this.parsedBreakpoint || this.$q.screen.height < this.parsedBreakpoint
         ? 'dialog'
         : 'menu'
 
@@ -98,18 +91,17 @@ export default defineComponent({
       this.type === 'menu' &&
       def !== void 0 &&
       def[0] !== void 0 &&
-      def[0].componentOptions !== void 0 &&
-      def[0].componentOptions.Ctor !== void 0 &&
-      def[0].componentOptions.Ctor.sealedOptions !== void 0 &&
+      def[0].type !== void 0 &&
       ['QDate', 'QTime', 'QCarousel', 'QColor'].includes(
-        def[0].componentOptions.Ctor.sealedOptions.name
+        def[0].type.name
       )
     ) ? { cover: true, maxHeight: '99vh' } : {}
 
     const data = {
       ref: 'popup',
-      props: { ...props, ...this.qAttrs },
-      on: this.onEvents
+      ...props,
+      ...this.$attrs,
+      onHide: this.__onHide
     }
 
     let component
@@ -119,12 +111,12 @@ export default defineComponent({
     }
     else {
       component = QMenu
-      data.props.target = this.target
-      data.props.contextMenu = this.contextMenu
-      data.props.noParentEvent = true
-      data.props.separateClosePopup = true
+      data.target = this.target
+      data.contextMenu = this.contextMenu
+      data.noParentEvent = true
+      data.separateClosePopup = true
     }
 
-    return h(component, data, def)
+    return h(component, data, () => def)
   }
 })

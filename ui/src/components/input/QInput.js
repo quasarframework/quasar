@@ -142,10 +142,13 @@ export default defineComponent({
         name: this.nameProp,
         ...this.$attrs,
         id: this.targetUid,
-        type: this.type,
         maxlength: this.maxlength,
         disabled: this.disable === true,
         readonly: this.readonly === true
+      }
+
+      if (this.isTextarea === false) {
+        attrs.type = this.type
       }
 
       if (this.autogrow === true) {
@@ -275,7 +278,10 @@ export default defineComponent({
       delete this.temp.value
 
       this.type !== 'file' && this.$nextTick(() => {
-        if (this.$refs.input !== void 0) {
+        if (
+          this.$refs.input !== void 0 &&
+          this.$refs.input !== null // TODO vue3 - temp, remove after portal transition is ready
+        ) {
           this.$refs.input.value = this.innerValue !== void 0 ? this.innerValue : ''
         }
       })

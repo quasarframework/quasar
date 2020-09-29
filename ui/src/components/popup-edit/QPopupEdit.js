@@ -3,8 +3,6 @@ import { h, defineComponent } from 'vue'
 import QMenu from '../menu/QMenu.js'
 import QBtn from '../btn/QBtn.js'
 
-import AttrsMixin from '../../mixins/attrs.js'
-
 import clone from '../../utils/clone.js'
 import { isDeepEqual } from '../../utils/is.js'
 import { slot } from '../../utils/slot.js'
@@ -14,10 +12,8 @@ import cache from '../../utils/cache.js'
 export default defineComponent({
   name: 'QPopupEdit',
 
-  mixins: [ AttrsMixin ],
-
   props: {
-    value: {
+    modelValue: {
       required: true
     },
     title: String,
@@ -47,6 +43,11 @@ export default defineComponent({
     disable: Boolean
   },
 
+  emits: [
+    'update:modelValue', 'save', 'cancel',
+    'before-show', 'show', 'before-hide', 'hide'
+  ],
+
   data () {
     return {
       initialValue: ''
@@ -62,19 +63,11 @@ export default defineComponent({
     defaultSlotScope () {
       return {
         initialValue: this.initialValue,
-        value: this.value,
+        value: this.modelValue,
         emitValue: this.__emitValue,
         validate: this.validate,
         set: this.set,
         cancel: this.cancel
-      }
-    },
-
-    menuProps () {
-      return {
-        ...this.qAttrs,
-        cover: this.cover,
-        contentClass: this.classes
       }
     }
   },
@@ -92,7 +85,7 @@ export default defineComponent({
 
     cancel () {
       if (this.__hasChanged() === true) {
-        this.$emit('input', this.initialValue)
+        this.$emit('update:modelValue', this.initialValue)
         this.$emit('cancel', this.value, this.initialValue)
       }
       this.__close()
@@ -112,7 +105,7 @@ export default defineComponent({
 
     __emitValue (val) {
       if (this.disable !== true) {
-        this.$emit('input', val)
+        this.$emit('update:modelValue', val)
       }
     },
 
@@ -135,26 +128,22 @@ export default defineComponent({
           : this.$slots.default(this.defaultSlotScope).slice()
 
       title && child.unshift(
-        h('div', { staticClass: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
+        h('div', { class: 'q-dialog__title q-mt-sm q-mb-sm' }, [ title ])
       )
 
       this.buttons === true && child.push(
-        h('div', { staticClass: 'q-popup-edit__buttons row justify-center no-wrap' }, [
+        h('div', { class: 'q-popup-edit__buttons row justify-center no-wrap' }, [
           h(QBtn, {
-            props: {
-              flat: true,
-              color: this.color,
-              label: this.labelCancel || this.$q.lang.label.cancel
-            },
-            on: cache(this, 'cancel', { click: this.cancel })
+            flat: true,
+            color: this.color,
+            label: this.labelCancel || this.$q.lang.label.cancel,
+            onClick: this.cancel
           }),
           h(QBtn, {
-            props: {
-              flat: true,
-              color: this.color,
-              label: this.labelSet || this.$q.lang.label.set
-            },
-            on: cache(this, 'ok', { click: this.set })
+            flat: true,
+            color: this.color,
+            label: this.labelSet || this.$q.lang.label.set,
+            onClick: this.set
           })
         ])
       )
@@ -168,40 +157,41 @@ export default defineComponent({
 
     return h(QMenu, {
       ref: 'menu',
-      props: this.menuProps,
-      on: cache(this, 'menu', {
-        'before-show': () => {
+      cover: this.cover,
+      contentClass: this.classes,
+      ...cache(this, 'menu', {
+        'onBefore-show': () => {
           this.validated = false
-          this.initialValue = clone(this.value)
-          this.watcher = this.$watch('value', this.__reposition)
+          this.initialValue = clone(this.modelValue)
+          this.watcher = this.$watch('modelValue', this.__reposition)
           this.$emit('before-show')
         },
-        show: () => {
+        onShow: () => {
           this.$emit('show')
         },
-        'escape-key': this.cancel,
-        'before-hide': () => {
+        'onEscape-key': this.cancel,
+        'onBefore-hide': () => {
           this.watcher()
 
           if (this.validated === false && this.__hasChanged() === true) {
-            if (this.autoSave === true && this.validate(this.value) === true) {
-              this.$emit('save', this.value, this.initialValue)
+            if (this.autoSave === true && this.validate(this.modelValue) === true) {
+              this.$emit('save', this.modelValue, this.initialValue)
             }
             else {
-              this.$emit('cancel', this.value, this.initialValue)
-              this.$emit('input', this.initialValue)
+              this.$emit('cancel', this.modelValue, this.initialValue)
+              this.$emit('update:modelValue', this.initialValue)
             }
           }
 
           this.$emit('before-hide')
         },
-        hide: () => {
+        onHide: () => {
           this.$emit('hide')
         },
-        keyup: e => {
+        onKeyup: e => {
           isKeyCode(e, 13) === true && this.set()
         }
       })
-    }, this.__getContent())
+    }, this.__getContent)
   }
 })

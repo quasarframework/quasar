@@ -119,7 +119,7 @@ export default defineComponent({
     const data = {
       class: this.classes,
       style: this.style,
-      // TODO vue3 - interferes with router-link
+      // TODO vue3 - interferes with router-link:
       // onClick: this.__onClick,
       onKeyup: this.__onKeyup
     }
