@@ -7,7 +7,6 @@ import RefocusTargetMixin from '../../mixins/refocus-target.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QRadio',
@@ -106,6 +105,18 @@ export default defineComponent({
       if (this.disable !== true && this.isTrue !== true) {
         this.$emit('update:modelValue', this.val, e)
       }
+    },
+
+    __onKeydown (e) {
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        stopAndPrevent(e)
+      }
+    },
+
+    __onKeyup (e) {
+      if (e.keyCode === 13 || e.keyCode === 32) {
+        this.set(e)
+      }
     }
   },
 
@@ -158,19 +169,9 @@ export default defineComponent({
     return h('div', {
       class: this.classes,
       ...this.attrs,
-      ...cache(this, 'inpExt', {
-        onClick: this.set,
-        onKeydown: e => {
-          if (e.keyCode === 13 || e.keyCode === 32) {
-            stopAndPrevent(e)
-          }
-        },
-        onKeyup: e => {
-          if (e.keyCode === 13 || e.keyCode === 32) {
-            this.set(e)
-          }
-        }
-      })
+      onClick: this.set,
+      onKeydown: this.__onKeydown,
+      onKeyup: this.__onKeyup
     }, child)
   }
 })

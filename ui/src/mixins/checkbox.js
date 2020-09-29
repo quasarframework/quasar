@@ -8,7 +8,6 @@ import OptionSizeMixin from './option-size.js'
 import RefocusTargetMixin from './refocus-target.js'
 
 import { slot, mergeSlot } from '../utils/slot.js'
-import cache from '../utils/cache.js'
 
 export default {
   mixins: [ DarkMixin, OptionSizeMixin, FormMixin, RefocusTargetMixin ],
@@ -214,18 +213,16 @@ export default {
 
     label !== void 0 && child.push(
       h('div', {
-        staticClass: `q-${this.type}__label q-anchor--skip`
+        class: `q-${this.type}__label q-anchor--skip`
       }, label)
     )
 
     return h('div', {
       class: this.classes,
       attrs: this.attrs,
-      ...cache(this, 'inpExt', {
-        onClick: this.toggle,
-        onKeydown: this.__onKeydown,
-        onKeyup: this.__onKeyup
-      })
+      onClick: this.toggle,
+      onKeydown: this.__onKeydown,
+      onKeyup: this.__onKeyup
     }, child)
   }
 }

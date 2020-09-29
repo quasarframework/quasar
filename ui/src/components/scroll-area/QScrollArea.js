@@ -3,7 +3,6 @@ import { h, defineComponent, withDirectives } from 'vue'
 import { between } from '../../utils/format.js'
 import { setScrollPosition, setHorizontalScrollPosition } from '../../utils/scroll.js'
 import { mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 import debounce from '../../utils/debounce.js'
 
 import QResizeObserver from '../resize-observer/QResizeObserver.js'
@@ -253,16 +252,22 @@ export default defineComponent({
 
     __setScroll (offset) {
       this.$refs.target[this.dirProps.scroll] = offset
+    },
+
+    __onMouseenter () {
+      this.hover = true
+    },
+
+    __onMouseleave () {
+      this.hover = false
     }
   },
 
   render () {
     return h('div', {
       class: this.classes,
-      ...cache(this, 'desk', {
-        onMouseenter: () => { this.hover = true },
-        onMouseleave: () => { this.hover = false }
-      })
+      onMouseenter: this.__onMouseenter,
+      onMouseleave: this.__onMouseleave
     }, [
       h('div', {
         ref: 'target',

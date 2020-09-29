@@ -71,6 +71,10 @@ export default defineComponent({
     noSwipeBackdrop: Boolean
   },
 
+  emits: [
+    'update:modelValue', 'on-layout', 'mini-state', 'click'
+  ],
+
   data () {
     const belowBreakpoint = (
       this.behavior === 'mobile' ||
@@ -585,7 +589,7 @@ export default defineComponent({
       this.showing === true &&
       this.qListeners.input !== void 0
     ) {
-      this.$emit('input', true)
+      this.$emit('update:modelValue', true)
     }
   },
 

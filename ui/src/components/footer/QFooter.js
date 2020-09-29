@@ -113,7 +113,7 @@ export default defineComponent({
     },
 
     classes () {
-      return 'q-footer q-layout__section--marginal' +
+      return 'q-footer q-layout__section--marginal ' +
         (this.fixed === true ? 'fixed' : 'absolute') + '-bottom' +
         (this.bordered === true ? ' q-footer--bordered' : '') +
         (this.hidden === true ? ' q-footer--hidden' : '') +

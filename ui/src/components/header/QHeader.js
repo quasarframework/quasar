@@ -100,7 +100,7 @@ export default defineComponent({
     },
 
     classes () {
-      return 'q-header q-layout__section--marginal' +
+      return 'q-header q-layout__section--marginal ' +
         (this.fixed === true ? 'fixed' : 'absolute') + '-top' +
         (this.bordered === true ? ' q-header--bordered' : '') +
         (this.hidden === true ? ' q-header--hidden' : '') +

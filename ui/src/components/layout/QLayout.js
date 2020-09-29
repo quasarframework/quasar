@@ -174,7 +174,6 @@ export default defineComponent({
       if (this.height !== height) {
         resized = true
         this.height = height
-        // TODO vue3 - revise hyphened events
         this.$attrs['onScroll-height'] !== void 0 && this.$emit('scroll-height', height)
         this.__updateScrollbarWidth()
       }

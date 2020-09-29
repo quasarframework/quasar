@@ -12,7 +12,10 @@ export default {
         name: this.name,
         value: this.modelValue
       }
-    }
+    },
+
+    // TODO vue3 - accesed but not defined
+    formDomProps () {}
   },
 
   methods: {

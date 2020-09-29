@@ -37,16 +37,18 @@
             <strong>Quasar</strong> Framework
           </q-toolbar-title>
 
-          <q-input value="" dense standout dark>
-            <q-icon slot="append" name="search" />
+          <q-input model-value="" dense standout dark>
+            <template v-slot:append>
+              <q-icon name="search" />
+            </template>
           </q-input>
         </q-toolbar>
-        <q-tabs indicator-color="yellow">
+        <!-- TODO vue3 <q-tabs indicator-color="yellow">
           <q-route-tab icon="view_quilt" to="/layout-quick/default" replace label="Default Tab" />
           <q-route-tab icon="view_day" to="/layout-quick/a" replace label="A" />
           <q-route-tab icon="view_day" to="/layout-quick/b" replace label="B" />
           <q-route-tab icon="input" to="/layout-quick/c" replace label="C" />
-        </q-tabs>
+        </q-tabs> -->
       </q-header>
 
       <q-footer height-hint="100" v-model="footer" :bordered="bordered" :elevated="elevated" :reveal="footerReveal" :class="marginalClass">
@@ -189,6 +191,7 @@
             Mini only
           </div>
           <q-list>
+            <!-- TODO vue3
             <q-expansion-item clickable icon="perm_identity" label="With a model and events">
               <q-card>
                 <q-card-section>
@@ -255,7 +258,7 @@
             <q-separator spaced />
             <q-item-label header>
               Files
-            </q-item-label>
+            </q-item-label> -->
 
             <q-item clickable>
               <q-item-section side>
@@ -312,9 +315,11 @@
           </q-list>
         </q-drawer>
 
-        <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
-          <router-view />
-        </transition>
+        <router-view v-slot="{ Component }">
+          <transition enter-active-class="animated fadeIn" leave-active-class="animated fadeOut" mode="out-in">
+            <component :is="Component" />
+          </transition>
+        </router-view>
 
         <div class="fixed-bottom-right bg-grey-5 q-pa-sm" style="bottom: 8px; right: 8px; left: auto;z-index: 6000;">
           <q-toggle dense v-model="showConfig" label="Config" />
