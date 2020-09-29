@@ -2,6 +2,7 @@ import { h, defineComponent } from 'vue'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
+import { getVmOfNode } from '../../utils/vm.js'
 
 export default defineComponent({
   name: 'QForm',
@@ -110,7 +111,7 @@ export default defineComponent({
 
       this.validate().then(val => {
         if (val === true) {
-          if (this.qListeners.submit !== void 0) {
+          if (this.$attrs.onSubmit !== void 0) {
             this.$emit('submit', evt)
           }
           else if (evt !== void 0 && evt.target !== void 0 && typeof evt.target.submit === 'function') {
@@ -143,7 +144,7 @@ export default defineComponent({
     getValidationComponents () {
       return Array.prototype.map.call(
         this.$el.getElementsByClassName('q-validation-component'),
-        field => field.__vue__
+        getVmOfNode
       ).filter(c => c !== void 0 && typeof c.validate === 'function')
     }
   },

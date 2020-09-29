@@ -175,37 +175,33 @@
 </template>
 
 <script>
+import { h } from 'vue'
+import { QField, QCard, QCardSection } from 'quasar'
+
 export default {
   components: {
     customInput: {
-      props: [ 'value' ],
-      render (h) {
-        return h('q-field', {
-          props: {
-            ...this.$attrs,
-            value: this.value
-          },
-          listeners: this.$listeners,
-          scopedSlots: {
-            control: () => this.value
-          }
+      props: [ 'modelValue' ],
+      render () {
+        return h(QField, {
+          modelValue: this.value
+        }, {
+          control: () => this.modelValue
         })
       }
     },
 
     myComp: {
-      render (h) {
+      render () {
         return h('div', {
-          staticClass: 'q-validation-component'
+          class: 'q-validation-component'
         }, [
-          h('q-card', {
-            staticClass: 'text-subtitle2',
-            props: {
-              bordered: true,
-              flat: true
-            }
-          }, [
-            h('q-card-section', [ 'a custom component' ])
+          h(QCard, {
+            class: 'text-subtitle2',
+            bordered: true,
+            flat: true
+          }, () => [
+            h(QCardSection, () => [ 'a custom component' ])
           ])
         ])
       },
