@@ -311,6 +311,7 @@ export default defineComponent({
           return
         }
 
+        // TODO vue3 - this.$set
         this.$set(this.lazy, key, 'loading')
         this.$emit('lazy-load', {
           node,
@@ -318,6 +319,7 @@ export default defineComponent({
           done: children => {
             this.lazy[key] = 'loaded'
             if (children) {
+              // TODO vue3 - this.$set
               this.$set(node, this.childrenKey, children)
             }
             this.$nextTick(() => {
@@ -328,6 +330,7 @@ export default defineComponent({
             })
           },
           fail: () => {
+            // TODO vue3 - this.$set
             this.$delete(this.lazy, key)
           }
         })

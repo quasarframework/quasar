@@ -143,9 +143,10 @@ if (isSSR === false) {
   portalEl.id = 'q-portal'
   document.body.appendChild(portalEl)
 
-  Portal.created = function () {
-    this.__onGlobalDialog = isOnGlobalDialog(this.$parent)
-  }
+  // TODO vue3 - Portal.created()
+  // Portal.created = function () {
+  //   this.__onGlobalDialog = isOnGlobalDialog(this.$parent)
+  // }
 }
 
 export default Portal

@@ -117,7 +117,11 @@ export default defineComponent({
     },
 
     updatePosition () {
-      if (this.anchorEl === void 0 || this.$refs.inner === void 0) {
+      if (
+        this.anchorEl === void 0 ||
+        this.$refs.inner === void 0 ||
+        this.$refs.inner === null // TODO vue3 - temp, remove after portal transition is ready
+      ) {
         return
       }
 

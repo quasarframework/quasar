@@ -199,10 +199,10 @@ export const FileValueMixin = {
             : void 0
           )
 
-        if (Object(this.value) === this.value) {
-          ('length' in this.value
-            ? Array.from(this.value)
-            : [ this.value ]
+        if (Object(this.modelValue) === this.modelValue) {
+          ('length' in this.modelValue
+            ? Array.from(this.modelValue)
+            : [ this.modelValue ]
           ).forEach(file => {
             dt.items.add(file)
           })

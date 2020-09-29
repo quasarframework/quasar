@@ -71,6 +71,8 @@ export default defineComponent({
     }
   },
 
+  emits: [ 'click', 'escape-key' ],
+
   computed: {
     horizSide () {
       return this.$q.lang.rtl === true ? 'right' : 'left'
@@ -254,7 +256,11 @@ export default defineComponent({
     },
 
     updatePosition () {
-      if (this.anchorEl === void 0 || this.$refs.inner === void 0) {
+      if (
+        this.anchorEl === void 0 ||
+        this.$refs.inner === void 0 ||
+        this.$refs.inner === null // TODO vue3 - temp, remove after portal transition is ready
+      ) {
         return
       }
 
@@ -312,6 +318,7 @@ export default defineComponent({
           ],
           style: this.contentStyle,
           tabindex: -1,
+          ...this.$attrs,
           ...this.onEvents
         }, slot(this, 'default')),
         [[

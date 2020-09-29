@@ -437,11 +437,15 @@ export default {
     __updateVirtualScrollSizes (from) {
       const contentEl = this.$refs.content
 
-      if (contentEl !== void 0) {
-        const children = slice.call(contentEl.children)
-            .filter(el => el.classList.contains('q-virtual-scroll--skip') === false)
-        const childrenLength = children.length
-        const sizeFn = this.virtualScrollHorizontal === true
+      if (
+        contentEl !== void 0 &&
+        contentEl !== null // TODO vue3 - temp, remove after portal transition is ready
+      ) {
+        const
+          children = slice.call(contentEl.children)
+            .filter(el => el.classList.contains('q-virtual-scroll--skip') === false),
+          childrenLength = children.length,
+          sizeFn = this.virtualScrollHorizontal === true
             ? el => el.getBoundingClientRect().width
             : el => el.offsetHeight
 
@@ -517,7 +521,6 @@ export default {
     __setVirtualScrollSize (scrollViewSize) {
       if (this.virtualScrollSliceSize > 0) {
         this.virtualScrollSliceSizeComputed = this.virtualScrollSliceSize
-
         return
       }
 

@@ -4,7 +4,7 @@ const lazyRulesValues = [ true, false, 'ondemand' ]
 
 export default {
   props: {
-    value: {},
+    modelValue: {},
 
     error: {
       type: Boolean,
@@ -30,7 +30,7 @@ export default {
   },
 
   watch: {
-    value () {
+    modelValue () {
       this.__validateIfNeeded()
     },
 
@@ -107,7 +107,7 @@ export default {
      *   - false (validation failed)
      *   - Promise (pending async validation)
      */
-    validate (val = this.value) {
+    validate (val = this.modelValue) {
       if (this.hasRules !== true) {
         return true
       }

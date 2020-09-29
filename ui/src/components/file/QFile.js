@@ -8,7 +8,6 @@ import FileMixin, { FileValueMixin } from '../../mixins/file.js'
 
 import { isSSR } from '../../plugins/Platform'
 import { humanStorageSize } from '../../utils/format.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QFile',
@@ -17,7 +16,7 @@ export default defineComponent({
 
   props: {
     /* SSR does not know about File & FileList */
-    value: isSSR === true
+    modelValue: isSSR === true
       ? {}
       : [ File, FileList, Array ],
 
@@ -43,9 +42,14 @@ export default defineComponent({
   },
 
   computed: {
+    // needed by QField mixin
+    fieldClass () {
+      return 'q-file q-field--auto-height'
+    },
+
     innerValue () {
-      return Object(this.value) === this.value
-        ? ('length' in this.value ? Array.from(this.value) : [ this.value ])
+      return Object(this.modelValue) === this.modelValue
+        ? ('length' in this.modelValue ? Array.from(this.modelValue) : [ this.modelValue ])
         : []
     },
 
@@ -86,7 +90,7 @@ export default defineComponent({
         accept: this.accept,
         capture: this.capture,
         name: this.nameProp,
-        ...this.qAttrs,
+        ...this.$attrs,
         id: this.targetUid,
         disabled: this.editable !== true
       }
@@ -112,7 +116,7 @@ export default defineComponent({
     },
 
     __emitValue (files) {
-      this.$emit('input', this.multiple === true ? files : files[0])
+      this.$emit('update:modelValue', this.multiple === true ? files : files[0])
     },
 
     __onKeyup (e) {
@@ -134,29 +138,6 @@ export default defineComponent({
       )
     },
 
-    __getControl () {
-      const data = {
-        ref: 'target',
-        staticClass: 'q-field__native row items-center cursor-pointer',
-        attrs: {
-          tabindex: this.tabindex
-        }
-      }
-
-      if (this.editable === true) {
-        data.on = cache(this, 'native', {
-          dragover: this.__onDragOver,
-          keyup: this.__onKeyup
-        })
-      }
-
-      return h('div', data, [ this.__getInput() ].concat(this.__getSelection()))
-    },
-
-    __getControlChild () {
-      return this.__getDnd('file')
-    },
-
     __getSelection () {
       if (this.$slots.file !== void 0) {
         return this.innerValue.map((file, index) => this.$slots.file({ index, file, ref: this }))
@@ -169,34 +150,26 @@ export default defineComponent({
       if (this.useChips === true) {
         return this.innerValue.map((file, i) => h(QChip, {
           key: 'file-' + i,
-          props: {
-            removable: this.editable,
-            dense: true,
-            textColor: this.color,
-            tabindex: this.tabindex
-          },
-          on: cache(this, 'rem#' + i, {
-            remove: () => { this.removeAtIndex(i) }
-          })
-        }, [
+          removable: this.editable,
+          dense: true,
+          textColor: this.color,
+          tabindex: this.tabindex,
+          onRemove: () => { this.removeAtIndex(i) }
+        }, () => [
           h('span', {
-            staticClass: 'ellipsis',
-            domProps: {
-              textContent: file.name
-            }
+            class: 'ellipsis',
+            textContent: file.name
           })
         ]))
       }
 
       return [
         h('div', {
-          style: this.inputStyle,
           class: this.inputClass,
-          domProps: {
-            textContent: this.displayValue !== void 0
-              ? this.displayValue
-              : this.selectedString
-          }
+          style: this.inputStyle,
+          textContent: this.displayValue !== void 0
+            ? this.displayValue
+            : this.selectedString
         })
       ]
     },
@@ -204,16 +177,14 @@ export default defineComponent({
     __getInput () {
       const data = {
         ref: 'input',
-        staticClass: 'q-field__input fit absolute-full cursor-pointer',
-        attrs: this.inputAttrs,
-        domProps: this.formDomProps,
-        on: cache(this, 'input', {
-          change: this.__addFiles
-        })
+        class: 'q-field__input fit absolute-full cursor-pointer',
+        ...this.inputAttrs,
+        ...this.formDomProps,
+        onChange: this.__addFiles
       }
 
       if (this.multiple === true) {
-        data.attrs.multiple = true
+        data.multiple = true
       }
 
       return h('input', data)
@@ -221,7 +192,23 @@ export default defineComponent({
   },
 
   created () {
-    this.fieldClass = 'q-file q-field--auto-height'
+    Object.assign(this.field, {
+      getControlChild: () => this.__getDnd('file'),
+      getControl: () => {
+        const data = {
+          ref: 'target',
+          class: 'q-field__native row items-center cursor-pointer',
+          tabindex: this.tabindex
+        }
+
+        if (this.editable === true) {
+          data.onDragover = this.__onDragOver
+          data.onKeyup = this.__onKeyup
+        }
+
+        return h('div', data, [ this.__getInput() ].concat(this.__getSelection()))
+      }
+    })
 
     // necessary for QField's clearable
     // and FileValueMixin

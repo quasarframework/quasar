@@ -6,7 +6,6 @@ import { FormFieldMixin } from '../../mixins/form.js'
 import { FileValueMixin } from '../../mixins/file.js'
 import MaskMixin from '../../mixins/mask.js'
 import CompositionMixin from '../../mixins/composition.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { stop } from '../../utils/event.js'
 
@@ -18,12 +17,11 @@ export default defineComponent({
     MaskMixin,
     CompositionMixin,
     FormFieldMixin,
-    FileValueMixin,
-    ListenersMixin
+    FileValueMixin
   ],
 
   props: {
-    value: { required: false },
+    modelValue: { required: false },
 
     shadowText: String,
 
@@ -32,16 +30,18 @@ export default defineComponent({
       default: 'text'
     },
 
-    debounce: [String, Number],
+    debounce: [ String, Number ],
 
     autogrow: Boolean, // makes a textarea
 
-    inputClass: [Array, String, Object],
-    inputStyle: [Array, String, Object]
+    inputClass: [ Array, String, Object ],
+    inputStyle: [ Array, String, Object ]
   },
 
+  emits: [ 'paste', /* TODO vue3 - @change */ 'change' ],
+
   watch: {
-    value (v) {
+    modelValue (v) {
       if (this.hasMask === true) {
         if (this.stopValueWatcher === true) {
           this.stopValueWatcher = false
@@ -55,13 +55,13 @@ export default defineComponent({
 
         if (
           this.type === 'number' &&
-          this.hasOwnProperty('tempValue') === true
+          this.temp.hasOwnProperty('value') === true
         ) {
           if (this.typedNumber === true) {
             this.typedNumber = false
           }
           else {
-            delete this.tempValue
+            delete this.temp.value
           }
         }
       }
@@ -108,30 +108,29 @@ export default defineComponent({
     },
 
     onEvents () {
-      const on = {
-        ...this.qListeners,
-        input: this.__onInput,
-        paste: this.__onPaste,
+      const evt = {
+        onInput: this.__onInput,
+        onPaste: this.__onPaste,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
         // switching focus before confirming composition choice
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
-        change: this.__onChange,
-        blur: this.__onFinishEditing,
-        focus: stop
+        onChange: this.__onChange,
+        onBlur: this.__onFinishEditing,
+        onFocus: stop
       }
 
-      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
+      evt.onCompositionstart = evt.onCompositionupdate = evt.onCompositionend = this.__onComposition
 
       if (this.hasMask === true) {
-        on.keydown = this.__onMaskedKeydown
+        evt.onKeydown = this.__onMaskedKeydown
       }
 
       if (this.autogrow === true) {
-        on.animationend = this.__adjustHeight
+        evt.onAnimationend = this.__adjustHeight
       }
 
-      return on
+      return evt
     },
 
     inputAttrs () {
@@ -141,7 +140,7 @@ export default defineComponent({
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         name: this.nameProp,
-        ...this.qAttrs,
+        ...this.$attrs,
         id: this.targetUid,
         type: this.type,
         maxlength: this.maxlength,
@@ -189,7 +188,7 @@ export default defineComponent({
       }
 
       if (this.type === 'file') {
-        this.$emit('input', e.target.files)
+        this.$emit('update:modelValue', e.target.files)
         return
       }
 
@@ -211,14 +210,14 @@ export default defineComponent({
       this.emitValueFn = () => {
         if (
           this.type !== 'number' &&
-          this.hasOwnProperty('tempValue') === true
+          this.temp.hasOwnProperty('value') === true
         ) {
-          delete this.tempValue
+          delete this.temp.value
         }
 
-        if (this.value !== val) {
+        if (this.modelValue !== val) {
           stopWatcher === true && (this.stopValueWatcher = true)
-          this.$emit('input', val)
+          this.$emit('update:modelValue', val)
         }
 
         this.emitValueFn = void 0
@@ -226,12 +225,12 @@ export default defineComponent({
 
       if (this.type === 'number') {
         this.typedNumber = true
-        this.tempValue = val
+        this.temp.value = val
       }
 
       if (this.debounce !== void 0) {
         clearTimeout(this.emitTimer)
-        this.tempValue = val
+        this.temp.value = val
         this.emitTimer = setTimeout(this.emitValueFn, this.debounce)
       }
       else {
@@ -261,6 +260,7 @@ export default defineComponent({
       clearTimeout(this.emitTimer)
       this.emitValueFn !== void 0 && this.emitValueFn()
 
+      // TODO vue3 - @change
       this.$emit('change', e)
     },
 
@@ -272,7 +272,7 @@ export default defineComponent({
 
       this.typedNumber = false
       this.stopValueWatcher = false
-      delete this.tempValue
+      delete this.temp.value
 
       this.type !== 'file' && this.$nextTick(() => {
         if (this.$refs.input !== void 0) {
@@ -282,34 +282,43 @@ export default defineComponent({
     },
 
     __getCurValue () {
-      // TODO vue3 - hasOwnProperty('tempValue')
-      return false && this.hasOwnProperty('tempValue') === true
-        ? this.tempValue
+      return this.temp.hasOwnProperty('value') === true
+        ? this.temp.value
         : (this.innerValue !== void 0 ? this.innerValue : '')
-    },
-
-    __getShadowControl () {
-      return h('div', {
-        staticClass: 'q-field__native q-field__shadow absolute-full no-pointer-events'
-      }, [
-        h('span', { staticClass: 'invisible' }, this.__getCurValue()),
-        h('span', this.shadowText)
-      ])
-    },
-
-    __getControl () {
-      return h(this.isTextarea === true ? 'textarea' : 'input', {
-        ref: 'input',
-        staticClass: 'q-field__native q-placeholder',
-        style: this.inputStyle,
-        class: this.inputClass,
-        attrs: this.inputAttrs,
-        on: this.onEvents,
-        domProps: this.type !== 'file'
-          ? { value: this.__getCurValue() }
-          : this.formDomProps
-      })
     }
+  },
+
+  created () {
+    this.temp = {}
+
+    Object.assign(this.field, {
+      getControl: () => {
+        return h(this.isTextarea === true ? 'textarea' : 'input', {
+          ref: 'input',
+          class: [
+            'q-field__native q-placeholder',
+            this.inputClass
+          ],
+          style: this.inputStyle,
+          ...this.inputAttrs,
+          ...this.onEvents,
+          ...(
+            this.type !== 'file'
+              ? { value: this.__getCurValue() }
+              : this.formDomProps
+          )
+        })
+      },
+
+      getShadowControl: () => {
+        return h('div', {
+          class: 'q-field__native q-field__shadow absolute-full no-pointer-events'
+        }, [
+          h('span', { class: 'invisible' }, this.__getCurValue()),
+          h('span', this.shadowText)
+        ])
+      }
+    })
   },
 
   mounted () {

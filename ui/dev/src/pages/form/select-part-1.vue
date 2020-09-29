@@ -29,8 +29,8 @@
         :options="stringOptions"
         label="Single"
       >
-        <q-icon slot="prepend" name="event" />
-        <q-icon slot="append" name="search" />
+        <template v-slot:prepend><q-icon name="event" /></template>
+        <template v-slot:append><q-icon name="search" /></template>
       </q-select>
 
       <q-select
@@ -40,8 +40,8 @@
         popup-content-class="bg-amber"
         label="Single - Colored popup"
       >
-        <q-icon slot="prepend" name="event" />
-        <q-icon slot="append" name="search" />
+        <template v-slot:prepend><q-icon name="event" /></template>
+        <template v-slot:append><q-icon name="search" /></template>
       </q-select>
 
       <div>{{ stringMultiple }}</div>
@@ -715,9 +715,9 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="sass">
 .select-card
-  transition .3s background-color
+  transition: .3s background-color
   &:not(.disabled):hover
-    background $grey-3
+    background: $grey-3
 </style>

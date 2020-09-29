@@ -54,7 +54,7 @@ export default {
       else {
         const val = this.__unmask(this.innerValue)
         this.__updateMaskInternals()
-        this.value !== val && this.$emit('input', val)
+        this.modelValue !== val && this.$emit('update:modelValue', val)
       }
     },
 
@@ -76,14 +76,14 @@ export default {
       this.__updateMaskInternals()
 
       if (this.hasMask === true) {
-        const masked = this.__mask(this.__unmask(this.value))
+        const masked = this.__mask(this.__unmask(this.modelValue))
 
         return this.fillMask !== false
           ? this.__fillWithMask(masked)
           : masked
       }
 
-      return this.value
+      return this.modelValue
     },
 
     __getPaddedMaskMarked (size) {
@@ -287,7 +287,7 @@ export default {
         ? this.__unmask(masked)
         : masked
 
-      this.value !== val && this.__emitValue(val, true)
+      this.modelValue !== val && this.__emitValue(val, true)
     },
 
     __moveCursorForPaste (inp, start, end) {

@@ -41,6 +41,7 @@ module.exports = {
     'vue/object-curly-spacing': 'off',
     'vue/script-indent': 'off',
     'vue/require-explicit-emits': 'error',
+    'vue/no-v-model-argument': 'off',
 
     // allow async-await
     'generator-star-spacing': 'off',

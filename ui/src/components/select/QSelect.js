@@ -16,12 +16,10 @@ import { stop, prevent, stopAndPrevent } from '../../utils/event.js'
 import { normalizeToInterval } from '../../utils/format.js'
 import { shouldIgnoreKey, isKeyCode } from '../../utils/key-composition.js'
 import { mergeSlot } from '../../utils/slot.js'
-import cache from '../../utils/cache.js'
 
 import { FormFieldMixin } from '../../mixins/form.js'
 import VirtualScroll from '../../mixins/virtual-scroll.js'
 import CompositionMixin from '../../mixins/composition.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 const validateNewValueMode = v => ['add', 'add-unique', 'toggle'].includes(v)
 const reEscapeList = '.*+?^${}()|[]\\'
@@ -33,18 +31,17 @@ export default defineComponent({
     QField,
     VirtualScroll,
     CompositionMixin,
-    FormFieldMixin,
-    ListenersMixin
+    FormFieldMixin
   ],
 
   props: {
-    value: {
+    modelValue: {
       required: true
     },
 
     multiple: Boolean,
 
-    displayValue: [String, Number],
+    displayValue: [ String, Number ],
     displayValueSanitize: Boolean,
     dropdownIcon: String,
 
@@ -53,15 +50,15 @@ export default defineComponent({
       default: () => []
     },
 
-    optionValue: [Function, String],
-    optionLabel: [Function, String],
-    optionDisable: [Function, String],
+    optionValue: [ Function, String ],
+    optionLabel: [ Function, String ],
+    optionDisable: [ Function, String ],
 
     hideSelected: Boolean,
     hideDropdownIcon: Boolean,
     fillInput: Boolean,
 
-    maxValues: [Number, String],
+    maxValues: [ Number, String ],
 
     optionsDense: Boolean,
     optionsDark: {
@@ -79,7 +76,7 @@ export default defineComponent({
     menuOffset: Array,
 
     popupContentClass: String,
-    popupContentStyle: [String, Array, Object],
+    popupContentStyle: [ String, Array, Object ],
 
     useInput: Boolean,
     useChips: Boolean,
@@ -93,15 +90,15 @@ export default defineComponent({
     emitValue: Boolean,
 
     inputDebounce: {
-      type: [Number, String],
+      type: [ Number, String ],
       default: 500
     },
 
-    inputClass: [Array, String, Object],
-    inputStyle: [Array, String, Object],
+    inputClass: [ Array, String, Object ],
+    inputStyle: [ Array, String, Object ],
 
     tabindex: {
-      type: [String, Number],
+      type: [ String, Number ],
       default: 0
     },
 
@@ -110,10 +107,16 @@ export default defineComponent({
 
     behavior: {
       type: String,
-      validator: v => ['default', 'menu', 'dialog'].includes(v),
+      validator: v => [ 'default', 'menu', 'dialog' ].includes(v),
       default: 'default'
     }
   },
+
+  emits: [
+    'add', 'remove', 'new-value', 'input-value',
+    'keyup', 'keypress', 'keydown',
+    'filter-abort', 'filter'
+  ],
 
   data () {
     return {
@@ -177,13 +180,17 @@ export default defineComponent({
     },
 
     computedInputClass () {
+      let cls = 'q-field__input q-placeholder col'
+
       if (this.hideSelected === true || this.innerValue.length === 0) {
-        return this.inputClass
+        return [ cls, this.inputClass ]
       }
 
+      cls += ' q-field__input--padding'
+
       return this.inputClass === void 0
-        ? 'q-field__input--padding'
-        : [this.inputClass, 'q-field__input--padding']
+        ? cls
+        : [ cls, this.inputClass ]
     },
 
     menuContentClass () {
@@ -194,8 +201,8 @@ export default defineComponent({
     innerValue () {
       const
         mapNull = this.mapOptions === true && this.multiple !== true,
-        val = this.value !== void 0 && (this.value !== null || mapNull === true)
-          ? (this.multiple === true && Array.isArray(this.value) ? this.value : [ this.value ])
+        val = this.modelValue !== void 0 && (this.modelValue !== null || mapNull === true)
+          ? (this.multiple === true && Array.isArray(this.modelValue) ? this.modelValue : [ this.modelValue ])
           : []
 
       if (this.mapOptions === true && Array.isArray(this.options) === true) {
@@ -204,7 +211,7 @@ export default defineComponent({
           : []
         const values = val.map(v => this.__getOption(v, cache))
 
-        return this.value === null && mapNull === true
+        return this.modelValue === null && mapNull === true
           ? values.filter(v => v !== null)
           : values
       }
@@ -282,11 +289,14 @@ export default defineComponent({
         }
 
         const itemEvents = {
-          click: () => { this.toggleOption(opt) }
+          onClick: () => {
+            console.log('toggling')
+            this.toggleOption(opt)
+          }
         }
 
         if (this.$q.platform.is.desktop === true) {
-          itemEvents.mousemove = () => { this.setOptionIndex(index) }
+          itemEvents.onMousemove = () => { this.setOptionIndex(index) }
         }
 
         return {
@@ -346,25 +356,25 @@ export default defineComponent({
     },
 
     inputControlEvents () {
-      const on = {
-        input: this.__onInput,
+      const evt = {
+        onInput: this.__onInput,
         // Safari < 10.2 & UIWebView doesn't fire compositionend when
         // switching focus before confirming composition choice
         // this also fixes the issue where some browsers e.g. iOS Chrome
         // fires "change" instead of "input" on autocomplete.
-        change: this.__onChange,
-        keydown: this.__onTargetKeydown,
-        keyup: this.__onTargetKeyup,
-        keypress: this.__onTargetKeypress,
-        focus: this.__selectInputText,
-        click: e => {
+        onChange: this.__onChange,
+        onKeydown: this.__onTargetKeydown,
+        onKeyup: this.__onTargetKeyup,
+        onKeypress: this.__onTargetKeypress,
+        onFocus: this.__selectInputText,
+        onClick: e => {
           this.hasDialog === true && stop(e)
         }
       }
 
-      on.compositionstart = on.compositionupdate = on.compositionend = this.__onComposition
+      evt.onCompositionstart = evt.onCompositionupdate = evt.onCompositionend = this.__onComposition
 
-      return on
+      return evt
     }
   },
 
@@ -378,12 +388,12 @@ export default defineComponent({
     removeAtIndex (index) {
       if (index > -1 && index < this.innerValue.length) {
         if (this.multiple === true) {
-          const model = this.value.slice()
+          const model = this.modelValue.slice()
           this.$emit('remove', { index, value: model.splice(index, 1)[0] })
-          this.$emit('input', model)
+          this.$emit('update:modelValue', model)
         }
         else {
-          this.$emit('input', null)
+          this.$emit('update:modelValue', null)
         }
       }
     },
@@ -403,13 +413,13 @@ export default defineComponent({
           true
         )
 
-        this.$emit('input', val)
+        this.$emit('update:modelValue', val)
         return
       }
 
       if (this.innerValue.length === 0) {
         this.$emit('add', { index: 0, value: val })
-        this.$emit('input', this.multiple === true ? [ val ] : val)
+        this.$emit('update:modelValue', this.multiple === true ? [ val ] : val)
         return
       }
 
@@ -417,15 +427,15 @@ export default defineComponent({
         return
       }
 
-      if (this.maxValues !== void 0 && this.value.length >= this.maxValues) {
+      if (this.maxValues !== void 0 && this.modelValue.length >= this.maxValues) {
         return
       }
 
-      const model = this.value.slice()
+      const model = this.modelValue.slice()
 
       this.$emit('add', { index: model.length, value: val })
       model.push(val)
-      this.$emit('input', model)
+      this.$emit('update:modelValue', model)
     },
 
     toggleOption (opt, keepOpen) {
@@ -449,7 +459,7 @@ export default defineComponent({
         this.$refs.target !== void 0 && this.$refs.target.focus()
 
         if (isDeepEqual(this.getOptionValue(this.innerValue[0]), optValue) !== true) {
-          this.$emit('input', this.emitValue === true ? optValue : opt)
+          this.$emit('update:modelValue', this.emitValue === true ? optValue : opt)
         }
         return
       }
@@ -461,7 +471,7 @@ export default defineComponent({
       if (this.innerValue.length === 0) {
         const val = this.emitValue === true ? optValue : opt
         this.$emit('add', { index: 0, value: val })
-        this.$emit('input', this.multiple === true ? [ val ] : val)
+        this.$emit('update:modelValue', this.multiple === true ? [ val ] : val)
         return
       }
 
@@ -483,7 +493,7 @@ export default defineComponent({
         model.push(val)
       }
 
-      this.$emit('input', model)
+      this.$emit('update:modelValue', model)
     },
 
     setOptionIndex (index) {
@@ -608,7 +618,7 @@ export default defineComponent({
       }
 
       const newValueModeValid = this.inputValue.length > 0 &&
-        (this.newValueMode !== void 0 || this.qListeners['new-value'] !== void 0)
+        (this.newValueMode !== void 0 || this.$attrs['onNew-value'] !== void 0)
       const tabShouldSelect = e.shiftKey !== true &&
         this.multiple !== true &&
         (this.optionIndex > -1 || newValueModeValid === true)
@@ -644,9 +654,9 @@ export default defineComponent({
         this.multiple === true &&
         this.hideSelected !== true &&
         this.inputValue.length === 0 &&
-        Array.isArray(this.value)
+        Array.isArray(this.modelValue)
       ) {
-        this.removeAtIndex(this.value.length - 1)
+        this.removeAtIndex(this.modelValue.length - 1)
         return
       }
 
@@ -754,7 +764,7 @@ export default defineComponent({
           }
         }
 
-        if (this.qListeners['new-value'] !== void 0) {
+        if (this.$attrs['onNew-value'] !== void 0) {
           this.$emit('new-value', this.inputValue, done)
         }
         else {
@@ -778,8 +788,8 @@ export default defineComponent({
       return this.hasDialog === true
         ? this.$refs.menuContent
         : (
-          this.$refs.menu !== void 0 && this.$refs.menu.__portal !== void 0
-            ? this.$refs.menu.__portal.$el
+          this.$refs.menu !== void 0 && this.$refs.menu.$refs.inner !== void 0
+            ? this.$refs.menu.$refs.inner
             : void 0
         )
     },
@@ -793,11 +803,7 @@ export default defineComponent({
         return fromDialog === true || this.dialog !== true || this.hasDialog !== true
           ? []
           : [
-            h('span', {
-              domProps: {
-                textContent: this.inputValue
-              }
-            })
+            h('span', { textContent: this.inputValue })
           ]
       }
 
@@ -812,109 +818,39 @@ export default defineComponent({
       if (this.useChips === true) {
         return this.selectedScope.map((scope, i) => h(QChip, {
           key: 'option-' + i,
-          props: {
-            removable: this.editable === true && this.isOptionDisabled(scope.opt) !== true,
-            dense: true,
-            textColor: this.color,
-            tabindex: this.computedTabindex
-          },
-          on: cache(this, 'rem#' + i, {
-            remove () { scope.removeAtIndex(i) }
-          })
-        }, [
+          removable: this.editable === true && this.isOptionDisabled(scope.opt) !== true,
+          dense: true,
+          textColor: this.color,
+          tabindex: this.computedTabindex,
+          onRemove () { scope.removeAtIndex(i) }
+        }, () => [
           h('span', {
-            staticClass: 'ellipsis',
-            domProps: {
-              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
-            }
+            class: 'ellipsis',
+            [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
           })
         ]))
       }
 
       return [
         h('span', {
-          domProps: {
-            [this.displayAsText ? 'textContent' : 'innerHTML']: this.displayValue !== void 0
-              ? this.displayValue
-              : this.selectedString
-          }
+          [this.displayAsText ? 'textContent' : 'innerHTML']: this.displayValue !== void 0
+            ? this.displayValue
+            : this.selectedString
         })
       ]
     },
 
-    __getControl (fromDialog) {
-      const child = this.__getSelection(fromDialog)
-      const isTarget = fromDialog === true || this.dialog !== true || this.hasDialog !== true
-
-      if (isTarget === true && this.useInput === true) {
-        child.push(this.__getInput(fromDialog))
-      }
-      else if (this.editable === true) {
-        isTarget === true && child.push(
-          h('div', {
-            // there can be only one (when dialog is opened the control in dialog should be target)
-            ref: 'target',
-            key: 'd_t',
-            staticClass: 'no-outline',
-            attrs: {
-              id: this.targetUid,
-              tabindex: this.tabindex
-            },
-            on: cache(this, 'f-tget', {
-              keydown: this.__onTargetKeydown,
-              keyup: this.__onTargetKeyup,
-              keypress: this.__onTargetKeypress
-            })
-          })
-        )
-
-        this.qAttrs.autocomplete !== void 0 && child.push(
-          h('input', {
-            staticClass: 'q-select__autocomplete-input no-outline',
-            attrs: { autocomplete: this.qAttrs.autocomplete },
-            on: cache(this, 'autoinp', {
-              keyup: this.__onTargetAutocomplete
-            })
-          })
-        )
-      }
-
-      if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
-        const opts = this.innerOptionsValue.map(value => h('option', {
-          attrs: { value, selected: true }
-        }))
-
-        child.push(
-          h('select', {
-            staticClass: 'hidden',
-            attrs: {
-              name: this.nameProp,
-              multiple: this.multiple
-            }
-          }, opts)
-        )
-      }
-
-      return h('div', { staticClass: 'q-field__native row items-center', attrs: this.qAttrs }, child)
-    },
-
     __getOptions () {
-      if (this.menu !== true) {
-        return void 0
-      }
-
       const fn = this.$slots.option !== void 0
         ? this.$slots.option
         : scope => h(QItem, {
           key: scope.index,
-          props: scope.itemProps,
-          on: scope.itemEvents
-        }, [
-          h(QItemSection, [
+          ...scope.itemProps,
+          ...scope.itemEvents
+        }, () => [
+          h(QItemSection, () => [
             h(QItemLabel, {
-              domProps: {
-                [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
-              }
+              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
             })
           ])
         ])
@@ -928,45 +864,38 @@ export default defineComponent({
       return mergeSlot(options, this, 'after-options')
     },
 
-    __getInnerAppend () {
-      return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
-        ? [
-          h(QIcon, {
-            staticClass: 'q-select__dropdown-icon',
-            props: { name: this.dropdownArrowIcon }
-          })
-        ]
-        : null
-    },
-
     __getInput (fromDialog) {
-      const options = {
+      const data = {
         ref: 'target',
         key: 'i_t',
-        staticClass: 'q-field__input q-placeholder col',
-        style: this.inputStyle,
         class: this.computedInputClass,
-        domProps: { value: this.inputValue !== void 0 ? this.inputValue : '' },
-        attrs: {
-          // required for Android in order to show ENTER key when in form
-          type: 'search',
-          ...this.qAttrs,
-          id: this.targetUid,
-          maxlength: this.maxlength, // this is converted to prop by QField
-          tabindex: this.tabindex,
-          'data-autofocus': fromDialog === true ? false : this.autofocus,
-          disabled: this.disable === true,
-          readonly: this.readonly === true
-        },
-        on: this.inputControlEvents
+        style: this.inputStyle,
+        value: this.inputValue !== void 0 ? this.inputValue : '',
+        // required for Android in order to show ENTER key when in form
+        type: 'search',
+        // TODO vue3 - verify only attributes are passed in
+        ...this.$attrs,
+        id: this.targetUid,
+        maxlength: this.maxlength, // this is converted to prop by QField
+        tabindex: this.tabindex,
+        'data-autofocus': fromDialog === true ? false : this.autofocus,
+        disabled: this.disable === true,
+        readonly: this.readonly === true,
+        ...this.inputControlEvents
       }
 
       if (fromDialog !== true && this.hasDialog === true) {
-        options.staticClass += ' no-pointer-events'
-        options.attrs.readonly = true
+        data.readonly = true
+
+        if (Array.isArray(data.class) === true) {
+          data.class[0] += ' no-pointer-events'
+        }
+        else {
+          data.class += ' no-pointer-events'
+        }
       }
 
-      return h('input', options)
+      return h('input', data)
     },
 
     __onChange (e) {
@@ -993,7 +922,7 @@ export default defineComponent({
         this.__focus()
       }
 
-      if (this.qListeners.filter !== void 0) {
+      if (this.$attrs.onFilter !== void 0) {
         this.inputTimer = setTimeout(() => {
           this.filter(this.inputValue)
         }, this.inputDebounce)
@@ -1022,7 +951,7 @@ export default defineComponent({
     },
 
     filter (val) {
-      if (this.qListeners.filter === void 0 || this.focused !== true) {
+      if (this.$attrs.onFilter === void 0 || this.focused !== true) {
         return
       }
 
@@ -1085,7 +1014,7 @@ export default defineComponent({
     },
 
     __getControlEvents () {
-      const focusout = e => {
+      const onFocusout = e => {
         this.__onControlFocusout(e, () => {
           this.__resetInputValue()
           this.__closeMenu()
@@ -1093,16 +1022,16 @@ export default defineComponent({
       }
 
       return {
-        focusin: this.__onControlFocusin,
-        focusout,
-        'popup-show': this.__onControlPopupShow,
-        'popup-hide': e => {
+        onFocusin: this.__onControlFocusin,
+        onFocusout,
+        'onPopup-show': this.__onControlPopupShow,
+        'onPopup-hide': e => {
           e !== void 0 && stop(e)
-          this.$emit('popup-hide', e)
+          // this.$emit('popup-hide', e)
           this.hasPopupOpen = false
-          focusout(e)
+          onFocusout(e)
         },
-        click: e => {
+        onClick: e => {
           if (this.hasDialog !== true) {
             // label from QField will propagate click on the input (except IE)
             if (
@@ -1124,51 +1053,35 @@ export default defineComponent({
       }
     },
 
-    __getControlChild () {
-      if (
-        this.editable !== false && (
-          this.dialog === true || // dialog always has menu displayed, so need to render it
-          this.noOptions !== true ||
-          this.$slots['no-option'] !== void 0
-        )
-      ) {
-        return this[`__get${this.hasDialog === true ? 'Dialog' : 'Menu'}`]()
-      }
-    },
-
     __getMenu () {
       const child = this.noOptions === true
         ? (
           this.$slots['no-option'] !== void 0
-            ? this.$slots['no-option']({ inputValue: this.inputValue })
-            : null
+            ? () => this.$slots['no-option']({ inputValue: this.inputValue })
+            : void 0
         )
-        : this.__getOptions()
+        : this.__getOptions
 
       return h(QMenu, {
         ref: 'menu',
-        props: {
-          value: this.menu,
-          fit: this.menuShrink !== true,
-          cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
-          anchor: this.menuAnchor,
-          self: this.menuSelf,
-          offset: this.menuOffset,
-          contentClass: this.menuContentClass,
-          contentStyle: this.popupContentStyle,
-          dark: this.isOptionsDark,
-          noParentEvent: true,
-          noRefocus: true,
-          noFocus: true,
-          square: this.squaredMenu,
-          transitionShow: this.transitionShow,
-          transitionHide: this.transitionHide,
-          separateClosePopup: true
-        },
-        on: cache(this, 'menu', {
-          '&scroll': this.__onVirtualScrollEvt,
-          'before-hide': this.__closeMenu
-        })
+        modelValue: this.menu,
+        fit: this.menuShrink !== true,
+        cover: this.optionsCover === true && this.noOptions !== true && this.useInput !== true,
+        anchor: this.menuAnchor,
+        self: this.menuSelf,
+        offset: this.menuOffset,
+        contentClass: this.menuContentClass,
+        contentStyle: this.popupContentStyle,
+        dark: this.isOptionsDark,
+        noParentEvent: true,
+        noRefocus: true,
+        noFocus: true,
+        square: this.squaredMenu,
+        transitionShow: this.transitionShow,
+        transitionHide: this.transitionHide,
+        separateClosePopup: true,
+        onScrollPassive: this.__onVirtualScrollEvt,
+        'onBefore-hide': this.__closeMenu
       }, child)
     },
 
@@ -1189,40 +1102,33 @@ export default defineComponent({
     __getDialog () {
       const content = [
         h(QField, {
-          staticClass: `col-auto ${this.fieldClass}`,
-          props: {
-            ...this.$props,
-            for: this.targetUid,
-            dark: this.isOptionsDark,
-            square: true,
-            loading: this.innerLoading,
-            filled: true,
-            stackLabel: this.inputValue.length > 0
-          },
-          on: {
-            ...this.qListeners,
-            focus: this.__onDialogFieldFocus,
-            blur: this.__onDialogFieldBlur
-          },
-          scopedSlots: {
-            ...this.$slots,
-            rawControl: () => this.__getControl(true),
-            before: void 0,
-            after: void 0
-          }
+          class: `col-auto ${this.fieldClass}`,
+          ...this.$props,
+          for: this.targetUid,
+          dark: this.isOptionsDark,
+          square: true,
+          loading: this.innerLoading,
+          filled: true,
+          stackLabel: this.inputValue.length > 0,
+          // TODO vue3 - attach only listeners
+          // ...this.qListeners,
+          onFocus: this.__onDialogFieldFocus,
+          onBlur: this.__onDialogFieldBlur
+        }, {
+          ...this.$slots,
+          rawControl: () => this.field.getControl(true),
+          before: void 0,
+          after: void 0
         })
       ]
 
       this.menu === true && content.push(
         h('div', {
           ref: 'menuContent',
-          staticClass: 'scroll',
-          class: this.menuContentClass,
+          class: this.menuContentClass + ' scroll',
           style: this.popupContentStyle,
-          on: cache(this, 'virtMenu', {
-            click: prevent,
-            '&scroll': this.__onVirtualScrollEvt
-          })
+          onClick: prevent,
+          onScrollPassive: this.__onVirtualScrollEvt
         }, (
           this.noOptions === true
             ? (
@@ -1236,21 +1142,17 @@ export default defineComponent({
 
       return h(QDialog, {
         ref: 'dialog',
-        props: {
-          value: this.dialog,
-          dark: this.isOptionsDark,
-          position: this.useInput === true ? 'top' : void 0,
-          transitionShow: this.transitionShowComputed,
-          transitionHide: this.transitionHide
-        },
-        on: cache(this, 'dialog', {
-          'before-hide': this.__onDialogBeforeHide,
-          hide: this.__onDialogHide,
-          show: this.__onDialogShow
-        })
-      }, [
+        modelValue: this.dialog,
+        dark: this.isOptionsDark,
+        position: this.useInput === true ? 'top' : void 0,
+        transitionShow: this.transitionShowComputed,
+        transitionHide: this.transitionHide,
+        'onBefore-hide': this.__onDialogBeforeHide,
+        onHide: this.__onDialogHide,
+        onShow: this.__onDialogShow
+      }, () => [
         h('div', {
-          staticClass: 'q-select__dialog' +
+          class: 'q-select__dialog' +
             (this.isOptionsDark === true ? ' q-select__dialog--dark q-dark' : '') +
             (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
         }, content)
@@ -1318,7 +1220,7 @@ export default defineComponent({
         this.__focus()
       }
 
-      if (this.qListeners.filter !== void 0) {
+      if (this.$attrs.onFilter !== void 0) {
         this.filter(this.inputValue)
       }
       else if (this.noOptions !== true || this.$slots['no-option'] !== void 0) {
@@ -1356,29 +1258,106 @@ export default defineComponent({
       this.setOptionIndex(optionIndex)
     },
 
-    __onPreRender () {
-      this.hasDialog = this.$q.platform.is.mobile !== true && this.behavior !== 'dialog'
-        ? false
-        : this.behavior !== 'menu' && (
-          this.useInput === true
-            ? this.$slots['no-option'] !== void 0 || this.qListeners.filter !== void 0 || this.noOptions === false
-            : true
-        )
-
-      this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
-        ? 'fade'
-        : this.transitionShow
-    },
-
-    __onPostRender () {
-      if (this.dialog === false && this.$refs.menu !== void 0) {
-        this.$refs.menu.updatePosition()
-      }
-    },
-
     updateMenuPosition () {
-      this.__onPostRender()
+      this.field.onPostRender()
     }
+  },
+
+  created () {
+    Object.assign(this.field, {
+      onPreRender: () => {
+        this.hasDialog = this.$q.platform.is.mobile !== true && this.behavior !== 'dialog'
+          ? false
+          : this.behavior !== 'menu' && (
+            this.useInput === true
+              ? this.$slots['no-option'] !== void 0 || this.$attrs.onFilter !== void 0 || this.noOptions === false
+              : true
+          )
+
+        this.transitionShowComputed = this.hasDialog === true && this.useInput === true && this.$q.platform.is.ios === true
+          ? 'fade'
+          : this.transitionShow
+      },
+
+      onPostRender: () => {
+        if (this.dialog === false && this.$refs.menu !== void 0) {
+          this.$refs.menu.updatePosition()
+        }
+      },
+
+      getControlChild: () => {
+        if (
+          this.editable !== false && (
+            this.dialog === true || // dialog always has menu displayed, so need to render it
+            this.noOptions !== true ||
+            this.$slots['no-option'] !== void 0
+          )
+        ) {
+          return this[`__get${this.hasDialog === true ? 'Dialog' : 'Menu'}`]()
+        }
+      },
+
+      getControl: fromDialog => {
+        const child = this.__getSelection(fromDialog)
+        const isTarget = fromDialog === true || this.dialog !== true || this.hasDialog !== true
+
+        if (isTarget === true && this.useInput === true) {
+          child.push(this.__getInput(fromDialog))
+        }
+        else if (this.editable === true) {
+          isTarget === true && child.push(
+            h('div', {
+              // there can be only one (when dialog is opened the control in dialog should be target)
+              ref: 'target',
+              key: 'd_t',
+              class: 'no-outline',
+              id: this.targetUid,
+              tabindex: this.tabindex,
+              onKeydown: this.__onTargetKeydown,
+              onKeyup: this.__onTargetKeyup,
+              onKeypress: this.__onTargetKeypress
+            })
+          )
+
+          this.$attrs.autocomplete !== void 0 && child.push(
+            h('input', {
+              class: 'q-select__autocomplete-input no-outline',
+              autocomplete: this.$attrs.autocomplete,
+              onKeyup: this.__onTargetAutocomplete
+            })
+          )
+        }
+
+        if (this.nameProp !== void 0 && this.disable !== true && this.innerOptionsValue.length > 0) {
+          const opts = this.innerOptionsValue.map(value => h('option', { value, selected: true }))
+
+          child.push(
+            h('select', {
+              class: 'hidden',
+              name: this.nameProp,
+              multiple: this.multiple
+            }, opts)
+          )
+        }
+
+        return h('div', {
+          class: 'q-field__native row items-center',
+          // TODO vue3 - ensure only attributes are attached
+          ...this.$attrs
+        }, child)
+      },
+
+      getInnerAppend: () => {
+        return this.loading !== true && this.innerLoading !== true && this.hideDropdownIcon !== true
+          ? [
+            h(QIcon, {
+              class: 'q-select__dropdown-icon',
+              name: this.dropdownArrowIcon
+            })
+          ]
+          : null
+      }
+    })
   },
 
   beforeUnmount () {

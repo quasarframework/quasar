@@ -149,7 +149,7 @@ export default defineComponent({
 
   methods: {
     focus () {
-      let node = this.__getInnerNode()
+      let node = this.$refs.inner
 
       if (node === void 0 || node.contains(document.activeElement) === true) {
         return
@@ -163,7 +163,7 @@ export default defineComponent({
       this.focus()
       this.$emit('shake')
 
-      const node = this.__getInnerNode()
+      const node = this.$refs.inner
 
       if (node !== void 0) {
         node.classList.remove('q-animate--scale')
@@ -175,12 +175,6 @@ export default defineComponent({
       }
     },
 
-    __getInnerNode () {
-      return this.__portal !== void 0 && this.__portal.$refs !== void 0
-        ? this.__portal.$refs.inner
-        : void 0
-    },
-
     __show (evt) {
       this.__addHistory()
 
@@ -189,7 +183,7 @@ export default defineComponent({
         ? document.activeElement
         : void 0
 
-      // TODO vue3 - dispatchEvent
+      // TODO vue3 - popup-show
       // this.$el.dispatchEvent(create('popup-show', { bubbles: true }))
       this.__updateMaximized(this.maximized)
 
@@ -246,7 +240,7 @@ export default defineComponent({
           }
 
           // required in order to avoid the "double-tap needed" issue
-          this.__portal.$el.click()
+          this.$refs.inner.click()
         }
 
         this.$emit('show', evt)
@@ -329,8 +323,8 @@ export default defineComponent({
       // the focus is not in a vue child component
       if (
         this.showing === true &&
-        this.__portal !== void 0 &&
-        childHasFocus(this.__portal.$el, e.target) !== true
+        this.__portal === true &&
+        childHasFocus(this.$refs.inner, e.target) !== true
       ) {
         this.focus()
       }

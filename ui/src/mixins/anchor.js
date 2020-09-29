@@ -201,7 +201,7 @@ export default {
     this.__pickAnchorEl()
 
     if (this.value === true && this.anchorEl === void 0) {
-      this.$emit('input', false)
+      this.$emit('update:modelValue', false)
     }
   },
 
