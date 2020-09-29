@@ -3,7 +3,6 @@ import { h, defineComponent, withDirectives } from 'vue'
 import TouchPan from '../../directives/TouchPan.js'
 
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { slot } from '../../utils/slot.js'
 import { cacheWithFn } from '../../utils/cache.js'
@@ -18,7 +17,7 @@ const slotsDef = [
 export default defineComponent({
   name: 'QSlideItem',
 
-  mixins: [ DarkMixin, ListenersMixin ],
+  mixins: [ DarkMixin ],
 
   props: {
     leftColor: String,

@@ -23,9 +23,7 @@ function run (e, btn, vm) {
 }
 
 function __getGroup (children) {
-  return h('div', {
-    staticClass: 'q-editor__toolbar-group'
-  }, children)
+  return h('div', { class: 'q-editor__toolbar-group' }, children)
 }
 
 function getBtn (vm, btn, clickHandler, active = false) {
@@ -33,38 +31,35 @@ function getBtn (vm, btn, clickHandler, active = false) {
     toggled = active || (btn.type === 'toggle'
       ? (btn.toggled ? btn.toggled(vm) : btn.cmd && vm.caret.is(btn.cmd, btn.param))
       : false),
-    child = [],
-    events = {
-      click (e) {
-        clickHandler && clickHandler()
-        run(e, btn, vm)
-      }
-    }
+    child = []
 
   if (btn.tip && vm.$q.platform.is.desktop) {
     const Key = btn.key
-      ? h('div', [h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)])
+      ? h('div', [
+        h('small', `(CTRL + ${String.fromCharCode(btn.key)})`)
+      ])
       : null
     child.push(
-      h(QTooltip, { props: { delay: 1000 } }, [
-        h('div', { domProps: { innerHTML: btn.tip } }),
+      h(QTooltip, { delay: 1000 }, () => [
+        h('div', { innerHTML: btn.tip }),
         Key
       ])
     )
   }
 
   return h(QBtn, {
-    props: {
-      ...vm.buttonProps,
-      icon: btn.icon,
-      color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
-      textColor: toggled && !vm.toolbarPush ? null : btn.textColor || vm.toolbarTextColor,
-      label: btn.label,
-      disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false,
-      size: 'sm'
-    },
-    on: events
-  }, child)
+    ...vm.buttonProps,
+    icon: btn.icon,
+    color: toggled ? btn.toggleColor || vm.toolbarToggleColor : btn.color || vm.toolbarColor,
+    textColor: toggled && !vm.toolbarPush ? null : btn.textColor || vm.toolbarTextColor,
+    label: btn.label,
+    disable: btn.disable ? (typeof btn.disable === 'function' ? btn.disable(vm) : true) : false,
+    size: 'sm',
+    onClick (e) {
+      clickHandler && clickHandler()
+      run(e, btn, vm)
+    }
+  }, () => child)
 }
 
 function getDropdown (vm, btn) {
@@ -117,62 +112,54 @@ function getDropdown (vm, btn) {
 
       const htmlTip = btn.htmlTip
 
-      return h(
-        QItem,
-        {
-          props: { active, activeClass, clickable: true, disable: disable, dense: true },
-          on: {
-            click (e) {
-              closeDropdown()
-              vm.$refs.content && vm.$refs.content.focus()
-              vm.caret.restore()
-              run(e, btn, vm)
-            }
-          }
-        },
-        [
-          btn.list === 'no-icons'
-            ? null
-            : h(QItemSection, {
-              class: active ? activeClass : inactiveClass,
-              props: { side: true }
-            }, [
-              h(QIcon, { props: { name: btn.icon } })
-            ]),
+      return h(QItem, {
+        active,
+        activeClass,
+        clickable: true,
+        disable: disable,
+        dense: true,
+        onClick (e) {
+          closeDropdown()
+          vm.$refs.content && vm.$refs.content.focus()
+          vm.caret.restore()
+          run(e, btn, vm)
+        }
+      }, () => [
+        btn.list === 'no-icons'
+          ? null
+          : h(QItemSection, {
+            class: active ? activeClass : inactiveClass,
+            side: true
+          }, () => [
+            h(QIcon, { name: btn.icon })
+          ]),
 
-          h(QItemSection, [
-            htmlTip
-              ? h('div', {
-                domProps: { innerHTML: btn.htmlTip }
-              })
-              : (btn.tip ? h('div', [ btn.tip ]) : null)
-          ])
-        ]
-      )
+        h(
+          QItemSection,
+          htmlTip
+            ? () => [ h('div', { innerHTML: btn.htmlTip }) ]
+            : (btn.tip ? () => h('div', btn.tip) : void 0)
+        )
+      ])
     })
-    contentClass = [vm.toolbarBackgroundClass, inactiveClass]
+    contentClass = [ vm.toolbarBackgroundClass, inactiveClass ]
     Items = [
-      h(QList, [ Items ])
+      h(QList, () => [ Items ])
     ]
   }
 
   const highlight = btn.highlight && label !== btn.label
-  const Dropdown = h(
-    QBtnDropdown,
-    {
-      props: {
-        ...vm.buttonProps,
-        noCaps: true,
-        noWrap: true,
-        color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
-        textColor: highlight && !vm.toolbarPush ? null : vm.toolbarTextColor,
-        label: btn.fixedLabel ? btn.label : label,
-        icon: btn.fixedIcon ? btn.icon : icon,
-        contentClass
-      }
-    },
-    Items
-  )
+  const Dropdown = h(QBtnDropdown, {
+    ...vm.buttonProps,
+    noCaps: true,
+    noWrap: true,
+    color: highlight ? vm.toolbarToggleColor : vm.toolbarColor,
+    textColor: highlight && !vm.toolbarPush ? null : vm.toolbarTextColor,
+    label: btn.fixedLabel ? btn.label : label,
+    icon: btn.fixedIcon ? btn.icon : icon,
+    contentClass
+  }, () => Items)
+
   return Dropdown
 }
 
@@ -183,7 +170,6 @@ export function getToolbar (vm) {
         return !vm.isViewingSource || f.find(fb => fb.cmd === 'viewsource')
       })
       .map(group => __getGroup(
-        h,
         group.map(btn => {
           if (vm.isViewingSource && btn.cmd !== 'viewsource') {
             return false
@@ -249,69 +235,57 @@ export function getLinkEditor (vm, ie11) {
     }
 
     return [
-      h('div', { staticClass: 'q-mx-xs', 'class': `text-${color}` }, [`${vm.$q.lang.editor.url}: `]),
+      h('div', { class: `q-mx-xs text-${color}` }, `${vm.$q.lang.editor.url}: `),
       h(QInput, {
         key: 'qedt_btm_input',
-        staticClass: 'q-ma-none q-pa-none col q-editor-input',
-        props: {
-          value: link,
-          color,
-          autofocus: true,
-          borderless: true,
-          dense: true
-        },
-        on: {
-          input: val => { link = val },
-          keydown: event => {
-            if (shouldIgnoreKey(event) === true) {
-              return
-            }
+        class: 'q-ma-none q-pa-none col q-editor-input',
+        modelValue: link,
+        color,
+        autofocus: true,
+        borderless: true,
+        dense: true,
+        'onUpdate:modelValue': val => { link = val },
+        onKeydown: event => {
+          if (shouldIgnoreKey(event) === true) {
+            return
+          }
 
-            switch (event.keyCode) {
-              case 13: // ENTER key
-                prevent(event)
-                return updateLink()
-              case 27: // ESCAPE key
-                prevent(event)
-                vm.caret.restore()
-                if (!vm.editLinkUrl || vm.editLinkUrl === 'https://') {
-                  document.execCommand('unlink')
-                }
-                vm.editLinkUrl = null
-                break
-            }
+          switch (event.keyCode) {
+            case 13: // ENTER key
+              prevent(event)
+              return updateLink()
+            case 27: // ESCAPE key
+              prevent(event)
+              vm.caret.restore()
+              if (!vm.editLinkUrl || vm.editLinkUrl === 'https://') {
+                document.execCommand('unlink')
+              }
+              vm.editLinkUrl = null
+              break
           }
         }
       }),
       __getGroup([
         h(QBtn, {
           key: 'qedt_btm_rem',
-          attrs: { tabindex: -1 },
-          props: {
-            ...vm.buttonProps,
-            label: vm.$q.lang.label.remove,
-            noCaps: true
-          },
-          on: {
-            click: () => {
-              vm.caret.restore()
-              document.execCommand('unlink')
-              vm.editLinkUrl = null
+          tabindex: -1,
+          ...vm.buttonProps,
+          label: vm.$q.lang.label.remove,
+          noCaps: true,
+          onClick: () => {
+            vm.caret.restore()
+            document.execCommand('unlink')
+            vm.editLinkUrl = null
 
-              ie11 === true && vm.$nextTick(vm.__onInput)
-            }
+            ie11 === true && vm.$nextTick(vm.__onInput)
           }
         }),
         h(QBtn, {
           key: 'qedt_btm_upd',
-          props: {
-            ...vm.buttonProps,
-            label: vm.$q.lang.label.update,
-            noCaps: true
-          },
-          on: {
-            click: updateLink
-          }
+          ...vm.buttonProps,
+          label: vm.$q.lang.label.update,
+          noCaps: true,
+          onClick: updateLink
         })
       ])
     ]

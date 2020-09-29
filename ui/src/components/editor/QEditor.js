@@ -5,7 +5,6 @@ import { Caret } from './editor-caret.js'
 
 import FullscreenMixin from '../../mixins/fullscreen.js'
 import DarkMixin from '../../mixins/dark.js'
-import ListenersMixin from '../../mixins/listeners.js'
 
 import { isSSR } from '../../plugins/Platform.js'
 import { stopAndPrevent } from '../../utils/event.js'
@@ -15,10 +14,10 @@ import { shouldIgnoreKey } from '../../utils/key-composition.js'
 export default defineComponent({
   name: 'QEditor',
 
-  mixins: [ ListenersMixin, FullscreenMixin, DarkMixin ],
+  mixins: [ FullscreenMixin, DarkMixin ],
 
   props: {
-    value: {
+    modelValue: {
       type: String,
       required: true
     },
@@ -64,6 +63,12 @@ export default defineComponent({
     dense: Boolean
   },
 
+  emits: [
+    'update:modelValue',
+    'keydown', 'click', 'mouseup', 'keyup', 'touchend',
+    'focus', 'blur'
+  ],
+
   computed: {
     editable () {
       return !this.readonly && !this.disable
@@ -74,9 +79,9 @@ export default defineComponent({
     },
 
     toolbarBackgroundClass () {
-      if (this.toolbarBg) {
-        return `bg-${this.toolbarBg}`
-      }
+      return this.toolbarBg
+        ? ` bg-${this.toolbarBg}`
+        : ''
     },
 
     buttonProps () {
@@ -252,6 +257,7 @@ export default defineComponent({
     innerClass () {
       return [
         this.contentClass,
+        'q-editor__content',
         { col: this.inFullscreen, 'overflow-auto': this.inFullscreen || this.maxHeight }
       ]
     },
@@ -268,14 +274,14 @@ export default defineComponent({
 
   data () {
     return {
-      lastEmit: this.value,
+      lastEmit: this.modelValue,
       editLinkUrl: null,
       isViewingSource: false
     }
   },
 
   watch: {
-    value (v) {
+    modelValue (v) {
       if (this.lastEmit !== v) {
         this.__setContent(v, true)
       }
@@ -289,9 +295,9 @@ export default defineComponent({
           ? this.$refs.content.innerText
           : this.$refs.content.innerHTML
 
-        if (val !== this.value) {
+        if (val !== this.modelValue) {
           this.lastEmit = val
-          this.$emit('input', val)
+          this.$emit('update:modelValue', val)
         }
       }
     },
@@ -339,21 +345,21 @@ export default defineComponent({
 
     __onMouseup (e) {
       this.caret.save()
-      if (this.qListeners.mouseup !== void 0) {
+      if (this.$attrs.onMouseup !== void 0) {
         this.$emit('mouseup', e)
       }
     },
 
     __onKeyup (e) {
       this.caret.save()
-      if (this.qListeners.keyup !== void 0) {
+      if (this.$attrs.onKeyup !== void 0) {
         this.$emit('keyup', e)
       }
     },
 
     __onTouchend (e) {
       this.caret.save()
-      if (this.qListeners.touchend !== void 0) {
+      if (this.$attrs.onTouchend !== void 0) {
         this.$emit('touchend', e)
       }
     },
@@ -406,6 +412,8 @@ export default defineComponent({
   },
 
   created () {
+    this.caret = void 0
+
     if (isSSR === false) {
       document.execCommand('defaultParagraphSeparator', false, 'div')
       this.defaultFont = window.getComputedStyle(document.body).fontFamily
@@ -414,7 +422,7 @@ export default defineComponent({
 
   mounted () {
     this.caret = new Caret(this.$refs.content, this)
-    this.__setContent(this.value)
+    this.__setContent(this.modelValue)
     this.refreshToolbar()
   },
 
@@ -425,65 +433,54 @@ export default defineComponent({
       const bars = [
         h('div', {
           key: 'qedt_top',
-          staticClass: 'q-editor__toolbar row no-wrap scroll-x',
-          class: this.toolbarBackgroundClass
+          class: 'q-editor__toolbar row no-wrap scroll-x' +
+            this.toolbarBackgroundClass
         }, getToolbar(this))
       ]
 
       this.editLinkUrl !== null && bars.push(
         h('div', {
           key: 'qedt_btm',
-          staticClass: 'q-editor__toolbar row no-wrap items-center scroll-x',
-          class: this.toolbarBackgroundClass
+          class: 'q-editor__toolbar row no-wrap items-center scroll-x' +
+            this.toolbarBackgroundClass
         }, getLinkEditor(this, this.$q.platform.is.ie))
       )
 
       toolbars = h('div', {
         key: 'toolbar_ctainer',
-        staticClass: 'q-editor__toolbars-container'
+        class: 'q-editor__toolbars-container'
       }, bars)
     }
 
-    const on = {
-      ...this.qListeners,
-      input: this.__onInput,
-      keydown: this.__onKeydown,
-      click: this.__onClick,
-      blur: this.__onBlur,
-      focus: this.__onFocus,
-
-      // save caret
-      mouseup: this.__onMouseup,
-      keyup: this.__onKeyup,
-      touchend: this.__onTouchend
-    }
-
     return h('div', {
-      style: {
-        height: this.inFullscreen === true ? '100vh' : null
-      },
       class: this.classes,
-      attrs: this.attrs
+      style: { height: this.inFullscreen === true ? '100vh' : null },
+      ...this.attrs
     }, [
       toolbars,
 
-      h(
-        'div',
-        {
-          ref: 'content',
-          staticClass: `q-editor__content`,
-          style: this.innerStyle,
-          class: this.innerClass,
-          attrs: {
-            contenteditable: this.editable,
-            placeholder: this.placeholder
-          },
-          domProps: isSSR
-            ? { innerHTML: this.value }
-            : undefined,
-          on
-        }
-      )
+      h('div', {
+        ref: 'content',
+        style: this.innerStyle,
+        class: this.innerClass,
+        contenteditable: this.editable,
+        placeholder: this.placeholder,
+        ...(isSSR === true
+          ? { innerHTML: this.modelValue }
+          : {}),
+        // TODO vue3 - qListeners
+        // ...this.qListeners,
+        onIput: this.__onInput,
+        onKeydown: this.__onKeydown,
+        onClick: this.__onClick,
+        onBlur: this.__onBlur,
+        onFocus: this.__onFocus,
+
+        // save caret
+        onMouseup: this.__onMouseup,
+        onKeyup: this.__onKeyup,
+        onTouchend: this.__onTouchend
+      })
     ])
   }
 })

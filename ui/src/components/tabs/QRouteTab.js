@@ -60,7 +60,7 @@ export default defineComponent({
             )
           }
 
-          this.qListeners.click !== void 0 && this.$emit('click', e, go)
+          this.$attrs.onClick !== void 0 && this.$emit('click', e, go)
           e.navigate !== false && go()
         }
       }

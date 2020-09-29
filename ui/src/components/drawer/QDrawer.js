@@ -586,7 +586,7 @@ export default defineComponent({
       this.showIfAbove === true &&
       this.modelValue !== true &&
       this.showing === true &&
-      this.qListeners.input !== void 0
+      this.$attrs['onUpdate:modelValue'] !== void 0
     ) {
       this.$emit('update:modelValue', true)
     }
