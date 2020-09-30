@@ -90,9 +90,7 @@ export default defineComponent({
         }))
       ].concat(
         top,
-        this.panelDirectives !== void 0
-          ? withDirectives(node, this.panelDirectives)
-          : node
+        withDirectives(node, this.panelDirectives)
       )
     },
 

@@ -48,14 +48,14 @@ export default defineComponent({
     },
 
     directives () {
-      if (this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)) {
-        return [[
+      return this.disable !== true && (onSSR !== true || this.once !== true || this.ssrPrerender !== true)
+        ? [[
           Intersection,
           this.value,
           void 0,
           { once: this.once }
         ]]
-      }
+        : []
     }
   },
 
@@ -84,8 +84,6 @@ export default defineComponent({
       : content
     )
 
-    return this.directives !== void 0
-      ? withDirectives(node, this.directives)
-      : node
+    return withDirectives(node, this.directives)
   }
 })

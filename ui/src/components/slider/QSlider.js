@@ -232,8 +232,6 @@ export default defineComponent({
       }, child)
     ])
 
-    return this.panDirective !== void 0
-      ? withDirectives(node, this.panDirective)
-      : node
+    return withDirectives(node, this.panDirective)
   }
 })

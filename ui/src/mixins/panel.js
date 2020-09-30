@@ -47,8 +47,8 @@ export const PanelParentMixin = {
 
   computed: {
     panelDirectives () {
-      if (this.swipeable === true) {
-        return [[
+      return this.swipeable === true
+        ? [[
           TouchSwipe,
           this.__swipe,
           void 0,
@@ -58,7 +58,7 @@ export const PanelParentMixin = {
             mouse: true
           }
         ]]
-      }
+        : []
     },
 
     contentKey () {

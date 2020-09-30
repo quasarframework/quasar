@@ -17,11 +17,10 @@ export default defineComponent({
 
   methods: {
     __renderPanels () {
-      const node = h('div', { class: this.classes }, this.__getPanelContent())
-
-      return this.panelDirectives !== void 0
-        ? withDirectives(node, this.panelDirectives)
-        : node
+      return withDirectives(
+        h('div', { class: this.classes }, this.__getPanelContent()),
+        this.panelDirectives
+      )
     }
   }
 })

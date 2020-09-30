@@ -651,20 +651,21 @@ export default defineComponent({
         )
       )
 
-      const node = h('div', {
-        ref: 'backdrop',
-        class: this.backdropClass,
-        'aria-hidden': 'true',
-        style: this.lastBackdropBg !== void 0
-          ? { backgroundColor: this.lastBackdropBg }
-          : null,
-        onClick: this.hide
-      })
-
       child.push(
-        this.showing === true && this.backdropCloseDirective !== void 0
-          ? withDirectives(node, this.backdropCloseDirective)
-          : node
+        withDirectives(
+          h('div', {
+            ref: 'backdrop',
+            class: this.backdropClass,
+            'aria-hidden': 'true',
+            style: this.lastBackdropBg !== void 0
+              ? { backgroundColor: this.lastBackdropBg }
+              : null,
+            onClick: this.hide
+          }),
+          this.showing === true && this.backdropCloseDirective !== void 0
+            ? this.backdropCloseDirective
+            : []
+        )
       )
     }
 
@@ -689,18 +690,19 @@ export default defineComponent({
       )
     }
 
-    const node = h('aside', {
-      ref: 'content',
-      class: this.classes,
-      style: this.style,
-      ...this.$attrs,
-      ...this.onNativeEvents
-    }, content)
-
     child.push(
-      this.belowBreakpoint === true && this.contentCloseDirective !== void 0
-        ? withDirectives(node, this.contentCloseDirective)
-        : node
+      withDirectives(
+        h('aside', {
+          ref: 'content',
+          class: this.classes,
+          style: this.style,
+          ...this.$attrs,
+          ...this.onNativeEvents
+        }, content),
+        this.belowBreakpoint === true && this.contentCloseDirective !== void 0
+          ? this.contentCloseDirective
+          : []
+      )
     )
 
     return h('div', { class: 'q-drawer-container' }, child)

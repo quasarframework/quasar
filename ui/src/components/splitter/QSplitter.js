@@ -96,8 +96,8 @@ export default defineComponent({
     },
 
     separatorDirectives () {
-      if (this.disable !== true) {
-        return [[
+      return this.disable !== true
+        ? [[
           TouchPan,
           this.__pan,
           void 0,
@@ -109,7 +109,7 @@ export default defineComponent({
             mouseAllDir: true
           }
         ]]
-      }
+        : []
     },
 
     attrs () {
@@ -194,9 +194,7 @@ export default defineComponent({
         style: this.separatorStyle,
         ...this.attrs
       }, [
-        this.separatorDirectives !== void 0
-          ? withDirectives(separator, this.separatorDirectives)
-          : separator
+        withDirectives(separator, this.separatorDirectives)
       ]),
 
       h('div', {

@@ -73,6 +73,8 @@ export default defineComponent({
           modifiers
         ]]
       }
+
+      return []
     },
 
     contentClass () {

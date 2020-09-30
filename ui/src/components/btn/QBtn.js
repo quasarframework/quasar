@@ -84,14 +84,14 @@ export default defineComponent({
     },
 
     directives () {
-      if (this.disable !== true && this.ripple !== false) {
-        return [[
+      return this.disable !== true && this.ripple !== false
+        ? [[
           Ripple,
           this.computedRipple,
           void 0,
           { center: this.round }
         ]]
-      }
+        : []
     }
   },
 
@@ -357,8 +357,6 @@ export default defineComponent({
       ...this.onEvents
     }, child)
 
-    return this.directives !== void 0
-      ? withDirectives(node, this.directives)
-      : node
+    return withDirectives(node, this.directives)
   }
 })

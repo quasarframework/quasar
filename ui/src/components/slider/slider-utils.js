@@ -182,7 +182,7 @@ export const SliderMixin = {
             mouseAllDir: true
           }
         ]]
-        : void 0
+        : []
     }
   },
 

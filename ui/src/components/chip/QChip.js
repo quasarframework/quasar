@@ -26,11 +26,6 @@ export default defineComponent({
     })
   ],
 
-  // TODO vue3 - model event
-  model: {
-    event: 'remove'
-  },
-
   props: {
     dense: Boolean,
 
@@ -42,7 +37,7 @@ export default defineComponent({
     color: String,
     textColor: String,
 
-    value: {
+    modelValue: {
       type: Boolean,
       default: true
     },
@@ -59,6 +54,8 @@ export default defineComponent({
     tabindex: [String, Number],
     disable: Boolean
   },
+
+  emits: [ 'update:modelValue', 'update:selected', 'remove', 'click' ],
 
   computed: {
     classes () {
@@ -90,6 +87,12 @@ export default defineComponent({
       return this.disable === true
         ? { tabindex: -1, 'aria-disabled': 'true' }
         : { tabindex: this.tabindex || 0 }
+    },
+
+    directives () {
+      return this.ripple !== false
+        ? [[ Ripple, this.ripple ]]
+        : []
     }
   },
 
@@ -108,7 +111,10 @@ export default defineComponent({
     __onRemove (e) {
       if (e.keyCode === void 0 || e.keyCode === 13) {
         stopAndPrevent(e)
-        !this.disable && this.$emit('remove', false)
+        if (this.disable === false) {
+          this.$emit('update:modelValue', false)
+          this.$emit('remove')
+        }
       }
     },
 
@@ -158,7 +164,7 @@ export default defineComponent({
   },
 
   render () {
-    if (this.value === false) { return }
+    if (this.modelValue === false) { return }
 
     const data = {
       class: this.classes,
@@ -176,7 +182,7 @@ export default defineComponent({
 
     return withDirectives(
       h('div', data, this.__getContent()),
-      [[ Ripple, this.ripple ]]
+      this.directives
     )
   }
 })
