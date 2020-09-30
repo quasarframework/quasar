@@ -2,12 +2,12 @@ import { h, defineComponent, Transition } from 'vue'
 
 import QBtn from '../btn/QBtn.js'
 import DateTimeMixin from '../../mixins/datetime.js'
+import CacheMixin from '../../mixins/cache.js'
 
 import { slot } from '../../utils/slot.js'
 import { formatDate, __splitDate, getDateDiff } from '../../utils/date.js'
 import { pad } from '../../utils/format.js'
 import { jalaaliMonthLength, toGregorian } from '../../utils/date-persian.js'
-import cache from '../../utils/cache.js'
 
 const yearsInterval = 20
 const views = [ 'Calendar', 'Years', 'Months' ]
@@ -18,7 +18,7 @@ const lineStr = ' \u2014 '
 export default defineComponent({
   name: 'QDate',
 
-  mixins: [ DateTimeMixin ],
+  mixins: [ CacheMixin, DateTimeMixin ],
 
   props: {
     multiple: Boolean,
@@ -820,7 +820,7 @@ export default defineComponent({
             class: 'q-date__header-subtitle q-date__header-link ' +
               (this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
             tabindex: this.computedTabindex,
-            ...cache(this, 'vY', {
+            ...this.__getCache('vY', {
               onClick: () => { this.view = 'Years' },
               onKeyup: e => { e.keyCode === 13 && (this.view = 'Years') }
             })
@@ -840,7 +840,7 @@ export default defineComponent({
               class: 'q-date__header-title-label q-date__header-link ' +
                 (this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
               tabindex: this.computedTabindex,
-              ...cache(this, 'vC', {
+              ...this.__getCache('vC', {
                 onClick: () => { this.view = 'Calendar' },
                 onKeyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
               })
@@ -873,7 +873,7 @@ export default defineComponent({
             icon: this.dateArrow[0],
             tabindex: this.computedTabindex,
             disable: boundaries.prev === false,
-            ...cache(this, 'go-#' + view, { onClick () { goTo(-1) } })
+            ...this.__getCache('go-#' + view, { onClick () { goTo(-1) } })
           })
         ]),
 
@@ -889,7 +889,7 @@ export default defineComponent({
               noCaps: true,
               label,
               tabindex: this.computedTabindex,
-              ...cache(this, 'view#' + view, { onClick: () => { this.view = view } })
+              ...this.__getCache('view#' + view, { onClick: () => { this.view = view } })
             })
           ]))
         ]),
@@ -905,7 +905,7 @@ export default defineComponent({
             icon: this.dateArrow[1],
             tabindex: this.computedTabindex,
             disable: boundaries.next === false,
-            ...cache(this, 'go+#' + view, { onClick () { goTo(1) } })
+            ...this.__getCache('go+#' + view, { onClick () { goTo(1) } })
           })
         ])
       ]
@@ -961,7 +961,7 @@ export default defineComponent({
                     textColor: day.textColor,
                     label: day.i,
                     tabindex: this.computedTabindex,
-                    ...cache(this, 'day#' + day.i, {
+                    ...this.__getCache('day#' + day.i, {
                       onClick: () => { this.__onDayClick(day.i) },
                       onMouseover: () => { this.__onDayMouseover(day.i) }
                     })
@@ -1001,7 +1001,7 @@ export default defineComponent({
             textColor: active === true ? this.computedTextColor : null,
             tabindex: this.computedTabindex,
             disable: isDisabled(i + 1),
-            ...cache(this, 'month#' + i, { onClick: () => { this.__setMonth(i + 1) } })
+            ...this.__getCache('month#' + i, { onClick: () => { this.__setMonth(i + 1) } })
           })
         ])
       })
@@ -1057,7 +1057,7 @@ export default defineComponent({
               textColor: active === true ? this.computedTextColor : null,
               tabindex: this.computedTabindex,
               disable: isDisabled(i),
-              ...cache(this, 'yr#' + i, { click: () => { this.__setYear(i) } })
+              ...this.__getCache('yr#' + i, { click: () => { this.__setYear(i) } })
             })
           ])
         )
@@ -1076,7 +1076,7 @@ export default defineComponent({
             icon: this.dateArrow[0],
             tabindex: this.computedTabindex,
             disable: isDisabled(start),
-            ...cache(this, 'y-', { onClick: () => { this.startYear -= yearsInterval } })
+            ...this.__getCache('y-', { onClick: () => { this.startYear -= yearsInterval } })
           })
         ]),
 
@@ -1094,7 +1094,7 @@ export default defineComponent({
             icon: this.dateArrow[1],
             tabindex: this.computedTabindex,
             disable: isDisabled(stop),
-            ...cache(this, 'y+', { onClick: () => { this.startYear += yearsInterval } })
+            ...this.__getCache('y+', { onClick: () => { this.startYear += yearsInterval } })
           })
         ])
       ])

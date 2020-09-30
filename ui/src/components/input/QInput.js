@@ -76,7 +76,7 @@ export default defineComponent({
         this.$nextTick(this.__adjustHeight)
       }
       // if it has a number of rows set respect it
-      else if (this.qAttrs.rows > 0 && this.$refs.input !== void 0) {
+      else if (this.$refs.input !== void 0 && this.$attrs.rows > 0) {
         const inp = this.$refs.input
         inp.style.height = 'auto'
       }

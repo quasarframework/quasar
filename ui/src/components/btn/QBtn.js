@@ -19,8 +19,6 @@ let
   keyboardTarget = void 0,
   mouseTarget = void 0
 
-const iconAttrs = { role: 'img', 'aria-hidden': 'true' }
-
 export default defineComponent({
   name: 'QBtn',
 
@@ -286,9 +284,10 @@ export default defineComponent({
 
     this.icon !== void 0 && inner.push(
       h(QIcon, {
-        ...iconAttrs,
         name: this.icon,
-        left: this.stack === false && this.hasLabel === true
+        left: this.stack === false && this.hasLabel === true,
+        role: 'img',
+        'aria-hidden': 'true'
       })
     )
 
@@ -301,9 +300,10 @@ export default defineComponent({
     if (this.iconRight !== void 0 && this.round === false) {
       inner.push(
         h(QIcon, {
-          ...iconAttrs,
           name: this.iconRight,
-          right: this.stack === false && this.hasLabel === true
+          right: this.stack === false && this.hasLabel === true,
+          role: 'img',
+          'aria-hidden': 'true'
         })
       )
     }

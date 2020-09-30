@@ -2,12 +2,11 @@ import { h, defineComponent, withDirectives } from 'vue'
 
 import StepHeader from './StepHeader.js'
 
-import { PanelParentMixin } from '../../mixins/panel.js'
 import DarkMixin from '../../mixins/dark.js'
+import { PanelParentMixin } from '../../mixins/panel.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 import { stop } from '../../utils/event.js'
-import cache from '../../utils/cache.js'
 
 export default defineComponent({
   name: 'QStepper',

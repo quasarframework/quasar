@@ -2,10 +2,10 @@ import { h, defineComponent, withDirectives } from 'vue'
 
 import { testPattern } from '../../utils/patterns.js'
 import throttle from '../../utils/throttle.js'
-import cache from '../../utils/cache.js'
 import { stop } from '../../utils/event.js'
 import { hexToRgb, rgbToHex, rgbToString, textToRgb, rgbToHsv, hsvToRgb, luminosity } from '../../utils/colors.js'
 
+import CacheMixin from '../../mixins/cache.js'
 import DarkMixin from '../../mixins/dark.js'
 import FormMixin from '../../mixins/form.js'
 
@@ -37,7 +37,7 @@ const thumbPath = 'M5 5 h10 v10 h-10 v-10 z'
 export default defineComponent({
   name: 'QColor',
 
-  mixins: [ DarkMixin, FormMixin ],
+  mixins: [ CacheMixin, DarkMixin, FormMixin ],
 
   props: {
     modelValue: String,
@@ -248,7 +248,7 @@ export default defineComponent({
             modelValue: this.topView,
             dense: true,
             align: 'justify',
-            ...cache(this, 'topVTab', {
+            ...this.__getCache('topVTab', {
               'onUpdate:modelValue': val => { this.topView = val }
             })
           }, () => [
@@ -275,7 +275,7 @@ export default defineComponent({
                 ? { readonly: true }
                 : {}
               ),
-              ...cache(this, 'topIn', {
+              ...this.__getCache('topIn', {
                 'onUpdate:modelValue': evt => {
                   this.__updateErrorIcon(this.__onEditorChange(evt) === true)
                 },
@@ -329,7 +329,7 @@ export default defineComponent({
           modelValue: this.view,
           dense: true,
           align: 'justify',
-          ...cache(this, 'ftIn', {
+          ...this.__getCache('ftIn', {
             'onUpdate:modelValue': val => { this.view = val }
           })
         }, () => [
@@ -416,7 +416,7 @@ export default defineComponent({
                 fillHandleAlways: true,
                 readonly: this.editable !== true,
                 thumbPath,
-                ...cache(this, 'alphaSlide', {
+                ...this.__getCache('alphaSlide', {
                   'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100)
                   // TODO vue3 - handle lazy update
                   // change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
@@ -439,7 +439,7 @@ export default defineComponent({
             color: 'red',
             dark: this.isDark,
             readonly: this.editable !== true,
-            ...cache(this, 'rSlide', {
+            ...this.__getCache('rSlide', {
               'onUpdate:modelValue': value => this.__onNumericChange(value, 'r', 255)
               // TODO vue3 - handle lazy update
               // change: value => this.__onNumericChange(value, 'r', 255, void 0, true)
@@ -450,7 +450,7 @@ export default defineComponent({
             maxlength: 3,
             readonly: this.editable !== true,
             onChange: stop,
-            ...cache(this, 'rIn', {
+            ...this.__getCache('rIn', {
               onInput: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt),
               onBlur: evt => this.__onNumericChange(evt.target.value, 'r', 255, evt, true)
             })
@@ -466,7 +466,7 @@ export default defineComponent({
             color: 'green',
             dark: this.isDark,
             readonly: this.editable !== true,
-            ...cache(this, 'gSlide', {
+            ...this.__getCache('gSlide', {
               'onUpdate:modelValue': value => this.__onNumericChange(value, 'g', 255)
               // TODO vue3 - handle lazy update
               // change: value => this.__onNumericChange(value, 'g', 255, void 0, true)
@@ -477,7 +477,7 @@ export default defineComponent({
             maxlength: 3,
             readonly: this.editable !== true,
             onChange: stop,
-            ...cache(this, 'gIn', {
+            ...this.__getCache('gIn', {
               onInput: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt),
               onBlur: evt => this.__onNumericChange(evt.target.value, 'g', 255, evt, true)
             })
@@ -493,7 +493,7 @@ export default defineComponent({
             color: 'blue',
             readonly: this.editable !== true,
             dark: this.isDark,
-            ...cache(this, 'bSlide', {
+            ...this.__getCache('bSlide', {
               'onUpdate:modelValue': value => this.__onNumericChange(value, 'b', 255)
               // TODO vue3 - handle lazy update
               // change: value => this.__onNumericChange(value, 'b', 255, void 0, true)
@@ -504,7 +504,7 @@ export default defineComponent({
             maxlength: 3,
             readonly: this.editable !== true,
             onChange: stop,
-            ...cache(this, 'bIn', {
+            ...this.__getCache('bIn', {
               onInput: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt),
               onBlur: evt => this.__onNumericChange(evt.target.value, 'b', 255, evt, true)
             })
@@ -518,7 +518,7 @@ export default defineComponent({
             color: 'grey',
             readonly: this.editable !== true,
             dark: this.isDark,
-            ...cache(this, 'aSlide', {
+            ...this.__getCache('aSlide', {
               'onUpdate:modelValue': value => this.__onNumericChange(value, 'a', 100)
               // TODO vue3 - handle lazy update
               // change: value => this.__onNumericChange(value, 'a', 100, void 0, true)
@@ -529,7 +529,7 @@ export default defineComponent({
             maxlength: 3,
             readonly: this.editable !== true,
             onChange: stop,
-            ...cache(this, 'aIn', {
+            ...this.__getCache('aIn', {
               onInput: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt),
               onBlur: evt => this.__onNumericChange(evt.target.value, 'a', 100, evt, true)
             })
@@ -546,7 +546,7 @@ export default defineComponent({
         }, this.computedPalette.map(color => h('div', {
           class: 'q-color-picker__cube col-auto',
           style: { backgroundColor: color },
-          ...(this.editable === true ? cache(this, 'palette#' + color, {
+          ...(this.editable === true ? this.__getCache('palette#' + color, {
             onClick: () => {
               this.__onPalettePick(color)
             }
