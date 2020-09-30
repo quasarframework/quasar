@@ -485,10 +485,10 @@ export default Vue.extend({
         h('div', {
           staticClass: 'q-tree__node-header relative-position row no-wrap items-center',
           class: {
-            'q-tree__node--link q-hoverable q-focusable': meta.link,
+            'q-tree__node--link': meta.link || this.$attrs.handler,
+            'q-hoverable q-focusable': meta.link || this.$attrs.handler,
             'q-tree__node--selected': meta.selected,
-            'q-tree__node--disabled': meta.disabled,
-            'q-tree__node--link': this.$attrs.handler
+            'q-tree__node--disabled': meta.disabled
           },
           attrs: { tabindex: meta.link ? 0 : -1 },
           on: {
