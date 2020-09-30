@@ -60,20 +60,24 @@ export default defineComponent({
     click (e) {
       this.__qFab.__onChildClick(e)
       this.$emit('click', e)
+    },
+
+    __getContent () {
+      const child = []
+
+      this.icon !== '' && child.push(
+        h(QIcon, { name: this.icon })
+      )
+
+      this.label !== '' && child[this.labelProps.action](
+        h('div', this.labelProps.data, [ this.label ])
+      )
+
+      return mergeSlot(child, this, 'default')
     }
   },
 
   render () {
-    const child = []
-
-    this.icon !== '' && child.push(
-      h(QIcon, { name: this.icon })
-    )
-
-    this.label !== '' && child[this.labelProps.action](
-      h('div', this.labelProps.data, [ this.label ])
-    )
-
     return h(QBtn, {
       class: this.classes,
       ...this.$props,
@@ -85,8 +89,6 @@ export default defineComponent({
       fabMini: true,
       disable: this.isDisabled,
       onClick: this.click
-    }, {
-      default: () => mergeSlot(child, this, 'default')
-    })
+    }, this.__getContent)
   }
 })

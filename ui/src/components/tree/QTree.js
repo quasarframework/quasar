@@ -574,20 +574,18 @@ export default defineComponent({
             duration: this.duration,
             onShow: this.__onShow,
             onHide: this.__onHide
-          }, () => [
-            withDirectives(
+          }, () => withDirectives(
+            h('div', {
+              class: 'q-tree__node-collapsible' + this.textColorClass
+            }, [
+              body,
               h('div', {
-                class: 'q-tree__node-collapsible' + this.textColorClass
-              }, [
-                body,
-                h('div', {
-                  class: 'q-tree__children' +
-                    (meta.disabled === true ? ' q-tree__node--disabled' : '')
-                }, children)
-              ]),
-              [[ vShow, meta.expanded ]]
-            )
-          ])
+                class: 'q-tree__children' +
+                  (meta.disabled === true ? ' q-tree__node--disabled' : '')
+              }, children)
+            ]),
+            [[ vShow, meta.expanded ]]
+          ))
           : body
       ])
     },

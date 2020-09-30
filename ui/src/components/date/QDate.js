@@ -815,18 +815,16 @@ export default defineComponent({
         }, [
           h(Transition, {
             name: 'q-transition--fade'
-          }, () => [
-            h('div', {
-              key: 'h-yr-' + this.headerSubtitle,
-              class: 'q-date__header-subtitle q-date__header-link ' +
-                (this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
-              tabindex: this.computedTabindex,
-              ...cache(this, 'vY', {
-                onClick: () => { this.view = 'Years' },
-                onKeyup: e => { e.keyCode === 13 && (this.view = 'Years') }
-              })
-            }, [ this.headerSubtitle ])
-          ])
+          }, () => h('div', {
+            key: 'h-yr-' + this.headerSubtitle,
+            class: 'q-date__header-subtitle q-date__header-link ' +
+              (this.view === 'Years' ? 'q-date__header-link--active' : 'cursor-pointer'),
+            tabindex: this.computedTabindex,
+            ...cache(this, 'vY', {
+              onClick: () => { this.view = 'Years' },
+              onKeyup: e => { e.keyCode === 13 && (this.view = 'Years') }
+            })
+          }, [ this.headerSubtitle ]))
         ]),
 
         h('div', {
@@ -837,18 +835,16 @@ export default defineComponent({
           }, [
             h(Transition, {
               name: 'q-transition--fade'
-            }, () => [
-              h('div', {
-                key: 'h-sub' + this.headerTitle,
-                class: 'q-date__header-title-label q-date__header-link ' +
-                  (this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
-                tabindex: this.computedTabindex,
-                ...cache(this, 'vC', {
-                  onClick: () => { this.view = 'Calendar' },
-                  onKeyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
-                })
-              }, [ this.headerTitle ])
-            ])
+            }, () => h('div', {
+              key: 'h-sub' + this.headerTitle,
+              class: 'q-date__header-title-label q-date__header-link ' +
+                (this.view === 'Calendar' ? 'q-date__header-link--active' : 'cursor-pointer'),
+              tabindex: this.computedTabindex,
+              ...cache(this, 'vC', {
+                onClick: () => { this.view = 'Calendar' },
+                onKeyup: e => { e.keyCode === 13 && (this.view = 'Calendar') }
+              })
+            }, [ this.headerTitle ]))
           ]),
 
           this.todayBtn === true ? h(QBtn, {
@@ -886,18 +882,16 @@ export default defineComponent({
         }, [
           h(Transition, {
             name: 'q-transition--jump-' + dir
-          }, () => [
-            h('div', { key }, [
-              h(QBtn, {
-                flat: true,
-                dense: true,
-                noCaps: true,
-                label,
-                tabindex: this.computedTabindex,
-                ...cache(this, 'view#' + view, { onClick: () => { this.view = view } })
-              })
-            ])
-          ])
+          }, () => h('div', { key }, [
+            h(QBtn, {
+              flat: true,
+              dense: true,
+              noCaps: true,
+              label,
+              tabindex: this.computedTabindex,
+              ...cache(this, 'view#' + view, { onClick: () => { this.view = view } })
+            })
+          ]))
         ]),
 
         h('div', {
@@ -952,34 +946,32 @@ export default defineComponent({
           }, [
             h(Transition, {
               name: 'q-transition--slide-' + this.monthDirection
-            }, () => [
-              h('div', {
-                key: this.viewMonthHash,
-                class: 'q-date__calendar-days fit'
-              }, this.days.map(day => h('div', { class: day.classes }, [
-                day.in === true
-                  ? h(
-                    QBtn, {
-                      class: day.today === true ? 'q-date__today' : '',
-                      dense: true,
-                      flat: day.flat,
-                      unelevated: day.unelevated,
-                      color: day.color,
-                      textColor: day.textColor,
-                      label: day.i,
-                      tabindex: this.computedTabindex,
-                      ...cache(this, 'day#' + day.i, {
-                        onClick: () => { this.__onDayClick(day.i) },
-                        onMouseover: () => { this.__onDayMouseover(day.i) }
-                      })
-                    },
-                    day.event !== false
-                      ? () => [ h('div', { class: 'q-date__event bg-' + day.event }) ]
-                      : null
-                  )
-                  : h('div', '' + day.i)
-              ])))
-            ])
+            }, () => h('div', {
+              key: this.viewMonthHash,
+              class: 'q-date__calendar-days fit'
+            }, this.days.map(day => h('div', { class: day.classes }, [
+              day.in === true
+                ? h(
+                  QBtn, {
+                    class: day.today === true ? 'q-date__today' : '',
+                    dense: true,
+                    flat: day.flat,
+                    unelevated: day.unelevated,
+                    color: day.color,
+                    textColor: day.textColor,
+                    label: day.i,
+                    tabindex: this.computedTabindex,
+                    ...cache(this, 'day#' + day.i, {
+                      onClick: () => { this.__onDayClick(day.i) },
+                      onMouseover: () => { this.__onDayMouseover(day.i) }
+                    })
+                  },
+                  day.event !== false
+                    ? () => h('div', { class: 'q-date__event bg-' + day.event })
+                    : null
+                )
+                : h('div', '' + day.i)
+            ]))))
           ])
         ])
       ]

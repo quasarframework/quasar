@@ -618,50 +618,48 @@ export default defineComponent({
       }, [
         h(Transition, {
           name: 'q-transition--scale'
-        }, () => [
+        }, () => h('div', {
+          key: 'clock' + this.view,
+          class: 'q-time__container-parent absolute-full'
+        }, [
           h('div', {
-            key: 'clock' + this.view,
-            class: 'q-time__container-parent absolute-full'
+            ref: 'clock',
+            class: 'q-time__container-child fit overflow-hidden'
           }, [
-            h('div', {
-              ref: 'clock',
-              class: 'q-time__container-child fit overflow-hidden'
-            }, [
-              withDirectives(
-                h('div', {
-                  class: 'q-time__clock cursor-pointer non-selectable',
-                  onClick: this.__click,
-                  onMousedown: this.__activate
-                }, [
-                  h('div', { class: 'q-time__clock-circle fit' }, [
-                    h('div', {
-                      class: 'q-time__clock-pointer' +
-                        (this.innerModel[view] === null ? ' hidden' : (this.color !== void 0 ? ` text-${this.color}` : '')),
-                      style: this.pointerStyle
-                    }),
+            withDirectives(
+              h('div', {
+                class: 'q-time__clock cursor-pointer non-selectable',
+                onClick: this.__click,
+                onMousedown: this.__activate
+              }, [
+                h('div', { class: 'q-time__clock-circle fit' }, [
+                  h('div', {
+                    class: 'q-time__clock-pointer' +
+                      (this.innerModel[view] === null ? ' hidden' : (this.color !== void 0 ? ` text-${this.color}` : '')),
+                    style: this.pointerStyle
+                  }),
 
-                    this.positions.map(pos => h('div', {
-                      class: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}` +
-                        (pos.val === current
-                          ? ' q-time__clock-position--active ' + this.headerClass
-                          : (pos.disable === true ? ' q-time__clock-position--disable' : ''))
-                    }, [ h('span', pos.label) ]))
-                  ])
-                ]),
-                [[
-                  TouchPan,
-                  this.__drag,
-                  void 0,
-                  {
-                    stop: true,
-                    prevent: true,
-                    mouse: true
-                  }
-                ]]
-              )
-            ])
+                  this.positions.map(pos => h('div', {
+                    class: `q-time__clock-position row flex-center q-time__clock-pos-${pos.index}` +
+                      (pos.val === current
+                        ? ' q-time__clock-position--active ' + this.headerClass
+                        : (pos.disable === true ? ' q-time__clock-position--disable' : ''))
+                  }, [ h('span', pos.label) ]))
+                ])
+              ]),
+              [[
+                TouchPan,
+                this.__drag,
+                void 0,
+                {
+                  stop: true,
+                  prevent: true,
+                  mouse: true
+                }
+              ]]
+            )
           ])
-        ]),
+        ])),
 
         this.nowBtn === true ? h(QBtn, {
           class: 'q-time__now-button absolute',

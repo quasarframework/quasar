@@ -22,7 +22,7 @@ export default defineComponent({
     },
 
     offset: {
-      default: () => [18, 18]
+      default: () => [ 18, 18 ]
     }
   },
 
@@ -99,16 +99,12 @@ export default defineComponent({
     },
 
     __getContent () {
-      if (this.showing === true) {
-        return [
-          h('div', {
-            class: 'q-page-scroller',
-            onClick: this.__onClick
-          }, [
-            QPageSticky.render.call(this)
-          ])
-        ]
-      }
+      return this.showing === true
+        ? h('div', {
+          class: 'q-page-scroller',
+          onClick: this.__onClick
+        }, [ QPageSticky.render.call(this) ])
+        : null
     }
   },
 
@@ -116,7 +112,7 @@ export default defineComponent({
     return h(
       Transition,
       { name: 'q-transition--fade' },
-      { default: this.__getContent }
+      this.__getContent
     )
   },
 

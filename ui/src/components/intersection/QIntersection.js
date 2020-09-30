@@ -65,23 +65,25 @@ export default defineComponent({
         this.showing = entry.isIntersecting
         this.$attrs.onVisibility !== void 0 && this.$emit('visibility', this.showing)
       }
+    },
+
+    __getContent () {
+      return this.showing === true
+        ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
+        : void 0
     }
   },
 
   render () {
-    const content = this.showing === true
-      ? [ h('div', { key: 'content' }, slot(this, 'default')) ]
-      : void 0
-
     const node = h(this.tag, {
       class: 'q-intersection'
     }, this.transition
       ? [
         h(Transition, {
           name: 'q-transition--' + this.transition
-        }, { default: () => content })
+        }, this.__getContent)
       ]
-      : content
+      : this.__getContent()
     )
 
     return withDirectives(node, this.directives)

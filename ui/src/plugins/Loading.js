@@ -75,6 +75,10 @@ const Plugin = defineReactivePlugin({
           },
 
           __getContent () {
+            if (Plugin.isActive !== true) {
+              return null
+            }
+
             const content = [
               h(props.spinner, {
                 color: props.spinnerColor,
@@ -101,9 +105,7 @@ const Plugin = defineReactivePlugin({
             name: 'q-transition--fade',
             appear: true,
             onAfterLeave: this.__onAfterLeave
-          }, {
-            default: Plugin.isActive === true ? this.__getContent : noop
-          })
+          }, this.__getContent)
         }
       })
 

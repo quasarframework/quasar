@@ -823,12 +823,10 @@ export default defineComponent({
           textColor: this.color,
           tabindex: this.computedTabindex,
           onRemove () { scope.removeAtIndex(i) }
-        }, () => [
-          h('span', {
-            class: 'ellipsis',
-            [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
-          })
-        ]))
+        }, () => h('span', {
+          class: 'ellipsis',
+          [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
+        })))
       }
 
       return [
@@ -843,17 +841,20 @@ export default defineComponent({
     __getOptions () {
       const fn = this.$slots.option !== void 0
         ? this.$slots.option
-        : scope => h(QItem, {
-          key: scope.index,
-          ...scope.itemProps,
-          ...scope.itemEvents
-        }, () => [
-          h(QItemSection, () => [
-            h(QItemLabel, {
-              [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
-            })
-          ])
-        ])
+        : scope => {
+          return h(QItem, {
+            key: scope.index,
+            ...scope.itemProps,
+            ...scope.itemEvents
+          }, () => {
+            return h(
+              QItemSection,
+              () => h(QItemLabel, {
+                [scope.sanitize === true ? 'textContent' : 'innerHTML']: this.getOptionLabel(scope.opt)
+              })
+            )
+          })
+        }
 
       let options = this.__padVirtualScroll('div', this.optionScope.map(fn))
 
@@ -1150,13 +1151,11 @@ export default defineComponent({
         'onBefore-hide': this.__onDialogBeforeHide,
         onHide: this.__onDialogHide,
         onShow: this.__onDialogShow
-      }, () => [
-        h('div', {
-          class: 'q-select__dialog' +
-            (this.isOptionsDark === true ? ' q-select__dialog--dark q-dark' : '') +
-            (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
-        }, content)
-      ])
+      }, () => h('div', {
+        class: 'q-select__dialog' +
+          (this.isOptionsDark === true ? ' q-select__dialog--dark q-dark' : '') +
+          (this.dialogFieldFocused === true ? ' q-select__dialog--focused' : '')
+      }, content))
     },
 
     __onDialogBeforeHide () {

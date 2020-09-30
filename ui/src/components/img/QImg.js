@@ -247,7 +247,7 @@ export default defineComponent({
         ? content
         : h(Transition, {
           name: 'q-transition--' + this.transition
-        }, { default: () => [ content ] })
+        }, () => content)
     },
 
     __getContent () {
@@ -282,7 +282,7 @@ export default defineComponent({
           class: 'q-img__content absolute-full'
         }, slotVm)
 
-      return h(Transition, { name: 'q-transition--fade' }, { default: () => [ content ] })
+      return h(Transition, { name: 'q-transition--fade' }, () => content)
     }
   },
 

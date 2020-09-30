@@ -155,12 +155,10 @@ export default defineComponent({
           textColor: this.color,
           tabindex: this.tabindex,
           onRemove: () => { this.removeAtIndex(i) }
-        }, () => [
-          h('span', {
-            class: 'ellipsis',
-            textContent: file.name
-          })
-        ]))
+        }, () => h('span', {
+          class: 'ellipsis',
+          textContent: file.name
+        })))
       }
 
       return [

@@ -204,7 +204,7 @@ export default defineComponent({
           class: classes,
           innerHTML: text
         })
-        : h(QCardSection, { class: classes }, () => [ text ])
+        : h(QCardSection, { class: classes }, () => text)
     },
 
     getPrompt () {

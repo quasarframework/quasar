@@ -127,17 +127,19 @@ function getDropdown (vm, btn) {
       }, () => [
         btn.list === 'no-icons'
           ? null
-          : h(QItemSection, {
-            class: active ? activeClass : inactiveClass,
-            side: true
-          }, () => [
-            h(QIcon, { name: btn.icon })
-          ]),
+          : h(
+            QItemSection,
+            {
+              class: active ? activeClass : inactiveClass,
+              side: true
+            },
+            () => h(QIcon, { name: btn.icon })
+          ),
 
         h(
           QItemSection,
           htmlTip
-            ? () => [ h('div', { innerHTML: btn.htmlTip }) ]
+            ? () => h('div', { innerHTML: btn.htmlTip })
             : (btn.tip ? () => h('div', btn.tip) : void 0)
         )
       ])

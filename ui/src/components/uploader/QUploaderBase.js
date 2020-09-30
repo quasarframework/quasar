@@ -292,7 +292,7 @@ export default defineComponent({
 
         if (icon === 'add') {
           data.onClick = fn
-          child = { default: this.__getInputControl }
+          child = this.__getInputControl
         }
 
         return h(QBtn, data, child)

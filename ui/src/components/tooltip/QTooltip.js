@@ -48,7 +48,7 @@ export default defineComponent({
     },
     offset: {
       type: Array,
-      default: () => [14, 14],
+      default: () => [ 14, 14 ],
       validator: validateOffset
     },
 
@@ -210,23 +210,25 @@ export default defineComponent({
       }
     },
 
+    __getTooltipContent () {
+      return this.showing === true
+        ? h('div', {
+          ref: 'inner',
+          class: [
+            'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
+            this.contentClass
+          ],
+          style: this.contentStyle,
+          role: 'complementary'
+        }, slot(this, 'default'))
+        : null
+    },
+
     __renderPortal () {
       return h(Transition, {
         name: this.transition,
         appear: true
-      }, {
-        default: () => [
-          this.showing === true ? h('div', {
-            ref: 'inner',
-            class: [
-              'q-tooltip q-tooltip--style q-position-engine no-pointer-events',
-              this.contentClass
-            ],
-            style: this.contentStyle,
-            role: 'complementary'
-          }, slot(this, 'default')) : null
-        ]
-      })
+      }, this.__getTooltipContent)
     }
   },
 

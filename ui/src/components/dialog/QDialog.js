@@ -339,15 +339,15 @@ export default defineComponent({
         h(Transition, {
           name: 'q-transition--fade',
           appear: true
-        }, {
-          default: () => this.useBackdrop === true ? [
-            h('div', {
+        }, () => (
+          this.useBackdrop === true
+            ? h('div', {
               class: 'q-dialog__backdrop fixed-full',
               'aria-hidden': 'true',
               onClick: this.__onBackdropClick
             })
-          ] : null
-        }),
+            : null
+        )),
 
         // TODO vue3 - wait on Transition.$parent bug to be solved
         // h(Transition, {

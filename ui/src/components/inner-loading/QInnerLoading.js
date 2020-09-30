@@ -29,8 +29,8 @@ export default defineComponent({
 
   methods: {
     __getContent () {
-      if (this.showing === true) {
-        return [
+      return this.showing === true
+        ? [
           h(
             'div',
             { class: this.classes },
@@ -44,7 +44,7 @@ export default defineComponent({
               ]
           )
         ]
-      }
+        : null
     }
   },
 
@@ -52,6 +52,6 @@ export default defineComponent({
     return h(Transition, {
       name: this.transition,
       appear: true
-    }, { default: this.__getContent })
+    }, this.__getContent)
   }
 })

@@ -17,7 +17,7 @@ export default defineComponent({
     },
     offset: {
       type: Array,
-      default: () => [18, 18],
+      default: () => [ 18, 18 ],
       validator: v => v.length === 2
     }
   },

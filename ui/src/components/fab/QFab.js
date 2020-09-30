@@ -76,31 +76,35 @@ export default defineComponent({
       if (this.$refs.trigger && this.$refs.trigger.$el) {
         this.$refs.trigger.$el.focus()
       }
+    },
+
+    __getTriggerContent () {
+      const child = []
+
+      this.hideIcon !== true && child.push(
+        h('div', { class: 'q-fab__icon-holder' }, [
+          h(QIcon, {
+            class: 'q-fab__icon absolute-full',
+            name: this.icon || this.$q.iconSet.fab.icon
+          }),
+          h(QIcon, {
+            class: 'q-fab__active-icon absolute-full',
+            name: this.activeIcon || this.$q.iconSet.fab.activeIcon
+          })
+        ])
+      )
+
+      this.label !== '' && child[this.labelProps.action](
+        h('div', this.labelProps.data, [ this.label ])
+      )
+
+      return mergeSlot(child, this, 'tooltip')
     }
   },
 
   render () {
-    const child = []
-
-    this.hideIcon !== true && child.push(
-      h('div', { class: 'q-fab__icon-holder' }, [
-        h(QIcon, {
-          class: 'q-fab__icon absolute-full',
-          name: this.icon || this.$q.iconSet.fab.icon
-        }),
-        h(QIcon, {
-          class: 'q-fab__active-icon absolute-full',
-          name: this.activeIcon || this.$q.iconSet.fab.activeIcon
-        })
-      ])
-    )
-
-    this.label !== '' && child[this.labelProps.action](
-      h('div', this.labelProps.data, [ this.label ])
-    )
-
     return h('div', {
-      class: this.classes,
+      class: this.classes
     }, [
       h(QBtn, {
         ref: 'trigger',
@@ -116,9 +120,7 @@ export default defineComponent({
         'aria-expanded': this.showing === true ? 'true' : 'false',
         'aria-haspopup': 'true',
         onClick: this.toggle
-      }, {
-        default: () => mergeSlot(child, this, 'tooltip')
-      }),
+      }, this.__getTriggerContent),
 
       h('div', { class: this.actionClass }, slot(this, 'default'))
     ])

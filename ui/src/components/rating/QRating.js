@@ -195,7 +195,7 @@ export default defineComponent({
           onFocus: () => { this.__setHoverValue(i) },
           onBlur: this.__onBlur,
           onKeyup: e => { this.__keyup(e, i) }
-        }, { default: this.$slots[`tip-${i}`] })
+        }, this.$slots[`tip-${i}`])
       )
     }
 

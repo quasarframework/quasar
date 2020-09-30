@@ -105,18 +105,21 @@ export default defineComponent({
               e.keyCode === 13 && this.onOk(action)
             }
           }, () => [
-            h(QItemSection, { avatar: true }, () => [
-              action.icon
+            h(
+              QItemSection,
+              { avatar: true },
+              () => action.icon
                 ? h(QIcon, { name: action.icon, color: action.color })
                 : (
                   img
                     ? h('img', {
                       class: action.avatar ? 'q-bottom-sheet__avatar' : '',
-                      src: img,
+                      src: img
                     })
                     : null
                 )
-            ]),
+            ),
+
             h(QItemSection, () => action.label)
           ])
       })

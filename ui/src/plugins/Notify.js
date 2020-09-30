@@ -389,94 +389,92 @@ const Notifications = {
         class: positionClass[pos],
         tag: 'div',
         name: `q-notification--${pos}`
-      }, {
-        default: () => this.notifs[pos].map(notif => {
-          let msgChild
+      }, () => this.notifs[pos].map(notif => {
+        let msgChild
 
-          const meta = notif.meta
-          const msgData = { class: 'q-notification__message col' }
+        const meta = notif.meta
+        const msgData = { class: 'q-notification__message col' }
 
-          if (notif.html === true) {
-            msgData.innerHTML = notif.caption
-              ? `<div>${notif.message}</div><div class="q-notification__caption">${notif.caption}</div>`
-              : notif.message
+        if (notif.html === true) {
+          msgData.innerHTML = notif.caption
+            ? `<div>${notif.message}</div><div class="q-notification__caption">${notif.caption}</div>`
+            : notif.message
+        }
+        else {
+          const msgNode = [ notif.message ]
+          msgChild = notif.caption
+            ? [
+              h('div', msgNode),
+              h('div', { class: 'q-notification__caption' }, [ notif.caption ])
+            ]
+            : msgNode
+        }
+
+        const mainChild = []
+
+        if (meta.hasMedia === true) {
+          if (notif.spinner !== false) {
+            mainChild.push(
+              h(notif.spinner, { class: 'q-notification__spinner' })
+            )
           }
-          else {
-            const msgNode = [ notif.message ]
-            msgChild = notif.caption
-              ? [
-                h('div', msgNode),
-                h('div', { class: 'q-notification__caption' }, [ notif.caption ])
-              ]
-              : msgNode
+          else if (notif.icon) {
+            mainChild.push(
+              h(QIcon, {
+                class: 'q-notification__icon',
+                name: notif.icon,
+                role: 'img'
+              })
+            )
           }
-
-          const mainChild = []
-
-          if (meta.hasMedia === true) {
-            if (notif.spinner !== false) {
-              mainChild.push(
-                h(notif.spinner, { class: 'q-notification__spinner' })
-              )
-            }
-            else if (notif.icon) {
-              mainChild.push(
-                h(QIcon, {
-                  class: 'q-notification__icon',
-                  name: notif.icon,
-                  role: 'img'
-                })
-              )
-            }
-            else if (notif.avatar) {
-              mainChild.push(
-                h(QAvatar, { class: 'q-notification__avatar col-auto' }, {
-                  default: () => h('img', { src: notif.avatar, 'aria-hidden': 'true' })
-                })
-              )
-            }
+          else if (notif.avatar) {
+            mainChild.push(
+              h(QAvatar, {
+                class: 'q-notification__avatar col-auto'
+              }, () => h('img', { src: notif.avatar, 'aria-hidden': 'true' }))
+            )
           }
+        }
 
-          mainChild.push(
-            h('div', msgData, msgChild)
-          )
+        mainChild.push(
+          h('div', msgData, msgChild)
+        )
 
-          const child = [
-            h('div', { class: meta.contentClass }, mainChild)
-          ]
+        const child = [
+          h('div', { class: meta.contentClass }, mainChild)
+        ]
 
-          notif.progress === true && child.push(
-            h('div', {
-              key: `${meta.uid}|p|${meta.badge}`,
-              class: meta.progressClass,
-              style: meta.progressStyle
-            })
-          )
+        notif.progress === true && child.push(
+          h('div', {
+            key: `${meta.uid}|p|${meta.badge}`,
+            class: meta.progressClass,
+            style: meta.progressStyle
+          })
+        )
 
-          notif.actions !== void 0 && child.push(
-            h('div', {
-              class: meta.actionsClass
-            }, notif.actions.map(props => h(QBtn, props)))
-          )
+        notif.actions !== void 0 && child.push(
+          h('div', {
+            class: meta.actionsClass
+          }, notif.actions.map(props => h(QBtn, props)))
+        )
 
-          meta.badge > 1 && child.push(
-            h('div', {
-              key: `${meta.uid}|${meta.badge}`,
-              class: notif.meta.badgeClass,
-              style: notif.badgeStyle
-            }, [ meta.badge ])
-          )
+        meta.badge > 1 && child.push(
+          h('div', {
+            key: `${meta.uid}|${meta.badge}`,
+            class: notif.meta.badgeClass,
+            style: notif.badgeStyle
+          }, [ meta.badge ])
+        )
 
-          return h('div', {
-            ref: `notif_${meta.uid}`,
-            key: meta.uid,
-            class: meta.class,
-            ...meta.attrs
-          }, [
-            h('div', { class: meta.wrapperClass }, child)
-          ])
-        })
-      })
+        return h('div', {
+          ref: `notif_${meta.uid}`,
+          key: meta.uid,
+          class: meta.class,
+          ...meta.attrs
+        }, [
+          h('div', { class: meta.wrapperClass }, child)
+        ])
+      }))
     }))
   },
 
