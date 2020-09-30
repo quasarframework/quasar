@@ -595,12 +595,14 @@ export default Vue.extend({
           this.$emit('update:selected', meta.key !== this.selected ? meta.key : null)
         }
       }
+      else if (typeof node.handler === 'function') {
+        node.handler(node)
+      }
+      else if (typeof this.$attrs.handler === 'function') {
+        this.$attrs.handler(node)
+      }
       else {
         this.__onExpandClick(node, meta, e, keyboard)
-      }
-
-      if (typeof node.handler === 'function') {
-        node.handler(node)
       }
     },
 
