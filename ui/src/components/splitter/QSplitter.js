@@ -188,7 +188,7 @@ export default defineComponent({
           this.separatorClass
         ],
         style: this.separatorStyle,
-        'aria-disabled': this.disabled === true ? 'true' : void 0
+        'aria-disabled': this.disable === true ? 'true' : void 0
       }, [
         withDirectives(separator, this.separatorDirectives)
       ]),

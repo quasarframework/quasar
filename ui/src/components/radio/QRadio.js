@@ -158,7 +158,7 @@ export default defineComponent({
       role: 'radio',
       'aria-label': this.label,
       'aria-checked': this.isTrue === true ? 'true' : 'false',
-      'aria-disabled': this.disabled === true ? 'true' : void 0,
+      'aria-disabled': this.disable === true ? 'true' : void 0,
       onClick: this.set,
       onKeydown: this.__onKeydown,
       onKeyup: this.__onKeyup
