@@ -29,7 +29,8 @@ export default {
       return monthsShort[model.month - 1] + 'نىڭ ' + model.day + '-كۈنى، ' + days[date.getDay()]
     },
     firstDayOfWeek: 1, // 0-6, 0 - Sunday, 1 Monday, ...
-    format24h: false
+    format24h: false,
+    pluralDay: 'كۈن'
   },
   table: {
     noData: 'ئۇچۇر يوق',
