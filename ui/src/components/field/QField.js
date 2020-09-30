@@ -417,7 +417,7 @@ export default defineComponent({
           : h(
             Transition,
             { name: 'q-transition--field-message' },
-            () => [ main ]
+            () => main
           ),
 
         hasCounter === true

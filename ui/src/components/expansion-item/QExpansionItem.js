@@ -1,4 +1,4 @@
-import { h, defineComponent, withDirectives, vShow } from 'vue'
+import { h, shallowReactive, defineComponent, withDirectives, vShow } from 'vue'
 
 import QItem from '../item/QItem.js'
 import QItemSection from '../item/QItemSection.js'
@@ -13,8 +13,9 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot } from '../../utils/slot.js'
+import uid from '../../utils/uid.js'
 
-const eventName = 'q:expansion-item:close'
+const itemGroups = shallowReactive({})
 
 export default defineComponent({
   name: 'QExpansionItem',
@@ -48,32 +49,31 @@ export default defineComponent({
     group: String,
     popup: Boolean,
 
-    headerStyle: [Array, String, Object],
-    headerClass: [Array, String, Object]
+    headerStyle: [ Array, String, Object ],
+    headerClass: [ Array, String, Object ]
   },
 
   emits: [ 'click', 'after-show', 'after-hide' ],
 
   data () {
     return {
-      showing: this.modelValue !== void 0
+      showing: this.modelValue !== null
         ? this.modelValue
         : this.defaultOpened
     }
   },
 
   watch: {
-    showing (val) {
-      // TODO vue3 - verify $root.$emit()
-      val === true && this.group !== void 0 && this.$root.$emit(eventName, this)
-    },
-
     group (newVal, oldVal) {
       if (newVal !== void 0 && oldVal === void 0) {
-        this.$root.$on(eventName, this.__eventHandler)
+        this.__enterGroup()
       }
       else if (newVal === void 0 && oldVal !== void 0) {
-        this.$root.$off(eventName, this.__eventHandler)
+        this.exitGroup()
+      }
+      else { // it's changing groups
+        this.exitGroup()
+        this.__enterGroup()
       }
     }
   },
@@ -89,7 +89,7 @@ export default defineComponent({
       if (this.contentInsetLevel !== void 0) {
         const dir = this.$q.lang.rtl === true ? 'Right' : 'Left'
         return {
-          ['padding' + dir]: (this.contentInsetLevel * 56) + 'px'
+          [ 'padding' + dir ]: (this.contentInsetLevel * 56) + 'px'
         }
       }
     },
@@ -125,8 +125,54 @@ export default defineComponent({
       stopAndPrevent(e)
     },
 
-    __eventHandler (comp) {
-      this !== comp && this.group === comp.group && this.hide()
+    __onShow () {
+      this.$emit('after-show')
+    },
+
+    __onHide () {
+      this.$emit('after-hide')
+    },
+
+    __enterGroup () {
+      if (this.uid === void 0) {
+        this.uid = uid()
+      }
+
+      if (this.showing === true) {
+        itemGroups[this.group] = this.uid
+      }
+
+      const show = this.$watch(
+        'showing',
+        val => {
+          if (val === true) {
+            itemGroups[this.group] = this.uid
+          }
+          else if (itemGroups[this.group] === this.uid) {
+            delete itemGroups[this.group]
+          }
+        }
+      )
+
+      const group = this.$watch(
+        () => itemGroups[this.group],
+        (val, oldVal) => {
+          if (oldVal === this.uid && val !== void 0 && val !== this.uid) {
+            this.hide()
+          }
+        }
+      )
+
+      this.exitGroup = () => {
+        show()
+        group()
+
+        if (itemGroups[this.group] === this.uid) {
+          delete itemGroups[this.group]
+        }
+
+        this.exitGroup = void 0
+      }
     },
 
     __getToggleIcon () {
@@ -168,7 +214,7 @@ export default defineComponent({
       return h(QItemSection, data, () => child)
     },
 
-    __getHeader () {
+    __getHeaderChild () {
       let child
 
       if (this.$slots.header !== void 0) {
@@ -177,10 +223,10 @@ export default defineComponent({
       else {
         child = [
           h(QItemSection, () => [
-            h(QItemLabel, { lines: this.labelLines }, () => [ this.label || '' ]),
+            h(QItemLabel, { lines: this.labelLines }, () => this.label || ''),
 
             this.caption
-              ? h(QItemLabel, { lines: this.captionLines, caption: true }, () => [ this.caption ])
+              ? h(QItemLabel, { lines: this.captionLines, caption: true }, () => this.caption)
               : null
           ])
         ]
@@ -189,11 +235,7 @@ export default defineComponent({
           h(QItemSection, {
             side: this.switchToggleSide === true,
             avatar: this.switchToggleSide !== true
-          }, () => [
-            h(QIcon, {
-              name: this.icon
-            })
-          ])
+          }, () => h(QIcon, { name: this.icon }))
         )
       }
 
@@ -201,6 +243,10 @@ export default defineComponent({
         this.__getToggleIcon()
       )
 
+      return child
+    },
+
+    __getHeader () {
       const data = {
         ref: 'item',
         style: this.headerStyle,
@@ -226,15 +272,20 @@ export default defineComponent({
         )
       }
 
-      return h(QItem, data, () => child)
+      return h(QItem, data, this.__getHeaderChild)
     },
 
-    __onShow () {
-      this.$emit('after-show')
-    },
-
-    __onHide () {
-      this.$emit('after-hide')
+    __getTransitionChild () {
+      return withDirectives(
+        h('div', {
+          class: 'q-expansion-item__content relative-position',
+          style: this.contentStyle
+        }, slot(this, 'default')),
+        [[
+          vShow,
+          this.showing
+        ]]
+      )
     },
 
     __getContent () {
@@ -245,21 +296,10 @@ export default defineComponent({
           duration: this.duration,
           show: this.__onShow,
           hide: this.__onHide
-        }, () => [
-          withDirectives(
-            h('div', {
-              class: 'q-expansion-item__content relative-position',
-              style: this.contentStyle
-            }, slot(this, 'default')),
-            [[
-              vShow,
-              this.showing
-            ]]
-          )
-        ])
+        }, this.__getTransitionChild)
       ]
 
-      if (this.expandSeparator) {
+      if (this.expandSeparator === true) {
         node.push(
           h(QSeparator, {
             class: 'q-expansion-item__border q-expansion-item__border--top absolute-top',
@@ -285,10 +325,12 @@ export default defineComponent({
   },
 
   created () {
-    this.group !== void 0 && this.$root.$on(eventName, this.__eventHandler)
+    this.uid = void 0
+    this.exitGroup = void 0
+    this.group !== void 0 && this.__enterGroup()
   },
 
   beforeUnmount () {
-    this.group !== void 0 && this.$root.$off(eventName, this.__eventHandler)
+    this.exitGroup !== void 0 && this.exitGroup()
   }
 })
