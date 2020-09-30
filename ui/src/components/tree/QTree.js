@@ -599,7 +599,7 @@ export default Vue.extend({
       else if (typeof node.handler === 'function') {
         node.handler(node)
       }
-      else if (typeof this.$attrs.handler === 'function') {
+      else if (typeof this.$attrs.handler === 'function' && !meta.selectable) {
         this.$attrs.handler(node)
       }
       else {
