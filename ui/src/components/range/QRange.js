@@ -516,5 +516,9 @@ export default defineComponent({
     return this.panDirective !== void 0
       ? withDirectives(node, this.panDirective)
       : node
+  },
+
+  created () {
+    this.__nextFocus = void 0
   }
 })

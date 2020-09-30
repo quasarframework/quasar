@@ -1,7 +1,6 @@
 import { h, defineComponent, resolveComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import TagMixin from '../../mixins/tag.js'
 import { RouterLinkMixin } from '../../mixins/router-link.js'
 
 import { uniqueSlot } from '../../utils/slot.js'
@@ -11,9 +10,14 @@ import { isKeyCode } from '../../utils/key-composition.js'
 export default defineComponent({
   name: 'QItem',
 
-  mixins: [ DarkMixin, RouterLinkMixin, TagMixin ],
+  mixins: [ DarkMixin, RouterLinkMixin ],
 
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     active: Boolean,
 
     clickable: Boolean,

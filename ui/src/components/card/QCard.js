@@ -1,16 +1,20 @@
 import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import TagMixin from '../../mixins/tag.js'
 
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QCard',
 
-  mixins: [ DarkMixin, TagMixin ],
+  mixins: [ DarkMixin ],
 
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     square: Boolean,
     flat: Boolean,
     bordered: Boolean

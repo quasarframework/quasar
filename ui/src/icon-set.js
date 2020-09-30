@@ -2,7 +2,10 @@ import { reactive } from 'vue'
 
 import { isSSR } from './plugins/Platform.js'
 import materialIcons from '../icon-set/material-icons.js'
-import { noop } from './utils/event.js'
+
+const state = reactive({
+  iconMapFn: void 0
+})
 
 export default {
   install ($q, queues, iconSet) {
@@ -37,9 +40,12 @@ export default {
       })
     }
     else {
-      // TODO vue3 - properly reactive
-      $q.iconMapFn = reactive(noop)
       $q.iconSet = reactive({})
+
+      Object.defineProperty($q, 'iconMapFn', {
+        get: () => state.iconMapFn,
+        set: val => { state.iconMapFn = val }
+      })
 
       this.set(initialSet)
     }

@@ -21,10 +21,10 @@ export default {
   computed: {
     alignClass () {
       const align = this.align === void 0
-        ? 'left' // TODO vue3 (this.vertical === true ? 'stretch' : 'left')
+        ? this.$props.vertical === true ? 'stretch' : 'left'
         : this.align
 
-      return /* ${TODO vue3 this.vertical === true ? 'items' : 'justify'} */ `justify-${alignMap[align]}`
+      return `${this.$props.vertical === true ? 'items' : 'justify'}-${alignMap[align]}`
     }
   }
 }

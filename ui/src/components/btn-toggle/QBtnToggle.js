@@ -137,18 +137,22 @@ export default defineComponent({
 
     __mergeOpt (opt, key) {
       return opt[key] === void 0 ? this[key] : opt[key]
+    },
+
+    __getContent () {
+      const child = this.btnOptions.map(opt => {
+        return h(QBtn, opt.props, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
+      })
+
+      if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {
+        this.__injectFormInput(child, 'push')
+      }
+
+      return mergeSlot(child, this, 'default')
     }
   },
 
   render () {
-    const child = this.btnOptions.map(opt => {
-      return h(QBtn, opt.props, opt.slot !== void 0 ? slot(this, opt.slot) : void 0)
-    })
-
-    if (this.name !== void 0 && this.disable !== true && this.hasActiveValue === true) {
-      this.__injectFormInput(child, 'push')
-    }
-
     return h(QBtnGroup, {
       class: 'q-btn-toggle',
       outline: this.outline,
@@ -159,6 +163,6 @@ export default defineComponent({
       unelevated: this.unelevated,
       glossy: this.glossy,
       spread: this.spread
-    }, mergeSlot(child, this, 'default'))
+    }, this.__getContent)
   }
 })

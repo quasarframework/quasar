@@ -1,15 +1,16 @@
 import { h, defineComponent } from 'vue'
 
-import TagMixin from '../../mixins/tag.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QCardSection',
 
-  mixins: [ TagMixin ],
-
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     horizontal: Boolean
   },
 

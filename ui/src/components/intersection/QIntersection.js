@@ -4,16 +4,17 @@ import { onSSR } from '../../plugins/Platform.js'
 
 import Intersection from '../../directives/Intersection.js'
 
-import TagMixin from '../../mixins/tag.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QIntersection',
 
-  mixins: [ TagMixin ],
-
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     once: Boolean,
     transition: String,
 

@@ -1,16 +1,19 @@
 import { h, defineComponent } from 'vue'
 
 import CanRenderMixin from '../../mixins/can-render.js'
-import TagMixin from '../../mixins/tag.js'
-
 import { slot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QNoSsr',
 
-  mixins: [ CanRenderMixin, TagMixin ],
+  mixins: [ CanRenderMixin ],
 
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     placeholder: String
   },
 

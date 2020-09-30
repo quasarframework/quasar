@@ -1,7 +1,6 @@
 import { h, defineComponent } from 'vue'
 
 import DarkMixin from '../../mixins/dark.js'
-import TagMixin from '../../mixins/tag.js'
 
 import { slot } from '../../utils/slot.js'
 
@@ -20,9 +19,14 @@ export const skeletonAnimations = [
 export default defineComponent({
   name: 'QSkeleton',
 
-  mixins: [ DarkMixin, TagMixin ],
+  mixins: [ DarkMixin ],
 
   props: {
+    tag: {
+      type: String,
+      default: 'div'
+    },
+
     type: {
       type: String,
       validator: v => skeletonTypes.includes(v),

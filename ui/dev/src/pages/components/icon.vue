@@ -1,6 +1,8 @@
 <template>
   <div class="q-layout-padding">
     <div class="q-gutter-x-md">
+      <q-toggle v-model="useMapFn" label="Use iconMapFn" />
+
       <q-icon :name="icon" class="gigi" @click="clicked" size="5rem" />
 
       <span>text</span>
@@ -80,6 +82,8 @@ import { evaPaperPlaneOutline } from '@quasar/extras/eva-icons'
 import { tiFullscreen } from '@quasar/extras/themify'
 import { laAtomSolid } from '@quasar/extras/line-awesome'
 
+const TOP_ICON = 'add_box'
+
 function parseSet (setName, set) {
   const icons = []
   Object.keys(set).forEach(key => {
@@ -97,11 +101,20 @@ function parseSet (setName, set) {
   }
 }
 
+function customIconMapFn (iconName) {
+  if (iconName === TOP_ICON) {
+    return {
+      cls: 'material-icons',
+      content: 'map'
+    }
+  }
+}
+
 export default {
   created () {
     this.iconOptions = [
       { value: '', label: 'Empty name' },
-      { value: 'add_box', label: 'A Material icon' },
+      { value: TOP_ICON, label: 'A Material icon' },
       { value: matAddBox, label: 'A Material SVG icon' },
       { value: 'o_add_box', label: 'A Material Outlined icon' },
       { value: 'r_add_box', label: 'A Material Round icon' },
@@ -127,7 +140,8 @@ export default {
 
   data () {
     return {
-      icon: 'add_box',
+      useMapFn: false,
+      icon: TOP_ICON,
       text: 'gigi',
       matAddBox,
       mdiAirballoon,
@@ -150,6 +164,18 @@ export default {
         svgMdiSet, svgIoniconsV4Set, svgIoniconsSet, svgFontawesomeSet,
         svgEvaSet, svgThemifySet, svgLineawesomeSet
       ].map(({ name, ...set }) => parseSet(name, set))
+    }
+  },
+
+  watch: {
+    useMapFn (val) {
+      if (val === true) {
+        this.icon = TOP_ICON
+        this.$q.iconMapFn = customIconMapFn
+      }
+      else {
+        this.$q.iconMapFn = void 0
+      }
     }
   },
 

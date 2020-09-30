@@ -5,7 +5,7 @@ export default {
 
   computed: {
     ratioStyle () {
-      const ratio = this.ratio || this.naturalRatio
+      const ratio = this.ratio || this.$data.naturalRatio
 
       if (ratio !== void 0) {
         return { paddingBottom: `${100 / ratio}%` }

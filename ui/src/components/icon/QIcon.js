@@ -1,18 +1,17 @@
 import { h, defineComponent } from 'vue'
 
 import SizeMixin from '../../mixins/size.js'
-import TagMixin from '../../mixins/tag.js'
-import { noop } from '../../utils/event.js'
 
 import { slot, mergeSlot } from '../../utils/slot.js'
 
 export default defineComponent({
   name: 'QIcon',
 
-  mixins: [ SizeMixin, TagMixin ],
+  mixins: [ SizeMixin ],
 
   props: {
     tag: {
+      type: String,
       default: 'i'
     },
 
@@ -43,8 +42,7 @@ export default defineComponent({
         }
       }
 
-      // TODO vue3 - check reactivity
-      if (this.$q.iconMapFn !== noop) {
+      if (this.$q.iconMapFn !== void 0) {
         const res = this.$q.iconMapFn(icon)
         if (res !== void 0) {
           if (res.icon !== void 0) {
@@ -178,10 +176,11 @@ export default defineComponent({
       data.focusable = 'false' /* needed for IE11 */
       data.viewBox = this.type.viewBox
 
-      return h('svg', data, [
-        h('use', { 'xlink:href': this.type.src }),
-        mergeSlot(this.type.nodes, this, 'default')
-      ])
+      return h('svg', data, mergeSlot(
+        [ h('use', { 'xlink:href': this.type.src }) ],
+        this,
+        'default')
+      )
     }
 
     return h(this.tag, data, mergeSlot([
