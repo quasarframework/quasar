@@ -140,7 +140,7 @@ export default defineComponent({
         rows: this.type === 'textarea' ? 6 : void 0,
         'aria-label': this.label,
         name: this.nameProp,
-        ...this.$attrs,
+        ...this.$attrs, // TODO vue3 - correctly passthrough only needed data
         id: this.targetUid,
         maxlength: this.maxlength,
         disabled: this.disable === true,
@@ -301,12 +301,12 @@ export default defineComponent({
       getControl: () => {
         return h(this.isTextarea === true ? 'textarea' : 'input', {
           ref: 'input',
+          ...this.inputAttrs,
           class: [
             'q-field__native q-placeholder',
             this.inputClass
           ],
           style: this.inputStyle,
-          ...this.inputAttrs,
           ...this.onEvents,
           ...(
             this.type !== 'file'

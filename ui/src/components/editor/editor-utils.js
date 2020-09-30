@@ -71,7 +71,7 @@ function getDropdown (vm, btn) {
     Items
 
   function closeDropdown () {
-    Dropdown.componentInstance.hide()
+    Dropdown.component.proxy.hide()
   }
 
   if (onlyIcons) {
@@ -143,9 +143,6 @@ function getDropdown (vm, btn) {
       ])
     })
     contentClass = [ vm.toolbarBackgroundClass, inactiveClass ]
-    Items = [
-      h(QList, () => [ Items ])
-    ]
   }
 
   const highlight = btn.highlight && label !== btn.label

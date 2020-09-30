@@ -28,8 +28,6 @@ export default defineComponent({
   },
 
   render () {
-    return h('div', {
-      class: this.classes
-    }, slot(this, 'default'))
+    return h('div', { class: this.classes }, slot(this, 'default'))
   }
 })
