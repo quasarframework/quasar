@@ -34,6 +34,8 @@ export default defineComponent({
     readonly: Boolean
   },
 
+  emits: [ 'start', 'finish', 'added', 'removed' ],
+
   provide () {
     return {
       __qUploaderGetInput: this.__getInputControl
@@ -131,7 +133,7 @@ export default defineComponent({
 
   methods: {
     reset () {
-      if (!this.disable) {
+      if (this.disable === false) {
         this.abort()
         this.uploadedSize = 0
         this.uploadSize = 0
@@ -143,7 +145,7 @@ export default defineComponent({
     },
 
     removeUploadedFiles () {
-      if (!this.disable) {
+      if (this.disable === false) {
         this.files = this.files.filter(f => {
           if (f.__status !== 'uploaded') {
             return true
@@ -158,7 +160,7 @@ export default defineComponent({
     },
 
     removeQueuedFiles () {
-      if (!this.disable) {
+      if (this.disable === false) {
         const removedFiles = []
 
         const files = this.files.filter(f => {
@@ -300,23 +302,20 @@ export default defineComponent({
     },
 
     __getInputControl () {
-      const data = {
-        ref: 'input',
-        class: 'q-uploader__input overflow-hidden absolute-full',
-        tabindex: -1,
-        type: 'file',
-        title: '', // try to remove default tooltip
-        accept: this.accept,
-        capture: this.capture,
-        onMousedown: stop, // need to stop refocus from QBtn
-        onChange: this.__addFiles
-      }
-
-      if (this.multiple === true) {
-        data.multiple = true
-      }
-
-      return [ h('input', data) ]
+      return [
+        h('input', {
+          ref: 'input',
+          class: 'q-uploader__input overflow-hidden absolute-full',
+          tabindex: -1,
+          type: 'file',
+          title: '', // try to remove default tooltip
+          accept: this.accept,
+          multiple: this.multiple === true ? 'multiple' : void 0,
+          capture: this.capture,
+          onMousedown: stop, // need to stop refocus from QBtn
+          onChange: this.__addFiles
+        })
+      ]
     },
 
     __getHeader () {
@@ -409,11 +408,6 @@ export default defineComponent({
     }
   },
 
-  beforeUnmount () {
-    this.isUploading === true && this.abort()
-    this.files.length > 0 && this.__revokeImgURLs()
-  },
-
   render () {
     const children = [
       h('div', { class: this.colorClass }, this.__getHeader()),
@@ -434,5 +428,10 @@ export default defineComponent({
     }
 
     return h('div', data, children)
+  },
+
+  beforeUnmount () {
+    this.isUploading === true && this.abort()
+    this.files.length > 0 && this.__revokeImgURLs()
   }
 })

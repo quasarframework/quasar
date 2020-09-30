@@ -64,17 +64,9 @@ export default defineComponent({
   },
 
   watch: {
-    group (newVal, oldVal) {
-      if (newVal !== void 0 && oldVal === void 0) {
-        this.__enterGroup()
-      }
-      else if (newVal === void 0 && oldVal !== void 0) {
-        this.exitGroup()
-      }
-      else { // it's changing groups
-        this.exitGroup()
-        this.__enterGroup()
-      }
+    group (name) {
+      this.exitGroup !== void 0 && this.exitGroup()
+      name !== void 0 && this.__enterGroup()
     }
   },
 

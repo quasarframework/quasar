@@ -51,7 +51,7 @@ export default defineComponent({
   },
 
   watch: {
-    value (value) {
+    modelValue (value) {
       if (value < this.min) {
         this.model = this.min
       }
@@ -115,16 +115,9 @@ export default defineComponent({
     },
 
     attrs () {
-      const attrs = {}
-
-      if (this.editable === true) {
-        attrs.tabindex = this.tabindex
-      }
-      else {
-        attrs[`aria-${this.disable === true ? 'disabled' : 'readonly'}`] = ''
-      }
-
-      return attrs
+      return this.editable === true
+        ? { tabindex: this.tabindex }
+        : { [`aria-${this.disable === true ? 'disabled' : 'readonly'}`]: 'true' }
     },
 
     circularProps () {
@@ -259,7 +252,6 @@ export default defineComponent({
   },
 
   render () {
-    console.log(this.circularProps)
     const data = {
       class: this.classes,
       role: 'slider',

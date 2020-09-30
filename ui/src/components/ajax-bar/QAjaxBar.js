@@ -70,7 +70,7 @@ function restoreAjax (start, stop) {
   stackStop.splice(stackStop.indexOf(stop), 1)
 
   highjackCount = Math.max(0, highjackCount - 1)
-  if (!highjackCount) {
+  if (highjackCount === 0) {
     xhr.prototype.send = send
   }
 }
@@ -82,7 +82,7 @@ export default defineComponent({
     position: {
       type: String,
       default: 'top',
-      validator: val => ['top', 'right', 'bottom', 'left'].includes(val)
+      validator: val => [ 'top', 'right', 'bottom', 'left' ].includes(val)
     },
     size: {
       type: String,
@@ -92,6 +92,8 @@ export default defineComponent({
     skipHijack: Boolean,
     reverse: Boolean
   },
+
+  emits: [ 'start', 'stop' ],
 
   data () {
     return {
@@ -134,7 +136,7 @@ export default defineComponent({
     },
 
     sizeProp () {
-      return this.horizontal ? 'height' : 'width'
+      return this.horizontal === true ? 'height' : 'width'
     },
 
     attrs () {
@@ -220,6 +222,14 @@ export default defineComponent({
     }
   },
 
+  render () {
+    return h('div', {
+      class: this.classes,
+      style: this.style,
+      ...this.attrs
+    })
+  },
+
   mounted () {
     if (this.skipHijack !== true) {
       this.hijacked = true
@@ -230,13 +240,5 @@ export default defineComponent({
   beforeUnmount () {
     clearTimeout(this.timer)
     this.hijacked === true && restoreAjax(this.start, this.stop)
-  },
-
-  render () {
-    return h('div', {
-      class: this.classes,
-      style: this.style,
-      ...this.attrs
-    })
   }
 })

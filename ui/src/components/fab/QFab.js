@@ -87,6 +87,7 @@ export default defineComponent({
             class: 'q-fab__icon absolute-full',
             name: this.icon || this.$q.iconSet.fab.icon
           }),
+
           h(QIcon, {
             class: 'q-fab__active-icon absolute-full',
             name: this.activeIcon || this.$q.iconSet.fab.activeIcon

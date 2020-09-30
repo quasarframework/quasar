@@ -130,19 +130,9 @@ export default defineComponent({
       this.layout[newSide].offset = this.offset
     },
 
-    behavior (val) {
-      this.__updateLocal('belowBreakpoint', (
-        val === 'mobile' ||
-        (val !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
-      ))
-    },
+    behavior: '__updateBelowBreakpoint',
 
-    breakpoint (val) {
-      this.__updateLocal('belowBreakpoint', (
-        this.behavior === 'mobile' ||
-        (this.behavior !== 'desktop' && this.layout.totalWidth <= val)
-      ))
-    },
+    breakpoint: '__updateBelowBreakpoint',
 
     'layout.container' (val) {
       this.showing === true && this.__preventScroll(val !== true)
@@ -380,6 +370,13 @@ export default defineComponent({
       }
     },
 
+    __updateBelowBreakpoint () {
+      this.__updateLocal('belowBreakpoint', (
+        this.behavior === 'mobile' ||
+        (this.behavior !== 'desktop' && this.layout.totalWidth <= this.breakpoint)
+      ))
+    },
+
     __applyBackdrop (x, retry) {
       if (this.$refs.backdrop !== void 0) {
         this.$refs.backdrop.style.backgroundColor =
@@ -576,67 +573,6 @@ export default defineComponent({
     }
   },
 
-  created () {
-    this.layout.instances[this.side] = this
-    this.__updateSizeOnLayout(this.miniToOverlay, this.size)
-    this.__update('space', this.onLayout)
-    this.__update('offset', this.offset)
-
-    if (
-      this.showIfAbove === true &&
-      this.modelValue !== true &&
-      this.showing === true &&
-      this.$attrs['onUpdate:modelValue'] !== void 0
-    ) {
-      this.$emit('update:modelValue', true)
-    }
-  },
-
-  mounted () {
-    this.$emit('on-layout', this.onLayout)
-    this.$emit('mini-state', this.isMini)
-
-    this.lastDesktopState = this.showIfAbove === true
-
-    const fn = () => {
-      const action = this.showing === true ? 'show' : 'hide'
-      this[`__${action}`](false, true)
-    }
-
-    if (this.layout.totalWidth !== 0) {
-      // make sure that all computed properties
-      // have been updated before calling __show/__hide()
-      this.$nextTick(fn)
-      return
-    }
-
-    this.watcher = this.$watch('layout.totalWidth', () => {
-      this.watcher()
-      this.watcher = void 0
-
-      if (this.showing === false && this.showIfAbove === true && this.belowBreakpoint === false) {
-        this.show(false)
-      }
-      else {
-        fn()
-      }
-    })
-  },
-
-  beforeUnmount () {
-    this.watcher !== void 0 && this.watcher()
-    clearTimeout(this.timerMini)
-
-    this.showing === true && this.__cleanup()
-
-    if (this.layout.instances[this.side] === this) {
-      this.layout.instances[this.side] = void 0
-      this.__update('size', 0)
-      this.__update('offset', 0)
-      this.__update('space', false)
-    }
-  },
-
   render () {
     const child = []
 
@@ -706,5 +642,66 @@ export default defineComponent({
     )
 
     return h('div', { class: 'q-drawer-container' }, child)
+  },
+
+  created () {
+    this.layout.instances[this.side] = this
+    this.__updateSizeOnLayout(this.miniToOverlay, this.size)
+    this.__update('space', this.onLayout)
+    this.__update('offset', this.offset)
+
+    if (
+      this.showIfAbove === true &&
+      this.modelValue !== true &&
+      this.showing === true &&
+      this.$attrs['onUpdate:modelValue'] !== void 0
+    ) {
+      this.$emit('update:modelValue', true)
+    }
+  },
+
+  mounted () {
+    this.$emit('on-layout', this.onLayout)
+    this.$emit('mini-state', this.isMini)
+
+    this.lastDesktopState = this.showIfAbove === true
+
+    const fn = () => {
+      const action = this.showing === true ? 'show' : 'hide'
+      this[`__${action}`](false, true)
+    }
+
+    if (this.layout.totalWidth !== 0) {
+      // make sure that all computed properties
+      // have been updated before calling __show/__hide()
+      this.$nextTick(fn)
+      return
+    }
+
+    this.watcher = this.$watch('layout.totalWidth', () => {
+      this.watcher()
+      this.watcher = void 0
+
+      if (this.showing === false && this.showIfAbove === true && this.belowBreakpoint === false) {
+        this.show(false)
+      }
+      else {
+        fn()
+      }
+    })
+  },
+
+  beforeUnmount () {
+    this.watcher !== void 0 && this.watcher()
+    clearTimeout(this.timerMini)
+
+    this.showing === true && this.__cleanup()
+
+    if (this.layout.instances[this.side] === this) {
+      this.layout.instances[this.side] = void 0
+      this.__update('size', 0)
+      this.__update('offset', 0)
+      this.__update('space', false)
+    }
   }
 })

@@ -174,10 +174,7 @@ export default defineComponent({
     this.isClickable === true && Object.assign(
       data,
       this.attrs,
-      {
-        onClick: this.__onClick,
-        onKeyup: this.__onKeyup
-      }
+      { onClick: this.__onClick, onKeyup: this.__onKeyup }
     )
 
     return withDirectives(

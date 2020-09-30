@@ -50,9 +50,7 @@ export default defineComponent({
       }
     },
 
-    scrollTarget () {
-      this.updateScrollTarget()
-    },
+    scrollTarget: 'updateScrollTarget',
 
     debounce (val) {
       this.__setDebounce(val)

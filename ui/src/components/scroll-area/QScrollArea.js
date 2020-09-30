@@ -242,10 +242,7 @@ export default defineComponent({
         this.tempShowing = true
       }
 
-      this.timer = setTimeout(() => {
-        this.tempShowing = false
-      }, this.delay)
-
+      this.timer = setTimeout(() => { this.tempShowing = false }, this.delay)
       this.__emitScroll()
     },
 

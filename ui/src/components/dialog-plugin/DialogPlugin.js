@@ -42,7 +42,7 @@ export default defineComponent({
     focus: {
       type: String,
       default: 'ok',
-      validator: v => ['ok', 'cancel', 'none'].includes(v)
+      validator: v => [ 'ok', 'cancel', 'none' ].includes(v)
     },
 
     stackButtons: Boolean,
@@ -247,7 +247,7 @@ export default defineComponent({
       )
 
       return h(QCardActions, {
-        class: this.stackButtons === true ? 'items-end' : null,
+        class: this.stackButtons === true ? 'items-end' : '',
         vertical: this.stackButtons,
         align: 'right'
       }, () => child)
@@ -261,9 +261,11 @@ export default defineComponent({
       )
 
       this.progress !== false && child.push(
-        h(QCardSection, { class: 'q-dialog__progress' }, [
-          h(this.spinner.component, this.spinner.props)
-        ])
+        h(
+          QCardSection,
+          { class: 'q-dialog__progress' },
+          () => h(this.spinner.component, this.spinner.props)
+        )
       )
 
       this.message && child.push(

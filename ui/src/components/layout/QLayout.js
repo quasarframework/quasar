@@ -76,10 +76,15 @@ export default defineComponent({
       }
     },
 
+    classes () {
+      return 'q-layout q-layout--' +
+        (this.container === true ? 'containerized' : 'standard')
+    },
+
     style () {
-      return this.container === true
-        ? null
-        : { minHeight: this.$q.screen.height + 'px' }
+      if (this.container === true) {
+        return { minHeight: this.$q.screen.height + 'px' }
+      }
     },
 
     // used by container only
@@ -101,50 +106,7 @@ export default defineComponent({
 
     totalWidth () {
       return this.width + this.scrollbarWidth
-    },
-
-    classes () {
-      return 'q-layout q-layout--' +
-        (this.container === true ? 'containerized' : 'standard')
     }
-  },
-
-  created () {
-    this.instances = {}
-  },
-
-  render () {
-    const layout = h('div', {
-      class: this.classes,
-      style: this.style
-    }, mergeSlot([
-      h(QScrollObserver, {
-        onScroll: this.__onPageScroll
-      }),
-
-      h(QResizeObserver, {
-        onResize: this.__onPageResize
-      })
-    ], this, 'default'))
-
-    return this.container === true
-      ? h('div', {
-        class: 'q-layout-container overflow-hidden'
-      }, [
-        h(QResizeObserver, {
-          onResize: this.__onContainerResize
-        }),
-        h('div', {
-          class: 'absolute-full',
-          style: this.targetStyle
-        }, [
-          h('div', {
-            class: 'scroll',
-            style: this.targetChildStyle
-          }, [ layout ])
-        ])
-      ])
-      : layout
   },
 
   methods: {
@@ -205,5 +167,45 @@ export default defineComponent({
         }
       }
     }
+  },
+
+  render () {
+    const layout = h('div', {
+      class: this.classes,
+      style: this.style
+    }, mergeSlot([
+      h(QScrollObserver, {
+        onScroll: this.__onPageScroll
+      }),
+
+      h(QResizeObserver, {
+        onResize: this.__onPageResize
+      })
+    ], this, 'default'))
+
+    if (this.container === true) {
+      return h('div', {
+        class: 'q-layout-container overflow-hidden'
+      }, [
+        h(QResizeObserver, {
+          onResize: this.__onContainerResize
+        }),
+        h('div', {
+          class: 'absolute-full',
+          style: this.targetStyle
+        }, [
+          h('div', {
+            class: 'scroll',
+            style: this.targetChildStyle
+          }, [ layout ])
+        ])
+      ])
+    }
+
+    return layout
+  },
+
+  created () {
+    this.instances = {}
   }
 })

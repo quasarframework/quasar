@@ -63,17 +63,11 @@ export default defineComponent({
       this.$emit('reveal', val)
     },
 
-    'layout.scroll' () {
-      this.__updateRevealed()
-    },
+    'layout.scroll': '__updateRevealed',
 
-    'layout.height' () {
-      this.__updateRevealed()
-    },
+    'layout.height': '__updateRevealed',
 
-    size () {
-      this.__updateRevealed()
-    },
+    size: '__updateRevealed',
 
     '$q.screen.height' (val) {
       this.layout.container !== true && this.__updateLocal('windowHeight', val)

@@ -14,7 +14,6 @@ export default {
       }
     },
 
-    // TODO vue3 - accesed but not defined
     formDomProps () {}
   },
 

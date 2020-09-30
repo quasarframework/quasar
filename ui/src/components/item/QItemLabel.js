@@ -13,21 +13,25 @@ export default defineComponent({
   },
 
   computed: {
+    parsedLines () {
+      return parseInt(this.lines, 10)
+    },
+
     classes () {
       return 'q-item__label' +
         (this.overline === true ? ' q-item__label--overline text-overline' : '') +
         (this.caption === true ? ' q-item__label--caption text-caption' : '') +
         (this.header === true ? ' q-item__label--header' : '') +
-        (parseInt(this.lines, 10) === 1 ? ' ellipsis' : '')
+        (this.parsedLines === 1 ? ' ellipsis' : '')
     },
 
     style () {
-      if (this.lines !== void 0 && parseInt(this.lines, 10) > 1) {
+      if (this.lines !== void 0 && this.parsedLines > 1) {
         return {
           overflow: 'hidden',
           display: '-webkit-box',
           '-webkit-box-orient': 'vertical',
-          '-webkit-line-clamp': this.lines
+          '-webkit-line-clamp': this.parsedLines
         }
       }
     }

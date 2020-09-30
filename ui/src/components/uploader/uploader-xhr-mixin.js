@@ -24,6 +24,8 @@ export default {
     factory: Function
   },
 
+  emits: [ 'factory-failed', 'uploaded', 'failed', 'uploading' ],
+
   data () {
     return {
       xhrs: [],

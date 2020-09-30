@@ -36,23 +36,9 @@ export default defineComponent({
   },
 
   watch: {
-    '$q.screen.width' () {
-      if (this.$refs.popup.showing !== true) {
-        this.__updateType()
-      }
-    },
-
-    '$q.screen.height' () {
-      if (this.$refs.popup.showing !== true) {
-        this.__updateType()
-      }
-    },
-
-    parsedBreakpoint () {
-      if (this.$refs.popup.showing !== true) {
-        this.__updateType()
-      }
-    }
+    '$q.screen.width': '__updateTypeWithGuard',
+    '$q.screen.height': '__updateTypeWithGuard',
+    parsedBreakpoint: '__updateTypeWithGuard'
   },
 
   methods: {
@@ -80,6 +66,12 @@ export default defineComponent({
 
       if (this.type !== type) {
         this.type = type
+      }
+    },
+
+    __updateTypeWithGuard () {
+      if (this.$refs.popup.showing !== true) {
+        this.__updateType()
       }
     }
   },

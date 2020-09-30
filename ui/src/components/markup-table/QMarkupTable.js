@@ -4,6 +4,8 @@ import DarkMixin from '../../mixins/dark.js'
 
 import { slot } from '../../utils/slot.js'
 
+const separatorValues = [ 'horizontal', 'vertical', 'cell', 'none' ]
+
 export default defineComponent({
   name: 'QMarkupTable',
 
@@ -17,7 +19,7 @@ export default defineComponent({
     separator: {
       type: String,
       default: 'horizontal',
-      validator: v => ['horizontal', 'vertical', 'cell', 'none'].includes(v)
+      validator: v => separatorValues.includes(v)
     },
     wrapCells: Boolean
   },

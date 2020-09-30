@@ -64,11 +64,12 @@ export default defineComponent({
 
         child.push(
           h('div', {
-            class: 'flex items-center ' + (middle ? this.activeClass : 'q-breadcrumbs--last')
+            class: 'flex items-center ' +
+              (middle === true ? this.activeClass : 'q-breadcrumbs--last')
           }, [ comp ])
         )
 
-        if (middle) {
+        if (middle === true) {
           child.push(
             h('div', {
               class: 'q-breadcrumbs__separator' + this.sepClass

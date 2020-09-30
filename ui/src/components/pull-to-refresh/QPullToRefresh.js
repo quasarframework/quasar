@@ -83,9 +83,7 @@ export default defineComponent({
   },
 
   watch: {
-    scrollTarget () {
-      this.updateScrollTarget()
-    }
+    scrollTarget: 'updateScrollTarget'
   },
 
   methods: {

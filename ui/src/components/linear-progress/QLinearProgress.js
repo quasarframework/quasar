@@ -81,15 +81,6 @@ export default defineComponent({
 
     stripeStyle () {
       return { width: `${this.value * 100}%` }
-    },
-
-    attrs () {
-      return {
-        role: 'progressbar',
-        'aria-valuemin': 0,
-        'aria-valuemax': 1,
-        'aria-valuenow': this.indeterminate === true ? void 0 : this.value
-      }
     }
   },
 
@@ -116,7 +107,12 @@ export default defineComponent({
     return h('div', {
       class: this.classes,
       style: this.sizeStyle,
-      ...this.attrs
+      role: 'progressbar',
+      'aria-valuemin': 0,
+      'aria-valuemax': 1,
+      'aria-valuenow': this.indeterminate === true
+        ? void 0
+        : this.value
     }, mergeSlot(child, this, 'default'))
   }
 })

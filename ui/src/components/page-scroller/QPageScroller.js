@@ -51,23 +51,8 @@ export default defineComponent({
   },
 
   watch: {
-    'layout.scroll.position' () {
-      this.__updateVisibility()
-    },
-
-    reverse: {
-      handler (val) {
-        if (val === true) {
-          if (this.heightWatcher === void 0) {
-            this.heightWatcher = this.$watch('height', this.__updateVisibility)
-          }
-        }
-        else if (this.heightWatcher !== void 0) {
-          this.__cleanup()
-        }
-      },
-      immediate: true
-    }
+    'layout.scroll.position': '__updateVisibility',
+    reverse: '__updateReverse'
   },
 
   methods: {
@@ -93,6 +78,17 @@ export default defineComponent({
       }
     },
 
+    __updateReverse () {
+      if (this.reverse === true) {
+        if (this.heightWatcher === void 0) {
+          this.heightWatcher = this.$watch('height', this.__updateVisibility)
+        }
+      }
+      else if (this.heightWatcher !== void 0) {
+        this.__cleanup()
+      }
+    },
+
     __cleanup () {
       this.heightWatcher()
       this.heightWatcher = void 0
@@ -114,6 +110,10 @@ export default defineComponent({
       { name: 'q-transition--fade' },
       this.__getContent
     )
+  },
+
+  created () {
+    this.__updateReverse()
   },
 
   beforeUnmount () {

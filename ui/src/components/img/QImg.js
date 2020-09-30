@@ -56,9 +56,7 @@ export default defineComponent({
   },
 
   watch: {
-    src () {
-      this.__load()
-    },
+    src: '__load',
 
     srcset (val) {
       this.__updateWatcher(val)
@@ -68,14 +66,6 @@ export default defineComponent({
   computed: {
     url () {
       return this.currentSrc || this.placeholderSrc || void 0
-    },
-
-    attrs () {
-      const att = { role: 'img' }
-      if (this.alt !== void 0) {
-        att['aria-label'] = this.alt
-      }
-      return att
     },
 
     imgContainerStyle () {
@@ -250,18 +240,20 @@ export default defineComponent({
         }, () => content)
     },
 
-    __getContent () {
-      const slotVm = slot(this, this.hasError === true ? 'error' : 'default')
+    __getContentSlot () {
+      return slot(this, this.hasError === true ? 'error' : 'default')
+    },
 
+    __getContent () {
       if (this.basic === true) {
         return h('div', {
           key: 'content',
           class: 'q-img__content absolute-full'
-        }, slotVm)
+        }, this.__getContentSlot())
       }
 
-      const content = this.isLoading === true
-        ? h('div', {
+      if (this.isLoading === true) {
+        return h('div', {
           key: 'placeholder',
           class: 'q-img__loading absolute-full flex flex-center'
         }, this.$slots.loading !== void 0
@@ -277,12 +269,12 @@ export default defineComponent({
               : void 0
           )
         )
-        : h('div', {
-          key: 'content',
-          class: 'q-img__content absolute-full'
-        }, slotVm)
+      }
 
-      return h(Transition, { name: 'q-transition--fade' }, () => content)
+      return h('div', {
+        key: 'content',
+        class: 'q-img__content absolute-full'
+      }, this.__getContentSlot())
     }
   },
 
@@ -290,11 +282,12 @@ export default defineComponent({
     return h('div', {
       class: this.classes,
       style: this.style,
-      ...this.attrs
+      role: 'img',
+      'aria-label': this.alt
     }, [
       h('div', { style: this.ratioStyle }),
       this.__getImage(),
-      this.__getContent()
+      h(Transition, { name: 'q-transition--fade' }, this.__getContent)
     ])
   },
 

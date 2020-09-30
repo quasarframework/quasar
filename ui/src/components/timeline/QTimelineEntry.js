@@ -8,7 +8,7 @@ export default defineComponent({
   name: 'QTimelineEntry',
 
   inject: {
-    __timeline: {
+    __qTimeline: {
       default () {
         console.error('QTimelineEntry needs to be child of QTimeline')
       }
@@ -44,11 +44,11 @@ export default defineComponent({
     },
 
     dotClass () {
-      return `q-timeline__dot text-${this.color || this.__timeline.color}`
+      return `q-timeline__dot text-${this.color || this.__qTimeline.color}`
     },
 
     reverse () {
-      return this.__timeline.layout === 'comfortable' && this.__timeline.side === 'left'
+      return this.__qTimeline.layout === 'comfortable' && this.__qTimeline.side === 'left'
     }
   },
 

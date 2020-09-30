@@ -120,18 +120,6 @@ export default defineComponent({
     }
   },
 
-  beforeMount () {
-    this.__resetVirtualScroll()
-  },
-
-  mounted () {
-    this.__configureScrollTarget()
-  },
-
-  beforeUnmount () {
-    this.__unconfigureScrollTarget()
-  },
-
   render () {
     if (this.$slots.default === void 0) {
       console.error(`QVirtualScroll: default scoped slot is required for rendering`, this)
@@ -148,5 +136,17 @@ export default defineComponent({
         ...this.$attrs,
         ...this.attrs
       }, this.__getVirtualChildren)
+  },
+
+  beforeMount () {
+    this.__resetVirtualScroll()
+  },
+
+  mounted () {
+    this.__configureScrollTarget()
+  },
+
+  beforeUnmount () {
+    this.__unconfigureScrollTarget()
   }
 })

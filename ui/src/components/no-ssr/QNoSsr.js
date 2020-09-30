@@ -37,9 +37,7 @@ export default defineComponent({
     }
 
     if (this.placeholder !== void 0) {
-      return h(this.tag, data, [
-        this.placeholder
-      ])
+      return h(this.tag, data, this.placeholder)
     }
   }
 })

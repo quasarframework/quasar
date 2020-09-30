@@ -110,10 +110,6 @@ export default defineComponent({
           }
         ]]
         : []
-    },
-
-    attrs () {
-      return this.disable === true ? { 'aria-disabled': 'true' } : {}
     }
   },
 
@@ -192,7 +188,7 @@ export default defineComponent({
           this.separatorClass
         ],
         style: this.separatorStyle,
-        ...this.attrs
+        'aria-disabled': this.disabled === true ? 'true' : void 0
       }, [
         withDirectives(separator, this.separatorDirectives)
       ]),

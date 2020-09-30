@@ -23,9 +23,7 @@ export default defineComponent({
 
   computed: {
     classes () {
-      // "notranslate" class is for Google Translate
-      // to avoid tampering with Material Icons ligature font
-      return 'q-icon notranslate' +
+      return 'q-icon' +
         (this.left === true ? ' on-left' : '') +
         (this.right === true ? ' on-right' : '') +
         (this.color !== void 0 ? ` text-${this.color}` : '')
@@ -123,7 +121,9 @@ export default defineComponent({
         cls = `themify-icon ${icon}`
       }
       else {
-        cls = 'material-icons'
+        // "notranslate" class is for Google Translate
+        // to avoid tampering with Material Icons ligature font
+        cls = 'material-icons notranslate'
 
         if (icon.startsWith('o_') === true) {
           icon = icon.substring(2)

@@ -105,8 +105,6 @@ export default defineComponent({
       appear: this.appear,
       onEnter: this.__onEnter,
       onLeave: this.__onLeave
-    }, {
-      default: this.$slots.default
-    })
+    }, this.$slots.default)
   }
 })

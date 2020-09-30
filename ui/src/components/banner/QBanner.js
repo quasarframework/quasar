@@ -30,7 +30,6 @@ export default defineComponent({
   },
 
   render () {
-    const actions = slot(this, 'action')
     const child = [
       h('div', {
         class: 'q-banner__avatar col-auto row items-center self-start'
@@ -41,12 +40,14 @@ export default defineComponent({
       }, slot(this, 'default'))
     ]
 
+    const actions = slot(this, 'action')
     actions !== void 0 && child.push(
       h('div', { class: this.actionClass }, actions)
     )
 
     return h('div', {
-      class: this.classes + (actions !== void 0 && this.inlineActions === false ? ' q-banner--top-padding' : ''),
+      class: this.classes +
+        (this.inlineActions === false && actions !== void 0 ? ' q-banner--top-padding' : ''),
       role: 'alert'
     }, child)
   }

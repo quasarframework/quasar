@@ -11,7 +11,7 @@ export default defineComponent({
 
   provide () {
     return {
-      __timeline: this
+      __qTimeline: this
     }
   },
 
@@ -23,12 +23,12 @@ export default defineComponent({
     side: {
       type: String,
       default: 'right',
-      validator: v => ['left', 'right'].includes(v)
+      validator: v => [ 'left', 'right' ].includes(v)
     },
     layout: {
       type: String,
       default: 'dense',
-      validator: v => ['dense', 'comfortable', 'loose'].includes(v)
+      validator: v => [ 'dense', 'comfortable', 'loose' ].includes(v)
     }
   },
 

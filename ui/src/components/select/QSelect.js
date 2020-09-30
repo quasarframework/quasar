@@ -151,13 +151,9 @@ export default defineComponent({
       immediate: true
     },
 
-    fillInput () {
-      this.__resetInputValue()
-    },
+    fillInput: '__resetInputValue',
 
-    menu (show) {
-      this.__updateMenu(show)
-    }
+    menu: '__updateMenu'
   },
 
   computed: {

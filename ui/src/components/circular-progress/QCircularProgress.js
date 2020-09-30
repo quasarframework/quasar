@@ -152,7 +152,7 @@ export default defineComponent({
       h('svg', {
         class: 'q-circular-progress__svg',
         style: this.svgStyle,
-        focusable: 'false' /* needed for IE11 */,
+        focusable: 'false', /* needed for IE11 */
         viewBox: this.viewBoxAttr,
         'aria-hidden': 'true'
       }, svgChild)

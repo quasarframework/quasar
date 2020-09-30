@@ -8,6 +8,22 @@ import RefocusTargetMixin from '../../mixins/refocus-target.js'
 import { stopAndPrevent } from '../../utils/event.js'
 import { slot, mergeSlot } from '../../utils/slot.js'
 
+const svg = h('svg', {
+  class: 'q-radio__bg absolute non-selectable',
+  focusable: 'false' /* needed for IE11 */,
+  viewBox: '0 0 24 24',
+  'aria-hidden': 'true'
+}, [
+  h('path', {
+    d: 'M12,22a10,10 0 0 1 -10,-10a10,10 0 0 1 10,-10a10,10 0 0 1 10,10a10,10 0 0 1 -10,10m0,-22a12,12 0 0 0 -12,12a12,12 0 0 0 12,12a12,12 0 0 0 12,-12a12,12 0 0 0 -12,-12'
+  }),
+
+  h('path', {
+    class: 'q-radio__check',
+    d: 'M12,6a6,6 0 0 0 -6,6a6,6 0 0 0 6,6a6,6 0 0 0 6,-6a6,6 0 0 0 -6,-6'
+  })
+])
+
 export default defineComponent({
   name: 'QRadio',
 
@@ -55,7 +71,8 @@ export default defineComponent({
         ? ` text-${this.color}`
         : ''
 
-      return `q-radio__inner relative-position q-radio__inner--${this.isTrue === true ? 'truthy' : 'falsy'}${color}`
+      return `q-radio__inner relative-position ` +
+        `q-radio__inner--${this.isTrue === true ? 'truthy' : 'falsy'}${color}`
     },
 
     computedTabindex () {
@@ -77,21 +94,6 @@ export default defineComponent({
       if (this.name !== void 0 && this.isTrue === true) {
         return { checked: true }
       }
-    },
-
-    attrs () {
-      const attrs = {
-        tabindex: this.computedTabindex,
-        role: 'radio',
-        'aria-label': this.label,
-        'aria-checked': this.isTrue === true ? 'true' : 'false'
-      }
-
-      if (this.disable === true) {
-        attrs['aria-disabled'] = 'true'
-      }
-
-      return attrs
     }
   },
 
@@ -121,23 +123,7 @@ export default defineComponent({
   },
 
   render () {
-    const content = [
-      h('svg', {
-        class: 'q-radio__bg absolute non-selectable',
-        focusable: 'false' /* needed for IE11 */,
-        viewBox: '0 0 24 24',
-        'aria-hidden': 'true'
-      }, [
-        h('path', {
-          d: 'M12,22a10,10 0 0 1 -10,-10a10,10 0 0 1 10,-10a10,10 0 0 1 10,10a10,10 0 0 1 -10,10m0,-22a12,12 0 0 0 -12,12a12,12 0 0 0 12,12a12,12 0 0 0 12,-12a12,12 0 0 0 -12,-12'
-        }),
-
-        h('path', {
-          class: 'q-radio__check',
-          d: 'M12,6a6,6 0 0 0 -6,6a6,6 0 0 0 6,6a6,6 0 0 0 6,-6a6,6 0 0 0 -6,-6'
-        })
-      ])
-    ]
+    const content = [ svg ]
 
     this.disable !== true && this.__injectFormInput(
       content,
@@ -168,7 +154,11 @@ export default defineComponent({
 
     return h('div', {
       class: this.classes,
-      ...this.attrs,
+      tabindex: this.computedTabindex,
+      role: 'radio',
+      'aria-label': this.label,
+      'aria-checked': this.isTrue === true ? 'true' : 'false',
+      'aria-disabled': this.disabled === true ? 'true' : void 0,
       onClick: this.set,
       onKeydown: this.__onKeydown,
       onKeyup: this.__onKeyup

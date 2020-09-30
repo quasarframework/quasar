@@ -30,20 +30,18 @@ export default defineComponent({
   methods: {
     __getContent () {
       return this.showing === true
-        ? [
-          h(
-            'div',
-            { class: this.classes },
-            this.$slots.default !== void 0
-              ? this.$slots.default()
-              : [
-                h(QSpinner, {
-                  size: this.size,
-                  color: this.color
-                })
-              ]
-          )
-        ]
+        ? h(
+          'div',
+          { class: this.classes },
+          this.$slots.default !== void 0
+            ? this.$slots.default()
+            : [
+              h(QSpinner, {
+                size: this.size,
+                color: this.color
+              })
+            ]
+        )
         : null
     }
   },

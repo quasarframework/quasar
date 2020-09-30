@@ -1,6 +1,7 @@
 import { h, defineComponent } from 'vue'
 
 import { uniqueSlot } from '../../utils/slot.js'
+import { noop } from '../../utils/event.js'
 
 export default defineComponent({
   name: 'QChatMessage',
@@ -45,28 +46,41 @@ export default defineComponent({
 
     op () {
       return this.sent === true ? 'sent' : 'received'
+    },
+
+    domProps () {
+      return {
+        msg: this.textSanitize === true ? 'textContent' : 'innerHTML',
+        stamp: this.stampSanitize === true ? 'textContent' : 'innerHTML',
+        name: this.nameSanitize === true ? 'textContent' : 'innerHTML',
+        label: this.labelSanitize === true ? 'textContent' : 'innerHTML'
+      }
     }
   },
 
   methods: {
     __getText () {
-      const
-        domPropText = this.textSanitize === true ? 'textContent' : 'innerHTML',
-        domPropStamp = this.stampSanitize === true ? 'textContent' : 'innerHTML'
+      const withStamp = this.stamp
+        ? node => [
+          node,
+          h('div', {
+            class: 'q-message-stamp',
+            [this.domProps.stamp]: this.stamp
+          })
+        ]
+        : node => [ node ]
 
       return this.text.map((msg, index) => h('div', {
         key: index,
         class: this.messageClass
       }, [
-        h('div', { class: this.textClass }, [
-          h('div', { [domPropText]: msg }),
-          this.stamp
-            ? h('div', {
-              class: 'q-message-stamp',
-              [domPropStamp]: this.stamp
-            })
-            : null
-        ])
+        h(
+          'div',
+          { class: this.textClass },
+          withStamp(
+            h('div', { [this.domProps.msg]: msg })
+          )
+        )
       ]))
     },
 
@@ -76,7 +90,7 @@ export default defineComponent({
       this.stamp !== void 0 && content.push(
         h('div', {
           class: 'q-message-stamp',
-          [this.stampSanitize === true ? 'textContent' : 'innerHTML']: this.stamp
+          [this.domProps.stamp]: this.stamp
         })
       )
 
@@ -109,7 +123,7 @@ export default defineComponent({
     this.name !== void 0 && msg.push(
       h('div', {
         class: `q-message-name q-message-name--${this.op}`,
-        [this.nameSanitize === true ? 'textContent' : 'innerHTML']: this.name
+        [this.domProps.name]: this.name
       })
     )
 
@@ -130,7 +144,7 @@ export default defineComponent({
     this.label && child.push(
       h('div', {
         class: 'q-message-label text-center',
-        [this.labelSanitize === true ? 'textContent' : 'innerHTML']: this.label
+        [this.domProps.label]: this.label
       })
     )
 
